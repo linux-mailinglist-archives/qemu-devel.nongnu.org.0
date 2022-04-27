@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F53511468
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 11:46:21 +0200 (CEST)
-Received: from localhost ([::1]:33732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB327511467
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 11:46:20 +0200 (CEST)
+Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njeFY-0007Li-0t
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 05:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49348)
+	id 1njeFX-0007M6-Mm
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 05:46:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1njeAX-00058p-K2
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 05:41:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39704)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1njeAp-0005Ci-Lb
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 05:41:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1njeAU-0000FW-P9
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 05:41:07 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1njeAn-0000GD-S3
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 05:41:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651052465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oxBhSKSLAAKZlGwwJld7B7GHGv9ZiVqaXR2Hm/AaN4k=;
- b=feQl6H/cNr+2qc8WEbBaRshrX1+MNCwiJR6TRAU01eT/BfLoYxq1eSJcm+niIImRFBshdz
- ph6vloMKVlgJf/VL7c9Iz1xDS75Zz7Xq81m33QF8+BNJdoiOiU28QPvk6OHIwE3uj/g482
- pewfhKYU5Tlv6c8VJ+QWzhKnfBpNUsU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1651052484;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=5SExEP4D8iTrXZnX8LcXuTGfNS/3VoSpWcpS2/Yvv9M=;
+ b=WWmsQiOx5d8ymAo9p5HkCHOQnZ80xC2cP/xPAR7MlypyHF5arym57vAHUzgrHqcudyqJos
+ KtzN5EoFWP4EpHsUPzX6U/6lYs+8QDHZb41jjlEeSF15xVb7m1UOC0fFha5CLxGie/86RF
+ cxc4Br0Ulhfum453BggSP2K6vG29E6g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-xj6EAHoNODeDUm6k_eoIHA-1; Wed, 27 Apr 2022 05:41:04 -0400
-X-MC-Unique: xj6EAHoNODeDUm6k_eoIHA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- i66-20020a1c3b45000000b0038eab4e0feaso526218wma.9
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 02:41:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oxBhSKSLAAKZlGwwJld7B7GHGv9ZiVqaXR2Hm/AaN4k=;
- b=KZCHQWmMg2JRZVW67VAQSR2kYjHin5Ip+X2XG6jQTTQ7WYIS9vyB8kfZssdojRivml
- 7MvOP0EgWBjnWQMhSp/DuYn6RSmwWzksH8SVIXU4Y4bf9DKvWCiLQ7DpeYDSXSoVFATA
- e7lwjuvnmruess/opEsrEDrRF8AN7cRtjF/ZYuLQtH1IR+O9FTtnLKryCvzxqhlPhVPU
- 2qr3cBRZueFgst38sQvndUiCVgLzTknHhDGt1tmwcwsPwE+pJfJby7UtT3HE81pDCtRZ
- DzpsRpFh+8akWO86IOPxhUcaGbUp3vlVuW1Z2eflPzkaZjuGA5bB47i7zjL/26ky+lh9
- +k3w==
-X-Gm-Message-State: AOAM531qxaBPr/+ca+pt6e76lFI6SrQUoFkBETcdZ59nOkTNwr2t/l1E
- W+9oLjQMzjW8bC6cGzzzK4vizZu02yO5RQPOK/Zyq8ByAr2yf1SWeEwlrH3WJg+Ck4rnJS9WhVG
- M+dcj67CW1OiKzUs=
-X-Received: by 2002:adf:d1e4:0:b0:20a:f21e:2fb2 with SMTP id
- g4-20020adfd1e4000000b0020af21e2fb2mr720184wrd.281.1651052463596; 
- Wed, 27 Apr 2022 02:41:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIWSN2yduICrgcSSeo0WvsIr8Bqx5D2I9mK/m1Ll3szCM7U+0bfda+6R37V4K0CXPSrpwvNw==
-X-Received: by 2002:adf:d1e4:0:b0:20a:f21e:2fb2 with SMTP id
- g4-20020adfd1e4000000b0020af21e2fb2mr720177wrd.281.1651052463426; 
- Wed, 27 Apr 2022 02:41:03 -0700 (PDT)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- g25-20020adfa599000000b0020aeb9e5bdfsm1828823wrc.43.2022.04.27.02.41.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Apr 2022 02:41:02 -0700 (PDT)
-Message-ID: <1a33c268-6d00-4385-f0d2-84a86b022f63@redhat.com>
-Date: Wed, 27 Apr 2022 11:41:02 +0200
+ us-mta-610-gldTfSpuNCa3nY8FXxwMNQ-1; Wed, 27 Apr 2022 05:41:23 -0400
+X-MC-Unique: gldTfSpuNCa3nY8FXxwMNQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 98C42299E776;
+ Wed, 27 Apr 2022 09:41:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13F9E40EC002;
+ Wed, 27 Apr 2022 09:41:17 +0000 (UTC)
+Date: Wed, 27 Apr 2022 10:41:15 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 06/18] ui/vnc: Require audiodev=
+Message-ID: <YmkPu9rphlQZq9TP@redhat.com>
+References: <cover.1650874791.git.mkletzan@redhat.com>
+ <a07513f1bf6123fef52ff5e7943f5704746b376b.1650874791.git.mkletzan@redhat.com>
+ <bacf5dd3-4cc1-7f80-8337-945d9b3f7dcc@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 25/26] tests: replace qemu_set_nonblock()
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
- <20220426092715.3931705-26-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220426092715.3931705-26-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <bacf5dd3-4cc1-7f80-8337-945d9b3f7dcc@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,48 +77,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, libvir-list@redhat.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Martin Kletzander <mkletzan@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Eduardo Habkost <eduardo@habkost.net>, Alexander Bulekov <alxndr@bu.edu>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/04/2022 11.27, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Wed, Apr 27, 2022 at 11:32:41AM +0200, Paolo Bonzini wrote:
+> On 4/25/22 10:21, Martin Kletzander wrote:
+> > @@ -4188,12 +4188,15 @@ void vnc_display_open(const char *id, Error **errp)
+> >       vd->ledstate = 0;
+> >       audiodev = qemu_opt_get(opts, "audiodev");
+> > -    if (audiodev) {
+> > -        vd->audio_state = audio_state_by_name(audiodev);
+> > -        if (!vd->audio_state) {
+> > -            error_setg(errp, "Audiodev '%s' not found", audiodev);
+> > -            goto fail;
+> > -        }
+> > +    if (!audiodev) {
+> > +        error_setg(errp, "Audiodev parameter for vnc required");
+> > +        goto fail;
+> > +    }
+> > +
 > 
-> The call is POSIX-specific. Use the dedicated GLib API.
+> Wouldn't this break "-vnc :0"?  You can just ignore the audio commands if
+> vd->audio_state is NULL.
 
-g_unix_set_fd_nonblocking() is also available on Unix-like systems according 
-to its name, I suppose? So what's the advantage of this change?
+Yep, that's wha I suggested with skipping advertizing VNC_ENCODING_AUDIO
+when audiodev is NULL
 
-  Thomas
-
-
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   tests/qtest/vhost-user-test.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-> index ee30f5479648..a2cec8768462 100644
-> --- a/tests/qtest/vhost-user-test.c
-> +++ b/tests/qtest/vhost-user-test.c
-> @@ -302,6 +302,7 @@ static int chr_can_read(void *opaque)
->   
->   static void chr_read(void *opaque, const uint8_t *buf, int size)
->   {
-> +    g_autoptr(GError) err = NULL;
->       TestServer *s = opaque;
->       CharBackend *chr = &s->chr;
->       VhostUserMsg msg;
-> @@ -394,7 +395,8 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
->            * The receive function forces it to be blocking,
->            * so revert it back to non-blocking.
->            */
-> -        qemu_set_nonblock(fd);
-> +        g_unix_set_fd_nonblocking(fd, true, &err);
-> +        g_assert_no_error(err);
->           break;
->   
->       case VHOST_USER_SET_LOG_BASE:
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
