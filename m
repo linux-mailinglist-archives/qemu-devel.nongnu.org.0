@@ -2,82 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA47512424
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 22:53:08 +0200 (CEST)
-Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABE4512461
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 23:14:00 +0200 (CEST)
+Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njoep-00077Y-Rm
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 16:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
+	id 1njoyy-0006qs-T8
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 17:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1njodQ-0005ca-Rx; Wed, 27 Apr 2022 16:51:40 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1njodP-0006Mk-2V; Wed, 27 Apr 2022 16:51:40 -0400
-Received: by mail-ot1-x329.google.com with SMTP id
- c17-20020a056830349100b00605ca7d1deeso1890751otu.3; 
- Wed, 27 Apr 2022 13:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IWBGwWclpQY5wsRs8zXkZ8ShPaaPiOxIUYjJUHA+OEU=;
- b=fzIn0ju+siVfqjE1RkonunQNGIdSzPkFnUr73p6sOPqTgwaV9wkGeSQR+HwXcSC1LM
- E60rFoEoaBOd5mpBPMHs3uhWWQD/NpFRU/6MtlotDInP4jWGIXoa4zE/1tDVmmUAUZbo
- 8wJCk+ZonbgIQRjJt3J7x9vkdtSF4Nii3ujlCqYH8Kt5eW87oA0UmXhZjxnyy0sL4gQI
- Ox47FXa0jGRO9O0snZ8CBwk9ym5kHKJWmd7vo42TQPhhegcj0nWu7Hw+rwM/9N2Ceva+
- u8SMTwU+u+fB5A02NuLcTANlQnuqMz2SGb+WJysklPyRCrQPD8fnEeFavdciVL8558jE
- 1ttw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IWBGwWclpQY5wsRs8zXkZ8ShPaaPiOxIUYjJUHA+OEU=;
- b=jouT0qhrNkWT8I0bF2peI0ssGe3BkVPVt17UL1TXJNBt6RJT+1E0eBceTRgAlH9JCT
- 08D6M815N2+rchbY5t3yJCxEn0q1b9hCo6VsRo3SIdgO3jPHwj15KlwoLOAf9QFtJysw
- TqSXolTZh7NKfUijcDgBXVs6nHvQL2GA96UYE4Fo5lQK59ZAWy9PLkJQWCzn+UryN0cB
- Zq6XZZai8c6XrEqU/lcZ3svKDyrKjWjZpj/QAQaWM/aj7JwKoeuVNqy4v0+DJ2HrjMOX
- 0o64DFPCvJU6D7a30hb9YTyZecvPqhM5Ge+MH5JCR+YQxSl4CBt5PmWvCddyyOnbkIkE
- bhsA==
-X-Gm-Message-State: AOAM530dDN9g4YCDBIYi3T++ZZsTdXCifRC1fOHk4KEhsDSLWuhz13jL
- +C7NSZ9ni3Nb1RS0As2LwIw=
-X-Google-Smtp-Source: ABdhPJzJ2aCAwnq2jN1XCFu53RfFa1teGgffOY10LS817iovtKS2liWxRvnYX8q7lTIokV9nkzfSeQ==
-X-Received: by 2002:a9d:ea6:0:b0:605:e43f:db71 with SMTP id
- 35-20020a9d0ea6000000b00605e43fdb71mr775816otj.128.1651092697213; 
- Wed, 27 Apr 2022 13:51:37 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:3a18:8059:d9aa:a8b3:7e6b?
- ([2804:431:c7c6:3a18:8059:d9aa:a8b3:7e6b])
- by smtp.gmail.com with ESMTPSA id
- bb33-20020a056820162100b0035e71a9ed3esm3659617oob.38.2022.04.27.13.51.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Apr 2022 13:51:36 -0700 (PDT)
-Message-ID: <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
-Date: Wed, 27 Apr 2022 17:51:33 -0300
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1njox4-0004z9-UJ; Wed, 27 Apr 2022 17:11:58 -0400
+Received: from [187.72.171.209] (port=8276 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1njox0-0000ed-BO; Wed, 27 Apr 2022 17:11:58 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 27 Apr 2022 18:11:46 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 569C580031A;
+ Wed, 27 Apr 2022 18:11:46 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------4SJgCvy3W391BJtKRzVAHxco"
+Message-ID: <b7441766-6fa9-7438-fe61-c041d4237fe0@eldorado.org.br>
+Date: Wed, 27 Apr 2022 18:11:45 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 5/7] target/ppc: Implemented xvf16ger*
 Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, Laurent Vivier <laurent@vivier.eu>,
- lucas.araujo@eldorado.org.br
-References: <20220427064204.373027-1-joel@jms.id.au>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220427064204.373027-1-joel@jms.id.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x329.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
+References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
+ <20220426125028.18844-6-lucas.araujo@eldorado.org.br>
+ <e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org>
+X-OriginalArrivalTime: 27 Apr 2022 21:11:46.0653 (UTC)
+ FILETIME=[673678D0:01D85A7B]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,75 +62,399 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
+--------------4SJgCvy3W391BJtKRzVAHxco
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-On 4/27/22 03:42, Joel Stanley wrote:
-> These are new hwcap bits added for power10.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
-> MMA support for TCG is on the list so I think it makes sense for this to
-> land after those are merged.
+On 26/04/2022 21:26, Richard Henderson wrote:
+> On 4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
+>> +#define VSXGER16(NAME, ORIG_T, 
+>> OR_EL)                                   \
+>> +    void NAME(CPUPPCState *env, uint32_t a_r, uint32_t 
+>> b_r,             \
+>> +              uint32_t  at_r, uint32_t mask, uint32_t 
+>> packed_flags)     \
+>> + { \
+>> +        ppc_vsr_t 
+>> *at;                                                  \
+>> +        float32 psum, aux_acc, va, vb, vc, 
+>> vd;                          \
+>> +        int i, j, xmsk_bit, 
+>> ymsk_bit;                                   \
+>> +        uint8_t xmsk = mask & 
+>> 0x0F;                                     \
+>> +        uint8_t ymsk = (mask >> 4) & 
+>> 0x0F;                              \
+>> +        uint8_t pmsk = (mask >> 8) & 
+>> 0x3;                               \
+>> +        ppc_vsr_t *b = cpu_vsr_ptr(env, 
+>> b_r);                           \
+>> +        ppc_vsr_t *a = cpu_vsr_ptr(env, 
+>> a_r);                           \
+>> +        float_status *excp_ptr = 
+>> &env->fp_status;                       \
+>> +        bool acc = 
+>> ger_acc_flag(packed_flags);                          \
+>> +        bool neg_acc = 
+>> ger_neg_acc_flag(packed_flags);                  \
+>> +        bool neg_mul = 
+>> ger_neg_mul_flag(packed_flags);                  \
+>> +        for (i = 0, xmsk_bit = 1 << 3; i < 4; i++, xmsk_bit >>= 1) 
+>> {    \
+>> +            at = cpu_vsr_ptr(env, at_r + 
+>> i);                            \
+>> +            for (j = 0, ymsk_bit = 1 << 3; j < 4; j++, ymsk_bit >>= 
+>> 1) {\
+>> +                if ((xmsk_bit & xmsk) && (ymsk_bit & ymsk)) 
+>> {           \
+>> +                    va = !(pmsk & 2) ? float32_zero 
+>> :                   \
+>> +                                       GET_VSR(Vsr##OR_EL, 
+>> a,           \
+>> +                                               2 * i, ORIG_T, 
+>> float32); \
+>> +                    vb = !(pmsk & 2) ? float32_zero 
+>> :                   \
+>> +                                       GET_VSR(Vsr##OR_EL, 
+>> b,           \
+>> +                                               2 * j, ORIG_T, 
+>> float32); \
+>> +                    vc = !(pmsk & 1) ? float32_zero 
+>> :                   \
+>> +                                       GET_VSR(Vsr##OR_EL, 
+>> a,           \
+>> +                                            2 * i + 1, ORIG_T, 
+>> float32);\
+>> +                    vd = !(pmsk & 1) ? float32_zero 
+>> :                   \
+>> +                                       GET_VSR(Vsr##OR_EL, 
+>> b,           \
+>> +                                            2 * j + 1, ORIG_T, 
+>> float32);\
+>> +                    psum = float32_mul(va, vb, 
+>> excp_ptr);               \
+>> +                    psum = float32_muladd(vc, vd, psum, 0, 
+>> excp_ptr);   \
+>
+> This isn't correct -- the intermediate 'prod' (the first multiply) is 
+> not rounded.  I
+> think the correct way to implement this (barring new softfloat 
+> functions) is to compute
+> the intermediate product as float64 with float_round_to_odd, then 
+> float64r32_muladd into
+> the correct rounding mode to finish.
+While not mentioned in the pseudocode the instruction description says:
 
-I believe you mean this series:
+- Let prod be the single-precision product of src10 and src20
 
+Which I understand as the result of the first multiplication being 
+stored in a float32
 
-[RFC PATCH 0/7] VSX MMA Implementation
+But in xvbf16ger2* it's different (and I think this is the reason the 
+last patch is resulting in the wrong signal in some 0 and inf results), 
+the description says:
 
+- Let prod be the product of src10 and src20, having infinite precision 
+and unbounded exponent range. - Let psum be the sum of the product, 
+src11 multiplied by src21, and prod, having infinite precision and 
+unbounded exponent range.
+- Let r1 be the value psum with its significand rounded to 24-bit 
+precision using the rounding mode specified by RN, but retaining 
+unbounded exponent range (i.e., cannot overflow or underflow).
 
-In that case I'll queue this patch together with it.
+>
+>> +                    if (acc) 
+>> {                                          \
+>> +                        if (neg_mul) 
+>> {                                  \
+>> +                            psum = 
+>> float32_neg(psum);                   \
+>> + }                                               \
+>> +                        if (neg_acc) 
+>> {                                  \
+>> +                            aux_acc = 
+>> float32_neg(at->VsrSF(j));        \
+>> +                        } else 
+>> {                                        \
+>> +                            aux_acc = 
+>> at->VsrSF(j);                     \
+>> + }                                               \
+>> +                        at->VsrSF(j) = float32_add(psum, 
+>> aux_acc,       \
+>> + excp_ptr);           \
+>
+> This one, thankfully, uses the rounded intermediate result 'msum', so 
+> is ok.
+Yes this one is the easier one to deal with, in the description for the 
+xvf16ger2* it specifies that msum and the result is rounded to 
+single-precision and in the description for the xvbf16ger2 it specifies 
+that r1 is 'rounded to a 24-bit significand precision and 8-bit exponent 
+range (i.e., single-precision)'
+>
+> Please do convert this from a macro.  Given that float16 and bfloat16 
+> are addressed the
+> same, I think the only callback you need is the conversion from 
+> float16_to_float64.  Drop
+> the bf16 accessor to ppc_vsr_t.
+>
+Will do, although I'm considering instead of the callback being the 
+conversion, maybe have it be a 4 float multiplication
+     typedef float32 mul_4float(float16, float16, float16, float16);
+Since float16 and bfloat16 are addressed the same, any thoughts?
+>
+> r~
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--------------4SJgCvy3W391BJtKRzVAHxco
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 26/04/2022 21:26, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">On
+      4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
+      <br>
+      <blockquote type="cite">+#define VSXGER16(NAME, ORIG_T,
+        OR_EL)                                   \
+        <br>
+        +    void NAME(CPUPPCState *env, uint32_t a_r, uint32_t
+        b_r,             \
+        <br>
+        +              uint32_t  at_r, uint32_t mask, uint32_t
+        packed_flags)     \
+        <br>
+        +   
+        {                                                                  
+        \
+        <br>
+        +        ppc_vsr_t
+        *at;                                                  \
+        <br>
+        +        float32 psum, aux_acc, va, vb, vc,
+        vd;                          \
+        <br>
+        +        int i, j, xmsk_bit,
+        ymsk_bit;                                   \
+        <br>
+        +        uint8_t xmsk = mask &amp;
+        0x0F;                                     \
+        <br>
+        +        uint8_t ymsk = (mask &gt;&gt; 4) &amp;
+        0x0F;                              \
+        <br>
+        +        uint8_t pmsk = (mask &gt;&gt; 8) &amp;
+        0x3;                               \
+        <br>
+        +        ppc_vsr_t *b = cpu_vsr_ptr(env,
+        b_r);                           \
+        <br>
+        +        ppc_vsr_t *a = cpu_vsr_ptr(env,
+        a_r);                           \
+        <br>
+        +        float_status *excp_ptr =
+        &amp;env-&gt;fp_status;                       \
+        <br>
+        +        bool acc =
+        ger_acc_flag(packed_flags);                          \
+        <br>
+        +        bool neg_acc =
+        ger_neg_acc_flag(packed_flags);                  \
+        <br>
+        +        bool neg_mul =
+        ger_neg_mul_flag(packed_flags);                  \
+        <br>
+        +        for (i = 0, xmsk_bit = 1 &lt;&lt; 3; i &lt; 4; i++,
+        xmsk_bit &gt;&gt;= 1) {    \
+        <br>
+        +            at = cpu_vsr_ptr(env, at_r +
+        i);                            \
+        <br>
+        +            for (j = 0, ymsk_bit = 1 &lt;&lt; 3; j &lt; 4; j++,
+        ymsk_bit &gt;&gt;= 1) {\
+        <br>
+        +                if ((xmsk_bit &amp; xmsk) &amp;&amp; (ymsk_bit
+        &amp; ymsk)) {           \
+        <br>
+        +                    va = !(pmsk &amp; 2) ? float32_zero
+        :                   \
+        <br>
+        +                                       GET_VSR(Vsr##OR_EL,
+        a,           \
+        <br>
+        +                                               2 * i, ORIG_T,
+        float32); \
+        <br>
+        +                    vb = !(pmsk &amp; 2) ? float32_zero
+        :                   \
+        <br>
+        +                                       GET_VSR(Vsr##OR_EL,
+        b,           \
+        <br>
+        +                                               2 * j, ORIG_T,
+        float32); \
+        <br>
+        +                    vc = !(pmsk &amp; 1) ? float32_zero
+        :                   \
+        <br>
+        +                                       GET_VSR(Vsr##OR_EL,
+        a,           \
+        <br>
+        +                                            2 * i + 1, ORIG_T,
+        float32);\
+        <br>
+        +                    vd = !(pmsk &amp; 1) ? float32_zero
+        :                   \
+        <br>
+        +                                       GET_VSR(Vsr##OR_EL,
+        b,           \
+        <br>
+        +                                            2 * j + 1, ORIG_T,
+        float32);\
+        <br>
+        +                    psum = float32_mul(va, vb,
+        excp_ptr);               \
+        <br>
+        +                    psum = float32_muladd(vc, vd, psum, 0,
+        excp_ptr);   \
+        <br>
+      </blockquote>
+      <br>
+      This isn't correct -- the intermediate 'prod' (the first multiply)
+      is not rounded.  I
+      <br>
+      think the correct way to implement this (barring new softfloat
+      functions) is to compute
+      <br>
+      the intermediate product as float64 with float_round_to_odd, then
+      float64r32_muladd into
+      <br>
+      the correct rounding mode to finish.
+      <br>
+    </blockquote>
+    While not mentioned in the pseudocode the instruction description
+    says:<br>
+    <p>- Let prod be the single-precision product of src10 and src20</p>
+    <p>Which I understand as the result of the first multiplication
+      being stored in a float32</p>
+    <p>But in xvbf16ger2* it's different (and I think this is the reason
+      the last patch is resulting in the wrong signal in some 0 and inf
+      results), the description says:<br>
+    </p>
+    <p>- Let prod be the product of src10 and src20, having infinite
+      precision and unbounded exponent range.
+      - Let psum be the sum of the product, src11 multiplied by src21,
+      and prod, having infinite precision and
+      unbounded exponent range.<br>
+      - Let r1 be the value psum with its significand rounded to 24-bit
+      precision using the rounding mode specified by RN, but retaining
+      unbounded exponent range (i.e., cannot overflow or underflow).</p>
+    <blockquote type="cite"
+      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">
+      <br>
+      <blockquote type="cite">+                    if (acc)
+        {                                          \
+        <br>
+        +                        if (neg_mul)
+        {                                  \
+        <br>
+        +                            psum =
+        float32_neg(psum);                   \
+        <br>
+        +                       
+        }                                               \
+        <br>
+        +                        if (neg_acc)
+        {                                  \
+        <br>
+        +                            aux_acc =
+        float32_neg(at-&gt;VsrSF(j));        \
+        <br>
+        +                        } else
+        {                                        \
+        <br>
+        +                            aux_acc =
+        at-&gt;VsrSF(j);                     \
+        <br>
+        +                       
+        }                                               \
+        <br>
+        +                        at-&gt;VsrSF(j) = float32_add(psum,
+        aux_acc,       \
+        <br>
+        +                                                  
+        excp_ptr);           \
+        <br>
+      </blockquote>
+      <br>
+      This one, thankfully, uses the rounded intermediate result 'msum',
+      so is ok.
+      <br>
+    </blockquote>
+    Yes this one is the easier one to deal with, in the description for
+    the xvf16ger2* it specifies that msum and the result is rounded to
+    single-precision and in the description for the xvbf16ger2 it
+    specifies that r1 is 'rounded to a 24-bit significand precision and
+    8-bit exponent range (i.e., single-precision)'<br>
+    <blockquote type="cite"
+      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">
+      <br>
+      Please do convert this from a macro.  Given that float16 and
+      bfloat16 are addressed the
+      <br>
+      same, I think the only callback you need is the conversion from
+      float16_to_float64.  Drop
+      <br>
+      the bf16 accessor to ppc_vsr_t.
+      <br>
+      <br>
+    </blockquote>
+    Will do, although I'm considering instead of the callback being the
+    conversion, maybe have it be a 4 float multiplication<br>
+        typedef float32 mul_4float(float16, float16, float16, float16);<br>
+    Since float16 and bfloat16 are addressed the same, any thoughts?<br>
+    <blockquote type="cite"
+      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
 
-
-Thanks,
-
-
-Daniel
-
-
-> 
-> I tested my patch with this program:
-> 
->   https://github.com/shenki/p10_tests
-> 
-> $ qemu-ppc64le -cpu power10  -L ~/ppc64le/ ./test -c
-> HWCAP: 0x58000580 HWCAP2: 0x8ee60000
-> ISAv3.1: Yes
-> MMA: Yes
-> 
-> $ qemu-ppc64le -cpu power9  -L ~/ppc64le/ ./test -c
-> HWCAP: 0x58000580 HWCAP2: 0x8ee00000
-> ISAv3.1: No
-> MMA: No
-> 
->   linux-user/elfload.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 61063fd974e5..0908692e62b3 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -779,6 +779,8 @@ enum {
->       QEMU_PPC_FEATURE2_DARN = 0x00200000, /* darn random number insn */
->       QEMU_PPC_FEATURE2_SCV = 0x00100000, /* scv syscall */
->       QEMU_PPC_FEATURE2_HTM_NO_SUSPEND = 0x00080000, /* TM w/o suspended state */
-> +    QEMU_PPC_FEATURE2_ARCH_3_1 = 0x00040000, /* ISA 3.1 */
-> +    QEMU_PPC_FEATURE2_MMA = 0x00020000, /* Matrix-Multiply Assist */
->   };
->   
->   #define ELF_HWCAP get_elf_hwcap()
-> @@ -836,6 +838,8 @@ static uint32_t get_elf_hwcap2(void)
->                     QEMU_PPC_FEATURE2_VEC_CRYPTO);
->       GET_FEATURE2(PPC2_ISA300, QEMU_PPC_FEATURE2_ARCH_3_00 |
->                    QEMU_PPC_FEATURE2_DARN | QEMU_PPC_FEATURE2_HAS_IEEE128);
-> +    GET_FEATURE2(PPC2_ISA310, QEMU_PPC_FEATURE2_ARCH_3_1 |
-> +                 QEMU_PPC_FEATURE2_MMA);
->   
->   #undef GET_FEATURE
->   #undef GET_FEATURE2
+--------------4SJgCvy3W391BJtKRzVAHxco--
 
