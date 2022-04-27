@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4400451183A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 15:22:15 +0200 (CEST)
-Received: from localhost ([::1]:45800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF51511842
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 15:23:52 +0200 (CEST)
+Received: from localhost ([::1]:48862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njhcU-0006Nd-Dc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 09:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
+	id 1njhe3-00005H-Qr
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 09:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njhb0-0005V1-7V
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:20:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55266)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1njhcS-0006sU-Va
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:22:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njhay-0004g5-DC
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:20:41 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1njhcR-0004qI-Ac
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:22:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651065639;
+ s=mimecast20190719; t=1651065730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=uB4/VY3cnsmH5DzBYZclhYtusKGD+QcL8HAek3sYbCg=;
- b=dCtdNIMHy1TBZA9X08RrmnAtivBgNzLfh+RO7YjjRrckT2o+qtsibbhv8UxXZisg26Bk7G
- F1nXqBBzNaIDgqClJQryJ+PcZJjvusDTmI4kxgxqhB/4W3jpu4L/gZjJUCuwpykvuSpUdz
- 1wOP/XsILyOU5GxrOdHb4ZMjwAFKdB4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JnV28g7P9NZReDcOOlM86fhKA+mVcbhjv7kqaMYwkSI=;
+ b=bukeCihcM5ncAmjlaqSMRK+Sqh0y03hEjBbELZo/e0fVKZRLjCiQMKCJLRedMP9nBL8Ali
+ aIomRyzyy54SVHFgUUeRaAoP8ogrlxX6/8f4NMkkLiw/WCT8aQVRXhEtvPM5BjqD76Rjdx
+ MsjPDFk28NXt9OLfnpYAiIF8//H1iVU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-YTy__NYHO_WrcxJaYc6XLQ-1; Wed, 27 Apr 2022 09:20:38 -0400
-X-MC-Unique: YTy__NYHO_WrcxJaYc6XLQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-115-D_huR2ZZN5-WjJrSOQh9Eg-1; Wed, 27 Apr 2022 09:22:07 -0400
+X-MC-Unique: D_huR2ZZN5-WjJrSOQh9Eg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A83E385A5BE;
- Wed, 27 Apr 2022 13:20:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 191F12166B4D;
- Wed, 27 Apr 2022 13:20:37 +0000 (UTC)
-Date: Wed, 27 Apr 2022 08:20:35 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 2/4] qcow2: Do not reopen data_file in invalidate_cache
-Message-ID: <20220427132035.cocvmay6fgnuf5tj@redhat.com>
-References: <20220427114057.36651-1-hreitz@redhat.com>
- <20220427114057.36651-3-hreitz@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D81C9281AF02;
+ Wed, 27 Apr 2022 13:22:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 303EDC08087;
+ Wed, 27 Apr 2022 13:22:04 +0000 (UTC)
+Date: Wed, 27 Apr 2022 15:22:03 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Yongji Xie <xieyongji@bytedance.com>
+Subject: Re: [PATCH v4 4/6] vduse-blk: implements vduse-blk export
+Message-ID: <YmlDe5uh5NSjQT3n@redhat.com>
+References: <20220406075921.105-1-xieyongji@bytedance.com>
+ <20220406075921.105-5-xieyongji@bytedance.com>
+ <Ymglzs0iKKUFiFNW@redhat.com>
+ <CACycT3t5YJmo=zwVUF=gbfK5eczqZ1rx1ZaP6iePr7PLBJPzfQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220427114057.36651-3-hreitz@redhat.com>
-User-Agent: NeoMutt/20220415-26-c08bba
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+In-Reply-To: <CACycT3t5YJmo=zwVUF=gbfK5eczqZ1rx1ZaP6iePr7PLBJPzfQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -74,44 +75,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, jsnow@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 27, 2022 at 01:40:55PM +0200, Hanna Reitz wrote:
-> qcow2_co_invalidate_cache() closes and opens the qcow2 file, by calling
-> qcow2_close() and qcow2_do_open().  These two functions must thus be
-> usable from both a global-state and an I/O context.
+Am 27.04.2022 um 05:11 hat Yongji Xie geschrieben:
+> On Wed, Apr 27, 2022 at 1:03 AM Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > Am 06.04.2022 um 09:59 hat Xie Yongji geschrieben:
+> > > This implements a VDUSE block backends based on
+> > > the libvduse library. We can use it to export the BDSs
+> > > for both VM and container (host) usage.
+> > >
+> > > The new command-line syntax is:
+> > >
+> > > $ qemu-storage-daemon \
+> > >     --blockdev file,node-name=drive0,filename=test.img \
+> > >     --export vduse-blk,node-name=drive0,id=vduse-export0,writable=on
+> > >
+> > > After the qemu-storage-daemon started, we need to use
+> > > the "vdpa" command to attach the device to vDPA bus:
+> > >
+> > > $ vdpa dev add name vduse-export0 mgmtdev vduse
+> > >
+> > > Also the device must be removed via the "vdpa" command
+> > > before we stop the qemu-storage-daemon.
+> > >
+> > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> >
+> > The request handling code is almos the same as for the vhost-user-blk
+> > export. I wonder if we could share this code instead of copying.
+> >
 > 
-> As they are, they are not safe to call in an I/O context, because they
-> use bdrv_unref_child() and bdrv_open_child() to close/open the data_file
-> child, respectively, both of which are global-state functions.  When
-> used from qcow2_co_invalidate_cache(), we do not need to close/open the
-> data_file child, though (we do not do this for bs->file or bs->backing
-> either), and so we should skip it in the qcow2_co_invalidate_cache()
-> path.
+> I think we can. Will do it v5.
 > 
-> To do so, add a parameter to qcow2_do_open() and qcow2_close() to make
-> them skip handling s->data_file, and have qcow2_co_invalidate_cache()
-> exempt it from the memset() on the BDRVQcow2State.
+> > The main difference seems to be that you chose not to support discard
+> > and write_zeroes yet. I'm curious if there is a reason why the
+> > vhost-user-blk code wouldn't work for vdpa there?
+> >
 > 
-> (Note that the QED driver similarly closes/opens the QED image by
-> invoking bdrv_qed_close()+bdrv_qed_do_open(), but both functions seem
-> safe to use in an I/O context.)
-> 
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/945
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  block/qcow2.c | 104 ++++++++++++++++++++++++++++++--------------------
->  1 file changed, 62 insertions(+), 42 deletions(-)
+> They are different protocols. The data plane is similar, so we can
+> share some codes. But the control plane is different, e.g., vhost-user
+> can only work for guests but vdpa can work for both guests and hosts.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Yes, sure, but discard/write_zeroes are part of the data plane, no?
+You're already sharing (or at the moment copying) the code for the other
+request types mostly unchanged, so I wondered what is different about
+discard/write_zeroes.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Kevin
 
 
