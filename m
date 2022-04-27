@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CED511882
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 15:50:39 +0200 (CEST)
-Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F114251188F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 15:55:55 +0200 (CEST)
+Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nji3y-0006ez-Q6
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 09:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
+	id 1nji94-0003cV-IC
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 09:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nji2f-00054n-Rk
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:49:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52329)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nji5S-0001c1-6A
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:52:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nji2d-0001GX-HP
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:49:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nji5O-00020m-U3
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:52:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651067354;
+ s=mimecast20190719; t=1651067525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=ftE+IzxEayZLjktE4fm1VYiMzvXBDlMK4UWinfe0zTw=;
- b=ciDOatbL0xkvm2042mn9Tl8G/AvVer5tuLWPm72pjaBOE+GMRaAvLDmZdSbVpLF1il53ZS
- a0o62/HC3iLBIenUiglUS8cFq+0lvveNQTFA7fIE3xsKMrI/SxS5PXZlWTYrEnIClU/xYC
- +aKgccMu48PHq35LskH0bej2fQiBle0=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8EkPS2IUAk0KSOGzcc9KgJm8VoirNtrLOOM2EbR+Wps=;
+ b=Iz4S3cb2B1BC/ViWSgYPKxEGVWxxPOqhDMTJoinEaDsfzDFGYv7OiFjMM4/JzQ76eOUgYh
+ 2LxAJy7axcWou+aWzdYjshhG01n8toe8iSDj9gsdJ9vG2E2D2cCmRd8STOhTZ/1Al32I88
+ wxA2s8e7+bac5Ig1aEkCWoZ/PFyOB4k=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482--DVYMvjxPVickNv9XmGH7w-1; Wed, 27 Apr 2022 09:49:09 -0400
-X-MC-Unique: -DVYMvjxPVickNv9XmGH7w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-641-J3rmO6yhPGOqXgq4FZf4pA-1; Wed, 27 Apr 2022 09:52:04 -0400
+X-MC-Unique: J3rmO6yhPGOqXgq4FZf4pA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46537185A7A4;
- Wed, 27 Apr 2022 13:49:09 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2CDB401199C;
- Wed, 27 Apr 2022 13:49:07 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-options: Limit the -enable-kvm option to the targets
- that support it
-Date: Wed, 27 Apr 2022 15:49:06 +0200
-Message-Id: <20220427134906.348118-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B60B101AA52;
+ Wed, 27 Apr 2022 13:52:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A49E82167D64;
+ Wed, 27 Apr 2022 13:52:03 +0000 (UTC)
+Date: Wed, 27 Apr 2022 08:52:01 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 4/4] iotests: Add regression test for issue 945
+Message-ID: <20220427135201.bc7ohvh6i7lxqy4l@redhat.com>
+References: <20220427114057.36651-1-hreitz@redhat.com>
+ <20220427114057.36651-5-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427114057.36651-5-hreitz@redhat.com>
+User-Agent: NeoMutt/20220415-26-c08bba
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -70,40 +74,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-trivial@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need to present the user with -enable-kvm if there
-is no support for KVM on the corresponding target.
+On Wed, Apr 27, 2022 at 01:40:57PM +0200, Hanna Reitz wrote:
+> Create a VM with a BDS in an iothread, add -incoming defer to the
+> command line, and then export this BDS via NBD.  Doing so should not
+> fail an assertion.
+> 
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  .../tests/export-incoming-iothread            | 81 +++++++++++++++++++
+>  .../tests/export-incoming-iothread.out        |  5 ++
+>  2 files changed, 86 insertions(+)
+>  create mode 100755 tests/qemu-iotests/tests/export-incoming-iothread
+>  create mode 100644 tests/qemu-iotests/tests/export-incoming-iothread.out
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- qemu-options.hx | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The test looks sane, and appears to match the formula posted in issue
+945.  When applying just patches 3-4 (skipping 1-2), './check
+export-incoming-iothread' passed, but './check -qcow2
+export-incoming-iothread' failed; so the image format is important.
+And the failure was rather verbose, which is a GOOD thing - our
+efforts to make the python framework point out abnormal exits is
+working!
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index cc3a39d21a..af1c8feda6 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4176,7 +4176,9 @@ SRST
- ERST
- 
- DEF("enable-kvm", 0, QEMU_OPTION_enable_kvm, \
--    "-enable-kvm     enable KVM full virtualization support\n", QEMU_ARCH_ALL)
-+    "-enable-kvm     enable KVM full virtualization support\n",
-+    QEMU_ARCH_ARM | QEMU_ARCH_I386 | QEMU_ARCH_MIPS | QEMU_ARCH_PPC |
-+    QEMU_ARCH_RISCV | QEMU_ARCH_S390X)
- SRST
- ``-enable-kvm``
-     Enable KVM full virtualization support. This option is only
++WARNING:qemu.machine.machine:qemu received signal 6; command: "/home/eblake/qemu/build/tests/qemu-iotests/...
+...
++Traceback (most recent call last):
++  File "/home/eblake/qemu/tests/qemu-iotests/tests/export-incoming-iothread", line 69, in test_export_add
++    result = self.vm.qmp('block-export-add', {
+...
++  File "/home/eblake/qemu/python/qemu/qmp/qmp_client.py", line 463, in _reply
++    raise result
++qemu.qmp.qmp_client.ExecInterruptedError: Disconnected
++
++======================================================================
++ERROR: test_export_add (__main__.TestExportIncomingIothread)
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "/home/eblake/qemu/python/qemu/machine/machine.py", line 533, in _soft_shutdown
++    self.qmp('quit')
+...
++qemu.qmp.protocol.StateError: QMPClient is disconnecting. Call disconnect() to return to IDLE state.
++
++During handling of the above exception, another exception occurred:
++
++Traceback (most recent call last):
++  File "/home/eblake/qemu/python/qemu/machine/machine.py", line 554, in _do_shutdown
++    self._soft_shutdown(timeout)
+...
++  File "/home/eblake/qemu/python/qemu/qmp/protocol.py", line 968, in _readline
++    raise EOFError
++EOFError
++
++The above exception was the direct cause of the following exception:
++
++Traceback (most recent call last):
++  File "/home/eblake/qemu/tests/qemu-iotests/tests/export-incoming-iothread", line 54, in tearDown
++    self.vm.shutdown()
++  File "/home/eblake/qemu/python/qemu/machine/machine.py", line 583, in shutdown
++    self._do_shutdown(timeout)
++  File "/home/eblake/qemu/python/qemu/machine/machine.py", line 557, in _do_shutdown
++    raise AbnormalShutdown("Could not perform graceful shutdown") \
++qemu.machine.machine.AbnormalShutdown: Could not perform graceful shutdown
++
+ ----------------------------------------------------------------------
+ Ran 1 tests
+
+-OK
++FAILED (errors=2)
+
+
+Then applying patches 1-2 and repeating the test passed, so your test
+is a good proof that we identified and fixed the problem at hand.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Tested-by: Eric Blake <eblake@redhat.com>
+
+Given that it is visible with NBD, I'm happy to queue this series
+through my tree if no one else grabs it first.
+
 -- 
-2.27.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
