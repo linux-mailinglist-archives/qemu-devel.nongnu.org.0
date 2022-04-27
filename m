@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43EA511C78
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:00:31 +0200 (CEST)
-Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB07511C7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:04:04 +0200 (CEST)
+Received: from localhost ([::1]:36212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njl1i-0006J4-G0
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:00:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34612)
+	id 1njl59-0002Sh-DX
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1njkyt-0003bO-54
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:57:35 -0400
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:35185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1njkyr-00056x-6n
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:57:34 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 273E7201DF;
- Wed, 27 Apr 2022 16:57:29 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 27 Apr
- 2022 18:57:29 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0062b38607f-4e5c-4875-bd00-2495dc795066,
- 17BF23367636C0D6DAFD61CED3DAD67CB3096C97) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e6fa04a7-9ca3-fdc0-05b2-137ca5d458b7@kaod.org>
-Date: Wed, 27 Apr 2022 18:57:28 +0200
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1njl1m-00085C-0D; Wed, 27 Apr 2022 13:00:34 -0400
+Received: from [187.72.171.209] (port=6470 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1njl1k-0005pa-5i; Wed, 27 Apr 2022 13:00:33 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 27 Apr 2022 14:00:25 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 51F7280031A;
+ Wed, 27 Apr 2022 14:00:25 -0300 (-03)
+Message-ID: <c320ef03-0fc2-2a75-cc39-20747888dafb@eldorado.org.br>
+Date: Wed, 27 Apr 2022 14:00:24 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 2/2] ppc/xive: Update the state of the External interrupt
- signal
+Subject: Re: [PATCH 03/20] target/ppc: Substitute msr_pr macro with new
+ M_MSR_PR macro
 Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, <danielhb413@gmail.com>,
- <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220427160223.96758-1-fbarrat@linux.ibm.com>
- <20220427160223.96758-3-fbarrat@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220427160223.96758-3-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
+ <20220422185450.107256-4-victor.colombo@eldorado.org.br>
+ <fd0087dc-10ec-7867-44df-ba84f8b55aee@linaro.org>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <fd0087dc-10ec-7867-44df-ba84f8b55aee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: f2bc432a-9341-48f5-b19a-439b6b38d59c
-X-Ovh-Tracer-Id: 8500825772392418211
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehnphhighhgihhnsehgmhgrihhlrdgtohhm
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 27 Apr 2022 17:00:25.0631 (UTC)
+ FILETIME=[4A3922F0:01D85A58]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,125 +63,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: npiggin@gmail.com
+Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 18:02, Frederic Barrat wrote:
-> When pulling or pushing an OS context from/to a CPU, we should
-> re-evaluate the state of the External interrupt signal. Otherwise, we
-> can end up catching the External interrupt exception in hypervisor
-> mode, which is unexpected.
-> 
-> The problem is best illustrated with the following scenario:
-> 
-> 1. an External interrupt is raised while the guest is on the CPU.
-> 
-> 2. before the guest can ack the External interrupt, an hypervisor
-> interrupt is raised, for example the Hypervisor Decrementer or
-> Hypervisor Virtualization interrupt. The hypervisor interrupt forces
-> the guest to exit while the External interrupt is still pending.
-> 
-> 3. the hypervisor handles the hypervisor interrupt. At this point, the
-> External interrupt is still pending. So it's very likely to be
-> delivered while the hypervisor is running. That's unexpected and can
-> result in an infinite loop where the hypervisor catches the External
-> interrupt, looks for an interrupt in its hypervisor queue, doesn't
-> find any, exits the interrupt handler with the External interrupt
-> still raised, repeat...
-> 
-> The fix is simply to always lower the External interrupt signal when
-> pulling an OS context. It means it needs to be raised again when
-> re-pushing the OS context. Fortunately, it's already the case, as we
-> now always call xive_tctx_ipb_update(), which will raise the signal if
-> needed.
-> 
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Hello everyone! Thanks Zoltan and Richard for your kind reviews!
 
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
-> ---
->   hw/intc/xive.c        | 14 ++++++++++++++
->   hw/intc/xive2.c       |  2 ++
->   include/hw/ppc/xive.h |  1 +
->   3 files changed, 17 insertions(+)
+On 26/04/2022 18:29, Richard Henderson wrote:
+> On 4/22/22 11:54, Víctor Colombo wrote:
+>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+>> ---
+>>   hw/ppc/pegasos2.c        |  2 +-
+>>   hw/ppc/spapr.c           |  2 +-
+>>   target/ppc/cpu.h         |  3 ++-
+>>   target/ppc/cpu_init.c    |  4 ++--
+>>   target/ppc/excp_helper.c |  6 +++---
+>>   target/ppc/mem_helper.c  |  4 ++--
+>>   target/ppc/mmu-radix64.c |  4 ++--
+>>   target/ppc/mmu_common.c  | 23 ++++++++++++-----------
+>>   8 files changed, 25 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>> index 56bf203dfd..27ed54a71d 100644
+>> --- a/hw/ppc/pegasos2.c
+>> +++ b/hw/ppc/pegasos2.c
+>> @@ -461,7 +461,7 @@ static void 
+>> pegasos2_hypercall(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu)
+>>       /* The TCG path should also be holding the BQL at this point */
+>>       g_assert(qemu_mutex_iothread_locked());
+>>
+>> -    if (msr_pr) {
+>> +    if (env->msr & M_MSR_PR) {
 > 
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index 6b62918ea7..e230b14e94 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -114,6 +114,17 @@ static void xive_tctx_notify(XiveTCTX *tctx, uint8_t ring)
->       }
->   }
->   
-> +void xive_tctx_reset_os_signal(XiveTCTX *tctx)
-> +{
-> +    /*
-> +     * Lower the External interrupt. Used when pulling an OS
-> +     * context. It is necessary to avoid catching it in the hypervisor
-> +     * context. It should be raised again when re-pushing the OS
-> +     * context.
-> +     */
-> +    qemu_irq_lower(xive_tctx_output(tctx, TM_QW1_OS));
-> +}
-> +
->   static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8_t ring, uint8_t cppr)
->   {
->       uint8_t *regs = &tctx->regs[ring];
-> @@ -388,6 +399,8 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
->       /* Invalidate CAM line */
->       qw1w2_new = xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
->       xive_tctx_set_os_cam(tctx, qw1w2_new);
-> +
-> +    xive_tctx_reset_os_signal(tctx);
->       return qw1w2;
->   }
->   
-> @@ -419,6 +432,7 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
->        * escalation found in the NVT above, there could be a pending
->        * interrupt which was saved when the context was pulled and we
->        * need the recalculate the PIPR (which is not saved/restored).
-> +     * It will also raise the External interrupt signal if needed.
->        */
->       xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
->   }
-> diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-> index 2c62f68444..173e0120f8 100644
-> --- a/hw/intc/xive2.c
-> +++ b/hw/intc/xive2.c
-> @@ -269,6 +269,7 @@ uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
->           xive2_tctx_save_os_ctx(xrtr, tctx, nvp_blk, nvp_idx);
->       }
->   
-> +    xive_tctx_reset_os_signal(tctx);
->       return qw1w2;
->   }
->   
-> @@ -349,6 +350,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
->        * escalation found in the NVT above, there could be a pending
->        * interrupt which was saved when the context was pulled and we
->        * need the recalculate the PIPR (which is not saved/restored).
-> +     * It will also raise the External interrupt signal if needed.
->        */
->       xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
->   }
-> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index 126e4e2c3a..f7eea4ca81 100644
-> --- a/include/hw/ppc/xive.h
-> +++ b/include/hw/ppc/xive.h
-> @@ -527,6 +527,7 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp);
->   void xive_tctx_reset(XiveTCTX *tctx);
->   void xive_tctx_destroy(XiveTCTX *tctx);
->   void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
-> +void xive_tctx_reset_os_signal(XiveTCTX *tctx);
->   
->   /*
->    * KVM XIVE device helpers
+> I'm not sure I'm keen on the M_ prefix, but I'll defer to Cedric or 
+> Daniel if they're ok
+> with it.
+> 
+> In general there are inconsistencies with the use of MSR_PR (1 vs 1ull), 
+> which makes it
+> tempting to replace MSR_PR the bit number with MSR_PR the mask and leave 
+> off the M_
+> prefix.  It's somewhat easy for MSR_PR, since missed conversions will 
+> certainly result in
+> compiler warnings for out-of-range shift (the same would not be true 
+> with bits 0-6, LE
+> through EP). >
+> Another possibility would be to use hw/registerfields.h.  Missed 
+> conversions are missing
+> symbol errors.  You'd write FIELD_EX64(env->msr, MSR, PR) in cases like 
+> this and
+> R_MSR_PR_MASK in cases like cpu_init.c.  It's more verbose for single 
+> bits like this, but
+> much easier to work with multi-bit fields like MSR.TS.
+> 
+Thanks for your ideas! I think I'll go with this second one. It'll allow
+to remove the !!(val) occurrences that I introduced in this series, so
+the code quality will probably be improved.
 
+It'll also be a 'safer' change that will require less rework on other
+parts that I didn't intend to touch in this patch series.
+
+I''l work on it!
+> 
+> r~
+
+--
+Víctor Cora Colombo
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
