@@ -2,81 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F138A511C35
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 18:08:08 +0200 (CEST)
-Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073A5511C3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 18:11:52 +0200 (CEST)
+Received: from localhost ([::1]:52586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njkD1-000471-Km
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 12:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
+	id 1njkGd-0007C1-5b
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 12:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njk7P-0007TJ-FI
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:02:19 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:35774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njk7N-0005d5-MZ
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:02:18 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id d15so1945813plh.2
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 09:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=KTj1anzyIy8EpmxdNo8bsTZF19d1L0/4kWXS7+k75/Y=;
- b=yNJF774aG3ZE4jUf6RBVAukl5mkxy+iVI/cLkWZryi4xL9ST+IpnBevVE2qIFk0iw0
- AAQOHmaDKhFqJIsiAhf7Pnm3IbNte09vmu50dboUTJKtdkTf9rjuaQA6C2MVXelbUEKX
- rzbC5JCVUdKrB1BvZj+0ChAF9kf82oOZrwXomZr1FUzO6EaBe4FK6QC2ZWGwtnzUh0Vc
- lQagdR+CgebKFcpFo5rBFxB4WfBH3XT3DAboA6HSHJ2fHHfRIOYNqMD00518NHhrcptE
- LEYDOvrQXY/SdEFxKOnu5iEkEJIoJl9P2EByqW9wjMSsI2EVcLUBhE3qrgTyHLveTdxp
- Aiog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KTj1anzyIy8EpmxdNo8bsTZF19d1L0/4kWXS7+k75/Y=;
- b=3QOo//DV2qYnG+COXHz3Zg0R3RQz0dYTUJXTPMItqD+TqtC9zmQkPKMI38VFQLcuw4
- lAcHUkWcRk5vumtFUUO2QdlzZ2xLxju+kizqO099hIYjCo2N464xieGL7FmWBlp5j495
- Hb6UFihfpp2/qUv90r/DHeT7VgXUtDaI4emESiMP+tw4KcvK1p4K74PTfRhqb40Ef/OT
- NUTOOiNMV0pv1SLJyrfp1eYnOi5KLN/0K2dCsYmw7Vv990jsW6bcCkqUCUT6X+VUSARe
- qrGizhZi7SZwKEy2zOZrXrNETK9X7dNP9sEKyMwf4GZ58cYEitRlZeHc7J13ifAY6kaJ
- hHpQ==
-X-Gm-Message-State: AOAM533Ds2qriS3UppfIwXsZCaN7X+MwCzH5jZwfViYxZu4NIUxHeAg3
- 41owernTXpYt/OI2r4TrKtf8Hw==
-X-Google-Smtp-Source: ABdhPJweWj2VvuvcKaUizxukoM2al17JGdS0Wtk3O7dsdfaeh2F0epoW2H1KdubF8jlxCkivdn3qOA==
-X-Received: by 2002:a17:903:22cd:b0:15d:1e6b:4363 with SMTP id
- y13-20020a17090322cd00b0015d1e6b4363mr14247599plg.36.1651075336055; 
- Wed, 27 Apr 2022 09:02:16 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- w187-20020a6230c4000000b00505cde77826sm18900135pfw.159.2022.04.27.09.02.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Apr 2022 09:02:15 -0700 (PDT)
-Message-ID: <33a13867-e31c-5f73-7a2d-957da471e0d2@linaro.org>
-Date: Wed, 27 Apr 2022 09:02:13 -0700
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1njk7i-0007qz-9l; Wed, 27 Apr 2022 12:02:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4572
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1njk7g-0005eA-Nb; Wed, 27 Apr 2022 12:02:38 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23RFDrFd014412;
+ Wed, 27 Apr 2022 16:02:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=wfOzrIyEs4dZO3/bl9ywnVw45MPD6RMBCax56OEzEyE=;
+ b=bwopNV1flBaAHzfdmLdTe/7xUfFtR3ckWbVeCID9AEJSaLyZASQXLpEk88bRCh25Fw3q
+ qMhaX+dhs5rA2/UcDR75hvoU4IH9hEWYVCEsMwOIkqhKUCV+T5JZguqD5XZkvr/7a93w
+ wbh1qsZMctopdnhQKb6GPwNEv6/F0yzNV5El6PDviLAf4ZLtfCpSCgigfyc4iOiQiV1w
+ YUw1LXR6maUAnWc1q8YiXAjprAr0NiaSz2/t/UgLSiGImU5SBiGqBOF2RVgqsdCeiD3L
+ rpoC6Sgl4sst8F2X+rHj++09V/kQxYEay8BNcfMO3WgPlhR1iNRSbdL8Ug9OZXKifybm Vg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpv88eujm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Apr 2022 16:02:29 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23RG0aKG014480;
+ Wed, 27 Apr 2022 16:02:28 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpv88euj0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Apr 2022 16:02:28 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23RFwlOE030744;
+ Wed, 27 Apr 2022 16:02:26 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3fm938x80u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Apr 2022 16:02:26 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 23RG2bK58782388
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 Apr 2022 16:02:37 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2FA56AE053;
+ Wed, 27 Apr 2022 16:02:24 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DDF52AE051;
+ Wed, 27 Apr 2022 16:02:23 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.145.79.152])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 27 Apr 2022 16:02:23 +0000 (GMT)
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH 0/2] ppc/xive: Update for guest interrupt handling
+Date: Wed, 27 Apr 2022 18:02:21 +0200
+Message-Id: <20220427160223.96758-1-fbarrat@linux.ibm.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/2] hw/arm/smmuv3: Add space in guest error message
-Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, eric.auger@redhat.com
-References: <20220427111543.124620-1-jean-philippe@linaro.org>
- <20220427111543.124620-2-jean-philippe@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220427111543.124620-2-jean-philippe@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: b7R5axrMvNIe5O1PqENRDmMX0ibWnsdt
+X-Proofpoint-ORIG-GUID: zU-P5vIajOotw5j_Yda7x871bu6wcT_s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-27_04,2022-04-27_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ phishscore=0 adultscore=0 suspectscore=0 spamscore=0 bulkscore=0
+ mlxlogscore=659 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204270098
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,20 +106,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: npiggin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 04:15, Jean-Philippe Brucker wrote:
-> Make the translation error message prettier by adding a missing space
-> before the parenthesis.
-> 
-> Signed-off-by: Jean-Philippe Brucker<jean-philippe@linaro.org>
-> ---
->   hw/arm/smmuv3.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+This short series fixes a couple of issues about interrupt handling
+found when running a KVM guest on the powernv9 and powernv10 models. I
+split a patch I previously sent.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+Frederic Barrat (2):
+  ppc/xive: Always recompute the PIPR when pushing an OS context
+  ppc/xive: Update the state of the External interrupt signal
+
+ hw/intc/xive.c        | 24 +++++++++++++++++++++---
+ hw/intc/xive2.c       | 17 ++++++++++-------
+ include/hw/ppc/xive.h |  1 +
+ 3 files changed, 32 insertions(+), 10 deletions(-)
+
+-- 
+2.35.1
+
 
