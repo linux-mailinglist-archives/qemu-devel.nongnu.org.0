@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB7451139E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 10:39:17 +0200 (CEST)
-Received: from localhost ([::1]:39694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A375113B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 10:44:07 +0200 (CEST)
+Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njdCd-0000d6-S5
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 04:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57946)
+	id 1njdHK-0003w6-5e
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 04:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1njd4S-0005Gv-Dh
+ id 1njd4V-0005Ha-US
  for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:30:52 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:51826)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1njd4P-0005vX-Oj
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:30:47 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23R5nPpC011361;
+ id 1njd4R-0005vl-1u
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:30:49 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23R63tYk018591;
  Wed, 27 Apr 2022 08:30:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=/0A77trSN3lAKVdjWMt7Tg47i3aJyYUsoTLxaQgRcJc=;
- b=O3sk40S7HC12YOLEkoI+ECrop4oRt1Kph9dQ10XSG9zyUqrJlHhxbsOePv3Ulc1+kq9c
- lsrfAQKoAO5vHzUxxDSWgfs1VslIgxPNBlAlOHWEBJhgDkdruA1AEbkjVJ9+Y2rnUtW2
- qmjHa0pjKtbJKkPY4w2ZfGZs938Q8Pp/LEj1FTlb9xBv6dsPH4YjW4IGWuP3yi/e4Q12
- LYckqDzl1rd31ffMdMo+voGNlXtEwrO0DEUmkJk+7jLEG6z3Emm70tr8T2GtE+v0QF52
- eobeyfl9Poa61AWEHybQtaE+x3Pw58fgFXvqhbLFs1PcKnH5Vwm35OJJ1cwh4J6n7wUx Yg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmaw4gc24-1
+ bh=DspXsKZNXmo2/rCGCBj6kmSyCTVknJ40KrJIjBAAXjI=;
+ b=B+5TsiZb4RYHS2uI/KKKgT6qONQZxmgdI863G6XO5L0llTcPrufAlE1v3UVp/8cRWmdI
+ rtWQrAxUOBlod0h/ho6W0BnPSaNReODM1gi6WE2c8dlbakjrJtXuwnFWS3Ykzbaw19XZ
+ XScC/D6+rghNy/2ltbcWvyDvYQs2JqKfP8nZ4c/MuTOhVUNd9YmFy5mTJqo/LBNW5pe+
+ HBQnsAlE79PSiKTRQ8umpMTLaemM+KpRso8xH2Xk44yFcwv1pHC0g5XvTezBFJqt5QOW
+ J0d+5AH8/dKFUIlRVyjZZf3+KULMcyqsz61M9LRW4A5kSfGsXI/89AgFW0jnHGf+Qsi8 Rg== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb5k0b0w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Apr 2022 08:30:43 +0000
+ Wed, 27 Apr 2022 08:30:42 +0000
 Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 23R8B8bq028095; Wed, 27 Apr 2022 08:30:42 GMT
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 23R8UfWA030459; Wed, 27 Apr 2022 08:30:42 GMT
 Received: from nam02-dm3-obe.outbound.protection.outlook.com
  (mail-dm3nam07lp2048.outbound.protection.outlook.com [104.47.56.48])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3fm7w4b4f2-1
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3fp5ykf12n-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 27 Apr 2022 08:30:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DZzzX0QS4rk8Tla/px3MDFYk1tnnXTlwvCjb71h2zM9Y8YKnY0FY9PauXHDJOXp0zt6yLE+hIYglkDa/3VU3eICx1CjlgjZfg58ZgW6Z0/9DYIKWcXEBUMaVL/vg6mxM1IkgKGb2pYRuVtQqcgTZ4HoFmoI1E5YHqQXUuPV3D9uEnmjhfYoIBj4Q3MlKZZEd18nfZ/g+T8yCQ9bY4fBdPWRa8g0i8IMTVsDjgvrM2FPR5YE1zDn/cMGQqX6NuhiFzD0c+pBLr39Sf/V6CWOLE4D8tXfD3LqPdW7e/dnrhUNhWOiyxIQgPhKGWjIK0HJ2S1cgjYLg2/nffeVxmm6HBg==
+ b=g1EfaISOhHI/psgPO0uQngeBiZBiXxmGzsJnRpJ1vNmiX8Alxz/im+TTAuVg6kEgzkiI6hEThB4dB9lwprKSsCbzy/1KLWMhcJLnEtGQjMiiIttfAvwBtWRFyXryxetL46XwbbzZomZpwUpT72XRtVp9vVfwKwyX8jgyVo/7fcxiFQKSdvAQHCQ4tlhGe8jFQFSc3MEazxcpNuF+xDykTVPdGtedDPR2/o9VlqHDCq3gEhcKloq+XM1z8+OlRftuUwadcLo/Jqdv4KNpjy95tYmYjyn0o1Jig0tajUIGVAY1tSZUDAVjm4g6ef7dbYWhcvPBL71AGiTOQolRzTOiig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/0A77trSN3lAKVdjWMt7Tg47i3aJyYUsoTLxaQgRcJc=;
- b=OBaPbPAwEWSK9867Hz2915bijZ4IK4BQi8WVpF7Ta85X75MTuUuKn6zWqdvG0NLu2X+cBsPWdWw89h73kcEToaJl66oDxpz+u8cYVTw869x31B6daQ2wYbPCdUgznIg2LiKbvEM19JAhP7mp65d81STyfF34nNa/p+VfWNlmQCOOChnwsHzNRPvAlys8WWLLM5zGnQXAU/37zibKkTJ0l2ZmiZ3cYRYEPiINnfGK9Y6Rl4CmEhKIS/x1yPUcxASCy1QVskaCJaUfdUB3dKp/hkMVc099ROgMGRp8wjK3k6cyM4XTIHvhumjmt9p/ObZj86/cmZTFuD4Oio47LFEOQg==
+ bh=DspXsKZNXmo2/rCGCBj6kmSyCTVknJ40KrJIjBAAXjI=;
+ b=WqOMzdfGjN0vg15CkZjhcoOwziq9d98jRmVIWCN9FxhkO72KLW0Jhr47ege5Z+ufBEwSVrV4gOh/20/ZGBz9i9XqfUGkt4bI3y1EDl1zt42EVfmUrpBvT97IpNW1TjRNsgKHohnPhZNaoEcIgu8lHAerU7o2RDGRPl/j3S3av1oCsEV7mLWcZOIJsPwkOTpa1XwgHvHhXeCsxrzT/AiFgWgzwGkaF5hptramnWhYgCIMTCv4m+O06EQXYF1xeJirEnXIMs2iQj6kdwm9/zCVt5P8vBFUSLfpwuB9ZAYRROff5hqGfrTagQO6dZvFAj4C+tLputBBeGt++PeVyozJtg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/0A77trSN3lAKVdjWMt7Tg47i3aJyYUsoTLxaQgRcJc=;
- b=LWWw1AbV9F/ycixt2s91r7TPQ2dtZbpfmX/foPyRMv+hyUW9XIW6cZJrkWansgVVjFnphQucXG1VhWlgOLlNytcN55QHBJnYennN31IUhO5vwSnZ0zW3qS3DFEqa8k2sBH2XPcstVAmWwmLqkMSoL5+bu76WdARgnri6u0TEe64=
+ bh=DspXsKZNXmo2/rCGCBj6kmSyCTVknJ40KrJIjBAAXjI=;
+ b=gFb/JoyzP6Kb7QyfuavtMn7ZnJeJCt02P+oBLG5dXBcc9lR3Qo6vbGlpNRCTYWZCz/xSsg5/3FVjctDXzD9s5ZK6rRt+ajylvAk40HNnMbcQSDleySbWWTS3qsSQ1/zBARCRe9bY96m93+iYNHLEIU9bgppeWFQA70UhpyaXPds=
 Received: from BYAPR10MB3287.namprd10.prod.outlook.com (2603:10b6:a03:15c::11)
  by CY4PR10MB2007.namprd10.prod.outlook.com (2603:10b6:903:123::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
- 2022 08:30:34 +0000
+ 2022 08:30:35 +0000
 Received: from BYAPR10MB3287.namprd10.prod.outlook.com
  ([fe80::c89:e3f5:ea4a:8d30]) by BYAPR10MB3287.namprd10.prod.outlook.com
  ([fe80::c89:e3f5:ea4a:8d30%2]) with mapi id 15.20.5206.013; Wed, 27 Apr 2022
- 08:30:34 +0000
+ 08:30:35 +0000
 From: Si-Wei Liu <si-wei.liu@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] virtio-net: setup vhost_dev and notifiers for cvq only
- when feature is negotiated
-Date: Wed, 27 Apr 2022 01:30:12 -0700
-Message-Id: <1651048216-3365-2-git-send-email-si-wei.liu@oracle.com>
+Subject: [PATCH v2 2/5] virtio-net: align ctrl_vq index for non-mq guest for
+ vhost_vdpa
+Date: Wed, 27 Apr 2022 01:30:13 -0700
+Message-Id: <1651048216-3365-3-git-send-email-si-wei.liu@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1651048216-3365-1-git-send-email-si-wei.liu@oracle.com>
 References: <1651048216-3365-1-git-send-email-si-wei.liu@oracle.com>
@@ -86,68 +86,68 @@ X-ClientProxiedBy: BY5PR20CA0030.namprd20.prod.outlook.com
  (2603:10b6:a03:15c::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45efa4b8-c274-4b93-ce7d-08da28283294
+X-MS-Office365-Filtering-Correlation-Id: 00f08e0c-700a-4f98-b067-08da2828333b
 X-MS-TrafficTypeDiagnostic: CY4PR10MB2007:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR10MB200772838F0AF9B1564EE319B1FA9@CY4PR10MB2007.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <CY4PR10MB20072D3765238F9CBD9995F4B1FA9@CY4PR10MB2007.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TjrkRI/I0pg+RiLzQO/CyUf4cF+Osa+ZucDz+/qxmODEeex7+jCjzMVGJXUkY8juXO//MoBoy018bk2kL8xcy5haG4DMPPfob47rrow+K6UJaFh90BdHpjLMLIrSkcP5f1/sqZEiPeJLeqPhV03xzcRPepwE7vrnJ00JPVfhjkQ19dss9Uv22XQD7xZAD4Wu7m/Fcd98+8A48bCUM1nCNctGBMT/BqKCx7wRloD7mqTSLCQ6I+WFr9svv3TuvYvruiyjPBl2ao63Xq5KBVwOSEkEv316J9o+z0BzH6KQFViHKKXYF0QbHA6Kj3MiDKbxjFxXLa2iSQ5A98coZuliG4F7B7lRlHzpV5zyoOPWIo5fS/GhqlB2/O4l48fpTKHnlA+CeEXBI7qo5ia8ENAHR2BoFwyDxSyAe4T0niP4J8Pi2tFSOKi1foQwWzAkFIFjTdbYwHyTN/HaZLzsjLPj1I9bVJDQPrnZYbBZ7LshuPIrM2NwDYXwplcE2TqKKwW27epoTrKEhvmteuvONRaZYag1JovBD0UbFfUa67GCBvKMkI4+pYOiIZjbuAVAZIgDWsQUaG9gvhSLQxoQsOAICvN8sXN1cIJSq5U/9MLpDLsNIbUXrM4PP+J7QRPYuU7Er5L3mc4oLoKHosBeWzR53aHg+DpEM8/ol12YwQGMe1XOYHnbp9G8aNh1oyKhV3hqxnpNWNMB/iD8UNSYpIjk5A==
+X-Microsoft-Antispam-Message-Info: oZo36sGY8siID90RjelqvuknT8fAjQmhewgPP25WpaYp17RlmbAjQ7rqVsW/HVPrvRmI/HF7JU55w7cYw4/f7QgvBv6Q4YEeyctsK8TqVk9OzQRj4Fnnz3FRhrrN7Iy2qUwyU/mWTdosV22XOmZsX23j1Fnz1DAzrhdvBnh0w2xMTJvHOHzbgQq+QKnBSwOfmrzziAKVidtNdrUqBbNVN05w1AhUzXdQdbSJz7VO66/rAyPVav7pQoOlx3vznCPpim+b21+DVVq47r+G+F/99vppSEnO7OSwEfJq25O0aBlNMV2IZ5SG0m1rOq5SIQmDnkNf3ftIEXn7K+Wm6GLvbdrf4ztWURx3N5WJaS9qqg/CgXbQBhexm49y5cNVDeLSBskVxFtXmJ6mBu5W8RjkMnrGDQQRUVACNjFw9QJMlSKoho29tWI/XhJ2XS6i5Gqyxvt5kxkKTqnbuI+yDzU/GPDNGTWdihhEKu7Dy214TEJ9ZOLd6YMOlHITTjhAvi4hD+4CCTmoETStlhVDY9XxEWr98sOD57EsUjYy8OsMVCO0AD25xUvG0iCR6m3QFN2GFwrza9WlLB2Zm2qRwWMpZKFE/XqxCklqp8+F5n/z3FyBPtGhSL7F5xTrrIMbiwky5W+t5CeVRm9Y+rsHOb5icc0zzqueNLBhWqndHnY6R/sUm18wPsTDECwe5i3IXTETDDLVtCTE8+CP7qIbkjEB6A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3287.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(366004)(38350700002)(36756003)(2906002)(316002)(508600001)(38100700002)(107886003)(4326008)(6666004)(6506007)(6512007)(52116002)(6486002)(83380400001)(8676002)(186003)(66476007)(66946007)(66556008)(6916009)(86362001)(5660300002)(8936002)(26005)(2616005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tOxNhYoaS7eF9iLN+1Bkd2pvzszPWu8rJNCVD0S5+tWpQ0spLGWbC1hnDKbd?=
- =?us-ascii?Q?SCAtGNSaWKLCsbAvfUQy0gfqVEbkl071JKkZ1CAXfut+qfUWPcFjnMpK8zVf?=
- =?us-ascii?Q?O4TtfSQ/DIz8Fhe9AAFGMQ6jgAOuvgzgSg6vO8LIDYplXCRNpFdpjG2EnCWU?=
- =?us-ascii?Q?OjnXptgEggw21k4sxfdO4++gQX3W85uHfQekxLlL0HSTtXtFbkDDF6PQViy4?=
- =?us-ascii?Q?KMrLQdxwTVop694jZAld6mtRPW4tnP9PeGsjgLrnuNbA4h/JD/pLo9vIiX6a?=
- =?us-ascii?Q?3/ie3jPHxFpdZ5rhlGdyjGlxSG4nIpUXNegF8p9ewDUoN9d8TIM0AXZwOa98?=
- =?us-ascii?Q?zycf52T99kxzj9KkUPfBLwksD9DovqBqeElVkuYX+bliYg/tOm5FH1mTGoKz?=
- =?us-ascii?Q?PO4Bgm9HdaVWbTaEOlwcwAKAqnOzjb1PpgGYL4aZ+7ekSNmAhsenMGOz/U0K?=
- =?us-ascii?Q?CkkEkhmKjiaxYL+Tn5bhJtbSXWnsOOI91RCDO+lmBxiTB4oEcKoSegFLAH/s?=
- =?us-ascii?Q?mWdv2cZ6dbdPXRE7RjILzJafvftECEBVW733Jyd0D4YxR2B1Qs4wFM/Zosay?=
- =?us-ascii?Q?K+1Qlo2cL/VHGFjFxuI62mcheP/46SdKDEAVaPCBW9C6JAtw7NUwF5cY+D4p?=
- =?us-ascii?Q?3qAJWUaJ4jTC2Z2cj+CHdetfbM4McqqZoagG58K8tAjC33mo90dck7z8i0Tp?=
- =?us-ascii?Q?rY3iedESgOjlofrF6UBDOOQkVdlqOt1s483VStGo2LFlanZmIQ9BzyvZEi77?=
- =?us-ascii?Q?Co6L5K+PqygNmll2koEOLSlcQxutZOc8SLS/Vml4D08YS1FonUCRVY/OZXU4?=
- =?us-ascii?Q?WM4YUTfRL1CQWIJWDLnDbguxlxFRuk6iSzwr41KRNUbhATNvAK7vi3en7eJL?=
- =?us-ascii?Q?si9eWQr/aolIQHpBpS9wy48FiadMAOxl5lCriDsf3YILk0Ccpo9Pz5oOpjxm?=
- =?us-ascii?Q?pqgnk02vRY5pDdyAUYZA8bkU/KYE5lfp09Nt3RSpvt90cYKp2xR0VkSzp6e9?=
- =?us-ascii?Q?6gbbmw9htCah2Y/9SBpdGwHTVfJt6tGWVYvKmPU2nYoNDGYYC/zGmqe/QYY7?=
- =?us-ascii?Q?jCbcRstFAW0ufAuMiuFYPIEjkvOYc9NS/G5rL3jElhXHhte4yOXvR3WjRGZX?=
- =?us-ascii?Q?Fs1G6G9PpvAsrBqfYPDYcc5FozNS0hO9J1KqB2F1VFejIjn6GTjNuKnEuUx6?=
- =?us-ascii?Q?zZmFL7MPkLPuTtKfnka8x473IOl8atvcXxviahjRhw9n2KCDdnql51jqGckX?=
- =?us-ascii?Q?dzFoIMyV2v7obcSFS6ako1ShWJiutLSXbLqbQj98Dzlcfqa0plXUQv4NqzAt?=
- =?us-ascii?Q?n3xSy1SOn9TNfMx/xn2uaXn1HPdGJG+Kzqg44pAQxpOIJcUrHCB8QWgUloYP?=
- =?us-ascii?Q?lW6Sx7rVzVYrMkZErNb53Yg9/4UBB0VnKAxlt+SQMUpE6Y0EvI8ipOhB+5Sq?=
- =?us-ascii?Q?LcOGQJguZyTjxUNYvBBpBO4qg7LRHgfOQ/e3wiNCrFBxuZRMWqyMxSVCDF0/?=
- =?us-ascii?Q?VaEiCKHqyDJNvIcY6zGMDk36qOc7PDeqnDkL3h92j0UeFfD4EAs1ws870pBb?=
- =?us-ascii?Q?Xejlv1C0poPvqXf0N6o7jAMhWJZWwWdEXxQ6Dxry+6jMG+a3WFTeBxONzItc?=
- =?us-ascii?Q?Rh4LLaXmBew5f3ON2Wcw1e2ibsWmxRa6C40F6tQZ4tdi0XsmkY09Sw/OfzSP?=
- =?us-ascii?Q?txidq2bUZIOefNMnbU9vDa4lb9TpkfjG6i5y2m+7gB9aQFnJ7i+A6mz87ZdC?=
- =?us-ascii?Q?ofrroJsDIGqo2US51XBRp1DVP26puuA=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WN8wkuGV1a0e79fHlgbmzd/3es3zR5UwT91GQk+UeFdw8Qpw5+w52+y0hy/a?=
+ =?us-ascii?Q?WIn0PGtm2MJBetNf31n443tUYG1VL5WmWD6Q4wA7g+dLozdqvgGI9MBUtq08?=
+ =?us-ascii?Q?QuIFzNl1pKFypalOlCqgwjQelyJeGrL5GsN6q0sLfQ9VJLENzgEebdoA679d?=
+ =?us-ascii?Q?U+Htl/+uHPvi7FafECV1BU5Trqfu57LhO3Y/9M2vd8U0bXufTqQ6mx0lkmsI?=
+ =?us-ascii?Q?7pIYFw5clhpml/b9zyBQfMjobgrBwwec0mk4rjpU7dycQkw/v1eBL7HNmDMW?=
+ =?us-ascii?Q?ATU0pqYt4baao+P8cN53ZZePANEpqRUkHxJ8HzydH9EM+A/rR6Q2eLqRVgpm?=
+ =?us-ascii?Q?6NgneIdZGnw6dO/srUBfhSlc88U7yF1g7veMADJpl2SuRnI1hwSr9gmFHgyq?=
+ =?us-ascii?Q?MVVf1MUr3MLmfKY6TgKkQvZWqJxHQCQYABhl/HnDDLRseQl0l0prYyBIci5D?=
+ =?us-ascii?Q?w3B5/U71RJfOnUlg+tP8MT5iUEQ7UKeYxhlp8xWjYexq21MwNrntLgk+V9M7?=
+ =?us-ascii?Q?1B037pQ4KWXxxWsPAk7DGWk6tekJnSkgsEGP4lQ4OGLDxoI01jtToaCpsU6K?=
+ =?us-ascii?Q?kjs0JFBEIUrTfWF/B9vAOKYenbNp/akC1BtH4XjJ5c49nCWoRofa8kyAYrT0?=
+ =?us-ascii?Q?kkIkBB98NRd+e+td0u/23Pm9swBEoG9tAso1emI5EBA4F597HqGOlT3lItzU?=
+ =?us-ascii?Q?jrXQJ5NYK1bQUaz22w5EPqNjfOMznG7q8C+zyqYvXXtgGywKx+NSSQ7C/Cp9?=
+ =?us-ascii?Q?yvORziCjz5IFRvMivHtO234JdjXPcJ1yFtfpivW8/YudJR7tdG5miSisy5kB?=
+ =?us-ascii?Q?a7HIg8W74CAiuGnFB3Ob7eL4NrI1dJWGL4viFdHQstaEs1EaSqyp0qQVON2W?=
+ =?us-ascii?Q?i6CXfo8x+d5tyIRxChScTT2ByXOJT2GzdxeG3MY9yhQC950xM0UpIIwCG9ti?=
+ =?us-ascii?Q?42qhKBoOlhoLCl13Ec/Fjvf3rGZlts7LJbBacxUwd4Z+KXgn9LJkLUsmzMDD?=
+ =?us-ascii?Q?0T+DtHWNYQvXfw0001n2IoyWiKoKzGPEez0PRZofhxsuEewL9kcUMFEdkXGH?=
+ =?us-ascii?Q?FOrqXJOgBhcvDpeKJ27Vze6z6GUXRBd3d60O5yiFo1LVFpVDRzN2v7Hf2rNw?=
+ =?us-ascii?Q?BLIaj0+kXshXpJqFEpy2mZWx/350nGLZavxfvDfxbyPoxG9Vu7IBL5jcW0NS?=
+ =?us-ascii?Q?Q9BuVhoxFtSdcLHjD4RoJxrN6gI9WVDaInesdcg3kNZ/fA119YbTGbafK8cO?=
+ =?us-ascii?Q?ZA2Z6Ti0JBGMZAGq8JyVBu+AEXvPBpXeQURhtYp2ChfpxWmI67kDYNIXkI/B?=
+ =?us-ascii?Q?2mjKRNXXqg4Hz2jUAuegWZr64dYtCgunaCx0i9dshSDnR7gINstY2zpkf7wO?=
+ =?us-ascii?Q?hiU3kN40UwoNkJEsxC98bfhyo3d6TJh9yIUEllKSDPW7J2b8n9RONf2FnDnZ?=
+ =?us-ascii?Q?aIDTMtu18vb9Y0nb4+OGFjnoyYeaxnfCq4/UnP70/bkGYPiUc5qjfxGFi9e0?=
+ =?us-ascii?Q?aPbUanbxjaZE975tatWy5F6x6dHPqjFdxl6IgVghmYSwNyFZ45HWzlEUi4TX?=
+ =?us-ascii?Q?Yiqt78s4oJG3gm5uGrV4ko84jy6XS34nkmursZfpgT5GFeBmOPicr/i+zx+J?=
+ =?us-ascii?Q?O1ZHEoG0K1q5eK4M1qPBfdknY5WW8QP9Ap3s8rq4BXP9bQR8UmeMy2Fuxkhl?=
+ =?us-ascii?Q?GpL5GhhnULCG7bXFY2hIfRlFRh+yjdXVXHwHTsA/AY7XDg5rgE6GLi4jX9Np?=
+ =?us-ascii?Q?ugtj34qRy0gwhj0gG6qhtlzFvtXwo5E=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45efa4b8-c274-4b93-ce7d-08da28283294
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00f08e0c-700a-4f98-b067-08da2828333b
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 08:30:34.0481 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 08:30:35.1886 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0P+0HEMxJIFU0s9oBlwG59xI21Nj826gq3mBUQZNvljXD6zY//uPOeIDX3ybq8yzwhlqPh9YVVZEPWbKu0Dmrw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: XW4Kbkw14CTh2t05G5aQ4i972m999ja1JmxkJOaQ3TQM6Wqk0cq8p0P+9bpN7C6MBsv4nDzm9ct5qGrcb1RIhw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB2007
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
  definitions=2022-04-27_02:2022-04-26,
  2022-04-27 signatures=0
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999
+ mlxlogscore=999 mlxscore=0
+ suspectscore=0 malwarescore=0 spamscore=0 adultscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204270055
-X-Proofpoint-GUID: MQVPGkb_EYhMzr3E6eIAsjw8Y-8jx8oK
-X-Proofpoint-ORIG-GUID: MQVPGkb_EYhMzr3E6eIAsjw8Y-8jx8oK
+ definitions=main-2204270056
+X-Proofpoint-GUID: F8TBjAg4OSyYiE8rUzYUh-y-ojQUGfCQ
+X-Proofpoint-ORIG-GUID: F8TBjAg4OSyYiE8rUzYUh-y-ojQUGfCQ
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=si-wei.liu@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,32 +174,105 @@ Cc: mst@redhat.com, jasowang@redhat.com, eperezma@redhat.com, eli@mellanox.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the control virtqueue feature is absent or not negotiated,
-vhost_net_start() still tries to set up vhost_dev and install
-vhost notifiers for the control virtqueue, which results in
-erroneous ioctl calls with incorrect queue index sending down
-to driver. Do that only when needed.
+With MQ enabled vdpa device and non-MQ supporting guest e.g.
+booting vdpa with mq=on over OVMF of single vqp, below assert
+failure is seen:
+
+../hw/virtio/vhost-vdpa.c:560: vhost_vdpa_get_vq_index: Assertion `idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs' failed.
+
+0  0x00007f8ce3ff3387 in raise () at /lib64/libc.so.6
+1  0x00007f8ce3ff4a78 in abort () at /lib64/libc.so.6
+2  0x00007f8ce3fec1a6 in __assert_fail_base () at /lib64/libc.so.6
+3  0x00007f8ce3fec252 in  () at /lib64/libc.so.6
+4  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:563
+5  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:558
+6  0x0000558f52d7329a in vhost_virtqueue_mask (hdev=0x558f55c01800, vdev=0x558f568f91f0, n=2, mask=<optimized out>) at ../hw/virtio/vhost.c:1557
+7  0x0000558f52c6b89a in virtio_pci_set_guest_notifier (d=d@entry=0x558f568f0f60, n=n@entry=2, assign=assign@entry=true, with_irqfd=with_irqfd@entry=false)
+   at ../hw/virtio/virtio-pci.c:974
+8  0x0000558f52c6c0d8 in virtio_pci_set_guest_notifiers (d=0x558f568f0f60, nvqs=3, assign=true) at ../hw/virtio/virtio-pci.c:1019
+9  0x0000558f52bf091d in vhost_net_start (dev=dev@entry=0x558f568f91f0, ncs=0x558f56937cd0, data_queue_pairs=data_queue_pairs@entry=1, cvq=cvq@entry=1)
+   at ../hw/net/vhost_net.c:361
+10 0x0000558f52d4e5e7 in virtio_net_set_status (status=<optimized out>, n=0x558f568f91f0) at ../hw/net/virtio-net.c:289
+11 0x0000558f52d4e5e7 in virtio_net_set_status (vdev=0x558f568f91f0, status=15 '\017') at ../hw/net/virtio-net.c:370
+12 0x0000558f52d6c4b2 in virtio_set_status (vdev=vdev@entry=0x558f568f91f0, val=val@entry=15 '\017') at ../hw/virtio/virtio.c:1945
+13 0x0000558f52c69eff in virtio_pci_common_write (opaque=0x558f568f0f60, addr=<optimized out>, val=<optimized out>, size=<optimized out>) at ../hw/virtio/virtio-pci.c:1292
+14 0x0000558f52d15d6e in memory_region_write_accessor (mr=0x558f568f19d0, addr=20, value=<optimized out>, size=1, shift=<optimized out>, mask=<optimized out>, attrs=...)
+   at ../softmmu/memory.c:492
+15 0x0000558f52d127de in access_with_adjusted_size (addr=addr@entry=20, value=value@entry=0x7f8cdbffe748, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x558f52d15cf0 <memory_region_write_accessor>, mr=0x558f568f19d0, attrs=...) at ../softmmu/memory.c:554
+16 0x0000558f52d157ef in memory_region_dispatch_write (mr=mr@entry=0x558f568f19d0, addr=20, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...)
+   at ../softmmu/memory.c:1504
+17 0x0000558f52d078e7 in flatview_write_continue (fv=fv@entry=0x7f8accbc3b90, addr=addr@entry=103079215124, attrs=..., ptr=ptr@entry=0x7f8ce6300028, len=len@entry=1, addr1=<optimized out>, l=<optimized out>, mr=0x558f568f19d0) at /home/opc/qemu-upstream/include/qemu/host-utils.h:165
+18 0x0000558f52d07b06 in flatview_write (fv=0x7f8accbc3b90, addr=103079215124, attrs=..., buf=0x7f8ce6300028, len=1) at ../softmmu/physmem.c:2822
+19 0x0000558f52d0b36b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>)
+   at ../softmmu/physmem.c:2914
+20 0x0000558f52d0b3da in address_space_rw (as=<optimized out>, addr=<optimized out>, attrs=...,
+   attrs@entry=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>, is_write=<optimized out>) at ../softmmu/physmem.c:2924
+21 0x0000558f52dced09 in kvm_cpu_exec (cpu=cpu@entry=0x558f55c2da60) at ../accel/kvm/kvm-all.c:2903
+22 0x0000558f52dcfabd in kvm_vcpu_thread_fn (arg=arg@entry=0x558f55c2da60) at ../accel/kvm/kvm-accel-ops.c:49
+23 0x0000558f52f9f04a in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:556
+24 0x00007f8ce4392ea5 in start_thread () at /lib64/libpthread.so.0
+25 0x00007f8ce40bb9fd in clone () at /lib64/libc.so.6
+
+The cause for the assert failure is due to that the vhost_dev index
+for the ctrl vq was not aligned with actual one in use by the guest.
+Upon multiqueue feature negotiation in virtio_net_set_multiqueue(),
+if guest doesn't support multiqueue, the guest vq layout would shrink
+to a single queue pair, consisting of 3 vqs in total (rx, tx and ctrl).
+This results in ctrl_vq taking a different vhost_dev group index than
+the default. We can map vq to the correct vhost_dev group by checking
+if MQ is supported by guest and successfully negotiated. Since the
+MQ feature is only present along with CTRL_VQ, we make sure the index
+2 is only meant for the control vq while MQ is not supported by guest.
 
 Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
+Suggested-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
 ---
- hw/net/virtio-net.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/net/virtio-net.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 1067e72..ffb3475 100644
+index ffb3475..8ca0b80 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -245,7 +245,8 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
-     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-     NetClientState *nc = qemu_get_queue(n->nic);
-     int queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
--    int cvq = n->max_ncs - n->max_queue_pairs;
-+    int cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
-+              n->max_ncs - n->max_queue_pairs : 0;
+@@ -3171,8 +3171,17 @@ static NetClientInfo net_virtio_info = {
+ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    NetClientState *nc;
+     assert(n->vhost_started);
++    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
++        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
++           error_report("virtio-net: bogus vq index ignored");
++           return false;
++        }
++        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
++    } else {
++        nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    }
+     return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+ }
  
-     if (!get_vhost_net(nc->peer)) {
-         return;
+@@ -3180,8 +3189,17 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+                                            bool mask)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    NetClientState *nc;
+     assert(n->vhost_started);
++    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
++        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
++           error_report("virtio-net: bogus vq index ignored");
++           return;
++        }
++        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
++    } else {
++        nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    }
+     vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+                              vdev, idx, mask);
+ }
 -- 
 1.8.3.1
 
