@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614C2511664
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 13:48:52 +0200 (CEST)
-Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9331251165B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 13:37:16 +0200 (CEST)
+Received: from localhost ([::1]:50180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njgA7-0000cG-7B
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 07:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44480)
+	id 1njfyt-0007cp-Hs
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 07:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njfuS-0000tV-1a
+ id 1njfuS-0000tZ-3M
  for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:32:40 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:41927)
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njfuL-0001pC-78
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:32:36 -0400
-Received: by mail-ej1-x636.google.com with SMTP id dk23so2779123ejb.8
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 04:32:31 -0700 (PDT)
+ id 1njfuM-0001pJ-G1
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:32:38 -0400
+Received: by mail-ed1-x532.google.com with SMTP id b24so1569672edu.10
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 04:32:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/pSiiolR4M6W1WjSd8pasEM62dxnIZG2DNdUhvZONkg=;
- b=IGj99rax8KfteX3MMQyO2VAmehcg9zNsJu4DsGQQ6/PRFgaj4zU6rgBpty5GCTLxqs
- sD55tDNJh5Tzdma3jDbgUR81milWIIrHeRrVgWrm6TsziEn6fuo+28gB/KBqE+Ay96s5
- BMGSxOkwu0ncI93RXQILSwFeB4HzhB20r54PL09L93MXWM8h6HFhwxyS5yU1OYC/UU1i
- MRT/OoE2ZIEpBkoYZb5dDKgpiH7w0aSANsFtnQu/L1ZuLLOohcTR/kK/oOUP7jNWXdqn
- irLY7CJ0KApphHw7C9eUVYBp0KHHJdnNR84VT8Ik24V8aLiZKsqiqQFEF2rdg7cL1Qmt
- uKPQ==
+ bh=ZeIWCK8hg6Sj8fOxFWWHzcrLf3ZpiEYw763wTq7Q2pQ=;
+ b=lMj+s7Sawh/YBJHDRjaG9nHVg0wpWyp9OHC6kPr8RioYOIeYs+AVOOx0P/6mEQ4reL
+ /itcselVc0FL5brGYCs8a68SqTZsBb/KS7tHOTQXCoZ64I83a5Xx6ExvPOiXXpNuEfsq
+ xkC8ndwDdZOKY5VLM+tCC26yaStTJq5A9TGXmuq15KK/Gkk/oFDmeUY/6mPCvkqQeCcz
+ Lg/VVpgKL3yR7m6nWilBTr3nevecO4HjrSYohNm5XbQP5NOZW5omKaSyuaxiD+2cHDVU
+ 0geMRupvAxsSZ4LPvxk+0B2hl5ggO4VQ/3DWtrDUijXhhJ1vKTLIl2isvWRXTSGX9RHQ
+ KrQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/pSiiolR4M6W1WjSd8pasEM62dxnIZG2DNdUhvZONkg=;
- b=ROcyPwF7FPcnAKU0BmbAaLay2OC/7kLHoUfRYB3TK8BGkzS3N+24STNOVOXYb4EMxg
- y753LsMGJPJPH55JzZKPdawT77vrDC9+1XoEP5OtfmJTyTSAfKKZQWhCKNOZCOUCyWy7
- QkevAj+waRhLVEifteyfqV7QdOKG7yVRoOq3Tcb5/RtbUlu3a3ZuiTHwbhlIlsZ644Km
- ulBvyhdHFBmRhWYwxMB8B1WFfiok2k3vDrvzzho+lwemUDjCkAFTasAptNX8ccHoz8H7
- dHtRrv+JCjqMvqU1Lea3/i6QWpVbnuJSDUHsZmVCW43nrzF2HhOLK2k5kU7C0EYAC+gA
- P+iQ==
-X-Gm-Message-State: AOAM531nNCYBt2sWQhNsTNIxgCblV9RVrktrfAA7Tf92tkN2sVGmP6B2
- mblhl5fV8t7az6z0k3YIcpFCgbR/45GcNw==
-X-Google-Smtp-Source: ABdhPJyWltN7Hp/Vl54lwuAPKdSQsioP1kBTh7hkn+Tc3c+sJFY9P4eE1Og1jp4dQzhrpcRG5PQ+Eg==
-X-Received: by 2002:a17:907:c31a:b0:6f3:cd46:4092 with SMTP id
- tl26-20020a170907c31a00b006f3cd464092mr1803142ejc.592.1651059150301; 
- Wed, 27 Apr 2022 04:32:30 -0700 (PDT)
+ bh=ZeIWCK8hg6Sj8fOxFWWHzcrLf3ZpiEYw763wTq7Q2pQ=;
+ b=f7Y2HrHxNrCWVlTM0mh6f1ZLk3imuEygZbJfgFdxKivw38RoeRxssI+Ypc5dCvemGO
+ KI8QuxoTDYdmIYzfrWSxBs8wuU58otCzEzCV442aHFyN5g7Lkzh7ac+BE/x5a9UjdzyG
+ ckmrFpIQzW81Oo14EXL0xwzU2L6Ccf51vQpRr1vcT/e6C/NNlEeuJeZpuVCYNTo0TSbi
+ WvnTN+UGgK7Uwf+jd7aolMhNFJkdy7avxluEkShj3OLmjVDPYV2vsWZ0D+th2TMaa1rB
+ W/fX0KnevxcFIbXJYP/wCKYvR2Ux47bTZNX0s3bg7We8cfBUzc2T1l+BImS2IfP1uiPx
+ dQQA==
+X-Gm-Message-State: AOAM53224nzD6wMw0wEtFqqEHdHMIDIr9ELP9CF8R9+PWgkTYpczhwid
+ PSQxkVsrzi6c88aMAk2tUk7C+l16OOp/qg==
+X-Google-Smtp-Source: ABdhPJyjT5cklD2AcL6PZn3QosXmNouptlUeilFgVunSnVxePtvdl+eelFJG/cscspgAyhkbQ/ZqKg==
+X-Received: by 2002:a50:c099:0:b0:415:f5c7:700e with SMTP id
+ k25-20020a50c099000000b00415f5c7700emr29400671edf.205.1651059151256; 
+ Wed, 27 Apr 2022 04:32:31 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- d26-20020a170906305a00b006f3a7ffbb0esm3099216ejd.70.2022.04.27.04.32.29
+ d26-20020a170906305a00b006f3a7ffbb0esm3099216ejd.70.2022.04.27.04.32.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 04:32:29 -0700 (PDT)
+ Wed, 27 Apr 2022 04:32:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 3/6] soundhw: extract soundhw help to a separate function
-Date: Wed, 27 Apr 2022 13:32:22 +0200
-Message-Id: <20220427113225.112521-4-pbonzini@redhat.com>
+Subject: [RFC PATCH 4/6] soundhw: unify initialization for ISA and PCI soundhw
+Date: Wed, 27 Apr 2022 13:32:23 +0200
+Message-Id: <20220427113225.112521-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220427113225.112521-1-pbonzini@redhat.com>
 References: <20220427113225.112521-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,82 +90,57 @@ Cc: mkletzan@redhat.com, berrange@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use qdev_new instead of distinguishing isa_create_simple/pci_create_simple.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/audio/soundhw.c         | 33 +++++++++++++++++++--------------
- include/hw/audio/soundhw.h |  1 +
- 2 files changed, 20 insertions(+), 14 deletions(-)
+ hw/audio/soundhw.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
-index 097501fee1..0fb64bdc8f 100644
+index 0fb64bdc8f..a9d8807b18 100644
 --- a/hw/audio/soundhw.c
 +++ b/hw/audio/soundhw.c
-@@ -64,6 +64,21 @@ void deprecated_register_soundhw(const char *name, const char *descr,
-     soundhw_count++;
- }
+@@ -114,25 +114,27 @@ void soundhw_init(void)
+     struct soundhw *c = selected;
+     ISABus *isa_bus = (ISABus *) object_resolve_path_type("", TYPE_ISA_BUS, NULL);
+     PCIBus *pci_bus = (PCIBus *) object_resolve_path_type("", TYPE_PCI_BUS, NULL);
++    BusState *bus;
  
-+void show_valid_soundhw(void)
-+{
-+    struct soundhw *c;
-+
-+    if (soundhw_count) {
-+         printf("Valid sound card names (comma separated):\n");
-+         for (c = soundhw; c->name; ++c) {
-+             printf ("%-11s %s\n", c->name, c->descr);
-+         }
-+    } else {
-+         printf("Machine has no user-selectable audio hardware "
-+                "(it may or may not have always-present audio hardware).\n");
-+    }
-+}
-+
- static struct soundhw *selected = NULL;
- 
- void select_soundhw(const char *optarg)
-@@ -75,19 +90,8 @@ void select_soundhw(const char *optarg)
-     }
- 
-     if (is_help_option(optarg)) {
--    show_valid_cards:
--
--        if (soundhw_count) {
--             printf("Valid sound card names (comma separated):\n");
--             for (c = soundhw; c->name; ++c) {
--                 printf ("%-11s %s\n", c->name, c->descr);
--             }
--             printf("\n-soundhw all will enable all of the above\n");
+-    if (!c) {
+-        return;
+-    }
+-    if (c->typename) {
+-        warn_report("'-soundhw %s' is deprecated, "
+-                    "please use '-device %s' instead",
+-                    c->name, c->typename);
+-        if (c->isa) {
+-            isa_create_simple(isa_bus, c->typename);
 -        } else {
--             printf("Machine has no user-selectable audio hardware "
--                    "(it may or may not have always-present audio hardware).\n");
--        }
--        exit(!is_help_option(optarg));
-+        show_valid_soundhw();
-+        exit(0);
-     }
-     else {
-         for (c = soundhw; c->name; ++c) {
-@@ -99,7 +103,8 @@ void select_soundhw(const char *optarg)
- 
-         if (!c->name) {
-             error_report("Unknown sound card name `%s'", optarg);
--            goto show_valid_cards;
-+            show_valid_soundhw();
+-            pci_create_simple(pci_bus, -1, c->typename);
++    if (c->isa) {
++        if (!isa_bus) {
++            error_report("ISA bus not available for %s", c->name);
 +            exit(1);
          }
++        bus = BUS(isa_bus);
+     } else {
+-        assert(!c->isa);
+         if (!pci_bus) {
+             error_report("PCI bus not available for %s", c->name);
+             exit(1);
+         }
++        bus = BUS(pci_bus);
++    }
++
++    if (c->typename) {
++        DeviceState *dev = qdev_new(c->typename);
++        qdev_realize_and_unref(dev, bus, &error_fatal);
++    } else {
++        assert(!c->isa);
+         c->init_pci(pci_bus);
      }
  }
-diff --git a/include/hw/audio/soundhw.h b/include/hw/audio/soundhw.h
-index e68685fcda..dec5c0cdca 100644
---- a/include/hw/audio/soundhw.h
-+++ b/include/hw/audio/soundhw.h
-@@ -7,6 +7,7 @@ void deprecated_register_soundhw(const char *name, const char *descr,
-                                  int isa, const char *typename);
- 
- void soundhw_init(void);
-+void show_valid_soundhw(void);
- void select_soundhw(const char *optarg);
- 
- #endif
 -- 
 2.35.1
 
