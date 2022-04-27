@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A457F51144F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 11:29:58 +0200 (CEST)
-Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF126511445
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 11:24:34 +0200 (CEST)
+Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njdzh-00057G-CD
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 05:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45072)
+	id 1njduT-0000YY-5O
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 05:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckim@etri.re.kr>) id 1njdq5-0005HA-C6
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 05:20:06 -0400
-Received: from mscreen.etri.re.kr ([129.254.9.16]:48107)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ckim@etri.re.kr>) id 1njdq0-00053e-Ie
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1njdq3-0005Ex-KM
  for qemu-devel@nongnu.org; Wed, 27 Apr 2022 05:20:00 -0400
-Received: from unknown (HELO send002-relay.gov-dooray.com) (211.180.235.153)
- by 129.254.9.16 with ESMTP; 27 Apr 2022 18:19:39 +0900
-X-Original-SENDERIP: 211.180.235.153
-X-Original-MAILFROM: ckim@etri.re.kr
-X-Original-RCPTTO: qemu-devel@nongnu.org
-Received: from [10.162.225.112] (HELO smtp002-imp.gov-dooray.com)
- ([10.162.225.112]) by send002-relay.gov-dooray.com with SMTP id
- e4f2be5262690aaa; Wed, 27 Apr 2022 18:19:38 +0900
-DKIM-Signature: a=rsa-sha256;
- b=DzRixxIsGCI7S1hiA11wcg/edYAzlrS7uR9QpIMK8RZOlUEGRqVZv9KnPADVEFA5yWprddz+UY
- 0381EjzuXCV1v3gxGvS57uIJOIdy/3+XkN3ltcDPuVGq3Bg60DHJfFJpQrbHUZ+G2mO9MGgDVBYx
- SUZufrzpCb77gJkiVaAjHiMBlZs3aFOGmRZC/IGEAWXlJsM7KdvpudIQbGwOXQ6Aaa1k1woxFzNJ
- A7nkTWf5ZxDmkmokKcZI3Ul1juoS2JwtGwyKLv1RvBi6AWzfuwo1dGQ+9YY6NauoaCgQhQq9KP0v
- 8ZKVurvTHT7ceOVZnvb4VXigipbEBUU8rifXg9iQ==;
- c=relaxed/relaxed; s=selector; d=dooray.com; v=1;
- bh=NRr+bCA1kCV4jcPH7DjJSv8+FLRHGtkrAxa9nbZBs64=;
- h=From:To:Subject:Message-ID;
-Received: from [129.254.132.39] (HELO CHANKIMPC) ([129.254.132.39]) by
- smtp002-imp.gov-dooray.com with SMTP id 85bbd8da62690aaa; Wed, 27 Apr 2022
- 18:19:38 +0900
-From: "Chan Kim" <ckim@etri.re.kr>
-To: "'qemu-devel'" <qemu-devel@nongnu.org>,
- "'kernelnewbies'" <kernelnewbies@kernelnewbies.org>
-References: <025301d85642$901587b0$b0409710$@etri.re.kr>
- <CAGdaadZ-QgACt+K04mxpa64QGQuw4SAWbp4Nmac0hk4HdvnHsQ@mail.gmail.com> 
-In-Reply-To: 
-Subject: RE: Backtrace stopped: previous frame identical to this frame
- (corrupt stack?) , even with fresh qemu and linux build
-Date: Wed, 27 Apr 2022 18:19:38 +0900
-Message-ID: <040f01d85a17$eb246c10$c16d4430$@etri.re.kr>
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25333)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1njdpy-00054e-HS
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 05:19:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651051191;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uidfCOurG5mXdCr5OD+G0Anucxtt6Sz8i4d+fA8ffZA=;
+ b=ITCwk3wpvAblynaCpiJBPymFsk8xR3HDsV8H3+L4Uxn9uDFiUaA8LGqXEoUYPmSobCQrdy
+ vK34860Vm6U/sSz4ef0iiitXA0IczRrjS9VCaOBI9kVrwh2rw15Kx2Sq6vM1r4w2ys+Apl
+ utNfGBLIge7VHTuIhYMcVLRf4/MDpTE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-279-KmzctUAwNX-gyZYWo_xo2w-1; Wed, 27 Apr 2022 05:19:50 -0400
+X-MC-Unique: KmzctUAwNX-gyZYWo_xo2w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k16-20020a7bc310000000b0038e6cf00439so381404wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 02:19:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=uidfCOurG5mXdCr5OD+G0Anucxtt6Sz8i4d+fA8ffZA=;
+ b=4WM0KUSTeRitKhVzakJHLmENybcxnbfIlLkxFsmddpUkfaoRyuv3ZPDNN+Qz7BNpZ3
+ zoCmMVcw0zPGWiRTQj1RA23EGqgLvfq6XbGtbWD/onQ9fq0EOpFGO/EeW9YvdOA8Qn0f
+ maAH616Q2oHy/24Kbo9mX/LdQv1T3yzNFPDwYrJuEiPa5SRMlAZxW/SFx25fpsv4WQsJ
+ BoOi5HTUjEbAF5zJEPAQHdVBf7wScfVNH23/1HwXkNq22Nn60AH4Jd0tp5lx5VA+FJx5
+ /V7c1nVjxPqOSwvPAskl0u1V7+2ZqmuLGcHzqRKCXanaKwitpu/XbUV7pbbq8BjQ0jGt
+ ABhA==
+X-Gm-Message-State: AOAM531t/AUT3nyPslxf9tNe1W44VUKu8ylml30wwXMf5pq/IkRXsmsO
+ mVOOw1EE34drW2ZQQXN0UY/FI+UL2YOlB8qt+6UF2k+NFSNDahLQHefpGySUrAVYcMJzWxenvWe
+ Ul6ClJfQOYpjDxh0=
+X-Received: by 2002:a05:600c:4a08:b0:394:64e:e2d4 with SMTP id
+ c8-20020a05600c4a0800b00394064ee2d4mr1117491wmp.4.1651051188945; 
+ Wed, 27 Apr 2022 02:19:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxA5CWpA5OisByB4ju7/ZhesuoXJz1PMkLdcDo2+Z/NcReeu5CHYl9nK9ha/zMmGOW5J0incQ==
+X-Received: by 2002:a05:600c:4a08:b0:394:64e:e2d4 with SMTP id
+ c8-20020a05600c4a0800b00394064ee2d4mr1117464wmp.4.1651051188553; 
+ Wed, 27 Apr 2022 02:19:48 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ r3-20020a5d6c63000000b0020a94e82a3dsm13718530wrz.64.2022.04.27.02.19.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 02:19:47 -0700 (PDT)
+Date: Wed, 27 Apr 2022 10:19:45 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+Message-ID: <YmkKsQ9rFh+Ydfsu@work-vm>
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-2-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_000_0410_01D85A63.5B0D9AB0"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQFPLp18aYBONOzwXR7Hstxska+yGwIDRNTbAdWoI/yt9wp8MA==
-Content-Language: ko
-Received-SPF: pass client-ip=129.254.9.16; envelope-from=ckim@etri.re.kr;
- helo=mscreen.etri.re.kr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220426141619.304611-2-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,708 +95,482 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multipart message in MIME format.
-
-------=_NextPart_000_0410_01D85A63.5B0D9AB0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi folks,
-
-Sorry for many emails.
-
-I just found out by turning CONFIG_ARM64_PTR_AUTH off in armv8.3 when =
-building linux, I can avoid this problem.
-
-(I noticed the instruction =E2=80=98pacia=E2=80=99 in the function =
-assembly code)
-
-Thank you.
-
-Chan Kim
-
-=20
-
-From: Chan Kim <ckim@etri.re.kr>=20
-Sent: Wednesday, April 27, 2022 6:05 PM
-To: 'qemu-devel' <qemu-devel@nongnu.org>; 'kernelnewbies' =
-<kernelnewbies@kernelnewbies.org>
-Subject: RE: Backtrace stopped: previous frame identical to this frame =
-(corrupt stack?) , even with fresh qemu and linux build
-
-=20
-
-Hi, all
-
-=20
-
-I just found that when the linux kernel saves the current x29 and x30 at =
-the new stack bottom, (it usually does that when entering a function)
-
-The stored x30 value (lr register) has it top 16bits altered to some =
-strange value. So if I fix those top 16bits to 0xffff in the stack, and =
-if I repeat fixing this stored x30 values, I can see more backtrace =
-information. I filed a bug report to bug.linaro.org. This strange thing =
-doesn=E2=80=99t happen with linux version < 5.10 to me so it =
-doesn=E2=80=99t look like qemu bug.=20
-
-=20
-
-Chan Kim
-
-=20
-
-From: Chan Kim <ckim@etri.re.kr <mailto:ckim@etri.re.kr> >=20
-Sent: Tuesday, April 26, 2022 10:47 AM
-To: 'qemu-devel' <qemu-devel@nongnu.org <mailto:qemu-devel@nongnu.org> =
->; 'kernelnewbies' <kernelnewbies@kernelnewbies.org =
-<mailto:kernelnewbies@kernelnewbies.org> >
-Subject: RE: Backtrace stopped: previous frame identical to this frame =
-(corrupt stack?) , even with fresh qemu and linux build
-
-=20
-
-Hello,
-
-I hope somebody could check this case. It=E2=80=99s easily reproducible =
-for anybody working with qemu and arm64 linux.
-
-I returned to this problem and made another observation.(showing the =
-back-trace is really broken).
-
-=20
-
-In another incident of breakpoint at function __driver_attach, (right =
-after it stopped at the function)
-
-=20
-
-    (gdb) bt
-
-    #0  __driver_attach (dev=3Ddev@entry=3D0xffff0000401d1810, =
-data=3Ddata@entry=3D0xffff800011bbbbb8 <mxc_gpio_driver+40>) at =
-drivers/base/dd.c:1046
-
-    #1  0xffff8000107684f8 in bus_for_each_dev (bus=3D0xffff800011cba910 =
-<platform_bus_type>, start=3D0x0, data=3D0xffff800011bbbbb8 =
-<mxc_gpio_driver+40>, fn=3D0xffff80001076b860 <__driver_attach>) at =
-drivers/base/bus.c:307
-
-    #2  0xb8cd80001076a594 in ?? ()
-
-    Backtrace stopped: previous frame identical to this frame (corrupt =
-stack?)
-
-=20
-
-   (gdb) x/5g $sp
-
-0xffff800011dcbcc0: 0xffff800011dcbd20  0xb8cd80001076a594
-
-0xffff800011dcbcd0: 0xffff80001076b860  0xffff800011bbbbb8
-
-0xffff800011dcbce0: 0x0000000000000000
-
-=20
-
-Because it's right after the pc reached the function __driver_attach, =
-the sp is still not updated from previous function (bus_for_each_dev). =
-And the first two values at the $sp are supposed to be the fp and lr of =
-the previous function (see =
-https://stackoverflow.com/questions/66098678/understanding-aarch64-assemb=
-ly-function-call-how-is-stack-operated arm64 stores previous function's =
-fp and lr at the bottom of new stack frame as it enters a function). The =
-lr (link register, the address to return after this bus_for_each_dev =
-function) is really 0xb8cd80001076a594 which is weird (not a kernel =
-address). The following 3 values are function arguments for =
-bus_for_each_dev and they look correct.
-
-=20
-
-From: Chan Kim <ckim@etri.re.kr <mailto:ckim@etri.re.kr> >=20
-Sent: Saturday, April 23, 2022 8:37 AM
-To: 'Mulyadi Santosa' <mulyadi.santosa@gmail.com =
-<mailto:mulyadi.santosa@gmail.com> >
-Cc: 'qemu-devel' <qemu-devel@nongnu.org <mailto:qemu-devel@nongnu.org> =
->; 'kernelnewbies' <kernelnewbies@kernelnewbies.org =
-<mailto:kernelnewbies@kernelnewbies.org> >
-Subject: RE: Backtrace stopped: previous frame identical to this frame =
-(corrupt stack?) , even with fresh qemu and linux build
-
-=20
-
-Hi, Mulyadi
-
-Thank you for replying.
-
-I found CONFIG_DEBUG_FRAME_POINTER, CONFIG_DEBUG_INFO are already set by =
-default.
-
-And I tried adding CONFIG_DEBUG_KERNEL, CONFIG_KGDB, CONFIG_GDB_SCRIPTS, =
-CONFIG_STACKTRACE all to no avail.
-
-Regards,
-
-Chan
-
-=20
-
-From: Mulyadi Santosa <mulyadi.santosa@gmail.com =
-<mailto:mulyadi.santosa@gmail.com> >=20
-Sent: Friday, April 22, 2022 11:53 PM
-To: Chan Kim <ckim@etri.re.kr <mailto:ckim@etri.re.kr> >
-Cc: qemu-devel <qemu-devel@nongnu.org <mailto:qemu-devel@nongnu.org> >; =
-kernelnewbies <kernelnewbies@kernelnewbies.org =
-<mailto:kernelnewbies@kernelnewbies.org> >
-Subject: Re: Backtrace stopped: previous frame identical to this frame =
-(corrupt stack?) , even with fresh qemu and linux build
-
-=20
-
-=20
-
-=20
-
-On Fri, Apr 22, 2022 at 7:30 PM Chan Kim <ckim@etri.re.kr =
-<mailto:ckim@etri.re.kr> > wrote:
-
-Hello all,
-
-Really strange thing happening here.. I can't see the full stack trace =
-with
-'bt' command in gdb.
-So I tried with fresh linux-5.10.122 source and qemu-6.2.0 source and =
-it's
-happening too!
-(it's happening when I do combinations with linux 5.10.0 and qemu-5.1.0. =
-But
-it's not happening with linux-5.4.21)
-
-I would be grateful if somebody could check if this happens to other =
-people
-or just me.
-
-1. download linux-5.1.122 tarball from https://www.kernel.org/=20
-2. uncompress it and set env variable ARCH=3Darm64,
-CROSS_COMPILE=3Daarch64-none-elf- , do "make defconfig" and "make =
--j`nproc`
-Image"
-3. download qemu-6.2.0 from https://www.qemu.org/
-4. uncompress it and do "mkdir build" "cd build" "../configure
---target-list=3Daarch64-softmmu --enable-debug"
-5. run qemu and wait for debugger to attach.
-qemu-6.2.0/build/aarch64-softmmu/qemu-system-aarch64 -machine
-virt,gic-version=3Dmax,secure=3Doff,virtualization=3Dtrue -cpu max =
--kernel
-linux-5.10.112/arch/arm64/boot/Image -m 2G -nographic -netdev
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22,tftp=3D/srv/tftp -device
-virtio-net-pci,netdev=3Dvnet -machine iommu=3Dsmmuv3 --append =
-"root=3D/dev/ram
-init=3D/init nokaslr earlycon ip=3Ddhcp hugepages=3D16" -s -S
-6. run debugger, do "aarch64-none-elf-gdb linux-6.10.112/vmlinux -x\
-
-=20
-
-It has been long time since I compiled linux kernel but I guess, either =
-you need to compile kernel with enabled frame pointer, and/or you need =
-to enable debug symbol embedded into final kernel image. cmiiw
-
-=20
-
-gdb_script"
-(gdb_script content :=20
-target remote :1234
-layout src
-b start_kernel
-b __driver_attach
-)
-
-Now, in gdb, when you press 'c' twice, it'll stop at the first
-__driver_attach. (first one stops at start_kernel).
-When you are at __attach_driver, type 'bt'. See if you see the full =
-function
-stack trace.
-This is what I see.=20
-(gdb) bt
-#0  __driver_attach (dev=3D0xffff000002582810, data=3D0xffff800011dc2358
-<dummy_regulator_driver+40>)
-    at drivers/base/dd.c:1060
-#1  0xffff8000107a3ed0 in bus_for_each_dev (bus=3D<optimized out>,
-start=3D<optimized out>,
-    data=3D0xffff800011dc2358 <dummy_regulator_driver+40>,
-fn=3D0xffff8000107a6f60 <__driver_attach>)
-    at drivers/base/bus.c:305
-#2  0xd6d78000107a5c58 in ?? ()
-Backtrace stopped: previous frame identical to this frame (corrupt =
-stack?)
-
-I used to see more thatn 20 stacks trace but strangely I see only two.=20
-I can still see many stacks for linux-5.4.21 that I was working with in =
-the
-past.=20
-Could anyone check if this happens to anyone?
-I think if I add BLK_DEV_RAM and set initramfs.cpio.gz in the linux =
-build,
-the kernel will boot ok to the shell prompt.
-Only the gdb can't show the stack levels.
-
-My OS : ubuntu-20.04  5.13.0-35-generic
-
-$ aarch64-none-elf-gdb --version
-GNU gdb (GNU Toolchain for the A-profile Architecture 10.2-2020.11
-(arm-10.16)) 10.1.90.20201028-git
-Copyright (C) 2020 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later
-<http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-Thank you.
-Chan Kim
-
-
-
-
-
-_______________________________________________
-Kernelnewbies mailing list
-Kernelnewbies@kernelnewbies.org <mailto:Kernelnewbies@kernelnewbies.org> =
-
-https://lists.kernelnewbies.org/mailman/listinfo/kernelnewbies
-
-
-
---=20
-
-regards,
-
-Mulyadi Santosa
-Freelance Linux trainer and consultant
-
-blog: the-hydra.blogspot.com <http://the-hydra.blogspot.com>=20
-training: mulyaditraining.blogspot.com =
-<http://mulyaditraining.blogspot.com>=20
-
-
-------=_NextPart_000_0410_01D85A63.5B0D9AB0
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta =
-name=3DGenerator content=3D"Microsoft Word 15 (filtered =
-medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:=EA=B5=B4=EB=A6=BC;
-	panose-1:2 11 6 0 0 1 1 1 1 1;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"=EB=A7=91=EC=9D=80 =EA=B3=A0=EB=94=95";
-	panose-1:2 11 5 3 2 0 0 2 0 4;}
-@font-face
-	{font-family:"\@=EB=A7=91=EC=9D=80 =EA=B3=A0=EB=94=95";
-	panose-1:2 11 5 3 2 0 0 2 0 4;}
-@font-face
-	{font-family:"\@=EA=B5=B4=EB=A6=BC";
-	panose-1:2 11 6 0 0 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:12.0pt;
-	font-family:=EA=B5=B4=EB=A6=BC;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0cm;
-	mso-margin-bottom-alt:auto;
-	margin-left:0cm;
-	font-size:12.0pt;
-	font-family:=EA=B5=B4=EB=A6=BC;}
-span.EmailStyle18
-	{mso-style-type:personal;
-	font-family:"=EB=A7=91=EC=9D=80 =EA=B3=A0=EB=94=95";
-	color:windowtext;}
-span.EmailStyle19
-	{mso-style-type:personal;
-	font-family:"=EB=A7=91=EC=9D=80 =EA=B3=A0=EB=94=95";
-	color:windowtext;}
-span.EmailStyle20
-	{mso-style-type:personal;
-	font-family:"=EB=A7=91=EC=9D=80 =EA=B3=A0=EB=94=95";
-	color:windowtext;}
-span.EmailStyle22
-	{mso-style-type:personal-reply;
-	font-family:"=EB=A7=91=EC=9D=80 =EA=B3=A0=EB=94=95";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:3.0cm 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DKO link=3Dblue =
-vlink=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Hi folks,<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Sorry for many emails.<o:p></o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>I just found out by turning CONFIG_ARM64_PTR_AUTH =
-off in armv8.3 when building linux, I can avoid this =
-problem.<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>(I noticed the instruction =E2=80=98pacia=E2=80=99 =
-in the function assembly code)<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Thank you.<o:p></o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Chan Kim<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><div =
-style=3D'border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
-4.0pt'><div><div style=3D'border:none;border-top:solid #E1E1E1 =
-1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span =
-lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'>From:</span><=
-/b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'> Chan Kim =
-&lt;ckim@etri.re.kr&gt; <br><b>Sent:</b> Wednesday, April 27, 2022 6:05 =
-PM<br><b>To:</b> 'qemu-devel' &lt;qemu-devel@nongnu.org&gt;; =
-'kernelnewbies' =
-&lt;kernelnewbies@kernelnewbies.org&gt;<br><b>Subject:</b> RE: Backtrace =
-stopped: previous frame identical to this frame (corrupt stack?) , even =
-with fresh qemu and linux build<o:p></o:p></span></p></div></div><p =
-class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Hi, all<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>I just found that when the linux kernel saves the =
-current x29 and x30 at the new stack bottom, (it usually does that when =
-entering a function)<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>The stored x30 value (lr register) has it top =
-16bits altered to some strange value. So if I fix those top 16bits to =
-0xffff in the stack, and if I repeat fixing this stored x30 values, I =
-can see more backtrace information. I filed a bug report to =
-bug.linaro.org. This strange thing doesn</span><span =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>=E2=80=99<span lang=3DEN-US>t happen with linux =
-version &lt; 5.10 to me so it doesn</span>=E2=80=99<span lang=3DEN-US>t =
-look like qemu bug. <o:p></o:p></span></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Chan Kim<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><div =
-style=3D'border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
-4.0pt'><div><div style=3D'border:none;border-top:solid #E1E1E1 =
-1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span =
-lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'>From:</span><=
-/b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'> Chan Kim =
-&lt;<a href=3D"mailto:ckim@etri.re.kr">ckim@etri.re.kr</a>&gt; =
-<br><b>Sent:</b> Tuesday, April 26, 2022 10:47 AM<br><b>To:</b> =
-'qemu-devel' &lt;<a =
-href=3D"mailto:qemu-devel@nongnu.org">qemu-devel@nongnu.org</a>&gt;; =
-'kernelnewbies' &lt;<a =
-href=3D"mailto:kernelnewbies@kernelnewbies.org">kernelnewbies@kernelnewbi=
-es.org</a>&gt;<br><b>Subject:</b> RE: Backtrace stopped: previous frame =
-identical to this frame (corrupt stack?) , even with fresh qemu and =
-linux build<o:p></o:p></span></p></div></div><p class=3DMsoNormal><span =
-lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Hello,<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>I hope somebody could check this case. =
-It</span><span style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>=E2=80=99<span lang=3DEN-US>s easily reproducible =
-for anybody working with qemu and arm64 =
-linux.<o:p></o:p></span></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>I returned to this problem and made another =
-observation.(showing the back-trace is really =
-broken).<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>In another incident of breakpoint at function =
-__driver_attach, (right after it stopped at the =
-function)<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>&nbsp;&nbsp;&nbsp; (gdb) bt<o:p></o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>&nbsp;&nbsp;&nbsp; #0&nbsp; __driver_attach =
-(dev=3Ddev@entry=3D0xffff0000401d1810, =
-data=3Ddata@entry=3D0xffff800011bbbbb8 &lt;mxc_gpio_driver+40&gt;) at =
-drivers/base/dd.c:1046<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>&nbsp;&nbsp;&nbsp; #1&nbsp; 0xffff8000107684f8 in =
-bus_for_each_dev (bus=3D0xffff800011cba910 &lt;platform_bus_type&gt;, =
-start=3D0x0, data=3D0xffff800011bbbbb8 &lt;mxc_gpio_driver+40&gt;, =
-fn=3D0xffff80001076b860 &lt;__driver_attach&gt;) at =
-drivers/base/bus.c:307<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>&nbsp;&nbsp;&nbsp; #2&nbsp; 0xb8cd80001076a594 in =
-?? ()<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>&nbsp;&nbsp;&nbsp; Backtrace stopped: previous =
-frame identical to this frame (corrupt stack?)<o:p></o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>&nbsp;&nbsp;&nbsp;(gdb) x/5g =
-$sp<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-indent:20.0pt;word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>0xffff800011dcbcc0: 0xffff800011dcbd20&nbsp; =
-0xb8cd80001076a594<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-indent:20.0pt;word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>0xffff800011dcbcd0: 0xffff80001076b860&nbsp; =
-0xffff800011bbbbb8<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-indent:20.0pt;word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>0xffff800011dcbce0: =
-0x0000000000000000<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Because it's right after the pc reached the =
-function __driver_attach, the sp is still not updated from previous =
-function (bus_for_each_dev). And the first two values at the $sp are =
-supposed to be the fp and lr of the previous function (see <a =
-href=3D"https://stackoverflow.com/questions/66098678/understanding-aarch6=
-4-assembly-function-call-how-is-stack-operated">https://stackoverflow.com=
-/questions/66098678/understanding-aarch64-assembly-function-call-how-is-s=
-tack-operated</a> arm64 stores previous function's fp and lr at the =
-bottom of new stack frame as it enters a function). The lr (link =
-register, the address to return after this bus_for_each_dev function) is =
-really 0xb8cd80001076a594 which is weird (not a kernel address). The =
-following 3 values are function arguments for bus_for_each_dev and they =
-look correct.<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><div =
-style=3D'border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
-4.0pt'><div><div style=3D'border:none;border-top:solid #E1E1E1 =
-1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span =
-lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'>From:</span><=
-/b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'> Chan Kim =
-&lt;<a href=3D"mailto:ckim@etri.re.kr">ckim@etri.re.kr</a>&gt; =
-<br><b>Sent:</b> Saturday, April 23, 2022 8:37 AM<br><b>To:</b> 'Mulyadi =
-Santosa' &lt;<a =
-href=3D"mailto:mulyadi.santosa@gmail.com">mulyadi.santosa@gmail.com</a>&g=
-t;<br><b>Cc:</b> 'qemu-devel' &lt;<a =
-href=3D"mailto:qemu-devel@nongnu.org">qemu-devel@nongnu.org</a>&gt;; =
-'kernelnewbies' &lt;<a =
-href=3D"mailto:kernelnewbies@kernelnewbies.org">kernelnewbies@kernelnewbi=
-es.org</a>&gt;<br><b>Subject:</b> RE: Backtrace stopped: previous frame =
-identical to this frame (corrupt stack?) , even with fresh qemu and =
-linux build<o:p></o:p></span></p></div></div><p class=3DMsoNormal><span =
-lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Hi, Mulyadi<o:p></o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Thank you for replying.<o:p></o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>I found CONFIG_DEBUG_FRAME_POINTER, =
-CONFIG_DEBUG_INFO are already set by default.<o:p></o:p></span></p><p =
-class=3DMsoNormal style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>And I tried adding CONFIG_DEBUG_KERNEL, =
-CONFIG_KGDB, CONFIG_GDB_SCRIPTS, CONFIG_STACKTRACE all to no =
-avail.<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Regards,<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'>Chan<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'word-break:break-hangul'><span lang=3DEN-US =
-style=3D'font-size:10.0pt;font-family:"=EB=A7=91=EC=9D=80 =
-=EA=B3=A0=EB=94=95"'><o:p>&nbsp;</o:p></span></p><div =
-style=3D'border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
-4.0pt'><div><div style=3D'border:none;border-top:solid #E1E1E1 =
-1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span =
-lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'>From:</span><=
-/b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'> Mulyadi =
-Santosa &lt;<a =
-href=3D"mailto:mulyadi.santosa@gmail.com">mulyadi.santosa@gmail.com</a>&g=
-t; <br><b>Sent:</b> Friday, April 22, 2022 11:53 PM<br><b>To:</b> Chan =
-Kim &lt;<a =
-href=3D"mailto:ckim@etri.re.kr">ckim@etri.re.kr</a>&gt;<br><b>Cc:</b> =
-qemu-devel &lt;<a =
-href=3D"mailto:qemu-devel@nongnu.org">qemu-devel@nongnu.org</a>&gt;; =
-kernelnewbies &lt;<a =
-href=3D"mailto:kernelnewbies@kernelnewbies.org">kernelnewbies@kernelnewbi=
-es.org</a>&gt;<br><b>Subject:</b> Re: Backtrace stopped: previous frame =
-identical to this frame (corrupt stack?) , even with fresh qemu and =
-linux build<o:p></o:p></span></p></div></div><p class=3DMsoNormal><span =
-lang=3DEN-US><o:p>&nbsp;</o:p></span></p><div><div><p =
-class=3DMsoNormal><span =
-lang=3DEN-US><o:p>&nbsp;</o:p></span></p></div><p =
-class=3DMsoNormal><span =
-lang=3DEN-US><o:p>&nbsp;</o:p></span></p><div><div><p =
-class=3DMsoNormal><span lang=3DEN-US>On Fri, Apr 22, 2022 at 7:30 PM =
-Chan Kim &lt;<a href=3D"mailto:ckim@etri.re.kr">ckim@etri.re.kr</a>&gt; =
-wrote:<o:p></o:p></span></p></div><blockquote =
-style=3D'border:none;border-left:solid #CCCCCC 1.0pt;padding:0cm 0cm 0cm =
-6.0pt;margin-left:4.8pt;margin-top:5.0pt;margin-right:0cm;margin-bottom:5=
-.0pt'><p class=3DMsoNormal><span lang=3DEN-US>Hello all,<br><br>Really =
-strange thing happening here.. I can't see the full stack trace =
-with<br>'bt' command in gdb.<br>So I tried with fresh linux-5.10.122 =
-source and qemu-6.2.0 source and it's<br>happening too!<br>(it's =
-happening when I do combinations with linux 5.10.0 and qemu-5.1.0. =
-But<br>it's not happening with linux-5.4.21)<br><br>I would be grateful =
-if somebody could check if this happens to other people<br>or just =
-me.<br><br>1. download linux-5.1.122 tarball from <a =
-href=3D"https://www.kernel.org/" =
-target=3D"_blank">https://www.kernel.org/</a> <br>2. uncompress it and =
-set env variable ARCH=3Darm64,<br>CROSS_COMPILE=3Daarch64-none-elf- , do =
-&quot;make defconfig&quot; and &quot;make -j`nproc`<br>Image&quot;<br>3. =
-download qemu-6.2.0 from <a href=3D"https://www.qemu.org/" =
-target=3D"_blank">https://www.qemu.org/</a><br>4. uncompress it and do =
-&quot;mkdir build&quot; &quot;cd build&quot; =
-&quot;../configure<br>--target-list=3Daarch64-softmmu =
---enable-debug&quot;<br>5. run qemu and wait for debugger to =
-attach.<br>qemu-6.2.0/build/aarch64-softmmu/qemu-system-aarch64 =
--machine<br>virt,gic-version=3Dmax,secure=3Doff,virtualization=3Dtrue =
--cpu max -kernel<br>linux-5.10.112/arch/arm64/boot/Image -m 2G =
--nographic =
--netdev<br>user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22,tftp=3D/srv/tftp =
--device<br>virtio-net-pci,netdev=3Dvnet -machine iommu=3Dsmmuv3 --append =
-&quot;root=3D/dev/ram<br>init=3D/init nokaslr earlycon ip=3Ddhcp =
-hugepages=3D16&quot; -s -S<br>6. run debugger, do =
-&quot;aarch64-none-elf-gdb linux-6.10.112/vmlinux =
--x\<o:p></o:p></span></p></blockquote><div><p class=3DMsoNormal><span =
-lang=3DEN-US><o:p>&nbsp;</o:p></span></p></div><div><p =
-class=3DMsoNormal><span lang=3DEN-US>It has been long time since I =
-compiled linux kernel but I guess, either you need to compile kernel =
-with enabled frame pointer, and/or you need to enable debug symbol =
-embedded into final kernel image. =
-cmiiw<o:p></o:p></span></p></div><div><p class=3DMsoNormal><span =
-lang=3DEN-US>&nbsp;<o:p></o:p></span></p></div><blockquote =
-style=3D'border:none;border-left:solid #CCCCCC 1.0pt;padding:0cm 0cm 0cm =
-6.0pt;margin-left:4.8pt;margin-top:5.0pt;margin-right:0cm;margin-bottom:5=
-.0pt'><p class=3DMsoNormal><span =
-lang=3DEN-US>gdb_script&quot;<br>(gdb_script content : <br>target remote =
-:1234<br>layout src<br>b start_kernel<br>b =
-__driver_attach<br>)<br><br>Now, in gdb, when you press 'c' twice, it'll =
-stop at the first<br>__driver_attach. (first one stops at =
-start_kernel).<br>When you are at __attach_driver, type 'bt'. See if you =
-see the full function<br>stack trace.<br>This is what I see. <br>(gdb) =
-bt<br>#0&nbsp; __driver_attach (dev=3D0xffff000002582810, =
-data=3D0xffff800011dc2358<br>&lt;dummy_regulator_driver+40&gt;)<br>&nbsp;=
- &nbsp; at drivers/base/dd.c:1060<br>#1&nbsp; 0xffff8000107a3ed0 in =
-bus_for_each_dev (bus=3D&lt;optimized out&gt;,<br>start=3D&lt;optimized =
-out&gt;,<br>&nbsp; &nbsp; data=3D0xffff800011dc2358 =
-&lt;dummy_regulator_driver+40&gt;,<br>fn=3D0xffff8000107a6f60 =
-&lt;__driver_attach&gt;)<br>&nbsp; &nbsp; at =
-drivers/base/bus.c:305<br>#2&nbsp; 0xd6d78000107a5c58 in ?? =
-()<br>Backtrace stopped: previous frame identical to this frame (corrupt =
-stack?)<br><br>I used to see more thatn 20 stacks trace but strangely I =
-see only two. <br>I can still see many stacks for linux-5.4.21 that I =
-was working with in the<br>past. <br>Could anyone check if this happens =
-to anyone?<br>I think if I add BLK_DEV_RAM and set initramfs.cpio.gz in =
-the linux build,<br>the kernel will boot ok to the shell prompt.<br>Only =
-the gdb can't show the stack levels.<br><br>My OS : ubuntu-20.04&nbsp; =
-5.13.0-35-generic<br><br>$ aarch64-none-elf-gdb --version<br>GNU gdb =
-(GNU Toolchain for the A-profile Architecture =
-10.2-2020.11<br>(arm-10.16)) 10.1.90.20201028-git<br>Copyright (C) 2020 =
-Free Software Foundation, Inc.<br>License GPLv3+: GNU GPL version 3 or =
-later<br>&lt;<a href=3D"http://gnu.org/licenses/gpl.html" =
-target=3D"_blank">http://gnu.org/licenses/gpl.html</a>&gt;<br>This is =
-free software: you are free to change and redistribute it.<br>There is =
-NO WARRANTY, to the extent permitted by law.<br><br>Thank you.<br>Chan =
-Kim<br><br><br><br><br><br>______________________________________________=
-_<br>Kernelnewbies mailing list<br><a =
-href=3D"mailto:Kernelnewbies@kernelnewbies.org" =
-target=3D"_blank">Kernelnewbies@kernelnewbies.org</a><br><a =
-href=3D"https://lists.kernelnewbies.org/mailman/listinfo/kernelnewbies" =
-target=3D"_blank">https://lists.kernelnewbies.org/mailman/listinfo/kernel=
-newbies</a><o:p></o:p></span></p></blockquote></div><p =
-class=3DMsoNormal><span lang=3DEN-US><br clear=3Dall><br>-- =
-<o:p></o:p></span></p><div><p class=3DMsoNormal><span =
-lang=3DEN-US>regards,<br><br>Mulyadi Santosa<br>Freelance Linux trainer =
-and consultant<br><br>blog: <a href=3D"http://the-hydra.blogspot.com" =
-target=3D"_blank">the-hydra.blogspot.com</a><br>training: <a =
-href=3D"http://mulyaditraining.blogspot.com" =
-target=3D"_blank">mulyaditraining.blogspot.com</a><o:p></o:p></span></p><=
-/div></div></div></div></div></div></div></body></html>
-------=_NextPart_000_0410_01D85A63.5B0D9AB0--
-
-
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> From: Mark Kanda <mark.kanda@oracle.com>
+> 
+> Introduce QMP support for querying stats. Provide a framework for adding new
+> stats and support for the following commands:
+> 
+> - query-stats
+> Returns a list of all stats per target type (only VM and vCPU to start), with
+> additional options for specifying stat names, vCPU qom paths, and providers.
+> 
+> - query-stats-schemas
+> Returns a list of stats included in each target type, with an option for
+> specifying the provider.  The concepts in the schema are based on the
+> KVM binary stats' own introspection data, just translated to QAPI.
+> 
+> The framework provides a method to register callbacks for these QMP commands.
+> Most of the work in fact is done by the callbacks, and a large majority of
+> this patch is new QAPI structs and commands.
+> 
+> The first use-case will be for fd-based KVM stats (in an upcoming patch).
+> 
+> Examples (with fd-based KVM stats):
+> 
+> - Query all VM stats:
+> 
+> { "execute": "query-stats", "arguments" : { "target": "vm" } }
+> 
+> { "return": [
+>      { "provider": "kvm",
+>        "stats": [
+>           { "name": "max_mmu_page_hash_collisions", "value": 0 },
+>           { "name": "max_mmu_rmap_size", "value": 0 },
+>           { "name": "nx_lpage_splits", "value": 148 },
+
+Is there any hierarchy to the naming or is it just a big flat name
+space?
+
+>           ... ] },
+>      { "provider": "xyz",
+>        "stats": [ ... ] }
+> ] }
+> 
+> - Query all vCPU stats:
+> 
+> { "execute": "query-stats", "arguments" : { "target": "vcpu" } }
+> 
+> { "return": [
+>      { "provider": "kvm",
+>        "qom_path": "/machine/unattached/device[0]"
+>        "stats": [
+>           { "name": "guest_mode", "value": 0 },
+>           { "name": "directed_yield_successful", "value": 0 },
+>           { "name": "directed_yield_attempted", "value": 106 },
+>           ... ] },
+>      { "provider": "kvm",
+>        "qom_path": "/machine/unattached/device[1]"
+>        "stats": [
+>           { "name": "guest_mode", "value": 0 },
+>           { "name": "directed_yield_successful", "value": 0 },
+>           { "name": "directed_yield_attempted", "value": 106 },
+>           ... ] },
+> ] }
+> 
+> - Retrieve the schemas:
+> 
+> { "execute": "query-stats-schemas" }
+> 
+> { "return": [
+>     { "provider": "kvm",
+>       "target": "vcpu",
+>       "stats": [
+>          { "name": "guest_mode",
+>            "unit": "none",
+>            "base": 10,
+>            "exponent": 0,
+>            "type": "instant" },
+>         { "name": "directed_yield_successful",
+>            "unit": "none",
+>            "base": 10,
+>            "exponent": 0,
+>            "type": "cumulative" },
+>         ... ]
+>     },
+>     { "provider": "kvm",
+>       "target": "vm",
+>       "stats": [
+>         { "name": "max_mmu_page_hash_collisions",
+>            "unit": "none",
+>            "base": 10,
+>            "exponent": 0,
+>            "type": "peak" },
+>         ... ]
+>     },
+
+Is there some way to reset the peak or cumulative values?
+
+Dave
+
+>     { "provider": "xyz",
+>       "target": "vm",
+>       "stats": [ ... ]
+>     }
+> ] }
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  include/monitor/stats.h |  33 +++++++
+>  monitor/qmp-cmds.c      |  71 +++++++++++++++
+>  qapi/meson.build        |   1 +
+>  qapi/qapi-schema.json   |   1 +
+>  qapi/stats.json         | 192 ++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 298 insertions(+)
+>  create mode 100644 include/monitor/stats.h
+>  create mode 100644 qapi/stats.json
+> 
+> diff --git a/include/monitor/stats.h b/include/monitor/stats.h
+> new file mode 100644
+> index 0000000000..89552ab06f
+> --- /dev/null
+> +++ b/include/monitor/stats.h
+> @@ -0,0 +1,33 @@
+> +/*
+> + * Copyright (c) 2022 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef STATS_H
+> +#define STATS_H
+> +
+> +#include "qapi/qapi-types-stats.h"
+> +
+> +typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target, Error **errp);
+> +typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
+> +
+> +/*
+> + * Register callbacks for the QMP query-stats command.
+> + *
+> + * @stats_fn: routine to query stats:
+> + * @schema_fn: routine to query stat schemas:
+> + */
+> +void add_stats_callbacks(StatRetrieveFunc *stats_fn,
+> +                         SchemaRetrieveFunc *schemas_fn);
+> +
+> +/*
+> + * Helper routines for adding stats entries to the results lists.
+> + */
+> +void add_stats_entry(StatsResultList **, StatsProvider, const char *id,
+> +                     StatsList *stats_list);
+> +void add_stats_schema(StatsSchemaList **, StatsProvider, StatsTarget,
+> +                      StatsSchemaValueList *);
+> +
+> +#endif /* STATS_H */
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 5e7302cbb9..97825b25fa 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -35,6 +35,7 @@
+>  #include "qapi/qapi-commands-control.h"
+>  #include "qapi/qapi-commands-machine.h"
+>  #include "qapi/qapi-commands-misc.h"
+> +#include "qapi/qapi-commands-stats.h"
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "qapi/type-helpers.h"
+>  #include "qapi/qmp/qerror.h"
+> @@ -43,6 +44,7 @@
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/intc/intc.h"
+>  #include "hw/rdma/rdma.h"
+> +#include "monitor/stats.h"
+>  
+>  NameInfo *qmp_query_name(Error **errp)
+>  {
+> @@ -426,3 +428,72 @@ HumanReadableText *qmp_x_query_irq(Error **errp)
+>  
+>      return human_readable_text_from_str(buf);
+>  }
+> +
+> +typedef struct StatsCallbacks {
+> +    StatRetrieveFunc *stats_cb;
+> +    SchemaRetrieveFunc *schemas_cb;
+> +    QTAILQ_ENTRY(StatsCallbacks) next;
+> +} StatsCallbacks;
+> +
+> +static QTAILQ_HEAD(, StatsCallbacks) stats_callbacks =
+> +    QTAILQ_HEAD_INITIALIZER(stats_callbacks);
+> +
+> +void add_stats_callbacks(StatRetrieveFunc *stats_fn,
+> +                         SchemaRetrieveFunc *schemas_fn)
+> +{
+> +    StatsCallbacks *entry = g_new(StatsCallbacks, 1);
+> +    entry->stats_cb = stats_fn;
+> +    entry->schemas_cb = schemas_fn;
+> +
+> +    QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
+> +}
+> +
+> +StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
+> +{
+> +    StatsResultList *stats_results = NULL;
+> +    StatsCallbacks *entry;
+> +
+> +    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+> +        entry->stats_cb(&stats_results, filter->target, errp);
+> +    }
+> +
+> +    return stats_results;
+> +}
+> +
+> +StatsSchemaList *qmp_query_stats_schemas(Error **errp)
+> +{
+> +    StatsSchemaList *stats_results = NULL;
+> +    StatsCallbacks *entry;
+> +
+> +    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+> +        entry->schemas_cb(&stats_results, errp);
+> +    }
+> +
+> +    return stats_results;
+> +}
+> +
+> +void add_stats_entry(StatsResultList **stats_results, StatsProvider provider,
+> +                     const char *qom_path, StatsList *stats_list)
+> +{
+> +    StatsResult *entry = g_new0(StatsResult, 1);
+> +    entry->provider = provider;
+> +    if (qom_path) {
+> +        entry->has_qom_path = true;
+> +        entry->qom_path = g_strdup(qom_path);
+> +    }
+> +    entry->stats = stats_list;
+> +
+> +    QAPI_LIST_PREPEND(*stats_results, entry);
+> +}
+> +
+> +void add_stats_schema(StatsSchemaList **schema_results,
+> +                      StatsProvider provider, StatsTarget target,
+> +                      StatsSchemaValueList *stats_list)
+> +{
+> +    StatsSchema *entry = g_new0(StatsSchema, 1);
+> +
+> +    entry->provider = provider;
+> +    entry->target = target;
+> +    entry->stats = stats_list;
+> +    QAPI_LIST_PREPEND(*schema_results, entry);
+> +}
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index 656ef0e039..fd5c93d643 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -46,6 +46,7 @@ qapi_all_modules = [
+>    'replay',
+>    'run-state',
+>    'sockets',
+> +  'stats',
+>    'trace',
+>    'transaction',
+>    'yank',
+> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+> index 4912b9744e..92d7ecc52c 100644
+> --- a/qapi/qapi-schema.json
+> +++ b/qapi/qapi-schema.json
+> @@ -93,3 +93,4 @@
+>  { 'include': 'audio.json' }
+>  { 'include': 'acpi.json' }
+>  { 'include': 'pci.json' }
+> +{ 'include': 'stats.json' }
+> diff --git a/qapi/stats.json b/qapi/stats.json
+> new file mode 100644
+> index 0000000000..7454dd7daa
+> --- /dev/null
+> +++ b/qapi/stats.json
+> @@ -0,0 +1,192 @@
+> +# -*- Mode: Python -*-
+> +# vim: filetype=python
+> +#
+> +# Copyright (c) 2022 Oracle and/or its affiliates.
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
+> +# See the COPYING file in the top-level directory.
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +##
+> +# = Statistics
+> +##
+> +
+> +##
+> +# @StatsType:
+> +#
+> +# Enumeration of statistics types
+> +#
+> +# @cumulative: stat is cumulative; value can only increase.
+> +# @instant: stat is instantaneous; value can increase or decrease.
+> +# @peak: stat is the peak value; value can only increase.
+> +# @linear-hist: stat is a linear histogram.
+> +# @log-hist: stat is a logarithmic histogram.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum' : 'StatsType',
+> +  'data' : [ 'cumulative', 'instant', 'peak', 'linear-hist', 'log-hist' ] }
+> +
+> +##
+> +# @StatsUnit:
+> +#
+> +# Enumeration of unit of measurement for statistics
+> +#
+> +# @bytes: stat reported in bytes.
+> +# @seconds: stat reported in seconds.
+> +# @cycles: stat reported in clock cycles.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum' : 'StatsUnit',
+> +  'data' : [ 'bytes', 'seconds', 'cycles' ] }
+> +
+> +##
+> +# @StatsProvider:
+> +#
+> +# Enumeration of statistics providers.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum': 'StatsProvider',
+> +  'data': [ ] }
+> +
+> +##
+> +# @StatsTarget:
+> +#
+> +# The kinds of objects on which one can request statistics.
+> +#
+> +# @vm: the entire virtual machine.
+> +# @vcpu: a virtual CPU.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum': 'StatsTarget',
+> +  'data': [ 'vm', 'vcpu' ] }
+> +
+> +##
+> +# @StatsFilter:
+> +#
+> +# The arguments to the query-stats command; specifies a target for which to
+> +# request statistics, and which statistics are requested from each provider.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsFilter',
+> +  'data': { 'target': 'StatsTarget' } }
+> +
+> +##
+> +# @StatsValue:
+> +#
+> +# @scalar: single uint64.
+> +# @list: list of uint64.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'alternate': 'StatsValue',
+> +  'data': { 'scalar': 'uint64',
+> +            'list': [ 'uint64' ] } }
+> +
+> +##
+> +# @Stats:
+> +#
+> +# @name: name of stat.
+> +# @value: stat value.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'Stats',
+> +  'data': { 'name': 'str',
+> +            'value' : 'StatsValue' } }
+> +
+> +##
+> +# @StatsResult:
+> +#
+> +# @provider: provider for this set of statistics.
+> +# @qom-path: QOM path of the object for which the statistics are returned
+> +# @stats: list of statistics.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsResult',
+> +  'data': { 'provider': 'StatsProvider',
+> +            '*qom-path': 'str',
+> +            'stats': [ 'Stats' ] } }
+> +
+> +##
+> +# @query-stats:
+> +#
+> +# Return runtime-collected statistics for objects such as the
+> +# VM or its vCPUs.
+> +#
+> +# The arguments are a StatsFilter and specify the provider and objects
+> +# to return statistics about.
+> +#
+> +# Returns: a list of StatsResult, one for each provider and object
+> +#          (e.g., for each vCPU).
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'command': 'query-stats',
+> +  'data': 'StatsFilter',
+> +  'boxed': true,
+> +  'returns': [ 'StatsResult' ] }
+> +
+> +##
+> +# @StatsSchemaValue:
+> +#
+> +# Schema for a single statistic.
+> +#
+> +# @name: stat name.
+> +#
+> +# @type: kind of statistic, a @StatType.
+> +#
+> +# @unit: base unit of measurement for the statistics @StatUnit.
+> +#
+> +# @base: base for the multiple of @unit that the statistic uses, either 2 or 10.
+> +#        Only present if @exponent is non-zero.
+> +#
+> +# @exponent: exponent for the multiple of @unit that the statistic uses
+> +#
+> +# @bucket-size: Used with linear-hist to report the width of each bucket
+> +#               of the histogram.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsSchemaValue',
+> +  'data': { 'name': 'str',
+> +            'type': 'StatsType',
+> +            '*unit': 'StatsUnit',
+> +            '*base': 'int8',
+> +            'exponent': 'int16',
+> +            '*bucket-size': 'uint32' } }
+> +
+> +##
+> +# @StatsSchema:
+> +#
+> +# Schema for all available statistics for a provider and target.
+> +#
+> +# @provider: provider for this set of statistics.
+> +#
+> +# @target: kind of object that can be queried through this provider.
+> +#
+> +# @stats: list of statistics.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsSchema',
+> +  'data': { 'provider': 'StatsProvider',
+> +            'target': 'StatsTarget',
+> +            'stats': [ 'StatsSchemaValue' ] } }
+> +
+> +##
+> +# @query-stats-schemas:
+> +#
+> +# Return the schema for all available runtime-collected statistics.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'command': 'query-stats-schemas',
+> +  'data': { },
+> +  'returns': [ 'StatsSchema' ] }
+> -- 
+> 2.35.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
