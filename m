@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF29510F4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 05:12:49 +0200 (CEST)
-Received: from localhost ([::1]:49720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F3F510F8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 05:28:42 +0200 (CEST)
+Received: from localhost ([::1]:52250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njY6j-0001C6-2E
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 23:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36842)
+	id 1njYM5-0003kx-Q7
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 23:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1njY4y-00006X-6J
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:11:00 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:37545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1njY4u-0003Mv-59
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:10:57 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id kq17so773034ejb.4
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 20:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wgZ7QW8ZOkEM7gq6v4Y5TE/A7C6E5yAklLVpPNDJKQY=;
- b=79r5qdF2p3gFLojkXktLznabY4Az0GMjTmrCfieiH1KnBm53Qu0CSi5V+ApFWfrUGG
- JnHx9MHG5AD+jbmu3BH7xL+F2QKo23A/koXMD5ycUz2s9m5gQeAVqqx42E6bchXYtbJv
- QHYvhLOPFcszpzbKghcpGVna0Xc5S90fmwepZURK8T9+P8KOSVG4QQy+JCTeHRwXaEhe
- 1BvO8gwdXWhFAekSI9gd+xCd06RnV5p5qzkHSrUwIwtVXZ0IWhC9r9YZkx/AGuS0xP/o
- +FLXhDQ9KNXcAHhH8zwsIz6nB3MryGgH4xYL9owOV8W/FtYHJjvINaXuyXmmZBB9iBL6
- dq4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wgZ7QW8ZOkEM7gq6v4Y5TE/A7C6E5yAklLVpPNDJKQY=;
- b=JIvkqBaoYW/4rUXUGPX3tC3NPkjrqy9Vz1cXYXteODoqTWur+NBPZ5QtlfAu1HX9I4
- lqrOenipd7jwvvzCRVz8m6XxcLnqPvkD423yIKbqdTWdeol8e1F7u0thO1S82fOydK6k
- lY4qiW9T2ku5WTZuFIBkvekBKLBb++a4yut1uSdTmA/ngAS/eT59BcUADpKTroQjw8nm
- +q1bdDrorDDAu3469rED6ip6uKXtOYuFH1FvYC6B39yx7yn9TIyoYL1cWJk6vTmTRke+
- cgd/8ckWY1EWI17bRUstPJdQOEt35WVlVHp2okN5lO4pvrAJOQZIDzS83gpFq0O5BPtr
- ko5g==
-X-Gm-Message-State: AOAM530DlmxSrF2BTxvM0ud50nE6eLkW3QXvIfLk3QRz75JodFh1V66l
- Ril3jbLXUZY7ujsFvhyDUsopP3oejcTbroaDfDoO
-X-Google-Smtp-Source: ABdhPJyWb2Mh5/zOwyooBR8rkdQy0TiXbZvPB4UVfY4IV4ih+j1wR9gpjoM0xOZ9G7ObCmLi0vHUbYOW+0DfTdBWsG4=
-X-Received: by 2002:a17:906:7954:b0:6f3:b2f4:b22b with SMTP id
- l20-20020a170906795400b006f3b2f4b22bmr5738981ejo.536.1651029053200; Tue, 26
- Apr 2022 20:10:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1njYKr-0002wl-Sy; Tue, 26 Apr 2022 23:27:25 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:39612 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1njYKo-0005Zu-7W; Tue, 26 Apr 2022 23:27:25 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAB3f5MLuGhixYVJAQ--.28350S2;
+ Wed, 27 Apr 2022 11:27:09 +0800 (CST)
+Subject: Re: [PATCH qemu 1/9] target/riscv: rvv: Add mask agnostic for vv
+ instructions
+To: eop Chen <eop.chen@sifive.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <165089631935.4839.7564289944057093570-1@git.sr.ht>
+ <9deca899-2041-2452-77e4-6fb8a58bc2b8@iscas.ac.cn>
+ <240B9B49-C26F-4C31-8B93-78094F27C918@sifive.com>
+ <c79a9d80-5723-8f17-9094-e8447d4d7b5a@iscas.ac.cn>
+ <C82F9B91-0345-43EA-BC03-8812DCAAD9D9@sifive.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <50622e83-c871-e2c6-e4fb-61932dfa3850@iscas.ac.cn>
+Date: Wed, 27 Apr 2022 11:27:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20220406075921.105-1-xieyongji@bytedance.com>
- <20220406075921.105-5-xieyongji@bytedance.com>
- <Ymglzs0iKKUFiFNW@redhat.com>
-In-Reply-To: <Ymglzs0iKKUFiFNW@redhat.com>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Wed, 27 Apr 2022 11:11:24 +0800
-Message-ID: <CACycT3t5YJmo=zwVUF=gbfK5eczqZ1rx1ZaP6iePr7PLBJPzfQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] vduse-blk: implements vduse-blk export
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62d.google.com
+In-Reply-To: <C82F9B91-0345-43EA-BC03-8812DCAAD9D9@sifive.com>
+Content-Type: multipart/alternative;
+ boundary="------------006FCA3125BD2BD5170DA0DB"
+Content-Language: en-US
+X-CM-TRANSID: zQCowAB3f5MLuGhixYVJAQ--.28350S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZr48Cw1Utw45tF1xCryfJFb_yoW5Gw1rpa
+ yrC3WUtFZ5XryxWw18uwsrAryFkFs5Gay0kF1DJ3srZ398Zr1vyFWvyw4Fy3Wjyrs8uFyY
+ qr1jq34kZan8AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj
+ 6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c
+ 0EjII2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
+ evJa73UjIFyTuYvjfU8iSdDUUUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,77 +78,296 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, jsnow@redhat.com,
- Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 27, 2022 at 1:03 AM Kevin Wolf <kwolf@redhat.com> wrote:
+This is a multi-part message in MIME format.
+--------------006FCA3125BD2BD5170DA0DB
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+在 2022/4/27 上午10:07, eop Chen 写道:
 >
-> Am 06.04.2022 um 09:59 hat Xie Yongji geschrieben:
-> > This implements a VDUSE block backends based on
-> > the libvduse library. We can use it to export the BDSs
-> > for both VM and container (host) usage.
-> >
-> > The new command-line syntax is:
-> >
-> > $ qemu-storage-daemon \
-> >     --blockdev file,node-name=drive0,filename=test.img \
-> >     --export vduse-blk,node-name=drive0,id=vduse-export0,writable=on
-> >
-> > After the qemu-storage-daemon started, we need to use
-> > the "vdpa" command to attach the device to vDPA bus:
-> >
-> > $ vdpa dev add name vduse-export0 mgmtdev vduse
-> >
-> > Also the device must be removed via the "vdpa" command
-> > before we stop the qemu-storage-daemon.
-> >
-> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 >
-> The request handling code is almos the same as for the vhost-user-blk
-> export. I wonder if we could share this code instead of copying.
+>>
+>> 在 2022/4/27 上午2:20, eop Chen 写道:
+>>>
+>>>> Weiwei Li <liweiwei@iscas.ac.cn <mailto:liweiwei@iscas.ac.cn>> 於 
+>>>> 2022年4月26日 下午4:47 寫道：
+>>>> 在 2022/3/17 下午3:26, ~eopxd 写道:
+>>>>> From: Yueh-Ting (eop) Chen<eop.chen@sifive.com>
+>>>>>
+>>>>> This is the first commit regarding the mask agnostic behavior.
+>>>>> Added option 'rvv_ma_all_1s' to enable the behavior, the option
+>>>>> is default to false.
+>>>>>
+>>>>> Signed-off-by: eop Chen<eop.chen@sifive.com>
+>>>>> Reviewed-by: Frank Chang<frank.chang@sifive.com>
+>>>>
+>>>> Similar to our last discussion, vext_set_elems_1s_fns array can be 
+>>>> simplified to single vext_set_elems_1s,
+>>>>
+>>>> since the fourth argement can be used as the start offset.
+>>>>
+>>>> Another question, may be not related to this patchset, in section 
+>>>> 3.4.3 of the spec:
+>>>>
+>>>> /"Mask destination tail elements are always treated as 
+>>>> tail-agnostic, regardless of the setting of vta."/
+>>>>
+>>>> What does "Mask destination tail elements" mean?
+>>>>
+>>>> Regards,
+>>>>
+>>>> Weiwei Li
+>>>>
+>>>
+>>> I have just updated a new version for the tail agnostic patch set, 
+>>> it also includes a bug fix discovered today.
+>>>
+>>> Regarding the question, mask / masked-off are for body elements and 
+>>> respects the mask policy, and tail elements respect the tail policy.
+>>>
+>>> Regards,
+>>>
+>>> eop Chen
+>>
+>> I find another descriptions in the spec. For the instructions that 
+>> write mask register (such as vmadc, vmseq,vmsne,vmfeq...), they all 
+>> have similar description
+>>
+>> (You can search "tail-agnostic" in the spec):
+>>
+>> /Section 11.4: "Because these instructions produce a mask value, they 
+>> always operate with a tail-agnostic policy"//
+>> /
+>>
+>> /Section 11.8/13.13: "Compares //write mask registers, and so always 
+>> operate under a tail-agnostic policy"//
+>> /
+>>
+>> /Section 15.1: "Mask elements past vl, the tail elements, are always 
+>> updated with a tail-agnostic policy"//
+>> /
+>>
+>> //
+>>
+>> /Section 15.4/15.5/15.6: "The tail elements in the destination mask 
+>> register are updated under a tail-agnostic policy"/
+>>
+>> So I think "Mask destination tail elements" may means the tail 
+>> element for instructions that take mask register as destination 
+>> register.  For these instructions,
+>>
+>> maybe the setting of VTA can be ignored.
+>>
+>> Regards,
+>>
+>> Weiwei Li
+>>
+>
+> Yes, the setting of VTA should be ignored when v-spec specifies.
+> I think the implementation of the tail agnostic patch set don’t need 
+> to change on this.
+
+Sorry. I don't get your idea?
+
+In current patch, these instructions seems need to set the tail elements 
+to 1s when vta is true which means
+
+VTA is setted and rvv_ta_all_1s is enabled. If setting of VTA should be 
+ignored for these instrucitons,
+
+they will set the tail elements to 1s only when rvv_ta_all_1s is enabled.
+
+Regards,
+
+Weiwei Li
+
+>
+> Regards,
+>
+> eop Chen
+>
+>
 >
 
-I think we can. Will do it v5.
+--------------006FCA3125BD2BD5170DA0DB
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-> The main difference seems to be that you chose not to support discard
-> and write_zeroes yet. I'm curious if there is a reason why the
-> vhost-user-blk code wouldn't work for vdpa there?
->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">在 2022/4/27 上午10:07, eop Chen 写道:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:C82F9B91-0345-43EA-BC03-8812DCAAD9D9@sifive.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <br class="">
+      <div class="">
+      </div>
+      <div><br class="">
+        <blockquote type="cite" class="">
+          <div class=""><br class="">
+          </div>
+          <div class="">
+            <div class="">
+              <div class="moz-cite-prefix">在 2022/4/27 上午2:20, eop Chen
+                写道:<br class="">
+              </div>
+              <blockquote type="cite"
+                cite="mid:240B9B49-C26F-4C31-8B93-78094F27C918@sifive.com"
+                class="">
+                <meta http-equiv="Content-Type" content="text/html;
+                  charset=UTF-8" class="">
+                <br class="">
+                <div class="">
+                  <blockquote type="cite" class="">
+                    <div class="">Weiwei Li &lt;<a
+                        href="mailto:liweiwei@iscas.ac.cn" class=""
+                        moz-do-not-send="true">liweiwei@iscas.ac.cn</a>&gt;
+                      於 2022年4月26日 下午4:47 寫道：</div>
+                    <div class="">
+                      <div class="">
+                        <div class="moz-cite-prefix">在 2022/3/17 下午3:26,
+                          ~eopxd 写道:<br class="">
+                        </div>
+                        <blockquote type="cite"
+                          cite="mid:165089631935.4839.7564289944057093570-1@git.sr.ht"
+                          class="">
+                          <pre class="moz-quote-pre" wrap="">From: Yueh-Ting (eop) Chen <a class="moz-txt-link-rfc2396E" href="mailto:eop.chen@sifive.com" moz-do-not-send="true">&lt;eop.chen@sifive.com&gt;</a>
 
-They are different protocols. The data plane is similar, so we can
-share some codes. But the control plane is different, e.g., vhost-user
-can only work for guests but vdpa can work for both guests and hosts.
+This is the first commit regarding the mask agnostic behavior.
+Added option 'rvv_ma_all_1s' to enable the behavior, the option
+is default to false.
 
-> > +    features = vduse_get_virtio_features() |
-> > +               (1ULL << VIRTIO_BLK_F_SIZE_MAX) |
-> > +               (1ULL << VIRTIO_BLK_F_SEG_MAX) |
-> > +               (1ULL << VIRTIO_BLK_F_TOPOLOGY) |
-> > +               (1ULL << VIRTIO_BLK_F_BLK_SIZE);
-> > +
-> > +    if (num_queues > 1) {
-> > +        features |= 1ULL << VIRTIO_BLK_F_MQ;
-> > +    }
-> > +    if (!vblk_exp->writable) {
-> > +        features |= 1ULL << VIRTIO_BLK_F_RO;
-> > +    }
->
-> VIRTIO_BLK_F_FLUSH seems to be missing even though the flush command is
-> implemented.
->
+Signed-off-by: eop Chen <a class="moz-txt-link-rfc2396E" href="mailto:eop.chen@sifive.com" moz-do-not-send="true">&lt;eop.chen@sifive.com&gt;</a>
+Reviewed-by: Frank Chang <a class="moz-txt-link-rfc2396E" href="mailto:frank.chang@sifive.com" moz-do-not-send="true">&lt;frank.chang@sifive.com&gt;</a>
+</pre>
+                        </blockquote>
+                        <p class="">Similar to our last discussion, 
+                          vext_set_elems_1s_fns array can be simplified
+                          to single vext_set_elems_1s,<br class="">
+                        </p>
+                        <p class="">since the fourth argement can be
+                          used as the start offset. <br class="">
+                        </p>
+                        <p class="">Another question, may be not related
+                          to this patchset, in section 3.4.3 of the
+                          spec: <br class="">
+                        </p>
+                        <p class=""><i class="">"Mask destination tail
+                            elements are always treated as
+                            tail-agnostic, regardless of the setting of
+                            vta."</i></p>
+                        <p class="">What does "Mask destination tail
+                          elements" mean?</p>
+                        <p class="">Regards,</p>
+                        <p class="">Weiwei Li<br class="">
+                        </p>
+                      </div>
+                    </div>
+                  </blockquote>
+                </div>
+                <div class=""><br class="">
+                </div>
+                <div class="">I have just updated a new version for the
+                  tail agnostic patch set, it also includes a bug fix
+                  discovered today.</div>
+                <div class=""><br class="">
+                </div>
+                <div class="">Regarding the question, mask / masked-off
+                  are for body elements and respects the mask policy,
+                  and tail elements respect the tail policy.</div>
+                <div class=""><br class="">
+                </div>
+                <div class="">Regards,</div>
+                <div class=""><br class="">
+                </div>
+                <div class="">eop Chen</div>
+              </blockquote>
+              <br class="">
+              <p class="">I find another descriptions in the spec. For
+                the instructions that write mask register (such as
+                vmadc, vmseq,vmsne,vmfeq...), they all have similar
+                description</p>
+              <p class="">(You can search "tail-agnostic" in the spec):</p>
+              <p class=""><i class="">Section 11.4: "Because these
+                  instructions produce a mask value, they always operate
+                  with a tail-agnostic policy"</i><i class=""><br
+                    class="">
+                </i></p>
+              <p class=""><i class="">Section 11.8/13.13: "Compares </i><i
+                  class="">write mask registers, and so always operate
+                  under a tail-agnostic policy"</i><i class=""><br
+                    class="">
+                </i></p>
+              <p class=""><i class="">Section 15.1: "Mask elements past
+                  vl, the tail elements, are always updated with a
+                  tail-agnostic policy"</i><i class=""><br class="">
+                </i> </p>
+              <i class=""> </i>
+              <p class=""><i class="">Section 15.4/15.5/15.6: "The tail
+                  elements in the destination mask register are updated
+                  under a tail-agnostic policy"</i><br class="">
+              </p>
+              <p class="">So I think "Mask destination tail elements"
+                may means the tail element for instructions that take
+                mask register as destination register.  For these
+                instructions, <br class="">
+              </p>
+              <p class="">maybe the setting of VTA can be ignored.  <br
+                  class="">
+              </p>
+              <p class="">Regards,</p>
+              <p class="">Weiwei Li<br class="">
+              </p>
+            </div>
+          </div>
+        </blockquote>
+      </div>
+      <br class="">
+      <div class="">Yes, the setting of VTA should be ignored when
+        v-spec specifies.</div>
+      <div class="">I think the implementation of the tail agnostic
+        patch set don’t need to change on this.</div>
+    </blockquote>
+    <p>Sorry. I don't get your idea? <br>
+    </p>
+    <p>In current patch, these instructions seems need to set the tail
+      elements to 1s when vta is true which means</p>
+    <p> VTA is setted and rvv_ta_all_1s is enabled. If setting of VTA
+      should be ignored for these instrucitons,  <br>
+    </p>
+    <p>they will set the tail elements to 1s only when rvv_ta_all_1s is
+      enabled.</p>
+    <p>Regards,</p>
+    <p>Weiwei Li<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:C82F9B91-0345-43EA-BC03-8812DCAAD9D9@sifive.com">
+      <div class=""><br class="">
+      </div>
+      <div class="">Regards,</div>
+      <div class=""><br class="">
+      </div>
+      <div class="">eop Chen</div>
+      <div class=""><br class="">
+      </div>
+      <div class=""><br class="">
+      </div>
+      <div class=""><br class="">
+      </div>
+    </blockquote>
+  </body>
+</html>
 
-Oops. Will fix it.
+--------------006FCA3125BD2BD5170DA0DB--
 
-> (This is not a full review yet, just two or three things I noticed while
-> having a quick look.)
->
-
-Thank you for your time!
-
-Thanks,
-Yongji
 
