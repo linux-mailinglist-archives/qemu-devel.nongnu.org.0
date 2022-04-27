@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1975122E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 21:38:08 +0200 (CEST)
-Received: from localhost ([::1]:42116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57B9511CC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 20:21:31 +0200 (CEST)
+Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njnUE-0005er-HX
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 15:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56194)
+	id 1njmI5-0000xy-SB
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 14:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiatai2021@iscas.ac.cn>)
- id 1njkRW-00015b-6C; Wed, 27 Apr 2022 12:23:06 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:49916 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiatai2021@iscas.ac.cn>)
- id 1njkRT-0000D4-GY; Wed, 27 Apr 2022 12:23:05 -0400
-Received: from localhost.localdomain (unknown [61.148.244.203])
- by APP-05 (Coremail) with SMTP id zQCowADXXRrLbWliWqd6AQ--.61452S4;
- Thu, 28 Apr 2022 00:22:41 +0800 (CST)
-From: Jiatai He <jiatai2021@iscas.ac.cn>
-To: liweiwei@iscas.ac.cn
-Subject: Re: [PATCH] target/riscv: add scalar crypto related extenstion
- strings to isa_string
-Date: Thu, 28 Apr 2022 00:22:14 +0800
-Message-Id: <20220427162214.6515-1-jiatai2021@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220426095204.24142-1-liweiwei@iscas.ac.cn>
-References: <20220426095204.24142-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1njmGY-0000E7-D7
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 14:19:54 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:63794)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1njmGV-0000y6-KK
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 14:19:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651083592; x=1682619592;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=w7H4VRMebtmXl7dfvmw82h5RC+o3C9gZsATkoApw7ug=;
+ b=Wvtp8Hk/IRFXO4otPJDYlAP1Ynh6PbnM95LVoDCR2+cu6dJrNgL0vW7p
+ FH+d7vl9eQszRarNLrIwzlVaprbDhvXK1NG9ooz7Z0NXXkiTkrmhnku83
+ 8BvJKkZEQFbPNnCjLXrVf8Jxw0iE+6Q4b/+auckxKy+HVoUfBIJW7lZBO s=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 27 Apr 2022 11:13:44 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 11:13:44 -0700
+Received: from qc-i7.qualcomm.com (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.47.97.222) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 27 Apr
+ 2022 11:13:42 -0700
+From: Leif Lindholm <quic_llindhol@quicinc.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] MAINTAINERS/.mailmap: update email for Leif Lindholm
+Date: Wed, 27 Apr 2022 19:13:35 +0100
+Message-ID: <20220427181335.26613-1-quic_llindhol@quicinc.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADXXRrLbWliWqd6AQ--.61452S4
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYa7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
- 6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
- kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8I
- cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aV
- CY1x0267AKxVW8JVW8Jr1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAa
- Y2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4
- A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F
- 5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r1l42xK82IYc2Ij64vIr41l4I8I3I0E4I
- kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
- WwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
- 0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW3
- JVWrJr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8Jr
- UvcSsGvfC2KfnxnUUI43ZEXa7VUUy89JUUUUU==
-X-Originating-IP: [61.148.244.203]
-X-CM-SenderInfo: xmld3trlsqji46lvutnvoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=jiatai2021@iscas.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.47.97.222)
+Received-SPF: pass client-ip=129.46.98.28;
+ envelope-from=quic_llindhol@quicinc.com; helo=alexa-out.qualcomm.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 27 Apr 2022 15:36:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,14 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lazyparser@gmail.com, qemu-riscv@nongnu.org, wangjunqiang@iscas.ac.cn,
- bin.meng@windriver.com, qemu-devel@nongnu.org, alistair.francis@wdc.com,
- Jiatai He <jiatai2021@iscas.ac.cn>, palmer@dabbelt.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch could work successfully in qemu, "zk" could be found in linux device tree.
+NUVIA was acquired by Qualcomm in March 2021, but kept functioning on
+separate infrastructure for a transitional period. We've now switched
+over to contributing as Qualcomm Innocation Center (quicinc), so update
+my email address to reflect this.
 
-Tested-by: Jiatai He <jiatai2021@iscas.ac.cn>
+Signed-off-by: Leif Lindholm <quic_llindhol@quicinc.com>
+Cc: Leif Lindholm <leif@nuviainc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+---
+ .mailmap    | 1 +
+ MAINTAINERS | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/.mailmap b/.mailmap
+index 2976a675ea..6b28c98a90 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -63,6 +63,7 @@ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
++Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
+ Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
+ Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
+ Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 294c88ace9..02042a7955 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -890,7 +890,7 @@ F: include/hw/ssi/imx_spi.h
+ SBSA-REF
+ M: Radoslaw Biernacki <rad@semihalf.com>
+ M: Peter Maydell <peter.maydell@linaro.org>
+-R: Leif Lindholm <leif@nuviainc.com>
++R: Leif Lindholm <quic_llindhol@quicinc.com>
+ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/sbsa-ref.c
+-- 
+2.30.2
 
 
