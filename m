@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F27510E56
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 04:04:20 +0200 (CEST)
-Received: from localhost ([::1]:56410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2DA510E90
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 04:08:31 +0200 (CEST)
+Received: from localhost ([::1]:60034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njX2R-0003uT-6S
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 22:04:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55038)
+	id 1njX6U-0007Gf-Pk
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 22:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njWzs-0002FX-DQ
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 22:01:40 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:35379)
+ (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
+ id 1njX5L-0006Sv-RA
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 22:07:19 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:45872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njWzq-0002Er-LV
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 22:01:39 -0400
-Received: by mail-pg1-x536.google.com with SMTP id r83so345296pgr.2
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 19:01:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6D18t6uZxdOUYgmcZ4N1itHNMzbPGBmQa7EknyLfQWA=;
- b=KbI3KHaid3NJnk61LuJY75JS7Ws9zz9Kr6i0gwy9kG4rVGWIRXZYuN/4z9fI8BJfkR
- GgjWYTHeKr7Re9GQCc+bTqSZ3F2oXdhydRrMX8FTfJEDX+vKl1pUqF7rYDP7wPIX5Lok
- eeIQCcVzayun1nstlIJTDc/GjPJyXrR3cNXBZGKoGHHI/101AuTSkdDhlcJaze9uVJcr
- WBTeyRXvgz3SFnSRwlpLR1CKFIx3I+zHlbg0uMJ34e1vCw4mZYu36fpDNAQBYF33X32E
- GW5Xc/8COsIIWgRi1Di5sD0dT2RmDCiS1gfd4q5wMB2OrC8LJ5r4fIVzUrxm23Pbi5Yg
- iqcw==
+ (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
+ id 1njX5I-0002vr-VO
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 22:07:19 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ n33-20020a17090a5aa400b001d28f5ee3f9so555833pji.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 19:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:mime-version:subject:date:references:to:in-reply-to:message-id;
+ bh=uf9Lt07yRu0HqT81cRj6a9UI3MDF+dL/RCHfM04TutE=;
+ b=VnrvqMqMIeOr2SX9XCd0dopjmjRCdUGZbeJONUVkkG4wLJ2kQ4lLgNZhnjQinZJLgu
+ WwdS90Z6P+XpYMXe5ymYOJsUwehfezCdPObcE7agrEjninMA6XaODzWSMIomQ3xadVUW
+ ajXOtbKxgLZ1YeLkMt8jC9oh1txQXFHsE6ZA9CPDgo7CxbFHFp4zWmaEiSssEduCWtUs
+ 2xKV/DHKGHUJImDrFjaN+G1U6FWTdt2U1vO7CiOJv1iBoXA/3eyxbktuliBFE2coVlac
+ AGl29p96M1FzA3QnRJZ9qzykn/euVnch+i1wD/naqxzipGLnZ5+zaYbmzRoTQM77AxaF
+ iP+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6D18t6uZxdOUYgmcZ4N1itHNMzbPGBmQa7EknyLfQWA=;
- b=pCWTjQkQqPEaJF/2z9UQZTd3Vi0DYnWKD07nyRP/PVO1gHN47lkJtDdDWFcM4ND4vp
- 7SjWCUKwS5ve3s0oqGMYm01EIrBrJihDqPNfOSWMdQ7PbXX8oxZIGTI5lAuwHm/soLz2
- 9BvLHAmp9Pcf0Eqn6JsCZlNF0xrQMDnGBNsB2NQpSPBI5Rz5ya0zcGwoUN6uEfR2hAvT
- wVDH2GmzW8HvpF2g3yKCHX2/6CtVcWEaf8AgO4wWwYklW4woONmzReTaDnsxeybl8cUM
- 06e3+PL/XN1yIrJdSAFrpQaU7+XzO0c9feQZBOur37Q3joHyH8y7JX+4mgDFsQmUSqZc
- rxpw==
-X-Gm-Message-State: AOAM5300y6XyUCJ8MD4vo/PpPc6GLMG/sEbmPvms2Kgqh1ABAT703WAa
- CYzwyciuUI+BiaUCtIEYmvLWNA==
-X-Google-Smtp-Source: ABdhPJwyhn+nP82GNL5CFgrTyUbNxcFpJWm8j9WcMAA0B2KZvoxpqQz7tBj2zuk/WjNzg6LRFXNRYQ==
-X-Received: by 2002:a05:6a00:22c8:b0:50a:dbf5:59cf with SMTP id
- f8-20020a056a0022c800b0050adbf559cfmr27311859pfj.74.1651024896904; 
- Tue, 26 Apr 2022 19:01:36 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ h=x-gm-message-state:from:mime-version:subject:date:references:to
+ :in-reply-to:message-id;
+ bh=uf9Lt07yRu0HqT81cRj6a9UI3MDF+dL/RCHfM04TutE=;
+ b=wbs+HU1wENILvyLjaG/xvhPaXcpxf0E+7uTjYrOuvvMcGDa8wGeRquALAtlBDje9vR
+ KnJ68YFMX6ewGQeWHIsJaUE0LxI42Iv7eF3R3rtBOTYXTxr4TO7B6e9ITirQy1BlHhvG
+ VKiPF+JUZA6cREyOlHBNQ7KIKq/cSH3+ub+lwD9mXdIrW1ECLzYWQWWck5lv2lzaoUNf
+ EdFynx1di762lFIRJfhFGN1IkFG9OQ7XYSMD2uDysXjMHjFeFHhQucCWYzpayUjDdw7t
+ y8rf1T6dqlJ3ocmgaVTNYCWQV/rvapPztXBUyO6R6I5oGGIWEEZWtUK2YroA01pQ2N6N
+ gRmw==
+X-Gm-Message-State: AOAM53212OhS1u3A4YCmlZfrzI1Zf6sgJJq0uDG6GJeNX6tm2k5IPFcy
+ E9YIW7xoIK7WpAjHn3GDlyaq4w==
+X-Google-Smtp-Source: ABdhPJwMw0fazCiC6K7UbMUUcrAKHxvuiW6glkW5W4FIieM/eVBmbHMHbgSPLEQT43wE09spyKs2iQ==
+X-Received: by 2002:a17:90a:4a8a:b0:1d5:a3df:ab5 with SMTP id
+ f10-20020a17090a4a8a00b001d5a3df0ab5mr35220599pjh.64.1651025235291; 
+ Tue, 26 Apr 2022 19:07:15 -0700 (PDT)
+Received: from smtpclient.apple
+ (2001-b400-e235-7644-9cc6-88c6-245c-273d.emome-ip6.hinet.net.
+ [2001:b400:e235:7644:9cc6:88c6:245c:273d])
  by smtp.gmail.com with ESMTPSA id
- o34-20020a634e62000000b0039cc4376415sm13999863pgl.63.2022.04.26.19.01.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 19:01:36 -0700 (PDT)
-Message-ID: <1d26cacb-f31d-7627-e207-56b05629e714@linaro.org>
-Date: Tue, 26 Apr 2022 19:01:34 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 33/43] hw/intc: Add LoongArch ls7a msi interrupt
- controller support(PCH-MSI)
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
- <20220425091027.2877892-34-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220425091027.2877892-34-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+ a38-20020a056a001d2600b004fae885424dsm17835457pfx.72.2022.04.26.19.07.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 26 Apr 2022 19:07:14 -0700 (PDT)
+From: eop Chen <eop.chen@sifive.com>
+Content-Type: multipart/alternative;
+ boundary="Apple-Mail=_C248E793-63EE-4D32-8E68-1AB2FF102BEB"
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [PATCH qemu 1/9] target/riscv: rvv: Add mask agnostic for vv
+ instructions
+Date: Wed, 27 Apr 2022 10:07:09 +0800
+References: <165089631935.4839.7564289944057093570-1@git.sr.ht>
+ <9deca899-2041-2452-77e4-6fb8a58bc2b8@iscas.ac.cn>
+ <240B9B49-C26F-4C31-8B93-78094F27C918@sifive.com>
+ <c79a9d80-5723-8f17-9094-e8447d4d7b5a@iscas.ac.cn>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+In-Reply-To: <c79a9d80-5723-8f17-9094-e8447d4d7b5a@iscas.ac.cn>
+Message-Id: <C82F9B91-0345-43EA-BC03-8812DCAAD9D9@sifive.com>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=eop.chen@sifive.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,35 +92,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/25/22 02:10, Xiaojuan Yang wrote:
-> +static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
-> +                                    uint64_t val, unsigned size)
-> +{
-> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
-> +    int irq_num = val & 0xff;
-> +
-> +    trace_loongarch_msi_set_irq(irq_num);
-> +    qemu_set_irq(s->pch_msi_irq[irq_num - PCH_PIC_IRQ_NUM], 1);
-> +}
 
-This needs to be bounded properly -- irq_num >= PCH_PIC_IRQ_NUM -- since 'val' is under 
-the control of the guest.
+--Apple-Mail=_C248E793-63EE-4D32-8E68-1AB2FF102BEB
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
-> +static void pch_msi_irq_handler(void *opaque, int irq, int level)
-> +{
-> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
-> +
-> +    qemu_set_irq(s->pch_msi_irq[irq], level);
-> +}
 
-You should be able to connect the gpio lines directly, rather than having a pass-through 
-function like this.  I think this is sysbus_pass_irq.
+>=20
+> =E5=9C=A8 2022/4/27 =E4=B8=8A=E5=8D=882:20, eop Chen =E5=86=99=E9=81=93:=
+
+>>=20
+>>> Weiwei Li <liweiwei@iscas.ac.cn <mailto:liweiwei@iscas.ac.cn>> =E6=96=BC=
+ 2022=E5=B9=B44=E6=9C=8826=E6=97=A5 =E4=B8=8B=E5=8D=884:47 =E5=AF=AB=E9=81=
+=93=EF=BC=9A
+>>> =E5=9C=A8 2022/3/17 =E4=B8=8B=E5=8D=883:26, ~eopxd =E5=86=99=E9=81=93:=
+
+>>>> From: Yueh-Ting (eop) Chen <eop.chen@sifive.com> =
+<mailto:eop.chen@sifive.com>
+>>>>=20
+>>>> This is the first commit regarding the mask agnostic behavior.
+>>>> Added option 'rvv_ma_all_1s' to enable the behavior, the option
+>>>> is default to false.
+>>>>=20
+>>>> Signed-off-by: eop Chen <eop.chen@sifive.com> =
+<mailto:eop.chen@sifive.com>
+>>>> Reviewed-by: Frank Chang <frank.chang@sifive.com> =
+<mailto:frank.chang@sifive.com>
+>>> Similar to our last discussion,  vext_set_elems_1s_fns array can be =
+simplified to single vext_set_elems_1s,
+>>>=20
+>>> since the fourth argement can be used as the start offset.=20
+>>>=20
+>>> Another question, may be not related to this patchset, in section =
+3.4.3 of the spec:=20
+>>>=20
+>>> "Mask destination tail elements are always treated as tail-agnostic, =
+regardless of the setting of vta."
+>>>=20
+>>> What does "Mask destination tail elements" mean?
+>>>=20
+>>> Regards,
+>>>=20
+>>> Weiwei Li
+>>>=20
+>>=20
+>>=20
+>> I have just updated a new version for the tail agnostic patch set, it =
+also includes a bug fix discovered today.
+>>=20
+>> Regarding the question, mask / masked-off are for body elements and =
+respects the mask policy, and tail elements respect the tail policy.
+>>=20
+>> Regards,
+>>=20
+>> eop Chen
+>=20
+> I find another descriptions in the spec. For the instructions that =
+write mask register (such as vmadc, vmseq,vmsne,vmfeq...), they all have =
+similar description
+>=20
+> (You can search "tail-agnostic" in the spec):
+>=20
+> Section 11.4: "Because these instructions produce a mask value, they =
+always operate with a tail-agnostic policy"
+>=20
+> Section 11.8/13.13: "Compares write mask registers, and so always =
+operate under a tail-agnostic policy"
+>=20
+> Section 15.1: "Mask elements past vl, the tail elements, are always =
+updated with a tail-agnostic policy"
+>=20
+> Section 15.4/15.5/15.6: "The tail elements in the destination mask =
+register are updated under a tail-agnostic policy"
+>=20
+> So I think "Mask destination tail elements" may means the tail element =
+for instructions that take mask register as destination register.  For =
+these instructions,=20
+>=20
+> maybe the setting of VTA can be ignored. =20
+>=20
+> Regards,
+>=20
+> Weiwei Li
+>=20
+
+Yes, the setting of VTA should be ignored when v-spec specifies.
+I think the implementation of the tail agnostic patch set don=E2=80=99t =
+need to change on this.
+
+Regards,
+
+eop Chen
 
 
-r~
+
+
+--Apple-Mail=_C248E793-63EE-4D32-8E68-1AB2FF102BEB
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><br =
+class=3D""><div class=3D"">
+
+</div>
+<div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D""><br class=3D""></div><div class=3D""><div class=3D"">
+    <div class=3D"moz-cite-prefix">=E5=9C=A8 2022/4/27 =E4=B8=8A=E5=8D=882=
+:20, eop Chen =E5=86=99=E9=81=93:<br class=3D"">
+    </div>
+    <blockquote type=3D"cite" =
+cite=3D"mid:240B9B49-C26F-4C31-8B93-78094F27C918@sifive.com" class=3D"">
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3DUTF-8" class=3D"">
+      <br class=3D"">
+      <div class=3D"">
+        <blockquote type=3D"cite" class=3D"">
+          <div class=3D"">Weiwei Li &lt;<a =
+href=3D"mailto:liweiwei@iscas.ac.cn" class=3D"" =
+moz-do-not-send=3D"true">liweiwei@iscas.ac.cn</a>&gt; =E6=96=BC
+            2022=E5=B9=B44=E6=9C=8826=E6=97=A5 =E4=B8=8B=E5=8D=884:47 =
+=E5=AF=AB=E9=81=93=EF=BC=9A</div>
+          <div class=3D"">
+            <div class=3D"">
+              <div class=3D"moz-cite-prefix">=E5=9C=A8 2022/3/17 =
+=E4=B8=8B=E5=8D=883:26, ~eopxd
+                =E5=86=99=E9=81=93:<br class=3D"">
+              </div>
+              <blockquote type=3D"cite" =
+cite=3D"mid:165089631935.4839.7564289944057093570-1@git.sr.ht" class=3D"">=
+
+                <pre class=3D"moz-quote-pre" wrap=3D"">From: Yueh-Ting =
+(eop) Chen <a class=3D"moz-txt-link-rfc2396E" =
+href=3D"mailto:eop.chen@sifive.com" =
+moz-do-not-send=3D"true">&lt;eop.chen@sifive.com&gt;</a>
+
+This is the first commit regarding the mask agnostic behavior.
+Added option 'rvv_ma_all_1s' to enable the behavior, the option
+is default to false.
+
+Signed-off-by: eop Chen <a class=3D"moz-txt-link-rfc2396E" =
+href=3D"mailto:eop.chen@sifive.com" =
+moz-do-not-send=3D"true">&lt;eop.chen@sifive.com&gt;</a>
+Reviewed-by: Frank Chang <a class=3D"moz-txt-link-rfc2396E" =
+href=3D"mailto:frank.chang@sifive.com" =
+moz-do-not-send=3D"true">&lt;frank.chang@sifive.com&gt;</a>
+</pre>
+              </blockquote><p class=3D"">Similar to our last =
+discussion,&nbsp;
+                vext_set_elems_1s_fns array can be simplified to single
+                vext_set_elems_1s,<br class=3D"">
+              </p><p class=3D"">since the fourth argement can be used as =
+the
+                start offset. <br class=3D"">
+              </p><p class=3D"">Another question, may be not related to =
+this
+                patchset, in section 3.4.3 of the spec: <br class=3D"">
+              </p><p class=3D""><i class=3D"">"Mask destination tail =
+elements
+                  are always treated as tail-agnostic, regardless of the
+                  setting of vta."</i></p><p class=3D"">What does "Mask =
+destination tail elements"
+                mean?</p><p class=3D"">Regards,</p><p class=3D"">Weiwei =
+Li<br class=3D"">
+              </p>
+            </div>
+          </div>
+        </blockquote>
+      </div>
+      <div class=3D""><br class=3D"">
+      </div>
+      <div class=3D"">I have just updated a new version for the tail
+        agnostic patch set, it also includes a bug fix discovered =
+today.</div>
+      <div class=3D""><br class=3D"">
+      </div>
+      <div class=3D"">Regarding the question, mask / masked-off are for
+        body elements and respects the mask policy, and tail elements
+        respect the tail policy.</div>
+      <div class=3D""><br class=3D"">
+      </div>
+      <div class=3D"">Regards,</div>
+      <div class=3D""><br class=3D"">
+      </div>
+      <div class=3D"">eop Chen</div>
+    </blockquote>
+    <br class=3D""><p class=3D"">I find another descriptions in the =
+spec. For the instructions
+      that write mask register (such as vmadc, vmseq,vmsne,vmfeq...),
+      they all have similar description</p><p class=3D"">(You can search =
+"tail-agnostic" in the spec):</p><p class=3D""><i class=3D"">Section =
+11.4: "Because these instructions produce a mask
+        value, they always operate with a tail-agnostic policy"</i><i =
+class=3D""><br class=3D"">
+      </i></p><p class=3D""><i class=3D"">Section 11.8/13.13: "Compares =
+</i><i class=3D"">write mask registers,
+        and so always operate under a tail-agnostic policy"</i><i =
+class=3D""><br class=3D"">
+      </i></p><p class=3D""><i class=3D"">Section 15.1: "Mask elements =
+past vl, the tail elements, are
+        always updated with a tail-agnostic policy"</i><i class=3D""><br =
+class=3D"">
+      </i>
+    </p>
+    <i class=3D"">
+    </i><p class=3D""><i class=3D"">Section 15.4/15.5/15.6: "The tail =
+elements in the destination
+        mask register are updated under a tail-agnostic policy"</i><br =
+class=3D"">
+    </p><p class=3D"">So I think "Mask destination tail elements" may =
+means the tail
+      element for instructions that take mask register as destination
+      register.&nbsp; For these instructions, <br class=3D"">
+    </p><p class=3D"">maybe the setting of VTA can be ignored.&nbsp; <br =
+class=3D"">
+    </p><p class=3D"">Regards,</p><p class=3D"">Weiwei Li<br class=3D"">
+    </p>
+  </div>
+
+</div></blockquote></div><br class=3D""><div class=3D"">Yes, the setting =
+of VTA should be ignored when v-spec specifies.</div><div class=3D"">I =
+think the implementation of the tail agnostic patch set don=E2=80=99t =
+need to change on this.</div><div class=3D""><br class=3D""></div><div =
+class=3D"">Regards,</div><div class=3D""><br class=3D""></div><div =
+class=3D"">eop Chen</div><div class=3D""><br class=3D""></div><div =
+class=3D""><br class=3D""></div><div class=3D""><br =
+class=3D""></div></body></html>=
+
+--Apple-Mail=_C248E793-63EE-4D32-8E68-1AB2FF102BEB--
 
