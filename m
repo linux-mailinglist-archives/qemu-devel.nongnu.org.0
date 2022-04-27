@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB212511C93
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:24:16 +0200 (CEST)
-Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BF9511C99
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:27:24 +0200 (CEST)
+Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njlOh-0000eE-Sc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40336)
+	id 1njlRj-00061T-Hz
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:27:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1njlMS-00062m-Ng
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:21:58 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35742)
+ id 1njlMW-00063K-T1
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:03 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:41615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1njlMQ-00017U-DS
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:21:55 -0400
-Received: by mail-pl1-x630.google.com with SMTP id d15so2147425plh.2
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 10:21:53 -0700 (PDT)
+ id 1njlMS-00017a-AW
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:00 -0400
+Received: by mail-pg1-x532.google.com with SMTP id t13so1952041pgn.8
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 10:21:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BFaN1P/7/9R9Y3CXttZnq3vfdYDfWFapHBP4E9iurPA=;
- b=avQ2GX/qP2sOGTv/o7tBCjt8ATRfsMsKdAfpavhY4bBtQIOChMS5g9MB002lJSzdYl
- Z83VPeE2JVQuFnHvOvFN/2ST2hkjjdxhh0lifbInZXRZVQGLzWeOoNNShCIT8r1BLF7t
- 5MLjqMzLbH292r42UTxCdxVi2uSBIINrgF0VfNqlgZ6bhcVfTg36KYBHgE/Y+fWPS3WJ
- M04KNw0adR0pTxJHr+n6UUVD6xPYuk6KzO1lTzDA9wRNTmn//yCfAJohjNFt1xj3jEU0
- dkn4yj0MdfEDd4uhZLx+7R9dtUf75GMMCgTe4Cm6157qlP7GtX9+vsptkod4wHLnazaA
- IpIA==
+ bh=bGdf3FwOGjWRTyOF5PKxGS+BnP/iTZPo4BrF0TVWr5A=;
+ b=VkZrifBSo/XyOq/wmUzuOuZ1sehJih060Ryc+mtVZq2MpJ/7zU7laN+36XL6OfH/oF
+ F0f/CU1bDR4heSmk1s/24p6e0KgmMNIpX0Zour2rcvvQ8VQyUZryNKiMFm9APeOEl7eW
+ 56nojGSeCb/HvHubU4Xi28uEUxAYOZcst8cGJnonMpOkFSbaM6oxVGRtnl3gD+2vPeQj
+ nE8BTutY2rE9pFsKZgkUclRPQz0rrSWHUtREZEBXtBNzyWdp0G/EqzplFbz1p3uF4EaI
+ 1Kd7hr4OOEAk42vqNjYs4uGUXNYi2/eYKMLN0jmdJFJFf7aghiTjGktRs9MV8NjxJKfC
+ cefw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BFaN1P/7/9R9Y3CXttZnq3vfdYDfWFapHBP4E9iurPA=;
- b=FQpftWEDjlCGhsRuft37ZE9xRlG/+FuHmffjqvim8cipVWkwk/HNhGwn75Q2fBkhuO
- qoKGyFYXl0tCA/z8hZ1yKHey+l2lviGVgPAdzRiVag++jxFijAWSePC+sdXVSlU/7VT1
- JDshY0vF9Igcxd4SDmam61d0MPaxapwUdCvo2VrKs0BI6Z1Gobdp/ltlzXgFwSluFCWB
- OIMNzkfcuYLjNL+yRZcYrUacKbP3fEAXLUBIl2b/3a/lH+TT7tgZKr9C53pMr2aFWWeV
- aglUTwo4iqRUjNwRh8OVd5EiphIB/qD042AWhElCeAxcYd04o6A6wjWdurzx9jb7z6BQ
- P40g==
-X-Gm-Message-State: AOAM530HrU9N2rA8F+WL7g2v+y6WqbocbXHYXw4qSfqYv9Uu6asOffe6
- 0xsCO/C+C7Cz6lG308O1d0QUdAw5UfI=
-X-Google-Smtp-Source: ABdhPJzzKYjDc4JHM2M0/7oM9Kh/ih4bQY4vYCvLrEYV5lbrVHH4uL7UR29TI4ckZ50XDlx5j8CcrQ==
-X-Received: by 2002:a17:90b:1c88:b0:1b8:a77e:c9cb with SMTP id
- oo8-20020a17090b1c8800b001b8a77ec9cbmr44681443pjb.205.1651080112411; 
- Wed, 27 Apr 2022 10:21:52 -0700 (PDT)
+ bh=bGdf3FwOGjWRTyOF5PKxGS+BnP/iTZPo4BrF0TVWr5A=;
+ b=YQGiJTHQ3m9sWH7CmdqWmlO/BAaXn6B+9AsuJEbeG6Wp/YiyhNcKj3Taie1CnCF/ev
+ Jp3/nUoYg0jDSYfgzmMAGzVdsjSzJCkhyn4qJVu5RsDgYxAj0/HcwRR/r/FIEM1u3v5D
+ 2Z9ytALTZST9afVY6dsPZwJiR8CtaL+bRaYH3FlcJ2ib7BJsqL2PUB0SryLwCRhAnJ+z
+ 4tuhBs7rkxCFPdboVfW3ar37it0WDI9Nsm2Cv6I47GhbAHa02n8KmgnVMFommZwFFU9P
+ NXJAMmL2GO8YmT8gvL8wkoHg551T1AoUtC/L3fna1Q9vOShMFN7THVy42fJmJfIvvEHe
+ eg9w==
+X-Gm-Message-State: AOAM532CcF/RzJNKFWR/ZnzCTxBATw2AjgZcubN+PHzduE/qV0myV01Y
+ H4N/xtCqUhr8OUqCJvFwGUhu5a7tqL0=
+X-Google-Smtp-Source: ABdhPJw2eBk4M8aTbyEByPfHrUtAPF/OcDuTpceKkk2ha9I4e3mjMEjCA0s6BDL3p0aVcK0CB4Waxg==
+X-Received: by 2002:a65:604b:0:b0:398:ebeb:ad8f with SMTP id
+ a11-20020a65604b000000b00398ebebad8fmr25366548pgp.89.1651080113805; 
+ Wed, 27 Apr 2022 10:21:53 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:401:1d20:76e8:b785:3fb9:b6d6])
  by smtp.gmail.com with ESMTPSA id
- f16-20020a056a00239000b004fa7103e13csm21202124pfc.41.2022.04.27.10.21.51
+ f16-20020a056a00239000b004fa7103e13csm21202124pfc.41.2022.04.27.10.21.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 10:21:51 -0700 (PDT)
+ Wed, 27 Apr 2022 10:21:53 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] tests/tcg/xtensa: fix build for cores without windowed
- registers
-Date: Wed, 27 Apr 2022 10:21:34 -0700
-Message-Id: <20220427172140.1406059-2-jcmvbkbc@gmail.com>
+Subject: [PATCH 2/7] tests/tcg/xtensa: restore vecbase SR after test
+Date: Wed, 27 Apr 2022 10:21:35 -0700
+Message-Id: <20220427172140.1406059-3-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220427172140.1406059-1-jcmvbkbc@gmail.com>
 References: <20220427172140.1406059-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -91,31 +90,28 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't try to initialize windowbase/windowstart in crt.S if they don't
-exist.
+Writing garbage into the vecbase SR results in hang in the subsequent
+tests that expect to raise an exception. Restore vecbase SR to its
+reset value after the test.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- tests/tcg/xtensa/crt.S | 2 ++
+ tests/tcg/xtensa/test_sr.S | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/tests/tcg/xtensa/crt.S b/tests/tcg/xtensa/crt.S
-index d9846acace90..909872cd3853 100644
---- a/tests/tcg/xtensa/crt.S
-+++ b/tests/tcg/xtensa/crt.S
-@@ -8,10 +8,12 @@
- .text
- .global _start
- _start:
-+#if XCHAL_HAVE_WINDOWED
-     movi    a2, 1
-     wsr     a2, windowstart
-     movi    a2, 0
-     wsr     a2, windowbase
-+#endif
-     movi    a1, _fstack
-     movi    a2, 0x4000f
-     wsr     a2, ps
+diff --git a/tests/tcg/xtensa/test_sr.S b/tests/tcg/xtensa/test_sr.S
+index b1a91a0637ee..34441c7afff7 100644
+--- a/tests/tcg/xtensa/test_sr.S
++++ b/tests/tcg/xtensa/test_sr.S
+@@ -221,6 +221,8 @@ test_sr_mask /*scompare1*/12, 0, 0
+ 
+ #if XCHAL_HAVE_VECBASE
+ test_sr vecbase, 1
++movi	a2, XCHAL_VECBASE_RESET_VADDR
++wsr	a2, vecbase
+ #else
+ test_sr_mask /*vecbase*/231, 0, 0
+ #endif
 -- 
 2.30.2
 
