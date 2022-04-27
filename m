@@ -2,101 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DEF511C3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 18:11:12 +0200 (CEST)
-Received: from localhost ([::1]:52432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B926511C46
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 18:13:39 +0200 (CEST)
+Received: from localhost ([::1]:57344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njkFz-00075v-5x
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 12:11:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
+	id 1njkIM-00029d-Go
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 12:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1njk7i-0007qv-9l; Wed, 27 Apr 2022 12:02:38 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46438)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1njkAj-00021N-JU
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:05:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1njk7f-0005e2-Jv; Wed, 27 Apr 2022 12:02:37 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23RFMlcL011540;
- Wed, 27 Apr 2022 16:02:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=UV9L1OiB1A9MsUskrWals3aG86ZipzQxh0dm95hOUVI=;
- b=K7g5JSJqrhnqSGoY006Y+dG1HWBY4RDOlA3t0o28/g1PJ1V2Xbh+Es7dqwCrmphjpbKp
- JCWh0+rUPIcUHIJR+mDjKesMjO+AwhqjJ6JCVGw+uMv11r1QxCp7L0W5ZBVF9WM9ePcr
- XNo7z9dFJWhk8DAvQK+J3iBq2GI5cbMeWgWD4g9FPH0xtjqVbtf8MmQLkOWYzK0zYhGz
- +NYNIzctrJwuEYTi8DqNLbeKFU8UnAci65NE8VsQqKnMaZlg28Nfpj0u28HclRQ1CzCb
- 6r7hIYYMs0H2LWuSVjsT9KZlT9EegaLEVyZHqqOH7dq1Zvd0NaUz/r6wLEUGJscimUkP VA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fq8dwrtv3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Apr 2022 16:02:30 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23RFnYu0017112;
- Wed, 27 Apr 2022 16:02:29 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fq8dwrtu5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Apr 2022 16:02:29 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23RFwXAp010037;
- Wed, 27 Apr 2022 16:02:27 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03fra.de.ibm.com with ESMTP id 3fm938vxmh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Apr 2022 16:02:26 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 23RG2bGu2753120
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Apr 2022 16:02:37 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C5675AE053;
- Wed, 27 Apr 2022 16:02:24 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 88DBEAE051;
- Wed, 27 Apr 2022 16:02:24 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.145.79.152])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 27 Apr 2022 16:02:24 +0000 (GMT)
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ppc/xive: Update the state of the External interrupt
- signal
-Date: Wed, 27 Apr 2022 18:02:23 +0200
-Message-Id: <20220427160223.96758-3-fbarrat@linux.ibm.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220427160223.96758-1-fbarrat@linux.ibm.com>
-References: <20220427160223.96758-1-fbarrat@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1njkAg-00062j-OV
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:05:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651075542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1NjJqv6ImhofR4h6mItDP8C4Zka1Nf7Nm3gNYXsIMws=;
+ b=fHVU+JN+LO6pV4z0srBGtIIhscO5RTNyJCuADD2q+yALgZO7BNfHtyUIlzFe0VKj/jX3qF
+ C6HAyRWqFNMEI9emzBRoJu8aoi0t7Rh5EhFIMahpL+gNB/iWWjClLFqHLnCpdS9qTs+qr8
+ bW+xIbYVNQRC9qdN1FSEAMq0TAW5s/Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-516-at7dwll0OiCrsrjRYlNFqA-1; Wed, 27 Apr 2022 12:05:38 -0400
+X-MC-Unique: at7dwll0OiCrsrjRYlNFqA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D13F801005;
+ Wed, 27 Apr 2022 16:05:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45B2E401A992;
+ Wed, 27 Apr 2022 16:05:37 +0000 (UTC)
+Date: Wed, 27 Apr 2022 18:05:35 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 2/4] qcow2: Do not reopen data_file in invalidate_cache
+Message-ID: <Ymlpz3Vyh7vTi4JS@redhat.com>
+References: <20220427114057.36651-1-hreitz@redhat.com>
+ <20220427114057.36651-3-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: CDacrBWk9YLVWOC_3UoGHpBspe1x2jZY
-X-Proofpoint-ORIG-GUID: gR9KCF7QOJFghcna6iDS5kNtxPsqbaay
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-27_04,2022-04-27_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 clxscore=1015 adultscore=0 bulkscore=0 phishscore=0
- suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204270101
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427114057.36651-3-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,117 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: npiggin@gmail.com
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When pulling or pushing an OS context from/to a CPU, we should
-re-evaluate the state of the External interrupt signal. Otherwise, we
-can end up catching the External interrupt exception in hypervisor
-mode, which is unexpected.
+Am 27.04.2022 um 13:40 hat Hanna Reitz geschrieben:
+> qcow2_co_invalidate_cache() closes and opens the qcow2 file, by calling
+> qcow2_close() and qcow2_do_open().  These two functions must thus be
+> usable from both a global-state and an I/O context.
+> 
+> As they are, they are not safe to call in an I/O context, because they
+> use bdrv_unref_child() and bdrv_open_child() to close/open the data_file
+> child, respectively, both of which are global-state functions.  When
+> used from qcow2_co_invalidate_cache(), we do not need to close/open the
+> data_file child, though (we do not do this for bs->file or bs->backing
+> either), and so we should skip it in the qcow2_co_invalidate_cache()
+> path.
+> 
+> To do so, add a parameter to qcow2_do_open() and qcow2_close() to make
+> them skip handling s->data_file, and have qcow2_co_invalidate_cache()
+> exempt it from the memset() on the BDRVQcow2State.
+> 
+> (Note that the QED driver similarly closes/opens the QED image by
+> invoking bdrv_qed_close()+bdrv_qed_do_open(), but both functions seem
+> safe to use in an I/O context.)
+> 
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/945
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-The problem is best illustrated with the following scenario:
+This feels a bit like a hack, and we'll have to change it again if we
+ever want to allow changing the data_file with reopen. But it should do
+the job for now.
 
-1. an External interrupt is raised while the guest is on the CPU.
-
-2. before the guest can ack the External interrupt, an hypervisor
-interrupt is raised, for example the Hypervisor Decrementer or
-Hypervisor Virtualization interrupt. The hypervisor interrupt forces
-the guest to exit while the External interrupt is still pending.
-
-3. the hypervisor handles the hypervisor interrupt. At this point, the
-External interrupt is still pending. So it's very likely to be
-delivered while the hypervisor is running. That's unexpected and can
-result in an infinite loop where the hypervisor catches the External
-interrupt, looks for an interrupt in its hypervisor queue, doesn't
-find any, exits the interrupt handler with the External interrupt
-still raised, repeat...
-
-The fix is simply to always lower the External interrupt signal when
-pulling an OS context. It means it needs to be raised again when
-re-pushing the OS context. Fortunately, it's already the case, as we
-now always call xive_tctx_ipb_update(), which will raise the signal if
-needed.
-
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
----
- hw/intc/xive.c        | 14 ++++++++++++++
- hw/intc/xive2.c       |  2 ++
- include/hw/ppc/xive.h |  1 +
- 3 files changed, 17 insertions(+)
-
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 6b62918ea7..e230b14e94 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -114,6 +114,17 @@ static void xive_tctx_notify(XiveTCTX *tctx, uint8_t ring)
-     }
- }
- 
-+void xive_tctx_reset_os_signal(XiveTCTX *tctx)
-+{
-+    /*
-+     * Lower the External interrupt. Used when pulling an OS
-+     * context. It is necessary to avoid catching it in the hypervisor
-+     * context. It should be raised again when re-pushing the OS
-+     * context.
-+     */
-+    qemu_irq_lower(xive_tctx_output(tctx, TM_QW1_OS));
-+}
-+
- static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8_t ring, uint8_t cppr)
- {
-     uint8_t *regs = &tctx->regs[ring];
-@@ -388,6 +399,8 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-     /* Invalidate CAM line */
-     qw1w2_new = xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
-     xive_tctx_set_os_cam(tctx, qw1w2_new);
-+
-+    xive_tctx_reset_os_signal(tctx);
-     return qw1w2;
- }
- 
-@@ -419,6 +432,7 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
-      * escalation found in the NVT above, there could be a pending
-      * interrupt which was saved when the context was pulled and we
-      * need the recalculate the PIPR (which is not saved/restored).
-+     * It will also raise the External interrupt signal if needed.
-      */
-     xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
- }
-diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-index 2c62f68444..173e0120f8 100644
---- a/hw/intc/xive2.c
-+++ b/hw/intc/xive2.c
-@@ -269,6 +269,7 @@ uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-         xive2_tctx_save_os_ctx(xrtr, tctx, nvp_blk, nvp_idx);
-     }
- 
-+    xive_tctx_reset_os_signal(tctx);
-     return qw1w2;
- }
- 
-@@ -349,6 +350,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
-      * escalation found in the NVT above, there could be a pending
-      * interrupt which was saved when the context was pulled and we
-      * need the recalculate the PIPR (which is not saved/restored).
-+     * It will also raise the External interrupt signal if needed.
-      */
-     xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
- }
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 126e4e2c3a..f7eea4ca81 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -527,6 +527,7 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp);
- void xive_tctx_reset(XiveTCTX *tctx);
- void xive_tctx_destroy(XiveTCTX *tctx);
- void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
-+void xive_tctx_reset_os_signal(XiveTCTX *tctx);
- 
- /*
-  * KVM XIVE device helpers
--- 
-2.35.1
+Kevin
 
 
