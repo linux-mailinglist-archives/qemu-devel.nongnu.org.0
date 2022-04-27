@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DCD5118AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 16:13:47 +0200 (CEST)
-Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407C85118B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 16:19:10 +0200 (CEST)
+Received: from localhost ([::1]:55594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njiQM-0001YU-NZ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 10:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
+	id 1njiVY-0005dI-7F
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 10:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njiPA-0008Ug-RB
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:12:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njiP8-0005M7-7a
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:12:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651068748;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=alYk1o0hvpBGudL8VeMJxZMkLFpt+8mHicyjnFzkwgI=;
- b=EXoSd2vwUsZ5tMjcVle/WCoocZjLxOI+DXwME82vndly7ncHyX7vxHtYi10JkeQIPLViUI
- 23KQbbvUVZW3nRycWFPPYg+9A66j6eHMPMPdIZTEHXs8EolAR90RCHNVrY7JGUeFJg4zrS
- ncdO50Ky55YK95QD0jGKfJ4xu2QQHFE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-rilEnFidPD2URglObw-2bQ-1; Wed, 27 Apr 2022 10:12:27 -0400
-X-MC-Unique: rilEnFidPD2URglObw-2bQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4ED9A380451C;
- Wed, 27 Apr 2022 14:12:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D54D340D282F;
- Wed, 27 Apr 2022 14:12:26 +0000 (UTC)
-Date: Wed, 27 Apr 2022 09:12:25 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/3] coroutine-lock: introduce qemu_co_queue_enter_all
-Message-ID: <20220427141225.ep46hl6wqsayb6n5@redhat.com>
-References: <20220427130830.150180-1-pbonzini@redhat.com>
- <20220427130830.150180-3-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njiUV-0004we-PE
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:18:03 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njiUU-0006D6-4t
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:18:03 -0400
+Received: by mail-ej1-x636.google.com with SMTP id g6so3744642ejw.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 07:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RAopsNCDLrAOlgLzE1wtS5Z0gXCbsEXDUubxIK6q7cE=;
+ b=Lzp7J4RAIv4ewQmi1eBEqUtD5DYPt22cSxjn68leuAghns8rigF9UtPcCzzH5Hyk8M
+ BBrxkg/gZs40fXFMsBh82GFh5S5gT+ZiUO+B9Vog11yQG31Q+kpU43vsu42e84WC45ik
+ 0J1Qm8VrUOoGBKNloghZMsI3AOE+fz1NSboQwVTJ4T7klq506X0hCroFhlZrkSGk/cJj
+ 6UtXVzc2T3Yky6YPzzz2yxSL2rX3qs0kC9th3Zv6IPLt3mEY4lgkxV6Ai18xNVdWr9Gy
+ oPKHrdYEgQiVN7ihnHOUeVR5u+o72AGtmkacPbpwWIhzBI1jT4hAF30pOBrZtO1tgB7D
+ 2Urw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RAopsNCDLrAOlgLzE1wtS5Z0gXCbsEXDUubxIK6q7cE=;
+ b=W3++PEE3RKt51GV/p34xRmzvjfKB+2nMxJBU0EdfikESgkc33u6JTfSp0+80f0jS6K
+ WuG4wRg6rjN7WfcM7TqeNKGQIJHQ1EH7eRF3b0I2sHaObhdI5jwdni3l8p/9falG3rtN
+ s7KIoq0yZMoPWpXdndiA9s7cjo3QDS4TcY7DY6g/lf4Xg1IBSjzO33qoNfl/1uGBKG+F
+ Hv5GrTAhrASyNZesr558Cr8YUkTaENL0j/kOG7KIjgO3+4SJK493KSCfO9gvBy9gaBSR
+ bn9/I1+cjFYeNQfnso4+sr9uGWz9eDNZg95Hv3xZHerQMbOnDy6twCUx4dPRo1hHvHg7
+ ddJA==
+X-Gm-Message-State: AOAM5311Vy275Mz1gEWLImF0QGsNT7Lq+amj65y/9ErRulWXEqUMDKR+
+ 4aY9UOAWPZM+RmIRnA6NYJM=
+X-Google-Smtp-Source: ABdhPJzgAt6uub6pZd6g8akUbUAHLCwulUSeX0sJ+1AqpbzRIGIo1nP8h5b5mQxBE5VxX/cEIBk4RA==
+X-Received: by 2002:a17:907:160f:b0:6ee:8214:3cee with SMTP id
+ hb15-20020a170907160f00b006ee82143ceemr26427933ejc.433.1651069079979; 
+ Wed, 27 Apr 2022 07:17:59 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ u4-20020aa7db84000000b004136c2c357csm8423111edt.70.2022.04.27.07.17.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Apr 2022 07:17:59 -0700 (PDT)
+Message-ID: <2aed3f83-5941-d723-7c27-cc657f7c257a@redhat.com>
+Date: Wed, 27 Apr 2022 16:17:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220427130830.150180-3-pbonzini@redhat.com>
-User-Agent: NeoMutt/20220415-26-c08bba
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 7/8] qmp: add filtering of statistics by name
+Content-Language: en-US
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-8-pbonzini@redhat.com> <YmkwndPwSDxqqdZA@work-vm>
+ <6655dcbe-860e-b107-e63e-ff397189d178@redhat.com> <Ymk4U4O4CN3e7+9A@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Ymk4U4O4CN3e7+9A@work-vm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,53 +93,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 27, 2022 at 03:08:29PM +0200, Paolo Bonzini wrote:
-> Because qemu_co_queue_restart_all does not release the lock, it should
-> be used only in coroutine context.  Introduce a new function that,
-> like qemu_co_enter_next, does release the lock, and use it whenever
-> qemu_co_queue_restart_all was used outside coroutine context.
+On 4/27/22 14:34, Dr. David Alan Gilbert wrote:
+> If I specify a 'vm' it's not obvious to me whether I'd get NICs and
+> block devices in the future?
+
+VM would not get those (it's global statistics), but the size could 
+balloon if you specify no target at all.
+
+> Adding a syntax for 'all' into the vcpus list would fix that?
+
+I don't like having special syntax.  The current QAPI just doesn't 
+filter what is not in the arguments.
+
+>>>       "providers": [
+>>>          { "provider": "kvm",
+>>>            "names": [ "l1d_flush", "exits" ] } } }
+>>>
+>>> It's not clear to me whether the "target" should also be specific
+>>> to a given provider.
+>>
+>> No, the target is a QEMU concept, such as a CPU or a device backend.  It is
+>> identified by either a QOM path or a unique id.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/qemu/coroutine.h   | 13 +++++++++++++
->  ui/console.c               |  2 +-
->  util/qemu-coroutine-lock.c |  7 +++++++
->  3 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-> index c23d41e1ff..e5954635f6 100644
-> --- a/include/qemu/coroutine.h
-> +++ b/include/qemu/coroutine.h
-> @@ -234,6 +234,19 @@ void qemu_co_queue_restart_all(CoQueue *queue);
->      qemu_co_enter_next_impl(queue, QEMU_MAKE_LOCKABLE(lock))
->  bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock);
->  
-> +/**
-> + * Empties the CoQueue, waking the waiting coroutine one at a time.  Unlike
+> But doesn't 'kvm' as a provider only make sense for vcpus and VMs; if
+> you're imagining block devices and other things as targets it would seem
+> wrong to have that set of providers separate.
 
-maybe s/coroutine/coroutine(s)/
+Yes, those would have different providers.  But a single target can 
+support multiple providers.
 
-> + * qemu_co_queue_all, this function releases the lock during aio_co_wake
-> + * because it is meant to be used outside coroutine context; in that case, the
-> + * coroutine is entered immediately, before qemu_co_enter_all returns.
-> + *
-> + * If used in coroutine context, qemu_co_enter_all is equivalent to
-> + * qemu_co_queue_all.
-> + */
-> +#define qemu_co_enter_all(queue, lock) \
-> +    qemu_co_enter_all_impl(queue, QEMU_MAKE_LOCKABLE(lock))
-> +void qemu_co_enter_all_impl(CoQueue *queue, QemuLockable *lock);
-> +
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Paolo
 
