@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5B05124C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 23:49:42 +0200 (CEST)
-Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6FC512543
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 00:29:33 +0200 (CEST)
+Received: from localhost ([::1]:47218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njpXY-00083V-TV
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 17:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59168)
+	id 1njqA7-0002kK-RL
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 18:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1njpWU-00076D-54
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 17:48:34 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:40498)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njq8t-0001j2-2D
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 18:28:15 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1njpWS-0005i9-Jo
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 17:48:33 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id k4so2697720plk.7
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 14:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=FOKnnxCQ0DAVONl3XqngNyqax8O1G6N9sD/nAz2EBgk=;
- b=YldZ6eZs8Bh1Cc9nhbsWjnRSrdtBiXGk6ThGW+qsTvZDTf29cF5z5yoKRLYTgsgAxJ
- zKOqMkX701m48Rln9Is13vDQ/MdGu3755kRYKlO0xPhdab5qRe4FQ8OxlgkfqLje8QCw
- DMrDdxCyWIloSDGgmcePWAL7tm0SgjSopoksTaAWcvx+4a1tklkCrkZrLkgR72ehSRA7
- JrirxEs12amkEc7q1OfOBaLGQYYxE0nNqOse63mOP4YAYKVvSqbvE4ePm7dftAizJi31
- YBhKTZeyYOLjyzOoNo0K9WTLjnui7Q1Bm2Qs0GnWnC5eNbFTyW9H8bIOl4tscETN/5cT
- 1q5g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njq8q-0002s5-70
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 18:28:14 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ bd19-20020a17090b0b9300b001d98af6dcd1so6070885pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 15:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fBQl33yL2VSaEDRSMSgWZ1xJLy64qqfXeBIoTYkKoek=;
+ b=xKXCLigVRF/4CeUvii5No2+JrkS/iyYC3kg9bYdj2x+S6+rzsrZFH6GZxnfJKol6En
+ oGPVkkuvJ1UVMuBtSV3PToBr3kjld83+ovOX/frgSW385wVlHzHfmQ5G5/EdH0DrzpmE
+ b2ICDKd4n2Z6RVPrYB5RVNFMtRtUqOJumc2zE5W66w4Mb8yvYnUDLTaoeviWcb4J39WP
+ p6AI5NzJQrz4jdk5XairMRzxVKPtmjuzcUzwe+WQKjrkoVsaq3jliXzkZFHBv+6ee9pH
+ WIlQhjQBEDJlbaaocGXazLss7hzzcy+wBwJ4EyNaDpqXmLl1slZu2aio9pF+mqu7fxqF
+ xZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FOKnnxCQ0DAVONl3XqngNyqax8O1G6N9sD/nAz2EBgk=;
- b=g4cyIa7DNUArwXdd5/Fo9eNWNIaqPj7G3siblwRKL3YRM7IPI2RpWhdqrQaBSWIUzD
- OvbuSRofvJZ9k3ucco3zTrgnf0//xjOgoGBcmlANtISCiBAvwDBnn8SEwjQkJAfikZId
- LgD9SFYSoitszHlV6kRIXPZc0ATSGJLHaSw47SRs+XetQJxNElw4KUCYU/azHHwQOR2H
- 6sKdumJ/pP1kNSPpoMiPPDfXjniLv+sjSvutrk8Drx+nB7T2Vz8gPbYIcNSP/tW+L4Bw
- 2Kte35Bef36RUNqGv0Gd5EMM6h7ue3FNUHlYyPrLYycWDVQ3BdKJbfeAlaIFWdZuh/St
- PnOQ==
-X-Gm-Message-State: AOAM532nry/rCdaPB3AteIrgd/d5HiE2bLnVEsK4YpaXDGvi4nY/aiUH
- ASk+hqGc8gU5PLMjUyFOqN4=
-X-Google-Smtp-Source: ABdhPJzL4n4rDtMINCXp7DvCIqF20skSN3jDofPH84CjWyKXe6UK92NmfgfZT6xUP4w4WzKO+TeY0g==
-X-Received: by 2002:a17:902:f685:b0:15e:538:3736 with SMTP id
- l5-20020a170902f68500b0015e05383736mr2329719plg.135.1651096109676; 
- Wed, 27 Apr 2022 14:48:29 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fBQl33yL2VSaEDRSMSgWZ1xJLy64qqfXeBIoTYkKoek=;
+ b=pH/Iaw7yP2i06WYWmUmF5gfYTh91Ov5kujqZDVjKVj/Wsq8VV9+Cdb5wOHXmaK92qj
+ Tm8GhP7XUhD+ANDgHoZDJryQSiFMio9sz8l9QO/BpQwfFJsgH6Ckg8Gr4T4Bk3iZU9vr
+ XwYQiNKmnHrRHvc8Hk7SdY8s2Rv/sapHPm2fzqBtHVXROvxbEUsKRataigCFZIy2GMBZ
+ 9URrT3Nxgoy53bxysNV0Y+vuEMtqPGgJI+W81RiOmiQiTtRg2Q4hr+ZfHtLLljqwB/8R
+ /oZrdW+0h9eQ7PHD5UCbRFxNXJrwB97UR2QuA81b3QXx5LsoBTSUxvK/qLfjEaEekJpC
+ I4IQ==
+X-Gm-Message-State: AOAM5309HMgDBNjmYrvOorsE0H6SzeZ8lHyOL2rW/6o6PATKF+QupydD
+ QKYHw4++qZ6RYfp6ERZww893Vg==
+X-Google-Smtp-Source: ABdhPJwzCYUtQgslj5oAQ4XCTAtvs6MgQrYjNDMViU8dPidocXz76907+14TtHr0C6owtaBM27EuLw==
+X-Received: by 2002:a17:902:8644:b0:15a:3b4a:538a with SMTP id
+ y4-20020a170902864400b0015a3b4a538amr30716165plt.146.1651098490391; 
+ Wed, 27 Apr 2022 15:28:10 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- f4-20020aa782c4000000b00505da6251ebsm19657399pfn.154.2022.04.27.14.48.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 14:48:29 -0700 (PDT)
-Date: Thu, 28 Apr 2022 06:48:27 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [Qemu-devel] [PATCH 2/7] target/openrisc: add shutdown logic
-Message-ID: <Ymm6K3DjesAZR0OY@antec>
-References: <cover.1492384862.git.shorne@gmail.com>
- <fb69c137317a365dcb549dfef1ecd2fbff48e92c.1492384862.git.shorne@gmail.com>
- <YmmA4li384azQ2i9@zx2c4.com>
- <CAFEAcA9FZZzzZJaCHrepni+5oUELxW1TtZ3gZHxSUdfKdx+ghQ@mail.gmail.com>
+ p23-20020a637f57000000b003c14af5062fsm334037pgn.71.2022.04.27.15.28.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Apr 2022 15:28:09 -0700 (PDT)
+Message-ID: <1983150b-bf4c-41ec-5332-55d8b0420503@linaro.org>
+Date: Wed, 27 Apr 2022 15:28:07 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9FZZzzZJaCHrepni+5oUELxW1TtZ3gZHxSUdfKdx+ghQ@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=shorne@gmail.com; helo=mail-pl1-x62c.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH 2/7] target/ppc: Implemented xvi*ger* instructions
+Content-Language: en-US
+To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ qemu-ppc@nongnu.org
+References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
+ <20220426125028.18844-3-lucas.araujo@eldorado.org.br>
+ <7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org>
+ <d160958f-6703-8af7-aa8f-f3843d9b1066@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <d160958f-6703-8af7-aa8f-f3843d9b1066@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,54 +93,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, openrisc@lists.librecores.org,
- qemu-devel@nongnu.org
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Greg Kurz <groug@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 27, 2022 at 07:47:33PM +0100, Peter Maydell wrote:
-> On Wed, 27 Apr 2022 at 18:46, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> >
-> > Hey Stafford,
-> >
-> > On Mon, Apr 17, 2017 at 08:23:51AM +0900, Stafford Horne wrote:
-> > > In openrisc simulators we use hooks like 'l.nop 1' to cause the
-> > > simulator to exit.  Implement that for qemu too.
-> > >
-> > > Reported-by: Waldemar Brodkorb <wbx@openadk.org>
-> > > Signed-off-by: Stafford Horne <shorne@gmail.com>
-> >
-> > I'm curious as to why this never got merged. I noticed I'm entirely able
-> > to shutdown or to reboot (which is mostly what I care about) Linux from
-> > OpenRISC. It just hangs.
+On 4/27/22 13:24, Lucas Mateus Martins Araujo e Castro wrote:
 > 
-> This kind of thing needs to be either:
->  (1) we're modelling real hardware and that real hardware has a
-> device or other mechanism guest code can prod to cause a power-off
-> or reboot. Then we model that device, and guest code triggers a
-> shutdown or reboot exactly as it would on the real hardware.
->  (2) there is an architecturally defined ABI for simulators, debug
-> stubs, etc, that includes various operations typically including
-> an "exit the simulator" function. (Arm semihosting is an example
-> of this.) In that case we can implement that functionality,
-> guarded by and controlled by the appropriate command line options.
-> (This is generally not as nice as option 1, because the guest code
-> has to be compiled to have support for semihosting and also because
-> turning it on is usually also giving implicit permission for the
-> guest code to read and write arbitrary host files, etc.)
+> On 26/04/2022 20:40, Richard Henderson wrote:
+>>
+>> On 4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
+>>> +%xx_at          23:3 !function=times_4
+>>> +@XX3_at         ...... ... .. ..... ..... ........ ... &XX3 xt=%xx_at xb=%xx_xb
+>>
+>> Hmm.  Depends, I suppose on whether you want acc[0-7] or vsr[0-28]
+> I mostly used VSR function here, but since I'll change the patch 1 to your suggestion 
+> (which will require creating acc_full_offset) I'll make a few changes to create some 
+> functions for the accumulator
+>>
+>>> +/*
+>>> + * Packed VSX Integer GER Flags
+>>> + * 00 - no accumulation no saturation
+>>> + * 01 - accumulate but no saturation
+>>> + * 10 - no accumulation but with saturation
+>>> + * 11 - accumulate with saturation
+>>> + */
+>>> +static inline bool get_sat(uint32_t flags)
+>>> +{
+>>> +    return flags & 0x2;
+>>> +}
+>>> +
+>>> +static inline bool get_acc(uint32_t flags)
+>>> +{
+>>> +    return flags & 0x1;
+>>> +}
+>>
+>> Better to have separate helpers for these?  They'd be immediate operands to the function
+>> replacing XVIGER (see below) and thus optimize well.
+> Do you mean different functions or a function that receives packed_flags along with the 
+> callback functions?
+
+I mean separate helper entry points, which use a common function that receives these as 
+separate boolean arguments, along with the callbacks.  Use QEMU_FLATTEN on the helper 
+entry points to ensure that everything is inlined and the constant args are optimized.
+
+> In this case it'd be necessary to receive 2 xviger_extract functions since XVI8GER4* 
+> multiply one value as signed and the other as unsigned (and other integer GER treat both 
+> as signed).
+
+Certainly.
+
 > 
-> Either way, undocumented random hacks aren't a good idea, which
-> is why this wasn't merged.
+> An alternative would be to isolate the innermost loop into a different function, like:
+> 
+>      typedef int64_t do_ger(int32_t a, int32_t b, int32_t at, int32_t pmsk);
+> 
+>      static int64_t ger_rank4(int32_t a, int32_t b, int32_t at, int32_t mask)
+>      {
+>          int64_t psum = 0, i;
+>          for (i = 0; i < 4; i++, mask >>= 1) {
+>              if (mask & 1) {
+>                  psum += (sextract32(a, i * 8, 8)) * (extract32(b, i * 8, 8));
+>             }
+>          }
+>          return psum;
+>      }
+> 
+> That way we could avoid having 'rank' as a parameter, what do you think?
 
-Yes, this is what was brought up before.  At that time semihosting was mentioned
-and I tried to understand what it was but didn't really understand it as a general
-concept.  Is this something arm specific?
+Reasonable.  I certainly like extracting uint32_t from the vector generically and not 
+having to pass that on further.
 
-Since the qemu or1k-sim defines our "simulator", I suspect I could add a
-definition of our simulator ABI to the OpenRISC architecture specification.  The
-simulation uses of l.nop N as ABI hooks is a de-facto standard for OpenRISC.
-From the way you describe this now I take it if we document this as a
-architecture simulation ABI the patch would be accepted.
+>> Why are you passing register numbers instead of pointers, like everywhere else?
+> Because here we are not working only with 1 register per register number, the ACC uses 4 
+> and the XVF64GER* needs to use XA and XA+1, and while VSR is an array so I could do 
+> ppc_vsr_ptr+1 I thought it was better not to access memory I was not given a pointer to, 
+> so I passed XA so I can request cpu_vsr_ptr(env, xa) and cpu_vsr_ptr(env, xa + 1)
 
--Stafford
+I think using cpu_vsr_ptr is the mistake.
+
+It might be clarifying to define a ppc_acc_t, if only as a typedef of ppc_vsr_t.  The 
+acc_full_offset function will compute the offset for this pointer and, importantly, will 
+be the place to modify if and when the architecture changes to allow or require separate 
+storage for the ACC registers.
+
+
+r~
 
