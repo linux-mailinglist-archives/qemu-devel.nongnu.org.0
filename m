@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5665510F20
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 05:03:00 +0200 (CEST)
-Received: from localhost ([::1]:40644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84389510F28
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 05:06:19 +0200 (CEST)
+Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njXxD-000250-Mt
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 23:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35262)
+	id 1njY0Q-0005gG-Ll
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 23:06:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njXvH-0000ZV-Qi
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:01:02 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:43915)
+ id 1njXwb-0002qD-T7
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:02:21 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:36541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njXvF-000273-AK
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:00:58 -0400
-Received: by mail-pl1-x633.google.com with SMTP id d15so428839pll.10
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 20:00:55 -0700 (PDT)
+ id 1njXwa-0002K0-BI
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:02:21 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ gj17-20020a17090b109100b001d8b390f77bso3857081pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 20:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language
  :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=TCb0iDdoqmaarr4U8Hd95v7ylQznVYu4ERAUiMzD+AU=;
- b=ho35QuLtjFFdGh26+hju0wC1FvYVZlK3MalnBHqCvej6yGCppSkWKKjp6Utpms9WnN
- tOu8wr68h9EbalnkQogMWXLlMNebQYW8eD3CbQVJ4tVUMe8mj/bv9xEhUbXn0eSsdgYE
- m6MbjmZJeJxoJgWKOnsJjoY0rIPyKQmdI8eQy3A2DAH3a5mhFwCFzX3EqEQXRMY2J64P
- kOq5xRNkmpPfBszq+GqRy2HwWmUl/OVinUpp9EmA96pyMDZtN1Ix5IYvNRHJuvLcag7n
- 0Hx2PJAGDJLBb/XUmZmFs16jNKH0SmqJgaGoJba3fTRixKJFblmHxyJN+j8RXCUZW8PS
- kuxg==
+ bh=y++/z04OzDrUzPXpGPxZrjCoAu4m4VnjkbaCWTZp2L0=;
+ b=z6Tic3y2A0/b5AM18Af4HUWn2jqad4gzVtdEN39K1uPRgfZ+NIYtZgidNQiGeXhZrv
+ o+7jywYLLhjD+PYZTzBcJeJTEKoy6xth0lp6HKlWD8Mba+GQSqZ4h1PmB0FX+EMESAke
+ FKlyFgCDmhme6ipu7mkY6WcjB+yGDMyXMxkt98BrxYweT+QKxl8qRu9pRm/dR47u/P1R
+ 1qCn4aT+0g2JU4vxlleDGKmuWt9iJcj2rvwZsvRPm5gbMqTkaRnf3J9SLBtJxdyHyfju
+ 1bIO/Hi9s3n8Z4HdnqWxSdgOkz3pYyooKP266cTSL4DGLCmnM5A08BYFoG6IHzJciJac
+ Gd7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=TCb0iDdoqmaarr4U8Hd95v7ylQznVYu4ERAUiMzD+AU=;
- b=wqXJ2w3JUohCE8PCea5xjmXu2BB2C5GBEm0xCFcYMfIMK/UAyloJMdaiu/90aJ/4QZ
- 6+7wDpVArOalkuw2kR6N2voboAJ3eQLERNDQHjet0xeIAnjk0FCmq2PYxD/8Sb2YkwHa
- AJ331jyg2xoYGHFcdc1ujcvLrZJ8s1DVbczBw3XtC8LkQ7GR7sxtakun8+6FAnzh/sne
- g4bfZU9KHiVNcf00Gtt/YLudDJTHVTv4qBS3zek4WeMOk6D2/BsshuNAy8QftyDB8y9B
- spvrk1JLNvQjQ7V0HGUfYYaJi4ygrZwXa4V6kTQTagTaHnHbtaJRS4uFKddie9hStDT/
- 4KIg==
-X-Gm-Message-State: AOAM5329HsJZyEKO1ofbfoOz0zO3BttrLBhcPXJoyIBx/PrOOcr4qUND
- S/WKdcXSiJzKuT9xq7nKgf7qD/eb1SjK7Q==
-X-Google-Smtp-Source: ABdhPJzkw84BKQvcDs3Gm/M9YXbWk4ePfoMUw3vJc7yUChA8nSg8gVASecB+NmHntOA0moiCAlf6AQ==
-X-Received: by 2002:a17:902:9a49:b0:15d:1da8:81fa with SMTP id
- x9-20020a1709029a4900b0015d1da881famr11833440plv.114.1651028454989; 
- Tue, 26 Apr 2022 20:00:54 -0700 (PDT)
+ bh=y++/z04OzDrUzPXpGPxZrjCoAu4m4VnjkbaCWTZp2L0=;
+ b=DEUdaAjGzlS857ZAp8sdd+4MBGDdajdB7FbRkKSfq40EtyIXTiygcJIrGtfeatCCFb
+ KmEPKKO2bnK/kcUnGOfyGM1+kKAsbu8bc0TiO4VLbxo0mJy1DnQ71XkxKDpeS3Fe7qcb
+ NqNbHwRgK8H6zdY0D8uNqhl5VwWYrq9sLrS+8hBMoXq4pAVCj6+lB5h/3lyN704OhTzK
+ yivfewaPgh8Vz3Vnm16rNTsu2QMTkF1LXfkGoRTxUU7DR9PB9xTW936iaC11V63Xr5D5
+ CBgXXNA+JS3I6Sa54Lb+Ai329yXtXTMjmYMH/GHmKu3ejhZ4a3CJbKtQHJvptWFXW+Wr
+ 8U/A==
+X-Gm-Message-State: AOAM5302Zx5ReEAK0H8tJOLFbn6jfJBvgPBaVV8YrJ/V1W0eZzrSCxlN
+ sVGeYI2HhM8DSPpPHIupDp5kftibzcTipw==
+X-Google-Smtp-Source: ABdhPJyQ8I9VNBi4rABoZ+m5RELXPnDzdsf5kCXiyFvJymS5hyRNAZE33yWAf1Mk3+DXn/g70JibhA==
+X-Received: by 2002:a17:902:e8c6:b0:158:f809:311f with SMTP id
+ v6-20020a170902e8c600b00158f809311fmr27115535plg.4.1651028538928; 
+ Tue, 26 Apr 2022 20:02:18 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- o41-20020a17090a0a2c00b001d75aabe050sm427209pjo.34.2022.04.26.20.00.54
+ q10-20020a056a00088a00b004f7ceff389esm17778406pfj.152.2022.04.26.20.02.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 20:00:54 -0700 (PDT)
-Message-ID: <2589d9b6-e514-da96-f5cd-93ffb3d92e9e@linaro.org>
-Date: Tue, 26 Apr 2022 20:00:52 -0700
+ Tue, 26 Apr 2022 20:02:18 -0700 (PDT)
+Message-ID: <8ad176dd-f3db-7936-42f9-2a3273afaf57@linaro.org>
+Date: Tue, 26 Apr 2022 20:02:16 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] target/i386: Suppress coverity warning on fsave/frstor
+Subject: Re: [PATCH 0/3] softfloat: FloatRelation cleanups
 Content-Language: en-US
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-References: <20220401184635.327423-1-richard.henderson@linaro.org>
-In-Reply-To: <20220401184635.327423-1-richard.henderson@linaro.org>
+References: <20220401132240.79730-1-richard.henderson@linaro.org>
+In-Reply-To: <20220401132240.79730-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,44 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/22 11:46, Richard Henderson wrote:
-> Coverity warns that 14 << data32 may overflow with respect
-> to the target_ulong to which it is subsequently added.
-> We know this wasn't true because data32 is in [1,2],
-> but the suggested fix is perfectly fine.
+On 4/1/22 06:22, Richard Henderson wrote:
+> Make consistent use of FloatRelation throughout the
+> implementation of the float compare functions.
 > 
-> Fixes: Coverity CID 1487135, 1487256
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/i386/tcg/fpu_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> I don't yet know if this actually solves Coverity issues,
+> but they all look a bit cleaner, I think.
 > 
-> diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-> index ebf5e73df9..30bc44fcf8 100644
-> --- a/target/i386/tcg/fpu_helper.c
-> +++ b/target/i386/tcg/fpu_helper.c
-> @@ -2466,7 +2466,7 @@ static void do_fsave(CPUX86State *env, target_ulong ptr, int data32,
->   
->       do_fstenv(env, ptr, data32, retaddr);
->   
-> -    ptr += (14 << data32);
-> +    ptr += (target_ulong)14 << data32;
->       for (i = 0; i < 8; i++) {
->           tmp = ST(i);
->           do_fstt(env, tmp, ptr, retaddr);
-> @@ -2488,7 +2488,7 @@ static void do_frstor(CPUX86State *env, target_ulong ptr, int data32,
->       int i;
->   
->       do_fldenv(env, ptr, data32, retaddr);
-> -    ptr += (14 << data32);
-> +    ptr += (target_ulong)14 << data32;
->   
->       for (i = 0; i < 8; i++) {
->           tmp = do_fldt(env, ptr, retaddr);
+> r~
+> 
+> Richard Henderson (3):
+>    softfloat: Fix declaration of partsN_compare
+>    softfloat: Use FloatRelation within partsN_compare
+>    softfloat: Use FloatRelation for fracN_cmp
+> 
+>   fpu/softfloat.c           | 20 +++++++++++---------
+>   fpu/softfloat-parts.c.inc | 11 +++++++----
+>   2 files changed, 18 insertions(+), 13 deletions(-)
+> 
 
 Queuing to tcg-next.
 
