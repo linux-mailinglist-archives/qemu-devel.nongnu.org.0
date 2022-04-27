@@ -2,77 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7AE51153E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 13:22:17 +0200 (CEST)
-Received: from localhost ([::1]:59978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3917C51153A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 13:20:13 +0200 (CEST)
+Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njfkO-0002eV-VV
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 07:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41430)
+	id 1njfiO-0000jk-Bh
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 07:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1njfgV-0006xr-NJ
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:18:15 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44679)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1njfgU-0007Oq-6A
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:18:15 -0400
-Received: by mail-wr1-x429.google.com with SMTP id b19so1992103wrh.11
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 04:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=A2c65tDAbj14lGL/ycGVvF4tProvIRMiix3SHQuwl20=;
- b=n5mo6txLFhe8OVGhdEQla3hkl6qPWQGZ/btvzR/3euamLz2VPXHgqSiV0/ozaZL0LW
- UJoPoZ7j3dy04PcbFHwgGQPeP3iyWnmbNpIElkHn27QOYXlRI2j/zufNlxfqw5XQ2BDg
- xx1ezA5dCmBvhpi9PwlbR6JProuKtJLP3hKyAb3oEbXjE1frAiAVHzVlBB7ofxEkgMZD
- gOMny43ePrT9HDjSLya13qaWQxtNzrp6SnyrCE6fjdrcn91OUnqbuauIx7oIwo/1vkqX
- uA0zOqbVIIDegO2kmBsJHx/sqMX6lM9xfKwIMJLfxyMBZYqskrOUqy9UAK3dOnXbTQ+P
- txtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=A2c65tDAbj14lGL/ycGVvF4tProvIRMiix3SHQuwl20=;
- b=QVU7cQsrec9Le86X+q12SdLJUo3tE63g+KHz9zRvP+6xtUgf1eVLOy6DDXeA5jJuOW
- wPHew0dXXedN/nWc6duxw30l9caCYF7tKjV16vMVaGlZCW6hyYhNfQ9rpIg9/ZL6w2QN
- Ww0BUTcGFqTGIoAs99q5xoemvElaLetudmPK80NbSBsWNS78qrng4jYnUaM62vHlBYue
- 0MmztcjC29RCthi12mfo/Fxwes9HWt24i6rjrO/OK8pkRyQYK9j31LK7hijch1KdVDem
- 4JvYnioOsMFZiYPLPqnNUI5jtheNhhLY62dI9G9Efa7DPeyrvA44DQ10X6HvUZvQ/PTH
- KOuQ==
-X-Gm-Message-State: AOAM532G8yJL0zD0Lhj9YpAmavMBNePO1QilaIK8wMT8BFhxlQf6AWwn
- 1hy9WcBeWHltpFa/YOR3ds4tIQ==
-X-Google-Smtp-Source: ABdhPJwf1A/3mmxLfNaO719Y9uiDlk2UFicxc/q494dhEaa8kpn5qIF6RCosHp0tDclnOVF+z+HILQ==
-X-Received: by 2002:a5d:6da9:0:b0:20a:e1a1:7f0d with SMTP id
- u9-20020a5d6da9000000b0020ae1a17f0dmr8030547wrs.378.1651058292887; 
- Wed, 27 Apr 2022 04:18:12 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id
- d17-20020adfa351000000b0020adbfb586fsm8313104wrb.117.2022.04.27.04.18.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 04:18:11 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Subject: [PATCH 2/2] hw/arm/smmuv3: Add space in guest error message
-Date: Wed, 27 Apr 2022 12:15:45 +0100
-Message-Id: <20220427111543.124620-2-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220427111543.124620-1-jean-philippe@linaro.org>
-References: <20220427111543.124620-1-jean-philippe@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1njfgy-0007lI-TR
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:18:45 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:45695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1njfgw-0007RU-MS
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:18:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=K0ai7lRUkEpwybf8xKQncs4jy4RuGbOkU0jjT+tjHFM=; b=IIPh+GXE9en1iq8m9Ho2sNpGBb
+ h6itdeOkRTqJvd3zY3lxo0K7qp1VOeeWv8aMgHWVcvFnMovamlIVCWGyp9FUJDivdlsZKCDsjoeQg
+ 9eaBVo4LXglIxaJYTlVVLFFkdu0uXcVstNnIAZddI8bfqpp7yOx0XMVu1Tk77w1+081hXwrIhRTnr
+ NXqU/kArT53LVyu0U2M8eevvHBwT7WEni40XNoOFbtpaS0nscMsh5G3lcxeCCJrq1KZXOVSHqBrLz
+ K3GrkwPCfJqCrpA/2WWDm4GXbjwXAIyyt8uWhBgvcQ4AZ/N6uoX0A5pOLQuqIw/33DCUhGie2F8o+
+ E6Q3AopTxERE+EDFaGY7Y/RE5SwzNZK9KkwCuxk9NGzf4UohnFB8bQVuGKhXMudzU2K5UPT6e3HSA
+ IYcbLbOBx7DCAKrwWEHiaPytQ4PFKmjUJlgc/EvZ55FEIkKLFd8YIhek1Yz06jwyJCJlkWhaWVtbP
+ aqRiT/U6A+Y4IA1yPQN3Tt/xR8GdqIn/F/quIWSKqFlalXcSK6kSsVLRC8vMsp/pBBHO5on1PkFPk
+ aIT5RMINUNJ/E/q4hc6a1I6LILKILliYOHlLYRx6c7S2P+cNnu7iBuMYKCFjWkeRZ26twmQToMiib
+ 4rfYXlsfdJ70MUL63CmQdAtJAyDfoq7guByi72oc0=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH] 9pfs: local: Do not follow symlink in _nofollow
+Date: Wed, 27 Apr 2022 13:18:39 +0200
+Message-ID: <1715982.RfpNsu2uEI@silver>
+In-Reply-To: <20220427122151.6a22267b@bahia>
+References: <20220427024545.18298-1-akihiko.odaki@gmail.com>
+ <3805748.cZurrHcIA4@silver> <20220427122151.6a22267b@bahia>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,33 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the translation error message prettier by adding a missing space
-before the parenthesis.
+On Mittwoch, 27. April 2022 12:21:51 CEST Greg Kurz wrote:
+> On Wed, 27 Apr 2022 10:46:31 +0200
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Mittwoch, 27. April 2022 04:45:45 CEST Akihiko Odaki wrote:
+> > > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> > > ---
+> > > 
+> > >  hw/9pfs/9p-local.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> > > index d42ce6d8b82..def8afdb4d6 100644
+> > > --- a/hw/9pfs/9p-local.c
+> > > +++ b/hw/9pfs/9p-local.c
+> > > @@ -365,7 +365,7 @@ static int fchmodat_nofollow(int dirfd, const char
+> > > *name, mode_t mode) if (fd == -1) {
+> > > 
+> > >          /* In case the file is writable-only and isn't a directory. */
+> > >          if (errno == EACCES) {
+> > > 
+> > > -            fd = openat_file(dirfd, name, O_WRONLY, 0);
+> > > +            fd = openat_file(dirfd, name, O_WRONLY | O_NOFOLLOW, 0);
+> > 
+> > O_NOFOLLOW flag is always added inside openat_file() implementation:
+> > 
+> > https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util.h#L60
+> > 
+> > So this change is not necessary AFAICS.
+> 
+> Right, and with macOS in mind, maybe fchmodat(AT_SYMLINK_NOFOLLOW) just
+> works unlike with linux ?
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- hw/arm/smmuv3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yep, fchmodat(AT_SYMLINK_NOFOLLOW) seems to work on macOS! Like you already 
+suggested on the other thread, it would make sense to move current 
+implementation of fchmodat_nofollow() to 9p-util-linux.h/.c and let macOS just 
+use fchmodat(AT_SYMLINK_NOFOLLOW) instead.
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 8b1d8103dc..3a989b09cb 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -786,7 +786,7 @@ epilogue:
-         break;
-     case SMMU_TRANS_ERROR:
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s translation failed for iova=0x%"PRIx64"(%s)\n",
-+                      "%s translation failed for iova=0x%"PRIx64" (%s)\n",
-                       mr->parent_obj.name, addr, smmu_event_string(event.type));
-         smmuv3_record_event(s, &event);
-         break;
--- 
-2.35.1
+Best regards,
+Christian Schoenebeck
+
 
 
