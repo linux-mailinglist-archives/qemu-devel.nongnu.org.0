@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE355114DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 12:31:13 +0200 (CEST)
-Received: from localhost ([::1]:56328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4365114E3
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 12:36:34 +0200 (CEST)
+Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njewy-0002Tg-71
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 06:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57236)
+	id 1njf29-0006Vj-Mg
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 06:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njeo4-0001dM-Lj
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:22:03 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:52655)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1njezI-0004zZ-T1
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:33:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njeo1-0006Cl-CS
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:21:58 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1njezF-00084g-Mj
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:33:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651055612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tDoh6IuxbL/dFonyxeT3mjnHQT1cajRa+MXrflwyic4=;
+ b=NlR/L+8YvusU8chjDU+KBxaK6HDRjExjsGuplUZWmpt5javhUr2uFoc9zDgHjjmpqN2Mk6
+ TBgzy3Ij9kC0Irv6HI2wDV0Amy4efwv/cjN5fmdTWmyx2BvFs294bPKvB5qzV09C/EORob
+ 2cgqSEx4v6RC9pScdYlI44doFJm7ZSw=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-EfM5sjEVO4iAqKAUawyEGw-1; Wed, 27 Apr 2022 06:21:53 -0400
-X-MC-Unique: EfM5sjEVO4iAqKAUawyEGw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50107185A7BA;
- Wed, 27 Apr 2022 10:21:53 +0000 (UTC)
-Received: from bahia (unknown [10.39.195.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D994C15D75;
- Wed, 27 Apr 2022 10:21:52 +0000 (UTC)
-Date: Wed, 27 Apr 2022 12:21:51 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: local: Do not follow symlink in _nofollow
-Message-ID: <20220427122151.6a22267b@bahia>
-In-Reply-To: <3805748.cZurrHcIA4@silver>
-References: <20220427024545.18298-1-akihiko.odaki@gmail.com>
- <3805748.cZurrHcIA4@silver>
+ us-mta-675-rV3P4WgtNPWAGB0VW7su0g-1; Wed, 27 Apr 2022 06:33:31 -0400
+X-MC-Unique: rV3P4WgtNPWAGB0VW7su0g-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ z14-20020a5b0b0e000000b0064848b628cfso1389137ybp.0
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 03:33:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tDoh6IuxbL/dFonyxeT3mjnHQT1cajRa+MXrflwyic4=;
+ b=c9eKJavJgK1zFRuPzWInQInK3UYcVC2mSeD80CJcEzZY2VoQo62BTig2n2ITZGr9iy
+ x/1R0R1Vh1TqpllR42vsOyoPK2N6fZ0okWnEf6CLafLWO5DCVxQtLMntja5KAWLVP/of
+ UOs0uI6oHMYyw/DXg6ok4215NFDoqm6AlXXCgtaI3E9lgJ0MAy0uCknTU5kbu1rqXVQ4
+ +ChLYg32NrLhDsOPr0lnw098s8+ZCffO/HgdxXIsVylLRvZQdkly/QPbTu/xMSzaJCVo
+ t4ShvGjEd9UolFl1nSXkezIWVl+tkNEKjRoLqNvHBqd1FtHd15xRH0ToFimRJdZtLpun
+ rvtg==
+X-Gm-Message-State: AOAM530L+i9hdJpuHnO6YBfTnv9qd3agDcyMUQoFwOddUZDVYJvmMXGh
+ 9OQtIacQe2EwbQAlPajz79SbZi2q23tIO1sVFPejhxuHv043QtaVK4QxyfvhJc4awPdQ7cKGcoL
+ qptpzu6LRMyi8IlyWRmLJCRCiVlee4fU=
+X-Received: by 2002:a25:cc0b:0:b0:648:4590:6cb6 with SMTP id
+ l11-20020a25cc0b000000b0064845906cb6mr16462751ybf.87.1651055610467; 
+ Wed, 27 Apr 2022 03:33:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiPrqx0vmgY1ooFZv8+EujaH4Z5icDjQlddSsO5AUUT0z7qbX0qJ2RuYtmBne2GJps2fszXNJmkaOZkoKdptM=
+X-Received: by 2002:a25:cc0b:0:b0:648:4590:6cb6 with SMTP id
+ l11-20020a25cc0b000000b0064845906cb6mr16462740ybf.87.1651055610278; Wed, 27
+ Apr 2022 03:33:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
+ <20220426092715.3931705-26-marcandre.lureau@redhat.com>
+ <1a33c268-6d00-4385-f0d2-84a86b022f63@redhat.com>
+In-Reply-To: <1a33c268-6d00-4385-f0d2-84a86b022f63@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 27 Apr 2022 14:33:19 +0400
+Message-ID: <CAMxuvaye_cx2THfEmk5N3=Z-iqR4=mqa4oGBSg5hCkQdkwMngw@mail.gmail.com>
+Subject: Re: [PATCH v2 25/26] tests: replace qemu_set_nonblock()
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,44 +91,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 10:46:31 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Hi
 
-> On Mittwoch, 27. April 2022 04:45:45 CEST Akihiko Odaki wrote:
-> > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+On Wed, Apr 27, 2022 at 1:41 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 26/04/2022 11.27, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > The call is POSIX-specific. Use the dedicated GLib API.
+>
+> g_unix_set_fd_nonblocking() is also available on Unix-like systems accord=
+ing
+> to its name, I suppose? So what's the advantage of this change?
+>
+
+This is a preliminary patch before the last patch
+(https://patchew.org/QEMU/20220426092715.3931705-1-marcandre.lureau@redhat.=
+com/20220426092715.3931705-27-marcandre.lureau@redhat.com/)
+
+We should reserve qemu_socket_set_*block() usage to socket-like fd.
+
+thanks
+
+
+>   Thomas
+>
+>
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > > ---
-> >  hw/9pfs/9p-local.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> > index d42ce6d8b82..def8afdb4d6 100644
-> > --- a/hw/9pfs/9p-local.c
-> > +++ b/hw/9pfs/9p-local.c
-> > @@ -365,7 +365,7 @@ static int fchmodat_nofollow(int dirfd, const char
-> > *name, mode_t mode) if (fd == -1) {
-> >          /* In case the file is writable-only and isn't a directory. */
-> >          if (errno == EACCES) {
-> > -            fd = openat_file(dirfd, name, O_WRONLY, 0);
-> > +            fd = openat_file(dirfd, name, O_WRONLY | O_NOFOLLOW, 0);
-> 
-> O_NOFOLLOW flag is always added inside openat_file() implementation:
-> 
-> https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util.h#L60
-> 
-> So this change is not necessary AFAICS.
-> 
-
-Right, and with macOS in mind, maybe fchmodat(AT_SYMLINK_NOFOLLOW) just
-works unlike with linux ?
-
-> >          }
-> >          if (fd == -1 && errno == EISDIR) {
-> >              errno = EACCES;
-> 
-> 
+> >   tests/qtest/vhost-user-test.c | 4 +++-
+> >   1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-tes=
+t.c
+> > index ee30f5479648..a2cec8768462 100644
+> > --- a/tests/qtest/vhost-user-test.c
+> > +++ b/tests/qtest/vhost-user-test.c
+> > @@ -302,6 +302,7 @@ static int chr_can_read(void *opaque)
+> >
+> >   static void chr_read(void *opaque, const uint8_t *buf, int size)
+> >   {
+> > +    g_autoptr(GError) err =3D NULL;
+> >       TestServer *s =3D opaque;
+> >       CharBackend *chr =3D &s->chr;
+> >       VhostUserMsg msg;
+> > @@ -394,7 +395,8 @@ static void chr_read(void *opaque, const uint8_t *b=
+uf, int size)
+> >            * The receive function forces it to be blocking,
+> >            * so revert it back to non-blocking.
+> >            */
+> > -        qemu_set_nonblock(fd);
+> > +        g_unix_set_fd_nonblocking(fd, true, &err);
+> > +        g_assert_no_error(err);
+> >           break;
+> >
+> >       case VHOST_USER_SET_LOG_BASE:
+>
 
 
