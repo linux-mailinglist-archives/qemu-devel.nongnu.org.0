@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5162E511689
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 14:05:00 +0200 (CEST)
-Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689C8511687
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 14:04:35 +0200 (CEST)
+Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njgPj-0002Xo-FG
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 08:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48336)
+	id 1njgPK-0001Tb-AJ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 08:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1njgH0-0002zK-0D; Wed, 27 Apr 2022 07:55:58 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:45550 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1njgGw-0005BM-Mn; Wed, 27 Apr 2022 07:55:57 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAAHDoY9L2li6W9eAQ--.9094S2;
- Wed, 27 Apr 2022 19:55:42 +0800 (CST)
-Subject: Re: [PATCH qemu v9 05/14] target/riscv: rvv: Add tail agnostic for
- vector load / store instructions
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <165105385811.8013.9841879319865783070-5@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <7b28461b-641e-210f-e156-75e02064a61b@iscas.ac.cn>
-Date: Wed, 27 Apr 2022 19:55:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1njgMb-0008Rt-QN
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 08:01:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1njgMY-0006TG-Av
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 08:01:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651060900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZhD7b8H4+0pANHB4RX/u0ENPTDCkkdT7J/gEZlUj72E=;
+ b=TiBuGercNcmgj0CcYbCuwOID1qkg+J2EnDK/0iSBEdicbyzhweGQWYipDKEoUZYhAGHCBX
+ 6K5bKgT4BxKSjYmF5Cw88WJf2jQan3sPbvTIvHrLx24hhESERw/XlR/Kql+sFRE8UAsaTR
+ Wz1Jce9ihMhrZz3bXYFcS6O9RvyM8EY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-82-hVzu8wubMEer15zBqtALxA-1; Wed, 27 Apr 2022 08:01:39 -0400
+X-MC-Unique: hVzu8wubMEer15zBqtALxA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ g7-20020adfbc87000000b0020ac76d254bso677253wrh.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 05:01:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ZhD7b8H4+0pANHB4RX/u0ENPTDCkkdT7J/gEZlUj72E=;
+ b=HkpU9n+rsE3cuk13ztHax28OFVYC09mBT+oSUXVVB3piNquzYf0gE3+2y7LRNy5Wzj
+ Xt5/oLl9Afa8YvuJ5wRb1HGZrKbDnDgYnUO+yxrl3TzMl8uAwEPx7G0kC+CJvDmoZlPK
+ hZ2EN8EIN81+03zjXGar5lMjAI1LCiYufTIVml5Clp62AHh6kGyr4y9MEY8OvPzE+v1r
+ 4PTo1GfcVK2ca4lwZocxnmhNRJROK67JIYZiQ0iS2Si83o93PtxmX0Ws/UVA1xzjC0E8
+ EqOvYxik8w7/3SAo+hcJ0NY+IRnm5+xmCMcEkiVDywkGNLcazJURvtrVsTwPsV1jJ91Q
+ yc/Q==
+X-Gm-Message-State: AOAM531zwOfGMezkOR7ztnn3CkObpX0Eo/5zO2Uyzv1FoIJLKHhLzK7b
+ N1fL2TY0bwYMWXgswSzRE2Ebx3MEirH7fphhz52vHHOF+GEm7q5mrfUSUjiEkEVemjRvaW3nJbI
+ PvCk9uxJeoXg8sQg=
+X-Received: by 2002:a5d:4645:0:b0:20a:db5d:258f with SMTP id
+ j5-20020a5d4645000000b0020adb5d258fmr11737840wrs.135.1651060897155; 
+ Wed, 27 Apr 2022 05:01:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyeiocU+cnQOA3sT/+gn1+0sku0Eo+T96d02BwlzRZIZbJqr3GaqWvT+moxFlWBLfDr6ZBFvg==
+X-Received: by 2002:a5d:4645:0:b0:20a:db5d:258f with SMTP id
+ j5-20020a5d4645000000b0020adb5d258fmr11737810wrs.135.1651060896813; 
+ Wed, 27 Apr 2022 05:01:36 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ w5-20020a7bc105000000b0038eb9932dacsm1354833wmi.48.2022.04.27.05.01.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 05:01:36 -0700 (PDT)
+Date: Wed, 27 Apr 2022 13:01:33 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 7/8] qmp: add filtering of statistics by name
+Message-ID: <YmkwndPwSDxqqdZA@work-vm>
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-8-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <165105385811.8013.9841879319865783070-5@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: qwCowAAHDoY9L2li6W9eAQ--.9094S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxKry8Zry7Xr1fKw1fCw17Jrb_yoW7GF1kpa
- yxCFWSqr9xKFyxAw1fZF4UAr1rZFs7Kw1jkrn7Xr4UWa95Gw1kXFWUKFW0q342yrs8Gr40
- kF1xZryruasYyFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
- JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF9a9DU
- UUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220426141619.304611-8-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,136 +95,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> Allow retrieving only a subset of statistics.  This can be useful
+> for example in order to plot a subset of the statistics many times
+> a second.
+> 
+> KVM publishes ~40 statistics for each vCPU on x86; retrieving and
+> serializing all of them would be useless
+> 
+> Another use will be in HMP in the following patch; implementing the
+> filter in the backend is easy enough that it was deemed okay to make
+> this a public interface.
+> 
+> Example:
+> 
+> { "execute": "query-stats",
+>   "arguments": {
+>     "target": "vcpu",
+>     "vcpus": [ "/machine/unattached/device[2]",
+>                "/machine/unattached/device[4]" ],
+>     "providers": [
+>       { "provider": "kvm",
+>         "names": [ "l1d_flush", "exits" ] } } }
 
-在 2022/3/7 下午3:10, ~eopxd 写道:
-> From: eopXD <eop.chen@sifive.com>
->
-> Destination register of unit-stride mask load and store instructions are
-> always written with a tail-agnostic policy.
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+That looks inconsistent to me; I realise that 'names' has to be a child
+of providers (since the names are only relevant to a given provider) but
+how about making the "target" work similarly:
+
+  
+{ "execute": "query-stats",
+  "arguments": {
+    "target": {
+      "vcpus": [ "/machine/unattached/device[2]",
+                 "/machine/unattached/device[4]" ] },
+   
+    "providers": [
+       { "provider": "kvm",
+         "names": [ "l1d_flush", "exits" ] } } }
+
+It's not clear to me whether the "target" should also be specific
+to a given provider.
+
+Dave
+
+> { "return": {
+>     "vcpus": [
+>       { "path": "/machine/unattached/device[2]"
+>         "providers": [
+>           { "provider": "kvm",
+>             "stats": [ { "name": "l1d_flush", "value": 41213 },
+>                        { "name": "exits", "value": 74291 } ] } ] },
+>       { "path": "/machine/unattached/device[4]"
+>         "providers": [
+>           { "provider": "kvm",
+>             "stats": [ { "name": "l1d_flush", "value": 16132 },
+>                        { "name": "exits", "value": 57922 } ] } ] } ] } }
+> 
+> Extracted from a patch by Mark Kanda.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 11 ++++++++++
->   target/riscv/vector_helper.c            | 28 +++++++++++++++++++++++++
->   2 files changed, 39 insertions(+)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index cc80bf00ff..99691f1b9f 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -711,6 +711,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
->   }
->   
-> @@ -748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
->   }
->   
-> @@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, arg_vlm_v *a, uint8_t eew)
->       /* EMUL = 1, NFIELDS = 1 */
->       data = FIELD_DP32(data, VDATA, LMUL, 0);
->       data = FIELD_DP32(data, VDATA, NF, 1);
-> +    /* Mask destination register are always tail-agnostic */
-> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
->   }
->   
-> @@ -791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, arg_vsm_v *a, uint8_t eew)
->       /* EMUL = 1, NFIELDS = 1 */
->       data = FIELD_DP32(data, VDATA, LMUL, 0);
->       data = FIELD_DP32(data, VDATA, NF, 1);
-> +    /* Mask destination register are always tail-agnostic */
-> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
->   }
->   
-> @@ -862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
->   }
->   
-> @@ -891,6 +898,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       fn = fns[eew];
->       if (fn == NULL) {
->           return false;
-> @@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
->   }
->   
-> @@ -1043,6 +1052,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
->   }
->   
-> @@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldff_trans(a->rd, a->rs1, data, fn, s);
->   }
->   
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 396e252179..1541d97b08 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -270,6 +270,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
->       uint32_t i, k;
->       uint32_t nf = vext_nf(desc);
->       uint32_t max_elems = vext_max_elems(desc, log2_esz);
-> +    uint32_t esz = 1 << log2_esz;
-> +    uint32_t vta = vext_vta(desc);
->   
->       for (i = env->vstart; i < env->vl; i++, env->vstart++) {
->           if (!vm && !vext_elem_mask(v0, i)) {
-> @@ -284,6 +286,11 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
->           }
->       }
->       env->vstart = 0;
-> +    /* set tail elements to 1s */
-> +    for (k = 0; k < nf; ++k) {
-> +        vext_set_elems_1s(vd, vta, env->vl * esz + k * max_elems,
-> +                          max_elems * esz + k * max_elems);
-> +    }
->   }
-
-It seems incorrect here. I think it should be  k * max_elems * esz. The 
-same to following similar case.
-
-Otherwise, this patchset looks good to me.
-
-Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
-
-Regards,
-Weiwei Li
+>  accel/kvm/kvm-all.c     | 18 +++++++++++-------
+>  include/monitor/stats.h |  4 ++--
+>  monitor/qmp-cmds.c      | 10 +++++++---
+>  qapi/stats.json         |  4 +++-
+>  4 files changed, 23 insertions(+), 13 deletions(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index b42008ac07..67253c5a5c 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2311,7 +2311,7 @@ bool kvm_dirty_ring_enabled(void)
+>      return kvm_state->kvm_dirty_ring_size ? true : false;
+>  }
+>  
+> -static void query_stats_cb(StatsResultList **result, StatsTarget target,
+> +static void query_stats_cb(StatsResultList **result, StatsTarget target, strList *names,
+>                             strList *targets, Error **errp);
+>  static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
+>  
+> @@ -3713,6 +3713,7 @@ typedef struct StatsArgs {
+>          StatsResultList **stats;
+>          StatsSchemaList **schema;
+>      } result;
+> +    strList *names;
+>      Error **errp;
+>  } StatsArgs;
+>  
+> @@ -3926,7 +3927,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
+>      return descriptors;
+>  }
+>  
+> -static void query_stats(StatsResultList **result, StatsTarget target,
+> +static void query_stats(StatsResultList **result, StatsTarget target, strList *names,
+>                          int stats_fd, Error **errp)
+>  {
+>      struct kvm_stats_desc *kvm_stats_desc;
+> @@ -3969,6 +3970,9 @@ static void query_stats(StatsResultList **result, StatsTarget target,
+>  
+>          /* Add entry to the list */
+>          stats = (void *)stats_data + pdesc->offset;
+> +        if (!str_in_list(pdesc->name, names)) {
+> +            continue;
+> +        }
+>          stats_list = add_kvmstat_entry(pdesc, stats, stats_list, errp);
+>      }
+>  
+> @@ -4030,8 +4034,8 @@ static void query_stats_vcpu(CPUState *cpu, run_on_cpu_data data)
+>          error_propagate(kvm_stats_args->errp, local_err);
+>          return;
+>      }
+> -    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU, stats_fd,
+> -                kvm_stats_args->errp);
+> +    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU,
+> +                kvm_stats_args->names, stats_fd, kvm_stats_args->errp);
+>      close(stats_fd);
+>  }
+>  
+> @@ -4052,7 +4056,7 @@ static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
+>  }
+>  
+>  static void query_stats_cb(StatsResultList **result, StatsTarget target,
+> -                           strList *targets, Error **errp)
+> +                           strList *names, strList *targets, Error **errp)
+>  {
+>      KVMState *s = kvm_state;
+>      CPUState *cpu;
+> @@ -4066,14 +4070,15 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target,
+>              error_setg(errp, "KVM stats: ioctl failed");
+>              return;
+>          }
+> -        query_stats(result, target, stats_fd, errp);
+> +        query_stats(result, target, names, stats_fd, errp);
+>          close(stats_fd);
+>          break;
+>      }
+>      case STATS_TARGET_VCPU:
+>      {
+>          StatsArgs stats_args;
+>          stats_args.result.stats = result;
+> +        stats_args.names = names;
+>          stats_args.errp = errp;
+>          CPU_FOREACH(cpu) {
+>              if (!str_in_list(cpu->parent_obj.canonical_path, targets)) {
+> diff --git a/include/monitor/stats.h b/include/monitor/stats.h
+> index acfd975df9..b4123044f7 100644
+> --- a/include/monitor/stats.h
+> +++ b/include/monitor/stats.h
+> @@ -11,8 +11,8 @@
+>  #include "qapi/qapi-types-stats.h"
+>  
+>  typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target,
+> -                              strList *targets, Error **errp);
+> -typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
+> +                              strList *names, strList *targets, Error **errp);
+> +typedef void SchemaRetrieveFunc(StatsSchemaList **, Error **);
+>  
+>  /*
+>   * Register callbacks for the QMP query-stats command.
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 25962d8bb4..d0fdb17c82 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -468,15 +468,18 @@ static strList *stats_target_filter(StatsFilter *filter)
+>  }
+>  
+>  static bool stats_provider_requested(StatsProvider provider,
+> -                                     StatsFilter *filter)
+> +                                     StatsFilter *filter,
+> +                                     strList **p_names)
+>  {
+>      StatsRequestList *request;
+>  
+>      if (!filter->has_providers) {
+> +        *p_names = NULL;
+>          return true;
+>      }
+>      for (request = filter->providers; request; request = request->next) {
+>          if (request->value->provider == provider) {
+> +            *p_names = request->value->has_names ? request->value->names : NULL;
+>              return true;
+>          }
+>      }
+> @@ -490,8 +493,9 @@ StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
+>      StatsCallbacks *entry;
+>  
+>      QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+> -        if (stats_provider_requested(entry->provider, filter)) {
+> -            entry->stats_cb(&stats_results, filter->target, targets, errp);
+> +        strList *names = NULL;
+> +        if (stats_provider_requested(entry->provider, filter, &names)) {
+> +            entry->stats_cb(&stats_results, filter->target, names, targets, errp);
+>          }
+>      }
+>  
+> diff --git a/qapi/stats.json b/qapi/stats.json
+> index 33ff6ea7a9..234fbcb7ca 100644
+> --- a/qapi/stats.json
+> +++ b/qapi/stats.json
+> @@ -71,11 +71,14 @@
+>  # Indicates a set of statistics that should be returned by query-stats.
+>  #
+>  # @provider: provider for which to return statistics.
+> +
+> +# @names: statistics to be returned (all if omitted).
+>  #
+>  # Since: 7.1
+>  ##
+>  { 'struct': 'StatsRequest',
+> -  'data': { 'provider': 'StatsProvider' } }
+> +  'data': { 'provider': 'StatsProvider',
+> +            '*names': [ 'str' ] } }
+>  
+>  ##
+>  # @StatsVCPUFilter:
+> -- 
+> 2.35.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
