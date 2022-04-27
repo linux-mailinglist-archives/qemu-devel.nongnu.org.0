@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39749511CC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 20:18:25 +0200 (CEST)
-Received: from localhost ([::1]:36104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E77511CC5
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 20:17:52 +0200 (CEST)
+Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njmF6-0006Xv-8w
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 14:18:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50760)
+	id 1njmEZ-0006Qw-Gi
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 14:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1njmC0-0004nq-Bn
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 14:15:12 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:39880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1njmBy-0000Rk-19
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 14:15:12 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id u9so1652389plf.6
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 11:15:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wpxlhtXzKqBOTstQwgFuZfegdfi8Onvs8pdV/aietiQ=;
- b=dpAn0H2WKTez3Lgl+YILXNhHRL9cktXIWOUKSyB//zlyOSdGQBTShuOXKDVns4bmb0
- 268UG0jsc8m1qPQC3CRCMKXFY+tgG1vNBS5hm6hQfFYjJjra9YfRnmFyKkLRWU6jRI2X
- QpG6m9TRLTg3jrMeY/58PM4Gz4Nm7NWEdjMEiTQGkZmUpmkCST/+JSgew5/cwFr8Z3eg
- NxkYtGox301F8GgxDOKr82Ydz6utpQ+Zs2S0NT7eCUeE10YMctWFWC2TXK1QnNeVTSQr
- Qx0QTquyZ/8WgW1QctDDDFTYT3YczRqSgTGng94AbxoTNtY8fq9gRkM8TCJmiJ2IiEUC
- ghjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wpxlhtXzKqBOTstQwgFuZfegdfi8Onvs8pdV/aietiQ=;
- b=MJZSsyYt8PgB0ctSRSnQfqFNeP15kk42bXwHw8tq6MHNzuLDJFJR7U6K5tRsfH3/m2
- FPzyh0G0GB9d8GjNuOzP4LBVICOnN8zweYRJVx9XevsL+zKugEtsE1yRpzLzF0Zhnv/S
- YQS1jP6GXRf683eBa3WsP2bBRXtbwQEX1IYfN17yRzLoTKCqSn2wNQURjfakVM1HZkuL
- KBb2CMOHBs4j3qgvgJrIGVD7B6JfXMelsq1TXQaXHvSzYrkIwFtiKxN9KTV5uZno2crP
- XSuvHcql0xAw83s+Vjbtu2I0+ZXgtOObCthkvZzzi3r4N7qw5wmVaXXhbDLQgJspZH15
- okwQ==
-X-Gm-Message-State: AOAM531XW9P48bnpa27IoxjFXmvZ53MXFk3RNM5u84rY5NaAYLiz6fzh
- OgCf+8dSq4KtOW8dqCE7evJWComLMymnExMpRLsrDQ==
-X-Google-Smtp-Source: ABdhPJy6lLq5aAtbi+Clel4mqtV3Mxptogj1kI5wUqWN6PoATgMjUwHutrEtwbJTLnkbug3fyfE2SiCkWjwDZ8rB4XM=
-X-Received: by 2002:a17:90b:d91:b0:1da:35d7:a0c with SMTP id
- bg17-20020a17090b0d9100b001da35d70a0cmr5277778pjb.92.1651083307813; Wed, 27
- Apr 2022 11:15:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1njmDJ-0005Pq-9I; Wed, 27 Apr 2022 14:16:35 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:43795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1njmDH-0000iB-3M; Wed, 27 Apr 2022 14:16:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=U3UktvWe/zlu7g7Mvymlvu5qmWvB9KuIH4M2rKR3Gr8=; b=fvYjKW5AsWvUwqcyqIO9MbOiIw
+ s4E5b/q/sJlfE5RmP04FDsOk82Lvz0XCEPunX4X7HcnXZvQWhCZtT74PEyFTJX06rCfGmvcJc4peF
+ BbORD0OwvzDg26M8Kdj5PGtqk3NDZynOEEtzwsMD7sgfTSkXggAbrHfm1/aNseIvtPLhWiIYx3vGh
+ wBVeLCmO2oAqxuD9hy7xNPFTIbyulOdxKPEcMQRkKNkS5BllQXAF6ncEbrofIPjA8847rzptp43z0
+ Jn4uyExB1LNY8QfIfVLQwXxYESrXCy+khMZUuCT5ZaaA1KAt6XDJCMw08QKd800026MpJbD0DWRpX
+ Z2CRQpw40jcjafa67Dr8Fe0WO3Tg4AsQhH19ZQ5+Nnhq1pKSbxjqrcJ2V224c9QKLoqTp8RlWUbow
+ K32dnqktnys4qCEBuq5VgjLjNn90YjBdaPrC7VHJ+eyF4Jgk/Sa/xqcUi9r2F82tGvsaWzTmVbxuj
+ xqHMini2j6GUmk94V2mLqSqkWD29J+HhRftYrABI2I8aVuEyShaXOsNqLPTv2SqcV2hKKRQg53Ib0
+ Gpgh9DWUNOzV0I92OFnA8ENYGThe972gHRxmd/o+1mbYTaST7UeDBdQQAqxiGE2vVIN/FAtS+G3A1
+ wKBiK2FEbUTcizk69W2+xvz0PcXKfdhB+b53821Wg=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Will Cohen <wwcohen@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, Greg Kurz <groug@kaod.org>, 
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Date: Wed, 27 Apr 2022 20:16:26 +0200
+Message-ID: <2537696.GXuhJ82tfg@silver>
+In-Reply-To: <CAB26zV1Lpgp-LZ=EXcONHAVOnrPbB5ZYEucA4q5ftgrsXfuSmA@mail.gmail.com>
+References: <cover.1650553693.git.qemu_oss@crudebyte.com>
+ <2323649.gZi5zFeIBc@silver>
+ <CAB26zV1Lpgp-LZ=EXcONHAVOnrPbB5ZYEucA4q5ftgrsXfuSmA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220427181335.26613-1-quic_llindhol@quicinc.com>
-In-Reply-To: <20220427181335.26613-1-quic_llindhol@quicinc.com>
-From: Leif Lindholm <leif@nuviainc.com>
-Date: Wed, 27 Apr 2022 19:14:56 +0100
-Message-ID: <CALDovBvSq8K0BOQGE=W8uWynXTtxoPYDgzXF_rA6CPWg-1-cgg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS/.mailmap: update email for Leif Lindholm
-To: Leif Lindholm <quic_llindhol@quicinc.com>
-Content-Type: multipart/alternative; boundary="0000000000000ea21b05dda6cae8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=leif@nuviainc.com; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,111 +67,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000ea21b05dda6cae8
-Content-Type: text/plain; charset="UTF-8"
+On Mittwoch, 27. April 2022 19:12:15 CEST Will Cohen wrote:
+> On Wed, Apr 27, 2022 at 12:18 PM Christian Schoenebeck <
+> 
+> qemu_oss@crudebyte.com> wrote:
+> > On Mittwoch, 27. April 2022 15:31:42 CEST Greg Kurz wrote:
+> > > On Wed, 27 Apr 2022 14:32:53 +0200
+> > > 
+> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > On Mittwoch, 27. April 2022 12:18:10 CEST Greg Kurz wrote:
+> > > > > On Wed, 27 Apr 2022 11:27:28 +0900
+> > > > > 
+> > > > > Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+> > > > > > On 2022/04/26 21:38, Greg Kurz wrote:
+> > [...]
+> > 
+> > > > > > Considering the transient states are tolerated in 9pfs, we need to
+> > > > > > design this function to be tolerant with transient states as well.
+> > 
+> > The
+> > 
+> > > > > > use of chmod() is not safe when we consider about transient
+> > 
+> > states. A
+> > 
+> > > > > > malicious actor may replace the file at the path with a symlink
+> > 
+> > which
+> > 
+> > > > > > may escape the shared directory and chmod() will naively follow
+> > > > > > it.
+> > > > > 
+> > > > > You get a point here. Thanks for your tenacity ! :-)
+> > > > 
+> > > > Yep, I send a v4 with fchmodat_nofollow() instead of chmod(), thanks!
+> > > > 
+> > > > BTW, why is it actually allowed for client to create a symlink
+> > > > pointing
+> > > > outside exported directory tree with security_model=passthrough/none?
+> > 
+> > Did
+> > 
+> > > > anybody want that?
+> > > 
+> > > The target argument to symlink() is merely a string that is stored in
+> > > the inode. It is only evaluated as a path at the time an action is
+> > > made on the link. Checking at symlink() time is thus useless.
+> > > 
+> > > Anyway, we're safe on this side since it's the client's job to
+> > > resolve links and we explicitly don't follow them in the server.
+> > 
+> > I wouldn't call it useless, because it is easier to keep exactly 1 hole
+> > stuffed instead of being forced to continuously stuff N holes as new ones
+> > may
+> > popup up over time, as this case shows (mea culpa).
+> > 
+> > So you are trading (probably minor) performance for security.
+> > 
+> > But my question was actually meant seriously: whether there was anybody in
+> > the
+> > past who probably actually wanted to create relative symlinks outside the
+> > exported tree. For instance for another service with wider host filesystem
+> > access.
+> 
+> For what it's worth, the inability to follow symlinks read-write outside of
+> the tree appears to be, at the moment, the primary pain point for new users
+> of 9pfs in containerization software (see the later comments in
+> https://github.com/lima-vm/lima/pull/726 and to a lesser extent
+> https://github.com/containers/podman/issues/13784).
+> 
+> To my knowledge, neither podman nor lima have come up with conclusive
+> preferred solutions for how to address this, much less had a robust
+> discussion with the QEMU team.
+> The lima discussion notes that it works read-only with passthrough/none, so
+> I'd suggest that if there weren't users of it before, there are now! As I
+> understand it, one partial solution for downstream software that allows for
+> read-write may just be to more proactively mount larger directories to
+> minimize the number of external paths that symlinks might get tripped up
+> on. That said, this will stop working when it comes to linking to
+> additional mounts, since /Volumes on darwin will never line up with /mnt.
 
-On Wed, Apr 27, 2022 at 7:13 PM Leif Lindholm <quic_llindhol@quicinc.com>
-wrote:
->
-> NUVIA was acquired by Qualcomm in March 2021, but kept functioning on
-> separate infrastructure for a transitional period. We've now switched
-> over to contributing as Qualcomm Innocation Center (quicinc), so update
-> my email address to reflect this.
->
-> Signed-off-by: Leif Lindholm <quic_llindhol@quicinc.com>
-> Cc: Leif Lindholm <leif@nuviainc.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
+That's a different thing. People in those discussions were using 
+security_model=mapped where symlinks on guest are virtually mapped as textual 
+file content (try 'cat <symlink>' on host). So in this mode symlinks on host 
+and symlinks on guest are intentionally separated from each other.
 
-Reviewed-by: Leif Lindholm <leif@nuviainc.com>
+The issue I was referring to was about security_model=passthrough|none which 
+has the exact same symlinks accessible both on host and guest side, and more 
+specifically I meant: symlinks created by guest that would point to a location 
+*above* the 9p export root. E.g. say guest has access to the following host 
+directory via 9p, that is access *below* the following directory on host:
 
-> ---
->  .mailmap    | 1 +
->  MAINTAINERS | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/.mailmap b/.mailmap
-> index 2976a675ea..6b28c98a90 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -63,6 +63,7 @@ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
->  Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
->  James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
->  Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-> +Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
->  Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
->  Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
->  Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 294c88ace9..02042a7955 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -890,7 +890,7 @@ F: include/hw/ssi/imx_spi.h
->  SBSA-REF
->  M: Radoslaw Biernacki <rad@semihalf.com>
->  M: Peter Maydell <peter.maydell@linaro.org>
-> -R: Leif Lindholm <leif@nuviainc.com>
-> +R: Leif Lindholm <quic_llindhol@quicinc.com>
->  L: qemu-arm@nongnu.org
->  S: Maintained
->  F: hw/arm/sbsa-ref.c
-> --
-> 2.30.2
+  /vm/foo/
 
---0000000000000ea21b05dda6cae8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+And say guest now mounts that host directory and creates a symlink like:
 
-<div dir=3D"ltr">On Wed, Apr 27, 2022 at 7:13 PM Leif Lindholm &lt;<a href=
-=3D"mailto:quic_llindhol@quicinc.com">quic_llindhol@quicinc.com</a>&gt; wro=
-te:<br>&gt;<br>&gt; NUVIA was acquired by Qualcomm in March 2021, but kept =
-functioning on<br>&gt; separate infrastructure for a transitional period. W=
-e&#39;ve now switched<br>&gt; over to contributing as Qualcomm Innocation C=
-enter (quicinc), so update<br>&gt; my email address to reflect this.<br>&gt=
-;<br>&gt; Signed-off-by: Leif Lindholm &lt;<a href=3D"mailto:quic_llindhol@=
-quicinc.com">quic_llindhol@quicinc.com</a>&gt;<br>&gt; Cc: Leif Lindholm &l=
-t;<a href=3D"mailto:leif@nuviainc.com">leif@nuviainc.com</a>&gt;<br>&gt; Cc=
-: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.mayde=
-ll@linaro.org</a>&gt;<br><br>Reviewed-by: Leif Lindholm &lt;<a href=3D"mail=
-to:leif@nuviainc.com">leif@nuviainc.com</a>&gt;<br><div><br></div><div>&gt;=
- ---<br>&gt; =C2=A0.mailmap =C2=A0 =C2=A0| 1 +<br>&gt; =C2=A0MAINTAINERS | =
-2 +-<br>&gt; =C2=A02 files changed, 2 insertions(+), 1 deletion(-)<br>&gt;<=
-br>&gt; diff --git a/.mailmap b/.mailmap<br>&gt; index 2976a675ea..6b28c98a=
-90 100644<br>&gt; --- a/.mailmap<br>&gt; +++ b/.mailmap<br>&gt; @@ -63,6 +6=
-3,7 @@ Huacai Chen &lt;<a href=3D"mailto:chenhuacai@kernel.org">chenhuacai@=
-kernel.org</a>&gt; &lt;<a href=3D"mailto:chenhc@lemote.com">chenhc@lemote.c=
-om</a>&gt;<br>&gt; =C2=A0Huacai Chen &lt;<a href=3D"mailto:chenhuacai@kerne=
-l.org">chenhuacai@kernel.org</a>&gt; &lt;<a href=3D"mailto:chenhuacai@loong=
-son.cn">chenhuacai@loongson.cn</a>&gt;<br>&gt; =C2=A0James Hogan &lt;<a hre=
-f=3D"mailto:jhogan@kernel.org">jhogan@kernel.org</a>&gt; &lt;<a href=3D"mai=
-lto:james.hogan@imgtec.com">james.hogan@imgtec.com</a>&gt;<br>&gt; =C2=A0Le=
-if Lindholm &lt;<a href=3D"mailto:leif@nuviainc.com">leif@nuviainc.com</a>&=
-gt; &lt;<a href=3D"mailto:leif.lindholm@linaro.org">leif.lindholm@linaro.or=
-g</a>&gt;<br>&gt; +Leif Lindholm &lt;<a href=3D"mailto:quic_llindhol@quicin=
-c.com">quic_llindhol@quicinc.com</a>&gt; &lt;<a href=3D"mailto:leif@nuviain=
-c.com">leif@nuviainc.com</a>&gt;<br>&gt; =C2=A0Radoslaw Biernacki &lt;<a hr=
-ef=3D"mailto:rad@semihalf.com">rad@semihalf.com</a>&gt; &lt;<a href=3D"mail=
-to:radoslaw.biernacki@linaro.org">radoslaw.biernacki@linaro.org</a>&gt;<br>=
-&gt; =C2=A0Paul Burton &lt;<a href=3D"mailto:paulburton@kernel.org">paulbur=
-ton@kernel.org</a>&gt; &lt;<a href=3D"mailto:paul.burton@mips.com">paul.bur=
-ton@mips.com</a>&gt;<br>&gt; =C2=A0Paul Burton &lt;<a href=3D"mailto:paulbu=
-rton@kernel.org">paulburton@kernel.org</a>&gt; &lt;<a href=3D"mailto:paul.b=
-urton@imgtec.com">paul.burton@imgtec.com</a>&gt;<br>&gt; diff --git a/MAINT=
-AINERS b/MAINTAINERS<br>&gt; index 294c88ace9..02042a7955 100644<br>&gt; --=
-- a/MAINTAINERS<br>&gt; +++ b/MAINTAINERS<br>&gt; @@ -890,7 +890,7 @@ F: in=
-clude/hw/ssi/imx_spi.h<br>&gt; =C2=A0SBSA-REF<br>&gt; =C2=A0M: Radoslaw Bie=
-rnacki &lt;<a href=3D"mailto:rad@semihalf.com">rad@semihalf.com</a>&gt;<br>=
-&gt; =C2=A0M: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org"=
->peter.maydell@linaro.org</a>&gt;<br>&gt; -R: Leif Lindholm &lt;<a href=3D"=
-mailto:leif@nuviainc.com">leif@nuviainc.com</a>&gt;<br>&gt; +R: Leif Lindho=
-lm &lt;<a href=3D"mailto:quic_llindhol@quicinc.com">quic_llindhol@quicinc.c=
-om</a>&gt;<br>&gt; =C2=A0L: <a href=3D"mailto:qemu-arm@nongnu.org">qemu-arm=
-@nongnu.org</a><br>&gt; =C2=A0S: Maintained<br>&gt; =C2=A0F: hw/arm/sbsa-re=
-f.c<br>&gt; --<br>&gt; 2.30.2</div></div>
+  mount -t 9p foo /mnt
+  cd /mnt
+  ln -s ../bar bar
 
---0000000000000ea21b05dda6cae8--
+That symlink would now point to /bar from guest's PoV, and to /vm/bar from 
+host's PoV (i.e. a location on host where guest should not have access to at 
+all).
+
+BTW some of the other issues mentioned in the linked discussion, like the 
+timeout errors, are fixed with this patch set.
+
+Best regards,
+Christian Schoenebeck
+
+
 
