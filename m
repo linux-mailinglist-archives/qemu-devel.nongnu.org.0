@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24C85111D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 08:59:21 +0200 (CEST)
-Received: from localhost ([::1]:45986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D994D5111E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 09:04:43 +0200 (CEST)
+Received: from localhost ([::1]:48224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njbdw-0003xt-SZ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 02:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
+	id 1njbj8-0005hX-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 03:04:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1njbaT-0002h6-Ll
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 02:55:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1njbaP-0000Ye-RP
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 02:55:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651042540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KYxq+v1NZI9ugBer7tpQ0au/erctGSgYJeD5Jl2skic=;
- b=WH6/3ZUEU+7sgiTvfUwKs1bcVSbxO9yi98JFRkpZs99VSDwdQTmRXjhZqngGOT3zbRYpZH
- Qc1e7auiVhomn2qEKQ/CvN2xpncvCzsXZ9sRa9PFCRDQdbvCQLz67LHC8CXRmGbR64IzL6
- QtXKSAw0bgESuv6hUKLj/6tcJ8ZD2X4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-38-6vfJC_WeP7eTkPhSXrVpcw-1; Wed, 27 Apr 2022 02:55:38 -0400
-X-MC-Unique: 6vfJC_WeP7eTkPhSXrVpcw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s8-20020adf9788000000b0020adb01dc25so356555wrb.20
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 23:55:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njbfA-0004n1-Hc
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 03:00:37 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njbf8-0001JL-J3
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 03:00:36 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id y3so1462567ejo.12
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 00:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=KYxq+v1NZI9ugBer7tpQ0au/erctGSgYJeD5Jl2skic=;
- b=Wbr4O9OXvERyjZ2a+VOYNOf3cmBl8yo2FupXKhLZhWp/rjEJSJoHspsVhSvCskc20I
- el069daoMAgDzhEjSzU6TkjMPvsYsgcKniTsOhY0QI10gqdkFhNvu02yzzblbj1ozSTb
- V20UOMqtOLMjf16M12SaDrZsv8ZVQ7VhaGQhbk41NANCBljwdQGNWWyQMUjS/Gy8YKPU
- f/FlCcxjfp0Gv6gbgAEbirEdxqe9n4Bho0/aPiLPYFHKR6pDqwOBzKbzb5Kyw9+XKIWy
- HJ7cJjXHP4+IJV3n+6Kk0tNosraylPTk8b2R8l+2Jqe3MIohS3a3hmd6Ow2p9zNgEB1t
- 62Iw==
-X-Gm-Message-State: AOAM53192Crz2laGKFWhJyiF7c9SvwUVRSoGkjp6QVzAJQbJdKrD0VmQ
- V3YdHEJkmG2lc02fyVdoVpvuSlg4DAE5PXN4n2zPY0+2hAxA96oTakuvOYxJHKMB7rde6u1RyPP
- P2JwQzgeysdV27Yw=
-X-Received: by 2002:a1c:f009:0:b0:387:6fea:8ebc with SMTP id
- a9-20020a1cf009000000b003876fea8ebcmr34180669wmb.84.1651042537578; 
- Tue, 26 Apr 2022 23:55:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsdakiXqkcXTBLLNSLtCNqDGdQRC6bpQ8ahqnQlrCiXefZaChqhLzUt0akhqYnCY2HU5E/bw==
-X-Received: by 2002:a1c:f009:0:b0:387:6fea:8ebc with SMTP id
- a9-20020a1cf009000000b003876fea8ebcmr34180650wmb.84.1651042537346; 
- Tue, 26 Apr 2022 23:55:37 -0700 (PDT)
-Received: from ?IPV6:2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9?
- ([2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9])
- by smtp.gmail.com with ESMTPSA id
- z6-20020a05600c0a0600b00393d831bf15sm978024wmp.46.2022.04.26.23.55.36
+ bh=0f0plXion9R3CzG61wij8R100MD3Y9XM9i1nCgRHTzk=;
+ b=eui4QfX0yB9KclJWNpiRam+QsMoRxtDlsp9DByj59xFs1ZjOSiWZvbS27o5AFZC3XY
+ fdaiqhMEKSSc1m0sxEKE2GjciUEXj/s79eWJfCrsc9mqiniOWh+ZeD/Q+CXF2dVakRlt
+ 5mv+wgtbsObCbmoGhUFde6n5VYba4c3zXjlxQ1YLZqqH1toQi4ojtkgxM79CYThMDHwk
+ M0xwLVHYQoY4IVfr+XM7/mWnzr+f3ZqedWGASROBXGVs5eJVUF9Bct0hfj96k0jMHvt/
+ ebJgzRwH+THEcOKkEWF+g3LqoFkDs9yqu455acBLQmOuWnCn5HWdw5iW9jhWcG0jYEUQ
+ hRzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0f0plXion9R3CzG61wij8R100MD3Y9XM9i1nCgRHTzk=;
+ b=XTIxewmlSMf2wRfRHdTou6idPoFp/zfI/fb5XvlpKN2BQyZ2Q2D7lJxU4soxBIzU4N
+ nRAj+fl/ZqZBGFN+bRs4Mq6oSZBYSfFL13aOlUF5BiNbapKTaK2yxLiymRxOOKtBcXXJ
+ Uees3QUwdrUcnhyIdsv1UcritRXAUhnFc0Z5enwmWN3vbnCTTsL5n7d3orU9Mo+oyL7g
+ StiHBbD+GrmgwEqSPR+mI8DWPeYdrjUzYQaEqwGNwJF0fcg9OSOdKyB30cNQcy+tm6k+
+ F6rokZn5ads+QF3QHNRVdE7eD3iRoo01jGjYJWyy8eJeJH/hCHz/58b3FombLMC92qC4
+ VcrQ==
+X-Gm-Message-State: AOAM530U8npjpiwrZUeIWvl9bLSAd3BXwoyD2zD5lC8NC9lsmJ/hrqv2
+ qWEpSuSUFQieGz+wm03ZnBc=
+X-Google-Smtp-Source: ABdhPJwC2x4vtc2gCuKn/GrAbVsCcOucrLIry43vrasqnEBgZKozFroiQgAnaGlIGMogJye8bv24Ww==
+X-Received: by 2002:a17:907:50a3:b0:6f3:a302:96aa with SMTP id
+ fv35-20020a17090750a300b006f3a30296aamr10192175ejc.2.1651042832967; 
+ Wed, 27 Apr 2022 00:00:32 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ w14-20020a056402268e00b00425f02088d2sm4275780edd.26.2022.04.27.00.00.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 23:55:36 -0700 (PDT)
-Message-ID: <8f01c640-f876-568a-d6ff-bbb112e5154f@redhat.com>
-Date: Wed, 27 Apr 2022 08:55:35 +0200
+ Wed, 27 Apr 2022 00:00:32 -0700 (PDT)
+Message-ID: <860ea92c-355a-07df-23b7-a46c7e84d9b2@redhat.com>
+Date: Wed, 27 Apr 2022 09:00:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 01/42] i386: pcmpestr 64-bit sign extension bug
 Content-Language: en-US
-To: qemu-block@nongnu.org
-References: <20220426085114.199647-1-eesposit@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20220426085114.199647-1-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+To: Paul Brook <paul@nowt.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <20220418173904.3746036-1-paul@nowt.org>
+ <20220424220204.2493824-2-paul@nowt.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220424220204.2493824-2-paul@nowt.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,56 +94,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 26/04/2022 um 10:51 schrieb Emanuele Giuseppe Esposito:
-> Luckly, most of the cases where we recursively go through a graph are
-> the BlockDriverState callback functions in block_int-common.h
-> In order to understand what to protect, I categorized the callbacks in
-> block_int-common.h depending on the type of function that calls them:
+On 4/25/22 00:01, Paul Brook wrote:
+> The abs1 function in ops_sse.h only works sorrectly when the result fits
+> in a signed int. This is fine most of the time because we're only dealing
+> with byte sized values.
 > 
-> 1) If the caller is a generated_co_wrapper, this function must be
->    protected by rdlock. The reason is that generated_co_wrapper create
->    coroutines that run in the given bs AioContext, so it doesn't matter
->    if we are running in the main loop or not, the coroutine might run
->    in an iothread.
-> 2) If the caller calls it directly, and has the GLOBAL_STATE_CODE() macro,
->    then the function is safe. The main loop is the writer and thus won't
->    read and write at the same time.
-> 3) If the caller calls it directly, but has not the GLOBAL_STATE_CODE()
->    macro, then we need to check the callers and see case-by-case if the
->    caller is in the main loop, if it needs to take the lock, or delegate
->    this duty to its caller (to reduce the places where to take it).
+> However pcmp_elen helper function uses abs1 to calculate the absolute value
+> of a cpu register. This incorrectly truncates to 32 bits, and will give
+> the wrong anser for the most negative value.
 > 
-> I used the vrc script (https://github.com/bonzini/vrc) to get help finding
-> all the callers of a callback. Using its filter function, I can
-> omit all functions protected by the added lock to avoid having duplicates
-> when querying for new callbacks.
+> Fix by open coding the saturation check before taking the absolute value.
+> 
+> Signed-off-by: Paul Brook <paul@nowt.org>
 
-I was wondering, if a function is in category (3) and runs in an
-Iothread but the function itself is not (currently) recursive, meaning
-it doesn't really traverse the graph or calls someone that traverses it,
-should I add the rdlock anyways or not?
+Queued, thanks.
 
-Example: bdrv_co_drain_end
+Paolo
 
-Pros:
-   + Covers if in future a new recursive callback for a new/existing
-     BlockDriver is implemented.
-   + Covers also the case where I or someone missed the recursive part.
-
-Cons:
-   - Potentially introducing an unnecessary critical section.
-
-What do you think?
-
-Emanuele
+> ---
+>   target/i386/ops_sse.h | 20 +++++++++-----------
+>   1 file changed, 9 insertions(+), 11 deletions(-)
+> 
+> diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+> index e4d74b814a..535440f882 100644
+> --- a/target/i386/ops_sse.h
+> +++ b/target/i386/ops_sse.h
+> @@ -2011,25 +2011,23 @@ SSE_HELPER_Q(helper_pcmpgtq, FCMPGTQ)
+>   
+>   static inline int pcmp_elen(CPUX86State *env, int reg, uint32_t ctrl)
+>   {
+> -    int val;
+> +    target_long val, limit;
+>   
+>       /* Presence of REX.W is indicated by a bit higher than 7 set */
+>       if (ctrl >> 8) {
+> -        val = abs1((int64_t)env->regs[reg]);
+> +        val = (target_long)env->regs[reg];
+>       } else {
+> -        val = abs1((int32_t)env->regs[reg]);
+> +        val = (int32_t)env->regs[reg];
+>       }
+> -
+>       if (ctrl & 1) {
+> -        if (val > 8) {
+> -            return 8;
+> -        }
+> +        limit = 8;
+>       } else {
+> -        if (val > 16) {
+> -            return 16;
+> -        }
+> +        limit = 16;
+>       }
+> -    return val;
+> +    if ((val > limit) || (val < -limit)) {
+> +        return limit;
+> +    }
+> +    return abs1(val);
+>   }
+>   
+>   static inline int pcmp_ilen(Reg *r, uint8_t ctrl)
 
 
