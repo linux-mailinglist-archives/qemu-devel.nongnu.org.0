@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6FC512543
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 00:29:33 +0200 (CEST)
-Received: from localhost ([::1]:47218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4663512549
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 00:31:53 +0200 (CEST)
+Received: from localhost ([::1]:50400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njqA7-0002kK-RL
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 18:29:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
+	id 1njqCO-0005BR-SL
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 18:31:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njq8t-0001j2-2D
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 18:28:15 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39786)
+ id 1njqBF-0004MG-RF
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 18:30:41 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njq8q-0002s5-70
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 18:28:14 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- bd19-20020a17090b0b9300b001d98af6dcd1so6070885pjb.4
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 15:28:11 -0700 (PDT)
+ id 1njqBE-0003Ne-9Z
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 18:30:41 -0400
+Received: by mail-pl1-x630.google.com with SMTP id n18so2762783plg.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 15:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=fBQl33yL2VSaEDRSMSgWZ1xJLy64qqfXeBIoTYkKoek=;
- b=xKXCLigVRF/4CeUvii5No2+JrkS/iyYC3kg9bYdj2x+S6+rzsrZFH6GZxnfJKol6En
- oGPVkkuvJ1UVMuBtSV3PToBr3kjld83+ovOX/frgSW385wVlHzHfmQ5G5/EdH0DrzpmE
- b2ICDKd4n2Z6RVPrYB5RVNFMtRtUqOJumc2zE5W66w4Mb8yvYnUDLTaoeviWcb4J39WP
- p6AI5NzJQrz4jdk5XairMRzxVKPtmjuzcUzwe+WQKjrkoVsaq3jliXzkZFHBv+6ee9pH
- WIlQhjQBEDJlbaaocGXazLss7hzzcy+wBwJ4EyNaDpqXmLl1slZu2aio9pF+mqu7fxqF
- xZGA==
+ bh=BZ7Nfodjlo122spo1KiVOZJYubrbkroaAgSi1pzR5ls=;
+ b=gca8MWVZ/DQYkYkObOmarG4ckOI/yVBksGIxnZo8LObopUxF2yVj6aYXuxnGjhEfpL
+ F0D9qvnrlnlgilcBrRCoOdNrhaQ8t4FVTvS94HiAdZiR+3GEuvJLB+TLjROpdbzq8ZKJ
+ mmmGjP2Ghpc9aSaqo7Nj9T1ltePmRbiiOWrNjly7IKPghUxpjobxZ7Ncksx1FeX7riju
+ gJHRiu4qYI1mxd0ESQRQKDTaS9a9/2zK3x3tqhF4iWebxz+7tnXYryjLYKboe5QVL/2i
+ hDkL5OiQhFmuYafBOSWX1Wu01/sfBSn7/JJ9qkTaMiGTYFeXyWe6+y4PCWEWF3pU+o79
+ s4MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fBQl33yL2VSaEDRSMSgWZ1xJLy64qqfXeBIoTYkKoek=;
- b=pH/Iaw7yP2i06WYWmUmF5gfYTh91Ov5kujqZDVjKVj/Wsq8VV9+Cdb5wOHXmaK92qj
- Tm8GhP7XUhD+ANDgHoZDJryQSiFMio9sz8l9QO/BpQwfFJsgH6Ckg8Gr4T4Bk3iZU9vr
- XwYQiNKmnHrRHvc8Hk7SdY8s2Rv/sapHPm2fzqBtHVXROvxbEUsKRataigCFZIy2GMBZ
- 9URrT3Nxgoy53bxysNV0Y+vuEMtqPGgJI+W81RiOmiQiTtRg2Q4hr+ZfHtLLljqwB/8R
- /oZrdW+0h9eQ7PHD5UCbRFxNXJrwB97UR2QuA81b3QXx5LsoBTSUxvK/qLfjEaEekJpC
- I4IQ==
-X-Gm-Message-State: AOAM5309HMgDBNjmYrvOorsE0H6SzeZ8lHyOL2rW/6o6PATKF+QupydD
- QKYHw4++qZ6RYfp6ERZww893Vg==
-X-Google-Smtp-Source: ABdhPJwzCYUtQgslj5oAQ4XCTAtvs6MgQrYjNDMViU8dPidocXz76907+14TtHr0C6owtaBM27EuLw==
-X-Received: by 2002:a17:902:8644:b0:15a:3b4a:538a with SMTP id
- y4-20020a170902864400b0015a3b4a538amr30716165plt.146.1651098490391; 
- Wed, 27 Apr 2022 15:28:10 -0700 (PDT)
+ bh=BZ7Nfodjlo122spo1KiVOZJYubrbkroaAgSi1pzR5ls=;
+ b=x4Y3oA9YAVQRpBNCuvkNaItQ9MMAvXRiMajiHmASeyNKcvbcfNXbDY0x9PCoSbPnrS
+ OwIgizpKULz1VONXZUihqCe+icqlOVf1L+5+0eljPFzC91B4o/kz5wWD6xpwHEy3BTEI
+ kS/Py9T+/yv9+y3wyNOkjOJUA7mi1gaRUc6KsXjydiX6//fWPEEieeFfdn9RwHsy2F09
+ KS0gIvUOIedDzj1nUjdBBc9IMYlMuhMpmvj8Zg+LwcMjx5RvD9HlhJzX3Iork5ToCM1F
+ SjkZK5KkgOWp1ex5nq93kNMo3spCYk18NeY5gAJHcmvhPHkPUDar74Zyl4mUyZYs4dOc
+ KG7Q==
+X-Gm-Message-State: AOAM533Viv+AhrmRVbGFPTbv39fYKMLiGTTHpC0Nj77i0R0w/NsHHy9b
+ uUfWD0AgsxB/Xbfu9m83LCWqgw==
+X-Google-Smtp-Source: ABdhPJz1CrUsBTvPy5liFbsXOi6yYd9hf/B+Dqy9C61LFafvLuF7/ysIeYGeLbi80e8fAfICGiTmOw==
+X-Received: by 2002:a17:90a:730c:b0:1da:4630:518e with SMTP id
+ m12-20020a17090a730c00b001da4630518emr4560271pjk.239.1651098638783; 
+ Wed, 27 Apr 2022 15:30:38 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- p23-20020a637f57000000b003c14af5062fsm334037pgn.71.2022.04.27.15.28.09
+ p66-20020a62d045000000b0050d237e38fcsm16608534pfg.220.2022.04.27.15.30.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Apr 2022 15:28:09 -0700 (PDT)
-Message-ID: <1983150b-bf4c-41ec-5332-55d8b0420503@linaro.org>
-Date: Wed, 27 Apr 2022 15:28:07 -0700
+ Wed, 27 Apr 2022 15:30:38 -0700 (PDT)
+Message-ID: <d330b650-1886-cacf-61b6-f829876f9614@linaro.org>
+Date: Wed, 27 Apr 2022 15:30:36 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 2/7] target/ppc: Implemented xvi*ger* instructions
+Subject: Re: [RFC PATCH 5/7] target/ppc: Implemented xvf16ger*
 Content-Language: en-US
 To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
  qemu-ppc@nongnu.org
 References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
- <20220426125028.18844-3-lucas.araujo@eldorado.org.br>
- <7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org>
- <d160958f-6703-8af7-aa8f-f3843d9b1066@eldorado.org.br>
+ <20220426125028.18844-6-lucas.araujo@eldorado.org.br>
+ <e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org>
+ <b7441766-6fa9-7438-fe61-c041d4237fe0@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <d160958f-6703-8af7-aa8f-f3843d9b1066@eldorado.org.br>
+In-Reply-To: <b7441766-6fa9-7438-fe61-c041d4237fe0@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,91 +92,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
  =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 13:24, Lucas Mateus Martins Araujo e Castro wrote:
-> 
-> On 26/04/2022 20:40, Richard Henderson wrote:
+On 4/27/22 14:11, Lucas Mateus Martins Araujo e Castro wrote:
+>> Please do convert this from a macro.  Given that float16 and bfloat16 are addressed the
+>> same, I think the only callback you need is the conversion from float16_to_float64.  Drop
+>> the bf16 accessor to ppc_vsr_t.
 >>
->> On 4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
->>> +%xx_at          23:3 !function=times_4
->>> +@XX3_at         ...... ... .. ..... ..... ........ ... &XX3 xt=%xx_at xb=%xx_xb
->>
->> Hmm.  Depends, I suppose on whether you want acc[0-7] or vsr[0-28]
-> I mostly used VSR function here, but since I'll change the patch 1 to your suggestion 
-> (which will require creating acc_full_offset) I'll make a few changes to create some 
-> functions for the accumulator
->>
->>> +/*
->>> + * Packed VSX Integer GER Flags
->>> + * 00 - no accumulation no saturation
->>> + * 01 - accumulate but no saturation
->>> + * 10 - no accumulation but with saturation
->>> + * 11 - accumulate with saturation
->>> + */
->>> +static inline bool get_sat(uint32_t flags)
->>> +{
->>> +    return flags & 0x2;
->>> +}
->>> +
->>> +static inline bool get_acc(uint32_t flags)
->>> +{
->>> +    return flags & 0x1;
->>> +}
->>
->> Better to have separate helpers for these?  They'd be immediate operands to the function
->> replacing XVIGER (see below) and thus optimize well.
-> Do you mean different functions or a function that receives packed_flags along with the 
-> callback functions?
+> Will do, although I'm considering instead of the callback being the conversion, maybe have 
+> it be a 4 float multiplication
+>      typedef float32 mul_4float(float16, float16, float16, float16);
+> Since float16 and bfloat16 are addressed the same, any thoughts?
 
-I mean separate helper entry points, which use a common function that receives these as 
-separate boolean arguments, along with the callbacks.  Use QEMU_FLATTEN on the helper 
-entry points to ensure that everything is inlined and the constant args are optimized.
-
-> In this case it'd be necessary to receive 2 xviger_extract functions since XVI8GER4* 
-> multiply one value as signed and the other as unsigned (and other integer GER treat both 
-> as signed).
-
-Certainly.
-
-> 
-> An alternative would be to isolate the innermost loop into a different function, like:
-> 
->      typedef int64_t do_ger(int32_t a, int32_t b, int32_t at, int32_t pmsk);
-> 
->      static int64_t ger_rank4(int32_t a, int32_t b, int32_t at, int32_t mask)
->      {
->          int64_t psum = 0, i;
->          for (i = 0; i < 4; i++, mask >>= 1) {
->              if (mask & 1) {
->                  psum += (sextract32(a, i * 8, 8)) * (extract32(b, i * 8, 8));
->             }
->          }
->          return psum;
->      }
-> 
-> That way we could avoid having 'rank' as a parameter, what do you think?
-
-Reasonable.  I certainly like extracting uint32_t from the vector generically and not 
-having to pass that on further.
-
->> Why are you passing register numbers instead of pointers, like everywhere else?
-> Because here we are not working only with 1 register per register number, the ACC uses 4 
-> and the XVF64GER* needs to use XA and XA+1, and while VSR is an array so I could do 
-> ppc_vsr_ptr+1 I thought it was better not to access memory I was not given a pointer to, 
-> so I passed XA so I can request cpu_vsr_ptr(env, xa) and cpu_vsr_ptr(env, xa + 1)
-
-I think using cpu_vsr_ptr is the mistake.
-
-It might be clarifying to define a ppc_acc_t, if only as a typedef of ppc_vsr_t.  The 
-acc_full_offset function will compute the offset for this pointer and, importantly, will 
-be the place to modify if and when the architecture changes to allow or require separate 
-storage for the ACC registers.
+The multiplication would be identical for the two types -- only the conversion is different.
 
 
 r~
