@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A358511BF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 17:41:05 +0200 (CEST)
-Received: from localhost ([::1]:47224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7BD511C0B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 17:51:06 +0200 (CEST)
+Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njjmq-0006VN-7w
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 11:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45348)
+	id 1njjwX-0005qM-0l
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 11:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njjlf-00059P-4x
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:39:51 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:42756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njjld-0001pR-Fi
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:39:50 -0400
-Received: by mail-pl1-x635.google.com with SMTP id p6so1861022plf.9
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 08:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3adkDDHlX2i3g+YcRlwIssZK7o62pEadOzWZaqPnmMg=;
- b=LoN1wQk6w7RXSQlh4shDtx3MbRWEq4vn1QT210toOC3epScXYuU6XupxikVb2oQOdE
- SCPO3rB2lgSd9KGvBK1WEek9D6QGCBGLOluP6IWA46xVhmk8vcb72deb8b6RNrAW5IAB
- IqalGpNpQQT4mWF0rSyIL81LQPFRvnkA7kQ/2mrJv2+5NByS/EAiaZ5uAht8eyj3pzVY
- SC9F/TcT9HWlgPHmCWxBtXZ0oooeis3V2oFB4m+rq2k4e5dTIOVOY9WQmP0X9v2wd/vx
- WtlM/Kky5q2HPCTT+WmTWu7W6yX2cuE1aY0WG92NVT1exUFpRi/niaav+3GgixR5xrt/
- vmQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3adkDDHlX2i3g+YcRlwIssZK7o62pEadOzWZaqPnmMg=;
- b=R3zU2xpaPSdtCKEV6GPiP3G3rceNdg/AlNdGkhyBvYWz9qWum0w2zkW5YmQrhKjU5Z
- NNsfmHjeNf3FAo3Ehn2pNKqn1fjaOwTSHkpDA2IBGX7jMZBaPN/JCilK4ELzfhWnvjDK
- TJ+6qFsYyP+4RH5Qc9F/EJlJpCq17PtRKCW7IjIDoZuU3MdAVoqY+yWcZONyzOO4kfLi
- kqcT99VA0zPePAA3WibdLPeb3VU6+buiDtyOnnDccZ1JAlR1u1HvNBeXlYjc7XHDUuGh
- FOzQFOE4x+QWs+tS0KrYCe8CvFXNw7ygEtsIBN7+d4WJgIhkuw6+BkM5mX/YIc+qRmKx
- 3YsA==
-X-Gm-Message-State: AOAM532csIT+c4ZUpSvCZ+Dagjdx6qIIe8K/ZfTCQ1OlZW9xeV+ljHB7
- h2qgzAvStEgodoskceE6/TVg/A==
-X-Google-Smtp-Source: ABdhPJzBaaeLhBacfQ4wjsybPgK87lUH+VmoHoPQHJ7c8APExQcjWXFw87xKpF5kzE1p814kxgIfxg==
-X-Received: by 2002:a17:902:8497:b0:154:9282:bc01 with SMTP id
- c23-20020a170902849700b001549282bc01mr29772538plo.33.1651073987952; 
- Wed, 27 Apr 2022 08:39:47 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- l5-20020a056a0016c500b004f768db4c94sm20137260pfc.212.2022.04.27.08.39.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Apr 2022 08:39:47 -0700 (PDT)
-Message-ID: <e459e678-01a9-dde5-7c11-d945f78b26fc@linaro.org>
-Date: Wed, 27 Apr 2022 08:39:45 -0700
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1njjvC-0004wY-Qn
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:49:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1njjvA-0003Ri-6F
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:49:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651074579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W/qhRcfWJ5m7eG6NvVgfeOyjdRT3Z2CLIxEFo6gpWS4=;
+ b=U+b6aIu2+z0+g1haw12oLju9F6ZQKMKy5/yOZ55wOGk5T5Xu/OIMpkOQkI65vbN6JJi1xZ
+ kIkTeqRX5bcVaMhdEZ+KEWG7WkQqlsoLun6d3sD0IKMEJV2ZP4J9Er8ZaxD5eG/MHaJR8E
+ hVlVdTiMPqp9hmYbbTH18enLyOw8edE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-iHykN2LcMjun5PO9dTGQQA-1; Wed, 27 Apr 2022 11:49:36 -0400
+X-MC-Unique: iHykN2LcMjun5PO9dTGQQA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A4DF51014A61;
+ Wed, 27 Apr 2022 15:49:35 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.193.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC7540CFD05;
+ Wed, 27 Apr 2022 15:49:34 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] util: Return void on iova_tree_remove
+Date: Wed, 27 Apr 2022 17:49:31 +0200
+Message-Id: <20220427154931.3166388-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2] target/arm: Disable cryptographic instructions when
- neon is disabled
-Content-Language: en-US
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
-References: <20220427090117.6954-1-damien.hedde@greensocs.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220427090117.6954-1-damien.hedde@greensocs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,39 +72,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Cc: qemu-trivial@nongnu.org, lvivier@redhat.com,
+ Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 02:01, Damien Hedde wrote:
-> As of now, cryptographic instructions ISAR fields are never cleared so
-> we can end up with a cpu with cryptographic instructions but no
-> floating-point/neon instructions which is not a possible configuration
-> according to ARM specifications.
-> 
-> In QEMU, we have 3 kinds of cpus regarding cryptographic instructions:
-> + no support
-> + cortex-a57/a72: cryptographic extension is optional,
->    floating-point/neon is not.
-> + cortex-a53: crytographic extension is optional as well as
->    floationg-point/neon. But cryptographic requires
->    floating-point/neon support.
-> 
-> Therefore we can safely clear the ISAR fields when neon is disabled.
-> 
-> Note that other arm cpus seem to follow this. For example cortex-a55 is
-> like cortex-a53 and cortex-a76/cortex-a710 are like cortex-a57/a72.
-> 
-> Signed-off-by: Damien Hedde<damien.hedde@greensocs.com>
-> ---
-> 
-> v2: also clear SHA3 / SM3 / SM4 (Richard)
-> ---
->   target/arm/cpu.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
+It always returns IOVA_OK so nobody uses it.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ include/qemu/iova-tree.h | 4 +---
+ util/iova-tree.c         | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-r~
+diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
+index c938fb0793..16bbfdf5f8 100644
+--- a/include/qemu/iova-tree.h
++++ b/include/qemu/iova-tree.h
+@@ -72,10 +72,8 @@ int iova_tree_insert(IOVATree *tree, const DMAMap *map);
+  * provided.  The range does not need to be exactly what has inserted,
+  * all the mappings that are included in the provided range will be
+  * removed from the tree.  Here map->translated_addr is meaningless.
+- *
+- * Return: 0 if succeeded, or <0 if error.
+  */
+-int iova_tree_remove(IOVATree *tree, const DMAMap *map);
++void iova_tree_remove(IOVATree *tree, const DMAMap *map);
+
+ /**
+  * iova_tree_find:
+diff --git a/util/iova-tree.c b/util/iova-tree.c
+index 6dff29c1f6..fee530a579 100644
+--- a/util/iova-tree.c
++++ b/util/iova-tree.c
+@@ -164,15 +164,13 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator)
+     g_tree_foreach(tree->tree, iova_tree_traverse, iterator);
+ }
+
+-int iova_tree_remove(IOVATree *tree, const DMAMap *map)
++void iova_tree_remove(IOVATree *tree, const DMAMap *map)
+ {
+     const DMAMap *overlap;
+
+     while ((overlap = iova_tree_find(tree, map))) {
+         g_tree_remove(tree->tree, overlap);
+     }
+-
+-    return IOVA_OK;
+ }
+
+ /**
+--
+2.27.0
+
 
