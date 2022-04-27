@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D493C511044
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 06:44:45 +0200 (CEST)
-Received: from localhost ([::1]:60162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8735551106F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 07:15:22 +0200 (CEST)
+Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njZXf-0000tf-TF
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 00:44:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50396)
+	id 1nja1J-0007lA-8C
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 01:15:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njZSy-0001JS-8e
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:52 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:42907)
+ id 1nja0A-00075L-NY
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 01:14:10 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njZSw-0007Ss-Pp
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:51 -0400
-Received: by mail-pf1-x429.google.com with SMTP id j17so591692pfi.9
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 21:39:50 -0700 (PDT)
+ id 1nja08-0003Xy-Sz
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 01:14:10 -0400
+Received: by mail-pf1-x433.google.com with SMTP id z16so663532pfh.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 22:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Vj2pfmJyu+VBd81eZurWJYtZCi/tXlPkPdE7lYV8+vU=;
- b=jf5CGVy71OVXkDaJBLz3nPkutTSMBLxKgKHhW5khl8DgYuGbP2iLlhWLuU0tMgmdj7
- cca0rz2RqMrxm7Nxt50TqBtpgWoKTLGkkuEfUanzVLeZcTUX6zSB8R9Ghi3C2Oxcnq/B
- o2R3I8AikVKxMWtjgYNFriny0lEJYWxiGccv1DLtdXYUdYVXmShCI+1G6Bxji9C62ROF
- 8tj5kql9EgmoHui9QyfbFj36fYmMdXxRQqgQehDCKmf35zdSqKHP6yGZ4MNWHgQnScF7
- MmiznmER7BohnUWbnjXGjw6VJsrAV9U/BgSebw0M4bIvRm4GUgWq6BzNKIfBqnZvAi7/
- 9MZg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=C5PI6ZArAaCRkaY5wgVB/s7ohQWIa7fXpHKlzAxuays=;
+ b=HSPNATQ3MzL4pq3qBesPigJobD7ciIdc4hlxkHzMOVwxYpJJIDF2l/OCdtANH3KRMr
+ b+85ohuig453HDJRLd4CUzpxqvTdVZ8i+lQjG2YiSP6aSliQx3/TaCPUTeTj5NOpUGgx
+ vgy2bDFy4Dk3bEf1ZnDBgNZDHZ9imqlGCkofVMIVRh7VLbwOtFm1QJO2gFVh3FX6f8f3
+ DU8fCQOKAN3C7tMBbjiys1VFt/u9G7OTYZiZF+M1+lL0sEfMbVAiSUm14ovtN+JiNNBq
+ 1J/dl1QxFcE8azPTnpv4PbZOqE9CIRek0vbwJIYeE+svbz9v2cOVgmjq6DMKJ3rXLX+l
+ K4Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Vj2pfmJyu+VBd81eZurWJYtZCi/tXlPkPdE7lYV8+vU=;
- b=7vituUxd+uVRBfq19guCGE7QkD81Dq3afd7iJIRLA5hnN/P/PRBlIXncfKutPeY84A
- WvlwN+zM5wBIZqJrBeLDqAAuD3Jo4RDL3X0UdbBQGhC2zQGL2+iZCca+r20FVWlA0Bfg
- IPw8VQ1iV26NMV6aYjaD6etjfjOyVTYq+14EccFgdl0PM098T65qU3WusyQxYoo1HggM
- dor2x9NGsKQAMjmrXEXJPaj40YttN5lFKzSH4DUMLfhFz4WwIQsNTehLgocsmyDqPWsM
- afo1gFIR0vbg5j+4Xk0MzcWWVChxZ5D1pyIuOELYAG6GcLiGRGdZt/YIQKvaVv6y356H
- yH2A==
-X-Gm-Message-State: AOAM5312GgePt3A7yuPKUUi2meEBI5JI32y+HgCdIl8IN1tF8UqH2BNW
- 4TaLRo4mgbRkKQfhe72SH71kW8xTgimtHg==
-X-Google-Smtp-Source: ABdhPJwXlNGW1G5TM3lujvL7S1oqXtntTqJGM/bSbpNQNmOZyLO3my9nM1k4mi7BzfuMbB+41mWwOg==
-X-Received: by 2002:a63:4e62:0:b0:398:cb40:19b0 with SMTP id
- o34-20020a634e62000000b00398cb4019b0mr22679402pgl.445.1651034389269; 
- Tue, 26 Apr 2022 21:39:49 -0700 (PDT)
-Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=C5PI6ZArAaCRkaY5wgVB/s7ohQWIa7fXpHKlzAxuays=;
+ b=4ue4JpyvYiCXREsPEie3I9irnGulZ3owMXjdjYESyrV+IGsvVJuGgC6Ntm5yd7Jh4O
+ mNrPkHpwOby8Qh7TgE2sPfpPz5qu7XH7dQbSYhfjzGZRuLnJJaAZTkqnbMkBSlSW3om3
+ vXBIG/t7qRApQ+9X2RNip0lVNTdKVa1DTYHAChALkaj45Sf9Qo8oi05xWgtzvrzzX0Uc
+ WCS7wY2WVlO7UkaHg0S6pKRUU3FiI7PQcSAWyJgb9T34G0ZIkUk/LbhGwQaMQ+7rV5We
+ 217iihmVDG6x2ywiz8c0kdcMCZafVBbmTXT+aC/h7aTrifO3oSpoNoF7hLMsJXgY7y9L
+ 4c4w==
+X-Gm-Message-State: AOAM532a1SboCSSutuxltPQhja8sN9R+ZA/NPuwRPzt7tv4/QvTgZzXi
+ MOtYvdL2botPBbqDPC+o0qnuQA==
+X-Google-Smtp-Source: ABdhPJwhsYt1vws4ijpuX33BRtR9KdwgtLi6jSagMsr9VbWmloLoTNQOwyhXQTCidyd2sQgqxFu7zA==
+X-Received: by 2002:a05:6a00:15d0:b0:50d:3810:922e with SMTP id
+ o16-20020a056a0015d000b0050d3810922emr16431637pfu.6.1651036447071; 
+ Tue, 26 Apr 2022 22:14:07 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- f16-20020aa78b10000000b0050a81508653sm16875632pfd.198.2022.04.26.21.39.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 21:39:48 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] softfloat: Use FloatRelation for fracN_cmp
-Date: Tue, 26 Apr 2022 21:39:42 -0700
-Message-Id: <20220427043942.294654-7-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220427043942.294654-1-richard.henderson@linaro.org>
-References: <20220427043942.294654-1-richard.henderson@linaro.org>
+ a38-20020a056a001d2600b004f72acd4dadsm17529480pfx.81.2022.04.26.22.14.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 22:14:06 -0700 (PDT)
+Message-ID: <68e1b1dc-f396-7b2f-8aac-b01138116d43@linaro.org>
+Date: Tue, 26 Apr 2022 22:14:04 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Possible bug when setting aarch64 watchpoints
+Content-Language: en-US
+To: Chris Howard <cvz185@web.de>, qemu-devel@nongnu.org
+References: <DF7731C2-424F-4438-BD46-A09CAAE21835@web.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <DF7731C2-424F-4438-BD46-A09CAAE21835@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,54 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the caller, partsN_compare, is now exclusively
-using FloatRelation, it's clearer to use it here too.
+On 4/24/22 04:40, Chris Howard wrote:
+> Hi, I’m new to qemu (and even bug-reporting) so apologies in advance…
+> 
+> The MASK field in DBGWCRx_EL1 is **5** bits wide [28:24].
+> 
+> In target/arm/kvm64.c I found the line:
+> 
+>   wp.wcr = deposit32(wp.wcr, 24, 4, bits);		// ie **4** bits instead of **5**
+> 
+> 
+> If it’s not copying (or calculating?) the number of bits correctly this would explain the behaviour I’m seeing:
+> 
+> If I set
+> 
+> DBGWVR0_EL1 = 0x00800000
+> 
+> and
+> 
+> DBGWCR0_EL1 = 0x1F<<24 | 0xFF<<5 | 0b11<<3 | 0b11<<1 | 0b1<<0
+> 
+> and then access  memory [0x00807FFF]  I get a watchpoint exception. (ie. watchpoints ARE working/enabled)
+> 
+> But if I access [0x008080000] I *don’t* get an exception.
+> 
+> **If the MASK field gets set to 0b1111 instead of 0b11111 then only the bottom 15 bits of the address get masked (instead of 31) and the masked address isn’t 0x00800000, and the exception won’t be triggered.**
+> 
+> 
+> Unfortunately, changing the 4 to a 5 and recompiling had no effect :-(
+> 
+> I may well have misunderstood something. :-/
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220401132240.79730-4-richard.henderson@linaro.org>
----
- fpu/softfloat.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+You're not.  It's a typo, repeated twice.  Will fix.
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index e7d7ad56bc..4a871ef2a1 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -957,21 +957,23 @@ static void frac128_allones(FloatParts128 *a)
- 
- #define frac_allones(A)  FRAC_GENERIC_64_128(allones, A)(A)
- 
--static int frac64_cmp(FloatParts64 *a, FloatParts64 *b)
-+static FloatRelation frac64_cmp(FloatParts64 *a, FloatParts64 *b)
- {
--    return a->frac == b->frac ? 0 : a->frac < b->frac ? -1 : 1;
-+    return (a->frac == b->frac ? float_relation_equal
-+            : a->frac < b->frac ? float_relation_less
-+            : float_relation_greater);
- }
- 
--static int frac128_cmp(FloatParts128 *a, FloatParts128 *b)
-+static FloatRelation frac128_cmp(FloatParts128 *a, FloatParts128 *b)
- {
-     uint64_t ta = a->frac_hi, tb = b->frac_hi;
-     if (ta == tb) {
-         ta = a->frac_lo, tb = b->frac_lo;
-         if (ta == tb) {
--            return 0;
-+            return float_relation_equal;
-         }
-     }
--    return ta < tb ? -1 : 1;
-+    return ta < tb ? float_relation_less : float_relation_greater;
- }
- 
- #define frac_cmp(A, B)  FRAC_GENERIC_64_128(cmp, A)(A, B)
--- 
-2.34.1
 
+r~
 
