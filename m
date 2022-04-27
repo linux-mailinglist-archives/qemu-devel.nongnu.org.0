@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB7951119D
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 08:49:27 +0200 (CEST)
-Received: from localhost ([::1]:37104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83535111B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 08:53:20 +0200 (CEST)
+Received: from localhost ([::1]:41400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njbUM-0005uo-1U
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 02:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38784)
+	id 1njbY7-0000eK-Ol
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 02:53:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1njbNZ-0004Td-2V; Wed, 27 Apr 2022 02:42:25 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:35676)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njbWV-0007uZ-G0
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 02:51:45 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:46600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1njbNX-0007I1-1b; Wed, 27 Apr 2022 02:42:24 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id d15so775041plh.2;
- Tue, 26 Apr 2022 23:42:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njbWT-0008WG-UX
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 02:51:39 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id g23so782625edy.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 23:51:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hZB03v0Yv8zpfBi6QNE3GX8uIUR9pGnGVuq1qv7TKac=;
- b=IzB6YE96N21afmSpuW/x6g6m8uevmuhCdllHwtBEphH+iKq5Q91neTBCRkHL/rtMe7
- aTrvSw8gaZ0FEsE5nw8kHhsLfhdJ9K6GubahU4LZEvHwl03QKVxw41HLj+CxprJH/agt
- WOshCqpmfavfNuIImfZF3xatN722svBBojN2jdzK8oUmBkksKLoC7t4JQXLkikpLCJS4
- CUChjxKJtyA7PZTUMsZ+Dcnog6GJtJJZHPQCUVOTXHs2q5m+YTXgxqxdzPEnt1QBgiWa
- Q6dLzRyEWVXp/MVU0QLVnqvtWZ5XXMkdIBSxFZisxJEzoCg7rAj+i0zWAJjKiSCAjuF7
- ezkw==
+ bh=pChRlsTZ2IPk8jqpv+mrLYsngI3Bk+qT3q00iKjxhrY=;
+ b=SmHLi27vV7WrrjddM778PYQqFUE7Wn45qLamQTrx3pIMTWYo+fRZWA01RUA88h3AQp
+ 5bP2j+UM7DTXMbjjZk3ox89pOBfdHOwWFZ0gXFz+su4eU2BecvABfj4EsnvvB4LA+CM2
+ uxJIXiZUsMYVrs8JW5mbRXM4GZMllejTbxkuelRgTk1B/Qk0Da8YtoRm/4P6USU9+jvP
+ M52uCn5B9LQidPKbxOTIQdh6cbreqIjQcGT8nJ6lct0RKIliFe/hPrH9Umy2HD0xucV9
+ x+zmh0aajx3bvgVciyO+7I2eX6GnShvxk8T3uYa02Q2Pt5dcwJJhynCmU9aH3dhJKpQU
+ SkmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=hZB03v0Yv8zpfBi6QNE3GX8uIUR9pGnGVuq1qv7TKac=;
- b=ET9BmNmdpvV/X7Df+TTXKmIdvWDB6uBWcKUWMLllhTt3Fjby7zJkiLo8PtliVJyvgt
- P0vgHbxNtX/1eMLMdLhQcWA552UAgT2KNFw1PQ1mwq2FIx417Yg1MnZL0kNLJtqu37RJ
- BNp/3DqMOW6iRELulgmzN53jCuQcvCch0ZnEhwIfsWua6qv13xYA3RCdt119yJiJ9Qsq
- /zvVCh7G+OEhoegiknYyO8EzXLDumClgXJT0QPaysHcd5EZjsHfjFurYifocJlHvCqKh
- EZo0ktRa+PPj2xP3tcLvbWfQRPLaku+i8ekks9QrvuWQ68DGispytG7S02kbyJcOVpHg
- AXYA==
-X-Gm-Message-State: AOAM5337xdoHPUfTPFMRm7r69+N/tfOlSg5tHpKBfLhXnfkJzUeRXkb5
- qz9iGUC37mpANpwgIxlmIGc=
-X-Google-Smtp-Source: ABdhPJznE2z+jr3yaGWhSVKOQyyHCiQgC2EvgLXsqsfo8gvpNqnTFKC1Z3A3ytl69MrvoWWliZJJCQ==
-X-Received: by 2002:a17:90b:164b:b0:1d1:b0b7:9033 with SMTP id
- il11-20020a17090b164b00b001d1b0b79033mr31293949pjb.164.1651041740971; 
- Tue, 26 Apr 2022 23:42:20 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
- by smtp.gmail.com with ESMTPSA id
- n13-20020a654ccd000000b0039db6f73e9dsm15038100pgt.28.2022.04.26.23.42.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 23:42:19 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Laurent Vivier <laurent@vivier.eu>,
-	lucas.araujo@eldorado.org.br
-Subject: [PATCH] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
-Date: Wed, 27 Apr 2022 16:12:04 +0930
-Message-Id: <20220427064204.373027-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.35.1
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pChRlsTZ2IPk8jqpv+mrLYsngI3Bk+qT3q00iKjxhrY=;
+ b=ZhB1VwvdWwaEvCyemqDWe9JyXYk5ya+iQdRlvCk1m+Uo2MmLXpMcqZB2A4KKIDlfC8
+ p/pLZ8h+RSoRXTrj9ZU21hLl/vTC+XM4DjNVcr7FyGmfi/mEHW1tyGgkbAfCG/SLT3Wb
+ HxZqhzOflvZI6QtYhUw0HomlQk47kz8NpYqnSOh1rT8r+ma4JeW6b6TJ2EBDFt6Trb1v
+ QoBl8SYbt7QrxG3v4lEt5R0zCLoRAwy6CHkt/s/TySigb08l72FhOqT+g3Z2FXZECD1z
+ OTTm/FKACtuzqMs61KdB3ayx9dfg8A+1+IWbd5HylJjBpCI4NkeVmJPgwuQWE3h2kl7I
+ EeUg==
+X-Gm-Message-State: AOAM533atYAJ1VpCsv3f/MqWQ0LWarpe8sLzuI58igLvfn7iSUHIC1nt
+ OcCppAULZhtRkGPfEFWJNyU=
+X-Google-Smtp-Source: ABdhPJwSvV2nChZ9yh9YRRt2GErpYUyFERKTtPpOmQ52nl49opu01lbA9Zh0ZUyHvG/b8NqkahqxIQ==
+X-Received: by 2002:a05:6402:4305:b0:423:f73b:4dd8 with SMTP id
+ m5-20020a056402430500b00423f73b4dd8mr28686605edc.218.1651042296264; 
+ Tue, 26 Apr 2022 23:51:36 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ t22-20020a50d716000000b00425b6799dc4sm7848100edi.71.2022.04.26.23.51.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 23:51:35 -0700 (PDT)
+Message-ID: <2b498941-6618-0802-7b56-0bdaaa9cf4ce@redhat.com>
+Date: Wed, 27 Apr 2022 08:51:35 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 10/42] i386: Rewrite vector shift helper
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paul Brook <paul@nowt.org>, Eduardo Habkost <eduardo@habkost.net>
+References: <20220418173904.3746036-1-paul@nowt.org>
+ <20220424220204.2493824-11-paul@nowt.org>
+ <27db1a9b-f64b-a07b-b6d2-3c85b4beb707@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <27db1a9b-f64b-a07b-b6d2-3c85b4beb707@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=joel.stan@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -82,58 +94,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are new hwcap bits added for power10.
+On 4/25/22 23:33, Richard Henderson wrote:
+> I do not think it worthwhile to unroll these loops by hand.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
-MMA support for TCG is on the list so I think it makes sense for this to
-land after those are merged.
+Totally agree, as it would also remove most of the uses of 
+XMM_ONLY/YMM_ONLY.
 
-I tested my patch with this program:
+I also saw GCC -Warray-bounds complain about
 
- https://github.com/shenki/p10_tests
+	if (SHIFT >= 1) {
+		d->elem[8] = s->elem[8];
+	}
 
-$ qemu-ppc64le -cpu power10  -L ~/ppc64le/ ./test -c
-HWCAP: 0x58000580 HWCAP2: 0x8ee60000
-ISAv3.1: Yes
-MMA: Yes
+though this should probably treated as a GCC bug.
 
-$ qemu-ppc64le -cpu power9  -L ~/ppc64le/ ./test -c
-HWCAP: 0x58000580 HWCAP2: 0x8ee00000
-ISAv3.1: No
-MMA: No
+Paolo
 
- linux-user/elfload.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 61063fd974e5..0908692e62b3 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -779,6 +779,8 @@ enum {
-     QEMU_PPC_FEATURE2_DARN = 0x00200000, /* darn random number insn */
-     QEMU_PPC_FEATURE2_SCV = 0x00100000, /* scv syscall */
-     QEMU_PPC_FEATURE2_HTM_NO_SUSPEND = 0x00080000, /* TM w/o suspended state */
-+    QEMU_PPC_FEATURE2_ARCH_3_1 = 0x00040000, /* ISA 3.1 */
-+    QEMU_PPC_FEATURE2_MMA = 0x00020000, /* Matrix-Multiply Assist */
- };
- 
- #define ELF_HWCAP get_elf_hwcap()
-@@ -836,6 +838,8 @@ static uint32_t get_elf_hwcap2(void)
-                   QEMU_PPC_FEATURE2_VEC_CRYPTO);
-     GET_FEATURE2(PPC2_ISA300, QEMU_PPC_FEATURE2_ARCH_3_00 |
-                  QEMU_PPC_FEATURE2_DARN | QEMU_PPC_FEATURE2_HAS_IEEE128);
-+    GET_FEATURE2(PPC2_ISA310, QEMU_PPC_FEATURE2_ARCH_3_1 |
-+                 QEMU_PPC_FEATURE2_MMA);
- 
- #undef GET_FEATURE
- #undef GET_FEATURE2
--- 
-2.35.1
+> If we're that keen on it, it should be written
+> 
+> #pragma GCC unroll 4 << SHIFT
+>      for (i = 0; i < 4 << SHIFT; ++i) {
+>          something
+>      }
 
 
