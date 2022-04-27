@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768C7511C90
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:24:11 +0200 (CEST)
-Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69709511C9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:27:25 +0200 (CEST)
+Received: from localhost ([::1]:48316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njlOc-0000Mb-Az
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
+	id 1njlRk-00065U-HJ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1njlMY-00063W-Tg
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:04 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:45878)
+ id 1njlMY-00063T-2D
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:03 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1njlMU-00017v-BT
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:02 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id h1so2110558pfv.12
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 10:21:57 -0700 (PDT)
+ id 1njlMV-000186-Eh
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:01 -0400
+Received: by mail-pg1-x536.google.com with SMTP id v10so1941139pgl.11
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 10:21:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BEd4+7M6Tx8gR8spKKlq17Z4n7cYpoQSdj6J9B2o2EI=;
- b=FmkaCUkKqZchGj9PgA47oK6fTwVceVGk4Xzp8wOhpXmhS19mNCVKpV10OOx4hB9RWi
- v2abQQs5b1oPMAhKxwaeOCn0TfijI761RCeemAYtMKicJIj1GlSlMNRMrcrsa9eNx5co
- kqSVzI5jIPvTr2bc5bFj/oOqkOuyKaP0y9N8xO3CL3DC0QaxlDegaBQk82HTrD8IsKw8
- 9rrZ1ScG15PdZFT1e9k0Ro97fvDRIqYgKgIUyu4bAkh80Y5+JHmJrJM7azzpXoesf6Fp
- vUSnTYCl2NWm9XwLcjFc7ocg0r0UbFsH56984Ynk23KZWQxzRT8YiDWjR5AC/CTDi7ZH
- A3fQ==
+ bh=WQsutAy+FdgpsWqrim8hxnGCb/1/Ut4iQvf1aGwFKic=;
+ b=Op9vE6ll2ZxeWbGVGZEhnBjqn3jFGir6ICAhfHOGINFKnAjpWU1l9yzKdrI7g8unpJ
+ E9iwSjTh5f/LHnRkFf30OxgUIudJCitU9AxJQD+GLDOg+Xhv8e1SxHfeny5YoM2nvvZ6
+ YFtxE6kK/LF/RGhwixVLU5Kj1nIN8V3oq8YxiYL4y1eQi4UMrQZkRQGCX2gGYnWQntUa
+ tTGXZZA8ZX2julZwG0MV9iDCe9XJhRGHxZHxxVRku4d75nftOUKWzZHRlf4vsTXFJ7SQ
+ Ntk0y6ZTccYouTEX+CFsmjJ7b9CsfOlAhIuZ8IXF7iDanLjrJFP35MXxABwanN9z8oYw
+ hMKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BEd4+7M6Tx8gR8spKKlq17Z4n7cYpoQSdj6J9B2o2EI=;
- b=IQlfwYCQSOqx0qTTlifBKYA0i/FBgLHHwbSUYvlcslikxEso00gJXeMmu21C6t9W5A
- l/No7CcS6H7sj44cfC1B2xCFeJHKrYJfEeZS6Vjkpdh/eUyEatOwpP/AwVVLR01AqIx6
- +kGN0AU0iFHzH3rDkhrJReafZblWAC0t5a17GmY7AmkwUesEraYjwqJjWQIIrBiBkThP
- q1r5GnGmBxFNLHAAERaWACusYNwWYHyN6PkVchNlSrRyzNKxX/HGrjt2qnU4DzMVYUkn
- n7nLus3b+NRQ42AI9ZdGx9Jega7uZ21BGEmkxKzMeQiSzF0BAjHCYqS3OLaSEBtLgGA4
- FEjw==
-X-Gm-Message-State: AOAM530N05J4ku2Giybg66PKEypHrJ+4vzDDmM2kBVbnhiFi6q7KOcVG
- F3igLo1eJMzMd78PfTkU7SLEvzbIxWY=
-X-Google-Smtp-Source: ABdhPJwR17l5RfAaIVM4DNLFxCIt6xlot99f+UqgZMS3mWfUtBxwTXg0+QkDtosYe/8gJX1ZTNCUVQ==
-X-Received: by 2002:a63:7c42:0:b0:39c:c333:b3d4 with SMTP id
- l2-20020a637c42000000b0039cc333b3d4mr25048059pgn.456.1651080116648; 
- Wed, 27 Apr 2022 10:21:56 -0700 (PDT)
+ bh=WQsutAy+FdgpsWqrim8hxnGCb/1/Ut4iQvf1aGwFKic=;
+ b=0Kq8IRmIY/btgd/+E2zgivKDzex4VcdNOrECUFBKtGhRMwE4PRuQD4IJ1KRMETHVR9
+ VnjnemLAzjVGF9eOvrXm2ZUOXkfmmpUCs/8YGPCtuvl6ZM7LpkJ24sBYMaRx8QhhXxko
+ /CWF/vVYAMKE9AHmGYQVvdGR8X4nU4N32f+6u8M93aU5DJyCmBGJ1VKj4U/HeqaVvAYH
+ oPL6zeQ5Q1qbqu6oiYOgMlgHftPsn6KvFVw+9G5F4UZHyyM+BuBS2pTIjIhcPsdfRq+6
+ ACsgJ451dzR6+XYtmw07J3iuEaX3hZZ4r5HZn3atmQ7zI4ewwwOP244pGiKtnGxvBU6N
+ zTTw==
+X-Gm-Message-State: AOAM531WSG366ECW47qurvJU/G5wYiMzdRu/DU+81gC68s+f+nYASd3v
+ xEadUlxCu/qBfdN9RKJXhkFy+hpz8mY=
+X-Google-Smtp-Source: ABdhPJx/myRPhuR55a74HdT70HFNXwrpzvOTVQHeCRLKndhcEkRrxu+jSerzNlNLoGxgHl6P5zl7sA==
+X-Received: by 2002:a63:6cc5:0:b0:3ab:7a48:af2b with SMTP id
+ h188-20020a636cc5000000b003ab7a48af2bmr10544359pgc.302.1651080117930; 
+ Wed, 27 Apr 2022 10:21:57 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:401:1d20:76e8:b785:3fb9:b6d6])
  by smtp.gmail.com with ESMTPSA id
- f16-20020a056a00239000b004fa7103e13csm21202124pfc.41.2022.04.27.10.21.55
+ f16-20020a056a00239000b004fa7103e13csm21202124pfc.41.2022.04.27.10.21.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 10:21:56 -0700 (PDT)
+ Wed, 27 Apr 2022 10:21:57 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] tests/tcg/xtensa: remove dependency on the loop option
-Date: Wed, 27 Apr 2022 10:21:37 -0700
-Message-Id: <20220427172140.1406059-5-jcmvbkbc@gmail.com>
+Subject: [PATCH 5/7] tests/tcg/xtensa: enable autorefill phys_mem tests for
+ MMUv3
+Date: Wed, 27 Apr 2022 10:21:38 -0700
+Message-Id: <20220427172140.1406059-6-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220427172140.1406059-1-jcmvbkbc@gmail.com>
 References: <20220427172140.1406059-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -90,84 +91,43 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-xtensa core may not have the loop option, but still have timers. Don't
-use loop opcode in the timer test.
+Autorefill tests in the phys_mem test suite are disabled for cores that
+have spanning TLB way, i.e. for all MMUv3 cores. Instead of disabling it
+invalidate TLB mappings for entries that conflict with the test.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- tests/tcg/xtensa/test_timer.S | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ tests/tcg/xtensa/test_phys_mem.S | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tests/tcg/xtensa/test_timer.S b/tests/tcg/xtensa/test_timer.S
-index 1ec8e20883ff..2a383e77190e 100644
---- a/tests/tcg/xtensa/test_timer.S
-+++ b/tests/tcg/xtensa/test_timer.S
-@@ -115,9 +115,9 @@ test ccompare0_interrupt
-     movi    a2, 1 << XCHAL_TIMER0_INTERRUPT
-     wsr     a2, intenable
-     rsil    a2, 0
--    loop    a3, 1f
--    nop
- 1:
-+    addi    a3, a3, -1
-+    bnez    a3, 1b
-     test_fail
- 2:
-     rsr     a2, exccause
-@@ -148,9 +148,9 @@ test ccompare1_interrupt
-     movi    a2, 1 << XCHAL_TIMER1_INTERRUPT
-     wsr     a2, intenable
-     rsil    a2, INTERRUPT_LEVEL(XCHAL_TIMER1_INTERRUPT) - 1
--    loop    a3, 1f
--    nop
- 1:
-+    addi    a3, a3, -1
-+    bnez    a3, 1b
-     test_fail
- 2:
- test_end
-@@ -177,9 +177,9 @@ test ccompare2_interrupt
-     movi    a2, 1 << XCHAL_TIMER2_INTERRUPT
-     wsr     a2, intenable
-     rsil    a2, INTERRUPT_LEVEL(XCHAL_TIMER2_INTERRUPT) - 1
--    loop    a3, 1f
--    nop
- 1:
-+    addi    a3, a3, -1
-+    bnez    a3, 1b
-     test_fail
- 2:
- test_end
-@@ -197,7 +197,7 @@ test ccompare_interrupt_masked
-     wsr     a2, ccompare2
- #endif
+diff --git a/tests/tcg/xtensa/test_phys_mem.S b/tests/tcg/xtensa/test_phys_mem.S
+index 9bb3ee3866ed..f935a702945c 100644
+--- a/tests/tcg/xtensa/test_phys_mem.S
++++ b/tests/tcg/xtensa/test_phys_mem.S
+@@ -2,7 +2,7 @@
  
--    movi    a3, 2 * WAIT_LOOPS
-+    movi    a3, WAIT_LOOPS
-     make_ccount_delta a2, a15
- #if XCHAL_NUM_TIMERS > 1
-     wsr     a2, ccompare1
-@@ -211,9 +211,10 @@ test ccompare_interrupt_masked
-     movi    a2, 1 << XCHAL_TIMER0_INTERRUPT
-     wsr     a2, intenable
-     rsil    a2, 0
--    loop    a3, 1f
--    nop
- 1:
-+    addi    a3, a3, -1
-+    bnez    a3, 1b
-+
-     test_fail
- 2:
-     rsr     a2, exccause
-@@ -231,7 +232,6 @@ test ccompare_interrupt_masked_waiti
-     wsr     a2, ccompare2
- #endif
+ test_suite phys_mem
  
--    movi    a3, 2 * WAIT_LOOPS
-     make_ccount_delta a2, a15
- #if XCHAL_NUM_TIMERS > 1
-     wsr     a2, ccompare1
+-#if XCHAL_HAVE_PTP_MMU && !XCHAL_HAVE_SPANNING_WAY
++#if XCHAL_HAVE_PTP_MMU
+ 
+ .purgem test_init
+ 
+@@ -13,6 +13,14 @@ test_suite phys_mem
+     witlb   a2, a3
+     movi    a2, 0xc0000000
+     wsr     a2, ptevaddr
++#if XCHAL_HAVE_SPANNING_WAY
++    movi    a2, 0xc0000000 | XCHAL_SPANNING_WAY
++    idtlb   a2
++    iitlb   a2
++    movi    a2, 0x20000000 | XCHAL_SPANNING_WAY
++    idtlb   a2
++    iitlb   a2
++#endif
+ .endm
+ 
+ test inst_fetch_get_pte_no_phys
 -- 
 2.30.2
 
