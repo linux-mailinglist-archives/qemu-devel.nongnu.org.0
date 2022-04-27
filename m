@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786705118B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 16:23:26 +0200 (CEST)
-Received: from localhost ([::1]:35608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE8F5118BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 16:23:56 +0200 (CEST)
+Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njiZh-0002t2-7K
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 10:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55774)
+	id 1njiaB-00046L-MU
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 10:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njiXs-0001oh-6n
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:21:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njiXp-0006tt-CK
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:21:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651069287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PkdfULmL8w5CFZauH/tXIr3VpJORQtXe+ooRGeNjWng=;
- b=RbooVfuG8aUVVfTeyLBG218M+uDcsDolyFSojErYfr1tU8ZUPKT/inN1gUjWO3KbAaWPrm
- +V1wUb3cA3DfUBKrithh1DtlzU4CGRrj5YgbbqB7TN7mJW1IFFZ7awizyGVNuPkiqA136j
- JIm4DuG5fr41B+ZhuYsiDgsE8nGFSDo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-5cBJOiPeNauJOsIx38eI_g-1; Wed, 27 Apr 2022 10:21:26 -0400
-X-MC-Unique: 5cBJOiPeNauJOsIx38eI_g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2FE1811E75;
- Wed, 27 Apr 2022 14:21:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B4E62027EB4;
- Wed, 27 Apr 2022 14:21:13 +0000 (UTC)
-Date: Wed, 27 Apr 2022 09:21:12 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/3] coroutine-lock: qemu_co_queue_restart_all is a
- coroutine-only qemu_co_enter_all
-Message-ID: <20220427142112.ti2sr3doem5du63q@redhat.com>
-References: <20220427130830.150180-1-pbonzini@redhat.com>
- <20220427130830.150180-4-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njiYM-0002TW-5z
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:22:02 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:45952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njiYK-0006wO-Lh
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 10:22:01 -0400
+Received: by mail-ej1-x634.google.com with SMTP id y3so3691896ejo.12
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 07:22:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KmIqq8mNUxjxixuenwToXtzEkEqyO5IVxc/4VU2X+T8=;
+ b=SfQcn78uggH6qDZSvrRDmNTv+d+b4TEagHfXnqzBtpLzhMDUt4i+b1JMm8Kkm5x7eE
+ uxcxvqcf/cupYqoHlcKIZjayF4/MhUzAyBc5QAJcY7YNIvaTS6Ss9yJb7I1dZZLU6h3U
+ j97BugoBMr6PNTSme/A3WOmjsU9BpukiVHCiY3/ZQMnishg0ezKmq3E/g5wPWuaelydo
+ 1RKHbxl8gOcCYapcGFa+UYUGyeJgUOP70FbFEne8lxueAwCDFWuytxPl7IDfVuKfk8ca
+ h42JzPl0aaMOCURk+G6T4H2EEdEFyEjaw+Mj1ROH7BtfsKfCsOOk/PtvUJHPiaw27206
+ 4L8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KmIqq8mNUxjxixuenwToXtzEkEqyO5IVxc/4VU2X+T8=;
+ b=UYNaO98xTlj0Yzj+pl6wpczF0AfRETLBSn05gIo9nTNZ+pvZGlT9QFAMBx0x7aePna
+ bpUnjsWPzo3oc8NsNHJ0s+tXetw1U/lIAKMYQF9ZcC+dC+F0H6TaGCOmldz6CkZDztq6
+ rd8a2C/wWt9ZEYNsKfiSGDUZlQfmIko7KIRUiB2PLQgrItVDsHsAiIALOv9Fbgh3+Gbr
+ dzqJdTz4DWlrG3SQUyCd8yoCAHQB1tA+zb/1k7o+iSCktra03nirdwA/vQ4uSh8ili9Z
+ YmmeGunqVaOhEXXXf8c5tY6cL+bAssPizYdkfbniZQYPropG7ti41P3pkHzpWUWem/CJ
+ 75ig==
+X-Gm-Message-State: AOAM533GHnxQbHdQJxFeIvRgKB9O9oyFsTGfjaQ0Ecf7j2P2GoeCaRO/
+ PkXwrCxtmPalUZhZvARLXOzrrW3uz3fcrQ==
+X-Google-Smtp-Source: ABdhPJztp/Un6o1fWYyCBJwiSwOiAPt5NFjZpo4a4j8nxC/ID4ZRvsws1zwlLRPfF90aYV58qBcLhw==
+X-Received: by 2002:a17:907:6d07:b0:6f3:d077:813a with SMTP id
+ sa7-20020a1709076d0700b006f3d077813amr1869032ejc.138.1651069319130; 
+ Wed, 27 Apr 2022 07:21:59 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ g6-20020a056402090600b0041d8c2f9e61sm8541658edz.31.2022.04.27.07.21.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Apr 2022 07:21:58 -0700 (PDT)
+Message-ID: <62ca19cb-6d61-bf24-f500-f72b9a4da3b6@redhat.com>
+Date: Wed, 27 Apr 2022 16:21:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220427130830.150180-4-pbonzini@redhat.com>
-User-Agent: NeoMutt/20220415-26-c08bba
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH 6/6] vl: introduce -audio as a replacement for -soundhw
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20220427113225.112521-1-pbonzini@redhat.com>
+ <20220427113225.112521-7-pbonzini@redhat.com>
+ <c338fd73-e2d8-791b-d23f-1cfcc8010d5b@ilande.co.uk>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <c338fd73-e2d8-791b-d23f-1cfcc8010d5b@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,37 +93,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: mkletzan@redhat.com, berrange@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 27, 2022 at 03:08:30PM +0200, Paolo Bonzini wrote:
-> qemu_co_queue_restart_all is basically the same as qemu_co_enter_all
-> but without a QemuLockable argument.  That's perfectly fine, but only as
-> long as the function is marked coroutine_fn.  If used outside coroutine
-> context, qemu_co_queue_wait will attempt to take the lock and that
-> is just broken: if you are calling qemu_co_queue_restart_all outside
-> coroutine context, the lock is going to be a QemuMutex which cannot be
-> taken twice by the same thread.
+On 4/27/22 15:41, Mark Cave-Ayland wrote:
+>> +                select_soundhw(model, dev->id);
+>> +                g_free(model);
+>>                   break;
+>> +            }
+>>               case QEMU_OPTION_h:
+>>                   help(0);
+>>                   break;
 > 
-> The patch adds the marker to qemu_co_queue_restart_all and to its sole
-> non-coroutine_fn caller; it then reimplements the function in terms of
-> qemu_co_enter_all_impl, to remove duplicated code and to clarify that the
-> latter also works in coroutine context.
+> Is it possible to change select_soundhw() to take an AudioDev pointer 
+> rather than a string, and then add a new qdev_prop_set_audiodev() 
+> function similar to qdev_prop_set_chr() and qdev_prop_set_netdev()?
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block/io.c                 |  2 +-
->  include/qemu/coroutine.h   |  7 ++++---
->  util/qemu-coroutine-lock.c | 21 ++++++---------------
->  3 files changed, 11 insertions(+), 19 deletions(-)
->
+> In reality the underlying QOM property is still a string, but I think 
+> having the stronger typing for AudioDev properties is useful and 
+> potentially allows for the various *dev backend properties to become QOM 
+> links in future.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+I didn't consider that because there are just two uses and I don't 
+expect them to grow much, but yes it's possible.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Paolo
 
