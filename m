@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED2A510E08
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 03:44:30 +0200 (CEST)
-Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACEA510E4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 03:50:45 +0200 (CEST)
+Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njWjF-0004jt-R6
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 21:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51252)
+	id 1njWpI-00074v-BD
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 21:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njWi3-00042j-Tz
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 21:43:15 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34557)
+ id 1njWoH-0006Or-EM
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 21:49:41 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:42836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njWhz-0007ge-9w
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 21:43:12 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- d23-20020a17090a115700b001d2bde6c234so2858598pje.1
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 18:43:10 -0700 (PDT)
+ id 1njWoF-0008UE-QH
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 21:49:41 -0400
+Received: by mail-pg1-x530.google.com with SMTP id bg9so306571pgb.9
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 18:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=q9nh7GDMjoEWtpr4dM/T/HW5Sz+GgP7NA0I9LjN6is8=;
- b=TW41KJ/8D1AN1wFTw2U91ihw2AuKpSPc6nh6p/m3MuNE+3M/WMfCTNkOfRYZ2WouyQ
- f3HVYdnTi5rutHced1PgOeYa7zVQMxiUjxBm3u6pbpDF/xuGdTVhqxDawikXdjYDGLT+
- sm3qrFeFXl8ryvSRIbG8Ax2e12zhAyf9DDnz3DQw3yiscn/6nCer4Lm1vhi1ksLpHPv3
- ayh4eb9/MVNlln3+RBEgMJJh8q5N3cjUrlelYHP3z7t4ExhhySnNTi5JXVyB4Ldfm7/b
- jRAWmUbwQ8zaoqJ3i6qTji4Yb7UtwoQVa3akheiqfE/ryxUSz+Z11oHT4v96M7bE+1GI
- kfpA==
+ bh=kkeFvaVemLxbqkHwjGYlF+QnVKQJjUG/3QnEaKmtGiw=;
+ b=EgkcINkQP50yKloE3xRbpmXOFFwPO6qUndQjaVqI8tNOA5Yj9kiH741GxBUO0mRgZA
+ +gJQ5zxfpWbtpM8IEduzkHzoq88f/XQbiJFrYps6XVEQkH02o9L2dT4GMLpu1nOVoVSe
+ zeMPtkd5QF/udj6iGS2oYt74Wn8NWasqvLr4GaOqsp6rhz4fRm0kbYATnLjh9kHvJUWc
+ ofdN9h3FZJbWxhUtMNeKII09Nn7uU0MGpgHed5f3dDaUoRnREJRXSjxQujDm9+dqfMBP
+ brpU3yVa1b/4X7c1OnAey3+k+mvBT4LuRCIUUXfprdUTz/NPkjJL937hI2XYO6ZZVJmN
+ /+Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=q9nh7GDMjoEWtpr4dM/T/HW5Sz+GgP7NA0I9LjN6is8=;
- b=Tg0X3yLXtkTDEqZYZ7cwQrUp/SDm69ceOdvG3xnhp50e+c52p740mewasn41PC2eUv
- LvKgEefccXaIB+k4iYYJfxYf3KxMFqOeUyBXP84Aj0mfDD9/1GXJvEM5B5jjErgqa6kg
- ivLdalRWXfQYobSWcqgWhZqLzO5PWOoTVgC9V/IuYKZqhezCXottBhk4jaxK5IT9IiUY
- UdOmW01MswsuR86A/lLmcBWIUaUI5vLvydJQKMO154DMaYiPixwPfx0UPVIbnubVLnyZ
- RYMzp8D9/FNhZeARfgcifAVEQtMMpM5MS1m/arkqYnGqs9z75KOQDwTzl1CB0N8mBIiF
- clVw==
-X-Gm-Message-State: AOAM533D+eL+nh7GNTUtPKnDHrKTJpmzShUBn40yg/Q3qvU4Q8r+Cisl
- UFkhGohhPfchnf45sSRMY1Ip4A==
-X-Google-Smtp-Source: ABdhPJxN7HLdVON26rq22gwl9iPSwkh7qjhrSijMvRXJuP0lpAFt3aHokwTcBcl43PGrsdYSfZ7Nnw==
-X-Received: by 2002:a17:903:240c:b0:153:c452:f282 with SMTP id
- e12-20020a170903240c00b00153c452f282mr25659793plo.88.1651023789468; 
- Tue, 26 Apr 2022 18:43:09 -0700 (PDT)
+ bh=kkeFvaVemLxbqkHwjGYlF+QnVKQJjUG/3QnEaKmtGiw=;
+ b=TnxjpFZXDXRzXrgNRJi9gwU1eL+2dEpnqG7Knt3qxGPaRDZmkAHzNhWKlgXQkqyKP1
+ eMUrQUBzINUtoSCe7BS5F9UvBwec0GDggjgo+ZrVQf2qHjQSss/iE62BVgtYlQGIaR9k
+ lg1Rnf2yBGr0d2+1TSK5Lqr0gw9oz/079oN72oro6+i+egIrzjjRqzJKAwYUrtajAJ/Z
+ 9dyFJBTQqz9nBCwEKUDhnPRAgU2q/IjFv/CPpINjA3m76chWS9K4OfixJRowkKCU+ypW
+ 2egRAvi3oUHGHdNlxXy4zESdtS8Ge9JVmE0L3eq4Dim1Yc/7DRkeFlOKXqGxFZaKwWVS
+ r2xQ==
+X-Gm-Message-State: AOAM5309bepUVmaEWToHPE+/4SGgBr52fKxmsoQqfiyYJiWmqD2onwLL
+ D26RZSiYrVoIFuqzh8Y1S+JvZQ==
+X-Google-Smtp-Source: ABdhPJyRkzp+5rE5HH4SJg9o1He/MuJVXp32BoQIZIHs34ploIL8egWCzbYSG/DesmLn3Bh7yjN8dA==
+X-Received: by 2002:a65:6942:0:b0:378:9365:5963 with SMTP id
+ w2-20020a656942000000b0037893655963mr21660229pgq.142.1651024178434; 
+ Tue, 26 Apr 2022 18:49:38 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- f127-20020a62db85000000b0050d3dd1138csm8973767pfg.126.2022.04.26.18.43.08
+ w129-20020a628287000000b0050d4246fbedsm8227594pfd.187.2022.04.26.18.49.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 18:43:08 -0700 (PDT)
-Message-ID: <0d3b971a-d521-785b-ca05-065c198507b4@linaro.org>
-Date: Tue, 26 Apr 2022 18:43:07 -0700
+ Tue, 26 Apr 2022 18:49:37 -0700 (PDT)
+Message-ID: <aa14b042-68b1-8d6d-689c-c949a85ef311@linaro.org>
+Date: Tue, 26 Apr 2022 18:49:36 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 30/43] hw/loongarch: Add support loongson3 virt machine
- type.
+Subject: Re: [PATCH v2 31/43] hw/loongarch: Add LoongArch ipi interrupt
+ support(IPI)
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
- <20220425091027.2877892-31-yangxiaojuan@loongson.cn>
+ <20220425091027.2877892-32-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220425091027.2877892-31-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220425091027.2877892-32-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,19 +95,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/25/22 02:10, Xiaojuan Yang wrote:
-> Emulate a 3A5000 board use the new loongarch instruction.
-> 3A5000 belongs to the Loongson3 series processors.
-> The board consists of a 3A5000 cpu model and the virt
-> bridge. The host 3A5000 board is really complicated and
-> contains many functions.Now for the tcg softmmu mode
-> only part functions are emulated.
-> 
-> More detailed info you can see
-> https://github.com/loongson/LoongArch-Documentation
+> This patch realize the IPI interrupt controller.
 > 
 > Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
 > Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
+>   MAINTAINERS                     |   2 +
+>   hw/intc/Kconfig                 |   3 +
+>   hw/intc/loongarch_ipi.c         | 166 ++++++++++++++++++++++++++++++++
+>   hw/intc/meson.build             |   1 +
+>   hw/intc/trace-events            |   4 +
+>   hw/loongarch/Kconfig            |   1 +
+>   include/hw/intc/loongarch_ipi.h |  50 ++++++++++
+>   include/hw/loongarch/virt.h     |   2 +
+>   8 files changed, 229 insertions(+)
+>   create mode 100644 hw/intc/loongarch_ipi.c
+>   create mode 100644 include/hw/intc/loongarch_ipi.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
