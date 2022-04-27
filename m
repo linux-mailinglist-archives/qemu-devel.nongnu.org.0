@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABEE511C10
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 17:53:29 +0200 (CEST)
-Received: from localhost ([::1]:33852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F138A511C35
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 18:08:08 +0200 (CEST)
+Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njjyq-0000W9-Gq
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 11:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48656)
+	id 1njkD1-000471-Km
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 12:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1njjxi-000885-P2
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:52:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1njjxg-00040E-Sw
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:52:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651074736;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o+/cdX66SrUUtT1al3s/ZatbK23K/MYaufzZ0NrX5tY=;
- b=H5/hUwZQEjCrZcmiL4mECjMlOLDcNKvN3hJRIOQkgvaYMKy3qbydZ+85EhWKbqfGjHt2GB
- tJg/MuQFKAJp64vv8g6CEjJsK5w1mV1cYe0e1H5qijfac7UyOuFLw7szuBsuHYDO2+o3rB
- p+t8N6+RhhMzVl6WbMzXLimrrJ1rxwY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-Ds2S2ppUNGq0t72uyb8LAA-1; Wed, 27 Apr 2022 11:52:13 -0400
-X-MC-Unique: Ds2S2ppUNGq0t72uyb8LAA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 736E53C0E187;
- Wed, 27 Apr 2022 15:52:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90039C08087;
- Wed, 27 Apr 2022 15:52:10 +0000 (UTC)
-Date: Wed, 27 Apr 2022 17:52:09 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 3/3] nbd/server: Allow MULTI_CONN for shared writable
- exports
-Message-ID: <YmlmqSh9QADBm9jp@redhat.com>
-References: <20220314203818.3681277-1-eblake@redhat.com>
- <20220314203818.3681277-4-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njk7P-0007TJ-FI
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:02:19 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:35774)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njk7N-0005d5-MZ
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 12:02:18 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id d15so1945813plh.2
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 09:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=KTj1anzyIy8EpmxdNo8bsTZF19d1L0/4kWXS7+k75/Y=;
+ b=yNJF774aG3ZE4jUf6RBVAukl5mkxy+iVI/cLkWZryi4xL9ST+IpnBevVE2qIFk0iw0
+ AAQOHmaDKhFqJIsiAhf7Pnm3IbNte09vmu50dboUTJKtdkTf9rjuaQA6C2MVXelbUEKX
+ rzbC5JCVUdKrB1BvZj+0ChAF9kf82oOZrwXomZr1FUzO6EaBe4FK6QC2ZWGwtnzUh0Vc
+ lQagdR+CgebKFcpFo5rBFxB4WfBH3XT3DAboA6HSHJ2fHHfRIOYNqMD00518NHhrcptE
+ LEYDOvrQXY/SdEFxKOnu5iEkEJIoJl9P2EByqW9wjMSsI2EVcLUBhE3qrgTyHLveTdxp
+ Aiog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KTj1anzyIy8EpmxdNo8bsTZF19d1L0/4kWXS7+k75/Y=;
+ b=3QOo//DV2qYnG+COXHz3Zg0R3RQz0dYTUJXTPMItqD+TqtC9zmQkPKMI38VFQLcuw4
+ lAcHUkWcRk5vumtFUUO2QdlzZ2xLxju+kizqO099hIYjCo2N464xieGL7FmWBlp5j495
+ Hb6UFihfpp2/qUv90r/DHeT7VgXUtDaI4emESiMP+tw4KcvK1p4K74PTfRhqb40Ef/OT
+ NUTOOiNMV0pv1SLJyrfp1eYnOi5KLN/0K2dCsYmw7Vv990jsW6bcCkqUCUT6X+VUSARe
+ qrGizhZi7SZwKEy2zOZrXrNETK9X7dNP9sEKyMwf4GZ58cYEitRlZeHc7J13ifAY6kaJ
+ hHpQ==
+X-Gm-Message-State: AOAM533Ds2qriS3UppfIwXsZCaN7X+MwCzH5jZwfViYxZu4NIUxHeAg3
+ 41owernTXpYt/OI2r4TrKtf8Hw==
+X-Google-Smtp-Source: ABdhPJweWj2VvuvcKaUizxukoM2al17JGdS0Wtk3O7dsdfaeh2F0epoW2H1KdubF8jlxCkivdn3qOA==
+X-Received: by 2002:a17:903:22cd:b0:15d:1e6b:4363 with SMTP id
+ y13-20020a17090322cd00b0015d1e6b4363mr14247599plg.36.1651075336055; 
+ Wed, 27 Apr 2022 09:02:16 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ w187-20020a6230c4000000b00505cde77826sm18900135pfw.159.2022.04.27.09.02.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Apr 2022 09:02:15 -0700 (PDT)
+Message-ID: <33a13867-e31c-5f73-7a2d-957da471e0d2@linaro.org>
+Date: Wed, 27 Apr 2022 09:02:13 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220314203818.3681277-4-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/2] hw/arm/smmuv3: Add space in guest error message
+Content-Language: en-US
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>, eric.auger@redhat.com
+References: <20220427111543.124620-1-jean-philippe@linaro.org>
+ <20220427111543.124620-2-jean-philippe@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220427111543.124620-2-jean-philippe@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,123 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, rjones@redhat.com, nsoffer@redhat.com,
- Hanna Reitz <hreitz@redhat.com>, v.sementsov-og@ya.ru
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.03.2022 um 21:38 hat Eric Blake geschrieben:
-> According to the NBD spec, a server that advertises
-> NBD_FLAG_CAN_MULTI_CONN promises that multiple client connections will
-> not see any cache inconsistencies: when properly separated by a single
-> flush, actions performed by one client will be visible to another
-> client, regardless of which client did the flush.  We satisfy these
-> conditions in qemu when our block layer is backed by the local
-> filesystem (by virtue of the semantics of fdatasync(), and the fact
-> that qemu itself is not buffering writes beyond flushes).  It is
-> harder to state whether we satisfy these conditions for network-based
-> protocols, so the safest course of action is to allow users to opt-in
-> to advertising multi-conn.
-
-Do you have an example of how this could be unsafe?
-
-As I understand it, the NBD server has a single BlockBackend and
-therefore is a single client for the backend, be it file-posix or any
-network-based protocol. It doesn't really make a difference for the
-storage from how many different NBD clients the requests are coming.
-
-I would have expected that cache coherency of the protocol level driver
-would only matter if you had two QEMU processes accessing the same file
-concurrently.
-
-In fact, I don't think we even need the flush restriction from the NBD
-spec. All clients see the same state (that of the NBD server
-BlockBackend) even without anyone issuing any flush. The flush is only
-needed to make sure that cached data is written to the backing storage
-when writeback caches are involved.
-
-Please correct me if I'm misunderstanding something here.
-
-> We may later tweak defaults to advertise
-> by default when the block layer can confirm that the underlying
-> protocol driver is cache consistent between multiple writers, but for
-> now, this at least allows savvy users (such as virt-v2v or nbdcopy) to
-> explicitly start qemu-nbd (new -m command-line option) or
-> qemu-storage-daemon (new qapi field 'multi-conn') with multi-conn
-> advertisement in a known-safe setup where the client end can then
-> benefit from parallel clients.
+On 4/27/22 04:15, Jean-Philippe Brucker wrote:
+> Make the translation error message prettier by adding a missing space
+> before the parenthesis.
 > 
-> Note, however, that we don't want to advertise MULTI_CONN when we know
-> that a second client cannot connect (for historical reasons, qemu-nbd
-> defaults to a single connection while nbd-server-add and QMP commands
-> default to unlimited connections; but we already have existing means
-> to let either style of NBD server creation alter those defaults).  The
-> harder part of this patch is setting up an iotest to demonstrate
-> behavior of multiple NBD clients to a single server.  It might be
-> possible with parallel qemu-io processes, but I found it easier to do
-> in python with the help of libnbd, and help from Nir and Vladimir in
-> writing the test.
-> 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> Suggested-by: Nir Soffer <nsoffer@redhat.com>
-> Suggested-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+> Signed-off-by: Jean-Philippe Brucker<jean-philippe@linaro.org>
+> ---
+>   hw/arm/smmuv3.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-> @@ -709,6 +714,17 @@ int main(int argc, char **argv)
->                  exit(EXIT_FAILURE);
->              }
->              break;
-> +        case 'm':
-> +        {
-> +            Error *err = NULL;
-> +            multi_conn = qapi_enum_parse(&OnOffAuto_lookup, optarg,
-> +                                         ON_OFF_AUTO_AUTO, &err);
-> +            if (err) {
-> +                error_report_err(err);
-> +                exit(EXIT_FAILURE);
-> +            }
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I think this is the same as passing &error_fatal.
-
-> +            break;
-> +        }
->          case 'f':
->              fmt = optarg;
->              break;
-> diff --git a/tests/qemu-iotests/tests/nbd-multiconn b/tests/qemu-iotests/tests/nbd-multiconn
-> new file mode 100755
-> index 000000000000..7d1179b33b05
-> --- /dev/null
-> +++ b/tests/qemu-iotests/tests/nbd-multiconn
-> @@ -0,0 +1,157 @@
-> +#!/usr/bin/env python3
-> +# group: rw auto quick
-> +#
-> +# Test cases for NBD multi-conn advertisement
-> +#
-> +# Copyright (C) 2022 Red Hat, Inc.
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +
-> +import os
-> +from contextlib import contextmanager
-> +import iotests
-> +from iotests import qemu_img_create, qemu_io_silent
-
-qemu_io_silent() doesn't exist any more, commit 72cfb937 removed it.
-
-Kevin
-
+r~
 
