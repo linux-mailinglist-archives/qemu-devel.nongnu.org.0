@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABE4512461
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 23:14:00 +0200 (CEST)
-Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218C251249E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 23:40:43 +0200 (CEST)
+Received: from localhost ([::1]:58834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njoyy-0006qs-T8
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 17:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
+	id 1njpOq-0004ww-U6
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 17:40:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1njox4-0004z9-UJ; Wed, 27 Apr 2022 17:11:58 -0400
-Received: from [187.72.171.209] (port=8276 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1njox0-0000ed-BO; Wed, 27 Apr 2022 17:11:58 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 27 Apr 2022 18:11:46 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 569C580031A;
- Wed, 27 Apr 2022 18:11:46 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------4SJgCvy3W391BJtKRzVAHxco"
-Message-ID: <b7441766-6fa9-7438-fe61-c041d4237fe0@eldorado.org.br>
-Date: Wed, 27 Apr 2022 18:11:45 -0300
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njpNW-000488-MF
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 17:39:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49915)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njpNT-0004Nm-Pz
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 17:39:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651095553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YF9RH5mXTl4OWSPMavEAWdjq9Hxm8RdPOE3VXnMz4lc=;
+ b=OZ8JAiIYU3I4Ndbm6TYcNelXYz2ESB3A84cZ5RD4wTWs+/2OVJcBbiEHSERDz+gLnmm627
+ uZrHChpVvyEGbY/8I3WyF0L0ug29OivuBtnrK7ZgeeXnU/bEXvl2qLTNnrXna9b25X9KJB
+ aRsJwPZ5cq7RsTRXsKlO28x8OnlxGtM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-144-COP84vrYPamtr8yBir7aNQ-1; Wed, 27 Apr 2022 17:39:10 -0400
+X-MC-Unique: COP84vrYPamtr8yBir7aNQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0683185A5BC;
+ Wed, 27 Apr 2022 21:39:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33506407E1C0;
+ Wed, 27 Apr 2022 21:39:09 +0000 (UTC)
+Date: Wed, 27 Apr 2022 16:39:07 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v3 3/3] nbd/server: Allow MULTI_CONN for shared writable
+ exports
+Message-ID: <20220427213907.arjmq7pxuqdhopvm@redhat.com>
+References: <20220314203818.3681277-1-eblake@redhat.com>
+ <20220314203818.3681277-4-eblake@redhat.com>
+ <YmlmqSh9QADBm9jp@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 5/7] target/ppc: Implemented xvf16ger*
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
-References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
- <20220426125028.18844-6-lucas.araujo@eldorado.org.br>
- <e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org>
-X-OriginalArrivalTime: 27 Apr 2022 21:11:46.0653 (UTC)
- FILETIME=[673678D0:01D85A7B]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YmlmqSh9QADBm9jp@redhat.com>
+User-Agent: NeoMutt/20220415-26-c08bba
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,399 +76,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, rjones@redhat.com, nsoffer@redhat.com,
+ Hanna Reitz <hreitz@redhat.com>, v.sementsov-og@ya.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------4SJgCvy3W391BJtKRzVAHxco
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Wed, Apr 27, 2022 at 05:52:09PM +0200, Kevin Wolf wrote:
+> Am 14.03.2022 um 21:38 hat Eric Blake geschrieben:
+> > According to the NBD spec, a server that advertises
+> > NBD_FLAG_CAN_MULTI_CONN promises that multiple client connections will
+> > not see any cache inconsistencies: when properly separated by a single
+> > flush, actions performed by one client will be visible to another
+> > client, regardless of which client did the flush.  We satisfy these
+> > conditions in qemu when our block layer is backed by the local
+> > filesystem (by virtue of the semantics of fdatasync(), and the fact
+> > that qemu itself is not buffering writes beyond flushes).  It is
+> > harder to state whether we satisfy these conditions for network-based
+> > protocols, so the safest course of action is to allow users to opt-in
+> > to advertising multi-conn.
+> 
+> Do you have an example of how this could be unsafe?
 
+Nothing direct.  I tried to turn this on unconditionally in an earlier
+version, and we waffled about whether we could prove that network
+block backends (such as gluster) provide us the safety that the NBD
+spec demands:
 
-On 26/04/2022 21:26, Richard Henderson wrote:
-> On 4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
->> +#define VSXGER16(NAME, ORIG_T, 
->> OR_EL)                                   \
->> +    void NAME(CPUPPCState *env, uint32_t a_r, uint32_t 
->> b_r,             \
->> +              uint32_t  at_r, uint32_t mask, uint32_t 
->> packed_flags)     \
->> + { \
->> +        ppc_vsr_t 
->> *at;                                                  \
->> +        float32 psum, aux_acc, va, vb, vc, 
->> vd;                          \
->> +        int i, j, xmsk_bit, 
->> ymsk_bit;                                   \
->> +        uint8_t xmsk = mask & 
->> 0x0F;                                     \
->> +        uint8_t ymsk = (mask >> 4) & 
->> 0x0F;                              \
->> +        uint8_t pmsk = (mask >> 8) & 
->> 0x3;                               \
->> +        ppc_vsr_t *b = cpu_vsr_ptr(env, 
->> b_r);                           \
->> +        ppc_vsr_t *a = cpu_vsr_ptr(env, 
->> a_r);                           \
->> +        float_status *excp_ptr = 
->> &env->fp_status;                       \
->> +        bool acc = 
->> ger_acc_flag(packed_flags);                          \
->> +        bool neg_acc = 
->> ger_neg_acc_flag(packed_flags);                  \
->> +        bool neg_mul = 
->> ger_neg_mul_flag(packed_flags);                  \
->> +        for (i = 0, xmsk_bit = 1 << 3; i < 4; i++, xmsk_bit >>= 1) 
->> {    \
->> +            at = cpu_vsr_ptr(env, at_r + 
->> i);                            \
->> +            for (j = 0, ymsk_bit = 1 << 3; j < 4; j++, ymsk_bit >>= 
->> 1) {\
->> +                if ((xmsk_bit & xmsk) && (ymsk_bit & ymsk)) 
->> {           \
->> +                    va = !(pmsk & 2) ? float32_zero 
->> :                   \
->> +                                       GET_VSR(Vsr##OR_EL, 
->> a,           \
->> +                                               2 * i, ORIG_T, 
->> float32); \
->> +                    vb = !(pmsk & 2) ? float32_zero 
->> :                   \
->> +                                       GET_VSR(Vsr##OR_EL, 
->> b,           \
->> +                                               2 * j, ORIG_T, 
->> float32); \
->> +                    vc = !(pmsk & 1) ? float32_zero 
->> :                   \
->> +                                       GET_VSR(Vsr##OR_EL, 
->> a,           \
->> +                                            2 * i + 1, ORIG_T, 
->> float32);\
->> +                    vd = !(pmsk & 1) ? float32_zero 
->> :                   \
->> +                                       GET_VSR(Vsr##OR_EL, 
->> b,           \
->> +                                            2 * j + 1, ORIG_T, 
->> float32);\
->> +                    psum = float32_mul(va, vb, 
->> excp_ptr);               \
->> +                    psum = float32_muladd(vc, vd, psum, 0, 
->> excp_ptr);   \
->
-> This isn't correct -- the intermediate 'prod' (the first multiply) is 
-> not rounded.  I
-> think the correct way to implement this (barring new softfloat 
-> functions) is to compute
-> the intermediate product as float64 with float_round_to_odd, then 
-> float64r32_muladd into
-> the correct rounding mode to finish.
-While not mentioned in the pseudocode the instruction description says:
+https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg00038.html
+https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg06744.html
 
-- Let prod be the single-precision product of src10 and src20
+> 
+> As I understand it, the NBD server has a single BlockBackend and
+> therefore is a single client for the backend, be it file-posix or any
+> network-based protocol. It doesn't really make a difference for the
+> storage from how many different NBD clients the requests are coming.
+> 
+> I would have expected that cache coherency of the protocol level driver
+> would only matter if you had two QEMU processes accessing the same file
+> concurrently.
 
-Which I understand as the result of the first multiplication being 
-stored in a float32
+Or a multi-pathed connection to network storage, where one QEMU
+process accesses the network device, but those accesses may
+round-robin which server they reach, and where any caching at an
+individual server may be inconsistent with what is seen on another
+server unless flushing is used to force the round-robin access to
+synchronize between the multi-path views.
 
-But in xvbf16ger2* it's different (and I think this is the reason the 
-last patch is resulting in the wrong signal in some 0 and inf results), 
-the description says:
+> 
+> In fact, I don't think we even need the flush restriction from the NBD
+> spec. All clients see the same state (that of the NBD server
+> BlockBackend) even without anyone issuing any flush. The flush is only
+> needed to make sure that cached data is written to the backing storage
+> when writeback caches are involved.
+> 
+> Please correct me if I'm misunderstanding something here.
 
-- Let prod be the product of src10 and src20, having infinite precision 
-and unbounded exponent range. - Let psum be the sum of the product, 
-src11 multiplied by src21, and prod, having infinite precision and 
-unbounded exponent range.
-- Let r1 be the value psum with its significand rounded to 24-bit 
-precision using the rounding mode specified by RN, but retaining 
-unbounded exponent range (i.e., cannot overflow or underflow).
+Likewise me, if I'm being overly cautious.
 
->
->> +                    if (acc) 
->> {                                          \
->> +                        if (neg_mul) 
->> {                                  \
->> +                            psum = 
->> float32_neg(psum);                   \
->> + }                                               \
->> +                        if (neg_acc) 
->> {                                  \
->> +                            aux_acc = 
->> float32_neg(at->VsrSF(j));        \
->> +                        } else 
->> {                                        \
->> +                            aux_acc = 
->> at->VsrSF(j);                     \
->> + }                                               \
->> +                        at->VsrSF(j) = float32_add(psum, 
->> aux_acc,       \
->> + excp_ptr);           \
->
-> This one, thankfully, uses the rounded intermediate result 'msum', so 
-> is ok.
-Yes this one is the easier one to deal with, in the description for the 
-xvf16ger2* it specifies that msum and the result is rounded to 
-single-precision and in the description for the xvbf16ger2 it specifies 
-that r1 is 'rounded to a 24-bit significand precision and 8-bit exponent 
-range (i.e., single-precision)'
->
-> Please do convert this from a macro.  Given that float16 and bfloat16 
-> are addressed the
-> same, I think the only callback you need is the conversion from 
-> float16_to_float64.  Drop
-> the bf16 accessor to ppc_vsr_t.
->
-Will do, although I'm considering instead of the callback being the 
-conversion, maybe have it be a 4 float multiplication
-     typedef float32 mul_4float(float16, float16, float16, float16);
-Since float16 and bfloat16 are addressed the same, any thoughts?
->
-> r~
+I can certainly write a simpler v4 that just always advertises
+MULTI_CONN if we allow more than one client, without any knob to
+override it; it's just that it is harder to write a commit message
+justifying why I think it is safe to do so.
+
+> 
+> > We may later tweak defaults to advertise
+> > by default when the block layer can confirm that the underlying
+> > protocol driver is cache consistent between multiple writers, but for
+> > now, this at least allows savvy users (such as virt-v2v or nbdcopy) to
+> > explicitly start qemu-nbd (new -m command-line option) or
+> > qemu-storage-daemon (new qapi field 'multi-conn') with multi-conn
+> > advertisement in a known-safe setup where the client end can then
+> > benefit from parallel clients.
+> > 
+> > Note, however, that we don't want to advertise MULTI_CONN when we know
+> > that a second client cannot connect (for historical reasons, qemu-nbd
+> > defaults to a single connection while nbd-server-add and QMP commands
+> > default to unlimited connections; but we already have existing means
+> > to let either style of NBD server creation alter those defaults).  The
+> > harder part of this patch is setting up an iotest to demonstrate
+> > behavior of multiple NBD clients to a single server.  It might be
+> > possible with parallel qemu-io processes, but I found it easier to do
+> > in python with the help of libnbd, and help from Nir and Vladimir in
+> > writing the test.
+> > 
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > Suggested-by: Nir Soffer <nsoffer@redhat.com>
+> > Suggested-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+> 
+> > @@ -709,6 +714,17 @@ int main(int argc, char **argv)
+> >                  exit(EXIT_FAILURE);
+> >              }
+> >              break;
+> > +        case 'm':
+> > +        {
+> > +            Error *err = NULL;
+> > +            multi_conn = qapi_enum_parse(&OnOffAuto_lookup, optarg,
+> > +                                         ON_OFF_AUTO_AUTO, &err);
+> > +            if (err) {
+> > +                error_report_err(err);
+> > +                exit(EXIT_FAILURE);
+> > +            }
+> 
+> I think this is the same as passing &error_fatal.
+
+Yes, sounds right.
+
+> 
+> > +            break;
+> > +        }
+> >          case 'f':
+> >              fmt = optarg;
+> >              break;
+> > diff --git a/tests/qemu-iotests/tests/nbd-multiconn b/tests/qemu-iotests/tests/nbd-multiconn
+> > new file mode 100755
+> > index 000000000000..7d1179b33b05
+> > --- /dev/null
+> > +++ b/tests/qemu-iotests/tests/nbd-multiconn
+> > @@ -0,0 +1,157 @@
+> > +#!/usr/bin/env python3
+
+> > +
+> > +import os
+> > +from contextlib import contextmanager
+> > +import iotests
+> > +from iotests import qemu_img_create, qemu_io_silent
+> 
+> qemu_io_silent() doesn't exist any more, commit 72cfb937 removed it.
+
+Sounds like I need to rebase and post v4 anyways, then.
+
 -- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------4SJgCvy3W391BJtKRzVAHxco
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 26/04/2022 21:26, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">On
-      4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
-      <br>
-      <blockquote type="cite">+#define VSXGER16(NAME, ORIG_T,
-        OR_EL)                                   \
-        <br>
-        +    void NAME(CPUPPCState *env, uint32_t a_r, uint32_t
-        b_r,             \
-        <br>
-        +              uint32_t  at_r, uint32_t mask, uint32_t
-        packed_flags)     \
-        <br>
-        +   
-        {                                                                  
-        \
-        <br>
-        +        ppc_vsr_t
-        *at;                                                  \
-        <br>
-        +        float32 psum, aux_acc, va, vb, vc,
-        vd;                          \
-        <br>
-        +        int i, j, xmsk_bit,
-        ymsk_bit;                                   \
-        <br>
-        +        uint8_t xmsk = mask &amp;
-        0x0F;                                     \
-        <br>
-        +        uint8_t ymsk = (mask &gt;&gt; 4) &amp;
-        0x0F;                              \
-        <br>
-        +        uint8_t pmsk = (mask &gt;&gt; 8) &amp;
-        0x3;                               \
-        <br>
-        +        ppc_vsr_t *b = cpu_vsr_ptr(env,
-        b_r);                           \
-        <br>
-        +        ppc_vsr_t *a = cpu_vsr_ptr(env,
-        a_r);                           \
-        <br>
-        +        float_status *excp_ptr =
-        &amp;env-&gt;fp_status;                       \
-        <br>
-        +        bool acc =
-        ger_acc_flag(packed_flags);                          \
-        <br>
-        +        bool neg_acc =
-        ger_neg_acc_flag(packed_flags);                  \
-        <br>
-        +        bool neg_mul =
-        ger_neg_mul_flag(packed_flags);                  \
-        <br>
-        +        for (i = 0, xmsk_bit = 1 &lt;&lt; 3; i &lt; 4; i++,
-        xmsk_bit &gt;&gt;= 1) {    \
-        <br>
-        +            at = cpu_vsr_ptr(env, at_r +
-        i);                            \
-        <br>
-        +            for (j = 0, ymsk_bit = 1 &lt;&lt; 3; j &lt; 4; j++,
-        ymsk_bit &gt;&gt;= 1) {\
-        <br>
-        +                if ((xmsk_bit &amp; xmsk) &amp;&amp; (ymsk_bit
-        &amp; ymsk)) {           \
-        <br>
-        +                    va = !(pmsk &amp; 2) ? float32_zero
-        :                   \
-        <br>
-        +                                       GET_VSR(Vsr##OR_EL,
-        a,           \
-        <br>
-        +                                               2 * i, ORIG_T,
-        float32); \
-        <br>
-        +                    vb = !(pmsk &amp; 2) ? float32_zero
-        :                   \
-        <br>
-        +                                       GET_VSR(Vsr##OR_EL,
-        b,           \
-        <br>
-        +                                               2 * j, ORIG_T,
-        float32); \
-        <br>
-        +                    vc = !(pmsk &amp; 1) ? float32_zero
-        :                   \
-        <br>
-        +                                       GET_VSR(Vsr##OR_EL,
-        a,           \
-        <br>
-        +                                            2 * i + 1, ORIG_T,
-        float32);\
-        <br>
-        +                    vd = !(pmsk &amp; 1) ? float32_zero
-        :                   \
-        <br>
-        +                                       GET_VSR(Vsr##OR_EL,
-        b,           \
-        <br>
-        +                                            2 * j + 1, ORIG_T,
-        float32);\
-        <br>
-        +                    psum = float32_mul(va, vb,
-        excp_ptr);               \
-        <br>
-        +                    psum = float32_muladd(vc, vd, psum, 0,
-        excp_ptr);   \
-        <br>
-      </blockquote>
-      <br>
-      This isn't correct -- the intermediate 'prod' (the first multiply)
-      is not rounded.  I
-      <br>
-      think the correct way to implement this (barring new softfloat
-      functions) is to compute
-      <br>
-      the intermediate product as float64 with float_round_to_odd, then
-      float64r32_muladd into
-      <br>
-      the correct rounding mode to finish.
-      <br>
-    </blockquote>
-    While not mentioned in the pseudocode the instruction description
-    says:<br>
-    <p>- Let prod be the single-precision product of src10 and src20</p>
-    <p>Which I understand as the result of the first multiplication
-      being stored in a float32</p>
-    <p>But in xvbf16ger2* it's different (and I think this is the reason
-      the last patch is resulting in the wrong signal in some 0 and inf
-      results), the description says:<br>
-    </p>
-    <p>- Let prod be the product of src10 and src20, having infinite
-      precision and unbounded exponent range.
-      - Let psum be the sum of the product, src11 multiplied by src21,
-      and prod, having infinite precision and
-      unbounded exponent range.<br>
-      - Let r1 be the value psum with its significand rounded to 24-bit
-      precision using the rounding mode specified by RN, but retaining
-      unbounded exponent range (i.e., cannot overflow or underflow).</p>
-    <blockquote type="cite"
-      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">
-      <br>
-      <blockquote type="cite">+                    if (acc)
-        {                                          \
-        <br>
-        +                        if (neg_mul)
-        {                                  \
-        <br>
-        +                            psum =
-        float32_neg(psum);                   \
-        <br>
-        +                       
-        }                                               \
-        <br>
-        +                        if (neg_acc)
-        {                                  \
-        <br>
-        +                            aux_acc =
-        float32_neg(at-&gt;VsrSF(j));        \
-        <br>
-        +                        } else
-        {                                        \
-        <br>
-        +                            aux_acc =
-        at-&gt;VsrSF(j);                     \
-        <br>
-        +                       
-        }                                               \
-        <br>
-        +                        at-&gt;VsrSF(j) = float32_add(psum,
-        aux_acc,       \
-        <br>
-        +                                                  
-        excp_ptr);           \
-        <br>
-      </blockquote>
-      <br>
-      This one, thankfully, uses the rounded intermediate result 'msum',
-      so is ok.
-      <br>
-    </blockquote>
-    Yes this one is the easier one to deal with, in the description for
-    the xvf16ger2* it specifies that msum and the result is rounded to
-    single-precision and in the description for the xvbf16ger2 it
-    specifies that r1 is 'rounded to a 24-bit significand precision and
-    8-bit exponent range (i.e., single-precision)'<br>
-    <blockquote type="cite"
-      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">
-      <br>
-      Please do convert this from a macro.  Given that float16 and
-      bfloat16 are addressed the
-      <br>
-      same, I think the only callback you need is the conversion from
-      float16_to_float64.  Drop
-      <br>
-      the bf16 accessor to ppc_vsr_t.
-      <br>
-      <br>
-    </blockquote>
-    Will do, although I'm considering instead of the callback being the
-    conversion, maybe have it be a 4 float multiplication<br>
-        typedef float32 mul_4float(float16, float16, float16, float16);<br>
-    Since float16 and bfloat16 are addressed the same, any thoughts?<br>
-    <blockquote type="cite"
-      cite="mid:e5abeb2f-892f-af8d-0457-c9f8e66ddeb6@linaro.org">
-      <br>
-      r~
-      <br>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------4SJgCvy3W391BJtKRzVAHxco--
 
