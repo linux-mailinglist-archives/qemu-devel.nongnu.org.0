@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F33511BD6
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 17:22:20 +0200 (CEST)
-Received: from localhost ([::1]:60310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533A2511BD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 17:23:43 +0200 (CEST)
+Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njjUh-00031c-4m
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 11:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38040)
+	id 1njjW2-0004R5-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 11:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
- id 1njjGA-0001JJ-4Y
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:07:18 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:43894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
- id 1njjG7-0005Vb-CP
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:07:17 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id g9so1663264pgc.10
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 08:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:mime-version:subject:date:references:to:in-reply-to:message-id;
- bh=0mLMpV1szJ86FWHWOv8X9LyOB5naGKsusSiUWVvFvQk=;
- b=WuqN7SDD0GcmYGY97SGxQBKbnluFEaURE6oaB9gTINc1ZTc67T+y71PulH8hbEE2Qu
- ylHS+e8VxxGs9y5EgHKtsVkhS+AaL0Ic5PTRI2Chm7g/CL47lWaSR1zbbvIxZZJtmIIS
- dA3Xb2wsfY5cehrEt0yy9eAkWVQh6QqB8AqdXCS/yfXn/+p6jwCuJa89aJUaqWWUtgbN
- gx9sQWSrd5a4JlyYO0CzB8MPyYSjmmle7kc56oxjMvhhsvxubE4DpHpELppmxrlRjKw+
- b7QNyT3XoqMkx/LXmFnnv0MavX/DKeiiE81bCpjjAW7JzVcFUsrhao1Qk22mH02mUVs+
- YGwA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1njjOl-0007rh-TJ
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:16:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1njjOi-0006pj-9W
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:16:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651072566;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RdOY8msxCQchv5i7h3VB3lT12FfIjXjfVyzC1eJZQN8=;
+ b=aMCXSyEF16tDsYgQGe7XaLcZFTOF91PzU/adUSB1b3NI64W692rYGD68HUT58ndvZ+KCpF
+ 29BEGk7E8o9DOT88wp1mOig0e41rssjN8EuiO/z3rqTCn8KjfWO8Ldqja/vDB6NT4feQii
+ 1wHy3KxHYMflc+N/MQbKwiuI4E82Kuc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-610-C2b59Ve-MOGDiFgnfTNlNQ-1; Wed, 27 Apr 2022 11:16:05 -0400
+X-MC-Unique: C2b59Ve-MOGDiFgnfTNlNQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l33-20020a05600c1d2100b00394059572d6so639933wms.8
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 08:16:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:mime-version:subject:date:references:to
- :in-reply-to:message-id;
- bh=0mLMpV1szJ86FWHWOv8X9LyOB5naGKsusSiUWVvFvQk=;
- b=MGQh/8ctFPAhHF+4/xMsN2jUB/lUZnmmC1dORnTSYV6QJ0KjfZ3kSVx83bDZ2WLtRl
- gEr5lkGpv0Unw1Bv4JpolzU3heIUSzS5H7kD/haCKiJp7M40C2qYSFlRRria/1y0N4wQ
- YmCFpxvIgTeWyYx57CqquMXSbersQA1dKLG/97Iav+7KEgIPVXv9RKk4l0gNMHvxs1wP
- oOFl/akcMlFjvE06zghxZ1M5ZGVpW6K+BqXGmOa8U2WdDKei0D4AJgw3DKVq4bITXhOI
- 31dVD2mZYL8YxU77KHUxBejd6Lmi/VQ4k5U3SCxzieH1AbY+2BCZ3LiVgF1t3J5P5qmN
- YaBw==
-X-Gm-Message-State: AOAM531mxT4a4QXFwaIx/J15jcYH5AzYqB6bSFZxQcrlpLuO4oV3MKwt
- DBay8+g8tJwhCXkVGJZLn2lCG09dziPPI0exQKA=
-X-Google-Smtp-Source: ABdhPJyv5/aYj+pOCHq7m3fuKAiOrS3HrjbDXLTQMwdhA2E+R13PBiMoEocmpMI4GB0roGmMSqXfvA==
-X-Received: by 2002:a63:87c2:0:b0:3ab:2425:a21e with SMTP id
- i185-20020a6387c2000000b003ab2425a21emr15383101pge.53.1651072033696; 
- Wed, 27 Apr 2022 08:07:13 -0700 (PDT)
-Received: from smtpclient.apple
- (2001-b400-e235-7644-f067-af7f-d60d-f201.emome-ip6.hinet.net.
- [2001:b400:e235:7644:f067:af7f:d60d:f201])
- by smtp.gmail.com with ESMTPSA id
- b11-20020a621b0b000000b00505c6892effsm18945915pfb.26.2022.04.27.08.07.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 27 Apr 2022 08:07:12 -0700 (PDT)
-From: eop Chen <eop.chen@sifive.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246"
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
-Subject: Re: [PATCH qemu v9 05/14] target/riscv: rvv: Add tail agnostic for
- vector load / store instructions
-Date: Wed, 27 Apr 2022 23:07:09 +0800
-References: <165105385811.8013.9841879319865783070-5@git.sr.ht>
- <7b28461b-641e-210f-e156-75e02064a61b@iscas.ac.cn>
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-In-Reply-To: <7b28461b-641e-210f-e156-75e02064a61b@iscas.ac.cn>
-Message-Id: <6004571B-E27F-4CA7-B5BC-3AAA6271F6D8@sifive.com>
-X-Mailer: Apple Mail (2.3693.60.0.1.1)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=eop.chen@sifive.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=RdOY8msxCQchv5i7h3VB3lT12FfIjXjfVyzC1eJZQN8=;
+ b=jw+9EUSFAWv79GV60Vu3qONDA+S8s6KdkKhdxZHhg0r+/UBNqxxs0kg5M+5/6/pMZv
+ ZngiuTQUHaLMNFcakw/gbLv9hdFDkIfvHE4aTOixsrNt4Gz2rWFRMFyDc+9muhCSFQmV
+ sd/Zk7dECRnrmaAid+Hl2QrNb8EaVSB2OZxeKUS7FGlAD3AwoqUe8rRFeB8KSme/WWMr
+ 2zyDOmSlm8mHeACk/mnTGb8aHpSGTkoVuC8w/0fm9gFTiAXlMBg+6Uzpas8kIFUjLt/+
+ acTWcfYWVPvyhzcV3t0ssjnjjMG+57+7SBKJl3yeka4MlMe+6fd61OKv4TyL4Ow8BDUq
+ PKxw==
+X-Gm-Message-State: AOAM533G3pJOQbKn08OU89nJcZjeAz7rFalIiVemsbnxCL3O4SFwdgYE
+ Rl5b8REBeA2coolLWa1PGV1MSCW8le9QefAsyFCMZp3cir8FlaL5cQbxmotj5aWVNNjwJlsYCwm
+ LwsRP/siXcA6pQEo=
+X-Received: by 2002:a05:600c:20c7:b0:38e:bf41:edef with SMTP id
+ y7-20020a05600c20c700b0038ebf41edefmr35829165wmm.173.1651072564076; 
+ Wed, 27 Apr 2022 08:16:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxhHrvUgODnWNA4/p59t2cFma7YYrrhPP2TreE9s9FwSwEkucr8EbR0pXe1zqvu8A1+k9MORQ==
+X-Received: by 2002:a05:600c:20c7:b0:38e:bf41:edef with SMTP id
+ y7-20020a05600c20c700b0038ebf41edefmr35829141wmm.173.1651072563781; 
+ Wed, 27 Apr 2022 08:16:03 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ 9-20020a056000154900b0020a849e1c41sm16797926wry.13.2022.04.27.08.16.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 08:16:02 -0700 (PDT)
+Date: Wed, 27 Apr 2022 16:16:00 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 7/8] qmp: add filtering of statistics by name
+Message-ID: <YmleMMNkZ8ukENDZ@work-vm>
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-8-pbonzini@redhat.com>
+ <YmkwndPwSDxqqdZA@work-vm>
+ <6655dcbe-860e-b107-e63e-ff397189d178@redhat.com>
+ <Ymk4U4O4CN3e7+9A@work-vm>
+ <2aed3f83-5941-d723-7c27-cc657f7c257a@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2aed3f83-5941-d723-7c27-cc657f7c257a@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,336 +99,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 4/27/22 14:34, Dr. David Alan Gilbert wrote:
+> > If I specify a 'vm' it's not obvious to me whether I'd get NICs and
+> > block devices in the future?
+> 
+> VM would not get those (it's global statistics), but the size could balloon
+> if you specify no target at all.
+> 
+> > Adding a syntax for 'all' into the vcpus list would fix that?
+> 
+> I don't like having special syntax.  The current QAPI just doesn't filter
+> what is not in the arguments.
 
---Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Is there a object that represents the set of all vcpus?
 
+> > > >       "providers": [
+> > > >          { "provider": "kvm",
+> > > >            "names": [ "l1d_flush", "exits" ] } } }
+> > > > 
+> > > > It's not clear to me whether the "target" should also be specific
+> > > > to a given provider.
+> > > 
+> > > No, the target is a QEMU concept, such as a CPU or a device backend.  It is
+> > > identified by either a QOM path or a unique id.
+> > 
+> > But doesn't 'kvm' as a provider only make sense for vcpus and VMs; if
+> > you're imagining block devices and other things as targets it would seem
+> > wrong to have that set of providers separate.
+> 
+> Yes, those would have different providers.  But a single target can support
+> multiple providers.
 
-> Weiwei Li <liweiwei@iscas.ac.cn> =E6=96=BC 2022=E5=B9=B44=E6=9C=8827=E6=97=
-=A5 =E4=B8=8B=E5=8D=887:55 =E5=AF=AB=E9=81=93=EF=BC=9A
->=20
->=20
-> =E5=9C=A8 2022/3/7 =E4=B8=8B=E5=8D=883:10, ~eopxd =E5=86=99=E9=81=93:
->> From: eopXD <eop.chen@sifive.com>
->>=20
->> Destination register of unit-stride mask load and store instructions =
-are
->> always written with a tail-agnostic policy.
->>=20
->> Signed-off-by: eop Chen <eop.chen@sifive.com>
->> Reviewed-by: Frank Chang <frank.chang@sifive.com>
->> ---
->>  target/riscv/insn_trans/trans_rvv.c.inc | 11 ++++++++++
->>  target/riscv/vector_helper.c            | 28 =
-+++++++++++++++++++++++++
->>  2 files changed, 39 insertions(+)
->>=20
->> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc =
-b/target/riscv/insn_trans/trans_rvv.c.inc
->> index cc80bf00ff..99691f1b9f 100644
->> --- a/target/riscv/insn_trans/trans_rvv.c.inc
->> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
->> @@ -711,6 +711,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm =
-*a, uint8_t eew)
->>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
->>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
->>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
->>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
->>  }
->>  @@ -748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm =
-*a, uint8_t eew)
->>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
->>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
->>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
->>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
->>  }
->>  @@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, =
-arg_vlm_v *a, uint8_t eew)
->>      /* EMUL =3D 1, NFIELDS =3D 1 */
->>      data =3D FIELD_DP32(data, VDATA, LMUL, 0);
->>      data =3D FIELD_DP32(data, VDATA, NF, 1);
->> +    /* Mask destination register are always tail-agnostic */
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
->>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
->>  }
->>  @@ -791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, =
-arg_vsm_v *a, uint8_t eew)
->>      /* EMUL =3D 1, NFIELDS =3D 1 */
->>      data =3D FIELD_DP32(data, VDATA, LMUL, 0);
->>      data =3D FIELD_DP32(data, VDATA, NF, 1);
->> +    /* Mask destination register are always tail-agnostic */
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
->>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
->>  }
->>  @@ -862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, =
-arg_rnfvm *a, uint8_t eew)
->>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
->>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
->>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
->>      return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, =
-false);
->>  }
->>  @@ -891,6 +898,7 @@ static bool st_stride_op(DisasContext *s, =
-arg_rnfvm *a, uint8_t eew)
->>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
->>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
->>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
->>      fn =3D fns[eew];
->>      if (fn =3D=3D NULL) {
->>          return false;
->> @@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, =
-arg_rnfvm *a, uint8_t eew)
->>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
->>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
->>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
->>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, =
-false);
->>  }
->>  @@ -1043,6 +1052,7 @@ static bool st_index_op(DisasContext *s, =
-arg_rnfvm *a, uint8_t eew)
->>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
->>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
->>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
->>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, =
-true);
->>  }
->>  @@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext *s, =
-arg_r2nfvm *a, uint8_t eew)
->>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
->>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
->>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
->>      return ldff_trans(a->rd, a->rs1, data, fn, s);
->>  }
->>  diff --git a/target/riscv/vector_helper.c =
-b/target/riscv/vector_helper.c
->> index 396e252179..1541d97b08 100644
->> --- a/target/riscv/vector_helper.c
->> +++ b/target/riscv/vector_helper.c
->> @@ -270,6 +270,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong =
-base,
->>      uint32_t i, k;
->>      uint32_t nf =3D vext_nf(desc);
->>      uint32_t max_elems =3D vext_max_elems(desc, log2_esz);
->> +    uint32_t esz =3D 1 << log2_esz;
->> +    uint32_t vta =3D vext_vta(desc);
->>        for (i =3D env->vstart; i < env->vl; i++, env->vstart++) {
->>          if (!vm && !vext_elem_mask(v0, i)) {
->> @@ -284,6 +286,11 @@ vext_ldst_stride(void *vd, void *v0, =
-target_ulong base,
->>          }
->>      }
->>      env->vstart =3D 0;
->> +    /* set tail elements to 1s */
->> +    for (k =3D 0; k < nf; ++k) {
->> +        vext_set_elems_1s(vd, vta, env->vl * esz + k * max_elems,
->> +                          max_elems * esz + k * max_elems);
->> +    }
->>  }
->=20
-> It seems incorrect here. I think it should be  k * max_elems * esz. =
-The same to following similar case.
->=20
-> Otherwise, this patchset looks good to me.
->=20
-> Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
->=20
-> Regards,
-> Weiwei Li
->=20
+Is that just for different implementations - kvm/hcf/tcg etc or do you
+envisage multiple providers on an object in a running VM?
 
-I have just sent a new version to correct this.
-Thank you for your patient review.
+Dave
+> Paolo
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Regards,
-
-eop Chen
-
-
---Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><div =
-class=3D""><div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D"">Weiwei Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn" =
-class=3D"">liweiwei@iscas.ac.cn</a>&gt; =E6=96=BC 2022=E5=B9=B44=E6=9C=882=
-7=E6=97=A5 =E4=B8=8B=E5=8D=887:55 =E5=AF=AB=E9=81=93=EF=BC=9A</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div class=3D""><br =
-class=3D"">=E5=9C=A8 2022/3/7 =E4=B8=8B=E5=8D=883:10, ~eopxd =E5=86=99=E9=81=
-=93:<br class=3D""><blockquote type=3D"cite" class=3D"">From: eopXD =
-&lt;<a href=3D"mailto:eop.chen@sifive.com" =
-class=3D"">eop.chen@sifive.com</a>&gt;<br class=3D""><br =
-class=3D"">Destination register of unit-stride mask load and store =
-instructions are<br class=3D"">always written with a tail-agnostic =
-policy.<br class=3D""><br class=3D"">Signed-off-by: eop Chen &lt;<a =
-href=3D"mailto:eop.chen@sifive.com" =
-class=3D"">eop.chen@sifive.com</a>&gt;<br class=3D"">Reviewed-by: Frank =
-Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" =
-class=3D"">frank.chang@sifive.com</a>&gt;<br class=3D"">---<br class=3D"">=
- &nbsp;target/riscv/insn_trans/trans_rvv.c.inc | 11 ++++++++++<br =
-class=3D""> &nbsp;target/riscv/vector_helper.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 28 =
-+++++++++++++++++++++++++<br class=3D""> &nbsp;2 files changed, 39 =
-insertions(+)<br class=3D""><br class=3D"">diff --git =
-a/target/riscv/insn_trans/trans_rvv.c.inc =
-b/target/riscv/insn_trans/trans_rvv.c.inc<br class=3D"">index =
-cc80bf00ff..99691f1b9f 100644<br class=3D"">--- =
-a/target/riscv/insn_trans/trans_rvv.c.inc<br class=3D"">+++ =
-b/target/riscv/insn_trans/trans_rvv.c.inc<br class=3D"">@@ -711,6 +711,7 =
-@@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)<br =
-class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, VM, a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =
-=3D FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
-a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, VTA, s-&gt;vta);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, a-&gt;rs1, =
-data, fn, s, false);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ =
--748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, =
-uint8_t eew)<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, VM, a-&gt;vm);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, LMUL, =
-emul);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, NF, a-&gt;nf);<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VTA, s-&gt;vta);<br =
-class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, =
-a-&gt;rs1, data, fn, s, true);<br class=3D""> &nbsp;}<br class=3D""> =
-&nbsp;@@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, =
-arg_vlm_v *a, uint8_t eew)<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* EMUL =3D 1, NFIELDS =3D 1 */<br =
-class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, LMUL, 0);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, NF, 1);<br class=3D"">+ &nbsp;&nbsp;&nbsp;/* =
-Mask destination register are always tail-agnostic */<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VTA, =
-s-&gt;cfg_vta_all_1s);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, a-&gt;rs1, =
-data, fn, s, false);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ =
--791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, arg_vsm_v =
-*a, uint8_t eew)<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* EMUL =3D =
-1, NFIELDS =3D 1 */<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, LMUL, 0);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
-1);<br class=3D"">+ &nbsp;&nbsp;&nbsp;/* Mask destination register are =
-always tail-agnostic */<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, VTA, s-&gt;cfg_vta_all_1s);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, a-&gt;rs1, =
-data, fn, s, true);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ =
--862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, =
-uint8_t eew)<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, VM, a-&gt;vm);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, LMUL, =
-emul);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, NF, a-&gt;nf);<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VTA, s-&gt;vta);<br =
-class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return =
-ldst_stride_trans(a-&gt;rd, a-&gt;rs1, a-&gt;rs2, data, fn, s, =
-false);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ -891,6 +898,7 @@ =
-static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)<br =
-class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, VM, a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =
-=3D FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
-a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, VTA, s-&gt;vta);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fn =
-=3D fns[eew];<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fn =3D=3D =
-NULL) {<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;<br =
-class=3D"">@@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, =
-arg_rnfvm *a, uint8_t eew)<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VM, =
-a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
-a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, VTA, s-&gt;vta);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_index_trans(a-&gt;rd, =
-a-&gt;rs1, a-&gt;rs2, data, fn, s, false);<br class=3D""> &nbsp;}<br =
-class=3D""> &nbsp;@@ -1043,6 +1052,7 @@ static bool =
-st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VM, =
-a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
-a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, VTA, s-&gt;vta);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_index_trans(a-&gt;rd, =
-a-&gt;rs1, a-&gt;rs2, data, fn, s, true);<br class=3D""> &nbsp;}<br =
-class=3D""> &nbsp;@@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext =
-*s, arg_r2nfvm *a, uint8_t eew)<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VM, =
-a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
-FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
-a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
-VDATA, VTA, s-&gt;vta);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldff_trans(a-&gt;rd, a-&gt;rs1, =
-data, fn, s);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;diff --git =
-a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c<br =
-class=3D"">index 396e252179..1541d97b08 100644<br class=3D"">--- =
-a/target/riscv/vector_helper.c<br class=3D"">+++ =
-b/target/riscv/vector_helper.c<br class=3D"">@@ -270,6 +270,8 @@ =
-vext_ldst_stride(void *vd, void *v0, target_ulong base,<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32_t i, k;<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32_t nf =3D vext_nf(desc);<br =
-class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32_t max_elems =3D =
-vext_max_elems(desc, log2_esz);<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;uint32_t esz =3D 1 &lt;&lt; log2_esz;<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;uint32_t vta =3D vext_vta(desc);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i =3D env-&gt;vstart; i =
-&lt; env-&gt;vl; i++, env-&gt;vstart++) {<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!vm &amp;&amp; =
-!vext_elem_mask(v0, i)) {<br class=3D"">@@ -284,6 +286,11 @@ =
-vext_ldst_stride(void *vd, void *v0, target_ulong base,<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;env-&gt;vstart =3D 0;<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;/* set tail elements to 1s */<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;for (k =3D 0; k &lt; nf; ++k) {<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vext_set_elems_1s(vd, vta, =
-env-&gt;vl * esz + k * max_elems,<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;max_elems * esz + k * max_elems);<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;}<br class=3D""> &nbsp;}<br class=3D""></blockquote><br =
-class=3D"">It seems incorrect here. I think it should be&nbsp; k * =
-max_elems * esz. The same to following similar case.<br class=3D""><br =
-class=3D"">Otherwise, this patchset looks good to me.<br class=3D""><br =
-class=3D"">Reviewed-by: Weiwei Li&lt;<a =
-href=3D"mailto:liweiwei@iscas.ac.cn" =
-class=3D"">liweiwei@iscas.ac.cn</a>&gt;<br class=3D""><br =
-class=3D"">Regards,<br class=3D"">Weiwei Li<br class=3D""><br =
-class=3D""></div></div></blockquote></div><br class=3D""></div><div =
-class=3D"">I have just sent a new version to correct this.<div =
-class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0);" class=3D"">Thank you for your patient review.</span><br =
-style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D""><div =
-style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);" =
-class=3D""></div></div></div><div class=3D""><span style=3D"caret-color: =
-rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D""><br =
-class=3D""></span></div><div class=3D""><span style=3D"caret-color: =
-rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D"">Regards,</span></div><div =
-class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0);" class=3D""><br class=3D""></span></div><div class=3D""><font =
-color=3D"#000000" class=3D""><span style=3D"caret-color: rgb(0, 0, 0);" =
-class=3D"">eop Chen</span></font></div><div class=3D""><font =
-color=3D"#000000" class=3D""><span style=3D"caret-color: rgb(0, 0, 0);" =
-class=3D""><br class=3D""></span></font></div></body></html>=
-
---Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246--
 
