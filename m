@@ -2,42 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E29511B9E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 17:09:23 +0200 (CEST)
-Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F33511BD6
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 17:22:20 +0200 (CEST)
+Received: from localhost ([::1]:60310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njjI9-0002kx-Us
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 11:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
+	id 1njjUh-00031c-4m
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 11:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1njjFS-0008Gn-GQ; Wed, 27 Apr 2022 11:06:34 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:42188)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1njjFP-0005Jp-PY; Wed, 27 Apr 2022 11:06:34 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 48E5211EF54;
- Wed, 27 Apr 2022 15:06:29 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Wed, 27 Apr 2022 15:06:28 +0000
-MIME-Version: 1.0
-Subject: [PATCH qemu v10 00/14] Add tail agnostic behavior for rvv instructions
-Message-ID: <165107198903.23549.13907705840662008250-0@git.sr.ht>
-X-Mailer: git.sr.ht
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
+ id 1njjGA-0001JJ-4Y
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:07:18 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:43894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
+ id 1njjG7-0005Vb-CP
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 11:07:17 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id g9so1663264pgc.10
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 08:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:mime-version:subject:date:references:to:in-reply-to:message-id;
+ bh=0mLMpV1szJ86FWHWOv8X9LyOB5naGKsusSiUWVvFvQk=;
+ b=WuqN7SDD0GcmYGY97SGxQBKbnluFEaURE6oaB9gTINc1ZTc67T+y71PulH8hbEE2Qu
+ ylHS+e8VxxGs9y5EgHKtsVkhS+AaL0Ic5PTRI2Chm7g/CL47lWaSR1zbbvIxZZJtmIIS
+ dA3Xb2wsfY5cehrEt0yy9eAkWVQh6QqB8AqdXCS/yfXn/+p6jwCuJa89aJUaqWWUtgbN
+ gx9sQWSrd5a4JlyYO0CzB8MPyYSjmmle7kc56oxjMvhhsvxubE4DpHpELppmxrlRjKw+
+ b7QNyT3XoqMkx/LXmFnnv0MavX/DKeiiE81bCpjjAW7JzVcFUsrhao1Qk22mH02mUVs+
+ YGwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:mime-version:subject:date:references:to
+ :in-reply-to:message-id;
+ bh=0mLMpV1szJ86FWHWOv8X9LyOB5naGKsusSiUWVvFvQk=;
+ b=MGQh/8ctFPAhHF+4/xMsN2jUB/lUZnmmC1dORnTSYV6QJ0KjfZ3kSVx83bDZ2WLtRl
+ gEr5lkGpv0Unw1Bv4JpolzU3heIUSzS5H7kD/haCKiJp7M40C2qYSFlRRria/1y0N4wQ
+ YmCFpxvIgTeWyYx57CqquMXSbersQA1dKLG/97Iav+7KEgIPVXv9RKk4l0gNMHvxs1wP
+ oOFl/akcMlFjvE06zghxZ1M5ZGVpW6K+BqXGmOa8U2WdDKei0D4AJgw3DKVq4bITXhOI
+ 31dVD2mZYL8YxU77KHUxBejd6Lmi/VQ4k5U3SCxzieH1AbY+2BCZ3LiVgF1t3J5P5qmN
+ YaBw==
+X-Gm-Message-State: AOAM531mxT4a4QXFwaIx/J15jcYH5AzYqB6bSFZxQcrlpLuO4oV3MKwt
+ DBay8+g8tJwhCXkVGJZLn2lCG09dziPPI0exQKA=
+X-Google-Smtp-Source: ABdhPJyv5/aYj+pOCHq7m3fuKAiOrS3HrjbDXLTQMwdhA2E+R13PBiMoEocmpMI4GB0roGmMSqXfvA==
+X-Received: by 2002:a63:87c2:0:b0:3ab:2425:a21e with SMTP id
+ i185-20020a6387c2000000b003ab2425a21emr15383101pge.53.1651072033696; 
+ Wed, 27 Apr 2022 08:07:13 -0700 (PDT)
+Received: from smtpclient.apple
+ (2001-b400-e235-7644-f067-af7f-d60d-f201.emome-ip6.hinet.net.
+ [2001:b400:e235:7644:f067:af7f:d60d:f201])
+ by smtp.gmail.com with ESMTPSA id
+ b11-20020a621b0b000000b00505c6892effsm18945915pfb.26.2022.04.27.08.07.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 27 Apr 2022 08:07:12 -0700 (PDT)
+From: eop Chen <eop.chen@sifive.com>
+Content-Type: multipart/alternative;
+ boundary="Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246"
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [PATCH qemu v9 05/14] target/riscv: rvv: Add tail agnostic for
+ vector load / store instructions
+Date: Wed, 27 Apr 2022 23:07:09 +0800
+References: <165105385811.8013.9841879319865783070-5@git.sr.ht>
+ <7b28461b-641e-210f-e156-75e02064a61b@iscas.ac.cn>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+In-Reply-To: <7b28461b-641e-210f-e156-75e02064a61b@iscas.ac.cn>
+Message-Id: <6004571B-E27F-4CA7-B5BC-3AAA6271F6D8@sifive.com>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=eop.chen@sifive.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -50,99 +89,336 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
-Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
- eop Chen <eop.chen@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to v-spec, tail agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s". An option
-'rvv_ta_all_1s' is added to enable the behavior, it is default as
-disabled.
 
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between tail policies. Setting agnostic elements to
-all 1s makes things simple and allow QEMU to express this.
+--Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-We may explore other possibility of agnostic behavior by adding
-other options in the future. Please understand that this patch-set
-is limited.
 
-v2 updates:
-- Addressed comments from Weiwei Li
-- Added commit tail agnostic on load / store instructions (which
-  I forgot to include into the patch-set)
+> Weiwei Li <liweiwei@iscas.ac.cn> =E6=96=BC 2022=E5=B9=B44=E6=9C=8827=E6=97=
+=A5 =E4=B8=8B=E5=8D=887:55 =E5=AF=AB=E9=81=93=EF=BC=9A
+>=20
+>=20
+> =E5=9C=A8 2022/3/7 =E4=B8=8B=E5=8D=883:10, ~eopxd =E5=86=99=E9=81=93:
+>> From: eopXD <eop.chen@sifive.com>
+>>=20
+>> Destination register of unit-stride mask load and store instructions =
+are
+>> always written with a tail-agnostic policy.
+>>=20
+>> Signed-off-by: eop Chen <eop.chen@sifive.com>
+>> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+>> ---
+>>  target/riscv/insn_trans/trans_rvv.c.inc | 11 ++++++++++
+>>  target/riscv/vector_helper.c            | 28 =
++++++++++++++++++++++++++
+>>  2 files changed, 39 insertions(+)
+>>=20
+>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc =
+b/target/riscv/insn_trans/trans_rvv.c.inc
+>> index cc80bf00ff..99691f1b9f 100644
+>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+>> @@ -711,6 +711,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm =
+*a, uint8_t eew)
+>>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
+>>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+>>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>>  }
+>>  @@ -748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm =
+*a, uint8_t eew)
+>>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
+>>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+>>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>>  }
+>>  @@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, =
+arg_vlm_v *a, uint8_t eew)
+>>      /* EMUL =3D 1, NFIELDS =3D 1 */
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, 0);
+>>      data =3D FIELD_DP32(data, VDATA, NF, 1);
+>> +    /* Mask destination register are always tail-agnostic */
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+>>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>>  }
+>>  @@ -791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, =
+arg_vsm_v *a, uint8_t eew)
+>>      /* EMUL =3D 1, NFIELDS =3D 1 */
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, 0);
+>>      data =3D FIELD_DP32(data, VDATA, NF, 1);
+>> +    /* Mask destination register are always tail-agnostic */
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+>>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>>  }
+>>  @@ -862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, =
+arg_rnfvm *a, uint8_t eew)
+>>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
+>>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+>>      return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, =
+false);
+>>  }
+>>  @@ -891,6 +898,7 @@ static bool st_stride_op(DisasContext *s, =
+arg_rnfvm *a, uint8_t eew)
+>>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
+>>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+>>      fn =3D fns[eew];
+>>      if (fn =3D=3D NULL) {
+>>          return false;
+>> @@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, =
+arg_rnfvm *a, uint8_t eew)
+>>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
+>>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+>>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, =
+false);
+>>  }
+>>  @@ -1043,6 +1052,7 @@ static bool st_index_op(DisasContext *s, =
+arg_rnfvm *a, uint8_t eew)
+>>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
+>>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+>>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, =
+true);
+>>  }
+>>  @@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext *s, =
+arg_r2nfvm *a, uint8_t eew)
+>>      data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+>>      data =3D FIELD_DP32(data, VDATA, LMUL, emul);
+>>      data =3D FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+>>      return ldff_trans(a->rd, a->rs1, data, fn, s);
+>>  }
+>>  diff --git a/target/riscv/vector_helper.c =
+b/target/riscv/vector_helper.c
+>> index 396e252179..1541d97b08 100644
+>> --- a/target/riscv/vector_helper.c
+>> +++ b/target/riscv/vector_helper.c
+>> @@ -270,6 +270,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong =
+base,
+>>      uint32_t i, k;
+>>      uint32_t nf =3D vext_nf(desc);
+>>      uint32_t max_elems =3D vext_max_elems(desc, log2_esz);
+>> +    uint32_t esz =3D 1 << log2_esz;
+>> +    uint32_t vta =3D vext_vta(desc);
+>>        for (i =3D env->vstart; i < env->vl; i++, env->vstart++) {
+>>          if (!vm && !vext_elem_mask(v0, i)) {
+>> @@ -284,6 +286,11 @@ vext_ldst_stride(void *vd, void *v0, =
+target_ulong base,
+>>          }
+>>      }
+>>      env->vstart =3D 0;
+>> +    /* set tail elements to 1s */
+>> +    for (k =3D 0; k < nf; ++k) {
+>> +        vext_set_elems_1s(vd, vta, env->vl * esz + k * max_elems,
+>> +                          max_elems * esz + k * max_elems);
+>> +    }
+>>  }
+>=20
+> It seems incorrect here. I think it should be  k * max_elems * esz. =
+The same to following similar case.
+>=20
+> Otherwise, this patchset looks good to me.
+>=20
+> Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
+>=20
+> Regards,
+> Weiwei Li
+>=20
 
-v3 updates:
-- Missed the very 1st commit, adding it back
+I have just sent a new version to correct this.
+Thank you for your patient review.
 
-v4 updates:
-- Renamed vlmax to total_elems
-- Deal with tail element when vl_eq_vlmax == true
+Regards,
 
-v5 updates:
-- Let `vext_get_total_elems` take `desc` and `esz`
-- Utilize `simd_maxsz(desc)` to get `vlenb`
-- Fix alignments to code
+eop Chen
 
-v6 updates:
-- Fix `vext_get_total_elems`
 
-v7 updates:
-- Reuse `max_elems` for vector load / store helper functions. The
-  translation sets desc's `lmul` to `min(1, lmul)`, making
-  `vext_max_elems` equivalent to `vext_get_total_elems`.
+--Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
 
-v8 updates:
-- Simplify `vext_set_elems_1s`, don't need `vext_set_elems_1s_fns`
-- Fix `vext_get_total_elems`, it should derive upon EMUL instead
-  of LMUL
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><div =
+class=3D""><div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D"">Weiwei Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn" =
+class=3D"">liweiwei@iscas.ac.cn</a>&gt; =E6=96=BC 2022=E5=B9=B44=E6=9C=882=
+7=E6=97=A5 =E4=B8=8B=E5=8D=887:55 =E5=AF=AB=E9=81=93=EF=BC=9A</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div class=3D""><br =
+class=3D"">=E5=9C=A8 2022/3/7 =E4=B8=8B=E5=8D=883:10, ~eopxd =E5=86=99=E9=81=
+=93:<br class=3D""><blockquote type=3D"cite" class=3D"">From: eopXD =
+&lt;<a href=3D"mailto:eop.chen@sifive.com" =
+class=3D"">eop.chen@sifive.com</a>&gt;<br class=3D""><br =
+class=3D"">Destination register of unit-stride mask load and store =
+instructions are<br class=3D"">always written with a tail-agnostic =
+policy.<br class=3D""><br class=3D"">Signed-off-by: eop Chen &lt;<a =
+href=3D"mailto:eop.chen@sifive.com" =
+class=3D"">eop.chen@sifive.com</a>&gt;<br class=3D"">Reviewed-by: Frank =
+Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" =
+class=3D"">frank.chang@sifive.com</a>&gt;<br class=3D"">---<br class=3D"">=
+ &nbsp;target/riscv/insn_trans/trans_rvv.c.inc | 11 ++++++++++<br =
+class=3D""> &nbsp;target/riscv/vector_helper.c =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 28 =
++++++++++++++++++++++++++<br class=3D""> &nbsp;2 files changed, 39 =
+insertions(+)<br class=3D""><br class=3D"">diff --git =
+a/target/riscv/insn_trans/trans_rvv.c.inc =
+b/target/riscv/insn_trans/trans_rvv.c.inc<br class=3D"">index =
+cc80bf00ff..99691f1b9f 100644<br class=3D"">--- =
+a/target/riscv/insn_trans/trans_rvv.c.inc<br class=3D"">+++ =
+b/target/riscv/insn_trans/trans_rvv.c.inc<br class=3D"">@@ -711,6 +711,7 =
+@@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, VM, a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =
+=3D FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
+a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, VTA, s-&gt;vta);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, a-&gt;rs1, =
+data, fn, s, false);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ =
+-748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, =
+uint8_t eew)<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, VM, a-&gt;vm);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, LMUL, =
+emul);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, NF, a-&gt;nf);<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VTA, s-&gt;vta);<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, =
+a-&gt;rs1, data, fn, s, true);<br class=3D""> &nbsp;}<br class=3D""> =
+&nbsp;@@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, =
+arg_vlm_v *a, uint8_t eew)<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* EMUL =3D 1, NFIELDS =3D 1 */<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, LMUL, 0);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, NF, 1);<br class=3D"">+ &nbsp;&nbsp;&nbsp;/* =
+Mask destination register are always tail-agnostic */<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VTA, =
+s-&gt;cfg_vta_all_1s);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, a-&gt;rs1, =
+data, fn, s, false);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ =
+-791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, arg_vsm_v =
+*a, uint8_t eew)<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* EMUL =3D =
+1, NFIELDS =3D 1 */<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, LMUL, 0);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
+1);<br class=3D"">+ &nbsp;&nbsp;&nbsp;/* Mask destination register are =
+always tail-agnostic */<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, VTA, s-&gt;cfg_vta_all_1s);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_us_trans(a-&gt;rd, a-&gt;rs1, =
+data, fn, s, true);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ =
+-862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, =
+uint8_t eew)<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, VM, a-&gt;vm);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, LMUL, =
+emul);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, NF, a-&gt;nf);<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VTA, s-&gt;vta);<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return =
+ldst_stride_trans(a-&gt;rd, a-&gt;rs1, a-&gt;rs2, data, fn, s, =
+false);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;@@ -891,6 +898,7 @@ =
+static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, VM, a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =
+=3D FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
+a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, VTA, s-&gt;vta);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fn =
+=3D fns[eew];<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fn =3D=3D =
+NULL) {<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;<br =
+class=3D"">@@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, =
+arg_rnfvm *a, uint8_t eew)<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VM, =
+a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
+a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, VTA, s-&gt;vta);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_index_trans(a-&gt;rd, =
+a-&gt;rs1, a-&gt;rs2, data, fn, s, false);<br class=3D""> &nbsp;}<br =
+class=3D""> &nbsp;@@ -1043,6 +1052,7 @@ static bool =
+st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VM, =
+a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
+a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, VTA, s-&gt;vta);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldst_index_trans(a-&gt;rd, =
+a-&gt;rs1, a-&gt;rs2, data, fn, s, true);<br class=3D""> &nbsp;}<br =
+class=3D""> &nbsp;@@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext =
+*s, arg_r2nfvm *a, uint8_t eew)<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, VM, =
+a-&gt;vm);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D =
+FIELD_DP32(data, VDATA, LMUL, emul);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, VDATA, NF, =
+a-&gt;nf);<br class=3D"">+ &nbsp;&nbsp;&nbsp;data =3D FIELD_DP32(data, =
+VDATA, VTA, s-&gt;vta);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ldff_trans(a-&gt;rd, a-&gt;rs1, =
+data, fn, s);<br class=3D""> &nbsp;}<br class=3D""> &nbsp;diff --git =
+a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c<br =
+class=3D"">index 396e252179..1541d97b08 100644<br class=3D"">--- =
+a/target/riscv/vector_helper.c<br class=3D"">+++ =
+b/target/riscv/vector_helper.c<br class=3D"">@@ -270,6 +270,8 @@ =
+vext_ldst_stride(void *vd, void *v0, target_ulong base,<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32_t i, k;<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32_t nf =3D vext_nf(desc);<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32_t max_elems =3D =
+vext_max_elems(desc, log2_esz);<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;uint32_t esz =3D 1 &lt;&lt; log2_esz;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;uint32_t vta =3D vext_vta(desc);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i =3D env-&gt;vstart; i =
+&lt; env-&gt;vl; i++, env-&gt;vstart++) {<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!vm &amp;&amp; =
+!vext_elem_mask(v0, i)) {<br class=3D"">@@ -284,6 +286,11 @@ =
+vext_ldst_stride(void *vd, void *v0, target_ulong base,<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;env-&gt;vstart =3D 0;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;/* set tail elements to 1s */<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;for (k =3D 0; k &lt; nf; ++k) {<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vext_set_elems_1s(vd, vta, =
+env-&gt;vl * esz + k * max_elems,<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;max_elems * esz + k * max_elems);<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;}<br class=3D""> &nbsp;}<br class=3D""></blockquote><br =
+class=3D"">It seems incorrect here. I think it should be&nbsp; k * =
+max_elems * esz. The same to following similar case.<br class=3D""><br =
+class=3D"">Otherwise, this patchset looks good to me.<br class=3D""><br =
+class=3D"">Reviewed-by: Weiwei Li&lt;<a =
+href=3D"mailto:liweiwei@iscas.ac.cn" =
+class=3D"">liweiwei@iscas.ac.cn</a>&gt;<br class=3D""><br =
+class=3D"">Regards,<br class=3D"">Weiwei Li<br class=3D""><br =
+class=3D""></div></div></blockquote></div><br class=3D""></div><div =
+class=3D"">I have just sent a new version to correct this.<div =
+class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
+0);" class=3D"">Thank you for your patient review.</span><br =
+style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D""><div =
+style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);" =
+class=3D""></div></div></div><div class=3D""><span style=3D"caret-color: =
+rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D""><br =
+class=3D""></span></div><div class=3D""><span style=3D"caret-color: =
+rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D"">Regards,</span></div><div =
+class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
+0);" class=3D""><br class=3D""></span></div><div class=3D""><font =
+color=3D"#000000" class=3D""><span style=3D"caret-color: rgb(0, 0, 0);" =
+class=3D"">eop Chen</span></font></div><div class=3D""><font =
+color=3D"#000000" class=3D""><span style=3D"caret-color: rgb(0, 0, 0);" =
+class=3D""><br class=3D""></span></font></div></body></html>=
 
-v9 updates:
-- Let instructions that is tail agnostic regardless of vta respect the
-  option and not the vta.
-
-v10 updates:
-- Correct range to set element to 1s for load instructions
-
-eopXD (14):
-  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
-  target/riscv: rvv: Rename ambiguous esz
-  target/riscv: rvv: Early exit when vstart >= vl
-  target/riscv: rvv: Add tail agnostic for vv instructions
-  target/riscv: rvv: Add tail agnostic for vector load / store
-    instructions
-  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
-  target/riscv: rvv: Add tail agnostic for vector integer shift
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector integer comparison
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector integer merge and move
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector floating-point
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector reduction instructions
-  target/riscv: rvv: Add tail agnostic for vector mask instructions
-  target/riscv: rvv: Add tail agnostic for vector permutation
-    instructions
-
- target/riscv/cpu.c                      |    1 +
- target/riscv/cpu.h                      |    2 +
- target/riscv/cpu_helper.c               |    2 +
- target/riscv/insn_trans/trans_rvv.c.inc |  176 +++
- target/riscv/internals.h                |    6 +-
- target/riscv/translate.c                |    4 +
- target/riscv/vector_helper.c            | 1536 ++++++++++++++---------
- 7 files changed, 1110 insertions(+), 617 deletions(-)
-
--- 
-2.34.2
+--Apple-Mail=_ED4F7D08-7B72-481B-91EA-82188FE2F246--
 
