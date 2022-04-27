@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEE8511684
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 13:59:06 +0200 (CEST)
-Received: from localhost ([::1]:55230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5162E511689
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 14:05:00 +0200 (CEST)
+Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njgK1-000670-1k
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 07:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
+	id 1njgPj-0002Xo-FG
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 08:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1njg2y-0005UU-Nk
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:41:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1njg2w-00036W-TZ
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 07:41:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651059684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KqnC/kFWBk9HMXAqhrc0Zsmjken4glYncZVOIILbbbo=;
- b=QCr3pRv2WpY7BRI7i2EFw/aes+iv+IBiNwFHNp1fKjsZTnsy3vXvufjAIucGKuHLE2Rzxs
- fudehxI7z8T6A1c3mVDwoQLG8AxNi+rgGZklaD2gMOkI2zTl6R55KLLHbOZIuuyb2ASaDT
- ArGnVRLjPdZl4USl2u5GqyYLDhxiitE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-mmu3c5TWNXiYihSjaPjufg-1; Wed, 27 Apr 2022 07:41:21 -0400
-X-MC-Unique: mmu3c5TWNXiYihSjaPjufg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2752B8001EA;
- Wed, 27 Apr 2022 11:41:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6AE840CFD05;
- Wed, 27 Apr 2022 11:41:20 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 4/4] iotests: Add regression test for issue 945
-Date: Wed, 27 Apr 2022 13:40:57 +0200
-Message-Id: <20220427114057.36651-5-hreitz@redhat.com>
-In-Reply-To: <20220427114057.36651-1-hreitz@redhat.com>
-References: <20220427114057.36651-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1njgH0-0002zK-0D; Wed, 27 Apr 2022 07:55:58 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:45550 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1njgGw-0005BM-Mn; Wed, 27 Apr 2022 07:55:57 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowAAHDoY9L2li6W9eAQ--.9094S2;
+ Wed, 27 Apr 2022 19:55:42 +0800 (CST)
+Subject: Re: [PATCH qemu v9 05/14] target/riscv: rvv: Add tail agnostic for
+ vector load / store instructions
+To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <165105385811.8013.9841879319865783070-5@git.sr.ht>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <7b28461b-641e-210f-e156-75e02064a61b@iscas.ac.cn>
+Date: Wed, 27 Apr 2022 19:55:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-type: text/plain
+In-Reply-To: <165105385811.8013.9841879319865783070-5@git.sr.ht>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: qwCowAAHDoY9L2li6W9eAQ--.9094S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKry8Zry7Xr1fKw1fCw17Jrb_yoW7GF1kpa
+ yxCFWSqr9xKFyxAw1fZF4UAr1rZFs7Kw1jkrn7Xr4UWa95Gw1kXFWUKFW0q342yrs8Gr40
+ kF1xZryruasYyFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF9a9DU
+ UUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,124 +74,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a VM with a BDS in an iothread, add -incoming defer to the
-command line, and then export this BDS via NBD.  Doing so should not
-fail an assertion.
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- .../tests/export-incoming-iothread            | 81 +++++++++++++++++++
- .../tests/export-incoming-iothread.out        |  5 ++
- 2 files changed, 86 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/export-incoming-iothread
- create mode 100644 tests/qemu-iotests/tests/export-incoming-iothread.out
+在 2022/3/7 下午3:10, ~eopxd 写道:
+> From: eopXD <eop.chen@sifive.com>
+>
+> Destination register of unit-stride mask load and store instructions are
+> always written with a tail-agnostic policy.
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>   target/riscv/insn_trans/trans_rvv.c.inc | 11 ++++++++++
+>   target/riscv/vector_helper.c            | 28 +++++++++++++++++++++++++
+>   2 files changed, 39 insertions(+)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index cc80bf00ff..99691f1b9f 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -711,6 +711,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>   }
+>   
+> @@ -748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>   }
+>   
+> @@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, arg_vlm_v *a, uint8_t eew)
+>       /* EMUL = 1, NFIELDS = 1 */
+>       data = FIELD_DP32(data, VDATA, LMUL, 0);
+>       data = FIELD_DP32(data, VDATA, NF, 1);
+> +    /* Mask destination register are always tail-agnostic */
+> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>   }
+>   
+> @@ -791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, arg_vsm_v *a, uint8_t eew)
+>       /* EMUL = 1, NFIELDS = 1 */
+>       data = FIELD_DP32(data, VDATA, LMUL, 0);
+>       data = FIELD_DP32(data, VDATA, NF, 1);
+> +    /* Mask destination register are always tail-agnostic */
+> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>   }
+>   
+> @@ -862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>   }
+>   
+> @@ -891,6 +898,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       fn = fns[eew];
+>       if (fn == NULL) {
+>           return false;
+> @@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>   }
+>   
+> @@ -1043,6 +1052,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
+>   }
+>   
+> @@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       return ldff_trans(a->rd, a->rs1, data, fn, s);
+>   }
+>   
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 396e252179..1541d97b08 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -270,6 +270,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>       uint32_t i, k;
+>       uint32_t nf = vext_nf(desc);
+>       uint32_t max_elems = vext_max_elems(desc, log2_esz);
+> +    uint32_t esz = 1 << log2_esz;
+> +    uint32_t vta = vext_vta(desc);
+>   
+>       for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+>           if (!vm && !vext_elem_mask(v0, i)) {
+> @@ -284,6 +286,11 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>           }
+>       }
+>       env->vstart = 0;
+> +    /* set tail elements to 1s */
+> +    for (k = 0; k < nf; ++k) {
+> +        vext_set_elems_1s(vd, vta, env->vl * esz + k * max_elems,
+> +                          max_elems * esz + k * max_elems);
+> +    }
+>   }
 
-diff --git a/tests/qemu-iotests/tests/export-incoming-iothread b/tests/qemu-iotests/tests/export-incoming-iothread
-new file mode 100755
-index 0000000000..7679e49103
---- /dev/null
-+++ b/tests/qemu-iotests/tests/export-incoming-iothread
-@@ -0,0 +1,81 @@
-+#!/usr/bin/env python3
-+# group: rw quick migration
-+#
-+# Regression test for issue 945:
-+# https://gitlab.com/qemu-project/qemu/-/issues/945
-+# Test adding an export on top of an iothread-ed block device while in
-+# -incoming defer.
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+from iotests import qemu_img_create
-+
-+
-+image_size = 1 * 1024 * 1024
-+test_img = os.path.join(iotests.test_dir, 'test.img')
-+node_name = 'node0'
-+iothread_id = 'iothr0'
-+
-+nbd_sock = os.path.join(iotests.sock_dir, 'nbd.sock')
-+
-+
-+class TestExportIncomingIothread(iotests.QMPTestCase):
-+    def setUp(self) -> None:
-+        qemu_img_create('-f', iotests.imgfmt, test_img, str(image_size))
-+
-+        self.vm = iotests.VM()
-+        self.vm.add_object(f'iothread,id={iothread_id}')
-+        self.vm.add_blockdev((
-+            f'driver={iotests.imgfmt}',
-+            f'node-name={node_name}',
-+            'file.driver=file',
-+            f'file.filename={test_img}'
-+        ))
-+        self.vm.add_incoming('defer')
-+        self.vm.launch()
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(test_img)
-+
-+    def test_export_add(self):
-+        result = self.vm.qmp('nbd-server-start', {
-+            'addr': {
-+                'type': 'unix',
-+                'data': {
-+                    'path': nbd_sock
-+                }
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Regression test for issue 945: This should not fail an assertion
-+        result = self.vm.qmp('block-export-add', {
-+            'type': 'nbd',
-+            'id': 'exp0',
-+            'node-name': node_name,
-+            'iothread': iothread_id
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+
-+if __name__ == '__main__':
-+    iotests.main(supported_fmts=['generic'],
-+                 unsupported_fmts=['luks'], # Would need a secret
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/export-incoming-iothread.out b/tests/qemu-iotests/tests/export-incoming-iothread.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/export-incoming-iothread.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
--- 
-2.35.1
+It seems incorrect here. I think it should be  k * max_elems * esz. The 
+same to following similar case.
+
+Otherwise, this patchset looks good to me.
+
+Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
+
+Regards,
+Weiwei Li
 
 
