@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55325123DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 22:27:05 +0200 (CEST)
-Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E86E5123FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 22:37:50 +0200 (CEST)
+Received: from localhost ([::1]:34670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njoFb-0004uc-NZ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 16:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
+	id 1njoQ1-0000WS-4f
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 16:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1njoDZ-00044a-P9; Wed, 27 Apr 2022 16:24:57 -0400
-Received: from [187.72.171.209] (port=4995 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1njoDX-0002F5-Gh; Wed, 27 Apr 2022 16:24:57 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 27 Apr 2022 17:24:48 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 9AF7880031A;
- Wed, 27 Apr 2022 17:24:48 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------yPYR02gCboN0objwXng0vj5q"
-Message-ID: <d160958f-6703-8af7-aa8f-f3843d9b1066@eldorado.org.br>
-Date: Wed, 27 Apr 2022 17:24:48 -0300
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njoOq-000805-MF
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 16:36:37 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:46605)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njoOn-000423-Sd
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 16:36:35 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-674-c52dqAGSMtKKvPxdn7VwRg-1; Wed, 27 Apr 2022 16:36:28 -0400
+X-MC-Unique: c52dqAGSMtKKvPxdn7VwRg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E33C85A5BE;
+ Wed, 27 Apr 2022 20:36:28 +0000 (UTC)
+Received: from bahia (unknown [10.39.195.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9E782024CB6;
+ Wed, 27 Apr 2022 20:36:26 +0000 (UTC)
+Date: Wed, 27 Apr 2022 22:36:25 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v4 2/6] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Message-ID: <20220427223625.52e0e23f@bahia>
+In-Reply-To: <489275615f29a2efc97cbd6130c98669ed28a24b.1651085922.git.qemu_oss@crudebyte.com>
+References: <cover.1651085921.git.qemu_oss@crudebyte.com>
+ <489275615f29a2efc97cbd6130c98669ed28a24b.1651085922.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 2/7] target/ppc: Implemented xvi*ger* instructions
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
-References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
- <20220426125028.18844-3-lucas.araujo@eldorado.org.br>
- <7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org>
-X-OriginalArrivalTime: 27 Apr 2022 20:24:48.0842 (UTC)
- FILETIME=[D7AAA2A0:01D85A74]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,458 +63,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------yPYR02gCboN0objwXng0vj5q
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Wed, 27 Apr 2022 20:54:17 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
+> mknod() on macOS does not support creating sockets, so divert to
+> call sequence socket(), bind() and fchmodat() respectively if S_IFSOCK
+> was passed with mode argument.
+> 
+> Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p-util-darwin.c | 45 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 44 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> index e24d09763a..7d00db47a9 100644
+> --- a/hw/9pfs/9p-util-darwin.c
+> +++ b/hw/9pfs/9p-util-darwin.c
+> @@ -74,6 +74,45 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+>   */
+>  #if defined CONFIG_PTHREAD_FCHDIR_NP
+>  
+> +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
+> +    int fd, err;
+> +    struct sockaddr_un addr = {
+> +        .sun_family = AF_UNIX
+> +    };
+> +
+> +    /*
+> +     * sun_path is only 104 bytes, explicit filename length check required
+> +     */
+> +    if (sizeof(addr.sun_path) - 1 < strlen(filename) + 2) {
 
-On 26/04/2022 20:40, Richard Henderson wrote:
->
-> On 4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
->> +%xx_at          23:3 !function=times_4
->> +@XX3_at         ...... ... .. ..... ..... ........ ... &XX3 
->> xt=%xx_at xb=%xx_xb
->
-> Hmm.  Depends, I suppose on whether you want acc[0-7] or vsr[0-28]
-I mostly used VSR function here, but since I'll change the patch 1 to 
-your suggestion (which will require creating acc_full_offset) I'll make 
-a few changes to create some functions for the accumulator
->
->> +/*
->> + * Packed VSX Integer GER Flags
->> + * 00 - no accumulation no saturation
->> + * 01 - accumulate but no saturation
->> + * 10 - no accumulation but with saturation
->> + * 11 - accumulate with saturation
->> + */
->> +static inline bool get_sat(uint32_t flags)
->> +{
->> +    return flags & 0x2;
->> +}
->> +
->> +static inline bool get_acc(uint32_t flags)
->> +{
->> +    return flags & 0x1;
->> +}
->
-> Better to have separate helpers for these?  They'd be immediate 
-> operands to the function
-> replacing XVIGER (see below) and thus optimize well.
-Do you mean different functions or a function that receives packed_flags 
-along with the callback functions?
->
->> +#define GET_VsrN(a, i) (extract32(a->VsrB((i) / 2), (i) % 2 ? 4 : 0, 
->> 4))
->> +#define GET_VsrB(a, i) a->VsrB(i)
->> +#define GET_VsrH(a, i) a->VsrH(i)
->> +
->> +#define GET_VsrSN(a, i) (sextract32(a->VsrSB((i) / 2), (i) % 2 ? 4 : 
->> 0, 4))
->> +#define GET_VsrSB(a, i) a->VsrSB(i)
->> +#define GET_VsrSH(a, i) a->VsrSH(i)
->
-> These can be made into functions of the form
->
->     typedef int32_t xviger_extract(ppc_vsr_t *a, int i);
->
-In this case it'd be necessary to receive 2 xviger_extract functions 
-since XVI8GER4* multiply one value as signed and the other as unsigned 
-(and other integer GER treat both as signed).
+True but I was a bit puzzled by the math until I realized the '+ 2' was
+for the prepended "./" ;-)
 
-An alternative would be to isolate the innermost loop into a different 
-function, like:
+> +        errno = ENAMETOOLONG;
+> +        return -1;
+> +    }
+> +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
+> +    if (fd == -1) {
+> +        return fd;
+> +    }
+> +    snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
 
-     typedef int64_t do_ger(int32_t a, int32_t b, int32_t at, int32_t pmsk);
+What about the more generic approach of checking snprintf()'s return
+value ? If it is >= sizeof(addr.sun_path) then truncation occured.
 
-     static int64_t ger_rank4(int32_t a, int32_t b, int32_t at, int32_t 
-mask)
-     {
-         int64_t psum = 0, i;
-         for (i = 0; i < 4; i++, mask >>= 1) {
-             if (mask & 1) {
-                 psum += (sextract32(a, i * 8, 8)) * (extract32(b, i * 
-8, 8));
-            }
-         }
-         return psum;
-     }
+> +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
+> +    if (err == -1) {
+> +        goto out;
+> +    }
+> +    /*
+> +     * FIXME: Should rather be using descriptor-based fchmod() on the
+> +     * socket file descriptor above (preferably before bind() call),
+> +     * instead of path-based fchmodat(), to prevent concurrent transient
+> +     * state issues between creating the named FIFO file at bind() and
+> +     * delayed adjustment of permissions at fchmodat(). However currently
+> +     * macOS (12.x) does not support such operations on socket file
+> +     * descriptors yet.
+> +     *
+> +     * Filed report with Apple: FB9997731
+> +     */
+> +    err = fchmodat(AT_FDCWD, filename, mode, AT_SYMLINK_NOFOLLOW_ANY);
+> +out:
+> +    close_preserve_errno(fd);
 
-That way we could avoid having 'rank' as a parameter, what do you think?
+You could close(fd) earlier now, but you might want to keep the code
+as is in case FB9997731 gets proper attention.
 
->
->
->> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
->> index 8094e0b033..a994d98238 100644
->> --- a/target/ppc/internal.h
->> +++ b/target/ppc/internal.h
->> @@ -291,4 +291,32 @@ G_NORETURN void 
->> ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->>                                               uintptr_t retaddr);
->>   #endif
->>
->> +/*
->> + * Auxiliary functions to pack/unpack masks for GER instructions.
->> + *
->> + * Packed format:
->> + *  Bits 0-3: xmsk
->> + *  Bits 4-7: ymsk
->> + *  Bits 8-15: pmsk
->> + */
->> +static inline uint8_t ger_get_xmsk(uint32_t packed_masks)
->> +{
->> +    return packed_masks & 0xF;
->> +}
->> +
->> +static inline uint8_t ger_get_ymsk(uint32_t packed_masks)
->> +{
->> +    return (packed_masks >> 4) & 0xF;
->> +}
->> +
->> +static inline uint8_t ger_get_pmsk(uint32_t packed_masks)
->> +{
->> +    return (packed_masks >> 8) & 0xFF;
->> +}
->> +
->> +static inline int ger_pack_masks(int pmsk, int ymsk, int xmsk)
->> +{
->> +    return (pmsk & 0xFF) << 8 | (ymsk & 0xF) << 4 | (xmsk & 0xF);
->> +}
->
-> Use hw/registerfields.h.  C.f. PREDDESC in target/arm/internals.h.
-Ok, will do
->
->> +static bool do_ger_XX3(DisasContext *ctx, arg_XX3 *a, uint32_t op,
->> +                             void (*helper)(TCGv_env, TCGv_i32, 
->> TCGv_i32,
->> +                                            TCGv_i32, TCGv_i32, 
->> TCGv_i32))
->> +{
->> +    uint32_t mask;
->> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
->> +    REQUIRE_VSX(ctx);
->> +    if (unlikely((a->xa / 4 == a->xt / 4) || (a->xb / 4 == a->xt / 
->> 4))) {
->> +        gen_invalid(ctx);
->> +        return true;
->> +    }
->> +
->> +    mask = 0xFFFFFFFF;
->> +    helper(cpu_env, tcg_constant_i32(a->xa), tcg_constant_i32(a->xb),
->> +           tcg_constant_i32(a->xt), tcg_constant_i32(mask),
->> +           tcg_constant_i32(op));
->> +    return true;
->> +}
->
-> Why are you passing register numbers instead of pointers, like 
-> everywhere else?
-Because here we are not working only with 1 register per register 
-number, the ACC uses 4 and the XVF64GER* needs to use XA and XA+1, and 
-while VSR is an array so I could do ppc_vsr_ptr+1 I thought it was 
-better not to access memory I was not given a pointer to, so I passed XA 
-so I can request cpu_vsr_ptr(env, xa) and cpu_vsr_ptr(env, xa + 1)
->
->
-> r~
--- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------yPYR02gCboN0objwXng0vj5q
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Anyway, this should do the job so:
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 26/04/2022 20:40, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org"><br>
-      On 4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
-      <br>
-      <blockquote type="cite">+%xx_at          23:3 !function=times_4
-        <br>
-        +@XX3_at         ...... ... .. ..... ..... ........ ...         
-        &amp;XX3 xt=%xx_at xb=%xx_xb
-        <br>
-      </blockquote>
-      <br>
-      Hmm.  Depends, I suppose on whether you want acc[0-7] or vsr[0-28]
-      <br>
-    </blockquote>
-    I mostly used VSR function here, but since I'll change the patch 1
-    to your suggestion (which will require creating acc_full_offset)
-    I'll make a few changes to create some functions for the accumulator<br>
-    <blockquote type="cite"
-      cite="mid:7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org">
-      <br>
-      <blockquote type="cite">+/*
-        <br>
-        + * Packed VSX Integer GER Flags
-        <br>
-        + * 00 - no accumulation no saturation
-        <br>
-        + * 01 - accumulate but no saturation
-        <br>
-        + * 10 - no accumulation but with saturation
-        <br>
-        + * 11 - accumulate with saturation
-        <br>
-        + */
-        <br>
-        +static inline bool get_sat(uint32_t flags)
-        <br>
-        +{
-        <br>
-        +    return flags &amp; 0x2;
-        <br>
-        +}
-        <br>
-        +
-        <br>
-        +static inline bool get_acc(uint32_t flags)
-        <br>
-        +{
-        <br>
-        +    return flags &amp; 0x1;
-        <br>
-        +}
-        <br>
-      </blockquote>
-      <br>
-      Better to have separate helpers for these?  They'd be immediate
-      operands to the function
-      <br>
-      replacing XVIGER (see below) and thus optimize well.
-      <br>
-    </blockquote>
-    Do you mean different functions or a function that receives
-    packed_flags along with the callback functions?<br>
-    <blockquote type="cite"
-      cite="mid:7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org">
-      <br>
-      <blockquote type="cite">+#define GET_VsrN(a, i)
-        (extract32(a-&gt;VsrB((i) / 2), (i) % 2 ? 4 : 0, 4))
-        <br>
-        +#define GET_VsrB(a, i) a-&gt;VsrB(i)
-        <br>
-        +#define GET_VsrH(a, i) a-&gt;VsrH(i)
-        <br>
-        +
-        <br>
-        +#define GET_VsrSN(a, i) (sextract32(a-&gt;VsrSB((i) / 2), (i) %
-        2 ? 4 : 0, 4))
-        <br>
-        +#define GET_VsrSB(a, i) a-&gt;VsrSB(i)
-        <br>
-        +#define GET_VsrSH(a, i) a-&gt;VsrSH(i)
-        <br>
-      </blockquote>
-      <br>
-      These can be made into functions of the form
-      <br>
-      <br>
-          typedef int32_t xviger_extract(ppc_vsr_t *a, int i);
-      <br>
-      <br>
-    </blockquote>
-    <p>In this case it'd be necessary to receive 2 xviger_extract
-      functions since XVI8GER4* multiply one value as signed and the
-      other as unsigned (and other integer GER treat both as signed).</p>
-    <p>An alternative would be to isolate the innermost loop into a
-      different function, like:</p>
-    <p>    typedef int64_t do_ger(int32_t a, int32_t b, int32_t at,
-      int32_t pmsk);<br>
-    </p>
-    <p>    static int64_t ger_rank4(int32_t a, int32_t b, int32_t at,
-      int32_t mask)<br>
-          {<br>
-              int64_t psum = 0, i;<br>
-              for (i = 0; i &lt; 4; i++, mask &gt;&gt;= 1) {<br>
-                  if (mask &amp; 1) {<br>
-                      psum += (sextract32(a, i * 8, 8)) * (extract32(b,
-      i * 8, 8));<br>
-                 }<br>
-              }<br>
-              return psum;<br>
-          }</p>
-    <p>That way we could avoid having 'rank' as a parameter, what do you
-      think?<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org">
-      <br>
-      <br>
-      <blockquote type="cite">diff --git a/target/ppc/internal.h
-        b/target/ppc/internal.h
-        <br>
-        index 8094e0b033..a994d98238 100644
-        <br>
-        --- a/target/ppc/internal.h
-        <br>
-        +++ b/target/ppc/internal.h
-        <br>
-        @@ -291,4 +291,32 @@ G_NORETURN void
-        ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-        <br>
-                                                      uintptr_t
-        retaddr);
-        <br>
-          #endif
-        <br>
-        <br>
-        +/*
-        <br>
-        + * Auxiliary functions to pack/unpack masks for GER
-        instructions.
-        <br>
-        + *
-        <br>
-        + * Packed format:
-        <br>
-        + *  Bits 0-3: xmsk
-        <br>
-        + *  Bits 4-7: ymsk
-        <br>
-        + *  Bits 8-15: pmsk
-        <br>
-        + */
-        <br>
-        +static inline uint8_t ger_get_xmsk(uint32_t packed_masks)
-        <br>
-        +{
-        <br>
-        +    return packed_masks &amp; 0xF;
-        <br>
-        +}
-        <br>
-        +
-        <br>
-        +static inline uint8_t ger_get_ymsk(uint32_t packed_masks)
-        <br>
-        +{
-        <br>
-        +    return (packed_masks &gt;&gt; 4) &amp; 0xF;
-        <br>
-        +}
-        <br>
-        +
-        <br>
-        +static inline uint8_t ger_get_pmsk(uint32_t packed_masks)
-        <br>
-        +{
-        <br>
-        +    return (packed_masks &gt;&gt; 8) &amp; 0xFF;
-        <br>
-        +}
-        <br>
-        +
-        <br>
-        +static inline int ger_pack_masks(int pmsk, int ymsk, int xmsk)
-        <br>
-        +{
-        <br>
-        +    return (pmsk &amp; 0xFF) &lt;&lt; 8 | (ymsk &amp; 0xF)
-        &lt;&lt; 4 | (xmsk &amp; 0xF);
-        <br>
-        +}
-        <br>
-      </blockquote>
-      <br>
-      Use hw/registerfields.h.  C.f. PREDDESC in target/arm/internals.h.
-      <br>
-    </blockquote>
-    Ok, will do<br>
-    <blockquote type="cite"
-      cite="mid:7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org">
-      <br>
-      <blockquote type="cite">+static bool do_ger_XX3(DisasContext *ctx,
-        arg_XX3 *a, uint32_t op,
-        <br>
-        +                             void (*helper)(TCGv_env, TCGv_i32,
-        TCGv_i32,
-        <br>
-        +                                            TCGv_i32, TCGv_i32,
-        TCGv_i32))
-        <br>
-        +{
-        <br>
-        +    uint32_t mask;
-        <br>
-        +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-        <br>
-        +    REQUIRE_VSX(ctx);
-        <br>
-        +    if (unlikely((a-&gt;xa / 4 == a-&gt;xt / 4) || (a-&gt;xb /
-        4 == a-&gt;xt / 4))) {
-        <br>
-        +        gen_invalid(ctx);
-        <br>
-        +        return true;
-        <br>
-        +    }
-        <br>
-        +
-        <br>
-        +    mask = 0xFFFFFFFF;
-        <br>
-        +    helper(cpu_env, tcg_constant_i32(a-&gt;xa),
-        tcg_constant_i32(a-&gt;xb),
-        <br>
-        +           tcg_constant_i32(a-&gt;xt), tcg_constant_i32(mask),
-        <br>
-        +           tcg_constant_i32(op));
-        <br>
-        +    return true;
-        <br>
-        +}
-        <br>
-      </blockquote>
-      <br>
-      Why are you passing register numbers instead of pointers, like
-      everywhere else?
-      <br>
-    </blockquote>
-    Because here we are not working only with 1 register per register
-    number, the ACC uses 4 and the XVF64GER* needs to use XA and XA+1,
-    and while VSR is an array so I could do ppc_vsr_ptr+1 I thought it
-    was better not to access memory I was not given a pointer to, so I
-    passed XA so I can request cpu_vsr_ptr(env, xa) and cpu_vsr_ptr(env,
-    xa + 1)<br>
-    <blockquote type="cite"
-      cite="mid:7f3f38ab-9a15-3202-5c15-8159e95af6ab@linaro.org">
-      <br>
-      <br>
-      r~
-      <br>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
---------------yPYR02gCboN0objwXng0vj5q--
+> +    return err;
+> +}
+> +
+>  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+>  {
+>      int preserved_errno, err;
+> @@ -93,7 +132,11 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+>      if (pthread_fchdir_np(dirfd) < 0) {
+>          return -1;
+>      }
+> -    err = mknod(filename, mode, dev);
+> +    if (S_ISSOCK(mode)) {
+> +        err = create_socket_file_at_cwd(filename, mode);
+> +    } else {
+> +        err = mknod(filename, mode, dev);
+> +    }
+>      preserved_errno = errno;
+>      /* Stop using the thread-local cwd */
+>      pthread_fchdir_np(-1);
+
 
