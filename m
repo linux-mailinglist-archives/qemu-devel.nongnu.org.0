@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DF8512234
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 21:11:33 +0200 (CEST)
-Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 975F55122C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 21:31:42 +0200 (CEST)
+Received: from localhost ([::1]:37504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njn4U-0001Pe-5U
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 15:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32814)
+	id 1njnNz-0001oW-KN
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 15:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njn2d-0000WJ-8k
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 15:09:35 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:45594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njn2b-0008PK-BV
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 15:09:34 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- w17-20020a17090a529100b001db302efed6so949758pjh.4
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 12:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=m3Ft1fI/SodauhsKRpy+8inSoHxN8mV2TTDEBc+doh8=;
- b=poIkWx8hUpnA7awqLp67m0EmZeCIHKDef+4O794q8Tw7oURBbnXDahpQTlyC+24sff
- RCI9cXqLBuFprW4sYoHQOmQfTOHHmhTqX39hoOnc5tdjdBo4l3iH8W49F9VflKmQiTKq
- WI8NbDB2OEi/tk7wpSpltceIn2Jb103IvdWdzxqVCDQDBcdA0Mau3ILTA0a6zqbrG3hT
- igts2H0udPZpwpSiyMfpQuqCLCSa2AurZRFfQEVdIgMeoCNeMvZSUgyrPN09lSrOFXjv
- A52ArKKNNQj9LGikX5Z3Th1fjAAsscF36Jt8QIQFt76Typll47F760YuBtLstk3j+Ntz
- b0dA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1njnMX-0000n2-GN
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 15:30:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1njnMU-0002wV-KJ
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 15:30:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651087804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jMDj5baAOMCqcsimnYVI+1qayHTENI8W08SIsawwZLM=;
+ b=SfyhndzOePqOqgDihhCHB7ee10OWdnL4PYRH2i8V2XLxEtf7eBtpBqKoyAEVN/AZgo10VT
+ oIe36UaVY+XAVfemHyC7qxlIYrfZ+5kvKvI1b+RmFajigFAPLuUnLF1VFOhUh9wO9IAVOX
+ 8wY+3wByeEgwSWxWI06os/SLE9CY8JM=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351-FVennxLOMtW8aVEjWMwfvw-1; Wed, 27 Apr 2022 15:30:03 -0400
+X-MC-Unique: FVennxLOMtW8aVEjWMwfvw-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ t12-20020ab0688c000000b0036274f5d6a4so1236912uar.9
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 12:30:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=m3Ft1fI/SodauhsKRpy+8inSoHxN8mV2TTDEBc+doh8=;
- b=L5axNsVcTeKbahkKnFjLUlQ/DUGVUByfbDkt/a/PTiWxXcLwjkTL5LA1RhoNPC9458
- 7DILcipijDEL6xRB3DjFzJ1dnYZ/cRJFXfiArSdD7ywHGyfGNWoZ8r/6eLeBHFF82Pp8
- IKD3X3s+jCNlgATTi0CPdmerX6MDhHMBUeJGKjMtzGzoTcepKFBNq1OUVRvVhTrzfrWE
- ZZC6YLmNDcESGKXTUgc2WyeVHz9mCGCHgvKfNX0fvUFQEQ2Wj7I3W5hQx035QaqBeseC
- d+A1F/d9xhvyPVstUChe/7GvyrmroWZ0nsIQaKpxd5KIZPyUqe2Sy0lrmu5NbrxnJ0iw
- ZWag==
-X-Gm-Message-State: AOAM533yyj0GOWuMy+jIYWqsmCHEppZ+tW1DppS8u8VCOMh/VVhGMzgw
- RzxiehfAzvN5NTL/Sq9ki/zzIw==
-X-Google-Smtp-Source: ABdhPJwD08O6eg4f/kKDesQNUjlxh9BYZimMimvlv3eEYtDr6p9jcgFhudxl3B8N162MMcnX8plVcw==
-X-Received: by 2002:a17:902:854c:b0:158:35ce:9739 with SMTP id
- d12-20020a170902854c00b0015835ce9739mr29699846plo.150.1651086571101; 
- Wed, 27 Apr 2022 12:09:31 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- e6-20020a056a001a8600b004fac74c8382sm19999983pfv.47.2022.04.27.12.09.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Apr 2022 12:09:30 -0700 (PDT)
-Message-ID: <aef84ec5-c671-0a77-9fc2-3875c79c92da@linaro.org>
-Date: Wed, 27 Apr 2022 12:09:28 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jMDj5baAOMCqcsimnYVI+1qayHTENI8W08SIsawwZLM=;
+ b=BYtOomZN3c4bl3qgCY/SaV2K4LA2UT9lZOYNCA9Hi2TH6+I2OYWTDB16/PRkPeDqtT
+ frWcY6MWCXfXT2UPxs3L+FILhVBqEqJmeq8OhekrDCVDaO3vbHPal80l1t07wvMioLwl
+ C1gViro8xY1NGW5eg2WB3PaV8Lf89YH1K6VDdZa5GHYMNhNVdwvhj+ouAzV5OP8vuCiJ
+ lAAlm54ZtvShcI34WAWaDGuJBK22xphONO4kH5VI+yevZrFDoYvjmWPOK4ngF02YaU4w
+ FgvV3pRm1N8hWaEsG6KSTxCcRozYCGU5BC18qwsd/lE032HqSMjBgmUB2znM3rnOhTh8
+ Mw6Q==
+X-Gm-Message-State: AOAM532e26NG+TbKbgkYcN6ewoY4CWFO7ZGrMgQ51WyKY6attG06OJ3x
+ w3acGtOByl7AjBy6fxVeSL2vLBBVKUSsq25PTkVLhAYQwne1ZEsEJYHeuapuBeHER2B2AV/Sgf8
+ IJOiYYTTumEOE/cYG1KXG8m0w4A/CnZM=
+X-Received: by 2002:a9f:3193:0:b0:35d:21ec:4ae1 with SMTP id
+ v19-20020a9f3193000000b0035d21ec4ae1mr8950665uad.100.1651087803004; 
+ Wed, 27 Apr 2022 12:30:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpFMZwRAEJ6ohdQGXtdvSuDrwJgji5A007/JYBZXKe+fsGIRKKxVE3o/hMjJk2rQuDExl9HB9jYLna/Y5GC/E=
+X-Received: by 2002:a9f:3193:0:b0:35d:21ec:4ae1 with SMTP id
+ v19-20020a9f3193000000b0035d21ec4ae1mr8950654uad.100.1651087802761; Wed, 27
+ Apr 2022 12:30:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 0/9] Kraxel 20220427 patches
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20220427172952.2986839-1-kraxel@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220427172952.2986839-1-kraxel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220408170214.45585-1-vsementsov@openvz.org>
+In-Reply-To: <20220408170214.45585-1-vsementsov@openvz.org>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 27 Apr 2022 15:29:52 -0400
+Message-ID: <CAFn=p-Zn-L+vBF34v1BNK9i8VuSPH0J9D9Vx0+zLjip0iD2JqQ@mail.gmail.com>
+Subject: Re: [RFC 0/2] introduce QEMUMachind.cmd()
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,76 +85,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ vsementsov@openvz.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 10:29, Gerd Hoffmann wrote:
-> The following changes since commit a74782936dc6e979ce371dabda4b1c05624ea87f:
-> 
->    Merge tag 'pull-migration-20220421a' of https://gitlab.com/dagrh/qemu into staging (2022-04-21 18:48:18 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kraxel.org/qemu tags/kraxel-20220427-pull-request
-> 
-> for you to fetch changes up to a8152c4e4613c70c2f0573a82babbc8acc00cf90:
-> 
->    i386: firmware parsing and sev setup for -bios loaded firmware (2022-04-27 07:51:01 +0200)
-> 
-> ----------------------------------------------------------------
-> vnc: add display-update monitor command.
-> screendump: add png support.
-> vmsvga: screen update fix.
-> i386: sev setup for -bios loaded firmware
+On Fri, Apr 8, 2022 at 1:02 PM Vladimir Sementsov-Ogievskiy
+<vladimir.sementsov-ogievskiy@openvz.org> wrote:
+>
+> Hi all!
+>
+> I always dreamed about getting rid of pattern
+>
+>     result = self.vm.qmp(...)
+>     self.assert_qmp(result, 'return', {})
+>
+> Here is a suggestion to switch to
+>
+>     self.vm.cmd(...)
+>
+> pattern instead.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Yeah, I am absolutely on board for this!
 
+>
+> I'm not sure we really want to update so many tests. May be just commit
+> patch 01, and use new interface for new code. On the other hand, old
+> code always used as an example to write the new one.
 
-r~
+I think it's worth updating all the old tests ... especially if you've
+already done it here. We could even do something like what I did with
+qemu_img() and qemu_io() and have the uncaught exception print a bunch
+of information to the screen to help make it extremely obvious as to
+what failed and why.
 
+If you can rebase this, I'd love to review it more carefully - it
+aligns with my own selfish goals and interests :) The Python branch
+was merged recently and so we should be all set.
 
-> 
-> ----------------------------------------------------------------
-> 
-> Carwyn Ellis (1):
->    hw/display/vmware_vga: do not discard screen updates
-> 
-> Gerd Hoffmann (3):
->    i386: move bios load error message
->    i386: factor out x86_firmware_configure()
->    i386: firmware parsing and sev setup for -bios loaded firmware
-> 
-> Kshitij Suri (2):
->    Replacing CONFIG_VNC_PNG with CONFIG_PNG
->    Added parameter to take screenshot with screendump as PNG
-> 
-> Vladimir Sementsov-Ogievskiy (3):
->    ui/vnc: refactor arrays of addresses to SocketAddressList
->    qapi/ui: add 'display-update' command for changing listen address
->    avocado/vnc: add test_change_listen
-> 
->   meson_options.txt                             |   4 +-
->   tests/avocado/vnc.py                          |  63 +++++++
->   include/hw/i386/x86.h                         |   3 +
->   include/ui/console.h                          |   1 +
->   ui/vnc.h                                      |   2 +-
->   hw/display/vmware_vga.c                       |  45 ++---
->   hw/i386/pc_sysfw.c                            |  36 ++--
->   hw/i386/x86.c                                 |  32 +++-
->   monitor/hmp-cmds.c                            |  12 +-
->   monitor/qmp-cmds.c                            |  15 ++
->   ui/console.c                                  | 101 +++++++++++-
->   ui/vnc-enc-tight.c                            |  18 +-
->   ui/vnc.c                                      | 156 +++++++++---------
->   docs/about/removed-features.rst               |   3 +-
->   hmp-commands.hx                               |  11 +-
->   hw/display/trace-events                       |   1 +
->   meson.build                                   |  12 +-
->   qapi/ui.json                                  |  89 +++++++++-
->   .../ci/org.centos/stream/8/x86_64/configure   |   4 +-
->   scripts/coverity-scan/run-coverity-scan       |   2 +-
->   scripts/meson-buildoptions.sh                 |   6 +-
->   21 files changed, 458 insertions(+), 158 deletions(-)
-> 
+>
+> The series is based on John's python branch.
+>
+> Vladimir Sementsov-Ogievskiy (2):
+>   python/machine.py: upgrade vm.command() method
+>   iotests: use vm.cmd() instead of vm.qmp() where appropriate
+>
+>  python/qemu/machine/machine.py                |  16 +-
+>  tests/qemu-iotests/030                        | 168 +++----
+>  tests/qemu-iotests/040                        | 167 +++---
+>  tests/qemu-iotests/041                        | 474 ++++++++----------
+>  tests/qemu-iotests/045                        |  15 +-
+>  tests/qemu-iotests/055                        |  61 +--
+>  tests/qemu-iotests/056                        |  23 +-
+>  tests/qemu-iotests/093                        |  41 +-
+>  tests/qemu-iotests/118                        | 221 ++++----
+>  tests/qemu-iotests/124                        |  69 ++-
+>  tests/qemu-iotests/129                        |  13 +-
+>  tests/qemu-iotests/132                        |   5 +-
+>  tests/qemu-iotests/139                        |  43 +-
+>  tests/qemu-iotests/147                        |  30 +-
+>  tests/qemu-iotests/151                        |  40 +-
+>  tests/qemu-iotests/155                        |  53 +-
+>  tests/qemu-iotests/165                        |   7 +-
+>  tests/qemu-iotests/196                        |   3 +-
+>  tests/qemu-iotests/205                        |   6 +-
+>  tests/qemu-iotests/245                        | 245 ++++-----
+>  tests/qemu-iotests/256                        |  34 +-
+>  tests/qemu-iotests/257                        |  36 +-
+>  tests/qemu-iotests/264                        |  31 +-
+>  tests/qemu-iotests/281                        |  21 +-
+>  tests/qemu-iotests/295                        |  27 +-
+>  tests/qemu-iotests/296                        |  14 +-
+>  tests/qemu-iotests/298                        |  13 +-
+>  tests/qemu-iotests/300                        |  50 +-
+>  tests/qemu-iotests/iotests.py                 |   6 +-
+>  .../tests/migrate-bitmaps-postcopy-test       |  31 +-
+>  tests/qemu-iotests/tests/migrate-bitmaps-test |  37 +-
+>  .../qemu-iotests/tests/migrate-during-backup  |  40 +-
+>  .../qemu-iotests/tests/migration-permissions  |   9 +-
+>  tests/qemu-iotests/tests/mirror-top-perms     |  15 +-
+>  34 files changed, 821 insertions(+), 1243 deletions(-)
+
+Is there anything missing, to your knowledge?
+
+--js
 
 
