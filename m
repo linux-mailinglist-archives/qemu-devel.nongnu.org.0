@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4202B511C45
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 18:13:37 +0200 (CEST)
-Received: from localhost ([::1]:57148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DEF511C3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 18:11:12 +0200 (CEST)
+Received: from localhost ([::1]:52432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njkIK-00021p-Bz
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 12:13:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51034)
+	id 1njkFz-00075v-5x
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 12:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1njk81-0007wx-Qr; Wed, 27 Apr 2022 12:02:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30938)
+ id 1njk7i-0007qv-9l; Wed, 27 Apr 2022 12:02:38 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1njk80-0005e0-3D; Wed, 27 Apr 2022 12:02:57 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23RFCIc8023096;
- Wed, 27 Apr 2022 16:02:29 GMT
+ id 1njk7f-0005e2-Jv; Wed, 27 Apr 2022 12:02:37 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23RFMlcL011540;
+ Wed, 27 Apr 2022 16:02:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=FMsz4AS6dnnA9Pvf/AGJtJ4kiB+/gnasWicF9AR+e7Y=;
- b=QrL02e8KiPOEUtS5V6/AP4MyjliwVT5/DBaiaRIDZqIIucXiD9fAX1fsb1nwSRdiCdvS
- clAwxRsJgg4i53lq3AoLUjjsXlNIQllknDofuV1qbZ8ZZGTHnGq10eRH7/q8OKReIj55
- zWD1jLKSwB1IEGsSsF35iWACl6mPYlv/T3BVO8QW6JlKxqDbf/eYnucljrn5FPfZcUOQ
- ZNlP3SO8fFGvQgzobNASLu57JHTebmNgTXQ+TXI1QYEIurh46c7fn7uvFbiSQwIkim03
- 88X4g70pBs9jsvAe78m5AnDtAR7CjvYhDoh0uRYAHpQ3H4IyFpJA1ehUsHnLwvHUu0j0 2w== 
+ bh=UV9L1OiB1A9MsUskrWals3aG86ZipzQxh0dm95hOUVI=;
+ b=K7g5JSJqrhnqSGoY006Y+dG1HWBY4RDOlA3t0o28/g1PJ1V2Xbh+Es7dqwCrmphjpbKp
+ JCWh0+rUPIcUHIJR+mDjKesMjO+AwhqjJ6JCVGw+uMv11r1QxCp7L0W5ZBVF9WM9ePcr
+ XNo7z9dFJWhk8DAvQK+J3iBq2GI5cbMeWgWD4g9FPH0xtjqVbtf8MmQLkOWYzK0zYhGz
+ +NYNIzctrJwuEYTi8DqNLbeKFU8UnAci65NE8VsQqKnMaZlg28Nfpj0u28HclRQ1CzCb
+ 6r7hIYYMs0H2LWuSVjsT9KZlT9EegaLEVyZHqqOH7dq1Zvd0NaUz/r6wLEUGJscimUkP VA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fprrm2f6x-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fq8dwrtv3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Apr 2022 16:02:30 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23RFnYu0017112;
+ Wed, 27 Apr 2022 16:02:29 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fq8dwrtu5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 27 Apr 2022 16:02:29 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23RFD5GT027020;
- Wed, 27 Apr 2022 16:02:29 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fprrm2f64-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Apr 2022 16:02:28 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23RFwYZD022646;
- Wed, 27 Apr 2022 16:02:26 GMT
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23RFwXAp010037;
+ Wed, 27 Apr 2022 16:02:27 GMT
 Received: from b06avi18878370.portsmouth.uk.ibm.com
  (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3fm8qj69nk-1
+ by ppma03fra.de.ibm.com with ESMTP id 3fm938vxmh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 27 Apr 2022 16:02:26 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
  by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 23RG2bBc63177000
+ id 23RG2bGu2753120
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 27 Apr 2022 16:02:37 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7ACF7AE045;
+ by IMSVA (Postfix) with ESMTP id C5675AE053;
  Wed, 27 Apr 2022 16:02:24 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3E1FBAE057;
+ by IMSVA (Postfix) with ESMTP id 88DBEAE051;
  Wed, 27 Apr 2022 16:02:24 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.145.79.152])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
@@ -68,26 +68,26 @@ Received: from localhost.localdomain.com (unknown [9.145.79.152])
 From: Frederic Barrat <fbarrat@linux.ibm.com>
 To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
-Subject: [PATCH 1/2] ppc/xive: Always recompute the PIPR when pushing an OS
- context
-Date: Wed, 27 Apr 2022 18:02:22 +0200
-Message-Id: <20220427160223.96758-2-fbarrat@linux.ibm.com>
+Subject: [PATCH 2/2] ppc/xive: Update the state of the External interrupt
+ signal
+Date: Wed, 27 Apr 2022 18:02:23 +0200
+Message-Id: <20220427160223.96758-3-fbarrat@linux.ibm.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220427160223.96758-1-fbarrat@linux.ibm.com>
 References: <20220427160223.96758-1-fbarrat@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GSM-FFOXUuF6BKBA58YBn3UkXNp4iDfi
-X-Proofpoint-ORIG-GUID: 3ACYMbNQMNp-FbyEZ2rDFSlljsVE4RUo
+X-Proofpoint-GUID: CDacrBWk9YLVWOC_3UoGHpBspe1x2jZY
+X-Proofpoint-ORIG-GUID: gR9KCF7QOJFghcna6iDS5kNtxPsqbaay
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-04-27_04,2022-04-27_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 clxscore=1015 priorityscore=1501
- malwarescore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ mlxlogscore=999 clxscore=1015 adultscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2204270101
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -113,93 +113,112 @@ Cc: npiggin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Post Interrupt Priority Register (PIPR) is not restored like the
-other OS-context related fields of the TIMA when pushing an OS context
-on the CPU. It's not needed because it can be calculated from the
-Interrupt Pending Buffer (IPB), which is saved and restored. The PIPR
-must therefore always be recomputed when pushing an OS context.
+When pulling or pushing an OS context from/to a CPU, we should
+re-evaluate the state of the External interrupt signal. Otherwise, we
+can end up catching the External interrupt exception in hypervisor
+mode, which is unexpected.
 
-This patch fixes a path on P9 and P10 where it was not done. If there
-was a pending interrupt when the OS context was pulled, the IPB was
-saved correctly. When pushing back the context, the code in
-xive_tctx_need_resend() was checking for a interrupt raised while the
-context was not on the CPU, saved in the NVT. If one was found, then
-it was merged with the saved IPB and the PIPR updated and everything
-was fine. However, if there was no interrupt found in the NVT, then
-xive_tctx_ipb_update() was not being called and the PIPR was not
-updated. This patch fixes it by always calling xive_tctx_ipb_update().
+The problem is best illustrated with the following scenario:
 
-Note that on P10 (xive2.c) and because of the above, there's no longer
-any need to check the CPPR value so it can go away.
+1. an External interrupt is raised while the guest is on the CPU.
+
+2. before the guest can ack the External interrupt, an hypervisor
+interrupt is raised, for example the Hypervisor Decrementer or
+Hypervisor Virtualization interrupt. The hypervisor interrupt forces
+the guest to exit while the External interrupt is still pending.
+
+3. the hypervisor handles the hypervisor interrupt. At this point, the
+External interrupt is still pending. So it's very likely to be
+delivered while the hypervisor is running. That's unexpected and can
+result in an infinite loop where the hypervisor catches the External
+interrupt, looks for an interrupt in its hypervisor queue, doesn't
+find any, exits the interrupt handler with the External interrupt
+still raised, repeat...
+
+The fix is simply to always lower the External interrupt signal when
+pulling an OS context. It means it needs to be raised again when
+re-pushing the OS context. Fortunately, it's already the case, as we
+now always call xive_tctx_ipb_update(), which will raise the signal if
+needed.
 
 Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
 ---
- hw/intc/xive.c  | 10 +++++++---
- hw/intc/xive2.c | 15 ++++++++-------
- 2 files changed, 15 insertions(+), 10 deletions(-)
+ hw/intc/xive.c        | 14 ++++++++++++++
+ hw/intc/xive2.c       |  2 ++
+ include/hw/ppc/xive.h |  1 +
+ 3 files changed, 17 insertions(+)
 
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index b8e4c7294d..6b62918ea7 100644
+index 6b62918ea7..e230b14e94 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -413,10 +413,14 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
-         /* Reset the NVT value */
-         nvt.w4 = xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
-         xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
--
--        /* Merge in current context */
--        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+@@ -114,6 +114,17 @@ static void xive_tctx_notify(XiveTCTX *tctx, uint8_t ring)
      }
-+    /*
-+     * Always call xive_tctx_ipb_update(). Even if there's no
-+     * escalation found in the NVT above, there could be a pending
-+     * interrupt which was saved when the context was pulled and we
-+     * need the recalculate the PIPR (which is not saved/restored).
-+     */
-+    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
  }
  
- /*
++void xive_tctx_reset_os_signal(XiveTCTX *tctx)
++{
++    /*
++     * Lower the External interrupt. Used when pulling an OS
++     * context. It is necessary to avoid catching it in the hypervisor
++     * context. It should be raised again when re-pushing the OS
++     * context.
++     */
++    qemu_irq_lower(xive_tctx_output(tctx, TM_QW1_OS));
++}
++
+ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8_t ring, uint8_t cppr)
+ {
+     uint8_t *regs = &tctx->regs[ring];
+@@ -388,6 +399,8 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+     /* Invalidate CAM line */
+     qw1w2_new = xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
+     xive_tctx_set_os_cam(tctx, qw1w2_new);
++
++    xive_tctx_reset_os_signal(tctx);
+     return qw1w2;
+ }
+ 
+@@ -419,6 +432,7 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
+      * escalation found in the NVT above, there could be a pending
+      * interrupt which was saved when the context was pulled and we
+      * need the recalculate the PIPR (which is not saved/restored).
++     * It will also raise the External interrupt signal if needed.
+      */
+     xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+ }
 diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-index 3aff42a69e..2c62f68444 100644
+index 2c62f68444..173e0120f8 100644
 --- a/hw/intc/xive2.c
 +++ b/hw/intc/xive2.c
-@@ -316,7 +316,6 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
- {
-     Xive2Nvp nvp;
-     uint8_t ipb;
--    uint8_t cppr = 0;
- 
-     /*
-      * Grab the associated thread interrupt context registers in the
-@@ -337,7 +336,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
-     /* Automatically restore thread context registers */
-     if (xive2_router_get_config(xrtr) & XIVE2_VP_SAVE_RESTORE &&
-         do_restore) {
--        cppr = xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
-+        xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
+@@ -269,6 +269,7 @@ uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+         xive2_tctx_save_os_ctx(xrtr, tctx, nvp_blk, nvp_idx);
      }
  
-     ipb = xive_get_field32(NVP2_W2_IPB, nvp.w2);
-@@ -345,11 +344,13 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
-         nvp.w2 = xive_set_field32(NVP2_W2_IPB, nvp.w2, 0);
-         xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 2);
-     }
--
--    /* An IPB or CPPR change can trigger a resend */
--    if (ipb || cppr) {
--        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
--    }
-+    /*
-+     * Always call xive_tctx_ipb_update(). Even if there's no
-+     * escalation found in the NVT above, there could be a pending
-+     * interrupt which was saved when the context was pulled and we
-+     * need the recalculate the PIPR (which is not saved/restored).
-+     */
-+    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
++    xive_tctx_reset_os_signal(tctx);
+     return qw1w2;
  }
  
+@@ -349,6 +350,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+      * escalation found in the NVT above, there could be a pending
+      * interrupt which was saved when the context was pulled and we
+      * need the recalculate the PIPR (which is not saved/restored).
++     * It will also raise the External interrupt signal if needed.
+      */
+     xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+ }
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 126e4e2c3a..f7eea4ca81 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -527,6 +527,7 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp);
+ void xive_tctx_reset(XiveTCTX *tctx);
+ void xive_tctx_destroy(XiveTCTX *tctx);
+ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
++void xive_tctx_reset_os_signal(XiveTCTX *tctx);
+ 
  /*
+  * KVM XIVE device helpers
 -- 
 2.35.1
 
