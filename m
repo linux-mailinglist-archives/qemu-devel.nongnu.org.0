@@ -2,83 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DCA511873
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 15:42:12 +0200 (CEST)
-Received: from localhost ([::1]:42690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C3C511879
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 15:47:42 +0200 (CEST)
+Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njhvn-0007iN-Kv
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 09:42:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
+	id 1nji17-0003Af-AA
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 09:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=1094d0c61=anthony.perard@citrix.com>)
- id 1njhsp-0006CR-L7; Wed, 27 Apr 2022 09:39:10 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:12271)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1njhvR-0008A1-BC
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:41:52 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=1094d0c61=anthony.perard@citrix.com>)
- id 1njhsm-0008Dj-Qv; Wed, 27 Apr 2022 09:39:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1651066744;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=KEH0uihlxnEuFRyeMAETigwL92GSAiyMausO3tgEKXc=;
- b=U7/Jbd/5t5f7jyy70bcRtNjZovL+VmfB0BPAi0actOM6lWsMCyptKHbA
- wsHudR/aDVN3njF/A46df6E6xnZBmbTwK2jpa5/9WfxKaUFcutDCqQDOT
- fzYDBY2+nVMHDnEpaDCkm2IeUWszk1XTcp+qAWGLS0VjK5Fp5qjMWqVKs Q=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 5.1
-X-MesageID: 69925381
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:YUFkT6NsV8N8MLXvrR1El8FynXyQoLVcMsEvi/4bfWQNrUp01TBWy
- mMeWzuGaf+KZWagfNl0bI62pB5Tu5KHnN5lTQto+SlhQUwRpJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdleF+lH1dOKJQUBUjclkfJKlYAL/En03FFcMpBsJ00o5wbZl2NEw2LBVPivW0
- T/Mi5yHULOa82Yc3lI8s8pvfzs24ZweEBtB1rAPTagjUG32zhH5P7pGTU2FFFPqQ5E8IwKPb
- 72rIIdVXI/u10xF5tuNyt4Xe6CRK1LYFVDmZnF+A8BOjvXez8CbP2lS2Pc0MC9qZzu1c99Z1
- tISsr6qRjUQHffxn/hNejBxIz9XMvgTkFPHCSDXXc27ykTHdz3nwul0DVFwNoodkgp1KTgQr
- 7pCcmlLN03dwbLtqF64YrAEasALJc/3PIQZqzd4wCvQF/oOSpHfWaTao9Rf2V/cg+gQTKeEO
- pFJMFKDajzyehFwPnotCqgap7aMqViiTzFKknWs8P9fD2/7k1UqjemF3MDuUsyHQ4BZk1iVo
- krC/n/lGVcKOdqH0z2H/3mwwOjVkkvTQY8XCfik7P90gVSX7moUDhIQSB28u/bRola3RtZ3O
- 0ESvC00osAa71e3R9PwWxm5pn+svRMGXddUVeog52ml06fR/kOVC3YJShZHb9opstJwQiYlv
- neVn871BRR1vbGVQG7b/bCRxRuxIyEFIGsqfyIITQIZpdLkpekblhjISMRiFq+dlND5GTjsh
- TuNqUADa6471JBRkf/hpBae3mzq9sOhohMJChv/QGX66SFja7ycRNaV7kSLxN9pHJiwQQzU1
- JQboPS24OcLBJCLsSWCRuQRAb2kj8q43C3gbU1HRMd4qWn0k5K3VcUJuWwleh81WioRUWWxC
- HI/rz+983O60JGCSaZsK7y8BM0xpUQLPYS0D6uEBjaij3UYSeNmwM2MTRPIt4wOuBJ1+U3aB
- Xt8WZzxZUv28Yw9kFKLqx41iNfHPBwWy2LJXozcxB+6y7eYb3P9Ye5bbQPfNbxjtPzf+1+9H
- zNj2yyikUs3bQEDSnOPrd57wa4icBDX+qwaW+QIL7Xec2KK6UkqCuPLwKNJRmCWt/89qws8x
- VnkAhUw4AOm3RXvcFzaAlg+OOKHdcsu9hoTYH1zVWtELlB+OO5DGo9ELMBpFVTmncQ+pcNJo
- w4tJpvQX6wTGmiWk9nfBLGkxLFfmN2QrVrmF0KYjPIXJvaMmyShFgfYQzbS
-IronPort-HdrOrdr: A9a23:XuoJnazq7VB1nUORQ7P1KrPwLL1zdoMgy1knxilNoRw8SKKlfu
- SV7ZAmPH7P+VMssR4b9OxoVJPtfZqYz+8T3WBzB8bBYOCFgguVxehZhOOIqQEIWReOldK1vZ
- 0QFZSWY+eQMbEVt6nH3DU=
-X-IronPort-AV: E=Sophos;i="5.90,293,1643691600"; d="scan'208";a="69925381"
-Date: Wed, 27 Apr 2022 14:38:45 +0100
-To: Thomas Huth <thuth@redhat.com>
-CC: <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- <kraxel@redhat.com>, <qemu-trivial@nongnu.org>,
- <xen-devel@lists.xenproject.org>, Stefano Stabellini
- <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>
-Subject: Re: [PATCH] softmmu/vl: Fence 'xenfb' if Xen support is not compiled
- in
-Message-ID: <YmlHZTcghklUZjok@perard.uk.xensource.com>
-References: <20220427123316.329312-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1njhvP-0000H9-2r
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 09:41:49 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1njhuU-0008sb-Ib; Wed, 27 Apr 2022 14:40:51 +0100
+Message-ID: <c338fd73-e2d8-791b-d23f-1cfcc8010d5b@ilande.co.uk>
+Date: Wed, 27 Apr 2022 14:41:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220427123316.329312-1-thuth@redhat.com>
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=prvs=1094d0c61=anthony.perard@citrix.com;
- helo=esa6.hc3370-68.iphmx.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220427113225.112521-1-pbonzini@redhat.com>
+ <20220427113225.112521-7-pbonzini@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220427113225.112521-7-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH 6/6] vl: introduce -audio as a replacement for -soundhw
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,32 +61,347 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mkletzan@redhat.com, berrange@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-On Wed, Apr 27, 2022 at 02:33:16PM +0200, Thomas Huth wrote:
-> The 'xenfb' parameter for the '-vga' command line option is currently
-> always enabled unconditionally (since the xenfb is not a proper QOM
-> device that could be tested via its class name). That means it also
-> shows up if Xen is not enabled at all, e.g. like this:
+On 27/04/2022 12:32, Paolo Bonzini wrote:
+
+> -audio is used like "-audio pa,model=sb16".  It is almost as simple as
+> -soundhw, but it reuses the -audiodev parsing machinery and attaches an
+> audiodev to the newly-created device.  The main 'feature' is that
+> it knows about adding the codec device for model=intel-hda, and adding
+> the audiodev to the codec device.
 > 
->  $ ./qemu-system-sparc -vga help
->  none                 no graphic card
->  xenfb                Xen paravirtualized framebuffer
->  tcx                  TCX framebuffer (default)
->  cg3                  CG3 framebuffer
+> In the future, it could be extended to support default models or
+> builtin devices, just like -nic, or even a default backend.  For now,
+> keep it simple.
 > 
-> Let's avoid this situation by fencing the parameter with the
-> CONFIG_XEN_BACKEND switch.
+> JSON parsing is not supported for -audio.  This is okay because the
+> option is targeted at end users, not programs.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   audio/audio.c                   |  8 +++++-
+>   audio/audio.h                   |  1 +
+>   docs/about/deprecated.rst       |  9 ------
+>   docs/about/removed-features.rst |  7 +++++
+>   hw/audio/intel-hda.c            |  5 ++--
+>   hw/audio/soundhw.c              | 12 +++++---
+>   include/hw/audio/soundhw.h      |  4 +--
+>   qemu-options.hx                 | 51 ++++++++++++++++-----------------
+>   softmmu/vl.c                    | 28 ++++++++++++++++--
+>   9 files changed, 76 insertions(+), 49 deletions(-)
+> 
+> diff --git a/audio/audio.c b/audio/audio.c
+> index 9e91a5a4f2..a02f3ce5c6 100644
+> --- a/audio/audio.c
+> +++ b/audio/audio.c
+> @@ -2099,13 +2099,19 @@ static void audio_validate_opts(Audiodev *dev, Error **errp)
+>   
+>   void audio_parse_option(const char *opt)
+>   {
+> -    AudiodevListEntry *e;
+>       Audiodev *dev = NULL;
+>   
+>       Visitor *v = qobject_input_visitor_new_str(opt, "driver", &error_fatal);
+>       visit_type_Audiodev(v, NULL, &dev, &error_fatal);
+>       visit_free(v);
+>   
+> +    audio_define(dev);
+> +}
+> +
+> +void audio_define(Audiodev *dev)
+> +{
+> +    AudiodevListEntry *e;
+> +
+>       audio_validate_opts(dev, &error_fatal);
+>   
+>       e = g_new0(AudiodevListEntry, 1);
+> diff --git a/audio/audio.h b/audio/audio.h
+> index 3d5ecdecd5..b5e17cd218 100644
+> --- a/audio/audio.h
+> +++ b/audio/audio.h
+> @@ -168,6 +168,7 @@ void audio_sample_to_uint64(const void *samples, int pos,
+>   void audio_sample_from_uint64(void *samples, int pos,
+>                               uint64_t left, uint64_t right);
+>   
+> +void audio_define(Audiodev *audio);
+>   void audio_parse_option(const char *opt);
+>   void audio_init_audiodevs(void);
+>   void audio_legacy_help(void);
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 896e5a97ab..70885d09f3 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -39,15 +39,6 @@ should specify an ``audiodev=`` property.  Additionally, when using
+>   vnc, you should specify an ``audiodev=`` property if you plan to
+>   transmit audio through the VNC protocol.
+>   
+> -Creating sound card devices using ``-soundhw`` (since 5.1)
+> -''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -Sound card devices should be created using ``-device`` instead.  The
+> -names are the same for most devices.  The exceptions are ``hda`` which
+> -needs two devices (``-device intel-hda -device hda-duplex``) and
+> -``pcspk`` which can be activated using ``-machine
+> -pcspk-audiodev=<name>``.
+> -
+>   ``-chardev`` backend aliases ``tty`` and ``parport`` (since 6.0)
+>   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>   
+> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+> index 3f324d0536..eabc6c63ac 100644
+> --- a/docs/about/removed-features.rst
+> +++ b/docs/about/removed-features.rst
+> @@ -632,6 +632,13 @@ tripped up the CI testing and was suspected to be quite broken. For that
+>   reason the maintainers strongly suspected no one actually used it.
+>   
+>   
+> +Creating sound card devices using ``-soundhw`` (removed in 7.1)
+> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Sound card devices should be created using ``-device`` or ``-audio``.
+> +The exception is ``pcspk`` which can be activated using ``-machine
+> +pcspk-audiodev=<name>``.
+> +
+>   TCG introspection features
+>   --------------------------
+>   
+> diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
+> index bc77e3d8c9..f38117057b 100644
+> --- a/hw/audio/intel-hda.c
+> +++ b/hw/audio/intel-hda.c
+> @@ -1311,17 +1311,16 @@ static const TypeInfo hda_codec_device_type_info = {
+>    * create intel hda controller with codec attached to it,
+>    * so '-soundhw hda' works.
+>    */
+> -static int intel_hda_and_codec_init(PCIBus *bus)
+> +static int intel_hda_and_codec_init(PCIBus *bus, const char *audiodev)
+>   {
+>       DeviceState *controller;
+>       BusState *hdabus;
+>       DeviceState *codec;
+>   
+> -    warn_report("'-soundhw hda' is deprecated, "
+> -                "please use '-device intel-hda -device hda-duplex' instead");
+>       controller = DEVICE(pci_create_simple(bus, -1, "intel-hda"));
+>       hdabus = QLIST_FIRST(&controller->child_bus);
+>       codec = qdev_new("hda-duplex");
+> +    qdev_prop_set_string(codec, "audiodev", audiodev);
+>       qdev_realize_and_unref(codec, hdabus, &error_fatal);
+>       return 0;
+>   }
+> diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
+> index d81ae91136..e979be08ce 100644
+> --- a/hw/audio/soundhw.c
+> +++ b/hw/audio/soundhw.c
+> @@ -27,6 +27,7 @@
+>   #include "qemu/error-report.h"
+>   #include "qapi/error.h"
+>   #include "qom/object.h"
+> +#include "hw/qdev-properties.h"
+>   #include "hw/isa/isa.h"
+>   #include "hw/pci/pci.h"
+>   #include "hw/audio/soundhw.h"
+> @@ -36,14 +37,14 @@ struct soundhw {
+>       const char *descr;
+>       const char *typename;
+>       int isa;
+> -    int (*init_pci) (PCIBus *bus);
+> +    int (*init_pci) (PCIBus *bus, const char *audiodev);
+>   };
+>   
+>   static struct soundhw soundhw[9];
+>   static int soundhw_count;
+>   
+>   void pci_register_soundhw(const char *name, const char *descr,
+> -                          int (*init_pci)(PCIBus *bus))
+> +                          int (*init_pci)(PCIBus *bus, const char *audiodev))
+>   {
+>       assert(soundhw_count < ARRAY_SIZE(soundhw) - 1);
+>       soundhw[soundhw_count].name = name;
+> @@ -80,8 +81,9 @@ void show_valid_soundhw(void)
+>   }
+>   
+>   static struct soundhw *selected = NULL;
+> +static const char *audiodev_id;
+>   
+> -void select_soundhw(const char *optarg)
+> +void select_soundhw(const char *optarg, const char *audiodev)
+>   {
+>       struct soundhw *c;
+>   
+> @@ -92,6 +94,7 @@ void select_soundhw(const char *optarg)
+>       for (c = soundhw; c->name; ++c) {
+>           if (g_str_equal(c->name, optarg)) {
+>               selected = c;
+> +            audiodev_id = audiodev;
+>               break;
+>           }
+>       }
+> @@ -126,10 +129,11 @@ void soundhw_init(void)
+>   
+>       if (c->typename) {
+>           DeviceState *dev = qdev_new(c->typename);
+> +        qdev_prop_set_string(dev, "audiodev", audiodev_id);
+>           qdev_realize_and_unref(dev, bus, &error_fatal);
+>       } else {
+>           assert(!c->isa);
+> -        c->init_pci(pci_bus);
+> +        c->init_pci(pci_bus, audiodev_id);
+>       }
+>   }
+>   
+> diff --git a/include/hw/audio/soundhw.h b/include/hw/audio/soundhw.h
+> index dec5c0cdca..270717a06a 100644
+> --- a/include/hw/audio/soundhw.h
+> +++ b/include/hw/audio/soundhw.h
+> @@ -2,12 +2,12 @@
+>   #define HW_SOUNDHW_H
+>   
+>   void pci_register_soundhw(const char *name, const char *descr,
+> -                          int (*init_pci)(PCIBus *bus));
+> +                          int (*init_pci)(PCIBus *bus, const char *audiodev));
+>   void deprecated_register_soundhw(const char *name, const char *descr,
+>                                    int isa, const char *typename);
+>   
+>   void soundhw_init(void);
+>   void show_valid_soundhw(void);
+> -void select_soundhw(const char *optarg);
+> +void select_soundhw(const char *optarg, const char *audiodev);
+>   
+>   #endif
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index bc196808ae..862263d435 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -661,6 +661,30 @@ SRST
+>       (deprecated) environment variables.
+>   ERST
+>   
+> +DEF("audio", HAS_ARG, QEMU_OPTION_audio,
+> +    "-audio [driver=]driver,model=value[,prop[=value][,...]]\n"
+> +    "                specifies the audio backend and device to use;\n"
+> +    "                apart from 'model', options are the same as for -audiodev.\n"
+> +    "                use '-audio model=help' to show possible devices.\n",
+> +    QEMU_ARCH_ALL)
+> +SRST
+> +``-audio [driver=]driver,model=value[,prop[=value][,...]]``
+> +    This option is a shortcut for configuring both the guest audio
+> +    hardware and the host audio backend in one go.
+> +    The host backend options are the same as with the corresponding
+> +    ``-audiodev`` options below. The guest hardware model can be set with
+> +    ``model=modelname``. Use ``model=help`` to list the available device
+> +    types.
+> +
+> +    The following two example do exactly the same, to show how ``-audio``
+> +    can be used to shorten the command line length:
+> +
+> +    .. parsed-literal::
+> +
+> +        |qemu_system| -audiodev pa,id=pa -device sb16,audiodev=pa
+> +        |qemu_system| -audio pa,model=sb16
+> +ERST
+> +
+>   DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+>       "-audiodev [driver=]driver,id=id[,prop[=value][,...]]\n"
+>       "                specifies the audio backend to use\n"
+> @@ -892,33 +916,6 @@ SRST
+>           ``qemu.wav``.
+>   ERST
+>   
+> -DEF("soundhw", HAS_ARG, QEMU_OPTION_soundhw,
+> -    "-soundhw c1,... enable audio support\n"
+> -    "                and only specified sound cards (comma separated list)\n"
+> -    "                use '-soundhw help' to get the list of supported cards\n"
+> -    "                use '-soundhw all' to enable all of them\n", QEMU_ARCH_ALL)
+> -SRST
+> -``-soundhw card1[,card2,...] or -soundhw all``
+> -    Enable audio and selected sound hardware. Use 'help' to print all
+> -    available sound hardware. For example:
+> -
+> -    .. parsed-literal::
+> -
+> -        |qemu_system_x86| -soundhw sb16,adlib disk.img
+> -        |qemu_system_x86| -soundhw es1370 disk.img
+> -        |qemu_system_x86| -soundhw ac97 disk.img
+> -        |qemu_system_x86| -soundhw hda disk.img
+> -        |qemu_system_x86| -soundhw all disk.img
+> -        |qemu_system_x86| -soundhw help
+> -
+> -    Note that Linux's i810\_audio OSS kernel (for AC97) module might
+> -    require manually specifying clocking.
+> -
+> -    ::
+> -
+> -        modprobe i810_audio clocking=48000
+> -ERST
+> -
+>   DEF("device", HAS_ARG, QEMU_OPTION_device,
+>       "-device driver[,prop[=value][,...]]\n"
+>       "                add device (based on driver)\n"
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5bea0eb3eb..979bbda5aa 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -116,6 +116,8 @@
+>   #include "crypto/init.h"
+>   #include "sysemu/replay.h"
+>   #include "qapi/qapi-events-run-state.h"
+> +#include "qapi/qapi-types-audio.h"
+> +#include "qapi/qapi-visit-audio.h"
+>   #include "qapi/qapi-visit-block-core.h"
+>   #include "qapi/qapi-visit-compat.h"
+>   #include "qapi/qapi-visit-ui.h"
+> @@ -3018,13 +3020,33 @@ void qemu_init(int argc, char **argv, char **envp)
+>               case QEMU_OPTION_audiodev:
+>                   audio_parse_option(optarg);
+>                   break;
+> -            case QEMU_OPTION_soundhw:
+> -                if (is_help_option(optarg)) {
+> +            case QEMU_OPTION_audio: {
+> +                QDict *dict = keyval_parse(optarg, "driver", NULL, &error_fatal);
+> +                char *model;
+> +                Audiodev *dev = NULL;
+> +                Visitor *v;
+> +
+> +                if (!qdict_haskey(dict, "id")) {
+> +                    qdict_put_str(dict, "id", "audiodev0");
+> +                }
+> +                if (!qdict_haskey(dict, "model")) {
+> +                    error_setg(&error_fatal, "Parameter 'model' is missing");
+> +                }
+> +                model = g_strdup(qdict_get_str(dict, "model"));
+> +                qdict_del(dict, "model");
+> +                if (is_help_option(model)) {
+>                       show_valid_soundhw();
+>                       exit(0);
+>                   }
+> -                select_soundhw (optarg);
+> +                v = qobject_input_visitor_new_keyval(QOBJECT(dict));
+> +                qobject_unref(dict);
+> +                visit_type_Audiodev(v, NULL, &dev, &error_fatal);
+> +                visit_free(v);
+> +                audio_define(dev);
+> +                select_soundhw(model, dev->id);
+> +                g_free(model);
+>                   break;
+> +            }
+>               case QEMU_OPTION_h:
+>                   help(0);
+>                   break;
 
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+Is it possible to change select_soundhw() to take an AudioDev pointer rather than a 
+string, and then add a new qdev_prop_set_audiodev() function similar to 
+qdev_prop_set_chr() and qdev_prop_set_netdev()?
 
-Thanks,
+In reality the underlying QOM property is still a string, but I think having the 
+stronger typing for AudioDev properties is useful and potentially allows for the 
+various *dev backend properties to become QOM links in future.
 
--- 
-Anthony PERARD
+
+ATB,
+
+Mark.
 
