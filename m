@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFAF510D73
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 02:54:21 +0200 (CEST)
-Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C78510D74
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 02:55:49 +0200 (CEST)
+Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njVwi-00012E-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 20:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36522)
+	id 1njVy8-0002qZ-7v
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 20:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njVu6-0006oK-B9
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 20:51:39 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:36554)
+ id 1njVwb-0001WF-NM
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 20:54:13 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:37613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njVu4-0007lm-Sw
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 20:51:38 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- gj17-20020a17090b109100b001d8b390f77bso3658937pjb.1
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 17:51:36 -0700 (PDT)
+ id 1njVwa-00086U-9t
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 20:54:13 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id b12so270848plg.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 17:54:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=W2DvTF/BOGGBdbW2we2U2e7KrkZ6zxSF30ORtrqHpaY=;
- b=fDG6p8g5Fatrgv3CIqEpWN1RPOLRAa34lWENSB+TBVWSssGA+GZENkVnmxptQpe3SP
- qRmoZeoQT/4b6nJyGOYvL7gIire6m6sW6id+5kkZTWspfkEsqaQOIwUvbmCxP5fzPcEG
- lRfPPjtp1ng4/msPSoYitygjJ92P/d1RJI4aVFUE+8TSmiImFpUb7sn8VF1CBETxLREv
- H8lHR0C9mlxIsa67SqUtRN74fKYrms0YUWudv/8ti/Zhec86/zjx+R3lYxTqfFVpov26
- SegkOWlLbsJJPhyHvfhIc1SQXk1VKz2mrylC5pSA8LVYZPViOLu78otOJfpiD53nZi3n
- 9r1w==
+ bh=hyUpmLWsPX1cPAUPwwp1C6TOAM3m2nM+ls+59LzzIvk=;
+ b=gLx6qBxcsseahqrdgHi+kDR8lDqbpJuwe38FIxZSyYffKgcv/KWKjIjij+YQRWVVX4
+ WAhslTIB7vQ+3B9/z3Mt0P0HhdH8PYZijLU/IGwUVMvsZ4LRnzGaDiYvbyD4LjS0pOvG
+ IVahjFEJzCd025v1RpADRJojP1g7Hkso6YPNlTJgMqN4DL6vaPydw8+A98ycl51zRA2e
+ t3YXnCZfV7WS1JCiBh7X4kFLrW48Yo8TkTsbAKfjgqpz5rVu4micNIetsslH9Xq8sVGm
+ Ycs7ricsyYq4BEcCD/41Afj+M7xB0bVKF5YBlxvwPwU6Y8XuclxNr1MVzI8ozr9xzUWK
+ tGKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=W2DvTF/BOGGBdbW2we2U2e7KrkZ6zxSF30ORtrqHpaY=;
- b=8KpHE7X8Q1SABP8aVdt4LvZviyvtGrkRu83JCitTn45hPs/u16r7lm2ktWECQzBZFg
- iAAFzJnJ5rwx/Vi7h/BsZs2P54I/e0gi/QQcBp+7iPxMn9NlIu+C9qX1wQlp+PIQbxNa
- UAz4EY7OpioBLsRkAELClfDx8uisk/OQHJUV8vLpkkN9IRxP0mkkvfwLAidiV0BvCIgt
- vWj1uPNiyE1XZzdMj5SGFoIdp74tYucOJ+FUyV5kAqJi7wVWW/bEk78bvKYeSJvnG7ao
- tPCDjYjrVTRyzqTZDbvYYWWp6Z/2ChLN1S4qVqwV2MAyCbyivMwXCT5el/jhBMJqQJWy
- 8jAQ==
-X-Gm-Message-State: AOAM53348tuSOBvmLu5T03iWG2w6Jh497PSm2dasvA3fP1c45e8jOIQd
- 1kVrkd0cp5Y9N1rHfWXl2QM82A==
-X-Google-Smtp-Source: ABdhPJx64wll+CoIlLc8tu2KXXDtvUOb9DR8LGSpT6BJkfQWOQW6I4miKe70ASiXwDk0QPGgS1e9Pg==
-X-Received: by 2002:a17:902:aa06:b0:158:f13b:4859 with SMTP id
- be6-20020a170902aa0600b00158f13b4859mr26098257plb.141.1651020695471; 
- Tue, 26 Apr 2022 17:51:35 -0700 (PDT)
+ bh=hyUpmLWsPX1cPAUPwwp1C6TOAM3m2nM+ls+59LzzIvk=;
+ b=uQsc4kJq395YxS9+SAA16rO7ZdmAxAEwcmd8qvYiXnz7wphPpiWecRm31TWtWS5tvX
+ Hff1YX6SL2rkBkNDIRha5MgcFet5RZ4gh1+s6HB+9wXf7r+H1oZ/1eD2cZml9r1fpxw4
+ 73tiO2zeaLL4iVD51WUOSyGurhtVrv5lm7zW7a5KhDsugOzLPAcpoXEBFMIIIoZFb/yw
+ B1mvWNks//yjs4VH0I1/xoIJysI5VBwxIcCaVSMD2gqWWuXOEzst+vhEyP871RPVR/B6
+ nVYFzFWPiqnMiUb402IAW8sQhd+HdcZdcjcN1xeDSXqoYrYmiPtWoQJh+Zsrf8iXJ178
+ mbrw==
+X-Gm-Message-State: AOAM530S1ETECVB4pT26261w+Z82YdDXGkCZ2yxDHwn7ylm9QZ4aQd9F
+ zb8943+m/L3hhuNNdFi+MINExEkt5FtGqA==
+X-Google-Smtp-Source: ABdhPJwXyW/wz6oVCkJTRFDjc73hSxO6OJgrAfAiaOPHwnc4iiFaXn4nqNzaO3hYkLP/Ntb+GvGncg==
+X-Received: by 2002:a17:90b:4a48:b0:1da:1fb3:2f65 with SMTP id
+ lb8-20020a17090b4a4800b001da1fb32f65mr3198087pjb.168.1651020850808; 
+ Tue, 26 Apr 2022 17:54:10 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- f19-20020a17090a639300b001d945337442sm4498964pjj.10.2022.04.26.17.51.34
+ o2-20020a17090a4e8200b001d26f134e43sm157876pjh.51.2022.04.26.17.54.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 17:51:34 -0700 (PDT)
-Message-ID: <aa261bdf-b71e-1343-a443-752129f4b896@linaro.org>
-Date: Tue, 26 Apr 2022 17:51:33 -0700
+ Tue, 26 Apr 2022 17:54:10 -0700 (PDT)
+Message-ID: <3e7f40ec-14e7-fb7f-a796-36c538d3e7f8@linaro.org>
+Date: Tue, 26 Apr 2022 17:54:08 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 3/5] hw/intc: Support migration of aclint device
+Subject: Re: [PATCH v2 4/5] target/riscv: Add stimecmp support
 Content-Language: en-US
 To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
 References: <20220426230855.336292-1-atishp@rivosinc.com>
- <20220426230855.336292-4-atishp@rivosinc.com>
+ <20220426230855.336292-5-atishp@rivosinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220426230855.336292-4-atishp@rivosinc.com>
+In-Reply-To: <20220426230855.336292-5-atishp@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,17 +98,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/26/22 16:08, Atish Patra wrote:
-> mtimecmp is part of ACLINT device now. This needs to preserved across
-> migration.
-> 
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> +static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+> +        uint64_t stimecmp_hi = env->stimecmp >> 32;
+> +        env->stimecmp = (stimecmp_hi << 32) | (val & 0xFFFFFFFF);
+> +    } else {
+> +        env->stimecmp = val;
+> +        riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
+> +    }
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +    uint64_t timer_val = 0;
+> +
+> +    timer_val = (uint64_t)val << 32 | (env->stimecmp & 0xFFFFFFFF);
+> +    env->stimecmp = timer_val;
+> +    riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
 
-This must be squashed with patch 1.
-
-> +    .fields = (VMStateField[]) {
-> +            VMSTATE_VARRAY_UINT64(timecmp, RISCVAclintMTimerState,
-
-And this must be UINT32 to match num_harts.
+Use deposit64() instead of open-coding the inserts.
 
 
 r~
