@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B805127F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 02:15:23 +0200 (CEST)
-Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C696A5127F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 02:17:16 +0200 (CEST)
+Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njroY-0001S9-8U
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 20:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50324)
+	id 1njrqN-00030E-P0
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 20:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1njrn5-0000cQ-Dv; Wed, 27 Apr 2022 20:13:51 -0400
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:36592)
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1njroj-00029B-OE
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 20:15:34 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1njrn3-0000U9-Sv; Wed, 27 Apr 2022 20:13:51 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id e15so4971736iob.3;
- Wed, 27 Apr 2022 17:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=68DDtoa/0q6Jdf498/kBPwa0iGTsJJZspm/CqNVXWs4=;
- b=T0ly+zSju1HNY83hM8v2AG9RiiVKc5NCu+JWZSQFEidfUpw+g5KNqZUZEkvTMTnf9K
- YJmv1AOzXkkJNv703zJ1iz02l6E30XnHAFQg1c0+D/bXkMoDjd6XVs1nF1As/1Lrmpn4
- /VAP+Dax35AFcU+/fHT2F6WrPIYWmSDObsolIGFu+z3coSpo5bgqke73pl2t7fTY7NWn
- NzvDr4uqMvBHMOVssOsaD3PxHgRXKfQAZt4hxzvp2j4EihNJ87z69lxRCjItV5rm+9Sx
- 1ed0N5R8jrOWzmMiVAVt5VYfZblVKyTzrryQaPFxBQ8vqpRbHFeot0C+MPRuFYgAnN1L
- cgmg==
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1njroe-0000mG-JK
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 20:15:30 -0400
+Received: by mail-pg1-x534.google.com with SMTP id z21so2670054pgj.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 17:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5k+5iVwhWKZFB2CkTNwEaEB+W5leYsyoVLVhgSdZwms=;
+ b=0xGCyu6itwb5qVQCcyFhG2CgUv3yYex4HBUboMcglCKQNL++tWhWzLy+fqzx3b5Dek
+ q+ZAUfmqlC3WMnsFmd8jRFbxowpIBk8qbu835jrzOhQFjaMDNdOYncJJO5yPasGn4QnH
+ /5X4eLYTVjZa9fttULkVVEMvu4WfxlBLZHNY+2pc4L4nFtigNY34FINoWBMswtW0Omnp
+ Dh0WhIu6rU6JblEMasc6jv87PRmgxASHKgDhtOtaUqtnmNlkqkahiobWmpHxrg6qD4/5
+ ABkbNZaj1udfJpsZDvJ9ouIpvpvRKZBmVIr1dCyi146ip8o+gki80+MRR4Vwj3EA3dzg
+ E8aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=68DDtoa/0q6Jdf498/kBPwa0iGTsJJZspm/CqNVXWs4=;
- b=ybAM8/pkC1aaEs1wbnqL3ATPJLbhUDc0xO/TQ3CmZ4h0vjmcdtgLRaUT/fynYsSRr6
- f8cBe7EDji4VJgap34Gjtq3nSVWhmhiFImULhQAtrstoUJH6ih8it4TqHx3Nb8uBMe9O
- zkr2POGDuJJpfw6HWvBVa7w64ZxXtPW3SkHlsjXsuNzSU80Qo4l1QxQmPtX0Drh4T1Zo
- W8h4XKpq0sUnolGQWKSEmv+yFcAgGqiQy4MQEPzVne5vqFP5GQmbJRwCJuq3MU2QRddm
- elUF+YCZ0wvCeeoWCEdU0+IIXoc1Fg4eg1mxNlJ18dt+Ws53ABmCpk0a+wt2qSQPKo+T
- 9NOQ==
-X-Gm-Message-State: AOAM531+DeVpJO93o/P2hcNXG9dQ8CfSe8QlJay6xlP68ta6ZbDYWB8E
- 4owxlw7f3f4I7hYGtnKG66CjUy91GYQ0DwD47XE=
-X-Google-Smtp-Source: ABdhPJxybGzUJZ0mE1BTtlfA69YNArivBoUTozieXTDiEYj1081E5mIA3Q84UF5TFQ0rvscL4T33qTar5pLgRW3p9FY=
-X-Received: by 2002:a05:6638:14c1:b0:32a:aa03:93e1 with SMTP id
- l1-20020a05663814c100b0032aaa0393e1mr13838672jak.66.1651104828325; Wed, 27
- Apr 2022 17:13:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5k+5iVwhWKZFB2CkTNwEaEB+W5leYsyoVLVhgSdZwms=;
+ b=p9zAnSXYCZ245IM+kfnXzZhDlW50TiGnEsnWGMi4MMVK/3uqamcNYK2kwxN8esSf8C
+ o6mFID9NalEGoZ1T2ZehpmjhTOoXUWHLXHejQJiHydtYf1NVBI4sKYyDHUplcrhu32E8
+ PcB2LyhNoYCMnCmBq6N78sLZH+6lIHenenlN3HyEce+dwIvzYsmRjqGh58O9R43NxuEa
+ d3xS/46d+U+cdBdllaN73h4P/TKBZRg7XvBa3BcSv6Xxuyn6oqlkEF8s/2VuPZCCOSWu
+ T0yufPChY8QMDQDjXBzczW4m52zKpSt2DsDeFkpCz0UT2MBy1l0O2WFJKrlAXRj23A2o
+ Qr6Q==
+X-Gm-Message-State: AOAM532hVT4QTz4ZmjzoWIdlwEfCY0JkEZdegsCwY9wbnYijxYxmQEzO
+ DIKOXBGqy7dz36pvYlFkulZkzQ==
+X-Google-Smtp-Source: ABdhPJw9pgWStqHIH83XwPoXjzCOSPh4r9oVGvAs8q9yg+b8s9U4xqwSf08ZV4bDY3J+uMmLwLJe8Q==
+X-Received: by 2002:a05:6a00:10d0:b0:4f7:5af4:47b6 with SMTP id
+ d16-20020a056a0010d000b004f75af447b6mr32107689pfu.6.1651104926225; 
+ Wed, 27 Apr 2022 17:15:26 -0700 (PDT)
+Received: from FVFDK26JP3YV.usts.net ([139.177.225.230])
+ by smtp.gmail.com with ESMTPSA id
+ c136-20020a63358e000000b003c14af5063bsm472721pga.83.2022.04.27.17.15.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 27 Apr 2022 17:15:25 -0700 (PDT)
+From: Lei He <helei.sig11@bytedance.com>
+To: marcandre.lureau@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH] error-report: fix crash when compute iso8061 time
+Date: Thu, 28 Apr 2022 08:14:50 +0800
+Message-Id: <20220428001450.13997-1-helei.sig11@bytedance.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <CAKmqyKNtcV3MN0qzVEOgty=o137-QfYm4_c_hHmb1O9YfhSiQQ@mail.gmail.com>
- <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 28 Apr 2022 10:13:21 +1000
-Message-ID: <CAKmqyKOtMF0OcXZ+PiP2g71opf8j76CgZjxSrTLU6nRO5OpM=g@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: Fix incorrect PTE merge in walk_pte
-To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=helei.sig11@bytedance.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,92 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Konrad Schwarz <konrad.schwarz@siemens.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Lei He <helei.sig11@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 24, 2022 at 7:59 AM Ralf Ramsauer
-<ralf.ramsauer@oth-regensburg.de> wrote:
->
-> Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
-> case, walk_pte will erroneously merge them.
->
-> Enforce the split up, by tracking the virtual base address.
->
-> Let's say we have the mapping:
-> 0x81200000 -> 0x89623000 (4K)
-> 0x8120f000 -> 0x89624000 (4K)
->
-> Before, walk_pte would have shown:
->
-> vaddr            paddr            size             attr
-> ---------------- ---------------- ---------------- -------
-> 0000000081200000 0000000089623000 0000000000002000 rwxu-ad
->
-> as it only checks for subsequent paddrs. With this patch, it becomes:
->
-> vaddr            paddr            size             attr
-> ---------------- ---------------- ---------------- -------
-> 0000000081200000 0000000089623000 0000000000001000 rwxu-ad
-> 000000008120f000 0000000089624000 0000000000001000 rwxu-ad
->
-> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+g_get_real_time() returns the number of MICROSECONDS since
+January 1, 1970 UTC, but g_date_time_new_from_unix_utc() expects
+a timestamp in SECONDS.
 
-Thanks!
+Directly call g_data_time_new_from_unix_utc(g_get_real_time()) causes
+overflow and a NULL pointer is returned, then qemu crashes.
 
-Applied to riscv-to-apply.next
+Use g_date_time_new_now_utc() instead, and add a check for NULL result.
 
-Alistair
+Signed-off-by: Lei He <helei.sig11@bytedance.com>
+---
+ util/error-report.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-> ---
-> [since v2: Adjust comment, rebased to latest master]
->
->  target/riscv/monitor.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
-> index 7efb4b62c1..17e63fab00 100644
-> --- a/target/riscv/monitor.c
-> +++ b/target/riscv/monitor.c
-> @@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
->  {
->      hwaddr pte_addr;
->      hwaddr paddr;
-> +    target_ulong last_start = -1;
->      target_ulong pgsize;
->      target_ulong pte;
->      int ptshift;
-> @@ -111,12 +112,13 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
->                   * A leaf PTE has been found
->                   *
->                   * If current PTE's permission bits differ from the last one,
-> -                 * or current PTE's ppn does not make a contiguous physical
-> -                 * address block together with the last one, print out the last
-> -                 * contiguous mapped block details.
-> +                 * or the current PTE breaks up a contiguous virtual or
-> +                 * physical mapping, address block together with the last one,
-> +                 * print out the last contiguous mapped block details.
->                   */
->                  if ((*last_attr != attr) ||
-> -                    (*last_paddr + *last_size != paddr)) {
-> +                    (*last_paddr + *last_size != paddr) ||
-> +                    (last_start + *last_size != start)) {
->                      print_pte(mon, va_bits, *vbase, *pbase,
->                                *last_paddr + *last_size - *pbase, *last_attr);
->
-> @@ -125,6 +127,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
->                      *last_attr = attr;
->                  }
->
-> +                last_start = start;
->                  *last_paddr = paddr;
->                  *last_size = pgsize;
->              } else {
-> --
-> 2.36.0
->
+diff --git a/util/error-report.c b/util/error-report.c
+index dbadaf206d..d3c150661d 100644
+--- a/util/error-report.c
++++ b/util/error-report.c
+@@ -173,10 +173,13 @@ static char *
+ real_time_iso8601(void)
+ {
+ #if GLIB_CHECK_VERSION(2,62,0)
+-    g_autoptr(GDateTime) dt = g_date_time_new_from_unix_utc(g_get_real_time());
++    g_autoptr(GDateTime) dt = g_date_time_new_now_utc();
+     /* ignore deprecation warning, since GLIB_VERSION_MAX_ALLOWED is 2.56 */
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++    if (!dt) {
++        return NULL;
++    }
+     return g_date_time_format_iso8601(dt);
+ #pragma GCC diagnostic pop
+ #else
+@@ -199,8 +202,10 @@ static void vreport(report_type type, const char *fmt, va_list ap)
+ 
+     if (message_with_timestamp && !monitor_cur()) {
+         timestr = real_time_iso8601();
+-        error_printf("%s ", timestr);
+-        g_free(timestr);
++        if (timestr) {
++            error_printf("%s ", timestr);
++            g_free(timestr);
++        }
+     }
+ 
+     /* Only prepend guest name if -msg guest-name and -name guest=... are set */
+-- 
+2.11.0
+
 
