@@ -2,57 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE14751313A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 12:24:19 +0200 (CEST)
-Received: from localhost ([::1]:58100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2234B513127
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 12:18:11 +0200 (CEST)
+Received: from localhost ([::1]:51506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk1Jq-0003F2-UK
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 06:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
+	id 1nk1Du-0006uJ-6f
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 06:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nk0kd-0003FF-62
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:47:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40066)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk0kR-0003CE-GR
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:47:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nk0ka-0008Lj-9W
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:47:54 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk0kP-0008Jy-Lj
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:47:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651139270;
+ s=mimecast20190719; t=1651139261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tcVO2DPr7FPlmbDSowI9VZL9c2msO8ppyk1HjgvDXj4=;
- b=G5jrRggdX262Vjb9OUFdQpXdMN6omLQWMV7WaTZx8UZC1Bz3Ubop79q4ndmUqcuRUKbTef
- u2l8btgPxTjq8xbIr1meGsd7GTgfb8qpq1kyMOXtJypTPMWVjyVaqVURd8AvlWvCVmPmAR
- rcLgkvKhtbVieKC2OF9cc+878X1mfrY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+MdgyjxUgVx1HWNOX+1LC4H0NFNVts062eNbGeTLUxw=;
+ b=Bv1Tb2QI98O1hlcsaOZ+ubvl2c9o4WTbbaib/X9M2PHKuqRo5AD1zLsFvXKBNiOi1jfT8n
+ KBO8gJqYqZqzM4ofS5AYV2k/8dk5GeecCF7BkptYWeYmcar7Uhv2vXIP9/bFkvMYFz/ity
+ +hViaNZGOeJWkJ5oqh53ekiW/+cd3uM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-34-IQjpoiziM4OTSyby3zmWlA-1; Thu, 28 Apr 2022 05:47:45 -0400
-X-MC-Unique: IQjpoiziM4OTSyby3zmWlA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-223-lIalBS9_OAOM6biDc-Vs2w-1; Thu, 28 Apr 2022 05:47:39 -0400
+X-MC-Unique: lIalBS9_OAOM6biDc-Vs2w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B5BCA296A606;
- Thu, 28 Apr 2022 09:47:44 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.194.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71F1140CFD16;
- Thu, 28 Apr 2022 09:47:42 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 13/13] tests/tcg/s390x: Tests for Vector Enhancements
- Facility 2
-Date: Thu, 28 Apr 2022 11:47:08 +0200
-Message-Id: <20220428094708.84835-14-david@redhat.com>
-In-Reply-To: <20220428094708.84835-1-david@redhat.com>
-References: <20220428094708.84835-1-david@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C5D7802803;
+ Thu, 28 Apr 2022 09:47:34 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9955040E80E3;
+ Thu, 28 Apr 2022 09:47:33 +0000 (UTC)
+Date: Thu, 28 Apr 2022 10:47:32 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v8 12/17] vfio-user: IOMMU support for remote device
+Message-ID: <YmpitM+WKiOIbeDc@stefanha-x1.localdomain>
+References: <cover.1650379269.git.jag.raman@oracle.com>
+ <2a42664b61cef7cdd44688679b60a8c6c397b075.1650379269.git.jag.raman@oracle.com>
+ <9D4970CA-122E-4F1C-8598-D841A4A7E78D@oracle.com>
+ <YmZsMnoJ6ZZkEP5g@stefanha-x1.localdomain>
+ <4A2BD588-33D6-41B2-88E4-22C7766CCD8B@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pArfGmsyV6SZdKow"
+Content-Disposition: inline
+In-Reply-To: <4A2BD588-33D6-41B2-88E4-22C7766CCD8B@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -60,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,416 +79,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, David Miller <dmiller423@gmail.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, John Levon <john.levon@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Miller <dmiller423@gmail.com>
 
-Signed-off-by: David Miller <dmiller423@gmail.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- tests/tcg/s390x/Makefile.target |   8 ++
- tests/tcg/s390x/vx.h            |  19 +++++
- tests/tcg/s390x/vxeh2_vcvt.c    |  88 ++++++++++++++++++++
- tests/tcg/s390x/vxeh2_vlstr.c   | 139 ++++++++++++++++++++++++++++++++
- tests/tcg/s390x/vxeh2_vs.c      |  93 +++++++++++++++++++++
- 5 files changed, 347 insertions(+)
- create mode 100644 tests/tcg/s390x/vx.h
- create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
- create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
- create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+--pArfGmsyV6SZdKow
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index f0d474a245..e50d617f21 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -17,6 +17,14 @@ TESTS+=trap
- TESTS+=signals-s390x
- TESTS+=branch-relative-long
- 
-+VECTOR_TESTS=vxeh2_vs
-+VECTOR_TESTS+=vxeh2_vcvt
-+VECTOR_TESTS+=vxeh2_vlstr
-+
-+TESTS+=$(VECTOR_TESTS)
-+
-+$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
-+
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
-diff --git a/tests/tcg/s390x/vx.h b/tests/tcg/s390x/vx.h
-new file mode 100644
-index 0000000000..02e7fd518a
---- /dev/null
-+++ b/tests/tcg/s390x/vx.h
-@@ -0,0 +1,19 @@
-+#ifndef QEMU_TESTS_S390X_VX_H
-+#define QEMU_TESTS_S390X_VX_H
-+
-+typedef union S390Vector {
-+    uint64_t d[2];  /* doubleword */
-+    uint32_t w[4];  /* word */
-+    uint16_t h[8];  /* halfword */
-+    uint8_t  b[16]; /* byte */
-+    float    f[4];  /* float32 */
-+    double   fd[2]; /* float64 */
-+    __uint128_t v;
-+} S390Vector;
-+
-+#define ES8  0
-+#define ES16 1
-+#define ES32 2
-+#define ES64 3
-+
-+#endif /* QEMU_TESTS_S390X_VX_H */
-diff --git a/tests/tcg/s390x/vxeh2_vcvt.c b/tests/tcg/s390x/vxeh2_vcvt.c
-new file mode 100644
-index 0000000000..d6e551c16e
---- /dev/null
-+++ b/tests/tcg/s390x/vxeh2_vcvt.c
-@@ -0,0 +1,88 @@
-+/*
-+ * vxeh2_vcvt: vector-enhancements facility 2 vector convert *
-+ */
-+#include <stdint.h>
-+#include "vx.h"
-+
-+#define M_S 8
-+#define M4_XxC 4
-+#define M4_def M4_XxC
-+
-+static inline void vcfps(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vcfps %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+static inline void vcfpl(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vcfpl %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+static inline void vcsfp(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vcsfp %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+static inline void vclfp(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vclfp %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    S390Vector vd;
-+    S390Vector vs_i32 = { .w[0] = 1, .w[1] = 64, .w[2] = 1024, .w[3] = -10 };
-+    S390Vector vs_u32 = { .w[0] = 2, .w[1] = 32, .w[2] = 4096, .w[3] = 8888 };
-+    S390Vector vs_f32 = { .f[0] = 3.987, .f[1] = 5.123,
-+                          .f[2] = 4.499, .f[3] = 0.512 };
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vcfps(&vd, &vs_i32, 2, M4_def, 0);
-+    if (1 != vd.f[0] || 1024 != vd.f[2] || 64 != vd.f[1] || -10 != vd.f[3]) {
-+        return 1;
-+    }
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vcfpl(&vd, &vs_u32, 2, M4_def, 0);
-+    if (2 != vd.f[0] || 4096 != vd.f[2] || 32 != vd.f[1] || 8888 != vd.f[3]) {
-+        return 1;
-+    }
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vcsfp(&vd, &vs_f32, 2, M4_def, 0);
-+    if (4 != vd.w[0] || 4 != vd.w[2] || 5 != vd.w[1] || 1 != vd.w[3]) {
-+        return 1;
-+    }
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vclfp(&vd, &vs_f32, 2, M4_def, 0);
-+    if (4 != vd.w[0] || 4 != vd.w[2] || 5 != vd.w[1] || 1 != vd.w[3]) {
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/s390x/vxeh2_vlstr.c b/tests/tcg/s390x/vxeh2_vlstr.c
-new file mode 100644
-index 0000000000..5677bf7c29
---- /dev/null
-+++ b/tests/tcg/s390x/vxeh2_vlstr.c
-@@ -0,0 +1,139 @@
-+/*
-+ * vxeh2_vlstr: vector-enhancements facility 2 vector load/store reversed *
-+ */
-+#include <stdint.h>
-+#include "vx.h"
-+
-+#define vtst(v1, v2) \
-+    if (v1.d[0] != v2.d[0] || v1.d[1] != v2.d[1]) { \
-+        return 1;     \
-+    }
-+
-+static inline void vler(S390Vector *v1, const void *va, uint8_t m3)
-+{
-+    asm volatile("vler %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vster(S390Vector *v1, const void *va, uint8_t m3)
-+{
-+    asm volatile("vster %[v1], 0(%[va]), %[m3]\n"
-+                : [va] "+d" (va)
-+                : [v1]  "v" (v1->v)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vlbr(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vlbr %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vstbr(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vstbr %[v1], 0(%[va]), %[m3]\n"
-+                : [va] "+d" (va)
-+                : [v1]  "v" (v1->v)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+
-+static inline void vlebrh(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vlebrh %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vstebrh(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vstebrh %[v1], 0(%[va]), %[m3]\n"
-+                : [va] "+d" (va)
-+                : [v1]  "v" (v1->v)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vllebrz(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vllebrz %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vlbrrep(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vlbrrep %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    S390Vector vd = { .d[0] = 0, .d[1] = 0 };
-+    S390Vector vs = { .d[0] = 0x8FEEDDCCBBAA9988ull,
-+                      .d[1] = 0x7766554433221107ull };
-+
-+    const S390Vector vt_v_er16 = {
-+        .h[0] = 0x1107, .h[1] = 0x3322, .h[2] = 0x5544, .h[3] = 0x7766,
-+        .h[4] = 0x9988, .h[5] = 0xBBAA, .h[6] = 0xDDCC, .h[7] = 0x8FEE };
-+
-+    const S390Vector vt_v_br16 = {
-+        .h[0] = 0xEE8F, .h[1] = 0xCCDD, .h[2] = 0xAABB, .h[3] = 0x8899,
-+        .h[4] = 0x6677, .h[5] = 0x4455, .h[6] = 0x2233, .h[7] = 0x0711 };
-+
-+    int ix;
-+    uint64_t ss64 = 0xFEEDFACE0BADBEEFull, sd64 = 0;
-+
-+    vler(&vd, &vs, ES16);
-+    vtst(vd, vt_v_er16);
-+
-+    vster(&vs, &vd, ES16);
-+    vtst(vd, vt_v_er16);
-+
-+    vlbr(&vd, &vs, ES16);
-+    vtst(vd, vt_v_br16);
-+
-+    vstbr(&vs, &vd, ES16);
-+    vtst(vd, vt_v_br16);
-+
-+    vlebrh(&vd, &ss64, 5);
-+    if (0xEDFE != vd.h[5]) {
-+        return 1;
-+    }
-+
-+    vstebrh(&vs, (uint8_t *)&sd64 + 4, 7);
-+    if (0x0000000007110000ull != sd64) {
-+        return 1;
-+    }
-+
-+    vllebrz(&vd, (uint8_t *)&ss64 + 3, 2);
-+    for (ix = 0; ix < 4; ix++) {
-+        if (vd.w[ix] != (ix != 1 ? 0 : 0xBEAD0BCE)) {
-+            return 1;
-+        }
-+    }
-+
-+    vlbrrep(&vd, (uint8_t *)&ss64 + 4, 1);
-+    for (ix = 0; ix < 8; ix++) {
-+        if (0xAD0B != vd.h[ix]) {
-+            return 1;
-+        }
-+    }
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/s390x/vxeh2_vs.c b/tests/tcg/s390x/vxeh2_vs.c
-new file mode 100644
-index 0000000000..b7ef419d79
---- /dev/null
-+++ b/tests/tcg/s390x/vxeh2_vs.c
-@@ -0,0 +1,93 @@
-+/*
-+ * vxeh2_vs: vector-enhancements facility 2 vector shift
-+ */
-+#include <stdint.h>
-+#include "vx.h"
-+
-+#define vtst(v1, v2) \
-+    if (v1.d[0] != v2.d[0] || v1.d[1] != v2.d[1]) { \
-+        return 1;     \
-+    }
-+
-+static inline void vsl(S390Vector *v1, S390Vector *v2, S390Vector *v3)
-+{
-+    asm volatile("vsl %[v1], %[v2], %[v3]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v));
-+}
-+
-+static inline void vsra(S390Vector *v1, S390Vector *v2, S390Vector *v3)
-+{
-+    asm volatile("vsra %[v1], %[v2], %[v3]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v));
-+}
-+
-+static inline void vsrl(S390Vector *v1, S390Vector *v2, S390Vector *v3)
-+{
-+    asm volatile("vsrl %[v1], %[v2], %[v3]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v));
-+}
-+
-+static inline void vsld(S390Vector *v1, S390Vector *v2,
-+    S390Vector *v3, const uint8_t I)
-+{
-+    asm volatile("vsld %[v1], %[v2], %[v3], %[I]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v)
-+                , [I]   "i" (I & 7));
-+}
-+
-+static inline void vsrd(S390Vector *v1, S390Vector *v2,
-+    S390Vector *v3, const uint8_t I)
-+{
-+    asm volatile("vsrd %[v1], %[v2], %[v3], %[I]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v)
-+                , [I]   "i" (I & 7));
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    const S390Vector vt_vsl  = { .d[0] = 0x7FEDBB32D5AA311Dull,
-+                                 .d[1] = 0xBB65AA10912220C0ull };
-+    const S390Vector vt_vsra = { .d[0] = 0xF1FE6E7399AA5466ull,
-+                                 .d[1] = 0x0E762A5188221044ull };
-+    const S390Vector vt_vsrl = { .d[0] = 0x11FE6E7399AA5466ull,
-+                                 .d[1] = 0x0E762A5188221044ull };
-+    const S390Vector vt_vsld = { .d[0] = 0x7F76EE65DD54CC43ull,
-+                                 .d[1] = 0xBB32AA2199108838ull };
-+    const S390Vector vt_vsrd = { .d[0] = 0x0E060802040E000Aull,
-+                                 .d[1] = 0x0C060802040E000Aull };
-+    S390Vector vs  = { .d[0] = 0x8FEEDDCCBBAA9988ull,
-+                       .d[1] = 0x7766554433221107ull };
-+    S390Vector  vd = { .d[0] = 0, .d[1] = 0 };
-+    S390Vector vsi = { .d[0] = 0, .d[1] = 0 };
-+
-+    for (int ix = 0; ix < 16; ix++) {
-+        vsi.b[ix] = (1 + (5 ^ ~ix)) & 7;
-+    }
-+
-+    vsl(&vd, &vs, &vsi);
-+    vtst(vd, vt_vsl);
-+
-+    vsra(&vd, &vs, &vsi);
-+    vtst(vd, vt_vsra);
-+
-+    vsrl(&vd, &vs, &vsi);
-+    vtst(vd, vt_vsrl);
-+
-+    vsld(&vd, &vs, &vsi, 3);
-+    vtst(vd, vt_vsld);
-+
-+    vsrd(&vd, &vs, &vsi, 15);
-+    vtst(vd, vt_vsrd);
-+
-+    return 0;
-+}
--- 
-2.35.1
+On Mon, Apr 25, 2022 at 05:30:19PM +0000, Jag Raman wrote:
+>=20
+>=20
+> > On Apr 25, 2022, at 5:38 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> >=20
+> > On Wed, Apr 20, 2022 at 11:15:16AM +0000, Jag Raman wrote:
+> >>=20
+> >>=20
+> >>> On Apr 19, 2022, at 4:45 PM, Jag Raman <jag.raman@oracle.com> wrote:
+> >>>=20
+> >>> Assign separate address space for each device in the remote processes.
+> >>>=20
+> >>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> >>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> >>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> >>> ---
+> >>> include/hw/remote/iommu.h |  40 +++++++++++++
+> >>> hw/remote/iommu.c         | 114 ++++++++++++++++++++++++++++++++++++++
+> >>> hw/remote/machine.c       |  13 ++++-
+> >>> MAINTAINERS               |   2 +
+> >>> hw/remote/meson.build     |   1 +
+> >>> 5 files changed, 169 insertions(+), 1 deletion(-)
+> >>> create mode 100644 include/hw/remote/iommu.h
+> >>> create mode 100644 hw/remote/iommu.c
+> >>>=20
+> >>> diff --git a/include/hw/remote/iommu.h b/include/hw/remote/iommu.h
+> >>> new file mode 100644
+> >>> index 0000000000..33b68a8f4b
+> >>> --- /dev/null
+> >>> +++ b/include/hw/remote/iommu.h
+> >>> @@ -0,0 +1,40 @@
+> >>> +/**
+> >>> + * Copyright =C2=A9 2022 Oracle and/or its affiliates.
+> >>> + *
+> >>> + * This work is licensed under the terms of the GNU GPL, version 2 o=
+r later.
+> >>> + * See the COPYING file in the top-level directory.
+> >>> + *
+> >>> + */
+> >>> +
+> >>> +#ifndef REMOTE_IOMMU_H
+> >>> +#define REMOTE_IOMMU_H
+> >>> +
+> >>> +#include "hw/pci/pci_bus.h"
+> >>> +#include "hw/pci/pci.h"
+> >>> +
+> >>> +#ifndef INT2VOIDP
+> >>> +#define INT2VOIDP(i) (void *)(uintptr_t)(i)
+> >>> +#endif
+> >>> +
+> >>> +typedef struct RemoteIommuElem {
+> >>> +    MemoryRegion *mr;
+> >>> +
+> >>> +    AddressSpace as;
+> >>> +} RemoteIommuElem;
+> >>> +
+> >>> +#define TYPE_REMOTE_IOMMU "x-remote-iommu"
+> >>> +OBJECT_DECLARE_SIMPLE_TYPE(RemoteIommu, REMOTE_IOMMU)
+> >>> +
+> >>> +struct RemoteIommu {
+> >>> +    Object parent;
+> >>> +
+> >>> +    GHashTable *elem_by_devfn;
+> >>> +
+> >>> +    QemuMutex lock;
+> >>> +};
+> >>> +
+> >>> +void remote_iommu_setup(PCIBus *pci_bus);
+> >>> +
+> >>> +void remote_iommu_unplug_dev(PCIDevice *pci_dev);
+> >>> +
+> >>> +#endif
+> >>> diff --git a/hw/remote/iommu.c b/hw/remote/iommu.c
+> >>> new file mode 100644
+> >>> index 0000000000..16c6b0834e
+> >>> --- /dev/null
+> >>> +++ b/hw/remote/iommu.c
+> >>> @@ -0,0 +1,114 @@
+> >>> +/**
+> >>> + * IOMMU for remote device
+> >>> + *
+> >>> + * Copyright =C2=A9 2022 Oracle and/or its affiliates.
+> >>> + *
+> >>> + * This work is licensed under the terms of the GNU GPL, version 2 o=
+r later.
+> >>> + * See the COPYING file in the top-level directory.
+> >>> + *
+> >>> + */
+> >>> +
+> >>> +#include "qemu/osdep.h"
+> >>> +#include "qemu-common.h"
+> >>> +
+> >>> +#include "hw/remote/iommu.h"
+> >>> +#include "hw/pci/pci_bus.h"
+> >>> +#include "hw/pci/pci.h"
+> >>> +#include "exec/memory.h"
+> >>> +#include "exec/address-spaces.h"
+> >>> +#include "trace.h"
+> >>> +
+> >>> +static AddressSpace *remote_iommu_find_add_as(PCIBus *pci_bus,
+> >>> +                                              void *opaque, int devf=
+n)
+> >>> +{
+> >>> +    RemoteIommu *iommu =3D opaque;
+> >>> +    RemoteIommuElem *elem =3D NULL;
+> >>> +
+> >>> +    qemu_mutex_lock(&iommu->lock);
+> >>> +
+> >>> +    elem =3D g_hash_table_lookup(iommu->elem_by_devfn, INT2VOIDP(dev=
+fn));
+> >>> +
+> >>> +    if (!elem) {
+> >>> +        elem =3D g_malloc0(sizeof(RemoteIommuElem));
+> >>> +        g_hash_table_insert(iommu->elem_by_devfn, INT2VOIDP(devfn), =
+elem);
+> >>> +    }
+> >>> +
+> >>> +    if (!elem->mr) {
+> >>> +        elem->mr =3D MEMORY_REGION(object_new(TYPE_MEMORY_REGION));
+> >>> +        memory_region_set_size(elem->mr, UINT64_MAX);
+> >>> +        address_space_init(&elem->as, elem->mr, NULL);
+> >>=20
+> >> Hi,
+> >>=20
+> >> I=E2=80=99d like to add a note here.
+> >>=20
+> >> We tried to add "elem->mr=E2=80=9D as a child of PCIDevice. That way, =
+when PCIDevice is
+> >> unplugged, the child is also finalized.
+> >=20
+> > Do you mean via a memory_region_init()-family function where a parent
+> > object is given? Or do you mean by adding a QOM child property?
+>=20
+> I mean by adding =E2=80=9Celem->mr=E2=80=9D as a QOM child property of PC=
+IDevice.
+>=20
+> >=20
+> >> However, there was some issue with hotplug. During the hotplug, there=
+=E2=80=99s a window
+> >> during initialization where we couldn=E2=80=99t lookup the PCIDevice b=
+y =E2=80=9Cdevfn=E2=80=9D.
+> >>=20
+> >> do_pci_register_device() -> pci_init_bus_master() -> pci_device_iommu_=
+address_space()
+> >> happens before do_pci_register_device() -> =E2=80=9Cbus->devices[devfn=
+] =3D pci_dev=E2=80=9D. As such,
+> >> pci_find_device() doesn=E2=80=99t work at this time.
+> >=20
+> > I don't follow. What calls pci_find_device()?
+>=20
+> To add the MemoryRegion as a child of PCIDevice, remote_iommu_find_add_as=
+()
+> would need to lookup the PCIDevice using devfn. The function that looks up
+> PCIDevice by devfn is pci_find_device().
+>=20
+> The above note explains why we didn=E2=80=99t lookup the PCIDevice using =
+pci_find_device()
+> and then adding the MemoryRegion as its child.
+
+If I understand correctly you're saying it's not possible to use
+memory_region_init(&elem->mr, OBJECT(pci_dev), ...) inside
+remote_iommu_find_add_as() because there is no way to find the
+PCIDevice?
+
+It would be nice to automatically clean up the memory region but the
+AddressSpace needs to be destroyed too and there isn't an automatic way
+of doing that, so the approach in this patch is fine.
+
+Stefan
+
+--pArfGmsyV6SZdKow
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJqYrQACgkQnKSrs4Gr
+c8hAYQf/dBvY18Jz2xhNH02/VjL2dq8BnemjrqrUIgWkwTLc5b7WaPKvvKtZRmwB
+AZitVh5zAa10tuQO6iXpZSbXRLsGdVJ/66hFALSlw4SMz9oLfN3ecWblWbjX6rme
+gMDZAsWx8XtpZkNAtth0eVD3xCHcIBhybA7OvoLLOukuvbY6e87E/pU+HCeesZ+m
+aZSQrsLbG75AmCv0QLE2J4/Ks8oClBdD7h+GC99WkeX90Ojqov/Gg3o9dUd9jo/S
+3H0itLN8DW1D4s18IX8RH8S0Ub224uC/ZGm76mib5M7Xqa9qPzYLEETRLRA33Z/w
+/P3ryHFBowZdULYdQfoOeu396vdeaA==
+=yfD7
+-----END PGP SIGNATURE-----
+
+--pArfGmsyV6SZdKow--
 
 
