@@ -2,59 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D90A513318
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 13:56:57 +0200 (CEST)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6C151332B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 13:59:38 +0200 (CEST)
+Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk2lT-0000Wd-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 07:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
+	id 1nk2o5-0003ZQ-Rl
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 07:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nk2Xm-0008UB-2B; Thu, 28 Apr 2022 07:42:46 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:41653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nk2Xk-0004Pc-2i; Thu, 28 Apr 2022 07:42:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=JEjx05k9VnmkYQxSNNhjnULtVzy70mjecuT1kI33Kjo=; b=vI2YqxNMT9/NHSLjjWpk4ng9d6
- xLT603uvEGEAHGgqMuDBwwltREPTRa8jjIYi8wqe+s6Feixs/636JfxvYFapdNFf8cmqbDaQ1VImW
- /VP+1K2H3vNkVPid9rw2rs3vsRXVseKCLJ0R0yJZoaDZtY1ODFOqd167tSRExCT0OMFs1PAKR88GV
- 3u/ij5UCclBSKeAUQ+UBOcf2sjIb6GBNRfl7l+FWJIDr69IxZ0wAPizD+hlYJfC49AinR3oGZyLgR
- y213Vjjg3/Iwt7uHkQD0q//KmTNWf7rotI6S2iHbCrAT/4oZHK4BA2BnnEQg97mSxi2nxAqzTD/uj
- pOWgJyWy+inCi+g/iz59jjJ2tBrlaSHQdiwFq0szjEnfOpE9TkCDTTmzXr8lDMsg9l6fPEQjEIRj2
- n8Ej/FbaM/ZIkTcvpleDoqWFNb0EUcmGt5NzW0GtBj7XyWQ0auts8kIbqJuOu0HNMLYYl4OKOJzpc
- ZH0J8713XjPjaztFfdyDa7XZNc3E8+sKfu/tJSWihPXA2fwG1nspS+wjFVS8pUZ2vBqAXYEGLFPJJ
- RLgmPBIUJnXdHVxmAL5gtC1wfFRt8y2k50a86rJdeuabvbzoUtLeYe3+nMjadYQT/znmq/FHCRYae
- SqQyqaAfYuqsW9Cu+O90VYdv0nPPlNUiSWIFDd8ow=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v4 1/6] 9pfs: fix qemu_mknodat(S_IFREG) on macOS
-Date: Thu, 28 Apr 2022 13:42:25 +0200
-Message-ID: <3989771.T3hWByohnE@silver>
-In-Reply-To: <20220427221612.75febe47@bahia>
-References: <cover.1651085921.git.qemu_oss@crudebyte.com>
- <a5338eada3c5130046785014c185ec4fa0ddeaa7.1651085921.git.qemu_oss@crudebyte.com>
- <20220427221612.75febe47@bahia>
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nk2cu-0005sT-8U
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 07:48:04 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:40760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nk2cs-0005Ra-FB
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 07:48:03 -0400
+Received: by mail-pl1-x631.google.com with SMTP id k4so4127508plk.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 04:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5QhcIJoJFpwZZ9y5sGb15PYJ4tqQpvnSV2qPERe1X7s=;
+ b=QNNcn3Xzue+RIEwiYhKmQam+68pSKo2Uu3926ibp1LTkqEemRZdZZWxK6fm/ExWHpI
+ ooHeVIqzi+UuRvvZptrDeBmBYDKbdv2UkQ7cc2mkU1qyjcniePW/M/ZG6V1Nq8CSFeEB
+ C2refY2LlCK7Zg3gLEIIZnKneE2n/Egdf2JdHiibmEvWmvluJ+yTlsEo+vZYVcBKV1tl
+ GRW9GuKkYlGsZk9u0K9X5/bLIHxKV5qVO+Vu+eCupAxbPlJ1FYHvYD/adtcnsa4O3Nr6
+ GcFdWuaA6gsSHTK7MABLSe+Bv4ZySuWTaW7NFDRvE2Y30skL16Z02TdbIJ096Sr8CF9H
+ lmFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5QhcIJoJFpwZZ9y5sGb15PYJ4tqQpvnSV2qPERe1X7s=;
+ b=zVnGgiUY8IGizU1lUH1jO+rhOZFmhz5+uIUZxIVbp805d4qtYP8hmiJnCLdLEFbnOJ
+ ZUBLYmjVdqfNhebGUnGiVOEKiOghQkMsR6PDfToEvqlOB95VNg1jYgPoFjJaWWeGmyFS
+ RwPTpcWmAmCPwc/+ndBhV+agwXYcdIz7ELjI3Y1jeH54oyhxJTloYW3N+tHQZO4v8k2M
+ 6mvoksj1ZQkONJaXAGslNGzGzR2FfOja4mCh9CaNYnJSVaE/L7LSYDqZ3F+mzY4kLm7Z
+ Iim6gY783r8pYlk6f/wQQpUIUHvMT0n/oipYO+/Q/LUrYr93nSR30jvcZAafGmHwpfRu
+ beiw==
+X-Gm-Message-State: AOAM532MgNQgIKYBj10o8uz6lyqohvHHiKR6m9kyIgnQSkCa0WYXV5NW
+ ywIIKYVr3biQKfNZMFoMVag=
+X-Google-Smtp-Source: ABdhPJxSCwcJAk38aDcM6BAVoyj0UfQT2/DiFNDU3lEe3r+PLSGb+v33eWlonYezQD61mu4oQYkuLw==
+X-Received: by 2002:a17:902:6bc2:b0:158:a26b:5884 with SMTP id
+ m2-20020a1709026bc200b00158a26b5884mr33146065plt.38.1651146480851; 
+ Thu, 28 Apr 2022 04:48:00 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id
+ u7-20020aa78487000000b00505d9277cb3sm21593998pfn.38.2022.04.28.04.47.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Apr 2022 04:48:00 -0700 (PDT)
+Date: Thu, 28 Apr 2022 20:47:58 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [Qemu-devel] [PATCH 2/7] target/openrisc: add shutdown logic
+Message-ID: <Ymp+7vYQvA0Wr4sl@antec>
+References: <cover.1492384862.git.shorne@gmail.com>
+ <fb69c137317a365dcb549dfef1ecd2fbff48e92c.1492384862.git.shorne@gmail.com>
+ <YmmA4li384azQ2i9@zx2c4.com>
+ <CAFEAcA9FZZzzZJaCHrepni+5oUELxW1TtZ3gZHxSUdfKdx+ghQ@mail.gmail.com>
+ <Ymm6K3DjesAZR0OY@antec> <YmnaDUpVI5ihgvg6@zx2c4.com>
+ <Ymp3owBiSQIimgSy@zx2c4.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ymp3owBiSQIimgSy@zx2c4.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=shorne@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,76 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, openrisc@lists.librecores.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 27. April 2022 22:16:12 CEST Greg Kurz wrote:
-> On Wed, 27 Apr 2022 20:54:04 +0200
+On Thu, Apr 28, 2022 at 01:16:51PM +0200, Jason A. Donenfeld wrote:
+> Hey again,
 > 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > mknod() on macOS does not support creating regular files, so
-> > divert to openat_file() if S_IFREG is passed with mode argument.
+> On Thu, Apr 28, 2022 at 02:04:29AM +0200, Jason A. Donenfeld wrote:
+> > By the way, would this also help the reboot case? That's
+> > `reboot(RB_AUTOBOOT);`, which does:
 > > 
-> > Furthermore, 'man 2 mknodat' on Linux says: "Zero file type is
-> > equivalent to type S_IFREG".
+> > machine_restart() ->
+> >   do_kernel_restart() ->
+> >     atomic_notifier_chain_register(&restart_handler_list, nb) ->
+> >       ???
+> > 
+> > As far as I can tell, nothing is wired into the reboot case for
+> > OpenRISC. Is this something that could be fixed in the kernel without
+> > having to patch QEMU? If so, then I could effectively get shutdown for
+> > my CI with the -no-reboot option, which is what I'm already doing for a
+> > few platforms.
 > 
-> Thinking again I have mixed feelings about this... qemu_mknodat()
-> should certainly match POSIX semantics, even non-portable, as
-> described in [1] but I'm not sure it should mimic linux-specific
-> behaviors.
+> I added 13 for this: https://lists.librecores.org/pipermail/openrisc/2022-April/003884.html
 > 
-> [1] https://pubs.opengroup.org/onlinepubs/9699919799/functions/mknod.html
-> 
-> > Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > Reviewed-by: Will Cohen <wwcohen@gmail.com>
-> > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > ---
-> > 
-> >  hw/9pfs/9p-util-darwin.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> > index bec0253474..e24d09763a 100644
-> > --- a/hw/9pfs/9p-util-darwin.c
-> > +++ b/hw/9pfs/9p-util-darwin.c
-> > @@ -77,6 +77,15 @@ int fsetxattrat_nofollow(int dirfd, const char
-> > *filename, const char *name,> 
-> >  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-> >  {
-> >  
-> >      int preserved_errno, err;
-> > 
-> > +
-> > +    if (S_ISREG(mode) || !(mode & S_IFMT)) {
-> 
-> ... so maybe I'd just check S_ISREG() here. Not a request, just food
-> for thought : sticking to POSIX semantics might help to make the code
-> more portable across all the new host supports that are showing up
-> these days.
+> When you go add these nops to the specification, please remember to add
+> one for reboot too. Then, once that kernel code is merged and the
+> specification published, it'll be sensible to add shutdown and reboot
+> support to QEMU, per Peter's description.
 
-Well, handling !(mode & S_IFMT) (i.e. "zero file type") is needed "somewhere" 
-for 9p2000.L to behave as expected on macOS hosts. So you might argue this 
-could rather be handled in 9p.c instead and there only if protocol is exactly 
-9p2000.L.
+This sounds fair.
 
-OTOH I currently don't see an issue here providing that default behaviour.
-
-Best regards,
-Christian Schoenebeck
-
-> > +        int fd = openat_file(dirfd, filename, O_CREAT, mode);
-> > +        if (fd == -1) {
-> > +            return fd;
-> > +        }
-> > +        close(fd);
-> > +        return 0;
-> > +    }
-> > 
-> >      if (!pthread_fchdir_np) {
-> >      
-> >          error_report_once("pthread_fchdir_np() not available on this
-> >          version of macOS"); return -ENOTSUP;
-
-
+-Stafford
 
