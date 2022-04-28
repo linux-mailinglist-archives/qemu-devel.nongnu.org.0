@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C107A512CFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:35:50 +0200 (CEST)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9DC512D2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:40:13 +0200 (CEST)
+Received: from localhost ([::1]:53818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njygn-0003h7-Sy
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
+	id 1njyl2-0001Fk-Hl
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njy24-0000EJ-TL
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:44 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35409)
+ id 1njy25-0000Gn-Il
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:45 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:37869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njy23-00055Y-7A
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:44 -0400
-Received: by mail-ed1-x530.google.com with SMTP id y21so4410596edo.2
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 23:53:42 -0700 (PDT)
+ id 1njy23-00055k-QX
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:45 -0400
+Received: by mail-ed1-x530.google.com with SMTP id k27so4398424edk.4
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 23:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eWVoNFg17cglqQICzMxJj6RBiNCEoEjYKsESWBBr/7w=;
- b=ierrJpoe3K0/aMvDWwp52ZWelIQkIaHWS/JozVYvVGIMvnWwxPrDmKPQlMw2NL4FrU
- LNDjVxn+Kc9Rk6MMYs7atkYa0tKfvJALSruHRsUASDrJb4TtGclJb85oEhsUWGTe/dGy
- zf/hFtZjy6I232kJoNvhRKxT8GrLXX+e24oyhUCdpu6hsPg4ngLJ4mCkvtteXLwFpjy/
- Jom+CXofOdc2ncBucWBPmsOoIFhui7/Tk8bDNXT8WlQmx065taHN8Gw/UMwX/UwEY5Ef
- 7jgeGsngT3pSCs+Bg4UHKzoQe4vAvz2FPwKnmrelR9/TU1hACsAO/igVGN07OWquz8ie
- JvIA==
+ bh=875vs54jSlHP1j/ag97c6ycrMEKN/NuuwrYXpt6BYgw=;
+ b=ibgaYLeJDbS8WXeKPO6usa+B9CgYOqH012zljD7g7K9U51mLYkSYOMkizbXZB8Mn6F
+ jwuOP5RmOAUouLOfKgUOmuH5sDi/ojnECje8CzxMxaVtml5VFcxKggjgFj1nsD3BNSIF
+ 0K0CxIxKftbAomFsbx4uDIow0wpq6fNHxGEEEsJSD1G5oFt3jt7pXveXzPaRtcYi/a+K
+ XpFKBCZJOFcL7vzeYgnwGazg6SnFMhYPbb1EJemACT55WCbnVZmmFkQ8ODBa23UC+dUz
+ gb4AvPiHQWowJ5SxE3uZNbvzTnYL13Tubl7TjDXnauV0/UWDH/2t4v2ARk4VGm0HDp0D
+ 76hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eWVoNFg17cglqQICzMxJj6RBiNCEoEjYKsESWBBr/7w=;
- b=ve1gzSZRPZOq3iZegR5JfSlKnIQWbWxK+0/c7bOpw7ON8wMu2QEFGM1DH/ya2thlDE
- hvXrG3uu+eOjjQ1ffUjoLajlO7yhLKohsmsslir5KdkuKcIfwVzIzsNqkLvwvRY2UV8o
- Vx5ozcaz9nSa+dc2JGWxafoiIBCOvy9guAOjnY5rMkBtVDrUyFMwL6fFQAyUlD/kVqQm
- cbLUYpRCE44dcOHMuCEBwZS8OclseK0f9tgMkJkLGP7j+HzQJqaRsQojNCRmaS+oa2od
- M5MNITsOR+0q619qW2wAUrC9sMUhqHjzeZAWI4OeUfji1AvPAPdz+EB/6uVkgTlHsa3d
- hYgg==
-X-Gm-Message-State: AOAM533UqfQXB2G/NUiEXQIDcgiYMY+/tPITc4VAth5jw3eqqHhGw/X/
- h3RBzacGQ+/bC/igy3YJSH/b9mnD/6JXnw==
-X-Google-Smtp-Source: ABdhPJyi6BtMvHV1leuTMtqA/1dI5AlDjuE2vBRkL0LCYEPxfmWhRipYALlZ6K//yVwnsHcRaIJ/bA==
-X-Received: by 2002:a05:6402:f18:b0:425:df36:6e99 with SMTP id
- i24-20020a0564020f1800b00425df366e99mr23633191eda.303.1651128821661; 
- Wed, 27 Apr 2022 23:53:41 -0700 (PDT)
+ bh=875vs54jSlHP1j/ag97c6ycrMEKN/NuuwrYXpt6BYgw=;
+ b=yycczkSTLSe9z380HAMZgMy/cKkwIBpXtZJX3uWBjoc+PdvR9F0uJ7wtE87GCIsvEJ
+ Z93ai/4FZG/i+/80dRVxogUKWejGG6pn8FNduEu0OEmCohlFKwLFmOUqUGQubxiQZo4X
+ 0B4FBtVS1mFXBR2kItenifN9CnReGCRew2QnA+TSmQsEV34WOcpD58Js3IjnGOfDOkbN
+ 7pgJUNg0PnTro0UfkRt0tkXo2LdxFmf1LDFPyDMUrMJqdHR0ALPmVCjgHooSVI6sq49d
+ LvdWT4zp1ntwFhyRJMSi6ALxLBYE2iB1Vzwnt2cOPkkt0CmRFF2AQFJx4r/O9Paa0MLV
+ K/Ng==
+X-Gm-Message-State: AOAM531lUfs7P2848aEQVQkFQGayfWe6KA/qyFY97MD8PsQU0LYb2ggS
+ 8SWrLhRvDEJSbKny9T0x5IWHrbbP79FY2A==
+X-Google-Smtp-Source: ABdhPJx9qnOXfWVxodfMEYHABXai4qoaEak0aBWL2+tqknadB0N1S1R/bulq7vD9cmChRMb8UkbUgg==
+X-Received: by 2002:a50:d4d0:0:b0:425:f894:7a73 with SMTP id
+ e16-20020a50d4d0000000b00425f8947a73mr14230220edj.245.1651128822429; 
+ Wed, 27 Apr 2022 23:53:42 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
  jo11-20020a170906f6cb00b006f3955761c4sm5406804ejb.158.2022.04.27.23.53.41
@@ -55,9 +55,10 @@ Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  Wed, 27 Apr 2022 23:53:41 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/18] configure: remove dead code
-Date: Thu, 28 Apr 2022 08:53:23 +0200
-Message-Id: <20220428065335.189795-7-pbonzini@redhat.com>
+Subject: [PULL 07/18] qga: wixl: get path to sysroot from pkg-config as
+ intended
+Date: Thu, 28 Apr 2022 08:53:24 +0200
+Message-Id: <20220428065335.189795-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220428065335.189795-1-pbonzini@redhat.com>
 References: <20220428065335.189795-1-pbonzini@redhat.com>
@@ -91,81 +92,51 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tcg_interpreter is never written, it is purely a meson option;
-trace_backends is never read.
-
-And SeaBIOS is only build from the source tree with roms/Makefile,
-so the config.mak file is unused.
+The .wxs file uses $(var.Mingw_bin) while configure/meson have always
+used Mingw_dlls.  Fix them to match what was probably intended.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ configure       | 4 ++--
+ qga/meson.build | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/configure b/configure
-index a4942c13e4..9e32c96fce 100755
+index 9e32c96fce..049f669a94 100755
 --- a/configure
 +++ b/configure
-@@ -320,7 +320,6 @@ linux_user=""
- bsd_user=""
- pkgversion=""
- pie=""
--trace_backends="log"
- trace_file="trace"
- opengl="$default_feature"
- coroutine=""
-@@ -391,7 +390,6 @@ for opt do
-                       cross_cc_vars="$cross_cc_vars cross_cc_cflags_${cc_arch}"
-   ;;
-   --cross-cc-*) cc_arch=${opt#--cross-cc-}; cc_arch=${cc_arch%%=*}
--                cc_archs="$cc_archs $cc_arch"
-                 eval "cross_cc_${cc_arch}=\$optarg"
-                 cross_cc_vars="$cross_cc_vars cross_cc_${cc_arch}"
-   ;;
-@@ -2881,9 +2879,6 @@ fi
- if test "$vhost_user_fs" = "yes" ; then
-   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
+@@ -2702,7 +2702,7 @@ if test "$QEMU_GA_VERSION" = ""; then
+     QEMU_GA_VERSION=$(cat $source_path/VERSION)
  fi
--if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
--  echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
--fi
  
- if test "$opengl" = "yes" ; then
-   echo "CONFIG_OPENGL=y" >> $config_host_mak
-@@ -3024,7 +3019,6 @@ LINKS="Makefile"
- LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
--LINKS="$LINKS roms/seabios/Makefile"
- LINKS="$LINKS pc-bios/qemu-icon.bmp"
- LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
- LINKS="$LINKS tests/avocado tests/data"
-@@ -3059,24 +3053,6 @@ done
- export target_list source_path use_containers cpu host_cc
- $source_path/tests/tcg/configure.sh)
+-QEMU_GA_MSI_MINGW_DLL_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
++QEMU_GA_MSI_MINGW_BIN_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
  
--# temporary config to build submodules
--if test -f $source_path/roms/seabios/Makefile; then
--  for rom in seabios; do
--    config_mak=roms/$rom/config.mak
--    echo "# Automatically generated by configure - do not modify" > $config_mak
--    echo "SRC_PATH=$source_path/roms/$rom" >> $config_mak
--    echo "AS=$as" >> $config_mak
--    echo "CCAS=$ccas" >> $config_mak
--    echo "CC=$cc" >> $config_mak
--    echo "BCC=bcc" >> $config_mak
--    echo "CPP=$cpp" >> $config_mak
--    echo "OBJCOPY=objcopy" >> $config_mak
--    echo "IASL=$iasl" >> $config_mak
--    echo "LD=$ld" >> $config_mak
--    echo "RANLIB=$ranlib" >> $config_mak
--  done
--fi
--
- config_mak=pc-bios/optionrom/config.mak
- echo "# Automatically generated by configure - do not modify" > $config_mak
- echo "TOPSRC_DIR=$source_path" >> $config_mak
+ # Mac OS X ships with a broken assembler
+ roms=
+@@ -2790,7 +2790,7 @@ if test "$debug_tcg" = "yes" ; then
+ fi
+ if test "$mingw32" = "yes" ; then
+   echo "CONFIG_WIN32=y" >> $config_host_mak
+-  echo "QEMU_GA_MSI_MINGW_DLL_PATH=${QEMU_GA_MSI_MINGW_DLL_PATH}" >> $config_host_mak
++  echo "QEMU_GA_MSI_MINGW_BIN_PATH=${QEMU_GA_MSI_MINGW_BIN_PATH}" >> $config_host_mak
+   echo "QEMU_GA_MANUFACTURER=${QEMU_GA_MANUFACTURER}" >> $config_host_mak
+   echo "QEMU_GA_DISTRO=${QEMU_GA_DISTRO}" >> $config_host_mak
+   echo "QEMU_GA_VERSION=${QEMU_GA_VERSION}" >> $config_host_mak
+diff --git a/qga/meson.build b/qga/meson.build
+index 392d560941..6d9f39bb32 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -129,7 +129,7 @@ if targetos == 'windows'
+                               wixl, '-o', '@OUTPUT0@', '@INPUT0@',
+                               qemu_ga_msi_arch[cpu],
+                               qemu_ga_msi_vss,
+-                              '-D', 'Mingw_dlls=' + config_host['QEMU_GA_MSI_MINGW_DLL_PATH'],
++                              '-D', 'Mingw_bin=' + config_host['QEMU_GA_MSI_MINGW_BIN_PATH'],
+                             ])
+     all_qga += [qga_msi]
+     alias_target('msi', qga_msi)
 -- 
 2.35.1
 
