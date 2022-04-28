@@ -2,36 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90BF512A3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 05:51:51 +0200 (CEST)
-Received: from localhost ([::1]:41202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99FDC512A12
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 05:40:03 +0200 (CEST)
+Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njvC2-0000PG-Sv
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 23:51:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48456)
+	id 1njv0c-0004GP-Cf
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 23:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1njuyE-00025S-LK; Wed, 27 Apr 2022 23:37:35 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:42358)
+ id 1njuxp-0001GA-DJ; Wed, 27 Apr 2022 23:37:09 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:42326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1njuyC-0002oN-5Z; Wed, 27 Apr 2022 23:37:34 -0400
+ id 1njuxm-0002mG-2q; Wed, 27 Apr 2022 23:37:09 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 69A1911F0B4;
- Thu, 28 Apr 2022 03:37:05 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 0FB6C11EEFE;
+ Thu, 28 Apr 2022 03:37:03 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Wed, 27 Apr 2022 20:26:40 -0700
-Subject: [PATCH qemu v11 15/15] target/riscv: rvv: Add option 'rvv_ta_all_1s'
- to enable optional tail agnostic behavior
-Message-ID: <165111702275.848.16529145411603891061-15@git.sr.ht>
+Date: Thu, 28 Apr 2022 03:37:02 +0000
+MIME-Version: 1.0
+Subject: [PATCH qemu v11 00/15] Add tail agnostic behavior for rvv instructions
+Message-ID: <165111702275.848.16529145411603891061-0@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <165111702275.848.16529145411603891061-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
 X-Spam_score_int: 2
@@ -60,40 +58,101 @@ Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <eop.chen@sifive.com>
-
 According to v-spec, tail agnostic behavior can be either kept as
 undisturbed or set elements' bits to all 1s. To distinguish the
 difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s".
+agnostic behavior as "set tail elements' bits to all 1s". An option
+'rvv_ta_all_1s' is added to enable the behavior, it is default as
+disabled.
 
 There are multiple possibility for agnostic elements according to
 v-spec. The main intent of this patch-set tries to add option that
 can distinguish between tail policies. Setting agnostic elements to
-all 1s allows QEMU to express this.
+all 1s makes things simple and allow QEMU to express this.
 
-This commit adds option 'rvv_ta_all_1s' is added to enable the
-behavior, it is default as disabled.
+We may explore other possibility of agnostic behavior by adding
+other options in the future. Please understand that this patch-set
+is limited.
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
----
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+v2 updates:
+- Addressed comments from Weiwei Li
+- Added commit tail agnostic on load / store instructions (which
+  I forgot to include into the patch-set)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ddda4906ff..cd4cf4b41e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -810,6 +810,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
- 
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-+    DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+v3 updates:
+- Missed the very 1st commit, adding it back
+
+v4 updates:
+- Renamed vlmax to total_elems
+- Deal with tail element when vl_eq_vlmax == true
+
+v5 updates:
+- Let `vext_get_total_elems` take `desc` and `esz`
+- Utilize `simd_maxsz(desc)` to get `vlenb`
+- Fix alignments to code
+
+v6 updates:
+- Fix `vext_get_total_elems`
+
+v7 updates:
+- Reuse `max_elems` for vector load / store helper functions. The
+  translation sets desc's `lmul` to `min(1, lmul)`, making
+  `vext_max_elems` equivalent to `vext_get_total_elems`.
+
+v8 updates:
+- Simplify `vext_set_elems_1s`, don't need `vext_set_elems_1s_fns`
+- Fix `vext_get_total_elems`, it should derive upon EMUL instead
+  of LMUL
+
+v9 updates:
+- Let instructions that is tail agnostic regardless of vta respect the
+  option and not the vta.
+
+v10 updates:
+- Correct range to set element to 1s for load instructions
+
+v11 updates:
+- Separate addition of option 'rvv_ta_all_1s' as a new (last) commit
+- Add description to show intent of the option in first commit for the
+  optional tail agnostic behavior
+- Tag WeiWei as Reviewed-by for all commits
+- Tag Alistair as Reviewed-by for commit 01, 02
+- Tag Alistair as Acked-by for commit 03
+
+eopXD (15):
+  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+  target/riscv: rvv: Rename ambiguous esz
+  target/riscv: rvv: Early exit when vstart >= vl
+  target/riscv: rvv: Add tail agnostic for vv instructions
+  target/riscv: rvv: Add tail agnostic for vector load / store
+    instructions
+  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+  target/riscv: rvv: Add tail agnostic for vector integer shift
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer comparison
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer merge and move
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector floating-point
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector reduction instructions
+  target/riscv: rvv: Add tail agnostic for vector mask instructions
+  target/riscv: rvv: Add tail agnostic for vector permutation
+    instructions
+  target/riscv: rvv: Add option 'rvv_ta_all_1s' to enable optional tail
+    agnostic behavior
+
+ target/riscv/cpu.c                      |    1 +
+ target/riscv/cpu.h                      |    2 +
+ target/riscv/cpu_helper.c               |    2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |  176 +++
+ target/riscv/internals.h                |    6 +-
+ target/riscv/translate.c                |    4 +
+ target/riscv/vector_helper.c            | 1536 ++++++++++++++---------
+ 7 files changed, 1110 insertions(+), 617 deletions(-)
+
 -- 
 2.34.2
 
