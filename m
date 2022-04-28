@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F207B513867
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:31:13 +0200 (CEST)
-Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351E951390D
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:53:15 +0200 (CEST)
+Received: from localhost ([::1]:42452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk66q-0004fU-RM
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
+	id 1nk6SA-0007MN-A5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5KC-0005jd-H2
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:00 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:55009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5KA-0006WS-AX
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:55 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id bg25so3069277wmb.4
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=gpwCksN0LZsUzbPY2FkedaNU78SqdrJFCEZ38+wzX7M=;
- b=k1Rv7BfS/xJ8qrQzo1He2evJeWC2yExEhnLMsMy2TkwQK8CR9I8sPmbCJFmAl59sIE
- /dNyMlGRiEgbwlhdWscDP0J6hdsj2RYTwJoDBWJ4QzeRPn+JUgPJtizvjdhgcD+OxGp3
- DTaUD8IzGjELOhdtvAdSDoq18yERhVXKX3+xDyAtk15IiaT7gNOnZsfqLVA1dpDiY2FZ
- hCDLOOzkRa7pXulAgGcY4wvgU2J2e0ZkAwm4rvXyz2N/vtzYidBB9oJH5cdVCI1oE3bf
- g8VyFkFMAwiE39PDFtfw3VdDC9UUzVqAHQeVW2pJcUZ2PLpA+GFWTjQGVR0lgFbR1cpx
- t17Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gpwCksN0LZsUzbPY2FkedaNU78SqdrJFCEZ38+wzX7M=;
- b=scZXv8dFq88eR+pYG5pLEDPCSXYlurAQCojgzsmd69ML4Q4SB+Rukh2ZtT0MiQ/YmB
- DMii7RdItKpnbN20N/NhQKtfpFydB1lF3W2jKkCbWkqE4hbHQhFIRazx1VcvZq+jJ5ZY
- W8V0mT7nzzSS97CFLc5jjRU2kw7jC+pEUNplwvsC82hPf9Cs+iaMfz4lGD9Le5CkJ3/o
- T6Iv3/4+6b6kpSrEv0Bf2Wxx7u+OkSGG9gMVbafrGO5uPfI8iJyAXpwt10BhSvOx51FX
- Yt4a8LNlqz5FSMnWd64ouRSEhSXn4tQvWNXZjMB89InvkMLYuhwsSTyQ83pXqmPTEwUb
- uzuA==
-X-Gm-Message-State: AOAM5329h3xgCxWnp9N6RYQDB4ZNMlbbRdVsupmTv0G48rGj9LxgJ7il
- PX//s92E9oqBRDjm092SYlawDvN118Boqg==
-X-Google-Smtp-Source: ABdhPJyFoWg0cWxupSuGmJWeNYQdMMim5kJB7U9Xch3PBZL1Fdk9DmTyq5eanjkifaLzK3vv+l51pQ==
-X-Received: by 2002:a05:600c:5020:b0:38f:f83b:e773 with SMTP id
- n32-20020a05600c502000b0038ff83be773mr31396447wmr.57.1651156851522; 
- Thu, 28 Apr 2022 07:40:51 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.40.50
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 07:40:51 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 54/54] hw/arm/smmuv3: Advertise support for SMMUv3.2-BBML2
-Date: Thu, 28 Apr 2022 15:39:58 +0100
-Message-Id: <20220428143958.2451229-55-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220428143958.2451229-1-peter.maydell@linaro.org>
-References: <20220428143958.2451229-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nk5KR-0005qT-Sb
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nk5KN-0006YK-Mf
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651156864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vxG17w8oJ/uN0jtO64SafgdAwyHxukIztjcpyskm2HI=;
+ b=EUbS86pXLmUMJzJr6zcHST04rlLZ/6ipnw8OAV1ioN6PzZqnz/94ksKx7d5kfunm/OcLry
+ JnV2r6FqVmYMTuWASQPm0JTVJaKzG0uwsro4s2wMERC/vaAcF4HLKKffhBQwsYRjtF28b+
+ pYl9+cNNVIGn++Tnis02GoqfAApssFM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-675-RfHqfF2yM9qQijmfVO-ULg-1; Thu, 28 Apr 2022 10:41:02 -0400
+X-MC-Unique: RfHqfF2yM9qQijmfVO-ULg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A02963C1EA4A
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:02 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.193.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4899407DEC3;
+ Thu, 28 Apr 2022 14:41:01 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
+ leobras@redhat.com, berrange@redhat.com
+Subject: [PULL 00/11] migration queue
+Date: Thu, 28 Apr 2022 15:40:41 +0100
+Message-Id: <20220428144052.263382-1-dgilbert@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,68 +76,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Arm SMMUv3 includes an optional feature equivalent to the CPU
-FEAT_BBM, which permits an OS to switch a range of memory between
-"covered by a huge page" and "covered by a sequence of normal pages"
-without having to engage in the traditional 'break-before-make'
-dance. (This is particularly important for the SMMU, because devices
-performing I/O through an SMMU are less likely to be able to cope with
-the window in the sequence where an access results in a translation
-fault.)  The SMMU spec explicitly notes that one of the valid ways to
-be a BBM level 2 compliant implementation is:
- * if there are multiple entries in the TLB for an address,
-   choose one of them and use it, ignoring the others
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Our SMMU TLB implementation (unlike our CPU TLB) does allow multiple
-TLB entries for an address, because the translation table level is
-part of the SMMUIOTLBKey, and so our IOTLB hashtable can include
-entries for the same address where the leaf was at different levels
-(i.e. both hugepage and normal page). Our TLB lookup implementation in
-smmu_iotlb_lookup() will always find the entry with the lowest level
-(i.e. it prefers the hugepage over the normal page) and ignore any
-others. TLB invalidation correctly removes all TLB entries matching
-the specified address or address range (unless the guest specifies the
-leaf level explicitly, in which case it gets what it asked for). So we
-can validly advertise support for BBML level 2.
+The following changes since commit cf6f26d6f9b2015ee12b4604b79359e76784163a:
 
-Note that we still can't yet advertise ourselves as an SMMU v3.2,
-because v3.2 requires support for the S2FWB feature, which we don't
-yet implement.
+  Merge tag 'kraxel-20220427-pull-request' of git://git.kraxel.org/qemu into staging (2022-04-27 10:49:28 -0700)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20220426160422.2353158-4-peter.maydell@linaro.org
----
- hw/arm/smmuv3-internal.h | 1 +
- hw/arm/smmuv3.c          | 1 +
- 2 files changed, 2 insertions(+)
+are available in the Git repository at:
 
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index 6de52bbf4da..bce161870f6 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -56,6 +56,7 @@ REG32(IDR2,                0x8)
- REG32(IDR3,                0xc)
-      FIELD(IDR3, HAD,         2, 1);
-      FIELD(IDR3, RIL,        10, 1);
-+     FIELD(IDR3, BBML,       11, 2);
- REG32(IDR4,                0x10)
- REG32(IDR5,                0x14)
-      FIELD(IDR5, OAS,         0, 3);
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 3a989b09cb4..daa80e9c7b6 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -259,6 +259,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
- 
-     s->idr[3] = FIELD_DP32(s->idr[3], IDR3, RIL, 1);
-     s->idr[3] = FIELD_DP32(s->idr[3], IDR3, HAD, 1);
-+    s->idr[3] = FIELD_DP32(s->idr[3], IDR3, BBML, 2);
- 
-     /* 4K, 16K and 64K granule support */
-     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
--- 
-2.25.1
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220428a
+
+for you to fetch changes up to 62c49432662815dc520a41cd9f2adbd7ec1e22f4:
+
+  multifd: Implement zero copy write in multifd migration (multifd-zero-copy) (2022-04-28 14:55:24 +0100)
+
+----------------------------------------------------------------
+Migration pull 2022-04-28
+
+Zero copy send features from Leo
+Test fixes from Dan
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Daniel P. Berrangé (4):
+      tests: fix encoding of IP addresses in x509 certs
+      tests: convert XBZRLE migration test to use common helper
+      tests: convert multifd migration tests to use common helper
+      tests: ensure migration status isn't reported as failed
+
+Leonardo Bras (7):
+      QIOChannel: Add flags on io_writev and introduce io_flush callback
+      QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX
+      migration: Add zero-copy-send parameter for QMP/HMP for Linux
+      migration: Add migrate_use_tls() helper
+      multifd: multifd_send_sync_main now returns negative on error
+      multifd: Send header packet without flags if zero-copy-send is enabled
+      multifd: Implement zero copy write in multifd migration (multifd-zero-copy)
+
+ chardev/char-io.c                    |   2 +-
+ hw/remote/mpqemu-link.c              |   2 +-
+ include/io/channel-socket.h          |   2 +
+ include/io/channel.h                 |  38 ++++++++-
+ io/channel-buffer.c                  |   1 +
+ io/channel-command.c                 |   1 +
+ io/channel-file.c                    |   1 +
+ io/channel-socket.c                  | 110 ++++++++++++++++++++++++-
+ io/channel-tls.c                     |   1 +
+ io/channel-websock.c                 |   1 +
+ io/channel.c                         |  49 +++++++++---
+ migration/channel.c                  |   3 +-
+ migration/migration.c                |  52 +++++++++++-
+ migration/migration.h                |   6 ++
+ migration/multifd.c                  |  74 ++++++++++++++---
+ migration/multifd.h                  |   4 +-
+ migration/ram.c                      |  29 +++++--
+ migration/rdma.c                     |   1 +
+ migration/socket.c                   |  12 ++-
+ monitor/hmp-cmds.c                   |   6 ++
+ qapi/migration.json                  |  24 ++++++
+ scsi/pr-manager-helper.c             |   2 +-
+ tests/qtest/migration-helpers.c      |  13 +++
+ tests/qtest/migration-helpers.h      |   1 +
+ tests/qtest/migration-test.c         | 150 ++++++++++++++++-------------------
+ tests/unit/crypto-tls-x509-helpers.c |  16 +++-
+ tests/unit/test-crypto-tlssession.c  |  11 ++-
+ tests/unit/test-io-channel-socket.c  |   1 +
+ 28 files changed, 482 insertions(+), 131 deletions(-)
 
 
