@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A189B513E62
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 00:11:35 +0200 (CEST)
-Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C537513E64
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 00:12:02 +0200 (CEST)
+Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkCMI-00023U-74
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 18:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54666)
+	id 1nkCMj-00036L-DW
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 18:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkCKz-0001CS-42
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 18:10:13 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:47032)
+ id 1nkCLO-0001ec-Pw
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 18:10:38 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:40922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkCKx-000606-DG
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 18:10:12 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id g23so7021432edy.13
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 15:10:11 -0700 (PDT)
+ id 1nkCLN-000669-CX
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 18:10:38 -0400
+Received: by mail-ed1-x535.google.com with SMTP id p18so7047557edr.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 15:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BXA4P6hA9sHF6plX6na3Z0AM70PkGS82zLxW1EpjJlw=;
- b=AEthiBdOJAwRv4STdsFPS4A0z0n7RPXa7r4Vwvw6o5XZFcWVXfQUJT24thgr9yY9qV
- R8G+oEN9q9PzFXf7QaYORaX+eV2MpMJ5r00XwuIAKfUuvtZjjj2714G3EbwmUVOYKpEa
- IdbVx4UQnM4ad0E0BNPU2JP7ETW8uw5jDL27tOiue1nei0PJNrbJBWKfUqbV3PuhefjJ
- hAghswe3/S+cTJWNthe3pjB15HK0+suwlBhM7bw3VJ0vocTVW42nBTgYKymePkQKeq4o
- H/yRRlYL/XZIDa64pCPNJi35XWV6DxkozkAT6DqMhntde0sf47fAbdFusggE6b15yMxs
- Ie4w==
+ bh=ehHDCgENqRKPpxOpJzY/f7wwuLJ7/oIlRyqucYU3z04=;
+ b=NMA5slfrQQJqge4syYX4hfkrst/9gIx6E8rf2JgrD+8wySrLknyXDlAjZ8IUSH/s7Z
+ iVve9Exh2cgafBYUG4vVT4G/ePE6OPwpleORu2Sn/YwRDBaBRG6HDPHOG2l+DX/ty3Ix
+ NyqdeqwN8+c9/0SzS9YcT0gH4jFhPK/FjZ2hxlX8gLOgEP09MGRwKzTG+REJS9n4J2Ig
+ HvQXAHLc9pWODmvlvRoZ0nIkqm5xdtP3f48d9krVQ/j8npq1jO3otaVDpcExAVlJnJyf
+ B0e4q2Mg0i6guIlY4hEa7b/lW7Wcp0yFPfmhVouMkOsPXohjJ1h4sVI1C1XVMdKJx9P4
+ /e1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BXA4P6hA9sHF6plX6na3Z0AM70PkGS82zLxW1EpjJlw=;
- b=3vSR8ilz5v267Ja4h2kQnZuv1DgH6BohKUKkuEWY4pQPGuMEQ+M/Y6Mn8V1fj/7onZ
- iS4E3aJ73sU+4KUBV3RoyuTiubAmfR7zJgsm+pclb1P64f9h2oAAYgNXdoA4+rtkkexT
- ncy1Tjnp9/VT+6amSNen3heSWdk9ZCDVPOPmKyXSh9PgpWOizYqPHAw8sR0JHD2PwLSM
- cA/G8m4kNH0RsNxBEfK0Sli6eu6ialZ8GVuvo5MY1Qrcgbny1UTITg5ePcIKwq43SppT
- Z0WpEDevAxT7VY4YQv4DXEPwjMWkc75Cr9y43I9UJrCxtFtV9+0tDvVqcaaE+qMLv3Bp
- Kj8w==
-X-Gm-Message-State: AOAM53278oKb8pIOlyRdJzOGW6Gb9/S+6Xa7Q3ISBtPPAOPwFfC/Nbqx
- AFTEvHDih0vJwfSQVlxMG+s=
-X-Google-Smtp-Source: ABdhPJy68Ndf3T7CoI7pBZCduQKgaePZZJLFCDuenkhhBJukTnaxrfU5prSA+nXNgEp/Gm0RndQcXw==
-X-Received: by 2002:aa7:c351:0:b0:425:c086:a4bf with SMTP id
- j17-20020aa7c351000000b00425c086a4bfmr35580867edr.312.1651183809874; 
- Thu, 28 Apr 2022 15:10:09 -0700 (PDT)
+ bh=ehHDCgENqRKPpxOpJzY/f7wwuLJ7/oIlRyqucYU3z04=;
+ b=FJ6khsM0peYxL4n9DD5b9DJk+xXkUKNBX334vQdAuEyiJZsEwHv8OroZMxrEPzOn8Y
+ FxNNMOh8ZUfLuPM9p7297YZDX+NnPRH5fWvperwMhFrmn9Xc18g2hNFK3zEyiTd+9/SX
+ 6KwVUQHkMACgoMtfLQTxJ+/3FomWCFIbVt3aS9/EVaOHBNgvvb7zs+zlLN1az1Ajk6/Q
+ 5WAqiHF3uVdc7q/CtjPu5lxx5abNde+3KHjDwVW6i+7TRB2uY3Kdcy75/LnJQqTD3emB
+ HNKMyTTYHCCITeuznVOrnscq+3u1nBNAQpyOjxJ46SvhnYt1y1+ndT2q1d1SvrpTa5Zv
+ 5teQ==
+X-Gm-Message-State: AOAM530JVJ9uoyfgMy0CgfjNgEowLZngVxxbdmM6z0R83ey1VtYDyMSM
+ jjP606Bqxt/hx5mtCCjTpWw=
+X-Google-Smtp-Source: ABdhPJw4/BwifBZF/yX9Q+5XPhsePme4zb55wvjmljmIjJjfRpudgC1lO+xaX5ynNo8Ie82Mrswh0w==
+X-Received: by 2002:a50:8a96:0:b0:425:e046:76d9 with SMTP id
+ j22-20020a508a96000000b00425e04676d9mr26519732edj.115.1651183836061; 
+ Thu, 28 Apr 2022 15:10:36 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
  ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.googlemail.com with ESMTPSA id
- cz9-20020a0564021ca900b0042617ba63b3sm2129861edb.61.2022.04.28.15.10.08
+ mm30-20020a170906cc5e00b006f3ef214e06sm65999ejb.108.2022.04.28.15.10.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Apr 2022 15:10:09 -0700 (PDT)
-Message-ID: <79a868a8-0e6a-91cf-c231-e6788bb615a0@redhat.com>
-Date: Fri, 29 Apr 2022 00:10:08 +0200
+ Thu, 28 Apr 2022 15:10:35 -0700 (PDT)
+Message-ID: <0b0afdba-2f8f-1035-458b-f13d1f09f355@redhat.com>
+Date: Fri, 29 Apr 2022 00:10:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: a qemu process has 54 threads, how to know who they are and what
- they are doing
+Subject: Re: [PATCH 0/2] build improvments
 Content-Language: en-US
-To: yue <kvmluck@163.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <c34d759.1161.18049c8b2d4.Coremail.kvmluck@163.com>
+To: Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org
+References: <20220428182120.302066-1-kkostiuk@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <c34d759.1161.18049c8b2d4.Coremail.kvmluck@163.com>
+In-Reply-To: <20220428182120.302066-1-kkostiuk@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,15 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/22 03:42, yue wrote:
-> Hi, i think it is curios for a process to have so many threads.
+On 4/28/22 20:21, Konstantin Kostiuk wrote:
+> Konstantin Kostiuk (2):
+>    configure: Add cross prefix for widl tool
+>    qga-vss: always build qga-vss.tlb when qga-vss.dll is built
 > 
-> my environment: 5.4.160-1.el7.x86_64, qemu-6.1.0
+>   configure                 | 3 +++
+>   qga/vss-win32/meson.build | 4 ++--
+>   2 files changed, 5 insertions(+), 2 deletions(-)
 
-Use "-name debug-threads=yes".  Most of them are going to be I/O workers.
+Both titles make sense, but they didn't reach the mailing list.
 
 Paolo
+
 
