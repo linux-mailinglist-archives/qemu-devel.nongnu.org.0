@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1147451390B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:52:34 +0200 (CEST)
-Received: from localhost ([::1]:39422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C915138F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:47:15 +0200 (CEST)
+Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6RV-0005MK-2P
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54198)
+	id 1nk6MK-0003Lh-R7
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nk5dY-0006Tb-Dq
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:00:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20087)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nk5dV-0001oz-1j
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:00:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651158052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=drczrVDPD7YA6AFW53tJK0gTQYfjNXyQvOqi249yrOM=;
- b=cGk66ANzOHZGlkVVleT8p/WeuqlrqYnxuqXuSOSY0+AWf2517r8Ik6GE4K4/lAtSX+c30m
- yOtX443rH+SwGh24TChOdvzUSgHv9ddEklG8kv24falJUGcGPKJsTCH4PBzbhqs72ejJrl
- Ri+8zRD2s/WNa76zRv7/CkZwRNi8GvQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-YuStyQgtPh6Wx3YcvqyaTw-1; Thu, 28 Apr 2022 11:00:47 -0400
-X-MC-Unique: YuStyQgtPh6Wx3YcvqyaTw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30C761C0BF0E;
- Thu, 28 Apr 2022 15:00:47 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFD1140FF400;
- Thu, 28 Apr 2022 15:00:46 +0000 (UTC)
-Date: Thu, 28 Apr 2022 16:00:45 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 7/8] graph-lock: implement WITH_GRAPH_RDLOCK_GUARD
- and GRAPH_RDLOCK_GUARD macros
-Message-ID: <YmqsHVxS37XUSe+9@stefanha-x1.localdomain>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <20220426085114.199647-8-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nk68w-0001l1-8J
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:33:22 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40886)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nk68u-0006pe-EG
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:33:21 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ iq2-20020a17090afb4200b001d93cf33ae9so8019183pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 08:33:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=be7Lz06tNr7x00O6rBpw3pExgeQ6Ww1X0lV01PMOy3s=;
+ b=HzHz9Of5K/iijIet7ykxOmw1Br9fJZ5rrNZozUAes17OaLkX6xtnsp07A48PvTVSmj
+ i8j5QhOgdMeABiMjw2cOLllM7MBzW/5Z0WHst9MJT2in7Akf1GZpGWDaeYJqU53jCp5N
+ 70OG91GKaaBuLFNpydqaTS08Bc+wUNsEtT9XCKJW1+5wK1W9Wq+2EVuf5MQBGDJ51HPQ
+ ylpIM5EH0Qtiq0emzG8aFaCUDzR817inqleqkwn/WhiRPDUALXIA8RfBy3ldFe8dwkwE
+ g0uPHmRJ5zbhxu4g4oiH2w9mRxgR7b6zGvvyYOzepOXkKIWF5ADD35RdSHz1MCvPmJj9
+ ZR8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=be7Lz06tNr7x00O6rBpw3pExgeQ6Ww1X0lV01PMOy3s=;
+ b=bGj62RUvWfmEG1qbxba9yf3awCR3wx0Jvi05CneP8N5/rbGoC9ROECrBQqvEDNuH1i
+ 9EUEotUm0Q0MhfUta0u5BP3tATQgmN2woWEwj/jMAKx4+yzYxRrf4mK8dmYdLQkUuUmE
+ SD+6A7gheVpZ2XsJ3fD7AYxKtyAvtd4z7zdls+oR9UwGvCpAwmn7GxGyRTy8V8c029yb
+ bNXmAiHqoty7B4x77wTqyPCH5RlEb1dKzMFQ/1zNQWSN+kWBJp2fZxQ5U864tUSA61Pr
+ 5fWVUYey8bIr85Knewcy/OoCwk/fgHLFk5wAQofNjI/5sQKghBBSCyb6onvI9cosGPLo
+ 1NgQ==
+X-Gm-Message-State: AOAM530ZhZKD1l29sv/7pLXFJ2P2un2q6/HQ4Iun/gfZOjLgagAphhbr
+ R47+iDeZpKoDbTi0KlnF1YR1rg==
+X-Google-Smtp-Source: ABdhPJx6AQd05uqlayxo89MefMzFOUnd2Sn72OMlFlL/36WtRQXB2lzEyh8ffltu+qX1S0TjJT1pEw==
+X-Received: by 2002:a17:902:e211:b0:15c:f342:2fe6 with SMTP id
+ u17-20020a170902e21100b0015cf3422fe6mr26091094plb.18.1651159996459; 
+ Thu, 28 Apr 2022 08:33:16 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a62b801000000b0050d5fc2cb7esm230225pfe.1.2022.04.28.08.33.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 08:33:15 -0700 (PDT)
+Message-ID: <52b52fdb-9419-bf44-8df7-a3a7ef477ab3@linaro.org>
+Date: Thu, 28 Apr 2022 08:33:14 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2T/wfK59KOGrVwf1"
-Content-Disposition: inline
-In-Reply-To: <20220426085114.199647-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 03/20] target/ppc: Substitute msr_pr macro with new
+ M_MSR_PR macro
+Content-Language: en-US
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
+ <20220422185450.107256-4-victor.colombo@eldorado.org.br>
+ <fd0087dc-10ec-7867-44df-ba84f8b55aee@linaro.org>
+ <c320ef03-0fc2-2a75-cc39-20747888dafb@eldorado.org.br>
+ <32cc9b8b-add7-a87c-3bb7-95e5c5707e3e@kaod.org>
+ <9978cf74-2c81-98c8-d985-efe47d1519df@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <9978cf74-2c81-98c8-d985-efe47d1519df@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +97,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: danielhb413@gmail.com, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 4/28/22 07:56, Víctor Colombo wrote:
+> A solution I could think that might be easy is: rename PPC_BIT to
+> PPC_BIT_ULL (behaves like BIT_ULL but 'inverted'), and create a new
+> PPC_BIT macro that just inverts the bit value
+> 
+> #define PPC_BIT_ULL(bit) (0x8000000000000000ULL >> (bit))
+> #define PPC_BIT(bit) (63 - (bit))
 
---2T/wfK59KOGrVwf1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There's also room for a big-endian set of registerfield macros.
+(Don't forget s390x does the same thing, so "PPC" isn't appropriate generically.)
 
-On Tue, Apr 26, 2022 at 04:51:13AM -0400, Emanuele Giuseppe Esposito wrote:
-> Similar to the implementation in lockable.h, implement macros to
-> automatically take and release the rdlock.
-> Create the empty GraphLockable struct only to use it as a type for
-> G_DEFINE_AUTOPTR_CLEANUP_FUNC.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/block/graph-lock.h | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
->=20
-> diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
-> index 2211d41286..8d8a6513f1 100644
-> --- a/include/block/graph-lock.h
-> +++ b/include/block/graph-lock.h
-> @@ -67,5 +67,35 @@ void assert_bdrv_graph_readable(void);
->   */
->  void assert_bdrv_graph_writable(void);
-> =20
-> +typedef struct GraphLockable { } GraphLockable;
-> +
-> +#define GML_OBJ_() (&(GraphLockable) { })
+Something like
 
-The comment for QML_OBJ_() is helpful. This takes advantage of the
-lifetime of compound literals and it's different in C and C++. I suggest
-keeping it for the benefit for people trying to understand how this
-works.
+#define BE_FIELD_W(reg, field, regwidth, start, length) \
+     FIELD(reg, field, regwidth - start - length, length)
+#define BE_FIELD32(reg, field, start, length) \
+     BE_FIELD_(reg, field, 32, start, length)
+#define BE_FIELD64(reg, field, start, length) \
+     BE_FIELD_(reg, field, 64, start, length)
 
---2T/wfK59KOGrVwf1
-Content-Type: application/pgp-signature; name="signature.asc"
+at which point the usual FIELD_EX* and FIELD_DP* macros will work.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJqrB0ACgkQnKSrs4Gr
-c8jK4Af+KjwR2CRC5rlrCGokykborLGAt/VpAWJfTnFtS6nrOM2JrWCt1PY0Fexu
-UPLLD7jqm4DwbzrOYKgC9Y33Sw8atU6dSgLOKWWP78Wle0vz+frDmTzrpIuS2X3s
-i1cB6qneWGX8jTWXbihRqDNVHqgapAOlaviascNYYoyrhYXO9VNvpeVjvsPQAyUs
-ry6HJwRCUib2mUqMdcpbeNnQh53oxnOMZBd+lzFKDXI8QukT3o4tP1X/MU8nwG3+
-DvPSEP6LFpcEuICkFyUuLif+lzH29WNaQMLwjwusvtyF6OJPDk5cc/5HcMfwz5XT
-/vA7+UdNkjtLfKeN4wQHaWdJ6123xQ==
-=QAj6
------END PGP SIGNATURE-----
-
---2T/wfK59KOGrVwf1--
-
+r~
 
