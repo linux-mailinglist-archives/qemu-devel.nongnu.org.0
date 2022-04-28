@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C895127EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 02:07:33 +0200 (CEST)
-Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B805127F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 02:15:23 +0200 (CEST)
+Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njrgy-0007Ry-6c
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 20:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49150)
+	id 1njroY-0001S9-8U
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 20:15:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=yuO2=VG=zx2c4.com=Jason@kernel.org>)
- id 1njreD-0006UR-VR
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 20:04:42 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:53566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=yuO2=VG=zx2c4.com=Jason@kernel.org>)
- id 1njreA-0007hV-KO
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 20:04:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 10F82B82B35;
- Thu, 28 Apr 2022 00:04:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503BFC385A7;
- Thu, 28 Apr 2022 00:04:33 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="mpnRn+5s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1651104271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Kd7wAoTuj7nXl1XjSRaT3ZKgb9iGFejdoNr2nUKHfiY=;
- b=mpnRn+5sOmMTx98ZwUVbP0fHbXRjRdsDPsrijeWrk6VSt8PKNYVsimorXdBCJ9RShH6B8Y
- UFjyLF3UlJyeky5Oo3Sm9UMITa06jS2UKqZauCEZKTqCBs3ZWtZYqugX45hTFxhgJo2IH0
- j++GaRCOoBM6TZAqeMv9m5QVI+OaQ3k=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 40756fb9
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 28 Apr 2022 00:04:31 +0000 (UTC)
-Date: Thu, 28 Apr 2022 02:04:29 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Stafford Horne <shorne@gmail.com>
-Subject: Re: [Qemu-devel] [PATCH 2/7] target/openrisc: add shutdown logic
-Message-ID: <YmnaDUpVI5ihgvg6@zx2c4.com>
-References: <cover.1492384862.git.shorne@gmail.com>
- <fb69c137317a365dcb549dfef1ecd2fbff48e92c.1492384862.git.shorne@gmail.com>
- <YmmA4li384azQ2i9@zx2c4.com>
- <CAFEAcA9FZZzzZJaCHrepni+5oUELxW1TtZ3gZHxSUdfKdx+ghQ@mail.gmail.com>
- <Ymm6K3DjesAZR0OY@antec>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1njrn5-0000cQ-Dv; Wed, 27 Apr 2022 20:13:51 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:36592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1njrn3-0000U9-Sv; Wed, 27 Apr 2022 20:13:51 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id e15so4971736iob.3;
+ Wed, 27 Apr 2022 17:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=68DDtoa/0q6Jdf498/kBPwa0iGTsJJZspm/CqNVXWs4=;
+ b=T0ly+zSju1HNY83hM8v2AG9RiiVKc5NCu+JWZSQFEidfUpw+g5KNqZUZEkvTMTnf9K
+ YJmv1AOzXkkJNv703zJ1iz02l6E30XnHAFQg1c0+D/bXkMoDjd6XVs1nF1As/1Lrmpn4
+ /VAP+Dax35AFcU+/fHT2F6WrPIYWmSDObsolIGFu+z3coSpo5bgqke73pl2t7fTY7NWn
+ NzvDr4uqMvBHMOVssOsaD3PxHgRXKfQAZt4hxzvp2j4EihNJ87z69lxRCjItV5rm+9Sx
+ 1ed0N5R8jrOWzmMiVAVt5VYfZblVKyTzrryQaPFxBQ8vqpRbHFeot0C+MPRuFYgAnN1L
+ cgmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=68DDtoa/0q6Jdf498/kBPwa0iGTsJJZspm/CqNVXWs4=;
+ b=ybAM8/pkC1aaEs1wbnqL3ATPJLbhUDc0xO/TQ3CmZ4h0vjmcdtgLRaUT/fynYsSRr6
+ f8cBe7EDji4VJgap34Gjtq3nSVWhmhiFImULhQAtrstoUJH6ih8it4TqHx3Nb8uBMe9O
+ zkr2POGDuJJpfw6HWvBVa7w64ZxXtPW3SkHlsjXsuNzSU80Qo4l1QxQmPtX0Drh4T1Zo
+ W8h4XKpq0sUnolGQWKSEmv+yFcAgGqiQy4MQEPzVne5vqFP5GQmbJRwCJuq3MU2QRddm
+ elUF+YCZ0wvCeeoWCEdU0+IIXoc1Fg4eg1mxNlJ18dt+Ws53ABmCpk0a+wt2qSQPKo+T
+ 9NOQ==
+X-Gm-Message-State: AOAM531+DeVpJO93o/P2hcNXG9dQ8CfSe8QlJay6xlP68ta6ZbDYWB8E
+ 4owxlw7f3f4I7hYGtnKG66CjUy91GYQ0DwD47XE=
+X-Google-Smtp-Source: ABdhPJxybGzUJZ0mE1BTtlfA69YNArivBoUTozieXTDiEYj1081E5mIA3Q84UF5TFQ0rvscL4T33qTar5pLgRW3p9FY=
+X-Received: by 2002:a05:6638:14c1:b0:32a:aa03:93e1 with SMTP id
+ l1-20020a05663814c100b0032aaa0393e1mr13838672jak.66.1651104828325; Wed, 27
+ Apr 2022 17:13:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Ymm6K3DjesAZR0OY@antec>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=yuO2=VG=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <CAKmqyKNtcV3MN0qzVEOgty=o137-QfYm4_c_hHmb1O9YfhSiQQ@mail.gmail.com>
+ <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
+In-Reply-To: <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 28 Apr 2022 10:13:21 +1000
+Message-ID: <CAKmqyKOtMF0OcXZ+PiP2g71opf8j76CgZjxSrTLU6nRO5OpM=g@mail.gmail.com>
+Subject: Re: [PATCH v3] target/riscv: Fix incorrect PTE merge in walk_pte
+To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,73 +77,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, openrisc@lists.librecores.org,
- qemu-devel@nongnu.org
+Cc: Konrad Schwarz <konrad.schwarz@siemens.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Stefan Huber <stefan.huber@oth-regensburg.de>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stafford,
+On Sun, Apr 24, 2022 at 7:59 AM Ralf Ramsauer
+<ralf.ramsauer@oth-regensburg.de> wrote:
+>
+> Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
+> case, walk_pte will erroneously merge them.
+>
+> Enforce the split up, by tracking the virtual base address.
+>
+> Let's say we have the mapping:
+> 0x81200000 -> 0x89623000 (4K)
+> 0x8120f000 -> 0x89624000 (4K)
+>
+> Before, walk_pte would have shown:
+>
+> vaddr            paddr            size             attr
+> ---------------- ---------------- ---------------- -------
+> 0000000081200000 0000000089623000 0000000000002000 rwxu-ad
+>
+> as it only checks for subsequent paddrs. With this patch, it becomes:
+>
+> vaddr            paddr            size             attr
+> ---------------- ---------------- ---------------- -------
+> 0000000081200000 0000000089623000 0000000000001000 rwxu-ad
+> 000000008120f000 0000000089624000 0000000000001000 rwxu-ad
+>
+> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 
-On Thu, Apr 28, 2022 at 06:48:27AM +0900, Stafford Horne wrote:
-> On Wed, Apr 27, 2022 at 07:47:33PM +0100, Peter Maydell wrote:
-> > On Wed, 27 Apr 2022 at 18:46, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> > >
-> > > Hey Stafford,
-> > >
-> > > On Mon, Apr 17, 2017 at 08:23:51AM +0900, Stafford Horne wrote:
-> > > > In openrisc simulators we use hooks like 'l.nop 1' to cause the
-> > > > simulator to exit.  Implement that for qemu too.
-> > > >
-> > > > Reported-by: Waldemar Brodkorb <wbx@openadk.org>
-> > > > Signed-off-by: Stafford Horne <shorne@gmail.com>
-> > >
-> > > I'm curious as to why this never got merged. I noticed I'm entirely able
-> > > to shutdown or to reboot (which is mostly what I care about) Linux from
-> > > OpenRISC. It just hangs.
-> > 
-> > This kind of thing needs to be either:
-> >  (1) we're modelling real hardware and that real hardware has a
-> > device or other mechanism guest code can prod to cause a power-off
-> > or reboot. Then we model that device, and guest code triggers a
-> > shutdown or reboot exactly as it would on the real hardware.
-> >  (2) there is an architecturally defined ABI for simulators, debug
-> > stubs, etc, that includes various operations typically including
-> > an "exit the simulator" function. (Arm semihosting is an example
-> > of this.) In that case we can implement that functionality,
-> > guarded by and controlled by the appropriate command line options.
-> > (This is generally not as nice as option 1, because the guest code
-> > has to be compiled to have support for semihosting and also because
-> > turning it on is usually also giving implicit permission for the
-> > guest code to read and write arbitrary host files, etc.)
-> > 
-> > Either way, undocumented random hacks aren't a good idea, which
-> > is why this wasn't merged.
-> 
-> Yes, this is what was brought up before.  At that time semihosting was mentioned
-> and I tried to understand what it was but didn't really understand it as a general
-> concept.  Is this something arm specific?
-> 
-> Since the qemu or1k-sim defines our "simulator", I suspect I could add a
-> definition of our simulator ABI to the OpenRISC architecture specification.  The
-> simulation uses of l.nop N as ABI hooks is a de-facto standard for OpenRISC.
-> From the way you describe this now I take it if we document this as a
-> architecture simulation ABI the patch would be accepted.
+Thanks!
 
-If that's what it takes, then that'd make sense.
+Applied to riscv-to-apply.next
 
-By the way, would this also help the reboot case? That's
-`reboot(RB_AUTOBOOT);`, which does:
+Alistair
 
-machine_restart() ->
-  do_kernel_restart() ->
-    atomic_notifier_chain_register(&restart_handler_list, nb) ->
-      ???
-
-As far as I can tell, nothing is wired into the reboot case for
-OpenRISC. Is this something that could be fixed in the kernel without
-having to patch QEMU? If so, then I could effectively get shutdown for
-my CI with the -no-reboot option, which is what I'm already doing for a
-few platforms.
-
-Jason
+> ---
+> [since v2: Adjust comment, rebased to latest master]
+>
+>  target/riscv/monitor.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
+> index 7efb4b62c1..17e63fab00 100644
+> --- a/target/riscv/monitor.c
+> +++ b/target/riscv/monitor.c
+> @@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+>  {
+>      hwaddr pte_addr;
+>      hwaddr paddr;
+> +    target_ulong last_start = -1;
+>      target_ulong pgsize;
+>      target_ulong pte;
+>      int ptshift;
+> @@ -111,12 +112,13 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+>                   * A leaf PTE has been found
+>                   *
+>                   * If current PTE's permission bits differ from the last one,
+> -                 * or current PTE's ppn does not make a contiguous physical
+> -                 * address block together with the last one, print out the last
+> -                 * contiguous mapped block details.
+> +                 * or the current PTE breaks up a contiguous virtual or
+> +                 * physical mapping, address block together with the last one,
+> +                 * print out the last contiguous mapped block details.
+>                   */
+>                  if ((*last_attr != attr) ||
+> -                    (*last_paddr + *last_size != paddr)) {
+> +                    (*last_paddr + *last_size != paddr) ||
+> +                    (last_start + *last_size != start)) {
+>                      print_pte(mon, va_bits, *vbase, *pbase,
+>                                *last_paddr + *last_size - *pbase, *last_attr);
+>
+> @@ -125,6 +127,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+>                      *last_attr = attr;
+>                  }
+>
+> +                last_start = start;
+>                  *last_paddr = paddr;
+>                  *last_size = pgsize;
+>              } else {
+> --
+> 2.36.0
+>
 
