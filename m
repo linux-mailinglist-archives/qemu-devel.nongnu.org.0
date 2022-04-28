@@ -2,85 +2,156 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA01513C95
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 22:21:13 +0200 (CEST)
-Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997E3513D54
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 23:17:27 +0200 (CEST)
+Received: from localhost ([::1]:39724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkAdU-0005vY-Ck
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 16:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
+	id 1nkBVu-00038Z-6X
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 17:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nkAYs-00041U-KQ; Thu, 28 Apr 2022 16:16:26 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48585)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nkBT3-0000WI-OF
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 17:14:29 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:14164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nkAYq-0005bv-IV; Thu, 28 Apr 2022 16:16:26 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 0E762320095B;
- Thu, 28 Apr 2022 16:16:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 28 Apr 2022 16:16:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1651176979; x=1651263379; bh=YC
- tmQBjzS/jAsxZPZJMRZMtRSdHV0LThZAQXiIZP3zQ=; b=a2MlJq8F/i2hPmQ2VD
- xJ4Ffwmtdh0T9rt35d8UfCZl4p4Sl+NKyOlfW5WPVMMXGcEkBNy6jpOXcB8a29Qi
- 5w6Zxpbk/lQ7P6CxqFeTDmS4J0PNkBfB/K8F4n3ES534XHLNqKUpB8UGxQw4veM5
- SwBB+YkyTiWlPQDi0Aal158ICoAbiWyynm9CKZPQh7yGXoDK/WBJAAOyYBlfFpvC
- cYLRlA86wSs/Rt8Pt4XlzPz7MqVLOwJkeJxi4G7ukvCoZFb3jPfS6VABsDKMPZaQ
- KnrXuFUt30NyfhVjdJCq8BXUHOYx8aBeVA27ntQPCF1sSSVW3983jgk7wRQUD1/W
- qhnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651176979; x=
- 1651263379; bh=YCtmQBjzS/jAsxZPZJMRZMtRSdHV0LThZAQXiIZP3zQ=; b=O
- AWnlTLn7+Dw4gAOLyLP19QBzmXqte1oWZr8QPy+cNuuloUnAhkGtadZ8z7oilxY4
- anoYNbxga4DZ5Q/QkZvCAEcPt8gthE3ANGXGdrCT4MgNw7dfvSjFhPZ2y8x3d7aW
- tuUTLZdU2qiYOMva6mZToeam9EYgpUV1wLQPb+Ix5Y7Vzq/QmX9Ajm217lxn8ZLq
- pe1823vNT1CR8mmNwyMp2o6rmo++Y8z0SQ6smfk3R9Jsrl5KjGhAFSVr6tsEepiI
- +AgJTGsu2k1CD6cjy7hTi20tvPfLWBAEd50DzrMsL3s4LOlnHWJcwH9qTpCnnXRs
- yoDirK7CRMkGFPYtqvcRg==
-X-ME-Sender: <xms:E_ZqYvtse3sVJ1qDwXUvUmFUsYD37miLRqR9dE_2ik9oEHr4nvjLUQ>
- <xme:E_ZqYgcF0eAjqgiDao6cTLLjdxMQhg0rS-lopj6xyP3LnLn0SlEdUpnD1eiVPFa6U
- UR-qKx3y4UEHu6Tm8c>
-X-ME-Received: <xmr:E_ZqYizGVy_AIcGuETKwuXoZtz__9QJ8JjZRY9liYoBVJBJa-bIBb9RPosOleBaHgxhV_HFHUf5ICH769w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgddugeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
- elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:E_ZqYuNU3iEuhWX2jQEmf6VkafZT4Vu3__BBOk_ACURDCitqI228ow>
- <xmx:E_ZqYv_adYOZ3eHKmNZzal-vdxnYgfoEflnNbNYyfummFLnLkiE8NA>
- <xmx:E_ZqYuX06WEv0u0jpyWHDYLjtvPFzBlVEDa6Vz0u1Em3_owl7eSasQ>
- <xmx:E_ZqYqkgxlOOX1p1bshrwQtEEh436EKErxAW4JjU73y-h3prIq51QA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Apr 2022 16:16:17 -0400 (EDT)
-Date: Thu, 28 Apr 2022 22:16:16 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Tikhov <d.tihov@yadro.com>
-Subject: Re: [PATCH v2] hw/nvme: fix copy cmd for pi enabled namespaces
-Message-ID: <Ymr2ENnMLhKqqKe8@apples>
-References: <20220421105158.ufd3wzivaougxokx@localhost.localdomain>
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nkBSz-0005qK-PM
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 17:14:28 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23SJeCY5011361;
+ Thu, 28 Apr 2022 21:14:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2021-07-09; bh=JtsxKbszu8EQ5rH8Mxv9YaH+ljRMgyZYL11OCS6TaiI=;
+ b=Ww7cfVgA8nNC39UntsnVuCdcHrzQnOF213H6r9iAmP7Df8WnmAW0uSEA21DY9T+z4QtJ
+ 8qTw58qVWvwGvVx8u1jb3cnqZIzwWCOIMVNYItq38dMyYxnx5nQL3Iu/lgcgrNGGlE/K
+ muGmjz7PJG9+3cywY7Zj0EmplyMkSEkS8On0qikd+pATOUUGVAaqvAt5mhWixiZbUqk/
+ V6qQY76fXxTdke8Odq95ghQGOJP3y0QKv8QRXKj9XTsPcFZxB3rbqju45TgVz//J6UCl
+ ffTeFVloS5C++dx38pfp156Df1q/ocTelOYM9WxCmz2a5eRnhIok1x+Lb8TpIWlH7XXi Bw== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmaw4nb95-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Apr 2022 21:14:09 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 23SL6cJ8028702; Thu, 28 Apr 2022 21:14:09 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3fp5ypebh6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Apr 2022 21:14:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MWQKsIZdkywgvsAcBhDXNmsPZODcyu52DQEO/bH27eiVQbjHmKRh0m+QFyTX09kLJyIBhT02RTTTUk6NKZ5JE0+R8q2K1aoiwh3IWdikmT6Uo+w3Of+6JGHuW8ycMGlPF1VLOKKUeDw7FyC+Y+RIEmtVz+nR61Jo0rgWSe4AHIdnGLpodhed76g5Ok6Kg0+dhcxgepn9ah8O5lcJCdW8rQZVOEGx88FfXPGXkOL/hR8cUvWEM+oYp44FN5qFtWVB2wej3u8Mv9RryPrIfCn5/w+JtxzX1NWkjj1RFGexjhCWmfjS2EEs4xt0HIXC4b+a9g1iFmmaqK49/BiE19FXuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JtsxKbszu8EQ5rH8Mxv9YaH+ljRMgyZYL11OCS6TaiI=;
+ b=miJcY/kDNKfmDMcirfse/U6ymG6ictkqUezMrOOmNGsjLs3zGY/zupd9/QK72tV3tbhJOOp4xIa5UecfSvi4Afbhbd4mR3r4i+j3IfqYeFlp4gTh4piEsiVArQRzAI9RKNZhn3LfgLw8t69L92hXEsHmNw1l52N5bkKyTA8Qsnmu7SJpxS+DAZC8Bq4ZYBEZNOKX+y/7YRr6TeRWExL/kOWbQJXICa0JmoDZzY4BpxZDa+fB1lTJhDaGH/jgxYwr6aDXAbbI92u+JXA0z7qvVpr3hsiQ7ZWmyNaZNH8x9Eg4vuTOWvPllBsygEA51QIEswfboeFvzsesNJrP8qD5Vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JtsxKbszu8EQ5rH8Mxv9YaH+ljRMgyZYL11OCS6TaiI=;
+ b=GwoyFnhLjD1CD2Twb3C8e9ylLT8PlgRKCriqWXcUWL6+O1uCD2SRYEQqdMe1LgiZGQBoNuIpzYzWR8cSvTj6FhO62Tui2igRvvxmj08LDCtiVx1Rr9cNkNXB7EkvIJ4uv+7cXhs2VYJFABoowlQR5q2Ts0nSFOQds4Qgev+oeOE=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by CH0PR10MB5289.namprd10.prod.outlook.com (2603:10b6:610:d8::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Thu, 28 Apr
+ 2022 21:14:06 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d%5]) with mapi id 15.20.5206.013; Thu, 28 Apr 2022
+ 21:14:06 +0000
+From: Joao Martins <joao.m.martins@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC 00/10] hw/vfio, x86/iommu: IOMMUFD Dirty Tracking
+Date: Thu, 28 Apr 2022 22:13:41 +0100
+Message-Id: <20220428211351.3897-1-joao.m.martins@oracle.com>
+X-Mailer: git-send-email 2.11.0
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0297.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a5::21) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4ckoOBN6yDibZH6w"
-Content-Disposition: inline
-In-Reply-To: <20220421105158.ufd3wzivaougxokx@localhost.localdomain>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6668e467-e75f-40f0-0b2f-08da295c0706
+X-MS-TrafficTypeDiagnostic: CH0PR10MB5289:EE_
+X-Microsoft-Antispam-PRVS: <CH0PR10MB52899CDC6878636B52B464FEBBFD9@CH0PR10MB5289.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LexLx5r3lnr3qTD5E0C6fdmVTYId+NhBYrs5YAf6z4n2xUUUNcxNkLO2IJDVPx3qYBITeO9R8nxFDZ0h8YvnFCo7PqcyiMuc5m6UiIHLQCsy9dfU9mlkCZnkpoQL+NK5OPAspw8/6Qa/Ll57v9cXgA7RaAEAO9JDPFSaCjLA9tryMAFalD5n8PseISfhMmvutIX+d4729VemYhi0QD8tGElyfhx96N8dfdH6jydUfsJYwYea4wJpXAtJkjx4tb9fvA6BIR5S/RzNc8KCPnK126P5yUfVX3RlOIi3dGMzHiTEQr83TcPlQytKWyReYwy8+OmTcRQ4EZSmDQQUQ2dYAfoS8+VL4nLhQIpo75I9gFCMJ0Z6TpEokQMfiSDwW+KZKaGTVbDcN8BeEt6fBb2+SgL/IdU0LUZGoyi/XjZcfLqHWiO6B336E15PBe+gpUWZ8LXcumBjseuhutLA4s0L80WrH47ZjYzDYH/B8AcIUGgeSy9ofQRwjRxcq/yOhIeIT6nn42AvzbUVam8nB4eQjy3Tn0GymGmEFzOclSDC1mAxYnRL3a2YcRUhOwbhHJ/ilgSOMSA5h4Vj+mLb3VrvrnsJbyqDwaF26eZR/9lY3YCw1QZWhRouUGC/SsY9niR4GmaS/WJY2zTzlADAgAY7KbD5A4r+orBFK5hC6Lmt5HC48Xh6nDRp9eHWIZod3Ppwr+KpwJ7w1NBfA7aNiJptXAYqT2UwI7YQkChWchjIwsY/OqZqFdJPYmw6pSxMa9uwuPO0jhrljpgeGdaApqLx4bScYZS3fkEKYYjAG/3FA/TXwDFmalGguMx2y8Ed8btC
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6666004)(54906003)(186003)(1076003)(38350700002)(38100700002)(5660300002)(2616005)(7416002)(103116003)(26005)(316002)(6916009)(36756003)(66946007)(8676002)(66476007)(4326008)(66556008)(8936002)(52116002)(86362001)(6512007)(2906002)(6486002)(508600001)(83380400001)(6506007)(966005)(14143004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p3kmxWeNJc9/+eizkJg2biTEO8IF7UEkMN9UlD5MvOEK7r9mxN7HyYS3OmT+?=
+ =?us-ascii?Q?be1AHTe+bF7CWSBlTBqT2y0IIxiE+Z3kDbphmy+COyImNsVA7z3XwYd+FnZK?=
+ =?us-ascii?Q?jSlzwLYtWNi6AYoRCWKaDPZ/+ilr6cEvLbUiWM3PQw8tgFsMaieXIxdRl4we?=
+ =?us-ascii?Q?F1zCB047w5stR5jf4tzHy5p1n1X0tKr9ei/fuQdlhIn7TsN+PFAROyRgIv5n?=
+ =?us-ascii?Q?dhjIY5k8xcDiWHU6xC7dlvmDkk6mBm+lGeYpzd8WJDwEwaim1DdwTzqEh97s?=
+ =?us-ascii?Q?mCSxxb3UuNrQiXaHo8P6mmXEzURvFlS5WT2ONFUIyTWS6duk5MI8laP4NTb3?=
+ =?us-ascii?Q?QYLMqsAmryNXd7Lnxvief6s72qIE4HyHlKeLcxO0TywQUCCLo1NPqHzhalG0?=
+ =?us-ascii?Q?WYLpKB+Tqz9xhD75OHPz7dp9ZxDxKi/PghrZcHZ8HBvwwzClcuje4ELDOumv?=
+ =?us-ascii?Q?bYAyxNT5yWrSRt/ZNxMpqSA8gIeuXTt4G2ZVAGB1dyDuXYAbRkQd92cRXIPl?=
+ =?us-ascii?Q?T0WCT4IbiYUWFCgVVy/4woGaB2LnA0XSD6nhXHP812O1Ov2pxTGRjrd2eFu4?=
+ =?us-ascii?Q?bQClswfL2j5i2AAQzNjS35uJPTWnkRqgfCu2g26Sh3WAYLRUEPr/uqTPPRKS?=
+ =?us-ascii?Q?6wqTKKJ4uMiO9cVRI8K/aEElBTrOMEdQ2MRIwbm9l0GbDcCBCPvAQapVf2nj?=
+ =?us-ascii?Q?HSJLd1X++qrpZHu5Rth0+4iNoSbhF72lDuYDNvQC3qdGYGYYaLvYhViW5+WG?=
+ =?us-ascii?Q?ec6IhxbDyAxewelluoktYyh4wAuKslmqwnUI06SsSb6t5TFZIo7yIVcfT/jL?=
+ =?us-ascii?Q?Ztw+B5T9qQm8NoGTyaW2t+vAfmVIM17NAQb6uUt69WnWf/9tLYPyps3IqjZT?=
+ =?us-ascii?Q?ikQx3EynhTh6yKo1jsHI9hlBHZNsoVVvdieQXCOHo4wGWBq1ZGvRqxQ7HTRn?=
+ =?us-ascii?Q?F87ECMGQmZ5Ywh61HzaAv4SPHJEq0EGB8bk3sopPDodBEJ160vsXk/8d6UeZ?=
+ =?us-ascii?Q?gl0qYy/0Y2kRmUjIp9Fn9N63Ul2e7gE8hFXmS2g2h3ENIUXvEtv6Akt7X9UI?=
+ =?us-ascii?Q?U8TWz8/AHz8nFSIW9Tq5LwIfZ/Coh4pcQCsf06fFKYW8dS/rjYFoXK5kuUbw?=
+ =?us-ascii?Q?gK/xBYzeCPBZc4DEs0ObH6v8+KeohLosFZZPZ5UOdHz9sY4RL057GVv1cgx5?=
+ =?us-ascii?Q?TwJt4WQ6iKS/KT5tzPbP/OcvOKb6K0ZrRU70bjhzWFrYPvV4KE55lHz/lMYT?=
+ =?us-ascii?Q?aEXLZGrajkZtyaNEFqBCYV/wWzs+MlhVkjJZPDIkZnTmQkSJ328VyAFfZg9M?=
+ =?us-ascii?Q?kYhMXr3A5dXLJgZySdvxcYDDpp7v0RYwVvndvAf64VFx0D0lMvF7vyxRX8vj?=
+ =?us-ascii?Q?xynKVaDFqwV406cni0jE9OhZs11IdQp/S22CLDEP3ZQOuHY3O+UF623iaV2S?=
+ =?us-ascii?Q?u2oJS9glWtR1H53oDDBkPDyD/XqqTV/akQH8hsun2H+Rsw/CytlSEa4sGCiA?=
+ =?us-ascii?Q?+6fVj5nKZA7J5Kh8qqIdrLW/qbavesDqdCHbuGa5Pp/s+CaAPAwQhZYuucqW?=
+ =?us-ascii?Q?yd0lOy6xME+JLrjlV3yJzf/90oDLQwFe6W3+Fp9vaPB47pMEmNi92TzpkzNh?=
+ =?us-ascii?Q?63OEEKrNvynzdpT6EENaz4WgLbV5C6T9OcMwKhM329zmW7GgK4YJLAo83pPM?=
+ =?us-ascii?Q?STvzGDgPc9IPv3ukwqW7rvkaRy/jsrT9K4UqOyhdUIscs9o1pzm2/WXpQYqM?=
+ =?us-ascii?Q?paQ36CkiWoDcGtZU3+km4PxCH4nIjvw=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6668e467-e75f-40f0-0b2f-08da295c0706
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2022 21:14:06.5099 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dg0b0IlAQBT6BDcR7SMxyEqXw7ndyZh70jlDHfRBwmtc5pWmUEpgwXviKTuWIfjkHQ5+XFwNR0MMTm9NuZ1m4uHTxNFCbyu2MSMuE8w9G3E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5289
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
+ definitions=2022-04-28_04:2022-04-28,
+ 2022-04-28 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxlogscore=999 mlxscore=0
+ suspectscore=0 malwarescore=0 spamscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204280125
+X-Proofpoint-GUID: SEHC40GIxpzFjRGelOc1my_p0z3Ykpav
+X-Proofpoint-ORIG-GUID: SEHC40GIxpzFjRGelOc1my_p0z3Ykpav
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,71 +165,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, ddtikhov@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, linux@yadro.com
+Cc: "John G . Johnson" <john.g.johnson@oracle.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Joao Martins <joao.m.martins@oracle.com>,
+ Eric Blake <eblake@redhat.com>, Yi Liu <yi.l.liu@intel.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Nicolin Chen <nicolinc@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Yishai Hadas <yishaih@nvidia.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series expands IOMMUFD series from Yi and Eric into
+supporting IOMMU Dirty Tracking. It adds both the emulated x86
+IOMMUs, as well as IOMMUFD support that exercises said
+emulation (or H/W).
 
---4ckoOBN6yDibZH6w
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is organized into:
 
-On Apr 21 13:51, Dmitry Tikhov wrote:
-> Current implementation have problem in the read part of copy command.
-> Because there is no metadata mangling before nvme_dif_check invocation,
-> reftag error could be thrown for blocks of namespace that have not been
-> previously written to.
->=20
-> Signed-off-by: Dmitry Tikhov <d.tihov@yadro.com>
-> ---
-> v2:
->     * remove refactoring
->     * remove write part fix
-> ---
->  hw/nvme/ctrl.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 74540a03d5..08574c4dcb 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -2787,6 +2787,10 @@ static void nvme_copy_in_completed_cb(void *opaque=
-, int ret)
->          size_t mlen =3D nvme_m2b(ns, nlb);
->          uint8_t *mbounce =3D iocb->bounce + nvme_l2b(ns, nlb);
-> =20
-> +        status =3D nvme_dif_mangle_mdata(ns, mbounce, mlen, slba);
-> +        if (status) {
-> +            goto invalid;
-> +        }
->          status =3D nvme_dif_check(ns, iocb->bounce, len, mbounce, mlen, =
-prinfor,
->                                  slba, apptag, appmask, &reftag);
->          if (status) {
-> --=20
-> 2.35.1
->=20
+* Patches 1 - 4: x86 IOMMU emulation that performs dirty tracking,
+useful for a nested guest exercising the IOMMUFD kernel counterpart
+for coverage and development. The caching of the PASID PTE root flags
+and AMD DTE is not exactly the cleanest, still wondering about a
+better way without having to lookup context/DTE prior to IOTLB lookup.
 
-Thanks Dmitry,
+* Patches 5 - 9: IOMMUFD backend support for dirty tracking;
+Sadly this wasn't exactly tested with VF Live Migration, but it adds
+(last 2 patches) a way to measure dirty rate via HMP and QMP.
 
-Applied to nvme-next.
+The IOMMUFD kernel patches go into extent on what each of the ioctls
+do, albeit the workflow is relatively simple:
 
---4ckoOBN6yDibZH6w
-Content-Type: application/pgp-signature; name="signature.asc"
+ 1) Toggling dirty tracking via HWPT_SET_DIRTY or get -ENOTSUPP otherwise
+    which voids any attempt of walking IO pagetables
 
------BEGIN PGP SIGNATURE-----
+ 2) Read-and-clear of Dirty IOVAs
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJq9g0ACgkQTeGvMW1P
-DelSdwf/aRLGk8cHdWNquT9jqSJuE7P08bJjN3rQ8hjmcXzvSe3Qxl8neL2b6Mpo
-B5QH0ri/b4ox2UeZZiGv/ppWr2vuRsJ9irBL8ZC3MxCPCO7voaP0s2QBm936Mj9h
-3IU1GLZGljKrXsvRhuhmWbojKlFRkD3n2yL23jOmmyK07I6ubszi//jDCgmngtUI
-NVA6rYq9Y/ijSMWsK/miVGkYLrxwyBmQ20yYxHIAbNTuq36Z+Gv4rrpkI3P0lXtX
-OgHr5FD2c4sPtVLR2tO+soAtTFQAiQDp8L/3PMaav/hZlBliudh6FgbZEnnjEHqD
-rkRICnduWvjfmAVKkhNVJgQNLxDcmA==
-=f/SF
------END PGP SIGNATURE-----
+ 3) Unmap vIOMMU-backed IOVAs and fetch its dirty state right-before-unmap.
 
---4ckoOBN6yDibZH6w--
+The series is still a WIP. The intend is to exercise the kernel side[0]
+aside from the selftests that provide some coverage.
+
+Comments, feedback, as always appreciated.
+
+	Joao
+
+[0] https://lore.kernel.org/linux-iommu/20220428210933.3583-1-joao.m.martins@oracle.com/
+
+Joao Martins (10):
+  amd-iommu: Cache PTE/DTE info in IOTLB
+  amd-iommu: Access/Dirty bit support
+  intel-iommu: Cache PASID entry flags
+  intel_iommu: Second Stage Access Dirty bit support
+  linux-headers: import iommufd.h hwpt extensions
+  vfio/iommufd: Add HWPT_SET_DIRTY support
+  vfio/iommufd: Add HWPT_GET_DIRTY_IOVA support
+  vfio/iommufd: Add IOAS_UNMAP_DIRTY support
+  migration/dirtyrate: Expand dirty_bitmap to be tracked separately for
+    devices
+  hw/vfio: Add nr of dirty pages to tracepoints
+
+ accel/kvm/kvm-all.c            |  12 +++
+ hmp-commands.hx                |   5 +-
+ hw/i386/amd_iommu.c            |  76 +++++++++++++-
+ hw/i386/amd_iommu.h            |  11 +-
+ hw/i386/intel_iommu.c          | 103 +++++++++++++++++--
+ hw/i386/intel_iommu_internal.h |   4 +
+ hw/i386/trace-events           |   4 +
+ hw/iommufd/iommufd.c           |  63 ++++++++++++
+ hw/iommufd/trace-events        |   3 +
+ hw/vfio/container.c            |  20 +++-
+ hw/vfio/iommufd.c              | 179 ++++++++++++++++++++++++++++++++-
+ hw/vfio/trace-events           |   3 +-
+ include/exec/memory.h          |  10 +-
+ include/hw/i386/intel_iommu.h  |   1 +
+ include/hw/iommufd/iommufd.h   |   6 ++
+ linux-headers/linux/iommufd.h  |  78 ++++++++++++++
+ migration/dirtyrate.c          |  59 ++++++++---
+ migration/dirtyrate.h          |   1 +
+ qapi/migration.json            |  15 +++
+ softmmu/memory.c               |   5 +
+ 20 files changed, 618 insertions(+), 40 deletions(-)
+
+-- 
+2.17.2
+
 
