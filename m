@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD3F5135A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 15:49:51 +0200 (CEST)
-Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0615135A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 15:49:21 +0200 (CEST)
+Received: from localhost ([::1]:53378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk4Wk-0007C6-Iw
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 09:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51332)
+	id 1nk4WG-0006DI-6A
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 09:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk4Tp-0002jK-6I
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:46:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37471)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk4U5-0003WV-No
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:47:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk4Tm-0003uq-Dg
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:46:48 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk4U4-000437-7j
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651153605;
+ s=mimecast20190719; t=1651153623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nObETNwr+VEAhHgVn2FsQRHDBiF2H3rKsUwta3JSYdU=;
- b=PDITKJO+iJ2DgGr46dpqcLnTaDGpuiqM/REcFHAp2B1zR/n/PMhK3EeTgcKERxEmQDtSsg
- MDRPCO9useEu9so483fZvmp1fhSTbmRkkqLuK7r4nJCHpkibwSXlt089V6XMkOeBlI1dkn
- H48a6HR+zaQAc8EyHuIMnQMUKwlnVjU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BtlA1tCgRJ0/DS/mtu2OhqhvfIW453HkuorncwPtHEk=;
+ b=JkqV32ST9RbS5IJaqSI0gop7BQw8pEH/qlxr4lOw/Xa1TdgvRVUxx9UxFb0bzFL6ONoEQj
+ KzaWC19MJA2z3FHe8ax3tRIgqKM6iy+SMR+OjfFZx6vvmVhMeovL3h6bHRUWgQZqBuKZ5H
+ c6esjlQQAikRmOoS9e0t5gr+iPrMn4I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-bZ73B3whMUiZFtkXq_dLSQ-1; Thu, 28 Apr 2022 09:46:44 -0400
-X-MC-Unique: bZ73B3whMUiZFtkXq_dLSQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- m10-20020adfc58a000000b0020ac7ba78b8so1944723wrg.14
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 06:46:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=nObETNwr+VEAhHgVn2FsQRHDBiF2H3rKsUwta3JSYdU=;
- b=rDRY+j+5rYCZtTEPEspk7GVOFMoClgn4z975EfdoZ06BsMRWKAJserPUFeYaatHSg2
- CozgM415rTPx7H9UbsL6+tIgmaPWI1trwSnpjvi6QU4S+nFfRNtfOaClDUTgwoWNZ+hK
- Bf33/cu8cMhTwKZxQgWEImFLxokZVjqbODqQOm4V7DhKAYqa+kj1pHJcSStM1TvRI9H0
- 9xYMwVUnszdp0J71FcFcEt9D2AwIoU0PNZ5OOsP77Qy6w5oXNUJnOh7ZoVMCkQ/GecUg
- +/rcY/Z8nbP8IbHbRcopplyPJ5x39PGS1W/uULL1rVpgYakwzzEb1QW/KKm0DPiIEfLG
- boJA==
-X-Gm-Message-State: AOAM532SuLgR3FDf2yR41ZDlWytglVKsNHPgXjdRYbGZ4MV4ESk4LB5I
- l1iuuc0V2PbSHwEtISVjoffrnlPRkixwMqo2qzJbXlyxbddhhqrtwfWfEW2fsn8aUF57RejtN5n
- mrn+wIRfNdbbiJW8=
-X-Received: by 2002:a05:600c:500a:b0:392:4dd9:b5b3 with SMTP id
- n10-20020a05600c500a00b003924dd9b5b3mr40542822wmr.190.1651153602982; 
- Thu, 28 Apr 2022 06:46:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz1nlJlmLLdXULsvd0u5fFK1Q1AP7zMKmLJ+aOSPcflFvylmRrpEO1EOfJMY74GpDRry5o24w==
-X-Received: by 2002:a05:600c:500a:b0:392:4dd9:b5b3 with SMTP id
- n10-20020a05600c500a00b003924dd9b5b3mr40542791wmr.190.1651153602754; 
- Thu, 28 Apr 2022 06:46:42 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- v11-20020a056000144b00b0020a9c02f60dsm17563684wrx.50.2022.04.28.06.46.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 06:46:41 -0700 (PDT)
-Date: Thu, 28 Apr 2022 14:46:39 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v10 6/7] multifd: Send header packet without flags if
- zero-copy-send is enabled
-Message-ID: <YmqavzSjWY2jn+wX@work-vm>
-References: <20220426230654.637939-1-leobras@redhat.com>
- <20220426230654.637939-7-leobras@redhat.com>
- <Ymh/pjIxBNCCNa9L@xz-m1.local>
+ us-mta-471-Zt8Bj26dPZ2PFchUp9zzwg-1; Thu, 28 Apr 2022 09:46:58 -0400
+X-MC-Unique: Zt8Bj26dPZ2PFchUp9zzwg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 846E5802803;
+ Thu, 28 Apr 2022 13:46:57 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D6AF2024CCA;
+ Thu, 28 Apr 2022 13:46:47 +0000 (UTC)
+Date: Thu, 28 Apr 2022 14:46:46 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH v2 4/8] async: register/unregister aiocontext in
+ graph lock list
+Message-ID: <YmqaxkbQqOVOHhlP@stefanha-x1.localdomain>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <20220426085114.199647-5-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ugcprg9Vf7vW+BzK"
 Content-Disposition: inline
-In-Reply-To: <Ymh/pjIxBNCCNa9L@xz-m1.local>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <20220426085114.199647-5-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,114 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Leonardo Bras <leobras@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Tue, Apr 26, 2022 at 08:06:55PM -0300, Leonardo Bras wrote:
-> > Since d48c3a0445 ("multifd: Use a single writev on the send side"),
-> > sending the header packet and the memory pages happens in the same
-> > writev, which can potentially make the migration faster.
-> > 
-> > Using channel-socket as example, this works well with the default copying
-> > mechanism of sendmsg(), but with zero-copy-send=true, it will cause
-> > the migration to often break.
-> > 
-> > This happens because the header packet buffer gets reused quite often,
-> > and there is a high chance that by the time the MSG_ZEROCOPY mechanism get
-> > to send the buffer, it has already changed, sending the wrong data and
-> > causing the migration to abort.
-> > 
-> > It means that, as it is, the buffer for the header packet is not suitable
-> > for sending with MSG_ZEROCOPY.
-> > 
-> > In order to enable zero copy for multifd, send the header packet on an
-> > individual write(), without any flags, and the remanining pages with a
-> > writev(), as it was happening before. This only changes how a migration
-> > with zero-copy-send=true works, not changing any current behavior for
-> > migrations with zero-copy-send=false.
-> > 
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > ---
-> >  migration/multifd.c | 23 ++++++++++++++++++++---
-> >  1 file changed, 20 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/migration/multifd.c b/migration/multifd.c
-> > index 15fb668e64..07b2e92d8d 100644
-> > --- a/migration/multifd.c
-> > +++ b/migration/multifd.c
-> > @@ -617,6 +617,7 @@ static void *multifd_send_thread(void *opaque)
-> >      MultiFDSendParams *p = opaque;
-> >      Error *local_err = NULL;
-> >      int ret = 0;
-> > +    bool use_zero_copy_send = migrate_use_zero_copy_send();
-> >  
-> >      trace_multifd_send_thread_start(p->id);
-> >      rcu_register_thread();
-> > @@ -639,9 +640,14 @@ static void *multifd_send_thread(void *opaque)
-> >          if (p->pending_job) {
-> >              uint64_t packet_num = p->packet_num;
-> >              uint32_t flags = p->flags;
-> > -            p->iovs_num = 1;
-> >              p->normal_num = 0;
-> >  
-> > +            if (use_zero_copy_send) {
-> > +                p->iovs_num = 0;
-> > +            } else {
-> > +                p->iovs_num = 1;
-> > +            }
-> > +
-> >              for (int i = 0; i < p->pages->num; i++) {
-> >                  p->normal[p->normal_num] = p->pages->offset[i];
-> >                  p->normal_num++;
-> > @@ -665,8 +671,19 @@ static void *multifd_send_thread(void *opaque)
-> >              trace_multifd_send(p->id, packet_num, p->normal_num, flags,
-> >                                 p->next_packet_size);
-> >  
-> > -            p->iov[0].iov_len = p->packet_len;
-> > -            p->iov[0].iov_base = p->packet;
-> > +            if (use_zero_copy_send) {
-> > +                /* Send header first, without zerocopy */
-> > +                ret = qio_channel_write_all(p->c, (void *)p->packet,
-> > +                                            p->packet_len, &local_err);
-> > +                if (ret != 0) {
-> > +                    break;
-> > +                }
-> > +
-> 
-> Extra but useless newline.. but not worth a repost.  Looks good here:
 
-I removed that.
+--Ugcprg9Vf7vW+BzK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> 
-> Thanks,
-> 
-> > +            } else {
-> > +                /* Send header using the same writev call */
-> > +                p->iov[0].iov_len = p->packet_len;
-> > +                p->iov[0].iov_base = p->packet;
-> > +            }
-> >  
-> >              ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
-> >                                           &local_err);
-> > -- 
-> > 2.36.0
-> > 
-> 
-> -- 
-> Peter Xu
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+On Tue, Apr 26, 2022 at 04:51:10AM -0400, Emanuele Giuseppe Esposito wrote:
+> diff --git a/util/meson.build b/util/meson.build
+> index 3736988b9f..c85d8695de 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -64,6 +64,7 @@ endif
+> =20
+>  if have_block
+>    util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
+> +  util_ss.add(files('../block/graph-lock.c'))
+
+Why is it in block/ if it needs to be built into libqemuutil?
+
+--Ugcprg9Vf7vW+BzK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJqmsYACgkQnKSrs4Gr
+c8hJIQgAuFsIfngkZJTPr3NTSeGWS+zcJWtEyZ750t2vBWohV6JqizykKqO91S4A
+qxkspN3snzBf903W/QoUjJMx2U8Q0xwXxjHrt6N5fLMNLmOTjk4HZIucnmr4MA0B
+zJGUE52zO7s8amih0I0B/V/J/IkZJsOJqb2UStrZzmHV+2k+9xLHqoTFxU0zLd7Q
+DTNRoJn+LWkVb8XdON0vuEGDi5Vm9//HuETtG5sZveAX5AIUffZL5vZmk8XmnqNy
+pCHh7TnF/qPpeeUtUiAxsyFZ3L7W11QmyQxIB812cYo5t4E3oG21AmD4Xvab8aMs
+DNSeekoQ1F+WZMoTD06+0y9RPUVO7A==
+=/Md5
+-----END PGP SIGNATURE-----
+
+--Ugcprg9Vf7vW+BzK--
 
 
