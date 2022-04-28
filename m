@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32276512CAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:25:47 +0200 (CEST)
-Received: from localhost ([::1]:60140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAAA512CDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:30:59 +0200 (CEST)
+Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njyX3-0001AN-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51114)
+	id 1njyc6-0007aj-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njy26-0000Iy-MX
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:46 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43897)
+ id 1njy27-0000Lw-KC
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:47 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njy25-000564-Bz
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:46 -0400
-Received: by mail-ej1-x635.google.com with SMTP id m20so7574821ejj.10
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 23:53:44 -0700 (PDT)
+ id 1njy26-00056E-2K
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:47 -0400
+Received: by mail-ej1-x635.google.com with SMTP id k23so7629208ejd.3
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 23:53:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d57+wLsg6C86Ce9YcdDwqygNOrnIY2eU+VWx4qkmQXk=;
- b=ldJsYzryGyyGsyexENi3KudRtNkw21PU3hVSuayc6ORAoXpYHaYytAC19oopFLn9Y2
- 9Huz2D1autuTesz0pwwZh8BK61nZLFANPZZLf8Ja+hTuZLnU9iUAOacAn0H6LYm+eBFh
- MbFHJ64eSE4dkyQ2UXuMaMspB2QzI2pjjhWq0OluZdRNrCLQ8fw8oM01cpkjibHAcsZ+
- Ccn/OLSK4Nyc8nbM5X4eGOKABq3sfa4qmafH3v96yRZKqG4txHkCN87R9pKUptXYq4Zr
- 9jTcMK0P6ZQly7RuGVAUy5NrCpIRwt+BVdv/aQnPaTrdsvydNnbAsY1eJFcxhTpSm2EY
- UR2w==
+ bh=iTOi8M+CKz+tteXqdlc9EtxfuKMXhzk+dpI+u7NWDEY=;
+ b=l+jzYZUn73LLbir+yXOcJlHYms4THvVKWihGSvDKkbvzmDWLceoSnGhqoYcmnkCBz2
+ WRdUInsnDnJHiO2vfI0jI/c6NaNhWIKUFmFObyrV7yBg5bBxmgmxsNn9d4WnWb8FtYuk
+ ZmtqFmsX5moEGjzB26HGNUvx8kCRKn/JAzmIHGsNB38DDKN3txndZte9qKp4hfI10rXF
+ IMksm9UbKDZEoHwZYXdlNtiL4viUOlyh4SVRikHoXL0gwaeXw9nlwpT7toKR8qTnVKGi
+ SKhNJx9ZKt8o79Ka5+9ocgWYqxVoLH2FlOeOfdLWWl01sQ/CBH1NNlJieGKGPlRVDE1T
+ rYqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d57+wLsg6C86Ce9YcdDwqygNOrnIY2eU+VWx4qkmQXk=;
- b=scHvmcqGPri3IUOOUmjONc8IAtSl6qZzva0rhBHQVhWcdzZgkEI5BPcmWrT/YtT/NQ
- oqnLhSVWMkUlCv+7TDEhdpu0Oxi1cus0qFViNBVAgFSQYOckQnt8M83E6B9SUHjqqKE1
- ItU3z6Ig4Fw8NgoNyp1HonToaPCTKYyLkfzF589spNBljhTK2b5GDmtaU1XGaNQ9joir
- Tq0DtvaaQOb66shjVCgE0DI5O7umINRbYmSO/h7KKzqZbWKP/cV/Qnl3s23XXsljgzyF
- C0iCx9WWu3KyEAMQNt65V4OdG9rYxojNwEs18LQDLdr6sfXHn7NZfwF6LuwCXH+Gt/yI
- Nwfg==
-X-Gm-Message-State: AOAM533myGUACHVuL+OElrHUXDyBw5D/mypDouKzpHJbhs6Ck3vsP2op
- kNk1fwYiXesg6dJfKp8kRFvZWKeKNmysdw==
-X-Google-Smtp-Source: ABdhPJy5O2e9TxwSs2ww0aA/Cu07GXH8n02cr+UVkV+kIaIyUEn0/aQE3fzae9Haa/H6CoaqMsKkow==
-X-Received: by 2002:a17:906:e9b:b0:6f3:cfcc:922e with SMTP id
- p27-20020a1709060e9b00b006f3cfcc922emr5340079ejf.346.1651128823996; 
- Wed, 27 Apr 2022 23:53:43 -0700 (PDT)
+ bh=iTOi8M+CKz+tteXqdlc9EtxfuKMXhzk+dpI+u7NWDEY=;
+ b=zQNk43DYp2LH/AK6csUvnBSsO6+ZqFFzOarbxmXQL4JpeUPqFuePzL+jdAQTiGbm8w
+ eMChowQSseKbCnxjsolpKWFouYoUViiZZJsHHtHx8mY7cFXn/0cOKdMx4QkqrasHuKgi
+ TcUmN5BKFkj+2fC+PZWM2f9ZZUgxx0OlxWWYiFzRZpOnqh5qS4upSJJgIrb02l22NftZ
+ xHdTya/Um5h68rSgwTpn2xf9xKPCJDjtAsYNNq/1QzqSRUME0NTlyogBYM58JyfCmPEW
+ FvCe05UfrYwNB/FaXPVvsVjzyApEJMlL1E37+NAq+7iDDS1z6Teqk3uqYt4GZ4nep5XG
+ NNMA==
+X-Gm-Message-State: AOAM531p5W0B6qh20aB/JnHYHtSrY7a3pIzQRPMv/94ghqgj2h0hDftf
+ xbIf2dmv4nRTuFq+pL/ERZcm0/iSVTXM/g==
+X-Google-Smtp-Source: ABdhPJxxUtMJvhdl58vrL6Tcassxu9COiBoDqsy6DtBIGwrDE22uHkvnH0JcXjNZrDqtNzT7GQYnoQ==
+X-Received: by 2002:a17:907:d15:b0:6f3:bd8c:b436 with SMTP id
+ gn21-20020a1709070d1500b006f3bd8cb436mr9640158ejc.618.1651128824776; 
+ Wed, 27 Apr 2022 23:53:44 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- jo11-20020a170906f6cb00b006f3955761c4sm5406804ejb.158.2022.04.27.23.53.43
+ jo11-20020a170906f6cb00b006f3955761c4sm5406804ejb.158.2022.04.27.23.53.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 23:53:43 -0700 (PDT)
+ Wed, 27 Apr 2022 23:53:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/18] configure: gcov should not exclude fortify-source
-Date: Thu, 28 Apr 2022 08:53:26 +0200
-Message-Id: <20220428065335.189795-10-pbonzini@redhat.com>
+Subject: [PULL 10/18] configure: move --enable/--disable-debug-info to second
+ option parsing pass
+Date: Thu, 28 Apr 2022 08:53:27 +0200
+Message-Id: <20220428065335.189795-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220428065335.189795-1-pbonzini@redhat.com>
 References: <20220428065335.189795-1-pbonzini@redhat.com>
@@ -87,34 +88,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no reason other than history (dating back to commit 1d728c3946, "tests: add gcov
-support", 2013-01-06) for this, remove this unnecessary conditional.
+$debug_info is not needed anywhere except in the final meson invocation,
+no need to special case it.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ configure | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/configure b/configure
-index a6ed3498f2..e404b55da5 100755
+index e404b55da5..d704029284 100755
 --- a/configure
 +++ b/configure
-@@ -2625,9 +2625,7 @@ fi
- 
- write_c_skeleton
- 
--if test "$gcov" = "yes" ; then
--  :
--elif test "$fortify_source" = "yes" ; then
-+if test "$fortify_source" = "yes" ; then
-   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
-   debug=no
- fi
+@@ -244,7 +244,6 @@ audio_drv_list="default"
+ block_drv_rw_whitelist=""
+ block_drv_ro_whitelist=""
+ host_cc="cc"
+-debug_info="yes"
+ lto="false"
+ stack_protector=""
+ safe_stack=""
+@@ -304,6 +303,7 @@ vhost_user_fs="$default_feature"
+ vhost_vdpa="$default_feature"
+ rdma="$default_feature"
+ pvrdma="$default_feature"
++debug_info="yes"
+ debug_tcg="no"
+ debug="no"
+ sanitizers="no"
+@@ -379,10 +379,6 @@ for opt do
+   ;;
+   --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
+   ;;
+-  --enable-debug-info) debug_info="yes"
+-  ;;
+-  --disable-debug-info) debug_info="no"
+-  ;;
+   --cross-cc-*[!a-zA-Z0-9_-]*=*) error_exit "Passed bad --cross-cc-FOO option"
+   ;;
+   --cross-cc-cflags-*) cc_arch=${opt#--cross-cc-cflags-}; cc_arch=${cc_arch%%=*}
+@@ -759,12 +755,12 @@ for opt do
+   ;;
+   --extra-ldflags=*)
+   ;;
+-  --enable-debug-info)
+-  ;;
+-  --disable-debug-info)
+-  ;;
+   --cross-cc-*)
+   ;;
++  --enable-debug-info) debug_info="yes"
++  ;;
++  --disable-debug-info) debug_info="no"
++  ;;
+   --enable-modules)
+       modules="yes"
+   ;;
 -- 
 2.35.1
 
