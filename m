@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56AB5137D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:09:57 +0200 (CEST)
-Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841F75137F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:16:46 +0200 (CEST)
+Received: from localhost ([::1]:40510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk5mG-0002vW-Rn
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:09:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
+	id 1nk5sr-0006Bu-La
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5K1-0005b1-SY
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:46 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43983)
+ id 1nk5K2-0005dD-KQ
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:48 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:41652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5Jx-0006Sx-Ge
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:45 -0400
-Received: by mail-wr1-x433.google.com with SMTP id v12so7061913wrv.10
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:41 -0700 (PDT)
+ id 1nk5Jy-0006TK-H3
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:46 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ u9-20020a05600c00c900b00393e729e655so3194974wmm.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=F7+9/tJeY/sz+uNlL1QZazY6ZAxBeXQj/QrrkXhkYJY=;
- b=y9aCN6kpCouOgI2TpZBldmH/27FLg2HQndYLIuKF8oivf+Tvwqu2i4vxCXqUm0oDIi
- 6Hcy/JsxLNg9qRMdx1A1599jeZ4NDhjnZ2I5hCl8KlglkJt8GfO/mg3bu6z2jlCiRq+i
- B5kOETAXysc6D8dQmFFRH009zd1btu3zFzfED+ju37PD/AcEees+UFD5+y8DIM1HOf0E
- dQXO7fZ4eX+hbrLbybv+Eq9S0X/o2fE6HeXVWs19f6YJ4yL7Uuf2aGWnwWd/BO97Kkig
- 5CKQLEJv8uDH3RMvyMUg1t/6tZIP7vVbdhEMn7MvQIapff4hIVgJoGCxAsGloDaBa80r
- toNQ==
+ bh=RSvbg9lzmkgK8LV+z2YK8viBCyRR08JOpFwVOfj1TWs=;
+ b=UJwsOO1w0KUwvvCnD7YFjAJYXIiUS15WnYhlLLnR+PUyBpNtO4zoWFH2syMFTmFb81
+ XgsDAKR1SdBUgayoRYxMmcCJ9KWjRpLl2fiyBoNQNmQrYPj1d5dC1ug0SIlA82m9aK3y
+ or/ILumIT/t46YvHGPYOeJEG5gV3vwgfq6+6KmQQuW3u8cOz7ageM9nkNsj3ZtkJXJGf
+ EIDyuDnwD+RElbdcH/GnuBd5Tv0iROu4+fgk02bvsJZd9mA0cQ7AJgc7F6Z97sbYXUAW
+ t76PsskATbbparHMWDaQh2o8dn446lY/1otGbQXRJzcoEsQxlT+pVadigs5I8wtdkpgZ
+ G6/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F7+9/tJeY/sz+uNlL1QZazY6ZAxBeXQj/QrrkXhkYJY=;
- b=4tXuN+rl/FLltc/RNTvqhqEzoukYTZgd5SpQ0TuDzOBWa4b1vle9a7Gakk7m6xmTwV
- k1AD+db87j78b6rPr2cuZVewBMC/BT4BK7NFL0zUVgooTll/ztuNSaE9PHB9zYXmSSAZ
- H35GFcDmmxwRl1sH+cKyb5LFTj830L7rILXsVrZ57HYnntKO8zmZM8vNT2M3n4+mALf5
- 98Lp6KFmh7zdf3zgk4NFQki0bShq2aq1bwWPv5IPN9aBaIh0hPy9b7I0FcS08Mc9xcgB
- Sd/cwG2q+J9W6ZeWiSIEdA55R7QwpSo88D8xDYpjE+X8Rh6GRCCWz0cdawkndgAzK0JL
- 8ANQ==
-X-Gm-Message-State: AOAM5321df3vaw6arvK7SOilFZlA1n9mDg9o+DgIIdHif8bD3bLRYQd2
- pXPssrSHi1MVEvqyECGdpXFWS+yn8EqgUg==
-X-Google-Smtp-Source: ABdhPJzZrC95HiexTSOt8GcYwbPMz+p9XMxqQziGcSJtyEVCtcBT6MCvkqkNQpEL+WH6yWQvPH3ssw==
-X-Received: by 2002:adf:ec89:0:b0:20a:c0a4:e4a3 with SMTP id
- z9-20020adfec89000000b0020ac0a4e4a3mr26190760wrn.98.1651156840197; 
- Thu, 28 Apr 2022 07:40:40 -0700 (PDT)
+ bh=RSvbg9lzmkgK8LV+z2YK8viBCyRR08JOpFwVOfj1TWs=;
+ b=ytOd48h4g/p9lJARNZ6UXky/NzooayhX7VVcKakrYpFM5IpyMSGINjAkFfRz87auyO
+ GxSx9V+6kXOROWdaPAAVNBBuFxRFn0mBNzueM/45TBTkMa658vnwsthuuX/lyRawQQ4j
+ IFUk2nAag2QR+2Nvd5zG283RRoCgGwaVY9UGFpEAbB0ywfWieeHGaXo4AjSpu9EZnIPN
+ kiYPBF4yfoE7/2dsHlB3uFJOmIglavhYU0hrOPul0I64E6eNNHVem82OUaW2fQ5ATOLv
+ l+doNXRfrMetIC/Oq3Jzp3SRJLUOnt+qy9DJV9qBQKtg680BucslhIrgEUPWKiKadcu9
+ WDGA==
+X-Gm-Message-State: AOAM532s02COPxYlAiiPuWzGkUoG+sPWWoCLsck0LjUNaM/nuOFA1xzW
+ vAAKCtmdja/3Kir3XMtClvLwPSBb6CZQLQ==
+X-Google-Smtp-Source: ABdhPJxBX/wVReYtHWXc2l7JtubUom7NLDmWYE1ZluA/PD5T/ECGC8slWzrXmMqqmNSgoscRFyRuyw==
+X-Received: by 2002:a05:600c:5020:b0:38f:f83b:e773 with SMTP id
+ n32-20020a05600c502000b0038ff83be773mr31395813wmr.57.1651156841024; 
+ Thu, 28 Apr 2022 07:40:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.40.39
+ bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.40.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 07:40:39 -0700 (PDT)
+ Thu, 28 Apr 2022 07:40:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/54] target/arm: Use tcg_constant in WHILE
-Date: Thu, 28 Apr 2022 15:39:45 +0100
-Message-Id: <20220428143958.2451229-42-peter.maydell@linaro.org>
+Subject: [PULL 42/54] target/arm: Use tcg_constant in LD1, ST1
+Date: Thu, 28 Apr 2022 15:39:46 +0100
+Message-Id: <20220428143958.2451229-43-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220428143958.2451229-1-peter.maydell@linaro.org>
 References: <20220428143958.2451229-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,107 +93,53 @@ From: Richard Henderson <richard.henderson@linaro.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220426163043.100432-42-richard.henderson@linaro.org
+Message-id: 20220426163043.100432-43-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ target/arm/translate-sve.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 7a39ed0c062..727f5cca36f 100644
+index 727f5cca36f..fcab15a6ecc 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -3568,7 +3568,7 @@ static bool trans_CTERM(DisasContext *s, arg_CTERM *a)
- static bool trans_WHILE(DisasContext *s, arg_WHILE *a)
- {
-     TCGv_i64 op0, op1, t0, t1, tmax;
--    TCGv_i32 t2, t3;
-+    TCGv_i32 t2;
-     TCGv_ptr ptr;
-     unsigned vsz = vec_full_reg_size(s);
-     unsigned desc = 0;
-@@ -3624,7 +3624,7 @@ static bool trans_WHILE(DisasContext *s, arg_WHILE *a)
-         }
-     }
+@@ -6426,7 +6426,6 @@ static bool trans_LD1_zpiz(DisasContext *s, arg_LD1_zpiz *a)
+     gen_helper_gvec_mem_scatter *fn = NULL;
+     bool be = s->be_data == MO_BE;
+     bool mte = s->mte_active[0];
+-    TCGv_i64 imm;
  
--    tmax = tcg_const_i64(vsz >> a->esz);
-+    tmax = tcg_constant_i64(vsz >> a->esz);
-     if (eq) {
-         /* Equality means one more iteration.  */
-         tcg_gen_addi_i64(t0, t0, 1);
-@@ -3644,7 +3644,6 @@ static bool trans_WHILE(DisasContext *s, arg_WHILE *a)
- 
-     /* Bound to the maximum.  */
-     tcg_gen_umin_i64(t0, t0, tmax);
--    tcg_temp_free_i64(tmax);
- 
-     /* Set the count to zero if the condition is false.  */
-     tcg_gen_movi_i64(t1, 0);
-@@ -3661,28 +3660,26 @@ static bool trans_WHILE(DisasContext *s, arg_WHILE *a)
- 
-     desc = FIELD_DP32(desc, PREDDESC, OPRSZ, vsz / 8);
-     desc = FIELD_DP32(desc, PREDDESC, ESZ, a->esz);
--    t3 = tcg_const_i32(desc);
- 
-     ptr = tcg_temp_new_ptr();
-     tcg_gen_addi_ptr(ptr, cpu_env, pred_full_reg_offset(s, a->rd));
- 
-     if (a->lt) {
--        gen_helper_sve_whilel(t2, ptr, t2, t3);
-+        gen_helper_sve_whilel(t2, ptr, t2, tcg_constant_i32(desc));
-     } else {
--        gen_helper_sve_whileg(t2, ptr, t2, t3);
-+        gen_helper_sve_whileg(t2, ptr, t2, tcg_constant_i32(desc));
-     }
-     do_pred_flags(t2);
- 
-     tcg_temp_free_ptr(ptr);
-     tcg_temp_free_i32(t2);
--    tcg_temp_free_i32(t3);
+     if (a->esz < a->msz || (a->esz == a->msz && !a->u)) {
+         return false;
+@@ -6448,9 +6447,8 @@ static bool trans_LD1_zpiz(DisasContext *s, arg_LD1_zpiz *a)
+     /* Treat LD1_zpiz (zn[x] + imm) the same way as LD1_zprz (rn + zm[x])
+      * by loading the immediate into the scalar parameter.
+      */
+-    imm = tcg_const_i64(a->imm << a->msz);
+-    do_mem_zpz(s, a->rd, a->pg, a->rn, 0, imm, a->msz, false, fn);
+-    tcg_temp_free_i64(imm);
++    do_mem_zpz(s, a->rd, a->pg, a->rn, 0,
++               tcg_constant_i64(a->imm << a->msz), a->msz, false, fn);
      return true;
  }
  
- static bool trans_WHILE_ptr(DisasContext *s, arg_WHILE_ptr *a)
- {
-     TCGv_i64 op0, op1, diff, t1, tmax;
--    TCGv_i32 t2, t3;
-+    TCGv_i32 t2;
-     TCGv_ptr ptr;
-     unsigned vsz = vec_full_reg_size(s);
-     unsigned desc = 0;
-@@ -3697,7 +3694,7 @@ static bool trans_WHILE_ptr(DisasContext *s, arg_WHILE_ptr *a)
-     op0 = read_cpu_reg(s, a->rn, 1);
-     op1 = read_cpu_reg(s, a->rm, 1);
+@@ -6609,7 +6607,6 @@ static bool trans_ST1_zpiz(DisasContext *s, arg_ST1_zpiz *a)
+     gen_helper_gvec_mem_scatter *fn = NULL;
+     bool be = s->be_data == MO_BE;
+     bool mte = s->mte_active[0];
+-    TCGv_i64 imm;
  
--    tmax = tcg_const_i64(vsz);
-+    tmax = tcg_constant_i64(vsz);
-     diff = tcg_temp_new_i64();
- 
-     if (a->rw) {
-@@ -3723,7 +3720,6 @@ static bool trans_WHILE_ptr(DisasContext *s, arg_WHILE_ptr *a)
- 
-     /* Bound to the maximum.  */
-     tcg_gen_umin_i64(diff, diff, tmax);
--    tcg_temp_free_i64(tmax);
- 
-     /* Since we're bounded, pass as a 32-bit type.  */
-     t2 = tcg_temp_new_i32();
-@@ -3732,17 +3728,15 @@ static bool trans_WHILE_ptr(DisasContext *s, arg_WHILE_ptr *a)
- 
-     desc = FIELD_DP32(desc, PREDDESC, OPRSZ, vsz / 8);
-     desc = FIELD_DP32(desc, PREDDESC, ESZ, a->esz);
--    t3 = tcg_const_i32(desc);
- 
-     ptr = tcg_temp_new_ptr();
-     tcg_gen_addi_ptr(ptr, cpu_env, pred_full_reg_offset(s, a->rd));
- 
--    gen_helper_sve_whilel(t2, ptr, t2, t3);
-+    gen_helper_sve_whilel(t2, ptr, t2, tcg_constant_i32(desc));
-     do_pred_flags(t2);
- 
-     tcg_temp_free_ptr(ptr);
-     tcg_temp_free_i32(t2);
--    tcg_temp_free_i32(t3);
+     if (a->esz < a->msz) {
+         return false;
+@@ -6631,9 +6628,8 @@ static bool trans_ST1_zpiz(DisasContext *s, arg_ST1_zpiz *a)
+     /* Treat ST1_zpiz (zn[x] + imm) the same way as ST1_zprz (rn + zm[x])
+      * by loading the immediate into the scalar parameter.
+      */
+-    imm = tcg_const_i64(a->imm << a->msz);
+-    do_mem_zpz(s, a->rd, a->pg, a->rn, 0, imm, a->msz, true, fn);
+-    tcg_temp_free_i64(imm);
++    do_mem_zpz(s, a->rd, a->pg, a->rn, 0,
++               tcg_constant_i64(a->imm << a->msz), a->msz, true, fn);
      return true;
  }
  
