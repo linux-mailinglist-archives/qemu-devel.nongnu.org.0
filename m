@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EB7513C5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 22:09:39 +0200 (CEST)
-Received: from localhost ([::1]:39148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E83513C86
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 22:16:09 +0200 (CEST)
+Received: from localhost ([::1]:44950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkASH-0008St-4o
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 16:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
+	id 1nkAYa-0002zv-2a
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 16:16:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nkAGI-0005Vi-Oy; Thu, 28 Apr 2022 15:57:15 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:47435)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nkAX8-0002Gt-Jt
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 16:14:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nkAGG-0002QU-49; Thu, 28 Apr 2022 15:57:13 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 1AA3432009A3;
- Thu, 28 Apr 2022 15:57:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 28 Apr 2022 15:57:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1651175823; x=1651262223; bh=hh
- iO/JbGhk3FEbe4Di9LXVzb3b0x0FrNQ8kXekSXXhU=; b=nbyLKltifbJP0sY8I6
- 5pDfhJb5JbHL8xogc8TtRO2p471pKjIIc9NQvNH8ts4wz7HX7rsit3BVynKGGx4j
- Emk4HojbPJ6Lf84igZ4eCDcSrUl5r9OhPA+b0TUvBWMoraD07cLbfqoPltZFQR2Z
- XCVlrUL0dXbvKf7CTlSNbP6W3uxJ7/FgL/oe4o327pSzSTWIhBo+Q4FIeHGdtV4J
- vvjpuFke9dMP6BfPcVnZ8wfB6Tw+XMv+Ar6VkbdkCNSRFJaUkIDYPFCtoFSektlL
- OTb75hMC8Rbo6DubmjDWwnxjsBglivM7osWz8n//KAxVDb3ir5kKjQ5XxSXaoCSh
- evZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651175823; x=
- 1651262223; bh=hhiO/JbGhk3FEbe4Di9LXVzb3b0x0FrNQ8kXekSXXhU=; b=e
- 3/bK3O4f3Yrf01kQbzQqie7I4KGAo/yJalVZJXLQCrIY62vP2VIDBiJwlgvD9/NB
- PbhjECI/bn4MutB3MQcM44V65NpJO0OmBfGCkGlKVq1CUwcd+N69jgew3vBGJhVF
- RK1ig2xbdq1AtMwQ2yQnChZGACcLEirowyzKE7LLyRNg1yuuBkfiMzYC8ykSZ9r8
- RjFnUkxTC5r/IPJazyBN4R15rCaO8o22MBUj7EVROIAQjHz4urBSyf2+SY1ger6t
- dk9XozUu39VMQ9aknyIfOZiwFOgD45i9bAyJiC/vth5Wbpf83ZsvtMVPm/Ki9zLa
- vsKUGbn/ICoCrjje5co1A==
-X-ME-Sender: <xms:jfFqYpPd8RjhqHJ0Bx65uPx817Ulk9Z-1m_wTDceUJcdkLW4XCeXCg>
- <xme:jfFqYr-Fh_F3OMiy0GfAQXzK6c1y1NQ5kKpx-X5Or11VXEW8V65Mj7FjVQKLcXcn4
- ppryjJmdgq5LwI3lpQ>
-X-ME-Received: <xmr:jfFqYoTkUX4xeXa5X_7QhPiHtCFVLOXqRUN4r2QjfKlz9MmO4nwJai9Y0uUzmtjfbIZ1AjIylcKbl0Q5dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgddugeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:jfFqYltQwMKLUvfWN2_nrCM7RlvvLDQnXS2CmJz6-NJ0WmAWpPUymA>
- <xmx:jfFqYhe9O-7r2w5c_cTabSZW_eL7wVHKqDrLWhz8Xm_k2kPyhkjTqA>
- <xmx:jfFqYh3JbN_qqYz3KqL3AgjHZOq-5zFFaesHHxWZW23L1nm5K2loSA>
- <xmx:j_FqYsuVpWiC1LNQSPtMwS_w-rKRIn_ITpt-_OjjSI-BNWt4gUsO_w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Apr 2022 15:56:59 -0400 (EDT)
-Date: Thu, 28 Apr 2022 21:56:57 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH v7 00/12] hw/nvme: SR-IOV with Virtualization Enhancements
-Message-ID: <YmrxiWa6fP1hZ+ub@apples>
-References: <20220318191819.1711831-1-lukasz.maniak@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nkAX2-00051U-SV
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 16:14:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651176869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z7JjeR6B8JNuIWU9oLzHL+p9sPxQnGKFhu9bOZGZ3hM=;
+ b=ITgtpN5eRZwS6Vizv85tcYtrl9L2LPBQZo5L8VqgeseZuJ64jZSw+/cHjtpn6a4xt2MAss
+ i5NhujmSM1Bq3OCwTr4Aty1uMzYqHQ47fP5LbaXVZbNpd3PptdB1SxenR6TC/7gn2f74Be
+ yuiaIzR0INnTMidHFPA248WyZCLwZ4w=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-rNABWkNBOt-rLKoGD-JsIg-1; Thu, 28 Apr 2022 16:14:25 -0400
+X-MC-Unique: rNABWkNBOt-rLKoGD-JsIg-1
+Received: by mail-il1-f200.google.com with SMTP id
+ s10-20020a92c5ca000000b002cc45dade1aso2429892ilt.20
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 13:14:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=z7JjeR6B8JNuIWU9oLzHL+p9sPxQnGKFhu9bOZGZ3hM=;
+ b=i4DLPRdixJLSpVqfSX7/1CzlVAA51hgx+VbCw9W5xE2i6CBa5lvAeaJvtD2n8zv2K7
+ RvfaPTwXwPORn4eTYIkbhNVkQCYo/88wSWfAPcNHe1a2X11tiHNq2ubg9uNT+MPwaFOd
+ jzqw4j7cVaeuGdK88AN8mQEjza63quxStupPTRbdZ8BHPFDD2Efbwl/QwtQ1TLm7yShy
+ h/axYu5xTbiG3lpz06cWutjCwsvgJ5PXX6SZHjT067kQH270axC5TvvuOkCTu7VIBeyB
+ judJ/YFPn9MWFYq+efWtELawbmP6kJWIeJKD2n9ES/THiViHxWlkrTD8PMo0zahXz+fG
+ 9frQ==
+X-Gm-Message-State: AOAM531S9LPEUsXwKkkhtGnhjEGlPhaIb6lUYAcUOCveV51dr8BoFUid
+ QydrlKRZf+RGADiEnXddpfrpUDmq4zbtCBXsUkeeLnDxtogWScYafiG8OXipE7ESAPzmu0LsSYw
+ wQIMGCiPHTeV6zbs=
+X-Received: by 2002:a5d:8555:0:b0:654:a4c8:35b3 with SMTP id
+ b21-20020a5d8555000000b00654a4c835b3mr14598904ios.47.1651176864633; 
+ Thu, 28 Apr 2022 13:14:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfC2SvjRn79/ILII/O4RitT78JDmhevd0GHcjBStGNjHul1baVvOWy5ZZjtJCwkfSfKG5Z2A==
+X-Received: by 2002:a5d:8555:0:b0:654:a4c8:35b3 with SMTP id
+ b21-20020a5d8555000000b00654a4c835b3mr14598895ios.47.1651176864367; 
+ Thu, 28 Apr 2022 13:14:24 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ g14-20020a92dd8e000000b002ca7bbf5179sm421351iln.53.2022.04.28.13.14.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Apr 2022 13:14:24 -0700 (PDT)
+Date: Thu, 28 Apr 2022 14:14:23 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v4] vfio/common: remove spurious tpm-crb-cmd
+ misalignment warning
+Message-ID: <20220428141423.6e2da84c.alex.williamson@redhat.com>
+In-Reply-To: <20220428134945.511829-1-eric.auger@redhat.com>
+References: <20220428134945.511829-1-eric.auger@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8/YICGbXgnEEi1HA"
-Content-Disposition: inline
-In-Reply-To: <20220318191819.1711831-1-lukasz.maniak@linux.intel.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,77 +96,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
- qemu-block@nongnu.org, mst@redhat.com, armbru@redhat.com,
- lukasz.gieryk@linux.intel.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- kbusch@kernel.org, hreitz@redhat.com, xypron.glpk@gmx.de, k.jensen@samsung.com,
- ani@anisinha.ca, imammedo@redhat.com
+Cc: cohuck@redhat.com, f4bug@amsat.org, stefanb@linux.vnet.ibm.com,
+ qemu-devel@nongnu.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 28 Apr 2022 15:49:45 +0200
+Eric Auger <eric.auger@redhat.com> wrote:
 
---8/YICGbXgnEEi1HA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mar 18 20:18, Lukasz Maniak wrote:
-> Resubmitting v6 as v7 since Patchew got lost with my sophisticated CC of
-> all maintainers just for the cover letter.
+> The CRB command buffer currently is a RAM MemoryRegion and given
+> its base address alignment, it causes an error report on
+> vfio_listener_region_add(). This region could have been a RAM device
+> region, easing the detection of such safe situation but this option
+> was not well received. So let's add a helper function that uses the
+> memory region owner type to detect the situation is safe wrt
+> the assignment. Other device types can be checked here if such kind
+> of problem occurs again.
 >=20
-> Changes since v5:
-> - Fixed PCI hotplug issue related to deleting VF twice
-> - Corrected error messages for SR-IOV parameters
-> - Rebased on master, patches for PCI got pulled into the tree
-> - Added Reviewed-by labels
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 >=20
-> Lukasz Maniak (4):
->   hw/nvme: Add support for SR-IOV
->   hw/nvme: Add support for Primary Controller Capabilities
->   hw/nvme: Add support for Secondary Controller List
->   docs: Add documentation for SR-IOV and Virtualization Enhancements
+> ---
 >=20
-> =C5=81ukasz Gieryk (8):
->   hw/nvme: Implement the Function Level Reset
->   hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
->   hw/nvme: Remove reg_size variable and update BAR0 size calculation
->   hw/nvme: Calculate BAR attributes in a function
->   hw/nvme: Initialize capability structures for primary/secondary
->     controllers
->   hw/nvme: Add support for the Virtualization Management command
->   hw/nvme: Update the initalization place for the AER queue
->   hw/acpi: Make the PCI hot-plug aware of SR-IOV
+> v3 -> v4:
+> - rebase on top of qemu_real_host_page_size() and
+>   qemu_real_host_page_size(). Print the size and make the message
+>   consistent
+> - Added Stefan's A-b and Connie R-b (despite the changes)
+> ---
+>  hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
+>  hw/vfio/trace-events |  1 +
+>  2 files changed, 27 insertions(+), 1 deletion(-)
 >=20
->  docs/system/devices/nvme.rst |  82 +++++
->  hw/acpi/pcihp.c              |   6 +-
->  hw/nvme/ctrl.c               | 673 ++++++++++++++++++++++++++++++++---
->  hw/nvme/ns.c                 |   2 +-
->  hw/nvme/nvme.h               |  55 ++-
->  hw/nvme/subsys.c             |  75 +++-
->  hw/nvme/trace-events         |   6 +
->  include/block/nvme.h         |  65 ++++
->  include/hw/pci/pci_ids.h     |   1 +
->  9 files changed, 909 insertions(+), 56 deletions(-)
->=20
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 2b1f78fdfa..f6b9bb6d71 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -40,6 +40,7 @@
+>  #include "trace.h"
+>  #include "qapi/error.h"
+>  #include "migration/migration.h"
+> +#include "sysemu/tpm.h"
+> =20
+>  VFIOGroupList vfio_group_list =3D
+>      QLIST_HEAD_INITIALIZER(vfio_group_list);
+> @@ -861,6 +862,22 @@ static void vfio_unregister_ram_discard_listener(VFI=
+OContainer *container,
+>      g_free(vrdl);
+>  }
+> =20
+> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+> +{
+> +    MemoryRegion *mr =3D section->mr;
+> +
+> +    if (!TPM_IS_CRB(mr->owner)) {
+> +        return false;
+> +    }
 
-Series (hw/nvme parts) looks good.
+It looks like this test is going to need to be wrapped in #ifdef
+CONFIG_TPM:
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+https://gitlab.com/alex.williamson/qemu/-/jobs/2391952412
 
---8/YICGbXgnEEi1HA
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
+Alex
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJq8XMACgkQTeGvMW1P
-DenIWQf+P8pViaUweV5lehkpNN62ThnngSysyposDsJxmj7ehIaczp1iMwmnMk54
-CWrGR+JPmj6nqxMkr4dGmV+Vtl6NRM0TYpIXQ06DSjGR7m+c0g5SKjJ9hjxIbdKH
-F/TegpDMuFQQLBaUOw+UqBmUR8fiBBMdO7N9GfHdUHcXngdhIycRIz2CuaTQ1Fh4
-Da9Bgj9qlf/qmGd3T6iEt+kSYRzQUfsF+gZyTXulQyjmoq7cd/JxZvbwB+GH+N6n
-2NVenHbjdV1tG8XP7EPk0zNmmw5GkZZeXu0UytHytVfq7mtAFTjCAv8RmweKpTPv
-Y8DcT3/tza+889+nf5oN8YjDgRKfag==
-=zfqa
------END PGP SIGNATURE-----
+> +
+> +    /* this is a known safe misaligned region, just trace for debug purp=
+ose */
+> +    trace_vfio_known_safe_misalignment(memory_region_name(mr),
+> +                                       section->offset_within_address_sp=
+ace,
+> +                                       section->offset_within_region,
+> +                                       qemu_real_host_page_size());
+> +    return true;
+> +}
+> +
+>  static void vfio_listener_region_add(MemoryListener *listener,
+>                                       MemoryRegionSection *section)
+>  {
+> @@ -884,7 +901,15 @@ static void vfio_listener_region_add(MemoryListener =
+*listener,
+>      if (unlikely((section->offset_within_address_space &
+>                    ~qemu_real_host_page_mask()) !=3D
+>                   (section->offset_within_region & ~qemu_real_host_page_m=
+ask()))) {
+> -        error_report("%s received unaligned region", __func__);
+> +        if (!vfio_known_safe_misalignment(section)) {
+> +            error_report("%s received unaligned region %s iova=3D0x%"PRI=
+x64
+> +                         " offset_within_region=3D0x%"PRIx64
+> +                         " qemu_real_host_page_size=3D0x%"PRIxPTR,
+> +                         __func__, memory_region_name(section->mr),
+> +                         section->offset_within_address_space,
+> +                         section->offset_within_region,
+> +                         qemu_real_host_page_size());
+> +        }
+>          return;
+>      }
+> =20
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 0ef1b5f4a6..582882db91 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_=
+t end) "SKIPPING region_add
+>  vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d t=
+o liobn fd %d"
+>  vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add=
+ [iommu] 0x%"PRIx64" - 0x%"PRIx64
+>  vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, voi=
+d *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+> +vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t o=
+ffset_within_region, uintptr_t page_size) "Region \"%s\" iova=3D0x%"PRIx64"=
+ offset_within_region=3D0x%"PRIx64" qemu_real_host_page_size=3D0x%"PRIxPTR =
+": cannot be mapped for DMA"
+>  vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uin=
+t64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=3D0x%"PRIx6=
+4" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+>  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING re=
+gion_del 0x%"PRIx64" - 0x%"PRIx64
+>  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"P=
+RIx64" - 0x%"PRIx64
 
---8/YICGbXgnEEi1HA--
 
