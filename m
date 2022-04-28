@@ -2,54 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97808512E16
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 10:18:59 +0200 (CEST)
-Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E53512ECF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 10:42:02 +0200 (CEST)
+Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njzMY-0004Sc-Ff
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 04:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
+	id 1njzio-0004XQ-Vs
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 04:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1njzKA-0002yC-FT
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 04:16:30 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42076)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1njzet-0002Zf-L5
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 04:37:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1njzK8-0001Mm-Hq
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 04:16:30 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1njzJB-0002hm-Ta; Thu, 28 Apr 2022 09:15:33 +0100
-Message-ID: <491632d9-f60e-7a0d-daf6-4df4b6784b69@ilande.co.uk>
-Date: Thu, 28 Apr 2022 09:16:21 +0100
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1njzeq-0004cl-8f
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 04:37:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651135070;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VL8xtjjxjT5aAa5osjDjJHX/L8SyN+iosLKJc7qiRec=;
+ b=OrVhQUCZBk+U3H8L5BjxkEchm7T6tKgkzD8wj5fGC5goegM5D5CBETzalF1uaqcvPHL4Qm
+ YQ2pEdf+XNDPOhRo8Ro6m8/MuNyoyZU8DCUhBvGTB7hk/HwShtuZSN9VZC/Xz/k9OBGm3G
+ a7ZjJ5cLkgUjJr13rAJVunByWkgFPCk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-605-pwZ5RB9RPJiDhu89QLq4NQ-1; Thu, 28 Apr 2022 04:37:49 -0400
+X-MC-Unique: pwZ5RB9RPJiDhu89QLq4NQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bh11-20020a05600c3d0b00b003928fe7ba07so1268000wmb.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 01:37:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=VL8xtjjxjT5aAa5osjDjJHX/L8SyN+iosLKJc7qiRec=;
+ b=2JZH7gEZ8EvcBLtvQOeMDEppDUuT4OXnL0QWjOyANAv+F0SDKeoVif4nY21+VD88CI
+ 82wjMYie34Q8lZITu3GwSpa4Mygkk8UusXasx0v3S4bAW0GS6bnJN5cWAvbuU3QgSN2a
+ 8qURcEKKTvSZAv3yuBayOVctrRka2kZHDuKmWd2XAbc7iqV7xHD+khBV5okgcPxPvb8J
+ NWho+J5Y6uSFXzsIuDGPcO0LYklZzWPQFgfwspYcU/veZtGW6y6bop/d3aH4BSEhDEdI
+ LE2hpy7rNi2zFQHFfIFmVF0gsmVis8q9/RtdxMDQBTP/yFMKH8cGm5FnESMHSfWM2Eoq
+ qR0Q==
+X-Gm-Message-State: AOAM532AJ0X5UfHSq1e2jaWu4MLaJr2NedDP7m5AEvO8j1embVSjxbUE
+ NQ6DXMNyYjXbVwtxwwktuOut4r0BYoOnFwkzJtU/FvLwTl7tuEYg0aZiD2sUHgvB1XffvFwHpY5
+ Je7NzmKhU6khDXds=
+X-Received: by 2002:adf:ded0:0:b0:20a:f070:6bb0 with SMTP id
+ i16-20020adfded0000000b0020af0706bb0mr5630892wrn.208.1651135068059; 
+ Thu, 28 Apr 2022 01:37:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2/oPpnGIuf3Q6ho7ioM+KsjaOBZWmL7s0ujvkkDlhmDmRBVGkZp0u6v57MNj0n4/7HGqXYw==
+X-Received: by 2002:adf:ded0:0:b0:20a:f070:6bb0 with SMTP id
+ i16-20020adfded0000000b0020af0706bb0mr5630866wrn.208.1651135067659; 
+ Thu, 28 Apr 2022 01:37:47 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ t4-20020adfe104000000b00205b50f04f0sm15129669wrz.86.2022.04.28.01.37.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 01:37:47 -0700 (PDT)
+Message-ID: <4cd9121f-6c9f-f461-836f-a4b1ba8fedcd@redhat.com>
+Date: Thu, 28 Apr 2022 10:37:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 3/3] hw/arm/smmuv3: Advertise support for SMMUv3.2-BBML2
 Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
- <20220425091027.2877892-34-yangxiaojuan@loongson.cn>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220425091027.2877892-34-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220426160422.2353158-1-peter.maydell@linaro.org>
+ <20220426160422.2353158-4-peter.maydell@linaro.org>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20220426160422.2353158-4-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 33/43] hw/intc: Add LoongArch ls7a msi interrupt
- controller support(PCH-MSI)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,197 +102,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn
+Reply-To: eric.auger@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/04/2022 10:10, Xiaojuan Yang wrote:
+Hi Peter,
 
-> This patch realize PCH-MSI interrupt controller.
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 4/26/22 18:04, Peter Maydell wrote:
+> The Arm SMMUv3 includes an optional feature equivalent to the CPU
+> FEAT_BBM, which permits an OS to switch a range of memory between
+> "covered by a huge page" and "covered by a sequence of normal pages"
+> without having to engage in the traditional 'break-before-make'
+> dance. (This is particularly important for the SMMU, because devices
+> performing I/O through an SMMU are less likely to be able to cope with
+> the window in the sequence where an access results in a translation
+> fault.)  The SMMU spec explicitly notes that one of the valid ways to
+> be a BBM level 2 compliant implementation is:
+>  * if there are multiple entries in the TLB for an address,
+>    choose one of them and use it, ignoring the others
+>
+> Our SMMU TLB implementation (unlike our CPU TLB) does allow multiple
+> TLB entries for an address, because the translation table level is
+> part of the SMMUIOTLBKey, and so our IOTLB hashtable can include
+> entries for the same address where the leaf was at different levels
+> (i.e. both hugepage and normal page). Our TLB lookup implementation in
+> smmu_iotlb_lookup() will always find the entry with the lowest level
+> (i.e. it prefers the hugepage over the normal page) and ignore any
+> others. TLB invalidation correctly removes all TLB entries matching
+> the specified address or address range (unless the guest specifies the
+> leaf level explicitly, in which case it gets what it asked for). So we
+"
+
+unless the guest specifies the
+leaf level explicitly, in which case it gets what it asked for
+
+"
+This is the less obvious part as the spec says:
+
+"A TLB invalidation operation removes all matching TLB entries even if
+overlapping entries exist for a given
+address."
+
+I failed to find further precisions about the range invalidation & BBML.
+
+If you are confident about this, it looks good to me.
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Eric
+
+
+
+
+> can validly advertise support for BBML level 2.
+>
+> Note that we still can't yet advertise ourselves as an SMMU v3.2,
+> because v3.2 requires support for the S2FWB feature, which we don't
+> yet implement.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/intc/Kconfig                     |  5 ++
->   hw/intc/loongarch_pch_msi.c         | 75 +++++++++++++++++++++++++++++
->   hw/intc/meson.build                 |  1 +
->   hw/intc/trace-events                |  3 ++
->   hw/loongarch/Kconfig                |  1 +
->   include/hw/intc/loongarch_pch_msi.h | 20 ++++++++
->   6 files changed, 105 insertions(+)
->   create mode 100644 hw/intc/loongarch_pch_msi.c
->   create mode 100644 include/hw/intc/loongarch_pch_msi.h
-> 
-> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-> index 1fbba2e728..71c04c328e 100644
-> --- a/hw/intc/Kconfig
-> +++ b/hw/intc/Kconfig
-> @@ -91,3 +91,8 @@ config LOONGARCH_IPI
->   config LOONGARCH_PCH_PIC
->       bool
->       select UNIMP
-> +
-> +config LOONGARCH_PCH_MSI
-> +    select MSI_NONBROKEN
-> +    bool
-> +    select UNIMP
-> diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
-> new file mode 100644
-> index 0000000000..57a894f3e5
-> --- /dev/null
-> +++ b/hw/intc/loongarch_pch_msi.c
-> @@ -0,0 +1,75 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * QEMU Loongson 7A1000 msi interrupt controller.
-> + *
-> + * Copyright (C) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/irq.h"
-> +#include "hw/intc/loongarch_pch_msi.h"
-> +#include "hw/intc/loongarch_pch_pic.h"
-> +#include "hw/pci/msi.h"
-> +#include "hw/misc/unimp.h"
-> +#include "migration/vmstate.h"
-> +#include "trace.h"
-> +
-> +static uint64_t loongarch_msi_mem_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    return 0;
-> +}
-> +
-> +static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
-> +                                    uint64_t val, unsigned size)
-> +{
-> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
-> +    int irq_num = val & 0xff;
-> +
-> +    trace_loongarch_msi_set_irq(irq_num);
-> +    qemu_set_irq(s->pch_msi_irq[irq_num - PCH_PIC_IRQ_NUM], 1);
-> +}
+>  hw/arm/smmuv3-internal.h | 1 +
+>  hw/arm/smmuv3.c          | 1 +
+>  2 files changed, 2 insertions(+)
+>
+> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+> index d1885ae3f25..e9150a6ff33 100644
+> --- a/hw/arm/smmuv3-internal.h
+> +++ b/hw/arm/smmuv3-internal.h
+> @@ -56,6 +56,7 @@ REG32(IDR2,                0x8)
+>  REG32(IDR3,                0xc)
+>       FIELD(IDR3, HAD,         2, 1);
+>       FIELD(IDR3, RIL,        10, 1);
+> +     FIELD(IDR3, BBML,       11, 2);
+>  REG32(IDR4,                0x10)
+>  REG32(IDR5,                0x14)
+>       FIELD(IDR5, OAS,         0, 3);
+> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+> index 707eb430c23..74bc2e85ee4 100644
+> --- a/hw/arm/smmuv3.c
+> +++ b/hw/arm/smmuv3.c
+> @@ -259,6 +259,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
+>  
+>      s->idr[3] = FIELD_DP32(s->idr[3], IDR3, RIL, 1);
+>      s->idr[3] = FIELD_DP32(s->idr[3], IDR3, HAD, 1);
+> +    s->idr[3] = FIELD_DP32(s->idr[3], IDR3, BBML, 2);
+>  
+>      /* 4K, 16K and 64K granule support */
+>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
 
-This really looks wrong to me: the PCI-MSI device has PCH_PIC_IRQ_NUM IRQs which are 
-wired up to EIOINTC with an offset of PCH_MSI_IRQ_START already. What you're saying 
-here is that you're manually setting the PCI-MSI IRQs using their EIOINTC IRQ number 
-instead of their input IRQ number?
-
-I think what you would want here is just:
-
-    assert(irq_num < PCH_MSI_IRQ_NUM);
-    trace_loongarch_msi_set_irq(irq_num);
-    qemu_set_irq(s->pch_msi_irq[irq_num], 1);
-
-Otherwise the PCH-MSI device has awareness of IRQ hierarchy outside of itself. 
-Presumably this is some kind of testing interface?
-
-> +static const MemoryRegionOps loongarch_pch_msi_ops = {
-> +    .read  = loongarch_msi_mem_read,
-> +    .write = loongarch_msi_mem_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +};
-> +
-> +static void pch_msi_irq_handler(void *opaque, int irq, int level)
-> +{
-> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
-> +
-> +    qemu_set_irq(s->pch_msi_irq[irq], level);
-> +}
-> +
-> +static void loongarch_pch_msi_init(Object *obj)
-> +{
-> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(obj);
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-> +    int i;
-> +
-> +    memory_region_init_io(&s->msi_mmio, obj, &loongarch_pch_msi_ops,
-> +                          s, TYPE_LOONGARCH_PCH_MSI, 0x8);
-> +    sysbus_init_mmio(sbd, &s->msi_mmio);
-> +    msi_nonbroken = true;
-> +
-> +    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
-> +        sysbus_init_irq(sbd, &s->pch_msi_irq[i]);
-> +    }
-> +    qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, PCH_MSI_IRQ_NUM);
-> +}
-
-Again I'd simply use GPIOs instead of sysbus_init_irq() here, similar to the example 
-given in my reply to the PCH-PIC patch.
-
-> +static const TypeInfo loongarch_pch_msi_info = {
-> +    .name          = TYPE_LOONGARCH_PCH_MSI,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(LoongArchPCHMSI),
-> +    .instance_init = loongarch_pch_msi_init,
-> +};
-> +
-> +static void loongarch_pch_msi_register_types(void)
-> +{
-> +    type_register_static(&loongarch_pch_msi_info);
-> +}
-> +
-> +type_init(loongarch_pch_msi_register_types)
-> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> index 960ce81a92..77a30cec33 100644
-> --- a/hw/intc/meson.build
-> +++ b/hw/intc/meson.build
-> @@ -64,3 +64,4 @@ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
->   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
->   specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
->   specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
-> +specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_MSI', if_true: files('loongarch_pch_msi.c'))
-> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-> index 1f343676ee..8bcc1b6992 100644
-> --- a/hw/intc/trace-events
-> +++ b/hw/intc/trace-events
-> @@ -300,3 +300,6 @@ loongarch_pch_pic_high_readw(unsigned size, uint32_t addr, unsigned long val) "s
->   loongarch_pch_pic_high_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
->   loongarch_pch_pic_readb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
->   loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-> +
-> +# loongarch_pch_msi.c
-> +loongarch_msi_set_irq(int irq_num) "set msi irq %d"
-> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-> index 2df45f7e8f..d814fc6103 100644
-> --- a/hw/loongarch/Kconfig
-> +++ b/hw/loongarch/Kconfig
-> @@ -4,3 +4,4 @@ config LOONGARCH_VIRT
->       select PCI_EXPRESS_GENERIC_BRIDGE
->       select LOONGARCH_IPI
->       select LOONGARCH_PCH_PIC
-> +    select LOONGARCH_PCH_MSI
-> diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
-> new file mode 100644
-> index 0000000000..f668bfca7a
-> --- /dev/null
-> +++ b/include/hw/intc/loongarch_pch_msi.h
-> @@ -0,0 +1,20 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * LoongArch 7A1000 I/O interrupt controller definitions
-> + *
-> + * Copyright (C) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +#define TYPE_LOONGARCH_PCH_MSI "loongarch_pch_msi"
-> +OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHMSI, LOONGARCH_PCH_MSI)
-> +
-> +/* Msi irq start start from 64 to 255 */
-> +#define PCH_MSI_IRQ_START   64
-> +#define PCH_MSI_IRQ_END     255
-> +#define PCH_MSI_IRQ_NUM     192
-> +
-> +struct LoongArchPCHMSI {
-> +    SysBusDevice parent_obj;
-> +    qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
-> +    MemoryRegion msi_mmio;
-> +};
-
-
-ATB,
-
-Mark.
 
