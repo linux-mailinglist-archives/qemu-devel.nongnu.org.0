@@ -2,78 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B47512F4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 11:09:52 +0200 (CEST)
-Received: from localhost ([::1]:59952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFB7512F4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 11:09:56 +0200 (CEST)
+Received: from localhost ([::1]:57962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk09n-0000t2-V2
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 05:09:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
+	id 1nk09r-0007xV-2n
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 05:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1njzzR-0003SO-4z
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 04:59:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39947)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nk01Y-0004LG-I0
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:01:20 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:45024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1njzzL-0000Ph-84
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 04:59:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651136342;
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nk01V-0000wy-Hz
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:01:20 -0400
+Received: from [192.168.13.13] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id EFDAA2077F;
+ Thu, 28 Apr 2022 09:01:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1651136472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PSxigUBiLwCUUCh5hX9i2sszZW/dC3HmEgXM1UxVKYU=;
- b=aTiR7EKOasxBHWm9S/jGcx0QfunuTsVe/P2llPcPTc6J6j6pNVkKRVXed+QWK+MYYTGPbZ
- n/z1KlTl4NpuETE1LJffpLkq1jdptI1gc0Cfe782saHnUyUUWM8Zcke2VtmAmRoWG3+dZX
- qvkvxAncLHkVh7LbbZSFnXGf6/qPiRM=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-Wl24JNEsOzea3-Sv1Uhpag-1; Thu, 28 Apr 2022 04:58:58 -0400
-X-MC-Unique: Wl24JNEsOzea3-Sv1Uhpag-1
-Received: by mail-yb1-f197.google.com with SMTP id
- r14-20020a25844e000000b00648bdf7491bso4042829ybm.1
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 01:58:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PSxigUBiLwCUUCh5hX9i2sszZW/dC3HmEgXM1UxVKYU=;
- b=Bm15PiyaYT/2bpIwX1DJhEpbLOdHTARtBMxBG91xjIesT1GkMptW/1DFmN5M0J1BoS
- iLTufaIb3e0snNv0TpEFtVmDkyIPOSokyTcuWLnjSJDoB3KkLoBVlQTqZwq9Lg8BAO2b
- GpOWazf5/eSTh2yHtVq6qW51XcWlG9RYKrmoRwMb//3xPpBejFbobr0Aiycke4K8uC/p
- gY6OYey9cQAPLQ7bz7OTVrUXjLL22ue7kwRQhz/WRCafrZy5IFNtNvAhLnz6l9uSvXNa
- jiBPyXUv2bQnl/CHBLNU96L5dKVjeM3/0aDjrz4DFsjoAZ0Brq2WD662jieZKYe3hdWI
- fgLQ==
-X-Gm-Message-State: AOAM532PAtL3R85sYyTFL5Gm/kT6Coh8A1+0haoyHlSqJbnna8SQxjFt
- Zzgdmiz9UBTxeM3htUSCi2RkElCGitUY/dH/r+xzDYSiAM3GJLAumfmSuuQ83LdUkH9gGpQPaR3
- akkgMy9q3f27fu6PZ1wg7ueBGP3XePhY=
-X-Received: by 2002:a5b:312:0:b0:633:75de:5ab4 with SMTP id
- j18-20020a5b0312000000b0063375de5ab4mr31549752ybp.124.1651136338064; 
- Thu, 28 Apr 2022 01:58:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyz446VM9UtBxB3ypL/mBfF9F6Og1xnOozd/Rh5RSKIxXhcefeN7Krd64ntRnjtd9dz9z9IpmIbQSVDmXsogNI=
-X-Received: by 2002:a5b:312:0:b0:633:75de:5ab4 with SMTP id
- j18-20020a5b0312000000b0063375de5ab4mr31549741ybp.124.1651136337869; Thu, 28
- Apr 2022 01:58:57 -0700 (PDT)
+ bh=OPyRBvGeDHj/4yHedMKZ2ElcVJCG1kRLNO4UoJVLCO0=;
+ b=CUUwaqcQoNGZ+5h8lGSIMxSgflaZGgvTmpurwrhhUKCkO9tYzNauoEY6h1Uxsxv5gaS4md
+ 5MdfJGhE4moZgY9f7TQphKEbPBauL7yzy6m9zeLFrSS1m6QmHJjUnrWB6nG+QIJO0lAG8d
+ AHx8D1Kl2IcxsuWXb910FAM3O3jMN5Y=
+Message-ID: <5cfd30b7-973c-337b-d3d3-057819f11354@greensocs.com>
+Date: Thu, 28 Apr 2022 11:01:10 +0200
 MIME-Version: 1.0
-References: <20220428001450.13997-1-helei.sig11@bytedance.com>
-In-Reply-To: <20220428001450.13997-1-helei.sig11@bytedance.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 28 Apr 2022 12:58:46 +0400
-Message-ID: <CAMxuvawaXHkZMW=sLZwnbdTG2YZCN6ZGaFgFciyogFoqJdjcNQ@mail.gmail.com>
-Subject: Re: [PATCH] error-report: fix crash when compute iso8061 time
-To: Lei He <helei.sig11@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] docs/devel: add doc about device life cycles
+Content-Language: en-US-large
+To: qemu-devel@nongnu.org
+References: <20220422142851.28128-1-damien.hedde@greensocs.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <20220422142851.28128-1-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,68 +66,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, peter.maydell@linaro.org,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Any feedback ?
 
-On Thu, Apr 28, 2022 at 4:15 AM Lei He <helei.sig11@bytedance.com> wrote:
->
-> g_get_real_time() returns the number of MICROSECONDS since
-> January 1, 1970 UTC, but g_date_time_new_from_unix_utc() expects
-> a timestamp in SECONDS.
->
-> Directly call g_data_time_new_from_unix_utc(g_get_real_time()) causes
-> overflow and a NULL pointer is returned, then qemu crashes.
->
-> Use g_date_time_new_now_utc() instead, and add a check for NULL result.
->
-> Signed-off-by: Lei He <helei.sig11@bytedance.com>
+--
+Thanks,
 
-A fix is already in Paolo last pull request:
-https://patchew.org/QEMU/20220428065335.189795-1-pbonzini@redhat.com/20220428065335.189795-2-pbonzini@redhat.com/
-
-thanks
-
+On 4/22/22 16:28, Damien Hedde wrote:
+> Document the 3 life cycles cases that can happen with devices.
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->  util/error-report.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/util/error-report.c b/util/error-report.c
-> index dbadaf206d..d3c150661d 100644
-> --- a/util/error-report.c
-> +++ b/util/error-report.c
-> @@ -173,10 +173,13 @@ static char *
->  real_time_iso8601(void)
->  {
->  #if GLIB_CHECK_VERSION(2,62,0)
-> -    g_autoptr(GDateTime) dt = g_date_time_new_from_unix_utc(g_get_real_time());
-> +    g_autoptr(GDateTime) dt = g_date_time_new_now_utc();
->      /* ignore deprecation warning, since GLIB_VERSION_MAX_ALLOWED is 2.56 */
->  #pragma GCC diagnostic push
->  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-> +    if (!dt) {
-> +        return NULL;
-> +    }
->      return g_date_time_format_iso8601(dt);
->  #pragma GCC diagnostic pop
->  #else
-> @@ -199,8 +202,10 @@ static void vreport(report_type type, const char *fmt, va_list ap)
->
->      if (message_with_timestamp && !monitor_cur()) {
->          timestr = real_time_iso8601();
-> -        error_printf("%s ", timestr);
-> -        g_free(timestr);
-> +        if (timestr) {
-> +            error_printf("%s ", timestr);
-> +            g_free(timestr);
-> +        }
->      }
->
->      /* Only prepend guest name if -msg guest-name and -name guest=... are set */
-> --
-> 2.11.0
->
-
+> 
+> Hi all,
+> 
+> It's been a few weeks I wanted to propose this in order to sort
+> out what should be done to make a 'user-creatable' device.
+> 
+> This is a follow up of [1] in which Peter asked for this point to
+> be clarified.
+> 
+> [1]: https://lore.kernel.org/qemu-devel/a2967493-fd00-8f9b-29bd-56baaae9f89a@greensocs.com/
+> 
+> Thanks,
+> Damien
+> ---
+>   docs/devel/device.rst          | 111 +++++++++++++++++++++++++++++++++
+>   docs/devel/index-internals.rst |   1 +
+>   MAINTAINERS                    |   1 +
+>   3 files changed, 113 insertions(+)
+>   create mode 100644 docs/devel/device.rst
+> 
+> diff --git a/docs/devel/device.rst b/docs/devel/device.rst
+> new file mode 100644
+> index 0000000000..80e3016e80
+> --- /dev/null
+> +++ b/docs/devel/device.rst
+> @@ -0,0 +1,111 @@
+> +QEMU device life-cycle
+> +======================
+> +
+> +This document details the specifics of devices.
+> +
+> +Devices can be created in two ways: either internally by code or through a
+> +user interface:
+> +
+> ++ command line interface provides ``-device`` option
+> ++ QAPI interface provides ``device_add`` command
+> +
+> +Error handling is most important for the user interfaces. Internal code is
+> +generally designed so that errors do not happen and if some happen, the error
+> +is probably fatal (and QEMU will exit or abort).
+> +
+> +Devices are a particular type of QEMU objects. In addition of the
+> +``instance_init``, ``instance_post_init``, ``unparent`` and
+> +``instance_finalize`` methods (common to all QOM objects), they have the
+> +additional methods:
+> +
+> ++ ``realize``
+> ++ ``unrealize``
+> +
+> +In the following we will ignore ``instance_post_init`` and consider is
+> +associated with ``instance_init``.
+> +
+> +``realize`` is the only method that can fail. In that case it should
+> +return an adequate error. Some devices does not do this and should
+> +not be created by means of user interfaces.
+> +
+> +Device succesfully realized
+> +---------------------------
+> +
+> +The normal use case for device is the following:
+> +
+> +1. ``instance_init``
+> +2. ``realize`` with success
+> +3. The device takes part in emulation
+> +4. ``unrealize`` and ``unparent``
+> +5. ``instance_finalize``
+> +
+> +``instance_init`` and ``realize`` are part of the device creation procedure, whereas
+> +``unrealize`` and ``instance_finalize`` are part of the device deletion procedure.
+> +
+> +In case of an object created by code, ``realize`` has to be done explicitly
+> +(eg: by calling ``qdev_realize(...)``). This is done automatically in case of a
+> +device created via a user interface.
+> +
+> +On the other hand ``unrealize`` is done automatically.
+> +``unparent`` will take care of unrealizing the device then undoing any bus
+> +relationships (children and parent).
+> +
+> +Note that ``instance_finalize`` may not occur just after ``unrealize`` because
+> +other objects than the parent can hold references to a device. It may even not
+> +happen at all if a reference is never released.
+> +
+> +Device realize failure
+> +----------------------
+> +
+> +This use case is most important when the device is created through a user
+> +interface. The user might for example invalid properties and in that case
+> +realize will fail and the device should then be deleted.
+> +
+> +1. ``instance_init``
+> +2. ``realize`` failure
+> +3. ``unparent``
+> +4. ``instance_finalize``
+> +
+> +Failure to create a device should not leave traces. The emulation state after
+> +that should be as if the device has not be created. ``realize`` and
+> +``instance_finalize`` must take care of this.
+> +
+> +Device help
+> +-----------
+> +
+> +Last use case is only a user interface case. When requesting help about a device
+> +type, the following life cycle exists:
+> +
+> +1. ``instance_init``
+> +2. Introspect device properties
+> +3. ``unparent``
+> +4. ``instance_finalize``
+> +
+> +This use case is simple but it means that ``instance_finalize`` cannot assume that
+> +``realize`` has been called.
+> +
+> +Implementation consequences
+> +---------------------------
+> +
+> +A device developer should ensure the above use cases are
+> +supported so that the device is *user-creatable*.
+> +
+> +In particular, fail cases must checked in realize and reported using the error
+> +parameter. One should particularly take care of cleaning correctly whatever has
+> +been previously done if realize fails. Cleaning tasks (eg: memory freeing) can
+> +be done in ``realize`` or ``instance_finalize`` as they will be called in a row by
+> +the user interface.
+> +
+> +To this end ``realize`` must ensure than no additional reference to the device is
+> +dangling when it fails. Otherwise the device will never be finalized and deleted.
+> +
+> +If a device has created some children, they should be deleted as well in the
+> +cleaning process. If ``object_initialize_child()`` was used to create a child
+> +hosted into the device structure, the child memory space will disappear with the
+> +parent. No reference to such child must be dangling to ensure the child will
+> +not survive its parent deletion.
+> +
+> +Although it is not asserted by code, one can assume ``realize`` will not be tried
+> +again in case of failure and that the device will be finalized if no references
+> +have been added during ``realize``.
+> +
+> diff --git a/docs/devel/index-internals.rst b/docs/devel/index-internals.rst
+> index bb118b8eaf..57a5136b6e 100644
+> --- a/docs/devel/index-internals.rst
+> +++ b/docs/devel/index-internals.rst
+> @@ -11,6 +11,7 @@ Details about QEMU's various subsystems including how to add features to them.
+>      atomics
+>      block-coroutine-wrapper
+>      clocks
+> +   device
+>      ebpf_rss
+>      migration
+>      multi-process
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8bab48cf1e..c5fa80adf1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2853,6 +2853,7 @@ R: Daniel P. Berrange <berrange@redhat.com>
+>   R: Eduardo Habkost <eduardo@habkost.net>
+>   S: Supported
+>   F: docs/qdev-device-use.txt
+> +F: docs/devel/device.rst
+>   F: hw/core/qdev*
+>   F: hw/core/bus.c
+>   F: hw/core/sysbus.c
 
