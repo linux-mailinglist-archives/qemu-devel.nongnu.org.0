@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701BB51382F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:21:52 +0200 (CEST)
-Received: from localhost ([::1]:53222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718A65137E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:12:30 +0200 (CEST)
+Received: from localhost ([::1]:55994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk5xn-0006Rv-Go
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45698)
+	id 1nk5oj-000603-Hx
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5K6-0005dr-6L
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:50 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36503)
+ id 1nk5K7-0005gi-Tw
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:52 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5K4-0006VR-EJ
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:49 -0400
-Received: by mail-wr1-x434.google.com with SMTP id u3so7098562wrg.3
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:48 -0700 (PDT)
+ id 1nk5K5-0006Vf-UU
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:51 -0400
+Received: by mail-wm1-x335.google.com with SMTP id bg25so3069218wmb.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mYyODwFcMHLdN9TkUuzBBFcMGJ14nt1LpKq9Utsp+38=;
- b=kw///7V2s7mfLTcZjEAa9r1DEw93Lra5NsRZn+Ik2MTM5OoWdk2lPHb5U1oaGFsfs+
- AG6dt1OSfMFbEKh8UKeXrhzlomjXvnDSmuDD7nvUvJ7iD5fdBspbbHqn0APUAldTM1Vu
- tR/Uo5Z9lErhQM5IqZDmwNu2k6opW9nkPRhz0mCG+A11vabAAz9WhHhuA/Uf5JWzsnmz
- SNJIQerXDNWyeUCfEJPRJHqIYADRxUdFI73kAw4YQw53hcVxIYFsCc5SL15gcUHFof5s
- UHVdHZgKjPVoUxU0gfdatWPTyBPQHdUHV1yZ1cyIIISIImRirxvdk/5wfvTJobP1Yy5N
- mQzg==
+ bh=zcbQ/6t+eYvR1xX9UosyZUxzrXgkRoMDs+Bnhnu9fZU=;
+ b=ayPBz7wev04U0gyfsWegJY4IxoNpq8aOXEjEBJsgBXvQH19oM2o5dCs/s+pQU/A0Kd
+ 2uVyXJzc5qyHTIgFvYrgw+6gJn50Lxt59pzjY/57cb+CV43HrGgV8BDXGZRWiFmJhKRC
+ gaFCjea9Afe01Mwm+5jbFxovkRsB6fkx4c2gk/N7D4ZQI32glZz7BtknUflDeEzGVZfy
+ CVHCuD/NC5YCIHCrZ1SMdLAtugYhfcLqq8KaT0VR1M+9ZA6gzshUC8L1fvKXjhBxDscc
+ B6ZhjZtimaRBRYolcoKypT8BkP8kddhkHjy6k9NtjebFV/4GEGrdna9EDiLy4fRYlM1Q
+ oP3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mYyODwFcMHLdN9TkUuzBBFcMGJ14nt1LpKq9Utsp+38=;
- b=MzRL2XtGZmBnLdTcBAtML9cAnQI+NtPvwVHKQiy+VPvQS6nMbdkullpA+uewPn32c0
- tBBylqUeNs/8vgWdX/iNZEmJ26vEdESwL9ptG+wZqL6kMqDx9Cnp5lkWM/6XMo9kaATc
- HeBJakY2cuT2t/dJ8h5mBrWiH8DXIRIf9pESXVvG/jA/sWAblIdG1G89F8k6DZKEsyrW
- ZQT7bJv9TAzSVp/4Q6ADL1znIJjV9lOgXy5RRwBnMReO01/yIjvjhka/5zUMchdMhl8D
- CZcAGG7lNTllcKYWT6pVQ6R5NmJLHtswIzfw/LZP7kUQxe1D9YeSJHKux3jJ8Tuo8oXv
- CH4g==
-X-Gm-Message-State: AOAM5315LknYoIaJmktyXZLYh4krQErAlkDT3USgE9mqnm1K3vQPgN5S
- 4ozs5RO0Gp2KuzCr27vtPryp/+SblKIKKQ==
-X-Google-Smtp-Source: ABdhPJyZNvADBvFlcI6Fj+RxM4NMUALAIdXWSq+MECO69BnL3E/dSAF65k5pMT63YoMTee+qoLq9OQ==
-X-Received: by 2002:a5d:6d89:0:b0:20a:9beb:9477 with SMTP id
- l9-20020a5d6d89000000b0020a9beb9477mr26265827wrs.142.1651156847083; 
- Thu, 28 Apr 2022 07:40:47 -0700 (PDT)
+ bh=zcbQ/6t+eYvR1xX9UosyZUxzrXgkRoMDs+Bnhnu9fZU=;
+ b=AV2gJNa4NKwoOl1q5vj9i3CxJjpCptjyjQnMEx/cOWdNsalFpRkVENDPBGdD26mWVT
+ FHQw4stdfxiHMXHULMod7dELns/FICkzj97FNtwsAHo/AYfz3sw4pPal4WXDBJH528Fr
+ LJaCeFLnhkLmI5jv7JkdYqduh1cbEBG2hTjPzfVBCpfa4FZW2trnoWyj8V3HT3NlxodM
+ +azu5FeYLxfTpUqS4Rl3IGYSFXwtm5OGk6GWUVhY2x3zfzXYacID7vx3lPKqTLvUHopn
+ thdNAw4P453fhSHMPM6B1EIbDWHaxztHFZOo7do4D1Syv3FDIVCQRPxHRofuW1LBb8/p
+ dMWw==
+X-Gm-Message-State: AOAM533f3J6ncrYS0TQQPQ9m/jWO/29XU9b+VSIJU2PxApzUkDspEUXs
+ D86xUQi1MRDsy14vHBfH5floDWUFRan8mw==
+X-Google-Smtp-Source: ABdhPJw7Vj7YXUOEYFk8QUG3t07P7UK13m+uCvwGYDIkF0BqabrEZVl5hUddaO1bknXy3RZpgbJbSg==
+X-Received: by 2002:a7b:c7c2:0:b0:394:18b:4220 with SMTP id
+ z2-20020a7bc7c2000000b00394018b4220mr8225812wmk.118.1651156848209; 
+ Thu, 28 Apr 2022 07:40:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.40.46
+ bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.40.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 07:40:46 -0700 (PDT)
+ Thu, 28 Apr 2022 07:40:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 49/54] target/arm: Use field names for accessing DBGWCRn
-Date: Thu, 28 Apr 2022 15:39:53 +0100
-Message-Id: <20220428143958.2451229-50-peter.maydell@linaro.org>
+Subject: [PULL 50/54] hw/arm/smmuv3: Cache event fault record
+Date: Thu, 28 Apr 2022 15:39:54 +0100
+Message-Id: <20220428143958.2451229-51-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220428143958.2451229-1-peter.maydell@linaro.org>
 References: <20220428143958.2451229-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,159 +88,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-While defining these names, use the correct field width of 5 not 4 for
-DBGWCR.MASK.  This typo prevented setting a watchpoint larger than 32k.
+The Record bit in the Context Descriptor tells the SMMU to report fault
+events to the event queue. Since we don't cache the Record bit at the
+moment, access faults from a cached Context Descriptor are never
+reported. Store the Record bit in the cached SMMUTransCfg.
 
-Reported-by: Chris Howard <cvz185@web.de>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20220427051926.295223-1-richard.henderson@linaro.org
+Fixes: 9bde7f0674fe ("hw/arm/smmuv3: Implement translate callback")
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20220427111543.124620-1-jean-philippe@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h    | 12 ++++++++++++
- target/arm/debug_helper.c | 10 +++++-----
- target/arm/helper.c       |  8 ++++----
- target/arm/kvm64.c        | 14 +++++++-------
- 4 files changed, 28 insertions(+), 16 deletions(-)
+ hw/arm/smmuv3-internal.h     |  1 -
+ include/hw/arm/smmu-common.h |  1 +
+ hw/arm/smmuv3.c              | 14 +++++++-------
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 9556e3b29e4..255833479d4 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -81,6 +81,18 @@ FIELD(V7M_EXCRET, RES1, 7, 25) /* including the must-be-1 prefix */
-  */
- #define FNC_RETURN_MIN_MAGIC 0xfefffffe
- 
-+/* Bit definitions for DBGWCRn and DBGWCRn_EL1 */
-+FIELD(DBGWCR, E, 0, 1)
-+FIELD(DBGWCR, PAC, 1, 2)
-+FIELD(DBGWCR, LSC, 3, 2)
-+FIELD(DBGWCR, BAS, 5, 8)
-+FIELD(DBGWCR, HMC, 13, 1)
-+FIELD(DBGWCR, SSC, 14, 2)
-+FIELD(DBGWCR, LBN, 16, 4)
-+FIELD(DBGWCR, WT, 20, 1)
-+FIELD(DBGWCR, MASK, 24, 5)
-+FIELD(DBGWCR, SSCE, 29, 1)
-+
- /* We use a few fake FSR values for internal purposes in M profile.
-  * M profile cores don't have A/R format FSRs, but currently our
-  * get_phys_addr() code assumes A/R profile and reports failures via
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 32f3caec238..46893697cc7 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -143,9 +143,9 @@ static bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
-      * Non-Secure to simplify the code slightly compared to the full
-      * table in the ARM ARM.
-      */
--    pac = extract64(cr, 1, 2);
--    hmc = extract64(cr, 13, 1);
--    ssc = extract64(cr, 14, 2);
-+    pac = FIELD_EX64(cr, DBGWCR, PAC);
-+    hmc = FIELD_EX64(cr, DBGWCR, HMC);
-+    ssc = FIELD_EX64(cr, DBGWCR, SSC);
- 
-     switch (ssc) {
-     case 0:
-@@ -184,8 +184,8 @@ static bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
-         g_assert_not_reached();
+diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+index d1885ae3f25..6de52bbf4da 100644
+--- a/hw/arm/smmuv3-internal.h
++++ b/hw/arm/smmuv3-internal.h
+@@ -387,7 +387,6 @@ typedef struct SMMUEventInfo {
+     SMMUEventType type;
+     uint32_t sid;
+     bool recorded;
+-    bool record_trans_faults;
+     bool inval_ste_allowed;
+     union {
+         struct {
+diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+index 706be3c6d0a..21e62342e92 100644
+--- a/include/hw/arm/smmu-common.h
++++ b/include/hw/arm/smmu-common.h
+@@ -71,6 +71,7 @@ typedef struct SMMUTransCfg {
+     bool disabled;             /* smmu is disabled */
+     bool bypassed;             /* translation is bypassed */
+     bool aborted;              /* translation is aborted */
++    bool record_faults;        /* record fault events */
+     uint64_t ttb;              /* TT base address */
+     uint8_t oas;               /* output address width */
+     uint8_t tbi;               /* Top Byte Ignore */
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 707eb430c23..8b1d8103dc8 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -527,7 +527,7 @@ static int decode_cd(SMMUTransCfg *cfg, CD *cd, SMMUEventInfo *event)
+         trace_smmuv3_decode_cd_tt(i, tt->tsz, tt->ttb, tt->granule_sz, tt->had);
      }
  
--    wt = extract64(cr, 20, 1);
--    lbn = extract64(cr, 16, 4);
-+    wt = FIELD_EX64(cr, DBGWCR, WT);
-+    lbn = FIELD_EX64(cr, DBGWCR, LBN);
+-    event->record_trans_faults = CD_R(cd);
++    cfg->record_faults = CD_R(cd);
  
-     if (wt && !linked_bp_matches(cpu, lbn)) {
-         return false;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 63397bbac1d..5a244c3ed93 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6320,12 +6320,12 @@ void hw_watchpoint_update(ARMCPU *cpu, int n)
-         env->cpu_watchpoint[n] = NULL;
-     }
+     return 0;
  
--    if (!extract64(wcr, 0, 1)) {
-+    if (!FIELD_EX64(wcr, DBGWCR, E)) {
-         /* E bit clear : watchpoint disabled */
-         return;
-     }
+@@ -680,7 +680,7 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
  
--    switch (extract64(wcr, 3, 2)) {
-+    switch (FIELD_EX64(wcr, DBGWCR, LSC)) {
-     case 0:
-         /* LSC 00 is reserved and must behave as if the wp is disabled */
-         return;
-@@ -6344,7 +6344,7 @@ void hw_watchpoint_update(ARMCPU *cpu, int n)
-      * CONSTRAINED UNPREDICTABLE; we opt to ignore BAS in this case,
-      * thus generating a watchpoint for every byte in the masked region.
-      */
--    mask = extract64(wcr, 24, 4);
-+    mask = FIELD_EX64(wcr, DBGWCR, MASK);
-     if (mask == 1 || mask == 2) {
-         /* Reserved values of MASK; we must act as if the mask value was
-          * some non-reserved value, or as if the watchpoint were disabled.
-@@ -6361,7 +6361,7 @@ void hw_watchpoint_update(ARMCPU *cpu, int n)
-         wvr &= ~(len - 1);
-     } else {
-         /* Watchpoint covers bytes defined by the byte address select bits */
--        int bas = extract64(wcr, 5, 8);
-+        int bas = FIELD_EX64(wcr, DBGWCR, BAS);
-         int basstart;
- 
-         if (extract64(wvr, 2, 1)) {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 17dd2f77d9f..b8cfaf5782a 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -208,7 +208,7 @@ static int insert_hw_watchpoint(target_ulong addr,
-                                 target_ulong len, int type)
- {
-     HWWatchpoint wp = {
--        .wcr = 1, /* E=1, enable */
-+        .wcr = R_DBGWCR_E_MASK, /* E=1, enable */
-         .wvr = addr & (~0x7ULL),
-         .details = { .vaddr = addr, .len = len }
-     };
-@@ -221,19 +221,19 @@ static int insert_hw_watchpoint(target_ulong addr,
-      * HMC=0 SSC=0 PAC=3 will hit EL0 or EL1, any security state,
-      * valid whether EL3 is implemented or not
-      */
--    wp.wcr = deposit32(wp.wcr, 1, 2, 3);
-+    wp.wcr = FIELD_DP64(wp.wcr, DBGWCR, PAC, 3);
- 
-     switch (type) {
-     case GDB_WATCHPOINT_READ:
--        wp.wcr = deposit32(wp.wcr, 3, 2, 1);
-+        wp.wcr = FIELD_DP64(wp.wcr, DBGWCR, LSC, 1);
-         wp.details.flags = BP_MEM_READ;
-         break;
-     case GDB_WATCHPOINT_WRITE:
--        wp.wcr = deposit32(wp.wcr, 3, 2, 2);
-+        wp.wcr = FIELD_DP64(wp.wcr, DBGWCR, LSC, 2);
-         wp.details.flags = BP_MEM_WRITE;
-         break;
-     case GDB_WATCHPOINT_ACCESS:
--        wp.wcr = deposit32(wp.wcr, 3, 2, 3);
-+        wp.wcr = FIELD_DP64(wp.wcr, DBGWCR, LSC, 3);
-         wp.details.flags = BP_MEM_ACCESS;
-         break;
-     default:
-@@ -252,8 +252,8 @@ static int insert_hw_watchpoint(target_ulong addr,
-             int bits = ctz64(len);
- 
-             wp.wvr &= ~((1 << bits) - 1);
--            wp.wcr = deposit32(wp.wcr, 24, 4, bits);
--            wp.wcr = deposit32(wp.wcr, 5, 8, 0xff);
-+            wp.wcr = FIELD_DP64(wp.wcr, DBGWCR, MASK, bits);
-+            wp.wcr = FIELD_DP64(wp.wcr, DBGWCR, BAS, 0xff);
-         } else {
-             return -ENOBUFS;
-         }
+     tt = select_tt(cfg, addr);
+     if (!tt) {
+-        if (event.record_trans_faults) {
++        if (cfg->record_faults) {
+             event.type = SMMU_EVT_F_TRANSLATION;
+             event.u.f_translation.addr = addr;
+             event.u.f_translation.rnw = flag & 0x1;
+@@ -696,7 +696,7 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+     if (cached_entry) {
+         if ((flag & IOMMU_WO) && !(cached_entry->entry.perm & IOMMU_WO)) {
+             status = SMMU_TRANS_ERROR;
+-            if (event.record_trans_faults) {
++            if (cfg->record_faults) {
+                 event.type = SMMU_EVT_F_PERMISSION;
+                 event.u.f_permission.addr = addr;
+                 event.u.f_permission.rnw = flag & 0x1;
+@@ -720,28 +720,28 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+             event.u.f_walk_eabt.addr2 = ptw_info.addr;
+             break;
+         case SMMU_PTW_ERR_TRANSLATION:
+-            if (event.record_trans_faults) {
++            if (cfg->record_faults) {
+                 event.type = SMMU_EVT_F_TRANSLATION;
+                 event.u.f_translation.addr = addr;
+                 event.u.f_translation.rnw = flag & 0x1;
+             }
+             break;
+         case SMMU_PTW_ERR_ADDR_SIZE:
+-            if (event.record_trans_faults) {
++            if (cfg->record_faults) {
+                 event.type = SMMU_EVT_F_ADDR_SIZE;
+                 event.u.f_addr_size.addr = addr;
+                 event.u.f_addr_size.rnw = flag & 0x1;
+             }
+             break;
+         case SMMU_PTW_ERR_ACCESS:
+-            if (event.record_trans_faults) {
++            if (cfg->record_faults) {
+                 event.type = SMMU_EVT_F_ACCESS;
+                 event.u.f_access.addr = addr;
+                 event.u.f_access.rnw = flag & 0x1;
+             }
+             break;
+         case SMMU_PTW_ERR_PERMISSION:
+-            if (event.record_trans_faults) {
++            if (cfg->record_faults) {
+                 event.type = SMMU_EVT_F_PERMISSION;
+                 event.u.f_permission.addr = addr;
+                 event.u.f_permission.rnw = flag & 0x1;
 -- 
 2.25.1
 
