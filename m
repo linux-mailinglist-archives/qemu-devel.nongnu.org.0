@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35088513809
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:18:12 +0200 (CEST)
-Received: from localhost ([::1]:44532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66840513792
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:59:43 +0200 (CEST)
+Received: from localhost ([::1]:53778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk5uD-0000ZC-Je
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:18:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45244)
+	id 1nk5cM-0002DM-Gp
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5Jp-0005X5-Dk
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:38 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:47044)
+ id 1nk5Ju-0005ZJ-T4
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:40 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5Jm-0006NI-Q4
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:32 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- l62-20020a1c2541000000b0038e4570af2fso3144899wml.5
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:29 -0700 (PDT)
+ id 1nk5Jn-0006Nj-3F
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:33 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ c190-20020a1c35c7000000b0038e37907b5bso5452206wma.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Ibs0YQIPKnCUXyTop+YLhuEAiwNbq0oQD0taXCbtZ/w=;
- b=VEfGJcqCiUn7NmL3nqW85RIff2jLVxqvSoAvCtgS4Ik1RbEUzWDZeRM+1vhQcJzRb0
- w2FHAx4fSHMSczKkfnMEgNZ1EovyeyTv4FndJanAxM1U8ixeUqVdfuukMCG3dsxr32JD
- rRzSUzibx5ZAD7zoVWU8iD18oIDIvv0LsDriGpJisHcEzYHoG9Iv+nHnU1H9oc4csxZE
- y2xVIu7YDjUuojHas6+m8cL6zmU9P6zYEDN9KuCv+FzMP18AGwXTy5IMWeR9dFqCB6yu
- AdfO00xRpkdaOvmaKpuiOvTr8eCl/O68pMm0LVAEdMF24Vv2p6u1O8UiCTewiYVOlllM
- fiDg==
+ bh=y0kwJP/iPVdJaEA344sDAv/Ij9ceNJt/PMRKXBvbIvI=;
+ b=C/OaKhnO3RAvbLN2ux3DnqfItdvngP8wjqWMwFiJvB1k+O6ZQWG5bDaEmKUAJVimVZ
+ Z5juux2ZK6ve+jmPQb0+fmk1rGGfl/qX92pJAJ8TP9ihAD+dvBBlQvK21+U5ajMVH2ef
+ Qfnus8K1JbpTuY+b1Efd3XW4c9lCAqd9/TMDla3Tmz+qmytNs/T67LqTKy8NWGNWBcWh
+ 3HimZG+S+oi/U7byT8N4dArcPRvwb4oGmhv1g0O02rn0towquTmo3YItlD+OWVo7XHPq
+ Nm7G46fe239zoeM14VZ6pxro6q0w3uHgx2Ftu19JUbpNvChMw3Ew6MhMdvEbzh2ufioR
+ WhfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ibs0YQIPKnCUXyTop+YLhuEAiwNbq0oQD0taXCbtZ/w=;
- b=I4YG5natJHtBGRp2xA8VVlLFXYFzv5qD6I/UM2AXBRoVxuOecAGYk/rsT9+Qp/TYN8
- S7lmW6NGX11Jn0Xx7WznBJpsCXzlGid6SIUTUKhnG0WFu9dv7oHTTPt1mA4aBWLvIRCR
- efdkEZ18hNQwyoFcfHY9wtEp/bBnqcj1dA+o8fOb1Y/mJdNDvQ95HKU2ss9fgOfUs4cX
- /+88JnsyudcpiHzhKuTvm+1zXZcZSBTqHXiERLgAT88X2lw11xPEwdVvYN4CDyhymcsS
- 69iX2JGIp/8F+tKVrjeYqy7ZxuBnqQMPOxgYgz1p/y5P58twk7vFSu3RGxxm4DygVH1V
- 7Vkg==
-X-Gm-Message-State: AOAM532TnXjOYiLHwunI60VNugBfxhA8budjaGaKyUdzSAsqr2lAvBE0
- NWkgHh5ESGFui4cYnt1fh7eYXRZOCNQjTg==
-X-Google-Smtp-Source: ABdhPJyWtH8zb/nJwRtaBtE099bVLXaIZPlPKHNvLakZ8ZphmcHTKnYVsbJdMmD959tJgqd9E4wVuA==
-X-Received: by 2002:a05:600c:3493:b0:38e:bbbb:26f7 with SMTP id
- a19-20020a05600c349300b0038ebbbb26f7mr31162409wmq.114.1651156828912; 
- Thu, 28 Apr 2022 07:40:28 -0700 (PDT)
+ bh=y0kwJP/iPVdJaEA344sDAv/Ij9ceNJt/PMRKXBvbIvI=;
+ b=y2xrLAzAAWeHUAo26uOHNg3vgf21l2m2RLX/yl84yxPxNE09xylQXYy/X+oiiGQa1b
+ KV+gKqVMMSnuBPSt/y6XjOMGgohdl/5sjmFS3WfjPdIQsLBp2KzkYfRgpoB49cLiXdzv
+ IQgt2+6Spe98QcT0O8WAHRJFqE7zn18wEIkcFcRZMsRGedCj7AoXmn1sjYlxc00QADKA
+ cvzbap+xxkTIXjGmeo6Ql0MBj/cLWR2O8hF8lRrC7puYamcgqZan3rdWIYsPBxbai3KF
+ lSjG6GooqrcCWynQQQmp1ojDHMEMsfphh4lVwrc7S2cW99X3QbxjT/T9Soyj67Jck+yA
+ TYNw==
+X-Gm-Message-State: AOAM531vs7CncmBUagKXdPaorYfPqdxNeRuX7Y6sN91SBtKtvTsRYH3F
+ rP8WvchygzqQXhCRZYw/4yaNoIHUweSx2g==
+X-Google-Smtp-Source: ABdhPJxn1xBmUzUz1dHgetUl0oSQxPafLRnKSLp5FEvFv/OxxotHXB2gsUIkGyWrnRLPHqKGT/iOCA==
+X-Received: by 2002:a05:600c:3b97:b0:393:e653:61d4 with SMTP id
+ n23-20020a05600c3b9700b00393e65361d4mr24502149wms.64.1651156829610; 
+ Thu, 28 Apr 2022 07:40:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.40.28
+ bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.40.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 07:40:28 -0700 (PDT)
+ Thu, 28 Apr 2022 07:40:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/54] target/arm: Use tcg_constant for gen_srs
-Date: Thu, 28 Apr 2022 15:39:31 +0100
-Message-Id: <20220428143958.2451229-28-peter.maydell@linaro.org>
+Subject: [PULL 28/54] target/arm: Use tcg_constant for op_s_{rri,rxi}_rot
+Date: Thu, 28 Apr 2022 15:39:32 +0100
+Message-Id: <20220428143958.2451229-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220428143958.2451229-1-peter.maydell@linaro.org>
 References: <20220428143958.2451229-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,41 +93,50 @@ From: Richard Henderson <richard.henderson@linaro.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220426163043.100432-28-richard.henderson@linaro.org
+Message-id: 20220426163043.100432-29-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ target/arm/translate.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index e4f3db26f66..8476f259fcc 100644
+index 8476f259fcc..223fd5fdfe7 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5137,12 +5137,10 @@ static void gen_srs(DisasContext *s,
-     }
+@@ -5495,18 +5495,16 @@ static bool op_s_rri_rot(DisasContext *s, arg_s_rri_rot *a,
+                          void (*gen)(TCGv_i32, TCGv_i32, TCGv_i32),
+                          int logic_cc, StoreRegKind kind)
+ {
+-    TCGv_i32 tmp1, tmp2;
++    TCGv_i32 tmp1;
+     uint32_t imm;
  
-     addr = tcg_temp_new_i32();
--    tmp = tcg_const_i32(mode);
-     /* get_r13_banked() will raise an exception if called from System mode */
-     gen_set_condexec(s);
-     gen_set_pc_im(s, s->pc_curr);
--    gen_helper_get_r13_banked(addr, cpu_env, tmp);
--    tcg_temp_free_i32(tmp);
-+    gen_helper_get_r13_banked(addr, cpu_env, tcg_constant_i32(mode));
-     switch (amode) {
-     case 0: /* DA */
-         offset = -4;
-@@ -5185,9 +5183,7 @@ static void gen_srs(DisasContext *s,
-             abort();
-         }
-         tcg_gen_addi_i32(addr, addr, offset);
--        tmp = tcg_const_i32(mode);
--        gen_helper_set_r13_banked(cpu_env, tmp, addr);
--        tcg_temp_free_i32(tmp);
-+        gen_helper_set_r13_banked(cpu_env, tcg_constant_i32(mode), addr);
+     imm = ror32(a->imm, a->rot);
+     if (logic_cc && a->rot) {
+         tcg_gen_movi_i32(cpu_CF, imm >> 31);
      }
-     tcg_temp_free_i32(addr);
-     s->base.is_jmp = DISAS_UPDATE_EXIT;
+-    tmp2 = tcg_const_i32(imm);
+     tmp1 = load_reg(s, a->rn);
+ 
+-    gen(tmp1, tmp1, tmp2);
+-    tcg_temp_free_i32(tmp2);
++    gen(tmp1, tmp1, tcg_constant_i32(imm));
+ 
+     if (logic_cc) {
+         gen_logic_CC(tmp1);
+@@ -5525,9 +5523,10 @@ static bool op_s_rxi_rot(DisasContext *s, arg_s_rri_rot *a,
+     if (logic_cc && a->rot) {
+         tcg_gen_movi_i32(cpu_CF, imm >> 31);
+     }
+-    tmp = tcg_const_i32(imm);
+ 
+-    gen(tmp, tmp);
++    tmp = tcg_temp_new_i32();
++    gen(tmp, tcg_constant_i32(imm));
++
+     if (logic_cc) {
+         gen_logic_CC(tmp);
+     }
 -- 
 2.25.1
 
