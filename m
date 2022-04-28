@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21B5513352
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 14:05:10 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130F9513365
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 14:14:26 +0200 (CEST)
+Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk2tR-0002kg-P7
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 08:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52058)
+	id 1nk32O-0002wD-1a
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 08:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nk2qP-0007MQ-QV
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:02:02 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:37688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nk2qK-0000G8-JQ
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:02:01 -0400
-Received: by mail-pl1-x633.google.com with SMTP id b12so4166537plg.4
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 05:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oqgxivLYi5BUgSGj1DqJZXiNhi/GYiWLJcQntaRw7OQ=;
- b=X3qak8Gru9iT1tyK111h51BUpVgcEMSGBY8p8CnIhlwvJ/lOGMoXaLH9kdJ7ZjIjWg
- n17mNwUcoDJWmJ4xlpwcNozLMOqBbl+ZDbHnWCwfVaJCaSg2ECQWsWTUx2B4HKGyZeoQ
- xt97EfYtoQ2oRnyRKTOJCH7Icd4U/9nEhWImdq8MagvBAKV2Aj3w7vFbeHB8rVBkH5Js
- RPopTEkuYSFLicdq9nqhW3q+IJLr9OSsw3vLYntmkVuAYodo+BXi7ZxWm/F1wBmnOf4g
- mU8rH8yGDy34FRLmSTwT40ApG0uw9cINEzmnzIZfjnTOoMK6yTtu0GhGMXVzgMYnT6f2
- k0bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oqgxivLYi5BUgSGj1DqJZXiNhi/GYiWLJcQntaRw7OQ=;
- b=lJIptFXGClnz2WMzRYbXka9CLChDOoP9cNCyCPhS/+4YGHgEA6nJeKLVkl8rgo67M/
- vU8w8LdALIKWHfhyMoGFFFSDPyq2TkLOIwOuP5x7GETgoIYduOEGgA+MmZRUTmjilEjz
- YUqbPrkWUApZ8323dMafI2NmTZYwwl8VOo8Qg+HvYrgg56+bxsnSUPjBOtH1qOvbbLEw
- N+swi7GYN+iV6i6dha3cuitg6OngjQ5Uvcr0zpX+fvd5GS+a9jVlU1Ldgr7KwG3/vIJ8
- ynBiXTM0FLrKsG6mxiKudQ5L6d1fcOLRnQc46HZG2/aPZp8KqkPQkhf92TyegbIHibhV
- QY7g==
-X-Gm-Message-State: AOAM531BRv6hdQKDmQ/etBEhWZm4H0N2q70hsB99h6fE4nXcYbbha1cv
- Vtsu+hbvsWNR84t7GqcEwgk=
-X-Google-Smtp-Source: ABdhPJzY83hafTI6yBJ6SxBjkxIyoijMdP45Z5bi/063RZb4CAQovSBVK2thtedJveQVIMNCx55N4A==
-X-Received: by 2002:a17:902:e051:b0:15c:e5dd:c1c0 with SMTP id
- x17-20020a170902e05100b0015ce5ddc1c0mr26926343plx.1.1651147315044; 
- Thu, 28 Apr 2022 05:01:55 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- g1-20020a17090a290100b001d840f4eee0sm10605961pjd.20.2022.04.28.05.01.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 05:01:54 -0700 (PDT)
-Date: Thu, 28 Apr 2022 21:01:52 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH] hw/openrisc: page-align FDT address
-Message-ID: <YmqCMNHhFCMqjjVF@antec>
-References: <20220428103516.1149436-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1nk304-0001bY-DR; Thu, 28 Apr 2022 08:12:00 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:12722)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1nk301-0002hr-QB; Thu, 28 Apr 2022 08:11:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651147917; x=1682683917;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=wFQcIeYD29PvsRbltnxLBOJ3gA8MOkQizno/WrszAWQ=;
+ b=TY7cXM/cyAxJbL5Rb+41zDMZOlMuPwjbqfY0pkMNxuln/A8PZXgm45R4
+ rrEc466g4TvrYgQ6QtU54IxEEK0/Cr60j/6KP4wOGAbR5QtQb+//hY7bg
+ 74NI+xCX1MnBAvEGXJKbARR6ogCc8r5KuxFKDFdfa2AlLbwEeX1gwzFDu k=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 28 Apr 2022 05:11:53 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 05:11:53 -0700
+Received: from qc-i7.hemma.eciton.net (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 28 Apr 2022 05:11:51 -0700
+Date: Thu, 28 Apr 2022 13:11:48 +0100
+From: Leif Lindholm <quic_llindhol@quicinc.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] hw/arm: add versioning to sbsa-ref machine DT
+Message-ID: <YmqEhFGvef2zKqcH@qc-i7.hemma.eciton.net>
+References: <20220427182934.27075-1-quic_llindhol@quicinc.com>
+ <8ffebcd4-7036-3998-c224-4841f7f2a5b6@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <20220428103516.1149436-1-Jason@zx2c4.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=shorne@gmail.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8ffebcd4-7036-3998-c224-4841f7f2a5b6@kaod.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.47.97.222)
+Received-SPF: pass client-ip=199.106.114.38;
+ envelope-from=quic_llindhol@quicinc.com; helo=alexa-out-sd-01.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,51 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, openrisc@lists.librecores.org,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28, 2022 at 12:35:16PM +0200, Jason A. Donenfeld wrote:
-> The QEMU-provided FDT was only being recognized by the kernel when it
-> was used in conjunction with -initrd. Without it, the magic bytes
-> wouldn't be there and the kernel couldn't load it. This patch fixes the
-> issue by page aligning the provided FDT.
+Hi Cedric,
+
+On Thu, Apr 28, 2022 at 10:55:54 +0200, Cédric Le Goater wrote:
+> > The sbsa-ref machine is continuously evolving. Some of the changes we
+> > want to make in the near future, to align with real components (e.g.
+> > the GIC-700), will break compatibility for existing firmware.
+> > 
+> > Introduce two new properties to the DT generated on machine generation:
+> > - machine-version-major
+> >    To be incremented when a platform change makes the machine
+> >    incompatible with existing firmware.
+> > - machine-version-minor
+> >    To be incremented when functionality is added to the machine
+> >    without causing incompatibility with existing firmware.
+> >    to be reset to 0 when machine-version-major is incremented.
+> > 
+> > These properties are both introduced with the value 0.
+> > (Hence, a machine where the DT is lacking these nodes is equivalent
+> > to version 0.0.)
 > 
-> Cc: Stafford Horne <shorne@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  hw/openrisc/openrisc_sim.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> index 8184caa60b..99b14940f4 100644
-> --- a/hw/openrisc/openrisc_sim.c
-> +++ b/hw/openrisc/openrisc_sim.c
-> @@ -356,7 +356,7 @@ static uint32_t openrisc_load_fdt(Or1ksimState *state, hwaddr load_start,
->      }
->  
->      /* We put fdt right after the kernel and/or initrd. */
-> -    fdt_addr = ROUND_UP(load_start, 4);
-> +    fdt_addr = TARGET_PAGE_ALIGN(load_start);
->  
->      ret = fdt_pack(fdt);
->      /* Should only fail if we've built a corrupted tree */
-> -- 
-> 2.35.1
+> This raises a lot of questions. I am talking with my PAPR specs
+> experience there, which might be off topic for SBSA, but it's a
+> way to clarify my understanding.
 
-This looks OK to me, just for clarity we currently are loading:
-  - 0x100        - Kernel
-  - page aligned - Initrd
-  - word aligned - FDT
+That is a reasonable assumption: you may expect the ARM platform
+specifications to usefully describe a general platform which sofware
+can be developed against. However, they are not. They describe the
+absolute minimum that it is even theoretically possible to develop
+portable software against.
 
-In the absense of the initrd we need to ensure the FDT is page aligned.
+> If we need to introduce incompatible changes in the sbsa machine,
+> that would break existing firmwares, I think we should start versioning
+> the sbsa machine like the other do : arm/i440fx/m68k/q35/s390x/spapr
+> and add class attributes describing features being activated or not.
+> This to make sure that firmware already shipped can always be run.
 
-If someone else wants to pick this up to push to qemu if would help, I don't
-have anything planned at the moment.
+The versioning I'm introducing here is a separate one from the SBSA
+numbering. See this thread for some history:
 
-If not I will start a queue in a few days.
+https://lore.kernel.org/qemu-devel/20211015122351.vc55mwzjbevl6wjy@leviathan/
 
-Acked-by: Stafford Horne <shorne@gmail.com>
+Without derailing this thread too much, I will add that trying to
+align a machine against specific SBSA versions is tricky, since ARM do
+not put enough resource into QEMU development to keep up with
+architectural feature support. ARM's strategy for that sort of thing
+relies on proprietary software models.
+
+It *would* be possible to retroactively add support for older
+versions as the qemu feature set catches up, but that would be a
+separate versioning scheme, mostly orhogonal with this one.
+If ARM *did* start shifting to a focus on getting QEMU enablement done
+in sync with architectural evolution, the versioning scheme would
+remain mostly orthogonal.
+
+> Regarding the DT changes, we could also expose/advertise the new
+> platform features by name with property nodes.
+
+That would defeat the purpose of this platform, which is to serve as a
+realistic target for developing SBBR firmware against. That we used a
+DT at all to communicate information about the machine configuration
+was in hindsight possibly a mistake, since it frequently leads to this
+misunderstanding - but I opted for it in order to avoid inventing a
+new data encapsulation format *only* for avoiding this topic popping
+up at a regular cadence.
+
+> What about the SBSA specs ? Do they need a change ? It is true that
+> there are a bit vague regarding the DT, only referencing the Arm
+
+DT is not relevant for ServerReady SR (which is what SBSA got renamed
+to). There are embedded profiles defined by the ServerReady documents
+that mention DT. Support for those, if anyone is interested in
+creating/maintaining them, would be handled by a separate machine type.
+
+Regards,
+
+Leif
 
