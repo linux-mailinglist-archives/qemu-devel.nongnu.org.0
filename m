@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D175138F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:47:38 +0200 (CEST)
-Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A9E513887
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:38:57 +0200 (CEST)
+Received: from localhost ([::1]:36580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6Mk-0004OF-0l
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47404)
+	id 1nk6EK-0000dJ-Mi
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nk5N3-0005Te-SS
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:43:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nk5N1-00072k-VR
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:43:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651157030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ccd8nk9S13q53zBEElaR/4y03CyIGHW8EUi7GIGNCSk=;
- b=L0uHpYcn0ekfsunyCcs3IQDC0WQ5eu/svwyVBwS101SmqLfSJo29JizV7z1t16oYa3Os13
- Nhq3hXR7M2/CNt9zmMi0omty66qe/iCj03XdTMLfhd8MXHnwNRU6VAq0kHWhcHXX4LBeX6
- YAZNnx3797y5eBG3kecXyMZC/ZsI6FM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-nKn-PYjeNNuHzES2XCyKUA-1; Thu, 28 Apr 2022 10:43:46 -0400
-X-MC-Unique: nKn-PYjeNNuHzES2XCyKUA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02A0685A5A8;
- Thu, 28 Apr 2022 14:43:46 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B395CC28100;
- Thu, 28 Apr 2022 14:43:45 +0000 (UTC)
-Date: Thu, 28 Apr 2022 15:43:44 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 6/8] block: assert that graph read and writes are
- performed correctly
-Message-ID: <YmqoID0zLEUqWMZC@stefanha-x1.localdomain>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <20220426085114.199647-7-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nk5ZW-0006sn-5R; Thu, 28 Apr 2022 10:56:46 -0400
+Received: from [187.72.171.209] (port=27548 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nk5ZT-00015R-P0; Thu, 28 Apr 2022 10:56:45 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 28 Apr 2022 11:56:39 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 37E2F800013;
+ Thu, 28 Apr 2022 11:56:39 -0300 (-03)
+Message-ID: <9978cf74-2c81-98c8-d985-efe47d1519df@eldorado.org.br>
+Date: Thu, 28 Apr 2022 11:56:39 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="F3/QtuT2QnrjG16y"
-Content-Disposition: inline
-In-Reply-To: <20220426085114.199647-7-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 03/20] target/ppc: Substitute msr_pr macro with new
+ M_MSR_PR macro
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
+ <20220422185450.107256-4-victor.colombo@eldorado.org.br>
+ <fd0087dc-10ec-7867-44df-ba84f8b55aee@linaro.org>
+ <c320ef03-0fc2-2a75-cc39-20747888dafb@eldorado.org.br>
+ <32cc9b8b-add7-a87c-3bb7-95e5c5707e3e@kaod.org>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <32cc9b8b-add7-a87c-3bb7-95e5c5707e3e@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 28 Apr 2022 14:56:39.0750 (UTC)
+ FILETIME=[2A775E60:01D85B10]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,70 +66,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: danielhb413@gmail.com, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 28/04/2022 03:46, Cédric Le Goater wrote:
+> On 4/27/22 19:00, Víctor Colombo wrote:
+>> Hello everyone! Thanks Zoltan and Richard for your kind reviews!
+>>
+>> On 26/04/2022 18:29, Richard Henderson wrote:
+>>> On 4/22/22 11:54, Víctor Colombo wrote:
+>>>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+>>>> ---
+>>>>   hw/ppc/pegasos2.c        |  2 +-
+>>>>   hw/ppc/spapr.c           |  2 +-
+>>>>   target/ppc/cpu.h         |  3 ++-
+>>>>   target/ppc/cpu_init.c    |  4 ++--
+>>>>   target/ppc/excp_helper.c |  6 +++---
+>>>>   target/ppc/mem_helper.c  |  4 ++--
+>>>>   target/ppc/mmu-radix64.c |  4 ++--
+>>>>   target/ppc/mmu_common.c  | 23 ++++++++++++-----------
+>>>>   8 files changed, 25 insertions(+), 23 deletions(-)
+>>>>
+>>>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>>>> index 56bf203dfd..27ed54a71d 100644
+>>>> --- a/hw/ppc/pegasos2.c
+>>>> +++ b/hw/ppc/pegasos2.c
+>>>> @@ -461,7 +461,7 @@ static void 
+>>>> pegasos2_hypercall(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu)
+>>>>       /* The TCG path should also be holding the BQL at this point */
+>>>>       g_assert(qemu_mutex_iothread_locked());
+>>>>
+>>>> -    if (msr_pr) {
+>>>> +    if (env->msr & M_MSR_PR) {
+>>>
+>>> I'm not sure I'm keen on the M_ prefix, but I'll defer to Cedric or 
+>>> Daniel if they're ok
+>>> with it.
+>>>
+>>> In general there are inconsistencies with the use of MSR_PR (1 vs 
+>>> 1ull), which makes it
+>>> tempting to replace MSR_PR the bit number with MSR_PR the mask and 
+>>> leave off the M_
+>>> prefix.  It's somewhat easy for MSR_PR, since missed conversions will 
+>>> certainly result in
+>>> compiler warnings for out-of-range shift (the same would not be true 
+>>> with bits 0-6, LE
+>>> through EP). >
+>>> Another possibility would be to use hw/registerfields.h.  Missed 
+>>> conversions are missing
+>>> symbol errors.  You'd write FIELD_EX64(env->msr, MSR, PR) in cases 
+>>> like this and
+>>> R_MSR_PR_MASK in cases like cpu_init.c.  It's more verbose for single 
+>>> bits like this, but
+>>> much easier to work with multi-bit fields like MSR.TS.
+>>>
+>> Thanks for your ideas! I think I'll go with this second one. It'll allow
+>> to remove the !!(val) occurrences that I introduced in this series, so
+>> the code quality will probably be improved.
+>>
+>> It'll also be a 'safer' change that will require less rework on other
+>> parts that I didn't intend to touch in this patch series.
+> 
+> 
+> The registerfield API is certainly a good choice for cleanups.
+> 
+> Is there a way to adapt the PPC_BIT macros and keep the PPC bit
+> ordering ? It might be easier to forget about it. Which is what
+> the Linux kernel does in many places.
 
---F3/QtuT2QnrjG16y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Cédric.
 
-On Tue, Apr 26, 2022 at 04:51:12AM -0400, Emanuele Giuseppe Esposito wrote:
-> diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
-> index f171ba0527..2211d41286 100644
-> --- a/include/block/graph-lock.h
-> +++ b/include/block/graph-lock.h
-> @@ -52,5 +52,20 @@ void coroutine_fn bdrv_graph_co_rdlock(void);
->   */
->  void coroutine_fn bdrv_graph_co_rdunlock(void);
-> =20
-> +/*
-> + * assert_bdrv_graph_readable:
-> + * Make sure that the reader is either the main loop,
-> + * or there is at least a reader helding the rdlock.
-> + * In this way an incoming writer is aware of the read and waits.
-> + */
-> +void assert_bdrv_graph_readable(void);
+It would probably be easier to change this if we went with Zoltan's
+idea. Just 'invert' the MSR_* values to match the ISA order and use
+env->msr & PPC_BIT(MSR_*). However registerfield API expects it to be
+in the "0 is the rightmost" order,
+so we can't easily go with it and just invert the MSR_* values.
 
-The name confuses me. I suggest assert_bdrv_graph_rdlock_held().
+A solution I could think that might be easy is: rename PPC_BIT to
+PPC_BIT_ULL (behaves like BIT_ULL but 'inverted'), and create a new
+PPC_BIT macro that just inverts the bit value
 
-> +
-> +/*
-> + * assert_bdrv_graph_writable:
-> + * Make sure that the writer is the main loop and has set @has_writer,
-> + * so that incoming readers will pause.
-> + */
-> +void assert_bdrv_graph_writable(void);
+#define PPC_BIT_ULL(bit) (0x8000000000000000ULL >> (bit))
+#define PPC_BIT(bit) (63 - (bit))
 
-assert_bdrv_graph_wrlock_held().
+and change MSR_* to use it
 
-> +
->  #endif /* BLOCK_LOCK_H */
-> =20
-> --=20
-> 2.31.1
->=20
+#define MSR_LE PPC_BIT(63)
 
---F3/QtuT2QnrjG16y
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> 
+> Device models are also impacted :
+> 
+>    include/hw/pci-host/pnv_phb*_regs.h
+>    include/hw/ppc/xive*_regs.h
+> 
+> Something I have been wanting to change for a while are these macros :
+> 
+>      static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+>      {
+>          return (word & mask) >> ctz64(mask);
+>      }
+> 
+>      static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+>                                      uint64_t value)
+>      {
+>          return (word & ~mask) | ((value << ctz64(mask)) & mask);
+>      }
+> 
+> Thanks,
+> 
+> C.
+> 
 
------BEGIN PGP SIGNATURE-----
+Thanks!
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJqqCAACgkQnKSrs4Gr
-c8hWGggAs1dB9RrKULhvYHpUFigD/Caugh4Y6Cgu0B4ssbBNBviCfsurlWVRxa1p
-ZpYOU5gpACIKkMYdM5cCU6VV1Agco+yHkgXBFCp0NfpjCljnQhnPMczrt9SBwQSo
-ZbAelCAfGt5yB+0we2rgpm44UF73wlf75Uqn7zNODpEh3uMqOG9wYmcihgV3Bzmm
-AUbuh80sscrCeiXfxj8dEY6AAFs66/Ksn2vktHE9m37IFeyNOUogalcOHU/eSK8e
-eTKk3rRw/Qg4b1NSsaH8P40PP3NvBK49fbLSl0o0AtnV+dXsukf256F6QZEVkarx
-dF9PpKGV5GplDGonQ1ySoURHuOlv4g==
-=En/n
------END PGP SIGNATURE-----
-
---F3/QtuT2QnrjG16y--
-
+--
+Víctor Cora Colombo
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
