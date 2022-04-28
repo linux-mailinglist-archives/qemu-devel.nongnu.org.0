@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C97512C9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:22:48 +0200 (CEST)
-Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39413512C71
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:12:14 +0200 (CEST)
+Received: from localhost ([::1]:42942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njyUB-0007Iq-Ay
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49998)
+	id 1njyJx-0005sW-9V
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1njxvD-0001Uu-2X
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:46:39 -0400
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:37097)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1njxvA-0004Az-QS
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:46:38 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.235])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B8C9221915;
- Thu, 28 Apr 2022 06:46:32 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 28 Apr
- 2022 08:46:31 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006b2ace12b-8761-4aea-8cda-4acb57771342,
- 964B4B5EE68C69CB799E8147BBEA8F01A3367603) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <32cc9b8b-add7-a87c-3bb7-95e5c5707e3e@kaod.org>
-Date: Thu, 28 Apr 2022 08:46:31 +0200
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njy20-0008V2-Dc
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:41 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43885)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njy1y-00054r-JO
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:40 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id m20so7574327ejj.10
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 23:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6wuyWIGLXbVpNyeICSTjGtg8O6YTKv/dQwb5iS9z9dQ=;
+ b=BnbsF7L08BOT9JmLI4AdqxpCgcKgmH3CXBSWiTkmmWVl/4pp05fol5qk7QWz8oYE5I
+ fi7sBe5Eeqf6tKeGUoUxFSd2i73inrN9v8MkfA/4dJdzTpjrfaldUEiJcxkJP8+xyULL
+ YCpuVVUbmunLI7CxxiiXOlXL2cu+tcY4ByXq2+M3PLcpbCZIvFt0UD6VVRNLOc1QEVOj
+ fpTAGUVIb5CntIgaC25W0TL89FZlnpZMMOauGFGtqZMDP6TNNR7gBUZKC9EjOIH+F6+9
+ 2q/+ez9NNkSwni9tanohQLc0zH/Zb+EQg9Minireref1c6w79FBR8SWzx8XDuWmLnIph
+ 6Y9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=6wuyWIGLXbVpNyeICSTjGtg8O6YTKv/dQwb5iS9z9dQ=;
+ b=EUlk4MF9kqhzLWs4LgfcNPeoDMK3GwzNJSekWtlYQiAhWBt+1IuK43Jn5bGEhA3h7i
+ /xpGZZlGIpz4fR+GPyp0UYKxrhx4+czfOlRqzOVURCkdCNydtcY+OqSaucvpuRx7ZKIz
+ rck/AWr6Bzu6FMWIWLPIpI94nuyT41C7rNAKG1gQxP+6x66WA2gprDbXb3crb0xTVoFf
+ lpcH+jxD1yJnCsqFyk655DLynkQQFOx4uomQO6ljhs0hYV+AV5NZnb/0/55hNRaQ2shM
+ crQk1VApXDsWuGCAlXvfowHtU5GG9LQrXslCjAwNGlogUViHzNEcPUfLn6lv0Lg+7cHb
+ 4V5g==
+X-Gm-Message-State: AOAM5314DTDUvTV4QGfpodqWVzcxPDKpr86WdU/uCnAwrYoRAA/nhw1m
+ sc4u6tu9g/e+UnB6/c4DdW9WI1ucszW9FQ==
+X-Google-Smtp-Source: ABdhPJxLa3whF610++8L3xqxotBmsKgJvCVi9oEO9carGedptGFHNjTDe9P5tihg3DWXjDdlF7J5vg==
+X-Received: by 2002:a17:906:2883:b0:6e8:7012:4185 with SMTP id
+ o3-20020a170906288300b006e870124185mr30069741ejd.204.1651128816908; 
+ Wed, 27 Apr 2022 23:53:36 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ jo11-20020a170906f6cb00b006f3955761c4sm5406804ejb.158.2022.04.27.23.53.36
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 23:53:36 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/18] Misc QEMU patches for 2022-04-28
+Date: Thu, 28 Apr 2022 08:53:17 +0200
+Message-Id: <20220428065335.189795-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 03/20] target/ppc: Substitute msr_pr macro with new
- M_MSR_PR macro
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>, Richard
- Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
- <20220422185450.107256-4-victor.colombo@eldorado.org.br>
- <fd0087dc-10ec-7867-44df-ba84f8b55aee@linaro.org>
- <c320ef03-0fc2-2a75-cc39-20747888dafb@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <c320ef03-0fc2-2a75-cc39-20747888dafb@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: ebb927b0-251e-4103-b48c-7a5ec2c9a41a
-X-Ovh-Tracer-Id: 4055491468273814380
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,87 +86,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 19:00, Víctor Colombo wrote:
-> Hello everyone! Thanks Zoltan and Richard for your kind reviews!
-> 
-> On 26/04/2022 18:29, Richard Henderson wrote:
->> On 4/22/22 11:54, Víctor Colombo wrote:
->>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
->>> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
->>> ---
->>>   hw/ppc/pegasos2.c        |  2 +-
->>>   hw/ppc/spapr.c           |  2 +-
->>>   target/ppc/cpu.h         |  3 ++-
->>>   target/ppc/cpu_init.c    |  4 ++--
->>>   target/ppc/excp_helper.c |  6 +++---
->>>   target/ppc/mem_helper.c  |  4 ++--
->>>   target/ppc/mmu-radix64.c |  4 ++--
->>>   target/ppc/mmu_common.c  | 23 ++++++++++++-----------
->>>   8 files changed, 25 insertions(+), 23 deletions(-)
->>>
->>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
->>> index 56bf203dfd..27ed54a71d 100644
->>> --- a/hw/ppc/pegasos2.c
->>> +++ b/hw/ppc/pegasos2.c
->>> @@ -461,7 +461,7 @@ static void pegasos2_hypercall(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu)
->>>       /* The TCG path should also be holding the BQL at this point */
->>>       g_assert(qemu_mutex_iothread_locked());
->>>
->>> -    if (msr_pr) {
->>> +    if (env->msr & M_MSR_PR) {
->>
->> I'm not sure I'm keen on the M_ prefix, but I'll defer to Cedric or Daniel if they're ok
->> with it.
->>
->> In general there are inconsistencies with the use of MSR_PR (1 vs 1ull), which makes it
->> tempting to replace MSR_PR the bit number with MSR_PR the mask and leave off the M_
->> prefix.  It's somewhat easy for MSR_PR, since missed conversions will certainly result in
->> compiler warnings for out-of-range shift (the same would not be true with bits 0-6, LE
->> through EP). >
->> Another possibility would be to use hw/registerfields.h.  Missed conversions are missing
->> symbol errors.  You'd write FIELD_EX64(env->msr, MSR, PR) in cases like this and
->> R_MSR_PR_MASK in cases like cpu_init.c.  It's more verbose for single bits like this, but
->> much easier to work with multi-bit fields like MSR.TS.
->>
-> Thanks for your ideas! I think I'll go with this second one. It'll allow
-> to remove the !!(val) occurrences that I introduced in this series, so
-> the code quality will probably be improved.
-> 
-> It'll also be a 'safer' change that will require less rework on other
-> parts that I didn't intend to touch in this patch series.
+The following changes since commit cf6f26d6f9b2015ee12b4604b79359e76784163a:
 
+  Merge tag 'kraxel-20220427-pull-request' of git://git.kraxel.org/qemu into staging (2022-04-27 10:49:28 -0700)
 
-The registerfield API is certainly a good choice for cleanups.
+are available in the Git repository at:
 
-Is there a way to adapt the PPC_BIT macros and keep the PPC bit
-ordering ? It might be easier to forget about it. Which is what
-the Linux kernel does in many places.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
+for you to fetch changes up to 21abf010bb28f0c98db4ee66a990065062c62126:
 
-Device models are also impacted :
+  qemu-options: Limit the -enable-kvm option to the targets that support it (2022-04-28 08:52:22 +0200)
 
-   include/hw/pci-host/pnv_phb*_regs.h
-   include/hw/ppc/xive*_regs.h
+----------------------------------------------------------------
+* Bugfixes
+* Meson conversions
 
-Something I have been wanting to change for a while are these macros :
+----------------------------------------------------------------
+Haiyue Wang (1):
+      error-report: fix g_date_time_format assertion
 
-     static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-     {
-         return (word & mask) >> ctz64(mask);
-     }
-     
-     static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-                                     uint64_t value)
-     {
-         return (word & ~mask) | ((value << ctz64(mask)) & mask);
-     }
+Michael Tokarev (1):
+      configure: make fortify_source=yes by default
 
-Thanks,
+Paolo Bonzini (14):
+      remove -writeconfig
+      meson: show final set of compiler flags
+      configure: remove dead code
+      qga: wixl: get path to sysroot from pkg-config as intended
+      configure: pc-bios/qemu-icon.bmp does not exist
+      configure: gcov should not exclude fortify-source
+      configure: move --enable/--disable-debug-info to second option parsing pass
+      configure, meson: move OpenGL check to meson
+      meson, configure: move RDMA options to meson
+      meson, configure: move keyctl test to meson
+      meson, configure: move usbfs test to meson
+      meson, configure: move libgio test to meson
+      meson: remove CONFIG_XEN_PCI_PASSTHROUGH from config-target.h
+      meson, configure: move --enable-module-upgrades to meson
 
-C.
-     
+Paul Brook (1):
+      i386: pcmpestr 64-bit sign extension bug
+
+Thomas Huth (1):
+      qemu-options: Limit the -enable-kvm option to the targets that support it
+
+ backends/meson.build            |   2 +-
+ configure                       | 348 ++--------------------------------------
+ contrib/rdmacm-mux/meson.build  |   4 +-
+ crypto/meson.build              |   4 +-
+ docs/about/deprecated.rst       |   7 -
+ docs/about/removed-features.rst |   7 +
+ hw/xen/meson.build              |  20 ++-
+ include/qemu/config-file.h      |   1 -
+ meson.build                     | 149 ++++++++++++++---
+ meson_options.txt               |  12 ++
+ migration/meson.build           |   2 +-
+ qemu-options.hx                 |  12 +-
+ qga/meson.build                 |   2 +-
+ scripts/meson-buildoptions.sh   |  19 +++
+ softmmu/vl.c                    |  20 ---
+ target/i386/ops_sse.h           |  20 ++-
+ tests/qtest/meson.build         |   5 +-
+ ui/meson.build                  |  24 +--
+ util/error-report.c             |   2 +-
+ util/meson.build                |   2 +-
+ util/qemu-config.c              |  42 -----
+ 21 files changed, 221 insertions(+), 483 deletions(-)
+-- 
+2.35.1
+
 
