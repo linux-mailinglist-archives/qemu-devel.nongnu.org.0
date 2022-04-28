@@ -2,87 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2119513147
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 12:27:46 +0200 (CEST)
-Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A462513160
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 12:37:14 +0200 (CEST)
+Received: from localhost ([::1]:42800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk1NB-0005xH-QD
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 06:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40248)
+	id 1nk1WJ-0004Rt-Dy
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 06:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nk0qU-00037A-NN
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:54:01 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:41875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nk0qT-0000tw-3s
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:53:58 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id dk23so8460379ejb.8
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 02:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ElEeVwBSr3hgo84y+do+evpRbzMYbPIXq8DP8h9z6zk=;
- b=NdR/Bp2XN3jo+un2y0jhdsR0eN/dK9s8c+0g/bbvpIYhr4nAqLbNSQgrm+441urcRo
- 07LG0zzakNt9YlVOpE32kuxEE8TTOqf0cc1mWUGLuFKXp9Ln78QI71lDMPQWvOXILHTz
- PNci1VDczGfuKo6kpDoqmOWD/xhJ5PmwQ0Yn3RjT6wi/KwIwejEtQnZ7ZOtlIedkZ+sI
- OgfxHrkTThRfjCMfSdVyjaPI9k97CE60LxPHN09qgScH1q/OxUWOBBO0PEg829J42lEX
- /iCdJpl+rI7UwogadXtjOjjXWMkdJZ2dtoUSh5ttIHLyHxJA0PDsYhQTMI9mV/Rj+Gr5
- jW2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ElEeVwBSr3hgo84y+do+evpRbzMYbPIXq8DP8h9z6zk=;
- b=pb1WYF4XytC3fjQze8663wHFTdxQ49n2LpPeDsrHACNQ17JkzbUuqPtb5ZkDpl7flY
- 694LMHp3Xced2tA6LQVo4wN4maMu14hfyqpEoSq1JW3ghvScMev8UNzIOrjxd0zVu3xn
- 5+7Ta0gmgdlOemeVarbk1i8mwoME2Vzbk3LXope8KYVm5cLDj5gug5ZkzrXS4QwW393A
- tKA2cfsbZT7SZe09Ff5GKDqEjgYzpi5v0bms9rkghK5tTWJmoUYhW5aiEtYYjk1g1OLE
- 0PigFwp0xqXdPnm9ceouD9/LwIVXp1RuUvvQXGxn5c7HU9sXu4zYJNu6wgFrgct1RiUD
- J8+w==
-X-Gm-Message-State: AOAM533Bkqk1TgsuyGgQaTRW9zouF+y5MgTTwFUtSTZn4tdZfQzeWNs0
- nxYqnYw2IYcbLT6dDPAZ2f8=
-X-Google-Smtp-Source: ABdhPJwtctMlcB3HqbvKNaQQ/pEDTTy3IdcyoEf1RmizBcUdIVIFAHkU0uGTo+mldDRTb1doefjwiw==
-X-Received: by 2002:a17:906:9744:b0:6da:9e49:9fe3 with SMTP id
- o4-20020a170906974400b006da9e499fe3mr31367673ejy.319.1651139635274; 
- Thu, 28 Apr 2022 02:53:55 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- bd28-20020a056402207c00b0042617ba6391sm1269485edb.27.2022.04.28.02.53.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Apr 2022 02:53:54 -0700 (PDT)
-Message-ID: <e3edecfe-1dc7-dc50-4b5f-e8627eee8e80@redhat.com>
-Date: Thu, 28 Apr 2022 11:53:51 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk0qj-0003Az-Uh
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:54:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52844)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk0qh-0000wf-DA
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:54:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651139650;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z7iOsTmrQzAZtkAHffbv7E1Rw0JJHCLU+cXjJIoc5X4=;
+ b=FJ3aSGMpONheXnwiQ0uEE9Z1vPWy1YsBTriYOjgC82gl8/4XufUj5Bi/Z2fZQu66KWs57W
+ iO6Nb8XpvYEsZJzd0WRadrJIpPA6DmaJVobK27PpM5vL5vSMafM86Xfofme6XpYU/XM76v
+ AQHZ8cFwevX9vyVQHTZzhvDT+Bo0OKA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-154-wWjvwMRXN6Wx1YEnCfCG_g-1; Thu, 28 Apr 2022 05:54:07 -0400
+X-MC-Unique: wWjvwMRXN6Wx1YEnCfCG_g-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 386B5811E76;
+ Thu, 28 Apr 2022 09:54:06 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE0644644F8;
+ Thu, 28 Apr 2022 09:54:05 +0000 (UTC)
+Date: Thu, 28 Apr 2022 10:54:04 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v8 15/17] vfio-user: handle device interrupts
+Message-ID: <YmpkPIlq/V4rXSWj@stefanha-x1.localdomain>
+References: <cover.1650379269.git.jag.raman@oracle.com>
+ <847e6d373eb3d8ff4cdeb7a3ad9b935785bfbf8e.1650379269.git.jag.raman@oracle.com>
+ <YmZ3nAtyjt+gjqvL@stefanha-x1.localdomain>
+ <0C1A24F0-A2F5-4B08-A015-92CBAA003497@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 7/8] qmp: add filtering of statistics by name
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220426141619.304611-1-pbonzini@redhat.com>
- <20220426141619.304611-8-pbonzini@redhat.com> <YmkwndPwSDxqqdZA@work-vm>
- <6655dcbe-860e-b107-e63e-ff397189d178@redhat.com> <Ymk4U4O4CN3e7+9A@work-vm>
- <2aed3f83-5941-d723-7c27-cc657f7c257a@redhat.com> <YmleMMNkZ8ukENDZ@work-vm>
- <cde483f2-28ee-88fb-921d-336186ff8222@redhat.com> <Yml6bAfSs+4eGtfj@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yml6bAfSs+4eGtfj@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="et4GvKLovRMPuC0E"
+Content-Disposition: inline
+In-Reply-To: <0C1A24F0-A2F5-4B08-A015-92CBAA003497@oracle.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,53 +78,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, Jag Raman <jag.raman@oracle.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 19:16, Dr. David Alan Gilbert wrote:
-> * Paolo Bonzini (pbonzini@redhat.com) wrote:
->> On 4/27/22 17:16, Dr. David Alan Gilbert wrote:
->>> * Paolo Bonzini (pbonzini@redhat.com) wrote:
->>>> On 4/27/22 14:34, Dr. David Alan Gilbert wrote:
->>>>> If I specify a 'vm' it's not obvious to me whether I'd get NICs and
->>>>> block devices in the future?
->>>>
->>>> VM would not get those (it's global statistics), but the size could balloon
->>>> if you specify no target at all.
->>>>
->>>>> Adding a syntax for 'all' into the vcpus list would fix that?
->>>>
->>>> I don't like having special syntax.  The current QAPI just doesn't filter
->>>> what is not in the arguments.
->>>
->>> Is there a object that represents the set of all vcpus?
->>
->> No.
-> 
-> If it was easy to create one then you could remove all the special
-> casing of vCPUs/VM target?
-> (It feels really like you should call a 'stats' method on the target)
 
-There are two possibilities for that:
+--et4GvKLovRMPuC0E
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1) add statistics to an object like /machine, that would return the 
-sum/max of the statistics.  Advantage: you have an easy way to summarize 
-stats without reading many KBs of data. Disadvantage: it doesn't do what 
-you're asking. :)  But it may be an interesting addition.
+On Mon, Apr 25, 2022 at 05:40:01PM +0000, Jag Raman wrote:
+> > On Apr 25, 2022, at 6:27 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> >=20
+> > On Tue, Apr 19, 2022 at 04:44:20PM -0400, Jagannathan Raman wrote:
+> >> +static MSIMessage vfu_object_msi_prepare_msg(PCIDevice *pci_dev,
+> >> +                                             unsigned int vector)
+> >> +{
+> >> +    MSIMessage msg;
+> >> +
+> >> +    msg.address =3D 0;
+> >> +    msg.data =3D vector;
+> >> +
+> >> +    return msg;
+> >> +}
+> >> +
+> >> +static void vfu_object_msi_trigger(PCIDevice *pci_dev, MSIMessage msg)
+> >> +{
+> >> +    vfu_ctx_t *vfu_ctx =3D pci_dev->irq_opaque;
+> >> +
+> >> +    vfu_irq_trigger(vfu_ctx, msg.data);
+> >> +}
+> >=20
+> > Why did you switch to vfu_object_msi_prepare_msg() +
+> > vfu_object_msi_trigger() in this revision?
+>=20
+> We previously did not do this switch because the server didn=E2=80=99t ge=
+t updates
+> to the MSIx table & PBA.
+>=20
+> The latest client version (which is not part of this series) forwards acc=
+esses
+> to the MSIx table & PBA over to the server. It also reads the PBA set by =
+the
+> server. These change make it possible for the server to make this switch.
 
-2) make query-stats return the statistics for all objects below a given 
-QOM path, and then the caller would pass / or /machine as the target.
+Interesting. That's different from kernel VFIO. Before vfio-user commits
+to a new approach it would be worth checking with Alex that he agrees
+with the design.
 
-Both make sense, but neither extends easily to the case where you don't 
-have a QOM path, as is the case for block or network devices. 
-Unfortunately, both of them are prime candidates for extending the 
-subsystem, so they can't be dismissed easily, and that is why 
-implemented neither of them.
+I remember sending an email asking about why VFIO MSI-X PBA does not
+offer the full semantics described in the PCIe spec but didn't get a
+response from Alex (Message-Id:
+YkMWp0lUJAHhivJA@stefanha-x1.localdomain).
 
-If block or network devices were QOM, it would be possible and easy to 
-have a single "qom-path" argument to replace both "target" and the 
-sub-records like StatsVCPUFilter.
+Stefan
 
-Paolo
+--et4GvKLovRMPuC0E
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJqZDwACgkQnKSrs4Gr
+c8ibfAgAijeNKln9UkDD/Eq+PSuEFcjeLiVFYjcHJIN30VCJiAlqvSyeojgLwQCm
+rUELJEA7H5CIq8vAscQThDGU8RPGYUGi1y2nkNxl7ZCxxxVG6zlXsRFffYs5aBW8
+XL2SOtMfCxi6W1YvNNHR+GHv7L/30nDfWanJxGu8ZzE1OlTTftnNiPl7AaPiDhBd
+zdB2z3yI0sZ3QuACV9pSyGBTG79mkV1JcmslAH7JKuO3uf2oG0TeMJhQ0CW77uhK
+5fyARD2F1mOu/zxOWB5oCFAiiG50LywmFeCloeuGmxsWrnJT90uE8AeFoVCHtUAU
+0ZLBHQliOAiNQtWN7gyX5mjq5nqaXw==
+=G+gJ
+-----END PGP SIGNATURE-----
+
+--et4GvKLovRMPuC0E--
+
 
