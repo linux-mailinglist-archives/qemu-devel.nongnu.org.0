@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25267513A9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 19:02:30 +0200 (CEST)
-Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BC4513AB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 19:14:09 +0200 (CEST)
+Received: from localhost ([::1]:37160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk7XA-0005BQ-Do
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 13:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43104)
+	id 1nk7iS-0000K9-Hj
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 13:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nk7Tp-0004Dm-Et
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 12:59:01 -0400
-Received: from mout.gmx.net ([212.227.15.15]:44453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nk7Tk-0008C3-BD
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 12:58:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1651165132;
- bh=u1EH9UtKtMYRzeeqV+t8bmbhkkFkWltMhv/BMFiGno4=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=U5q/Sy4hY1Z1F1dBUTw6F4z1kYZquZJI43grclG+5U48Z4UVYA+4JM2x+s4qtOdlg
- qyQ/hzT5zhDe3SU+tW86OEbhLHrmo9wfSCJ6AKDTuEUnpI467NbpXqd6AcvKRIDuk3
- pzIUFaN8qIQMfifT9HkaFG/DL/KikGelDigcDblg=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.133.159]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MJVDW-1nQGCy1yky-00JqQ4; Thu, 28
- Apr 2022 18:58:52 +0200
-Message-ID: <47d4a9aa-c7e7-840b-4134-6a17307afe40@gmx.de>
-Date: Thu, 28 Apr 2022 18:58:50 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nk7fW-0007qo-FY
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 13:11:06 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:40885)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nk7fS-0001ch-UL
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 13:11:05 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ iq2-20020a17090afb4200b001d93cf33ae9so8243382pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 10:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=cMDr8HIg6qemJZdibdKTUHNjskjWnz2O7TUs1xU0l8g=;
+ b=LP71lMYX2yGqbrnDuzWlVTW7RW59e0mh7nzvFSp3MGxu8icMwaSJnGC3kPEdZMv1s6
+ wvDROzUooc5GCVMsni0JWeGI31Ynhd19Vk9sgIsi5SSsVBn3+Fw0A+K7Qgm1IvzvQ6xH
+ WJ9kn7DqlQal9hSxJUBsoTh/+PtXh2k/TMKZBK3WFpRlVFtOqAKmLVjy0tQhomP2bSuI
+ dfX9PqFM7/e8X4graSMXyPDl1XcrTmynGLs6mrcJhM5Q0IeM9uqkyI7ANrdAgLGGqNee
+ Tki1SxibcXyYvD5nVw6n7GxT0pH+0iPcMryELFEy8zTDoISBG3TvLpcaYT5D9ITusuxv
+ qNLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cMDr8HIg6qemJZdibdKTUHNjskjWnz2O7TUs1xU0l8g=;
+ b=DKtgb3dBYQXaBCDiElgCUJPO413o3k3H0yNh7IG2kOlIqK63fW+1NAA1wpA+UYGeZf
+ kDluFvAoMVwxM2ta8WwgyTeh7acMtBbs1ZbG3a1cblqYEr8hzi7RudruVftWMNiqsVvE
+ Y5jDOFPZoBEmRauSlNuBdPd5WKswgkPkpZtdOP1INGdfc6CPOBU3H12w/zG+Anid6tOY
+ 2ofi+sJG+RZVJ2Xfil7Dl8q3ebqW8lHM1AGMH81FYZd4dWSIFTZ0N/NZ1pZYZ3p3e8iS
+ h/8BRPWikE70IA/Q76hksTQ+Xqei9IuONrFck9OWdVlB3W7WQ+7VN+s+takME0xuui46
+ UZsw==
+X-Gm-Message-State: AOAM5301Vuvted5hv+KF61v1eAcyznypf7s4GpX1j79nMmsd3cu/Rlu7
+ opzJs6rIkm2sf4ukCYEniGpLyA==
+X-Google-Smtp-Source: ABdhPJwrSwifkMwjaCXOec2BIEoF8UeAajtTM+2/k5vsXcHJFf5SXhxF6K0DUWS4JLLpEmwvkr8q4A==
+X-Received: by 2002:a17:903:22c7:b0:15d:3359:ca4c with SMTP id
+ y7-20020a17090322c700b0015d3359ca4cmr15617976plg.59.1651165861227; 
+ Thu, 28 Apr 2022 10:11:01 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ v2-20020a632f02000000b003c14af50601sm3171921pgv.25.2022.04.28.10.11.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 10:11:00 -0700 (PDT)
+Message-ID: <eaf35087-ff6e-890e-d01e-23f382f2e8d9@linaro.org>
+Date: Thu, 28 Apr 2022 10:10:58 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 00/50] hppa: general improvements and tidy-ups
+Subject: Re: [PULL 00/54] target-arm queue
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org
-References: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jogfoiYNFPJMJ8QdAsbjq+0OylhSpzqPHao6kSbg5gwWzhB1fCJ
- RbNQhlqZBQDoMEtADk4NhexDpmX3dnrdDJRVmR+cSbJLQ8j3HD6xFPMbWYJeUvvJ/HpdCuD
- aOLNGnVrYd8aZboaXw5Qc63UI+FG2Od0DN6PDZqxd+RYw4lO6BQKmo/7JVzu+HJuGBgrOMa
- hgKF5lTS0xoQwNP5TB6kw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yqySh8sWetw=:3IbPSBjVXD7f2cgyDWB+dh
- lAgk50vHmMfyBVUoK7Rezri4SIMA1ZXcM6siREBES77UjeMDC1V9iTdphKKX8AlO9N66ZcSoP
- nlLqMaqg46ROYNiRVe/nJ0AeC5NBQEihWQfpSqQfK4ABC+8h5ZMDEAH3ahOmFxpuT9ZywDEYn
- lHFcBPwloWYbgDPpALvWnbgVkXJhcNVTZniIt1VhzxfIBJqnSeVa4vQNUWtzwMT6faVtAKGIb
- IEy/deVJJsQrmkX4bKBOFaKpAIdL6IkzrLDAA9FrhBNTk4i8eJY0FDNdn4bHxSU2Qf5DDlK44
- 2NT7TudBp2ysT9TNU9P9Iz097k2xsRlw7B4Ab6WJP6r8+vtKtsLD8dEnwn5d8Fq650t+dZBTT
- ltP9gNh0nvv7BnC6SYtghVcPx2BBM/Btzjix4RUjVmnyToW/BYOf7/Ih8JVWcVTsWTRe492Sp
- uaAJzPWo7sY713T5yVJzxbr4eu2y7225r/2pX3x03OxCUQh+ZgtFkG93seM3sJYJnDr8qjkpV
- pYUK/trIqLb3GSDrMFfoEm2jKAbttU5on32QsgTcFkZ7kGcrto0lw5UBXun9aMaICHw3FrqL8
- 62foAnT6lYaBqtoiFxM0MqK8pIkI3W7jSOq9R6YD+uPoAX6msKuWwPx6VRvtGaxrVGKl4HhnE
- vL/jD1CzoKM2440A4FYTCCxkrLAFOJcQRAeWDw6v2mKbgZVFZoV0Y410sBuJ0XhAnZvKKSK1U
- KCwO9CIvRMfoWHqmQufA+iGPhSQYW2xnlt+U7v0VXIhSJsFoKu8tdflxeksRjo3zeGzo8ama9
- Ww1cBwA1dqT1dcpAUHcVMTQqYq+PB8CNPSwBHK2CV83cLeFoIwa4d9nnrphDaFrn2iswP8xJv
- /hUAvINn8doyaccVIWN2NLZRLZ3dD+wfLSnNBMVPYASBjYU+o/BbQ208+Y3UaF2Gr4hHO5Rak
- Kpz2Pi7ym9CZAROJAeryvVu5y9LBrzyBtMcitCetNDc6eaw5h5bWPeIkfdxoRLbXFAeiURLyd
- fxA+Hzn63ylhlhRcRV7V+6Moli4RfjZMzVqbj4cmdl9EMkaJB9jetEfBKytw15zv+EXpGKRIn
- /ZhA2gSpM1xFd8=
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20220428143958.2451229-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220428143958.2451229-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,143 +92,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/22 21:30, Mark Cave-Ayland wrote:
-> This patchset started off when I noticed that dino.c was accessing paren=
-t_obj
-> directly rather than using a QOM cast. After fixing that I noticed quite=
- a few
-> other improvements that could be done to bring hppa up to our recommende=
-d
-> coding standards.
->
-> The main aim of this patchset is to de-couple the dino and lasi devices =
-from
-> the board using QOM to handle the initialisation instead of having globa=
-l
-> device init functions. Included in this is switching the onboard devices
-> over to use qdev GPIOs for wiring instead of directly allocating QEMU IR=
-Qs.
->
-> Along the way I've renamed the board config from CONFIG_DINO to
-> CONFIG_HPPA_GENERIC since that better represents the machine type, and t=
-hen
-> used CONFIG_DINO and CONFIG_LASI for the appropriate devices which have =
-been
-> moved to hw/pci-host/dino.c and hw/misc/lasi.c respectively.
->
-> After the reorganisation it was trivial to remove hppa_sys.h and the maj=
-ority
-> of pci.c which wasn't being used. Finally I tidied up the use of the QOM
-> machine type macros in machine.c.
->
-> The result has been lightly tested with a tiny Linux image I had lying a=
-round
-> for testing my recent ESP changes, so more testing is welcome. There is =
-a bit
-> more work to be done sorting out the lasips2 device init and machine ini=
-t, but
-> since the patchset is already quite big I can follow up with that once t=
-his
-> series has been merged.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On 4/28/22 07:39, Peter Maydell wrote:
+> This is mostly RTH's tcg_constant refactoring work, plus a few
+> other things.
+> 
+> thanks
+> -- PMM
+> 
+> The following changes since commit cf6f26d6f9b2015ee12b4604b79359e76784163a:
+> 
+>    Merge tag 'kraxel-20220427-pull-request' of git://git.kraxel.org/qemu into staging (2022-04-27 10:49:28 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220428
+> 
+> for you to fetch changes up to f8e7163d9e6740b5cef02bf73a17a59d0bef8bdb:
+> 
+>    hw/arm/smmuv3: Advertise support for SMMUv3.2-BBML2 (2022-04-28 13:59:23 +0100)
+> 
+> ----------------------------------------------------------------
+> target-arm queue:
+>   * refactor to use tcg_constant where appropriate
+>   * Advertise support for FEAT_TTL and FEAT_BBM level 2
+>   * smmuv3: Cache event fault record
+>   * smmuv3: Add space in guest error message
+>   * smmuv3: Advertise support for SMMUv3.2-BBML2
 
-Marc, thanks a lot for this big cleanup!
-I've reviewed and tested it with Linux and HP-UX guests.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Please add:
-Acked-by: Helge Deller <deller@gmx.de>
 
-Thanks!!
-Helge
+r~
 
->
-> Mark Cave-Ayland (50):
->   dino: checkpatch fixes
->   dino: move registers from dino_init() to DINO_PCI_BRIDGE init function
->   dino: move PCI bus initialisation to dino_pcihost_init()
->   dino: move PCI windows initialisation to dino_pcihost_init()
->   dino: add memory-as property containing a link to the memory address
->     space
->   dino: move pci_setup_iommu() to dino_pcihost_init()
->   dino: move PCI bus master address space setup to
->     dino_pcihost_realize()
->   dino: move initial register configuration to new dino_pcihost_reset()
->     function
->   dino: use QOM cast instead of directly referencing parent_obj
->   dino: return PCIBus from dino_init() using qdev_get_child_bus()
->   dino: split declarations from dino.c into dino.h
->   hppa: use new CONFIG_HPPA_GENERIC option instead of CONFIG_DINO to
->     build hppa machine
->   dino: change dino_init() to return the DINO device instead of PCIBus
->   machine.c: map DINO device during board configuration
->   dino.h: add defines for DINO IRQ numbers
->   dino: define IRQ inputs as qdev GPIOs
->   dino: wire up serial IRQ using a qdev GPIO in machine.c
->   dino: remove unused dino_set_timer_irq() IRQ handler
->   hppa: move dino_init() from dino.c to machine.c
->   dino: use numerical constant for iar0 and iar1 reset values
->   dino: move DINO HPA constants from hppa_hardware.h to dino.h
->   dino: move from hw/hppa to hw/pci-host
->   lasi: checkpatch fixes
->   lasi: move memory region initialisation to new lasi_init() function
->   lasi: move register memory mapping from lasi.c to machine.c
->   lasi: move initialisation of iar and rtc to new lasi_reset() function
->   lasi: move LASIState and associated QOM structures to lasi.h
->   lasi: replace lasi_get_irq() with defined constants
->   lasi: define IRQ inputs as qdev GPIOs
->   lasi: use qdev GPIOs to wire up IRQs in lasi_initfn()
->   lasi: fix serial port initialisation
->   lasi: update lasi_initfn() to return LASIState
->   lasi: move LAN initialisation to machine.c
->   lasi: move parallel port initialisation to machine.c
->   lasi: move second serial port initialisation to machine.c
->   lasi: move PS2 initialisation to machine.c
->   lasi: remove address space parameter from lasi_initfn()
->   lasi: move lasi_initfn() to machine.c
->   lasi: use constants for device register offsets
->   lasi: use numerical constant for iar reset value
->   hppa: move device headers from hppa_sys.h into individual .c files
->   lasi: move from hw/hppa to hw/misc
->   hppa: move hppa_pci_ignore_ops from pci.c to machine.c
->   hppa: remove hw/hppa/pci.c
->   hppa: remove unused trace-events from from hw/hppa
->   hppa: move enable_lan() define from hppa_sys.h to machine.c
->   hppa: remove the empty hppa_sys.h file
->   hppa: use MACHINE QOM macros for defining the hppa machine
->   hppa: fold machine_hppa_machine_init() into
->     machine_hppa_machine_init_class_init()
->   hppa: simplify machine function names in machine.c
->
->  MAINTAINERS                              |   4 +
->  configs/devices/hppa-softmmu/default.mak |   2 +-
->  hw/hppa/Kconfig                          |   5 +-
->  hw/hppa/hppa_hardware.h                  |   5 -
->  hw/hppa/hppa_sys.h                       |  24 ---
->  hw/hppa/machine.c                        | 122 +++++++++---
->  hw/hppa/meson.build                      |   2 +-
->  hw/hppa/pci.c                            |  88 ---------
->  hw/hppa/trace-events                     |  14 --
->  hw/misc/Kconfig                          |   3 +
->  hw/{hppa =3D> misc}/lasi.c                 | 161 ++++------------
->  hw/misc/meson.build                      |   3 +
->  hw/misc/trace-events                     |   5 +
->  hw/pci-host/Kconfig                      |   4 +
->  hw/{hppa =3D> pci-host}/dino.c             | 231 +++++++---------------=
--
->  hw/pci-host/meson.build                  |   3 +
->  hw/pci-host/trace-events                 |   5 +
->  include/hw/misc/lasi.h                   |  78 ++++++++
->  include/hw/pci-host/dino.h               | 146 ++++++++++++++
->  meson.build                              |   1 -
->  20 files changed, 462 insertions(+), 444 deletions(-)
->  delete mode 100644 hw/hppa/hppa_sys.h
->  delete mode 100644 hw/hppa/pci.c
->  delete mode 100644 hw/hppa/trace-events
->  rename hw/{hppa =3D> misc}/lasi.c (60%)
->  rename hw/{hppa =3D> pci-host}/dino.c (71%)
->  create mode 100644 include/hw/misc/lasi.h
->  create mode 100644 include/hw/pci-host/dino.h
->
+
+
+> 
+> ----------------------------------------------------------------
+> Damien Hedde (1):
+>        target/arm: Disable cryptographic instructions when neon is disabled
+> 
+> Jean-Philippe Brucker (2):
+>        hw/arm/smmuv3: Cache event fault record
+>        hw/arm/smmuv3: Add space in guest error message
+> 
+> Peter Maydell (3):
+>        target/arm: Advertise support for FEAT_TTL
+>        target/arm: Advertise support for FEAT_BBM level 2
+>        hw/arm/smmuv3: Advertise support for SMMUv3.2-BBML2
+> 
+> Richard Henderson (48):
+>        target/arm: Use tcg_constant in gen_probe_access
+>        target/arm: Use tcg_constant in gen_mte_check*
+>        target/arm: Use tcg_constant in gen_exception*
+>        target/arm: Use tcg_constant in gen_adc_CC
+>        target/arm: Use tcg_constant in handle_msr_i
+>        target/arm: Use tcg_constant in handle_sys
+>        target/arm: Use tcg_constant in disas_exc
+>        target/arm: Use tcg_constant in gen_compare_and_swap_pair
+>        target/arm: Use tcg_constant in disas_ld_lit
+>        target/arm: Use tcg_constant in disas_ldst_*
+>        target/arm: Use tcg_constant in disas_add_sum_imm*
+>        target/arm: Use tcg_constant in disas_movw_imm
+>        target/arm: Use tcg_constant in shift_reg_imm
+>        target/arm: Use tcg_constant in disas_cond_select
+>        target/arm: Use tcg_constant in handle_{rev16,crc32}
+>        target/arm: Use tcg_constant in disas_data_proc_2src
+>        target/arm: Use tcg_constant in disas_fp*
+>        target/arm: Use tcg_constant in simd shift expanders
+>        target/arm: Use tcg_constant in simd fp/int conversion
+>        target/arm: Use tcg_constant in 2misc expanders
+>        target/arm: Use tcg_constant in balance of translate-a64.c
+>        target/arm: Use tcg_constant for aa32 exceptions
+>        target/arm: Use tcg_constant for disas_iwmmxt_insn
+>        target/arm: Use tcg_constant for gen_{msr,mrs}
+>        target/arm: Use tcg_constant for vector shift expanders
+>        target/arm: Use tcg_constant for do_coproc_insn
+>        target/arm: Use tcg_constant for gen_srs
+>        target/arm: Use tcg_constant for op_s_{rri,rxi}_rot
+>        target/arm: Use tcg_constant for MOVW, UMAAL, CRC32
+>        target/arm: Use tcg_constant for v7m MRS, MSR
+>        target/arm: Use tcg_constant for TT, SAT, SMMLA
+>        target/arm: Use tcg_constant in LDM, STM
+>        target/arm: Use tcg_constant in CLRM, DLS, WLS, LE
+>        target/arm: Use tcg_constant in trans_CPS_v7m
+>        target/arm: Use tcg_constant in trans_CSEL
+>        target/arm: Use tcg_constant for trans_INDEX_*
+>        target/arm: Use tcg_constant in SINCDEC, INCDEC
+>        target/arm: Use tcg_constant in FCPY, CPY
+>        target/arm: Use tcg_constant in {incr, wrap}_last_active
+>        target/arm: Use tcg_constant in do_clast_scalar
+>        target/arm: Use tcg_constant in WHILE
+>        target/arm: Use tcg_constant in LD1, ST1
+>        target/arm: Use tcg_constant in SUBR
+>        target/arm: Use tcg_constant in do_zzi_{sat, ool}, do_fp_imm
+>        target/arm: Use tcg_constant for predicate descriptors
+>        target/arm: Use tcg_constant for do_brk{2,3}
+>        target/arm: Use tcg_constant for vector descriptor
+>        target/arm: Use field names for accessing DBGWCRn
+> 
+>   docs/system/arm/emulation.rst |   2 +
+>   hw/arm/smmuv3-internal.h      |   2 +-
+>   include/hw/arm/smmu-common.h  |   1 +
+>   target/arm/internals.h        |  12 ++
+>   hw/arm/smmuv3.c               |  17 +--
+>   target/arm/cpu.c              |   9 ++
+>   target/arm/cpu64.c            |   2 +
+>   target/arm/debug_helper.c     |  10 +-
+>   target/arm/helper.c           |   8 +-
+>   target/arm/kvm64.c            |  14 +-
+>   target/arm/translate-a64.c    | 301 +++++++++++++-----------------------------
+>   target/arm/translate-sve.c    | 202 ++++++++++------------------
+>   target/arm/translate.c        | 244 ++++++++++++----------------------
+>   13 files changed, 293 insertions(+), 531 deletions(-)
+> 
 
 
