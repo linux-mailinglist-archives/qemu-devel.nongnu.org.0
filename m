@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A8651323A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 13:16:03 +0200 (CEST)
-Received: from localhost ([::1]:45014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 499F6513233
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 13:13:55 +0200 (CEST)
+Received: from localhost ([::1]:39446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk27v-00063r-0g
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 07:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53848)
+	id 1nk25q-0002ML-31
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 07:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk1Qe-0001jq-RE
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:31:20 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:36315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk1Qc-0007t6-Ch
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:31:20 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2f7b815ac06so47842457b3.3
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 03:31:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z28B/ZbtHn9lbF3PNtgsh8HQuBmB196xDMmlikFgFtk=;
- b=tQp+b7RnnMK+Rwa9umtdu2NWYl+3dy/UVLRulr7g5ivINHTEHPPwYtpfWE+tLvO0Nz
- lOGH2ke23uMYrZcVhTHx9Q0dNVAIhFzh8p8G3/UK4qxIjC+a0zoufbBIkX65o3/xtuv4
- zDgRzwCMpWZtjrey+2fWoXDXIoFj6wjyNyw79jepTQBhLT82rzGZP/tzFlebSPzscA7I
- yu5NmBYqH56TeI28/pQfWBe/0xSNVRLnNgviFEuGGWyhzsr/4fYFQRzF23ucd7GE75pE
- JLNQ0kVkkLyQPTI65OR3iKQ/NLtvDKFpCNJxrGgbhGNOdM1dEqazelEStKXmbFNX1fI8
- CUGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z28B/ZbtHn9lbF3PNtgsh8HQuBmB196xDMmlikFgFtk=;
- b=6KVR32kvYj0L9rcOn2SsYxtQZCkli5kbM9OJ1O6QyQ763D0JscE6bh6ShsXc00f+ZD
- yfeemXivLk1tekKCAz38x8f5wMQ4sDR/x2D/jQkmqYtyZukS7xg4UJ2NVfh93fNBAst0
- Gf9O5H7co+6cm8O3GOoRFrKLfGZZ3iyq5Jf8mUKV94vArUyGKHrYALFwQsBo5rIF+7NH
- 64fS3M4LsH4rK+xxFVOVNqVxbOvBrCPB6xEN3nAd/KlUZqtnoe5srDRToaPEDQRha078
- yUIpBSJiYxVv/Tph4hC+yAFTfT0wswN7vgGKKJP9+o9UI3H86VcVz5Wx8bNGyZfQ+xqH
- +fCw==
-X-Gm-Message-State: AOAM533UJ9G5lXZcC1R6b3EUJgqI4RkTT2+MUB1OspwbxbpoGeAcbuKV
- Tr3NSEBmdUIo+p4Ll5RT5zEI9h883LBO4M3Bi2hwdQ==
-X-Google-Smtp-Source: ABdhPJxGJfr5Ny8dGpz0iWt+u6sgevNPx0UppIc0nq1m81kPSCQStwqHvgtm53Ogb/tkmV2Y+dEn35QerHK0sFe1LoI=
-X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
- z23-20020a81ac57000000b002f199ec91a2mr31792776ywj.329.1651141877218; Thu, 28
- Apr 2022 03:31:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk1Tc-0005FC-SC
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35154)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk1Ta-0008BL-9B
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:34:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651142060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QnlYNSOghmteG9rJbjgSQgBJAjzmho1xQx7aV2wfA30=;
+ b=g2eZOPJFN8kf2vaRsCoPn2YlYRMRBK/QmOkCDD6cKhnqgiOkGX6uk976eoWdgjXvXpjmOs
+ Ulgc2S1il0wG6dSxMQI7hV+FsW9aaeZBrzeWcY7JpcnB7tuyMePnZ1/8WpNloe3VySRGIH
+ oAV77kBGIdkTWd4IgkYFugjApQH9Up4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-61-Nr4-OQQBMYWvRgETYA-yyg-1; Thu, 28 Apr 2022 06:34:16 -0400
+X-MC-Unique: Nr4-OQQBMYWvRgETYA-yyg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5DBC1801E67;
+ Thu, 28 Apr 2022 10:34:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1ED440D2971;
+ Thu, 28 Apr 2022 10:34:15 +0000 (UTC)
+Date: Thu, 28 Apr 2022 11:34:14 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <Ymptphd9lpctkTj/@stefanha-x1.localdomain>
+References: <20220426085114.199647-1-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220426163043.100432-1-richard.henderson@linaro.org>
- <20220426163043.100432-31-richard.henderson@linaro.org>
-In-Reply-To: <20220426163043.100432-31-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Apr 2022 11:31:06 +0100
-Message-ID: <CAFEAcA-7UKer0HccJcJtCbp5+bHLeDNHbFwL6S2mgTZ9Nkeg0A@mail.gmail.com>
-Subject: Re: [PATCH 30/47] target/arm: Use tcg_constant for v7m MRS, MSR
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="P6glbUe+jgpcMxfk"
+Content-Disposition: inline
+In-Reply-To: <20220426085114.199647-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,20 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Apr 2022 at 18:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+--P6glbUe+jgpcMxfk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 26, 2022 at 04:51:06AM -0400, Emanuele Giuseppe Esposito wrote:
+> Next step is the most complex one: figure where to put the rdlocks.
+
+I got a little lost at this step but will hopefully understand more when
+reading the patches. Earlier it said there is a counter for readers, so
+it seems trivial to make it a recursive lock. I don't understand why you
+want to avoid a recursive locking - the complications you described stem
+=66rom the fact that you want to avoid recursive locks?
+
+Secondly, can you describe the role of the lock? The text mentions the
+old AioContext lock that is being replaced but doesn't define this new
+lock in its own right. Is the idea to make ->parents and ->children list
+accesses thread-safe and all loops "safe" so they don't break when a BDS
+is removed?
+
+Stefan
+
+--P6glbUe+jgpcMxfk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJqbaYACgkQnKSrs4Gr
+c8i0owf+PbH/PsJ4hwoC5VQ+EL6FkZeZJ5Hndam8iOOQcbECIxkhew5y9tIRfPKu
+oDVmGt8k502+URInjVXJVNSeRZoH+sGDmYl2zF8r7iz+FGHdQDcwbV8cfim+38gP
+p0WZA7aTpPLzV0DFNxV/RhLRPArAW6k4MEz19eUNEJiOF80jsQMhysOi1XK5MwYU
+AeTmP+UD4YcA5YfdSMKFCjzTOzsxjtxg+7BTn6kFTyyY5yCdpDvxnkCl0SY3Kh3L
+m8L5AIzBeS8p/oPJYEsHh+tKqO7Z34HyWxTmvJFBhjLgvIon2Eh67ZFSS/fB0GfT
+xk+P4uw48ErzgOmBsXZ2vRO4LmtdmQ==
+=LPqW
+-----END PGP SIGNATURE-----
+
+--P6glbUe+jgpcMxfk--
+
 
