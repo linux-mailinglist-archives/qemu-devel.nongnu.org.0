@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67C75135EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:00:21 +0200 (CEST)
-Received: from localhost ([::1]:39210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07692513729
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:43:39 +0200 (CEST)
+Received: from localhost ([::1]:45910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk4gu-0000Ht-WD
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:00:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57114)
+	id 1nk5Mo-0002vc-3J
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nk4fY-0007vD-OE
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:58:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47471)
+ (Exim 4.90_1) (envelope-from <alex.zuepke@tum.de>)
+ id 1nk4D9-0000Jk-PG; Thu, 28 Apr 2022 09:29:36 -0400
+Received: from postout2.mail.lrz.de ([129.187.255.138]:33823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nk4fW-0006e9-8Y
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:58:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651154333;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5jBy86KIf9Uvsiq0TfOJRnJNJw8DbprrtHX1TdIatLU=;
- b=GVDdJpkrz1IkQDW0IYjLOlmr1EfFwwjRZctvll7IJbDLKA+vNPnmgZxWNmDdE02k6lDfMw
- bN9gSBwzjeIikRz/uAbDgBIxaWbIeo4z/yZ3/z6gcb5aTz/05R4/5JGF5KBCJecwzTO49X
- Vur4tCwFj7d4au2k8heWsHOIJI2sIFQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-u67Q-qyjMdeN6tRZIckjIw-1; Thu, 28 Apr 2022 09:58:49 -0400
-X-MC-Unique: u67Q-qyjMdeN6tRZIckjIw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <alex.zuepke@tum.de>)
+ id 1nk4D6-0008Ao-3l; Thu, 28 Apr 2022 09:29:35 -0400
+Received: from lxmhs52.srv.lrz.de (localhost [127.0.0.1])
+ by postout2.mail.lrz.de (Postfix) with ESMTP id 4KpxKK3psTzyXv;
+ Thu, 28 Apr 2022 15:28:53 +0200 (CEST)
+Authentication-Results: postout.lrz.de (amavisd-new); dkim=pass (2048-bit key)
+ reason="pass (just generated,
+ assumed good)" header.d=tum.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tum.de; h=
+ content-transfer-encoding:mime-version:x-mailer:message-id:date
+ :date:subject:subject:from:from:received:received; s=
+ tu-postout21; t=1651152533; bh=acyHZWQVK9LY1r702M5mrtiQhNjLFkGHn
+ GKfGrCVdqU=; b=itWrc0Z1ftzRafyWtt6jhHAXoUXXeM6bER0D0xKMR09R/2oNZ
+ NjKJpBSXunMLJvIT8kkuRYamzx6lQuIoLYviisSyB1AZT0Yiwc77yROe/LdLeJ1B
+ En99aSX1B6bbToS/vr4VuHYIez4em37vzhCE8L/HXm3vPtxHleemgdMXTdDhkCRL
+ 0TtD4QBa+trQk2yNyAzWd6SQOEYI36WIT6VBvTjSq+jC6MlNvrQAWML4UA5jz3+J
+ 9QtU1vZlJSk/+dceqTY6JaVWgZdf37QSuOeODA9cV3vYI2IQunXz3VhTYEXhBqP5
+ ifjB+gppuQEgvLjeSLTViIVhLa/2cz1NO63ww==
+X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs52.srv.lrz.de
+X-Spam-Score: -2.876
+Received: from postout2.mail.lrz.de ([127.0.0.1])
+ by lxmhs52.srv.lrz.de (lxmhs52.srv.lrz.de [127.0.0.1]) (amavisd-new,
+ port 20024)
+ with LMTP id 5pNew0vEJQyk; Thu, 28 Apr 2022 15:28:53 +0200 (CEST)
+Received: from hallertau.eduroam.mwn.de (unknown
+ [IPv6:2001:4ca0:0:f293:6e92:3b1a:2684:1bf8])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 824F91014A66;
- Thu, 28 Apr 2022 13:58:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3630240314F;
- Thu, 28 Apr 2022 13:58:49 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- eric.auger@redhat.com, qemu-devel@nongnu.org, alex.williamson@redhat.com
-Subject: Re: [PATCH v4] vfio/common: remove spurious tpm-crb-cmd
- misalignment warning
-In-Reply-To: <20220428134945.511829-1-eric.auger@redhat.com>
-Organization: Red Hat GmbH
-References: <20220428134945.511829-1-eric.auger@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Thu, 28 Apr 2022 15:58:47 +0200
-Message-ID: <87o80ll36w.fsf@redhat.com>
+ by postout2.mail.lrz.de (Postfix) with ESMTPSA id 4KpxKJ4YnNzySR;
+ Thu, 28 Apr 2022 15:28:52 +0200 (CEST)
+From: Alex Zuepke <alex.zuepke@tum.de>
+To: 
+Subject: [PATCH] target/arm: read access to performance counters from EL0
+Date: Thu, 28 Apr 2022 15:27:17 +0200
+Message-Id: <20220428132717.84190-1-alex.zuepke@tum.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=129.187.255.138; envelope-from=alex.zuepke@tum.de;
+ helo=postout2.mail.lrz.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 28 Apr 2022 10:40:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,39 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, stefanb@linux.vnet.ibm.com
+Cc: Alex Zuepke <alex.zuepke@tum.de>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28 2022, Eric Auger <eric.auger@redhat.com> wrote:
+The ARMv8 manual defines that PMUSERENR_EL0.ER enables read-access
+to both PMXEVCNTR_EL0 and PMEVCNTR<n>_EL0 registers, however,
+we only use it for PMXEVCNTR_EL0. Extend to PMEVCNTR<n>_EL0 as well.
 
-> The CRB command buffer currently is a RAM MemoryRegion and given
-> its base address alignment, it causes an error report on
-> vfio_listener_region_add(). This region could have been a RAM device
-> region, easing the detection of such safe situation but this option
-> was not well received. So let's add a helper function that uses the
-> memory region owner type to detect the situation is safe wrt
-> the assignment. Other device types can be checked here if such kind
-> of problem occurs again.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
->
-> ---
->
-> v3 -> v4:
-> - rebase on top of qemu_real_host_page_size() and
->   qemu_real_host_page_size(). Print the size and make the message
->   consistent
-> - Added Stefan's A-b and Connie R-b (despite the changes)
+Signed-off-by: Alex Zuepke <alex.zuepke@tum.de>
+---
+ target/arm/helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Still fine with me.
-
-> ---
->  hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
->  hw/vfio/trace-events |  1 +
->  2 files changed, 27 insertions(+), 1 deletion(-)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 63397bbac1..eb42b22766 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6679,10 +6679,10 @@ static void define_pmu_regs(ARMCPU *cpu)
+               .crm = 8 | (3 & (i >> 3)), .opc1 = 0, .opc2 = i & 7,
+               .access = PL0_RW, .type = ARM_CP_IO | ARM_CP_ALIAS,
+               .readfn = pmevcntr_readfn, .writefn = pmevcntr_writefn,
+-              .accessfn = pmreg_access },
++              .accessfn = pmreg_access_xevcntr },
+             { .name = pmevcntr_el0_name, .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 3, .crn = 14, .crm = 8 | (3 & (i >> 3)),
+-              .opc2 = i & 7, .access = PL0_RW, .accessfn = pmreg_access,
++              .opc2 = i & 7, .access = PL0_RW, .accessfn = pmreg_access_xevcntr,
+               .type = ARM_CP_IO,
+               .readfn = pmevcntr_readfn, .writefn = pmevcntr_writefn,
+               .raw_readfn = pmevcntr_rawread,
+-- 
+2.25.1
 
 
