@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EA6513449
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 14:57:51 +0200 (CEST)
-Received: from localhost ([::1]:38526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB6E513451
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 15:00:09 +0200 (CEST)
+Received: from localhost ([::1]:41092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk3iQ-0006fo-H1
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 08:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36280)
+	id 1nk3ke-0000BB-NF
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 09:00:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk3h7-0005gQ-Kt
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:56:29 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:41907)
+ (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
+ id 1nk3hh-0006BZ-7a
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:57:05 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk3h5-0002Kw-TZ
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:56:29 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id s30so8842907ybi.8
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 05:56:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
+ id 1nk3hf-0002MS-Az
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:57:04 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id i19so9357432eja.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 05:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eZDV6ma1eYefpVj/w7G4fwGabiA/6CKg5rkn0ky9OYk=;
- b=HwEg0yXft+qtFX8XYLero0Cj6t0YI4HLsNVWcMy8ZzG8wqqvGmM1Es1UgiRGQsjp/X
- lXewRB9zguYCdjjhqAQsHJIalgD5TuXh89CrIc8+TklqgnpnsWRCcAEGdtAb9OnOuG9S
- ooyr4tf2DP7/VH3/CjelSQisVPO0Ik7ZxRFB1bQZrj22l+e+o3nuRC6gdqsXrsn1HYVY
- T3GYzRpBL3aFqiwRMKb5aielyjilc4o4Fa1fygEaHco3XQ09mGNi//l3cq2qauhdXqgO
- 5xyrPPJVYYGfb3seBLRtLJJLfz9gBzEsD+9WZZeSiWXBl4MmE4cl38R0DC6RXTmYdTuh
- pH9w==
+ :cc; bh=BSO4hSMQ9Oo8PLOVhG22R2HA1YjIw6po1o/JoZSR/fc=;
+ b=Gxq5onESoJgIgihXJxCtt+/hHVURxYBzpSjtMClMv6DExh/Kp5ypSG6PBNqjeB2gxv
+ 6RE3hqOKgd0SoihgwoM3HlfEB++n/lm8SeYvpaKwo//XfstSqLbHRG2r8iWTRQEm8AaA
+ pUl0g+PLP6EXNM3xp7c++t0PesupAbgLXpRCFzoarnNZVGs8HI8EVKmpiP5SSCUZNKSR
+ hDc0Xm+NNVc0XYlaTA2d/3MyAWNQX8Zye1TjKYp/WyefeF7v9v+qVNqRH9NzXp1HwBf0
+ XHTUnS59nYgsXaHU/2JXYxY2WN3ANONe8icf1/K73CGUgrEjKzKM8842k4uBVL4Gbhn4
+ EffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eZDV6ma1eYefpVj/w7G4fwGabiA/6CKg5rkn0ky9OYk=;
- b=ulrycGadjEluVwCXv95F+QXbOCD6LR4srW0nfQEaFcM9/9rmKcOiZNpcABJkYXbwBk
- mdT+dPwahvmIAEu41oDCk1cLiOa9pMbDq7BBx5bVLXC1M7rjVEmmOBVz3Q5TL9NanXKU
- pcZf1Sven5hbo6XBzUd/ADI0FtM7LSI9bD5d6YqQ5JCJQVp9vwywIS4+7Zb9e//2sU8T
- 6TFVjqzwMhGM+dCuoo2WvfRTMzOMwdcX5v9G+B0JPfSgb79XsaRaB8WEY4aLBPTr1LYl
- +SYeoOTaeNmPaf94UlCAygLpxgsfQB9/xoAzxdHB5qziH0yRSoRfAlfpzJFwn5GDdsn/
- zofQ==
-X-Gm-Message-State: AOAM532qgkfBycehmfGLY4ToK+IfncY0O/ILiJCBmjhuTgOOs6tlqGwV
- 5P4K1jjQW7ZS0zS2O+HtScumjv8mpYvOq90PYAI3vA==
-X-Google-Smtp-Source: ABdhPJwrIL6kNHFwH6I9rUhkTZGWkhnUV9QRBEKdvbRmMYVMILvRWJu6eSkap71vrS+0HC4W2G/JfbDR/Yf8iv22nYY=
-X-Received: by 2002:a25:40c4:0:b0:645:88a3:eb8b with SMTP id
- n187-20020a2540c4000000b0064588a3eb8bmr28754744yba.193.1651150586781; Thu, 28
- Apr 2022 05:56:26 -0700 (PDT)
+ bh=BSO4hSMQ9Oo8PLOVhG22R2HA1YjIw6po1o/JoZSR/fc=;
+ b=XHR4rfebDFn6X+bJxvP7e+Tb/RHyDydhyqEt1figb5RHFmM8NLgzp/qfdd4Zv5itRI
+ LiLv2cKNnZX2tO1dXdAvd72eiLaFHOHRiYBVvdoQiUBI11YEHBEl4QFx3h5BV4G0c4sJ
+ 39Zdr6cBcNmnZxit8WczgolOLCRQmOPJVUZ3bfqc+9BIJDcM7AfaQsHl+qTOXdiIH/a+
+ T+SqqUIBsAWowaiZH+hbq13D+ajP6nFXmDVdxOPCw8ol5PIDci4J3QTU8M12A+oGMvnK
+ 2kSQk68RNyCPCSOGk8kyLkJ01JpjYMccInfIX7PQc6q7JPACJgz0O96oWi1SbAbRQKTZ
+ ISwg==
+X-Gm-Message-State: AOAM5327hZZdnEkxqx4DLXvGuf8BQla5Y17KFwsMVQSF+DOxFsjwdmKm
+ ypQNiGWIjqUlKTD7MA6vggEb5/gV/WP8/CYm49ybWA==
+X-Google-Smtp-Source: ABdhPJwt63k5vom3Dyi1dmuSZ3zJLIqO8zph0k57Q7fZhj3elMEjB1C5PMu1cJZmj8Jt65fVMRtmX/vvppk1OxWFkno=
+X-Received: by 2002:a17:906:3fd1:b0:6ef:606f:e5c5 with SMTP id
+ k17-20020a1709063fd100b006ef606fe5c5mr31275203ejj.441.1651150621538; Thu, 28
+ Apr 2022 05:57:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220427042312.294300-1-richard.henderson@linaro.org>
-In-Reply-To: <20220427042312.294300-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Apr 2022 13:56:15 +0100
-Message-ID: <CAFEAcA-636wFtzEF56y8PcjcZy2J9RuNaw1nHMQ4Nsn_55ndCw@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Enable SCTLR_EL1.BT0 for aarch64-linux-user
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <CAMGffEmEmWK99xDu=i2iq9WeTxdPwnG9-94UEqFnBSzmvv=TWQ@mail.gmail.com>
+ <20220428114850.GA20626@yangzhon-Virtual>
+ <CAMGffEmGjwAViuRa+ORMyO3+P7KhoOeuvNF3a3tju-WEMLdSrw@mail.gmail.com>
+ <20220428121614.GB20626@yangzhon-Virtual>
+In-Reply-To: <20220428121614.GB20626@yangzhon-Virtual>
+From: Jinpu Wang <jinpu.wang@ionos.com>
+Date: Thu, 28 Apr 2022 14:56:50 +0200
+Message-ID: <CAMGffEkmoEFoY6opV8fxp4RqmBUPojG44F7AFBY63=Ab267W1g@mail.gmail.com>
+Subject: Re: RFC: sgx-epc is not listed in machine type help
+To: Yang Zhong <yang.zhong@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: permerror client-ip=2a00:1450:4864:20::62d;
+ envelope-from=jinpu.wang@ionos.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SCC_BODY_URI_ONLY=0.833, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,34 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Yu Zhang <yu.zhang@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 at 05:23, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, Apr 28, 2022 at 2:32 PM Yang Zhong <yang.zhong@intel.com> wrote:
 >
-> This controls whether the PACI{A,B}SP instructions trap with BTYPE=3
-> (indirect branch from register other than x16/x17).  The linux kernel
-> sets this in bti_enable().
+> On Thu, Apr 28, 2022 at 02:18:54PM +0200, Jinpu Wang wrote:
+> > On Thu, Apr 28, 2022 at 2:05 PM Yang Zhong <yang.zhong@intel.com> wrote:
+> > >
+> > > On Thu, Apr 28, 2022 at 01:59:33PM +0200, Jinpu Wang wrote:
+> > > > Hi Yang, hi Paolo,
+> > > >
+> > > > We noticed sgx-epc machine type is not listed in the output of
+> > > > "qemu-system-x86_64 -M ?",
+> > snip
+> > > >
+> > > >
+> > > > I think this would cause confusion to users, is there a reason behind this?
+> > > >
+> > >
+> > >   No specific machine type for SGX, and SGX is only supported in Qemu PC and Q35 platform.
+> > Hi Yang,
+> >
+> > Thanks for your quick reply. Sorry for the stupid question.
+> > The information I've got from intel or the help sample from
+> > https://www.qemu.org/docs/master/system/i386/sgx.html, We need to
+> > specify commands something like this to run SGX-EPC guest:
+> > qemu-system-x86-64 -m 2G -nographic -enable-kvm -cpu
+> > host,+sgx-provisionkey  -object
+> > memory-backend-epc,id=mem1,size=512M,prealloc=on -M
+> > sgx-epc.0.memdev=mem1,sgx-epc.0.node=0 /tmp/volume-name.img
+> >
+> > Do you mean internally QEMU is converting -M sgx-epc to PC or Q35, can
+> > I choose which one to use?
+> >
 >
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/998
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-> --- a/tests/tcg/aarch64/Makefile.target
-> +++ b/tests/tcg/aarch64/Makefile.target
-> @@ -26,11 +26,11 @@ run-plugin-pauth-%: QEMU_OPTS += -cpu max
->  endif
+>   Qemu will replace object with compound key, in that time, Paolo asked me
+>   to use "-M sgx-epc..." to replace "-object sgx-epc..." from Qemu command line.
 >
->  # BTI Tests
-> -# bti-1 tests the elf notes, so we require special compiler support.
-> +# bti-1 test the elf notes, so we require special compiler support.
-
-Did you intend to edit this comment line ?
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+>   So the "-M sgx-epc..." will get sgx-epc's parameters from hash key, and
+>   do not covert sgx-epc to PC or Q35.
+>
+>   SGX is only one Intel cpu feature, and no dedicated SGX Qemu machine type for SGX.
+>
+>   Another compound key example:
+>   "-M pc,smp.cpus=4,smp.cores=1,smp.threads=1"
+>
+>   Yang
+ah, ok. thx for the sharing.
+so if I specify "-M pc -M sgx-epc.." it will be the explicit way to
+choose PC machine type with sgx feature.
+and "-M q35 -M sgx-epc.." qemu will use Q35 machine type?
+>
+>
+> > Thanks!
+> > Jinpu
 
