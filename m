@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EB6513942
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:59:15 +0200 (CEST)
-Received: from localhost ([::1]:52726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03720513859
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:29:08 +0200 (CEST)
+Received: from localhost ([::1]:41848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6Xy-0006SS-Mf
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:59:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
+	id 1nk64p-0001oJ-3j
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:29:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KT-0005rv-O6
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33981)
+ id 1nk5KU-0005xB-0k
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KO-0006Yr-HD
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:11 -0400
+ id 1nk5KS-0006Zf-92
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651156867;
+ s=mimecast20190719; t=1651156870;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jA70j6j/G55hEEyx9lTwK+rR8tBv4ItZ+1q7UpvJsMA=;
- b=K5vzh1KHjPWp2MZkFm7vZtfFbTbHoNtMKt7DDU42Jir4nI7PMCGuiYcxXoiEX5CdUOsXTH
- tDwDDLMg/odm/jMLEUbsgHrS3EOorUp1apG8UxUoNLLr4iEhKZoko3A/zTu5D+7MKmBfq3
- Wx+LzIgagyjiBrmwcdx6mapMS43ZEAo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RCoPBc3xYjTsBqbfVsyGzTgUJXfV+HMVaLbFATn43EI=;
+ b=V2iWoWFS9ThUibOFRhQ9TZ53C5Bl5A65NhjWAhSLvrLyI3hQbTXxez+ooLAYhLU85HR1xz
+ Iimw3rUYfY/TwisTYyHQ7WBJf/NEE19AqyKNmw7VRQuCYxobN4IR61Oe0S3UXSjK9VEVCm
+ x1TuRmY8D2Ra+3ROVT5mZ+NhFh2TYQU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-397-wDoPnqesPH2_xx8ewgDMFA-1; Thu, 28 Apr 2022 10:41:06 -0400
-X-MC-Unique: wDoPnqesPH2_xx8ewgDMFA-1
+ us-mta-156-0b-cur2wM-2W0m7bW9idIA-1; Thu, 28 Apr 2022 10:41:08 -0400
+X-MC-Unique: 0b-cur2wM-2W0m7bW9idIA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 300A81C05AF6
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5221F1014A72
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:07 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4346B407DEC3;
- Thu, 28 Apr 2022 14:41:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BE63407DEC3;
+ Thu, 28 Apr 2022 14:41:06 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 03/11] tests: convert multifd migration tests to use common
- helper
-Date: Thu, 28 Apr 2022 15:40:44 +0100
-Message-Id: <20220428144052.263382-4-dgilbert@redhat.com>
+Subject: [PULL 04/11] tests: ensure migration status isn't reported as failed
+Date: Thu, 28 Apr 2022 15:40:45 +0100
+Message-Id: <20220428144052.263382-5-dgilbert@redhat.com>
 In-Reply-To: <20220428144052.263382-1-dgilbert@redhat.com>
 References: <20220428144052.263382-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,132 +81,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Most of the multifd migration test logic is common with the rest of the
-precopy tests, so it can use the helper without difficulty. The only
-exception of the multifd cancellation test which tries to run multiple
-migrations in a row.
+Various methods in the migration test call 'query_migrate' to fetch the
+current status and then access a particular field. Almost all of these
+cases expect the migration to be in a non-failed state. In the case of
+'wait_for_migration_pass' in particular, if the status is 'failed' then
+it will get into an infinite loop. By validating that the status is
+not 'failed' the test suite will assert rather than hang when getting
+into an unexpected state.
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220426160048.812266-7-berrange@redhat.com>
+Message-Id: <20220426160048.812266-10-berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/qtest/migration-test.c | 77 +++++++++++++++++++-----------------
- 1 file changed, 40 insertions(+), 37 deletions(-)
+ tests/qtest/migration-helpers.c | 13 +++++++++++++
+ tests/qtest/migration-helpers.h |  1 +
+ tests/qtest/migration-test.c    |  6 +++---
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 
+diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+index 4ee26014b7..a6aa59e4e6 100644
+--- a/tests/qtest/migration-helpers.c
++++ b/tests/qtest/migration-helpers.c
+@@ -107,6 +107,19 @@ QDict *migrate_query(QTestState *who)
+     return wait_command(who, "{ 'execute': 'query-migrate' }");
+ }
+ 
++QDict *migrate_query_not_failed(QTestState *who)
++{
++    const char *status;
++    QDict *rsp = migrate_query(who);
++    status = qdict_get_str(rsp, "status");
++    if (g_str_equal(status, "failed")) {
++        g_printerr("query-migrate shows failed migration: %s\n",
++                   qdict_get_str(rsp, "error-desc"));
++    }
++    g_assert(!g_str_equal(status, "failed"));
++    return rsp;
++}
++
+ /*
+  * Note: caller is responsible to free the returned object via
+  * g_free() after use
+diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
+index 555adafce1..d07e0fb748 100644
+--- a/tests/qtest/migration-helpers.h
++++ b/tests/qtest/migration-helpers.h
+@@ -26,6 +26,7 @@ G_GNUC_PRINTF(3, 4)
+ void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
+ 
+ QDict *migrate_query(QTestState *who);
++QDict *migrate_query_not_failed(QTestState *who);
+ 
+ void wait_for_migration_status(QTestState *who,
+                                const char *goal, const char **ungoals);
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 359eb2cbb7..fc399e887f 100644
+index fc399e887f..e8fcdeee8b 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -1244,26 +1244,12 @@ static void test_migrate_auto_converge(void)
-     test_migrate_end(from, to, true);
- }
+@@ -174,7 +174,7 @@ static int64_t read_ram_property_int(QTestState *who, const char *property)
+     QDict *rsp_return, *rsp_ram;
+     int64_t result;
  
--static void test_multifd_tcp(const char *method)
-+static void *
-+test_migrate_precopy_tcp_multifd_start_common(QTestState *from,
-+                                              QTestState *to,
-+                                              const char *method)
+-    rsp_return = migrate_query(who);
++    rsp_return = migrate_query_not_failed(who);
+     if (!qdict_haskey(rsp_return, "ram")) {
+         /* Still in setup */
+         result = 0;
+@@ -191,7 +191,7 @@ static int64_t read_migrate_property_int(QTestState *who, const char *property)
+     QDict *rsp_return;
+     int64_t result;
+ 
+-    rsp_return = migrate_query(who);
++    rsp_return = migrate_query_not_failed(who);
+     result = qdict_get_try_int(rsp_return, property, 0);
+     qobject_unref(rsp_return);
+     return result;
+@@ -206,7 +206,7 @@ static void read_blocktime(QTestState *who)
  {
--    MigrateStart args = {};
--    QTestState *from, *to;
-     QDict *rsp;
--    g_autofree char *uri = NULL;
--
--    if (test_migrate_start(&from, &to, "defer", &args)) {
--        return;
--    }
--
--    /*
--     * We want to pick a speed slow enough that the test completes
--     * quickly, but that it doesn't complete precopy even on a slow
--     * machine, so also set the downtime.
--     */
--    /* 1 ms should make it not converge*/
--    migrate_set_parameter_int(from, "downtime-limit", 1);
--    /* 1GB/s */
--    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
+     QDict *rsp_return;
  
-     migrate_set_parameter_int(from, "multifd-channels", 16);
-     migrate_set_parameter_int(to, "multifd-channels", 16);
-@@ -1279,41 +1265,58 @@ static void test_multifd_tcp(const char *method)
-                            "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}");
-     qobject_unref(rsp);
- 
--    /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
--
--    uri = migrate_get_socket_address(to, "socket-address");
--
--    migrate_qmp(from, uri, "{}");
--
--    wait_for_migration_pass(from);
-+    return NULL;
-+}
- 
--    migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
-+static void *
-+test_migrate_precopy_tcp_multifd_start(QTestState *from,
-+                                       QTestState *to)
-+{
-+    return test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+}
- 
--    if (!got_stop) {
--        qtest_qmp_eventwait(from, "STOP");
--    }
--    qtest_qmp_eventwait(to, "RESUME");
-+static void *
-+test_migrate_precopy_tcp_multifd_zlib_start(QTestState *from,
-+                                            QTestState *to)
-+{
-+    return test_migrate_precopy_tcp_multifd_start_common(from, to, "zlib");
-+}
- 
--    wait_for_serial("dest_serial");
--    wait_for_migration_complete(from);
--    test_migrate_end(from, to, true);
-+#ifdef CONFIG_ZSTD
-+static void *
-+test_migrate_precopy_tcp_multifd_zstd_start(QTestState *from,
-+                                            QTestState *to)
-+{
-+    return test_migrate_precopy_tcp_multifd_start_common(from, to, "zstd");
+-    rsp_return = migrate_query(who);
++    rsp_return = migrate_query_not_failed(who);
+     g_assert(qdict_haskey(rsp_return, "postcopy-blocktime"));
+     qobject_unref(rsp_return);
  }
-+#endif /* CONFIG_ZSTD */
- 
- static void test_multifd_tcp_none(void)
- {
--    test_multifd_tcp("none");
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_precopy_tcp_multifd_start,
-+    };
-+    test_precopy_common(&args);
- }
- 
- static void test_multifd_tcp_zlib(void)
- {
--    test_multifd_tcp("zlib");
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_precopy_tcp_multifd_zlib_start,
-+    };
-+    test_precopy_common(&args);
- }
- 
- #ifdef CONFIG_ZSTD
- static void test_multifd_tcp_zstd(void)
- {
--    test_multifd_tcp("zstd");
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_precopy_tcp_multifd_zstd_start,
-+    };
-+    test_precopy_common(&args);
- }
- #endif
- 
 -- 
 2.35.1
 
