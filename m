@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E691F51398E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 18:17:59 +0200 (CEST)
-Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D7251399F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 18:20:34 +0200 (CEST)
+Received: from localhost ([::1]:50824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6q7-0007vw-2n
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 12:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59082)
+	id 1nk6sb-0001LT-51
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 12:20:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nk5vl-0005zh-Pi
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:19:45 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40928)
+ id 1nk5wI-0007Dx-Om
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:20:19 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nk5vj-0004a1-QD
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:19:45 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id x12so4233679pgj.7
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 08:19:43 -0700 (PDT)
+ id 1nk5wH-0004qJ-B4
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:20:18 -0400
+Received: by mail-pl1-x633.google.com with SMTP id k4so4641016plk.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 08:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rs+sXY4Si2YvWzVA8ySoQvKVRKL3235O14vhHnV2DXo=;
- b=iHqPaBvhUv5Ly+RWeJOBdi03P5+VUwaRPfr945ZUgjglAAY6vk6JX7li/qx/yJrE6o
- g09nuv6KqSucSSfolSlisftdBq03Wi1VMHXuhmwywVD6Z0nXkXTTkimX201mB7oPQP1t
- xN+xHf6YaBGyaYDQVOO7tol3DvnOPUpOxyVHS49qLMW69IMCGVwmtgYb7Do4SPu+f1/7
- m6PTGVXXeiDI1TOVFaaTa8EKxD4UK182OPzQltiN7nFNurNE7HzzAf+ncmK36aqigIeC
- TWowOYGGPqly7gCPSD5GR9KzD6wF1CdSneYLcYzucVxqbI1p6wR2FtTAExh8go/G0Eee
- d5hA==
+ bh=DjQahCnKnurCjL+vkD+QytyQntPpfi+StRg70IwqLTA=;
+ b=v8ghd1wsMNx25cFUwXiUAD9bbMU8YQGOcAtu55OMTw0FLFbLTS8rbaD4T91W2eYlzN
+ vn8Ks99q4gPLb40/4fQdeUs7jMUjB2OctOgTpfKFZsERKJi0eAGpM792MNI4jcPNGVCd
+ n1q+3zG6L6nAGTwtD5TpH/XNmJ2EdRiR5tdhVUg/4f7vuxhBDFHRA8ctrW3s/uX8+9AR
+ TFp1XmeYk2WuFCUsw11uWd3DfOibVnx4p3wJ4iYBFOo4VQ88Fj+9gD3dXFFo6mgKtkdd
+ +bzwcLHSPmK4CXIuipq1wiA3QNdJ5MxSabUbsdnESubPPnBvwJsD/PxlsYob+sa5FJrP
+ CqTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rs+sXY4Si2YvWzVA8ySoQvKVRKL3235O14vhHnV2DXo=;
- b=UrKNeCPaQBNp9OfV1OFKuNVmIh/1EOaUDQQhatEiZcb2HI4FgYENDX5jQU+3b0cbvI
- N/11/BkCiZx6x96myq/wkMilC/sDnKQ3w6i2XfGpW2nov3BZT0j1zyM25pHHVPqJT1ey
- eoZDL+OYkZgOP85YbfGKDAaGPqD11QRqnAxw8Ek1aPbJlnbSI39L+ecSSQy6b5LNMB/b
- AtAHYWBsA/jT4S8QnjYe5T13fakfTSHp1Rka87ohWHTsIQbeJxS+WsdC/cQInZruo3Xl
- 3hq1KimrwBY+/6/wkUnPdVQJU+1Byf0iocJ7xO1QVjZYmN1sJfsy+ojmsBjJ8D6SziLM
- bQLA==
-X-Gm-Message-State: AOAM530Uo+jLdn6PDfaWvYg3ekBeVRX/WPxUmsciO8SGOAorreVerY4a
- B/oFeyTzOmuw0/bNV29ocwoMoA==
-X-Google-Smtp-Source: ABdhPJwgk6RmuF4PRfUpeVG29shB/m8UoVw2k/yuonKBakQYB4hm1zDASo86menBAaQPS48fl5Ocmw==
-X-Received: by 2002:a65:6bd6:0:b0:39d:4f85:9ecf with SMTP id
- e22-20020a656bd6000000b0039d4f859ecfmr29090856pgw.336.1651159182284; 
- Thu, 28 Apr 2022 08:19:42 -0700 (PDT)
+ bh=DjQahCnKnurCjL+vkD+QytyQntPpfi+StRg70IwqLTA=;
+ b=2BkH+0aifKrmMm0cjgvnkaXr/xGnOEUazPAVelQH/IfjFzbeXjMsDSUH7WJI6kpp5X
+ /H77DSw1UyGKHexIm2r3H9UCOGAw/7uh2eeVPByM9eHi1MSfx6NMX9ygh0zEEB+EF+/4
+ PbwpIJKnrMBkEeFjuWZ/J4qo7NO2dt9C1MGWXhPhXtU7RhbgKjoJzwSv92Uh9xYIuBie
+ nxXBRWZ6jj9DTHjPVjjkpPKuiQ5GSW/aR0RBlvkTtJmoanuy8IL51AP31KlTZRCUHEWH
+ 4r6ko8xWcxJFOShG67lJC/UCiQ8nOfn8PbahIy9sRKZH65LpU0DMixy/AxAbUyCiKnN0
+ lThg==
+X-Gm-Message-State: AOAM533jEPq6hddsU2+I5x85QEEEh/z8JdTTAGzEk6vWGr4J2uANF9AN
+ CcSCw16SkD6oVbxRPg/+9FGx+w==
+X-Google-Smtp-Source: ABdhPJw2mwL0qtoMk0PA7qBYQeTfdSem1aNPb8Ed85EXNvAVQGhfZxBj5M9FPQR6CfYrzAHL2sBiCg==
+X-Received: by 2002:a17:90b:f03:b0:1d9:a8e9:9e35 with SMTP id
+ br3-20020a17090b0f0300b001d9a8e99e35mr17095884pjb.48.1651159215236; 
+ Thu, 28 Apr 2022 08:20:15 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- e12-20020a63e00c000000b003c14af505f9sm2836314pgh.17.2022.04.28.08.19.40
+ m2-20020a62a202000000b0050ce7925e1esm200610pff.35.2022.04.28.08.20.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Apr 2022 08:19:41 -0700 (PDT)
-Message-ID: <40272c05-c2d5-756e-5096-a05f53367095@linaro.org>
-Date: Thu, 28 Apr 2022 08:19:39 -0700
+ Thu, 28 Apr 2022 08:20:14 -0700 (PDT)
+Message-ID: <3ece010e-b84b-9b0b-df38-4961cf71f568@linaro.org>
+Date: Thu, 28 Apr 2022 08:20:13 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] target/arm: Enable SCTLR_EL1.BT0 for aarch64-linux-user
+Subject: Re: [PATCH 00/47] target/arm: Use tcg_constant
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220427042312.294300-1-richard.henderson@linaro.org>
- <CAFEAcA-636wFtzEF56y8PcjcZy2J9RuNaw1nHMQ4Nsn_55ndCw@mail.gmail.com>
+References: <20220426163043.100432-1-richard.henderson@linaro.org>
+ <CAFEAcA_BSgOoXuaTCEv6XNUPNJeThG3X-PJDp3WrT9Fv3R51ZQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-636wFtzEF56y8PcjcZy2J9RuNaw1nHMQ4Nsn_55ndCw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_BSgOoXuaTCEv6XNUPNJeThG3X-PJDp3WrT9Fv3R51ZQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,32 +93,18 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/22 05:56, Peter Maydell wrote:
-> On Wed, 27 Apr 2022 at 05:23, Richard Henderson
+On 4/28/22 05:38, Peter Maydell wrote:
+> On Tue, 26 Apr 2022 at 17:33, Richard Henderson
 > <richard.henderson@linaro.org> wrote:
 >>
->> This controls whether the PACI{A,B}SP instructions trap with BTYPE=3
->> (indirect branch from register other than x16/x17).  The linux kernel
->> sets this in bti_enable().
->>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/998
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Split the tcg_constant patches out of my larger v3 cleanups
+>> patch set, and then split the 5 patches into tiny bites.
 > 
->> --- a/tests/tcg/aarch64/Makefile.target
->> +++ b/tests/tcg/aarch64/Makefile.target
->> @@ -26,11 +26,11 @@ run-plugin-pauth-%: QEMU_OPTS += -cpu max
->>   endif
->>
->>   # BTI Tests
->> -# bti-1 tests the elf notes, so we require special compiler support.
->> +# bti-1 test the elf notes, so we require special compiler support.
-> 
-> Did you intend to edit this comment line ?
-> 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Since there was only one issue with this patchset (in patch 17),
+> I'm going to fix that and apply this series to target-arm.next.
 
-Oops, no.  At one point I had bti-3 sharing this line, and following code, but it didn't work.
+Thanks for the careful eye.
+
 
 r~
 
