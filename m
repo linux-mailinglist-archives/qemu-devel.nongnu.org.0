@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3560251349F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 15:12:27 +0200 (CEST)
-Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6614251352E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 15:32:18 +0200 (CEST)
+Received: from localhost ([::1]:35976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk3wX-0000bM-RT
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 09:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39426)
+	id 1nk4Fk-0001mF-8O
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 09:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nk3ua-00089k-Pj
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:10:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58081)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nk3uX-0004bc-MX
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:10:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651151419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sYm49T+bhgcpxiwFeB72ywmhGyfNufhq19aEoQiITKg=;
- b=UT7yvYpigBtGlFd+2tHfuuFSdbTMh5hnn9+NxgfrrdKirPhcIl7H8ntZvVL/F5SjkxB58S
- S6bMHU3e/P0OHdsgKzIX94UzLsEDymdLnzWA5Vj6Fzk/+1c8W4Skzuf4JBEBruIQz1Vy+5
- YlQaeOwbYVgtZipVekIv8BiEUpJ8xqQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-LKknHVn5PEGzoiy4mL0S3Q-1; Thu, 28 Apr 2022 09:10:18 -0400
-X-MC-Unique: LKknHVn5PEGzoiy4mL0S3Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5E0929DD9B5
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 13:10:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE1FB2024CCA;
- Thu, 28 Apr 2022 13:09:58 +0000 (UTC)
-Date: Thu, 28 Apr 2022 08:09:57 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 2/9] tests: add more helper macros for creating TLS
- x509 certs
-Message-ID: <20220428130957.fau7n7uy454eri7t@redhat.com>
-References: <20220426160048.812266-1-berrange@redhat.com>
- <20220426160048.812266-3-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1nk4Cy-0000BF-PE
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:29:24 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:41788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1nk4Cx-0008GK-6F
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 09:29:24 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ u9-20020a05600c00c900b00393e729e655so3071562wmm.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 06:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=hkucPvIEbnY9uK5Y45ZSk4pCnQK1qWdY0gVf1+LKzoE=;
+ b=M01QOoJVC3pAeBFyycH1viCjht1noU8S4Xj2TUyTE3RrX20ahhKUvb/FL4HpuZaiY2
+ InrYZ47bHHhiUcr9szibgYrlMNEZbkPbXAMFCu1mY7sZeBcp6CXlVSfurPcdobI1etOr
+ nA9e5v6Fz8rwL13teb7kOlSOGMSGoVug0kwvcTqx9jtlaN+n7hrNrjWrmqOZIFV5fN9r
+ XOaq+NAiYZsX23rDftCaRSuxAz3YYHZlRcQOKPlWCUyF0cs62DFhuL1dYA9Vh/UWEAP/
+ UA30zzG9TxOMiPpj13M18M9GxqF0hsx/eHRePKQUggF8IjzMdY4nEj+x/soxCBUdsfRo
+ m/FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hkucPvIEbnY9uK5Y45ZSk4pCnQK1qWdY0gVf1+LKzoE=;
+ b=7SdRumayPTB+7wVdrCzZn9JvKuOvRxbYcYs5WLILu71Ph/BL2yi9VtEWRPMeKxqpTW
+ UD6szxFTNnbnl5Ctx2ILG679CRGQCycsEqZyzgSz+o4NjS+HNOH6JWwVbJLdeaWiPvtX
+ 4JrvyCYY2eIWgKvXItCNBBtAg05YrDsMcrOvbAGYXV+QMUj0KnQjUeqNGxc9JA7aZXF2
+ 74Y4gyPWEmZoO8DV+SkJPCswU01IG6XgH4AGKtASl2cL4AyMYKyuSFQoBJVjEP95HGmu
+ nGU+uN31DRNdg+linCkRHg6/5Pz588n2+CXdzZdNKgv+pyOZEF3+LqSMWGYnfgD+/+L6
+ HqLQ==
+X-Gm-Message-State: AOAM531Oujtomq+qD05NT81RyKKSQU0oWCNwLvK6+tjFb1Py3lgkf1xw
+ 3lBAoZmIlEE+qPfSaZAIgHnTGw==
+X-Google-Smtp-Source: ABdhPJyY8xotHNvVUCCFrWSarUWO1rlL7L8e8Bz1H2cZiQ8ZSpPlIckc3gbbMDdPPrUrEFY6SGG1MA==
+X-Received: by 2002:a05:600c:3493:b0:38e:bbbb:26f7 with SMTP id
+ a19-20020a05600c349300b0038ebbbb26f7mr30884601wmq.114.1651152560881; 
+ Thu, 28 Apr 2022 06:29:20 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ j13-20020a05600c190d00b00393ee555683sm5359045wmq.27.2022.04.28.06.29.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Apr 2022 06:29:20 -0700 (PDT)
+Date: Thu, 28 Apr 2022 14:28:55 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/2] hw/arm/smmuv3: Cache event fault record
+Message-ID: <YmqWl9M1NXn1Qdy2@myrica>
+References: <20220427111543.124620-1-jean-philippe@linaro.org>
+ <CAFEAcA-ipGkitCW_5oFeuzj1e1LYOKvU-MoU8xJgdXx1bfta3w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426160048.812266-3-berrange@redhat.com>
-User-Agent: NeoMutt/20220415-26-c08bba
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <CAFEAcA-ipGkitCW_5oFeuzj1e1LYOKvU-MoU8xJgdXx1bfta3w@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,31 +86,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 05:00:41PM +0100, Daniel P. Berrangé wrote:
-> These macros are more suited to the general consumers of certs in the
-> test suite, where we don't need to exercise every single possible
-> permutation.
+On Thu, Apr 28, 2022 at 01:58:50PM +0100, Peter Maydell wrote:
+> On Wed, 27 Apr 2022 at 12:17, Jean-Philippe Brucker
+> <jean-philippe@linaro.org> wrote:
+> >
+> > The Record bit in the Context Descriptor tells the SMMU to report fault
+> > events to the event queue. Since we don't cache the Record bit at the
+> > moment, access faults from a cached Context Descriptor are never
+> > reported. Store the Record bit in the cached SMMUTransCfg.
+> >
+> > Fixes: 9bde7f0674fe ("hw/arm/smmuv3: Implement translate callback")
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/unit/crypto-tls-x509-helpers.h | 53 ++++++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
->
+> Applied patches 1 and 2 to target-arm.next, thanks.
+> 
+> For the future, if you send a multi-patch patchset could you
+> make sure you always send it under a cover letter? Some of our
+> tooling gets confused if the cover letter is missing (it doesn't
+> show up in patchew, for example).
 
-No impact until a later patch uses the macros, but the look reasonable.
+Sure, sorry about that
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Thanks,
+Jean
 
