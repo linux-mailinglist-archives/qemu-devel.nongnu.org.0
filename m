@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2939512AC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 06:59:41 +0200 (CEST)
-Received: from localhost ([::1]:56006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90789512AFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 07:35:18 +0200 (CEST)
+Received: from localhost ([::1]:60388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njwFg-0006de-I1
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 00:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58026)
+	id 1njwo9-0003ax-9T
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 01:35:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1njwE4-0005b6-Tt
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 00:58:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53567)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1njwE1-00052a-LL
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 00:57:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651121876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UiddDF3lhpgPQevaYLCyvoD+l6KoyU6xdWMuG2KcNS0=;
- b=WijjHhDoXbCQaJ7A8zCg9kJIESBcCU3YDwiPOh5xTIp2cF3/khPJOTVYi5BHTSdmKneyA5
- I1JOxAh2j0IZ7taRVZxu8L7oWl/jTkBZvyR3rMOSETRbuHbyE3qv8pHWoPpcy3YdNSGgG1
- 5VNqERJ3IG467v+HNFqjJ3QjjSSpxlo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465--TiD8MvePKCD2-_23SAoeA-1; Thu, 28 Apr 2022 00:57:54 -0400
-X-MC-Unique: -TiD8MvePKCD2-_23SAoeA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- t15-20020adfdc0f000000b001ef93643476so1455902wri.2
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 21:57:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1njwln-0002Bz-DB
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 01:32:51 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:39569)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1njwlk-0001HV-Sl
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 01:32:50 -0400
+Received: by mail-pl1-x629.google.com with SMTP id u9so2787529plf.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 22:32:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=UpoO+9GYu9HpYavMLSN6DbThaLz5lwohG/SuNzLLZhk=;
+ b=maxU/BkoS5LipLdExvHwhcJh6ZJlSaYL5k/KqHmcYH3+X6N5XCqtGNTDktqUvbEAlV
+ YsgV7lfG2i8HH+3mKOr5CEJo9SPtTrVIRueenIBzheO2f35A/g3+mqTDsLkiXvwNIBYU
+ aCnHsaTUIS1/WXN+ewtzkI7ZNnH8vjutP3EdyAuwTouomDz+7DpPBofEgSg3gw5av2MQ
+ tv3Kdr30aM040HcPEEZ8cNgBPtiPQ2ANxSr0/08rZnYQhM8GkWbIR749ITinA0bVuF1L
+ QHDQ83ScjVqJ8RIlTpgERZQBZ++ZQhZxy/pGumplSTKhCEbm2M9m5461IqDvrPqByyMW
+ L38A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UiddDF3lhpgPQevaYLCyvoD+l6KoyU6xdWMuG2KcNS0=;
- b=NhQjdCMZH6G0pCkHHnrD+rXmeTUUv8/IeMWD+E6nPmjchs1nrSLsljqWInbobYJXIX
- rbeQFQkl3c3JbmtO6e0GqjRF0BEUUi83AxhuJqbqh/RrXo62z5T/NmIUeUwmz02NRSp9
- 5DyODl+3AojImSMh3lNWARXVKH9a9+hfFWCwsoAnNdlkW66gnQvPFZ1PXruI0bwJkt+Z
- qQfzBtQ1DHSX4RinQah/t34SOWDXan99MNoOcQehbd4LYEgKyLOjeDfjoN4HSTJnIcj9
- I6k/C+PItf85n7jw6fwLN9AUcnfMHfcNWPFDEl8iWqSuOb6jsAEToYhoW/gUncB9Gypb
- XHLA==
-X-Gm-Message-State: AOAM533KmbqQ+5t7TWToK2ArQ5JyU+6chyLNiTtqc+FAPd0bYl0KuAt5
- rJjMMiryOF58vsED2f2xM/1IiuVkbJITkaGiXXX+Z9SaaJrKoihOm3MZBZXLMfjPkEXLtZDpuYX
- B3iIrO/6ANurePz4=
-X-Received: by 2002:a5d:6582:0:b0:20a:d8f6:b1e8 with SMTP id
- q2-20020a5d6582000000b0020ad8f6b1e8mr16409365wru.431.1651121873206; 
- Wed, 27 Apr 2022 21:57:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzGPhVZ8TIiQRqN/MsDXSSRELD/nVSXwtTzeLiGOoY0WTTStl2rTjwCMA+rOJOCJFoLj7oZw==
-X-Received: by 2002:a5d:6582:0:b0:20a:d8f6:b1e8 with SMTP id
- q2-20020a5d6582000000b0020ad8f6b1e8mr16409346wru.431.1651121872867; 
- Wed, 27 Apr 2022 21:57:52 -0700 (PDT)
-Received: from redhat.com ([2.53.18.16]) by smtp.gmail.com with ESMTPSA id
- z11-20020a05600c220b00b00393ffde5f5fsm3384896wml.36.2022.04.27.21.57.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 21:57:52 -0700 (PDT)
-Date: Thu, 28 Apr 2022 00:57:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v5 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220428005726-mutt-send-email-mst@kernel.org>
-References: <20220207112857.607829-1-pasic@linux.ibm.com>
- <0b85cc5f-9dc8-39a4-b5a5-4dbd8cc84343@intel.com>
- <484a755f-f325-1258-3f18-a4c4c29a3198@intel.com>
- <CACGkMEsHyKNEcDkiBSMNWW2Mu--beDrJVKFjq493VnF+sPm6mA@mail.gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UpoO+9GYu9HpYavMLSN6DbThaLz5lwohG/SuNzLLZhk=;
+ b=O3d6/YcZWST32YMhQr4UeTK99lHCWY0B02qA/uHwEmfXmN75qHzCSutZW4/5EidPCb
+ KnnOfntG2uargpyTqlCxyJol65tyoZ+oY0yCEtm6T2tAIqapVJgfUMCskCYenVpL6m8P
+ zD/joWEC5KbdQCu8ER5u1LbT7gg1mPWoNEpdqQBjKxjzH1PhWbf7Jbtv18TV6tpROmco
+ N2ev0xuSiBzR8iB8Ut6XXEln1QddfvBS+ITwzUhFPm5RywWllTpGXOY9qjKXapBMeFfp
+ NmRyIQbnBRbuwOPfvUkOqXEWd4MpaYJ44gjlya8wLfxza/6ZGOudgiPmq2gaNXI+07e9
+ gZjw==
+X-Gm-Message-State: AOAM533vyvPIaXwvCwxt7pWR9t21HsZijYRa97IYPu0BwiQHyssY3GAc
+ 4qRHCqfBcSjFyQBs4oDRUKomzA==
+X-Google-Smtp-Source: ABdhPJy4gioilIO1dUrsdMYcq5TFB4ZC49ADS59D9iEQi4eH5SQohhD4KWYZ3Xl63HfZCyPh/4+tYw==
+X-Received: by 2002:a17:90b:4d8f:b0:1db:d41d:9336 with SMTP id
+ oj15-20020a17090b4d8f00b001dbd41d9336mr1710840pjb.29.1651123965776; 
+ Wed, 27 Apr 2022 22:32:45 -0700 (PDT)
+Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
+ [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
+ 7-20020a17090a000700b001da3920d985sm4959052pja.12.2022.04.27.22.32.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Apr 2022 22:32:45 -0700 (PDT)
+Message-ID: <5fa3c59b-de8e-c428-43f1-eb4d698e835a@ozlabs.ru>
+Date: Thu, 28 Apr 2022 15:32:39 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACGkMEsHyKNEcDkiBSMNWW2Mu--beDrJVKFjq493VnF+sPm6mA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101
+ Thunderbird/100.0
+Subject: Re: [PATCH qemu] spapr_pci: Disable IRQFD resampling on XIVE
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
+References: <20220427043651.1162403-1-aik@ozlabs.ru>
+ <880cdd91-3a4a-8c35-1357-d3858950db44@kaod.org>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <880cdd91-3a4a-8c35-1357-d3858950db44@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=aik@ozlabs.ru; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,168 +88,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Chenyi Qiang <chenyi.qiang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Halil Pasic <pasic@linux.ibm.com>, Jakob Naucke <Jakob.Naucke@ibm.com>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
+ Timothy Pearson <tpearson@raptorengineering.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28, 2022 at 11:01:10AM +0800, Jason Wang wrote:
-> On Wed, Apr 27, 2022 at 8:25 PM Chenyi Qiang <chenyi.qiang@intel.com> wrote:
-> >
-> >
-> >
-> > On 4/22/2022 3:11 PM, Chenyi Qiang wrote:
-> > >
-> > >
-> > > On 2/7/2022 7:28 PM, Halil Pasic wrote:
-> > >> The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> > >> unsupported") claims to fail the device hotplug when iommu_platform
-> > >> is requested, but not supported by the (vhost) device. On the first
-> > >> glance the condition for detecting that situation looks perfect, but
-> > >> because a certain peculiarity of virtio_platform it ain't.
-> > >>
-> > >> In fact the aforementioned commit introduces a regression. It breaks
-> > >> virtio-fs support for Secure Execution, and most likely also for AMD SEV
-> > >> or any other confidential guest scenario that relies encrypted guest
-> > >> memory.  The same also applies to any other vhost device that does not
-> > >> support _F_ACCESS_PLATFORM.
-> > >>
-> > >> The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-> > >> "device can not access all of the guest RAM" and "iova != gpa, thus
-> > >> device needs to translate iova".
-> > >>
-> > >> Confidential guest technologies currently rely on the device/hypervisor
-> > >> offering _F_ACCESS_PLATFORM, so that, after the feature has been
-> > >> negotiated, the guest  grants access to the portions of memory the
-> > >> device needs to see. So in for confidential guests, generally,
-> > >> _F_ACCESS_PLATFORM is about the restricted access to memory, but not
-> > >> about the addresses used being something else than guest physical
-> > >> addresses.
-> > >>
-> > >> This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
-> > >> turn on VIRTIO_F_IOMMU_PLATFORM") fences _F_ACCESS_PLATFORM from the
-> > >> vhost device that does not need it, because on the vhost interface it
-> > >> only means "I/O address translation is needed".
-> > >>
-> > >> This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
-> > >> VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-> > >> situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-> > >> by the device, and thus no device capability is needed. In this
-> > >> situation claiming that the device does not support iommu_plattform=on
-> > >> is counter-productive. So let us stop doing that!
-> > >>
-> > >> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > >> Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-> > >> Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> > >> unsupported")
-> > >> Acked-by: Cornelia Huck <cohuck@redhat.com>
-> > >> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > >> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > >> Cc: Kevin Wolf <kwolf@redhat.com>
-> > >> Cc: qemu-stable@nongnu.org
-> > >>
-> > >> ---
-> > >>
-> > >> v4->v5:
-> > >> * added back the return; so if somebody were to add code to the end of
-> > >>    the function we are still good
-> > >> v3->v4:
-> > >> * Fixed commit message (thanks Connie)
-> > >> * Removed counter-productive initialization (thanks Connie)
-> > >> * Added tags
-> > >> v2->v3:
-> > >> * Caught a bug: I tired to check if vdev has the feature
-> > >>     ACCESS_PLATFORM after we have forced it. Moved the check
-> > >>     to a better place
-> > >> v1->v2:
-> > >> * Commit message tweaks. Most notably fixed commit SHA (Michael)
-> > >>
-> > >> ---
-> > >> ---
-> > >>   hw/virtio/virtio-bus.c | 12 +++++++-----
-> > >>   1 file changed, 7 insertions(+), 5 deletions(-)
-> > >>
-> > >> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> > >> index d23db98c56..0f69d1c742 100644
-> > >> --- a/hw/virtio/virtio-bus.c
-> > >> +++ b/hw/virtio/virtio-bus.c
-> > >> @@ -48,6 +48,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev,
-> > >> Error **errp)
-> > >>       VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
-> > >>       VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-> > >>       bool has_iommu = virtio_host_has_feature(vdev,
-> > >> VIRTIO_F_IOMMU_PLATFORM);
-> > >> +    bool vdev_has_iommu;
-> > >>       Error *local_err = NULL;
-> > >>       DPRINTF("%s: plug device.\n", qbus->name);
-> > >> @@ -69,11 +70,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev,
-> > >> Error **errp)
-> > >>           return;
-> > >>       }
-> > >> -    if (has_iommu && !virtio_host_has_feature(vdev,
-> > >> VIRTIO_F_IOMMU_PLATFORM)) {
-> > >> -        error_setg(errp, "iommu_platform=true is not supported by the
-> > >> device");
-> > >> -        return;
-> > >> -    }
-> > >> -
-> > >>       if (klass->device_plugged != NULL) {
-> > >>           klass->device_plugged(qbus->parent, &local_err);
-> > >>       }
-> > >> @@ -82,9 +78,15 @@ void virtio_bus_device_plugged(VirtIODevice *vdev,
-> > >> Error **errp)
-> > >>           return;
-> > >>       }
-> > >> +    vdev_has_iommu = virtio_host_has_feature(vdev,
-> > >> VIRTIO_F_IOMMU_PLATFORM);
-> > >>       if (klass->get_dma_as != NULL && has_iommu) {
-> > >>           virtio_add_feature(&vdev->host_features,
-> > >> VIRTIO_F_IOMMU_PLATFORM);
-> > >>           vdev->dma_as = klass->get_dma_as(qbus->parent);
-> > >> +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-> > >
-> > > Hi Pasic,
-> > >
-> > > When testing the virtio-fs in Intel TDX, I met the error report in this
-> > > check. Is it appropriate to compare the dma_as against the
-> > > address_space_memory to detect whether the IOMMU is enabled or not? Per
-> > > the commit ae4003738f(vhost: correctly detect the enabling IOMMU), we
-> > > should call virtio_bus_device_iommu_enabled(vdev) instead here, correct?
-> > >
-> >
-> > Sorry for bothering.
-> >
-> > Can virtio-fs work properly in AMD SEV?
-> >
-> > IIUC, If get_dma_as() is implemented and in case of PCI,
-> > pci_get_address_space() is used and returns the bus master as. This
-> > would fail the check here.
-> 
-> I think the reason is that the viritio-fs is used without vIOMMU but
-> ACCESS_PLATFORM.
-> 
-> That's why we need to use virtio_bus_device_iommu_enabled() to allow
-> this setup to work.
-> 
-> Thanks
 
-Do you retract your ack then?
 
-> >
-> > >> +            error_setg(errp,
-> > >> +                       "iommu_platform=true is not supported by the
-> > >> device");
-> > >> +            return;
-> > >> +        }
-> > >>       } else {
-> > >>           vdev->dma_as = &address_space_memory;
-> > >>       }
-> > >>
-> > >> base-commit: 0d564a3e32ba8494014c67cdd2ebf0fb71860dff
-> > >
-> >
+On 4/27/22 17:36, Cédric Le Goater wrote:
+> Hello Alexey,
+> 
+> On 4/27/22 06:36, Alexey Kardashevskiy wrote:
+>> VFIO-PCI has an "KVM_IRQFD_FLAG_RESAMPLE" optimization for INTx EOI
+>> handling when KVM can unmask PCI INTx (level triggered interrupt) without
+>> switching to the userspace (==QEMU).
+>>
+>> Unfortunately XIVE does not support level interrupts, 
+> 
+> That's not correctly phrased I think.
 
+
+My bad, I meant "XIVE hardware".
+
+> 
+> The QEMU XIVE device support LSIs but the POWER9 kernel-irqchips,
+> KVM XICS-on-XIVE and XIVE native devices, are broken with respect
+> to passthrough adapters using INTx.
+> 
+> 
+>> QEMU emulates them
+>> and therefore there is no existing code path to kick the resamplefd.
+>> The problem appears when passing through a PCI adapter with
+>> the "pci=nomsi" kernel parameter - the adapter's interrupt interrupt
+>> count in /proc/interrupts will stuck at "1".
+>>
+>> This disables resampler when the XIVE interrupt controller is configured.
+>> This should not be very visible though KVM already exits to QEMU for INTx
+>> and XIVE-capable boxes (POWER9 and newer) do not seem to have
+>> performance-critical INTx-only capable devices.
+>>
+>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>> ---
+>>
+>>
+>> Cédric, this is what I meant when I said that spapr_pci.c was unaware of
+>> the interrupt controller type, neither xics nor xive was mentioned
+>> in the file before.
+>>
+>>
+>> ---
+>>   hw/ppc/spapr_pci.c | 14 +++++++++++---
+>>   1 file changed, 11 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+>> index 5bfd4aa9e5aa..2675052601db 100644
+>> --- a/hw/ppc/spapr_pci.c
+>> +++ b/hw/ppc/spapr_pci.c
+>> @@ -729,11 +729,19 @@ static void pci_spapr_set_irq(void *opaque, int 
+>> irq_num, int level)
+>>   static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
+>>   {
+>> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>>       SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(opaque);
+>> -    PCIINTxRoute route;
+>> +    PCIINTxRoute route = { .mode = PCI_INTX_DISABLED };
+>> -    route.mode = PCI_INTX_ENABLED;
+>> -    route.irq = sphb->lsi_table[pin].irq;
+>> +    /*
+>> +     * Disable IRQFD resampler on XIVE as it does not support LSI and 
+>> QEMU
+>> +     * emulates those so the KVM kernel resamplefd kick is skipped 
+>> and EOI
+>> +     * is not delivered to VFIO-PCI.
+>> +     */
+>> +    if (!spapr->xive) {
+> 
+> This is testing the availability of the XIVE interrupt mode, but not
+> the activate controller. See spapr_irq_init() which is called very
+> early in the machine initialization.
+> 
+> Is that what we want ? Is everything fine if we start the machine with
+> ic-mode=xics ? On a POWER9 host, this would use the KVM XICS-on-XIVE
+> device which is broken also AFAICT.
+
+I should probably fix that in KVM, just not quite sure yet how for the 
+realmode handlers, or just drop those on P9 and then the fix is trivial.
+
+
+> You should extend the SpaprInterruptControllerClass (for a routine) or
+> simply SpaprIrq (for a bool) if you need to handle IRQ matters from a
+> device model.
+
+It is a property of KVM rather than the interrupt controller so it 
+probably makes more sense to just stop advertising 
+KVM_CAP_IRQFD_RESAMPLE. Hmmm...
+
+
+> 
+> Thanks,
+> 
+> C.
+> 
+> 
+>> +        route.mode = PCI_INTX_ENABLED;
+>> +        route.irq = sphb->lsi_table[pin].irq;
+>> +    }
+>>       return route;
+>>   }
 
