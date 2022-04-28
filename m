@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6C151332B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 13:59:38 +0200 (CEST)
-Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D45E5134ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 15:21:35 +0200 (CEST)
+Received: from localhost ([::1]:57212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk2o5-0003ZQ-Rl
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 07:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
+	id 1nk45N-0004c8-PW
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 09:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nk2cu-0005sT-8U
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 07:48:04 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:40760)
+ (Exim 4.90_1) (envelope-from <redha.gouicem@gmail.com>)
+ id 1nk2OQ-0006X9-EB; Thu, 28 Apr 2022 07:33:06 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nk2cs-0005Ra-FB
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 07:48:03 -0400
-Received: by mail-pl1-x631.google.com with SMTP id k4so4127508plk.7
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 04:48:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <redha.gouicem@gmail.com>)
+ id 1nk2OO-0002QB-CW; Thu, 28 Apr 2022 07:33:06 -0400
+Received: by mail-wr1-x432.google.com with SMTP id x18so6411841wrc.0;
+ Thu, 28 Apr 2022 04:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5QhcIJoJFpwZZ9y5sGb15PYJ4tqQpvnSV2qPERe1X7s=;
- b=QNNcn3Xzue+RIEwiYhKmQam+68pSKo2Uu3926ibp1LTkqEemRZdZZWxK6fm/ExWHpI
- ooHeVIqzi+UuRvvZptrDeBmBYDKbdv2UkQ7cc2mkU1qyjcniePW/M/ZG6V1Nq8CSFeEB
- C2refY2LlCK7Zg3gLEIIZnKneE2n/Egdf2JdHiibmEvWmvluJ+yTlsEo+vZYVcBKV1tl
- GRW9GuKkYlGsZk9u0K9X5/bLIHxKV5qVO+Vu+eCupAxbPlJ1FYHvYD/adtcnsa4O3Nr6
- GcFdWuaA6gsSHTK7MABLSe+Bv4ZySuWTaW7NFDRvE2Y30skL16Z02TdbIJ096Sr8CF9H
- lmFA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Bfbc8Hiy9yEGQ64oseWOsvJ/Y0B8UdcjSFOpcy2VPOI=;
+ b=aMlvXcDQ5ETStW+x5Bqvn1BqBcffwyexgQwzWlIqyTIwmZDTVaQkj+9zYDhIyei2Wa
+ PWRgJ8rvn1EBGZoqL7cNVWhhTpro4q6vzUSxbAgHswSZwhwpzbbxr4gnjYwBe9HVOEdX
+ /WtGfMcwtw3Rt9qG7BMR6zInnw571SuX4L+vICd5Y1kgnX7mn+Moj5cRJarAw0hknJiQ
+ rIz9jN93+PRwPcAEVaZWPjuh+bVZ9sj86QDlIuQiQh3YteYaI5GqV2zY5KPOgrceL9Dv
+ OwYQgen4C+sWpBKp1i/X1VH2a/cxEAs6isUIbZh9z6GQocPSsLqEhjZcLpbOyoYUkFmc
+ fg3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5QhcIJoJFpwZZ9y5sGb15PYJ4tqQpvnSV2qPERe1X7s=;
- b=zVnGgiUY8IGizU1lUH1jO+rhOZFmhz5+uIUZxIVbp805d4qtYP8hmiJnCLdLEFbnOJ
- ZUBLYmjVdqfNhebGUnGiVOEKiOghQkMsR6PDfToEvqlOB95VNg1jYgPoFjJaWWeGmyFS
- RwPTpcWmAmCPwc/+ndBhV+agwXYcdIz7ELjI3Y1jeH54oyhxJTloYW3N+tHQZO4v8k2M
- 6mvoksj1ZQkONJaXAGslNGzGzR2FfOja4mCh9CaNYnJSVaE/L7LSYDqZ3F+mzY4kLm7Z
- Iim6gY783r8pYlk6f/wQQpUIUHvMT0n/oipYO+/Q/LUrYr93nSR30jvcZAafGmHwpfRu
- beiw==
-X-Gm-Message-State: AOAM532MgNQgIKYBj10o8uz6lyqohvHHiKR6m9kyIgnQSkCa0WYXV5NW
- ywIIKYVr3biQKfNZMFoMVag=
-X-Google-Smtp-Source: ABdhPJxSCwcJAk38aDcM6BAVoyj0UfQT2/DiFNDU3lEe3r+PLSGb+v33eWlonYezQD61mu4oQYkuLw==
-X-Received: by 2002:a17:902:6bc2:b0:158:a26b:5884 with SMTP id
- m2-20020a1709026bc200b00158a26b5884mr33146065plt.38.1651146480851; 
- Thu, 28 Apr 2022 04:48:00 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- u7-20020aa78487000000b00505d9277cb3sm21593998pfn.38.2022.04.28.04.47.59
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Bfbc8Hiy9yEGQ64oseWOsvJ/Y0B8UdcjSFOpcy2VPOI=;
+ b=ezVRUKfWOHww4qJK7nFUryNke+dQdlQKejLcLRc5y62P9OrYLyakv13/p5aX9C1tEc
+ WKEqRTFlPN8d3EVqLfWBH3ralUJnvttNHefgTXuPwhB7wPFLcKQ/6yDErny26DygYUNn
+ nFwBs/EHIvIZ91WIcGkJoTDQ48L+1YG5N4f7sGxKGVAOHuuicgBsU5b8Erh2JgnsLkZo
+ Bc4UjYKPzQXNc8/JWTLsQ9T9yf9ZiMWi28RdAiUDqqeTm2y0dnt8xuOgPlEuvK7MOXDr
+ 3G0QtEP5gd2cGVstc6s5kOyIw9WJwq2v2NSLF7s0cACCso/PO+ZH44LoiBNlB4IRpD8X
+ GQmQ==
+X-Gm-Message-State: AOAM530ez8C1wSF06f+fei3WGj780tSu4sn64Z3en23SDVxvQM6t8Mjh
+ 5NRoNNorse1CdZaQRlIdXSs=
+X-Google-Smtp-Source: ABdhPJwHFBPd7YZwrPw95gh7uAgxVDM3ZVlkA68x9ADzgwxCGbmE66/EhHh+MghNm4U1EJRSCmx6pA==
+X-Received: by 2002:a5d:648a:0:b0:20a:e3ab:4350 with SMTP id
+ o10-20020a5d648a000000b0020ae3ab4350mr11536623wri.130.1651145580411; 
+ Thu, 28 Apr 2022 04:33:00 -0700 (PDT)
+Received: from laughtale.in.tum.de (ethstick5.dse.in.tum.de.
+ [2a09:80c0:38::1092]) by smtp.googlemail.com with ESMTPSA id
+ 3-20020a5d47a3000000b0020aa79d55b5sm19071560wrb.35.2022.04.28.04.32.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 04:48:00 -0700 (PDT)
-Date: Thu, 28 Apr 2022 20:47:58 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [Qemu-devel] [PATCH 2/7] target/openrisc: add shutdown logic
-Message-ID: <Ymp+7vYQvA0Wr4sl@antec>
-References: <cover.1492384862.git.shorne@gmail.com>
- <fb69c137317a365dcb549dfef1ecd2fbff48e92c.1492384862.git.shorne@gmail.com>
- <YmmA4li384azQ2i9@zx2c4.com>
- <CAFEAcA9FZZzzZJaCHrepni+5oUELxW1TtZ3gZHxSUdfKdx+ghQ@mail.gmail.com>
- <Ymm6K3DjesAZR0OY@antec> <YmnaDUpVI5ihgvg6@zx2c4.com>
- <Ymp3owBiSQIimgSy@zx2c4.com>
+ Thu, 28 Apr 2022 04:32:59 -0700 (PDT)
+From: Redha Gouicem <redha.gouicem@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PATCH] tcg: fix guest memory ordering enforcement
+Date: Thu, 28 Apr 2022 13:32:35 +0200
+Message-Id: <20220428113234.37953-1-redha.gouicem@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ymp3owBiSQIimgSy@zx2c4.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=shorne@gmail.com; helo=mail-pl1-x631.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=redha.gouicem@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,6 +83,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 28 Apr 2022 09:19:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,37 +95,272 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, openrisc@lists.librecores.org,
- qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Redha Gouicem <redha.gouicem@gmail.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28, 2022 at 01:16:51PM +0200, Jason A. Donenfeld wrote:
-> Hey again,
-> 
-> On Thu, Apr 28, 2022 at 02:04:29AM +0200, Jason A. Donenfeld wrote:
-> > By the way, would this also help the reboot case? That's
-> > `reboot(RB_AUTOBOOT);`, which does:
-> > 
-> > machine_restart() ->
-> >   do_kernel_restart() ->
-> >     atomic_notifier_chain_register(&restart_handler_list, nb) ->
-> >       ???
-> > 
-> > As far as I can tell, nothing is wired into the reboot case for
-> > OpenRISC. Is this something that could be fixed in the kernel without
-> > having to patch QEMU? If so, then I could effectively get shutdown for
-> > my CI with the -no-reboot option, which is what I'm already doing for a
-> > few platforms.
-> 
-> I added 13 for this: https://lists.librecores.org/pipermail/openrisc/2022-April/003884.html
-> 
-> When you go add these nops to the specification, please remember to add
-> one for reboot too. Then, once that kernel code is merged and the
-> specification published, it'll be sensible to add shutdown and reboot
-> support to QEMU, per Peter's description.
+This commit allows memory ordering enforcement to be performed more
+precisely. The previous scheme with fences always inserted before the memory
+access made it impossible to correctly enforce the x86 model on weakly ordered
+architectures such as arm. With this change, the memory models of guests can be
+defined more precisely, with a fence before and a fence after the access. This
+allows for a precise mapping of the ordering, that relies less on what type of
+fences the host architecture provides.
 
-This sounds fair.
+Signed-off-by: Redha Gouicem <redha.gouicem@gmail.com>
+---
+ target/alpha/cpu.h  |  4 ++++
+ target/arm/cpu.h    |  4 ++++
+ target/avr/cpu.h    |  4 ++++
+ target/hppa/cpu.h   |  4 ++++
+ target/i386/cpu.h   |  4 ++++
+ target/mips/cpu.h   |  4 ++++
+ target/ppc/cpu.h    |  4 ++++
+ target/riscv/cpu.h  |  4 ++++
+ target/s390x/cpu.h  |  4 ++++
+ target/xtensa/cpu.h |  4 ++++
+ tcg/tcg-op.c        | 19 ++++++++++++-------
+ 11 files changed, 52 insertions(+), 7 deletions(-)
 
--Stafford
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index d0abc949a8..00220c66c8 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -26,6 +26,10 @@
+ 
+ /* Alpha processors have a weak memory model */
+ #define TCG_GUEST_DEFAULT_MO      (0)
++#define TCG_GUEST_MO_BEF_LD       (0)
++#define TCG_GUEST_MO_AFT_LD       (0)
++#define TCG_GUEST_MO_BEF_ST       (0)
++#define TCG_GUEST_MO_AFT_ST       (0)
+ 
+ #define ICACHE_LINE_SIZE 32
+ #define DCACHE_LINE_SIZE 32
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index db8ff04449..ec1407dc43 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -29,6 +29,10 @@
+ 
+ /* ARM processors have a weak memory model */
+ #define TCG_GUEST_DEFAULT_MO      (0)
++#define TCG_GUEST_MO_BEF_LD       (0)
++#define TCG_GUEST_MO_AFT_LD       (0)
++#define TCG_GUEST_MO_BEF_ST       (0)
++#define TCG_GUEST_MO_AFT_ST       (0)
+ 
+ #ifdef TARGET_AARCH64
+ #define KVM_HAVE_MCE_INJECTION 1
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+index 55497f851d..adcab7c88b 100644
+--- a/target/avr/cpu.h
++++ b/target/avr/cpu.h
+@@ -33,6 +33,10 @@
+ #define CPU_RESOLVING_TYPE TYPE_AVR_CPU
+ 
+ #define TCG_GUEST_DEFAULT_MO 0
++#define TCG_GUEST_MO_BEF_LD  0
++#define TCG_GUEST_MO_AFT_LD  0
++#define TCG_GUEST_MO_BEF_ST  0
++#define TCG_GUEST_MO_AFT_ST  0
+ 
+ /*
+  * AVR has two memory spaces, data & code.
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index 6f3b6beecf..a1236548cf 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -29,6 +29,10 @@
+    a weak memory model, but with TLB bits that force ordering on a per-page
+    basis.  It's probably easier to fall back to a strong memory model.  */
+ #define TCG_GUEST_DEFAULT_MO        TCG_MO_ALL
++#define TCG_GUEST_MO_BEF_LD       (TCG_MO_LD_LD | TCG_MO_ST_LD)
++#define TCG_GUEST_MO_AFT_LD       (0)
++#define TCG_GUEST_MO_BEF_ST       (TCG_MO_ST_ST | TCG_MO_LD_ST)
++#define TCG_GUEST_MO_AFT_ST       (0)
+ 
+ #define MMU_KERNEL_IDX   0
+ #define MMU_USER_IDX     3
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 9661f9fbd1..c6a7052d58 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -29,6 +29,10 @@
+ 
+ /* The x86 has a strong memory model with some store-after-load re-ordering */
+ #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
++#define TCG_GUEST_MO_BEF_LD       (0)
++#define TCG_GUEST_MO_AFT_LD       (TCG_MO_LD_ST | TCG_MO_LD_LD)
++#define TCG_GUEST_MO_BEF_ST       (TCG_MO_ST_ST)
++#define TCG_GUEST_MO_AFT_ST       (0)
+ 
+ #define KVM_HAVE_MCE_INJECTION 1
+ 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 5335ac10a3..c2c0ca9c4a 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -8,6 +8,10 @@
+ #include "mips-defs.h"
+ 
+ #define TCG_GUEST_DEFAULT_MO (0)
++#define TCG_GUEST_MO_BEF_LD  (0)
++#define TCG_GUEST_MO_AFT_LD  (0)
++#define TCG_GUEST_MO_BEF_ST  (0)
++#define TCG_GUEST_MO_AFT_ST  (0)
+ 
+ typedef struct CPUMIPSTLBContext CPUMIPSTLBContext;
+ 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c2b6c987c0..2763ba465a 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -27,6 +27,10 @@
+ #include "qom/object.h"
+ 
+ #define TCG_GUEST_DEFAULT_MO 0
++#define TCG_GUEST_MO_BEF_LD  0
++#define TCG_GUEST_MO_AFT_LD  0
++#define TCG_GUEST_MO_BEF_ST  0
++#define TCG_GUEST_MO_AFT_ST  0
+ 
+ #define TARGET_PAGE_BITS_64K 16
+ #define TARGET_PAGE_BITS_16M 24
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 34c22d5d3b..5f3a9dd463 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -29,6 +29,10 @@
+ #include "cpu_bits.h"
+ 
+ #define TCG_GUEST_DEFAULT_MO 0
++#define TCG_GUEST_MO_BEF_LD  0
++#define TCG_GUEST_MO_AFT_LD  0
++#define TCG_GUEST_MO_BEF_ST  0
++#define TCG_GUEST_MO_AFT_ST  0
+ 
+ #define TYPE_RISCV_CPU "riscv-cpu"
+ 
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 7d6d01325b..59684809cd 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -34,6 +34,10 @@
+ 
+ /* The z/Architecture has a strong memory model with some store-after-load re-ordering */
+ #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
++#define TCG_GUEST_MO_BEF_LD       (0)
++#define TCG_GUEST_MO_AFT_LD       (TCG_MO_LD_ST | TCG_MO_LD_LD)
++#define TCG_GUEST_MO_BEF_ST       (TCG_MO_ST_ST)
++#define TCG_GUEST_MO_AFT_ST       (0)
+ 
+ #define TARGET_INSN_START_EXTRA_WORDS 2
+ 
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index d4b8268146..29ef6ec5b7 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -35,6 +35,10 @@
+ 
+ /* Xtensa processors have a weak memory model */
+ #define TCG_GUEST_DEFAULT_MO      (0)
++#define TCG_GUEST_MO_BEF_LD       (0)
++#define TCG_GUEST_MO_AFT_LD       (0)
++#define TCG_GUEST_MO_BEF_ST       (0)
++#define TCG_GUEST_MO_AFT_ST       (0)
+ 
+ enum {
+     /* Additional instructions */
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 5d48537927..d9b43bc38a 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -2834,9 +2834,6 @@ static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
+ 
+ static void tcg_gen_req_mo(TCGBar type)
+ {
+-#ifdef TCG_GUEST_DEFAULT_MO
+-    type &= TCG_GUEST_DEFAULT_MO;
+-#endif
+     type &= ~TCG_TARGET_DEFAULT_MO;
+     if (type) {
+         tcg_gen_mb(type | TCG_BAR_SC);
+@@ -2873,7 +2870,7 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+     MemOp orig_memop;
+     MemOpIdx oi;
+ 
+-    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
++    tcg_gen_req_mo(TCG_GUEST_MO_BEF_LD);
+     memop = tcg_canonicalize_memop(memop, 0, 0);
+     oi = make_memop_idx(memop, idx);
+ 
+@@ -2904,6 +2901,8 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+             g_assert_not_reached();
+         }
+     }
++
++    tcg_gen_req_mo(TCG_GUEST_MO_AFT_LD);
+ }
+ 
+ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+@@ -2911,7 +2910,7 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+     TCGv_i32 swap = NULL;
+     MemOpIdx oi;
+ 
+-    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
++    tcg_gen_req_mo(TCG_GUEST_MO_BEF_ST);
+     memop = tcg_canonicalize_memop(memop, 0, 1);
+     oi = make_memop_idx(memop, idx);
+ 
+@@ -2942,6 +2941,8 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+     if (swap) {
+         tcg_temp_free_i32(swap);
+     }
++
++    tcg_gen_req_mo(TCG_GUEST_MO_AFT_ST);
+ }
+ 
+ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+@@ -2959,7 +2960,7 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         return;
+     }
+ 
+-    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
++    tcg_gen_req_mo(TCG_GUEST_MO_BEF_LD);
+     memop = tcg_canonicalize_memop(memop, 1, 0);
+     oi = make_memop_idx(memop, idx);
+ 
+@@ -2994,6 +2995,8 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+             g_assert_not_reached();
+         }
+     }
++
++    tcg_gen_req_mo(TCG_GUEST_MO_AFT_LD);
+ }
+ 
+ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+@@ -3006,7 +3009,7 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         return;
+     }
+ 
+-    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
++    tcg_gen_req_mo(TCG_GUEST_MO_BEF_ST);
+     memop = tcg_canonicalize_memop(memop, 1, 1);
+     oi = make_memop_idx(memop, idx);
+ 
+@@ -3036,6 +3039,8 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+     if (swap) {
+         tcg_temp_free_i64(swap);
+     }
++
++    tcg_gen_req_mo(TCG_GUEST_MO_AFT_ST);
+ }
+ 
+ static void tcg_gen_ext_i32(TCGv_i32 ret, TCGv_i32 val, MemOp opc)
+-- 
+2.36.0
+
 
