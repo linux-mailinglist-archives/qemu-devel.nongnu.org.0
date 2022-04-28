@@ -2,52 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB105136B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:18:39 +0200 (CEST)
-Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EE15136DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:27:21 +0200 (CEST)
+Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk4yc-0002aB-IQ
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
+	id 1nk572-0005H4-Dz
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nk4lv-0004kA-B1; Thu, 28 Apr 2022 10:05:31 -0400
-Received: from [187.72.171.209] (port=19792 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nk4lt-0008EY-3Y; Thu, 28 Apr 2022 10:05:30 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 28 Apr 2022 11:05:22 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 87889800013;
- Thu, 28 Apr 2022 11:05:22 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------cpuXc0gItmXed74mGRSnpjzZ"
-Message-ID: <4e088b75-a532-de95-5760-dbb9bfa2923d@eldorado.org.br>
-Date: Thu, 28 Apr 2022 11:05:22 -0300
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nk4pI-0000ha-9m
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:09:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nk4pC-0000Fy-Df
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:08:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651154930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1UI4ins1Xw2W70j0SYA42sZtITxHR3R+oO1qdVnjqnk=;
+ b=efTgcbCvX2Euj8skfOeaqC+Kqyk2wuFK00Zpv2SSuLErelINWwBlk/gAl9UO+S9rLTsvfT
+ TesMtaa9L9cyK8mecTXYCr72eXfTxoDK5rCaEHoo1nnyaHe0eCPuD/k3TOGq/a9s4yrCW7
+ 2Ic3Bmg5nPm5szsfXtj3GyP0RE/NdPM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-251-iTatX2ngPOyv6GCpYgXOiQ-1; Thu, 28 Apr 2022 10:08:49 -0400
+X-MC-Unique: iTatX2ngPOyv6GCpYgXOiQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g7-20020adfbc87000000b0020ac76d254bso1986416wrh.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:08:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=1UI4ins1Xw2W70j0SYA42sZtITxHR3R+oO1qdVnjqnk=;
+ b=eFq+Yb/H918SyH4uVGvJNXJ/xSMf0ragFx6VjwCXRuSpCe/nF9FZSsLUaEiOJv9cXE
+ DrtcFNlyCDY1C5vRjwEY+v8Y41dyzN95nLjr245OGJjw5tQF28ImCZhx4nNG7DJBG7R3
+ 0rdw4XV4o0U1aKT6BrtR5pQhIPfWueMLczoYs/rC+1tjJ1+8nqR0Ev6lmUBYL3bk3ltY
+ KqgSISduVnnrkLWbH/n0+a/mkED+urQudvdTIjroEsl6dVpZEs/NcJqySGy2wgcKl6Xr
+ FsyjLmVxXyfmagWzsen8HCEABhP/aKWSLRMDS3xvC3olx6evyAzekQVKaVUSb2EaMgyZ
+ tJXg==
+X-Gm-Message-State: AOAM5324EGj8cSrCd4FttwkiNckndNqOZuwpSHL6+DZQhZocLaDa5L4g
+ ZKcoa/TWhxXIl/gMGE4CZoGULXxoPWVpBkPCgJNZG1nyaULHnjiIAy0qQZ7yODuwWXJOl1+lfIc
+ ZK9hQqh2l623o2fM=
+X-Received: by 2002:a05:6000:1110:b0:20a:e113:8221 with SMTP id
+ z16-20020a056000111000b0020ae1138221mr12976829wrw.271.1651154927806; 
+ Thu, 28 Apr 2022 07:08:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRSaFkpni9e9ASGVfvGGJjEzxtsv+9G0ipq7B9rnaEoACzoMmsKRCGKX2ejBGjtxjfBAK86A==
+X-Received: by 2002:a05:6000:1110:b0:20a:e113:8221 with SMTP id
+ z16-20020a056000111000b0020ae1138221mr12976783wrw.271.1651154927305; 
+ Thu, 28 Apr 2022 07:08:47 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ n68-20020a1c2747000000b0038e6b4d5395sm70839wmn.16.2022.04.28.07.08.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Apr 2022 07:08:46 -0700 (PDT)
+Date: Thu, 28 Apr 2022 15:08:44 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v10 0/7] MSG_ZEROCOPY + multifd
+Message-ID: <Ymqf7OCUyhWges/Z@work-vm>
+References: <20220426230654.637939-1-leobras@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 0/7] VSX MMA Implementation
-Content-Language: en-US
-To: qemu-ppc@nongnu.org
-References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
-X-OriginalArrivalTime: 28 Apr 2022 14:05:22.0908 (UTC)
- FILETIME=[008689C0:01D85B09]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220426230654.637939-1-leobras@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,136 +97,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- richard.henderson@linaro.org, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, victor.colombo@eldorado.org.br,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------cpuXc0gItmXed74mGRSnpjzZ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+* Leonardo Bras (leobras@redhat.com) wrote:
+> This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
+> use of it for multifd migration performance improvement, by reducing cpu
+> usage.
+> 
+> Patch #1 creates new callbacks for QIOChannel, allowing the implementation
+> of zero copy writing.
+> 
+> Patch #2 implements io_writev flags and io_flush() on QIOChannelSocket,
+> making use of MSG_ZEROCOPY on Linux.
+> 
+> Patch #3 adds a "zero_copy_send" migration property, only available with
+> CONFIG_LINUX, and compiled-out in any other architectures.
+> This migration property has to be enabled before multifd migration starts.
+> 
+> Patch #4 adds a helper function that allows to see if TLS is going to be used.
+> This helper will be later used in patch #5.
+> 
+> Patch #5 changes multifd_send_sync_main() so it returns int instead of void.
+> The return value is used to understand if any error happened in the function,
+> allowing migration to possible fail earlier.
+> 
+> Patch #6 implements an workaround: The behavior introduced in d48c3a0445 is
+> hard to deal with in zerocopy, so a workaround is introduced to send the
+> header in a different syscall, without MSG_ZEROCOPY.
+> 
+> Patch #7 Makes use of QIOChannelSocket zero_copy implementation on
+> nocomp multifd migration.
 
-Something I forgot to mention in the cover letter, the XVFGER 
-instructions accumulate the exception status and at the end set the 
-FPSCR and take a Program interrupt on a trap-enabled exception, but as 
-the exception functions are currently set up in target/ppc/fpu_helper.c 
-a call to set a FPSCR bit could raise an exception before all bits could 
-be set.
+Queued.
 
-Victor (CCing him) is working on a patch series to fix the FPSCR.FI bit 
-that will reorganize do_float_check_status (that would solve the 
-aforementioned problem), so for now I sent without trying to solve that 
-problem
+> Results:
+> In preliminary tests, the resource usage of __sys_sendmsg() reduced 15 times,
+> and the overall migration took 13-22% less time, based in synthetic cpu
+> workload.
+> 
+> In further tests, it was noted that, on multifd migration with 8 channels:
+> - On idle hosts, migration time reduced in 10% to 21%.
+> - On hosts busy with heavy cpu stress (1 stress thread per cpu, but
+>   not cpu-pinned) migration time reduced in ~25% by enabling zero-copy.
+> - On hosts with heavy cpu-pinned workloads (1 stress thread per cpu, 
+>   cpu-pinned), migration time reducted in ~66% by enabling zero-copy.
 
-In v2 I'll remember to mention this in the cover letter
+Nice.
 
-On 26/04/2022 09:50, Lucas Mateus Castro(alqotel) wrote:
-> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
->
-> This patch series is an RFC of the Matrix-Multiply Assist (MMA)
-> instructions implementation from the PowerISA 3.1
->
-> These and the VDIV/VMOD implementation are the last new PowerISA 3.1
-> instructions left to be implemented.
->
-> Thanks
-> Lucas Mateus Castro (alqotel) (7):
->    target/ppc: Implement xxm[tf]acc and xxsetaccz
->    target/ppc: Implemented xvi*ger* instructions
->    target/ppc: Implemented pmxvi*ger* instructions
->    target/ppc: Implemented xvf*ger*
->    target/ppc: Implemented xvf16ger*
->    target/ppc: Implemented pmxvf*ger*
->    target/ppc: Implemented [pm]xvbf16ger2*
->
->   include/fpu/softfloat.h             |   9 ++
->   target/ppc/cpu.h                    |  15 +++
->   target/ppc/fpu_helper.c             | 130 ++++++++++++++++++
->   target/ppc/helper.h                 |   7 +
->   target/ppc/insn32.decode            |  49 +++++++
->   target/ppc/insn64.decode            |  80 +++++++++++
->   target/ppc/int_helper.c             |  85 ++++++++++++
->   target/ppc/internal.h               |  28 ++++
->   target/ppc/translate/vsx-impl.c.inc | 200 ++++++++++++++++++++++++++++
->   9 files changed, 603 insertions(+)
->
+> Above tests setup:
+> - Sending and Receiving hosts:
+>   - CPU : Intel(R) Xeon(R) Platinum 8276L CPU @ 2.20GHz (448 CPUS)
+>   - Network card: E810-C (100Gbps)
+>   - >1TB RAM
+>   - QEMU: Upstream master branch + This patchset
+>   - Linux: Upstream v5.15 
+
+That configuration is particularly interesting because while it's a big
+machine with lots of cores, the individual cores are clocked relatively
+slowly; also having lots of cores probably means they're all fighting
+over memory bandwidth, so the less copies the better.
+
+Dave
+
+> - VM configuration:
+>   - 28 VCPUs
+>   - 512GB RAM
+> 
+> 
+> ---
+> Changes since v9:
+> - Patch #6 got simplified and improved (thanks Daniel)
+> - Patch #7 got better comments (thanks Peter Xu)
+> 
+> Changes since v8:
+> - Inserted two new patches #5 & #6, previous patch #5 is now #7.
+> - Workaround an optimization introduced in d48c3a0445
+> - Removed unnecessary assert in qio_channel_writev_full_all
+> 
+> Changes since v7:
+> - Migration property renamed from zero-copy to zero-copy-send
+> - A few early tests added to help misconfigurations to fail earlier
+> - qio_channel_full*_flags() renamed back to qio_channel_full*()
+> - multifd_send_sync_main() reverted back to not receiving a flag,
+>   so it always sync zero-copy when enabled.
+> - Improve code quality on a few points
+> 
+> Changes since v6:
+> - Remove io_writev_zero_copy(), and makes use of io_writev() new flags
+>   to achieve the same results.
+> - Rename io_flush_zero_copy() to io_flush()
+> - Previous patch #2 became too small, so it was squashed in previous
+>   patch #3 (now patch #2)
+> 
+> Changes since v5:
+> - flush_zero_copy now returns -1 on fail, 0 on success, and 1 when all
+>   processed writes were not able to use zerocopy in kernel.
+> - qio_channel_socket_poll() removed, using qio_channel_wait() instead
+> - ENOBUFS is now processed inside qio_channel_socket_writev_flags()
+> - Most zerocopy parameter validation moved to migrate_params_check(),
+>   leaving only feature test to socket_outgoing_migration() callback
+> - Naming went from *zerocopy to *zero_copy or *zero-copy, due to QAPI/QMP
+>   preferences
+> - Improved docs
+> 
+> Changes since v4:
+> - 3 patches got splitted in 6
+> - Flush is used for syncing after each iteration, instead of only at the end
+> - If zerocopy is not available, fail in connect instead of failing on write
+> - 'multifd-zerocopy' property renamed to 'zerocopy'
+> - Fail migrations that don't support zerocopy, if it's enabled.
+> - Instead of checking for zerocopy at each write, save the flags in
+>   MultiFDSendParams->write_flags and use them on write
+> - Reorganized flag usage in QIOChannelSocket 
+> - A lot of typos fixed
+> - More doc on buffer restrictions
+> 
+> Changes since v3:
+> - QIOChannel interface names changed from io_async_{writev,flush} to
+>   io_{writev,flush}_zerocopy
+> - Instead of falling back in case zerocopy is not implemented, return
+>   error and abort operation.
+> - Flush now waits as long as needed, or return error in case anything
+>   goes wrong, aborting the operation.
+> - Zerocopy is now conditional in multifd, being set by parameter
+>   multifd-zerocopy
+> - Moves zerocopy_flush to multifd_send_sync_main() from multifd_save_cleanup
+>   so migration can abort if flush goes wrong.
+> - Several other small improvements
+> 
+> Changes since v2:
+> - Patch #1: One more fallback
+> - Patch #2: Fall back to sync if fails to lock buffer memory in MSG_ZEROCOPY send.
+> 
+> Changes since v1:
+> - Reimplemented the patchset using async_write + async_flush approach.
+> - Implemented a flush to be able to tell whenever all data was written.
+> 
+> Leonardo Bras (7):
+>   QIOChannel: Add flags on io_writev and introduce io_flush callback
+>   QIOChannelSocket: Implement io_writev zero copy flag & io_flush for
+>     CONFIG_LINUX
+>   migration: Add zero-copy-send parameter for QMP/HMP for Linux
+>   migration: Add migrate_use_tls() helper
+>   multifd: multifd_send_sync_main now returns negative on error
+>   multifd: Send header packet without flags if zero-copy-send is enabled
+>   multifd: Implement zero copy write in multifd migration
+>     (multifd-zero-copy)
+> 
+>  qapi/migration.json                 |  24 ++++++
+>  include/io/channel-socket.h         |   2 +
+>  include/io/channel.h                |  38 +++++++++-
+>  migration/migration.h               |   6 ++
+>  migration/multifd.h                 |   4 +-
+>  chardev/char-io.c                   |   2 +-
+>  hw/remote/mpqemu-link.c             |   2 +-
+>  io/channel-buffer.c                 |   1 +
+>  io/channel-command.c                |   1 +
+>  io/channel-file.c                   |   1 +
+>  io/channel-socket.c                 | 110 +++++++++++++++++++++++++++-
+>  io/channel-tls.c                    |   1 +
+>  io/channel-websock.c                |   1 +
+>  io/channel.c                        |  49 ++++++++++---
+>  migration/channel.c                 |   3 +-
+>  migration/migration.c               |  52 ++++++++++++-
+>  migration/multifd.c                 |  75 +++++++++++++++----
+>  migration/ram.c                     |  29 ++++++--
+>  migration/rdma.c                    |   1 +
+>  migration/socket.c                  |  12 ++-
+>  monitor/hmp-cmds.c                  |   6 ++
+>  scsi/pr-manager-helper.c            |   2 +-
+>  tests/unit/test-io-channel-socket.c |   1 +
+>  23 files changed, 379 insertions(+), 44 deletions(-)
+> 
+> -- 
+> 2.36.0
+> 
+> From c6fda6f8fb29ceeaf4d36f3787b85196e9bb281f Mon Sep 17 00:00:00 2001
+> From: Leonardo Bras <leobras@redhat.com>
+> Date: Mon, 25 Apr 2022 17:45:14 -0300
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=UTF-8
+> Content-Transfer-Encoding: 8bit
+> To: "Marc-Andr� Lureau" <marcandre.lureau@redhat.com>,Paolo Bonzini <pbonzini@redhat.com>,Elena Ufimtseva <elena.ufimtseva@oracle.com>,Jagannathan Raman <jag.raman@oracle.com>,John G Johnson <john.g.johnson@oracle.com>,"Daniel P. Berrang�" <berrange@redhat.com>,Juan Quintela <quintela@redhat.com>,"Dr. David Alan Gilbert" <dgilbert@redhat.com>,Eric Blake <eblake@redhat.com>,Markus Armbruster <armbru@redhat.com>,Fam Zheng <fam@euphon.net>,Peter Xu <peterx@redhat.com>
+> Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+> 
+> 
+> Leonardo Bras (7):
+>   QIOChannel: Add flags on io_writev and introduce io_flush callback
+>   QIOChannelSocket: Implement io_writev zero copy flag & io_flush for
+>     CONFIG_LINUX
+>   migration: Add zero-copy-send parameter for QMP/HMP for Linux
+>   migration: Add migrate_use_tls() helper
+>   multifd: multifd_send_sync_main now returns negative on error
+>   multifd: Send header packet without flags if zero-copy-send is enabled
+>   multifd: Implement zero copy write in multifd migration
+>     (multifd-zero-copy)
+> 
+>  qapi/migration.json                 |  24 ++++++
+>  include/io/channel-socket.h         |   2 +
+>  include/io/channel.h                |  38 +++++++++-
+>  migration/migration.h               |   6 ++
+>  migration/multifd.h                 |   4 +-
+>  chardev/char-io.c                   |   2 +-
+>  hw/remote/mpqemu-link.c             |   2 +-
+>  io/channel-buffer.c                 |   1 +
+>  io/channel-command.c                |   1 +
+>  io/channel-file.c                   |   1 +
+>  io/channel-socket.c                 | 110 +++++++++++++++++++++++++++-
+>  io/channel-tls.c                    |   1 +
+>  io/channel-websock.c                |   1 +
+>  io/channel.c                        |  49 ++++++++++---
+>  migration/channel.c                 |   3 +-
+>  migration/migration.c               |  52 ++++++++++++-
+>  migration/multifd.c                 |  72 +++++++++++++++---
+>  migration/ram.c                     |  29 ++++++--
+>  migration/rdma.c                    |   1 +
+>  migration/socket.c                  |  12 ++-
+>  monitor/hmp-cmds.c                  |   6 ++
+>  scsi/pr-manager-helper.c            |   2 +-
+>  tests/unit/test-io-channel-socket.c |   1 +
+>  23 files changed, 377 insertions(+), 43 deletions(-)
+> 
+> -- 
+> 2.36.0
+> 
 -- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------cpuXc0gItmXed74mGRSnpjzZ
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Something I forgot to mention in the cover letter, the XVFGER
-      instructions accumulate the exception status and at the end set
-      the FPSCR and take a Program interrupt on a trap-enabled
-      exception, but as the exception functions are currently set up in
-      target/ppc/fpu_helper.c a call to set a FPSCR bit could raise an
-      exception before all bits could be set.</p>
-    <p>Victor (CCing him) is working on a patch series to fix the
-      FPSCR.FI bit that will reorganize do_float_check_status (that
-      would solve the aforementioned problem), so for now I sent without
-      trying to solve that problem</p>
-    <p>In v2 I'll remember to mention this in the cover letter<br>
-    </p>
-    On 26/04/2022 09:50, Lucas Mateus Castro(alqotel) wrote:<br>
-    <blockquote type="cite"
-      cite="mid:20220426125028.18844-1-lucas.araujo@eldorado.org.br">
-      <pre class="moz-quote-pre" wrap="">From: "Lucas Mateus Castro (alqotel)" <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
-
-This patch series is an RFC of the Matrix-Multiply Assist (MMA)
-instructions implementation from the PowerISA 3.1 
-
-These and the VDIV/VMOD implementation are the last new PowerISA 3.1
-instructions left to be implemented.
-
-Thanks
-Lucas Mateus Castro (alqotel) (7):
-  target/ppc: Implement xxm[tf]acc and xxsetaccz
-  target/ppc: Implemented xvi*ger* instructions
-  target/ppc: Implemented pmxvi*ger* instructions
-  target/ppc: Implemented xvf*ger*
-  target/ppc: Implemented xvf16ger*
-  target/ppc: Implemented pmxvf*ger*
-  target/ppc: Implemented [pm]xvbf16ger2*
-
- include/fpu/softfloat.h             |   9 ++
- target/ppc/cpu.h                    |  15 +++
- target/ppc/fpu_helper.c             | 130 ++++++++++++++++++
- target/ppc/helper.h                 |   7 +
- target/ppc/insn32.decode            |  49 +++++++
- target/ppc/insn64.decode            |  80 +++++++++++
- target/ppc/int_helper.c             |  85 ++++++++++++
- target/ppc/internal.h               |  28 ++++
- target/ppc/translate/vsx-impl.c.inc | 200 ++++++++++++++++++++++++++++
- 9 files changed, 603 insertions(+)
-
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------cpuXc0gItmXed74mGRSnpjzZ--
 
