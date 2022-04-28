@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392245131C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 12:57:18 +0200 (CEST)
-Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0518D5131B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 12:55:00 +0200 (CEST)
+Received: from localhost ([::1]:35170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk1pl-00070m-AL
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 06:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44962)
+	id 1nk1nW-0003Is-VK
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 06:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk17V-0001x4-Li
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:11:35 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:36822)
+ id 1nk18H-0003id-7d
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:12:21 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:40553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk17T-0003kv-H3
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:11:32 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id f38so8142377ybi.3
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 03:11:30 -0700 (PDT)
+ id 1nk18D-0003xb-Qe
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 06:12:20 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id y2so8104188ybi.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 03:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k5TuOxiyQm6qvQ60UMEvgpz6IVAjnYnTYGiGPKJzv5w=;
- b=mIfUT7e9IQ1vxy2v9gtiIYZQxTObvhH5JDhtdrh+fwrDTbA/4WjFnaof1qbOOHCZHH
- OCVaBLI8HEeoVi1vaaGPD/xuAIkIdQSipKNc47ORGnUbFm7vo7WH5i7SpBvmxK+2dt4/
- s1oK+rY7dFsc+ZXO+r6Ykb3wb/vLPY2QxYlDGHH/LPQv/v/6sIdJWpQpnFJJyec3rhvo
- V8jsZml7jDnSEB6jF5HbtqHqUixHlUhIa+/J5Fu+26Xpt2xB5ndH/JbD6oy9LDbx505p
- XNYOrNdIP4Fi6frGS3XSWNucoAQfSkG3Cjc66kKvWdU7yIG80nqStrrIzBZZEV15xYBt
- jHiw==
+ :cc; bh=cVMnkHqCxX0hNDmKb4F5r+XusruWiAqJh8ozrVX/2Nc=;
+ b=srA71nZha2OI5ffY+4Ee1wUoojQ9w8lGeMqhxSJLvkTNNT0r34Ij5kRLUngzxoROb2
+ O6+WIrtrtvik9YvpZ/7V+/jrJyaU70ERXMZJdPoXGPlz5g52RhKaZRlgHcZX+z1+XI9m
+ 0Vk1s4jaZ2GZQH6RVPXV77CokbcZ5LY8Y+wDFnOGLx+QWnBXNmiXKCU0TN3EL3Mt0YND
+ +K+KEUbAtD9XrPprPWDGj2NVyOs2diJkZJH3YBhXcexRw3mSncNswBgwOS5a+lKDyqcF
+ xwnMgPT6Gt+fM2SNG9wS/XZsYB+4pA/b6bdbuv3+fVR99cCFWV9NzNXogx7bKjwmDyuP
+ TC6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k5TuOxiyQm6qvQ60UMEvgpz6IVAjnYnTYGiGPKJzv5w=;
- b=NZFU7XIk6GJxDAFWUVWO9/GfO+FWWvIC8bYCGbYJC8BM1JqlKSkdRUn4KAjrp1kvVC
- gMc5s/tWQPt+EMFLS3LNAFwbXzCzbftwAo7+wIg82N0waDe7ZYEBF2THrgSxkh0jAHee
- i8Zn5wiHuARs0mM6phTNxOeD+tIv+s0ZkvI20QhUioBKclOgPltw0MGxWUJ+734XJEra
- im4m5AZf9NMNwrHTtLOO4/YvgJnbmtn+OoyY5uPUXIl2cmQQPC7ncggY3moET9ZsmtRZ
- Id709Ka0YC0hc+49mL2Q/l5Zxk6TfJfC2xf/DrFyXgXP5GLqbdP9k+0u3eHkjKMREiim
- TILg==
-X-Gm-Message-State: AOAM530jo1dit0K+U94b6OgacdRFLhMxkljMqKcavLXgbrlc9ytPl9Xn
- 7oj0MZAsULNlDsVAnvSqWCdXh62ELQsLv1E/mxsgWg==
-X-Google-Smtp-Source: ABdhPJyb9G1GRb+beOhsvrC2nyDA1iGxlboOn/Vertjm9MXHf4NXgA5xSDCEcht0/IqwtGWOMDIwO+tcz2OmUrV02xo=
-X-Received: by 2002:a25:cf4d:0:b0:645:755c:a5af with SMTP id
- f74-20020a25cf4d000000b00645755ca5afmr28799237ybg.140.1651140690120; Thu, 28
- Apr 2022 03:11:30 -0700 (PDT)
+ bh=cVMnkHqCxX0hNDmKb4F5r+XusruWiAqJh8ozrVX/2Nc=;
+ b=EneRHQZ6McMiYZQxlZdXYeY+62VL+n+bfmF4j2/U0pVHUm/wX89wY0W0Rm5Oc9ItdB
+ ompyYpabKN3aovGMJgjr69n3TBARELrKNlPpvihA958dr2lDac6TJhShF9I6LRGado12
+ gTpEAnGKoY11WH2+Y5h3D4yJaC7/1urtYVMxnduvsDn/oLHjAteSKgUvfc4MYIsR+egk
+ ux9FTIL/Gs8LTieIhqwmz7cNmBcIPGI6hnn2Ju7/FC2DhcL7xqUx+HRs/SFePmJWP1Lz
+ r7U5YBnzu1yvwdXKt6gKKdZJXcpn1B+ncyeLl1sJD+uJrzhqxr4mzJG0tqFPQIwoxth9
+ ljFw==
+X-Gm-Message-State: AOAM531X+3TeFQkhwYbfJ8jf/bGbsZVDXT/Nzz3Jgag+Q2s81tWxVLmK
+ MOJCX4oQndooS0yFcOR3y+tJ/fwnXw0jaMndPNL8YQ==
+X-Google-Smtp-Source: ABdhPJz0t5aYAdzwDrLj9Wd3a001+xzbG/FMJvQb8tPJtbh/yEwoYaE4CeYpK3FZbICWlPjuh4JFG+hycdzBJy0LXKY=
+X-Received: by 2002:a25:bb46:0:b0:648:4d25:4b40 with SMTP id
+ b6-20020a25bb46000000b006484d254b40mr19966419ybk.479.1651140736811; Thu, 28
+ Apr 2022 03:12:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220426163043.100432-1-richard.henderson@linaro.org>
- <20220426163043.100432-21-richard.henderson@linaro.org>
-In-Reply-To: <20220426163043.100432-21-richard.henderson@linaro.org>
+ <20220426163043.100432-22-richard.henderson@linaro.org>
+In-Reply-To: <20220426163043.100432-22-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Apr 2022 11:11:19 +0100
-Message-ID: <CAFEAcA8Jb-BLbq0V0kJg0tBg-ts63WQWpbR7NAvGVF0Sge8Mgw@mail.gmail.com>
-Subject: Re: [PATCH 20/47] target/arm: Use tcg_constant in 2misc expanders
+Date: Thu, 28 Apr 2022 11:12:05 +0100
+Message-ID: <CAFEAcA_PdvKFLiQb3ssvUmzewC_2+0sC9Pvv0vifdXbOU1nCWQ@mail.gmail.com>
+Subject: Re: [PATCH 21/47] target/arm: Use tcg_constant in balance of
+ translate-a64.c
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
@@ -82,14 +83,15 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Apr 2022 at 17:49, Richard Henderson
+On Tue, 26 Apr 2022 at 17:47, Richard Henderson
 <richard.henderson@linaro.org> wrote:
+>
+> Finish conversion of the file to tcg_constant_*.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate-a64.c | 40 ++++++++++----------------------------
->  1 file changed, 10 insertions(+), 30 deletions(-)
->
+>  target/arm/translate-a64.c | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
