@@ -2,76 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B59512BB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 08:37:15 +0200 (CEST)
-Received: from localhost ([::1]:33094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51C3512BD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 08:47:09 +0200 (CEST)
+Received: from localhost ([::1]:40744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njxm2-0001lX-B5
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 02:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47172)
+	id 1njxvf-0007oV-UW
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 02:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njxhr-0000zF-CM
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:32:53 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:45649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njxhp-00027I-G9
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:32:50 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id y3so7483967ejo.12
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 23:32:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LEfOxEwynnpbvTQfAMD2qMN/loYrFQPxjZikploAvlE=;
- b=YT42DV1Hj48KKvkZuvakzaCF9SJNkro7wtT1RUYH+72f+0m3Jx1eNa56MKtQW/bUX1
- tkUpjFFSXtNFl29ygw8qMaIS+pACN8YL72FFwBRn/NAlPPXxrVqx/2Ep9r5hcsI6KR3P
- 8PVZrcdvYziMZNw/EeDUzxDht1w+BAR0khnzuH2KhtWaUbGVw5ATzPI8HxkCMnEsrrdw
- n2fp1fFJK7qEZWT/F8sit+lxwUuHuOuwJy4aEE6XR1IG8SI/uZqZpcvitytONxFxdAnn
- pdB4bBLdigzr7k1hZQppsgmNC/F/1LQjUMJK32yh3A+2XK8jqas5xCoo1YIE5h82ExsR
- kOYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LEfOxEwynnpbvTQfAMD2qMN/loYrFQPxjZikploAvlE=;
- b=DL5jbHOJJ/JdAKvL1sqx426kyDmPSnbSaZBIyEzTH7XOdFgS9wzIrKNmoFTAi9v2mv
- U9tB36diVNW27a7nmWDhuotPe1rjOoKT5+rGAMbxwuHujN1PhFYAIMJ87YnMWifG/UTZ
- pD2XWe34uOFXyNVpV/J0Ppmya3CQP+4fUe/Ng7CaHYenkDJYK4bcKcVR1ESeg4NxR6Hm
- Z3HZbw1tHD0vVr+3pz25xIEAQDgzwyMd4vX2nAjIcMbJqIkVQWxY0cmxKQRceyoHj27R
- LpOgGHYgCwWAaS2OeXNwpp+OVwhxK0/CiMgQ5C/U3YK95er2yBcL7eJpx530HIhlKkRz
- 43XA==
-X-Gm-Message-State: AOAM530sOyZrSlpp3GB1avT51Cr7aNiUDuJD0JZHX1mmTtnLHVn7Ay6s
- FOVnjDLMN0R5yszkD4WEmI8=
-X-Google-Smtp-Source: ABdhPJwLetsepTAc5T/avjU4EYyo9MDgAKcrr+zlJp/acNgoYr1aDr6tk3yHplWH+lzwr4uPnCPuhw==
-X-Received: by 2002:a17:907:7ea9:b0:6f3:de9c:c6fb with SMTP id
- qb41-20020a1709077ea900b006f3de9cc6fbmr1692819ejc.304.1651127567075; 
- Wed, 27 Apr 2022 23:32:47 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- g12-20020a170906c18c00b006f3b99d29e0sm3506750ejz.223.2022.04.27.23.32.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 23:32:46 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Sunil Muthuswamy <sunilmut@microsoft.com>
-Subject: Re: [PATCH v2] WHPX: support for xcr0
-Date: Thu, 28 Apr 2022 08:31:45 +0200
-Message-Id: <20220428063144.187619-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <MW2PR2101MB1116F07C07A26FD7A7ED8DCFC0780@MW2PR2101MB1116.namprd21.prod.outlook.com>
-References: 
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1njxoK-0004fE-Ri; Thu, 28 Apr 2022 02:39:32 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:42382)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1njxoJ-0002yZ-4z; Thu, 28 Apr 2022 02:39:32 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id C5A5811EF13;
+ Thu, 28 Apr 2022 06:39:29 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Thu, 28 Apr 2022 06:39:29 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Subject: [PATCH qemu v12 00/15] Add tail agnostic behavior for rvv instructions
+Message-ID: <165112796938.27173.10721042199099922491-0@git.sr.ht>
+X-Mailer: git.sr.ht
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,15 +50,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, ivan@sysprogs.com,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ eop Chen <eop.chen@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.  (It only took 30 months; thanks to Ivan Shcherbakov
-for bringing it to my attention).
+According to v-spec, tail agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of tail policies, QEMU should be able to simulate the tail
+agnostic behavior as "set tail elements' bits to all 1s". An option
+'rvv_ta_all_1s' is added to enable the behavior, it is default as
+disabled.
 
-Paolo
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between tail policies. Setting agnostic elements to
+all 1s makes things simple and allow QEMU to express this.
 
+We may explore other possibility of agnostic behavior by adding
+other options in the future. Please understand that this patch-set
+is limited.
 
+v2 updates:
+- Addressed comments from Weiwei Li
+- Added commit tail agnostic on load / store instructions (which
+  I forgot to include into the patch-set)
+
+v3 updates:
+- Missed the very 1st commit, adding it back
+
+v4 updates:
+- Renamed vlmax to total_elems
+- Deal with tail element when vl_eq_vlmax == true
+
+v5 updates:
+- Let `vext_get_total_elems` take `desc` and `esz`
+- Utilize `simd_maxsz(desc)` to get `vlenb`
+- Fix alignments to code
+
+v6 updates:
+- Fix `vext_get_total_elems`
+
+v7 updates:
+- Reuse `max_elems` for vector load / store helper functions. The
+  translation sets desc's `lmul` to `min(1, lmul)`, making
+  `vext_max_elems` equivalent to `vext_get_total_elems`.
+
+v8 updates:
+- Simplify `vext_set_elems_1s`, don't need `vext_set_elems_1s_fns`
+- Fix `vext_get_total_elems`, it should derive upon EMUL instead
+  of LMUL
+
+v9 updates:
+- Let instructions that is tail agnostic regardless of vta respect the
+  option and not the vta.
+
+v10 updates:
+- Correct range to set element to 1s for load instructions
+
+v11 updates:
+- Separate addition of option 'rvv_ta_all_1s' as a new (last) commit
+- Add description to show intent of the option in first commit for the
+  optional tail agnostic behavior
+- Tag WeiWei as Reviewed-by for all commits
+- Tag Alistair as Reviewed-by for commit 01, 02
+- Tag Alistair as Acked-by for commit 03
+
+v12 updates:
+- Add missing space in WeiWei's "Reviewed-by" tag
+
+eopXD (15):
+  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+  target/riscv: rvv: Rename ambiguous esz
+  target/riscv: rvv: Early exit when vstart >= vl
+  target/riscv: rvv: Add tail agnostic for vv instructions
+  target/riscv: rvv: Add tail agnostic for vector load / store
+    instructions
+  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+  target/riscv: rvv: Add tail agnostic for vector integer shift
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer comparison
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer merge and move
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector floating-point
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector reduction instructions
+  target/riscv: rvv: Add tail agnostic for vector mask instructions
+  target/riscv: rvv: Add tail agnostic for vector permutation
+    instructions
+  target/riscv: rvv: Add option 'rvv_ta_all_1s' to enable optional tail
+    agnostic behavior
+
+ target/riscv/cpu.c                      |    1 +
+ target/riscv/cpu.h                      |    2 +
+ target/riscv/cpu_helper.c               |    2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |  176 +++
+ target/riscv/internals.h                |    6 +-
+ target/riscv/translate.c                |    4 +
+ target/riscv/vector_helper.c            | 1536 ++++++++++++++---------
+ 7 files changed, 1110 insertions(+), 617 deletions(-)
+
+-- 
+2.34.2
 
