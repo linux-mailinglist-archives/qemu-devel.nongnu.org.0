@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6ABA5138AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:39:41 +0200 (CEST)
-Received: from localhost ([::1]:40826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478665138CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:43:40 +0200 (CEST)
+Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6F2-0003ap-RD
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46130)
+	id 1nk6It-0007rw-Ax
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:43:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KY-0006CU-Do
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20772)
+ id 1nk5KZ-0006IM-PZ
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KW-0006cq-Os
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:18 -0400
+ id 1nk5KX-0006d2-OX
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651156876;
+ s=mimecast20190719; t=1651156877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gnVKMXgOKz3iWsZ5LDrKPMRaRqiVcz2u6i3yf7c7zpY=;
- b=gRKJxzY5MnlilKO069wMbY+X1jmKdQTho9H7UqhKORYWX0CS9y2t3U1xUiPmiae/LvRVnR
- zpS8jBZ5u5BTdNzfB3vAz51Hgr28oBG5qN9oQB0W9/0x3p2b1Myy7fCqjd2WAggouaT1qK
- r5pXA5rrZGYfXbbiPMcxV7aO0K1PuTQ=
+ bh=BjJLMjX8UkJtJNZCLRy330ORwSCk1Dvpxye+AOqn04k=;
+ b=SfSuBUFCy9SfORzOykuAbwNZqbWAgEb+O33VZktZhOtS7FuDztpgyfzrUJ9YTY1QJP+o9a
+ H/r6IxhiPnx/hmouh1f6S+GTxhPyJaMgzBnayLSCkYr8faB1guqyXygjD0b+A/w1Q3dHjt
+ pRZ7M7LS6u8/6MF4XGMzwGJuWK1bd/Y=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-541-l0DBnZIZN32Y8wXljPFBWQ-1; Thu, 28 Apr 2022 10:41:14 -0400
-X-MC-Unique: l0DBnZIZN32Y8wXljPFBWQ-1
+ us-mta-46-lkakTKy1NsCxx-j_zrSawg-1; Thu, 28 Apr 2022 10:41:15 -0400
+X-MC-Unique: lkakTKy1NsCxx-j_zrSawg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67FF03C1EA48
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 938023C1EA4B
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:15 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 723FB407DEC3;
- Thu, 28 Apr 2022 14:41:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A37E0407DEC3;
+ Thu, 28 Apr 2022 14:41:14 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 10/11] multifd: Send header packet without flags if
- zero-copy-send is enabled
-Date: Thu, 28 Apr 2022 15:40:51 +0100
-Message-Id: <20220428144052.263382-11-dgilbert@redhat.com>
+Subject: [PULL 11/11] multifd: Implement zero copy write in multifd migration
+ (multifd-zero-copy)
+Date: Thu, 28 Apr 2022 15:40:52 +0100
+Message-Id: <20220428144052.263382-12-dgilbert@redhat.com>
 In-Reply-To: <20220428144052.263382-1-dgilbert@redhat.com>
 References: <20220428144052.263382-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,87 +82,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Leonardo Bras <leobras@redhat.com>
 
-Since d48c3a0445 ("multifd: Use a single writev on the send side"),
-sending the header packet and the memory pages happens in the same
-writev, which can potentially make the migration faster.
+Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
+writev + flags & flush interface.
 
-Using channel-socket as example, this works well with the default copying
-mechanism of sendmsg(), but with zero-copy-send=true, it will cause
-the migration to often break.
+Change multifd_send_sync_main() so flush_zero_copy() can be called
+after each iteration in order to make sure all dirty pages are sent before
+a new iteration is started. It will also flush at the beginning and at the
+end of migration.
 
-This happens because the header packet buffer gets reused quite often,
-and there is a high chance that by the time the MSG_ZEROCOPY mechanism get
-to send the buffer, it has already changed, sending the wrong data and
-causing the migration to abort.
+Also make it return -1 if flush_zero_copy() fails, in order to cancel
+the migration process, and avoid resuming the guest in the target host
+without receiving all current RAM.
 
-It means that, as it is, the buffer for the header packet is not suitable
-for sending with MSG_ZEROCOPY.
+This will work fine on RAM migration because the RAM pages are not usually freed,
+and there is no problem on changing the pages content between writev_zero_copy() and
+the actual sending of the buffer, because this change will dirty the page and
+cause it to be re-sent on a next iteration anyway.
 
-In order to enable zero copy for multifd, send the header packet on an
-individual write(), without any flags, and the remanining pages with a
-writev(), as it was happening before. This only changes how a migration
-with zero-copy-send=true works, not changing any current behavior for
-migrations with zero-copy-send=false.
+A lot of locked memory may be needed in order to use multifd migration
+with zero-copy enabled, so disabling the feature should be necessary for
+low-privileged users trying to perform multifd migrations.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Message-Id: <20220426230654.637939-7-leobras@redhat.com>
+Message-Id: <20220426230654.637939-8-leobras@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  dgilbert: Removed blank line
 ---
- migration/multifd.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ migration/migration.c | 11 ++++++++++-
+ migration/multifd.c   | 37 +++++++++++++++++++++++++++++++++++--
+ migration/multifd.h   |  2 ++
+ migration/socket.c    |  5 +++--
+ 4 files changed, 50 insertions(+), 5 deletions(-)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index 4b6df2eb5e..31739b2af9 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1497,7 +1497,16 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
+         return false;
+     }
+-
++#ifdef CONFIG_LINUX
++    if (params->zero_copy_send &&
++        (!migrate_use_multifd() ||
++         params->multifd_compression != MULTIFD_COMPRESSION_NONE ||
++         (params->tls_creds && *params->tls_creds))) {
++        error_setg(errp,
++                   "Zero copy only available for non-compressed non-TLS multifd migration");
++        return false;
++    }
++#endif
+     return true;
+ }
+ 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 15fb668e64..2541cd2322 100644
+index 2541cd2322..9282ab6aa4 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -617,6 +617,7 @@ static void *multifd_send_thread(void *opaque)
-     MultiFDSendParams *p = opaque;
-     Error *local_err = NULL;
-     int ret = 0;
-+    bool use_zero_copy_send = migrate_use_zero_copy_send();
+@@ -569,6 +569,7 @@ void multifd_save_cleanup(void)
+ int multifd_send_sync_main(QEMUFile *f)
+ {
+     int i;
++    bool flush_zero_copy;
  
-     trace_multifd_send_thread_start(p->id);
-     rcu_register_thread();
-@@ -639,9 +640,14 @@ static void *multifd_send_thread(void *opaque)
-         if (p->pending_job) {
-             uint64_t packet_num = p->packet_num;
-             uint32_t flags = p->flags;
--            p->iovs_num = 1;
-             p->normal_num = 0;
- 
-+            if (use_zero_copy_send) {
-+                p->iovs_num = 0;
-+            } else {
-+                p->iovs_num = 1;
-+            }
+     if (!migrate_use_multifd()) {
+         return 0;
+@@ -579,6 +580,20 @@ int multifd_send_sync_main(QEMUFile *f)
+             return -1;
+         }
+     }
 +
-             for (int i = 0; i < p->pages->num; i++) {
-                 p->normal[p->normal_num] = p->pages->offset[i];
-                 p->normal_num++;
-@@ -665,8 +671,18 @@ static void *multifd_send_thread(void *opaque)
-             trace_multifd_send(p->id, packet_num, p->normal_num, flags,
-                                p->next_packet_size);
++    /*
++     * When using zero-copy, it's necessary to flush the pages before any of
++     * the pages can be sent again, so we'll make sure the new version of the
++     * pages will always arrive _later_ than the old pages.
++     *
++     * Currently we achieve this by flushing the zero-page requested writes
++     * per ram iteration, but in the future we could potentially optimize it
++     * to be less frequent, e.g. only after we finished one whole scanning of
++     * all the dirty bitmaps.
++     */
++
++    flush_zero_copy = migrate_use_zero_copy_send();
++
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDSendParams *p = &multifd_send_state->params[i];
  
--            p->iov[0].iov_len = p->packet_len;
--            p->iov[0].iov_base = p->packet;
-+            if (use_zero_copy_send) {
-+                /* Send header first, without zerocopy */
-+                ret = qio_channel_write_all(p->c, (void *)p->packet,
-+                                            p->packet_len, &local_err);
-+                if (ret != 0) {
-+                    break;
-+                }
-+            } else {
-+                /* Send header using the same writev call */
-+                p->iov[0].iov_len = p->packet_len;
-+                p->iov[0].iov_base = p->packet;
+@@ -600,6 +615,17 @@ int multifd_send_sync_main(QEMUFile *f)
+         ram_counters.transferred += p->packet_len;
+         qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
++
++        if (flush_zero_copy && p->c) {
++            int ret;
++            Error *err = NULL;
++
++            ret = qio_channel_flush(p->c, &err);
++            if (ret < 0) {
++                error_report_err(err);
++                return -1;
 +            }
++        }
+     }
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDSendParams *p = &multifd_send_state->params[i];
+@@ -684,8 +710,8 @@ static void *multifd_send_thread(void *opaque)
+                 p->iov[0].iov_base = p->packet;
+             }
  
-             ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
-                                          &local_err);
+-            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
+-                                         &local_err);
++            ret = qio_channel_writev_full_all(p->c, p->iov, p->iovs_num, NULL,
++                                              0, p->write_flags, &local_err);
+             if (ret != 0) {
+                 break;
+             }
+@@ -913,6 +939,13 @@ int multifd_save_setup(Error **errp)
+         /* We need one extra place for the packet header */
+         p->iov = g_new0(struct iovec, page_count + 1);
+         p->normal = g_new0(ram_addr_t, page_count);
++
++        if (migrate_use_zero_copy_send()) {
++            p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
++        } else {
++            p->write_flags = 0;
++        }
++
+         socket_send_channel_create(multifd_new_send_channel_async, p);
+     }
+ 
+diff --git a/migration/multifd.h b/migration/multifd.h
+index bcf5992945..4d8d89e5e5 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -92,6 +92,8 @@ typedef struct {
+     uint32_t packet_len;
+     /* pointer to the packet */
+     MultiFDPacket_t *packet;
++    /* multifd flags for sending ram */
++    int write_flags;
+     /* multifd flags for each packet */
+     uint32_t flags;
+     /* size of the next packet that contains pages */
+diff --git a/migration/socket.c b/migration/socket.c
+index 3754d8f72c..4fd5e85f50 100644
+--- a/migration/socket.c
++++ b/migration/socket.c
+@@ -79,8 +79,9 @@ static void socket_outgoing_migration(QIOTask *task,
+ 
+     trace_migration_socket_outgoing_connected(data->hostname);
+ 
+-    if (migrate_use_zero_copy_send()) {
+-        error_setg(&err, "Zero copy send not available in migration");
++    if (migrate_use_zero_copy_send() &&
++        !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY)) {
++        error_setg(&err, "Zero copy send feature not detected in host kernel");
+     }
+ 
+ out:
 -- 
 2.35.1
 
