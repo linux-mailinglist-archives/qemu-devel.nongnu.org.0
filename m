@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070995136D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:27:14 +0200 (CEST)
-Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B56513734
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:45:06 +0200 (CEST)
+Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk56u-0004xC-SQ
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39476)
+	id 1nk5OD-0005y6-I7
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:45:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nk54i-0003Rf-Rd
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:24:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nk54f-0003LO-UM
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:24:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651155892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=63r8rWhR8oABNQdnk8OaypleiW++wyFQSOhF8gotzVY=;
- b=ZDPtH91Xjxap9rA2OHTCpMSUtgNNW7g9DzagomS2JBnMAGXB7L/GmxooVKrrlxJCZ2XYZf
- pSu5IMVflEuy2tO3nMCcCL86gbK5ncxuvVXw/qVNnYXPiJroyxNZV4He98djQu6+O/VCDD
- ZUGP9Kk+eSmQlysJYEUY/S7zmiOKSj4=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-LhA4ebM5Pzuped3Rwz-1cA-1; Thu, 28 Apr 2022 10:24:51 -0400
-X-MC-Unique: LhA4ebM5Pzuped3Rwz-1cA-1
-Received: by mail-il1-f199.google.com with SMTP id
- s10-20020a92c5ca000000b002cc45dade1aso1833524ilt.20
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:24:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nk5JN-0004zv-Go
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:05 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nk5JL-00060B-Ci
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:40:05 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ l16-20020a05600c1d1000b00394011013e8so2430518wms.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:40:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4tFOG42vJeTcOhygWYP7TZ2T5A++MSCGrRscovVEQDk=;
+ b=XDSfe5KBi9bnWfTj070Kc3FkRltSPxXoTvXlN4aGVz15Jd7IJV9+cJFOhXuqtJNvHP
+ eSa0x+KpLCkqJt6wH6LVO4Jw2Vp6pjS4L74grZnSY6gk5tsRiOq5u0ciUD9hLYwLN0X3
+ pWsGDuDTYMdMjD7P7/IVIF0TpdvZlnWFOi8NlqRXwNSRhpCF0WFpdD5D5ZbnLK8+k+M9
+ NxC7oJBKee996wxECKMCywCtQzyAIxpF+Xbg7Zy02Yp2gKxQCFvK9Dw7VQHkuWYsNMZC
+ u8ha0W4BNxgv/LcBzmBI9XMa6XC9sZy9shNSxs2Arc34LHANKVOGRPrvTZZVQQOX9BRl
+ ZGOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=63r8rWhR8oABNQdnk8OaypleiW++wyFQSOhF8gotzVY=;
- b=Hf5KWWySodA0H5k/FyJ3Wl2t45KBjO4RwAFKojyoGMPv1ri1BSTnLwau40JenMB+B8
- XzoBid1R9nATHSm5ZNrTpm30bRqKpdYLD2JlMdg0daf9lrgbKHuI1LQyYXLTMyAaJB1/
- tIFHPhhVVPbPqovAd0vofjUfDutpEnSlo2IzCJRovYZBXwdGD6JqsHwmbJETYdyE+EZD
- cxVFhqrNxfd9Jht6hmEm6EsxlZQfoixEHAB0M4YyQcdFVLqAokjcFkEHyutixP1q3L/3
- VsWqBOID0T+juMqU+tGxPqc9ZLvOwNoQCHJsMGT4W1C8J845JhK8pCQirsWBsVcDOR3h
- jELA==
-X-Gm-Message-State: AOAM530QCAS6h4jBug/h/OFE9src9rImSNxCqK7hGW+Ay2Zz1ezWXc6R
- j8aAciiTZQ8/kHTfCHKt/9GcWIIJ/XElZ+o4SxYEhtDw4Nv27Xv0KBiczf1y7hF0yfWEXRjTcGI
- E/ktHengiLW4v0jQ=
-X-Received: by 2002:a5d:8b8f:0:b0:649:ec6d:98e9 with SMTP id
- p15-20020a5d8b8f000000b00649ec6d98e9mr14028108iol.30.1651155890674; 
- Thu, 28 Apr 2022 07:24:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2U1d0fyvz8Pa/Eh29/m4hiXQ+rLKTZwJ9R/ROlmhzHrrR87J6y6aBkBIOBBO7Fy6bjKArnw==
-X-Received: by 2002:a5d:8b8f:0:b0:649:ec6d:98e9 with SMTP id
- p15-20020a5d8b8f000000b00649ec6d98e9mr14028093iol.30.1651155890410; 
- Thu, 28 Apr 2022 07:24:50 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- v1-20020a6bac01000000b006575e6d99c7sm12427ioe.29.2022.04.28.07.24.49
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4tFOG42vJeTcOhygWYP7TZ2T5A++MSCGrRscovVEQDk=;
+ b=YoIxDL8Kewfe/ETOY/pTcvEkmq0Gv8Mj86dpz4S5YpOHNPDMTRzlQRK3NG97n183lY
+ pyv+Lw/hgksXdxfrbqLJmkPgwXTrU/HEL592jDr+dMJZUYLT57SKhVM8Mve/Jd/zWhA2
+ FdNDStTiY3OFtY0PWSUsfkGsRrozz2H4kMoOXDwq4JuKDxyMklBis+56fnysJ5ymQl3S
+ AjEBS3/aZiWKAcCdUMie1yYymGZYNb/jhscRfxOAy+kQEIVySp1ZO92SAykqLthnMPnJ
+ jc+Eug8Bb+9puewjGcsMGTOaCP38EuzqXv94CUZ9y90h5/wfO+Z9cIssaMhMvrZI6ACG
+ uiFA==
+X-Gm-Message-State: AOAM530+B7IewGg7XDA/Qknhat4SKUgV0cY+JT5cNeB2KTJKKhBOFgYl
+ V5Fuq+vh1oW9pyjAkOpzVuNnEPOdgWeMTg==
+X-Google-Smtp-Source: ABdhPJwkdsP4Y5GcvHM8DGSQ6S5zaINf35X00FH9v3eX/zy8qAYoiGTFsE8U/9iWADTqXrpo8zbBoA==
+X-Received: by 2002:a05:600c:3b27:b0:393:ee55:5682 with SMTP id
+ m39-20020a05600c3b2700b00393ee555682mr17096359wms.3.1651156801203; 
+ Thu, 28 Apr 2022 07:40:01 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ bh26-20020a05600c3d1a00b003928db85759sm130221wmb.15.2022.04.28.07.39.59
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 07:24:50 -0700 (PDT)
-Date: Thu, 28 Apr 2022 08:24:48 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Message-ID: <20220428082448.318385ed.alex.williamson@redhat.com>
-In-Reply-To: <BN9PR11MB5276189A2A8EACFBF75B22238CFD9@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <20220422160943.6ff4f330.alex.williamson@redhat.com>
- <YmZzhohO81z1PVKS@redhat.com>
- <20220425083748.3465c50f.alex.williamson@redhat.com>
- <BN9PR11MB5276F549912E03553411736D8CFB9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220426102159.5ece8c1f.alex.williamson@redhat.com>
- <BN9PR11MB5276189A2A8EACFBF75B22238CFD9@BN9PR11MB5276.namprd11.prod.outlook.com>
-Organization: Red Hat
+ Thu, 28 Apr 2022 07:40:00 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/54] target-arm queue
+Date: Thu, 28 Apr 2022 15:39:04 +0100
+Message-Id: <20220428143958.2451229-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,97 +85,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "Peng, Chao P" <chao.p.peng@intel.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- "jgg@nvidia.com" <jgg@nvidia.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>, "Sun,
- Yi Y" <yi.y.sun@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "nicolinc@nvidia.com" <nicolinc@nvidia.com>, Laine Stump <laine@redhat.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Apr 2022 03:21:45 +0000
-"Tian, Kevin" <kevin.tian@intel.com> wrote:
+This is mostly RTH's tcg_constant refactoring work, plus a few
+other things.
 
-> > From: Alex Williamson <alex.williamson@redhat.com>
-> > Sent: Wednesday, April 27, 2022 12:22 AM  
-> > > >
-> > > > My expectation would be that libvirt uses:
-> > > >
-> > > >  -object iommufd,id=iommufd0,fd=NNN
-> > > >  -device vfio-pci,fd=MMM,iommufd=iommufd0
-> > > >
-> > > > Whereas simple QEMU command line would be:
-> > > >
-> > > >  -object iommufd,id=iommufd0
-> > > >  -device vfio-pci,iommufd=iommufd0,host=0000:02:00.0
-> > > >
-> > > > The iommufd object would open /dev/iommufd itself.  Creating an
-> > > > implicit iommufd object is someone problematic because one of the
-> > > > things I forgot to highlight in my previous description is that the
-> > > > iommufd object is meant to be shared across not only various vfio
-> > > > devices (platform, ccw, ap, nvme, etc), but also across subsystems, ex.
-> > > > vdpa.  
-> > >
-> > > Out of curiosity - in concept one iommufd is sufficient to support all
-> > > ioas requirements across subsystems while having multiple iommufd's
-> > > instead lose the benefit of centralized accounting. The latter will also
-> > > cause some trouble when we start virtualizing ENQCMD which requires
-> > > VM-wide PASID virtualization thus further needs to share that
-> > > information across iommufd's. Not unsolvable but really no gain by
-> > > adding such complexity. So I'm curious whether Qemu provide
-> > > a way to restrict that certain object type can only have one instance
-> > > to discourage such multi-iommufd attempt?  
-> > 
-> > I don't see any reason for QEMU to restrict iommufd objects.  The QEMU
-> > philosophy seems to be to let users create whatever configuration they
-> > want.  For libvirt though, the assumption would be that a single
-> > iommufd object can be used across subsystems, so libvirt would never
-> > automatically create multiple objects.  
-> 
-> I like the flexibility what the objection approach gives in your proposal.
-> But with the said complexity in mind (with no foreseen benefit), I wonder
+thanks
+-- PMM
 
-What's the actual complexity?  Front-end/backend splits are very common
-in QEMU.  We're making the object connection via name, why is it
-significantly more complicated to allow multiple iommufd objects?  On
-the contrary, it seems to me that we'd need to go out of our way to add
-code to block multiple iommufd objects.
+The following changes since commit cf6f26d6f9b2015ee12b4604b79359e76784163a:
 
-> whether an alternative approach which treats iommufd as a global
-> property instead of an object is acceptable in Qemu, i.e.:
-> 
-> -iommufd on/off
-> -device vfio-pci,iommufd,[fd=MMM/host=0000:02:00.0]
-> 
-> All devices with iommufd specified then implicitly share a single iommufd
-> object within Qemu.
+  Merge tag 'kraxel-20220427-pull-request' of git://git.kraxel.org/qemu into staging (2022-04-27 10:49:28 -0700)
 
-QEMU requires key-value pairs AFAIK, so the above doesn't work, then
-we're just back to the iommufd=on/off.
- 
-> This still allows vfio devices to be specified via fd but just requires Libvirt
-> to grant file permission on /dev/iommu. Is it a worthwhile tradeoff to be
-> considered or just not a typical way in Qemu philosophy e.g. any object
-> associated with a device must be explicitly specified?
+are available in the Git repository at:
 
-Avoiding QEMU opening files was a significant focus of my alternate
-proposal.  Also note that we must be able to support hotplug, so we
-need to be able to dynamically add and remove the iommufd object, I
-don't see that a global property allows for that.  Implicit
-associations of devices to shared resources doesn't seem particularly
-desirable to me.  Thanks,
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220428
 
-Alex
+for you to fetch changes up to f8e7163d9e6740b5cef02bf73a17a59d0bef8bdb:
 
+  hw/arm/smmuv3: Advertise support for SMMUv3.2-BBML2 (2022-04-28 13:59:23 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * refactor to use tcg_constant where appropriate
+ * Advertise support for FEAT_TTL and FEAT_BBM level 2
+ * smmuv3: Cache event fault record
+ * smmuv3: Add space in guest error message
+ * smmuv3: Advertise support for SMMUv3.2-BBML2
+
+----------------------------------------------------------------
+Damien Hedde (1):
+      target/arm: Disable cryptographic instructions when neon is disabled
+
+Jean-Philippe Brucker (2):
+      hw/arm/smmuv3: Cache event fault record
+      hw/arm/smmuv3: Add space in guest error message
+
+Peter Maydell (3):
+      target/arm: Advertise support for FEAT_TTL
+      target/arm: Advertise support for FEAT_BBM level 2
+      hw/arm/smmuv3: Advertise support for SMMUv3.2-BBML2
+
+Richard Henderson (48):
+      target/arm: Use tcg_constant in gen_probe_access
+      target/arm: Use tcg_constant in gen_mte_check*
+      target/arm: Use tcg_constant in gen_exception*
+      target/arm: Use tcg_constant in gen_adc_CC
+      target/arm: Use tcg_constant in handle_msr_i
+      target/arm: Use tcg_constant in handle_sys
+      target/arm: Use tcg_constant in disas_exc
+      target/arm: Use tcg_constant in gen_compare_and_swap_pair
+      target/arm: Use tcg_constant in disas_ld_lit
+      target/arm: Use tcg_constant in disas_ldst_*
+      target/arm: Use tcg_constant in disas_add_sum_imm*
+      target/arm: Use tcg_constant in disas_movw_imm
+      target/arm: Use tcg_constant in shift_reg_imm
+      target/arm: Use tcg_constant in disas_cond_select
+      target/arm: Use tcg_constant in handle_{rev16,crc32}
+      target/arm: Use tcg_constant in disas_data_proc_2src
+      target/arm: Use tcg_constant in disas_fp*
+      target/arm: Use tcg_constant in simd shift expanders
+      target/arm: Use tcg_constant in simd fp/int conversion
+      target/arm: Use tcg_constant in 2misc expanders
+      target/arm: Use tcg_constant in balance of translate-a64.c
+      target/arm: Use tcg_constant for aa32 exceptions
+      target/arm: Use tcg_constant for disas_iwmmxt_insn
+      target/arm: Use tcg_constant for gen_{msr,mrs}
+      target/arm: Use tcg_constant for vector shift expanders
+      target/arm: Use tcg_constant for do_coproc_insn
+      target/arm: Use tcg_constant for gen_srs
+      target/arm: Use tcg_constant for op_s_{rri,rxi}_rot
+      target/arm: Use tcg_constant for MOVW, UMAAL, CRC32
+      target/arm: Use tcg_constant for v7m MRS, MSR
+      target/arm: Use tcg_constant for TT, SAT, SMMLA
+      target/arm: Use tcg_constant in LDM, STM
+      target/arm: Use tcg_constant in CLRM, DLS, WLS, LE
+      target/arm: Use tcg_constant in trans_CPS_v7m
+      target/arm: Use tcg_constant in trans_CSEL
+      target/arm: Use tcg_constant for trans_INDEX_*
+      target/arm: Use tcg_constant in SINCDEC, INCDEC
+      target/arm: Use tcg_constant in FCPY, CPY
+      target/arm: Use tcg_constant in {incr, wrap}_last_active
+      target/arm: Use tcg_constant in do_clast_scalar
+      target/arm: Use tcg_constant in WHILE
+      target/arm: Use tcg_constant in LD1, ST1
+      target/arm: Use tcg_constant in SUBR
+      target/arm: Use tcg_constant in do_zzi_{sat, ool}, do_fp_imm
+      target/arm: Use tcg_constant for predicate descriptors
+      target/arm: Use tcg_constant for do_brk{2,3}
+      target/arm: Use tcg_constant for vector descriptor
+      target/arm: Use field names for accessing DBGWCRn
+
+ docs/system/arm/emulation.rst |   2 +
+ hw/arm/smmuv3-internal.h      |   2 +-
+ include/hw/arm/smmu-common.h  |   1 +
+ target/arm/internals.h        |  12 ++
+ hw/arm/smmuv3.c               |  17 +--
+ target/arm/cpu.c              |   9 ++
+ target/arm/cpu64.c            |   2 +
+ target/arm/debug_helper.c     |  10 +-
+ target/arm/helper.c           |   8 +-
+ target/arm/kvm64.c            |  14 +-
+ target/arm/translate-a64.c    | 301 +++++++++++++-----------------------------
+ target/arm/translate-sve.c    | 202 ++++++++++------------------
+ target/arm/translate.c        | 244 ++++++++++++----------------------
+ 13 files changed, 293 insertions(+), 531 deletions(-)
 
