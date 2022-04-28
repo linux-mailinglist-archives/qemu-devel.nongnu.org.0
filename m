@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C596D51396B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 18:09:36 +0200 (CEST)
-Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F3151397B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 18:15:06 +0200 (CEST)
+Received: from localhost ([::1]:45084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6hz-0005cU-G3
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 12:09:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46076)
+	id 1nk6nJ-0005OT-AU
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 12:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KW-00064K-1S
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KU-0006ah-Cb
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651156873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a3oxzf4qJrlVIMhiFC7+YceYdGNc77SZiKBD4CeCD7U=;
- b=gZQTF5F4C+0sSSD54hpPdFqvSu1ISnZWg+kcjx4vggXLWI+MUqbUFNzG8kNDiC++gRUybt
- alr4OGrlzZmLmqPgEd2Q/ChBSjrY76dB1CIVDxx+qqV0nPP4fXACvuQGKK5k18SS7fZ9xJ
- yZV8mrzbVnAYZX9DKjLrGurTFmzdUkQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-Vh1RijtjMPyqt2-L-NNHow-1; Thu, 28 Apr 2022 10:41:12 -0400
-X-MC-Unique: Vh1RijtjMPyqt2-L-NNHow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0834880005D
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:12 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21271407DEC3;
- Thu, 28 Apr 2022 14:41:11 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
- leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 08/11] migration: Add migrate_use_tls() helper
-Date: Thu, 28 Apr 2022 15:40:49 +0100
-Message-Id: <20220428144052.263382-9-dgilbert@redhat.com>
-In-Reply-To: <20220428144052.263382-1-dgilbert@redhat.com>
-References: <20220428144052.263382-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nk5l3-0003Qu-0R
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:08:41 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:46315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nk5l1-0002xu-7r
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:08:40 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2f7d19cac0bso56025937b3.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 08:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E4sJdyzOZFuctR73Cgf43MKCMHXbivpIR6IAculxqb0=;
+ b=iPOiSkGiJx+wcHOmkqVnNjxguxrh7jUy73qHN9PG6kKyIQNcPR6/AumTT2ekUVgfaG
+ 6kI/hdSyvzvVoEjb+KZE6e9Ju5KFRT/fApuo/QGYo32RKd6qfFAFJ9nvmXV1YwS/lOiO
+ tnu6Xir3mIbzlJLnQP4rbUD9/XBndSWwYzTD+4JPFIHsBPaggf//GNhyuhqg54ZF35BW
+ dL5WnFkqUwL9TzkjLlSGo8hqTrN+2/oATfsQ/3VetX1Lw53vWLf43mtz7ceJf0zuBkhb
+ JbxnxORfQ64hxsKYY79N2UqvwQkRwXRBKvO8OYlK+F61owpQu7vkwDRK6UPHQnQpIcgq
+ piFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E4sJdyzOZFuctR73Cgf43MKCMHXbivpIR6IAculxqb0=;
+ b=d0Jt61agTCb8ma1PUssIUgO/YZv3/rmv7TEvVUYEXYMbwAvJG1eV2SRw9yp7wOnqie
+ O4p3SG39Lom7DNi0Eg+Ng0NP9Nrg6ywLCMOvnIzIKhnu0Nk+Z4U1QYcfc5vh5f8qgk6x
+ w9w2vodVMiMoPBeAHQGlV/WE/nVtsTc8FpmSwJnyxOjIbBLleMpN8PmE9mEGVkI2r75M
+ vfhw0iNDgKMKA2YZ2Qgz1o1wLzM4k1Li8vTtZI2IgOpNb1rtwCQUA6JZRWVwFAMxGL6W
+ VE8423GjSoMnmdENzZzqKRrqMUea73jGJ88aR13YoeC6tZ8IdGLwhAb+9ayUQOvaJZ5n
+ T65w==
+X-Gm-Message-State: AOAM533TqTudxIs1XgIXHaKYApZktHF1P6BQL2fsWv+Gf69RXXxEdEKi
+ Aja7bn3bak/I1agcS23DlcLkGpdNwFWu/hN2hnsZzA==
+X-Google-Smtp-Source: ABdhPJzJ7LUPzSFfMLQObnFYrnJmWS/tfolUGJx/+W905sMGWiuEAgXtTmxRAP0qrzp2B93q+w4/xOAHmsDV1Ge0vqM=
+X-Received: by 2002:a81:5584:0:b0:2f7:d7b6:d910 with SMTP id
+ j126-20020a815584000000b002f7d7b6d910mr24439703ywb.469.1651158512016; Thu, 28
+ Apr 2022 08:08:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <CAFEAcA_X7d9-e+u3UpB5WvJrmJhhRKdw8EhUzCdFDNVfhFF8mg@mail.gmail.com>
+ <2d9e3abd-99de-dc56-c6bd-93e54cd22b8e@redhat.com>
+ <87zglee9w3.fsf@secure.mitica>
+In-Reply-To: <87zglee9w3.fsf@secure.mitica>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Apr 2022 16:08:20 +0100
+Message-ID: <CAFEAcA8rxwMmWm_CnFMG7407h5pTdPeVJVG8bJC9uryUZHDd_w@mail.gmail.com>
+Subject: Re: hang in migration-test (s390 host)
+To: quintela@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,98 +80,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Bras <leobras@redhat.com>
+On Fri, 25 Mar 2022 at 08:04, Juan Quintela <quintela@redhat.com> wrote:
+>
+> Laurent Vivier <lvivier@redhat.com> wrote:
+> > Perhaps Juan or Thomas can help too (added to cc)
+> >
+> > Is this a regression?
+> > It looks like a bug in QEMU as it doesn't move from cancelling to cancelled.
 
-A lot of places check parameters.tls_creds in order to evaluate if TLS is
-in use, and sometimes call migrate_get_current() just for that test.
+I had a repeat of this hang (same machine), so here's the debug
+info I wasn't able to gather the first time round.
 
-Add new helper function migrate_use_tls() in order to simplify testing
-for TLS usage.
+> >> [Inferior 1 (process 2771497) detached]
+> >> ===========================================================
+> >> PROCESS: 2772862
+> >> gitlab-+ 2772862 2771497 99 Mar23 ?        18:45:28 ./qemu-system-i386
+> >> -qtest unix:/tmp/qtest-2771497.sock -qtest-log /dev/null -chardev
+> >> socket,path=/tmp/qtest-2771497.qmp,id=char0 -mon
+> >> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+> >> source,debug-threads=on -m 150M -serial
+> >> file:/tmp/migration-test-f6G71L/src_serial -drive
+> >> file=/tmp/migration-test-f6G71L/bootsect,format=raw -accel qtest
+>
+> Source of migration thread.
+>
+> >> [New LWP 2772864]
+> >> [New LWP 2772866]
+> >> [New LWP 2772867]
+> >> [New LWP 2772915]
+> >> [Thread debugging using libthread_db enabled]
+> >> Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+> >> 0x000003ff94ef1c9c in __ppoll (fds=0x2aa179a6f30, nfds=5,
+> >> timeout=<optimized out>, timeout@entry=0x3fff557b588,
+> >> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+> >> 44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
+> >> Thread 5 (Thread 0x3ff1b7f6900 (LWP 2772915)):
+> >> #0  futex_abstimed_wait_cancelable (private=0, abstime=0x0, clockid=0,
+> >> expected=0, futex_word=0x2aa1881f634) at
+> >> ../sysdeps/nptl/futex-internal.h:320
+> >> #1  do_futex_wait (sem=sem@entry=0x2aa1881f630, abstime=0x0,
+> >> clockid=0) at sem_waitcommon.c:112
+> >> #2  0x000003ff95011870 in __new_sem_wait_slow
+> >> (sem=sem@entry=0x2aa1881f630, abstime=0x0, clockid=0) at
+> >> sem_waitcommon.c:184
+> >> #3  0x000003ff9501190e in __new_sem_wait (sem=sem@entry=0x2aa1881f630)
+> >> at sem_wait.c:42
+> >> #4  0x000002aa165b1416 in qemu_sem_wait (sem=sem@entry=0x2aa1881f630)
+> >> at ../util/qemu-thread-posix.c:358
+> >> #5  0x000002aa16023434 in multifd_send_sync_main (f=0x2aa17993760) at
+> >> ../migration/multifd.c:610
+> >> #6  0x000002aa162a8f18 in ram_save_iterate (f=0x2aa17993760,
+> >> opaque=<optimized out>) at ../migration/ram.c:3049
+> >> #7  0x000002aa1602bafc in qemu_savevm_state_iterate (f=0x2aa17993760,
+> >> postcopy=<optimized out>) at ../migration/savevm.c:1296
+> >> #8  0x000002aa1601fe4e in migration_iteration_run (s=0x2aa17748010) at
+> >> ../migration/migration.c:3607
+> >> #9  migration_thread (opaque=opaque@entry=0x2aa17748010) at
+> >> ../migration/migration.c:3838
+> >> #10 0x000002aa165b05c2 in qemu_thread_start (args=<optimized out>) at
+> >> ../util/qemu-thread-posix.c:556
+> >> #11 0x000003ff95007e66 in start_thread (arg=0x3ff1b7f6900) at
+> >> pthread_create.c:477
+> >> #12 0x000003ff94efcbf6 in thread_start () at
+> >> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+>
+> Migration main thread in multifd_send_sync_main(), waiting for the
+> semaphore in
+>
+>     for (i = 0; i < migrate_multifd_channels(); i++) {
+>         MultiFDSendParams *p = &multifd_send_state->params[i];
+>
+>         trace_multifd_send_sync_main_wait(p->id);
+>         qemu_sem_wait(&p->sem_sync);
+>     }
+>
+> Knowing the value of i would be great.  See the end of the email, I
+> think it is going to be 0.
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220426230654.637939-5-leobras@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/channel.c   | 3 +--
- migration/migration.c | 9 +++++++++
- migration/migration.h | 1 +
- migration/multifd.c   | 5 +----
- 4 files changed, 12 insertions(+), 6 deletions(-)
+gdb says i is 1. Possibly the compiler has enthusiastically
+reordered the 'i++' above the qemu_sem_wait(), though.
+I tried to get gdb to tell me the value of migrate_multifd_channels(),
+but that was a mistake because gdb's attempt to execute code in
+the debuggee to answer that question did not work and left it
+in a state where it was broken and I had to kill it.
 
-diff --git a/migration/channel.c b/migration/channel.c
-index c6a8dcf1d7..a162d00fea 100644
---- a/migration/channel.c
-+++ b/migration/channel.c
-@@ -38,8 +38,7 @@ void migration_channel_process_incoming(QIOChannel *ioc)
-     trace_migration_set_incoming_channel(
-         ioc, object_get_typename(OBJECT(ioc)));
- 
--    if (s->parameters.tls_creds &&
--        *s->parameters.tls_creds &&
-+    if (migrate_use_tls() &&
-         !object_dynamic_cast(OBJECT(ioc),
-                              TYPE_QIO_CHANNEL_TLS)) {
-         migration_tls_channel_process_incoming(s, ioc, &local_err);
-diff --git a/migration/migration.c b/migration/migration.c
-index 3e91f4b5e2..4b6df2eb5e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2588,6 +2588,15 @@ bool migrate_use_zero_copy_send(void)
- }
- #endif
- 
-+int migrate_use_tls(void)
-+{
-+    MigrationState *s;
-+
-+    s = migrate_get_current();
-+
-+    return s->parameters.tls_creds && *s->parameters.tls_creds;
-+}
-+
- int migrate_use_xbzrle(void)
- {
-     MigrationState *s;
-diff --git a/migration/migration.h b/migration/migration.h
-index e8f2941a55..485d58b95f 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -380,6 +380,7 @@ bool migrate_use_zero_copy_send(void);
- #else
- #define migrate_use_zero_copy_send() (false)
- #endif
-+int migrate_use_tls(void);
- int migrate_use_xbzrle(void);
- uint64_t migrate_xbzrle_cache_size(void);
- bool migrate_colo_enabled(void);
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 9ea4f581e2..2a8c8570c3 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -782,15 +782,12 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
-                                     QIOChannel *ioc,
-                                     Error *error)
- {
--    MigrationState *s = migrate_get_current();
--
-     trace_multifd_set_outgoing_channel(
-         ioc, object_get_typename(OBJECT(ioc)),
-         migrate_get_current()->hostname, error);
- 
-     if (!error) {
--        if (s->parameters.tls_creds &&
--            *s->parameters.tls_creds &&
-+        if (migrate_use_tls() &&
-             !object_dynamic_cast(OBJECT(ioc),
-                                  TYPE_QIO_CHANNEL_TLS)) {
-             multifd_tls_channel_connect(p, ioc, &error);
--- 
-2.35.1
+Is there something we can put into either QEMU or the test
+case that will let us get some better information when this
+happens again ?
 
+thanks
+-- PMM
 
