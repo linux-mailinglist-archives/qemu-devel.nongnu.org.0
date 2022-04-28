@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9479A512998
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 04:40:54 +0200 (CEST)
-Received: from localhost ([::1]:46694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089385129BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 05:03:18 +0200 (CEST)
+Received: from localhost ([::1]:50684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nju5N-0004gS-5q
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 22:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41070)
+	id 1njuR2-0008EN-Om
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 23:03:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nju4R-0003s9-6p; Wed, 27 Apr 2022 22:39:55 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:36756 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nju4O-0003TR-HA; Wed, 27 Apr 2022 22:39:54 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowACXKSBt_mlioeygAQ--.46165S2;
- Thu, 28 Apr 2022 10:39:42 +0800 (CST)
-Subject: Re: [PATCH 1/2] target/riscv: Tentatively remove Zhinx* from ISA
- extension string
-To: Alistair Francis <alistair23@gmail.com>,
- Tsukasa OI <research_trasio@irq.a4lg.com>
-References: <cover.1650777360.git.research_trasio@irq.a4lg.com>
- <cfda1d8da254f2e723e487f0c738c59d5891e492.1650777360.git.research_trasio@irq.a4lg.com>
- <CAKmqyKOx2Q3vjK5b51y1yrKS=f+08qzQFvCiS0iuDqBQ0wo41g@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <c2a43c93-70a9-721b-d4ae-779a6b3cfd7a@iscas.ac.cn>
-Date: Thu, 28 Apr 2022 10:39:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1njuPK-0007RM-0K
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 23:01:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1njuPG-0006WS-M0
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 23:01:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651114885;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lwV1WrUR5RsgHP15HiH0RM1d5ajJWrFR2XH8PqtYKAQ=;
+ b=Qzh2cAuctpSqkCs3iaxEVEhNwDud9PwzwRwUYDbXTCWu2Ul3laNLhQVUdnhIO2D9xhFpU4
+ Qz5kbr0BPf5SQf3hg1l/b70YljufToO/ub+VWDxSG/EfM7/K2mgkHFs3u5mDHlHLIxAozn
+ CysXL0yA14ChYoB+D6B81dp+Yy4ATI4=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-YdLVh5BeNKO02Qx67OQAnQ-1; Wed, 27 Apr 2022 23:01:23 -0400
+X-MC-Unique: YdLVh5BeNKO02Qx67OQAnQ-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ c33-20020a05651223a100b00471fc6795dfso1437825lfv.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 20:01:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lwV1WrUR5RsgHP15HiH0RM1d5ajJWrFR2XH8PqtYKAQ=;
+ b=mguH49W5E0Z8uReeNG2Gk471ODWPS2iB7Pycc1rPEq0EmnM0fAsrv2d7BVS8bFSWfo
+ s6R/0wFRTLkX19kNBB81SdpxsFEgG+acP3qH1qwzbWBd2b5lb0BRvq080tl8lpF9NndO
+ s5qCAOEn16G7oExLthMWDNkwv+vRsfvYSDw/qKviAS2Y1MpeQTZoxczZ4maT89DqHkMU
+ jsx1iSQalHZprDaM8iOV/wpU3F6xQfha/WYvlC/lCo/2KNgkaDLiUI/NhtBVEysOYD8c
+ WkBR5sfrJ1OLSU77XXIgucCTAhNXFrRkijpVzFbOOL3BA7Js956shnMBYBdUz4t3hR/u
+ 3Pvw==
+X-Gm-Message-State: AOAM533kyUKEzrl/2Q5tL9hPhS5hpY7npu3Tg6kRCgjpmiLlu7eJAY6i
+ ohT/hKgtLOnmN+XkIDcB0v3QbZ1uvTzAYck5xBIwWNIIlWu96p1NyTJj66BZuyhsG7F3Vd+4v5Y
+ YdUGXIvf3K3koJkAe+9MO6wkOcDouD6c=
+X-Received: by 2002:a2e:534a:0:b0:24a:f64f:a1d6 with SMTP id
+ t10-20020a2e534a000000b0024af64fa1d6mr20539577ljd.315.1651114882286; 
+ Wed, 27 Apr 2022 20:01:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyu2DJH3DvjYnE6eftE8A2bDgM/y9O8mEUMu4ToU8H5uO2un9Ph0UckqSw2GI5tinVJhov6ksPmtMZzh79xJLg=
+X-Received: by 2002:a2e:534a:0:b0:24a:f64f:a1d6 with SMTP id
+ t10-20020a2e534a000000b0024af64fa1d6mr20539556ljd.315.1651114881992; Wed, 27
+ Apr 2022 20:01:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKOx2Q3vjK5b51y1yrKS=f+08qzQFvCiS0iuDqBQ0wo41g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowACXKSBt_mlioeygAQ--.46165S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWUKw1kuFykKr45ur48Zwb_yoW8XFWkpr
- 4xKa4vkFyDJas5C3s7J34kWF4rWw1DWws7WwsFvwn3JrWayrWqyrs2kw48Xr4qyF97Ka4f
- Xw4jyr17Zrs3Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
- WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
- zVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j
- 6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUU6RRtUUUUU==
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <20220207112857.607829-1-pasic@linux.ibm.com>
+ <0b85cc5f-9dc8-39a4-b5a5-4dbd8cc84343@intel.com>
+ <484a755f-f325-1258-3f18-a4c4c29a3198@intel.com>
+In-Reply-To: <484a755f-f325-1258-3f18-a4c4c29a3198@intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 28 Apr 2022 11:01:10 +0800
+Message-ID: <CACGkMEsHyKNEcDkiBSMNWW2Mu--beDrJVKFjq493VnF+sPm6mA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] virtio: fix the condition for iommu_platform not
+ supported
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,57 +90,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Jakob Naucke <Jakob.Naucke@ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/4/28 上午7:58, Alistair Francis 写道:
-> On Sun, Apr 24, 2022 at 3:22 PM Tsukasa OI <research_trasio@irq.a4lg.com> wrote:
->> This commit disables ISA string conversion for Zhinx and Zhinxmin
->> extensions for now.  Because extension category ordering of "H" is not
->> ratified, their ordering is likely invalid.
->>
->> Once "H"-extension ordering is determined, we can add Zhinx* again.
->>
->> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
-> Weiwei Li does this sound alright to you?
+On Wed, Apr 27, 2022 at 8:25 PM Chenyi Qiang <chenyi.qiang@intel.com> wrote:
 >
-> Alistair
+>
+>
+> On 4/22/2022 3:11 PM, Chenyi Qiang wrote:
+> >
+> >
+> > On 2/7/2022 7:28 PM, Halil Pasic wrote:
+> >> The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
+> >> unsupported") claims to fail the device hotplug when iommu_platform
+> >> is requested, but not supported by the (vhost) device. On the first
+> >> glance the condition for detecting that situation looks perfect, but
+> >> because a certain peculiarity of virtio_platform it ain't.
+> >>
+> >> In fact the aforementioned commit introduces a regression. It breaks
+> >> virtio-fs support for Secure Execution, and most likely also for AMD SEV
+> >> or any other confidential guest scenario that relies encrypted guest
+> >> memory.  The same also applies to any other vhost device that does not
+> >> support _F_ACCESS_PLATFORM.
+> >>
+> >> The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
+> >> "device can not access all of the guest RAM" and "iova != gpa, thus
+> >> device needs to translate iova".
+> >>
+> >> Confidential guest technologies currently rely on the device/hypervisor
+> >> offering _F_ACCESS_PLATFORM, so that, after the feature has been
+> >> negotiated, the guest  grants access to the portions of memory the
+> >> device needs to see. So in for confidential guests, generally,
+> >> _F_ACCESS_PLATFORM is about the restricted access to memory, but not
+> >> about the addresses used being something else than guest physical
+> >> addresses.
+> >>
+> >> This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
+> >> turn on VIRTIO_F_IOMMU_PLATFORM") fences _F_ACCESS_PLATFORM from the
+> >> vhost device that does not need it, because on the vhost interface it
+> >> only means "I/O address translation is needed".
+> >>
+> >> This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
+> >> VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
+> >> situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
+> >> by the device, and thus no device capability is needed. In this
+> >> situation claiming that the device does not support iommu_plattform=on
+> >> is counter-productive. So let us stop doing that!
+> >>
+> >> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> >> Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
+> >> Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
+> >> unsupported")
+> >> Acked-by: Cornelia Huck <cohuck@redhat.com>
+> >> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> >> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> >> Cc: Kevin Wolf <kwolf@redhat.com>
+> >> Cc: qemu-stable@nongnu.org
+> >>
+> >> ---
+> >>
+> >> v4->v5:
+> >> * added back the return; so if somebody were to add code to the end of
+> >>    the function we are still good
+> >> v3->v4:
+> >> * Fixed commit message (thanks Connie)
+> >> * Removed counter-productive initialization (thanks Connie)
+> >> * Added tags
+> >> v2->v3:
+> >> * Caught a bug: I tired to check if vdev has the feature
+> >>     ACCESS_PLATFORM after we have forced it. Moved the check
+> >>     to a better place
+> >> v1->v2:
+> >> * Commit message tweaks. Most notably fixed commit SHA (Michael)
+> >>
+> >> ---
+> >> ---
+> >>   hw/virtio/virtio-bus.c | 12 +++++++-----
+> >>   1 file changed, 7 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+> >> index d23db98c56..0f69d1c742 100644
+> >> --- a/hw/virtio/virtio-bus.c
+> >> +++ b/hw/virtio/virtio-bus.c
+> >> @@ -48,6 +48,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev,
+> >> Error **errp)
+> >>       VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
+> >>       VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
+> >>       bool has_iommu = virtio_host_has_feature(vdev,
+> >> VIRTIO_F_IOMMU_PLATFORM);
+> >> +    bool vdev_has_iommu;
+> >>       Error *local_err = NULL;
+> >>       DPRINTF("%s: plug device.\n", qbus->name);
+> >> @@ -69,11 +70,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev,
+> >> Error **errp)
+> >>           return;
+> >>       }
+> >> -    if (has_iommu && !virtio_host_has_feature(vdev,
+> >> VIRTIO_F_IOMMU_PLATFORM)) {
+> >> -        error_setg(errp, "iommu_platform=true is not supported by the
+> >> device");
+> >> -        return;
+> >> -    }
+> >> -
+> >>       if (klass->device_plugged != NULL) {
+> >>           klass->device_plugged(qbus->parent, &local_err);
+> >>       }
+> >> @@ -82,9 +78,15 @@ void virtio_bus_device_plugged(VirtIODevice *vdev,
+> >> Error **errp)
+> >>           return;
+> >>       }
+> >> +    vdev_has_iommu = virtio_host_has_feature(vdev,
+> >> VIRTIO_F_IOMMU_PLATFORM);
+> >>       if (klass->get_dma_as != NULL && has_iommu) {
+> >>           virtio_add_feature(&vdev->host_features,
+> >> VIRTIO_F_IOMMU_PLATFORM);
+> >>           vdev->dma_as = klass->get_dma_as(qbus->parent);
+> >> +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+> >
+> > Hi Pasic,
+> >
+> > When testing the virtio-fs in Intel TDX, I met the error report in this
+> > check. Is it appropriate to compare the dma_as against the
+> > address_space_memory to detect whether the IOMMU is enabled or not? Per
+> > the commit ae4003738f(vhost: correctly detect the enabling IOMMU), we
+> > should call virtio_bus_device_iommu_enabled(vdev) instead here, correct?
+> >
+>
+> Sorry for bothering.
+>
+> Can virtio-fs work properly in AMD SEV?
+>
+> IIUC, If get_dma_as() is implemented and in case of PCI,
+> pci_get_address_space() is used and returns the bus master as. This
+> would fail the check here.
 
-Even though the rule says: "The first letter following the 'Z' 
-conventionally indicates the most closely
+I think the reason is that the viritio-fs is used without vIOMMU but
+ACCESS_PLATFORM.
 
-related alphabetical extension category, IMAFDQLCBKJTPVH", zhinx* is not 
-related to 'H' extension actually.
+That's why we need to use virtio_bus_device_iommu_enabled() to allow
+this setup to work.
 
-I think the most closely related alphabetical extension is 'F' extension.
+Thanks
 
-Regards,
-
-Weiwei Li
-
->> ---
->>   target/riscv/cpu.c | 2 --
->>   1 file changed, 2 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 0c774056c5..c765f7ff00 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -954,8 +954,6 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->>           ISA_EDATA_ENTRY(zfh, ext_zfh),
->>           ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
->>           ISA_EDATA_ENTRY(zfinx, ext_zfinx),
->> -        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
->> -        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
->>           ISA_EDATA_ENTRY(zdinx, ext_zdinx),
->>           ISA_EDATA_ENTRY(zba, ext_zba),
->>           ISA_EDATA_ENTRY(zbb, ext_zbb),
->> --
->> 2.32.0
->>
+>
+> >> +            error_setg(errp,
+> >> +                       "iommu_platform=true is not supported by the
+> >> device");
+> >> +            return;
+> >> +        }
+> >>       } else {
+> >>           vdev->dma_as = &address_space_memory;
+> >>       }
+> >>
+> >> base-commit: 0d564a3e32ba8494014c67cdd2ebf0fb71860dff
+> >
+>
 
 
