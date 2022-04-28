@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351E951390D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:53:15 +0200 (CEST)
-Received: from localhost ([::1]:42452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E686513933
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 17:57:55 +0200 (CEST)
+Received: from localhost ([::1]:50266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6SA-0007MN-A5
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:53:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45946)
+	id 1nk6Wg-0004Qs-Gx
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 11:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KR-0005qT-Sb
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25085)
+ id 1nk5KT-0005rm-Hh
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk5KN-0006YK-Mf
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:09 -0400
+ id 1nk5KN-0006YV-Lp
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:41:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651156864;
+ s=mimecast20190719; t=1651156865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vxG17w8oJ/uN0jtO64SafgdAwyHxukIztjcpyskm2HI=;
- b=EUbS86pXLmUMJzJr6zcHST04rlLZ/6ipnw8OAV1ioN6PzZqnz/94ksKx7d5kfunm/OcLry
- JnV2r6FqVmYMTuWASQPm0JTVJaKzG0uwsro4s2wMERC/vaAcF4HLKKffhBQwsYRjtF28b+
- pYl9+cNNVIGn++Tnis02GoqfAApssFM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VFSxp3C1TBlI9FrgrxNA0W3vX6F457k7D9jZ2k3X60U=;
+ b=SKj1tt51fTfZP86gAuaLEAvnhhjaHgwmHFFGm0emlbjlsqBEwGI4aOOdSTEtW6wkwLcVJ0
+ NPkU6D2hzwNF81ugjKgXjWD9dBEVUUhURZvW9cehjix9ZcEiLP0LzJi+4v/Q8oE3MmEYAE
+ acC4VsMvz8yxstfE6RI0uhNzSuiTDB8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-RfHqfF2yM9qQijmfVO-ULg-1; Thu, 28 Apr 2022 10:41:02 -0400
-X-MC-Unique: RfHqfF2yM9qQijmfVO-ULg-1
+ us-mta-12-M2qF1VIVM8WNEPi4GmPpkg-1; Thu, 28 Apr 2022 10:41:04 -0400
+X-MC-Unique: M2qF1VIVM8WNEPi4GmPpkg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A02963C1EA4A
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAC2C1C05AF3
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:41:03 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4899407DEC3;
- Thu, 28 Apr 2022 14:41:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9F36407DECE;
+ Thu, 28 Apr 2022 14:41:02 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 00/11] migration queue
-Date: Thu, 28 Apr 2022 15:40:41 +0100
-Message-Id: <20220428144052.263382-1-dgilbert@redhat.com>
+Subject: [PULL 01/11] tests: fix encoding of IP addresses in x509 certs
+Date: Thu, 28 Apr 2022 15:40:42 +0100
+Message-Id: <20220428144052.263382-2-dgilbert@redhat.com>
+In-Reply-To: <20220428144052.263382-1-dgilbert@redhat.com>
+References: <20220428144052.263382-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,72 +79,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-The following changes since commit cf6f26d6f9b2015ee12b4604b79359e76784163a:
+We need to encode just the address bytes, not the whole struct sockaddr
+data. Add a test case to validate that we're matching on SAN IP
+addresses correctly.
 
-  Merge tag 'kraxel-20220427-pull-request' of git://git.kraxel.org/qemu into staging (2022-04-27 10:49:28 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220428a
-
-for you to fetch changes up to 62c49432662815dc520a41cd9f2adbd7ec1e22f4:
-
-  multifd: Implement zero copy write in multifd migration (multifd-zero-copy) (2022-04-28 14:55:24 +0100)
-
-----------------------------------------------------------------
-Migration pull 2022-04-28
-
-Zero copy send features from Leo
-Test fixes from Dan
-
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220426160048.812266-2-berrange@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tests/unit/crypto-tls-x509-helpers.c | 16 +++++++++++++---
+ tests/unit/test-crypto-tlssession.c  | 11 +++++++++--
+ 2 files changed, 22 insertions(+), 5 deletions(-)
 
-----------------------------------------------------------------
-Daniel P. Berrangé (4):
-      tests: fix encoding of IP addresses in x509 certs
-      tests: convert XBZRLE migration test to use common helper
-      tests: convert multifd migration tests to use common helper
-      tests: ensure migration status isn't reported as failed
-
-Leonardo Bras (7):
-      QIOChannel: Add flags on io_writev and introduce io_flush callback
-      QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX
-      migration: Add zero-copy-send parameter for QMP/HMP for Linux
-      migration: Add migrate_use_tls() helper
-      multifd: multifd_send_sync_main now returns negative on error
-      multifd: Send header packet without flags if zero-copy-send is enabled
-      multifd: Implement zero copy write in multifd migration (multifd-zero-copy)
-
- chardev/char-io.c                    |   2 +-
- hw/remote/mpqemu-link.c              |   2 +-
- include/io/channel-socket.h          |   2 +
- include/io/channel.h                 |  38 ++++++++-
- io/channel-buffer.c                  |   1 +
- io/channel-command.c                 |   1 +
- io/channel-file.c                    |   1 +
- io/channel-socket.c                  | 110 ++++++++++++++++++++++++-
- io/channel-tls.c                     |   1 +
- io/channel-websock.c                 |   1 +
- io/channel.c                         |  49 +++++++++---
- migration/channel.c                  |   3 +-
- migration/migration.c                |  52 +++++++++++-
- migration/migration.h                |   6 ++
- migration/multifd.c                  |  74 ++++++++++++++---
- migration/multifd.h                  |   4 +-
- migration/ram.c                      |  29 +++++--
- migration/rdma.c                     |   1 +
- migration/socket.c                   |  12 ++-
- monitor/hmp-cmds.c                   |   6 ++
- qapi/migration.json                  |  24 ++++++
- scsi/pr-manager-helper.c             |   2 +-
- tests/qtest/migration-helpers.c      |  13 +++
- tests/qtest/migration-helpers.h      |   1 +
- tests/qtest/migration-test.c         | 150 ++++++++++++++++-------------------
- tests/unit/crypto-tls-x509-helpers.c |  16 +++-
- tests/unit/test-crypto-tlssession.c  |  11 ++-
- tests/unit/test-io-channel-socket.c  |   1 +
- 28 files changed, 482 insertions(+), 131 deletions(-)
+diff --git a/tests/unit/crypto-tls-x509-helpers.c b/tests/unit/crypto-tls-x509-helpers.c
+index fc609b3fd4..e9937f60d8 100644
+--- a/tests/unit/crypto-tls-x509-helpers.c
++++ b/tests/unit/crypto-tls-x509-helpers.c
+@@ -168,9 +168,19 @@ test_tls_get_ipaddr(const char *addrstr,
+     hints.ai_flags = AI_NUMERICHOST;
+     g_assert(getaddrinfo(addrstr, NULL, &hints, &res) == 0);
+ 
+-    *datalen = res->ai_addrlen;
+-    *data = g_new(char, *datalen);
+-    memcpy(*data, res->ai_addr, *datalen);
++    if (res->ai_family == AF_INET) {
++        struct sockaddr_in *in = (struct sockaddr_in *)res->ai_addr;
++        *datalen = sizeof(in->sin_addr);
++        *data = g_new(char, *datalen);
++        memcpy(*data, &in->sin_addr, *datalen);
++    } else if (res->ai_family == AF_INET6) {
++        struct sockaddr_in6 *in = (struct sockaddr_in6 *)res->ai_addr;
++        *datalen = sizeof(in->sin6_addr);
++        *data = g_new(char, *datalen);
++        memcpy(*data, &in->sin6_addr, *datalen);
++    } else {
++        g_assert_not_reached();
++    }
+     freeaddrinfo(res);
+ }
+ 
+diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
+index 5f0da9192c..a6935d8497 100644
+--- a/tests/unit/test-crypto-tlssession.c
++++ b/tests/unit/test-crypto-tlssession.c
+@@ -512,12 +512,19 @@ int main(int argc, char **argv)
+                   false, true, "wiki.qemu.org", NULL);
+ 
+     TEST_SESS_REG(altname4, cacertreq.filename,
++                  servercertalt1req.filename, clientcertreq.filename,
++                  false, false, "192.168.122.1", NULL);
++    TEST_SESS_REG(altname5, cacertreq.filename,
++                  servercertalt1req.filename, clientcertreq.filename,
++                  false, false, "fec0::dead:beaf", NULL);
++
++    TEST_SESS_REG(altname6, cacertreq.filename,
+                   servercertalt2req.filename, clientcertreq.filename,
+                   false, true, "qemu.org", NULL);
+-    TEST_SESS_REG(altname5, cacertreq.filename,
++    TEST_SESS_REG(altname7, cacertreq.filename,
+                   servercertalt2req.filename, clientcertreq.filename,
+                   false, false, "www.qemu.org", NULL);
+-    TEST_SESS_REG(altname6, cacertreq.filename,
++    TEST_SESS_REG(altname8, cacertreq.filename,
+                   servercertalt2req.filename, clientcertreq.filename,
+                   false, false, "wiki.qemu.org", NULL);
+ 
+-- 
+2.35.1
 
 
