@@ -2,94 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61488512D85
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:57:45 +0200 (CEST)
-Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10FC512DD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 10:10:55 +0200 (CEST)
+Received: from localhost ([::1]:38844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njz1z-0003nZ-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60612)
+	id 1njzEi-0005U1-G9
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 04:10:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1njylw-0004ec-41
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 03:41:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22186)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1njz8S-0003Vb-9l; Thu, 28 Apr 2022 04:04:31 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1njylt-0003Tn-CB
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 03:41:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651131664;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4CnUPrd9pk15XVP0gJJP5BS7DxyRw92zxEwCfGq67nY=;
- b=TCAO2S+GnODjrTW3csq2AscyuSncVuYE5E1wALu7eyg9zWHTIglRpDiCtl2SSolgwVbtYy
- PKHQZ2N1tLnlNOTLtyqtBcxS3GwlVPRDotpB9AQZ47oGw+ZUhujmpVcHjlx//YT+qBsUSf
- IEy5Aw6lLA3ikYOLGXh0YTUEvSNT4fU=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-JEx58EqVNHOz7yoeirxZnw-1; Thu, 28 Apr 2022 03:41:03 -0400
-X-MC-Unique: JEx58EqVNHOz7yoeirxZnw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- l11-20020a05622a174b00b002f37e3fe6easo2767801qtk.18
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 00:41:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4CnUPrd9pk15XVP0gJJP5BS7DxyRw92zxEwCfGq67nY=;
- b=oSBPtkhst61jTSqCLdqP+lgFkAUT9BvVFx+5z2xyFvGOAAu86C/vOlP9oltXGzkSo5
- AhKiW0nb+y87vmXoz0bVsRWa2GbYaOkpFqBNOTbIgDFNjGu4TSZ61nqB7eI9tC2F6rCo
- FOTZzKROa4jZvZhJ6le6NgSYbiY7RlJkvrJgHGvVrmelQoC0tLAlzxXAeZU93zdvzFJX
- mJ8fNjeUax18KIVoWgH+5xSreZWYgy5eENTKjqih9SNNHvCvK6O0QXnH8jlkAn+qEmI8
- 4RhxmqMw4E99DzFDZ098s0PXxSbgqF+WHFLF7Qn5I819PwnY+g499NPISoE8kXOA4cje
- +KIA==
-X-Gm-Message-State: AOAM531OwrEauXemygdEvBH0cvcbWeRh97/5sz2wGPVXvebQbp5dPx4H
- Sqy/i5t7c0sV/C95Vy18OEvlfcmarsdmY7bOJ30ifQAqzhKc01VL0gSVzyn/15ENkCIr4xGHMX7
- WbsrKEPaTim/p1d4=
-X-Received: by 2002:a05:620a:46a3:b0:69e:d29d:73d with SMTP id
- bq35-20020a05620a46a300b0069ed29d073dmr18440967qkb.463.1651131662992; 
- Thu, 28 Apr 2022 00:41:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOy0Ilj9mjczKsL/7hV4oNigQIRlN8GAUMIzD1VkS4mWsWF0n2hoKjYuzdcY8CtoCxHOrWzg==
-X-Received: by 2002:a05:620a:46a3:b0:69e:d29d:73d with SMTP id
- bq35-20020a05620a46a300b0069ed29d073dmr18440961qkb.463.1651131662802; 
- Thu, 28 Apr 2022 00:41:02 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- h19-20020ac87773000000b002f388ea2959sm494922qtu.36.2022.04.28.00.41.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Apr 2022 00:41:02 -0700 (PDT)
-Message-ID: <8278541d-26c2-e606-5d46-c665358c89b5@redhat.com>
-Date: Thu, 28 Apr 2022 09:41:00 +0200
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1njz8Q-0007nD-4t; Thu, 28 Apr 2022 04:04:23 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23S5DkRk002677;
+ Thu, 28 Apr 2022 08:04:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=DE8ekAX0/fxuAwgFq88lV6pobnenIp7njsmUzan0kZg=;
+ b=BHgy1JoojjUE7xnWdwJZUW+AaCZm95kCZszyDszPuIF8arskUyPbUBn/32/Urxjzh/Z3
+ chbXhX05H4ZF5gFDR0CrkSRV8Ec25b1g1tczhTTrZhMELYs1EdgPjjdR0GqUMj91JvSR
+ o/scwd31fpf9nI3vLnJ57vNuk+GDrSpiH0lK5EMQLrvDU1GOqkgsJbKskWhfMoPbMjXI
+ fEGmrb2yTUAgicwd6LwFXcxabpsxUAZkQVXovSYTiZ2DUJSaEnoee+8cCvFnPpbb53I2
+ fFzMrfcnNvUxyYWHjaBO9yDGZF4lXbis6x/+K7wDTcGMj6MH4RYpkbfTRj1tSzUkSotO +g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqmk7u1tg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Apr 2022 08:04:12 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23S6QjnE001461;
+ Thu, 28 Apr 2022 08:04:12 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqmk7u1sw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Apr 2022 08:04:11 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23S7wb1x017561;
+ Thu, 28 Apr 2022 08:04:10 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma05fra.de.ibm.com with ESMTP id 3fm938wn3q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Apr 2022 08:04:10 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23S847uw36307434
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Apr 2022 08:04:07 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C61C0A4051;
+ Thu, 28 Apr 2022 08:04:07 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 799F9A4053;
+ Thu, 28 Apr 2022 08:04:07 +0000 (GMT)
+Received: from [9.145.47.141] (unknown [9.145.47.141])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 28 Apr 2022 08:04:07 +0000 (GMT)
+Message-ID: <250ad629-3d90-0b39-db22-a844bb0437f8@linux.ibm.com>
+Date: Thu, 28 Apr 2022 10:04:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 2/2] hw/arm/smmuv3: Add space in guest error message
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] ppc/xive: Save/restore state of the External interrupt
 Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20220427111543.124620-1-jean-philippe@linaro.org>
- <20220427111543.124620-2-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20220427111543.124620-2-jean-philippe@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, danielhb413@gmail.com,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220426101125.297064-1-fbarrat@linux.ibm.com>
+ <c3277f60-a64e-44a8-fb13-529bdb12cc41@kaod.org>
+ <572f1365-7767-41cf-b8b2-3f17d1eaab7e@linux.ibm.com>
+ <a033e970-a226-3d13-3c55-b443e43a1d06@kaod.org>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <a033e970-a226-3d13-3c55-b443e43a1d06@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: zvidzgRXwdwo5H_cmQd0VAGA0a_zXVKY
+X-Proofpoint-ORIG-GUID: CBmfVuyK8s6ZNgT8J_m_0oZvXSyGNj_P
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-27_04,2022-04-27_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2204280049
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,37 +114,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: npiggin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 4/27/22 13:15, Jean-Philippe Brucker wrote:
-> Make the translation error message prettier by adding a missing space
-> before the parenthesis.
->
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+On 26/04/2022 17:24, Cédric Le Goater wrote:
+> 
+> I would be interested to know if you can start an emulated QEMU PowerNV
+> system (2cpus) with a KVM guest (1 vcpu) and sustain some network load
+> host<->guest with a ping -f for instance.
 
-Eric
-> ---
->  hw/arm/smmuv3.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index 8b1d8103dc..3a989b09cb 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -786,7 +786,7 @@ epilogue:
->          break;
->      case SMMU_TRANS_ERROR:
->          qemu_log_mask(LOG_GUEST_ERROR,
-> -                      "%s translation failed for iova=0x%"PRIx64"(%s)\n",
-> +                      "%s translation failed for iova=0x%"PRIx64" (%s)\n",
->                        mr->parent_obj.name, addr, smmu_event_string(event.type));
->          smmuv3_record_event(s, &event);
->          break;
+
+We're not there yet unfortunately. It runs for a while until the powernv 
+host hard lockups. Something else to debug...
+
+   Fred
 
 
