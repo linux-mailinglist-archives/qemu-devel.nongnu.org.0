@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5F8513BDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 20:53:18 +0200 (CEST)
-Received: from localhost ([::1]:49108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797EB513C12
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 21:19:38 +0200 (CEST)
+Received: from localhost ([::1]:55656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk9GO-0000Bm-Sk
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 14:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44806)
+	id 1nk9ft-0006yo-43
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 15:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk9F9-0007w7-Io
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 14:51:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nk9F6-0001PU-35
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 14:51:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651171914;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Qeiw++YrdcI5miEwvf3DCDuYyJd3EpCgSjUcXdbOlf0=;
- b=eGS8swfbzFV6KI0SdkPu+hxd9V0KZ4KrnrlpKj8QDkO8lXE1WmOFi3dkT380cI5lJoNiJ/
- 9Wmz327338fwaAzpIJha+GCRJzAxuQuYjj6JNvnEyKgeuvh4FRg8xRlzqx4skf086jJ8k2
- XqNZ/6tgcC0Jishs9isN1QBp95bm5ZM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-aEWD_yTKOp-ufO4nNDQ8SA-1; Thu, 28 Apr 2022 14:51:53 -0400
-X-MC-Unique: aEWD_yTKOp-ufO4nNDQ8SA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k20-20020adfc714000000b001e305cd1597so2199263wrg.19
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 11:51:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nk9eD-0005xT-L3
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:17:53 -0400
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:41550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nk9eB-00059h-Rh
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:17:53 -0400
+Received: by mail-qt1-x831.google.com with SMTP id y3so4214292qtn.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 12:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tKf/brwfBIuwbzScKtlIbnWD5yUW1Fd6Fk4l2PfOR5Q=;
+ b=P11U5q68Yjm3NfbvtWNVx7r6wpFQMHuRnZUqCyVGD9+VvCc3B9alxKccvLgXIDs0ol
+ Ra0Pl6PEShm6/fGY7ojF0nKLbUb9LtiFBWFHobDOy8F1+xKy0azfFtGHVq/ECnFBFvD1
+ DF5txEi/m6fJaU/MmdOOfYH8Z5d1uF90tIp4gUQitKYzNaj45CFqZhjZoZfpTvIx8g4P
+ PKTCkDcAzSaqAc+r69ttKmOWVE1srBgdMpJQhsY6xiILa5vOd72eJG1ulh/VKuztOmSS
+ y0eWUlN2gxEBJwcu55CVucHmaLLFTMSJxaBKG4pTO0BFLb/bBsGk8pQXLZMsaTfLMWU0
+ l9Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Qeiw++YrdcI5miEwvf3DCDuYyJd3EpCgSjUcXdbOlf0=;
- b=EnHV0B6L4ILmC1KIsP1wog+4UhVSzs8PbHAYEi2yx7U4Zv4M8nD1NJum3llIV6bxGH
- /wnpw2wXAqdEZ5hnpMxHQN3LPQ9Uosa/73wtAklocSpWOptUAU89aFEZZ+aPtoXvjHU9
- LxCebGAHbn0Ok7VBKRycjEb9HDhXpbHui55sRf3/Aq7Mh3BcHW3NpgOsV9h1HEDAL4WY
- dhJXZryvwnNfOrqVGjyVAKoNDwIHHmMfstdF3HRhBQsOHEfui9M8crzJhsv+wVrVWLdI
- QJk00T5aCTZjAGBWjplICCRd5+0JR5sc+lwAeREUmads+iphxZMDP8+fmADpjf0ON8X2
- PQTg==
-X-Gm-Message-State: AOAM533rvIkcM9x4rWGR70aVJArzILsJcDcEoB8jsEVoQX9jOeXZOaFO
- Up/S48zO5mSt4NyEpNixF2jjaXEQrWwXxAKVW3Gvw0+gd2JS81oFItGIB+gaWxrdQnLcbfmiA5e
- Bjb9O4UfODOTEeEA=
-X-Received: by 2002:a05:6000:1788:b0:20a:a4b0:dbbc with SMTP id
- e8-20020a056000178800b0020aa4b0dbbcmr27239440wrg.384.1651171911800; 
- Thu, 28 Apr 2022 11:51:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyLh1g7D4wgNOvUmJmVCcHtZM9JTWekREaqGhCL2tiYBCEeylw1tUT0sj3okeg/oxq+2gG9w==
-X-Received: by 2002:a05:6000:1788:b0:20a:a4b0:dbbc with SMTP id
- e8-20020a056000178800b0020aa4b0dbbcmr27239425wrg.384.1651171911534; 
- Thu, 28 Apr 2022 11:51:51 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020aef6046bcsm583006wrq.84.2022.04.28.11.51.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 11:51:50 -0700 (PDT)
-Date: Thu, 28 Apr 2022 19:51:48 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: yue <kvmluck@163.com>
-Subject: Re: a qemu process has 54 threads, how to know who they are and what
- they are doing
-Message-ID: <YmriRJgfOngf5qDb@work-vm>
-References: <c34d759.1161.18049c8b2d4.Coremail.kvmluck@163.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tKf/brwfBIuwbzScKtlIbnWD5yUW1Fd6Fk4l2PfOR5Q=;
+ b=Q6Ci6Hn5qK/F32Tyn/hnWDM+bEq0KkrwwRwKITsBjb+bYr1PfbHuE0RQbB8sVAVHIM
+ jWzwmitA/RfR2o55S+gGtNjr6AlIk7yBuMEAMau5/KwOEabi04sHI7cQQjiEJ2S6naL9
+ b+WjbdxQHnCEFUIeTmKjc8dre5HoFOH8m2jiPQKohbYguhQQIUEiqNWGwgX3yTa184fe
+ WuDOBka99RGIIXbEFxyqsDXFfCJvPZeJ/Yo+pB+6A139YMljYGLCUq/5bPgvegNH4w1F
+ jKOJ/SvboOrw3u1sCrZ3PlXVi7LZLGX+uOpA3SWuTSo2ZvDg0DBEZjMbqViv+XnphJYn
+ Sd4Q==
+X-Gm-Message-State: AOAM530gTzWh3zHH4gjZDFX68JlwFTWWyqrsUcl2ArMJdNoNTThF+Tpy
+ RkdgbLtgx2Ul6AS6t+vfuDANvDEsQhOwOQgID2c=
+X-Google-Smtp-Source: ABdhPJzZ69SeZESg5cfwectnlxKjeYHJa+0Fv1zsSayjyEMQf5j10G0qs+OLSgiZ8Hs8Vp4wk1adADvvYveycrQfglA=
+X-Received: by 2002:a05:622a:2c5:b0:2f3:6354:28e2 with SMTP id
+ a5-20020a05622a02c500b002f3635428e2mr18354029qtx.560.1651173470399; Thu, 28
+ Apr 2022 12:17:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c34d759.1161.18049c8b2d4.Coremail.kvmluck@163.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220428181525.300521-1-kkostiuk@redhat.com>
+In-Reply-To: <20220428181525.300521-1-kkostiuk@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 28 Apr 2022 23:17:39 +0400
+Message-ID: <CAJ+F1CJT3Yy6k1iJmDL15Tnh+n5G0vnfsbHMTQYCv2S20CHnOg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] configure: Add cross prefix for widl tool
+To: Konstantin Kostiuk <kkostiuk@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000002a709605ddbbc8cb"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,65 +77,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* yue (kvmluck@163.com) wrote:
-> Hi, i think it is curios for a process to have so many threads.
-> 
-> my environment: 5.4.160-1.el7.x86_64, qemu-6.1.0
+--0000000000002a709605ddbbc8cb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If you pass:
-   -name whatever,debug-threads=on
+On Thu, Apr 28, 2022 at 10:17 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+wrote:
 
-then the qemu will set the kernel thread name to names
-like 'CPU 0/Kvm' or 'migration' or whatever, so you can tell what
-the thread is.
+> The mingw-w64-tool package in Fedora provides widl tool with a
+> cross prefix, so adds it automatically for cross builds.
+>
+> WIDL env can be used to redefine the path to tool.
+> The same behavior as with windres.
+>
+> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+>
 
-I'd bet your threads are mostly IO threads, you can configure that a
-lot.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Dave
 
-> thanks
-> 
-> 
-> =============cmd==================
-> root     11918  0.0  0.0 112720  2280 pts/0    S+   09:30   0:00 grep --color=auto 38032
-> root     38032 58.0  1.0 8705632 2823304 ?     Sl   Apr19 1451:10 /opt/kata/bin/qemu-system-x86_64 -name sandbox-598c832569b63321f393b1f
-> ef6d23cb209a9668a17f3b56a8eb87171506baaf8 -uuid 9ab925f1-86f2-4703-801e-be23ce0fdca6 -machine q35,accel=kvm,kernel_irqchip=on,nvdimm=on 
-> -cpu host,pmu=off -qmp unix:/run/vc/vm/598c832569b63321f393b1fef6d23cb209a9668a17f3b56a8eb87171506baaf8/qmp.sock,server=on,wait=off -qmp
->  unix:/run/vc/vm/598c832569b63321f393b1fef6d23cb209a9668a17f3b56a8eb87171506baaf8/qmp-guestcsi.sock,server=on,wait=off -qmp unix:/run/vc
-> /vm/598c832569b63321f393b1fef6d23cb209a9668a17f3b56a8eb87171506baaf8/qmp-guestcni.sock,server=on,wait=off -m 4352M,slots=10,maxmem=25856
-> 2M -device pci-bridge,bus=pcie.0,id=pci-bridge-0,chassis_nr=1,shpc=off,addr=2,io-reserve=4k,mem-reserve=1m,pref64-reserve=1m -device vir
-> tio-serial-pci,disable-modern=false,id=serial0 -device virtconsole,chardev=charconsole0,id=console0 -chardev socket,id=charconsole0,path
-> =/run/vc/vm/598c832569b63321f393b1fef6d23cb209a9668a17f3b56a8eb87171506baaf8/console.sock,server=on,wait=off -device nvdimm,id=nv0,memde
-> v=mem0,unarmed=on -object memory-backend-file,id=mem0,mem-path=/opt/kata/share/kata-containers/kata-containers-2.4.img,size=134217728,re
-> adonly=on -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 -device pcie-root-port,id=rp0,bus=pcie.0,chas
-> sis=0,slot=0,multifunction=off -device pcie-root-port,id=rp1,bus=pcie.0,chassis=0,slot=1,multifunction=off -device vhost-vsock-pci,disab
-> le-modern=false,vhostfd=3,id=vsock-2210812542,guest-cid=2210812542 -device virtio-9p-pci,disable-modern=false,fsdev=extra-9p-kataShared,
-> mount_tag=kataShared -fsdev local,id=extra-9p-kataShared,path=/run/kata-containers/shared/sandboxes/598c832569b63321f393b1fef6d23cb209a9
-> 668a17f3b56a8eb87171506baaf8/shared,security_model=none,multidevs=remap -netdev tap,id=network-0,vhost=on,vhostfds=4:5:6,fds=7:8:9 -devi
-> ce driver=virtio-net-pci,netdev=network-0,mac=fa:16:3e:fd:ba:ab,disable-modern=false,mq=on,vectors=8 -rtc base=utc,driftfix=slew,clock=h
-> ost -global kvm-pit.lost_tick_policy=discard -vga none -no-user-config -nodefaults -nographic --no-reboot -daemonize -object memory-back
-> end-ram,id=dimm1,size=4352M -numa node,memdev=dimm1 -kernel /opt/kata/share/kata-containers/vmlinux-5.4.160 -append tsc=reliable no_time
-> r_check rcupdate.rcu_expedited=1 i8042.direct=1 i8042.dumbkbd=1 i8042.nopnp=1 i8042.noaux=1 noreplace-smp reboot=k console=hvc0 console=
-> hvc1 cryptomgr.notests net.ifnames=0 pci=lastbus=0 root=/dev/pmem0p1 rootflags=dax,data=ordered,errors=remount-ro ro rootfstype=ext4 deb
-> ug systemd.show_status=true systemd.log_level=debug panic=1 nr_cpus=40 systemd.unit=kata-containers.target systemd.mask=systemd-networkd
-> .service systemd.mask=systemd-networkd.socket agent.debug_console agent.debug_console_vport=1026 -pidfile /run/vc/vm/598c832569b63321f39
-> 3b1fef6d23cb209a9668a17f3b56a8eb87171506baaf8/pid -D /run/vc/vm/598c832569b63321f393b1fef6d23cb209a9668a17f3b56a8eb87171506baaf8/qemu.lo
-> g -smp 3,cores=1,threads=1,sockets=40,maxcpus=40
-> root     38038  0.0  0.0      0     0 ?        S    Apr19   0:10 [vhost-38032]
-> root     38040  0.0  0.0      0     0 ?        S    Apr19   0:10 [vhost-38032]
-> root     38041  0.0  0.0      0     0 ?        S    Apr19   0:11 [vhost-38032]
-> root     38046  0.0  0.0      0     0 ?        S    Apr19   0:00 [kvm-pit/38032]
-> root     38047  0.0  0.0      0     0 ?        S    Apr19   0:02 [vhost-38032]
-> [root@os ~]# ps -L -p 38032 | wc -l
-> 54
-> [root@os ~]# ps -fT -p 38032 | wc -l
-> 54
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> ---
+>  configure | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/configure b/configure
+> index 59c43bea05..8b775492d0 100755
+> --- a/configure
+> +++ b/configure
+> @@ -415,6 +415,7 @@ ranlib=3D"${RANLIB-${cross_prefix}ranlib}"
+>  nm=3D"${NM-${cross_prefix}nm}"
+>  smbd=3D"$SMBD"
+>  strip=3D"${STRIP-${cross_prefix}strip}"
+> +widl=3D"${WIDL-${cross_prefix}widl}"
+>  windres=3D"${WINDRES-${cross_prefix}windres}"
+>  pkg_config_exe=3D"${PKG_CONFIG-${cross_prefix}pkg-config}"
+>  query_pkg_config() {
+> @@ -2786,6 +2787,7 @@ if test "$skip_meson" =3D no; then
+>      echo "sdl2-config =3D [$(meson_quote $sdl2_config)]" >> $cross
+>    fi
+>    echo "strip =3D [$(meson_quote $strip)]" >> $cross
+> +  echo "widl =3D [$(meson_quote $widl)]" >> $cross
+>    echo "windres =3D [$(meson_quote $windres)]" >> $cross
+>    if test "$cross_compile" =3D "yes"; then
+>      cross_arg=3D"--cross-file config-meson.cross"
+> @@ -2907,6 +2909,7 @@ preserve_env PYTHON
+>  preserve_env SDL2_CONFIG
+>  preserve_env SMBD
+>  preserve_env STRIP
+> +preserve_env WIDL
+>  preserve_env WINDRES
+>
+>  printf "exec" >>config.status
+> --
+> 2.25.1
+>
+>
+>
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000002a709605ddbbc8cb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 28, 2022 at 10:17 PM Kons=
+tantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">The mingw-w64-tool package in Fedora provides widl tool with a<br>
+cross prefix, so adds it automatically for cross builds.<br>
+<br>
+WIDL env can be used to redefine the path to tool.<br>
+The same behavior as with windres.<br>
+<br>
+Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com=
+" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br></blockquote><div><br></=
+div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandr=
+e.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0configure | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/configure b/configure<br>
+index 59c43bea05..8b775492d0 100755<br>
+--- a/configure<br>
++++ b/configure<br>
+@@ -415,6 +415,7 @@ ranlib=3D&quot;${RANLIB-${cross_prefix}ranlib}&quot;<br=
+>
+=C2=A0nm=3D&quot;${NM-${cross_prefix}nm}&quot;<br>
+=C2=A0smbd=3D&quot;$SMBD&quot;<br>
+=C2=A0strip=3D&quot;${STRIP-${cross_prefix}strip}&quot;<br>
++widl=3D&quot;${WIDL-${cross_prefix}widl}&quot;<br>
+=C2=A0windres=3D&quot;${WINDRES-${cross_prefix}windres}&quot;<br>
+=C2=A0pkg_config_exe=3D&quot;${PKG_CONFIG-${cross_prefix}pkg-config}&quot;<=
+br>
+=C2=A0query_pkg_config() {<br>
+@@ -2786,6 +2787,7 @@ if test &quot;$skip_meson&quot; =3D no; then<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;sdl2-config =3D [$(meson_quote $sdl2_config)=
+]&quot; &gt;&gt; $cross<br>
+=C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0echo &quot;strip =3D [$(meson_quote $strip)]&quot; &gt;&gt; $c=
+ross<br>
++=C2=A0 echo &quot;widl =3D [$(meson_quote $widl)]&quot; &gt;&gt; $cross<br=
+>
+=C2=A0 =C2=A0echo &quot;windres =3D [$(meson_quote $windres)]&quot; &gt;&gt=
+; $cross<br>
+=C2=A0 =C2=A0if test &quot;$cross_compile&quot; =3D &quot;yes&quot;; then<b=
+r>
+=C2=A0 =C2=A0 =C2=A0cross_arg=3D&quot;--cross-file config-meson.cross&quot;=
+<br>
+@@ -2907,6 +2909,7 @@ preserve_env PYTHON<br>
+=C2=A0preserve_env SDL2_CONFIG<br>
+=C2=A0preserve_env SMBD<br>
+=C2=A0preserve_env STRIP<br>
++preserve_env WIDL<br>
+=C2=A0preserve_env WINDRES<br>
+<br>
+=C2=A0printf &quot;exec&quot; &gt;&gt;config.status<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000002a709605ddbbc8cb--
 
