@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD3D512CD2
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:30:00 +0200 (CEST)
-Received: from localhost ([::1]:38334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C107A512CFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 09:35:50 +0200 (CEST)
+Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njyb9-00065b-H7
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:29:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
+	id 1njygn-0003h7-Sy
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 03:35:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njy24-0000Bf-5D
+ id 1njy24-0000EJ-TL
  for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:44 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34518)
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njy22-00055V-Jx
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:43 -0400
-Received: by mail-ed1-x531.google.com with SMTP id a21so4411090edb.1
+ id 1njy23-00055Y-7A
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 02:53:44 -0400
+Received: by mail-ed1-x530.google.com with SMTP id y21so4410596edo.2
  for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 23:53:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ac2CzGb/67yyLXxUqxt9hRvc6wlmfyVIexf28Q5NYII=;
- b=qVlSCLmDj7iABnbZUgswPYhySNN9AsBo2Fkg91zIR2v8+ZpMbYJf8qUoTyFPmgWBC0
- lCbTJ2QSAzLv5qnqeF/zTwnFsHbeTlF+Kbb7UVm0eZOMjkzJmzvtyV+POUN9s8Mh1v/V
- KMtQzlU/KbIJuzUcqaX9ItHLu6BE8tGVLoIKFk2j3yGDW2QUyd849V9KH+csKdx8w5UI
- orw54lIcvijIVtY5oJ8RtfXAIlvgANy+54t/yqse2ByL7d1C1f6dyb8Hna+ZCns7yaFx
- CQOMq4kWnAAbdc6TCAmaoy4KY6ykWD4IMHf0MvJaC6g2MgmofRNMqHqdGTepdSUHxqLN
- XC7A==
+ bh=eWVoNFg17cglqQICzMxJj6RBiNCEoEjYKsESWBBr/7w=;
+ b=ierrJpoe3K0/aMvDWwp52ZWelIQkIaHWS/JozVYvVGIMvnWwxPrDmKPQlMw2NL4FrU
+ LNDjVxn+Kc9Rk6MMYs7atkYa0tKfvJALSruHRsUASDrJb4TtGclJb85oEhsUWGTe/dGy
+ zf/hFtZjy6I232kJoNvhRKxT8GrLXX+e24oyhUCdpu6hsPg4ngLJ4mCkvtteXLwFpjy/
+ Jom+CXofOdc2ncBucWBPmsOoIFhui7/Tk8bDNXT8WlQmx065taHN8Gw/UMwX/UwEY5Ef
+ 7jgeGsngT3pSCs+Bg4UHKzoQe4vAvz2FPwKnmrelR9/TU1hACsAO/igVGN07OWquz8ie
+ JvIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ac2CzGb/67yyLXxUqxt9hRvc6wlmfyVIexf28Q5NYII=;
- b=DiYfwqFm3fTTIzo5uHb+MTPEvHfnY4sPQNNoxCnIBFGp1KsBWC0J6n71lGhxL/X3f0
- ircB+yK7TsO7yABAgbTubSNeOkK3YqfG5xxO1o5yt3wxGUVAFTzq7ipWfCUDXm0qqrrm
- T+elmgcwYnIHi67JZe8sJFGGxg6WApnPThRCHc2VnaXqVhwe1AHxXnJdTcPU8GVzwVG5
- GWZfPBtFjnG1Z0jTkKQA5hqHJAG5TSN2ivLy/BaG+gnIvagIVRz1B35xURVL+1dNIdcy
- 5Nuajje531rjalzi4SqQDCGY21s4VXPs/JSmICTMC/76rcMtMwQf1rbP/i+GNLIQdn/1
- sVyw==
-X-Gm-Message-State: AOAM530XlOrKKeLOvnJL5W/sIDKqpfH9B2lQcL5dBC8jqqIxC32GHqws
- c3kMWwScSwn29wjuZfrFzyMFLSlX31Hx0A==
-X-Google-Smtp-Source: ABdhPJyHbp8aYcngRohovEVI3VJMXsqeQWU9s3xBtQoYkvzEonCI0DpxXlTkigVROCpw+MkN6GpecA==
-X-Received: by 2002:a05:6402:2804:b0:420:caf1:961c with SMTP id
- h4-20020a056402280400b00420caf1961cmr34696564ede.280.1651128821042; 
+ bh=eWVoNFg17cglqQICzMxJj6RBiNCEoEjYKsESWBBr/7w=;
+ b=ve1gzSZRPZOq3iZegR5JfSlKnIQWbWxK+0/c7bOpw7ON8wMu2QEFGM1DH/ya2thlDE
+ hvXrG3uu+eOjjQ1ffUjoLajlO7yhLKohsmsslir5KdkuKcIfwVzIzsNqkLvwvRY2UV8o
+ Vx5ozcaz9nSa+dc2JGWxafoiIBCOvy9guAOjnY5rMkBtVDrUyFMwL6fFQAyUlD/kVqQm
+ cbLUYpRCE44dcOHMuCEBwZS8OclseK0f9tgMkJkLGP7j+HzQJqaRsQojNCRmaS+oa2od
+ M5MNITsOR+0q619qW2wAUrC9sMUhqHjzeZAWI4OeUfji1AvPAPdz+EB/6uVkgTlHsa3d
+ hYgg==
+X-Gm-Message-State: AOAM533UqfQXB2G/NUiEXQIDcgiYMY+/tPITc4VAth5jw3eqqHhGw/X/
+ h3RBzacGQ+/bC/igy3YJSH/b9mnD/6JXnw==
+X-Google-Smtp-Source: ABdhPJyi6BtMvHV1leuTMtqA/1dI5AlDjuE2vBRkL0LCYEPxfmWhRipYALlZ6K//yVwnsHcRaIJ/bA==
+X-Received: by 2002:a05:6402:f18:b0:425:df36:6e99 with SMTP id
+ i24-20020a0564020f1800b00425df366e99mr23633191eda.303.1651128821661; 
  Wed, 27 Apr 2022 23:53:41 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- jo11-20020a170906f6cb00b006f3955761c4sm5406804ejb.158.2022.04.27.23.53.40
+ jo11-20020a170906f6cb00b006f3955761c4sm5406804ejb.158.2022.04.27.23.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 23:53:40 -0700 (PDT)
+ Wed, 27 Apr 2022 23:53:41 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] meson: show final set of compiler flags
-Date: Thu, 28 Apr 2022 08:53:22 +0200
-Message-Id: <20220428065335.189795-6-pbonzini@redhat.com>
+Subject: [PULL 06/18] configure: remove dead code
+Date: Thu, 28 Apr 2022 08:53:23 +0200
+Message-Id: <20220428065335.189795-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220428065335.189795-1-pbonzini@redhat.com>
 References: <20220428065335.189795-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -91,34 +91,81 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The actual set of compiler flags can grow beyond what is found by the configure
-script, for example if gprof is used.  Show the full set in the summary.
+tcg_interpreter is never written, it is purely a meson option;
+trace_backends is never read.
+
+And SeaBIOS is only build from the source tree with roms/Makefile,
+so the config.mak file is unused.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ configure | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 0c38e491f4..9beca38ebb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3535,10 +3535,10 @@ link_args = get_option(link_language + '_link_args')
- if link_args.length() > 0
-   summary_info += {'LDFLAGS':         ' '.join(link_args)}
- endif
--summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
--summary_info += {'QEMU_CXXFLAGS':     config_host['QEMU_CXXFLAGS']}
--summary_info += {'QEMU_OBJCFLAGS':    config_host['QEMU_OBJCFLAGS']}
--summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
-+summary_info += {'QEMU_CFLAGS':       ' '.join(qemu_cflags)}
-+summary_info += {'QEMU_CXXFLAGS':     ' '.join(qemu_cxxflags)}
-+summary_info += {'QEMU_OBJCFLAGS':    ' '.join(qemu_objcflags)}
-+summary_info += {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
- summary_info += {'profiler':          get_option('profiler')}
- summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
- summary_info += {'PIE':               get_option('b_pie')}
+diff --git a/configure b/configure
+index a4942c13e4..9e32c96fce 100755
+--- a/configure
++++ b/configure
+@@ -320,7 +320,6 @@ linux_user=""
+ bsd_user=""
+ pkgversion=""
+ pie=""
+-trace_backends="log"
+ trace_file="trace"
+ opengl="$default_feature"
+ coroutine=""
+@@ -391,7 +390,6 @@ for opt do
+                       cross_cc_vars="$cross_cc_vars cross_cc_cflags_${cc_arch}"
+   ;;
+   --cross-cc-*) cc_arch=${opt#--cross-cc-}; cc_arch=${cc_arch%%=*}
+-                cc_archs="$cc_archs $cc_arch"
+                 eval "cross_cc_${cc_arch}=\$optarg"
+                 cross_cc_vars="$cross_cc_vars cross_cc_${cc_arch}"
+   ;;
+@@ -2881,9 +2879,6 @@ fi
+ if test "$vhost_user_fs" = "yes" ; then
+   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
+ fi
+-if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
+-  echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
+-fi
+ 
+ if test "$opengl" = "yes" ; then
+   echo "CONFIG_OPENGL=y" >> $config_host_mak
+@@ -3024,7 +3019,6 @@ LINKS="Makefile"
+ LINKS="$LINKS tests/tcg/Makefile.target"
+ LINKS="$LINKS pc-bios/optionrom/Makefile"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+-LINKS="$LINKS roms/seabios/Makefile"
+ LINKS="$LINKS pc-bios/qemu-icon.bmp"
+ LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
+ LINKS="$LINKS tests/avocado tests/data"
+@@ -3059,24 +3053,6 @@ done
+ export target_list source_path use_containers cpu host_cc
+ $source_path/tests/tcg/configure.sh)
+ 
+-# temporary config to build submodules
+-if test -f $source_path/roms/seabios/Makefile; then
+-  for rom in seabios; do
+-    config_mak=roms/$rom/config.mak
+-    echo "# Automatically generated by configure - do not modify" > $config_mak
+-    echo "SRC_PATH=$source_path/roms/$rom" >> $config_mak
+-    echo "AS=$as" >> $config_mak
+-    echo "CCAS=$ccas" >> $config_mak
+-    echo "CC=$cc" >> $config_mak
+-    echo "BCC=bcc" >> $config_mak
+-    echo "CPP=$cpp" >> $config_mak
+-    echo "OBJCOPY=objcopy" >> $config_mak
+-    echo "IASL=$iasl" >> $config_mak
+-    echo "LD=$ld" >> $config_mak
+-    echo "RANLIB=$ranlib" >> $config_mak
+-  done
+-fi
+-
+ config_mak=pc-bios/optionrom/config.mak
+ echo "# Automatically generated by configure - do not modify" > $config_mak
+ echo "TOPSRC_DIR=$source_path" >> $config_mak
 -- 
 2.35.1
 
