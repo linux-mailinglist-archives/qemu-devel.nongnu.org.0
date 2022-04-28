@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E83513C86
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 22:16:09 +0200 (CEST)
-Received: from localhost ([::1]:44950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA01513C95
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 22:21:13 +0200 (CEST)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkAYa-0002zv-2a
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 16:16:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
+	id 1nkAdU-0005vY-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 16:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nkAX8-0002Gt-Jt
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 16:14:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47065)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nkAYs-00041U-KQ; Thu, 28 Apr 2022 16:16:26 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nkAX2-00051U-SV
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 16:14:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651176869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z7JjeR6B8JNuIWU9oLzHL+p9sPxQnGKFhu9bOZGZ3hM=;
- b=ITgtpN5eRZwS6Vizv85tcYtrl9L2LPBQZo5L8VqgeseZuJ64jZSw+/cHjtpn6a4xt2MAss
- i5NhujmSM1Bq3OCwTr4Aty1uMzYqHQ47fP5LbaXVZbNpd3PptdB1SxenR6TC/7gn2f74Be
- yuiaIzR0INnTMidHFPA248WyZCLwZ4w=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-rNABWkNBOt-rLKoGD-JsIg-1; Thu, 28 Apr 2022 16:14:25 -0400
-X-MC-Unique: rNABWkNBOt-rLKoGD-JsIg-1
-Received: by mail-il1-f200.google.com with SMTP id
- s10-20020a92c5ca000000b002cc45dade1aso2429892ilt.20
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 13:14:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=z7JjeR6B8JNuIWU9oLzHL+p9sPxQnGKFhu9bOZGZ3hM=;
- b=i4DLPRdixJLSpVqfSX7/1CzlVAA51hgx+VbCw9W5xE2i6CBa5lvAeaJvtD2n8zv2K7
- RvfaPTwXwPORn4eTYIkbhNVkQCYo/88wSWfAPcNHe1a2X11tiHNq2ubg9uNT+MPwaFOd
- jzqw4j7cVaeuGdK88AN8mQEjza63quxStupPTRbdZ8BHPFDD2Efbwl/QwtQ1TLm7yShy
- h/axYu5xTbiG3lpz06cWutjCwsvgJ5PXX6SZHjT067kQH270axC5TvvuOkCTu7VIBeyB
- judJ/YFPn9MWFYq+efWtELawbmP6kJWIeJKD2n9ES/THiViHxWlkrTD8PMo0zahXz+fG
- 9frQ==
-X-Gm-Message-State: AOAM531S9LPEUsXwKkkhtGnhjEGlPhaIb6lUYAcUOCveV51dr8BoFUid
- QydrlKRZf+RGADiEnXddpfrpUDmq4zbtCBXsUkeeLnDxtogWScYafiG8OXipE7ESAPzmu0LsSYw
- wQIMGCiPHTeV6zbs=
-X-Received: by 2002:a5d:8555:0:b0:654:a4c8:35b3 with SMTP id
- b21-20020a5d8555000000b00654a4c835b3mr14598904ios.47.1651176864633; 
- Thu, 28 Apr 2022 13:14:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfC2SvjRn79/ILII/O4RitT78JDmhevd0GHcjBStGNjHul1baVvOWy5ZZjtJCwkfSfKG5Z2A==
-X-Received: by 2002:a5d:8555:0:b0:654:a4c8:35b3 with SMTP id
- b21-20020a5d8555000000b00654a4c835b3mr14598895ios.47.1651176864367; 
- Thu, 28 Apr 2022 13:14:24 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- g14-20020a92dd8e000000b002ca7bbf5179sm421351iln.53.2022.04.28.13.14.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 13:14:24 -0700 (PDT)
-Date: Thu, 28 Apr 2022 14:14:23 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v4] vfio/common: remove spurious tpm-crb-cmd
- misalignment warning
-Message-ID: <20220428141423.6e2da84c.alex.williamson@redhat.com>
-In-Reply-To: <20220428134945.511829-1-eric.auger@redhat.com>
-References: <20220428134945.511829-1-eric.auger@redhat.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nkAYq-0005bv-IV; Thu, 28 Apr 2022 16:16:26 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 0E762320095B;
+ Thu, 28 Apr 2022 16:16:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 28 Apr 2022 16:16:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1651176979; x=1651263379; bh=YC
+ tmQBjzS/jAsxZPZJMRZMtRSdHV0LThZAQXiIZP3zQ=; b=a2MlJq8F/i2hPmQ2VD
+ xJ4Ffwmtdh0T9rt35d8UfCZl4p4Sl+NKyOlfW5WPVMMXGcEkBNy6jpOXcB8a29Qi
+ 5w6Zxpbk/lQ7P6CxqFeTDmS4J0PNkBfB/K8F4n3ES534XHLNqKUpB8UGxQw4veM5
+ SwBB+YkyTiWlPQDi0Aal158ICoAbiWyynm9CKZPQh7yGXoDK/WBJAAOyYBlfFpvC
+ cYLRlA86wSs/Rt8Pt4XlzPz7MqVLOwJkeJxi4G7ukvCoZFb3jPfS6VABsDKMPZaQ
+ KnrXuFUt30NyfhVjdJCq8BXUHOYx8aBeVA27ntQPCF1sSSVW3983jgk7wRQUD1/W
+ qhnw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651176979; x=
+ 1651263379; bh=YCtmQBjzS/jAsxZPZJMRZMtRSdHV0LThZAQXiIZP3zQ=; b=O
+ AWnlTLn7+Dw4gAOLyLP19QBzmXqte1oWZr8QPy+cNuuloUnAhkGtadZ8z7oilxY4
+ anoYNbxga4DZ5Q/QkZvCAEcPt8gthE3ANGXGdrCT4MgNw7dfvSjFhPZ2y8x3d7aW
+ tuUTLZdU2qiYOMva6mZToeam9EYgpUV1wLQPb+Ix5Y7Vzq/QmX9Ajm217lxn8ZLq
+ pe1823vNT1CR8mmNwyMp2o6rmo++Y8z0SQ6smfk3R9Jsrl5KjGhAFSVr6tsEepiI
+ +AgJTGsu2k1CD6cjy7hTi20tvPfLWBAEd50DzrMsL3s4LOlnHWJcwH9qTpCnnXRs
+ yoDirK7CRMkGFPYtqvcRg==
+X-ME-Sender: <xms:E_ZqYvtse3sVJ1qDwXUvUmFUsYD37miLRqR9dE_2ik9oEHr4nvjLUQ>
+ <xme:E_ZqYgcF0eAjqgiDao6cTLLjdxMQhg0rS-lopj6xyP3LnLn0SlEdUpnD1eiVPFa6U
+ UR-qKx3y4UEHu6Tm8c>
+X-ME-Received: <xmr:E_ZqYizGVy_AIcGuETKwuXoZtz__9QJ8JjZRY9liYoBVJBJa-bIBb9RPosOleBaHgxhV_HFHUf5ICH769w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgddugeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:E_ZqYuNU3iEuhWX2jQEmf6VkafZT4Vu3__BBOk_ACURDCitqI228ow>
+ <xmx:E_ZqYv_adYOZ3eHKmNZzal-vdxnYgfoEflnNbNYyfummFLnLkiE8NA>
+ <xmx:E_ZqYuX06WEv0u0jpyWHDYLjtvPFzBlVEDa6Vz0u1Em3_owl7eSasQ>
+ <xmx:E_ZqYqkgxlOOX1p1bshrwQtEEh436EKErxAW4JjU73y-h3prIq51QA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 28 Apr 2022 16:16:17 -0400 (EDT)
+Date: Thu, 28 Apr 2022 22:16:16 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Tikhov <d.tihov@yadro.com>
+Subject: Re: [PATCH v2] hw/nvme: fix copy cmd for pi enabled namespaces
+Message-ID: <Ymr2ENnMLhKqqKe8@apples>
+References: <20220421105158.ufd3wzivaougxokx@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4ckoOBN6yDibZH6w"
+Content-Disposition: inline
+In-Reply-To: <20220421105158.ufd3wzivaougxokx@localhost.localdomain>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,130 +94,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, f4bug@amsat.org, stefanb@linux.vnet.ibm.com,
- qemu-devel@nongnu.org, eric.auger.pro@gmail.com
+Cc: kbusch@kernel.org, ddtikhov@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, linux@yadro.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Apr 2022 15:49:45 +0200
-Eric Auger <eric.auger@redhat.com> wrote:
 
-> The CRB command buffer currently is a RAM MemoryRegion and given
-> its base address alignment, it causes an error report on
-> vfio_listener_region_add(). This region could have been a RAM device
-> region, easing the detection of such safe situation but this option
-> was not well received. So let's add a helper function that uses the
-> memory region owner type to detect the situation is safe wrt
-> the assignment. Other device types can be checked here if such kind
-> of problem occurs again.
+--4ckoOBN6yDibZH6w
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Apr 21 13:51, Dmitry Tikhov wrote:
+> Current implementation have problem in the read part of copy command.
+> Because there is no metadata mangling before nvme_dif_check invocation,
+> reftag error could be thrown for blocks of namespace that have not been
+> previously written to.
 >=20
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
->=20
+> Signed-off-by: Dmitry Tikhov <d.tihov@yadro.com>
 > ---
->=20
-> v3 -> v4:
-> - rebase on top of qemu_real_host_page_size() and
->   qemu_real_host_page_size(). Print the size and make the message
->   consistent
-> - Added Stefan's A-b and Connie R-b (despite the changes)
+> v2:
+>     * remove refactoring
+>     * remove write part fix
 > ---
->  hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
->  hw/vfio/trace-events |  1 +
->  2 files changed, 27 insertions(+), 1 deletion(-)
+>  hw/nvme/ctrl.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 2b1f78fdfa..f6b9bb6d71 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -40,6 +40,7 @@
->  #include "trace.h"
->  #include "qapi/error.h"
->  #include "migration/migration.h"
-> +#include "sysemu/tpm.h"
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 74540a03d5..08574c4dcb 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -2787,6 +2787,10 @@ static void nvme_copy_in_completed_cb(void *opaque=
+, int ret)
+>          size_t mlen =3D nvme_m2b(ns, nlb);
+>          uint8_t *mbounce =3D iocb->bounce + nvme_l2b(ns, nlb);
 > =20
->  VFIOGroupList vfio_group_list =3D
->      QLIST_HEAD_INITIALIZER(vfio_group_list);
-> @@ -861,6 +862,22 @@ static void vfio_unregister_ram_discard_listener(VFI=
-OContainer *container,
->      g_free(vrdl);
->  }
-> =20
-> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
-> +{
-> +    MemoryRegion *mr =3D section->mr;
-> +
-> +    if (!TPM_IS_CRB(mr->owner)) {
-> +        return false;
-> +    }
-
-It looks like this test is going to need to be wrapped in #ifdef
-CONFIG_TPM:
-
-https://gitlab.com/alex.williamson/qemu/-/jobs/2391952412
-
-Thanks,
-
-Alex
-
-> +
-> +    /* this is a known safe misaligned region, just trace for debug purp=
-ose */
-> +    trace_vfio_known_safe_misalignment(memory_region_name(mr),
-> +                                       section->offset_within_address_sp=
-ace,
-> +                                       section->offset_within_region,
-> +                                       qemu_real_host_page_size());
-> +    return true;
-> +}
-> +
->  static void vfio_listener_region_add(MemoryListener *listener,
->                                       MemoryRegionSection *section)
->  {
-> @@ -884,7 +901,15 @@ static void vfio_listener_region_add(MemoryListener =
-*listener,
->      if (unlikely((section->offset_within_address_space &
->                    ~qemu_real_host_page_mask()) !=3D
->                   (section->offset_within_region & ~qemu_real_host_page_m=
-ask()))) {
-> -        error_report("%s received unaligned region", __func__);
-> +        if (!vfio_known_safe_misalignment(section)) {
-> +            error_report("%s received unaligned region %s iova=3D0x%"PRI=
-x64
-> +                         " offset_within_region=3D0x%"PRIx64
-> +                         " qemu_real_host_page_size=3D0x%"PRIxPTR,
-> +                         __func__, memory_region_name(section->mr),
-> +                         section->offset_within_address_space,
-> +                         section->offset_within_region,
-> +                         qemu_real_host_page_size());
+> +        status =3D nvme_dif_mangle_mdata(ns, mbounce, mlen, slba);
+> +        if (status) {
+> +            goto invalid;
 > +        }
->          return;
->      }
-> =20
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 0ef1b5f4a6..582882db91 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_=
-t end) "SKIPPING region_add
->  vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d t=
-o liobn fd %d"
->  vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add=
- [iommu] 0x%"PRIx64" - 0x%"PRIx64
->  vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, voi=
-d *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
-> +vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t o=
-ffset_within_region, uintptr_t page_size) "Region \"%s\" iova=3D0x%"PRIx64"=
- offset_within_region=3D0x%"PRIx64" qemu_real_host_page_size=3D0x%"PRIxPTR =
-": cannot be mapped for DMA"
->  vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uin=
-t64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=3D0x%"PRIx6=
-4" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
->  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING re=
-gion_del 0x%"PRIx64" - 0x%"PRIx64
->  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"P=
-RIx64" - 0x%"PRIx64
+>          status =3D nvme_dif_check(ns, iocb->bounce, len, mbounce, mlen, =
+prinfor,
+>                                  slba, apptag, appmask, &reftag);
+>          if (status) {
+> --=20
+> 2.35.1
+>=20
 
+Thanks Dmitry,
+
+Applied to nvme-next.
+
+--4ckoOBN6yDibZH6w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJq9g0ACgkQTeGvMW1P
+DelSdwf/aRLGk8cHdWNquT9jqSJuE7P08bJjN3rQ8hjmcXzvSe3Qxl8neL2b6Mpo
+B5QH0ri/b4ox2UeZZiGv/ppWr2vuRsJ9irBL8ZC3MxCPCO7voaP0s2QBm936Mj9h
+3IU1GLZGljKrXsvRhuhmWbojKlFRkD3n2yL23jOmmyK07I6ubszi//jDCgmngtUI
+NVA6rYq9Y/ijSMWsK/miVGkYLrxwyBmQ20yYxHIAbNTuq36Z+Gv4rrpkI3P0lXtX
+OgHr5FD2c4sPtVLR2tO+soAtTFQAiQDp8L/3PMaav/hZlBliudh6FgbZEnnjEHqD
+rkRICnduWvjfmAVKkhNVJgQNLxDcmA==
+=f/SF
+-----END PGP SIGNATURE-----
+
+--4ckoOBN6yDibZH6w--
 
