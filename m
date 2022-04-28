@@ -2,54 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A81F513DD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 23:47:13 +0200 (CEST)
-Received: from localhost ([::1]:38908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DDE513E40
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 23:58:37 +0200 (CEST)
+Received: from localhost ([::1]:45414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkByi-00076u-6V
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 17:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49824)
+	id 1nkC9j-0003cA-HI
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 17:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nkBxa-0006Ry-T6; Thu, 28 Apr 2022 17:46:02 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:49998)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nkC7V-0002cJ-Tn
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 17:56:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nkBxY-0002Kl-CC; Thu, 28 Apr 2022 17:46:02 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 57A257462D3;
- Thu, 28 Apr 2022 23:45:53 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 11F687457EF; Thu, 28 Apr 2022 23:45:53 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 1023F74579D;
- Thu, 28 Apr 2022 23:45:53 +0200 (CEST)
-Date: Thu, 28 Apr 2022 23:45:53 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?V=EDctor_Colombo?= <victor.colombo@eldorado.org.br>
-Subject: Re: [PATCH 03/20] target/ppc: Substitute msr_pr macro with new
- M_MSR_PR macro
-In-Reply-To: <9978cf74-2c81-98c8-d985-efe47d1519df@eldorado.org.br>
-Message-ID: <a983e88f-7d11-b731-085-6d154cac3ff4@eik.bme.hu>
-References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
- <20220422185450.107256-4-victor.colombo@eldorado.org.br>
- <fd0087dc-10ec-7867-44df-ba84f8b55aee@linaro.org>
- <c320ef03-0fc2-2a75-cc39-20747888dafb@eldorado.org.br>
- <32cc9b8b-add7-a87c-3bb7-95e5c5707e3e@kaod.org>
- <9978cf74-2c81-98c8-d985-efe47d1519df@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nkC7S-0003qz-Nv
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 17:56:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651182973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pfMBBG6KhUJlmrnwxOFWBt4tjHxB0UxoI8nHEU3taI0=;
+ b=YaGdf/MN0KugMOlffTitqGf16s1d1YVWqJ+ysnc9JN+ZPMSrIg/P1I7C9r+B9T7/Hf7Jzs
+ q07QBzUzi1JVIyeNh8M8XrOm+Rj/zMLAhUJ+qUJFjrOsf39h1C5L9DJQxqf6ANsisJen6l
+ zbWRb1OzlO94RLJayrRzY1JtPXoAgGM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-110-MBve0QUhOKyRtkCIWvMKxg-1; Thu, 28 Apr 2022 17:56:12 -0400
+X-MC-Unique: MBve0QUhOKyRtkCIWvMKxg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c62-20020a1c3541000000b0038ec265155fso4906728wma.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:56:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pfMBBG6KhUJlmrnwxOFWBt4tjHxB0UxoI8nHEU3taI0=;
+ b=s3HLLY6bh/Icox9H/C6bpuk14Hwb0ZvM/I33pZkllpbQX3bakPOvsWcLzA5alZbpel
+ 5of53YFZAHZZk33CF1yTzXNobYOcrrUjPmC7/kVNNPVDgCaqB32DAmpkrJRZ7ahK1ZqI
+ nSckLg5dvAp7E5wuyU4HwF2J6ctQ0GyBOZC/QFLjtofoBnh1IAzhW4uxpsMQTGJHiaXi
+ sDvF00j+mGRsuUfzYvcSgXaYyyHrNJSib68QD1I9XAvFT/WE1VB7ymqstpHkYCjuLFcB
+ Rxr9mmpiPCyJfKJP4TDD1uOYwDx5KI0yt2g0H+Ej27TQhW7wFIG9Vy3S5u1NCr90JW0G
+ FOcw==
+X-Gm-Message-State: AOAM530kG7rrap0PdY12d3QU4pWxTDeGydxj+Opje5h0lyE9EJT23w75
+ 5bKYfwE/4kQFKtR/OcBWDkURxxEyj2QRQLHgDkXRh/dFya12dMcILTYgAKAzaXY6CzcG4eQ3fAD
+ XNLGuE1dKOnGQBR4=
+X-Received: by 2002:a05:600c:1d0b:b0:394:1e75:1fef with SMTP id
+ l11-20020a05600c1d0b00b003941e751fefmr239439wms.5.1651182971412; 
+ Thu, 28 Apr 2022 14:56:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxt/u6CVfdDuY7OeAXr5pu5Tujfz6X/zU8DUD0f13oqOaBuyuHInU7FipQzPJOUYwcCwHlZsQ==
+X-Received: by 2002:a05:600c:1d0b:b0:394:1e75:1fef with SMTP id
+ l11-20020a05600c1d0b00b003941e751fefmr239416wms.5.1651182971079; 
+ Thu, 28 Apr 2022 14:56:11 -0700 (PDT)
+Received: from ?IPV6:2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9?
+ ([2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9])
+ by smtp.gmail.com with ESMTPSA id
+ o10-20020a5d47ca000000b0020a992ce354sm1029381wrc.76.2022.04.28.14.56.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 14:56:10 -0700 (PDT)
+Message-ID: <3b156b87-11d5-3eb7-f58a-94939f65ea8f@redhat.com>
+Date: Thu, 28 Apr 2022 23:56:09 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-291280435-1651182353=:76546"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <8f01c640-f876-568a-d6ff-bbb112e5154f@redhat.com>
+ <YmpwRKUW5e3P/hhd@stefanha-x1.localdomain>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YmpwRKUW5e3P/hhd@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,154 +102,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-291280435-1651182353=:76546
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Thu, 28 Apr 2022, Víctor Colombo wrote:
-> On 28/04/2022 03:46, Cédric Le Goater wrote:
->> On 4/27/22 19:00, Víctor Colombo wrote:
->>> Hello everyone! Thanks Zoltan and Richard for your kind reviews!
->>> 
->>> On 26/04/2022 18:29, Richard Henderson wrote:
->>>> On 4/22/22 11:54, Víctor Colombo wrote:
->>>>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
->>>>> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
->>>>> ---
->>>>>   hw/ppc/pegasos2.c        |  2 +-
->>>>>   hw/ppc/spapr.c           |  2 +-
->>>>>   target/ppc/cpu.h         |  3 ++-
->>>>>   target/ppc/cpu_init.c    |  4 ++--
->>>>>   target/ppc/excp_helper.c |  6 +++---
->>>>>   target/ppc/mem_helper.c  |  4 ++--
->>>>>   target/ppc/mmu-radix64.c |  4 ++--
->>>>>   target/ppc/mmu_common.c  | 23 ++++++++++++-----------
->>>>>   8 files changed, 25 insertions(+), 23 deletions(-)
->>>>> 
->>>>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
->>>>> index 56bf203dfd..27ed54a71d 100644
->>>>> --- a/hw/ppc/pegasos2.c
->>>>> +++ b/hw/ppc/pegasos2.c
->>>>> @@ -461,7 +461,7 @@ static void pegasos2_hypercall(PPCVirtualHypervisor 
->>>>> *vhyp, PowerPCCPU *cpu)
->>>>>       /* The TCG path should also be holding the BQL at this point */
->>>>>       g_assert(qemu_mutex_iothread_locked());
->>>>> 
->>>>> -    if (msr_pr) {
->>>>> +    if (env->msr & M_MSR_PR) {
->>>> 
->>>> I'm not sure I'm keen on the M_ prefix, but I'll defer to Cedric or 
->>>> Daniel if they're ok
->>>> with it.
->>>> 
->>>> In general there are inconsistencies with the use of MSR_PR (1 vs 1ull), 
->>>> which makes it
->>>> tempting to replace MSR_PR the bit number with MSR_PR the mask and leave 
->>>> off the M_
->>>> prefix.  It's somewhat easy for MSR_PR, since missed conversions will 
->>>> certainly result in
->>>> compiler warnings for out-of-range shift (the same would not be true with 
->>>> bits 0-6, LE
->>>> through EP). >
->>>> Another possibility would be to use hw/registerfields.h.  Missed 
->>>> conversions are missing
->>>> symbol errors.  You'd write FIELD_EX64(env->msr, MSR, PR) in cases like 
->>>> this and
->>>> R_MSR_PR_MASK in cases like cpu_init.c.  It's more verbose for single 
->>>> bits like this, but
->>>> much easier to work with multi-bit fields like MSR.TS.
->>>> 
->>> Thanks for your ideas! I think I'll go with this second one. It'll allow
->>> to remove the !!(val) occurrences that I introduced in this series, so
->>> the code quality will probably be improved.
->>> 
->>> It'll also be a 'safer' change that will require less rework on other
->>> parts that I didn't intend to touch in this patch series.
->> 
->> 
->> The registerfield API is certainly a good choice for cleanups.
->> 
->> Is there a way to adapt the PPC_BIT macros and keep the PPC bit
->> ordering ? It might be easier to forget about it. Which is what
->> the Linux kernel does in many places.
->
-> Hello Cédric.
->
-> It would probably be easier to change this if we went with Zoltan's
-> idea. Just 'invert' the MSR_* values to match the ISA order and use
-> env->msr & PPC_BIT(MSR_*). However registerfield API expects it to be
-> in the "0 is the rightmost" order,
-> so we can't easily go with it and just invert the MSR_* values.
-
-One thing I'm a bit worried about with registerfields macros is that they 
-use deposit64 and extract64 which have an IMO unneeded assert so this 
-means it adds an expression evaluation at every invocation of these 
-(hopefully the function overhead is optimisied out by inlining) which 
-might have some performance impact. So I still prefer the PPC_BIT macro 
-but changing the MSR_* defines might introduce bugs when not done 
-carefully so I'm nor sure it worths it.
-
-Do we have some performance benchmarks that could be used to evaluate the 
-changes for performance impact? There was some Summer of Code project for 
-this but I think it was abandoned. It would be useful to run that as part 
-of CI testing maybe.
-
-Regards,
-BALATON Zoltan
-
-> A solution I could think that might be easy is: rename PPC_BIT to
-> PPC_BIT_ULL (behaves like BIT_ULL but 'inverted'), and create a new
-> PPC_BIT macro that just inverts the bit value
->
-> #define PPC_BIT_ULL(bit) (0x8000000000000000ULL >> (bit))
-> #define PPC_BIT(bit) (63 - (bit))
->
-> and change MSR_* to use it
->
-> #define MSR_LE PPC_BIT(63)
->
->> 
->> 
->> Device models are also impacted :
+Am 28/04/2022 um 12:45 schrieb Stefan Hajnoczi:
+> On Wed, Apr 27, 2022 at 08:55:35AM +0200, Emanuele Giuseppe Esposito wrote:
 >>
->>    include/hw/pci-host/pnv_phb*_regs.h
->>    include/hw/ppc/xive*_regs.h
->> 
->> Something I have been wanting to change for a while are these macros :
 >>
->>      static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
->>      {
->>          return (word & mask) >> ctz64(mask);
->>      }
+>> Am 26/04/2022 um 10:51 schrieb Emanuele Giuseppe Esposito:
+>>> Luckly, most of the cases where we recursively go through a graph are
+>>> the BlockDriverState callback functions in block_int-common.h
+>>> In order to understand what to protect, I categorized the callbacks in
+>>> block_int-common.h depending on the type of function that calls them:
+>>>
+>>> 1) If the caller is a generated_co_wrapper, this function must be
+>>>    protected by rdlock. The reason is that generated_co_wrapper create
+>>>    coroutines that run in the given bs AioContext, so it doesn't matter
+>>>    if we are running in the main loop or not, the coroutine might run
+>>>    in an iothread.
+>>> 2) If the caller calls it directly, and has the GLOBAL_STATE_CODE() macro,
+>>>    then the function is safe. The main loop is the writer and thus won't
+>>>    read and write at the same time.
+>>> 3) If the caller calls it directly, but has not the GLOBAL_STATE_CODE()
+>>>    macro, then we need to check the callers and see case-by-case if the
+>>>    caller is in the main loop, if it needs to take the lock, or delegate
+>>>    this duty to its caller (to reduce the places where to take it).
+>>>
+>>> I used the vrc script (https://github.com/bonzini/vrc) to get help finding
+>>> all the callers of a callback. Using its filter function, I can
+>>> omit all functions protected by the added lock to avoid having duplicates
+>>> when querying for new callbacks.
 >>
->>      static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
->>                                      uint64_t value)
->>      {
->>          return (word & ~mask) | ((value << ctz64(mask)) & mask);
->>      }
->> 
->> Thanks,
->> 
->> C.
->> 
->
-> Thanks!
->
-> --
-> Víctor Cora Colombo
-> Instituto de Pesquisas ELDORADO
-> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
->
->
---3866299591-291280435-1651182353=:76546--
+>> I was wondering, if a function is in category (3) and runs in an
+>> Iothread but the function itself is not (currently) recursive, meaning
+>> it doesn't really traverse the graph or calls someone that traverses it,
+>> should I add the rdlock anyways or not?
+>>
+>> Example: bdrv_co_drain_end
+>>
+>> Pros:
+>>    + Covers if in future a new recursive callback for a new/existing
+>>      BlockDriver is implemented.
+>>    + Covers also the case where I or someone missed the recursive part.
+>>
+>> Cons:
+>>    - Potentially introducing an unnecessary critical section.
+>>
+>> What do you think?
+> 
+> ->bdrv_co_drain_end() is a callback function. Do you mean whether its
+> caller, bdrv_drain_invoke_entry(), should take the rdlock around
+> ->bdrv_co_drain_end()?
+
+Yes. The problem is that the coroutine is created in bs AioContext, so
+it might be in an iothread.
+
+> 
+> Going up further in the call chain (and maybe switching threads),
+> bdrv_do_drained_end() has QLIST_FOREACH(child, &bs->children, next) so
+> it needs protection. If the caller of bdrv_do_drained_end() holds then
+> rdlock then I think none of the child functions (including
+> ->bdrv_co_drain_end()) need to take it explicitly.
+
+Regarding bdrv_do_drained_end and similar, they are either running in
+the main loop (or they will be, if coming from a coroutine) or in the
+iothread running the AioContext of the bs involved.
+
+I think that most of the drains except for mirror.c are coming from main
+loop. I protected mirror.c in patch 8, even though right now I am not
+really sure that what I did is necessary, since the bh will be scheduled
+in the main loop.
+
+Therefore we don't really need locks around drains.
+
+Emanuele
+> 
+> Stefan
+> 
+
 
