@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3FF513C13
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 21:20:16 +0200 (CEST)
-Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EB7513C5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 22:09:39 +0200 (CEST)
+Received: from localhost ([::1]:39148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk9gV-0007fD-4p
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 15:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50036)
+	id 1nkASH-0008St-4o
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 16:09:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nk9eV-0006Hd-1N
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:18:11 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:33341)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nk9eT-0005Bo-FH
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:18:10 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id s4so4406833qkh.0
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 12:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H6l1r2vWwn+D75uO6SMTc4JK0+lh13Va7e7XVRTSu3c=;
- b=joalRjpG/gE5UGseZ3fNK5iuN3L2hkuuLsw82/o/ORIEtLGnzHTYn0CTy9sawQsHQc
- 2EBW2DARass24mZ1qxKCkbkU2BYJfwR02SaxSrz6fLo4MVl0JoLbPeYWbTCnIoqvsfEW
- 0SAYSUpGSj7k5jgMBrBr4E3wh8KzA4UJ037Jj8z5NpMiIDKm3f9jKSR2xnzaCU/vUiGb
- 4Puo3R0NYnMXyD4erxNqxseC0jNkpqrFdrEHta9P2miRr6Fb5ht8SU3UDeupPBO7fJBx
- B2HbUjv65zqoDE/dIPTO5n5KzQsAB1MO5r6GsGkSn+MrM/fn+mrN+XEwcS66eADkKlct
- RpbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H6l1r2vWwn+D75uO6SMTc4JK0+lh13Va7e7XVRTSu3c=;
- b=mTQb0/7/aXp1oGN/zCpv1Nel7BRth9qfw6KVOYNaSDmIB+3QRCgBhUMR9YlSYFYp6G
- N5pgpAw3gID2cs55iroMvQ8Vp1Mwzsqu/bC3SRzeXUAoiLZU624GknrbMWVyZ+fjN9vm
- 0/uZ9A0tMfQzXaLz8RwZu5WnX51legAtcZcbphkt3H2pPDCWzrEUt3DRj6ODEbbmZ2fL
- lSa3v8jgnUpyZGj/3ixWicYppOnh1eb2a1ig/nRTVxbkNWBGYb1Cu4EW8uWw7y7fi6WE
- dr7lTQHsqOdBKWfDdoYGQXL0L4b9EEdH+gg/YZFQmgj2QHneh3WzqTWTlNzT7TVAanHd
- VDOg==
-X-Gm-Message-State: AOAM530jKyqihwVmNsBeED+tEk1KKkwYW1HTC4NEO7X2qqR2UFXvsX4a
- VY5Eu12lyGfZmH1cBZ+zKJcVcHIRKZs37B14TRY=
-X-Google-Smtp-Source: ABdhPJx0r30JykZJhv4x0WBW7OO3YVk5sgp2PesAaFuELl9rX0/INg643x2od1kIEvUmlUz1g54ez2txQaVGr5kGFew=
-X-Received: by 2002:a37:a92:0:b0:69f:8a9e:6db4 with SMTP id
- 140-20020a370a92000000b0069f8a9e6db4mr6469140qkk.539.1651173488609; Thu, 28
- Apr 2022 12:18:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nkAGI-0005Vi-Oy; Thu, 28 Apr 2022 15:57:15 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:47435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nkAGG-0002QU-49; Thu, 28 Apr 2022 15:57:13 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 1AA3432009A3;
+ Thu, 28 Apr 2022 15:57:04 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 28 Apr 2022 15:57:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1651175823; x=1651262223; bh=hh
+ iO/JbGhk3FEbe4Di9LXVzb3b0x0FrNQ8kXekSXXhU=; b=nbyLKltifbJP0sY8I6
+ 5pDfhJb5JbHL8xogc8TtRO2p471pKjIIc9NQvNH8ts4wz7HX7rsit3BVynKGGx4j
+ Emk4HojbPJ6Lf84igZ4eCDcSrUl5r9OhPA+b0TUvBWMoraD07cLbfqoPltZFQR2Z
+ XCVlrUL0dXbvKf7CTlSNbP6W3uxJ7/FgL/oe4o327pSzSTWIhBo+Q4FIeHGdtV4J
+ vvjpuFke9dMP6BfPcVnZ8wfB6Tw+XMv+Ar6VkbdkCNSRFJaUkIDYPFCtoFSektlL
+ OTb75hMC8Rbo6DubmjDWwnxjsBglivM7osWz8n//KAxVDb3ir5kKjQ5XxSXaoCSh
+ evZQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651175823; x=
+ 1651262223; bh=hhiO/JbGhk3FEbe4Di9LXVzb3b0x0FrNQ8kXekSXXhU=; b=e
+ 3/bK3O4f3Yrf01kQbzQqie7I4KGAo/yJalVZJXLQCrIY62vP2VIDBiJwlgvD9/NB
+ PbhjECI/bn4MutB3MQcM44V65NpJO0OmBfGCkGlKVq1CUwcd+N69jgew3vBGJhVF
+ RK1ig2xbdq1AtMwQ2yQnChZGACcLEirowyzKE7LLyRNg1yuuBkfiMzYC8ykSZ9r8
+ RjFnUkxTC5r/IPJazyBN4R15rCaO8o22MBUj7EVROIAQjHz4urBSyf2+SY1ger6t
+ dk9XozUu39VMQ9aknyIfOZiwFOgD45i9bAyJiC/vth5Wbpf83ZsvtMVPm/Ki9zLa
+ vsKUGbn/ICoCrjje5co1A==
+X-ME-Sender: <xms:jfFqYpPd8RjhqHJ0Bx65uPx817Ulk9Z-1m_wTDceUJcdkLW4XCeXCg>
+ <xme:jfFqYr-Fh_F3OMiy0GfAQXzK6c1y1NQ5kKpx-X5Or11VXEW8V65Mj7FjVQKLcXcn4
+ ppryjJmdgq5LwI3lpQ>
+X-ME-Received: <xmr:jfFqYoTkUX4xeXa5X_7QhPiHtCFVLOXqRUN4r2QjfKlz9MmO4nwJai9Y0uUzmtjfbIZ1AjIylcKbl0Q5dw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgddugeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:jfFqYltQwMKLUvfWN2_nrCM7RlvvLDQnXS2CmJz6-NJ0WmAWpPUymA>
+ <xmx:jfFqYhe9O-7r2w5c_cTabSZW_eL7wVHKqDrLWhz8Xm_k2kPyhkjTqA>
+ <xmx:jfFqYh3JbN_qqYz3KqL3AgjHZOq-5zFFaesHHxWZW23L1nm5K2loSA>
+ <xmx:j_FqYsuVpWiC1LNQSPtMwS_w-rKRIn_ITpt-_OjjSI-BNWt4gUsO_w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 28 Apr 2022 15:56:59 -0400 (EDT)
+Date: Thu, 28 Apr 2022 21:56:57 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+Subject: Re: [PATCH v7 00/12] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <YmrxiWa6fP1hZ+ub@apples>
+References: <20220318191819.1711831-1-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
-References: <20220428181541.300619-1-kkostiuk@redhat.com>
-In-Reply-To: <20220428181541.300619-1-kkostiuk@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 28 Apr 2022 23:17:57 +0400
-Message-ID: <CAJ+F1CKH8MjetfU4e_cEksqrZvb6RswksX2p7-Tp5CaOBGzLzw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] qga-vss: always build qga-vss.tlb when qga-vss.dll is
- built
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004069f905ddbbc97b"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8/YICGbXgnEEi1HA"
+Content-Disposition: inline
+In-Reply-To: <20220318191819.1711831-1-lukasz.maniak@linux.intel.com>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,105 +95,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, armbru@redhat.com,
+ lukasz.gieryk@linux.intel.com, f4bug@amsat.org, qemu-devel@nongnu.org,
+ kbusch@kernel.org, hreitz@redhat.com, xypron.glpk@gmx.de, k.jensen@samsung.com,
+ ani@anisinha.ca, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004069f905ddbbc97b
-Content-Type: text/plain; charset="UTF-8"
+
+--8/YICGbXgnEEi1HA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 28, 2022 at 10:18 PM Konstantin Kostiuk <kkostiuk@redhat.com>
-wrote:
+On Mar 18 20:18, Lukasz Maniak wrote:
+> Resubmitting v6 as v7 since Patchew got lost with my sophisticated CC of
+> all maintainers just for the cover letter.
+>=20
+> Changes since v5:
+> - Fixed PCI hotplug issue related to deleting VF twice
+> - Corrected error messages for SR-IOV parameters
+> - Rebased on master, patches for PCI got pulled into the tree
+> - Added Reviewed-by labels
+>=20
+> Lukasz Maniak (4):
+>   hw/nvme: Add support for SR-IOV
+>   hw/nvme: Add support for Primary Controller Capabilities
+>   hw/nvme: Add support for Secondary Controller List
+>   docs: Add documentation for SR-IOV and Virtualization Enhancements
+>=20
+> =C5=81ukasz Gieryk (8):
+>   hw/nvme: Implement the Function Level Reset
+>   hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
+>   hw/nvme: Remove reg_size variable and update BAR0 size calculation
+>   hw/nvme: Calculate BAR attributes in a function
+>   hw/nvme: Initialize capability structures for primary/secondary
+>     controllers
+>   hw/nvme: Add support for the Virtualization Management command
+>   hw/nvme: Update the initalization place for the AER queue
+>   hw/acpi: Make the PCI hot-plug aware of SR-IOV
+>=20
+>  docs/system/devices/nvme.rst |  82 +++++
+>  hw/acpi/pcihp.c              |   6 +-
+>  hw/nvme/ctrl.c               | 673 ++++++++++++++++++++++++++++++++---
+>  hw/nvme/ns.c                 |   2 +-
+>  hw/nvme/nvme.h               |  55 ++-
+>  hw/nvme/subsys.c             |  75 +++-
+>  hw/nvme/trace-events         |   6 +
+>  include/block/nvme.h         |  65 ++++
+>  include/hw/pci/pci_ids.h     |   1 +
+>  9 files changed, 909 insertions(+), 56 deletions(-)
+>=20
 
-> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
->
+Series (hw/nvme parts) looks good.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
+--8/YICGbXgnEEi1HA
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> ---
->  qga/vss-win32/meson.build | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-> index 71c50d0866..26c5dd6e0e 100644
-> --- a/qga/vss-win32/meson.build
-> +++ b/qga/vss-win32/meson.build
-> @@ -23,8 +23,6 @@ qga_vss =3D shared_module(
->    ]
->  )
->
-> -all_qga +=3D qga_vss
-> -
->  if midl.found()
->    gen_tlb =3D custom_target('gen-tlb',
->                            input: 'qga-vss.idl',
-> @@ -36,3 +34,5 @@ else
->                            output: 'qga-vss.tlb',
->                            command: [widl, '-t', '@INPUT@', '-o',
-> '@OUTPUT@'])
->  endif
-> +
-> +all_qga +=3D [ qga_vss, gen_tlb ]
-> --
-> 2.25.1
->
->
->
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJq8XMACgkQTeGvMW1P
+DenIWQf+P8pViaUweV5lehkpNN62ThnngSysyposDsJxmj7ehIaczp1iMwmnMk54
+CWrGR+JPmj6nqxMkr4dGmV+Vtl6NRM0TYpIXQ06DSjGR7m+c0g5SKjJ9hjxIbdKH
+F/TegpDMuFQQLBaUOw+UqBmUR8fiBBMdO7N9GfHdUHcXngdhIycRIz2CuaTQ1Fh4
+Da9Bgj9qlf/qmGd3T6iEt+kSYRzQUfsF+gZyTXulQyjmoq7cd/JxZvbwB+GH+N6n
+2NVenHbjdV1tG8XP7EPk0zNmmw5GkZZeXu0UytHytVfq7mtAFTjCAv8RmweKpTPv
+Y8DcT3/tza+889+nf5oN8YjDgRKfag==
+=zfqa
+-----END PGP SIGNATURE-----
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000004069f905ddbbc97b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 28, 2022 at 10:18 PM Kons=
-tantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.c=
-om" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br></blockquote><div><br>=
-</div><div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
-arcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div><=
-br></div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0qga/vss-win32/meson.build | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build<br>
-index 71c50d0866..26c5dd6e0e 100644<br>
---- a/qga/vss-win32/meson.build<br>
-+++ b/qga/vss-win32/meson.build<br>
-@@ -23,8 +23,6 @@ qga_vss =3D shared_module(<br>
-=C2=A0 =C2=A0]<br>
-=C2=A0)<br>
-<br>
--all_qga +=3D qga_vss<br>
--<br>
-=C2=A0if midl.found()<br>
-=C2=A0 =C2=A0gen_tlb =3D custom_target(&#39;gen-tlb&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0input: &#39;qga-vss.idl&#39;,<br>
-@@ -36,3 +34,5 @@ else<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0output: &#39;qga-vss.tlb&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0command: [widl, &#39;-t&#39;, &#39;@INPUT@&#39;, &#=
-39;-o&#39;, &#39;@OUTPUT@&#39;])<br>
-=C2=A0endif<br>
-+<br>
-+all_qga +=3D [ qga_vss, gen_tlb ]<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000004069f905ddbbc97b--
+--8/YICGbXgnEEi1HA--
 
