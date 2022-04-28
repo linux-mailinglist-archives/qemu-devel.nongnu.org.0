@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F56513404
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 14:44:26 +0200 (CEST)
-Received: from localhost ([::1]:52328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96156513407
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 14:45:05 +0200 (CEST)
+Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk3VQ-0002Tb-Tx
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 08:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33390)
+	id 1nk3W4-00038J-Md
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 08:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk3RC-0007g9-9B
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:40:03 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:39637)
+ id 1nk3S1-00005O-Na
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:40:54 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:42302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk3RA-0007CM-LQ
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:40:02 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2f83983782fso51354737b3.6
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 05:39:26 -0700 (PDT)
+ id 1nk3Rz-0007b1-A8
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:40:52 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2ef5380669cso51288577b3.9
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 05:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jKiJG9/P3+5Ek/VD/EAMdXBUP7thKn8Nzr7duu81UHs=;
- b=KDS7wNgV05EHSdkMWdnAZ0emY0W4F496nDZ+wmonC960+UBjJHnyAWCz59+69z+N1s
- V1cCycQMMXcsiV5SuNuHDd9nDOpsiWab4vGUvjuIyzM/YIv7QXxPS2p4dhjAVQSX8HAb
- 3tHMYf/2QVJ9XmAlo0oBBhQ05OKubsZQX75hu8awPUKgQHXlkmYNivnAcM4qmpSNWBF5
- pFfLlA9yHUWC+jwwQX9/JabTMMm7oO/8TLyx3qbO+REAbf4IzjgYyAzL9VKUBTM19L9q
- IIhqgao8zjOmuiDj56Jyd87wewR+SCq2qZF6PzRHb3kJKb3EE9AgS9spwfsMfhWfnCtU
- gJvw==
+ :cc; bh=hy0RUJIKH5olUHplseJrgD3zDDmRFDcNGkKxavbE8nU=;
+ b=A+wadCvUKma2+aTaw+iwbhupdI+UvnOVbSjE6oN2sN/hoEzNBGW1UK8SpE6iDI9vzh
+ G8TPL37Cca11GX4DFG/IB0iFGm2Il8sCuWBZjdkBRCW5vW00zrecYwEYrP23sPXtaCgf
+ ZxD/JVVz/zYlFYXQoICzYcOeULor/laY9Nj4ZdM2QRxRWohcvjCXe1/Y5Qx+MSRtdF5z
+ 7mPu5UkoIv97KU5VQlo4/env2WaGvTBz503i09mxMlFONAxhcKVfFasvxRNcHUaKa5rx
+ 2zSnjBPDbFEBmgzC+WsPluJyIHb2ez+HIOatMoNVtQ+nv6JMazsOr+YGBfVD8gPhZT7h
+ VZLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jKiJG9/P3+5Ek/VD/EAMdXBUP7thKn8Nzr7duu81UHs=;
- b=3oPHIzUNonv1NU8DdV6HgIfjLioFdLHo5u5Hn8sZ0/USO3YE5QHrSD+zkA73YK5L24
- n6lZBFJE6vf8y4TnWf8oxwx+lE1LiW0ZhuJN+tHRiIiZZqpXo9r66e9Ma6plonjRWDTW
- WPa3x7aUrzet54OcTcrqqpAVcGUDOvVMUqNIRPgom2uu0ENfOL4RFDJsAuKmCkIcrOeJ
- eSsLuFpqhubFDDXeumteT9/hUab+neEqoOGYxHvlleKjL4FmR7stiPDSQMNbshi3UzsD
- 3CH3zvAU2ZLyN2C49xgKrNT99mRFssY8tWCbkjZUzRxb3DMk9kB623ZiJsk5epwOcfXe
- h8eA==
-X-Gm-Message-State: AOAM532tmLmNexfMoI3mfkzGnOto6o1X2xybCslxQL0NFkqHk71h/Iax
- uqKkffMUSjTNEX7cORW7nthmtqkPTVlvnf4KbQTz2w==
-X-Google-Smtp-Source: ABdhPJw4ejY5cXO+s85cR87564VG89VgnvoBJc6l9AOhjsJmvv8z9qrAQd+cEmAjO9yCTHtNofgS64fyyVCRuowK4qE=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr32740287ywf.347.1651149566058; Thu, 28
- Apr 2022 05:39:26 -0700 (PDT)
+ bh=hy0RUJIKH5olUHplseJrgD3zDDmRFDcNGkKxavbE8nU=;
+ b=XxzLdEGSLrYOipbwF8PjjdlMnM6SE3G9ghL+kHvMPKaL03YZl7jJ5vvL3dK5Q6XqyP
+ kopnDhek7NbsJHSjl8g3IxDEOG5r6pRbzda42W5EUauiEwQ3/mQUwhMwhfiUscmcvb0F
+ 6sruUwioGTLAzkYqbHe+Ua+k+93r54iKrmo6MPkM+w87ysbJIchwo1sbfxVE21P/geOX
+ RlXjVWNQKc8iHYzV9CyGkbnhD0WnVSLEohd+ZdQRIxKmvkO7/7JQwpnBSG+ZWUkL9s5J
+ Dh2/cWgtkXBIUJfB4IGTob5TgmcIecDj+Z0U8LCALeEPU2aB7sFBGkH+sHNb9/caAQb7
+ Et8g==
+X-Gm-Message-State: AOAM532PjieF87Bn59jZzLDc3drlcvBvqJPoByFsBS2AzW7Y0yIcUhxQ
+ PwumrvsaHTI46/7GlvjPX94Yvg8uDbQLJSGbGDa48j2x1NE=
+X-Google-Smtp-Source: ABdhPJxn0ixFc+rvQzZCh1Ey2ywk6X3yiyqcqkB2ow3ciC95+AkOR+moF8xQzEueJsXoKdi379RY/IAU5dmK23ZwgGc=
+X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
+ a63-20020a816642000000b002ebc364b8e1mr31707903ywc.64.1651149649636; Thu, 28
+ Apr 2022 05:40:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220427090117.6954-1-damien.hedde@greensocs.com>
-In-Reply-To: <20220427090117.6954-1-damien.hedde@greensocs.com>
+References: <20220427051926.295223-1-richard.henderson@linaro.org>
+In-Reply-To: <20220427051926.295223-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Apr 2022 13:39:14 +0100
-Message-ID: <CAFEAcA84F=WLfVdo1SvYmu_7p4-HZPL3boJcUu=XJDf7m_gxMA@mail.gmail.com>
-Subject: Re: [PATCH v2] target/arm: Disable cryptographic instructions when
- neon is disabled
-To: Damien Hedde <damien.hedde@greensocs.com>
+Date: Thu, 28 Apr 2022 13:40:38 +0100
+Message-ID: <CAFEAcA8UGvLKPj=5AgcfLp6C7TfSJRjR7ar9TOesHixj2VmBMw@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Use field names for accessing DBGWCRn
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,34 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Chris Howard <cvz185@web.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 at 10:01, Damien Hedde <damien.hedde@greensocs.com> wrote:
+On Wed, 27 Apr 2022 at 06:22, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> As of now, cryptographic instructions ISAR fields are never cleared so
-> we can end up with a cpu with cryptographic instructions but no
-> floating-point/neon instructions which is not a possible configuration
-> according to ARM specifications.
+> While defining these names, use the correct field width of 5 not 4 for
+> DBGWCR.MASK.  This typo prevented setting a watchpoint larger than 32k.
 >
-> In QEMU, we have 3 kinds of cpus regarding cryptographic instructions:
-> + no support
-> + cortex-a57/a72: cryptographic extension is optional,
->   floating-point/neon is not.
-> + cortex-a53: crytographic extension is optional as well as
->   floationg-point/neon. But cryptographic requires
->   floating-point/neon support.
->
-> Therefore we can safely clear the ISAR fields when neon is disabled.
->
-> Note that other arm cpus seem to follow this. For example cortex-a55 is
-> like cortex-a53 and cortex-a76/cortex-a710 are like cortex-a57/a72.
->
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reported-by: Chris Howard <cvz185@web.de>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-
+>  target/arm/internals.h    | 12 ++++++++++++
+>  target/arm/debug_helper.c | 10 +++++-----
+>  target/arm/helper.c       |  8 ++++----
+>  target/arm/kvm64.c        | 14 +++++++-------
+>  4 files changed, 28 insertions(+), 16 deletions(-)
 
 
 Applied to target-arm.next, thanks.
