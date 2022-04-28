@@ -2,57 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFB7512F4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 11:09:56 +0200 (CEST)
-Received: from localhost ([::1]:57962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BDB512F5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 11:16:37 +0200 (CEST)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk09r-0007xV-2n
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 05:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
+	id 1nk0GK-0005Uv-7X
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 05:16:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nk01Y-0004LG-I0
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:01:20 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:45024)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk05U-0007OY-Da
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:05:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nk01V-0000wy-Hz
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:01:20 -0400
-Received: from [192.168.13.13] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id EFDAA2077F;
- Thu, 28 Apr 2022 09:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1651136472;
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nk05R-0001cO-R3
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 05:05:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651136720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OPyRBvGeDHj/4yHedMKZ2ElcVJCG1kRLNO4UoJVLCO0=;
- b=CUUwaqcQoNGZ+5h8lGSIMxSgflaZGgvTmpurwrhhUKCkO9tYzNauoEY6h1Uxsxv5gaS4md
- 5MdfJGhE4moZgY9f7TQphKEbPBauL7yzy6m9zeLFrSS1m6QmHJjUnrWB6nG+QIJO0lAG8d
- AHx8D1Kl2IcxsuWXb910FAM3O3jMN5Y=
-Message-ID: <5cfd30b7-973c-337b-d3d3-057819f11354@greensocs.com>
-Date: Thu, 28 Apr 2022 11:01:10 +0200
+ bh=NCuzz9VFCjXP0Lw7Jk7mpV7tdY/uMm1aMAT28Q9T1P8=;
+ b=d//VPqoa7pIkvH5zIekNTAMfsQH9BOCJ4XvY00b8BBk8jyaEfUMbY3vdVHEYqaby5DvsYY
+ wdSFtWuTyxiFwKE4ZQFDi+OIPFHT4ZyP1yeY7tqM8IZGlIbqPwShOPoQcHLRIY5MzqdmUp
+ EuI3eaI6YNUFPKEXmR0Ut+k0KFZbejM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-645-XK-oVEWFMEKd2Ijpe5bpkQ-1; Thu, 28 Apr 2022 05:05:18 -0400
+X-MC-Unique: XK-oVEWFMEKd2Ijpe5bpkQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8758A85A5A8;
+ Thu, 28 Apr 2022 09:05:18 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 14DE1401474;
+ Thu, 28 Apr 2022 09:05:17 +0000 (UTC)
+Date: Thu, 28 Apr 2022 10:05:15 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Subject: Re: [PATCH 1/6] virtio-scsi: fix ctrl and event handler functions in
+ dataplane mode
+Message-ID: <YmpYy8cCPCh4giWe@stefanha-x1.localdomain>
+References: <20220427143541.119567-1-stefanha@redhat.com>
+ <20220427143541.119567-2-stefanha@redhat.com>
+ <81e9949c-2d25-1648-a3f3-b3f3c9ce2c74@msgid.tls.msk.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] docs/devel: add doc about device life cycles
-Content-Language: en-US-large
-To: qemu-devel@nongnu.org
-References: <20220422142851.28128-1-damien.hedde@greensocs.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220422142851.28128-1-damien.hedde@greensocs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l2PTVUHAWlKs6DB+"
+Content-Disposition: inline
+In-Reply-To: <81e9949c-2d25-1648-a3f3-b3f3c9ce2c74@msgid.tls.msk.ru>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,181 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, peter.maydell@linaro.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Nir Soffer <nsoffer@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any feedback ?
 
---
-Thanks,
+--l2PTVUHAWlKs6DB+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 4/22/22 16:28, Damien Hedde wrote:
-> Document the 3 life cycles cases that can happen with devices.
-> 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
-> 
-> Hi all,
-> 
-> It's been a few weeks I wanted to propose this in order to sort
-> out what should be done to make a 'user-creatable' device.
-> 
-> This is a follow up of [1] in which Peter asked for this point to
-> be clarified.
-> 
-> [1]: https://lore.kernel.org/qemu-devel/a2967493-fd00-8f9b-29bd-56baaae9f89a@greensocs.com/
-> 
-> Thanks,
-> Damien
-> ---
->   docs/devel/device.rst          | 111 +++++++++++++++++++++++++++++++++
->   docs/devel/index-internals.rst |   1 +
->   MAINTAINERS                    |   1 +
->   3 files changed, 113 insertions(+)
->   create mode 100644 docs/devel/device.rst
-> 
-> diff --git a/docs/devel/device.rst b/docs/devel/device.rst
-> new file mode 100644
-> index 0000000000..80e3016e80
-> --- /dev/null
-> +++ b/docs/devel/device.rst
-> @@ -0,0 +1,111 @@
-> +QEMU device life-cycle
-> +======================
-> +
-> +This document details the specifics of devices.
-> +
-> +Devices can be created in two ways: either internally by code or through a
-> +user interface:
-> +
-> ++ command line interface provides ``-device`` option
-> ++ QAPI interface provides ``device_add`` command
-> +
-> +Error handling is most important for the user interfaces. Internal code is
-> +generally designed so that errors do not happen and if some happen, the error
-> +is probably fatal (and QEMU will exit or abort).
-> +
-> +Devices are a particular type of QEMU objects. In addition of the
-> +``instance_init``, ``instance_post_init``, ``unparent`` and
-> +``instance_finalize`` methods (common to all QOM objects), they have the
-> +additional methods:
-> +
-> ++ ``realize``
-> ++ ``unrealize``
-> +
-> +In the following we will ignore ``instance_post_init`` and consider is
-> +associated with ``instance_init``.
-> +
-> +``realize`` is the only method that can fail. In that case it should
-> +return an adequate error. Some devices does not do this and should
-> +not be created by means of user interfaces.
-> +
-> +Device succesfully realized
-> +---------------------------
-> +
-> +The normal use case for device is the following:
-> +
-> +1. ``instance_init``
-> +2. ``realize`` with success
-> +3. The device takes part in emulation
-> +4. ``unrealize`` and ``unparent``
-> +5. ``instance_finalize``
-> +
-> +``instance_init`` and ``realize`` are part of the device creation procedure, whereas
-> +``unrealize`` and ``instance_finalize`` are part of the device deletion procedure.
-> +
-> +In case of an object created by code, ``realize`` has to be done explicitly
-> +(eg: by calling ``qdev_realize(...)``). This is done automatically in case of a
-> +device created via a user interface.
-> +
-> +On the other hand ``unrealize`` is done automatically.
-> +``unparent`` will take care of unrealizing the device then undoing any bus
-> +relationships (children and parent).
-> +
-> +Note that ``instance_finalize`` may not occur just after ``unrealize`` because
-> +other objects than the parent can hold references to a device. It may even not
-> +happen at all if a reference is never released.
-> +
-> +Device realize failure
-> +----------------------
-> +
-> +This use case is most important when the device is created through a user
-> +interface. The user might for example invalid properties and in that case
-> +realize will fail and the device should then be deleted.
-> +
-> +1. ``instance_init``
-> +2. ``realize`` failure
-> +3. ``unparent``
-> +4. ``instance_finalize``
-> +
-> +Failure to create a device should not leave traces. The emulation state after
-> +that should be as if the device has not be created. ``realize`` and
-> +``instance_finalize`` must take care of this.
-> +
-> +Device help
-> +-----------
-> +
-> +Last use case is only a user interface case. When requesting help about a device
-> +type, the following life cycle exists:
-> +
-> +1. ``instance_init``
-> +2. Introspect device properties
-> +3. ``unparent``
-> +4. ``instance_finalize``
-> +
-> +This use case is simple but it means that ``instance_finalize`` cannot assume that
-> +``realize`` has been called.
-> +
-> +Implementation consequences
-> +---------------------------
-> +
-> +A device developer should ensure the above use cases are
-> +supported so that the device is *user-creatable*.
-> +
-> +In particular, fail cases must checked in realize and reported using the error
-> +parameter. One should particularly take care of cleaning correctly whatever has
-> +been previously done if realize fails. Cleaning tasks (eg: memory freeing) can
-> +be done in ``realize`` or ``instance_finalize`` as they will be called in a row by
-> +the user interface.
-> +
-> +To this end ``realize`` must ensure than no additional reference to the device is
-> +dangling when it fails. Otherwise the device will never be finalized and deleted.
-> +
-> +If a device has created some children, they should be deleted as well in the
-> +cleaning process. If ``object_initialize_child()`` was used to create a child
-> +hosted into the device structure, the child memory space will disappear with the
-> +parent. No reference to such child must be dangling to ensure the child will
-> +not survive its parent deletion.
-> +
-> +Although it is not asserted by code, one can assume ``realize`` will not be tried
-> +again in case of failure and that the device will be finalized if no references
-> +have been added during ``realize``.
-> +
-> diff --git a/docs/devel/index-internals.rst b/docs/devel/index-internals.rst
-> index bb118b8eaf..57a5136b6e 100644
-> --- a/docs/devel/index-internals.rst
-> +++ b/docs/devel/index-internals.rst
-> @@ -11,6 +11,7 @@ Details about QEMU's various subsystems including how to add features to them.
->      atomics
->      block-coroutine-wrapper
->      clocks
-> +   device
->      ebpf_rss
->      migration
->      multi-process
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8bab48cf1e..c5fa80adf1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2853,6 +2853,7 @@ R: Daniel P. Berrange <berrange@redhat.com>
->   R: Eduardo Habkost <eduardo@habkost.net>
->   S: Supported
->   F: docs/qdev-device-use.txt
-> +F: docs/devel/device.rst
->   F: hw/core/qdev*
->   F: hw/core/bus.c
->   F: hw/core/sysbus.c
+On Wed, Apr 27, 2022 at 10:47:58PM +0300, Michael Tokarev wrote:
+> 27.04.2022 17:35, Stefan Hajnoczi wrote:
+> > Commit f34e8d8b8d48d73f36a67b6d5e492ef9784b5012 ("virtio-scsi: prepare
+> > virtio_scsi_handle_cmd for dataplane") prepared the virtio-scsi cmd
+> > virtqueue handler function to by used in both the dataplane and
+>=20
+> Nitpick: "to BE used".
+
+Thank you, this can be fixed when merging the patch.
+
+Stefan
+
+--l2PTVUHAWlKs6DB+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJqWMsACgkQnKSrs4Gr
+c8hKvAgAn8mps5z2c2SgRlyw8I1a+guFMxuJIEo4CrTwKQDXgNdmFen98uxPOjiG
+6GkXeeyrZ1DmZ1XJNk9qLGwkNYHPCIJ0XT7UD0MCIhekHTv2XjPrain8R9LgMBSo
+TMx4WNJnucrwFmhafXtHoRQ3IUvgL4MDAOTkoQcp7vrEOQUfdEL43BnXlLx3qWUo
+/nD1PJkkI8OuPZyOKwKMbx3WxR9Et/vO47X9M+lEYswvjea2m1NLq/P4owzHm3GR
+Kwdj3xTFsHqlU/zi05ai2kQmfZWXKCo4zcwiOJbCt1Be4K5VRnCbyFwtIsF7j7Ms
+PNgi14newbuV3cDcn+n98+6QZSa31A==
+=bgCc
+-----END PGP SIGNATURE-----
+
+--l2PTVUHAWlKs6DB+--
+
 
