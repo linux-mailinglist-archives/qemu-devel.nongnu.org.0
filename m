@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B17251342F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 14:50:16 +0200 (CEST)
-Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6EA6513449
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 14:57:51 +0200 (CEST)
+Received: from localhost ([::1]:38526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk3b3-0001kB-SF
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 08:50:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34346)
+	id 1nk3iQ-0006fo-H1
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 08:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk3Xn-0006uE-Sm
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:46:51 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:42347)
+ id 1nk3h7-0005gQ-Kt
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:56:29 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:41907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk3Xk-0000IU-4T
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:46:49 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2ef5380669cso51464997b3.9
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 05:46:47 -0700 (PDT)
+ id 1nk3h5-0002Kw-TZ
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 08:56:29 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id s30so8842907ybi.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 05:56:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j4lysgWIN5cr53U6wgVoyU/wRsi+yoa75XySkbHBjy4=;
- b=HTy+ZvtcocqErN6d7ydbDIxcuXiVeliRrd3UwOdv/fA/fz5zcrmqX6RfeQyfF9rPlq
- sOtVsctSdFZp6zYeL7DARQrvEnKjOjtA6HXHxxfsYbAqqMID4vV4Cok3YLE2de7/hVWV
- hWW6drCU+0jEJLuWi4lCYGDfAxZmtubWIKL/tWiNmvQzvwxfWbtcb9m6eLh0TTKWXEi9
- 4uGNsZ90mFB2D4qtXcZxw/nvRKK5a1ET8wW12tbqVjrbaF4hFAKbS7Q4MEOFw+LBT2Dh
- 6nRDnne8UUJjlkRWnjxVQORylHVc9dArEsbrCnWptHnwRJk+WTzMJbG2mYlZwEstVrg/
- c16w==
+ :cc; bh=eZDV6ma1eYefpVj/w7G4fwGabiA/6CKg5rkn0ky9OYk=;
+ b=HwEg0yXft+qtFX8XYLero0Cj6t0YI4HLsNVWcMy8ZzG8wqqvGmM1Es1UgiRGQsjp/X
+ lXewRB9zguYCdjjhqAQsHJIalgD5TuXh89CrIc8+TklqgnpnsWRCcAEGdtAb9OnOuG9S
+ ooyr4tf2DP7/VH3/CjelSQisVPO0Ik7ZxRFB1bQZrj22l+e+o3nuRC6gdqsXrsn1HYVY
+ T3GYzRpBL3aFqiwRMKb5aielyjilc4o4Fa1fygEaHco3XQ09mGNi//l3cq2qauhdXqgO
+ 5xyrPPJVYYGfb3seBLRtLJJLfz9gBzEsD+9WZZeSiWXBl4MmE4cl38R0DC6RXTmYdTuh
+ pH9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=j4lysgWIN5cr53U6wgVoyU/wRsi+yoa75XySkbHBjy4=;
- b=3xatHCmiZpAWtEZ2lWWf1thGJpogmfA+qMQPM4iBCTOLbMgNXCkuIUxQSshf+MdK9x
- jY1T1fwqhURfx7dQyr3wafEnmJ32jb86Vx4F2UdanK8SyAkXUOUh2VW+s5+wIMCu4CZj
- Swm7dLM80p1x6UZRdERxBZ7owbsDWlEo5Ln8riwWhI6fA84K70W17A7Ak8CDO3MxCZCg
- cKViyXmTTS/2ZU1Pzku7Ri6gjA2CqiAqv4goX3muhm5CfpYgNTwcO1bIwiHDO8d332Ah
- BzS7J/q/gR/WGJLV4CgM1t6WYJCRTXr+GgR87iXvz3kDQ8XBZwyiiARLJxdu8NzXWHLU
- FY2Q==
-X-Gm-Message-State: AOAM532y5KhT5bYT9FABGjKsNXowmr1AZFEkegTgJ97ueJAP++Ssv9Ip
- SMNJW0j0/+tYUUE+6aUonN0m1m8tF9trxc5FVM+pgg==
-X-Google-Smtp-Source: ABdhPJwm207h3OKSZRZyVtTn/ztEfkGbJOQdacLhVSuTC71MOQrpw7g+pjJLpfwSZglKShhaCpdexof1dxS90LsPCbM=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr32772893ywf.347.1651150007090; Thu, 28
- Apr 2022 05:46:47 -0700 (PDT)
+ bh=eZDV6ma1eYefpVj/w7G4fwGabiA/6CKg5rkn0ky9OYk=;
+ b=ulrycGadjEluVwCXv95F+QXbOCD6LR4srW0nfQEaFcM9/9rmKcOiZNpcABJkYXbwBk
+ mdT+dPwahvmIAEu41oDCk1cLiOa9pMbDq7BBx5bVLXC1M7rjVEmmOBVz3Q5TL9NanXKU
+ pcZf1Sven5hbo6XBzUd/ADI0FtM7LSI9bD5d6YqQ5JCJQVp9vwywIS4+7Zb9e//2sU8T
+ 6TFVjqzwMhGM+dCuoo2WvfRTMzOMwdcX5v9G+B0JPfSgb79XsaRaB8WEY4aLBPTr1LYl
+ +SYeoOTaeNmPaf94UlCAygLpxgsfQB9/xoAzxdHB5qziH0yRSoRfAlfpzJFwn5GDdsn/
+ zofQ==
+X-Gm-Message-State: AOAM532qgkfBycehmfGLY4ToK+IfncY0O/ILiJCBmjhuTgOOs6tlqGwV
+ 5P4K1jjQW7ZS0zS2O+HtScumjv8mpYvOq90PYAI3vA==
+X-Google-Smtp-Source: ABdhPJwrIL6kNHFwH6I9rUhkTZGWkhnUV9QRBEKdvbRmMYVMILvRWJu6eSkap71vrS+0HC4W2G/JfbDR/Yf8iv22nYY=
+X-Received: by 2002:a25:40c4:0:b0:645:88a3:eb8b with SMTP id
+ n187-20020a2540c4000000b0064588a3eb8bmr28754744yba.193.1651150586781; Thu, 28
+ Apr 2022 05:56:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220427181335.26613-1-quic_llindhol@quicinc.com>
-In-Reply-To: <20220427181335.26613-1-quic_llindhol@quicinc.com>
+References: <20220427042312.294300-1-richard.henderson@linaro.org>
+In-Reply-To: <20220427042312.294300-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Apr 2022 13:46:36 +0100
-Message-ID: <CAFEAcA_RRy+bR=hixmmmhSMsX6SRGPFK1z4H9EXZU9-h0FPEOg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS/.mailmap: update email for Leif Lindholm
-To: Leif Lindholm <quic_llindhol@quicinc.com>
+Date: Thu, 28 Apr 2022 13:56:15 +0100
+Message-ID: <CAFEAcA-636wFtzEF56y8PcjcZy2J9RuNaw1nHMQ4Nsn_55ndCw@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Enable SCTLR_EL1.BT0 for aarch64-linux-user
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,39 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 at 19:13, Leif Lindholm <quic_llindhol@quicinc.com> wrote:
+On Wed, 27 Apr 2022 at 05:23, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> NUVIA was acquired by Qualcomm in March 2021, but kept functioning on
-> separate infrastructure for a transitional period. We've now switched
-> over to contributing as Qualcomm Innocation Center (quicinc), so update
-> my email address to reflect this.
+> This controls whether the PACI{A,B}SP instructions trap with BTYPE=3
+> (indirect branch from register other than x16/x17).  The linux kernel
+> sets this in bti_enable().
 >
-> Signed-off-by: Leif Lindholm <quic_llindhol@quicinc.com>
-> Cc: Leif Lindholm <leif@nuviainc.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  .mailmap    | 1 +
->  MAINTAINERS | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/.mailmap b/.mailmap
-> index 2976a675ea..6b28c98a90 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -63,6 +63,7 @@ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
->  Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
->  James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
->  Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-> +Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/998
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Do you also need to update the previous line ? I'm not sure
-whether git will do multiple passes through the mailmap chasing
-A -> B -> C remappings...
+> --- a/tests/tcg/aarch64/Makefile.target
+> +++ b/tests/tcg/aarch64/Makefile.target
+> @@ -26,11 +26,11 @@ run-plugin-pauth-%: QEMU_OPTS += -cpu max
+>  endif
+>
+>  # BTI Tests
+> -# bti-1 tests the elf notes, so we require special compiler support.
+> +# bti-1 test the elf notes, so we require special compiler support.
+
+Did you intend to edit this comment line ?
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
