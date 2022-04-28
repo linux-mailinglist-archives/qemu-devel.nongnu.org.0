@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907AE5136AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:17:13 +0200 (CEST)
-Received: from localhost ([::1]:34978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070995136D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 16:27:14 +0200 (CEST)
+Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk4xE-00014v-M2
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34868)
+	id 1nk56u-0004xC-SQ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 10:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nk4u5-0006mn-MW
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:13:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21264)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nk54i-0003Rf-Rd
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:24:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nk4u3-00017i-Th
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:13:57 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nk54f-0003LO-UM
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 10:24:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651155235;
+ s=mimecast20190719; t=1651155892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ojJ3Cjh7bIgw7VGZjW3bThrExLE/qwoabiFYpnoO/7w=;
- b=LEeSC399tOsMohKYqVU4FDRq9ax5svxwWPZP6hE6GELDCXVgD0qBdvPbm+fGdzmDNBtlr+
- xICXgkeCVJxeh0+RX73uI5HKn55gNDV9kiL/OiNP6LA9XOSHEi9EkoYsvM8W6eCGV8alqs
- vsHzLZh2HKUQylQYU5b/QifNG4kKO2k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=63r8rWhR8oABNQdnk8OaypleiW++wyFQSOhF8gotzVY=;
+ b=ZDPtH91Xjxap9rA2OHTCpMSUtgNNW7g9DzagomS2JBnMAGXB7L/GmxooVKrrlxJCZ2XYZf
+ pSu5IMVflEuy2tO3nMCcCL86gbK5ncxuvVXw/qVNnYXPiJroyxNZV4He98djQu6+O/VCDD
+ ZUGP9Kk+eSmQlysJYEUY/S7zmiOKSj4=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-la9cpLRxPRyvI4u7gVRqaw-1; Thu, 28 Apr 2022 10:13:53 -0400
-X-MC-Unique: la9cpLRxPRyvI4u7gVRqaw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5554C85A5BC
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 14:13:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F2F1414A7EA;
- Thu, 28 Apr 2022 14:13:52 +0000 (UTC)
-Date: Thu, 28 Apr 2022 09:13:50 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 8/9] tests: add multifd migration tests of TLS with
- x509 credentials
-Message-ID: <20220428141350.5sox5ipvwh6shgv7@redhat.com>
-References: <20220426160048.812266-1-berrange@redhat.com>
- <20220426160048.812266-9-berrange@redhat.com>
+ us-mta-328-LhA4ebM5Pzuped3Rwz-1cA-1; Thu, 28 Apr 2022 10:24:51 -0400
+X-MC-Unique: LhA4ebM5Pzuped3Rwz-1cA-1
+Received: by mail-il1-f199.google.com with SMTP id
+ s10-20020a92c5ca000000b002cc45dade1aso1833524ilt.20
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 07:24:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=63r8rWhR8oABNQdnk8OaypleiW++wyFQSOhF8gotzVY=;
+ b=Hf5KWWySodA0H5k/FyJ3Wl2t45KBjO4RwAFKojyoGMPv1ri1BSTnLwau40JenMB+B8
+ XzoBid1R9nATHSm5ZNrTpm30bRqKpdYLD2JlMdg0daf9lrgbKHuI1LQyYXLTMyAaJB1/
+ tIFHPhhVVPbPqovAd0vofjUfDutpEnSlo2IzCJRovYZBXwdGD6JqsHwmbJETYdyE+EZD
+ cxVFhqrNxfd9Jht6hmEm6EsxlZQfoixEHAB0M4YyQcdFVLqAokjcFkEHyutixP1q3L/3
+ VsWqBOID0T+juMqU+tGxPqc9ZLvOwNoQCHJsMGT4W1C8J845JhK8pCQirsWBsVcDOR3h
+ jELA==
+X-Gm-Message-State: AOAM530QCAS6h4jBug/h/OFE9src9rImSNxCqK7hGW+Ay2Zz1ezWXc6R
+ j8aAciiTZQ8/kHTfCHKt/9GcWIIJ/XElZ+o4SxYEhtDw4Nv27Xv0KBiczf1y7hF0yfWEXRjTcGI
+ E/ktHengiLW4v0jQ=
+X-Received: by 2002:a5d:8b8f:0:b0:649:ec6d:98e9 with SMTP id
+ p15-20020a5d8b8f000000b00649ec6d98e9mr14028108iol.30.1651155890674; 
+ Thu, 28 Apr 2022 07:24:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2U1d0fyvz8Pa/Eh29/m4hiXQ+rLKTZwJ9R/ROlmhzHrrR87J6y6aBkBIOBBO7Fy6bjKArnw==
+X-Received: by 2002:a5d:8b8f:0:b0:649:ec6d:98e9 with SMTP id
+ p15-20020a5d8b8f000000b00649ec6d98e9mr14028093iol.30.1651155890410; 
+ Thu, 28 Apr 2022 07:24:50 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ v1-20020a6bac01000000b006575e6d99c7sm12427ioe.29.2022.04.28.07.24.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Apr 2022 07:24:50 -0700 (PDT)
+Date: Thu, 28 Apr 2022 08:24:48 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [RFC 00/18] vfio: Adopt iommufd
+Message-ID: <20220428082448.318385ed.alex.williamson@redhat.com>
+In-Reply-To: <BN9PR11MB5276189A2A8EACFBF75B22238CFD9@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <20220422160943.6ff4f330.alex.williamson@redhat.com>
+ <YmZzhohO81z1PVKS@redhat.com>
+ <20220425083748.3465c50f.alex.williamson@redhat.com>
+ <BN9PR11MB5276F549912E03553411736D8CFB9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220426102159.5ece8c1f.alex.williamson@redhat.com>
+ <BN9PR11MB5276189A2A8EACFBF75B22238CFD9@BN9PR11MB5276.namprd11.prod.outlook.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426160048.812266-9-berrange@redhat.com>
-User-Agent: NeoMutt/20220415-26-c08bba
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,70 +101,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
+ "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, "Peng, Chao P" <chao.p.peng@intel.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ "jgg@nvidia.com" <jgg@nvidia.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>, "Sun,
+ Yi Y" <yi.y.sun@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "nicolinc@nvidia.com" <nicolinc@nvidia.com>, Laine Stump <laine@redhat.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 05:00:47PM +0100, Daniel P. Berrangé wrote:
-> This validates that we correctly handle multifd migration success
-> and failure scenarios when using TLS with x509 certificates. There
-> are quite a few different scenarios that matter in relation to
-> hostname validation, but we skip a couple as we can assume that
-> the non-multifd coverage applies to some extent.
+On Thu, 28 Apr 2022 03:21:45 +0000
+"Tian, Kevin" <kevin.tian@intel.com> wrote:
+
+> > From: Alex Williamson <alex.williamson@redhat.com>
+> > Sent: Wednesday, April 27, 2022 12:22 AM  
+> > > >
+> > > > My expectation would be that libvirt uses:
+> > > >
+> > > >  -object iommufd,id=iommufd0,fd=NNN
+> > > >  -device vfio-pci,fd=MMM,iommufd=iommufd0
+> > > >
+> > > > Whereas simple QEMU command line would be:
+> > > >
+> > > >  -object iommufd,id=iommufd0
+> > > >  -device vfio-pci,iommufd=iommufd0,host=0000:02:00.0
+> > > >
+> > > > The iommufd object would open /dev/iommufd itself.  Creating an
+> > > > implicit iommufd object is someone problematic because one of the
+> > > > things I forgot to highlight in my previous description is that the
+> > > > iommufd object is meant to be shared across not only various vfio
+> > > > devices (platform, ccw, ap, nvme, etc), but also across subsystems, ex.
+> > > > vdpa.  
+> > >
+> > > Out of curiosity - in concept one iommufd is sufficient to support all
+> > > ioas requirements across subsystems while having multiple iommufd's
+> > > instead lose the benefit of centralized accounting. The latter will also
+> > > cause some trouble when we start virtualizing ENQCMD which requires
+> > > VM-wide PASID virtualization thus further needs to share that
+> > > information across iommufd's. Not unsolvable but really no gain by
+> > > adding such complexity. So I'm curious whether Qemu provide
+> > > a way to restrict that certain object type can only have one instance
+> > > to discourage such multi-iommufd attempt?  
+> > 
+> > I don't see any reason for QEMU to restrict iommufd objects.  The QEMU
+> > philosophy seems to be to let users create whatever configuration they
+> > want.  For libvirt though, the assumption would be that a single
+> > iommufd object can be used across subsystems, so libvirt would never
+> > automatically create multiple objects.  
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/qtest/migration-test.c | 127 +++++++++++++++++++++++++++++++++++
->  1 file changed, 127 insertions(+)
+> I like the flexibility what the objection approach gives in your proposal.
+> But with the said complexity in mind (with no foreseen benefit), I wonder
+
+What's the actual complexity?  Front-end/backend splits are very common
+in QEMU.  We're making the object connection via name, why is it
+significantly more complicated to allow multiple iommufd objects?  On
+the contrary, it seems to me that we'd need to go out of our way to add
+code to block multiple iommufd objects.
+
+> whether an alternative approach which treats iommufd as a global
+> property instead of an object is acceptable in Qemu, i.e.:
 > 
-> +
-> +static void test_multifd_tcp_tls_x509_mismatch_host(void)
-> +{
-> +    /*
-> +     * This has different behaviour to the non-multifd case.
-> +     *
-> +     * In non-multifd case when client aborts due to mismatched
-> +     * cert host, the server has already started trying to load
-> +     * migration state, and so it exits with I/O  failure.
+> -iommufd on/off
+> -device vfio-pci,iommufd,[fd=MMM/host=0000:02:00.0]
+> 
+> All devices with iommufd specified then implicitly share a single iommufd
+> object within Qemu.
 
-odd double space
+QEMU requires key-value pairs AFAIK, so the above doesn't work, then
+we're just back to the iommufd=on/off.
+ 
+> This still allows vfio devices to be specified via fd but just requires Libvirt
+> to grant file permission on /dev/iommu. Is it a worthwhile tradeoff to be
+> considered or just not a typical way in Qemu philosophy e.g. any object
+> associated with a device must be explicitly specified?
 
-> +     *
-> +     * In multifd case when client aborts due to mismatched
-> +     * cert host, the server is still waiting for the other
-> +     * multifd connections to arrive so hasn't started trying
-> +     * to load migration state, and thus just aborts the migration
-> +     * without exiting
+Avoiding QEMU opening files was a significant focus of my alternate
+proposal.  Also note that we must be able to support hotplug, so we
+need to be able to dynamically add and remove the iommufd object, I
+don't see that a global property allows for that.  Implicit
+associations of devices to shared resources doesn't seem particularly
+desirable to me.  Thanks,
 
-Worth a trailing .
-
-> +     */
-> +    MigrateCommon args = {
-> +        .start = {
-> +            .hide_stderr = true,
-> +        },
-> +        .listen_uri = "defer",
-> +        .start_hook = test_migrate_multifd_tls_x509_start_mismatch_host,
-> +        .finish_hook = test_migrate_tls_x509_finish,
-> +        .result = MIG_TEST_FAIL,
-> +    };
-> +    test_precopy_common(&args);
-> +}
-
-Definitely a good example of why this was worth testing, and the
-comment explains why the difference in observed failure scenarios is
-good.
-
-Comment fixes are trivial, so
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Alex
 
 
