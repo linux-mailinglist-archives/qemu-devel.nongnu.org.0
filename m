@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797EB513C12
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 21:19:38 +0200 (CEST)
-Received: from localhost ([::1]:55656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3FF513C13
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 21:20:16 +0200 (CEST)
+Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk9ft-0006yo-43
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 15:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
+	id 1nk9gV-0007fD-4p
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 15:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nk9eD-0005xT-L3
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:17:53 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:41550)
+ id 1nk9eV-0006Hd-1N
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:18:11 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:33341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nk9eB-00059h-Rh
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:17:53 -0400
-Received: by mail-qt1-x831.google.com with SMTP id y3so4214292qtn.8
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 12:17:51 -0700 (PDT)
+ id 1nk9eT-0005Bo-FH
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 15:18:10 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id s4so4406833qkh.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 12:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tKf/brwfBIuwbzScKtlIbnWD5yUW1Fd6Fk4l2PfOR5Q=;
- b=P11U5q68Yjm3NfbvtWNVx7r6wpFQMHuRnZUqCyVGD9+VvCc3B9alxKccvLgXIDs0ol
- Ra0Pl6PEShm6/fGY7ojF0nKLbUb9LtiFBWFHobDOy8F1+xKy0azfFtGHVq/ECnFBFvD1
- DF5txEi/m6fJaU/MmdOOfYH8Z5d1uF90tIp4gUQitKYzNaj45CFqZhjZoZfpTvIx8g4P
- PKTCkDcAzSaqAc+r69ttKmOWVE1srBgdMpJQhsY6xiILa5vOd72eJG1ulh/VKuztOmSS
- y0eWUlN2gxEBJwcu55CVucHmaLLFTMSJxaBKG4pTO0BFLb/bBsGk8pQXLZMsaTfLMWU0
- l9Tg==
+ :cc; bh=H6l1r2vWwn+D75uO6SMTc4JK0+lh13Va7e7XVRTSu3c=;
+ b=joalRjpG/gE5UGseZ3fNK5iuN3L2hkuuLsw82/o/ORIEtLGnzHTYn0CTy9sawQsHQc
+ 2EBW2DARass24mZ1qxKCkbkU2BYJfwR02SaxSrz6fLo4MVl0JoLbPeYWbTCnIoqvsfEW
+ 0SAYSUpGSj7k5jgMBrBr4E3wh8KzA4UJ037Jj8z5NpMiIDKm3f9jKSR2xnzaCU/vUiGb
+ 4Puo3R0NYnMXyD4erxNqxseC0jNkpqrFdrEHta9P2miRr6Fb5ht8SU3UDeupPBO7fJBx
+ B2HbUjv65zqoDE/dIPTO5n5KzQsAB1MO5r6GsGkSn+MrM/fn+mrN+XEwcS66eADkKlct
+ RpbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tKf/brwfBIuwbzScKtlIbnWD5yUW1Fd6Fk4l2PfOR5Q=;
- b=Q6Ci6Hn5qK/F32Tyn/hnWDM+bEq0KkrwwRwKITsBjb+bYr1PfbHuE0RQbB8sVAVHIM
- jWzwmitA/RfR2o55S+gGtNjr6AlIk7yBuMEAMau5/KwOEabi04sHI7cQQjiEJ2S6naL9
- b+WjbdxQHnCEFUIeTmKjc8dre5HoFOH8m2jiPQKohbYguhQQIUEiqNWGwgX3yTa184fe
- WuDOBka99RGIIXbEFxyqsDXFfCJvPZeJ/Yo+pB+6A139YMljYGLCUq/5bPgvegNH4w1F
- jKOJ/SvboOrw3u1sCrZ3PlXVi7LZLGX+uOpA3SWuTSo2ZvDg0DBEZjMbqViv+XnphJYn
- Sd4Q==
-X-Gm-Message-State: AOAM530gTzWh3zHH4gjZDFX68JlwFTWWyqrsUcl2ArMJdNoNTThF+Tpy
- RkdgbLtgx2Ul6AS6t+vfuDANvDEsQhOwOQgID2c=
-X-Google-Smtp-Source: ABdhPJzZ69SeZESg5cfwectnlxKjeYHJa+0Fv1zsSayjyEMQf5j10G0qs+OLSgiZ8Hs8Vp4wk1adADvvYveycrQfglA=
-X-Received: by 2002:a05:622a:2c5:b0:2f3:6354:28e2 with SMTP id
- a5-20020a05622a02c500b002f3635428e2mr18354029qtx.560.1651173470399; Thu, 28
- Apr 2022 12:17:50 -0700 (PDT)
+ bh=H6l1r2vWwn+D75uO6SMTc4JK0+lh13Va7e7XVRTSu3c=;
+ b=mTQb0/7/aXp1oGN/zCpv1Nel7BRth9qfw6KVOYNaSDmIB+3QRCgBhUMR9YlSYFYp6G
+ N5pgpAw3gID2cs55iroMvQ8Vp1Mwzsqu/bC3SRzeXUAoiLZU624GknrbMWVyZ+fjN9vm
+ 0/uZ9A0tMfQzXaLz8RwZu5WnX51legAtcZcbphkt3H2pPDCWzrEUt3DRj6ODEbbmZ2fL
+ lSa3v8jgnUpyZGj/3ixWicYppOnh1eb2a1ig/nRTVxbkNWBGYb1Cu4EW8uWw7y7fi6WE
+ dr7lTQHsqOdBKWfDdoYGQXL0L4b9EEdH+gg/YZFQmgj2QHneh3WzqTWTlNzT7TVAanHd
+ VDOg==
+X-Gm-Message-State: AOAM530jKyqihwVmNsBeED+tEk1KKkwYW1HTC4NEO7X2qqR2UFXvsX4a
+ VY5Eu12lyGfZmH1cBZ+zKJcVcHIRKZs37B14TRY=
+X-Google-Smtp-Source: ABdhPJx0r30JykZJhv4x0WBW7OO3YVk5sgp2PesAaFuELl9rX0/INg643x2od1kIEvUmlUz1g54ez2txQaVGr5kGFew=
+X-Received: by 2002:a37:a92:0:b0:69f:8a9e:6db4 with SMTP id
+ 140-20020a370a92000000b0069f8a9e6db4mr6469140qkk.539.1651173488609; Thu, 28
+ Apr 2022 12:18:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220428181525.300521-1-kkostiuk@redhat.com>
-In-Reply-To: <20220428181525.300521-1-kkostiuk@redhat.com>
+References: <20220428181541.300619-1-kkostiuk@redhat.com>
+In-Reply-To: <20220428181541.300619-1-kkostiuk@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 28 Apr 2022 23:17:39 +0400
-Message-ID: <CAJ+F1CJT3Yy6k1iJmDL15Tnh+n5G0vnfsbHMTQYCv2S20CHnOg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] configure: Add cross prefix for widl tool
+Date: Thu, 28 Apr 2022 23:17:57 +0400
+Message-ID: <CAJ+F1CKH8MjetfU4e_cEksqrZvb6RswksX2p7-Tp5CaOBGzLzw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] qga-vss: always build qga-vss.tlb when qga-vss.dll is
+ built
 To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000002a709605ddbbc8cb"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-qt1-x831.google.com
+Content-Type: multipart/alternative; boundary="0000000000004069f905ddbbc97b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,63 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002a709605ddbbc8cb
+--0000000000004069f905ddbbc97b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 28, 2022 at 10:17 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+On Thu, Apr 28, 2022 at 10:18 PM Konstantin Kostiuk <kkostiuk@redhat.com>
 wrote:
 
-> The mingw-w64-tool package in Fedora provides widl tool with a
-> cross prefix, so adds it automatically for cross builds.
->
-> WIDL env can be used to redefine the path to tool.
-> The same behavior as with windres.
->
 > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
+
 > ---
->  configure | 3 +++
->  1 file changed, 3 insertions(+)
+>  qga/vss-win32/meson.build | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/configure b/configure
-> index 59c43bea05..8b775492d0 100755
-> --- a/configure
-> +++ b/configure
-> @@ -415,6 +415,7 @@ ranlib=3D"${RANLIB-${cross_prefix}ranlib}"
->  nm=3D"${NM-${cross_prefix}nm}"
->  smbd=3D"$SMBD"
->  strip=3D"${STRIP-${cross_prefix}strip}"
-> +widl=3D"${WIDL-${cross_prefix}widl}"
->  windres=3D"${WINDRES-${cross_prefix}windres}"
->  pkg_config_exe=3D"${PKG_CONFIG-${cross_prefix}pkg-config}"
->  query_pkg_config() {
-> @@ -2786,6 +2787,7 @@ if test "$skip_meson" =3D no; then
->      echo "sdl2-config =3D [$(meson_quote $sdl2_config)]" >> $cross
->    fi
->    echo "strip =3D [$(meson_quote $strip)]" >> $cross
-> +  echo "widl =3D [$(meson_quote $widl)]" >> $cross
->    echo "windres =3D [$(meson_quote $windres)]" >> $cross
->    if test "$cross_compile" =3D "yes"; then
->      cross_arg=3D"--cross-file config-meson.cross"
-> @@ -2907,6 +2909,7 @@ preserve_env PYTHON
->  preserve_env SDL2_CONFIG
->  preserve_env SMBD
->  preserve_env STRIP
-> +preserve_env WIDL
->  preserve_env WINDRES
+> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
+> index 71c50d0866..26c5dd6e0e 100644
+> --- a/qga/vss-win32/meson.build
+> +++ b/qga/vss-win32/meson.build
+> @@ -23,8 +23,6 @@ qga_vss =3D shared_module(
+>    ]
+>  )
 >
->  printf "exec" >>config.status
+> -all_qga +=3D qga_vss
+> -
+>  if midl.found()
+>    gen_tlb =3D custom_target('gen-tlb',
+>                            input: 'qga-vss.idl',
+> @@ -36,3 +34,5 @@ else
+>                            output: 'qga-vss.tlb',
+>                            command: [widl, '-t', '@INPUT@', '-o',
+> '@OUTPUT@'])
+>  endif
+> +
+> +all_qga +=3D [ qga_vss, gen_tlb ]
 > --
 > 2.25.1
 >
@@ -143,67 +129,48 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000002a709605ddbbc8cb
+--0000000000004069f905ddbbc97b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 28, 2022 at 10:17 PM Kons=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 28, 2022 at 10:18 PM Kons=
 tantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.c=
 om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
 n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">The mingw-w64-tool package in Fedora provides widl tool with a<br>
-cross prefix, so adds it automatically for cross builds.<br>
-<br>
-WIDL env can be used to redefine the path to tool.<br>
-The same behavior as with windres.<br>
-<br>
-Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com=
-" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br></blockquote><div><br></=
-div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandr=
-e.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+">Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.c=
+om" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br></blockquote><div><br>=
+</div><div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
+arcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div><=
+br></div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0configure | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
+=C2=A0qga/vss-win32/meson.build | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/configure b/configure<br>
-index 59c43bea05..8b775492d0 100755<br>
---- a/configure<br>
-+++ b/configure<br>
-@@ -415,6 +415,7 @@ ranlib=3D&quot;${RANLIB-${cross_prefix}ranlib}&quot;<br=
->
-=C2=A0nm=3D&quot;${NM-${cross_prefix}nm}&quot;<br>
-=C2=A0smbd=3D&quot;$SMBD&quot;<br>
-=C2=A0strip=3D&quot;${STRIP-${cross_prefix}strip}&quot;<br>
-+widl=3D&quot;${WIDL-${cross_prefix}widl}&quot;<br>
-=C2=A0windres=3D&quot;${WINDRES-${cross_prefix}windres}&quot;<br>
-=C2=A0pkg_config_exe=3D&quot;${PKG_CONFIG-${cross_prefix}pkg-config}&quot;<=
-br>
-=C2=A0query_pkg_config() {<br>
-@@ -2786,6 +2787,7 @@ if test &quot;$skip_meson&quot; =3D no; then<br>
-=C2=A0 =C2=A0 =C2=A0echo &quot;sdl2-config =3D [$(meson_quote $sdl2_config)=
-]&quot; &gt;&gt; $cross<br>
-=C2=A0 =C2=A0fi<br>
-=C2=A0 =C2=A0echo &quot;strip =3D [$(meson_quote $strip)]&quot; &gt;&gt; $c=
-ross<br>
-+=C2=A0 echo &quot;widl =3D [$(meson_quote $widl)]&quot; &gt;&gt; $cross<br=
->
-=C2=A0 =C2=A0echo &quot;windres =3D [$(meson_quote $windres)]&quot; &gt;&gt=
-; $cross<br>
-=C2=A0 =C2=A0if test &quot;$cross_compile&quot; =3D &quot;yes&quot;; then<b=
-r>
-=C2=A0 =C2=A0 =C2=A0cross_arg=3D&quot;--cross-file config-meson.cross&quot;=
+diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build<br>
+index 71c50d0866..26c5dd6e0e 100644<br>
+--- a/qga/vss-win32/meson.build<br>
++++ b/qga/vss-win32/meson.build<br>
+@@ -23,8 +23,6 @@ qga_vss =3D shared_module(<br>
+=C2=A0 =C2=A0]<br>
+=C2=A0)<br>
 <br>
-@@ -2907,6 +2909,7 @@ preserve_env PYTHON<br>
-=C2=A0preserve_env SDL2_CONFIG<br>
-=C2=A0preserve_env SMBD<br>
-=C2=A0preserve_env STRIP<br>
-+preserve_env WIDL<br>
-=C2=A0preserve_env WINDRES<br>
-<br>
-=C2=A0printf &quot;exec&quot; &gt;&gt;config.status<br>
+-all_qga +=3D qga_vss<br>
+-<br>
+=C2=A0if midl.found()<br>
+=C2=A0 =C2=A0gen_tlb =3D custom_target(&#39;gen-tlb&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0input: &#39;qga-vss.idl&#39;,<br>
+@@ -36,3 +34,5 @@ else<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0output: &#39;qga-vss.tlb&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0command: [widl, &#39;-t&#39;, &#39;@INPUT@&#39;, &#=
+39;-o&#39;, &#39;@OUTPUT@&#39;])<br>
+=C2=A0endif<br>
++<br>
++all_qga +=3D [ qga_vss, gen_tlb ]<br>
 -- <br>
 2.25.1<br>
 <br>
@@ -211,5 +178,5 @@ r>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000002a709605ddbbc8cb--
+--0000000000004069f905ddbbc97b--
 
