@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C696A5127F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 02:17:16 +0200 (CEST)
-Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71205512803
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 02:27:31 +0200 (CEST)
+Received: from localhost ([::1]:56774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njrqN-00030E-P0
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 20:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50520)
+	id 1njs0I-0005Xo-DM
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 20:27:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1njroj-00029B-OE
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 20:15:34 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34815)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1njrzJ-0004pS-E4; Wed, 27 Apr 2022 20:26:29 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:46006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1njroe-0000mG-JK
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 20:15:30 -0400
-Received: by mail-pg1-x534.google.com with SMTP id z21so2670054pgj.1
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 17:15:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5k+5iVwhWKZFB2CkTNwEaEB+W5leYsyoVLVhgSdZwms=;
- b=0xGCyu6itwb5qVQCcyFhG2CgUv3yYex4HBUboMcglCKQNL++tWhWzLy+fqzx3b5Dek
- q+ZAUfmqlC3WMnsFmd8jRFbxowpIBk8qbu835jrzOhQFjaMDNdOYncJJO5yPasGn4QnH
- /5X4eLYTVjZa9fttULkVVEMvu4WfxlBLZHNY+2pc4L4nFtigNY34FINoWBMswtW0Omnp
- Dh0WhIu6rU6JblEMasc6jv87PRmgxASHKgDhtOtaUqtnmNlkqkahiobWmpHxrg6qD4/5
- ABkbNZaj1udfJpsZDvJ9ouIpvpvRKZBmVIr1dCyi146ip8o+gki80+MRR4Vwj3EA3dzg
- E8aw==
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1njrzH-0002Ji-Iz; Wed, 27 Apr 2022 20:26:29 -0400
+Received: by mail-oi1-x230.google.com with SMTP id 12so3746319oix.12;
+ Wed, 27 Apr 2022 17:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=spPIX/SoCntMuGK9JpU1QH+WBZvdHfozKIaCjXawG9w=;
+ b=OzwrJ675UYtF59k508M/j8Xxkq9nQutDWc1WQcFTO3mppbkbDzFlk58Gjgaxuo1zuG
+ u/7nH/S5mzg/w7E+09i4k4S39YwPEmKEXLXRk4gY7LnslAiBQv4Lh+GGbRpxJcuJg4Ok
+ KEduCS/cr6Kb0Bqm0cU6pFy+/TtpBT2t3DIjCLHbyKmJN6l9bIgDDEIhLkCAiOTAHkbV
+ JWR/68pBov/facrwJSPcJBSOTmZpqccd2FjR4SUK4ZxkZoUJW+QzUsoiy0pF33CTErOw
+ 8A8WEU6K/4D4m6rHF198By2GwZfcW/X9POM0t0HTLiojph9Cdo5JSqzMu04Q/7hegYWS
+ R5pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5k+5iVwhWKZFB2CkTNwEaEB+W5leYsyoVLVhgSdZwms=;
- b=p9zAnSXYCZ245IM+kfnXzZhDlW50TiGnEsnWGMi4MMVK/3uqamcNYK2kwxN8esSf8C
- o6mFID9NalEGoZ1T2ZehpmjhTOoXUWHLXHejQJiHydtYf1NVBI4sKYyDHUplcrhu32E8
- PcB2LyhNoYCMnCmBq6N78sLZH+6lIHenenlN3HyEce+dwIvzYsmRjqGh58O9R43NxuEa
- d3xS/46d+U+cdBdllaN73h4P/TKBZRg7XvBa3BcSv6Xxuyn6oqlkEF8s/2VuPZCCOSWu
- T0yufPChY8QMDQDjXBzczW4m52zKpSt2DsDeFkpCz0UT2MBy1l0O2WFJKrlAXRj23A2o
- Qr6Q==
-X-Gm-Message-State: AOAM532hVT4QTz4ZmjzoWIdlwEfCY0JkEZdegsCwY9wbnYijxYxmQEzO
- DIKOXBGqy7dz36pvYlFkulZkzQ==
-X-Google-Smtp-Source: ABdhPJw9pgWStqHIH83XwPoXjzCOSPh4r9oVGvAs8q9yg+b8s9U4xqwSf08ZV4bDY3J+uMmLwLJe8Q==
-X-Received: by 2002:a05:6a00:10d0:b0:4f7:5af4:47b6 with SMTP id
- d16-20020a056a0010d000b004f75af447b6mr32107689pfu.6.1651104926225; 
- Wed, 27 Apr 2022 17:15:26 -0700 (PDT)
-Received: from FVFDK26JP3YV.usts.net ([139.177.225.230])
- by smtp.gmail.com with ESMTPSA id
- c136-20020a63358e000000b003c14af5063bsm472721pga.83.2022.04.27.17.15.24
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 27 Apr 2022 17:15:25 -0700 (PDT)
-From: Lei He <helei.sig11@bytedance.com>
-To: marcandre.lureau@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH] error-report: fix crash when compute iso8061 time
-Date: Thu, 28 Apr 2022 08:14:50 +0800
-Message-Id: <20220428001450.13997-1-helei.sig11@bytedance.com>
-X-Mailer: git-send-email 2.29.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=spPIX/SoCntMuGK9JpU1QH+WBZvdHfozKIaCjXawG9w=;
+ b=dIBUIsOOsMSW0EnzfwfinTxa9MAwVEZRQUtGY9NUbGQ7TbBkvuMQosYQVwaT0ZhGyK
+ MMOBU4z5Sucuwa3OxENhNgwSSRn+6XKAQm+CYqGELzzrDvY2RxbSfcU4If7aOMvQdb9i
+ g07T7wAzhAKDKills4ZyH1S8Qseyn/ERyiE2bt7hee8I79gM7E2L9gTAe2YreY0nNKCU
+ cB3AwhIGtelm05ftL+/XW7SjswnWimno7aCdVtC+SmiREOrdF3PsQQyz0Jom/0yOGbYU
+ 18FDg9niBeYwz4+oB9Zy63no2AOmq9VnvdtpItRGewu8PuoNyfmQ8wVzcMosTzhZkjFG
+ kvUQ==
+X-Gm-Message-State: AOAM532eB1yjtHNbLcm436azFaa3lsAfu4/cK4HaHpRC7At1s9ak0fwA
+ MtuBHu5laVG++NbmeFM7rXkafp3SA2Aj4eTrtio=
+X-Google-Smtp-Source: ABdhPJwLzvYUenZd2uyZ+xGTs/0Cp7+oItQPgBKYCIKne7YgUx2bwjBb90ATPr3t0O6Z45p8tC/F3+FBfEBrqR8i+4s=
+X-Received: by 2002:a05:6808:f87:b0:325:5428:2de5 with SMTP id
+ o7-20020a0568080f8700b0032554282de5mr6370745oiw.100.1651105585701; Wed, 27
+ Apr 2022 17:26:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=helei.sig11@bytedance.com; helo=mail-pg1-x534.google.com
+References: <20220323135722.1623-1-dmiller423@gmail.com>
+ <25e876da-c2ac-ad55-0830-6fe149e0691f@linux.ibm.com>
+ <6c44677b-50ee-5d4e-2aa6-d28f98142f49@redhat.com>
+In-Reply-To: <6c44677b-50ee-5d4e-2aa6-d28f98142f49@redhat.com>
+From: David Miller <dmiller423@gmail.com>
+Date: Wed, 27 Apr 2022 20:26:27 -0400
+Message-ID: <CAEgyohUkMpVog1HwgCeSvHHeVXjNPp8dcLaqKUTK4+0hn=na0w@mail.gmail.com>
+Subject: Re: [PATCH v5 00/11] s390x/tcg: Implement Vector-Enhancements
+ Facility 2
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=dmiller423@gmail.com; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,57 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lei He <helei.sig11@bytedance.com>
+Cc: Thomas Huth <thuth@redhat.com>, farman@linux.ibm.com, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_get_real_time() returns the number of MICROSECONDS since
-January 1, 1970 UTC, but g_date_time_new_from_unix_utc() expects
-a timestamp in SECONDS.
+I'm playing catch up a bit here,  as I was out sick for a few days.
+It would be very much appreciated if you could do so,  as I'm not
+familiar with what is required.
 
-Directly call g_data_time_new_from_unix_utc(g_get_real_time()) causes
-overflow and a NULL pointer is returned, then qemu crashes.
+Thanks
+- David Miller
 
-Use g_date_time_new_now_utc() instead, and add a check for NULL result.
-
-Signed-off-by: Lei He <helei.sig11@bytedance.com>
----
- util/error-report.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/util/error-report.c b/util/error-report.c
-index dbadaf206d..d3c150661d 100644
---- a/util/error-report.c
-+++ b/util/error-report.c
-@@ -173,10 +173,13 @@ static char *
- real_time_iso8601(void)
- {
- #if GLIB_CHECK_VERSION(2,62,0)
--    g_autoptr(GDateTime) dt = g_date_time_new_from_unix_utc(g_get_real_time());
-+    g_autoptr(GDateTime) dt = g_date_time_new_now_utc();
-     /* ignore deprecation warning, since GLIB_VERSION_MAX_ALLOWED is 2.56 */
- #pragma GCC diagnostic push
- #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-+    if (!dt) {
-+        return NULL;
-+    }
-     return g_date_time_format_iso8601(dt);
- #pragma GCC diagnostic pop
- #else
-@@ -199,8 +202,10 @@ static void vreport(report_type type, const char *fmt, va_list ap)
- 
-     if (message_with_timestamp && !monitor_cur()) {
-         timestr = real_time_iso8601();
--        error_printf("%s ", timestr);
--        g_free(timestr);
-+        if (timestr) {
-+            error_printf("%s ", timestr);
-+            g_free(timestr);
-+        }
-     }
- 
-     /* Only prepend guest name if -msg guest-name and -name guest=... are set */
--- 
-2.11.0
-
+On Mon, Apr 25, 2022 at 3:51 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 25.04.22 09:43, Christian Borntraeger wrote:
+> > Am 23.03.22 um 14:57 schrieb David Miller:
+> >> Implement Vector-Enhancements Facility 2 for s390x
+> >>
+> >> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+> >>
+> >> implements:
+> >>      VECTOR LOAD ELEMENTS REVERSED               (VLER)
+> >>      VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
+> >>      VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
+> >>      VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
+> >>      VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
+> >>      VECTOR STORE ELEMENTS REVERSED              (VSTER)
+> >>      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
+> >>      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
+> >>      VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
+> >>      VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
+> >>      VECTOR STRING SEARCH                        (VSTRS)
+> >>
+> >>      modifies:
+> >>      VECTOR FP CONVERT FROM FIXED                (VCFPS)
+> >>      VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
+> >>      VECTOR FP CONVERT TO FIXED                  (VCSFP)
+> >>      VECTOR FP CONVERT TO LOGICAL                (VCLFP)
+> >>      VECTOR SHIFT LEFT                           (VSL)
+> >>      VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
+> >>      VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
+> >>
+> >>
+> >> David Miller (9):
+> >>    tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+> >>    target/s390x: vxeh2: vector convert short/32b
+> >>    target/s390x: vxeh2: vector string search
+> >>    target/s390x: vxeh2: Update for changes to vector shifts
+> >>    target/s390x: vxeh2: vector shift double by bit
+> >>    target/s390x: vxeh2: vector {load, store} elements reversed
+> >>    target/s390x: vxeh2: vector {load, store} byte reversed elements
+> >>    target/s390x: vxeh2: vector {load, store} byte reversed element
+> >>    target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU model
+> >>    tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+> >>    target/s390x: Fix writeback to v1 in helper_vstl
+> >>
+> >> Richard Henderson (2):
+> >>    tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+> >>    target/s390x: Fix writeback to v1 in helper_vstl
+> >
+> >
+> > I guess we can now re-do this series against 7.1-devel (qemu/master) which does
+> > have the machine compat changes. Apart from that this should be ready now?
+> >
+>
+> Yes, I think so. I can respin with the proper compat changes if requested.
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
 
