@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F3151397B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 18:15:06 +0200 (CEST)
-Received: from localhost ([::1]:45084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E691F51398E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Apr 2022 18:17:59 +0200 (CEST)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nk6nJ-0005OT-AU
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 12:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56272)
+	id 1nk6q7-0007vw-2n
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 12:17:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5l3-0003Qu-0R
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:08:41 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:46315)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nk5vl-0005zh-Pi
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:19:45 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nk5l1-0002xu-7r
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:08:40 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2f7d19cac0bso56025937b3.13
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 08:08:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nk5vj-0004a1-QD
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 11:19:45 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id x12so4233679pgj.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 08:19:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E4sJdyzOZFuctR73Cgf43MKCMHXbivpIR6IAculxqb0=;
- b=iPOiSkGiJx+wcHOmkqVnNjxguxrh7jUy73qHN9PG6kKyIQNcPR6/AumTT2ekUVgfaG
- 6kI/hdSyvzvVoEjb+KZE6e9Ju5KFRT/fApuo/QGYo32RKd6qfFAFJ9nvmXV1YwS/lOiO
- tnu6Xir3mIbzlJLnQP4rbUD9/XBndSWwYzTD+4JPFIHsBPaggf//GNhyuhqg54ZF35BW
- dL5WnFkqUwL9TzkjLlSGo8hqTrN+2/oATfsQ/3VetX1Lw53vWLf43mtz7ceJf0zuBkhb
- JbxnxORfQ64hxsKYY79N2UqvwQkRwXRBKvO8OYlK+F61owpQu7vkwDRK6UPHQnQpIcgq
- piFg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=rs+sXY4Si2YvWzVA8ySoQvKVRKL3235O14vhHnV2DXo=;
+ b=iHqPaBvhUv5Ly+RWeJOBdi03P5+VUwaRPfr945ZUgjglAAY6vk6JX7li/qx/yJrE6o
+ g09nuv6KqSucSSfolSlisftdBq03Wi1VMHXuhmwywVD6Z0nXkXTTkimX201mB7oPQP1t
+ xN+xHf6YaBGyaYDQVOO7tol3DvnOPUpOxyVHS49qLMW69IMCGVwmtgYb7Do4SPu+f1/7
+ m6PTGVXXeiDI1TOVFaaTa8EKxD4UK182OPzQltiN7nFNurNE7HzzAf+ncmK36aqigIeC
+ TWowOYGGPqly7gCPSD5GR9KzD6wF1CdSneYLcYzucVxqbI1p6wR2FtTAExh8go/G0Eee
+ d5hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=E4sJdyzOZFuctR73Cgf43MKCMHXbivpIR6IAculxqb0=;
- b=d0Jt61agTCb8ma1PUssIUgO/YZv3/rmv7TEvVUYEXYMbwAvJG1eV2SRw9yp7wOnqie
- O4p3SG39Lom7DNi0Eg+Ng0NP9Nrg6ywLCMOvnIzIKhnu0Nk+Z4U1QYcfc5vh5f8qgk6x
- w9w2vodVMiMoPBeAHQGlV/WE/nVtsTc8FpmSwJnyxOjIbBLleMpN8PmE9mEGVkI2r75M
- vfhw0iNDgKMKA2YZ2Qgz1o1wLzM4k1Li8vTtZI2IgOpNb1rtwCQUA6JZRWVwFAMxGL6W
- VE8423GjSoMnmdENzZzqKRrqMUea73jGJ88aR13YoeC6tZ8IdGLwhAb+9ayUQOvaJZ5n
- T65w==
-X-Gm-Message-State: AOAM533TqTudxIs1XgIXHaKYApZktHF1P6BQL2fsWv+Gf69RXXxEdEKi
- Aja7bn3bak/I1agcS23DlcLkGpdNwFWu/hN2hnsZzA==
-X-Google-Smtp-Source: ABdhPJzJ7LUPzSFfMLQObnFYrnJmWS/tfolUGJx/+W905sMGWiuEAgXtTmxRAP0qrzp2B93q+w4/xOAHmsDV1Ge0vqM=
-X-Received: by 2002:a81:5584:0:b0:2f7:d7b6:d910 with SMTP id
- j126-20020a815584000000b002f7d7b6d910mr24439703ywb.469.1651158512016; Thu, 28
- Apr 2022 08:08:32 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rs+sXY4Si2YvWzVA8ySoQvKVRKL3235O14vhHnV2DXo=;
+ b=UrKNeCPaQBNp9OfV1OFKuNVmIh/1EOaUDQQhatEiZcb2HI4FgYENDX5jQU+3b0cbvI
+ N/11/BkCiZx6x96myq/wkMilC/sDnKQ3w6i2XfGpW2nov3BZT0j1zyM25pHHVPqJT1ey
+ eoZDL+OYkZgOP85YbfGKDAaGPqD11QRqnAxw8Ek1aPbJlnbSI39L+ecSSQy6b5LNMB/b
+ AtAHYWBsA/jT4S8QnjYe5T13fakfTSHp1Rka87ohWHTsIQbeJxS+WsdC/cQInZruo3Xl
+ 3hq1KimrwBY+/6/wkUnPdVQJU+1Byf0iocJ7xO1QVjZYmN1sJfsy+ojmsBjJ8D6SziLM
+ bQLA==
+X-Gm-Message-State: AOAM530Uo+jLdn6PDfaWvYg3ekBeVRX/WPxUmsciO8SGOAorreVerY4a
+ B/oFeyTzOmuw0/bNV29ocwoMoA==
+X-Google-Smtp-Source: ABdhPJwgk6RmuF4PRfUpeVG29shB/m8UoVw2k/yuonKBakQYB4hm1zDASo86menBAaQPS48fl5Ocmw==
+X-Received: by 2002:a65:6bd6:0:b0:39d:4f85:9ecf with SMTP id
+ e22-20020a656bd6000000b0039d4f859ecfmr29090856pgw.336.1651159182284; 
+ Thu, 28 Apr 2022 08:19:42 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ e12-20020a63e00c000000b003c14af505f9sm2836314pgh.17.2022.04.28.08.19.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 08:19:41 -0700 (PDT)
+Message-ID: <40272c05-c2d5-756e-5096-a05f53367095@linaro.org>
+Date: Thu, 28 Apr 2022 08:19:39 -0700
 MIME-Version: 1.0
-References: <CAFEAcA_X7d9-e+u3UpB5WvJrmJhhRKdw8EhUzCdFDNVfhFF8mg@mail.gmail.com>
- <2d9e3abd-99de-dc56-c6bd-93e54cd22b8e@redhat.com>
- <87zglee9w3.fsf@secure.mitica>
-In-Reply-To: <87zglee9w3.fsf@secure.mitica>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Apr 2022 16:08:20 +0100
-Message-ID: <CAFEAcA8rxwMmWm_CnFMG7407h5pTdPeVJVG8bJC9uryUZHDd_w@mail.gmail.com>
-Subject: Re: hang in migration-test (s390 host)
-To: quintela@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] target/arm: Enable SCTLR_EL1.BT0 for aarch64-linux-user
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220427042312.294300-1-richard.henderson@linaro.org>
+ <CAFEAcA-636wFtzEF56y8PcjcZy2J9RuNaw1nHMQ4Nsn_55ndCw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-636wFtzEF56y8PcjcZy2J9RuNaw1nHMQ4Nsn_55ndCw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,101 +89,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Mar 2022 at 08:04, Juan Quintela <quintela@redhat.com> wrote:
->
-> Laurent Vivier <lvivier@redhat.com> wrote:
-> > Perhaps Juan or Thomas can help too (added to cc)
-> >
-> > Is this a regression?
-> > It looks like a bug in QEMU as it doesn't move from cancelling to cancelled.
+On 4/28/22 05:56, Peter Maydell wrote:
+> On Wed, 27 Apr 2022 at 05:23, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> This controls whether the PACI{A,B}SP instructions trap with BTYPE=3
+>> (indirect branch from register other than x16/x17).  The linux kernel
+>> sets this in bti_enable().
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/998
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+>> --- a/tests/tcg/aarch64/Makefile.target
+>> +++ b/tests/tcg/aarch64/Makefile.target
+>> @@ -26,11 +26,11 @@ run-plugin-pauth-%: QEMU_OPTS += -cpu max
+>>   endif
+>>
+>>   # BTI Tests
+>> -# bti-1 tests the elf notes, so we require special compiler support.
+>> +# bti-1 test the elf notes, so we require special compiler support.
+> 
+> Did you intend to edit this comment line ?
+> 
+> Otherwise
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-I had a repeat of this hang (same machine), so here's the debug
-info I wasn't able to gather the first time round.
+Oops, no.  At one point I had bti-3 sharing this line, and following code, but it didn't work.
 
-> >> [Inferior 1 (process 2771497) detached]
-> >> ===========================================================
-> >> PROCESS: 2772862
-> >> gitlab-+ 2772862 2771497 99 Mar23 ?        18:45:28 ./qemu-system-i386
-> >> -qtest unix:/tmp/qtest-2771497.sock -qtest-log /dev/null -chardev
-> >> socket,path=/tmp/qtest-2771497.qmp,id=char0 -mon
-> >> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> >> source,debug-threads=on -m 150M -serial
-> >> file:/tmp/migration-test-f6G71L/src_serial -drive
-> >> file=/tmp/migration-test-f6G71L/bootsect,format=raw -accel qtest
->
-> Source of migration thread.
->
-> >> [New LWP 2772864]
-> >> [New LWP 2772866]
-> >> [New LWP 2772867]
-> >> [New LWP 2772915]
-> >> [Thread debugging using libthread_db enabled]
-> >> Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
-> >> 0x000003ff94ef1c9c in __ppoll (fds=0x2aa179a6f30, nfds=5,
-> >> timeout=<optimized out>, timeout@entry=0x3fff557b588,
-> >> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
-> >> 44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
-> >> Thread 5 (Thread 0x3ff1b7f6900 (LWP 2772915)):
-> >> #0  futex_abstimed_wait_cancelable (private=0, abstime=0x0, clockid=0,
-> >> expected=0, futex_word=0x2aa1881f634) at
-> >> ../sysdeps/nptl/futex-internal.h:320
-> >> #1  do_futex_wait (sem=sem@entry=0x2aa1881f630, abstime=0x0,
-> >> clockid=0) at sem_waitcommon.c:112
-> >> #2  0x000003ff95011870 in __new_sem_wait_slow
-> >> (sem=sem@entry=0x2aa1881f630, abstime=0x0, clockid=0) at
-> >> sem_waitcommon.c:184
-> >> #3  0x000003ff9501190e in __new_sem_wait (sem=sem@entry=0x2aa1881f630)
-> >> at sem_wait.c:42
-> >> #4  0x000002aa165b1416 in qemu_sem_wait (sem=sem@entry=0x2aa1881f630)
-> >> at ../util/qemu-thread-posix.c:358
-> >> #5  0x000002aa16023434 in multifd_send_sync_main (f=0x2aa17993760) at
-> >> ../migration/multifd.c:610
-> >> #6  0x000002aa162a8f18 in ram_save_iterate (f=0x2aa17993760,
-> >> opaque=<optimized out>) at ../migration/ram.c:3049
-> >> #7  0x000002aa1602bafc in qemu_savevm_state_iterate (f=0x2aa17993760,
-> >> postcopy=<optimized out>) at ../migration/savevm.c:1296
-> >> #8  0x000002aa1601fe4e in migration_iteration_run (s=0x2aa17748010) at
-> >> ../migration/migration.c:3607
-> >> #9  migration_thread (opaque=opaque@entry=0x2aa17748010) at
-> >> ../migration/migration.c:3838
-> >> #10 0x000002aa165b05c2 in qemu_thread_start (args=<optimized out>) at
-> >> ../util/qemu-thread-posix.c:556
-> >> #11 0x000003ff95007e66 in start_thread (arg=0x3ff1b7f6900) at
-> >> pthread_create.c:477
-> >> #12 0x000003ff94efcbf6 in thread_start () at
-> >> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
->
-> Migration main thread in multifd_send_sync_main(), waiting for the
-> semaphore in
->
->     for (i = 0; i < migrate_multifd_channels(); i++) {
->         MultiFDSendParams *p = &multifd_send_state->params[i];
->
->         trace_multifd_send_sync_main_wait(p->id);
->         qemu_sem_wait(&p->sem_sync);
->     }
->
-> Knowing the value of i would be great.  See the end of the email, I
-> think it is going to be 0.
-
-gdb says i is 1. Possibly the compiler has enthusiastically
-reordered the 'i++' above the qemu_sem_wait(), though.
-I tried to get gdb to tell me the value of migrate_multifd_channels(),
-but that was a mistake because gdb's attempt to execute code in
-the debuggee to answer that question did not work and left it
-in a state where it was broken and I had to kill it.
-
-Is there something we can put into either QEMU or the test
-case that will let us get some better information when this
-happens again ?
-
-thanks
--- PMM
+r~
 
