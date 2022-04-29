@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A3F515069
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:07:58 +0200 (CEST)
-Received: from localhost ([::1]:45318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BC9515079
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:11:23 +0200 (CEST)
+Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkT9x-0003N5-2C
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49514)
+	id 1nkTDG-0000W7-GX
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSr6-0007sW-Ta
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43766)
+ id 1nkSr9-00080z-5N
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSr4-0001bd-OC
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:28 -0400
+ id 1nkSr6-0001c4-AN
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651247306;
+ s=mimecast20190719; t=1651247307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=by3rNo+mF0HXBwB3JoxC/F3ve31H/ybHNfgq702Un+w=;
- b=C+SCPu4wRfjx9PGlZ2k4jtY7BHSQ3VAwz0ihCOyKyRgVNiWBZ3m+JP1mZBrrBi5DO4MaFb
- YwXsL+QIGfRWJwnXeAkXMIYaYJQo7BWxf3T//TYocPQq5SG20u2m/zCUYfBr58bNcuzoon
- G87Wlp/OgGYIpxkKvJ7Dz0cPgB+KJT8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oXFu73gALppvmr8yj2JONQC6MdXh396kpNmEv6Rk/AU=;
+ b=eFl5jQWLZaOx1KeifzfeJIHBTF3+x+cCAwCtBR5jgINEgi78dIjLt8/+bPHFTAcPpHcH8p
+ pmSRxVCQwE/gP33w1xy/9ZxwFyTUHTUNuhet76rsrIWGlG3QTXdoz9ZRZQ+fUXmDg9139U
+ 3hIDfuQxza9zn2N38/I637OxFyAxPNk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-OWoNFaZfPuu54RXdJxzDlw-1; Fri, 29 Apr 2022 11:48:22 -0400
-X-MC-Unique: OWoNFaZfPuu54RXdJxzDlw-1
+ us-mta-482-r8VR0ZgSM-Ouh0MouaBcNw-1; Fri, 29 Apr 2022 11:48:26 -0400
+X-MC-Unique: r8VR0ZgSM-Ouh0MouaBcNw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 494C83834C02;
- Fri, 29 Apr 2022 15:48:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD7CF101AA47;
+ Fri, 29 Apr 2022 15:48:25 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.192.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 328D4413707;
- Fri, 29 Apr 2022 15:48:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95EA3416363;
+ Fri, 29 Apr 2022 15:48:22 +0000 (UTC)
 From: Andrea Bolognani <abologna@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] qapi: Drop unnecessary empty lines outside of comments
-Date: Fri, 29 Apr 2022 17:47:56 +0200
-Message-Id: <20220429154758.354610-6-abologna@redhat.com>
+Subject: [PATCH 6/7] qapi: Drop unnecessary horizontal spacing in comments
+Date: Fri, 29 Apr 2022 17:47:57 +0200
+Message-Id: <20220429154758.354610-7-abologna@redhat.com>
 In-Reply-To: <20220429154758.354610-1-abologna@redhat.com>
 References: <20220429154758.354610-1-abologna@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,367 +89,504 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Care was taken not to break vertical alignment.
+
 Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 ---
- qapi/audio.json          |  1 -
- qapi/block-core.json     | 11 -----------
- qapi/block.json          |  3 ---
- qapi/char.json           |  1 -
- qapi/control.json        |  1 -
- qapi/crypto.json         | 12 ------------
- qapi/job.json            |  1 -
- qapi/machine-target.json |  1 -
- qapi/machine.json        |  1 -
- qapi/misc-target.json    |  4 ----
- qapi/run-state.json      |  1 -
- qapi/ui.json             |  1 -
- 12 files changed, 38 deletions(-)
+ qapi/block-core.json   | 62 +++++++++++++++++++++---------------------
+ qapi/block-export.json |  2 +-
+ qapi/block.json        |  2 +-
+ qapi/char.json         |  2 +-
+ qapi/control.json      | 10 +++----
+ qapi/crypto.json       | 44 +++++++++++++++---------------
+ qapi/dump.json         |  4 +--
+ qapi/machine.json      |  8 +++---
+ qapi/misc-target.json  |  6 ++--
+ qapi/misc.json         |  6 ++--
+ qapi/run-state.json    |  4 +--
+ qapi/sockets.json      |  6 ++--
+ qapi/ui.json           | 18 ++++++------
+ 13 files changed, 87 insertions(+), 87 deletions(-)
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 0785e70a50..8099e3d7f1 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -352,7 +352,6 @@
-     '*out':  'AudiodevPerDirectionOptions',
-     '*path': 'str' } }
- 
--
- ##
- # @AudioFormat:
- #
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 27832a1244..2bce5bb0ae 100644
+index 2bce5bb0ae..5fd66ea676 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -739,7 +739,6 @@
- ##
- { 'command': 'query-block', 'returns': ['BlockInfo'] }
- 
--
- ##
- # @BlockDeviceTimedStats:
+@@ -337,9 +337,9 @@
  #
-@@ -1512,7 +1511,6 @@
- { 'command': 'blockdev-snapshot-sync',
-   'data': 'BlockdevSnapshotSync' }
- 
--
- ##
- # @blockdev-snapshot:
+ # Cache mode information for a block device
  #
-@@ -1751,7 +1749,6 @@
- { 'command': 'blockdev-backup', 'boxed': true,
-   'data': 'BlockdevBackup' }
- 
--
- ##
- # @query-named-block-nodes:
+-# @writeback:   true if writeback mode is enabled
+-# @direct:      true if the host page cache is bypassed (O_DIRECT)
+-# @no-flush:    true if flush requests are ignored for the device
++# @writeback: true if writeback mode is enabled
++# @direct:    true if the host page cache is bypassed (O_DIRECT)
++# @no-flush:  true if flush requests are ignored for the device
  #
-@@ -3067,7 +3064,6 @@
-   'base': 'BlockdevOptionsGenericFormat',
-   'data': { '*key-secret': 'str' } }
- 
--
+ # Since: 2.3
  ##
- # @BlockdevOptionsGenericCOWFormat:
+@@ -604,7 +604,7 @@
+ # @inserted: @BlockDeviceInfo describing the device if media is
+ #            present
  #
-@@ -3182,8 +3178,6 @@
-   'base': 'BlockdevOptionsGenericCOWFormat',
-   'data': { '*encrypt': 'BlockdevQcowEncryption' } }
- 
--
--
+-# Since:  0.14
++# Since: 0.14
  ##
- # @BlockdevQcow2EncryptionFormat:
+ { 'struct': 'BlockInfo',
+   'data': {'device': 'str', '*qdev': 'str', 'type': 'str', 'removable': 'bool',
+@@ -795,9 +795,9 @@
  #
-@@ -3357,7 +3351,6 @@
-             '*user': 'str',
-             '*host-key-check': 'SshHostKeyCheck' } }
- 
--
+ # Statistics of a virtual block device or a block backing device.
+ #
+-# @rd_bytes:      The number of bytes read by the device.
++# @rd_bytes: The number of bytes read by the device.
+ #
+-# @wr_bytes:      The number of bytes written by the device.
++# @wr_bytes: The number of bytes written by the device.
+ #
+ # @unmap_bytes: The number of bytes unmapped by the device (Since 4.2)
+ #
+@@ -970,7 +970,7 @@
+ # @qdev: The qdev ID, or if no ID is assigned, the QOM path of the block
+ #        device. (since 3.0)
+ #
+-# @stats:  A @BlockDeviceStats for the device.
++# @stats: A @BlockDeviceStats for the device.
+ #
+ # @driver-specific: Optional driver-specific stats. (Since 4.2)
+ #
+@@ -1275,7 +1275,7 @@
+ #
+ # @node-name: graph node name to get the image resized (Since 2.0)
+ #
+-# @size:  new image size in bytes
++# @size: new image size in bytes
+ #
+ # Returns: - nothing on success
+ #          - If @device is not a valid block device, DeviceNotFound
+@@ -1960,8 +1960,8 @@
+ # @job-id: identifier for the newly-created block job. If
+ #          omitted, the device name will be used. (Since 2.7)
+ #
+-# @device:  the device name or node-name of a root node whose writes should be
+-#           mirrored.
++# @device: the device name or node-name of a root node whose writes should be
++#          mirrored.
+ #
+ # @target: the target of the new image. If the file exists, or if it
+ #          is a device, the existing file/device will be used as the new
+@@ -1981,7 +1981,7 @@
+ # @mode: whether and how QEMU should create a new image, default is
+ #        'absolute-paths'.
+ #
+-# @speed:  the maximum speed, in bytes per second
++# @speed: the maximum speed, in bytes per second
+ #
+ # @sync: what parts of the disk image should be copied to the destination
+ #        (all the disk, only the sectors allocated in the topmost image, or
+@@ -2296,7 +2296,7 @@
+ #            broken Quorum files.  By default, @device is replaced, although
+ #            implicitly created filters on it are kept.
+ #
+-# @speed:  the maximum speed, in bytes per second
++# @speed: the maximum speed, in bytes per second
+ #
+ # @sync: what parts of the disk image should be copied to the destination
+ #        (all the disk, only the sectors allocated in the topmost image, or
+@@ -3333,15 +3333,15 @@
  ##
- # @BlkdebugEvent:
+ # @BlockdevOptionsSsh:
  #
-@@ -3721,7 +3714,6 @@
-             '*header-digest': 'IscsiHeaderDigest',
-             '*timeout': 'int' } }
- 
--
+-# @server:              host address
++# @server:         host address
+ #
+-# @path:                path to the image on the host
++# @path:           path to the image on the host
+ #
+-# @user:                user as which to connect, defaults to current
+-#                       local user name
++# @user:           user as which to connect, defaults to current
++#                  local user name
+ #
+-# @host-key-check:      Defines how and what to check the host key against
+-#                       (default: known_hosts)
++# @host-key-check: Defines how and what to check the host key against
++#                  (default: known_hosts)
+ #
+ # Since: 2.9
  ##
- # @RbdAuthMode:
- #
-@@ -4564,7 +4556,6 @@
- { 'enum': 'BlockdevQcow2Version',
-   'data': [ 'v2', 'v3' ] }
- 
--
+@@ -4548,8 +4548,8 @@
  ##
- # @Qcow2CompressionType:
+ # @BlockdevQcow2Version:
  #
-@@ -4738,7 +4729,6 @@
-             '*toolsversion':    'str',
-             '*zeroed-grain':    'bool' } }
- 
--
+-# @v2:  The original QCOW2 format as introduced in qemu 0.10 (version 2)
+-# @v3:  The extended QCOW2 format as introduced in qemu 1.1 (version 3)
++# @v2: The original QCOW2 format as introduced in qemu 0.10 (version 2)
++# @v3: The extended QCOW2 format as introduced in qemu 1.1 (version 3)
+ #
+ # Since: 2.12
  ##
- # @BlockdevCreateOptionsSsh:
+@@ -4865,9 +4865,9 @@
+ # Starts a job to create an image format on a given node. The job is
+ # automatically finalized, but a manual job-dismiss is required.
  #
-@@ -4973,7 +4963,6 @@
- { 'enum': 'BlockErrorAction',
-   'data': [ 'ignore', 'report', 'stop' ] }
- 
--
+-# @job-id:          Identifier for the newly created job.
++# @job-id:  Identifier for the newly created job.
+ #
+-# @options:         Options for the image creation.
++# @options: Options for the image creation.
+ #
+ # Since: 3.0
  ##
- # @BLOCK_IMAGE_CORRUPTED:
+@@ -4905,7 +4905,7 @@
  #
+ # Options for amending an image format
+ #
+-# @driver:          Block driver of the node to amend.
++# @driver: Block driver of the node to amend.
+ #
+ # Since: 5.1
+ ##
+@@ -4923,17 +4923,17 @@
+ # Starts a job to amend format specific options of an existing open block device
+ # The job is automatically finalized, but a manual job-dismiss is required.
+ #
+-# @job-id:          Identifier for the newly created job.
++# @job-id:    Identifier for the newly created job.
+ #
+-# @node-name:       Name of the block node to work on
++# @node-name: Name of the block node to work on
+ #
+-# @options:         Options (driver specific)
++# @options:   Options (driver specific)
+ #
+-# @force:           Allow unsafe operations, format specific
+-#                   For luks that allows erase of the last active keyslot
+-#                   (permanent loss of data),
+-#                   and replacement of an active keyslot
+-#                   (possible loss of data if IO error happens)
++# @force:     Allow unsafe operations, format specific
++#             For luks that allows erase of the last active keyslot
++#             (permanent loss of data),
++#             and replacement of an active keyslot
++#             (possible loss of data if IO error happens)
+ #
+ # Features:
+ # @unstable: This command is experimental.
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index 1de16d2589..53013b03ff 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -387,7 +387,7 @@
+ #                 block-export-del command, but before the shutdown has
+ #                 completed)
+ #
+-# Since:  5.2
++# Since: 5.2
+ ##
+ { 'struct': 'BlockExportInfo',
+   'data': { 'id': 'str',
 diff --git a/qapi/block.json b/qapi/block.json
-index 5de15c6070..41b73c9934 100644
+index 41b73c9934..96f557b3bb 100644
 --- a/qapi/block.json
 +++ b/qapi/block.json
-@@ -286,7 +286,6 @@
-   'data': { 'id': 'str',
-             'node-name': 'str'} }
- 
--
- ##
- # @BlockdevChangeReadOnlyMode:
+@@ -106,7 +106,7 @@
+ # Returns: - Nothing on success
+ #          - If @device is not a valid block device, DeviceNotFound
  #
-@@ -304,7 +303,6 @@
- { 'enum': 'BlockdevChangeReadOnlyMode',
-   'data': ['retain', 'read-only', 'read-write'] }
- 
--
- ##
- # @blockdev-change-medium:
+-# Notes:    Ejecting a device with no media results in success
++# Notes: Ejecting a device with no media results in success
  #
-@@ -375,7 +373,6 @@
-             '*force': 'bool',
-             '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
- 
--
- ##
- # @DEVICE_TRAY_MOVED:
+ # Since: 0.14
  #
 diff --git a/qapi/char.json b/qapi/char.json
-index f0fd0d1c9f..8414ef2bc2 100644
+index 8414ef2bc2..a40fe4b7bd 100644
 --- a/qapi/char.json
 +++ b/qapi/char.json
-@@ -329,7 +329,6 @@
-   'data': { '*signal': 'bool' },
-   'base': 'ChardevCommon' }
- 
--
- ##
- # @ChardevSpiceChannel:
+@@ -216,7 +216,7 @@
  #
+ # Configuration info for file chardevs.
+ #
+-# @in:  The name of the input file
++# @in: The name of the input file
+ # @out: The name of the output file
+ # @append: Open the file in append mode (default false to
+ #          truncate) (Since 2.6)
 diff --git a/qapi/control.json b/qapi/control.json
-index 8c9122ef7a..53461cec05 100644
+index 53461cec05..7107f55db3 100644
 --- a/qapi/control.json
 +++ b/qapi/control.json
-@@ -68,7 +68,6 @@
- { 'struct': 'VersionTriple',
-   'data': {'major': 'int', 'minor': 'int', 'micro': 'int'} }
- 
--
- ##
- # @VersionInfo:
+@@ -192,14 +192,14 @@
  #
+ # Options to be used for adding a new monitor.
+ #
+-# @id:          Name of the monitor
++# @id:      Name of the monitor
+ #
+-# @mode:        Selects the monitor mode (default: readline in the system
+-#               emulator, control in qemu-storage-daemon)
++# @mode:    Selects the monitor mode (default: readline in the system
++#           emulator, control in qemu-storage-daemon)
+ #
+-# @pretty:      Enables pretty printing (QMP only)
++# @pretty:  Enables pretty printing (QMP only)
+ #
+-# @chardev:     Name of a character device to expose the monitor on
++# @chardev: Name of a character device to expose the monitor on
+ #
+ # Since: 5.0
+ ##
 diff --git a/qapi/crypto.json b/qapi/crypto.json
-index aebe390ab7..ff33e1fe1f 100644
+index ff33e1fe1f..5c442a0c36 100644
 --- a/qapi/crypto.json
 +++ b/qapi/crypto.json
-@@ -24,7 +24,6 @@
-   'prefix': 'QCRYPTO_TLS_CREDS_ENDPOINT',
-   'data': ['client', 'server']}
- 
--
- ##
- # @QCryptoSecretFormat:
+@@ -311,8 +311,8 @@
  #
-@@ -39,7 +38,6 @@
-   'prefix': 'QCRYPTO_SECRET_FORMAT',
-   'data': ['raw', 'base64']}
- 
--
- ##
- # @QCryptoHashAlgorithm:
+ # Defines state of keyslots that are affected by the update
  #
-@@ -59,7 +57,6 @@
-   'prefix': 'QCRYPTO_HASH_ALG',
-   'data': ['md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'ripemd160']}
- 
--
- ##
- # @QCryptoCipherAlgorithm:
+-# @active:    The slots contain the given password and marked as active
+-# @inactive:  The slots are erased (contain garbage) and marked as inactive
++# @active:   The slots contain the given password and marked as active
++# @inactive: The slots are erased (contain garbage) and marked as inactive
  #
-@@ -88,7 +85,6 @@
-            'serpent-128', 'serpent-192', 'serpent-256',
-            'twofish-128', 'twofish-192', 'twofish-256']}
- 
--
+ # Since: 5.1
  ##
- # @QCryptoCipherMode:
+@@ -325,32 +325,32 @@
+ # This struct defines the update parameters that activate/de-activate set
+ # of keyslots
  #
-@@ -105,7 +101,6 @@
-   'prefix': 'QCRYPTO_CIPHER_MODE',
-   'data': ['ecb', 'cbc', 'xts', 'ctr']}
- 
--
- ##
- # @QCryptoIVGenAlgorithm:
+-# @state: the desired state of the keyslots
++# @state:      the desired state of the keyslots
  #
-@@ -181,7 +176,6 @@
- { 'struct': 'QCryptoBlockOptionsLUKS',
-   'data': { '*key-secret': 'str' }}
- 
--
- ##
- # @QCryptoBlockCreateOptionsLUKS:
+-# @new-secret:    The ID of a QCryptoSecret object providing the password to be
+-#                 written into added active keyslots
++# @new-secret: The ID of a QCryptoSecret object providing the password to be
++#              written into added active keyslots
  #
-@@ -212,7 +206,6 @@
-             '*hash-alg': 'QCryptoHashAlgorithm',
-             '*iter-time': 'int'}}
- 
--
- ##
- # @QCryptoBlockOpenOptions:
+-# @old-secret:    Optional (for deactivation only)
+-#                 If given will deactivate all keyslots that
+-#                 match password located in QCryptoSecret with this ID
++# @old-secret: Optional (for deactivation only)
++#              If given will deactivate all keyslots that
++#              match password located in QCryptoSecret with this ID
  #
-@@ -227,7 +220,6 @@
-   'data': { 'qcow': 'QCryptoBlockOptionsQCow',
-             'luks': 'QCryptoBlockOptionsLUKS' } }
- 
--
- ##
- # @QCryptoBlockCreateOptions:
+-# @iter-time:     Optional (for activation only)
+-#                 Number of milliseconds to spend in
+-#                 PBKDF passphrase processing for the newly activated keyslot.
+-#                 Currently defaults to 2000.
++# @iter-time:  Optional (for activation only)
++#              Number of milliseconds to spend in
++#              PBKDF passphrase processing for the newly activated keyslot.
++#              Currently defaults to 2000.
  #
-@@ -242,7 +234,6 @@
-   'data': { 'qcow': 'QCryptoBlockOptionsQCow',
-             'luks': 'QCryptoBlockCreateOptionsLUKS' } }
- 
--
- ##
- # @QCryptoBlockInfoBase:
+-# @keyslot:       Optional. ID of the keyslot to activate/deactivate.
+-#                 For keyslot activation, keyslot should not be active already
+-#                 (this is unsafe to update an active keyslot),
+-#                 but possible if 'force' parameter is given.
+-#                 If keyslot is not given, first free keyslot will be written.
++# @keyslot:    Optional. ID of the keyslot to activate/deactivate.
++#              For keyslot activation, keyslot should not be active already
++#              (this is unsafe to update an active keyslot),
++#              but possible if 'force' parameter is given.
++#              If keyslot is not given, first free keyslot will be written.
  #
-@@ -256,7 +247,6 @@
- { 'struct': 'QCryptoBlockInfoBase',
-   'data': { 'format': 'QCryptoBlockFormat' }}
- 
--
- ##
- # @QCryptoBlockInfoLUKSSlot:
+-#                 For keyslot deactivation, this parameter specifies the exact
+-#                 keyslot to deactivate
++#              For keyslot deactivation, this parameter specifies the exact
++#              keyslot to deactivate
  #
-@@ -276,7 +266,6 @@
-            '*stripes': 'int',
-            'key-offset': 'int' } }
- 
--
- ##
- # @QCryptoBlockInfoLUKS:
+-# @secret:        Optional. The ID of a QCryptoSecret object providing the
+-#                 password to use to retrieve current master key.
+-#                 Defaults to the same secret that was used to open the image
++# @secret:     Optional. The ID of a QCryptoSecret object providing the
++#              password to use to retrieve current master key.
++#              Defaults to the same secret that was used to open the image
  #
-@@ -330,7 +319,6 @@
- { 'enum': 'QCryptoBlockLUKSKeyslotState',
-   'data': [ 'active', 'inactive' ] }
- 
--
+ # Since 5.1
  ##
- # @QCryptoBlockAmendOptionsLUKS:
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 29441af9d8..90859c5483 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -186,8 +186,8 @@
  #
-diff --git a/qapi/job.json b/qapi/job.json
-index 1a6ef03451..d5f84e9615 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -173,7 +173,6 @@
- ##
- { 'command': 'job-cancel', 'data': { 'id': 'str' } }
- 
--
- ##
- # @job-complete:
+ # Returns the available formats for dump-guest-memory
  #
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index f5ec4bc172..06b0d2ca61 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -54,7 +54,6 @@
- { 'enum': 'CpuModelExpansionType',
-   'data': [ 'static', 'full' ] }
- 
--
- ##
- # @CpuModelCompareResult:
+-# Returns:  A @DumpGuestMemoryCapability object listing available formats for
+-#           dump-guest-memory
++# Returns: A @DumpGuestMemoryCapability object listing available formats for
++#          dump-guest-memory
+ #
+ # Since: 2.0
  #
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 20b1f0c748..9f91e46e8b 100644
+index 9f91e46e8b..6c120eb1bb 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -1363,7 +1363,6 @@
- { 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
-   'data': { '*id': 'str', 'size': 'size', 'qom-path' : 'str'} }
- 
--
- ##
- # @MEM_UNPLUG_ERROR:
+@@ -315,9 +315,9 @@
+ # query-current-machine), wake-up guest from suspend if the guest is
+ # in SUSPENDED state. Return an error otherwise.
+ #
+-# Since:  1.1
++# Since: 1.1
+ #
+-# Returns:  nothing.
++# Returns: nothing.
+ #
+ # Note: prior to 4.0, this command does nothing in case the guest
+ #       isn't suspended.
+@@ -368,9 +368,9 @@
+ # Injects a Non-Maskable Interrupt into the default CPU (x86/s390) or all CPUs (ppc64).
+ # The command fails when the guest doesn't support injecting.
+ #
+-# Returns:  If successful, nothing
++# Returns: If successful, nothing
+ #
+-# Since:  0.14
++# Since: 0.14
+ #
+ # Note: prior to 2.1, this command was only supported for x86 and s390 VMs
  #
 diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index ae2c483a68..2fa68a6796 100644
+index 2fa68a6796..4944c0528f 100644
 --- a/qapi/misc-target.json
 +++ b/qapi/misc-target.json
-@@ -21,7 +21,6 @@
- { 'command': 'rtc-reset-reinjection',
-   'if': 'TARGET_I386' }
- 
--
- ##
- # @SevState:
+@@ -136,9 +136,9 @@
+ # The struct describes capability for a Secure Encrypted Virtualization
+ # feature.
  #
-@@ -101,7 +100,6 @@
- { 'command': 'query-sev', 'returns': 'SevInfo',
-   'if': 'TARGET_I386' }
- 
--
- ##
- # @SevLaunchMeasureInfo:
+-# @pdh:  Platform Diffie-Hellman key (base64 encoded)
++# @pdh: Platform Diffie-Hellman key (base64 encoded)
  #
-@@ -132,7 +130,6 @@
- { 'command': 'query-sev-launch-measure', 'returns': 'SevLaunchMeasureInfo',
-   'if': 'TARGET_I386' }
- 
--
- ##
- # @SevCapability:
+-# @cert-chain:  PDH certificate chain (base64 encoded)
++# @cert-chain: PDH certificate chain (base64 encoded)
  #
-@@ -304,7 +301,6 @@
- { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
-   'if': 'TARGET_ARM' }
- 
--
- ##
- # @SGXEPCSection:
+ # @cpu0-id: Unique ID of CPU0 (base64 encoded) (since 7.1)
  #
+@@ -201,7 +201,7 @@
+ # The struct describes attestation report for a Secure Encrypted
+ # Virtualization feature.
+ #
+-# @data:  guest attestation report (base64 encoded)
++# @data: guest attestation report (base64 encoded)
+ #
+ # Since: 6.1
+ ##
+diff --git a/qapi/misc.json b/qapi/misc.json
+index b83cc39029..6aec6bdbf3 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -136,7 +136,7 @@
+ #
+ # Stop all guest VCPU execution.
+ #
+-# Since:  0.14
++# Since: 0.14
+ #
+ # Notes: This function will succeed even if the guest is already in the stopped
+ #        state.  In "inmigrate" state, it will ensure that the guest
+@@ -156,9 +156,9 @@
+ #
+ # Resume guest VCPU execution.
+ #
+-# Since:  0.14
++# Since: 0.14
+ #
+-# Returns:  If successful, nothing
++# Returns: If successful, nothing
+ #
+ # Notes: This command will succeed if the guest is currently running.  It
+ #        will also succeed if the guest is in the "inmigrate" state; in
 diff --git a/qapi/run-state.json b/qapi/run-state.json
-index a5d2db3b91..30a2f5231d 100644
+index 30a2f5231d..6e2162d7b3 100644
 --- a/qapi/run-state.json
 +++ b/qapi/run-state.json
-@@ -597,7 +597,6 @@
-   'data': [ 'hypervisor',
-             'guest' ] }
- 
--
- ##
- # @MemoryFailureAction:
+@@ -104,7 +104,7 @@
  #
+ # @status: the virtual machine @RunState
+ #
+-# Since:  0.14
++# Since: 0.14
+ #
+ # Notes: @singlestep is enabled through the GDB stub
+ ##
+@@ -118,7 +118,7 @@
+ #
+ # Returns: @StatusInfo reflecting all VCPUs
+ #
+-# Since:  0.14
++# Since: 0.14
+ #
+ # Example:
+ #
+diff --git a/qapi/sockets.json b/qapi/sockets.json
+index fccc38584b..bad74e34d3 100644
+--- a/qapi/sockets.json
++++ b/qapi/sockets.json
+@@ -167,9 +167,9 @@
+ #
+ # Available SocketAddress types
+ #
+-# @inet:  Internet address
++# @inet: Internet address
+ #
+-# @unix:  Unix domain socket
++# @unix: Unix domain socket
+ #
+ # @vsock: VMCI address
+ #
+@@ -189,7 +189,7 @@
+ # Captures the address of a socket, which could also be a named file
+ # descriptor
+ #
+-# @type:       Transport type
++# @type: Transport type
+ #
+ # Since: 2.9
+ ##
 diff --git a/qapi/ui.json b/qapi/ui.json
-index 0e903340fc..9f19beea6d 100644
+index 9f19beea6d..15c3f790a6 100644
 --- a/qapi/ui.json
 +++ b/qapi/ui.json
-@@ -128,7 +128,6 @@
+@@ -1018,8 +1018,8 @@
  #
- # Since: 7.0
+ # Keyboard input event.
+ #
+-# @key:    Which key this event is for.
+-# @down:   True for key-down and false for key-up events.
++# @key:  Which key this event is for.
++# @down: True for key-down and false for key-up events.
+ #
+ # Since: 2.0
  ##
--
- { 'struct': 'ExpirePasswordOptionsVnc',
-   'data': { '*display': 'str' } }
- 
+@@ -1260,7 +1260,7 @@
+ #
+ # Curses display options.
+ #
+-# @charset:       Font charset used by guest (default: CP437).
++# @charset: Font charset used by guest (default: CP437).
+ #
+ # Since: 4.0
+ ##
+@@ -1353,12 +1353,12 @@
+ #
+ # Display (user interface) options.
+ #
+-# @type:          Which DisplayType qemu should use.
+-# @full-screen:   Start user interface in fullscreen mode (default: off).
+-# @window-close:  Allow to quit qemu with window close button (default: on).
+-# @show-cursor:   Force showing the mouse cursor (default: off).
+-#                 (since: 5.0)
+-# @gl:            Enable OpenGL support (default: off).
++# @type:         Which DisplayType qemu should use.
++# @full-screen:  Start user interface in fullscreen mode (default: off).
++# @window-close: Allow to quit qemu with window close button (default: on).
++# @show-cursor:  Force showing the mouse cursor (default: off).
++#                (since: 5.0)
++# @gl:           Enable OpenGL support (default: off).
+ #
+ # Since: 2.12
+ ##
 -- 
 2.35.1
 
