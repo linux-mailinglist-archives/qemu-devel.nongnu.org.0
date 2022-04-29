@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43DA5147F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:19:02 +0200 (CEST)
-Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B5B5147F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:19:09 +0200 (CEST)
+Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkOeL-0000Uw-GT
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:19:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37144)
+	id 1nkOeS-0000vn-Gz
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b322ab298a62069e527d2b032028bdc9115afacd@lizzy.crudebyte.com>)
- id 1nkO6D-00071T-VJ; Fri, 29 Apr 2022 06:43:46 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:60357)
+ (envelope-from <34f81e9bffd7a3e65fb7aab5b56c107bd0aac960@lizzy.crudebyte.com>)
+ id 1nkO6K-0007BZ-8U; Fri, 29 Apr 2022 06:43:52 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:55657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b322ab298a62069e527d2b032028bdc9115afacd@lizzy.crudebyte.com>)
- id 1nkO6C-000876-DA; Fri, 29 Apr 2022 06:43:45 -0400
+ (envelope-from <34f81e9bffd7a3e65fb7aab5b56c107bd0aac960@lizzy.crudebyte.com>)
+ id 1nkO6I-00088n-Gi; Fri, 29 Apr 2022 06:43:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=h5gEMFKynyRupF+CalLbdJKoS+M1CM7mAUU/pFySbx4=; b=MEL0j
- lgM07e3DRm5qSz0EiUGapzxiAuLyVe0NaVWA5nxJGF8jpvTsGyMBo4/hxU9pc/zICzo239b6kiBDZ
- U6+lJwYZIaBoLKroefMob6ddXAdY+ruE9jwqWNl06D8xu7J+ZIusVKQ5ASDHeYogA2uSJUvfvuGtD
- NkiwsXWRpkCXX8wB7BHPfmyBEpOREdQZwSPuKqMPQ9afrA49ogj8Gl1T1dNIGggnFQ82uq+LCjwhj
- lfHJQTP92XVKYCZmxOYsnCY4c/O8p+1hIRUj7ENX0cvTsCItkxZ5b9NRkR1Fuveb/NP0CIvLMxxX3
- TR0bc9W0TRXiaP8mS/JoTq3DvHmgA==;
-Message-Id: <b322ab298a62069e527d2b032028bdc9115afacd.1651228001.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=zIrDZd4x8Db0Bp3YUnjhpQ8lXXOO3jEp+5fUqSQpDeA=; b=gBLpY
+ sDTcaAhrTn0ztOpbKsu/uZCArDUSGbUwzyZz1wUtclLysKzmWyDXaWm3XmbCbbpu/I2sXqV0+wwp+
+ g/7TGMI+Gkrbs/pJI+6+ojvhBRwVttWn9Kjf+tsXU2N+ox90nBtScizHeB1/ZO4PE70d2SugIOGGu
+ 1f51FUJpX7o9ackJm+aWyA4jCjWLh9l0CtcuxMJpZxSgktfFYCQq6eU6M/edzn4fceQHiCexBiN81
+ zkdPonGEp13VjppG81mdYzv6TvrhypgLN1PDsUVnw01qA/j+GElVPvEFGMLNXZHzU3GUY0ULwhe1S
+ 91VO/WCtAE/7EZv3EE8EegzGyI4pQ==;
+Message-Id: <34f81e9bffd7a3e65fb7aab5b56c107bd0aac960.1651228001.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1651228000.git.qemu_oss@crudebyte.com>
 References: <cover.1651228000.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 29 Apr 2022 12:25:18 +0200
-Subject: [PATCH v5 4/6] 9pfs: fix wrong errno being sent to Linux client on
+Date: Fri, 29 Apr 2022 12:25:22 +0200
+Subject: [PATCH v5 5/6] 9pfs: fix removing non-existent POSIX ACL xattr on
  macOS host
 To: qemu-devel@nongnu.org
 Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
@@ -41,7 +41,7 @@ Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
  Keno Fischer <keno@juliacomputing.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=b322ab298a62069e527d2b032028bdc9115afacd@lizzy.crudebyte.com;
+ envelope-from=34f81e9bffd7a3e65fb7aab5b56c107bd0aac960@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,97 +64,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux and macOS only share some errno definitions with equal macro
-name and value. In fact most mappings for errno are completely
-different on the two systems.
+When mapped POSIX ACL is used, we are ignoring errors when trying
+to remove a POSIX ACL xattr that does not exist. On Linux hosts we
+would get ENODATA in such cases, on macOS hosts however we get
+ENOATTR instead.
 
-This patch converts some important errno values from macOS host to
-corresponding Linux errno values before eventually sending such error
-codes along with 'Rlerror' replies (if 9p2000.L is used that is). Not
-having translated errnos before violated the 9p2000.L protocol spec,
-which says:
+As we can be sure that ENOATTR is defined as being identical on Linux
+hosts (at least by qemu/xattr.h), it is safe to fix this issue by
+simply comparing against ENOATTR instead of ENODATA.
 
-  "
-  size[4] Rlerror tag[2] ecode[4]
+This patch fixes e.g. a command on Linux guest like:
 
-  ... ecode is a numerical Linux errno.
-  "
-
-  https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
-
-This patch fixes a bunch of misbehaviours when running a Linux client
-on macOS host. For instance this patch fixes:
-
-  mount -t 9p -o posixacl ...
-
-on Linux guest if security_mode=mapped was used for 9p server, which
-refused to mount successfully, because macOS returned ENOATTR==93
-when client tried to retrieve POSIX ACL xattrs, because errno 93
-is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
-that xattrs were not supported by filesystem on host in general.
+  cp --preserve=mode old new
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Link: https://lore.kernel.org/qemu-devel/20220421124835.3e664669@bahia/
+Link: https://lore.kernel.org/qemu-devel/2866993.yOYK24bMf6@silver/
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/9pfs/9p-util.h | 30 ++++++++++++++++++++++++++++++
- hw/9pfs/9p.c      |  2 ++
- 2 files changed, 32 insertions(+)
+ hw/9pfs/9p-posix-acl.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 2cc9a5dbfb..c3526144c9 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -58,6 +58,36 @@ static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
- #endif
- }
+diff --git a/hw/9pfs/9p-posix-acl.c b/hw/9pfs/9p-posix-acl.c
+index eadae270dd..4b2cb3c66c 100644
+--- a/hw/9pfs/9p-posix-acl.c
++++ b/hw/9pfs/9p-posix-acl.c
+@@ -65,7 +65,11 @@ static int mp_pacl_removexattr(FsContext *ctx,
+     int ret;
  
-+/* Translates errno from host -> Linux if needed */
-+static inline int errno_to_dotl(int err) {
-+#if defined(CONFIG_LINUX)
-+    /* nothing to translate (Linux -> Linux) */
-+#elif defined(CONFIG_DARWIN)
+     ret = local_removexattr_nofollow(ctx, path, MAP_ACL_ACCESS);
+-    if (ret == -1 && errno == ENODATA) {
 +    /*
-+     * translation mandatory for macOS hosts
-+     *
-+     * FIXME: Only most important errnos translated here yet, this should be
-+     * extended to as many errnos being translated as possible in future.
++     * macOS returns ENOATTR (!=ENODATA on macOS), whereas Linux returns
++     * ENODATA (==ENOATTR on Linux), so checking for ENOATTR is fine
 +     */
-+    if (err == ENAMETOOLONG) {
-+        err = 36; /* ==ENAMETOOLONG on Linux */
-+    } else if (err == ENOTEMPTY) {
-+        err = 39; /* ==ENOTEMPTY on Linux */
-+    } else if (err == ELOOP) {
-+        err = 40; /* ==ELOOP on Linux */
-+    } else if (err == ENOATTR) {
-+        err = 61; /* ==ENODATA on Linux */
-+    } else if (err == ENOTSUP) {
-+        err = 95; /* ==EOPNOTSUPP on Linux */
-+    } else if (err == EOPNOTSUPP) {
-+        err = 95; /* ==EOPNOTSUPP on Linux */
-+    }
-+#else
-+#error Missing errno translation to Linux for this host system
-+#endif
-+    return err;
-+}
-+
- #ifdef CONFIG_DARWIN
- #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
- #define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 4a296a0b94..0cd0c14c2a 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -1054,6 +1054,8 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu, ssize_t len)
-             }
-             len += ret;
-             id = P9_RERROR;
-+        } else {
-+            err = errno_to_dotl(err);
-         }
++    if (ret == -1 && errno == ENOATTR) {
+         /*
+          * We don't get ENODATA error when trying to remove a
+          * posix acl that is not present. So don't throw the error
+@@ -115,7 +119,11 @@ static int mp_dacl_removexattr(FsContext *ctx,
+     int ret;
  
-         ret = pdu_marshal(pdu, len, "d", err);
+     ret = local_removexattr_nofollow(ctx, path, MAP_ACL_DEFAULT);
+-    if (ret == -1 && errno == ENODATA) {
++    /*
++     * macOS returns ENOATTR (!=ENODATA on macOS), whereas Linux returns
++     * ENODATA (==ENOATTR on Linux), so checking for ENOATTR is fine
++     */
++    if (ret == -1 && errno == ENOATTR) {
+         /*
+          * We don't get ENODATA error when trying to remove a
+          * posix acl that is not present. So don't throw the error
 -- 
 2.32.0 (Apple Git-132)
 
