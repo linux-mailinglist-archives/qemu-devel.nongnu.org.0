@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95955150B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:24:37 +0200 (CEST)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929435150CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:27:53 +0200 (CEST)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkTPv-000700-S2
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49294)
+	id 1nkTTE-0003p3-3K
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSqr-0007Sf-51
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43048)
+ id 1nkSqy-0007Wc-I8
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSqo-0001Ys-89
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:11 -0400
+ id 1nkSqv-0001aD-Ko
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651247289;
+ s=mimecast20190719; t=1651247297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=N22mtZCNisbNhbgrJgdMTCFSqzG5OOPG+LUCQ2L3FYo=;
- b=X1vedkDkaNrAL0fBNCbpg6SmLu2fJZNEQdIgRkSV9q7nwcthejbzC75DK/16fW/F1g1MZZ
- 6gi6gnTCZ41gJWn3BceyrgXeVyS8vwtC3tmv6/+L+wMR7Uaqir92lDPxlTkFe6iEajlNhA
- eMkzLGf9oMY2FQHlZB0QSerc9JkX1Ss=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l+XivAVPFP1NJ0txrweu9kkDDANRpXtza2o9q7rfxJU=;
+ b=DcoOg5PpIghYZVynuYXhAcgopCN/3GIbkx7AEorokM2xxqS5Sds/WjK6uqGvjNaRVl/S1P
+ 0mQiPgGsDQUukH8YTe90PzXm98fzMD04ehcLSYtAUJSGefCJPztUUTjZD38YWxYKjBAO9X
+ amzwu5L5Yq+47F2qC4AOGB8hPfHxKqg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-O4lnNblCO_qT_k_OLklg2w-1; Fri, 29 Apr 2022 11:48:05 -0400
-X-MC-Unique: O4lnNblCO_qT_k_OLklg2w-1
+ us-mta-433-iGXdI9F7Ndu3AhLjhaPiTg-1; Fri, 29 Apr 2022 11:48:15 -0400
+X-MC-Unique: iGXdI9F7Ndu3AhLjhaPiTg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CEAA1066543;
- Fri, 29 Apr 2022 15:48:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5464B3834C02;
+ Fri, 29 Apr 2022 15:48:15 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.192.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B8D54538B0;
- Fri, 29 Apr 2022 15:48:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43474416363;
+ Fri, 29 Apr 2022 15:48:12 +0000 (UTC)
 From: Andrea Bolognani <abologna@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] qapi: Primarily whitespace tweaks
-Date: Fri, 29 Apr 2022 17:47:51 +0200
-Message-Id: <20220429154758.354610-1-abologna@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH 3/7] qapi: Add missing separators between sections
+Date: Fri, 29 Apr 2022 17:47:54 +0200
+Message-Id: <20220429154758.354610-4-abologna@redhat.com>
+In-Reply-To: <20220429154758.354610-1-abologna@redhat.com>
+References: <20220429154758.354610-1-abologna@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,43 +89,174 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The last patch could very reasonably be squashed into the previous=0D
-one, but since the changes could be considered more controversial I=0D
-thought it would be better if the two could be reviewed and judged=0D
-separately.=0D
-=0D
-Andrea Bolognani (7):=0D
-  qapi: Drop stray trailing symbol=0D
-  qapi: Fix comment indentation=0D
-  qapi: Add missing separators between sections=0D
-  qapi: Drop unnecessary empty lines in comments=0D
-  qapi: Drop unnecessary empty lines outside of comments=0D
-  qapi: Drop unnecessary horizontal spacing in comments=0D
-  qapi: Drop more unnecessary horizontal spacing in comments=0D
-=0D
- qapi/audio.json          |  1 -=0D
- qapi/block-core.json     | 97 ++++++++++++++++++----------------------=0D
- qapi/block-export.json   |  2 +-=0D
- qapi/block.json          | 13 +++---=0D
- qapi/char.json           | 10 ++---=0D
- qapi/common.json         |  2 -=0D
- qapi/control.json        | 13 +++---=0D
- qapi/crypto.json         | 62 ++++++++++++-------------=0D
- qapi/dump.json           |  4 +-=0D
- qapi/job.json            |  1 -=0D
- qapi/machine-target.json |  1 -=0D
- qapi/machine.json        | 12 +++--=0D
- qapi/migration.json      | 19 ++++----=0D
- qapi/misc-target.json    | 13 ++----=0D
- qapi/misc.json           |  6 +--=0D
- qapi/replay.json         |  1 -=0D
- qapi/run-state.json      | 10 ++---=0D
- qapi/sockets.json        |  6 +--=0D
- qapi/ui.json             | 70 ++++++++++-------------------=0D
- 19 files changed, 136 insertions(+), 207 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+---
+ qapi/block-core.json | 5 +++++
+ qapi/block.json      | 1 +
+ qapi/crypto.json     | 7 +++++++
+ qapi/machine.json    | 1 +
+ qapi/migration.json  | 4 ++++
+ 5 files changed, 18 insertions(+)
+
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b66494e8c5..34dae298ee 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1744,6 +1744,7 @@
+ # Since: 2.3
+ #
+ # Example:
++#
+ # -> { "execute": "blockdev-backup",
+ #      "arguments": { "device": "src-id",
+ #                     "sync": "full",
+@@ -2008,6 +2009,7 @@
+ # @on-target-error: the action to take on an error on the target,
+ #                   default 'report' (no limitations, since this applies to
+ #                   a different block device than @device).
++#
+ # @unmap: Whether to try to unmap target sectors where source has
+ #         only zero. If true, and target unallocated sectors will read as zero,
+ #         target image sectors will be unmapped; otherwise, zeroes will be
+@@ -2029,6 +2031,7 @@
+ #                When true, this job will automatically disappear from the query
+ #                list without user intervention.
+ #                Defaults to true. (Since 3.1)
++#
+ # Since: 1.3
+ ##
+ { 'struct': 'DriveMirror',
+@@ -2342,6 +2345,7 @@
+ #                When true, this job will automatically disappear from the query
+ #                list without user intervention.
+ #                Defaults to true. (Since 3.1)
++#
+ # Returns: nothing on success.
+ #
+ # Since: 2.6
+@@ -4139,6 +4143,7 @@
+ # @throttle-group: the name of the throttle-group object to use. It
+ #                  must already exist.
+ # @file: reference to or definition of the data source block device
++#
+ # Since: 2.11
+ ##
+ { 'struct': 'BlockdevOptionsThrottle',
+diff --git a/qapi/block.json b/qapi/block.json
+index 3f100d4887..e0f7898ed1 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -105,6 +105,7 @@
+ #
+ # Returns: - Nothing on success
+ #          - If @device is not a valid block device, DeviceNotFound
++#
+ # Notes:    Ejecting a device with no media results in success
+ #
+ # Since: 0.14
+diff --git a/qapi/crypto.json b/qapi/crypto.json
+index 1ec54c15ca..829e70a168 100644
+--- a/qapi/crypto.json
++++ b/qapi/crypto.json
+@@ -32,6 +32,7 @@
+ #
+ # @raw: raw bytes. When encoded in JSON only valid UTF-8 sequences can be used
+ # @base64: arbitrary base64 encoded binary data
++#
+ # Since: 2.6
+ ##
+ { 'enum': 'QCryptoSecretFormat',
+@@ -51,6 +52,7 @@
+ # @sha384: SHA-384. (since 2.7)
+ # @sha512: SHA-512. (since 2.7)
+ # @ripemd160: RIPEMD-160. (since 2.7)
++#
+ # Since: 2.6
+ ##
+ { 'enum': 'QCryptoHashAlgorithm',
+@@ -75,6 +77,7 @@
+ # @twofish-128: Twofish with 128 bit / 16 byte keys
+ # @twofish-192: Twofish with 192 bit / 24 byte keys
+ # @twofish-256: Twofish with 256 bit / 32 byte keys
++#
+ # Since: 2.6
+ ##
+ { 'enum': 'QCryptoCipherAlgorithm',
+@@ -95,6 +98,7 @@
+ # @cbc: Cipher Block Chaining
+ # @xts: XEX with tweaked code book and ciphertext stealing
+ # @ctr: Counter (Since 2.8)
++#
+ # Since: 2.6
+ ##
+ { 'enum': 'QCryptoCipherMode',
+@@ -114,6 +118,7 @@
+ # @plain: 64-bit sector number truncated to 32-bits
+ # @plain64: 64-bit sector number
+ # @essiv: 64-bit sector number encrypted with a hash of the encryption key
++#
+ # Since: 2.6
+ ##
+ { 'enum': 'QCryptoIVGenAlgorithm',
+@@ -170,6 +175,7 @@
+ # @key-secret: the ID of a QCryptoSecret object providing the
+ #              decryption key. Mandatory except when probing image for
+ #              metadata only.
++#
+ # Since: 2.6
+ ##
+ { 'struct': 'QCryptoBlockOptionsLUKS',
+@@ -194,6 +200,7 @@
+ # @iter-time: number of milliseconds to spend in
+ #             PBKDF passphrase processing. Currently defaults
+ #             to 2000. (since 2.8)
++#
+ # Since: 2.6
+ ##
+ { 'struct': 'QCryptoBlockCreateOptionsLUKS',
+diff --git a/qapi/machine.json b/qapi/machine.json
+index d25a481ce4..9ec17b3992 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -299,6 +299,7 @@
+ #        returning does not indicate that a guest has accepted the request or
+ #        that it has shut down.  Many guests will respond to this command by
+ #        prompting the user in some way.
++#
+ # Example:
+ #
+ # -> { "execute": "system_powerdown" }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 409eb086a2..fc1c157d3f 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1422,7 +1422,9 @@
+ # @state: The state the migration is currently expected to be in
+ #
+ # Returns: nothing on success
++#
+ # Since: 2.11
++#
+ # Example:
+ #
+ # -> { "execute": "migrate-continue" , "arguments":
+@@ -1736,6 +1738,7 @@
+ # Since: 4.2
+ #
+ # Example:
++#
+ # <- { "event": "UNPLUG_PRIMARY",
+ #      "data": { "device-id": "hostdev0" },
+ #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+@@ -1845,6 +1848,7 @@
+ # Since: 5.2
+ #
+ # Example:
++#
+ #   {"execute": "calc-dirty-rate", "arguments": {"calc-time": 1,
+ #                                                'sample-pages': 512} }
+ #
+-- 
+2.35.1
 
 
