@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7451B5146D5
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 12:36:12 +0200 (CEST)
-Received: from localhost ([::1]:60594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA3F51479B
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 12:53:28 +0200 (CEST)
+Received: from localhost ([::1]:41266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkNyt-0001A2-GH
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 06:36:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58476)
+	id 1nkOFb-0001FU-6e
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 06:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nkNXx-0008D1-1e
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:08:21 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46522 helo=loongson.cn)
+ id 1nkNer-0006Tw-JJ
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:15:32 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49018 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nkNXu-00034O-2m
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:08:20 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nkNen-00042I-5E
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:15:29 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb9vhuGtiZicDAA--.14518S42; 
- Fri, 29 Apr 2022 18:08:03 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb9vhuGtiZicDAA--.14518S43; 
+ Fri, 29 Apr 2022 18:08:04 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 40/43] hw/loongarch: Add LoongArch ls7a acpi device support
-Date: Fri, 29 Apr 2022 18:07:26 +0800
-Message-Id: <20220429100729.1572481-41-yangxiaojuan@loongson.cn>
+Subject: [PATCH v3 41/43] target/loongarch: Add gdb support.
+Date: Fri, 29 Apr 2022 18:07:27 +0800
+Message-Id: <20220429100729.1572481-42-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
 References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxb9vhuGtiZicDAA--.14518S42
-X-Coremail-Antispam: 1UD129KBjvAXoW3ur1UCFy3Cry3GF4rCF4kJFb_yoW8AF15Wo
- W2gFZ8Gw4xJw1IkrWFkw1UuFWxXrWkKa15AFWfGF4qk3WIvr4UJF9xKwn5Xw1ftF4FkFyr
- Za4fXryfA34xJFykn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-TRANSID: AQAAf9Dxb9vhuGtiZicDAA--.14518S43
+X-Coremail-Antispam: 1UD129KBjvJXoWfJry7ArWDZr43GF1fWF1DAwb_yoWkKw1xpF
+ 93C34DJr4Ig392yrW7A3s09Fn8Arn7Ca1SvF1fX340k3yjgFW8Xwn5t3sxZrWUGayrXryj
+ gFZa9a1rGa15JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -63,584 +63,294 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- MAINTAINERS                |   2 +
- hw/acpi/Kconfig            |   4 +
- hw/acpi/ls7a.c             | 374 +++++++++++++++++++++++++++++++++++++
- hw/acpi/meson.build        |   1 +
- hw/loongarch/Kconfig       |   2 +
- hw/loongarch/loongson3.c   |  19 +-
- include/hw/acpi/ls7a.h     |  53 ++++++
- include/hw/pci-host/ls7a.h |   6 +
- 8 files changed, 458 insertions(+), 3 deletions(-)
- create mode 100644 hw/acpi/ls7a.c
- create mode 100644 include/hw/acpi/ls7a.h
+ MAINTAINERS                             |  1 +
+ configs/targets/loongarch64-softmmu.mak |  1 +
+ gdb-xml/loongarch-base64.xml            | 44 ++++++++++++++
+ gdb-xml/loongarch-fpu64.xml             | 57 +++++++++++++++++
+ target/loongarch/cpu.c                  |  9 +++
+ target/loongarch/gdbstub.c              | 81 +++++++++++++++++++++++++
+ target/loongarch/internals.h            |  4 ++
+ target/loongarch/meson.build            |  1 +
+ 8 files changed, 198 insertions(+)
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
+ create mode 100644 target/loongarch/gdbstub.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7969004b91..18d06bb859 100644
+index 18d06bb859..e123f3026c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1138,6 +1138,8 @@ F: include/hw/intc/loongarch_*.h
- F: hw/intc/loongarch_*.c
- F: include/hw/pci-host/ls7a.h
+@@ -1140,6 +1140,7 @@ F: include/hw/pci-host/ls7a.h
  F: hw/rtc/ls7a_rtc.c
-+F: include/hw/acpi/ls7a.h
-+F: hw/acpi/ls7a.c
+ F: include/hw/acpi/ls7a.h
+ F: hw/acpi/ls7a.c
++F: gdb-xml/loongarch*.xml
  
  M68K Machines
  -------------
-diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-index 19caebde6c..ff9ceb2259 100644
---- a/hw/acpi/Kconfig
-+++ b/hw/acpi/Kconfig
-@@ -12,6 +12,10 @@ config ACPI_X86
-     select ACPI_PCIHP
-     select ACPI_ERST
- 
-+config ACPI_LOONGARCH
-+    bool
-+    select ACPI
-+
- config ACPI_X86_ICH
-     bool
-     select ACPI_X86
-diff --git a/hw/acpi/ls7a.c b/hw/acpi/ls7a.c
+diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+index 666154022f..7bc06c850c 100644
+--- a/configs/targets/loongarch64-softmmu.mak
++++ b/configs/targets/loongarch64-softmmu.mak
+@@ -1,3 +1,4 @@
+ TARGET_ARCH=loongarch64
+ TARGET_BASE_ARCH=loongarch
+ TARGET_SUPPORTS_MTTCG=y
++TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
+diff --git a/gdb-xml/loongarch-base64.xml b/gdb-xml/loongarch-base64.xml
 new file mode 100644
-index 0000000000..cc658422dd
+index 0000000000..4962bdbd28
 --- /dev/null
-+++ b/hw/acpi/ls7a.c
-@@ -0,0 +1,374 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
++++ b/gdb-xml/loongarch-base64.xml
+@@ -0,0 +1,44 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2021 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.loongarch.base">
++  <reg name="r0" bitsize="64" type="uint64" group="general"/>
++  <reg name="r1" bitsize="64" type="uint64" group="general"/>
++  <reg name="r2" bitsize="64" type="uint64" group="general"/>
++  <reg name="r3" bitsize="64" type="uint64" group="general"/>
++  <reg name="r4" bitsize="64" type="uint64" group="general"/>
++  <reg name="r5" bitsize="64" type="uint64" group="general"/>
++  <reg name="r6" bitsize="64" type="uint64" group="general"/>
++  <reg name="r7" bitsize="64" type="uint64" group="general"/>
++  <reg name="r8" bitsize="64" type="uint64" group="general"/>
++  <reg name="r9" bitsize="64" type="uint64" group="general"/>
++  <reg name="r10" bitsize="64" type="uint64" group="general"/>
++  <reg name="r11" bitsize="64" type="uint64" group="general"/>
++  <reg name="r12" bitsize="64" type="uint64" group="general"/>
++  <reg name="r13" bitsize="64" type="uint64" group="general"/>
++  <reg name="r14" bitsize="64" type="uint64" group="general"/>
++  <reg name="r15" bitsize="64" type="uint64" group="general"/>
++  <reg name="r16" bitsize="64" type="uint64" group="general"/>
++  <reg name="r17" bitsize="64" type="uint64" group="general"/>
++  <reg name="r18" bitsize="64" type="uint64" group="general"/>
++  <reg name="r19" bitsize="64" type="uint64" group="general"/>
++  <reg name="r20" bitsize="64" type="uint64" group="general"/>
++  <reg name="r21" bitsize="64" type="uint64" group="general"/>
++  <reg name="r22" bitsize="64" type="uint64" group="general"/>
++  <reg name="r23" bitsize="64" type="uint64" group="general"/>
++  <reg name="r24" bitsize="64" type="uint64" group="general"/>
++  <reg name="r25" bitsize="64" type="uint64" group="general"/>
++  <reg name="r26" bitsize="64" type="uint64" group="general"/>
++  <reg name="r27" bitsize="64" type="uint64" group="general"/>
++  <reg name="r28" bitsize="64" type="uint64" group="general"/>
++  <reg name="r29" bitsize="64" type="uint64" group="general"/>
++  <reg name="r30" bitsize="64" type="uint64" group="general"/>
++  <reg name="r31" bitsize="64" type="uint64" group="general"/>
++  <reg name="pc" bitsize="64" type="code_ptr" group="general"/>
++  <reg name="badvaddr" bitsize="64" type="code_ptr" group="general"/>
++</feature>
+diff --git a/gdb-xml/loongarch-fpu64.xml b/gdb-xml/loongarch-fpu64.xml
+new file mode 100644
+index 0000000000..e52cf89fbc
+--- /dev/null
++++ b/gdb-xml/loongarch-fpu64.xml
+@@ -0,0 +1,57 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2021 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.loongarch.fpu">
++
++  <union id="fpu64type">
++    <field name="f" type="ieee_single"/>
++    <field name="d" type="ieee_double"/>
++  </union>
++
++  <reg name="f0" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f1" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f2" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f3" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f4" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f5" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f6" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f7" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f8" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f9" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f10" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f11" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f12" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f13" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f14" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f15" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f16" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f17" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f18" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f19" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f20" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f21" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f22" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f23" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f24" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f25" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f26" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f27" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f28" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f29" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f30" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f31" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="fcc0" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc1" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc2" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc3" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc4" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc5" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc6" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc7" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcsr" bitsize="32" type="uint32" group="float"/>
++</feature>
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 6c98b07b5e..9177ffaee5 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -481,6 +481,8 @@ static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    loongarch_cpu_register_gdb_regs_for_features(cs);
++
+     cpu_reset(cs);
+     qemu_init_vcpu(cs);
+ 
+@@ -634,6 +636,13 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+     dc->vmsd = &vmstate_loongarch_cpu;
+     cc->sysemu_ops = &loongarch_sysemu_ops;
+     cc->disas_set_info = loongarch_cpu_disas_set_info;
++    cc->gdb_read_register = loongarch_cpu_gdb_read_register;
++    cc->gdb_write_register = loongarch_cpu_gdb_write_register;
++    cc->disas_set_info = loongarch_cpu_disas_set_info;
++    cc->gdb_num_core_regs = 34;
++    cc->gdb_core_xml_file = "loongarch-base64.xml";
++    cc->gdb_stop_before_watchpoint = true;
++
+ #ifdef CONFIG_TCG
+     cc->tcg_ops = &loongarch_tcg_ops;
+ #endif
+diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
+new file mode 100644
+index 0000000000..0c48834201
+--- /dev/null
++++ b/target/loongarch/gdbstub.c
+@@ -0,0 +1,81 @@
 +/*
-+ * LoongArch ACPI implementation
++ * LOONGARCH gdb server stub
 + *
-+ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
 + */
 +
 +#include "qemu/osdep.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/hw.h"
-+#include "hw/irq.h"
-+#include "sysemu/reset.h"
-+#include "sysemu/runstate.h"
-+#include "hw/acpi/acpi.h"
-+#include "hw/acpi/ls7a.h"
-+#include "hw/nvram/fw_cfg.h"
-+#include "qemu/config-file.h"
-+#include "qapi/opts-visitor.h"
-+#include "qapi/qapi-events-run-state.h"
-+#include "qapi/error.h"
-+#include "hw/pci-host/ls7a.h"
-+#include "hw/mem/pc-dimm.h"
-+#include "hw/mem/nvdimm.h"
-+#include "migration/vmstate.h"
++#include "cpu.h"
++#include "internals.h"
++#include "exec/gdbstub.h"
 +
-+static void ls7a_pm_update_sci_fn(ACPIREGS *regs)
++int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
-+    LS7APMState *pm = container_of(regs, LS7APMState, acpi_regs);
-+    acpi_update_sci(&pm->acpi_regs, pm->irq);
-+}
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
 +
-+static uint64_t ls7a_gpe_readb(void *opaque, hwaddr addr, unsigned width)
-+{
-+    LS7APMState *pm = opaque;
-+    return acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
-+}
-+
-+static void ls7a_gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
-+                            unsigned width)
-+{
-+    LS7APMState *pm = opaque;
-+    acpi_gpe_ioport_writeb(&pm->acpi_regs, addr, val);
-+    acpi_update_sci(&pm->acpi_regs, pm->irq);
-+}
-+
-+static const MemoryRegionOps ls7a_gpe_ops = {
-+    .read = ls7a_gpe_readb,
-+    .write = ls7a_gpe_writeb,
-+    .valid.min_access_size = 1,
-+    .valid.max_access_size = 8,
-+    .impl.min_access_size = 1,
-+    .impl.max_access_size = 1,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+#define VMSTATE_GPE_ARRAY(_field, _state)                            \
-+ {                                                                   \
-+     .name       = (stringify(_field)),                              \
-+     .version_id = 0,                                                \
-+     .num        = ACPI_GPE0_LEN,                                    \
-+     .info       = &vmstate_info_uint8,                              \
-+     .size       = sizeof(uint8_t),                                  \
-+     .flags      = VMS_ARRAY | VMS_POINTER,                          \
-+     .offset     = vmstate_offset_pointer(_state, _field, uint8_t),  \
-+ }
-+
-+static uint64_t ls7a_reset_readw(void *opaque, hwaddr addr, unsigned width)
-+{
++    if (0 <= n && n < 32) {
++        return gdb_get_regl(mem_buf, env->gpr[n]);
++    } else if (n == 32) {
++        return gdb_get_regl(mem_buf, env->pc);
++    } else if (n == 33) {
++        return gdb_get_regl(mem_buf, env->badaddr);
++    }
 +    return 0;
 +}
 +
-+static void ls7a_reset_writew(void *opaque, hwaddr addr, uint64_t val,
-+                              unsigned width)
++int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
 +{
-+    if (val & 1) {
-+        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+        return;
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    target_ulong tmp = ldtul_p(mem_buf);
++    int length = 0;
++
++    if (0 <= n && n < 32) {
++        env->gpr[n] = tmp;
++        length = sizeof(target_ulong);
++    } else if (n == 32) {
++        env->pc = tmp;
++        length = sizeof(target_ulong);
 +    }
++    return length;
 +}
 +
-+static const MemoryRegionOps ls7a_reset_ops = {
-+    .read = ls7a_reset_readw,
-+    .write = ls7a_reset_writew,
-+    .valid.min_access_size = 4,
-+    .valid.max_access_size = 4,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+const VMStateDescription vmstate_ls7a_pm = {
-+    .name = "ls7a_pm",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT16(acpi_regs.pm1.evt.sts, LS7APMState),
-+        VMSTATE_UINT16(acpi_regs.pm1.evt.en, LS7APMState),
-+        VMSTATE_UINT16(acpi_regs.pm1.cnt.cnt, LS7APMState),
-+        VMSTATE_TIMER_PTR(acpi_regs.tmr.timer, LS7APMState),
-+        VMSTATE_INT64(acpi_regs.tmr.overflow_time, LS7APMState),
-+        VMSTATE_GPE_ARRAY(acpi_regs.gpe.sts, LS7APMState),
-+        VMSTATE_GPE_ARRAY(acpi_regs.gpe.en, LS7APMState),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
-+static inline int64_t acpi_pm_tmr_get_clock(void)
++static int loongarch_gdb_get_fpu(CPULoongArchState *env,
++                                 GByteArray *mem_buf, int n)
 +{
-+    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), PM_TIMER_FREQUENCY,
-+                    NANOSECONDS_PER_SECOND);
-+}
-+
-+static uint32_t acpi_pm_tmr_get(ACPIREGS *ar)
-+{
-+    uint32_t d = acpi_pm_tmr_get_clock();
-+    return d & 0xffffff;
-+}
-+
-+static void acpi_pm_tmr_timer(void *opaque)
-+{
-+    ACPIREGS *ar = opaque;
-+    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_PMTIMER, NULL);
-+    ar->tmr.update_sci(ar);
-+}
-+
-+static uint64_t acpi_pm_tmr_read(void *opaque, hwaddr addr, unsigned width)
-+{
-+    return acpi_pm_tmr_get(opaque);
-+}
-+
-+static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
-+                              unsigned width)
-+{
-+}
-+
-+static const MemoryRegionOps acpi_pm_tmr_ops = {
-+    .read = acpi_pm_tmr_read,
-+    .write = acpi_pm_tmr_write,
-+    .valid.min_access_size = 4,
-+    .valid.max_access_size = 4,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void ls7a_pm_tmr_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
-+                             MemoryRegion *parent, uint64_t offset)
-+{
-+    ar->tmr.update_sci = update_sci;
-+    ar->tmr.timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, acpi_pm_tmr_timer, ar);
-+    memory_region_init_io(&ar->tmr.io, memory_region_owner(parent),
-+                          &acpi_pm_tmr_ops, ar, "acpi-tmr", 4);
-+    memory_region_add_subregion(parent, offset, &ar->tmr.io);
-+}
-+
-+static void acpi_pm1_evt_write_sts(ACPIREGS *ar, uint16_t val)
-+{
-+    uint16_t pm1_sts = acpi_pm1_evt_get_sts(ar);
-+    if (pm1_sts & val & ACPI_BITMASK_TIMER_STATUS) {
-+        /* if TMRSTS is reset, then compute the new overflow time */
-+        acpi_pm_tmr_calc_overflow_time(ar);
++    if (0 <= n && n < 32) {
++        return gdb_get_reg64(mem_buf, env->fpr[n]);
++    } else if (32 <= n && n < 40) {
++        return gdb_get_reg8(mem_buf, env->cf[n - 32]);
++    } else if (n == 40) {
++        return gdb_get_reg32(mem_buf, env->fcsr0);
 +    }
-+    ar->pm1.evt.sts &= ~val;
++    return 0;
 +}
 +
-+static uint64_t acpi_pm_evt_read(void *opaque, hwaddr addr, unsigned width)
++static int loongarch_gdb_set_fpu(CPULoongArchState *env,
++                                 uint8_t *mem_buf, int n)
 +{
-+    ACPIREGS *ar = opaque;
-+    switch (addr) {
-+    case 0:
-+        return acpi_pm1_evt_get_sts(ar);
-+    case 4:
-+        return ar->pm1.evt.en;
-+    default:
-+        return 0;
++    int length = 0;
++
++    if (0 <= n && n < 32) {
++        env->fpr[n] = ldq_p(mem_buf);
++        length = 8;
++    } else if (32 <= n && n < 40) {
++        env->cf[n - 32] = ldub_p(mem_buf);
++        length = 1;
++    } else if (n == 40) {
++        env->fcsr0 = ldl_p(mem_buf);
++        length = 4;
 +    }
++    return length;
 +}
 +
-+static void acpi_pm1_evt_write_en(ACPIREGS *ar, uint16_t val)
++void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs)
 +{
-+    ar->pm1.evt.en = val;
-+    qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_RTC,
-+                              val & ACPI_BITMASK_RT_CLOCK_ENABLE);
-+    qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_PMTIMER,
-+                              val & ACPI_BITMASK_TIMER_ENABLE);
++    gdb_register_coprocessor(cs, loongarch_gdb_get_fpu, loongarch_gdb_set_fpu,
++                             41, "loongarch-fpu64.xml", 0);
 +}
-+
-+static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
-+                              unsigned width)
-+{
-+    ACPIREGS *ar = opaque;
-+    switch (addr) {
-+    case 0:
-+        acpi_pm1_evt_write_sts(ar, val);
-+        ar->pm1.evt.update_sci(ar);
-+        break;
-+    case 4:
-+        acpi_pm1_evt_write_en(ar, val);
-+        ar->pm1.evt.update_sci(ar);
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps acpi_pm_evt_ops = {
-+    .read = acpi_pm_evt_read,
-+    .write = acpi_pm_evt_write,
-+    .valid.min_access_size = 1,
-+    .valid.max_access_size = 4,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void ls7a_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
-+                              MemoryRegion *parent, uint64_t offset)
-+{
-+    ar->pm1.evt.update_sci = update_sci;
-+    memory_region_init_io(&ar->pm1.evt.io, memory_region_owner(parent),
-+                          &acpi_pm_evt_ops, ar, "acpi-evt", 8);
-+    memory_region_add_subregion(parent, offset, &ar->pm1.evt.io);
-+}
-+
-+static uint64_t acpi_pm_cnt_read(void *opaque, hwaddr addr, unsigned width)
-+{
-+    ACPIREGS *ar = opaque;
-+    return ar->pm1.cnt.cnt;
-+}
-+
-+/* ACPI PM1aCNT */
-+static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
-+{
-+    ar->pm1.cnt.cnt = val & ~(ACPI_BITMASK_SLEEP_ENABLE);
-+
-+    if (val & ACPI_BITMASK_SLEEP_ENABLE) {
-+        /* Change suspend type */
-+        uint16_t sus_typ = (val >> 10) & 7;
-+        switch (sus_typ) {
-+        /* Not support s3 s4 yet */
-+        case 7: /* Soft power off */
-+            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+            break;
-+        default:
-+            break;
-+        }
-+    }
-+}
-+
-+static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
-+                              unsigned width)
-+{
-+    acpi_pm1_cnt_write(opaque, val);
-+}
-+
-+static const MemoryRegionOps acpi_pm_cnt_ops = {
-+    .read = acpi_pm_cnt_read,
-+    .write = acpi_pm_cnt_write,
-+    .valid.min_access_size = 1,
-+    .valid.max_access_size = 4,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void acpi_notify_wakeup(Notifier *notifier, void *data)
-+{
-+    ACPIREGS *ar = container_of(notifier, ACPIREGS, wakeup);
-+    WakeupReason *reason = data;
-+
-+    switch (*reason) {
-+    case QEMU_WAKEUP_REASON_RTC:
-+        ar->pm1.evt.sts |=
-+            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_RT_CLOCK_STATUS);
-+        break;
-+    case QEMU_WAKEUP_REASON_PMTIMER:
-+        ar->pm1.evt.sts |=
-+            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_TIMER_STATUS);
-+        break;
-+    case QEMU_WAKEUP_REASON_OTHER:
-+        /*
-+         * ACPI_BITMASK_WAKE_STATUS should be set on resume.
-+         * Pretend that resume was caused by power button
-+         */
-+        ar->pm1.evt.sts |=
-+            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_POWER_BUTTON_STATUS);
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static void ls7a_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
-+                              uint64_t offset)
-+{
-+    ar->wakeup.notify = acpi_notify_wakeup;
-+    qemu_register_wakeup_notifier(&ar->wakeup);
-+    memory_region_init_io(&ar->pm1.cnt.io, memory_region_owner(parent),
-+                          &acpi_pm_cnt_ops, ar, "acpi-cnt", 4);
-+    memory_region_add_subregion(parent, offset, &ar->pm1.cnt.io);
-+}
-+
-+static void ls7a_pm_reset(DeviceState *d)
-+{
-+    LS7APMState *pm = LS7A_PM(d);
-+
-+    acpi_pm1_evt_reset(&pm->acpi_regs);
-+    acpi_pm1_cnt_reset(&pm->acpi_regs);
-+    acpi_pm_tmr_reset(&pm->acpi_regs);
-+    acpi_gpe_reset(&pm->acpi_regs);
-+
-+    acpi_update_sci(&pm->acpi_regs, pm->irq);
-+}
-+
-+static void pm_powerdown_req(Notifier *n, void *opaque)
-+{
-+    LS7APMState *pm = container_of(n, LS7APMState, powerdown_notifier);
-+
-+    acpi_pm1_evt_power_down(&pm->acpi_regs);
-+}
-+
-+void ls7a_pm_init(DeviceState *ls7a_pm, qemu_irq pm_irq)
-+{
-+    LS7APMState *pm = LS7A_PM(ls7a_pm);
-+    pm->irq = pm_irq;
-+}
-+
-+static void ls7a_pm_realize(DeviceState *dev, Error **errp)
-+{
-+    LS7APMState *pm = LS7A_PM(dev);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+
-+    /*
-+     * ls7a board acpi hardware info, including
-+     * acpi system io base address
-+     * acpi gpe length
-+     * acpi sci irq number
-+     */
-+
-+    memory_region_init(&pm->iomem, OBJECT(pm), "ls7a_pm", ACPI_IO_SIZE);
-+    sysbus_init_mmio(sbd, &pm->iomem);
-+
-+    ls7a_pm_tmr_init(&pm->acpi_regs, ls7a_pm_update_sci_fn,
-+                     &pm->iomem, LS7A_PM_TMR_BLK);
-+    ls7a_pm1_evt_init(&pm->acpi_regs, ls7a_pm_update_sci_fn,
-+                      &pm->iomem, LS7A_PM_EVT_BLK);
-+    ls7a_pm1_cnt_init(&pm->acpi_regs, &pm->iomem, LS7A_PM_CNT_BLK);
-+
-+    acpi_gpe_init(&pm->acpi_regs, ACPI_GPE0_LEN);
-+    memory_region_init_io(&pm->iomem_gpe, OBJECT(pm), &ls7a_gpe_ops, pm,
-+                          "acpi-gpe0", ACPI_GPE0_LEN);
-+    sysbus_init_mmio(sbd, &pm->iomem_gpe);
-+
-+    memory_region_init_io(&pm->iomem_reset, OBJECT(pm),
-+                          &ls7a_reset_ops, pm, "acpi-reset", 4);
-+    sysbus_init_mmio(sbd, &pm->iomem_reset);
-+
-+    pm->powerdown_notifier.notify = pm_powerdown_req;
-+    qemu_register_powerdown_notifier(&pm->powerdown_notifier);
-+}
-+
-+static void ls7a_pm_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = ls7a_pm_realize;
-+    dc->reset = ls7a_pm_reset;
-+    dc->desc = "PM";
-+    dc->vmsd = &vmstate_ls7a_pm;
-+}
-+
-+static const TypeInfo ls7a_pm_info = {
-+    .name          = TYPE_LS7A_PM,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(LS7APMState),
-+    .class_init    = ls7a_pm_class_init,
-+};
-+
-+static void ls7a_pm_register_types(void)
-+{
-+    type_register_static(&ls7a_pm_info);
-+}
-+
-+type_init(ls7a_pm_register_types)
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-index 8bea2e6933..e6b1ba6f3c 100644
---- a/hw/acpi/meson.build
-+++ b/hw/acpi/meson.build
-@@ -25,6 +25,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
- acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
- acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_LOONGARCH', if_true: files('ls7a.c'))
- if have_tpm
-   acpi_ss.add(files('tpm.c'))
- endif
-diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 35b6680772..7c863b7150 100644
---- a/hw/loongarch/Kconfig
-+++ b/hw/loongarch/Kconfig
-@@ -14,3 +14,5 @@ config LOONGARCH_VIRT
-     select LOONGARCH_PCH_MSI
-     select LOONGARCH_EXTIOI
-     select LS7A_RTC
-+    select ACPI_LOONGARCH
-+    select ACPI_PCI
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index f9ee024f63..ee0acf4ba8 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -28,7 +28,8 @@
- #include "hw/pci-host/ls7a.h"
- #include "hw/pci-host/gpex.h"
- #include "hw/misc/unimp.h"
--
-+#include "hw/acpi/aml-build.h"
-+#include "qapi/qapi-visit-common.h"
- #include "target/loongarch/cpu.h"
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index a410c41c37..9d50fbdd81 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -49,4 +49,8 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
  
- static struct _loaderparams {
-@@ -63,11 +64,11 @@ static int64_t load_kernel_info(void)
+ hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
  
- static void loongarch_devices_init(DeviceState *pch_pic)
- {
--    DeviceState *gpex_dev;
-+    DeviceState *gpex_dev, *ls7a_pm;
-     SysBusDevice *d;
-     PCIBus *pci_bus;
-     MemoryRegion *ecam_alias, *ecam_reg, *pio_alias, *pio_reg;
--    MemoryRegion *mmio_alias, *mmio_reg;
-+    MemoryRegion *mmio_alias, *mmio_reg, *pm_reg;
-     int i;
- 
-     gpex_dev = qdev_new(TYPE_GPEX_HOST);
-@@ -133,6 +134,18 @@ static void loongarch_devices_init(DeviceState *pch_pic)
-     sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
-                          qdev_get_gpio_in(pch_pic,
-                          LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
-+    /* Init pm */
-+    ls7a_pm = qdev_new(TYPE_LS7A_PM);
-+    d = SYS_BUS_DEVICE(ls7a_pm);
-+    sysbus_realize_and_unref(d, &error_fatal);
-+    ls7a_pm_init(ls7a_pm, qdev_get_gpio_in(pch_pic,
-+                                           ACPI_SCI_IRQ - PCH_PIC_IRQ_OFFSET));
-+    pm_reg = sysbus_mmio_get_region(d, 0);
-+    memory_region_add_subregion(get_system_memory(), ACPI_IO_BASE, pm_reg);
-+    memory_region_add_subregion(pm_reg, LS7A_GPE0_STS_REG,
-+                                sysbus_mmio_get_region(d, 1));
-+    memory_region_add_subregion(pm_reg, LS7A_GPE0_RESET_REG,
-+                                sysbus_mmio_get_region(d, 2));
- }
- 
- static void loongarch_irq_init(LoongArchMachineState *lams)
-diff --git a/include/hw/acpi/ls7a.h b/include/hw/acpi/ls7a.h
-new file mode 100644
-index 0000000000..28fe23c8a3
---- /dev/null
-+++ b/include/hw/acpi/ls7a.h
-@@ -0,0 +1,53 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU GMCH/LS7A PCI PM Emulation
-+ *
-+ * Copyright (C) 2021 Loongson Technology Corporation Limited
-+ */
++int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n);
++int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n);
++void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs);
 +
-+#ifndef HW_ACPI_LS7A_H
-+#define HW_ACPI_LS7A_H
-+
-+#include "hw/acpi/acpi.h"
-+#include "hw/sysbus.h"
-+
-+#define LS7A_ACPI_IO_BASE         0x800
-+#define LS7A_ACPI_IO_SIZE         0x100
-+#define LS7A_PM_EVT_BLK           (0x0C) /* 4 bytes */
-+#define LS7A_PM_CNT_BLK           (0x14) /* 2 bytes */
-+#define LS7A_GPE0_STS_REG         (0x28) /* 4 bytes */
-+#define LS7A_GPE0_ENA_REG         (0x2C) /* 4 bytes */
-+#define LS7A_GPE0_RESET_REG       (0x30) /* 4 bytes */
-+#define LS7A_PM_TMR_BLK           (0x18) /* 4 bytes */
-+#define LS7A_GPE0_LEN             (8)
-+#define ACPI_IO_BASE              (LS7A_ACPI_REG_BASE)
-+#define ACPI_GPE0_LEN             (LS7A_GPE0_LEN)
-+#define ACPI_IO_SIZE              (LS7A_ACPI_IO_SIZE)
-+#define ACPI_SCI_IRQ              (LS7A_SCI_IRQ)
-+
-+typedef struct LS7APMState {
-+    SysBusDevice parent_obj;
-+    /*
-+     * In ls7a spec says that pm1_cnt register is 32bit width and
-+     * that the upper 16bits are reserved and unused.
-+     * PM1a_CNT_BLK = 2 in FADT so it is defined as uint16_t.
-+     */
-+    ACPIREGS acpi_regs;
-+
-+    MemoryRegion iomem;
-+    MemoryRegion iomem_gpe;
-+    MemoryRegion iomem_reset;
-+
-+    qemu_irq irq;      /* SCI */
-+
-+    uint32_t pm_io_base;
-+    Notifier powerdown_notifier;
-+} LS7APMState;
-+
-+#define TYPE_LS7A_PM "ls7a_pm"
-+DECLARE_INSTANCE_CHECKER(struct LS7APMState, LS7A_PM, TYPE_LS7A_PM)
-+
-+void ls7a_pm_init(DeviceState *ls7a_pm, qemu_irq irq);
-+
-+extern const VMStateDescription vmstate_ls7a_pm;
-+#endif /* HW_ACPI_LS7A_H */
-diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-index 1110d25306..baf8dde84e 100644
---- a/include/hw/pci-host/ls7a.h
-+++ b/include/hw/pci-host/ls7a.h
-@@ -11,6 +11,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci-host/pam.h"
-+#include "hw/acpi/ls7a.h"
- #include "qemu/units.h"
- #include "qemu/range.h"
- #include "qom/object.h"
-@@ -21,6 +22,9 @@
- #define LS7A_PCI_IO_BASE        0x18004000UL
- #define LS7A_PCI_IO_SIZE        0xC000
- 
-+#define LS7A_PCI_MEM_BASE        0x40000000UL
-+#define LS7A_PCI_MEM_SIZE        0x40000000UL
-+
- #define LS7A_PCH_REG_BASE       0x10000000UL
- #define LS7A_IOAPIC_REG_BASE    (LS7A_PCH_REG_BASE)
- #define LS7A_PCH_MSI_ADDR_LOW   0x2FF00000UL
-@@ -39,4 +43,6 @@
- #define LS7A_MISC_REG_BASE      (LS7A_PCH_REG_BASE + 0x00080000)
- #define LS7A_RTC_REG_BASE       (LS7A_MISC_REG_BASE + 0x00050100)
- #define LS7A_RTC_LEN            0x100
-+#define LS7A_ACPI_REG_BASE      (LS7A_MISC_REG_BASE + 0x00050000)
-+#define LS7A_SCI_IRQ            (PCH_PIC_IRQ_OFFSET + 4)
  #endif
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 74e5f3b2a7..6376f9e84b 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -11,6 +11,7 @@ loongarch_tcg_ss.add(files(
+   'fpu_helper.c',
+   'op_helper.c',
+   'translate.c',
++  'gdbstub.c',
+ ))
+ loongarch_tcg_ss.add(zlib)
+ 
 -- 
 2.31.1
 
