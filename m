@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1568B515378
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 20:17:31 +0200 (CEST)
-Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D511A515396
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 20:22:39 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkVBJ-0003Gj-Ml
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 14:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50798)
+	id 1nkVGI-0006Xf-O1
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 14:22:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkV8k-0001me-He
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 14:14:52 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:38900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkV8i-0007DW-NG
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 14:14:50 -0400
-Received: by mail-pf1-x433.google.com with SMTP id g8so5170554pfh.5
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 11:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=PI/dls5qJxDS1ruA8upB0SazkJnGvk19z1T1dEO9I2k=;
- b=VkrUFuHvAE98bneobH996xEZgG/gDFXLl+n1R5oteTnssajbRjjn1Yd8ajJKvkS+dj
- k90WMu7sU80t5LiBM/LO9KxWC3R/ZZF5K/T4M1t7opXL81Q4LuXLIsqi0Vy6IdOoX2oW
- VkdbcmXeT6kPGD6RaMErQmdgUzEvO7Ee1KdwXj2BA2FBe8nIQ7PS8jgV+DZACbP1kZhV
- cJinQYc3WQmQLQzmprFyJy7LVMcb1eIYH1JhX7hTpcL/UwuVZTz9c+g853iWUneRlTqx
- iXKiZ2jwXe9J0XS1vM2lAlHcEdA7XUhrREpbej+RcR087n3hPvlcXojPat8LFycAVh1y
- Pg3A==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nkVF4-0005sy-US
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 14:21:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43149)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nkVF0-0008PG-Gi
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 14:21:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651256476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/stkcvJjykGRYHDCQBNH7PAqqEJypDF4kYoHuS+OVKA=;
+ b=gLGGpaHugbBBzMN+di8QpYyiGltIrc6KzqTnknPkVYZ4EFv8bsqSNFYe7rzPdiSzEg/Yae
+ gY6Tb+UZKSQYztTWbY9yOUGzQh4VhXtlemEWj/1GeJI3dU2F1Ec4TKA2R+5JK7bmjt8acT
+ N2rNcA6jylCx55xy5g7IV/6IReTqWnA=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-593-aTPLANOrNzCKKSBd6fnyzA-1; Fri, 29 Apr 2022 14:21:14 -0400
+X-MC-Unique: aTPLANOrNzCKKSBd6fnyzA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ f18-20020a926a12000000b002be48b02bc6so4028487ilc.17
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 11:21:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=PI/dls5qJxDS1ruA8upB0SazkJnGvk19z1T1dEO9I2k=;
- b=57D8fAEMVhxD0Q5IfvDWIuQv9+WRl0UemlCZwyYDLAaeLH4mXw6TLqWr668tLRkEYC
- baSfjCZZfuZZ51mNscCYzsMnuAEzXBVtZ/ThiozsaB4AmpQ1/3rok0WHieCzV5uzksPw
- g4W9SyM3ckprzubJX9KI6G2Tj9BV6VOnn7EQWoLPg86bWPLiGQmUvhPAL8VZALeSme9c
- VXLlxx0DEHovB+4/qm2RAo9SgBu5PhnXBvwHY9mrxIzrhULUukZrml8zOR3c6AszrilF
- /KvduNwn7kmv/Y14J3wmINsOiP35m871DpIaJ8VsPfdhOanWHPpIsKm2oaVk2JWgQpE3
- uqBA==
-X-Gm-Message-State: AOAM531GpvigsjSDlpoQL3klrjMdWKAOW9oN11x5G+K+eUnn1QPZ9nvc
- 1ZExQBNT0PH3SHgc9Sks+Nj3vw==
-X-Google-Smtp-Source: ABdhPJwR+O0AXE5zTrGp9HmbUrHOxnBM54mLoV0bUt+tuvXZ+VrqlcNjEQ9m7T43i3cqmtD4L7KCVA==
-X-Received: by 2002:a05:6a00:1585:b0:50d:a8b9:d414 with SMTP id
- u5-20020a056a00158500b0050da8b9d414mr537890pfk.56.1651256087166; 
- Fri, 29 Apr 2022 11:14:47 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/stkcvJjykGRYHDCQBNH7PAqqEJypDF4kYoHuS+OVKA=;
+ b=DdiFlIhdD6HQQsxmwuFJfausx8CF6OpXEqL20LW5rvw6owAoE9LKYO0vQRzOy7yzEY
+ QTveoyj2O0q18K5c3mHt/2/Nn/JD7znMSWHr+weLvTsUl0lceMBUh+3hU0sbGTCtvFB2
+ H0uuW4pEMMkGTOVpJNWY0GCRl4cn5gNIApOYcZvaObR7JwbBMiwm64nNwNhrZgn+YbZa
+ GcRKyD4HZP9xueDkxwDdHb2G31irprIQ8LbOMpjhiUl0EnAQVlIuBOvDEji/K//Z4LPe
+ QUEPCQ06IOkSYj25UwnLnqmlhrDDDrAIz7uYXi+uj4ql50nWgv3k+HQGif9wEyi3ADOU
+ vcCg==
+X-Gm-Message-State: AOAM5339qu/zaXIQ+t+4CJshrMi/Zq7haGsHQVav2pgqJepSJTzTn+W0
+ v4xaOtgug+ulS/qaq074OeuU1/bY5GNWkxb6RwQsPadFicptFEGKpwA+7t1MM3XC7EwpbyBxtgL
+ URec/QMgXq/1zrpw=
+X-Received: by 2002:a05:6e02:1809:b0:2cc:507a:acfa with SMTP id
+ a9-20020a056e02180900b002cc507aacfamr266312ilv.114.1651256474192; 
+ Fri, 29 Apr 2022 11:21:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMQe01BrdjkQTGSc8GhfcNnSFwj4USJ8BqMV1n3p5cbt4caHClRYCCsnFmYOxhkaUoVr9wpg==
+X-Received: by 2002:a05:6e02:1809:b0:2cc:507a:acfa with SMTP id
+ a9-20020a056e02180900b002cc507aacfamr266282ilv.114.1651256473927; 
+ Fri, 29 Apr 2022 11:21:13 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- z6-20020a63e106000000b003c14af5061bsm6873128pgh.51.2022.04.29.11.14.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 11:14:46 -0700 (PDT)
-Message-ID: <c9c83ad3-8fd3-da38-b0b6-15f7c8a7c8c3@linaro.org>
-Date: Fri, 29 Apr 2022 11:14:44 -0700
+ 70-20020a6b1449000000b00657b4130f57sm1184609iou.25.2022.04.29.11.21.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 11:21:13 -0700 (PDT)
+Date: Fri, 29 Apr 2022 14:21:11 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>, Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH RFC 04/10] intel_iommu: Second Stage Access Dirty bit
+ support
+Message-ID: <Ymwsl5G/TCuRFja2@xz-m1.local>
+References: <20220428211351.3897-1-joao.m.martins@oracle.com>
+ <20220428211351.3897-5-joao.m.martins@oracle.com>
+ <CACGkMEug0zW0pWCSEtHQ5KE5KRpXyWvgJmPZm-yvJnCLmocAYg@mail.gmail.com>
+ <f90a8126-7805-be8d-e378-f129196e753d@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: s390x regression - Re: [PATCH v5 21/26] linux-user/s390x:
- Implement setup_sigtramp
-Content-Language: en-US
-To: Ulrich Weigand <Ulrich.Weigand@de.ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20210929130553.121567-1-richard.henderson@linaro.org>
- <20210929130553.121567-22-richard.henderson@linaro.org>
- <cc4c1322a26533ca694985a5cf70d0e0aa9cea26.camel@de.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <cc4c1322a26533ca694985a5cf70d0e0aa9cea26.camel@de.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f90a8126-7805-be8d-e378-f129196e753d@oracle.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,65 +96,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- "f4bug@amsat.org" <f4bug@amsat.org>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>, Ilya Leoshkevich <iii@de.ibm.com>
+Cc: "John G . Johnson" <john.g.johnson@oracle.com>, kvm <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
+ Yi Liu <yi.l.liu@intel.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/22 11:15, Ulrich Weigand wrote:
-> Richard Henderson <richard.henderson@linaro.org> wrote:
+On Fri, Apr 29, 2022 at 10:12:01AM +0100, Joao Martins wrote:
+> On 4/29/22 03:26, Jason Wang wrote:
+> > On Fri, Apr 29, 2022 at 5:14 AM Joao Martins <joao.m.martins@oracle.com> wrote:
+> >> @@ -3693,7 +3759,8 @@ static void vtd_init(IntelIOMMUState *s)
+> >>
+> >>      /* TODO: read cap/ecap from host to decide which cap to be exposed. */
+> >>      if (s->scalable_mode) {
+> >> -        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
+> >> +        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS |
+> >> +                   VTD_ECAP_SLADS;
+> >>      }
+> > 
+> > We probably need a dedicated command line parameter and make it compat
+> > for pre 7.1 machines.
+> > 
+> > Otherwise we may break migration.
 > 
->> Create and record the two signal trampolines.
->> Use them when the guest does not use SA_RESTORER.
+> I can gate over an 'x-ssads' option (default disabled). Which reminds me that I probably
+> should rename to the most recent mnemonic (as SLADS no longer exists in manuals).
 > 
-> This patch caused a regression when running the wasmtime CI under qemu:
-> https://github.com/bytecodealliance/wasmtime/pull/4076
-> 
-> The problem is that this part:
-> 
->> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
->> index 80f34086d7..676b948147 100644
->> --- a/linux-user/s390x/signal.c
->> +++ b/linux-user/s390x/signal.c
->> @@ -68,7 +68,6 @@ typedef struct {
->>      target_sigregs sregs;
->>      int signo;
->>      target_sigregs_ext sregs_ext;
->> -    uint16_t retcode;
->> } sigframe;
->>
->> #define TARGET_UC_VXRS 2
->> @@ -85,7 +84,6 @@ struct target_ucontext {
->>
->> typedef struct {
->>      uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
->> -    uint16_t retcode;
->>      struct target_siginfo info;
->>      struct target_ucontext uc;
->> } rt_sigframe;
-> 
-> changes the layout of the signal stack frame that is visible from user
-> space.  Some user space code, in particular the GCC unwinder
-> (s390_fallback_frame_state in libgcc), relies on that layout and no
-> longer works correctly if it is changed.
-> 
-> 
-> Reverting just those two hunks above on top of QEMU 7.0 makes the
-> wasmtime CI pass again.  (Actually, just the second hunk is enough; the
-> first hunk is not visible since the removed variable is at the very top
-> of the frame.)
+> If we all want by default enabled I can add a separate patch to do so.
 
-Ah, quite right -- I had read the comment for sigframe,
+The new option sounds good.
 
-         __u16 svc_insn;         /* Offset of svc_insn is NOT fixed! */
+Jason, per our previous discussion, shall we not worry about the
+compatibility issues per machine-type until the whole feature reaches a
+mostly-complete stage?
 
+There seems to have a bunch of sub-features for scalable mode and it's a
+large project as a whole.  I'm worried trying to maintain compatibilities
+for all the small sub-features could be an unnessary burden to the code
+base.
 
-and incorrectly assumed that applied to rt_sigframe too.
-So, yes, the second hunk should be reverted, with a comment that it is not used and not 
-even initialized by the kernel.
+Thanks,
 
+-- 
+Peter Xu
 
-r~
 
