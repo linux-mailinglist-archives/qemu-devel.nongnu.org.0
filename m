@@ -2,98 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F63514187
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:46:00 +0200 (CEST)
-Received: from localhost ([::1]:56556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7C7514181
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:42:42 +0200 (CEST)
+Received: from localhost ([::1]:49584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkIVz-0007vs-Vt
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:46:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54070)
+	id 1nkISn-0003Ka-G7
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIIY-0006sT-7z
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:06 -0400
+ id 1nkIId-00070l-Uk
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:13 -0400
 Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIIU-0002SM-RF
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:04 -0400
+ id 1nkIIZ-0002SM-Do
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1651206721; x=1682742721;
+ t=1651206725; x=1682742725;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+TtDY3CHKP2waEqDCea7I9yXsodX/+MOu8SOL2DWRJc=;
- b=KmlgxjVKeTDIIDTqehSUyaU2eybYLI17g5UbEZ/oQW53VeXoP+cSG9sc
- A21BW/pw9TVekHsdka+l7oba0BF98WuZj3SFhiHOXOtbt7AUoLZV+f1Vh
- 8h7Dcw64bzIP5yklf3ORurkJYyAyJae1OfvqbcLcqQRW5/egm0KIL+myB
- W74YjsFVYdmBywqUY1RdT7EhbUr7s2vu2eT7279pxdRZW7lmq+rudoVc1
- aY4XvM6sihQWkBZJeq7xbIduMSNAY3JtSUOh6BnxtfQeNgY5k+ajSgbW5
- ZjyboiKHFGSoqnwpXoTXsX9Q5qO/jmjb5jrz7gXDkFsX0qAB7TJyVBPSj A==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995921"
+ bh=UECLh/IQ0urITnVgLelHEXlgxVyNyhMotEuczSu+y7s=;
+ b=WS4TUEd9ALdIKxTwQUU/It7RVNwbqUwrvLXYypiZ4ElncprX8R5OrxTr
+ h9bHnzBs0guadfeL8NqKeS5UzvqDZdzxJZ9CBClKDklwtt5HUJat33pcC
+ uIoRfEd1+nFibDCjdbkWtfKVaVpZssXbKJdGxUDEkLKZU5tEmsfcFuHfU
+ Arsm4sbQIJ0bH/Bg5M25SfoXsMlsWf9AjxEwE8YK2N4T22E242Rgh2P+d
+ HMB5rDJodNrGnQcAukEFB7J/tP32gCFdYZPYmnauUBgtpSvrEUcnof3HB
+ upew4vuao+eesAbOWfEwecvFwEMifikIrBwIacIhVeT2LElRVxYsafnm2 w==;
+X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995927"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:00 +0800
-IronPort-SDR: 0mfAYJQdhuHpmU8YuMkhZhlBzKAtF1VoysxnRDiead4Tr3CbXoYhMK2l0ny9dP1rL5/jnNfAk7
- /Axwb6Qf4d42V50E9YzmT/aTH1+CGnlL8oipjiuKuyudoZ9sWdYdHxzE/Fokpu95qEpx8QWca3
- a1bK6u8UOpu4VNXAeYZjwsmi6aHmnVuJUq5RPoyRwuot+MLM/T0sqY4Zhrmzi0/iPFzcEq9gPL
- Pw7ouOTvX0FlL36C/EdOfa4pkqVcBxzf/ysZK2D77B8Pz3uEVKdyTWf3STaGIv8PNlkjLEIXpA
- Ibok4UYWDImMklTAfY4YOw7L
+ by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:04 +0800
+IronPort-SDR: n20EAQRy9xtL+QcK1ollxJaRqp4SI+3ti7H6X73xWgiWSIxVBRXfzwVTt81vAaA7vLukDE5zzC
+ T036kCH6qYQxbYcjCEYWdmbxBuDm3ApB3AzUHnymAydmJnBHVSFyDI2yfeWGmpCoXhdKZuxQCJ
+ BevmYEaxcJVYHWIzb+J6sWrP6cPCXewVlSLHgPGSIGXeu9/gwk9E2rMhHn3VyBI8MP8XBU+tQm
+ YMwuURpzVeBAHNbWNzgnpFzpkJcW1M5C8zPDT7qHxorT1elWJDVfPPnPt6zgMjVMNV++kXsfLz
+ 9dBqU3wytW6pP5wFo/MumZjY
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:02:10 -0700
-IronPort-SDR: JCrtPI71KMAxj6vzLmbwmlCGwib+U+QBPJQDZChmG4iEKCHZbxiGykMfGcy5PwJeCDciG/Dqr6
- USkDDVt1Mh3We5ockEwW4TupTP5J2N01hw7McvVhQQHHZCYNokTYxUP7hkvGyiIEyLkAlwWLni
- CxRtC2HAcR6jYdsfZmBvVJSuZQ2EGhspwDVoON6D6JClD20Gyaklk29xqlAgGfuu4DJwW/1qbi
- 4N3BzlIu5FUohghuH1imWSbzaBsKvutJE50KPZWwwtFoI4cIuzskMVZ43kW52OX1heHaUub1u6
- M+Y=
+ 28 Apr 2022 21:02:13 -0700
+IronPort-SDR: wJPg4uQHNuNR4BNMuoxqHssk7hVT2VhMwYEQA1wh87oHyBEvu3LE68CsuIwRDvm0VkNO3ZkmKO
+ n7Q22E8OqUv9kGl0Pvj85NwvI7RhWn7NFk3ce2NRZVcZlUyQKGwg3tl4PaHhqt5q+lpgwSJXzX
+ CeGsnGh0TbW4t8TYwTkkFnUJeS5Ld6fRR+RAhWLsl0IuvfyYxOuIJuLsnQFzvgCyZtu0jzb+Fj
+ 4yo4cdFQPAfPFCp/skuxsL79fb4tUSrIfXsVOgTpXGHolWJsPDytihOaGmGBPUQgFLQMIaQhep
+ FcU=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:32:02 -0700
+ 28 Apr 2022 21:32:06 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKMP1YjXz1SVp1
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:01 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKMT4Ntbz1SHwl
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:05 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1651206720; x=1653798721; bh=+TtDY3C
- HKP2waEqDCea7I9yXsodX/+MOu8SOL2DWRJc=; b=Xtw7cT1CGgHZuOdYLx8GCP/
- yih2PB5NYy0XXicKgIoHBeb044T8EQFMm+eUdxZhUnh1ldRKcCrhlcaxuqjuZwNS
- XgCspCktlC60uETHCFdzm3Fx27RS36qyaTr59G1gIUO6D/4y1DWSmtgGNxDjRpKw
- Ko/2cmJTqiqZ8GRnI/SJibZnY1mj/9HygCsU9TCHtTrgK4VXwD2dO6XeblORmWSo
- gKzLq2gLf5AV+Rr30tYfS8jm7+zPLtpZiUDXzqYMT0SMM8A7EI9dnE5NJ1UWXF1C
- MBhiRs5i39cFHa0PiQ2RdnMe83v7ZdSLiVqg/yhpW2NX/lfF2A3leY2EOI6LPkQ=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1651206724; x=1653798725; bh=UECLh/IQ0urITnVgLe
+ lHEXlgxVyNyhMotEuczSu+y7s=; b=JKCmqW4aPKqf4LtC96k65hqlWKK8Qbc1am
+ 2peaqR5QLYtm4vjVsPxe2fxpCX2cw/OtSPD3aLvJLFz2Q+73HX1YWbeQc0hqjAVy
+ 1e8qGCYwyqeeQako3tzuwf2kI8MX+NVuAM92w0up/8ygLriU1ONxdQlyHEUTFwsk
+ SP/kmW2cPHjsSw9fwJMhUxlvvKEdD87uSt2qJXTx9Vo/mJDVmQ1GGq029/lu6CWs
+ ey/W7a+s3iGPH00xV9SZv8AuMf4dFa6qWNTuGF/clM4Ir3Ti5ujYi4AEfpbMZ893
+ uA5llou9+aG7B1cGGp/O18WdFHz4SzYy/FDFwQNb9wAUkemwoRPQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 0NzMcT32QPg2 for <qemu-devel@nongnu.org>;
- Thu, 28 Apr 2022 21:32:00 -0700 (PDT)
+ port 10026) with ESMTP id cT630u4DgVFk for <qemu-devel@nongnu.org>;
+ Thu, 28 Apr 2022 21:32:04 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.122])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKMK45zhz1SVny;
- Thu, 28 Apr 2022 21:31:57 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKMP0RwRz1Rvlc;
+ Thu, 28 Apr 2022 21:32:00 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
- Junqiang Wang <wangjunqiang@iscas.ac.cn>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 08/25] crypto: move sm4_sbox from target/arm
-Date: Fri, 29 Apr 2022 14:31:02 +1000
-Message-Id: <20220429043119.1478881-9-alistair.francis@opensource.wdc.com>
+ Zewen Ye <lustrew@foxmail.com>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 09/25] target/riscv: rvk: add support for zknd/zkne extension
+ in RV32
+Date: Fri, 29 Apr 2022 14:31:03 +1000
+Message-Id: <20220429043119.1478881-10-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
 References: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=111bf31fc=alistair.francis@opensource.wdc.com;
@@ -122,157 +120,311 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-   - share it between target/arm and target/riscv
+ - add aes32esmi, aes32esi, aes32dsmi and aes32dsi instructions
 
+Co-authored-by: Zewen Ye <lustrew@foxmail.com>
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220423023510.30794-6-liweiwei@iscas.ac.cn>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20220423023510.30794-7-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/crypto/sm4.h       |  6 +++++
- crypto/sm4.c               | 49 ++++++++++++++++++++++++++++++++++++++
- target/arm/crypto_helper.c | 36 +---------------------------
- crypto/meson.build         |  1 +
- 4 files changed, 57 insertions(+), 35 deletions(-)
- create mode 100644 include/crypto/sm4.h
- create mode 100644 crypto/sm4.c
+ target/riscv/helper.h                   |   6 ++
+ target/riscv/insn32.decode              |  11 +++
+ target/riscv/crypto_helper.c            | 105 ++++++++++++++++++++++++
+ target/riscv/translate.c                |   1 +
+ target/riscv/insn_trans/trans_rvk.c.inc |  71 ++++++++++++++++
+ target/riscv/meson.build                |   3 +-
+ 6 files changed, 196 insertions(+), 1 deletion(-)
+ create mode 100644 target/riscv/crypto_helper.c
+ create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
 
-diff --git a/include/crypto/sm4.h b/include/crypto/sm4.h
-new file mode 100644
-index 0000000000..9bd3ebc62e
---- /dev/null
-+++ b/include/crypto/sm4.h
-@@ -0,0 +1,6 @@
-+#ifndef QEMU_SM4_H
-+#define QEMU_SM4_H
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index cfead7abfc..3c4e7e6113 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1112,3 +1112,9 @@ DEF_HELPER_5(divu_i128, tl, env, tl, tl, tl, tl)
+ DEF_HELPER_5(divs_i128, tl, env, tl, tl, tl, tl)
+ DEF_HELPER_5(remu_i128, tl, env, tl, tl, tl, tl)
+ DEF_HELPER_5(rems_i128, tl, env, tl, tl, tl, tl)
 +
-+extern const uint8_t sm4_sbox[256];
++/* Crypto functions */
++DEF_HELPER_FLAGS_3(aes32esmi, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
++DEF_HELPER_FLAGS_3(aes32esi, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
++DEF_HELPER_FLAGS_3(aes32dsmi, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
++DEF_HELPER_FLAGS_3(aes32dsi, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 75ffac9c81..0f2e661583 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -35,6 +35,7 @@
+ %imm_b    31:s1 7:1 25:6 8:4     !function=3Dex_shift_1
+ %imm_j    31:s1 12:8 20:1 21:10  !function=3Dex_shift_1
+ %imm_u    12:s20                 !function=3Dex_shift_12
++%imm_bs   30:2                   !function=3Dex_shift_3
+=20
+ # Argument sets:
+ &empty
+@@ -52,6 +53,7 @@
+ &rmr       vm rd rs2
+ &r2nfvm    vm rd rs1 nf
+ &rnfvm     vm rd rs1 rs2 nf
++&k_aes     shamt rs2 rs1 rd
+=20
+ # Formats 32:
+ @r       .......   ..... ..... ... ..... ....... &r                %rs2 =
+%rs1 %rd
+@@ -89,6 +91,8 @@
+ @sfence_vma ....... ..... .....   ... ..... ....... %rs2 %rs1
+ @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
+=20
++@k_aes   .. ..... ..... .....  ... ..... ....... &k_aes  shamt=3D%imm_bs=
+   %rs2 %rs1 %rd
 +
-+#endif
-diff --git a/crypto/sm4.c b/crypto/sm4.c
+ # Formats 64:
+ @sh5     .......  ..... .....  ... ..... ....... &shift  shamt=3D%sh5   =
+   %rs1 %rd
+=20
+@@ -834,3 +838,10 @@ sfence_w_inval    0001100 00000 00000 000 00000 1110=
+011
+ sfence_inval_ir   0001100 00001 00000 000 00000 1110011
+ hinval_vvma       0010011 ..... ..... 000 00000 1110011 @hfence_vvma
+ hinval_gvma       0110011 ..... ..... 000 00000 1110011 @hfence_gvma
++
++# *** RV32 Zknd Standard Extension ***
++aes32dsmi   .. 10111 ..... ..... 000 ..... 0110011 @k_aes
++aes32dsi    .. 10101 ..... ..... 000 ..... 0110011 @k_aes
++# *** RV32 Zkne Standard Extension ***
++aes32esmi   .. 10011 ..... ..... 000 ..... 0110011 @k_aes
++aes32esi    .. 10001 ..... ..... 000 ..... 0110011 @k_aes
+diff --git a/target/riscv/crypto_helper.c b/target/riscv/crypto_helper.c
 new file mode 100644
-index 0000000000..9f0cd452c7
+index 0000000000..220d51c742
 --- /dev/null
-+++ b/crypto/sm4.c
-@@ -0,0 +1,49 @@
++++ b/target/riscv/crypto_helper.c
+@@ -0,0 +1,105 @@
 +/*
-+ * QEMU crypto sm4 support
++ * RISC-V Crypto Emulation Helpers for QEMU.
 + *
-+ * Copyright (C) 2013 - 2018 Linaro Ltd <ard.biesheuvel@linaro.org>
++ * Copyright (c) 2021 Ruibo Lu, luruibo2000@163.com
++ * Copyright (c) 2021 Zewen Ye, lustrew@foxmail.com
 + *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
 +#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "crypto/aes.h"
 +#include "crypto/sm4.h"
 +
-+uint8_t const sm4_sbox[] =3D {
-+    0xd6, 0x90, 0xe9, 0xfe, 0xcc, 0xe1, 0x3d, 0xb7,
-+    0x16, 0xb6, 0x14, 0xc2, 0x28, 0xfb, 0x2c, 0x05,
-+    0x2b, 0x67, 0x9a, 0x76, 0x2a, 0xbe, 0x04, 0xc3,
-+    0xaa, 0x44, 0x13, 0x26, 0x49, 0x86, 0x06, 0x99,
-+    0x9c, 0x42, 0x50, 0xf4, 0x91, 0xef, 0x98, 0x7a,
-+    0x33, 0x54, 0x0b, 0x43, 0xed, 0xcf, 0xac, 0x62,
-+    0xe4, 0xb3, 0x1c, 0xa9, 0xc9, 0x08, 0xe8, 0x95,
-+    0x80, 0xdf, 0x94, 0xfa, 0x75, 0x8f, 0x3f, 0xa6,
-+    0x47, 0x07, 0xa7, 0xfc, 0xf3, 0x73, 0x17, 0xba,
-+    0x83, 0x59, 0x3c, 0x19, 0xe6, 0x85, 0x4f, 0xa8,
-+    0x68, 0x6b, 0x81, 0xb2, 0x71, 0x64, 0xda, 0x8b,
-+    0xf8, 0xeb, 0x0f, 0x4b, 0x70, 0x56, 0x9d, 0x35,
-+    0x1e, 0x24, 0x0e, 0x5e, 0x63, 0x58, 0xd1, 0xa2,
-+    0x25, 0x22, 0x7c, 0x3b, 0x01, 0x21, 0x78, 0x87,
-+    0xd4, 0x00, 0x46, 0x57, 0x9f, 0xd3, 0x27, 0x52,
-+    0x4c, 0x36, 0x02, 0xe7, 0xa0, 0xc4, 0xc8, 0x9e,
-+    0xea, 0xbf, 0x8a, 0xd2, 0x40, 0xc7, 0x38, 0xb5,
-+    0xa3, 0xf7, 0xf2, 0xce, 0xf9, 0x61, 0x15, 0xa1,
-+    0xe0, 0xae, 0x5d, 0xa4, 0x9b, 0x34, 0x1a, 0x55,
-+    0xad, 0x93, 0x32, 0x30, 0xf5, 0x8c, 0xb1, 0xe3,
-+    0x1d, 0xf6, 0xe2, 0x2e, 0x82, 0x66, 0xca, 0x60,
-+    0xc0, 0x29, 0x23, 0xab, 0x0d, 0x53, 0x4e, 0x6f,
-+    0xd5, 0xdb, 0x37, 0x45, 0xde, 0xfd, 0x8e, 0x2f,
-+    0x03, 0xff, 0x6a, 0x72, 0x6d, 0x6c, 0x5b, 0x51,
-+    0x8d, 0x1b, 0xaf, 0x92, 0xbb, 0xdd, 0xbc, 0x7f,
-+    0x11, 0xd9, 0x5c, 0x41, 0x1f, 0x10, 0x5a, 0xd8,
-+    0x0a, 0xc1, 0x31, 0x88, 0xa5, 0xcd, 0x7b, 0xbd,
-+    0x2d, 0x74, 0xd0, 0x12, 0xb8, 0xe5, 0xb4, 0xb0,
-+    0x89, 0x69, 0x97, 0x4a, 0x0c, 0x96, 0x77, 0x7e,
-+    0x65, 0xb9, 0xf1, 0x09, 0xc5, 0x6e, 0xc6, 0x84,
-+    0x18, 0xf0, 0x7d, 0xec, 0x3a, 0xdc, 0x4d, 0x20,
-+    0x79, 0xee, 0x5f, 0x3e, 0xd7, 0xcb, 0x39, 0x48,
-+};
++#define AES_XTIME(a) \
++    ((a << 1) ^ ((a & 0x80) ? 0x1b : 0))
 +
-diff --git a/target/arm/crypto_helper.c b/target/arm/crypto_helper.c
-index 4c8fd34aec..d28690321f 100644
---- a/target/arm/crypto_helper.c
-+++ b/target/arm/crypto_helper.c
-@@ -15,6 +15,7 @@
- #include "exec/helper-proto.h"
- #include "tcg/tcg-gvec-desc.h"
- #include "crypto/aes.h"
-+#include "crypto/sm4.h"
- #include "vec_internal.h"
++#define AES_GFMUL(a, b) (( \
++    (((b) & 0x1) ? (a) : 0) ^ \
++    (((b) & 0x2) ? AES_XTIME(a) : 0) ^ \
++    (((b) & 0x4) ? AES_XTIME(AES_XTIME(a)) : 0) ^ \
++    (((b) & 0x8) ? AES_XTIME(AES_XTIME(AES_XTIME(a))) : 0)) & 0xFF)
++
++static inline uint32_t aes_mixcolumn_byte(uint8_t x, bool fwd)
++{
++    uint32_t u;
++
++    if (fwd) {
++        u =3D (AES_GFMUL(x, 3) << 24) | (x << 16) | (x << 8) |
++            (AES_GFMUL(x, 2) << 0);
++    } else {
++        u =3D (AES_GFMUL(x, 0xb) << 24) | (AES_GFMUL(x, 0xd) << 16) |
++            (AES_GFMUL(x, 0x9) << 8) | (AES_GFMUL(x, 0xe) << 0);
++    }
++    return u;
++}
++
++#define sext32_xlen(x) (target_ulong)(int32_t)(x)
++
++static inline target_ulong aes32_operation(target_ulong shamt,
++                                           target_ulong rs1, target_ulon=
+g rs2,
++                                           bool enc, bool mix)
++{
++    uint8_t si =3D rs2 >> shamt;
++    uint8_t so;
++    uint32_t mixed;
++    target_ulong res;
++
++    if (enc) {
++        so =3D AES_sbox[si];
++        if (mix) {
++            mixed =3D aes_mixcolumn_byte(so, true);
++        } else {
++            mixed =3D so;
++        }
++    } else {
++        so =3D AES_isbox[si];
++        if (mix) {
++            mixed =3D aes_mixcolumn_byte(so, false);
++        } else {
++            mixed =3D so;
++        }
++    }
++    mixed =3D rol32(mixed, shamt);
++    res =3D rs1 ^ mixed;
++
++    return sext32_xlen(res);
++}
++
++target_ulong HELPER(aes32esmi)(target_ulong rs1, target_ulong rs2,
++                               target_ulong shamt)
++{
++    return aes32_operation(shamt, rs1, rs2, true, true);
++}
++
++target_ulong HELPER(aes32esi)(target_ulong rs1, target_ulong rs2,
++                              target_ulong shamt)
++{
++    return aes32_operation(shamt, rs1, rs2, true, false);
++}
++
++target_ulong HELPER(aes32dsmi)(target_ulong rs1, target_ulong rs2,
++                               target_ulong shamt)
++{
++    return aes32_operation(shamt, rs1, rs2, false, true);
++}
++
++target_ulong HELPER(aes32dsi)(target_ulong rs1, target_ulong rs2,
++                              target_ulong shamt)
++{
++    return aes32_operation(shamt, rs1, rs2, false, false);
++}
++#undef sext32_xlen
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 121ead7cfe..0cd1d9ee94 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1007,6 +1007,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
+ target_ulong pc)
+ #include "insn_trans/trans_rvv.c.inc"
+ #include "insn_trans/trans_rvb.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
++#include "insn_trans/trans_rvk.c.inc"
+ #include "insn_trans/trans_privileged.c.inc"
+ #include "insn_trans/trans_svinval.c.inc"
+ #include "insn_trans/trans_xventanacondops.c.inc"
+diff --git a/target/riscv/insn_trans/trans_rvk.c.inc b/target/riscv/insn_=
+trans/trans_rvk.c.inc
+new file mode 100644
+index 0000000000..8d0b42106f
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_rvk.c.inc
+@@ -0,0 +1,71 @@
++/*
++ * RISC-V translation routines for the Zk[nd,ne,nh,sed,sh] Standard Exte=
+nsion.
++ *
++ * Copyright (c) 2021 Ruibo Lu, luruibo2000@163.com
++ * Copyright (c) 2021 Zewen Ye, lustrew@foxmail.com
++ *
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#define REQUIRE_ZKND(ctx) do {                  \
++    if (!ctx->cfg_ptr->ext_zknd) {              \
++        return false;                           \
++    }                                           \
++} while (0)
++
++#define REQUIRE_ZKNE(ctx) do {                  \
++    if (!ctx->cfg_ptr->ext_zkne) {              \
++        return false;                           \
++    }                                           \
++} while (0)
++
++static bool gen_aes32_sm4(DisasContext *ctx, arg_k_aes *a,
++                          void (*func)(TCGv, TCGv, TCGv, TCGv))
++{
++    TCGv shamt =3D tcg_constant_tl(a->shamt);
++    TCGv dest =3D dest_gpr(ctx, a->rd);
++    TCGv src1 =3D get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 =3D get_gpr(ctx, a->rs2, EXT_NONE);
++
++    func(dest, src1, src2, shamt);
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
++
++static bool trans_aes32esmi(DisasContext *ctx, arg_aes32esmi *a)
++{
++    REQUIRE_32BIT(ctx);
++    REQUIRE_ZKNE(ctx);
++    return gen_aes32_sm4(ctx, a, gen_helper_aes32esmi);
++}
++
++static bool trans_aes32esi(DisasContext *ctx, arg_aes32esi *a)
++{
++    REQUIRE_32BIT(ctx);
++    REQUIRE_ZKNE(ctx);
++    return gen_aes32_sm4(ctx, a, gen_helper_aes32esi);
++}
++
++static bool trans_aes32dsmi(DisasContext *ctx, arg_aes32dsmi *a)
++{
++    REQUIRE_32BIT(ctx);
++    REQUIRE_ZKND(ctx);
++    return gen_aes32_sm4(ctx, a, gen_helper_aes32dsmi);
++}
++
++static bool trans_aes32dsi(DisasContext *ctx, arg_aes32dsi *a)
++{
++    REQUIRE_32BIT(ctx);
++    REQUIRE_ZKND(ctx);
++    return gen_aes32_sm4(ctx, a, gen_helper_aes32dsi);
++}
+diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+index 2c20f3dd8e..096249f3a3 100644
+--- a/target/riscv/meson.build
++++ b/target/riscv/meson.build
+@@ -19,7 +19,8 @@ riscv_ss.add(files(
+   'vector_helper.c',
+   'bitmanip_helper.c',
+   'translate.c',
+-  'm128_helper.c'
++  'm128_helper.c',
++  'crypto_helper.c'
+ ))
+ riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: file=
+s('kvm-stub.c'))
 =20
- union CRYPTO_STATE {
-@@ -694,41 +695,6 @@ DO_SM3TT(crypto_sm3tt2b, 3)
-=20
- #undef DO_SM3TT
-=20
--static uint8_t const sm4_sbox[] =3D {
--    0xd6, 0x90, 0xe9, 0xfe, 0xcc, 0xe1, 0x3d, 0xb7,
--    0x16, 0xb6, 0x14, 0xc2, 0x28, 0xfb, 0x2c, 0x05,
--    0x2b, 0x67, 0x9a, 0x76, 0x2a, 0xbe, 0x04, 0xc3,
--    0xaa, 0x44, 0x13, 0x26, 0x49, 0x86, 0x06, 0x99,
--    0x9c, 0x42, 0x50, 0xf4, 0x91, 0xef, 0x98, 0x7a,
--    0x33, 0x54, 0x0b, 0x43, 0xed, 0xcf, 0xac, 0x62,
--    0xe4, 0xb3, 0x1c, 0xa9, 0xc9, 0x08, 0xe8, 0x95,
--    0x80, 0xdf, 0x94, 0xfa, 0x75, 0x8f, 0x3f, 0xa6,
--    0x47, 0x07, 0xa7, 0xfc, 0xf3, 0x73, 0x17, 0xba,
--    0x83, 0x59, 0x3c, 0x19, 0xe6, 0x85, 0x4f, 0xa8,
--    0x68, 0x6b, 0x81, 0xb2, 0x71, 0x64, 0xda, 0x8b,
--    0xf8, 0xeb, 0x0f, 0x4b, 0x70, 0x56, 0x9d, 0x35,
--    0x1e, 0x24, 0x0e, 0x5e, 0x63, 0x58, 0xd1, 0xa2,
--    0x25, 0x22, 0x7c, 0x3b, 0x01, 0x21, 0x78, 0x87,
--    0xd4, 0x00, 0x46, 0x57, 0x9f, 0xd3, 0x27, 0x52,
--    0x4c, 0x36, 0x02, 0xe7, 0xa0, 0xc4, 0xc8, 0x9e,
--    0xea, 0xbf, 0x8a, 0xd2, 0x40, 0xc7, 0x38, 0xb5,
--    0xa3, 0xf7, 0xf2, 0xce, 0xf9, 0x61, 0x15, 0xa1,
--    0xe0, 0xae, 0x5d, 0xa4, 0x9b, 0x34, 0x1a, 0x55,
--    0xad, 0x93, 0x32, 0x30, 0xf5, 0x8c, 0xb1, 0xe3,
--    0x1d, 0xf6, 0xe2, 0x2e, 0x82, 0x66, 0xca, 0x60,
--    0xc0, 0x29, 0x23, 0xab, 0x0d, 0x53, 0x4e, 0x6f,
--    0xd5, 0xdb, 0x37, 0x45, 0xde, 0xfd, 0x8e, 0x2f,
--    0x03, 0xff, 0x6a, 0x72, 0x6d, 0x6c, 0x5b, 0x51,
--    0x8d, 0x1b, 0xaf, 0x92, 0xbb, 0xdd, 0xbc, 0x7f,
--    0x11, 0xd9, 0x5c, 0x41, 0x1f, 0x10, 0x5a, 0xd8,
--    0x0a, 0xc1, 0x31, 0x88, 0xa5, 0xcd, 0x7b, 0xbd,
--    0x2d, 0x74, 0xd0, 0x12, 0xb8, 0xe5, 0xb4, 0xb0,
--    0x89, 0x69, 0x97, 0x4a, 0x0c, 0x96, 0x77, 0x7e,
--    0x65, 0xb9, 0xf1, 0x09, 0xc5, 0x6e, 0xc6, 0x84,
--    0x18, 0xf0, 0x7d, 0xec, 0x3a, 0xdc, 0x4d, 0x20,
--    0x79, 0xee, 0x5f, 0x3e, 0xd7, 0xcb, 0x39, 0x48,
--};
--
- static void do_crypto_sm4e(uint64_t *rd, uint64_t *rn, uint64_t *rm)
- {
-     union CRYPTO_STATE d =3D { .l =3D { rn[0], rn[1] } };
-diff --git a/crypto/meson.build b/crypto/meson.build
-index f065f2f277..685fb37097 100644
---- a/crypto/meson.build
-+++ b/crypto/meson.build
-@@ -42,6 +42,7 @@ if have_afalg
- endif
- crypto_ss.add(when: gnutls, if_true: files('tls-cipher-suites.c'))
-=20
-+util_ss.add(files('sm4.c'))
- util_ss.add(files('aes.c'))
- util_ss.add(files('init.c'))
- if gnutls.found()
 --=20
 2.35.1
 
