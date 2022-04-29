@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D18514FFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 17:54:50 +0200 (CEST)
-Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4F2515007
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 17:57:21 +0200 (CEST)
+Received: from localhost ([::1]:57432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkSxF-0004jA-7B
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 11:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44238)
+	id 1nkSzg-0000fY-KG
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 11:57:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkSSz-0002QB-9C
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:39 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41602)
+ id 1nkST7-0002QX-1h
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:42 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:37468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkSSx-0006Aw-Id
+ id 1nkSSy-0006B6-EQ
  for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:33 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id dk23so16094508ejb.8
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:23:31 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id k27so9463493edk.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:23:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/18lXHZZ+IfJB2of/Nxw+vWT4xDhKdMnNhc/M3EslhI=;
- b=MZW8nictPiVq4XudMnBnWhL4URutv730x/qXBfgoiymkj+LoAzaw3QVlaMIozGAH7+
- gaD2fwHYgAIMcc5DTCABKvR3jt/axcluOiHbkmTgmNgSaiZNVWecNgANRiIv4dX4ac9q
- tpsxggemEaNyeRR0arstsBF8hYKYMx8ly6APJ0VvKKhlk2lJrJxC3JA3MeYfNS2YY3D3
- y28eV7/TCCP7SdIjYi9uYpkEl6256mnYPuFinKHRUlku9M3x7VEGloHtWQtIy6FvmrNF
- PW1WDEtcPVlkQXBw0A/hnsv1xOygwIvYa6N0hSWOyCeZnVsQ+GhTlzcIBnaeeH4jfyXa
- jlyw==
+ bh=5dZfwdJ4KB4Qq58kgohQA1IWa42zobeM0mK5lcpU0t8=;
+ b=PFHMEJx/kM6Jt2NWRUVRJ5PNgAilvlw7ImonAiswbjJu7QnwEeMF7Dqhyt2eGr6F56
+ sEWFXej4oRCVhjEylucE95xb9Ax2MgdZABrWAtGiUxN44miCCkSOMR9YcpQdNPaywbzA
+ rSTZvP6qFYfSqnTv+X4VFylnbod95Q/NfqoKsPkM0R8LOrTb5QW+ZD3SktHibKQvP1L4
+ dCKN9k2JPn+EDFSOg98DYLCyrKv5Xu6mF8oVk+xJetY/HZgoiitVAsvCZRwtif6KwPkE
+ wgC3IRQzcEr/q6wOntw1dS8+z0yVOSZSBh/WXshuvenrzC15tMRh1TcGt/wMgZrT52+y
+ OB+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/18lXHZZ+IfJB2of/Nxw+vWT4xDhKdMnNhc/M3EslhI=;
- b=xCuRlxYT6nPErM8AtbB+xIEV5wO8pvWynUXiP6cW6kRP2xG1xD6kZoxH+ZynlkhC0b
- OUqJhQ8qmKCf+7gqz6SfZ8NIhcMwOu3F0e3aPhhyXQqFmUnbHY/6r02RnkSOnsiNXRwp
- gWeFbRxYeQArnvan60bvBTkeYKnlCnBqcSxSNskzJHdna/tBN80BMQ2R108/CLU8vpiI
- ni8aRCmnsVJ7cmImDOTndg8Kk9l4rC/jFHrFEv1A4vVGbuXlXekUUHrFsmsA0Dxq9172
- Pomr/5DY7M08ctZcxyAqVB+O5csOxnR57QWnkiJj5Ynki7KRMoqHD6OjUON6sp/T9KeC
- zdiQ==
-X-Gm-Message-State: AOAM532+GswyR7b+PLRIi1tvytceJo1HdeczD30ht84L6JRXMCiejvjt
- e9+4KgBVQjd3wWx60/dUvsChNOer3Dp0/A==
-X-Google-Smtp-Source: ABdhPJxw3j4+76UsS8rKXnTtXM57Siak17t5FT+FMhADVA4LvUzh4s8pc+fx9EkvnsUhgeIbyDx1Xg==
-X-Received: by 2002:a17:906:948:b0:6d6:e479:1fe4 with SMTP id
- j8-20020a170906094800b006d6e4791fe4mr36274166ejd.240.1651245810244; 
- Fri, 29 Apr 2022 08:23:30 -0700 (PDT)
+ bh=5dZfwdJ4KB4Qq58kgohQA1IWa42zobeM0mK5lcpU0t8=;
+ b=qvPeo8T0z56ibaVwXoeejLYlCvHuxHhmKg8WS41zDNoaq1ArYczX5JrHpMigRjR/80
+ 9OqeP7Vrxt/8AqC6JZ1dRZRDeH+jc9GvPUlqgaDS/N4XOb7TKA3zptI0QefbpFlscLN1
+ 2ocQslRXczS86l2ml2aqLP+dp+9+j/X6wvF0pAPGFYDpbGe5TlbYXSEj1DUqSjBeY6/t
+ GDnMaSrmFC/JAEzPCNGERInBDXHYmGLD+iEO0S6PrKIxVxpBGyLFlKVxvKwK6VlLUUXn
+ pPbp1+QxO5gdeIlJuy7fhPIOgczeP6j8TfC1a5IGnHqluXpQs0XRB1gJDqt3+ISV4u3q
+ t7Xg==
+X-Gm-Message-State: AOAM5304FVJj2af4Ge5qn892y4A71A2ZZiIlGPlPENVwk5UxVLPHLEs7
+ YnB2kn1VVm3me0ibQRI+qOJMu9/VCZW9fA==
+X-Google-Smtp-Source: ABdhPJw6YsCVAXtxQhSW4e7iodTqpR8eveb/g5HinNRIiQG/qpFjAJrSD5vxTra+cJsWAiJVFNKFRQ==
+X-Received: by 2002:a05:6402:358d:b0:426:1804:93eb with SMTP id
+ y13-20020a056402358d00b00426180493ebmr14296289edc.334.1651245811074; 
+ Fri, 29 Apr 2022 08:23:31 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- w25-20020a170907271900b006f3ef214dd6sm736395ejk.60.2022.04.29.08.23.29
+ w25-20020a170907271900b006f3ef214dd6sm736395ejk.60.2022.04.29.08.23.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 08:23:29 -0700 (PDT)
+ Fri, 29 Apr 2022 08:23:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/25] build: move vhost-scsi configuration to Kconfig
-Date: Fri, 29 Apr 2022 17:23:07 +0200
-Message-Id: <20220429152312.335715-21-pbonzini@redhat.com>
+Subject: [PULL 21/25] build: move vhost-user-fs configuration to Kconfig
+Date: Fri, 29 Apr 2022 17:23:08 +0200
+Message-Id: <20220429152312.335715-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429152312.335715-1-pbonzini@redhat.com>
 References: <20220429152312.335715-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -91,117 +91,90 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost-scsi and vhost-user-scsi are two devices of their own; it should
-be possible to enable/disable them with --without-default-devices, not
---without-default-features.  Compute their default value in Kconfig to
-obtain the more intuitive behavior.
+vhost-user-fs is a device and it should be possible to enable/disable
+it with --without-default-devices, not --without-default-features.
+Compute its default value in Kconfig to obtain the more intuitive
+behavior.
+
+In this case the configure options were undocumented, too.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                       | 15 ---------------
- hw/scsi/Kconfig                 |  5 +++++
- include/hw/virtio/virtio-scsi.h |  2 --
- meson.build                     |  1 -
- 4 files changed, 5 insertions(+), 18 deletions(-)
+ configure         | 12 ------------
+ hw/virtio/Kconfig |  5 +++++
+ meson.build       |  1 -
+ 3 files changed, 5 insertions(+), 13 deletions(-)
 
 diff --git a/configure b/configure
-index 603434fc7f..d268a9cf49 100755
+index d268a9cf49..9a83d64c9d 100755
 --- a/configure
 +++ b/configure
-@@ -285,7 +285,6 @@ EXTRA_LDFLAGS=""
- vhost_kernel="$default_feature"
+@@ -286,7 +286,6 @@ vhost_kernel="$default_feature"
  vhost_net="$default_feature"
  vhost_crypto="$default_feature"
--vhost_scsi="$default_feature"
  vhost_user="no"
- vhost_user_fs="$default_feature"
+-vhost_user_fs="$default_feature"
  vhost_vdpa="$default_feature"
-@@ -874,10 +873,6 @@ for opt do
+ debug_tcg="no"
+ sanitizers="no"
+@@ -873,10 +872,6 @@ for opt do
    ;;
    --enable-vhost-crypto) vhost_crypto="yes"
    ;;
--  --disable-vhost-scsi) vhost_scsi="no"
+-  --disable-vhost-user-fs) vhost_user_fs="no"
 -  ;;
--  --enable-vhost-scsi) vhost_scsi="yes"
+-  --enable-vhost-user-fs) vhost_user_fs="yes"
 -  ;;
-   --disable-vhost-user-fs) vhost_user_fs="no"
+   --disable-zlib-test)
    ;;
-   --enable-vhost-user-fs) vhost_user_fs="yes"
-@@ -1104,7 +1099,6 @@ cat << EOF
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
-   vhost-net       vhost-net kernel acceleration support
--  vhost-scsi      vhost-scsi kernel target support
-   vhost-crypto    vhost-user-crypto backend support
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
-@@ -1538,12 +1532,6 @@ if test "$vhost_kernel" = "yes" && test "$linux" != "yes"; then
-   error_exit "vhost-kernel is only available on Linux"
- fi
- 
--# vhost-kernel devices
--test "$vhost_scsi" = "" && vhost_scsi=$vhost_kernel
--if test "$vhost_scsi" = "yes" && test "$vhost_kernel" != "yes"; then
--  error_exit "--enable-vhost-scsi requires --enable-vhost-kernel"
--fi
--
- # vhost-user backends
- test "$vhost_crypto" = "" && vhost_crypto=$vhost_user
+   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+@@ -1537,10 +1532,6 @@ test "$vhost_crypto" = "" && vhost_crypto=$vhost_user
  if test "$vhost_crypto" = "yes" && test "$vhost_user" = "no"; then
-@@ -2080,9 +2068,6 @@ if test "$modules" = "yes"; then
-   echo "CONFIG_MODULES=y" >> $config_host_mak
+   error_exit "--enable-vhost-crypto requires --enable-vhost-user"
  fi
- 
--if test "$vhost_scsi" = "yes" ; then
--  echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
+-test "$vhost_user_fs" = "" && vhost_user_fs=$vhost_user
+-if test "$vhost_user_fs" = "yes" && test "$vhost_user" = "no"; then
+-  error_exit "--enable-vhost-user-fs requires --enable-vhost-user"
 -fi
- if test "$vhost_net" = "yes" ; then
-   echo "CONFIG_VHOST_NET=y" >> $config_host_mak
- fi
-diff --git a/hw/scsi/Kconfig b/hw/scsi/Kconfig
-index 77d397c949..e7b34dc8e2 100644
---- a/hw/scsi/Kconfig
-+++ b/hw/scsi/Kconfig
-@@ -48,6 +48,11 @@ config VIRTIO_SCSI
-     depends on VIRTIO
-     select SCSI
  
-+config VHOST_SCSI
+ # OR the vhost-kernel, vhost-vdpa and vhost-user values for simplicity
+ if test "$vhost_net" = ""; then
+@@ -2089,9 +2080,6 @@ fi
+ if test "$vhost_vdpa" = "yes" ; then
+   echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
+ fi
+-if test "$vhost_user_fs" = "yes" ; then
+-  echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
+-fi
+ 
+ # XXX: suppress that
+ if [ "$bsd" = "yes" ] ; then
+diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+index b642ae1081..f8e235f814 100644
+--- a/hw/virtio/Kconfig
++++ b/hw/virtio/Kconfig
+@@ -78,3 +78,8 @@ config VHOST_USER_RNG
+     bool
+     default y
+     depends on VIRTIO && VHOST_USER
++
++config VHOST_USER_FS
 +    bool
 +    default y
-+    depends on VIRTIO && VHOST_KERNEL
-+
- config VHOST_USER_SCSI
-     bool
-     # Only PCI devices are provided for now
-diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
-index 543681bc18..0997313f0a 100644
---- a/include/hw/virtio/virtio-scsi.h
-+++ b/include/hw/virtio/virtio-scsi.h
-@@ -55,10 +55,8 @@ struct VirtIOSCSIConf {
-     bool seg_max_adjust;
-     uint32_t max_sectors;
-     uint32_t cmd_per_lun;
--#ifdef CONFIG_VHOST_SCSI
-     char *vhostfd;
-     char *wwpn;
--#endif
-     CharBackend chardev;
-     uint32_t boot_tpgt;
-     IOThread *iothread;
++    depends on VIRTIO && VHOST_USER
 diff --git a/meson.build b/meson.build
-index 8621f84916..db585832a4 100644
+index db585832a4..53654fc08e 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -3690,7 +3690,6 @@ summary_info += {'QOM debugging':     get_option('qom_cast_debug')}
- summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
- summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
+@@ -3692,7 +3692,6 @@ summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
  summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
--summary_info += {'vhost-scsi support': config_host.has_key('CONFIG_VHOST_SCSI')}
  summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
  summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
- summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
+-summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
+ summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
+ summary_info += {'build guest agent': have_ga}
+ summary(summary_info, bool_yn: true, section: 'Configurable features')
 -- 
 2.35.1
 
