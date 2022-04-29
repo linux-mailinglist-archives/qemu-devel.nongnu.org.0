@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286DC5147A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 12:56:04 +0200 (CEST)
-Received: from localhost ([::1]:46912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7451B5146D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 12:36:12 +0200 (CEST)
+Received: from localhost ([::1]:60594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkOI7-00054a-8G
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 06:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58428)
+	id 1nkNyt-0001A2-GH
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 06:36:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nkNXu-0008Cx-4n
+ id 1nkNXx-0008D1-1e
  for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:08:21 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46458 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:46522 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nkNXr-000346-MT
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:08:17 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nkNXu-00034O-2m
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:08:20 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb9vhuGtiZicDAA--.14518S41; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb9vhuGtiZicDAA--.14518S42; 
  Fri, 29 Apr 2022 18:08:03 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 39/43] hw/loongarch: Add LoongArch load elf function.
-Date: Fri, 29 Apr 2022 18:07:25 +0800
-Message-Id: <20220429100729.1572481-40-yangxiaojuan@loongson.cn>
+Subject: [PATCH v3 40/43] hw/loongarch: Add LoongArch ls7a acpi device support
+Date: Fri, 29 Apr 2022 18:07:26 +0800
+Message-Id: <20220429100729.1572481-41-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
 References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxb9vhuGtiZicDAA--.14518S41
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jr4kWryDCrWxJry7Kw4DArb_yoW7Ww1rpF
- 9xuryrWr48JF9xCwn7W345Wrn8Aws7C3W3WFy7CrZYkFsFgryUZ3y8X3y7WFWjkaykXryY
- gr95Jr4Fv3WUJ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9Dxb9vhuGtiZicDAA--.14518S42
+X-Coremail-Antispam: 1UD129KBjvAXoW3ur1UCFy3Cry3GF4rCF4kJFb_yoW8AF15Wo
+ W2gFZ8Gw4xJw1IkrWFkw1UuFWxXrWkKa15AFWfGF4qk3WIvr4UJF9xKwn5Xw1ftF4FkFyr
+ Za4fXryfA34xJFykn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -64,178 +64,583 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/loongson3.c    | 66 +++++++++++++++++++++++++++++++++++--
- include/hw/loongarch/virt.h |  9 +++++
- target/loongarch/cpu.h      |  2 ++
- 3 files changed, 75 insertions(+), 2 deletions(-)
+ MAINTAINERS                |   2 +
+ hw/acpi/Kconfig            |   4 +
+ hw/acpi/ls7a.c             | 374 +++++++++++++++++++++++++++++++++++++
+ hw/acpi/meson.build        |   1 +
+ hw/loongarch/Kconfig       |   2 +
+ hw/loongarch/loongson3.c   |  19 +-
+ include/hw/acpi/ls7a.h     |  53 ++++++
+ include/hw/pci-host/ls7a.h |   6 +
+ 8 files changed, 458 insertions(+), 3 deletions(-)
+ create mode 100644 hw/acpi/ls7a.c
+ create mode 100644 include/hw/acpi/ls7a.h
 
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 7029d8c8b8..f9ee024f63 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -19,6 +19,8 @@
- #include "exec/address-spaces.h"
- #include "hw/irq.h"
- #include "net/net.h"
-+#include "hw/loader.h"
-+#include "elf.h"
- #include "hw/intc/loongarch_ipi.h"
- #include "hw/intc/loongarch_extioi.h"
- #include "hw/intc/loongarch_pch_pic.h"
-@@ -29,6 +31,36 @@
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7969004b91..18d06bb859 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1138,6 +1138,8 @@ F: include/hw/intc/loongarch_*.h
+ F: hw/intc/loongarch_*.c
+ F: include/hw/pci-host/ls7a.h
+ F: hw/rtc/ls7a_rtc.c
++F: include/hw/acpi/ls7a.h
++F: hw/acpi/ls7a.c
  
- #include "target/loongarch/cpu.h"
+ M68K Machines
+ -------------
+diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+index 19caebde6c..ff9ceb2259 100644
+--- a/hw/acpi/Kconfig
++++ b/hw/acpi/Kconfig
+@@ -12,6 +12,10 @@ config ACPI_X86
+     select ACPI_PCIHP
+     select ACPI_ERST
  
-+static struct _loaderparams {
-+    unsigned long ram_size;
-+    const char *kernel_filename;
-+} loaderparams;
++config ACPI_LOONGARCH
++    bool
++    select ACPI
 +
-+static uint64_t cpu_loongarch_virt_to_phys(void *opaque, uint64_t addr)
+ config ACPI_X86_ICH
+     bool
+     select ACPI_X86
+diff --git a/hw/acpi/ls7a.c b/hw/acpi/ls7a.c
+new file mode 100644
+index 0000000000..cc658422dd
+--- /dev/null
++++ b/hw/acpi/ls7a.c
+@@ -0,0 +1,374 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch ACPI implementation
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/sysemu.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "sysemu/reset.h"
++#include "sysemu/runstate.h"
++#include "hw/acpi/acpi.h"
++#include "hw/acpi/ls7a.h"
++#include "hw/nvram/fw_cfg.h"
++#include "qemu/config-file.h"
++#include "qapi/opts-visitor.h"
++#include "qapi/qapi-events-run-state.h"
++#include "qapi/error.h"
++#include "hw/pci-host/ls7a.h"
++#include "hw/mem/pc-dimm.h"
++#include "hw/mem/nvdimm.h"
++#include "migration/vmstate.h"
++
++static void ls7a_pm_update_sci_fn(ACPIREGS *regs)
 +{
-+    return addr & 0x1fffffffll;
++    LS7APMState *pm = container_of(regs, LS7APMState, acpi_regs);
++    acpi_update_sci(&pm->acpi_regs, pm->irq);
 +}
 +
-+static int64_t load_kernel_info(void)
++static uint64_t ls7a_gpe_readb(void *opaque, hwaddr addr, unsigned width)
 +{
-+    int64_t kernel_entry, kernel_low, kernel_high;
-+    long kernel_size;
-+
-+    kernel_size = load_elf(loaderparams.kernel_filename, NULL,
-+                           cpu_loongarch_virt_to_phys, NULL,
-+                           (uint64_t *)&kernel_entry, (uint64_t *)&kernel_low,
-+                           (uint64_t *)&kernel_high, NULL, 0,
-+                           EM_LOONGARCH, 1, 0);
-+
-+    if (kernel_size < 0) {
-+        error_report("could not load kernel '%s': %s",
-+                     loaderparams.kernel_filename,
-+                     load_elf_strerror(kernel_size));
-+        exit(1);
-+    }
-+    return kernel_entry;
++    LS7APMState *pm = opaque;
++    return acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
 +}
 +
- static void loongarch_devices_init(DeviceState *pch_pic)
- {
-     DeviceState *gpex_dev;
-@@ -213,15 +245,29 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
-     loongarch_devices_init(pch_pic);
- }
- 
-+static void reset_load_elf(void *opaque)
++static void ls7a_gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
++                            unsigned width)
 +{
-+    LoongArchCPU *cpu = opaque;
-+    CPULoongArchState *env = &cpu->env;
++    LS7APMState *pm = opaque;
++    acpi_gpe_ioport_writeb(&pm->acpi_regs, addr, val);
++    acpi_update_sci(&pm->acpi_regs, pm->irq);
++}
 +
-+    cpu_reset(CPU(cpu));
-+    if (env->load_elf) {
-+        cpu_set_pc(CPU(cpu), env->elf_address);
++static const MemoryRegionOps ls7a_gpe_ops = {
++    .read = ls7a_gpe_readb,
++    .write = ls7a_gpe_writeb,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 8,
++    .impl.min_access_size = 1,
++    .impl.max_access_size = 1,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++#define VMSTATE_GPE_ARRAY(_field, _state)                            \
++ {                                                                   \
++     .name       = (stringify(_field)),                              \
++     .version_id = 0,                                                \
++     .num        = ACPI_GPE0_LEN,                                    \
++     .info       = &vmstate_info_uint8,                              \
++     .size       = sizeof(uint8_t),                                  \
++     .flags      = VMS_ARRAY | VMS_POINTER,                          \
++     .offset     = vmstate_offset_pointer(_state, _field, uint8_t),  \
++ }
++
++static uint64_t ls7a_reset_readw(void *opaque, hwaddr addr, unsigned width)
++{
++    return 0;
++}
++
++static void ls7a_reset_writew(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++    if (val & 1) {
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        return;
 +    }
 +}
 +
- static void loongarch_init(MachineState *machine)
- {
-     const char *cpu_model = machine->cpu_type;
-+    const char *kernel_filename = machine->kernel_filename;
-     ram_addr_t offset = 0;
-     ram_addr_t ram_size = machine->ram_size;
-     uint64_t highram_size = 0;
-     MemoryRegion *address_space_mem = get_system_memory();
-     LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
-+    LoongArchCPU *lacpu;
-     int i;
-+    int64_t kernel_addr = 0;
- 
-     if (!cpu_model) {
-         cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
-@@ -237,22 +283,38 @@ static void loongarch_init(MachineState *machine)
-         cpu_create(machine->cpu_type);
-     }
- 
-+    if (ram_size < 1 * GiB) {
-+        error_report("ram_size must be greater than 1G.");
-+        exit(1);
-+    }
++static const MemoryRegionOps ls7a_reset_ops = {
++    .read = ls7a_reset_readw,
++    .write = ls7a_reset_writew,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
 +
-     /* Add memory region */
-     memory_region_init_alias(&lams->lowmem, NULL, "loongarch.lowram",
-                              machine->ram, 0, 256 * MiB);
-     memory_region_add_subregion(address_space_mem, offset, &lams->lowmem);
-     offset += 256 * MiB;
--
-     highram_size = ram_size - 256 * MiB;
-     memory_region_init_alias(&lams->highmem, NULL, "loongarch.highmem",
-                              machine->ram, offset, highram_size);
-     memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
--
-     /* Add isa io region */
-     memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
-                              get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
-     memory_region_add_subregion(address_space_mem, LOONGARCH_ISA_IO_BASE,
-                                 &lams->isa_io);
-+    if (kernel_filename) {
-+        loaderparams.ram_size = ram_size;
-+        loaderparams.kernel_filename = kernel_filename;
-+        kernel_addr = load_kernel_info();
-+        if (!machine->firmware) {
-+            for (i = 0; i < machine->smp.cpus; i++) {
-+                lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
-+                lacpu->env.load_elf = true;
-+                lacpu->env.elf_address = kernel_addr;
-+                qemu_register_reset(reset_load_elf, lacpu);
-+            }
++const VMStateDescription vmstate_ls7a_pm = {
++    .name = "ls7a_pm",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT16(acpi_regs.pm1.evt.sts, LS7APMState),
++        VMSTATE_UINT16(acpi_regs.pm1.evt.en, LS7APMState),
++        VMSTATE_UINT16(acpi_regs.pm1.cnt.cnt, LS7APMState),
++        VMSTATE_TIMER_PTR(acpi_regs.tmr.timer, LS7APMState),
++        VMSTATE_INT64(acpi_regs.tmr.overflow_time, LS7APMState),
++        VMSTATE_GPE_ARRAY(acpi_regs.gpe.sts, LS7APMState),
++        VMSTATE_GPE_ARRAY(acpi_regs.gpe.en, LS7APMState),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static inline int64_t acpi_pm_tmr_get_clock(void)
++{
++    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), PM_TIMER_FREQUENCY,
++                    NANOSECONDS_PER_SECOND);
++}
++
++static uint32_t acpi_pm_tmr_get(ACPIREGS *ar)
++{
++    uint32_t d = acpi_pm_tmr_get_clock();
++    return d & 0xffffff;
++}
++
++static void acpi_pm_tmr_timer(void *opaque)
++{
++    ACPIREGS *ar = opaque;
++    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_PMTIMER, NULL);
++    ar->tmr.update_sci(ar);
++}
++
++static uint64_t acpi_pm_tmr_read(void *opaque, hwaddr addr, unsigned width)
++{
++    return acpi_pm_tmr_get(opaque);
++}
++
++static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++}
++
++static const MemoryRegionOps acpi_pm_tmr_ops = {
++    .read = acpi_pm_tmr_read,
++    .write = acpi_pm_tmr_write,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void ls7a_pm_tmr_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
++                             MemoryRegion *parent, uint64_t offset)
++{
++    ar->tmr.update_sci = update_sci;
++    ar->tmr.timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, acpi_pm_tmr_timer, ar);
++    memory_region_init_io(&ar->tmr.io, memory_region_owner(parent),
++                          &acpi_pm_tmr_ops, ar, "acpi-tmr", 4);
++    memory_region_add_subregion(parent, offset, &ar->tmr.io);
++}
++
++static void acpi_pm1_evt_write_sts(ACPIREGS *ar, uint16_t val)
++{
++    uint16_t pm1_sts = acpi_pm1_evt_get_sts(ar);
++    if (pm1_sts & val & ACPI_BITMASK_TIMER_STATUS) {
++        /* if TMRSTS is reset, then compute the new overflow time */
++        acpi_pm_tmr_calc_overflow_time(ar);
++    }
++    ar->pm1.evt.sts &= ~val;
++}
++
++static uint64_t acpi_pm_evt_read(void *opaque, hwaddr addr, unsigned width)
++{
++    ACPIREGS *ar = opaque;
++    switch (addr) {
++    case 0:
++        return acpi_pm1_evt_get_sts(ar);
++    case 4:
++        return ar->pm1.evt.en;
++    default:
++        return 0;
++    }
++}
++
++static void acpi_pm1_evt_write_en(ACPIREGS *ar, uint16_t val)
++{
++    ar->pm1.evt.en = val;
++    qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_RTC,
++                              val & ACPI_BITMASK_RT_CLOCK_ENABLE);
++    qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_PMTIMER,
++                              val & ACPI_BITMASK_TIMER_ENABLE);
++}
++
++static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++    ACPIREGS *ar = opaque;
++    switch (addr) {
++    case 0:
++        acpi_pm1_evt_write_sts(ar, val);
++        ar->pm1.evt.update_sci(ar);
++        break;
++    case 4:
++        acpi_pm1_evt_write_en(ar, val);
++        ar->pm1.evt.update_sci(ar);
++        break;
++    }
++}
++
++static const MemoryRegionOps acpi_pm_evt_ops = {
++    .read = acpi_pm_evt_read,
++    .write = acpi_pm_evt_write,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void ls7a_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
++                              MemoryRegion *parent, uint64_t offset)
++{
++    ar->pm1.evt.update_sci = update_sci;
++    memory_region_init_io(&ar->pm1.evt.io, memory_region_owner(parent),
++                          &acpi_pm_evt_ops, ar, "acpi-evt", 8);
++    memory_region_add_subregion(parent, offset, &ar->pm1.evt.io);
++}
++
++static uint64_t acpi_pm_cnt_read(void *opaque, hwaddr addr, unsigned width)
++{
++    ACPIREGS *ar = opaque;
++    return ar->pm1.cnt.cnt;
++}
++
++/* ACPI PM1aCNT */
++static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
++{
++    ar->pm1.cnt.cnt = val & ~(ACPI_BITMASK_SLEEP_ENABLE);
++
++    if (val & ACPI_BITMASK_SLEEP_ENABLE) {
++        /* Change suspend type */
++        uint16_t sus_typ = (val >> 10) & 7;
++        switch (sus_typ) {
++        /* Not support s3 s4 yet */
++        case 7: /* Soft power off */
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++            break;
++        default:
++            break;
 +        }
 +    }
-     /* Initialize the IO interrupt subsystem */
-     loongarch_irq_init(lams);
++}
++
++static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++    acpi_pm1_cnt_write(opaque, val);
++}
++
++static const MemoryRegionOps acpi_pm_cnt_ops = {
++    .read = acpi_pm_cnt_read,
++    .write = acpi_pm_cnt_write,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void acpi_notify_wakeup(Notifier *notifier, void *data)
++{
++    ACPIREGS *ar = container_of(notifier, ACPIREGS, wakeup);
++    WakeupReason *reason = data;
++
++    switch (*reason) {
++    case QEMU_WAKEUP_REASON_RTC:
++        ar->pm1.evt.sts |=
++            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_RT_CLOCK_STATUS);
++        break;
++    case QEMU_WAKEUP_REASON_PMTIMER:
++        ar->pm1.evt.sts |=
++            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_TIMER_STATUS);
++        break;
++    case QEMU_WAKEUP_REASON_OTHER:
++        /*
++         * ACPI_BITMASK_WAKE_STATUS should be set on resume.
++         * Pretend that resume was caused by power button
++         */
++        ar->pm1.evt.sts |=
++            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_POWER_BUTTON_STATUS);
++        break;
++    default:
++        break;
++    }
++}
++
++static void ls7a_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
++                              uint64_t offset)
++{
++    ar->wakeup.notify = acpi_notify_wakeup;
++    qemu_register_wakeup_notifier(&ar->wakeup);
++    memory_region_init_io(&ar->pm1.cnt.io, memory_region_owner(parent),
++                          &acpi_pm_cnt_ops, ar, "acpi-cnt", 4);
++    memory_region_add_subregion(parent, offset, &ar->pm1.cnt.io);
++}
++
++static void ls7a_pm_reset(DeviceState *d)
++{
++    LS7APMState *pm = LS7A_PM(d);
++
++    acpi_pm1_evt_reset(&pm->acpi_regs);
++    acpi_pm1_cnt_reset(&pm->acpi_regs);
++    acpi_pm_tmr_reset(&pm->acpi_regs);
++    acpi_gpe_reset(&pm->acpi_regs);
++
++    acpi_update_sci(&pm->acpi_regs, pm->irq);
++}
++
++static void pm_powerdown_req(Notifier *n, void *opaque)
++{
++    LS7APMState *pm = container_of(n, LS7APMState, powerdown_notifier);
++
++    acpi_pm1_evt_power_down(&pm->acpi_regs);
++}
++
++void ls7a_pm_init(DeviceState *ls7a_pm, qemu_irq pm_irq)
++{
++    LS7APMState *pm = LS7A_PM(ls7a_pm);
++    pm->irq = pm_irq;
++}
++
++static void ls7a_pm_realize(DeviceState *dev, Error **errp)
++{
++    LS7APMState *pm = LS7A_PM(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++
++    /*
++     * ls7a board acpi hardware info, including
++     * acpi system io base address
++     * acpi gpe length
++     * acpi sci irq number
++     */
++
++    memory_region_init(&pm->iomem, OBJECT(pm), "ls7a_pm", ACPI_IO_SIZE);
++    sysbus_init_mmio(sbd, &pm->iomem);
++
++    ls7a_pm_tmr_init(&pm->acpi_regs, ls7a_pm_update_sci_fn,
++                     &pm->iomem, LS7A_PM_TMR_BLK);
++    ls7a_pm1_evt_init(&pm->acpi_regs, ls7a_pm_update_sci_fn,
++                      &pm->iomem, LS7A_PM_EVT_BLK);
++    ls7a_pm1_cnt_init(&pm->acpi_regs, &pm->iomem, LS7A_PM_CNT_BLK);
++
++    acpi_gpe_init(&pm->acpi_regs, ACPI_GPE0_LEN);
++    memory_region_init_io(&pm->iomem_gpe, OBJECT(pm), &ls7a_gpe_ops, pm,
++                          "acpi-gpe0", ACPI_GPE0_LEN);
++    sysbus_init_mmio(sbd, &pm->iomem_gpe);
++
++    memory_region_init_io(&pm->iomem_reset, OBJECT(pm),
++                          &ls7a_reset_ops, pm, "acpi-reset", 4);
++    sysbus_init_mmio(sbd, &pm->iomem_reset);
++
++    pm->powerdown_notifier.notify = pm_powerdown_req;
++    qemu_register_powerdown_notifier(&pm->powerdown_notifier);
++}
++
++static void ls7a_pm_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = ls7a_pm_realize;
++    dc->reset = ls7a_pm_reset;
++    dc->desc = "PM";
++    dc->vmsd = &vmstate_ls7a_pm;
++}
++
++static const TypeInfo ls7a_pm_info = {
++    .name          = TYPE_LS7A_PM,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(LS7APMState),
++    .class_init    = ls7a_pm_class_init,
++};
++
++static void ls7a_pm_register_types(void)
++{
++    type_register_static(&ls7a_pm_info);
++}
++
++type_init(ls7a_pm_register_types)
+diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+index 8bea2e6933..e6b1ba6f3c 100644
+--- a/hw/acpi/meson.build
++++ b/hw/acpi/meson.build
+@@ -25,6 +25,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
+ acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_LOONGARCH', if_true: files('ls7a.c'))
+ if have_tpm
+   acpi_ss.add(files('tpm.c'))
+ endif
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index 35b6680772..7c863b7150 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -14,3 +14,5 @@ config LOONGARCH_VIRT
+     select LOONGARCH_PCH_MSI
+     select LOONGARCH_EXTIOI
+     select LS7A_RTC
++    select ACPI_LOONGARCH
++    select ACPI_PCI
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+index f9ee024f63..ee0acf4ba8 100644
+--- a/hw/loongarch/loongson3.c
++++ b/hw/loongarch/loongson3.c
+@@ -28,7 +28,8 @@
+ #include "hw/pci-host/ls7a.h"
+ #include "hw/pci-host/gpex.h"
+ #include "hw/misc/unimp.h"
+-
++#include "hw/acpi/aml-build.h"
++#include "qapi/qapi-visit-common.h"
+ #include "target/loongarch/cpu.h"
+ 
+ static struct _loaderparams {
+@@ -63,11 +64,11 @@ static int64_t load_kernel_info(void)
+ 
+ static void loongarch_devices_init(DeviceState *pch_pic)
+ {
+-    DeviceState *gpex_dev;
++    DeviceState *gpex_dev, *ls7a_pm;
+     SysBusDevice *d;
+     PCIBus *pci_bus;
+     MemoryRegion *ecam_alias, *ecam_reg, *pio_alias, *pio_reg;
+-    MemoryRegion *mmio_alias, *mmio_reg;
++    MemoryRegion *mmio_alias, *mmio_reg, *pm_reg;
+     int i;
+ 
+     gpex_dev = qdev_new(TYPE_GPEX_HOST);
+@@ -133,6 +134,18 @@ static void loongarch_devices_init(DeviceState *pch_pic)
+     sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
+                          qdev_get_gpio_in(pch_pic,
+                          LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
++    /* Init pm */
++    ls7a_pm = qdev_new(TYPE_LS7A_PM);
++    d = SYS_BUS_DEVICE(ls7a_pm);
++    sysbus_realize_and_unref(d, &error_fatal);
++    ls7a_pm_init(ls7a_pm, qdev_get_gpio_in(pch_pic,
++                                           ACPI_SCI_IRQ - PCH_PIC_IRQ_OFFSET));
++    pm_reg = sysbus_mmio_get_region(d, 0);
++    memory_region_add_subregion(get_system_memory(), ACPI_IO_BASE, pm_reg);
++    memory_region_add_subregion(pm_reg, LS7A_GPE0_STS_REG,
++                                sysbus_mmio_get_region(d, 1));
++    memory_region_add_subregion(pm_reg, LS7A_GPE0_RESET_REG,
++                                sysbus_mmio_get_region(d, 2));
  }
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 09a816191c..35e6bc5055 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -12,12 +12,17 @@
- #include "hw/boards.h"
- #include "qemu/queue.h"
- #include "hw/intc/loongarch_ipi.h"
-+#include "qemu/units.h"
  
- #define LOONGARCH_MAX_VCPUS     4
- 
- #define LOONGARCH_ISA_IO_BASE   0x18000000UL
- #define LOONGARCH_ISA_IO_SIZE   0x0004000
- 
-+#define FW_CFG_ADDR             0x1e020000
-+#define LA_BIOS_BASE            0x1c000000
-+#define LA_BIOS_SIZE            (4 * MiB)
+ static void loongarch_irq_init(LoongArchMachineState *lams)
+diff --git a/include/hw/acpi/ls7a.h b/include/hw/acpi/ls7a.h
+new file mode 100644
+index 0000000000..28fe23c8a3
+--- /dev/null
++++ b/include/hw/acpi/ls7a.h
+@@ -0,0 +1,53 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * QEMU GMCH/LS7A PCI PM Emulation
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
 +
- struct LoongArchMachineState {
-     /*< private >*/
-     MachineState parent_obj;
-@@ -26,6 +31,10 @@ struct LoongArchMachineState {
-     MemoryRegion lowmem;
-     MemoryRegion highmem;
-     MemoryRegion isa_io;
-+    MemoryRegion bios;
++#ifndef HW_ACPI_LS7A_H
++#define HW_ACPI_LS7A_H
 +
-+    /* State for other subsystems/APIs: */
-+    FWCfgState  *fw_cfg;
- };
++#include "hw/acpi/acpi.h"
++#include "hw/sysbus.h"
++
++#define LS7A_ACPI_IO_BASE         0x800
++#define LS7A_ACPI_IO_SIZE         0x100
++#define LS7A_PM_EVT_BLK           (0x0C) /* 4 bytes */
++#define LS7A_PM_CNT_BLK           (0x14) /* 2 bytes */
++#define LS7A_GPE0_STS_REG         (0x28) /* 4 bytes */
++#define LS7A_GPE0_ENA_REG         (0x2C) /* 4 bytes */
++#define LS7A_GPE0_RESET_REG       (0x30) /* 4 bytes */
++#define LS7A_PM_TMR_BLK           (0x18) /* 4 bytes */
++#define LS7A_GPE0_LEN             (8)
++#define ACPI_IO_BASE              (LS7A_ACPI_REG_BASE)
++#define ACPI_GPE0_LEN             (LS7A_GPE0_LEN)
++#define ACPI_IO_SIZE              (LS7A_ACPI_IO_SIZE)
++#define ACPI_SCI_IRQ              (LS7A_SCI_IRQ)
++
++typedef struct LS7APMState {
++    SysBusDevice parent_obj;
++    /*
++     * In ls7a spec says that pm1_cnt register is 32bit width and
++     * that the upper 16bits are reserved and unused.
++     * PM1a_CNT_BLK = 2 in FADT so it is defined as uint16_t.
++     */
++    ACPIREGS acpi_regs;
++
++    MemoryRegion iomem;
++    MemoryRegion iomem_gpe;
++    MemoryRegion iomem_reset;
++
++    qemu_irq irq;      /* SCI */
++
++    uint32_t pm_io_base;
++    Notifier powerdown_notifier;
++} LS7APMState;
++
++#define TYPE_LS7A_PM "ls7a_pm"
++DECLARE_INSTANCE_CHECKER(struct LS7APMState, LS7A_PM, TYPE_LS7A_PM)
++
++void ls7a_pm_init(DeviceState *ls7a_pm, qemu_irq irq);
++
++extern const VMStateDescription vmstate_ls7a_pm;
++#endif /* HW_ACPI_LS7A_H */
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+index 1110d25306..baf8dde84e 100644
+--- a/include/hw/pci-host/ls7a.h
++++ b/include/hw/pci-host/ls7a.h
+@@ -11,6 +11,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pcie_host.h"
+ #include "hw/pci-host/pam.h"
++#include "hw/acpi/ls7a.h"
+ #include "qemu/units.h"
+ #include "qemu/range.h"
+ #include "qom/object.h"
+@@ -21,6 +22,9 @@
+ #define LS7A_PCI_IO_BASE        0x18004000UL
+ #define LS7A_PCI_IO_SIZE        0xC000
  
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index 03cc96ee9b..71a5036c3c 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -308,6 +308,8 @@ typedef struct CPUArchState {
-     AddressSpace address_space_iocsr;
-     MemoryRegion system_iocsr;
-     MemoryRegion iocsr_mem;
-+    bool load_elf;
-+    uint64_t elf_address;
- } CPULoongArchState;
- 
- /**
++#define LS7A_PCI_MEM_BASE        0x40000000UL
++#define LS7A_PCI_MEM_SIZE        0x40000000UL
++
+ #define LS7A_PCH_REG_BASE       0x10000000UL
+ #define LS7A_IOAPIC_REG_BASE    (LS7A_PCH_REG_BASE)
+ #define LS7A_PCH_MSI_ADDR_LOW   0x2FF00000UL
+@@ -39,4 +43,6 @@
+ #define LS7A_MISC_REG_BASE      (LS7A_PCH_REG_BASE + 0x00080000)
+ #define LS7A_RTC_REG_BASE       (LS7A_MISC_REG_BASE + 0x00050100)
+ #define LS7A_RTC_LEN            0x100
++#define LS7A_ACPI_REG_BASE      (LS7A_MISC_REG_BASE + 0x00050000)
++#define LS7A_SCI_IRQ            (PCH_PIC_IRQ_OFFSET + 4)
+ #endif
 -- 
 2.31.1
 
