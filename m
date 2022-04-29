@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC2151408D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 04:23:52 +0200 (CEST)
-Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025D251408A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 04:15:32 +0200 (CEST)
+Received: from localhost ([::1]:42674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkGIR-0003hd-Ir
-	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 22:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
+	id 1nkGAM-0001hH-J7
+	for lists+qemu-devel@lfdr.de; Thu, 28 Apr 2022 22:15:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nkGH5-00031T-Aw
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 22:22:27 -0400
-Received: from mga09.intel.com ([134.134.136.24]:52032)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nkG9A-0000as-TP
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 22:14:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nkGH2-0000pb-I9
- for qemu-devel@nongnu.org; Thu, 28 Apr 2022 22:22:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651198944; x=1682734944;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Iha0AcZuglCElnkBwRpsiHjV/h5pgyofnObuC26qy8o=;
- b=V/ZDeviMWQ/U2HEP7SH/7+Ol6wfcTUmvknQevsVa6EoKk6HcTVMtSd7/
- IHhXKIJS3Znb2qDlWkZoOKf0wHyHYADi+jNnE5xwRGGrgWVcb+c3jCKnz
- obcYpTyvskU9UFC6kHASAYljm07M41CRUJ36tEYPgo1R9iLjrdoYHgALB
- 6x+x5ieQUlLH4A4EgoXwga+84mjpNDPeJt5YM17bqWahMRtsGH2DLphVU
- /53kK8ZogX0k0kD1tOZQI0cCM2X02aJI94vW9w7IqT+I8Mtj9Zveu23Th
- RunO8k8RjefsERsxzgYVuAxd9pxCArfVm5kaBPrMJ6Ejc+z1O5JCWTHT8 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="266026746"
-X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="266026746"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 19:22:22 -0700
-X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="560038211"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.145.56])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 28 Apr 2022 19:22:20 -0700
-Date: Fri, 29 Apr 2022 10:05:57 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Jinpu Wang <jinpu.wang@ionos.com>
-Subject: Re: RFC: sgx-epc is not listed in machine type help
-Message-ID: <20220429020557.GA21670@yangzhon-Virtual>
-References: <CAMGffEmEmWK99xDu=i2iq9WeTxdPwnG9-94UEqFnBSzmvv=TWQ@mail.gmail.com>
- <20220428114850.GA20626@yangzhon-Virtual>
- <CAMGffEmGjwAViuRa+ORMyO3+P7KhoOeuvNF3a3tju-WEMLdSrw@mail.gmail.com>
- <20220428121614.GB20626@yangzhon-Virtual>
- <CAMGffEkmoEFoY6opV8fxp4RqmBUPojG44F7AFBY63=Ab267W1g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nkG97-0007vJ-7B
+ for qemu-devel@nongnu.org; Thu, 28 Apr 2022 22:14:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651198449;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IweAk/tWzGrz5d75z1iW462tzhCUEKGa8v40S/9zYe4=;
+ b=Ly++23VZUSrdhddr5nwBzYXBNgPzdceimdSg9H5g14pzmnwjoubR14MzVWe55GTSwxuyJV
+ Q5q70rajet+pMRahBUMGXnDiDKc8ZnWQPscJcirDdcP3MTRybc3id1/T1sI1XG+Qt8Z2oz
+ RtI+bOVP7uKY82yGivRuCX/2BpSmL+4=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-646-ekXMDOdKMtSzneE51QZkpA-1; Thu, 28 Apr 2022 22:14:08 -0400
+X-MC-Unique: ekXMDOdKMtSzneE51QZkpA-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ oo16-20020a17090b1c9000b001c6d21e8c04so6136633pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 19:14:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IweAk/tWzGrz5d75z1iW462tzhCUEKGa8v40S/9zYe4=;
+ b=N4CnraRgg0MSdZWyPQ0+aUGV1zdHS4FCK6snNsLg2GRrxpue0W8JtqYf0QDRgmodSx
+ N36XAjmqGNa/C4oX7Qqf1gCUkjAtVX57BtvYsCmgZLDE41VO6U64Qtq971RkHxf7lkhK
+ vcQMXQvHY/nU05lBVgx4WmmWXk0DOLs3JA6xq9v0z0EZVO0bDLajeB7qFGKG7q47XSZu
+ PJu0MiitTyih+N2VWWDjhVzAESl4J3e9HYlemwC0YVHUp5iaDNvafkOMaXO0c1BtGJFV
+ PwuLybR/F2mjO2cGtygRRYnk0DQZFN31RjW+ZGczf9Biyeno72LuLHn9Irw1Eapx6kd5
+ xP/Q==
+X-Gm-Message-State: AOAM532rE7Lxaql6jJ1yAAfOxa/nnt7LenAJmpaWIrxubvufVMPpy/ic
+ kfk+NjCITVvkKvlNzVP2GYmf82xNDjSw0dOi9Y/ijE5oJRtJgnm3tZJRmTIpFhO7gRQ40Rz1qvu
+ z+LntMspsU9HVrJM=
+X-Received: by 2002:a63:441f:0:b0:3ab:6ae4:fc32 with SMTP id
+ r31-20020a63441f000000b003ab6ae4fc32mr16873562pga.261.1651198446900; 
+ Thu, 28 Apr 2022 19:14:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwIpWf7prQT55EmqYuNczawS26/62M96Krt2MsCxI1z9eFCTWPa6JJgp0Tb6QlV9zof92hitg==
+X-Received: by 2002:a63:441f:0:b0:3ab:6ae4:fc32 with SMTP id
+ r31-20020a63441f000000b003ab6ae4fc32mr16873543pga.261.1651198446622; 
+ Thu, 28 Apr 2022 19:14:06 -0700 (PDT)
+Received: from [10.72.13.163] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a62b801000000b0050d9180622esm1062867pfe.75.2022.04.28.19.14.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 19:14:06 -0700 (PDT)
+Message-ID: <198abd64-9c55-1f96-bf4b-0e56ad1e8edb@redhat.com>
+Date: Fri, 29 Apr 2022 10:14:02 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMGffEkmoEFoY6opV8fxp4RqmBUPojG44F7AFBY63=Ab267W1g@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/5] virtio-net: setup vhost_dev and notifiers for cvq
+ only when feature is negotiated
+Content-Language: en-US
+To: Si-Wei Liu <si-wei.liu@oracle.com>, qemu-devel@nongnu.org
+References: <1651048216-3365-1-git-send-email-si-wei.liu@oracle.com>
+ <1651048216-3365-2-git-send-email-si-wei.liu@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <1651048216-3365-2-git-send-email-si-wei.liu@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,68 +100,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Yu Zhang <yu.zhang@ionos.com>
+Cc: eperezma@redhat.com, sgarzare@redhat.com, eli@mellanox.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28, 2022 at 02:56:50PM +0200, Jinpu Wang wrote:
-> On Thu, Apr 28, 2022 at 2:32 PM Yang Zhong <yang.zhong@intel.com> wrote:
-> >
-> > On Thu, Apr 28, 2022 at 02:18:54PM +0200, Jinpu Wang wrote:
-> > > On Thu, Apr 28, 2022 at 2:05 PM Yang Zhong <yang.zhong@intel.com> wrote:
-> > > >
-> > > > On Thu, Apr 28, 2022 at 01:59:33PM +0200, Jinpu Wang wrote:
-> > > > > Hi Yang, hi Paolo,
-> > > > >
-> > > > > We noticed sgx-epc machine type is not listed in the output of
-> > > > > "qemu-system-x86_64 -M ?",
-> > > snip
-> > > > >
-> > > > >
-> > > > > I think this would cause confusion to users, is there a reason behind this?
-> > > > >
-> > > >
-> > > >   No specific machine type for SGX, and SGX is only supported in Qemu PC and Q35 platform.
-> > > Hi Yang,
-> > >
-> > > Thanks for your quick reply. Sorry for the stupid question.
-> > > The information I've got from intel or the help sample from
-> > > https://www.qemu.org/docs/master/system/i386/sgx.html, We need to
-> > > specify commands something like this to run SGX-EPC guest:
-> > > qemu-system-x86-64 -m 2G -nographic -enable-kvm -cpu
-> > > host,+sgx-provisionkey  -object
-> > > memory-backend-epc,id=mem1,size=512M,prealloc=on -M
-> > > sgx-epc.0.memdev=mem1,sgx-epc.0.node=0 /tmp/volume-name.img
-> > >
-> > > Do you mean internally QEMU is converting -M sgx-epc to PC or Q35, can
-> > > I choose which one to use?
-> > >
-> >
-> >   Qemu will replace object with compound key, in that time, Paolo asked me
-> >   to use "-M sgx-epc..." to replace "-object sgx-epc..." from Qemu command line.
-> >
-> >   So the "-M sgx-epc..." will get sgx-epc's parameters from hash key, and
-> >   do not covert sgx-epc to PC or Q35.
-> >
-> >   SGX is only one Intel cpu feature, and no dedicated SGX Qemu machine type for SGX.
-> >
-> >   Another compound key example:
-> >   "-M pc,smp.cpus=4,smp.cores=1,smp.threads=1"
-> >
-> >   Yang
-> ah, ok. thx for the sharing.
-> so if I specify "-M pc -M sgx-epc.." it will be the explicit way to
-> choose PC machine type with sgx feature.
-> and "-M q35 -M sgx-epc.." qemu will use Q35 machine type?
 
-  The below command is okay,
-  "-M pc,sgx-epc.." or "-M q35,sgx-epc.."
+在 2022/4/27 16:30, Si-Wei Liu 写道:
+> When the control virtqueue feature is absent or not negotiated,
+> vhost_net_start() still tries to set up vhost_dev and install
+> vhost notifiers for the control virtqueue, which results in
+> erroneous ioctl calls with incorrect queue index sending down
+> to driver. Do that only when needed.
+>
+> Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
+> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
 
-  Yang
 
-> >
-> >
-> > > Thanks!
-> > > Jinpu
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+
+> ---
+>   hw/net/virtio-net.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 1067e72..ffb3475 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -245,7 +245,8 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
+>       VirtIODevice *vdev = VIRTIO_DEVICE(n);
+>       NetClientState *nc = qemu_get_queue(n->nic);
+>       int queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
+> -    int cvq = n->max_ncs - n->max_queue_pairs;
+> +    int cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
+> +              n->max_ncs - n->max_queue_pairs : 0;
+>   
+>       if (!get_vhost_net(nc->peer)) {
+>           return;
+
 
