@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F87514C9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 16:20:26 +0200 (CEST)
-Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFF6514CBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 16:25:11 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkRTt-0008VD-SZ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 10:20:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57972)
+	id 1nkRYU-00081j-OZ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 10:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkRRs-0005fs-78
+ id 1nkRRs-0005fv-MG
  for qemu-devel@nongnu.org; Fri, 29 Apr 2022 10:18:20 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42740)
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkRRq-0004YQ-Hs
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 10:18:19 -0400
-Received: by mail-ed1-x531.google.com with SMTP id z19so9228722edx.9
+ id 1nkRRr-0004Yb-31
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 10:18:20 -0400
+Received: by mail-ej1-x630.google.com with SMTP id y3so15684510ejo.12
  for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 07:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v0YZFWXZvJXgxjhtdyBY6KrGRYnC6+BD1SAFyqVxXeY=;
- b=Bm0xpaj1gFwFzUJM1wJD8w74WT/I2zi8SuKXsZ27X1j3heupTf0lRblo1QYl95C3NO
- 1bargTUp0NWvcp2b71oPiGbr7iYimFVrcIn5urkNVCIBvRC9ExoH97jAWFd11Bnb6QCC
- gX39qVCC4Wr0xWt5W7Ir75gQtwFfsjorexcZxuu1zPoKxT6elqLlnr4daDeEq/i6Dfl3
- RK4IcuWDxHsjt70dhlZrK+9lpuo2htzQ5epnAnqeCdyvRAyTGmk0K6w0lVEcXYM9n11W
- UAYtAOVQpppfRnacOLqwa3NvOtuwIhogWy6NkH1cnAoQ5o+GGNXF7f+M/CJp2OR48s7g
- Xoww==
+ bh=CKwxXqLYNV6OHtD6LrxQjyXmwSW3qhAClw+CCy5pf/g=;
+ b=XVoZcaQxok5enJp4h9oiRzNh9sipSVIQoYbO0BTIqNKpJ+XgHQ+49tjlA0B7IHuNPJ
+ RNdcYOePHoIw3Ivf7TSqXPzI/L++QciZDpnN5qLhR0u6JlolCiJtXiN0W7fALOm8dcOu
+ RZom+pmaLLg0Psn6QIP4DU13ssUcuY1zbXSLOz6jZOQeLCJrEvBAP+foDNTo1a/L3i23
+ ZcBgz8XCMUae97DPz2E+NN0A8Bg5M4etFDhiqp8ofAWU9dJVgAj29Hw3kjiqcuVn6g2B
+ 3GNuD6CoL3h5wBsfU4/YH27uF2L5j6PhXUGkxLcYuI1L38xNl41mPM12Pvr3cG8kT+s1
+ ObcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v0YZFWXZvJXgxjhtdyBY6KrGRYnC6+BD1SAFyqVxXeY=;
- b=YweSldHzW5Z9J7DmN5A+E+DRP/Fb1gOUnEtJostZSrywIB/NxRSatx54hihAfYNMB/
- pUBOYwVZkTOOvoqg0HTovhaOljHOYNpCmjRS4dLRdAF9lynwOl53QA1MV6f6+Uy1AJDh
- Dt6a4Qg7gYCWZcDa5u7RuEhh8VB83EbIAWs82SXmYCzuxSMnmTS/dxk4u9j4ArMH9jaz
- jXxVkiHKjR0Oe/jdjHN1IWRBueeuNWLDWOwGzIiTU8T+nYB8Zj4dyda5ficYsRrBZpkJ
- 8y71EkEGQoThaXo/antJEIaU2yWp957CeLKu1y9B7b+ddPx7InjgAs7NfMpvCJNneNtX
- sf3Q==
-X-Gm-Message-State: AOAM532i+sTMgV1FUlU2yWn9XWFvxvPcsneN3r/ux4pT+Y67DhLXenO1
- 7FE8Bf/3NdpS1cO80eOPNO3vf8oPTqGbOQ==
-X-Google-Smtp-Source: ABdhPJw+HJo+UxpcajDVO//rLlmULlCN/kWYASOz2U2N78p7kWogSYnwxf28ynF33HE5/LkP6PDSQw==
-X-Received: by 2002:a05:6402:358c:b0:426:19c0:2ee7 with SMTP id
- y12-20020a056402358c00b0042619c02ee7mr13083370edc.137.1651241896813; 
- Fri, 29 Apr 2022 07:18:16 -0700 (PDT)
+ bh=CKwxXqLYNV6OHtD6LrxQjyXmwSW3qhAClw+CCy5pf/g=;
+ b=1VyRk+xnTDKh4QUXetM+NUuK8P13jGoI3+/3NrM4TwmN7HngM2lIlXDPcvSFW1rGwL
+ UlnRra503Uc1e7B47pwMM9je/27dKhc+8MHi2Za/ca+hTZcyPTnHyLaweDptGITWX7HX
+ WMdJSSfCEIAG/WX+FbzEL1CKonBkKAFNhrxoxR+jY47JMQfeCfzpboVAM4VHdk7hxpK0
+ jctS9aplN+fxKnByH6iWIYnF2TNPCwcS48NnRR5pIWG4qLtObp25nMl4MIrNX07LR3Hv
+ Hjm8yQ5L54hMcZfgaj+DlF2WB2265pgq1BIu264iPR4sk/VSgVOyASTb5FHWWo0UKlmy
+ sm3w==
+X-Gm-Message-State: AOAM531BhixRhFOD1MWVK7HSeQvqQ2ZQZz53t2tJXnYwm85NwA2QP6Ng
+ Y9xXX33LznGkOOne6Jx1fTg3NoYh60ii2Q==
+X-Google-Smtp-Source: ABdhPJyl/f8R+pwQ+IA8yT5zJ24p6iWpq9xmkU174oA43gAAGYKjyLXgJWUfdDHB8fC8Lf0mNOhdFw==
+X-Received: by 2002:a17:907:7254:b0:6db:ad8f:27b4 with SMTP id
+ ds20-20020a170907725400b006dbad8f27b4mr36819858ejc.599.1651241897660; 
+ Fri, 29 Apr 2022 07:18:17 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
  jz1-20020a17090775e100b006f3ef214e27sm692298ejc.141.2022.04.29.07.18.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 07:18:16 -0700 (PDT)
+ Fri, 29 Apr 2022 07:18:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 02/12] configure: add missing cross compiler fallbacks
-Date: Fri, 29 Apr 2022 16:18:03 +0200
-Message-Id: <20220429141813.328975-3-pbonzini@redhat.com>
+Subject: [RFC PATCH 03/12] configure: handle host compiler in
+ probe_target_compiler
+Date: Fri, 29 Apr 2022 16:18:04 +0200
+Message-Id: <20220429141813.328975-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429141813.328975-1-pbonzini@redhat.com>
 References: <20220429141813.328975-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,38 +91,67 @@ Cc: alex.bennee@linaro.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arm compiler can be used for armeb, and the sparc64 compiler
-can be used for sparc.
+In preparation for handling more binaries than just cc, handle
+the case of "probe_target_compiler $cpu" directly in the function,
+setting the target_* variables based on the ones that are used to
+build QEMU.  The clang check also needs to be moved after this
+fallback.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ configure | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index 5d136492f8..a208459ff1 100755
+index a208459ff1..5277ac9092 100755
 --- a/configure
 +++ b/configure
-@@ -1845,6 +1845,7 @@ fi
- : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
- : ${cross_cc_alpha="alpha-linux-gnu-gcc"}
- : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
-+: ${cross_cc_armeb="$cross_cc_arm"}
- : ${cross_cc_cflags_armeb="-mbig-endian"}
- : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
- : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
-@@ -1867,9 +1868,10 @@ fi
- : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
- : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
- : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
--: ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
- : ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
-+: ${cross_cc_sparc="$cross_cc_sparc64"}
-+: ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
- : ${cross_cc_x86_64="x86_64-linux-gnu-gcc"}
- : ${cross_cc_cflags_x86_64="-m64"}
+@@ -965,10 +965,6 @@ case $git_submodules_action in
+     ;;
+ esac
  
+-if eval test -z "\${cross_cc_$cpu}"; then
+-    eval "cross_cc_${cpu}=\$cc"
+-fi
+-
+ default_target_list=""
+ mak_wilds=""
+ 
+@@ -2026,13 +2022,6 @@ probe_target_compiler() {
+   if eval test -n "\"\${cross_cc_$1}\""; then
+     if eval has "\"\${cross_cc_$1}\""; then
+       eval "target_cc=\"\${cross_cc_$1}\""
+-      case $1 in
+-        i386|x86_64)
+-          if $target_cc --version | grep -qi "clang"; then
+-            unset target_cc
+-          fi
+-          ;;
+-      esac
+     fi
+   fi
+   if eval test -n "\"\${cross_as_$1}\""; then
+@@ -2045,6 +2034,20 @@ probe_target_compiler() {
+       eval "target_ld=\"\${cross_ld_$1}\""
+     fi
+   fi
++  if test "$1" = $cpu; then
++    : ${target_cc:=$cc}
++    : ${target_as:=$as}
++    : ${target_ld:=$ld}
++  fi
++  if test -n "$target_cc"; then
++    case $1 in
++      i386|x86_64)
++        if $target_cc --version | grep -qi "clang"; then
++          unset target_cc
++        fi
++        ;;
++    esac
++  fi
+ }
+ 
+ write_target_makefile() {
 -- 
 2.35.1
 
