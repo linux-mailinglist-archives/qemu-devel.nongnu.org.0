@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7515A514170
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:33:39 +0200 (CEST)
-Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4334514177
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:37:50 +0200 (CEST)
+Received: from localhost ([::1]:41116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkIK2-0000D2-Jk
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
+	id 1nkIO5-0005zn-Nm
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIIA-0005uP-6a
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:31:42 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13466)
+ id 1nkIIB-0005uf-HI
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:31:43 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkII8-0002SD-5b
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:31:41 -0400
+ id 1nkII9-0002SM-MB
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:31:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1651206698; x=1682742698;
+ t=1651206700; x=1682742700;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nzjX2IZkFlk9xDz6PdjrBvMrGbie4XRl/qA1VQl0tmQ=;
- b=GobjW29Fvc6T6AYBM2XwjxbzJDOiEXD0H3CHfq6GiUjEPUY2cGIEGrru
- +1BbUDBkitNsBDMhI8PQVl4eVdC+HEKxq1qeyAhl6qOQEe1CJq7H1nIzt
- hfp1tGxsK8Bvd7P+vEfThLXSrFLUYI4eZVRljJBOLjCjbXg4RQimo8oOY
- bbbHW2yCoD4Ko1WgOrodJnuA99KKjNU3H4EDA++Z2SgmSOsdBJjtKNnsA
- DscFS7w0NWnFVp92Z837c7CajwCwxUWvj94QYoZC8WizkBIwgMYQB51fs
- FTZMnCBxdMrj/eNF+8PADrR4QMtnWV08DXOPPrd/Z9dfFXVecNgXEl+37 g==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995889"
+ bh=kNAbBdAYEKrwjI0f5ZC2O+BikUvArLNvQ/hHGvoxLgM=;
+ b=LhB1f77NY5j57ZwNlSFgpCZalY9KBiTIqjgDoLy9KtWuBx2ccWFsBxiM
+ EjtmW7G05D3cFcuRqGFmcsQNChWwothl0ilNba4FKbE0USjhdJYaEUGYB
+ ZkGV49mxQdum3aJmBwjux+/6O9yEgeCrRwMIWwsUUK01ZQHeJXLWxvUcx
+ c3GhRwTSnGEIFeEcAcOIqCY5nGkQS/UDIFKg0wqWQxs4lMDqnLhUobQ8H
+ /3OJnxul8q2yx+ajiOEnTbQyR4gDfCISlnGLEzi7sqH63C+uodZi9L9ju
+ 1PzW3+3NIKIwwW9UseKG5D0vjuagRvczOk0oMcPSby9GbZBJ79OkCOdaJ A==;
+X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995895"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:31:36 +0800
-IronPort-SDR: Jmpr9s7GdzNMdR0i8+3mApPq+5YpU9ZVKqZQJwR/mCd3T+Svk73EwT5I4lAjhtY36hNciqt0M/
- jAaJ90e38yZ3J7A/H6kWMZ+v1QGq1DLPAXCaVwAdHk2RzIQl7xR7pDAYGIZk6B2qeFJi+p/2lZ
- GS4JDMjc1nhWxIKkQxLCOCU6QFiK26+2TQgbgwWVynFygLJLIV32a4UPxfTN1f5DeJPq0Jqzot
- 07d3MSyDWXnuBSbG/dl0H0Q+0CksOHlrASml0vYwldWlQQe0PMUHsCWek0aE0Pvakuwvaw6Qgk
- /eH958aVMwJ99haODQ9H+uDo
+ by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:31:38 +0800
+IronPort-SDR: RshsxfR9p6AvE9+zVzMmA4gmcJChT2XD/qAWMUKWS7dKyFCThGViaiJ06nHtJnId6eh2IfoBsN
+ 37Afbh61wneGueSBczE1sAMPe0cMZRx4AJpTvpeEkvYPvLbtaFDVy57UdsAZXoV/1htEv9mkFV
+ FbwGBxU4Njh3dAlswDZM/n2aBGGC1CJXTm+gohCm1kIBVkPVceP9pnVmRxm4ui1lO7ogVsuKmO
+ PEa6VkHXxNwdeQDBGV5LhPwcYVflbxBZW+hTku/+DI8IZoZ/wS2KuSET4CCExd+0qYmlcIL2i2
+ u4UdgWbt/nK4hytceBsZrIDk
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:01:45 -0700
-IronPort-SDR: Ttnc0jn+Yc4EeOVJzmNrwHRyoCa5+CmebG0BrTcXB9yUM2yyZcfQzvURl8gA7EKCdIC3TX7TeJ
- YvsziHe2FR1hzTH/uGBne2iLiqeYtR5Oi9For2sjwgKGEYLqPp+iUP3mh9fLBUdpE49TnKQpg0
- dgZyPs74HVUPMLYtn6A6aTVFvuN3NOqrSCnXglfE7AZXcg9jGe0fs4IBz1yFUknvBMS+3Xwvqv
- gY/zQ2i5mzbHsnX+GgsPW6EI0fOk64im0RdxPbBGALFbZr5qiLoXLiG4KuDFKAgAIBh1+Mnvv+
- WIY=
+ 28 Apr 2022 21:01:48 -0700
+IronPort-SDR: hW4nNDN9f6Bdc6bwOJHaQA6juxuMukesZR89TpyBY0SnxApzB9zZFsv1IyPFJW/+CPZ7DIqGlq
+ YfuRAuvqkmM/oRYRrJyU7ZDBjBNVzQrz+/jSCMyk6fOs9D2PFCK7A2MYiJMTQXESLgEV+edGSN
+ q38PjdUSj6HKcnkn8chT8X9wrbmPH5aGLtm284V8V4cNcoyW9MQb49fWaZyzDACGCcjIz7fCk3
+ r0qOMPzR91DWWGsGV+Zc6WrbnfblEvR1Y1mVqgG/+MYYeImo2iorPf0yHZ+DiodEeGItdsChrw
+ LkM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:31:38 -0700
+ 28 Apr 2022 21:31:40 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKLx3gvKz1SHwl
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:31:37 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKM00QJ4z1SVnx
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:31:40 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1651206697; x=1653798698; bh=nzjX2IZkFlk9xDz6Pd
- jrBvMrGbie4XRl/qA1VQl0tmQ=; b=TJlg5OawEmHnqIBVIWRLAZcux2wpYLcDIM
- edPJLADq3Ncr5ormRutuCpDOCfT0OVzT6I8VKhL8xJuCujjO/7cX82biCOXHtcph
- jFdSWDkSpm3FoXVSBvhWvZDzGNCFER3uyc8HMLMqF1cY4LG5TYRRfljSdQBZeXIA
- 3n+yaotQWKq1gyi5/J3dpppMvPFPwqw600DfbuRFZ7ybJesehluZYiFKDCzH92sb
- GSw0m+PnXW/VBv1ogUxwchh4TymlcL0sVmsGU+o2XHcenZqE9mHvxuobmh27L7XG
- pBK7UmW75VeCrC5jcRUSmHhmEkYt10A8oIBKMkNJre1ZnF8h/MNw==
+ :from; s=dkim; t=1651206699; x=1653798700; bh=kNAbBdAYEKrwjI0f5Z
+ C2O+BikUvArLNvQ/hHGvoxLgM=; b=U7+BzHiKbASbNtfC7RXWHDN3CY96FQEa6p
+ acXnGlzJ0rgh3I1msAqTLURrgpQkgx8GFA9Le1uqhQbbv/u7a4nyUk8Z/OnqtN2R
+ qsodTowAj9+tuQi2VxD5vHEC7hGYGL1GvqABsKiPDyKEBkycMOxViLNqAIxiZEqz
+ nrIa6fZNVJU+faf1jb0bny0u+5jDDZh+XomAdVXKbBCkRE2nbgX2RlK34TmTh28C
+ cOVNLhGjTRRndalKZMmpx1CKI6Wi6uVzX27na7ovUExTFEpM17dPd6mRk/yGzspQ
+ LZGz5BwZemL15FfLQPlGRT9YGWhLvVewfpefDhKZL+Mfku3noPpw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 5lauWlSfkqs5 for <qemu-devel@nongnu.org>;
- Thu, 28 Apr 2022 21:31:37 -0700 (PDT)
+ port 10026) with ESMTP id KNHXTuYGVqeG for <qemu-devel@nongnu.org>;
+ Thu, 28 Apr 2022 21:31:39 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.122])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKLv0NZ1z1Rvlx;
- Thu, 28 Apr 2022 21:31:34 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKLx5lLPz1Rvlc;
+ Thu, 28 Apr 2022 21:31:37 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 01/25] hw/riscv: spike: Add '/chosen/stdout-path' in device
- tree unconditionally
-Date: Fri, 29 Apr 2022 14:30:55 +1000
-Message-Id: <20220429043119.1478881-2-alistair.francis@opensource.wdc.com>
+Subject: [PULL 02/25] hw/riscv: Don't add empty bootargs to device tree
+Date: Fri, 29 Apr 2022 14:30:56 +1000
+Message-Id: <20220429043119.1478881-3-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
 References: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
@@ -118,39 +117,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present the adding '/chosen/stdout-path' property in device tree
-is determined by whether a kernel command line is provided, which is
-wrong. It should be added unconditionally.
+Commit 7c28f4da20e5 ("RISC-V: Don't add NULL bootargs to device-tree")
+tried to avoid adding *NULL* bootargs to device tree, but unfortunately
+the changes were entirely useless, due to MachineState::kernel_cmdline
+can't be NULL at all as the default value is given as an empty string.
+(see hw/core/machine.c::machine_initfn()).
 
-Fixes: 8d8897accb1c ("hw/riscv: spike: Allow using binary firmware as bio=
-s")
+Note the wording of *NULL* bootargs is wrong. It can't be NULL otherwise
+a segfault had already been observed by dereferencing the NULL pointer.
+It should be worded as *empty" bootargs.
+
+Fixes: 7c28f4da20e5 ("RISC-V: Don't add NULL bootargs to device-tree")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220421055629.1177285-1-bmeng.cn@gmail.com>
+Message-Id: <20220421055629.1177285-2-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/spike.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/riscv/microchip_pfsoc.c | 2 +-
+ hw/riscv/sifive_u.c        | 2 +-
+ hw/riscv/spike.c           | 2 +-
+ hw/riscv/virt.c            | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index d059a67f9b..1562b000bb 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -174,10 +174,11 @@ static void create_fdt(SpikeState *s, const MemMapE=
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index cafd1fc9ae..10a5d0e501 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -571,7 +571,7 @@ static void microchip_icicle_kit_machine_init(Machine=
+State *machine)
+                                   "linux,initrd-end", end);
+         }
+=20
+-        if (machine->kernel_cmdline) {
++        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+             qemu_fdt_setprop_string(machine->fdt, "/chosen",
+                                     "bootargs", machine->kernel_cmdline)=
+;
+         }
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 7fbc7dea42..cc8c7637cb 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -511,7 +511,7 @@ static void create_fdt(SiFiveUState *s, const MemMapE=
 ntry *memmap,
+     g_free(nodename);
 =20
-     riscv_socket_fdt_write_distance_matrix(mc, fdt);
-=20
-+    qemu_fdt_add_subnode(fdt, "/chosen");
-+    qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", "/htif");
-+
-     if (cmdline) {
--        qemu_fdt_add_subnode(fdt, "/chosen");
+ update_bootargs:
+-    if (cmdline) {
++    if (cmdline && *cmdline) {
          qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
--        qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", "/htif");
      }
  }
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 1562b000bb..068ba3493e 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -177,7 +177,7 @@ static void create_fdt(SpikeState *s, const MemMapEnt=
+ry *memmap,
+     qemu_fdt_add_subnode(fdt, "/chosen");
+     qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", "/htif");
 =20
+-    if (cmdline) {
++    if (cmdline && *cmdline) {
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+     }
+ }
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index b49c5361bd..643fee23f7 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1004,7 +1004,7 @@ static void create_fdt(RISCVVirtState *s, const Mem=
+MapEntry *memmap,
+     create_fdt_flash(s, memmap);
+=20
+ update_bootargs:
+-    if (cmdline) {
++    if (cmdline && *cmdline) {
+         qemu_fdt_setprop_string(mc->fdt, "/chosen", "bootargs", cmdline)=
+;
+     }
+ }
 --=20
 2.35.1
 
