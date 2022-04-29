@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C50514191
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:51:17 +0200 (CEST)
-Received: from localhost ([::1]:40712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A620E514192
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:51:21 +0200 (CEST)
+Received: from localhost ([::1]:40948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkIb6-00081I-B9
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54228)
+	id 1nkIbA-0008DF-MK
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIJ8-0008ER-J5
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:42 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13522)
+ id 1nkIJC-0008Ks-ET
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:46 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIJ4-0002Vn-SL
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:41 -0400
+ id 1nkIJ9-0002Wc-Qi
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1651206758; x=1682742758;
+ t=1651206763; x=1682742763;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XRcETipoEeaGvOleUbCzSy0CY6kmfZEXRVQWlUGGfMM=;
- b=dMCNMJpyyWR1amzD611bxjgaZMD+1gjZR24s2eRJ6rlCUa6xGHEFaa4x
- fdly13hA6cunUVppgWIDqbHeW6aTzBUgclBtCIHQVKFY5dmiv9PvzBq1a
- cFNr2Td28LnRHJheqo5AlyjktduGWucfTcNI+3o8dahO9/6hgxU+yQG/l
- FUHOtid+ngtCQT7arHVHA4F+L+81UPCtq1rV3WsXQWulWTJsh1U1m3ok5
- aTYO9ibtBN+g03HbTRsW980j1xE7y2SqcOqL5S/TzgPZ4/jl3Fjioyt9x
- GvfIDeMWkTiB34ctGAWJwodCcwhXvMRnApI0gVNbw+nk+38c9lu9ywLGS A==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995966"
+ bh=QdXbN33yRfQnUooiux91yowqwo/6KGT7NOi+NgkEh9A=;
+ b=Y+R8WPt23Bv7d/uu8Aiqe0U1VvIqrv/4rngFVBo/8dgoeRfDQ2ZSr8+E
+ c0aQ7uf1+U/8SHS6tqAdmZR7Kn/qemgyD3/xDVECebgt+PYZqyNhd4McE
+ BIz1GZsCxWsLlbPKFo7CtWDkS8GArRyX+HJ+ZIppRaLtZQh6kFyP49qVe
+ Ps/TOlJTR1IK5WCHzL54aZ+eRGRa9LGgoRo3orDGX7pMaWv36xRJDaJRK
+ +SVgkfmiBF6ihsI0DMA6jsUcaXtbt59yUXJ9EXF3GO+DAg/XEi8UnjNQ4
+ Y1Th7SMvosDgsXmaUnWCEeIGtJ1gtevhwHWddOJ5YJ+pbFB9xxv0u77lb w==;
+X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995974"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:26 +0800
-IronPort-SDR: MleA+bOFaXhaJ35+SQD556tj7iKSgpnf01dUfNk1Tylxu4PgpTDLYEDRcplHC/IDzwWlmN3CBd
- 9TPuOx5g/8jORKlHqp4MdjM8sVOj2fL0m/kZ2nUDhMcuTrxlBgygHEj0NZIYWW22qgL2qPE5W/
- HAe62XBQBBpL+YW0AchynDZVix97ni3Qkq1f3VJtgYw6bSbcWMGuumfsyFZ2iSEItVucQ8XxTw
- c9FrG/PmnOMqrEnYfhcSg0oejZUSqFnDGU+l7imbkL+dcEFSdDQQVGB+BKXz3cIqjVnKf2jWQl
- +IAPDg+YUeSoPItt7Zp4ZPc+
+ by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:30 +0800
+IronPort-SDR: gzr+m5brjs6R8B2SXIvYV9OEbbsjT7LF3s6PtXdZVAijTY3PluTsq+nkwbuKYVNQJleGQpMhat
+ v0hGgaquT+hVvejIdmknSb6kv3mCAUeXXVa9Ov4qPP4grHQBystvBGLugkzXcVTAfAALrPA6sP
+ 9moomeV/Dxt5J+YUyUSiNYFVqC55iBmj4vJmqQg/q4QqWwzZSqVzbM7e8MBjXHZqW5J+e8fPoW
+ M5nFtNdTfe+wvUVAggdb3BOLpfZ0HwmhY7LUkiliFozi5XsNq/EZDULA0C6hqJBpMyjxM2In2w
+ aYOZVKxWTTxRPn1QLUX4ZCzC
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:02:36 -0700
-IronPort-SDR: L+h9/6SCRSn4W1NywTkj0S+/Om15mkm2OkvieXHSQEKylPeWBTY48S8AgEiZQPoRk4zDI6bIe+
- tp4YAaBbUuNH8xsf6D/mLc19xWIuTpF1P5Ky4oJXG9GnFJNsgoep5YcLpo0YtCy56BgeQf9q38
- 0s8T0fFLM3LR25wJckDHOzy2kMbWhvyI1ury1apvcdNT44UDz55JAdBlZBPGEfeMkrq/c1Jn2F
- K2zq3gCZLtUCQYaJQL2nvgKJBd3XQWae1nZtM4074X9wyDgnsDWb4zpFxYt7+UEP+PMRC+tivY
- yZ4=
+ 28 Apr 2022 21:02:40 -0700
+IronPort-SDR: yHGpYQ38cbndO7dNT8gdI9d5WPCDXgJMaFgsdYZHA5dSTNo7eJQvRo5cCW9XkIABNUgqkXDzDi
+ LC53EWWcgQ2CRAZKuEOfVvgYHJqwxkrt2c2ZdBBd8pORkiexh2OscBGy2L5Ii5lsqwotaPmRlu
+ fJe9wsoAigLAWvrA5CeQU+lb8CVCGtde8YYtssV/aaNoQ0GT0kxTEC4/WWkThssYf3tfRVj6dM
+ mp7wpWVxppcC8jqNDg/Ovo4JHKaRPTPpDNLToOFfXvyRrJDTZslpAiEtHBcPbN9d3tcWA54ed7
+ mCM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:32:28 -0700
+ 28 Apr 2022 21:32:32 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKMv56Xdz1SVp1
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:27 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKMz51PBz1SVp2
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:31 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1651206746; x=1653798747; bh=XRcETipoEeaGvOleUb
- CzSy0CY6kmfZEXRVQWlUGGfMM=; b=RNlmTgdmRzT4hWRHXLsatUZshypwszVsxC
- n0fLvZxPk+3EsbqnZ2S+sRlBDRwYTs15ih9k1SYNgv+o/bMKMMtnEUAT0jyZmIDe
- VMIhyhsmc0T8IiugSx9B6zCBXWC2owE1rhq85xz6Q/HLvvdou8RIoKeyFR/Qi0iH
- oaI9UYiznVarBNKodnTvnFnmnFBi2CSCOrKrc9swqEQhBM3davoq3lyMbJTxl5tM
- ad3M/uHqWTjvpg+ymHFrLxqjJ+oyUz2PG4u6O5Uqh8ED7/P64L2Mf8TMpf9lA2/t
- Gpz/xuEvStKep4edEkqAiUffUKabbvLYibjH78f8vQA7vwAl/rHg==
+ :from; s=dkim; t=1651206750; x=1653798751; bh=QdXbN33yRfQnUooiux
+ 91yowqwo/6KGT7NOi+NgkEh9A=; b=DgP/3OWRVp4QfGo7qqAvJIl1Rua8V8xeUY
+ usOspUgPDlkZaWcCyN2bSz6VmgHDzoZZ1XEyKRy+KqKtb3gUopssiDoxwIEhNN70
+ TDjtexaps1ax9ii8t2dr5PQTUXXlrYg6By6C0yBTuHdNNWE3l7vwhrSDGBgKDrUv
+ YtEVUiXKen305hWeIvnkI2ow+HTaXhbRdnd4NvT8y1N/AjrktgWMnAMTjM/hOmhz
+ C2MRZv+/t5xm8LtpIwJTqyUFn6Zm7fpGEd/N92UgTlnW8T9QRd3eE4+FUV9zjR8A
+ u+cYfxk6x69TXH+K6qzgbzVm3YV3hwmXF1cU/UvQlaSWIIWZpK0A==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 87FgEoPAWEKJ for <qemu-devel@nongnu.org>;
- Thu, 28 Apr 2022 21:32:26 -0700 (PDT)
+ port 10026) with ESMTP id hJPiScWH1ge4 for <qemu-devel@nongnu.org>;
+ Thu, 28 Apr 2022 21:32:30 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.122])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKMq56Gcz1Rwrw;
- Thu, 28 Apr 2022 21:32:23 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKMv3YSzz1Rvlc;
+ Thu, 28 Apr 2022 21:32:27 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
  Ruibo Lu <luruibo2000@163.com>, Zewen Ye <lustrew@foxmail.com>,
  Junqiang Wang <wangjunqiang@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 15/25] target/riscv: rvk: add CSR support for Zkr
-Date: Fri, 29 Apr 2022 14:31:09 +1000
-Message-Id: <20220429043119.1478881-16-alistair.francis@opensource.wdc.com>
+Subject: [PULL 16/25] disas/riscv.c: rvk: add disas support for Zbk* and Zk*
+ instructions
+Date: Fri, 29 Apr 2022 14:31:10 +1000
+Message-Id: <20220429043119.1478881-17-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
 References: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
@@ -119,211 +120,326 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
- - add SEED CSR which must be accessed with a read-write instruction:
-   A read-only instruction such as CSRRS/CSRRC with rs1=3Dx0 or CSRRSI/CS=
-RRCI
-with uimm=3D0 will raise an illegal instruction exception.
- - add USEED, SSEED fields for MSECCFG CSR
-
 Co-authored-by: Ruibo Lu <luruibo2000@163.com>
 Co-authored-by: Zewen Ye <lustrew@foxmail.com>
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220423023510.30794-13-liweiwei@iscas.ac.cn>
+Message-Id: <20220423023510.30794-14-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h  |  9 +++++
- target/riscv/pmp.h       |  8 ++--
- target/riscv/csr.c       | 80 ++++++++++++++++++++++++++++++++++++++++
- target/riscv/op_helper.c |  9 +++++
- 4 files changed, 103 insertions(+), 3 deletions(-)
+ disas/riscv.c | 173 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 172 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 4a9e4f7d09..4d04b20d06 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -458,6 +458,9 @@
- #define CSR_VSPMMASK        0x2c1
- #define CSR_VSPMBASE        0x2c2
-=20
-+/* Crypto Extension */
-+#define CSR_SEED            0x015
-+
- /* mstatus CSR bits */
- #define MSTATUS_UIE         0x00000001
- #define MSTATUS_SIE         0x00000002
-@@ -800,4 +803,10 @@ typedef enum RISCVException {
- #define HVICTL_VALID_MASK                  \
-     (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
-=20
-+/* seed CSR bits */
-+#define SEED_OPST                        (0b11 << 30)
-+#define SEED_OPST_BIST                   (0b00 << 30)
-+#define SEED_OPST_WAIT                   (0b01 << 30)
-+#define SEED_OPST_ES16                   (0b10 << 30)
-+#define SEED_OPST_DEAD                   (0b11 << 30)
- #endif
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index fcb6b7c467..a8dd797476 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -39,9 +39,11 @@ typedef enum {
- } pmp_am_t;
+diff --git a/disas/riscv.c b/disas/riscv.c
+index 03c8dc9961..7af6afc8fa 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -156,6 +156,8 @@ typedef enum {
+     rv_codec_css_swsp,
+     rv_codec_css_sdsp,
+     rv_codec_css_sqsp,
++    rv_codec_k_bs,
++    rv_codec_k_rnum,
+ } rv_codec;
 =20
  typedef enum {
--    MSECCFG_MML  =3D 1 << 0,
--    MSECCFG_MMWP =3D 1 << 1,
--    MSECCFG_RLB  =3D 1 << 2
-+    MSECCFG_MML   =3D 1 << 0,
-+    MSECCFG_MMWP  =3D 1 << 1,
-+    MSECCFG_RLB   =3D 1 << 2,
-+    MSECCFG_USEED =3D 1 << 8,
-+    MSECCFG_SSEED =3D 1 << 9
- } mseccfg_field_t;
+@@ -521,6 +523,43 @@ typedef enum {
+     rv_op_bclr =3D 359,
+     rv_op_binv =3D 360,
+     rv_op_bext =3D 361,
++    rv_op_aes32esmi =3D 362,
++    rv_op_aes32esi =3D 363,
++    rv_op_aes32dsmi =3D 364,
++    rv_op_aes32dsi =3D 365,
++    rv_op_aes64ks1i =3D 366,
++    rv_op_aes64ks2 =3D 367,
++    rv_op_aes64im =3D 368,
++    rv_op_aes64esm =3D 369,
++    rv_op_aes64es =3D 370,
++    rv_op_aes64dsm =3D 371,
++    rv_op_aes64ds =3D 372,
++    rv_op_sha256sig0 =3D 373,
++    rv_op_sha256sig1 =3D 374,
++    rv_op_sha256sum0 =3D 375,
++    rv_op_sha256sum1 =3D 376,
++    rv_op_sha512sig0 =3D 377,
++    rv_op_sha512sig1 =3D 378,
++    rv_op_sha512sum0 =3D 379,
++    rv_op_sha512sum1 =3D 380,
++    rv_op_sha512sum0r =3D 381,
++    rv_op_sha512sum1r =3D 382,
++    rv_op_sha512sig0l =3D 383,
++    rv_op_sha512sig0h =3D 384,
++    rv_op_sha512sig1l =3D 385,
++    rv_op_sha512sig1h =3D 386,
++    rv_op_sm3p0 =3D 387,
++    rv_op_sm3p1 =3D 388,
++    rv_op_sm4ed =3D 389,
++    rv_op_sm4ks =3D 390,
++    rv_op_brev8 =3D 391,
++    rv_op_pack =3D 392,
++    rv_op_packh =3D 393,
++    rv_op_packw =3D 394,
++    rv_op_unzip =3D 395,
++    rv_op_zip =3D 396,
++    rv_op_xperm4 =3D 397,
++    rv_op_xperm8 =3D 398,
+ } rv_op;
+=20
+ /* structures */
+@@ -540,6 +579,8 @@ typedef struct {
+     uint8_t   succ;
+     uint8_t   aq;
+     uint8_t   rl;
++    uint8_t   bs;
++    uint8_t   rnum;
+ } rv_decode;
 =20
  typedef struct {
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1c2d3f7193..3500e07f92 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -24,6 +24,8 @@
- #include "qemu/main-loop.h"
- #include "exec/exec-all.h"
- #include "sysemu/cpu-timers.h"
-+#include "qemu/guest-random.h"
-+#include "qapi/error.h"
+@@ -615,6 +656,8 @@ static const char rv_freg_name_sym[32][5] =3D {
+ #define rv_fmt_rd_rs2                 "O\t0,2"
+ #define rv_fmt_rs1_offset             "O\t1,o"
+ #define rv_fmt_rs2_offset             "O\t2,o"
++#define rv_fmt_rs1_rs2_bs             "O\t1,2,b"
++#define rv_fmt_rd_rs1_rnum            "O\t0,1,n"
 =20
- /* CSR function table public API */
- void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops)
-@@ -301,6 +303,46 @@ static RISCVException debug(CPURISCVState *env, int =
-csrno)
+ /* pseudo-instruction constraints */
+=20
+@@ -766,6 +809,7 @@ static const rv_comp_data rvcp_csrrw[] =3D {
+     { rv_op_illegal, NULL }
+ };
+=20
++
+ static const rv_comp_data rvcp_csrrs[] =3D {
+     { rv_op_rdcycle, rvcc_rdcycle },
+     { rv_op_rdtime, rvcc_rdtime },
+@@ -1203,6 +1247,43 @@ const rv_opcode_data opcode_data[] =3D {
+     { "bclr", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "binv", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "bext", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "aes32esmi", rv_codec_k_bs, rv_fmt_rs1_rs2_bs, NULL, 0, 0, 0 },
++    { "aes32esi", rv_codec_k_bs, rv_fmt_rs1_rs2_bs, NULL, 0, 0, 0 },
++    { "aes32dsmi", rv_codec_k_bs, rv_fmt_rs1_rs2_bs, NULL, 0, 0, 0 },
++    { "aes32dsi", rv_codec_k_bs, rv_fmt_rs1_rs2_bs, NULL, 0, 0, 0 },
++    { "aes64ks1i", rv_codec_k_rnum,  rv_fmt_rd_rs1_rnum, NULL, 0, 0, 0 }=
+,
++    { "aes64ks2", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "aes64im", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0 },
++    { "aes64esm", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "aes64es", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "aes64dsm", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "aes64ds", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha256sig0", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0 },
++    { "sha256sig1", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0 },
++    { "sha256sum0", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0 },
++    { "sha256sum1", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0 },
++    { "sha512sig0", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sig1", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sum0", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sum1", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sum0r", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sum1r", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sig0l", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sig0h", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sig1l", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sha512sig1h", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sm3p0", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0 },
++    { "sm3p1", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0 },
++    { "sm4ed", rv_codec_k_bs, rv_fmt_rs1_rs2_bs, NULL, 0, 0, 0 },
++    { "sm4ks", rv_codec_k_bs, rv_fmt_rs1_rs2_bs, NULL, 0, 0, 0 },
++    { "brev8", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "pack", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "packh", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "packw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "unzip", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "zip", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "xperm4", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "xperm8", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 }
+ };
+=20
+ /* CSR names */
+@@ -1216,6 +1297,7 @@ static const char *csr_name(int csrno)
+     case 0x0003: return "fcsr";
+     case 0x0004: return "uie";
+     case 0x0005: return "utvec";
++    case 0x0015: return "seed";
+     case 0x0040: return "uscratch";
+     case 0x0041: return "uepc";
+     case 0x0042: return "ucause";
+@@ -1594,7 +1676,36 @@ static void decode_inst_opcode(rv_decode *dec, rv_=
+isa isa)
+             case 1:
+                 switch (((inst >> 27) & 0b11111)) {
+                 case 0b00000: op =3D rv_op_slli; break;
++                case 0b00001:
++                    switch (((inst >> 20) & 0b1111111)) {
++                    case 0b0001111: op =3D rv_op_zip; break;
++                    }
++                    break;
++                case 0b00010:
++                    switch (((inst >> 20) & 0b1111111)) {
++                    case 0b0000000: op =3D rv_op_sha256sum0; break;
++                    case 0b0000001: op =3D rv_op_sha256sum1; break;
++                    case 0b0000010: op =3D rv_op_sha256sig0; break;
++                    case 0b0000011: op =3D rv_op_sha256sig1; break;
++                    case 0b0000100: op =3D rv_op_sha512sum0; break;
++                    case 0b0000101: op =3D rv_op_sha512sum1; break;
++                    case 0b0000110: op =3D rv_op_sha512sig0; break;
++                    case 0b0000111: op =3D rv_op_sha512sig1; break;
++                    case 0b0001000: op =3D rv_op_sm3p0; break;
++                    case 0b0001001: op =3D rv_op_sm3p1; break;
++                    }
++                    break;
+                 case 0b00101: op =3D rv_op_bseti; break;
++                case 0b00110:
++                    switch (((inst >> 20) & 0b1111111)) {
++                    case 0b0000000: op =3D rv_op_aes64im; break;
++                    default:
++                        if (((inst >> 24) & 0b0111) =3D=3D 0b001) {
++                            op =3D rv_op_aes64ks1i;
++                        }
++                        break;
++                     }
++                     break;
+                 case 0b01001: op =3D rv_op_bclri; break;
+                 case 0b01101: op =3D rv_op_binvi; break;
+                 case 0b01100:
+@@ -1615,13 +1726,20 @@ static void decode_inst_opcode(rv_decode *dec, rv=
+_isa isa)
+             case 5:
+                 switch (((inst >> 27) & 0b11111)) {
+                 case 0b00000: op =3D rv_op_srli; break;
++                case 0b00001:
++                    switch (((inst >> 20) & 0b1111111)) {
++                    case 0b0001111: op =3D rv_op_unzip; break;
++                    }
++                    break;
+                 case 0b00101: op =3D rv_op_orc_b; break;
+                 case 0b01000: op =3D rv_op_srai; break;
+                 case 0b01001: op =3D rv_op_bexti; break;
+                 case 0b01100: op =3D rv_op_rori; break;
+                 case 0b01101:
+                     switch ((inst >> 20) & 0b1111111) {
++                    case 0b0011000: op =3D rv_op_rev8; break;
+                     case 0b0111000: op =3D rv_op_rev8; break;
++                    case 0b0000111: op =3D rv_op_brev8; break;
+                     }
+                     break;
+                 }
+@@ -1742,8 +1860,11 @@ static void decode_inst_opcode(rv_decode *dec, rv_=
+isa isa)
+             case 36:
+                 switch ((inst >> 20) & 0b11111) {
+                 case 0: op =3D rv_op_zext_h; break;
++                default: op =3D rv_op_pack; break;
+                 }
+                 break;
++            case 39: op =3D rv_op_packh; break;
++
+             case 41: op =3D rv_op_clmul; break;
+             case 42: op =3D rv_op_clmulr; break;
+             case 43: op =3D rv_op_clmulh; break;
+@@ -1755,6 +1876,12 @@ static void decode_inst_opcode(rv_decode *dec, rv_=
+isa isa)
+             case 132: op =3D rv_op_sh2add; break;
+             case 134: op =3D rv_op_sh3add; break;
+             case 161: op =3D rv_op_bset; break;
++            case 162: op =3D rv_op_xperm4; break;
++            case 164: op =3D rv_op_xperm8; break;
++            case 200: op =3D rv_op_aes64es; break;
++            case 216: op =3D rv_op_aes64esm; break;
++            case 232: op =3D rv_op_aes64ds; break;
++            case 248: op =3D rv_op_aes64dsm; break;
+             case 256: op =3D rv_op_sub; break;
+             case 260: op =3D rv_op_xnor; break;
+             case 261: op =3D rv_op_sra; break;
+@@ -1762,9 +1889,24 @@ static void decode_inst_opcode(rv_decode *dec, rv_=
+isa isa)
+             case 263: op =3D rv_op_andn; break;
+             case 289: op =3D rv_op_bclr; break;
+             case 293: op =3D rv_op_bext; break;
++            case 320: op =3D rv_op_sha512sum0r; break;
++            case 328: op =3D rv_op_sha512sum1r; break;
++            case 336: op =3D rv_op_sha512sig0l; break;
++            case 344: op =3D rv_op_sha512sig1l; break;
++            case 368: op =3D rv_op_sha512sig0h; break;
++            case 376: op =3D rv_op_sha512sig1h; break;
+             case 385: op =3D rv_op_rol; break;
+-            case 386: op =3D rv_op_ror; break;
++            case 389: op =3D rv_op_ror; break;
+             case 417: op =3D rv_op_binv; break;
++            case 504: op =3D rv_op_aes64ks2; break;
++            }
++            switch ((inst >> 25) & 0b0011111) {
++            case 17: op =3D rv_op_aes32esi; break;
++            case 19: op =3D rv_op_aes32esmi; break;
++            case 21: op =3D rv_op_aes32dsi; break;
++            case 23: op =3D rv_op_aes32dsmi; break;
++            case 24: op =3D rv_op_sm4ed; break;
++            case 26: op =3D rv_op_sm4ks; break;
+             }
+             break;
+         case 13: op =3D rv_op_lui; break;
+@@ -1782,6 +1924,7 @@ static void decode_inst_opcode(rv_decode *dec, rv_i=
+sa isa)
+             case 36:
+                 switch ((inst >> 20) & 0b11111) {
+                 case 0: op =3D rv_op_zext_h; break;
++                default: op =3D rv_op_packw; break;
+                 }
+                 break;
+             case 130: op =3D rv_op_sh1add_uw; break;
+@@ -2374,6 +2517,16 @@ static uint32_t operand_cimmq(rv_inst inst)
+         ((inst << 57) >> 62) << 6;
  }
- #endif
 =20
-+static RISCVException seed(CPURISCVState *env, int csrno)
++static uint32_t operand_bs(rv_inst inst)
 +{
-+    RISCVCPU *cpu =3D env_archcpu(env);
-+
-+    if (!cpu->cfg.ext_zkr) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+#if !defined(CONFIG_USER_ONLY)
-+    /*
-+     * With a CSR read-write instruction:
-+     * 1) The seed CSR is always available in machine mode as normal.
-+     * 2) Attempted access to seed from virtual modes VS and VU always r=
-aises
-+     * an exception(virtual instruction exception only if mseccfg.sseed=3D=
-1).
-+     * 3) Without the corresponding access control bit set to 1, any att=
-empted
-+     * access to seed from U, S or HS modes will raise an illegal instru=
-ction
-+     * exception.
-+     */
-+    if (env->priv =3D=3D PRV_M) {
-+        return RISCV_EXCP_NONE;
-+    } else if (riscv_cpu_virt_enabled(env)) {
-+        if (env->mseccfg & MSECCFG_SSEED) {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        } else {
-+            return RISCV_EXCP_ILLEGAL_INST;
-+        }
-+    } else {
-+        if (env->priv =3D=3D PRV_S && (env->mseccfg & MSECCFG_SSEED)) {
-+            return RISCV_EXCP_NONE;
-+        } else if (env->priv =3D=3D PRV_U && (env->mseccfg & MSECCFG_USE=
-ED)) {
-+            return RISCV_EXCP_NONE;
-+        } else {
-+            return RISCV_EXCP_ILLEGAL_INST;
-+        }
-+    }
-+#else
-+    return RISCV_EXCP_NONE;
-+#endif
++    return (inst << 32) >> 62;
 +}
 +
- /* User Floating-Point CSRs */
- static RISCVException read_fflags(CPURISCVState *env, int csrno,
-                                   target_ulong *val)
-@@ -3044,6 +3086,41 @@ static RISCVException write_upmbase(CPURISCVState =
-*env, int csrno,
-=20
- #endif
-=20
-+/* Crypto Extension */
-+static RISCVException rmw_seed(CPURISCVState *env, int csrno,
-+                               target_ulong *ret_value,
-+                               target_ulong new_value,
-+                               target_ulong write_mask)
++static uint32_t operand_rnum(rv_inst inst)
 +{
-+    uint16_t random_v;
-+    Error *random_e =3D NULL;
-+    int random_r;
-+    target_ulong rval;
-+
-+    random_r =3D qemu_guest_getrandom(&random_v, 2, &random_e);
-+    if (unlikely(random_r < 0)) {
-+        /*
-+         * Failed, for unknown reasons in the crypto subsystem.
-+         * The best we can do is log the reason and return a
-+         * failure indication to the guest.  There is no reason
-+         * we know to expect the failure to be transitory, so
-+         * indicate DEAD to avoid having the guest spin on WAIT.
-+         */
-+        qemu_log_mask(LOG_UNIMP, "%s: Crypto failure: %s",
-+                      __func__, error_get_pretty(random_e));
-+        error_free(random_e);
-+        rval =3D SEED_OPST_DEAD;
-+    } else {
-+        rval =3D random_v | SEED_OPST_ES16;
-+    }
-+
-+    if (ret_value) {
-+        *ret_value =3D rval;
-+    }
-+
-+    return RISCV_EXCP_NONE;
++    return (inst << 40) >> 60;
 +}
 +
- /*
-  * riscv_csrrw - read and/or update control and status register
-  *
-@@ -3282,6 +3359,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
-     [CSR_TIME]  =3D { "time",  ctr,   read_time  },
-     [CSR_TIMEH] =3D { "timeh", ctr32, read_timeh },
+ /* decode operands */
 =20
-+    /* Crypto Extension */
-+    [CSR_SEED] =3D { "seed", seed, NULL, NULL, rmw_seed },
-+
- #if !defined(CONFIG_USER_ONLY)
-     /* Machine Timers and Counters */
-     [CSR_MCYCLE]    =3D { "mcycle",    any,   read_instret  },
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index df35736883..09f1f5185d 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -39,6 +39,15 @@ void helper_raise_exception(CPURISCVState *env, uint32=
-_t exception)
+ static void decode_inst_operands(rv_decode *dec)
+@@ -2653,6 +2806,16 @@ static void decode_inst_operands(rv_decode *dec)
+         dec->rs2 =3D operand_crs2(inst);
+         dec->imm =3D operand_cimmsqsp(inst);
+         break;
++    case rv_codec_k_bs:
++        dec->rs1 =3D operand_rs1(inst);
++        dec->rs2 =3D operand_rs2(inst);
++        dec->bs =3D operand_bs(inst);
++        break;
++    case rv_codec_k_rnum:
++        dec->rd =3D operand_rd(inst);
++        dec->rs1 =3D operand_rs1(inst);
++        dec->rnum =3D operand_rnum(inst);
++        break;
+     };
+ }
 =20
- target_ulong helper_csrr(CPURISCVState *env, int csr)
- {
-+    /*
-+     * The seed CSR must be accessed with a read-write instruction. A
-+     * read-only instruction such as CSRRS/CSRRC with rs1=3Dx0 or CSRRSI=
-/
-+     * CSRRCI with uimm=3D0 will raise an illegal instruction exception.
-+     */
-+    if (csr =3D=3D CSR_SEED) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    }
-+
-     target_ulong val =3D 0;
-     RISCVException ret =3D riscv_csrrw(env, csr, &val, 0, 0);
-=20
+@@ -2812,6 +2975,14 @@ static void format_inst(char *buf, size_t buflen, =
+size_t tab, rv_decode *dec)
+         case ')':
+             append(buf, ")", buflen);
+             break;
++        case 'b':
++            snprintf(tmp, sizeof(tmp), "%d", dec->bs);
++            append(buf, tmp, buflen);
++            break;
++        case 'n':
++            snprintf(tmp, sizeof(tmp), "%d", dec->rnum);
++            append(buf, tmp, buflen);
++            break;
+         case '0':
+             append(buf, rv_ireg_name_sym[dec->rd], buflen);
+             break;
 --=20
 2.35.1
 
