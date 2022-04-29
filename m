@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58B1514337
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 09:23:51 +0200 (CEST)
-Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C8651436E
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 09:49:09 +0200 (CEST)
+Received: from localhost ([::1]:43622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkKyk-0001Wb-Hy
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 03:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53894)
+	id 1nkLND-0006Hy-Vm
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 03:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nkKud-0005yO-Hu
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 03:19:36 -0400
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:50057)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1nkLKd-0005Ps-Pb
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 03:46:28 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:38770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nkKub-00024s-Nv
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 03:19:35 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 51CA620196;
- Fri, 29 Apr 2022 07:19:32 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 29 Apr
- 2022 09:19:31 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001f8583236-0221-42e4-b7aa-5e854bd63020,
- 1982172603CD300670E0C9FF2D13DF7DB182EA3E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <da7242c2-25f3-41cd-0d43-f3a3be5b0f31@kaod.org>
-Date: Fri, 29 Apr 2022 09:19:30 +0200
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1nkLKb-000641-KY
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 03:46:27 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id CE1BB438A2
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 07:45:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1651218355;
+ bh=cYbm9ym7EHD/HQMPCVJrkpilRwARjz9HlyKYPXGR4J8=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=ja8WRr8XGxm3FC3NFXHuJouPcuhh/ut3J/i8sGwvsLGy29mmqiuAV7Ps8aeD90TzF
+ H+Evw+27fE7vYYx8p5OnwfYFkEoFNtVQI8w6yGg2JGXJHyCIT9ek93KaJOXWgaUiUU
+ yiexowFwpXgLe7+cnHYCu4dhflFh6U77momSjoCLsoRIQ96YhDOoepha3lXRQ2ytyJ
+ fKHyOfpBYRx/3HHsXSk56TjEzMue+VeCqcncEoHo/QEd+PXc2kmTgJ4DIbKsUIVTs8
+ y5bEXiUNVfhgn7xK/JlMy7rAEnM80Sjm2ZvMsx3LHAFk20CAHqdyg1fXamXzwVCfbE
+ Men9fCq3HP/hg==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E83042E8254
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 07:45:50 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/2] ppc/xive: Always recompute the PIPR when pushing
- an OS context
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, <danielhb413@gmail.com>,
- <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220429071620.177142-1-fbarrat@linux.ibm.com>
- <20220429071620.177142-2-fbarrat@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220429071620.177142-2-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: d7f206e2-d7c6-4315-92e1-296ff22768b5
-X-Ovh-Tracer-Id: 10485505833511521187
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudekgdduudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehnphhighhgihhnsehgmhgrihhlrdgtohhm
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 Apr 2022 07:35:54 -0000
+From: Paride Legovini <1970563@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: clipboard deadlock vnc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paride xiongpeng
+X-Launchpad-Bug-Reporter: xp (xiongpeng)
+X-Launchpad-Bug-Modifier: Paride Legovini (paride)
+References: <165104817794.25511.15416062191158888957.malonedeb@angus.canonical.com>
+Message-Id: <165121775478.47156.13080301216728748759.launchpad@dale.canonical.com>
+Subject: [Bug 1970563] Re: Qemu Debian 1:6.2+dfsg-2ubuntu6 deadlock bug
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3e6ca301c25bad9ef395a0234df16d711b3dff61"; Instance="production"
+X-Launchpad-Hash: 704854d44af7afd3c62898001f3dc91b8e2585cf
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,106 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: npiggin@gmail.com
+Reply-To: Bug 1970563 <1970563@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/22 09:16, Frederic Barrat wrote:
-> The Post Interrupt Priority Register (PIPR) is not restored like the
-> other OS-context related fields of the TIMA when pushing an OS context
-> on the CPU. It's not needed because it can be calculated from the
-> Interrupt Pending Buffer (IPB), which is saved and restored. The PIPR
-> must therefore always be recomputed when pushing an OS context.
-> 
-> This patch fixes a path on P9 and P10 where it was not done. If there
-> was a pending interrupt when the OS context was pulled, the IPB was
-> saved correctly. When pushing back the context, the code in
-> xive_tctx_need_resend() was checking for a interrupt raised while the
-> context was not on the CPU, saved in the NVT. If one was found, then
-> it was merged with the saved IPB and the PIPR updated and everything
-> was fine. However, if there was no interrupt found in the NVT, then
-> xive_tctx_ipb_update() was not being called and the PIPR was not
-> updated. This patch fixes it by always calling xive_tctx_ipb_update().
-> 
-> Note that on P10 (xive2.c) and because of the above, there's no longer
-> any need to check the CPPR value so it can go away.
-> 
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+** No longer affects: qemu
 
-Thanks for the update,
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1970563
 
-C.
+Title:
+  Qemu 1:6.2+dfsg-2ubuntu6 deadlock bug
 
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-> ---
->   hw/intc/xive.c  | 11 ++++++++---
->   hw/intc/xive2.c | 16 +++++++++-------
->   2 files changed, 17 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index b8e4c7294d..c729f6a478 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -413,10 +413,15 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
->           /* Reset the NVT value */
->           nvt.w4 = xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
->           xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
-> -
-> -        /* Merge in current context */
-> -        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
->       }
-> +    /*
-> +     * Always call xive_tctx_ipb_update(). Even if there were no
-> +     * escalation triggered, there could be a pending interrupt which
-> +     * was saved when the context was pulled and that we need to take
-> +     * into account by recalculating the PIPR (which is not
-> +     * saved/restored).
-> +     */
-> +    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
->   }
->   
->   /*
-> diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-> index 3aff42a69e..400fd70aa8 100644
-> --- a/hw/intc/xive2.c
-> +++ b/hw/intc/xive2.c
-> @@ -316,7 +316,6 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
->   {
->       Xive2Nvp nvp;
->       uint8_t ipb;
-> -    uint8_t cppr = 0;
->   
->       /*
->        * Grab the associated thread interrupt context registers in the
-> @@ -337,7 +336,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
->       /* Automatically restore thread context registers */
->       if (xive2_router_get_config(xrtr) & XIVE2_VP_SAVE_RESTORE &&
->           do_restore) {
-> -        cppr = xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
-> +        xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
->       }
->   
->       ipb = xive_get_field32(NVP2_W2_IPB, nvp.w2);
-> @@ -345,11 +344,14 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
->           nvp.w2 = xive_set_field32(NVP2_W2_IPB, nvp.w2, 0);
->           xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 2);
->       }
-> -
-> -    /* An IPB or CPPR change can trigger a resend */
-> -    if (ipb || cppr) {
-> -        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
-> -    }
-> +    /*
-> +     * Always call xive_tctx_ipb_update(). Even if there were no
-> +     * escalation triggered, there could be a pending interrupt which
-> +     * was saved when the context was pulled and that we need to take
-> +     * into account by recalculating the PIPR (which is not
-> +     * saved/restored).
-> +     */
-> +    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
->   }
->   
->   /*
+Status in qemu package in Ubuntu:
+  New
+
+Bug description:
+  There is a known bug that will cause VM deadlock, the patch should be
+  merged and released:
+
+  https://gitlab.com/qemu-
+  project/qemu/-/commit/1dbbe6f172810026c51dc84ed927a3cc23017949#841723aa93=
+098d8ab3b5068795e10ae7cf2a3179
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1970563/+subscriptions
 
 
