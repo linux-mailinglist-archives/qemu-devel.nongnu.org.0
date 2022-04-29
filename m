@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986AE514B4B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 15:52:33 +0200 (CEST)
-Received: from localhost ([::1]:52352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77F3514B92
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 15:53:56 +0200 (CEST)
+Received: from localhost ([::1]:54204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkR2s-00026C-Jv
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 09:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50732)
+	id 1nkR4G-0003Mk-1T
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 09:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nkQzH-000891-WC; Fri, 29 Apr 2022 09:48:51 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:41741)
+ id 1nkR1B-00010j-1h; Fri, 29 Apr 2022 09:50:45 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:48397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nkQzE-00086N-Hz; Fri, 29 Apr 2022 09:48:47 -0400
+ id 1nkR19-0008Tn-1d; Fri, 29 Apr 2022 09:50:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=wPGm045tvgpxK58RLzlZPFnbcISEU9PtxokDoa8+qOU=; b=mMMucSURvZL2oSoaoT95fgg6Ag
- AYUpXk3DRE/MZhFrOfPfvS9AndsUnawfFeEW039WL8wpRAlD/CsxpyFx037s+I9ZW+SYNxhxD6+zA
- sYgN+qTNoSHYxrUHDiYUsXBseCMNTRkk4rkihc8wUegJEBaISx+PUiroOkp9GSzgQoDSFJexvc0SN
- uN5DEG4HXd+0NgizfZ4IkLi8iWB/m4bDjfVmlgEsq0mPZAiRARc9xx3+6j1bTD8xnWJVEwN2wt8TU
- JeNhas4iQ68M5gL/e5bxM+pA1vj2JlM8n0MBnwCSJ7b96uBEmYkTAAlQ4aWLbw9Pi/iq1RLqoIsH9
- RX911ygU9RrfJKK0kxkpTXok9RMsrJgNM1V9xZAmq9HTYewVVcS/wWGqtsj2mye8d96o5gtcE0I33
- ZIfE57eKZyINpWVFm44JrITp96aKgA2Jv6QbTg2sRmt+ljwKl3bq+h8XCFvLTqkC0mXQXuuCj4Mk/
- Rvkwm3+BNGneKr/uAwJUC8lvB/lnFU3PCp2Nl1j8KDQW9wzs2h2pz0cfzhxNpzlZRB9bytpTjve4C
- hhsuWaU1AunaxfgU/XQRHtjha/8MffeJOjOnF+zshxAcvkkakdbPvI/ZAUR9Fucr058kcWikoD0Ua
- z6OpTTXbwjsdjpxVvSdym0U/a9ZT8k4hJwFPJ7Pa4=;
+ bh=VNIou2UNLiJ6jMna2qXbBTSL0eSg8To0OHdiOvMQMGA=; b=UAhSTz9SG/6F0JuqOkshzFy/Ml
+ 04B7veGUUkSL58H/K8Hpg84jCLdVO9x1cI/7IlwRuyZWo8miEdS9K6Ho2trQYg3Ylq2E6MUmNKe+C
+ mFwXvwPmgVzKQ/1Wx2vFO2K+iHhL6GCeWYf5zG6jFLkSkp8keskHXFDZsEoA6ewoEEOQ62nY4jKFS
+ YX3JuI953HVG9Irx36ayiKROi8jDIbXL11dDXOmVwBy/zYAzm7Gi+Fu4rzycH32Xpo4mJohoAhwpS
+ BcKkAZrop89cyIim7JJwJrsjoLYUXSubjCc/oznn03mnuM2YtifzOOZx7IYsO+XsB/qtek5fSOzTa
+ EPGW06FF2gnFO3goQ7YqUE4yljF+I2G+GUngUfdsmnuwuveVilM5ZpHHkBoRh/83WR4nCCg9X0+CL
+ QtmZUe00EAncTBEyIIJIKQGtfdn/2m8VXTftAVan0C71GqmmzCa2WGNBjRgxKIuxTxh2LmjJEcVS9
+ ot8EkwrsfKDNkHOf7tz29lxN5w9eIEFR4rH/HRiH3BbtaX87wgagJAPB1sOyJA2KvVDQz2WF7bQpa
+ +dKMvaJvkJxLU1rix/otntHNwRynCPNxbn97lW6lNghT1/DiV4Fo0SXeyEepS23uOlH7LRgXSGAkI
+ gbdCjU3+RmJ+Ya6eXOOOA2zyxRNxBFOpFKdgs7E5E=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Michael Roitzsch <reactorcontrol@icloud.com>,
- qemu-stable@nongnu.org, Keno Fischer <keno@juliacomputing.com>,
- Will Cohen <wwcohen@gmail.com>, Guohuai Shi <guohuai.shi@windriver.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v5 4/6] 9pfs: fix wrong errno being sent to Linux client
- on macOS host
-Date: Fri, 29 Apr 2022 15:48:16 +0200
-Message-ID: <2182756.uObvtyB7Eu@silver>
-In-Reply-To: <20220429152915.7beb6545@bahia>
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v5 2/6] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Date: Fri, 29 Apr 2022 15:50:35 +0200
+Message-ID: <5815688.WPY9AJzlUa@silver>
+In-Reply-To: <20220429145650.7d3ba6e8@bahia>
 References: <cover.1651228000.git.qemu_oss@crudebyte.com>
- <CAEUhbmXXLsPVH3JrjKnfD2F6FVhTaGPRZjW29TY9xAzs-6uB2g@mail.gmail.com>
- <20220429152915.7beb6545@bahia>
+ <2e7b5ecd7a6d83a538db4e8a22d8fb03e9e0f06e.1651228001.git.qemu_oss@crudebyte.com>
+ <20220429145650.7d3ba6e8@bahia>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -71,182 +70,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 29. April 2022 15:29:15 CEST Greg Kurz wrote:
-> On Fri, 29 Apr 2022 21:19:51 +0800
+On Freitag, 29. April 2022 14:56:50 CEST Greg Kurz wrote:
+> On Fri, 29 Apr 2022 12:25:11 +0200
 > 
-> Bin Meng <bmeng.cn@gmail.com> wrote:
-> > On Fri, Apr 29, 2022 at 9:08 PM Greg Kurz <groug@kaod.org> wrote:
-> > > On Fri, 29 Apr 2022 14:46:26 +0200
-> > > 
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > On Freitag, 29. April 2022 13:28:39 CEST Bin Meng wrote:
-> > > > > On Fri, Apr 29, 2022 at 7:16 PM Christian Schoenebeck
-> > > > > 
-> > > > > <qemu_oss@crudebyte.com> wrote:
-> > > > > > Linux and macOS only share some errno definitions with equal macro
-> > > > > > name and value. In fact most mappings for errno are completely
-> > > > > > different on the two systems.
-> > > > > > 
-> > > > > > This patch converts some important errno values from macOS host to
-> > > > > > corresponding Linux errno values before eventually sending such
-> > > > > > error
-> > > > > > codes along with 'Rlerror' replies (if 9p2000.L is used that is).
-> > > > > > Not
-> > > > > > having translated errnos before violated the 9p2000.L protocol
-> > > > > > spec,
-> > > > > > 
-> > > > > > which says:
-> > > > > >   "
-> > > > > >   size[4] Rlerror tag[2] ecode[4]
-> > > > > >   
-> > > > > >   ... ecode is a numerical Linux errno.
-> > > > > >   "
-> > > > > >   
-> > > > > >   https://github.com/chaos/diod/wiki/protocol#lerror----return-err
-> > > > > >   or-code
-> > > > > > 
-> > > > > > This patch fixes a bunch of misbehaviours when running a Linux
-> > > > > > client
-> > > > > > 
-> > > > > > on macOS host. For instance this patch fixes:
-> > > > > >   mount -t 9p -o posixacl ...
-> > > > > > 
-> > > > > > on Linux guest if security_mode=mapped was used for 9p server,
-> > > > > > which
-> > > > > > refused to mount successfully, because macOS returned ENOATTR==93
-> > > > > > when client tried to retrieve POSIX ACL xattrs, because errno 93
-> > > > > > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client
-> > > > > > believed
-> > > > > > that xattrs were not supported by filesystem on host in general.
-> > > > > 
-> > > > > This issue looks exact the same issue we were trying to fix when
-> > > > > supporting 9p on Windows host,
-> > > > > 
-> > > > > What we did is like this:
-> > > > > http://patchwork.ozlabs.org/project/qemu-devel/patch/20220425142705.
-> > > > > 2099270-> 10-bmeng.cn@gmail.com/
-> > > > > 
-> > > > > But we had some questions in mind (see the commit message of our
-> > > > > patch, and below)
-> > > > > 
-> > > > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > > > Link:
-> > > > > > https://lore.kernel.org/qemu-devel/20220421124835.3e664669@bahia/
-> > > > > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > > > > > ---
-> > > > > > 
-> > > > > >  hw/9pfs/9p-util.h | 30 ++++++++++++++++++++++++++++++
-> > > > > >  hw/9pfs/9p.c      |  2 ++
-> > > > > >  2 files changed, 32 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> > > > > > index 2cc9a5dbfb..c3526144c9 100644
-> > > > > > --- a/hw/9pfs/9p-util.h
-> > > > > > +++ b/hw/9pfs/9p-util.h
-> > > > > > @@ -58,6 +58,36 @@ static inline uint64_t
-> > > > > > host_dev_to_dotl_dev(dev_t dev)
-> > > > > > 
-> > > > > >  #endif
-> > > > > >  }
-> > > > > > 
-> > > > > > +/* Translates errno from host -> Linux if needed */
-> > > > > > +static inline int errno_to_dotl(int err) {
-> > > > > > +#if defined(CONFIG_LINUX)
-> > > > > > +    /* nothing to translate (Linux -> Linux) */
-> > > > > > +#elif defined(CONFIG_DARWIN)
-> > > > > > +    /*
-> > > > > > +     * translation mandatory for macOS hosts
-> > > > > > +     *
-> > > > > > +     * FIXME: Only most important errnos translated here yet,
-> > > > > > this should
-> > > > > > be +     * extended to as many errnos being translated as possible
-> > > > > > in
-> > > > > > future. +     */
-> > > > > > +    if (err == ENAMETOOLONG) {
-> > > > > > +        err = 36; /* ==ENAMETOOLONG on Linux */
-> > > > > > +    } else if (err == ENOTEMPTY) {
-> > > > > > +        err = 39; /* ==ENOTEMPTY on Linux */
-> > > > > > +    } else if (err == ELOOP) {
-> > > > > > +        err = 40; /* ==ELOOP on Linux */
-> > > > > > +    } else if (err == ENOATTR) {
-> > > > > > +        err = 61; /* ==ENODATA on Linux */
-> > > > > > +    } else if (err == ENOTSUP) {
-> > > > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > > > > +    } else if (err == EOPNOTSUPP) {
-> > > > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > > > > +    }
-> > > > > 
-> > > > > What happens if a macOS guest is running on QEMU from a macOS host?
-> > > > > Here all macOS errnos are translated to the Linux errnos. Will macOS
-> > > > > be happy?
-> > > > 
-> > > > Look at the commit log of this patch: it is a matter of which protocol
-> > > > is used> > > 
-> > > > (currently there are 3 [1] protocol versions):
-> > > >    * 9p2000: nothing to translate here, as this protocol version does
-> > > >    not
-> > > >    
-> > > >      return a numeric error code, it only returns an error string (and
-> > > >      we are
-> > > >      no longer supporting 9p2000 version in QEMU anyway BTW [1]):
-> > > >      http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor27
-> > > >    
-> > > >    * 9p2000.L: errno *must* be in Linux errno mapping:
-> > > >      https://github.com/chaos/diod/wiki/protocol#lerror----return-erro
-> > > >      r-code
-> > > >    
-> > > >    * 9p2000.u: this one returns both an error code and error string,
-> > > >    and it
-> > > >    
-> > > >      says the error string should be preferred being interpreted by
-> > > >      client:
-> > > >      http://ericvh.github.io/9p-rfc/rfc9p2000.u.html#anchor15
-> > > > 
-> > > > In this patch here I only translated errno for 9p2000.L, whereas you
-> > > > are
-> > > > always translating it, no matter wich protocol version is used. You
-> > > > might
-> > > > argue that there should be a translation for 9p2000.u as well, but in
-> > > > the end we don't know the OS running on guest in this case. It could
-> > > > be Linux or something else.
-> > > 
-> > > In the case of 9p2000.u the spec says "to provide a hint of the
-> > > underlying
-> > > UNIX error number which caused the error on the server" and even
-> > > mentions
-> > > "consistency problems of mapping error numbers betweeen different
-> > > versions
-> > > of UNIX"... this basically means that errno in 9p2000.u is undefined
-> > > since
-> > > it depends on the host. It is thus unusable unless the guest runs a
-> > > compatible UNIX variant. In any case, there's really nothing to
-> > > translate.
-> > > 
-> > > > [1] https://wiki.qemu.org/Documentation/9p#9p_Protocol
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > mknod() on macOS does not support creating sockets, so divert to
+> > call sequence socket(), bind() and fchmodat() respectively if S_IFSOCK
+> > was passed with mode argument.
 > > 
-> > Thanks for the clarifications and pointers to different protocols! It
-> > looks what we did in our Windows patch is correct.
-
-Like I said, you are translating it for all protocol version, whereas this 
-patch here translates errnos for 9p2000.L version only.
-
-> > I have another question, does this mean the current 9pfs client on
-> > macOS is broken since it does not use any translation? With this
-> > patch, now the 9p server returns the translated linux errno so the 9p
-> > client on macOS should complain.
+> > Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> >  hw/9pfs/9p-util-darwin.c | 42 +++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 41 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> > index e24d09763a..619c403ba7 100644
+> > --- a/hw/9pfs/9p-util-darwin.c
+> > +++ b/hw/9pfs/9p-util-darwin.c
+> > @@ -74,6 +74,42 @@ int fsetxattrat_nofollow(int dirfd, const char
+> > *filename, const char *name,> 
+> >   */
+> >  
+> >  #if defined CONFIG_PTHREAD_FCHDIR_NP
+> > 
+> > +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
+> > +    int fd, err;
+> > +    struct sockaddr_un addr = {
+> > +        .sun_family = AF_UNIX
+> > +    };
+> > +
+> > +    err = snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s",
+> > filename); +    if (err < 0 || err >= sizeof(addr.sun_path)) {
 > 
-> I don't now the macOS client but if it doesn't expect linux errnos
-> then it is infringing 9p2000.L and should be fixed.
+> According to POSIX [1]:
+> 
+> The snprintf() function shall fail if:
+> 
+> [EOVERFLOW]
+> [CX] [Option Start] The value of n is greater than {INT_MAX}. [Option End]
+> 
+> [1] https://pubs.opengroup.org/onlinepubs/9699919799/functions/snprintf.html
+> 
+> Since we're passing sizeof(addr.sun_path), I'm pretty sure snprintf()
+> cannot fail. No big deal.
 
-Agreed, if you are using 9p2000.L with that macOS client and client does not 
-translate errnos Linux -> macOS, then client is broken. In the end it matters 
-what the protocol documentation specified.
+The question is whom you would want to trust on this? POSIX? ISO-C? Clang? 
+BSD? Apple? And for how long into future? I mean in general yes, I would not 
+expect it to fail with -1 here either, but there are various different API 
+docs on snprintf() out there, and most of them don't even bother to enumarate 
+which encoding errors may happen. And I'm pretty sure if I'd drop the negative 
+err check here, then Akihiko would slap me for unforeseeable additional error 
+cases on snprintf() that may be added in future.
 
-Which client is that? Is it from Apple or from a third party? And are you sure 
-you were actually using 9p2000.L and not 9p2000.u?
+Apple's documentation on snprintf() BTW just says:
 
-Best regards,
+  "These functions return a negative value if an error occurs."
+
+So Apple does not even restrict the return value to -1 on errrors, you would 
+also need to expect other negative values.
+
+So on doubt, I leave this negative result check for now. ;-)
+
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+
+Thanks!
+
+Best regards
 Christian Schoenebeck
+
+> > +        errno = ENAMETOOLONG;
+> > +        return -1;
+> > +    }
+> > +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
+> > +    if (fd == -1) {
+> > +        return fd;
+> > +    }
+> > +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
+> > +    if (err == -1) {
+> > +        goto out;
+> > +    }
+> > +    /*
+> > +     * FIXME: Should rather be using descriptor-based fchmod() on the
+> > +     * socket file descriptor above (preferably before bind() call),
+> > +     * instead of path-based fchmodat(), to prevent concurrent transient
+> > +     * state issues between creating the named FIFO file at bind() and
+> > +     * delayed adjustment of permissions at fchmodat(). However currently
+> > +     * macOS (12.x) does not support such operations on socket file
+> > +     * descriptors yet.
+> > +     *
+> > +     * Filed report with Apple: FB9997731
+> > +     */
+> > +    err = fchmodat(AT_FDCWD, filename, mode, AT_SYMLINK_NOFOLLOW_ANY);
+> > +out:
+> > +    close_preserve_errno(fd);
+> > +    return err;
+> > +}
+> > +
+> > 
+> >  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> >  {
+> >  
+> >      int preserved_errno, err;
+> > 
+> > @@ -93,7 +129,11 @@ int qemu_mknodat(int dirfd, const char *filename,
+> > mode_t mode, dev_t dev)> 
+> >      if (pthread_fchdir_np(dirfd) < 0) {
+> >      
+> >          return -1;
+> >      
+> >      }
+> > 
+> > -    err = mknod(filename, mode, dev);
+> > +    if (S_ISSOCK(mode)) {
+> > +        err = create_socket_file_at_cwd(filename, mode);
+> > +    } else {
+> > +        err = mknod(filename, mode, dev);
+> > +    }
+> > 
+> >      preserved_errno = errno;
+> >      /* Stop using the thread-local cwd */
+> >      pthread_fchdir_np(-1);
 
 
 
