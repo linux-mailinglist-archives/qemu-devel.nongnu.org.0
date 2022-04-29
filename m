@@ -2,100 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF3B515722
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 23:44:24 +0200 (CEST)
-Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4185351576A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 23:53:23 +0200 (CEST)
+Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkYPX-0005wE-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 17:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
+	id 1nkYYE-0000gK-70
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 17:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nkYOc-00057y-Jx; Fri, 29 Apr 2022 17:43:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nkYOa-00030P-Gr; Fri, 29 Apr 2022 17:43:26 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TLbW8H025597;
- Fri, 29 Apr 2022 21:43:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=qB8GeE38+ah9RjhNMUdOSjuvIWZX4KzQ2zo6u1Aqd/4=;
- b=ElZ4I+aSMwwWqOa/z+gn1+26qYfrpU/BXEkOS5WQqNpjuF1ZfeSi4Rh0Fm41Xa97LMJ1
- gciBLbEps9ptVwx015X8ojdgPs2qQ2vTpJ5Ab51AZYpUZjKYR3vpWqNqu50tSeVRPlNb
- GKJuCDxInW1ZD0Nt01OX7w5up1xLDctZDiqvWpqWndQ7f0VG+J2P8vjFp0aBV6mbRjaj
- rWJdpiEFLzHphqwhQIdirXwR8O39kpSOqvdH5+vPAKPui02iNL85gIDn5oMJfxxt6qSE
- yDrflRgMWATP97KUfYlYt6qPpB6cQU+f8WvDMHN2Q6RoMnaIrySoEsruQNjEhyxxgaxn 5A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqs3ny8ub-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Apr 2022 21:43:15 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23TLhEWv018023;
- Fri, 29 Apr 2022 21:43:14 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqs3ny8u4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Apr 2022 21:43:14 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TLcdAW010255;
- Fri, 29 Apr 2022 21:43:13 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 3fm93ayadg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Apr 2022 21:43:13 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 23TLhCih6292426
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Apr 2022 21:43:12 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BD475AC05E;
- Fri, 29 Apr 2022 21:43:12 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5F6CEAC05B;
- Fri, 29 Apr 2022 21:43:11 +0000 (GMT)
-Received: from localhost (unknown [9.160.2.82])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Fri, 29 Apr 2022 21:43:10 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Rob Landley <rob@landley.net>, Thomas Huth <thuth@redhat.com>, QEMU
- Developers <qemu-devel@nongnu.org>
-Subject: Re: serial hang in qemu-system-ppc64 -M pseries
-In-Reply-To: <ba41f9ab-bce4-b377-e99c-caa0d8240308@landley.net>
-References: <74b9755a-4b5d-56b1-86f5-0c5c7688845a@landley.net>
- <8558c117-75a0-dc73-9b1a-be128e04056c@redhat.com>
- <ba41f9ab-bce4-b377-e99c-caa0d8240308@landley.net>
-Date: Fri, 29 Apr 2022 18:43:04 -0300
-Message-ID: <87bkwjtvkn.fsf@linux.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: KSFdKGCTdAFY64zHlfSNhUI5XzIcaw3L
-X-Proofpoint-ORIG-GUID: pwvt_XWtlgktV0D2bAV721r5qC4SdCDy
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nkYWs-0007gw-Fd
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 17:51:58 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:41824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nkYWp-0004EZ-Qt
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 17:51:57 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id t13so7446586pgn.8
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 14:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+sAKZ+DAo/g5pRv3C1uIPpxdsOZWZCaeRYdqoEzmEYE=;
+ b=ZQnlv+CPjuYwKMQqrHMyIwUTrZd7hgjOa3CUVrw2uY6bvqrTvzdirTX5VDTZne6c8j
+ Il9AXAedVh6Mo7k8PrK+/CFfpaio/8TcI+fieynCeSjSiMTzHbYhrDBY9PcILEdQca9X
+ o1/jd+DUDfNhWh1mjoZsaIqmRlgTWQZtho9xA/VB82YogSCDQYd9Ww9i2mMZBfmcFLg7
+ zINMdvSUK6fNWaUZAnldxUPuBmOrSWV+1ucb8jxHkN2c17ZsRxZ8qRJTaiBFpsX0dIi6
+ lBKopqUS1gi8yuei5OoZ0fSHzquk/pXrthY3H1WF4IRM7OtfhDFhd3SApCFb3Oa29N1E
+ /8Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+sAKZ+DAo/g5pRv3C1uIPpxdsOZWZCaeRYdqoEzmEYE=;
+ b=jzl694Qe7lMXlLYVye3BufbjEAGIIMuBwzl2u6rRvvPyweq1oW9qldSowuWOHM2rOo
+ 1+sbwhldh+CuB733nJEVzAzepqC975JOpjOMweSramh3SVvFrdjAaxUp6rodGKDcwxaP
+ 2l0wop9TM19JzakX/67zw3tML+L2pYNJbEmBrldmeFLN4vllgSS9ESs9ouWRveQJYBBW
+ RwA80ZYCi2HVAScZUGQKJAw8nB5y6xxdW2gEzhaplE4ILCUALmfZTeS7O19l43Ht66Pu
+ mrJ8Q8oxjBgZgDw39kvkZ026+5L6VFq8KFoc4MM9wQA6yCie86TXhtP6vD1GPw73KING
+ sq9w==
+X-Gm-Message-State: AOAM532cnO1pSiazKdyoVExwz5gK5yU6ECBSha6739Xixtxbskq3/Sc1
+ gWKYgE7VeCFkYP+dASf05XGF5w==
+X-Google-Smtp-Source: ABdhPJx+nL6JSFKOb6pkLCZxPOochll+qveMptcAwzDA7YHb6zwRjRCySMQHMvD9yDTKFzbdhPWGpA==
+X-Received: by 2002:a63:d801:0:b0:3c1:7976:8a73 with SMTP id
+ b1-20020a63d801000000b003c179768a73mr1014501pgh.266.1651269114277; 
+ Fri, 29 Apr 2022 14:51:54 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ j23-20020a170902759700b0015e8d4eb2d8sm73418pll.290.2022.04.29.14.51.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 14:51:53 -0700 (PDT)
+Message-ID: <2cf89e1b-cc4b-702e-d547-ba4755155061@linaro.org>
+Date: Fri, 29 Apr 2022 14:51:51 -0700
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-29_09,2022-04-28_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 adultscore=0
- priorityscore=1501 clxscore=1011 mlxscore=0 malwarescore=0 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204290115
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 00/25] riscv-to-apply queue
+Content-Language: en-US
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org
+References: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,150 +89,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, qemu-ppc@nongnu.org
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rob Landley <rob@landley.net> writes:
+On 4/28/22 21:30, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> The following changes since commit f22833602095b05733bceaddeb20f3edfced3c07:
+> 
+>    Merge tag 'pull-target-arm-20220428' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-04-28 08:34:17 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220429
+> 
+> for you to fetch changes up to 325b7c4e7582c229d28c47123c3b986ed948eb84:
+> 
+>    hw/riscv: Enable TPM backends (2022-04-29 10:48:48 +1000)
+> 
+> ----------------------------------------------------------------
+> Second RISC-V PR for QEMU 7.1
+> 
+>   * Improve device tree generation
+>   * Support configuarable marchid, mvendorid, mipid CSR values
+>   * Add support for the Zbkb, Zbkc, Zbkx, Zknd/Zkne, Zknh, Zksed/Zksh and Zkr extensions
+>   * Fix incorrect PTE merge in walk_pte
+>   * Add TPM support to the virt board
 
-> On 4/27/22 10:27, Thomas Huth wrote:
->> On 26/04/2022 12.26, Rob Landley wrote:
->>> When I cut and paste 80-ish characters of text into the Linux serial console, it
->>> reads 16 characters and stops. When I hit space, it reads another 16 characters,
->>> and if I keep at it will eventually catch up without losing data. If I type,
->>> every character shows up immediately.
->> 
->> That "16" certainly comes from VTERM_BUFSIZE in hw/char/spapr_vty.c in the 
->> QEMU sources, I think.
->> 
->>> (On other qemu targets and kernels I can cut and paste an entire uuencoded
->>> binary and it goes through just fine in one go, but this target hangs with big
->>> pastes until I hit keys.)
->>> 
->>> Is this a qemu-side bug, or a kernel-side bug?
->>> 
->>> Kernel config attached (linux 5.18-rc3 or thereabouts), qemu invocation is:
->>> 
->>> qemu-system-ppc64 -M pseries -vga none -nographic -no-reboot -m 256 -kernel
->>> vmlinux -initrd powerpc64leroot.cpio.gz -append "panic=1 HOST=powerpc64le
->>> console=hvc0"
->> 
->> Which version of QEMU are you using?
->
-> $ qemu-system-ppc64 --version
-> QEMU emulator version 6.2.92 (v6.2.0-rc2)
-> Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
->
-> From november. I can pull and rebuild but it'll take a bit. (Hopefully
-> rebuilding would fix the need to echo -e '\e[?7h' afterwards to undo the "bash
-> command line history marches up the screen because qemu's x86 bios disabled line
-> wrap and then left it that way" issue...)
->
->> Which frontend (GTK or terminal?) ... 
->
-> The above command line has -nographic, forcing terminal. Running ldd on the
-> binary doesn't pull up anything gtk. (It pulls up libncursesw though.)
->
-> If you want to reproduce my test locally:
->
-> wget https://landley.net/toybox/downloads/binaries/mkroot/0.8.5/powerpc64le.tgz
-> tar xvzf powerpc64le.tgz
-> cd powerpc64le
-> ./qemu-*.sh
->
-> Then paste something longer than 16 characters at the eventual command prompt
-> once the kernel finishes booting.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-I suspect this is due to how the tty driver (n_tty.c) interacts with
-the console (hvc_console.c) driver's buffer size.
 
-This is the stack:
+r~
 
-#0 hvc_push          <-- calls into KVM/QEMU to write up to 16 bytes
-#1 hvc_write
-#2 tty_put_char
-#3 do_output_char
-#4 __process_echoes          <-- writes up to tty_write_room() chars
-#5 flush_echoes              <-- returns early if ~ECHO && ~ECHONL
-#6 n_tty_receive_buf_common  <-- buffers more than 16 bytes
-#7 tty_ldisc_receive_buf
-#8 tty_port_default_receive_buf
-#9 receive_buf
-#10 process_one_work
 
-In my busybox instance which does not have this issue I can see that
-termios.c_lflag = 0x447, so in the stack above #4 is not called (ECHO
-is 0x8, ECHONL is 0x10).
+> 
+> ----------------------------------------------------------------
+> Alistair Francis (6):
+>        hw/riscv: virt: Add a machine done notifier
+>        hw/core: Move the ARM sysbus-fdt to core
+>        hw/riscv: virt: Create a platform bus
+>        hw/riscv: virt: Add support for generating platform FDT entries
+>        hw/riscv: virt: Add device plug support
+>        hw/riscv: Enable TPM backends
+> 
+> Bin Meng (2):
+>        hw/riscv: spike: Add '/chosen/stdout-path' in device tree unconditionally
+>        hw/riscv: Don't add empty bootargs to device tree
+> 
+> Frank Chang (1):
+>        target/riscv: Support configuarable marchid, mvendorid, mipid CSR values
+> 
+> Ralf Ramsauer (1):
+>        target/riscv: Fix incorrect PTE merge in walk_pte
+> 
+> Weiwei Li (15):
+>        target/riscv: rvk: add cfg properties for zbk* and zk*
+>        target/riscv: rvk: add support for zbkb extension
+>        target/riscv: rvk: add support for zbkc extension
+>        target/riscv: rvk: add support for zbkx extension
+>        crypto: move sm4_sbox from target/arm
+>        target/riscv: rvk: add support for zknd/zkne extension in RV32
+>        target/riscv: rvk: add support for zkne/zknd extension in RV64
+>        target/riscv: rvk: add support for sha256 related instructions in zknh extension
+>        target/riscv: rvk: add support for sha512 related instructions for RV32 in zknh extension
+>        target/riscv: rvk: add support for sha512 related instructions for RV64 in zknh extension
+>        target/riscv: rvk: add support for zksed/zksh extension
+>        target/riscv: rvk: add CSR support for Zkr
+>        disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
+>        target/riscv: rvk: expose zbk* and zk* properties
+>        target/riscv: add scalar crypto related extenstion strings to isa_string
+> 
+>   docs/system/riscv/virt.rst              |  20 ++
+>   include/crypto/sm4.h                    |   6 +
+>   include/hw/{arm => core}/sysbus-fdt.h   |   0
+>   include/hw/riscv/virt.h                 |   8 +-
+>   target/riscv/cpu.h                      |  17 ++
+>   target/riscv/cpu_bits.h                 |   9 +
+>   target/riscv/helper.h                   |  22 ++
+>   target/riscv/pmp.h                      |   8 +-
+>   target/riscv/insn32.decode              |  97 ++++++--
+>   crypto/sm4.c                            |  49 ++++
+>   disas/riscv.c                           | 173 +++++++++++++-
+>   hw/arm/virt.c                           |   2 +-
+>   hw/arm/xlnx-versal-virt.c               |   1 -
+>   hw/{arm => core}/sysbus-fdt.c           |   2 +-
+>   hw/riscv/microchip_pfsoc.c              |   2 +-
+>   hw/riscv/sifive_u.c                     |   2 +-
+>   hw/riscv/spike.c                        |   7 +-
+>   hw/riscv/virt.c                         | 319 +++++++++++++++++---------
+>   target/arm/crypto_helper.c              |  36 +--
+>   target/riscv/bitmanip_helper.c          |  80 +++++++
+>   target/riscv/cpu.c                      |  58 +++++
+>   target/riscv/crypto_helper.c            | 302 ++++++++++++++++++++++++
+>   target/riscv/csr.c                      | 118 +++++++++-
+>   target/riscv/monitor.c                  |  11 +-
+>   target/riscv/op_helper.c                |   9 +
+>   target/riscv/translate.c                |   8 +
+>   target/riscv/insn_trans/trans_rvb.c.inc | 116 ++++++++--
+>   target/riscv/insn_trans/trans_rvk.c.inc | 391 ++++++++++++++++++++++++++++++++
+>   crypto/meson.build                      |   1 +
+>   hw/arm/meson.build                      |   1 -
+>   hw/core/meson.build                     |   1 +
+>   hw/riscv/Kconfig                        |   2 +
+>   target/riscv/meson.build                |   3 +-
+>   33 files changed, 1682 insertions(+), 199 deletions(-)
+>   create mode 100644 include/crypto/sm4.h
+>   rename include/hw/{arm => core}/sysbus-fdt.h (100%)
+>   create mode 100644 crypto/sm4.c
+>   rename hw/{arm => core}/sysbus-fdt.c (99%)
+>   create mode 100644 target/riscv/crypto_helper.c
+>   create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
+> 
 
-In the bug scenario: termios.c_lflag = 0x5cf, so we go into #4 which
-is supposed to write (say) 17 bytes, but ends up writing only 16
-because that is what tty_write_room() returns.
-
-What I think is causing this issue is that the hvc_vio.c driver is
-configured with hp->outbuf_size = 16. That number comes from the
-H_PUT_TERM_CHAR hypercall spec which reads two registers at a
-time. However, the hvc_write function supports writes larger than 16
-bytes so it seems we're needlessly propagating the 16 byte limitation
-to the upper layer.
-
-The driver is also not buffering the write, so if it gets called to
-write one char at a time (like __process_echoes does) there should be no
-limit to how much it can write.
-
-I think if we increase hp->outbuf_size to a value that is larger than
-N_TTY_BUF_SIZE=4096 the echo buffer would drain before reaching this new
-hvc driver limit.
-
-I tested that and it seems to work, but I'm not sure if it's the right
-fix, there are some things I couldn't figure out:
-
-   i) if a driver actually runs out of buffer space, what
-      __process_echoes should do about it;
-
-  ii) why the bug sometimes happens only at the 32 characters boundary
-      (or other multiple of 16);
-
- iii) why the ECHO flag differs from the working case.
-
-> If you want to reproduce it all from source:
->
-> git clone https://github.com/landley/toybox
-> cd toybox && mkdir ccc && cd ccc
-> wget
-> https://landley.net/toybox/downloads/binaries/toolchains/latest/powerpc64le-linux-musl-cross.tar.xz
-> -O - | tar xv
-> cd ..
-> CROSS=powerpc64le LINUX=~/linux scripts/mkroot.sh
-> cd root/powerpc64le
-> ./qemu-*.sh
->
-> This assumes your linux kernel source directory is in ~/linux of course, and
-> that qemu-system-ppc64 is in the $PATH...
->
->> this rings a distant bell, but I thought we had fixed these issues long ago 
->> in the past... e.g.:
->>
->> https://yhbt.net/lore/all/1380113886-16845-10-git-send-email-mdroth@linux.vnet.ibm.com/
->> 
->> https://git.qemu.org/?p=qemu.git;a=commitdiff;h=8a273cbe53221d28
->
-> The qemu I'm running is newer than 2016. :)
->
-> Most targets are fine with this: I cut and paste entire uuencoded binaries into
-> the serial console as an easy way to insert a file into an initramfs. It can
-> usually take multiple megabytes without dropping a character, so you just
-> "uudecode" enter, and then paste.
->
-> Even my 32 bit powerpc target works fine with this. (Although -M g3beige is a
-
-> very different machine from -M pseries...)
->
-> Alas this target (and sh4 -m r2d) stop at 16 chars. (On sh4 the extra is
-> discarded, not delivered progressively as more interrupts are generated.)
->
->> ... but maybe my memory also just fails and this has never been properly fixed.
->> 
->>   Thomas
->
-> Rob
 
