@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA05951452F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 11:15:24 +0200 (CEST)
-Received: from localhost ([::1]:38846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A170514528
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 11:14:19 +0200 (CEST)
+Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkMih-0003qK-Lw
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 05:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41536)
+	id 1nkMhe-0003J8-HG
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 05:14:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nkM8g-0004PW-Vm
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 04:38:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33295)
+ id 1nkMBs-0006g4-LS
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 04:41:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nkM8f-0006PT-Ia
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 04:38:10 -0400
+ id 1nkMBq-0007Fm-H3
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 04:41:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651221488;
+ s=mimecast20190719; t=1651221685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=loPwqoImJ2BfTVv13F7EDm0lAQAOL9+Bhw4gQLDzboA=;
- b=ZGhxwDK4P2URpkwQkSUUI53LRzfri9w7emGaNzMyoG8/cDBFLM04uoiaC7Istnvo/sqD5R
- NCsOBJbgsbGKgVizqOC1aug1iiuC9SmQQSontEC1wakhpqO/Cn5ayYleFDDgMwslkC7kh/
- T/lkzl/5C5yPTGdOIMCpqXaP6OugokI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=w14hR5w4nT+3ki4osOIPl7Eu8JJQuc1oFAsp1Vu8HYU=;
+ b=ZDyZJC4k64xSr6Wbm84GA86+Z3Tj1BuGOTa+Y6kkyy8EmefkSVrn0CWk81G+xePWoy/Ceu
+ GHUbHW+6lDC8hIWIwD5C/bLdttbooFHiaDXSAwsCv9EPUVtNFY4cW7/QkaPMvXSV7ZxAH4
+ b5zKp2yHaA1P2+bSMxnwr1N6YMTbnPg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-kSOdkTmFPWerikOECl5R8g-1; Fri, 29 Apr 2022 04:38:02 -0400
-X-MC-Unique: kSOdkTmFPWerikOECl5R8g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bh11-20020a05600c3d0b00b003928fe7ba07so2217674wmb.6
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 01:38:02 -0700 (PDT)
+ us-mta-80-XgML86bmO2SIwaP8y35GGA-1; Fri, 29 Apr 2022 04:41:23 -0400
+X-MC-Unique: XgML86bmO2SIwaP8y35GGA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ e21-20020adfa455000000b0020ae075cf35so2826437wra.11
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 01:41:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=loPwqoImJ2BfTVv13F7EDm0lAQAOL9+Bhw4gQLDzboA=;
- b=S9/TFTuXE35H4PlVYisKsA6m3lpHSQm2b2wYx3FTKmDNkEeEYLI5uPF7JEpVsTQa1q
- Xg9O2nfpCFeoLtfi7kKPe/y2xX9Udj/I/KX0fBy+vD6aRIZRpgy3zoqXLhGbBVN2Atzv
- HsZmE1MrDbCpelvX00jAJ3URsaogDxrfjqwWRXSSgSkxTmcYZqj5WjdldpTtbsluly76
- ryrTAQBiIfMPyfbH1rquuZ+lwUzJXfLxhweabCHiqme3AhIXki6ET1obXaRNx7R1wnWa
- PvOLdNTV7hxxP/KUlguqEwzendjN7x51zM+XruXOQMR65o8eS4zapUwNrWoj49WQA88O
- XDVA==
-X-Gm-Message-State: AOAM533ypKvPp99IC2CIf4YNLXHymY8huMOM+90ZYANgnwKz1HGMooKW
- F1Dd3TjvmD5mbyVl25scBA6Of/x+bQyFSJrlab8CprdjusVfwN5S1p6XzZitQqfMJA+5FpX5mZ0
- 1SvMa9iLEziD9pHg=
-X-Received: by 2002:adf:d1c6:0:b0:20a:f235:5f86 with SMTP id
- b6-20020adfd1c6000000b0020af2355f86mr9135667wrd.381.1651221481489; 
- Fri, 29 Apr 2022 01:38:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxel5Vp05Q2drM/ZjTIV9ISl7HPPdGAcazSRCh6ervo26Rx0tDSYFrY7i3MFd1bdnglmlx9aQ==
-X-Received: by 2002:adf:d1c6:0:b0:20a:f235:5f86 with SMTP id
- b6-20020adfd1c6000000b0020af2355f86mr9135655wrd.381.1651221481294; 
- Fri, 29 Apr 2022 01:38:01 -0700 (PDT)
+ bh=w14hR5w4nT+3ki4osOIPl7Eu8JJQuc1oFAsp1Vu8HYU=;
+ b=S6w4l+EHYbOOhcdK6gpDhObQVYKqEa7lq0CBYqVRYc66Do8MX4H2MYInSEX+44BKeO
+ Alp5wy9YrJP4YXIUkjROxokLg0R2QLuFlS6/Q873mrRMsazNeR8VR0AcBifuRfMy7CKc
+ Q+qC9nj7dr8wYGEprKjMBSXn6ZDYAz99qb6z44LDYklkWOLTUUwd2obLBQujqgxGP5q5
+ r4YFDs+UGh56RqAygllFxjVCq6YQF612CbecspQmvFjiFrK2iBSufsfsf5UW05ybnPGh
+ NiWHP8ipUcvcDL0SSUQJmCJXORJx6E32kD9Fy8/K3tKg5+jo4/i2UfhsZUKCUTYJ7q6T
+ U9jQ==
+X-Gm-Message-State: AOAM530tyN2I48kDdqyaeGWIoJXvMKIiXDzR4hdAEzz8XWwHUQ0nwI1i
+ 5YGK68vvnuoqACdmjsMMNE2k3tYQud7/vMEpi08dJAHXnVS+rtKps3jxPcQyTVyxcitSxHmJNq5
+ bp9D4E/EOB/5BFDg=
+X-Received: by 2002:a7b:c20c:0:b0:38f:fac1:fe05 with SMTP id
+ x12-20020a7bc20c000000b0038ffac1fe05mr2181397wmi.144.1651221682624; 
+ Fri, 29 Apr 2022 01:41:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9mriwsOXPaOw2fQsz7rdwPRpJGqyLg+xxGp1KaT3gpUR3zs0f2ZnvDgq00f0YzKDinYCZzw==
+X-Received: by 2002:a7b:c20c:0:b0:38f:fac1:fe05 with SMTP id
+ x12-20020a7bc20c000000b0038ffac1fe05mr2181379wmi.144.1651221682370; 
+ Fri, 29 Apr 2022 01:41:22 -0700 (PDT)
 Received: from ?IPV6:2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9?
  ([2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9])
  by smtp.gmail.com with ESMTPSA id
- v13-20020adfe28d000000b0020375f27a5asm1917764wri.4.2022.04.29.01.38.00
+ bg26-20020a05600c3c9a00b00393e997c657sm2101568wmb.37.2022.04.29.01.41.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 01:38:00 -0700 (PDT)
-Message-ID: <ab1f24cb-78d1-7508-98ec-2dbc18d0a531@redhat.com>
-Date: Fri, 29 Apr 2022 10:37:59 +0200
+ Fri, 29 Apr 2022 01:41:22 -0700 (PDT)
+Message-ID: <59b40377-22c2-5410-6339-2d8b96f19d99@redhat.com>
+Date: Fri, 29 Apr 2022 10:41:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 4/8] async: register/unregister aiocontext in graph
- lock list
+Subject: Re: [RFC PATCH v2 5/8] block.c: wrlock in bdrv_replace_child_noperm
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
 References: <20220426085114.199647-1-eesposit@redhat.com>
- <20220426085114.199647-5-eesposit@redhat.com>
- <YmqaxkbQqOVOHhlP@stefanha-x1.localdomain>
- <1a92eaed-9557-ae93-8143-17ef559ad965@redhat.com>
+ <20220426085114.199647-6-eesposit@redhat.com>
+ <Ymqc1nkfoQaW9J2L@stefanha-x1.localdomain>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <1a92eaed-9557-ae93-8143-17ef559ad965@redhat.com>
+In-Reply-To: <Ymqc1nkfoQaW9J2L@stefanha-x1.localdomain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -107,31 +105,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
  qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Am 29/04/2022 um 00:19 schrieb Paolo Bonzini:
-> On 4/28/22 15:46, Stefan Hajnoczi wrote:
->>>     if have_block
->>>     util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
->>> +  util_ss.add(files('../block/graph-lock.c'))
->> Why is it in block/ if it needs to be built into libqemuutil?
-> Maybe register_aiocontext, unregister_aiocontext and
-> aio_context_list_lock can be placed in util/async.c?
+Am 28/04/2022 um 15:55 schrieb Stefan Hajnoczi:
+> On Tue, Apr 26, 2022 at 04:51:11AM -0400, Emanuele Giuseppe Esposito wrote:
+>> The only problem here is ->attach and ->detach callbacks
+>> could call bdrv_{un}apply_subtree_drain(), which itself
+>> will use a rdlock to navigate through all nodes.
+>> To avoid deadlocks, take the lock only outside the drains,
+>> and if we need to both attach and detach, do it in a single
+>> critical section.
+>>
+>> Therefore change ->attach and ->detach to return true if they
+>> are modifying the lock, so that we don't take it twice or release
+>> temporarly.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>  block.c                          | 31 +++++++++++++++++++++++++++----
+>>  block/block-backend.c            |  6 ++++--
+>>  include/block/block_int-common.h |  8 ++++++--
+>>  3 files changed, 37 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index b2eb679abb..6cd87e8dd3 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -1434,21 +1434,26 @@ static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
+>>      *child_flags = flags;
+>>  }
+>>  
+>> -static void bdrv_child_cb_attach(BdrvChild *child)
+>> +static bool bdrv_child_cb_attach(BdrvChild *child)
+>>  {
+>>      BlockDriverState *bs = child->opaque;
+>>  
+>>      assert_bdrv_graph_writable(bs);
+>>      QLIST_INSERT_HEAD(&bs->children, child, next);
+>>  
+>> +    /* Paired with bdrv_graph_wrlock() in bdrv_replace_child_noperm */
+>> +    bdrv_graph_wrunlock();
+>> +
+>>      if (child->role & BDRV_CHILD_COW) {
+>>          bdrv_backing_attach(child);
+>>      }
+>>  
+>>      bdrv_apply_subtree_drain(child, bs);
+>> +
+>> +    return true;
+>>  }
+>>  
+>> -static void bdrv_child_cb_detach(BdrvChild *child)
+>> +static bool bdrv_child_cb_detach(BdrvChild *child)
+>>  {
+>>      BlockDriverState *bs = child->opaque;
+>>  
+>> @@ -1458,8 +1463,13 @@ static void bdrv_child_cb_detach(BdrvChild *child)
+>>  
+>>      bdrv_unapply_subtree_drain(child, bs);
+>>  
+>> +    /* Paired with bdrv_graph_wrunlock() in bdrv_replace_child_noperm */
+>> +    bdrv_graph_wrlock();
+>> +
+>>      assert_bdrv_graph_writable(bs);
+>>      QLIST_REMOVE(child, next);
+>> +
+>> +    return true;
+>>  }
+>>  
+>>  static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *base,
+>> @@ -2842,6 +2852,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+>>      BlockDriverState *old_bs = child->bs;
+>>      int new_bs_quiesce_counter;
+>>      int drain_saldo;
+>> +    bool locked = false;
+>>  
+>>      assert(!child->frozen);
+>>      assert(old_bs != new_bs);
+>> @@ -2868,8 +2879,12 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+>>           * are already gone and we only end the drain sections that came from
+>>           * elsewhere. */
+>>          if (child->klass->detach) {
+>> -            child->klass->detach(child);
+>> +            locked = child->klass->detach(child);
+>> +        }
+>> +        if (!locked) {
+>> +            bdrv_graph_wrlock();
+>>          }
+>> +        locked = true;
+>>          assert_bdrv_graph_writable(old_bs);
+>>          QLIST_REMOVE(child, next_parent);
+>>      }
+>> @@ -2880,6 +2895,10 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+>>      }
+>>  
+>>      if (new_bs) {
+>> +        if (!locked) {
+>> +            bdrv_graph_wrlock();
+>> +            locked = true;
+>> +        }
+>>          assert_bdrv_graph_writable(new_bs);
+>>          QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
+>>  
+>> @@ -2896,10 +2915,14 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+>>           * drain sections coming from @child don't get an extra .drained_begin
+>>           * callback. */
+>>          if (child->klass->attach) {
+>> -            child->klass->attach(child);
+>> +            locked = !(child->klass->attach(child));
 > 
+> O_O I don't understand what the return value of ->attach() means. It has
+> the opposite meaning to the return value of ->detach()?
 
-Yes the above functions are added in util/async.c. It's the best way to
-automatically add an AioContext when it is created and destroyed.
+It means "state of the lock changed". So for ->attach(), if it is
+changed (went to unlock), we want locked = false.
 
-Not really sure where to put it honestly, it's a block layer graph lock
-so it made sense putting it in block/ but it is not reachable from async.
+I will probably switch to Paolo's suggestion, it's cleaner.
+> 
+>>          }
+>>      }
+>>  
+>> +    if (locked) {
+>> +        bdrv_graph_wrunlock();
+>> +    }
+>> +
+>>      /*
+>>       * If the old child node was drained but the new one is not, allow
+>>       * requests to come in only after the new node has been attached.
+>> diff --git a/block/block-backend.c b/block/block-backend.c
+>> index e0e1aff4b1..5dbd9fceae 100644
+>> --- a/block/block-backend.c
+>> +++ b/block/block-backend.c
+>> @@ -282,7 +282,7 @@ static int blk_root_inactivate(BdrvChild *child)
+>>      return 0;
+>>  }
+>>  
+>> -static void blk_root_attach(BdrvChild *child)
+>> +static bool blk_root_attach(BdrvChild *child)
+>>  {
+>>      BlockBackend *blk = child->opaque;
+>>      BlockBackendAioNotifier *notifier;
+>> @@ -295,9 +295,10 @@ static void blk_root_attach(BdrvChild *child)
+>>                  notifier->detach_aio_context,
+>>                  notifier->opaque);
+>>      }
+>> +    return false;
+>>  }
+>>  
+>> -static void blk_root_detach(BdrvChild *child)
+>> +static bool blk_root_detach(BdrvChild *child)
+>>  {
+>>      BlockBackend *blk = child->opaque;
+>>      BlockBackendAioNotifier *notifier;
+>> @@ -310,6 +311,7 @@ static void blk_root_detach(BdrvChild *child)
+>>                  notifier->detach_aio_context,
+>>                  notifier->opaque);
+>>      }
+>> +    return false;
+>>  }
+>>  
+>>  static AioContext *blk_root_get_parent_aio_context(BdrvChild *c)
+>> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+>> index 5a04c778e4..dd058c1fd8 100644
+>> --- a/include/block/block_int-common.h
+>> +++ b/include/block/block_int-common.h
+>> @@ -857,8 +857,12 @@ struct BdrvChildClass {
+>>      void (*activate)(BdrvChild *child, Error **errp);
+>>      int (*inactivate)(BdrvChild *child);
+>>  
+>> -    void (*attach)(BdrvChild *child);
+>> -    void (*detach)(BdrvChild *child);
+>> +    /*
+>> +     * Return true if the graph wrlock is taken/released,
+> 
+> What does "taken/released" mean? Does it mean released by attach and
+> taken by detach?
 
-Should I put graph-lock.c in util/? But then won't block/meson.build
-need it anyways to use it in block/?
-
-Emanuele
+Yes
+> 
+> Also, please document which locks are held when these callbacks are
+> invoked.
+> 
+>> +     * false if the wrlock state is not changed.
+>> +     */
+>> +    bool (*attach)(BdrvChild *child);
+>> +    bool (*detach)(BdrvChild *child);
+>>  
+>>      /*
+>>       * Notifies the parent that the filename of its child has changed (e.g.
+>> -- 
+>> 2.31.1
+>>
 
 
