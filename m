@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929435150CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:27:53 +0200 (CEST)
-Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8745150E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:30:52 +0200 (CEST)
+Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkTTE-0003p3-3K
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49376)
+	id 1nkTW7-0007OG-MQ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:30:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSqy-0007Wc-I8
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57658)
+ id 1nkSr6-0007sA-Ox
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSqv-0001aD-Ko
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:19 -0400
+ id 1nkSr3-0001bS-O8
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651247297;
+ s=mimecast20190719; t=1651247305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l+XivAVPFP1NJ0txrweu9kkDDANRpXtza2o9q7rfxJU=;
- b=DcoOg5PpIghYZVynuYXhAcgopCN/3GIbkx7AEorokM2xxqS5Sds/WjK6uqGvjNaRVl/S1P
- 0mQiPgGsDQUukH8YTe90PzXm98fzMD04ehcLSYtAUJSGefCJPztUUTjZD38YWxYKjBAO9X
- amzwu5L5Yq+47F2qC4AOGB8hPfHxKqg=
+ bh=Jp2ADW1vPhQr70u5+JOl41Nb1wBlDZUxzgXMdJubLWQ=;
+ b=QXhQyenSvJ8U4kS3Ew+3jlTJD5HejHO+dPKR/8YNex7A7T/gTwwcuxdXH1W72stKGxx07j
+ GK883wo47BhD9kdlZylVhU0+CmB0Hyo0KkE2/RSR9NEluW5/lskYOOBdGcm9EPQV9KfqTz
+ tmILsACcj6gZrj29TN1wiGYifQtAQ0o=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-iGXdI9F7Ndu3AhLjhaPiTg-1; Fri, 29 Apr 2022 11:48:15 -0400
-X-MC-Unique: iGXdI9F7Ndu3AhLjhaPiTg-1
+ us-mta-297-Yc15touKMJK6Q4t-IAij3w-1; Fri, 29 Apr 2022 11:48:19 -0400
+X-MC-Unique: Yc15touKMJK6Q4t-IAij3w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5464B3834C02;
- Fri, 29 Apr 2022 15:48:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA0811E10B4D;
+ Fri, 29 Apr 2022 15:48:18 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.192.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43474416363;
- Fri, 29 Apr 2022 15:48:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1726413707;
+ Fri, 29 Apr 2022 15:48:15 +0000 (UTC)
 From: Andrea Bolognani <abologna@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] qapi: Add missing separators between sections
-Date: Fri, 29 Apr 2022 17:47:54 +0200
-Message-Id: <20220429154758.354610-4-abologna@redhat.com>
+Subject: [PATCH 4/7] qapi: Drop unnecessary empty lines in comments
+Date: Fri, 29 Apr 2022 17:47:55 +0200
+Message-Id: <20220429154758.354610-5-abologna@redhat.com>
 In-Reply-To: <20220429154758.354610-1-abologna@redhat.com>
 References: <20220429154758.354610-1-abologna@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,171 +91,460 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 ---
- qapi/block-core.json | 5 +++++
- qapi/block.json      | 1 +
- qapi/crypto.json     | 7 +++++++
- qapi/machine.json    | 1 +
- qapi/migration.json  | 4 ++++
- 5 files changed, 18 insertions(+)
+ qapi/block-core.json  |  4 ----
+ qapi/block.json       |  1 -
+ qapi/char.json        |  1 -
+ qapi/common.json      |  2 --
+ qapi/control.json     |  2 --
+ qapi/crypto.json      |  1 -
+ qapi/machine.json     |  2 --
+ qapi/migration.json   |  7 -------
+ qapi/misc-target.json |  3 ---
+ qapi/replay.json      |  1 -
+ qapi/run-state.json   |  3 ---
+ qapi/ui.json          | 22 ----------------------
+ 12 files changed, 49 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index b66494e8c5..34dae298ee 100644
+index 34dae298ee..27832a1244 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -1744,6 +1744,7 @@
- # Since: 2.3
+@@ -237,7 +237,6 @@
+ #                   information (since 1.7)
  #
- # Example:
-+#
- # -> { "execute": "blockdev-backup",
- #      "arguments": { "device": "src-id",
- #                     "sync": "full",
-@@ -2008,6 +2009,7 @@
- # @on-target-error: the action to take on an error on the target,
- #                   default 'report' (no limitations, since this applies to
- #                   a different block device than @device).
-+#
- # @unmap: Whether to try to unmap target sectors where source has
- #         only zero. If true, and target unallocated sectors will read as zero,
- #         target image sectors will be unmapped; otherwise, zeroes will be
-@@ -2029,6 +2031,7 @@
- #                When true, this job will automatically disappear from the query
- #                list without user intervention.
- #                Defaults to true. (Since 3.1)
-+#
  # Since: 1.3
+-#
  ##
- { 'struct': 'DriveMirror',
-@@ -2342,6 +2345,7 @@
- #                When true, this job will automatically disappear from the query
- #                list without user intervention.
- #                Defaults to true. (Since 3.1)
-+#
- # Returns: nothing on success.
+ { 'struct': 'ImageInfo',
+   'data': {'filename': 'str', 'format': 'str', '*dirty-flag': 'bool',
+@@ -288,7 +287,6 @@
+ #                       supports it
+ #
+ # Since: 1.4
+-#
+ ##
+ { 'struct': 'ImageCheck',
+   'data': {'filename': 'str', 'format': 'str', 'check-errors': 'int',
+@@ -328,7 +326,6 @@
+ # @filename: filename that is referred to by @offset
  #
  # Since: 2.6
-@@ -4139,6 +4143,7 @@
- # @throttle-group: the name of the throttle-group object to use. It
- #                  must already exist.
- # @file: reference to or definition of the data source block device
-+#
- # Since: 2.11
+-#
  ##
- { 'struct': 'BlockdevOptionsThrottle',
-diff --git a/qapi/block.json b/qapi/block.json
-index 3f100d4887..e0f7898ed1 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -105,6 +105,7 @@
- #
- # Returns: - Nothing on success
- #          - If @device is not a valid block device, DeviceNotFound
-+#
- # Notes:    Ejecting a device with no media results in success
+ { 'struct': 'MapEntry',
+   'data': {'start': 'int', 'length': 'int', 'data': 'bool',
+@@ -445,7 +442,6 @@
+ #                 has one or more dirty bitmaps) (Since 4.2)
  #
  # Since: 0.14
+-#
+ ##
+ { 'struct': 'BlockDeviceInfo',
+   'data': { 'file': 'str', '*node-name': 'str', 'ro': 'bool', 'drv': 'str',
+diff --git a/qapi/block.json b/qapi/block.json
+index e0f7898ed1..5de15c6070 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -300,7 +300,6 @@
+ # @read-write: Makes the device writable
+ #
+ # Since: 2.3
+-#
+ ##
+ { 'enum': 'BlockdevChangeReadOnlyMode',
+   'data': ['retain', 'read-only', 'read-write'] }
+diff --git a/qapi/char.json b/qapi/char.json
+index 7b42151575..f0fd0d1c9f 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -413,7 +413,6 @@
+ # @clipboard: enable/disable clipboard, default is disabled.
+ #
+ # Since: 6.1
+-#
+ ##
+ { 'struct': 'ChardevQemuVDAgent',
+   'data': { '*mouse': 'bool',
+diff --git a/qapi/common.json b/qapi/common.json
+index 412cc4f5ae..356db3f670 100644
+--- a/qapi/common.json
++++ b/qapi/common.json
+@@ -192,7 +192,6 @@
+ # Keys to toggle input-linux between host and guest.
+ #
+ # Since: 4.0
+-#
+ ##
+ { 'enum': 'GrabToggleKeys',
+   'data': [ 'ctrl-ctrl', 'alt-alt', 'shift-shift','meta-meta', 'scrolllock',
+@@ -204,7 +203,6 @@
+ # @human-readable-text: Formatted output intended for humans.
+ #
+ # Since: 6.2
+-#
+ ##
+ { 'struct': 'HumanReadableText',
+   'data': { 'human-readable-text': 'str' } }
+diff --git a/qapi/control.json b/qapi/control.json
+index 71a838d49e..8c9122ef7a 100644
+--- a/qapi/control.json
++++ b/qapi/control.json
+@@ -33,7 +33,6 @@
+ #        all the QMP capabilities will be turned off by default.
+ #
+ # Since: 0.13
+-#
+ ##
+ { 'command': 'qmp_capabilities',
+   'data': { '*enable': [ 'QMPCapability' ] },
+@@ -49,7 +48,6 @@
+ #       (Please refer to qmp-spec.txt for more information on OOB)
+ #
+ # Since: 2.12
+-#
+ ##
+ { 'enum': 'QMPCapability',
+   'data': [ 'oob' ] }
 diff --git a/qapi/crypto.json b/qapi/crypto.json
-index 1ec54c15ca..829e70a168 100644
+index 829e70a168..aebe390ab7 100644
 --- a/qapi/crypto.json
 +++ b/qapi/crypto.json
-@@ -32,6 +32,7 @@
+@@ -364,7 +364,6 @@
+ #                 password to use to retrieve current master key.
+ #                 Defaults to the same secret that was used to open the image
  #
- # @raw: raw bytes. When encoded in JSON only valid UTF-8 sequences can be used
- # @base64: arbitrary base64 encoded binary data
-+#
- # Since: 2.6
+-#
+ # Since 5.1
  ##
- { 'enum': 'QCryptoSecretFormat',
-@@ -51,6 +52,7 @@
- # @sha384: SHA-384. (since 2.7)
- # @sha512: SHA-512. (since 2.7)
- # @ripemd160: RIPEMD-160. (since 2.7)
-+#
- # Since: 2.6
- ##
- { 'enum': 'QCryptoHashAlgorithm',
-@@ -75,6 +77,7 @@
- # @twofish-128: Twofish with 128 bit / 16 byte keys
- # @twofish-192: Twofish with 192 bit / 24 byte keys
- # @twofish-256: Twofish with 256 bit / 32 byte keys
-+#
- # Since: 2.6
- ##
- { 'enum': 'QCryptoCipherAlgorithm',
-@@ -95,6 +98,7 @@
- # @cbc: Cipher Block Chaining
- # @xts: XEX with tweaked code book and ciphertext stealing
- # @ctr: Counter (Since 2.8)
-+#
- # Since: 2.6
- ##
- { 'enum': 'QCryptoCipherMode',
-@@ -114,6 +118,7 @@
- # @plain: 64-bit sector number truncated to 32-bits
- # @plain64: 64-bit sector number
- # @essiv: 64-bit sector number encrypted with a hash of the encryption key
-+#
- # Since: 2.6
- ##
- { 'enum': 'QCryptoIVGenAlgorithm',
-@@ -170,6 +175,7 @@
- # @key-secret: the ID of a QCryptoSecret object providing the
- #              decryption key. Mandatory except when probing image for
- #              metadata only.
-+#
- # Since: 2.6
- ##
- { 'struct': 'QCryptoBlockOptionsLUKS',
-@@ -194,6 +200,7 @@
- # @iter-time: number of milliseconds to spend in
- #             PBKDF passphrase processing. Currently defaults
- #             to 2000. (since 2.8)
-+#
- # Since: 2.6
- ##
- { 'struct': 'QCryptoBlockCreateOptionsLUKS',
+ { 'struct': 'QCryptoBlockAmendOptionsLUKS',
 diff --git a/qapi/machine.json b/qapi/machine.json
-index d25a481ce4..9ec17b3992 100644
+index 9ec17b3992..20b1f0c748 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -299,6 +299,7 @@
- #        returning does not indicate that a guest has accepted the request or
- #        that it has shut down.  Many guests will respond to this command by
- #        prompting the user in some way.
-+#
- # Example:
+@@ -77,7 +77,6 @@
+ #          additional fields will be listed (since 3.0)
  #
- # -> { "execute": "system_powerdown" }
+ # Since: 2.12
+-#
+ ##
+ { 'union'         : 'CpuInfoFast',
+   'base'          : { 'cpu-index'    : 'int',
+@@ -1020,7 +1019,6 @@
+ #          Formula used: logical_vm_size = vm_ram_size - balloon_size
+ #
+ # Since: 0.14
+-#
+ ##
+ { 'struct': 'BalloonInfo', 'data': {'actual': 'int' } }
+ 
 diff --git a/qapi/migration.json b/qapi/migration.json
-index 409eb086a2..fc1c157d3f 100644
+index fc1c157d3f..dd4dde6361 100644
 --- a/qapi/migration.json
 +++ b/qapi/migration.json
-@@ -1422,7 +1422,9 @@
- # @state: The state the migration is currently expected to be in
+@@ -151,7 +151,6 @@
+ #               (since 4.2)
  #
- # Returns: nothing on success
-+#
- # Since: 2.11
-+#
- # Example:
+ # Since: 2.3
+-#
+ ##
+ { 'enum': 'MigrationStatus',
+   'data': [ 'none', 'setup', 'cancelling', 'cancelled',
+@@ -166,7 +165,6 @@
+ # @transferred: amount of bytes transferred to the target VM by VFIO devices
  #
- # -> { "execute": "migrate-continue" , "arguments":
-@@ -1736,6 +1738,7 @@
- # Since: 4.2
- #
- # Example:
-+#
- # <- { "event": "UNPLUG_PRIMARY",
- #      "data": { "device-id": "hostdev0" },
- #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
-@@ -1845,6 +1848,7 @@
  # Since: 5.2
+-#
+ ##
+ { 'struct': 'VfioStats',
+   'data': {'transferred': 'int' } }
+@@ -546,7 +544,6 @@
+ # @zstd: use zstd compression method.
  #
- # Example:
-+#
- #   {"execute": "calc-dirty-rate", "arguments": {"calc-time": 1,
- #                                                'sample-pages': 512} }
+ # Since: 5.0
+-#
+ ##
+ { 'enum': 'MultiFDCompression',
+   'data': [ 'none', 'zlib',
+@@ -1757,7 +1754,6 @@
+ # @dirty-rate: dirty rate.
  #
+ # Since: 6.2
+-#
+ ##
+ { 'struct': 'DirtyRateVcpu',
+   'data': { 'id': 'int', 'dirty-rate': 'int64' } }
+@@ -1774,7 +1770,6 @@
+ # @measured: the dirtyrate thread has measured and results are available.
+ #
+ # Since: 5.2
+-#
+ ##
+ { 'enum': 'DirtyRateStatus',
+   'data': [ 'unstarted', 'measuring', 'measured'] }
+@@ -1791,7 +1786,6 @@
+ # @dirty-bitmap: calculate dirtyrate by dirty bitmap.
+ #
+ # Since: 6.2
+-#
+ ##
+ { 'enum': 'DirtyRateMeasureMode',
+   'data': ['page-sampling', 'dirty-ring', 'dirty-bitmap'] }
+@@ -1821,7 +1815,6 @@
+ #                   mode specified (Since 6.2)
+ #
+ # Since: 5.2
+-#
+ ##
+ { 'struct': 'DirtyRateInfo',
+   'data': {'*dirty-rate': 'int64',
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index ed4a468aab..ae2c483a68 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -110,7 +110,6 @@
+ # @data: the measurement value encoded in base64
+ #
+ # Since: 2.12
+-#
+ ##
+ { 'struct': 'SevLaunchMeasureInfo', 'data': {'data': 'str'},
+   'if': 'TARGET_I386' }
+@@ -194,7 +193,6 @@
+ # @gpa: the guest physical address where secret will be injected.
+ #
+ # Since: 6.0
+-#
+ ##
+ { 'command': 'sev-inject-launch-secret',
+   'data': { 'packet-header': 'str', 'secret': 'str', '*gpa': 'uint64' },
+@@ -208,7 +206,6 @@
+ #
+ # @data:  guest attestation report (base64 encoded)
+ #
+-#
+ # Since: 6.1
+ ##
+ { 'struct': 'SevAttestationReport',
+diff --git a/qapi/replay.json b/qapi/replay.json
+index 351898f60d..729470300d 100644
+--- a/qapi/replay.json
++++ b/qapi/replay.json
+@@ -40,7 +40,6 @@
+ # @icount: current number of executed instructions.
+ #
+ # Since: 5.2
+-#
+ ##
+ { 'struct': 'ReplayInfo',
+   'data': { 'mode': 'ReplayMode', '*filename': 'str', 'icount': 'int' } }
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 15d6c9a2ed..a5d2db3b91 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -592,7 +592,6 @@
+ # @guest: memory failure at guest memory,
+ #
+ # Since: 5.2
+-#
+ ##
+ { 'enum': 'MemoryFailureRecipient',
+   'data': [ 'hypervisor',
+@@ -619,7 +618,6 @@
+ #         to handle memory failures.
+ #
+ # Since: 5.2
+-#
+ ##
+ { 'enum': 'MemoryFailureAction',
+   'data': [ 'ignore',
+@@ -639,7 +637,6 @@
+ #             failure was still in progress.
+ #
+ # Since: 5.2
+-#
+ ##
+ { 'struct': 'MemoryFailureFlags',
+   'data': { 'action-required': 'bool',
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 43e62efd76..0e903340fc 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -15,7 +15,6 @@
+ # Display protocols which support changing password options.
+ #
+ # Since: 7.0
+-#
+ ##
+ { 'enum': 'DisplayProtocol',
+   'data': [ 'vnc', 'spice' ] }
+@@ -32,7 +31,6 @@
+ # @disconnect: disconnect existing clients
+ #
+ # Since: 7.0
+-#
+ ##
+ { 'enum': 'SetPasswordAction',
+   'data': [ 'keep', 'fail', 'disconnect' ] }
+@@ -52,7 +50,6 @@
+ #             For VNC, only 'keep' is currently implemented.
+ #
+ # Since: 7.0
+-#
+ ##
+ { 'union': 'SetPasswordOptions',
+   'base': { 'protocol': 'DisplayProtocol',
+@@ -70,7 +67,6 @@
+ #           Defaults to the first.
+ #
+ # Since: 7.0
+-#
+ ##
+ { 'struct': 'SetPasswordOptionsVnc',
+   'data': { '*display': 'str' } }
+@@ -115,7 +111,6 @@
+ #        sure you are on the same machine as the QEMU instance.
+ #
+ # Since: 7.0
+-#
+ ##
+ { 'union': 'ExpirePasswordOptions',
+   'base': { 'protocol': 'DisplayProtocol',
+@@ -132,7 +127,6 @@
+ #           Defaults to the first.
+ #
+ # Since: 7.0
+-#
+ ##
+ 
+ { 'struct': 'ExpirePasswordOptionsVnc',
+@@ -167,7 +161,6 @@
+ # @ppm: PPM format
+ #
+ # Since: 7.1
+-#
+ ##
+ { 'enum': 'ImageFormat',
+   'data': ['ppm', 'png'] }
+@@ -902,7 +895,6 @@
+ # are effectively synonyms.
+ #
+ # Since: 1.3
+-#
+ ##
+ { 'enum': 'QKeyCode',
+   'data': [ 'unmapped',
+@@ -1206,7 +1198,6 @@
+ #               Since 3.1
+ #
+ # Since: 2.12
+-#
+ ##
+ { 'struct'  : 'DisplayGTK',
+   'data'    : { '*grab-on-hover' : 'bool',
+@@ -1221,7 +1212,6 @@
+ #              available node on the host.
+ #
+ # Since: 3.1
+-#
+ ##
+ { 'struct'  : 'DisplayEGLHeadless',
+   'data'    : { '*rendernode' : 'str' } }
+@@ -1242,7 +1232,6 @@
+ # @audiodev: Use the specified DBus audiodev to export audio.
+ #
+ # Since: 7.0
+-#
+ ##
+ { 'struct'  : 'DisplayDBus',
+   'data'    : { '*rendernode' : 'str',
+@@ -1263,7 +1252,6 @@
+ # @es: Use OpenGL with ES (embedded systems) Context.
+ #
+ # Since: 3.0
+-#
+ ##
+ { 'enum'    : 'DisplayGLMode',
+   'data'    : [ 'off', 'on', 'core', 'es' ] }
+@@ -1276,7 +1264,6 @@
+ # @charset:       Font charset used by guest (default: CP437).
+ #
+ # Since: 4.0
+-#
+ ##
+ { 'struct'  : 'DisplayCurses',
+   'data'    : { '*charset'       : 'str' } }
+@@ -1346,7 +1333,6 @@
+ # @dbus: Start a D-Bus service for the display. (Since 7.0)
+ #
+ # Since: 2.12
+-#
+ ##
+ { 'enum'    : 'DisplayType',
+   'data'    : [
+@@ -1376,7 +1362,6 @@
+ # @gl:            Enable OpenGL support (default: off).
+ #
+ # Since: 2.12
+-#
+ ##
+ { 'union'   : 'DisplayOptions',
+   'base'    : { 'type'           : 'DisplayType',
+@@ -1403,7 +1388,6 @@
+ # Returns: @DisplayOptions
+ #
+ # Since: 3.1
+-#
+ ##
+ { 'command': 'query-display-options',
+   'returns': 'DisplayOptions' }
+@@ -1416,7 +1400,6 @@
+ # @vnc: VNC display
+ #
+ # Since: 6.0
+-#
+ ##
+ { 'enum': 'DisplayReloadType',
+   'data': ['vnc'] }
+@@ -1429,7 +1412,6 @@
+ # @tls-certs: reload tls certs or not.
+ #
+ # Since: 6.0
+-#
+ ##
+ { 'struct': 'DisplayReloadOptionsVNC',
+   'data': { '*tls-certs': 'bool' } }
+@@ -1442,7 +1424,6 @@
+ # @type: Specify the display type.
+ #
+ # Since: 6.0
+-#
+ ##
+ { 'union': 'DisplayReloadOptions',
+   'base': {'type': 'DisplayReloadType'},
+@@ -1477,7 +1458,6 @@
+ # @vnc: VNC display
+ #
+ # Since: 7.1
+-#
+ ##
+ { 'enum': 'DisplayUpdateType',
+   'data': ['vnc'] }
+@@ -1492,7 +1472,6 @@
+ #             for websockets are not touched.
+ #
+ # Since: 7.1
+-#
+ ##
+ { 'struct': 'DisplayUpdateOptionsVNC',
+   'data': { '*addresses': ['SocketAddress'] } }
+@@ -1505,7 +1484,6 @@
+ # @type: Specify the display type.
+ #
+ # Since: 7.1
+-#
+ ##
+ { 'union': 'DisplayUpdateOptions',
+   'base': {'type': 'DisplayUpdateType'},
 -- 
 2.35.1
 
