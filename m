@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2ECC5147C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:08:11 +0200 (CEST)
-Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97712514824
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:29:13 +0200 (CEST)
+Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkOTp-0003IT-Is
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36312)
+	id 1nkOoC-0005E1-9H
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1nkO0Q-0004pA-L8
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54405)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1nkO0N-0007Yi-2B
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 06:37:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651228659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rt0cuKRb79JXhRZPPQHSx9P4SMazNEZVYiIoQ/HGAVk=;
- b=el/4mL6AnrqlWMBEztxFAbbL1kr6iHAT2dykWGlkiQ49TFAYeCGigtX2b90o2xByeLiFpN
- UwR2oNwPJoBQvNF2IGeTqZXcGbX6PBiJYSbP54MVx2Me/jq/bplroyNCtgx+pSUjM+fg2u
- iMtMCXVDTRlVIedvTm/oDUGZxhZmPzI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-282-D4UpmozhNIyfSx75hmmELA-1; Fri, 29 Apr 2022 06:37:37 -0400
-X-MC-Unique: D4UpmozhNIyfSx75hmmELA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- y13-20020adfc7cd000000b0020ac7c7bf2eso2914393wrg.9
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 03:37:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nkOHT-0006dv-K5; Fri, 29 Apr 2022 06:55:25 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:39586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nkOHS-0001Qk-5r; Fri, 29 Apr 2022 06:55:23 -0400
+Received: by mail-io1-xd31.google.com with SMTP id e3so5583133ios.6;
+ Fri, 29 Apr 2022 03:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IsL6a/oqVWcEuz27F4dCL1U+rw1O81oeooniZ0IuKRg=;
+ b=iTEGGOVPXUsuFgKa0ZHX11uAgvkHyx8MfHRKT2FgD9BjamOB3DbGsJZKqv4ED+VwLy
+ BlzsPjSgIGu2U1bn8bovtpQU3oa7Bf65HRDWCIg5bUGYaG9uOqRpC8PTEF3rfK0LNDI9
+ brgHGjwwHA0OL5gp8xRTV5DXb1hB1rjNRBESK1k8mORGhyXP9Kl5x50aMM0Z/AqHPycr
+ 29eXHeq71SaCF+6UpoXeFqKJDSsWi0lK8lJD8i2tSkTx4GWXqZ0aRpECNGCYgjZXbWoT
+ P/sHwAX8DGimCkuukAohZzfpjNa1iZtm/o3oHdMfqBBmGUxndnP2SWNsQfAwpzrDFc3v
+ O0DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rt0cuKRb79JXhRZPPQHSx9P4SMazNEZVYiIoQ/HGAVk=;
- b=BIuFVLVlz6ACRN/w/TBWwH2JkNP2su9KAS1LuBQc76Ms8DU/rNX3o0syQOwbEMGrHn
- i9gGLLvFPHNPOmEDQhtfvVtnd0NNXksTj7DB8sbxXFug1CUo5uLxhNQw4JELZhG0OuuP
- +PLSGPSJ6DB3FMHDs3EPQt81NvWW/V6Uqrjdbf3CDDsv8T5572xmMu8xJeLA0kBIK9OT
- vXjSK3VyLLEG995EUoZe54XbiSZAjmwMb2V2moTT8R1HT+IfR4dX0gtx2QRw7dhh5NwI
- fh57jkbBY3mpa9RWQvN3cYA44N8YXLrqzdoVf+UqYp6txv6WUpBX7UfaiTmW7zYcjacc
- nYUg==
-X-Gm-Message-State: AOAM530OaKsbRRaMDT7lK5w3gyAEdz2qnZgG+W5S03A34PdnJ2bocliK
- r+hMMv74Gj5eSuwL0x0HI81iDxi017unuf/e6gew9y4la1MGhYncSxpuOBRxE42mnnj3FVC9tOv
- DZPJ0Ws0jOHLe1SI=
-X-Received: by 2002:a05:6000:1363:b0:20a:dfae:c142 with SMTP id
- q3-20020a056000136300b0020adfaec142mr17702885wrz.204.1651228656317; 
- Fri, 29 Apr 2022 03:37:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgykOKai4eNaXSGGs8oDgPB3hxWuNJbiUYMth5cdMu/v0UQOzuE8eWxvjgWwImKkoQ8hG7tQ==
-X-Received: by 2002:a05:6000:1363:b0:20a:dfae:c142 with SMTP id
- q3-20020a056000136300b0020adfaec142mr17702844wrz.204.1651228655957; 
- Fri, 29 Apr 2022 03:37:35 -0700 (PDT)
-Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- b2-20020adfc742000000b0020ac89e4241sm2448751wrh.31.2022.04.29.03.37.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 03:37:35 -0700 (PDT)
-Received: by wheatley.localdomain (Postfix, from userid 1000)
- id 94F836928A64; Fri, 29 Apr 2022 12:37:34 +0200 (CEST)
-Date: Fri, 29 Apr 2022 12:37:34 +0200
-From: Martin Kletzander <mkletzan@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 05/18] tests/qtest: Specify audiodev= and -audiodev
-Message-ID: <Ymu/7pKr3mzxZWmi@wheatley>
-References: <cover.1650874791.git.mkletzan@redhat.com>
- <6e7f2808dd40679a415812767b88f2a411fc137f.1650874791.git.mkletzan@redhat.com>
- <YmalXbNVd/knTxnB@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IsL6a/oqVWcEuz27F4dCL1U+rw1O81oeooniZ0IuKRg=;
+ b=WE88+eA4cm3xI/Mfp8ooqy377un9FMEBaKjigAAK3frBm0EHZuGBtfhNDZRmnMWYND
+ 3aFghnIp1ODwdSC1daUfpj9ewFG5xIkwv1PyJ/XrrriqWB7z/S22JWEeXY9rVdzQ0Wyv
+ 8FhV8TUU20anKG2nsv3330PIqXgUs88HbLSR/0ZRlKAo+ooQDFJbfseHLHH6OenUNxtq
+ OA7gZ96b9QT4EgvMFJyho5XmlSfHV9z3BBPWGLYeIn3oQ4X8+CNKBecu29aHd2KZA+XQ
+ fdJUmy8uwP6pLsqHsZMlf3c3zqdi1mqpAW+mkrEQk5mCuaObpa7BXjhBUSDu63lnfBvO
+ 5d0g==
+X-Gm-Message-State: AOAM53265uoDCERmiYFA5xIhgN8h9w+y98LCCOTy8Ocy5zB8A3tMoc38
+ nx0qWLNhjEQf49MLcNJzu6GeB5xroC48GhEbPlk=
+X-Google-Smtp-Source: ABdhPJyb/C/kp33wPDYpWFjZiwv1Uw3rQTDKalTy+LdseWoncuVuxNk5eDdZ2fCXT++FAIiaiZmOH/qLbrWUckFVrtw=
+X-Received: by 2002:a05:6602:2c07:b0:657:8347:d7c0 with SMTP id
+ w7-20020a0566022c0700b006578347d7c0mr10236628iov.93.1651229720296; Fri, 29
+ Apr 2022 03:55:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZIIXTvDe+IvHF93V"
-Content-Disposition: inline
-In-Reply-To: <YmalXbNVd/knTxnB@redhat.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mkletzan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220429033409.258707-1-apatel@ventanamicro.com>
+ <20220429033409.258707-2-apatel@ventanamicro.com>
+In-Reply-To: <20220429033409.258707-2-apatel@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 29 Apr 2022 20:54:54 +1000
+Message-ID: <CAKmqyKOaXXGD400vRLoj95kYPiaNrbCkRtq4GdRDbw3pM-ztmw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] target/riscv: Fix csr number based privilege checking
+To: Anup Patel <apatel@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,193 +78,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, libvir-list@redhat.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, qemu-arm@nongnu.org,
- Jan Kiszka <jan.kiszka@web.de>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Darren Kenny <darren.kenny@oracle.com>,
- Thomas Huth <huth@tuxfamily.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---ZIIXTvDe+IvHF93V
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Apr 25, 2022 at 02:42:53PM +0100, Daniel P. Berrang=E9 wrote:
->On Mon, Apr 25, 2022 at 10:21:48AM +0200, Martin Kletzander wrote:
->> This will enable removing deprecated default audiodev support.
->>
->> I did not figure out how to make the audiodev represented as an
->> interface node, so this is a workaround.  I am not sure what would be
->> the proper way.
+On Fri, Apr 29, 2022 at 1:36 PM Anup Patel <apatel@ventanamicro.com> wrote:
 >
->Not sure I understand what you mean by this 'interface node' reference ?
+> When hypervisor and VS CSRs are accessed from VS-mode or VU-mode,
+> the riscv_csrrw_check() function should generate virtual instruction
+> trap instead illegal instruction trap.
 >
+> Fixes: 533c91e8f22c ("target/riscv: Use RISCVException enum for
+> CSR access")
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
 
-I meant a qos node, I though that would be the proper way, but since
-audiodev is a backend and not a device I wasn't able to plug it in using
-qos_node_consumes().  Maybe I was just trying too hard.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
->The code looks fine though
+Alistair
+
+> ---
+>  target/riscv/csr.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
->Reviewed-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 3500e07f92..2bf0a97196 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3139,7 +3139,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>      int read_only = get_field(csrno, 0xC00) == 3;
+>      int csr_min_priv = csr_ops[csrno].min_priv_ver;
+>  #if !defined(CONFIG_USER_ONLY)
+> -    int effective_priv = env->priv;
+> +    int csr_priv, effective_priv = env->priv;
 >
->>
->> Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
->> ---
->>  tests/qtest/ac97-test.c                 |  3 ++-
->>  tests/qtest/es1370-test.c               |  3 ++-
->>  tests/qtest/fuzz/generic_fuzz_configs.h |  6 ++++--
->>  tests/qtest/intel-hda-test.c            | 15 ++++++++++-----
->>  4 files changed, 18 insertions(+), 9 deletions(-)
->>
->> diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c
->> index e09f2495d24d..9711f1f6d966 100644
->> --- a/tests/qtest/ac97-test.c
->> +++ b/tests/qtest/ac97-test.c
->> @@ -45,7 +45,8 @@ static void *ac97_create(void *pci_bus, QGuestAllocato=
-r *alloc, void *addr)
->>  static void ac97_register_nodes(void)
->>  {
->>      QOSGraphEdgeOptions opts =3D {
->> -        .extra_device_opts =3D "addr=3D04.0",
->> +        .extra_device_opts =3D "addr=3D04.0,audiodev=3Daudio0",
->> +        .before_cmd_line =3D "-audiodev driver=3Dnone,id=3Daudio0",
->>      };
->>      add_qpci_address(&opts, &(QPCIAddress) { .devfn =3D QPCI_DEVFN(4, 0=
-) });
->>
->> diff --git a/tests/qtest/es1370-test.c b/tests/qtest/es1370-test.c
->> index 2fd7fd2d3d30..5facda8d0d8d 100644
->> --- a/tests/qtest/es1370-test.c
->> +++ b/tests/qtest/es1370-test.c
->> @@ -46,7 +46,8 @@ static void *es1370_create(void *pci_bus, QGuestAlloca=
-tor *alloc, void *addr)
->>  static void es1370_register_nodes(void)
->>  {
->>      QOSGraphEdgeOptions opts =3D {
->> -        .extra_device_opts =3D "addr=3D04.0",
->> +        .extra_device_opts =3D "addr=3D04.0,audiodev=3Daudio0",
->> +        .before_cmd_line =3D "-audiodev driver=3Dnone,id=3Daudio0",
->>      };
->>      add_qpci_address(&opts, &(QPCIAddress) { .devfn =3D QPCI_DEVFN(4, 0=
-) });
->>
->> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/=
-generic_fuzz_configs.h
->> index 004c701915e1..84a93b3c350b 100644
->> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
->> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
->> @@ -101,8 +101,10 @@ const generic_fuzz_config predefined_configs[] =3D {
->>      },{
->>          .name =3D "intel-hda",
->>          .args =3D "-machine q35 -nodefaults -device intel-hda,id=3Dhda0=
- "
->> -        "-device hda-output,bus=3Dhda0.0 -device hda-micro,bus=3Dhda0.0=
- "
->> -        "-device hda-duplex,bus=3Dhda0.0",
->> +        "-audiodev driver=3Dnone,id=3Daudio0",
->> +        "-device hda-output,bus=3Dhda0.0,audiodev=3Daudio0 "
->> +        "-device hda-micro,bus=3Dhda0.0,audiodev=3Daudio0 "
->> +        "-device hda-duplex,bus=3Dhda0.0,audiodev=3Daudio0",
->>          .objects =3D "intel-hda",
->>      },{
->>          .name =3D "ide-hd",
->> diff --git a/tests/qtest/intel-hda-test.c b/tests/qtest/intel-hda-test.c
->> index a58c98e4d11b..39ced2bc6ac6 100644
->> --- a/tests/qtest/intel-hda-test.c
->> +++ b/tests/qtest/intel-hda-test.c
->> @@ -11,20 +11,24 @@
->>  #include "libqtest-single.h"
->>
->>  #define HDA_ID "hda0"
->> -#define CODEC_DEVICES " -device hda-output,bus=3D" HDA_ID ".0" \
->> -                      " -device hda-micro,bus=3D" HDA_ID ".0" \
->> -                      " -device hda-duplex,bus=3D" HDA_ID ".0"
->> +#define AUDIODEV " -audiodev driver=3Dnone,id=3Daudio0 "
->> +#define AUDIODEV_REF "audiodev=3Daudio0"
->> +#define CODEC_DEVICES " -device hda-output,bus=3D" HDA_ID ".0," AUDIODE=
-V_REF \
->> +                      " -device hda-micro,bus=3D" HDA_ID ".0," AUDIODEV=
-_REF \
->> +                      " -device hda-duplex,bus=3D" HDA_ID ".0," AUDIODE=
-V_REF
->>
->>  /* Tests only initialization so far. TODO: Replace with functional test=
-s */
->>  static void ich6_test(void)
->>  {
->> -    qtest_start("-device intel-hda,id=3D" HDA_ID CODEC_DEVICES);
->> +    qtest_start(AUDIODEV "-device intel-hda,id=3D" HDA_ID CODEC_DEVICES=
-);
->>      qtest_end();
->>  }
->>
->>  static void ich9_test(void)
->>  {
->> -    qtest_start("-machine q35 -device ich9-intel-hda,bus=3Dpcie.0,addr=
-=3D1b.0,id=3D"
->> +    qtest_start("-machine q35"
->> +                AUDIODEV
->> +                "-device ich9-intel-hda,bus=3Dpcie.0,addr=3D1b.0,id=3D"
->>                  HDA_ID CODEC_DEVICES);
->>      qtest_end();
->>  }
->> @@ -39,6 +43,7 @@ static void test_issue542_ich6(void)
->>      QTestState *s;
->>
->>      s =3D qtest_init("-nographic -nodefaults -M pc-q35-6.2 "
->> +                   AUDIODEV
->>                     "-device intel-hda,id=3D" HDA_ID CODEC_DEVICES);
->>
->>      qtest_outl(s, 0xcf8, 0x80000804);
->> --
->> 2.35.1
->>
+>      if (riscv_has_ext(env, RVH) &&
+>          env->priv == PRV_S &&
+> @@ -3152,7 +3152,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>          effective_priv++;
+>      }
 >
->With regards,
->Daniel
->--=20
->|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrang=
-e :|
->|: https://libvirt.org         -o-            https://fstop138.berrange.co=
-m :|
->|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrang=
-e :|
+> -    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
+> +    csr_priv = get_field(csrno, 0x300);
+> +    if (!env->debugger && (effective_priv < csr_priv)) {
+> +        if (csr_priv == (PRV_S + 1) && riscv_cpu_virt_enabled(env)) {
+> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +        }
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>  #endif
+> --
+> 2.34.1
 >
-
---ZIIXTvDe+IvHF93V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiXAnXDYdKAaCyvS1CB/CnyQXht0FAmJrv+4ACgkQCB/CnyQX
-ht2sGxAAkU7Du2pcTJgMvvgcx7KgOfvbK1QKCfUvObt985lZOCnvLkNpEjvF8H9J
-H+slPya3Nw0wU11lNL1Hg/UZI/Vl4DOWvIBfpcWbpCcIQKt/WQZR/WtSCp6t1BU4
-QLkpgp+tWPUORW6Vdlo4qOK4ouVRTEsD5JoM5vBvP5xZlNqyEZ2OJHuS8HB3UL0v
-uIjmWZwbe+DZporHR4mNQPWf2xOjX7fdGRTnDy5vYHqpvazw9Gk43+guvySpdvHw
-DLnBurwzufy0XDY4CcwfBQvqUlpDkfZeNpYZzj4xaQ184BopYWKFg1c9kOKLNo/k
-3mYQ230v9j47MrqPpxlgekc9qUmp3nBkvsVZrAG6Y7Sq+i9d7eSfc1ddbTakju4L
-wRjaL0+hbDlGx2HEeHz+phDHyvDo2CeHQmn4qypbnwKXDrmhCnLeKsRYxKVuUQCn
-sBnKnyVraSWMQx5Ky+zAPpj/lCsNtzkWuniRPaauvPHL0fgfb27HC+n57A4m/eXl
-uEHBoWmBafJDwaNGi1sjKZPupIzix17RNyvoc1vVmwBkO7M/QkwvTMdbWr26hNdm
-CYUXTpwVcycY+9nompH0oK5VzBX2Jft7FU96GIaJQP2Lu8WAwKwVYsBlHX8E1L6Q
-AwrAL0aH35vfTAY/Gwe6RVLpIxLoYcS77ASEx5z5B5Z1hDIEDnA=
-=r73p
------END PGP SIGNATURE-----
-
---ZIIXTvDe+IvHF93V--
-
+>
 
