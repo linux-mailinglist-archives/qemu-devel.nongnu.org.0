@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C5A515023
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:02:04 +0200 (CEST)
-Received: from localhost ([::1]:37362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C8C51506A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:08:01 +0200 (CEST)
+Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkT4D-0006Ed-WA
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:02:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44178)
+	id 1nkT9z-0003Xk-Un
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkSSv-0002JA-S9
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:29 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38690)
+ id 1nkSSx-0002MD-B0
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:31 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkSSu-0006AG-7D
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:29 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id r13so16100819ejd.5
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:23:27 -0700 (PDT)
+ id 1nkSSv-0006AS-LD
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:30 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id g20so9456143edw.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F19SAoaTS/smwDU4AeRev/lxRTDzIZXIAnLP7Rv2lMI=;
- b=dLbF/7C43nP13dVnt1Lf/ufZqfeVdP/7yxvxlmA0roLIMQLTr6wwv/EqnHSI7ZXlZO
- J0WMs9lummGjj54k/BmTHzo928R3hy3LgFbVo2clUESMCUo1OCVuxUv7WIsX1mQIpQIm
- lk/H7W8B/C9QUA3G47/9lF19diY9tRgLMT7wPO7cNfKzJTaSeO+BkZ6qoYbGWjmfxtNJ
- 62hpFeoTuNAMiqnS7XsEiNg4W6iVeYeMlenPHKHYavoyHfe7q0NbYg4zkDlv8JKS59kd
- +iocOzLfTR5M6OvN2cLXUreZUsEQM3xT5d0b3JGnpX3033nPgPnkntxv2o1qNcTFQNuE
- msNQ==
+ bh=yyMUsE17gssDDV3IZZB5UBisTN7P3ts18R3UmNR6bDU=;
+ b=j2UaWtQtN/z531qX71c4PB6FOs0llO0AAN7WORUvx2mMXeheHmojwvtUJFFwDOoVDY
+ +/w/vAvrpVqNBk+BXawoexgNxJj8S/0jwm6wjQguvJnBcTWfXZj8mQc/kYdqBThKm89Z
+ WtMdahHXyTKVFhDTEZpoh6t8okG1SxrdedfKnc29Kf2+NcrFLBCwWGQ2PwXL9807uwtp
+ hi08Waf38+tXGjQ0ZMQYUEYbAObAys4e133Z0uHnJSa+hMK/2T0npkbrnETJjCgtQ8C2
+ Hg7CFp4QGGASwxsSiJXU1NTukhzuTEQqaSd1KvQn5h8jEraxQDFEP777dsLTwJVMCSvc
+ +q4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=F19SAoaTS/smwDU4AeRev/lxRTDzIZXIAnLP7Rv2lMI=;
- b=f+d8W8cBM/CJYtQoNVOTEBxDc7gWKhVn3iZHVR3/PtSUOtfMO8TTNPZcKjVgdjf+TB
- wrg/J4BT38BP1tG3Wex5I6t9+Yh03WdiWwiijlRM+P44siXLjt5jcXBid4aIU3LYe4fm
- PQP/h7FyUpFXbEZZV99Ss/calQOgLea1LoCGS+sbcWlnPGenNP5ZxB8VLCLO2cUBCnmi
- OtPv0xfKr6n937GF8oJmbSjmuM9V4uE+fKCh20bg0QwsZes92Q54U68z1NQlxpnwFqOK
- DGsk4fY8sksYZpkv7svIaj1CCeUxdcKe7qHijMTxbwSmWAOpVIGb247Qb7EmGWp+O/Ze
- Aa7Q==
-X-Gm-Message-State: AOAM531hI2ROoVnP7u+26cNQv9Yu/bcqwwBXsVQ79hc3ndCV0VBRKkEO
- KDMwka3QAvCAEMGbRJSpFMehjn8sYdOCPA==
-X-Google-Smtp-Source: ABdhPJxsglQVFQmbpaOLTzHYdh0bxH67nSPdISIbUtJx8XjMssLWQmmeCziEAUqnxnIaHfrJUmfZ5g==
-X-Received: by 2002:a17:906:e87:b0:6df:8602:5801 with SMTP id
- p7-20020a1709060e8700b006df86025801mr37123760ejf.140.1651245806838; 
- Fri, 29 Apr 2022 08:23:26 -0700 (PDT)
+ bh=yyMUsE17gssDDV3IZZB5UBisTN7P3ts18R3UmNR6bDU=;
+ b=HEw+L0KWk/hYewELtxGk1RSLdnxMvVVGNT+jYbm+Czkulhtdl70Eauc7ppew27Iy4W
+ jo4uTd9d9cCDin0JquneK7YFvw59bltQao83CrL6OG7s6S9ij5vQhwsVQu2hXG4Yd5jO
+ xrXOEDLJYhXMEPepX0jJg3tI7+XqT5TlUrlhGGP4CZ7ry3Nm9GuA0oXsHe8nXzEr7Srt
+ QolhGqkRrO0zAfETDOUIPH566kH7Px51Py65/ZZ6PVIzLkVcwYmRdwtaQffbB2NipDof
+ cfJxNwpENWNiEf0fZkqZEoxPvDTEdidWKiucEPTOWI7HDscZqEmmRtzoZybqEDlO2z/M
+ jIYw==
+X-Gm-Message-State: AOAM531U185/xdmOv/6/A/BYgkxALcmRraEatgd+T7hxrk2yCzKXTVi7
+ t9fJmLtaAxwlZ8CMwjXTyZleOzEt7z/KDQ==
+X-Google-Smtp-Source: ABdhPJxMr9WAnMAyG6ZXUNZiYctzyrUXKrwuEOG5uk0DVvKosfuxSiUy2EpWRf0mMdbCFSi2j+2/ew==
+X-Received: by 2002:a50:bae7:0:b0:425:c0fa:e0a7 with SMTP id
+ x94-20020a50bae7000000b00425c0fae0a7mr39621444ede.104.1651245808369; 
+ Fri, 29 Apr 2022 08:23:28 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- w25-20020a170907271900b006f3ef214dd6sm736395ejk.60.2022.04.29.08.23.26
+ w25-20020a170907271900b006f3ef214dd6sm736395ejk.60.2022.04.29.08.23.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 08:23:26 -0700 (PDT)
+ Fri, 29 Apr 2022 08:23:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/25] configure: omit options with default values from meson
- command line
-Date: Fri, 29 Apr 2022 17:23:03 +0200
-Message-Id: <20220429152312.335715-17-pbonzini@redhat.com>
+Subject: [PULL 18/25] configure: simplify vhost-net-{user, vdpa} configuration
+Date: Fri, 29 Apr 2022 17:23:05 +0200
+Message-Id: <20220429152312.335715-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429152312.335715-1-pbonzini@redhat.com>
 References: <20220429152312.335715-1-pbonzini@redhat.com>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -92,83 +91,63 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has no functional change, it only makes the command line shorter
-and nicer.
+Cleanup to ease review of the conversion to meson.  vhost_net_user and
+vhost_net_vdpa are never assigned anything in the command line parsing
+loop, so they are always equal to $vhost_user and $vhost_vdpa.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 29 +++++++++++++++++------------
- meson.build       |  2 +-
- meson_options.txt |  2 +-
- 3 files changed, 19 insertions(+), 14 deletions(-)
+ configure | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
 diff --git a/configure b/configure
-index fc7868948b..1c88e697c5 100755
+index 1c88e697c5..d6ddd4f05f 100755
 --- a/configure
 +++ b/configure
-@@ -2350,19 +2350,24 @@ if test "$skip_meson" = no; then
-   mv $cross config-meson.cross
+@@ -1555,10 +1555,6 @@ if test "$vhost_vsock" = "yes" && test "$vhost_kernel" != "yes"; then
+ fi
  
-   rm -rf meson-private meson-info meson-logs
-+
-+  # Built-in options
-+  test "$bindir" != "bin" && meson_option_add "-Dbindir=$bindir"
-+  test "$default_feature" = no && meson_option_add -Dauto_features=disabled
-+  test "$pie" = no && meson_option_add -Db_pie=false
-+  test "$werror" = yes && meson_option_add -Dwerror=true
-+
-+  # QEMU options
-+  test "$capstone" != auto && meson_option_add "-Dcapstone=$capstone"
-+  test "$cfi" != false && meson_option_add "-Dcfi=$cfi"
-+  test "$fdt" != auto && meson_option_add "-Dfdt=$fdt"
-+  test -n "${LIB_FUZZING_ENGINE+xxx}" && meson_option_add "-Dfuzzing_engine=$LIB_FUZZING_ENGINE"
-+  test "$qemu_suffix" != qemu && meson_option_add "-Dqemu_suffix=$qemu_suffix"
-+  test "$slirp" != auto && meson_option_add "-Dslirp=$slirp"
-+  test "$smbd" != '' && meson_option_add "-Dsmbd=$smbd"
-+  test "$tcg" != enabled && meson_option_add "-Dtcg=$tcg"
-   run_meson() {
--    NINJA=$ninja $meson setup \
--        --prefix "$prefix" \
--        --bindir "$bindir" \
--        -Dqemu_suffix="$qemu_suffix" \
--        -Dsmbd="$smbd" \
--        -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
--        -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
--        -Dcfi=$cfi -Dtcg=$tcg \
--        -Dcapstone=$capstone -Dfdt=$fdt -Dslirp=$slirp \
--        $(test -n "${LIB_FUZZING_ENGINE+xxx}" && echo "-Dfuzzing_engine=$LIB_FUZZING_ENGINE") \
--        $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
--        "$@" $cross_arg "$PWD" "$source_path"
-+    NINJA=$ninja $meson setup --prefix "$prefix" "$@" $cross_arg "$PWD" "$source_path"
-   }
-   eval run_meson $meson_options
-   if test "$?" -ne 0 ; then
-diff --git a/meson.build b/meson.build
-index 19966e0a5a..7c52ef135c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,6 +1,6 @@
- project('qemu', ['c'], meson_version: '>=0.59.3',
-         default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
--                          'b_staticpic=false', 'stdsplit=false', 'optimization=2'],
-+                          'b_staticpic=false', 'stdsplit=false', 'optimization=2', 'b_pie=true'],
-         version: files('VERSION'))
+ # vhost-user backends
+-test "$vhost_net_user" = "" && vhost_net_user=$vhost_user
+-if test "$vhost_net_user" = "yes" && test "$vhost_user" = "no"; then
+-  error_exit "--enable-vhost-net-user requires --enable-vhost-user"
+-fi
+ test "$vhost_crypto" = "" && vhost_crypto=$vhost_user
+ if test "$vhost_crypto" = "yes" && test "$vhost_user" = "no"; then
+   error_exit "--enable-vhost-crypto requires --enable-vhost-user"
+@@ -1567,16 +1563,11 @@ test "$vhost_user_fs" = "" && vhost_user_fs=$vhost_user
+ if test "$vhost_user_fs" = "yes" && test "$vhost_user" = "no"; then
+   error_exit "--enable-vhost-user-fs requires --enable-vhost-user"
+ fi
+-#vhost-vdpa backends
+-test "$vhost_net_vdpa" = "" && vhost_net_vdpa=$vhost_vdpa
+-if test "$vhost_net_vdpa" = "yes" && test "$vhost_vdpa" = "no"; then
+-  error_exit "--enable-vhost-net-vdpa requires --enable-vhost-vdpa"
+-fi
  
- add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
-diff --git a/meson_options.txt b/meson_options.txt
-index 15fe40c700..35f5a72507 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -78,7 +78,7 @@ option('xen', type: 'feature', value: 'auto',
-        description: 'Xen backend support')
- option('xen_pci_passthrough', type: 'feature', value: 'auto',
-        description: 'Xen PCI passthrough support')
--option('tcg', type: 'feature', value: 'auto',
-+option('tcg', type: 'feature', value: 'enabled',
-        description: 'TCG support')
- option('tcg_interpreter', type: 'boolean', value: false,
-        description: 'TCG with bytecode interpreter (slow)')
+ # OR the vhost-kernel, vhost-vdpa and vhost-user values for simplicity
+ if test "$vhost_net" = ""; then
+-  test "$vhost_net_user" = "yes" && vhost_net=yes
+-  test "$vhost_net_vdpa" = "yes" && vhost_net=yes
++  test "$vhost_user" = "yes" && vhost_net=yes
++  test "$vhost_vdpa" = "yes" && vhost_net=yes
+   test "$vhost_kernel" = "yes" && vhost_net=yes
+ fi
+ 
+@@ -2105,10 +2096,10 @@ fi
+ if test "$vhost_net" = "yes" ; then
+   echo "CONFIG_VHOST_NET=y" >> $config_host_mak
+ fi
+-if test "$vhost_net_user" = "yes" ; then
++if test "$vhost_user" = "yes" ; then
+   echo "CONFIG_VHOST_NET_USER=y" >> $config_host_mak
+ fi
+-if test "$vhost_net_vdpa" = "yes" ; then
++if test "$vhost_vdpa" = "yes" ; then
+   echo "CONFIG_VHOST_NET_VDPA=y" >> $config_host_mak
+ fi
+ if test "$vhost_crypto" = "yes" ; then
 -- 
 2.35.1
 
