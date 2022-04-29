@@ -2,94 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A170514528
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 11:14:19 +0200 (CEST)
-Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8239651453D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 11:20:07 +0200 (CEST)
+Received: from localhost ([::1]:45596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkMhe-0003J8-HG
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 05:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43060)
+	id 1nkMnG-0000Bn-L9
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 05:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nkMBs-0006g4-LS
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 04:41:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29265)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1nkMVh-00056P-8c
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 05:01:59 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nkMBq-0007Fm-H3
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 04:41:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651221685;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w14hR5w4nT+3ki4osOIPl7Eu8JJQuc1oFAsp1Vu8HYU=;
- b=ZDyZJC4k64xSr6Wbm84GA86+Z3Tj1BuGOTa+Y6kkyy8EmefkSVrn0CWk81G+xePWoy/Ceu
- GHUbHW+6lDC8hIWIwD5C/bLdttbooFHiaDXSAwsCv9EPUVtNFY4cW7/QkaPMvXSV7ZxAH4
- b5zKp2yHaA1P2+bSMxnwr1N6YMTbnPg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-80-XgML86bmO2SIwaP8y35GGA-1; Fri, 29 Apr 2022 04:41:23 -0400
-X-MC-Unique: XgML86bmO2SIwaP8y35GGA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e21-20020adfa455000000b0020ae075cf35so2826437wra.11
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 01:41:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=w14hR5w4nT+3ki4osOIPl7Eu8JJQuc1oFAsp1Vu8HYU=;
- b=S6w4l+EHYbOOhcdK6gpDhObQVYKqEa7lq0CBYqVRYc66Do8MX4H2MYInSEX+44BKeO
- Alp5wy9YrJP4YXIUkjROxokLg0R2QLuFlS6/Q873mrRMsazNeR8VR0AcBifuRfMy7CKc
- Q+qC9nj7dr8wYGEprKjMBSXn6ZDYAz99qb6z44LDYklkWOLTUUwd2obLBQujqgxGP5q5
- r4YFDs+UGh56RqAygllFxjVCq6YQF612CbecspQmvFjiFrK2iBSufsfsf5UW05ybnPGh
- NiWHP8ipUcvcDL0SSUQJmCJXORJx6E32kD9Fy8/K3tKg5+jo4/i2UfhsZUKCUTYJ7q6T
- U9jQ==
-X-Gm-Message-State: AOAM530tyN2I48kDdqyaeGWIoJXvMKIiXDzR4hdAEzz8XWwHUQ0nwI1i
- 5YGK68vvnuoqACdmjsMMNE2k3tYQud7/vMEpi08dJAHXnVS+rtKps3jxPcQyTVyxcitSxHmJNq5
- bp9D4E/EOB/5BFDg=
-X-Received: by 2002:a7b:c20c:0:b0:38f:fac1:fe05 with SMTP id
- x12-20020a7bc20c000000b0038ffac1fe05mr2181397wmi.144.1651221682624; 
- Fri, 29 Apr 2022 01:41:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9mriwsOXPaOw2fQsz7rdwPRpJGqyLg+xxGp1KaT3gpUR3zs0f2ZnvDgq00f0YzKDinYCZzw==
-X-Received: by 2002:a7b:c20c:0:b0:38f:fac1:fe05 with SMTP id
- x12-20020a7bc20c000000b0038ffac1fe05mr2181379wmi.144.1651221682370; 
- Fri, 29 Apr 2022 01:41:22 -0700 (PDT)
-Received: from ?IPV6:2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9?
- ([2a02:1206:4552:34c0:71ab:1dfe:eb3b:43f9])
- by smtp.gmail.com with ESMTPSA id
- bg26-20020a05600c3c9a00b00393e997c657sm2101568wmb.37.2022.04.29.01.41.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 01:41:22 -0700 (PDT)
-Message-ID: <59b40377-22c2-5410-6339-2d8b96f19d99@redhat.com>
-Date: Fri, 29 Apr 2022 10:41:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 5/8] block.c: wrlock in bdrv_replace_child_noperm
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <20220426085114.199647-6-eesposit@redhat.com>
- <Ymqc1nkfoQaW9J2L@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <Ymqc1nkfoQaW9J2L@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1nkMVe-0001VW-An
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 05:01:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651222914; x=1682758914;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=JcYgFbmmWy7KmKdJAGWySzL+ta2UkuH51ghygFC5jAM=;
+ b=PxFmUpVY6LQ9OXwY4fnLoPE7PsP083l9fTDFsuMbiWPrgi5YRyzYG/mt
+ CycEfuAKLmMW9Ilu2m+Ox9iH1j/wnZ2dd7pcMpJTA0DQKXt1n+nHQNDA7
+ 9XS8QyluS9WH89irUe0/skOCQ1kc0muJeYsf0JCxmBlwhOL3liDj52swY
+ DlERPXQjg8B09vq1e/yYrp4MXzYj36Qn/6pyAdIagE2YBgIq2vRFJy5Lw
+ HvsmBVA+7ukqXtzzGXk0SRSIax62332kLBnOgD9bV4r1Xi1cZDWzeqVLi
+ NFd+rf65/jadH0cJ/EjAVpZv6M/WsxXGlYdwU1tIemFbk9TWBxrOQTw2f w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="266109699"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="266109699"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2022 02:01:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="880554309"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by fmsmga005.fm.intel.com with ESMTP; 29 Apr 2022 02:01:48 -0700
+Message-ID: <5ceada8ba94790b07a2d651153001eead0f35705.camel@linux.intel.com>
+Subject: Re: [PATCH 1/2] acpi/nvdimm: Create _LS{I,R,W} method for NVDIMM
+ device
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Date: Fri, 29 Apr 2022 17:01:47 +0800
+In-Reply-To: <20220427163401.20c69375@redhat.com>
+References: <20220412065753.3216538-1-robert.hu@linux.intel.com>
+ <20220412065753.3216538-2-robert.hu@linux.intel.com>
+ <20220427163401.20c69375@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=robert.hu@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,203 +76,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+ qemu-devel@nongnu.org, ani@anisinha.ca, robert.hu@intel.com,
+ dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 28/04/2022 um 15:55 schrieb Stefan Hajnoczi:
-> On Tue, Apr 26, 2022 at 04:51:11AM -0400, Emanuele Giuseppe Esposito wrote:
->> The only problem here is ->attach and ->detach callbacks
->> could call bdrv_{un}apply_subtree_drain(), which itself
->> will use a rdlock to navigate through all nodes.
->> To avoid deadlocks, take the lock only outside the drains,
->> and if we need to both attach and detach, do it in a single
->> critical section.
->>
->> Therefore change ->attach and ->detach to return true if they
->> are modifying the lock, so that we don't take it twice or release
->> temporarly.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>  block.c                          | 31 +++++++++++++++++++++++++++----
->>  block/block-backend.c            |  6 ++++--
->>  include/block/block_int-common.h |  8 ++++++--
->>  3 files changed, 37 insertions(+), 8 deletions(-)
->>
->> diff --git a/block.c b/block.c
->> index b2eb679abb..6cd87e8dd3 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -1434,21 +1434,26 @@ static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
->>      *child_flags = flags;
->>  }
->>  
->> -static void bdrv_child_cb_attach(BdrvChild *child)
->> +static bool bdrv_child_cb_attach(BdrvChild *child)
->>  {
->>      BlockDriverState *bs = child->opaque;
->>  
->>      assert_bdrv_graph_writable(bs);
->>      QLIST_INSERT_HEAD(&bs->children, child, next);
->>  
->> +    /* Paired with bdrv_graph_wrlock() in bdrv_replace_child_noperm */
->> +    bdrv_graph_wrunlock();
->> +
->>      if (child->role & BDRV_CHILD_COW) {
->>          bdrv_backing_attach(child);
->>      }
->>  
->>      bdrv_apply_subtree_drain(child, bs);
->> +
->> +    return true;
->>  }
->>  
->> -static void bdrv_child_cb_detach(BdrvChild *child)
->> +static bool bdrv_child_cb_detach(BdrvChild *child)
->>  {
->>      BlockDriverState *bs = child->opaque;
->>  
->> @@ -1458,8 +1463,13 @@ static void bdrv_child_cb_detach(BdrvChild *child)
->>  
->>      bdrv_unapply_subtree_drain(child, bs);
->>  
->> +    /* Paired with bdrv_graph_wrunlock() in bdrv_replace_child_noperm */
->> +    bdrv_graph_wrlock();
->> +
->>      assert_bdrv_graph_writable(bs);
->>      QLIST_REMOVE(child, next);
->> +
->> +    return true;
->>  }
->>  
->>  static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *base,
->> @@ -2842,6 +2852,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->>      BlockDriverState *old_bs = child->bs;
->>      int new_bs_quiesce_counter;
->>      int drain_saldo;
->> +    bool locked = false;
->>  
->>      assert(!child->frozen);
->>      assert(old_bs != new_bs);
->> @@ -2868,8 +2879,12 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->>           * are already gone and we only end the drain sections that came from
->>           * elsewhere. */
->>          if (child->klass->detach) {
->> -            child->klass->detach(child);
->> +            locked = child->klass->detach(child);
->> +        }
->> +        if (!locked) {
->> +            bdrv_graph_wrlock();
->>          }
->> +        locked = true;
->>          assert_bdrv_graph_writable(old_bs);
->>          QLIST_REMOVE(child, next_parent);
->>      }
->> @@ -2880,6 +2895,10 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->>      }
->>  
->>      if (new_bs) {
->> +        if (!locked) {
->> +            bdrv_graph_wrlock();
->> +            locked = true;
->> +        }
->>          assert_bdrv_graph_writable(new_bs);
->>          QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
->>  
->> @@ -2896,10 +2915,14 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->>           * drain sections coming from @child don't get an extra .drained_begin
->>           * callback. */
->>          if (child->klass->attach) {
->> -            child->klass->attach(child);
->> +            locked = !(child->klass->attach(child));
+On Wed, 2022-04-27 at 16:34 +0200, Igor Mammedov wrote:
+> On Tue, 12 Apr 2022 14:57:52 +0800
+> Robert Hoo <robert.hu@linux.intel.com> wrote:
 > 
-> O_O I don't understand what the return value of ->attach() means. It has
-> the opposite meaning to the return value of ->detach()?
+> > Since ACPI 6.2, previous NVDIMM/_DSM funcions "Get Namespace Label
+> > Data
+> > Size (function index 4)", "Get Namespace Label Data (function index
+> > 5)",
+> > "Set Namespace Label Data (function index 6)" has been deprecated
+> > by ACPI
+> 
+> where it's said that old way was deprecated, should be mentioned here
+> including
+> pointer to spec where it came into effect.
 
-It means "state of the lock changed". So for ->attach(), if it is
-changed (went to unlock), we want locked = false.
+OK. https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf,
+3.10 Deprecated Functions.
+I put it in cover letter. Will also mention it here.
+> 
+...
+> > 
+> > diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> > index 0d43da19ea..7cc419401b 100644
+> > --- a/hw/acpi/nvdimm.c
+> > +++ b/hw/acpi/nvdimm.c
+> > @@ -848,10 +848,10 @@ nvdimm_dsm_write(void *opaque, hwaddr addr,
+> > uint64_t val, unsigned size)
+> >  
+> >      nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n",
+> > in->revision,
+> >                   in->handle, in->function);
+> > -
+> > -    if (in->revision != 0x1 /* Currently we only support DSM Spec
+> > Rev1. */) {
+> > -        nvdimm_debug("Revision 0x%x is not supported, expect
+> > 0x%x.\n",
+> > -                     in->revision, 0x1);
+> > +    /* Currently we only support DSM Spec Rev1 and Rev2. */
+> 
+> where does revision 2 come from? It would be better to add a pointer
+> to relevant spec.
 
-I will probably switch to Paolo's suggestion, it's cleaner.
-> 
->>          }
->>      }
->>  
->> +    if (locked) {
->> +        bdrv_graph_wrunlock();
->> +    }
->> +
->>      /*
->>       * If the old child node was drained but the new one is not, allow
->>       * requests to come in only after the new node has been attached.
->> diff --git a/block/block-backend.c b/block/block-backend.c
->> index e0e1aff4b1..5dbd9fceae 100644
->> --- a/block/block-backend.c
->> +++ b/block/block-backend.c
->> @@ -282,7 +282,7 @@ static int blk_root_inactivate(BdrvChild *child)
->>      return 0;
->>  }
->>  
->> -static void blk_root_attach(BdrvChild *child)
->> +static bool blk_root_attach(BdrvChild *child)
->>  {
->>      BlockBackend *blk = child->opaque;
->>      BlockBackendAioNotifier *notifier;
->> @@ -295,9 +295,10 @@ static void blk_root_attach(BdrvChild *child)
->>                  notifier->detach_aio_context,
->>                  notifier->opaque);
->>      }
->> +    return false;
->>  }
->>  
->> -static void blk_root_detach(BdrvChild *child)
->> +static bool blk_root_detach(BdrvChild *child)
->>  {
->>      BlockBackend *blk = child->opaque;
->>      BlockBackendAioNotifier *notifier;
->> @@ -310,6 +311,7 @@ static void blk_root_detach(BdrvChild *child)
->>                  notifier->detach_aio_context,
->>                  notifier->opaque);
->>      }
->> +    return false;
->>  }
->>  
->>  static AioContext *blk_root_get_parent_aio_context(BdrvChild *c)
->> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
->> index 5a04c778e4..dd058c1fd8 100644
->> --- a/include/block/block_int-common.h
->> +++ b/include/block/block_int-common.h
->> @@ -857,8 +857,12 @@ struct BdrvChildClass {
->>      void (*activate)(BdrvChild *child, Error **errp);
->>      int (*inactivate)(BdrvChild *child);
->>  
->> -    void (*attach)(BdrvChild *child);
->> -    void (*detach)(BdrvChild *child);
->> +    /*
->> +     * Return true if the graph wrlock is taken/released,
-> 
-> What does "taken/released" mean? Does it mean released by attach and
-> taken by detach?
+https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf,
+Section 3 "_DSM Interface for the NVDIMM Device", table 3-A and 3-B.
 
-Yes
+I'll add this in comments in next version.
 > 
-> Also, please document which locks are held when these callbacks are
-> invoked.
+> > +    if (in->revision != 0x1 && in->revision != 0x2) {
+> > +        nvdimm_debug("Revision 0x%x is not supported, expect 0x1
+> > or 0x2.\n",
+> > +                     in->revision);
 > 
->> +     * false if the wrlock state is not changed.
->> +     */
->> +    bool (*attach)(BdrvChild *child);
->> +    bool (*detach)(BdrvChild *child);
->>  
->>      /*
->>       * Notifies the parent that the filename of its child has changed (e.g.
->> -- 
->> 2.31.1
->>
+> since you are touching nvdimm_debug(), please replace it with
+> tracing,
+> see docs/devel/tracing.rst and any commit that adds tracing calls
+> (functions starting with 'trace_').
+
+OK I'll have a try.
+> 
+> >          nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT,
+> > dsm_mem_addr);
+> >          goto exit;
+> >      }
+> 
+> 
+> this whole hunk should be a separate patch, properly documented
+> 
+OK
+> 
+> also I wonder if DSM
+
+It's not in SDM, but above-mentioned _DSM Interface spec by Intel.
+> 
+> > @@ -1247,6 +1247,11 @@ static void nvdimm_build_fit(Aml *dev)
+> >  static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t
+> > ram_slots)
+> >  {
+> >      uint32_t slot;
+> > +    Aml *method, *pkg, *buff;
+> > +
+> > +    /* Build common shared buffer for params pass in/out */
+> > +    buff = aml_buffer(4096, NULL);
+> > +    aml_append(root_dev, aml_name_decl("BUFF", buff));
+> 
+> is there a reason to use global variable instead of LocalX?
+
+Local in root_dev but global to its sub devices? I think it is doable.
+
+But given your below comments on return param _LS{I,R,W}, I now think,
+in v2, I'm not going to reuse existing "NCAL" method, but implement
+_LS{I,R,W} their own, stringently follow interface spec. Then, no buff
+required at all. How do you like this?
+> 
+> >  
+> >      for (slot = 0; slot < ram_slots; slot++) {
+> >          uint32_t handle = nvdimm_slot_to_handle(slot);
+> > @@ -1264,6 +1269,49 @@ static void nvdimm_build_nvdimm_devices(Aml
+> > *root_dev, uint32_t ram_slots)
+> >           */
+> >          aml_append(nvdimm_dev, aml_name_decl("_ADR",
+> > aml_int(handle)));
+> >  
+> > +        /* Build _LSI, _LSR, _LSW */
+> 
+> should be 1 comment per method with spec/ver and chapter where it's
+> defined
+
+OK
+> 
+> > +        method = aml_method("_LSI", 0, AML_NOTSERIALIZED);
+> > +        aml_append(method, aml_return(aml_call5(NVDIMM_COMMON_DSM,
+> > +                            aml_touuid("4309AC30-0D11-11E4-9191-
+> > 0800200C9A66"),
+> > +                            aml_int(2), aml_int(4), aml_int(0),
+> > +                            aml_int(handle))));
+> > +        aml_append(nvdimm_dev, method);
+> 
+> _LSI should return Package
+
+Right. See above.
+> 
+> > +        method = aml_method("_LSR", 2, AML_SERIALIZED);
+> > +        aml_append(method,
+> > +            aml_create_dword_field(aml_name("BUFF"), aml_int(0),
+> > "DWD0"));
+> > +        aml_append(method,
+> > +            aml_create_dword_field(aml_name("BUFF"), aml_int(4),
+> > "DWD1"));
+> 
+> theoretically aml_create_dword_field() takes TermArg as source
+> buffer,
+> so it doesn't have to be a global named buffer.
+> Try keep buffer in LocalX variable and check if it works in earliest
+> Windows version that supports NVDIMMs. If it does then drop BUFF and
+> use
+> Local variable, if not then that fact should be mentioned in commit
+> message/patch
+
+Thanks Igor. I'm new to asl grammar, I'll take your advice.
+
+> 
+> > +        pkg = aml_package(1);
+> > +        aml_append(pkg, aml_name("BUFF"));
+> > +        aml_append(method, aml_name_decl("PKG1", pkg));
+> > +        aml_append(method, aml_store(aml_arg(0),
+> > aml_name("DWD0")));
+> > +        aml_append(method, aml_store(aml_arg(1),
+> > aml_name("DWD1")));
+> 
+> perhaps use less magical names for fields, something like:
+>   DOFF
+>   TLEN
+> add appropriate comments
+
+No problem.
+> 
+> Also I'd prepare/fill in buffer first and only then declare
+> initialize
+> Package + don't use named object for Package if it can be done with
+> help
+> of Local variables.
+> 
+> > +        aml_append(method, aml_return(aml_call5(NVDIMM_COMMON_DSM,
+> > +                            aml_touuid("4309AC30-0D11-11E4-9191-
+> > 0800200C9A66"),
+> > +                            aml_int(2), aml_int(5),
+> > aml_name("PKG1"),
+> > +                            aml_int(handle))));
+> 
+> this shall return Package not a Buffer
+
+Right, Going to re-implement these methods rather than wrapper NCAL.
+> 
+> > +        aml_append(nvdimm_dev, method);
+> > +
+> > +        method = aml_method("_LSW", 3, AML_SERIALIZED);
+> > +        aml_append(method,
+> > +            aml_create_dword_field(aml_name("BUFF"), aml_int(0),
+> > "DWD0"));
+> > +        aml_append(method,
+> > +            aml_create_dword_field(aml_name("BUFF"), aml_int(4),
+> > "DWD1"));
+> > +        aml_append(method,
+> > +            aml_create_field(aml_name("BUFF"), aml_int(64),
+> > aml_int(32672), "FILD"));
+> > +        pkg = aml_package(1);
+> > +        aml_append(pkg, aml_name("BUFF"));
+> > +        aml_append(method, aml_name_decl("PKG1", pkg));
+> > +        aml_append(method, aml_store(aml_arg(0),
+> > aml_name("DWD0")));
+> > +        aml_append(method, aml_store(aml_arg(1),
+> > aml_name("DWD1")));
+> > +        aml_append(method, aml_store(aml_arg(2),
+> > aml_name("FILD")));
+> > +        aml_append(method, aml_return(aml_call5(NVDIMM_COMMON_DSM,
+> > +                            aml_touuid("4309AC30-0D11-11E4-9191-
+> > 0800200C9A66"),
+> > +                            aml_int(2), aml_int(6),
+> > aml_name("PKG1"),
+> > +                            aml_int(handle))));
+> 
+> should return Integer not Buffer, it looks like implicit conversion
+> will take care of it,
+> but it would be better to explicitly convert it to Integer even if
+> it's only for the sake
+> of documenting expected return value (or add a comment)
+
+I observed guest kernel ACPI component complaining this; just warning,
+no harm. I'll re-implement it.
+> 
+> Also returned value in case of error NVDIMM_DSM_RET_STATUS_INVALID,
+> in NVDIMM and ACPI spec differ. So fix the spec or remap returned
+> value.
+> 
+> 
+> > +        aml_append(nvdimm_dev, method);
+> > +
+> >          nvdimm_build_device_dsm(nvdimm_dev, handle);
+> >          aml_append(root_dev, nvdimm_dev);
+> >      }
+> 
+> 
 
 
