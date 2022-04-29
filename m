@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA67951508F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:15:44 +0200 (CEST)
-Received: from localhost ([::1]:36232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95955150B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:24:37 +0200 (CEST)
+Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkTHT-0000HP-OY
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:15:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46502)
+	id 1nkTPv-000700-S2
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nkSeD-0005Dd-Ol
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:35:10 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nkSeB-00083J-Ky
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:35:09 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- cx11-20020a17090afd8b00b001d9fe5965b3so8906898pjb.3
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5WjOMo0TMUU1OTQL/m4WBjGf/+/CuZs36+TMUyQ5xTU=;
- b=P/QndRt6B7RJTdmM3YkWThIndiBR9zqHTSUO9chlPqQOYrLTL1PO+DaenUaMjUhlVX
- ziTLFh2wD62hGnyfTCYXxfIdjEk4tt3ZX/UiNoD/pdcW6IG+X386dHfpjTyeuBVoPU1v
- kf6z1EpDdv3vMRWIgmXytLppTAQik9LJ9ilye1k5MplDhiPfTw+Cj9I3G5RJUunMXPLY
- mW3s7fHa+y5Bm4DMbFwmNTwnxogSjzVLA+Pf1Ge2ADLR0PoB3GL2/hfzRGyp1VxtLBCC
- mDlxQiC6fzXo+4nXFqi40EcCLvlxikR1RmiAaT0ToHQgOnULBDlyS++LX5c38bcbwMDF
- lu2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5WjOMo0TMUU1OTQL/m4WBjGf/+/CuZs36+TMUyQ5xTU=;
- b=BZZHwYyG223iyA+Nq29CCzp3IPy0TDN5ccueRPpFJfG58WlovBou67bXUIs1JjR7lv
- EwyXxgvzG71cXz/UrEOQn3KFeVfvNX6E80E4rJ2hHFDmO1TyaE1yj8cyIsdfFVBbv48h
- ZO3zombwmzNkP//WrBPhsKdJKyFBfk8HgbGEHVNGAOjgrAotEx10RFRQihVv+j4Wjg5U
- ziQjUuR+any9agTTTxvFX7XPOdjMl2ZoLQnc2rafa3hL52Twc5KjGED0Ws4vw8llD8Fc
- BxGgA7z/RLVOPZO4PNyLle6L4gkxI1bwqFcg6ja53XsqXK0HHoUbJOV89jiFbZ8GQUcu
- eX9w==
-X-Gm-Message-State: AOAM5321HVWJdulo8zMsdEJ+VGd32y/va4i3Rtuwlzy/pCZVvDYF0AM3
- /9CelZknb6CfZtjuKJM0a/G3nw==
-X-Google-Smtp-Source: ABdhPJz7QiDqL9f49LjxROWn+igG/3zXVZDek/3DwtFlWBrpM6669mn/+pxULBAzU5mZONhrrGD84w==
-X-Received: by 2002:a17:902:e94e:b0:158:91e6:501 with SMTP id
- b14-20020a170902e94e00b0015891e60501mr39165683pll.29.1651246506346; 
- Fri, 29 Apr 2022 08:35:06 -0700 (PDT)
-Received: from anup-ubuntu64-vm.. ([122.167.97.237])
- by smtp.gmail.com with ESMTPSA id
- t13-20020a65608d000000b003c14af50606sm6439380pgu.30.2022.04.29.08.35.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 08:35:05 -0700 (PDT)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH 2/3] target/riscv: Add dummy mcountinhibit CSR for priv spec
- v1.11 or higher
-Date: Fri, 29 Apr 2022 21:04:30 +0530
-Message-Id: <20220429153431.308829-3-apatel@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220429153431.308829-1-apatel@ventanamicro.com>
-References: <20220429153431.308829-1-apatel@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nkSqr-0007Sf-51
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nkSqo-0001Ys-89
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651247289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=N22mtZCNisbNhbgrJgdMTCFSqzG5OOPG+LUCQ2L3FYo=;
+ b=X1vedkDkaNrAL0fBNCbpg6SmLu2fJZNEQdIgRkSV9q7nwcthejbzC75DK/16fW/F1g1MZZ
+ 6gi6gnTCZ41gJWn3BceyrgXeVyS8vwtC3tmv6/+L+wMR7Uaqir92lDPxlTkFe6iEajlNhA
+ eMkzLGf9oMY2FQHlZB0QSerc9JkX1Ss=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-195-O4lnNblCO_qT_k_OLklg2w-1; Fri, 29 Apr 2022 11:48:05 -0400
+X-MC-Unique: O4lnNblCO_qT_k_OLklg2w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CEAA1066543;
+ Fri, 29 Apr 2022 15:48:05 +0000 (UTC)
+Received: from harajuku.usersys.redhat.com (unknown [10.40.192.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B8D54538B0;
+ Fri, 29 Apr 2022 15:48:00 +0000 (UTC)
+From: Andrea Bolognani <abologna@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] qapi: Primarily whitespace tweaks
+Date: Fri, 29 Apr 2022 17:47:51 +0200
+Message-Id: <20220429154758.354610-1-abologna@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,52 +72,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Atish Patra <atishp@atishpatra.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mcountinhibit CSR is mandatory for priv spec v1.11 or higher. For
-implementation that don't want to implement can simply have a dummy
-mcountinhibit which always zero.
-
-Fixes: a4b2fa433125 ("target/riscv: Introduce privilege version field in
-the CSR ops.")
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
----
- target/riscv/cpu_bits.h | 3 +++
- target/riscv/csr.c      | 2 ++
- 2 files changed, 5 insertions(+)
-
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 4d04b20d06..4a55c6a709 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -159,6 +159,9 @@
- #define CSR_MTVEC           0x305
- #define CSR_MCOUNTEREN      0x306
- 
-+/* Machine Counter Setup */
-+#define CSR_MCOUNTINHIBIT   0x320
-+
- /* 32-bit only */
- #define CSR_MSTATUSH        0x310
- 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 2bf0a97196..e144ce7135 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3391,6 +3391,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MIE]         = { "mie",        any,   NULL,    NULL,    rmw_mie           },
-     [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,       write_mtvec       },
-     [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,  write_mcounteren  },
-+    [CSR_MCOUNTINHIBIT] = { "mcountinhibit", any, read_zero, write_ignore,
-+                                             .min_priv_ver = PRIV_VERSION_1_11_0 },
- 
-     [CSR_MSTATUSH]    = { "mstatush",   any32, read_mstatush,    write_mstatush    },
- 
--- 
-2.34.1
+The last patch could very reasonably be squashed into the previous=0D
+one, but since the changes could be considered more controversial I=0D
+thought it would be better if the two could be reviewed and judged=0D
+separately.=0D
+=0D
+Andrea Bolognani (7):=0D
+  qapi: Drop stray trailing symbol=0D
+  qapi: Fix comment indentation=0D
+  qapi: Add missing separators between sections=0D
+  qapi: Drop unnecessary empty lines in comments=0D
+  qapi: Drop unnecessary empty lines outside of comments=0D
+  qapi: Drop unnecessary horizontal spacing in comments=0D
+  qapi: Drop more unnecessary horizontal spacing in comments=0D
+=0D
+ qapi/audio.json          |  1 -=0D
+ qapi/block-core.json     | 97 ++++++++++++++++++----------------------=0D
+ qapi/block-export.json   |  2 +-=0D
+ qapi/block.json          | 13 +++---=0D
+ qapi/char.json           | 10 ++---=0D
+ qapi/common.json         |  2 -=0D
+ qapi/control.json        | 13 +++---=0D
+ qapi/crypto.json         | 62 ++++++++++++-------------=0D
+ qapi/dump.json           |  4 +-=0D
+ qapi/job.json            |  1 -=0D
+ qapi/machine-target.json |  1 -=0D
+ qapi/machine.json        | 12 +++--=0D
+ qapi/migration.json      | 19 ++++----=0D
+ qapi/misc-target.json    | 13 ++----=0D
+ qapi/misc.json           |  6 +--=0D
+ qapi/replay.json         |  1 -=0D
+ qapi/run-state.json      | 10 ++---=0D
+ qapi/sockets.json        |  6 +--=0D
+ qapi/ui.json             | 70 ++++++++++-------------------=0D
+ 19 files changed, 136 insertions(+), 207 deletions(-)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
 
