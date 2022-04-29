@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81CA514197
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:52:52 +0200 (CEST)
-Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7965141A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:59:09 +0200 (CEST)
+Received: from localhost ([::1]:54786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkIcd-00019g-RW
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54394)
+	id 1nkIii-0000wc-Si
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIJa-00011k-WF
+ id 1nkIJb-00011o-PY
  for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:33:12 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13536)
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIJY-0002Wc-QF
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:33:10 -0400
+ id 1nkIJZ-0002Wg-UG
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:33:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1651206788; x=1682742788;
+ t=1651206789; x=1682742789;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=x4MWFVEp7gp9uNU/8N3lo0gCp5HSJsTerkTqMGXkBM4=;
- b=mO9CXmOdpd5vKPYKT2UYBjXJN5hCcVWFL7/PhkZvLGcjMtEl0UGr8/GU
- EuiUVf256DnJpa50bahne/EAXesDcire7mPKruJoeuAZ+gS8ccnyZsUoW
- ABeWkOQsKwApPwFuhLboif0V8aS9DiIFCMb4+IgoRcAZSPaQ1Y519oAUL
- RNYDQF3MgQhbnOMfrOkErsaWgdkGa7eESwcVOzIOv/N4zvmRE6HqYH7Ry
- JjDIgBadzu00jzx43LVf+s9TExy7g64nCKF4HO5ECfjbOT1SkPGq6Zm+n
- fGjoG6eJI5O12cSm/H8uWkA4Bs4iV5gkvaoapRqiynCpfu3CAeS0JGspl Q==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995996"
+ bh=/Oh34tk90LI8trrCCL5swVfzcCcrs+tpo6As7lIiXWs=;
+ b=kVncpz0DfOi6MKX6sAhZLnnviUmzkReHIc6Z0McwGElnd8ZIqIovu+1R
+ H7G/uKhkOzhjN3V0uv34PPRstOOEgzJRQfWowtpJDlY1/+Kt51HJ2H62S
+ nJqmFug52ca9xbOEEOL0f8BgaYEsbx0as4T6jlEfqMh2aSUcycqaMfDHn
+ KiOcxAI2canqJ3SNir4SRZ/k0W3eGVMM16aGNTiPxhoUMuQx5+IhRJt5q
+ 5/7BcR2311LG5LoINlLHH5E+BTMdCe/qMFu47fCgeUvVfv6aujDaa+EQ2
+ NHAYgficpPhn4qNVVj/waiIA7n0Wvod334nc6q1X76lGdN4yVF/9vB8bM Q==;
+X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995998"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:48 +0800
-IronPort-SDR: wpakBvGjlvLQloUr03Lk9rB1LQKjOGLEeBEP+VKwPlKrmH22NNKil7nkw78mBuyA87Sjhe0IRi
- sK63gLayXj9vGL1l9O+cvseD0jeaQz+GK0IjL/SzhHh9Vt6Hm+s74835nYLt1tul9KLLCIp8i8
- xqlI1h3sZkyEBeArBPe9s83RVx8MUg2B10anlzgM6nGGtCy8e4Il0c1C/vabOTkZ9XJqn3y4ea
- 1HCD5THp1coS8GD7r8YrrVYeuwm+MJOAXgQJ5fDJ1tjuLswzzfAOW72bnn9y50wjB5XjITpGW3
- aTb80gPfOpGTAeGAj+5c2AyB
+ by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:50 +0800
+IronPort-SDR: h80+vpaMh04PkloxvRpfN5y8MH764VtnnYG3lDvgXl1hn5D+ek/AHfHD9I2ynJ9QZn7IjCKEJm
+ TxlcGmTcPyhHRCdEU2rWfvP+HtDwhBsnXHn2ZZM7Eb4umkYBDX++L5ZjbZSa/Wf1v/nKqmBvkB
+ DLQaYWf1A/R1+tH2iZwf6ZCc6qMdZmo/zvD6Gna5PuQbmwrdYt+hSk0pmyCWkLvPDIDWZWimRd
+ K1HT74wE5hn8uuTOZV10GX84OiRw0ahkpszH//RnP0Cdct8sHxXfLfNv936hA81l3/PqNsMSy6
+ 8fO7mo+BKr07zxsGUD9xF68A
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:02:56 -0700
-IronPort-SDR: R3NAYfK1Sre7heZVj1Iys/jxktpc/iJ2MBThsd6gGuxn2mRWSNbl0avOVjnzWOqSIwQtWblc+k
- 3MNg4hjyznUwovYyrKai3QGBfPv1XoG5wOBNFTOgFsqsaDosjlSmMHLMIKAx8NL7FakIGnLqRm
- oiaCqJ6fzdbQigzfQq1W+Tp/1vUzYOfeY4gBE5e0xu5SUS2bZu+wVFO+NaHMph2Czpfc9n8WEd
- HN0IHIgzGU+B256hJk6JJ6nMEF+GeU4WPfvJTW0zWxvqYYMvrdAyztJsdFAlefplin7aR7UWtW
- 3fs=
+ 28 Apr 2022 21:02:59 -0700
+IronPort-SDR: /IziMVGBawz9e1LDUIAp6RPo0Fn8GFFCFIYaruYtiKbOrmFUBOOxosmKVybH/gKrtQMOk3d8p+
+ q2NZ6kJzYFhyEJ501XbRbyInMJidzV0a5fwtzbvnNtHdeWli1QYEStCIZzroZ9U0bx9Qpfdda4
+ aPrefvfnCwAxMhKf8SioE2AFRQuR+Htl4yVAzyVTCVKgQ4craKeHnEXDYEc710kzsqwZT2WHh/
+ i+hApP246ptXcSiGKYCq8fQNI0y5oXhQN2o2q0qeGu7F53OLICNldBpkidC1ct50K3SP36hVMl
+ F90=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:32:49 -0700
+ 28 Apr 2022 21:32:51 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKNJ4gk3z1SVny
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:48 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKNL6Bmpz1SHwl
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:50 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1651206768; x=1653798769; bh=x4MWFVEp7gp9uNU/8N
- 3lo0gCp5HSJsTerkTqMGXkBM4=; b=UNpOLlBa1ACd1zUIM43Em1bXZ1L0IYWDgS
- HrxKqDKqLMIPoLd5oMRuz4pDH4mUYDMYfDPN1bL+jGAsokuI1GqjIDLH3Lw45AXj
- xYiIespJOrt042UgDCmlvwCmZgNow4JCxUgPfw4pdfKsjgvjwaSnUPb8jQ4T5UJ9
- 3ylfQFa8wfNTgZztiyACQaudUOSUU6QSmZRtIaz64EVo3kVfWGDVBxBiFqpkUKQ1
- NvTZ4/WwFBF5hPYhnw/BZDnb372hdFIOxRK1mIn966KaPXM268zu7qI7BkgG7pk/
- 4sQngVY1Dk3f9TnO1rQVHxv1BprntAGtnZRZP8vfyyu9OKeMEz4A==
+ :from; s=dkim; t=1651206770; x=1653798771; bh=/Oh34tk90LI8trrCCL
+ 5swVfzcCcrs+tpo6As7lIiXWs=; b=Zc621Gxc2TcR8mTLfPg1RqGNUn5cLORoy9
+ wuri9J5CDkdXX+Bep16lkLfiCePjQIEy0NFqxSd/+YgOaVn5C6DAMCYQxHfYqt+h
+ xLZEDzXJ2ZW4tPaHkNUUO48vxvp5dP4zMLetKgu7rcDd+aVVmZhoBlR0lfycQcqq
+ Bj5xuhzQ7k0uJLfuq5VJqYkxsBpfKqMHeUyfiW717Zx4zmiq1UCxxgWyhjFc/EqD
+ 5+A4y6DMFdeWXoSkdt301Zm8w8MXRJcAETeDQ4EWLU2mpX8EikWogvGnVzrYSlyk
+ cpyPUuqlIKPnl1T+40dJ7rT64OEFwKpEYxhf/XznkGwYXwlnaHWg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id GaPg0zH2z1eo for <qemu-devel@nongnu.org>;
- Thu, 28 Apr 2022 21:32:48 -0700 (PDT)
+ port 10026) with ESMTP id 23K6lqoTfUHk for <qemu-devel@nongnu.org>;
+ Thu, 28 Apr 2022 21:32:50 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.122])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKNF53Xkz1Rvlc;
- Thu, 28 Apr 2022 21:32:45 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKNJ4mpCz1SVp0;
+ Thu, 28 Apr 2022 21:32:48 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E . Iglesias" <edgar.iglesias@amd.com>,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 22/25] hw/riscv: virt: Create a platform bus
-Date: Fri, 29 Apr 2022 14:31:16 +1000
-Message-Id: <20220429043119.1478881-23-alistair.francis@opensource.wdc.com>
+ "Edgar E . Iglesias" <edgar.iglesias@amd.com>
+Subject: [PULL 23/25] hw/riscv: virt: Add support for generating platform FDT
+ entries
+Date: Fri, 29 Apr 2022 14:31:17 +1000
+Message-Id: <20220429043119.1478881-24-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
 References: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
@@ -118,172 +118,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Create a platform bus to allow dynamic devices to be connected. This is
-based on the ARM implementation.
+Similar to the ARM virt machine add support for adding device tree
+entries for dynamically created devices.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20220427234146.1130752-4-alistair.francis@opensource.wdc.com=
+Message-Id: <20220427234146.1130752-5-alistair.francis@opensource.wdc.com=
 >
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/virt.h |  7 ++++-
- hw/riscv/virt.c         | 68 +++++++++++++++++++++++++++++------------
- hw/riscv/Kconfig        |  1 +
- 3 files changed, 56 insertions(+), 20 deletions(-)
+ hw/riscv/virt.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 8b8db3fb7c..984e55c77f 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -46,6 +46,7 @@ struct RISCVVirtState {
-=20
-     /*< public >*/
-     Notifier machine_done;
-+    DeviceState *platform_bus_dev;
-     RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
-     DeviceState *irqchip[VIRT_SOCKETS_MAX];
-     PFlashCFI01 *flash[2];
-@@ -76,6 +77,7 @@ enum {
-     VIRT_DRAM,
-     VIRT_PCIE_MMIO,
-     VIRT_PCIE_PIO,
-+    VIRT_PLATFORM_BUS,
-     VIRT_PCIE_ECAM
- };
-=20
-@@ -85,9 +87,12 @@ enum {
-     VIRTIO_IRQ =3D 1, /* 1 to 8 */
-     VIRTIO_COUNT =3D 8,
-     PCIE_IRQ =3D 0x20, /* 32 to 35 */
--    VIRTIO_NDEV =3D 0x35 /* Arbitrary maximum number of interrupts */
-+    VIRT_PLATFORM_BUS_IRQ =3D 64, /* 64 to 96 */
-+    VIRTIO_NDEV =3D 96 /* Arbitrary maximum number of interrupts */
- };
-=20
-+#define VIRT_PLATFORM_BUS_NUM_IRQS 32
-+
- #define VIRT_IRQCHIP_IPI_MSI 1
- #define VIRT_IRQCHIP_NUM_MSIS 255
- #define VIRT_IRQCHIP_NUM_SOURCES VIRTIO_NDEV
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index f849052c75..d99ea1c9fd 100644
+index d99ea1c9fd..12d0650b33 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -37,6 +37,7 @@
- #include "hw/intc/riscv_imsic.h"
- #include "hw/intc/sifive_plic.h"
- #include "hw/misc/sifive_test.h"
-+#include "hw/platform-bus.h"
- #include "chardev/char.h"
- #include "sysemu/device_tree.h"
- #include "sysemu/sysemu.h"
-@@ -68,25 +69,26 @@
- #endif
-=20
- static const MemMapEntry virt_memmap[] =3D {
--    [VIRT_DEBUG] =3D       {        0x0,         0x100 },
--    [VIRT_MROM] =3D        {     0x1000,        0xf000 },
--    [VIRT_TEST] =3D        {   0x100000,        0x1000 },
--    [VIRT_RTC] =3D         {   0x101000,        0x1000 },
--    [VIRT_CLINT] =3D       {  0x2000000,       0x10000 },
--    [VIRT_ACLINT_SSWI] =3D {  0x2F00000,        0x4000 },
--    [VIRT_PCIE_PIO] =3D    {  0x3000000,       0x10000 },
--    [VIRT_PLIC] =3D        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * =
-2) },
--    [VIRT_APLIC_M] =3D     {  0xc000000, APLIC_SIZE(VIRT_CPUS_MAX) },
--    [VIRT_APLIC_S] =3D     {  0xd000000, APLIC_SIZE(VIRT_CPUS_MAX) },
--    [VIRT_UART0] =3D       { 0x10000000,         0x100 },
--    [VIRT_VIRTIO] =3D      { 0x10001000,        0x1000 },
--    [VIRT_FW_CFG] =3D      { 0x10100000,          0x18 },
--    [VIRT_FLASH] =3D       { 0x20000000,     0x4000000 },
--    [VIRT_IMSIC_M] =3D     { 0x24000000, VIRT_IMSIC_MAX_SIZE },
--    [VIRT_IMSIC_S] =3D     { 0x28000000, VIRT_IMSIC_MAX_SIZE },
--    [VIRT_PCIE_ECAM] =3D   { 0x30000000,    0x10000000 },
--    [VIRT_PCIE_MMIO] =3D   { 0x40000000,    0x40000000 },
--    [VIRT_DRAM] =3D        { 0x80000000,           0x0 },
-+    [VIRT_DEBUG] =3D        {        0x0,         0x100 },
-+    [VIRT_MROM] =3D         {     0x1000,        0xf000 },
-+    [VIRT_TEST] =3D         {   0x100000,        0x1000 },
-+    [VIRT_RTC] =3D          {   0x101000,        0x1000 },
-+    [VIRT_CLINT] =3D        {  0x2000000,       0x10000 },
-+    [VIRT_ACLINT_SSWI] =3D  {  0x2F00000,        0x4000 },
-+    [VIRT_PCIE_PIO] =3D     {  0x3000000,       0x10000 },
-+    [VIRT_PLATFORM_BUS] =3D {  0x4000000,     0x2000000 },
-+    [VIRT_PLIC] =3D         {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX *=
- 2) },
-+    [VIRT_APLIC_M] =3D      {  0xc000000, APLIC_SIZE(VIRT_CPUS_MAX) },
-+    [VIRT_APLIC_S] =3D      {  0xd000000, APLIC_SIZE(VIRT_CPUS_MAX) },
-+    [VIRT_UART0] =3D        { 0x10000000,         0x100 },
-+    [VIRT_VIRTIO] =3D       { 0x10001000,        0x1000 },
-+    [VIRT_FW_CFG] =3D       { 0x10100000,          0x18 },
-+    [VIRT_FLASH] =3D        { 0x20000000,     0x4000000 },
-+    [VIRT_IMSIC_M] =3D      { 0x24000000, VIRT_IMSIC_MAX_SIZE },
-+    [VIRT_IMSIC_S] =3D      { 0x28000000, VIRT_IMSIC_MAX_SIZE },
-+    [VIRT_PCIE_ECAM] =3D    { 0x30000000,    0x10000000 },
-+    [VIRT_PCIE_MMIO] =3D    { 0x40000000,    0x40000000 },
-+    [VIRT_DRAM] =3D         { 0x80000000,           0x0 },
- };
-=20
- /* PCIe high mmio is fixed for RV32 */
-@@ -1162,6 +1164,32 @@ static DeviceState *virt_create_aia(RISCVVirtAIATy=
-pe aia_type, int aia_guests,
-     return aplic_m;
- }
-=20
-+static void create_platform_bus(RISCVVirtState *s, DeviceState *irqchip)
-+{
-+    DeviceState *dev;
-+    SysBusDevice *sysbus;
-+    const MemMapEntry *memmap =3D virt_memmap;
-+    int i;
-+    MemoryRegion *sysmem =3D get_system_memory();
+@@ -28,6 +28,7 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/char/serial.h"
+ #include "target/riscv/cpu.h"
++#include "hw/core/sysbus-fdt.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/virt.h"
+ #include "hw/riscv/boot.h"
+@@ -475,6 +476,12 @@ static void create_fdt_socket_plic(RISCVVirtState *s=
+,
+     riscv_socket_fdt_write_id(mc, mc->fdt, plic_name, socket);
+     qemu_fdt_setprop_cell(mc->fdt, plic_name, "phandle",
+         plic_phandles[socket]);
 +
-+    dev =3D qdev_new(TYPE_PLATFORM_BUS_DEVICE);
-+    dev->id =3D g_strdup(TYPE_PLATFORM_BUS_DEVICE);
-+    qdev_prop_set_uint32(dev, "num_irqs", VIRT_PLATFORM_BUS_NUM_IRQS);
-+    qdev_prop_set_uint32(dev, "mmio_size", memmap[VIRT_PLATFORM_BUS].siz=
++    platform_bus_add_all_fdt_nodes(mc->fdt, plic_name,
++                                   memmap[VIRT_PLATFORM_BUS].base,
++                                   memmap[VIRT_PLATFORM_BUS].size,
++                                   VIRT_PLATFORM_BUS_IRQ);
++
+     g_free(plic_name);
+=20
+     g_free(plic_cells);
+@@ -552,6 +559,12 @@ static void create_fdt_imsic(RISCVVirtState *s, cons=
+t MemMapEntry *memmap,
+             IMSIC_MMIO_GROUP_MIN_SHIFT);
+     }
+     qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_m_phandle=
+);
++
++    platform_bus_add_all_fdt_nodes(mc->fdt, imsic_name,
++                                   memmap[VIRT_PLATFORM_BUS].base,
++                                   memmap[VIRT_PLATFORM_BUS].size,
++                                   VIRT_PLATFORM_BUS_IRQ);
++
+     g_free(imsic_name);
+=20
+     /* S-level IMSIC node */
+@@ -689,6 +702,12 @@ static void create_fdt_socket_aplic(RISCVVirtState *=
+s,
+         VIRT_IRQCHIP_NUM_SOURCES);
+     riscv_socket_fdt_write_id(mc, mc->fdt, aplic_name, socket);
+     qemu_fdt_setprop_cell(mc->fdt, aplic_name, "phandle", aplic_s_phandl=
 e);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    s->platform_bus_dev =3D dev;
 +
-+    sysbus =3D SYS_BUS_DEVICE(dev);
-+    for (i =3D 0; i < VIRT_PLATFORM_BUS_NUM_IRQS; i++) {
-+        int irq =3D VIRT_PLATFORM_BUS_IRQ + i;
-+        sysbus_connect_irq(sysbus, i, qdev_get_gpio_in(irqchip, irq));
-+    }
++    platform_bus_add_all_fdt_nodes(mc->fdt, aplic_name,
++                                   memmap[VIRT_PLATFORM_BUS].base,
++                                   memmap[VIRT_PLATFORM_BUS].size,
++                                   VIRT_PLATFORM_BUS_IRQ);
 +
-+    memory_region_add_subregion(sysmem,
-+                                memmap[VIRT_PLATFORM_BUS].base,
-+                                sysbus_mmio_get_region(sysbus, 0));
-+}
-+
- static void virt_machine_done(Notifier *notifier, void *data)
- {
-     RISCVVirtState *s =3D container_of(notifier, RISCVVirtState,
-@@ -1418,6 +1446,8 @@ static void virt_machine_init(MachineState *machine=
-)
-                    memmap[VIRT_PCIE_PIO].base,
-                    DEVICE(pcie_irqchip));
+     g_free(aplic_name);
 =20
-+    create_platform_bus(s, DEVICE(mmio_irqchip));
-+
-     serial_mm_init(system_memory, memmap[VIRT_UART0].base,
-         0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART0_IRQ), 399193,
-         serial_hd(0), DEVICE_LITTLE_ENDIAN);
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 91bb9d21c4..da790f5936 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -48,6 +48,7 @@ config RISCV_VIRT
-     select SIFIVE_TEST
-     select VIRTIO_MMIO
-     select FW_CFG_DMA
-+    select PLATFORM_BUS
-=20
- config SIFIVE_E
-     bool
+     g_free(aplic_cells);
 --=20
 2.35.1
 
