@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2558515080
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:13:19 +0200 (CEST)
-Received: from localhost ([::1]:58606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065E05150A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 18:20:52 +0200 (CEST)
+Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkTF8-00047r-ME
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49572)
+	id 1nkTMQ-0003Te-LG
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 12:20:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSrD-0008IM-Sd
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nkSrB-0001ci-MK
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:48:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651247313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8Lvu9SUNMN3XEoEgMm52Q33R99sGi479g7VJABnQmPY=;
- b=bq0r3roxPHQ11UuNtVtZqRmJuToYX/FU/VyrtJ581GFLuozkpbo9owfWWNy3C4Abw1auIc
- oopspvWdQimkH7aOcVaOM6t8qfMBlMqqth5aikMCU6Zh6o2Jv9tHBBVf+uaCTvdH1NVWbI
- Gi4zM3Ou94YTwIB3maTth+hN2nj662g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-b3DMP2kcMouG0M_qbef7fA-1; Fri, 29 Apr 2022 11:48:29 -0400
-X-MC-Unique: b3DMP2kcMouG0M_qbef7fA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 370C2101AA4D;
- Fri, 29 Apr 2022 15:48:29 +0000 (UTC)
-Received: from harajuku.usersys.redhat.com (unknown [10.40.192.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2625B416363;
- Fri, 29 Apr 2022 15:48:25 +0000 (UTC)
-From: Andrea Bolognani <abologna@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] qapi: Drop more unnecessary horizontal spacing in comments
-Date: Fri, 29 Apr 2022 17:47:58 +0200
-Message-Id: <20220429154758.354610-8-abologna@redhat.com>
-In-Reply-To: <20220429154758.354610-1-abologna@redhat.com>
-References: <20220429154758.354610-1-abologna@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nkTFF-00061e-Ad; Fri, 29 Apr 2022 12:13:25 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:42498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nkTFC-0005cu-U9; Fri, 29 Apr 2022 12:13:24 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-2ef5380669cso90219287b3.9; 
+ Fri, 29 Apr 2022 09:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PikoLWTnZxpljmybnw/MkUxJW+wvOSlV1WWbms/rLXE=;
+ b=GVuw19kCryG1vGRaHSLJp4R42PFk9No03RUwO0CmNeetGAvtpxzTLTEhB2jCEHUA2b
+ YpGGx1rJbZ7hiWPRPoeRss/13V61kcNB/3BBXEMwrkGfKvqs4QxPokeZehbp7ve7CpuR
+ bJ7pbqZ8LHNYWd+3I5ksNKM4i5RflNBo9hYIZCmZ2lrQB8NBNiFLi3wl5QU1Ugw4uJO6
+ fTPUrN3J0xPTbqIdV+eR8yUDImmxfXzldQ3ZeOejYYZOFiaqJBtHEIiOFHrh3UDlNSWJ
+ HDYmqqVS5lZHBjs3KcgYo4HgRw/Qu9hLxSioJioU0n5ppnCiKgRfBjtFy534/rsO1MPe
+ 2oxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PikoLWTnZxpljmybnw/MkUxJW+wvOSlV1WWbms/rLXE=;
+ b=mvNfivvs98DIFE8Tcxu7Pg9IrNmidKihTs6CEZxobNM6RSQq9VYomA0HAc4CISrNZw
+ 07soTLjFCi+biZ4DUxLALgKPzhbZftoF3ImCVuc5OYwP22x31g6MoL7GC3vxpG6EXv0u
+ 3947KUzNMyAAztwvJRcejRew6nJQ/jSVU4eA1mECOXlxvgiMwnef6D0te/yCLQYt1D4i
+ FYVgJjwc4Vvpomx4P9DT6QLzhTWPDsx1afakV/H50thle3jH5EBdFg0Y1dGgsiNAYwuF
+ +WcNHK8zwssUjXx1td+SdjWQGcz1h+XHerZHxRumPjiHLazOAq8Df41Z9i2dJthF7KjM
+ J2Sw==
+X-Gm-Message-State: AOAM533wTg2IjM2FeZ+2nxqQ/zMv9cM07D0wqj6UqMyeou2gB7fkFrfr
+ XzltZYmV1/3dDbEAJDdm5jVpFQyWCBWwOdHQ88c=
+X-Google-Smtp-Source: ABdhPJzdhmRfqZd0IdOHWwWwX6afrjSnhubPcIycjbc57awL6fWJBIJBC0TawnAs7gJb48pECYaFLD+q0kHJbcPnVzc=
+X-Received: by 2002:a81:1bc3:0:b0:2e3:aa1:f553 with SMTP id
+ b186-20020a811bc3000000b002e30aa1f553mr37888607ywb.491.1651248801359; Fri, 29
+ Apr 2022 09:13:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <cover.1651228000.git.qemu_oss@crudebyte.com>
+ <2182756.uObvtyB7Eu@silver>
+ <CAEUhbmX1oJPTvtr4wE+e_gDL_iugOaArUtMo22W+LsgH97+1_g@mail.gmail.com>
+ <1728706.7qsB1zkp6X@silver>
+In-Reply-To: <1728706.7qsB1zkp6X@silver>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 30 Apr 2022 00:13:10 +0800
+Message-ID: <CAEUhbmWeEYd78E83VMiUwVcCNHej0pxgbb78Z1pTeTMZXp2q6A@mail.gmail.com>
+Subject: Re: [PATCH v5 4/6] 9pfs: fix wrong errno being sent to Linux client
+ on macOS host
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x1134.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLY=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,315 +80,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Guohuai Shi <guohuai.shi@windriver.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vertical alignment is sacrificed in the process.
+On Fri, Apr 29, 2022 at 11:16 PM Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> On Freitag, 29. April 2022 16:16:54 CEST Bin Meng wrote:
+> > On Fri, Apr 29, 2022 at 9:48 PM Christian Schoenebeck
+> >
+> > <qemu_oss@crudebyte.com> wrote:
+> > > On Freitag, 29. April 2022 15:29:15 CEST Greg Kurz wrote:
+> > > > On Fri, 29 Apr 2022 21:19:51 +0800
+> > > >
+> > > > Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > > On Fri, Apr 29, 2022 at 9:08 PM Greg Kurz <groug@kaod.org> wrote:
+> > > > > > On Fri, 29 Apr 2022 14:46:26 +0200
+> > > > > >
+> > > > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > > > > On Freitag, 29. April 2022 13:28:39 CEST Bin Meng wrote:
+> > > > > > > > On Fri, Apr 29, 2022 at 7:16 PM Christian Schoenebeck
+> > > > > > > >
+> > > > > > > > <qemu_oss@crudebyte.com> wrote:
+> > > > > > > > > Linux and macOS only share some errno definitions with equal
+> > > > > > > > > macro
+> > > > > > > > > name and value. In fact most mappings for errno are completely
+> > > > > > > > > different on the two systems.
+> > > > > > > > >
+> > > > > > > > > This patch converts some important errno values from macOS
+> > > > > > > > > host to
+> > > > > > > > > corresponding Linux errno values before eventually sending
+> > > > > > > > > such
+> > > > > > > > > error
+> > > > > > > > > codes along with 'Rlerror' replies (if 9p2000.L is used that
+> > > > > > > > > is).
+> > > > > > > > > Not
+> > > > > > > > > having translated errnos before violated the 9p2000.L protocol
+> > > > > > > > > spec,
+> > > > > > > > >
+> > > > > > > > > which says:
+> > > > > > > > >   "
+> > > > > > > > >   size[4] Rlerror tag[2] ecode[4]
+> > > > > > > > >
+> > > > > > > > >   ... ecode is a numerical Linux errno.
+> > > > > > > > >   "
+> > > > > > > > >
+> > > > > > > > >   https://github.com/chaos/diod/wiki/protocol#lerror----return
+> > > > > > > > >   -err
+> > > > > > > > >   or-code
+> > > > > > > > >
+> > > > > > > > > This patch fixes a bunch of misbehaviours when running a Linux
+> > > > > > > > > client
+> > > > > > > > >
+> > > > > > > > > on macOS host. For instance this patch fixes:
+> > > > > > > > >   mount -t 9p -o posixacl ...
+> > > > > > > > >
+> > > > > > > > > on Linux guest if security_mode=mapped was used for 9p server,
+> > > > > > > > > which
+> > > > > > > > > refused to mount successfully, because macOS returned
+> > > > > > > > > ENOATTR==93
+> > > > > > > > > when client tried to retrieve POSIX ACL xattrs, because errno
+> > > > > > > > > 93
+> > > > > > > > > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client
+> > > > > > > > > believed
+> > > > > > > > > that xattrs were not supported by filesystem on host in
+> > > > > > > > > general.
+> > > > > > > >
+> > > > > > > > This issue looks exact the same issue we were trying to fix when
+> > > > > > > > supporting 9p on Windows host,
+> > > > > > > >
+> > > > > > > > What we did is like this:
+> > > > > > > > http://patchwork.ozlabs.org/project/qemu-devel/patch/20220425142
+> > > > > > > > 705.
+> > > > > > > > 2099270-> 10-bmeng.cn@gmail.com/
+> > > > > > > >
+> > > > > > > > But we had some questions in mind (see the commit message of our
+> > > > > > > > patch, and below)
+> > > > > > > >
+> > > > > > > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > > > > > > > Link:
+> > > > > > > > > https://lore.kernel.org/qemu-devel/20220421124835.3e664669@bah
+> > > > > > > > > ia/
+> > > > > > > > > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > > > > > > > > ---
+> > > > > > > > >
+> > > > > > > > >  hw/9pfs/9p-util.h | 30 ++++++++++++++++++++++++++++++
+> > > > > > > > >  hw/9pfs/9p.c      |  2 ++
+> > > > > > > > >  2 files changed, 32 insertions(+)
+> > > > > > > > >
+> > > > > > > > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> > > > > > > > > index 2cc9a5dbfb..c3526144c9 100644
+> > > > > > > > > --- a/hw/9pfs/9p-util.h
+> > > > > > > > > +++ b/hw/9pfs/9p-util.h
+> > > > > > > > > @@ -58,6 +58,36 @@ static inline uint64_t
+> > > > > > > > > host_dev_to_dotl_dev(dev_t dev)
+> > > > > > > > >
+> > > > > > > > >  #endif
+> > > > > > > > >  }
+> > > > > > > > >
+> > > > > > > > > +/* Translates errno from host -> Linux if needed */
+> > > > > > > > > +static inline int errno_to_dotl(int err) {
+> > > > > > > > > +#if defined(CONFIG_LINUX)
+> > > > > > > > > +    /* nothing to translate (Linux -> Linux) */
+> > > > > > > > > +#elif defined(CONFIG_DARWIN)
+> > > > > > > > > +    /*
+> > > > > > > > > +     * translation mandatory for macOS hosts
+> > > > > > > > > +     *
+> > > > > > > > > +     * FIXME: Only most important errnos translated here yet,
+> > > > > > > > > this should
+> > > > > > > > > be +     * extended to as many errnos being translated as
+> > > > > > > > > possible
+> > > > > > > > > in
+> > > > > > > > > future. +     */
+> > > > > > > > > +    if (err == ENAMETOOLONG) {
+> > > > > > > > > +        err = 36; /* ==ENAMETOOLONG on Linux */
+> > > > > > > > > +    } else if (err == ENOTEMPTY) {
+> > > > > > > > > +        err = 39; /* ==ENOTEMPTY on Linux */
+> > > > > > > > > +    } else if (err == ELOOP) {
+> > > > > > > > > +        err = 40; /* ==ELOOP on Linux */
+> > > > > > > > > +    } else if (err == ENOATTR) {
+> > > > > > > > > +        err = 61; /* ==ENODATA on Linux */
+> > > > > > > > > +    } else if (err == ENOTSUP) {
+> > > > > > > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
+> > > > > > > > > +    } else if (err == EOPNOTSUPP) {
+> > > > > > > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
+> > > > > > > > > +    }
+> > > > > > > >
+> > > > > > > > What happens if a macOS guest is running on QEMU from a macOS
+> > > > > > > > host?
+> > > > > > > > Here all macOS errnos are translated to the Linux errnos. Will
+> > > > > > > > macOS
+> > > > > > > > be happy?
+> > > > > > >
+> > > > > > > Look at the commit log of this patch: it is a matter of which
+> > > > > > > protocol
+> > > > > > > is used> > >
+> > > > > > >
+> > > > > > > (currently there are 3 [1] protocol versions):
+> > > > > > >    * 9p2000: nothing to translate here, as this protocol version
+> > > > > > >    does
+> > > > > > >    not
+> > > > > > >
+> > > > > > >      return a numeric error code, it only returns an error string
+> > > > > > >      (and
+> > > > > > >      we are
+> > > > > > >      no longer supporting 9p2000 version in QEMU anyway BTW [1]):
+> > > > > > >      http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor27
+> > > > > > >
+> > > > > > >    * 9p2000.L: errno *must* be in Linux errno mapping:
+> > > > > > >      https://github.com/chaos/diod/wiki/protocol#lerror----return-> > > > > >      erro
+> > > > > > >      r-code
+> > > > > > >
+> > > > > > >    * 9p2000.u: this one returns both an error code and error
+> > > > > > >    string,
+> > > > > > >    and it
+> > > > > > >
+> > > > > > >      says the error string should be preferred being interpreted
+> > > > > > >      by
+> > > > > > >      client:
+> > > > > > >      http://ericvh.github.io/9p-rfc/rfc9p2000.u.html#anchor15
+> > > > > > >
+> > > > > > > In this patch here I only translated errno for 9p2000.L, whereas
+> > > > > > > you
+> > > > > > > are
+> > > > > > > always translating it, no matter wich protocol version is used.
+> > > > > > > You
+> > > > > > > might
+> > > > > > > argue that there should be a translation for 9p2000.u as well, but
+> > > > > > > in
+> > > > > > > the end we don't know the OS running on guest in this case. It
+> > > > > > > could
+> > > > > > > be Linux or something else.
+> > > > > >
+> > > > > > In the case of 9p2000.u the spec says "to provide a hint of the
+> > > > > > underlying
+> > > > > > UNIX error number which caused the error on the server" and even
+> > > > > > mentions
+> > > > > > "consistency problems of mapping error numbers betweeen different
+> > > > > > versions
+> > > > > > of UNIX"... this basically means that errno in 9p2000.u is undefined
+> > > > > > since
+> > > > > > it depends on the host. It is thus unusable unless the guest runs a
+> > > > > > compatible UNIX variant. In any case, there's really nothing to
+> > > > > > translate.
+> > > > > >
+> > > > > > > [1] https://wiki.qemu.org/Documentation/9p#9p_Protocol
+> > > > >
+> > > > > Thanks for the clarifications and pointers to different protocols! It
+> > > > > looks what we did in our Windows patch is correct.
+> > >
+> > > Like I said, you are translating it for all protocol version, whereas this
+> > > patch here translates errnos for 9p2000.L version only.
+> >
+> > Yes, this should be fixed in v2.
+>
+> Please wait for posting a v2 of those Windows patches. As you already
+> realized, the macOS fix patches here and your Windows host support patches
+> collide at several places.
+>
+> You can roughly expect these macOS patches to be merged on QEMU master branch
+> approximately early next week. Once they landed on QEMU master you can rebase
+> your patches on top of them and send a v2 accordingly subsequently.
 
-Signed-off-by: Andrea Bolognani <abologna@redhat.com>
----
- qapi/block-core.json | 43 +++++++++++++++++++++----------------------
- qapi/block.json      |  6 +++---
- qapi/char.json       |  6 +++---
- qapi/control.json    |  6 +++---
- qapi/crypto.json     | 32 ++++++++++++++++----------------
- qapi/migration.json  |  8 ++++----
- qapi/ui.json         | 13 ++++++-------
- 7 files changed, 56 insertions(+), 58 deletions(-)
+Sure.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 5fd66ea676..f0383c7925 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -338,8 +338,8 @@
- # Cache mode information for a block device
- #
- # @writeback: true if writeback mode is enabled
--# @direct:    true if the host page cache is bypassed (O_DIRECT)
--# @no-flush:  true if flush requests are ignored for the device
-+# @direct: true if the host page cache is bypassed (O_DIRECT)
-+# @no-flush: true if flush requests are ignored for the device
- #
- # Since: 2.3
- ##
-@@ -3333,12 +3333,11 @@
- ##
- # @BlockdevOptionsSsh:
- #
--# @server:         host address
-+# @server: host address
- #
--# @path:           path to the image on the host
-+# @path: path to the image on the host
- #
--# @user:           user as which to connect, defaults to current
--#                  local user name
-+# @user: user as which to connect, defaults to current local user name
- #
- # @host-key-check: Defines how and what to check the host key against
- #                  (default: known_hosts)
-@@ -4662,18 +4661,18 @@
- #
- # Subformat options for VMDK images
- #
--# @monolithicSparse:     Single file image with sparse cluster allocation
-+# @monolithicSparse: Single file image with sparse cluster allocation
- #
--# @monolithicFlat:       Single flat data image and a descriptor file
-+# @monolithicFlat: Single flat data image and a descriptor file
- #
- # @twoGbMaxExtentSparse: Data is split into 2GB (per virtual LBA) sparse extent
- #                        files, in addition to a descriptor file
- #
--# @twoGbMaxExtentFlat:   Data is split into 2GB (per virtual LBA) flat extent
--#                        files, in addition to a descriptor file
-+# @twoGbMaxExtentFlat: Data is split into 2GB (per virtual LBA) flat extent
-+#                      files, in addition to a descriptor file
- #
--# @streamOptimized:      Single file image sparse cluster allocation, optimized
--#                        for streaming over network.
-+# @streamOptimized: Single file image sparse cluster allocation, optimized
-+#                   for streaming over network.
- #
- # Since: 4.0
- ##
-@@ -4764,7 +4763,7 @@
- # @BlockdevVhdxSubformat:
- #
- # @dynamic: Growing image file
--# @fixed:   Preallocated fixed-size image file
-+# @fixed: Preallocated fixed-size image file
- #
- # Since: 2.12
- ##
-@@ -4802,7 +4801,7 @@
- # @BlockdevVpcSubformat:
- #
- # @dynamic: Growing image file
--# @fixed:   Preallocated fixed-size image file
-+# @fixed: Preallocated fixed-size image file
- #
- # Since: 2.12
- ##
-@@ -4865,7 +4864,7 @@
- # Starts a job to create an image format on a given node. The job is
- # automatically finalized, but a manual job-dismiss is required.
- #
--# @job-id:  Identifier for the newly created job.
-+# @job-id: Identifier for the newly created job.
- #
- # @options: Options for the image creation.
- #
-@@ -4923,17 +4922,17 @@
- # Starts a job to amend format specific options of an existing open block device
- # The job is automatically finalized, but a manual job-dismiss is required.
- #
--# @job-id:    Identifier for the newly created job.
-+# @job-id: Identifier for the newly created job.
- #
- # @node-name: Name of the block node to work on
- #
--# @options:   Options (driver specific)
-+# @options: Options (driver specific)
- #
--# @force:     Allow unsafe operations, format specific
--#             For luks that allows erase of the last active keyslot
--#             (permanent loss of data),
--#             and replacement of an active keyslot
--#             (possible loss of data if IO error happens)
-+# @force: Allow unsafe operations, format specific
-+#         For luks that allows erase of the last active keyslot
-+#         (permanent loss of data),
-+#         and replacement of an active keyslot
-+#         (possible loss of data if IO error happens)
- #
- # Features:
- # @unstable: This command is experimental.
-diff --git a/qapi/block.json b/qapi/block.json
-index 96f557b3bb..19326641ac 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -50,9 +50,9 @@
- #
- # Type of Floppy drive to be emulated by the Floppy Disk Controller.
- #
--# @144:  1.44MB 3.5" drive
--# @288:  2.88MB 3.5" drive
--# @120:  1.2MB 5.25" drive
-+# @144: 1.44MB 3.5" drive
-+# @288: 2.88MB 3.5" drive
-+# @120: 1.2MB 5.25" drive
- # @none: No drive connected
- # @auto: Automatically determined by inserted media at boot
- #
-diff --git a/qapi/char.json b/qapi/char.json
-index a40fe4b7bd..923dc5056d 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -376,10 +376,10 @@
- #
- # Configuration info for virtual console chardevs.
- #
--# @width:  console width,  in pixels
-+# @width: console width, in pixels
- # @height: console height, in pixels
--# @cols:   console width,  in chars
--# @rows:   console height, in chars
-+# @cols: console width, in chars
-+# @rows: console height, in chars
- #
- # Since: 1.5
- ##
-diff --git a/qapi/control.json b/qapi/control.json
-index 7107f55db3..afca2043af 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -192,12 +192,12 @@
- #
- # Options to be used for adding a new monitor.
- #
--# @id:      Name of the monitor
-+# @id: Name of the monitor
- #
--# @mode:    Selects the monitor mode (default: readline in the system
-+# @mode: Selects the monitor mode (default: readline in the system
- #           emulator, control in qemu-storage-daemon)
- #
--# @pretty:  Enables pretty printing (QMP only)
-+# @pretty: Enables pretty printing (QMP only)
- #
- # @chardev: Name of a character device to expose the monitor on
- #
-diff --git a/qapi/crypto.json b/qapi/crypto.json
-index 5c442a0c36..05386f6491 100644
---- a/qapi/crypto.json
-+++ b/qapi/crypto.json
-@@ -311,7 +311,7 @@
- #
- # Defines state of keyslots that are affected by the update
- #
--# @active:   The slots contain the given password and marked as active
-+# @active: The slots contain the given password and marked as active
- # @inactive: The slots are erased (contain garbage) and marked as inactive
- #
- # Since: 5.1
-@@ -325,7 +325,7 @@
- # This struct defines the update parameters that activate/de-activate set
- # of keyslots
- #
--# @state:      the desired state of the keyslots
-+# @state: the desired state of the keyslots
- #
- # @new-secret: The ID of a QCryptoSecret object providing the password to be
- #              written into added active keyslots
-@@ -334,23 +334,23 @@
- #              If given will deactivate all keyslots that
- #              match password located in QCryptoSecret with this ID
- #
--# @iter-time:  Optional (for activation only)
--#              Number of milliseconds to spend in
--#              PBKDF passphrase processing for the newly activated keyslot.
--#              Currently defaults to 2000.
-+# @iter-time: Optional (for activation only)
-+#             Number of milliseconds to spend in
-+#             PBKDF passphrase processing for the newly activated keyslot.
-+#             Currently defaults to 2000.
- #
--# @keyslot:    Optional. ID of the keyslot to activate/deactivate.
--#              For keyslot activation, keyslot should not be active already
--#              (this is unsafe to update an active keyslot),
--#              but possible if 'force' parameter is given.
--#              If keyslot is not given, first free keyslot will be written.
-+# @keyslot: Optional. ID of the keyslot to activate/deactivate.
-+#           For keyslot activation, keyslot should not be active already
-+#           (this is unsafe to update an active keyslot),
-+#           but possible if 'force' parameter is given.
-+#           If keyslot is not given, first free keyslot will be written.
- #
--#              For keyslot deactivation, this parameter specifies the exact
--#              keyslot to deactivate
-+#           For keyslot deactivation, this parameter specifies the exact
-+#           keyslot to deactivate
- #
--# @secret:     Optional. The ID of a QCryptoSecret object providing the
--#              password to use to retrieve current master key.
--#              Defaults to the same secret that was used to open the image
-+# @secret: Optional. The ID of a QCryptoSecret object providing the
-+#          password to use to retrieve current master key.
-+#          Defaults to the same secret that was used to open the image
- #
- # Since 5.1
- ##
-diff --git a/qapi/migration.json b/qapi/migration.json
-index dd4dde6361..1ff4d7eaff 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1191,10 +1191,10 @@
- # ask the client to automatically reconnect using the new parameters
- # once migration finished successfully.  Only implemented for SPICE.
- #
--# @protocol:     must be "spice"
--# @hostname:     migration target hostname
--# @port:         spice tcp port for plaintext channels
--# @tls-port:     spice tcp port for tls-secured channels
-+# @protocol: must be "spice"
-+# @hostname: migration target hostname
-+# @port: spice tcp port for plaintext channels
-+# @tls-port: spice tcp port for tls-secured channels
- # @cert-subject: server certificate subject
- #
- # Since: 0.14
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 15c3f790a6..11a827d10f 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1018,7 +1018,7 @@
- #
- # Keyboard input event.
- #
--# @key:  Which key this event is for.
-+# @key: Which key this event is for.
- # @down: True for key-down and false for key-up events.
- #
- # Since: 2.0
-@@ -1033,7 +1033,7 @@
- # Pointer button input event.
- #
- # @button: Which button this event is for.
--# @down:   True for key-down and false for key-up events.
-+# @down: True for key-down and false for key-up events.
- #
- # Since: 2.0
- ##
-@@ -1353,12 +1353,11 @@
- #
- # Display (user interface) options.
- #
--# @type:         Which DisplayType qemu should use.
--# @full-screen:  Start user interface in fullscreen mode (default: off).
-+# @type: Which DisplayType qemu should use.
-+# @full-screen: Start user interface in fullscreen mode (default: off).
- # @window-close: Allow to quit qemu with window close button (default: on).
--# @show-cursor:  Force showing the mouse cursor (default: off).
--#                (since: 5.0)
--# @gl:           Enable OpenGL support (default: off).
-+# @show-cursor: Force showing the mouse cursor (default: off). (since: 5.0)
-+# @gl: Enable OpenGL support (default: off).
- #
- # Since: 2.12
- ##
--- 
-2.35.1
+>
+> > > > > I have another question, does this mean the current 9pfs client on
+> > > > > macOS is broken since it does not use any translation? With this
+> > > > > patch, now the 9p server returns the translated linux errno so the 9p
+> > > > > client on macOS should complain.
+> > > >
+> > > > I don't now the macOS client but if it doesn't expect linux errnos
+> > > > then it is infringing 9p2000.L and should be fixed.
+> > >
+> > > Agreed, if you are using 9p2000.L with that macOS client and client does
+> > > not translate errnos Linux -> macOS, then client is broken. In the end it
+> > > matters what the protocol documentation specified.
+> > >
+> > > Which client is that? Is it from Apple or from a third party? And are you
+> > > sure you were actually using 9p2000.L and not 9p2000.u?
+> >
+> > I was asking this question because that's something that bothered us
+> > when developing the Windows patch because the errno translation does
+> > not exist in current macOS support, which means when using 9p2000.L:
+> >
+> > * if testing a Linux 9 client with a macOS QEMU, it should have been
+> > noticed before due to the errno mismatch which this patch is trying to
+> > fix
+> > * the same error mismatch should happen between a macOS 9p client and
+> > a Linux QEMU
+>
+> The 9p support patches for macOS hosts just landed few weeks ago on QEMU. And
+> yes, this problem unfortunately slipped through unnoticed during review of the
+> macOS patches, but will be addressed with upcoming QEMU stable bugfix release
+> 7.0.1.
+>
+> Also note that most distributions don't pick the very first version of a new
+> QEMU feature release cycle but rather wait for at least one or two stable
+> revisions. So I don't expect that QEMU 7.0 is widely used on production
+> systems yet, and it was just bad luck that your Windows patches appeared
+> almost at the same time as the macOS patches. :/
 
+Good to know.
+
+>
+> > * or maybe only macOS 9p client was tested with a macOS QEMU, because
+> > no errno translation exist, which means the macOS 9p client is broken?
+>
+> It does not help to repeat the same question and not answering other people's
+> ones, so again:
+>
+> Which 9p client is that exactly you are talking about? Is it an official
+> client from Apple or rather an unofficial client from some third party source?
+> You find quite a bunch of 9p client implementations out there. And are you
+> sure you were actually using 9p2000.L and not 9p2000.u during your tests?
+
+I think I already answered your question, and the answer is that we
+just don't know. Hence why I was asking questions in this thread. If
+you examine the commit message of the Windows patch, we described our
+question or confusion about macOS support that we suspected macOS
+support is broken with regard to the errno, but we cannot confirm it
+because we don't have macOS to test.
+
+>
+> As for the macOS host patches: AFAIK nobody ever tested this with a macOS
+> guest before. The original submitters (which you find on CC here) said they
+> tested the macOS host patches with a Linux guest only, probably limited to
+> very simple tasks.
+
+Ah, this explains. Thanks!
+
+> The thing here is that some major errnos are identical on macOS and Linux. So
+> if you are doing just simple stuff with 9p, then you can by luck get away
+> without any errno translation. However at a certain point, when you do more
+> fancy stuff, it will eventually hit you for sure.
+
+Yes, I think I get the whole picture now :)
+
+Regards,
+Bin
 
