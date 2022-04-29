@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D52F5144AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 10:46:45 +0200 (CEST)
-Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279BE5144AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 10:46:49 +0200 (CEST)
+Received: from localhost ([::1]:54252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkMGx-0005Wy-8C
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 04:46:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39460)
+	id 1nkMH1-0005bi-Hy
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 04:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nkM4P-0000LP-UD; Fri, 29 Apr 2022 04:33:45 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:38419)
+ id 1nkM4Q-0000Li-1W; Fri, 29 Apr 2022 04:33:46 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:57145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nkM4N-00058v-JH; Fri, 29 Apr 2022 04:33:45 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5205D5C0184;
- Fri, 29 Apr 2022 04:33:41 -0400 (EDT)
+ id 1nkM4O-000592-EY; Fri, 29 Apr 2022 04:33:45 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 794ED5C00E9;
+ Fri, 29 Apr 2022 04:33:43 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 29 Apr 2022 04:33:41 -0400
+ by compute5.internal (MEProxy); Fri, 29 Apr 2022 04:33:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1651221221; x=1651307621; bh=kU
- pgz1If7MTY0FPuUc4C5pEIO8Pvz7wyFDY+Gjqpklw=; b=DM+TWOHAHEKeGHByjh
- sllDbOK1yjcT6e6x9xfnd+vESf8QiNWrHGfxXFxKYhohepwfx86JKwh+BgIVWeDa
- 48xdznhGlBxLl6eo3GtyvuesZ8GymA4Jcu1D/LhTPMNv5LnFPiJNzoQq+kmY9eTx
- oQJ/mQoNZ6J4q47vtRi2qtJKeTHUYz5aE8zaWxwYTKOIt4A43iQztbVHt1eyqtrb
- 4BrHpUDl80IIMgLVB9fzJTrl9tg5SEQBdX22GMsDGwJMcxACqe8PBRs4wXPqUMwX
- JvePDuV9ZrcOZ4PrDvvqma+3SmlvXe739Uxq7HJw/DDjZZBp2y2Qc/IIVk+4RjXo
- LLNg==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1651221223; x=
+ 1651307623; bh=baudGR2g2UWMwMShaB9gPREnF8Fm2vNjxfHurmUA2YQ=; b=c
+ pZVMHCOCKcRFpDUvZ4zq7lhgzwxncUJMrNBZ0g5u0+N9nDLQ1W9wS5rUisqmEMGn
+ yQ4sihB7AcjhYWarQXjxuG/o3I0zwQHkgCttNnmDWE6YjbaHpWWnAsivCIp5eBmr
+ L6pEPTqJZSBLwneJtBO9EGjHUPTDKJzUpGKlrBKHAf87WtcJXBiTjDzG7BNxtsvo
+ a1cQWPAhRXQ4BSf1BdaETAGhgT6VHjwUb2tLYlZLLBBM9rFFA9bdNdbg2EITafrq
+ vGdq+BSwaY+uaJYdew9yV6tOGhMPKSloc5U/Dx3k3EZK5fcosTnASX4qesvU1dFj
+ pR02R4sY+mt0qwyVCr8aQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1651221221; x=1651307621; bh=kUpgz1If7MTY0FPuUc4C5pEIO8Pvz7wyFDY
- +Gjqpklw=; b=IR8VZfPMajjz8P2Rb/ELVXwHKmOxmqknMJZfP5gL5NKwauvHenx
- x/qUbZSYkIHLtOzz8ctXIl9ofEZPbvuOTeaR+Xr3j0GdmHn0kJLBd/8uw1SFoczH
- cLG258T6n2AkJ7Qq1uuRASCYTQ2FqzCkFyvkUXtBiCx/3FhUnzZKFUFoEUq5CXb6
- T1+l8Zmp46ncHZxkEb3NB6YVhRGgEuc/JQrCJ8VODnGmX8jVIJIUBC6fc4Jr7Pdr
- sUikki2kLf+Zpv+IzL9Jb62q3KfuqO1CEmKVIoiva+7CEQHG9cssrLoG6nUIyust
- 3+6jiEHfC+dQgHH2xDjitWWFXkzrvWDTGuA==
-X-ME-Sender: <xms:46JrYqPTrJZboicbyCmz2SQaOk8KdJGT5SWr2HZmXxTjjHYD_u1B4Q>
- <xme:46JrYo-q9CnGfnP8K9k-DFySlAnghQrI46YkZP1bgxQGe61EYzQ6ubUT_vloAuX7m
- r3CMLfAQC3Ng-ufdLo>
-X-ME-Received: <xmr:46JrYhRxnePSe7HDGCcruKj5SPgnj8UKVeuwDCTb85m9CJYAcTdEuCKnU3fZ3ktStAC1GoAvTWh-rBX4gUTh>
+ 1651221223; x=1651307623; bh=baudGR2g2UWMwMShaB9gPREnF8Fm2vNjxfH
+ urmUA2YQ=; b=fMMdj7av6W9Xd1sElEMsRSfzPJEDjpE1/RxYX/p/MUFOhiA61l4
+ 1Go6arzi5rKXDNPpKNJ/Z9C8uKM2XVtCPoPZZ98N/gy2/ATB5dzReSNdgu2AbFpE
+ uUOVXj7XlqHI/jKljFDt71YyrvEpGpKHfbHOK8zuxk3jWA/8FpKObmjVKnPhg0t2
+ gDL9D2vJQEUj/eoPjpC+fkf6rrm3Cs5cYYcRML3m3Il+5IaNYQNdqHVj9gFSK+9G
+ vevCmZa8tnSspf+JqQZ7ym0zBJCdM0CrL2Degvs1t7Zy/CaAr7N6F6ysVF11I6Js
+ WZTe+DbyDzBCAS5Gk7bK7ZQ07owwaofOf/g==
+X-ME-Sender: <xms:56JrYkugJNtWNsEJXTeuHwGvVPnU9-kYl_T1m49RP2HmZak5EB9GuA>
+ <xme:56JrYhe-tU2IHE2NhMjhrPAqAIvZffKvmsgIHFJVP-JS2Tgh-12HMmkgU-8faA0YG
+ DRJL6pdzsx-UOY8Fhs>
+X-ME-Received: <xmr:56JrYvzxvoXi01uJ19sOFqkPhc_AIqYB0JgoZ463gS673owYW0LsJvzAel4bQV1PX0ZLD5lBZIqxA_Vjs-nr>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelgddtfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnheptefhjeeujeelfeeltdetuddtffduheekveeghfdvudduvdevvdfhteduffegudek
- necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:5KJrYquJ9DgsgZ8f2H1HwtaZzqSq_uDMsHhq5TROBnkl5MD1ryGdvg>
- <xmx:5KJrYicEtmOKravUS2uph0k-E8ed698sUAD7GhNfXU-YlKlxnRNYFw>
- <xmx:5KJrYu1qFSPp5yQPyBFhlNjBTjpOqmubVoBE-4F0XY70YLJJZJ4sAQ>
- <xmx:5aJrYi5ru_1EIgSEpXAXfZngdswaJINAYwCVA_fJkH5a68Vd4OeKPA>
+ fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedujedu
+ geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:56JrYnPc6GAles9MyN1v7pYxMW5guEEyf_JHeKhqKHhK4mTTHsfBTw>
+ <xmx:56JrYk_zfKnm-24xmufgudCeYIbmPz2fuljMxWokz1YONwB3rnfK9g>
+ <xmx:56JrYvUuh7zmAvMF_NsFYavLOctcZG_R4IeHKzUiSEZ9x5waXpNeuA>
+ <xmx:56JrYvb_CY7aNviJZsUr0jwPT8Ee215ntIEUABtF3ruuzy-2ntIzEA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Apr 2022 04:33:38 -0400 (EDT)
+ 29 Apr 2022 04:33:41 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/5] hw/nvme: fix namespace identifiers
-Date: Fri, 29 Apr 2022 10:33:31 +0200
-Message-Id: <20220429083336.2201286-1-its@irrelevant.dk>
+Subject: [PATCH v2 1/5] hw/nvme: enforce common serial per subsystem
+Date: Fri, 29 Apr 2022 10:33:32 +0200
+Message-Id: <20220429083336.2201286-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.35.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220429083336.2201286-1-its@irrelevant.dk>
+References: <20220429083336.2201286-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -102,39 +103,53 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-The namespace identifiers reported by the controller is kind of a mess.=0D
-See [1,2].=0D
-=0D
-This series should fix this for both the `-device nvme,drive=3D...` and=0D
-`-device nvme-ns,...` cases.=0D
-=0D
-  [1]: https://lore.kernel.org/linux-nvme/20220224192845.1097602-1-hch@lst.=
-de/=0D
-  [2]: https://lore.kernel.org/linux-nvme/20220413044905.376785-1-hch@lst.d=
-e/=0D
-=0D
-Changes since v1:=0D
- - Revert auto-generation of eui64 (Christoph)=0D
-   User should set it explicitly.=0D
-=0D
-Klaus Jensen (5):=0D
-  hw/nvme: enforce common serial per subsystem=0D
-  hw/nvme: do not auto-generate eui64=0D
-  hw/nvme: do not auto-generate uuid=0D
-  hw/nvme: do not report null uuid=0D
-  hw/nvme: bump firmware revision=0D
-=0D
- docs/about/deprecated.rst |  7 +++++++=0D
- hw/core/machine.c         |  4 +++-=0D
- hw/nvme/ctrl.c            | 19 ++++++++-----------=0D
- hw/nvme/ns.c              |  4 ++--=0D
- hw/nvme/nvme.h            |  1 +=0D
- hw/nvme/subsys.c          |  7 +++++++=0D
- 6 files changed, 28 insertions(+), 14 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+The Identify Controller Serial Number (SN) is the serial number for the
+NVM subsystem and must be the same across all controller in the NVM
+subsystem.
+
+Enforce this.
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/nvme.h   | 1 +
+ hw/nvme/subsys.c | 7 +++++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 739c8b8f7962..7f2e8f1b6491 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -48,6 +48,7 @@ typedef struct NvmeSubsystem {
+     DeviceState parent_obj;
+     NvmeBus     bus;
+     uint8_t     subnqn[256];
++    char        *serial;
+ 
+     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
+     NvmeNamespace *namespaces[NVME_MAX_NAMESPACES + 1];
+diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+index fb58d639504e..691a90d20947 100644
+--- a/hw/nvme/subsys.c
++++ b/hw/nvme/subsys.c
+@@ -27,6 +27,13 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+         return -1;
+     }
+ 
++    if (!subsys->serial) {
++        subsys->serial = g_strdup(n->params.serial);
++    } else if (strcmp(subsys->serial, n->params.serial)) {
++        error_setg(errp, "invalid controller serial");
++        return -1;
++    }
++
+     subsys->ctrls[cntlid] = n;
+ 
+     for (nsid = 1; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
+-- 
+2.35.1
+
 
