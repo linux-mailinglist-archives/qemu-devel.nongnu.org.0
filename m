@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC98514183
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:43:50 +0200 (CEST)
-Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEADF51418D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 06:47:59 +0200 (CEST)
+Received: from localhost ([::1]:34708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkITt-0004rp-6s
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:43:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54154)
+	id 1nkIXv-0003s9-3N
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 00:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIIh-00078n-Mm
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:15 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13469)
+ id 1nkIIl-0007LK-TM
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:19 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:13522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=111bf31fc=alistair.francis@opensource.wdc.com>)
- id 1nkIIf-0002SM-PU
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:15 -0400
+ id 1nkIIk-0002Vn-1u
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 00:32:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1651206732; x=1682742732;
+ t=1651206736; x=1682742736;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uA+R1gy+RMF7Jh22UZwoPSc+KJgLha7/VNzMBrOthTA=;
- b=Db9LVmmU8rqY/GJucIDgPePn4MYcPnFoi1a8jBDco1tmV9Md7nnmfsP3
- rkQA11ha6PUxfs+PBHi0Imu+jesKoAo/ObQPSSFMCeOv5LwAV35NVvnIO
- 19ITZqdWZX01/dX+8heSj0AzwXRWx9wGFQuFE3jKY9oDwaZv/ZaSzvp+B
- zVsZd2DUGkr5CtIq5XKRY+IJt8id7QwwM+/qTEALZph9odNuT7Sq/C43v
- EXOQFUOUe8bA/8cnNJpOWXXrZDGQIyf6pxVXc1KXQq3QRfnsoYyuyQQi7
- ISkw6Bcp/XCFUeflmb1/vB2nr/P7WT6b0B916lHncnextyz/Y5KuAXrx+ g==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995941"
+ bh=fxIYBLAGuCgNuHGkEH2oyJZIUjuICVYT4WbT6ckuK1Y=;
+ b=U4HAqHDu8WtlLrZAwcIuJ96Uh8HrDlJRcSg26nIHomSYYc5M73+NOi0a
+ 3oO9Akw4ZgtOgk1Me7Bk+vFIRVDEclzHoSVbMgqvT3u2sRLJ92HCK06r+
+ a27VmSrnwn3erqT3eR+4BCvz7njjIZLM5fd1KMsiQBtObNJQGDSr+oQY5
+ q5xpgkA8ktLx82Kg3IDWiWONcXJ6jeaeCbKadzKNyIdpgZyQTlox0i6wf
+ q2UxDhP7QRd/ZI7cyGgOogpEed2npnharPM2RdSana4yF0sWdWwlIh6zW
+ dg3uSjcOClpFVbZpdtfeuIqDSVPn4gH8x1gtWkZBgJe4WV/8JBtUgTvNo w==;
+X-IronPort-AV: E=Sophos;i="5.91,297,1647273600"; d="scan'208";a="203995949"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:11 +0800
-IronPort-SDR: a02DJB7OkRve6WpI6+6ZTKYwoz2wdeYsqXF08CGDqGuf2n41U/qipHb1OSYiATxMdaz2Ml+CV6
- MFb6R0ZzLYjF1y6GTc4sjRH6VoMKzkFWQGKku5ptsHWm5sVLfHuLq2hAx05zKWJ8vPut+54ggd
- iJdFVpMdz5azxVZWVTAfexULbM98Zdrzw7tPI7Dc0AwoLKSauyxhRL9Khwaq1ueyON+Mv474TY
- OfM3LQ0g2NfVGo0jtQoWRHF+p5NBRJ7PEDOibG7cENU/6oaXTVB3DNMax7QBuCqrPhGPK1lFnn
- lsx8/orskHxgwuoqIQ2+LF5w
+ by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 12:32:15 +0800
+IronPort-SDR: Yi+6XpIDKAc7GNovb+TgovgrPKVXzh+DsS2Lc2iBFvsCeb937SaexKu7kqZ09P+U2uRN5udGL3
+ CHdOHneCN86iZFgQ9+u9SbHXjpNg0NiMLLVTKDZUfmkyxXAm4BqMwNif+bv3oZW0QVm0lagBrd
+ a/zEwgr2cGRPG+SxcaeI6OK+q2u5zNpNtywgwXpLo0pwhNyFKjQL1jUDBEylJsTEsWjaczRPO/
+ BeCZ7cx+ojEMx7AhHlTE8VhUrS0GiWe3uaGsFJ403gHwaUOAjJRYCwH/ahMlC2fbRl3cjVoUSG
+ 6HH6qlr1+ZAWIupXiTy/hmEI
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:02:21 -0700
-IronPort-SDR: OyeGbdO9l9D+IUG1FYztRPqBjcZjJja2sG0D4KXM6gVjxoQEmM6sCSslkvHTH6sjJ8WTKkoOXk
- 8aswAjkaLakuloCIaygv3oSfv0T4bgwpP5K8Kebq7oGO8slmYKwfAQMWpqhzfIr1i8vELZs9Vf
- TCuk1uhzW7MuP7fJLW48YYoWNUEl4v9LXUNYZin7GCi0L7GXAsrvujPKcQXcQUiN32DHoFLE1F
- 6nOz3ntUZge9wr6750OQMcO3VMTb50x52VLbIXDtFRdKq5GvAd9uT5PBMgNbOo+5JpVFbJDHVF
- jKw=
+ 28 Apr 2022 21:02:24 -0700
+IronPort-SDR: anmAL0f3c9JjPLXqkhrfvPhOBH1vGcblXWZltPVKfc6a5u/lq3Djs9nu0pFOoqmW3EGgPngHji
+ bPohURoYvRTAuxZgxkAMsEzHGo3NHw0dpeS5ENyjYR3ueCayOJ/QIHNH3/0HbAP/M00UiiOnXi
+ ENC7OcdfRQC140/JtFQGw7V0ZDinqqQAbWDdwyJlbodhanORFjBqt4t7c+V95LpQACx6Qp7JyH
+ jNhyarKoWqVojqr4xu7X1wDBzb6anv0OebZ3QX6U0YoVrHWSrvBxjPDORiYpG0FjBBuwUV/eqS
+ 5+A=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Apr 2022 21:32:13 -0700
+ 28 Apr 2022 21:32:16 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKMc4XVdz1Rwrw
- for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:12 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KqKMh2ghmz1SVp1
+ for <qemu-devel@nongnu.org>; Thu, 28 Apr 2022 21:32:16 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1651206732; x=1653798733; bh=uA+R1gy+RMF7Jh22UZ
- woPSc+KJgLha7/VNzMBrOthTA=; b=SL8KeSyYN/pB5dSkmqLAu1VgrU6hllSQ4M
- G5iyry6izto6OjqgAHVLJZ0iw1C4QsKaFxjFijwxwdPXWyx63jVkIG5F2HI35Ehu
- /UclM+azNt7lqLBNNi41nXTjVbtOlhn8sv6fYdwosFxj4uoFTE4HOaM/LkLEP5b2
- Qr8ebjcX/zr47CejDFqYRKusVyiYo2pggCAYM/oyKGl9XmA1q3ENEGFcyyHrhNKO
- ox9DNZMqKRCOfu2ZH/V8FcU1VBQRviGk6vk5fl88KKjLfE8PnDy56YJjUZ5RkXFu
- +4c3HCWkPBRlrzEtInkxZaW4NHjfPSKloaxaQy6dt7C5yHAT+jJw==
+ :from; s=dkim; t=1651206735; x=1653798736; bh=fxIYBLAGuCgNuHGkEH
+ 2oyJZIUjuICVYT4WbT6ckuK1Y=; b=WCWG7PC42uNbl7bnht6BgHHZFo6Lv8DGSg
+ aEfP/en3667z+PGB2u/JEtTumRbZu84mh35GXh1zOKHizFWkWHaKqd5J5HLgzazQ
+ 68uvZpH7dJ75/jpM5xUoWImL8XF3Wra5wXxb3I3J+Y3M/1SRboiW3hYizssyBDN+
+ jOHffQ1sWJmArQzJslda1jpMvUirykiKEWX9waWKqpcrjVCrMS6jcluQ+/ppwaD/
+ PIvBoxL9rfyJcbdpvr3Uro/07De2R84r9HtHjXnDd/exGZgvwahwsud/BJ+Q1w3b
+ oZhGvxhCtWBeYZ8gguB223yGeA51l2VINdBGOq5qYHxox4o1WaSw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id QF5iaivhXEXn for <qemu-devel@nongnu.org>;
- Thu, 28 Apr 2022 21:32:12 -0700 (PDT)
+ port 10026) with ESMTP id H1WaT1fCkIMS for <qemu-devel@nongnu.org>;
+ Thu, 28 Apr 2022 21:32:15 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.122])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKMY0LZ6z1Rvlc;
- Thu, 28 Apr 2022 21:32:08 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KqKMc4jyhz1SVnx;
+ Thu, 28 Apr 2022 21:32:12 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
  Zewen Ye <lustrew@foxmail.com>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 11/25] target/riscv: rvk: add support for sha256 related
- instructions in zknh extension
-Date: Fri, 29 Apr 2022 14:31:05 +1000
-Message-Id: <20220429043119.1478881-12-alistair.francis@opensource.wdc.com>
+Subject: [PULL 12/25] target/riscv: rvk: add support for sha512 related
+ instructions for RV32 in zknh extension
+Date: Fri, 29 Apr 2022 14:31:06 +1000
+Message-Id: <20220429043119.1478881-13-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
 References: <20220429043119.1478881-1-alistair.francis@opensource.wdc.com>
@@ -120,104 +120,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
- - add sha256sig0, sha256sig1, sha256sum0 and sha256sum1 instructions
+ - add sha512sum0r, sha512sig0l, sha512sum1r, sha512sig1l, sha512sig0h an=
+d sha512sig1h instructions
 
 Co-authored-by: Zewen Ye <lustrew@foxmail.com>
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220423023510.30794-9-liweiwei@iscas.ac.cn>
+Message-Id: <20220423023510.30794-10-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  5 +++
- target/riscv/insn_trans/trans_rvk.c.inc | 55 +++++++++++++++++++++++++
- 2 files changed, 60 insertions(+)
+ target/riscv/insn32.decode              |   6 ++
+ target/riscv/insn_trans/trans_rvk.c.inc | 100 ++++++++++++++++++++++++
+ 2 files changed, 106 insertions(+)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 0b800b4093..db28ecdd2b 100644
+index db28ecdd2b..02a0c71890 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -857,3 +857,8 @@ aes64esm    00 11011 ..... ..... 000 ..... 0110011 @r
- # *** RV64 Zkne/zknd Standard Extension ***
- aes64ks2    01 11111 ..... ..... 000 ..... 0110011 @r
- aes64ks1i   00 11000 1.... ..... 001 ..... 0010011 @i_aes
-+# *** RV32 Zknh Standard Extension ***
-+sha256sig0  00 01000 00010 ..... 001 ..... 0010011 @r2
-+sha256sig1  00 01000 00011 ..... 001 ..... 0010011 @r2
-+sha256sum0  00 01000 00000 ..... 001 ..... 0010011 @r2
-+sha256sum1  00 01000 00001 ..... 001 ..... 0010011 @r2
+@@ -862,3 +862,9 @@ sha256sig0  00 01000 00010 ..... 001 ..... 0010011 @r=
+2
+ sha256sig1  00 01000 00011 ..... 001 ..... 0010011 @r2
+ sha256sum0  00 01000 00000 ..... 001 ..... 0010011 @r2
+ sha256sum1  00 01000 00001 ..... 001 ..... 0010011 @r2
++sha512sum0r 01 01000 ..... ..... 000 ..... 0110011 @r
++sha512sum1r 01 01001 ..... ..... 000 ..... 0110011 @r
++sha512sig0l 01 01010 ..... ..... 000 ..... 0110011 @r
++sha512sig0h 01 01110 ..... ..... 000 ..... 0110011 @r
++sha512sig1l 01 01011 ..... ..... 000 ..... 0110011 @r
++sha512sig1h 01 01111 ..... ..... 000 ..... 0110011 @r
 diff --git a/target/riscv/insn_trans/trans_rvk.c.inc b/target/riscv/insn_=
 trans/trans_rvk.c.inc
-index 6336b48cb5..531e2c7cb3 100644
+index 531e2c7cb3..9ed057a153 100644
 --- a/target/riscv/insn_trans/trans_rvk.c.inc
 +++ b/target/riscv/insn_trans/trans_rvk.c.inc
-@@ -29,6 +29,12 @@
-     }                                           \
- } while (0)
-=20
-+#define REQUIRE_ZKNH(ctx) do {                  \
-+    if (!ctx->cfg_ptr->ext_zknh) {              \
-+        return false;                           \
-+    }                                           \
-+} while (0)
-+
- static bool gen_aes32_sm4(DisasContext *ctx, arg_k_aes *a,
-                           void (*func)(TCGv, TCGv, TCGv, TCGv))
- {
-@@ -123,3 +129,52 @@ static bool trans_aes64im(DisasContext *ctx, arg_aes=
-64im *a)
-     REQUIRE_ZKND(ctx);
-     return gen_unary(ctx, a, EXT_NONE, gen_helper_aes64im);
+@@ -178,3 +178,103 @@ static bool trans_sha256sum1(DisasContext *ctx, arg=
+_sha256sum1 *a)
+     REQUIRE_ZKNH(ctx);
+     return gen_sha256(ctx, a, EXT_NONE, tcg_gen_rotri_i32, 6, 11, 25);
  }
 +
-+static bool gen_sha256(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
-+                       void (*func)(TCGv_i32, TCGv_i32, int32_t),
-+                       int32_t num1, int32_t num2, int32_t num3)
++static bool gen_sha512_rv32(DisasContext *ctx, arg_r *a, DisasExtend ext=
+,
++                            void (*func1)(TCGv_i64, TCGv_i64, int64_t),
++                            void (*func2)(TCGv_i64, TCGv_i64, int64_t),
++                            int64_t num1, int64_t num2, int64_t num3)
 +{
 +    TCGv dest =3D dest_gpr(ctx, a->rd);
 +    TCGv src1 =3D get_gpr(ctx, a->rs1, ext);
-+    TCGv_i32 t0 =3D tcg_temp_new_i32();
-+    TCGv_i32 t1 =3D tcg_temp_new_i32();
-+    TCGv_i32 t2 =3D tcg_temp_new_i32();
++    TCGv src2 =3D get_gpr(ctx, a->rs2, ext);
++    TCGv_i64 t0 =3D tcg_temp_new_i64();
++    TCGv_i64 t1 =3D tcg_temp_new_i64();
++    TCGv_i64 t2 =3D tcg_temp_new_i64();
 +
-+    tcg_gen_trunc_tl_i32(t0, src1);
-+    tcg_gen_rotri_i32(t1, t0, num1);
-+    tcg_gen_rotri_i32(t2, t0, num2);
-+    tcg_gen_xor_i32(t1, t1, t2);
-+    func(t2, t0, num3);
-+    tcg_gen_xor_i32(t1, t1, t2);
-+    tcg_gen_ext_i32_tl(dest, t1);
++    tcg_gen_concat_tl_i64(t0, src1, src2);
++    func1(t1, t0, num1);
++    func2(t2, t0, num2);
++    tcg_gen_xor_i64(t1, t1, t2);
++    tcg_gen_rotri_i64(t2, t0, num3);
++    tcg_gen_xor_i64(t1, t1, t2);
++    tcg_gen_trunc_i64_tl(dest, t1);
 +
 +    gen_set_gpr(ctx, a->rd, dest);
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t2);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++    tcg_temp_free_i64(t2);
 +    return true;
 +}
 +
-+static bool trans_sha256sig0(DisasContext *ctx, arg_sha256sig0 *a)
++static bool trans_sha512sum0r(DisasContext *ctx, arg_sha512sum0r *a)
 +{
++    REQUIRE_32BIT(ctx);
 +    REQUIRE_ZKNH(ctx);
-+    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_shri_i32, 7, 18, 3);
++    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64,
++                           tcg_gen_rotli_i64, 25, 30, 28);
 +}
 +
-+static bool trans_sha256sig1(DisasContext *ctx, arg_sha256sig1 *a)
++static bool trans_sha512sum1r(DisasContext *ctx, arg_sha512sum1r *a)
 +{
++    REQUIRE_32BIT(ctx);
 +    REQUIRE_ZKNH(ctx);
-+    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_shri_i32, 17, 19, 10);
++    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64,
++                           tcg_gen_rotri_i64, 23, 14, 18);
 +}
 +
-+static bool trans_sha256sum0(DisasContext *ctx, arg_sha256sum0 *a)
++static bool trans_sha512sig0l(DisasContext *ctx, arg_sha512sig0l *a)
 +{
++    REQUIRE_32BIT(ctx);
 +    REQUIRE_ZKNH(ctx);
-+    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_rotri_i32, 2, 13, 22);
++    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotri_i64,
++                           tcg_gen_rotri_i64, 1, 7, 8);
 +}
 +
-+static bool trans_sha256sum1(DisasContext *ctx, arg_sha256sum1 *a)
++static bool trans_sha512sig1l(DisasContext *ctx, arg_sha512sig1l *a)
 +{
++    REQUIRE_32BIT(ctx);
 +    REQUIRE_ZKNH(ctx);
-+    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_rotri_i32, 6, 11, 25);
++    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64,
++                           tcg_gen_rotri_i64, 3, 6, 19);
++}
++
++static bool gen_sha512h_rv32(DisasContext *ctx, arg_r *a, DisasExtend ex=
+t,
++                             void (*func)(TCGv_i64, TCGv_i64, int64_t),
++                             int64_t num1, int64_t num2, int64_t num3)
++{
++    TCGv dest =3D dest_gpr(ctx, a->rd);
++    TCGv src1 =3D get_gpr(ctx, a->rs1, ext);
++    TCGv src2 =3D get_gpr(ctx, a->rs2, ext);
++    TCGv_i64 t0 =3D tcg_temp_new_i64();
++    TCGv_i64 t1 =3D tcg_temp_new_i64();
++    TCGv_i64 t2 =3D tcg_temp_new_i64();
++
++    tcg_gen_concat_tl_i64(t0, src1, src2);
++    func(t1, t0, num1);
++    tcg_gen_ext32u_i64(t2, t0);
++    tcg_gen_shri_i64(t2, t2, num2);
++    tcg_gen_xor_i64(t1, t1, t2);
++    tcg_gen_rotri_i64(t2, t0, num3);
++    tcg_gen_xor_i64(t1, t1, t2);
++    tcg_gen_trunc_i64_tl(dest, t1);
++
++    gen_set_gpr(ctx, a->rd, dest);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++    tcg_temp_free_i64(t2);
++    return true;
++}
++
++static bool trans_sha512sig0h(DisasContext *ctx, arg_sha512sig0h *a)
++{
++    REQUIRE_32BIT(ctx);
++    REQUIRE_ZKNH(ctx);
++    return gen_sha512h_rv32(ctx, a, EXT_NONE, tcg_gen_rotri_i64, 1, 7, 8=
+);
++}
++
++static bool trans_sha512sig1h(DisasContext *ctx, arg_sha512sig1h *a)
++{
++    REQUIRE_32BIT(ctx);
++    REQUIRE_ZKNH(ctx);
++    return gen_sha512h_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64, 3, 6, 1=
+9);
 +}
 --=20
 2.35.1
