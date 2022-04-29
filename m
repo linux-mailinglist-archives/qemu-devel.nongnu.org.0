@@ -2,65 +2,173 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F34E514515
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 11:07:07 +0200 (CEST)
-Received: from localhost ([::1]:57260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8539514532
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 11:16:37 +0200 (CEST)
+Received: from localhost ([::1]:40546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkMag-0006jA-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 05:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46158)
+	id 1nkMjt-00051Z-1p
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 05:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nkMWV-0005Ak-Iz
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 05:02:50 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:64502 helo=mga06.intel.com)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nkMfn-0002jQ-41
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 05:12:24 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:55886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nkMWT-0001YS-Nr
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 05:02:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651222965; x=1682758965;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ucPkbD98njIstEJlUOpokEcv3Il/EwZSZNZVLb6Ima8=;
- b=UTf+nItJuZdbboeAeylov3fSyoTnQyXUJnznaZcmeBw5f69H1wNykxwy
- ZwhaAOBka/VNZTtIIrzktSMPbFm2h+pnDKueE29ZqYse9jXhyRENtJFgB
- EnpqcXMAZjtet62xm3mJx10LeJrdrOsaOjoQZ01Sye34O3NNmSxlwcUEY
- 54gxiVzibSMRRlrv/iPueK5kQAvNDX/yvVpw3h4+NYf/ZNTjobrqg6R1a
- r7tFG6bREg4CwcCHoTr3KfAElisXfvm0vkz+CdDeayNE/CxCL6ovKdQnR
- lwLYYQXsRcjgyLy+FenjeeSWCrATHIenGzjHzAP1E7xJr5c9Utbx8Xilh w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="327078314"
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="327078314"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 02:02:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="706461641"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by fmsmga001.fm.intel.com with ESMTP; 29 Apr 2022 02:02:41 -0700
-Message-ID: <bb0872324385cd192cd292b0fc883f0f7964b385.camel@linux.intel.com>
-Subject: Re: [RESEND][PATCH 0/2] acpi/nvdimm: support NVDIMM _LS{I,R,W} methods
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Date: Fri, 29 Apr 2022 17:02:40 +0800
-In-Reply-To: <20220427163912.621bd366@redhat.com>
-References: <20220412065753.3216538-1-robert.hu@linux.intel.com>
- <20220427163912.621bd366@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nkMfk-0002vp-Ov
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 05:12:22 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23T7w5mj018603;
+ Fri, 29 Apr 2022 09:12:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=HMgXUiBhMw7uzckXIdY83CtHkSQeE4m/FKIeHL1mx0k=;
+ b=tXiNJUaMpRhlCTwva6P8gDCiz+YhGA3G9MrBRYmpGqY7M2MD9IRXIGuLTZ2hiCYRAkQx
+ dZWL7/Kabe662Lorcs+mxk266F3Rxz9a0ZKD2RcOzyEiG4htEh9EmWTfClsDsNxV9vEK
+ oBLuIQrzOpGPm7cbeM0L424zzqRzhnmGGMwWsc39DhQxBoTifUNBqrJtxS2A7Xw/ktTw
+ eh4jYUr1mClDFxPtZSeDYyvS0HCevWjz3lV7KlihyhU1GM0upPneLT5UYjnnxdQpuF/0
+ bRHxX4HBCufw7XYVnx/x2HJ4qE905sZ+HddAocxVKdbSpearis2y2R7pkVxs7Qq/UE9C 9Q== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb5k69jn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Apr 2022 09:12:12 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 23T9ADcR028464; Fri, 29 Apr 2022 09:12:12 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2102.outbound.protection.outlook.com [104.47.58.102])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3fm7w7swdu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Apr 2022 09:12:12 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GdDf+FY+LKYD3Yq5CWcMkNLBRMSTyDmJfxvDFH3llbS82zaM6rI6ME7k+cRUDcXs44pLf9dzVWn5+H9Tb/VpFLmKKIvLcX6yOP040yHSJjAtI02srwshIjB1c5KCrw1jrzAI3PID8XkazqaotgehX/6YvVkVsjrmYvHH9kPtOkCGJRtYJ2VmHEETZ5TnXI4/DOCkrpd15iVyejodOwN3wAGeyVMSAizNRahMMSf8JgEbOzsYOVgWc74fR61D4djmUU0xM45Z8AWvJMGa5mfYKi+7I0SBUZfehI+4m2Vt7kDSxadnUqnF1B/tHIXZZkl98rcmBJdMgRgVCpvlgu534w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HMgXUiBhMw7uzckXIdY83CtHkSQeE4m/FKIeHL1mx0k=;
+ b=YMDUhnqNajfAPEK5hvvGOXHP3CCvYZgZtIoeqCobyK5TksjszXea0rZy1d1ZBq5BivXmDSeYJM0Z9QXQ51fTGhNAwgzsv5hJ8FI/Mqe3m/Rr6NIRKlaiVaOy+jgLx8RMVfk3LKZRTAbtnvWiDU83KfQFvS1+LFwpdaNykJQr+oBB2NRKDD+to/BIMgYJif6RIkISu4IXKrj4whaGR39P2WlR7h31uR7Wdc5ZF88WS9SeDsU2BAtZiy3INOLpb/1s1sZE4WuW8XzKVok2nik7tzoh6xZnfWxb17EPKfltNd36/O+7g56qpGVpA5A+pGa2MmOmKGfcRBdduzHZzOBDmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HMgXUiBhMw7uzckXIdY83CtHkSQeE4m/FKIeHL1mx0k=;
+ b=Z9+zFNY3NrSa8XaL2e57epX22akDpVjx/tL/7+AxBU7ls7qztTsf5IVmZTsOAI4VKAujhO3ieATEmzqe3Ybmf2funOSD7KlpakylQxArUKTZVaZhetWjOCeDkjrsFKJ2wvf6BZObPUmdRwh6ebodRbH+CmPQ9wH4fFbDMWrfwuE=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by DM5PR10MB1419.namprd10.prod.outlook.com (2603:10b6:3:8::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5186.15; Fri, 29 Apr 2022 09:12:09 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d%5]) with mapi id 15.20.5206.013; Fri, 29 Apr 2022
+ 09:12:09 +0000
+Message-ID: <f90a8126-7805-be8d-e378-f129196e753d@oracle.com>
+Date: Fri, 29 Apr 2022 10:12:01 +0100
+Subject: Re: [PATCH RFC 04/10] intel_iommu: Second Stage Access Dirty bit
+ support
+Content-Language: en-US
+To: Jason Wang <jasowang@redhat.com>
+References: <20220428211351.3897-1-joao.m.martins@oracle.com>
+ <20220428211351.3897-5-joao.m.martins@oracle.com>
+ <CACGkMEug0zW0pWCSEtHQ5KE5KRpXyWvgJmPZm-yvJnCLmocAYg@mail.gmail.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+In-Reply-To: <CACGkMEug0zW0pWCSEtHQ5KE5KRpXyWvgJmPZm-yvJnCLmocAYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=robert.hu@linux.intel.com; helo=mga06.intel.com
+X-ClientProxiedBy: LO2P265CA0165.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9::33) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 31605aa7-bcef-4fd3-fabb-08da29c0568e
+X-MS-TrafficTypeDiagnostic: DM5PR10MB1419:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR10MB14194A9B67AE4D183FC10E79BBFC9@DM5PR10MB1419.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VACJV51D0kykWqtEcIkYZ/LaLEKvz/SJ7KEVit3T9HbUcSDePyDL6Y3RHJqTRpP3NVqCH71Lwcz2D1Sg0gclHj9z3PtwNBPCTQqTrfEgSwsmp22ihcjI/JcOVJ5Ij7f1Aoqzh937fMHyOO7pe1vH61+z0Bo16/odNbMnYxkAf9pNJpMIIOCa9FNlq7JLYrZbCt6ic6wuhcHe91hXQ4fighZQm4FxgWCEVLcwSXR3vRUeA/twVYeG8amdCSURP+lzzREVEQkykH9WQTa5ClObA+qUtRga6BXSFJaTblKKR1/11I5mWXuLLWg+PPCr7eyDxRt/qyE6fPYrn1yNdh731auIzo/QJwmavJzPu9iGC9O1VmFdUlrXt7FCS+aTH+AaMwB0+G5aLhkGe8m6lASb0SEp+DkAJ6+gIRzoV9edATGpd5SgbX6543KfPwFbm/fAKp+QlqVKsjHh3AgoVN3bG/RbhZorqHizi1z+mfRWa2bswl3vTveJMDhuuftBBzD6/THLOc3MMgbpF7Q8LpNlGAITf5vqPccDtghPjFmz5X9MdbvYZ4OoYrY1v/W1/JxZ+0fo8eH+hT/a0GO9/eve9rCLTi31zGyUbiYZkHXC0YOkN5nMN56wpqZJhM/juqBNd/KZScSSavMi+itfIsmNeY8jMv1wJqO56QW+5I8zOl3W+pC8WVZP8jnW+wKKby19qsHeqr0d+nCawN/w5RWX/TyKI2UUn7YkDg4ouUqt3ww=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(66476007)(6486002)(36756003)(38100700002)(6512007)(508600001)(26005)(31696002)(83380400001)(7416002)(66556008)(66946007)(54906003)(53546011)(5660300002)(6916009)(6666004)(31686004)(4326008)(8676002)(86362001)(2906002)(186003)(316002)(6506007)(4744005)(2616005)(8936002)(14143004)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aXllQTJCa2dZYm1kSzExMkxRaE9RUzBZNDU1M0h1Uk5YWGNrbFp5dzgzcytZ?=
+ =?utf-8?B?cnNRU01XZHgvNmpwa21oQ3c3ejE5OEtBMVpOeTA5RHRNdnZUOEhmUTh1b1pz?=
+ =?utf-8?B?aEdXbytHOVZlaHJKZkh2MTFrMCtBZGh6bkFEbDdXUmlidjNmaXhwb1IvQ3ZV?=
+ =?utf-8?B?WXIzQXc3Y2UrZkY3OGlXdzQzTzhjN2hmK2FkdmJwazh0c3U5ZjNtQzlVYnAv?=
+ =?utf-8?B?QXh0blpQaVhXZURQbEdkZG8reFlIV0E5MGlzbEJpSzlMbEtzRy9DUkIrSUkx?=
+ =?utf-8?B?ajRycEpDWFMzWU9VdldpUitHN28rYVdZMFFuSzU1WXNIL21IMWt0d0I5WDRZ?=
+ =?utf-8?B?UkljcHJQakR2VzhKR0xaSlZQa1RIV2pMKy95T1Z2S0J5ZmJlTGo2SGNIalJq?=
+ =?utf-8?B?ZFBtclF2cTdzTXN0UCsyS0NuQ1NLU0ZlNlRWTnNlb1NBNFdQdWRrMlk1SHF5?=
+ =?utf-8?B?RVR6NmhYZ01zeU9EOFBraDF1R0p1S09ySzE2WHlxWFNQd1JXcWlNM2lXeFdq?=
+ =?utf-8?B?dC94MHp4OEdiT0ZLY21waXNrdktyQnd1cG5GVHFwNkM0OE1jNWg2N2MydzVH?=
+ =?utf-8?B?KzRiNTg5VUU0bjZHMkxIdU5qNVpKRitYdTF4RFBXOGcrVG5FcGxwQmNtT2Qv?=
+ =?utf-8?B?TUJMOURPbGxRUHFFZ01DZkMvc1Fubm9lejNFYXE0U3dwMkc4YSs1ZklTZm1X?=
+ =?utf-8?B?RFhFUGIxdGJ5UStmMG1VWUpYemdEbVl3b1ZmTEU2amlPbHpaZVNrbWR6a3JX?=
+ =?utf-8?B?UDhBMlRTMGNmT2JOVllwb1BuK0RFMUljby9LQ1kweVhmS3A5b1RNZjl1ZURt?=
+ =?utf-8?B?MEI4a0lYcWpHT1djdmdKU05wTG02aE9ndEovZ1BCbExabTljaUNFd0s0NXc4?=
+ =?utf-8?B?b3ZCeWJIbVFWYnhVN25GMEtvMjRmckR2WG45STVDUmoyM3J6ZDR0bHFvYXAx?=
+ =?utf-8?B?ekdkc28xcjQxQ2tpTTNRUWw0WjM1OE1XYktkYnN2a3VLaEJRZFkyVzJJa0Va?=
+ =?utf-8?B?MFR2TlZhd01wZXlVaFRNOTE3SWFmRENHN1lxQ3htdGs5d29ldmlUem5RZkEy?=
+ =?utf-8?B?VFJkV21CUUd3NGkrMmRUSVN6U2JzSUg1U090NWl6R243cWNsOFVwaEs3K2V3?=
+ =?utf-8?B?OXA2eWZPSHRISU9LY1VIUzZ2c0Z3UjgyTk5uODMyKzk1L2xSUm1lMkZnYUgz?=
+ =?utf-8?B?YTJoQVZ2OXlTd2JjRU1uS1ljYmFEVXZ5bXdzc2ZRYTlpcEM2NXBoZG54a2dn?=
+ =?utf-8?B?ZWw4UDNLaE9tUEpoNTBiM3ViTGtIeE4rZHEzMUc4OE01bW8xV2F4bzd4RlRy?=
+ =?utf-8?B?b1NvTHM5UEN3NnJhbEk3Vm1IT3RVMWhVNFBXeG90aHliTzU5bUFNamJWOWYy?=
+ =?utf-8?B?Z001eWxnY2NZcnpCNkNZUVUwTjgycGZjbEh0T29jSjFJdFZ4YnBmcEFJZ2Ur?=
+ =?utf-8?B?a2pDTUNqMEtGalZKMzRHZnMremdHaDlLOFh3dHRQb1BRQUV6OTlIdnlVNHNN?=
+ =?utf-8?B?ZVRUMTBCVkpKSkc0OWExOFN1UGRCQWtNUnlaK1VUc2RkajZ4bnprbzBxaFhh?=
+ =?utf-8?B?b3dtdm5xdU1JY05lSXBCdjhLQmlzbERsVmQwSFFaQ29QVEdDVjFPak9HS1dD?=
+ =?utf-8?B?VWc3L3dXa3VCYU9EWGFCaWQ5Q0ZSNVExQUUxZ1VOandkRjYwNE1xQzR3eHdW?=
+ =?utf-8?B?bEdHYnFlMVRPOXFBZEFOcjRXakxVdHE2TlYrUEFRa2gzNFNUWXdGenF6L0ZM?=
+ =?utf-8?B?cVRjcnMyS21pWngrN25hbDBqRFRzdTdPZmFySER0OXlNbkJaY3ovY0VQRFlE?=
+ =?utf-8?B?bm9yYkJIZGZZSG9rUjI0NGtBNHZHRFduK1NDenh1YUpPeHUrYlNKTTJXN2dO?=
+ =?utf-8?B?ZmtjWDJFMGhjLzEybHhHM1lUQlpmd3N5L2hiWTAwWlhjeVJSd3VlMGlmZVox?=
+ =?utf-8?B?OGhaWTJuUTVUY0k5N01PWk12TmYxaHNQSGEyemVvRjRoZHNxV25iMnRId3ly?=
+ =?utf-8?B?aEF3NVhvbWxjME1xS0ZoVlpuUkhhc1dFVjJKWldUVU1QQUVlYVRyWWhsS3c1?=
+ =?utf-8?B?ZmExZUFDMWluUW9oM1lyTkEvUC9iUXUxZDViakl3RkpibE80ZWsrdHlEaTVC?=
+ =?utf-8?B?NlJjM0pwYk1Vd3RIQU0zYXZSVEdDdEhsdVlHd2wzRHdsZUxKSnA1dFRiZHpO?=
+ =?utf-8?B?Zk1WRjNVYjBWN3VPWHhsZmlnY3VnM1B5NlRGaUN2YTZlQnExZ2RxbjI1UWhP?=
+ =?utf-8?B?eDJtbksyVlJCdFBEOXBGN0FpclZWd2hCUmdQN1RVQ01TZjdEVWYyc3RyUDlo?=
+ =?utf-8?B?Vzg5UmlWZUIxS1prclZCSStqem9PazBQQi9oaG9vcGhRbXpUY2lHME1TWms1?=
+ =?utf-8?Q?oWFRTEvK9Uuae/0o=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31605aa7-bcef-4fd3-fabb-08da29c0568e
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2022 09:12:09.3067 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oI4i3EvS8OtfZunmd4tKVpzkRGQnQQAd+vW46En895h/ksK8cU8ABiIazAtyTsInmfOIBQLF4XG9NyNKpzIHR1G0ia34UmxHwDZb9+mPRdk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1419
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
+ definitions=2022-04-29_03:2022-04-28,
+ 2022-04-29 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=999
+ malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204290053
+X-Proofpoint-GUID: xQtVv5hmOWa6vEMZynQ-EPsmaSOR7fdE
+X-Proofpoint-ORIG-GUID: xQtVv5hmOWa6vEMZynQ-EPsmaSOR7fdE
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,61 +182,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
- qemu-devel@nongnu.org, ani@anisinha.ca, robert.hu@intel.com,
- dan.j.williams@intel.com
+Cc: "John G . Johnson" <john.g.johnson@oracle.com>, kvm <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Yi Liu <yi.l.liu@intel.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-04-27 at 16:39 +0200, Igor Mammedov wrote:
-> On Tue, 12 Apr 2022 14:57:51 +0800
-> Robert Hoo <robert.hu@linux.intel.com> wrote:
+On 4/29/22 03:26, Jason Wang wrote:
+> On Fri, Apr 29, 2022 at 5:14 AM Joao Martins <joao.m.martins@oracle.com> wrote:
+>> @@ -3693,7 +3759,8 @@ static void vtd_init(IntelIOMMUState *s)
+>>
+>>      /* TODO: read cap/ecap from host to decide which cap to be exposed. */
+>>      if (s->scalable_mode) {
+>> -        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
+>> +        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS |
+>> +                   VTD_ECAP_SLADS;
+>>      }
 > 
-> > The original NVDIMM _DSM functions (index 4~6) for label operations
-> > have
-> > been deprecated by new ACPI methods _LS{I,R,W}[1][2].
-> > 
-> > Patch 1 implements the new _LS{I,R,W} methods, on top of old _DSM
-> > implementation.
-> > 
-> > Patch 2 fixes some typo of logical and/or with bitwise and/or,
-> > though
-> > functionally they haven't causing trouble.
+> We probably need a dedicated command line parameter and make it compat
+> for pre 7.1 machines.
 > 
-> generic requirement for ACPI patches,
-> the should pass bios-tables-test (part of 'make check')
-> 
-> for that you need to update testcase expected data,
-> see tests/qtest/bios-tables-test.c for the process
-> also see 
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg875304.html for
-> example
-> 
+> Otherwise we may break migration.
 
-Got it. Thanks Igor.
-> > 
-> > [1] https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/index.html,
-> > 6.5.10 NVDIMM Label Methods
-> > [2] 
-> > https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf,
-> > 3.10 Deprecated Functions
-> > 
-> > ---
-> > Resend for previous failed delivery to "qemu-devel@nongnu.org" due
-> > to
-> > 550-'Message headers fail syntax check'. 
-> > 
-> > Robert Hoo (2):
-> >   acpi/nvdimm: Create _LS{I,R,W} method for NVDIMM device
-> >   acpi/nvdimm: Fix aml_or() and aml_and() in if clause
-> > 
-> >  hw/acpi/nvdimm.c | 60 +++++++++++++++++++++++++++++++++++++++++++-
-> > ----
-> >  1 file changed, 54 insertions(+), 6 deletions(-)
-> > 
-> > 
-> > base-commit: 95a3fcc7487e5bef262e1f937ed8636986764c4e
-> 
-> 
+I can gate over an 'x-ssads' option (default disabled). Which reminds me that I probably
+should rename to the most recent mnemonic (as SLADS no longer exists in manuals).
 
+If we all want by default enabled I can add a separate patch to do so.
+
+	Joao
 
