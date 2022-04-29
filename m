@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B576A514A48
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 15:09:56 +0200 (CEST)
-Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA330514A53
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 15:18:11 +0200 (CEST)
+Received: from localhost ([::1]:42656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkQNf-0003ji-F0
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 09:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41418)
+	id 1nkQVd-0007ye-Hy
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 09:18:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkQMC-0001xP-0I
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:08:24 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:47411)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nkQTQ-0006Oe-Kn
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:15:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkQM8-00010w-0v
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:08:22 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nkQTM-0002Dh-76
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:15:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651238146;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CctKeXb0HN6H9UlYTa93bLqC2ZedlJCSIrkZflLaaVw=;
+ b=TK17zsIwQZPiV+r/nkXFG7sSDxbQvLKNUlgo/ez7FxFiBfKltg8IozXh6oWGbTzC/SSjdC
+ U9IQNifgi1T1tjB47DDjzfE1IIfCtiteY/vFY80Vx9oswoKXhpc0ZQgP6ui0lD1uc0dYn1
+ heHvJsIXPbZ8TRAuP6DhixQkqbXnXuw=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-5OCtCgdjPhKrsrdlBaDucg-1; Fri, 29 Apr 2022 09:08:13 -0400
-X-MC-Unique: 5OCtCgdjPhKrsrdlBaDucg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09D49811E76;
- Fri, 29 Apr 2022 13:08:13 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B7A720239E0;
- Fri, 29 Apr 2022 13:08:11 +0000 (UTC)
-Date: Fri, 29 Apr 2022 15:08:10 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v5 4/6] 9pfs: fix wrong errno being sent to Linux client
- on macOS host
-Message-ID: <20220429150810.05eca6fe@bahia>
-In-Reply-To: <7406109.yuWpBpk2tO@silver>
-References: <cover.1651228000.git.qemu_oss@crudebyte.com>
- <b322ab298a62069e527d2b032028bdc9115afacd.1651228001.git.qemu_oss@crudebyte.com>
- <CAEUhbmUVb_MLEGbKaJKjL023KUDUy=wvf9KCNn+NeAMW0SeELg@mail.gmail.com>
- <7406109.yuWpBpk2tO@silver>
+ us-mta-631-ikILK6ZBPL-7WGFU5ASEcw-1; Fri, 29 Apr 2022 09:15:44 -0400
+X-MC-Unique: ikILK6ZBPL-7WGFU5ASEcw-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ b12-20020a056902030c00b0061d720e274aso7278452ybs.20
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 06:15:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc;
+ bh=CctKeXb0HN6H9UlYTa93bLqC2ZedlJCSIrkZflLaaVw=;
+ b=6x67Hov2OwkrtPJluWDB7GtWlJ3MjXZl2wyI0iPjpGBz+nqxPjYWRFbhvg41nAK8SN
+ 1MHSOU128EFz0ZZlUTkCaksOQpmtPwQgnfYFLbuni36nnaK8tHi7vUwWRBvRUnOKSeXm
+ jEUxDNomwQ28Y7/HZxYgONeE1umXsOmZz9/n+/BPyLUMLq6/iluuc04E7B+Q/p+RJD0e
+ JbtdHA3/TUDfZmPyUxvkWAOU3x+C0qr8HhbtuklF+AWX3Ny8rLzRFnWtuWhBaPVoug86
+ M1SLcGzqVhqI9/f8iySr5ZzqtWWR9n3cow0wlcgKjs/m3C+iIEm6ykMV7kMx6ekFMrwU
+ oo7A==
+X-Gm-Message-State: AOAM530a4eTb0n1XpCrkAalbvxc717zD3lo7PO+9xP6V90O7GXaJKCRv
+ yyifaauJHXD0HVb/y+K8KkFqRmX7RMq3/17LaC952P4P/YnP1MI8tyaDADuhQvZH0GFqTyr7B1c
+ OLsLq6m31G3RGT2xBKuddLl5AAGuxoec=
+X-Received: by 2002:a25:bb4a:0:b0:633:92a6:c35 with SMTP id
+ b10-20020a25bb4a000000b0063392a60c35mr34541878ybk.121.1651238144097; 
+ Fri, 29 Apr 2022 06:15:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyvzXWqgGk4CuzjIq89gJveIfSZKxx90Gi4Ie/YeZYzzXmgwpANFX1S+nnMZAF6bux9B6KIRmqun1MEz49y4k=
+X-Received: by 2002:a25:bb4a:0:b0:633:92a6:c35 with SMTP id
+ b10-20020a25bb4a000000b0063392a60c35mr34541849ybk.121.1651238143847; Fri, 29
+ Apr 2022 06:15:43 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 29 Apr 2022 06:15:43 -0700
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
+ <87a6c52u68.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <87a6c52u68.fsf@pond.sub.org>
+Date: Fri, 29 Apr 2022 06:15:43 -0700
+Message-ID: <CABJz62NaEgEzEkvdYbNZ5qfkx_gAYfnxt_YbQhGyD08gRH6EYg@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,174 +91,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Guohuai Shi <guohuai.shi@windriver.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: John Snow <jsnow@redhat.com>, Victor Toso <victortoso@redhat.com>,
+ qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Apr 2022 14:46:26 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On Thu, Apr 28, 2022 at 03:50:55PM +0200, Markus Armbruster wrote:
+> Andrea Bolognani <abologna@redhat.com> writes:
+> > One concern that I have is about naming struct members: things like
+> > SpiceInfo.MouseMode and most others are translated from the QAPI
+> > schema exactly the way you'd expect them, but for example
+> > ChardevCommon.Logappend doesn't look quite right.
+>
+> It doesn't look quite right in the QAPI schema, either: @logappend.  If
+> it was @log-append, as it should, then it would get translated to
+> LogAppend, I guess.
+>
+> Fixing up style isn't a code generator's job.
 
-> On Freitag, 29. April 2022 13:28:39 CEST Bin Meng wrote:
-> > On Fri, Apr 29, 2022 at 7:16 PM Christian Schoenebeck
-> > 
-> > <qemu_oss@crudebyte.com> wrote:
-> > > Linux and macOS only share some errno definitions with equal macro
-> > > name and value. In fact most mappings for errno are completely
-> > > different on the two systems.
-> > > 
-> > > This patch converts some important errno values from macOS host to
-> > > corresponding Linux errno values before eventually sending such error
-> > > codes along with 'Rlerror' replies (if 9p2000.L is used that is). Not
-> > > having translated errnos before violated the 9p2000.L protocol spec,
-> > > 
-> > > which says:
-> > >   "
-> > >   size[4] Rlerror tag[2] ecode[4]
-> > >   
-> > >   ... ecode is a numerical Linux errno.
-> > >   "
-> > >   
-> > >   https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
-> > > 
-> > > This patch fixes a bunch of misbehaviours when running a Linux client
-> > > 
-> > > on macOS host. For instance this patch fixes:
-> > >   mount -t 9p -o posixacl ...
-> > > 
-> > > on Linux guest if security_mode=mapped was used for 9p server, which
-> > > refused to mount successfully, because macOS returned ENOATTR==93
-> > > when client tried to retrieve POSIX ACL xattrs, because errno 93
-> > > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
-> > > that xattrs were not supported by filesystem on host in general.
-> > 
-> > This issue looks exact the same issue we were trying to fix when
-> > supporting 9p on Windows host,
-> > 
-> > What we did is like this:
-> > http://patchwork.ozlabs.org/project/qemu-devel/patch/20220425142705.2099270-> 10-bmeng.cn@gmail.com/
-> > 
-> > But we had some questions in mind (see the commit message of our
-> > patch, and below)
-> > 
-> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > Link: https://lore.kernel.org/qemu-devel/20220421124835.3e664669@bahia/
-> > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > > 
-> > >  hw/9pfs/9p-util.h | 30 ++++++++++++++++++++++++++++++
-> > >  hw/9pfs/9p.c      |  2 ++
-> > >  2 files changed, 32 insertions(+)
-> > > 
-> > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> > > index 2cc9a5dbfb..c3526144c9 100644
-> > > --- a/hw/9pfs/9p-util.h
-> > > +++ b/hw/9pfs/9p-util.h
-> > > @@ -58,6 +58,36 @@ static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
-> > > 
-> > >  #endif
-> > >  }
-> > > 
-> > > +/* Translates errno from host -> Linux if needed */
-> > > +static inline int errno_to_dotl(int err) {
-> > > +#if defined(CONFIG_LINUX)
-> > > +    /* nothing to translate (Linux -> Linux) */
-> > > +#elif defined(CONFIG_DARWIN)
-> > > +    /*
-> > > +     * translation mandatory for macOS hosts
-> > > +     *
-> > > +     * FIXME: Only most important errnos translated here yet, this should
-> > > be +     * extended to as many errnos being translated as possible in
-> > > future. +     */
-> > > +    if (err == ENAMETOOLONG) {
-> > > +        err = 36; /* ==ENAMETOOLONG on Linux */
-> > > +    } else if (err == ENOTEMPTY) {
-> > > +        err = 39; /* ==ENOTEMPTY on Linux */
-> > > +    } else if (err == ELOOP) {
-> > > +        err = 40; /* ==ELOOP on Linux */
-> > > +    } else if (err == ENOATTR) {
-> > > +        err = 61; /* ==ENODATA on Linux */
-> > > +    } else if (err == ENOTSUP) {
-> > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > +    } else if (err == EOPNOTSUPP) {
-> > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > +    }
-> > 
-> > What happens if a macOS guest is running on QEMU from a macOS host?
-> > Here all macOS errnos are translated to the Linux errnos. Will macOS
-> > be happy?
-> 
-> Look at the commit log of this patch: it is a matter of which protocol is used 
-> (currently there are 3 [1] protocol versions):
-> 
->    * 9p2000: nothing to translate here, as this protocol version does not
->      return a numeric error code, it only returns an error string (and we are 
->      no longer supporting 9p2000 version in QEMU anyway BTW [1]):
->      http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor27
-> 
->    * 9p2000.L: errno *must* be in Linux errno mapping:
->      https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
-> 
->    * 9p2000.u: this one returns both an error code and error string, and it 
->      says the error string should be preferred being interpreted by client:
->      http://ericvh.github.io/9p-rfc/rfc9p2000.u.html#anchor15
-> 
-> In this patch here I only translated errno for 9p2000.L, whereas you are 
-> always translating it, no matter wich protocol version is used. You might 
-> argue that there should be a translation for 9p2000.u as well, but in the end 
-> we don't know the OS running on guest in this case. It could be Linux or 
-> something else.
-> 
+I agree that the generator shouldn't take too many liberties when
+translating names, and specifically should never attempt to figure
+out that @logappend should have been @log-append instead.
 
-In the case of 9p2000.u the spec says "to provide a hint of the underlying
-UNIX error number which caused the error on the server" and even mentions
-"consistency problems of mapping error numbers betweeen different versions
-of UNIX"... this basically means that errno in 9p2000.u is undefined since
-it depends on the host. It is thus unusable unless the guest runs a compatible
-UNIX variant. In any case, there's really nothing to translate.
+What I was thinking of was more along the lines of, can we change the
+schema so that the proper name is available to the generator without
+breaking the wire protocol? Maybe something like
 
-> [1] https://wiki.qemu.org/Documentation/9p#9p_Protocol
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> > 
-> > > +#else
-> > > +#error Missing errno translation to Linux for this host system
-> > > +#endif
-> > > +    return err;
-> > > +}
-> > > +
-> > > 
-> > >  #ifdef CONFIG_DARWIN
-> > >  #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
-> > >  #define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
-> > > 
-> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > > index 4a296a0b94..0cd0c14c2a 100644
-> > > --- a/hw/9pfs/9p.c
-> > > +++ b/hw/9pfs/9p.c
-> > > @@ -1054,6 +1054,8 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu,
-> > > ssize_t len)> 
-> > >              }
-> > >              len += ret;
-> > >              id = P9_RERROR;
-> > > 
-> > > +        } else {
-> > > +            err = errno_to_dotl(err);
-> > > 
-> > >          }
-> > >          
-> > >          ret = pdu_marshal(pdu, len, "d", err);
-> > > 
-> > > --
-> > 
-> > Regards,
-> > Bin
-> 
-> 
+  ##
+  # ChardevCommon:
+  #
+  # @logappend (rename @log-append): ...
+  ##
+
+That way the generator would have access to both information, and
+would thus be able to generate
+
+  type ChardevCommon struct {
+    LogAppend *bool `json:"logappend,omitempty"`
+  }
+
+The wire protocol would still retain the unappealing name, but at
+least client libraries could hide the uglyness from users.
+
+> > Same for the various
+> > structs or members that have unexpectedly-capitalized "Tls" or "Vnc"
+> > in them.
+>
+> Examples?
+
+A perfect one is TlsCredsProperties, whose endpoint member is of type
+QCryptoTLSCredsEndpoint.
+
+On the VNC front, we have SetPasswordOptionsVnc but also
+DisplayReloadOptionsVNC.
+
+There's plenty more, but this should be illustrative enough already.
+Capitalization of these acronyms is inconsistent across the schema,
+with one of the two forms disagreeing with Go naming expectations.
+
+In this case we might be able to just change the schema without
+introducing backwards compatibility issues, though? Type names are
+not actually transmitted on the wire IIUC.
+
+> > but maybe
+> > there's room for adding this kind of information in the form of
+> > additional annotations or something like that?
+>
+> We did for enumeration types: 'prefix' overrides the TYPE_NAME prefix.
+> I fear this was a mistake.
+
+This might be an oversimplification, but I think we might be able to
+solve all of these issues with a single annotation in the form
+
+  namespace:word-MLA-other-words
+
+So for example QCryptoTLSCredsEndpoint would be annotated with
+
+  q:crypto-TLS-creds-endpoint
+
+and each generator would have enough information to produce
+identifiers that fit into the corresponding language, such as
+
+  qcrypto_tls_creds_endpoint
+  CryptoTlsCredsEndpoint
+
+or whatever else.
+
+Of course such annotations would only be necessary to deal with
+identifiers that are not already following the expected naming
+conventions and when MLAs are involved.
+
+-- 
+Andrea Bolognani / Red Hat / Virtualization
 
 
