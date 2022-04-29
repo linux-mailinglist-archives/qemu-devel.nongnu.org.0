@@ -2,74 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18FF51546C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 21:27:19 +0200 (CEST)
-Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF3B515722
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 23:44:24 +0200 (CEST)
+Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkWGs-0005w6-KP
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 15:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36408)
+	id 1nkYPX-0005wE-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 17:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkWFv-0004wB-Ql; Fri, 29 Apr 2022 15:26:19 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36583)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkWFu-0000uH-0Y; Fri, 29 Apr 2022 15:26:19 -0400
-Received: by mail-ej1-x634.google.com with SMTP id k23so17250726ejd.3;
- Fri, 29 Apr 2022 12:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LN0NHFUWiLxmhtMTb4AhBBywzfab/H+3ZjJpkGQ8Kkw=;
- b=iVIfE0d4fNPYVFWVScTs3fjLCliIfIUFe4LUDMr8gSPkx1WVkT8RYop8n9tn4Sm6er
- NG/CFOPMV4N80x5SmR5uVumCpkJODnv4lbSWw9lOHSJyEeurz1vcY/bKQS3VZNGSed9i
- S7anfAHjaa0lE2vgCIR3SgvNhu9hPQ4813/hgzKUMI7WgckowQT2Kp0h1smaeLW+vKs9
- ZCRSzaeBEjUTSpivvQ0Sf94284WsrAlegNUhEH2EwulrGYqPamkmYtID/B5VluyPiAi3
- 5ZvUOhLYZL4bua58NSFxiDvgpi98VCLY0s5bVzSn8TBnZQd+2e79CJsGIpAoEepGMfre
- bXsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=LN0NHFUWiLxmhtMTb4AhBBywzfab/H+3ZjJpkGQ8Kkw=;
- b=PDU1DJ4FcD2GIhEa8MLCb+GwAEY7L5x6xrmKHsOoV0FcRq7j6DHB/X+LZ6in/I9f0Y
- uOMkbhPY4v75nnRlpPWnJKTSK9LL5Wdf6c1GnFqzIDarxfPwKw6BZqVlNcpKHm3CzGB3
- JT0HrZ1/hzECYwaIFsxgx5I9iuwd6kzN5g+9kzHyHtyb2SMrXct0uDwMl42Na4klNgWM
- mAxKd4UkDQWZEFGF4IuLy+ZmY7mv61TMOccZHaLEXsExnsjF0HjAw9CYc/Z3oBtr6Oyl
- IWyTV63klNUZcdr7dovEPP+s+2W4LU1CwbAEEdk+Y+/9Sh3Rc3N4GoXe8dre8TID6Vve
- V7jw==
-X-Gm-Message-State: AOAM530viScTSp1brai0yuvpSP8LiRIoYkhHZ5kTmOKFrYqGJhzCX9kX
- pfAUdZoiZOG0A1oWEfhIR9ONE+rzsPbbYw==
-X-Google-Smtp-Source: ABdhPJzlH8D55IN8eTVmbGUYp2IshKd+5+P9A3w1k7EfSm+P7VIn/B8oaPjWsTJHG3Zu6ET0NTcHRg==
-X-Received: by 2002:a17:906:cf84:b0:6f3:a3d8:365f with SMTP id
- um4-20020a170906cf8400b006f3a3d8365fmr798505ejb.242.1651260375650; 
- Fri, 29 Apr 2022 12:26:15 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- ia5-20020a170907a06500b006f3ef214dffsm906432ejc.101.2022.04.29.12.26.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 12:26:15 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: do not consult nonexistent host leaves
-Date: Fri, 29 Apr 2022 21:26:14 +0200
-Message-Id: <20220429192614.362579-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nkYOc-00057y-Jx; Fri, 29 Apr 2022 17:43:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54386)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nkYOa-00030P-Gr; Fri, 29 Apr 2022 17:43:26 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TLbW8H025597;
+ Fri, 29 Apr 2022 21:43:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=qB8GeE38+ah9RjhNMUdOSjuvIWZX4KzQ2zo6u1Aqd/4=;
+ b=ElZ4I+aSMwwWqOa/z+gn1+26qYfrpU/BXEkOS5WQqNpjuF1ZfeSi4Rh0Fm41Xa97LMJ1
+ gciBLbEps9ptVwx015X8ojdgPs2qQ2vTpJ5Ab51AZYpUZjKYR3vpWqNqu50tSeVRPlNb
+ GKJuCDxInW1ZD0Nt01OX7w5up1xLDctZDiqvWpqWndQ7f0VG+J2P8vjFp0aBV6mbRjaj
+ rWJdpiEFLzHphqwhQIdirXwR8O39kpSOqvdH5+vPAKPui02iNL85gIDn5oMJfxxt6qSE
+ yDrflRgMWATP97KUfYlYt6qPpB6cQU+f8WvDMHN2Q6RoMnaIrySoEsruQNjEhyxxgaxn 5A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqs3ny8ub-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Apr 2022 21:43:15 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23TLhEWv018023;
+ Fri, 29 Apr 2022 21:43:14 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqs3ny8u4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Apr 2022 21:43:14 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TLcdAW010255;
+ Fri, 29 Apr 2022 21:43:13 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 3fm93ayadg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Apr 2022 21:43:13 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23TLhCih6292426
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Apr 2022 21:43:12 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BD475AC05E;
+ Fri, 29 Apr 2022 21:43:12 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5F6CEAC05B;
+ Fri, 29 Apr 2022 21:43:11 +0000 (GMT)
+Received: from localhost (unknown [9.160.2.82])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Fri, 29 Apr 2022 21:43:10 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Rob Landley <rob@landley.net>, Thomas Huth <thuth@redhat.com>, QEMU
+ Developers <qemu-devel@nongnu.org>
+Subject: Re: serial hang in qemu-system-ppc64 -M pseries
+In-Reply-To: <ba41f9ab-bce4-b377-e99c-caa0d8240308@landley.net>
+References: <74b9755a-4b5d-56b1-86f5-0c5c7688845a@landley.net>
+ <8558c117-75a0-dc73-9b1a-be128e04056c@redhat.com>
+ <ba41f9ab-bce4-b377-e99c-caa0d8240308@landley.net>
+Date: Fri, 29 Apr 2022 18:43:04 -0300
+Message-ID: <87bkwjtvkn.fsf@linux.ibm.com>
 Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: KSFdKGCTdAFY64zHlfSNhUI5XzIcaw3L
+X-Proofpoint-ORIG-GUID: pwvt_XWtlgktV0D2bAV721r5qC4SdCDy
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-29_09,2022-04-28_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 adultscore=0
+ priorityscore=1501 clxscore=1011 mlxscore=0 malwarescore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204290115
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,120 +109,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When cache_info_passthrough is requested, QEMU passes the host values
-of the cache information CPUID leaves down to the guest.  However,
-it blindly assumes that the CPUID leaf exists on the host, and this
-cannot be guaranteed: for example, KVM has recently started to
-synthesize AMD leaves up to 0x80000021 in order to provide accurate
-CPU bug information to guests.
+Rob Landley <rob@landley.net> writes:
 
-Querying a nonexistent host leaf fills the output arguments of
-host_cpuid with data that (albeit deterministic) is nonsensical
-as cache information, namely the data in the highest Intel CPUID
-leaf.  If said highest leaf is not ECX-dependent, this can even
-cause an infinite loop when kvm_arch_init_vcpu prepares the input
-to KVM_SET_CPUID2.  The infinite loop is only terminated by an
-abort() when the array gets full.
+> On 4/27/22 10:27, Thomas Huth wrote:
+>> On 26/04/2022 12.26, Rob Landley wrote:
+>>> When I cut and paste 80-ish characters of text into the Linux serial console, it
+>>> reads 16 characters and stops. When I hit space, it reads another 16 characters,
+>>> and if I keep at it will eventually catch up without losing data. If I type,
+>>> every character shows up immediately.
+>> 
+>> That "16" certainly comes from VTERM_BUFSIZE in hw/char/spapr_vty.c in the 
+>> QEMU sources, I think.
+>> 
+>>> (On other qemu targets and kernels I can cut and paste an entire uuencoded
+>>> binary and it goes through just fine in one go, but this target hangs with big
+>>> pastes until I hit keys.)
+>>> 
+>>> Is this a qemu-side bug, or a kernel-side bug?
+>>> 
+>>> Kernel config attached (linux 5.18-rc3 or thereabouts), qemu invocation is:
+>>> 
+>>> qemu-system-ppc64 -M pseries -vga none -nographic -no-reboot -m 256 -kernel
+>>> vmlinux -initrd powerpc64leroot.cpio.gz -append "panic=1 HOST=powerpc64le
+>>> console=hvc0"
+>> 
+>> Which version of QEMU are you using?
+>
+> $ qemu-system-ppc64 --version
+> QEMU emulator version 6.2.92 (v6.2.0-rc2)
+> Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+>
+> From november. I can pull and rebuild but it'll take a bit. (Hopefully
+> rebuilding would fix the need to echo -e '\e[?7h' afterwards to undo the "bash
+> command line history marches up the screen because qemu's x86 bios disabled line
+> wrap and then left it that way" issue...)
+>
+>> Which frontend (GTK or terminal?) ... 
+>
+> The above command line has -nographic, forcing terminal. Running ldd on the
+> binary doesn't pull up anything gtk. (It pulls up libncursesw though.)
+>
+> If you want to reproduce my test locally:
+>
+> wget https://landley.net/toybox/downloads/binaries/mkroot/0.8.5/powerpc64le.tgz
+> tar xvzf powerpc64le.tgz
+> cd powerpc64le
+> ./qemu-*.sh
+>
+> Then paste something longer than 16 characters at the eventual command prompt
+> once the kernel finishes booting.
 
-Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/cpu.c | 41 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 36 insertions(+), 5 deletions(-)
+I suspect this is due to how the tty driver (n_tty.c) interacts with
+the console (hvc_console.c) driver's buffer size.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 99343be926..c5461f7c0b 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5022,6 +5022,37 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-     return r;
- }
- 
-+static void x86_cpu_get_cache_cpuid(uint32_t func, uint32_t index,
-+                                    uint32_t *eax, uint32_t *ebx,
-+                                    uint32_t *ecx, uint32_t *edx)
-+{
-+    uint32_t level, unused;
-+
-+    /* Only return valid host leaves.  */
-+    switch (func) {
-+    case 2:
-+    case 4:
-+        host_cpuid(0, 0, &level, &unused, &unused, &unused);
-+        break;
-+    case 0x80000005:
-+    case 0x80000006:
-+    case 0x8000001d:
-+        host_cpuid(0x80000000, 0, &level, &unused, &unused, &unused);
-+        break;
-+    default:
-+        return;
-+    }
-+
-+    if (func > level) {
-+        *eax = 0;
-+        *ebx = 0;
-+        *ecx = 0;
-+        *edx = 0;
-+    } else {
-+        host_cpuid(func, index, eax, ebx, ecx, edx);
-+    }
-+}
-+
- /*
-  * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
-  */
-@@ -5280,7 +5311,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     case 2:
-         /* cache info: needed for Pentium Pro compatibility */
-         if (cpu->cache_info_passthrough) {
--            host_cpuid(index, 0, eax, ebx, ecx, edx);
-+            x86_cpu_get_cache_cpuid(index, 0, eax, ebx, ecx, edx);
-             break;
-         } else if (cpu->vendor_cpuid_only && IS_AMD_CPU(env)) {
-             *eax = *ebx = *ecx = *edx = 0;
-@@ -5300,7 +5331,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     case 4:
-         /* cache info: needed for Core compatibility */
-         if (cpu->cache_info_passthrough) {
--            host_cpuid(index, count, eax, ebx, ecx, edx);
-+            x86_cpu_get_cache_cpuid(index, count, eax, ebx, ecx, edx);
-             /* QEMU gives out its own APIC IDs, never pass down bits 31..26.  */
-             *eax &= ~0xFC000000;
-             if ((*eax & 31) && cs->nr_cores > 1) {
-@@ -5702,7 +5733,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     case 0x80000005:
-         /* cache info (L1 cache) */
-         if (cpu->cache_info_passthrough) {
--            host_cpuid(index, 0, eax, ebx, ecx, edx);
-+            x86_cpu_get_cache_cpuid(index, 0, eax, ebx, ecx, edx);
-             break;
-         }
-         *eax = (L1_DTLB_2M_ASSOC << 24) | (L1_DTLB_2M_ENTRIES << 16) |
-@@ -5715,7 +5746,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     case 0x80000006:
-         /* cache info (L2 cache) */
-         if (cpu->cache_info_passthrough) {
--            host_cpuid(index, 0, eax, ebx, ecx, edx);
-+            x86_cpu_get_cache_cpuid(index, 0, eax, ebx, ecx, edx);
-             break;
-         }
-         *eax = (AMD_ENC_ASSOC(L2_DTLB_2M_ASSOC) << 28) |
-@@ -5775,7 +5806,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     case 0x8000001D:
-         *eax = 0;
-         if (cpu->cache_info_passthrough) {
--            host_cpuid(index, count, eax, ebx, ecx, edx);
-+            x86_cpu_get_cache_cpuid(index, count, eax, ebx, ecx, edx);
-             break;
-         }
-         switch (count) {
--- 
-2.35.1
+This is the stack:
 
+#0 hvc_push          <-- calls into KVM/QEMU to write up to 16 bytes
+#1 hvc_write
+#2 tty_put_char
+#3 do_output_char
+#4 __process_echoes          <-- writes up to tty_write_room() chars
+#5 flush_echoes              <-- returns early if ~ECHO && ~ECHONL
+#6 n_tty_receive_buf_common  <-- buffers more than 16 bytes
+#7 tty_ldisc_receive_buf
+#8 tty_port_default_receive_buf
+#9 receive_buf
+#10 process_one_work
+
+In my busybox instance which does not have this issue I can see that
+termios.c_lflag = 0x447, so in the stack above #4 is not called (ECHO
+is 0x8, ECHONL is 0x10).
+
+In the bug scenario: termios.c_lflag = 0x5cf, so we go into #4 which
+is supposed to write (say) 17 bytes, but ends up writing only 16
+because that is what tty_write_room() returns.
+
+What I think is causing this issue is that the hvc_vio.c driver is
+configured with hp->outbuf_size = 16. That number comes from the
+H_PUT_TERM_CHAR hypercall spec which reads two registers at a
+time. However, the hvc_write function supports writes larger than 16
+bytes so it seems we're needlessly propagating the 16 byte limitation
+to the upper layer.
+
+The driver is also not buffering the write, so if it gets called to
+write one char at a time (like __process_echoes does) there should be no
+limit to how much it can write.
+
+I think if we increase hp->outbuf_size to a value that is larger than
+N_TTY_BUF_SIZE=4096 the echo buffer would drain before reaching this new
+hvc driver limit.
+
+I tested that and it seems to work, but I'm not sure if it's the right
+fix, there are some things I couldn't figure out:
+
+   i) if a driver actually runs out of buffer space, what
+      __process_echoes should do about it;
+
+  ii) why the bug sometimes happens only at the 32 characters boundary
+      (or other multiple of 16);
+
+ iii) why the ECHO flag differs from the working case.
+
+> If you want to reproduce it all from source:
+>
+> git clone https://github.com/landley/toybox
+> cd toybox && mkdir ccc && cd ccc
+> wget
+> https://landley.net/toybox/downloads/binaries/toolchains/latest/powerpc64le-linux-musl-cross.tar.xz
+> -O - | tar xv
+> cd ..
+> CROSS=powerpc64le LINUX=~/linux scripts/mkroot.sh
+> cd root/powerpc64le
+> ./qemu-*.sh
+>
+> This assumes your linux kernel source directory is in ~/linux of course, and
+> that qemu-system-ppc64 is in the $PATH...
+>
+>> this rings a distant bell, but I thought we had fixed these issues long ago 
+>> in the past... e.g.:
+>>
+>> https://yhbt.net/lore/all/1380113886-16845-10-git-send-email-mdroth@linux.vnet.ibm.com/
+>> 
+>> https://git.qemu.org/?p=qemu.git;a=commitdiff;h=8a273cbe53221d28
+>
+> The qemu I'm running is newer than 2016. :)
+>
+> Most targets are fine with this: I cut and paste entire uuencoded binaries into
+> the serial console as an easy way to insert a file into an initramfs. It can
+> usually take multiple megabytes without dropping a character, so you just
+> "uudecode" enter, and then paste.
+>
+> Even my 32 bit powerpc target works fine with this. (Although -M g3beige is a
+
+> very different machine from -M pseries...)
+>
+> Alas this target (and sh4 -m r2d) stop at 16 chars. (On sh4 the extra is
+> discarded, not delivered progressively as more interrupts are generated.)
+>
+>> ... but maybe my memory also just fails and this has never been properly fixed.
+>> 
+>>   Thomas
+>
+> Rob
 
