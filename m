@@ -2,59 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E75514A8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 15:33:00 +0200 (CEST)
-Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181F1514ABC
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 15:39:23 +0200 (CEST)
+Received: from localhost ([::1]:42198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkQjz-0000NG-5l
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 09:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
+	id 1nkQq9-0002qF-Qg
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 09:39:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkQgY-0006FI-AH
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:29:26 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:29391)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nkQog-000253-G2
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:37:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkQgW-0004VF-EF
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:29:26 -0400
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nkQod-0006P1-Fa
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 09:37:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651239465;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f7w5LWc5HZq51umHzByp77iPOD2y1aYlnoTrn28ayUs=;
+ b=KsrH3zwITZes8qJpgVv4xrOm+Zea+7rLaTLr3He3JjWqsHu2yRcMlz+bM1VGyZubN/ZCvQ
+ DOoaKF+ki0a32GpYGtr3izEAdr3srp2JisjDMA1e54j0D2TpBxT9NEb5XiYDt5yD2X6RbR
+ Bqju0zfM3tR2iNTycm6bGpHGgnr5M+o=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-196-AS1sWWSqMUqd_APeaXWlBA-1; Fri, 29 Apr 2022 09:29:19 -0400
-X-MC-Unique: AS1sWWSqMUqd_APeaXWlBA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10FE2281AF3E;
- Fri, 29 Apr 2022 13:29:19 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CCC87774;
- Fri, 29 Apr 2022 13:29:16 +0000 (UTC)
-Date: Fri, 29 Apr 2022 15:29:15 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v5 4/6] 9pfs: fix wrong errno being sent to Linux client
- on macOS host
-Message-ID: <20220429152915.7beb6545@bahia>
-In-Reply-To: <CAEUhbmXXLsPVH3JrjKnfD2F6FVhTaGPRZjW29TY9xAzs-6uB2g@mail.gmail.com>
-References: <cover.1651228000.git.qemu_oss@crudebyte.com>
- <b322ab298a62069e527d2b032028bdc9115afacd.1651228001.git.qemu_oss@crudebyte.com>
- <CAEUhbmUVb_MLEGbKaJKjL023KUDUy=wvf9KCNn+NeAMW0SeELg@mail.gmail.com>
- <7406109.yuWpBpk2tO@silver> <20220429150810.05eca6fe@bahia>
- <CAEUhbmXXLsPVH3JrjKnfD2F6FVhTaGPRZjW29TY9xAzs-6uB2g@mail.gmail.com>
+ us-mta-564-pt5xNkUFMg2LQYfcxrZn7w-1; Fri, 29 Apr 2022 09:37:44 -0400
+X-MC-Unique: pt5xNkUFMg2LQYfcxrZn7w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ sg44-20020a170907a42c00b006f3a40146e8so4485724ejc.19
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 06:37:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:from:to:cc:references:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=f7w5LWc5HZq51umHzByp77iPOD2y1aYlnoTrn28ayUs=;
+ b=J/3k8u59WCoSbmysydpYu0owL+B/LpaKFL83Rxq+M6rXSHzmgjAyw9hNZ7kAgIIfT/
+ WzqkGahokZhwPJUCJJySVuxYzXOIR5tImoWhcNfMX+lybz4ZzBxMXTYPpIm1RQgp/ADS
+ m4W60AaFqnoufLQEPH7LDiFrjLANh4yC3eGTNCIRFe/2DedpYdcw5KsX/I7B1um222ua
+ Y5F9+QZp4B6zqrlybHKjyxZKrymUCXe2itDyWs2KubztyD6i1hfLvWl94GSBz0oWkce9
+ XxIekIudY7jleIZu8VGgVfRb4nF1cgzZJE00+fqGMAHA6WCcaOsd8hQH8lkJY65xhitq
+ LzUQ==
+X-Gm-Message-State: AOAM530rjYxfmF6wN39K6TYcyvPLh+Vh93I4l9/QcTfGsNrwO2mD2SxF
+ zLaGjHCF3yv2nlOEKcuCd5ECNZL1c3hlTdTB3HXq3myv9CrhXIjIO63+u3rzf+aNGtJrSWw/NFB
+ 9iPolfvufVkllFFJwaKAbwfvq9H5Te2q3SBuQzxWkNaJeChF4OBGPTq2rviEpZVTHf8w=
+X-Received: by 2002:a17:907:7b8c:b0:6f3:a7d8:2609 with SMTP id
+ ne12-20020a1709077b8c00b006f3a7d82609mr19756825ejc.53.1651239462966; 
+ Fri, 29 Apr 2022 06:37:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJQsbdDksp4wS633lxFNSVLD+rFm7iDxMC5WAdn+hI8/Ghd/2wJC67+VGZgmI57vmIcMMXyA==
+X-Received: by 2002:a17:907:7b8c:b0:6f3:a7d8:2609 with SMTP id
+ ne12-20020a1709077b8c00b006f3a7d82609mr19756798ejc.53.1651239462602; 
+ Fri, 29 Apr 2022 06:37:42 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ og31-20020a1709071ddf00b006f3ef214da2sm650997ejc.8.2022.04.29.06.37.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 06:37:41 -0700 (PDT)
+Message-ID: <d6fb8d66-5cae-1365-cd7a-20b73bf37f5d@redhat.com>
+Date: Fri, 29 Apr 2022 15:37:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20220427113225.112521-1-pbonzini@redhat.com>
+ <20220427113225.112521-2-pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 1/6] pc: remove -soundhw pcspk
+In-Reply-To: <20220427113225.112521-2-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,157 +100,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roitzsch <reactorcontrol@icloud.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, "qemu-devel@nongnu.org
- Developers" <qemu-devel@nongnu.org>, qemu-stable@nongnu.org,
- Keno Fischer <keno@juliacomputing.com>, Will Cohen <wwcohen@gmail.com>,
- Guohuai Shi <guohuai.shi@windriver.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: mkletzan@redhat.com, berrange@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Apr 2022 21:19:51 +0800
-Bin Meng <bmeng.cn@gmail.com> wrote:
-
-> On Fri, Apr 29, 2022 at 9:08 PM Greg Kurz <groug@kaod.org> wrote:
-> >
-> > On Fri, 29 Apr 2022 14:46:26 +0200
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> >
-> > > On Freitag, 29. April 2022 13:28:39 CEST Bin Meng wrote:
-> > > > On Fri, Apr 29, 2022 at 7:16 PM Christian Schoenebeck
-> > > >
-> > > > <qemu_oss@crudebyte.com> wrote:
-> > > > > Linux and macOS only share some errno definitions with equal macro
-> > > > > name and value. In fact most mappings for errno are completely
-> > > > > different on the two systems.
-> > > > >
-> > > > > This patch converts some important errno values from macOS host to
-> > > > > corresponding Linux errno values before eventually sending such error
-> > > > > codes along with 'Rlerror' replies (if 9p2000.L is used that is). Not
-> > > > > having translated errnos before violated the 9p2000.L protocol spec,
-> > > > >
-> > > > > which says:
-> > > > >   "
-> > > > >   size[4] Rlerror tag[2] ecode[4]
-> > > > >
-> > > > >   ... ecode is a numerical Linux errno.
-> > > > >   "
-> > > > >
-> > > > >   https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
-> > > > >
-> > > > > This patch fixes a bunch of misbehaviours when running a Linux client
-> > > > >
-> > > > > on macOS host. For instance this patch fixes:
-> > > > >   mount -t 9p -o posixacl ...
-> > > > >
-> > > > > on Linux guest if security_mode=mapped was used for 9p server, which
-> > > > > refused to mount successfully, because macOS returned ENOATTR==93
-> > > > > when client tried to retrieve POSIX ACL xattrs, because errno 93
-> > > > > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
-> > > > > that xattrs were not supported by filesystem on host in general.
-> > > >
-> > > > This issue looks exact the same issue we were trying to fix when
-> > > > supporting 9p on Windows host,
-> > > >
-> > > > What we did is like this:
-> > > > http://patchwork.ozlabs.org/project/qemu-devel/patch/20220425142705.2099270-> 10-bmeng.cn@gmail.com/
-> > > >
-> > > > But we had some questions in mind (see the commit message of our
-> > > > patch, and below)
-> > > >
-> > > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > > Link: https://lore.kernel.org/qemu-devel/20220421124835.3e664669@bahia/
-> > > > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > > > > ---
-> > > > >
-> > > > >  hw/9pfs/9p-util.h | 30 ++++++++++++++++++++++++++++++
-> > > > >  hw/9pfs/9p.c      |  2 ++
-> > > > >  2 files changed, 32 insertions(+)
-> > > > >
-> > > > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> > > > > index 2cc9a5dbfb..c3526144c9 100644
-> > > > > --- a/hw/9pfs/9p-util.h
-> > > > > +++ b/hw/9pfs/9p-util.h
-> > > > > @@ -58,6 +58,36 @@ static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
-> > > > >
-> > > > >  #endif
-> > > > >  }
-> > > > >
-> > > > > +/* Translates errno from host -> Linux if needed */
-> > > > > +static inline int errno_to_dotl(int err) {
-> > > > > +#if defined(CONFIG_LINUX)
-> > > > > +    /* nothing to translate (Linux -> Linux) */
-> > > > > +#elif defined(CONFIG_DARWIN)
-> > > > > +    /*
-> > > > > +     * translation mandatory for macOS hosts
-> > > > > +     *
-> > > > > +     * FIXME: Only most important errnos translated here yet, this should
-> > > > > be +     * extended to as many errnos being translated as possible in
-> > > > > future. +     */
-> > > > > +    if (err == ENAMETOOLONG) {
-> > > > > +        err = 36; /* ==ENAMETOOLONG on Linux */
-> > > > > +    } else if (err == ENOTEMPTY) {
-> > > > > +        err = 39; /* ==ENOTEMPTY on Linux */
-> > > > > +    } else if (err == ELOOP) {
-> > > > > +        err = 40; /* ==ELOOP on Linux */
-> > > > > +    } else if (err == ENOATTR) {
-> > > > > +        err = 61; /* ==ENODATA on Linux */
-> > > > > +    } else if (err == ENOTSUP) {
-> > > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > > > +    } else if (err == EOPNOTSUPP) {
-> > > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > > > +    }
-> > > >
-> > > > What happens if a macOS guest is running on QEMU from a macOS host?
-> > > > Here all macOS errnos are translated to the Linux errnos. Will macOS
-> > > > be happy?
-> > >
-> > > Look at the commit log of this patch: it is a matter of which protocol is used
-> > > (currently there are 3 [1] protocol versions):
-> > >
-> > >    * 9p2000: nothing to translate here, as this protocol version does not
-> > >      return a numeric error code, it only returns an error string (and we are
-> > >      no longer supporting 9p2000 version in QEMU anyway BTW [1]):
-> > >      http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor27
-> > >
-> > >    * 9p2000.L: errno *must* be in Linux errno mapping:
-> > >      https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
-> > >
-> > >    * 9p2000.u: this one returns both an error code and error string, and it
-> > >      says the error string should be preferred being interpreted by client:
-> > >      http://ericvh.github.io/9p-rfc/rfc9p2000.u.html#anchor15
-> > >
-> > > In this patch here I only translated errno for 9p2000.L, whereas you are
-> > > always translating it, no matter wich protocol version is used. You might
-> > > argue that there should be a translation for 9p2000.u as well, but in the end
-> > > we don't know the OS running on guest in this case. It could be Linux or
-> > > something else.
-> > >
-> >
-> > In the case of 9p2000.u the spec says "to provide a hint of the underlying
-> > UNIX error number which caused the error on the server" and even mentions
-> > "consistency problems of mapping error numbers betweeen different versions
-> > of UNIX"... this basically means that errno in 9p2000.u is undefined since
-> > it depends on the host. It is thus unusable unless the guest runs a compatible
-> > UNIX variant. In any case, there's really nothing to translate.
-> >
-> > > [1] https://wiki.qemu.org/Documentation/9p#9p_Protocol
-> > >
+On 4/27/22 13:32, Paolo Bonzini wrote:
+> The pcspk device is the only user of isa_register_soundhw, and the only
+> -soundhw option which does not create a new device (it hacks into the
+> PCSpkState by hand).  Remove it, since it was deprecated.
 > 
-> Thanks for the clarifications and pointers to different protocols! It
-> looks what we did in our Windows patch is correct.
-> 
-> I have another question, does this mean the current 9pfs client on
-> macOS is broken since it does not use any translation? With this
-> patch, now the 9p server returns the translated linux errno so the 9p
-> client on macOS should complain.
-> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   hw/audio/pcspk.c           | 10 ----------
+>   hw/audio/soundhw.c         | 27 ++++-----------------------
+>   include/hw/audio/soundhw.h |  3 ---
+>   3 files changed, 4 insertions(+), 36 deletions(-)
 
-I don't now the macOS client but if it doesn't expect linux errnos
-then it is infringing 9p2000.L and should be fixed.
+I'll queue this patch, in the meanwhile feedback on especially 6/6 is 
+welcome.
 
-> Regards,
-> Bin
+Paolo
+
+> diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
+> index dfc7ebca4e..daf92a4ce1 100644
+> --- a/hw/audio/pcspk.c
+> +++ b/hw/audio/pcspk.c
+> @@ -245,18 +245,8 @@ static const TypeInfo pcspk_info = {
+>       .class_init     = pcspk_class_initfn,
+>   };
+>   
+> -static int pcspk_audio_init_soundhw(ISABus *bus)
+> -{
+> -    PCSpkState *s = pcspk_state;
+> -
+> -    warn_report("'-soundhw pcspk' is deprecated, "
+> -                "please set a backend using '-machine pcspk-audiodev=<name>' instead");
+> -    return pcspk_audio_init(s);
+> -}
+> -
+>   static void pcspk_register(void)
+>   {
+>       type_register_static(&pcspk_info);
+> -    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init_soundhw);
+>   }
+>   type_init(pcspk_register)
+> diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
+> index 173b674ff5..f7d94d7dfa 100644
+> --- a/hw/audio/soundhw.c
+> +++ b/hw/audio/soundhw.c
+> @@ -36,26 +36,12 @@ struct soundhw {
+>       const char *typename;
+>       int enabled;
+>       int isa;
+> -    union {
+> -        int (*init_isa) (ISABus *bus);
+> -        int (*init_pci) (PCIBus *bus);
+> -    } init;
+> +    int (*init_pci) (PCIBus *bus);
+>   };
+>   
+>   static struct soundhw soundhw[9];
+>   static int soundhw_count;
+>   
+> -void isa_register_soundhw(const char *name, const char *descr,
+> -                          int (*init_isa)(ISABus *bus))
+> -{
+> -    assert(soundhw_count < ARRAY_SIZE(soundhw) - 1);
+> -    soundhw[soundhw_count].name = name;
+> -    soundhw[soundhw_count].descr = descr;
+> -    soundhw[soundhw_count].isa = 1;
+> -    soundhw[soundhw_count].init.init_isa = init_isa;
+> -    soundhw_count++;
+> -}
+> -
+>   void pci_register_soundhw(const char *name, const char *descr,
+>                             int (*init_pci)(PCIBus *bus))
+>   {
+> @@ -63,7 +49,7 @@ void pci_register_soundhw(const char *name, const char *descr,
+>       soundhw[soundhw_count].name = name;
+>       soundhw[soundhw_count].descr = descr;
+>       soundhw[soundhw_count].isa = 0;
+> -    soundhw[soundhw_count].init.init_pci = init_pci;
+> +    soundhw[soundhw_count].init_pci = init_pci;
+>       soundhw_count++;
+>   }
+>   
+> @@ -158,18 +144,13 @@ void soundhw_init(void)
+>                   } else {
+>                       pci_create_simple(pci_bus, -1, c->typename);
+>                   }
+> -            } else if (c->isa) {
+> -                if (!isa_bus) {
+> -                    error_report("ISA bus not available for %s", c->name);
+> -                    exit(1);
+> -                }
+> -                c->init.init_isa(isa_bus);
+>               } else {
+> +                assert(!c->isa);
+>                   if (!pci_bus) {
+>                       error_report("PCI bus not available for %s", c->name);
+>                       exit(1);
+>                   }
+> -                c->init.init_pci(pci_bus);
+> +                c->init_pci(pci_bus);
+>               }
+>           }
+>       }
+> diff --git a/include/hw/audio/soundhw.h b/include/hw/audio/soundhw.h
+> index f09a297854..e68685fcda 100644
+> --- a/include/hw/audio/soundhw.h
+> +++ b/include/hw/audio/soundhw.h
+> @@ -1,9 +1,6 @@
+>   #ifndef HW_SOUNDHW_H
+>   #define HW_SOUNDHW_H
+>   
+> -void isa_register_soundhw(const char *name, const char *descr,
+> -                          int (*init_isa)(ISABus *bus));
+> -
+>   void pci_register_soundhw(const char *name, const char *descr,
+>                             int (*init_pci)(PCIBus *bus));
+>   void deprecated_register_soundhw(const char *name, const char *descr,
 
 
