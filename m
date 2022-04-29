@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DAC514CF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 16:30:45 +0200 (CEST)
-Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333A2514D8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 16:40:21 +0200 (CEST)
+Received: from localhost ([::1]:42128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkRdq-0003Hh-74
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 10:30:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58144)
+	id 1nkRn9-0005a9-S9
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 10:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkRS1-0005lB-97
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 10:18:30 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:38509)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkRRz-0004aP-OP
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 10:18:29 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id z99so9252060ede.5
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 07:18:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EjTvkAW7QyXc5iAFTituHf5ht0mFR+ObaQDlumtGE10=;
- b=CoIfWVFSp2rv/IF6gG8pZbHLunWNWAzcNVs4/TWwPrdrMa+Z/tVSgRSs7gO1a/qtuY
- TSJxSEcnLNudhEg0zz2DZ0rUyKK8mTdmVstKq4Febw4mJ+5VcRqn0odU44q5Wnk1dTda
- i1Epv1nKOjCSp0FYlKCrw06qy/vsZrmRHaY+DH2i36O86AYU0DBXRYUd3JWFGP5yDIHK
- uKXGXPVzALnOfTgVEKUutoe6JGro8UtNptzEvs8DzwDcjxg3RUsbOY39gkzcsMxywu11
- gf0AQkyFHSwHZpTS/AALRrnKFr6B4xLur+XH/stZdjhKNuCUP3dAAycULrBBv/HT8fAn
- eeuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EjTvkAW7QyXc5iAFTituHf5ht0mFR+ObaQDlumtGE10=;
- b=uFqrR8EWPAGK7PfNiHbCG7cwDM+/gsrlhWn9zsbEeWtIneM26clhA+RrMwkiLmneWh
- tSc5Wc/w5XxnWikgddmRy8fK+srRx/N12jCMyonMmtpNtvWUnqaNGy+mifULEaKjnUG9
- TNmnYFb+qP6fxoCjuAX3Cq3jiGO8iB1u+bYn1IIUXhJPlTy1fELjyVkKxgKpqE7r+vL5
- dKJWajuGt3ERSBdSn/Oz2LWMRvIVFv6Vyk4WFqXNVyMyxSAIb+FliQRc7pF5Gcy4TZJi
- IhrK2YK420bUr5MCx0RW/9ge17IhTadJXaGNvchoYQD+bUS+Uei7QX41QKM1nQm5lqBE
- CxOw==
-X-Gm-Message-State: AOAM531ZfZ2RgNeYfXMO7bVE0h8qhgSXXhevvpvqFtrd/0PrJ5khAAQx
- 3aCgi0kwP2l0E7yQ1A08g29U2ysJjKsEXg==
-X-Google-Smtp-Source: ABdhPJw+2T5nGttpccR5HpA5OcAzE42aSx1KCu2TjqTzuNRKp/i/Vg6RtL1AsdNf0hMdkxt9ipxhcw==
-X-Received: by 2002:a05:6402:d05:b0:425:b7ab:776e with SMTP id
- eb5-20020a0564020d0500b00425b7ab776emr40805499edb.142.1651241905735; 
- Fri, 29 Apr 2022 07:18:25 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- jz1-20020a17090775e100b006f3ef214e27sm692298ejc.141.2022.04.29.07.18.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 07:18:25 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 12/12] configure: enable cross compilation of vof
-Date: Fri, 29 Apr 2022 16:18:13 +0200
-Message-Id: <20220429141813.328975-13-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220429141813.328975-1-pbonzini@redhat.com>
-References: <20220429141813.328975-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkRiQ-0003Q6-3f
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 10:35:27 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:50279)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkRiM-0007Qa-5v
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 10:35:25 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-614-1gWaEBeVMcapwg6QJbHR_A-1; Fri, 29 Apr 2022 10:35:10 -0400
+X-MC-Unique: 1gWaEBeVMcapwg6QJbHR_A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BF06899EC1;
+ Fri, 29 Apr 2022 14:35:09 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23E7D2024CB9;
+ Fri, 29 Apr 2022 14:35:08 +0000 (UTC)
+Date: Fri, 29 Apr 2022 16:35:07 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v5 2/6] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Message-ID: <20220429163507.2e822089@bahia>
+In-Reply-To: <5815688.WPY9AJzlUa@silver>
+References: <cover.1651228000.git.qemu_oss@crudebyte.com>
+ <2e7b5ecd7a6d83a538db4e8a22d8fb03e9e0f06e.1651228001.git.qemu_oss@crudebyte.com>
+ <20220429145650.7d3ba6e8@bahia> <5815688.WPY9AJzlUa@silver>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,85 +64,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, richard.henderson@linaro.org
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While container-based cross compilers are not supported, this already
-makes it possible to build vof on any machine that has an installation
-of GCC and binutils for 32- or 64-bit PowerPC.
+On Fri, 29 Apr 2022 15:50:35 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure            | 10 ++++++++++
- pc-bios/vof/Makefile | 17 +++++++++--------
- 2 files changed, 19 insertions(+), 8 deletions(-)
+> On Freitag, 29. April 2022 14:56:50 CEST Greg Kurz wrote:
+> > On Fri, 29 Apr 2022 12:25:11 +0200
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > mknod() on macOS does not support creating sockets, so divert to
+> > > call sequence socket(), bind() and fchmodat() respectively if S_IFSOCK
+> > > was passed with mode argument.
+> > > 
+> > > Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > > 
+> > >  hw/9pfs/9p-util-darwin.c | 42 +++++++++++++++++++++++++++++++++++++++-
+> > >  1 file changed, 41 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> > > index e24d09763a..619c403ba7 100644
+> > > --- a/hw/9pfs/9p-util-darwin.c
+> > > +++ b/hw/9pfs/9p-util-darwin.c
+> > > @@ -74,6 +74,42 @@ int fsetxattrat_nofollow(int dirfd, const char
+> > > *filename, const char *name,> 
+> > >   */
+> > >  
+> > >  #if defined CONFIG_PTHREAD_FCHDIR_NP
+> > > 
+> > > +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
+> > > +    int fd, err;
+> > > +    struct sockaddr_un addr = {
+> > > +        .sun_family = AF_UNIX
+> > > +    };
+> > > +
+> > > +    err = snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s",
+> > > filename); +    if (err < 0 || err >= sizeof(addr.sun_path)) {
+> > 
+> > According to POSIX [1]:
+> > 
+> > The snprintf() function shall fail if:
+> > 
+> > [EOVERFLOW]
+> > [CX] [Option Start] The value of n is greater than {INT_MAX}. [Option End]
+> > 
+> > [1] https://pubs.opengroup.org/onlinepubs/9699919799/functions/snprintf.html
+> > 
+> > Since we're passing sizeof(addr.sun_path), I'm pretty sure snprintf()
+> > cannot fail. No big deal.
+> 
+> The question is whom you would want to trust on this? POSIX? ISO-C? Clang? 
+> BSD? Apple? And for how long into future? I mean in general yes, I would not 
 
-diff --git a/configure b/configure
-index 6b8e2e2fdb..1db1eef7b1 100755
---- a/configure
-+++ b/configure
-@@ -2232,6 +2232,7 @@ LINKS="Makefile"
- LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
-+LINKS="$LINKS pc-bios/vof/Makefile"
- LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
- LINKS="$LINKS tests/avocado tests/data"
- LINKS="$LINKS tests/qemu-iotests/check"
-@@ -2269,6 +2270,15 @@ if test -n "$target_cc" &&
-     fi
- fi
- 
-+probe_target_compilers ppc ppc64
-+if test -n "$target_cc" && test "$softmmu" = yes; then
-+    roms="$roms vof"
-+    config_mak=pc-bios/vof/config.mak
-+    echo "# Automatically generated by configure - do not modify" > $config_mak
-+    echo "SRC_DIR=$source_path/pc-bios/vof" >> $config_mak
-+    write_target_makefile >> $config_mak
-+fi
-+
- # Only build s390-ccw bios the compiler has -march=z900 or -march=z10 (which is
- # the lowest architecture level that Clang supports)
- probe_target_compiler s390x
-diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
-index aa1678c4d8..391ac0d600 100644
---- a/pc-bios/vof/Makefile
-+++ b/pc-bios/vof/Makefile
-@@ -1,11 +1,10 @@
--all: build-all
-+include config.mak
-+VPATH=$(SRC_DIR)
-+all: vof.bin
- 
--build-all: vof.bin
--
--CROSS ?=
--CC = $(CROSS)gcc
--LD = $(CROSS)ld
--OBJCOPY = $(CROSS)objcopy
-+CC ?= $(CROSS)gcc
-+LD ?= $(CROSS)ld
-+OBJCOPY ?= $(CROSS)objcopy
- 
- %.o: %.S
- 	$(CC) -m32 -mbig-endian -mcpu=power4 -c -o $@ $<
-@@ -14,10 +13,12 @@ OBJCOPY = $(CROSS)objcopy
- 	$(CC) -m32 -mbig-endian -mcpu=power4 -c -fno-stack-protector -o $@ $<
- 
- vof.elf: entry.o main.o ci.o bootmem.o libc.o
--	$(LD) -nostdlib -e_start -Tvof.lds -EB -o $@ $^
-+	$(LD) -nostdlib -e_start -T$(SRC_DIR)/vof.lds -EB -o $@ $^
- 
- %.bin: %.elf
- 	$(OBJCOPY) -O binary -j .text -j .data -j .toc -j .got2 $^ $@
- 
- clean:
- 	rm -f *.o vof.bin vof.elf *~
-+
-+.PHONY: all clean
--- 
-2.35.1
+To improve overall portability across all possible hosts, I'd stick to
+POSIX semantics but here this is macOS only code so you can assume
+this is Apple's snprintf().
+
+> expect it to fail with -1 here either, but there are various different API 
+> docs on snprintf() out there, and most of them don't even bother to enumarate 
+> which encoding errors may happen. And I'm pretty sure if I'd drop the negative 
+> err check here, then Akihiko would slap me for unforeseeable additional error 
+> cases on snprintf() that may be added in future.
+> 
+
+/o\ ;-)
+
+> Apple's documentation on snprintf() BTW just says:
+> 
+>   "These functions return a negative value if an error occurs."
+> 
+
+How valuable this is !!! ;-)
+
+> So Apple does not even restrict the return value to -1 on errrors, you would 
+> also need to expect other negative values.
+> 
+> So on doubt, I leave this negative result check for now. ;-)
+> 
+
+Fair enough.
+
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> 
+> Thanks!
+> 
+> Best regards
+> Christian Schoenebeck
+> 
+> > > +        errno = ENAMETOOLONG;
+> > > +        return -1;
+> > > +    }
+> > > +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
+> > > +    if (fd == -1) {
+> > > +        return fd;
+> > > +    }
+> > > +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
+> > > +    if (err == -1) {
+> > > +        goto out;
+> > > +    }
+> > > +    /*
+> > > +     * FIXME: Should rather be using descriptor-based fchmod() on the
+> > > +     * socket file descriptor above (preferably before bind() call),
+> > > +     * instead of path-based fchmodat(), to prevent concurrent transient
+> > > +     * state issues between creating the named FIFO file at bind() and
+> > > +     * delayed adjustment of permissions at fchmodat(). However currently
+> > > +     * macOS (12.x) does not support such operations on socket file
+> > > +     * descriptors yet.
+> > > +     *
+> > > +     * Filed report with Apple: FB9997731
+> > > +     */
+> > > +    err = fchmodat(AT_FDCWD, filename, mode, AT_SYMLINK_NOFOLLOW_ANY);
+> > > +out:
+> > > +    close_preserve_errno(fd);
+> > > +    return err;
+> > > +}
+> > > +
+> > > 
+> > >  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> > >  {
+> > >  
+> > >      int preserved_errno, err;
+> > > 
+> > > @@ -93,7 +129,11 @@ int qemu_mknodat(int dirfd, const char *filename,
+> > > mode_t mode, dev_t dev)> 
+> > >      if (pthread_fchdir_np(dirfd) < 0) {
+> > >      
+> > >          return -1;
+> > >      
+> > >      }
+> > > 
+> > > -    err = mknod(filename, mode, dev);
+> > > +    if (S_ISSOCK(mode)) {
+> > > +        err = create_socket_file_at_cwd(filename, mode);
+> > > +    } else {
+> > > +        err = mknod(filename, mode, dev);
+> > > +    }
+> > > 
+> > >      preserved_errno = errno;
+> > >      /* Stop using the thread-local cwd */
+> > >      pthread_fchdir_np(-1);
+> 
+> 
 
 
