@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF1B514FE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 17:50:15 +0200 (CEST)
-Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BC8514FA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 17:37:19 +0200 (CEST)
+Received: from localhost ([::1]:49438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkSso-0002O4-Lh
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 11:50:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44166)
+	id 1nkSgI-0007r3-RP
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 11:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkSSv-0002Hd-Dy
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:29 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35624)
+ id 1nkSSw-0002Ka-I8
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:30 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nkSSt-0006A8-Gz
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:29 -0400
-Received: by mail-ej1-x636.google.com with SMTP id l7so16128958ejn.2
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:23:27 -0700 (PDT)
+ id 1nkSSu-0006AM-Sz
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:30 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id bv19so16100074ejb.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TDKgpDUBJFawzQptchyXNMTmHIswdR7OJFhEI4kP5hs=;
- b=CATcjtHnDB3jyLTROmAZCpXxWpz0+YIuOhRr/c6d0VtAcn2pzKGmeV26Gr4Fa3st71
- uZEwjnOjMjGFuRzVncnA9ADhLMpPcYri0vXbpx9htj+qKcu7qFYpP9M7W19UQErFJxJ5
- WEfBajOTqikSgAP4oYyTN72p2NdUMvYv/8O7ezi/HMhUODbuNaswOImzqOmeKVqeheyl
- xRRvb9dSEBjRotdefArKEhupijz2u/8lpqEnB2xf9cLefzlkcPCFniuLuApyqSBUY5wC
- CqCpcH02AIA9+qxRb6aG8PwjqlLS+r/0QAVZRfQWmsJqrirM/pwvfmZxEnIVmyDBEvOT
- +pNg==
+ bh=pVIHrWb0QymKV8unddHVw3luRnSSMYN+wzhu25/ExSM=;
+ b=e6tWqpywTB0lCofPQx54gY+0ZpKz5nCs9+lP/lg9UpPuO4LuvlV2HujBU4kJPS0Jhr
+ PTMryi2jPtcFoIh3Yu6c3Wi84buwXOika4wG/KlLyaUvrKy4tXXkGmtPhSMymXHdHTsY
+ lh/zJkkdB10bW2UFmcFCPME+SGK7ICrRYyv/zL1g2wRHOqVUu3hVg5Id032qCZmPMuKI
+ YoFXz+2s5PutQ9qK+D+W7tVAhyXhwCjcGDIuR6Wo1smqPRR6IFt3omztIRUJnhGe8nmO
+ sAZiSw3NYKp+YExynfPt+ReMVq/0zTP22nWKswKV8hNpyE4qSLMryK1+ANC2zKXsXmYv
+ d6dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TDKgpDUBJFawzQptchyXNMTmHIswdR7OJFhEI4kP5hs=;
- b=6wQTEb1VhoQgtvhd2wkZuB7umYhOiXavHYeFw6F25oPlLK2B2k7Pr2h2rWIOtVIkyw
- V74JyJqDfMNsuXfek0QV6wVPjYime14YBD2fcfeYXg7k4o23ztPvL5Qhipv1zpwlUh8F
- Ocu/+UJRDDulRj5nX7iZAo0mpGWxJJSVsdYUCm7OUnvZxN3Bz9uqYkSsJdv6CLD3low4
- 2Y/nRkMc+4BVJgxQnljS53FzMVrjF3OzRIPNs0kN0/PSs/1tfSNjc0R1ex5awgIOchfR
- 5adblrx0nvy2Bm7LhYU/IGuLGARKBQDOVMs6pA9PoHid9QxTwj39AKDkVYrhmY8Tcn53
- CgJg==
-X-Gm-Message-State: AOAM530UNNgAYvOxpt/Lh7LiWTxSFmkpb9XQuj6+Yb+fsAQxhAwPzpuY
- 4kpSms+jaDoq1d98Ho/pMi395w9A6NaRsA==
-X-Google-Smtp-Source: ABdhPJwyp6mf8WDkB/6on1N4oSUKs4vD88UxfkttluJZNpXzNP7ty4m2nAxs/51/Wpxu0gl3vKArGg==
-X-Received: by 2002:a17:907:168a:b0:6e8:d125:1d24 with SMTP id
- hc10-20020a170907168a00b006e8d1251d24mr35896942ejc.508.1651245806103; 
- Fri, 29 Apr 2022 08:23:26 -0700 (PDT)
+ bh=pVIHrWb0QymKV8unddHVw3luRnSSMYN+wzhu25/ExSM=;
+ b=I4O92HnzgFuM/1bON3X8VdTIWxzrYoBVtMDD7P037kfG8S5UbLLUFy4RgUDbN3/rR7
+ Nw0b5aKhScsO8CAiaBNm/S+Ftd1jAoPV9qT6pm1XiWcuiPVjkTFTuFjZp1a0pSx5a2MS
+ GzhY0UvGyvRGCpt4wAb+jIaAiD3A11F5iQq3li9vnHwdbLXXrbtGx7WMvTdRAMSBssQ3
+ dqCD3FMuLHvJkdPzazCFp61ki7SN5XlzH/BbgHZ615eIOpUUoHmdiwhvjfKmGThMFzBf
+ D/D6ItInr9CvTva7m4zgprx1htn12Bynsq1Uj5atK4OL39610uavzWZfzBqJu6nQLCMk
+ g86A==
+X-Gm-Message-State: AOAM533/mmTMMm9wMZG1d6ktmX/RITIYS9DQNMJDbFcV5pwQMsC6prO9
+ HgPhvLTkxYYuYe7fwfxf4lAnLBYoGqc56Q==
+X-Google-Smtp-Source: ABdhPJxEH+HV6h1Tx/aTRSjOCR3pc/rW7piCfdL7IWAUoMI/KUFOpHk2uLtsxzunrDoroYiO7u5o2w==
+X-Received: by 2002:a17:906:594a:b0:6f3:d242:8d64 with SMTP id
+ g10-20020a170906594a00b006f3d2428d64mr11173342ejr.34.1651245807584; 
+ Fri, 29 Apr 2022 08:23:27 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- w25-20020a170907271900b006f3ef214dd6sm736395ejk.60.2022.04.29.08.23.25
+ w25-20020a170907271900b006f3ef214dd6sm736395ejk.60.2022.04.29.08.23.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 08:23:25 -0700 (PDT)
+ Fri, 29 Apr 2022 08:23:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/25] meson: pass more options directly as -D
-Date: Fri, 29 Apr 2022 17:23:02 +0200
-Message-Id: <20220429152312.335715-16-pbonzini@redhat.com>
+Subject: [PULL 17/25] meson,
+ virtio: place all virtio-pci devices under virtio_pci_ss
+Date: Fri, 29 Apr 2022 17:23:04 +0200
+Message-Id: <20220429152312.335715-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220429152312.335715-1-pbonzini@redhat.com>
 References: <20220429152312.335715-1-pbonzini@redhat.com>
@@ -65,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -91,238 +92,52 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If an option is not used anywhere by the configure script, it can be just
-added to $meson_options even if it is not parsed by the automatically
-generated bits in scripts/meson-buildoptions.sh.
-
-The only slightly tricky case is $debug, where the
-
-  if test "$fortify_source" = "yes" ; then
-    QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
-    debug=no
-  fi
-
-assignment is dead; configure sets fortify_source=no whenever debug=yes.
+Since a sourceset already exists for this, avoid unnecessary repeat
+of CONFIG_VIRTIO_PCI.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 39 ++++++++++-------------------------
- meson.build                   |  2 +-
- scripts/meson-buildoptions.py |  4 ++++
- scripts/meson-buildoptions.sh |  6 ++++++
- 4 files changed, 22 insertions(+), 29 deletions(-)
+ hw/virtio/meson.build | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index b8e3176808..fc7868948b 100755
---- a/configure
-+++ b/configure
-@@ -235,7 +235,6 @@ static="no"
- cross_compile="no"
- cross_prefix=""
- host_cc="cc"
--lto="false"
- stack_protector=""
- safe_stack=""
- use_containers="yes"
-@@ -291,13 +290,10 @@ vhost_vsock="$default_feature"
- vhost_user="no"
- vhost_user_fs="$default_feature"
- vhost_vdpa="$default_feature"
--debug_info="yes"
- debug_tcg="no"
--debug="no"
- sanitizers="no"
- tsan="no"
- fortify_source="yes"
--gcov="no"
- EXESUF=""
- modules="no"
- prefix="/usr/local"
-@@ -327,10 +323,7 @@ else
- fi
- fdt="auto"
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 67dc77e00f..f371404b04 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -16,9 +16,7 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-shadow-virtqueue.c', 'vhost-vdpa.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
+-virtio_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-crypto-pci.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
+-virtio_ss.add(when: ['CONFIG_VHOST_USER_FS', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-fs-pci.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.c', 'vhost-vsock-common.c'))
+@@ -26,17 +24,20 @@ virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
+-virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_I2C'], if_true: files('vhost-user-i2c-pci.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
+-virtio_ss.add(when: ['CONFIG_VHOST_USER_RNG', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-rng-pci.c'))
  
--# 2. Support --with/--without option
--default_devices="true"
--
--# 3. Automatically enable/disable other options
-+# 2. Automatically enable/disable other options
- tcg="enabled"
- cfi="false"
- 
-@@ -680,6 +673,9 @@ werror=""
- . $source_path/scripts/meson-buildoptions.sh
- 
- meson_options=
-+meson_option_add() {
-+  meson_options="$meson_options $(quote_sh "$1")"
-+}
- meson_option_parse() {
-   meson_options="$meson_options $(_meson_option_parse "$@")"
-   if test $? -eq 1; then
-@@ -732,9 +728,9 @@ for opt do
-   ;;
-   --cross-cc-*)
-   ;;
--  --enable-debug-info) debug_info="yes"
-+  --enable-debug-info) meson_option_add -Ddebug=true
-   ;;
--  --disable-debug-info) debug_info="no"
-+  --disable-debug-info) meson_option_add -Ddebug=false
-   ;;
-   --enable-modules)
-       modules="yes"
-@@ -754,9 +750,9 @@ for opt do
-                        error_exit "Can't mix --target-list-exclude with --target-list"
-                    fi
-   ;;
--  --with-default-devices) default_devices="true"
-+  --with-default-devices) meson_option_add -Ddefault_devices=true
-   ;;
--  --without-default-devices) default_devices="false"
-+  --without-default-devices) meson_option_add -Ddefault_devices=false
-   ;;
-   --with-devices-*[!a-zA-Z0-9_-]*=*) error_exit "Passed bad --with-devices-FOO option"
-   ;;
-@@ -772,8 +768,6 @@ for opt do
-   ;;
-   --without-default-features) # processed above
-   ;;
--  --enable-gcov) gcov="yes"
--  ;;
-   --static)
-     static="yes"
-     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
-@@ -800,7 +794,7 @@ for opt do
-       # Enable debugging options that aren't excessively noisy
-       debug_tcg="yes"
-       meson_option_parse --enable-debug-mutex ""
--      debug="yes"
-+      meson_option_add -Doptimization=0
-       fortify_source="no"
-   ;;
-   --enable-sanitizers) sanitizers="yes"
-@@ -849,10 +843,6 @@ for opt do
-   ;;
-   --disable-werror) werror="no"
-   ;;
--  --enable-lto) lto="true"
--  ;;
--  --disable-lto) lto="false"
--  ;;
-   --enable-stack-protector) stack_protector="yes"
-   ;;
-   --disable-stack-protector) stack_protector="no"
-@@ -863,7 +853,7 @@ for opt do
-   ;;
-   --enable-cfi)
-       cfi="true";
--      lto="true";
-+      meson_option_add -Db_lto=true
-   ;;
-   --disable-cfi) cfi="false"
-   ;;
-@@ -1101,7 +1091,6 @@ Advanced options (experts only):
-   --cpu=CPU                Build for host CPU [$cpu]
-   --with-coroutine=BACKEND coroutine backend. Supported options:
-                            ucontext, sigaltstack, windows
--  --enable-gcov            enable test coverage analysis with gcov
-   --enable-plugins
-                            enable plugins via shared library loading
-   --disable-containers     don't use containers for cross-building
-@@ -1117,7 +1106,6 @@ cat << EOF
-   modules         modules support (non-Windows)
-   debug-tcg       TCG debugging (default is disabled)
-   debug-info      debugging information
--  lto             Enable Link-Time Optimization.
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
-   vhost-net       vhost-net kernel acceleration support
-@@ -1938,7 +1926,6 @@ write_c_skeleton
- 
- if test "$fortify_source" = "yes" ; then
-   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
--  debug=no
- fi
- 
- case "$ARCH" in
-@@ -2367,15 +2354,11 @@ if test "$skip_meson" = no; then
-     NINJA=$ninja $meson setup \
-         --prefix "$prefix" \
-         --bindir "$bindir" \
--        -Ddefault_devices=$default_devices \
-         -Dqemu_suffix="$qemu_suffix" \
-         -Dsmbd="$smbd" \
--        -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
--        -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
--        -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
--        -Db_lto=$lto -Dcfi=$cfi -Dtcg=$tcg \
-+        -Dcfi=$cfi -Dtcg=$tcg \
-         -Dcapstone=$capstone -Dfdt=$fdt -Dslirp=$slirp \
-         $(test -n "${LIB_FUZZING_ENGINE+xxx}" && echo "-Dfuzzing_engine=$LIB_FUZZING_ENGINE") \
-         $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
-diff --git a/meson.build b/meson.build
-index 21135fbc52..19966e0a5a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,6 +1,6 @@
- project('qemu', ['c'], meson_version: '>=0.59.3',
-         default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
--                          'b_staticpic=false', 'stdsplit=false'],
-+                          'b_staticpic=false', 'stdsplit=false', 'optimization=2'],
-         version: files('VERSION'))
- 
- add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
-diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
-index 45cda8cd84..e624c16b01 100755
---- a/scripts/meson-buildoptions.py
-+++ b/scripts/meson-buildoptions.py
-@@ -33,6 +33,8 @@
- }
- 
- OPTION_NAMES = {
-+    "b_coverage": "gcov",
-+    "b_lto": "lto",
-     "malloc": "enable-malloc",
-     "pkgversion": "with-pkgversion",
-     "qemu_firmwarepath": "firmwarepath",
-@@ -41,6 +43,8 @@
- }
- 
- BUILTIN_OPTIONS = {
-+    "b_coverage",
-+    "b_lto",
-     "datadir",
-     "includedir",
-     "libdir",
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index f6a9b05c40..4b0770a9e0 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -27,7 +27,9 @@ meson_options_help() {
-   printf "%s\n" '  --enable-fdt[=CHOICE]    Whether and how to find the libfdt library'
-   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
-   printf "%s\n" '  --enable-fuzzing         build fuzzing targets'
-+  printf "%s\n" '  --enable-gcov            Enable coverage tracking.'
-   printf "%s\n" '  --enable-gprof           QEMU profiling with gprof'
-+  printf "%s\n" '  --enable-lto             Use link time optimization'
-   printf "%s\n" '  --enable-malloc=CHOICE   choose memory allocator to use [system] (choices:'
-   printf "%s\n" '                           jemalloc/system/tcmalloc)'
-   printf "%s\n" '  --enable-module-upgrades try to load modules from alternate paths for'
-@@ -182,6 +184,10 @@ _meson_option_parse() {
-     --disable-avx2) printf "%s" -Davx2=disabled ;;
-     --enable-avx512f) printf "%s" -Davx512f=enabled ;;
-     --disable-avx512f) printf "%s" -Davx512f=disabled ;;
-+    --enable-gcov) printf "%s" -Db_coverage=true ;;
-+    --disable-gcov) printf "%s" -Db_coverage=false ;;
-+    --enable-lto) printf "%s" -Db_lto=true ;;
-+    --disable-lto) printf "%s" -Db_lto=false ;;
-     --block-drv-ro-whitelist=*) quote_sh "-Dblock_drv_ro_whitelist=$2" ;;
-     --block-drv-rw-whitelist=*) quote_sh "-Dblock_drv_rw_whitelist=$2" ;;
-     --enable-block-drv-whitelist-in-tools) printf "%s" -Dblock_drv_whitelist_in_tools=true ;;
+ virtio_pci_ss = ss.source_set()
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-user-scsi-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-pci.c'))
++
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng-pci.c'))
 -- 
 2.35.1
 
