@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BA751530A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 19:54:44 +0200 (CEST)
-Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944DA51535D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 20:07:56 +0200 (CEST)
+Received: from localhost ([::1]:37512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkUpF-0004cA-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 13:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46946)
+	id 1nkV23-00007F-7Q
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 14:07:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkUo4-0003wD-Fg
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 13:53:28 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:33426)
+ id 1nkV0e-0007Xc-Ur
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 14:06:29 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:40465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkUo2-0004TY-Tf
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 13:53:28 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id k14so7094556pga.0
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 10:53:25 -0700 (PDT)
+ id 1nkV0d-0006L3-Bk
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 14:06:28 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id i24so7552356pfa.7
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 11:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Hc/9fC6f6+g88WbpQjC84TnAiidFPkt6IdGkbt/J9LQ=;
- b=FRnZyysRXodr/MztVQDIf4eVkNxVdInJxEHyxqpddNLVbnoxEdeqtOOc0NNero0zkU
- gkmrmE5SgvUusxbhIKKz7EvQCKN5TZyzgvp/y+O3QcN2/kAA4Yf/jq4bUvChlzP2SR0B
- EuIY6+1VcSOVyN9a/Ii1LZnEvq7RGuiF3oEhjF8wwGytR54PgLZodwM1f3/I4zO4ZEln
- fTSjfV0gOa9a90xADgwfpo1QN0nChT0htmDSqDRt+hRjK9bklDqv0FUJvOnWPeRm4l0P
- rBPKIXUV6nqPKktTE9xnDRDhYTlwAnMyXKU0ZjxV5bW8l1fo/QliH87HORDT24L22UM9
- zWWw==
+ bh=9pDj1mxizGcS/INj2rkHoqC7vf0kkvUVAue+SZF6PDU=;
+ b=cai5VKQSdT46aRWoNJU2wzgqkHPfdX0RojAp/+cki877eiKR0bPEWz7ZxdwczGq9QO
+ EM7EwpBpGPqzsB8DWqIwLzrAn3QP5CXlLCETy1/83BVfbjOQhT5FHqZb8RmCsc5hNZN1
+ /Z2Wf90kiXru5dix5vr+YXzCpnuzMjfzD129h8xsjoPAK7NYIBpxryv94n6v2DU5H7Nt
+ FT7xErob4h0EMtBC9BwnXgyqD/JOxJ0jG+rB0MosEWj0DWD4lI1JqQNhyG8OeMMBhD3i
+ yPmJp1upd1Jj72PcMrt9NSh1m4ZoKIbhWWv8i1iekM/JPfR1JPXCxeJMqeYfRPKythRL
+ wROA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Hc/9fC6f6+g88WbpQjC84TnAiidFPkt6IdGkbt/J9LQ=;
- b=oUEk8d5+fkSVLCZgG0j2h1LV6IYNwwXypHQYoX1bmUpBlbHpqq1XR8VPmoowW9kNly
- +To5xYikerZS+vy+sH7p1eOY1xU/5BGluLQnNtu3dPtw9U1zNcooho/G563+v86CKkQ3
- 56HLq3HyQMAGkorSMaWKUmb/eUvHk5jTFePVoyALNLjow4ZKUnIJVr4fhoAgz+yp3f1/
- f4GpiGOU3fR4hOQeXEWy4E5xH6uon1ITVY7X9P6tyjp9DnuNcyfTHkK7MyLExqT1y/sg
- M+KY+UDCccakFXYiGD6gA+XCcyWxkLsRsU0moiZEF6NAUK+DUBApynNBfbeZbVfx6gjk
- DPnw==
-X-Gm-Message-State: AOAM530WS4cKBXqtRU50lDla3sRmuvmsVIWRUJa3LUBrV+oro/LP/KwL
- TGS1sONUhv1Jfh+TQT3od2HfcQ==
-X-Google-Smtp-Source: ABdhPJzG2dBemjY20W/pynMH0x7INqG98JifP89p2PkEmyRUKK1wTuQpByuKaBK4UGYRpeKrrRFR+A==
-X-Received: by 2002:a63:e952:0:b0:382:65eb:257 with SMTP id
- q18-20020a63e952000000b0038265eb0257mr399529pgj.465.1651254803361; 
- Fri, 29 Apr 2022 10:53:23 -0700 (PDT)
+ bh=9pDj1mxizGcS/INj2rkHoqC7vf0kkvUVAue+SZF6PDU=;
+ b=dZjKFEQbYU+6s46WIVB68MZheB+Iupp5irJ1jKM9Cpfxyu3pl19T2ZcwMkueeeoDxd
+ C9SrcAQz/+DxsQcxyqW+KRuOpxWVHYCHAUAsFv0r+Ru9eIzFaK9A9oGp0T/tcev5MrWt
+ zl12t1c1TzYlG/yHUEOWODuUySQFCrYZ0q7rLAvW+mT4r0jMeeSKcg50jRLBbRUYfl/J
+ wkUK9sS0i1v6umRVQ6DSAJ9nwgzbkvnMyepQHX5Ea8CPH6VYvR1wqAM6SBTZ4Tsc16xJ
+ Y86dKsFaLrNt71Mblx3AHrPiI/5vrB1PD6SeS1drj/spSEZgwLibOk76MBcIunxleJeX
+ SdOA==
+X-Gm-Message-State: AOAM530YD+Qt0HHyh3rBINRku3u5T3vs6OOSayQjl1r6rY0thO1Jow+k
+ 8Evx/3pmyf3lZqFr68fON/ce4w==
+X-Google-Smtp-Source: ABdhPJw3SBelRFAMrv4FWP6HXs0wkFXVmmht1d/SYwHkYBhlBherK3i+CHlE1t84MfNYCb5Lfpezkg==
+X-Received: by 2002:a63:3f4e:0:b0:3aa:193b:8c5d with SMTP id
+ m75-20020a633f4e000000b003aa193b8c5dmr469811pga.624.1651255585400; 
+ Fri, 29 Apr 2022 11:06:25 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- y68-20020a623247000000b0050acc1def3csm3701278pfy.203.2022.04.29.10.53.22
+ c5-20020a17090a1d0500b001cd4989ff69sm10709924pjd.48.2022.04.29.11.06.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 10:53:22 -0700 (PDT)
-Message-ID: <1d322778-c684-75f4-551a-d2eed7f6b7a9@linaro.org>
-Date: Fri, 29 Apr 2022 10:53:20 -0700
+ Fri, 29 Apr 2022 11:06:24 -0700 (PDT)
+Message-ID: <9a9e8adc-32b3-dc39-6cac-d37a2e5a8a7f@linaro.org>
+Date: Fri, 29 Apr 2022 11:06:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] loader: support loading large files (>=2GB)
+Subject: Re: [PATCH v3 56/60] target/arm: Enable FEAT_CSV2_2 for -cpu max
 Content-Language: en-US
-To: Peter Collingbourne <pcc@google.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220427230716.2158127-1-pcc@google.com>
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-57-richard.henderson@linaro.org>
+ <9c515174-a203-ecbd-1fd3-c8aa1913be4c@greensocs.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220427230716.2158127-1-pcc@google.com>
+In-Reply-To: <9c515174-a203-ecbd-1fd3-c8aa1913be4c@greensocs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,29 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/22 16:07, Peter Collingbourne wrote:
-> Currently the loader uses int as the return type for various APIs
-> that deal with file sizes, which leads to an error if the file
-> size is >=2GB, as it ends up being interpreted as a negative error
-> code. Furthermore, we do not tolerate short reads, which are possible
-> at least on Linux when attempting to read such large files in one
-> syscall.
-> 
-> Fix the first problem by switching to 64-bit types for file sizes,
-> and fix the second by introducing a loop around the read syscall.
-> 
-> Signed-off-by: Peter Collingbourne<pcc@google.com>
-> ---
->   hw/core/generic-loader.c |  2 +-
->   hw/core/loader.c         | 44 ++++++++++++++++++++++++----------------
->   include/hw/loader.h      | 13 ++++++------
->   3 files changed, 34 insertions(+), 25 deletions(-)
+On 4/29/22 02:52, Damien Hedde wrote:
+> The following checks are missing:
+>     + for HFG[W/R]TR_EL2.SCXTNUM_EL0/1
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+We do not yet support FEAT_FGT.
+
+>     + HCR_EL2.<NV2,NV1,NV> when accessing SCXTNUM_EL1, but maybe these are always 
+> guaranteed to fail because we don't support the features ?
+>     + HCR_EL2.NV when accessing SCXTNUM_EL2
+
+We do not yet support FEAT_NV or FEAT_NV2.
+
+>> +            if (arm_is_el2_enabled(env) && !(hcr & HCR_ENSCXT)) {
+> This case is also present when accessing SCXTNUM_EL0 from el1 (but without "(hcr & 
+> (HCR_TGE | HCR_E2H)) != (HCR_TGE | HCR_E2H)" precondition)
+
+Quite right.  Will fix.
+
 
 r~
 
