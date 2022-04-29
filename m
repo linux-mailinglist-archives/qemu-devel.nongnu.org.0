@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5EF5147EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:17:31 +0200 (CEST)
-Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8605147FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:21:49 +0200 (CEST)
+Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkOcs-0006Yv-Cm
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:17:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37060)
+	id 1nkOh1-0003vt-3f
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <2e7b5ecd7a6d83a538db4e8a22d8fb03e9e0f06e@lizzy.crudebyte.com>)
- id 1nkO61-0006Uq-NW; Fri, 29 Apr 2022 06:43:33 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47875)
+ (envelope-from <b3a430c2c382ba69a7405e04c0b090ab0d86f17e@lizzy.crudebyte.com>)
+ id 1nkO69-0006pm-Ih; Fri, 29 Apr 2022 06:43:41 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <2e7b5ecd7a6d83a538db4e8a22d8fb03e9e0f06e@lizzy.crudebyte.com>)
- id 1nkO5z-000864-SA; Fri, 29 Apr 2022 06:43:33 -0400
+ (envelope-from <b3a430c2c382ba69a7405e04c0b090ab0d86f17e@lizzy.crudebyte.com>)
+ id 1nkO67-00086H-EA; Fri, 29 Apr 2022 06:43:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=Qtl7gjR1rluebtvN9uzweNSJYOjoQEx8+nOtMgAJ/RA=; b=cQMVL
- cF0/00Fvaoy61Kow1ohu1/DVO1CuBZXPgD8McsbI3pVVemeSqon8Ojz+w4vQka4onBJsVU/V97dmy
- xPyze4RxBWEeAVrUl6+y1KnCLES69KYoOWIorKCUx76ZdUt+McJwb7FsSoAurgYhAVYs2uqV21w27
- tSGfa9qXOvHkeGF0bVi0v1w+FoAScCm0ABEaoakVyBbYcsFP8kifGKJMSFQIJeFftW4bP4nVHvwTc
- oMJO49EMGqoN3Zz4KiM3yS5sFUQgX67zVOgwyJg44UqZwOnHBY9syenO84nWuSRJKpYjUhBdgvmJW
- SyyOEU38oJADPMIBA4+k+ibEGTE/w==;
-Message-Id: <2e7b5ecd7a6d83a538db4e8a22d8fb03e9e0f06e.1651228001.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=vq90Q4vtQmJgyHCseX/Xdws1yT3xxELHmtULnL9IalE=; b=RjIF9
+ pHcm0MM/p/b6Jk/tddyYwuDf+Rmqdxa+A0KndS1eLBG3IgMSBMS4oGqZoHhIIa1NtbmE1HWirPdoq
+ qo2cwDg+UNFbyjWuevuCjWUzMCjF6wFABvYFr9bpj53zBc4o59dG4L0cIwyKPjM56EDnv8zPvFOKV
+ d8ru+1XfMQ6F4tFMXYoyyuvG44g9ZsE83+milbEza1NE61iPX2Hx8fJhfs2w/5K1t9RIio/YxWsY3
+ RjE/i6jTy2D2G5ajXaKyaKL1AAr7vKSyNxIcQ43pO5pOM2TY+TmhfRm1JCWkyhn+C1lomW6cJNQ3n
+ /cOvrbZpGvTR2m0Q5cOcE48ZwmdoA==;
+Message-Id: <b3a430c2c382ba69a7405e04c0b090ab0d86f17e.1651228001.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1651228000.git.qemu_oss@crudebyte.com>
 References: <cover.1651228000.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 29 Apr 2022 12:25:11 +0200
-Subject: [PATCH v5 2/6] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Date: Fri, 29 Apr 2022 12:25:15 +0200
+Subject: [PATCH v5 3/6] 9pfs: fix wrong encoding of rdev field in Rgetattr on
+ macOS
 To: qemu-devel@nongnu.org
 Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
  Michael Roitzsch <reactorcontrol@icloud.com>,
  Keno Fischer <keno@juliacomputing.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=2e7b5ecd7a6d83a538db4e8a22d8fb03e9e0f06e@lizzy.crudebyte.com;
+ envelope-from=b3a430c2c382ba69a7405e04c0b090ab0d86f17e@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,76 +64,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mknod() on macOS does not support creating sockets, so divert to
-call sequence socket(), bind() and fchmodat() respectively if S_IFSOCK
-was passed with mode argument.
+The 'rdev' field in 9p reponse 'Rgetattr' is of type dev_t,
+which is actually a system dependant type and therefore both the
+size and encoding of dev_t differ between macOS and Linux.
 
-Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+So far we have sent 'rdev' to guest in host's dev_t format as-is,
+which caused devices to appear with wrong device numbers on
+guests running on macOS hosts, eventually leading to various
+misbehaviours on guest in conjunction with device files.
+
+This patch fixes this issue by converting the device number from
+host's dev_t format to Linux dev_t format. As 9p request
+'Tgettattr' is exclusive to protocol version 9p2000.L, it should
+be fair to assume that 'rdev' field is assumed to be in Linux dev_t
+format by client as well.
+
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Link: https://lore.kernel.org/qemu-devel/20220421093056.5ab1e7ed@bahia/
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/9pfs/9p-util-darwin.c | 42 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
+ hw/9pfs/9p-util.h | 39 +++++++++++++++++++++++++++++++++++++++
+ hw/9pfs/9p.c      |  2 +-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-index e24d09763a..619c403ba7 100644
---- a/hw/9pfs/9p-util-darwin.c
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -74,6 +74,42 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-  */
- #if defined CONFIG_PTHREAD_FCHDIR_NP
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 97e681e167..2cc9a5dbfb 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -19,6 +19,45 @@
+ #define O_PATH_9P_UTIL 0
+ #endif
  
-+static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
-+    int fd, err;
-+    struct sockaddr_un addr = {
-+        .sun_family = AF_UNIX
-+    };
++#if !defined(CONFIG_LINUX)
 +
-+    err = snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
-+    if (err < 0 || err >= sizeof(addr.sun_path)) {
-+        errno = ENAMETOOLONG;
-+        return -1;
-+    }
-+    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
-+    if (fd == -1) {
-+        return fd;
-+    }
-+    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
-+    if (err == -1) {
-+        goto out;
-+    }
-+    /*
-+     * FIXME: Should rather be using descriptor-based fchmod() on the
-+     * socket file descriptor above (preferably before bind() call),
-+     * instead of path-based fchmodat(), to prevent concurrent transient
-+     * state issues between creating the named FIFO file at bind() and
-+     * delayed adjustment of permissions at fchmodat(). However currently
-+     * macOS (12.x) does not support such operations on socket file
-+     * descriptors yet.
-+     *
-+     * Filed report with Apple: FB9997731
-+     */
-+    err = fchmodat(AT_FDCWD, filename, mode, AT_SYMLINK_NOFOLLOW_ANY);
-+out:
-+    close_preserve_errno(fd);
-+    return err;
++/*
++ * Generates a Linux device number (a.k.a. dev_t) for given device major
++ * and minor numbers.
++ *
++ * To be more precise: it generates a device number in glibc's format
++ * (MMMM_Mmmm_mmmM_MMmm, 64 bits) actually, which is compatible with
++ * Linux's format (mmmM_MMmm, 32 bits), as described in <bits/sysmacros.h>.
++ */
++static inline uint64_t makedev_dotl(uint32_t dev_major, uint32_t dev_minor)
++{
++    uint64_t dev;
++
++    // from glibc sysmacros.h:
++    dev  = (((uint64_t) (dev_major & 0x00000fffu)) <<  8);
++    dev |= (((uint64_t) (dev_major & 0xfffff000u)) << 32);
++    dev |= (((uint64_t) (dev_minor & 0x000000ffu)) <<  0);
++    dev |= (((uint64_t) (dev_minor & 0xffffff00u)) << 12);
++    return dev;
 +}
 +
- int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
- {
-     int preserved_errno, err;
-@@ -93,7 +129,11 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-     if (pthread_fchdir_np(dirfd) < 0) {
-         return -1;
-     }
--    err = mknod(filename, mode, dev);
-+    if (S_ISSOCK(mode)) {
-+        err = create_socket_file_at_cwd(filename, mode);
-+    } else {
-+        err = mknod(filename, mode, dev);
-+    }
-     preserved_errno = errno;
-     /* Stop using the thread-local cwd */
-     pthread_fchdir_np(-1);
++#endif
++
++/*
++ * Converts given device number from host's device number format to Linux
++ * device number format. As both the size of type dev_t and encoding of
++ * dev_t is system dependant, we have to convert them for Linux guests if
++ * host is not running Linux.
++ */
++static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
++{
++#ifdef CONFIG_LINUX
++    return dev;
++#else
++    return makedev_dotl(major(dev), minor(dev));
++#endif
++}
++
+ #ifdef CONFIG_DARWIN
+ #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
+ #define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 225f31fc31..4a296a0b94 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1327,7 +1327,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+     v9lstat->st_nlink = stbuf->st_nlink;
+     v9lstat->st_uid = stbuf->st_uid;
+     v9lstat->st_gid = stbuf->st_gid;
+-    v9lstat->st_rdev = stbuf->st_rdev;
++    v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
+     v9lstat->st_size = stbuf->st_size;
+     v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
+     v9lstat->st_blocks = stbuf->st_blocks;
 -- 
 2.32.0 (Apple Git-132)
 
