@@ -2,90 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290A75148D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 14:05:57 +0200 (CEST)
-Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A9F5149CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 14:48:42 +0200 (CEST)
+Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkPNj-0001wL-QZ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 08:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54372)
+	id 1nkQ37-0000sv-JF
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 08:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1nkPMC-0000mq-Pv
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 08:04:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30569)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkPzq-0007YT-Hw
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 08:45:18 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:40804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1nkPM7-0005bH-NZ
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 08:04:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651233854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NafrXN6OhSw5fh9g1B5UsAjqFNimER6yjhzbvyeVaDM=;
- b=LcDjB33FJ8NCRs8i22EpLAkxFU3zslaiHGOeV8+XEfkpYWu6i9QvitlF+U6cFSo0NIYXkS
- ScS6DYAaaj8X8bCg/azosVU6iQPYhOmFNuYIICxFHGLmH6346cvkJ/FrLZVZWaq/JgKCg/
- 74SIY4CmSnZ1vPoWNTm0q9YiFXfC7TE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nkPzm-0004JE-Pk
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 08:45:18 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-WEympnmDNCeJ3Cm0XHRJ5Q-1; Fri, 29 Apr 2022 08:04:13 -0400
-X-MC-Unique: WEympnmDNCeJ3Cm0XHRJ5Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- y13-20020adfc7cd000000b0020ac7c7bf2eso2991888wrg.9
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 05:04:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NafrXN6OhSw5fh9g1B5UsAjqFNimER6yjhzbvyeVaDM=;
- b=R1F0F6JyHVOL5WTE/y4AKuHfmv5Nnz/oJpltPgsHMfrrgRyOfEmxctbFwKMIHCYVSi
- SLNMNOrBvgi0yGL/nyHHjIczgjklflVNceP3V1HD6w7+vOlZgI36Vf+g5UeABfSKe01l
- LLUUykKyN4H/Yk9uOxwevtoGmapiEAvs+vTrtWYKlxpttfmTLyXbixrla7GFOc9LtGDa
- iDHgqbseEOqgEBUx35v/FvPbTNtzyXZxcFByhT+9h9OcQhPoN8xbhmwpZz7nuWS7FX6M
- RRKdiVdJf+KIJPA5u12OIWZbvF9GCNeZpCb3YwT7vfoUBEtbBX2g/XbYwEUaVdGkSTr8
- Ms8g==
-X-Gm-Message-State: AOAM531jdOj4HS8M3P16ZCOscb41/U+0UjsYeZiwQIaLBQEewMrX7j0W
- n7+z3fs8zdLXAjXfrGE4oXfJB+cY0fTP9UYwhUO1eq062KvErnoAMxzbMQofslUc3pI84So4vdF
- 7kkbYJQUHuo1ZMWo=
-X-Received: by 2002:a05:6000:242:b0:20a:c4aa:d070 with SMTP id
- m2-20020a056000024200b0020ac4aad070mr29807051wrz.606.1651233851870; 
- Fri, 29 Apr 2022 05:04:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzVx/VpNsSvlHUEgC+e5l778w3NzoQKSprWDSqoNd+BN4CSFWJgFrdkFe+Pdkz6hRNdDAf+6g==
-X-Received: by 2002:a05:6000:242:b0:20a:c4aa:d070 with SMTP id
- m2-20020a056000024200b0020ac4aad070mr29807003wrz.606.1651233851488; 
- Fri, 29 Apr 2022 05:04:11 -0700 (PDT)
-Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- j30-20020adfb31e000000b0020ae0aa90e1sm2577272wrd.108.2022.04.29.05.04.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 05:04:11 -0700 (PDT)
-Received: by wheatley.localdomain (Postfix, from userid 1000)
- id 0B2446930824; Fri, 29 Apr 2022 14:04:10 +0200 (CEST)
-Date: Fri, 29 Apr 2022 14:04:09 +0200
-From: Martin Kletzander <mkletzan@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 00/18] RFC: Remove deprecated audio features
-Message-ID: <YmvUOU0OQI+/fwFI@wheatley>
-References: <cover.1650874791.git.mkletzan@redhat.com>
- <3437c265-0ed1-0f62-3115-6b681eac9784@ilande.co.uk>
+ us-mta-128-rlG1EFBPP5qbqeKC73O-iQ-1; Fri, 29 Apr 2022 08:44:59 -0400
+X-MC-Unique: rlG1EFBPP5qbqeKC73O-iQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 850933803903;
+ Fri, 29 Apr 2022 12:44:58 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC2527774;
+ Fri, 29 Apr 2022 12:44:56 +0000 (UTC)
+Date: Fri, 29 Apr 2022 14:44:55 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v5 4/6] 9pfs: fix wrong errno being sent to Linux client
+ on macOS host
+Message-ID: <20220429144455.77e7295b@bahia>
+In-Reply-To: <CAEUhbmUVb_MLEGbKaJKjL023KUDUy=wvf9KCNn+NeAMW0SeELg@mail.gmail.com>
+References: <cover.1651228000.git.qemu_oss@crudebyte.com>
+ <b322ab298a62069e527d2b032028bdc9115afacd.1651228001.git.qemu_oss@crudebyte.com>
+ <CAEUhbmUVb_MLEGbKaJKjL023KUDUy=wvf9KCNn+NeAMW0SeELg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gn5KggbbXTYAMxsp"
-Content-Disposition: inline
-In-Reply-To: <3437c265-0ed1-0f62-3115-6b681eac9784@ilande.co.uk>
-X-Clacks-Overhead: GNU Terry Pratchett
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mkletzan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,124 +65,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, libvir-list@redhat.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Eduardo Habkost <eduardo@habkost.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <huth@tuxfamily.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, "qemu-devel@nongnu.org
+ Developers" <qemu-devel@nongnu.org>, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Guohuai Shi <guohuai.shi@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 29 Apr 2022 19:28:39 +0800
+Bin Meng <bmeng.cn@gmail.com> wrote:
 
---gn5KggbbXTYAMxsp
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+> On Fri, Apr 29, 2022 at 7:16 PM Christian Schoenebeck
+> <qemu_oss@crudebyte.com> wrote:
+> >
+> > Linux and macOS only share some errno definitions with equal macro
+> > name and value. In fact most mappings for errno are completely
+> > different on the two systems.
+> >
+> > This patch converts some important errno values from macOS host to
+> > corresponding Linux errno values before eventually sending such error
+> > codes along with 'Rlerror' replies (if 9p2000.L is used that is). Not
+> > having translated errnos before violated the 9p2000.L protocol spec,
+> > which says:
+> >
+> >   "
+> >   size[4] Rlerror tag[2] ecode[4]
+> >
+> >   ... ecode is a numerical Linux errno.
+> >   "
+> >
+> >   https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
+> >
+> > This patch fixes a bunch of misbehaviours when running a Linux client
+> > on macOS host. For instance this patch fixes:
+> >
+> >   mount -t 9p -o posixacl ...
+> >
+> > on Linux guest if security_mode=mapped was used for 9p server, which
+> > refused to mount successfully, because macOS returned ENOATTR==93
+> > when client tried to retrieve POSIX ACL xattrs, because errno 93
+> > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
+> > that xattrs were not supported by filesystem on host in general.
+> 
+> This issue looks exact the same issue we were trying to fix when
+> supporting 9p on Windows host,
+> 
+> What we did is like this:
+> http://patchwork.ozlabs.org/project/qemu-devel/patch/20220425142705.2099270-10-bmeng.cn@gmail.com/
+> 
+> But we had some questions in mind (see the commit message of our
+> patch, and below)
+> 
+> >
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Link: https://lore.kernel.org/qemu-devel/20220421124835.3e664669@bahia/
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  hw/9pfs/9p-util.h | 30 ++++++++++++++++++++++++++++++
+> >  hw/9pfs/9p.c      |  2 ++
+> >  2 files changed, 32 insertions(+)
+> >
+> > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> > index 2cc9a5dbfb..c3526144c9 100644
+> > --- a/hw/9pfs/9p-util.h
+> > +++ b/hw/9pfs/9p-util.h
+> > @@ -58,6 +58,36 @@ static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
+> >  #endif
+> >  }
+> >
+> > +/* Translates errno from host -> Linux if needed */
+> > +static inline int errno_to_dotl(int err) {
+> > +#if defined(CONFIG_LINUX)
+> > +    /* nothing to translate (Linux -> Linux) */
+> > +#elif defined(CONFIG_DARWIN)
+> > +    /*
+> > +     * translation mandatory for macOS hosts
+> > +     *
+> > +     * FIXME: Only most important errnos translated here yet, this should be
+> > +     * extended to as many errnos being translated as possible in future.
+> > +     */
+> > +    if (err == ENAMETOOLONG) {
+> > +        err = 36; /* ==ENAMETOOLONG on Linux */
+> > +    } else if (err == ENOTEMPTY) {
+> > +        err = 39; /* ==ENOTEMPTY on Linux */
+> > +    } else if (err == ELOOP) {
+> > +        err = 40; /* ==ELOOP on Linux */
+> > +    } else if (err == ENOATTR) {
+> > +        err = 61; /* ==ENODATA on Linux */
+> > +    } else if (err == ENOTSUP) {
+> > +        err = 95; /* ==EOPNOTSUPP on Linux */
+> > +    } else if (err == EOPNOTSUPP) {
+> > +        err = 95; /* ==EOPNOTSUPP on Linux */
+> > +    }
+> 
+> What happens if a macOS guest is running on QEMU from a macOS host?
+> Here all macOS errnos are translated to the Linux errnos. Will macOS
+> be happy?
+> 
 
-On Mon, Apr 25, 2022 at 06:05:56PM +0100, Mark Cave-Ayland wrote:
->On 25/04/2022 09:21, Martin Kletzander wrote:
->
->> I wanted to deal with https://bugzilla.redhat.com/2043498 and I got a
->> suggesstion that removing deprecated features could actually make it
->> easier to propagate the error.  In the end (last patch) it turns out the
->> error is still just reported with error_fatal, so it probably is not
->> really needed, but I really wanted to dig into QEMU more and learn some
->> of the internals for quite some time now.  So I used the opportunity.
->> The one-liner ended up being an 18 patch series which was, for someone
->> who has just one commit in QEMU codebase, a pretty challenging task.
->> Although I tried my best to do things properly, I am not sure whether I
->> handled everything correctly, hence the RFC.
->>
->> Any comments are very much appreciated.  Thanks and have a nice day ;)
->>
->> Martin Kletzander (18):
->>    hw/audio: Remove -soundhw support
->>    hw/input/tsc210x: Extract common init code into new function
->>    hw/audio: Simplify hda audio init
->>    hw/audio/lm4549: Add errp error reporting to init function
->>    tests/qtest: Specify audiodev= and -audiodev
->>    ui/vnc: Require audiodev=
->>    Introduce machine's default-audiodev property
->>    audio: Add easy dummy audio initialiser
->>    hw/display/xlnx_dp.c: Add audiodev property
->>    hw/input/tsc210x.c: Support machine-default audiodev with fallback
->>    hw/arm: Support machine-default audiodev with fallback
->>    hw/ppc: Support machine-default audiodev with fallback
->>    audio: Make AUD_register_card fallible and require audiodev=
->>    audio: Require AudioState in AUD_add_capture
->>    audio: Be more strict during audio backend initialisation
->>    audio: Remove legacy audio environment variables and options
->>    audio: Remove unused can_be_default
->>    audio/spiceaudio: Fail initialisation when not using spice
->>
+The 9p2000.L protocol is tailored for a linux client. As mentioned in
+the changelog, the spec explicitly mentions 'numerical linux errno'.
+A macOS client should thus convert back errno in a Rlerror message
+to a macOS errno.
 
-[...]
-
->
->Thanks for the tidy-up! I'm not too familiar with the audio code, however one thing I
->noticed is that in patch 11 you are using qdev_prop_set_string() to set the audiodev
->for the machines.
->
->For CharDevs there already exists a qdev_prop_set_chr() function which is used to
->assign the chardev backend to the device, so I'm wondering if it makes sense to add a
->similar qdev_prop_set_audiodev() function in the same way? Then if the method of
->referencing the audiodev from the device ever changes from being a string containing
->the name, it won't require updating all of the callers.
->
-
-I guess that could be possible, but I'm not familiar with QEMU code much
-and to be honest have no idea how I would go about doing that right now.
-
->Finally a quick glance at the tsc210x and lm4549 devices indicates that they are
->using global device _init() functions which shouldn't really be used in modern
->implementations. If you are interested in QOMify-ing these devices as part of this
->work, then I can certainly help provide some pointers for getting started.
->
-
-I thought about it for some devices.  Not all the devices I touched
-here, because I feel like that would lead to a rabbit hole.  And 18
-patches just because I wanted to error out in one condition was already
-too much =)  But I'll be glad for any pointers on where to start and how
-should I get to it.  Thanks.
-
->
->ATB,
->
->Mark.
->
-
---gn5KggbbXTYAMxsp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiXAnXDYdKAaCyvS1CB/CnyQXht0FAmJr1DkACgkQCB/CnyQX
-ht1UXhAAqHorjjWTpJvwFaqgF4tNi9s51kqPu3XIF4dIbHDgMQGwlnNvueu68BpB
-s4dO/njbDAZhLJKv2aeDX4mxKnlMILS6YqBMyPeaQEcW1vSqXp8WMOMLlioOjn25
-5jCC9DoCP8eSa+UoQTg/hm7lrWHgFdA0AwZy5p5CjTCKpPae8ZWtTj+b6GNjfsZm
-+txWpfnBFxzEUWHcLUzsNRiDkWBhmipHiIOJw4BHZd/J6n9Dm6q9/vVzOAjJpTCL
-GUbg0igSNNL0oIIDmA+MgY+MUtIE/ccL/krdHYD3z5vkGFpp97cb6Wj1nyJOrtW8
-fLsMqtXn/4En21t6fqO1dkJ2Px8phTMtqBNKqtePWLaULU5u95YdQ2KOXn6afgkX
-IR8Vmv72cxeWtiwYJFWnJMx564P+CXG5n2ZBtPzLk1mcFs5NO6KsevGZtk8HMwKD
-PhtU3YwRz9/vzqoGBCHWxJq3TApDuDz6KPMEhx4ganXLpcGxxoY4lLUxFNRhXcNI
-nMXbm8SXfqyzQPrRs3pyRn19dWlHHfIoi4nEwbgJlUt5OflLb/bdHEvVcx63cERS
-2mHdNOPyx8c20ToRQmvb6KYYC4FIuYZvXY06XVcUvHqdx1s3+LrLF0Tk4VA4/Mrd
-cfJzbvLa7SeKKpl9J1ENwR8yJsTd/QTirL9q9soopOGIIPQvgE8=
-=3J7I
------END PGP SIGNATURE-----
-
---gn5KggbbXTYAMxsp--
+> > +#else
+> > +#error Missing errno translation to Linux for this host system
+> > +#endif
+> > +    return err;
+> > +}
+> > +
+> >  #ifdef CONFIG_DARWIN
+> >  #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
+> >  #define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
+> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > index 4a296a0b94..0cd0c14c2a 100644
+> > --- a/hw/9pfs/9p.c
+> > +++ b/hw/9pfs/9p.c
+> > @@ -1054,6 +1054,8 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu, ssize_t len)
+> >              }
+> >              len += ret;
+> >              id = P9_RERROR;
+> > +        } else {
+> > +            err = errno_to_dotl(err);
+> >          }
+> >
+> >          ret = pdu_marshal(pdu, len, "d", err);
+> > --
+> 
+> Regards,
+> Bin
 
 
