@@ -2,39 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503FC514803
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:25:01 +0200 (CEST)
-Received: from localhost ([::1]:42846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24255147C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 13:12:52 +0200 (CEST)
+Received: from localhost ([::1]:47242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkOk8-0000bR-8j
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:25:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37228)
+	id 1nkOYN-0000YV-SH
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 07:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <c714b5e1cae225ab7575242c45ee0fe4945eb6ad@lizzy.crudebyte.com>)
- id 1nkO6R-0007VJ-23; Fri, 29 Apr 2022 06:43:59 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47481)
+ id 1nkO5s-00066W-Ux; Fri, 29 Apr 2022 06:43:25 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:49645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <c714b5e1cae225ab7575242c45ee0fe4945eb6ad@lizzy.crudebyte.com>)
- id 1nkO6P-0008DO-Kt; Fri, 29 Apr 2022 06:43:58 -0400
+ id 1nkO5r-00085k-84; Fri, 29 Apr 2022 06:43:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=M8pYgY9HNMhKEkwruRWVG1Le2uLEC0KaabEbJ3It6c8=; b=PNhwX
- KLj8zlsk7gQ5eB/AtLIDuVgM5xZSLjQLp07I9xWxTTa3tzanrD7nj++pgn1PnGbh6yaT9BH9b4XH6
- Jw3/mPDAyoqK6saIVgLUuKw8622tqE617WaZQzyYpji7/+M98XjFJpGPzuBqmWgKcMNClvZBRQTjl
- a3wYHIXl7fwngcXzVDJoe8xcCntSRi6EBpY3rmlpKQB7ecZEZ830UYw8fybnAT93mbDRKMMTh8gYh
- MBj05/F/J+E0cVs+u7pmRSbkAIvy0W9s5hUL8I37z53mQdTjEPaD/Umjo4bjj8ZthzERAIjMg+H1z
- rjiEzuMY17LobYxhAYcAdxu45joeQ==;
-Message-Id: <c714b5e1cae225ab7575242c45ee0fe4945eb6ad.1651228001.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1651228000.git.qemu_oss@crudebyte.com>
-References: <cover.1651228000.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=CtBR3MiWCZ4SbV51ZIMcUWGW3+IEs4oQ5ASOrcepHMQ=; b=TCBWv
+ ig/Z0trO3A6AuIp3cXj3f+b3eBOHTN3slZRUQ2O7HN/dzQWw9H9/5WDyxGHOK25Oc87hCOCV7zEGI
+ dcuFE7/EpYaBG6bi3QunSbfJN53dZ2URk4iDpHK1ppTr5n0UeE251fi0BFDBHlBTWXvFYtQ92DPNE
+ MliJjP+3MR6gIk2FSBk1kQ+GXN4g9e3PFWlx8PmL6G1+voA28mKAHqxuRt3UdA6Qos2vu4ZrTNYM4
+ cceWK6aGZvGnrGxz2coehvOi0H+BoMbb9lQkyc4H1CNGoRiFIc82C3WJ3ORB/SnSm06xdhpJn+Bdu
+ GXCg4+Y0jRIG3qacMQvpHQkGPmq8Q==;
+Message-Id: <cover.1651228000.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 29 Apr 2022 12:25:29 +0200
-Subject: [PATCH v5 6/6] 9pfs: fix qemu_mknodat() to always return -1 on error
- on macOS host
+Date: Fri, 29 Apr 2022 12:26:40 +0200
+Subject: [PATCH v5 0/6] 9pfs: macOS host fixes
 To: qemu-devel@nongnu.org
 Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
  Michael Roitzsch <reactorcontrol@icloud.com>,
@@ -64,30 +61,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_mknodat() is expected to behave according to its POSIX API, and
-therefore should always return exactly -1 on any error, and errno
-should be set for the actual error code.
+A bunch of fixes for recently (in QEMU 7.0) added 9p support on macOS hosts.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
----
- hw/9pfs/9p-util-darwin.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Note: there are still issues to address with case-insensitive file systems
+on macOS hosts. I sent a separate RFC on that icase issue:
+https://lore.kernel.org/qemu-devel/1757498.AyhHxzoH2B@silver/
 
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-index 619c403ba7..a5f8707bb8 100644
---- a/hw/9pfs/9p-util-darwin.c
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -124,7 +124,8 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-     }
-     if (!pthread_fchdir_np) {
-         error_report_once("pthread_fchdir_np() not available on this version of macOS");
--        return -ENOTSUP;
-+        errno = ENOTSUP;
-+        return -1;
-     }
-     if (pthread_fchdir_np(dirfd) < 0) {
-         return -1;
+v4 -> v5:
+
+  * Check return value of snprintf() instead of strlen(filename).
+    [patch 2]
+
+Christian Schoenebeck (6):
+  9pfs: fix qemu_mknodat(S_IFREG) on macOS
+  9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+  9pfs: fix wrong encoding of rdev field in Rgetattr on macOS
+  9pfs: fix wrong errno being sent to Linux client on macOS host
+  9pfs: fix removing non-existent POSIX ACL xattr on macOS host
+  9pfs: fix qemu_mknodat() to always return -1 on error on macOS host
+
+ hw/9pfs/9p-posix-acl.c   | 12 +++++--
+ hw/9pfs/9p-util-darwin.c | 54 +++++++++++++++++++++++++++++--
+ hw/9pfs/9p-util.h        | 69 ++++++++++++++++++++++++++++++++++++++++
+ hw/9pfs/9p.c             |  4 ++-
+ 4 files changed, 134 insertions(+), 5 deletions(-)
+
 -- 
 2.32.0 (Apple Git-132)
 
