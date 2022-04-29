@@ -2,58 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C105514F51
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 17:27:01 +0200 (CEST)
-Received: from localhost ([::1]:46796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD676514F66
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Apr 2022 17:27:51 +0200 (CEST)
+Received: from localhost ([::1]:50118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkSWK-0003WF-F3
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 11:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43524)
+	id 1nkSX8-0005xw-V7
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 11:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nkSQ8-0006N0-Vq; Fri, 29 Apr 2022 11:20:37 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:37009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nkSQ6-0005rP-TB; Fri, 29 Apr 2022 11:20:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=vtbcRWHywXW71hArFJI6Z6zizXLCbVZxHuGLIUmsLYc=; b=Sw3PgNIlRW8poYJQS1GiCOtjQW
- r7A7cHVx2b4+sCiF9/EW+gZRhwbkfxVbU2bzYJjMxqL4l4n8eqLpcO1lO77ELAR63vuQlKBVfzwPV
- 9SmXZWh0IxkNECSfdYvNvjSrYkuQZvAtTXsc+PhIp6sys86CFiHs2O4tTyup1RXpmvy86hJPMnvg0
- VKqI3rchN+50hPPZZ5Q+53L1iD0sYy0g7haxorI/Jo/+U7sxyNeeL78JT32pFiZ28snyeIwrPGx9Y
- GbjEqJWzk7oh+6t5yijBQJYYJ4bBXB32q+N+y8HVfjW/dgo6p/VyFTNReWlI5g2/+z8UpaZ6vyMHw
- jV29BGAV6cwq4wmyzOqgb3d6s8adaJnZI/25H3lPK3OsKDHUsKs0BuJFhiVfb2IPugxWPNlNOwJ8s
- Bw5JnxHOcXI9obBagR6uGPwa60JFyLAxZwluFk2bVmgm9IQ1Hda+t0TQnVpAJ/SEzHJoOr0KWxBYt
- OIgKxpMDBTjjkEc37DMYrnYzhlTnmhTvuzUQQLYGL72xTGyV95c6bUnssHCCXxRbSQDNGgsT1y8L9
- 2oE/FqcFVe6xO2aYF4J+4voA6Wg/xXrk+C9IqspbIhdZcwyFzxeUfrDhEHVYVmdf3FgYVkGxAbhXk
- RuSRjePQOefwazjiJ2a3WC980LDEf+m6iJ0xeS/IU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v5 2/6] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
-Date: Fri, 29 Apr 2022 17:20:26 +0200
-Message-ID: <1652707.ZjVTVKMb3i@silver>
-In-Reply-To: <20220429163507.2e822089@bahia>
-References: <cover.1651228000.git.qemu_oss@crudebyte.com>
- <5815688.WPY9AJzlUa@silver> <20220429163507.2e822089@bahia>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nkSSj-0001aB-8u
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:17 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:38688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nkSSh-00067F-AC
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 11:23:16 -0400
+Received: by mail-ej1-x631.google.com with SMTP id r13so16099618ejd.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 08:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QtWiM6wJXWX0z9Xw8l9PwQw3iByS/aoemS8FD1mTYcI=;
+ b=LwKst6PijlyblXmbkA9EXKhZQRvV3ktJdg2V+1rnfoZfd5DOoymE6v6CkN7P8jeimF
+ G0C52QK4T/yHVwvgCEwiHPVm2qbgqBqMQuUqRYGkXGNAioWYcDZFJFaWcuZEMx+Oxk2b
+ zqqZdgpEiWDav2KXDaZffdUB8aKBDH5mOOwLNjr1GvDIO2XUatbhFJue6qZQhBOK475K
+ 4l81Pn0lC8mzxp5Vp1FKSKHxN+tn7vGm0vV/3EiupT04jRe/+hDLReHq/wsEa6gVYTA8
+ 3rxPTMAunn7uvCtOZN16mbmW00k8Mw7lqtpPSrqcVRLWAc5HERC23SwExqLowP+BKCJp
+ Wefw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QtWiM6wJXWX0z9Xw8l9PwQw3iByS/aoemS8FD1mTYcI=;
+ b=uQLC6Wh8zd8yAop0rACCtoTdm4es5uNHb0e/9qmF0ZMKhDgu1/IxFviDSn9K9Ljyin
+ GPau3ADvEL9Fzrz/41+HaCpZP8AduYJjP3T/moSjfGSgPWm8e0QhwoTWx+NwQopkdwfS
+ JSYNbxHx0Stajv7jduvRBlsHJly/jlyJKwjzS1HS/YvnrOnGmhOQmOqHQvfP1EbHeKMi
+ verQoJy+ldvzefeLSSTGsC+K1wfHQfON+nj4wT/rlS/9NncBodob1mP86//FhL9wZxDT
+ 0Kh8+Iaqp8M+J40a/veUjSiJObPVEmFerui6UXvGt5ZRTS/box7x4QjVTdtpN1Ur2uwz
+ 6ZYg==
+X-Gm-Message-State: AOAM533XLU2irHY2HI2XLoEFlP7hr7tQulObYzl+ckcUoKSue6tqnydZ
+ R6PE35/89UIhKfAb4AFF7xs5i87ixAcO/A==
+X-Google-Smtp-Source: ABdhPJzMmLHVPXd6155NlGAin7kV54VR6sEPt8AqVLAEhXzd/S28ds2UKN2s8rkmua2ErX7uXwusYQ==
+X-Received: by 2002:a17:906:fca:b0:6f3:e2d8:7c57 with SMTP id
+ c10-20020a1709060fca00b006f3e2d87c57mr7721911ejk.320.1651245793675; 
+ Fri, 29 Apr 2022 08:23:13 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ w25-20020a170907271900b006f3ef214dd6sm736395ejk.60.2022.04.29.08.23.12
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 08:23:13 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/25] Misc patches for 2022-04-29
+Date: Fri, 29 Apr 2022 17:22:47 +0200
+Message-Id: <20220429152312.335715-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,95 +89,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 29. April 2022 16:35:07 CEST Greg Kurz wrote:
-> On Fri, 29 Apr 2022 15:50:35 +0200
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Freitag, 29. April 2022 14:56:50 CEST Greg Kurz wrote:
-> > > On Fri, 29 Apr 2022 12:25:11 +0200
-> > > 
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > mknod() on macOS does not support creating sockets, so divert to
-> > > > call sequence socket(), bind() and fchmodat() respectively if S_IFSOCK
-> > > > was passed with mode argument.
-> > > > 
-> > > > Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
-> > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > ---
-> > > > 
-> > > >  hw/9pfs/9p-util-darwin.c | 42
-> > > >  +++++++++++++++++++++++++++++++++++++++-
-> > > >  1 file changed, 41 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> > > > index e24d09763a..619c403ba7 100644
-> > > > --- a/hw/9pfs/9p-util-darwin.c
-> > > > +++ b/hw/9pfs/9p-util-darwin.c
-> > > > @@ -74,6 +74,42 @@ int fsetxattrat_nofollow(int dirfd, const char
-> > > > *filename, const char *name,>
-> > > > 
-> > > >   */
-> > > >  
-> > > >  #if defined CONFIG_PTHREAD_FCHDIR_NP
-> > > > 
-> > > > +static int create_socket_file_at_cwd(const char *filename, mode_t
-> > > > mode) {
-> > > > +    int fd, err;
-> > > > +    struct sockaddr_un addr = {
-> > > > +        .sun_family = AF_UNIX
-> > > > +    };
-> > > > +
-> > > > +    err = snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s",
-> > > > filename); +    if (err < 0 || err >= sizeof(addr.sun_path)) {
-> > > 
-> > > According to POSIX [1]:
-> > > 
-> > > The snprintf() function shall fail if:
-> > > 
-> > > [EOVERFLOW]
-> > > [CX] [Option Start] The value of n is greater than {INT_MAX}. [Option
-> > > End]
-> > > 
-> > > [1]
-> > > https://pubs.opengroup.org/onlinepubs/9699919799/functions/snprintf.htm
-> > > l
-> > > 
-> > > Since we're passing sizeof(addr.sun_path), I'm pretty sure snprintf()
-> > > cannot fail. No big deal.
-> > 
-> > The question is whom you would want to trust on this? POSIX? ISO-C? Clang?
-> > BSD? Apple? And for how long into future? I mean in general yes, I would
-> > not
-> To improve overall portability across all possible hosts, I'd stick to
-> POSIX semantics but here this is macOS only code so you can assume
-> this is Apple's snprintf().
-> 
-> > expect it to fail with -1 here either, but there are various different API
-> > docs on snprintf() out there, and most of them don't even bother to
-> > enumarate which encoding errors may happen. And I'm pretty sure if I'd
-> > drop the negative err check here, then Akihiko would slap me for
-> > unforeseeable additional error cases on snprintf() that may be added in
-> > future.
-> 
-> /o\ ;-)
-> 
-> > Apple's documentation on snprintf() BTW just says:
-> >   "These functions return a negative value if an error occurs."
-> 
-> How valuable this is !!! ;-)
-> 
-> > So Apple does not even restrict the return value to -1 on errrors, you
-> > would also need to expect other negative values.
-> > 
-> > So on doubt, I leave this negative result check for now. ;-)
-> 
-> Fair enough.
+The following changes since commit f22833602095b05733bceaddeb20f3edfced3c07:
 
-Hey, don't shoot the servant! I'm just trying to find compromises that aim to 
-suit as many people as possible, as always. :)
+  Merge tag 'pull-target-arm-20220428' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-04-28 08:34:17 -0700)
 
-Best regards,
-Christian Schoenebeck
+are available in the Git repository at:
 
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to ec31a2f9b5b128c06a499ad076d8b29d664d3896:
+
+  pc: remove -soundhw pcspk (2022-04-29 15:07:21 +0200)
+
+----------------------------------------------------------------
+* WHPX support for xcr0
+* qga-wss fixes
+* Meson conversions
+* Removed -soundhw pcspk
+
+----------------------------------------------------------------
+Konstantin Kostiuk (2):
+      configure: Add cross prefix for widl tool
+      qga-vss: always build qga-vss.tlb when qga-vss.dll is built
+
+Paolo Bonzini (22):
+      meson-buildoptions: add support for string options
+      meson, configure: move Xen detection to meson
+      configure, meson: move iasl detection to meson
+      configure: move Windows flags detection to meson
+      configure: switch string options to automatic parsing
+      meson, configure: move --tls-priority to meson
+      meson, configure: move bdrv whitelists to meson
+      meson, configure: move --with-pkgversion, CONFIG_STAMP to meson
+      meson, configure: move --interp-prefix to meson
+      meson: always combine directories with prefix
+      configure: switch directory options to automatic parsing
+      meson: pass more options directly as -D
+      configure: omit options with default values from meson command line
+      meson, virtio: place all virtio-pci devices under virtio_pci_ss
+      configure: simplify vhost-net-{user, vdpa} configuration
+      build: move vhost-vsock configuration to Kconfig
+      build: move vhost-scsi configuration to Kconfig
+      build: move vhost-user-fs configuration to Kconfig
+      meson: create have_vhost_* variables
+      meson: use have_vhost_* variables to pick sources
+      configure, meson: move vhost options to Meson
+      pc: remove -soundhw pcspk
+
+Sunil Muthuswamy (1):
+      WHPX: support for xcr0
+
+ Kconfig.host                     |   3 -
+ backends/meson.build             |   8 +-
+ configure                        | 673 ++-------------------------------------
+ docs/meson.build                 |   2 +-
+ hw/audio/pcspk.c                 |  10 -
+ hw/audio/soundhw.c               |  27 +-
+ hw/net/meson.build               |   8 +-
+ hw/scsi/Kconfig                  |   5 +
+ hw/virtio/Kconfig                |  18 +-
+ hw/virtio/meson.build            |  34 +-
+ include/hw/audio/soundhw.h       |   3 -
+ include/hw/virtio/virtio-scsi.h  |   2 -
+ meson.build                      | 256 +++++++++++----
+ meson_options.txt                |  28 +-
+ net/meson.build                  |  12 +-
+ qga/vss-win32/meson.build        |   4 +-
+ scripts/meson-buildoptions.py    |  86 ++++-
+ scripts/meson-buildoptions.sh    |  74 ++++-
+ scripts/qemu-stamp.py            |  24 ++
+ scripts/xen-detect.c             | 203 ++++++++++++
+ target/i386/whpx/whpx-all.c      |  89 ++++++
+ target/i386/whpx/whpx-internal.h |   3 +
+ tests/meson.build                |   2 +-
+ tests/qtest/meson.build          |   4 +-
+ tools/meson.build                |   2 +-
+ 25 files changed, 778 insertions(+), 802 deletions(-)
+ create mode 100644 scripts/qemu-stamp.py
+ create mode 100644 scripts/xen-detect.c
+-- 
+2.35.1
 
 
