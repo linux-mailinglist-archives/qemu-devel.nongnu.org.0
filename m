@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5082C51602D
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 21:57:01 +0200 (CEST)
-Received: from localhost ([::1]:49334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B5551602F
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 21:59:00 +0200 (CEST)
+Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nktDA-0006xX-DJ
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 15:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46248)
+	id 1nktF5-0008Sm-A5
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 15:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nktBT-00069k-0C
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:55:15 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:38660)
+ id 1nktCj-0006tk-Du
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:56:33 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:46715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nktBR-0006wL-F5
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:55:14 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id n18so9737679plg.5
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 12:55:12 -0700 (PDT)
+ id 1nktCh-00074f-OT
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:56:32 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ cq17-20020a17090af99100b001dc0386cd8fso4517992pjb.5
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 12:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=N66FG9atH2XDUfCWUWSlJlJzJIkZH983uKiSi6i0HKc=;
- b=b1WIeTH8voNnvlJ9BsNE5/RkaOP+vFkeM0bbXH/mpDdM+c0j2ElbwSD6Yo1bv2070Z
- t7U2P6fksJZYWGxLpQfBCzD4uaU17Nk0hAVU8vnIEcDdCKWOuCJ0G0hD/h1lhxqpboox
- B7jIa+5MgfI0zohNbmg50EmZKkVf0iA8eLIX6lMHhsEQqeOfilxKHtDM/pHtG661uZEg
- OzWVwU9ItmhPtWT5/VrH97wJexQkCn95jzo9GSt76m13ssuhBD2VFGzN+Zxqh/yZJysg
- nfn9uzBSget0UfHYMoZAKK1lH2+67OrVkYLVWFavJOnCJ8nrt/Y2cfSgBkLUH9lnUBh7
- hzvA==
+ bh=Ublz+pvZyrZwuFd1Rro3eWmABWwHFen7sUnHyRuUc4U=;
+ b=B00SGgUpDRXpIvAKPFn0MR3JMQfNChCEuVVB5Pl4fQJZI9X3EXJCbKo6P7jnaiObBt
+ PoOllcsXcyFuupRmgcRXObhh0/FDCBarFTqhOlOV+MyaV6rR8xsfJicHH4SaZvBOIauP
+ bRnXrvp+Wp3grcH0vaaUfUnRtAK3i94wg7mabUVGEEyCk6i0MTwhnE4mTD6w0++E3HL8
+ mbRicjdAY3HTdww5Nz8j5CtagUa06X9Q0mIU8Xsx8wbqppOOxdNKQNPxTjdfGxjBBX4z
+ EIXpdFIw89xyTdheAYZgTSmDQr9odT/XH0inZGSjTOSndaSIg7XAt0Qzzh1CNi4zWhtb
+ WTlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=N66FG9atH2XDUfCWUWSlJlJzJIkZH983uKiSi6i0HKc=;
- b=efVyjNvC8M3uurzJCvn4VXho1lqXq9C9JLGR6EaiSOBMtj3N+p9GUbQaIGd74p3vln
- t+TwrGaKEyuwGqesFDqUm5Q5jnA+puVhK/jJmIwwJocPu0LBzl1cD8R121BbMsvPz3zB
- Nx+ebxuP3oVQd0hd43kp1fNhml8gOBQqv4tc5vZcNB9WbMxlUN7Jqr1FfW5OM7Jrvwc1
- N9blEbdUCWPXLTpuGYQPwJVlKEJUQogP5evVlJH9WuM9LadKRrzgy4cOB+D5Hr/BMhWa
- HoQJBJoYSPnFYwdXuTw00Q+FFxtiYit3LUJg5U+9whhcdzcFuj5Fc+CSG6MA/xdftOhi
- LRTg==
-X-Gm-Message-State: AOAM530Gx3NHc9qOZo19YFtS37TyPKey/H5P/ZFuAVgeZTZukW/F24Hb
- 0Bc1aNP1nLqcTeS072v+q+TPbw==
-X-Google-Smtp-Source: ABdhPJxNwN36+qW250aTAjLfCOuYwaSSoQjA9WOpotrYcGoy6gYvqywb7j4eSHk5UUrNOGXkoUBGAQ==
-X-Received: by 2002:a17:902:8ec8:b0:156:847b:a8f8 with SMTP id
- x8-20020a1709028ec800b00156847ba8f8mr4872760plo.121.1651348511909; 
- Sat, 30 Apr 2022 12:55:11 -0700 (PDT)
+ bh=Ublz+pvZyrZwuFd1Rro3eWmABWwHFen7sUnHyRuUc4U=;
+ b=yX5izZgjA41QikKXq0vaZpJNLLB0AmTBTnaQUhnMqWzhckdWQ5WGSGnK/3NbpdHv6m
+ dqPzkqdEsfpiPQtmQOYCn474+8cjsdTa7mK+NaB8tqJiwHAZq2yj34vWlRnuZsEzoMcT
+ LzrPnkpE3N06jDgaZW3WUkok6Rpyz6fAH87uJnGwNCrTtgqgqE5XG9Eoe3hWZNPb373Y
+ zzCa66floED+mTt1WNrzm/VvzB1tBJofBc8J0yoNHBrE7/z1yNBg4QdeBRuW6I5HVJJ6
+ F7pjNlCofx8NrDrBZ3X0OQbHcMfIHwSBq46Sp6kEHNtnL4cAWatUIvSGXCeERqkSbXNC
+ NhoQ==
+X-Gm-Message-State: AOAM532zPD5dbh7sgMUV5sBigBox7Lg6VNJkpOxppYgaxTn7zWhNZjiZ
+ UPx07HeRl2/uQgAGHmF/p5aN4A==
+X-Google-Smtp-Source: ABdhPJzG6izdVdvhdNS6mWulBdZquogNuFiooGL4wtypvN/GALXcFx0dncI3OnvS22LyVLDlSewv7Q==
+X-Received: by 2002:a17:902:c641:b0:15d:36e:cfa9 with SMTP id
+ s1-20020a170902c64100b0015d036ecfa9mr4833889pls.67.1651348590335; 
+ Sat, 30 Apr 2022 12:56:30 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- t13-20020a17090340cd00b0015e8d4eb1c4sm1816296pld.14.2022.04.30.12.55.11
+ r7-20020a62e407000000b0050dc7628183sm1951984pfh.93.2022.04.30.12.56.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Apr 2022 12:55:11 -0700 (PDT)
-Message-ID: <8ae66338-4ef2-2e72-92c8-5f8f5697e16a@linaro.org>
-Date: Sat, 30 Apr 2022 12:55:09 -0700
+ Sat, 30 Apr 2022 12:56:29 -0700 (PDT)
+Message-ID: <b2fa4a7a-fb91-6865-a683-ae35e580c011@linaro.org>
+Date: Sat, 30 Apr 2022 12:56:28 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 08/12] configure: enable cross-compilation of s390-ccw
+Subject: Re: [RFC PATCH 09/12] pc-bios/optionrom: detect -fno-pie
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220429141813.328975-1-pbonzini@redhat.com>
- <20220429141813.328975-9-pbonzini@redhat.com>
+ <20220429141813.328975-10-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220429141813.328975-9-pbonzini@redhat.com>
+In-Reply-To: <20220429141813.328975-10-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,12 +95,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/22 07:18, Paolo Bonzini wrote:
-> -# Only build s390-ccw bios if we're on s390x and the compiler has -march=z900
-> -# or -march=z10 (which is the lowest architecture level that Clang supports)
-> -if test "$cpu" = "s390x" ; then
-> +# Only build s390-ccw bios the compiler has -march=z900 or -march=z10 (which is
-
-Dropped an 'if' there.
+> Do not rely on the detection that was done in the configure script,
+> since in the future we may want to cross-compile this file.
+> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   configure                  | 1 -
+>   pc-bios/optionrom/Makefile | 3 ++-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
