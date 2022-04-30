@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F1C515BBA
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 11:08:06 +0200 (CEST)
-Received: from localhost ([::1]:57076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D518A515BEF
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 11:27:16 +0200 (CEST)
+Received: from localhost ([::1]:35572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkj5A-00042g-Tk
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 05:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
+	id 1nkjNj-0001Dc-Eg
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 05:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1nkj1f-00030B-Tf
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 05:04:28 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:46910)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nkjLz-0000BM-C3
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 05:25:27 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:36638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1nkj1e-0008NN-03
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 05:04:27 -0400
-Received: by mail-oi1-x230.google.com with SMTP id q8so10408308oif.13
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 02:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=landley-net.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Uc+1sYtF8CXIRvCHG1B9IVWbrrZUdnCicgDQEyuz/Uo=;
- b=aKmbtB/bDOfGpCMxgrmIhL9X+78qOYrjTTK6UlgYxvK2j9haxvrp/u761PCzlaSy64
- fKbcpIjT/HxT9+vFYw4HOM0g9p9Pa+KssasdQkuEE25OEu7PnEgN8KzMIGxKwmjG2cWy
- JTHGUsGIInlt8QSbiwA7lNa9zZn6ZdJxzcTHgfok+duw9h2bPq3c/rw4Lle45g2H37M0
- DTqr6XWx9y51DzCMaIKe2S/h9rz1DYa0Y2t+OnAH2FKhibkhBdx+fPE+fvH03gdAcg+g
- sZGAExhEOxCii8SvM221qYFY7mRbpg0b4bm9k6fbfQsShtvMF/5uCiYu0QyvePfsqSP+
- CRyA==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nkjLx-000323-Bn
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 05:25:26 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id a1so11548956edt.3
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 02:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pFFswriyYo57mKsHnuT9ZLshFaQW1d/aR7Vl9G4KNik=;
+ b=U7FTyu/IfQ3YHkLgDeMg2BMQ0JKIIFdsNOIZfwI2GC8v/0UmcTMMkM4yo8Xt/Dhd8w
+ lZso9Ql8cgJr9dP6jejzKAC9Poc6NLE86piIFRpQFxq/uJjvtaEJC0cjuE/BfpsniHxa
+ HeE5SfZUmlA+0iO/Hv+D6/mtfi7M0SJzHbiPTkXNhFAbo+jy2OohmWKkDNd6yPuTPvKo
+ UfbRbMtZwDcEyj5iK+AvQ2plSF43falroG43GUCJEaUrgeKmuul8NOsH8R+zNKhFIkWi
+ zkIyl8t/IX/V87+EleprIs4hzzypI0JAkiqJiqybLMkVbgPWY43IGxuQOzQh5nY52eMZ
+ 7a6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Uc+1sYtF8CXIRvCHG1B9IVWbrrZUdnCicgDQEyuz/Uo=;
- b=kFrhRdYGHBDg+M8qA3y/+lEoxMLmVBDnH7HNe2kdivT+E2CbzhCuIqyQ9JmnWyCbKT
- MqlmgBQjUW5eq34YtLOtyJvkgm5P5S8P98F6Th2mlfs2RbYAsjVdhpnewyBRoYf580G7
- Sl6svZGEd8qLst42LZreC3zW+9xA1jjbaAwMJsExco0MUuQv+oam1jxvenupr8KVxejs
- VCUGqfy6PelAbjGaK4ofpfG3/iAPhLPzsFJ9GhMp1ObmPMXuBXRVs/hzmKlxtdyMUcRM
- VZSU0pM8WIQ4Ao6p6GlECk4SkVuuoGAbq1u8SFN2J1V22FsCIv1AEPvjZdzKALnTekC6
- YRUg==
-X-Gm-Message-State: AOAM532PlmqbAzGVcTMTqMjphbEOG9zcSDpeUOA2YRWQngXLk6+XeDao
- NQ4ryqmvUq3K/d3CdBWDJv9otA==
-X-Google-Smtp-Source: ABdhPJx+VbnYCQjuqbh1CFR5fdHKTR8zdvo2bs6rrDjUdzrHa20vk7zsfbpdP3+GdF0N36CbhtvXDw==
-X-Received: by 2002:a05:6808:188d:b0:325:b575:2508 with SMTP id
- bi13-20020a056808188d00b00325b5752508mr1521419oib.129.1651309461015; 
- Sat, 30 Apr 2022 02:04:21 -0700 (PDT)
-Received: from [192.168.86.188] ([136.62.4.88])
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=pFFswriyYo57mKsHnuT9ZLshFaQW1d/aR7Vl9G4KNik=;
+ b=7Lsi+LRzIakHAYLSFFgwbnzkON/HbkMmSyMEItsAmRlDgDZSTF909WbmKvMErpPzN1
+ lHXNCFAazn2M93muu35SllJui7RYX8o338GjQgiZD7LPg8f6S+flsPGbWMRbGW+iqPM0
+ Vg8dSQq2vdG1psXe3qHDj4zPf2x7rNENvUfZAt9fJKndGdoo7wjhHab+1z7zfEl85YZu
+ Xi83xoYWnn884xYUFc+CUZ47v6y7m5cQkzybLFkX74DSVA5Unj/OOjE3AdfM9Dh4WmCo
+ qTQxymamC2kCEf2gt4nMJ4SK333vOt869+nYEXI75I5wS0Hjlhf7/Irhp7abYqDRR4F5
+ oi2w==
+X-Gm-Message-State: AOAM5316Fi3jm6o6/2L32cyCbL/WdEU7FoHBFZWN+5TofU+E1vfiPPch
+ 6Z+5HUf8194ENzK2mqxGb8zZB8EyPsvQKQ==
+X-Google-Smtp-Source: ABdhPJwKchiGQQZ8zDHg+nCHWvfCjlXNOKKNwOA/NTp/U6cMn/SilLOEKCvod82554Pu/f0iwFAaWw==
+X-Received: by 2002:a05:6402:e:b0:423:d5ff:8fce with SMTP id
+ d14-20020a056402000e00b00423d5ff8fcemr3574272edu.407.1651310723666; 
+ Sat, 30 Apr 2022 02:25:23 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- m63-20020aca5842000000b00325cda1ff9esm540038oib.29.2022.04.30.02.04.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Apr 2022 02:04:20 -0700 (PDT)
-Message-ID: <aedeaa1d-9431-646c-fa24-f37f48a9fe01@landley.net>
-Date: Sat, 30 Apr 2022 04:08:54 -0500
+ e26-20020a170906845a00b006f3ef214e6csm1427676ejy.210.2022.04.30.02.25.22
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Apr 2022 02:25:22 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/25] Misc patches for 2022-04-29
+Date: Sat, 30 Apr 2022 11:25:21 +0200
+Message-Id: <20220430092522.440466-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: serial hang in qemu-system-ppc64 -M pseries
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <74b9755a-4b5d-56b1-86f5-0c5c7688845a@landley.net>
- <8558c117-75a0-dc73-9b1a-be128e04056c@redhat.com>
- <ba41f9ab-bce4-b377-e99c-caa0d8240308@landley.net>
- <87bkwjtvkn.fsf@linux.ibm.com>
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <87bkwjtvkn.fsf@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::230;
- envelope-from=rob@landley.net; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,83 +86,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/22 16:43, Fabiano Rosas wrote:
-> Rob Landley <rob@landley.net> writes:
->> Then paste something longer than 16 characters at the eventual command prompt
->> once the kernel finishes booting.
-> 
-> I suspect this is due to how the tty driver (n_tty.c) interacts with
-> the console (hvc_console.c) driver's buffer size.
-> 
-> This is the stack:
-> 
-> #0 hvc_push          <-- calls into KVM/QEMU to write up to 16 bytes
-> #1 hvc_write
-> #2 tty_put_char
-> #3 do_output_char
-> #4 __process_echoes          <-- writes up to tty_write_room() chars
-> #5 flush_echoes              <-- returns early if ~ECHO && ~ECHONL
-> #6 n_tty_receive_buf_common  <-- buffers more than 16 bytes
-> #7 tty_ldisc_receive_buf
-> #8 tty_port_default_receive_buf
-> #9 receive_buf
-> #10 process_one_work
-> 
-> In my busybox instance which does not have this issue I can see that
-> termios.c_lflag = 0x447, so in the stack above #4 is not called (ECHO
-> is 0x8, ECHONL is 0x10).
-> 
-> In the bug scenario: termios.c_lflag = 0x5cf, so we go into #4 which
-> is supposed to write (say) 17 bytes, but ends up writing only 16
-> because that is what tty_write_room() returns.
+The following changes since commit 731340813fdb4cb8339edb8630e3f923b7d987ec:
 
-I think my init script left the terminal wherever the hardware defaults
-initialized it to?
+  Merge tag 'pull-riscv-to-apply-20220429' of github.com:alistair23/qemu into staging (2022-04-29 08:46:55 -0700)
 
-(I note that sh4 also has a variant of this problem, but instead of the
-stutter-and-flush behavior it just hard discards everything after the first 16
-characters of a paste. Large pastes seemsto work without issue on all the other
-targets I've tried so far, I.E. x86, arm, mips, powerpc -M g3beige, s390x, and
-m68k. And by "large" I mean I've fed half a megabyte of uuencode output into
-uudecode as a single paste.)
+are available in the Git repository at:
 
-> What I think is causing this issue is that the hvc_vio.c driver is
-> configured with hp->outbuf_size = 16. That number comes from the
-> H_PUT_TERM_CHAR hypercall spec which reads two registers at a
-> time. However, the hvc_write function supports writes larger than 16
-> bytes so it seems we're needlessly propagating the 16 byte limitation
-> to the upper layer.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-Looks like the call is:
+for you to fetch changes up to 189fad0006dd4f2f336e05a99d981cc1ecab1b33:
 
-  hp = hvc_alloc(termno, vdev->irq, ops, MAX_VIO_PUT_CHARS);
+  pc: remove -soundhw pcspk (2022-04-30 10:10:05 +0200)
 
-MAX_VIO_PUT_CHARS implies it's the maximum allowed write size. Understandable if
-writes bigger than that didn't get a lot of testing. (There's an identical call
-in hvc_opal.c, by the way.)
+----------------------------------------------------------------
+* WHPX support for xcr0
+* qga-wss fixes
+* Meson conversions
+* Removed -soundhw pcspk
 
-> The driver is also not buffering the write, so if it gets called to
-> write one char at a time (like __process_echoes does) there should be no
-> limit to how much it can write.
-> 
-> I think if we increase hp->outbuf_size to a value that is larger than
-> N_TTY_BUF_SIZE=4096 the echo buffer would drain before reaching this new
-> hvc driver limit.
+----------------------------------------------------------------
+v1->v2: fix WHPX build
 
-How is this handled on any of the architectures where it works? (Or do their tty
-flags just start at different defaults so I don't see it there?)
+Konstantin Kostiuk (2):
+      configure: Add cross prefix for widl tool
+      qga-vss: always build qga-vss.tlb when qga-vss.dll is built
 
-> I tested that and it seems to work, but I'm not sure if it's the right
-> fix, there are some things I couldn't figure out:
+Paolo Bonzini (22):
+      meson-buildoptions: add support for string options
+      meson, configure: move Xen detection to meson
+      configure, meson: move iasl detection to meson
+      configure: move Windows flags detection to meson
+      configure: switch string options to automatic parsing
+      meson, configure: move --tls-priority to meson
+      meson, configure: move bdrv whitelists to meson
+      meson, configure: move --with-pkgversion, CONFIG_STAMP to meson
+      meson, configure: move --interp-prefix to meson
+      meson: always combine directories with prefix
+      configure: switch directory options to automatic parsing
+      meson: pass more options directly as -D
+      configure: omit options with default values from meson command line
+      meson, virtio: place all virtio-pci devices under virtio_pci_ss
+      configure: simplify vhost-net-{user, vdpa} configuration
+      build: move vhost-vsock configuration to Kconfig
+      build: move vhost-scsi configuration to Kconfig
+      build: move vhost-user-fs configuration to Kconfig
+      meson: create have_vhost_* variables
+      meson: use have_vhost_* variables to pick sources
+      configure, meson: move vhost options to Meson
+      pc: remove -soundhw pcspk
 
-Let me know if I can help, although this sounds like it's moved a bit beyond
-areas I'm familiar with.
+Sunil Muthuswamy (1):
+      WHPX: support for xcr0
 
-Thanks,
+ Kconfig.host                     |   3 -
+ backends/meson.build             |   8 +-
+ configure                        | 673 ++-------------------------------------
+ docs/meson.build                 |   2 +-
+ hw/audio/pcspk.c                 |  10 -
+ hw/audio/soundhw.c               |  27 +-
+ hw/net/meson.build               |   8 +-
+ hw/scsi/Kconfig                  |   5 +
+ hw/virtio/Kconfig                |  18 +-
+ hw/virtio/meson.build            |  34 +-
+ include/hw/audio/soundhw.h       |   3 -
+ include/hw/virtio/virtio-scsi.h  |   2 -
+ meson.build                      | 256 +++++++++++----
+ meson_options.txt                |  28 +-
+ net/meson.build                  |  12 +-
+ qga/vss-win32/meson.build        |   4 +-
+ scripts/meson-buildoptions.py    |  86 ++++-
+ scripts/meson-buildoptions.sh    |  74 ++++-
+ scripts/qemu-stamp.py            |  24 ++
+ scripts/xen-detect.c             | 203 ++++++++++++
+ target/i386/whpx/whpx-all.c      |  89 ++++++
+ target/i386/whpx/whpx-internal.h |   3 +
+ tests/meson.build                |   2 +-
+ tests/qtest/meson.build          |   4 +-
+ tools/meson.build                |   2 +-
+ 25 files changed, 778 insertions(+), 802 deletions(-)
+ create mode 100644 scripts/qemu-stamp.py
+ create mode 100644 scripts/xen-detect.c
+-- 
+2.35.1
 
-Rob
 
