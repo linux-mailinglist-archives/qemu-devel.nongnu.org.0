@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2A4516025
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 21:36:39 +0200 (CEST)
-Received: from localhost ([::1]:32804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F676516027
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 21:43:46 +0200 (CEST)
+Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkstS-0005E7-SK
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 15:36:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44464)
+	id 1nkt0L-0000OJ-7A
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 15:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkssW-0004UW-1v
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:35:40 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:41564)
+ id 1nkszM-00088l-2Q
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:42:44 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkssU-0004Lh-Eg
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:35:39 -0400
-Received: by mail-pl1-x636.google.com with SMTP id s14so9709937plk.8
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 12:35:37 -0700 (PDT)
+ id 1nkszK-0005D0-AP
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 15:42:43 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id e24so9741055pjt.2
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 12:42:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pD5Qb8ExSE+VJ7BwgqoxAJzH2m9gRB5cknxjI08KTT4=;
- b=jGePfrnPAgDygI1TCoMu6b2x2Jbvne9xHUgGi5qPxeBPYyBX71g0pIbRKOIqiibIPT
- BDgyuKj9rNMglUIsynvLrFlClEPLj4c2LV7GP1Gb7oDZgjCk8tQU2CWFsc4nU9aQ/EBD
- +viy+kJMPu1h5gbcBg0rmtjKFG1AJlQP30DMtWazyAvs5MhJ6qEibeYN+S6ukkzxKn9E
- WbclLnS8W/2f6PhW6GNFoVSw16BeeqVZjU/N36uBDzkOse93hxL8Ua43zfGxheH+O0pE
- Vp4Weg9IM47WhQjcP6b2gZgTqP36ErJXI/f13iOmTcjeoMrwJciECOUt7/sulYAOg/dG
- 6Qag==
+ bh=stcVaT16hwzb5z6o+unH6ar073lxbVkX+IwxYQiv+7s=;
+ b=iIaZL8aEjxqvUIVgWUJWgPZeSBFjegfi3uKxuSYVDE0bXkMp96lD23a4TPXpzG0klO
+ rwAxuAwEpQYDNHtvN+gcM1kBq6M9Bx0wWyUbwR4scXMILFZ1CGhaYrb2XtMbtAgfP5Vn
+ XoKr69lomnqiX0Rif162ihDjqV/Fw+8gEgUhUVmyZ+W+ZYbYS7vfoUnTyMIDb1gX1jn3
+ DZggG+eN3EW0tyYo8gzPWZIrDyMNzDoy04pAX0tWFXJw/pVNDyhmRt1qHrZ+bK876wup
+ XvcvQtiSlQ4FP3YMjviFz7lJK7VcHeCXRMitJxzpP7stR1fbSknzeU3oGAdSRqqlS/I4
+ YWLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=pD5Qb8ExSE+VJ7BwgqoxAJzH2m9gRB5cknxjI08KTT4=;
- b=h/gDjkcgPH07hLdpYipbtBXxA16z6+uPKi+8+n4T7TVgF5LkIYbSf/0V8JtBLIttJu
- 3o5cU1SbMZ7viFCnLzWlnxS+xUDPfhLogCaNghG9vTvGC+U2eTMeLUULfd1MaGGIiQA8
- GL30aVm59nTFQ9UajnEv80FRIFTkgcEVbFiD2a7nq4dzykUj1hjaeVwhQE3pNIjbNTuQ
- mx2zx9SFrQ9DBn/iNRQf1q55igynEtjaXA/1+odDRmS8bLqwmEf5GZCGMuJaWHsi0jEh
- YUT1f+fb+mv4c257CC7UwDdx9pB3pKr82DMrbp3AT9UgDWiLwpNaDMGcDAVDN+4RouJG
- Uv3w==
-X-Gm-Message-State: AOAM530jaZn7ZKh3HqyBLpLGxyuMZDDY0Pp1xVKj09O8FzfCSJyE7LpQ
- Z+2cd0RxnCn7M9Eq0taloDlxUA==
-X-Google-Smtp-Source: ABdhPJzx/fbMN2UYjOrldaJ9T4q9ERX159aYdGOcs57N2C4lKXeqvq2YNJUz5GNIwU0ap7zhD58XGw==
-X-Received: by 2002:a17:90a:f3c7:b0:1d9:6832:7be0 with SMTP id
- ha7-20020a17090af3c700b001d968327be0mr5339405pjb.209.1651347336664; 
- Sat, 30 Apr 2022 12:35:36 -0700 (PDT)
+ bh=stcVaT16hwzb5z6o+unH6ar073lxbVkX+IwxYQiv+7s=;
+ b=sGdQrPhuau4tehAV1pbGCLziK6/ulPwlovhK3GOcAUEQ5tJxVfnu+HHIpqvjCc48K3
+ R3Z+RMzone8vJwtEIw4oZryTOsn5xL0cT54OwTRKpMYpFn0W15eA1N8lOzyMpJPDfh+6
+ 6RjoRcxXO9EXFC/LtFpUSdMZAX73ARkTJuSRyCHXqw27Xhh+tx+MfuOT8QzoGJcaiEm/
+ uASDm3h5vtZ9JQvykZTGD7h5eW48/3hbBBXmr6euik3uw3cwi8WVkcuYzoiyW12+D1vd
+ /dvRAaGBObvEThJBilMIb8osp36ivn4Utv7u04GFVnPZQXD/xyHz+W9+fG9Xu02RS/U6
+ y0HQ==
+X-Gm-Message-State: AOAM531Vb7+oJi4bECvh2C1NnsNqqckIE/rLbJ5LfgR3Mw6bzC9ogd6J
+ 7yhHwEf1VpXFcbODUESjpW8R4A==
+X-Google-Smtp-Source: ABdhPJzm99wkVLs46wgdWfwHxpjBkxB/CjtRefxO9yHggzTPq1f+lo+JpxkSE3RoB7M7ZoU8GeflUQ==
+X-Received: by 2002:a17:90a:884:b0:1d9:531c:9cd6 with SMTP id
+ v4-20020a17090a088400b001d9531c9cd6mr5252453pjc.211.1651347760712; 
+ Sat, 30 Apr 2022 12:42:40 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- v2-20020a632f02000000b003c14af50601sm8386135pgv.25.2022.04.30.12.35.35
+ n9-20020aa79049000000b0050dc762813bsm1878280pfo.21.2022.04.30.12.42.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Apr 2022 12:35:36 -0700 (PDT)
-Message-ID: <a4563102-e696-b62e-0284-8eca34a5301e@linaro.org>
-Date: Sat, 30 Apr 2022 12:35:34 -0700
+ Sat, 30 Apr 2022 12:42:40 -0700 (PDT)
+Message-ID: <1160b611-0388-bff5-c070-01bbedda5f74@linaro.org>
+Date: Sat, 30 Apr 2022 12:42:38 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 02/12] configure: add missing cross compiler fallbacks
+Subject: Re: [RFC PATCH 04/12] configure: introduce --cross-prefix-*=
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220429141813.328975-1-pbonzini@redhat.com>
- <20220429141813.328975-3-pbonzini@redhat.com>
+ <20220429141813.328975-5-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220429141813.328975-3-pbonzini@redhat.com>
+In-Reply-To: <20220429141813.328975-5-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,20 +94,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/22 07:18, Paolo Bonzini wrote:
-> -: ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
->   : ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
->   : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
-> +: ${cross_cc_sparc="$cross_cc_sparc64"}
-> +: ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
+>   # cross compilers defaults, can be overridden with --cross-cc-ARCH
+> -: ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
+> +: ${cross_prefix_aarch64="aarch64-linux-gnu-"}
+> +: ${cross_prefix_aarch64_be="$cross_prefix_aarch64"}
+> +: ${cross_prefix_alpha="alpha-linux-gnu-"}
+> +: ${cross_prefix_arm="arm-linux-gnueabihf-"}
+> +: ${cross_prefix_armeb="$cross_prefix_arm"}
+> +: ${cross_prefix_hexagon="hexagon-unknown-linux-musl-"}
+> +: ${cross_prefix_hppa="hppa-linux-gnu-"}
+> +: ${cross_prefix_i386="i686-linux-gnu-"}
+> +: ${cross_prefix_m68k="m68k-linux-gnu-"}
+> +: ${cross_prefix_microblaze="microblaze-linux-musl-"}
+> +: ${cross_prefix_mips64el="mips64el-linux-gnuabi64-"}
+> +: ${cross_prefix_mips64="mips64-linux-gnuabi64-"}
+> +: ${cross_prefix_mipsel="mipsel-linux-gnu-"}
+> +: ${cross_prefix_mips="mips-linux-gnu-"}
+> +: ${cross_prefix_nios2="nios2-linux-gnu-"}
+> +: ${cross_prefix_ppc="powerpc-linux-gnu-"}
+> +: ${cross_prefix_ppc64="powerpc64-linux-gnu-"}
+> +: ${cross_prefix_ppc64le="$cross_prefix_ppc64-"}
+> +: ${cross_prefix_riscv64="riscv64-linux-gnu-"}
+> +: ${cross_prefix_s390x="s390x-linux-gnu-"}
+> +: ${cross_prefix_sh4="sh4-linux-gnu-"}
+> +: ${cross_prefix_sparc64="sparc64-linux-gnu-"}
+> +: ${cross_prefix_sparc64="sparc64-linux-gnu-"}
+> +: ${cross_prefix_x86_64="x86_64-linux-gnu-"}
 
-We don't want v8plus for pure sparc32.
+sparc64 listed twice -- was this intended to be sparc(32)?
 
-OTOH this patch is just moves the line, so
-
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-But this is definitely an error.
-Probably -msupersparc is the best we can do for -m32.
 
 
 r~
