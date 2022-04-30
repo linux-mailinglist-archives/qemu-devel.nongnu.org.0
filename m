@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C205B515AA2
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 07:37:03 +0200 (CEST)
-Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A02515AB6
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 07:54:02 +0200 (CEST)
+Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkfmw-0007SF-EY
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 01:37:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59680)
+	id 1nkg3N-00059R-20
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 01:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nkfk6-0006Kw-TJ
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:34:06 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:46773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nkfk2-000725-RU
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:34:06 -0400
-Received: by mail-ed1-x530.google.com with SMTP id g23so11148507edy.13
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 22:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mYtK/9ObfBzy4Wm98WZwJJW/RBU/zx3F8I0Fa0KHgx4=;
- b=Qqmd7L5NS/echj0yjHXDCsNSUhyIwFvx5ZKHg+a6T5o7V7yR/T3iYT00ZGzDoYlJG7
- UDkgW0KgcVV6BJ4cKRibmzLU04yMMMeB2Oy9+bqdna4UaqZKt96mGVvE8dcuScSLTW+I
- 6dbTJD3WEKCO+zV5KdOb5pMmg+WFPyG7g0SwWpkb551/AmcGZE1rkg5y5h/zElOmCHtQ
- FKVqz/IH1r3q4I5KkUHKRzEkeH9FnWuQ2fpy8FJE2vf0eJmXgEcb4EKnkF0a8qY66q3T
- 5dbduYOlGnRE/C/wk/m5yUxpy2uvN7gDApWe97FEjcJEk96f4QvPdIcpv575hTgZ+3II
- UUoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mYtK/9ObfBzy4Wm98WZwJJW/RBU/zx3F8I0Fa0KHgx4=;
- b=Ri/PMCIPwOurPypYk/jtU8oO9P3/eU4dtJMN7ZP4nWlNZUgQ8UAFEOrzYRn8/vHTTH
- lJpMw1WgSlUwGA+k9x4650P/KQGJ8hYGKMrvbiOzLUldS+Gp+15u4kTFbQQXU5wH4q12
- 2HgE4WWQ9ugZ2j23952+d6ldYZXPcNl7+PzHLlRbbTo4di1RhtdQ1EmDxChhxMeh0lYQ
- 2o5NJTKfX7NlvfJIuFjTudYaS+wOEP04BTch/JdGWHfu9zvit+Tb1l/8RrRPv+LOzdCa
- +MxkNmkhVs4BWVg7MjgIeIJdFabfPnycpIAphV/iJZ6riKvJgYUxEC7B6RRWH9PWcwyG
- itPg==
-X-Gm-Message-State: AOAM531xpXwU0pRU0RM2FMxxxlCs9bhQemkFcYc5QyN4GgkHCYa0kgC6
- vzJ/eq578hjWchDn8xfclEaoIpQdYt4aV6I9hbhG9g==
-X-Google-Smtp-Source: ABdhPJywsiwAzh4D+p5p4IT958HjQr47xWoWYUGWQDdu+TcUSHg2M4G8Or2lJdfsUGxk38JW+/JtwlNEtKyOOpPkhUg=
-X-Received: by 2002:a05:6402:1e88:b0:412:fc6b:f271 with SMTP id
- f8-20020a0564021e8800b00412fc6bf271mr2890134edf.345.1651296837628; Fri, 29
- Apr 2022 22:33:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nkfyb-0004Bn-EQ
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:49:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57213)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nkfyY-0000Lp-Bc
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:49:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651297741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=x2vEuAYNZc26zf9s7ZmRXYXD03CqOhRFzTWISFC4lQQ=;
+ b=TGwtfi0jR7mHi5qclrh1Z8if/ZZLJbNPXIxsJOWy2GicUPGNspCcPc0jtrig6j5NfIjubM
+ i0yUSZS4XkXPsVMCZSwazDidcG8tC+XuuwJOkmDoVngpEZVh1zjMM/7BkLCRRvHCxPB7cL
+ 3L79qMWIXWSqIxZqYjbCjZoM1ijsuKw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-170-_awPojmjPnuh5S2p5lMQkg-1; Sat, 30 Apr 2022 01:48:57 -0400
+X-MC-Unique: _awPojmjPnuh5S2p5lMQkg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0673E3C01B87;
+ Sat, 30 Apr 2022 05:48:56 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E89A4010E3D;
+ Sat, 30 Apr 2022 05:48:54 +0000 (UTC)
+Date: Sat, 30 Apr 2022 06:48:53 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH v2 3/8] block: introduce a lock to protect graph
+ operations
+Message-ID: <YmzNxS8A3ETA9duq@stefanha-x1.localdomain>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <20220426085114.199647-4-eesposit@redhat.com>
+ <Ymqaa1dDUZau9rdS@stefanha-x1.localdomain>
+ <1650055a-6b58-2a1a-c19c-3c663e131602@redhat.com>
 MIME-Version: 1.0
-References: <20220429153431.308829-1-apatel@ventanamicro.com>
- <20220429153431.308829-4-apatel@ventanamicro.com>
- <CANzO1D1M-wH-r-T58E9qJ7X5MTruiAXP87UdYikWanrXgswuJA@mail.gmail.com>
- <CAAhSdy27e84WXJ8fKjzN9RxRoPvz5gmwUN3na2cMFGuJ5TpjAg@mail.gmail.com>
-In-Reply-To: <CAAhSdy27e84WXJ8fKjzN9RxRoPvz5gmwUN3na2cMFGuJ5TpjAg@mail.gmail.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sat, 30 Apr 2022 13:33:45 +0800
-Message-ID: <CAE_xrPgxurTsym2oNt_4iXGYyZHL9O1i2k9BZ+Cnipt9PdjNEQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/riscv: Consider priv spec version when
- generating ISA string
-To: Anup Patel <anup@brainfault.org>
-Content-Type: multipart/alternative; boundary="0000000000006d08b005ddd88104"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=frank.chang@sifive.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5Y6q9Pxme9uc8yFb"
+Content-Disposition: inline
+In-Reply-To: <1650055a-6b58-2a1a-c19c-3c663e131602@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,318 +79,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006d08b005ddd88104
-Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Apr 30, 2022 at 12:30 PM Anup Patel <anup@brainfault.org> wrote:
-
-> On Sat, Apr 30, 2022 at 8:39 AM Frank Chang <frank.chang@sifive.com>
-> wrote:
-> >
-> > Hi Anup,
-> >
-> > If we want to limit the generated ISA string to/after a specific
-> privilege spec version.
-> > Shouldn't we also check the privilege spec version when these extensions
-> are enabled?
-> > Otherwise, it's possible that one extension is enabled,
-> > but the privilege spec version is smaller than the one in which the
-> extension is supported.
-> > (This is possible if user specifies the privileged spec version through
-> the command line.)
-> > The ISA string therefore won't include the enabled extension.
->
-> This patch is only a temporary fix for the sifive_u machine where I am
-> seeing some
-> of these new extensions available in ISA string.
->
-> We need a separate series to have the priv spec version influence
-> individual extension
-> enabling/disabling.
->
-
-If that's the case,
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-
-
->
-> Regards,
-> Anup
->
-> >
-> > Regards,
-> > Frank Chang
-> >
-> >
-> > On Fri, Apr 29, 2022 at 11:49 PM Anup Patel <apatel@ventanamicro.com>
-> wrote:
-> >>
-> >> Most of the multi-letter extensions (such as Svpbmt, Svnapot, Svinval,
-> >> etc) are only available after Priv spec v1.12 so ISA string generation
-> >> should check the minimum required priv spec version for all extensions.
-> >>
-> >> Fixes: a775398be2e ("target/riscv: Add isa extenstion strings to the
-> >> device tree")
-> >> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> >> ---
-> >>  target/riscv/cpu.c | 36 +++++++++++++++++++-----------------
-> >>  1 file changed, 19 insertions(+), 17 deletions(-)
-> >>
-> >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> >> index 02ee7d45d8..d8c88b96bc 100644
-> >> --- a/target/riscv/cpu.c
-> >> +++ b/target/riscv/cpu.c
-> >> @@ -44,6 +44,7 @@ static const char riscv_single_letter_exts[] =
-> "IEMAFDQCPVH";
-> >>  struct isa_ext_data {
-> >>      const char *name;
-> >>      bool enabled;
-> >> +    uint32_t min_priv_ver;
-> >>  };
-> >>
-> >>  const char * const riscv_int_regnames[] = {
-> >> @@ -974,7 +975,7 @@ static void riscv_cpu_class_init(ObjectClass *c,
-> void *data)
-> >>      device_class_set_props(dc, riscv_cpu_properties);
-> >>  }
-> >>
-> >> -#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
-> >> +#define ISA_EDATA_ENTRY(name, prop, priv) {#name, cpu->cfg.prop, priv}
-> >>
-> >>  static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int
-> max_str_len)
-> >>  {
-> >> @@ -1000,25 +1001,26 @@ static void riscv_isa_string_ext(RISCVCPU *cpu,
-> char **isa_str, int max_str_len)
-> >>       *    extensions by an underscore.
-> >>       */
-> >>      struct isa_ext_data isa_edata_arr[] = {
-> >> -        ISA_EDATA_ENTRY(zfh, ext_zfh),
-> >> -        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
-> >> -        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> >> -        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
-> >> -        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
-> >> -        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
-> >> -        ISA_EDATA_ENTRY(zba, ext_zba),
-> >> -        ISA_EDATA_ENTRY(zbb, ext_zbb),
-> >> -        ISA_EDATA_ENTRY(zbc, ext_zbc),
-> >> -        ISA_EDATA_ENTRY(zbs, ext_zbs),
-> >> -        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
-> >> -        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
-> >> -        ISA_EDATA_ENTRY(svinval, ext_svinval),
-> >> -        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
-> >> -        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
-> >> +        ISA_EDATA_ENTRY(zfh, ext_zfh, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zfinx, ext_zfinx, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zhinx, ext_zhinx, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zdinx, ext_zdinx, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zba, ext_zba, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zbb, ext_zbb, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zbc, ext_zbc, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zbs, ext_zbs, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zve32f, ext_zve32f, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(zve64f, ext_zve64f, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(svinval, ext_svinval, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(svnapot, ext_svnapot, PRIV_VERSION_1_12_0),
-> >> +        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt, PRIV_VERSION_1_12_0),
-> >>      };
-> >>
-> >>      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> >> -        if (isa_edata_arr[i].enabled) {
-> >> +        if (isa_edata_arr[i].enabled &&
-> >> +            cpu->env.priv_ver >= isa_edata_arr[i].min_priv_ver) {
-> >>              new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
-> >>              g_free(old);
-> >>              old = new;
-> >> --
-> >> 2.34.1
-> >>
-> >>
->
-
---0000000000006d08b005ddd88104
-Content-Type: text/html; charset="UTF-8"
+--5Y6q9Pxme9uc8yFb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Apr 30, 2022 at 12:30 PM Anup Pat=
-el &lt;<a href=3D"mailto:anup@brainfault.org">anup@brainfault.org</a>&gt; w=
-rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On Sat, Apr 30, 2022 at 8:39 AM Frank Chang &lt;<a href=3D=
-"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a=
->&gt; wrote:<br>
-&gt;<br>
-&gt; Hi Anup,<br>
-&gt;<br>
-&gt; If we want to limit the generated ISA string to/after a specific privi=
-lege spec version.<br>
-&gt; Shouldn&#39;t we also check the privilege spec version when these exte=
-nsions are enabled?<br>
-&gt; Otherwise, it&#39;s possible that one extension is enabled,<br>
-&gt; but the privilege spec version is smaller than the one in which the ex=
-tension is supported.<br>
-&gt; (This is possible if user specifies the privileged spec version throug=
-h the command line.)<br>
-&gt; The ISA string therefore won&#39;t include the enabled extension.<br>
-<br>
-This patch is only a temporary fix for the sifive_u machine where I am<br>
-seeing some<br>
-of these new extensions available in ISA string.<br>
-<br>
-We need a separate series to have the priv spec version influence<br>
-individual extension<br>
-enabling/disabling.<br></blockquote><div><br></div><div>If that&#39;s the c=
-ase,</div><div>Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@s=
-ifive.com">frank.chang@sifive.com</a>&gt;</div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-<br>
-Regards,<br>
-Anup<br>
-<br>
-&gt;<br>
-&gt; Regards,<br>
-&gt; Frank Chang<br>
-&gt;<br>
-&gt;<br>
-&gt; On Fri, Apr 29, 2022 at 11:49 PM Anup Patel &lt;<a href=3D"mailto:apat=
-el@ventanamicro.com" target=3D"_blank">apatel@ventanamicro.com</a>&gt; wrot=
-e:<br>
-&gt;&gt;<br>
-&gt;&gt; Most of the multi-letter extensions (such as Svpbmt, Svnapot, Svin=
-val,<br>
-&gt;&gt; etc) are only available after Priv spec v1.12 so ISA string genera=
-tion<br>
-&gt;&gt; should check the minimum required priv spec version for all extens=
-ions.<br>
-&gt;&gt;<br>
-&gt;&gt; Fixes: a775398be2e (&quot;target/riscv: Add isa extenstion strings=
- to the<br>
-&gt;&gt; device tree&quot;)<br>
-&gt;&gt; Signed-off-by: Anup Patel &lt;<a href=3D"mailto:apatel@ventanamicr=
-o.com" target=3D"_blank">apatel@ventanamicro.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 target/riscv/cpu.c | 36 +++++++++++++++++++-----------------=
-<br>
-&gt;&gt;=C2=A0 1 file changed, 19 insertions(+), 17 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-&gt;&gt; index 02ee7d45d8..d8c88b96bc 100644<br>
-&gt;&gt; --- a/target/riscv/cpu.c<br>
-&gt;&gt; +++ b/target/riscv/cpu.c<br>
-&gt;&gt; @@ -44,6 +44,7 @@ static const char riscv_single_letter_exts[] =3D=
- &quot;IEMAFDQCPVH&quot;;<br>
-&gt;&gt;=C2=A0 struct isa_ext_data {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 const char *name;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 bool enabled;<br>
-&gt;&gt; +=C2=A0 =C2=A0 uint32_t min_priv_ver;<br>
-&gt;&gt;=C2=A0 };<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 const char * const riscv_int_regnames[] =3D {<br>
-&gt;&gt; @@ -974,7 +975,7 @@ static void riscv_cpu_class_init(ObjectClass *=
-c, void *data)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 device_class_set_props(dc, riscv_cpu_propertie=
-s);<br>
-&gt;&gt;=C2=A0 }<br>
-&gt;&gt;<br>
-&gt;&gt; -#define ISA_EDATA_ENTRY(name, prop) {#name, cpu-&gt;cfg.prop}<br>
-&gt;&gt; +#define ISA_EDATA_ENTRY(name, prop, priv) {#name, cpu-&gt;cfg.pro=
-p, priv}<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_s=
-tr, int max_str_len)<br>
-&gt;&gt;=C2=A0 {<br>
-&gt;&gt; @@ -1000,25 +1001,26 @@ static void riscv_isa_string_ext(RISCVCPU =
-*cpu, char **isa_str, int max_str_len)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 extensions by an undersco=
-re.<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 struct isa_ext_data isa_edata_arr[] =3D {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfh, ext_zfh),<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),<=
-br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfinx, ext_zfinx),<br=
->
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinx, ext_zhinx),<br=
->
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmi=
-n),<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zdinx, ext_zdinx),<br=
->
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zba, ext_zba),<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbb, ext_zbb),<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbc, ext_zbc),<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbs, ext_zbs),<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve32f, ext_zve32f),<=
-br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve64f, ext_zve64f),<=
-br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svinval, ext_svinval)=
-,<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svnapot, ext_svnapot)=
-,<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),<=
-br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfh, ext_zfh, PRIV_VE=
-RSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfhmin, ext_zfhmin, P=
-RIV_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfinx, ext_zfinx, PRI=
-V_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinx, ext_zhinx, PRI=
-V_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmi=
-n, PRIV_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zdinx, ext_zdinx, PRI=
-V_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zba, ext_zba, PRIV_VE=
-RSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbb, ext_zbb, PRIV_VE=
-RSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbc, ext_zbc, PRIV_VE=
-RSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbs, ext_zbs, PRIV_VE=
-RSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve32f, ext_zve32f, P=
-RIV_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve64f, ext_zve64f, P=
-RIV_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svinval, ext_svinval,=
- PRIV_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svnapot, ext_svnapot,=
- PRIV_VERSION_1_12_0),<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svpbmt, ext_svpbmt, P=
-RIV_VERSION_1_12_0),<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 };<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(isa_edata_arr)=
-; i++) {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled &amp;&am=
-p;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;env.priv_ver &g=
-t;=3D isa_edata_arr[i].min_priv_ver) {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_strconca=
-t(old, &quot;_&quot;, isa_edata_arr[i].name, NULL);<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(old);<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 old =3D new;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.34.1<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-</blockquote></div></div>
+On Fri, Apr 29, 2022 at 10:37:54AM +0200, Emanuele Giuseppe Esposito wrote:
+> Am 28/04/2022 um 15:45 schrieb Stefan Hajnoczi:
+> > On Tue, Apr 26, 2022 at 04:51:09AM -0400, Emanuele Giuseppe Esposito wr=
+ote:
+> >> +static int has_writer;
+> >=20
+> > bool?
+>=20
+> Yes and no. With the latest findings and current implementation we could
+> have something like:
+>=20
+> wrlock()
+> 	has_writer =3D 1
+> 	AIO_WAIT_WHILE(reader_count >=3D1) --> job_exit()
+> 						wrlock()
+>=20
+> But we are planning to get rid of AIO_WAIT_WHILE and allow wrlock to
+> only run in coroutines. This requires a lot of changes, and switch a lot
+> of callbacks in coroutines, but then we would avoid having such problems
+> and nested event loops.
 
---0000000000006d08b005ddd88104--
+I don't understand how this answer is related to the question about
+whether the type of has_writer should be bool?
+
+> > How can rd be negative, it's uint32_t? If AioContext->reader_count can
+> > be negative then please use a signed type.
+>=20
+> It's just "conceptually negative" while summing. The result is
+> guaranteed to be >=3D 0, otherwise we have a problem.
+>=20
+> For example, we could have the following AioContext counters:
+> A1: -5 A2: -4 A3: 10
+>=20
+> rd variable below could become negative while looping, but we read it
+> only once we finish reading all counters, so it will always be >=3D 0.
+
+AioContext->reader_count is uint32_t but can hold negative values. It
+should be int32_t.
+
+IMO even rd should be int32_t so it's clear that it will hold negative
+values, even temporarily.
+
+The return value of reader_count() should be uint32_t because it's
+always a positive value.
+
+That way the types express what is going on clearly.
+
+> >=20
+> >> +            aio_wait_kick();
+> >> +            qemu_co_queue_wait(&exclusive_resume, &aio_context_list_l=
+ock);
+> >=20
+> > Why loop here instead of incrementing reader_count and then returning?
+> > Readers cannot starve writers but writers can starve readers?
+>=20
+> Not sure what you mean here. Why returning?
+
+It was a misconception on my part. Looping is necessary. Somehow I
+thought that since we have aio_context_list_lock when we awake,
+has_writer cannot be 1 but that's incorrect.
+
+>=20
+> >=20
+> >> +        }
+> >> +    }
+> >> +}
+> >> +
+> >> +/* Mark bs as not reading anymore, and release pending exclusive ops.=
+  */
+> >> +void coroutine_fn bdrv_graph_co_rdunlock(void)
+> >> +{
+> >> +    AioContext *aiocontext;
+> >> +    aiocontext =3D qemu_get_current_aio_context();
+> >> +
+> >> +    qatomic_store_release(&aiocontext->reader_count,
+> >> +                          aiocontext->reader_count - 1);
+> >=20
+> > This is the point where reader_count can go negative if the coroutine
+> > was created in another thread. I think the type of reader_count should
+> > be signed.
+>=20
+> I think as long as we don't read it as a single, there's no problem
+
+There is no problem with the program's behavior, two's complement means
+unsigned integer operations produce the same result as signed integer
+operations.
+
+The issue is clarity: types should communicate the nature of the values
+held in a variable. If someone takes a look at the struct definition
+they will not know that ->reader_count is used to hold negative values.
+That can lead to misunderstandings and bugs in the future.
+
+Stefan
+
+--5Y6q9Pxme9uc8yFb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJszcUACgkQnKSrs4Gr
+c8gtZAf9GiTLaSC2XT1jkWYudhSM56V2jC5CERbmTrtCTup+uhnewoTpfo7hGaUe
+7zvh37Ad+PrhWKfv93xjdC7k+Xey0alwKlyju3d4JZw42Uw30nbedqOjGtmpd3Vw
+DVqGWS4wkpFnYQDxDrVPiU5Nuh8Nwp4XK7SO/5Wko3KcLAUgyLIbKaOgdjezUaB8
+jmdf75J+C5FfBzP9/Jaicw3OshZkmrtA/oMmdbDMPQNAO4jlydklAa8WwVyQAEUq
+ysbhFd3S9UD0MV/6IDMSGZzSfGEIGFqqjKsajQwOS/XSwtmzBSKQepyYMtYVpYJz
+GFHPAKbOGYd5ZVzzYIkXcmiaSJkVpg==
+=CVpC
+-----END PGP SIGNATURE-----
+
+--5Y6q9Pxme9uc8yFb--
+
 
