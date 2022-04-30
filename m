@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4165E515D8F
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:32:32 +0200 (CEST)
-Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39E4515DA1
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:34:51 +0200 (CEST)
+Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknD4-0007pc-UF
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55536)
+	id 1nknFK-00053x-Pk
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAH-0004df-U6
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:38 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35724)
+ id 1nknAI-0004eF-W5
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:39 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:42634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAG-0006CO-0E
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:37 -0400
-Received: by mail-pg1-x532.google.com with SMTP id r83so8515415pgr.2
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:29:35 -0700 (PDT)
+ id 1nknAH-0006CU-5o
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:38 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id bg9so8493306pgb.9
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FQqYxKXvc2LM8QQo+XpVU94vV3gOrqBTiyRv1lA5ssg=;
- b=ojTeEGKKG4x9n0fi2I1w6JM1bMiBHmzuFWevbhydqGoL8Dnp4ZeGOMvzwrXXaeTBcF
- XiDEGMbky3gpxcsXYXGKTtVjC7Uugw0SfF9lTJUZWQbfoNT7C2dKTMMaxsR3XgqqHyPC
- aSpJPdj5hmH0du9MR6h+zNb8tWK+E8zskNjEfmNDcqJ2s9Lx7XghYZCYqhSVJ8FopEZW
- u3wc5VQtzSjPtKFCq5rlEt8+opCoLF6jwvGQxYEnddDMcPax+F+p7q0h7m2SQv56ewQv
- pvs2afF5B5fvfuVhJtuePlYDSePq3HRpH90xxwaFJcwE4Sg6h52aQ4VF0mBmN+yatt4h
- s80Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=96XCoIxFXWNe7OzxTXGAkWBiSUjrkUaQNrXa5Y9vDmM=;
+ b=Y2X0oNMtOoWplti87uXxcjno/x4sZmMulwUCrLdlAiCNMEMpfBxt4KPGA+fPrn2N/+
+ kPJUOyZxuHa/vQETYsnTgMz/3cExIg7VK3UeXW67v873+2cb7aS81404diaCYWzRMaBS
+ Y2GclQTXDryLaWVhrKNKcH/ySJ/wEgLYoanvzDNZ2dAtejwCcoyqXP4KfZjhgOp/Tuoe
+ QKjINdd3eiUt6Aonbs7gHDsJbP8+toP88eeChepEIAAIXOXVpXrFucrgi+fJZ8FPGQd/
+ o9HUKpA2gFse5DWKXA+LPz798ZmCv8LoIgYGc7VonMz62zWF8X5IhoI/WUqPZI882QDu
+ VRzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FQqYxKXvc2LM8QQo+XpVU94vV3gOrqBTiyRv1lA5ssg=;
- b=ILKVvjJCRrd9pL6u7lnwJSCZDl9ig779xj6Gs3I4y1Ra28bV4j4atmjFN5i8QmyOi2
- AeS65y9OFhu0TWQ7N0QM0QQUgioUHAHBGM2G2Qh8kXIsC/f7y1x6S8Y1AXAdNdV2DmoG
- 4ezG82AzeaxXkYw7BsWqyCUtWtSqF1WA6+cp+KUaCHkpCKSF/eDxhhkZubYbBSqrEsZs
- fevAc+M8rOJ8wNpGVdmhFPQk4Fwx1zvxXZRyWW/4lz/Cd+etKnVocqQHtnLzfeEJMgpu
- 9HViSo9GxbesFeqW6TWC4sbetQyNikfzI/Qo1DTVT4+xKE4HGWDpPqzW/4T1cQu8jdEH
- IUXA==
-X-Gm-Message-State: AOAM5318dFuxXY0e1I8tDTdmIgwlmNh15DjCATdI+1T9ZrLB0kcreWFr
- dNjSQhKG5KaDgMitQh9noKAKx7iHLI61qw==
-X-Google-Smtp-Source: ABdhPJyA1QM4RrlUWnc90zhFTBPFcBg2cmm2gYYml48MsneOBvwbWo5T3mOUGEqaV1ticQNMZUhXNw==
-X-Received: by 2002:a62:1687:0:b0:50d:3364:46d4 with SMTP id
- 129-20020a621687000000b0050d336446d4mr3726855pfw.74.1651325374084; 
- Sat, 30 Apr 2022 06:29:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=96XCoIxFXWNe7OzxTXGAkWBiSUjrkUaQNrXa5Y9vDmM=;
+ b=k9L5nerQAn8O4K9fuUwmnZsHhI1BwIkmwkr3LNkyJLCoA50cL8OR2f7XD3YnTcxCf+
+ CYCGaLmEBPBwrHmKWq4jbih0UO7furU8yXLBwHDWrV99Pyn8nlOc1ZH24ZVbCk0Ma1uz
+ KYYP1DG/jEMqEDX/vNz2E6xvFUnfC2Ymb8hnhbqic7TRxoHG1iBVYqBh9hdLHL6p/JX3
+ ypRCpay4a+Dxgr8wkG3g6nV5PgzvFNXvbpyxPDvZa8/cJYfWkam76u1h6JQasdmpvJjG
+ u5Zq5WSE2Cd8obCDHfybJXXWdsCQNbktzWFdry+D7xNE6AvUhjMmX2nTmOO4p/PEOqXb
+ 0NTg==
+X-Gm-Message-State: AOAM530aWPkjK2t1xzvp8gL1k6vDjFzFlU5zuCf/qjGXF8rcRGW86qdg
+ q3StvMEThhrUhp9n08ZMJ+ctfUzB+NK3Tg==
+X-Google-Smtp-Source: ABdhPJzz4tT2nNjhZR0GLRsrBXpwntjGhIScFqIznjOPpcA3HefYjwRn6nJ8GUYXH0eJJx2QbAJI3Q==
+X-Received: by 2002:a63:1b5e:0:b0:3aa:593c:9392 with SMTP id
+ b30-20020a631b5e000000b003aa593c9392mr3146605pgm.470.1651325375256; 
+ Sat, 30 Apr 2022 06:29:35 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.32
+ x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:29:33 -0700 (PDT)
+ Sat, 30 Apr 2022 06:29:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/43] semihosting cleanup
-Date: Sat, 30 Apr 2022 06:28:49 -0700
-Message-Id: <20220430132932.324018-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/43] semihosting: Move exec/softmmu-semi.h to
+ semihosting/softmmu-uaccess.h
+Date: Sat, 30 Apr 2022 06:28:50 -0700
+Message-Id: <20220430132932.324018-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
+References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,135 +89,96 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I had whipped up an rx-elf cross toolchain to test something
-recently, and since I had built it, thought it would be easy
-to use libgloss to run the multiarch hello and memory tests.
-But we haven't implemented libgloss-style semihosting for rx.
+We have a subdirectory for semihosting; move this file out of exec.
+Rename to emphasize the contents are a replacement for the functions
+in linux-user/bsd-user uaccess.c.
 
-I had forgotten how much boilerplate there is currently for
-implementing semihosting for an architecture.  And we have 3
-implementations that really could share much more code.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ .../{exec/softmmu-semi.h => semihosting/softmmu-uaccess.h}  | 6 +++---
+ semihosting/arm-compat-semi.c                               | 2 +-
+ target/m68k/m68k-semi.c                                     | 2 +-
+ target/mips/tcg/sysemu/mips-semi.c                          | 2 +-
+ target/nios2/nios2-semi.c                                   | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+ rename include/{exec/softmmu-semi.h => semihosting/softmmu-uaccess.h} (95%)
 
-So: split out semihosting syscalls to individual functions,
-and allow them to be wired up with a minimum of fuss.  Fix a
-few bugs and to-do items on the way.
-
-Still to do:
-
-  * Merge semihosting console.c into GuestFD.
-    The ARM semihosting spec has separate syscalls for console output,
-    and expects the read/write syscalls to only apply to files.
-    But the other semihosting implementations assume stdin/stdout,
-    and we should be able to wire those up via the same mechanism.
-
-  * Errno.  The ARM spec punts this entirely.  But we aren't even
-    self-consistant, some paths returning host <errno.h> values,
-    and anything going through gdbstub using the gdb remote
-    file-io errno values.  The arm and nios2 specs explicitly
-    call for the gdb values, which we are not doing.
-
-  * tests/tcg/m68k semihosting implementation.
-
-  * target/rx semihosting implementation.
-
-
-r~
-
-
-Richard Henderson (43):
-  semihosting: Move exec/softmmu-semi.h to semihosting/softmmu-uaccess.h
-  semihosting: Return failure from softmmu-uaccess.h functions
-  semihosting: Improve condition for config.c and console.c
-  semihosting: Move softmmu-uaccess functions out of line
-  semihosting: Add target_strlen for softmmu-uaccess.h
-  semihosting: Simplify softmmu_lock_user_string
-  semihosting: Split out guestfd.c
-  semihosting: Generalize GuestFDFeatureFile
-  semihosting: Return void from do_common_semihosting
-  semihosting: Adjust error checking in common_semi_cb
-  semihosting: Move common-semi.h to include/semihosting/
-  include/exec: Move gdb open flags to gdbstub.h
-  include/exec: Move gdb_stat and gdb_timeval to gdbstub.h
-  semihosting: Use struct gdb_stat in common_semi_flen_cb
-  semihosting: Split is_64bit_semihosting per target
-  semihosting: Split common_semi_flen_buf per target
-  semihosting: Split out common_semi_has_synccache
-  semihosting: Use env more often in do_common_semihosting
-  semihosting: Move GET_ARG/SET_ARG earlier in the file
-  semihosting: Split out semihost_sys_open
-  semihosting: Split out semihost_sys_close
-  semihosting: Split out semihost_sys_read
-  semihosting: Split out semihost_sys_write
-  semihosting: Bound length for semihost_sys_{read,write}
-  semihosting: Split out semihost_sys_lseek
-  semihosting: Split out semihost_sys_isatty
-  semihosting: Split out semihost_sys_flen
-  semihosting: Split out semihost_sys_remove
-  semihosting: Split out semihost_sys_rename
-  semihosting: Split out semihost_sys_system
-  semihosting: Create semihost_sys_{stat,fstat}
-  semihosting: Create semihost_sys_gettimeofday
-  gdbstub: Widen gdb_syscall_complete_cb return value
-  target/m68k: Eliminate m68k_semi_is_fseek
-  target/m68k: Make semihosting system only
-  target/m68k: Use guestfd.h to implement syscalls.
-  target/m68k: Do semihosting call as a normal helper
-  target/m68k: Enable semihosting for non-coldfire
-  target/m68k: Remove EXCP_HALT_INSN
-  target/nios2: Eliminate nios2_semi_is_lseek
-  target/nios2: Move nios2-semi.c to nios2_softmmu_ss
-  target/nios2: Use guestfd.h to implement syscalls.
-  target/nios2: Do semihosting call as a normal helper
-
- configs/targets/aarch64-linux-user.mak        |   1 +
- configs/targets/aarch64_be-linux-user.mak     |   1 +
- configs/targets/arm-linux-user.mak            |   1 +
- configs/targets/armeb-linux-user.mak          |   1 +
- configs/targets/riscv32-linux-user.mak        |   1 +
- configs/targets/riscv64-linux-user.mak        |   1 +
- include/exec/gdbstub.h                        |  43 +-
- include/exec/softmmu-semi.h                   | 101 --
- .../semihosting}/common-semi.h                |   2 +-
- include/semihosting/guestfd.h                 |  95 ++
- include/semihosting/softmmu-uaccess.h         |  59 ++
- target/arm/common-semi-target.h               |  62 ++
- target/m68k/cpu.h                             |   3 -
- target/m68k/helper.h                          |   1 +
- target/nios2/cpu.h                            |   3 -
- target/nios2/helper.h                         |   1 +
- target/riscv/common-semi-target.h             |  50 +
- gdbstub.c                                     |   7 +-
- linux-user/aarch64/cpu_loop.c                 |   2 +-
- linux-user/arm/cpu_loop.c                     |   2 +-
- linux-user/m68k/cpu_loop.c                    |   5 -
- linux-user/riscv/cpu_loop.c                   |   2 +-
- semihosting/arm-compat-semi.c                 | 955 ++++--------------
- semihosting/console.c                         |   7 +-
- semihosting/guestfd.c                         | 935 +++++++++++++++++
- semihosting/uaccess.c                         |  71 ++
- target/arm/helper.c                           |   4 +-
- target/arm/m_helper.c                         |   2 +-
- target/m68k/m68k-semi.c                       | 374 +------
- target/m68k/op_helper.c                       |  15 -
- target/m68k/translate.c                       |  38 +-
- target/mips/tcg/sysemu/mips-semi.c            |   2 +-
- target/nios2/helper.c                         |   7 -
- target/nios2/nios2-semi.c                     | 357 +------
- target/nios2/translate.c                      |   2 +-
- target/riscv/cpu_helper.c                     |   2 +-
- semihosting/meson.build                       |   5 +
- target/m68k/meson.build                       |   6 +-
- target/nios2/meson.build                      |   4 +-
- 39 files changed, 1686 insertions(+), 1544 deletions(-)
- delete mode 100644 include/exec/softmmu-semi.h
- rename {semihosting => include/semihosting}/common-semi.h (96%)
- create mode 100644 include/semihosting/guestfd.h
- create mode 100644 include/semihosting/softmmu-uaccess.h
- create mode 100644 target/arm/common-semi-target.h
- create mode 100644 target/riscv/common-semi-target.h
- create mode 100644 semihosting/guestfd.c
- create mode 100644 semihosting/uaccess.c
-
+diff --git a/include/exec/softmmu-semi.h b/include/semihosting/softmmu-uaccess.h
+similarity index 95%
+rename from include/exec/softmmu-semi.h
+rename to include/semihosting/softmmu-uaccess.h
+index fbcae88f4b..e69e3c8548 100644
+--- a/include/exec/softmmu-semi.h
++++ b/include/semihosting/softmmu-uaccess.h
+@@ -7,8 +7,8 @@
+  * This code is licensed under the GPL
+  */
+ 
+-#ifndef SOFTMMU_SEMI_H
+-#define SOFTMMU_SEMI_H
++#ifndef SEMIHOSTING_SOFTMMU_UACCESS_H
++#define SEMIHOSTING_SOFTMMU_UACCESS_H
+ 
+ #include "cpu.h"
+ 
+@@ -98,4 +98,4 @@ static void softmmu_unlock_user(CPUArchState *env, void *p, target_ulong addr,
+ }
+ #define unlock_user(s, args, len) softmmu_unlock_user(env, s, args, len)
+ 
+-#endif
++#endif /* SEMIHOSTING_SOFTMMU_UACCESS_H */
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 7a51fd0737..dbef280b87 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -370,7 +370,7 @@ static GuestFD *get_guestfd(int guestfd)
+ #ifndef CONFIG_USER_ONLY
+ static target_ulong syscall_err;
+ 
+-#include "exec/softmmu-semi.h"
++#include "semihosting/softmmu-uaccess.h"
+ #endif
+ 
+ static inline uint32_t set_swi_errno(CPUState *cs, uint32_t code)
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 37343d47e2..a31db38fc3 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -25,7 +25,7 @@
+ #include "qemu.h"
+ #define SEMIHOSTING_HEAP_SIZE (128 * 1024 * 1024)
+ #else
+-#include "exec/softmmu-semi.h"
++#include "semihosting/softmmu-uaccess.h"
+ #include "hw/boards.h"
+ #endif
+ #include "qemu/log.h"
+diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+index b4a383ae90..6d6296e709 100644
+--- a/target/mips/tcg/sysemu/mips-semi.c
++++ b/target/mips/tcg/sysemu/mips-semi.c
+@@ -21,7 +21,7 @@
+ #include "cpu.h"
+ #include "qemu/log.h"
+ #include "exec/helper-proto.h"
+-#include "exec/softmmu-semi.h"
++#include "semihosting/softmmu-uaccess.h"
+ #include "semihosting/semihost.h"
+ #include "semihosting/console.h"
+ 
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index ec88474a73..373e6b9436 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -28,7 +28,7 @@
+ #if defined(CONFIG_USER_ONLY)
+ #include "qemu.h"
+ #else
+-#include "exec/softmmu-semi.h"
++#include "semihosting/softmmu-uaccess.h"
+ #endif
+ #include "qemu/log.h"
+ 
 -- 
 2.34.1
 
