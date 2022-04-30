@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D095515FB8
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:59:41 +0200 (CEST)
-Received: from localhost ([::1]:45938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D87515FB1
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:55:58 +0200 (CEST)
+Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkrNc-0004Ub-9q
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
+	id 1nkrK1-0007Hm-Vb
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkrHw-0004Tg-GS
+ id 1nkrHw-0004VI-SD
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:53:48 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45849)
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:45746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkrHu-00080v-J9
+ id 1nkrHv-00080z-FF
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:53:48 -0400
-Received: by mail-pl1-x631.google.com with SMTP id h12so9582950plf.12
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:53:46 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 7so4928508pga.12
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hV+IA21ry8VojR25e1IAEE42j7p287jopA93G1Fi9U8=;
- b=ASrKMOiCcOOGZHYVxSEYwh/UelcQGy4DA5jf1jZHTJd2eIK+GEjuRtkQUMqb6fIPlH
- CL6jCH/5ah1Vx+N6QVSPx7CUgOYt83OqY9e0xYl9E/vfLWUAAwGbAk3UvltBRbK+YdKd
- 7QPKdeqXsiakPPRLco7XHO/a2F4XKZ7IR0BzX04m5MuSwT2ofZNY7teKlMy3gWUR5R6I
- 3vNWBvgXqcnowluz7ZvKcYlfm4k78A+ky2ltFhd3/jz69qDAZSsWRclyrXVyY++tt6OJ
- 0zBC+DlVHR8KGpHZ6oH4Xt4dsICABDS/TxoLCSeORLFO3blnn+VjMz87g5YDf43WfvLI
- 4iQQ==
+ bh=3NUt6cycfWH/ENZGNIvXT39oA5d9WYzXAuV4uBUZ0DU=;
+ b=E7yw6I8zBmHHQES6s29ionq2PmreDRCs4vCqkgYYy2GV4RfJAqqRio2ndYkZCqt4Qg
+ 9Rrp5tURWHst8JQryp7buL2p+PCPwsS4RV3V7tXm8L8YO51kLZozjU7cJtic+w/MrV8P
+ 4lGBHoGI7ZV82IP1ohuJRAy2kJWFdRa6aq9C2YZgO4xEwrHEWoggaoFrfElMxy3juefH
+ Kv7lqqO3LYFe5kArZSFhbjhBg0stVLbGh5xyCGeMyoMXQ/pzttEdOvgIv3GVHjcR8pe6
+ Jr75Gn3ctNOEBuHSHQ9gBX72UhYKoQHitlXuaj9ra50jTPLNDHtajpYwrCwv2vJPOld1
+ YkQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hV+IA21ry8VojR25e1IAEE42j7p287jopA93G1Fi9U8=;
- b=3PWeXQnhhl4B4b9mox87DZj5UpZhnyMnGosWRLE4pY0Aum4d/CDxoBdA9o3f6s04eD
- +EyE1+EMDBCRP/g8fFelIpd5qyLCOhtB0zmI+7+uE/XB24RVHmqZ/jtskPPVgXgVC5oz
- jXdm7HmSV9YqW7z0Q+axM+w/USsG8tP8yWYYXSS0DSGkLnwGdmoKop52wN4D+WPQoxxC
- 64RIS59lCgrCf4GJIQBXsxxgy3X2b2mcuq0Sjm2c9Bzsdvns63BkDukWJw/9prJWR9l8
- VnMqw9OJ6hvgm86PEyIWvGTmu7zwOgLCixCnJxluLF72SIzcBQ3AveN9ok1T2j19dl4v
- Zlwg==
-X-Gm-Message-State: AOAM53074qGgM78sRJM/sUFOU9vIBB09/47KOuAEqFMJ0Ac6Qe3ahI/H
- mfVJlWyqaAnW4baqwlGb4cqStkZYiBElLA==
-X-Google-Smtp-Source: ABdhPJyqhseRfYJ7aBiGeNvBkHnq/42QJ7HSIrMPh/j/l5cqxOc2zemn+3QWiDVK5/FjLrlJdOoyQw==
-X-Received: by 2002:a17:902:ce11:b0:15b:4232:e5e7 with SMTP id
- k17-20020a170902ce1100b0015b4232e5e7mr4441349plg.39.1651341225171; 
- Sat, 30 Apr 2022 10:53:45 -0700 (PDT)
+ bh=3NUt6cycfWH/ENZGNIvXT39oA5d9WYzXAuV4uBUZ0DU=;
+ b=PRv6tG3jve3fwvAgk4wNklcObLZYCZcm7k5/Hm+9tohUyalZBHEyLwZNfiq+JGTjjo
+ bSln6Mm2P7UDCdbK6OL4WQtN2tnIT0Hz5DIC9mpeI4ilT6fY10pvCaytyQsbVwhehMwx
+ YD25SQbn2W4NPBqy3Mj/eyDKu/wRR2L6Jn6bJEAIWbsSyE6uO76jFrQIG2POmNobpAgg
+ j3E7Zhrg7jt5exeZ0uj+dYYGzHP0Eqb+/1pPyYMGY2++poUko4o4z9D26tkRGjq2cYlh
+ haP3uf2WPYGiuuUCEiLzwos2d+VAweG0gd3EOxoarHWC6gvYDwq5v9JAbNq5rA7Hv8X6
+ HXPw==
+X-Gm-Message-State: AOAM533tdbHqGHpv8RFBFg7HYiWVwysvstAiiyKPgtLpTOOW/P23/JyA
+ 17QBQg6yoJmYkUXBxkQPCgg7yw2fLzOjbA==
+X-Google-Smtp-Source: ABdhPJzSj4sv+RbuU18pkf3JfuuDjX4UuHRFzJuIY7cpUcA68j8voUppv6p2M3jBNT93E99PPC2bSA==
+X-Received: by 2002:a05:6a00:1585:b0:50d:a8b9:d414 with SMTP id
+ u5-20020a056a00158500b0050da8b9d414mr4516538pfk.56.1651341226090; 
+ Sat, 30 Apr 2022 10:53:46 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- 5-20020a170902c20500b0015e8d4eb282sm1740910pll.204.2022.04.30.10.53.44
+ 5-20020a170902c20500b0015e8d4eb282sm1740910pll.204.2022.04.30.10.53.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 10:53:44 -0700 (PDT)
+ Sat, 30 Apr 2022 10:53:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/17] target/m68k: Switch over exception type in
- m68k_interrupt_all
-Date: Sat, 30 Apr 2022 10:53:27 -0700
-Message-Id: <20220430175342.370628-3-richard.henderson@linaro.org>
+Subject: [PATCH v4 03/17] target/m68k: Fix coding style in m68k_interrupt_all
+Date: Sat, 30 Apr 2022 10:53:28 -0700
+Message-Id: <20220430175342.370628-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430175342.370628-1-richard.henderson@linaro.org>
 References: <20220430175342.370628-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,87 +89,36 @@ Cc: laurent@vivier.eu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace an if ladder with a switch for clarity.
+Add parenthesis around & vs &&.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Remove assignment to sr in function call argument -- note that
+sr is unused after the call, so the assignment was never needed,
+only the result of the & expression.
+
+Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/op_helper.c | 49 +++++++++++++++++++++++++----------------
- 1 file changed, 30 insertions(+), 19 deletions(-)
+ target/m68k/op_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index d30f988ae0..2b94a6ec84 100644
+index 2b94a6ec84..0f41c2dce3 100644
 --- a/target/m68k/op_helper.c
 +++ b/target/m68k/op_helper.c
-@@ -333,7 +333,8 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-         sp &= ~1;
-     }
+@@ -408,11 +408,11 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+         break;
  
--    if (cs->exception_index == EXCP_ACCESS) {
-+    switch (cs->exception_index) {
-+    case EXCP_ACCESS:
-         if (env->mmu.fault) {
-             cpu_abort(cs, "DOUBLE MMU FAULT\n");
-         }
-@@ -391,29 +392,39 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-                      "ssw:  %08x ea:   %08x sfc:  %d    dfc: %d\n",
-                      env->mmu.ssw, env->mmu.ar, env->sfc, env->dfc);
-         }
--    } else if (cs->exception_index == EXCP_ADDRESS) {
-+        break;
-+
-+    case EXCP_ADDRESS:
-         do_stack_frame(env, &sp, 2, oldsr, 0, retaddr);
--    } else if (cs->exception_index == EXCP_ILLEGAL ||
--               cs->exception_index == EXCP_DIV0 ||
--               cs->exception_index == EXCP_CHK ||
--               cs->exception_index == EXCP_TRAPCC ||
--               cs->exception_index == EXCP_TRACE) {
-+        break;
-+
-+    case EXCP_ILLEGAL:
-+    case EXCP_DIV0:
-+    case EXCP_CHK:
-+    case EXCP_TRAPCC:
-+    case EXCP_TRACE:
-         /* FIXME: addr is not only env->pc */
-         do_stack_frame(env, &sp, 2, oldsr, env->pc, retaddr);
--    } else if (is_hw && oldsr & SR_M &&
--               cs->exception_index >= EXCP_SPURIOUS &&
--               cs->exception_index <= EXCP_INT_LEVEL_7) {
--        do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
--        oldsr = sr;
--        env->aregs[7] = sp;
--        cpu_m68k_set_sr(env, sr &= ~SR_M);
--        sp = env->aregs[7];
--        if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
--            sp &= ~1;
-+        break;
-+
-+    case EXCP_SPURIOUS ... EXCP_INT_LEVEL_7:
-+        if (is_hw && oldsr & SR_M) {
-+            do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
-+            oldsr = sr;
-+            env->aregs[7] = sp;
-+            cpu_m68k_set_sr(env, sr &= ~SR_M);
-+            sp = env->aregs[7];
-+            if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
-+                sp &= ~1;
-+            }
-+            do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
-+            break;
-         }
--        do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
--    } else {
-+        /* fall through */
-+
-+    default:
-         do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
-+        break;
-     }
- 
-     env->aregs[7] = sp;
+     case EXCP_SPURIOUS ... EXCP_INT_LEVEL_7:
+-        if (is_hw && oldsr & SR_M) {
++        if (is_hw && (oldsr & SR_M)) {
+             do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
+             oldsr = sr;
+             env->aregs[7] = sp;
+-            cpu_m68k_set_sr(env, sr &= ~SR_M);
++            cpu_m68k_set_sr(env, sr & ~SR_M);
+             sp = env->aregs[7];
+             if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
+                 sp &= ~1;
 -- 
 2.34.1
 
