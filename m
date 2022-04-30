@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D19515DCB
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:43:10 +0200 (CEST)
-Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B48C515DAB
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:37:19 +0200 (CEST)
+Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknNN-0005iN-GX
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55696)
+	id 1nknHi-0002Tb-42
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAQ-0004kt-NF
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:48 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:36633)
+ id 1nknAS-0004lG-Kp
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:50 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAP-0006FT-7y
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:46 -0400
-Received: by mail-pf1-x436.google.com with SMTP id z16so9064062pfh.3
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:29:44 -0700 (PDT)
+ id 1nknAQ-0006Fg-EU
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:47 -0400
+Received: by mail-pl1-x635.google.com with SMTP id j8so9281337pll.11
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:29:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D4UV//9Dx1fKTWaO/CeFVHK/oLn3ZgWAg/jUv9V5umM=;
- b=lw3NyF6Inbo1gdkr9ggQWtGFKq2paJ9og67ZfLZtuqvhyAlw7Fm1+vPwZSCwTlnUBr
- Nawh5+jJzZFO637zWxDoVUbHK3adaTIuWd7uj9zhQQAu/A7qW+LWFvPmEY9bT5gm+Kx2
- OUVmY4ZgH1KzO4uG8+3cFAsFYdQmACT8xfau1QEEJVdoK1wV/x79Vkjo4zNb6hHoMU6B
- ybpapnsYeLHygDM4X2srnsErd1Ut7ghK58J7yio+S5h+X49eRsIxp93RciWZnrYO61HF
- KsDcZHZOR/RQ39hml1/Y+8EBwmkywUEgUPGiF+0D22vyRPBbFq7Hw5XNZ5+KS7zsRz/h
- yUDQ==
+ bh=uw4gme9KuFW+TrMXShBM/0VdYE8dR14VXRbCtedKveY=;
+ b=HAx+YPkiYyRIhAAqjYCxbpCV7g7KVy9FXEEbboCUJhcrIENrwnHNYb0SgP7GTn0iB3
+ yj2F87v6NfR9LR3kBGMJ5t7ogGFktUd7VHozzjmrYEySynnaiRqvdZYmldlGPFlH1Kb7
+ 88lT6axf+8XAbvUOLOHwdWQQaRIGCbSK8XtHGqyV1CGGpdTP6xDZZejuU/ubvQ0jMLYd
+ pk+gidvQLX3nUP9G/IC2BKZuDyt1cq4PpWW+gYd8QITm4RVrweUkDIr+27imLv7XFgin
+ jFy0TkHuDe2ePeZqi/wB0VsnQM5BbzUZTJqePA0+7rg7iqUE4RRNBFqF+esgekq4V8Ls
+ wq8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D4UV//9Dx1fKTWaO/CeFVHK/oLn3ZgWAg/jUv9V5umM=;
- b=NDoIHr1cawHI/MZoJFeRUUj2Fh6xBAsYX6WQlE4nD+S9X4JnYQufHt7olTQtCHn0A+
- RwTwp86MuOUTEnw01/wTF2Z7WLHSMC/RbMz6wQjNWCXjNmoQWtpOa/5MwnXHS6VmRgAA
- azV02OTEqpQyu4+vcSYEYm5VC2Y1+LQHItbcjOhOqZWoMYBzy8ViTd2HewF+jHCY5547
- QeI4uf3NAsvcGBQLczmpX4ltvRZ4uemsGmSksTPYn3OId+1xxpbrwex0HXSf46Gs9cc6
- yqb67azDu/zZQO7tDVOj1tX5s5mkn9NKPQfYPHCdmSn7tO7/eIuN4eroIr53IKTElKdq
- QZmw==
-X-Gm-Message-State: AOAM531YM/CVMXj46Rl2b4c2VMLlmyKyQukrzg/FHevKfC0W0ox3n4YJ
- 9DwHfsQk+JWSzjWsKOyYKs5YR/cnSmdDGA==
-X-Google-Smtp-Source: ABdhPJxilH77nG9UQQj+bTi7NFDKf4fIxHDQbESDGe4COX3DETvpbB2pUUo0Y+Xq86Q9lKfsw648JA==
-X-Received: by 2002:a63:2305:0:b0:39d:1299:29c9 with SMTP id
- j5-20020a632305000000b0039d129929c9mr3173032pgj.244.1651325384006; 
- Sat, 30 Apr 2022 06:29:44 -0700 (PDT)
+ bh=uw4gme9KuFW+TrMXShBM/0VdYE8dR14VXRbCtedKveY=;
+ b=LJMOVz03pmNWW1QMRhYMUDiQEpcq2P6hN+Ag4ecMtvdnbKvkK5FjYerjlZI4dY25Kb
+ Tj6/dQbgnDZLxMjrgtawOTtMtwrruEztq3QmHfnrA08Oo8nvwiyKZzcaWYi3/zex0aco
+ txLtF3wf+LglYR/5PVw+sxAw2GiExQN8xjz7ZBFQ0j+eslGcJYHW6MNQnVzsCBF1fJ7I
+ 95QQLOpM2hXmypoHJGiqVd3ogOpMNeTaEEcKM81ounOu3WZ1tE68/aQ9v/964rwbzaKz
+ lxQD4z3NEIaO6OvOROR3nllj3rBOPVP6Q5GQEbhfmIeh5EY8RiseDDezi2261lNIgewi
+ WwRQ==
+X-Gm-Message-State: AOAM531cmJ2DVxhxM5XsJY/T/klv3uLiIw6aH8erfu6E25XdmKPcEjLH
+ NtwaxP/JJj62ggEa+qD9Vt9wYBp6bGSR+w==
+X-Google-Smtp-Source: ABdhPJy1RCTzgNRQrNC5mId7aQS0cbrYo4m+Ae1F01ULvJpE02JTlisQJvA9deajL9AYlM1HV8Fjvw==
+X-Received: by 2002:a17:902:ecd1:b0:15e:850b:c2d with SMTP id
+ a17-20020a170902ecd100b0015e850b0c2dmr3904863plh.75.1651325385043; 
+ Sat, 30 Apr 2022 06:29:45 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.43
+ x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:29:43 -0700 (PDT)
+ Sat, 30 Apr 2022 06:29:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/43] semihosting: Adjust error checking in common_semi_cb
-Date: Sat, 30 Apr 2022 06:28:59 -0700
-Message-Id: <20220430132932.324018-11-richard.henderson@linaro.org>
+Subject: [PATCH 11/43] semihosting: Move common-semi.h to include/semihosting/
+Date: Sat, 30 Apr 2022 06:29:00 -0700
+Message-Id: <20220430132932.324018-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
 References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,31 +88,19 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The err parameter is non-zero if and only if an error occured.
-Use this instead of ret == -1 for determining if we need to
-update the saved errno.
-
-This fixes the errno setting of SYS_ISTTY, which returns 0 on
-error, not -1.
+This header is not private to the top-level semihosting directory,
+so place it in the public include directory.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ {semihosting => include/semihosting}/common-semi.h | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename {semihosting => include/semihosting}/common-semi.h (100%)
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 7030dfd587..18664b1c47 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -276,7 +276,7 @@ static target_ulong common_semi_syscall_len;
- 
- static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
- {
--    if (ret == (target_ulong)-1) {
-+    if (err) {
- #ifdef CONFIG_USER_ONLY
-         TaskState *ts = cs->opaque;
-         ts->swi_errno = err;
+diff --git a/semihosting/common-semi.h b/include/semihosting/common-semi.h
+similarity index 100%
+rename from semihosting/common-semi.h
+rename to include/semihosting/common-semi.h
 -- 
 2.34.1
 
