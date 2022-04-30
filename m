@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0727D51604E
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 22:19:12 +0200 (CEST)
-Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266DC5160B7
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 00:05:37 +0200 (CEST)
+Received: from localhost ([::1]:55090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nktYc-0002Lg-Tm
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 16:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
+	id 1nkvDb-0002X5-Hr
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 18:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nktWd-0001Ro-GR
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 16:17:09 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:46784)
+ id 1nkvBm-0001De-5x
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 18:03:42 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nktWW-00018F-RE
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 16:17:02 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- cq17-20020a17090af99100b001dc0386cd8fso4539910pjb.5
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 13:16:59 -0700 (PDT)
+ id 1nkvBk-0007Sb-FP
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 18:03:41 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ j8-20020a17090a060800b001cd4fb60dccso10049256pjj.2
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 15:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DBfsXkA5zh6pKbinf9hJeY+aF29mNj6juzE7VF/k17M=;
- b=x42izZYG7e4nPe29IYAC5cCcu1ON0pzW68PEZdllKeqBfW3s1aAA4+4VYz7uUzyE1H
- L0bkubT3TgKS0mAQx4fmRkdWlXl7ugvEmDChg6yqNYfOLaYlmJVfRLS24VLPhNW26JRY
- NWgajhLdq5/TbHbMpqon66QkRy26THkimWyji/KdVIbQ6RwOpNovXxxOSpHVD0XWXaI+
- m4PG8mg80kk92DelAXeOLAVAMu8/PmuA7w3a1v0XrZzeNlUb6GjvZMcpeAB7xJ6J9Amb
- FXFkU+orCdmrC+SbXUErbqgSwowOKXMIS5EyZqgtTvmiGtI1eNvtibrf1t/QRe7NqjMI
- Qf2w==
+ h=message-id:date:mime-version:user-agent:subject:content-language:cc
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=3ZnYZGBTRrUOQhCF9OsgO9zD6KTDyG3V4Z4po44X8bM=;
+ b=YmCejJexBku0cXTEwRc5Yun2fD4HlKtDSNvBciGeRFpi2DrNYAJPrFRmy1T6tpaOSG
+ ywJfQTJORD0IEPyDM22VFPk/HPRORUOkuf7XXF3TCQuCZb0mqyV/dEvTLW07heZsMve7
+ dW5n1zgv7666rPfozqfn4uSagbCeXwUp9Gyt59Zrdld9lDZ8sAgA+TGw89tp9aUzljTm
+ cdt0VfM+q5UTJmC4WDwkqe3ysNb01+e318bzZiAY1AgbEfMY1YH+5YgtAtLsYkj9Jv1u
+ t1lnI7dx/B8nTwbqflBvU526iFplAwsIF9NHhGgpjIrLGDa1MrFIyTq0T9HSGeZk3tn+
+ xuDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=DBfsXkA5zh6pKbinf9hJeY+aF29mNj6juzE7VF/k17M=;
- b=s6JmcT71jTRZDr52YRmIrFPvl3xoTizkTNR1MltWAa51QRK3FWOcGP+06LdTt9X+wM
- B9e7jRkYsfR4FvbuBtF2mNeNf6RbBcFqbq4aaiQEj0EUBrx2MHC42oYtABHrw+PC15wX
- m0v6VZ1SijcFf+eZocr+Ml+oP2cpnk+iDYnL5N7hdAf8OwW2J8OEn2G693zSKbhy6Slm
- yQSHUEVonbv1EOwGVC6v7nbPP5aiuCjsl9DV3LWCd58Q4SHEhdANDsisyfV8gyCfroRH
- di1VJ6jmni6CTpkf6w6wrA+fGBp7Kao4rWQrl1Mk5vtRIxIwTC7NQfcAMWQ2nlJZJni9
- Jmig==
-X-Gm-Message-State: AOAM53061fLgwjJFiwxboCWkIwYXeQHaBEqfZYmYeiIcQECvJcX0pPpA
- QCe4ZdLiY8dA0UjctwMAPJG9HQ==
-X-Google-Smtp-Source: ABdhPJwRsRHhsP8DI2O5uUUXtSK+VWzKuu89dTSDyL8usLNEzTHzjC3aiYFi+K2eXMgCEo3pxgFHEQ==
-X-Received: by 2002:a17:90a:e7c7:b0:1d9:6a37:9f5e with SMTP id
- kb7-20020a17090ae7c700b001d96a379f5emr5450497pjb.156.1651349818827; 
- Sat, 30 Apr 2022 13:16:58 -0700 (PDT)
+ bh=3ZnYZGBTRrUOQhCF9OsgO9zD6KTDyG3V4Z4po44X8bM=;
+ b=TOCdwFyerp2U8U+xCEntyPSaHhTf8Y6PwuUhuwHqoK/CguGKr5Dv9dryDkqKEXnM93
+ 9pTaOItrWF75J2DZHK2ItaM80PDmg1g4KRtDs2Z82JD2qoRlHHoPMtNl2mNcKEJz8h2v
+ ai3Jvea3mPcEcMnkRy+0Qik22gBti5UPUQYvoxgHbPQXBbciRdn8JeYVNmIOvZovfiCL
+ +/mPfX9TbBdfrAVTYK2b4RFGNTJ4cWpcYjQsoxf16VudkjWXqVxXMbKjaqTyHljmpzSF
+ K1gLm73pUfolo8ySSRx/Cu7aYy7LEckcdpQ+AMawTlASTRmH0/PMfE+C2wZAnei3BZam
+ NYeA==
+X-Gm-Message-State: AOAM5319i6HRT7szqYZENv1f0nr6AQALWXXVWljhMabAAhaF+AJ6enRw
+ q7VUtz9mjoXeqy0uBZ9KNjW6laV6Fe9SVQ==
+X-Google-Smtp-Source: ABdhPJz6Hux6x22FOI+q80iASs1BNq2xZU5qodPlLINyKb84RKt2F733BR1mqwZlDFIAY2KJUpe5Kg==
+X-Received: by 2002:a17:902:ab59:b0:15c:f4f3:7e3b with SMTP id
+ ij25-20020a170902ab5900b0015cf4f37e3bmr5317881plb.24.1651356218614; 
+ Sat, 30 Apr 2022 15:03:38 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- k23-20020a170902ba9700b0015e8d4eb1fesm1859607pls.72.2022.04.30.13.16.58
+ x15-20020a170902ec8f00b0015e8d4eb1d4sm1944806plg.30.2022.04.30.15.03.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Apr 2022 13:16:58 -0700 (PDT)
-Message-ID: <1d8dfad2-c183-8113-f09c-bd5d9c33722e@linaro.org>
-Date: Sat, 30 Apr 2022 13:16:56 -0700
+ Sat, 30 Apr 2022 15:03:38 -0700 (PDT)
+Message-ID: <46be82d3-64ac-67a5-ccf3-f50185bd4e5b@linaro.org>
+Date: Sat, 30 Apr 2022 15:03:36 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PULL 0/7] 9p queue 2022-04-30
+Subject: Re: [PATCH] tcg: fix guest memory ordering enforcement
 Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <cover.1651319081.git.qemu_oss@crudebyte.com>
- <d218e8b7-2d0c-a24c-7fff-c33d175549c8@linaro.org> <3704033.BMyLRrx2Jx@silver>
+References: <20220428113234.37953-1-redha.gouicem@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <3704033.BMyLRrx2Jx@silver>
+In-Reply-To: <20220428113234.37953-1-redha.gouicem@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MISSING_HEADERS=1.021,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, SUSPICIOUS_RECIPS=2.51,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,19 +89,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-riscv@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/22 12:29, Christian Schoenebeck wrote:
-> I suggest I just s/AT_SYMLINK_NOFOLLOW_ANY/AT_SYMLINK_NOFOLLOW/ on my end and
-> post v2 PR, for consistency and as it does not really make a huge difference
-> IMO which one of the two is used in create_socket_file_at_cwd().
+On 4/28/22 04:32, Redha Gouicem wrote:
+> This commit allows memory ordering enforcement to be performed more
+> precisely. The previous scheme with fences always inserted before the memory
+> access made it impossible to correctly enforce the x86 model on weakly ordered
+> architectures such as arm. With this change, the memory models of guests can be
+> defined more precisely, with a fence before and a fence after the access. This
+> allows for a precise mapping of the ordering, that relies less on what type of
+> fences the host architecture provides.
 > 
-> Any objections?
+> Signed-off-by: Redha Gouicem <redha.gouicem@gmail.com>
+> ---
+>   target/alpha/cpu.h  |  4 ++++
+>   target/arm/cpu.h    |  4 ++++
+>   target/avr/cpu.h    |  4 ++++
+>   target/hppa/cpu.h   |  4 ++++
+>   target/i386/cpu.h   |  4 ++++
+>   target/mips/cpu.h   |  4 ++++
+>   target/ppc/cpu.h    |  4 ++++
+>   target/riscv/cpu.h  |  4 ++++
+>   target/s390x/cpu.h  |  4 ++++
+>   target/xtensa/cpu.h |  4 ++++
+>   tcg/tcg-op.c        | 19 ++++++++++++-------
+>   11 files changed, 52 insertions(+), 7 deletions(-)
 
-Sounds good.
+First of all, patches that don't compile aren't particularly helpful.  You've missed out 
+on updating 10 of 20 targets.
+
+I do not believe your assertion that the current scheme "makes it impossible to correctly 
+enforce the memory model".  Please provide your rationale.
+
+>   /* Alpha processors have a weak memory model */
+>   #define TCG_GUEST_DEFAULT_MO      (0)
+> +#define TCG_GUEST_MO_BEF_LD       (0)
+> +#define TCG_GUEST_MO_AFT_LD       (0)
+> +#define TCG_GUEST_MO_BEF_ST       (0)
+> +#define TCG_GUEST_MO_AFT_ST       (0)
+
+There's no new information here.
+
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 9661f9fbd1..c6a7052d58 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -29,6 +29,10 @@
+>   
+>   /* The x86 has a strong memory model with some store-after-load re-ordering */
+>   #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
+> +#define TCG_GUEST_MO_BEF_LD       (0)
+> +#define TCG_GUEST_MO_AFT_LD       (TCG_MO_LD_ST | TCG_MO_LD_LD)
+> +#define TCG_GUEST_MO_BEF_ST       (TCG_MO_ST_ST)
+> +#define TCG_GUEST_MO_AFT_ST       (0)
+
+Or even here -- you're making the executive decision that barriers go after loads and 
+before stores.  Note that
+
+   TCG_GUEST_MO_AFT_LD == (TCG_GUEST_DEFAULT_MO & (TCG_MO_LD_ST | TCG_MO_LD_LD))
+   TCG_GUEST_MO_BEF_ST == (TCG_GUEST_DEFAULT_MO & TCG_MO_ST_ST)
+   TCG_GUEST_MO_AFT_ST == (TCG_GUEST_DEFAULT_MO & TCG_MO_ST_LD)
+
+You could just as easily make this selection in tcg-op.c alone.
+
+I'm not sure why putting a ST_ST barrier before a store is better or worse than putting a 
+ST_ST barrier after the store.  I could imagine that putting wmb barriers before the 
+operation schedules better with the surrounding code, but I'd want that decision 
+explicitly stated.
+
+There *are* still missing barriers with the cpu_ld*_data* and cpu_st*_data* functions, as 
+used by out-of-line helpers.  Certainly I expect those to have less impact than the 
+generated code, but they are still required.
+
 
 r~
 
