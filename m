@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F8E515AB9
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 07:56:21 +0200 (CEST)
-Received: from localhost ([::1]:60244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F1C515BBA
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 11:08:06 +0200 (CEST)
+Received: from localhost ([::1]:57076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkg5c-0006vq-SP
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 01:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32930)
+	id 1nkj5A-00042g-Tk
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 05:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nkg2G-0005M6-FZ
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:52:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nkg2E-0000xm-Vi
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:52:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651297970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wjkJ/kxCNLYB0S3aH8vRHI++Ea31WV7i4BWRMhULLfU=;
- b=ccVOCO61QXmJevysv/alRskoF6cnWwvgAN1OdPHaGhhnTHFLPprxDhLqHLLfvMw497qkNy
- Jl/PDe/JLVYZeYg62tLXqvNFzneMUNaTPmDxsFTWzAacSkQZySg6SZ3kQA3Daqk3OdkgB0
- FTZtmIuqUm6WqwYPRWiCmAJUQnn9Vr0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-2cACCkrRMpmQIaHTLjKOmQ-1; Sat, 30 Apr 2022 01:52:47 -0400
-X-MC-Unique: 2cACCkrRMpmQIaHTLjKOmQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23F8C1C0515E;
- Sat, 30 Apr 2022 05:52:47 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF4844010E3D;
- Sat, 30 Apr 2022 05:52:46 +0000 (UTC)
-Date: Sat, 30 Apr 2022 06:52:45 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/6] virtio-scsi: don't waste CPU polling the event
- virtqueue
-Message-ID: <YmzOrb/zE/UgljtS@stefanha-x1.localdomain>
-References: <20220427143541.119567-1-stefanha@redhat.com>
- <20220427143541.119567-3-stefanha@redhat.com>
- <ca28d5bf-5bd6-e002-c420-ed9b98989555@redhat.com>
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1nkj1f-00030B-Tf
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 05:04:28 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:46910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1nkj1e-0008NN-03
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 05:04:27 -0400
+Received: by mail-oi1-x230.google.com with SMTP id q8so10408308oif.13
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 02:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Uc+1sYtF8CXIRvCHG1B9IVWbrrZUdnCicgDQEyuz/Uo=;
+ b=aKmbtB/bDOfGpCMxgrmIhL9X+78qOYrjTTK6UlgYxvK2j9haxvrp/u761PCzlaSy64
+ fKbcpIjT/HxT9+vFYw4HOM0g9p9Pa+KssasdQkuEE25OEu7PnEgN8KzMIGxKwmjG2cWy
+ JTHGUsGIInlt8QSbiwA7lNa9zZn6ZdJxzcTHgfok+duw9h2bPq3c/rw4Lle45g2H37M0
+ DTqr6XWx9y51DzCMaIKe2S/h9rz1DYa0Y2t+OnAH2FKhibkhBdx+fPE+fvH03gdAcg+g
+ sZGAExhEOxCii8SvM221qYFY7mRbpg0b4bm9k6fbfQsShtvMF/5uCiYu0QyvePfsqSP+
+ CRyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Uc+1sYtF8CXIRvCHG1B9IVWbrrZUdnCicgDQEyuz/Uo=;
+ b=kFrhRdYGHBDg+M8qA3y/+lEoxMLmVBDnH7HNe2kdivT+E2CbzhCuIqyQ9JmnWyCbKT
+ MqlmgBQjUW5eq34YtLOtyJvkgm5P5S8P98F6Th2mlfs2RbYAsjVdhpnewyBRoYf580G7
+ Sl6svZGEd8qLst42LZreC3zW+9xA1jjbaAwMJsExco0MUuQv+oam1jxvenupr8KVxejs
+ VCUGqfy6PelAbjGaK4ofpfG3/iAPhLPzsFJ9GhMp1ObmPMXuBXRVs/hzmKlxtdyMUcRM
+ VZSU0pM8WIQ4Ao6p6GlECk4SkVuuoGAbq1u8SFN2J1V22FsCIv1AEPvjZdzKALnTekC6
+ YRUg==
+X-Gm-Message-State: AOAM532PlmqbAzGVcTMTqMjphbEOG9zcSDpeUOA2YRWQngXLk6+XeDao
+ NQ4ryqmvUq3K/d3CdBWDJv9otA==
+X-Google-Smtp-Source: ABdhPJx+VbnYCQjuqbh1CFR5fdHKTR8zdvo2bs6rrDjUdzrHa20vk7zsfbpdP3+GdF0N36CbhtvXDw==
+X-Received: by 2002:a05:6808:188d:b0:325:b575:2508 with SMTP id
+ bi13-20020a056808188d00b00325b5752508mr1521419oib.129.1651309461015; 
+ Sat, 30 Apr 2022 02:04:21 -0700 (PDT)
+Received: from [192.168.86.188] ([136.62.4.88])
+ by smtp.gmail.com with ESMTPSA id
+ m63-20020aca5842000000b00325cda1ff9esm540038oib.29.2022.04.30.02.04.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Apr 2022 02:04:20 -0700 (PDT)
+Message-ID: <aedeaa1d-9431-646c-fa24-f37f48a9fe01@landley.net>
+Date: Sat, 30 Apr 2022 04:08:54 -0500
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rIxB6wVgNqkKPNtI"
-Content-Disposition: inline
-In-Reply-To: <ca28d5bf-5bd6-e002-c420-ed9b98989555@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: serial hang in qemu-system-ppc64 -M pseries
+Content-Language: en-US
+To: Fabiano Rosas <farosas@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <74b9755a-4b5d-56b1-86f5-0c5c7688845a@landley.net>
+ <8558c117-75a0-dc73-9b1a-be128e04056c@redhat.com>
+ <ba41f9ab-bce4-b377-e99c-caa0d8240308@landley.net>
+ <87bkwjtvkn.fsf@linux.ibm.com>
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <87bkwjtvkn.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::230;
+ envelope-from=rob@landley.net; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,54 +91,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
+Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 4/29/22 16:43, Fabiano Rosas wrote:
+> Rob Landley <rob@landley.net> writes:
+>> Then paste something longer than 16 characters at the eventual command prompt
+>> once the kernel finishes booting.
+> 
+> I suspect this is due to how the tty driver (n_tty.c) interacts with
+> the console (hvc_console.c) driver's buffer size.
+> 
+> This is the stack:
+> 
+> #0 hvc_push          <-- calls into KVM/QEMU to write up to 16 bytes
+> #1 hvc_write
+> #2 tty_put_char
+> #3 do_output_char
+> #4 __process_echoes          <-- writes up to tty_write_room() chars
+> #5 flush_echoes              <-- returns early if ~ECHO && ~ECHONL
+> #6 n_tty_receive_buf_common  <-- buffers more than 16 bytes
+> #7 tty_ldisc_receive_buf
+> #8 tty_port_default_receive_buf
+> #9 receive_buf
+> #10 process_one_work
+> 
+> In my busybox instance which does not have this issue I can see that
+> termios.c_lflag = 0x447, so in the stack above #4 is not called (ECHO
+> is 0x8, ECHONL is 0x10).
+> 
+> In the bug scenario: termios.c_lflag = 0x5cf, so we go into #4 which
+> is supposed to write (say) 17 bytes, but ends up writing only 16
+> because that is what tty_write_room() returns.
 
---rIxB6wVgNqkKPNtI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think my init script left the terminal wherever the hardware defaults
+initialized it to?
 
-On Fri, Apr 29, 2022 at 01:17:05AM +0200, Paolo Bonzini wrote:
-> On 4/27/22 16:35, Stefan Hajnoczi wrote:
-> > This is typical for rx virtqueues where the device uses buffers when
-> > some event occurs (e.g. a packet is received, an error condition
-> > happens, etc).
-> >=20
-> > Polling non-empty virtqueues wastes CPU cycles. We are not waiting for
-> > new buffers to become available, we are waiting for an event to occur,
-> > so it's a misuse of CPU resources to poll for buffers.
->=20
-> Shouldn't polling wait for _used_ buffers, rather than available ones?
->=20
-> I agree that it's generally useless to poll the event queue, but not beca=
-use
-> it doesn't empty the virtqueue.
+(I note that sh4 also has a variant of this problem, but instead of the
+stutter-and-flush behavior it just hard discards everything after the first 16
+characters of a paste. Large pastes seemsto work without issue on all the other
+targets I've tried so far, I.E. x86, arm, mips, powerpc -M g3beige, s390x, and
+m68k. And by "large" I mean I've fed half a megabyte of uuencode output into
+uudecode as a single paste.)
 
-This is device emulation code, not driver code. It's the device that
-uses buffers and the driver that waits for used buffers. So the device
-shouldn't poll for used buffers.
+> What I think is causing this issue is that the hvc_vio.c driver is
+> configured with hp->outbuf_size = 16. That number comes from the
+> H_PUT_TERM_CHAR hypercall spec which reads two registers at a
+> time. However, the hvc_write function supports writes larger than 16
+> bytes so it seems we're needlessly propagating the 16 byte limitation
+> to the upper layer.
 
-Stefan
+Looks like the call is:
 
---rIxB6wVgNqkKPNtI
-Content-Type: application/pgp-signature; name="signature.asc"
+  hp = hvc_alloc(termno, vdev->irq, ops, MAX_VIO_PUT_CHARS);
 
------BEGIN PGP SIGNATURE-----
+MAX_VIO_PUT_CHARS implies it's the maximum allowed write size. Understandable if
+writes bigger than that didn't get a lot of testing. (There's an identical call
+in hvc_opal.c, by the way.)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJszq0ACgkQnKSrs4Gr
-c8hq2gf8D5DyZ7xxOZ29FXR9czm/4XFbEGh5NMcCv7iNuXL7HUjcr9Qkhi1xU0UP
-fJnr0Vc87NZoE4lqVLsS93oryoa3N0yb+0D1h/xiPvkH4u/lpjItTh+w4yhUPoKT
-rY5ycM6c8w1O827jkz+oBpK1cocTMDxZuBwwAuMB8zpnAZK/Bd51rYBAMwIwOKIA
-jAN0Y0N+pYE/YuCCtU3hx5rChz+9XcUx+UnGjnmuWnIVz82P8hddVblxyKk7hyd9
-lhf/AzbRXSLRbqsmGrX7VG7z0Me6Z/10B7yZMnnSxQP1602a40xfQisrfIr4pv+z
-ebsYqdOqti4GB5J5k0Jl0n7mMceqYg==
-=yBtN
------END PGP SIGNATURE-----
+> The driver is also not buffering the write, so if it gets called to
+> write one char at a time (like __process_echoes does) there should be no
+> limit to how much it can write.
+> 
+> I think if we increase hp->outbuf_size to a value that is larger than
+> N_TTY_BUF_SIZE=4096 the echo buffer would drain before reaching this new
+> hvc driver limit.
 
---rIxB6wVgNqkKPNtI--
+How is this handled on any of the architectures where it works? (Or do their tty
+flags just start at different defaults so I don't see it there?)
 
+> I tested that and it seems to work, but I'm not sure if it's the right
+> fix, there are some things I couldn't figure out:
+
+Let me know if I can help, although this sounds like it's moved a bit beyond
+areas I'm familiar with.
+
+Thanks,
+
+Rob
 
