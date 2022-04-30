@@ -2,74 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE76515F68
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:05:49 +0200 (CEST)
-Received: from localhost ([::1]:37852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FB3515F7D
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:14:31 +0200 (CEST)
+Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkqXU-0002Bl-7k
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54666)
+	id 1nkqfu-0005l6-Su
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:14:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkqUJ-0008HE-GN
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:02:31 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkqUH-0001Bc-Ti
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:02:31 -0400
-Received: by mail-pf1-x429.google.com with SMTP id c14so469282pfn.2
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QvfdSEBOg6Ufr/s6Ow9ptopcge3u9K/j1RRfTmH4ryc=;
- b=m6CXWm/x7xJagaanGQqhSP0MQ1ZMXtKmp6V8cSWd0gN4p+c14/PrOt6d6MMrUv9WBl
- hHTsRUwCm+ZRI65bP2P++eSg1jrQhoceiNHkcOM4+E53PQ4xVMHp3TrvQ6gdyWUCmnGa
- xP13YsVMm+ReU65cSzUEg0fn3cZ2lPm1w0q+Iecgt0pREw2oxr6YJtpxHvvcJxafTUnH
- ovFenSuxiDSWOjXwj/TX/NNuLmqA/Eqo1SXRMRnYkMBFyHAzzXeiaHR+eW5diKtikffP
- 1dJeDYGtd18MHw6W8V7IPLYgXC7jljRaX6jfV+KdGG5NkdEo8AKX/9obEcuITvo5pVIT
- iTQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QvfdSEBOg6Ufr/s6Ow9ptopcge3u9K/j1RRfTmH4ryc=;
- b=fDiRpRiLbXCOxsGryur9u+ImMBh7UTo4L/6NojrsJ1DtI0qoqxD8EXAR3GAhhUGhi5
- zW9hcUR5j8D78PnP95hZtQgFBkfgnJm/sDIiA3pa9UHMTju8SruEycdhvj9woTUMbxuQ
- +Xz6c2cuqfhoDPSh0QxvwUx0zg5uyYdICvfpypl5Z+nnVdoSHUsfZeGSztpfzsH0iL/U
- dXBjYrwpBuT/UYz8PZdajvHFETrDrZTkps0p1xq9S7lljSUZqNsU8ftehpusZWaL4T1r
- 7yDTZZolMy1/PAW9A7UI4mIPCwJKABGQr7iiQ5mpTw0+KR1S0GO6C1+UqZ+ZJ0eNXKNw
- lqTw==
-X-Gm-Message-State: AOAM531PVkHO0P71/9aN0IxGOOiTYX/IiaUZNOs+Hi6R+OAprEse5xp3
- dDKbDQdBxy3S8h/0x2I/u/m9Y5L8IuGioQ==
-X-Google-Smtp-Source: ABdhPJzBqqXwn0u+QoB2xEC1IHdUw3/+ine3BKncDHdJ1EEA0HHSw4GN/N2BLI2kV/LXlrsaUT78jg==
-X-Received: by 2002:a63:814a:0:b0:3ab:71d0:1a05 with SMTP id
- t71-20020a63814a000000b003ab71d01a05mr3640970pgd.599.1651338148527; 
- Sat, 30 Apr 2022 10:02:28 -0700 (PDT)
-Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- j10-20020a62b60a000000b0050dc762817dsm1753826pff.87.2022.04.30.10.02.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 10:02:28 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/m68k: Enable halt insn for 68060
-Date: Sat, 30 Apr 2022 10:02:25 -0700
-Message-Id: <20220430170225.326447-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220430170225.326447-1-richard.henderson@linaro.org>
-References: <20220430170225.326447-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1nkqaP-0004vp-Tv
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:08:49 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:56031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1nkqaO-0001wW-4S
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:08:49 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 79FF1407EB;
+ Sat, 30 Apr 2022 20:08:48 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 6DF6B2A;
+ Sat, 30 Apr 2022 20:03:31 +0300 (MSK)
+Message-ID: <18da14fc-c582-c6f6-8d3d-bf3b47d2a15c@msgid.tls.msk.ru>
+Date: Sat, 30 Apr 2022 20:08:45 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Building tools on unsupported cpu/arch
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <31fb2fcb-6ad0-b769-9ec9-94fba0679065@msgid.tls.msk.ru>
+ <61fb585e-3ca6-b218-750c-9e833edd9f3f@linaro.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <61fb585e-3ca6-b218-750c-9e833edd9f3f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,28 +58,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/m68k/translate.c | 1 +
- 1 file changed, 1 insertion(+)
+30.04.2022 19:57, Richard Henderson wrote:
+..
+>> What's the way to build tools on an unsupported architecture these days?
+> 
+> Hmm, well, there isn't a way.  This seems like a bug in common-user/meson.build.
+> We should not add this include directory if neither linux-user and bsd-user are enabled.
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 4026572ed8..e4efd988d2 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -6003,6 +6003,7 @@ void register_m68k_insns (CPUM68KState *env)
-     INSN(tas,       4ac0, ffc0, M68000);
- #if defined(CONFIG_SOFTMMU)
-     INSN(halt,      4ac8, ffff, CF_ISA_A);
-+    INSN(halt,      4ac8, ffff, M68060);
- #endif
-     INSN(pulse,     4acc, ffff, CF_ISA_A);
-     BASE(illegal,   4afc, ffff);
--- 
-2.34.1
+Aftr adding an if similar to linux-user/meson.build (with this condition), it
+fails down the line anyway:
 
+cc -Ilibui-sdl.a.p -I. -I../.. -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/SDL2 -I/usr/include/pixman-1 -I/usr/include/glib-2.0 
+-I/usr/lib/hppa-linux-gnu/glib-2.0/include -fdiagnostics-color=auto -Wall -Winvalid-pch -std=gnu11 -O2 -g -isystem 
+/home/mjt/qemu-7.0+dfsg/linux-headers -isystem linux-headers -iquote . -iquote /home/mjt/qemu-7.0+dfsg -iquote /home/mjt/qemu-7.0+dfsg/include -iquote 
+/home/mjt/qemu-7.0+dfsg/disas/libvixl -iquote /home/mjt/qemu-7.0+dfsg/tcg/tci -pthread -U_FORTIFY_SOURCE -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 
+-D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv 
+-Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body 
+-Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2 -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -g -O2 
+-ffile-prefix-map=/home/mjt/qemu-7.0+dfsg=. -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -D_REENTRANT -Wno-undef -DBUILD_DSO 
+-MD -MQ libui-sdl.a.p/ui_x_keymap.c.o -MF libui-sdl.a.p/ui_x_keymap.c.o.d -o libui-sdl.a.p/ui_x_keymap.c.o -c ../../ui/x_keymap.c
+In file included from ../../ui/x_keymap.c:15:
+../../ui/trace.h:1:10: fatal error: trace/trace-ui.h: No such file or directory
+     1 | #include "trace/trace-ui.h"
+       |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+This is, again, --disable-system --disable-user --enable-tools,
+so it should not, I guess, compile ui-sdl.  Or should it?
+
+Thanks,
+
+/mjt
 
