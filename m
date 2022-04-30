@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6600515A81
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 06:32:40 +0200 (CEST)
-Received: from localhost ([::1]:59190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC061515A91
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 07:18:42 +0200 (CEST)
+Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkemd-0007es-Di
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 00:32:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54704)
+	id 1nkfVB-0007EZ-JI
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 01:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nkekH-0006py-IC
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 00:30:18 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:45989)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nkekD-0007bQ-6R
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 00:30:12 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- bi24-20020a05600c3d9800b00393ff664705so5742196wmb.4
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 21:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9d3xmi1pzvf41af7ZsKLn8yhSU1BVM/DTv7PEhWN8VQ=;
- b=Xth+wVk5o7nk+hLDqZHrVf7hjKuezDPWSiNcrYYpypPtwlzKCXPO77p5aZ6hvngFxn
- ekCY0W71Kc6YZPOlmlfKmvUEJcT/cF/P0M07s+iYx/u55HO+II7ylEWQ2nfS875q7siW
- K99Bfd0vf1j//6Sh0M+0Uu4Lh6C5BYe+9j3P95ZEUFdTsUecj3FXbO38ayj44RRgn9pF
- gTSRG7vVhuIHUD5OlOgk8xfRMZk4M1qupHMU8kge0/xRKVTdqeU0GpjD0A85gfzDuZxK
- +zqBErwWFuhbPJ/mD8wIfNpr3PFi0DIqD1v60wU1DWFH3r+23kut+Jrr8JNdbq0l0RJr
- TJkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9d3xmi1pzvf41af7ZsKLn8yhSU1BVM/DTv7PEhWN8VQ=;
- b=5eFhNmfxXJ3HOsQTVosi68wMfhMV2MKCqeHShdgNSmHJsLWeXuRspcnm6rUCZWF4Hm
- QcOUf0541sRZAkEplKWgFXwOzZSRPQQwcNqD2MT13INtjA7nCQNkmNap7t9wQVO/6AZz
- BPbfwZw9NNwIoiG+C3oWI4HzPEy3642PXKKbp/9U0aFAB3zWOWSIjdhZSWNttVGUJ28U
- 8OCxzdiZNSGprzlGsgF8EtFBA/7s6vVNQvhMTSsWf4nQhYJs2iVcZWNnNWOuiO1q52gB
- RwKIIh0S51rEoNtO2YPOjHdJs4dNSFfu1ZqCF4ddQwrqFAisL9GaIfs5fkv+/mtVfz9u
- /7gg==
-X-Gm-Message-State: AOAM532EGB4rqoPj1VdYCEHUIHwacJmPc1Hn8TZWzu6stZXLaVnMwnBl
- 6VkWLQhLdenf8YNZXE69TLAuJDZ226k486f23SWwyg==
-X-Google-Smtp-Source: ABdhPJz73ZHZEv2RdfikUJYDAa3UxDfZr53VHtMvrCLVGIPuwYpRzgg/Xx/eLy/DtvclRJvKEEWhkenBW5ae7tkIIJM=
-X-Received: by 2002:a7b:c190:0:b0:394:116d:5e0b with SMTP id
- y16-20020a7bc190000000b00394116d5e0bmr5918121wmi.108.1651293004352; Fri, 29
- Apr 2022 21:30:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nkfTx-0006Q2-BR
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:17:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27005)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nkfTu-0004lt-6b
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 01:17:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651295840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XApDeSlnKyBzNFhKvsIarv9fJYeVHZY/5R9JIyXZvhM=;
+ b=cMoHKxMGVu+FBFGhfLiRStMM29AWyZkQwFAQnCa6UnhIAA6JuTXb/Jdym+9tCLedgcr9nq
+ C80P5YE26YR0IVmFZq95d/NGRvV1LK/Vs07x5FBa99a+OhEOH+3TLXl/hYqvbp0Bfefh9X
+ WCYF778Z+jKHPoQlS2J/xyOhruy9slg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-14-IysnV6iCO3-MPqkZphltvg-1; Sat, 30 Apr 2022 01:17:15 -0400
+X-MC-Unique: IysnV6iCO3-MPqkZphltvg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2313229AB3E3;
+ Sat, 30 Apr 2022 05:17:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73439416374;
+ Sat, 30 Apr 2022 05:17:12 +0000 (UTC)
+Date: Sat, 30 Apr 2022 06:17:11 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <YmzGV8Evmet8RXUh@stefanha-x1.localdomain>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <8f01c640-f876-568a-d6ff-bbb112e5154f@redhat.com>
+ <YmpwRKUW5e3P/hhd@stefanha-x1.localdomain>
+ <3b156b87-11d5-3eb7-f58a-94939f65ea8f@redhat.com>
 MIME-Version: 1.0
-References: <20220429153431.308829-1-apatel@ventanamicro.com>
- <20220429153431.308829-4-apatel@ventanamicro.com>
- <CANzO1D1M-wH-r-T58E9qJ7X5MTruiAXP87UdYikWanrXgswuJA@mail.gmail.com>
-In-Reply-To: <CANzO1D1M-wH-r-T58E9qJ7X5MTruiAXP87UdYikWanrXgswuJA@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Sat, 30 Apr 2022 09:59:52 +0530
-Message-ID: <CAAhSdy27e84WXJ8fKjzN9RxRoPvz5gmwUN3na2cMFGuJ5TpjAg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/riscv: Consider priv spec version when
- generating ISA string
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::32e;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="62fOTn7hkvFpNlLb"
+Content-Disposition: inline
+In-Reply-To: <3b156b87-11d5-3eb7-f58a-94939f65ea8f@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,122 +79,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 30, 2022 at 8:39 AM Frank Chang <frank.chang@sifive.com> wrote:
->
-> Hi Anup,
->
-> If we want to limit the generated ISA string to/after a specific privilege spec version.
-> Shouldn't we also check the privilege spec version when these extensions are enabled?
-> Otherwise, it's possible that one extension is enabled,
-> but the privilege spec version is smaller than the one in which the extension is supported.
-> (This is possible if user specifies the privileged spec version through the command line.)
-> The ISA string therefore won't include the enabled extension.
 
-This patch is only a temporary fix for the sifive_u machine where I am
-seeing some
-of these new extensions available in ISA string.
+--62fOTn7hkvFpNlLb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We need a separate series to have the priv spec version influence
-individual extension
-enabling/disabling.
+On Thu, Apr 28, 2022 at 11:56:09PM +0200, Emanuele Giuseppe Esposito wrote:
+>=20
+>=20
+> Am 28/04/2022 um 12:45 schrieb Stefan Hajnoczi:
+> > On Wed, Apr 27, 2022 at 08:55:35AM +0200, Emanuele Giuseppe Esposito wr=
+ote:
+> >>
+> >>
+> >> Am 26/04/2022 um 10:51 schrieb Emanuele Giuseppe Esposito:
+> >>> Luckly, most of the cases where we recursively go through a graph are
+> >>> the BlockDriverState callback functions in block_int-common.h
+> >>> In order to understand what to protect, I categorized the callbacks in
+> >>> block_int-common.h depending on the type of function that calls them:
+> >>>
+> >>> 1) If the caller is a generated_co_wrapper, this function must be
+> >>>    protected by rdlock. The reason is that generated_co_wrapper create
+> >>>    coroutines that run in the given bs AioContext, so it doesn't matt=
+er
+> >>>    if we are running in the main loop or not, the coroutine might run
+> >>>    in an iothread.
+> >>> 2) If the caller calls it directly, and has the GLOBAL_STATE_CODE() m=
+acro,
+> >>>    then the function is safe. The main loop is the writer and thus wo=
+n't
+> >>>    read and write at the same time.
+> >>> 3) If the caller calls it directly, but has not the GLOBAL_STATE_CODE=
+()
+> >>>    macro, then we need to check the callers and see case-by-case if t=
+he
+> >>>    caller is in the main loop, if it needs to take the lock, or deleg=
+ate
+> >>>    this duty to its caller (to reduce the places where to take it).
+> >>>
+> >>> I used the vrc script (https://github.com/bonzini/vrc) to get help fi=
+nding
+> >>> all the callers of a callback. Using its filter function, I can
+> >>> omit all functions protected by the added lock to avoid having duplic=
+ates
+> >>> when querying for new callbacks.
+> >>
+> >> I was wondering, if a function is in category (3) and runs in an
+> >> Iothread but the function itself is not (currently) recursive, meaning
+> >> it doesn't really traverse the graph or calls someone that traverses i=
+t,
+> >> should I add the rdlock anyways or not?
+> >>
+> >> Example: bdrv_co_drain_end
+> >>
+> >> Pros:
+> >>    + Covers if in future a new recursive callback for a new/existing
+> >>      BlockDriver is implemented.
+> >>    + Covers also the case where I or someone missed the recursive part.
+> >>
+> >> Cons:
+> >>    - Potentially introducing an unnecessary critical section.
+> >>
+> >> What do you think?
+> >=20
+> > ->bdrv_co_drain_end() is a callback function. Do you mean whether its
+> > caller, bdrv_drain_invoke_entry(), should take the rdlock around
+> > ->bdrv_co_drain_end()?
+>=20
+> Yes. The problem is that the coroutine is created in bs AioContext, so
+> it might be in an iothread.
+>=20
+> >=20
+> > Going up further in the call chain (and maybe switching threads),
+> > bdrv_do_drained_end() has QLIST_FOREACH(child, &bs->children, next) so
+> > it needs protection. If the caller of bdrv_do_drained_end() holds then
+> > rdlock then I think none of the child functions (including
+> > ->bdrv_co_drain_end()) need to take it explicitly.
+>=20
+> Regarding bdrv_do_drained_end and similar, they are either running in
+> the main loop (or they will be, if coming from a coroutine) or in the
+> iothread running the AioContext of the bs involved.
+>=20
+> I think that most of the drains except for mirror.c are coming from main
+> loop. I protected mirror.c in patch 8, even though right now I am not
+> really sure that what I did is necessary, since the bh will be scheduled
+> in the main loop.
+>=20
+> Therefore we don't really need locks around drains.
 
-Regards,
-Anup
+Are you saying rdlock isn't necessary in the main loop because nothing
+can take the wrlock while our code is executing in the main loop?
 
->
-> Regards,
-> Frank Chang
->
->
-> On Fri, Apr 29, 2022 at 11:49 PM Anup Patel <apatel@ventanamicro.com> wrote:
->>
->> Most of the multi-letter extensions (such as Svpbmt, Svnapot, Svinval,
->> etc) are only available after Priv spec v1.12 so ISA string generation
->> should check the minimum required priv spec version for all extensions.
->>
->> Fixes: a775398be2e ("target/riscv: Add isa extenstion strings to the
->> device tree")
->> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
->> ---
->>  target/riscv/cpu.c | 36 +++++++++++++++++++-----------------
->>  1 file changed, 19 insertions(+), 17 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 02ee7d45d8..d8c88b96bc 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -44,6 +44,7 @@ static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
->>  struct isa_ext_data {
->>      const char *name;
->>      bool enabled;
->> +    uint32_t min_priv_ver;
->>  };
->>
->>  const char * const riscv_int_regnames[] = {
->> @@ -974,7 +975,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->>      device_class_set_props(dc, riscv_cpu_properties);
->>  }
->>
->> -#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
->> +#define ISA_EDATA_ENTRY(name, prop, priv) {#name, cpu->cfg.prop, priv}
->>
->>  static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->>  {
->> @@ -1000,25 +1001,26 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->>       *    extensions by an underscore.
->>       */
->>      struct isa_ext_data isa_edata_arr[] = {
->> -        ISA_EDATA_ENTRY(zfh, ext_zfh),
->> -        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
->> -        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
->> -        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
->> -        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
->> -        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
->> -        ISA_EDATA_ENTRY(zba, ext_zba),
->> -        ISA_EDATA_ENTRY(zbb, ext_zbb),
->> -        ISA_EDATA_ENTRY(zbc, ext_zbc),
->> -        ISA_EDATA_ENTRY(zbs, ext_zbs),
->> -        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
->> -        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
->> -        ISA_EDATA_ENTRY(svinval, ext_svinval),
->> -        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
->> -        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
->> +        ISA_EDATA_ENTRY(zfh, ext_zfh, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zfinx, ext_zfinx, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zhinx, ext_zhinx, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zdinx, ext_zdinx, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zba, ext_zba, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zbb, ext_zbb, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zbc, ext_zbc, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zbs, ext_zbs, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zve32f, ext_zve32f, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(zve64f, ext_zve64f, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(svinval, ext_svinval, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(svnapot, ext_svnapot, PRIV_VERSION_1_12_0),
->> +        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt, PRIV_VERSION_1_12_0),
->>      };
->>
->>      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
->> -        if (isa_edata_arr[i].enabled) {
->> +        if (isa_edata_arr[i].enabled &&
->> +            cpu->env.priv_ver >= isa_edata_arr[i].min_priv_ver) {
->>              new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
->>              g_free(old);
->>              old = new;
->> --
->> 2.34.1
->>
->>
+Stefan
+
+--62fOTn7hkvFpNlLb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJsxlcACgkQnKSrs4Gr
+c8hj3wf9HNxR8+d63ST16SBU7xHxSNKPdoTtP2GiNEwfIeMjZWNRnUUA15go6bKf
+RLnfW1oxtOeyk05M/TFVbVVeCeOdTChqE3cqlMK/0BwvsKuKFLVr1WaFo1YcOYVl
+p8KoqSJRV3z1Y4vIE/Sb3QBase2ZlugvHSXVM3nIVEE+o0ZCOgY3nNBopYgGVxwF
+0fjh9caM6yEQptf/qpNMEVp3UgeAUnpqOiSkR/rwc8AqrVxSLiWRFOyMTLm2saRQ
+dkfQanloWybTB2du2jpnnO9jb7Shis1g6V7uhLsk3q6RZi9rp1nSyEkHh2+p9fwN
+xJT1jn9CRiufDnGtkKen0DTTTSCClA==
+=2Sf7
+-----END PGP SIGNATURE-----
+
+--62fOTn7hkvFpNlLb--
+
 
