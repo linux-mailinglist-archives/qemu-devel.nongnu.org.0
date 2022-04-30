@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7F3515E0B
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 16:08:28 +0200 (CEST)
-Received: from localhost ([::1]:46054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D755D515E13
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 16:13:23 +0200 (CEST)
+Received: from localhost ([::1]:54662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknlr-0000mv-8B
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 10:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56228)
+	id 1nknqc-0006j4-Va
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 10:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAr-00055A-Vb
+ id 1nknAs-00057K-SZ
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:15 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:52892)
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:42791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAq-0006XJ-He
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:13 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id e24so9298872pjt.2
+ id 1nknAr-0006XR-BX
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:14 -0400
+Received: by mail-pl1-x632.google.com with SMTP id p6so9292494plf.9
  for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/27qRMF/7/SVCIffe/0N75Mp/N/kT0yltHM3qggU1zM=;
- b=yQ/fel4m6s85ma0A3x/cRZwAJELQoIY1IJmGo7Ibtr1JyESfIxFHOmKYOjUFtRM7fj
- B1OsfgSVLloxJ73FrUkQfJ/oNzwY1DYtTNmxiAxVP6fzwiVVxMS0/N9bsMhaWAOHZg5N
- rx3HT8KNqAyMX6qqpDN28bdsnhOh8GBd6qYq1o/4VcOGXdN+zy0wk4+yqDPZ0LsS5pcs
- reRwtPmYXoMnR6TabcD4YfQmrF97d4INqvcw7eQZdrWxOnfUZA/SrmUoQV0iJp+aQ5k8
- fvvUnL5n7kD1IoJdnGsPqxWM7oEZcI9l2EpFiM3qIpYlSdgvotIYQXTeT9JHd2foxBsx
- 23SA==
+ bh=vyI9atIKZgVrQgHTzauV1Q/z1myJDzCa5CWllyH6//o=;
+ b=i/chQaADAoksE27Ep83yDkoNrfhd5H4DbyXhCV8UeoFlWaIumaZ70kbAaDl8mXiM8s
+ lgu6AwaUzNueHGQYhqtURTQtUIr3gXY0aelxQCNCZ6cX8rW7rDqmVF+yBUr76k7RxRL2
+ Z/+l1Uuacw5rHr+bpF+aDgV9IB2CTTVAS6nwwy0uYF8OV/TCx/cUNkuAvxMFsSLaWF2m
+ wNi6j6ok3j5jOqJgeLrnRI1DzNtaWWj6L9r6uK0gC5ZRK9DAZDhkizdK/hKIUMTR+TCI
+ rg7DVqkjdt5xyxR4kS7PATABMKGwRfl1poR90FXVtSMV4ocqqLM9elY2u7bJXBrP3QGD
+ W4Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/27qRMF/7/SVCIffe/0N75Mp/N/kT0yltHM3qggU1zM=;
- b=6GC7aA1LKs/AX+1sHk5vcF2TSFeNK5Lwx/u5tDrxbVPtwYmfjYFXJszgY1zSn+3+jx
- OB6nhZIrBLnjZm/Tckd51upnq2my5K4mcbWXt9etz86QTS5dmHDcx5vx+inST7ISUJ06
- o7pJK3HLNnypEcOHrZ5PFP/TU8RpFZ2tLitT3ALTWv7kK2iDgaiTOhpiGNSGsqdBs0P+
- Nl86wde8XBWJzPMBvJjmctnj/jBSKRKpMRSz1M6bifKtsIkyx9vKs9Yjgji5J7AMER/z
- IDV25iYMlF5WSviIJ/rF7HTzQHW7Byzt9AMS2gWs48fZXSei1cwBxbF844qx6WXYqB0W
- cqhA==
-X-Gm-Message-State: AOAM531NHPUPd3xZetXz12E1JM7Gb99CzhAw7Bn7yg6zCja0Q7YJmIRf
- wEavJkcbrvrojiwPrq9cCqc3lXnaRSqKzw==
-X-Google-Smtp-Source: ABdhPJwPaObPWNVccq+J6KfWrkoHOGH/8hj2hwMr0rwSxdPj7ndYBjDo+HgBhyRM4M2Ev7AW0IhH6Q==
-X-Received: by 2002:a17:902:8644:b0:15a:3b4a:538a with SMTP id
- y4-20020a170902864400b0015a3b4a538amr3729895plt.146.1651325411272; 
- Sat, 30 Apr 2022 06:30:11 -0700 (PDT)
+ bh=vyI9atIKZgVrQgHTzauV1Q/z1myJDzCa5CWllyH6//o=;
+ b=1GFoW4wxXD6X7izkuWppOc2zpCTkY+gU39BjSq5cDvti/gPWudn8BvoTFzeQQgcAzV
+ kwuNX0xP3xthgO1k6AqXQdjaNmwO57/I6n7xlOwRMhTK8wRjB19GPPceuyPnhUCH/0qt
+ Bvbq8NV9rjCzZqE0wkBiA+cc60ypxoTDcbabtehNsVQKE2yh8rigtbEkMMBQ8XtiY9kp
+ WYotjKh3ceifu5JBQbJ4j0uu1uTp3hG6zzaHah+FYnxF8rlnIcUv3pZ+tip6q6o1RKvL
+ eMCsIWP0IEu0Ab6QZXCClRUkETZDj6LIRe7oqwzZjWIztREJQdkBiCDTtPAdQ+5F+h4y
+ Agxw==
+X-Gm-Message-State: AOAM530P92FlK/BDyCegvvmogzoof18r98/Z8mXHjsFXK6JSJ/Et3L/J
+ xevKfEbLBuUw9i/nSTXgmkjkzAdAPoyBEQ==
+X-Google-Smtp-Source: ABdhPJzzzUX8MLHa6J+jx0m1Jq/8En8nv6/cbNgIr9uYPanyVEDtdsccY+XPN458+9wGPx+kQrNZFA==
+X-Received: by 2002:a17:90b:4d08:b0:1ce:8d09:1c58 with SMTP id
+ mw8-20020a17090b4d0800b001ce8d091c58mr4270641pjb.168.1651325412068; 
+ Sat, 30 Apr 2022 06:30:12 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.30.10
+ x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.30.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:30:10 -0700 (PDT)
+ Sat, 30 Apr 2022 06:30:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 38/43] target/m68k: Enable semihosting for non-coldfire
-Date: Sat, 30 Apr 2022 06:29:27 -0700
-Message-Id: <20220430132932.324018-39-richard.henderson@linaro.org>
+Subject: [PATCH 39/43] target/m68k: Remove EXCP_HALT_INSN
+Date: Sat, 30 Apr 2022 06:29:28 -0700
+Message-Id: <20220430132932.324018-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
 References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,36 +88,58 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The libgloss m68k-semi.txt spec says that bkpt #0 may be
-used when the halt insn is not available.  While halt is
-available for 68060, continue to support bkpt #0 for all
-m68k processors.
+Now that semihosting is not attached to EXCP_HALT_INSN,
+we can use EXCP_HLT.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/translate.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/m68k/cpu.h       | 1 -
+ target/m68k/op_helper.c | 5 -----
+ target/m68k/translate.c | 3 ++-
+ 3 files changed, 2 insertions(+), 7 deletions(-)
 
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 60f88e6bc9..f10554318b 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -66,7 +66,6 @@
+ #define EXCP_MMU_ACCESS     58  /* MMU Access Level Violation Error */
+ 
+ #define EXCP_RTE            0x100
+-#define EXCP_HALT_INSN      0x101
+ 
+ #define M68K_DTTR0   0
+ #define M68K_DTTR1   1
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index a345245612..6218ac791b 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -201,11 +201,6 @@ static void cf_interrupt_all(CPUM68KState *env, int is_hw)
+             /* Return from an exception.  */
+             cf_rte(env);
+             return;
+-        case EXCP_HALT_INSN:
+-            cs->halted = 1;
+-            cs->exception_index = EXCP_HLT;
+-            cpu_loop_exit(cs);
+-            return;
+         }
+         if (cs->exception_index >= EXCP_TRAP0
+             && cs->exception_index <= EXCP_TRAP15) {
 diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index b7adc8f53d..51c546f26f 100644
+index 51c546f26f..354a127e1a 100644
 --- a/target/m68k/translate.c
 +++ b/target/m68k/translate.c
-@@ -2775,6 +2775,15 @@ DISAS_INSN(swap)
- 
- DISAS_INSN(bkpt)
- {
-+#ifndef CONFIG_USER_ONLY
-+    /* The non-ColdFire semihosting insn is bkpt #0. */
-+    if (!m68k_feature(s->env, M68K_FEATURE_CF_ISA_A)
-+        && !IS_USER(s)
-+        && (insn & 7) == 0
-+        && maybe_semihosting(s)) {
-+        return;
-+    }
-+#endif
-     gen_exception(s, s->base.pc_next, EXCP_DEBUG);
+@@ -4736,7 +4736,8 @@ DISAS_INSN(halt)
+     if (maybe_semihosting(s)) {
+         return;
+     }
+-    gen_exception(s, s->pc, EXCP_HALT_INSN);
++    tcg_gen_movi_i32(cpu_halted, 1);
++    gen_exception(s, s->pc, EXCP_HLT);
  }
  
+ DISAS_INSN(stop)
 -- 
 2.34.1
 
