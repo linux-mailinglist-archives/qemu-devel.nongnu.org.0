@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12A6515F67
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:05:48 +0200 (CEST)
-Received: from localhost ([::1]:37810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31F7515F66
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:05:46 +0200 (CEST)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkqXT-00029z-Mg
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54642)
+	id 1nkqXR-00024h-Jc
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:05:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkqUH-0008ES-JU
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:02:29 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:39544)
+ id 1nkqUI-0008Fr-HI
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:02:30 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:46045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkqUG-0001BF-3T
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:02:29 -0400
-Received: by mail-pg1-x532.google.com with SMTP id i62so8755067pgd.6
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:02:27 -0700 (PDT)
+ id 1nkqUH-0001BL-2B
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:02:30 -0400
+Received: by mail-pg1-x529.google.com with SMTP id 7so4871759pga.12
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7cRNMu6Nnszsz84vz8H4accAPiJUTr0e9bbgSJIp6pc=;
- b=TiQB/kGMNlspo7TH9xYrJX9iheGGbvSvKKQFRhiJvQKb+mIJbaqpycV+aZ9Kw4Ir/B
- BMIMjTZ5VB9yRT99JFyXltrMYt6EUza9WcwDU/DxLBlM1JdD4AKwebdPO4A57oVxm1Z1
- skXLUdjz95cSxTAm2CW0krEDa/n6zX9Cr8oadYikdNhne7hn0ISkKeKoT5DGPhcC4E0M
- qm62AjPjxjwE85xTosmTdQzE7J+EgLKfQk9PWQwU5MwSkKqjF4FeDBexa1NwDhH9EGF7
- c+bgEnAhfMNf+FpzkTTjTZUAy/zFN54tLo7JM9Ab3LE6QRioI5NWj9QudDmgmN13Vtsl
- wvew==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FnO0D6F2pYY5RB06rXsSe/52+8hRyxsKagxEsMSImdc=;
+ b=WvIGJftUfn9oqTAGN5/K6vyGRaiRQh46Nruw1hxDAj+/Td/kb08C83x+Pkqm5DR6DA
+ cLjzqImdjNvvjW0BDC2e7xYNLO3Wv6CNYHYqxjk/FQyuuXPAd7D69wL0d/Rq2GZ/4IRY
+ JHOpt/RvQdQK+4PxHg6uduL5zZTa4Wn0YCVwiZQlktyB26zdOfJjJxaRjPpvQvx7Hs7N
+ WMPpXiNjkUXkaq6csKELEK/G23N7Oa2R58Hw8zwLsoRX46tRuIP1v/rxorNhOvOXQxAa
+ xAFbl7QBsu1WQ8ps5m0xDzRSY7reqWny9tfCHihf9jtDHXDkf7dO3Yo73jN9/n7Uej3K
+ seoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7cRNMu6Nnszsz84vz8H4accAPiJUTr0e9bbgSJIp6pc=;
- b=z9FcykYf91/yyvCI4Yy3/RKHzaHxzWds7RXscA8gRNUS7+PhZoqJ+62f0F5Brs1yLl
- RjqCE2CKDZDnf4UVeO88xKFhMpvD5uB22n94h910sCVhZ99A5PhxzYYqQ65LoyW7ULtl
- QDwqsBjTBO6bhtTwMql/o6LLSxhMVH1vrZGxVMwzwcMmPD/ck43VgbF78MZKvZZRkoE3
- 7a5wR3JiQE3lfQTEqgGMfEQOEg/KQq0Jp8+on0zFAEG5pYfTrznn/QlPC6oCpUWwZsBN
- zoyMjbCrfHVe2dSrnAD1Bh32y8DgE52fs/w0AMhyA9dZRHjelWJfD6SGV6wDZpBLaFyo
- FauA==
-X-Gm-Message-State: AOAM533/ip6URmK8e8GwqCtNr9e0lgVp0e3sb2NqJUE3WvlpfQgcrmMl
- nnEs68TvP19+en/qd+4/dzywZgou/PqTwQ==
-X-Google-Smtp-Source: ABdhPJzuFBH4qpmG+ts2gao23129IEqCEO1M3hS5D6Nxka/eGws/tX/lqgW4lPPGrY+GHC85bpJO4A==
-X-Received: by 2002:a63:5b0d:0:b0:39c:c393:7e7f with SMTP id
- p13-20020a635b0d000000b0039cc3937e7fmr3817396pgb.16.1651338146562; 
- Sat, 30 Apr 2022 10:02:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FnO0D6F2pYY5RB06rXsSe/52+8hRyxsKagxEsMSImdc=;
+ b=Z0HyaYnvDXzjeYIy80mgREFYIADsEGbUvOwfvtr1xTfoxwR68ZBaL1q54yZ28cRE3G
+ zALBzA3nqxcMGiHLqPGa9zb4KX5Jutss/3ZCVwwJfG4CJcS0HmEYiDhc2hAlqfkAtXem
+ W4bwmjQPhb8MikG9SD+R/RlMolS0CyP0p3HU20BFbb7snY4TchmdnHH172RGVTEdXizo
+ ca1ld9U9CVeWcIV4U5Pi5itV1xEgDtZlWBYMd3nhSJ3zw8e+kFJrZgazD9qy45QtCOmY
+ Fs2n1xVHnBL2XnMFnFq4A8RcgWk+m0OPVDG2Z8EETRm3I3uMNNzi510eWXKx2u0HhMRT
+ Z5VQ==
+X-Gm-Message-State: AOAM5304yUazLLkHKgUAq8mxB4kodfHAcdc9awo6BsElhp+jWnp2+kak
+ QqIJfXt9PiuouEMzt+4I70WwE741pqS+NA==
+X-Google-Smtp-Source: ABdhPJxYeWY7fJUmpebnMAfqWzph92NojQFYEV0YfXOu76krehCgZKp+HF2D8pd2qgTUj2ZCD5svtw==
+X-Received: by 2002:a65:5b81:0:b0:3aa:1671:c6a7 with SMTP id
+ i1-20020a655b81000000b003aa1671c6a7mr3650363pgr.169.1651338147480; 
+ Sat, 30 Apr 2022 10:02:27 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- j10-20020a62b60a000000b0050dc762817dsm1753826pff.87.2022.04.30.10.02.25
+ j10-20020a62b60a000000b0050dc762817dsm1753826pff.87.2022.04.30.10.02.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 10:02:26 -0700 (PDT)
+ Sat, 30 Apr 2022 10:02:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] target/m68k: Enable halt insn for 68060
-Date: Sat, 30 Apr 2022 10:02:23 -0700
-Message-Id: <20220430170225.326447-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/2] target/m68k: Clear mach in m68k_cpu_disas_set_info
+Date: Sat, 30 Apr 2022 10:02:24 -0700
+Message-Id: <20220430170225.326447-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220430170225.326447-1-richard.henderson@linaro.org>
+References: <20220430170225.326447-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,25 +87,32 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While looking at semihosting, I noticed that 060 does have halt.
+Zero selects all cpu features in disas/m68k.c,
+which is really what we want -- not limited to 68040.
 
-Then I was a bit surprised that it wasn't being disassembled and
-thought trying to exactly match disassembly to cpu was a bit
-frought with peril -- one also wants to know what the insn was
-*supposed* to be when it raises SIGILL.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/m68k/cpu.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-
-r~
-
-
-Richard Henderson (2):
-  target/m68k: Clear mach in m68k_cpu_disas_set_info
-  target/m68k: Enable halt insn for 68060
-
- target/m68k/cpu.c       | 6 +-----
- target/m68k/translate.c | 1 +
- 2 files changed, 2 insertions(+), 5 deletions(-)
-
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index c7aeb7da9c..5671067923 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -75,12 +75,8 @@ static void m68k_cpu_reset(DeviceState *dev)
+ 
+ static void m68k_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+ {
+-    M68kCPU *cpu = M68K_CPU(s);
+-    CPUM68KState *env = &cpu->env;
+     info->print_insn = print_insn_m68k;
+-    if (m68k_feature(env, M68K_FEATURE_M68000)) {
+-        info->mach = bfd_mach_m68040;
+-    }
++    info->mach = 0;
+ }
+ 
+ /* CPU models */
 -- 
 2.34.1
 
