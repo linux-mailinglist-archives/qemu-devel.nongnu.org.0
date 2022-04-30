@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01DB515FAF
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:55:50 +0200 (CEST)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F93E515FB0
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:55:51 +0200 (CEST)
+Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkrJt-00079M-HK
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33216)
+	id 1nkrJu-00076w-FQ
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:55:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkrHv-0004Sx-C7
+ id 1nkrHv-0004Sy-Ev
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:53:47 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:39751)
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkrHt-00080l-Hn
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:53:46 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- a15-20020a17090ad80f00b001dc2e23ad84so1090025pjv.4
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:53:44 -0700 (PDT)
+ id 1nkrHt-00080p-Rm
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:53:47 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id g3so8815340pgg.3
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:53:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QvqCzpSbp/v60qq8pQb1YIj+QHxKN4+LamQEcdg6DwQ=;
- b=lOVO9nYB5m4+ZzUBf4RAoCdALxXFArsuTx6V5T6bE8Q9KbouOIvMe79RJnlEHjfdMe
- s1vxwvDX2AGhHql+anmCUM6g2sOfkiBuV5umjtnDo/THjrGEeYjwyxVantbZ6vw9v4k4
- RFkUj6lNhQWQzCG3SxtLCG5df9VsIEC9El5ddToGjETgxZNvHB2263TahRqZ4aNFh1YN
- G6oh+Mq8l/FVLADjI4iW0qLdMwj2zWoLHHSPBDW2gdfcXDaLwA/ZSD5sDvvrTFHplMIn
- OzhaKgn89yZJAZC5dVsk32sk24Zr4CHnC1+JbEhudQpeMvev2pAeSnoVpXOJ1c9vjzc1
- KxTA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=v6GsMd9l2dAfQx+Uj+qJ1gCQp2pHPy4DQInBPdc5TCM=;
+ b=NVnL/mWE6QEmcPQDULe7H0h4Ra4GIcs10ieZtq1UQIg9Z7lcSeo2y0wGgvW3QRUBTn
+ x0/Ni42kmkg5NOg708YivN2Y8SO4KFAzTje/5QqgcbvRKw9pbqSBA5PLhN2bvN+0GbYL
+ drBolSCnPlc9TJx83X+BBq0UUijfB2Jq5upy2bJOu2kyByIGZkhqQDI57k9irkH8q3eY
+ aGNS7oAmp3CInl6zYdzRWaxn6eF17eQst3mZIoaFMn2QIrDtDlGTh43XMWych7dCztE/
+ fxHbnr2Y2cp8Lw97X4O0/YROTd8kNzdZtYD6LM2XHA6HhU1nYNWSoNL4mwPH5kOYPsAB
+ Kzmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QvqCzpSbp/v60qq8pQb1YIj+QHxKN4+LamQEcdg6DwQ=;
- b=MNnO5wtnaUQJhInCqsdVFIXWlZhlY1jm97l8otmwCiKHmoWmfyJ3m1ticSUsa+WcL1
- 5/AZk+nVjSa57TwEZebCfV1KDzEadZo+FqPBaUJQQWkZaRfuR9avXQWsYwPV6Gr4r5Nr
- hUKaMUh6fHowq1qg2P/Vg5Fxqknnq4RlkirckWq5K1HUCoKni+/42c6KPeKKZ8koVxOL
- /hqJ7a25AMXgskoFC2QttEdC/HLSqM5MRVm3CLppMGmXl/lG3kc49MOelIrHKqZrkTqp
- k5PrZesgs6xf9gBoU3YksuDPovciRPPutp22nzVtszmQtCrRllAlXYTKE5yaBzkklqQQ
- FN/w==
-X-Gm-Message-State: AOAM531Lh2TTgZWgs1DsbigO+Y8adB3wMshPJH2+cd1AAqQSA4OZQsN6
- luGuQrUy4yUmQ9su1WJ+ZAIJY0Or8MMm0w==
-X-Google-Smtp-Source: ABdhPJzlAHynknWczF3ZL0grjGJ7/9kffmmcboPHhPV3HTZCbbmEe5VU3ML3sjA+rLYqN/rvORiDlA==
-X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
- t23-20020a17090ae51700b001d75bbdf9f0mr5012432pjy.77.1651341223516; 
- Sat, 30 Apr 2022 10:53:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=v6GsMd9l2dAfQx+Uj+qJ1gCQp2pHPy4DQInBPdc5TCM=;
+ b=otOh9sdz1c64VKsKFgHWQ7j2jKRYypGQkPSXZY0Ipgu66iwXE3FrpVVXPHHWCwAgeS
+ E63kCtc6gY4pnmPfbF1K93iKnzj44ToN2kR9Q02sM2j2zGaZJ6pcw++0rYu8lDKPmS6t
+ vNQWp/YttKdjOoKPGokrouf2xTi5NUi2dAmExcp8MfvHXxCqFa5Ol0n54omu0oykHvm+
+ WJHApJbjNXfU3IEW5V2syhgYcgbvUdw6ax+G5rW/kAo0b5n8OnLGQw9WCRxG047L/tlB
+ 0toxvycvkYZ9H5/Kbb4wGYdwbeLs7DIXIyvZPTV64xD1osYAlcq86suUUjL+B7NdYezY
+ gwrw==
+X-Gm-Message-State: AOAM5324wTT2R7yKelCJM1IpjkurvRwuL20M9t7FXcNpkgo0ks7L4YoD
+ jXbiJZXQ6cj4/MpBohtX8XHWFfJvzJre7w==
+X-Google-Smtp-Source: ABdhPJwmKGaDw5tEMQegacWa7f9O8Pc0FsZzNsjUQl1J0uo1wl3I/mZfmksJFd//xrz7iwwXpM9ANQ==
+X-Received: by 2002:a05:6a00:1411:b0:4fd:e594:fac0 with SMTP id
+ l17-20020a056a00141100b004fde594fac0mr4474679pfu.79.1651341224414; 
+ Sat, 30 Apr 2022 10:53:44 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- 5-20020a170902c20500b0015e8d4eb282sm1740910pll.204.2022.04.30.10.53.42
+ 5-20020a170902c20500b0015e8d4eb282sm1740910pll.204.2022.04.30.10.53.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 10:53:43 -0700 (PDT)
+ Sat, 30 Apr 2022 10:53:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/17] target/m68k: Conditional traps + trap cleanup
-Date: Sat, 30 Apr 2022 10:53:25 -0700
-Message-Id: <20220430175342.370628-1-richard.henderson@linaro.org>
+Subject: [PATCH v4 01/17] target/m68k: Raise the TRAPn exception with the
+ correct pc
+Date: Sat, 30 Apr 2022 10:53:26 -0700
+Message-Id: <20220430175342.370628-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220430175342.370628-1-richard.henderson@linaro.org>
+References: <20220430175342.370628-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,51 +88,69 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v4:
-  - Rebase, which requires QEMU_NORETURN -> G_NORETURN.
-  - Cast -4096 to abi_ulong for print_syscall_err.
+Rather than adjust the PC in all of the consumers, raise
+the exception with the correct PC in the first place.
 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/m68k/cpu_loop.c | 1 -
+ target/m68k/op_helper.c    | 9 ---------
+ target/m68k/translate.c    | 2 +-
+ 3 files changed, 1 insertion(+), 11 deletions(-)
 
-r~
-
-
-v1: https://lore.kernel.org/qemu-devel/20211130103752.72099-1-richard.henderson@linaro.org/
-v2: https://lore.kernel.org/qemu-devel/20211202204900.50973-1-richard.henderson@linaro.org/
-v3: https://lore.kernel.org/qemu-devel/20220316055840.727571-1-richard.henderson@linaro.org/
-
-
-Richard Henderson (17):
-  target/m68k: Raise the TRAPn exception with the correct pc
-  target/m68k: Switch over exception type in m68k_interrupt_all
-  target/m68k: Fix coding style in m68k_interrupt_all
-  linux-user/m68k: Handle EXCP_TRAP1 through EXCP_TRAP15
-  target/m68k: Remove retaddr in m68k_interrupt_all
-  target/m68k: Fix address argument for EXCP_CHK
-  target/m68k: Fix pc, c flag, and address argument for EXCP_DIV0
-  target/m68k: Fix address argument for EXCP_TRACE
-  target/m68k: Fix stack frame for EXCP_ILLEGAL
-  target/m68k: Implement TRAPcc
-  target/m68k: Implement TPF in terms of TRAPcc
-  target/m68k: Implement TRAPV
-  target/m68k: Implement FTRAPcc
-  tests/tcg/m68k: Add trap.c
-  linux-user/strace: Fix print_syscall_err
-  linux-user/strace: Adjust get_thread_area for m68k
-  target/m68k: Mark helper_raise_exception as noreturn
-
- target/m68k/cpu.h              |   8 ++
- target/m68k/helper.h           |  14 +--
- linux-user/m68k/cpu_loop.c     |  11 +-
- linux-user/strace.c            |   4 +-
- target/m68k/cpu.c              |   1 +
- target/m68k/op_helper.c        | 173 ++++++++++++++++--------------
- target/m68k/translate.c        | 190 ++++++++++++++++++++++++---------
- tests/tcg/m68k/trap.c          | 129 ++++++++++++++++++++++
- linux-user/strace.list         |   5 +
- tests/tcg/m68k/Makefile.target |   3 +
- 10 files changed, 394 insertions(+), 144 deletions(-)
- create mode 100644 tests/tcg/m68k/trap.c
-
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index d1bf8548b7..56417f7401 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -56,7 +56,6 @@ void cpu_loop(CPUM68KState *env)
+             {
+                 abi_long ret;
+                 n = env->dregs[0];
+-                env->pc += 2;
+                 ret = do_syscall(env,
+                                  n,
+                                  env->dregs[1],
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 8decc61240..d30f988ae0 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -217,11 +217,6 @@ static void cf_interrupt_all(CPUM68KState *env, int is_hw)
+             cpu_loop_exit(cs);
+             return;
+         }
+-        if (cs->exception_index >= EXCP_TRAP0
+-            && cs->exception_index <= EXCP_TRAP15) {
+-            /* Move the PC after the trap instruction.  */
+-            retaddr += 2;
+-        }
+     }
+ 
+     vector = cs->exception_index << 2;
+@@ -304,10 +299,6 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+             /* Return from an exception.  */
+             m68k_rte(env);
+             return;
+-        case EXCP_TRAP0 ...  EXCP_TRAP15:
+-            /* Move the PC after the trap instruction.  */
+-            retaddr += 2;
+-            break;
+         }
+     }
+ 
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 4026572ed8..6d6d026e3c 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -4860,7 +4860,7 @@ DISAS_INSN(wdebug)
+ 
+ DISAS_INSN(trap)
+ {
+-    gen_exception(s, s->base.pc_next, EXCP_TRAP0 + (insn & 0xf));
++    gen_exception(s, s->pc, EXCP_TRAP0 + (insn & 0xf));
+ }
+ 
+ static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
 -- 
 2.34.1
 
