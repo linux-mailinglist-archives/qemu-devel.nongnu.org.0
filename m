@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B48C515DAB
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:37:19 +0200 (CEST)
-Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A234515DA3
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:35:09 +0200 (CEST)
+Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknHi-0002Tb-42
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
+	id 1nknFc-0005Dz-BY
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:35:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAS-0004lG-Kp
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:50 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44551)
+ id 1nknAV-0004lz-PV
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:56 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:40844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAQ-0006Fg-EU
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:47 -0400
-Received: by mail-pl1-x635.google.com with SMTP id j8so9281337pll.11
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:29:45 -0700 (PDT)
+ id 1nknAS-0006Fs-Cw
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:29:50 -0400
+Received: by mail-pg1-x536.google.com with SMTP id x12so8498853pgj.7
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uw4gme9KuFW+TrMXShBM/0VdYE8dR14VXRbCtedKveY=;
- b=HAx+YPkiYyRIhAAqjYCxbpCV7g7KVy9FXEEbboCUJhcrIENrwnHNYb0SgP7GTn0iB3
- yj2F87v6NfR9LR3kBGMJ5t7ogGFktUd7VHozzjmrYEySynnaiRqvdZYmldlGPFlH1Kb7
- 88lT6axf+8XAbvUOLOHwdWQQaRIGCbSK8XtHGqyV1CGGpdTP6xDZZejuU/ubvQ0jMLYd
- pk+gidvQLX3nUP9G/IC2BKZuDyt1cq4PpWW+gYd8QITm4RVrweUkDIr+27imLv7XFgin
- jFy0TkHuDe2ePeZqi/wB0VsnQM5BbzUZTJqePA0+7rg7iqUE4RRNBFqF+esgekq4V8Ls
- wq8Q==
+ bh=sRa3I/Ez0AmhRV5BtAXtTCzSb0MQ7Gt+C1fZfKVXMvs=;
+ b=RfzRtCxsH4IeaViGLfCWF0KTgOoEuxAP7jHVJjcXz4dUV3sxHB33M427pKAzwQfSqU
+ jWgkq+fO4hYsOkOld6pMdes03z1ZtdRZXPsNwPGcnnoFhgOvu29/U2gmCeujCassedda
+ f+Cmp2QZ3Hps5hKZjYXC+TpN9ZwnM7+LSLnoA8f7uhavNKXGobDmkiwUZAtOoglUDd8Q
+ rhCqa9OqoX+rkrguEXZaf4Y1O0r8+EZBH21BC7Bn0n+AJR4//uPa5ZJSHmQ3aOWgGTGB
+ SsX8DMlN4hUuxn7JBXj92A1fOV56K8wgHfeE6jXfe69/Yi6Sd2h1ykbOqtvQf2EkiCyi
+ uRgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uw4gme9KuFW+TrMXShBM/0VdYE8dR14VXRbCtedKveY=;
- b=LJMOVz03pmNWW1QMRhYMUDiQEpcq2P6hN+Ag4ecMtvdnbKvkK5FjYerjlZI4dY25Kb
- Tj6/dQbgnDZLxMjrgtawOTtMtwrruEztq3QmHfnrA08Oo8nvwiyKZzcaWYi3/zex0aco
- txLtF3wf+LglYR/5PVw+sxAw2GiExQN8xjz7ZBFQ0j+eslGcJYHW6MNQnVzsCBF1fJ7I
- 95QQLOpM2hXmypoHJGiqVd3ogOpMNeTaEEcKM81ounOu3WZ1tE68/aQ9v/964rwbzaKz
- lxQD4z3NEIaO6OvOROR3nllj3rBOPVP6Q5GQEbhfmIeh5EY8RiseDDezi2261lNIgewi
- WwRQ==
-X-Gm-Message-State: AOAM531cmJ2DVxhxM5XsJY/T/klv3uLiIw6aH8erfu6E25XdmKPcEjLH
- NtwaxP/JJj62ggEa+qD9Vt9wYBp6bGSR+w==
-X-Google-Smtp-Source: ABdhPJy1RCTzgNRQrNC5mId7aQS0cbrYo4m+Ae1F01ULvJpE02JTlisQJvA9deajL9AYlM1HV8Fjvw==
-X-Received: by 2002:a17:902:ecd1:b0:15e:850b:c2d with SMTP id
- a17-20020a170902ecd100b0015e850b0c2dmr3904863plh.75.1651325385043; 
- Sat, 30 Apr 2022 06:29:45 -0700 (PDT)
+ bh=sRa3I/Ez0AmhRV5BtAXtTCzSb0MQ7Gt+C1fZfKVXMvs=;
+ b=Gt6v3GkJ3LLwZIScbxuEwlFs168U96XUPql+ltKS4KrHvI+YsvHZ9kd5wl2RtoNIIE
+ W1VRCduqsZjo2B2yb9fDAPTsiHN8xthBE+JMsCrENr/DPNVgW6qUouSHC7Gbvq4rkSWz
+ toQ7idR5S+JLcBP2HhuDYSXknsKEDhDBo1TEwEhAq0Lmgr8Jgt+P6zns/RGUfLtheuJc
+ inFToKIQ1eVyGK6djLku7n8BKyFPSHOlBc+g3c9s7fOlf6Igx2HPWRgKNb8xMPpih5nz
+ r8L7+UcIVSIF3mwk33OgTl8kopDNOnQ29kfN119RgOCNGrmOuYFP6iPqnT44LNYxYBKY
+ +p5A==
+X-Gm-Message-State: AOAM530qZFcKxb+6Q27Gfq4qCmbybHPrIivJtd4nvyoSEDEsqBiVbxsz
+ W63YG1YQkb44EqwPg2VkSHDiPuI8EyDBsw==
+X-Google-Smtp-Source: ABdhPJwnCdm81vpwZ53kPx3WzpaXxY87f+NWWvoSsmweXNFAJvvUJ3XKW17duuZHQmyaQAynCUWzTg==
+X-Received: by 2002:a63:2b45:0:b0:3ab:971b:be5e with SMTP id
+ r66-20020a632b45000000b003ab971bbe5emr3074271pgr.265.1651325386172; 
+ Sat, 30 Apr 2022 06:29:46 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.44
+ x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:29:44 -0700 (PDT)
+ Sat, 30 Apr 2022 06:29:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/43] semihosting: Move common-semi.h to include/semihosting/
-Date: Sat, 30 Apr 2022 06:29:00 -0700
-Message-Id: <20220430132932.324018-12-richard.henderson@linaro.org>
+Subject: [PATCH 12/43] include/exec: Move gdb open flags to gdbstub.h
+Date: Sat, 30 Apr 2022 06:29:01 -0700
+Message-Id: <20220430132932.324018-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
 References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,19 +88,95 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This header is not private to the top-level semihosting directory,
-so place it in the public include directory.
+There were 3 copies of these flags.  Place them in the
+file with gdb_do_syscall, with which they belong.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- {semihosting => include/semihosting}/common-semi.h | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename {semihosting => include/semihosting}/common-semi.h (100%)
+ include/exec/gdbstub.h        | 10 ++++++++++
+ semihosting/arm-compat-semi.c |  8 --------
+ target/m68k/m68k-semi.c       |  8 --------
+ target/nios2/nios2-semi.c     |  8 --------
+ 4 files changed, 10 insertions(+), 24 deletions(-)
 
-diff --git a/semihosting/common-semi.h b/include/semihosting/common-semi.h
-similarity index 100%
-rename from semihosting/common-semi.h
-rename to include/semihosting/common-semi.h
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index c35d7334b4..2aaba9c723 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -10,6 +10,16 @@
+ #define GDB_WATCHPOINT_READ      3
+ #define GDB_WATCHPOINT_ACCESS    4
+ 
++/* For gdb file i/o remote protocol open flags. */
++#define GDB_O_BINARY  0
++#define GDB_O_RDONLY  0
++#define GDB_O_WRONLY  1
++#define GDB_O_RDWR    2
++#define GDB_O_APPEND  8
++#define GDB_O_CREAT   0x200
++#define GDB_O_TRUNC   0x400
++#define GDB_O_EXCL    0x800
++
+ #ifdef NEED_CPU_H
+ #include "cpu.h"
+ 
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 18664b1c47..a1fc4ea039 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -86,14 +86,6 @@
+ #define O_BINARY 0
+ #endif
+ 
+-#define GDB_O_RDONLY  0x000
+-#define GDB_O_WRONLY  0x001
+-#define GDB_O_RDWR    0x002
+-#define GDB_O_APPEND  0x008
+-#define GDB_O_CREAT   0x200
+-#define GDB_O_TRUNC   0x400
+-#define GDB_O_BINARY  0
+-
+ static int gdb_open_modeflags[12] = {
+     GDB_O_RDONLY,
+     GDB_O_RDONLY | GDB_O_BINARY,
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index a31db38fc3..475a6b13b7 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -69,14 +69,6 @@ struct gdb_timeval {
+   uint64_t tv_usec;   /* microsecond */
+ } QEMU_PACKED;
+ 
+-#define GDB_O_RDONLY   0x0
+-#define GDB_O_WRONLY   0x1
+-#define GDB_O_RDWR     0x2
+-#define GDB_O_APPEND   0x8
+-#define GDB_O_CREAT  0x200
+-#define GDB_O_TRUNC  0x400
+-#define GDB_O_EXCL   0x800
+-
+ static int translate_openflags(int flags)
+ {
+     int hf;
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index 373e6b9436..0eec1f9a1c 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -71,14 +71,6 @@ struct gdb_timeval {
+   uint64_t tv_usec;   /* microsecond */
+ } QEMU_PACKED;
+ 
+-#define GDB_O_RDONLY   0x0
+-#define GDB_O_WRONLY   0x1
+-#define GDB_O_RDWR     0x2
+-#define GDB_O_APPEND   0x8
+-#define GDB_O_CREAT  0x200
+-#define GDB_O_TRUNC  0x400
+-#define GDB_O_EXCL   0x800
+-
+ static int translate_openflags(int flags)
+ {
+     int hf;
 -- 
 2.34.1
 
