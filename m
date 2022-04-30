@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5569515DD7
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:49:46 +0200 (CEST)
-Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D598A515DCC
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:43:13 +0200 (CEST)
+Received: from localhost ([::1]:49944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknTl-0008NS-SI
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
+	id 1nknNQ-0005sr-Vs
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAf-0004sn-Kn
+ id 1nknAf-0004sm-Dx
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:02 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:40843)
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:40583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAc-0006Hi-EM
+ id 1nknAd-0006I4-9c
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:01 -0400
-Received: by mail-pg1-x534.google.com with SMTP id x12so8499074pgj.7
+Received: by mail-pj1-x102c.google.com with SMTP id
+ iq2-20020a17090afb4200b001d93cf33ae9so12729520pjb.5
  for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:29:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D+i1/p52cnWoq/UdGJsdummOLTJVfBA8piubLoll8HQ=;
- b=xAg3Zu0Y+C4SL4aPl/a9Eih/E7n2FcE9x1xMfbD++QUS78VDIoEByFbl7IfDVi9QNd
- nJILhGR0ejxwR5ADwJPJeLcza4FtPmWfDbPNUZUyuT/rUlSZIBbczw59Tk4UxpUZfADr
- 7vhlYGFejUPzdH8ul5Wz5bFiM9+TQhGE9P/gXUUPmdTsZPkCLlSKBcSDKIfHHOWPzHQT
- DJtEz6svdv1WdB8/zom/B0LUk1iMwbwg8F7kaqgMqNYPxxiBzoq2snc/V4NxuNu1oOx0
- 4hlbSVwZrOj6btOwKAS6bs49F83PFxBb0rlYEH56mH6ZEe/W8AwaU3/1AhMdLibSl0KE
- ooVw==
+ bh=Y2rWbJS1eJALSwnl02x5AThCIttXRwsa/33AtoYRv2g=;
+ b=dFCsCoqG/pMjDsLspf8/5J0Uw2z3zxHb/S0QL0zKeV67IkYT6MszvC1y36lQFr7LyT
+ vKfksOqm5rBvaUnrgEwTegeqCqU1KzlYKKQv8wLz43U5MkWsjLS0EmEn5lYxXzOevQ9C
+ GP4uE+UhZF/IQhMI24dtQlYR0eyLnbeGYYfRHw8I2aDDJfYb3ds8s6G2f6mteky1/ZWO
+ VC0BSRdQPTfOTunevbax0+mmQByRkfoGNK8hjBOKWKQ+8jP7jnoy7b19kZtvZ/ozjMkq
+ Y1PnNY8dJ7p71p8ZcGe6/sRGDpsJadiNElQHbm5ws/gyZHL1ySm8IiExHh1sv9EZCt/G
+ Gu+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D+i1/p52cnWoq/UdGJsdummOLTJVfBA8piubLoll8HQ=;
- b=4toK753E2i73Wb8of35Sn1ldUfBoLhuYPnNOltddqRXn81888vnVTybHJsg305eX9h
- O+Bs1Jdt8V/0zoC4lJ3cbqBejp5ofXqPgsIvj9U27BGfPauQaQucmn2PlQ6JCCYhGDAO
- ulDoMAijWz1+s+v9VHXYhbUsFtTUnFD0gHZMDtzXiBahE9VH1LdorS5prV7BWkn9tFwt
- u4tSlBU/vMfEe8IDgUxvK9w4vr/qAFQbf3h6U76Pn+8uhJ0vaSRrIyPhV9mvicyIkkXT
- 2dU1++yJJ04Kdixkv1VSgXcO0U8rDq4Js8o9QJ+SGwKzSTknO4mwJfO2cz6ITxGJPGLa
- UYig==
-X-Gm-Message-State: AOAM5326/ErK1Fxs2K3mE/+F7YIFU+ye4+l3QHGcxeUcMh8Qqgj3PQLm
- Ec051XZjsLMOZkDCQg5ReCDtUHdy9qKAXA==
-X-Google-Smtp-Source: ABdhPJzcGaQa2Ej+5oNulaOI5aLk1SILHN21NOksgO1wDaV91etVi5wtWl/dZhes2eLEt4imWV5uFw==
-X-Received: by 2002:a05:6a00:16cd:b0:4e1:366:7ee8 with SMTP id
- l13-20020a056a0016cd00b004e103667ee8mr3449824pfc.9.1651325397098; 
- Sat, 30 Apr 2022 06:29:57 -0700 (PDT)
+ bh=Y2rWbJS1eJALSwnl02x5AThCIttXRwsa/33AtoYRv2g=;
+ b=BoTPEg8ymSgdcj8Hvz/upAS/6KPA9zILA2LzJuOwmGRNosySUM60KCSn03TrXcc520
+ vw2PzVnICQ4v5L0YP2e2KXfqKMPA4sa2G0aMjpz5ymUZVIk6D6IAD9s9BiVcan3a4Hpb
+ 9jwgBDebGWMkIYPxeltNjWyzurUg7XvLHZrrW1O2+7FnUGzN8rXNokYUCWlwF46j/Vje
+ Q2gz5kBPV4rLkKjPg+VfkVCncFAoK8H9jPsdY5quZcEmQIwWM0NDwQK3NdzFyygmvgG6
+ 1e2E6B5yQ6A2vJ0UPQod5lvdKRUdioMTJEYr3yeUaQ4ZoFc9b4f6U2qnlZOTQksoL+QY
+ SCeg==
+X-Gm-Message-State: AOAM533lQqz34NIOYqz2tf4iXkVKylKEpsCVzoU1UL8bxqf3j6Mj9Tkr
+ 69BpzEHOAYmi1mfrJWj/t0MsakpU6OL0mA==
+X-Google-Smtp-Source: ABdhPJyzCHtimAujhiJ0FOelo92m3wkVNzU0n5JrFpzRlaYADZvsV2Iit6+JcyIwIar5OW5XUXRw5g==
+X-Received: by 2002:a17:902:a710:b0:156:5650:f94a with SMTP id
+ w16-20020a170902a71000b001565650f94amr3857158plq.86.1651325398141; 
+ Sat, 30 Apr 2022 06:29:58 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.56
+ x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.29.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:29:56 -0700 (PDT)
+ Sat, 30 Apr 2022 06:29:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/43] semihosting: Split out semihost_sys_write
-Date: Sat, 30 Apr 2022 06:29:12 -0700
-Message-Id: <20220430132932.324018-24-richard.henderson@linaro.org>
+Subject: [PATCH 24/43] semihosting: Bound length for semihost_sys_{read, write}
+Date: Sat, 30 Apr 2022 06:29:13 -0700
+Message-Id: <20220430132932.324018-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
 References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,220 +89,49 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out the non-ARM specific portions of SYS_WRITE to a
-reusable function.  This handles all GuestFD.  This removes
-the last use of common_semi_syscall_len.
-
-Note that gdb_do_syscall %x reads target_ulong, not int.
+Fixes a minor bug in which a 64-bit guest on a 32-bit host could
+truncate the length.  This would only ever cause a problem if
+there were no bits set in the low 32, so that it truncates to 0.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/guestfd.h |  3 ++
- semihosting/arm-compat-semi.c | 52 +----------------------------------
- semihosting/guestfd.c         | 48 ++++++++++++++++++++++++++++++++
- 3 files changed, 52 insertions(+), 51 deletions(-)
+ semihosting/guestfd.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/include/semihosting/guestfd.h b/include/semihosting/guestfd.h
-index 568d55fd32..5780ea2f13 100644
---- a/include/semihosting/guestfd.h
-+++ b/include/semihosting/guestfd.h
-@@ -59,4 +59,7 @@ void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete, int fd);
- void semihost_sys_read(CPUState *cs, gdb_syscall_complete_cb complete,
-                        int fd, target_ulong buf, target_ulong len);
- 
-+void semihost_sys_write(CPUState *cs, gdb_syscall_complete_cb complete,
-+                        int fd, target_ulong buf, target_ulong len);
-+
- #endif /* SEMIHOSTING_GUESTFD_H */
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 2c6c2dd0d0..6568d205eb 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -216,8 +216,6 @@ static inline uint32_t get_swi_errno(CPUState *cs)
- #endif
- }
- 
--static target_ulong common_semi_syscall_len;
--
- static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
- {
-     if (err) {
-@@ -231,9 +229,6 @@ static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
-         /* Fixup syscalls that use nonstardard return conventions.  */
-         target_ulong reg0 = common_semi_arg(cs, 0);
-         switch (reg0) {
--        case TARGET_SYS_WRITE:
--            ret = common_semi_syscall_len - ret;
--            break;
-         case TARGET_SYS_SEEK:
-             ret = 0;
-             break;
-@@ -293,30 +288,10 @@ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
-  * do the work and return the required return value to the guest
-  * via common_semi_cb.
-  */
--typedef void sys_writefn(CPUState *cs, GuestFD *gf,
--                         target_ulong buf, uint32_t len);
- typedef void sys_isattyfn(CPUState *cs, GuestFD *gf);
- typedef void sys_seekfn(CPUState *cs, GuestFD *gf, target_ulong offset);
- typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
- 
--static void host_writefn(CPUState *cs, GuestFD *gf,
--                         target_ulong buf, uint32_t len)
--{
--    CPUArchState *env = cs->env_ptr;
--    uint32_t ret = 0;
--    char *s = lock_user(VERIFY_READ, buf, len, 1);
--    (void) env; /* Used in arm softmmu lock_user implicitly */
--    if (s) {
--        ret = write(gf->hostfd, s, len);
--        unlock_user(s, buf, 0);
--        if (ret == (uint32_t)-1) {
--            ret = 0;
--        }
--    }
--    /* Return bytes not written, on error as well. */
--    common_semi_cb(cs, len - ret, 0);
--}
--
- static void host_isattyfn(CPUState *cs, GuestFD *gf)
- {
-     common_semi_cb(cs, isatty(gf->hostfd), 0);
-@@ -339,13 +314,6 @@ static void host_flenfn(CPUState *cs, GuestFD *gf)
-     }
- }
- 
--static void gdb_writefn(CPUState *cs, GuestFD *gf,
--                        target_ulong buf, uint32_t len)
--{
--    common_semi_syscall_len = len;
--    gdb_do_syscall(common_semi_cb, "write,%x,%x,%x", gf->hostfd, buf, len);
--}
--
- static void gdb_isattyfn(CPUState *cs, GuestFD *gf)
- {
-     gdb_do_syscall(common_semi_cb, "isatty,%x", gf->hostfd);
-@@ -379,13 +347,6 @@ static const uint8_t featurefile_data[] = {
-     SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
- };
- 
--static void staticfile_writefn(CPUState *cs, GuestFD *gf,
--                               target_ulong buf, uint32_t len)
--{
--    /* This fd can never be open for writing */
--    common_semi_cb(cs, -1, EBADF);
--}
--
- static void staticfile_isattyfn(CPUState *cs, GuestFD *gf)
- {
-     common_semi_cb(cs, 0, 0);
-@@ -403,7 +364,6 @@ static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
- }
- 
- typedef struct GuestFDFunctions {
--    sys_writefn *writefn;
-     sys_isattyfn *isattyfn;
-     sys_seekfn *seekfn;
-     sys_flenfn *flenfn;
-@@ -411,19 +371,16 @@ typedef struct GuestFDFunctions {
- 
- static const GuestFDFunctions guestfd_fns[] = {
-     [GuestFDHost] = {
--        .writefn = host_writefn,
-         .isattyfn = host_isattyfn,
-         .seekfn = host_seekfn,
-         .flenfn = host_flenfn,
-     },
-     [GuestFDGDB] = {
--        .writefn = gdb_writefn,
-         .isattyfn = gdb_isattyfn,
-         .seekfn = gdb_seekfn,
-         .flenfn = gdb_flenfn,
-     },
-     [GuestFDStatic] = {
--        .writefn = staticfile_writefn,
-         .isattyfn = staticfile_isattyfn,
-         .seekfn = staticfile_seekfn,
-         .flenfn = staticfile_flenfn,
-@@ -448,7 +405,6 @@ void do_common_semihosting(CPUState *cs)
-     char * s;
-     int nr;
-     uint32_t ret;
--    uint32_t len;
-     GuestFD *gf;
-     int64_t elapsed;
- 
-@@ -529,13 +485,7 @@ void do_common_semihosting(CPUState *cs)
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        len = arg2;
--
--        gf = get_guestfd(arg0);
--        if (!gf) {
--            goto do_badf;
--        }
--        guestfd_fns[gf->type].writefn(cs, gf, arg1, len);
-+        semihost_sys_write(cs, common_semi_rw_cb, arg0, arg1, arg2);
-         break;
- 
-     case TARGET_SYS_READ:
 diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-index 057e384d65..42efd2c558 100644
+index 42efd2c558..356b87453c 100644
 --- a/semihosting/guestfd.c
 +++ b/semihosting/guestfd.c
-@@ -378,3 +378,51 @@ void semihost_sys_read(CPUState *cs, gdb_syscall_complete_cb complete,
-         g_assert_not_reached();
+@@ -364,6 +364,14 @@ void semihost_sys_read(CPUState *cs, gdb_syscall_complete_cb complete,
+         complete(cs, -1, EBADF);
+         return;
      }
- }
-+
-+static void gdb_write(CPUState *cs, gdb_syscall_complete_cb complete,
-+                      GuestFD *gf, target_ulong buf, target_ulong len)
-+{
-+    gdb_do_syscall(complete, "write,%x,%x,%x",
-+                   (target_ulong)gf->hostfd, buf, len);
-+}
-+
-+static void host_write(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       GuestFD *gf, target_ulong buf, target_ulong len)
-+{
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    void *ptr = lock_user(VERIFY_READ, buf, len, 1);
-+    ssize_t ret;
-+
-+    if (!ptr) {
-+        complete(cs, -1, EFAULT);
-+        return;
++    /*
++     * Bound length for 64-bit guests on 32-bit hosts, not overlowing ssize_t.
++     * Note the Linux kernel does this with MAX_RW_COUNT, so it's not a bad
++     * idea to do this unconditionally.
++     */
++    if (len > INT32_MAX) {
++        len = INT32_MAX;
 +    }
-+    ret = write(gf->hostfd, ptr, len);
-+    complete(cs, ret, ret == -1 ? errno : 0);
-+    unlock_user(ptr, buf, 0);
-+}
-+
-+void semihost_sys_write(CPUState *cs, gdb_syscall_complete_cb complete,
-+                        int fd, target_ulong buf, target_ulong len)
-+{
-+    GuestFD *gf = get_guestfd(fd);
-+
-+    if (!gf) {
-+        goto ebadf;
+     switch (gf->type) {
+     case GuestFDGDB:
+         gdb_read(cs, complete, gf, buf, len);
+@@ -410,6 +418,14 @@ void semihost_sys_write(CPUState *cs, gdb_syscall_complete_cb complete,
+     if (!gf) {
+         goto ebadf;
+     }
++    /*
++     * Bound length for 64-bit guests on 32-bit hosts, not overlowing ssize_t.
++     * Note the Linux kernel does this with MAX_RW_COUNT, so it's not a bad
++     * idea to do this unconditionally.
++     */
++    if (len > INT32_MAX) {
++        len = INT32_MAX;
 +    }
-+    switch (gf->type) {
-+    case GuestFDGDB:
-+        gdb_write(cs, complete, gf, buf, len);
-+        break;
-+    case GuestFDHost:
-+        host_write(cs, complete, gf, buf, len);
-+        break;
-+    case GuestFDStatic:
-+    ebadf:
-+        /* Static files are never open for writing: EBADF. */
-+        complete(cs, -1, EBADF);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
+     switch (gf->type) {
+     case GuestFDGDB:
+         gdb_write(cs, complete, gf, buf, len);
 -- 
 2.34.1
 
