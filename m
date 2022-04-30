@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8511F515C9E
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 14:02:20 +0200 (CEST)
-Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8970E515CE0
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 14:26:28 +0200 (CEST)
+Received: from localhost ([::1]:41574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nklnn-0005bx-El
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 08:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42232)
+	id 1nkmB9-0006gT-75
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 08:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <096af171274cc76c51bf11366ae257391ddfed2a@lizzy.crudebyte.com>)
- id 1nklfq-0002sc-3M
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 07:54:06 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:46579)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nkm8K-0005eF-B4; Sat, 30 Apr 2022 08:23:33 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:59503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <096af171274cc76c51bf11366ae257391ddfed2a@lizzy.crudebyte.com>)
- id 1nklfo-0007Ie-Jc
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 07:54:05 -0400
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nkm8I-0003st-Bp; Sat, 30 Apr 2022 08:23:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=C5l63rnifQ9IJrl0xxrAJKuGJe/pQG2u2yCendSHmc8=; b=SdAK/
- Kkk+G5MW1slQoo53y5XfGKANDXN9WJqDHCdXIYH80nkaUWWGITEjOVT4t0iDOCNiSTC2fLXY2+hNp
- aR7y2RnO614Jf8yiD5VEqWZdErWHPpoFMnJ0wyLiyJNk9N9NM6XPrHyFiiEzQLkv4NaCYfoWReNO8
- MqXkTELXYof5SNO79P1i0FjEGUyNFrtXGo9E4L9DtxPeTIeGtKazwKyPBkezAidqnuNiIciGk+AGb
- jiRWgUGsOeDRnSumCN5GKWbLQNDUuTJd1rZDQMsuB5VSbD5TUSukdbcXXSZD1b1/XcSoki3daH+fV
- KFrOdhknGt1Wif0jfoVUagoHvCx9g==;
-Message-Id: <096af171274cc76c51bf11366ae257391ddfed2a.1651319081.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1651319081.git.qemu_oss@crudebyte.com>
-References: <cover.1651319081.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=E8HAoi6nEDpfpV67DFRDPpfHkmIi6booaPdi6TrMtJY=; b=AqprIV479VIVpeVIdMZYFuMg0H
+ 3GC+pjU1WgAMsmi+YeMxkfly4JIvluEOBoix1qrkX8nr8l++0pJYzY5rUu5WodZLmhJOVN2SdhcXN
+ CW1iXi5M5i6Yr+HqVgaq6z641NBcKfiNumLQInfD4Z4PGZYdZYw4voe28jMiSbeqdEtzn+L7QbopI
+ +lT+D+sMPC/Hni0PLQH8P+l5vqO3SLAN+4Bo0uRrHDOGK9YAfl0LvkF7Cb8bNz3XOpJDhJ62JM2OW
+ ssrqC2Xwcf7DX9COHhJFSvANGIBF/d7gXAMoEITLy53Q7NbPxA/TWIZblOFVNWAWs51LbOoEdW0Tx
+ 4mZNeNBA==;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sat, 30 Apr 2022 13:44:42 +0200
-Subject: [PULL 2/7] 9pfs: fix qemu_mknodat(S_IFREG) on macOS
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=096af171274cc76c51bf11366ae257391ddfed2a@lizzy.crudebyte.com;
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Keno Fischer <keno@juliacomputing.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org,
+ Bin Meng <bmeng.cn@gmail.com>, Guohuai Shi <guohuai.shi@windriver.com>
+Subject: Re: [PATCH v5 0/6] 9pfs: macOS host fixes (resend)
+Date: Sat, 30 Apr 2022 14:23:21 +0200
+Message-ID: <7340702.jVfSTs2t5R@silver>
+In-Reply-To: <cover.1651228000.git.qemu_oss@crudebyte.com>
+References: <cover.1651228000.git.qemu_oss@crudebyte.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,43 +65,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mknod() on macOS does not support creating regular files, so
-divert to openat_file() if S_IFREG is passed with mode argument.
+On Freitag, 29. April 2022 12:26:40 CEST Christian Schoenebeck wrote:
+> A bunch of fixes for recently (in QEMU 7.0) added 9p support on macOS hosts.
+> 
+> Note: there are still issues to address with case-insensitive file systems
+> on macOS hosts. I sent a separate RFC on that icase issue:
+> https://lore.kernel.org/qemu-devel/1757498.AyhHxzoH2B@silver/
+> 
+> v4 -> v5:
+> 
+>   * Check return value of snprintf() instead of strlen(filename).
+>     [patch 2]
+> 
+> Christian Schoenebeck (6):
+>   9pfs: fix qemu_mknodat(S_IFREG) on macOS
+>   9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+>   9pfs: fix wrong encoding of rdev field in Rgetattr on macOS
+>   9pfs: fix wrong errno being sent to Linux client on macOS host
+>   9pfs: fix removing non-existent POSIX ACL xattr on macOS host
+>   9pfs: fix qemu_mknodat() to always return -1 on error on macOS host
+> 
+>  hw/9pfs/9p-posix-acl.c   | 12 +++++--
+>  hw/9pfs/9p-util-darwin.c | 54 +++++++++++++++++++++++++++++--
+>  hw/9pfs/9p-util.h        | 69 ++++++++++++++++++++++++++++++++++++++++
+>  hw/9pfs/9p.c             |  4 ++-
+>  4 files changed, 134 insertions(+), 5 deletions(-)
 
-Furthermore, 'man 2 mknodat' on Linux says: "Zero file type is
-equivalent to type S_IFREG".
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
 
-Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Will Cohen <wwcohen@gmail.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <3102ca936f88bc1f79d2a325e5bc68f48f54e6e3.1651228000.git.qemu_oss@crudebyte.com>
----
- hw/9pfs/9p-util-darwin.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thanks!
 
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-index bec0253474..e24d09763a 100644
---- a/hw/9pfs/9p-util-darwin.c
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -77,6 +77,15 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
- int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
- {
-     int preserved_errno, err;
-+
-+    if (S_ISREG(mode) || !(mode & S_IFMT)) {
-+        int fd = openat_file(dirfd, filename, O_CREAT, mode);
-+        if (fd == -1) {
-+            return fd;
-+        }
-+        close(fd);
-+        return 0;
-+    }
-     if (!pthread_fchdir_np) {
-         error_report_once("pthread_fchdir_np() not available on this version of macOS");
-         return -ENOTSUP;
--- 
-2.30.2
+I just sent a PR:
+https://lore.kernel.org/all/cover.1651319081.git.qemu_oss@crudebyte.com/
+
+Best regards,
+Christian Schoenebeck
+
+
+[Resent this message due to mail delivery error from nongnu.org lists]
+
 
 
