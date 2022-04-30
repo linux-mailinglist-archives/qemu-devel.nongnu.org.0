@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D82C515F84
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:24:02 +0200 (CEST)
-Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174E0515FA3
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:41:12 +0200 (CEST)
+Received: from localhost ([::1]:54476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkqp7-0000tm-7e
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
+	id 1nkr5i-0006wM-Ex
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:41:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkqnX-00006i-RD
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:22:23 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45809)
+ id 1nkr0C-0004dx-6Y
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:35:28 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkqnW-0003w8-Bd
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:22:23 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- w17-20020a17090a529100b001db302efed6so8211400pjh.4
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:22:21 -0700 (PDT)
+ id 1nkr0A-0005oL-8w
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:35:27 -0400
+Received: by mail-pl1-x634.google.com with SMTP id n14so2702447plf.3
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wEAshnzvidulUDDn+2FBmwP+VVxCuNDXAnEVv5P6ifw=;
- b=SlTJ0PxB+WO4DTpf9Nz4QbTESkloqVMcN9q5+J1HoxIQZubGTAfk7aYVU44WBaE4UZ
- 0UOVLklHwbl/xNqPmV21Rnez1hJ3xmI9xfK9gFCVZm3NdWi/V2zX0zAYH04pjSOOnl8l
- BNs545N2AKdeCPBE0L90RpHpC6cpvyIkfgHmYFruAzQdRyXzSIv+YMYZaNk9jKMwm/9+
- dUMtg2qJcxABoScmWdlqQUSaqRUOgYXSl5lEwA0uwZlhR6BqlZUW3wdDHAZTZ7BstN8z
- MjTAOI3FaRdMSd4HjroUe5LR9cFg+AziZ0OSIYyejIFkKdHCvA6Fjtw/OtLyFNcJMAZq
- U5pg==
+ bh=A/m/Yl3kHiyrPKWo0g46eaoCSRadAjHPQKJo7EyEqXQ=;
+ b=H5BxONloN31Z7S3Zo8ZjSJJ0WaMQhWXg+qDnkn6wyxgvcPdTJuP9tkkUtVT4JyvhVi
+ pSevsuilRhf/71+VUq1vWkFFPGhMjz1C0tQ8UdVpLvH+nrw5gGq96Z6yZ7XNjGXxSyNt
+ pkzpjxICDvMKvpUTk4LyuqRYDVm0RqEyAyA4RmSF/99QidLl8/1NBVxkpSiuY97zg8ow
+ bJIGX7I/Q0osQw2PR+kJDQ3gU37Ra2lyHDUdRAXC7Qp8VNRODrJprUahJH4vT3WKeMCM
+ 4FQxeJMAW3Rhn9gNB1ZCTVB2eZhxCGcQkX/gZNEcDTKQJEg0RvAXCljuofR2zwMaog9e
+ gaTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=wEAshnzvidulUDDn+2FBmwP+VVxCuNDXAnEVv5P6ifw=;
- b=l74NHPPmR3TkCUkanhN8gcm9BKUvqEzQcfRdamX25EJVill00m8hcBAQZQSoUyE0L+
- unI6gTNyuE9N7xD3qhV/7vVlFwnMgmXgEb8VeYhL1DNLWWXWxnAjRC5wVOC/PEokIx63
- i0biHkcqwUaxtSlo87dclDSrUwOPQ+V1HMQ3BrMRkvkqrfv9NviCuCXqI4mUf3fbtbHz
- 3ohsD3nP8K//Uxg5FPWb8c/XaHNB5xZ+o2ralWl8XmKppfU7cV6IcNZKhlCw528wHbj9
- dhMsQbrdmzHaqfwKwcuyeAvs9DzBFFNALlEkNv1i9n5mohXvfliQmHaLlROPpPdzetyS
- d32g==
-X-Gm-Message-State: AOAM533ocellFxlvvsfJKnMEgX8CkJB5qtE+ZMOoy0Caf3J5jW9yyjhS
- 4br7LY2QnMZ3lizieAddZSIIwA==
-X-Google-Smtp-Source: ABdhPJzfTtlzPeaYSUdigutyeVyLC/muIBT4e2xD6tqdbgsuhBI9niptXHobSznMByrA3y6R+Qt0hA==
-X-Received: by 2002:a17:902:b906:b0:14f:76a0:ad48 with SMTP id
- bf6-20020a170902b90600b0014f76a0ad48mr4432328plb.79.1651339340636; 
- Sat, 30 Apr 2022 10:22:20 -0700 (PDT)
+ bh=A/m/Yl3kHiyrPKWo0g46eaoCSRadAjHPQKJo7EyEqXQ=;
+ b=L3kRV17FxjcIK4CYBMdTleZnSNjGBYVaFN652yIknyD8aKQTjTJ8Q9hhoY0tIzIzb2
+ G8Jw0vY9qaez2aBAnejjzDRSXtolDeyVLV9zIEPoAmV3q17Vai2TRzS44js0rsfZ0yUV
+ aw7g2lGPd7DA6MG4eV011tujJjwqK1nc1H/GnW1MbfDAF/V7qk0DLGo/dJek1tSmmpDb
+ DWXr07YCs9lqf1cm4NTvsclx/UD/ybkcQtsnzTc1lnKNGiz4c/RCCi2UhcHVuPl9KHhm
+ emgV47Ybj7QeMfvDOONR8auDz2koH4gc4hv+ecjqU68pjfHAn9jnIMqm3z3XAJEky9RO
+ Ewfg==
+X-Gm-Message-State: AOAM531bBd1PEGmxJ4ddIhC+Dvt+GGAnPoj/RbbAp/nS1OA9IP/RnXWF
+ 9sWdH0aHm6X0EKsnDuI9s0NCKw==
+X-Google-Smtp-Source: ABdhPJzQ1Xy6hNS9EU0kkwbXN4qJsICA9C42hBipi6PU+Y/Ls1HMWMDOvo90oBUkltoNwVO0Jd5ivg==
+X-Received: by 2002:a17:902:edc5:b0:156:68e4:416 with SMTP id
+ q5-20020a170902edc500b0015668e40416mr4605227plk.87.1651340124775; 
+ Sat, 30 Apr 2022 10:35:24 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- p12-20020a1709026b8c00b0015e8d4eb2e8sm1709826plk.306.2022.04.30.10.22.19
+ b8-20020a170903228800b0015e8d4eb289sm611688plh.211.2022.04.30.10.35.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Apr 2022 10:22:20 -0700 (PDT)
-Message-ID: <22c74d5e-f0b6-dc6e-c7e8-7c28774f80e4@linaro.org>
-Date: Sat, 30 Apr 2022 10:22:18 -0700
+ Sat, 30 Apr 2022 10:35:24 -0700 (PDT)
+Message-ID: <8e2e152c-58c9-03de-9d4c-9bec75be8331@linaro.org>
+Date: Sat, 30 Apr 2022 10:35:21 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v3 25/43] target/loongarch: Add LoongArch CSR instruction
+Subject: Re: [PATCH v3 26/43] target/loongarch: Add LoongArch IOCSR instruction
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-26-yangxiaojuan@loongson.cn>
+ <20220429100729.1572481-27-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220429100729.1572481-26-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220429100729.1572481-27-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,29 +94,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/22 03:07, Xiaojuan Yang wrote:
-> +    [LOONGARCH_CSR_CPUID] = {
-> +        .offset = -1,
-> +        .flags = CSRFL_READONLY,
-> +        .readfn = gen_helper_csrrd_cpuid,
-> +        .writefn = NULL
-> +    },
+> This includes:
+> - IOCSR{RD/WR}.{B/H/W/D}
+> 
+> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> ---
+>   target/loongarch/cpu.c                        | 44 ++++++++++++
+>   target/loongarch/cpu.h                        | 25 +++++++
+>   target/loongarch/disas.c                      |  8 +++
+>   target/loongarch/helper.h                     |  8 +++
+>   .../insn_trans/trans_privileged.c.inc         | 35 ++++++++++
+>   target/loongarch/insns.decode                 |  9 +++
+>   target/loongarch/iocsr_helper.c               | 67 +++++++++++++++++++
+>   target/loongarch/meson.build                  |  1 +
+>   8 files changed, 197 insertions(+)
+>   create mode 100644 target/loongarch/iocsr_helper.c
 
-The offset should be
-
-     (int)offsetof(CPUState, cpu_index) - (int)offsetof(LoongArchCPU, env)
-
-at which point you don't need the readfn.
-
-> +target_ulong helper_csrrd_tval(CPULoongArchState *env)
-> +{
-> +    LoongArchCPU *cpu = LOONGARCH_CPU(env_cpu(env));
-
-cpu = env_archcpu(env).
-
-Several other instances in the file.
-
-Otherwise it looks good.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
