@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EAA516048
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 22:13:59 +0200 (CEST)
-Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0727D51604E
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 22:19:12 +0200 (CEST)
+Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nktTa-0000FD-PJ
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 16:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47878)
+	id 1nktYc-0002Lg-Tm
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 16:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nktRZ-0007z3-JC
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 16:11:53 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53823)
+ id 1nktWd-0001Ro-GR
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 16:17:09 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:46784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nktRX-0000QU-T4
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 16:11:53 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id o69so8398927pjo.3
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 13:11:51 -0700 (PDT)
+ id 1nktWW-00018F-RE
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 16:17:02 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ cq17-20020a17090af99100b001dc0386cd8fso4539910pjb.5
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 13:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:references:in-reply-to:content-transfer-encoding;
- bh=SKt2AbaWMWGSg35n0yzrMqGVJHruMSzRY1UH6CDA9U8=;
- b=FF/EThmvhmUM1hDQu33bvoMDhmeqHtSB/li5hFn9R009cHBnEXm6nGawz2IDCwfV5O
- q8+Myq48lrYR/Tl2NtRHhDbS2OPklmrWGkZ6VNJh2M0XFrC5ZHE7yO6ORfr0ZVqonM18
- bnE49cs8EaftDWI+D8o2IzfXXNo+tU6v44uoFGP+zA+Y4wFRRdIJuC9NXUvwq5/j1fuc
- LngAcQDkbOMz2/c2QbC7hPfxMZ0faKH1bSQpMFA/GzmprUZxtZvPwviRUA/RD7rp+uIM
- t/KCXHffZ5rZNipRmCAJ8yL3Y5LDXjORqOcYfJCtrpE+wYNJauWIDGoTD7xESH5lkci8
- FspQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DBfsXkA5zh6pKbinf9hJeY+aF29mNj6juzE7VF/k17M=;
+ b=x42izZYG7e4nPe29IYAC5cCcu1ON0pzW68PEZdllKeqBfW3s1aAA4+4VYz7uUzyE1H
+ L0bkubT3TgKS0mAQx4fmRkdWlXl7ugvEmDChg6yqNYfOLaYlmJVfRLS24VLPhNW26JRY
+ NWgajhLdq5/TbHbMpqon66QkRy26THkimWyji/KdVIbQ6RwOpNovXxxOSpHVD0XWXaI+
+ m4PG8mg80kk92DelAXeOLAVAMu8/PmuA7w3a1v0XrZzeNlUb6GjvZMcpeAB7xJ6J9Amb
+ FXFkU+orCdmrC+SbXUErbqgSwowOKXMIS5EyZqgtTvmiGtI1eNvtibrf1t/QRe7NqjMI
+ Qf2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=SKt2AbaWMWGSg35n0yzrMqGVJHruMSzRY1UH6CDA9U8=;
- b=A0aNj8X9AkK59/rX6tbUXyS6i2YftAI0DQdVX7Lf7Ik3aiTQy4xHdiqhKoP9jQOD+v
- 17yGImce75m0fgnhiIhxrSDjKmB3+RbxTpNcJYwLiXgDSNr2DPO3sDM/l+diP6KNNZSC
- QlKIv0hyQfY5QKZ664QbJ7CBkiZOvQoabzuXsMHDDwLPAhiWOTUcDLJWiKfRPd6fUZmF
- FabZP4C0i4Z3AOqkX56DTBYB9Gw+kzc/gkdW1Ko2xiPk7JLcTN43XDm+AOyhg+bWv6Vh
- 00JQyiZx956L0EJBU3pnSZrdWHUlj1aZV4KTHpwxuLyNHMb/ulVLkHzXEQ3Hs5NS0jPd
- RJ2Q==
-X-Gm-Message-State: AOAM532WRpkD2IIs3bTeiN8iBYKECEuNnWWHMb7pWDuwsDO/iP5y81Gi
- T1DS3a3oBQ+lSzLzc+CW9qN3yqfoQNR/KA==
-X-Google-Smtp-Source: ABdhPJxb076XeqNyYQkZzj1v/blY/XyFbJUawnJ351QmO2L6twOhUkfmprpT2HO1z+a5NN6IQySmfg==
-X-Received: by 2002:a17:90a:5407:b0:1bf:43ce:f11b with SMTP id
- z7-20020a17090a540700b001bf43cef11bmr5489949pjh.31.1651349510188; 
- Sat, 30 Apr 2022 13:11:50 -0700 (PDT)
+ bh=DBfsXkA5zh6pKbinf9hJeY+aF29mNj6juzE7VF/k17M=;
+ b=s6JmcT71jTRZDr52YRmIrFPvl3xoTizkTNR1MltWAa51QRK3FWOcGP+06LdTt9X+wM
+ B9e7jRkYsfR4FvbuBtF2mNeNf6RbBcFqbq4aaiQEj0EUBrx2MHC42oYtABHrw+PC15wX
+ m0v6VZ1SijcFf+eZocr+Ml+oP2cpnk+iDYnL5N7hdAf8OwW2J8OEn2G693zSKbhy6Slm
+ yQSHUEVonbv1EOwGVC6v7nbPP5aiuCjsl9DV3LWCd58Q4SHEhdANDsisyfV8gyCfroRH
+ di1VJ6jmni6CTpkf6w6wrA+fGBp7Kao4rWQrl1Mk5vtRIxIwTC7NQfcAMWQ2nlJZJni9
+ Jmig==
+X-Gm-Message-State: AOAM53061fLgwjJFiwxboCWkIwYXeQHaBEqfZYmYeiIcQECvJcX0pPpA
+ QCe4ZdLiY8dA0UjctwMAPJG9HQ==
+X-Google-Smtp-Source: ABdhPJwRsRHhsP8DI2O5uUUXtSK+VWzKuu89dTSDyL8usLNEzTHzjC3aiYFi+K2eXMgCEo3pxgFHEQ==
+X-Received: by 2002:a17:90a:e7c7:b0:1d9:6a37:9f5e with SMTP id
+ kb7-20020a17090ae7c700b001d96a379f5emr5450497pjb.156.1651349818827; 
+ Sat, 30 Apr 2022 13:16:58 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- o3-20020a1709026b0300b0015e8d4eb237sm1839418plk.129.2022.04.30.13.11.49
+ k23-20020a170902ba9700b0015e8d4eb1fesm1859607pls.72.2022.04.30.13.16.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Apr 2022 13:11:49 -0700 (PDT)
-Message-ID: <f5b0258a-0702-910d-a393-6e5a40093553@linaro.org>
-Date: Sat, 30 Apr 2022 13:11:48 -0700
+ Sat, 30 Apr 2022 13:16:58 -0700 (PDT)
+Message-ID: <1d8dfad2-c183-8113-f09c-bd5d9c33722e@linaro.org>
+Date: Sat, 30 Apr 2022 13:16:56 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PULL v3 00/25] Misc patches for 2022-04-29
+Subject: Re: [PULL 0/7] 9p queue 2022-04-30
 Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1651319081.git.qemu_oss@crudebyte.com>
+ <d218e8b7-2d0c-a24c-7fff-c33d175549c8@linaro.org> <3704033.BMyLRrx2Jx@silver>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220430140517.460997-1-pbonzini@redhat.com>
- <dcc61df1-205b-860d-3928-a2b77ce67983@linaro.org>
-In-Reply-To: <dcc61df1-205b-860d-3928-a2b77ce67983@linaro.org>
+In-Reply-To: <3704033.BMyLRrx2Jx@silver>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,35 +91,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/22 09:41, Richard Henderson wrote:
-> On 4/30/22 07:05, Paolo Bonzini wrote:
->> The following changes since commit 731340813fdb4cb8339edb8630e3f923b7d987ec:
->>
->>    Merge tag 'pull-riscv-to-apply-20220429' of github.com:alistair23/qemu into staging 
->> (2022-04-29 08:46:55 -0700)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
->>
->> for you to fetch changes up to 189fad0006dd4f2f336e05a99d981cc1ecab1b33:
+On 4/30/22 12:29, Christian Schoenebeck wrote:
+> I suggest I just s/AT_SYMLINK_NOFOLLOW_ANY/AT_SYMLINK_NOFOLLOW/ on my end and
+> post v2 PR, for consistency and as it does not really make a huge difference
+> IMO which one of the two is used in create_socket_file_at_cwd().
 > 
-> This is the same hash as v2.  I presume the new hash,
-> 
-> 62927ca5e1042eb422ff545bec3028213a94ed17
-> 
-> is correct for v3?  Putting it through its paces, anyway.
+> Any objections?
 
-Still fails:
-
-$ ../scripts/ci/org.centos/stream/8/x86_64/configure
-ERROR: unknown option --enable-vhost-vsock
-
-https://gitlab.com/qemu-project/qemu/-/jobs/2399326578
-
+Sounds good.
 
 r~
 
