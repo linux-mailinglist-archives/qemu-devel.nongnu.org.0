@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE01515DEE
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:57:34 +0200 (CEST)
-Received: from localhost ([::1]:57200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B95C515DEB
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:56:59 +0200 (CEST)
+Received: from localhost ([::1]:55044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknbJ-0005XT-4s
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56174)
+	id 1nknak-00047R-IJ
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:56:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAp-00052G-GK
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:12 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:42788)
+ id 1nknDr-0003P5-2V
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:33:20 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:42835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAn-0006Wd-SA
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:11 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id p6so9292421plf.9
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:30:09 -0700 (PDT)
+ id 1nknDp-0006uC-2E
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:33:18 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id x23so3777116pff.9
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:33:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V7t75AdkHW0PfbXkAsxv9MftHWj0Q+Sv53bh3Cjx9bU=;
- b=RUOK++L1aSRINe+5iBfBfh8Lpq02+5rb8zr4OIQOw1ySFrrOUChrB7f0T+BY5eBtk7
- GXwBoCXE8YfqaQzyM2uaDJyyKffee/+Aim/Hx8wt4EbMvvTE8IkYhfaBhnivo0kQB7U3
- gNILVed/vNTJ0obBzOFEq38exqL8rwfUw57SV9aF4YkPzB2+lGWmLzMuVw9ByRYg164D
- t+YIFmfv1GJhk7Y4hafsZluYgkw/fUKlARTJOzFbDl1Mw4fn6b9SFi22C7kKmBWTsf/h
- DRud+b3drAdbvkYjHE9CNLztP63Rc9ELy+31s689Eg+gOp2uua0+aHVSxw/qzpCJfdEZ
- nbDA==
+ bh=O00AgyFrOx6VT5cHkpUCMbRE4gEXAb+bzYu/d7WzwIk=;
+ b=Dog+oZq8mQym3y0dPttbZLYuNlHR7as9+Uur7LXTrUTRvvJmAgPicmFkwOoJCQlhiK
+ JBYdkbNtVsJLXuHjwfAWo99ExQddFi6i9HwHxza+i63msyp1cxfWL0yKiBOAU1SiYqVG
+ 90LK/zKXW6XOsfmTb/Eley9Q/7tCYoArrDoB+O57XJsx1JzCaEZE2Y2XLCxcJP19Ltx0
+ jKluPhtCoWW9YP3jfEH3AUZNKghf517xyEVkhgv+cgMQ/7v/LTJ8R6h0bZO0kSN8Zqjy
+ vZJhTADzzcNaim+NFjHQ78Ox6kCT8ogJOHwe9uvcaE6s6yl4EhaCviuiFgATL30IbE8j
+ RTMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V7t75AdkHW0PfbXkAsxv9MftHWj0Q+Sv53bh3Cjx9bU=;
- b=Nochwi5QtQbxXUCg8+9n5TetjQ6pR9YcTHcFWPxQw87BxhZW0ZCM9rq19qTJS6qAmx
- eh2/EyLViPKHD8gKiVKjYmHXuGVSGrgQwELvX32ZLXf2h9zK32KlZrngb9wWxaNeQjem
- GBi/XtwnhfNlZG2bfvunUUBz1vxsP9KWps/2DdW83pAakDP/4QNlKK3Rc79os/ISmRDB
- omMqe5qsuO+HrI7Yu8kCKHBDNAXnUTLJcqMWVl/5R89j/fPrA6joL7ATzcYHq3RCPfUj
- bpBfO6ALcqWG4dtWVd4WZrcbjFG2wi1g72hy6gz85O0+9MN5hW7SmDFuIw8Nb8rF13Jh
- T2Fg==
-X-Gm-Message-State: AOAM530xB829eq4+xo/N4t+owdeypcjb0pvsYyAdbvBiwUrLBw30EFW6
- npMuQxiFPV3xD/Jvw8t4TtvJEgcj9ICpEQ==
-X-Google-Smtp-Source: ABdhPJx7erLiMC8LIQPMvTIuSRSZj9R0b62sGiH5XQVL2v0niw5KZa+DVSGmtiBt/QBHzjGaL7aIRQ==
-X-Received: by 2002:a17:90b:17c3:b0:1dc:3f12:1dbc with SMTP id
- me3-20020a17090b17c300b001dc3f121dbcmr515562pjb.169.1651325408568; 
- Sat, 30 Apr 2022 06:30:08 -0700 (PDT)
+ bh=O00AgyFrOx6VT5cHkpUCMbRE4gEXAb+bzYu/d7WzwIk=;
+ b=uVXma2dPf9NLuGlcfYsK6fYizu5c9rwQqK+99iFuyhEXD8FfMUGmch7huPUW1Oww6n
+ /TNQ8E5UPhbedBJrtd3J9NO6xizyWi0e9y2TdBH17bUbqAEhDjq1RTZ7ILI3wfZ2SZqt
+ CS455GqkzKZwOU00v4Uv/FiIS1iwWRmpJXmqqFAsF5ISxTaKviVTa2kXHvzReQt/I5G9
+ nFajj1g9mUFrRcfmLTYhE1KaDHF22xhdBu6cS+eENyAOZ4c53dRI28QMYV1/6l5Ww+Th
+ VUv0Ifpy7yxcUqE7GGDyBv6rLNXp/4UN3fLTE96sSpqE5rVRbsWXl0YHxTtj9msvaMIJ
+ Smjw==
+X-Gm-Message-State: AOAM5334apj+lsBkz1epATSdpl4Jg/qMTrUm3TfwWyLEtTWb1O+cR08T
+ UNyCkWbplSwD/B5pgSx6fnVbwE2NXqdh6w==
+X-Google-Smtp-Source: ABdhPJx9l2kyTOa26SaRoH9s6Pc/yfXC2REX+XCvfXicpQB6+TkQwy2WBApbOrSc7df9XS/xG+aMqw==
+X-Received: by 2002:a63:914b:0:b0:3ab:48:8a16 with SMTP id
+ l72-20020a63914b000000b003ab00488a16mr3172025pge.617.1651325595686; 
+ Sat, 30 Apr 2022 06:33:15 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.30.07
+ c136-20020a63358e000000b003c14af5063bsm8517840pga.83.2022.04.30.06.33.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:30:08 -0700 (PDT)
+ Sat, 30 Apr 2022 06:33:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 35/43] target/m68k: Make semihosting system only
-Date: Sat, 30 Apr 2022 06:29:24 -0700
-Message-Id: <20220430132932.324018-36-richard.henderson@linaro.org>
+Subject: [PATCH 42/43] target/nios2: Use guestfd.h to implement syscalls.
+Date: Sat, 30 Apr 2022 06:29:31 -0700
+Message-Id: <20220430132932.324018-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
 References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,119 +88,389 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we had a call to do_m68k_semihosting in linux-user, it
-wasn't actually reachable.  We don't include DISAS_INSN(halt)
-as an instruction unless system mode.
+This separates guest file descriptors from host file descriptors,
+and utilizes shared infrastructure for integration with gdbstub.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/m68k/cpu_loop.c |  5 -----
- target/m68k/m68k-semi.c    | 37 +------------------------------------
- target/m68k/meson.build    |  6 ++++--
- 3 files changed, 5 insertions(+), 43 deletions(-)
+ target/nios2/nios2-semi.c | 287 ++++++--------------------------------
+ 1 file changed, 41 insertions(+), 246 deletions(-)
 
-diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
-index d1bf8548b7..fa6aa112cb 100644
---- a/linux-user/m68k/cpu_loop.c
-+++ b/linux-user/m68k/cpu_loop.c
-@@ -36,11 +36,6 @@ void cpu_loop(CPUM68KState *env)
-         process_queued_cpu_work(cs);
- 
-         switch(trapnr) {
--        case EXCP_HALT_INSN:
--            /* Semihosing syscall.  */
--            env->pc += 4;
--            do_m68k_semihosting(env, env->dregs[0]);
--            break;
-         case EXCP_ILLEGAL:
-         case EXCP_LINEA:
-         case EXCP_LINEF:
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 5b4c51957e..4b5621a101 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -21,13 +21,9 @@
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index bdf8849689..3dad72d1f6 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -25,6 +25,7 @@
  
  #include "cpu.h"
  #include "exec/gdbstub.h"
--#if defined(CONFIG_USER_ONLY)
--#include "qemu.h"
--#define SEMIHOSTING_HEAP_SIZE (128 * 1024 * 1024)
--#else
 +#include "semihosting/guestfd.h"
- #include "semihosting/softmmu-uaccess.h"
- #include "hw/boards.h"
--#endif
- #include "qemu/log.h"
+ #if defined(CONFIG_USER_ONLY)
+ #include "qemu.h"
+ #else
+@@ -47,67 +48,6 @@
+ #define HOSTED_ISATTY 12
+ #define HOSTED_SYSTEM 13
  
- #define HOSTED_EXIT  0
-@@ -375,43 +371,12 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
-         }
-         break;
-     case HOSTED_INIT_SIM:
--#if defined(CONFIG_USER_ONLY)
--        {
--        CPUState *cs = env_cpu(env);
--        TaskState *ts = cs->opaque;
--        /* Allocate the heap using sbrk.  */
--        if (!ts->heap_limit) {
--            abi_ulong ret;
--            uint32_t size;
--            uint32_t base;
+-static int translate_openflags(int flags)
+-{
+-    int hf;
 -
--            base = do_brk(0);
--            size = SEMIHOSTING_HEAP_SIZE;
--            /* Try a big heap, and reduce the size if that fails.  */
--            for (;;) {
--                ret = do_brk(base + size);
--                if (ret >= (base + size)) {
--                    break;
--                }
--                size >>= 1;
--            }
--            ts->heap_limit = base + size;
--        }
--        /*
--         * This call may happen before we have writable memory, so return
--         * values directly in registers.
--         */
--        env->dregs[1] = ts->heap_limit;
--        env->aregs[7] = ts->stack_base;
--        }
+-    if (flags & GDB_O_WRONLY) {
+-        hf = O_WRONLY;
+-    } else if (flags & GDB_O_RDWR) {
+-        hf = O_RDWR;
+-    } else {
+-        hf = O_RDONLY;
+-    }
+-
+-    if (flags & GDB_O_APPEND) {
+-        hf |= O_APPEND;
+-    }
+-    if (flags & GDB_O_CREAT) {
+-        hf |= O_CREAT;
+-    }
+-    if (flags & GDB_O_TRUNC) {
+-        hf |= O_TRUNC;
+-    }
+-    if (flags & GDB_O_EXCL) {
+-        hf |= O_EXCL;
+-    }
+-
+-    return hf;
+-}
+-
+-static bool translate_stat(CPUNios2State *env, target_ulong addr,
+-                           struct stat *s)
+-{
+-    struct gdb_stat *p;
+-
+-    p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0);
+-
+-    if (!p) {
+-        return false;
+-    }
+-    p->gdb_st_dev = cpu_to_be32(s->st_dev);
+-    p->gdb_st_ino = cpu_to_be32(s->st_ino);
+-    p->gdb_st_mode = cpu_to_be32(s->st_mode);
+-    p->gdb_st_nlink = cpu_to_be32(s->st_nlink);
+-    p->gdb_st_uid = cpu_to_be32(s->st_uid);
+-    p->gdb_st_gid = cpu_to_be32(s->st_gid);
+-    p->gdb_st_rdev = cpu_to_be32(s->st_rdev);
+-    p->gdb_st_size = cpu_to_be64(s->st_size);
+-#ifdef _WIN32
+-    /* Windows stat is missing some fields.  */
+-    p->gdb_st_blksize = 0;
+-    p->gdb_st_blocks = 0;
 -#else
-         /*
-          * FIXME: This is wrong for boards where RAM does not start at
-          * address zero.
-          */
-         env->dregs[1] = current_machine->ram_size;
-         env->aregs[7] = current_machine->ram_size;
+-    p->gdb_st_blksize = cpu_to_be64(s->st_blksize);
+-    p->gdb_st_blocks = cpu_to_be64(s->st_blocks);
 -#endif
-         return;
+-    p->gdb_st_atime = cpu_to_be32(s->st_atime);
+-    p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
+-    p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
+-    unlock_user(p, addr, sizeof(struct gdb_stat));
+-    return true;
+-}
+-
+ static void nios2_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     Nios2CPU *cpu = NIOS2_CPU(cs);
+@@ -147,8 +87,6 @@ static void nios2_semi_u64_cb(CPUState *cs, uint64_t ret, int err)
+  */
+ #define GET_ARG(n) do {                                 \
+     if (get_user_ual(arg ## n, args + (n) * 4)) {       \
+-        result = -1;                                    \
+-        errno = EFAULT;                                 \
+         goto failed;                                    \
+     }                                                   \
+ } while (0)
+@@ -159,10 +97,6 @@ void do_nios2_semihosting(CPUNios2State *env)
+     int nr;
+     uint32_t args;
+     target_ulong arg0, arg1, arg2, arg3;
+-    void *p;
+-    void *q;
+-    uint32_t len;
+-    uint32_t result;
+ 
+     nr = env->regs[R_ARG0];
+     args = env->regs[R_ARG1];
+@@ -170,234 +104,95 @@ void do_nios2_semihosting(CPUNios2State *env)
+     case HOSTED_EXIT:
+         gdb_exit(env->regs[R_ARG0]);
+         exit(env->regs[R_ARG0]);
++
+     case HOSTED_OPEN:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+         GET_ARG(3);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "open,%s,%x,%x", arg0, (int)arg1,
+-                           arg2, arg3);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = open(p, translate_openflags(arg2), arg3);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_open(cs, nios2_semi_u32_cb, arg0, arg1, arg2, arg3);
+         break;
++
+     case HOSTED_CLOSE:
+-        {
+-            /* Ignore attempts to close stdin/out/err.  */
+-            GET_ARG(0);
+-            int fd = arg0;
+-            if (fd > 2) {
+-                if (use_gdb_syscalls()) {
+-                    gdb_do_syscall(nios2_semi_u32_cb, "close,%x", arg0);
+-                    return;
+-                } else {
+-                    result = close(fd);
+-                }
+-            } else {
+-                result = 0;
+-            }
+-            break;
+-        }
++        GET_ARG(0);
++        semihost_sys_close(cs, nios2_semi_u32_cb, arg0);
++        break;
++
+     case HOSTED_READ:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        len = arg2;
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "read,%x,%x,%x",
+-                           arg0, arg1, len);
+-            return;
+-        } else {
+-            p = lock_user(VERIFY_WRITE, arg1, len, 0);
+-            if (!p) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = read(arg0, p, len);
+-                unlock_user(p, arg1, len);
+-            }
+-        }
++        semihost_sys_read(cs, nios2_semi_u32_cb, arg0, arg1, arg2);
+         break;
++
+     case HOSTED_WRITE:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        len = arg2;
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "write,%x,%x,%x",
+-                           arg0, arg1, len);
+-            return;
+-        } else {
+-            p = lock_user(VERIFY_READ, arg1, len, 1);
+-            if (!p) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = write(arg0, p, len);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_write(cs, nios2_semi_u32_cb, arg0, arg1, arg2);
+         break;
++
+     case HOSTED_LSEEK:
+-        {
+-            uint64_t off;
+-            GET_ARG(0);
+-            GET_ARG(1);
+-            GET_ARG(2);
+-            GET_ARG(3);
+-            off = (uint32_t)arg2 | ((uint64_t)arg1 << 32);
+-            if (use_gdb_syscalls()) {
+-                gdb_do_syscall(nios2_semi_u64_cb, "lseek,%x,%lx,%x",
+-                               arg0, off, arg3);
+-            } else {
+-                off = lseek(arg0, off, arg3);
+-                nios2_semi_u64_cb(cs, off, errno);
+-            }
+-            return;
+-        }
++        GET_ARG(0);
++        GET_ARG(1);
++        GET_ARG(2);
++        GET_ARG(3);
++        semihost_sys_lseek(cs, nios2_semi_u64_cb, arg0,
++                           deposit64(arg2, arg1, 32, 32), arg3);
++        break;
++
+     case HOSTED_RENAME:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+         GET_ARG(3);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "rename,%s,%s",
+-                           arg0, (int)arg1, arg2, (int)arg3);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            q = lock_user_string(arg2);
+-            if (!p || !q) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = rename(p, q);
+-            }
+-            unlock_user(p, arg0, 0);
+-            unlock_user(q, arg2, 0);
+-        }
++        semihost_sys_rename(cs, nios2_semi_u32_cb, arg0, arg1, arg2, arg3);
+         break;
++
+     case HOSTED_UNLINK:
+         GET_ARG(0);
+         GET_ARG(1);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "unlink,%s",
+-                           arg0, (int)arg1);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = unlink(p);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_remove(cs, nios2_semi_u32_cb, arg0, arg1);
+         break;
++
+     case HOSTED_STAT:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "stat,%s,%x",
+-                           arg0, (int)arg1, arg2);
+-            return;
+-        } else {
+-            struct stat s;
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = stat(p, &s);
+-                unlock_user(p, arg0, 0);
+-            }
+-            if (result == 0 && !translate_stat(env, arg2, &s)) {
+-                result = -1;
+-                errno = EFAULT;
+-            }
+-        }
++        semihost_sys_stat(cs, nios2_semi_u32_cb, arg0, arg1, arg2);
+         break;
++
+     case HOSTED_FSTAT:
+         GET_ARG(0);
+         GET_ARG(1);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "fstat,%x,%x",
+-                           arg0, arg1);
+-            return;
+-        } else {
+-            struct stat s;
+-            result = fstat(arg0, &s);
+-            if (result == 0 && !translate_stat(env, arg1, &s)) {
+-                result = -1;
+-                errno = EFAULT;
+-            }
+-        }
++        semihost_sys_fstat(cs, nios2_semi_u32_cb, arg0, arg1);
+         break;
++
+     case HOSTED_GETTIMEOFDAY:
+-        /* Only the tv parameter is used.  tz is assumed NULL.  */
+         GET_ARG(0);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "gettimeofday,%x,%x",
+-                           arg0, 0);
+-            return;
+-        } else {
+-            struct gdb_timeval *p;
+-            int64_t rt = g_get_real_time();
+-            p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval), 0);
+-            if (!p) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = 0;
+-                p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
+-                p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
+-                unlock_user(p, arg0, sizeof(struct gdb_timeval));
+-            }
+-        }
++        GET_ARG(1);
++        semihost_sys_gettimeofday(cs, nios2_semi_u32_cb, arg0, arg1);
+         break;
++
+     case HOSTED_ISATTY:
+         GET_ARG(0);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "isatty,%x", arg0);
+-            return;
+-        } else {
+-            result = isatty(arg0);
+-        }
++        semihost_sys_isatty(cs, nios2_semi_u32_cb, arg0);
+         break;
++
+     case HOSTED_SYSTEM:
+         GET_ARG(0);
+         GET_ARG(1);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(nios2_semi_u32_cb, "system,%s",
+-                           arg0, (int)arg1);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                result = -1;
+-                errno = EFAULT;
+-            } else {
+-                result = system(p);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_system(cs, nios2_semi_u32_cb, arg0, arg1);
+         break;
++
      default:
-         cpu_abort(env_cpu(env), "Unsupported semihosting syscall %d\n", nr);
-diff --git a/target/m68k/meson.build b/target/m68k/meson.build
-index 05cd9fbd1e..27d2d7ba87 100644
---- a/target/m68k/meson.build
-+++ b/target/m68k/meson.build
-@@ -4,14 +4,16 @@ m68k_ss.add(files(
-   'fpu_helper.c',
-   'gdbstub.c',
-   'helper.c',
--  'm68k-semi.c',
-   'op_helper.c',
-   'softfloat.c',
-   'translate.c',
- ))
- 
- m68k_softmmu_ss = ss.source_set()
--m68k_softmmu_ss.add(files('monitor.c'))
-+m68k_softmmu_ss.add(files(
-+  'm68k-semi.c',
-+  'monitor.c'
-+))
- 
- target_arch += {'m68k': m68k_ss}
- target_softmmu_arch += {'m68k': m68k_softmmu_ss}
+         qemu_log_mask(LOG_GUEST_ERROR, "nios2-semihosting: unsupported "
+                       "semihosting syscall %d\n", nr);
+-        result = 0;
++        nios2_semi_u32_cb(cs, -1, ENOSYS);
++        break;
++
++    failed:
++        nios2_semi_u32_cb(cs, -1, EFAULT);
++        break;
+     }
+-failed:
+-    nios2_semi_u32_cb(cs, result, errno);
+ }
 -- 
 2.34.1
 
