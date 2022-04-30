@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174E0515FA3
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:41:12 +0200 (CEST)
-Received: from localhost ([::1]:54476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF15515FA5
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 19:44:37 +0200 (CEST)
+Received: from localhost ([::1]:58774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkr5i-0006wM-Ex
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59024)
+	id 1nkr91-0001aj-Ly
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 13:44:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkr0C-0004dx-6Y
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:35:28 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36668)
+ id 1nkr6M-0008Ff-CY
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:41:50 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:34715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkr0A-0005oL-8w
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:35:27 -0400
-Received: by mail-pl1-x634.google.com with SMTP id n14so2702447plf.3
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:35:25 -0700 (PDT)
+ id 1nkr6K-0006cR-LJ
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:41:50 -0400
+Received: by mail-pg1-x529.google.com with SMTP id z21so8808094pgj.1
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=A/m/Yl3kHiyrPKWo0g46eaoCSRadAjHPQKJo7EyEqXQ=;
- b=H5BxONloN31Z7S3Zo8ZjSJJ0WaMQhWXg+qDnkn6wyxgvcPdTJuP9tkkUtVT4JyvhVi
- pSevsuilRhf/71+VUq1vWkFFPGhMjz1C0tQ8UdVpLvH+nrw5gGq96Z6yZ7XNjGXxSyNt
- pkzpjxICDvMKvpUTk4LyuqRYDVm0RqEyAyA4RmSF/99QidLl8/1NBVxkpSiuY97zg8ow
- bJIGX7I/Q0osQw2PR+kJDQ3gU37Ra2lyHDUdRAXC7Qp8VNRODrJprUahJH4vT3WKeMCM
- 4FQxeJMAW3Rhn9gNB1ZCTVB2eZhxCGcQkX/gZNEcDTKQJEg0RvAXCljuofR2zwMaog9e
- gaTw==
+ bh=LyM0Hep1JcB07PBTx578z117hATRJWWbRd+ANNC2TeE=;
+ b=QsPA8gcc0edQ/RfAeE1Ow3STK2rzuPXly0KeU+XCMSugjnR2hWY6SpgzpmO0C1CJs0
+ /VXwGGYZD9xHuaYAvLt0vmPXU+fTRMg0nYONoJf4NIVWIStQZ5ldMuLzGvlaovXBa+AW
+ bQ91K4O0wGJBhKRQ3sSxYPCKvRx1BrAli5f92lrQnFXy6Kgpv77qEZ4E61amcW2O4IB1
+ 6ozEwF1baaELSRK4MpiN67IY6z+SsUgkhZNQinua2Ba/rJK5OLbh3BHO4DxLFfvyNsRT
+ /omsmDgl8hOfrfaj84fs+HvqmjxWrLONRKVD/pyv7ro3aUZr+BkuZQnbBiFln1aHxuBv
+ kqmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=A/m/Yl3kHiyrPKWo0g46eaoCSRadAjHPQKJo7EyEqXQ=;
- b=L3kRV17FxjcIK4CYBMdTleZnSNjGBYVaFN652yIknyD8aKQTjTJ8Q9hhoY0tIzIzb2
- G8Jw0vY9qaez2aBAnejjzDRSXtolDeyVLV9zIEPoAmV3q17Vai2TRzS44js0rsfZ0yUV
- aw7g2lGPd7DA6MG4eV011tujJjwqK1nc1H/GnW1MbfDAF/V7qk0DLGo/dJek1tSmmpDb
- DWXr07YCs9lqf1cm4NTvsclx/UD/ybkcQtsnzTc1lnKNGiz4c/RCCi2UhcHVuPl9KHhm
- emgV47Ybj7QeMfvDOONR8auDz2koH4gc4hv+ecjqU68pjfHAn9jnIMqm3z3XAJEky9RO
- Ewfg==
-X-Gm-Message-State: AOAM531bBd1PEGmxJ4ddIhC+Dvt+GGAnPoj/RbbAp/nS1OA9IP/RnXWF
- 9sWdH0aHm6X0EKsnDuI9s0NCKw==
-X-Google-Smtp-Source: ABdhPJzQ1Xy6hNS9EU0kkwbXN4qJsICA9C42hBipi6PU+Y/Ls1HMWMDOvo90oBUkltoNwVO0Jd5ivg==
-X-Received: by 2002:a17:902:edc5:b0:156:68e4:416 with SMTP id
- q5-20020a170902edc500b0015668e40416mr4605227plk.87.1651340124775; 
- Sat, 30 Apr 2022 10:35:24 -0700 (PDT)
+ bh=LyM0Hep1JcB07PBTx578z117hATRJWWbRd+ANNC2TeE=;
+ b=2TfMk+ZyfjoqxBob3pK2GQpQ6y1nI3r4tfKPOFdnZWesMw8f5lGzDY/HX9lblMjxbk
+ GKYpWZSRrKjLHaDMUXeG6/xhp4t/k0k7kVc2V8Dma0y5q305yQnmbabMSNvrxBCtsdLF
+ OD2gGqWObd5XMVTSX26iPs6blOqk6hRe0BTlxvOdvDzpCZNkEwIhJNrgiiPcu38vifLw
+ IaQ1fL8APRj9dLtC5UYyWBZQ+uqRrwP+27GaA9bBl9Y/ey5B9KPT1c2P6fAb4lc3E+o8
+ gY6fkiVx06PLr6f4QsdnbgUP8VcB9BhsZTXFhGjBbfxZKK+WWVd3YAVT062ZrhQT/ZR5
+ VTeA==
+X-Gm-Message-State: AOAM530jhDk1sfbfZ8uiNMvYdSRHrR68agTNKrcXPGcoMuTqNfr7+zKP
+ ARdnqPYTTdvWnFfGFz+oXfVeAg==
+X-Google-Smtp-Source: ABdhPJzvkpsrrFc4bCqSco8RPfuzM2wmiPyAQA4k3eqeQZlLgAikjVYxqKcSIpgIFU/uM+a8FoDRMA==
+X-Received: by 2002:a62:170b:0:b0:50a:6901:b633 with SMTP id
+ 11-20020a62170b000000b0050a6901b633mr4517489pfx.34.1651340507020; 
+ Sat, 30 Apr 2022 10:41:47 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a170903228800b0015e8d4eb289sm611688plh.211.2022.04.30.10.35.23
+ q19-20020a62e113000000b0050dc76281e0sm1789755pfh.186.2022.04.30.10.41.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Apr 2022 10:35:24 -0700 (PDT)
-Message-ID: <8e2e152c-58c9-03de-9d4c-9bec75be8331@linaro.org>
-Date: Sat, 30 Apr 2022 10:35:21 -0700
+ Sat, 30 Apr 2022 10:41:46 -0700 (PDT)
+Message-ID: <f27e5349-45b2-d183-17ae-3e88dfa87d31@linaro.org>
+Date: Sat, 30 Apr 2022 10:41:44 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v3 26/43] target/loongarch: Add LoongArch IOCSR instruction
+Subject: Re: [PATCH v3 32/43] hw/intc: Add LoongArch ls7a interrupt controller
+ support(PCH-PIC)
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-27-yangxiaojuan@loongson.cn>
+ <20220429100729.1572481-33-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220429100729.1572481-27-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220429100729.1572481-33-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,22 +95,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/22 03:07, Xiaojuan Yang wrote:
-> This includes:
-> - IOCSR{RD/WR}.{B/H/W/D}
+> This patch realize the PCH-PIC interrupt controller.
 > 
 > Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
 > Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
->   target/loongarch/cpu.c                        | 44 ++++++++++++
->   target/loongarch/cpu.h                        | 25 +++++++
->   target/loongarch/disas.c                      |  8 +++
->   target/loongarch/helper.h                     |  8 +++
->   .../insn_trans/trans_privileged.c.inc         | 35 ++++++++++
->   target/loongarch/insns.decode                 |  9 +++
->   target/loongarch/iocsr_helper.c               | 67 +++++++++++++++++++
->   target/loongarch/meson.build                  |  1 +
->   8 files changed, 197 insertions(+)
->   create mode 100644 target/loongarch/iocsr_helper.c
+>   MAINTAINERS                         |   1 +
+>   hw/intc/Kconfig                     |   4 +
+>   hw/intc/loongarch_pch_pic.c         | 431 ++++++++++++++++++++++++++++
+>   hw/intc/meson.build                 |   1 +
+>   hw/intc/trace-events                |   9 +
+>   hw/loongarch/Kconfig                |   1 +
+>   include/hw/intc/loongarch_pch_pic.h |  69 +++++
+>   include/hw/pci-host/ls7a.h          |  30 ++
+>   8 files changed, 546 insertions(+)
+>   create mode 100644 hw/intc/loongarch_pch_pic.c
+>   create mode 100644 include/hw/intc/loongarch_pch_pic.h
+>   create mode 100644 include/hw/pci-host/ls7a.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
