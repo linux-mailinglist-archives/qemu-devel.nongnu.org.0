@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72DC515DDB
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:50:53 +0200 (CEST)
-Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8C6515DE7
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 15:53:49 +0200 (CEST)
+Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknUq-0000mJ-Qh
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56070)
+	id 1nknXg-0006pd-6R
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 09:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAl-0004z0-QC
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:08 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:34694)
+ id 1nknAo-000511-Mu
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:10 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAk-0006VJ-0E
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:07 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id z21so8514575pgj.1
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:30:05 -0700 (PDT)
+ id 1nknAl-0006Vq-Qk
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:10 -0400
+Received: by mail-pg1-x532.google.com with SMTP id bg9so8493891pgb.9
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KzhRI9ZBMDbSjvbxlK4evTeTziJ0fFpirvhUh0Y9F/o=;
- b=xUQXwGJOmwyCFP9VQvwle5SAyxVEzVvT5jy7ReNbeQdilaqYY8EzhH6xTfMWoLk6cG
- k5aqtfKQItefka1WwZaCihavADzj3DfX3/zlKeyk1dU6ybpustq348nHAMHDRMvA+Ica
- A369e9N6Ur72ou4iogafQ3Lwd13eCNx1J5jBHQRdftYSsNPox3iRpRq3TGM0enPzfLSS
- 3rLClbVRhhe1R2Znky3pZsqY/STr0Pmo37XHd+IuzNrlCuVU8sTCMIjNorsY71q+nFvH
- 7ZR6fWcdblTxsv5o5qd/ChFc1XlUbTdUmN/g6agXn49TKe+XohbfwkDOHkqCgsFtDIE6
- v83Q==
+ bh=tSJK3mS4bOjkLh53cDYFX3XNRh44hRQ7vDXtW3G1P34=;
+ b=tvvn4E23OxaJmGtQqlIGdSK46W6Le8Lz8VADY3KMfreXn71o0RD3AgBfjvx0Os34YE
+ 9nOmqEsDQCClYw6slIs4Lf7eWNOEUaAdUKTLSDtDMC5zEhGz3kNw2x/dGmxwme8yTGG1
+ CQojwGJKIzsKvjeRbRotxk+aSq1Ky+kjqLW9kiX+zzv1uoiGdrAlAJmDI2Joh+t3/gnY
+ fJdekva5L/OgePMaemI59W5JA7cNVi5xtKw/T6moViB+Ny9p4e5U0i+1lDUvdtTNNnaG
+ MNqA/KZeVTtBjCcODkx3zkLhzk/rVZqkLp8+QKQxMYw7oSgABO/cDGrriQaleyWTffaa
+ bGlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KzhRI9ZBMDbSjvbxlK4evTeTziJ0fFpirvhUh0Y9F/o=;
- b=az+iTPIrnCNXkOTkzPDwAtOzcYtkUnvifnaC3mTD/s02iJabVFzWQxuDcqpzZch07Y
- oqz8SHN3S6wGiJU+odjCi0FOBIRt7tezDqv348onN6Zs//z0x4w6DJo1V0JHt1z8dvB+
- +sfn0Vd5skVbDCES0Z3mw7VYmgpK2qYs6gfKyS5V/4KpxefFfpl9BPoRdIrzTSHQ/rMC
- UgdjerYPEb2y2VbJkTHadi0/KaRht8F9OgIaBoDHJrd/EXT64a5Z1p8TLIyhSXqUN8l5
- 2JsFuud0ypyFr3rw/Mvr/ufvrKkGYa5w3fGqkrhO61h/6WchkDI/n9o5E/pxOtUxGLuk
- ILqw==
-X-Gm-Message-State: AOAM531UsIa2nZWKNHq7I+tlrbdXMZjmBNKIbdHftiQWn5Y88j75lacz
- FwkISS2LykIygemVI3jZvksAvhzzWabKxQ==
-X-Google-Smtp-Source: ABdhPJz6ikL93NRqiCuAhYEbooq7dAHCoV+y5wre2Gz06JyQEZs1HoukDldOjGdkIgcO+oRmMaPJXg==
-X-Received: by 2002:a63:500a:0:b0:3c1:afc5:1213 with SMTP id
- e10-20020a63500a000000b003c1afc51213mr3199257pgb.148.1651325404721; 
- Sat, 30 Apr 2022 06:30:04 -0700 (PDT)
+ bh=tSJK3mS4bOjkLh53cDYFX3XNRh44hRQ7vDXtW3G1P34=;
+ b=RDpUip4BwuWISaHMMXUKckiRyT3iDNK8c5HRKvfvh5x+aHuP1Bvr/ARSV08vvu9dC4
+ UKlRjZ54yorqDE707T/F8Lf+pLuefw6jap7lonBhg+6ybWBNfnubJO8HQEopnJu8u8/6
+ U9M7K9BInaFAnXt/Rbmw2a2wAPZV7uWQZ7M2Ds7JriIKILoCmsdljxjVocX+Uk/C5UVl
+ 37tXKYTFqoq3OyTXCMbMuU5uC4LeGefLEw5oOHpY3Y+xRh4p9TW1LfjQJbBozpigH9ki
+ Xz/jwk+aPU4iuhg4DJrvBUh9bqMLUnLsvPzwE2r9lfj/HplsZLZ1srcEjRSKFSlYNpZT
+ fBLQ==
+X-Gm-Message-State: AOAM530/+p3uEwI7bAtXW8n+VA35kvz1YNuhQUl1eobxi+uETJrbDUQc
+ iuCF+6BUbKCT77r5bcEHZtVlY42kpC1EKg==
+X-Google-Smtp-Source: ABdhPJwmDCZmAJ/ogRmL6quBbKpDCIQF3fyXUCmSylBgCKgimdQkb9wMSkQit6e8ZnAtipWVWupfHA==
+X-Received: by 2002:a63:f954:0:b0:3a8:2153:78fb with SMTP id
+ q20-20020a63f954000000b003a8215378fbmr3149883pgk.8.1651325406539; 
+ Sat, 30 Apr 2022 06:30:06 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.30.03
+ x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.30.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:30:04 -0700 (PDT)
+ Sat, 30 Apr 2022 06:30:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/43] semihosting: Create semihost_sys_{stat,fstat}
-Date: Sat, 30 Apr 2022 06:29:20 -0700
-Message-Id: <20220430132932.324018-32-richard.henderson@linaro.org>
+Subject: [PATCH 33/43] gdbstub: Widen gdb_syscall_complete_cb return value
+Date: Sat, 30 Apr 2022 06:29:22 -0700
+Message-Id: <20220430132932.324018-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
 References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,188 +88,200 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These syscalls will be used by m68k and nios2 semihosting.
+Always pass a uint64_t.  This resolves a FIXME in the
+m68k and nios2 semihosting that we've lost data.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/guestfd.h |   7 ++
- semihosting/guestfd.c         | 137 ++++++++++++++++++++++++++++++++++
- 2 files changed, 144 insertions(+)
+ include/exec/gdbstub.h        |  3 +--
+ gdbstub.c                     |  7 ++++---
+ semihosting/arm-compat-semi.c |  9 ++++-----
+ semihosting/console.c         |  7 +++----
+ semihosting/guestfd.c         |  2 +-
+ target/m68k/m68k-semi.c       | 10 +++-------
+ target/nios2/nios2-semi.c     |  8 +++-----
+ 7 files changed, 19 insertions(+), 27 deletions(-)
 
-diff --git a/include/semihosting/guestfd.h b/include/semihosting/guestfd.h
-index a6d34e8141..315cac1c44 100644
---- a/include/semihosting/guestfd.h
-+++ b/include/semihosting/guestfd.h
-@@ -82,4 +82,11 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
- void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
-                          target_ulong cmd, target_ulong cmd_len);
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index a7d3bfd5d4..22b386ff65 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -53,8 +53,7 @@ struct gdb_timeval {
+ #ifdef NEED_CPU_H
+ #include "cpu.h"
  
-+void semihost_sys_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-+                        int fd, target_ulong addr);
-+
-+void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       target_ulong fname, target_ulong fname_len,
-+                       target_ulong addr);
-+
- #endif /* SEMIHOSTING_GUESTFD_H */
+-typedef void (*gdb_syscall_complete_cb)(CPUState *cpu,
+-                                        target_ulong ret, target_ulong err);
++typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
+ 
+ /**
+  * gdb_do_syscall:
+diff --git a/gdbstub.c b/gdbstub.c
+index a3ff8702ce..5286253f8a 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -1870,11 +1870,12 @@ static void handle_read_all_regs(GArray *params, void *user_ctx)
+ static void handle_file_io(GArray *params, void *user_ctx)
+ {
+     if (params->len >= 1 && gdbserver_state.current_syscall_cb) {
+-        target_ulong ret, err;
++        uint64_t ret;
++        int err;
+ 
+-        ret = (target_ulong)get_param(params, 0)->val_ull;
++        ret = get_param(params, 0)->val_ull;
+         if (params->len >= 2) {
+-            err = (target_ulong)get_param(params, 1)->val_ull;
++            err = get_param(params, 1)->val_ull;
+         } else {
+             err = 0;
+         }
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 61e8dede8d..ad0df6eabf 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -216,7 +216,7 @@ static inline uint32_t get_swi_errno(CPUState *cs)
+ #endif
+ }
+ 
+-static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
++static void common_semi_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     if (err) {
+ #ifdef CONFIG_USER_ONLY
+@@ -233,7 +233,7 @@ static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
+  * SYS_READ and SYS_WRITE always return the number of bytes not read/written.
+  * There is no error condition, other than returning the original length.
+  */
+-static void common_semi_rw_cb(CPUState *cs, target_ulong ret, target_ulong err)
++static void common_semi_rw_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     /* Recover the original length from the third argument. */
+     CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
+@@ -250,8 +250,7 @@ static void common_semi_rw_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ /*
+  * SYS_SEEK returns 0 on success, not the resulting offset.
+  */
+-static void common_semi_seek_cb(CPUState *cs, target_ulong ret,
+-                                target_ulong err)
++static void common_semi_seek_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     if (!err) {
+         ret = 0;
+@@ -272,7 +271,7 @@ static target_ulong common_semi_flen_buf(CPUState *cs)
+ }
+ 
+ static void
+-common_semi_flen_fstat_cb(CPUState *cs, target_ulong ret, target_ulong err)
++common_semi_flen_fstat_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     if (!err) {
+         /* The size is always stored in big-endian order, extract the value. */
+diff --git a/semihosting/console.c b/semihosting/console.c
+index ef6958d844..3dd0ac60e2 100644
+--- a/semihosting/console.c
++++ b/semihosting/console.c
+@@ -64,11 +64,10 @@ static GString *copy_user_string(CPUArchState *env, target_ulong addr)
+     return s;
+ }
+ 
+-static void semihosting_cb(CPUState *cs, target_ulong ret, target_ulong err)
++static void semihosting_cb(CPUState *cs, uint64_t ret, int err)
+ {
+-    if (ret == (target_ulong) -1) {
+-        qemu_log("%s: gdb console output failed ("TARGET_FMT_ld")",
+-                 __func__, err);
++    if (err) {
++        qemu_log("%s: gdb console output failed (%d)", __func__, err);
+     }
+ }
+ 
 diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-index 9176ddd301..c182d5b7e6 100644
+index cb9eab9587..341113f939 100644
 --- a/semihosting/guestfd.c
 +++ b/semihosting/guestfd.c
-@@ -563,12 +563,95 @@ void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
+@@ -179,7 +179,7 @@ static int validate_lock_user_string(char **pstr, CPUState *cs,
+ 
+ static gdb_syscall_complete_cb gdb_open_complete;
+ 
+-static void gdb_open_cb(CPUState *cs, target_ulong ret, target_ulong err)
++static void gdb_open_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     if (!err) {
+         int guestfd = alloc_guestfd();
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index da0186f3ef..94deebf09e 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -93,7 +93,7 @@ static void translate_stat(CPUM68KState *env, target_ulong addr, struct stat *s)
+     unlock_user(p, addr, sizeof(struct gdb_stat));
+ }
+ 
+-static void m68k_semi_return_u32(CPUM68KState *env, uint32_t ret, uint32_t err)
++static void m68k_semi_return_u32(CPUM68KState *env, uint32_t ret, int err)
+ {
+     target_ulong args = env->dregs[1];
+     if (put_user_u32(ret, args) ||
+@@ -108,7 +108,7 @@ static void m68k_semi_return_u32(CPUM68KState *env, uint32_t ret, uint32_t err)
      }
  }
  
-+/*
-+ * TODO: Note that gdb always stores the stat structure big-endian.
-+ * So far, that's ok, as the only two targets using this are also
-+ * big-endian.  Until we do something with gdb, also produce the
-+ * same big-endian result from the host.
-+ */
-+static int copy_stat_to_user(CPUState *cs, target_ulong addr,
-+                             const struct stat *s)
-+{
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    struct gdb_stat *p;
-+
-+    if (s->st_dev != (uint32_t)s->st_dev ||
-+        s->st_ino != (uint32_t)s->st_ino) {
-+        return -EOVERFLOW;
-+    }
-+
-+    p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0);
-+    if (!p) {
-+        return -EFAULT;
-+    }
-+
-+    p->gdb_st_dev = cpu_to_be32(s->st_dev);
-+    p->gdb_st_ino = cpu_to_be32(s->st_ino);
-+    p->gdb_st_mode = cpu_to_be32(s->st_mode);
-+    p->gdb_st_nlink = cpu_to_be32(s->st_nlink);
-+    p->gdb_st_uid = cpu_to_be32(s->st_uid);
-+    p->gdb_st_gid = cpu_to_be32(s->st_gid);
-+    p->gdb_st_rdev = cpu_to_be32(s->st_rdev);
-+    p->gdb_st_size = cpu_to_be64(s->st_size);
-+#ifdef _WIN32
-+    /* Windows stat is missing some fields.  */
-+    p->gdb_st_blksize = 0;
-+    p->gdb_st_blocks = 0;
-+#else
-+    p->gdb_st_blksize = cpu_to_be64(s->st_blksize);
-+    p->gdb_st_blocks = cpu_to_be64(s->st_blocks);
-+#endif
-+    p->gdb_st_atime = cpu_to_be32(s->st_atime);
-+    p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
-+    p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
-+
-+    unlock_user(p, addr, sizeof(struct gdb_stat));
-+    return 0;
-+}
-+
- static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-                       GuestFD *gf, target_ulong addr)
+-static void m68k_semi_return_u64(CPUM68KState *env, uint64_t ret, uint32_t err)
++static void m68k_semi_return_u64(CPUM68KState *env, uint64_t ret, int err)
  {
-     gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
+     target_ulong args = env->dregs[1];
+     if (put_user_u32(ret >> 32, args) ||
+@@ -122,16 +122,12 @@ static void m68k_semi_return_u64(CPUM68KState *env, uint64_t ret, uint32_t err)
+ 
+ static int m68k_semi_is_fseek;
+ 
+-static void m68k_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
++static void m68k_semi_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     M68kCPU *cpu = M68K_CPU(cs);
+     CPUM68KState *env = &cpu->env;
+ 
+     if (m68k_semi_is_fseek) {
+-        /*
+-         * FIXME: We've already lost the high bits of the fseek
+-         * return value.
+-         */
+         m68k_semi_return_u64(env, ret, err);
+         m68k_semi_is_fseek = 0;
+     } else {
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index 3e504a6c5f..4d02789d26 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -108,8 +108,7 @@ static bool translate_stat(CPUNios2State *env, target_ulong addr,
+     return true;
  }
  
-+static void host_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       GuestFD *gf, target_ulong addr)
-+{
-+    struct stat buf;
-+    int ret;
-+
-+    ret = fstat(gf->hostfd, &buf);
-+    if (ret) {
-+        complete(cs, -1, errno);
-+        return;
-+    }
-+    ret = copy_stat_to_user(cs, addr, &buf);
-+    complete(cs, ret ? -1 : 0, ret ? -ret : 0);
-+}
-+
-+void semihost_sys_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-+                        int fd, target_ulong addr)
-+{
-+    GuestFD *gf = get_guestfd(fd);
-+
-+    if (!gf) {
-+        complete(cs, -1, EBADF);
-+        return;
-+    }
-+    switch (gf->type) {
-+    case GuestFDGDB:
-+        gdb_fstat(cs, complete, gf, addr);
-+        break;
-+    case GuestFDHost:
-+        host_fstat(cs, complete, gf, addr);
-+        break;
-+    case GuestFDStatic:
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- static void host_flen(CPUState *cs, gdb_syscall_complete_cb complete,
-                       GuestFD *gf)
+-static void nios2_semi_return_u32(CPUNios2State *env, uint32_t ret,
+-                                  uint32_t err)
++static void nios2_semi_return_u32(CPUNios2State *env, uint32_t ret, int err)
  {
-@@ -754,3 +837,57 @@ void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
-         host_system(cs, complete, cmd, cmd_len);
+     target_ulong args = env->regs[R_ARG1];
+     if (put_user_u32(ret, args) ||
+@@ -124,8 +123,7 @@ static void nios2_semi_return_u32(CPUNios2State *env, uint32_t ret,
      }
  }
-+
-+static void gdb_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-+                     target_ulong fname, target_ulong fname_len,
-+                     target_ulong addr)
-+{
-+    int len = validate_strlen(cs, fname, fname_len);
-+    if (len < 0) {
-+        complete(cs, -1, -len);
-+        return;
-+    }
-+
-+    gdb_do_syscall(complete, "stat,%s,%x", fname, len, addr);
-+}
-+
-+static void host_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-+                      target_ulong fname, target_ulong fname_len,
-+                      target_ulong addr)
-+{
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    struct stat buf;
-+    char *name;
-+    int ret, err;
-+
-+    ret = validate_lock_user_string(&name, cs, fname, fname_len);
-+    if (ret < 0) {
-+        complete(cs, -1, -ret);
-+        return;
-+    }
-+
-+    ret = stat(name, &buf);
-+    if (ret) {
-+        err = errno;
-+    } else {
-+        ret = copy_stat_to_user(cs, addr, &buf);
-+        err = 0;
-+        if (ret < 0) {
-+            err = -ret;
-+            ret = -1;
-+        }
-+    }
-+    complete(cs, ret, err);
-+    unlock_user(name, fname, 0);
-+}
-+
-+void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       target_ulong fname, target_ulong fname_len,
-+                       target_ulong addr)
-+{
-+    if (use_gdb_syscalls()) {
-+        gdb_stat(cs, complete, fname, fname_len, addr);
-+    } else {
-+        host_stat(cs, complete, fname, fname_len, addr);
-+    }
-+}
+ 
+-static void nios2_semi_return_u64(CPUNios2State *env, uint64_t ret,
+-                                  uint32_t err)
++static void nios2_semi_return_u64(CPUNios2State *env, uint64_t ret, int err)
+ {
+     target_ulong args = env->regs[R_ARG1];
+     if (put_user_u32(ret >> 32, args) ||
+@@ -139,7 +137,7 @@ static void nios2_semi_return_u64(CPUNios2State *env, uint64_t ret,
+ 
+ static int nios2_semi_is_lseek;
+ 
+-static void nios2_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
++static void nios2_semi_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     Nios2CPU *cpu = NIOS2_CPU(cs);
+     CPUNios2State *env = &cpu->env;
 -- 
 2.34.1
 
