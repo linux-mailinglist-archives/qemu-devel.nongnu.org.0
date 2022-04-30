@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EFB515E07
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 16:07:27 +0200 (CEST)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBAC515DF4
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 16:03:19 +0200 (CEST)
+Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknkr-0007zE-M0
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 10:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56120)
+	id 1nkngs-0003BV-TM
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 10:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAn-00050E-2W
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:10 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:39927)
+ id 1nknAr-000546-1W
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:14 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:35654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknAl-0006VW-9g
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:08 -0400
-Received: by mail-pf1-x432.google.com with SMTP id y38so9057812pfa.6
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:30:06 -0700 (PDT)
+ id 1nknAp-0006Wv-1J
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:30:12 -0400
+Received: by mail-pl1-x636.google.com with SMTP id d15so9319017plh.2
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6GpLQ8ipNBATQfL4tdhE0DDcTIbaXhK4bLfdN035pIc=;
- b=WthsuyDjOyrZl9sL8Vz2XFwgflAVbWZcMmE2MtiiyEb39Rac9uJ+SL/W9SSL7dCNp1
- Zdo3WORuM6k9u8cXpBdevEGeb9ebWUw0m+wZrjKVMwsZAFM/3C3Aq7E9E5f52kTXp1kz
- 6522H7kFbsXPT0fqqx+u1+q3Fg/DNP2/dy8+t5VbO/EfJST718vjOOn9PMg4zYZU8vax
- qkGpVD1IDxdgELVvGHLkgsMb/OUY2HkXSqnW1JCFXrPHh+dZadwHWW4TYgXbNdV6lZZT
- SHakTKbRcOr3Cysv1OI4q4lgb9n6mDPYdSp6CVM1nRbR43xbQGiWyTCbyPDBPORFhkfx
- VSQw==
+ bh=czSsEZZDTFOG9l5oT6lzPjAvLl9xr0/LWEJ8z08lpog=;
+ b=gH5DrY8vz7Vr+P1SWcR7hfaynb7860cqHP+7HWjDJRPUkAFSfCq6QFcS9oEIIOydXU
+ hitBa5tkYND5ICneXiAEHj+PGa6qdSiU/LBJVZQ/EUMMnpyznxYNuNMNS2UX9WhEcwE0
+ dKN/a/XbBZBX6eYd6Bt86PE1sXMpEsioYjpekNb9QNJ3vHS2ooG3fQaK5p2wskY1hcCG
+ Yy9bHXkhPVJjtTpYitV+KO9fOuHDIYwGNIis3uaOhEiBDnu2IRoNiYYHASJDsIfpOx7I
+ 6VbCjVr/Koo3vrhWsWaJhvvj9kqGNiVMdWe9h20byqrog+3/lrAfEy0+70Zu9ydyExWc
+ U/Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6GpLQ8ipNBATQfL4tdhE0DDcTIbaXhK4bLfdN035pIc=;
- b=jLeRRaNq8j6rTLhtk3Qb901M+oekU9kiPXVrKc7gBZS/Klw0MWZJcF3uya6xrtim2a
- bpXZSd+uwl2BzPEPcFkpr92zL2EF2EUXwfB3SXnE6MQT6HjyU6zvfuc3RxhFoMmOQFby
- h6I5o5WMR2qGnOt09fD0YP1I4+743x4USNR2xjXdK/otZx3elgcrWrrilmCWK+PlhWKp
- T3salYgce5HIRM+6jHzqPIYqK3aNbJjroxO1g9WwoFjKAhwB8RKKAoyoVJIjmltFwYpk
- tZcMKKt7ipSgfkvQ+JJBGCXNiJSAe1LQzJGVxVsDshbyg1jHH2GWvkHc8xLMNEwshIB7
- 1jpQ==
-X-Gm-Message-State: AOAM533UlzB/DJly02cflgHJ26SOcPCtR9S5hHPjGzDPzuTvhrVVZqtA
- c32d1y9hsEXjWpgyU1jEGIjeyzsM+7HEoA==
-X-Google-Smtp-Source: ABdhPJzoT4Jt8mcEdYHwzoRCWX/78nsT3ZuLq5gVmFxXajbQ8sMHkDtS5pwJyTw/8JqQoWGCd5SU0A==
-X-Received: by 2002:a63:7702:0:b0:3ab:4d62:b68b with SMTP id
- s2-20020a637702000000b003ab4d62b68bmr3248383pgc.452.1651325405516; 
- Sat, 30 Apr 2022 06:30:05 -0700 (PDT)
+ bh=czSsEZZDTFOG9l5oT6lzPjAvLl9xr0/LWEJ8z08lpog=;
+ b=1sKzYO5sGhIf6GvC8KRzxJ12xjGjPP5FM0J67SDL/fN0CdFNHEyaoJt9HmcDNQmnP8
+ tuSFgRwcJ+7rgG6KkBskSo77lI91b5Ni582xCr2gzgcWlS5ZI3Da/EIBqjqmLrY1gJih
+ ZijlNIpG44VXRuSTc+2EYDJYDG238A/XTgp6O/jM2P0Qc5Q7hk+RUGu0uvrmp38I/MZX
+ jkV5zPjCEzTlqTtTJ/iktqiAXY1AUAvCa1kbyMjS6KUyGhbgNBTo5tKuRbeSHsfndv2n
+ iBRTCfbtvF3S9qS5ozMXlpzOGjxJcCPEwTQak7ZWgwV6gu1e/W9i3NXMBPxB4jZuF7L1
+ xq8A==
+X-Gm-Message-State: AOAM5326s6fJudlq6uGS2hT4wL5mQJYaNlNx0QoUq9PohC4w2f6BF3an
+ XuzdvF0u3sX+1xrVg+du3Tzg7MoTo47F3g==
+X-Google-Smtp-Source: ABdhPJyy0zDJuKMJSBu15Mg9w2coNxpRpgF7Zrh3j4xoi1JHniAHmmRKEGJBFpVaYVw07SQRehc0+w==
+X-Received: by 2002:a17:902:b941:b0:14d:af72:3f23 with SMTP id
+ h1-20020a170902b94100b0014daf723f23mr3793229pls.6.1651325409713; 
+ Sat, 30 Apr 2022 06:30:09 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.30.04
+ x5-20020aa793a5000000b0050dc7628201sm1522606pff.219.2022.04.30.06.30.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:30:05 -0700 (PDT)
+ Sat, 30 Apr 2022 06:30:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 32/43] semihosting: Create semihost_sys_gettimeofday
-Date: Sat, 30 Apr 2022 06:29:21 -0700
-Message-Id: <20220430132932.324018-33-richard.henderson@linaro.org>
+Subject: [PATCH 36/43] target/m68k: Use guestfd.h to implement syscalls.
+Date: Sat, 30 Apr 2022 06:29:25 -0700
+Message-Id: <20220430132932.324018-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
 References: <20220430132932.324018-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,76 +88,369 @@ Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This syscall will be used by m68k and nios2 semihosting.
+This separates guest file descriptors from host file descriptors,
+and utilizes shared infrastructure for integration with gdbstub.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/guestfd.h |  3 +++
- semihosting/guestfd.c         | 42 +++++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ target/m68k/m68k-semi.c | 268 ++++++----------------------------------
+ 1 file changed, 38 insertions(+), 230 deletions(-)
 
-diff --git a/include/semihosting/guestfd.h b/include/semihosting/guestfd.h
-index 315cac1c44..5b0ed1b472 100644
---- a/include/semihosting/guestfd.h
-+++ b/include/semihosting/guestfd.h
-@@ -89,4 +89,7 @@ void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-                        target_ulong fname, target_ulong fname_len,
-                        target_ulong addr);
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 4b5621a101..71f9d42e6c 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -41,54 +41,6 @@
+ #define HOSTED_ISATTY 12
+ #define HOSTED_SYSTEM 13
  
-+void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-+                               target_ulong tv_addr, target_ulong tz_addr);
+-static int translate_openflags(int flags)
+-{
+-    int hf;
+-
+-    if (flags & GDB_O_WRONLY)
+-        hf = O_WRONLY;
+-    else if (flags & GDB_O_RDWR)
+-        hf = O_RDWR;
+-    else
+-        hf = O_RDONLY;
+-
+-    if (flags & GDB_O_APPEND) hf |= O_APPEND;
+-    if (flags & GDB_O_CREAT) hf |= O_CREAT;
+-    if (flags & GDB_O_TRUNC) hf |= O_TRUNC;
+-    if (flags & GDB_O_EXCL) hf |= O_EXCL;
+-
+-    return hf;
+-}
+-
+-static void translate_stat(CPUM68KState *env, target_ulong addr, struct stat *s)
+-{
+-    struct gdb_stat *p;
+-
+-    if (!(p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0)))
+-        /* FIXME - should this return an error code? */
+-        return;
+-    p->gdb_st_dev = cpu_to_be32(s->st_dev);
+-    p->gdb_st_ino = cpu_to_be32(s->st_ino);
+-    p->gdb_st_mode = cpu_to_be32(s->st_mode);
+-    p->gdb_st_nlink = cpu_to_be32(s->st_nlink);
+-    p->gdb_st_uid = cpu_to_be32(s->st_uid);
+-    p->gdb_st_gid = cpu_to_be32(s->st_gid);
+-    p->gdb_st_rdev = cpu_to_be32(s->st_rdev);
+-    p->gdb_st_size = cpu_to_be64(s->st_size);
+-#ifdef _WIN32
+-    /* Windows stat is missing some fields.  */
+-    p->gdb_st_blksize = 0;
+-    p->gdb_st_blocks = 0;
+-#else
+-    p->gdb_st_blksize = cpu_to_be64(s->st_blksize);
+-    p->gdb_st_blocks = cpu_to_be64(s->st_blocks);
+-#endif
+-    p->gdb_st_atime = cpu_to_be32(s->st_atime);
+-    p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
+-    p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
+-    unlock_user(p, addr, sizeof(struct gdb_stat));
+-}
+-
+ static void m68k_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
+ {
+     M68kCPU *cpu = M68K_CPU(cs);
+@@ -128,8 +80,6 @@ static void m68k_semi_u64_cb(CPUState *cs, uint64_t ret, int err)
+  */
+ #define GET_ARG(n) do {                                 \
+     if (get_user_ual(arg ## n, args + (n) * 4)) {       \
+-        result = -1;                                    \
+-        errno = EFAULT;                                 \
+         goto failed;                                    \
+     }                                                   \
+ } while (0)
+@@ -139,237 +89,93 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+     CPUState *cs = env_cpu(env);
+     uint32_t args;
+     target_ulong arg0, arg1, arg2, arg3;
+-    void *p;
+-    void *q;
+-    uint32_t len;
+-    uint32_t result;
+ 
+     args = env->dregs[1];
+     switch (nr) {
+     case HOSTED_EXIT:
+         gdb_exit(env->dregs[0]);
+         exit(env->dregs[0]);
 +
- #endif /* SEMIHOSTING_GUESTFD_H */
-diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-index c182d5b7e6..cb9eab9587 100644
---- a/semihosting/guestfd.c
-+++ b/semihosting/guestfd.c
-@@ -891,3 +891,45 @@ void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-         host_stat(cs, complete, fname, fname_len, addr);
+     case HOSTED_OPEN:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+         GET_ARG(3);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "open,%s,%x,%x", arg0, (int)arg1,
+-                           arg2, arg3);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = open(p, translate_openflags(arg2), arg3);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_open(cs, m68k_semi_u32_cb, arg0, arg1, arg2, arg3);
+         break;
++
+     case HOSTED_CLOSE:
+-        {
+-            /* Ignore attempts to close stdin/out/err.  */
+-            GET_ARG(0);
+-            int fd = arg0;
+-            if (fd > 2) {
+-                if (use_gdb_syscalls()) {
+-                    gdb_do_syscall(m68k_semi_u32_cb, "close,%x", arg0);
+-                    return;
+-                } else {
+-                    result = close(fd);
+-                }
+-            } else {
+-                result = 0;
+-            }
+-            break;
+-        }
++        GET_ARG(0);
++        semihost_sys_close(cs, m68k_semi_u32_cb, arg0);
++        break;
++
+     case HOSTED_READ:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        len = arg2;
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "read,%x,%x,%x",
+-                           arg0, arg1, len);
+-            return;
+-        } else {
+-            p = lock_user(VERIFY_WRITE, arg1, len, 0);
+-            if (!p) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = read(arg0, p, len);
+-                unlock_user(p, arg1, len);
+-            }
+-        }
++        semihost_sys_read(cs, m68k_semi_u32_cb, arg0, arg1, arg2);
+         break;
++
+     case HOSTED_WRITE:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        len = arg2;
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "write,%x,%x,%x",
+-                           arg0, arg1, len);
+-            return;
+-        } else {
+-            p = lock_user(VERIFY_READ, arg1, len, 1);
+-            if (!p) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = write(arg0, p, len);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_write(cs, m68k_semi_u32_cb, arg0, arg1, arg2);
+         break;
++
+     case HOSTED_LSEEK:
+-        {
+-            uint64_t off;
+-            GET_ARG(0);
+-            GET_ARG(1);
+-            GET_ARG(2);
+-            GET_ARG(3);
+-            off = (uint32_t)arg2 | ((uint64_t)arg1 << 32);
+-            if (use_gdb_syscalls()) {
+-                gdb_do_syscall(m68k_semi_u64_cb, "fseek,%x,%lx,%x",
+-                               arg0, off, arg3);
+-            } else {
+-                off = lseek(arg0, off, arg3);
+-                m68k_semi_u64_cb(cs, off, errno);
+-            }
+-            return;
+-        }
++        GET_ARG(0);
++        GET_ARG(1);
++        GET_ARG(2);
++        GET_ARG(3);
++        semihost_sys_lseek(cs, m68k_semi_u64_cb, arg0,
++                           deposit64(arg2, arg1, 32, 32), arg3);
++        break;
++
+     case HOSTED_RENAME:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+         GET_ARG(3);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "rename,%s,%s",
+-                           arg0, (int)arg1, arg2, (int)arg3);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            q = lock_user_string(arg2);
+-            if (!p || !q) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = rename(p, q);
+-            }
+-            unlock_user(p, arg0, 0);
+-            unlock_user(q, arg2, 0);
+-        }
++        semihost_sys_rename(cs, m68k_semi_u32_cb, arg0, arg1, arg2, arg3);
+         break;
++
+     case HOSTED_UNLINK:
+         GET_ARG(0);
+         GET_ARG(1);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "unlink,%s",
+-                           arg0, (int)arg1);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = unlink(p);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_remove(cs, m68k_semi_u32_cb, arg0, arg1);
+         break;
++
+     case HOSTED_STAT:
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "stat,%s,%x",
+-                           arg0, (int)arg1, arg2);
+-            return;
+-        } else {
+-            struct stat s;
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = stat(p, &s);
+-                unlock_user(p, arg0, 0);
+-            }
+-            if (result == 0) {
+-                translate_stat(env, arg2, &s);
+-            }
+-        }
++        semihost_sys_stat(cs, m68k_semi_u32_cb, arg0, arg1, arg2);
+         break;
++
+     case HOSTED_FSTAT:
+         GET_ARG(0);
+         GET_ARG(1);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "fstat,%x,%x",
+-                           arg0, arg1);
+-            return;
+-        } else {
+-            struct stat s;
+-            result = fstat(arg0, &s);
+-            if (result == 0) {
+-                translate_stat(env, arg1, &s);
+-            }
+-        }
++        semihost_sys_fstat(cs, m68k_semi_u32_cb, arg0, arg1);
+         break;
++
+     case HOSTED_GETTIMEOFDAY:
+         GET_ARG(0);
+         GET_ARG(1);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "gettimeofday,%x,%x",
+-                           arg0, arg1);
+-            return;
+-        } else {
+-            struct gdb_timeval *p;
+-            int64_t rt = g_get_real_time();
+-            p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval), 0);
+-            if (!p) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = 0;
+-                p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
+-                p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
+-                unlock_user(p, arg0, sizeof(struct gdb_timeval));
+-            }
+-        }
++        semihost_sys_gettimeofday(cs, m68k_semi_u32_cb, arg0, arg1);
+         break;
++
+     case HOSTED_ISATTY:
+         GET_ARG(0);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "isatty,%x", arg0);
+-            return;
+-        } else {
+-            result = isatty(arg0);
+-        }
++        semihost_sys_isatty(cs, m68k_semi_u32_cb, arg0);
+         break;
++
+     case HOSTED_SYSTEM:
+         GET_ARG(0);
+         GET_ARG(1);
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(m68k_semi_u32_cb, "system,%s",
+-                           arg0, (int)arg1);
+-            return;
+-        } else {
+-            p = lock_user_string(arg0);
+-            if (!p) {
+-                /* FIXME - check error code? */
+-                result = -1;
+-            } else {
+-                result = system(p);
+-                unlock_user(p, arg0, 0);
+-            }
+-        }
++        semihost_sys_system(cs, m68k_semi_u32_cb, arg0, arg1);
+         break;
++
+     case HOSTED_INIT_SIM:
+         /*
+          * FIXME: This is wrong for boards where RAM does not start at
+@@ -378,10 +184,12 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+         env->dregs[1] = current_machine->ram_size;
+         env->aregs[7] = current_machine->ram_size;
+         return;
++
+     default:
+         cpu_abort(env_cpu(env), "Unsupported semihosting syscall %d\n", nr);
+-        result = 0;
++
++    failed:
++        m68k_semi_u32_cb(cs, -1, EFAULT);
++        break;
      }
+-failed:
+-    m68k_semi_u32_cb(cs, result, errno);
  }
-+
-+static void gdb_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-+                             target_ulong tv_addr, target_ulong tz_addr)
-+{
-+    gdb_do_syscall(complete, "gettimeofday,%s,%x", tv_addr, tz_addr);
-+}
-+
-+static void host_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-+                              target_ulong tv_addr, target_ulong tz_addr)
-+{
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    struct gdb_timeval *p;
-+    int64_t rt;
-+
-+    /* GDB fails on non-null TZ, so be consistent. */
-+    if (tz_addr != 0) {
-+        complete(cs, -1, EINVAL);
-+        return;
-+    }
-+
-+    p = lock_user(VERIFY_WRITE, tv_addr, sizeof(struct gdb_timeval), 0);
-+    if (!p) {
-+        complete(cs, -1, EFAULT);
-+        return;
-+    }
-+
-+    /* TODO: Like stat, gdb always produces big-endian results; match it. */
-+    rt = g_get_real_time();
-+    p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
-+    p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
-+    unlock_user(p, tv_addr, sizeof(struct gdb_timeval));
-+}
-+
-+void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-+                               target_ulong tv_addr, target_ulong tz_addr)
-+{
-+    if (use_gdb_syscalls()) {
-+        gdb_gettimeofday(cs, complete, tv_addr, tz_addr);
-+    } else {
-+        host_gettimeofday(cs, complete, tv_addr, tz_addr);
-+    }
-+}
 -- 
 2.34.1
 
