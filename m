@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E905159DD
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 04:42:14 +0200 (CEST)
-Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41F25159F4
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 04:58:42 +0200 (CEST)
+Received: from localhost ([::1]:54726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkd3k-0003gH-Vk
-	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 22:42:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46078)
+	id 1nkdJh-0006Xd-M1
+	for lists+qemu-devel@lfdr.de; Fri, 29 Apr 2022 22:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nkd2e-00030m-Ke
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 22:41:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25575)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nkd2a-0002AI-G1
- for qemu-devel@nongnu.org; Fri, 29 Apr 2022 22:41:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651286458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y07EjQsSYnNJL7A6GvkJcy7yk48zcHiTjBeo2BJZEnY=;
- b=b3SpatrC3CDXbu5BF4aMAEXSWfyALYXr7U3+rLZnhCZGiWU+UecgdASRJ0/6bGxG7TyvOr
- e800HMA2hpA6QFT2xGvR3/prw/OJvz/Fq3t7q04DMuPP3o5ZgDG58CkGxdgoUqKiZ2Ilnu
- Q/iDzewU8SPZMBvadjONkfcdIyI0L4k=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-3hMZfdrPP0aOhAhyYggENA-1; Fri, 29 Apr 2022 22:40:57 -0400
-X-MC-Unique: 3hMZfdrPP0aOhAhyYggENA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- dn26-20020a05640222fa00b00425e4b8efa9so5431954edb.1
- for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 19:40:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nkdIW-0005j9-0x
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 22:57:28 -0400
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c]:38486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nkdIT-0004JB-Uy
+ for qemu-devel@nongnu.org; Fri, 29 Apr 2022 22:57:27 -0400
+Received: by mail-vs1-xe2c.google.com with SMTP id q2so9210249vsr.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Apr 2022 19:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e39/Dk+DUBWYhP4RJWwncUHnS14s+nldUn+5Uq7Mnj8=;
+ b=OE07CNyUTSJGFFQ5yM5SSLlRu3Zr2Sax6X8FwFtk2snzhy6tnWWZvcI3PRkx92zkFg
+ jKyJo3vstMowVedm07myBCWFrXzZPgwz5jK5qbnWbiRHxMqbUJKP56ItlTR5oO/CEnTg
+ 6AHMLriC/YL2khtjQ21aZAElj2l3BWkfaElsziK5q3I/555JbzVpj9oFxpPvaPyIpdgP
+ FXrpHEWI+j299L20xbww5aqgL1qg7Q/MktHAXO6lDbz+l6tzeV7ffXClHthxtYduqIcK
+ MPkRIjcvHnEPqQ9Lx7xdK1uFrqpSAcOG7LbGLCgx4nL9ZNU+F1Xq7naCyon3YRFW4Aht
+ SL6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=y07EjQsSYnNJL7A6GvkJcy7yk48zcHiTjBeo2BJZEnY=;
- b=tLR8sEiFvWI4GYdLZSnSfOrU6rNZQufdl4CiOj1cp7ZQaf4gp6Bev/k+gKcIEiUsuq
- /Xb1/9haUWMz/d7bs5qFomZwhoXyjPBtfyc2xDB1uE43xkIKoQEKm8kDFwvQCklAk3Iw
- qFWkwvEnUr7OZ2ThESTZaYfbXI2U3Vc95xX4EZZdXqvFYDtWOT541Sqg4HSMV1wfnKzN
- j5/6Jv2/QhnbM/8B87jH0MK1ic+ZMQ6Tsb69x5NyGJtl1ONFwdwCA4RKd1PnYUZ7QN3r
- FmU9ceOph9T8d9MeOsiCsRH2O8bvr93VE/Nc6wBmhEXnUqJ7tRn1jscQ9aEKyDj5AmSA
- 9low==
-X-Gm-Message-State: AOAM530CRg0X5yainLxU991ISyUcipptjOVoIa0oouuaJXq7CBoMJvLv
- evHDaL5z9Wb7Ff64jppKJQNzmUZAVILJ9eS9V3p3MrPv7TQOcYnGHA+9CkBedqeFbSqBT8jf1ux
- j93MSqMSBe0Zb21xXXGxpKJRZnuNut9w=
-X-Received: by 2002:a17:907:8689:b0:6f3:de80:dc02 with SMTP id
- qa9-20020a170907868900b006f3de80dc02mr2045992ejc.331.1651286455865; 
- Fri, 29 Apr 2022 19:40:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqSGX9irGh0kYV5a0Gebk2EwKH9WkdPAxdf/IiatpZrdPgeLeowEAVaDvF8XCiXhhbycswvBAkU2zhR21RzD8=
-X-Received: by 2002:a17:907:8689:b0:6f3:de80:dc02 with SMTP id
- qa9-20020a170907868900b006f3de80dc02mr2045974ejc.331.1651286455586; Fri, 29
- Apr 2022 19:40:55 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=e39/Dk+DUBWYhP4RJWwncUHnS14s+nldUn+5Uq7Mnj8=;
+ b=G4FZjPwxrO19WNDbOIzcfTZvbWqfAb+3xSFXco8ZVTznfwtJa64+GdqIR+1gFGtIxX
+ DtBAva7U4hAOqaLIEzmH1AhjsFZYm6ZaWOonRelnxEReeTbBNIlmPNAHdIG5wXFQ1RKQ
+ k8N3o+TTyA70DuiKqap+82ubgg0gKItakRimMV8H3qaOqKUR0mce3QPgnH5gvgg3Tcc/
+ +d9PJQiyxkuhPIpCX24WfipR+Jsw1PYEC6koPZrDNg3d6bd/yQFOzxpLP822RT0ksG7p
+ vzCuRygfodzwjeOiLaqHzSwW7OKLC5+lV3wtxaFWkKhAEq+z9qf3Fkyraw+9XFAq0Hm5
+ oyaA==
+X-Gm-Message-State: AOAM531XHiWEbc3eyTkLIBXA6j9iRLOY7wdQIr5jNVVOCpAM1hUDGem+
+ zkqi+1PZxnUFKL+aEiJMTS10jIYbUkf7Ug==
+X-Google-Smtp-Source: ABdhPJyzOwXFjPHA/j1F5UaqwXiHDsS4sAb81yEphwfKSYzgIoL8dQX8x0De3pZB+4g8TK2jywC7Mg==
+X-Received: by 2002:a67:c905:0:b0:32c:69bd:18a3 with SMTP id
+ w5-20020a67c905000000b0032c69bd18a3mr674331vsk.5.1651287441533; 
+ Fri, 29 Apr 2022 19:57:21 -0700 (PDT)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
+ [209.85.217.44]) by smtp.gmail.com with ESMTPSA id
+ y15-20020a1f7d0f000000b0034e6f1fd056sm131349vkc.32.2022.04.29.19.57.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 19:57:20 -0700 (PDT)
+Received: by mail-vs1-f44.google.com with SMTP id bl31so1704129vsb.12;
+ Fri, 29 Apr 2022 19:57:20 -0700 (PDT)
+X-Received: by 2002:a67:df10:0:b0:32d:ba4:8f73 with SMTP id
+ s16-20020a67df10000000b0032d0ba48f73mr754345vsk.74.1651287440420; Fri, 29 Apr
+ 2022 19:57:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220428144052.263382-1-dgilbert@redhat.com>
- <20220428144052.263382-7-dgilbert@redhat.com>
- <Ymq+5bPaYTyUHF6L@work-vm>
-In-Reply-To: <Ymq+5bPaYTyUHF6L@work-vm>
-From: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Date: Fri, 29 Apr 2022 23:40:44 -0300
-Message-ID: <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
-Subject: Re: [PULL 06/11] QIOChannelSocket: Implement io_writev zero copy flag
- & io_flush for CONFIG_LINUX
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220429153431.308829-1-apatel@ventanamicro.com>
+ <20220429153431.308829-2-apatel@ventanamicro.com>
+In-Reply-To: <20220429153431.308829-2-apatel@ventanamicro.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Sat, 30 Apr 2022 10:57:09 +0800
+X-Gmail-Original-Message-ID: <CANzO1D21gBFqfJwZ3KZaVj+oFgmwZTyELs-RQdbvthF6uRq4-w@mail.gmail.com>
+Message-ID: <CANzO1D21gBFqfJwZ3KZaVj+oFgmwZTyELs-RQdbvthF6uRq4-w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] target/riscv: Don't force update priv spec version to
+ latest
+To: Anup Patel <apatel@ventanamicro.com>
+Content-Type: multipart/alternative; boundary="0000000000004ef42d05ddd65159"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=frank.chang@sifive.com; helo=mail-vs1-xe2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,354 +90,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Dave,
+--0000000000004ef42d05ddd65159
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 28, 2022 at 1:20 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+
+On Fri, Apr 29, 2022 at 11:41 PM Anup Patel <apatel@ventanamicro.com> wrote:
+
+> The riscv_cpu_realize() sets priv spec verion to v1.12 when it is
+> when "env->priv_ver == 0" (i.e. default v1.10) because the enum
+> value of priv spec v1.10 is zero.
 >
-> Leo:
->   Unfortunately this is failing a couple of CI tests; the MSG_ZEROCOPY
-> one I guess is the simpler one; I think Stefanha managed to find the
-> liburing fix for the __kernel_timespec case, but that looks like a bit
-> more fun!
+> Due to above issue, the sifive_u machine will see priv spec v1.12
+> instead of priv spec v1.10.
 >
-> Dave
-
-About MSG_ZEROCOPY error:
-
-I tracked down how the test happened, downloaded the same docker image from=
- the
-tests(opensuse-leap-15.2), and took a look at the filesystem for the
-MSG_ZEROCOPY define, which I could not find anywhere.
-
-Then I took a look into /usr/include/bits/socket.h, which is where RHEL has
-MSG_ZEROCOPY defined. Zypper defines it as been provided by glibc-devel, wh=
-ich
-is versioned at 2.26-lp152.26.12.1.
-
-I then took a look at https://sourceware.org/git/glibc.git, and found commi=
-t
-78cde19f62 that introduces MSG_ZEROCOPY. The first version that has this co=
-mmit
-is glibc-2.27.
-
-So, basically, this means opensuse-leap-15.2 glibc version does not support
-MSG_ZEROCOPY. Based on that, I had a few ideas on how to solve the CI bug:
-1 - Propose a backport of this patch (few comments +  single define) for
-leap-15.x, wait for them to accept and update the version in qemu CI.
-(TBH I have no idea how the opensuse community works, I just suppose it cou=
-ld
-be a way of tackling this.)
-2 - include an #ifndef MSG_ZEROCOPY #define MSG_ZEROCOPY 0x4000000 #endif i=
-n
-code, which is ugly IMHO, but will be fast and clean.
-3 - In CI, patch /usr/include/bits/socket.h before building, which will als=
-o
-work fine, but defeats the purpose of keeping qemu building on the platform=
-.
-
-Among the above, I would go with (2), as it seems a reasonable way of deali=
-ng
-with this.
-
-Does anyone else have any further suggestions, or know how this kind of iss=
-ue
-is generally solved in qemu?
-
-Best regards,
-Leo
-
-
+> To fix this issue, we set latest priv spec version (i.e. v1.12)
+> for base rv64/rv32 cpu and riscv_cpu_realize() will override priv
+> spec version only when "cpu->cfg.priv_spec != NULL".
 >
+> Fixes: 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> ---
+>  target/riscv/cpu.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 >
-> Job #2390848140 ( https://gitlab.com/dagrh/qemu/-/jobs/2390848140/raw )
-> Name: build-system-alpine
-> In file included from /usr/include/linux/errqueue.h:6,
->                  from ../io/channel-socket.c:29:
-> /usr/include/linux/time_types.h:7:8: error: redefinition of 'struct __ker=
-nel_timespec'
->     7 | struct __kernel_timespec {
->       |        ^~~~~~~~~~~~~~~~~
-> In file included from /usr/include/liburing.h:19,
->                  from /builds/dagrh/qemu/include/block/aio.h:18,
->                  from /builds/dagrh/qemu/include/io/channel.h:26,
->                  from /builds/dagrh/qemu/include/io/channel-socket.h:24,
->                  from ../io/channel-socket.c:24:
-> /usr/include/liburing/compat.h:9:8: note: originally defined here
->     9 | struct __kernel_timespec {
->       |        ^~~~~~~~~~~~~~~~~
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f0a702fee6..02ee7d45d8 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -169,6 +169,8 @@ static void rv64_base_cpu_init(Object *obj)
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV64, 0);
+> +    /* Set latest version of privileged specification */
+> +    set_priv_version(env, PRIV_VERSION_1_12_0);
+>  }
 >
-> ----
-> Name: build-system-opensuse
+>  static void rv64_sifive_u_cpu_init(Object *obj)
+> @@ -204,6 +206,8 @@ static void rv32_base_cpu_init(Object *obj)
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV32, 0);
+> +    /* Set latest version of privileged specification */
+> +    set_priv_version(env, PRIV_VERSION_1_12_0);
+>  }
 >
-> https://gitlab.com/dagrh/qemu/-/jobs/2390848160/raw
-> ../io/channel-socket.c: In function =C3=A2=E2=82=AC=CB=9Cqio_channel_sock=
-et_writev=C3=A2=E2=82=AC=E2=84=A2:
-> ../io/channel-socket.c:578:18: error: =C3=A2=E2=82=AC=CB=9CMSG_ZEROCOPY=
-=C3=A2=E2=82=AC=E2=84=A2 undeclared (first use in this function); did you m=
-ean =C3=A2=E2=82=AC=CB=9CSO_ZEROCOPY=C3=A2=E2=82=AC=E2=84=A2?
->          sflags =3D MSG_ZEROCOPY;
->                   ^~~~~~~~~~~~
->                   SO_ZEROCOPY
-> ../io/channel-socket.c:578:18: note: each undeclared identifier is report=
-ed only once for each function it appears in
+>  static void rv32_sifive_u_cpu_init(Object *obj)
+> @@ -509,7 +513,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error
+> **errp)
+>      CPURISCVState *env = &cpu->env;
+>      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+>      CPUClass *cc = CPU_CLASS(mcc);
+> -    int priv_version = 0;
+> +    int priv_version = -1;
+>      Error *local_err = NULL;
 >
-> * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> > From: Leonardo Bras <leobras@redhat.com>
-> >
-> > For CONFIG_LINUX, implement the new zero copy flag and the optional cal=
-lback
-> > io_flush on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
-> > feature is available in the host kernel, which is checked on
-> > qio_channel_socket_connect_sync()
-> >
-> > qio_channel_socket_flush() was implemented by counting how many times
-> > sendmsg(...,MSG_ZEROCOPY) was successfully called, and then reading the
-> > socket's error queue, in order to find how many of them finished sendin=
-g.
-> > Flush will loop until those counters are the same, or until some error =
-occurs.
-> >
-> > Notes on using writev() with QIO_CHANNEL_WRITE_FLAG_ZERO_COPY:
-> > 1: Buffer
-> > - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid=
- copying,
-> > some caution is necessary to avoid overwriting any buffer before it's s=
-ent.
-> > If something like this happen, a newer version of the buffer may be sen=
-t instead.
-> > - If this is a problem, it's recommended to call qio_channel_flush() be=
-fore freeing
-> > or re-using the buffer.
-> >
-> > 2: Locked memory
-> > - When using MSG_ZERCOCOPY, the buffer memory will be locked after queu=
-ed, and
-> > unlocked after it's sent.
-> > - Depending on the size of each buffer, and how often it's sent, it may=
- require
-> > a larger amount of locked memory than usually available to non-root use=
-r.
-> > - If the required amount of locked memory is not available, writev_zero=
-_copy
-> > will return an error, which can abort an operation like migration,
-> > - Because of this, when an user code wants to add zero copy as a featur=
-e, it
-> > requires a mechanism to disable it, so it can still be accessible to le=
-ss
-> > privileged users.
-> >
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > Reviewed-by: Juan Quintela <quintela@redhat.com>
-> > Message-Id: <20220426230654.637939-3-leobras@redhat.com>
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  include/io/channel-socket.h |   2 +
-> >  io/channel-socket.c         | 108 ++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 106 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-> > index e747e63514..513c428fe4 100644
-> > --- a/include/io/channel-socket.h
-> > +++ b/include/io/channel-socket.h
-> > @@ -47,6 +47,8 @@ struct QIOChannelSocket {
-> >      socklen_t localAddrLen;
-> >      struct sockaddr_storage remoteAddr;
-> >      socklen_t remoteAddrLen;
-> > +    ssize_t zero_copy_queued;
-> > +    ssize_t zero_copy_sent;
-> >  };
-> >
-> >
-> > diff --git a/io/channel-socket.c b/io/channel-socket.c
-> > index 696a04dc9c..1dd85fc1ef 100644
-> > --- a/io/channel-socket.c
-> > +++ b/io/channel-socket.c
-> > @@ -25,6 +25,10 @@
-> >  #include "io/channel-watch.h"
-> >  #include "trace.h"
-> >  #include "qapi/clone-visitor.h"
-> > +#ifdef CONFIG_LINUX
-> > +#include <linux/errqueue.h>
-> > +#include <bits/socket.h>
-> > +#endif
-> >
-> >  #define SOCKET_MAX_FDS 16
-> >
-> > @@ -54,6 +58,8 @@ qio_channel_socket_new(void)
-> >
-> >      sioc =3D QIO_CHANNEL_SOCKET(object_new(TYPE_QIO_CHANNEL_SOCKET));
-> >      sioc->fd =3D -1;
-> > +    sioc->zero_copy_queued =3D 0;
-> > +    sioc->zero_copy_sent =3D 0;
-> >
-> >      ioc =3D QIO_CHANNEL(sioc);
-> >      qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_SHUTDOWN);
-> > @@ -153,6 +159,16 @@ int qio_channel_socket_connect_sync(QIOChannelSock=
-et *ioc,
-> >          return -1;
-> >      }
-> >
-> > +#ifdef CONFIG_LINUX
-> > +    int ret, v =3D 1;
-> > +    ret =3D setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
-> > +    if (ret =3D=3D 0) {
-> > +        /* Zero copy available on host */
-> > +        qio_channel_set_feature(QIO_CHANNEL(ioc),
-> > +                                QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY);
-> > +    }
-> > +#endif
-> > +
-> >      return 0;
-> >  }
-> >
-> > @@ -533,6 +549,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel=
- *ioc,
-> >      char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)];
-> >      size_t fdsize =3D sizeof(int) * nfds;
-> >      struct cmsghdr *cmsg;
-> > +    int sflags =3D 0;
-> >
-> >      memset(control, 0, CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS));
-> >
-> > @@ -557,15 +574,27 @@ static ssize_t qio_channel_socket_writev(QIOChann=
-el *ioc,
-> >          memcpy(CMSG_DATA(cmsg), fds, fdsize);
-> >      }
-> >
-> > +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> > +        sflags =3D MSG_ZEROCOPY;
-> > +    }
-> > +
-> >   retry:
-> > -    ret =3D sendmsg(sioc->fd, &msg, 0);
-> > +    ret =3D sendmsg(sioc->fd, &msg, sflags);
-> >      if (ret <=3D 0) {
-> > -        if (errno =3D=3D EAGAIN) {
-> > +        switch (errno) {
-> > +        case EAGAIN:
-> >              return QIO_CHANNEL_ERR_BLOCK;
-> > -        }
-> > -        if (errno =3D=3D EINTR) {
-> > +        case EINTR:
-> >              goto retry;
-> > +        case ENOBUFS:
-> > +            if (sflags & MSG_ZEROCOPY) {
-> > +                error_setg_errno(errp, errno,
-> > +                                 "Process can't lock enough memory for=
- using MSG_ZEROCOPY");
-> > +                return -1;
-> > +            }
-> > +            break;
-> >          }
-> > +
-> >          error_setg_errno(errp, errno,
-> >                           "Unable to write to socket");
-> >          return -1;
-> > @@ -659,6 +688,74 @@ static ssize_t qio_channel_socket_writev(QIOChanne=
-l *ioc,
-> >  }
-> >  #endif /* WIN32 */
-> >
-> > +
-> > +#ifdef CONFIG_LINUX
-> > +static int qio_channel_socket_flush(QIOChannel *ioc,
-> > +                                    Error **errp)
-> > +{
-> > +    QIOChannelSocket *sioc =3D QIO_CHANNEL_SOCKET(ioc);
-> > +    struct msghdr msg =3D {};
-> > +    struct sock_extended_err *serr;
-> > +    struct cmsghdr *cm;
-> > +    char control[CMSG_SPACE(sizeof(*serr))];
-> > +    int received;
-> > +    int ret =3D 1;
-> > +
-> > +    msg.msg_control =3D control;
-> > +    msg.msg_controllen =3D sizeof(control);
-> > +    memset(control, 0, sizeof(control));
-> > +
-> > +    while (sioc->zero_copy_sent < sioc->zero_copy_queued) {
-> > +        received =3D recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
-> > +        if (received < 0) {
-> > +            switch (errno) {
-> > +            case EAGAIN:
-> > +                /* Nothing on errqueue, wait until something is availa=
-ble */
-> > +                qio_channel_wait(ioc, G_IO_ERR);
-> > +                continue;
-> > +            case EINTR:
-> > +                continue;
-> > +            default:
-> > +                error_setg_errno(errp, errno,
-> > +                                 "Unable to read errqueue");
-> > +                return -1;
-> > +            }
-> > +        }
-> > +
-> > +        cm =3D CMSG_FIRSTHDR(&msg);
-> > +        if (cm->cmsg_level !=3D SOL_IP &&
-> > +            cm->cmsg_type !=3D IP_RECVERR) {
-> > +            error_setg_errno(errp, EPROTOTYPE,
-> > +                             "Wrong cmsg in errqueue");
-> > +            return -1;
-> > +        }
-> > +
-> > +        serr =3D (void *) CMSG_DATA(cm);
-> > +        if (serr->ee_errno !=3D SO_EE_ORIGIN_NONE) {
-> > +            error_setg_errno(errp, serr->ee_errno,
-> > +                             "Error on socket");
-> > +            return -1;
-> > +        }
-> > +        if (serr->ee_origin !=3D SO_EE_ORIGIN_ZEROCOPY) {
-> > +            error_setg_errno(errp, serr->ee_origin,
-> > +                             "Error not from zero copy");
-> > +            return -1;
-> > +        }
-> > +
-> > +        /* No errors, count successfully finished sendmsg()*/
-> > +        sioc->zero_copy_sent +=3D serr->ee_data - serr->ee_info + 1;
-> > +
-> > +        /* If any sendmsg() succeeded using zero copy, return 0 at the=
- end */
-> > +        if (serr->ee_code !=3D SO_EE_CODE_ZEROCOPY_COPIED) {
-> > +            ret =3D 0;
-> > +        }
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +#endif /* CONFIG_LINUX */
-> > +
-> >  static int
-> >  qio_channel_socket_set_blocking(QIOChannel *ioc,
-> >                                  bool enabled,
-> > @@ -789,6 +886,9 @@ static void qio_channel_socket_class_init(ObjectCla=
-ss *klass,
-> >      ioc_klass->io_set_delay =3D qio_channel_socket_set_delay;
-> >      ioc_klass->io_create_watch =3D qio_channel_socket_create_watch;
-> >      ioc_klass->io_set_aio_fd_handler =3D qio_channel_socket_set_aio_fd=
-_handler;
-> > +#ifdef CONFIG_LINUX
-> > +    ioc_klass->io_flush =3D qio_channel_socket_flush;
-> > +#endif
-> >  }
-> >
-> >  static const TypeInfo qio_channel_socket_info =3D {
-> > --
-> > 2.35.1
-> >
-> >
+>      cpu_exec_realizefn(cs, &local_err);
+> @@ -533,10 +537,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error
+> **errp)
+>          }
+>      }
+>
+> -    if (priv_version) {
+> +    if (priv_version >= PRIV_VERSION_1_10_0) {
+>          set_priv_version(env, priv_version);
+> -    } else if (!env->priv_ver) {
+> -        set_priv_version(env, PRIV_VERSION_1_12_0);
+>      }
+>
+>      if (cpu->cfg.mmu) {
 > --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 2.34.1
+>
 >
 >
 
+--0000000000004ef42d05ddd65159
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"m=
+ailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 29,=
+ 2022 at 11:41 PM Anup Patel &lt;<a href=3D"mailto:apatel@ventanamicro.com"=
+>apatel@ventanamicro.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">The riscv_cpu_realize() sets priv spec verion to v1=
+.12 when it is<br>
+when &quot;env-&gt;priv_ver =3D=3D 0&quot; (i.e. default v1.10) because the=
+ enum<br>
+value of priv spec v1.10 is zero.<br>
+<br>
+Due to above issue, the sifive_u machine will see priv spec v1.12<br>
+instead of priv spec v1.10.<br>
+<br>
+To fix this issue, we set latest priv spec version (i.e. v1.12)<br>
+for base rv64/rv32 cpu and riscv_cpu_realize() will override priv<br>
+spec version only when &quot;cpu-&gt;cfg.priv_spec !=3D NULL&quot;.<br>
+<br>
+Fixes: 7100fe6c2441 (&quot;target/riscv: Enable privileged spec version 1.1=
+2&quot;)<br>
+Signed-off-by: Anup Patel &lt;<a href=3D"mailto:apatel@ventanamicro.com" ta=
+rget=3D"_blank">apatel@ventanamicro.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/cpu.c | 10 ++++++----<br>
+=C2=A01 file changed, 6 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index f0a702fee6..02ee7d45d8 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -169,6 +169,8 @@ static void rv64_base_cpu_init(Object *obj)<br>
+=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
+=C2=A0 =C2=A0 =C2=A0/* We set this in the realise function */<br>
+=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV64, 0);<br>
++=C2=A0 =C2=A0 /* Set latest version of privileged specification */<br>
++=C2=A0 =C2=A0 set_priv_version(env, PRIV_VERSION_1_12_0);<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void rv64_sifive_u_cpu_init(Object *obj)<br>
+@@ -204,6 +206,8 @@ static void rv32_base_cpu_init(Object *obj)<br>
+=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
+=C2=A0 =C2=A0 =C2=A0/* We set this in the realise function */<br>
+=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, 0);<br>
++=C2=A0 =C2=A0 /* Set latest version of privileged specification */<br>
++=C2=A0 =C2=A0 set_priv_version(env, PRIV_VERSION_1_12_0);<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void rv32_sifive_u_cpu_init(Object *obj)<br>
+@@ -509,7 +513,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error *=
+*errp)<br>
+=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;cpu-&gt;env;<br>
+=C2=A0 =C2=A0 =C2=A0RISCVCPUClass *mcc =3D RISCV_CPU_GET_CLASS(dev);<br>
+=C2=A0 =C2=A0 =C2=A0CPUClass *cc =3D CPU_CLASS(mcc);<br>
+-=C2=A0 =C2=A0 int priv_version =3D 0;<br>
++=C2=A0 =C2=A0 int priv_version =3D -1;<br>
+=C2=A0 =C2=A0 =C2=A0Error *local_err =3D NULL;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0cpu_exec_realizefn(cs, &amp;local_err);<br>
+@@ -533,10 +537,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error =
+**errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 if (priv_version) {<br>
++=C2=A0 =C2=A0 if (priv_version &gt;=3D PRIV_VERSION_1_10_0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0set_priv_version(env, priv_version);<br>
+-=C2=A0 =C2=A0 } else if (!env-&gt;priv_ver) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_priv_version(env, PRIV_VERSION_1_12_0);<br=
+>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (cpu-&gt;cfg.mmu) {<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--0000000000004ef42d05ddd65159--
 
