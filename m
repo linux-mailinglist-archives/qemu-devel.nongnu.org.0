@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51A8515C94
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 13:57:43 +0200 (CEST)
-Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74DB515C95
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 13:57:55 +0200 (CEST)
+Received: from localhost ([::1]:47690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkljI-00067c-Mi
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 07:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42322)
+	id 1nkljW-0006VD-TM
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 07:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <ea39a4bc024582a26ca0786771557f854eaf84f4@lizzy.crudebyte.com>)
- id 1nklg7-0003ME-1c
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 07:54:23 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:56933)
+ (envelope-from <84a89408326215e2b423f23c1af415cfd773d099@lizzy.crudebyte.com>)
+ id 1nklgG-0003dx-QH
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 07:54:32 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <ea39a4bc024582a26ca0786771557f854eaf84f4@lizzy.crudebyte.com>)
- id 1nklg5-0007J7-CD
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 07:54:22 -0400
+ (envelope-from <84a89408326215e2b423f23c1af415cfd773d099@lizzy.crudebyte.com>)
+ id 1nklgF-0007Jt-7q
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 07:54:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=CjJA8/0P+2ostIOlk621je1IpvbiNDPC5b5zlHj9Qg4=; b=nVd8/
- OA7frjzVkZuoqZbwQJtSzMLakNbav5Mi6ZzTcAry65LlNIjNbVumuYML2aXzOHazS0FzZdWt0gNcz
- xdx86FQVW8RTifHPVqvuo3raDbnOGREup195xg55+f91puv2jliR54Oi0od+NE4+LQ5McQ7IrTRhl
- SJimOO+jSeqVBaMuV/7Yb2aK9V0bqMpLxUu1jNPeZTbBMpZuWRNMXHFWrNq/j4MVRUF/6NCIQ4YNI
- MrjBJCg1k/tP0Onl2Z25oaK5dkwZ9V0FV+bzxZV21vV8d7TLJvCPnTvqdPzpcQjQcp3/31Fo2WVzT
- CTrfZ1G9qLntLjfTdEo9uoyK/1t6Q==;
-Message-Id: <ea39a4bc024582a26ca0786771557f854eaf84f4.1651319081.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=JGBaf1+WaNX2Qb3Axq1QwKtUaKy2Gz5UqWp+NQDJ6JU=; b=JNVAg
+ 6P/DcGbBcJK44SFWcaDoF0/PgtibBkbwPrhXR5lDR2Uei8X3dlpMzVhTLz4G/goqBX2pSGCRdX8/6
+ +ORSqTJLP1NMDw/MfNEBrBhVHPc1gzvW31/uVLcc9sARgSHid4nwmaWcKL6Qxcl9Hk7rwbgbqRVW1
+ KdlDvlOiY9AQnr0pwfc4FfVhD6NimCxI2TGeLQFuzuMEp0ei/sIPDZL24pLrs5anmEU/Zjq0fHVpS
+ jaUYqUN+v+jztA0d0j5Ib0cGdX395axKPNT/injwwQ6sCdYU7HQUOGknsrcWNXO+97xO6fr4rXVKt
+ 3G20NV+JsntGoALfkLv2YgBGaSV1w==;
+Message-Id: <84a89408326215e2b423f23c1af415cfd773d099.1651319081.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1651319081.git.qemu_oss@crudebyte.com>
 References: <cover.1651319081.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Sat, 30 Apr 2022 13:44:42 +0200
-Subject: [PULL 4/7] 9pfs: fix wrong encoding of rdev field in Rgetattr on macOS
+Subject: [PULL 6/7] 9pfs: fix removing non-existent POSIX ACL xattr on macOS
+ host
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=ea39a4bc024582a26ca0786771557f854eaf84f4@lizzy.crudebyte.com;
+ envelope-from=84a89408326215e2b423f23c1af415cfd773d099@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,94 +64,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'rdev' field in 9p reponse 'Rgetattr' is of type dev_t,
-which is actually a system dependant type and therefore both the
-size and encoding of dev_t differ between macOS and Linux.
+When mapped POSIX ACL is used, we are ignoring errors when trying
+to remove a POSIX ACL xattr that does not exist. On Linux hosts we
+would get ENODATA in such cases, on macOS hosts however we get
+ENOATTR instead.
 
-So far we have sent 'rdev' to guest in host's dev_t format as-is,
-which caused devices to appear with wrong device numbers on
-guests running on macOS hosts, eventually leading to various
-misbehaviours on guest in conjunction with device files.
+As we can be sure that ENOATTR is defined as being identical on Linux
+hosts (at least by qemu/xattr.h), it is safe to fix this issue by
+simply comparing against ENOATTR instead of ENODATA.
 
-This patch fixes this issue by converting the device number from
-host's dev_t format to Linux dev_t format. As 9p request
-'Tgettattr' is exclusive to protocol version 9p2000.L, it should
-be fair to assume that 'rdev' field is assumed to be in Linux dev_t
-format by client as well.
+This patch fixes e.g. a command on Linux guest like:
+
+  cp --preserve=mode old new
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Link: https://lore.kernel.org/qemu-devel/20220421093056.5ab1e7ed@bahia/
+Link: https://lore.kernel.org/qemu-devel/2866993.yOYK24bMf6@silver/
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <b3a430c2c382ba69a7405e04c0b090ab0d86f17e.1651228001.git.qemu_oss@crudebyte.com>
+Message-Id: <34f81e9bffd7a3e65fb7aab5b56c107bd0aac960.1651228001.git.qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-util.h | 39 +++++++++++++++++++++++++++++++++++++++
- hw/9pfs/9p.c      |  2 +-
- 2 files changed, 40 insertions(+), 1 deletion(-)
+ hw/9pfs/9p-posix-acl.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 97e681e167..2cc9a5dbfb 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -19,6 +19,45 @@
- #define O_PATH_9P_UTIL 0
- #endif
+diff --git a/hw/9pfs/9p-posix-acl.c b/hw/9pfs/9p-posix-acl.c
+index eadae270dd..4b2cb3c66c 100644
+--- a/hw/9pfs/9p-posix-acl.c
++++ b/hw/9pfs/9p-posix-acl.c
+@@ -65,7 +65,11 @@ static int mp_pacl_removexattr(FsContext *ctx,
+     int ret;
  
-+#if !defined(CONFIG_LINUX)
-+
-+/*
-+ * Generates a Linux device number (a.k.a. dev_t) for given device major
-+ * and minor numbers.
-+ *
-+ * To be more precise: it generates a device number in glibc's format
-+ * (MMMM_Mmmm_mmmM_MMmm, 64 bits) actually, which is compatible with
-+ * Linux's format (mmmM_MMmm, 32 bits), as described in <bits/sysmacros.h>.
-+ */
-+static inline uint64_t makedev_dotl(uint32_t dev_major, uint32_t dev_minor)
-+{
-+    uint64_t dev;
-+
-+    // from glibc sysmacros.h:
-+    dev  = (((uint64_t) (dev_major & 0x00000fffu)) <<  8);
-+    dev |= (((uint64_t) (dev_major & 0xfffff000u)) << 32);
-+    dev |= (((uint64_t) (dev_minor & 0x000000ffu)) <<  0);
-+    dev |= (((uint64_t) (dev_minor & 0xffffff00u)) << 12);
-+    return dev;
-+}
-+
-+#endif
-+
-+/*
-+ * Converts given device number from host's device number format to Linux
-+ * device number format. As both the size of type dev_t and encoding of
-+ * dev_t is system dependant, we have to convert them for Linux guests if
-+ * host is not running Linux.
-+ */
-+static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
-+{
-+#ifdef CONFIG_LINUX
-+    return dev;
-+#else
-+    return makedev_dotl(major(dev), minor(dev));
-+#endif
-+}
-+
- #ifdef CONFIG_DARWIN
- #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
- #define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 225f31fc31..4a296a0b94 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -1327,7 +1327,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-     v9lstat->st_nlink = stbuf->st_nlink;
-     v9lstat->st_uid = stbuf->st_uid;
-     v9lstat->st_gid = stbuf->st_gid;
--    v9lstat->st_rdev = stbuf->st_rdev;
-+    v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
-     v9lstat->st_size = stbuf->st_size;
-     v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
-     v9lstat->st_blocks = stbuf->st_blocks;
+     ret = local_removexattr_nofollow(ctx, path, MAP_ACL_ACCESS);
+-    if (ret == -1 && errno == ENODATA) {
++    /*
++     * macOS returns ENOATTR (!=ENODATA on macOS), whereas Linux returns
++     * ENODATA (==ENOATTR on Linux), so checking for ENOATTR is fine
++     */
++    if (ret == -1 && errno == ENOATTR) {
+         /*
+          * We don't get ENODATA error when trying to remove a
+          * posix acl that is not present. So don't throw the error
+@@ -115,7 +119,11 @@ static int mp_dacl_removexattr(FsContext *ctx,
+     int ret;
+ 
+     ret = local_removexattr_nofollow(ctx, path, MAP_ACL_DEFAULT);
+-    if (ret == -1 && errno == ENODATA) {
++    /*
++     * macOS returns ENOATTR (!=ENODATA on macOS), whereas Linux returns
++     * ENODATA (==ENOATTR on Linux), so checking for ENOATTR is fine
++     */
++    if (ret == -1 && errno == ENOATTR) {
+         /*
+          * We don't get ENODATA error when trying to remove a
+          * posix acl that is not present. So don't throw the error
 -- 
 2.30.2
 
