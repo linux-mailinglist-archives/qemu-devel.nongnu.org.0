@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2598F515E16
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 16:15:56 +0200 (CEST)
-Received: from localhost ([::1]:34892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D535515E1D
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 16:17:28 +0200 (CEST)
+Received: from localhost ([::1]:40170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nknt5-0003wk-87
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 10:15:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56808)
+	id 1nknuZ-0007Xb-N0
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 10:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknDp-0003Nr-SS
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:33:18 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:44644)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nkniu-00076Z-Gf
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 10:05:25 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:47051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nknDo-0006tr-Ao
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 09:33:17 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- m14-20020a17090a34ce00b001d5fe250e23so9460696pjf.3
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 06:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=u2pM0xy41z8bwTr6w8WctOV/RUlItotfYG7rgV7aiRQ=;
- b=jBJs/XANkUP64bue39bEqQ5SUGi9rf6vxzwezGUh01B7QoReOk4opKzHX6akv8Zr9O
- xw2s1t2EG+5CluMr2ZnBAiOIJ/QQhJf1l5FVTfsqKqFAAQgSvwwHWRO7dxady/nEfTs2
- 82dcY/TwCi4McqsBwKoAWIrjkQ13/eTu9LkWX8gaRRTDsuwxw+5ASqstTgvFJZlGJyrj
- /Ykyk4spb3KTNr3mHMm4n6YJEtrUMhDOAbdJZISw+yXzqS21eClVYg3/r/lBodhq5pgD
- KFMEtp7uBkFnUFNXv1kqP+mzCLJr26jIzpVeMOJvBdehJNfP2MElpvDyALuPEnn8vdOM
- dXNw==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nkniq-0002fY-Ep
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 10:05:22 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id j6so20230942ejc.13
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 07:05:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+25IMSRLLZVlA+cLmnRitOekeRpfQatnM5YaPxkk0BY=;
+ b=Mn9LF7+nRJGomR8/2r2b6X9x5kBszp5wxOcCBTtEvnJf7YOrCIxwhau6ZtoIcrdRET
+ iThwrgmIhA6o6Q+HNOGoyDOkokudYKu6jk4nt8cfVyin4kvMqWCrdfqZU3lK1sQG6m8n
+ CVBPRr1M2Si6cagjU7N9H13sgPSlPovWoILBRC+Q5+2snpqfMk/ZhBDfIIOtu9wPEU6K
+ W3QZctgenSdjbNERmaBiSOXf21NbPu7v411jCqt/mX3KeIgCEk56Wg4hmHTOPLJHw5eA
+ 011BUC2bGr207ILEEEOC9CO12j/saWg9v5nRP72+tX2eEJmshYSWo9Wrn3QDDFsmJvra
+ r8SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=u2pM0xy41z8bwTr6w8WctOV/RUlItotfYG7rgV7aiRQ=;
- b=nQS4ovb1KtA1bFHQBABnWnwQ5GoZxlKlaYNPRt7X4+XJs5PQhGhW0I4rXYkwczdV4L
- ilm6X8AQjKpcrGzoVhvbX4dxmyXTBfAL6AZG4tMa/hGJWmJAWjelktgcEbzHw8cj6lMx
- sMlF3DToGdWnAAqn2NTU8tWQdMHkKKfIHVnJSLBciE3BGjOeEpz+/DF1CSrwhEglAtCV
- UfP6xNMNtJfNKGvxPv5a1IbGnYpFHIbwNGmu4d100UJEr0t60noDtzU7GlHlOkw4uVYg
- wZD8G94aID9ZX4hR0urNGYFREj+AgkBd6WvWm7UG3078T+B3p12V4PrP/ohoeNyXF369
- wQ2w==
-X-Gm-Message-State: AOAM5336vfhPv5VtE4cCOnm2iuOOLZQYZ5ZTYOa25yzhgBA1zyX4EmSv
- 77+qxUz0sAACY3j05FMAIwE0uMlgm9wI0Q==
-X-Google-Smtp-Source: ABdhPJxASLESuVMDOfuPu1MX60xlwKjwBLWvjP7HXYNrSyEQxQ/vwtTujCB9bYkp+0UU+WxhlAPqgg==
-X-Received: by 2002:a17:902:ab55:b0:15c:ecb:81ad with SMTP id
- ij21-20020a170902ab5500b0015c0ecb81admr4064898plb.50.1651325594554; 
- Sat, 30 Apr 2022 06:33:14 -0700 (PDT)
-Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- c136-20020a63358e000000b003c14af5063bsm8517840pga.83.2022.04.30.06.33.13
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=+25IMSRLLZVlA+cLmnRitOekeRpfQatnM5YaPxkk0BY=;
+ b=rFlC8Hr0dhXO78ii+OQz3q8zVDZLjIYyefu0YJv5rHaaoDveCW/viNnR93tI5D4ySJ
+ Ni/4i0PfdPaaahHl/GU1SfDunVklHk0L0p5UVQzsbQDwP33uCtV0b0z72cvQu9346In+
+ bGfg+cyvwUnxN3LI8G0t/6y3oOKzSgQzlpzLgdwYmKGOztbsqZ1tGp6TUh5giGjcWqIT
+ UXntAkwQh54lOHPpQ7J4iP2hHjcdjcoj7NWUkewZ3eVrrj84xcaiT5c9pKFI2Fnvy2kY
+ Enl8EO07EjUyyAsZMoWOP1PXWTofX29QpWfxn8/9XBahUiauCR/Bq1E2L03QMDmx361w
+ ZUYw==
+X-Gm-Message-State: AOAM533GGFMTYpLSU6jYaV79RPkXWSXUrIa40/6JjICGWZ5NFI44GUQI
+ 7L/SR8jvLwGIB1u3z5d1j7dPnmpA/iHH2A==
+X-Google-Smtp-Source: ABdhPJzcDbFLwVM4XEBkdLHuXlpDQjngdX6gJwWkHo//MMnJ9jJ9k21uThmQQnEsnofyWd87YOURNw==
+X-Received: by 2002:a17:907:7d93:b0:6f4:64a:c5a8 with SMTP id
+ oz19-20020a1709077d9300b006f4064ac5a8mr3854986ejc.614.1651327518821; 
+ Sat, 30 Apr 2022 07:05:18 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ s26-20020aa7c55a000000b0042617ba6392sm4101003edr.28.2022.04.30.07.05.18
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 06:33:14 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Sat, 30 Apr 2022 07:05:18 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 41/43] target/nios2: Move nios2-semi.c to nios2_softmmu_ss
-Date: Sat, 30 Apr 2022 06:29:30 -0700
-Message-Id: <20220430132932.324018-42-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220430132932.324018-1-richard.henderson@linaro.org>
-References: <20220430132932.324018-1-richard.henderson@linaro.org>
+Subject: [PULL v3 00/25] Misc patches for 2022-04-29
+Date: Sat, 30 Apr 2022 16:05:15 +0200
+Message-Id: <20220430140517.460997-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,41 +86,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: crwulff@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org,
- laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Semihosting is not enabled for nios2-linux-user.
+The following changes since commit 731340813fdb4cb8339edb8630e3f923b7d987ec:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/nios2/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  Merge tag 'pull-riscv-to-apply-20220429' of github.com:alistair23/qemu into staging (2022-04-29 08:46:55 -0700)
 
-diff --git a/target/nios2/meson.build b/target/nios2/meson.build
-index 2bd60ba306..c6e2243cc3 100644
---- a/target/nios2/meson.build
-+++ b/target/nios2/meson.build
-@@ -1,7 +1,6 @@
- nios2_ss = ss.source_set()
- nios2_ss.add(files(
-   'cpu.c',
--  'nios2-semi.c',
-   'op_helper.c',
-   'translate.c',
- ))
-@@ -10,7 +9,8 @@ nios2_softmmu_ss = ss.source_set()
- nios2_softmmu_ss.add(files(
-   'helper.c',
-   'monitor.c',
--  'mmu.c'
-+  'mmu.c',
-+  'nios2-semi.c',
- ))
- 
- target_arch += {'nios2': nios2_ss}
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 189fad0006dd4f2f336e05a99d981cc1ecab1b33:
+
+  pc: remove -soundhw pcspk (2022-04-30 10:10:05 +0200)
+
+----------------------------------------------------------------
+* WHPX support for xcr0
+* qga-wss fixes
+* Meson conversions
+* Removed -soundhw pcspk
+
+----------------------------------------------------------------
+Konstantin Kostiuk (2):
+      configure: Add cross prefix for widl tool
+      qga-vss: always build qga-vss.tlb when qga-vss.dll is built
+
+Paolo Bonzini (22):
+      meson-buildoptions: add support for string options
+      meson, configure: move Xen detection to meson
+      configure, meson: move iasl detection to meson
+      configure: move Windows flags detection to meson
+      configure: switch string options to automatic parsing
+      meson, configure: move --tls-priority to meson
+      meson, configure: move bdrv whitelists to meson
+      meson, configure: move --with-pkgversion, CONFIG_STAMP to meson
+      meson, configure: move --interp-prefix to meson
+      meson: always combine directories with prefix
+      configure: switch directory options to automatic parsing
+      meson: pass more options directly as -D
+      configure: omit options with default values from meson command line
+      meson, virtio: place all virtio-pci devices under virtio_pci_ss
+      configure: simplify vhost-net-{user, vdpa} configuration
+      build: move vhost-vsock configuration to Kconfig
+      build: move vhost-scsi configuration to Kconfig
+      build: move vhost-user-fs configuration to Kconfig
+      meson: create have_vhost_* variables
+      meson: use have_vhost_* variables to pick sources
+      configure, meson: move vhost options to Meson
+      pc: remove -soundhw pcspk
+
+Sunil Muthuswamy (1):
+      WHPX: support for xcr0
+
+ Kconfig.host                     |   3 -
+ backends/meson.build             |   8 +-
+ configure                        | 673 ++-------------------------------------
+ docs/meson.build                 |   2 +-
+ hw/audio/pcspk.c                 |  10 -
+ hw/audio/soundhw.c               |  27 +-
+ hw/net/meson.build               |   8 +-
+ hw/scsi/Kconfig                  |   5 +
+ hw/virtio/Kconfig                |  18 +-
+ hw/virtio/meson.build            |  34 +-
+ include/hw/audio/soundhw.h       |   3 -
+ include/hw/virtio/virtio-scsi.h  |   2 -
+ meson.build                      | 256 +++++++++++----
+ meson_options.txt                |  28 +-
+ net/meson.build                  |  12 +-
+ qga/vss-win32/meson.build        |   4 +-
+ scripts/meson-buildoptions.py    |  86 ++++-
+ scripts/meson-buildoptions.sh    |  74 ++++-
+ scripts/qemu-stamp.py            |  24 ++
+ scripts/xen-detect.c             | 203 ++++++++++++
+ target/i386/whpx/whpx-all.c      |  89 ++++++
+ target/i386/whpx/whpx-internal.h |   3 +
+ tests/meson.build                |   2 +-
+ tests/qtest/meson.build          |   4 +-
+ tools/meson.build                |   2 +-
+ 25 files changed, 778 insertions(+), 802 deletions(-)
+ create mode 100644 scripts/qemu-stamp.py
+ create mode 100644 scripts/xen-detect.c
 -- 
-2.34.1
+2.35.1
 
 
