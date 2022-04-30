@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F2A515FC1
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 20:06:57 +0200 (CEST)
-Received: from localhost ([::1]:60890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89511515FC9
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Apr 2022 20:11:18 +0200 (CEST)
+Received: from localhost ([::1]:41072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkrUe-0006Gj-TI
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 14:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33410)
+	id 1nkrYr-0003bj-Lq
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 14:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkrI6-0004gq-If
+ id 1nkrI6-0004gr-JX
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:53:58 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:36735)
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:43969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkrI4-00083c-Rz
+ id 1nkrI5-00083i-6u
  for qemu-devel@nongnu.org; Sat, 30 Apr 2022 13:53:58 -0400
-Received: by mail-pl1-x635.google.com with SMTP id n14so2721606plf.3
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:53:55 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id y14so9363704pfe.10
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 10:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8VjWHa4+EEAsb2rxF9krBBAxcFamsv8YuijfZ6HxZ44=;
- b=yuurYXXgMZ3znhmT+9XI7ISihB5SlP784UloyulyQCAL7Xcf4lRpLH5nErKZApL/CZ
- 8SNOyFC33PzQFjgODNBDMv6ZmMs7sVhAel/zjvq5Yv9Z96Lad3x0NXylkTguPFEvgE2u
- rnfi0A0UMNxnb+4g2svLct+lHA5HIruxg0HXtE/h7JZ9pCrtk2fK5YOXI6bZZqvUiDH1
- Gjqq2sPUbAE60MmSCuSG3P4l8G2ubdQ61bx4Mwbhlf7QmtBUleL+dyA/+X7GqzFyDDs2
- vHCHb0t+Jii68HpfQtYkL7MOshc3CuoPCPy5p6bZX0Cu7ShLCRQeVVfzy8IaM4zb2H5E
- vavA==
+ bh=DjrjylQ1BROO/szmSr2u/qgefotDd4xpG3+xntl3yXw=;
+ b=K+WmoVS9DJOPGxNnWnKxMbkR6TN1rKXHg6Ngimp/CnahjDGKS79iSIH7liIbT1pcg4
+ Bfok/aDliL461jqtqVBqxHZLidIAKVzhdSIKt1fSXWdSboGFt9OBXTYsXzy9600hG7di
+ 0jHDcKRo6cYwam661y11SQXSftG+YYvUbKTcFXZmeILrgW9qF8hlllBlUpN+BsRZDR0T
+ uWbh3+YkNgjtnMMxTO0asJV/RyJwJkWl+hcakHyFC0g3+172pKsiQcaO1iIvioBZFOXe
+ +2nCeonDP4Uxo7kr1N4asfBSsbZ7dKo7huKqV87xgESs3O14juDEbppaC2usC8LMrvzJ
+ elLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8VjWHa4+EEAsb2rxF9krBBAxcFamsv8YuijfZ6HxZ44=;
- b=yOdOsxjpJr0E+uquCbPMzcUXLVoypl73pX80i5KYomMcaENHne1DMP6lPHzz1SqF+A
- TMD+gXwC/3pcoW6TDEOGrKUfdE46wwryKt+uuvmu5W+PTbLF9er0CRsQUl/vrQLUfZGx
- 1i/dqGtH6TmvxpA0vpl1XQ+5CnPPBxhBHLjquyVtku7+LR6Ccaupy6Nppg/gwHE+JLbj
- FhzKyyMfY+h3v6TF+wT+zPuQii1VA+GKqloMReBS7G524H1KR7ZdFmRkOtKs2Ex+C3MO
- Jro/THGjl3WDV6a3gWRCZcMe3/F1156gtcP5gquOLjLT6lxsIZfVL9u6YBit5I8LEayf
- TOcA==
-X-Gm-Message-State: AOAM532r4ronrjUyCvA/2AsZi4a0WYOPJ3PiFKvfQ/DeaYNmZXvkPaT/
- pQpHj6UDQDtkMS91TfVwkcb9VkXI/R6RFA==
-X-Google-Smtp-Source: ABdhPJxjZyySX5fwYcAXNTCF9wcbj4Dd64cppDWyvJWPAOmapNLLp5/miMVuTETEOZ0dreimK7uwug==
-X-Received: by 2002:a17:902:c941:b0:15d:37b0:2d26 with SMTP id
- i1-20020a170902c94100b0015d37b02d26mr4565192pla.67.1651341234865; 
- Sat, 30 Apr 2022 10:53:54 -0700 (PDT)
+ bh=DjrjylQ1BROO/szmSr2u/qgefotDd4xpG3+xntl3yXw=;
+ b=MFlXo4bGYHbZNGwQAK+fEnahA+gSjFgHXlgGoSOhceaRrBVanI7JOWm4n6gTulBjOU
+ JAA7QziOHVLdG0zSAMYwcLlOqaEntEcOUP0kVHcIlxpobIKZ6AOVN0R6gPHlFnVH83kH
+ hG7cKkKqYr2i7TGxnbbHTMb050IgD8VOfHda5G6rWoOEaotpyZkcE+OsMMxdTABtc+oe
+ aqOg/3ZVbJtxfrWXJH3ijQmETn1AV0cK8wQLQ1RXVaFTHTfFSyvj4uaP3KAaScObs4XG
+ uz0leP8xNxEkQoD7lbO6wUpPykZEvVJBCQdbKtDBRMMo5TQlFh4AAJNn6IjOTXreOVbu
+ ifyA==
+X-Gm-Message-State: AOAM532+tgMGSPyynr8VNrgq3fX6s1e465qs2A5EeQ1sWsf8KjTTeYVn
+ 3pbOpzdJW/1u7dvetiVMcHWosQOwbkMl9g==
+X-Google-Smtp-Source: ABdhPJw4ad1yKv+fLGJtwiEJyemyplNEJKw9wpzy44uRQrWUZL/kFuFoCUTK0yJQvE52kp7nISG/GA==
+X-Received: by 2002:a63:164f:0:b0:3a2:ced0:3327 with SMTP id
+ 15-20020a63164f000000b003a2ced03327mr3812001pgw.425.1651341235862; 
+ Sat, 30 Apr 2022 10:53:55 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- 5-20020a170902c20500b0015e8d4eb282sm1740910pll.204.2022.04.30.10.53.54
+ 5-20020a170902c20500b0015e8d4eb282sm1740910pll.204.2022.04.30.10.53.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 10:53:54 -0700 (PDT)
+ Sat, 30 Apr 2022 10:53:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/17] target/m68k: Implement TRAPV
-Date: Sat, 30 Apr 2022 10:53:37 -0700
-Message-Id: <20220430175342.370628-13-richard.henderson@linaro.org>
+Subject: [PATCH v4 13/17] target/m68k: Implement FTRAPcc
+Date: Sat, 30 Apr 2022 10:53:38 -0700
+Message-Id: <20220430175342.370628-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220430175342.370628-1-richard.henderson@linaro.org>
 References: <20220430175342.370628-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,36 +89,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/translate.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/m68k/translate.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index bb5ed1b7b1..0cd7ef89e3 100644
+index 0cd7ef89e3..a3141d7f77 100644
 --- a/target/m68k/translate.c
 +++ b/target/m68k/translate.c
-@@ -4911,6 +4911,14 @@ DISAS_INSN(trapcc)
-     do_trapcc(s, &c);
+@@ -5567,6 +5567,35 @@ DISAS_INSN(fscc)
+     tcg_temp_free(tmp);
  }
  
-+DISAS_INSN(trapv)
++DISAS_INSN(ftrapcc)
 +{
 +    DisasCompare c;
++    uint16_t ext;
++    int cond;
 +
-+    gen_cc_cond(&c, s, 9); /* V set */
++    ext = read_im16(env, s);
++    cond = ext & 0x3f;
++
++    /* Consume and discard the immediate operand. */
++    switch (extract32(insn, 0, 3)) {
++    case 2: /* ftrapcc.w */
++        (void)read_im16(env, s);
++        break;
++    case 3: /* ftrapcc.l */
++        (void)read_im32(env, s);
++        break;
++    case 4: /* ftrapcc (no operand) */
++        break;
++    default:
++        /* Illegal insn */
++        disas_undef(env, s, insn);
++        return;
++    }
++
++    gen_fcc_cond(&c, s, cond);
 +    do_trapcc(s, &c);
 +}
 +
- static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
+ #if defined(CONFIG_SOFTMMU)
+ DISAS_INSN(frestore)
  {
-     switch (reg) {
-@@ -6074,6 +6082,7 @@ void register_m68k_insns (CPUM68KState *env)
-     BASE(nop,       4e71, ffff);
-     INSN(rtd,       4e74, ffff, RTD);
-     BASE(rts,       4e75, ffff);
-+    INSN(trapv,     4e76, ffff, M68000);
-     INSN(rtr,       4e77, ffff, M68000);
-     BASE(jump,      4e80, ffc0);
-     BASE(jump,      4ec0, ffc0);
+@@ -6190,6 +6219,7 @@ void register_m68k_insns (CPUM68KState *env)
+     INSN(fbcc,      f280, ffc0, CF_FPU);
+     INSN(fpu,       f200, ffc0, FPU);
+     INSN(fscc,      f240, ffc0, FPU);
++    INSN(ftrapcc,   f278, fff8, FPU);
+     INSN(fbcc,      f280, ff80, FPU);
+ #if defined(CONFIG_SOFTMMU)
+     INSN(frestore,  f340, ffc0, CF_FPU);
 -- 
 2.34.1
 
