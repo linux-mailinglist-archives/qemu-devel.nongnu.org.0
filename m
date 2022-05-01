@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BE3516495
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 15:23:35 +0200 (CEST)
-Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61B1516497
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 15:23:51 +0200 (CEST)
+Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl9Xy-0008Eq-Pa
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 09:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34724)
+	id 1nl9YE-0000ak-Qu
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 09:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <063c75db2e03938b2fadb052c4661adae36e352c@lizzy.crudebyte.com>)
- id 1nl9SI-00012c-Tz
- for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:44 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43785)
+ (envelope-from <9ea3164611a63e898a979f2da24caa1abd29d906@lizzy.crudebyte.com>)
+ id 1nl9Si-0001Hm-Me
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 09:18:16 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:37401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <063c75db2e03938b2fadb052c4661adae36e352c@lizzy.crudebyte.com>)
- id 1nl9S6-0005G5-5Y
- for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:42 -0400
+ (envelope-from <9ea3164611a63e898a979f2da24caa1abd29d906@lizzy.crudebyte.com>)
+ id 1nl9Sg-0005II-0d
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 09:18:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=Pip1ufG09bjL7k/DwWDje4Bd5BZlqJ6Tu2fW6CrT+y4=; b=TkRjo
- Hyo/9LPfDU/3qZCi+UjZRUEB7W4K7MsHEghopq2UsK7+CdK7QvKsKcQQrwkW2am2tw+Na9/J+UlfZ
- xeNzFVQrl/zrrhxkGQoGzIMzTxEkx1z781EUBLjdgjzMuWhlu8A+OQz0nQ0aIGe+V5CvczZsAGSaB
- r4nEuolaYnxixjEP9SVWA+oz55LYjK3P2qEBrbJMgXzBAU0+ypFLFYzLcJIUmRVZPXjMRwfDttNVC
- 10A8ADNuy+NxqyylsJR86aLTNNbPYpm/9TrBXX3WKPtJG/9D7BLeZNrNGeEaTjb/sghWIzzD+TnU5
- CiBe3rJIgBAfhYVQ9Gs/8vXrHQWEw==;
-Message-Id: <cover.1651410615.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=JGBaf1+WaNX2Qb3Axq1QwKtUaKy2Gz5UqWp+NQDJ6JU=; b=JYN38
+ GFeBZ4x9iNZVIOaloysalteKiSmz2tF7xwDiFgKgsGwYm/iYKz/MRpnjKVqk88h3J2upv4G3vZ6jb
+ 8vzQZTbgb7/defzvcJ9BZaulCb6RfEgoWKp64CktZKY/e8iKNBfhlaoRbkTwhN6xrpfaaNkm0J1l4
+ nyPVKKhZlIVC8g4kdnp+PeHofv3ryDW7KEAGUTVbyyITg7tglT/z6ZV4ErRkN5HK1NRLJ2cX+1ajn
+ ZxjtcTpS9Hh4jFMfF8Aqi4Pxf50OgyZ6yo2aTXZqzohSxYu5/evof8m5ZZAnQxi2iTMkHmSAv24hu
+ +hACdK322wibzJYY/BXgBVabRQ2gQ==;
+Message-Id: <9ea3164611a63e898a979f2da24caa1abd29d906.1651410615.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1651410615.git.qemu_oss@crudebyte.com>
+References: <cover.1651410615.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Sun, 01 May 2022 15:10:16 +0200
-Subject: [PULL v2 0/7] 9p queue 2022-05-01 (previous 2022-04-30)
+Subject: [PULL v2 6/7] 9pfs: fix removing non-existent POSIX ACL xattr on
+ macOS host
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Akihiko Odaki <akihiko.odaki@gmail.com>,
  Will Cohen <wwcohen@gmail.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=063c75db2e03938b2fadb052c4661adae36e352c@lizzy.crudebyte.com;
+ envelope-from=9ea3164611a63e898a979f2da24caa1abd29d906@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,39 +65,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 731340813fdb4cb8339edb8630e3f923b7d987ec:
+When mapped POSIX ACL is used, we are ignoring errors when trying
+to remove a POSIX ACL xattr that does not exist. On Linux hosts we
+would get ENODATA in such cases, on macOS hosts however we get
+ENOATTR instead.
 
-  Merge tag 'pull-riscv-to-apply-20220429' of github.com:alistair23/qemu into staging (2022-04-29 08:46:55 -0700)
+As we can be sure that ENOATTR is defined as being identical on Linux
+hosts (at least by qemu/xattr.h), it is safe to fix this issue by
+simply comparing against ENOATTR instead of ENODATA.
 
-are available in the Git repository at:
+This patch fixes e.g. a command on Linux guest like:
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220501
+  cp --preserve=mode old new
 
-for you to fetch changes up to 063c75db2e03938b2fadb052c4661adae36e352c:
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Link: https://lore.kernel.org/qemu-devel/2866993.yOYK24bMf6@silver/
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-Id: <34f81e9bffd7a3e65fb7aab5b56c107bd0aac960.1651228001.git.qemu_oss@crudebyte.com>
+---
+ hw/9pfs/9p-posix-acl.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-  9pfs: fix qemu_mknodat() to always return -1 on error on macOS host (2022-05-01 14:07:03 +0200)
+diff --git a/hw/9pfs/9p-posix-acl.c b/hw/9pfs/9p-posix-acl.c
+index eadae270dd..4b2cb3c66c 100644
+--- a/hw/9pfs/9p-posix-acl.c
++++ b/hw/9pfs/9p-posix-acl.c
+@@ -65,7 +65,11 @@ static int mp_pacl_removexattr(FsContext *ctx,
+     int ret;
+ 
+     ret = local_removexattr_nofollow(ctx, path, MAP_ACL_ACCESS);
+-    if (ret == -1 && errno == ENODATA) {
++    /*
++     * macOS returns ENOATTR (!=ENODATA on macOS), whereas Linux returns
++     * ENODATA (==ENOATTR on Linux), so checking for ENOATTR is fine
++     */
++    if (ret == -1 && errno == ENOATTR) {
+         /*
+          * We don't get ENODATA error when trying to remove a
+          * posix acl that is not present. So don't throw the error
+@@ -115,7 +119,11 @@ static int mp_dacl_removexattr(FsContext *ctx,
+     int ret;
+ 
+     ret = local_removexattr_nofollow(ctx, path, MAP_ACL_DEFAULT);
+-    if (ret == -1 && errno == ENODATA) {
++    /*
++     * macOS returns ENOATTR (!=ENODATA on macOS), whereas Linux returns
++     * ENODATA (==ENOATTR on Linux), so checking for ENOATTR is fine
++     */
++    if (ret == -1 && errno == ENOATTR) {
+         /*
+          * We don't get ENODATA error when trying to remove a
+          * posix acl that is not present. So don't throw the error
+-- 
+2.30.2
 
-----------------------------------------------------------------
-9pfs: various fixes
-
-* macOS: Fix recently (in QEMU 7.0) added 9p support for macOS hosts.
-
-* Tests: Fix inode sequencing in 'synth' driver.
-
-----------------------------------------------------------------
-Christian Schoenebeck (7):
-      9pfs: fix inode sequencing in 'synth' driver
-      9pfs: fix qemu_mknodat(S_IFREG) on macOS
-      9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
-      9pfs: fix wrong encoding of rdev field in Rgetattr on macOS
-      9pfs: fix wrong errno being sent to Linux client on macOS host
-      9pfs: fix removing non-existent POSIX ACL xattr on macOS host
-      9pfs: fix qemu_mknodat() to always return -1 on error on macOS host
-
- hw/9pfs/9p-posix-acl.c   | 12 +++++++--
- hw/9pfs/9p-synth.c       |  4 +--
- hw/9pfs/9p-util-darwin.c | 54 +++++++++++++++++++++++++++++++++++--
- hw/9pfs/9p-util.h        | 69 ++++++++++++++++++++++++++++++++++++++++++++++++
- hw/9pfs/9p.c             |  4 ++-
- 5 files changed, 136 insertions(+), 7 deletions(-)
 
