@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68168516106
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 01:47:07 +0200 (CEST)
-Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFF851611A
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 02:14:14 +0200 (CEST)
+Received: from localhost ([::1]:38552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nkwnp-0003j6-Ib
-	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 19:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
+	id 1nkxE4-0000If-I1
+	for lists+qemu-devel@lfdr.de; Sat, 30 Apr 2022 20:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkwmW-0002fi-Fy
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 19:45:44 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:35502)
+ id 1nkxAX-0007YG-MM
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 20:10:33 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nkwmQ-0004GK-3C
- for qemu-devel@nongnu.org; Sat, 30 Apr 2022 19:45:44 -0400
-Received: by mail-pg1-x536.google.com with SMTP id r83so9191139pgr.2
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 16:45:37 -0700 (PDT)
+ id 1nkxAU-0008BM-Ne
+ for qemu-devel@nongnu.org; Sat, 30 Apr 2022 20:10:31 -0400
+Received: by mail-pl1-x629.google.com with SMTP id n8so10006505plh.1
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 17:10:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aIM5y3FwuUdO7Ss7RaTa5eRCNK5AwcUyLcfxq7kJae0=;
- b=ZGA/7rlpiqOD9I+TJ5T7a1W4u+fBRmf96LHkMU/CvjLftExGH3Ibyk16xESdrSATp7
- Csak4k1F6m4OVLMsaqCF+/vO4qtnRQPUujFqUfa+k/hXUVDXvDjMCBHR8yyunsJMCXWb
- qoZ3dOTTuMvmnrSZyqlf7NxLMBKk2mOdkSTUly1B0orrhypkMhWfiDS3ycsaEBo6WxeC
- RGKepRW02MZ24loOskvp1/hqg/jxIXADVJAUKJfX0OvQOlodEW+CI7J6LDJOhPutMETr
- 9fRI9CqR8TBLAeZgSqx+xpWsMUbwceAWyngky/PFVOkxUsRM7ylzpgtYgqIoUKltLj0l
- VoIw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=UftRT56jgY+IMH+cE4HSGOtY4vSPK7FNsVF72hSXwkI=;
+ b=VIwlB/fh3V8cYzA0Z7PurEQ5Lc0dj3p+34OR7hNKh1IwnWQJwTa3HDUeeh1opSaulk
+ hx6Z+LSYPoHgUzR6fRVL6DMSMhGB05MnCBUQnNGiIElPIcIsvY/CNL98YNUxo066jndq
+ avMRa4tFXfea87xJVM4X7q4gIY/34eBqwyej5lYGv9sIZZebwU1/egCJ381nC6bpv753
+ X/bBhXAXnd3kixzTMZkpOm2IzqAB3yAK1gzXnexrrQbZW5YCIeUCawyy57c7WUrgchqL
+ Blu+SG9hgTVZvXIX4oHmNvpbPiemDrc/xJQBmxFue74j58noPmHZV84IhRDVYqD6iwQb
+ FDuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=aIM5y3FwuUdO7Ss7RaTa5eRCNK5AwcUyLcfxq7kJae0=;
- b=unZSIOhrvXroT75qAdeUVYgD8DAG3kpfbOOebOpgdF0wdscLYYPF9J3SxgXdZYmphi
- PhfFOK4YRVFwNb/BMxnqZg7vCbK96P61PiQQkfM187uSpIe2K9WIlh9Hr/6TylP4IpVH
- Zno3wfIkNhenDUOVBkoI3gR3ax0tMWtfydEewZLQhA7ItAi/PECBVD7/nD7Dcsf2PGb9
- YYMEwkT+yMyM8lCQs1T07bw7w74fXHJLYSiGecfxqXWbZ4+hrXeO9hZ8cM3VpJeFvgBh
- OBXq56bzI1k7uFgxp3e+bDXuZVx5GUfq11YbaAUIUsk5eHEdGhF5ej3gkyYU/0uvh2Ri
- wBqQ==
-X-Gm-Message-State: AOAM5339Neq3uxIgIYxrJ+2i5qE1mN+m1u2+aJn7kaQv94EGHiRwuDEY
- REhyQuQXjFCD9sZY+odM2AQOJRYnq0oGxg==
-X-Google-Smtp-Source: ABdhPJyhL7io13D3Y6A+crWDrJmDpm5VLj1riiutGQMKw9hYLuD/9U22y6GSn0kgpQW9xpZTmxabdw==
-X-Received: by 2002:a63:515a:0:b0:3c1:4902:5e6a with SMTP id
- r26-20020a63515a000000b003c149025e6amr4403597pgl.203.1651362336259; 
- Sat, 30 Apr 2022 16:45:36 -0700 (PDT)
-Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- m1-20020a637d41000000b003c14af5063esm8874128pgn.86.2022.04.30.16.45.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 16:45:35 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg: Special case split barriers before/after load
-Date: Sat, 30 Apr 2022 16:45:34 -0700
-Message-Id: <20220430234534.446733-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ bh=UftRT56jgY+IMH+cE4HSGOtY4vSPK7FNsVF72hSXwkI=;
+ b=hmy+0CX3uc2NM+FpFNRnjCoWb1fwq9IIkh8w1oV5jVgEzL+sDiWoaHt33ahHyWeqgF
+ yYR3yVBgCUEofciQbZfTDyAqALZC6QKrSPlBnnruvru8+7zk9SXswXzI2OCpygw40tmj
+ /pKAhbzuY8moXqPhSpUjHuYxfI0N7JpToujljsjVR6W8GrCyI5kcuchLiFUv5PXolW30
+ xmOSCa/YGiXJxmGQLtOeeM7djWGf/Q//A/MxiD2T2l1RlguZRwXlBm1d4tBvyCaas90s
+ T8UsuHVcjQR2lhjL7L+bdnGJpsZtJFypct1aJXJ5ieXu/HS4Fe5agenIuZXpRKBOvqQO
+ csXQ==
+X-Gm-Message-State: AOAM530WW/BiEBuj9RXl5r9xsUrZWPDuvSxKKl3cEcqN1l+5f0ocnk/h
+ ttg8jvC0Pda8zh9DDTXILrKkQQ==
+X-Google-Smtp-Source: ABdhPJzjA0mfyxwku2IROuEagugQDBSD/UkOISbS1iw/jv3pJ+6XYPJ+/8NcQqMlSpq/gKrSh1yUyg==
+X-Received: by 2002:a17:902:f64c:b0:156:4349:7e9b with SMTP id
+ m12-20020a170902f64c00b0015643497e9bmr5484500plg.139.1651363829053; 
+ Sat, 30 Apr 2022 17:10:29 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ x21-20020a62fb15000000b0050dc7628155sm2054282pfm.47.2022.04.30.17.10.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Apr 2022 17:10:28 -0700 (PDT)
+Message-ID: <42effcff-0ef2-3e4a-be27-bcf359f1c2a1@linaro.org>
+Date: Sat, 30 Apr 2022 17:10:26 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 26/60] target/arm: Replace sentinels with ARRAY_SIZE in
+ cpregs.h
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-27-richard.henderson@linaro.org>
+ <CAFEAcA98sjUhUccvEAjAWeK+Z7-HER9LDz6LMSFMNuVnBSPW=Q@mail.gmail.com>
+ <20b109b9-81fe-e8df-bada-c3a0ce920c45@linaro.org> <87k0bht9fu.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87k0bht9fu.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,162 +92,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: redha.gouicem@gmail.com, qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When st:ld is not required by the guest but ld:st is, we can
-put ld:ld+ld:st barriers after loads, and then st:st barriers
-before stores to enforce all required barriers.
+On 4/22/22 08:36, Alex Bennée wrote:
+>>>> +#define define_arm_cp_regs_with_opaque(CPU, REGS, OPAQUE)               \
+>>>> +    do {                                                                \
+>>>> +        QEMU_BUILD_BUG_ON(ARRAY_SIZE(REGS) == 0);                       \
+>>>> +        if (ARRAY_SIZE(REGS) == 1) {                                    \
+>>>> +            define_one_arm_cp_reg_with_opaque(CPU, REGS, OPAQUE);       \
+>>>> +        } else {                                                        \
+>>>> +            define_arm_cp_regs_with_opaque_len(CPU, REGS, OPAQUE,       \
+>>>> +                                               ARRAY_SIZE(REGS));       \
+>>>> +        }                                                               \
+>>>> +    } while (0)
+>>> Do we actually need to special case "array has one element" here,
+>>> or is this just efficiency?
+>>> Anyway
+>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>>
+>> Just efficiency.  There seem to be a lot of these.
+> 
+> If you moved define_arm_cp_regs_with_opaque_len into the header as an
+> inline surely the compiler could figure it out when presented with a
+> constant i? The would avoid the need for the special casing in the macro
+> expansion right?
 
-The st:st barrier is often special cased by hosts, and that
-is expected to be more efficient than a full barrier.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-
-Redha, I expect this to produce exactly the same barriers as you
-did with your 'fix guest memory ordering enforcement' patch.
-
-While this compiles, it does not fix the failures that I see
-occasionally with our private gitlab runner.  The standalone
-version of this failure is
-
-  export QTEST_QEMU_BINARY=./qemu-system-i386
-  for i in `seq 1 100`; do
-    ./tests/qtest/ahci-test > /dev/null &
-  done
-  wait
-
-About 10 to 15% of the runs will fail with
-
-ERROR:../src/tests/qtest/ahci-test.c:92:verify_state: assertion failed (ahci_fingerprint == ahci->fingerprint): (0xe0000000 == 0x29228086)
-
-Note that this test never seems to fail unless the system is under
-load, thus starting 100 tests on my 80 core neoverse-n1 system.
+I didn't want to expand the code size with so many loops.
+Anyway, I'm dropping the special case entirely for v4.
 
 
 r~
-
-
----
- tcg/tcg-op.c | 55 +++++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 48 insertions(+), 7 deletions(-)
-
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 5d48537927..4c568a2592 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2834,9 +2834,6 @@ static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
- 
- static void tcg_gen_req_mo(TCGBar type)
- {
--#ifdef TCG_GUEST_DEFAULT_MO
--    type &= TCG_GUEST_DEFAULT_MO;
--#endif
-     type &= ~TCG_TARGET_DEFAULT_MO;
-     if (type) {
-         tcg_gen_mb(type | TCG_BAR_SC);
-@@ -2868,12 +2865,49 @@ static void plugin_gen_mem_callbacks(TCGv vaddr, MemOpIdx oi,
- #endif
- }
- 
-+typedef enum {
-+    BAR_LD_BEFORE,
-+    BAR_LD_AFTER,
-+    BAR_ST_BEFORE,
-+} ChooseBarrier;
-+
-+static TCGBar choose_barrier(ChooseBarrier which)
-+{
-+#ifdef TCG_GUEST_DEFAULT_MO
-+    const TCGBar guest_mo = TCG_GUEST_DEFAULT_MO;
-+#else
-+    const TCGBar guest_mo = TCG_MO_ALL;
-+#endif
-+    TCGBar ret[3];
-+
-+    if (guest_mo == 0) {
-+        return 0;
-+    }
-+    /*
-+     * Special case for i386 and s390x.  Because store-load is not
-+     * required by the guest, we can split the barriers such that we
-+     * wind up with a store-store barrier, which is expected to be
-+     * quicker on some hosts.
-+     */
-+    if (guest_mo == (TCG_MO_ALL & ~TCG_MO_ST_LD)) {
-+        ret[BAR_LD_BEFORE] = 0;
-+        ret[BAR_LD_AFTER]  = TCG_MO_LD_LD | TCG_MO_LD_ST;
-+        ret[BAR_ST_BEFORE] = TCG_MO_ST_ST;
-+    } else {
-+        ret[BAR_LD_BEFORE] = (TCG_MO_LD_LD | TCG_MO_ST_LD) & guest_mo;
-+        ret[BAR_ST_BEFORE] = (TCG_MO_LD_ST | TCG_MO_ST_ST) & guest_mo;
-+        ret[BAR_LD_AFTER]  = 0;
-+    }
-+    return ret[which];
-+}
-+
- void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
- {
-     MemOp orig_memop;
-     MemOpIdx oi;
- 
--    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
-+    tcg_gen_req_mo(choose_barrier(BAR_LD_BEFORE));
-+
-     memop = tcg_canonicalize_memop(memop, 0, 0);
-     oi = make_memop_idx(memop, idx);
- 
-@@ -2904,6 +2938,8 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-             g_assert_not_reached();
-         }
-     }
-+
-+    tcg_gen_req_mo(choose_barrier(BAR_LD_AFTER));
- }
- 
- void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-@@ -2911,7 +2947,8 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-     TCGv_i32 swap = NULL;
-     MemOpIdx oi;
- 
--    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
-+    tcg_gen_req_mo(choose_barrier(BAR_ST_BEFORE));
-+
-     memop = tcg_canonicalize_memop(memop, 0, 1);
-     oi = make_memop_idx(memop, idx);
- 
-@@ -2959,7 +2996,8 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-         return;
-     }
- 
--    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
-+    tcg_gen_req_mo(choose_barrier(BAR_LD_BEFORE));
-+
-     memop = tcg_canonicalize_memop(memop, 1, 0);
-     oi = make_memop_idx(memop, idx);
- 
-@@ -2994,6 +3032,8 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-             g_assert_not_reached();
-         }
-     }
-+
-+    tcg_gen_req_mo(choose_barrier(BAR_LD_AFTER));
- }
- 
- void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-@@ -3006,7 +3046,8 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-         return;
-     }
- 
--    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
-+    tcg_gen_req_mo(choose_barrier(BAR_ST_BEFORE));
-+
-     memop = tcg_canonicalize_memop(memop, 1, 1);
-     oi = make_memop_idx(memop, idx);
- 
--- 
-2.25.1
-
 
