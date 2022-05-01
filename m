@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC18851626A
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 09:10:34 +0200 (CEST)
-Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC8A51626F
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 09:14:28 +0200 (CEST)
+Received: from localhost ([::1]:60170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl3iz-0007t8-TT
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 03:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43956)
+	id 1nl3ml-000391-So
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 03:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2U5-00071q-RB
+ id 1nl2U5-00071s-S1
  for qemu-devel@nongnu.org; Sun, 01 May 2022 01:51:08 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:39601)
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2U0-0001Mr-DG
+ id 1nl2U1-0001NG-A3
  for qemu-devel@nongnu.org; Sun, 01 May 2022 01:51:02 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- a15-20020a17090ad80f00b001dc2e23ad84so1790841pjv.4
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:59 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d15so10294156plh.2
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qbh2KrYpsf5bd2gq07XULYnsZ3c1pnWPBFUbrKfWACk=;
- b=GfYoNQGYhO9BREdXE5ZBliAovdNBBuUSGrf4ggj/sjXsGD/DGXDM7FfNZYvMqRgzNw
- 0M/N4JijmUhN1eDqvGC59bcoGCsw032ufa/QQMRrQthmK3lC4uduqYVA/tPoUAf5HAxt
- VmtC76oe0vCtVFW8NE/MV1ZXCNhhTfEEcoPKFw6T5cn5kiIvDbRyxSukQW/Pr5MwzO8K
- G62g/CTAd6e6QOWfi/Grw2IS8sgI4fthtBl89rhXz9Of4BM9AegXKV1mhk2My4DSKVKH
- c8JdxPHlMoD5dW4r2/ZUxAaI6ZeswVNHQi2EXK7idlHkUstWnxCxzqQmDspmMcNHYV35
- Uycg==
+ bh=LoFkNZI0EPN3UHmsZdxsDTn+j+LzMoee7yMTRcYWMTM=;
+ b=JXF4y4NSINpr1sepl2M9ZPwPVaPLbNDyacnsWZjWlkmmQCNQ7tbyG+bt7JRrN15THj
+ XrnWCkHFE0HQsfnFYLw0XjcRXw1r343JZSabBam98PuNCfWtnRxuumyCVZbDdLK3e2t3
+ NDTvafGLPBGwjwAG0t3p+BZJEbKZj5SeXq5/VJ3AODGyQKgV09Xl5EECQdh2f3sse2Hx
+ ROKUfBh7KUHr67e3gPdiixfCCH09MYuTnhfk9a+2pZvI1OPMEB+p/rjrxpXQpDN1KsR+
+ luBDUXh+xuCo7OKNj0356y9sIzC4ansxOVvPXwbiWZKJCj6hvMCoph0+qZ2w4wDrtAVt
+ +Cog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qbh2KrYpsf5bd2gq07XULYnsZ3c1pnWPBFUbrKfWACk=;
- b=yr0YjyHszKawNDBCCib1NNB4h2XDAhznqGEqtJvruX86rrPyBi5sBUGO8GhPFFn+eo
- dFHdjE+oDQSJSnHYoIYHKNwBNY07pL/r9zWhLQ6eh25OyHkc14V7PlbXyxlipixPniuW
- uwMCRZuFNmQPrcdz1z4WVXbGNCn7aUGXlHKdwho3pdbPloLdyM7mbYfrLQGIuK6jQwxp
- spWt+xJaXHO9wexCfY/4cyj7KY/J+jjLzxXC6wmyn8UfuIcw+Hh7W2J4pCnQUEcbYu/u
- Axx5uGfibb4edeBL6XNWfMnaM+VLoeU6XwET8bXZOMy2c42eFzT3Prqp/U+gLCslHaQS
- kheQ==
-X-Gm-Message-State: AOAM533kuy80GHk6BmBpktFINZ6Em5C7Uvsd6WVKtMAocbnPVxjn+rkq
- lfoMNzIli62wS5SnujXZCJvFZoZz8Q1baQ==
-X-Google-Smtp-Source: ABdhPJwxK3enN1hEjZ91/Ec4U3lMz+Cg73hbNMQErHLXPbpucK4Zo74Q0jXn/SPUaU685091wSY9JA==
-X-Received: by 2002:a17:902:d48a:b0:15e:a142:a9e8 with SMTP id
- c10-20020a170902d48a00b0015ea142a9e8mr552466plg.129.1651384259104; 
+ bh=LoFkNZI0EPN3UHmsZdxsDTn+j+LzMoee7yMTRcYWMTM=;
+ b=QbUHTAnjkJsNiyRuamzXXBwohgxbQ/QsW3W0fq1rPdJAzigOPpstvqSMTil3h9Od6I
+ c4x/xLm8WaDzjVm9dSLqZwUnYpK87c6nyeBabjyiU7QsBctL1a4/eRQJ1k7Tn2ir4UV3
+ Qy1TCdwwXmgxczdhXKShAsUEVPHy6G1LNs0eiwD3K068ZWa7P3AW4wh3zX4fBtJmdERe
+ CqNrFhQhgJlQ5qwGV6SxZbxg2j0gj469vykovuoNTs/M97BaWogfb9hzhkRMTQfHPa/3
+ fkyQ07svu38QfH+UFpJ0g5Mog3H/oSR+Unhl7qiadz8XtKBQFQJhbm+Bb/8BQWUqQuF9
+ ruqg==
+X-Gm-Message-State: AOAM530E+CovqIJloUjBVcQVdTd4N0BzbgP91HVqdwSRBQn2rFzl4x8O
+ h0ENNjgtOPjWiJS+RmxApxKiCf7krHrxSA==
+X-Google-Smtp-Source: ABdhPJyhTzLHYE81L3el6GXkf88zFc5U8r+uQNFYAElFh4d3rGcaASvxruWU6txX31r45PtGq8xHkA==
+X-Received: by 2002:a17:90b:688:b0:1d9:9ddd:1f71 with SMTP id
+ m8-20020a17090b068800b001d99ddd1f71mr11918311pjz.207.1651384259960; 
  Sat, 30 Apr 2022 22:50:59 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.58
+ cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 22:50:58 -0700 (PDT)
+ Sat, 30 Apr 2022 22:50:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 30/45] target/arm: Use field names for manipulating EL2 and
- EL3 modes
-Date: Sat, 30 Apr 2022 22:50:12 -0700
-Message-Id: <20220501055028.646596-31-richard.henderson@linaro.org>
+Subject: [PATCH v4 31/45] target/arm: Enable FEAT_Debugv8p2 for -cpu max
+Date: Sat, 30 Apr 2022 22:50:13 -0700
+Message-Id: <20220501055028.646596-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220501055028.646596-1-richard.henderson@linaro.org>
 References: <20220501055028.646596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,57 +87,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use FIELD_DP{32,64} to manipulate id_pfr1 and id_aa64pfr0
-during arm_cpu_realizefn.
+The only portion of FEAT_Debugv8p2 that is relevant to QEMU
+is CONTEXTIDR_EL2, which is also conditionally implemented
+with FEAT_VHE.  The rest of the debug extension concerns the
+External debug interface, which is outside the scope of QEMU.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+v2: Update emulation.rst
+---
+ docs/system/arm/emulation.rst | 1 +
+ target/arm/cpu.c              | 1 +
+ target/arm/cpu64.c            | 1 +
+ target/arm/cpu_tcg.c          | 2 ++
+ 4 files changed, 5 insertions(+)
 
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index c3bd0676a8..965f35d8c9 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -14,6 +14,7 @@ the following architecture extensions:
+ - FEAT_BTI (Branch Target Identification)
+ - FEAT_DIT (Data Independent Timing instructions)
+ - FEAT_DPB (DC CVAP instruction)
++- FEAT_Debugv8p2 (Debug changes for v8.2)
+ - FEAT_DotProd (Advanced SIMD dot product instructions)
+ - FEAT_FCMA (Floating-point complex number instructions)
+ - FEAT_FHM (Floating-point half-precision multiplication instructions)
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 6e8b39dc9e..1b509bbd2a 100644
+index 1b509bbd2a..97b6f9f68c 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1799,11 +1799,13 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -1804,6 +1804,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+          * feature registers as well.
           */
-         unset_feature(env, ARM_FEATURE_EL3);
- 
--        /* Disable the security extension feature bits in the processor feature
--         * registers as well. These are id_pfr1[7:4] and id_aa64pfr0[15:12].
-+        /*
-+         * Disable the security extension feature bits in the processor
-+         * feature registers as well.
-          */
--        cpu->isar.id_pfr1 &= ~0xf0;
--        cpu->isar.id_aa64pfr0 &= ~0xf000;
-+        cpu->isar.id_pfr1 = FIELD_DP32(cpu->isar.id_pfr1, ID_PFR1, SECURITY, 0);
-+        cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
-+                                           ID_AA64PFR0, EL3, 0);
+         cpu->isar.id_pfr1 = FIELD_DP32(cpu->isar.id_pfr1, ID_PFR1, SECURITY, 0);
++        cpu->isar.id_dfr0 = FIELD_DP32(cpu->isar.id_dfr0, ID_DFR0, COPSDBG, 0);
+         cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
+                                            ID_AA64PFR0, EL3, 0);
      }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 5fce40a6bc..202fd5c46e 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -799,6 +799,7 @@ static void aarch64_max_initfn(Object *obj)
+     cpu->isar.id_aa64zfr0 = t;
  
-     if (!cpu->has_el2) {
-@@ -1834,12 +1836,14 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
+     t = cpu->isar.id_aa64dfr0;
++    t = FIELD_DP64(t, ID_AA64DFR0, DEBUGVER, 8);  /* FEAT_Debugv8p2 */
+     t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5);    /* FEAT_PMUv3p4 */
+     cpu->isar.id_aa64dfr0 = t;
  
-     if (!arm_feature(env, ARM_FEATURE_EL2)) {
--        /* Disable the hypervisor feature bits in the processor feature
--         * registers if we don't have EL2. These are id_pfr1[15:12] and
--         * id_aa64pfr0_el1[11:8].
-+        /*
-+         * Disable the hypervisor feature bits in the processor feature
-+         * registers if we don't have EL2.
-          */
--        cpu->isar.id_aa64pfr0 &= ~0xf00;
--        cpu->isar.id_pfr1 &= ~0xf000;
-+        cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
-+                                           ID_AA64PFR0, EL2, 0);
-+        cpu->isar.id_pfr1 = FIELD_DP32(cpu->isar.id_pfr1,
-+                                       ID_PFR1, VIRTUALIZATION, 0);
-     }
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index bc8f9d0edf..b6fc3752f2 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -76,6 +76,8 @@ void aa32_max_features(ARMCPU *cpu)
+     cpu->isar.id_pfr2 = t;
  
- #ifndef CONFIG_USER_ONLY
+     t = cpu->isar.id_dfr0;
++    t = FIELD_DP32(t, ID_DFR0, COPDBG, 8);        /* FEAT_Debugv8p2 */
++    t = FIELD_DP32(t, ID_DFR0, COPSDBG, 8);       /* FEAT_Debugv8p2 */
+     t = FIELD_DP32(t, ID_DFR0, PERFMON, 5);       /* FEAT_PMUv3p4 */
+     cpu->isar.id_dfr0 = t;
+ }
 -- 
 2.34.1
 
