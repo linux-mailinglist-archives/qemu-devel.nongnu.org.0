@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1DB51649B
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 15:25:18 +0200 (CEST)
-Received: from localhost ([::1]:33692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD3B51648F
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 15:19:46 +0200 (CEST)
+Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl9Zd-0004rB-UN
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 09:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34900)
+	id 1nl9UH-0003I9-Aw
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 09:19:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <063c75db2e03938b2fadb052c4661adae36e352c@lizzy.crudebyte.com>)
- id 1nl9TF-00029q-8m
- for qemu-devel@nongnu.org; Sun, 01 May 2022 09:18:41 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:59437)
+ (envelope-from <0009df31cb51cb2be681f4eebd58a9776d75a580@lizzy.crudebyte.com>)
+ id 1nl9SH-00010w-S6
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:42 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:33441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <063c75db2e03938b2fadb052c4661adae36e352c@lizzy.crudebyte.com>)
- id 1nl9TD-0005Na-Qi
- for qemu-devel@nongnu.org; Sun, 01 May 2022 09:18:41 -0400
+ (envelope-from <0009df31cb51cb2be681f4eebd58a9776d75a580@lizzy.crudebyte.com>)
+ id 1nl9SA-0005Gp-3i
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=+inl/5cpOXs40ozy4YakG2iXX+wQU4SPqqeXKR162vs=; b=NCZ4X
- WeyV3RU+xdT9wrUT+Hodqkg/1SOoMxp5/1U9oZbTy8jiBcMn9X/PBvhXdRVWhEKlidkbg4rG6u8yP
- 0qMczixQFKzrNG3G2ZcQLNiW/LDbTp7VNYa3CLyro0us2PTfPjJBgfVA0+7SJRW/XYGpNey96OwDj
- p0aILc4VQxZE9iX4ipXRvO1LpyT4EH+5JIsxvVnb26giCmTosCGqAuqaJjAmGvOXcvymb3+Cdkb7w
- JTU1quGEJIV9Fj+L0raPk4knAlcjnfPPeDMIKHcBVA4X+AcQtVZ9U6TPEwtOYozRbQ8xQ4FxjRw9s
- HKy5Mk+QBmgiyTM/o3pmPzXJe8Eiw==;
-Message-Id: <063c75db2e03938b2fadb052c4661adae36e352c.1651410615.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=hytBxthYet9DFawcgXKMYZNCCM1++ItNvinKuyVuDJ0=; b=KaoDY
+ sWnTwx0JATiXmUpmP/zRmYkuuMuJudZfVcGqI35zcznYUjpb0MODaZ8mhQWaPG0yK3Xf96yNc8BxB
+ zav/m1WRY/jRnwUcrnDWXoWq5Zmp6QGt0H0+kSCBCX7/C8fv2JdipYu0nxFTA+9jlSBh7t6Pgc/Ri
+ sZGREum4CdBctG+UMahYTSsg5CZ3nVFczjYS6KMrcTM1vCvcD8KFTsxxej0SnlUZaAUWHVLjasHR3
+ BzpulJf0UFZ5nQE7PleraaSyzNrjKSb2wgkUYc/ChxCXYLCYR4D23kx71K2dsNiEIQH+g2615yXyf
+ nImhVHcKDjpiivmusAHFt8IWNr9Hw==;
+Message-Id: <0009df31cb51cb2be681f4eebd58a9776d75a580.1651410615.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1651410615.git.qemu_oss@crudebyte.com>
 References: <cover.1651410615.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Sun, 01 May 2022 15:10:16 +0200
-Subject: [PULL v2 7/7] 9pfs: fix qemu_mknodat() to always return -1 on error
- on macOS host
+Subject: [PULL v2 1/7] 9pfs: fix inode sequencing in 'synth' driver
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Akihiko Odaki <akihiko.odaki@gmail.com>,
  Will Cohen <wwcohen@gmail.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=063c75db2e03938b2fadb052c4661adae36e352c@lizzy.crudebyte.com;
+ envelope-from=0009df31cb51cb2be681f4eebd58a9776d75a580@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -65,32 +64,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_mknodat() is expected to behave according to its POSIX API, and
-therefore should always return exactly -1 on any error, and errno
-should be set for the actual error code.
+The 'synth' driver's root node and the 'synth' driver's first
+subdirectory node falsely share the same inode number (zero), which
+makes it impossible for 9p clients (i.e. 9p test cases) to distinguish
+root node and first subdirectory from each other by comparing their QIDs
+(which are derived by 9p server from driver's inode numbers).
 
+Fix this issue by using prefix-increment instead of postfix-increment
+operator while generating new inode numbers for subdirectories and files.
+
+Link: https://lore.kernel.org/qemu-devel/3859307.hTDP4D0zbi@silver/
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <c714b5e1cae225ab7575242c45ee0fe4945eb6ad.1651228001.git.qemu_oss@crudebyte.com>
+Message-Id: <E1nTpyU-0000yR-9o@lizzy.crudebyte.com>
 ---
- hw/9pfs/9p-util-darwin.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/9pfs/9p-synth.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-index bd2dd81548..95146e7354 100644
---- a/hw/9pfs/9p-util-darwin.c
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -124,7 +124,8 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index d99d263985..1c5813e4dd 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -92,7 +92,7 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
+         }
      }
-     if (!pthread_fchdir_np) {
-         error_report_once("pthread_fchdir_np() not available on this version of macOS");
--        return -ENOTSUP;
-+        errno = ENOTSUP;
-+        return -1;
-     }
-     if (pthread_fchdir_np(dirfd) < 0) {
-         return -1;
+     /* Add the name */
+-    node = v9fs_add_dir_node(parent, mode, name, NULL, synth_node_count++);
++    node = v9fs_add_dir_node(parent, mode, name, NULL, ++synth_node_count);
+     v9fs_add_dir_node(node, parent->attr->mode, "..",
+                       parent->attr, parent->attr->inode);
+     v9fs_add_dir_node(node, node->attr->mode, ".",
+@@ -130,7 +130,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
+     mode = ((mode & 0777) | S_IFREG);
+     node = g_new0(V9fsSynthNode, 1);
+     node->attr         = &node->actual_attr;
+-    node->attr->inode  = synth_node_count++;
++    node->attr->inode  = ++synth_node_count;
+     node->attr->nlink  = 1;
+     node->attr->read   = read;
+     node->attr->write  = write;
 -- 
 2.30.2
 
