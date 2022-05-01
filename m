@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4D851621C
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 08:05:01 +0200 (CEST)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B553251621B
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 08:04:53 +0200 (CEST)
+Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl2hX-00009i-QT
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 02:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43098)
+	id 1nl2hQ-0008OC-7Q
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 02:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2Te-0006o9-MQ
- for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:38 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38581)
+ id 1nl2Tf-0006oy-6X
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:39 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:40492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2Ta-0001EW-PP
+ id 1nl2Tc-0001F2-LC
  for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:38 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id n18so10282833plg.5
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:34 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id i24so10060158pfa.7
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wV+QCHMFrqB6itk4REdnMai7JMqQfYR/Z9HiCHLOVwA=;
- b=y6TlpK01BrqpYxMw3u0ve2oNY5166uq6zVNamVq6EWVk4tFblKb5FQW3Iepb5DxjP5
- Wf1JAUF0/QAbITee2DbCmRWivbiXbwGclGP+pMJsO9/j5+eF3bCInXSJZkY87drhKA/R
- 9SJjK3+Re0UMnFE5TZTPp7VBMn28iL754bjRyS1ffdVfOA1xzpg3vTzgnLe3LbogO3np
- pGww8f8CMZjtpE4ME/z6eAMzTSuBLzMoAo0HQNQZcjrUsNfuXHwyrdIhV9yPHwkEEUHT
- DosOIeL7FqsaqdCxzpbJowgeDKIJnpuqDBqzeAZVmWfrzxWEg8C2b2vZC6G7JE2ap3uV
- LP5w==
+ bh=0Jy4lKNsi/GmAwKF8EkIwL7sXr4vu9r6V+LNjfDB8TI=;
+ b=Tp+hSzokrxeKUmHFrVkD+SLzuiST0fHFv46BCR3ibeqZK07xyemlNk5+rfS1Cd4G22
+ TCr382uzoQmsqi7K2R1wU+Xf8EMYue7soOP57b/vajWdjRvewb47kp6oLb0t+lt9DetL
+ UlxZO86xFmFTcd8hkaZmL7dRm7LZRGT8JR3hpbaSRLvI/DCVnw7z7Y9U8rPMXX2L5IPh
+ T55Gs7zI5cwn1cmYvJ1hX7wCl+cLYJ+Rm6TSXVqTCyliADd7vD5dFKKn+Anxf44N6GRB
+ 5sqDwakl1Zhw50cwwSto52LETuxQ6/7kvYVQEW7htAj3wkxHtrttdvsaw+BxSiH9unr2
+ J5Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wV+QCHMFrqB6itk4REdnMai7JMqQfYR/Z9HiCHLOVwA=;
- b=aauxn3DVgA2z10rOBMVztqsasTDZKZZ5sy+QUjk6HCCJjBXiFoFss98OquNwNYRtDT
- TGsay0O8h6Dut2ox77BWZalzHoqBRadNNKBRR/+GVOTkuEMUHPC+qpgvktiUQFRmOP/Z
- EviYypB/kd2L9enrceLiuKL0gV4lyiNyJPZfXWCa8yJEjHO0/cO1ez5nUSlOvXq00Pix
- RXneWs7s5WBDXJ63oGtpsVRs+rEtICb2/xApcjTi0TasH6n9Cc6heIVmiY4Vdmf6De3T
- 7Gh7JPzp6BPH78J5z7F3bIiPhRmOE0HqSUNkM5A5OxmhtuF/CM3Teg9Oo+SePjq0GFyP
- snAA==
-X-Gm-Message-State: AOAM530pZohMqGSVwXgouYB6jcABGzciGoaTAfzNHDeuxVfDbe3mwMny
- VOb4xpvw91Hh/VZxZUmv/vFiFhpnXzaEMg==
-X-Google-Smtp-Source: ABdhPJxi9xT1Chf+HDK7bDQaUdW4SMkdzrlhHu+N3I93PA8bJuPFgp0K8hHypiIDOL7yn4wtxcw3EQ==
-X-Received: by 2002:a17:90b:124c:b0:1bc:369b:7db5 with SMTP id
- gx12-20020a17090b124c00b001bc369b7db5mr11885956pjb.179.1651384233188; 
- Sat, 30 Apr 2022 22:50:33 -0700 (PDT)
+ bh=0Jy4lKNsi/GmAwKF8EkIwL7sXr4vu9r6V+LNjfDB8TI=;
+ b=UxcII0efG8aH9nbC62hcuqKhKBxxBHKKEXWpoK4v1+X0WivyUSQuTSklcjqHMr+sSt
+ fimx1+G3rLcYa9yqtAOjeOc/IeCGnJhCN76teNK92wJFwm4flb0oFV2wo6bEoCyCRaL6
+ Ze7Dvz3AmP7OWcrwEA0ROudNd07/Dyy/jzhROcouaL9wBd49Wg4ENL7d0kw6KFYn9zTs
+ FpBKR40nCdn5v3cbtN40gU4wS5jZhx5JjoF/jQ2p0Mwc27HTPz+R0+1a1wgXVE+K27+v
+ f82TUOpDNRbOnnbEuk1BAQ3IeNdGOzRrOGtZV5NtmevqNQcq08XUek8x0or8H9rBQURu
+ X2/w==
+X-Gm-Message-State: AOAM531hMsUR5qn8945K8YVUJsAhBvLUwWOPdz4+EUPrkPDQ0cVW5FKo
+ W9x7/wqzZrwZpuSQRk+njNq7MxmkZ6DxAQ==
+X-Google-Smtp-Source: ABdhPJzF6xrxM63g1wza8+eovLAOOGwhVKhp2dpSEQYMaecsOMONjc/V1Lh0iExIzAbCulAScJ2ViA==
+X-Received: by 2002:a05:6a00:2310:b0:505:a8ac:40e7 with SMTP id
+ h16-20020a056a00231000b00505a8ac40e7mr6291405pfh.11.1651384235168; 
+ Sat, 30 Apr 2022 22:50:35 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.32
+ cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 22:50:32 -0700 (PDT)
+ Sat, 30 Apr 2022 22:50:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/45] target/arm: Replace sentinels with ARRAY_SIZE in
- cpregs.h
-Date: Sat, 30 Apr 2022 22:49:45 -0700
-Message-Id: <20220501055028.646596-4-richard.henderson@linaro.org>
+Subject: [PATCH v4 05/45] target/arm: Reorg ARMCPRegInfo type field bits
+Date: Sat, 30 Apr 2022 22:49:47 -0700
+Message-Id: <20220501055028.646596-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220501055028.646596-1-richard.henderson@linaro.org>
 References: <20220501055028.646596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,893 +83,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove a possible source of error by removing REGINFO_SENTINEL
-and using ARRAY_SIZE (convinently hidden inside a macro) to
-find the end of the set of regs being registered or modified.
+Instead of defining ARM_CP_FLAG_MASK to remove flags,
+define ARM_CP_SPECIAL_MASK to isolate special cases.
+Sort the specials to the low bits. Use an enum.
 
-The space saved by not having the extra array element reduces
-the executable's .data.rel.ro section by about 9k.
+Split the large comment block so as to document each
+value separately.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v4: Drop special case for array size 1.
+v4: Revert merge of ARM_CP_CONST with ARM_CP_NOP.
 ---
- target/arm/cpregs.h       |  53 +++++++++---------
- hw/arm/pxa2xx.c           |   1 -
- hw/arm/pxa2xx_pic.c       |   1 -
- hw/intc/arm_gicv3_cpuif.c |   5 --
- hw/intc/arm_gicv3_kvm.c   |   1 -
- target/arm/cpu64.c        |   1 -
- target/arm/cpu_tcg.c      |   4 --
- target/arm/helper.c       | 111 ++++++++------------------------------
- 8 files changed, 48 insertions(+), 129 deletions(-)
+ target/arm/cpregs.h        | 130 +++++++++++++++++++++++--------------
+ target/arm/cpu.c           |   4 +-
+ target/arm/helper.c        |   4 +-
+ target/arm/translate-a64.c |   6 +-
+ target/arm/translate.c     |   6 +-
+ 5 files changed, 92 insertions(+), 58 deletions(-)
 
 diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index 7f2c30eab1..a5231504d5 100644
+index a5231504d5..ff3817decb 100644
 --- a/target/arm/cpregs.h
 +++ b/target/arm/cpregs.h
-@@ -71,8 +71,6 @@
- #define ARM_CP_NO_GDB            0x4000
- #define ARM_CP_RAISES_EXC        0x8000
- #define ARM_CP_NEWEL             0x10000
--/* Used only as a terminator for ARMCPRegInfo lists */
--#define ARM_CP_SENTINEL          0xfffff
- /* Mask of only the flag bits in a type field */
- #define ARM_CP_FLAG_MASK         0x1f0ff
- 
-@@ -108,18 +106,6 @@ enum {
-     ARM_CP_SECSTATE_NS =  (1 << 1), /* bit[1]: Non-secure state register */
- };
- 
--/*
-- * Return true if cptype is a valid type field. This is used to try to
-- * catch errors where the sentinel has been accidentally left off the end
-- * of a list of registers.
-- */
--static inline bool cptype_valid(int cptype)
--{
--    return ((cptype & ~ARM_CP_FLAG_MASK) == 0)
--        || ((cptype & ARM_CP_SPECIAL) &&
--            ((cptype & ~ARM_CP_FLAG_MASK) <= ARM_LAST_SPECIAL));
--}
--
- /*
-  * Access rights:
-  * We define bits for Read and Write access for what rev C of the v7-AR ARM ARM
-@@ -346,20 +332,27 @@ struct ARMCPRegInfo {
- #define CPREG_FIELD64(env, ri) \
-     (*(uint64_t *)((char *)(env) + (ri)->fieldoffset))
- 
--#define REGINFO_SENTINEL { .type = ARM_CP_SENTINEL }
-+void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu, const ARMCPRegInfo *reg,
-+                                       void *opaque);
- 
--void define_arm_cp_regs_with_opaque(ARMCPU *cpu,
--                                    const ARMCPRegInfo *regs, void *opaque);
--void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu,
--                                       const ARMCPRegInfo *regs, void *opaque);
--static inline void define_arm_cp_regs(ARMCPU *cpu, const ARMCPRegInfo *regs)
--{
--    define_arm_cp_regs_with_opaque(cpu, regs, 0);
--}
- static inline void define_one_arm_cp_reg(ARMCPU *cpu, const ARMCPRegInfo *regs)
- {
--    define_one_arm_cp_reg_with_opaque(cpu, regs, 0);
-+    define_one_arm_cp_reg_with_opaque(cpu, regs, NULL);
- }
-+
-+void define_arm_cp_regs_with_opaque_len(ARMCPU *cpu, const ARMCPRegInfo *regs,
-+                                        void *opaque, size_t len);
-+
-+#define define_arm_cp_regs_with_opaque(CPU, REGS, OPAQUE)               \
-+    do {                                                                \
-+        QEMU_BUILD_BUG_ON(ARRAY_SIZE(REGS) == 0);                       \
-+        define_arm_cp_regs_with_opaque_len(CPU, REGS, OPAQUE,           \
-+                                           ARRAY_SIZE(REGS));           \
-+    } while (0)
-+
-+#define define_arm_cp_regs(CPU, REGS) \
-+    define_arm_cp_regs_with_opaque(CPU, REGS, NULL)
-+
- const ARMCPRegInfo *get_arm_cp_reginfo(GHashTable *cpregs, uint32_t encoded_cp);
+@@ -22,57 +22,87 @@
+ #define TARGET_ARM_CPREGS_H
  
  /*
-@@ -382,9 +375,17 @@ typedef struct ARMCPRegUserSpaceInfo {
-     uint64_t fixed_bits;
- } ARMCPRegUserSpaceInfo;
+- * ARMCPRegInfo type field bits. If the SPECIAL bit is set this is a
+- * special-behaviour cp reg and bits [11..8] indicate what behaviour
+- * it has. Otherwise it is a simple cp reg, where CONST indicates that
+- * TCG can assume the value to be constant (ie load at translate time)
+- * and 64BIT indicates a 64 bit wide coprocessor register. SUPPRESS_TB_END
+- * indicates that the TB should not be ended after a write to this register
+- * (the default is that the TB ends after cp writes). OVERRIDE permits
+- * a register definition to override a previous definition for the
+- * same (cp, is64, crn, crm, opc1, opc2) tuple: either the new or the
+- * old must have the OVERRIDE bit set.
+- * ALIAS indicates that this register is an alias view of some underlying
+- * state which is also visible via another register, and that the other
+- * register is handling migration and reset; registers marked ALIAS will not be
+- * migrated but may have their state set by syncing of register state from KVM.
+- * NO_RAW indicates that this register has no underlying state and does not
+- * support raw access for state saving/loading; it will not be used for either
+- * migration or KVM state synchronization. (Typically this is for "registers"
+- * which are actually used as instructions for cache maintenance and so on.)
+- * IO indicates that this register does I/O and therefore its accesses
+- * need to be marked with gen_io_start() and also end the TB. In particular,
+- * registers which implement clocks or timers require this.
+- * RAISES_EXC is for when the read or write hook might raise an exception;
+- * the generated code will synchronize the CPU state before calling the hook
+- * so that it is safe for the hook to call raise_exception().
+- * NEWEL is for writes to registers that might change the exception
+- * level - typically on older ARM chips. For those cases we need to
+- * re-read the new el when recomputing the translation flags.
++ * ARMCPRegInfo type field bits:
+  */
+-#define ARM_CP_SPECIAL           0x0001
+-#define ARM_CP_CONST             0x0002
+-#define ARM_CP_64BIT             0x0004
+-#define ARM_CP_SUPPRESS_TB_END   0x0008
+-#define ARM_CP_OVERRIDE          0x0010
+-#define ARM_CP_ALIAS             0x0020
+-#define ARM_CP_IO                0x0040
+-#define ARM_CP_NO_RAW            0x0080
+-#define ARM_CP_NOP               (ARM_CP_SPECIAL | 0x0100)
+-#define ARM_CP_WFI               (ARM_CP_SPECIAL | 0x0200)
+-#define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
+-#define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
+-#define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
+-#define ARM_CP_DC_GVA            (ARM_CP_SPECIAL | 0x0600)
+-#define ARM_CP_DC_GZVA           (ARM_CP_SPECIAL | 0x0700)
+-#define ARM_LAST_SPECIAL         ARM_CP_DC_GZVA
+-#define ARM_CP_FPU               0x1000
+-#define ARM_CP_SVE               0x2000
+-#define ARM_CP_NO_GDB            0x4000
+-#define ARM_CP_RAISES_EXC        0x8000
+-#define ARM_CP_NEWEL             0x10000
+-/* Mask of only the flag bits in a type field */
+-#define ARM_CP_FLAG_MASK         0x1f0ff
++enum {
++    /*
++     * Register must be handled specially during translation.
++     * The method is one of the values below:
++     */
++    ARM_CP_SPECIAL_MASK          = 0x000f,
++    /* Special: no change to PE state: writes ignored, reads ignored. */
++    ARM_CP_NOP                   = 0x0001,
++    /* Special: sysreg is WFI, for v5 and v6. */
++    ARM_CP_WFI                   = 0x0002,
++    /* Special: sysreg is NZCV. */
++    ARM_CP_NZCV                  = 0x0003,
++    /* Special: sysreg is CURRENTEL. */
++    ARM_CP_CURRENTEL             = 0x0004,
++    /* Special: sysreg is DC ZVA or similar. */
++    ARM_CP_DC_ZVA                = 0x0005,
++    ARM_CP_DC_GVA                = 0x0006,
++    ARM_CP_DC_GZVA               = 0x0007,
++
++    /* Flag: reads produce resetvalue; writes ignored. */
++    ARM_CP_CONST                 = 1 << 4,
++    /* Flag: For ARM_CP_STATE_AA32, sysreg is 64-bit. */
++    ARM_CP_64BIT                 = 1 << 5,
++    /*
++     * Flag: TB should not be ended after a write to this register
++     * (the default is that the TB ends after cp writes).
++     */
++    ARM_CP_SUPPRESS_TB_END       = 1 << 6,
++    /*
++     * Flag: Permit a register definition to override a previous definition
++     * for the same (cp, is64, crn, crm, opc1, opc2) tuple: either the new
++     * or the old must have the ARM_CP_OVERRIDE bit set.
++     */
++    ARM_CP_OVERRIDE              = 1 << 7,
++    /*
++     * Flag: Register is an alias view of some underlying state which is also
++     * visible via another register, and that the other register is handling
++     * migration and reset; registers marked ARM_CP_ALIAS will not be migrated
++     * but may have their state set by syncing of register state from KVM.
++     */
++    ARM_CP_ALIAS                 = 1 << 8,
++    /*
++     * Flag: Register does I/O and therefore its accesses need to be marked
++     * with gen_io_start() and also end the TB. In particular, registers which
++     * implement clocks or timers require this.
++     */
++    ARM_CP_IO                    = 1 << 9,
++    /*
++     * Flag: Register has no underlying state and does not support raw access
++     * for state saving/loading; it will not be used for either migration or
++     * KVM state synchronization. Typically this is for "registers" which are
++     * actually used as instructions for cache maintenance and so on.
++     */
++    ARM_CP_NO_RAW                = 1 << 10,
++    /*
++     * Flag: The read or write hook might raise an exception; the generated
++     * code will synchronize the CPU state before calling the hook so that it
++     * is safe for the hook to call raise_exception().
++     */
++    ARM_CP_RAISES_EXC            = 1 << 11,
++    /*
++     * Flag: Writes to the sysreg might change the exception level - typically
++     * on older ARM chips. For those cases we need to re-read the new el when
++     * recomputing the translation flags.
++     */
++    ARM_CP_NEWEL                 = 1 << 12,
++    /*
++     * Flag: Access check for this sysreg is identical to accessing FPU state
++     * from an instruction: use translation fp_access_check().
++     */
++    ARM_CP_FPU                   = 1 << 13,
++    /*
++     * Flag: Access check for this sysreg is identical to accessing SVE state
++     * from an instruction: use translation sve_access_check().
++     */
++    ARM_CP_SVE                   = 1 << 14,
++    /* Flag: Do not expose in gdb sysreg xml. */
++    ARM_CP_NO_GDB                = 1 << 15,
++};
  
--#define REGUSERINFO_SENTINEL { .name = NULL }
-+void modify_arm_cp_regs_with_len(ARMCPRegInfo *regs, size_t regs_len,
-+                                 const ARMCPRegUserSpaceInfo *mods,
-+                                 size_t mods_len);
+ /*
+  * Valid values for ARMCPRegInfo state field, indicating which of
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 815add74fa..268274ce89 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -117,7 +117,7 @@ static void cp_reg_reset(gpointer key, gpointer value, gpointer opaque)
+     ARMCPRegInfo *ri = value;
+     ARMCPU *cpu = opaque;
  
--void modify_arm_cp_regs(ARMCPRegInfo *regs, const ARMCPRegUserSpaceInfo *mods);
-+#define modify_arm_cp_regs(REGS, MODS)                                  \
-+    do {                                                                \
-+        QEMU_BUILD_BUG_ON(ARRAY_SIZE(REGS) == 0);                       \
-+        QEMU_BUILD_BUG_ON(ARRAY_SIZE(MODS) == 0);                       \
-+        modify_arm_cp_regs_with_len(REGS, ARRAY_SIZE(REGS),             \
-+                                    MODS, ARRAY_SIZE(MODS));            \
-+    } while (0)
+-    if (ri->type & (ARM_CP_SPECIAL | ARM_CP_ALIAS)) {
++    if (ri->type & (ARM_CP_SPECIAL_MASK | ARM_CP_ALIAS)) {
+         return;
+     }
  
- /* CPWriteFn that can be used to implement writes-ignored behaviour */
- void arm_cp_write_ignore(CPUARMState *env, const ARMCPRegInfo *ri,
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index 0683714733..f4f687df68 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -384,7 +384,6 @@ static const ARMCPRegInfo pxa_cp_reginfo[] = {
-     { .name = "PWRMODE", .cp = 14, .crn = 7, .crm = 0, .opc1 = 0, .opc2 = 0,
-       .access = PL1_RW, .type = ARM_CP_IO,
-       .readfn = arm_cp_read_zero, .writefn = pxa2xx_pwrmode_write },
--    REGINFO_SENTINEL
- };
+@@ -153,7 +153,7 @@ static void cp_reg_check_reset(gpointer key, gpointer value,  gpointer opaque)
+     ARMCPU *cpu = opaque;
+     uint64_t oldvalue, newvalue;
  
- static void pxa2xx_setup_cp14(PXA2xxState *s)
-diff --git a/hw/arm/pxa2xx_pic.c b/hw/arm/pxa2xx_pic.c
-index b80d75d839..47132ab982 100644
---- a/hw/arm/pxa2xx_pic.c
-+++ b/hw/arm/pxa2xx_pic.c
-@@ -257,7 +257,6 @@ static const ARMCPRegInfo pxa_pic_cp_reginfo[] = {
-     REGINFO_FOR_PIC_CP("ICLR2", 8),
-     REGINFO_FOR_PIC_CP("ICFP2", 9),
-     REGINFO_FOR_PIC_CP("ICPR2", 0xa),
--    REGINFO_SENTINEL
- };
+-    if (ri->type & (ARM_CP_SPECIAL | ARM_CP_ALIAS | ARM_CP_NO_RAW)) {
++    if (ri->type & (ARM_CP_SPECIAL_MASK | ARM_CP_ALIAS | ARM_CP_NO_RAW)) {
+         return;
+     }
  
- static const MemoryRegionOps pxa2xx_pic_ops = {
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 2d5959db94..9efba798f8 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -2428,7 +2428,6 @@ static const ARMCPRegInfo gicv3_cpuif_reginfo[] = {
-       .readfn = icc_igrpen1_el3_read,
-       .writefn = icc_igrpen1_el3_write,
-     },
--    REGINFO_SENTINEL
- };
- 
- static uint64_t ich_ap_read(CPUARMState *env, const ARMCPRegInfo *ri)
-@@ -2682,7 +2681,6 @@ static const ARMCPRegInfo gicv3_cpuif_hcr_reginfo[] = {
-       .readfn = ich_vmcr_read,
-       .writefn = ich_vmcr_write,
-     },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo gicv3_cpuif_ich_apxr1_reginfo[] = {
-@@ -2700,7 +2698,6 @@ static const ARMCPRegInfo gicv3_cpuif_ich_apxr1_reginfo[] = {
-       .readfn = ich_ap_read,
-       .writefn = ich_ap_write,
-     },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo gicv3_cpuif_ich_apxr23_reginfo[] = {
-@@ -2732,7 +2729,6 @@ static const ARMCPRegInfo gicv3_cpuif_ich_apxr23_reginfo[] = {
-       .readfn = ich_ap_read,
-       .writefn = ich_ap_write,
-     },
--    REGINFO_SENTINEL
- };
- 
- static void gicv3_cpuif_el_change_hook(ARMCPU *cpu, void *opaque)
-@@ -2807,7 +2803,6 @@ void gicv3_init_cpuif(GICv3State *s)
-                       .readfn = ich_lr_read,
-                       .writefn = ich_lr_write,
-                     },
--                    REGINFO_SENTINEL
-                 };
-                 define_arm_cp_regs(cpu, lr_regset);
-             }
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 611085e98d..2922c516e5 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -735,7 +735,6 @@ static const ARMCPRegInfo gicv3_cpuif_reginfo[] = {
-        */
-       .resetfn = arm_gicv3_icc_reset,
-     },
--    REGINFO_SENTINEL
- };
- 
- /**
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index af5ba1d0b3..c841d55d0e 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -91,7 +91,6 @@ static const ARMCPRegInfo cortex_a72_a57_a53_cp_reginfo[] = {
-     { .name = "L2MERRSR",
-       .cp = 15, .opc1 = 3, .crm = 15,
-       .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static void aarch64_a57_initfn(Object *obj)
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 0e693b182e..9338088b22 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -264,7 +264,6 @@ static const ARMCPRegInfo cortexa8_cp_reginfo[] = {
-       .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-     { .name = "L2AUXCR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
-       .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static void cortex_a8_initfn(Object *obj)
-@@ -332,7 +331,6 @@ static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
-       .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
-     { .name = "TLB_ATTR", .cp = 15, .crn = 15, .crm = 7, .opc1 = 5, .opc2 = 2,
-       .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
--    REGINFO_SENTINEL
- };
- 
- static void cortex_a9_initfn(Object *obj)
-@@ -398,7 +396,6 @@ static const ARMCPRegInfo cortexa15_cp_reginfo[] = {
- #endif
-     { .name = "L2ECTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 3,
-       .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static void cortex_a7_initfn(Object *obj)
-@@ -686,7 +683,6 @@ static const ARMCPRegInfo cortexr5_cp_reginfo[] = {
-       .access = PL1_RW, .type = ARM_CP_CONST },
-     { .name = "DCACHE_INVAL", .cp = 15, .opc1 = 0, .crn = 15, .crm = 5,
-       .opc2 = 0, .access = PL1_W, .type = ARM_CP_NOP },
--    REGINFO_SENTINEL
- };
- 
- static void cortex_r5_initfn(Object *obj)
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3f2e555d6f..a68f14fe8e 100644
+index ca6ba9bd82..f84377babe 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -673,7 +673,6 @@ static const ARMCPRegInfo cp_reginfo[] = {
-       .secure = ARM_CP_SECSTATE_S,
-       .fieldoffset = offsetof(CPUARMState, cp15.contextidr_s),
-       .resetvalue = 0, .writefn = contextidr_write, .raw_writefn = raw_write, },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo not_v8_cp_reginfo[] = {
-@@ -702,7 +701,6 @@ static const ARMCPRegInfo not_v8_cp_reginfo[] = {
-     { .name = "CACHEMAINT", .cp = 15, .crn = 7, .crm = CP_ANY,
-       .opc1 = 0, .opc2 = CP_ANY, .access = PL1_W,
-       .type = ARM_CP_NOP | ARM_CP_OVERRIDE },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo not_v6_cp_reginfo[] = {
-@@ -711,7 +709,6 @@ static const ARMCPRegInfo not_v6_cp_reginfo[] = {
+@@ -8600,7 +8600,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
+      * multiple times. Special registers (ie NOP/WFI) are
+      * never migratable and not even raw-accessible.
       */
-     { .name = "WFI_v5", .cp = 15, .crn = 7, .crm = 8, .opc1 = 0, .opc2 = 2,
-       .access = PL1_W, .type = ARM_CP_WFI },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo not_v7_cp_reginfo[] = {
-@@ -760,7 +757,6 @@ static const ARMCPRegInfo not_v7_cp_reginfo[] = {
-       .opc1 = 0, .opc2 = 0, .access = PL1_RW, .type = ARM_CP_NOP },
-     { .name = "NMRR", .cp = 15, .crn = 10, .crm = 2,
-       .opc1 = 0, .opc2 = 1, .access = PL1_RW, .type = ARM_CP_NOP },
--    REGINFO_SENTINEL
- };
- 
- static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -889,7 +885,6 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
-       .crn = 1, .crm = 0, .opc1 = 0, .opc2 = 2, .accessfn = cpacr_access,
-       .access = PL1_RW, .fieldoffset = offsetof(CPUARMState, cp15.cpacr_el1),
-       .resetfn = cpacr_reset, .writefn = cpacr_write, .readfn = cpacr_read },
--    REGINFO_SENTINEL
- };
- 
- typedef struct pm_event {
-@@ -2135,7 +2130,6 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-     { .name = "TLBIMVAA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 3,
-       .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-       .writefn = tlbimvaa_write },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo v7mp_cp_reginfo[] = {
-@@ -2152,7 +2146,6 @@ static const ARMCPRegInfo v7mp_cp_reginfo[] = {
-     { .name = "TLBIMVAAIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 3,
-       .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-       .writefn = tlbimvaa_is_write },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo pmovsset_cp_reginfo[] = {
-@@ -2170,7 +2163,6 @@ static const ARMCPRegInfo pmovsset_cp_reginfo[] = {
-       .fieldoffset = offsetof(CPUARMState, cp15.c9_pmovsr),
-       .writefn = pmovsset_write,
-       .raw_writefn = raw_write },
--    REGINFO_SENTINEL
- };
- 
- static void teecr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -2211,7 +2203,6 @@ static const ARMCPRegInfo t2ee_cp_reginfo[] = {
-     { .name = "TEEHBR", .cp = 14, .crn = 1, .crm = 0, .opc1 = 6, .opc2 = 0,
-       .access = PL0_RW, .fieldoffset = offsetof(CPUARMState, teehbr),
-       .accessfn = teehbr_access, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo v6k_cp_reginfo[] = {
-@@ -2243,7 +2234,6 @@ static const ARMCPRegInfo v6k_cp_reginfo[] = {
-       .bank_fieldoffsets = { offsetoflow32(CPUARMState, cp15.tpidrprw_s),
-                              offsetoflow32(CPUARMState, cp15.tpidrprw_ns) },
-       .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- #ifndef CONFIG_USER_ONLY
-@@ -3091,7 +3081,6 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_SEC].cval),
-       .writefn = gt_sec_cval_write, .raw_writefn = raw_write,
-     },
--    REGINFO_SENTINEL
- };
- 
- static CPAccessResult e2h_access(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -3132,7 +3121,6 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .access = PL0_R, .type = ARM_CP_NO_RAW | ARM_CP_IO,
-       .readfn = gt_virt_cnt_read,
-     },
--    REGINFO_SENTINEL
- };
- 
- #endif
-@@ -3496,7 +3484,6 @@ static const ARMCPRegInfo vapa_cp_reginfo[] = {
-       .access = PL1_W, .accessfn = ats_access,
-       .writefn = ats_write, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC },
- #endif
--    REGINFO_SENTINEL
- };
- 
- /* Return basic MPU access permission bits.  */
-@@ -3619,7 +3606,6 @@ static const ARMCPRegInfo pmsav7_cp_reginfo[] = {
-       .fieldoffset = offsetof(CPUARMState, pmsav7.rnr[M_REG_NS]),
-       .writefn = pmsav7_rgnr_write,
-       .resetfn = arm_cp_reset_ignore },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo pmsav5_cp_reginfo[] = {
-@@ -3670,7 +3656,6 @@ static const ARMCPRegInfo pmsav5_cp_reginfo[] = {
-     { .name = "946_PRBS7", .cp = 15, .crn = 6, .crm = 7, .opc1 = 0,
-       .opc2 = CP_ANY, .access = PL1_RW, .resetvalue = 0,
-       .fieldoffset = offsetof(CPUARMState, cp15.c6_region[7]) },
--    REGINFO_SENTINEL
- };
- 
- static void vmsa_ttbcr_raw_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -3824,7 +3809,6 @@ static const ARMCPRegInfo vmsa_pmsa_cp_reginfo[] = {
-       .access = PL1_RW, .accessfn = access_tvm_trvm,
-       .fieldoffset = offsetof(CPUARMState, cp15.far_el[1]),
-       .resetvalue = 0, },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo vmsa_cp_reginfo[] = {
-@@ -3857,7 +3841,6 @@ static const ARMCPRegInfo vmsa_cp_reginfo[] = {
-       /* No offsetoflow32 -- pass the entire TCR to writefn/raw_writefn. */
-       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.tcr_el[3]),
-                              offsetof(CPUARMState, cp15.tcr_el[1])} },
--    REGINFO_SENTINEL
- };
- 
- /* Note that unlike TTBCR, writing to TTBCR2 does not require flushing
-@@ -3942,7 +3925,6 @@ static const ARMCPRegInfo omap_cp_reginfo[] = {
-     { .name = "C9", .cp = 15, .crn = 9,
-       .crm = CP_ANY, .opc1 = CP_ANY, .opc2 = CP_ANY, .access = PL1_RW,
-       .type = ARM_CP_CONST | ARM_CP_OVERRIDE, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static void xscale_cpar_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -3975,7 +3957,6 @@ static const ARMCPRegInfo xscale_cp_reginfo[] = {
-     { .name = "XSCALE_UNLOCK_DCACHE",
-       .cp = 15, .opc1 = 0, .crn = 9, .crm = 2, .opc2 = 1,
-       .access = PL1_W, .type = ARM_CP_NOP },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo dummy_c15_cp_reginfo[] = {
-@@ -3989,7 +3970,6 @@ static const ARMCPRegInfo dummy_c15_cp_reginfo[] = {
-       .access = PL1_RW,
-       .type = ARM_CP_CONST | ARM_CP_NO_RAW | ARM_CP_OVERRIDE,
-       .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo cache_dirty_status_cp_reginfo[] = {
-@@ -3997,7 +3977,6 @@ static const ARMCPRegInfo cache_dirty_status_cp_reginfo[] = {
-     { .name = "CDSR", .cp = 15, .crn = 7, .crm = 10, .opc1 = 0, .opc2 = 6,
-       .access = PL1_R, .type = ARM_CP_CONST | ARM_CP_NO_RAW,
-       .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo cache_block_ops_cp_reginfo[] = {
-@@ -4018,7 +3997,6 @@ static const ARMCPRegInfo cache_block_ops_cp_reginfo[] = {
-       .access = PL0_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
-     { .name = "CIDCR", .cp = 15, .crm = 14, .opc1 = 0,
-       .access = PL1_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo cache_test_clean_cp_reginfo[] = {
-@@ -4031,7 +4009,6 @@ static const ARMCPRegInfo cache_test_clean_cp_reginfo[] = {
-     { .name = "TCI_DCACHE", .cp = 15, .crn = 7, .crm = 14, .opc1 = 0, .opc2 = 3,
-       .access = PL0_R, .type = ARM_CP_CONST | ARM_CP_NO_RAW,
-       .resetvalue = (1 << 30) },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo strongarm_cp_reginfo[] = {
-@@ -4040,7 +4017,6 @@ static const ARMCPRegInfo strongarm_cp_reginfo[] = {
-       .crm = CP_ANY, .opc1 = CP_ANY, .opc2 = CP_ANY,
-       .access = PL1_RW, .resetvalue = 0,
-       .type = ARM_CP_CONST | ARM_CP_OVERRIDE | ARM_CP_NO_RAW },
--    REGINFO_SENTINEL
- };
- 
- static uint64_t midr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-@@ -4107,7 +4083,6 @@ static const ARMCPRegInfo lpae_cp_reginfo[] = {
-       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr1_s),
-                              offsetof(CPUARMState, cp15.ttbr1_ns) },
-       .writefn = vmsa_ttbr_write, },
--    REGINFO_SENTINEL
- };
- 
- static uint64_t aa64_fpcr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-@@ -5126,7 +5101,6 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-       .access = PL1_RW, .accessfn = access_trap_aa32s_el1,
-       .writefn = sdcr_write,
-       .fieldoffset = offsetoflow32(CPUARMState, cp15.mdcr_el3) },
--    REGINFO_SENTINEL
- };
- 
- /* Used to describe the behaviour of EL2 regs when EL2 does not exist.  */
-@@ -5237,7 +5211,6 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
-       .type = ARM_CP_CONST,
-       .cp = 15, .opc1 = 4, .crn = 6, .crm = 0, .opc2 = 2,
-       .access = PL2_RW, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- /* Ditto, but for registers which exist in ARMv8 but not v7 */
-@@ -5246,7 +5219,6 @@ static const ARMCPRegInfo el3_no_el2_v8_cp_reginfo[] = {
-       .cp = 15, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 4,
-       .access = PL2_RW,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
-@@ -5679,7 +5651,6 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
-       .cp = 15, .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 3,
-       .access = PL2_RW,
-       .fieldoffset = offsetof(CPUARMState, cp15.hstr_el2) },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
-@@ -5689,7 +5660,6 @@ static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
-       .access = PL2_RW,
-       .fieldoffset = offsetofhigh32(CPUARMState, cp15.hcr_el2),
-       .writefn = hcr_writehigh },
--    REGINFO_SENTINEL
- };
- 
- static CPAccessResult sel2_access(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -5710,7 +5680,6 @@ static const ARMCPRegInfo el2_sec_cp_reginfo[] = {
-       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 6, .opc2 = 2,
-       .access = PL2_RW, .accessfn = sel2_access,
-       .fieldoffset = offsetof(CPUARMState, cp15.vstcr_el2) },
--    REGINFO_SENTINEL
- };
- 
- static CPAccessResult nsacr_access(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -5836,7 +5805,6 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
-       .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 7, .opc2 = 5,
-       .access = PL3_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae3_write },
--    REGINFO_SENTINEL
- };
- 
- #ifndef CONFIG_USER_ONLY
-@@ -6122,7 +6090,6 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
-       .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_tda,
-       .type = ARM_CP_NOP },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
-@@ -6131,7 +6098,6 @@ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
-       .access = PL0_R, .type = ARM_CP_CONST|ARM_CP_64BIT, .resetvalue = 0 },
-     { .name = "DBGDSAR", .cp = 14, .crm = 2, .opc1 = 0,
-       .access = PL0_R, .type = ARM_CP_CONST|ARM_CP_64BIT, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- /* Return the exception level to which exceptions should be taken
-@@ -6617,7 +6583,6 @@ static void define_debug_regs(ARMCPU *cpu)
-               .fieldoffset = offsetof(CPUARMState, cp15.dbgbcr[i]),
-               .writefn = dbgbcr_write, .raw_writefn = raw_write
-             },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, dbgregs);
+-    if ((r->type & ARM_CP_SPECIAL)) {
++    if (r->type & ARM_CP_SPECIAL_MASK) {
+         r2->type |= ARM_CP_NO_RAW;
      }
-@@ -6636,7 +6601,6 @@ static void define_debug_regs(ARMCPU *cpu)
-               .fieldoffset = offsetof(CPUARMState, cp15.dbgwcr[i]),
-               .writefn = dbgwcr_write, .raw_writefn = raw_write
-             },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, dbgregs);
+     if (((r->crm == CP_ANY) && crm != 0) ||
+@@ -8750,7 +8750,7 @@ void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu,
+     /* Check that the register definition has enough info to handle
+      * reads and writes if they are permitted.
+      */
+-    if (!(r->type & (ARM_CP_SPECIAL|ARM_CP_CONST))) {
++    if (!(r->type & (ARM_CP_SPECIAL_MASK | ARM_CP_CONST))) {
+         if (r->access & PL3_R) {
+             assert((r->fieldoffset ||
+                    (r->bank_fieldoffsets[0] && r->bank_fieldoffsets[1])) ||
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 348a638c5c..a82f5d5984 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1833,7 +1833,9 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
      }
-@@ -6699,7 +6663,6 @@ static void define_pmu_regs(ARMCPU *cpu)
-               .type = ARM_CP_IO,
-               .readfn = pmevtyper_readfn, .writefn = pmevtyper_writefn,
-               .raw_writefn = pmevtyper_rawwrite },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, pmev_regs);
-         g_free(pmevcntr_name);
-@@ -6717,7 +6680,6 @@ static void define_pmu_regs(ARMCPU *cpu)
-               .cp = 15, .opc1 = 0, .crn = 9, .crm = 14, .opc2 = 5,
-               .access = PL0_R, .accessfn = pmreg_access, .type = ARM_CP_CONST,
-               .resetvalue = extract64(cpu->pmceid1, 32, 32) },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, v81_pmu_regs);
-     }
-@@ -6814,7 +6776,6 @@ static const ARMCPRegInfo lor_reginfo[] = {
-       .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 7,
-       .access = PL1_R, .accessfn = access_lor_ns,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
  
- #ifdef TARGET_AARCH64
-@@ -6877,7 +6838,6 @@ static const ARMCPRegInfo pauth_reginfo[] = {
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 3,
-       .access = PL1_RW, .accessfn = access_pauth,
-       .fieldoffset = offsetof(CPUARMState, keys.apib.hi) },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo tlbirange_reginfo[] = {
-@@ -6989,7 +6949,6 @@ static const ARMCPRegInfo tlbirange_reginfo[] = {
-       .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 6, .opc2 = 5,
-       .access = PL3_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae3_write },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo tlbios_reginfo[] = {
-@@ -7061,7 +7020,6 @@ static const ARMCPRegInfo tlbios_reginfo[] = {
-       .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 1, .opc2 = 5,
-       .access = PL3_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae3is_write },
--    REGINFO_SENTINEL
- };
- 
- static uint64_t rndr_readfn(CPUARMState *env, const ARMCPRegInfo *ri)
-@@ -7100,7 +7058,6 @@ static const ARMCPRegInfo rndr_reginfo[] = {
-       .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END | ARM_CP_IO,
-       .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 1,
-       .access = PL0_R, .readfn = rndr_readfn },
--    REGINFO_SENTINEL
- };
- 
- #ifndef CONFIG_USER_ONLY
-@@ -7136,7 +7093,6 @@ static const ARMCPRegInfo dcpop_reg[] = {
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 1,
-       .access = PL0_W, .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
-       .accessfn = aa64_cacheop_poc_access, .writefn = dccvap_writefn },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo dcpodp_reg[] = {
-@@ -7144,7 +7100,6 @@ static const ARMCPRegInfo dcpodp_reg[] = {
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 1,
-       .access = PL0_W, .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
-       .accessfn = aa64_cacheop_poc_access, .writefn = dccvap_writefn },
--    REGINFO_SENTINEL
- };
- #endif /*CONFIG_USER_ONLY*/
- 
-@@ -7246,14 +7201,12 @@ static const ARMCPRegInfo mte_reginfo[] = {
-     { .name = "DC_CIGDSW", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 14, .opc2 = 6,
-       .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo mte_tco_ro_reginfo[] = {
-     { .name = "TCO", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 7,
-       .type = ARM_CP_CONST, .access = PL0_RW, },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo mte_el0_cacheop_reginfo[] = {
-@@ -7305,7 +7258,6 @@ static const ARMCPRegInfo mte_el0_cacheop_reginfo[] = {
-       .accessfn = aa64_zva_access,
- #endif
-     },
--    REGINFO_SENTINEL
- };
- 
- #endif
-@@ -7351,7 +7303,6 @@ static const ARMCPRegInfo predinv_reginfo[] = {
-     { .name = "CPPRCTX", .state = ARM_CP_STATE_AA32,
-       .cp = 15, .opc1 = 0, .crn = 7, .crm = 3, .opc2 = 7,
-       .type = ARM_CP_NOP, .access = PL0_W, .accessfn = access_predinv },
--    REGINFO_SENTINEL
- };
- 
- static uint64_t ccsidr2_read(CPUARMState *env, const ARMCPRegInfo *ri)
-@@ -7366,7 +7317,6 @@ static const ARMCPRegInfo ccsidr2_reginfo[] = {
-       .access = PL1_R,
-       .accessfn = access_aa64_tid2,
-       .readfn = ccsidr2_read, .type = ARM_CP_NO_RAW },
--    REGINFO_SENTINEL
- };
- 
- static CPAccessResult access_aa64_tid3(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -7427,7 +7377,6 @@ static const ARMCPRegInfo jazelle_regs[] = {
-       .cp = 14, .crn = 2, .crm = 0, .opc1 = 7, .opc2 = 0,
-       .accessfn = access_joscr_jmcr,
-       .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo vhe_reginfo[] = {
-@@ -7492,7 +7441,6 @@ static const ARMCPRegInfo vhe_reginfo[] = {
-       .access = PL2_RW, .accessfn = e2h_access,
-       .writefn = gt_virt_cval_write, .raw_writefn = raw_write },
- #endif
--    REGINFO_SENTINEL
- };
- 
- #ifndef CONFIG_USER_ONLY
-@@ -7505,7 +7453,6 @@ static const ARMCPRegInfo ats1e1_reginfo[] = {
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 1,
-       .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
-       .writefn = ats_write64 },
--    REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo ats1cp_reginfo[] = {
-@@ -7517,7 +7464,6 @@ static const ARMCPRegInfo ats1cp_reginfo[] = {
-       .cp = 15, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 1,
-       .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
-       .writefn = ats_write },
--    REGINFO_SENTINEL
- };
- #endif
- 
-@@ -7539,7 +7485,6 @@ static const ARMCPRegInfo actlr2_hactlr2_reginfo[] = {
-       .cp = 15, .opc1 = 4, .crn = 1, .crm = 0, .opc2 = 3,
-       .access = PL2_RW, .type = ARM_CP_CONST,
-       .resetvalue = 0 },
--    REGINFO_SENTINEL
- };
- 
- void register_cp_regs_for_features(ARMCPU *cpu)
-@@ -7646,7 +7591,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL1_R, .type = ARM_CP_CONST,
-               .accessfn = access_aa32_tid3,
-               .resetvalue = cpu->isar.id_isar6 },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, v6_idregs);
-         define_arm_cp_regs(cpu, v6_cp_reginfo);
-@@ -7914,7 +7858,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .opc0 = 3, .opc1 = 3, .crn = 9, .crm = 12, .opc2 = 7,
-               .access = PL0_R, .accessfn = pmreg_access, .type = ARM_CP_CONST,
-               .resetvalue = cpu->pmceid1 },
--            REGINFO_SENTINEL
-         };
- #ifdef CONFIG_USER_ONLY
-         ARMCPRegUserSpaceInfo v8_user_idregs[] = {
-@@ -7944,7 +7887,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .exported_bits = 0x000000f0ffffffff },
-             { .name = "ID_AA64ISAR*_EL1_RESERVED",
-               .is_glob = true                     },
--            REGUSERINFO_SENTINEL
-         };
-         modify_arm_cp_regs(v8_idregs, v8_user_idregs);
- #endif
-@@ -7984,7 +7926,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL2_RW,
-               .resetvalue = vmpidr_def,
-               .fieldoffset = offsetof(CPUARMState, cp15.vmpidr_el2) },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, vpidr_regs);
-         define_arm_cp_regs(cpu, el2_cp_reginfo);
-@@ -8023,7 +7964,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-                   .access = PL2_RW, .accessfn = access_el3_aa32ns,
-                   .type = ARM_CP_NO_RAW,
-                   .writefn = arm_cp_write_ignore, .readfn = mpidr_read },
--                REGINFO_SENTINEL
-             };
-             define_arm_cp_regs(cpu, vpidr_regs);
-             define_arm_cp_regs(cpu, el3_no_el2_cp_reginfo);
-@@ -8046,7 +7986,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .raw_writefn = raw_write, .writefn = sctlr_write,
-               .fieldoffset = offsetof(CPUARMState, cp15.sctlr_el[3]),
-               .resetvalue = cpu->reset_sctlr },
--            REGINFO_SENTINEL
-         };
- 
-         define_arm_cp_regs(cpu, el3_regs);
-@@ -8181,7 +8120,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             { .name = "DUMMY",
-               .cp = 15, .crn = 0, .crm = 7, .opc1 = 0, .opc2 = CP_ANY,
-               .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 0 },
--            REGINFO_SENTINEL
-         };
-         ARMCPRegInfo id_v8_midr_cp_reginfo[] = {
-             { .name = "MIDR_EL1", .state = ARM_CP_STATE_BOTH,
-@@ -8201,7 +8139,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL1_R,
-               .accessfn = access_aa64_tid1,
-               .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
--            REGINFO_SENTINEL
-         };
-         ARMCPRegInfo id_cp_reginfo[] = {
-             /* These are common to v8 and pre-v8 */
-@@ -8219,7 +8156,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL1_R,
-               .accessfn = access_aa32_tid1,
-               .type = ARM_CP_CONST, .resetvalue = 0 },
--            REGINFO_SENTINEL
-         };
-         /* TLBTR is specific to VMSA */
-         ARMCPRegInfo id_tlbtr_reginfo = {
-@@ -8246,25 +8182,23 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             { .name = "MIDR_EL1",
-               .exported_bits = 0x00000000ffffffff },
-             { .name = "REVIDR_EL1"                },
--            REGUSERINFO_SENTINEL
-         };
-         modify_arm_cp_regs(id_v8_midr_cp_reginfo, id_v8_user_midr_cp_reginfo);
- #endif
-         if (arm_feature(env, ARM_FEATURE_OMAPCP) ||
-             arm_feature(env, ARM_FEATURE_STRONGARM)) {
--            ARMCPRegInfo *r;
-+            size_t i;
-             /* Register the blanket "writes ignored" value first to cover the
-              * whole space. Then update the specific ID registers to allow write
-              * access, so that they ignore writes rather than causing them to
-              * UNDEF.
-              */
-             define_one_arm_cp_reg(cpu, &crn0_wi_reginfo);
--            for (r = id_pre_v8_midr_cp_reginfo;
--                 r->type != ARM_CP_SENTINEL; r++) {
--                r->access = PL1_RW;
-+            for (i = 0; i < ARRAY_SIZE(id_pre_v8_midr_cp_reginfo); ++i) {
-+                id_pre_v8_midr_cp_reginfo[i].access = PL1_RW;
-             }
--            for (r = id_cp_reginfo; r->type != ARM_CP_SENTINEL; r++) {
--                r->access = PL1_RW;
-+            for (i = 0; i < ARRAY_SIZE(id_cp_reginfo); ++i) {
-+                id_cp_reginfo[i].access = PL1_RW;
-             }
-             id_mpuir_reginfo.access = PL1_RW;
-             id_tlbtr_reginfo.access = PL1_RW;
-@@ -8287,13 +8221,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             { .name = "MPIDR_EL1", .state = ARM_CP_STATE_BOTH,
-               .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 5,
-               .access = PL1_R, .readfn = mpidr_read, .type = ARM_CP_NO_RAW },
--            REGINFO_SENTINEL
-         };
- #ifdef CONFIG_USER_ONLY
-         ARMCPRegUserSpaceInfo mpidr_user_cp_reginfo[] = {
-             { .name = "MPIDR_EL1",
-               .fixed_bits = 0x0000000080000000 },
--            REGUSERINFO_SENTINEL
-         };
-         modify_arm_cp_regs(mpidr_cp_reginfo, mpidr_user_cp_reginfo);
- #endif
-@@ -8314,7 +8246,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 0, .opc2 = 1,
-               .access = PL3_RW, .type = ARM_CP_CONST,
-               .resetvalue = 0 },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, auxcr_reginfo);
-         if (cpu_isar_feature(aa32_ac2, cpu)) {
-@@ -8349,7 +8280,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-                   .type = ARM_CP_CONST,
-                   .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 3, .opc2 = 0,
-                   .access = PL1_R, .resetvalue = cpu->reset_cbar },
--                REGINFO_SENTINEL
-             };
-             /* We don't implement a r/w 64 bit CBAR currently */
-             assert(arm_feature(env, ARM_FEATURE_CBAR_RO));
-@@ -8379,7 +8309,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .bank_fieldoffsets = { offsetof(CPUARMState, cp15.vbar_s),
-                                      offsetof(CPUARMState, cp15.vbar_ns) },
-               .resetvalue = 0 },
--            REGINFO_SENTINEL
-         };
-         define_arm_cp_regs(cpu, vbar_cp_reginfo);
-     }
-@@ -8833,8 +8762,7 @@ void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu,
-                    r->writefn);
+     /* Handle special cases first */
+-    switch (ri->type & ~(ARM_CP_FLAG_MASK & ~ARM_CP_SPECIAL)) {
++    switch (ri->type & ARM_CP_SPECIAL_MASK) {
++    case 0:
++        break;
+     case ARM_CP_NOP:
+         return;
+     case ARM_CP_NZCV:
+@@ -1908,7 +1910,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
          }
+         return;
+     default:
+-        break;
++        g_assert_not_reached();
      }
--    /* Bad type field probably means missing sentinel at end of reg list */
--    assert(cptype_valid(r->type));
-+
-     for (crm = crmmin; crm <= crmmax; crm++) {
-         for (opc1 = opc1min; opc1 <= opc1max; opc1++) {
-             for (opc2 = opc2min; opc2 <= opc2max; opc2++) {
-@@ -8880,13 +8808,13 @@ void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu,
-     }
- }
- 
--void define_arm_cp_regs_with_opaque(ARMCPU *cpu,
--                                    const ARMCPRegInfo *regs, void *opaque)
-+/* Define a whole list of registers */
-+void define_arm_cp_regs_with_opaque_len(ARMCPU *cpu, const ARMCPRegInfo *regs,
-+                                        void *opaque, size_t len)
- {
--    /* Define a whole list of registers */
--    const ARMCPRegInfo *r;
--    for (r = regs; r->type != ARM_CP_SENTINEL; r++) {
--        define_one_arm_cp_reg_with_opaque(cpu, r, opaque);
-+    size_t i;
-+    for (i = 0; i < len; ++i) {
-+        define_one_arm_cp_reg_with_opaque(cpu, regs + i, opaque);
-     }
- }
- 
-@@ -8898,17 +8826,20 @@ void define_arm_cp_regs_with_opaque(ARMCPU *cpu,
-  * user-space cannot alter any values and dynamic values pertaining to
-  * execution state are hidden from user space view anyway.
-  */
--void modify_arm_cp_regs(ARMCPRegInfo *regs, const ARMCPRegUserSpaceInfo *mods)
-+void modify_arm_cp_regs_with_len(ARMCPRegInfo *regs, size_t regs_len,
-+                                 const ARMCPRegUserSpaceInfo *mods,
-+                                 size_t mods_len)
- {
--    const ARMCPRegUserSpaceInfo *m;
--    ARMCPRegInfo *r;
--
--    for (m = mods; m->name; m++) {
-+    for (size_t mi = 0; mi < mods_len; ++mi) {
-+        const ARMCPRegUserSpaceInfo *m = mods + mi;
-         GPatternSpec *pat = NULL;
-+
-         if (m->is_glob) {
-             pat = g_pattern_spec_new(m->name);
+     if ((ri->type & ARM_CP_FPU) && !fp_access_check(s)) {
+         return;
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index fc7917cdf4..050c237b07 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -4744,7 +4744,9 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
          }
--        for (r = regs; r->type != ARM_CP_SENTINEL; r++) {
-+        for (size_t ri = 0; ri < regs_len; ++ri) {
-+            ARMCPRegInfo *r = regs + ri;
-+
-             if (pat && g_pattern_match_string(pat, r->name)) {
-                 r->type = ARM_CP_CONST;
-                 r->access = PL0U_R;
+ 
+         /* Handle special cases first */
+-        switch (ri->type & ~(ARM_CP_FLAG_MASK & ~ARM_CP_SPECIAL)) {
++        switch (ri->type & ARM_CP_SPECIAL_MASK) {
++        case 0:
++            break;
+         case ARM_CP_NOP:
+             return;
+         case ARM_CP_WFI:
+@@ -4756,7 +4758,7 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+             s->base.is_jmp = DISAS_WFI;
+             return;
+         default:
+-            break;
++            g_assert_not_reached();
+         }
+ 
+         if ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) && (ri->type & ARM_CP_IO)) {
 -- 
 2.34.1
 
