@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA1751621D
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 08:05:22 +0200 (CEST)
-Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBD651622A
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 08:17:32 +0200 (CEST)
+Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl2ht-0000vL-Ex
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 02:05:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43334)
+	id 1nl2te-0005g6-Ea
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 02:17:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2Tn-0006t2-FY
- for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:52 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:35489)
+ id 1nl2Tp-0006tD-NH
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:57 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:34439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2Tl-0001H5-H9
- for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:47 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- w5-20020a17090aaf8500b001d74c754128so13803574pjq.0
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:41 -0700 (PDT)
+ id 1nl2Tl-0001HG-Jm
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:49 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ qe3-20020a17090b4f8300b001dc24e4da73so1999133pjb.1
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GMeRjC5hzPb2SDKOi3vpc43SA/xcWIkbPZ4jmzf3DP8=;
- b=TpQd7CmX3CeYn/Tdmv1/iDXvrFz1SE26KymdhHUwfEB0c7XYHiOtkOjL5zq6vx12Fd
- azDnMV4yWyq5wLEqDxpghITGarghnN3JgtfKAoTXEfR3KEIECiWpKogNQbCqCO6eMkPl
- MYBOrjgI0qv1PHuWKbzq3fu1oUlx21bqdZx6iPLqi6gXWdbOxND8bvjgJ4UxcE5h1FfW
- PI2BT/wN6UFWndc8oScOK9DsCzIIvSCaE/w0WY+tw2FXvc8J1Z6DrQveEyFfK7FOLBEI
- tGY59J+Zq+Pm0mK/vtuhVciNCnfHlhL7mLphYVepZTIHUexZ7k73CN+vzALEOH2Cfos8
- HkSA==
+ bh=qhhRxFmH56xTpD71QaIiTZcsW/xl8vNYPr7Quyst7dg=;
+ b=IoidiJAVjpYHJYpaNmM5dyMHt5gkkPKXVdHzo69NCflhxgswKv3i67XXX/DmQY/gE3
+ 5MhCKKxUDnhCzctCkPmRIoBvXIpccfTNme5A3NrkGtMQBBExe7y4APc/v4ydL9j6Mdj7
+ f7R8GSp3f0aksfxHILCIQ6dMhC5sRR4Ug98PfTzlH1Aj9dwUWHsSPLS1ywzb4EG2QAwq
+ UOp/DqZhOjUWEzRZA9MRk28JEI48o2sH8TKVT/yW9Z5VuvyYq65VZG0l8/yUasK5SbUk
+ ENnrLkzcVp4fZDgHp4SZUUKVZlIJQrahipnsqc6Vy1M5gnSDoItjIJpTMQyBsXsmj/qw
+ tJ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GMeRjC5hzPb2SDKOi3vpc43SA/xcWIkbPZ4jmzf3DP8=;
- b=RmSJyKWxbHd72+YJYLmKyb70IrpbihpqbdijQSAM/SJsYONRQ5HNEJ4S1K8oqah/BS
- rDfDHIH917Fpu0JbnNlVqEU1r5PzCR4ij7+uBXyRm1wZTk2BbxfADqrtofXMcQrvCE9v
- nogC6oFjqBL5DES2eSl0OczTt0bWQAunbTyZ0TxyCHPfU+kGIEwOL7Eb7XH2/3ucDy3w
- cE69amAYhzxaiqAXxzP7zHPXHWhN2J8aYLVFTetDyjvJf68Relmqj/D63GN5QjkarsW2
- danT9s3IKv5LU63cyYLHMXj0+1UgmTqHx6cbUF7wxElvSI/MwX0mChBEbiepyX4nd9Yk
- 11qA==
-X-Gm-Message-State: AOAM530eDlQuWu6zue/TsrebSKjue7PVdb5/Hf1AMO5JFEO9QM4X2PaW
- oKoaP3c9pCrdl3AgSdTbeJl+BiApqwn7rQ==
-X-Google-Smtp-Source: ABdhPJzPjEVRymFenagZR6JGOHSs6k9/ze+0V6lBEnNghqxR1K8DIcBttj3nbX/93c3BWkx98TJIsw==
-X-Received: by 2002:a17:90a:d083:b0:1c9:94bb:732d with SMTP id
- k3-20020a17090ad08300b001c994bb732dmr7144225pju.106.1651384240653; 
- Sat, 30 Apr 2022 22:50:40 -0700 (PDT)
+ bh=qhhRxFmH56xTpD71QaIiTZcsW/xl8vNYPr7Quyst7dg=;
+ b=UolBCxiMjYQ31yuSWErdybpxmarGalSw7HtaRarAz029fRx6xNKFxeNsY6LuKfGQM7
+ eT8dsUG4JpOUlLkeeG+2Lea2cjM5qb1mg4J8qQgrNkPtRq1MT6kgEH/IhmGggJosJR3d
+ vA6v7sk7Rq/39+SDa+u+rXnTfRsVVOunWZkz3RoEQcNh38AtQNpHysUiU81/ajsTBter
+ vATxeNmsQokqUosPSA5y8JQ7wUcN3TIUKCpca0N1010t1SRDCSsvCjKzYmm5//Reye9x
+ 5QYW6GelLLslgAK2lCM1ceMvLbGixEVEwOduAH3faS+zK43gNBZRts+GTtZIdGK+j1f2
+ kNoQ==
+X-Gm-Message-State: AOAM530dQBY9W5SrQLnVMZ96HqgbvhCERRZvhTZpGzgYHOjLeryLKTio
+ d3iz8CzBKgFClfeFGqATgYYVzk4EfeJLKA==
+X-Google-Smtp-Source: ABdhPJwlTc4jdXYI65zxfDAc3dMFRmq8uChaXImOxlVPEs6X52tBsqjGhqezdXbHitZrRK1Gfqni6Q==
+X-Received: by 2002:a17:90b:3510:b0:1dc:bac:64f3 with SMTP id
+ ls16-20020a17090b351000b001dc0bac64f3mr10422532pjb.137.1651384241444; 
+ Sat, 30 Apr 2022 22:50:41 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.39
+ cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 22:50:40 -0700 (PDT)
+ Sat, 30 Apr 2022 22:50:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/45] target/arm: Store cpregs key in the hash table
- directly
-Date: Sat, 30 Apr 2022 22:49:53 -0700
-Message-Id: <20220501055028.646596-12-richard.henderson@linaro.org>
+Subject: [PATCH v4 12/45] target/arm: Merge allocation of the cpreg and its
+ name
+Date: Sat, 30 Apr 2022 22:49:54 -0700
+Message-Id: <20220501055028.646596-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220501055028.646596-1-richard.henderson@linaro.org>
 References: <20220501055028.646596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,180 +89,79 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cast the uint32_t key into a gpointer directly, which
-allows us to avoid allocating storage for each key.
+Simplify freeing cp_regs hash table entries by using a single
+allocation for the entire value.
 
-Use g_hash_table_lookup when we already have a gpointer
-(e.g. for callbacks like count_cpreg), or when using
-get_arm_cp_reginfo would require casting away const.
+This fixes a theoretical bug if we were to ever free the entire
+hash table, because we've been installing string literal constants
+into the cpreg structure in define_arm_vh_e2h_redirects_aliases.
+However, at present we only free entries created for AArch32
+wildcard cpregs which get overwritten by more specific cpregs,
+so this bug is never exposed.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v4: Adjust usage of functions to match new note above.
----
- target/arm/cpu.c     |  4 ++--
- target/arm/gdbstub.c |  2 +-
- target/arm/helper.c  | 41 ++++++++++++++++++-----------------------
- 3 files changed, 21 insertions(+), 26 deletions(-)
+ target/arm/cpu.c    | 16 +---------------
+ target/arm/helper.c | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 17 deletions(-)
 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 268274ce89..e81d96c3c1 100644
+index e81d96c3c1..6e8b39dc9e 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1088,8 +1088,8 @@ static void arm_cpu_initfn(Object *obj)
+@@ -1069,27 +1069,13 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
+     return (Aff1 << ARM_AFF1_SHIFT) | Aff0;
+ }
+ 
+-static void cpreg_hashtable_data_destroy(gpointer data)
+-{
+-    /*
+-     * Destroy function for cpu->cp_regs hashtable data entries.
+-     * We must free the name string because it was g_strdup()ed in
+-     * add_cpreg_to_hashtable(). It's OK to cast away the 'const'
+-     * from r->name because we know we definitely allocated it.
+-     */
+-    ARMCPRegInfo *r = data;
+-
+-    g_free((void *)r->name);
+-    g_free(r);
+-}
+-
+ static void arm_cpu_initfn(Object *obj)
+ {
      ARMCPU *cpu = ARM_CPU(obj);
  
      cpu_set_cpustate_pointers(cpu);
--    cpu->cp_regs = g_hash_table_new_full(g_int_hash, g_int_equal,
--                                         g_free, cpreg_hashtable_data_destroy);
-+    cpu->cp_regs = g_hash_table_new_full(g_direct_hash, g_direct_equal,
-+                                         NULL, cpreg_hashtable_data_destroy);
+     cpu->cp_regs = g_hash_table_new_full(g_direct_hash, g_direct_equal,
+-                                         NULL, cpreg_hashtable_data_destroy);
++                                         NULL, g_free);
  
      QLIST_INIT(&cpu->pre_el_change_hooks);
      QLIST_INIT(&cpu->el_change_hooks);
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index f01a126108..f5b35cd55f 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -273,7 +273,7 @@ static void arm_gen_one_xml_sysreg_tag(GString *s, DynamicGDBXMLInfo *dyn_xml,
- static void arm_register_sysreg_for_xml(gpointer key, gpointer value,
-                                         gpointer p)
- {
--    uint32_t ri_key = *(uint32_t *)key;
-+    uint32_t ri_key = (uintptr_t)key;
-     ARMCPRegInfo *ri = value;
-     RegisterSysregXmlParam *param = (RegisterSysregXmlParam *)p;
-     GString *s = param->s;
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e5fc22bb69..edfb5c3d38 100644
+index edfb5c3d38..44c05deb5b 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -214,11 +214,8 @@ bool write_list_to_cpustate(ARMCPU *cpu)
- static void add_cpreg_to_list(gpointer key, gpointer opaque)
- {
-     ARMCPU *cpu = opaque;
--    uint64_t regidx;
--    const ARMCPRegInfo *ri;
--
--    regidx = *(uint32_t *)key;
--    ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
-+    uint32_t regidx = (uintptr_t)key;
-+    const ARMCPRegInfo *ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
- 
-     if (!(ri->type & (ARM_CP_NO_RAW|ARM_CP_ALIAS))) {
-         cpu->cpreg_indexes[cpu->cpreg_array_len] = cpreg_to_kvm_id(regidx);
-@@ -230,11 +227,9 @@ static void add_cpreg_to_list(gpointer key, gpointer opaque)
- static void count_cpreg(gpointer key, gpointer opaque)
- {
-     ARMCPU *cpu = opaque;
--    uint64_t regidx;
-     const ARMCPRegInfo *ri;
- 
--    regidx = *(uint32_t *)key;
--    ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
-+    ri = g_hash_table_lookup(cpu->cp_regs, key);
- 
-     if (!(ri->type & (ARM_CP_NO_RAW|ARM_CP_ALIAS))) {
-         cpu->cpreg_array_len++;
-@@ -243,8 +238,8 @@ static void count_cpreg(gpointer key, gpointer opaque)
- 
- static gint cpreg_key_compare(gconstpointer a, gconstpointer b)
- {
--    uint64_t aidx = cpreg_to_kvm_id(*(uint32_t *)a);
--    uint64_t bidx = cpreg_to_kvm_id(*(uint32_t *)b);
-+    uint64_t aidx = cpreg_to_kvm_id((uintptr_t)a);
-+    uint64_t bidx = cpreg_to_kvm_id((uintptr_t)b);
- 
-     if (aidx > bidx) {
-         return 1;
-@@ -5915,15 +5910,16 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
-     for (i = 0; i < ARRAY_SIZE(aliases); i++) {
-         const struct E2HAlias *a = &aliases[i];
-         ARMCPRegInfo *src_reg, *dst_reg, *new_reg;
--        uint32_t *new_key;
-         bool ok;
- 
-         if (a->feature && !a->feature(&cpu->isar)) {
-             continue;
-         }
- 
--        src_reg = g_hash_table_lookup(cpu->cp_regs, &a->src_key);
--        dst_reg = g_hash_table_lookup(cpu->cp_regs, &a->dst_key);
-+        src_reg = g_hash_table_lookup(cpu->cp_regs,
-+                                      (gpointer)(uintptr_t)a->src_key);
-+        dst_reg = g_hash_table_lookup(cpu->cp_regs,
-+                                      (gpointer)(uintptr_t)a->dst_key);
-         g_assert(src_reg != NULL);
-         g_assert(dst_reg != NULL);
- 
-@@ -5936,14 +5932,14 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
- 
-         /* Create alias before redirection so we dup the right data. */
-         new_reg = g_memdup(src_reg, sizeof(ARMCPRegInfo));
--        new_key = g_memdup(&a->new_key, sizeof(uint32_t));
- 
-         new_reg->name = a->new_name;
-         new_reg->type |= ARM_CP_ALIAS;
-         /* Remove PL1/PL0 access, leaving PL2/PL3 R/W in place.  */
-         new_reg->access &= PL2_RW;
- 
--        ok = g_hash_table_insert(cpu->cp_regs, new_key, new_reg);
-+        ok = g_hash_table_insert(cpu->cp_regs,
-+                                 (gpointer)(uintptr_t)a->new_key, new_reg);
-         g_assert(ok);
- 
-         src_reg->opaque = dst_reg;
-@@ -8509,7 +8505,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-     /* Private utility function for define_one_arm_cp_reg_with_opaque():
+@@ -8506,11 +8506,17 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
       * add a single reginfo struct to the hash table.
       */
--    uint32_t *key = g_new(uint32_t, 1);
-+    uint32_t key;
-     ARMCPRegInfo *r2 = g_memdup(r, sizeof(ARMCPRegInfo));
+     uint32_t key;
+-    ARMCPRegInfo *r2 = g_memdup(r, sizeof(ARMCPRegInfo));
++    ARMCPRegInfo *r2;
      int is64 = (r->type & ARM_CP_64BIT) ? 1 : 0;
      int ns = (secstate & ARM_CP_SECSTATE_NS) ? 1 : 0;
-@@ -8576,10 +8572,10 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-         if (r->cp == 0 || r->state == ARM_CP_STATE_BOTH) {
-             r2->cp = CP_REG_ARM64_SYSREG_CP;
-         }
--        *key = ENCODE_AA64_CP_REG(r2->cp, r2->crn, crm,
--                                  r2->opc0, opc1, opc2);
-+        key = ENCODE_AA64_CP_REG(r2->cp, r2->crn, crm,
-+                                 r2->opc0, opc1, opc2);
-     } else {
--        *key = ENCODE_CP_REG(r2->cp, is64, ns, r2->crn, crm, opc1, opc2);
-+        key = ENCODE_CP_REG(r2->cp, is64, ns, r2->crn, crm, opc1, opc2);
-     }
-     if (opaque) {
-         r2->opaque = opaque;
-@@ -8621,8 +8617,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-      * requested.
++    size_t name_len;
++
++    /* Combine cpreg and name into one allocation. */
++    name_len = strlen(name) + 1;
++    r2 = g_malloc(sizeof(*r2) + name_len);
++    *r2 = *r;
++    r2->name = memcpy(r2 + 1, name, name_len);
+ 
+-    r2->name = g_strdup(name);
+     /* Reset the secure state to the specific incoming state.  This is
+      * necessary as the register may have been defined with both states.
       */
-     if (!(r->type & ARM_CP_OVERRIDE)) {
--        ARMCPRegInfo *oldreg;
--        oldreg = g_hash_table_lookup(cpu->cp_regs, key);
-+        const ARMCPRegInfo *oldreg = get_arm_cp_reginfo(cpu->cp_regs, key);
-         if (oldreg && !(oldreg->type & ARM_CP_OVERRIDE)) {
-             fprintf(stderr, "Register redefined: cp=%d %d bit "
-                     "crn=%d crm=%d opc1=%d opc2=%d, "
-@@ -8632,7 +8627,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-             g_assert_not_reached();
-         }
-     }
--    g_hash_table_insert(cpu->cp_regs, key, r2);
-+    g_hash_table_insert(cpu->cp_regs, (gpointer)(uintptr_t)key, r2);
- }
- 
- 
-@@ -8864,7 +8859,7 @@ void modify_arm_cp_regs_with_len(ARMCPRegInfo *regs, size_t regs_len,
- 
- const ARMCPRegInfo *get_arm_cp_reginfo(GHashTable *cpregs, uint32_t encoded_cp)
- {
--    return g_hash_table_lookup(cpregs, &encoded_cp);
-+    return g_hash_table_lookup(cpregs, (gpointer)(uintptr_t)encoded_cp);
- }
- 
- void arm_cp_write_ignore(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.34.1
 
