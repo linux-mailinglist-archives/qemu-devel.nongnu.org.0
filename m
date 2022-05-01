@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F325516215
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 07:56:28 +0200 (CEST)
-Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0A3516217
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 07:57:00 +0200 (CEST)
+Received: from localhost ([::1]:46930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl2ZG-0001Y5-Pa
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 01:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42958)
+	id 1nl2Zn-0002Lk-Ly
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 01:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2TZ-0006jf-U9
- for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:33 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:47087)
+ id 1nl2Tb-0006jz-Fh
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:35 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2TY-0001Du-26
- for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:33 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id c11so32112plg.13
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:31 -0700 (PDT)
+ id 1nl2TZ-0001E9-Id
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 01:50:35 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id e24so10350950pjt.2
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zvWfOgiVlCa+nQRvoGR+8amS647lN/tp51n8nbuHT9A=;
- b=UYOh/JChReDOHzCABmR4USMKZY+xDB1iQy8go0UfcQIhQIosqjulUUedBDdOr6W/CV
- oHpJX2GmIIIRn+yQtcJnlZ8dWaK7z0kvYAXojNJqzgEqwxkMZdYwoMQC0eO2TiCJksU3
- MgHPkWRkcc5XecrJZ7K9RXeJhiFaEulygl2LMsMvAXXohieYX3PskwZN/rg6MYfSDRQS
- M67ftDdrx/X2GiFo6UGeNy6sevqyfJant+6XcCv9sJ7woROfw1RKasol0N/cWnrk3MiG
- Kz9WxPvKRv2SuAHYjDJ7z6hT5pFf/Twy7K22UeYC04730lEWn/czzq/t2IknASGNpnIY
- 2PjA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dx5oiRJc+noH6sVw0rqRTwoMiOy0KFwAAYpCE0cKydI=;
+ b=FXv2Ap61Mj45dxmTRg+AU2WAE94b6Gx//d7KHUC4Lk7dGyPJoJ7WUGijvyxj0QJYeH
+ Hv2NPLZnjSCShg30ydlkFAr8LwcYyR0JiOvj35osagvgWVX3PkcRS5/980ZKtM5vNl4O
+ pRBF1rKuzVrWTYTZgtRsFU6WAjJH27EEcXtw+Tc1S5bsLebaOcjWMAOVEF6+7a+dstVd
+ nb/DqCUikBQG9XHvPohbGSOCrjooSiMvM70/SfD+Omqsi05ICYPexOm0QuxUhSZJPJHj
+ ItzGNptlNu6YALGyyhd8j5ZwrlrMe+dpAE1hnBNNkhW4PCDJO3Gq3fxZhPuCYAhh6te4
+ Jkhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zvWfOgiVlCa+nQRvoGR+8amS647lN/tp51n8nbuHT9A=;
- b=mNeRgaNkyDrzW8z/+XxOdWRr9zxJPrbMleY6shMRu8/VXRtfOkt96iJJ1UqR+UqZ0j
- Uhq8MqxoUlBW9wxJULcD3aY7MgFP3eJmNlaIyjuinuiYvI3nkVj+sfoPeb4EN+rbVK79
- a5ye7Wxo5iQDgmSv0u4aaoVzuaRhRefCzAvp3ZKboyUsBI/bR6CohEdWOwNUWl0KKNZj
- mEHu6RQOB4mW4Ir7h1iGamLY+txlEsHix7oOedCrkPylwHf2W7Zj1jxUbkY3Ss1l2cAq
- KGK05bZFQZRPmaCM5v7BzWg95+5NRjrsX4+UVsjkBhNCupUyCAd9aMD+hvNxL76f6c33
- /KUg==
-X-Gm-Message-State: AOAM5310yajbD1VNg4ykw4ypgooLY45HaUM6TdVgr84lnqOns701lfbz
- 5kIvEB8wRQSJ47RTa7T9XCD3Jh3quoFx+g==
-X-Google-Smtp-Source: ABdhPJwK4P33QRAHX/brZrY+0r1CiDlBUrAm1pA0kAK6WyHIl4o/CLuB7KycQiFXJXe+hN2/+BouXQ==
-X-Received: by 2002:a17:90b:33ca:b0:1d7:d322:9aa2 with SMTP id
- lk10-20020a17090b33ca00b001d7d3229aa2mr7010713pjb.21.1651384230147; 
- Sat, 30 Apr 2022 22:50:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dx5oiRJc+noH6sVw0rqRTwoMiOy0KFwAAYpCE0cKydI=;
+ b=J2ZAeIDfpYG0tXCiS0mSpe/k6TzuiWhVWbINjLNjFtY3DYxyREBdfrq005lizXh9C0
+ hH9hmow0EsQGgxR+kcghvsB1SbZCnBrbGq0eJqj0okJ33AZsRGPX11KsiZA+SHBAMPPU
+ AzJIB7LZnkG8ACqfJbtk3O1Z9+sYyBe6j+Zov1RZm1N7k9c5b3MuyXKEWOxj1gymxxoF
+ cCNyQaqs2Sz/P8/L4vWn9ZNS+wvtXH3J8etjBQ7A83mj7+ZEy3ouYM387bMAtg/lvQLf
+ XLL5sUYeGRmXlZ1zMh0WbECckOvd3t6bw5Tza28RTB636+lzQ5SQPkoKwSb9L/AiwQiX
+ qRlw==
+X-Gm-Message-State: AOAM5322tl+JwCZ1aPkFIsItbX15KXTgJz7yU6hiXIUM5awO55PWYNSQ
+ 88B17yEj33OnocZXPhohK6V75jZuPPgNkw==
+X-Google-Smtp-Source: ABdhPJwZaIgaJEjlKPGaKR1BuBhYfQdIrnXmE+nQLtm1Hc2lo0L05F+FizhZKcif1EdLEvy4l7MnpA==
+X-Received: by 2002:a17:90a:e7c1:b0:1d2:b8f8:ecc1 with SMTP id
+ kb1-20020a17090ae7c100b001d2b8f8ecc1mr12002875pjb.176.1651384232254; 
+ Sat, 30 Apr 2022 22:50:32 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.28
+ cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 22:50:29 -0700 (PDT)
+ Sat, 30 Apr 2022 22:50:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/45] target/arm: Cleanups, new features, new cpus
-Date: Sat, 30 Apr 2022 22:49:42 -0700
-Message-Id: <20220501055028.646596-1-richard.henderson@linaro.org>
+Subject: [PATCH v4 02/45] target/arm: Reorg CPAccessResult and
+ access_check_cp_reg
+Date: Sat, 30 Apr 2022 22:49:44 -0700
+Message-Id: <20220501055028.646596-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220501055028.646596-1-richard.henderson@linaro.org>
+References: <20220501055028.646596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,118 +85,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v4:
-  * Rebase on master, where the first third is upstream.
-  * Split changes to add_cpreg_to_hashtable into bite sized chunks.
-  * Add ARM_CP_EL3_NO_EL2_{UNDEF,KEEP} flags.
-  * Fix access check for SCXTNUM_ELx (damien).
+Rearrange the values of the enumerators of CPAccessResult
+so that we may directly extract the target el. For the two
+special cases in access_check_cp_reg, use CPAccessResult.
 
-Patches lacking review:
-  05-target-arm-Reorg-ARMCPRegInfo-type-field-bits.patch
-  06-target-arm-Avoid-bare-abort-or-assert-0.patch
-  10-target-arm-Drop-always-true-test-in-define_arm_vh.patch
-  11-target-arm-Store-cpregs-key-in-the-hash-table-dir.patch
-  12-target-arm-Merge-allocation-of-the-cpreg-and-its-.patch
-  13-target-arm-Hoist-computation-of-key-in-add_cpreg_.patch
-  14-target-arm-Consolidate-cpreg-updates-in-add_cpreg.patch
-  15-target-arm-Use-bool-for-is64-and-ns-in-add_cpreg_.patch
-  16-target-arm-Hoist-isbanked-computation-in-add_cpre.patch
-  17-target-arm-Perform-override-check-early-in-add_cp.patch
-  18-target-arm-Reformat-comments-in-add_cpreg_to_hash.patch
-  19-target-arm-Remove-HOST_BIG_ENDIAN-ifdef-in-add_cp.patch
-  20-target-arm-Handle-cpreg-registration-for-missing-.patch
-  21-target-arm-Drop-EL3-no-EL2-fallbacks.patch
-  22-target-arm-Merge-zcr-reginfo.patch
-  34-target-arm-Add-minimal-RAS-registers.patch
-  41-target-arm-Enable-FEAT_CSV2_2-for-cpu-max.patch
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpregs.h    | 26 ++++++++++++--------
+ target/arm/op_helper.c | 56 +++++++++++++++++++++---------------------
+ 2 files changed, 44 insertions(+), 38 deletions(-)
 
-
-r~
-
-
-Richard Henderson (45):
-  target/arm: Split out cpregs.h
-  target/arm: Reorg CPAccessResult and access_check_cp_reg
-  target/arm: Replace sentinels with ARRAY_SIZE in cpregs.h
-  target/arm: Make some more cpreg data static const
-  target/arm: Reorg ARMCPRegInfo type field bits
-  target/arm: Avoid bare abort() or assert(0)
-  target/arm: Change cpreg access permissions to enum
-  target/arm: Name CPState type
-  target/arm: Name CPSecureState type
-  target/arm: Drop always-true test in
-    define_arm_vh_e2h_redirects_aliases
-  target/arm: Store cpregs key in the hash table directly
-  target/arm: Merge allocation of the cpreg and its name
-  target/arm: Hoist computation of key in add_cpreg_to_hashtable
-  target/arm: Consolidate cpreg updates in add_cpreg_to_hashtable
-  target/arm: Use bool for is64 and ns in add_cpreg_to_hashtable
-  target/arm: Hoist isbanked computation in add_cpreg_to_hashtable
-  target/arm: Perform override check early in add_cpreg_to_hashtable
-  target/arm: Reformat comments in add_cpreg_to_hashtable
-  target/arm: Remove HOST_BIG_ENDIAN ifdef in add_cpreg_to_hashtable
-  target/arm: Handle cpreg registration for missing EL
-  target/arm: Drop EL3 no EL2 fallbacks
-  target/arm: Merge zcr reginfo
-  target/arm: Add isar predicates for FEAT_Debugv8p2
-  target/arm: Adjust definition of CONTEXTIDR_EL2
-  target/arm: Move cortex impdef sysregs to cpu_tcg.c
-  target/arm: Update qemu-system-arm -cpu max to cortex-a57
-  target/arm: Set ID_DFR0.PerfMon for qemu-system-arm -cpu max
-  target/arm: Split out aa32_max_features
-  target/arm: Annotate arm_max_initfn with FEAT identifiers
-  target/arm: Use field names for manipulating EL2 and EL3 modes
-  target/arm: Enable FEAT_Debugv8p2 for -cpu max
-  target/arm: Enable FEAT_Debugv8p4 for -cpu max
-  target/arm: Add isar_feature_{aa64,any}_ras
-  target/arm: Add minimal RAS registers
-  target/arm: Enable SCR and HCR bits for RAS
-  target/arm: Implement virtual SError exceptions
-  target/arm: Implement ESB instruction
-  target/arm: Enable FEAT_RAS for -cpu max
-  target/arm: Enable FEAT_IESB for -cpu max
-  target/arm: Enable FEAT_CSV2 for -cpu max
-  target/arm: Enable FEAT_CSV2_2 for -cpu max
-  target/arm: Enable FEAT_CSV3 for -cpu max
-  target/arm: Enable FEAT_DGH for -cpu max
-  target/arm: Define cortex-a76
-  target/arm: Define neoverse-n1
-
- docs/system/arm/emulation.rst |  10 +
- docs/system/arm/virt.rst      |   2 +
- target/arm/cpregs.h           | 462 +++++++++++++++++
- target/arm/cpu.h              | 416 ++--------------
- target/arm/helper.h           |   1 +
- target/arm/internals.h        |  16 +
- target/arm/syndrome.h         |   5 +
- target/arm/a32.decode         |  16 +-
- target/arm/t32.decode         |  18 +-
- hw/arm/pxa2xx.c               |   2 +-
- hw/arm/pxa2xx_pic.c           |   2 +-
- hw/arm/sbsa-ref.c             |   2 +
- hw/arm/virt.c                 |   2 +
- hw/intc/arm_gicv3_cpuif.c     |   6 +-
- hw/intc/arm_gicv3_kvm.c       |   3 +-
- target/arm/cpu.c              |  84 ++--
- target/arm/cpu64.c            | 353 +++++++------
- target/arm/cpu_tcg.c          | 232 ++++++---
- target/arm/gdbstub.c          |   5 +-
- target/arm/helper.c           | 909 ++++++++++++++++++----------------
- target/arm/hvf/hvf.c          |   2 +-
- target/arm/kvm-stub.c         |   4 +-
- target/arm/kvm.c              |   4 +-
- target/arm/machine.c          |   4 +-
- target/arm/op_helper.c        | 100 ++--
- target/arm/translate-a64.c    |  32 +-
- target/arm/translate-neon.c   |   2 +-
- target/arm/translate.c        |  36 +-
- 28 files changed, 1604 insertions(+), 1126 deletions(-)
- create mode 100644 target/arm/cpregs.h
-
+diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
+index 8064c0763e..7f2c30eab1 100644
+--- a/target/arm/cpregs.h
++++ b/target/arm/cpregs.h
+@@ -167,26 +167,32 @@ static inline bool cptype_valid(int cptype)
+ typedef enum CPAccessResult {
+     /* Access is permitted */
+     CP_ACCESS_OK = 0,
++
++    /*
++     * Combined with one of the following, the low 2 bits indicate the
++     * target exception level.  If 0, the exception is taken to the usual
++     * target EL (EL1 or PL1 if in EL0, otherwise to the current EL).
++     */
++    CP_ACCESS_EL_MASK = 3,
++
+     /*
+      * Access fails due to a configurable trap or enable which would
+      * result in a categorized exception syndrome giving information about
+      * the failing instruction (ie syndrome category 0x3, 0x4, 0x5, 0x6,
+-     * 0xc or 0x18). The exception is taken to the usual target EL (EL1 or
+-     * PL1 if in EL0, otherwise to the current EL).
++     * 0xc or 0x18).
+      */
+-    CP_ACCESS_TRAP = 1,
++    CP_ACCESS_TRAP = (1 << 2),
++    CP_ACCESS_TRAP_EL2 = CP_ACCESS_TRAP | 2,
++    CP_ACCESS_TRAP_EL3 = CP_ACCESS_TRAP | 3,
++
+     /*
+      * Access fails and results in an exception syndrome 0x0 ("uncategorized").
+      * Note that this is not a catch-all case -- the set of cases which may
+      * result in this failure is specifically defined by the architecture.
+      */
+-    CP_ACCESS_TRAP_UNCATEGORIZED = 2,
+-    /* As CP_ACCESS_TRAP, but for traps directly to EL2 or EL3 */
+-    CP_ACCESS_TRAP_EL2 = 3,
+-    CP_ACCESS_TRAP_EL3 = 4,
+-    /* As CP_ACCESS_UNCATEGORIZED, but for traps directly to EL2 or EL3 */
+-    CP_ACCESS_TRAP_UNCATEGORIZED_EL2 = 5,
+-    CP_ACCESS_TRAP_UNCATEGORIZED_EL3 = 6,
++    CP_ACCESS_TRAP_UNCATEGORIZED = (2 << 2),
++    CP_ACCESS_TRAP_UNCATEGORIZED_EL2 = CP_ACCESS_TRAP_UNCATEGORIZED | 2,
++    CP_ACCESS_TRAP_UNCATEGORIZED_EL3 = CP_ACCESS_TRAP_UNCATEGORIZED | 3,
+ } CPAccessResult;
+ 
+ typedef struct ARMCPRegInfo ARMCPRegInfo;
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index 67be91c732..76499ffa14 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -632,11 +632,13 @@ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
+                                  uint32_t isread)
+ {
+     const ARMCPRegInfo *ri = rip;
++    CPAccessResult res = CP_ACCESS_OK;
+     int target_el;
+ 
+     if (arm_feature(env, ARM_FEATURE_XSCALE) && ri->cp < 14
+         && extract32(env->cp15.c15_cpar, ri->cp, 1) == 0) {
+-        raise_exception(env, EXCP_UDEF, syndrome, exception_target_el(env));
++        res = CP_ACCESS_TRAP;
++        goto fail;
+     }
+ 
+     /*
+@@ -655,48 +657,46 @@ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
+         mask &= ~((1 << 4) | (1 << 14));
+ 
+         if (env->cp15.hstr_el2 & mask) {
+-            target_el = 2;
+-            goto exept;
++            res = CP_ACCESS_TRAP_EL2;
++            goto fail;
+         }
+     }
+ 
+-    if (!ri->accessfn) {
++    if (ri->accessfn) {
++        res = ri->accessfn(env, ri, isread);
++    }
++    if (likely(res == CP_ACCESS_OK)) {
+         return;
+     }
+ 
+-    switch (ri->accessfn(env, ri, isread)) {
+-    case CP_ACCESS_OK:
+-        return;
++ fail:
++    switch (res & ~CP_ACCESS_EL_MASK) {
+     case CP_ACCESS_TRAP:
+-        target_el = exception_target_el(env);
+-        break;
+-    case CP_ACCESS_TRAP_EL2:
+-        /* Requesting a trap to EL2 when we're in EL3 is
+-         * a bug in the access function.
+-         */
+-        assert(arm_current_el(env) != 3);
+-        target_el = 2;
+-        break;
+-    case CP_ACCESS_TRAP_EL3:
+-        target_el = 3;
+         break;
+     case CP_ACCESS_TRAP_UNCATEGORIZED:
+-        target_el = exception_target_el(env);
+-        syndrome = syn_uncategorized();
+-        break;
+-    case CP_ACCESS_TRAP_UNCATEGORIZED_EL2:
+-        target_el = 2;
+-        syndrome = syn_uncategorized();
+-        break;
+-    case CP_ACCESS_TRAP_UNCATEGORIZED_EL3:
+-        target_el = 3;
+         syndrome = syn_uncategorized();
+         break;
+     default:
+         g_assert_not_reached();
+     }
+ 
+-exept:
++    target_el = res & CP_ACCESS_EL_MASK;
++    switch (target_el) {
++    case 0:
++        target_el = exception_target_el(env);
++        break;
++    case 2:
++        assert(arm_current_el(env) != 3);
++        assert(arm_is_el2_enabled(env));
++        break;
++    case 3:
++        assert(arm_feature(env, ARM_FEATURE_EL3));
++        break;
++    default:
++        /* No "direct" traps to EL1 */
++        g_assert_not_reached();
++    }
++
+     raise_exception(env, EXCP_UDEF, syndrome, target_el);
+ }
+ 
 -- 
 2.34.1
 
