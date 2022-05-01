@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16093516491
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 15:20:58 +0200 (CEST)
-Received: from localhost ([::1]:48568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7B5516490
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 15:20:33 +0200 (CEST)
+Received: from localhost ([::1]:48090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl9VQ-00043r-4S
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 09:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34700)
+	id 1nl9V2-0003jS-9o
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 09:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <096af171274cc76c51bf11366ae257391ddfed2a@lizzy.crudebyte.com>)
- id 1nl9SH-00010y-SF
- for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:42 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:33343)
+ (envelope-from <055ab89327bab83f1bd07e9de07f7628643d3d8d@lizzy.crudebyte.com>)
+ id 1nl9SO-00015f-0S
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:48 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:50205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <096af171274cc76c51bf11366ae257391ddfed2a@lizzy.crudebyte.com>)
- id 1nl9SF-0005H9-Gt
- for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:41 -0400
+ (envelope-from <055ab89327bab83f1bd07e9de07f7628643d3d8d@lizzy.crudebyte.com>)
+ id 1nl9SK-0005HD-Kg
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 09:17:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=C5l63rnifQ9IJrl0xxrAJKuGJe/pQG2u2yCendSHmc8=; b=eNHPd
- eJQf8RcaHc7jW3zlGvklXx22ezLtKTIEhz1qgfmkxy53J0wx1PSH9DdVzkMh2YrqAKso6yKNEQMST
- LXcHPcqDyXOKR6eGy+5b805BnRXJKoHIbQzKjRqOGmEjxhaCh5x/T901r7pz+0bSflKKMxgfu+7hd
- VwofMIYzaQvF7tV3B+uXxmivVdD2dqLg3ooQ1EZ2KGswUmnf8snTCi6jdkcYABvJY0nbrtbgxMRuR
- vbJCpVZnSTeEdlzxKXrg7CJl99ntJqsTtY3Sy8CcpejsY93gf28TBXgJYeiyICxPZN5Egq9Ey0BHM
- EKBZLkzFkGlAB6Cui6qoEmfclOsig==;
-Message-Id: <096af171274cc76c51bf11366ae257391ddfed2a.1651410615.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=ZcMsvSugTf271vnxH3C0WYRJBWSsglfIsUHDSa91fd8=; b=niDpF
+ kxO8v42+cSpk5poZU8HdCkt8GHmOGq7UpiIy+J2OIaZtFd6jlVaXzo95Q5/Td5kYWl0l66IGovGb7
+ +abvmxA8tcgnjOQmpbOIWSJsAxoOpcjlY0ucrxkxxmuihMCYZ33qokTBWbPKUOcIlb8Fbp15PbDK8
+ Ug2uFC58VjLumKbXaMb1fT9IidmvtaZw3t2sh1oYsKgWvhu+E40E8b6jHlWdVkR1Gaq67LoSbVMXR
+ 2Kn2a2d8f06fjrAo4JDdCo47DEEvfrRq87+KBweysPgv7Cp17xKCAZisSO5WuzpbL4gyaxRronEzr
+ cqEC+IkC+b4ufO3fMHOxCBwAklPAw==;
+Message-Id: <055ab89327bab83f1bd07e9de07f7628643d3d8d.1651410615.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1651410615.git.qemu_oss@crudebyte.com>
 References: <cover.1651410615.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Sun, 01 May 2022 15:10:16 +0200
-Subject: [PULL v2 2/7] 9pfs: fix qemu_mknodat(S_IFREG) on macOS
+Subject: [PULL v2 3/7] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Akihiko Odaki <akihiko.odaki@gmail.com>,
  Will Cohen <wwcohen@gmail.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=096af171274cc76c51bf11366ae257391ddfed2a@lizzy.crudebyte.com;
+ envelope-from=055ab89327bab83f1bd07e9de07f7628643d3d8d@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,42 +64,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mknod() on macOS does not support creating regular files, so
-divert to openat_file() if S_IFREG is passed with mode argument.
-
-Furthermore, 'man 2 mknodat' on Linux says: "Zero file type is
-equivalent to type S_IFREG".
+mknod() on macOS does not support creating sockets, so divert to
+call sequence socket(), bind() and fchmodat() respectively if S_IFSOCK
+was passed with mode argument.
 
 Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Will Cohen <wwcohen@gmail.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <3102ca936f88bc1f79d2a325e5bc68f48f54e6e3.1651228000.git.qemu_oss@crudebyte.com>
+Message-Id: <2e7b5ecd7a6d83a538db4e8a22d8fb03e9e0f06e.1651228001.git.qemu_oss@crudebyte.com>
+[C.S. - Use AT_SYMLINK_NOFOLLOW instead of AT_SYMLINK_NOFOLLOW_ANY. ]
+Link: https://lore.kernel.org/qemu-devel/3704033.BMyLRrx2Jx@silver/
 ---
- hw/9pfs/9p-util-darwin.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/9pfs/9p-util-darwin.c | 42 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
 
 diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-index bec0253474..e24d09763a 100644
+index e24d09763a..bd2dd81548 100644
 --- a/hw/9pfs/9p-util-darwin.c
 +++ b/hw/9pfs/9p-util-darwin.c
-@@ -77,6 +77,15 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+@@ -74,6 +74,42 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+  */
+ #if defined CONFIG_PTHREAD_FCHDIR_NP
+ 
++static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
++    int fd, err;
++    struct sockaddr_un addr = {
++        .sun_family = AF_UNIX
++    };
++
++    err = snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
++    if (err < 0 || err >= sizeof(addr.sun_path)) {
++        errno = ENAMETOOLONG;
++        return -1;
++    }
++    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
++    if (fd == -1) {
++        return fd;
++    }
++    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
++    if (err == -1) {
++        goto out;
++    }
++    /*
++     * FIXME: Should rather be using descriptor-based fchmod() on the
++     * socket file descriptor above (preferably before bind() call),
++     * instead of path-based fchmodat(), to prevent concurrent transient
++     * state issues between creating the named FIFO file at bind() and
++     * delayed adjustment of permissions at fchmodat(). However currently
++     * macOS (12.x) does not support such operations on socket file
++     * descriptors yet.
++     *
++     * Filed report with Apple: FB9997731
++     */
++    err = fchmodat(AT_FDCWD, filename, mode, AT_SYMLINK_NOFOLLOW);
++out:
++    close_preserve_errno(fd);
++    return err;
++}
++
  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
  {
      int preserved_errno, err;
-+
-+    if (S_ISREG(mode) || !(mode & S_IFMT)) {
-+        int fd = openat_file(dirfd, filename, O_CREAT, mode);
-+        if (fd == -1) {
-+            return fd;
-+        }
-+        close(fd);
-+        return 0;
+@@ -93,7 +129,11 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+     if (pthread_fchdir_np(dirfd) < 0) {
+         return -1;
+     }
+-    err = mknod(filename, mode, dev);
++    if (S_ISSOCK(mode)) {
++        err = create_socket_file_at_cwd(filename, mode);
++    } else {
++        err = mknod(filename, mode, dev);
 +    }
-     if (!pthread_fchdir_np) {
-         error_report_once("pthread_fchdir_np() not available on this version of macOS");
-         return -ENOTSUP;
+     preserved_errno = errno;
+     /* Stop using the thread-local cwd */
+     pthread_fchdir_np(-1);
 -- 
 2.30.2
 
