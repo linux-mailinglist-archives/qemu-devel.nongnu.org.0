@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D66B516236
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 08:31:35 +0200 (CEST)
-Received: from localhost ([::1]:37130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437FD516233
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 May 2022 08:23:54 +0200 (CEST)
+Received: from localhost ([::1]:56760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nl37G-0000q7-Fj
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 02:31:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43890)
+	id 1nl2zp-0003IW-Bn
+	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 02:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2U1-000700-Vj
- for qemu-devel@nongnu.org; Sun, 01 May 2022 01:51:02 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:34440)
+ id 1nl2U1-00070Z-TZ
+ for qemu-devel@nongnu.org; Sun, 01 May 2022 01:51:01 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:40502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nl2Ty-0001MF-LS
+ id 1nl2Tz-0001MT-Kf
  for qemu-devel@nongnu.org; Sun, 01 May 2022 01:51:01 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- qe3-20020a17090b4f8300b001dc24e4da73so1999334pjb.1
- for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:58 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id i24so10060462pfa.7
+ for <qemu-devel@nongnu.org>; Sat, 30 Apr 2022 22:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PGHFtJCWwmKlydMV+7EArb7n4KOf/foV/LwhKZjMzG4=;
- b=GzTMN+NVOKCw5LuECqmy+yFPEiag4FPZBiu/eBRayP1x0SMqRG17ZbKMTSSRx7BLzS
- MJSWkZ4g4bBKXwePyqBX4fu5U0tQsmKBVuMt2I56A7WkOHRRGpZsFq8FPFcn4ogtIRe7
- EBVTiEIn1z9/ageYlBj4FSsNWzml4BkNJfWkyFnmTAktjRxq2myz+5KF43wGIv6DqRaN
- skJc47Rwd/9CWPkz8oAlVpucsRg/DY6lqvMkmQD8mjxwLTJsM2XAc8GAVHaAjJZ9rtxJ
- bK8g3rb48GU7WyTnqzyWulgYLhS/wJVhMgA/GYQPuMPcIWSqejqKWMEjdRBJEPI7kalH
- VtCQ==
+ bh=Z9jnYlb3diHDx/Tz1NJJu7ooSfZI5A88/Vi2Hs36v6U=;
+ b=RpW6KbtL31vMIKBUuiVZxCOCgaYNAr5q4Vm28J/nhs9Sf/dJBNagfXTnUy15P+L1bW
+ Uhff7qI3Uisp5auVZa0SqRAzvmdkgei/O5jfeDHlRxqh8GzvZ7WhYSHvJJWWPMLoKmnc
+ E/WOMaGdC7lYsoF+B8DfLgB9o/aZILMrRvLLJytoLEW9/G23P1B4LBRgD84p6HR6TIkx
+ +NHtm7ho58AHORUJIMo3AC0yNy4YpBP9Gk4mClKH+Jwpxf5fWP4U1ysMMgg4ySLXkbFH
+ 9RNfHcOp3XiTVafdyuBS3rr8081C9dPLN7VgSBTsPHIFOMQciy5hXUPuvtzmuQGFlb7Y
+ ymdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PGHFtJCWwmKlydMV+7EArb7n4KOf/foV/LwhKZjMzG4=;
- b=CQom3ncuoQfjwUsJkbELLzEp3AQrtLCA1Iknsp3OClu+N43VvdeMdjvpLZIg7+3E02
- YHrWy+yyEsqJrXHPO6ZKPJGHviroHxbT3qPIv7PntJHJpywwAZJojAwvTQu/ebbE5Dsb
- 4E45CMhrpe8RkaW7COVrEWngn/Vp5Y+TwaXFmXy4iFPD1UhxhRGghU5C1QNjEX5k0Xly
- ouDoiTcTbrMr5V8sBlVhHPtRncCDmLPHACImkJhrD6HmmGELiis5q8w1v3cIOsdLw+/j
- EtHrgCYVVa4Vp5qy4Q4yqMwHm8HmNh+8tBSKET+I62ozSFsXWBoD2KLrErAAjNADEOXV
- hIdg==
-X-Gm-Message-State: AOAM533/YxYFGMkg5Sy73lz4uHUPpF50E4NjFfTOz2NXINfUVRmESDYD
- 7LkyEcXa7KdeytBgA/iy5wjU/bga+cAong==
-X-Google-Smtp-Source: ABdhPJyTDESF4NlaWzeNP58EoGJ8KDoPUPniRzPkqoigESKnIQfla+aBgSddm+HL5FNulpaJ9Ue6+g==
-X-Received: by 2002:a17:90b:4f4e:b0:1da:3d4b:2923 with SMTP id
- pj14-20020a17090b4f4e00b001da3d4b2923mr11957200pjb.86.1651384257301; 
- Sat, 30 Apr 2022 22:50:57 -0700 (PDT)
+ bh=Z9jnYlb3diHDx/Tz1NJJu7ooSfZI5A88/Vi2Hs36v6U=;
+ b=R4xqi9WwJgbdoxflQk09e5cQaI5LA0Br0uqjqQrJvXBXe6T5UmQcUp4xAV3ysV2dSN
+ hvKixHKdjmoYx/BTV/7TPz3rqOT9/bAVmg9yiVAHnueCM8PjbtLledZJrjcDQ5MJWUeb
+ Lr9zp5ORWRLTYd1FW6nL8M5vP6TYddmydoXl0mEfenfOFWCXxfAJZvX5S/gbNk7UGFr/
+ Oel/FQMddqhHAfOgf3cVKvPERPU36Pq2VPlJCLKgCB+d6HBB5226zIVV46uSBEVaEefV
+ gNjvKMQ66ChhOtSFCwdmenNbSJf623hPOPuE0L6rlQQA9jgnqWQ9aEAqJFm7v2l2KxCp
+ TaLw==
+X-Gm-Message-State: AOAM5314jl3K4EfkNdK6E9Uz+jZEO7LPdM8vz0zhJm/Vs3vWurX3dLU/
+ 3YaUEnrXNe2iKuN9tyhygJxJSTeLZwbbBA==
+X-Google-Smtp-Source: ABdhPJyWIQlkk10t5IBsa8XbIbNEre5WNmGS9UPAXWDOj/ZIu0rGa4otpYPUtZg+yk6AYa0y4g390g==
+X-Received: by 2002:aa7:8256:0:b0:4e0:78ad:eb81 with SMTP id
+ e22-20020aa78256000000b004e078adeb81mr6030846pfn.30.1651384258242; 
+ Sat, 30 Apr 2022 22:50:58 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.56
+ cm18-20020a17090afa1200b001cd8e9ea22asm17310342pjb.52.2022.04.30.22.50.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Apr 2022 22:50:56 -0700 (PDT)
+ Sat, 30 Apr 2022 22:50:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 28/45] target/arm: Split out aa32_max_features
-Date: Sat, 30 Apr 2022 22:50:10 -0700
-Message-Id: <20220501055028.646596-29-richard.henderson@linaro.org>
+Subject: [PATCH v4 29/45] target/arm: Annotate arm_max_initfn with FEAT
+ identifiers
+Date: Sat, 30 Apr 2022 22:50:11 -0700
+Message-Id: <20220501055028.646596-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220501055028.646596-1-richard.henderson@linaro.org>
 References: <20220501055028.646596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,194 +89,183 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Share the code to set AArch32 max features so that we no
-longer have code drift between qemu{-system,}-{arm,aarch64}.
+Update the legacy feature names to the current names.
+Provide feature names for id changes that were not marked.
+Sort the field updates into increasing bitfield order.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h |   2 +
- target/arm/cpu64.c     |  50 +-----------------
- target/arm/cpu_tcg.c   | 114 ++++++++++++++++++++++-------------------
- 3 files changed, 65 insertions(+), 101 deletions(-)
+ target/arm/cpu64.c   | 100 +++++++++++++++++++++----------------------
+ target/arm/cpu_tcg.c |  48 ++++++++++-----------
+ 2 files changed, 74 insertions(+), 74 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 343b465d51..c563b3735f 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1313,4 +1313,6 @@ static inline void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu) { }
- void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
- #endif
- 
-+void aa32_max_features(ARMCPU *cpu);
-+
- #endif
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 33a0a71900..6da42af56e 100644
+index 6da42af56e..5fce40a6bc 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -682,7 +682,6 @@ static void aarch64_max_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-     uint64_t t;
--    uint32_t u;
+@@ -713,51 +713,51 @@ static void aarch64_max_initfn(Object *obj)
+     cpu->midr = t;
  
-     if (kvm_enabled() || hvf_enabled()) {
-         /* With KVM or HVF, '-cpu max' is identical to '-cpu host' */
-@@ -799,57 +798,12 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64ZFR0, F64MM, 1);
+     t = cpu->isar.id_aa64isar0;
+-    t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
+-    t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 2); /* SHA512 */
++    t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2);      /* FEAT_PMULL */
++    t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);     /* FEAT_SHA1 */
++    t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 2);     /* FEAT_SHA512 */
+     t = FIELD_DP64(t, ID_AA64ISAR0, CRC32, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, SHA3, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, SM3, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, SM4, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2); /* v8.5-CondM */
+-    t = FIELD_DP64(t, ID_AA64ISAR0, TLB, 2); /* FEAT_TLBIRANGE */
+-    t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);
++    t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);   /* FEAT_LSE */
++    t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);      /* FEAT_RDM */
++    t = FIELD_DP64(t, ID_AA64ISAR0, SHA3, 1);     /* FEAT_SHA3 */
++    t = FIELD_DP64(t, ID_AA64ISAR0, SM3, 1);      /* FEAT_SM3 */
++    t = FIELD_DP64(t, ID_AA64ISAR0, SM4, 1);      /* FEAT_SM4 */
++    t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);       /* FEAT_DotProd */
++    t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);      /* FEAT_FHM */
++    t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2);       /* FEAT_FlagM2 */
++    t = FIELD_DP64(t, ID_AA64ISAR0, TLB, 2);      /* FEAT_TLBIRANGE */
++    t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);     /* FEAT_RNG */
+     cpu->isar.id_aa64isar0 = t;
+ 
+     t = cpu->isar.id_aa64isar1;
+-    t = FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, BF16, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
+-    t = FIELD_DP64(t, ID_AA64ISAR1, I8MM, 1);
++    t = FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);      /* FEAT_DPB2 */
++    t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);    /* FEAT_JSCVT */
++    t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);     /* FEAT_FCMA */
++    t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2);    /* FEAT_LRCPC2 */
++    t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);  /* FEAT_FRINTTS */
++    t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);       /* FEAT_SB */
++    t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);  /* FEAT_SPECRES */
++    t = FIELD_DP64(t, ID_AA64ISAR1, BF16, 1);     /* FEAT_BF16 */
++    t = FIELD_DP64(t, ID_AA64ISAR1, I8MM, 1);     /* FEAT_I8MM */
+     cpu->isar.id_aa64isar1 = t;
+ 
+     t = cpu->isar.id_aa64pfr0;
++    t = FIELD_DP64(t, ID_AA64PFR0, FP, 1);        /* FEAT_FP16 */
++    t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);   /* FEAT_FP16 */
+     t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
+-    t = FIELD_DP64(t, ID_AA64PFR0, FP, 1);
+-    t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);
+-    t = FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);
+-    t = FIELD_DP64(t, ID_AA64PFR0, DIT, 1);
++    t = FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);      /* FEAT_SEL2 */
++    t = FIELD_DP64(t, ID_AA64PFR0, DIT, 1);       /* FEAT_DIT */
+     cpu->isar.id_aa64pfr0 = t;
+ 
+     t = cpu->isar.id_aa64pfr1;
+-    t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);
+-    t = FIELD_DP64(t, ID_AA64PFR1, SSBS, 2);
++    t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);        /* FEAT_BTI */
++    t = FIELD_DP64(t, ID_AA64PFR1, SSBS, 2);      /* FEAT_SSBS2 */
+     /*
+      * Begin with full support for MTE. This will be downgraded to MTE=0
+      * during realize if the board provides no tag memory, much like
+      * we do for EL2 with the virtualization=on property.
+      */
+-    t = FIELD_DP64(t, ID_AA64PFR1, MTE, 3);
++    t = FIELD_DP64(t, ID_AA64PFR1, MTE, 3);       /* FEAT_MTE3 */
+     cpu->isar.id_aa64pfr1 = t;
+ 
+     t = cpu->isar.id_aa64mmfr0;
+@@ -769,37 +769,37 @@ static void aarch64_max_initfn(Object *obj)
+     cpu->isar.id_aa64mmfr0 = t;
+ 
+     t = cpu->isar.id_aa64mmfr1;
+-    t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
+-    t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
+-    t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
+-    t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
+-    t = FIELD_DP64(t, ID_AA64MMFR1, VMIDBITS, 2); /* VMID16 */
+-    t = FIELD_DP64(t, ID_AA64MMFR1, XNX, 1); /* TTS2UXN */
++    t = FIELD_DP64(t, ID_AA64MMFR1, VMIDBITS, 2); /* FEAT_VMID16 */
++    t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);       /* FEAT_VHE */
++    t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1);     /* FEAT_HPDS */
++    t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);       /* FEAT_LOR */
++    t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2);      /* FEAT_PAN2 */
++    t = FIELD_DP64(t, ID_AA64MMFR1, XNX, 1);      /* FEAT_XNX */
+     cpu->isar.id_aa64mmfr1 = t;
+ 
+     t = cpu->isar.id_aa64mmfr2;
+-    t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
+-    t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
+-    t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
+-    t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1); /* FEAT_LVA */
+-    t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1); /* FEAT_TTL */
+-    t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2); /* FEAT_BBM at level 2 */
++    t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1);      /* FEAT_TTCNP */
++    t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);      /* FEAT_UAO */
++    t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1);  /* FEAT_LVA */
++    t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1);       /* FEAT_TTST */
++    t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1);      /* FEAT_TTL */
++    t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2);      /* FEAT_BBM at level 2 */
+     cpu->isar.id_aa64mmfr2 = t;
+ 
+     t = cpu->isar.id_aa64zfr0;
+     t = FIELD_DP64(t, ID_AA64ZFR0, SVEVER, 1);
+-    t = FIELD_DP64(t, ID_AA64ZFR0, AES, 2);  /* PMULL */
+-    t = FIELD_DP64(t, ID_AA64ZFR0, BITPERM, 1);
+-    t = FIELD_DP64(t, ID_AA64ZFR0, BFLOAT16, 1);
+-    t = FIELD_DP64(t, ID_AA64ZFR0, SHA3, 1);
+-    t = FIELD_DP64(t, ID_AA64ZFR0, SM4, 1);
+-    t = FIELD_DP64(t, ID_AA64ZFR0, I8MM, 1);
+-    t = FIELD_DP64(t, ID_AA64ZFR0, F32MM, 1);
+-    t = FIELD_DP64(t, ID_AA64ZFR0, F64MM, 1);
++    t = FIELD_DP64(t, ID_AA64ZFR0, AES, 2);       /* FEAT_SVE_PMULL128 */
++    t = FIELD_DP64(t, ID_AA64ZFR0, BITPERM, 1);   /* FEAT_SVE_BitPerm */
++    t = FIELD_DP64(t, ID_AA64ZFR0, BFLOAT16, 1);  /* FEAT_BF16 */
++    t = FIELD_DP64(t, ID_AA64ZFR0, SHA3, 1);      /* FEAT_SVE_SHA3 */
++    t = FIELD_DP64(t, ID_AA64ZFR0, SM4, 1);       /* FEAT_SVE_SM4 */
++    t = FIELD_DP64(t, ID_AA64ZFR0, I8MM, 1);      /* FEAT_I8MM */
++    t = FIELD_DP64(t, ID_AA64ZFR0, F32MM, 1);     /* FEAT_F32MM */
++    t = FIELD_DP64(t, ID_AA64ZFR0, F64MM, 1);     /* FEAT_F64MM */
      cpu->isar.id_aa64zfr0 = t;
  
--    /* Replicate the same data to the 32-bit id registers.  */
--    u = cpu->isar.id_isar5;
--    u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
--    u = FIELD_DP32(u, ID_ISAR5, SHA1, 1);
--    u = FIELD_DP32(u, ID_ISAR5, SHA2, 1);
--    u = FIELD_DP32(u, ID_ISAR5, CRC32, 1);
--    u = FIELD_DP32(u, ID_ISAR5, RDM, 1);
--    u = FIELD_DP32(u, ID_ISAR5, VCMA, 1);
--    cpu->isar.id_isar5 = u;
--
--    u = cpu->isar.id_isar6;
--    u = FIELD_DP32(u, ID_ISAR6, JSCVT, 1);
--    u = FIELD_DP32(u, ID_ISAR6, DP, 1);
--    u = FIELD_DP32(u, ID_ISAR6, FHM, 1);
--    u = FIELD_DP32(u, ID_ISAR6, SB, 1);
--    u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
--    u = FIELD_DP32(u, ID_ISAR6, BF16, 1);
--    u = FIELD_DP32(u, ID_ISAR6, I8MM, 1);
--    cpu->isar.id_isar6 = u;
--
--    u = cpu->isar.id_pfr0;
--    u = FIELD_DP32(u, ID_PFR0, DIT, 1);
--    cpu->isar.id_pfr0 = u;
--
--    u = cpu->isar.id_pfr2;
--    u = FIELD_DP32(u, ID_PFR2, SSBS, 1);
--    cpu->isar.id_pfr2 = u;
--
--    u = cpu->isar.id_mmfr3;
--    u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
--    cpu->isar.id_mmfr3 = u;
--
--    u = cpu->isar.id_mmfr4;
--    u = FIELD_DP32(u, ID_MMFR4, HPDS, 1); /* AA32HPD */
--    u = FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
--    u = FIELD_DP32(u, ID_MMFR4, CNP, 1); /* TTCNP */
--    u = FIELD_DP32(u, ID_MMFR4, XNX, 1); /* TTS2UXN */
--    cpu->isar.id_mmfr4 = u;
--
      t = cpu->isar.id_aa64dfr0;
-     t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
+-    t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
++    t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5);    /* FEAT_PMUv3p4 */
      cpu->isar.id_aa64dfr0 = t;
  
--    u = cpu->isar.id_dfr0;
--    u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
--    cpu->isar.id_dfr0 = u;
--
--    u = cpu->isar.mvfr1;
--    u = FIELD_DP32(u, MVFR1, FPHP, 3);      /* v8.2-FP16 */
--    u = FIELD_DP32(u, MVFR1, SIMDHP, 2);    /* v8.2-FP16 */
--    cpu->isar.mvfr1 = u;
-+    /* Replicate the same data to the 32-bit id registers.  */
-+    aa32_max_features(cpu);
- 
- #ifdef CONFIG_USER_ONLY
-     /*
+     /* Replicate the same data to the 32-bit id registers.  */
 diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 9aa2f737c1..b0dbf2c991 100644
+index b0dbf2c991..bc8f9d0edf 100644
 --- a/target/arm/cpu_tcg.c
 +++ b/target/arm/cpu_tcg.c
-@@ -20,6 +20,66 @@
- #endif
- #include "cpregs.h"
+@@ -28,55 +28,55 @@ void aa32_max_features(ARMCPU *cpu)
  
-+
-+/* Share AArch32 -cpu max features with AArch64. */
-+void aa32_max_features(ARMCPU *cpu)
-+{
-+    uint32_t t;
-+
-+    /* Add additional features supported by QEMU */
-+    t = cpu->isar.id_isar5;
-+    t = FIELD_DP32(t, ID_ISAR5, AES, 2);
-+    t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
-+    cpu->isar.id_isar5 = t;
-+
-+    t = cpu->isar.id_isar6;
-+    t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, DP, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, BF16, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, I8MM, 1);
-+    cpu->isar.id_isar6 = t;
-+
-+    t = cpu->isar.mvfr1;
-+    t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-+    t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-+    cpu->isar.mvfr1 = t;
-+
-+    t = cpu->isar.mvfr2;
-+    t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-+    t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-+    cpu->isar.mvfr2 = t;
-+
-+    t = cpu->isar.id_mmfr3;
-+    t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+    cpu->isar.id_mmfr3 = t;
-+
-+    t = cpu->isar.id_mmfr4;
-+    t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-+    t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-+    t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-+    t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-+    cpu->isar.id_mmfr4 = t;
-+
-+    t = cpu->isar.id_pfr0;
-+    t = FIELD_DP32(t, ID_PFR0, DIT, 1);
-+    cpu->isar.id_pfr0 = t;
-+
-+    t = cpu->isar.id_pfr2;
-+    t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
-+    cpu->isar.id_pfr2 = t;
-+
-+    t = cpu->isar.id_dfr0;
-+    t = FIELD_DP32(t, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
-+    cpu->isar.id_dfr0 = t;
-+}
-+
- #ifndef CONFIG_USER_ONLY
- static uint64_t l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-@@ -994,7 +1054,6 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
- static void arm_max_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
--    uint32_t t;
- 
-     /* aarch64_a57_initfn, advertising none of the aarch64 features */
-     cpu->dtb_compatible = "arm,cortex-a57";
-@@ -1035,58 +1094,7 @@ static void arm_max_initfn(Object *obj)
-     cpu->ccsidr[2] = 0x70ffe07a; /* 2048KB L2 cache */
-     define_cortex_a72_a57_a53_cp_reginfo(cpu);
- 
--    /* Add additional features supported by QEMU */
--    t = cpu->isar.id_isar5;
+     /* Add additional features supported by QEMU */
+     t = cpu->isar.id_isar5;
 -    t = FIELD_DP32(t, ID_ISAR5, AES, 2);
 -    t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
 -    t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
--    t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
++    t = FIELD_DP32(t, ID_ISAR5, AES, 2);          /* FEAT_PMULL */
++    t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);         /* FEAT_SHA1 */
++    t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);         /* FEAT_SHA256 */
+     t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
 -    t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
 -    t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
--    cpu->isar.id_isar5 = t;
--
--    t = cpu->isar.id_isar6;
++    t = FIELD_DP32(t, ID_ISAR5, RDM, 1);          /* FEAT_RDM */
++    t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);         /* FEAT_FCMA */
+     cpu->isar.id_isar5 = t;
+ 
+     t = cpu->isar.id_isar6;
 -    t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
 -    t = FIELD_DP32(t, ID_ISAR6, DP, 1);
 -    t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
@@ -283,44 +273,61 @@ index 9aa2f737c1..b0dbf2c991 100644
 -    t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
 -    t = FIELD_DP32(t, ID_ISAR6, BF16, 1);
 -    t = FIELD_DP32(t, ID_ISAR6, I8MM, 1);
--    cpu->isar.id_isar6 = t;
--
--    t = cpu->isar.mvfr1;
++    t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);        /* FEAT_JSCVT */
++    t = FIELD_DP32(t, ID_ISAR6, DP, 1);           /* Feat_DotProd */
++    t = FIELD_DP32(t, ID_ISAR6, FHM, 1);          /* FEAT_FHM */
++    t = FIELD_DP32(t, ID_ISAR6, SB, 1);           /* FEAT_SB */
++    t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);      /* FEAT_SPECRES */
++    t = FIELD_DP32(t, ID_ISAR6, BF16, 1);         /* FEAT_AA32BF16 */
++    t = FIELD_DP32(t, ID_ISAR6, I8MM, 1);         /* FEAT_AA32I8MM */
+     cpu->isar.id_isar6 = t;
+ 
+     t = cpu->isar.mvfr1;
 -    t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
 -    t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
--    cpu->isar.mvfr1 = t;
--
--    t = cpu->isar.mvfr2;
++    t = FIELD_DP32(t, MVFR1, FPHP, 3);            /* FEAT_FP16 */
++    t = FIELD_DP32(t, MVFR1, SIMDHP, 2);          /* FEAT_FP16 */
+     cpu->isar.mvfr1 = t;
+ 
+     t = cpu->isar.mvfr2;
 -    t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
 -    t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
--    cpu->isar.mvfr2 = t;
--
--    t = cpu->isar.id_mmfr3;
++    t = FIELD_DP32(t, MVFR2, SIMDMISC, 3);        /* SIMD MaxNum */
++    t = FIELD_DP32(t, MVFR2, FPMISC, 4);          /* FP MaxNum */
+     cpu->isar.mvfr2 = t;
+ 
+     t = cpu->isar.id_mmfr3;
 -    t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
--    cpu->isar.id_mmfr3 = t;
--
--    t = cpu->isar.id_mmfr4;
++    t = FIELD_DP32(t, ID_MMFR3, PAN, 2);          /* FEAT_PAN2 */
+     cpu->isar.id_mmfr3 = t;
+ 
+     t = cpu->isar.id_mmfr4;
 -    t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
 -    t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
 -    t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
 -    t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
--    cpu->isar.id_mmfr4 = t;
--
--    t = cpu->isar.id_pfr0;
--    t = FIELD_DP32(t, ID_PFR0, DIT, 1);
--    cpu->isar.id_pfr0 = t;
--
--    t = cpu->isar.id_pfr2;
--    t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
--    cpu->isar.id_pfr2 = t;
--
--    t = cpu->isar.id_dfr0;
--    t = FIELD_DP32(t, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
--    cpu->isar.id_dfr0 = t;
-+    aa32_max_features(cpu);
++    t = FIELD_DP32(t, ID_MMFR4, HPDS, 1);         /* FEAT_AA32HPD */
++    t = FIELD_DP32(t, ID_MMFR4, AC2, 1);          /* ACTLR2, HACTLR2 */
++    t = FIELD_DP32(t, ID_MMFR4, CNP, 1);          /* FEAT_TTCNP */
++    t = FIELD_DP32(t, ID_MMFR4, XNX, 1);          /* FEAT_XNX*/
+     cpu->isar.id_mmfr4 = t;
  
- #ifdef CONFIG_USER_ONLY
-     /*
+     t = cpu->isar.id_pfr0;
+-    t = FIELD_DP32(t, ID_PFR0, DIT, 1);
++    t = FIELD_DP32(t, ID_PFR0, DIT, 1);           /* FEAT_DIT */
+     cpu->isar.id_pfr0 = t;
+ 
+     t = cpu->isar.id_pfr2;
+-    t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
++    t = FIELD_DP32(t, ID_PFR2, SSBS, 1);          /* FEAT_SSBS */
+     cpu->isar.id_pfr2 = t;
+ 
+     t = cpu->isar.id_dfr0;
+-    t = FIELD_DP32(t, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
++    t = FIELD_DP32(t, ID_DFR0, PERFMON, 5);       /* FEAT_PMUv3p4 */
+     cpu->isar.id_dfr0 = t;
+ }
+ 
 -- 
 2.34.1
 
