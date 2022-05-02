@@ -2,73 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFFB5173EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 18:11:55 +0200 (CEST)
-Received: from localhost ([::1]:59676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCCE5174EA
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 18:49:50 +0200 (CEST)
+Received: from localhost ([::1]:48878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlYeQ-0007fa-Q1
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 12:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41816)
+	id 1nlZF6-0005y8-1W
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 12:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nlYZC-0001Y2-Nj; Mon, 02 May 2022 12:06:35 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:46133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nlYZA-0006kh-U0; Mon, 02 May 2022 12:06:30 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so14676057fac.13; 
- Mon, 02 May 2022 09:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FbouXDvBCVVnXkz0RFcnJK5xDP2HUl5g+NU1RgwvkrY=;
- b=HEHgryAyfLxI9UAR4TzoB1hJuH0sgzheV9KgDNIUd8idq30o2RD4Uy0P7Ayp29t+g6
- AvMwabndKZ6Ov5czrzMZu4izzJHPKMuNex0HkPMITjmA+5y7WfCcCmYG7GzQr5R9aQQv
- jYwer0fex17R+1HB3bnCwbZzDgEP+ViuuZK/bQ0J85ORlOPbU+AR2TaPReI2VJDOhYe+
- iJ8ViH0KBvOQUhciXkK/rR7CLLXHxK8sAe1op5tTNBVIfJ3mb3yWCOoFA9Pi8lRTzV8U
- SLlgEYis/3amNohMqs0GjAYt4/B2zoDoMeKdZlK0/zOVbLLRSV2LsjzzFki8wvQgvm5y
- 50zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FbouXDvBCVVnXkz0RFcnJK5xDP2HUl5g+NU1RgwvkrY=;
- b=ZBHuXFgq+3xVSUQmGGVOENzwAQ/SEtiW7hv0Zh8JvsduX/LVA61Ds807J0TpoA5iwk
- z8U/9WImQNvFO2nw08TZmCy37ZlvcZxs6d8acTFs2MVWakTEWpGvIg5h7nzcAP+ZqgiQ
- S9SjIx3L+3VeV7Qj8eah/NBz2VLT7hkYcfb+RIISX5Sxztr2tgfWQQv9HvwETqLjWfun
- PRm6j1X9tw/vyY/YSBeEXIiQdiPuniNlKmzq6yqC/S26Ef67Y2oh8H0Q5vcpCSwwu6Lv
- 7DeJ6bMTemA4T7z8LOv8hq225vbtQCyGurTLyCODHMvUa6jZLaPcqYYnz45Y/uuVz5eO
- 2Psw==
-X-Gm-Message-State: AOAM531flCHtPdDKmBlTK7Fafg+gurz91jLQL0KoeHdWUWHR4PqHP0qp
- e1PrRC/suKG0QQCxLUj8/TNIeDzWNDV1th4kYQU=
-X-Google-Smtp-Source: ABdhPJwUIT35Ep/lxNDUTAJS2+qr3FDuTRU4u9y1rXd6L7YZdcpkIWuxexoZd+QMu0Eyw1CzegUZRVWBxX+6OTRUBMs=
-X-Received: by 2002:a05:6870:d68c:b0:dd:e6e1:2c9f with SMTP id
- z12-20020a056870d68c00b000dde6e12c9fmr6333067oap.100.1651507586809; Mon, 02
- May 2022 09:06:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nlZE8-0005EF-W5; Mon, 02 May 2022 12:48:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nlZE7-0004Rp-8m; Mon, 02 May 2022 12:48:48 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242GUrIn018084;
+ Mon, 2 May 2022 16:48:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=kviHt2lZePMGoC32Sf8FFf0W9khm/VJ/JV03eDPq6DU=;
+ b=h0ua5E41cGhYb+5ozr3XmbQBeXnIWudh1mZW52G/2I1OgwMiesGM5ruPoba3dzWX/cw/
+ AD69FmU+8X0kzsaJrG0PQajsK+XNVZYcEUCUtxIWo6DljxXfDbgtzCLqXzZKDIMLwHZn
+ 9TvqJtiDe41dPoIoug9dU8aOZ4/xUG9d/ZbCd5ci9jjGdGGA9UIYMEyJBdjGQ8OFcRTa
+ 2zOKiiI6KIxoy7ktgUGCZp1xZLvo60qd6rV1LzipoNUBJ8NvGw+WdkW23XHxJ96wFGX3
+ 90DkJxZ80fPQlBQAPhSF2+IYZj9flXlXba3pLnC+qQ8Cb+UcBUXO8QeRND3Mtnpouhdp Ag== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftjvwrabk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 May 2022 16:48:37 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 242GV9fu019888;
+ Mon, 2 May 2022 16:48:37 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftjvwraay-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 May 2022 16:48:37 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 242GgNX5026472;
+ Mon, 2 May 2022 16:48:35 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3frvcj2yft-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 May 2022 16:48:34 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 242GZG2851118504
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 2 May 2022 16:35:16 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B5026A404D;
+ Mon,  2 May 2022 16:48:31 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4529DA4040;
+ Mon,  2 May 2022 16:48:31 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.50.79])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  2 May 2022 16:48:31 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Subject: [PATCH] tests/tcg/s390x: Use a different PCRel32 notation in
+ branch-relative-long.c
+Date: Mon,  2 May 2022 18:48:30 +0200
+Message-Id: <20220502164830.1622191-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220428094708.84835-1-david@redhat.com>
- <97f9be15-4ccd-505b-a35e-8d95823df03a@redhat.com>
- <85dffe1d-a6d2-9e93-749b-29febb0b6dc5@redhat.com>
-In-Reply-To: <85dffe1d-a6d2-9e93-749b-29febb0b6dc5@redhat.com>
-From: David Miller <dmiller423@gmail.com>
-Date: Mon, 2 May 2022 12:06:48 -0400
-Message-ID: <CAEgyohV9kjXUW_LMQM7YryQL1=0VW3pSCbffG2uFG7d5vNo5iw@mail.gmail.com>
-Subject: Re: [PATCH v6 00/13] s390x/tcg: Implement Vector-Enhancements
- Facility 2
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=dmiller423@gmail.com; helo=mail-oa1-x29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: nmxxuW79OgWqpUJdIds_kQIVt6fJJtoc
+X-Proofpoint-GUID: DAq6W0YQKDlvVA-Xf_RTVoMrmav5ow6L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-02_05,2022-05-02_03,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ spamscore=0 adultscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205020126
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,56 +107,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There was also the patch that had them as .insn in the other series of emails.
+Binutils >=2.37 and Clang do not accept (. - 0x100000000) PCRel32
+constants. While this looks like a bug that needs fixing, use a
+different notation (-0x100000000) as a workaround.
 
-On Mon, May 2, 2022 at 11:52 AM David Hildenbrand <david@redhat.com> wrote:
->
-> On 02.05.22 09:20, Thomas Huth wrote:
-> > On 28/04/2022 11.46, David Hildenbrand wrote:
-> >> Implement Vector-Enhancements Facility 2 for s390x
-> >>
-> >> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
-> >>
-> >> implements:
-> >>      VECTOR LOAD ELEMENTS REVERSED               (VLER)
-> >>      VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
-> >>      VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
-> >>      VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
-> >>      VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
-> >>      VECTOR STORE ELEMENTS REVERSED              (VSTER)
-> >>      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
-> >>      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
-> >>      VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
-> >>      VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
-> >>      VECTOR STRING SEARCH                        (VSTRS)
-> >>
-> >>      modifies:
-> >>      VECTOR FP CONVERT FROM FIXED                (VCFPS)
-> >>      VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
-> >>      VECTOR FP CONVERT TO FIXED                  (VCSFP)
-> >>      VECTOR FP CONVERT TO LOGICAL                (VCLFP)
-> >>      VECTOR SHIFT LEFT                           (VSL)
-> >>      VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
-> >>      VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
-> >
-> > Thanks, queued to my s390x-next branch now:
-> >
-> >   https://gitlab.com/thuth/qemu/-/commits/s390x-next/
-> >
-> Thanks for fixing up. At this point I would have suggested to exclude
-> the tests for now.
->
-> --
-> Thanks,
->
-> David / dhildenb
->
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ tests/tcg/s390x/branch-relative-long.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/tcg/s390x/branch-relative-long.c b/tests/tcg/s390x/branch-relative-long.c
+index 94219afcad..8ce9f1c2e5 100644
+--- a/tests/tcg/s390x/branch-relative-long.c
++++ b/tests/tcg/s390x/branch-relative-long.c
+@@ -13,8 +13,8 @@
+         #_name "_end:\n");
+ 
+ DEFINE_ASM(br_r14, "br %r14");
+-DEFINE_ASM(brasl_r0, "brasl %r0,.-0x100000000");
+-DEFINE_ASM(brcl_0xf, "brcl 0xf,.-0x100000000");
++DEFINE_ASM(brasl_r0, "brasl %r0,-0x100000000");
++DEFINE_ASM(brcl_0xf, "brcl 0xf,-0x100000000");
+ 
+ struct test {
+     const char *code;
+-- 
+2.35.1
+
 
