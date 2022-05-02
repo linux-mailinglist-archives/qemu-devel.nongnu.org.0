@@ -2,96 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92C3516BAF
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:06:33 +0200 (CEST)
-Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15BE516BB6
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:12:30 +0200 (CEST)
+Received: from localhost ([::1]:41254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlR4h-0005Lz-SK
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39704)
+	id 1nlRAS-0000ij-Ev
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nlR0h-0004P2-NJ
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:02:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60249)
+ (Exim 4.90_1) (envelope-from <prvs=6121c6eaaf=pdel@fb.com>)
+ id 1nlR7E-0007VE-Lt
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:09:08 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:5124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nlR0d-0001Eq-6f
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:02:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651478538;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hAz2XK2m5be8tg9BewP6hLvspDhSaU/sz3KghT+MvmQ=;
- b=ZRbMEPLmkcmK1P+yxj+6XAwzsqUdo1ZyyQWYCCqpxlzbn5EQooLrQn45cFit1VqCmKu8e9
- LjVo3aRRERrPv9AqOVD8G5NwhlyjSxQUlImHhaSZYTn6AnZwnKlDMHNlQicgWwCY4LEVkF
- Z6BQAkvr3pl3mtQHphuXkYTCzh36wQY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-RvkYgEPdOb2r9kpAfsjUdA-1; Mon, 02 May 2022 04:02:17 -0400
-X-MC-Unique: RvkYgEPdOb2r9kpAfsjUdA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v184-20020a1cacc1000000b00393e492a398so9627061wme.5
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 01:02:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hAz2XK2m5be8tg9BewP6hLvspDhSaU/sz3KghT+MvmQ=;
- b=zLihI4jRl/yKEzIKSSyv+uzx2MpJSYL0SETYUGb7Z3DJgX8UN0IZ6ZXEkyYrzXbmAB
- HlmraMu3gl1qUzG+3AOhpspndEax6gPQVwWXzjM9t1iibJgLNSOfvBine+/QaPQislJ3
- dzScoctNf+N4E2UxY3RHCvC0L5sB7Nmho4EXCFfsrmeqxXHKpRaPeimpzz2t0NAhBKkI
- pLTRWTCw6azWI86poOsi2YA4DIW6hUVFJKRREVMZ5cD2xUrsOLDm5fh4Yc4dSZIigCP7
- OrE+/Aau1x4IFQE1VWN3rgQyRrZlOSftRLNMAHhwAy9HNSva0nYO5uRorL0X7VK9WTdK
- FiEw==
-X-Gm-Message-State: AOAM533nxuyV4vpZ/0s+vLy/93Cpfi8YIF9Gqh5pVb1E9OTm4m4qC2jZ
- Aby897iWx2LAdqK8IDc4iR25pAsiM6Donp2ukoylvGffPnCa/jX+PXOoYdaUAf0FFxm0dklnc8O
- eHcuqU7xUXKKNQvE=
-X-Received: by 2002:a5d:5690:0:b0:20a:d24b:ad12 with SMTP id
- f16-20020a5d5690000000b0020ad24bad12mr8228000wrv.280.1651478536331; 
- Mon, 02 May 2022 01:02:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxB7jt50x4E6M9dCZ6Pwk3iUnRii2l73umg6yYa53RbtRz7i6EGxXBjQuSASdsun46+KFLWPA==
-X-Received: by 2002:a5d:5690:0:b0:20a:d24b:ad12 with SMTP id
- f16-20020a5d5690000000b0020ad24bad12mr8227973wrv.280.1651478535998; 
- Mon, 02 May 2022 01:02:15 -0700 (PDT)
-Received: from [192.168.149.183]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- l5-20020a1ced05000000b003942a244f3fsm5663264wmh.24.2022.05.02.01.02.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 01:02:15 -0700 (PDT)
-Message-ID: <06af1ad7-b069-72f0-d8a2-82f0ae573256@redhat.com>
-Date: Mon, 2 May 2022 10:02:14 +0200
+ (Exim 4.90_1) (envelope-from <prvs=6121c6eaaf=pdel@fb.com>)
+ id 1nlR7B-00029h-Cv
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:09:08 -0400
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 241FsqDU029555
+ for <qemu-devel@nongnu.org>; Mon, 2 May 2022 01:09:00 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=facebook; bh=/dKFbuJv6UUirCGfdhvLgPuuwgxXwvqnFkZ+F36HIpk=;
+ b=S7SSKBzcosOFtFZUcaBq1sO4ITaXUUCEw8FNrnrKUVdry3LHYYjYCo2WebBgLXQsSxyj
+ J4OZ4kQlvSEMOS2rkpCN98aexKenkr+/hOg4YDWZg9xntEJV6d1vg0WxiWmiCpg17TOd
+ dFMr3/koC3cMeO94EHifuyIxdnFt9KySThY= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3fs2tmynem-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 01:09:00 -0700
+Received: from twshared18213.14.prn3.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:21d::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 2 May 2022 01:09:00 -0700
+Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
+ id 90F934E6FBCB; Mon,  2 May 2022 01:08:47 -0700 (PDT)
+From: Peter Delevoryas <pdel@fb.com>
+To: 
+CC: <pdel@fb.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
+ <clg@kaod.org>, <andrew@aj.id.au>, <rashmica.g@gmail.com>
+Subject: [PATCH] hw/gpio/aspeed_gpio: Fix QOM pin property
+Date: Mon, 2 May 2022 01:08:27 -0700
+Message-ID: <20220502080827.244815-1-pdel@fb.com>
+X-Mailer: git-send-email 2.30.2
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: rjL6Fi6SJRs0d4WyZiakx16UoollJ8Aa
+X-Proofpoint-ORIG-GUID: rjL6Fi6SJRs0d4WyZiakx16UoollJ8Aa
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <8f01c640-f876-568a-d6ff-bbb112e5154f@redhat.com>
- <YmpwRKUW5e3P/hhd@stefanha-x1.localdomain>
- <3b156b87-11d5-3eb7-f58a-94939f65ea8f@redhat.com>
- <YmzGV8Evmet8RXUh@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YmzGV8Evmet8RXUh@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-02_02,2022-04-28_01,2022-02-23_01
+Received-SPF: pass client-ip=67.231.145.42;
+ envelope-from=prvs=6121c6eaaf=pdel@fb.com; helo=mx0a-00082601.pphosted.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,114 +79,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I was setting gpioV4-7 to "1110" using the QOM pin property handler and
+noticed that lowering gpioV7 was inadvertently lowering gpioV4-6 too.
 
+    (qemu) qom-set /machine/soc/gpio gpioV4 true
+    (qemu) qom-set /machine/soc/gpio gpioV5 true
+    (qemu) qom-set /machine/soc/gpio gpioV6 true
+    (qemu) qom-get /machine/soc/gpio gpioV4
+    true
+    (qemu) qom-set /machine/soc/gpio gpioV7 false
+    (qemu) qom-get /machine/soc/gpio gpioV4
+    false
 
-Am 30/04/2022 um 07:17 schrieb Stefan Hajnoczi:
-> On Thu, Apr 28, 2022 at 11:56:09PM +0200, Emanuele Giuseppe Esposito wrote:
->>
->>
->> Am 28/04/2022 um 12:45 schrieb Stefan Hajnoczi:
->>> On Wed, Apr 27, 2022 at 08:55:35AM +0200, Emanuele Giuseppe Esposito wrote:
->>>>
->>>>
->>>> Am 26/04/2022 um 10:51 schrieb Emanuele Giuseppe Esposito:
->>>>> Luckly, most of the cases where we recursively go through a graph are
->>>>> the BlockDriverState callback functions in block_int-common.h
->>>>> In order to understand what to protect, I categorized the callbacks in
->>>>> block_int-common.h depending on the type of function that calls them:
->>>>>
->>>>> 1) If the caller is a generated_co_wrapper, this function must be
->>>>>    protected by rdlock. The reason is that generated_co_wrapper create
->>>>>    coroutines that run in the given bs AioContext, so it doesn't matter
->>>>>    if we are running in the main loop or not, the coroutine might run
->>>>>    in an iothread.
->>>>> 2) If the caller calls it directly, and has the GLOBAL_STATE_CODE() macro,
->>>>>    then the function is safe. The main loop is the writer and thus won't
->>>>>    read and write at the same time.
->>>>> 3) If the caller calls it directly, but has not the GLOBAL_STATE_CODE()
->>>>>    macro, then we need to check the callers and see case-by-case if the
->>>>>    caller is in the main loop, if it needs to take the lock, or delegate
->>>>>    this duty to its caller (to reduce the places where to take it).
->>>>>
->>>>> I used the vrc script (https://github.com/bonzini/vrc) to get help finding
->>>>> all the callers of a callback. Using its filter function, I can
->>>>> omit all functions protected by the added lock to avoid having duplicates
->>>>> when querying for new callbacks.
->>>>
->>>> I was wondering, if a function is in category (3) and runs in an
->>>> Iothread but the function itself is not (currently) recursive, meaning
->>>> it doesn't really traverse the graph or calls someone that traverses it,
->>>> should I add the rdlock anyways or not?
->>>>
->>>> Example: bdrv_co_drain_end
->>>>
->>>> Pros:
->>>>    + Covers if in future a new recursive callback for a new/existing
->>>>      BlockDriver is implemented.
->>>>    + Covers also the case where I or someone missed the recursive part.
->>>>
->>>> Cons:
->>>>    - Potentially introducing an unnecessary critical section.
->>>>
->>>> What do you think?
->>>
->>> ->bdrv_co_drain_end() is a callback function. Do you mean whether its
->>> caller, bdrv_drain_invoke_entry(), should take the rdlock around
->>> ->bdrv_co_drain_end()?
->>
->> Yes. The problem is that the coroutine is created in bs AioContext, so
->> it might be in an iothread.
->>
->>>
->>> Going up further in the call chain (and maybe switching threads),
->>> bdrv_do_drained_end() has QLIST_FOREACH(child, &bs->children, next) so
->>> it needs protection. If the caller of bdrv_do_drained_end() holds then
->>> rdlock then I think none of the child functions (including
->>> ->bdrv_co_drain_end()) need to take it explicitly.
->>
->> Regarding bdrv_do_drained_end and similar, they are either running in
->> the main loop (or they will be, if coming from a coroutine) or in the
->> iothread running the AioContext of the bs involved.
->>
->> I think that most of the drains except for mirror.c are coming from main
->> loop. I protected mirror.c in patch 8, even though right now I am not
->> really sure that what I did is necessary, since the bh will be scheduled
->> in the main loop.
->>
->> Therefore we don't really need locks around drains.
-> 
-> Are you saying rdlock isn't necessary in the main loop because nothing
-> can take the wrlock while our code is executing in the main loop?
+An expression in aspeed_gpio_set_pin_level was using a logical NOT
+operator instead of a bitwise NOT operator:
 
-Yes, that's the idea.
-If I am not mistaken (and I hope I am not), only the main loop currently
-modifies/is allowed to modify the graph.
+    value &=3D !pin_mask;
 
-The only case where currently we need to take the rdlock in main loop is
-when we have the case
+The original author probably intended to make a bitwise NOT expression
+"~", but mistakenly used a logical NOT operator "!" instead. Some
+programming languages like Rust use "!" for both purposes.
 
-simplified_flush_callback(bs) {
-	for (child in bs)
-		bdrv_flush(child->bs);
-}
+Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and
+AST2500")
+Signed-off-by: Peter Delevoryas <pdel@fb.com>
+---
+ hw/gpio/aspeed_gpio.c          |  2 +-
+ tests/qtest/aspeed_gpio-test.c | 87 ++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build        |  3 +-
+ 3 files changed, 90 insertions(+), 2 deletions(-)
+ create mode 100644 tests/qtest/aspeed_gpio-test.c
 
-some_function() {
-	GLOBAL_STATE_CODE();
-	/* assume bdrv_get_aio_context(bs) != qemu_in_main_thread() */
-
-	bdrv_flush(bs);
-		co = coroutine_create(bdrv_get_aio_context(bs))
-		qemu_coroutine_enter(co, simplified_flush_callback)
-}
-> 
-> Stefan
-> 
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index c63634d3d3..9b736e7a9f 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -312,7 +312,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *=
+s, uint32_t set_idx,
+     if (level) {
+         value |=3D pin_mask;
+     } else {
+-        value &=3D !pin_mask;
++        value &=3D ~pin_mask;
+     }
+=20
+     aspeed_gpio_update(s, &s->sets[set_idx], value);
+diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
+new file mode 100644
+index 0000000000..c1003f2d1b
+--- /dev/null
++++ b/tests/qtest/aspeed_gpio-test.c
+@@ -0,0 +1,87 @@
++/*
++ * QTest testcase for the Aspeed GPIO Controller.
++ *
++ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/timer.h"
++#include "qapi/qmp/qdict.h"
++#include "libqtest-single.h"
++
++static bool qom_get_bool(QTestState *s, const char *path, const char *prop=
+erty)
++{
++    QDict *r;
++    bool b;
++
++    r =3D qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
++                     "{ 'path': %s, 'property': %s } }", path, property);
++    b =3D qdict_get_bool(r, "return");
++    qobject_unref(r);
++
++    return b;
++}
++
++static void qom_set_bool(QTestState *s, const char *path, const char *prop=
+erty,
++                         bool value)
++{
++    QDict *r;
++
++    r =3D qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
++                     "{ 'path': %s, 'property': %s, 'value': %i } }",
++                     path, property, value);
++    qobject_unref(r);
++}
++
++static void test_set_colocated_pins(const void *data)
++{
++    QTestState *s =3D (QTestState *)data;
++
++    /*
++     * gpioV4-7 occupy bits within a single 32-bit value, so we want to ma=
+ke
++     * sure that modifying one doesn't affect the other.
++     */
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
++    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
++    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
++    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
++    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
++}
++
++int main(int argc, char **argv)
++{
++    QTestState *s;
++    int r;
++
++    g_test_init(&argc, &argv, NULL);
++
++    s =3D qtest_init("-machine ast2600-evb");
++    qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
++                        test_set_colocated_pins);
++    r =3D g_test_run();
++    qtest_quit(s);
++
++    return r;
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 6b9807c183..32fb8cf755 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -189,7 +189,8 @@ qtests_npcm7xx =3D \
+    (slirp.found() ? ['npcm7xx_emc-test'] : [])
+ qtests_aspeed =3D \
+   ['aspeed_hace-test',
+-   'aspeed_smc-test']
++   'aspeed_smc-test',
++   'aspeed_gpio-test']
+ qtests_arm =3D \
+   (config_all_devices.has_key('CONFIG_MPS2') ? ['sse-timer-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-apb-=
+dualtimer-test'] : []) + \
+--=20
+2.30.2
 
 
