@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A59517963
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 23:46:40 +0200 (CEST)
-Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DB7517964
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 23:48:46 +0200 (CEST)
+Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nldsN-0007JF-9v
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 17:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40670)
+	id 1nlduP-0000xZ-LR
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 17:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nldr5-0005rC-20
- for qemu-devel@nongnu.org; Mon, 02 May 2022 17:45:19 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:37605)
+ id 1nldsv-00005U-0Q
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 17:47:13 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:38904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nldr3-0003it-An
- for qemu-devel@nongnu.org; Mon, 02 May 2022 17:45:18 -0400
-Received: by mail-pg1-x530.google.com with SMTP id 15so12629032pgf.4
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 14:45:16 -0700 (PDT)
+ id 1nldst-00040L-Jp
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 17:47:12 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ cx11-20020a17090afd8b00b001d9fe5965b3so543711pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 14:47:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=PeuW7BJ1muFyK1wKReKHwGb7/SecevdlBxdLDbNDutw=;
- b=KRMf26Eslj21jkP2IVssZPbR4ct2ai2eG/GpWFBIRme6Y9l+KkRWWkVpRhAw4uS2Ei
- bbYvm4b7d2VlHEkh7gR7C9FXMdWq7He7RGiEpPsNuOriTAr8RQV3tUqiCtuj5TD35eG/
- 97AvAEyo5DLIVvABX9/5cMh0EzylSwGpzoavCbSpZDf+otJpoqNW1HHmRHFrhXpptSdq
- pnjSGkbtfHpedKPQ2PFZlv7AZt2jBabyZERARAtAckpWpI1cdgr8RXhpQAIxh99kMERh
- LzUCgS9/Pub5sD0ghHoxY0JctSsI46w8FjjNXnKGuA4IXG1iE9gTmw/ncgNUID866FgM
- QtDA==
+ bh=HqZ68JeOQHIOr67u9WiIr9Rt0pivn7ZAlfTa+cKKU8M=;
+ b=xgLkJQXsWkieDd7eNnIPSM0VMHCxEcV7ANLSsLfBjFUDJrFCVg6Hl/uvNbPZ+5MKNl
+ o1fXRJrTywDxvAFqeyeq/WyWGnvKKLvtPHaaKIhulhMmIbu4d4gg70fz9vn6XKTc6QRA
+ 3VoCg0JTCyGL3S0d0Qajsq/fZuqKE0/M+WEER9X8hXqn1z0h5n/W3qBGz0aK/EJv4U7O
+ dDZiaJqa/EbwnqsJb0Ug6ECXhFuormr8x0IF1ZzEMQ4E15s9fzyb5LVhqVoPoiEurYvJ
+ NeOeQoVuHGZTBob/fP/qYS0629RfAEhL1Q/jAaN533Y9xvuBNKhR8SzF6hVoe54BPrfV
+ nciQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PeuW7BJ1muFyK1wKReKHwGb7/SecevdlBxdLDbNDutw=;
- b=kDtF9WHmU39VgDuYCYf7nqDGiB0qPMBkkU+Q8jPC28hRuoGMjTBp6RxslfsWQCMzB2
- sJYlK+vEc5ofcPzg0P2OZ3gKzXZuaphjRv46ltsZrvdDf+eRpcs88wLp6eAjN+ZZiSkq
- 6Pz2U10z1TInMp4npBuSFlBdkke6ym78d/kcVhCJDX7WCtqBrfKyIJhCJQMK0Ng9+bkx
- 2//AzxMBOnzOs2wZfVP5rgErJ5zRVN6hojuMlt+e4eTRcNbfpr7WYijSBvc0/CTQAZbh
- OYzKcq4VWAvyZUTI5iFTbHXU9Zp6K/GJJsA9fkr+BYgbhK+/rEHnjALeLXC+fjIDtuW1
- /jnQ==
-X-Gm-Message-State: AOAM532xVS7jfPud+2WVtBhBgRyqHRWEfxI2R0e8vcsO8vqrFuQmcDrc
- 5kR/jj77goZm/h3KTgno3p4zog==
-X-Google-Smtp-Source: ABdhPJw/ZmkGu40btuVwCs2+rdcjRG3Z1RY+CBUQpuE0lyKD7T+sEIGog9T036QQwugZWtGd/lfGoQ==
-X-Received: by 2002:a63:d04a:0:b0:3c1:65f2:5d09 with SMTP id
- s10-20020a63d04a000000b003c165f25d09mr11350283pgi.201.1651527916076; 
- Mon, 02 May 2022 14:45:16 -0700 (PDT)
+ bh=HqZ68JeOQHIOr67u9WiIr9Rt0pivn7ZAlfTa+cKKU8M=;
+ b=btJtS+pZwbGXIRfFwn+aAUyKIpCmfqBgkLfzv7fSMj9QTYE61j41lFQUUEoFFOmVbl
+ iFNQJB7Hx/K9CMluG8lfSPBMz9A4iF2eqZvOTxp6KuRRCBRB+fjPSc214GOIWOS18RAr
+ Xy8wp4uqQ1HaW07qtr7vuJmBCHBlT0OYDAhVP1ZcUAEmUPWBfIa+NdHFHOzatXpj+nJ2
+ +B+k66maY78q82KWoyr+p+vPqojETNPrIrkqUq0cpFu60OMP9EB6tzRtsUVfm/7uk1np
+ r+bCOeYSACIloCWaUc6JfAaByxwCFOOQx85b6SgKrgOAhbZzvhWdVVnFh8fEv/UNL19V
+ nSqg==
+X-Gm-Message-State: AOAM530ABBmriLwyvKNuVl7m9bMirNhjhAH/UpstCS1SHHLADs9j3U5a
+ 8ZghTdKW6n8m8xs31zNLsphYfg==
+X-Google-Smtp-Source: ABdhPJx8V07fdvL6mx1Bhfi5HavaHGg5friA1yIuIpKsNpHwpz1pmjh6E4QxdKGF/Q9kFEEzm7QqgQ==
+X-Received: by 2002:a17:90b:1a8a:b0:1db:f282:5b3d with SMTP id
+ ng10-20020a17090b1a8a00b001dbf2825b3dmr1286546pjb.198.1651528030171; 
+ Mon, 02 May 2022 14:47:10 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- i62-20020a639d41000000b003c14af50627sm11455540pgd.63.2022.05.02.14.45.15
+ j22-20020aa78dd6000000b0050dc7628198sm5177638pfr.114.2022.05.02.14.47.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 14:45:15 -0700 (PDT)
-Message-ID: <f15966a0-e147-5b3d-a6b4-d1dc4b55ed3e@linaro.org>
-Date: Mon, 2 May 2022 14:45:13 -0700
+ Mon, 02 May 2022 14:47:09 -0700 (PDT)
+Message-ID: <7526df52-95e9-a67d-f0d4-c5e53f9f83b0@linaro.org>
+Date: Mon, 2 May 2022 14:47:07 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 14/21] target/ppc: Remove msr_ir macro
+Subject: Re: [PATCH v2 15/21] target/ppc: Remove msr_dr macro
 Content-Language: en-US
 To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, balaton@eik.bme.hu
 References: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
- <20220502143934.71908-15-victor.colombo@eldorado.org.br>
+ <20220502143934.71908-16-victor.colombo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220502143934.71908-15-victor.colombo@eldorado.org.br>
+In-Reply-To: <20220502143934.71908-16-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,10 +97,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/2/22 07:39, Víctor Colombo wrote:
-> -    if (((value >> MSR_IR) & 1) != msr_ir ||
-> +    if (!(value & env->msr & R_MSR_IR_MASK) ||
+>       if (!(value & env->msr & R_MSR_IR_MASK) ||
+> -        ((value >> MSR_DR) & 1) != msr_dr) {
+> +        !(value & env->msr & R_MSR_DR_MASK)) {
 
-Likewise needs xor.
+Xor, but then this becomes
+
+   (value ^ env->msr) & (R_MSR_IR_MASK | R_MSR_DR_MASK)
+
 
 r~
 
