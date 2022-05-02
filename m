@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D6E51721C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 17:01:48 +0200 (CEST)
-Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B7A517263
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 17:21:20 +0200 (CEST)
+Received: from localhost ([::1]:56614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlXYZ-0007At-CO
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 11:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57390)
+	id 1nlXrT-0000g3-4f
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 11:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nlXWn-0005RZ-UM; Mon, 02 May 2022 10:59:57 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:48705)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nlXgB-0007ap-BY
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 11:09:39 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:38827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nlXWl-0005bD-ET; Mon, 02 May 2022 10:59:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.48])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2C727FBF73FE;
- Mon,  2 May 2022 16:59:50 +0200 (CEST)
-Received: from kaod.org (37.59.142.110) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nlXg9-0006wo-0v
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 11:09:38 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.47])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D088E21075;
+ Mon,  2 May 2022 15:09:33 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 2 May
- 2022 16:59:49 +0200
+ 2022 17:09:33 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-110S0041e830735-b8bf-4f5e-8d42-386d6a47fcc1,
+ (GARM-100R00312b3fa39-96a4-4f2a-b6f1-83c8d0b9cbc1,
  1C738C3314058F8CE8CF02D37F1FC3678EA14F63) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e0605fc2-af93-22b1-e702-c3ea5cda5fcd@kaod.org>
-Date: Mon, 2 May 2022 16:59:49 +0200
+Message-ID: <80ac0726-f2a0-527c-2125-97d1869fb147@kaod.org>
+Date: Mon, 2 May 2022 17:09:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 00/21] target/ppc: Remove hidden usages of *env
+Subject: Re: [PATCH] hw/gpio/aspeed_gpio: Fix QOM pin property
 Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>
-References: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
+To: Peter Delevoryas <pdel@fb.com>
+References: <20220502080827.244815-1-pdel@fb.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
+In-Reply-To: <20220502080827.244815-1-pdel@fb.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: d0692f83-6f9d-4903-bdfc-5ba43185252d
-X-Ovh-Tracer-Id: 17430619410452351852
+X-Ovh-Tracer-GUID: 31a2010a-290f-4d0c-beda-6419dd4ef1d3
+X-Ovh-Tracer-Id: 17594719321682184998
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgdekudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfeivdeigeefteegffekhfejfeekhffgiefhgedtheehueeiueffteeviefglefhnecuffhomhgrihhnpehgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgdekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeekfeejvedthfevueetteduleejfeejtdeugfevjedtuedttdefieeuueduudetnecuffhomhgrihhnpehmvghtrgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,89 +69,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- david@gibson.dropbear.id.au
+Cc: andrew@aj.id.au, rashmica.g@gmail.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/22 16:39, Víctor Colombo wrote:
-> By running the grep command `git grep -nr 'define \(fpscr\|msr\)_[a-z0-9]\+\>'`
-> we can find multiple macros that use `env->fpscr` and `env->msr` but doesn't
-> take *env as a parameter.
+On 5/2/22 10:08, Peter Delevoryas wrote:
+> I was setting gpioV4-7 to "1110" using the QOM pin property handler and
+> noticed that lowering gpioV7 was inadvertently lowering gpioV4-6 too.
 > 
-> Richard Henderson said [1] that these macros hiding the usage of *env "are evil".
-> This patch series remove them and substitute with an explicit usage of *env by
-> using registerfields API.
+>      (qemu) qom-set /machine/soc/gpio gpioV4 true
+>      (qemu) qom-set /machine/soc/gpio gpioV5 true
+>      (qemu) qom-set /machine/soc/gpio gpioV6 true
+>      (qemu) qom-get /machine/soc/gpio gpioV4
+>      true
+>      (qemu) qom-set /machine/soc/gpio gpioV7 false
+>      (qemu) qom-get /machine/soc/gpio gpioV4
+>      false
 > 
-> Patch 20 (target/ppc: Add unused msr bits FIELDs) declares unused FIELDs, the
-> same that were removed in patch 02 (target/ppc: Remove unused msr_* macros). I
-> did that to keep the changes consistent with what was already present before.
+> An expression in aspeed_gpio_set_pin_level was using a logical NOT
+> operator instead of a bitwise NOT operator:
 > 
-> Patch 21 (target/ppc: Change MSR_* to follow POWER ISA numbering convention)
-> changes the MSR_* bit number to match POWER ISA by adding a new macro to
-> 'invert' the ordering. (added in v2)
+>      value &= !pin_mask;
 > 
-> [1]: https://lists.gnu.org/archive/html/qemu-ppc/2021-11/msg00280.html
+> The original author probably intended to make a bitwise NOT expression
+> "~", but mistakenly used a logical NOT operator "!" instead. Some
+> programming languages like Rust use "!" for both purposes.
 > 
-> Patches requiring review: Patch 3 and after
-> 
-> Hello everyone, thanks for your kind reviews in v1,
-> What do you think of this new approach I did for v2?
+> Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and
+> AST2500")
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
-It looks real good. I hope we can queue it for the next PR.
+Nice catch !
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+I was going to send a PR but I will wait a bit to include this fix.
 
 Thanks,
 
 C.
 
 
-
+> ---
+>   hw/gpio/aspeed_gpio.c          |  2 +-
+>   tests/qtest/aspeed_gpio-test.c | 87 ++++++++++++++++++++++++++++++++++
+>   tests/qtest/meson.build        |  3 +-
+>   3 files changed, 90 insertions(+), 2 deletions(-)
+>   create mode 100644 tests/qtest/aspeed_gpio-test.c
 > 
-> v2:
-> - Abandon the ideia to add an M_MSR_* macro
-> - Instead, use registerfields API as suggested by Richard
-> - Add patch 21 to invert MSR_* values to match ISA ordering
-> 
-> Víctor Colombo (21):
->    target/ppc: Remove fpscr_* macros from cpu.h
->    target/ppc: Remove unused msr_* macros
->    target/ppc: Remove msr_pr macro
->    target/ppc: Remove msr_le macro
->    target/ppc: Remove msr_ds macro
->    target/ppc: Remove msr_ile macro
->    target/ppc: Remove msr_ee macro
->    target/ppc: Remove msr_ce macro
->    target/ppc: Remove msr_pow macro
->    target/ppc: Remove msr_me macro
->    target/ppc: Remove msr_gs macro
->    target/ppc: Remove msr_fp macro
->    target/ppc: Remove msr_me macro
->    target/ppc: Remove msr_ir macro
->    target/ppc: Remove msr_dr macro
->    target/ppc: Remove msr_ep macro
->    target/ppc: Remove msr_fe0 and msr_fe1 macros
->    target/ppc: Remove msr_ts macro
->    target/ppc: Remove msr_hv macro
->    target/ppc: Add unused msr bits FIELDs
->    target/ppc: Change MSR_* to follow POWER ISA numbering convention
-> 
->   hw/ppc/pegasos2.c        |   2 +-
->   hw/ppc/spapr.c           |   2 +-
->   target/ppc/cpu.c         |   2 +-
->   target/ppc/cpu.h         | 214 ++++++++++++++++++---------------------
->   target/ppc/cpu_init.c    |  23 +++--
->   target/ppc/excp_helper.c |  66 +++++++-----
->   target/ppc/fpu_helper.c  |  28 ++---
->   target/ppc/gdbstub.c     |   2 +-
->   target/ppc/helper_regs.c |  12 +--
->   target/ppc/kvm.c         |   7 +-
->   target/ppc/machine.c     |   2 +-
->   target/ppc/mem_helper.c  |  23 +++--
->   target/ppc/misc_helper.c |   2 +-
->   target/ppc/mmu-radix64.c |  11 +-
->   target/ppc/mmu_common.c  |  40 ++++----
->   target/ppc/mmu_helper.c  |   6 +-
->   16 files changed, 225 insertions(+), 217 deletions(-)
-> 
+> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> index c63634d3d3..9b736e7a9f 100644
+> --- a/hw/gpio/aspeed_gpio.c
+> +++ b/hw/gpio/aspeed_gpio.c
+> @@ -312,7 +312,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+>       if (level) {
+>           value |= pin_mask;
+>       } else {
+> -        value &= !pin_mask;
+> +        value &= ~pin_mask;
+>       }
+>   
+>       aspeed_gpio_update(s, &s->sets[set_idx], value);
+> diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
+> new file mode 100644
+> index 0000000000..c1003f2d1b
+> --- /dev/null
+> +++ b/tests/qtest/aspeed_gpio-test.c
+> @@ -0,0 +1,87 @@
+> +/*
+> + * QTest testcase for the Aspeed GPIO Controller.
+> + *
+> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/bitops.h"
+> +#include "qemu/timer.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "libqtest-single.h"
+> +
+> +static bool qom_get_bool(QTestState *s, const char *path, const char *property)
+> +{
+> +    QDict *r;
+> +    bool b;
+> +
+> +    r = qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
+> +                     "{ 'path': %s, 'property': %s } }", path, property);
+> +    b = qdict_get_bool(r, "return");
+> +    qobject_unref(r);
+> +
+> +    return b;
+> +}
+> +
+> +static void qom_set_bool(QTestState *s, const char *path, const char *property,
+> +                         bool value)
+> +{
+> +    QDict *r;
+> +
+> +    r = qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
+> +                     "{ 'path': %s, 'property': %s, 'value': %i } }",
+> +                     path, property, value);
+> +    qobject_unref(r);
+> +}
+> +
+> +static void test_set_colocated_pins(const void *data)
+> +{
+> +    QTestState *s = (QTestState *)data;
+> +
+> +    /*
+> +     * gpioV4-7 occupy bits within a single 32-bit value, so we want to make
+> +     * sure that modifying one doesn't affect the other.
+> +     */
+> +    qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
+> +    qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
+> +    qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
+> +    qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
+> +    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
+> +    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
+> +    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
+> +    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
+> +}
+> +
+> +int main(int argc, char **argv)
+> +{
+> +    QTestState *s;
+> +    int r;
+> +
+> +    g_test_init(&argc, &argv, NULL);
+> +
+> +    s = qtest_init("-machine ast2600-evb");
+> +    qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
+> +                        test_set_colocated_pins);
+> +    r = g_test_run();
+> +    qtest_quit(s);
+> +
+> +    return r;
+> +}
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 6b9807c183..32fb8cf755 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -189,7 +189,8 @@ qtests_npcm7xx = \
+>      (slirp.found() ? ['npcm7xx_emc-test'] : [])
+>   qtests_aspeed = \
+>     ['aspeed_hace-test',
+> -   'aspeed_smc-test']
+> +   'aspeed_smc-test',
+> +   'aspeed_gpio-test']
+>   qtests_arm = \
+>     (config_all_devices.has_key('CONFIG_MPS2') ? ['sse-timer-test'] : []) + \
+>     (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-apb-dualtimer-test'] : []) + \
 
 
