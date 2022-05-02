@@ -2,66 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E9D517ACB
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 01:29:10 +0200 (CEST)
-Received: from localhost ([::1]:50724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2C4517B04
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 01:53:39 +0200 (CEST)
+Received: from localhost ([::1]:58478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlfTZ-0003CB-QS
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 19:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54780)
+	id 1nlfrG-0001Xn-G3
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 19:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=8Tv5=VK=zx2c4.com=Jason@kernel.org>)
- id 1nlfSb-0002Xe-GC
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:28:09 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:45332)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nlfpl-0000ge-RK
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 19:52:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=8Tv5=VK=zx2c4.com=Jason@kernel.org>)
- id 1nlfSZ-0000QC-U2
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:28:09 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C5AD9B81AE8;
- Mon,  2 May 2022 23:28:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295BEC385AC;
- Mon,  2 May 2022 23:28:04 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="ZadJ6MOl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1651534082;
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nlfpi-00047a-KH
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 19:52:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651535520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=TY3V9cWsgB3DfKT2TM6FJDKc21DnhZRW8iveuh3Ne84=;
- b=ZadJ6MOl3S0vjgkJyKOoxySxIlO5mQrjtUA0VbCXWrR03yIWR4LVhq00M5xf3muKAfPvZh
- lj0OxaZwgB457z9xy3taD8EsyUOoyYlZnkKb9E5tnLl2AEIem9JTQnGNHUVFKXUTkHwMsB
- uwXuqnoNUaEJ3NVUI8ZYDwRSrj97bAc=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 354b7bef
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Mon, 2 May 2022 23:28:02 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-devel@nongnu.org,
-	openrisc@lists.librecores.org,
-	shorne@gmail.com
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH] hw/openrisc: use right OMPIC size variable
-Date: Tue,  3 May 2022 01:28:00 +0200
-Message-Id: <20220502232800.259036-1-Jason@zx2c4.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=677X9t1r4Xe7VwAxjOvsN/rEPA5Wsge7L6JJqTey5KE=;
+ b=JmyciC4oBZiuwRAJhwj+XSokVE6sRFNzcU6BTJz+2hdWE9FV3FoFTvSGeG/w0K0DKKdNeY
+ +/QvFoeDv2JciiFi7kndxLm3vnKuPmg2WUC6uWBlt6w1WjBjvJXU8sw6JBJpNsiRVZY1oc
+ brUSitjYwAsFm6EJSsNF+9wCe8KmJHQ=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-482-QcoZLt0uOum-EESEWEPKyw-1; Mon, 02 May 2022 19:51:59 -0400
+X-MC-Unique: QcoZLt0uOum-EESEWEPKyw-1
+Received: by mail-io1-f71.google.com with SMTP id
+ ay13-20020a5d9d8d000000b0065a631e7632so2894614iob.14
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 16:51:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=677X9t1r4Xe7VwAxjOvsN/rEPA5Wsge7L6JJqTey5KE=;
+ b=UBnnkGOFTEBxIKn0y7Mtm279EtHuA5zWYdbhYVOiJ+8H2+BFIdrOg2LTj1cei/vxLy
+ nYmPgGyPbCRYXlpBnomTKcvxuQW/SyRECQjVM+5Si/0zvoBqFIn9zx69PXT2a6pW4Mff
+ s5BZWw/xVIQk8Jr1hGB9K+H7hVvMasROM2dP2Y0MMHbhPyBHSYoMR+0MDXQJW0KTMUrQ
+ Age0wpQaqztbJcRIZtGbGg/3UrQfC/Vq8sVARRqtNEVb8zfkJw+yNxhpZ+qypr8nCwXX
+ PSVyNp98d3gDbZYBB4BbGnB/h1sdozhuPT/31IGXbM37gkaGfuUv/WJaDI6wH3ZHMf77
+ lFzw==
+X-Gm-Message-State: AOAM532xCDGMvCRg6lOdMxu1WpV4iX+NCY51TlA3fPtwGdw0mVovjOPG
+ xxIpGfR6Or3YEBRtccfADPrXThdZifxd1AzmlCo75rMDWa9hQhjwJYW1mVVajIkjeWjQMJR1l1t
+ V3wbDsEu8OSkSd+A=
+X-Received: by 2002:a05:6638:d44:b0:328:5a32:c012 with SMTP id
+ d4-20020a0566380d4400b003285a32c012mr5543112jak.211.1651535518613; 
+ Mon, 02 May 2022 16:51:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydW44p2SSNWVUE1oEqKVJ5d2xF7YZYdILS+7DljZWMccl/9qY2nMVRSbf8ISvWhIgrYYM9tw==
+X-Received: by 2002:a05:6638:d44:b0:328:5a32:c012 with SMTP id
+ d4-20020a0566380d4400b003285a32c012mr5543101jak.211.1651535518404; 
+ Mon, 02 May 2022 16:51:58 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ b15-20020a5ea70f000000b0065a47e16f37sm2487123iod.9.2022.05.02.16.51.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 May 2022 16:51:57 -0700 (PDT)
+Date: Mon, 2 May 2022 19:51:56 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Daniel Berrange <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PULL 06/11] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+Message-ID: <YnBunLRaqmkZh3Re@xz-m1.local>
+References: <20220428144052.263382-1-dgilbert@redhat.com>
+ <20220428144052.263382-7-dgilbert@redhat.com>
+ <Ymq+5bPaYTyUHF6L@work-vm>
+ <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=8Tv5=VK=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,28 +102,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This appears to be a copy and paste error. The UART size was used
-instead of the much smaller OMPIC size.
+Leo,
 
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/openrisc/openrisc_sim.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Apr 29, 2022 at 11:40:44PM -0300, Leonardo Bras Soares Passos wrote:
+> Does anyone else have any further suggestions, or know how this kind of issue
+> is generally solved in qemu?
 
-diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index 99b14940f4..bf434e9737 100644
---- a/hw/openrisc/openrisc_sim.c
-+++ b/hw/openrisc/openrisc_sim.c
-@@ -410,7 +410,7 @@ static void openrisc_sim_init(MachineState *machine)
- 
-     if (smp_cpus > 1) {
-         openrisc_sim_ompic_init(state, or1ksim_memmap[OR1KSIM_OMPIC].base,
--                                or1ksim_memmap[OR1KSIM_UART].size,
-+                                or1ksim_memmap[OR1KSIM_OMPIC].size,
-                                 smp_cpus, cpus, OR1KSIM_OMPIC_IRQ);
-     }
- 
+I've no solid idea why it can't see MSG_ZEROCOPY defined in the specific
+environment, but when I was looking at bits/socket.h I saw this:
+
+#ifndef _SYS_SOCKET_H
+# error "Never include <bits/socket.h> directly; use <sys/socket.h> instead."
+#endif
+
+Maybe worth a shot to do a replacement in all cases?
+
 -- 
-2.35.1
+Peter Xu
 
 
