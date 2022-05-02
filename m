@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DAA517114
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 15:59:07 +0200 (CEST)
-Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F8D5170BC
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 15:39:50 +0200 (CEST)
+Received: from localhost ([::1]:57980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlWZu-0000fS-Fw
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 09:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40916)
+	id 1nlWHF-0006vO-4n
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 09:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1nlWBu-0005Ss-8V; Mon, 02 May 2022 09:34:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7648
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nlWEb-00064E-Fn; Mon, 02 May 2022 09:37:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39850
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1nlWBs-0001za-59; Mon, 02 May 2022 09:34:18 -0400
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nlWEZ-0002WU-94; Mon, 02 May 2022 09:37:05 -0400
 Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242D0MoL024327;
- Mon, 2 May 2022 13:34:14 GMT
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242D0K1l024278;
+ Mon, 2 May 2022 13:36:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=YZkxJ/xRG9pEI28ysV+G0YoUyiqe7g9rSovPBnAud90=;
- b=jFg/JsGQ39J5Uw8Pz5uLD4Aakl5gxi5jXtCO3yAMN13VRzcERrBZOL72doP4Sd/LjF3H
- FCXlYP8bNZRni07wk7Ny2lscpg5lBEfzpj0tAWDqtfgw3yqXgwwp2RXi88kfDOggEOXB
- nBzLTGoL/AYVWWDAvKyI0JF9Q5yyTx1sfwPiWkXIv9bPEgDedkbIhRabOXS1wCXO9KCa
- sLiPcIG2yZ1+JbvKmfHB8ollFuBz7WyuzfmeopDroFMnrCr5EFdTwfJzYRIrURJR5cVg
- jXzrWHLSMyMlNcsr07qkaOqAFOCiy8wjqs09zEEJwW2vhY8TU82IlAPxvUttW5T3zRlB Mw== 
+ reply-to : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding : mime-version; s=pp1;
+ bh=wlTS/kDq1ChXzErNMrVGbjOQLTr6fEkOn56WKLoW9VA=;
+ b=UHlY7UCufEI207d/Quck8uPi4g/rmHppcO6q3KjH4C362rJ6kkZvm2jFlSfYbMY3mvC+
+ MhcHarXL6pZlY8nIwkWQMN7V6u93EFCmj30J0UPkkO+wPhJOANb9dYa8GjM/pwMo2ilE
+ BXWk75aooVE03uqpxC2khbhL8divUOLfOGqD9mqecnupumzDveUDNkHdoLuBiCIr7WQs
+ 4n/J1gXB/QIKkVBlSg/AqZtGRcmGCHr/kfp8fThG6iJdv6WqHddzUsiva39MJIdF7E5f
+ lImRu/suZ/s88Zec4cBNTSZXUl6G6zjjLz5Q+pNvnya06iGZP4QwO9urDURyv+rXHQXk HQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftft8gry7-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftft8gu1d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 13:34:14 +0000
+ Mon, 02 May 2022 13:36:43 +0000
 Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 242D0M4a024343;
- Mon, 2 May 2022 13:34:13 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftft8grxm-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 242DTnTK028945;
+ Mon, 2 May 2022 13:36:43 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftft8gu11-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 13:34:13 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 242DSD92011720;
- Mon, 2 May 2022 13:34:11 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3frvcj2rxu-1
+ Mon, 02 May 2022 13:36:43 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 242DSBZP023587;
+ Mon, 2 May 2022 13:36:42 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 3frvr9dgts-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 13:34:11 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 242DY8Va23593364
+ Mon, 02 May 2022 13:36:42 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 242Dagu722479264
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 2 May 2022 13:34:08 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7CB4311C04C;
- Mon,  2 May 2022 13:34:08 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2E5CB11C050;
- Mon,  2 May 2022 13:34:08 +0000 (GMT)
-Received: from [9.171.86.251] (unknown [9.171.86.251])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  2 May 2022 13:34:08 +0000 (GMT)
-Message-ID: <a4d2d9bc-b5e5-b766-2d4a-c5222ea6109b@linux.ibm.com>
-Date: Mon, 2 May 2022 15:34:07 +0200
+ Mon, 2 May 2022 13:36:42 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 323FBAE05C;
+ Mon,  2 May 2022 13:36:42 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C2E2FAE067;
+ Mon,  2 May 2022 13:36:40 +0000 (GMT)
+Received: from [9.160.191.216] (unknown [9.160.191.216])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Mon,  2 May 2022 13:36:40 +0000 (GMT)
+Message-ID: <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
+Date: Mon, 2 May 2022 10:36:39 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH] target/s390x: Check storage keys in the TPROT
- instruction
+ Firefox/91.0 Thunderbird/91.8.0
+Subject: Re: [PATCH] mos6522: fix linking error when CONFIG_MOS6522 is not set
 Content-Language: en-US
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-References: <20220502082559.76167-1-thuth@redhat.com>
- <df57eafc-9bbf-b121-8f73-68d473c22262@linux.ibm.com>
-In-Reply-To: <df57eafc-9bbf-b121-8f73-68d473c22262@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20220429233146.29662-1-muriloo@linux.ibm.com>
+ <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
+From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
+Organization: IBM
+In-Reply-To: <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: T0nOGSg_vUmqCHsrSytrfNIAI41uzKja
-X-Proofpoint-ORIG-GUID: UY2PBRkiSdXHwUJX60k5Eg-heDp43-KQ
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 0sylG54nuruTkeaPgw1dhRymi6GPa-I5
+X-Proofpoint-ORIG-GUID: G3ZdOEXa0tUuWRG-SkgG47OmWqxtnY4O
+Content-Transfer-Encoding: base64
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -96,7 +93,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 suspectscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2205020106
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -105,7 +102,6 @@ X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 02 May 2022 09:52:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,107 +113,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>
+Reply-To: muriloo@linux.ibm.com
+Cc: Fabiano Rosas <farosas@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/22 12:17, Janis Schoetterl-Glausch wrote:
-> On 5/2/22 10:25, Thomas Huth wrote:
->> TPROT allows to specify an access key that should be used for checking
->> with the storage key of the destination page, to see whether an access
->> is allowed or not. Honor this storage key checking now in the emulated
->> TPROT instruction, too.
->>
->> Since we need the absolute address of the page (for getting the storage
->> key), we are now also calling mmu_translate() directly instead of
->> going via s390_cpu_virt_mem_check_write/read() - since we're only
->> interested in one page, and since mmu_translate() does not try to inject
->> excetions directly (it reports them via the return code instead), this
->> is likely the better function to use in TPROT anyway.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  This fixes the new TPROT-related storage key checks in this new
->>  kvm-unit-tests patch:
->>  https://lore.kernel.org/kvm/20220425161731.1575742-1-scgl@linux.ibm.com/
-> 
-> Thanks for having a go at this.
-> The key checking logic looks good to me; the expressions get a bit unwieldy,
-> but that is a style thing.
-> However, I'm wondering whether it would be better to mirror what the kernel
-> is doing and address the
-> 
->      * TODO: key-controlled protection. Only CPU accesses make use of the
->      *       PSW key. CSS accesses are different - we have to pass in the key.
-> 
-> in mmu_handle_skey, then tprot emulation would just relay the result of trying
-> the translation with store or fetch, passing in the key.
->>
->>  target/s390x/cpu.h            |  1 +
->>  target/s390x/tcg/mem_helper.c | 61 ++++++++++++++++++++++++++++-------
->>  2 files changed, 50 insertions(+), 12 deletions(-)
->>
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index 7d6d01325b..348950239f 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -328,6 +328,7 @@ extern const VMStateDescription vmstate_s390_cpu;
->>  /* Control register 0 bits */
->>  #define CR0_LOWPROT             0x0000000010000000ULL
->>  #define CR0_SECONDARY           0x0000000004000000ULL
->> +#define CR0_STOR_PROT_OVERRIDE  0x0000000001000000ULL
->>  #define CR0_EDAT                0x0000000000800000ULL
->>  #define CR0_AFP                 0x0000000000040000ULL
->>  #define CR0_VECTOR              0x0000000000020000ULL
->> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
->> index fc52aa128b..1e0309bbe8 100644
->> --- a/target/s390x/tcg/mem_helper.c
->> +++ b/target/s390x/tcg/mem_helper.c
->> @@ -2141,43 +2141,80 @@ uint32_t HELPER(testblock)(CPUS390XState *env, uint64_t real_addr)
->>      return 0;
->>  }
->>  
-> 
-> [...]
-> 
->> +
->>  uint32_t HELPER(tprot)(CPUS390XState *env, uint64_t a1, uint64_t a2)
->>  {
->>      S390CPU *cpu = env_archcpu(env);
->> -    CPUState *cs = env_cpu(env);
->> +    const int tp_acc = (a2 & SK_ACC_MASK) >> 4;
->> +    uint8_t skey;
->> +    int acc, pgm_code, pflags;
->> +    target_ulong abs_addr;
->> +    uint64_t asc = cpu->env.psw.mask & PSW_MASK_ASC;
->> +    uint64_t tec;
->>  
->>      /*
->>       * TODO: we currently don't handle all access protection types
->> -     * (including access-list and key-controlled) as well as AR mode.
->> +     * (including access-list) as well as AR mode.
->>       */
->> -    if (!s390_cpu_virt_mem_check_write(cpu, a1, 0, 1)) {
->> -        /* Fetching permitted; storing permitted */
->> +    pgm_code = mmu_translate(env, a1, true, asc, &abs_addr, &pflags, &tec);
-
-mmu_translate/mmu_handle_skey sets the change bit for stores, whereas TPROT specifies
-that it doesn't.
-Not sure what the best way to handle this is.
-Additional pretend fetch/store access modes?
-> 
-> I don't like the use of true to indicate a store here, when values other than 0 and 1 are possible.
-> Any reason not to use MMU_DATA_STORE?
-> 
-> A comment about fetch protection override might be nice here:
->        /*
->         * Since fetch protection override may apply to half of page 0 only,
->         * it need not be considered in the following.
->         */
-
-Disregard that, it's not true, TPROT does honor fetch-protection override, I just
-made a mistake while adding a test for it to the kvm-unit-test.
-
-[...]
+SGksIE1hcmsuDQoNClRoYW5rcyBmb3IgcmV2aWV3aW5nLiAgQ29tbWVudHMgYmVsb3cuDQoNCk9u
+IDUvMi8yMiAwNjo0MywgTWFyayBDYXZlLUF5bGFuZCB3cm90ZToNCj4gT24gMzAvMDQvMjAyMiAw
+MDozMSwgTXVyaWxvIE9wc2ZlbGRlciBBcmF1am8gd3JvdGU6DQo+IA0KPj4gV2hlbiBDT05GSUdf
+TU9TNjUyMiBpcyBub3Qgc2V0LCBidWlsZGluZyBwcGM2NC1zb2Z0bW11IHRhcmdldCBmYWlsczoN
+Cj4+DQo+PiDCoMKgwqDCoCAvdXNyL2Jpbi9sZDogbGlicWVtdS1wcGM2NC1zb2Z0bW11LmZhLnAv
+bW9uaXRvcl9taXNjLmMubzooLmRhdGErMHgxMTU4KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBg
+aG1wX2luZm9fdmlhJw0KPj4gwqDCoMKgwqAgY2xhbmctMTM6IGVycm9yOiBsaW5rZXIgY29tbWFu
+ZCBmYWlsZWQgd2l0aCBleGl0IGNvZGUgMSAodXNlIC12IHRvIHNlZSBpbnZvY2F0aW9uKQ0KPj4N
+Cj4+IEFkZCBDT05GSUdfTU9TNjUyMiBjaGVjayBmb3IgaG1wX2luZm9fdmlhIGluIGhtcC1jb21t
+YW5kcy1pbmZvLmh4IHRvIGZpeA0KPj4gc3VjaCBsaW5raW5nIGVycm9yLg0KPj4NCj4+IEZpeGVz
+OiA0MDllOWY3MTMxZTUgKG1vczY1MjI6IGFkZCAiaW5mbyB2aWEiIEhNUCBjb21tYW5kIGZvciBk
+ZWJ1Z2dpbmcpDQo+PiBTaWduZWQtb2ZmLWJ5OiBNdXJpbG8gT3BzZmVsZGVyIEFyYXVqbyA8bXVy
+aWxvb0BsaW51eC5pYm0uY29tPg0KPj4gQ2M6IE1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1h
+eWxhbmRAaWxhbmRlLmNvLnVrPg0KPj4gQ2M6IEZhYmlhbm8gUm9zYXMgPGZhcm9zYXNAbGludXgu
+aWJtLmNvbT4NCj4+IC0tLQ0KPj4gwqAgaG1wLWNvbW1hbmRzLWluZm8uaHggfCAyICsrDQo+PiDC
+oCAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2ht
+cC1jb21tYW5kcy1pbmZvLmh4IGIvaG1wLWNvbW1hbmRzLWluZm8uaHgNCj4+IGluZGV4IGFkZmEw
+ODVhOWIuLjlhZDc4NGRkOWYgMTAwNjQ0DQo+PiAtLS0gYS9obXAtY29tbWFuZHMtaW5mby5oeA0K
+Pj4gKysrIGIvaG1wLWNvbW1hbmRzLWluZm8uaHgNCj4+IEBAIC04ODEsNiArODgxLDcgQEAgU1JT
+VA0KPj4gwqAgRVJTVA0KPj4gwqAgI2lmIGRlZmluZWQoVEFSR0VUX002OEspIHx8IGRlZmluZWQo
+VEFSR0VUX1BQQykNCj4+ICsjaWYgZGVmaW5lZChDT05GSUdfTU9TNjUyMikNCj4+IMKgwqDCoMKg
+wqAgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIC5uYW1lwqDCoMKgwqDCoMKgwqDCoCA9ICJ2aWEi
+LA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIC5hcmdzX3R5cGXCoMKgwqAgPSAiIiwNCj4+IEBAIC04
+ODksNiArODkwLDcgQEAgRVJTVA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIC5jbWTCoMKgwqDCoMKg
+wqDCoMKgwqAgPSBobXBfaW5mb192aWEsDQo+PiDCoMKgwqDCoMKgIH0sDQo+PiDCoCAjZW5kaWYN
+Cj4+ICsjZW5kaWYNCj4+IMKgIFNSU1QNCj4+IMKgwqDCoCBgYGluZm8gdmlhYGANCj4gDQo+IEht
+bW0uIFRoZSBwYXRjaCBpbiBpdHMgcHJvcG9zZWQgZm9ybSBpc24ndCBjb3JyZWN0LCBzaW5jZSBk
+ZXZpY2UgQ09ORklHXyogZGVmaW5lcyBhcmVuJ3QgZGVjbGFyZWQgd2hlbiBwcm9jZXNzaW5nIGht
+cC1jb21tYW5kcy1pbmZvLmh4LiBUaGlzIHdhcyBzb21ldGhpbmcgdGhhdCB3YXMgZGlzY292ZXJl
+ZCBhbmQgZGlzY3Vzc2VkIGluIHRoZSBvcmlnaW5hbCB0aHJlYWQgZm9yIHdoaWNoIHRoZSBjdXJy
+ZW50IHdvcmthcm91bmQgaXMgdG8gdXNlIHRoZSBwZXItdGFyZ2V0IFRBUkdFVF8qIGRlZmluZXMg
+aW5zdGVhZC4NCg0KU28gbXkgcHJvcG9zZWQgZml4IHdvcmtlZCBqdXN0IGJ5IGNvaW5jaWRlbmNl
+LiAgVGhhbmtzIGZvciBwcm92aWRpbmcgdGhlIGJhY2tncm91bmQuDQoNCj4gDQo+IEdpdmVuIHRo
+YXQgdGhlIGczYmVpZ2UgYW5kIG1hYzk5IG1hY2hpbmVzIGFyZSBpbmNsdWRlZCBieSBkZWZhdWx0
+IGluIHFlbXUtc3lzdGVtLXBwYzY0IHdoaWNoIGJvdGggY29udGFpbiB0aGUgTU9TNjUyMiBkZXZp
+Y2UsIEkgY2FuJ3QgcXVpdGUgdW5kZXJzdGFuZCBob3cgQ09ORklHX01PUzY1MjIgaXNuJ3QgYmVp
+bmcgc2VsZWN0ZWQuDQo+IA0KPiBDYW4geW91IGdpdmUgbW9yZSBpbmZvcm1hdGlvbiBhYm91dCBo
+b3cgeW91IGFyZSBidWlsZGluZyBRRU1VIGluY2x1ZGluZyB5b3VyIGNvbmZpZ3VyZSBjb21tYW5k
+IGxpbmU/DQoNCkhlcmUgaXMgYSByZXByb2R1Y2VyIGFkYXB0ZWQgZnJvbSBDZW50T1MgOSBTdHJl
+YW0gcWVtdS1rdm1bMF0gcGFja2FnZQ0KKGJ1aWxkIGZhaWxlZCBvbiBjOXMgcHBjNjRsZSB3aXRo
+IFFFTVUgYXQgY29tbWl0IGY1NjQzOTE0YTllOGY3OWM2MDZhNzZlNmE5ZDdlYTgyYTNmYzNlNjUp
+Og0KDQokIGNhdCA+IGNvbmZpZ3MvZGV2aWNlcy9yaC12aXJ0aW8ubWFrIDw8IkVPRiINCkNPTkZJ
+R19WSVJUSU89eQ0KQ09ORklHX1ZJUlRJT19CQUxMT09OPXkNCkNPTkZJR19WSVJUSU9fQkxLPXkN
+CkNPTkZJR19WSVJUSU9fR1BVPXkNCkNPTkZJR19WSVJUSU9fSU5QVVQ9eQ0KQ09ORklHX1ZJUlRJ
+T19JTlBVVF9IT1NUPXkNCkNPTkZJR19WSVJUSU9fTkVUPXkNCkNPTkZJR19WSVJUSU9fUk5HPXkN
+CkNPTkZJR19WSVJUSU9fU0NTST15DQpDT05GSUdfVklSVElPX1NFUklBTD15DQpFT0YNCg0KJCBj
+YXQgPiBjb25maWdzL2RldmljZXMvcHBjNjQtc29mdG1tdS9wcGM2NC1yaC1kZXZpY2VzLm1hayA8
+PCJFT0YiDQppbmNsdWRlIC4uL3JoLXZpcnRpby5tYWsNCkNPTkZJR19ESU1NPXkNCkNPTkZJR19N
+RU1fREVWSUNFPXkNCkNPTkZJR19OVkRJTU09eQ0KQ09ORklHX1BDST15DQpDT05GSUdfUENJX0RF
+VklDRVM9eQ0KQ09ORklHX1BDSV9URVNUREVWPXkNCkNPTkZJR19QQ0lfRVhQUkVTUz15DQpDT05G
+SUdfUFNFUklFUz15DQpDT05GSUdfU0NTST15DQpDT05GSUdfU1BBUFJfVlNDU0k9eQ0KQ09ORklH
+X1RFU1RfREVWSUNFUz15DQpDT05GSUdfVVNCPXkNCkNPTkZJR19VU0JfT0hDST15DQpDT05GSUdf
+VVNCX09IQ0lfUENJPXkNCkNPTkZJR19VU0JfU01BUlRDQVJEPXkNCkNPTkZJR19VU0JfU1RPUkFH
+RV9DT1JFPXkNCkNPTkZJR19VU0JfU1RPUkFHRV9DTEFTU0lDPXkNCkNPTkZJR19VU0JfWEhDST15
+DQpDT05GSUdfVVNCX1hIQ0lfTkVDPXkNCkNPTkZJR19VU0JfWEhDSV9QQ0k9eQ0KQ09ORklHX1ZG
+SU89eQ0KQ09ORklHX1ZGSU9fUENJPXkNCkNPTkZJR19WR0E9eQ0KQ09ORklHX1ZHQV9QQ0k9eQ0K
+Q09ORklHX1ZIT1NUX1VTRVI9eQ0KQ09ORklHX1ZJUlRJT19QQ0k9eQ0KQ09ORklHX1ZJUlRJT19W
+R0E9eQ0KQ09ORklHX1dEVF9JQjYzMDBFU0I9eQ0KQ09ORklHX1hJQ1M9eQ0KQ09ORklHX1hJVkU9
+eQ0KQ09ORklHX1RQTT15DQpDT05GSUdfVFBNX1NQQVBSPXkNCkNPTkZJR19UUE1fRU1VTEFUT1I9
+eQ0KRU9GDQoNCiQgbWtkaXIgYnVpbGQNCiQgY2QgYnVpbGQNCg0KJCAuLi9jb25maWd1cmUgLS1j
+Yz1jbGFuZyAtLWN4eD0vYmluL2ZhbHNlIC0tcHJlZml4PS91c3IgLS1saWJkaXI9L3Vzci9saWI2
+NCAtLWRhdGFkaXI9L3Vzci9zaGFyZSAtLXN5c2NvbmZkaXI9L2V0YyAtLWludGVycC1wcmVmaXg9
+L3Vzci9xZW11LSVNIC0tbG9jYWxzdGF0ZWRpcj0vdmFyIC0tZG9jZGlyPS91c3Ivc2hhcmUvZG9j
+IC0tbGliZXhlY2Rpcj0vdXNyL2xpYmV4ZWMgJy0tZXh0cmEtbGRmbGFncz0tV2wsLXoscmVscm8g
+LVdsLC0tYXMtbmVlZGVkICAtV2wsLXosbm93ICAgJyAnLS1leHRyYS1jZmxhZ3M9LU8yICAtZmV4
+Y2VwdGlvbnMgLWcgLWdyZWNvcmQtZ2NjLXN3aXRjaGVzIC1waXBlIC1XYWxsIC1XZXJyb3I9Zm9y
+bWF0LXNlY3VyaXR5IC1XcCwtRF9GT1JUSUZZX1NPVVJDRT0yIC1XcCwtRF9HTElCQ1hYX0FTU0VS
+VElPTlMgLS1jb25maWcgL3Vzci9saWIvcnBtL3JlZGhhdC9yZWRoYXQtaGFyZGVuZWQtY2xhbmcu
+Y2ZnIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAgIC1tNjQgLW1jcHU9cG93ZXI5IC1tdHVuZT1w
+b3dlcjkgLWZhc3luY2hyb25vdXMtdW53aW5kLXRhYmxlcyAtZnN0YWNrLWNsYXNoLXByb3RlY3Rp
+b24gLVduby1zdHJpbmctcGx1cy1pbnQnIC0td2l0aC1wa2d2ZXJzaW9uPXFlbXUta3ZtLTcuMC4w
+LTEuZWw5IC0td2l0aC1zdWZmaXg9cWVtdS1rdm0gLS1maXJtd2FyZXBhdGg9L3Vzci9zaGFyZS9x
+ZW11LWZpcm13YXJlOi91c3Ivc2hhcmUvaXB4ZS9xZW11Oi91c3Ivc2hhcmUvc2VhdmdhYmlvczov
+dXNyL3NoYXJlL3NlYWJpb3MgLS1tZXNvbj1pbnRlcm5hbCAtLWVuYWJsZS10cmFjZS1iYWNrZW5k
+PWR0cmFjZSAtLXdpdGgtY29yb3V0aW5lPXVjb250ZXh0IC0td2l0aC1naXQ9Z2l0IC0tdGxzLXBy
+aW9yaXR5PUBRRU1VLFNZU1RFTSAtLWF1ZGlvLWRydi1saXN0PSAtLWRpc2FibGUtYWxzYSAtLWRp
+c2FibGUtYXR0ciAtLWRpc2FibGUtYXV0aC1wYW0gLS1kaXNhYmxlLWF2eDIgLS1kaXNhYmxlLWF2
+eDUxMmYgLS1kaXNhYmxlLWJsb2NrLWRydi13aGl0ZWxpc3QtaW4tdG9vbHMgLS1kaXNhYmxlLWJv
+Y2hzIC0tZGlzYWJsZS1icGYgLS1kaXNhYmxlLWJybGFwaSAtLWRpc2FibGUtYnNkLXVzZXIgLS1k
+aXNhYmxlLWJ6aXAyIC0tZGlzYWJsZS1jYXAtbmcgLS1kaXNhYmxlLWNhcHN0b25lIC0tZGlzYWJs
+ZS1jZmkgLS1kaXNhYmxlLWNmaS1kZWJ1ZyAtLWRpc2FibGUtY2xvb3AgLS1kaXNhYmxlLWNvY29h
+IC0tZGlzYWJsZS1jb3JlYXVkaW8gLS1kaXNhYmxlLWNvcm91dGluZS1wb29sIC0tZGlzYWJsZS1j
+cnlwdG8tYWZhbGcgLS1kaXNhYmxlLWN1cmwgLS1kaXNhYmxlLWN1cnNlcyAtLWRpc2FibGUtZGJ1
+cy1kaXNwbGF5IC0tZGlzYWJsZS1kZWJ1Zy1pbmZvIC0tZGlzYWJsZS1kZWJ1Zy1tdXRleCAtLWRp
+c2FibGUtZGVidWctdGNnIC0tZGlzYWJsZS1kbWcgLS1kaXNhYmxlLWRvY3MgLS1kaXNhYmxlLWRz
+b3VuZCAtLWRpc2FibGUtZmR0IC0tZGlzYWJsZS1mdXNlIC0tZGlzYWJsZS1mdXNlLWxzZWVrIC0t
+ZGlzYWJsZS1nY3J5cHQgLS1kaXNhYmxlLWdldHRleHQgLS1kaXNhYmxlLWdpbyAtLWRpc2FibGUt
+Z2x1c3RlcmZzIC0tZGlzYWJsZS1nbnV0bHMgLS1kaXNhYmxlLWd0ayAtLWRpc2FibGUtZ3Vlc3Qt
+YWdlbnQgLS1kaXNhYmxlLWd1ZXN0LWFnZW50LW1zaSAtLWRpc2FibGUtaGF4IC0tZGlzYWJsZS1o
+dmYgLS1kaXNhYmxlLWljb252IC0tZGlzYWJsZS1qYWNrIC0tZGlzYWJsZS1rdm0gLS1kaXNhYmxl
+LWwydHB2MyAtLWRpc2FibGUtbGliZGF4Y3RsIC0tZGlzYWJsZS1saWJpc2NzaSAtLWRpc2FibGUt
+bGlibmZzIC0tZGlzYWJsZS1saWJwbWVtIC0tZGlzYWJsZS1saWJzc2ggLS1kaXNhYmxlLWxpYnVk
+ZXYgLS1kaXNhYmxlLWxpYnVzYiAtLWRpc2FibGUtbGludXgtYWlvIC0tZGlzYWJsZS1saW51eC1p
+by11cmluZyAtLWRpc2FibGUtbGludXgtdXNlciAtLWRpc2FibGUtbGl2ZS1ibG9jay1taWdyYXRp
+b24gLS1kaXNhYmxlLWx0byAtLWRpc2FibGUtbHpmc2UgLS1kaXNhYmxlLWx6byAtLWRpc2FibGUt
+bWFsbG9jLXRyaW0gLS1kaXNhYmxlLW1lbWJhcnJpZXIgLS1kaXNhYmxlLW1vZHVsZXMgLS1kaXNh
+YmxlLW1vZHVsZS11cGdyYWRlcyAtLWRpc2FibGUtbXBhdGggLS1kaXNhYmxlLW11bHRpcHJvY2Vz
+cyAtLWRpc2FibGUtbmV0bWFwIC0tZGlzYWJsZS1uZXR0bGUgLS1kaXNhYmxlLW51bWEgLS1kaXNh
+YmxlLW52bW0gLS1kaXNhYmxlLW9wZW5nbCAtLWRpc2FibGUtb3NzIC0tZGlzYWJsZS1wYSAtLWRp
+c2FibGUtcGFyYWxsZWxzIC0tZGlzYWJsZS1waWUgLS1kaXNhYmxlLXB2cmRtYSAtLWRpc2FibGUt
+cWNvdzEgLS1kaXNhYmxlLXFlZCAtLWRpc2FibGUtcWdhLXZzcyAtLWRpc2FibGUtcW9tLWNhc3Qt
+ZGVidWcgLS1kaXNhYmxlLXJiZCAtLWRpc2FibGUtcmRtYSAtLWRpc2FibGUtcmVwbGljYXRpb24g
+LS1kaXNhYmxlLXJuZy1ub25lIC0tZGlzYWJsZS1zYWZlLXN0YWNrIC0tZGlzYWJsZS1zYW5pdGl6
+ZXJzIC0tZGlzYWJsZS1zZGwgLS1kaXNhYmxlLXNkbC1pbWFnZSAtLWRpc2FibGUtc2VjY29tcCAt
+LWRpc2FibGUtc2VsaW51eCAtLWRpc2FibGUtc2xpcnAgLS1kaXNhYmxlLXNsaXJwLXNtYmQgLS1k
+aXNhYmxlLXNtYXJ0Y2FyZCAtLWRpc2FibGUtc25hcHB5IC0tZGlzYWJsZS1zcGFyc2UgLS1kaXNh
+YmxlLXNwaWNlIC0tZGlzYWJsZS1zcGljZS1wcm90b2NvbCAtLWRpc2FibGUtc3RyaXAgLS1kaXNh
+YmxlLXN5c3RlbSAtLWRpc2FibGUtdGNnIC0tZGlzYWJsZS10b29scyAtLWRpc2FibGUtdHBtIC0t
+ZGlzYWJsZS11MmYgLS1kaXNhYmxlLXVzYi1yZWRpciAtLWRpc2FibGUtdXNlciAtLWRpc2FibGUt
+dmRlIC0tZGlzYWJsZS12ZGkgLS1kaXNhYmxlLXZob3N0LWNyeXB0byAtLWRpc2FibGUtdmhvc3Qt
+a2VybmVsIC0tZGlzYWJsZS12aG9zdC1uZXQgLS1kaXNhYmxlLXZob3N0LXNjc2kgLS1kaXNhYmxl
+LXZob3N0LXVzZXIgLS1kaXNhYmxlLXZob3N0LXVzZXItYmxrLXNlcnZlciAtLWRpc2FibGUtdmhv
+c3QtdmRwYSAtLWRpc2FibGUtdmhvc3QtdnNvY2sgLS1kaXNhYmxlLXZpcmdscmVuZGVyZXIgLS1k
+aXNhYmxlLXZpcnRmcyAtLWRpc2FibGUtdmlydGlvZnNkIC0tZGlzYWJsZS12bmMgLS1kaXNhYmxl
+LXZuYy1qcGVnIC0tZGlzYWJsZS12bmMtc2FzbCAtLWRpc2FibGUtdnRlIC0tZGlzYWJsZS12dmZh
+dCAtLWRpc2FibGUtd2Vycm9yIC0tZGlzYWJsZS13aHB4IC0tZGlzYWJsZS14ZW4gLS1kaXNhYmxl
+LXhlbi1wY2ktcGFzc3Rocm91Z2ggLS1kaXNhYmxlLXhrYmNvbW1vbiAtLWRpc2FibGUtenN0ZCAt
+LXdpdGgtZ2l0LXN1Ym1vZHVsZXM9aWdub3JlIC0td2l0aG91dC1kZWZhdWx0LWRldmljZXMgLS13
+aXRoLWRldmljZXMtcHBjNjQ9cHBjNjQtcmgtZGV2aWNlcyAtLXRhcmdldC1saXN0PXBwYzY0LXNv
+ZnRtbXUgLS1ibG9jay1kcnYtcnctd2hpdGVsaXN0PXFjb3cyLHJhdyxmaWxlLGhvc3RfZGV2aWNl
+LG5iZCxpc2NzaSxyYmQsYmxrZGVidWcsbHVrcyxudWxsLWNvLG52bWUsY29weS1vbi1yZWFkLHRo
+cm90dGxlLGNvbXByZXNzIC0tYmxvY2stZHJ2LXJvLXdoaXRlbGlzdD12ZGksdm1kayx2aGR4LHZw
+YyxodHRwcyAtLWVuYWJsZS1hdHRyIC0tZW5hYmxlLWNhcC1uZyAtLWVuYWJsZS1jYXBzdG9uZT1p
+bnRlcm5hbCAtLWVuYWJsZS1jb3JvdXRpbmUtcG9vbCAtLWVuYWJsZS1jdXJsIC0tZW5hYmxlLWRl
+YnVnLWluZm8gLS1lbmFibGUtZG9jcyAtLWVuYWJsZS1mZHQ9c3lzdGVtIC0tZW5hYmxlLWdudXRs
+cyAtLWVuYWJsZS1ndWVzdC1hZ2VudCAtLWVuYWJsZS1pY29udiAtLWVuYWJsZS1rdm0gLS1lbmFi
+bGUtbGlidXNiIC0tZW5hYmxlLWxpYnVkZXYgLS1lbmFibGUtbGludXgtYWlvIC0tZW5hYmxlLWx6
+byAtLWVuYWJsZS1tYWxsb2MtdHJpbSAtLWVuYWJsZS1tb2R1bGVzIC0tZW5hYmxlLW1wYXRoIC0t
+ZW5hYmxlLW51bWEgLS1lbmFibGUtcGEgLS1lbmFibGUtcGllIC0tZW5hYmxlLXJiZCAtLWVuYWJs
+ZS1yZG1hIC0tZW5hYmxlLXNlY2NvbXAgLS1lbmFibGUtc2VsaW51eCAtLWVuYWJsZS1zbGlycD1z
+eXN0ZW0gLS1lbmFibGUtc25hcHB5IC0tZW5hYmxlLXNwaWNlLXByb3RvY29sIC0tZW5hYmxlLXN5
+c3RlbSAtLWVuYWJsZS10Y2cgLS1lbmFibGUtdG9vbHMgLS1lbmFibGUtdHBtIC0tZW5hYmxlLXZk
+aSAtLWVuYWJsZS12aXJ0aW9mc2QgLS1lbmFibGUtdmhvc3Qta2VybmVsIC0tZW5hYmxlLXZob3N0
+LW5ldCAtLWVuYWJsZS12aG9zdC11c2VyIC0tZW5hYmxlLXZob3N0LXVzZXItYmxrLXNlcnZlciAt
+LWVuYWJsZS12aG9zdC12ZHBhIC0tZW5hYmxlLXZob3N0LXZzb2NrIC0tZW5hYmxlLXZuYyAtLWVu
+YWJsZS12bmMtc2FzbCAtLWVuYWJsZS13ZXJyb3IgLS1lbmFibGUteGtiY29tbW9uDQoNCiQgbWFr
+ZSAtTyAtaiQobnByb2MpIFY9MSBWRVJCT1NFPTENCi4uLg0KL3Vzci9iaW4vbGQ6IGxpYnFlbXUt
+cHBjNjQtc29mdG1tdS5mYS5wL21vbml0b3JfbWlzYy5jLm86KC5kYXRhKzB4MTE1OCk6IHVuZGVm
+aW5lZCByZWZlcmVuY2UgdG8gYGhtcF9pbmZvX3ZpYScNCmNsYW5nLTEzOiBlcnJvcjogbGlua2Vy
+IGNvbW1hbmQgZmFpbGVkIHdpdGggZXhpdCBjb2RlIDEgKHVzZSAtdiB0byBzZWUgaW52b2NhdGlv
+bikNCg0KSSBoYXZlIGZpZ3VyZWQgdGhhdCBpdCBhbHNvIGZhaWxzIHdpdGggdGhpcyBtaW5pbWFs
+IHNldCBvZiBjb25maWd1cmUgb3B0aW9ucw0KKGluIGFkZGl0aW9uIHRvIHRoZSBkZXZpY2VzIENP
+TkZJR18qIG9wdGlvbnMgYWJvdmUpOg0KDQokIC4uL2NvbmZpZ3VyZSAtLXdpdGhvdXQtZGVmYXVs
+dC1kZXZpY2VzIC0td2l0aC1kZXZpY2VzLXBwYzY0PXBwYzY0LXJoLWRldmljZXMgLS10YXJnZXQt
+bGlzdD1wcGM2NC1zb2Z0bW11DQokIG1ha2UgLWoNCi4uLg0KL3Vzci9iaW4vbGQ6IGxpYnFlbXUt
+cHBjNjQtc29mdG1tdS5mYS5wL21vbml0b3JfbWlzYy5jLm86KC5kYXRhLnJlbCsweDMyMjgpOiB1
+bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBobXBfaW5mb192aWEnDQpjb2xsZWN0MjogZXJyb3I6IGxk
+IHJldHVybmVkIDEgZXhpdCBzdGF0dXMNCg0KU2luY2UgVEFSR0VUX1BQQyBpcyBkZWZpbmVkIHdo
+ZW4gYnVpbGRpbmcgdGFyZ2V0IHBwYzY0LXNvZnRtbXUsIHRoZSBobXBfaW5mb192aWEgd2lsbCBi
+ZSByZWZlcmVuY2VkIHdoZW4gcHJvY2Vzc2luZyB0aGUgaG1wLWNvbW1hbmRzLWluZm8uaHguDQpI
+b3dldmVyLCBobXBfaW5mb192aWEgaW1wbGVtZW50YXRpb24gcmVzaWRlcyBvbiBody9taXNjL21v
+czY1MjIuYywgd2hpY2ggaXMgYnVpbHQgb25seSBpZiBDT05GSUdfTU9TNjUyMiBpcyBkZWZpbmVk
+LCBhcyBwZXIgaHcvbWlzYy9tZXNvbi5idWlsZC4NCg0KSWYgaG1wX2luZm9fdmlhIGlzIGdlbmVy
+aWMgZW5vdWdoIGFuZCBub3QgZGV2aWNlLXNwZWNpZmljLCBpdCBjb3VsZCBiZSBtb3ZlZCBvdXQg
+b2YgbW9zNjUyMi5jIHRvIHNvbWV3aGVyZSBlbHNlLg0KDQpXaGF0IGRvIHlvdSB0aGluaz8NCg0K
+WzBdIGh0dHBzOi8vZ2l0bGFiLmNvbS9yZWRoYXQvY2VudG9zLXN0cmVhbS9ycG1zL3FlbXUta3Zt
+Ly0vYmxvYi9jOXMvcWVtdS1rdm0uc3BlYyNMNjg2DQoNCi0tIA0KTXVyaWxvDQo=
 
