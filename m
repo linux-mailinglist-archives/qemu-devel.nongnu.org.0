@@ -2,63 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695E9516DAD
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 11:47:34 +0200 (CEST)
-Received: from localhost ([::1]:54508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E24516DC2
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 11:51:50 +0200 (CEST)
+Received: from localhost ([::1]:33670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlSeT-00025Z-C3
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 05:47:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
+	id 1nlSib-0007Id-ME
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 05:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nlSZd-0007j5-Dd
- for qemu-devel@nongnu.org; Mon, 02 May 2022 05:42:34 -0400
-Received: from mga05.intel.com ([192.55.52.43]:48091)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nlSaO-0000Cw-B8; Mon, 02 May 2022 05:43:22 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nlSZb-0007nw-NL
- for qemu-devel@nongnu.org; Mon, 02 May 2022 05:42:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651484551; x=1683020551;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=jNbFrqjQ9CWFv0nryAshtmZ5YCZ1dndg17ZdlYMfCjQ=;
- b=DYBpvUcTcLhQRy1fZsTzYSnVyRDfAiVc+dsjO9ZCWBeiP6CaucUFDdP6
- VVs0rSrmrvizmb298BKkHkE5LSFw78Xf+vefwUeTPKeWdAjB0YMV+QZ0o
- acWx9Bqb2TNyS+M8tQZB4zaygryppG8mjGRmBIpSE9an0opN8Cvm1xZ7a
- LtZW0jIHfuoPcOuTJEo6BIeSX8c8KrjeWRVxA6x+5dJoW9KZV3ETIP5Ua
- bcUfb7Z8bg+zn0oWyUO5I3vvgVLwkPpJxZ9jkUWdmZSEf/UOu2OQ9mfcE
- maVcifngG39A/OE32nNX65Av7j9W5io6Cj1bhS6vCUxDBzvP2v0ruTE/9 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10334"; a="353597175"
-X-IronPort-AV: E=Sophos;i="5.91,190,1647327600"; d="scan'208";a="353597175"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 02:42:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,190,1647327600"; d="scan'208";a="561649602"
-Received: from 984fee00a4c6.jf.intel.com ([10.165.58.231])
- by orsmga007.jf.intel.com with ESMTP; 02 May 2022 02:42:23 -0700
-From: Yi Liu <yi.l.liu@intel.com>
-To: alex.williamson@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [Patch 3/3] vfio/common: Rename VFIOGuestIOMMU::iommu into ::iommu_mr
-Date: Mon,  2 May 2022 02:42:23 -0700
-Message-Id: <20220502094223.36384-4-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220502094223.36384-1-yi.l.liu@intel.com>
-References: <20220502094223.36384-1-yi.l.liu@intel.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nlSaM-0007re-S0; Mon, 02 May 2022 05:43:20 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nlSZK-000AhC-G6; Mon, 02 May 2022 10:42:18 +0100
+Message-ID: <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
+Date: Mon, 2 May 2022 10:43:06 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=yi.l.liu@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20220429233146.29662-1-muriloo@linux.ibm.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220429233146.29662-1-muriloo@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] mos6522: fix linking error when CONFIG_MOS6522 is not set
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,108 +58,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- eric.auger.pro@gmail.com
+Cc: Fabiano Rosas <farosas@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename VFIOGuestIOMMU iommu field into iommu_mr. Then it becomes clearer
-it is an IOMMU memory region.
+On 30/04/2022 00:31, Murilo Opsfelder Araujo wrote:
 
-no functional change intended
+> When CONFIG_MOS6522 is not set, building ppc64-softmmu target fails:
+> 
+>      /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): undefined reference to `hmp_info_via'
+>      clang-13: error: linker command failed with exit code 1 (use -v to see invocation)
+> 
+> Add CONFIG_MOS6522 check for hmp_info_via in hmp-commands-info.hx to fix
+> such linking error.
+> 
+> Fixes: 409e9f7131e5 (mos6522: add "info via" HMP command for debugging)
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: Fabiano Rosas <farosas@linux.ibm.com>
+> ---
+>   hmp-commands-info.hx | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index adfa085a9b..9ad784dd9f 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -881,6 +881,7 @@ SRST
+>   ERST
+>   
+>   #if defined(TARGET_M68K) || defined(TARGET_PPC)
+> +#if defined(CONFIG_MOS6522)
+>       {
+>           .name         = "via",
+>           .args_type    = "",
+> @@ -889,6 +890,7 @@ ERST
+>           .cmd          = hmp_info_via,
+>       },
+>   #endif
+> +#endif
+>   
+>   SRST
+>     ``info via``
 
-Signed-off-by: Yi Liu <yi.l.liu@intel.com>
----
- hw/vfio/common.c              | 16 ++++++++--------
- include/hw/vfio/vfio-common.h |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+Hmmm. The patch in its proposed form isn't correct, since device CONFIG_* defines 
+aren't declared when processing hmp-commands-info.hx. This was something that was 
+discovered and discussed in the original thread for which the current workaround is 
+to use the per-target TARGET_* defines instead.
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 2b1f78fdfa..287a2b6828 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -992,7 +992,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
-          * device emulation the VFIO iommu handles to use).
-          */
-         giommu = g_malloc0(sizeof(*giommu));
--        giommu->iommu = iommu_mr;
-+        giommu->iommu_mr = iommu_mr;
-         giommu->iommu_offset = section->offset_within_address_space -
-                                section->offset_within_region;
-         giommu->container = container;
-@@ -1007,7 +1007,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                             int128_get64(llend),
-                             iommu_idx);
- 
--        ret = memory_region_iommu_set_page_size_mask(giommu->iommu,
-+        ret = memory_region_iommu_set_page_size_mask(giommu->iommu_mr,
-                                                      container->pgsizes,
-                                                      &err);
-         if (ret) {
-@@ -1022,7 +1022,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
-             goto fail;
-         }
-         QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
--        memory_region_iommu_replay(giommu->iommu, &giommu->n);
-+        memory_region_iommu_replay(giommu->iommu_mr, &giommu->n);
- 
-         return;
-     }
-@@ -1128,7 +1128,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
-         VFIOGuestIOMMU *giommu;
- 
-         QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
--            if (MEMORY_REGION(giommu->iommu) == section->mr &&
-+            if (MEMORY_REGION(giommu->iommu_mr) == section->mr &&
-                 giommu->n.start == section->offset_within_region) {
-                 memory_region_unregister_iommu_notifier(section->mr,
-                                                         &giommu->n);
-@@ -1393,11 +1393,11 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
-         VFIOGuestIOMMU *giommu;
- 
-         QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
--            if (MEMORY_REGION(giommu->iommu) == section->mr &&
-+            if (MEMORY_REGION(giommu->iommu_mr) == section->mr &&
-                 giommu->n.start == section->offset_within_region) {
-                 Int128 llend;
-                 vfio_giommu_dirty_notifier gdn = { .giommu = giommu };
--                int idx = memory_region_iommu_attrs_to_index(giommu->iommu,
-+                int idx = memory_region_iommu_attrs_to_index(giommu->iommu_mr,
-                                                        MEMTXATTRS_UNSPECIFIED);
- 
-                 llend = int128_add(int128_make64(section->offset_within_region),
-@@ -1410,7 +1410,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
-                                     section->offset_within_region,
-                                     int128_get64(llend),
-                                     idx);
--                memory_region_iommu_replay(giommu->iommu, &gdn.n);
-+                memory_region_iommu_replay(giommu->iommu_mr, &gdn.n);
-                 break;
-             }
-         }
-@@ -2246,7 +2246,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
- 
-         QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
-             memory_region_unregister_iommu_notifier(
--                    MEMORY_REGION(giommu->iommu), &giommu->n);
-+                    MEMORY_REGION(giommu->iommu_mr), &giommu->n);
-             QLIST_REMOVE(giommu, giommu_next);
-             g_free(giommu);
-         }
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 8af11b0a76..e573f5a9f1 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -98,7 +98,7 @@ typedef struct VFIOContainer {
- 
- typedef struct VFIOGuestIOMMU {
-     VFIOContainer *container;
--    IOMMUMemoryRegion *iommu;
-+    IOMMUMemoryRegion *iommu_mr;
-     hwaddr iommu_offset;
-     IOMMUNotifier n;
-     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
--- 
-2.27.0
+Given that the g3beige and mac99 machines are included by default in 
+qemu-system-ppc64 which both contain the MOS6522 device, I can't quite understand how 
+CONFIG_MOS6522 isn't being selected.
 
+Can you give more information about how you are building QEMU including your 
+configure command line?
+
+
+ATB,
+
+Mark.
 
