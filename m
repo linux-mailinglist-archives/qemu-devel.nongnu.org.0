@@ -2,99 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCCE5174EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 18:49:50 +0200 (CEST)
-Received: from localhost ([::1]:48878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958CB5175B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 19:27:07 +0200 (CEST)
+Received: from localhost ([::1]:34292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlZF6-0005y8-1W
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 12:49:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50120)
+	id 1nlZpC-0001FB-1b
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 13:27:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nlZE8-0005EF-W5; Mon, 02 May 2022 12:48:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7658)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlZnN-0000Gq-Dz
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 13:25:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nlZE7-0004Rp-8m; Mon, 02 May 2022 12:48:48 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242GUrIn018084;
- Mon, 2 May 2022 16:48:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=kviHt2lZePMGoC32Sf8FFf0W9khm/VJ/JV03eDPq6DU=;
- b=h0ua5E41cGhYb+5ozr3XmbQBeXnIWudh1mZW52G/2I1OgwMiesGM5ruPoba3dzWX/cw/
- AD69FmU+8X0kzsaJrG0PQajsK+XNVZYcEUCUtxIWo6DljxXfDbgtzCLqXzZKDIMLwHZn
- 9TvqJtiDe41dPoIoug9dU8aOZ4/xUG9d/ZbCd5ci9jjGdGGA9UIYMEyJBdjGQ8OFcRTa
- 2zOKiiI6KIxoy7ktgUGCZp1xZLvo60qd6rV1LzipoNUBJ8NvGw+WdkW23XHxJ96wFGX3
- 90DkJxZ80fPQlBQAPhSF2+IYZj9flXlXba3pLnC+qQ8Cb+UcBUXO8QeRND3Mtnpouhdp Ag== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftjvwrabk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 16:48:37 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 242GV9fu019888;
- Mon, 2 May 2022 16:48:37 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftjvwraay-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 16:48:37 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 242GgNX5026472;
- Mon, 2 May 2022 16:48:35 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3frvcj2yft-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 16:48:34 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 242GZG2851118504
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 2 May 2022 16:35:16 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B5026A404D;
- Mon,  2 May 2022 16:48:31 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4529DA4040;
- Mon,  2 May 2022 16:48:31 +0000 (GMT)
-Received: from heavy.ibmuc.com (unknown [9.171.50.79])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  2 May 2022 16:48:31 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Subject: [PATCH] tests/tcg/s390x: Use a different PCRel32 notation in
- branch-relative-long.c
-Date: Mon,  2 May 2022 18:48:30 +0200
-Message-Id: <20220502164830.1622191-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlZnK-0001CD-5q
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 13:25:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651512309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RaBH4mScFY/vN04/0KRWKZoYoKXG1maaDr9i5PRFXgI=;
+ b=ZB0ouOrK7eV8FYvaM+5CIel8rg1XGdiY/4ryMEu8NMi2YAB7uk+SRZ1m6PICIWrpAVDfYq
+ gaacI7xnIbQ8eClxKwtaiACMtJrdL02gBXDxRISniUeIFt0OGa34VgSBOMrfta+yRW34nr
+ EKlojYsKdZQNbB4nLkudB8DKBIUkK60=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-423-KrZCuR_gNzitR0GR3Owa2w-1; Mon, 02 May 2022 13:25:06 -0400
+X-MC-Unique: KrZCuR_gNzitR0GR3Owa2w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B446E29ABA03;
+ Mon,  2 May 2022 17:25:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB58040D1B9A;
+ Mon,  2 May 2022 17:24:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B8B7021E68BC; Mon,  2 May 2022 19:24:53 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Subject: Re: [PATCH 6/7] qapi: Drop unnecessary horizontal spacing in comments
+References: <20220429154758.354610-1-abologna@redhat.com>
+ <20220429154758.354610-7-abologna@redhat.com>
+ <874k28s4hs.fsf@pond.sub.org>
+ <CABJz62PTMG6GvZM7nCGxLAb0YhDuA-Yn-q+iNgcZb4=Wpq-Mfw@mail.gmail.com>
+Date: Mon, 02 May 2022 19:24:53 +0200
+In-Reply-To: <CABJz62PTMG6GvZM7nCGxLAb0YhDuA-Yn-q+iNgcZb4=Wpq-Mfw@mail.gmail.com>
+ (Andrea Bolognani's message of "Mon, 2 May 2022 10:34:09 -0400")
+Message-ID: <87ee1bkftm.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: nmxxuW79OgWqpUJdIds_kQIVt6fJJtoc
-X-Proofpoint-GUID: DAq6W0YQKDlvVA-Xf_RTVoMrmav5ow6L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-02_05,2022-05-02_03,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- spamscore=0 adultscore=0 clxscore=1015 impostorscore=0 suspectscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205020126
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,38 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-?= =?utf-8?Q?Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Binutils >=2.37 and Clang do not accept (. - 0x100000000) PCRel32
-constants. While this looks like a bug that needs fixing, use a
-different notation (-0x100000000) as a workaround.
+Andrea Bolognani <abologna@redhat.com> writes:
 
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/branch-relative-long.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On Mon, May 02, 2022 at 10:50:07AM +0200, Markus Armbruster wrote:
+>> Andrea Bolognani <abologna@redhat.com> writes:
+>> > -# @writeback:   true if writeback mode is enabled
+>> > -# @direct:      true if the host page cache is bypassed (O_DIRECT)
+>> > -# @no-flush:    true if flush requests are ignored for the device
+>> > +# @writeback: true if writeback mode is enabled
+>> > +# @direct:    true if the host page cache is bypassed (O_DIRECT)
+>> > +# @no-flush:  true if flush requests are ignored for the device
+>>
+>> I'm no fan of horizontally aligning descriptions, because when you add a
+>> longer name, you either realign (I hate the churn) or live with the
+>> inconsistency (I hate that, too).
+>
+> We seem to be in violent agreement on the topic, but it's apparent
+> that other people feel diffently :)
+>
+>> I doubt changing to a different alignment now is useful.  The next
+>> patch, however, drops the alignment entirely.  Possibly useful.
+>>
+>> Thoughts?
+>
+> My rationale for splitting things the way I did is that, if dropping
+> the horizontal alignment entirely was not considered desirable, we
+> could at least get rid of the extra whitespace.
 
-diff --git a/tests/tcg/s390x/branch-relative-long.c b/tests/tcg/s390x/branch-relative-long.c
-index 94219afcad..8ce9f1c2e5 100644
---- a/tests/tcg/s390x/branch-relative-long.c
-+++ b/tests/tcg/s390x/branch-relative-long.c
-@@ -13,8 +13,8 @@
-         #_name "_end:\n");
- 
- DEFINE_ASM(br_r14, "br %r14");
--DEFINE_ASM(brasl_r0, "brasl %r0,.-0x100000000");
--DEFINE_ASM(brcl_0xf, "brcl 0xf,.-0x100000000");
-+DEFINE_ASM(brasl_r0, "brasl %r0,-0x100000000");
-+DEFINE_ASM(brcl_0xf, "brcl 0xf,-0x100000000");
- 
- struct test {
-     const char *code;
--- 
-2.35.1
+Understood.
+
+>                                                 But if you think that
+> the benefit from the half measure doesn't offset the cost of the
+> churn it causes, I'm happy to drop these hunks and go straight from
+> the current status to no horizontal alignment at all in one fell
+> swoop with the next patch.
+
+Show us the patches, and then we can decide whether the improvement is
+worth the churn.
+
+>> > -# Since:  0.14
+>> > +# Since: 0.14
+>>
+>> This one is TAG: TEXT, whereas the one above is a multiple @NAME:
+>> DESCRIPTION.  Extra space in the latter can provide alignment.  Extra
+>> space in the former is always redundant.  I'd take a patch dropping
+>> these obviously redundant spaces without debate :)
+>
+> Okay, I'll respin this so that the first patch drops all extra
+> whitespace in contexts where horizontal alignment is either not
+> attempted or not possible, and the second one implements the more
+> controversial changes.
+
+The first one is another no-brainer.
 
 
