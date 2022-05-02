@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AF55171B0
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C855171AF
 	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 16:36:55 +0200 (CEST)
-Received: from localhost ([::1]:36450 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:36442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlXAT-0005xq-Sl
+	id 1nlXAT-0005xI-P7
 	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 10:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nlX7w-0004Rs-CY
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nlX7x-0004SA-8R
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 10:34:17 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nlX7v-00025d-NP
  for qemu-devel@nongnu.org; Mon, 02 May 2022 10:34:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nlX7t-00025L-Fz
- for qemu-devel@nongnu.org; Mon, 02 May 2022 10:34:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651502052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=y4gHm6z08NyF/GhYmvjiPcdewrvVxbz5blC4iISow9E=;
- b=Qc7NCtvHFQBbkc9c59K8Doada+HitpMXDMBMYSfht8j/8MKWcs9Kcpd4v678yEFGMvCnzS
- OJMl0LP/ua3uZZBYZNApsR91TT5Vz/S+kpnXcCkab7/kHjC57vgyskbJPyjRDgnv9IV9GD
- 0nZzgtyPvMCjsUzbAaQVBpas5ph9DWo=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-tkZxGK6WNia39MhZuL2Aww-1; Mon, 02 May 2022 10:34:11 -0400
-X-MC-Unique: tkZxGK6WNia39MhZuL2Aww-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-2f9299dfb81so17652047b3.6
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 07:34:10 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id t5so6193925edw.11
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 07:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=pFt3U+uXBudd9ivQWgNA76qz4QWsqeIIxeE1lrRVbRnHyJlpNTqFO3nC/agKd0jN+c
+ QM3eztfeosdoDTKGruo4p5jOzT6kCYoYVnT1h8U8SkFMsIdw+OageHCzn3cD0zkx1hF3
+ 57M+5jmRYVHECtsZBnebhNtFVd3EKY9zvMgsfe/yQ6l5RSQ6ANpxQb6AK6vUvkDv0XZq
+ 4GPNXknl2loYd3Xsnpg1kx7vid+Yag/7Ss46OPXgRYInV0kKO5+4y3g0MsNfD8rfcZ6F
+ d1OAMbOqHdJEIGmWN+FNcIzhIXK41JKgLfJMOutKUm2nnx5qlNEyk0RJSpDANpsErbdF
+ DztA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc;
- bh=y4gHm6z08NyF/GhYmvjiPcdewrvVxbz5blC4iISow9E=;
- b=0gyJVtdxBkcBNDbIBa7rYfAyr9ftdwkFFEKlZV4XNtBuk30Hb+2kouCg+NrQGF/5JU
- pim5bS2TtKt+5A3At2+EGRQ5mYYEVgH8Si8kDnaH2obtydJsh6NMvH95qreE1Myhu9RH
- hhuJtFHcUX4OC2MSk4cEnWcXRAmH5uMOlZX4zLKWvknX5i20+S3o0vUt19kjdJ5WZSdF
- i+giRNRTPcZtJ4lZK8annHvAydjTfpXLQChD/WrpkFuRCM/MkHJF6QmElGpFORHP5+m8
- 0R6+5v/crZ3ot2Zwn8vNzxJXvVkcmzdD/u2q52oh1zWjFsP1uOg0nfwVJYOKJGuyTLdL
- PObQ==
-X-Gm-Message-State: AOAM530TOQ/iTSTgdPXRpWcZKEkgN5k1a+hRK8I1kUQdAErx6BjLUCrm
- hiBpnfP9czK3OJ2Je0yAssMRRMo15f56hvrrD/OwkJ6z8a/ZecAwp9kYGTQmyzz6WVqAo1v0GPJ
- 11p8JmRDRqWuUHqPnF/ExdFpKfUqdMN4=
-X-Received: by 2002:a05:690c:110:b0:2ec:2d79:eee1 with SMTP id
- bd16-20020a05690c011000b002ec2d79eee1mr12166815ywb.21.1651502050436; 
- Mon, 02 May 2022 07:34:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJxtFPEaiBxuHSOIsG3BmCgOEKBMTYw12GaoALwJ/OQj9u3kr726+mLqUv+9WgHorNw5wps1AML5jQqnzaY4w=
-X-Received: by 2002:a05:690c:110:b0:2ec:2d79:eee1 with SMTP id
- bd16-20020a05690c011000b002ec2d79eee1mr12166784ywb.21.1651502050198; Mon, 02
- May 2022 07:34:10 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 May 2022 10:34:09 -0400
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220429154758.354610-1-abologna@redhat.com>
- <20220429154758.354610-7-abologna@redhat.com>
- <874k28s4hs.fsf@pond.sub.org>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=Hqg1OTtDVj0iZ8+5dFjji3usRRF6aiISKt+dCRibjc4890qmETV4UtpRi+kRNiKXWl
+ YBJxBH+nxXyQqAKtwBYQrRV1SMfAlE/NRvdJz9zjLj5y98KrX3jgp4Ksw58av2mBTwBh
+ uB39OT3JrWPcF2yz021eJUJ7Jg7Hnk3Kw6xBvqLFQKGKBFMIOoYVbzmdw/Xc+pX0imvl
+ 0AdAv9dJDfdFsjL2vbvGKHLJUWPARLylsGv9lfaH0HWB8tSfTZvgSBcN09F43PN7RL57
+ Hww3X0AYU7BLqVgsU3kGy3vCtGSW9QLWDZ/D1tm4kIO8cpASENHdilidVXiICyjrElDR
+ XpsQ==
+X-Gm-Message-State: AOAM530sYRPO/cx3LdbwbpOWpPDxe+qnPzyznz4ZB9c9caGAKAxMoofM
+ BXZCsmrh15B9OjdBNqCPd7g=
+X-Google-Smtp-Source: ABdhPJw35xNGvqWdgqianFEnnIc3PXcQ8FX5uuEv+dfBVFn4Cx+bFVcX4GsPC6PFJPCk7t67dAa+Hg==
+X-Received: by 2002:a05:6402:11cd:b0:427:bf42:44ef with SMTP id
+ j13-20020a05640211cd00b00427bf4244efmr7118693edw.336.1651502054260; 
+ Mon, 02 May 2022 07:34:14 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ d11-20020a056402078b00b0042617ba63c0sm6744531edy.74.2022.05.02.07.34.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 May 2022 07:34:13 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] Meson: Make mremap() detecting works correctly
+Date: Mon,  2 May 2022 16:34:12 +0200
+Message-Id: <20220502143412.535557-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220502131119.2345-1-quintela@redhat.com>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <874k28s4hs.fsf@pond.sub.org>
-Date: Mon, 2 May 2022 10:34:09 -0400
-Message-ID: <CABJz62PTMG6GvZM7nCGxLAb0YhDuA-Yn-q+iNgcZb4=Wpq-Mfw@mail.gmail.com>
-Subject: Re: [PATCH 6/7] qapi: Drop unnecessary horizontal spacing in comments
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,62 +85,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 02, 2022 at 10:50:07AM +0200, Markus Armbruster wrote:
-> Andrea Bolognani <abologna@redhat.com> writes:
-> > -# @writeback:   true if writeback mode is enabled
-> > -# @direct:      true if the host page cache is bypassed (O_DIRECT)
-> > -# @no-flush:    true if flush requests are ignored for the device
-> > +# @writeback: true if writeback mode is enabled
-> > +# @direct:    true if the host page cache is bypassed (O_DIRECT)
-> > +# @no-flush:  true if flush requests are ignored for the device
->
-> I'm no fan of horizontally aligning descriptions, because when you add a
-> longer name, you either realign (I hate the churn) or live with the
-> inconsistency (I hate that, too).
+Queued, thanks.
 
-We seem to be in violent agreement on the topic, but it's apparent
-that other people feel diffently :)
+Paolo
 
-> I doubt changing to a different alignment now is useful.  The next
-> patch, however, drops the alignment entirely.  Possibly useful.
->
-> Thoughts?
-
-My rationale for splitting things the way I did is that, if dropping
-the horizontal alignment entirely was not considered desirable, we
-could at least get rid of the extra whitespace. But if you think that
-the benefit from the half measure doesn't offset the cost of the
-churn it causes, I'm happy to drop these hunks and go straight from
-the current status to no horizontal alignment at all in one fell
-swoop with the next patch.
-
-> > -# Since:  0.14
-> > +# Since: 0.14
->
-> This one is TAG: TEXT, whereas the one above is a multiple @NAME:
-> DESCRIPTION.  Extra space in the latter can provide alignment.  Extra
-> space in the former is always redundant.  I'd take a patch dropping
-> these obviously redundant spaces without debate :)
-
-Okay, I'll respin this so that the first patch drops all extra
-whitespace in contexts where horizontal alignment is either not
-attempted or not possible, and the second one implements the more
-controversial changes.
-
--- 
-Andrea Bolognani / Red Hat / Virtualization
 
 
