@@ -2,85 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45DB516D18
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 11:08:46 +0200 (CEST)
-Received: from localhost ([::1]:55220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5AB516D1C
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 11:12:48 +0200 (CEST)
+Received: from localhost ([::1]:58470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlS2u-00071b-S5
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 05:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51718)
+	id 1nlS6p-00014S-Al
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 05:12:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nlRzy-0005yh-Lp
- for qemu-devel@nongnu.org; Mon, 02 May 2022 05:05:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53034)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlS4J-0000Ar-FW
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 05:10:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nlRzu-0002Fr-VW
- for qemu-devel@nongnu.org; Mon, 02 May 2022 05:05:40 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlS4F-0002ij-K9
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 05:10:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651482336;
+ s=mimecast20190719; t=1651482606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=stQQgQ/34g4IiampLdkjBy6YpZGpUvPt6ds6hjxHfF4=;
- b=Rs7BpTdBxvJE3EZh1lujrOuy5XGh8hPt4mhoE00h40gDO00a/spUjsaCXLdXBE9P6hjfzx
- j6OIBRV5mXS/7oV2Hb/f7EH7XLzfz/zDImOCl4qD7y/46WNrh98udt9F7flS0E4SyvufzA
- ytzYd9+lQmfAd2jkvplv0NCUEGx1dsc=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KspkaPueYED0tbF8zj9q2bHC70mELMawWh7bdKmevUA=;
+ b=WtXAL6NbGoi3wXdDOWYijqApiGWglilO+KQvj1S9kmqp+5XCPWE9pRsfsfth9OxfNlcUGq
+ EnkdfCs5bmJ7keY6HusFiSlhno4+o48R/c/q1+Mz25u83H1rdKcDBF0QC0gnWVopvCNpoW
+ rrNWvpRE3I6/iPHnSnfj2C1lg1jRbsw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-5ImHllwtPymlRzqSADjlhw-1; Mon, 02 May 2022 05:04:14 -0400
-X-MC-Unique: 5ImHllwtPymlRzqSADjlhw-1
-Received: by mail-yb1-f198.google.com with SMTP id
- d22-20020a25add6000000b00645d796034fso12684486ybe.2
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 02:04:14 -0700 (PDT)
+ us-mta-479-JsmgnGx8Pm-0n2JwTGT-Cg-1; Mon, 02 May 2022 05:10:04 -0400
+X-MC-Unique: JsmgnGx8Pm-0n2JwTGT-Cg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l33-20020a05600c1d2100b00394059572d6so4278998wms.8
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 02:10:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc;
- bh=stQQgQ/34g4IiampLdkjBy6YpZGpUvPt6ds6hjxHfF4=;
- b=bi06PLFTa+dWiLiulm942dj++CWbeB3Tuj47koBfwDm/RueDVm64Qhbvu3SEwveFrL
- gghn49MB/2P8Z/eEEnLXykoeAIRZcseHwgDgp9348BHRCrv+SftahKwNlD+i1uhyX8Nz
- A3uzmSb8APr0MZEu/ypGsNMey2TEtdozOnrlw9iae/SznZXyhVOFxVzLMWs2V4VTJea6
- 8IHCSdoTlD7Y84Cw9Wp2YRZ814Uy1UMYlMf3ymIEYMrsJtJ6l0at8hXJzOv84pUbeXlx
- T4Y9wgSnsDXgkEo6w3ZDMmvk4j7x3VQ3OgQqOTWqVdh2omQhxDkyqHXw1dcXBNvZcK1M
- /u6Q==
-X-Gm-Message-State: AOAM531Zbgw2srx/5aAA11khgJrK+ak3egsvfCx5XY9nXfPzn6KIOh82
- 85t8oPntfGHMqpnJtB6KMxDcKC72C7Pnf1jXvC7Q2jLWptAPvy+ecCGrvqdtBH6lnOCVv0J+co4
- KHJDgkm4nQMFxZ6/I+0pTTCW9XRY1S18=
-X-Received: by 2002:a25:1307:0:b0:649:9048:a411 with SMTP id
- 7-20020a251307000000b006499048a411mr2482652ybt.7.1651482254048; 
- Mon, 02 May 2022 02:04:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+QZm+0ISrUZfP4yfEKx63d1WBKVu4FgMOD93CaDcNXWVDoOhc4tKssC77lMfk99aCk2jOOi0SfphebOk4rHo=
-X-Received: by 2002:a25:1307:0:b0:649:9048:a411 with SMTP id
- 7-20020a251307000000b006499048a411mr2482636ybt.7.1651482253839; Mon, 02 May
- 2022 02:04:13 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 May 2022 05:04:13 -0400
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
- <87a6c52u68.fsf@pond.sub.org>
- <CABJz62NaEgEzEkvdYbNZ5qfkx_gAYfnxt_YbQhGyD08gRH6EYg@mail.gmail.com>
- <87v8uos8lb.fsf@pond.sub.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=KspkaPueYED0tbF8zj9q2bHC70mELMawWh7bdKmevUA=;
+ b=vA6B0aaTcvkiFtzqd0KuF3k76xHoOAzIJ9WSqfE5pMPp+PiD159VtRzayNZ+ByTQCG
+ JyI3BITNG/VWzNmuhesD52qwi/O+7kK9l0UtNJZJpPFUIfrIkf9oQrUTP2Dp2pBWMdId
+ AexsOs5quj2kYENVrH30ixRS8vFRJxeMzYwXCHBTEb13sr+KIxmOHYq+C9cHOzPmIoCi
+ eTJjyXxUyKwEcuLhaR2cL2I4df+TlLl224kV7bk+mG2bOenoXA2jzBPgogJCPSNWap0y
+ 7dUvnHeXf4xyV4LALx68LuxsrdgZWebxhSo8NFt8V3cQrBrS2kzvujSURfGl3JvQ4BSv
+ YnEQ==
+X-Gm-Message-State: AOAM533ZnrcrHWJc4r9loWmiFCJ1tMPE2I5xdwcoGTSNaSVjBIdUFvnc
+ cW5t5Lf3+5jbrDfotfI8bbx+9sU4oAk4j/Q6VSj5IDUI8ySaGREFPaZpdH3a4KZLd63uACKxKvh
+ Pu8DTMTHltcfJjOs=
+X-Received: by 2002:a5d:6b84:0:b0:20a:e230:383b with SMTP id
+ n4-20020a5d6b84000000b0020ae230383bmr8396306wrx.107.1651482603250; 
+ Mon, 02 May 2022 02:10:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2bRlNnMiVipFQi50F1ZM/+U249HbXBYza1J8Nuv8DqvQMqS2SFY1bQhqQhRHIUnaRrEGW+A==
+X-Received: by 2002:a5d:6b84:0:b0:20a:e230:383b with SMTP id
+ n4-20020a5d6b84000000b0020ae230383bmr8396282wrx.107.1651482602906; 
+ Mon, 02 May 2022 02:10:02 -0700 (PDT)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ 14-20020a05600c028e00b003942a244f2dsm6041860wmk.6.2022.05.02.02.10.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 02:10:02 -0700 (PDT)
+Message-ID: <7c69e9b9-8bc5-efbd-67dd-d2da125872bb@redhat.com>
+Date: Mon, 2 May 2022 11:10:01 +0200
 MIME-Version: 1.0
-In-Reply-To: <87v8uos8lb.fsf@pond.sub.org>
-Date: Mon, 2 May 2022 05:04:13 -0400
-Message-ID: <CABJz62MTVhDHZo5+sTJKm5b+SZM_W+_o5VmMgx0NVyibYfs=hw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v6 13/13] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+Content-Language: en-US
+From: Thomas Huth <thuth@redhat.com>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ David Miller <dmiller423@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220428094708.84835-1-david@redhat.com>
+ <20220428094708.84835-14-david@redhat.com>
+ <8c399ab0-5128-1aca-0e25-8b60e2a442fd@redhat.com>
+In-Reply-To: <8c399ab0-5128-1aca-0e25-8b60e2a442fd@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,98 +102,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Victor Toso <victortoso@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 02, 2022 at 09:21:36AM +0200, Markus Armbruster wrote:
-> Andrea Bolognani <abologna@redhat.com> writes:
-> > The wire protocol would still retain the unappealing name, but at
-> > least client libraries could hide the uglyness from users.
->
-> At the price of mild inconsistency between the library interface and
-> QMP.
+On 02/05/2022 10.12, Thomas Huth wrote:
+> On 28/04/2022 11.47, David Hildenbrand wrote:
+>> From: David Miller <dmiller423@gmail.com>
+>>
+>> Signed-off-by: David Miller <dmiller423@gmail.com>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Tested-by: Thomas Huth <thuth@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   tests/tcg/s390x/Makefile.target |   8 ++
+>>   tests/tcg/s390x/vx.h            |  19 +++++
+>>   tests/tcg/s390x/vxeh2_vcvt.c    |  88 ++++++++++++++++++++
+>>   tests/tcg/s390x/vxeh2_vlstr.c   | 139 ++++++++++++++++++++++++++++++++
+>>   tests/tcg/s390x/vxeh2_vs.c      |  93 +++++++++++++++++++++
+>>   5 files changed, 347 insertions(+)
+>>   create mode 100644 tests/tcg/s390x/vx.h
+>>   create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+>>   create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+>>   create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+>>
+>> diff --git a/tests/tcg/s390x/Makefile.target 
+>> b/tests/tcg/s390x/Makefile.target
+>> index f0d474a245..e50d617f21 100644
+>> --- a/tests/tcg/s390x/Makefile.target
+>> +++ b/tests/tcg/s390x/Makefile.target
+>> @@ -17,6 +17,14 @@ TESTS+=trap
+>>   TESTS+=signals-s390x
+>>   TESTS+=branch-relative-long
+>> +VECTOR_TESTS=vxeh2_vs
+>> +VECTOR_TESTS+=vxeh2_vcvt
+>> +VECTOR_TESTS+=vxeh2_vlstr
+>> +
+>> +TESTS+=$(VECTOR_TESTS)
+>> +
+>> +$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
+> 
+> I'm sorry, but this still fails in the QEMU CI:
+> 
+> https://gitlab.com/thuth/qemu/-/jobs/2401500348
+> 
+> s390x-linux-gnu-gcc: error: unrecognized argument in option '-march=z15'
+> 
+> I think we either have to switch to manually encoded instructions again, or 
+> add a check to the Makefile and only add the tests if the compiler supports 
+> -march=z15 ...? Opinions? Preferences?
 
-That's fine, and in fact it already happens all the time when QAPI
-names (log-append) are translated to C identifiers (log_append).
+I just tried, and seems like something like this should do the job, I think:
 
-> We could clean up QMP if we care, keeping around the old names for
-> compatibility.  See also Kevin's work on QAPI aliases.  Which is much
-> more ambitious, though.
+diff a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -20,11 +20,11 @@ TESTS+=branch-relative-long
+  VECTOR_TESTS=vxeh2_vs
+  VECTOR_TESTS+=vxeh2_vcvt
+  VECTOR_TESTS+=vxeh2_vlstr
+-
+-TESTS+=$(VECTOR_TESTS)
+-
+  $(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
+  
++TESTS+=$(if $(shell $(CC) -march=z15 -S -o /dev/null -xc /dev/null \
++                        >/dev/null 2>&1 && echo OK),$(VECTOR_TESTS))
++
+  ifneq ($(HAVE_GDB_BIN),)
+  GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+  
+Does that look reasonable?
 
-I wasn't aware of that effort. Personally I'm always in favor of
-cleaning up inconsistencies, so I am automatically a fan :)
-
-That said, the idea of exposing a sub-par Go API until such massive
-undertaking can be completed is not terribly appealing. And it would
-not address every facet of the issue (see below).
-
-> > Capitalization of these acronyms is inconsistent across the schema,
->
-> Common issue with camel-cased compounds containing acronyms, because
-> either way is ugly.
-
-Agreed :) But consistent ugliness is still preferable to inconsistent
-ugliness.
-
-> > with one of the two forms disagreeing with Go naming expectations.
->
-> Pardon my ignorance: What are Go's expectations?
-
-Acronyms are usually all upper case:
-
-  https://pkg.go.dev/net/http#ParseHTTPVersion
-  https://pkg.go.dev/net/http#ProxyURL
-  https://pkg.go.dev/crypto/tls#NewLRUClientSessionCache
-
-The same seems to be true of Python:
-
-  https://docs.python.org/3/library/http.html#http.HTTPStatus
-  https://docs.python.org/3/library/urllib.error.html#urllib.error.URLError
-  https://docs.python.org/3/library/xmlrpc.server.html#xmlrpc.server.SimpleXMLRPCServer
-
-Rust, on the other hand, seems to prefer only capitalizing the first
-letter of a word, no matter if it's an acronym:
-
-  https://doc.rust-lang.org/std/net/struct.TcpStream.html
-  https://doc.rust-lang.org/std/net/struct.Ipv4Addr.html
-  https://doc.rust-lang.org/std/ffi/struct.OsString.html
-
-Whether different naming conventions are used for types, functions
-and struct members is also language-dependent.
-
-> > In this case we might be able to just change the schema without
-> > introducing backwards compatibility issues, though? Type names are
-> > not actually transmitted on the wire IIUC.
->
-> Correct!
-
-That's great, but even if we decided to change all type names so that
-the schema is internally consistent and follows a naming convention
-that's reasonable for C, Go and Python, we'd still leave the Rust
-interface looking weird... There's no one-size-fits-all name,
-unfortunately.
-
-> > Of course such annotations would only be necessary to deal with
-> > identifiers that are not already following the expected naming
-> > conventions and when MLAs are involved.
->
-> Pardon my ignorance some more: what are MLAs?
-
-Multi Letter Acronyms. Which are actually just called "acronyms" I
-guess? O:-)
-
-The point is that, if we want to provide a language interface that
-feels natural, we need a way to mark parts of a QAPI symbol's name in
-a way that makes it possible for the generator to know they're
-acronyms and treat them in an appropriate, language-specific manner.
-
-The obvious way to implement this would be with an annotation along
-the lines of the one I proposed. Other ideas?
-
--- 
-Andrea Bolognani / Red Hat / Virtualization
+  Thomas
 
 
