@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99F3517246
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 17:11:45 +0200 (CEST)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4B951724D
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 17:13:48 +0200 (CEST)
+Received: from localhost ([::1]:49928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlXiC-0000Nn-OR
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 11:11:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54142)
+	id 1nlXkA-0004Fg-8d
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 11:13:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nlXFb-0005eX-Ne; Mon, 02 May 2022 10:42:11 -0400
+ id 1nlXFe-0005hP-Gj; Mon, 02 May 2022 10:42:14 -0400
 Received: from [187.72.171.209] (port=26627 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nlXFZ-0003MH-JE; Mon, 02 May 2022 10:42:11 -0400
+ id 1nlXFc-0003MH-Nk; Mon, 02 May 2022 10:42:13 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 2 May 2022 11:40:05 -0300
+ Mon, 2 May 2022 11:40:06 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 55CD88001CD;
+ by p9ibm (Postfix) with ESMTP id A5FE4800902;
  Mon,  2 May 2022 11:40:05 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 17/21] target/ppc: Remove msr_fe0 and msr_fe1 macros
-Date: Mon,  2 May 2022 11:39:30 -0300
-Message-Id: <20220502143934.71908-18-victor.colombo@eldorado.org.br>
+Subject: [PATCH v2 18/21] target/ppc: Remove msr_ts macro
+Date: Mon,  2 May 2022 11:39:31 -0300
+Message-Id: <20220502143934.71908-19-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
 References: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 02 May 2022 14:40:05.0808 (UTC)
- FILETIME=[83AEDB00:01D85E32]
+X-OriginalArrivalTime: 02 May 2022 14:40:06.0059 (UTC)
+ FILETIME=[83D527B0:01D85E32]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,7 +63,7 @@ Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-msr_fe0 and msr_fe1 macros hide the usage of env->msr, which is a bad
+msr_ts macro hides the usage of env->msr, which is a bad
 behavior. Substitute it with FIELD_EX64 calls that explicitly use
 env->msr as a parameter.
 
@@ -72,102 +72,69 @@ Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
 ---
 
-v2: Remove M_MSR_FE* and use FIELD_EX64 instead. As the bit numbers
-    for FE0 and FE1 are not continuous, we can't benefit from a unified
-    FIELD for them :(
+v2: Remove M_MSR_TS* and use FIELD_EX64 instead.
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/cpu.h         |  5 +++--
- target/ppc/excp_helper.c | 18 ++++++++++++------
- 2 files changed, 15 insertions(+), 8 deletions(-)
+ target/ppc/cpu.h     | 2 +-
+ target/ppc/kvm.c     | 4 ++--
+ target/ppc/machine.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 9683e6a359..5fce8f00da 100644
+index 5fce8f00da..0b861660ae 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -363,6 +363,9 @@ FIELD(MSR, EE, MSR_EE, 1)
- FIELD(MSR, PR, MSR_PR, 1)
- FIELD(MSR, FP, MSR_FP, 1)
- FIELD(MSR, ME, MSR_ME, 1)
-+/* MSR_FE0 and MSR_FE1 are not side-by-side so we can't combine them */
-+FIELD(MSR, FE0, MSR_FE0, 1)
-+FIELD(MSR, FE1, MSR_FE1, 1)
- FIELD(MSR, EP, MSR_EP, 1)
- FIELD(MSR, IR, MSR_IR, 1)
- FIELD(MSR, DR, MSR_DR, 1)
-@@ -484,8 +487,6 @@ FIELD(MSR, LE, MSR_LE, 1)
+@@ -354,6 +354,7 @@ typedef enum {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
+ 
++FIELD(MSR, TS, MSR_TS0, 2)
+ FIELD(MSR, CM, MSR_CM, 1)
+ FIELD(MSR, GS, MSR_GS, 1)
+ FIELD(MSR, POW, MSR_POW, 1)
+@@ -487,7 +488,6 @@ FIELD(MSR, LE, MSR_LE, 1)
  #else
  #define msr_hv   (0)
  #endif
--#define msr_fe0  ((env->msr >> MSR_FE0)  & 1)
--#define msr_fe1  ((env->msr >> MSR_FE1)  & 1)
- #define msr_ts   ((env->msr >> MSR_TS1)  & 3)
+-#define msr_ts   ((env->msr >> MSR_TS1)  & 3)
  
  #define DBCR0_ICMP (1 << 27)
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 30baad0489..549b86cf0b 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -478,7 +478,8 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
-         case POWERPC_EXCP_FP:
--            if ((msr_fe0 == 0 && msr_fe1 == 0) ||
-+            if ((!FIELD_EX64(env->msr, MSR, FE0) &&
-+                !FIELD_EX64(env->msr, MSR, FE1)) ||
-                 !FIELD_EX64(env->msr, MSR, FP)) {
-                 trace_ppc_excp_fp_ignore();
-                 powerpc_reset_excp_state(cpu);
-@@ -616,7 +617,8 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
-         case POWERPC_EXCP_FP:
--            if ((msr_fe0 == 0 && msr_fe1 == 0) ||
-+            if ((!FIELD_EX64(env->msr, MSR, FE0) &&
-+                !FIELD_EX64(env->msr, MSR, FE1)) ||
-                 !FIELD_EX64(env->msr, MSR, FP)) {
-                 trace_ppc_excp_fp_ignore();
-                 powerpc_reset_excp_state(cpu);
-@@ -790,7 +792,8 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
-         case POWERPC_EXCP_FP:
--            if ((msr_fe0 == 0 && msr_fe1 == 0) ||
-+            if ((!FIELD_EX64(env->msr, MSR, FE0) &&
-+                !FIELD_EX64(env->msr, MSR, FE1)) ||
-                 !FIELD_EX64(env->msr, MSR, FP)) {
-                 trace_ppc_excp_fp_ignore();
-                 powerpc_reset_excp_state(cpu);
-@@ -976,7 +979,8 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
-         case POWERPC_EXCP_FP:
--            if ((msr_fe0 == 0 && msr_fe1 == 0) ||
-+            if ((!FIELD_EX64(env->msr, MSR, FE0) &&
-+                !FIELD_EX64(env->msr, MSR, FE1)) ||
-                 !FIELD_EX64(env->msr, MSR, FP)) {
-                 trace_ppc_excp_fp_ignore();
-                 powerpc_reset_excp_state(cpu);
-@@ -1175,7 +1179,8 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
-         case POWERPC_EXCP_FP:
--            if ((msr_fe0 == 0 && msr_fe1 == 0) ||
-+            if ((!FIELD_EX64(env->msr, MSR, FE0) &&
-+                !FIELD_EX64(env->msr, MSR, FE1)) ||
-                 !FIELD_EX64(env->msr, MSR, FP)) {
-                 trace_ppc_excp_fp_ignore();
-                 powerpc_reset_excp_state(cpu);
-@@ -1439,7 +1444,8 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
-         case POWERPC_EXCP_FP:
--            if ((msr_fe0 == 0 && msr_fe1 == 0) ||
-+            if ((!FIELD_EX64(env->msr, MSR, FE0) &&
-+                !FIELD_EX64(env->msr, MSR, FE1)) ||
-                 !FIELD_EX64(env->msr, MSR, FP)) {
-                 trace_ppc_excp_fp_ignore();
-                 powerpc_reset_excp_state(cpu);
+ #define DBCR0_BRT (1 << 26)
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 8276326de9..59db1b9227 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -973,7 +973,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         }
+ 
+ #ifdef TARGET_PPC64
+-        if (msr_ts) {
++        if (FIELD_EX64(env->msr, MSR, TS)) {
+             for (i = 0; i < ARRAY_SIZE(env->tm_gpr); i++) {
+                 kvm_set_one_reg(cs, KVM_REG_PPC_TM_GPR(i), &env->tm_gpr[i]);
+             }
+@@ -1281,7 +1281,7 @@ int kvm_arch_get_registers(CPUState *cs)
+         }
+ 
+ #ifdef TARGET_PPC64
+-        if (msr_ts) {
++        if (FIELD_EX64(env->msr, MSR, TS)) {
+             for (i = 0; i < ARRAY_SIZE(env->tm_gpr); i++) {
+                 kvm_get_one_reg(cs, KVM_REG_PPC_TM_GPR(i), &env->tm_gpr[i]);
+             }
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index e673944597..7104a5c67e 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -417,7 +417,7 @@ static bool tm_needed(void *opaque)
+ {
+     PowerPCCPU *cpu = opaque;
+     CPUPPCState *env = &cpu->env;
+-    return msr_ts;
++    return FIELD_EX64(env->msr, MSR, TS);
+ }
+ 
+ static const VMStateDescription vmstate_tm = {
 -- 
 2.25.1
 
