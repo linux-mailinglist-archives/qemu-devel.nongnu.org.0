@@ -2,43 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5825A516912
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 02:49:26 +0200 (CEST)
-Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91A6516AA2
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 08:06:33 +0200 (CEST)
+Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlKFh-00066I-0V
-	for lists+qemu-devel@lfdr.de; Sun, 01 May 2022 20:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50028)
+	id 1nlPCa-0007Ax-Fv
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 02:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cheptsov@ispras.ru>)
- id 1nlKEs-0005Ql-SW
- for qemu-devel@nongnu.org; Sun, 01 May 2022 20:48:34 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:55582)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cheptsov@ispras.ru>)
- id 1nlKEp-0007Ks-U7
- for qemu-devel@nongnu.org; Sun, 01 May 2022 20:48:33 -0400
-Received: from localhost.localdomain (unknown [77.37.166.174])
- by mail.ispras.ru (Postfix) with ESMTPSA id CA95240D403D;
- Mon,  2 May 2022 00:38:54 +0000 (UTC)
-From: Vitaly Cheptsov <cheptsov@ispras.ru>
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1nlP8e-00068e-Au
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 02:02:29 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1nlP8c-0002IE-MH
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 02:02:28 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ a15-20020a17090ad80f00b001dc2e23ad84so3325844pjv.4
+ for <qemu-devel@nongnu.org>; Sun, 01 May 2022 23:02:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Qtzaf5i1ojClLuW9yjfdQgtUBTOsPhQs1atEdoXlipk=;
+ b=ArMKGUorm7em4xlua9Ro9QbzMVIxUj1CrfXmo1e1smnVqoaV3FZF6JLW5ghQR3Kxwa
+ pEnO7o5LD4l0tOkesK4nRpdedzP/2bhXiKLlZLtpqH1GvZW7B9hAL/60xtuaeKzjHZAa
+ 9eNKCd2yuBuyOX0GyIdSZaPXh3NGcGJAt+PtryAb3FHFWJuFkGLLfAZnKfepvL9tkUZZ
+ QfTM5IEbHMdrjszOZ8jtzFpG/wXNXBCXiFjBoOzANemskqwMc9LWMxWWc3z4VLlLfjrR
+ MTHwLfZ69+ZSi96bf+gyxfaE5iYI9QPfbQPeydlubyVRvd63D/OqIMBrGTqagcgLJNi8
+ oR6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Qtzaf5i1ojClLuW9yjfdQgtUBTOsPhQs1atEdoXlipk=;
+ b=J4cP2EjGCqH1QHiybvgskB0m1QX/W8vXYlKHTu0ZKIJ91OiB4gZ6Aiijj/c/VUYIgs
+ pMMcsqHQvnEsxF5iBNxK51SmH4X64c2C0gAP0eXTyDVuMp8vouJiJryr9S+KmOVvv8Bc
+ UJx6laZdTcHvu/WNYWSdE8d0hz6DEbJWqcjlAGfX+Dkjos4pIxijCh/tebFDhyAiPrhM
+ LO5SegDYLUPq+EU4qwSHRLNaPSfb/QZkvLo00LHNNpe1VnvBSFkfHYwJsK/xy2Mppj13
+ cO5ZdPnBlpL/HHDfTnuBxhYLcdivU4EPM1f8hXi/+4FqWhWOycp+7FDWX2IEY+6kHAJE
+ xNTw==
+X-Gm-Message-State: AOAM531LcvtV6cEpIonbigOpr6lGh0+L6CAJK3owgVl20BvCenUyJlVq
+ CqMyO6TZRrLgh0veAB1dKmU0rLmlgCE=
+X-Google-Smtp-Source: ABdhPJyIRcCMr0wnFeC2Fwo7EmFMmDfNUamqUrgoGtyd5STOML4Wcj7FZys1klSZ2DACmRlWfBHyIA==
+X-Received: by 2002:a17:90a:8a92:b0:1d7:3cca:69d8 with SMTP id
+ x18-20020a17090a8a9200b001d73cca69d8mr16358628pjn.61.1651471344750; 
+ Sun, 01 May 2022 23:02:24 -0700 (PDT)
+Received: from octofox.hsd1.ca.comcast.net
+ ([2601:641:401:1d20:fa8:c0d6:ea14:bd48])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020aa79007000000b0050dc7628189sm3923373pfo.99.2022.05.01.23.02.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 May 2022 23:02:24 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] net: fix multicast support with BSD (macOS) socket
- implementations
-Date: Mon,  2 May 2022 03:38:30 +0300
-Message-Id: <20220502003830.31062-1-cheptsov@ispras.ru>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+Subject: [PATCH] target/xtensa: implement cache test option opcodes
+Date: Sun,  1 May 2022 23:02:14 -0700
+Message-Id: <20220502060214.1729948-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84; envelope-from=cheptsov@ispras.ru;
- helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -51,69 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Vitaly Cheptsov <cheptsov@ispras.ru>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes socket communication with QEMU -> host on macOS,
-which was originally impossible due to QEMU and host program
-having to bind to the same ip/port in a way not supported by BSD
-sockets. The change was tested on both Linux and macOS.
+We don't model caches, so for l*ct opcodes return tags with all bits
+(including Valid) set to 0. For all other opcodes don't do anything.
 
-As per BSD manual pages SO_REUSEPORT allows completely duplicate
-bindings by multiple processes, permitting multiple instances of
-a program to each receive UDP/IP multicast datagrams destined
-for the bound port. Without this option macOS, unlike Linux,
-which (ab)uses SO_REUSEADDR for this purpose, will return
-"Address already in use" on bind().
-
-As per BSD manual pages binding to any address, even one not bound
-to any available network interface in the system, should be
-IP_BINDANY. Without binding to INADDR_ANY macOS will return
-"Can't assign requested address" on send().
-
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- net/socket.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ target/xtensa/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/net/socket.c b/net/socket.c
-index ea5220a2eb..8b2c6c4bb8 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -252,10 +252,24 @@ static int net_socket_mcast_create(struct sockaddr_in *mcastaddr,
-         goto fail;
-     }
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 0cc44e9b3aba..3ade428a1bd3 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -1765,6 +1765,12 @@ static void translate_ldst(DisasContext *dc, const OpcodeArg arg[],
+     tcg_temp_free(addr);
+ }
  
--    ret = bind(fd, (struct sockaddr *)mcastaddr, sizeof(*mcastaddr));
-+    val = 1;
-+    ret = qemu_setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &val, sizeof(val));
-+    if (ret < 0) {
-+        error_setg_errno(errp, errno,
-+                         "can't set socket option SO_REUSEPORT");
-+        goto fail;
-+    }
++static void translate_lct(DisasContext *dc, const OpcodeArg arg[],
++                          const uint32_t par[])
++{
++    tcg_gen_movi_i32(arg[0].out, 0);
++}
 +
-+    struct sockaddr_in bindaddr;
-+    memset(&bindaddr, 0, sizeof(bindaddr));
-+    bindaddr.sin_family = AF_INET;
-+    bindaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-+    bindaddr.sin_port = mcastaddr->sin_port;
-+    ret = bind(fd, (struct sockaddr *)&bindaddr, sizeof(bindaddr));
-+
-     if (ret < 0) {
-         error_setg_errno(errp, errno, "can't bind ip=%s to socket",
--                         inet_ntoa(mcastaddr->sin_addr));
-+                         inet_ntoa(bindaddr.sin_addr));
-         goto fail;
-     }
- 
+ static void translate_l32r(DisasContext *dc, const OpcodeArg arg[],
+                            const uint32_t par[])
+ {
+@@ -3318,6 +3324,14 @@ static const XtensaOpcodeOps core_ops[] = {
+         .translate = translate_ldst,
+         .par = (const uint32_t[]){MO_UB, false, false},
+         .op_flags = XTENSA_OP_LOAD,
++    }, {
++        .name = "ldct",
++        .translate = translate_lct,
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "ldcw",
++        .translate = translate_nop,
++        .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
+         .name = "lddec",
+         .translate = translate_mac16,
+@@ -3331,6 +3345,14 @@ static const XtensaOpcodeOps core_ops[] = {
+     }, {
+         .name = "ldpte",
+         .op_flags = XTENSA_OP_ILL,
++    }, {
++        .name = "lict",
++        .translate = translate_lct,
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "licw",
++        .translate = translate_nop,
++        .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
+         .name = (const char * const[]) {
+             "loop", "loop.w15", NULL,
+@@ -4634,12 +4656,28 @@ static const XtensaOpcodeOps core_ops[] = {
+         .name = "saltu",
+         .translate = translate_salt,
+         .par = (const uint32_t[]){TCG_COND_LTU},
++    }, {
++        .name = "sdct",
++        .translate = translate_nop,
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "sdcw",
++        .translate = translate_nop,
++        .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
+         .name = "setb_expstate",
+         .translate = translate_setb_expstate,
+     }, {
+         .name = "sext",
+         .translate = translate_sext,
++    }, {
++        .name = "sict",
++        .translate = translate_nop,
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "sicw",
++        .translate = translate_nop,
++        .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
+         .name = "simcall",
+         .translate = translate_simcall,
 -- 
-2.32.0 (Apple Git-132)
+2.30.2
 
 
