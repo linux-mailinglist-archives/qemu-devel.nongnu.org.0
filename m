@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E40516EE8
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 13:31:46 +0200 (CEST)
-Received: from localhost ([::1]:44446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63388516F11
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 13:48:16 +0200 (CEST)
+Received: from localhost ([::1]:47784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlUHJ-00022h-H0
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 07:31:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
+	id 1nlUXG-0005DZ-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 07:48:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nlUDE-000599-Cg; Mon, 02 May 2022 07:27:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61898)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlUVf-0004NT-PV
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 07:46:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nlUDC-0006rU-7E; Mon, 02 May 2022 07:27:32 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242BEqiu021944;
- Mon, 2 May 2022 11:27:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=23G5hD+xAVuN5BAluG6A+dlVmcKRonXuS7H6yt3tvPk=;
- b=aVS+awh+qc57mHCl7kFLdfodhowSOxvRrp51sAYYV6vcmSL3CKQvj/qY8svhtlKgisSM
- Pzsb8+cSTvvBiaJWobmhz4RB9F0RtEKbnVR5Z7WXJw70KDU91CNC58I8zs1KBOo4UFtm
- aotIzij0nhmWrL8B5ihr2clATnNtDQSPWQBokj9yiUr9SWk3GdCGN0xBZr6/0oE9n3aa
- t2zXW/vqqu3rfqKZ8fNVHLD1PqjsR5IANtx+I5yL5dKSKj+HY1pi2BAcJBFCqaaB6c8q
- DAEHci8cCsaUy4B/gfqVbEPy43uMDrY1MdwvaW1jdb3L4EnXxQHVyL8wICoRImtGYDo2 LA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fte8r06nd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 11:27:28 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 242BJV8W004376;
- Mon, 2 May 2022 11:27:27 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fte8r06my-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 11:27:27 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 242BKEtu029997;
- Mon, 2 May 2022 11:27:25 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 3frvr8t4t1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 11:27:25 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 242BRMOe52101378
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 2 May 2022 11:27:22 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7C4ADAE04D;
- Mon,  2 May 2022 11:27:22 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B9A0FAE045;
- Mon,  2 May 2022 11:27:21 +0000 (GMT)
-Received: from [9.171.15.56] (unknown [9.171.15.56])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  2 May 2022 11:27:21 +0000 (GMT)
-Message-ID: <eb2fde35-7b9d-a8c8-3212-ae92b2b3e754@linux.ibm.com>
-Date: Mon, 2 May 2022 13:30:54 +0200
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlUVc-0000qE-03
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 07:46:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651491989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q/ElN0xs+3rd6Vdk71CfQhFEDsC/bk+0RVffZVEgaZ8=;
+ b=i/xY0KSQoBQjhDYREktm5vGboPpJQB8kf3Tl5sa02ghgJJn1S1Bb5jloejHHUXrxYhMq1k
+ 0oeLFl0FWMKhj0X3Z0oImaBelRuCT8T6ZjAP3WQj5uN9hoQg+XyG+LvcGjbWtIz2f/k3A7
+ ywSJ8y4qYNWHAoD8fk8hLKhUdyseR3s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-204-xtKqBfrWMeKdWRk674HMRg-1; Mon, 02 May 2022 07:46:28 -0400
+X-MC-Unique: xtKqBfrWMeKdWRk674HMRg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0004B801E67
+ for <qemu-devel@nongnu.org>; Mon,  2 May 2022 11:46:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41EA21121330;
+ Mon,  2 May 2022 11:46:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1903621E66D0; Mon,  2 May 2022 13:46:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
+ <87a6c52u68.fsf@pond.sub.org>
+ <CABJz62NaEgEzEkvdYbNZ5qfkx_gAYfnxt_YbQhGyD08gRH6EYg@mail.gmail.com>
+ <87v8uos8lb.fsf@pond.sub.org>
+ <CABJz62MTVhDHZo5+sTJKm5b+SZM_W+_o5VmMgx0NVyibYfs=hw@mail.gmail.com>
+Date: Mon, 02 May 2022 13:46:23 +0200
+In-Reply-To: <CABJz62MTVhDHZo5+sTJKm5b+SZM_W+_o5VmMgx0NVyibYfs=hw@mail.gmail.com>
+ (Andrea Bolognani's message of "Mon, 2 May 2022 05:04:13 -0400")
+Message-ID: <875ymop374.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 7/9] s390x/pci: enable adapter event notification for
- interpreted devices
-Content-Language: en-US
-To: Niklas Schnelle <schnelle@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org,
- alex.williamson@redhat.com
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-8-mjrosato@linux.ibm.com>
- <31b5f911-0e1f-ba3c-94f2-1947d5b16057@linux.ibm.com>
- <9a171204-6d71-ee1d-d8bd-cd4eac91c3d5@linux.ibm.com>
- <d14625f4-d648-05d9-38aa-a5ad7e0c9cf5@linux.ibm.com>
- <2df134498bf60e4878bdb362a28c56ec32d902f8.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <2df134498bf60e4878bdb362a28c56ec32d902f8.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: QJRuyQT7Sb6HqkmzrUbdf4ILHwKznUcH
-X-Proofpoint-GUID: 9QQG1pdHwGuzTdxhLl7DU5zyUG6mvzdk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-02_03,2022-05-02_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0 mlxscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 spamscore=0
- mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2202240000 definitions=main-2205020086
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,118 +80,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, kvm@vger.kernel.org, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, farman@linux.ibm.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Victor Toso <victortoso@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Andrea Bolognani <abologna@redhat.com> writes:
 
+> On Mon, May 02, 2022 at 09:21:36AM +0200, Markus Armbruster wrote:
+>> Andrea Bolognani <abologna@redhat.com> writes:
+>> > The wire protocol would still retain the unappealing name, but at
+>> > least client libraries could hide the uglyness from users.
+>>
+>> At the price of mild inconsistency between the library interface and
+>> QMP.
+>
+> That's fine, and in fact it already happens all the time when QAPI
+> names (log-append) are translated to C identifiers (log_append).
 
-On 5/2/22 11:19, Niklas Schnelle wrote:
-> On Mon, 2022-05-02 at 09:48 +0200, Pierre Morel wrote:
->>
->> On 4/22/22 14:10, Matthew Rosato wrote:
->>> On 4/22/22 5:39 AM, Pierre Morel wrote:
->>>>
->>>> On 4/4/22 20:17, Matthew Rosato wrote:
->>>>> Use the associated kvm ioctl operation to enable adapter event
->>>>> notification
->>>>> and forwarding for devices when requested.  This feature will be set up
->>>>> with or without firmware assist based upon the 'forwarding_assist'
->>>>> setting.
->>>>>
->>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>>>> ---
->>>>>    hw/s390x/s390-pci-bus.c         | 20 ++++++++++++++---
->>>>>    hw/s390x/s390-pci-inst.c        | 40 +++++++++++++++++++++++++++++++--
->>>>>    hw/s390x/s390-pci-kvm.c         | 30 +++++++++++++++++++++++++
->>>>>    include/hw/s390x/s390-pci-bus.h |  1 +
->>>>>    include/hw/s390x/s390-pci-kvm.h | 14 ++++++++++++
->>>>>    5 files changed, 100 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
->>>>> index 9c02d31250..47918d2ce9 100644
->>>>> --- a/hw/s390x/s390-pci-bus.c
->>>>> +++ b/hw/s390x/s390-pci-bus.c
->>>>> @@ -190,7 +190,10 @@ void s390_pci_sclp_deconfigure(SCCB *sccb)
->>>>>            rc = SCLP_RC_NO_ACTION_REQUIRED;
->>>>>            break;
->>>>>        default:
->>>>> -        if (pbdev->summary_ind) {
->>>>> +        if (pbdev->interp && (pbdev->fh & FH_MASK_ENABLE)) {
->>>>> +            /* Interpreted devices were using interrupt forwarding */
->>>>> +            s390_pci_kvm_aif_disable(pbdev);
->>>>
->>>> Same remark as for the kernel part.
->>>> The VFIO device is already initialized and the action is on this
->>>> device, Shouldn't we use the VFIO device interface instead of the KVM
->>>> interface?
->>>>
->>>
->>> I don't necessarily disagree, but in v3 of the kernel series I was told
->>> not to use VFIO ioctls to accomplish tasks that are unique to KVM (e.g.
->>> AEN interpretation) and to instead use a KVM ioctl.
->>>
->>> VFIO_DEVICE_SET_IRQS won't work as-is for reasons described in the
->>> kernel series (e.g. we don't see any of the config space notifiers
->>> because of instruction interpretation) -- as far as I can figure we
->>> could add our own s390 code to QEMU to issue VFIO_DEVICE_SET_IRQS
->>> directly for an interpreted device, but I think would also need
->>> s390-specific changes to VFIO_DEVICE_SET_IRQS accommodate this (e.g.
->>> maybe something like a VFIO_IRQ_SET_DATA_S390AEN where we can then
->>> specify the aen information in vfio_irq_set.data -- or something else I
->>
->> Hi,
->>
->> yes this in VFIO_DEVICE_SET_IRQS is what I think should be done.
->>
->>> haven't though of yet) -- I can try to look at this some more and see if
->>> I get a good idea.
->>
->>
->> I understood that the demand was concerning the IOMMU but I may be wrong.
->> For my opinion, the handling of AEN is not specific to KVM but specific
->> to the device, for example the code should be the same if Z ever decide
->> to use XEN or another hypervizor, except for the GISA part but this part
->> is already implemented in KVM in a way it can be used from a device like
->> in VFIO AP.
->>
->> @Alex, what do you think?
->>
->> Regards,
->> Pierre
->>
-> 
-> As I understand it the question isn't if it is specific to KVM but
-> rather if it is specific to virtualization. As vfio-pci is also used
-> for non virtualization purposes such as with DPDK/SPDK or a fully
-> emulating QEMU, it should only be in VFIO if it is relevant for these
-> kinds of user-space PCI accesses too. I'm not an AEN expert but as I
-> understand it, this does forwarding interrupts into a SIE context which
-> only makes sense for virtualization not for general user-space PCI.
-> 
+There's a difference between trivial translations like "replace '-' by
+'_'" and arbitrary replacement like the one for enumeration constants
+involving 'prefix'.
 
-Being in VFIO kernel part does not mean that this part should be called 
-from any user of VFIO in userland.
-That is a reason why I did propose an extension and not using the 
-current implementation of VFIO_DEVICE_SET_IRQS as is.
+>> We could clean up QMP if we care, keeping around the old names for
+>> compatibility.  See also Kevin's work on QAPI aliases.  Which is much
+>> more ambitious, though.
+>
+> I wasn't aware of that effort. Personally I'm always in favor of
+> cleaning up inconsistencies, so I am automatically a fan :)
+>
+> That said, the idea of exposing a sub-par Go API until such massive
+> undertaking can be completed is not terribly appealing.
 
-The reason behind is that the AEN hardware handling is device specific: 
-we need the Function Handle to program AEN.
+Point.
 
-If the API is through KVM which is device agnostic the implementation in 
-KVM has to search through the system to find the device being handled to 
-apply AEN on it.
+>                                                         And it would
+> not address every facet of the issue (see below).
+>
+>> > Capitalization of these acronyms is inconsistent across the schema,
+>>
+>> Common issue with camel-cased compounds containing acronyms, because
+>> either way is ugly.
+>
+> Agreed :) But consistent ugliness is still preferable to inconsistent
+> ugliness.
 
-This not the logical way for me and it is a potential source of problems 
-for future extensions.
+True.
 
-Regards,
-Pierre
+>> > with one of the two forms disagreeing with Go naming expectations.
+>>
+>> Pardon my ignorance: What are Go's expectations?
+>
+> Acronyms are usually all upper case:
+>
+>   https://pkg.go.dev/net/http#ParseHTTPVersion
+>   https://pkg.go.dev/net/http#ProxyURL
+>   https://pkg.go.dev/crypto/tls#NewLRUClientSessionCache
+>
+> The same seems to be true of Python:
+>
+>   https://docs.python.org/3/library/http.html#http.HTTPStatus
+>   https://docs.python.org/3/library/urllib.error.html#urllib.error.URLError
+>   https://docs.python.org/3/library/xmlrpc.server.html#xmlrpc.server.SimpleXMLRPCServer
+>
+> Rust, on the other hand, seems to prefer only capitalizing the first
+> letter of a word, no matter if it's an acronym:
+>
+>   https://doc.rust-lang.org/std/net/struct.TcpStream.html
+>   https://doc.rust-lang.org/std/net/struct.Ipv4Addr.html
+>   https://doc.rust-lang.org/std/ffi/struct.OsString.html
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Another strange game where the only winning move is not to play.
+
+> Whether different naming conventions are used for types, functions
+> and struct members is also language-dependent.
+
+Yes.
+
+>> > In this case we might be able to just change the schema without
+>> > introducing backwards compatibility issues, though? Type names are
+>> > not actually transmitted on the wire IIUC.
+>>
+>> Correct!
+>
+> That's great, but even if we decided to change all type names so that
+> the schema is internally consistent and follows a naming convention
+> that's reasonable for C, Go and Python, we'd still leave the Rust
+> interface looking weird... There's no one-size-fits-all name,
+> unfortunately.
+
+C will remain the primary customer for quite a while.  It doesn't come
+with universally accepted naming conventions, so we made up our own.  I
+think we have some wiggle room there.  We could, for instance, decide to
+clean up the current inconsistent capitalization of acronyms in the QAPI
+schema to either style, TCPStream or TcpStream.
+
+Your point remains: some names will still look "weird" in some possible
+target languages.
+
+>> > Of course such annotations would only be necessary to deal with
+>> > identifiers that are not already following the expected naming
+>> > conventions and when MLAs are involved.
+>>
+>> Pardon my ignorance some more: what are MLAs?
+>
+> Multi Letter Acronyms. Which are actually just called "acronyms" I
+> guess? O:-)
+
+Well played!
+
+> The point is that, if we want to provide a language interface that
+> feels natural, we need a way to mark parts of a QAPI symbol's name in
+> a way that makes it possible for the generator to know they're
+> acronyms and treat them in an appropriate, language-specific manner.
+
+It's not just acronyms.  Consider IAmALittleTeapot.  If you can assume
+that only beginning of words are capitalized, even for acronyms, you can
+split this into words without trouble.  You can't recover correct case,
+though: "i am a little teapot" is wrong.
+
+"Split before capital letter" falls apart when you have characters that
+cannot be capitalized: Point3d.
+
+Camel case is hopeless.
+
+> The obvious way to implement this would be with an annotation along
+> the lines of the one I proposed. Other ideas?
+
+I'm afraid having the schema spell out names in multiple naming
+conventions could be onerous.  How many names will need it?  Times how
+many naming conventions?
+
+Another issue: the fancier the translation from schema name to
+language-specific name gets, the harder it becomes to find one from the
+other.
+
 
