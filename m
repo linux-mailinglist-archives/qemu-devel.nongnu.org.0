@@ -2,69 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899265175C4
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 19:30:01 +0200 (CEST)
-Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603375177A1
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 21:59:11 +0200 (CEST)
+Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlZs0-0003XL-If
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 13:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57272)
+	id 1nlcCL-0004wP-SU
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 15:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlZqi-0002g7-P8
- for qemu-devel@nongnu.org; Mon, 02 May 2022 13:28:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51964)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nlcAQ-0004GU-IN; Mon, 02 May 2022 15:57:10 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlZqh-0001YC-8g
- for qemu-devel@nongnu.org; Mon, 02 May 2022 13:28:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651512518;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tCEuljwwhl6/RWGzbvnHeY4eIRonyLeMPG8hLyDf2Zg=;
- b=Y5ET2u038+ilSI741jo49qEYKxrqnBPRQ7xJIqZDYJYF1EajutlP8CnBWiZxVVWgScSE7s
- C3mKTeFMTTw8WsE59A1UJQLBKavYi5Avh0Le72M2hz+vbhy9I/KUyRrgHycuBVqgyby3c8
- jZrVerCvBMAsJDQX/EvOcJbZc+aR+Qk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-ebnyuH8gOiuQBBAMn234Bw-1; Mon, 02 May 2022 13:28:36 -0400
-X-MC-Unique: ebnyuH8gOiuQBBAMn234Bw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F08E4811E7A;
- Mon,  2 May 2022 17:28:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C71A354F898;
- Mon,  2 May 2022 17:28:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C1CD421E68BC; Mon,  2 May 2022 19:28:34 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH 0/7] qapi: Primarily whitespace tweaks
-References: <20220429154758.354610-1-abologna@redhat.com>
- <8735hsm7ef.fsf@pond.sub.org>
- <CABJz62OtARwupzSAii5EcaKYO80vSG6wi+yhyBpdvdiFKUKVkg@mail.gmail.com>
-Date: Mon, 02 May 2022 19:28:34 +0200
-In-Reply-To: <CABJz62OtARwupzSAii5EcaKYO80vSG6wi+yhyBpdvdiFKUKVkg@mail.gmail.com>
- (Andrea Bolognani's message of "Mon, 2 May 2022 10:36:49 -0400")
-Message-ID: <87a6bzkfnh.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nlcAO-0005IF-IR; Mon, 02 May 2022 15:57:10 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242JKoXc030855;
+ Mon, 2 May 2022 19:57:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=84KxC3O83czdtJRgS7qoXRJ4ubFTgQmj1l+f2k9eX+I=;
+ b=XdovGjL9bgV48Qf2a1tvn5aoOPjKHRODp1suFT4+fkV0nW6JGmztPJSkJoT0h67NyoCL
+ 39eXU4MBPkyyAumkxo2kfBWUo5cKREBeqKx1zCUarYPBSsOg7140f++kJgBrx+4D/iVT
+ MuSE6CTbLUMKhHh9mHWymcoG2YLp5etGuboVNGhyE4yvcfNuGm0suJM6X8h7vbSocb1s
+ KnOFy19wkkzpCAva2t/ApH6wLUPP5Hp1RgXYaEOfVkbMVYEc23w8mzlFy/594h97JnzX
+ MN30pBLs5UMyVc2SxOi04yarv3vI//m6behMdGljCaA+0BxuLhU22aGuVy//ak4i/jSk pg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftnckrjrd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 May 2022 19:57:04 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 242JoxVr013181;
+ Mon, 2 May 2022 19:57:04 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftnckrjr3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 May 2022 19:57:04 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 242Jq9V7001296;
+ Mon, 2 May 2022 19:57:03 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01wdc.us.ibm.com with ESMTP id 3frvr97ekh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 May 2022 19:57:03 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 242Jv2bs26018172
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 2 May 2022 19:57:02 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 689E8BE054;
+ Mon,  2 May 2022 19:57:02 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 113AABE04F;
+ Mon,  2 May 2022 19:57:01 +0000 (GMT)
+Received: from [9.211.144.152] (unknown [9.211.144.152])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  2 May 2022 19:57:00 +0000 (GMT)
+Message-ID: <8ad9f2c8-9fb8-cb47-fd1e-f9a33eced548@linux.ibm.com>
+Date: Mon, 2 May 2022 15:57:00 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 7/9] s390x/pci: enable adapter event notification for
+ interpreted devices
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>,
+ Niklas Schnelle <schnelle@linux.ibm.com>, qemu-s390x@nongnu.org,
+ alex.williamson@redhat.com
+Cc: cohuck@redhat.com, thuth@redhat.com, farman@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
+ <20220404181726.60291-8-mjrosato@linux.ibm.com>
+ <31b5f911-0e1f-ba3c-94f2-1947d5b16057@linux.ibm.com>
+ <9a171204-6d71-ee1d-d8bd-cd4eac91c3d5@linux.ibm.com>
+ <d14625f4-d648-05d9-38aa-a5ad7e0c9cf5@linux.ibm.com>
+ <2df134498bf60e4878bdb362a28c56ec32d902f8.camel@linux.ibm.com>
+ <eb2fde35-7b9d-a8c8-3212-ae92b2b3e754@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <eb2fde35-7b9d-a8c8-3212-ae92b2b3e754@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7dygu4fLgW0mVtg-_zWrDgFsDBIrl98F
+X-Proofpoint-ORIG-GUID: DIL68uPF0rV0GCxtHd4WM0whwtm_qVvL
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-02_06,2022-05-02_03,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ clxscore=1015 suspectscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205020145
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,37 +124,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-?= =?utf-8?Q?Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrea Bolognani <abologna@redhat.com> writes:
+On 5/2/22 7:30 AM, Pierre Morel wrote:
+> 
+> 
+> On 5/2/22 11:19, Niklas Schnelle wrote:
+>> On Mon, 2022-05-02 at 09:48 +0200, Pierre Morel wrote:
+>>>
+>>> On 4/22/22 14:10, Matthew Rosato wrote:
+>>>> On 4/22/22 5:39 AM, Pierre Morel wrote:
+>>>>>
+>>>>> On 4/4/22 20:17, Matthew Rosato wrote:
+>>>>>> Use the associated kvm ioctl operation to enable adapter event
+>>>>>> notification
+>>>>>> and forwarding for devices when requested.  This feature will be 
+>>>>>> set up
+>>>>>> with or without firmware assist based upon the 'forwarding_assist'
+>>>>>> setting.
+>>>>>>
+>>>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>>>>> ---
+>>>>>>    hw/s390x/s390-pci-bus.c         | 20 ++++++++++++++---
+>>>>>>    hw/s390x/s390-pci-inst.c        | 40 
+>>>>>> +++++++++++++++++++++++++++++++--
+>>>>>>    hw/s390x/s390-pci-kvm.c         | 30 +++++++++++++++++++++++++
+>>>>>>    include/hw/s390x/s390-pci-bus.h |  1 +
+>>>>>>    include/hw/s390x/s390-pci-kvm.h | 14 ++++++++++++
+>>>>>>    5 files changed, 100 insertions(+), 5 deletions(-)
+>>>>>>
+>>>>>> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+>>>>>> index 9c02d31250..47918d2ce9 100644
+>>>>>> --- a/hw/s390x/s390-pci-bus.c
+>>>>>> +++ b/hw/s390x/s390-pci-bus.c
+>>>>>> @@ -190,7 +190,10 @@ void s390_pci_sclp_deconfigure(SCCB *sccb)
+>>>>>>            rc = SCLP_RC_NO_ACTION_REQUIRED;
+>>>>>>            break;
+>>>>>>        default:
+>>>>>> -        if (pbdev->summary_ind) {
+>>>>>> +        if (pbdev->interp && (pbdev->fh & FH_MASK_ENABLE)) {
+>>>>>> +            /* Interpreted devices were using interrupt 
+>>>>>> forwarding */
+>>>>>> +            s390_pci_kvm_aif_disable(pbdev);
+>>>>>
+>>>>> Same remark as for the kernel part.
+>>>>> The VFIO device is already initialized and the action is on this
+>>>>> device, Shouldn't we use the VFIO device interface instead of the KVM
+>>>>> interface?
+>>>>>
+>>>>
+>>>> I don't necessarily disagree, but in v3 of the kernel series I was told
+>>>> not to use VFIO ioctls to accomplish tasks that are unique to KVM (e.g.
+>>>> AEN interpretation) and to instead use a KVM ioctl.
+>>>>
+>>>> VFIO_DEVICE_SET_IRQS won't work as-is for reasons described in the
+>>>> kernel series (e.g. we don't see any of the config space notifiers
+>>>> because of instruction interpretation) -- as far as I can figure we
+>>>> could add our own s390 code to QEMU to issue VFIO_DEVICE_SET_IRQS
+>>>> directly for an interpreted device, but I think would also need
+>>>> s390-specific changes to VFIO_DEVICE_SET_IRQS accommodate this (e.g.
+>>>> maybe something like a VFIO_IRQ_SET_DATA_S390AEN where we can then
+>>>> specify the aen information in vfio_irq_set.data -- or something else I
+>>>
+>>> Hi,
+>>>
+>>> yes this in VFIO_DEVICE_SET_IRQS is what I think should be done.
+>>>
+>>>> haven't though of yet) -- I can try to look at this some more and 
+>>>> see if
+>>>> I get a good idea.
+>>>
+>>>
+>>> I understood that the demand was concerning the IOMMU but I may be 
+>>> wrong.
 
-> On Mon, May 02, 2022 at 02:43:52PM +0200, Markus Armbruster wrote:
->> PATCH 1-5 queued, because no-brainers :)
->
-> Thanks!
->
-> How do you want me to handle respinning 6/7 and 7/7? Send out the
-> entire series again with those two patches tweaked, wait for your
-> pull request to make it into the tree, something else... ?
+The IOMMU was an issue, but the request to move the ioctl out of vfio to 
+kvm was specifically because these ioctl operations were only relevant 
+for VMs and are not applicable to vfio uses cases outside of virtualization.
 
-If you like, I can post a pull request tomorrow morning.
+https://lore.kernel.org/kvm/20220208185141.GH4160@nvidia.com/
 
-Respinning the complete series is fine with me.
+>>> For my opinion, the handling of AEN is not specific to KVM but specific
+>>> to the device, for example the code should be the same if Z ever decide
+>>> to use XEN or another hypervizor, except for the GISA part but this part
+>>> is already implemented in KVM in a way it can be used from a device like
+>>> in VFIO AP.
 
-> What about the changes you suggested to the commit message of 3/7?
 
-If you respin the complete series, you get to can amend it.  Else I do.
+Fundamentally, these operations are valid only when you have _both_ a 
+virtual machine and vfio device.  (Yes, you could swap in a new 
+hypervisor with a new GISA implementation, but at the end of it the 
+hypervisor must still provide the GISA designation for this to work)
+
+If fh lookup is a concern, one idea that Jason floated was passing the 
+vfio device fd as an argument to the kvm ioctl (so pass this down on a 
+kvm ioctl from userspace instead of a fh) and then using a new vfio 
+external API to get the relevant device from the provided fd.
+
+https://lore.kernel.org/kvm/20220208195117.GI4160@nvidia.com/
+
+>>>
+>>> @Alex, what do you think?
+>>>
+>>> Regards,
+>>> Pierre
+>>>
+>>
+>> As I understand it the question isn't if it is specific to KVM but
+>> rather if it is specific to virtualization. As vfio-pci is also used
+>> for non virtualization purposes such as with DPDK/SPDK or a fully
+>> emulating QEMU, it should only be in VFIO if it is relevant for these
+>> kinds of user-space PCI accesses too. I'm not an AEN expert but as I
+>> understand it, this does forwarding interrupts into a SIE context which
+>> only makes sense for virtualization not for general user-space PCI.
+
+Right, AEN forwarding is only relevant for virtual machines.
+
+>>
+> 
+> Being in VFIO kernel part does not mean that this part should be called 
+> from any user of VFIO in userland.
+> That is a reason why I did propose an extension and not using the 
+> current implementation of VFIO_DEVICE_SET_IRQS as is.
+> 
+> The reason behind is that the AEN hardware handling is device specific: 
+> we need the Function Handle to program AEN.
+
+You also need the GISA designation which is provided by the kvm or you 
+also can't program AEN.  So you ultimately need both a function handle 
+that is 'owned' by the device (vfio device fd) and the GISA designation 
+that is 'owned' by kvm (kvm fd).  So there are 2 different "owning" fds 
+involved.
+
+> 
+> If the API is through KVM which is device agnostic the implementation in 
+> KVM has to search through the system to find the device being handled to 
+> apply AEN on it.
+
+See comment above about instead passing the vfio device fd.
+
+> 
+> This not the logical way for me and it is a potential source of problems 
+> for future extensions.
+> 
+
+
 
 
