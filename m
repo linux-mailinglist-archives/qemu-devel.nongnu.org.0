@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C9B517AAE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 01:22:08 +0200 (CEST)
-Received: from localhost ([::1]:48088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E9D517ACB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 01:29:10 +0200 (CEST)
+Received: from localhost ([::1]:50724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlfMk-0000vM-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 19:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
+	id 1nlfTZ-0003CB-QS
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 19:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=8Tv5=VK=zx2c4.com=Jason@kernel.org>)
- id 1nlfLl-0000C7-FX
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:21:05 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:45198)
+ id 1nlfSb-0002Xe-GC
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 19:28:09 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:45332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=8Tv5=VK=zx2c4.com=Jason@kernel.org>)
- id 1nlfLj-00089e-7y
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:21:05 -0400
+ id 1nlfSZ-0000QC-U2
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 19:28:09 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A4FBF6126B;
- Mon,  2 May 2022 23:21:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D66C385AE;
- Mon,  2 May 2022 23:21:00 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C5AD9B81AE8;
+ Mon,  2 May 2022 23:28:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295BEC385AC;
+ Mon,  2 May 2022 23:28:04 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="UGDpEgAk"
+ header.b="ZadJ6MOl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1651533658;
+ t=1651534082;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=drNnPwOIu75Uiln8TrQrWPM013fyoOXTJndTHgjnkMU=;
- b=UGDpEgAk/OLqCLdNIi9E9tuVQCO1H0AKBAzocH2CJ/lpY7y/DrC5nn84YYiqWoe31bKE0+
- e3c5HvX7bS+AYZgVSiqV7EqluvnlOtJaBM09j8UeBxP1A+pJbXGvShzdx4z96mx2Ebyyp+
- Cw6IxBDxV/NaP6MJWtxj+t21SnO/9ZA=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9e69bd9a
+ bh=TY3V9cWsgB3DfKT2TM6FJDKc21DnhZRW8iveuh3Ne84=;
+ b=ZadJ6MOl3S0vjgkJyKOoxySxIlO5mQrjtUA0VbCXWrR03yIWR4LVhq00M5xf3muKAfPvZh
+ lj0OxaZwgB457z9xy3taD8EsyUOoyYlZnkKb9E5tnLl2AEIem9JTQnGNHUVFKXUTkHwMsB
+ uwXuqnoNUaEJ3NVUI8ZYDwRSrj97bAc=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 354b7bef
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Mon, 2 May 2022 23:20:58 +0000 (UTC)
+ Mon, 2 May 2022 23:28:02 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: qemu-devel@nongnu.org,
 	openrisc@lists.librecores.org,
 	shorne@gmail.com
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH] hw/openrisc: support 4 serial ports in or1ksim
-Date: Tue,  3 May 2022 01:20:56 +0200
-Message-Id: <20220502232056.248292-1-Jason@zx2c4.com>
+Subject: [PATCH] hw/openrisc: use right OMPIC size variable
+Date: Tue,  3 May 2022 01:28:00 +0200
+Message-Id: <20220502232800.259036-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=8Tv5=VK=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
+ helo=ams.source.kernel.org
 X-Spam_score_int: -67
 X-Spam_score: -6.8
 X-Spam_bar: ------
@@ -78,79 +78,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 8250 serial controller supports 4 serial ports, so wire them all up,
-so that we can have more than one basic I/O channel.
+This appears to be a copy and paste error. The UART size was used
+instead of the much smaller OMPIC size.
 
-Cc: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/openrisc/openrisc_sim.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ hw/openrisc/openrisc_sim.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index bf434e9737..fe07db1cc5 100644
+index 99b14940f4..bf434e9737 100644
 --- a/hw/openrisc/openrisc_sim.c
 +++ b/hw/openrisc/openrisc_sim.c
-@@ -71,6 +71,10 @@ enum {
-     OR1KSIM_ETHOC_IRQ = 4,
- };
+@@ -410,7 +410,7 @@ static void openrisc_sim_init(MachineState *machine)
  
-+enum {
-+    OR1KSIM_UART_COUNT = 4
-+};
-+
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
-@@ -239,11 +243,13 @@ static void openrisc_sim_ompic_init(Or1ksimState *state, hwaddr base,
- 
- static void openrisc_sim_serial_init(Or1ksimState *state, hwaddr base,
-                                      hwaddr size, int num_cpus,
--                                     OpenRISCCPU *cpus[], int irq_pin)
-+                                     OpenRISCCPU *cpus[], int irq_pin,
-+                                     int uart_idx)
- {
-     void *fdt = state->fdt;
-     char *nodename;
-     qemu_irq serial_irq;
-+    char alias[sizeof("uart0")];
-     int i;
- 
-     if (num_cpus > 1) {
-@@ -258,7 +264,7 @@ static void openrisc_sim_serial_init(Or1ksimState *state, hwaddr base,
-         serial_irq = get_cpu_irq(cpus, 0, irq_pin);
-     }
-     serial_mm_init(get_system_memory(), base, 0, serial_irq, 115200,
--                   serial_hd(0), DEVICE_NATIVE_ENDIAN);
-+                   serial_hd(OR1KSIM_UART_COUNT - uart_idx - 1), DEVICE_NATIVE_ENDIAN);
- 
-     /* Add device tree node for serial. */
-     nodename = g_strdup_printf("/serial@%" HWADDR_PRIx, base);
-@@ -271,7 +277,8 @@ static void openrisc_sim_serial_init(Or1ksimState *state, hwaddr base,
- 
-     /* The /chosen node is created during fdt creation. */
-     qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", nodename);
--    qemu_fdt_setprop_string(fdt, "/aliases", "uart0", nodename);
-+    snprintf(alias, sizeof(alias), "uart%d", uart_idx);
-+    qemu_fdt_setprop_string(fdt, "/aliases", alias, nodename);
-     g_free(nodename);
- }
- 
-@@ -414,9 +421,11 @@ static void openrisc_sim_init(MachineState *machine)
+     if (smp_cpus > 1) {
+         openrisc_sim_ompic_init(state, or1ksim_memmap[OR1KSIM_OMPIC].base,
+-                                or1ksim_memmap[OR1KSIM_UART].size,
++                                or1ksim_memmap[OR1KSIM_OMPIC].size,
                                  smp_cpus, cpus, OR1KSIM_OMPIC_IRQ);
      }
  
--    openrisc_sim_serial_init(state, or1ksim_memmap[OR1KSIM_UART].base,
--                             or1ksim_memmap[OR1KSIM_UART].size, smp_cpus, cpus,
--                             OR1KSIM_UART_IRQ);
-+    for (n = 0; n < OR1KSIM_UART_COUNT; ++n)
-+            openrisc_sim_serial_init(state, or1ksim_memmap[OR1KSIM_UART].base +
-+                                            or1ksim_memmap[OR1KSIM_UART].size * n,
-+                                     or1ksim_memmap[OR1KSIM_UART].size, smp_cpus, cpus,
-+                                     OR1KSIM_UART_IRQ, n);
- 
-     load_addr = openrisc_load_kernel(ram_size, kernel_filename);
-     if (load_addr > 0) {
 -- 
 2.35.1
 
