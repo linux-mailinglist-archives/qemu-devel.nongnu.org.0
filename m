@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACE7516C8F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:53:16 +0200 (CEST)
-Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E339516C9E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:55:46 +0200 (CEST)
+Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlRnt-0000QX-Ur
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48612)
+	id 1nlRqK-0002PK-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:55:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlRl3-0007WW-Ek
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:50:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38002)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nlRnG-0000le-Qm
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:52:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlRl0-0008MB-Ls
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:50:16 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nlRnF-0000Ke-6P
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:52:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651481413;
+ s=mimecast20190719; t=1651481552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mjIqC85Rf2OKUUlKk6ttGk3mgwSSaN7HmKPrDCLhyiw=;
- b=LmXZdDu5M6vucrMH2+KGwfPJg1JEFkehv7dm3crW9IZ9OzafZXJhQ2Pf4bYbDcwekFvO/b
- N9O7X0cT1mLxbBSwCam6sYzllFyXQJ+LhhgSAXp8+4vutmtTl366DS6ISWWbSpVAjhDyut
- RH1+O5GslZRxwapu8+FI3PMMsnSshhg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6LTA2/dze/7ZUghvqKYPOWZc5bHVhq3ikE2h8oasSR0=;
+ b=JwkCZfcur9NcwOWj0vgahpthgfqesOqh3CvG5N8amrbwK/+ZO7WGGEm8flRB4Ill5oShqb
+ 7nPRctmZw2iBxOL1/LhkCPjxR7TggnO05VjZst2DnrZ2cfn67+ND0XM+tgwp5kg3LM6YZs
+ ey3VnJyD2aAslalzV1n3YjXzBHBCQLk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-142-ThuQYSZgMCCf3cIANGy5pA-1; Mon, 02 May 2022 04:50:10 -0400
-X-MC-Unique: ThuQYSZgMCCf3cIANGy5pA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABA39811E75;
- Mon,  2 May 2022 08:50:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE08F400E547;
- Mon,  2 May 2022 08:50:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AA11321E66D0; Mon,  2 May 2022 10:50:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH 6/7] qapi: Drop unnecessary horizontal spacing in comments
-References: <20220429154758.354610-1-abologna@redhat.com>
- <20220429154758.354610-7-abologna@redhat.com>
-Date: Mon, 02 May 2022 10:50:07 +0200
-In-Reply-To: <20220429154758.354610-7-abologna@redhat.com> (Andrea Bolognani's
- message of "Fri, 29 Apr 2022 17:47:57 +0200")
-Message-ID: <874k28s4hs.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-638-iyZafU0NMQq4AQZKLpXLKg-1; Mon, 02 May 2022 04:52:31 -0400
+X-MC-Unique: iyZafU0NMQq4AQZKLpXLKg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v184-20020a1cacc1000000b00393e492a398so9679090wme.5
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 01:52:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6LTA2/dze/7ZUghvqKYPOWZc5bHVhq3ikE2h8oasSR0=;
+ b=V/T64gmxWzDTfcT6ZxVVb3xuCBaQK5sXxk3pNeLoYnWELDb5t/XRYchV7mTdJ7wl7l
+ f0Dhev0+lRKG/k0Hv8BTKWFKc8B/rrxBinnlIakhqUgagOh5XrhgIdzueUE8RHWwZQCY
+ ddK7Izl/Uo0sZ0P1VEX5tOshCfFOV9FS9Kn+8l3VEQKP3NIyh+DHmO8u3aQn5mHMS8r1
+ rJcGLO22PQgV88Y0ItnSJqzvtJDERD3nSyKU53bQqwl4Nem2+tH1TROM2x2HbI2aIi/r
+ FtZF0dRcKmmjKwEYSHo2eNPDSxRKkwgZeaBXyOzaMsk3gnm4GVypf+7vNgax90Bj3VWi
+ 5t7g==
+X-Gm-Message-State: AOAM532Hv1dkqJFWbixLabjNyhqHUkBGsKpM1I36U+em7MT7RHqDAAw0
+ f46oks8Srzr7xuzC61aRzE0ueTMe1OIZ/hs4/N09VNobWDJ6KxZln7k45fySI+Y1GZwh3gIl265
+ snwz49K9gTzlImGI=
+X-Received: by 2002:a7b:c446:0:b0:394:3293:a88f with SMTP id
+ l6-20020a7bc446000000b003943293a88fmr6369999wmi.22.1651481550168; 
+ Mon, 02 May 2022 01:52:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEGyBTgVxo1Ewsn27IVPf9wVGC2SlfAZ9fmKMyi68rYrmAY+2WpBYIsOVl+cxrV6FegQYkqg==
+X-Received: by 2002:a7b:c446:0:b0:394:3293:a88f with SMTP id
+ l6-20020a7bc446000000b003943293a88fmr6369970wmi.22.1651481549899; 
+ Mon, 02 May 2022 01:52:29 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ s18-20020adf9792000000b0020c5253d8e1sm7837492wrb.45.2022.05.02.01.52.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 May 2022 01:52:29 -0700 (PDT)
+Date: Mon, 2 May 2022 10:52:27 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v8 2/5] qtest/numa-test: Specify CPU topology in
+ aarch64_numa_cpu()
+Message-ID: <20220502105227.0146dcce@redhat.com>
+In-Reply-To: <20220425032802.365061-3-gshan@redhat.com>
+References: <20220425032802.365061-1-gshan@redhat.com>
+ <20220425032802.365061-3-gshan@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,83 +97,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-?= =?utf-8?Q?Daud=C3=A9?= <f4bug@amsat.org>
+Cc: lvivier@redhat.com, eduardo@habkost.net, thuth@redhat.com,
+ berrange@redhat.com, peter.maydell@linaro.org, armbru@redhat.com,
+ mst@redhat.com, qemu-devel@nongnu.org, zhenyzha@redhat.com, drjones@redhat.com,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com, Jonathan.Cameron@Huawei.com,
+ ani@anisinha.ca, pbonzini@redhat.com, wangyanan55@huawei.com,
+ eblake@redhat.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrea Bolognani <abologna@redhat.com> writes:
+On Mon, 25 Apr 2022 11:27:59 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
-> Care was taken not to break vertical alignment.
->
-> Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+> The CPU topology isn't enabled on arm/virt machine yet, but we're
+> going to do it in next patch. After the CPU topology is enabled by
+> next patch, "thrad-id=3D1" becomes invalid because the CPU core is
+                 ^^^ typo
+
+> preferred on arm/virt machine. It means these two CPUs have 0/1
+> as their core IDs, but their thread IDs are all 0. It will trigger
+> test failure as the following message indicates:
+>=20
+>   [14/21 qemu:qtest+qtest-aarch64 / qtest-aarch64/numa-test  ERROR
+>   1.48s   killed by signal 6 SIGABRT
+>   >>> G_TEST_DBUS_DAEMON=3D/home/gavin/sandbox/qemu.main/tests/dbus-vmsta=
+te-daemon.sh \ =20
+>       QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-da=
+emon         \
+>       QTEST_QEMU_BINARY=3D./qemu-system-aarch64                          =
+             \
+>       QTEST_QEMU_IMG=3D./qemu-img MALLOC_PERTURB_=3D83                   =
+               \
+>       /home/gavin/sandbox/qemu.main/build/tests/qtest/numa-test --tap -k
+>   =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95
+>   stderr:
+>   qemu-system-aarch64: -numa cpu,node-id=3D0,thread-id=3D1: no match found
+>=20
+> This fixes the issue by providing comprehensive SMP configurations
+> in aarch64_numa_cpu(). The SMP configurations aren't used before
+> the CPU topology is enabled in next patch.
+>=20
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  qapi/block-core.json   | 62 +++++++++++++++++++++---------------------
->  qapi/block-export.json |  2 +-
->  qapi/block.json        |  2 +-
->  qapi/char.json         |  2 +-
->  qapi/control.json      | 10 +++----
->  qapi/crypto.json       | 44 +++++++++++++++---------------
->  qapi/dump.json         |  4 +--
->  qapi/machine.json      |  8 +++---
->  qapi/misc-target.json  |  6 ++--
->  qapi/misc.json         |  6 ++--
->  qapi/run-state.json    |  4 +--
->  qapi/sockets.json      |  6 ++--
->  qapi/ui.json           | 18 ++++++------
->  13 files changed, 87 insertions(+), 87 deletions(-)
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 2bce5bb0ae..5fd66ea676 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -337,9 +337,9 @@
->  #
->  # Cache mode information for a block device
->  #
-> -# @writeback:   true if writeback mode is enabled
-> -# @direct:      true if the host page cache is bypassed (O_DIRECT)
-> -# @no-flush:    true if flush requests are ignored for the device
-> +# @writeback: true if writeback mode is enabled
-> +# @direct:    true if the host page cache is bypassed (O_DIRECT)
-> +# @no-flush:  true if flush requests are ignored for the device
+>  tests/qtest/numa-test.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+> index 90bf68a5b3..aeda8c774c 100644
+> --- a/tests/qtest/numa-test.c
+> +++ b/tests/qtest/numa-test.c
+> @@ -223,7 +223,8 @@ static void aarch64_numa_cpu(const void *data)
+>      QTestState *qts;
+>      g_autofree char *cli =3D NULL;
+> =20
+> -    cli =3D make_cli(data, "-machine smp.cpus=3D2 "
+> +    cli =3D make_cli(data, "-machine "
+> +        "smp.cpus=3D2,smp.sockets=3D1,smp.clusters=3D1,smp.cores=3D1,smp=
+.threads=3D2 "
+>          "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
+>          "-numa cpu,node-id=3D1,thread-id=3D0 "
+                                ^^^^
+make it sensible as well, i.e. socket/cluster/cores-ids ...
 
-I'm no fan of horizontally aligning descriptions, because when you add a
-longer name, you either realign (I hate the churn) or live with the
-inconsistency (I hate that, too).
-
-For what it's worth, the example in docs/devel/qapi-code-gen.rst does
-not align.
-
-I doubt changing to a different alignment now is useful.  The next
-patch, however, drops the alignment entirely.  Possibly useful.
-
-Thoughts?
-
->  #
->  # Since: 2.3
->  ##
-> @@ -604,7 +604,7 @@
->  # @inserted: @BlockDeviceInfo describing the device if media is
->  #            present
->  #
-> -# Since:  0.14
-> +# Since: 0.14
-
-This one is TAG: TEXT, whereas the one above is a multiple @NAME:
-DESCRIPTION.  Extra space in the latter can provide alignment.  Extra
-space in the former is always redundant.  I'd take a patch dropping
-these obviously redundant spaces without debate :)
-
-[...]
+>          "-numa cpu,node-id=3D0,thread-id=3D1");
 
 
