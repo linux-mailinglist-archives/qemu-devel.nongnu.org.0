@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7FF516FC4
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 14:47:43 +0200 (CEST)
-Received: from localhost ([::1]:35564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0774516FE4
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 14:56:46 +0200 (CEST)
+Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlVSk-00045K-B2
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 08:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
+	id 1nlVbZ-00084b-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 08:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlVPq-00038Q-3P
- for qemu-devel@nongnu.org; Mon, 02 May 2022 08:44:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46460)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlVZx-000719-AX
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 08:55:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlVPn-0001xd-Mb
- for qemu-devel@nongnu.org; Mon, 02 May 2022 08:44:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlVZu-0003b4-2e
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 08:55:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651495475;
+ s=mimecast20190719; t=1651496100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jtG4IAjkuVHR3UI28vtF1kpGI55AEIDJNgQEAEEKgnA=;
- b=g5XOVUO4y1RLNtEEbIvvzvS+pz4qPm4H2wM/ZW4T7XeAkrc63c0BbjCCwD/B4iE6o8whVC
- jYd5kl0LG9dbPUK16+Hgmb98stWM5AoyW08lMaIFmhD1BEj8j4QAAFplJ+ytFUyeMsx1XY
- KX36/m6BLk8BES8TfhckxtNW8SYKS64=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CqL4KiR9uD/RXOMEb8URbmnxGDSjsgc67isSNuA7kNo=;
+ b=RDOV6sUYve+LqfR4ziuutrHEsHUuCSjFwpUXU3qhQf7NdxbSGjiqSVEqEhB18JYvAzSQaI
+ 7D9LRI6z2XSQsPpllYmhDmNa4UoI7zt3SZCEfA3lXaMOPM2FZdoWIHQJOp/XUzGDAsGuV8
+ e0a5mZtsEZAZOJVGRB/Frjg/lkWLCbA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-WPhb5VbUMd-aZ5lf8wKYPA-1; Mon, 02 May 2022 08:44:31 -0400
-X-MC-Unique: WPhb5VbUMd-aZ5lf8wKYPA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-547-QE2QBk5aPe-IBXJWuMykJA-1; Mon, 02 May 2022 08:54:57 -0400
+X-MC-Unique: QE2QBk5aPe-IBXJWuMykJA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CD77866DF1;
- Mon,  2 May 2022 12:44:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC9C93811A22;
+ Mon,  2 May 2022 12:54:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B1A1200C0EE;
- Mon,  2 May 2022 12:43:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95B4B14DE24A;
+ Mon,  2 May 2022 12:54:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F311621E68BC; Mon,  2 May 2022 14:43:52 +0200 (CEST)
+ id 7251F21E68BC; Mon,  2 May 2022 14:54:55 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH 0/7] qapi: Primarily whitespace tweaks
-References: <20220429154758.354610-1-abologna@redhat.com>
-Date: Mon, 02 May 2022 14:43:52 +0200
-In-Reply-To: <20220429154758.354610-1-abologna@redhat.com> (Andrea Bolognani's
- message of "Fri, 29 Apr 2022 17:47:51 +0200")
-Message-ID: <8735hsm7ef.fsf@pond.sub.org>
+To: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH RFC 09/10] migration/dirtyrate: Expand dirty_bitmap to
+ be tracked separately for devices
+References: <20220428211351.3897-1-joao.m.martins@oracle.com>
+ <20220428211351.3897-10-joao.m.martins@oracle.com>
+Date: Mon, 02 May 2022 14:54:55 +0200
+In-Reply-To: <20220428211351.3897-10-joao.m.martins@oracle.com> (Joao
+ Martins's message of "Thu, 28 Apr 2022 22:13:50 +0100")
+Message-ID: <87k0b4ksbk.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -62,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,20 +77,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-?= =?utf-8?Q?Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "John G . Johnson" <john.g.johnson@oracle.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Yi Liu <yi.l.liu@intel.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <f4bug@amsat.org>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PATCH 1-5 queued, because no-brainers :)
+Joao Martins <joao.m.martins@oracle.com> writes:
+
+> Expand dirtyrate measurer that is accessible via HMP calc_dirty_rate
+> or QMP 'calc-dirty-rate' to receive a @scope argument. The scope
+> then restricts the dirty tracking to be done at devices only,
+> while neither enabling or using the KVM (CPU) dirty tracker.
+> The default stays as is i.e. dirty-ring / dirty-bitmap from KVM.
+>
+> This is useful to test, exercise the IOMMU dirty tracker and observe
+> how much a given device is dirtying memory.
+>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+
+[...]
+
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 27d7b281581d..082830c6e771 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1793,6 +1793,19 @@
+>  { 'enum': 'DirtyRateMeasureMode',
+>    'data': ['page-sampling', 'dirty-ring', 'dirty-bitmap'] }
+>  
+> +##
+> +# @DirtyRateScope:
+> +#
+> +# An enumeration of scope of measuring dirtyrate.
+
+"dirtyrate" is not a word.
+
+> +#
+> +# @dirty-devices: calculate dirtyrate by devices only.
+
+Please document @all, too.
+
+> +#
+> +# Since: 6.2
+> +#
+> +##
+> +{ 'enum': 'DirtyRateScope',
+> +  'data': ['all', 'dirty-devices'] }
+> +
+>  ##
+>  # @DirtyRateInfo:
+>  #
+> @@ -1827,6 +1840,7 @@
+>             'calc-time': 'int64',
+>             'sample-pages': 'uint64',
+>             'mode': 'DirtyRateMeasureMode',
+> +           'scope': 'DirtyRateScope',
+
+Please document new member @scope.
+
+>             '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ] } }
+>  
+>  ##
+> @@ -1851,6 +1865,7 @@
+>  ##
+>  { 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64',
+>                                           '*sample-pages': 'int',
+> +                                         '*scope': 'DirtyRateScope',
+>                                           '*mode': 'DirtyRateMeasureMode'} }
+>  
+>  ##
+
+[...]
 
 
