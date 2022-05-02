@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFFE516C3F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:39:09 +0200 (CEST)
-Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACE7516C8F
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:53:16 +0200 (CEST)
+Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlRaG-00084r-5G
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:39:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
+	id 1nlRnt-0000QX-Ur
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlRRe-0003Zo-Nt
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:30:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24563)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlRl3-0007WW-Ek
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:50:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlRRa-0005EB-Es
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:30:11 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlRl0-0008MB-Ls
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:50:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651480209;
+ s=mimecast20190719; t=1651481413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CnhejqY3ma6PfVULB0u8iPUo3cGgqLxNrkYeoNeMsVo=;
- b=OwfhOfsVANqnZFjdAQ+D3/fuC7Y6UsVDpvfAhT6XqJgkSdVpUWbfkffPfF5vOqJ7Fq97/N
- pzJFRvJHGxBVmGo5rxY24DE7XS1jl8BqeFjBU/kzFJeMBYGRrVGZbXg2/X6Y2TbENPF5g+
- IindZjDt0gfHyZlfe6VfQl4ImvyRB5Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mjIqC85Rf2OKUUlKk6ttGk3mgwSSaN7HmKPrDCLhyiw=;
+ b=LmXZdDu5M6vucrMH2+KGwfPJg1JEFkehv7dm3crW9IZ9OzafZXJhQ2Pf4bYbDcwekFvO/b
+ N9O7X0cT1mLxbBSwCam6sYzllFyXQJ+LhhgSAXp8+4vutmtTl366DS6ISWWbSpVAjhDyut
+ RH1+O5GslZRxwapu8+FI3PMMsnSshhg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-7uJXIzKaNs--dSbU5Hit0Q-1; Mon, 02 May 2022 04:30:08 -0400
-X-MC-Unique: 7uJXIzKaNs--dSbU5Hit0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-142-ThuQYSZgMCCf3cIANGy5pA-1; Mon, 02 May 2022 04:50:10 -0400
+X-MC-Unique: ThuQYSZgMCCf3cIANGy5pA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 097FF29AB3FF;
- Mon,  2 May 2022 08:30:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABA39811E75;
+ Mon,  2 May 2022 08:50:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7B82C52C86;
- Mon,  2 May 2022 08:30:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE08F400E547;
+ Mon,  2 May 2022 08:50:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9A17221E68BC; Mon,  2 May 2022 10:30:06 +0200 (CEST)
+ id AA11321E66D0; Mon,  2 May 2022 10:50:07 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH 5/7] qapi: Drop unnecessary empty lines outside of comments
+Subject: Re: [PATCH 6/7] qapi: Drop unnecessary horizontal spacing in comments
 References: <20220429154758.354610-1-abologna@redhat.com>
- <20220429154758.354610-6-abologna@redhat.com>
-Date: Mon, 02 May 2022 10:30:06 +0200
-In-Reply-To: <20220429154758.354610-6-abologna@redhat.com> (Andrea Bolognani's
- message of "Fri, 29 Apr 2022 17:47:56 +0200")
-Message-ID: <87a6c0s5f5.fsf@pond.sub.org>
+ <20220429154758.354610-7-abologna@redhat.com>
+Date: Mon, 02 May 2022 10:50:07 +0200
+In-Reply-To: <20220429154758.354610-7-abologna@redhat.com> (Andrea Bolognani's
+ message of "Fri, 29 Apr 2022 17:47:57 +0200")
+Message-ID: <874k28s4hs.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -76,7 +76,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
  "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
  qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
@@ -92,14 +92,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Andrea Bolognani <abologna@redhat.com> writes:
 
+> Care was taken not to break vertical alignment.
+>
 > Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+> ---
+>  qapi/block-core.json   | 62 +++++++++++++++++++++---------------------
+>  qapi/block-export.json |  2 +-
+>  qapi/block.json        |  2 +-
+>  qapi/char.json         |  2 +-
+>  qapi/control.json      | 10 +++----
+>  qapi/crypto.json       | 44 +++++++++++++++---------------
+>  qapi/dump.json         |  4 +--
+>  qapi/machine.json      |  8 +++---
+>  qapi/misc-target.json  |  6 ++--
+>  qapi/misc.json         |  6 ++--
+>  qapi/run-state.json    |  4 +--
+>  qapi/sockets.json      |  6 ++--
+>  qapi/ui.json           | 18 ++++++------
+>  13 files changed, 87 insertions(+), 87 deletions(-)
+>
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 2bce5bb0ae..5fd66ea676 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -337,9 +337,9 @@
+>  #
+>  # Cache mode information for a block device
+>  #
+> -# @writeback:   true if writeback mode is enabled
+> -# @direct:      true if the host page cache is bypassed (O_DIRECT)
+> -# @no-flush:    true if flush requests are ignored for the device
+> +# @writeback: true if writeback mode is enabled
+> +# @direct:    true if the host page cache is bypassed (O_DIRECT)
+> +# @no-flush:  true if flush requests are ignored for the device
 
-Blank lines ones between doc comment and definition are clearly
-unwanted.
+I'm no fan of horizontally aligning descriptions, because when you add a
+longer name, you either realign (I hate the churn) or live with the
+inconsistency (I hate that, too).
 
-Blank lines between two things *might* be intentional visual
-separators.  I'm not sure we should care.
+For what it's worth, the example in docs/devel/qapi-code-gen.rst does
+not align.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+I doubt changing to a different alignment now is useful.  The next
+patch, however, drops the alignment entirely.  Possibly useful.
+
+Thoughts?
+
+>  #
+>  # Since: 2.3
+>  ##
+> @@ -604,7 +604,7 @@
+>  # @inserted: @BlockDeviceInfo describing the device if media is
+>  #            present
+>  #
+> -# Since:  0.14
+> +# Since: 0.14
+
+This one is TAG: TEXT, whereas the one above is a multiple @NAME:
+DESCRIPTION.  Extra space in the latter can provide alignment.  Extra
+space in the former is always redundant.  I'd take a patch dropping
+these obviously redundant spaces without debate :)
+
+[...]
 
 
