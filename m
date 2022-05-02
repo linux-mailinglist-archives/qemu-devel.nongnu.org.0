@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850C7517210
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 16:57:46 +0200 (CEST)
-Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A5B517219
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 17:00:45 +0200 (CEST)
+Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlXUf-0002Fq-I2
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 10:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53852)
+	id 1nlXXY-0005D4-RK
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 11:00:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nlXE8-0003gl-S1; Mon, 02 May 2022 10:40:42 -0400
+ id 1nlXEB-0003kF-C1; Mon, 02 May 2022 10:40:43 -0400
 Received: from [187.72.171.209] (port=32289 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nlXE6-0002wc-Vc; Mon, 02 May 2022 10:40:40 -0400
+ id 1nlXE9-0002wc-R6; Mon, 02 May 2022 10:40:43 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 2 May 2022 11:40:03 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3648E800902;
+ by p9ibm (Postfix) with ESMTP id 7B0BD8001CD;
  Mon,  2 May 2022 11:40:03 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 10/21] target/ppc: Remove msr_me macro
-Date: Mon,  2 May 2022 11:39:23 -0300
-Message-Id: <20220502143934.71908-11-victor.colombo@eldorado.org.br>
+Subject: [PATCH v2 11/21] target/ppc: Remove msr_gs macro
+Date: Mon,  2 May 2022 11:39:24 -0300
+Message-Id: <20220502143934.71908-12-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
 References: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 02 May 2022 14:40:03.0636 (UTC)
- FILETIME=[82636F40:01D85E32]
+X-OriginalArrivalTime: 02 May 2022 14:40:03.0933 (UTC)
+ FILETIME=[8290C0D0:01D85E32]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,7 +63,7 @@ Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-msr_me macro hides the usage of env->msr, which is a bad behavior
+msr_gs macro hides the usage of env->msr, which is a bad behavior
 Substitute it with FIELD_EX64 calls that explicitly use env->msr
 as a parameter.
 
@@ -72,91 +72,69 @@ Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
 ---
 
-v2: Remove M_MSR_ME and use FIELD_EX64 instead
+v2: Remove M_MSR_GS and use FIELD_EX64 instead
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/cpu.h         |  2 +-
- target/ppc/excp_helper.c | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ target/ppc/cpu.h         | 2 +-
+ target/ppc/helper_regs.c | 2 +-
+ target/ppc/mmu_helper.c  | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index f283292863..059a00ed65 100644
+index 059a00ed65..4b69cd666d 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -359,6 +359,7 @@ FIELD(MSR, CE, MSR_CE, 1)
- FIELD(MSR, ILE, MSR_ILE, 1)
- FIELD(MSR, EE, MSR_EE, 1)
- FIELD(MSR, PR, MSR_PR, 1)
-+FIELD(MSR, ME, MSR_ME, 1)
- FIELD(MSR, DS, MSR_DS, 1)
- FIELD(MSR, LE, MSR_LE, 1)
+@@ -354,6 +354,7 @@ typedef enum {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
-@@ -480,7 +481,6 @@ FIELD(MSR, LE, MSR_LE, 1)
++FIELD(MSR, GS, MSR_GS, 1)
+ FIELD(MSR, POW, MSR_POW, 1)
+ FIELD(MSR, CE, MSR_CE, 1)
+ FIELD(MSR, ILE, MSR_ILE, 1)
+@@ -479,7 +480,6 @@ FIELD(MSR, LE, MSR_LE, 1)
+ #define msr_hv   (0)
+ #endif
  #define msr_cm   ((env->msr >> MSR_CM)   & 1)
- #define msr_gs   ((env->msr >> MSR_GS)   & 1)
+-#define msr_gs   ((env->msr >> MSR_GS)   & 1)
  #define msr_fp   ((env->msr >> MSR_FP)   & 1)
--#define msr_me   ((env->msr >> MSR_ME)   & 1)
  #define msr_fe0  ((env->msr >> MSR_FE0)  & 1)
  #define msr_fe1  ((env->msr >> MSR_FE1)  & 1)
- #define msr_ep   ((env->msr >> MSR_EP)   & 1)
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index ee63641dd0..e254ae806c 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -444,7 +444,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
-         srr1 = SPR_40x_SRR3;
-         break;
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -575,7 +575,7 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
-         break;
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -748,7 +748,7 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 940f0207a0..88fcc01589 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -233,7 +233,7 @@ int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv)
+     }
+     if ((env->mmu_model == POWERPC_MMU_BOOKE ||
+          env->mmu_model == POWERPC_MMU_BOOKE206) &&
+-        ((value >> MSR_GS) & 1) != msr_gs) {
++        !(value & env->msr & R_MSR_GS_MASK)) {
+         cpu_interrupt_exittb(cs);
+     }
+     if (unlikely((env->flags & POWERPC_FLAG_TGPR) &&
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 142a717255..5bb5c71038 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -935,7 +935,7 @@ void helper_booke206_tlbwe(CPUPPCState *env)
+     }
  
-     switch (excp) {
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -933,7 +933,7 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
+     if (((env->spr[SPR_BOOKE_MAS0] & MAS0_ATSEL) == MAS0_ATSEL_LRAT) &&
+-        !msr_gs) {
++        !FIELD_EX64(env->msr, MSR, GS)) {
+         /* XXX we don't support direct LRAT setting yet */
+         fprintf(stderr, "cpu: don't support LRAT setting yet\n");
+         return;
+@@ -962,7 +962,7 @@ void helper_booke206_tlbwe(CPUPPCState *env)
+                                POWERPC_EXCP_INVAL_INVAL, GETPC());
+     }
  
-     switch (excp) {
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -1128,7 +1128,7 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
-         srr1 = SPR_BOOKE_CSRR1;
-         break;
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -1366,7 +1366,7 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+-    if (msr_gs) {
++    if (FIELD_EX64(env->msr, MSR, GS)) {
+         cpu_abort(env_cpu(env), "missing HV implementation\n");
+     }
  
-     switch (excp) {
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
 -- 
 2.25.1
 
