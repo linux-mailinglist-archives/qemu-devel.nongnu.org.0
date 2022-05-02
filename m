@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2C4517B04
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 01:53:39 +0200 (CEST)
-Received: from localhost ([::1]:58478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038B9517B13
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 01:58:53 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlfrG-0001Xn-G3
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 19:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57830)
+	id 1nlfwK-0003a7-1G
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 19:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nlfpl-0000ge-RK
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:52:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nlfpi-00047a-KH
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:52:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651535520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=677X9t1r4Xe7VwAxjOvsN/rEPA5Wsge7L6JJqTey5KE=;
- b=JmyciC4oBZiuwRAJhwj+XSokVE6sRFNzcU6BTJz+2hdWE9FV3FoFTvSGeG/w0K0DKKdNeY
- +/QvFoeDv2JciiFi7kndxLm3vnKuPmg2WUC6uWBlt6w1WjBjvJXU8sw6JBJpNsiRVZY1oc
- brUSitjYwAsFm6EJSsNF+9wCe8KmJHQ=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-QcoZLt0uOum-EESEWEPKyw-1; Mon, 02 May 2022 19:51:59 -0400
-X-MC-Unique: QcoZLt0uOum-EESEWEPKyw-1
-Received: by mail-io1-f71.google.com with SMTP id
- ay13-20020a5d9d8d000000b0065a631e7632so2894614iob.14
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 16:51:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nlfvJ-0002u8-5Y
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 19:57:49 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:40748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nlfvH-0004lN-9v
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 19:57:48 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ iq2-20020a17090afb4200b001d93cf33ae9so773865pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 16:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=PVKCeA2S5bqJLUfn5MnkPfC5WHn7lSJvrMZRexRldH0=;
+ b=XaHBpuX8lBt8utCqfXpmo0ePeA4QCK94Kprd90irVhRbM4pUViuABYrRM6Guhqe0HG
+ QEqHYl2N5WHtT4ZVSaak6/whdtJyANf3EcJCV5KuWyRaj6V6Zolz27VchVs7aWfAOeJ0
+ IVmNCZnQxZQrYCK/Y40WQ0g9JSq4mRH0itt1RwOWAB5aAjHZT3wiiEAbXMAV612GvXKh
+ DzksmPTE0JTCdp6BMG47PZtruHDwvOY8cSgJ+nF8uYU2ne/HptR19UNGknXE4EGpQVKR
+ psD+FkgYvgRB0nl3izj1RH6oA3nX5RBUZaiTvMKua27SDSnhm/DdSxWVnFJ3Ms9QOdMm
+ UARw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=677X9t1r4Xe7VwAxjOvsN/rEPA5Wsge7L6JJqTey5KE=;
- b=UBnnkGOFTEBxIKn0y7Mtm279EtHuA5zWYdbhYVOiJ+8H2+BFIdrOg2LTj1cei/vxLy
- nYmPgGyPbCRYXlpBnomTKcvxuQW/SyRECQjVM+5Si/0zvoBqFIn9zx69PXT2a6pW4Mff
- s5BZWw/xVIQk8Jr1hGB9K+H7hVvMasROM2dP2Y0MMHbhPyBHSYoMR+0MDXQJW0KTMUrQ
- Age0wpQaqztbJcRIZtGbGg/3UrQfC/Vq8sVARRqtNEVb8zfkJw+yNxhpZ+qypr8nCwXX
- PSVyNp98d3gDbZYBB4BbGnB/h1sdozhuPT/31IGXbM37gkaGfuUv/WJaDI6wH3ZHMf77
- lFzw==
-X-Gm-Message-State: AOAM532xCDGMvCRg6lOdMxu1WpV4iX+NCY51TlA3fPtwGdw0mVovjOPG
- xxIpGfR6Or3YEBRtccfADPrXThdZifxd1AzmlCo75rMDWa9hQhjwJYW1mVVajIkjeWjQMJR1l1t
- V3wbDsEu8OSkSd+A=
-X-Received: by 2002:a05:6638:d44:b0:328:5a32:c012 with SMTP id
- d4-20020a0566380d4400b003285a32c012mr5543112jak.211.1651535518613; 
- Mon, 02 May 2022 16:51:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydW44p2SSNWVUE1oEqKVJ5d2xF7YZYdILS+7DljZWMccl/9qY2nMVRSbf8ISvWhIgrYYM9tw==
-X-Received: by 2002:a05:6638:d44:b0:328:5a32:c012 with SMTP id
- d4-20020a0566380d4400b003285a32c012mr5543101jak.211.1651535518404; 
- Mon, 02 May 2022 16:51:58 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PVKCeA2S5bqJLUfn5MnkPfC5WHn7lSJvrMZRexRldH0=;
+ b=61llKWbiGvHcSFJxj7g2tYRT6ZXEK/ox7zcI1NQ6LgNtsoRpxr86n9KDSyYQop2tzc
+ N8UpX+jumkwzO0yo+Ot1ixrctOPPxIcwTR7fXBj6NvLyiD5F7ZfC+RWbXqXnuMcbP8Eb
+ aMnqYJ8LMHZXKO6HfwZEOVSFCNyzE/LpksilohDsj+jIGu5Vqb2vH7GuAtuG0hKYf/p9
+ f2JJM2elA2Ur2AsUTwrGwnp28GKBT7sQKIkU0kdhGYKJduAqwzXbvICmOfHNiP+oNWqt
+ /xp6k1tf7OWB+SGnhzzlWyDDLu7P/x6GIAwNdtHgEupvJoD7KAjxEiSX9DN0yWevwXV3
+ kxdg==
+X-Gm-Message-State: AOAM530z4ieUDbgeCp4wK8l7+WxjEuce6fYBRcN8DnMu1aw8MCPM2H5e
+ 6puA63UCwykQqCSQ4mnibLwcxQ==
+X-Google-Smtp-Source: ABdhPJyd0ofEhf4i7+W3CKCai0H7y2rl0KIAKkAEBMHWktD5pArQ6vJMH7/dpKiCj0iNuFdSpK49hQ==
+X-Received: by 2002:a17:902:7e06:b0:159:6c1:ea2b with SMTP id
+ b6-20020a1709027e0600b0015906c1ea2bmr13797960plm.105.1651535865559; 
+ Mon, 02 May 2022 16:57:45 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- b15-20020a5ea70f000000b0065a47e16f37sm2487123iod.9.2022.05.02.16.51.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 16:51:57 -0700 (PDT)
-Date: Mon, 2 May 2022 19:51:56 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Daniel Berrange <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PULL 06/11] QIOChannelSocket: Implement io_writev zero copy
- flag & io_flush for CONFIG_LINUX
-Message-ID: <YnBunLRaqmkZh3Re@xz-m1.local>
-References: <20220428144052.263382-1-dgilbert@redhat.com>
- <20220428144052.263382-7-dgilbert@redhat.com>
- <Ymq+5bPaYTyUHF6L@work-vm>
- <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
+ u4-20020a170903108400b0015e8d4eb2e1sm5156467pld.299.2022.05.02.16.57.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 16:57:44 -0700 (PDT)
+Message-ID: <b1cf3942-115c-bca3-81cf-1f7bfd66dc5a@linaro.org>
+Date: Mon, 2 May 2022 16:57:43 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] target/openrisc: implement shutdown and reset helpers
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org,
+ openrisc@lists.librecores.org, shorne@gmail.com
+References: <20220502225230.237369-1-Jason@zx2c4.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220502225230.237369-1-Jason@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,22 +93,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leo,
+On 5/2/22 15:52, Jason A. Donenfeld wrote:
+> OpenRISC defines various nop instructions in or1k as meaning shutdown or
+> reset. Implement these in TCG. This has been tested with Linux and
+> confirmed to work.
 
-On Fri, Apr 29, 2022 at 11:40:44PM -0300, Leonardo Bras Soares Passos wrote:
-> Does anyone else have any further suggestions, or know how this kind of issue
-> is generally solved in qemu?
+No, OpenRISC does not define various nop instructions, etc.
 
-I've no solid idea why it can't see MSG_ZEROCOPY defined in the specific
-environment, but when I was looking at bits/socket.h I saw this:
+OpenRISC defines a Power Management Register to handle doze and suspend; there is no 
+specification for shutdown or reset.
 
-#ifndef _SYS_SOCKET_H
-# error "Never include <bits/socket.h> directly; use <sys/socket.h> instead."
-#endif
+See https://openrisc.io/architecture
 
-Maybe worth a shot to do a replacement in all cases?
 
--- 
-Peter Xu
-
+r~
 
