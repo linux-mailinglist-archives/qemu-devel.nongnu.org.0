@@ -2,43 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA551516ED9
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 13:24:46 +0200 (CEST)
-Received: from localhost ([::1]:54878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FBBC516DE1
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 12:06:10 +0200 (CEST)
+Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlUAX-0006FM-Kt
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 07:24:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45278)
+	id 1nlSwT-0003p0-Em
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 06:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nlTz2-0006nc-Kg; Mon, 02 May 2022 07:12:53 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:43546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nlTz1-0004SQ-9B; Mon, 02 May 2022 07:12:52 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 15FB511F20A;
- Mon,  2 May 2022 11:12:12 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Wed, 27 Apr 2022 20:26:40 -0700
-Subject: [PATCH qemu v13 15/15] target/riscv: rvv: Add option 'rvv_ta_all_1s'
- to enable optional tail agnostic behavior
-Message-ID: <165148992946.19543.7306630137674612238-15@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <165148992946.19543.7306630137674612238-0@git.sr.ht>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nlSsj-0002m3-JC
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 06:02:24 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:37544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nlSsW-0002AG-KD
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 06:02:06 -0400
+Received: by mail-ej1-x631.google.com with SMTP id kq17so26829033ejb.4
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 03:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Z0ZnpPYry4YK2E5MakkNotdWCbt565UgL8bsn/7Hbbs=;
+ b=GXBaTNDTBhZkqToz1kwtEJ6/FsKWpzoEy80iIhjREmy9hgb55tbwRJJx/ULUAIXtHk
+ FaLdwkD6m0oP0QjHcf4DYxNXeQltWgOnDsWPssBpxpVim3AkDj/+UpsjDnpqc/lbaSlj
+ WIjTkwIeS8DmlabqnEEQ6+0IUNS/WjbdOc8Be2SjqmUCF+AuS6KGFmjrGK28BMnEBgSk
+ iB0a8Qn66KpREBCDwQJyDA1L7uEosHpy99TAHPUvOP4nflMZdvbCjTXQeua6+A1JlSMQ
+ Fa736dbvqkCVTCZhnqMoB3FzjwexoLFboOmrO1iKxseuAssD4BvtzKgJLhXmGQBmUVRB
+ D6OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Z0ZnpPYry4YK2E5MakkNotdWCbt565UgL8bsn/7Hbbs=;
+ b=OqCy8H5JtFqxfTdgnYrtLCFyVUaV8+lf2di6DE7gQ3dq379CBV9mla0k5Yns1Md5e9
+ xJYBG60VKSQGxDroR35NkkcPdFyDPYanppRbMia0UK2SWkU7mB7XfAHH+FDffgmyIzsz
+ c5vV/JqhWqfYQ1zvBBq60bIKmWJ9P84HDRuD8EZ8oh3qISkX+7veKuiVbqKVNJ37fp0W
+ uGYu6H7///35y/FnBSfII1Fwt1wlr+RkvX8eJa7aO8Or5YzUnUnykmDqujlNuBMaMoci
+ SqOeRLdOzb6gZqP5bfuAAJZ8vDCOOxOe2lGga57XdHz0NZz04z2B8wO67h8y13Siwj+q
+ 0BYA==
+X-Gm-Message-State: AOAM533Miq02NAGUoA1H/j33IuyXYuTg1oWNt5/sBDuarjZjnz1SlL2v
+ kdFa88g0IGMRy1jTXPIAh50=
+X-Google-Smtp-Source: ABdhPJw4R8YEE15Wk02rxBictjKMQIzSK261eL4SvGzgxTpTyX8rrHDlVLNV9E6t82X0iZqkOlz3BA==
+X-Received: by 2002:a17:907:94c5:b0:6f4:6de1:399c with SMTP id
+ dn5-20020a17090794c500b006f46de1399cmr840399ejc.336.1651485722520; 
+ Mon, 02 May 2022 03:02:02 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ jy10-20020a170907762a00b006f3ef214dc2sm3445620ejc.40.2022.05.02.03.02.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 03:02:01 -0700 (PDT)
+Message-ID: <27efb3bd-226c-3542-5c2a-53e350f0fc81@redhat.com>
+Date: Mon, 2 May 2022 12:01:59 +0200
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 36
-X-Spam_score: 3.6
-X-Spam_bar: +++
-X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH 10/12] pc-bios/optionrom: compile with
+ -Wno-array-bounds
+Content-Language: en-US
+To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
+References: <20220429141813.328975-1-pbonzini@redhat.com>
+ <20220429141813.328975-11-pbonzini@redhat.com>
+ <baa3f5ce-5c58-2918-e188-a0f35a6e4e52@msgid.tls.msk.ru>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <baa3f5ce-5c58-2918-e188-a0f35a6e4e52@msgid.tls.msk.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -52,48 +94,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
-Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
- eop Chen <eop.chen@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: alex.bennee@linaro.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <eop.chen@sifive.com>
+On 5/2/22 09:37, Michael Tokarev wrote:
+>>
+>> pvh_main.c: In function ‘pvh_load_kernel’:
+>> pvh_main.c:101:42: warning: array subscript 0 is outside array bounds 
+>> of ‘uint16_t[0]’ {aka ‘short unsigned int[]’} [-Warray-bounds]
+>>    101 |         uint32_t ebda_paddr = ((uint32_t)*((uint16_t 
+>> *)EBDA_BASE_ADDR)) << 4;
+>>        |                                          
+>> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> To me it looks like we should try to fix this particular expression
+> to make it more "compiler-friendly" than to disable warning for the
+> whole thing.
 
-According to v-spec, tail agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s".
+I think this is really a compiler bug, or alternatively this case should 
+be extracted to its own -W flag.
 
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between tail policies. Setting agnostic elements to
-all 1s allows QEMU to express this.
+> Which compiler (version) does this?
 
-This commit adds option 'rvv_ta_all_1s' is added to enable the
-behavior, it is default as disabled.
+The GCC 12.0.1 prerelease.
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
----
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ddda4906ff..cd4cf4b41e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -810,6 +810,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
- 
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-+    DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
-2.34.2
+Paolo
 
