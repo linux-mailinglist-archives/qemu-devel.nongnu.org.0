@@ -2,77 +2,174 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C855171AF
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 16:36:55 +0200 (CEST)
-Received: from localhost ([::1]:36442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001235171C4
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 16:39:57 +0200 (CEST)
+Received: from localhost ([::1]:44022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlXAT-0005xI-P7
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 10:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52330)
+	id 1nlXDQ-0002gR-NX
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 10:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nlX7x-0004SA-8R
- for qemu-devel@nongnu.org; Mon, 02 May 2022 10:34:17 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nlX7v-00025d-NP
- for qemu-devel@nongnu.org; Mon, 02 May 2022 10:34:16 -0400
-Received: by mail-ed1-x534.google.com with SMTP id t5so6193925edw.11
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 07:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=pFt3U+uXBudd9ivQWgNA76qz4QWsqeIIxeE1lrRVbRnHyJlpNTqFO3nC/agKd0jN+c
- QM3eztfeosdoDTKGruo4p5jOzT6kCYoYVnT1h8U8SkFMsIdw+OageHCzn3cD0zkx1hF3
- 57M+5jmRYVHECtsZBnebhNtFVd3EKY9zvMgsfe/yQ6l5RSQ6ANpxQb6AK6vUvkDv0XZq
- 4GPNXknl2loYd3Xsnpg1kx7vid+Yag/7Ss46OPXgRYInV0kKO5+4y3g0MsNfD8rfcZ6F
- d1OAMbOqHdJEIGmWN+FNcIzhIXK41JKgLfJMOutKUm2nnx5qlNEyk0RJSpDANpsErbdF
- DztA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=Hqg1OTtDVj0iZ8+5dFjji3usRRF6aiISKt+dCRibjc4890qmETV4UtpRi+kRNiKXWl
- YBJxBH+nxXyQqAKtwBYQrRV1SMfAlE/NRvdJz9zjLj5y98KrX3jgp4Ksw58av2mBTwBh
- uB39OT3JrWPcF2yz021eJUJ7Jg7Hnk3Kw6xBvqLFQKGKBFMIOoYVbzmdw/Xc+pX0imvl
- 0AdAv9dJDfdFsjL2vbvGKHLJUWPARLylsGv9lfaH0HWB8tSfTZvgSBcN09F43PN7RL57
- Hww3X0AYU7BLqVgsU3kGy3vCtGSW9QLWDZ/D1tm4kIO8cpASENHdilidVXiICyjrElDR
- XpsQ==
-X-Gm-Message-State: AOAM530sYRPO/cx3LdbwbpOWpPDxe+qnPzyznz4ZB9c9caGAKAxMoofM
- BXZCsmrh15B9OjdBNqCPd7g=
-X-Google-Smtp-Source: ABdhPJw35xNGvqWdgqianFEnnIc3PXcQ8FX5uuEv+dfBVFn4Cx+bFVcX4GsPC6PFJPCk7t67dAa+Hg==
-X-Received: by 2002:a05:6402:11cd:b0:427:bf42:44ef with SMTP id
- j13-20020a05640211cd00b00427bf4244efmr7118693edw.336.1651502054260; 
- Mon, 02 May 2022 07:34:14 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- d11-20020a056402078b00b0042617ba63c0sm6744531edy.74.2022.05.02.07.34.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 07:34:13 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH] Meson: Make mremap() detecting works correctly
-Date: Mon,  2 May 2022 16:34:12 +0200
-Message-Id: <20220502143412.535557-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220502131119.2345-1-quintela@redhat.com>
-References: 
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nlX9X-00065V-8Z
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 10:35:55 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:48612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nlX9T-0002Pq-St
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 10:35:54 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242Bq0fe032436;
+ Mon, 2 May 2022 14:35:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=ce8c/Y7jpsO7KulSqgRl9juJ1Qv6daLcYN1yLk65Lno=;
+ b=LOMn/aLJKiSJpHz2vtI2WNTYXHTXoIz2nT0tnNFcO63LYKorQ7BjNFmPRn+25PrWCiNb
+ 1wx5m6PNnmFJmw3WvEFiUTp6DcBv+zOvdY94toKMTelP9dgSaxDWf/6pnOoV6ZKm78pW
+ G+rnoCXgUi3cb1wU6sGmEjsz79qcPx+nhfvm75vS9fBPieF5i1RxeHcxtkW9FRJoxjf/
+ kyjVmqR59yk7TBUdcLcnCwEnHtvbcX6TGYGcGFVdxH5jgPN5PuawLhIyyWCiAEXdM7u5
+ liETJDi/fCAdF3LL/hWZO8jUj5lSIJiUQsjMUfCDuUn24G100Q8odCzBa6UJjlRypLgq Jw== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3frw0akad9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 02 May 2022 14:35:30 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 242EUOix035624; Mon, 2 May 2022 14:35:28 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08lp2042.outbound.protection.outlook.com [104.47.73.42])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3fruj82ty0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 02 May 2022 14:35:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BoGoLQMSZYILG2TZ/czSZ8PPMuBTVk3deAIMwNoCH+tKpIELTcD9EllxHzISsNnEqZnjBelChxZGkIMRpVMXTjv7zMyYQJx3UiH2JK4efw2TRt62JYp/xpJ/obHqQRrX/L8pfbEGnz8moEOa948P9tzWa1Uq15yXojRwYZYRpNJLwNDIQjZt+ftCGFjpAc1HhViZzoArT7aZoRdj9oSZvI/8gwyEZ+uPNtZssPYazBz2Ld21gz+hlxHktAHUpfSMcfE5BgRMrW480qDoCsmJ4IQOLxH9RoPF8q+bSnNtqm0SPz0+pWzPIY1pAKg+xorUVgyeaeTO4lzhvVU+WrTR/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ce8c/Y7jpsO7KulSqgRl9juJ1Qv6daLcYN1yLk65Lno=;
+ b=eREkdgLJ66RD9dICniondiktM3epUUjQG4V7wp/AXvGDH75XuifdmAjMBhJglG8mJytVzq0eR2a+fsR7DUuXHO5T+Nv6nIxs3SfTJ92SqsXgrI7faQAsCNb11K2qzjNs88VHt56vcCnfyonMDbRVU6cr3UdAqFFlVfnsc6Yx4seUbylh0xzQZywpHeRWcXijgOB53l49+kRNkUoI4ryaK7D3OCyrMi4Del+w2ABoVzgo2sA197siUO3QNA5c+59nd08ubmroiM75jBbWrcHeo+mzllsm8i+GU9N+nBHLPyUt6/ZlERnOGIxjWGzsF5Wa8CzILfetpNQNPxf2lxIc0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ce8c/Y7jpsO7KulSqgRl9juJ1Qv6daLcYN1yLk65Lno=;
+ b=LR9XFr539soAzJvHHI6DFrE64K8p6RMwohnXFHb6WKKYX7qfgjZ9tIG6zZjnffUSk/iWirDAETjq+B27aY8skNNLg/lywnAT8h68drRVpXvfdyod7FquLkwhQeMiMc4bLO5iEv7suulF/iAPf5rOMG74x7qS31ZnoVRbgcKyRjo=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by MN2PR10MB3583.namprd10.prod.outlook.com (2603:10b6:208:113::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Mon, 2 May
+ 2022 14:35:26 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d%5]) with mapi id 15.20.5206.013; Mon, 2 May 2022
+ 14:35:26 +0000
+Message-ID: <ed3f17a9-1f31-c105-a82f-986801b8a4f4@oracle.com>
+Date: Mon, 2 May 2022 15:35:17 +0100
+Subject: Re: [PATCH RFC 09/10] migration/dirtyrate: Expand dirty_bitmap to be
+ tracked separately for devices
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+References: <20220428211351.3897-1-joao.m.martins@oracle.com>
+ <20220428211351.3897-10-joao.m.martins@oracle.com>
+ <87k0b4ksbk.fsf@pond.sub.org>
+From: Joao Martins <joao.m.martins@oracle.com>
+In-Reply-To: <87k0b4ksbk.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0077.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bd::8) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 84eac774-d65d-4fd3-31d3-08da2c48feff
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3583:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR10MB358364FD445E5AFC531B1235BBC19@MN2PR10MB3583.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U+yGL6OXh7f+94Mk0eDwodi+8TPlmaPE7gf/8i3oGuRRHN4l31RoWob4ml/JadiM1cnJ75TkwRJGpO7UJR1gTyWKpE2KgEh2nVHlLu8HYNHgtkmdKs1Th7mZJulhwXKZ3VBBiW0VWAdZPZTG1ZKfvh0P68mM9sWt42+sUUPgHnXxKgusAvbKMUE/41XF2ARd4P0lE1owcA27PBegG7GQlnwOSrM/n9rUvZLgDOBN85XAiksKFmqO2OhLnD76OYy36CHONKvzLtmWtJ/FAG5OsPZgJwFI3jfzQfZKJZdJVNGUAQoEUktZ3cxc0Sv0QYTw6OnkriS6+fSsrAIVPQrB22OxZfohunLYKWDSSoJFKABGLb3w/V0PaLDALDr7WHuF668FjYfiwX3j4DSQxE2F84kbzD82GJz3rU1T+zq2bxQcK1xIoZJD9qm49mR9oy34UvE8m91AVQ2wDQ3MFOZuVrAQlMfUa2OYrxcVOlX5eQjOu1Zk91kxlA0dQIPzjnwxo1b9o/6w8VqJc30nsfiCFzvRBpIj2ICDhxOkUS0n/HCrOW8Z5zq9Kl1M+C0dOvJtfLYQy9rH9DhUtT6YNYkM2YtURSvC3ZXeL9UV5MQBb8QKa7fwNB7cNrOzma7KOJAtwmrI9+W0smQY7l6VjAxZxB7shasM8I0Ag7LPnH0p6FwNABx6YCWZMtb44Wd01iOwaPrJMHJFxrLj0q+k2ekDJisfUtanJjC4Pe9Xh+ayx0Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(2616005)(186003)(53546011)(31696002)(54906003)(6916009)(6506007)(6512007)(26005)(83380400001)(7416002)(508600001)(8676002)(4326008)(316002)(8936002)(66946007)(66556008)(66476007)(5660300002)(36756003)(6486002)(86362001)(2906002)(6666004)(31686004)(38100700002)(14143004)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K0s2bWYwMmd5YldnOExxTXE1UXBCd0Y2VG8vVHdvd2JPNGNWa1UwMzZNOXlo?=
+ =?utf-8?B?MjVRcWJKakxUYlFkR2VOZlcvMVpaZ2cyR242ZWJwWlI1YVJ4VlEzRWtpdmZF?=
+ =?utf-8?B?R2l0UXZqTTc1d2JoMUdHYXNaWXQxb0o1VHFVWnlmRG5jcmd3Sktlb01wZDFj?=
+ =?utf-8?B?eTNHR1YvTi9vS2tGSkdlV1F6OS9XSzRObG9GK3J5bDY3MjR3enhaM1ZuR0pL?=
+ =?utf-8?B?NGYyZFJtOFVWRFVXdXE5N1RoeG9NWjNWZjE2bXBycFNudlJsMm5tcjl5bm1Z?=
+ =?utf-8?B?TW13eEI1UTVra0ZCWDRjRFpzQTJLUi8yMm8vTUdZcVdNaVdCMnhNSTV3WjFF?=
+ =?utf-8?B?REFEL1NwdUsvcU00bk9DaHNkM2g5a2lJb0pLTzlPT3JZWU9jOTlZQ2V6V25N?=
+ =?utf-8?B?VGFFSy9NOThxYlBJMFpQOUc4ZkJ5N0hRci9vZGg4NllNOXVaN0FwdW94THZM?=
+ =?utf-8?B?RmptRllqQ3p5QUY3N0Q3WEZRMHZYZTJQYmU4dXgzMlBmejlCVWMra2FwN3NU?=
+ =?utf-8?B?Rkt1d1lwcGFDTmxlbmM2eG1jTU1ZaW5kTklsN3YvcFRIUjluS3FBOFdwNVlK?=
+ =?utf-8?B?dWxsSzFBZmlKT0FJNHgydjRUd1pUSFJJNVRlVzczMDBjeGVOSWlsUjQ2V2VE?=
+ =?utf-8?B?N2Z5bTdIMUNqR0FCOUFZOHZvOEdMUllobGljWHQxM1Z5bG4zbmNCOThmQWNS?=
+ =?utf-8?B?U2tPYVllOFg5SmErVGtCTGVTS2hxMnRmaTFqeGhYOHBPa2hzdkFiUTJpeEh6?=
+ =?utf-8?B?ZDBhZndIZ0p3bUxjak8vOVNidVdqOE1HazBmNVJJOU9xT1hNL1QxN2NSQTdG?=
+ =?utf-8?B?ZWZxMWcyOERuWUxlRDN4aGd5TzVhV0RQNWlhV3NaVUNvckwvdU5ST0l4VENX?=
+ =?utf-8?B?aXkybElkVHMvOGRxUTNLcFN0K2NzQWVRMUFJY1JYM0o4L3ZHdEdlM3VKNytJ?=
+ =?utf-8?B?NzUvZ24yRlR2MGpiSm1ITFQ5amRzRVRON0lPQ3IvVis1YkRKdHpoVU5nRVdK?=
+ =?utf-8?B?eFRuUzNaa3FxcjhkMGJrTjk1Q2RQTW10TkpJMVVRRzMrbzVwWlFXam1yeWZY?=
+ =?utf-8?B?VG9sTW5nc1pMY2tBUFNVb0QyMnV0cXlFaVRBbk55L1pjZGZxcFA0SlUya1U1?=
+ =?utf-8?B?ZnNhb0ZyN3o5Z01EajdXUks2bnBtbStUcnQzRXEzeWs1QndWTG1MNTBjOUxW?=
+ =?utf-8?B?L25VSURSd1NNTTJaYkpBRnlKREdvaWpoVGFSNEk2b1cyUnN3K0p6dGNnZDc5?=
+ =?utf-8?B?b09uVEprekJWcXN3VkhuSEIyZmJWMWpnVCtBUjJSaTdHNXZlWWYwQndISmUy?=
+ =?utf-8?B?NHQ1bXpHRFU4azRjQ01YVVJweGUyVWUxZ3ZjQ3NRRmVoUGo2K3RxVVQxamE1?=
+ =?utf-8?B?T2plT0YxbUZZS1I5bjZva08zNU00VHNLeFpmek1mQ1F2NTBvbTBZT1RhQWZa?=
+ =?utf-8?B?Ui9sNlBGcnVyczVEaHozTkxtYWxicCtjc3ZaNmsza0FqQkJIa0UyOHV5bGlr?=
+ =?utf-8?B?UVpXcGF2ekJ4L1YzeG9Jb1piUDgvQ3FNamY2c0QwZUxqK2NSWWg1Y1JqQnZY?=
+ =?utf-8?B?OWRFWnBhOHhMMkc4Ni93bXdWQlZFTW9TYXJBcDY2MER5Vk5uSHJjTHVRZlNB?=
+ =?utf-8?B?Vlkydy9PZHRlcWxFdmdoVjJyRTkrNGVJYUl4RFUyVWMyd0JnN2IzajZ5d3M0?=
+ =?utf-8?B?WE00YWw3MXplUmVzWjlBVUR1WmZtQXJZajJtUkx0OW1yUnREODJPemg1TCto?=
+ =?utf-8?B?SkZNNHM1WHVyMjZoNytqWmhtQzZBZEpBTktqQkF1V3ZnZzd2b0RySzJabUp2?=
+ =?utf-8?B?OFJaL1E4V1luVi9KNkVBaERLM3lTdUZUZ1lySGVhMGlqL3lYY2NZaVpLcHYx?=
+ =?utf-8?B?cjh6b05kdlV2TWtxelN6bzdUNEU1RkwxcHBIZTBQUkQwWFBNWnNWRHFXa1U1?=
+ =?utf-8?B?dks2UnM2UTRwZkFEQWRoQnVuUytTM1ZiU3hIWHhjVlNxTE84WHhSRnlRRERj?=
+ =?utf-8?B?RjA2ZGNxOGNRdEtlRWMvcit6MC96Uk81VEVpUVBEcFkwWm5uZUhWWW51M3Z1?=
+ =?utf-8?B?MGVGZk94WS91dDloTXZ6bm9NRFV2eGxLdVJXU1JmMEp0dmxuM0x1bTNlcTF3?=
+ =?utf-8?B?TzN2aXJGbG9mQzBmVmdxd3EzMEs0TEZ3b0JOOFE3MVBIMUtTMzMrZzNmWitF?=
+ =?utf-8?B?NU5UV29mbVNGaTJER0ZmMlpNLzl1VjFWbEx0SnpBUzZtODk5dldGVlVxbFFr?=
+ =?utf-8?B?TDVhLzlaV2JpTTRXcGhaeWR2ZEY2aEZTZWlBdU4zZHNQOFdwbkIxa3ZyeEtp?=
+ =?utf-8?B?TElhempvcG5ZaVpGRWdNMFVQZHMzTVBOTEg4Q1NGSWNRTVIwMDFteVo2Qm02?=
+ =?utf-8?Q?6w0zKPMEhpCXESws=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84eac774-d65d-4fd3-31d3-08da2c48feff
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2022 14:35:26.1884 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FjZF+vwwZqaTzEmFMkDC3HnIWjuLnu78FxBaV73Lx4sVs4FbJdYYCPeOhC7o4QBxMv4nUiCfJNUeTjjNx30+OhVFGIQDI8TnILIEpvlVXfc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3583
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
+ definitions=2022-05-02_04:2022-05-02,
+ 2022-05-02 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ phishscore=0
+ mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205020114
+X-Proofpoint-GUID: ac6-t8ZGHLZ3zYjZYdO83NlCL6-rb24I
+X-Proofpoint-ORIG-GUID: ac6-t8ZGHLZ3zYjZYdO83NlCL6-rb24I
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,13 +182,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "John G . Johnson" <john.g.johnson@oracle.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Yi Liu <yi.l.liu@intel.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+On 5/2/22 13:54, Markus Armbruster wrote:
+> Joao Martins <joao.m.martins@oracle.com> writes:
+> 
+>> Expand dirtyrate measurer that is accessible via HMP calc_dirty_rate
+>> or QMP 'calc-dirty-rate' to receive a @scope argument. The scope
+>> then restricts the dirty tracking to be done at devices only,
+>> while neither enabling or using the KVM (CPU) dirty tracker.
+>> The default stays as is i.e. dirty-ring / dirty-bitmap from KVM.
+>>
+>> This is useful to test, exercise the IOMMU dirty tracker and observe
+>> how much a given device is dirtying memory.
+>>
+>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> 
+> [...]
+> 
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index 27d7b281581d..082830c6e771 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -1793,6 +1793,19 @@
+>>  { 'enum': 'DirtyRateMeasureMode',
+>>    'data': ['page-sampling', 'dirty-ring', 'dirty-bitmap'] }
+>>  
+>> +##
+>> +# @DirtyRateScope:
+>> +#
+>> +# An enumeration of scope of measuring dirtyrate.
+> 
+> "dirtyrate" is not a word.
+> 
+Indeed. I will be more verbose rather than using 'dirty rate'.
 
-Paolo
+>> +#
+>> +# @dirty-devices: calculate dirtyrate by devices only.
+> 
+> Please document @all, too.
+> 
+OK. I probably should have used 'vcpu' and 'devices',
+rather than 'all' and 'dirty-devices'
 
+>> +#
+>> +# Since: 6.2
+>> +#
 
+This should be 7.1.
+
+>> +##
+>> +{ 'enum': 'DirtyRateScope',
+>> +  'data': ['all', 'dirty-devices'] }
+>> +
+>>  ##
+>>  # @DirtyRateInfo:
+>>  #
+>> @@ -1827,6 +1840,7 @@
+>>             'calc-time': 'int64',
+>>             'sample-pages': 'uint64',
+>>             'mode': 'DirtyRateMeasureMode',
+>> +           'scope': 'DirtyRateScope',
+> 
+> Please document new member @scope.
+> 
+OK.
 
