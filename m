@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91A6516AA2
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 08:06:33 +0200 (CEST)
-Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15185516AFB
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 08:50:13 +0200 (CEST)
+Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlPCa-0007Ax-Fv
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 02:06:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50128)
+	id 1nlPso-0006Ah-RA
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 02:50:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nlP8e-00068e-Au
- for qemu-devel@nongnu.org; Mon, 02 May 2022 02:02:29 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nlP8c-0002IE-MH
- for qemu-devel@nongnu.org; Mon, 02 May 2022 02:02:28 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- a15-20020a17090ad80f00b001dc2e23ad84so3325844pjv.4
- for <qemu-devel@nongnu.org>; Sun, 01 May 2022 23:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qtzaf5i1ojClLuW9yjfdQgtUBTOsPhQs1atEdoXlipk=;
- b=ArMKGUorm7em4xlua9Ro9QbzMVIxUj1CrfXmo1e1smnVqoaV3FZF6JLW5ghQR3Kxwa
- pEnO7o5LD4l0tOkesK4nRpdedzP/2bhXiKLlZLtpqH1GvZW7B9hAL/60xtuaeKzjHZAa
- 9eNKCd2yuBuyOX0GyIdSZaPXh3NGcGJAt+PtryAb3FHFWJuFkGLLfAZnKfepvL9tkUZZ
- QfTM5IEbHMdrjszOZ8jtzFpG/wXNXBCXiFjBoOzANemskqwMc9LWMxWWc3z4VLlLfjrR
- MTHwLfZ69+ZSi96bf+gyxfaE5iYI9QPfbQPeydlubyVRvd63D/OqIMBrGTqagcgLJNi8
- oR6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qtzaf5i1ojClLuW9yjfdQgtUBTOsPhQs1atEdoXlipk=;
- b=J4cP2EjGCqH1QHiybvgskB0m1QX/W8vXYlKHTu0ZKIJ91OiB4gZ6Aiijj/c/VUYIgs
- pMMcsqHQvnEsxF5iBNxK51SmH4X64c2C0gAP0eXTyDVuMp8vouJiJryr9S+KmOVvv8Bc
- UJx6laZdTcHvu/WNYWSdE8d0hz6DEbJWqcjlAGfX+Dkjos4pIxijCh/tebFDhyAiPrhM
- LO5SegDYLUPq+EU4qwSHRLNaPSfb/QZkvLo00LHNNpe1VnvBSFkfHYwJsK/xy2Mppj13
- cO5ZdPnBlpL/HHDfTnuBxhYLcdivU4EPM1f8hXi/+4FqWhWOycp+7FDWX2IEY+6kHAJE
- xNTw==
-X-Gm-Message-State: AOAM531LcvtV6cEpIonbigOpr6lGh0+L6CAJK3owgVl20BvCenUyJlVq
- CqMyO6TZRrLgh0veAB1dKmU0rLmlgCE=
-X-Google-Smtp-Source: ABdhPJyIRcCMr0wnFeC2Fwo7EmFMmDfNUamqUrgoGtyd5STOML4Wcj7FZys1klSZ2DACmRlWfBHyIA==
-X-Received: by 2002:a17:90a:8a92:b0:1d7:3cca:69d8 with SMTP id
- x18-20020a17090a8a9200b001d73cca69d8mr16358628pjn.61.1651471344750; 
- Sun, 01 May 2022 23:02:24 -0700 (PDT)
-Received: from octofox.hsd1.ca.comcast.net
- ([2601:641:401:1d20:fa8:c0d6:ea14:bd48])
- by smtp.gmail.com with ESMTPSA id
- m7-20020aa79007000000b0050dc7628189sm3923373pfo.99.2022.05.01.23.02.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 May 2022 23:02:24 -0700 (PDT)
-From: Max Filippov <jcmvbkbc@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/xtensa: implement cache test option opcodes
-Date: Sun,  1 May 2022 23:02:14 -0700
-Message-Id: <20220502060214.1729948-1-jcmvbkbc@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nlPoG-0004cQ-Da
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 02:45:30 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:25956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nlPoE-0007rH-En
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 02:45:27 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-494--zbqUvVJOW-x3FA5McEQGw-1; Mon, 02 May 2022 02:45:13 -0400
+X-MC-Unique: -zbqUvVJOW-x3FA5McEQGw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9CDD802803;
+ Mon,  2 May 2022 06:45:12 +0000 (UTC)
+Received: from bahia (unknown [10.39.193.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 331A79D63;
+ Mon,  2 May 2022 06:45:11 +0000 (UTC)
+Date: Mon, 2 May 2022 08:45:10 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v5 2/6] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Message-ID: <20220502084510.494f2085@bahia>
+In-Reply-To: <1652707.ZjVTVKMb3i@silver>
+References: <cover.1651228000.git.qemu_oss@crudebyte.com>
+ <5815688.WPY9AJzlUa@silver> <20220429163507.2e822089@bahia>
+ <1652707.ZjVTVKMb3i@silver>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,95 +64,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't model caches, so for l*ct opcodes return tags with all bits
-(including Valid) set to 0. For all other opcodes don't do anything.
+On Fri, 29 Apr 2022 17:20:26 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
----
- target/xtensa/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+> On Freitag, 29. April 2022 16:35:07 CEST Greg Kurz wrote:
+> > On Fri, 29 Apr 2022 15:50:35 +0200
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > On Freitag, 29. April 2022 14:56:50 CEST Greg Kurz wrote:
+> > > > On Fri, 29 Apr 2022 12:25:11 +0200
+> > > > 
+> > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > > mknod() on macOS does not support creating sockets, so divert to
+> > > > > call sequence socket(), bind() and fchmodat() respectively if S_IFSOCK
+> > > > > was passed with mode argument.
+> > > > > 
+> > > > > Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+> > > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > > > ---
+> > > > > 
+> > > > >  hw/9pfs/9p-util-darwin.c | 42
+> > > > >  +++++++++++++++++++++++++++++++++++++++-
+> > > > >  1 file changed, 41 insertions(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> > > > > index e24d09763a..619c403ba7 100644
+> > > > > --- a/hw/9pfs/9p-util-darwin.c
+> > > > > +++ b/hw/9pfs/9p-util-darwin.c
+> > > > > @@ -74,6 +74,42 @@ int fsetxattrat_nofollow(int dirfd, const char
+> > > > > *filename, const char *name,>
+> > > > > 
+> > > > >   */
+> > > > >  
+> > > > >  #if defined CONFIG_PTHREAD_FCHDIR_NP
+> > > > > 
+> > > > > +static int create_socket_file_at_cwd(const char *filename, mode_t
+> > > > > mode) {
+> > > > > +    int fd, err;
+> > > > > +    struct sockaddr_un addr = {
+> > > > > +        .sun_family = AF_UNIX
+> > > > > +    };
+> > > > > +
+> > > > > +    err = snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s",
+> > > > > filename); +    if (err < 0 || err >= sizeof(addr.sun_path)) {
+> > > > 
+> > > > According to POSIX [1]:
+> > > > 
+> > > > The snprintf() function shall fail if:
+> > > > 
+> > > > [EOVERFLOW]
+> > > > [CX] [Option Start] The value of n is greater than {INT_MAX}. [Option
+> > > > End]
+> > > > 
+> > > > [1]
+> > > > https://pubs.opengroup.org/onlinepubs/9699919799/functions/snprintf.htm
+> > > > l
+> > > > 
+> > > > Since we're passing sizeof(addr.sun_path), I'm pretty sure snprintf()
+> > > > cannot fail. No big deal.
+> > > 
+> > > The question is whom you would want to trust on this? POSIX? ISO-C? Clang?
+> > > BSD? Apple? And for how long into future? I mean in general yes, I would
+> > > not
+> > To improve overall portability across all possible hosts, I'd stick to
+> > POSIX semantics but here this is macOS only code so you can assume
+> > this is Apple's snprintf().
+> > 
+> > > expect it to fail with -1 here either, but there are various different API
+> > > docs on snprintf() out there, and most of them don't even bother to
+> > > enumarate which encoding errors may happen. And I'm pretty sure if I'd
+> > > drop the negative err check here, then Akihiko would slap me for
+> > > unforeseeable additional error cases on snprintf() that may be added in
+> > > future.
+> > 
+> > /o\ ;-)
+> > 
+> > > Apple's documentation on snprintf() BTW just says:
+> > >   "These functions return a negative value if an error occurs."
+> > 
+> > How valuable this is !!! ;-)
+> > 
+> > > So Apple does not even restrict the return value to -1 on errrors, you
+> > > would also need to expect other negative values.
+> > > 
+> > > So on doubt, I leave this negative result check for now. ;-)
+> > 
+> > Fair enough.
+> 
+> Hey, don't shoot the servant! I'm just trying to find compromises that aim to 
+> suit as many people as possible, as always. :)
+> 
 
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 0cc44e9b3aba..3ade428a1bd3 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -1765,6 +1765,12 @@ static void translate_ldst(DisasContext *dc, const OpcodeArg arg[],
-     tcg_temp_free(addr);
- }
- 
-+static void translate_lct(DisasContext *dc, const OpcodeArg arg[],
-+                          const uint32_t par[])
-+{
-+    tcg_gen_movi_i32(arg[0].out, 0);
-+}
-+
- static void translate_l32r(DisasContext *dc, const OpcodeArg arg[],
-                            const uint32_t par[])
- {
-@@ -3318,6 +3324,14 @@ static const XtensaOpcodeOps core_ops[] = {
-         .translate = translate_ldst,
-         .par = (const uint32_t[]){MO_UB, false, false},
-         .op_flags = XTENSA_OP_LOAD,
-+    }, {
-+        .name = "ldct",
-+        .translate = translate_lct,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-+    }, {
-+        .name = "ldcw",
-+        .translate = translate_nop,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-     }, {
-         .name = "lddec",
-         .translate = translate_mac16,
-@@ -3331,6 +3345,14 @@ static const XtensaOpcodeOps core_ops[] = {
-     }, {
-         .name = "ldpte",
-         .op_flags = XTENSA_OP_ILL,
-+    }, {
-+        .name = "lict",
-+        .translate = translate_lct,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-+    }, {
-+        .name = "licw",
-+        .translate = translate_nop,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-     }, {
-         .name = (const char * const[]) {
-             "loop", "loop.w15", NULL,
-@@ -4634,12 +4656,28 @@ static const XtensaOpcodeOps core_ops[] = {
-         .name = "saltu",
-         .translate = translate_salt,
-         .par = (const uint32_t[]){TCG_COND_LTU},
-+    }, {
-+        .name = "sdct",
-+        .translate = translate_nop,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-+    }, {
-+        .name = "sdcw",
-+        .translate = translate_nop,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-     }, {
-         .name = "setb_expstate",
-         .translate = translate_setb_expstate,
-     }, {
-         .name = "sext",
-         .translate = translate_sext,
-+    }, {
-+        .name = "sict",
-+        .translate = translate_nop,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-+    }, {
-+        .name = "sicw",
-+        .translate = translate_nop,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-     }, {
-         .name = "simcall",
-         .translate = translate_simcall,
--- 
-2.30.2
+Oh I wasn't criticizing your work... rather feeling sorry for the
+poor documentation of snprintf() on the Apple side. Please go
+on with the great job you're doing on 9p ! :-)
+
+Cheers,
+
+--
+Greg
+
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
