@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15BE516BB6
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:12:30 +0200 (CEST)
-Received: from localhost ([::1]:41254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086B5516BD2
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 10:14:48 +0200 (CEST)
+Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlRAS-0000ij-Ev
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:12:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41234)
+	id 1nlRCg-0003WQ-By
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 04:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6121c6eaaf=pdel@fb.com>)
- id 1nlR7E-0007VE-Lt
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:09:08 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:5124)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlRAC-0001l0-IQ
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:12:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6121c6eaaf=pdel@fb.com>)
- id 1nlR7B-00029h-Cv
- for qemu-devel@nongnu.org; Mon, 02 May 2022 04:09:08 -0400
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 241FsqDU029555
- for <qemu-devel@nongnu.org>; Mon, 2 May 2022 01:09:00 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=facebook; bh=/dKFbuJv6UUirCGfdhvLgPuuwgxXwvqnFkZ+F36HIpk=;
- b=S7SSKBzcosOFtFZUcaBq1sO4ITaXUUCEw8FNrnrKUVdry3LHYYjYCo2WebBgLXQsSxyj
- J4OZ4kQlvSEMOS2rkpCN98aexKenkr+/hOg4YDWZg9xntEJV6d1vg0WxiWmiCpg17TOd
- dFMr3/koC3cMeO94EHifuyIxdnFt9KySThY= 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3fs2tmynem-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 01:09:00 -0700
-Received: from twshared18213.14.prn3.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:21d::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 2 May 2022 01:09:00 -0700
-Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
- id 90F934E6FBCB; Mon,  2 May 2022 01:08:47 -0700 (PDT)
-From: Peter Delevoryas <pdel@fb.com>
-To: 
-CC: <pdel@fb.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
- <clg@kaod.org>, <andrew@aj.id.au>, <rashmica.g@gmail.com>
-Subject: [PATCH] hw/gpio/aspeed_gpio: Fix QOM pin property
-Date: Mon, 2 May 2022 01:08:27 -0700
-Message-ID: <20220502080827.244815-1-pdel@fb.com>
-X-Mailer: git-send-email 2.30.2
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: rjL6Fi6SJRs0d4WyZiakx16UoollJ8Aa
-X-Proofpoint-ORIG-GUID: rjL6Fi6SJRs0d4WyZiakx16UoollJ8Aa
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlRA9-0002w3-Cc
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 04:12:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651479128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=juSowGah1KdmZpHi0ZIxGhaEixZiUho3SL0D4VdvZyU=;
+ b=RpFVfA+WkrOv7LwOSFxxn4Vd5IKMU37eOxJ5loSu0zxK7UuA8droBvb4o4hdKfBGcf041v
+ uUOLVSLRlOik6yPG8QJkomVbflRZs5xloGWuFQlMOsV3XaiQcJZdfKJ5qb3plpj5MH/0ab
+ Tcip83+JoYko1a7dELAhmYPhi1Io1iU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-nscaaShZODm3acYzghIhmQ-1; Mon, 02 May 2022 04:12:06 -0400
+X-MC-Unique: nscaaShZODm3acYzghIhmQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g3-20020a7bc4c3000000b0039409519611so4242301wmk.9
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 01:12:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=juSowGah1KdmZpHi0ZIxGhaEixZiUho3SL0D4VdvZyU=;
+ b=iDesJK9CM08UhN/iJXGJNI2eujq7pew5cGd/9geh+8H5qbtia8v1ps7eabUZjcaWsG
+ 12v3PqIn398PXxpsZUTS+LG41GbT2o/8LZaK3DZzOaVyy57J69/CzoAULnmu/qGtDlnQ
+ chyHhBwk9Gq9YBV5+sWl0DZ698qCCM19mCftSFtSVZ732k08jD56tLisvQK4zyKIE47S
+ CGhyDmxjaGB0FrLRC3M9n7N/kFCxtFrg7Pjt6CAB0dLCXItAuUhTE14DlM/R9x5gYg52
+ tiJ2wKx1UyfmETLrDR8XLVh8dCOb9JLSkHxzljEeXu51e1Bge4/asZ5XsK2WsL1Nz9QJ
+ AvOg==
+X-Gm-Message-State: AOAM531mkws6H6ilWudwFFEMm7SL1eXK5hd5gic70NE+vNTuIvhwP3zE
+ N+a3xqg1M64i4G1TU+CR64AHQUJgy8DrDW/yp9Q+qSlq/WVSfMTf9vdZwCPAIx4RBI08S8Lubb4
+ cdGTiLtj9Aq2oirU=
+X-Received: by 2002:a05:6000:2c4:b0:20c:6c76:14f4 with SMTP id
+ o4-20020a05600002c400b0020c6c7614f4mr914652wry.56.1651479125276; 
+ Mon, 02 May 2022 01:12:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw97jGCm2L1+oDLQ3IPDzXTJodHc5dGbWby/3oS/8SvhQp4q9k//x4M5jqrliDzN5i/fBJyYw==
+X-Received: by 2002:a05:6000:2c4:b0:20c:6c76:14f4 with SMTP id
+ o4-20020a05600002c400b0020c6c7614f4mr914635wry.56.1651479125074; 
+ Mon, 02 May 2022 01:12:05 -0700 (PDT)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ c10-20020adfa70a000000b0020c5253d91esm6428255wrd.106.2022.05.02.01.12.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 01:12:04 -0700 (PDT)
+Message-ID: <8c399ab0-5128-1aca-0e25-8b60e2a442fd@redhat.com>
+Date: Mon, 2 May 2022 10:12:03 +0200
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-02_02,2022-04-28_01,2022-02-23_01
-Received-SPF: pass client-ip=67.231.145.42;
- envelope-from=prvs=6121c6eaaf=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v6 13/13] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ David Miller <dmiller423@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220428094708.84835-1-david@redhat.com>
+ <20220428094708.84835-14-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220428094708.84835-14-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,175 +101,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I was setting gpioV4-7 to "1110" using the QOM pin property handler and
-noticed that lowering gpioV7 was inadvertently lowering gpioV4-6 too.
+On 28/04/2022 11.47, David Hildenbrand wrote:
+> From: David Miller <dmiller423@gmail.com>
+> 
+> Signed-off-by: David Miller <dmiller423@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Tested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   tests/tcg/s390x/Makefile.target |   8 ++
+>   tests/tcg/s390x/vx.h            |  19 +++++
+>   tests/tcg/s390x/vxeh2_vcvt.c    |  88 ++++++++++++++++++++
+>   tests/tcg/s390x/vxeh2_vlstr.c   | 139 ++++++++++++++++++++++++++++++++
+>   tests/tcg/s390x/vxeh2_vs.c      |  93 +++++++++++++++++++++
+>   5 files changed, 347 insertions(+)
+>   create mode 100644 tests/tcg/s390x/vx.h
+>   create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+>   create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+>   create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+> 
+> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+> index f0d474a245..e50d617f21 100644
+> --- a/tests/tcg/s390x/Makefile.target
+> +++ b/tests/tcg/s390x/Makefile.target
+> @@ -17,6 +17,14 @@ TESTS+=trap
+>   TESTS+=signals-s390x
+>   TESTS+=branch-relative-long
+>   
+> +VECTOR_TESTS=vxeh2_vs
+> +VECTOR_TESTS+=vxeh2_vcvt
+> +VECTOR_TESTS+=vxeh2_vlstr
+> +
+> +TESTS+=$(VECTOR_TESTS)
+> +
+> +$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
 
-    (qemu) qom-set /machine/soc/gpio gpioV4 true
-    (qemu) qom-set /machine/soc/gpio gpioV5 true
-    (qemu) qom-set /machine/soc/gpio gpioV6 true
-    (qemu) qom-get /machine/soc/gpio gpioV4
-    true
-    (qemu) qom-set /machine/soc/gpio gpioV7 false
-    (qemu) qom-get /machine/soc/gpio gpioV4
-    false
+I'm sorry, but this still fails in the QEMU CI:
 
-An expression in aspeed_gpio_set_pin_level was using a logical NOT
-operator instead of a bitwise NOT operator:
+https://gitlab.com/thuth/qemu/-/jobs/2401500348
 
-    value &=3D !pin_mask;
+s390x-linux-gnu-gcc: error: unrecognized argument in option '-march=z15'
 
-The original author probably intended to make a bitwise NOT expression
-"~", but mistakenly used a logical NOT operator "!" instead. Some
-programming languages like Rust use "!" for both purposes.
+I think we either have to switch to manually encoded instructions again, or 
+add a check to the Makefile and only add the tests if the compiler supports 
+-march=z15 ...? Opinions? Preferences?
 
-Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and
-AST2500")
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/gpio/aspeed_gpio.c          |  2 +-
- tests/qtest/aspeed_gpio-test.c | 87 ++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build        |  3 +-
- 3 files changed, 90 insertions(+), 2 deletions(-)
- create mode 100644 tests/qtest/aspeed_gpio-test.c
-
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index c63634d3d3..9b736e7a9f 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -312,7 +312,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *=
-s, uint32_t set_idx,
-     if (level) {
-         value |=3D pin_mask;
-     } else {
--        value &=3D !pin_mask;
-+        value &=3D ~pin_mask;
-     }
-=20
-     aspeed_gpio_update(s, &s->sets[set_idx], value);
-diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
-new file mode 100644
-index 0000000000..c1003f2d1b
---- /dev/null
-+++ b/tests/qtest/aspeed_gpio-test.c
-@@ -0,0 +1,87 @@
-+/*
-+ * QTest testcase for the Aspeed GPIO Controller.
-+ *
-+ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "qemu/timer.h"
-+#include "qapi/qmp/qdict.h"
-+#include "libqtest-single.h"
-+
-+static bool qom_get_bool(QTestState *s, const char *path, const char *prop=
-erty)
-+{
-+    QDict *r;
-+    bool b;
-+
-+    r =3D qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
-+                     "{ 'path': %s, 'property': %s } }", path, property);
-+    b =3D qdict_get_bool(r, "return");
-+    qobject_unref(r);
-+
-+    return b;
-+}
-+
-+static void qom_set_bool(QTestState *s, const char *path, const char *prop=
-erty,
-+                         bool value)
-+{
-+    QDict *r;
-+
-+    r =3D qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
-+                     "{ 'path': %s, 'property': %s, 'value': %i } }",
-+                     path, property, value);
-+    qobject_unref(r);
-+}
-+
-+static void test_set_colocated_pins(const void *data)
-+{
-+    QTestState *s =3D (QTestState *)data;
-+
-+    /*
-+     * gpioV4-7 occupy bits within a single 32-bit value, so we want to ma=
-ke
-+     * sure that modifying one doesn't affect the other.
-+     */
-+    qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
-+    qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
-+    qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
-+    qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
-+    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
-+    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
-+    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
-+    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    QTestState *s;
-+    int r;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    s =3D qtest_init("-machine ast2600-evb");
-+    qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
-+                        test_set_colocated_pins);
-+    r =3D g_test_run();
-+    qtest_quit(s);
-+
-+    return r;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 6b9807c183..32fb8cf755 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -189,7 +189,8 @@ qtests_npcm7xx =3D \
-    (slirp.found() ? ['npcm7xx_emc-test'] : [])
- qtests_aspeed =3D \
-   ['aspeed_hace-test',
--   'aspeed_smc-test']
-+   'aspeed_smc-test',
-+   'aspeed_gpio-test']
- qtests_arm =3D \
-   (config_all_devices.has_key('CONFIG_MPS2') ? ['sse-timer-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-apb-=
-dualtimer-test'] : []) + \
---=20
-2.30.2
+  Thomas
 
 
