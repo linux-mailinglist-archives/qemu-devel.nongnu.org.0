@@ -2,116 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603375177A1
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 21:59:11 +0200 (CEST)
-Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7C55178F5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 23:15:00 +0200 (CEST)
+Received: from localhost ([::1]:33442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlcCL-0004wP-SU
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 15:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51516)
+	id 1nldNi-00045K-OQ
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 17:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1nlcAQ-0004GU-IN; Mon, 02 May 2022 15:57:10 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30200)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nldLs-0003Fu-Gm
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 17:13:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1nlcAO-0005IF-IR; Mon, 02 May 2022 15:57:10 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 242JKoXc030855;
- Mon, 2 May 2022 19:57:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=84KxC3O83czdtJRgS7qoXRJ4ubFTgQmj1l+f2k9eX+I=;
- b=XdovGjL9bgV48Qf2a1tvn5aoOPjKHRODp1suFT4+fkV0nW6JGmztPJSkJoT0h67NyoCL
- 39eXU4MBPkyyAumkxo2kfBWUo5cKREBeqKx1zCUarYPBSsOg7140f++kJgBrx+4D/iVT
- MuSE6CTbLUMKhHh9mHWymcoG2YLp5etGuboVNGhyE4yvcfNuGm0suJM6X8h7vbSocb1s
- KnOFy19wkkzpCAva2t/ApH6wLUPP5Hp1RgXYaEOfVkbMVYEc23w8mzlFy/594h97JnzX
- MN30pBLs5UMyVc2SxOi04yarv3vI//m6behMdGljCaA+0BxuLhU22aGuVy//ak4i/jSk pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftnckrjrd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 19:57:04 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 242JoxVr013181;
- Mon, 2 May 2022 19:57:04 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ftnckrjr3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 19:57:04 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 242Jq9V7001296;
- Mon, 2 May 2022 19:57:03 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 3frvr97ekh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 May 2022 19:57:03 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 242Jv2bs26018172
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 2 May 2022 19:57:02 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 689E8BE054;
- Mon,  2 May 2022 19:57:02 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 113AABE04F;
- Mon,  2 May 2022 19:57:01 +0000 (GMT)
-Received: from [9.211.144.152] (unknown [9.211.144.152])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  2 May 2022 19:57:00 +0000 (GMT)
-Message-ID: <8ad9f2c8-9fb8-cb47-fd1e-f9a33eced548@linux.ibm.com>
-Date: Mon, 2 May 2022 15:57:00 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 7/9] s390x/pci: enable adapter event notification for
- interpreted devices
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>,
- Niklas Schnelle <schnelle@linux.ibm.com>, qemu-s390x@nongnu.org,
- alex.williamson@redhat.com
-Cc: cohuck@redhat.com, thuth@redhat.com, farman@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-8-mjrosato@linux.ibm.com>
- <31b5f911-0e1f-ba3c-94f2-1947d5b16057@linux.ibm.com>
- <9a171204-6d71-ee1d-d8bd-cd4eac91c3d5@linux.ibm.com>
- <d14625f4-d648-05d9-38aa-a5ad7e0c9cf5@linux.ibm.com>
- <2df134498bf60e4878bdb362a28c56ec32d902f8.camel@linux.ibm.com>
- <eb2fde35-7b9d-a8c8-3212-ae92b2b3e754@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <eb2fde35-7b9d-a8c8-3212-ae92b2b3e754@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7dygu4fLgW0mVtg-_zWrDgFsDBIrl98F
-X-Proofpoint-ORIG-GUID: DIL68uPF0rV0GCxtHd4WM0whwtm_qVvL
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nldLp-0007hq-Gd
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 17:13:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651525977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XcwBEIQAINbk/x2BR1Q37GSqozupq4oN5X5Hu6jiQGE=;
+ b=Hxm1IpPTDteSqQ870TGy20SB9AU61lsTwuPl7k4xa4cALW5LEaKqTht/P8+MOIPicJWIWm
+ 1TABdzmq2QMwzyaKflkfHO9pKTM+DEuAb7diLUTZeEYlSu6BN5Va5XWUh6Euw5XLBQj4/t
+ ffDN8+EiOkAEju+VIn33xJtnMeDgUNA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-326-9wwZPvonOdms6gD-QEnDig-1; Mon, 02 May 2022 17:12:53 -0400
+X-MC-Unique: 9wwZPvonOdms6gD-QEnDig-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89C6C800186;
+ Mon,  2 May 2022 21:12:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68F9A9E61;
+ Mon,  2 May 2022 21:12:39 +0000 (UTC)
+Date: Mon, 2 May 2022 16:12:37 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, rjones@redhat.com, nsoffer@redhat.com,
+ Hanna Reitz <hreitz@redhat.com>, v.sementsov-og@ya.ru
+Subject: Re: [PATCH v3 3/3] nbd/server: Allow MULTI_CONN for shared writable
+ exports
+Message-ID: <20220502211237.h7vqio2r7lhl7u5h@redhat.com>
+References: <20220314203818.3681277-1-eblake@redhat.com>
+ <20220314203818.3681277-4-eblake@redhat.com>
+ <YmlmqSh9QADBm9jp@redhat.com>
+ <20220427213907.arjmq7pxuqdhopvm@redhat.com>
+ <Ymve39AQLUIjzZU/@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-02_06,2022-05-02_03,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxscore=0
- clxscore=1015 suspectscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 impostorscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205020145
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ymve39AQLUIjzZU/@redhat.com>
+User-Agent: NeoMutt/20220415-26-c08bba
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,148 +85,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/22 7:30 AM, Pierre Morel wrote:
+On Fri, Apr 29, 2022 at 02:49:35PM +0200, Kevin Wolf wrote:
+...
+> > Or a multi-pathed connection to network storage, where one QEMU
+> > process accesses the network device, but those accesses may
+> > round-robin which server they reach, and where any caching at an
+> > individual server may be inconsistent with what is seen on another
+> > server unless flushing is used to force the round-robin access to
+> > synchronize between the multi-path views.
 > 
+> I don't think this is a realistic scenario. It would mean that you
+> successfully write data to the storage, and when you then read the same
+> location, you get different data back. This would be inconsistent even
+> with a single client. So I'd call this broken storage that should be
+> replaced as soon as possible.
 > 
-> On 5/2/22 11:19, Niklas Schnelle wrote:
->> On Mon, 2022-05-02 at 09:48 +0200, Pierre Morel wrote:
->>>
->>> On 4/22/22 14:10, Matthew Rosato wrote:
->>>> On 4/22/22 5:39 AM, Pierre Morel wrote:
->>>>>
->>>>> On 4/4/22 20:17, Matthew Rosato wrote:
->>>>>> Use the associated kvm ioctl operation to enable adapter event
->>>>>> notification
->>>>>> and forwarding for devices when requested.  This feature will be 
->>>>>> set up
->>>>>> with or without firmware assist based upon the 'forwarding_assist'
->>>>>> setting.
->>>>>>
->>>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>>>>> ---
->>>>>>    hw/s390x/s390-pci-bus.c         | 20 ++++++++++++++---
->>>>>>    hw/s390x/s390-pci-inst.c        | 40 
->>>>>> +++++++++++++++++++++++++++++++--
->>>>>>    hw/s390x/s390-pci-kvm.c         | 30 +++++++++++++++++++++++++
->>>>>>    include/hw/s390x/s390-pci-bus.h |  1 +
->>>>>>    include/hw/s390x/s390-pci-kvm.h | 14 ++++++++++++
->>>>>>    5 files changed, 100 insertions(+), 5 deletions(-)
->>>>>>
->>>>>> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
->>>>>> index 9c02d31250..47918d2ce9 100644
->>>>>> --- a/hw/s390x/s390-pci-bus.c
->>>>>> +++ b/hw/s390x/s390-pci-bus.c
->>>>>> @@ -190,7 +190,10 @@ void s390_pci_sclp_deconfigure(SCCB *sccb)
->>>>>>            rc = SCLP_RC_NO_ACTION_REQUIRED;
->>>>>>            break;
->>>>>>        default:
->>>>>> -        if (pbdev->summary_ind) {
->>>>>> +        if (pbdev->interp && (pbdev->fh & FH_MASK_ENABLE)) {
->>>>>> +            /* Interpreted devices were using interrupt 
->>>>>> forwarding */
->>>>>> +            s390_pci_kvm_aif_disable(pbdev);
->>>>>
->>>>> Same remark as for the kernel part.
->>>>> The VFIO device is already initialized and the action is on this
->>>>> device, Shouldn't we use the VFIO device interface instead of the KVM
->>>>> interface?
->>>>>
->>>>
->>>> I don't necessarily disagree, but in v3 of the kernel series I was told
->>>> not to use VFIO ioctls to accomplish tasks that are unique to KVM (e.g.
->>>> AEN interpretation) and to instead use a KVM ioctl.
->>>>
->>>> VFIO_DEVICE_SET_IRQS won't work as-is for reasons described in the
->>>> kernel series (e.g. we don't see any of the config space notifiers
->>>> because of instruction interpretation) -- as far as I can figure we
->>>> could add our own s390 code to QEMU to issue VFIO_DEVICE_SET_IRQS
->>>> directly for an interpreted device, but I think would also need
->>>> s390-specific changes to VFIO_DEVICE_SET_IRQS accommodate this (e.g.
->>>> maybe something like a VFIO_IRQ_SET_DATA_S390AEN where we can then
->>>> specify the aen information in vfio_irq_set.data -- or something else I
->>>
->>> Hi,
->>>
->>> yes this in VFIO_DEVICE_SET_IRQS is what I think should be done.
->>>
->>>> haven't though of yet) -- I can try to look at this some more and 
->>>> see if
->>>> I get a good idea.
->>>
->>>
->>> I understood that the demand was concerning the IOMMU but I may be 
->>> wrong.
+> I could imagine problems of this kind with two separate connections to
+> the network storage, but here all the NBD clients share a single
+> BlockBackend, so for the storage they are a single connection.
 
-The IOMMU was an issue, but the request to move the ioctl out of vfio to 
-kvm was specifically because these ioctl operations were only relevant 
-for VMs and are not applicable to vfio uses cases outside of virtualization.
-
-https://lore.kernel.org/kvm/20220208185141.GH4160@nvidia.com/
-
->>> For my opinion, the handling of AEN is not specific to KVM but specific
->>> to the device, for example the code should be the same if Z ever decide
->>> to use XEN or another hypervizor, except for the GISA part but this part
->>> is already implemented in KVM in a way it can be used from a device like
->>> in VFIO AP.
-
-
-Fundamentally, these operations are valid only when you have _both_ a 
-virtual machine and vfio device.  (Yes, you could swap in a new 
-hypervisor with a new GISA implementation, but at the end of it the 
-hypervisor must still provide the GISA designation for this to work)
-
-If fh lookup is a concern, one idea that Jason floated was passing the 
-vfio device fd as an argument to the kvm ioctl (so pass this down on a 
-kvm ioctl from userspace instead of a fh) and then using a new vfio 
-external API to get the relevant device from the provided fd.
-
-https://lore.kernel.org/kvm/20220208195117.GI4160@nvidia.com/
-
->>>
->>> @Alex, what do you think?
->>>
->>> Regards,
->>> Pierre
->>>
->>
->> As I understand it the question isn't if it is specific to KVM but
->> rather if it is specific to virtualization. As vfio-pci is also used
->> for non virtualization purposes such as with DPDK/SPDK or a fully
->> emulating QEMU, it should only be in VFIO if it is relevant for these
->> kinds of user-space PCI accesses too. I'm not an AEN expert but as I
->> understand it, this does forwarding interrupts into a SIE context which
->> only makes sense for virtualization not for general user-space PCI.
-
-Right, AEN forwarding is only relevant for virtual machines.
-
->>
-> 
-> Being in VFIO kernel part does not mean that this part should be called 
-> from any user of VFIO in userland.
-> That is a reason why I did propose an extension and not using the 
-> current implementation of VFIO_DEVICE_SET_IRQS as is.
-> 
-> The reason behind is that the AEN hardware handling is device specific: 
-> we need the Function Handle to program AEN.
-
-You also need the GISA designation which is provided by the kvm or you 
-also can't program AEN.  So you ultimately need both a function handle 
-that is 'owned' by the device (vfio device fd) and the GISA designation 
-that is 'owned' by kvm (kvm fd).  So there are 2 different "owning" fds 
-involved.
+I like that chain of reasoning.
 
 > 
-> If the API is through KVM which is device agnostic the implementation in 
-> KVM has to search through the system to find the device being handled to 
-> apply AEN on it.
-
-See comment above about instead passing the vfio device fd.
-
+> > > In fact, I don't think we even need the flush restriction from the NBD
+> > > spec. All clients see the same state (that of the NBD server
+> > > BlockBackend) even without anyone issuing any flush. The flush is only
+> > > needed to make sure that cached data is written to the backing storage
+> > > when writeback caches are involved.
+> > > 
+> > > Please correct me if I'm misunderstanding something here.
+> > 
+> > Likewise me, if I'm being overly cautious.
+> > 
+> > I can certainly write a simpler v4 that just always advertises
+> > MULTI_CONN if we allow more than one client, without any knob to
+> > override it; it's just that it is harder to write a commit message
+> > justifying why I think it is safe to do so.
 > 
-> This not the logical way for me and it is a potential source of problems 
-> for future extensions.
+> Having an explicit option doesn't hurt, but it's the reasoning in the
+> commit message that feels wrong to me.
 > 
+> We could consider changing "auto" to advertise MULTI_CONN even for
+> writable exports. There might still be a good reason not to do this by
+> default, though, because of the NBD clients. I'm quite sure that the
+> backend won't make any trouble, but client might if someone else is
+> writing to the same image (this is why we require an explicit
+> share-rw=on for guest devices in the same case).
 
+If your worry is about a client trying to determine if writing to an
+NBD server is going to race with some external process writing to the
+direct image, I don't see how not advertising MULTI_CONN will make
+things safer - the NBD client to qemu-nbd will still be going through
+a single backend, and that race is present even if there is only one
+NBD client.  The point of MULTI_CONN is informing the client that it
+can open multiple sockets and see a consistent view across all of
+them, and in your scenario of the server competing with some external
+process over the underlying data file, that competition is not
+controlled by how many NBD clients connect to the server, but by the
+external process having access at the same time the server has access
+through a single BlockBackend (and would be just as risky as if
+MULTI_CONN were not advertised and the client limits itself to one NBD
+connection).
 
+If we can argue that our single BlockBackend point of access is safe
+enough to default to advertising MULTI_CONN for writable connections
+(when we support parallel clients), then exposing an OnOffAuto knob is
+overkill.  I'm not even sure I can envision a case where needing to
+not advertise the bit would matter to a client (clients are supposed
+to ignore unknown feature bits).
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
