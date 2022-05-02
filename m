@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4502C5179CB
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 00:08:18 +0200 (CEST)
-Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E965179D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 00:11:58 +0200 (CEST)
+Received: from localhost ([::1]:58078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nleDJ-0003Jp-8i
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 18:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42848)
+	id 1nleGr-0000Yr-Gn
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 18:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nle4Q-0007IE-Ta
- for qemu-devel@nongnu.org; Mon, 02 May 2022 17:59:07 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:37644)
+ id 1nle68-0000ym-C0
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 18:00:52 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:47081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nle4O-0005V8-C4
- for qemu-devel@nongnu.org; Mon, 02 May 2022 17:59:05 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- t11-20020a17090ad50b00b001d95bf21996so582129pju.2
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 14:59:04 -0700 (PDT)
+ id 1nle66-0005yT-Nr
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 18:00:52 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ cq17-20020a17090af99100b001dc0386cd8fso496017pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 15:00:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=LIn9M/WHiz1ZZT/99iQWgogRiEiTHY2or5HdjJdD/LI=;
- b=bStAYEvA25GMDyeiYji6WahWSX8g7guQk443pOJzRUDYgPXPassTys/GUiWYh8umMK
- H1Iw3JnPk6rhdJMMQ5azZQbY998R3uvcU7nrqHTPrLLJPZpELZ7qgSmQFQS1Sn2S+rL4
- HNxJd1ZcVe9jm5VRIlI9dmKlbXGgFleH+tqtr01GUmPz76Z1Ka6LUCIutbOPS1GKDOH0
- eZcppfrvVgQOtIzUqbAfQZYWQ2rmlQNmnYsAMbOfd05TQzDqTNgvUeoJqCoIcFjNp3Zk
- IaKngKDJNNdYindF1UCxSn4ie7V3fxgRI/jod9wBtub8E1iiRnzdlmtIjMti+ZrcQBoT
- b11w==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=SL5zPBvk0q1D3fCGNqdEDG3JJEWz3O4StXLyVxwYD5I=;
+ b=r8mg+XTzjff/F+nus2GCTqLbbpwBWLO15HTzjP4RPoGWvwixOvysvpzO6H+pwUSaRz
+ wSIKg7151I/iTFW2KLJJNxXrkNTS0kI/lAQu3RTcxcE7EQKekzYTtsHWwKjvvNI/BMWx
+ 1wLUnEtF4IfM6iYBox4ZYMuVxG7cgRFpvi4J+u7X/OU+S6cAw1MJfVrr7l77qCIKWYVs
+ lUQMR6y4Grkcm+rTSmlJL2Iyr0fjKTWg7L0FDjyGgpas5+dVixmtN7+pDU2NOEjKs5vh
+ bNpSQdgyRHejVhZdcnR3/JJx5uJZC6OT7yIa1Vi9nfUV8gqq3Lw/1CzIKw6Ftn4uL+RM
+ VXiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=LIn9M/WHiz1ZZT/99iQWgogRiEiTHY2or5HdjJdD/LI=;
- b=VgXcLUjo9igSQFprKy0+Qef6nGjOSNokhHPlkpsv12SxvFu7CtsP33Zkr+0QMPNHLA
- Whn+F7JBFAQ7IXlzVXQDyEtg+O8LSqN3b+ZjmzPC7tXXx2MoKXuVK0X6cfwsahoimdpM
- 869vJyTB7xDCnKRJrq8q9aVz8hoRZg6oILpmhH45J/O1gY3She0KefnvqmhHdCUrSDRk
- XYADSlFGhRo3W6TRP6N5Zdaji+XArETp5MWnmXMP1b0fJkGk7Ssj3uRjNkWebbJzipQ9
- 3fRGegard2B0JDmN/pxXU2f1TnSpFlVegtGzkLQvxuJwLtFb7h+UgKs67OoO7RQb4QA4
- ig3Q==
-X-Gm-Message-State: AOAM532aoKQsqqDutbliz1688zNMrDIQoAtKVuMTCL7DTdJHRMRNYzfa
- my/3oAVoei8Nxi4j7pvge4+qiw==
-X-Google-Smtp-Source: ABdhPJxuqIEwTvKwrlU9/kpFF3c3p/OwJFyoqk118O44bURnW3oHeHqwU2gQ2d9WO0EWMZWOB+LbxQ==
-X-Received: by 2002:a17:90b:4b83:b0:1dc:5073:b704 with SMTP id
- lr3-20020a17090b4b8300b001dc5073b704mr1338830pjb.94.1651528743163; 
- Mon, 02 May 2022 14:59:03 -0700 (PDT)
+ bh=SL5zPBvk0q1D3fCGNqdEDG3JJEWz3O4StXLyVxwYD5I=;
+ b=U6GcGwYpXSgl2sVKcXLCyKF8jyTfSH6tUPU+o7QJLKf5R8F6+mTByMAH7RzeZnIx4s
+ s0PslFhWbGuqq7NeB5ngtRwH6ns0tsAK3Egnp9xV8JFMe+ZWb29Ato7MOqLH1aqQU1q4
+ lDOcgEiFQb0OF75GC138hc7IUMldDQMLt/+HhYmbz98YaWyt07R45Jd0FxxGEJECN3q0
+ XLIzaFIfPIDT/ZLrreufAFRSXfv60LvPjJ2+ltffwC1ECWcvAvVJzKLoKgwn0iLqsDAx
+ d4iunRGTLgI1bw/LjZ5s/PcoAmLLI5Qv/ZcX++O+ZjDvvUqxsSd513npuK/+NU1DZNKl
+ jrdg==
+X-Gm-Message-State: AOAM530b0fI33p91UIOiuh93U6nxCayxYa/1v2Tew4gcoLpYpEWmCuJ2
+ nY/1QnelmfeDGJVfeOe2KcyW9A==
+X-Google-Smtp-Source: ABdhPJxYNo6g0KH7rwo1uCUXBo45fOErXUnsR3TBjSbf+oKh6xiEMFaEk4np4JL249i+CuNHgphusg==
+X-Received: by 2002:a17:902:b78c:b0:15d:2431:a806 with SMTP id
+ e12-20020a170902b78c00b0015d2431a806mr13939445pls.77.1651528849375; 
+ Mon, 02 May 2022 15:00:49 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- a9-20020a62bd09000000b0050dc76281cdsm5156425pff.167.2022.05.02.14.59.02
+ m19-20020a170902e41300b0015ea95948ebsm2021918ple.134.2022.05.02.15.00.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 14:59:02 -0700 (PDT)
-Message-ID: <0a3dd630-5b73-9f10-0be5-9cc958775982@linaro.org>
-Date: Mon, 2 May 2022 14:59:00 -0700
+ Mon, 02 May 2022 15:00:48 -0700 (PDT)
+Message-ID: <eeb7ff2d-e9c3-a39e-598c-2cd8cc33e7f6@linaro.org>
+Date: Mon, 2 May 2022 15:00:46 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 13/21] target/ppc: Remove msr_me macro
+Subject: Re: [PATCH v2 17/21] target/ppc: Remove msr_fe0 and msr_fe1 macros
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
 To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, balaton@eik.bme.hu
 References: <20220502143934.71908-1-victor.colombo@eldorado.org.br>
- <20220502143934.71908-14-victor.colombo@eldorado.org.br>
- <51b5d3e2-2f4b-f004-7aad-fd607f793290@linaro.org>
-In-Reply-To: <51b5d3e2-2f4b-f004-7aad-fd607f793290@linaro.org>
+ <20220502143934.71908-18-victor.colombo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220502143934.71908-18-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,38 +96,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/22 14:38, Richard Henderson wrote:
-> On 5/2/22 07:39, Víctor Colombo wrote:
->> msr_me macro hides the usage of env->msr, which is a bad behavior
->> Substitute it with FIELD_EX64 calls that explicitly use env->msr
->> as a parameter.
->>
->> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
->>
->> ---
->>
->> v2: Remove M_MSR_CM and use FIELD_EX64 instead
->> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
->> ---
->>   target/ppc/cpu.h        | 2 +-
->>   target/ppc/mmu_common.c | 2 +-
->>   target/ppc/mmu_helper.c | 2 +-
->>   3 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 294c61c9dc..8e652691cf 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -354,6 +354,7 @@ typedef enum {
->>   #define MSR_RI   1  /* Recoverable interrupt                        1        */
->>   #define MSR_LE   0  /* Little-endian mode                           1 hflags */
->> +FIELD(MSR, CM, MSR_CM, 1)
+On 5/2/22 07:39, Víctor Colombo wrote:
+> msr_fe0 and msr_fe1 macros hide the usage of env->msr, which is a bad
+> behavior. Substitute it with FIELD_EX64 calls that explicitly use
+> env->msr as a parameter.
 > 
-> Patch title is wrong.
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+> -            if ((msr_fe0 == 0 && msr_fe1 == 0) ||
+> +            if ((!FIELD_EX64(env->msr, MSR, FE0) &&
+> +                !FIELD_EX64(env->msr, MSR, FE1)) ||
+>                   !FIELD_EX64(env->msr, MSR, FP)) {
+
+This has 6 repetitions.  Perhaps extract to a helper for conciseness?
+
 
 r~
 
