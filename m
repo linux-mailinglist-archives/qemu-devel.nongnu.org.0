@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6849518D52
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 21:42:26 +0200 (CEST)
-Received: from localhost ([::1]:38276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDF6518DA1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 21:58:14 +0200 (CEST)
+Received: from localhost ([::1]:35762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlyPg-0005EF-Ue
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 15:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36626)
+	id 1nlyez-0002NC-HO
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 15:58:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyMA-00048p-5n
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:38:46 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40885)
+ id 1nlyVu-0000tF-Ie
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:48:50 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:38522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyM7-0007QM-PZ
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:38:45 -0400
-Received: by mail-pl1-x633.google.com with SMTP id i1so9716916plg.7
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:38:43 -0700 (PDT)
+ id 1nlyVs-0003VY-6V
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:48:50 -0400
+Received: by mail-pl1-x632.google.com with SMTP id n18so15881478plg.5
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1wLgFQvMfozryiUJzF4lct9+gFEt/H+qwK7DYS9HYaU=;
- b=B54FH0dPn9BCgIG6/WBEEmdumIU9kOeF8VJKOuPE7EuqEA8w/GnOQ7XkD1rfwTH5Tz
- jwDJC1wnz+hi+5N1auk8o5M8Thr0/hmXf6nFsxhunfV8rU0lcUlplvMGB/2RC3d99AYB
- lAPxiJg4auNOdvXSvryZf6m+0q4NZX3Mac0aOLnENFD5I3QWlyYb9JhaHseELw0RVxIV
- dl01/dobnGVoZ5yOGrIgbrg8jfbEldrFBo5sXYTDMCzCd7eRTlAaD3sGP4urbfcrsIYD
- yhompe4UWAHKARJWWjFuCgeVl+nMtHfA8/RFMLQDZva8j6ytS0GTC4g7etMiGOZtT5i+
- mvWA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ucbWrXGCADjIBHX46eDzOyvPI6/OOVWU2t1Aaxgg4bc=;
+ b=SbKr9AG79A8+0NuyQTmIb4nb2EezFDniKbs20xmkRs/5/tfKnoeCnyIzk0lzHvy/qv
+ C9mzX7Py34HJYmoOMxlcinPA/t9Mc4HKt+VPct2eSi5j43ib9JVGusrjQkLUHbKHv3UJ
+ QL0ZvveYMuz/OAInYO6brOEAOnP2FR119HvSA6xhK7Ry1qehJyIfh1TN+9LXGHgbRC+j
+ HHMQLgGyL3WGu7TLw+rwQOOlX2XBJ8iRyMuArfGz6KP9UqPB2ne0vLVN2Iqq2zYe/lhg
+ NJYcYtgMnKT69v1OM0yDOkWB5YJkErwFrt1hObiMZouCiTOTgL0TwpkiZZ9fR+UXNkja
+ SaRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=1wLgFQvMfozryiUJzF4lct9+gFEt/H+qwK7DYS9HYaU=;
- b=TOwRMiydnAJTrYAcUvWk30WRKb02FRyEoxZDG3Y+XzvT6X7gdxfuEwL/4DpNVqkNUt
- qygTxzz8OlhKqa/tEmem68VZjWvP51tf7r8Cz30zdzm9NDn2vE8ntDmbvJm2Rcw/QJRU
- 7WDT9DpEkt1enaSWFHoRUNq6mCG4uCjJ5xGvSKrZLiEnOIPCzqpxwgzfkcgpfi+yjez2
- ie8LVnUTRF6JFbGVIDAQlzYX3T81T6Qdh4v1Qm4F4SkfzECIbhJIwzszlqhUCaONY7cp
- 2yRcDHWHM4s75tNQLWtiGfxFPrHP6U5HeJwcs+shL5iGbyNodo+uG7DekbG85iGnH7gy
- 3fTg==
-X-Gm-Message-State: AOAM533uj0QnZHW5H5CAmJerUJMPv7sLLQd8tx7kR1Q0H3dXbwIWAQIG
- PAAsoIkM5zBn0k4Utz7Eb8FWSQ==
-X-Google-Smtp-Source: ABdhPJxmbbwTTYCkbrQhLUog1gYriKTEBLMQgeuvr6NHmJ1Z/xqq8cKiX3+1X12mUniuwYZVSKgqZQ==
-X-Received: by 2002:a17:902:eb8d:b0:15e:bf22:2791 with SMTP id
- q13-20020a170902eb8d00b0015ebf222791mr2161885plg.88.1651606722103; 
- Tue, 03 May 2022 12:38:42 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- s13-20020a17090aad8d00b001cb978f906esm1725676pjq.0.2022.05.03.12.38.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 12:38:41 -0700 (PDT)
-Message-ID: <158d064f-d8a7-ee9d-5309-bc4fa1f02d5f@linaro.org>
-Date: Tue, 3 May 2022 12:38:39 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/23] Misc patches
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20220503131256.187238-1-marcandre.lureau@redhat.com>
+ bh=ucbWrXGCADjIBHX46eDzOyvPI6/OOVWU2t1Aaxgg4bc=;
+ b=LEPunIq4trbaYa3Tk97EblP0iKtYMaxVA+7djs5vN4EnzSR8q3UewPOsGLdlgD8gWv
+ 9ZAfrXqhej2VOTKncJGIZLQgeOaHrYhlL1x7fm2hAX1DHr4kTez/eqNV8i3HfDUh8FM4
+ 6gsBinsKHc84ZEP/gwurOWpP7v1TgTfGzXp70TYmYrDEcyrX8rIBhWT/qfGbw6jXMhcD
+ 6U2LSjMSacACZycL/C+WIoAk+RAUhnWP5MvzfrEoTUirLh0VXkR82qo+8BjkUtNmvwRf
+ A7KAp+R6zYOVeCzSPK12uK1NggQMpBWuyDdFAZsroRkn3LBDRIbCt14Bug6ZHpUTztRn
+ Zzrg==
+X-Gm-Message-State: AOAM530TuYBb7Wqw2MCSpSxJ8rblLrX1FiPfWRSsuvLaroL17B5RjVyQ
+ UPmWLbaZvNeaHD3KbC/3DEnXMlN69nc/lQ==
+X-Google-Smtp-Source: ABdhPJxsJXF5ZuToBtdpW8Npx09z3pwjTIAqdQwjo9t5qCPsJlgz2v1mn5uHjYmQNhC7NSCns6pPcw==
+X-Received: by 2002:a17:902:c2cc:b0:15b:a4e6:f58c with SMTP id
+ c12-20020a170902c2cc00b0015ba4e6f58cmr17823527pla.149.1651607325255; 
+ Tue, 03 May 2022 12:48:45 -0700 (PDT)
+Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
+ p11-20020a17090ad30b00b001cd4989fed3sm1712383pju.31.2022.05.03.12.48.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 May 2022 12:48:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220503131256.187238-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, f4bug@amsat.org, crwulff@gmail.com,
+ laurent@vivier.eu, shorne@gmail.com
+Subject: [PATCH v2 00/74] semihosting cleanup
+Date: Tue,  3 May 2022 12:47:29 -0700
+Message-Id: <20220503194843.1379101-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,256 +86,211 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/22 06:12, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> The following changes since commit f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65:
-> 
->    Merge tag 'pull-9p-20220501' of https://github.com/cschoenebeck/qemu into staging (2022-05-01 07:48:11 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git@gitlab.com:marcandre.lureau/qemu.git tags/misc-pull-request
-> 
-> for you to fetch changes up to ff5927baa7ffb9c97873a071f6a8d85a3584182b:
-> 
->    util: rename qemu_*block() socket functions (2022-05-03 15:53:20 +0400)
-> 
-> ----------------------------------------------------------------
-> Misc cleanups
+Changes for v2:
+  * Drop m68k and nios2 patches to move semihosting exception to helper.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+  * Merge semihosting console into GuestFD.
+
+  * Split syscalls into new files.
+    Having them in guestfd.[ch] seemed wrong.
+
+  * Standardize on GDB remote-protocol errno.  Having done this, I'm
+    not sure it's the best idea -- mips and xtensa semihosting have a
+    larger set of errno values than GDB.  Better, perhaps, to standardize
+    on host errno and then convert GDB errno back to host on the way
+    out of gdbstub.c:handle_file_io.
+
+  * Convert mips and xtensa to semihosting/syscalls.h
+
+  * Implement rx semihosting, with tests.
+
+Still on the to-do list:
+
+  * Non-Coldfire m68k semihosting.  The libgloss spec says that "bkpt"
+    may be used when "halt" is not available in the ISA.  Add m68k
+    semihosting tests -- we already have a cross toolchain in docker,
+    so this should be easy.
+
+  * Support dynamic endianness in arm-compat-semi.c; add tests for
+    aarch64 big-endian system mode.
+
+  * Split this patch set.  :-)
 
 
 r~
 
 
+Cc: alex.bennee@linaro.org
+Cc: f4bug@amsat.org
+Cc: crwulff@gmail.com
+Cc: laurent@vivier.eu
+Cc: shorne@gmail.com
 
-> 
-> ----------------------------------------------------------------
-> 
-> Marc-André Lureau (23):
->    Use QEMU_SANITIZE_THREAD
->    Use QEMU_SANITIZE_ADDRESS
->    tests: move libqtest.h back under qtest/
->    libqtest: split QMP part in libqmp
->    Use g_unix_set_fd_nonblocking()
->    block: move fcntl_setfl()
->    Replace qemu_pipe() with g_unix_open_pipe()
->    util: replace pipe()+cloexec with g_unix_open_pipe()
->    qga: replace pipe() with g_unix_open_pipe(CLOEXEC)
->    tests: replace pipe() with g_unix_open_pipe(CLOEXEC)
->    os-posix: replace pipe()+cloexec with g_unix_open_pipe(CLOEXEC)
->    virtiofsd: replace pipe() with g_unix_open_pipe(CLOEXEC)
->    io: replace pipe() with g_unix_open_pipe(CLOEXEC)
->    Replace fcntl(O_NONBLOCK) with g_unix_set_fd_nonblocking()
->    io: make qio_channel_command_new_pid() static
->    chardev: replace qemu_set_nonblock()
->    io: replace qemu_set{_non}block()
->    qga: replace qemu_set_nonblock()
->    hw: replace qemu_set_nonblock()
->    ui: replace qemu_set_nonblock()
->    net: replace qemu_set_nonblock()
->    tests: replace qemu_set_nonblock()
->    util: rename qemu_*block() socket functions
-> 
->   docs/devel/qtest.rst                          |   2 +-
->   include/io/channel-command.h                  |  25 --
->   include/qemu/atomic.h                         |   8 +-
->   include/qemu/osdep.h                          |   4 -
->   include/qemu/sockets.h                        |   6 +-
->   include/sysemu/os-posix.h                     |   2 -
->   subprojects/libvhost-user/include/compiler.h  |   1 +
->   tests/qtest/acpi-utils.h                      |   2 +-
->   tests/qtest/boot-sector.h                     |   2 +-
->   tests/qtest/fuzz/fuzz.h                       |   2 +-
->   tests/qtest/libqmp.h                          |  50 ++++
->   tests/qtest/libqos/fw_cfg.h                   |   2 +-
->   tests/qtest/libqos/i2c.h                      |   2 +-
->   tests/qtest/libqos/libqos.h                   |   2 +-
->   tests/qtest/libqos/malloc.h                   |   2 +-
->   tests/qtest/libqos/pci.h                      |   2 +-
->   tests/qtest/libqos/sdhci-cmd.h                |   2 +-
->   tests/qtest/libqtest-single.h                 |   2 +-
->   tests/qtest/{libqos => }/libqtest.h           |  29 +--
->   tests/qtest/migration-helpers.h               |   2 +-
->   tests/qtest/tpm-emu.h                         |   2 +-
->   block/file-posix.c                            |  15 ++
->   chardev/char-fd.c                             |   4 +-
->   chardev/char-pty.c                            |   5 +-
->   chardev/char-serial.c                         |   5 +-
->   chardev/char-socket.c                         |   2 +-
->   chardev/char-stdio.c                          |   5 +-
->   contrib/ivshmem-server/ivshmem-server.c       |   2 +-
->   hw/hyperv/syndbg.c                            |   2 +-
->   hw/input/virtio-input-host.c                  |   5 +-
->   hw/misc/ivshmem.c                             |   2 +-
->   hw/virtio/vhost-user.c                        |   2 +-
->   hw/virtio/vhost-vsock.c                       |  11 +-
->   io/channel-command.c                          |  46 +++-
->   io/channel-file.c                             |  13 +-
->   io/channel-socket.c                           |   6 +-
->   net/l2tpv3.c                                  |   2 +-
->   net/socket.c                                  |  10 +-
->   net/tap-bsd.c                                 |   4 +-
->   net/tap-linux.c                               |   2 +-
->   net/tap-solaris.c                             |   2 +-
->   net/tap.c                                     |  33 +--
->   os-posix.c                                    |   3 +-
->   qemu-nbd.c                                    |   5 +-
->   qga/channel-posix.c                           |   2 +-
->   qga/commands-posix.c                          |   8 +-
->   tests/qtest/ac97-test.c                       |   2 +-
->   tests/qtest/ahci-test.c                       |   2 +-
->   tests/qtest/am53c974-test.c                   |   2 +-
->   tests/qtest/arm-cpu-features.c                |   2 +-
->   tests/qtest/aspeed_hace-test.c                |   2 +-
->   tests/qtest/boot-order-test.c                 |   2 +-
->   tests/qtest/boot-sector.c                     |   2 +-
->   tests/qtest/boot-serial-test.c                |   2 +-
->   tests/qtest/cdrom-test.c                      |   2 +-
->   tests/qtest/dbus-display-test.c               |   2 +-
->   tests/qtest/dbus-vmstate-test.c               |   2 +-
->   tests/qtest/device-introspect-test.c          |   2 +-
->   tests/qtest/device-plug-test.c                |   2 +-
->   tests/qtest/drive_del-test.c                  |   2 +-
->   tests/qtest/ds1338-test.c                     |   2 +-
->   tests/qtest/e1000-test.c                      |   2 +-
->   tests/qtest/eepro100-test.c                   |   2 +-
->   tests/qtest/endianness-test.c                 |   2 +-
->   tests/qtest/erst-test.c                       |   2 +-
->   tests/qtest/es1370-test.c                     |   2 +-
->   tests/qtest/fdc-test.c                        |   2 +-
->   tests/qtest/fuzz-e1000e-test.c                |   2 +-
->   tests/qtest/fuzz-lsi53c895a-test.c            |   2 +-
->   tests/qtest/fuzz-megasas-test.c               |   2 +-
->   tests/qtest/fuzz-sb16-test.c                  |   2 +-
->   tests/qtest/fuzz-sdcard-test.c                |   2 +-
->   tests/qtest/fuzz-virtio-scsi-test.c           |   2 +-
->   tests/qtest/fuzz-xlnx-dp-test.c               |   2 +-
->   tests/qtest/fuzz/fuzz.c                       |   2 +-
->   tests/qtest/fuzz/generic_fuzz.c               |   2 +-
->   tests/qtest/fuzz/i440fx_fuzz.c                |   2 +-
->   tests/qtest/fuzz/qos_fuzz.c                   |   2 +-
->   tests/qtest/fuzz/virtio_blk_fuzz.c            |   2 +-
->   tests/qtest/fuzz/virtio_net_fuzz.c            |   4 +-
->   tests/qtest/fuzz/virtio_scsi_fuzz.c           |   2 +-
->   tests/qtest/fw_cfg-test.c                     |   2 +-
->   tests/qtest/hd-geo-test.c                     |   2 +-
->   tests/qtest/hexloader-test.c                  |   2 +-
->   tests/qtest/ide-test.c                        |   2 +-
->   tests/qtest/ipoctal232-test.c                 |   2 +-
->   tests/qtest/ivshmem-test.c                    |   7 +-
->   tests/qtest/libqmp.c                          | 233 ++++++++++++++++++
->   .../libqos/aarch64-xlnx-zcu102-machine.c      |   2 +-
->   tests/qtest/libqos/ahci.c                     |   2 +-
->   tests/qtest/libqos/arm-imx25-pdk-machine.c    |   2 +-
->   tests/qtest/libqos/arm-n800-machine.c         |   2 +-
->   tests/qtest/libqos/arm-raspi2-machine.c       |   2 +-
->   tests/qtest/libqos/arm-sabrelite-machine.c    |   2 +-
->   tests/qtest/libqos/arm-smdkc210-machine.c     |   2 +-
->   tests/qtest/libqos/arm-virt-machine.c         |   2 +-
->   .../qtest/libqos/arm-xilinx-zynq-a9-machine.c |   2 +-
->   tests/qtest/libqos/e1000e.c                   |   2 +-
->   tests/qtest/libqos/fw_cfg.c                   |   2 +-
->   tests/qtest/libqos/i2c-imx.c                  |   2 +-
->   tests/qtest/libqos/i2c-omap.c                 |   2 +-
->   tests/qtest/libqos/i2c.c                      |   2 +-
->   tests/qtest/libqos/libqos.c                   |   2 +-
->   tests/qtest/libqos/pci-pc.c                   |   2 +-
->   tests/qtest/libqos/pci-spapr.c                |   2 +-
->   tests/qtest/libqos/ppc64_pseries-machine.c    |   2 +-
->   tests/qtest/libqos/qgraph.c                   |   2 +-
->   tests/qtest/libqos/qos_external.c             |   2 +-
->   tests/qtest/libqos/rtas.c                     |   2 +-
->   tests/qtest/libqos/sdhci-cmd.c                |   2 +-
->   tests/qtest/libqos/sdhci.c                    |   2 +-
->   tests/qtest/libqos/tpci200.c                  |   2 +-
->   tests/qtest/libqos/usb.c                      |   2 +-
->   tests/qtest/libqos/vhost-user-blk.c           |   2 +-
->   tests/qtest/libqos/virtio-9p.c                |   2 +-
->   tests/qtest/libqos/virtio-balloon.c           |   2 +-
->   tests/qtest/libqos/virtio-blk.c               |   2 +-
->   tests/qtest/libqos/virtio-iommu.c             |   2 +-
->   tests/qtest/libqos/virtio-mmio.c              |   2 +-
->   tests/qtest/libqos/virtio-net.c               |   2 +-
->   tests/qtest/libqos/virtio-pci.c               |   2 +-
->   tests/qtest/libqos/virtio-rng.c               |   2 +-
->   tests/qtest/libqos/virtio-scsi.c              |   2 +-
->   tests/qtest/libqos/virtio-serial.c            |   2 +-
->   tests/qtest/libqos/virtio.c                   |   2 +-
->   tests/qtest/libqos/x86_64_pc-machine.c        |   2 +-
->   tests/qtest/libqtest.c                        | 207 +---------------
->   tests/qtest/lpc-ich9-test.c                   |   2 +-
->   tests/qtest/m48t59-test.c                     |   2 +-
->   tests/qtest/machine-none-test.c               |   2 +-
->   tests/qtest/megasas-test.c                    |   2 +-
->   tests/qtest/microbit-test.c                   |   2 +-
->   tests/qtest/migration-test.c                  |   2 +-
->   tests/qtest/modules-test.c                    |   2 +-
->   tests/qtest/ne2000-test.c                     |   2 +-
->   tests/qtest/npcm7xx_adc-test.c                |   2 +-
->   tests/qtest/npcm7xx_pwm-test.c                |   2 +-
->   tests/qtest/npcm7xx_sdhci-test.c              |   2 +-
->   tests/qtest/npcm7xx_smbus-test.c              |   2 +-
->   tests/qtest/npcm7xx_watchdog_timer-test.c     |   2 +-
->   tests/qtest/numa-test.c                       |   2 +-
->   tests/qtest/nvme-test.c                       |   2 +-
->   tests/qtest/pca9552-test.c                    |   2 +-
->   tests/qtest/pci-test.c                        |   2 +-
->   tests/qtest/pcnet-test.c                      |   2 +-
->   tests/qtest/pflash-cfi02-test.c               |   2 +-
->   tests/qtest/pnv-xscom-test.c                  |   2 +-
->   tests/qtest/prom-env-test.c                   |   2 +-
->   tests/qtest/pvpanic-pci-test.c                |   2 +-
->   tests/qtest/pvpanic-test.c                    |   2 +-
->   tests/qtest/pxe-test.c                        |   2 +-
->   tests/qtest/q35-test.c                        |   2 +-
->   tests/qtest/qmp-cmd-test.c                    |   2 +-
->   tests/qtest/qmp-test.c                        |   2 +-
->   tests/qtest/qom-test.c                        |   2 +-
->   tests/qtest/rtas-test.c                       |   2 +-
->   tests/qtest/sdhci-test.c                      |   2 +-
->   tests/qtest/spapr-phb-test.c                  |   2 +-
->   tests/qtest/tco-test.c                        |   2 +-
->   tests/qtest/test-filter-mirror.c              |   2 +-
->   tests/qtest/test-filter-redirector.c          |   2 +-
->   tests/qtest/test-hmp.c                        |   2 +-
->   tests/qtest/tpm-crb-swtpm-test.c              |   2 +-
->   tests/qtest/tpm-tis-device-swtpm-test.c       |   2 +-
->   tests/qtest/tpm-tis-swtpm-test.c              |   2 +-
->   tests/qtest/tpm-util.c                        |   2 +-
->   tests/qtest/tulip-test.c                      |   2 +-
->   tests/qtest/vhost-user-test.c                 |   4 +-
->   tests/qtest/virtio-net-failover.c             |   2 +-
->   tests/qtest/virtio-rng-test.c                 |   2 +-
->   tests/qtest/virtio-test.c                     |   2 +-
->   tests/qtest/vmgenid-test.c                    |   2 +-
->   tests/qtest/vmxnet3-test.c                    |   2 +-
->   tests/qtest/wdt_ib700-test.c                  |   2 +-
->   tests/qtest/xlnx-can-test.c                   |   2 +-
->   tests/unit/socket-helpers.c                   |   2 +-
->   tests/unit/test-crypto-tlssession.c           |   8 +-
->   tests/unit/test-io-channel-file.c             |   2 +-
->   tests/unit/test-iov.c                         |   4 +-
->   tests/unit/test-qga.c                         |   2 +-
->   tools/virtiofsd/helper.c                      |   2 +-
->   ui/input-linux.c                              |   5 +-
->   util/compatfd.c                               |   5 +-
->   util/coroutine-ucontext.c                     |   2 +-
->   util/event_notifier-posix.c                   |   8 +-
->   util/main-loop.c                              |   2 +-
->   util/oslib-posix.c                            |  61 +----
->   util/oslib-win32.c                            |   8 +-
->   util/vhost-user-server.c                      |   4 +-
->   scripts/oss-fuzz/output_reproducer.py         |   2 +-
->   tests/qtest/libqos/meson.build                |   5 +-
->   tests/unit/meson.build                        |   2 +-
->   192 files changed, 609 insertions(+), 565 deletions(-)
->   create mode 120000 subprojects/libvhost-user/include/compiler.h
->   create mode 100644 tests/qtest/libqmp.h
->   rename tests/qtest/{libqos => }/libqtest.h (95%)
->   create mode 100644 tests/qtest/libqmp.c
-> 
+
+Richard Henderson (74):
+  semihosting: Move exec/softmmu-semi.h to semihosting/softmmu-uaccess.h
+  semihosting: Return failure from softmmu-uaccess.h functions
+  semihosting: Improve condition for config.c and console.c
+  semihosting: Move softmmu-uaccess.h functions out of line
+  semihosting: Add target_strlen for softmmu-uaccess.h
+  semihosting: Simplify softmmu_lock_user_string
+  semihosting: Split out guestfd.c
+  semihosting: Generalize GuestFDFeatureFile
+  semihosting: Return void from do_common_semihosting
+  semihosting: Adjust error checking in common_semi_cb
+  semihosting: Move common-semi.h to include/semihosting/
+  include/exec: Move gdb open flags to gdbstub.h
+  include/exec: Move gdb_stat and gdb_timeval to gdbstub.h
+  include/exec: Define errno values in gdbstub.h
+  semihosting: Use struct gdb_stat in common_semi_flen_cb
+  semihosting: Split is_64bit_semihosting per target
+  semihosting: Split common_semi_flen_buf per target
+  semihosting: Split out common_semi_has_synccache
+  semihosting: Use env more often in do_common_semihosting
+  semihosting: Move GET_ARG/SET_ARG earlier in the file
+  semihosting: Split out semihost_sys_open
+  semihosting: Split out semihost_sys_close
+  semihosting: Split out semihost_sys_read
+  semihosting: Split out semihost_sys_write
+  semihosting: Bound length for semihost_sys_{read,write}
+  semihosting: Split out semihost_sys_lseek
+  semihosting: Split out semihost_sys_isatty
+  semihosting: Split out semihost_sys_flen
+  semihosting: Split out semihost_sys_remove
+  semihosting: Split out semihost_sys_rename
+  semihosting: Split out semihost_sys_system
+  semihosting: Create semihost_sys_{stat,fstat}
+  semihosting: Create semihost_sys_gettimeofday
+  gdbstub: Widen gdb_syscall_complete_cb return value
+  semihosting: Fix docs comment for qemu_semihosting_console_inc
+  semihosting: Pass CPUState to qemu_semihosting_console_inc
+  semihosting: Expand qemu_semihosting_console_inc to read
+  semihosting: Cleanup chardev init
+  semihosting: Create qemu_semihosting_console_write
+  semihosting: Add GuestFDConsole
+  semihosting: Create qemu_semihosting_guestfd_init
+  semihosting: Use console_in_gf for SYS_READC
+  semihosting: Use console_out_gf for SYS_WRITEC
+  semihosting: Remove qemu_semihosting_console_outc
+  semihosting: Use console_out_gf for SYS_WRITE0
+  semihosting: Remove qemu_semihosting_console_outs
+  semihosting: Create semihost_sys_poll_one
+  target/m68k: Eliminate m68k_semi_is_fseek
+  target/m68k: Make semihosting system only
+  target/m68k: Use semihosting/syscalls.h
+  target/nios2: Eliminate nios2_semi_is_lseek
+  target/nios2: Move nios2-semi.c to nios2_softmmu_ss
+  target/nios2: Use semihosting/syscalls.h
+  target/mips: Use an exception for semihosting
+  target/mips: Add UHI errno values
+  target/mips: Create report_fault for semihosting
+  target/mips: Drop link syscall from semihosting
+  target/mips: Drop pread and pwrite syscalls from semihosting
+  target/mips: Use semihosting/syscalls.h
+  target/mips: Avoid qemu_semihosting_log_out for UHI_plog
+  target/mips: Use error_report for UHI_assert
+  semihosting: Remove qemu_semihosting_log_out
+  target/mips: Simplify UHI_argnlen and UHI_argn
+  target/mips: Remove GET_TARGET_STRING and FREE_TARGET_STRING
+  target/xtensa: Use an exception for semihosting
+  target/xtensa: Use semihosting/syscalls.h
+  tests/docker: Add debian-rx-cross image
+  hw/rx: Handle a kernel file that is ELF
+  target/rx: Fix the base of the fixed vector table
+  target/rx: Name the exceptions
+  target/rx: Consolidate exception helpers
+  target/rx: Cleanup rx_cpu_do_interrupt
+  target/rx: Implement libgloss semihosting
+  tests/tcg/rx: Enable semihosting multiarch tests
+
+ configs/devices/rx-softmmu/default.mak        |    1 +
+ configs/targets/aarch64-linux-user.mak        |    1 +
+ configs/targets/aarch64_be-linux-user.mak     |    1 +
+ configs/targets/arm-linux-user.mak            |    1 +
+ configs/targets/armeb-linux-user.mak          |    1 +
+ configs/targets/riscv32-linux-user.mak        |    1 +
+ configs/targets/riscv64-linux-user.mak        |    1 +
+ include/exec/gdbstub.h                        |   67 +-
+ include/exec/softmmu-semi.h                   |  101 --
+ .../semihosting}/common-semi.h                |    2 +-
+ include/semihosting/console.h                 |   74 +-
+ include/semihosting/guestfd.h                 |   52 +
+ include/semihosting/semihost.h                |   14 +-
+ include/semihosting/softmmu-uaccess.h         |   59 +
+ include/semihosting/syscalls.h                |   75 ++
+ target/arm/common-semi-target.h               |   62 +
+ target/mips/cpu.h                             |    3 +-
+ target/mips/tcg/tcg-internal.h                |    2 +
+ target/riscv/common-semi-target.h             |   50 +
+ target/rx/cpu.h                               |   26 +
+ target/rx/helper.h                            |    6 +-
+ target/xtensa/cpu.h                           |    3 +-
+ target/xtensa/helper.h                        |    3 -
+ target/mips/tcg/sysemu_helper.h.inc           |    2 -
+ gdbstub.c                                     |    7 +-
+ hw/rx/rx-gdbsim.c                             |   24 +-
+ hw/xtensa/sim.c                               |    3 -
+ linux-user/aarch64/cpu_loop.c                 |    2 +-
+ linux-user/arm/cpu_loop.c                     |    2 +-
+ linux-user/m68k/cpu_loop.c                    |    5 -
+ linux-user/main.c                             |    9 +
+ linux-user/riscv/cpu_loop.c                   |    2 +-
+ linux-user/semihost.c                         |   48 +-
+ semihosting/arm-compat-semi.c                 |  987 ++++------------
+ semihosting/config.c                          |   17 +-
+ semihosting/console.c                         |  144 +--
+ semihosting/guestfd.c                         |  160 +++
+ semihosting/syscalls.c                        | 1008 +++++++++++++++++
+ semihosting/uaccess.c                         |   71 ++
+ softmmu/vl.c                                  |    3 +-
+ stubs/semihost.c                              |    6 +-
+ target/arm/helper.c                           |    4 +-
+ target/arm/m_helper.c                         |    2 +-
+ target/m68k/m68k-semi.c                       |  368 +-----
+ target/mips/tcg/exception.c                   |    1 +
+ target/mips/tcg/sysemu/mips-semi.c            |  468 ++++----
+ target/mips/tcg/sysemu/tlb_helper.c           |    4 +
+ target/mips/tcg/translate.c                   |   12 +-
+ target/nios2/nios2-semi.c                     |  354 +-----
+ target/riscv/cpu_helper.c                     |    2 +-
+ target/rx/helper.c                            |  116 +-
+ target/rx/op_helper.c                         |   30 +-
+ target/rx/rx-semi.c                           |  165 +++
+ target/rx/translate.c                         |   28 +-
+ target/xtensa/exc_helper.c                    |    4 +
+ target/xtensa/translate.c                     |    3 +-
+ target/xtensa/xtensa-semi.c                   |  306 ++---
+ tests/tcg/rx/outc.c                           |   15 +
+ target/mips/tcg/micromips_translate.c.inc     |    6 +-
+ target/mips/tcg/mips16e_translate.c.inc       |    2 +-
+ target/mips/tcg/nanomips_translate.c.inc      |    4 +-
+ MAINTAINERS                                   |    1 +
+ qemu-options.hx                               |   13 +-
+ semihosting/meson.build                       |    6 +
+ target/m68k/meson.build                       |    6 +-
+ target/nios2/meson.build                      |    4 +-
+ target/rx/meson.build                         |    4 +-
+ tests/docker/Makefile.include                 |    6 +
+ .../debian-rx-cross.d/build-toolchain.sh      |   58 +
+ tests/tcg/configure.sh                        |    6 +
+ tests/tcg/rx/Makefile.softmmu-target          |   24 +
+ 71 files changed, 2825 insertions(+), 2303 deletions(-)
+ delete mode 100644 include/exec/softmmu-semi.h
+ rename {semihosting => include/semihosting}/common-semi.h (96%)
+ create mode 100644 include/semihosting/guestfd.h
+ create mode 100644 include/semihosting/softmmu-uaccess.h
+ create mode 100644 include/semihosting/syscalls.h
+ create mode 100644 target/arm/common-semi-target.h
+ create mode 100644 target/riscv/common-semi-target.h
+ create mode 100644 semihosting/guestfd.c
+ create mode 100644 semihosting/syscalls.c
+ create mode 100644 semihosting/uaccess.c
+ create mode 100644 target/rx/rx-semi.c
+ create mode 100644 tests/tcg/rx/outc.c
+ create mode 100755 tests/docker/dockerfiles/debian-rx-cross.d/build-toolchain.sh
+ create mode 100644 tests/tcg/rx/Makefile.softmmu-target
+
+-- 
+2.34.1
 
 
