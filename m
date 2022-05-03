@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1015D518F91
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:02:00 +0200 (CEST)
-Received: from localhost ([::1]:48908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BE0519008
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:23:38 +0200 (CEST)
+Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlzeh-000403-0z
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40700)
+	id 1nlzzd-00029a-Fp
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlya0-0000r8-6Y
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:04 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46724)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1nlymS-00018G-GF; Tue, 03 May 2022 16:05:56 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZx-0006P4-Qk
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:03 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 6so3178141pgb.13
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:53:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1nlymQ-0008PR-8f; Tue, 03 May 2022 16:05:55 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ l11-20020a17090a49cb00b001d923a9ca99so2919150pjm.1; 
+ Tue, 03 May 2022 13:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=sy4e+GA4siKpkmbYnx/SmxHTQKZjthdwLglaK4m7nGc=;
- b=bnm700Ov3cN4Mn7/s9nRHWlAqpin4qDrn39pZMYTJwYiXEiEmDfCCSGmdgyYpMCPVt
- N6NwNMy8auxJKYW8aIW9tzkiTwQ3CmqJuO3RJSIB0CVwdtfITF+8nGvg2oQO1LXnbajF
- wGN5mwCCPZkhIB7p3tvSZOk86RB1JTqsG7X/fXjfwJpSpDJlnvqiq6MZmBhIiqTZ9jrz
- CNbivUplEmuGMdmFe7GAfe9kv9eJyI+WaKIo6sDZtdwiH6Kp0vJQpKLskNwaQ4l35dWH
- xJzCD5LEyM2VmTEY1iidt7wCeCZ3+eY6bL5nfqi/TLt2gDnTqHllJspTMRx6xzYAJESC
- wG4w==
+ bh=R5yqTQ1Qvlp+E8L9mG3dxwcWSP7iC95R3l/V9CI6bPI=;
+ b=qmiHHwYPeqUlNPcpoxpQNyXma17+GtWIn8nrZf8TwZbN2mWopiUokOSA9GKwo6ZPEW
+ Ftrv53J55E7zXA1ldiCnv/XI0XX7vRzk445VO3oGHXh3IQ971GxnhJ97PIzddOU6nMeD
+ 2+Unr+8cIkgphwelVSL98UtI1KZjNsuQdYQVUT2ePKzJwx3ao7egCNfjNBAmRCoaWcVo
+ RKr/Org0lh/q4OPWvru5bfgLP6sEoc1Mxr/YRPvTSEs6VvL416+nz+yfmkFgUJNDr87l
+ ZVnBw3/3x/txifrRRYiOWXDjJMDjUEspRHEyWR/H+4TNAglMluyKkeDd5n/2yMk9Cxiw
+ wFCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sy4e+GA4siKpkmbYnx/SmxHTQKZjthdwLglaK4m7nGc=;
- b=kKFOk8GRj9mV2QNIhImiambfvVY0DOHjNa65XtkucXPE92tC031NQ2X/bxmKHGVrQB
- M/7rqeZI/6I3PdOOaWR6l1EfKgYmTgBKlGkyIt0OaZeP7TkRo5BknugpK4BBgfncDv+j
- YhL9bHPDphV/Dz0Fnb3BRkGEDZslirRSVKZxaBbo0u3p/zMvB2jXkydnUMovD9q0meGR
- THu0KZuvbpYgGYj0/t3W4yt25iIgEQh8pwBu/CdZWyyqewqSLB7uJMVcJCRHNF3GnsWj
- dkI/iDtf5gUlTvyTZoCeMsW8bd9pkZYzwlgh2LR7QafR3L2689CLLjcn9jISZXd2kLn2
- IVCA==
-X-Gm-Message-State: AOAM532/pFTuJS+Tkv26nB6iiwaoGiyQ6ptFIA+YvZkvJSxKqnu4KLlO
- 08iCLfaICJMJE3Q6LIZE/uWrY6hGpJRWkQ==
-X-Google-Smtp-Source: ABdhPJzC4FK76TNxZ9z7JF7r7QKX+0vrBh5KnbmgThSMSqMpbJAbSp0lBP3lIfIgWwaFp4VnmKvUuA==
-X-Received: by 2002:a63:d50c:0:b0:39d:61df:ad7b with SMTP id
- c12-20020a63d50c000000b0039d61dfad7bmr15255632pgg.47.1651607580518; 
- Tue, 03 May 2022 12:53:00 -0700 (PDT)
-Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.58
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R5yqTQ1Qvlp+E8L9mG3dxwcWSP7iC95R3l/V9CI6bPI=;
+ b=LLwVe3bzUe4BYdnic78mjtNWMP9CVMI8kB2cFD1FHnIQ3dmFNxboEAsHQxzdMkKa98
+ Y3pbZn3DQ4y2os1JxLUql06PnkrfHEIFGFVoMteLMnq/2cc2pLPFV0NPuA4YesJ2IrSm
+ r9Rs9v3jpFi7ELw6W2ZP+jjKPq+mtgyZQCc3wfibUESh3Gfi1OHhlXtH8090xQreWxd3
+ NuJNYCJ3KlEHv4DLDPrSPigfbFyrEP7kqR1nd+1pPUBjYVnZgQHHq8NtZgSF0SES1nHx
+ ZCQ8sBcMZPkCMN5Q9tuwKi/Qql+QTSjoESaRU4FKfPptLdhkz4X78fVvBIIjbtoi6cIi
+ UTVg==
+X-Gm-Message-State: AOAM5315cbhTd5l/wnNIWf4otdKzKzcZqkSTnBY5YDjmPW5yKfVRdjNM
+ YatkpBaIkXWjlaH6fZaufVUbt+IYGJs=
+X-Google-Smtp-Source: ABdhPJxqpJhsFN4apsiGHpEIA3By7nxFIX7D/RAPgeDBgFuagcDK3WNxWYoZzja+N9fBhR39Fyh3Yg==
+X-Received: by 2002:a17:90b:4c88:b0:1dc:564c:87a2 with SMTP id
+ my8-20020a17090b4c8800b001dc564c87a2mr6541644pjb.171.1651608350844; 
+ Tue, 03 May 2022 13:05:50 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id
+ q26-20020a63505a000000b003aa8b87feb5sm13670148pgl.0.2022.05.03.13.05.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:53:00 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Tue, 03 May 2022 13:05:49 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 74/74] tests/tcg/rx: Enable semihosting multiarch tests
-Date: Tue,  3 May 2022 12:48:43 -0700
-Message-Id: <20220503194843.1379101-75-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
-References: <20220503194843.1379101-1-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ Yonggang Luo <luoyonggang@gmail.com>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH 0/2] Upgrade mingw base packages
+Date: Wed,  4 May 2022 04:05:22 +0800
+Message-Id: <20220503200524.1868-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.36.0.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,66 +90,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/tcg/rx/outc.c                  | 15 +++++++++++++++
- tests/tcg/rx/Makefile.softmmu-target | 24 ++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 tests/tcg/rx/outc.c
- create mode 100644 tests/tcg/rx/Makefile.softmmu-target
+v1. upgrade both cirrus and gitlab-ci to the newest mingw base release
 
-diff --git a/tests/tcg/rx/outc.c b/tests/tcg/rx/outc.c
-new file mode 100644
-index 0000000000..3f8720d7ca
---- /dev/null
-+++ b/tests/tcg/rx/outc.c
-@@ -0,0 +1,15 @@
-+/*
-+ * minilib.h compatibility code
-+ *
-+ * Copyright Linaro Ltd 2022
-+ *
-+ * Rely on newlib/libgloss for functionality.
-+ */
-+
-+#include "minilib.h"
-+#include <sys/unistd.h>
-+
-+void __sys_outc(char c)
-+{
-+    write(1, &c, 1);
-+}
-diff --git a/tests/tcg/rx/Makefile.softmmu-target b/tests/tcg/rx/Makefile.softmmu-target
-new file mode 100644
-index 0000000000..aaa1cebb92
---- /dev/null
-+++ b/tests/tcg/rx/Makefile.softmmu-target
-@@ -0,0 +1,24 @@
-+#
-+# RX system tests
-+#
-+
-+RX_SYSTEM_SRC = $(SRC_PATH)/tests/tcg/rx
-+VPATH += $(RX_SYSTEM_SRC)
-+
-+TESTS += $(MULTIARCH_TESTS)
-+
-+CFLAGS += -Og -g $(MINILIB_INC)
-+LDFLAGS += -msim
-+
-+MINILIB_OBJS += outc.o
-+.PRECIOUS: $(MINILIB_OBJS)
-+
-+%.o: %.c
-+	$(call quiet-command, $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@, CC, $@)
-+
-+%: %.o $(LINK_SCRIPT) $(MINILIB_OBJS)
-+	$(call quiet-command, $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) $(MINILIB_OBJS), LD, $@)
-+
-+QEMU_OPTS = -M gdbsim-r5f562n7 -m 128 -semihosting-config enable=on,target=native,chardev=output -kernel
-+
-+memory: CFLAGS+=-DCHECK_UNALIGNED=0
+Yonggang Luo (2):
+  cirrus/win32: upgrade mingw base packages
+  gitlab-ci: Upgrade mingw base package.
+
+ .cirrus.yml              | 2 +-
+ .gitlab-ci.d/windows.yml | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-2.34.1
+2.36.0.windows.1
 
 
