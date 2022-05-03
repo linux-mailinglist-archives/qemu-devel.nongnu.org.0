@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94246518BFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 20:14:05 +0200 (CEST)
-Received: from localhost ([::1]:54698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C217518C1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 20:19:01 +0200 (CEST)
+Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlx2B-0001wt-W8
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 14:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
+	id 1nlx6x-0007YD-M7
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 14:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nlwyj-0000yH-Cb; Tue, 03 May 2022 14:10:29 -0400
-Received: from [187.72.171.209] (port=58606 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nlwyh-00017A-LB; Tue, 03 May 2022 14:10:29 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 3 May 2022 15:09:22 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id D85F4800491;
- Tue,  3 May 2022 15:09:21 -0300 (-03)
-Message-ID: <860fb352-d542-0e38-4d1f-78cfe4c45285@eldorado.org.br>
-Date: Tue, 3 May 2022 15:09:21 -0300
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nlx4a-000642-Hi; Tue, 03 May 2022 14:16:33 -0400
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:45632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nlx4W-0002Aw-R9; Tue, 03 May 2022 14:16:31 -0400
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-e93bbb54f9so17955943fac.12; 
+ Tue, 03 May 2022 11:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=2G3bN6YMuIB+CGNBBM0t3eGhIY4FGeRP+zXCD/PVKJM=;
+ b=EeiRmq5wgAb70aB7NFABVh+tNB8lPjfC7TufJ/rOEtrDnuTSRxWt/8TMT4qnwOaVhm
+ qVYmqtgV54jrAfi8OdgL1ZguU7zOdEmf2TrDT+vKb6S4qy1XLlWIIZ/GVo/IhsQFzo4k
+ EFtKIuYKWmCq3O51prvKajgF/yxbq4c47LxaK/0FE1/BXaeDZzCUOgKTc/qvHBd2L6g9
+ OFql7cF+NxVZuKH8qkFHKvlOIMj+7glM/oD2UEmDor/W2tpyKnsY4Vg2JdCU9kwJEdrW
+ xRCMJ0B0PVIMS4vmm5Mj5V9ypZA/FLDVfYx3h4GY9JwVMapfLZ0HeA1yDmhvXWvIVbfJ
+ NiLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2G3bN6YMuIB+CGNBBM0t3eGhIY4FGeRP+zXCD/PVKJM=;
+ b=3ICRlIdqddDnIupGH9iVyBIbZbX5hlUrC1RD6hsDc9Br/HroK1hJmNWjZQVPmd02HQ
+ dZtBzcbKQiF/6R9/t9zPiJcmB21wa+mxtLZqUyoQ55/ElbAIqfmQvyQs7TJLg/dvZHnK
+ pfPyEzYaSeDWOfhTOj4gdPXzT5FZ6sBBtg05A9hD8H9WF2aiGR/UVuLV1d9gv5b1yy+c
+ a0fnnUKi7ArWhQRHAsMegqYBQURZVZrqSV9VAYpl7+Hj2jKXcuKZi+hhzlkrTIDTdr4b
+ KSa2+b2m/L6kJ+q6QvuICAszV39PhXqa54Dun6wTrVfgPH7wfKpG5jhHJa/SUh4LoYdC
+ Hf3Q==
+X-Gm-Message-State: AOAM532090s3Wjy9nKg9h8Zuw9ec4Eo/2yoDHK20R2B5kWWy1H3kCxtg
+ /umhvNdDnQ267okoiW3aYnA=
+X-Google-Smtp-Source: ABdhPJy7hFVr394tyBBcefx//sx9SA4XD9iVnsB+h6OL+OBl7gAKN3AZg7N/UkvY3qhkxyHNjkK0Jw==
+X-Received: by 2002:a05:6870:17a4:b0:e5:8eee:1607 with SMTP id
+ r36-20020a05687017a400b000e58eee1607mr2399310oae.12.1651601784820; 
+ Tue, 03 May 2022 11:16:24 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:3589:466:9481:7296:c2be?
+ ([2804:431:c7c7:3589:466:9481:7296:c2be])
+ by smtp.gmail.com with ESMTPSA id
+ j5-20020a9d7685000000b006060322125asm4356617otl.42.2022.05.03.11.16.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 May 2022 11:16:24 -0700 (PDT)
+Message-ID: <0db62822-f5c8-186e-4c5b-23756cb34807@gmail.com>
+Date: Tue, 3 May 2022 15:16:20 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] target/ppc: Fix tlbie
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] vhost-user: Use correct macro name TARGET_PPC64
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, groug@kaod.org
-References: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
- <cd1ae42e-6824-c160-4c41-75eef16dbae0@kaod.org>
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-In-Reply-To: <cd1ae42e-6824-c160-4c41-75eef16dbae0@kaod.org>
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-ppc@nongnu.org,
+ mopsfelder@gmail.com, Fabiano Rosas <farosas@linux.ibm.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Peter Turschmid <peter.turschm@nutanix.com>
+References: <20220503180108.34506-1-muriloo@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220503180108.34506-1-muriloo@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 03 May 2022 18:09:22.0280 (UTC)
- FILETIME=[EA562E80:01D85F18]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,38 +96,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/22 13:54, Cédric Le Goater wrote:
 
-> On 5/3/22 18:39, Leandro Lupori wrote:
->> Commit 74c4912f097bab98 changed check_tlb_flush() to use
->> tlb_flush_all_cpus_synced() instead of calling tlb_flush() on each
->> CPU. However, as side effect of this, a CPU executing a ptesync
->> after a tlbie will have its TLB flushed only after exiting its
->> current Translation Block (TB).
->>
->> This causes memory accesses to invalid pages to succeed, if they
->> happen to be on the same TB as the ptesync.
+
+On 5/3/22 15:01, Murilo Opsfelder Araujo wrote:
+> The correct name of the macro is TARGET_PPC64.
 > 
-> How did you track the issue ? Do you have a test case ?
+> Fixes: 27598393a232 ("Lift max memory slots limit imposed by vhost-user")
+> Reported-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> Cc: Peter Turschmid <peter.turschm@nutanix.com>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+>   hw/virtio/vhost-user.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-
-I've initially found it with a hacked Linux kernel module that I was 
-using to test tlbie behavior, before trying to improve its 
-implementation to only invalidate the needed entries.
-
-Now I've added a new test to those MMU tests from pnv-test, to be able 
-to reproduce and test it more easily. I've not included it because it 
-depends on other code from MMU tests and semihosting or attn. But you 
-can check it here:
-
-https://github.com/PPC64/qemu/commit/ccb60e4b950d1376b7f5d72843f6ce082a1a9edb 
-(mmu_test_18)
-
-Thanks,
-Leandro
-
-> Thanks,
-> 
-> C.
-> 
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index 9c4f84f35f..e356c72c81 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -51,7 +51,7 @@
+>   #include "hw/acpi/acpi.h"
+>   #define VHOST_USER_MAX_RAM_SLOTS ACPI_MAX_RAM_SLOTS
+>   
+> -#elif defined(TARGET_PPC) || defined(TARGET_PPC_64)
+> +#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
+>   #include "hw/ppc/spapr.h"
+>   #define VHOST_USER_MAX_RAM_SLOTS SPAPR_MAX_RAM_SLOTS
+>   
 
