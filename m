@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F0B5180A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:08:03 +0200 (CEST)
-Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAEA51808A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:03:40 +0200 (CEST)
+Received: from localhost ([::1]:38332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nloVl-0002by-UM
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
+	id 1nloRX-0005Vj-BL
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nloJ8-0004hQ-F1
- for qemu-devel@nongnu.org; Tue, 03 May 2022 04:55:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43094)
+ id 1nloKJ-00054R-Bx
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 04:56:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nloJ6-0005os-KG
- for qemu-devel@nongnu.org; Tue, 03 May 2022 04:54:58 -0400
+ id 1nloKF-00069w-8j
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 04:56:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651568095;
+ s=mimecast20190719; t=1651568164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ynf200O3Ih5MndiHA1iT4GFgB8QjKekL1cYyVcI3uZ0=;
- b=IfMcWcK8FDwsLSA9f46XerJog3J8QYikKS+GLUpxd2xJ+KzKCa3OcL2LvL2hh+ODQtOI7y
- LYuDifgIVQk3fFyAFnpXcD8qqt2jdYbJgg5pVENWc8ip0I0fI5NYBziO/Suc7ldaIhdBwh
- hYRxZfxC8/Zsku00tzd7F+fztice8H4=
+ bh=GjnYj/ZOOUL49hkzCRaPKG5onLfJkEFAiy5bl3UjpMM=;
+ b=bNnv7XDJhtFBJ5OSJUAnabOzJ9IkhSaYGik3XNoctq8nhC8ARgvh3QRJAyIZe+urt2ycCQ
+ 3oKDmPmK7wFx1QE8UosRUCQItT62rlKHE5KMvCYhHxOksOgSO0ZtfItjGAqj9cGE3VlzwD
+ a9+Sh1HP7fRuHX8vPAwkZMyTnoa0NTg=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-pSj1fzH3MYatxmb9HWXAAg-1; Tue, 03 May 2022 04:54:54 -0400
-X-MC-Unique: pSj1fzH3MYatxmb9HWXAAg-1
+ us-mta-482-hcvhoKT7MqKoGNyO09JPzA-1; Tue, 03 May 2022 04:56:03 -0400
+X-MC-Unique: hcvhoKT7MqKoGNyO09JPzA-1
 Received: by mail-wm1-f70.google.com with SMTP id
- q128-20020a1c4386000000b003942fe15835so2375962wma.6
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 01:54:54 -0700 (PDT)
+ h65-20020a1c2144000000b0038e9ce3b29cso1064116wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 01:56:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ynf200O3Ih5MndiHA1iT4GFgB8QjKekL1cYyVcI3uZ0=;
- b=2IqtNvjLkWpll0ZHClf3NdaTHJH2WAu5FfkLAZkWl0KAaw+kXVIOBE2VMAo9GxilCe
- dFf7QQVNqaiE8VLX1SfPjHp16nGVLIdxj5BOz28aiGPM0eCPNEHvnGmAQFg0QPO2HFhP
- rdfc9GxKU0/92q8eOQwZedrlPHegVplgcdmWK7N9toP/YcNq+HHd9lmUUS8QFROeAGF1
- H2TfNPhMc2aPtSDFl79G8iovtVnBapIVcK2oqFUqUbo8RfUYg2tJg7Ll0Ty8U9u0SAH9
- fXA/pwOE1Be5foSILc6df0P+FA1xbiY+VU1tU4yujLLVm4u0FCgq4ZMfLxtinNYVtrWr
- 2N8g==
-X-Gm-Message-State: AOAM532bAbKBFRlA65QiCztl5ZBZqt3kYUe8qeyw6KvaYKspOz84Xf9j
- BWZFwGG++awRBVQmpxkAw0lL2UsT2qNYCNygxpCs6qz8BOPW9U881fZZOoQk7H6ahkiczUZlrIq
- kKcj64fOYdBFo9sA=
-X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
- bg25-20020a05600c3c9900b00392b49c7b79mr2377637wmb.199.1651568093637; 
- Tue, 03 May 2022 01:54:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzymVgt3xLEv/+E4xcMNcF8Y7lAOQQ7PYMx2UTwKZNf3Ua4l15CWsGmcRtezc7vd+3BYwUBFQ==
-X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
- bg25-20020a05600c3c9900b00392b49c7b79mr2377615wmb.199.1651568093407; 
- Tue, 03 May 2022 01:54:53 -0700 (PDT)
+ bh=GjnYj/ZOOUL49hkzCRaPKG5onLfJkEFAiy5bl3UjpMM=;
+ b=SIkN8Bum2k0x6fC0+3P1ugL6dc9jcgVXIXvxE067ceEWF+bMz3DxS2vFt5L1PT9Yzb
+ NFsuE7/ZcuMCbEwc1A7QdWwbI6NlHRDZ5FAb2Iy+dXfgQKF6nr1TNVslo93THjSSkohb
+ jAEPbPfqtxAI2ejJpKRbPfTPmoE+8A3d4db1hY10bkGENdQaNBqYSz7+Da0ytBJ3p4ki
+ +rYAlQpKO1hwAdb8SvJ6yJr1ILEnycMGk1+9jG8l6sIGcTrhzKmL4TY13ni0BrsLcqGX
+ IaqLy1sRs7mS/mkrGAqyBmhWfWbnh/Jnj3xn0TmHNXr/IDgTZpHSXkEHOR8tLPPoQMSh
+ ySPQ==
+X-Gm-Message-State: AOAM5338z3SEkoAVTiau1sFXvfV/E+dDdh72ZnAPqtU3t217uMilpGi1
+ f9VBXuBNOAPrFOI7EGiAMfDPcmles+EAJ4kKhnlFBatNh3falDw3m52ipPXIorsnQIWR6M2ogE9
+ MuDBGGXma7SDzo+o=
+X-Received: by 2002:a7b:cd82:0:b0:389:77ef:66d7 with SMTP id
+ y2-20020a7bcd82000000b0038977ef66d7mr2314989wmj.171.1651568162599; 
+ Tue, 03 May 2022 01:56:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwmLEsUAGkttB85noL4GlyCtYGEOTdheBLf952tWbZsZzEZA2cjV9iDWaK90Gr/Qqe88FMcRw==
+X-Received: by 2002:a7b:cd82:0:b0:389:77ef:66d7 with SMTP id
+ y2-20020a7bcd82000000b0038977ef66d7mr2314972wmj.171.1651568162382; 
+ Tue, 03 May 2022 01:56:02 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- h19-20020a1ccc13000000b003942a244ed7sm1202325wmb.28.2022.05.03.01.54.52
+ b14-20020a05600c4e0e00b003942a244ec0sm1360264wmq.5.2022.05.03.01.56.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 01:54:53 -0700 (PDT)
-Date: Tue, 3 May 2022 10:54:51 +0200
+ Tue, 03 May 2022 01:56:01 -0700 (PDT)
+Date: Tue, 3 May 2022 10:56:00 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Gavin Shan <gshan@redhat.com>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, lvivier@redhat.com,
@@ -73,16 +73,17 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, lvivier@redhat.com,
  armbru@redhat.com, ani@anisinha.ca, pbonzini@redhat.com,
  drjones@redhat.com, eblake@redhat.com, f4bug@amsat.org,
  wangyanan55@huawei.com
-Subject: Re: [PATCH v8 1/5] qapi/machine.json: Add cluster-id
-Message-ID: <20220503105451.40a00f2e@redhat.com>
-In-Reply-To: <20220425032802.365061-2-gshan@redhat.com>
+Subject: Re: [PATCH v8 3/5] hw/arm/virt: Consider SMP configuration in CPU
+ topology
+Message-ID: <20220503105600.112234e2@redhat.com>
+In-Reply-To: <20220425032802.365061-4-gshan@redhat.com>
 References: <20220425032802.365061-1-gshan@redhat.com>
- <20220425032802.365061-2-gshan@redhat.com>
+ <20220425032802.365061-4-gshan@redhat.com>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -106,114 +107,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Apr 2022 11:27:58 +0800
+On Mon, 25 Apr 2022 11:28:00 +0800
 Gavin Shan <gshan@redhat.com> wrote:
 
-> This adds cluster-id in CPU instance properties, which will be used
-> by arm/virt machine. Besides, the cluster-id is also verified or
-> dumped in various spots:
+> Currently, the SMP configuration isn't considered when the CPU
+> topology is populated. In this case, it's impossible to provide
+> the default CPU-to-NUMA mapping or association based on the socket
+> ID of the given CPU.
 > 
->   * hw/core/machine.c::machine_set_cpu_numa_node() to associate
->     CPU with its NUMA node.
-> 
->   * hw/core/machine.c::machine_numa_finish_cpu_init() to record
->     CPU slots with no NUMA mapping set.
-> 
->   * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
->     cluster-id.
+> This takes account of SMP configuration when the CPU topology
+> is populated. The die ID for the given CPU isn't assigned since
+> it's not supported on arm/virt machine. Besides, the used SMP
+> configuration in qtest/numa-test/aarch64_numa_cpu() is corrcted
+> to avoid testing failure
 > 
 > Signed-off-by: Gavin Shan <gshan@redhat.com>
 > Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 
+
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
->  hw/core/machine-hmp-cmds.c |  4 ++++
->  hw/core/machine.c          | 16 ++++++++++++++++
->  qapi/machine.json          |  6 ++++--
->  3 files changed, 24 insertions(+), 2 deletions(-)
+>  hw/arm/virt.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-> index 4e2f319aeb..5cb5eecbfc 100644
-> --- a/hw/core/machine-hmp-cmds.c
-> +++ b/hw/core/machine-hmp-cmds.c
-> @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
->          if (c->has_die_id) {
->              monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
->          }
-> +        if (c->has_cluster_id) {
-> +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
-> +                           c->cluster_id);
-> +        }
->          if (c->has_core_id) {
->              monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
->          }
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index cb9bbc844d..700c1e76b8 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -682,6 +682,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->              return;
->          }
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 5bdd98e4a1..0fd7f9a6a1 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2560,6 +2560,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>      int n;
+>      unsigned int max_cpus = ms->smp.max_cpus;
+>      VirtMachineState *vms = VIRT_MACHINE(ms);
+> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
 >  
-> +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
-> +            error_setg(errp, "cluster-id is not supported");
-> +            return;
-> +        }
+>      if (ms->possible_cpus) {
+>          assert(ms->possible_cpus->len == max_cpus);
+> @@ -2573,8 +2574,20 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>          ms->possible_cpus->cpus[n].type = ms->cpu_type;
+>          ms->possible_cpus->cpus[n].arch_id =
+>              virt_cpu_mp_affinity(vms, n);
 > +
->          if (props->has_socket_id && !slot->props.has_socket_id) {
->              error_setg(errp, "socket-id is not supported");
->              return;
-> @@ -701,6 +706,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->                  continue;
->          }
->  
-> +        if (props->has_cluster_id &&
-> +            props->cluster_id != slot->props.cluster_id) {
-> +                continue;
-> +        }
-> +
->          if (props->has_die_id && props->die_id != slot->props.die_id) {
->                  continue;
->          }
-> @@ -995,6 +1005,12 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
->          }
->          g_string_append_printf(s, "die-id: %"PRId64, cpu->props.die_id);
+> +        assert(!mc->smp_props.dies_supported);
+> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
+> +        ms->possible_cpus->cpus[n].props.socket_id =
+> +            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
+> +        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
+> +        ms->possible_cpus->cpus[n].props.cluster_id =
+> +            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
+> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
+> +        ms->possible_cpus->cpus[n].props.core_id =
+> +            (n / ms->smp.threads) % ms->smp.cores;
+>          ms->possible_cpus->cpus[n].props.has_thread_id = true;
+> -        ms->possible_cpus->cpus[n].props.thread_id = n;
+> +        ms->possible_cpus->cpus[n].props.thread_id =
+> +            n % ms->smp.threads;
 >      }
-> +    if (cpu->props.has_cluster_id) {
-> +        if (s->len) {
-> +            g_string_append_printf(s, ", ");
-> +        }
-> +        g_string_append_printf(s, "cluster-id: %"PRId64, cpu->props.cluster_id);
-> +    }
->      if (cpu->props.has_core_id) {
->          if (s->len) {
->              g_string_append_printf(s, ", ");
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index d25a481ce4..4c417e32a5 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -868,10 +868,11 @@
->  # @node-id: NUMA node ID the CPU belongs to
->  # @socket-id: socket number within node/board the CPU belongs to
->  # @die-id: die number within socket the CPU belongs to (since 4.1)
-> -# @core-id: core number within die the CPU belongs to
-> +# @cluster-id: cluster number within die the CPU belongs to (since 7.1)
-> +# @core-id: core number within cluster the CPU belongs to
->  # @thread-id: thread number within core the CPU belongs to
->  #
-> -# Note: currently there are 5 properties that could be present
-> +# Note: currently there are 6 properties that could be present
->  #       but management should be prepared to pass through other
->  #       properties with device_add command to allow for future
->  #       interface extension. This also requires the filed names to be kept in
-> @@ -883,6 +884,7 @@
->    'data': { '*node-id': 'int',
->              '*socket-id': 'int',
->              '*die-id': 'int',
-> +            '*cluster-id': 'int',
->              '*core-id': 'int',
->              '*thread-id': 'int'
->    }
+>      return ms->possible_cpus;
+>  }
 
 
