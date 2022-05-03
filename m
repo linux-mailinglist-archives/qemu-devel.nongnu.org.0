@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2280518A74
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 18:51:00 +0200 (CEST)
-Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B599518A80
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 18:53:02 +0200 (CEST)
+Received: from localhost ([::1]:56406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlvjn-0002jv-S1
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 12:50:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51824)
+	id 1nlvll-0005gu-3r
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 12:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nlvgl-0000V2-GY
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:47:51 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:44753)
+ id 1nlvjF-0003LY-63
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:50:25 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:35644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nlvgj-0004vr-Vr
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:47:51 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2f7d621d1caso185876777b3.11
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:47:49 -0700 (PDT)
+ id 1nlvjD-0005ya-HR
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:50:24 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id w187so32100478ybe.2
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:50:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=izkeOjB/U2viz78orIo8nsnSJ162RMifJ2pvrAeLNh4=;
- b=z5ZIUt/ssZ470V1rV84+9xYGqyRNuOLWxO3voUMReNGh5tR5gsznPj+sZTtmo8ttdy
- 949B+GbvHnMEFJtmE0pQpS5x66sD6QGhy1Skrh8IoxfXasz8nHb0TYuwsnHHNonboj3w
- dT26elWREyZ5N7SYD0fGz2OL5TQ5D3f+jg1X1Qq0uCCudFAugcg0QTIhgtcD/LKrxsZz
- gWR9PFJhytbIBQCmlBIII5+npnFEIv4mnifOjN8eAdW9ypPJXawlkUBEHBgcUTVyVg24
- 7DpuaUaQChmUmTlAK6La5vRaKLBRqvnGiFDbieBo3tP0SdyoGkbDcQkuzE5zSZqfQtH6
- UFkA==
+ :cc; bh=fcnhCr/E96zXHTPF83KUB0kJu3XBEfU5kspnumlccpw=;
+ b=MumZue3ctR6gj7uyJgT8BbTQhFDHmzc3Gej869wdjzK+lQFzAWhYPWbdB2wLAZRSLi
+ 27OWvYco67LBdkUYkQchVh7+LkCWtWQ9nFRsmex1Bym+7x6esCnZxrk5eOx03LfoelUH
+ g6msrnLvmQA/hyVtqGV8E0Jv8vWMG0A1hHq9WF31zI8ZDYVZfm6n5UfHc0UsmcB4XnQG
+ lzq90LhJ2FRvUh5dmGOUu4K9Grfl70ff2AahIYUu74gJ8bCVcP2kOjRCbUJMldeToNWn
+ V1m9XdnhLJ8ZYVSN0I3WZYGZlUhs3Tg3/0yvNd/vc5wpmUZkGBaxBNoElU5aU5jKtVW0
+ N2Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=izkeOjB/U2viz78orIo8nsnSJ162RMifJ2pvrAeLNh4=;
- b=DGfBHvCnzjHo5DN3QJNTJXQk/yboVjdx6isni1uOw2ipg8WuySu4Tvc4I7Iwn7NrDi
- 2mFsHhpFriJg135x8vKtePPPNT0607ohel/ytR4oXtl90tZT9CAsJw31mGL4zQ0rZ4Hq
- ALqCOcBaGdj+MW4d7KdxxuiFQKYagBxz8iNHOM1JfqQFcF0mWS6qO1CFuTUwPt2QrGcv
- wapMLEO16TjQqGjU0gk9mL/S+0ernJNij3QssvusuU1Tsv28IgJ/x2vQGlqOeOYljM/2
- qZmsU5ncdPwawmlp7NhDPpQiJzbO/huNO/HwU2DkuuGdbbTi82h8Cdo+rpb2Wmg2QqYk
- +9Xw==
-X-Gm-Message-State: AOAM530M50v4c5GC+SqgXqzH2b/MjALjmWsbVceb8OqayIPdhZgs8auo
- eUtzUPPR6DL3jkgJFRGL1oU7KLhH/2cN0jYKUjQl/g==
-X-Google-Smtp-Source: ABdhPJyQLgF5Fn4dMQ9ajpNDDXvlh0wZ/azuDlEUxLJ5tGyjolHyR0Z97sS0RE4G2uTmOIW8CxUIYz4rZSkPf3srQPo=
-X-Received: by 2002:a81:5584:0:b0:2f7:d7b6:d910 with SMTP id
- j126-20020a815584000000b002f7d7b6d910mr16879733ywb.469.1651596468974; Tue, 03
- May 2022 09:47:48 -0700 (PDT)
+ bh=fcnhCr/E96zXHTPF83KUB0kJu3XBEfU5kspnumlccpw=;
+ b=vAgKkHNOBFC+CvX9Psj48lyzhmjuyl6w5S+sc1gmkMqwtL4q7RX0gwXLVCmQelo4hv
+ jetePB3BbUrO/6TW9MWfgpTneXey3MSZhvOc+rn675T6osulXpGlG7VdKIzRowi+8D5b
+ LT9pbW8imrQBE2PfvYfb/ldD7RdhzEsRXX2JtUUSWN5/tXBvYJTFQF8TDx5gDknVkthm
+ yndz3jdgp0copgsy9Loa6UXPvGP+oJf2en7c7Zo5oG2P2bT45IBw9ukw3zcxAdpJE7bz
+ t8UVAyr/U/UO3aJfzK02FEp8FjYP/vO1NtMq4Jw+0Zzc11m7jqFHG+Ey7zAqiIfvD9HZ
+ a9Rw==
+X-Gm-Message-State: AOAM531pigdd5W8eHdBD1CxrLEEmgm8zdvGoVAZcVFGDbJKJhi1NfYV2
+ TKnXPa3YsmtrJCFs/pBGi36p4Xm/dRZAO6mB/d5TUA==
+X-Google-Smtp-Source: ABdhPJxVMgpLvtAL4nhUVPR8OEFJFXY2x5up0pOr/Y++0NHd0t0cM+nOzkXHXZmaqAMjnfHOU3ghMpjsQH8bgTtBuiY=
+X-Received: by 2002:a25:40c4:0:b0:645:88a3:eb8b with SMTP id
+ n187-20020a2540c4000000b0064588a3eb8bmr14192082yba.193.1651596622384; Tue, 03
+ May 2022 09:50:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220501055028.646596-1-richard.henderson@linaro.org>
-In-Reply-To: <20220501055028.646596-1-richard.henderson@linaro.org>
+ <20220501055028.646596-21-richard.henderson@linaro.org>
+ <CAFEAcA_i_+MrxapQ821zWBwO7QKs2k=06xQRs9s6ojRB2CyxsA@mail.gmail.com>
+ <731de8d2-2a39-862a-39fa-d208d9836364@linaro.org>
+In-Reply-To: <731de8d2-2a39-862a-39fa-d208d9836364@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 May 2022 17:47:37 +0100
-Message-ID: <CAFEAcA-GDPPyviT1Y3v6HameLfUU3B2mbdEV-5hO1SupXbsLLw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/45] target/arm: Cleanups, new features, new cpus
+Date: Tue, 3 May 2022 17:50:11 +0100
+Message-ID: <CAFEAcA_-ts5cRCyk03T4JEMS-5kRf2iJcOEOpgkZoerjVjR1fw@mail.gmail.com>
+Subject: Re: [PATCH v4 20/45] target/arm: Handle cpreg registration for
+ missing EL
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,20 +85,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 1 May 2022 at 06:51, Richard Henderson
+On Tue, 3 May 2022 at 17:45, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Changes for v4:
->   * Rebase on master, where the first third is upstream.
->   * Split changes to add_cpreg_to_hashtable into bite sized chunks.
->   * Add ARM_CP_EL3_NO_EL2_{UNDEF,KEEP} flags.
->   * Fix access check for SCXTNUM_ELx (damien).
+> On 5/3/22 09:34, Peter Maydell wrote:
+> > "set CONST on the cpreg" is what the code does, but it's not
+> > what the architecture wants. In particular, if the EL2 cpreg defines
+> > a non-zero resetvalue then the EL3-no-EL2 CPU will get a
+> > "reads as constant that value" rather than "reads as zero".
+> > CNTHCTL_EL2 and MDCR_EL2 are examples of this.
+>
+> Ah, I'd missed those.  I guess I need a third bit to indicate keeping the resetvalue, for
+> e.g. VPIDR_EL2, which is why the code is written the way it is.
 
-I'm going to apply patches 1-19, 23, 33 to target-arm.next
-(making the minor fixups I noted in review comments for
-patches 10 and 19).
-
-I do still plan to review 21,22,34,41.
+Or you could just treat VPIDR_EL2 as a special case and keep
+the cpreginfo we have for it for the el3-no-el2 case.
 
 thanks
 -- PMM
