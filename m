@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541B7518A9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 19:01:21 +0200 (CEST)
-Received: from localhost ([::1]:41084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BEA4518AC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 19:14:03 +0200 (CEST)
+Received: from localhost ([::1]:46568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlvtn-0000GG-BA
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 13:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54576)
+	id 1nlw65-0002PC-Fi
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 13:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nlvr4-0006Bm-Te
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:58:30 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:44819)
+ id 1nlw3U-00017w-4A
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 13:11:20 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:38333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nlvr3-0008CK-En
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:58:30 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2f7d621d1caso186204877b3.11
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:58:28 -0700 (PDT)
+ id 1nlw3S-0003Xt-G3
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 13:11:19 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-2f7d7e3b5bfso186947047b3.5
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 10:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Pvcki9gbSp7dgo7wEfYEoiTaZ8GHqrRi7fV1yBSPdOs=;
- b=zgnLlRNzSwjNT+8GfyRw0tQCXRP9SRWAfXI/rFPS7kipMtyj41NzLIXfyVVGJ+QZfP
- f6DbwjtqXUVFvba4DN+XpVmpl14Aczn6hMkV8GQEqKxgxQOnZvNRVl7pgdfnRD6ZBXOi
- /FyfH3G+3CQ0RcRq2qjuQRL/Hy5Lq/jpvv9EpaOeXTC7x6MJrU0DSVwxj/Yy4+fSLTgg
- b+daVlBnCelhJmluOH0cIcgUaGlnqDiMPX5eT/1Bw1/7suUeqZtI7AWr1od7Vbbb+nt4
- qT2iP+RTZNFlr8XAY6nVmx30mnus/BfcaUtxI03K6CtrVV/j8C+GoetAqbUmWSWDYMy0
- PbbA==
+ :cc; bh=r//vFGk0Yv7h62VAJMS8wStI/+Sa+nCqE1h0xk/1u2g=;
+ b=fgc9ArAP2zX4As77WjJAeiW5bIPeeDnH4n7dxJaRX7Yi13xGyPz3Z1JkDSAKGRbp1N
+ okDrUOOKiydeSc/pfIc3a2lazz/Kc3z2Uostv6LKp+nMB2DZaxoLkH7O4IkIZdjSmxl8
+ 7PwV5BWI/xO5RRoGTZ2bRXI7inlx/AE6xP5NzkHSNtZ2wFKxJKpRSfulgnZcbGzGYgOf
+ SKwF4YhinywUEiW3iOBD8CBaRabhzdPKRZrrtKBwQ0dCwHAJzoAOlnU242wpDPyd+98N
+ vaknmRBe9gerxoG/4weNVGbQcDNB7kdxHpr6pemajT0FdZeyprlN44hz61vPhs9+2FD0
+ bVWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Pvcki9gbSp7dgo7wEfYEoiTaZ8GHqrRi7fV1yBSPdOs=;
- b=AotaN+2W4hcyCJyrntZoVoDDAvVVZYqVKp5xEb7rQAMTIcezcmhU9GlbwYSlTHCsfI
- wpuV750yDIIITidnaNBQrGCha3TEE8h3UrUHOJej8o2tRm1bYLA1gkDQRipc5xzZoOjw
- M6CWuyy314Fvjm0U1+FN1/x7AoXAgk3w8bjxED3ylHAe2Msv2NdJVgd5WA8Mv4Ixl/KP
- j6G98hnMlYmVqlc/fy8QStKGrFBlO72EFMgVm3mWJkP4KZd/C9w5p6uez6SbPVhedjHP
- 8UESkizKFNbdYHRV3HfQzJvWKpHdDwtDR11iERJjW1dReLZO2c1mCH/ZvEOAzmaIJAWW
- EYpg==
-X-Gm-Message-State: AOAM5319xXtUhlSU/f+5UTMjHJ3Iu8OOtT1cargD5TQjXOFLPLCWYYDe
- gQ3d8IBNBoftsx2cJbjm4NW84a0DqS7HBuO4HTds2Rf/Fro=
-X-Google-Smtp-Source: ABdhPJzMgyOqenK3OVyhFKplFG5WHuwcoYiqxSaeImGMbUA4cJrkw+CLwLjZd+vMKvy3RDsDyBOlNGOgv8ceR5YH9RI=
+ bh=r//vFGk0Yv7h62VAJMS8wStI/+Sa+nCqE1h0xk/1u2g=;
+ b=d6C60mqFqBvBSYycVKJeB8BHg0UxgOCgDRpcRptLRhTubxtoIPqZLmyErELxSswAkO
+ xSfJqgKjbwSbxH/DR6ThnPsqg8pa/FQf8FZQGtFadkkN/lyDN88Xhjn5j1cnP168QmCW
+ ypEDsi98eMl/glB9EnStBsChPK0W6Qp2I6vmafDhmeM4LlRN7LYRRkcJzcHxDgN0e3D4
+ wWSk4C2IM90fCFFOLR56hDFTgHWHpluSHvBkkwBicUT3YVm3Z4+UPcWYZdYq3y05cen5
+ sD01kQtgJIbe0ApYmcNqqV4K8QTut7g+sM0Erz3DfvI7stLvycE6B64BtpESW3yiPg8J
+ qRKw==
+X-Gm-Message-State: AOAM532hTOCeKuw9b8f3alllZKSLVOlJ7lZ0Yu9NovmTnVnX29suKAo7
+ XZJiaXAlU4pZAFlU9pNrNlvslvueNTApZqKB1I79SQ==
+X-Google-Smtp-Source: ABdhPJwTCxZrDywE8AJ5nq8gN90B5Bob1164AddD2wksGEe4GFk6sR/K/+QIYPulKyNYVFzZ3yQo/NNCXf9D+fnARGQ=
 X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
- z23-20020a81ac57000000b002f199ec91a2mr16004659ywj.329.1651597108225; Tue, 03
- May 2022 09:58:28 -0700 (PDT)
+ z23-20020a81ac57000000b002f199ec91a2mr16061286ywj.329.1651597869116; Tue, 03
+ May 2022 10:11:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220501055028.646596-1-richard.henderson@linaro.org>
- <20220501055028.646596-35-richard.henderson@linaro.org>
-In-Reply-To: <20220501055028.646596-35-richard.henderson@linaro.org>
+ <20220501055028.646596-42-richard.henderson@linaro.org>
+In-Reply-To: <20220501055028.646596-42-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 May 2022 17:58:17 +0100
-Message-ID: <CAFEAcA8T-v=Z=nJDUofSG+2wg+YcrQTFfBJOVgs14PApxTEvLA@mail.gmail.com>
-Subject: Re: [PATCH v4 34/45] target/arm: Add minimal RAS registers
+Date: Tue, 3 May 2022 18:10:57 +0100
+Message-ID: <CAFEAcA9fWYT-2RucwzmrNhMxsUqu3zd338aBTGv7-tFraRVrAg@mail.gmail.com>
+Subject: Re: [PATCH v4 41/45] target/arm: Enable FEAT_CSV2_2 for -cpu max
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,19 +83,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 1 May 2022 at 08:15, Richard Henderson
+On Sun, 1 May 2022 at 08:16, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Add only the system registers required to implement zero error
-> records.  This means we need to save state for ERRSELR, but all
-> values are out of range, so none of the indexed error record
-> registers need be implemented.
->
-> Add the EL2 registers required for injecting virtual SError.
+> There is no branch prediction in TCG, therefore there is no
+> need to actually include the context number into the predictor.
+> Therefore all we need to do is add the state for SCXTNUM_ELx.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v2: Update emulation.rst; clear CSV2_FRAC; use decimal; tidy access_scxtnum.
+> v3: Rely on EL3-no-EL2 squashing during registration.
+> ---
+>  docs/system/arm/emulation.rst |  3 ++
+>  target/arm/cpu.h              | 16 +++++++++
+>  target/arm/cpu64.c            |  3 +-
+>  target/arm/helper.c           | 61 ++++++++++++++++++++++++++++++++++-
+>  4 files changed, 81 insertions(+), 2 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+(The handling of SCXTNUM_EL0 should Just Work for user-mode-only,
+right?)
 
 thanks
 -- PMM
