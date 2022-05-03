@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B695D5190CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 00:04:44 +0200 (CEST)
-Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9CA519130
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 00:17:32 +0200 (CEST)
+Received: from localhost ([::1]:54758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm0dP-0003mE-MR
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 18:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
+	id 1nm0pn-00042l-Sq
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 18:17:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nlz5Y-0004Mf-8H; Tue, 03 May 2022 16:25:41 -0400
+ id 1nlz5b-0004V7-Cb; Tue, 03 May 2022 16:25:45 -0400
 Received: from [187.72.171.209] (port=28036 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nlz5W-0005g5-8r; Tue, 03 May 2022 16:25:39 -0400
+ id 1nlz5Z-0005g5-9r; Tue, 03 May 2022 16:25:43 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 3 May 2022 17:25:29 -0300
+ Tue, 3 May 2022 17:25:35 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 836F0800491;
- Tue,  3 May 2022 17:25:29 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id BE5DD800491;
+ Tue,  3 May 2022 17:25:34 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org, balaton@eik.bme.hu,
  victor.colombo@eldorado.org.br
-Subject: [PATCH v3 00/21] target/ppc: Remove hidden usages of *env
-Date: Tue,  3 May 2022 17:24:20 -0300
-Message-Id: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
+Subject: [PATCH v3 01/21] target/ppc: Remove fpscr_* macros from cpu.h
+Date: Tue,  3 May 2022 17:24:21 -0300
+Message-Id: <20220503202441.129549-2-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
+References: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 03 May 2022 20:25:29.0970 (UTC)
- FILETIME=[EEA8C520:01D85F2B]
+X-OriginalArrivalTime: 03 May 2022 20:25:35.0176 (UTC)
+ FILETIME=[F1C32480:01D85F2B]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,83 +64,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By running the grep command `git grep -nr 'define \(fpscr\|msr\)_[a-z0-9]\+\>'`
-we can find multiple macros that use `env->fpscr` and `env->msr` but doesn't
-take *env as a parameter.
+fpscr_* defined macros are hiding the usage of *env behind them.
+Substitute the usage of these macros with `env->fpscr & FP_*` to make
+the code cleaner.
 
-Richard Henderson said [1] that these macros hiding the usage of *env "are evil".
-This patch series remove them and substitute with an explicit usage of *env by
-using registerfields API.
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+---
+ target/ppc/cpu.c        |  2 +-
+ target/ppc/cpu.h        | 29 -----------------------------
+ target/ppc/fpu_helper.c | 28 ++++++++++++++--------------
+ 3 files changed, 15 insertions(+), 44 deletions(-)
 
-Patch 20 (target/ppc: Add unused msr bits FIELDs) declares unused FIELDs, the
-same that were removed in patch 02 (target/ppc: Remove unused msr_* macros). I
-did that to keep the changes consistent with what was already present before.
-
-Patch 21 (target/ppc: Change MSR_* to follow POWER ISA numbering convention)
-changes the MSR_* bit number to match POWER ISA by adding a new macro to
-'invert' the ordering. (added in v2)
-
-[1]: https://lists.gnu.org/archive/html/qemu-ppc/2021-11/msg00280.html
-
-Patches requiring review: 11, 14, 15, 16, 17, 21
-Patch 17 was reviewed before, but I created a macro to extract both FE0
-    and FE1, so decided to drop the R-b for you to take a look at the
-    new version. Thanks
-
-v2:
-- Abandon the ideia to add an M_MSR_* macro
-- Instead, use registerfields API as suggested by Richard
-- Add patch 21 to invert MSR_* values to match ISA ordering
-
-v3:
-- Add macro to extract both FE0 and FE1. Use it to simplify the
-  conditionals in patch 17
-- Fix the checks that should be a xor
-- Fix incorrect parameter in FIELD_EX64 (was env->msr should be value)
-  in patch 16
-- Fix patch 13 title
-
-Víctor Colombo (21):
-  target/ppc: Remove fpscr_* macros from cpu.h
-  target/ppc: Remove unused msr_* macros
-  target/ppc: Remove msr_pr macro
-  target/ppc: Remove msr_le macro
-  target/ppc: Remove msr_ds macro
-  target/ppc: Remove msr_ile macro
-  target/ppc: Remove msr_ee macro
-  target/ppc: Remove msr_ce macro
-  target/ppc: Remove msr_pow macro
-  target/ppc: Remove msr_me macro
-  target/ppc: Remove msr_gs macro
-  target/ppc: Remove msr_fp macro
-  target/ppc: Remove msr_cm macro
-  target/ppc: Remove msr_ir macro
-  target/ppc: Remove msr_dr macro
-  target/ppc: Remove msr_ep macro
-  target/ppc: Remove msr_fe0 and msr_fe1 macros
-  target/ppc: Remove msr_ts macro
-  target/ppc: Remove msr_hv macro
-  target/ppc: Add unused msr bits FIELDs
-  target/ppc: Change MSR_* to follow POWER ISA numbering convention
-
- hw/ppc/pegasos2.c        |   2 +-
- hw/ppc/spapr.c           |   2 +-
- target/ppc/cpu.c         |   2 +-
- target/ppc/cpu.h         | 219 ++++++++++++++++++---------------------
- target/ppc/cpu_init.c    |  23 ++--
- target/ppc/excp_helper.c |  54 +++++-----
- target/ppc/fpu_helper.c  |  28 ++---
- target/ppc/gdbstub.c     |   2 +-
- target/ppc/helper_regs.c |  11 +-
- target/ppc/kvm.c         |   7 +-
- target/ppc/machine.c     |   2 +-
- target/ppc/mem_helper.c  |  23 ++--
- target/ppc/misc_helper.c |   2 +-
- target/ppc/mmu-radix64.c |  11 +-
- target/ppc/mmu_common.c  |  40 +++----
- target/ppc/mmu_helper.c  |   6 +-
- 16 files changed, 217 insertions(+), 217 deletions(-)
-
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index d7b42bae52..401b6f9e63 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -88,7 +88,7 @@ static inline void fpscr_set_rounding_mode(CPUPPCState *env)
+     int rnd_type;
+ 
+     /* Set rounding mode */
+-    switch (fpscr_rn) {
++    switch (env->fpscr & FP_RN) {
+     case 0:
+         /* Best approximation (round to nearest) */
+         rnd_type = float_round_nearest_even;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c2b6c987c0..ad31e51d69 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -713,41 +713,12 @@ enum {
+ #define FPSCR_NI     2  /* Floating-point non-IEEE mode                      */
+ #define FPSCR_RN1    1
+ #define FPSCR_RN0    0  /* Floating-point rounding control                   */
+-#define fpscr_drn    (((env->fpscr) & FP_DRN) >> FPSCR_DRN0)
+-#define fpscr_fex    (((env->fpscr) >> FPSCR_FEX)    & 0x1)
+-#define fpscr_vx     (((env->fpscr) >> FPSCR_VX)     & 0x1)
+-#define fpscr_ox     (((env->fpscr) >> FPSCR_OX)     & 0x1)
+-#define fpscr_ux     (((env->fpscr) >> FPSCR_UX)     & 0x1)
+-#define fpscr_zx     (((env->fpscr) >> FPSCR_ZX)     & 0x1)
+-#define fpscr_xx     (((env->fpscr) >> FPSCR_XX)     & 0x1)
+-#define fpscr_vxsnan (((env->fpscr) >> FPSCR_VXSNAN) & 0x1)
+-#define fpscr_vxisi  (((env->fpscr) >> FPSCR_VXISI)  & 0x1)
+-#define fpscr_vxidi  (((env->fpscr) >> FPSCR_VXIDI)  & 0x1)
+-#define fpscr_vxzdz  (((env->fpscr) >> FPSCR_VXZDZ)  & 0x1)
+-#define fpscr_vximz  (((env->fpscr) >> FPSCR_VXIMZ)  & 0x1)
+-#define fpscr_vxvc   (((env->fpscr) >> FPSCR_VXVC)   & 0x1)
+-#define fpscr_fpcc   (((env->fpscr) >> FPSCR_FPCC)   & 0xF)
+-#define fpscr_vxsoft (((env->fpscr) >> FPSCR_VXSOFT) & 0x1)
+-#define fpscr_vxsqrt (((env->fpscr) >> FPSCR_VXSQRT) & 0x1)
+-#define fpscr_vxcvi  (((env->fpscr) >> FPSCR_VXCVI)  & 0x1)
+-#define fpscr_ve     (((env->fpscr) >> FPSCR_VE)     & 0x1)
+-#define fpscr_oe     (((env->fpscr) >> FPSCR_OE)     & 0x1)
+-#define fpscr_ue     (((env->fpscr) >> FPSCR_UE)     & 0x1)
+-#define fpscr_ze     (((env->fpscr) >> FPSCR_ZE)     & 0x1)
+-#define fpscr_xe     (((env->fpscr) >> FPSCR_XE)     & 0x1)
+-#define fpscr_ni     (((env->fpscr) >> FPSCR_NI)     & 0x1)
+-#define fpscr_rn     (((env->fpscr) >> FPSCR_RN0)    & 0x3)
+ /* Invalid operation exception summary */
+ #define FPSCR_IX     ((1 << FPSCR_VXSNAN) | (1 << FPSCR_VXISI)  | \
+                       (1 << FPSCR_VXIDI)  | (1 << FPSCR_VXZDZ)  | \
+                       (1 << FPSCR_VXIMZ)  | (1 << FPSCR_VXVC)   | \
+                       (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
+                       (1 << FPSCR_VXCVI))
+-/* exception summary */
+-#define fpscr_ex  (((env->fpscr) >> FPSCR_XX) & 0x1F)
+-/* enabled exception summary */
+-#define fpscr_eex (((env->fpscr) >> FPSCR_XX) & ((env->fpscr) >> FPSCR_XE) &  \
+-                   0x1F)
+ 
+ #define FP_DRN2         (1ull << FPSCR_DRN2)
+ #define FP_DRN1         (1ull << FPSCR_DRN1)
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 99281cc37a..f6c8318a71 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -202,7 +202,7 @@ static void finish_invalid_op_excp(CPUPPCState *env, int op, uintptr_t retaddr)
+     env->fpscr |= FP_VX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_ve != 0) {
++    if (env->fpscr & FP_VE) {
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+         if (fp_exceptions_enabled(env)) {
+@@ -216,7 +216,7 @@ static void finish_invalid_op_arith(CPUPPCState *env, int op,
+                                     bool set_fpcc, uintptr_t retaddr)
+ {
+     env->fpscr &= ~(FP_FR | FP_FI);
+-    if (fpscr_ve == 0) {
++    if (!(env->fpscr & FP_VE)) {
+         if (set_fpcc) {
+             env->fpscr &= ~FP_FPCC;
+             env->fpscr |= (FP_C | FP_FU);
+@@ -286,7 +286,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+     /* We must update the target FPR before raising the exception */
+-    if (fpscr_ve != 0) {
++    if (env->fpscr & FP_VE) {
+         CPUState *cs = env_cpu(env);
+ 
+         cs->exception_index = POWERPC_EXCP_PROGRAM;
+@@ -303,7 +303,7 @@ static void float_invalid_op_vxcvi(CPUPPCState *env, bool set_fpcc,
+ {
+     env->fpscr |= FP_VXCVI;
+     env->fpscr &= ~(FP_FR | FP_FI);
+-    if (fpscr_ve == 0) {
++    if (!(env->fpscr & FP_VE)) {
+         if (set_fpcc) {
+             env->fpscr &= ~FP_FPCC;
+             env->fpscr |= (FP_C | FP_FU);
+@@ -318,7 +318,7 @@ static inline void float_zero_divide_excp(CPUPPCState *env, uintptr_t raddr)
+     env->fpscr &= ~(FP_FR | FP_FI);
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_ze != 0) {
++    if (env->fpscr & FP_ZE) {
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+         if (fp_exceptions_enabled(env)) {
+@@ -336,7 +336,7 @@ static inline void float_overflow_excp(CPUPPCState *env)
+     env->fpscr |= FP_OX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_oe != 0) {
++    if (env->fpscr & FP_OE) {
+         /* XXX: should adjust the result */
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+@@ -356,7 +356,7 @@ static inline void float_underflow_excp(CPUPPCState *env)
+     env->fpscr |= FP_UX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_ue != 0) {
++    if (env->fpscr & FP_UE) {
+         /* XXX: should adjust the result */
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+@@ -374,7 +374,7 @@ static inline void float_inexact_excp(CPUPPCState *env)
+     env->fpscr |= FP_XX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_xe != 0) {
++    if (env->fpscr & FP_XE) {
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+         /* We must update the target FPR before raising the exception */
+@@ -2274,7 +2274,7 @@ VSX_MADDQ(XSNMSUBQPO, NMSUB_FLGS, 0)
+         vxvc = svxvc;                                                         \
+         if (flags & float_flag_invalid_snan) {                                \
+             float_invalid_op_vxsnan(env, GETPC());                            \
+-            vxvc &= fpscr_ve == 0;                                            \
++            vxvc &= !(env->fpscr & FP_VE);                                    \
+         }                                                                     \
+         if (vxvc) {                                                           \
+             float_invalid_op_vxvc(env, 0, GETPC());                           \
+@@ -2375,7 +2375,7 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
+         if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||
+             float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {
+             vxsnan_flag = true;
+-            if (fpscr_ve == 0 && ordered) {
++            if (!(env->fpscr & FP_VE) && ordered) {
+                 vxvc_flag = true;
+             }
+         } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||
+@@ -2440,7 +2440,7 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
+         if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||
+             float128_is_signaling_nan(xb->f128, &env->fp_status)) {
+             vxsnan_flag = true;
+-            if (fpscr_ve == 0 && ordered) {
++            if (!(env->fpscr & FP_VE) && ordered) {
+                 vxvc_flag = true;
+             }
+         } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||
+@@ -2590,7 +2590,7 @@ void helper_##name(CPUPPCState *env,                                          \
+         t.VsrD(0) = xb->VsrD(0);                                              \
+     }                                                                         \
+                                                                               \
+-    vex_flag = fpscr_ve & vxsnan_flag;                                        \
++    vex_flag = (env->fpscr & FP_VE) && vxsnan_flag;                           \
+     if (vxsnan_flag) {                                                        \
+         float_invalid_op_vxsnan(env, GETPC());                                \
+     }                                                                         \
+@@ -3320,7 +3320,7 @@ void helper_xsrqpi(CPUPPCState *env, uint32_t opcode,
+     if (r == 0 && rmc == 0) {
+         rmode = float_round_ties_away;
+     } else if (r == 0 && rmc == 0x3) {
+-        rmode = fpscr_rn;
++        rmode = env->fpscr & FP_RN;
+     } else if (r == 1) {
+         switch (rmc) {
+         case 0:
+@@ -3374,7 +3374,7 @@ void helper_xsrqpxp(CPUPPCState *env, uint32_t opcode,
+     if (r == 0 && rmc == 0) {
+         rmode = float_round_ties_away;
+     } else if (r == 0 && rmc == 0x3) {
+-        rmode = fpscr_rn;
++        rmode = env->fpscr & FP_RN;
+     } else if (r == 1) {
+         switch (rmc) {
+         case 0:
 -- 
 2.25.1
 
