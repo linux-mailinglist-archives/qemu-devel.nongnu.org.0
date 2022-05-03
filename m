@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB43F5180C8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:16:12 +0200 (CEST)
-Received: from localhost ([::1]:54914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498105180D3
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:17:40 +0200 (CEST)
+Received: from localhost ([::1]:57316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlodf-0000Dj-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:16:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42190)
+	id 1nlof5-0001yy-5m
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nloaY-0007YY-BX
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:12:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47247)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nloaV-0000Qk-Hz
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651569175;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=RqVgFvSinPdTZYAmNEbHU5BMWMii6kMbbxsEZaPKaiw=;
- b=YU8FELEG/n5Ajqv5PZ2RFZgSRZdHLMOWzMGOLYuO/Q+OkF+jHT277lDB3pDjEejBudSEyD
- aG6IwrdWxdXGAFEMk26i9UiUFdPkH+KE30bKBOZfRQ4q38cWrwmgtucsQAul9qrTYYAovr
- hkYAWj6qfQa4VT2tLy1Om4kQFhBF2IE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-oEVShjf7PrOPT_m1a6Xnxg-1; Tue, 03 May 2022 05:12:53 -0400
-X-MC-Unique: oEVShjf7PrOPT_m1a6Xnxg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 960181C151AE;
- Tue,  3 May 2022 09:12:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26F772166B41;
- Tue,  3 May 2022 09:12:46 +0000 (UTC)
-Date: Tue, 3 May 2022 10:12:43 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dongwon Kim <dongwon.kim@intel.com>
-Cc: qemu-devel@nongnu.org, philmd@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 2/3] ui/gtk: detach_all option for making all VCs
- detached upon starting
-Message-ID: <YnDyC4jvC/V0o33Z@redhat.com>
-References: <20220428231304.19472-1-dongwon.kim@intel.com>
- <20220428231304.19472-3-dongwon.kim@intel.com>
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlobw-0008LB-Jp
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:14:26 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:35534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlobt-0000Vs-9d
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:14:23 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id d15so14477964plh.2
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 02:14:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XOjg/7UInhraO/29MWhTEQeRn1OMshOC2gZLr5HQ08U=;
+ b=fLg2qIBDKZJyaNhjbQDvTQlBdJMGJj47K66yusGgJ7vE6T8jiA+iqCdn7bEyVHWefB
+ fUjEpgVHF7/gRXr1x+/i1RXHu1M/8BaDJLtY1X2wvP1FMIFWU7fx6vBF/YDPtSfasRfe
+ B9R8Zdoo4L9EFZ+5HJD7Oltnh96hHaw57YM7D8uO8vDHew/Iqm8vy8LYd2UnEi7kPHZg
+ AqTEfF8ZpCSQJ1JFC2RgIve4ICTgHmbaaEr5OGXOilIG0TbMRwrQKNUGZWjmkJK5Ycvp
+ +8Q/AIZgqAe342H+9Z7cWGms7zcHnVHuompk2dEA6UPgB/rwiZhWJwEaTHa1UvKgO6tY
+ sJ7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XOjg/7UInhraO/29MWhTEQeRn1OMshOC2gZLr5HQ08U=;
+ b=bFmwe8ofBhkGXugUDTmYZf7uzbNQwzHxXJOLeQY55i7SVyweBeMRUcjhwhcQOFKy2k
+ UPPvEAtSlbSzuHONpZzFuTiyizVk97kvuKWNoF5ehmvJArzn9VXUjfC/XXfBqHHQd5Dx
+ 2xdrZ8COPFqaRYjwAVf7/5WeJZlndaIBtEeTS4XxCnyaKE/RvL6KBSe0uG/9kgKdAwn7
+ aAzWyTrNPSjwjxW/XAebhdyNGThE0JtpsEZqXPFCJ47z9UvXdaGtIHKrzAnOxEoDpgWx
+ PK+J4P39cJlJ9eUYzHu5i1NcD60gO0c2XfuGzcEDBklRuJCIFiXeQ/0TQJnVrZjz2OWN
+ K9UQ==
+X-Gm-Message-State: AOAM533ZWMQbWKu3E2pxmCN/663llZQgB2HG1kUC/WPQQble4FNMUXGW
+ HMD3PFtFVT3iXdtzK2emZDs=
+X-Google-Smtp-Source: ABdhPJwNZfNUNumR+Z8yxaidlXhFANK0r3mMVquzCn7nKgHlNF43vBUkbLOxWljJuoa54tB7fSGMhg==
+X-Received: by 2002:a17:90b:3b42:b0:1dc:5cdf:5649 with SMTP id
+ ot2-20020a17090b3b4200b001dc5cdf5649mr3600846pjb.239.1651569258713; 
+ Tue, 03 May 2022 02:14:18 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id
+ d13-20020a170902aa8d00b0015e8d4eb249sm5892277plr.147.2022.05.03.02.14.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 May 2022 02:14:18 -0700 (PDT)
+Date: Tue, 3 May 2022 18:14:16 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ openrisc@lists.librecores.org
+Subject: Re: [PATCH] target/openrisc: implement shutdown and reset helpers
+Message-ID: <YnDyaEW2QiUXTNx8@antec>
+References: <20220502225230.237369-1-Jason@zx2c4.com>
+ <b1cf3942-115c-bca3-81cf-1f7bfd66dc5a@linaro.org>
+ <YnDt0YZK3aG3y8Tl@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220428231304.19472-3-dongwon.kim@intel.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <YnDt0YZK3aG3y8Tl@zx2c4.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=shorne@gmail.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,42 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28, 2022 at 04:13:03PM -0700, Dongwon Kim wrote:
-> With "detach-all=on" for display, QEMU starts with all VC windows
-> detached automatically.
+On Tue, May 03, 2022 at 10:54:41AM +0200, Jason A. Donenfeld wrote:
+> On Mon, May 02, 2022 at 04:57:43PM -0700, Richard Henderson wrote:
+> > On 5/2/22 15:52, Jason A. Donenfeld wrote:
+> > > OpenRISC defines various nop instructions in or1k as meaning shutdown or
+> > > reset. Implement these in TCG. This has been tested with Linux and
+> > > confirmed to work.
+> > 
+> > No, OpenRISC does not define various nop instructions, etc.
+> > 
+> > OpenRISC defines a Power Management Register to handle doze and suspend; there is no 
+> > specification for shutdown or reset.
+> > 
+> > See https://openrisc.io/architecture
 > 
-> If used with "full-screen=on", it places individual windows (from
-> top window) starting from monitor 0 or monitor n in case monitor=n.
 > 
-> In case # mon < # VCs, only same number of VCs as # mon will be sent to
-> the monitors for full-screen while others are remaining in windowed-mode.
-> 
-> Target monitor number for individual VC is rotated in case monitor=n
-> (n != 0) (e.g. if monitor=1 and # VCs = 2, the top window will be
-> full-screened on monitor 1 and top second window will be full-screened
-> on monitor 0.)
+> Stafford is in the process of documenting/spec'ing the nop stuff.
 
-I tend to wonder whether we actually need this at all, as opposed
-to just changing QEMU's behaviour by default.
+Hi Richard,
 
-It makes sense to have tabs per-VC for the things like the HMP
-console, serial ports, etc, but I think graphical video outputs
-should always be displayed as multiple windows. Putting graphical
-outputs as tabs rather defeats the purpose of having multiple
-outputs IMHO. 
+Yes, we had a mail discussion about this with Peter.  This being similar to ARM
+semihosting; enabling these special instructions should be behind the semihosting
+flag.  Something that needs to be done for this patch.
 
-IOW, why won't we just create 1 gtk window per graphical output
-all the time.
+If you have concern about this let me now.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Mail:
+  - https://www.mail-archive.com/qemu-devel@nongnu.org/msg884560.html
 
+Our other simulators implement this, so the compromise is if we document this
+officially and only implement it behind semihosting peter was OK with it.
+
+I haven't started on the documentation yet as I haven't has much time in the
+last few days though.
+
+Or1ksim:
+  - https://github.com/openrisc/or1ksim/blob/79c6f153390127e50259d46a7cc0421aa787d2ed/cpu/or32/insnset.c#L768
+sim:
+  - https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=sim/or1k/or1k.c;h=bfab35461bee1457fe8f42179ac6d27f5ad46b96;hb=HEAD
+
+-Stafford
 
