@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDD8517FE3
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 10:41:09 +0200 (CEST)
-Received: from localhost ([::1]:40124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5151D51800F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 10:48:44 +0200 (CEST)
+Received: from localhost ([::1]:46510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlo5k-00034I-Ad
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 04:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
+	id 1nloD4-0007aR-Nj
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 04:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nlnvn-0005i8-In
- for qemu-devel@nongnu.org; Tue, 03 May 2022 04:30:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59048)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlo5L-0004FX-Cs
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 04:40:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nlnvk-0002kj-Tz
- for qemu-devel@nongnu.org; Tue, 03 May 2022 04:30:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nlo5I-00043m-V1
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 04:40:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651566647;
+ s=mimecast20190719; t=1651567240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fk0kXtx1yy5ESXt7uuhYQh9Hn2VZHndrTssTIOquqKE=;
- b=ccWulo0yWwzziniZ7y7KaFoejzDmXwm8mBLEa0YMkD6QudbJzmUJGTrKf88JescPgIA1iC
- 365HpnQDcji2V6Sxhl6dYtiWlEpBU4B6SJ3Vw4io/TeldcgGidBWVEcHutQ7+64LIdL+pM
- wKhAYFkbSw+6XZB/z6ZJ+x/YZqJgxmY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=T6H33zNQESuT/Lbmbuhsj0UHs4A8tUXHK9tmoqhSVFk=;
+ b=VrSZbHicMm0wT1DXhHfn1kreY6N1itTxd3+5rJRPZNiIbMjdgmxJiuoZpnWwhUVjXeLtLm
+ l1HyUtDjF6fxPNPrecFadyTHsGilLPmqDPGqEEYtMDW4vPc/DELaa1oa6SProBwuN0+8qI
+ ApIY3hhJFDPJF7OPXw2pDHxmgme3aQM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-9mySmd3uNPm4ijdUE2zUCg-1; Tue, 03 May 2022 04:30:46 -0400
-X-MC-Unique: 9mySmd3uNPm4ijdUE2zUCg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v184-20020a1cacc1000000b00393e492a398so1019124wme.5
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 01:30:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=fk0kXtx1yy5ESXt7uuhYQh9Hn2VZHndrTssTIOquqKE=;
- b=B6fQvhieekdb+pIG4oiPe0papEPniKFE068Kyd72Q4xJfmKAb7e1Om4uQ0s0taP/kT
- QuiNAp7oYcbATSbYWk1yU2lYkREe9cEfGkxi2ccJc2vE1yRShXF2CI+QKMJ3h8WLMP2Y
- OQoqW6Q2Nk8dg3/92YroGZ5kklRWEQ1n/WNnBZiXxpqpMgasiXmaoFRCyevsi+AaGwUo
- gaSepa40JdFIxnI82gg+a3pNOutWADHIeS/JPSjMFGtJDU5rrcmGR2b8OAjdg0SytsG1
- nojA5mi35o+ChW2KfSxcPHqLbQDCr4H/1aNsl4f/wsrNWsMdYZLxh0r8P1rswmTRs+zC
- rzzA==
-X-Gm-Message-State: AOAM5305LuWtyef1mqmPOZjAJYTyFe1Rv8CzOJD1ScjtkzfqZ9sntvkg
- YGyiF9u8cl1IlTyfp/q/mjyPmgRd5exHWabtxTfO8wAAWyFouIpBtYCTgCKWFNjxS9q3chpaAC4
- 3okxW8P5H/GMuO1g=
-X-Received: by 2002:a05:6000:507:b0:20a:a549:d3ab with SMTP id
- a7-20020a056000050700b0020aa549d3abmr11494825wrf.243.1651566645386; 
- Tue, 03 May 2022 01:30:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/shb6SWHUR2Lh5ugQk8+x+x9PkFOnCRR1S2FaoDxxZvCxz0EuZGtnvh2m8iwSYH8GfeeBZQ==
-X-Received: by 2002:a05:6000:507:b0:20a:a549:d3ab with SMTP id
- a7-20020a056000050700b0020aa549d3abmr11494800wrf.243.1651566644963; 
- Tue, 03 May 2022 01:30:44 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- k6-20020a05600c1c8600b0039429bfebebsm3098329wms.3.2022.05.03.01.30.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 01:30:44 -0700 (PDT)
-Date: Tue, 3 May 2022 09:30:42 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Daniel Berrange <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: Re: [PULL 06/11] QIOChannelSocket: Implement io_writev zero copy
- flag & io_flush for CONFIG_LINUX
-Message-ID: <YnDoMiV3w1lJ+vmj@work-vm>
-References: <20220428144052.263382-1-dgilbert@redhat.com>
- <20220428144052.263382-7-dgilbert@redhat.com>
- <Ymq+5bPaYTyUHF6L@work-vm>
- <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
+ us-mta-602-_jjBbX4VPjCC4suLxck7uQ-1; Tue, 03 May 2022 04:40:37 -0400
+X-MC-Unique: _jjBbX4VPjCC4suLxck7uQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9E67801E67;
+ Tue,  3 May 2022 08:40:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96AC91537101;
+ Tue,  3 May 2022 08:40:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 70EE121E68BC; Tue,  3 May 2022 10:40:35 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Cc: qemu-devel@nongnu.org,  Juan Quintela <quintela@redhat.com>,  Paolo
+ Bonzini <pbonzini@redhat.com>,  Vladimir Sementsov-Ogievskiy
+ <v.sementsov-og@mail.ru>,  Eric Blake <eblake@redhat.com>,  "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>,  Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>,  qemu-block@nongnu.org,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Eduardo Habkost
+ <eduardo@habkost.net>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Pavel Dovgalyuk
+ <pavel.dovgaluk@ispras.ru>,  Yanan Wang <wangyanan55@huawei.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Gerd
+ Hoffmann <kraxel@redhat.com>,  John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 6/8] qapi: Drop unnecessary whitespace in comments
+References: <20220503073737.84223-1-abologna@redhat.com>
+ <20220503073737.84223-7-abologna@redhat.com>
+Date: Tue, 03 May 2022 10:40:35 +0200
+In-Reply-To: <20220503073737.84223-7-abologna@redhat.com> (Andrea Bolognani's
+ message of "Tue, 3 May 2022 09:37:35 +0200")
+Message-ID: <87ilqndn5o.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -90,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,325 +90,320 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Leonardo Bras Soares Passos (lsoaresp@redhat.com) wrote:
-> Hello Dave,
-> 
-> On Thu, Apr 28, 2022 at 1:20 PM Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > Leo:
-> >   Unfortunately this is failing a couple of CI tests; the MSG_ZEROCOPY
-> > one I guess is the simpler one; I think Stefanha managed to find the
-> > liburing fix for the __kernel_timespec case, but that looks like a bit
-> > more fun!
-> >
-> > Dave
-> 
-> About MSG_ZEROCOPY error:
-> 
-> I tracked down how the test happened, downloaded the same docker image from the
-> tests(opensuse-leap-15.2), and took a look at the filesystem for the
-> MSG_ZEROCOPY define, which I could not find anywhere.
-> 
-> Then I took a look into /usr/include/bits/socket.h, which is where RHEL has
-> MSG_ZEROCOPY defined. Zypper defines it as been provided by glibc-devel, which
-> is versioned at 2.26-lp152.26.12.1.
-> 
-> I then took a look at https://sourceware.org/git/glibc.git, and found commit
-> 78cde19f62 that introduces MSG_ZEROCOPY. The first version that has this commit
-> is glibc-2.27.
-> 
-> So, basically, this means opensuse-leap-15.2 glibc version does not support
-> MSG_ZEROCOPY. Based on that, I had a few ideas on how to solve the CI bug:
-> 1 - Propose a backport of this patch (few comments +  single define) for
-> leap-15.x, wait for them to accept and update the version in qemu CI.
-> (TBH I have no idea how the opensuse community works, I just suppose it could
-> be a way of tackling this.)
-> 2 - include an #ifndef MSG_ZEROCOPY #define MSG_ZEROCOPY 0x4000000 #endif in
-> code, which is ugly IMHO, but will be fast and clean.
-> 3 - In CI, patch /usr/include/bits/socket.h before building, which will also
-> work fine, but defeats the purpose of keeping qemu building on the platform.
-> 
-> Among the above, I would go with (2), as it seems a reasonable way of dealing
-> with this.
+Andrea Bolognani <abologna@redhat.com> writes:
 
-Right we need to run on the current set of distros, so we need to do
-(2); it's not clear if we need to make trying to enable the feature fail
-if the host doesn't support it.
+> The only instances that get changed are those in which the
+> additional whitespace was not (or couldn't possibly be) used for
+> alignment purposes.
+>
+> Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 
-Now, having said that, you might also want to file an Opensuse bug
-suggesting they do (1).
+This mixes complete no-brainers with "I consider it an improvement, but
+folks might disagree" (a few examples marked below for illustration).
 
-Dave
+Well, folks, if you disagree, speak up!  I don't:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-> Does anyone else have any further suggestions, or know how this kind of issue
-> is generally solved in qemu?
-> 
-> Best regards,
-> Leo
-> 
-> 
-> >
-> >
-> > Job #2390848140 ( https://gitlab.com/dagrh/qemu/-/jobs/2390848140/raw )
-> > Name: build-system-alpine
-> > In file included from /usr/include/linux/errqueue.h:6,
-> >                  from ../io/channel-socket.c:29:
-> > /usr/include/linux/time_types.h:7:8: error: redefinition of 'struct __kernel_timespec'
-> >     7 | struct __kernel_timespec {
-> >       |        ^~~~~~~~~~~~~~~~~
-> > In file included from /usr/include/liburing.h:19,
-> >                  from /builds/dagrh/qemu/include/block/aio.h:18,
-> >                  from /builds/dagrh/qemu/include/io/channel.h:26,
-> >                  from /builds/dagrh/qemu/include/io/channel-socket.h:24,
-> >                  from ../io/channel-socket.c:24:
-> > /usr/include/liburing/compat.h:9:8: note: originally defined here
-> >     9 | struct __kernel_timespec {
-> >       |        ^~~~~~~~~~~~~~~~~
-> >
-> > ----
-> > Name: build-system-opensuse
-> >
-> > https://gitlab.com/dagrh/qemu/-/jobs/2390848160/raw
-> > ../io/channel-socket.c: In function â€˜qio_channel_socket_writevâ€™:
-> > ../io/channel-socket.c:578:18: error: â€˜MSG_ZEROCOPYâ€™ undeclared (first use in this function); did you mean â€˜SO_ZEROCOPYâ€™?
-> >          sflags = MSG_ZEROCOPY;
-> >                   ^~~~~~~~~~~~
-> >                   SO_ZEROCOPY
-> > ../io/channel-socket.c:578:18: note: each undeclared identifier is reported only once for each function it appears in
-> >
-> > * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> > > From: Leonardo Bras <leobras@redhat.com>
-> > >
-> > > For CONFIG_LINUX, implement the new zero copy flag and the optional callback
-> > > io_flush on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
-> > > feature is available in the host kernel, which is checked on
-> > > qio_channel_socket_connect_sync()
-> > >
-> > > qio_channel_socket_flush() was implemented by counting how many times
-> > > sendmsg(...,MSG_ZEROCOPY) was successfully called, and then reading the
-> > > socket's error queue, in order to find how many of them finished sending.
-> > > Flush will loop until those counters are the same, or until some error occurs.
-> > >
-> > > Notes on using writev() with QIO_CHANNEL_WRITE_FLAG_ZERO_COPY:
-> > > 1: Buffer
-> > > - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid copying,
-> > > some caution is necessary to avoid overwriting any buffer before it's sent.
-> > > If something like this happen, a newer version of the buffer may be sent instead.
-> > > - If this is a problem, it's recommended to call qio_channel_flush() before freeing
-> > > or re-using the buffer.
-> > >
-> > > 2: Locked memory
-> > > - When using MSG_ZERCOCOPY, the buffer memory will be locked after queued, and
-> > > unlocked after it's sent.
-> > > - Depending on the size of each buffer, and how often it's sent, it may require
-> > > a larger amount of locked memory than usually available to non-root user.
-> > > - If the required amount of locked memory is not available, writev_zero_copy
-> > > will return an error, which can abort an operation like migration,
-> > > - Because of this, when an user code wants to add zero copy as a feature, it
-> > > requires a mechanism to disable it, so it can still be accessible to less
-> > > privileged users.
-> > >
-> > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > Reviewed-by: Juan Quintela <quintela@redhat.com>
-> > > Message-Id: <20220426230654.637939-3-leobras@redhat.com>
-> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > ---
-> > >  include/io/channel-socket.h |   2 +
-> > >  io/channel-socket.c         | 108 ++++++++++++++++++++++++++++++++++--
-> > >  2 files changed, 106 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-> > > index e747e63514..513c428fe4 100644
-> > > --- a/include/io/channel-socket.h
-> > > +++ b/include/io/channel-socket.h
-> > > @@ -47,6 +47,8 @@ struct QIOChannelSocket {
-> > >      socklen_t localAddrLen;
-> > >      struct sockaddr_storage remoteAddr;
-> > >      socklen_t remoteAddrLen;
-> > > +    ssize_t zero_copy_queued;
-> > > +    ssize_t zero_copy_sent;
-> > >  };
-> > >
-> > >
-> > > diff --git a/io/channel-socket.c b/io/channel-socket.c
-> > > index 696a04dc9c..1dd85fc1ef 100644
-> > > --- a/io/channel-socket.c
-> > > +++ b/io/channel-socket.c
-> > > @@ -25,6 +25,10 @@
-> > >  #include "io/channel-watch.h"
-> > >  #include "trace.h"
-> > >  #include "qapi/clone-visitor.h"
-> > > +#ifdef CONFIG_LINUX
-> > > +#include <linux/errqueue.h>
-> > > +#include <bits/socket.h>
-> > > +#endif
-> > >
-> > >  #define SOCKET_MAX_FDS 16
-> > >
-> > > @@ -54,6 +58,8 @@ qio_channel_socket_new(void)
-> > >
-> > >      sioc = QIO_CHANNEL_SOCKET(object_new(TYPE_QIO_CHANNEL_SOCKET));
-> > >      sioc->fd = -1;
-> > > +    sioc->zero_copy_queued = 0;
-> > > +    sioc->zero_copy_sent = 0;
-> > >
-> > >      ioc = QIO_CHANNEL(sioc);
-> > >      qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_SHUTDOWN);
-> > > @@ -153,6 +159,16 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
-> > >          return -1;
-> > >      }
-> > >
-> > > +#ifdef CONFIG_LINUX
-> > > +    int ret, v = 1;
-> > > +    ret = setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
-> > > +    if (ret == 0) {
-> > > +        /* Zero copy available on host */
-> > > +        qio_channel_set_feature(QIO_CHANNEL(ioc),
-> > > +                                QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY);
-> > > +    }
-> > > +#endif
-> > > +
-> > >      return 0;
-> > >  }
-> > >
-> > > @@ -533,6 +549,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-> > >      char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)];
-> > >      size_t fdsize = sizeof(int) * nfds;
-> > >      struct cmsghdr *cmsg;
-> > > +    int sflags = 0;
-> > >
-> > >      memset(control, 0, CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS));
-> > >
-> > > @@ -557,15 +574,27 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-> > >          memcpy(CMSG_DATA(cmsg), fds, fdsize);
-> > >      }
-> > >
-> > > +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> > > +        sflags = MSG_ZEROCOPY;
-> > > +    }
-> > > +
-> > >   retry:
-> > > -    ret = sendmsg(sioc->fd, &msg, 0);
-> > > +    ret = sendmsg(sioc->fd, &msg, sflags);
-> > >      if (ret <= 0) {
-> > > -        if (errno == EAGAIN) {
-> > > +        switch (errno) {
-> > > +        case EAGAIN:
-> > >              return QIO_CHANNEL_ERR_BLOCK;
-> > > -        }
-> > > -        if (errno == EINTR) {
-> > > +        case EINTR:
-> > >              goto retry;
-> > > +        case ENOBUFS:
-> > > +            if (sflags & MSG_ZEROCOPY) {
-> > > +                error_setg_errno(errp, errno,
-> > > +                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
-> > > +                return -1;
-> > > +            }
-> > > +            break;
-> > >          }
-> > > +
-> > >          error_setg_errno(errp, errno,
-> > >                           "Unable to write to socket");
-> > >          return -1;
-> > > @@ -659,6 +688,74 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-> > >  }
-> > >  #endif /* WIN32 */
-> > >
-> > > +
-> > > +#ifdef CONFIG_LINUX
-> > > +static int qio_channel_socket_flush(QIOChannel *ioc,
-> > > +                                    Error **errp)
-> > > +{
-> > > +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-> > > +    struct msghdr msg = {};
-> > > +    struct sock_extended_err *serr;
-> > > +    struct cmsghdr *cm;
-> > > +    char control[CMSG_SPACE(sizeof(*serr))];
-> > > +    int received;
-> > > +    int ret = 1;
-> > > +
-> > > +    msg.msg_control = control;
-> > > +    msg.msg_controllen = sizeof(control);
-> > > +    memset(control, 0, sizeof(control));
-> > > +
-> > > +    while (sioc->zero_copy_sent < sioc->zero_copy_queued) {
-> > > +        received = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
-> > > +        if (received < 0) {
-> > > +            switch (errno) {
-> > > +            case EAGAIN:
-> > > +                /* Nothing on errqueue, wait until something is available */
-> > > +                qio_channel_wait(ioc, G_IO_ERR);
-> > > +                continue;
-> > > +            case EINTR:
-> > > +                continue;
-> > > +            default:
-> > > +                error_setg_errno(errp, errno,
-> > > +                                 "Unable to read errqueue");
-> > > +                return -1;
-> > > +            }
-> > > +        }
-> > > +
-> > > +        cm = CMSG_FIRSTHDR(&msg);
-> > > +        if (cm->cmsg_level != SOL_IP &&
-> > > +            cm->cmsg_type != IP_RECVERR) {
-> > > +            error_setg_errno(errp, EPROTOTYPE,
-> > > +                             "Wrong cmsg in errqueue");
-> > > +            return -1;
-> > > +        }
-> > > +
-> > > +        serr = (void *) CMSG_DATA(cm);
-> > > +        if (serr->ee_errno != SO_EE_ORIGIN_NONE) {
-> > > +            error_setg_errno(errp, serr->ee_errno,
-> > > +                             "Error on socket");
-> > > +            return -1;
-> > > +        }
-> > > +        if (serr->ee_origin != SO_EE_ORIGIN_ZEROCOPY) {
-> > > +            error_setg_errno(errp, serr->ee_origin,
-> > > +                             "Error not from zero copy");
-> > > +            return -1;
-> > > +        }
-> > > +
-> > > +        /* No errors, count successfully finished sendmsg()*/
-> > > +        sioc->zero_copy_sent += serr->ee_data - serr->ee_info + 1;
-> > > +
-> > > +        /* If any sendmsg() succeeded using zero copy, return 0 at the end */
-> > > +        if (serr->ee_code != SO_EE_CODE_ZEROCOPY_COPIED) {
-> > > +            ret = 0;
-> > > +        }
-> > > +    }
-> > > +
-> > > +    return ret;
-> > > +}
-> > > +
-> > > +#endif /* CONFIG_LINUX */
-> > > +
-> > >  static int
-> > >  qio_channel_socket_set_blocking(QIOChannel *ioc,
-> > >                                  bool enabled,
-> > > @@ -789,6 +886,9 @@ static void qio_channel_socket_class_init(ObjectClass *klass,
-> > >      ioc_klass->io_set_delay = qio_channel_socket_set_delay;
-> > >      ioc_klass->io_create_watch = qio_channel_socket_create_watch;
-> > >      ioc_klass->io_set_aio_fd_handler = qio_channel_socket_set_aio_fd_handler;
-> > > +#ifdef CONFIG_LINUX
-> > > +    ioc_klass->io_flush = qio_channel_socket_flush;
-> > > +#endif
-> > >  }
-> > >
-> > >  static const TypeInfo qio_channel_socket_info = {
-> > > --
-> > > 2.35.1
-> > >
-> > >
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >
-> >
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> ---
+>  qapi/block-core.json   | 24 ++++++++++++------------
+>  qapi/block-export.json |  2 +-
+>  qapi/block.json        |  2 +-
+>  qapi/char.json         |  2 +-
+>  qapi/dump.json         |  4 ++--
+>  qapi/machine.json      |  8 ++++----
+>  qapi/misc-target.json  |  6 +++---
+>  qapi/misc.json         |  6 +++---
+>  qapi/run-state.json    |  4 ++--
+>  qapi/sockets.json      |  2 +-
+>  qapi/ui.json           |  2 +-
+>  11 files changed, 31 insertions(+), 31 deletions(-)
+>
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 2bce5bb0ae..e110af2f1d 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -604,7 +604,7 @@
+>  # @inserted: @BlockDeviceInfo describing the device if media is
+>  #            present
+>  #
+> -# Since:  0.14
+> +# Since: 0.14
+>  ##
+>  { 'struct': 'BlockInfo',
+>    'data': {'device': 'str', '*qdev': 'str', 'type': 'str', 'removable': 'bool',
+
+Complete no-brainer.
+
+> @@ -795,9 +795,9 @@
+>  #
+>  # Statistics of a virtual block device or a block backing device.
+>  #
+> -# @rd_bytes:      The number of bytes read by the device.
+> +# @rd_bytes: The number of bytes read by the device.
+>  #
+> -# @wr_bytes:      The number of bytes written by the device.
+> +# @wr_bytes: The number of bytes written by the device.
+>  #
+>  # @unmap_bytes: The number of bytes unmapped by the device (Since 4.2)
+>  #
+
+Almost a no-brainer.  Commit f11f57e405a added these two aligned with
+@rd_operations and @wr_operations.  It also added unaligned ones.  Later
+on, @unmap_bytes was inserted unaligned in between.
+
+> @@ -970,7 +970,7 @@
+>  # @qdev: The qdev ID, or if no ID is assigned, the QOM path of the block
+>  #        device. (since 3.0)
+>  #
+> -# @stats:  A @BlockDeviceStats for the device.
+> +# @stats: A @BlockDeviceStats for the device.
+>  #
+>  # @driver-specific: Optional driver-specific stats. (Since 4.2)
+>  #
+> @@ -1275,7 +1275,7 @@
+>  #
+>  # @node-name: graph node name to get the image resized (Since 2.0)
+>  #
+> -# @size:  new image size in bytes
+> +# @size: new image size in bytes
+>  #
+>  # Returns: - nothing on success
+>  #          - If @device is not a valid block device, DeviceNotFound
+> @@ -1960,8 +1960,8 @@
+>  # @job-id: identifier for the newly-created block job. If
+>  #          omitted, the device name will be used. (Since 2.7)
+>  #
+> -# @device:  the device name or node-name of a root node whose writes should be
+> -#           mirrored.
+> +# @device: the device name or node-name of a root node whose writes should be
+> +#          mirrored.
+>  #
+>  # @target: the target of the new image. If the file exists, or if it
+>  #          is a device, the existing file/device will be used as the new
+> @@ -1981,7 +1981,7 @@
+>  # @mode: whether and how QEMU should create a new image, default is
+>  #        'absolute-paths'.
+>  #
+> -# @speed:  the maximum speed, in bytes per second
+> +# @speed: the maximum speed, in bytes per second
+>  #
+>  # @sync: what parts of the disk image should be copied to the destination
+>  #        (all the disk, only the sectors allocated in the topmost image, or
+> @@ -2296,7 +2296,7 @@
+>  #            broken Quorum files.  By default, @device is replaced, although
+>  #            implicitly created filters on it are kept.
+>  #
+> -# @speed:  the maximum speed, in bytes per second
+> +# @speed: the maximum speed, in bytes per second
+>  #
+>  # @sync: what parts of the disk image should be copied to the destination
+>  #        (all the disk, only the sectors allocated in the topmost image, or
+> @@ -4548,8 +4548,8 @@
+>  ##
+>  # @BlockdevQcow2Version:
+>  #
+> -# @v2:  The original QCOW2 format as introduced in qemu 0.10 (version 2)
+> -# @v3:  The extended QCOW2 format as introduced in qemu 1.1 (version 3)
+> +# @v2: The original QCOW2 format as introduced in qemu 0.10 (version 2)
+> +# @v3: The extended QCOW2 format as introduced in qemu 1.1 (version 3)
+>  #
+>  # Since: 2.12
+>  ##
+> @@ -4905,7 +4905,7 @@
+>  #
+>  # Options for amending an image format
+>  #
+> -# @driver:          Block driver of the node to amend.
+> +# @driver: Block driver of the node to amend.
+>  #
+>  # Since: 5.1
+>  ##
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index 1de16d2589..53013b03ff 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -387,7 +387,7 @@
+>  #                 block-export-del command, but before the shutdown has
+>  #                 completed)
+>  #
+> -# Since:  5.2
+> +# Since: 5.2
+>  ##
+>  { 'struct': 'BlockExportInfo',
+>    'data': { 'id': 'str',
+> diff --git a/qapi/block.json b/qapi/block.json
+> index 41b73c9934..96f557b3bb 100644
+> --- a/qapi/block.json
+> +++ b/qapi/block.json
+> @@ -106,7 +106,7 @@
+>  # Returns: - Nothing on success
+>  #          - If @device is not a valid block device, DeviceNotFound
+>  #
+> -# Notes:    Ejecting a device with no media results in success
+> +# Notes: Ejecting a device with no media results in success
+>  #
+>  # Since: 0.14
+>  #
+> diff --git a/qapi/char.json b/qapi/char.json
+> index 8414ef2bc2..a40fe4b7bd 100644
+> --- a/qapi/char.json
+> +++ b/qapi/char.json
+> @@ -216,7 +216,7 @@
+>  #
+>  # Configuration info for file chardevs.
+>  #
+> -# @in:  The name of the input file
+> +# @in: The name of the input file
+>  # @out: The name of the output file
+>  # @append: Open the file in append mode (default false to
+>  #          truncate) (Since 2.6)
+> diff --git a/qapi/dump.json b/qapi/dump.json
+> index 29441af9d8..90859c5483 100644
+> --- a/qapi/dump.json
+> +++ b/qapi/dump.json
+> @@ -186,8 +186,8 @@
+>  #
+>  # Returns the available formats for dump-guest-memory
+>  #
+> -# Returns:  A @DumpGuestMemoryCapability object listing available formats for
+> -#           dump-guest-memory
+> +# Returns: A @DumpGuestMemoryCapability object listing available formats for
+> +#          dump-guest-memory
+>  #
+>  # Since: 2.0
+>  #
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 9f91e46e8b..6c120eb1bb 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -315,9 +315,9 @@
+>  # query-current-machine), wake-up guest from suspend if the guest is
+>  # in SUSPENDED state. Return an error otherwise.
+>  #
+> -# Since:  1.1
+> +# Since: 1.1
+>  #
+> -# Returns:  nothing.
+> +# Returns: nothing.
+>  #
+>  # Note: prior to 4.0, this command does nothing in case the guest
+>  #       isn't suspended.
+> @@ -368,9 +368,9 @@
+>  # Injects a Non-Maskable Interrupt into the default CPU (x86/s390) or all CPUs (ppc64).
+>  # The command fails when the guest doesn't support injecting.
+>  #
+> -# Returns:  If successful, nothing
+> +# Returns: If successful, nothing
+>  #
+> -# Since:  0.14
+> +# Since: 0.14
+>  #
+>  # Note: prior to 2.1, this command was only supported for x86 and s390 VMs
+>  #
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 2fa68a6796..4944c0528f 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -136,9 +136,9 @@
+>  # The struct describes capability for a Secure Encrypted Virtualization
+>  # feature.
+>  #
+> -# @pdh:  Platform Diffie-Hellman key (base64 encoded)
+> +# @pdh: Platform Diffie-Hellman key (base64 encoded)
+>  #
+> -# @cert-chain:  PDH certificate chain (base64 encoded)
+> +# @cert-chain: PDH certificate chain (base64 encoded)
+>  #
+>  # @cpu0-id: Unique ID of CPU0 (base64 encoded) (since 7.1)
+>  #
+> @@ -201,7 +201,7 @@
+>  # The struct describes attestation report for a Secure Encrypted
+>  # Virtualization feature.
+>  #
+> -# @data:  guest attestation report (base64 encoded)
+> +# @data: guest attestation report (base64 encoded)
+>  #
+>  # Since: 6.1
+>  ##
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index b83cc39029..6aec6bdbf3 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -136,7 +136,7 @@
+>  #
+>  # Stop all guest VCPU execution.
+>  #
+> -# Since:  0.14
+> +# Since: 0.14
+>  #
+>  # Notes: This function will succeed even if the guest is already in the stopped
+>  #        state.  In "inmigrate" state, it will ensure that the guest
+> @@ -156,9 +156,9 @@
+>  #
+>  # Resume guest VCPU execution.
+>  #
+> -# Since:  0.14
+> +# Since: 0.14
+>  #
+> -# Returns:  If successful, nothing
+> +# Returns: If successful, nothing
+>  #
+>  # Notes: This command will succeed if the guest is currently running.  It
+>  #        will also succeed if the guest is in the "inmigrate" state; in
+> diff --git a/qapi/run-state.json b/qapi/run-state.json
+> index 30a2f5231d..6e2162d7b3 100644
+> --- a/qapi/run-state.json
+> +++ b/qapi/run-state.json
+> @@ -104,7 +104,7 @@
+>  #
+>  # @status: the virtual machine @RunState
+>  #
+> -# Since:  0.14
+> +# Since: 0.14
+>  #
+>  # Notes: @singlestep is enabled through the GDB stub
+>  ##
+> @@ -118,7 +118,7 @@
+>  #
+>  # Returns: @StatusInfo reflecting all VCPUs
+>  #
+> -# Since:  0.14
+> +# Since: 0.14
+>  #
+>  # Example:
+>  #
+> diff --git a/qapi/sockets.json b/qapi/sockets.json
+> index fccc38584b..b4f84d3334 100644
+> --- a/qapi/sockets.json
+> +++ b/qapi/sockets.json
+> @@ -189,7 +189,7 @@
+>  # Captures the address of a socket, which could also be a named file
+>  # descriptor
+>  #
+> -# @type:       Transport type
+> +# @type: Transport type
+>  #
+>  # Since: 2.9
+>  ##
+
+Single member with the description aligned to tab stop in colunn 16.
+Likely done this way to provide for adding more without rejiggering the
+alignment.  Bah.
+
+Improvement for me.
+
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 9f19beea6d..c844237434 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1260,7 +1260,7 @@
+>  #
+>  # Curses display options.
+>  #
+> -# @charset:       Font charset used by guest (default: CP437).
+> +# @charset: Font charset used by guest (default: CP437).
+>  #
+>  # Since: 4.0
+>  ##
 
 
