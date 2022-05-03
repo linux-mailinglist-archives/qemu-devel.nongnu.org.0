@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41245518EED
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:37:12 +0200 (CEST)
-Received: from localhost ([::1]:57866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61266518EAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:24:24 +0200 (CEST)
+Received: from localhost ([::1]:34830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlzGh-0003li-2f
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39516)
+	id 1nlz4J-0006pJ-Cc
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyWY-0002NN-1v
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:49:30 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52883)
+ id 1nlyZQ-0007Vr-PT
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:28 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyWU-0003dI-RY
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:49:29 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id e24so16250405pjt.2
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:49:25 -0700 (PDT)
+ id 1nlyZO-00063S-Qd
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:28 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id j8so15861766pll.11
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=U2oK2ipOEqoaAfOulrRTtOQB2zK3TVTPXCClS/WGFgs=;
- b=am4G/MPvBfaGx4cDAOFyEwqqXcKc6dzYNglM1D6b9dwH/PFw0amtqe/c9TTT3GVXYm
- agB86Bf4TNjVY5iBwZOLeCIuPL+lnVlYvHx/9P0SCpwAJmxnyj9cb2CsJf0CDeUrjMop
- 5IMAY3mvnERzDv3zsoGuW0EDgRqatjBFRuSe4U50vY3kJ+GROMBNDEJuRB46VEKSl3+2
- kM81i4N9qcN10osIl9evCD4k4Gx62UAjw2gP5JMKRz2mdKLLFDukawwrzwwrCsNNnn7a
- p4RDY1NdF+ElJ+AlMGw/CXwIzkNly9/dtPb3ZveqGCxng/hChGKs7EcsyG8IIplJd9rO
- r89A==
+ bh=6P93sk4kWHKA40484oabYrAFLKtkFM6g8eI+ZgtYvkQ=;
+ b=FaVJSf4lhQGEG9LjlgjqN+zXUQ/zDHW77ozJWTg/zFz3q5Q8htvfTPt0xlcF9oZIm6
+ SC1yIzbEQWSR85Mc2XusTXWb+eBCc1kGQ9FfEErwPpx7CxItrRuSeVCXkZPizXeju/sG
+ W5T2DWIJZfoebroU1UC1JsMKXZdV6JbfAcs1bCHd4ZIbFrkD5AenXorRoR4mxNidZ2Tr
+ bvuYxtD6h1rzzpUjY49LMdmG4SQuVFDQE34Q/HqjjXIiRMwtZE7nrrdsY9NKVtihoChT
+ 6H2DFAazHicxtrEbc26UsXluUxS4/1jULlKqqQiDrE6heb+OXC2mk7LUl/QkvwseyGkq
+ d5HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U2oK2ipOEqoaAfOulrRTtOQB2zK3TVTPXCClS/WGFgs=;
- b=3RZJisB/RNwCrys3dIWGVKaEptUkrImBvoAuiYBEP9XWR+7KHrmKgd1Gvt18QbDB/e
- c4zr4GPweR5qd0jsrt0yXcBQm7eLRUXAwAsSlnwh0CtnPoqLeslA7cQPx/2SRzxg/G6N
- q/U1dTGjF1HChM3pTU7YMkyiDtrgyZD3XNJKxPDBjQhw5w0dYka9OKUPiiyZwWZrovhj
- 0riS+njP2h4jCCfhVzYHWDdATn3A6EespH5ODxHe+whhz/PUvIRoEU+j/sG+pFTYZvu1
- D1Pjwe/RbHha0Z8jWbHmkZkDQ8r+iZTIQGYBV+uj0pGGeJRYfrEC6kgH5epkv06PeV5G
- mh7w==
-X-Gm-Message-State: AOAM530mxbjE2pkTCtHKk27ZjiSnJJF0g085mt4V0wxZLFO63c1lqWbJ
- 1+zmNqAq9pKu5HeRKXIVxW0tkT8ZCxf/mA==
-X-Google-Smtp-Source: ABdhPJypQDtTIvsmATA2+EVS8GpZ8aO4i1/3juV7PTRVZSJrdZzvruRDQSlEj/VY4v+7UJk9S8CDag==
-X-Received: by 2002:a17:90a:8b91:b0:1be:db25:eecd with SMTP id
- z17-20020a17090a8b9100b001bedb25eecdmr6459833pjn.10.1651607364013; 
- Tue, 03 May 2022 12:49:24 -0700 (PDT)
+ bh=6P93sk4kWHKA40484oabYrAFLKtkFM6g8eI+ZgtYvkQ=;
+ b=lfDOiTtEImZgo5DrK6rsnU9yop51z5CaONPHPl0fn0FcSevFn8o+BP2CibHoWebrk9
+ 46O1pxevO8wBvPS064RyWBahwe+r3+8y5cL3IFCK0d6HPd9pB3Zvrs46TRe23JmSbovy
+ Ykbq7KDBSJY84l5PBH54jRu5zRTlo+BRwCXmcbRXGsXfmV5rwQejnzRH5B3tcIDtNgoG
+ vwhSAvZlnSmxqlUlcyCesNvluSoLihXuhyXwO3pRhpMvIMYzuc433rF03v/mmm7hJbcw
+ hivz8eWzzwqLxVvLSyJFKFSLaf1IiKN6Bq0E2mG+fuScZqKl21jnpfJi7ZXStvR+0G9D
+ dJFw==
+X-Gm-Message-State: AOAM530xZCrAcrpURSMf4KM0DDqiYkolSaxl27nMpGRcKJ64sgiXdHDu
+ bCgUaVkF0HTuDfx1+PMQ4ohu+vapAVP59Q==
+X-Google-Smtp-Source: ABdhPJyiH8ew6Wp9bkib7IptU18/QK963L2QRwUf0LppwMhZRyfPT9DUDQ88BtbJBwY3UozdY+jDEg==
+X-Received: by 2002:a17:902:bf07:b0:158:24d9:3946 with SMTP id
+ bi7-20020a170902bf0700b0015824d93946mr18231803plb.28.1651607545472; 
+ Tue, 03 May 2022 12:52:25 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- p11-20020a17090ad30b00b001cd4989fed3sm1712383pju.31.2022.05.03.12.49.23
+ fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:49:23 -0700 (PDT)
+ Tue, 03 May 2022 12:52:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 39/74] semihosting: Create qemu_semihosting_console_write
-Date: Tue,  3 May 2022 12:48:08 -0700
-Message-Id: <20220503194843.1379101-40-richard.henderson@linaro.org>
+Subject: [PATCH v2 40/74] semihosting: Add GuestFDConsole
+Date: Tue,  3 May 2022 12:48:09 -0700
+Message-Id: <20220503194843.1379101-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
 References: <20220503194843.1379101-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,72 +87,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Will replace qemu_semihosting_console_{outs,outc},
-but we need more plumbing first.
+Add a GuestFDType for connecting to the semihosting console.
+Hook up to read, write, isatty, and fstat syscalls.
+
+Note that the arm-specific syscall flen cannot be applied
+to the console, because the console is not a descriptor
+exposed to the guest.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/console.h | 12 ++++++++++++
- linux-user/semihost.c         |  5 +++++
- semihosting/console.c         |  9 +++++++++
- 3 files changed, 26 insertions(+)
+ include/semihosting/guestfd.h |  7 ++--
+ semihosting/syscalls.c        | 68 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+), 3 deletions(-)
 
-diff --git a/include/semihosting/console.h b/include/semihosting/console.h
-index 39dbf1b062..6994f23c82 100644
---- a/include/semihosting/console.h
-+++ b/include/semihosting/console.h
-@@ -54,6 +54,18 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
-  */
- int qemu_semihosting_console_read(CPUState *cs, void *buf, int len);
+diff --git a/include/semihosting/guestfd.h b/include/semihosting/guestfd.h
+index 5aa2722cb2..5c3e7cd538 100644
+--- a/include/semihosting/guestfd.h
++++ b/include/semihosting/guestfd.h
+@@ -13,9 +13,10 @@
  
-+/**
-+ * qemu_semihosting_console_write:
-+ * @buf: host buffer
-+ * @len: buffer size
-+ *
-+ * Write len bytes from buf to the debug console.
-+ *
-+ * Returns: number of bytes written -- this should only ever be short
-+ * on some sort of i/o error.
+ typedef enum GuestFDType {
+     GuestFDUnused = 0,
+-    GuestFDHost = 1,
+-    GuestFDGDB = 2,
+-    GuestFDStatic = 3,
++    GuestFDHost,
++    GuestFDGDB,
++    GuestFDStatic,
++    GuestFDConsole,
+ } GuestFDType;
+ 
+ /*
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 4c934654cd..aa4ee47649 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -10,6 +10,7 @@
+ #include "exec/gdbstub.h"
+ #include "semihosting/guestfd.h"
+ #include "semihosting/syscalls.h"
++#include "semihosting/console.h"
+ #ifdef CONFIG_USER_ONLY
+ #include "qemu.h"
+ #else
+@@ -607,6 +608,56 @@ static void staticfile_flen(CPUState *cs, gdb_syscall_complete_cb complete,
+     complete(cs, gf->staticfile.len, 0);
+ }
+ 
++/*
++ * Console semihosting syscall implementations.
 + */
-+int qemu_semihosting_console_write(void *buf, int len);
 +
- /**
-  * qemu_semihosting_log_out:
-  * @s: pointer to string
-diff --git a/linux-user/semihost.c b/linux-user/semihost.c
-index 2029fb674c..871edf993a 100644
---- a/linux-user/semihost.c
-+++ b/linux-user/semihost.c
-@@ -76,3 +76,8 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
- 
-     return ret;
- }
++static void console_read(CPUState *cs, gdb_syscall_complete_cb complete,
++                         GuestFD *gf, target_ulong buf, target_ulong len)
++{
++    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
++    char *ptr;
++    int ret;
 +
-+int qemu_semihosting_console_write(void *buf, int len)
-+{
-+    return fwrite(buf, 1, len, stderr);
-+}
-diff --git a/semihosting/console.c b/semihosting/console.c
-index 4088192842..b6a342744d 100644
---- a/semihosting/console.c
-+++ b/semihosting/console.c
-@@ -169,6 +169,15 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
-     return ret;
- }
- 
-+int qemu_semihosting_console_write(void *buf, int len)
-+{
-+    if (console.chr) {
-+        return qemu_chr_write_all(console.chr, (uint8_t *)buf, len);
-+    } else {
-+        return fwrite(buf, 1, len, stderr);
++    ptr = lock_user(VERIFY_WRITE, buf, len, 0);
++    if (!ptr) {
++        complete(cs, -1, EFAULT);
++        return;
 +    }
++    ret = qemu_semihosting_console_read(cs, ptr, len);
++    complete(cs, ret, 0);
++    unlock_user(ptr, buf, ret);
 +}
 +
- void qemu_semihosting_console_init(Chardev *chr)
- {
-     console.chr = chr;
++static void console_write(CPUState *cs, gdb_syscall_complete_cb complete,
++                          GuestFD *gf, target_ulong buf, target_ulong len)
++{
++    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
++    char *ptr = lock_user(VERIFY_READ, buf, len, 1);
++    int ret;
++
++    if (!ptr) {
++        complete(cs, -1, EFAULT);
++        return;
++    }
++    ret = qemu_semihosting_console_write(ptr, len);
++    complete(cs, ret ? ret : -1, ret ? 0 : EIO);
++    unlock_user(ptr, buf, ret);
++}
++
++static void console_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
++                          GuestFD *gf, target_ulong addr)
++{
++    static const struct stat tty_buf = {
++        .st_mode = 020666,  /* S_IFCHR, ugo+rw */
++        .st_rdev = 5,       /* makedev(5, 0) -- linux /dev/tty */
++    };
++    int ret;
++
++    ret = copy_stat_to_user(cs, addr, &tty_buf);
++    complete(cs, ret ? -1 : 0, ret ? -ret : 0);
++}
++
+ /*
+  * Syscall entry points.
+  */
+@@ -638,6 +689,7 @@ void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
+         host_close(cs, complete, gf);
+         break;
+     case GuestFDStatic:
++    case GuestFDConsole:
+         complete(cs, 0, 0);
+         break;
+     default:
+@@ -667,6 +719,9 @@ void semihost_sys_read_gf(CPUState *cs, gdb_syscall_complete_cb complete,
+     case GuestFDStatic:
+         staticfile_read(cs, complete, gf, buf, len);
+         break;
++    case GuestFDConsole:
++        console_read(cs, complete, gf, buf, len);
++        break;
+     default:
+         g_assert_not_reached();
+     }
+@@ -702,6 +757,9 @@ void semihost_sys_write_gf(CPUState *cs, gdb_syscall_complete_cb complete,
+     case GuestFDHost:
+         host_write(cs, complete, gf, buf, len);
+         break;
++    case GuestFDConsole:
++        console_write(cs, complete, gf, buf, len);
++        break;
+     case GuestFDStatic:
+         /* Static files are never open for writing: EBADF. */
+         complete(cs, -1, GDB_EBADF);
+@@ -742,6 +800,9 @@ void semihost_sys_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+     case GuestFDStatic:
+         staticfile_lseek(cs, complete, gf, off, gdb_whence);
+         break;
++    case GuestFDConsole:
++        complete(cs, -1, ESPIPE);
++        break;
+     default:
+         g_assert_not_reached();
+     }
+@@ -765,6 +826,9 @@ void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
+     case GuestFDStatic:
+         complete(cs, 0, GDB_ENOTTY);
+         break;
++    case GuestFDConsole:
++        complete(cs, 1, 0);
++        break;
+     default:
+         g_assert_not_reached();
+     }
+@@ -790,6 +854,7 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
+     case GuestFDStatic:
+         staticfile_flen(cs, flen_cb, gf);
+         break;
++    case GuestFDConsole:
+     default:
+         g_assert_not_reached();
+     }
+@@ -811,6 +876,9 @@ void semihost_sys_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
+     case GuestFDHost:
+         host_fstat(cs, complete, gf, addr);
+         break;
++    case GuestFDConsole:
++        console_fstat(cs, complete, gf, addr);
++        break;
+     case GuestFDStatic:
+     default:
+         g_assert_not_reached();
 -- 
 2.34.1
 
