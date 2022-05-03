@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF27518A96
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 18:57:46 +0200 (CEST)
-Received: from localhost ([::1]:35388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541B7518A9D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 19:01:21 +0200 (CEST)
+Received: from localhost ([::1]:41084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlvqK-0003aL-Gf
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 12:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53520)
+	id 1nlvtn-0000GG-BA
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 13:01:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nlvnc-0001B6-AI
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:54:56 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:37187)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nlvna-0006dD-5e
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:54:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.237])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CCD08FC4670E;
- Tue,  3 May 2022 18:54:43 +0200 (CEST)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Tue, 3 May 2022
- 18:54:42 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S00184bed93e-b44b-4026-ba9b-184bd46e5846,
- F6B89E566DA044E9E2FB2CFEBB669705F2CEA7ED) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <cd1ae42e-6824-c160-4c41-75eef16dbae0@kaod.org>
-Date: Tue, 3 May 2022 18:54:42 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nlvr4-0006Bm-Te
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:58:30 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:44819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nlvr3-0008CK-En
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:58:30 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-2f7d621d1caso186204877b3.11
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Pvcki9gbSp7dgo7wEfYEoiTaZ8GHqrRi7fV1yBSPdOs=;
+ b=zgnLlRNzSwjNT+8GfyRw0tQCXRP9SRWAfXI/rFPS7kipMtyj41NzLIXfyVVGJ+QZfP
+ f6DbwjtqXUVFvba4DN+XpVmpl14Aczn6hMkV8GQEqKxgxQOnZvNRVl7pgdfnRD6ZBXOi
+ /FyfH3G+3CQ0RcRq2qjuQRL/Hy5Lq/jpvv9EpaOeXTC7x6MJrU0DSVwxj/Yy4+fSLTgg
+ b+daVlBnCelhJmluOH0cIcgUaGlnqDiMPX5eT/1Bw1/7suUeqZtI7AWr1od7Vbbb+nt4
+ qT2iP+RTZNFlr8XAY6nVmx30mnus/BfcaUtxI03K6CtrVV/j8C+GoetAqbUmWSWDYMy0
+ PbbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Pvcki9gbSp7dgo7wEfYEoiTaZ8GHqrRi7fV1yBSPdOs=;
+ b=AotaN+2W4hcyCJyrntZoVoDDAvVVZYqVKp5xEb7rQAMTIcezcmhU9GlbwYSlTHCsfI
+ wpuV750yDIIITidnaNBQrGCha3TEE8h3UrUHOJej8o2tRm1bYLA1gkDQRipc5xzZoOjw
+ M6CWuyy314Fvjm0U1+FN1/x7AoXAgk3w8bjxED3ylHAe2Msv2NdJVgd5WA8Mv4Ixl/KP
+ j6G98hnMlYmVqlc/fy8QStKGrFBlO72EFMgVm3mWJkP4KZd/C9w5p6uez6SbPVhedjHP
+ 8UESkizKFNbdYHRV3HfQzJvWKpHdDwtDR11iERJjW1dReLZO2c1mCH/ZvEOAzmaIJAWW
+ EYpg==
+X-Gm-Message-State: AOAM5319xXtUhlSU/f+5UTMjHJ3Iu8OOtT1cargD5TQjXOFLPLCWYYDe
+ gQ3d8IBNBoftsx2cJbjm4NW84a0DqS7HBuO4HTds2Rf/Fro=
+X-Google-Smtp-Source: ABdhPJzMgyOqenK3OVyhFKplFG5WHuwcoYiqxSaeImGMbUA4cJrkw+CLwLjZd+vMKvy3RDsDyBOlNGOgv8ceR5YH9RI=
+X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
+ z23-20020a81ac57000000b002f199ec91a2mr16004659ywj.329.1651597108225; Tue, 03
+ May 2022 09:58:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] target/ppc: Fix tlbie
-Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>, 
- <qemu-ppc@nongnu.org>
-CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>
-References: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9a36f438-aeab-45b5-8356-2bf912a86796
-X-Ovh-Tracer-Id: 6796776264457292582
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220501055028.646596-1-richard.henderson@linaro.org>
+ <20220501055028.646596-35-richard.henderson@linaro.org>
+In-Reply-To: <20220501055028.646596-35-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 May 2022 17:58:17 +0100
+Message-ID: <CAFEAcA8T-v=Z=nJDUofSG+2wg+YcrQTFfBJOVgs14PApxTEvLA@mail.gmail.com>
+Subject: Re: [PATCH v4 34/45] target/arm: Add minimal RAS registers
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,44 +83,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/22 18:39, Leandro Lupori wrote:
-> Commit 74c4912f097bab98 changed check_tlb_flush() to use
-> tlb_flush_all_cpus_synced() instead of calling tlb_flush() on each
-> CPU. However, as side effect of this, a CPU executing a ptesync
-> after a tlbie will have its TLB flushed only after exiting its
-> current Translation Block (TB).
-> 
-> This causes memory accesses to invalid pages to succeed, if they
-> happen to be on the same TB as the ptesync.
+On Sun, 1 May 2022 at 08:15, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Add only the system registers required to implement zero error
+> records.  This means we need to save state for ERRSELR, but all
+> values are out of range, so none of the indexed error record
+> registers need be implemented.
+>
+> Add the EL2 registers required for injecting virtual SError.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-How did you track the issue ? Do you have a test case ?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Thanks,
-
-C.
-
-
-> To fix this, use tlb_flush_all_cpus() instead, that immediately
-> flushes the TLB of the CPU executing the ptesync instruction.
-> 
-> Fixes: 74c4912f097bab98 ("target/ppc: Fix synchronization of mttcg with broadcast TLB flushes")
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-> ---
->   target/ppc/helper_regs.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 9a691d6833..1fa032e4d0 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -293,7 +293,7 @@ void check_tlb_flush(CPUPPCState *env, bool global)
->       if (global && (env->tlb_need_flush & TLB_NEED_GLOBAL_FLUSH)) {
->           env->tlb_need_flush &= ~TLB_NEED_GLOBAL_FLUSH;
->           env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
-> -        tlb_flush_all_cpus_synced(cs);
-> +        tlb_flush_all_cpus(cs);
->           return;
->       }
->   
-
+thanks
+-- PMM
 
