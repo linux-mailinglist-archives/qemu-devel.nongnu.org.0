@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A0E51821F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:14:48 +0200 (CEST)
-Received: from localhost ([::1]:44180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E4E518228
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:19:07 +0200 (CEST)
+Received: from localhost ([::1]:47302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlpYM-0001Nn-Fw
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51772)
+	id 1nlpcX-0003hX-KZ
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlpVI-0000FX-SK
- for qemu-devel@nongnu.org; Tue, 03 May 2022 06:11:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34069)
+ id 1nlpaX-0002id-8g
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 06:17:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlpVG-0008Mn-Iz
- for qemu-devel@nongnu.org; Tue, 03 May 2022 06:11:35 -0400
+ id 1nlpaU-0000d4-Fv
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 06:16:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651572693;
+ s=mimecast20190719; t=1651573017;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PcjSxCVA7PYCATOM6GbF9CeHi6pcCnlKAisJ3JR1ReY=;
- b=YOvKe48K9VUvL6YMwc/gbXhsupQSqxI9T1xRmLM0f7x39IzR/SqHTgRdw2BX48/akW9+k9
- x4puYh54ZGMBHWIQZj6qQx/kJeO84b9pjfoNPwnTiqkDwZe/FZwLn3IDY01GDknbdp8xnZ
- fK6A3oLg7hChMAXH8UE8lmeZTYltkck=
+ bh=PUpUzcerXgqfOTZxn6j1LtqJ9S8aR52ppjf+RjoHvXA=;
+ b=KxC3Kq2+R8eax1jY5feEawIXRoMCXcoWgcCuuNtPlUO/1rdy7AGTg6OhKt7NXkHRm/rlxi
+ W/E4BK7hxiS9Hmq7sn7bZVDwTHpsH8KF9Dps8UpvSG1DOVuCI77tRBmgGVVmPdrLgiI0eb
+ LdjmvAXdFKtS9IQCjZic3eigBZiqoGI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-4BQF2pF7NvCk1g0llJ42qw-1; Tue, 03 May 2022 06:11:32 -0400
-X-MC-Unique: 4BQF2pF7NvCk1g0llJ42qw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-196-CXEpNzujPgGfaVifi1NTlw-1; Tue, 03 May 2022 06:16:55 -0400
+X-MC-Unique: CXEpNzujPgGfaVifi1NTlw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 093F6811E75
- for <qemu-devel@nongnu.org>; Tue,  3 May 2022 10:11:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85B84801210
+ for <qemu-devel@nongnu.org>; Tue,  3 May 2022 10:16:55 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 236A5569307;
- Tue,  3 May 2022 10:11:31 +0000 (UTC)
-Date: Tue, 3 May 2022 11:11:28 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D88C40D1CF;
+ Tue,  3 May 2022 10:16:54 +0000 (UTC)
+Date: Tue, 3 May 2022 11:16:52 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 13/26] tests: replace pipe() with
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "open list:virtiofs" <virtio-fs@redhat.com>
+Subject: Re: [PATCH v2 15/26] virtiofsd: replace pipe() with
  g_unix_open_pipe(CLOEXEC)
-Message-ID: <YnD/0F/kFfxhHCIu@redhat.com>
+Message-ID: <YnEBFEVcSN2Jarwf@redhat.com>
 References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
- <20220426092715.3931705-14-marcandre.lureau@redhat.com>
+ <20220426092715.3931705-16-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426092715.3931705-14-marcandre.lureau@redhat.com>
+In-Reply-To: <20220426092715.3931705-16-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,15 +87,14 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 01:27:02PM +0400, marcandre.lureau@redhat.com wrote:
+On Tue, Apr 26, 2022 at 01:27:04PM +0400, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
 > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  tests/qtest/ivshmem-test.c        | 5 +++--
->  tests/unit/test-io-channel-file.c | 2 +-
->  2 files changed, 4 insertions(+), 3 deletions(-)
+>  tools/virtiofsd/helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
