@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B180518186
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:43:39 +0200 (CEST)
-Received: from localhost ([::1]:52250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22325181A2
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:49:19 +0200 (CEST)
+Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlp4E-00020c-HI
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46528)
+	id 1nlp9i-0000Tq-Rv
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nlp10-0000Jm-SQ
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:40:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nlp0z-0004Am-4s
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:40:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651570816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1nlp1g-0000YW-9k; Tue, 03 May 2022 05:41:00 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:43316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1nlp1e-0004D8-7x; Tue, 03 May 2022 05:40:59 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5281D1F750;
+ Tue,  3 May 2022 09:40:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651570852; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q+wfOGM4XpUWfN0GbUuJpEktMH2UnY/AnZAkTSJNjNQ=;
- b=djNyLPaaQcYWqZ+KkuFZa0NjiXg0rF61H7XGavSRm1NbipLwMZ+wNpMOZ3CD+6RNtdRHDq
- OwS2q/2EB6piNF0TEIlcqGQgo6HAYrOhJ+XiTIpB416+SQqOMNZQ+q4RZboX0m9MYFSjrm
- xfjKE4XyvYoNBly8cxCVPYXSGYnwt98=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-DGMcnm5TMxe_EyipSPUDuA-1; Tue, 03 May 2022 05:40:15 -0400
-X-MC-Unique: DGMcnm5TMxe_EyipSPUDuA-1
-Received: by mail-yb1-f200.google.com with SMTP id
- b11-20020a5b008b000000b00624ea481d55so15155185ybp.19
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 02:40:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc;
- bh=q+wfOGM4XpUWfN0GbUuJpEktMH2UnY/AnZAkTSJNjNQ=;
- b=kZFa+j4wLyFw4of/bidJx/Sc+iw/Kg0dZMbYg0qjT5uYf2rLMF1JXPoglw8fuQNtIx
- SUDQR7zJEr1ogA7OhaPOhHe1Oc8H4P7h4U7p52Yjlju8TS+bR9ZCJo4VhpLqJj/6EZ0p
- JMHNTVHv1YxkSETGyVU4GfbABKUiKS/PoBVoJDoO/o01uFiy10JkCoVFlD6gIQgx8x5y
- P/AHFwb/o3dU5GPYd7mYvfQkYfe9iRFqY8xLbcz3sNdLbIj6h1r5z2I8sYpc7eky3O/U
- +9p0Yg8ScYp6xPT7aJVwC6oqupCBgNE4GNcDZXuHFLmVhmLNxxIfPdfnGULFjzgdkXp2
- AMzA==
-X-Gm-Message-State: AOAM531vdb4B6yN6k4nLXF8/FleImYp6iasULNvLU1aCQIOg1+l1Lfth
- TZDo2npoNAZ8mzr2oQisrATTCsYFV9glRfTrO+13BpqTUAWwX6qp7DSq9B/Q1NB/gzjytRqA0ew
- 4Yqcutobbg3taFPZJdnP10r2yKzPsLhg=
-X-Received: by 2002:a05:6902:12c2:b0:633:85ae:afdb with SMTP id
- j2-20020a05690212c200b0063385aeafdbmr13311240ybu.118.1651570814877; 
- Tue, 03 May 2022 02:40:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaeoBjYP1LwOp+dmyhymQdQbtkyq1850CionJprP9nTq0U6KF2tknSlaHGwe4di0dlTA1Z7r3cUMKkfvgpLcQ=
-X-Received: by 2002:a05:6902:12c2:b0:633:85ae:afdb with SMTP id
- j2-20020a05690212c200b0063385aeafdbmr13311228ybu.118.1651570814664; Tue, 03
- May 2022 02:40:14 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 May 2022 02:40:14 -0700
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
- <87a6c52u68.fsf@pond.sub.org>
- <CABJz62NaEgEzEkvdYbNZ5qfkx_gAYfnxt_YbQhGyD08gRH6EYg@mail.gmail.com>
- <87v8uos8lb.fsf@pond.sub.org>
- <CABJz62MTVhDHZo5+sTJKm5b+SZM_W+_o5VmMgx0NVyibYfs=hw@mail.gmail.com>
- <875ymop374.fsf@pond.sub.org>
- <CABJz62OsaZo0hJB=ucereGDOHbK-5Ym4ASqhgVePJr65JRu0gQ@mail.gmail.com>
- <87bkwff3q0.fsf@pond.sub.org>
+ bh=Yd/iDnQM5oGNN8QPbxPCoU1QbjGVJ37w6kFC3XxuskY=;
+ b=VVVQknNcQBlWCec+8uskws2EnUzr7pb3nRuRjOmZ4yO+hYVeRgcPRSBlQKe8gg9gvT3cnj
+ Peq04is022y5D+WvOKKpuT+Ceg5H7i/sWC4F9opT5eqg5BZ3ahXH26CVcxMAIgvsiR1apG
+ UECZm/qRxEeINw+7i2X/UybTkhlGzUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651570852;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yd/iDnQM5oGNN8QPbxPCoU1QbjGVJ37w6kFC3XxuskY=;
+ b=1L4AADtYLiN/qDY8UU0aYBdy5+OaGtaxRpk/9gTxQVP40/skFeWiW6POdT+xoKzCrmfyiH
+ Vq10GNv7ZZYmHXBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D0A5313AA3;
+ Tue,  3 May 2022 09:40:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id lRg9MaP4cGL+XAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 03 May 2022 09:40:51 +0000
+Subject: Re: [PATCH v7 00/22] host: Support macOS 12
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <b0933f87-3a73-fbfb-f3ee-52e7ecde73a0@suse.de>
+Date: Tue, 3 May 2022 11:40:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <87bkwff3q0.fsf@pond.sub.org>
-Date: Tue, 3 May 2022 02:40:14 -0700
-Message-ID: <CABJz62PcEPwiZfV9dBQooELvDnrqPTc_iKWYph8CR6_cGUzmWA@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Victor Toso <victortoso@redhat.com>, qemu-devel@nongnu.org, 
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,134 +95,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 03, 2022 at 09:57:27AM +0200, Markus Armbruster wrote:
-> Andrea Bolognani <abologna@redhat.com> writes:
-> > I still feel that 1) users of a language SDK will ideally not need to
-> > look at the QAPI schema or wire chatter too often
->
-> I think the most likely point of contact is the QEMU QMP Reference
-> Manual.
+On 3/7/22 12:17 AM, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Few patches to be able to build QEMU on macOS 12 (Monterey).
+> 
+> Missing review:
+>  0006-hvf-Fix-OOB-write-in-RDTSCP-instruction-decode.patch
+>  0013-osdep-Avoid-using-Clang-specific-__builtin_available.patch
+>  0014-meson-Resolve-the-entitlement.sh-script-once-for-goo.patch
+>  0015-meson-Log-QEMU_CXXFLAGS-content-in-summary.patch
+>  0016-configure-Pass-filtered-QEMU_OBJCFLAGS-to-meson.patch
+>  0017-ui-cocoa-Constify-qkeycode-translation-arrays.patch
+>  0020-ui-cocoa-capture-all-keys-and-combos-when-mouse-is-g.patch
+>  0021-ui-cocoa-add-option-to-swap-Option-and-Command.patch
+>  0022-gitlab-ci-Support-macOS-12-via-cirrus-run.patch
+> 
+> Since v6:
+> - Dropped merged patches
+> - Addressed Akihiko Odaki comments (squashed 2 patches, added R/T-b)
+> - Dropped 'configure: Disable out-of-line atomic operations on Aarch64'
+> - Add few macos patches on the list pending for 7.0 so tested by CI
 
-Note that there isn't anything preventing us from including the
-original QAPI name in the documentation for the corresponding Go
-symbol, or even a link to the reference manual.
 
-So we could make jumping from the Go API documentation, which is what
-a Go programmer will be looking at most of the time, to the QMP
-documentation pretty much effortless.
+Hi Philippe, I did not find v6 somehow,
 
-> My point is: a name override feature like the one you propose needs to
-> be used with discipline and restraint.  Adds to reviewers' mental load.
-> Needs to be worth it.  I'm not saying it isn't, I'm just pointing out a
-> cost.
+and I was looking for patch:
 
-Yeah, I get that.
+"[PATCH v5 06/16] hvf: Enable RDTSCP support"
 
-Note that I'm not suggesting it should be possible for a name to be
-completely overridden - I just want to make it possible for a human
-to provide the name parsing algorithm solutions to those problems it
-can't figure out on its own.
+was it dropped / merged with something else? I do not see it in latest git, nor in this respin,
+maybe it is in your tree somewhere?
 
-We could prevent that feature from being misused by verifying that
-the symbol the annotation is attached to can be derived from the list
-of words provided. That way, something like
+Thanks,
 
-  # SOMEName (completely-DIFFERENT-name)
+Claudio
 
-would be rejected and we would avoid misuse.
-
-> Wild idea: assume all lower case, but keep a list of exceptions.
-
-That could actually work reasonably well for QEMU because we only
-need to handle correctly what's in the schema, not arbitrary input.
-
-There's always the risk of the list of exceptions getting out of sync
-with the needs of the schema, but there's similarly no guarantee that
-annotations are going to be introduced when they are necessary, so
-it's mostly a wash.
-
-The only slight advantage of the annotation approach would be that it
-might be easier to notice it being missing because it's close to the
-name it refers to, while the list of exceptions is tucked away in a
-script far away from it.
-
-> The QAPI schema language uses three naming styles:
->
-> * lower-case-with-hyphens for command and member names
->
->   Many names use upper case and '_'.  See pragma command-name-exceptions
->   and member-name-exceptions.
-
-Looking at the output generated by Victor's WIP script, it looks like
-these are already handled as nicely as those that don't fall under
-any exception.
-
->   Some (many?) names lack separators between words (example: logappend).
->
-> * UPPER_CASE_WITH_UNDERSCORE for event names
->
-> * CamelCase for type names
->
->   Capitalization of words is inconsistent in places (example: VncInfo
->   vs. DisplayReloadOptionsVNC).
->
-> What style conversions will we need for Go?  Any other conversions come
-> to mind?
->
-> What problems do these conversions have?
-
-Go uses CamelCase for pretty much everything: types, methods,
-constants...
-
-  There's one slight wrinkle, in that the case of the first letter
-  decides whether it's going to be a PublicName or a privateName. We
-  can't do anything about that, but it shouldn't really affect us
-  that much because we'll want all QAPI names to be public.
-
-So the issues preventing us from producing a "perfect" Go API are
-
-  1. inconsistent capitalization in type names
-
-   -> could be addressed by simply changing the schema, as type
-      names do not travel on the wire
-
-  2. missing dashes in certain command/member names
-
-   -> leads to Incorrectcamelcase. Kevin's work is supposed to
-      address this
-
-  3. inability to know which parts of a lower-case-name or
-     UPPER_CASE_NAME are acronyms or are otherwise supposed to be
-     capitalized in a specific way
-
-   -> leads to WeirdVncAndDbusCapitalization. There's currently no
-      way, either implemented or planned, to avoid this
-
-In addition to these I'm also thinking that QKeyCode and all the
-QCrypto stuff should probably lose their prefixes.
-
-Note that 3 shouldn't be an issue for Rust and addressing 1 would
-actually make things worse for that language, because at the moment
-at least *some* of the types follow its expected naming rules :)
-
-> > Revised proposal for the annotation:
-> >
-> >   ns:word-WORD-WoRD-123Word
-> >
-> > Words are always separated by dashes; "regular" words are entirely
-> > lowercase, while the presence of even a single uppercase letter in a
-> > word denotes the fact that its case should be preserved when the
-> > naming conventions of the target language allow that.
->
-> Is a word always capitalized the same for a single target language?  Or
-> could capitalization depend on context?
-
-I'm not aware of any language that would adopt more than a single
-style of capitalization, outside of course the obvious
-lower_case_name or UPPER_CASE_NAME scenarios where the original
-capitalization stops being relevant.
-
--- 
-Andrea Bolognani / Red Hat / Virtualization
+> 
+> Since v5:
+> - Fixed failed rebase between patches 10 and 16 (Akihiko)
+> - Include "ui/cocoa: Fix the leak of qemu_console_get_label"
+> 
+> Since v4:
+> - Use MAC_OS_X_VERSION_MIN_REQUIRED definition (Akihiko)
+> - Include patches from Akihiko
+> 
+> Since v3:
+> - Fix --enable-modules
+> - Ignore #pragma on softfloat3 tests
+> - Addressed Akihiko Odaki comments
+> - Include Cameron Esfahani patches
+> 
+> Since v2:
+> - Addressed Akihiko Odaki comments:
+>   . use __is_identifier(),
+>   . remove cocoa setAllowedFileTypes()
+> - Addressed Daniel Berrangé comment:
+>   . rebased on testing/next, update libvirt-ci/lcitool
+> 
+> Akihiko Odaki (2):
+>   audio: Log context for audio bug
+>   coreaudio: Always return 0 in handle_voice_change
+> 
+> Cameron Esfahani (2):
+>   hvf: Use standard CR0 and CR4 register definitions
+>   hvf: Fix OOB write in RDTSCP instruction decode
+> 
+> Carwyn Ellis (2):
+>   ui/cocoa: add option to disable left-command forwarding to guest
+>   ui/cocoa: release mouse when user switches away from QEMU window
+> 
+> Gustavo Noronha Silva (2):
+>   ui/cocoa: capture all keys and combos when mouse is grabbed
+>   ui/cocoa: add option to swap Option and Command
+> 
+> Philippe Mathieu-Daudé (14):
+>   configure: Allow passing extra Objective C compiler flags
+>   tests/fp/berkeley-testfloat-3: Ignore ignored #pragma directives
+>   hvf: Make hvf_get_segments() / hvf_put_segments() local
+>   hvf: Remove deprecated hv_vcpu_flush() calls
+>   block/file-posix: Remove a deprecation warning on macOS 12
+>   audio/coreaudio: Remove a deprecation warning on macOS 12
+>   audio/dbus: Fix building with modules on macOS
+>   audio: Rename coreaudio extension to use Objective-C compiler
+>   osdep: Avoid using Clang-specific __builtin_available()
+>   meson: Resolve the entitlement.sh script once for good
+>   meson: Log QEMU_CXXFLAGS content in summary
+>   configure: Pass filtered QEMU_OBJCFLAGS to meson
+>   ui/cocoa: Constify qkeycode translation arrays
+>   gitlab-ci: Support macOS 12 via cirrus-run
+> 
+>  .gitlab-ci.d/cirrus.yml            |  16 ++++
+>  .gitlab-ci.d/cirrus/macos-12.vars  |  16 ++++
+>  audio/audio.c                      |  25 +++---
+>  audio/audio_template.h             |  27 +++----
+>  audio/{coreaudio.c => coreaudio.m} |  23 +++---
+>  audio/meson.build                  |   4 +-
+>  block/file-posix.c                 |  14 +++-
+>  configure                          |  31 ++++++++
+>  include/qemu/osdep.h               |  10 +--
+>  meson.build                        |  17 +++-
+>  qapi/ui.json                       |  29 +++++++
+>  qemu-options.hx                    |  15 ++++
+>  target/i386/hvf/vmx.h              |  19 +++--
+>  target/i386/hvf/x86.c              |   6 +-
+>  target/i386/hvf/x86.h              |  34 --------
+>  target/i386/hvf/x86_decode.c       |  12 ++-
+>  target/i386/hvf/x86_mmu.c          |   2 +-
+>  target/i386/hvf/x86_task.c         |   4 +-
+>  target/i386/hvf/x86hvf.c           |  14 +++-
+>  target/i386/hvf/x86hvf.h           |   3 +-
+>  tests/fp/meson.build               |   5 ++
+>  tests/lcitool/refresh              |   1 +
+>  ui/cocoa.m                         | 122 ++++++++++++++++++++++++++---
+>  23 files changed, 327 insertions(+), 122 deletions(-)
+>  create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
+>  rename audio/{coreaudio.c => coreaudio.m} (97%)
+> 
 
 
