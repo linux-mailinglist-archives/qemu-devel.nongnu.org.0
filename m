@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4BD517E2F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:14:58 +0200 (CEST)
-Received: from localhost ([::1]:56796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B6A517EC6
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:23:49 +0200 (CEST)
+Received: from localhost ([::1]:37106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlmkK-0006Xj-Ck
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49146)
+	id 1nlmsu-0004Ij-KV
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmVQ-0003Ou-5Y; Tue, 03 May 2022 02:59:36 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:39725)
+ id 1nlmVW-0003Qr-S7; Tue, 03 May 2022 02:59:40 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:50041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmVO-0007Vr-BL; Tue, 03 May 2022 02:59:31 -0400
+ id 1nlmVV-0007WP-3t; Tue, 03 May 2022 02:59:38 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrRg6nb5z4xXh;
- Tue,  3 May 2022 16:59:27 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrRn0G8sz4xXh;
+ Tue,  3 May 2022 16:59:33 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrRd4kbdz4yST;
- Tue,  3 May 2022 16:59:25 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrRl0161z4yST;
+ Tue,  3 May 2022 16:59:30 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jamin Lin <jamin_lin@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>,
- Steven Lee <steven_lee@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 13/19] test/avocado/machine_aspeed.py: Add ast1030 test case
-Date: Tue,  3 May 2022 08:58:42 +0200
-Message-Id: <20220503065848.125215-14-clg@kaod.org>
+Subject: [PULL 15/19] aspeed/hace: Support HMAC Key Buffer register.
+Date: Tue,  3 May 2022 08:58:44 +0200
+Message-Id: <20220503065848.125215-16-clg@kaod.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220503065848.125215-1-clg@kaod.org>
 References: <20220503065848.125215-1-clg@kaod.org>
@@ -65,63 +64,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jamin Lin <jamin_lin@aspeedtech.com>
+From: Steven Lee <steven_lee@aspeedtech.com>
 
-Add test case to test "ast1030-evb" machine with zephyr os
+Support HACE28: Hash HMAC Key Buffer Base Address Register.
 
 Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220401083850.15266-10-jamin_lin@aspeedtech.com>
+Message-Id: <20220426021120.28255-2-steven_lee@aspeedtech.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/avocado/machine_aspeed.py | 36 +++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 tests/avocado/machine_aspeed.py
+ include/hw/misc/aspeed_hace.h | 1 +
+ hw/misc/aspeed_hace.c         | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-new file mode 100644
-index 000000000000..33090af19940
---- /dev/null
-+++ b/tests/avocado/machine_aspeed.py
-@@ -0,0 +1,36 @@
-+# Functional test that boots the ASPEED SoCs with firmware
-+#
-+# Copyright (C) 2022 ASPEED Technology Inc
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import exec_command_and_wait_for_pattern
-+from avocado.utils import archive
-+
-+
-+class AST1030Machine(QemuSystemTest):
-+    """Boots the zephyr os and checks that the console is operational"""
-+
-+    timeout = 10
-+
-+    def test_ast1030_zephyros(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:ast1030-evb
-+        """
-+        tar_url = ('https://github.com/AspeedTech-BMC'
-+                   '/zephyr/releases/download/v00.01.04/ast1030-evb-demo.zip')
-+        tar_hash = '4c6a8ce3a8ba76ef1a65dae419ae3409343c4b20'
-+        tar_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        archive.extract(tar_path, self.workdir)
-+        kernel_file = self.workdir + "/ast1030-evb-demo/zephyr.elf"
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', kernel_file,
-+                         '-nographic')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, "Booting Zephyr OS")
-+        exec_command_and_wait_for_pattern(self, "help",
-+                                          "Available commands")
+diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
+index 94d5ada95fa2..2242945eb426 100644
+--- a/include/hw/misc/aspeed_hace.h
++++ b/include/hw/misc/aspeed_hace.h
+@@ -37,6 +37,7 @@ struct AspeedHACEClass {
+ 
+     uint32_t src_mask;
+     uint32_t dest_mask;
++    uint32_t key_mask;
+     uint32_t hash_mask;
+ };
+ 
+diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+index 10f00e65f4e1..59fe5bfca227 100644
+--- a/hw/misc/aspeed_hace.c
++++ b/hw/misc/aspeed_hace.c
+@@ -27,6 +27,7 @@
+ 
+ #define R_HASH_SRC      (0x20 / 4)
+ #define R_HASH_DEST     (0x24 / 4)
++#define R_HASH_KEY_BUFF (0x28 / 4)
+ #define R_HASH_SRC_LEN  (0x2c / 4)
+ 
+ #define R_HASH_CMD      (0x30 / 4)
+@@ -210,6 +211,9 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+     case R_HASH_DEST:
+         data &= ahc->dest_mask;
+         break;
++    case R_HASH_KEY_BUFF:
++        data &= ahc->key_mask;
++        break;
+     case R_HASH_SRC_LEN:
+         data &= 0x0FFFFFFF;
+         break;
+@@ -333,6 +337,7 @@ static void aspeed_ast2400_hace_class_init(ObjectClass *klass, void *data)
+ 
+     ahc->src_mask = 0x0FFFFFFF;
+     ahc->dest_mask = 0x0FFFFFF8;
++    ahc->key_mask = 0x0FFFFFC0;
+     ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
+ }
+ 
+@@ -351,6 +356,7 @@ static void aspeed_ast2500_hace_class_init(ObjectClass *klass, void *data)
+ 
+     ahc->src_mask = 0x3fffffff;
+     ahc->dest_mask = 0x3ffffff8;
++    ahc->key_mask = 0x3FFFFFC0;
+     ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
+ }
+ 
+@@ -369,6 +375,7 @@ static void aspeed_ast2600_hace_class_init(ObjectClass *klass, void *data)
+ 
+     ahc->src_mask = 0x7FFFFFFF;
+     ahc->dest_mask = 0x7FFFFFF8;
++    ahc->key_mask = 0x7FFFFFF8;
+     ahc->hash_mask = 0x00147FFF;
+ }
+ 
 -- 
 2.35.1
 
