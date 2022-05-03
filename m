@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA37517F19
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:43:25 +0200 (CEST)
-Received: from localhost ([::1]:40870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D24517F20
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:47:43 +0200 (CEST)
+Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlnBr-0001UI-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49026)
+	id 1nlnG2-0007QG-Dp
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmV9-0003D6-6I; Tue, 03 May 2022 02:59:15 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:46431)
+ id 1nlmVC-0003K5-3d; Tue, 03 May 2022 02:59:18 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:58623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmV7-0007Ts-GD; Tue, 03 May 2022 02:59:14 -0400
+ id 1nlmVA-0007UH-CG; Tue, 03 May 2022 02:59:17 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrRM10wcz4ySs;
- Tue,  3 May 2022 16:59:11 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrRP6kCjz4ySc;
+ Tue,  3 May 2022 16:59:13 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrRJ616Zz4yST;
- Tue,  3 May 2022 16:59:08 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrRM4gL0z4yST;
+ Tue,  3 May 2022 16:59:11 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -34,9 +34,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Steven Lee <steven_lee@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>,
  Jamin Lin <jamin_lin@aspeedtech.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 07/19] aspeed/wdt: Fix ast2500/ast2600 default reload value
-Date: Tue,  3 May 2022 08:58:36 +0200
-Message-Id: <20220503065848.125215-8-clg@kaod.org>
+Subject: [PULL 08/19] aspeed/wdt: Add AST1030 support
+Date: Tue,  3 May 2022 08:58:37 +0200
+Message-Id: <20220503065848.125215-9-clg@kaod.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220503065848.125215-1-clg@kaod.org>
 References: <20220503065848.125215-1-clg@kaod.org>
@@ -68,77 +68,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Steven Lee <steven_lee@aspeedtech.com>
 
-Per ast2500_2520_datasheet_v1.8 and ast2600v11.pdf, the default value of
-WDT00 and WDT04 is 0x014FB180 for ast2500/ast2600.
-Add default_status and default_reload_value attributes for storing
-counter status and reload value as they are different from ast2400.
+AST1030 wdt controller is similiar to AST2600's wdt, but it has extra
+registers.
+Introduce ast1030 object class and increse the number of regs(offset) of
+ast1030 model.
 
 Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220401083850.15266-4-jamin_lin@aspeedtech.com>
+Message-Id: <20220401083850.15266-5-jamin_lin@aspeedtech.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/watchdog/wdt_aspeed.h |  2 ++
- hw/watchdog/wdt_aspeed.c         | 10 ++++++++--
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ hw/watchdog/wdt_aspeed.c         | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
 diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index f945cd6c5833..0e37f39f384c 100644
+index 0e37f39f384c..dfa5dfa424a3 100644
 --- a/include/hw/watchdog/wdt_aspeed.h
 +++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -45,6 +45,8 @@ struct AspeedWDTClass {
-     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
-     void (*wdt_reload)(AspeedWDTState *s);
-     uint64_t (*sanitize_ctrl)(uint64_t data);
-+    uint32_t default_status;
-+    uint32_t default_reload_value;
- };
+@@ -19,6 +19,7 @@ OBJECT_DECLARE_TYPE(AspeedWDTState, AspeedWDTClass, ASPEED_WDT)
+ #define TYPE_ASPEED_2400_WDT TYPE_ASPEED_WDT "-ast2400"
+ #define TYPE_ASPEED_2500_WDT TYPE_ASPEED_WDT "-ast2500"
+ #define TYPE_ASPEED_2600_WDT TYPE_ASPEED_WDT "-ast2600"
++#define TYPE_ASPEED_1030_WDT TYPE_ASPEED_WDT "-ast1030"
  
- #endif /* WDT_ASPEED_H */
+ #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
+ 
 diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 6aa6f90b664a..386928e9c0fc 100644
+index 386928e9c0fc..31855afdf4c8 100644
 --- a/hw/watchdog/wdt_aspeed.c
 +++ b/hw/watchdog/wdt_aspeed.c
-@@ -232,8 +232,8 @@ static void aspeed_wdt_reset(DeviceState *dev)
-     AspeedWDTState *s = ASPEED_WDT(dev);
-     AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(s);
+@@ -391,6 +391,29 @@ static const TypeInfo aspeed_2600_wdt_info = {
+     .class_init = aspeed_2600_wdt_class_init,
+ };
  
--    s->regs[WDT_STATUS] = 0x3EF1480;
--    s->regs[WDT_RELOAD_VALUE] = 0x03EF1480;
-+    s->regs[WDT_STATUS] = awc->default_status;
-+    s->regs[WDT_RELOAD_VALUE] = awc->default_reload_value;
-     s->regs[WDT_RESTART] = 0;
-     s->regs[WDT_CTRL] = awc->sanitize_ctrl(0);
-     s->regs[WDT_RESET_WIDTH] = 0xFF;
-@@ -319,6 +319,8 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-     awc->wdt_reload = aspeed_wdt_reload;
-     awc->sanitize_ctrl = aspeed_2400_sanitize_ctrl;
-+    awc->default_status = 0x03EF1480;
-+    awc->default_reload_value = 0x03EF1480;
- }
- 
- static const TypeInfo aspeed_2400_wdt_info = {
-@@ -355,6 +357,8 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-     awc->wdt_reload = aspeed_wdt_reload_1mhz;
-     awc->sanitize_ctrl = aspeed_2500_sanitize_ctrl;
++static void aspeed_1030_wdt_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
++
++    dc->desc = "ASPEED 1030 Watchdog Controller";
++    awc->offset = 0x80;
++    awc->ext_pulse_width_mask = 0xfffff; /* TODO */
++    awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
++    awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
++    awc->wdt_reload = aspeed_wdt_reload_1mhz;
++    awc->sanitize_ctrl = aspeed_2600_sanitize_ctrl;
 +    awc->default_status = 0x014FB180;
 +    awc->default_reload_value = 0x014FB180;
++}
++
++static const TypeInfo aspeed_1030_wdt_info = {
++    .name = TYPE_ASPEED_1030_WDT,
++    .parent = TYPE_ASPEED_WDT,
++    .instance_size = sizeof(AspeedWDTState),
++    .class_init = aspeed_1030_wdt_class_init,
++};
++
+ static void wdt_aspeed_register_types(void)
+ {
+     watchdog_add_model(&model);
+@@ -398,6 +421,7 @@ static void wdt_aspeed_register_types(void)
+     type_register_static(&aspeed_2400_wdt_info);
+     type_register_static(&aspeed_2500_wdt_info);
+     type_register_static(&aspeed_2600_wdt_info);
++    type_register_static(&aspeed_1030_wdt_info);
  }
  
- static const TypeInfo aspeed_2500_wdt_info = {
-@@ -376,6 +380,8 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-     awc->wdt_reload = aspeed_wdt_reload_1mhz;
-     awc->sanitize_ctrl = aspeed_2600_sanitize_ctrl;
-+    awc->default_status = 0x014FB180;
-+    awc->default_reload_value = 0x014FB180;
- }
- 
- static const TypeInfo aspeed_2600_wdt_info = {
+ type_init(wdt_aspeed_register_types)
 -- 
 2.35.1
 
