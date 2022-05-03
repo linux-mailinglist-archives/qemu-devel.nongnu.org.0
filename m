@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF2D517FA0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 10:22:17 +0200 (CEST)
-Received: from localhost ([::1]:45498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDEA517FB5
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 10:26:26 +0200 (CEST)
+Received: from localhost ([::1]:53326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlnnU-0002ws-IZ
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 04:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
+	id 1nlnrU-0008Lx-Oc
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 04:26:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nln7q-0007y9-M0
- for qemu-devel@nongnu.org; Tue, 03 May 2022 03:39:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59215)
+ id 1nlnBo-0003iK-Fn
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 03:43:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nln7n-00048Z-2Z
- for qemu-devel@nongnu.org; Tue, 03 May 2022 03:39:14 -0400
+ id 1nlnBi-0004pd-Kk
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 03:43:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651563550;
+ s=mimecast20190719; t=1651563794;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YZdRSKw1TJg7o10l5a/Nr/MJYp2C8L+pkI+EOG5fwwY=;
- b=YihqEUkOskVJT4TJbF19eg5DdtZWtHvSY69HUgcOyNbh1nkKoajeSQrRF6fwtaKdctK8RL
- 63AOxL+45aRnSC+TeDSAY9j1JJaq6+cStkZE0u2xOY+icg8F5HKVEN04Wt/kceEr1XdbZN
- p0j+P7CzG7VvpGiQ0AJRL6sQ35+F24w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jOUz7Odu6vNnoQ+bFvyo/GtNDVIbMmfzDvAyO+3QVc8=;
+ b=FqJRDplCNHc5e5DkgAHoQLUfi5Rq8ZTl5WYbdAEN59YcN3VHyKRQ63I/sOqsAVA+ojanKz
+ VnnQdR9rx8JYEOf9Bc7x1H5E61+S6P8F6lWlm9EevRJbqMScaWAnMpnmpYZUzm79PSt/T/
+ noFqsDI+u7FaqARc0B3r+q5xPtscGRM=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-i4I0FdfqPIWt-MwdUWIeNA-1; Tue, 03 May 2022 03:39:05 -0400
-X-MC-Unique: i4I0FdfqPIWt-MwdUWIeNA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8547B8002B2;
- Tue,  3 May 2022 07:39:04 +0000 (UTC)
-Received: from harajuku.usersys.redhat.com (unknown [10.40.194.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BF7E9E71;
- Tue,  3 May 2022 07:38:40 +0000 (UTC)
+ us-mta-587-192Nl6zvN86M-YiB8wJlSg-1; Tue, 03 May 2022 03:43:13 -0400
+X-MC-Unique: 192Nl6zvN86M-YiB8wJlSg-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ a17-20020a258051000000b00648703d0c56so14882018ybn.22
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 00:43:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc;
+ bh=jOUz7Odu6vNnoQ+bFvyo/GtNDVIbMmfzDvAyO+3QVc8=;
+ b=4N9fsAHtKNX8C4bV3Cqz6xxY1u8s68gJSodynVS0GPD1tNuUcHmDT+WyKCYJfRAt4n
+ I2nyjhawO0Q65EffPNuWT5l86RVk+zHFtOYwpM/1spWENBE1cYzkd4baFhhxc+zD/0sF
+ /KIjqrKqgTfClkIWVB/jjKK4ASlKRzian3ZnTMoofhdsNQZv0lZ9Eszndfg8BDauZEId
+ IVd1UfQQhtJzm2p82ray+kNmk8OOOWmYt8Ua44AC7rMsBQ5RQI3dEFq2CYCkbDh5xhWa
+ NwIiLvH4vJhEQ2MfDJb6exyv6SUc9XOzqlwdv7JFLGUudnU0UKPl9XjU1u5wx7iCloFq
+ ty6w==
+X-Gm-Message-State: AOAM532odUzWx84oW6i5u3Bsr5aTPdee9JG9U/Xstc+YopRnkBISZm31
+ 24a0W2mufqEDJpcQmSYkDIsidS6FJQk7aNl9AbXGNUu5XdnpyQgIFZQc4RAV1oHQ+SyL958Xl+w
+ xRGnlK21t1/XA75RiNIsYjhTmXy2K8MQ=
+X-Received: by 2002:a05:6902:12c2:b0:633:85ae:afdb with SMTP id
+ j2-20020a05690212c200b0063385aeafdbmr13102359ybu.118.1651563792712; 
+ Tue, 03 May 2022 00:43:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxi2866xKKS+5OJcegVrhMbFylUIEc8n+OedhJ3HMZ9byRs7T+GPWBkl2ukAcniqVIp/zAv8p8OrFwCb/OXleg=
+X-Received: by 2002:a05:6902:12c2:b0:633:85ae:afdb with SMTP id
+ j2-20020a05690212c200b0063385aeafdbmr13102341ybu.118.1651563792542; Tue, 03
+ May 2022 00:43:12 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 3 May 2022 00:43:12 -0700
 From: Andrea Bolognani <abologna@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Markus Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH v2 5/8] qapi: Drop unnecessary empty lines outside of comments
-Date: Tue,  3 May 2022 09:37:34 +0200
-Message-Id: <20220503073737.84223-6-abologna@redhat.com>
-In-Reply-To: <20220503073737.84223-1-abologna@redhat.com>
-References: <20220503073737.84223-1-abologna@redhat.com>
+References: <20220429154758.354610-1-abologna@redhat.com>
+ <20220429154758.354610-7-abologna@redhat.com>
+ <874k28s4hs.fsf@pond.sub.org>
+ <CABJz62PTMG6GvZM7nCGxLAb0YhDuA-Yn-q+iNgcZb4=Wpq-Mfw@mail.gmail.com>
+ <87ee1bkftm.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+In-Reply-To: <87ee1bkftm.fsf@pond.sub.org>
+Date: Tue, 3 May 2022 00:43:11 -0700
+Message-ID: <CABJz62M+eEN_88_F91seLDbe--q2=1RWsfC7zX6Z2mb2pWrK1w@mail.gmail.com>
+Subject: Re: [PATCH 6/7] qapi: Drop unnecessary horizontal spacing in comments
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, Yanan Wang <wangyanan55@huawei.com>, 
+ Juan Quintela <quintela@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -90,369 +109,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Andrea Bolognani <abologna@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/audio.json          |  1 -
- qapi/block-core.json     | 11 -----------
- qapi/block.json          |  3 ---
- qapi/char.json           |  1 -
- qapi/control.json        |  1 -
- qapi/crypto.json         | 12 ------------
- qapi/job.json            |  1 -
- qapi/machine-target.json |  1 -
- qapi/machine.json        |  1 -
- qapi/misc-target.json    |  4 ----
- qapi/run-state.json      |  1 -
- qapi/ui.json             |  1 -
- 12 files changed, 38 deletions(-)
+On Mon, May 02, 2022 at 07:24:53PM +0200, Markus Armbruster wrote:
+> Andrea Bolognani <abologna@redhat.com> writes:
+> > On Mon, May 02, 2022 at 10:50:07AM +0200, Markus Armbruster wrote:
+> >> I doubt changing to a different alignment now is useful.  The next
+> >> patch, however, drops the alignment entirely.  Possibly useful.
+> >>
+> >> Thoughts?
+> >
+> > My rationale for splitting things the way I did is that, if dropping
+> > the horizontal alignment entirely was not considered desirable, we
+> > could at least get rid of the extra whitespace.
+>
+> Understood.
+>
+> >                                                 But if you think that
+> > the benefit from the half measure doesn't offset the cost of the
+> > churn it causes, I'm happy to drop these hunks and go straight from
+> > the current status to no horizontal alignment at all in one fell
+> > swoop with the next patch.
+>
+> Show us the patches, and then we can decide whether the improvement is
+> worth the churn.
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 0785e70a50..8099e3d7f1 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -352,7 +352,6 @@
-     '*out':  'AudiodevPerDirectionOptions',
-     '*path': 'str' } }
- 
--
- ##
- # @AudioFormat:
- #
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 27832a1244..2bce5bb0ae 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -739,7 +739,6 @@
- ##
- { 'command': 'query-block', 'returns': ['BlockInfo'] }
- 
--
- ##
- # @BlockDeviceTimedStats:
- #
-@@ -1512,7 +1511,6 @@
- { 'command': 'blockdev-snapshot-sync',
-   'data': 'BlockdevSnapshotSync' }
- 
--
- ##
- # @blockdev-snapshot:
- #
-@@ -1751,7 +1749,6 @@
- { 'command': 'blockdev-backup', 'boxed': true,
-   'data': 'BlockdevBackup' }
- 
--
- ##
- # @query-named-block-nodes:
- #
-@@ -3067,7 +3064,6 @@
-   'base': 'BlockdevOptionsGenericFormat',
-   'data': { '*key-secret': 'str' } }
- 
--
- ##
- # @BlockdevOptionsGenericCOWFormat:
- #
-@@ -3182,8 +3178,6 @@
-   'base': 'BlockdevOptionsGenericCOWFormat',
-   'data': { '*encrypt': 'BlockdevQcowEncryption' } }
- 
--
--
- ##
- # @BlockdevQcow2EncryptionFormat:
- #
-@@ -3357,7 +3351,6 @@
-             '*user': 'str',
-             '*host-key-check': 'SshHostKeyCheck' } }
- 
--
- ##
- # @BlkdebugEvent:
- #
-@@ -3721,7 +3714,6 @@
-             '*header-digest': 'IscsiHeaderDigest',
-             '*timeout': 'int' } }
- 
--
- ##
- # @RbdAuthMode:
- #
-@@ -4564,7 +4556,6 @@
- { 'enum': 'BlockdevQcow2Version',
-   'data': [ 'v2', 'v3' ] }
- 
--
- ##
- # @Qcow2CompressionType:
- #
-@@ -4738,7 +4729,6 @@
-             '*toolsversion':    'str',
-             '*zeroed-grain':    'bool' } }
- 
--
- ##
- # @BlockdevCreateOptionsSsh:
- #
-@@ -4973,7 +4963,6 @@
- { 'enum': 'BlockErrorAction',
-   'data': [ 'ignore', 'report', 'stop' ] }
- 
--
- ##
- # @BLOCK_IMAGE_CORRUPTED:
- #
-diff --git a/qapi/block.json b/qapi/block.json
-index 5de15c6070..41b73c9934 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -286,7 +286,6 @@
-   'data': { 'id': 'str',
-             'node-name': 'str'} }
- 
--
- ##
- # @BlockdevChangeReadOnlyMode:
- #
-@@ -304,7 +303,6 @@
- { 'enum': 'BlockdevChangeReadOnlyMode',
-   'data': ['retain', 'read-only', 'read-write'] }
- 
--
- ##
- # @blockdev-change-medium:
- #
-@@ -375,7 +373,6 @@
-             '*force': 'bool',
-             '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
- 
--
- ##
- # @DEVICE_TRAY_MOVED:
- #
-diff --git a/qapi/char.json b/qapi/char.json
-index f0fd0d1c9f..8414ef2bc2 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -329,7 +329,6 @@
-   'data': { '*signal': 'bool' },
-   'base': 'ChardevCommon' }
- 
--
- ##
- # @ChardevSpiceChannel:
- #
-diff --git a/qapi/control.json b/qapi/control.json
-index 8c9122ef7a..53461cec05 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -68,7 +68,6 @@
- { 'struct': 'VersionTriple',
-   'data': {'major': 'int', 'minor': 'int', 'micro': 'int'} }
- 
--
- ##
- # @VersionInfo:
- #
-diff --git a/qapi/crypto.json b/qapi/crypto.json
-index aebe390ab7..ff33e1fe1f 100644
---- a/qapi/crypto.json
-+++ b/qapi/crypto.json
-@@ -24,7 +24,6 @@
-   'prefix': 'QCRYPTO_TLS_CREDS_ENDPOINT',
-   'data': ['client', 'server']}
- 
--
- ##
- # @QCryptoSecretFormat:
- #
-@@ -39,7 +38,6 @@
-   'prefix': 'QCRYPTO_SECRET_FORMAT',
-   'data': ['raw', 'base64']}
- 
--
- ##
- # @QCryptoHashAlgorithm:
- #
-@@ -59,7 +57,6 @@
-   'prefix': 'QCRYPTO_HASH_ALG',
-   'data': ['md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'ripemd160']}
- 
--
- ##
- # @QCryptoCipherAlgorithm:
- #
-@@ -88,7 +85,6 @@
-            'serpent-128', 'serpent-192', 'serpent-256',
-            'twofish-128', 'twofish-192', 'twofish-256']}
- 
--
- ##
- # @QCryptoCipherMode:
- #
-@@ -105,7 +101,6 @@
-   'prefix': 'QCRYPTO_CIPHER_MODE',
-   'data': ['ecb', 'cbc', 'xts', 'ctr']}
- 
--
- ##
- # @QCryptoIVGenAlgorithm:
- #
-@@ -181,7 +176,6 @@
- { 'struct': 'QCryptoBlockOptionsLUKS',
-   'data': { '*key-secret': 'str' }}
- 
--
- ##
- # @QCryptoBlockCreateOptionsLUKS:
- #
-@@ -212,7 +206,6 @@
-             '*hash-alg': 'QCryptoHashAlgorithm',
-             '*iter-time': 'int'}}
- 
--
- ##
- # @QCryptoBlockOpenOptions:
- #
-@@ -227,7 +220,6 @@
-   'data': { 'qcow': 'QCryptoBlockOptionsQCow',
-             'luks': 'QCryptoBlockOptionsLUKS' } }
- 
--
- ##
- # @QCryptoBlockCreateOptions:
- #
-@@ -242,7 +234,6 @@
-   'data': { 'qcow': 'QCryptoBlockOptionsQCow',
-             'luks': 'QCryptoBlockCreateOptionsLUKS' } }
- 
--
- ##
- # @QCryptoBlockInfoBase:
- #
-@@ -256,7 +247,6 @@
- { 'struct': 'QCryptoBlockInfoBase',
-   'data': { 'format': 'QCryptoBlockFormat' }}
- 
--
- ##
- # @QCryptoBlockInfoLUKSSlot:
- #
-@@ -276,7 +266,6 @@
-            '*stripes': 'int',
-            'key-offset': 'int' } }
- 
--
- ##
- # @QCryptoBlockInfoLUKS:
- #
-@@ -330,7 +319,6 @@
- { 'enum': 'QCryptoBlockLUKSKeyslotState',
-   'data': [ 'active', 'inactive' ] }
- 
--
- ##
- # @QCryptoBlockAmendOptionsLUKS:
- #
-diff --git a/qapi/job.json b/qapi/job.json
-index 1a6ef03451..d5f84e9615 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -173,7 +173,6 @@
- ##
- { 'command': 'job-cancel', 'data': { 'id': 'str' } }
- 
--
- ##
- # @job-complete:
- #
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index f5ec4bc172..06b0d2ca61 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -54,7 +54,6 @@
- { 'enum': 'CpuModelExpansionType',
-   'data': [ 'static', 'full' ] }
- 
--
- ##
- # @CpuModelCompareResult:
- #
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 20b1f0c748..9f91e46e8b 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1363,7 +1363,6 @@
- { 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
-   'data': { '*id': 'str', 'size': 'size', 'qom-path' : 'str'} }
- 
--
- ##
- # @MEM_UNPLUG_ERROR:
- #
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index ae2c483a68..2fa68a6796 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -21,7 +21,6 @@
- { 'command': 'rtc-reset-reinjection',
-   'if': 'TARGET_I386' }
- 
--
- ##
- # @SevState:
- #
-@@ -101,7 +100,6 @@
- { 'command': 'query-sev', 'returns': 'SevInfo',
-   'if': 'TARGET_I386' }
- 
--
- ##
- # @SevLaunchMeasureInfo:
- #
-@@ -132,7 +130,6 @@
- { 'command': 'query-sev-launch-measure', 'returns': 'SevLaunchMeasureInfo',
-   'if': 'TARGET_I386' }
- 
--
- ##
- # @SevCapability:
- #
-@@ -304,7 +301,6 @@
- { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
-   'if': 'TARGET_ARM' }
- 
--
- ##
- # @SGXEPCSection:
- #
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index a5d2db3b91..30a2f5231d 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -597,7 +597,6 @@
-   'data': [ 'hypervisor',
-             'guest' ] }
- 
--
- ##
- # @MemoryFailureAction:
- #
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 0e903340fc..9f19beea6d 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -128,7 +128,6 @@
- #
- # Since: 7.0
- ##
--
- { 'struct': 'ExpirePasswordOptionsVnc',
-   'data': { '*display': 'str' } }
- 
+The way things are split in the respin should allow us to pick up the
+obviously desirable changes and then decide how far we want to go
+with the rest.
+
 -- 
-2.35.1
+Andrea Bolognani / Red Hat / Virtualization
 
 
