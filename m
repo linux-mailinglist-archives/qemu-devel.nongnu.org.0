@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8CA519016
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:33:44 +0200 (CEST)
-Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F5151906B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:48:59 +0200 (CEST)
+Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm09P-0001Vc-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
+	id 1nm0OA-0006Uh-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlyyT-0006rG-LQ
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:18:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37414)
+ id 1nlz0h-000286-Ky
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:20:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlyyR-0003hp-GW
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:18:20 -0400
+ id 1nlz0e-0004zc-Jo
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:20:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651609098;
+ s=mimecast20190719; t=1651609235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fuga4LugH825TIlXqNJy7BbClfzwgBYhIYx2V+44kGA=;
- b=KjrKUIbQ1CaV0vsDkzAvObByN+FP269ppr13ZdQtikPegt/ODbngHzKjBq8xBlgzyy2C70
- Lg7iF3jiyL9/juFdwaA7jJ+E0nVAtnBpPrbA6uZgF+mmfclcKujMpUYo2xf0RsDStMboJE
- 0Z2ww55b9gkzoRdW/0LCTbwPkYWz4UM=
+ bh=vddiXhm6AjciFnp+PAgjI6tNEAIpZ19o/JjvTz+HyqA=;
+ b=F63S4JM62tliI4IM+py8OaAqaLtic/le2ir1kiuulyQJMRBvihaxGTDnDwL0QLBTE0X5ni
+ 2NVmwMFCYPsfXrW6Q8D6d2CJlxfCzYr0TDzt7K1K2fSR/l08EDz8x0yAHxAgJudK12oKPM
+ yQuiS9sORIcfijDTSntoFJfnVg2o6Qk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-547-bHfKp7GzPGOBCr1DKKkDKw-1; Tue, 03 May 2022 10:50:06 -0400
-X-MC-Unique: bHfKp7GzPGOBCr1DKKkDKw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-335-l0sJggAiPRCbCCjMe-3oWQ-1; Tue, 03 May 2022 11:45:12 -0400
+X-MC-Unique: l0sJggAiPRCbCCjMe-3oWQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D59C61CE6082;
- Tue,  3 May 2022 13:13:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B64B38FE2CE;
+ Tue,  3 May 2022 13:13:12 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 869BD7774;
- Tue,  3 May 2022 13:13:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 272A7C27EB1;
+ Tue,  3 May 2022 13:13:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 01/23] Use QEMU_SANITIZE_THREAD
-Date: Tue,  3 May 2022 17:12:34 +0400
-Message-Id: <20220503131256.187238-2-marcandre.lureau@redhat.com>
+Subject: [PULL 02/23] Use QEMU_SANITIZE_ADDRESS
+Date: Tue,  3 May 2022 17:12:35 +0400
+Message-Id: <20220503131256.187238-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20220503131256.187238-1-marcandre.lureau@redhat.com>
 References: <20220503131256.187238-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -85,62 +85,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- include/qemu/atomic.h                        | 8 +++++---
- subprojects/libvhost-user/include/compiler.h | 1 +
- 2 files changed, 6 insertions(+), 3 deletions(-)
- create mode 120000 subprojects/libvhost-user/include/compiler.h
+ tests/qtest/fdc-test.c    | 2 +-
+ util/coroutine-ucontext.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
-index 112a29910bea..7e8fc8e7cde2 100644
---- a/include/qemu/atomic.h
-+++ b/include/qemu/atomic.h
-@@ -15,6 +15,8 @@
- #ifndef QEMU_ATOMIC_H
- #define QEMU_ATOMIC_H
+diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
+index 4aa72f36431f..0b3c2c0d523f 100644
+--- a/tests/qtest/fdc-test.c
++++ b/tests/qtest/fdc-test.c
+@@ -550,7 +550,7 @@ static void fuzz_registers(void)
  
-+#include "compiler.h"
-+
- /* Compiler barrier */
- #define barrier()   ({ asm volatile("" ::: "memory"); (void)0; })
- 
-@@ -81,7 +83,7 @@
-  * no processors except Alpha need a barrier here.  Leave it in if
-  * using Thread Sanitizer to avoid warnings, otherwise optimize it away.
-  */
--#if defined(__SANITIZE_THREAD__)
-+#ifdef QEMU_SANITIZE_THREAD
- #define smp_read_barrier_depends()   ({ barrier(); __atomic_thread_fence(__ATOMIC_CONSUME); })
- #elif defined(__alpha__)
- #define smp_read_barrier_depends()   asm volatile("mb":::"memory")
-@@ -146,7 +148,7 @@
- /* See above: most compilers currently treat consume and acquire the
-  * same, but this slows down qatomic_rcu_read unnecessarily.
-  */
--#ifdef __SANITIZE_THREAD__
-+#ifdef QEMU_SANITIZE_THREAD
- #define qatomic_rcu_read__nocheck(ptr, valptr)           \
-     __atomic_load(ptr, valptr, __ATOMIC_CONSUME);
+ static bool qtest_check_clang_sanitizer(void)
+ {
+-#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
++#ifdef QEMU_SANITIZE_ADDRESS
+     return true;
  #else
-@@ -254,7 +256,7 @@
- #define qatomic_mb_read(ptr)                             \
-     qatomic_load_acquire(ptr)
+     g_test_skip("QEMU not configured using --enable-sanitizers");
+diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
+index 904b375192ca..ed368e1a3ec3 100644
+--- a/util/coroutine-ucontext.c
++++ b/util/coroutine-ucontext.c
+@@ -30,7 +30,7 @@
+ #include <valgrind/valgrind.h>
+ #endif
  
--#if !defined(__SANITIZE_THREAD__) && \
-+#if !defined(QEMU_SANITIZE_THREAD) && \
-     (defined(__i386__) || defined(__x86_64__) || defined(__s390x__))
- /* This is more efficient than a store plus a fence.  */
- # define qatomic_mb_set(ptr, i)  ((void)qatomic_xchg(ptr, i))
-diff --git a/subprojects/libvhost-user/include/compiler.h b/subprojects/libvhost-user/include/compiler.h
-new file mode 120000
-index 000000000000..de7b70697cd2
---- /dev/null
-+++ b/subprojects/libvhost-user/include/compiler.h
-@@ -0,0 +1 @@
-+../../../include/qemu/compiler.h
-\ No newline at end of file
+-#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
++#ifdef QEMU_SANITIZE_ADDRESS
+ #ifdef CONFIG_ASAN_IFACE_FIBER
+ #define CONFIG_ASAN 1
+ #include <sanitizer/asan_interface.h>
 -- 
 2.36.0.44.g0f828332d5ac
 
