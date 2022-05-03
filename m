@@ -2,90 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1895188EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 17:43:56 +0200 (CEST)
-Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A2051891F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 17:53:09 +0200 (CEST)
+Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlugs-0001I0-SX
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 11:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33040)
+	id 1nlupo-00013G-Bw
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 11:53:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlud1-0005qt-Lp
- for qemu-devel@nongnu.org; Tue, 03 May 2022 11:39:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23984)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nluns-0008Kn-Ve; Tue, 03 May 2022 11:51:08 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlucy-0006HZ-Bz
- for qemu-devel@nongnu.org; Tue, 03 May 2022 11:39:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651592391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=redIlLxwCOrB5/dphju8QCaOaA1Ld+FEdrIsR5+spV4=;
- b=Kw6tEMBTOE+0fgtbhKxjWi00K3Y/Hrkk3gI94bZYdPKPrGkutHUuMeqtNGGhZvpeiTeopC
- 7jW6/EQ0tIH6MBONL2I1cJLgWznOvoL0cfXl/kSh53QFqEtwgU5pMl2QLytYxd9qqYg0Al
- ZWSchmxdMEDfxIDs1UzoMLadFg23VoA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-HPSTAWELM9m-NoTv76jqXw-1; Tue, 03 May 2022 11:39:50 -0400
-X-MC-Unique: HPSTAWELM9m-NoTv76jqXw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u26-20020adfb21a000000b0020ac48a9aa4so6499018wra.5
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 08:39:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=redIlLxwCOrB5/dphju8QCaOaA1Ld+FEdrIsR5+spV4=;
- b=n98OOiO4PzBB7bf2tymVwJkHBcqOWkGEYWKjID+1bYRErCUinpv4NhmbKDrZC/iTP7
- 6e1c9U2JSAPaw85eQfFfxVb9NcIgQp2AxkzgEosbfkSDvDhKkmHtJYAJXkGr7CIvCzO0
- UdFFefrAlpDUH4T9D2ymlJWPv+/gDOyTbAvDa9/cdcczQBb3EEP6UuzuMb1Q0biiKbKS
- afEQs2F6WjhBGMBgVqT/wTp9X+L7AHMZk4mDhJtmXKiiYssuD0kVm8bslR9RxYNw/3og
- abYj0o/0Wef/MooJyFa6W5wsaV8yl1kvFblRI226A4WBGzzzg1xkCAL74a0suF5qZEyy
- wTIg==
-X-Gm-Message-State: AOAM533dDMnVLltXKFV6yPfpReInyDQa44v4+QVxVWyIDHHMGRom66CI
- yTWPVWxO4zhJz3OjDxFQLCJgt8WKg0QT86hKgkP+D8BhXp/pW2apnOWVhzHD+itipxmOaI287zf
- lDjCjSu13JDa/LrY=
-X-Received: by 2002:a5d:52c9:0:b0:207:99d3:7b4d with SMTP id
- r9-20020a5d52c9000000b0020799d37b4dmr13674629wrv.77.1651592389386; 
- Tue, 03 May 2022 08:39:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNguUzO3f6pYvwbJuneLx1hpRyp+C0evMBPYlp7C/saiQLgVCBl73sOiMNsKJ+h54Vdwyvhw==
-X-Received: by 2002:a5d:52c9:0:b0:207:99d3:7b4d with SMTP id
- r9-20020a5d52c9000000b0020799d37b4dmr13674612wrv.77.1651592389150; 
- Tue, 03 May 2022 08:39:49 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
- [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- m13-20020adfc58d000000b0020c5253d8cesm9520638wrg.26.2022.05.03.08.39.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 08:39:48 -0700 (PDT)
-Message-ID: <1192fecb-a730-65e1-c3fe-1e89456e6981@redhat.com>
-Date: Tue, 3 May 2022 17:39:46 +0200
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nlunq-0000eD-Mk; Tue, 03 May 2022 11:51:08 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 243EjM4F025297;
+ Tue, 3 May 2022 15:50:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=nERKUgDEzs2zpAXCcg/CLC+X3pRHlyLrFez0KyP/WL8=;
+ b=NloIwScHsCtMF+ta/Xu3aWy0TwaPQoUX8Eja116ebdPj/yfK0JUyEsMwFhHgvWCyk6R9
+ /ICsf0oomb8r7vwWolqVt3vvB/TTjxNiDrXzBJ8I7pdTRzvvCw+7SqptGeNfd8Vva4i4
+ XRGQP0Y9tVLsuiQ02keOYlQIBGvFxUq9bO/GDMqFAiHKQeGuJ2A/sooU2rIEfNiIo3wv
+ +kOwR8azQuUCq7T38VXUYU8jD0+GFyc7kHIT66GmdArY4VOQREo3bP/PQ1r7ZrjyIzNe
+ c12E4zUCsiQpaYIKmGnGiTmcEil2WCttOrckK7tVRpiomqowTx6p0/JdGiSxvlg3yN1H sQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fu6eg194g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 May 2022 15:50:48 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 243FGcqj019042;
+ Tue, 3 May 2022 15:50:47 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fu6eg1946-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 May 2022 15:50:47 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 243Fbttg011628;
+ Tue, 3 May 2022 15:50:46 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 3frvr9cv4s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 May 2022 15:50:46 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 243FojVw24052140
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 3 May 2022 15:50:46 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D3900AC062;
+ Tue,  3 May 2022 15:50:45 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7E40AAC05B;
+ Tue,  3 May 2022 15:50:43 +0000 (GMT)
+Received: from localhost (unknown [9.160.48.141])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue,  3 May 2022 15:50:41 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Nicholas Piggin <npiggin@gmail.com>, =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@kaod.org>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ pbonzini@redhat.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Subject: Re: [RFC PATCH v3 1/5] ppc64: Add semihosting support
+In-Reply-To: <1651115246.n474cs6g92.astroid@bobo.none>
+References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
+ <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
+ <1d3aaac9-5aa1-9ff9-6b3c-5109ad7f4361@kaod.org>
+ <33285ea7-8dba-3e24-d241-0ff541a83b12@eldorado.org.br>
+ <1650503031.93xsvzlip3.astroid@bobo.none>
+ <1651115246.n474cs6g92.astroid@bobo.none>
+Date: Tue, 03 May 2022 12:50:31 -0300
+Message-ID: <87pmkuaa48.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: a6TQbAIrR5ApklwP7wQx4FH4oD1ZqJTS
+X-Proofpoint-GUID: OUOJZeZh_daTFJ2LurTLmOWeNlLi_T8e
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v1] vga: avoid crash if no default vga card
-Content-Language: en-US
-To: Guo Zhi <qtxuning1999@sjtu.edu.cn>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20220503091724.970009-1-qtxuning1999@sjtu.edu.cn>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220503091724.970009-1-qtxuning1999@sjtu.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-03_06,2022-05-02_03,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0
+ mlxlogscore=999 priorityscore=1501 clxscore=1015 bulkscore=0
+ malwarescore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205030107
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,33 +121,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2022 11.17, Guo Zhi wrote:
-> QEMU in some arch will crash when executing -vga help command, because
-> there is no default vga model.  Add check to this case and avoid crash.
-> 
-> Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
-> ---
->   softmmu/vl.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index c2919579fd..a49e29312b 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -977,7 +977,8 @@ static void select_vgahw(const MachineClass *machine_class, const char *p)
->   
->               if (vga_interface_available(t) && ti->opt_name) {
->                   printf("%-20s %s%s\n", ti->opt_name, ti->name ?: "",
-> -                       g_str_equal(ti->opt_name, def) ? " (default)" : "");
-> +                        (def && g_str_equal(ti->opt_name, def)) ?
-> +                        " (default)" : "");
->               }
->           }
->           exit(0);
+Nicholas Piggin <npiggin@gmail.com> writes:
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/978
+> Excerpts from Nicholas Piggin's message of April 21, 2022 12:04 pm:
+>> Excerpts from Leandro Lupori's message of April 21, 2022 4:09 am:
+>>> On 4/18/22 17:22, C=C3=A9dric Le Goater wrote:
+>>>> On 4/18/22 21:10, Leandro Lupori wrote:
+>>>>> Add semihosting support for PPC64. This implementation is
+>>>>> based on the standard for ARM semihosting version 2.0, as
+>>>>> implemented by QEMU and documented in
+>>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 https://github.com/ARM-software/abi-aa/relea=
+ses
+>>>>>
+>>>>> The PPC64 specific differences are the following:
+>>>>>
+>>>>> Semihosting Trap Instruction: sc 7
+>>>>> Operation Number Register: r3
+>>>>> Parameter Register: r4
+>>>>> Return Register: r3
+>>>>> Data block field size: 64 bits
+>>>>=20
+>>>> 'sc' is a good way to implement semi hosting but we should make sure
+>>>> that it is not colliding with future extensions, at least with the
+>>>> next POWERPC processor. Is that the case ? if not, then the lev could
+>>>> be reserved.
+>>>>=20
+>>>=20
+>>> Power ISA 3.1B says that LEV values greater that 2 are reserved.
+>>> Level 2 is the ultravisor, so I assumed that level 7 was far enough fro=
+m=20
+>>> current max level. I don't know if POWER11 will introduce new privilege=
+=20
+>>> levels. Is this info publicly available somewhere? Or do you have a=20
+>>> better level in mind to use instead?
+>>=20
+>> It's not available but there are no plans to use LEV=3D7.
+>>=20
+>> It would be fine in practice I think, but it's kind of ugly and not=20
+>> great precedent -- how would we find out all the projects which use=20
+>> reserved instructions or values for something? Nominally the onus is on=
+=20
+>> the software to accept breakage, but in reality important software that
+>> breaks causes a headache for the ISA.
+>>=20
+>> IBM's systemsim emulator actually has an instruction to call out to the=
+=20
+>> emulator to do various things like IO. It uses the opcode
+>>=20
+>>   .long 0x000eaeb0
+>>=20
+>> That is the primary op 0 reserved space, and there is actually another=20
+>> op 'attn' or 'sp_attn' there which IBM CPUs implement, it is similar in=
+=20
+>> spirit (it calls out to the service processor and/or chip error handling=
+=20
+>> system to deal with a condition out-of-band). You don't want to use attn=
+=20
+>> here because the core under emulation might implement it, I'm just=20
+>> noting the precedent with similar functionality under this primary=20
+>> opcode.
+>>=20
+>> So I think the systemsim emulator instruction should be a good choice.=20
+>> But it should really be documented. I will bring this up at the Open=20
+>> Power ISA working group meeting next week and see what the options are=20
+>> with getting it formally allocated for semihosting emulators (or what=20
+>> the alternatives are).
+>
+> Update on the ISA TWG meeting
+>
+> Semihosting was well received, the idea is not so new so I think it was
+> easily understood by attendees.
+>
+> There were no objections to allocating a new opcode for this purpose.
+> The preference was a new opcode rather than using a reserved sc LEV
+> value.
+>
+> The primary opcode 0 space is possibly unsuitable because it is said
+> to be "allocated to specific purposes that are outside the scope of the
+> Power ISA." whereas I think we want a first class instruction for this,
+> it may have implementation-dependent behaviour but on processors that
+> do not implement it, we would like it to have well-defined behaviour.
+>
+> So we can probably just pick an opcode and submit a patch RFC to the
+> ISA (I can try help with that). First, there are a few questions to
+> resolve:
+>
+> - What behaviour do we want for CPUs which do not implement it or
+>   disable it? E.g., no-op or illegal instruction interrupt. Ideally
+>   we would choose an opcode such that the architecture is compatible
+>   with existing CPUs.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
+I think that since semihosting is not a one-shot thing it would be
+better to have it trap so that the "host" could remediate in some
+way. Or even carry on with servicing the semihosting anyway.
 
+> - Would it be useful for KVM to implement semihosting support for
+>   guests on hard processors?
+
+Are there any undesirable implications to using an instruction that
+traps to the HV? I'd say let's get it if we can but otherwise it's not a
+big deal.
+
+I had two use-cases in mind:
+
+1) Improving our interactions with gdbstub and having the guest use
+   sys_exit to report some debugging events like watchpoints or
+   singlestep;
+
+2) Bootstrapping with KVM. We had instances in the past of needing to
+   write guest code from scratch and having to rely solely in GDB for a
+   while before setting up the console.
+
+But I realise that these use-cases conflate semihosting with general
+debugging and regular PAPR features, respectively. So it might be a
+stretch.
+
+> - Is there value in an endian-agnostic instruction? (Assuming we can
+>   find one). This question only comes to me because our BMC gdbserver
+>   for debugging the host CPUs implements breakpoints by inserting an
+>   'attn' instruction in the host code, and that does not work if the
+>   host switches endian. Any possibility the semihosting instruction
+>   would ever be injected out-of-band? Seems not so likely.
+
+Semihosting requires some sort of register setup, I don't think having
+it done out-of-band would be practical. So we possibly don't need an
+endian-agnostic instruction.
+
+> There were also some thoughts about bringing the semihosting spec
+> under the Open Power group but that's outside the scope of the ISA
+> group. This may be a possibility we could consider but I think for
+> now it should be enough to document it like riscv and put it
+> somewhere (even in the QEMU tree should be okay for now IMO).
+>
+> Thanks,
+> Nick
 
