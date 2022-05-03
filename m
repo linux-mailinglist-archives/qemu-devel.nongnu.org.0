@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB2A51921B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 01:03:22 +0200 (CEST)
-Received: from localhost ([::1]:34014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FEE5191A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 00:49:26 +0200 (CEST)
+Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm1Y9-0006OM-4a
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 19:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50822)
+	id 1nm1Ke-00069d-IL
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 18:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nlzNZ-0004MB-Ur
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:44:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36174)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nlz9x-0003ag-Ug
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:30:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nlzNY-0002MG-2i
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:44:17 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nlz9h-0006mo-Hn
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:30:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651610624;
+ s=mimecast20190719; t=1651609790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UWV95eny0zCGd2gmwM+xyFPn2fsEac21FDnxoayXnn8=;
- b=TbyTHByb282451upgwaVDgRn3EiycfLXW0HolZ1oW3y7DKP7LSP+YHn3kLzu0pFe1EtlWd
- ol7hpkyKY6WM2chzGjhFfFaeTROCVeCfqRoG7OKDBRPXaQKqobhT8jqkqCQQhT/lh8H50k
- 5AdCfDHk5INcwv+bkkvdnIm4zFCxxww=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6RRqL7i84XbpzmUlWx/HNN79SJV/Wu7hItybY5jAc6Q=;
+ b=JZCCZKHZDTphafNS6GCeYqlfXDXeaRERQyMb+RPiizGeOe9diU4vutW1F63mjGhw8Ior8p
+ MBdynAXzB2bVYbVQUJ7NkRkGeBLuneqWwZ5GolZu+X8TFUUp95TjsTq1A5k/PxfIvdmGpd
+ WddrjjaNZuI/wyJBRHUGktVVGxX1RBI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-iyvUULxQP76Bh8kONk5Mtw-1; Tue, 03 May 2022 12:07:24 -0400
-X-MC-Unique: iyvUULxQP76Bh8kONk5Mtw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-668-BUDxXGK7MVOo4XIFeUE34Q-1; Tue, 03 May 2022 11:28:35 -0400
+X-MC-Unique: BUDxXGK7MVOo4XIFeUE34Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 684E218F4397;
- Tue,  3 May 2022 12:17:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A5DBC28100;
- Tue,  3 May 2022 12:17:26 +0000 (UTC)
-Date: Tue, 3 May 2022 12:04:47 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Message-ID: <YnEMT6K5/7vLEmTM@stefanha-x1.localdomain>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <8f01c640-f876-568a-d6ff-bbb112e5154f@redhat.com>
- <YmpwRKUW5e3P/hhd@stefanha-x1.localdomain>
- <3b156b87-11d5-3eb7-f58a-94939f65ea8f@redhat.com>
- <YmzGV8Evmet8RXUh@stefanha-x1.localdomain>
- <06af1ad7-b069-72f0-d8a2-82f0ae573256@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65320ACBF84;
+ Tue,  3 May 2022 13:00:28 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2C7940BB3F;
+ Tue,  3 May 2022 13:00:26 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 00/23] Misc patches
+Date: Tue,  3 May 2022 17:00:00 +0400
+Message-Id: <20220503130023.180544-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lGDsJOjsxkVT85XH"
-Content-Disposition: inline
-In-Reply-To: <06af1ad7-b069-72f0-d8a2-82f0ae573256@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -73,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,164 +79,249 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
---lGDsJOjsxkVT85XH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65:
 
-On Mon, May 02, 2022 at 10:02:14AM +0200, Emanuele Giuseppe Esposito wrote:
->=20
->=20
-> Am 30/04/2022 um 07:17 schrieb Stefan Hajnoczi:
-> > On Thu, Apr 28, 2022 at 11:56:09PM +0200, Emanuele Giuseppe Esposito wr=
-ote:
-> >>
-> >>
-> >> Am 28/04/2022 um 12:45 schrieb Stefan Hajnoczi:
-> >>> On Wed, Apr 27, 2022 at 08:55:35AM +0200, Emanuele Giuseppe Esposito =
-wrote:
-> >>>>
-> >>>>
-> >>>> Am 26/04/2022 um 10:51 schrieb Emanuele Giuseppe Esposito:
-> >>>>> Luckly, most of the cases where we recursively go through a graph a=
-re
-> >>>>> the BlockDriverState callback functions in block_int-common.h
-> >>>>> In order to understand what to protect, I categorized the callbacks=
- in
-> >>>>> block_int-common.h depending on the type of function that calls the=
-m:
-> >>>>>
-> >>>>> 1) If the caller is a generated_co_wrapper, this function must be
-> >>>>>    protected by rdlock. The reason is that generated_co_wrapper cre=
-ate
-> >>>>>    coroutines that run in the given bs AioContext, so it doesn't ma=
-tter
-> >>>>>    if we are running in the main loop or not, the coroutine might r=
-un
-> >>>>>    in an iothread.
-> >>>>> 2) If the caller calls it directly, and has the GLOBAL_STATE_CODE()=
- macro,
-> >>>>>    then the function is safe. The main loop is the writer and thus =
-won't
-> >>>>>    read and write at the same time.
-> >>>>> 3) If the caller calls it directly, but has not the GLOBAL_STATE_CO=
-DE()
-> >>>>>    macro, then we need to check the callers and see case-by-case if=
- the
-> >>>>>    caller is in the main loop, if it needs to take the lock, or del=
-egate
-> >>>>>    this duty to its caller (to reduce the places where to take it).
-> >>>>>
-> >>>>> I used the vrc script (https://github.com/bonzini/vrc) to get help =
-finding
-> >>>>> all the callers of a callback. Using its filter function, I can
-> >>>>> omit all functions protected by the added lock to avoid having dupl=
-icates
-> >>>>> when querying for new callbacks.
-> >>>>
-> >>>> I was wondering, if a function is in category (3) and runs in an
-> >>>> Iothread but the function itself is not (currently) recursive, meani=
-ng
-> >>>> it doesn't really traverse the graph or calls someone that traverses=
- it,
-> >>>> should I add the rdlock anyways or not?
-> >>>>
-> >>>> Example: bdrv_co_drain_end
-> >>>>
-> >>>> Pros:
-> >>>>    + Covers if in future a new recursive callback for a new/existing
-> >>>>      BlockDriver is implemented.
-> >>>>    + Covers also the case where I or someone missed the recursive pa=
-rt.
-> >>>>
-> >>>> Cons:
-> >>>>    - Potentially introducing an unnecessary critical section.
-> >>>>
-> >>>> What do you think?
-> >>>
-> >>> ->bdrv_co_drain_end() is a callback function. Do you mean whether its
-> >>> caller, bdrv_drain_invoke_entry(), should take the rdlock around
-> >>> ->bdrv_co_drain_end()?
-> >>
-> >> Yes. The problem is that the coroutine is created in bs AioContext, so
-> >> it might be in an iothread.
-> >>
-> >>>
-> >>> Going up further in the call chain (and maybe switching threads),
-> >>> bdrv_do_drained_end() has QLIST_FOREACH(child, &bs->children, next) so
-> >>> it needs protection. If the caller of bdrv_do_drained_end() holds then
-> >>> rdlock then I think none of the child functions (including
-> >>> ->bdrv_co_drain_end()) need to take it explicitly.
-> >>
-> >> Regarding bdrv_do_drained_end and similar, they are either running in
-> >> the main loop (or they will be, if coming from a coroutine) or in the
-> >> iothread running the AioContext of the bs involved.
-> >>
-> >> I think that most of the drains except for mirror.c are coming from ma=
-in
-> >> loop. I protected mirror.c in patch 8, even though right now I am not
-> >> really sure that what I did is necessary, since the bh will be schedul=
-ed
-> >> in the main loop.
-> >>
-> >> Therefore we don't really need locks around drains.
-> >=20
-> > Are you saying rdlock isn't necessary in the main loop because nothing
-> > can take the wrlock while our code is executing in the main loop?
->=20
-> Yes, that's the idea.
-> If I am not mistaken (and I hope I am not), only the main loop currently
-> modifies/is allowed to modify the graph.
->=20
-> The only case where currently we need to take the rdlock in main loop is
-> when we have the case
->=20
-> simplified_flush_callback(bs) {
-> 	for (child in bs)
-> 		bdrv_flush(child->bs);
-> }
->=20
-> some_function() {
-> 	GLOBAL_STATE_CODE();
-> 	/* assume bdrv_get_aio_context(bs) !=3D qemu_in_main_thread() */
->=20
-> 	bdrv_flush(bs);
-> 		co =3D coroutine_create(bdrv_get_aio_context(bs))
-> 		qemu_coroutine_enter(co, simplified_flush_callback)
-> }
+  Merge tag 'pull-9p-20220501' of https://github.com/cschoenebeck/qemu into staging (2022-05-01 07:48:11 -0700)
 
-Why does the main loop need to take rdlock in this case? Only the
-coroutine that runs in the non-main loop AioContext iterates over
-children.
+are available in the Git repository at:
 
-Also, there are a bunch of other functions in build/block/block-gen.c
-that seem to follow the same pattern, so I'm not sure why bdrv_flush()
-would be the only case?
+  git@gitlab.com:marcandre.lureau/qemu.git tags/misc-pull-request
 
-In general I'm having a hard time following this patch series and the
-discussion because you aren't giving a chain of reasoning. I can make
-guesses myself but some of them will be incorrect. It's better to have a
-full explanation so reviewers understand your perspective and the logic
-behind it.
+for you to fetch changes up to ff5927baa7ffb9c97873a071f6a8d85a3584182b:
 
-Stefan
+  util: rename qemu_*block() socket functions (2022-05-03 15:53:20 +0400)
 
---lGDsJOjsxkVT85XH
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+Misc cleanups
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJxDE4ACgkQnKSrs4Gr
-c8h0owgAq8ZBQ9oawNpB1a6FnH/3Ym2GpCPEHya9kewrYqD/B9N7Lij4ML0wV9X/
-TUtwDcYyR1B5MiVVlXWVaJPHtG0C63UBXrVnUv0vxqSaN2Fdy062IpkY3H6/3kL3
-b6OV5ekCUGF9J3ULdShUCzzSjhARj/zn6czemmSyAjwKJKifWgnYkEpLfHWOlHxU
-DcBJ7qfcAWUAobQherDwuyMwch2bh16OjpQOhGqGFMzz37KWtn8OZ8v1uAYzjiWs
-QnGCq94CfxsRKpG2IuBt7z5enndAMiLwtfTcrPvUecBl6B+hZcf57GZB0a8PC1yS
-H3wlAZueG4RGRaDF3IOFFkJ2vOX6+A==
-=H0S3
------END PGP SIGNATURE-----
+Marc-André Lureau (23):
+  Use QEMU_SANITIZE_THREAD
+  Use QEMU_SANITIZE_ADDRESS
+  tests: move libqtest.h back under qtest/
+  libqtest: split QMP part in libqmp
+  Use g_unix_set_fd_nonblocking()
+  block: move fcntl_setfl()
+  Replace qemu_pipe() with g_unix_open_pipe()
+  util: replace pipe()+cloexec with g_unix_open_pipe()
+  qga: replace pipe() with g_unix_open_pipe(CLOEXEC)
+  tests: replace pipe() with g_unix_open_pipe(CLOEXEC)
+  os-posix: replace pipe()+cloexec with g_unix_open_pipe(CLOEXEC)
+  virtiofsd: replace pipe() with g_unix_open_pipe(CLOEXEC)
+  io: replace pipe() with g_unix_open_pipe(CLOEXEC)
+  Replace fcntl(O_NONBLOCK) with g_unix_set_fd_nonblocking()
+  io: make qio_channel_command_new_pid() static
+  chardev: replace qemu_set_nonblock()
+  io: replace qemu_set{_non}block()
+  qga: replace qemu_set_nonblock()
+  hw: replace qemu_set_nonblock()
+  ui: replace qemu_set_nonblock()
+  net: replace qemu_set_nonblock()
+  tests: replace qemu_set_nonblock()
+  util: rename qemu_*block() socket functions
 
---lGDsJOjsxkVT85XH--
+ docs/devel/qtest.rst                          |   2 +-
+ include/io/channel-command.h                  |  25 --
+ include/qemu/atomic.h                         |   8 +-
+ include/qemu/osdep.h                          |   4 -
+ include/qemu/sockets.h                        |   6 +-
+ include/sysemu/os-posix.h                     |   2 -
+ subprojects/libvhost-user/include/compiler.h  |   1 +
+ tests/qtest/acpi-utils.h                      |   2 +-
+ tests/qtest/boot-sector.h                     |   2 +-
+ tests/qtest/fuzz/fuzz.h                       |   2 +-
+ tests/qtest/libqmp.h                          |  50 ++++
+ tests/qtest/libqos/fw_cfg.h                   |   2 +-
+ tests/qtest/libqos/i2c.h                      |   2 +-
+ tests/qtest/libqos/libqos.h                   |   2 +-
+ tests/qtest/libqos/malloc.h                   |   2 +-
+ tests/qtest/libqos/pci.h                      |   2 +-
+ tests/qtest/libqos/sdhci-cmd.h                |   2 +-
+ tests/qtest/libqtest-single.h                 |   2 +-
+ tests/qtest/{libqos => }/libqtest.h           |  29 +--
+ tests/qtest/migration-helpers.h               |   2 +-
+ tests/qtest/tpm-emu.h                         |   2 +-
+ block/file-posix.c                            |  15 ++
+ chardev/char-fd.c                             |   4 +-
+ chardev/char-pty.c                            |   5 +-
+ chardev/char-serial.c                         |   5 +-
+ chardev/char-socket.c                         |   2 +-
+ chardev/char-stdio.c                          |   5 +-
+ contrib/ivshmem-server/ivshmem-server.c       |   2 +-
+ hw/hyperv/syndbg.c                            |   2 +-
+ hw/input/virtio-input-host.c                  |   5 +-
+ hw/misc/ivshmem.c                             |   2 +-
+ hw/virtio/vhost-user.c                        |   2 +-
+ hw/virtio/vhost-vsock.c                       |  11 +-
+ io/channel-command.c                          |  46 +++-
+ io/channel-file.c                             |  13 +-
+ io/channel-socket.c                           |   6 +-
+ net/l2tpv3.c                                  |   2 +-
+ net/socket.c                                  |  10 +-
+ net/tap-bsd.c                                 |   4 +-
+ net/tap-linux.c                               |   2 +-
+ net/tap-solaris.c                             |   2 +-
+ net/tap.c                                     |  33 +--
+ os-posix.c                                    |   3 +-
+ qemu-nbd.c                                    |   5 +-
+ qga/channel-posix.c                           |   2 +-
+ qga/commands-posix.c                          |   8 +-
+ tests/qtest/ac97-test.c                       |   2 +-
+ tests/qtest/ahci-test.c                       |   2 +-
+ tests/qtest/am53c974-test.c                   |   2 +-
+ tests/qtest/arm-cpu-features.c                |   2 +-
+ tests/qtest/aspeed_hace-test.c                |   2 +-
+ tests/qtest/boot-order-test.c                 |   2 +-
+ tests/qtest/boot-sector.c                     |   2 +-
+ tests/qtest/boot-serial-test.c                |   2 +-
+ tests/qtest/cdrom-test.c                      |   2 +-
+ tests/qtest/dbus-display-test.c               |   2 +-
+ tests/qtest/dbus-vmstate-test.c               |   2 +-
+ tests/qtest/device-introspect-test.c          |   2 +-
+ tests/qtest/device-plug-test.c                |   2 +-
+ tests/qtest/drive_del-test.c                  |   2 +-
+ tests/qtest/ds1338-test.c                     |   2 +-
+ tests/qtest/e1000-test.c                      |   2 +-
+ tests/qtest/eepro100-test.c                   |   2 +-
+ tests/qtest/endianness-test.c                 |   2 +-
+ tests/qtest/erst-test.c                       |   2 +-
+ tests/qtest/es1370-test.c                     |   2 +-
+ tests/qtest/fdc-test.c                        |   2 +-
+ tests/qtest/fuzz-e1000e-test.c                |   2 +-
+ tests/qtest/fuzz-lsi53c895a-test.c            |   2 +-
+ tests/qtest/fuzz-megasas-test.c               |   2 +-
+ tests/qtest/fuzz-sb16-test.c                  |   2 +-
+ tests/qtest/fuzz-sdcard-test.c                |   2 +-
+ tests/qtest/fuzz-virtio-scsi-test.c           |   2 +-
+ tests/qtest/fuzz-xlnx-dp-test.c               |   2 +-
+ tests/qtest/fuzz/fuzz.c                       |   2 +-
+ tests/qtest/fuzz/generic_fuzz.c               |   2 +-
+ tests/qtest/fuzz/i440fx_fuzz.c                |   2 +-
+ tests/qtest/fuzz/qos_fuzz.c                   |   2 +-
+ tests/qtest/fuzz/virtio_blk_fuzz.c            |   2 +-
+ tests/qtest/fuzz/virtio_net_fuzz.c            |   4 +-
+ tests/qtest/fuzz/virtio_scsi_fuzz.c           |   2 +-
+ tests/qtest/fw_cfg-test.c                     |   2 +-
+ tests/qtest/hd-geo-test.c                     |   2 +-
+ tests/qtest/hexloader-test.c                  |   2 +-
+ tests/qtest/ide-test.c                        |   2 +-
+ tests/qtest/ipoctal232-test.c                 |   2 +-
+ tests/qtest/ivshmem-test.c                    |   7 +-
+ tests/qtest/libqmp.c                          | 233 ++++++++++++++++++
+ .../libqos/aarch64-xlnx-zcu102-machine.c      |   2 +-
+ tests/qtest/libqos/ahci.c                     |   2 +-
+ tests/qtest/libqos/arm-imx25-pdk-machine.c    |   2 +-
+ tests/qtest/libqos/arm-n800-machine.c         |   2 +-
+ tests/qtest/libqos/arm-raspi2-machine.c       |   2 +-
+ tests/qtest/libqos/arm-sabrelite-machine.c    |   2 +-
+ tests/qtest/libqos/arm-smdkc210-machine.c     |   2 +-
+ tests/qtest/libqos/arm-virt-machine.c         |   2 +-
+ .../qtest/libqos/arm-xilinx-zynq-a9-machine.c |   2 +-
+ tests/qtest/libqos/e1000e.c                   |   2 +-
+ tests/qtest/libqos/fw_cfg.c                   |   2 +-
+ tests/qtest/libqos/i2c-imx.c                  |   2 +-
+ tests/qtest/libqos/i2c-omap.c                 |   2 +-
+ tests/qtest/libqos/i2c.c                      |   2 +-
+ tests/qtest/libqos/libqos.c                   |   2 +-
+ tests/qtest/libqos/pci-pc.c                   |   2 +-
+ tests/qtest/libqos/pci-spapr.c                |   2 +-
+ tests/qtest/libqos/ppc64_pseries-machine.c    |   2 +-
+ tests/qtest/libqos/qgraph.c                   |   2 +-
+ tests/qtest/libqos/qos_external.c             |   2 +-
+ tests/qtest/libqos/rtas.c                     |   2 +-
+ tests/qtest/libqos/sdhci-cmd.c                |   2 +-
+ tests/qtest/libqos/sdhci.c                    |   2 +-
+ tests/qtest/libqos/tpci200.c                  |   2 +-
+ tests/qtest/libqos/usb.c                      |   2 +-
+ tests/qtest/libqos/vhost-user-blk.c           |   2 +-
+ tests/qtest/libqos/virtio-9p.c                |   2 +-
+ tests/qtest/libqos/virtio-balloon.c           |   2 +-
+ tests/qtest/libqos/virtio-blk.c               |   2 +-
+ tests/qtest/libqos/virtio-iommu.c             |   2 +-
+ tests/qtest/libqos/virtio-mmio.c              |   2 +-
+ tests/qtest/libqos/virtio-net.c               |   2 +-
+ tests/qtest/libqos/virtio-pci.c               |   2 +-
+ tests/qtest/libqos/virtio-rng.c               |   2 +-
+ tests/qtest/libqos/virtio-scsi.c              |   2 +-
+ tests/qtest/libqos/virtio-serial.c            |   2 +-
+ tests/qtest/libqos/virtio.c                   |   2 +-
+ tests/qtest/libqos/x86_64_pc-machine.c        |   2 +-
+ tests/qtest/libqtest.c                        | 207 +---------------
+ tests/qtest/lpc-ich9-test.c                   |   2 +-
+ tests/qtest/m48t59-test.c                     |   2 +-
+ tests/qtest/machine-none-test.c               |   2 +-
+ tests/qtest/megasas-test.c                    |   2 +-
+ tests/qtest/microbit-test.c                   |   2 +-
+ tests/qtest/migration-test.c                  |   2 +-
+ tests/qtest/modules-test.c                    |   2 +-
+ tests/qtest/ne2000-test.c                     |   2 +-
+ tests/qtest/npcm7xx_adc-test.c                |   2 +-
+ tests/qtest/npcm7xx_pwm-test.c                |   2 +-
+ tests/qtest/npcm7xx_sdhci-test.c              |   2 +-
+ tests/qtest/npcm7xx_smbus-test.c              |   2 +-
+ tests/qtest/npcm7xx_watchdog_timer-test.c     |   2 +-
+ tests/qtest/numa-test.c                       |   2 +-
+ tests/qtest/nvme-test.c                       |   2 +-
+ tests/qtest/pca9552-test.c                    |   2 +-
+ tests/qtest/pci-test.c                        |   2 +-
+ tests/qtest/pcnet-test.c                      |   2 +-
+ tests/qtest/pflash-cfi02-test.c               |   2 +-
+ tests/qtest/pnv-xscom-test.c                  |   2 +-
+ tests/qtest/prom-env-test.c                   |   2 +-
+ tests/qtest/pvpanic-pci-test.c                |   2 +-
+ tests/qtest/pvpanic-test.c                    |   2 +-
+ tests/qtest/pxe-test.c                        |   2 +-
+ tests/qtest/q35-test.c                        |   2 +-
+ tests/qtest/qmp-cmd-test.c                    |   2 +-
+ tests/qtest/qmp-test.c                        |   2 +-
+ tests/qtest/qom-test.c                        |   2 +-
+ tests/qtest/rtas-test.c                       |   2 +-
+ tests/qtest/sdhci-test.c                      |   2 +-
+ tests/qtest/spapr-phb-test.c                  |   2 +-
+ tests/qtest/tco-test.c                        |   2 +-
+ tests/qtest/test-filter-mirror.c              |   2 +-
+ tests/qtest/test-filter-redirector.c          |   2 +-
+ tests/qtest/test-hmp.c                        |   2 +-
+ tests/qtest/tpm-crb-swtpm-test.c              |   2 +-
+ tests/qtest/tpm-tis-device-swtpm-test.c       |   2 +-
+ tests/qtest/tpm-tis-swtpm-test.c              |   2 +-
+ tests/qtest/tpm-util.c                        |   2 +-
+ tests/qtest/tulip-test.c                      |   2 +-
+ tests/qtest/vhost-user-test.c                 |   4 +-
+ tests/qtest/virtio-net-failover.c             |   2 +-
+ tests/qtest/virtio-rng-test.c                 |   2 +-
+ tests/qtest/virtio-test.c                     |   2 +-
+ tests/qtest/vmgenid-test.c                    |   2 +-
+ tests/qtest/vmxnet3-test.c                    |   2 +-
+ tests/qtest/wdt_ib700-test.c                  |   2 +-
+ tests/qtest/xlnx-can-test.c                   |   2 +-
+ tests/unit/socket-helpers.c                   |   2 +-
+ tests/unit/test-crypto-tlssession.c           |   8 +-
+ tests/unit/test-io-channel-file.c             |   2 +-
+ tests/unit/test-iov.c                         |   4 +-
+ tests/unit/test-qga.c                         |   2 +-
+ tools/virtiofsd/helper.c                      |   2 +-
+ ui/input-linux.c                              |   5 +-
+ util/compatfd.c                               |   5 +-
+ util/coroutine-ucontext.c                     |   2 +-
+ util/event_notifier-posix.c                   |   8 +-
+ util/main-loop.c                              |   2 +-
+ util/oslib-posix.c                            |  61 +----
+ util/oslib-win32.c                            |   8 +-
+ util/vhost-user-server.c                      |   4 +-
+ scripts/oss-fuzz/output_reproducer.py         |   2 +-
+ tests/qtest/libqos/meson.build                |   5 +-
+ tests/unit/meson.build                        |   2 +-
+ 192 files changed, 609 insertions(+), 565 deletions(-)
+ create mode 120000 subprojects/libvhost-user/include/compiler.h
+ create mode 100644 tests/qtest/libqmp.h
+ rename tests/qtest/{libqos => }/libqtest.h (95%)
+ create mode 100644 tests/qtest/libqmp.c
+
+-- 
+2.36.0.44.g0f828332d5ac
 
 
