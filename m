@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235895180E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:24:00 +0200 (CEST)
-Received: from localhost ([::1]:37344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C9C518101
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:27:07 +0200 (CEST)
+Received: from localhost ([::1]:40398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlolD-0007nN-41
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:23:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
+	id 1nlooE-0001cY-J9
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:27:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlogw-0005LW-SM
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:19:35 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:46056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlogv-0001Bn-CF
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:19:34 -0400
-Received: by mail-pg1-x530.google.com with SMTP id 7so9698951pga.12
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 02:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=i90u9FWtuT9KsoF3yacMMNTaSW6l4P+xlhV+WVW3ggU=;
- b=HiTHQo4FxMXATb10nP1zwvTyXEiiC8bdJ3i2gB1YCIkJxmB02zhK3ELBzFm723FEnj
- Jsp5Hw13VbOu1o93TVWr/WGlVHgHmQqI7QkbbX7+UxDy0bAJdO2EXzv2Vzb7dwffVCiP
- QoQU9s5grdf44pUQIKa+FCGwN9+sTvyxRAtG8Pm0rkHP91At+VsQvzEaZpZ46i8JD3jA
- u0ouVWRUJxUOj4sWV0ZAiKxCeGKGd2nwREmcN7er6jYRaquKFPyztWrJsyd8c4yI+csw
- SuEWw5w80h56rvTkDzBpQWu8NKjCp07Knx0i6Ao6kVHNsU4kPFd77Ds3ginIHycYa0eR
- 224g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=i90u9FWtuT9KsoF3yacMMNTaSW6l4P+xlhV+WVW3ggU=;
- b=IgLBWlrdSrReUlYwo3167pQ+6wVv/S3mJZOiTKt3FKwwF9ao26LOiwoDECPIypGIvp
- GAhdqc7iLpgZYLBRflvaP9vF28zY0448ilngWox4CmeiiwBacHnrpslzfQM/KtXGh2Jp
- 9cWiyBwDmrtRJuZAYrwBTHtgHkZ47wrGU7lISIZ6w70sJNJz40i2d25gesJPxB9aB9sr
- yoxved5z5csV1kaL6KNcL++7uowDoCRUjF9mH3ybS7BIUpaqas0EOLoouxmFgcjrL8+g
- Qd51q50T54Ia8ZboYmBa470fYkp4mayA1YWyy2tsLJyxWYUWGnQfpat9uNv/l8xm03LW
- DGhQ==
-X-Gm-Message-State: AOAM53112OB5XPELJnurxWfXdStMo67dqi+WgvciLFrURFPU8biwCcW3
- VsXwwmaw6SMH8ze8HmyfQ70=
-X-Google-Smtp-Source: ABdhPJwhiIAQ5uhhL9wWfUrdziBQDIFdAxhNkphjIq+gaDmxbDGAEKdJbZWz/BkfGQPo27C4bN7JLw==
-X-Received: by 2002:a63:6a45:0:b0:3c1:47b7:edce with SMTP id
- f66-20020a636a45000000b003c147b7edcemr12847164pgc.207.1651569571518; 
- Tue, 03 May 2022 02:19:31 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- y5-20020a170902864500b0015e8d4eb229sm5905731plt.115.2022.05.03.02.19.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 02:19:30 -0700 (PDT)
-Date: Tue, 3 May 2022 18:19:29 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org,
- openrisc@lists.librecores.org
-Subject: Re: [PATCH] hw/openrisc: use right OMPIC size variable
-Message-ID: <YnDzoWHqpYcCWTVs@antec>
-References: <20220502232800.259036-1-Jason@zx2c4.com>
- <c6d3a823-b9a4-411a-b4b8-5fb1f1c9c214@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nloly-0000ai-3f
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:24:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nlolv-0001ol-QR
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:24:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651569881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NstedNmjgtX5wXMa4fF9wxiDA3u7SADv7OBdcjcFFSA=;
+ b=HxGFxm0l1e/Ot3fk0AYlVJZYIiQn7Y/bl6r8jPVCdnKV/u4zpVg1OvcOlqcuKai84GXrwR
+ 9q2GCsD7B7t7H3aizDefThbfU1U1fj4KB0nh+46mnh8pfqJ90hUGNzfMS88SGEoiQeGa5Y
+ dVp/NWACB3ZbFh9vega+D/HMWFWuQl4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-416-w1OemwYxOs637Bce_Tmp-Q-1; Tue, 03 May 2022 05:24:38 -0400
+X-MC-Unique: w1OemwYxOs637Bce_Tmp-Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAAC829AA2EE;
+ Tue,  3 May 2022 09:24:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7F035690DA;
+ Tue,  3 May 2022 09:24:34 +0000 (UTC)
+Date: Tue, 3 May 2022 11:24:32 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
+ hreitz@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
+ vsementsov@openvz.org, nikita.lapshin@virtuozzo.com
+Subject: Re: [PATCH v3 2/3] block: improve block_dirty_bitmap_merge(): don't
+ allocate extra bitmap
+Message-ID: <YnD00CJqxBT/hM2T@redhat.com>
+References: <20220401100804.315728-1-vsementsov@openvz.org>
+ <20220401100804.315728-3-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c6d3a823-b9a4-411a-b4b8-5fb1f1c9c214@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=shorne@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220401100804.315728-3-vsementsov@openvz.org>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,19 +80,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 02, 2022 at 04:59:47PM -0700, Richard Henderson wrote:
-> On 5/2/22 16:28, Jason A. Donenfeld wrote:
-> > This appears to be a copy and paste error. The UART size was used
-> > instead of the much smaller OMPIC size.
-> > 
-> > Signed-off-by: Jason A. Donenfeld<Jason@zx2c4.com>
-> > ---
-> >   hw/openrisc/openrisc_sim.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
+Am 01.04.2022 um 12:08 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> We don't need extra bitmap. All we need is to backup the original
+> bitmap when we do first merge. So, drop extra temporary bitmap and work
+> directly with target and backup.
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Still to keep old semantics, that on failure target is unchanged and
+> user don't need to restore, we need a local_backup variable and do
+> restore ourselves on failure path.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> ---
+>  block/monitor/bitmap-qmp-cmds.c | 39 ++++++++++++++++-----------------
+>  1 file changed, 19 insertions(+), 20 deletions(-)
+> 
+> diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
+> index 4db704c015..07d0da323b 100644
+> --- a/block/monitor/bitmap-qmp-cmds.c
+> +++ b/block/monitor/bitmap-qmp-cmds.c
+> @@ -261,8 +261,9 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+>                                            HBitmap **backup, Error **errp)
+>  {
+>      BlockDriverState *bs;
+> -    BdrvDirtyBitmap *dst, *src, *anon;
+> +    BdrvDirtyBitmap *dst, *src;
+>      BlockDirtyBitmapMergeSourceList *lst;
+> +    HBitmap *local_backup = NULL;
+>  
+>      GLOBAL_STATE_CODE();
+>  
+> @@ -271,12 +272,6 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+>          return NULL;
+>      }
+>  
+> -    anon = bdrv_create_dirty_bitmap(bs, bdrv_dirty_bitmap_granularity(dst),
+> -                                    NULL, errp);
+> -    if (!anon) {
+> -        return NULL;
+> -    }
+> -
+>      for (lst = bms; lst; lst = lst->next) {
+>          switch (lst->value->type) {
+>              const char *name, *node;
+> @@ -285,8 +280,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+>              src = bdrv_find_dirty_bitmap(bs, name);
+>              if (!src) {
+>                  error_setg(errp, "Dirty bitmap '%s' not found", name);
+> -                dst = NULL;
+> -                goto out;
+> +                goto fail;
+>              }
+>              break;
+>          case QTYPE_QDICT:
+> @@ -294,29 +288,34 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+>              name = lst->value->u.external.name;
+>              src = block_dirty_bitmap_lookup(node, name, NULL, errp);
+>              if (!src) {
+> -                dst = NULL;
+> -                goto out;
+> +                goto fail;
+>              }
+>              break;
+>          default:
+>              abort();
+>          }
+>  
+> -        if (!bdrv_merge_dirty_bitmap(anon, src, NULL, errp)) {
+> -            dst = NULL;
+> -            goto out;
+> +        /* We do backup only for first merge operation */
+> +        if (!bdrv_merge_dirty_bitmap(dst, src,
+> +                                     local_backup ? NULL : &local_backup,
+> +                                     errp))
+> +        {
+> +            goto fail;
+>          }
+>      }
+>  
+> -    /* Merge into dst; dst is unchanged on failure. */
+> -    if (!bdrv_merge_dirty_bitmap(dst, anon, backup, errp)) {
+> -        dst = NULL;
+> -        goto out;
+> +    if (backup) {
+> +        *backup = local_backup;
+>      }
 
-Thanks,
+Don't we need something like '... else { hbitmap_free(local_backup); }'
+in order to avoid leaking the memory?
 
-I will queue this one.
+>  
+> - out:
+> -    bdrv_release_dirty_bitmap(anon);
+>      return dst;
+> +
+> +fail:
+> +    if (local_backup) {
+> +        bdrv_restore_dirty_bitmap(dst, local_backup);
+> +    }
+> +
+> +    return NULL;
+>  }
+
+Kevin
+
 
