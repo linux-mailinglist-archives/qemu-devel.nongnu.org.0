@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8125851826F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:38:41 +0200 (CEST)
-Received: from localhost ([::1]:34090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B475182B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:55:50 +0200 (CEST)
+Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlpvU-0007Ek-8v
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:38:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58936)
+	id 1nlqC5-0005Ls-Md
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nlpqt-0003yn-H8; Tue, 03 May 2022 06:33:56 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:50705)
+ id 1nlpqv-00040j-3T; Tue, 03 May 2022 06:33:58 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:38454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nlpqr-0003fM-0s; Tue, 03 May 2022 06:33:54 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id iq10so14978563pjb.0;
- Tue, 03 May 2022 03:33:52 -0700 (PDT)
+ id 1nlpqt-0003fY-F0; Tue, 03 May 2022 06:33:56 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id e5so2617674pgc.5;
+ Tue, 03 May 2022 03:33:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2cK9QMjyJBK9LE5fBjUDlyQq92UtB2If4iM6Ue3ErBI=;
- b=mpwln3uBHIzZMVpluWOVkdNAjP23naHlk/LpmmKk6jPbQ0XQSOMyZRlaMfReNpOPgj
- corDQV77nS+dmUiDrxcPqBQLl2xfOqOlf6wJHvmisA/9237RYQD7vh9Zv9Y2wDh7nQuf
- hrS5jNA+HSpw1BKbr42qM7CQrqEQDuvzPh3/JAGSEfl+DBQFiXijqI4c9lSnUYu5SIDx
- 1DVhv0DHW2+4AWrn+TOVv5V1K1htq45aogC4jSuJ/0EjwoIUvQRQj/nldtTfUY9BWRkE
- kWkxpdX/ZgUoDJmzh3P+noyrj9JLY+3DE18ArN5clx4ySihzMz6Ijiq67b7nV2KER+bO
- +IwA==
+ bh=+z+BIR5Fz4MEzbcLcrzqBKYgAkLBehsDf+0ISlNokLo=;
+ b=l/HpBbxLG5TpvIaZzXfgYRCLLjmv8xhNJpSKK3xFAxoAPNMuD5ef5cHxkTEXXFqYyR
+ WopDWhgcfev1qsT5R3SPlUrsWEz+YhpELNknBFGhKBeR04aR6PC86YGeKncIg4kko2Kc
+ V5feH9Zm2H9SPiahH759r0Cp11SfBj+m1kEOMb1X8OEzgZvn5/QMkH6gj81ZP405hYXo
+ QlqjTnfBgl7+ON9enXVRN2QeCZqGlHRg6tkoz2ESy4dKhwdM4gE+6vjgayqCTus9CO6A
+ K/MjjjKqIEWU0UVbe1mQFiAqtFCeCFeE1yLMuLP8mPDUSK1qeGBz3h28Rxr1HAeo1n5V
+ 7rFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2cK9QMjyJBK9LE5fBjUDlyQq92UtB2If4iM6Ue3ErBI=;
- b=X3VXl56bwqZ1uCroBEn8nmF2zybsWEqFdpIQ96ItcJyEl4SdkIodMe7EV7dJ2OFKrA
- 2BqRNTPncXn2aBBS0RgQL1w7VpLKDzFY+GBuRgMGxUJ3tmpEm0QN6GOc7swI6ASoqIyu
- QLMqU/mtblsMCfYhScKgqJsitqDDIbaN9mqNs2ZKZVHdnG5lRUNO2hfe+j6vIiVIHtqH
- ES247MOwobsXVDFFnw6+a/0JsGQBuwlIHeFm0CVTDi+LjEBVzzBuhXnqTNGV+pJ4Jbth
- G338HN50Dug0/jnAaacupimH1HKhdqeWEVI64xPBCwvDu53LRMgIZ+DYoOh131hNlJ/A
- hO0A==
-X-Gm-Message-State: AOAM531BvPihdMtqHc9mlT7BtcRgTEqiVijUiOVBOkau8udePHiND3G5
- Y9XIO3Fh4H0G2WDuF5r6YE1G8TUFZxcksA==
-X-Google-Smtp-Source: ABdhPJypfe+sTDxD5QFS7mhbwzJh/J0bFM0n2XjzyjgCqTUuEiEUiuIxPzfjcxKjlCx1+fLywZ3OZA==
-X-Received: by 2002:a17:90b:3503:b0:1d1:c700:e484 with SMTP id
- ls3-20020a17090b350300b001d1c700e484mr3927997pjb.245.1651574031037; 
- Tue, 03 May 2022 03:33:51 -0700 (PDT)
+ bh=+z+BIR5Fz4MEzbcLcrzqBKYgAkLBehsDf+0ISlNokLo=;
+ b=VHP+zJCZCgNnDgR0XaRPoZYWBpg+u33b2p7yljTm5fCaPf3gSJTyz+rgJRdgg1CCfh
+ sUM0N2R6csvKwKV+1zpqE+CgAsf/SZzzGZOwbZflZMesLv1CYjgQmOlWCjK6gXEuG2n8
+ FxXLCyYK3Zaqk+a7BCVi14nDwVyoA50mb252gIRt/Dmmmlbf55GeHdbfB0CRrTflVvXt
+ zujbLHZjclLHS6NTnWGD0lUX3wza+x/oXYAeBXB01JNi63PYvzwJyCq3UDAaK92PfJCE
+ DBlypnqqxddwD0g6lYoWUXWEa230QV6S+iyNi17VTP5CgIa8sqjDvPxD4cgu4nXM1Lmy
+ 6pbQ==
+X-Gm-Message-State: AOAM532whCScLSvuXn3ltVC+nQ2ykRyPzz7GL7VtcaZDrgTNE3v9o4Ye
+ PWu6E3SWwvZNmCQ174b75zygaJUXURs2FA==
+X-Google-Smtp-Source: ABdhPJyS0eBzOQG9UoP/qvf7ew/IMvnPV/20kWAars2eF4rYCyAzCGurRQxjgo1LhA7OA7ezblko+Q==
+X-Received: by 2002:a63:2215:0:b0:3c1:fd25:b6a1 with SMTP id
+ i21-20020a632215000000b003c1fd25b6a1mr9383925pgi.406.1651574033321; 
+ Tue, 03 May 2022 03:33:53 -0700 (PDT)
 Received: from bobo.ozlabs.ibm.com (193-116-108-62.tpgi.com.au.
  [193.116.108.62]) by smtp.gmail.com with ESMTPSA id
- x48-20020a056a000bf000b0050dc76281dcsm6056301pfu.182.2022.05.03.03.33.49
+ x48-20020a056a000bf000b0050dc76281dcsm6056301pfu.182.2022.05.03.03.33.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 03:33:50 -0700 (PDT)
+ Tue, 03 May 2022 03:33:53 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH 3/4] tcg/ppc: Optimize memory ordering generation with
- lwsync
-Date: Tue,  3 May 2022 20:33:33 +1000
-Message-Id: <20220503103334.2046414-3-npiggin@gmail.com>
+Subject: [RFC PATCH 4/4] target/ppc: Implement lwsync with weaker memory
+ ordering
+Date: Tue,  3 May 2022 20:33:34 +1000
+Message-Id: <20220503103334.2046414-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220503103334.2046414-1-npiggin@gmail.com>
 References: <20220503103334.2046414-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=npiggin@gmail.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,41 +88,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-lwsync orders more than just LD_LD, importantly it matches x86 and
-s390 default memory ordering.
+This allows an x86 host to no-op lwsyncs, and ppc host can use lwsync
+rather than sync.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- target/ppc/cpu.h         | 2 ++
- tcg/ppc/tcg-target.c.inc | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ target/ppc/cpu.h       |  4 +++-
+ target/ppc/cpu_init.c  | 13 +++++++------
+ target/ppc/machine.c   |  3 ++-
+ target/ppc/translate.c |  8 +++++++-
+ 4 files changed, 19 insertions(+), 9 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index c2b6c987c0..0b0e9761cd 100644
+index 0b0e9761cd..bf5f226567 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -28,6 +28,8 @@
+@@ -2287,6 +2287,8 @@ enum {
+     PPC2_ISA300        = 0x0000000000080000ULL,
+     /* POWER ISA 3.1                                                         */
+     PPC2_ISA310        = 0x0000000000100000ULL,
++    /*   lwsync instruction                                                  */
++    PPC2_MEM_LWSYNC    = 0x0000000000200000ULL,
  
- #define TCG_GUEST_DEFAULT_MO 0
+ #define PPC_TCG_INSNS2 (PPC2_BOOKE206 | PPC2_VSX | PPC2_PRCNTL | PPC2_DBRX | \
+                         PPC2_ISA205 | PPC2_VSX207 | PPC2_PERM_ISA206 | \
+@@ -2295,7 +2297,7 @@ enum {
+                         PPC2_BCTAR_ISA207 | PPC2_LSQ_ISA207 | \
+                         PPC2_ALTIVEC_207 | PPC2_ISA207S | PPC2_DFP | \
+                         PPC2_FP_CVT_S64 | PPC2_TM | PPC2_PM_ISA206 | \
+-                        PPC2_ISA300 | PPC2_ISA310)
++                        PPC2_ISA300 | PPC2_ISA310 | PPC2_MEM_LWSYNC)
+ };
  
-+#define PPC_LWSYNC_MO (TCG_MO_LD_LD | TCG_MO_LD_ST | TCG_MO_ST_ST)
-+
- #define TARGET_PAGE_BITS_64K 16
- #define TARGET_PAGE_BITS_16M 24
+ /*****************************************************************************/
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index d42e2ba8e0..26d9277ffb 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5769,7 +5769,7 @@ POWERPC_FAMILY(970)(ObjectClass *oc, void *data)
+                        PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
+                        PPC_64B | PPC_ALTIVEC |
+                        PPC_SEGMENT_64B | PPC_SLBI;
+-    pcc->insns_flags2 = PPC2_FP_CVT_S64;
++    pcc->insns_flags2 = PPC2_FP_CVT_S64 | PPC2_MEM_LWSYNC;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_POW) |
+@@ -5846,7 +5846,7 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data)
+                        PPC_64B |
+                        PPC_POPCNTB |
+                        PPC_SEGMENT_64B | PPC_SLBI;
+-    pcc->insns_flags2 = PPC2_FP_CVT_S64;
++    pcc->insns_flags2 = PPC2_FP_CVT_S64 | PPC2_MEM_LWSYNC;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_POW) |
+@@ -5984,7 +5984,7 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
+                         PPC2_PERM_ISA206 | PPC2_DIVE_ISA206 |
+                         PPC2_ATOMIC_ISA206 | PPC2_FP_CVT_ISA206 |
+                         PPC2_FP_TST_ISA206 | PPC2_FP_CVT_S64 |
+-                        PPC2_PM_ISA206;
++                        PPC2_PM_ISA206 | PPC2_MEM_LWSYNC;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_VSX) |
+@@ -6157,7 +6157,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_PM_ISA206;
++                        PPC2_TM | PPC2_PM_ISA206 | PPC2_MEM_LWSYNC;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+@@ -6375,7 +6375,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
++                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_MEM_LWSYNC;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+@@ -6590,7 +6590,8 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310;
++                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310 |
++                        PPC2_MEM_LWSYNC;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index e673944597..33b3d6cf30 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -157,7 +157,8 @@ static int cpu_pre_save(void *opaque)
+         | PPC2_ATOMIC_ISA206 | PPC2_FP_CVT_ISA206
+         | PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207
+         | PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207
+-        | PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 | PPC2_TM;
++        | PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 | PPC2_TM
++        | PPC2_MEM_LWSYNC;
  
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 3ff845d063..b87fc2383e 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -1834,7 +1834,7 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+     env->spr[SPR_LR] = env->lr;
+     env->spr[SPR_CTR] = env->ctr;
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index abb8807180..76691cf082 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4040,8 +4040,13 @@ static void gen_stqcx_(DisasContext *ctx)
+ /* sync */
+ static void gen_sync(DisasContext *ctx)
  {
-     uint32_t insn = HWSYNC;
-     a0 &= TCG_MO_ALL;
--    if (a0 == TCG_MO_LD_LD) {
-+    if ((a0 & PPC_LWSYNC_MO) == a0) {
-         insn = LWSYNC;
++    TCGBar bar = TCG_MO_ALL;
+     uint32_t l = (ctx->opcode >> 21) & 3;
+ 
++    if ((l == 1) && (ctx->insns_flags2 & PPC2_MEM_LWSYNC)) {
++        bar = PPC_LWSYNC_MO;
++    }
++
+     /*
+      * We may need to check for a pending TLB flush.
+      *
+@@ -4053,7 +4058,8 @@ static void gen_sync(DisasContext *ctx)
+     if (((l == 2) || !(ctx->insns_flags & PPC_64B)) && !ctx->pr) {
+         gen_check_tlb_flush(ctx, true);
      }
-     tcg_out32(s, insn);
+-    tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
++
++    tcg_gen_mb(bar | TCG_BAR_SC);
+ }
+ 
+ /* wait */
 -- 
 2.35.1
 
