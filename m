@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0830518FB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:09:01 +0200 (CEST)
-Received: from localhost ([::1]:32946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF4B518F2B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:44:05 +0200 (CEST)
+Received: from localhost ([::1]:45442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlzlU-00083I-IW
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40482)
+	id 1nlzNM-0001E4-PR
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZm-0000Xo-6M
+ id 1nlyZm-0000ZJ-Li
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:50 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:41905)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZk-0006Mt-Ic
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:49 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- z5-20020a17090a468500b001d2bc2743c4so2917140pjf.0
+ id 1nlyZk-0006Lz-VJ
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:50 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ gj17-20020a17090b109100b001d8b390f77bso3236773pjb.1
  for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0KmR0I9MQL8sMij82tj+TGbywtXC8SOF01Vq62VNOXc=;
- b=bj978LCYcEKh12QBdn3r1wS7KagW1xp0uHsYD9BxBUJLXw83ImhdoDrGcndFTpFRaD
- VLIRHpU5DB9ImBOWN8yjes7VW/fYNDxR/toHvgiPNA79G3U0o9dyilUZTixnY2Ln8KZN
- p/Z9e/drfrwh8YGIbIuQMk4M7NYZVhfgBcCL0pCgcEpaQW5Zwpbt/MMfCdBfTCw6IJuS
- sQS02IjtvUeOGyYO5aBvZd8ygljdQWuERD7KPsvzaAgq9zduBheW7W16Edg0IBpAjB49
- BIEjEegpmzWwiIA1k+/8E75NI3XMRp7wkw0seJY6KU3Dmh71lMO2QoEx1m3c8hALWL6J
- 9D7w==
+ bh=7hrYGm6CB5wl83BARKhSg3dxjfTTX0HLuXW9+o58cZc=;
+ b=an/9bH1s1Sd2UKZccy/vCK9LjN63Y5lWUvFKNK9c7eakLmlMK/zcLoAan6KiX4/UoW
+ /WEFmYOFMG9kUFf0njFTv54ghU4az9F6SZYr99TAbWzusTzu/ARsuwEL2Kb2jAqF94uN
+ 22mqJ5hBzW/QIMydjGVnPU6H6Y0SvzL9L9ekrqVOtFfHmTMQq48Tejed7754G4Wcz3yo
+ tnTA+3rndlWP9rkea5M5uORYiQnCWj/1REeQnqyHVZphOC+TbJ4D6x/Vts1/l49s+5Ay
+ FgDHPv2SVnUMLxKkrO/s1zpYyKTj3MdIR9QRnmztyYrsoqpzlJBPOLAzk2PimqKuAli3
+ //Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0KmR0I9MQL8sMij82tj+TGbywtXC8SOF01Vq62VNOXc=;
- b=lBgWhiKwu0OlpmkV0qVSvR5TRYC3+RvnWxgGONAExV90eyir1lgCeb/b0GiytIjy3I
- 8/byjARGg7Z1BueBCFUcjNNdeSLOORkUTfcXbImQxe/6y+ms2NftMBh4nQB0QFoQKFCq
- Qg/uTNt9jcHuchXpH4ZzDsaelzLKQGb+AxUT+1REC5xEJFHkmreBo5bWj0i/PMq2Q8XR
- yRD2FzisukcW2PYqhheJsga4t3QLfeWLOYcSjvCeREZbloCEBeGt5AinKGoXiptjLI8H
- UM526Qy/6sp6KBVBTOfKUcDDsOBGg9LlURhzg5mo3dkxhzKQvWyfkqanIaE0KGxEeQnV
- 5uMQ==
-X-Gm-Message-State: AOAM531m+pft/DquVNw8y0jcG9LD3PFgHILLR55WsOLlcxeH7oyHrkUD
- xYwqISd/5USB6nMc//z7s1HYyVSzdRYq/Q==
-X-Google-Smtp-Source: ABdhPJy/Wzp6AEXSxxu8FVJPnEY1iZYZ7NhZns8luyHWofqv73FGrwE0H8eYYEwayNDX5OAGA0GbXA==
-X-Received: by 2002:a17:90b:704:b0:1d7:367a:f16b with SMTP id
- s4-20020a17090b070400b001d7367af16bmr6541124pjz.197.1651607567332; 
- Tue, 03 May 2022 12:52:47 -0700 (PDT)
+ bh=7hrYGm6CB5wl83BARKhSg3dxjfTTX0HLuXW9+o58cZc=;
+ b=iN+rnx6UHbRMLf6U4NoBQhqFGWT4qEAKySUNVIhYsnARsoUT+19HEeNteNfm27GTVn
+ xsDKrGVsfjNA+AQCJ2Mbw9FXzgTqPz5dFw9TAzjjEe4bBkBct1aoDz2D2cYvKnvceCZv
+ o3Jbv3m97dXAYfDX+frP87BidRcTtNnXtUGsmzHsvXY3Mf3Rpo6dgXqTsfpB1ieapGet
+ 1Tf9qcvlRKyvqMfFxqOZqduKP9aopuk4DjdoAZl5eOyd0lLll+oQhbFZ+fiwauXXtTcn
+ T94JYoE0ApzCeFzXooQvwpTgMAe2X6tX8t/fvaPIQGtD7okEW55zE8NSadkazRAMVPIm
+ 00oQ==
+X-Gm-Message-State: AOAM533B1yDc19Vy4ttrLcJjQWlMxUAQWprtoASyhi71ZxgumUCnHwBE
+ d+SIUb7XOwVfUW84YvvklxUusCpcuaNMiQ==
+X-Google-Smtp-Source: ABdhPJxouzSepM8WB/5Tvd8B07D/3kUqwmf8X3qjYv8MBi94OHNsDp0SQgfmyWJxq2hI3jEKbXJMGA==
+X-Received: by 2002:a17:90b:33c8:b0:1d9:9023:1103 with SMTP id
+ lk8-20020a17090b33c800b001d990231103mr6394643pjb.26.1651607568148; 
+ Tue, 03 May 2022 12:52:48 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.45
+ fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:52:46 -0700 (PDT)
+ Tue, 03 May 2022 12:52:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 61/74] target/mips: Use error_report for UHI_assert
-Date: Tue,  3 May 2022 12:48:30 -0700
-Message-Id: <20220503194843.1379101-62-richard.henderson@linaro.org>
+Subject: [PATCH v2 62/74] semihosting: Remove qemu_semihosting_log_out
+Date: Tue,  3 May 2022 12:48:31 -0700
+Message-Id: <20220503194843.1379101-63-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
 References: <20220503194843.1379101-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,79 +88,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Always log the assert locally.  Do not report_fault, but
-instead include the fact of the fault in the assertion.
-Don't bother freeing allocated strings before the abort().
+The function is no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/sysemu/mips-semi.c | 39 ++++++++++++++----------------
- 1 file changed, 18 insertions(+), 21 deletions(-)
+ include/semihosting/console.h | 13 -------------
+ semihosting/console.c         |  9 ---------
+ 2 files changed, 22 deletions(-)
 
-diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
-index d8c9be5e9f..df1747aafe 100644
---- a/target/mips/tcg/sysemu/mips-semi.c
-+++ b/target/mips/tcg/sysemu/mips-semi.c
-@@ -221,18 +221,6 @@ static int copy_argn_to_target(CPUMIPSState *env, int arg_num,
-         }                                       \
-     } while (0)
+diff --git a/include/semihosting/console.h b/include/semihosting/console.h
+index 61b0cb3a94..bd78e5f03f 100644
+--- a/include/semihosting/console.h
++++ b/include/semihosting/console.h
+@@ -40,19 +40,6 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len);
+  */
+ int qemu_semihosting_console_write(void *buf, int len);
  
--#define GET_TARGET_STRINGS_2(p, addr, p2, addr2)        \
--    do {                                                \
--        p = lock_user_string(addr);                     \
--        if (!p) {                                       \
--            report_fault(env);                          \
--        }                                               \
--        p2 = lock_user_string(addr2);                   \
--        if (!p2) {                                      \
--            report_fault(env);                          \
--        }                                               \
--    } while (0)
+-/**
+- * qemu_semihosting_log_out:
+- * @s: pointer to string
+- * @len: length of string
+- *
+- * Send a string to the debug output. Unlike console_out these strings
+- * can't be sent to a remote gdb instance as they don't exist in guest
+- * memory.
+- *
+- * Returns: number of bytes written
+- */
+-int qemu_semihosting_log_out(const char *s, int len);
 -
- #define FREE_TARGET_STRING(p, gpr)              \
-     do {                                        \
-         unlock_user(p, gpr, 0);                 \
-@@ -243,7 +231,7 @@ void mips_semihosting(CPUMIPSState *env)
-     CPUState *cs = env_cpu(env);
-     target_ulong *gpr = env->active_tc.gpr;
-     const UHIOp op = gpr[25];
--    char *p, *p2;
-+    char *p;
+ /*
+  * qemu_semihosting_console_block_until_ready:
+  * @cs: CPUState
+diff --git a/semihosting/console.c b/semihosting/console.c
+index cda7cf1905..5b1ec0a1c3 100644
+--- a/semihosting/console.c
++++ b/semihosting/console.c
+@@ -38,15 +38,6 @@ typedef struct SemihostingConsole {
  
-     switch (op) {
-     case UHI_exit:
-@@ -355,14 +343,23 @@ void mips_semihosting(CPUMIPSState *env)
-         break;
+ static SemihostingConsole console;
  
-     case UHI_assert:
--        GET_TARGET_STRINGS_2(p, gpr[4], p2, gpr[5]);
--        printf("assertion '");
--        printf("\"%s\"", p);
--        printf("': file \"%s\", line %d\n", p2, (int)gpr[6]);
--        FREE_TARGET_STRING(p2, gpr[5]);
--        FREE_TARGET_STRING(p, gpr[4]);
--        abort();
--        break;
-+        {
-+            const char *msg, *file;
-+
-+            msg = lock_user_string(gpr[4]);
-+            if (!msg) {
-+                msg = "<EFAULT>";
-+            }
-+            file = lock_user_string(gpr[5]);
-+            if (!file) {
-+                file = "<EFAULT>";
-+            }
-+
-+            error_report("UHI assertion \"%s\": file \"%s\", line %d",
-+                         msg, file, (int)gpr[6]);
-+            abort();
-+        }
-+
-     default:
-         error_report("Unknown UHI operation %d", op);
-         abort();
+-int qemu_semihosting_log_out(const char *s, int len)
+-{
+-    if (console.chr) {
+-        return qemu_chr_write_all(console.chr, (uint8_t *) s, len);
+-    } else {
+-        return write(STDERR_FILENO, s, len);
+-    }
+-}
+-
+ #define FIFO_SIZE   1024
+ 
+ static int console_can_read(void *opaque)
 -- 
 2.34.1
 
