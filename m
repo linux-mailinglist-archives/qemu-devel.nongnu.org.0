@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FEA35190C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:54:25 +0200 (CEST)
-Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08179519050
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:43:00 +0200 (CEST)
+Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm0TQ-0007ek-9p
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46472)
+	id 1nm0IN-00053y-00
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlz2i-00060t-GO
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:22:44 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlz2g-0005Bi-Lh
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:22:44 -0400
-Received: by mail-pf1-x434.google.com with SMTP id z16so15637734pfh.3
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 13:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=JkBff3qImxQuWQ850aH9hM77ZaTQE/H3vVf/5bIoIx4=;
- b=lKWz0KMCxNH3FOPMfTEPkldV8Iy4Y0SNNJUAdhqylHZK42/3Vy4tIEoztSTFbzayV6
- S4yQbf3sfk+cAy+sme45mLmZYjC7//xFwn6KStLjJwSmTqfsUG6Ri+YxCPSRMmU93aJm
- uCyZr2M+0YO+mYKEj6UUA7ianQlHf3f5f5NDo8xehmKQGwBDwSLhDJWyNmX9nKBj4N50
- ao+dQIKEtQmzByJ+rVhWgGOdcJuRhs6bzmjMkmDSSy6kwV/6MW2ojxVKW5uior3xSqj8
- dtnddepsECSkn0cw0JK7WDJ4n5WLL5+0sW95+kQkSjDtxWW+LAcJtgazjHEMWeFze7vj
- YMgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JkBff3qImxQuWQ850aH9hM77ZaTQE/H3vVf/5bIoIx4=;
- b=gWcPe3D9jQ32+BdNMVQDo5vLg7HbqU9+V/XsS0iJgdYUL9Gm6vdQ4rgFMqtxcByVai
- vEKSUPr4lGgs9KhQATpHfD0bSVqJ6ieiGbWwMjIAjksm+xtSbS4o3Rvv23IjIvDEfYuT
- sWfRiOfugar2qTFg482wQmKEhQLyvlIdZxzOE59BDEbmJ5dU3matludToh4iUl5Y9Rh6
- N94EDJtCDlBzyacZl4B96ZP2bLu+yBe1cyGKgI19Rb1t+CVGTfHWGeWXOj7K5d38eHoX
- fEtNiZsQcZd9VpvwnpHkydRNrlwfs1TShU5fMgbYpWMlmzMs6RaGeMUyl9zFuGpwXalI
- XUdg==
-X-Gm-Message-State: AOAM5310h9eGNz0aZabwDRHZXDgGSuGx4lJLxFroKcIQLgFl8DVyonfW
- S16I3FEM7+dPIVr/cQTIRhc=
-X-Google-Smtp-Source: ABdhPJwWx9UEPzbcCMg0rWVf1zzDeNXV3oFkZ2zknz9cCCz1nZM97TGCUVts6iHt+zgFqVuwVm4iAw==
-X-Received: by 2002:a05:6a00:1a0a:b0:4fc:d6c5:f3f1 with SMTP id
- g10-20020a056a001a0a00b004fcd6c5f3f1mr17582526pfv.45.1651609361083; 
- Tue, 03 May 2022 13:22:41 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- r10-20020a170902c7ca00b0015e8d4eb246sm6686691pla.144.2022.05.03.13.22.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 13:22:40 -0700 (PDT)
-Date: Wed, 4 May 2022 05:22:38 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, openrisc@lists.librecores.org,
- richard.henderson@linaro.org
-Subject: Re: [PATCH v2] hw/openrisc: use right OMPIC size variable
-Message-ID: <YnGPDumfp1+6DUQG@antec>
-References: <20220502232800.259036-1-Jason@zx2c4.com>
- <20220503094533.402157-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nlz6B-0004eM-1o; Tue, 03 May 2022 16:26:20 -0400
+Received: from [187.72.171.209] (port=28036 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nlz69-0005g5-C5; Tue, 03 May 2022 16:26:18 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 3 May 2022 17:25:36 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 50690801109;
+ Tue,  3 May 2022 17:25:36 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org, balaton@eik.bme.hu,
+ victor.colombo@eldorado.org.br
+Subject: [PATCH v3 06/21] target/ppc: Remove msr_ile macro
+Date: Tue,  3 May 2022 17:24:26 -0300
+Message-Id: <20220503202441.129549-7-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
+References: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503094533.402157-1-Jason@zx2c4.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=shorne@gmail.com; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 03 May 2022 20:25:36.0710 (UTC)
+ FILETIME=[F2AD3660:01D85F2B]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,50 +64,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 03, 2022 at 11:45:33AM +0200, Jason A. Donenfeld wrote:
-> This appears to be a copy and paste error. The UART size was used
-> instead of the much smaller OMPIC size. But actually that smaller OMPIC
-> size is wrong too and doesn't allow the IPI to work in Linux. So set it
-> to the old value.
-> 
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  hw/openrisc/openrisc_sim.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> index 99b14940f4..3218db6656 100644
-> --- a/hw/openrisc/openrisc_sim.c
-> +++ b/hw/openrisc/openrisc_sim.c
-> @@ -78,7 +78,7 @@ static const struct MemmapEntry {
->      [OR1KSIM_DRAM] =      { 0x00000000,          0 },
->      [OR1KSIM_UART] =      { 0x90000000,      0x100 },
->      [OR1KSIM_ETHOC] =     { 0x92000000,      0x800 },
-> -    [OR1KSIM_OMPIC] =     { 0x98000000,         16 },
-> +    [OR1KSIM_OMPIC] =     { 0x98000000,      0x100 },
+msr_ile macro hides the usage of env->msr, which is a bad behavior
+Substitute it with FIELD_EX64 calls that explicitly use env->msr
+as a parameter.
 
-Right, I missed this as part of my series.  OMPIC will allocate 2 32-bit
-registers per CPU.  I documented this here:
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/cpu.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/irqchip/irq-ompic.c
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 8aff6f1faf..d4a0d7e082 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -354,6 +354,7 @@ typedef enum {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
+ 
++FIELD(MSR, ILE, MSR_ILE, 1)
+ FIELD(MSR, PR, MSR_PR, 1)
+ FIELD(MSR, DS, MSR_DS, 1)
+ FIELD(MSR, LE, MSR_LE, 1)
+@@ -477,7 +478,6 @@ FIELD(MSR, LE, MSR_LE, 1)
+ #define msr_gs   ((env->msr >> MSR_GS)   & 1)
+ #define msr_pow  ((env->msr >> MSR_POW)  & 1)
+ #define msr_ce   ((env->msr >> MSR_CE)   & 1)
+-#define msr_ile  ((env->msr >> MSR_ILE)  & 1)
+ #define msr_ee   ((env->msr >> MSR_EE)   & 1)
+ #define msr_fp   ((env->msr >> MSR_FP)   & 1)
+ #define msr_me   ((env->msr >> MSR_ME)   & 1)
+@@ -2678,7 +2678,7 @@ static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu, bool hv)
+     } else if (pcc->lpcr_mask & LPCR_ILE) {
+         ile = !!(env->spr[SPR_LPCR] & LPCR_ILE);
+     } else {
+-        ile = !!(msr_ile);
++        ile = FIELD_EX64(env->msr, MSR, ILE);
+     }
+ 
+     return ile;
+-- 
+2.25.1
 
-I think what we will want here is something like:
-
-[OR1KSIM_OMPIC] =     { 0x98000000, 8 * OR1KSIM_CPUS_MAX },
-
->  };
->  
->  static struct openrisc_boot_info {
-> @@ -410,7 +410,7 @@ static void openrisc_sim_init(MachineState *machine)
->  
->      if (smp_cpus > 1) {
->          openrisc_sim_ompic_init(state, or1ksim_memmap[OR1KSIM_OMPIC].base,
-> -                                or1ksim_memmap[OR1KSIM_UART].size,
-> +                                or1ksim_memmap[OR1KSIM_OMPIC].size,
->                                  smp_cpus, cpus, OR1KSIM_OMPIC_IRQ);
->      }
->  
-> -- 
-> 2.35.1
-> 
 
