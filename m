@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCE55180E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:21:38 +0200 (CEST)
-Received: from localhost ([::1]:35176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 235895180E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:24:00 +0200 (CEST)
+Received: from localhost ([::1]:37344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nloiv-0006DC-2y
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
+	id 1nlolD-0007nN-41
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:23:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlofM-00045l-MI
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:18:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlofK-00014l-M3
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:17:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651569472;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5YdmXk0We02RnsTSr7YxPvcQUAMIg/yOCTRVqaYYAys=;
- b=erL98a7ONcodyb8lZYWQ1hl8qiifzPXPfIKdpp8cuIrfKZm7KzMX/oKeq6zjbY57XVw8bN
- jAGxn4mOFEfNNO3ktucXINUCLinzuKKkaj0T2WbjQAn0pw5V29CXEbokpFe8Lok1AfpylT
- ihem7U8gcWavUfbg7VBXJVxNY+pRm0Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-z5jBzThxOr28DJ7HRVS7Vg-1; Tue, 03 May 2022 05:17:49 -0400
-X-MC-Unique: z5jBzThxOr28DJ7HRVS7Vg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 724DD802819;
- Tue,  3 May 2022 09:17:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6931015378A7;
- Tue,  3 May 2022 09:17:48 +0000 (UTC)
-Date: Tue, 3 May 2022 10:17:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dongwon Kim <dongwon.kim@intel.com>
-Cc: qemu-devel@nongnu.org, philmd@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 3/3] ui/gtk: specify detached window's size and location
-Message-ID: <YnDzOlLvFNIG7y8M@redhat.com>
-References: <20220428231304.19472-1-dongwon.kim@intel.com>
- <20220428231304.19472-4-dongwon.kim@intel.com>
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlogw-0005LW-SM
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:19:35 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:46056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nlogv-0001Bn-CF
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:19:34 -0400
+Received: by mail-pg1-x530.google.com with SMTP id 7so9698951pga.12
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 02:19:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=i90u9FWtuT9KsoF3yacMMNTaSW6l4P+xlhV+WVW3ggU=;
+ b=HiTHQo4FxMXATb10nP1zwvTyXEiiC8bdJ3i2gB1YCIkJxmB02zhK3ELBzFm723FEnj
+ Jsp5Hw13VbOu1o93TVWr/WGlVHgHmQqI7QkbbX7+UxDy0bAJdO2EXzv2Vzb7dwffVCiP
+ QoQU9s5grdf44pUQIKa+FCGwN9+sTvyxRAtG8Pm0rkHP91At+VsQvzEaZpZ46i8JD3jA
+ u0ouVWRUJxUOj4sWV0ZAiKxCeGKGd2nwREmcN7er6jYRaquKFPyztWrJsyd8c4yI+csw
+ SuEWw5w80h56rvTkDzBpQWu8NKjCp07Knx0i6Ao6kVHNsU4kPFd77Ds3ginIHycYa0eR
+ 224g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=i90u9FWtuT9KsoF3yacMMNTaSW6l4P+xlhV+WVW3ggU=;
+ b=IgLBWlrdSrReUlYwo3167pQ+6wVv/S3mJZOiTKt3FKwwF9ao26LOiwoDECPIypGIvp
+ GAhdqc7iLpgZYLBRflvaP9vF28zY0448ilngWox4CmeiiwBacHnrpslzfQM/KtXGh2Jp
+ 9cWiyBwDmrtRJuZAYrwBTHtgHkZ47wrGU7lISIZ6w70sJNJz40i2d25gesJPxB9aB9sr
+ yoxved5z5csV1kaL6KNcL++7uowDoCRUjF9mH3ybS7BIUpaqas0EOLoouxmFgcjrL8+g
+ Qd51q50T54Ia8ZboYmBa470fYkp4mayA1YWyy2tsLJyxWYUWGnQfpat9uNv/l8xm03LW
+ DGhQ==
+X-Gm-Message-State: AOAM53112OB5XPELJnurxWfXdStMo67dqi+WgvciLFrURFPU8biwCcW3
+ VsXwwmaw6SMH8ze8HmyfQ70=
+X-Google-Smtp-Source: ABdhPJwhiIAQ5uhhL9wWfUrdziBQDIFdAxhNkphjIq+gaDmxbDGAEKdJbZWz/BkfGQPo27C4bN7JLw==
+X-Received: by 2002:a63:6a45:0:b0:3c1:47b7:edce with SMTP id
+ f66-20020a636a45000000b003c147b7edcemr12847164pgc.207.1651569571518; 
+ Tue, 03 May 2022 02:19:31 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id
+ y5-20020a170902864500b0015e8d4eb229sm5905731plt.115.2022.05.03.02.19.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 May 2022 02:19:30 -0700 (PDT)
+Date: Tue, 3 May 2022 18:19:29 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org,
+ openrisc@lists.librecores.org
+Subject: Re: [PATCH] hw/openrisc: use right OMPIC size variable
+Message-ID: <YnDzoWHqpYcCWTVs@antec>
+References: <20220502232800.259036-1-Jason@zx2c4.com>
+ <c6d3a823-b9a4-411a-b4b8-5fb1f1c9c214@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220428231304.19472-4-dongwon.kim@intel.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <c6d3a823-b9a4-411a-b4b8-5fb1f1c9c214@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=shorne@gmail.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,77 +85,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28, 2022 at 04:13:04PM -0700, Dongwon Kim wrote:
-> Specify location and size of detached window based on top level
-> window's location and size info when detachment happens.
-
-Can you explain what problem is being solved by this change ?
-What's wrong with default size/placement logic ?
-
-In terms of size at least, I would hope we are resizing
-windows any time the guest changes the resolution of the
-virtual video adapter.  If there are 2 outputs, they can
-be at different resolution, so copying the size of the
-existing window feels wrong - we need to copy the guest
-resolution currently set.
-
-Why do we need to mess around with position at all ?
-
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> ---
->  ui/gtk.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+On Mon, May 02, 2022 at 04:59:47PM -0700, Richard Henderson wrote:
+> On 5/2/22 16:28, Jason A. Donenfeld wrote:
+> > This appears to be a copy and paste error. The UART size was used
+> > instead of the much smaller OMPIC size.
+> > 
+> > Signed-off-by: Jason A. Donenfeld<Jason@zx2c4.com>
+> > ---
+> >   hw/openrisc/openrisc_sim.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index f1ca6a7275..7dadf3b588 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -1338,6 +1338,8 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
->                                         FALSE);
->      }
->      if (!vc->window) {
-> +        gint x, y, w, h;
-> +        int i;
->          gtk_widget_set_sensitive(vc->menu_item, false);
->          vc->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
->  #if defined(CONFIG_OPENGL)
-> @@ -1351,7 +1353,18 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
->          }
->  #endif
->          gd_widget_reparent(s->notebook, vc->window, vc->tab_item);
-> +        gtk_window_get_position(GTK_WINDOW(s->window), &x, &y);
-> +        gtk_window_get_size(GTK_WINDOW(s->window), &w, &h);
-> +
-> +        for (i = 0; i < s->nb_vcs; i++) {
-> +            if (vc == &s->vc[i]) {
-> +                break;
-> +            }
-> +        }
->  
-> +        gtk_window_move(GTK_WINDOW(vc->window),
-> +                        x + w * (i % (s->nb_vcs/2) + 1), y + h * (i / (s->nb_vcs/2)));
-> +        gtk_window_resize(GTK_WINDOW(vc->window), w, h);
->          g_signal_connect(vc->window, "delete-event",
->                           G_CALLBACK(gd_tab_window_close), vc);
->          gtk_widget_show_all(vc->window);
-> -- 
-> 2.30.2
-> 
-> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
 
+I will queue this one.
 
