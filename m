@@ -2,102 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31624518F13
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:39:48 +0200 (CEST)
-Received: from localhost ([::1]:37760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D5F51904C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:38:38 +0200 (CEST)
+Received: from localhost ([::1]:37778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlzJD-0002b3-2x
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39780)
+	id 1nm0E8-0008GD-9z
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1nlyXX-0004a6-J6
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:50:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25701)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nlyva-00020N-SF
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:15:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1nlyXS-0004eZ-CW
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:50:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nlyvZ-0002x3-05
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:15:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651607415;
+ s=mimecast20190719; t=1651608832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QGN5zf7pLYbMBi55Jh5QgS/wTUq9KZ23nT2lWG1VSSU=;
- b=Z1NZyA+pj6xglIz/mtYHc1KV2ZBW0WkEuSJwyR5cfUqYGj55Ym0dQwQeu5UxXEe9hLnyLN
- eyH3L1jByng+BO+0+OF0omBa38sLVaxfNNk2WVZpercHMnijehHvNlkKWFWFHGay5fgN77
- KOLH7a4XWQ+zTOeGnRk+CNSPrTcLD6Y=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Y9dgwcvRm6fut9xvX4VrsEQlicampPN29seXdU1Fxdw=;
+ b=B8DKVwn1V/W/ijNqUbxvZoyiymXibL1N7omJm7W94GrMJHZi/TXKgOswztY/S92UrBxj4T
+ 33wv6jFf4nFHX2jvTfefBOmkVqsd2CB8iMEzZ0lXKv9IZkm/CsCVY5SgUdz5UNqt9KJ5wG
+ 8fv4HLSflHJiHFtMLp6oi4HvktgztN4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-ckMXQVMLNayAx5GhwxO5CQ-1; Tue, 03 May 2022 12:21:14 -0400
-X-MC-Unique: ckMXQVMLNayAx5GhwxO5CQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- a24-20020ac81098000000b002e1e06a72aeso13853074qtj.6
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:21:14 -0700 (PDT)
+ us-mta-8-p3yWrOq7OKqiarORx8lVJg-1; Tue, 03 May 2022 13:43:45 -0400
+X-MC-Unique: p3yWrOq7OKqiarORx8lVJg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s14-20020adfa28e000000b0020ac7532f08so6602822wra.15
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 10:43:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QGN5zf7pLYbMBi55Jh5QgS/wTUq9KZ23nT2lWG1VSSU=;
- b=sLhG/q2AXyshDq7dgEVuNClF/dK0vSkvBSjN5S1Mdvq1iZ5WQvvCLohwWZHzRDvFl8
- En1OX0UhGbstnu5BoQ9yDNVu/HhuquJYzTqjvwkRLFngXp/t/KMNoRGTRlV6RCwx9j3F
- 62lAJz2bGqffQys0nVOkkJGiJDOyci+tOCmU4HqOikEqibblasfghHzLeL8QE7DNDYow
- bEtsQgge0kvDI3Ke6TI37WuwuI1TTrXWic4BzvTAqCmn4iI6NRrPgTcaICiqkK/4KVJD
- p9EJJrC61iYlxROhHUQoVjdq3/3Vfz24hy2XPQMGs/kv3PmJLPaRskG6wlceE4L3O21c
- jhtw==
-X-Gm-Message-State: AOAM531K08SxctuSJVYULJHGQn3iTxyEHoZ+yoO/TvhjG2M/Gs/BJPlC
- jZoAxN3lJBXCZ3Eh/J6w9AkRz2a/c27QvQzAsyKjB3OfAFyeQs5S91NmQRr5/ZzHrlRsT8/5l4v
- SaTKGJKlsMv8Q1uI=
-X-Received: by 2002:a05:622a:5cb:b0:2f3:a081:e470 with SMTP id
- d11-20020a05622a05cb00b002f3a081e470mr12221659qtb.58.1651594873827; 
- Tue, 03 May 2022 09:21:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynXRK4UHxXoHYdAR17S4RqoXYFDqRCXnu2e+t8ZCIc8E2FFkzjkTdydS2knUvhU3jvdYMpdg==
-X-Received: by 2002:a05:622a:5cb:b0:2f3:a081:e470 with SMTP id
- d11-20020a05622a05cb00b002f3a081e470mr12221622qtb.58.1651594873529; 
- Tue, 03 May 2022 09:21:13 -0700 (PDT)
-Received: from [10.0.0.97] ([24.225.241.171]) by smtp.gmail.com with ESMTPSA id
- c85-20020ae9ed58000000b006a006c884f0sm839588qkg.106.2022.05.03.09.21.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 09:21:12 -0700 (PDT)
-Message-ID: <12ce1d68-c52a-83dd-861b-2f0e5af7b3a7@redhat.com>
-Date: Tue, 3 May 2022 12:21:11 -0400
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Y9dgwcvRm6fut9xvX4VrsEQlicampPN29seXdU1Fxdw=;
+ b=WLJqmTwbQLGaO3QTBr/jAi1+J8rQULMqTzSGpG5fCQ0fOOmKEy6RS6+S4iMqAldIqt
+ ZKDanQbonSu6xgaJqsizecsSkd7Nd9S1XTeIzd9haLhp34bzNwCV83Trzx5EdvbYo4tg
+ rgFWLgN0NSHJ76la6Zfu/6Tj595lAhIGJSEjKLrNWRO1BQ9cg9xymQnSOcBpEoQj/De1
+ fRc6dp3I8mBvCsCnNwZ+MUNS72rY+TGl+uMmkQmG81/LPBsLh7Cso6jd01BBJ+FzQ+dJ
+ p43XIOaWfQjOa0qHUFAmOc9sjCBlibVLi2TNR6cdKeUNcszsCZ1NAmqIX4wIIzGNQmGS
+ DNzQ==
+X-Gm-Message-State: AOAM5306hAQY0jvYqrDYmKWc6JemU9qXuhNThADfnBf67zSPKDdQjgml
+ UcJjdsrHmmpkxsAWwDFnWA8aMrxGZZxqF9dsryrYNIY5/cGp00r7MVZPqYFvLgHII2LyNKgcihP
+ L+amcQmNtKh+JxoU=
+X-Received: by 2002:a7b:c30e:0:b0:37f:a63d:3d1f with SMTP id
+ k14-20020a7bc30e000000b0037fa63d3d1fmr4213949wmj.178.1651599824335; 
+ Tue, 03 May 2022 10:43:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxnVQ1d/vgTiUQBfmdTOpjZhJKlg+AJNzP5Xh8DcVfIcP+wRNURwPF7hVV48vG89MBAdkX+OQ==
+X-Received: by 2002:a7b:c30e:0:b0:37f:a63d:3d1f with SMTP id
+ k14-20020a7bc30e000000b0037fa63d3d1fmr4213921wmj.178.1651599824065; 
+ Tue, 03 May 2022 10:43:44 -0700 (PDT)
+Received: from redhat.com ([2.54.62.85]) by smtp.gmail.com with ESMTPSA id
+ n29-20020a05600c3b9d00b0038cf0796675sm1468674wms.0.2022.05.03.10.43.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 May 2022 10:43:43 -0700 (PDT)
+Date: Tue, 3 May 2022 13:43:38 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, imammedo@redhat.com,
+ ani@anisinha.ca, peter.maydell@linaro.org, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
+ eblake@redhat.com, armbru@redhat.com, thuth@redhat.com,
+ lvivier@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+ Jonathan.Cameron@huawei.com, drjones@redhat.com,
+ zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH v9 6/6] hw/acpi/aml-build: Use existing CPU topology to
+ build PPTT table
+Message-ID: <20220503134330-mutt-send-email-mst@kernel.org>
+References: <20220503140304.855514-1-gshan@redhat.com>
+ <20220503140304.855514-7-gshan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH-for-6.2 0/2] hw/block/fdc: Fix CVE-2021-3507
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Laurent Vivier <lvivier@redhat.com>, Prasad J Pandit
- <pjp@fedoraproject.org>, Qemu-block <qemu-block@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
- Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20211118115733.4038610-1-philmd@redhat.com>
- <7153eadf-3c43-b62c-aaa1-919abf0634ca@redhat.com>
- <1c5dfae3-1c3c-bd2f-d2b5-06dbe75c04c8@redhat.com>
- <4df33af0-0a28-2e20-1909-25baf87d0565@redhat.com>
- <01a68a16-fa01-e7f3-4248-fdec6595cf74@redhat.com>
- <38386efc-1e83-63d4-703d-10c7650e7829@redhat.com>
- <0656151f-a76d-bdd2-cdc9-ea0d1543b0f9@redhat.com>
- <CAFn=p-bwpT7MRhC5xVcsDHnfGfFzKDeu_H5+DZ4irvLUQaOP_A@mail.gmail.com>
- <YnD881acilymQYhE@redhat.com>
-From: Jon Maloy <jmaloy@redhat.com>
-In-Reply-To: <YnD881acilymQYhE@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jmaloy@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503140304.855514-7-gshan@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,62 +102,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, May 03, 2022 at 10:03:04PM +0800, Gavin Shan wrote:
+> When the PPTT table is built, the CPU topology is re-calculated, but
+> it's unecessary because the CPU topology has been populated in
+> virt_possible_cpu_arch_ids() on arm/virt machine.
+> 
+> This reworks build_pptt() to avoid by reusing the existing IDs in
+> ms->possible_cpus. Currently, the only user of build_pptt() is
+> arm/virt machine.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Yanan Wang <wangyanan55@huawei.com>
+> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
 
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-On 5/3/22 05:59, Kevin Wolf wrote:
-> Am 23.03.2022 um 03:25 hat John Snow geschrieben:
->> On Fri, Mar 18, 2022 at 2:50 PM Thomas Huth <thuth@redhat.com> wrote:
->>> On 10/03/2022 18.53, Jon Maloy wrote:
->>>> On 3/10/22 12:14, Thomas Huth wrote:
->>>>> On 06/02/2022 20.19, Jon Maloy wrote:
->>>>>> Trying again with correct email address.
->>>>>> ///jon
->>>>>>
->>>>>> On 2/6/22 14:15, Jon Maloy wrote:
->>>>>>>
->>>>>>> On 1/27/22 15:14, Jon Maloy wrote:
->>>>>>>> On 11/18/21 06:57, Philippe Mathieu-Daudé wrote:
->>>>>>>>> Trivial fix for CVE-2021-3507.
->>>>>>>>>
->>>>>>>>> Philippe Mathieu-Daudé (2):
->>>>>>>>>     hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
->>>>>>>>>     tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
->>>>>>>>>
->>>>>>>>>    hw/block/fdc.c         |  8 ++++++++
->>>>>>>>>    tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
->>>>>>>>>    2 files changed, 28 insertions(+)
->>>>>>>>>
->>>>>>>> Series
->>>>>>>> Acked-by: Jon Maloy <jmaloy@redhat.com>
->>>>>>> Philippe,
->>>>>>> I hear from other sources that you earlier have qualified this one as
->>>>>>> "incomplete".
->>>>>>> I am of course aware that this one, just like my own patch, is just a
->>>>>>> mitigation and not a complete correction of the erroneous calculation.
->>>>>>> Or did you have anything else in mind?
->>>>> Any news on this one? It would be nice to get the CVE fixed for 7.0 ?
->>>>>
->>>>>   Thomas
->>>>>
->>>> The ball is currently with John Snow, as I understand it.
->>>> The concern is that this fix may not take the driver back to a consistent
->>>> state, so that we may have other problems later.
->>>> Maybe Philippe can chip in with a comment here?
->>> John, Philippe, any ideas how to move this forward?
->>>
->>>    Thomas
->>>
->> The ball is indeed in my court. I need to audit this properly and get
->> the patch re-applied, and get tests passing.
->>
->> As a personal favor: Could you please ping me on IRC tomorrow about
->> this? (Well, later today, for you.)
-> Going through old patches... Is this one still open?
->
-> Kevin
->
-Yes, it is.
-
-///jon
+> ---
+>  hw/acpi/aml-build.c | 111 +++++++++++++++++++-------------------------
+>  1 file changed, 48 insertions(+), 63 deletions(-)
+> 
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index 4086879ebf..e6bfac95c7 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -2002,86 +2002,71 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>                  const char *oem_id, const char *oem_table_id)
+>  {
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+> -    GQueue *list = g_queue_new();
+> -    guint pptt_start = table_data->len;
+> -    guint parent_offset;
+> -    guint length, i;
+> -    int uid = 0;
+> -    int socket;
+> +    CPUArchIdList *cpus = ms->possible_cpus;
+> +    int64_t socket_id = -1, cluster_id = -1, core_id = -1;
+> +    uint32_t socket_offset = 0, cluster_offset = 0, core_offset = 0;
+> +    uint32_t pptt_start = table_data->len;
+> +    int n;
+>      AcpiTable table = { .sig = "PPTT", .rev = 2,
+>                          .oem_id = oem_id, .oem_table_id = oem_table_id };
+>  
+>      acpi_table_begin(&table, table_data);
+>  
+> -    for (socket = 0; socket < ms->smp.sockets; socket++) {
+> -        g_queue_push_tail(list,
+> -            GUINT_TO_POINTER(table_data->len - pptt_start));
+> -        build_processor_hierarchy_node(
+> -            table_data,
+> -            /*
+> -             * Physical package - represents the boundary
+> -             * of a physical package
+> -             */
+> -            (1 << 0),
+> -            0, socket, NULL, 0);
+> -    }
+> -
+> -    if (mc->smp_props.clusters_supported) {
+> -        length = g_queue_get_length(list);
+> -        for (i = 0; i < length; i++) {
+> -            int cluster;
+> -
+> -            parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+> -            for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
+> -                g_queue_push_tail(list,
+> -                    GUINT_TO_POINTER(table_data->len - pptt_start));
+> -                build_processor_hierarchy_node(
+> -                    table_data,
+> -                    (0 << 0), /* not a physical package */
+> -                    parent_offset, cluster, NULL, 0);
+> -            }
+> +    /*
+> +     * This works with the assumption that cpus[n].props.*_id has been
+> +     * sorted from top to down levels in mc->possible_cpu_arch_ids().
+> +     * Otherwise, the unexpected and duplicated containers will be
+> +     * created.
+> +     */
+> +    for (n = 0; n < cpus->len; n++) {
+> +        if (cpus->cpus[n].props.socket_id != socket_id) {
+> +            assert(cpus->cpus[n].props.socket_id > socket_id);
+> +            socket_id = cpus->cpus[n].props.socket_id;
+> +            cluster_id = -1;
+> +            core_id = -1;
+> +            socket_offset = table_data->len - pptt_start;
+> +            build_processor_hierarchy_node(table_data,
+> +                (1 << 0), /* Physical package */
+> +                0, socket_id, NULL, 0);
+>          }
+> -    }
+>  
+> -    length = g_queue_get_length(list);
+> -    for (i = 0; i < length; i++) {
+> -        int core;
+> -
+> -        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+> -        for (core = 0; core < ms->smp.cores; core++) {
+> -            if (ms->smp.threads > 1) {
+> -                g_queue_push_tail(list,
+> -                    GUINT_TO_POINTER(table_data->len - pptt_start));
+> -                build_processor_hierarchy_node(
+> -                    table_data,
+> -                    (0 << 0), /* not a physical package */
+> -                    parent_offset, core, NULL, 0);
+> -            } else {
+> -                build_processor_hierarchy_node(
+> -                    table_data,
+> -                    (1 << 1) | /* ACPI Processor ID valid */
+> -                    (1 << 3),  /* Node is a Leaf */
+> -                    parent_offset, uid++, NULL, 0);
+> +        if (mc->smp_props.clusters_supported) {
+> +            if (cpus->cpus[n].props.cluster_id != cluster_id) {
+> +                assert(cpus->cpus[n].props.cluster_id > cluster_id);
+> +                cluster_id = cpus->cpus[n].props.cluster_id;
+> +                core_id = -1;
+> +                cluster_offset = table_data->len - pptt_start;
+> +                build_processor_hierarchy_node(table_data,
+> +                    (0 << 0), /* Not a physical package */
+> +                    socket_offset, cluster_id, NULL, 0);
+>              }
+> +        } else {
+> +            cluster_offset = socket_offset;
+>          }
+> -    }
+>  
+> -    length = g_queue_get_length(list);
+> -    for (i = 0; i < length; i++) {
+> -        int thread;
+> +        if (ms->smp.threads == 1) {
+> +            build_processor_hierarchy_node(table_data,
+> +                (1 << 1) | /* ACPI Processor ID valid */
+> +                (1 << 3),  /* Node is a Leaf */
+> +                cluster_offset, n, NULL, 0);
+> +        } else {
+> +            if (cpus->cpus[n].props.core_id != core_id) {
+> +                assert(cpus->cpus[n].props.core_id > core_id);
+> +                core_id = cpus->cpus[n].props.core_id;
+> +                core_offset = table_data->len - pptt_start;
+> +                build_processor_hierarchy_node(table_data,
+> +                    (0 << 0), /* Not a physical package */
+> +                    cluster_offset, core_id, NULL, 0);
+> +            }
+>  
+> -        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+> -        for (thread = 0; thread < ms->smp.threads; thread++) {
+> -            build_processor_hierarchy_node(
+> -                table_data,
+> +            build_processor_hierarchy_node(table_data,
+>                  (1 << 1) | /* ACPI Processor ID valid */
+>                  (1 << 2) | /* Processor is a Thread */
+>                  (1 << 3),  /* Node is a Leaf */
+> -                parent_offset, uid++, NULL, 0);
+> +                core_offset, n, NULL, 0);
+>          }
+>      }
+>  
+> -    g_queue_free(list);
+>      acpi_table_end(linker, &table);
+>  }
+>  
+> -- 
+> 2.23.0
 
 
