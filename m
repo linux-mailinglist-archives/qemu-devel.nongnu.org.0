@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B599518A80
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 18:53:02 +0200 (CEST)
-Received: from localhost ([::1]:56406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF27518A96
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 18:57:46 +0200 (CEST)
+Received: from localhost ([::1]:35388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlvll-0005gu-3r
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 12:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52344)
+	id 1nlvqK-0003aL-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 12:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nlvjF-0003LY-63
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:50:25 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:35644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nlvjD-0005ya-HR
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:50:24 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id w187so32100478ybe.2
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fcnhCr/E96zXHTPF83KUB0kJu3XBEfU5kspnumlccpw=;
- b=MumZue3ctR6gj7uyJgT8BbTQhFDHmzc3Gej869wdjzK+lQFzAWhYPWbdB2wLAZRSLi
- 27OWvYco67LBdkUYkQchVh7+LkCWtWQ9nFRsmex1Bym+7x6esCnZxrk5eOx03LfoelUH
- g6msrnLvmQA/hyVtqGV8E0Jv8vWMG0A1hHq9WF31zI8ZDYVZfm6n5UfHc0UsmcB4XnQG
- lzq90LhJ2FRvUh5dmGOUu4K9Grfl70ff2AahIYUu74gJ8bCVcP2kOjRCbUJMldeToNWn
- V1m9XdnhLJ8ZYVSN0I3WZYGZlUhs3Tg3/0yvNd/vc5wpmUZkGBaxBNoElU5aU5jKtVW0
- N2Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fcnhCr/E96zXHTPF83KUB0kJu3XBEfU5kspnumlccpw=;
- b=vAgKkHNOBFC+CvX9Psj48lyzhmjuyl6w5S+sc1gmkMqwtL4q7RX0gwXLVCmQelo4hv
- jetePB3BbUrO/6TW9MWfgpTneXey3MSZhvOc+rn675T6osulXpGlG7VdKIzRowi+8D5b
- LT9pbW8imrQBE2PfvYfb/ldD7RdhzEsRXX2JtUUSWN5/tXBvYJTFQF8TDx5gDknVkthm
- yndz3jdgp0copgsy9Loa6UXPvGP+oJf2en7c7Zo5oG2P2bT45IBw9ukw3zcxAdpJE7bz
- t8UVAyr/U/UO3aJfzK02FEp8FjYP/vO1NtMq4Jw+0Zzc11m7jqFHG+Ey7zAqiIfvD9HZ
- a9Rw==
-X-Gm-Message-State: AOAM531pigdd5W8eHdBD1CxrLEEmgm8zdvGoVAZcVFGDbJKJhi1NfYV2
- TKnXPa3YsmtrJCFs/pBGi36p4Xm/dRZAO6mB/d5TUA==
-X-Google-Smtp-Source: ABdhPJxVMgpLvtAL4nhUVPR8OEFJFXY2x5up0pOr/Y++0NHd0t0cM+nOzkXHXZmaqAMjnfHOU3ghMpjsQH8bgTtBuiY=
-X-Received: by 2002:a25:40c4:0:b0:645:88a3:eb8b with SMTP id
- n187-20020a2540c4000000b0064588a3eb8bmr14192082yba.193.1651596622384; Tue, 03
- May 2022 09:50:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nlvnc-0001B6-AI
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:54:56 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:37187)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nlvna-0006dD-5e
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:54:55 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.237])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CCD08FC4670E;
+ Tue,  3 May 2022 18:54:43 +0200 (CEST)
+Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Tue, 3 May 2022
+ 18:54:42 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S00184bed93e-b44b-4026-ba9b-184bd46e5846,
+ F6B89E566DA044E9E2FB2CFEBB669705F2CEA7ED) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <cd1ae42e-6824-c160-4c41-75eef16dbae0@kaod.org>
+Date: Tue, 3 May 2022 18:54:42 +0200
 MIME-Version: 1.0
-References: <20220501055028.646596-1-richard.henderson@linaro.org>
- <20220501055028.646596-21-richard.henderson@linaro.org>
- <CAFEAcA_i_+MrxapQ821zWBwO7QKs2k=06xQRs9s6ojRB2CyxsA@mail.gmail.com>
- <731de8d2-2a39-862a-39fa-d208d9836364@linaro.org>
-In-Reply-To: <731de8d2-2a39-862a-39fa-d208d9836364@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 May 2022 17:50:11 +0100
-Message-ID: <CAFEAcA_-ts5cRCyk03T4JEMS-5kRf2iJcOEOpgkZoerjVjR1fw@mail.gmail.com>
-Subject: Re: [PATCH v4 20/45] target/arm: Handle cpreg registration for
- missing EL
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] target/ppc: Fix tlbie
+Content-Language: en-US
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>, 
+ <qemu-ppc@nongnu.org>
+CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>
+References: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9a36f438-aeab-45b5-8356-2bf912a86796
+X-Ovh-Tracer-Id: 6796776264457292582
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,22 +74,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 May 2022 at 17:45, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/3/22 09:34, Peter Maydell wrote:
-> > "set CONST on the cpreg" is what the code does, but it's not
-> > what the architecture wants. In particular, if the EL2 cpreg defines
-> > a non-zero resetvalue then the EL3-no-EL2 CPU will get a
-> > "reads as constant that value" rather than "reads as zero".
-> > CNTHCTL_EL2 and MDCR_EL2 are examples of this.
->
-> Ah, I'd missed those.  I guess I need a third bit to indicate keeping the resetvalue, for
-> e.g. VPIDR_EL2, which is why the code is written the way it is.
+On 5/3/22 18:39, Leandro Lupori wrote:
+> Commit 74c4912f097bab98 changed check_tlb_flush() to use
+> tlb_flush_all_cpus_synced() instead of calling tlb_flush() on each
+> CPU. However, as side effect of this, a CPU executing a ptesync
+> after a tlbie will have its TLB flushed only after exiting its
+> current Translation Block (TB).
+> 
+> This causes memory accesses to invalid pages to succeed, if they
+> happen to be on the same TB as the ptesync.
 
-Or you could just treat VPIDR_EL2 as a special case and keep
-the cpreginfo we have for it for the el3-no-el2 case.
+How did you track the issue ? Do you have a test case ?
 
-thanks
--- PMM
+Thanks,
+
+C.
+
+
+> To fix this, use tlb_flush_all_cpus() instead, that immediately
+> flushes the TLB of the CPU executing the ptesync instruction.
+> 
+> Fixes: 74c4912f097bab98 ("target/ppc: Fix synchronization of mttcg with broadcast TLB flushes")
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> ---
+>   target/ppc/helper_regs.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 9a691d6833..1fa032e4d0 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -293,7 +293,7 @@ void check_tlb_flush(CPUPPCState *env, bool global)
+>       if (global && (env->tlb_need_flush & TLB_NEED_GLOBAL_FLUSH)) {
+>           env->tlb_need_flush &= ~TLB_NEED_GLOBAL_FLUSH;
+>           env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
+> -        tlb_flush_all_cpus_synced(cs);
+> +        tlb_flush_all_cpus(cs);
+>           return;
+>       }
+>   
+
 
