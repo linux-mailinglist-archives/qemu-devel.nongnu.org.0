@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC314518FB4
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:05:59 +0200 (CEST)
-Received: from localhost ([::1]:54692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0EC518FE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:17:36 +0200 (CEST)
+Received: from localhost ([::1]:48458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlziX-0001vd-8T
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40686)
+	id 1nlztn-00021m-HP
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:17:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZz-0000nd-2L
+ id 1nlyZz-0000ne-1v
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:03 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:46712)
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZv-0006OH-31
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:01 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- cq17-20020a17090af99100b001dc0386cd8fso2880353pjb.5
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:57 -0700 (PDT)
+ id 1nlyZw-0006Ob-KO
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:02 -0400
+Received: by mail-pl1-x631.google.com with SMTP id j8so15862848pll.11
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=l75mJLkyS62K5L377zFVSd2gu1rBBy1agq6hzSt3Vpo=;
- b=AoBEQWbfAB7HJwFtFMDqPiV4GJRQfgl0Ue/SdQi67z3yELsujJI4hl/iiz5+MFqKNr
- gb3B/oexgaBUMSPChdbyt30TNNwO3upw9UKEr0+IiowBb4W2uwpOiC3+m0enuQMa7sf+
- O6sr5brQcNdgkd0Uv5YyRLXvlHAtBILQM/cIaM5nGynLiXbm0ngtJxunmYgEbAqWsW9I
- Sz/leRGCyKz8I5gVnRxJgxoEOK3m78xnWm0kDQbcFoqHSui5UAMYl4/09cd83aWr0b+e
- y75WWJf/vucL6by+Nta4loXuD0AQuJcov2sEKkSp+lk/x1VBWGGGh9MEB+CGQi77cQwZ
- akcQ==
+ bh=zSABYP4n5j9DpaRkrATAbL9o0CDfndEvUo9tSY+Ych0=;
+ b=Ef5saaaj5hJEJ5KnBAj9hB8RkLBpZoilw0vNu9Y3kretFp+rixJqjwjb5OgVeoOZOv
+ 95w+s4jSQy/Qf8+nS+0LqYUeujvC+33YGLo8MmvM0coZRVplTGOAnT0NlhALh3smsAl8
+ stiPFR4BmWm9SiUwjh3J3QVjtah/CCIv6UwZgbDkmNo7vkKL94QdDbSfOIERJAWiG8T4
+ v7WwQh/sEMviMyLe1/hmvBiknQzVmkzD125DPODM3Jg2MzVPBgIxo+se/8MtelNCt1HZ
+ 76w15DFW7VFbIM0Ds/wmGNlIe2Ft7Hpvn9+Om190W78t8G1aftNJwGkLGDyHs8VpvagX
+ 3YvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l75mJLkyS62K5L377zFVSd2gu1rBBy1agq6hzSt3Vpo=;
- b=jHvU/57tYycCpkd6yNpgg+HuRd08pZouDnDZrP6ssGdnHsWV5hoxgWdEtZYBdK20Mg
- Q3AJFF/FRMwLYDWbPKxQ/p0+EEtnglIzLm1G8MNJ5UWLAY/HmoPfS9Zlf1Y7Kxzmoqhx
- Vjy2h83SYov25rr0tAHbAvlvN9BKqAsOGbumgYreVP7elzTwSBnAeNV+c/orcK3PGszS
- ixzTBfPQTLCxoQONeS6oeowyTm5NCxIeNCYjMzGacEtxwsurikhiRzs3HD4tp9D+IHVj
- G74BLY659aiXmJ0wJEZONHElBLQ9yA7JiGbLqaWF+B2/xyDj0Eyo4zgbEUKMV4R1ReCy
- VYbQ==
-X-Gm-Message-State: AOAM532Cx8byqLDqH0JfJx5N/eKxipjfMzYBySCF1MfJEIeI5y/ybSbg
- UO42qx6Z8w5VB3pzWTekjxn2oEyyyde1qQ==
-X-Google-Smtp-Source: ABdhPJzLlE7thkOJYl6CXtnpMCqca0RNyPmirMO0vN5yx/0w12dGawsA8LfaHs/tGULrbbMduZKKmw==
-X-Received: by 2002:a17:90a:c595:b0:1d9:532e:52fd with SMTP id
- l21-20020a17090ac59500b001d9532e52fdmr6542620pjt.79.1651607576483; 
- Tue, 03 May 2022 12:52:56 -0700 (PDT)
+ bh=zSABYP4n5j9DpaRkrATAbL9o0CDfndEvUo9tSY+Ych0=;
+ b=XHMDvofTFzgmf3HcHyfnXUtfSwTV3P6xnrBxekvucOleA2JDg3Zkx2FcUa9XgX5CDx
+ by9bCge3WXFeTpBukcHuWrt9aVDKLujr5XNmUEsT+wyPbZ52tWoy1b9V1TLYsXGCHU4/
+ 9TUkyrbh2wbPzY9MirgJiI4owNMFLcWtFY/jdE26E/odKuL3FGE8zH7UQSuQFheX0r79
+ zu9v9z0HkjjCaXo82mzHmnMix1YucpyzNlLLdsc+2yio2YSP7ezJr8Sj7llZFRMcG+7Z
+ E1lD62wkGQCrD+BK8CmJjlpWHcgVtmT536oP5kyHIiSPBDA/rPOrF7yxkEgtq2Q4g0dJ
+ VG5A==
+X-Gm-Message-State: AOAM533gkQW0GFTVtNN4i9AWad5Gee7k4poPqPi+6EZbkaZe+LSy6WXY
+ SFHVgHBj8qaBvoi70o3nPpWSLWmHO+JgHA==
+X-Google-Smtp-Source: ABdhPJx4XuUu8nnZmOWcu5Mto3jc5EGOKAH31za81JxszAMtZ/D+L7VQjMeIfAAcFy3IloE6OiiXUg==
+X-Received: by 2002:a17:90b:1c04:b0:1dc:4dfd:5a43 with SMTP id
+ oc4-20020a17090b1c0400b001dc4dfd5a43mr6628138pjb.160.1651607577572; 
+ Tue, 03 May 2022 12:52:57 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.55
+ fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:52:56 -0700 (PDT)
+ Tue, 03 May 2022 12:52:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 71/74] target/rx: Consolidate exception helpers
-Date: Tue,  3 May 2022 12:48:40 -0700
-Message-Id: <20220503194843.1379101-72-richard.henderson@linaro.org>
+Subject: [PATCH v2 72/74] target/rx: Cleanup rx_cpu_do_interrupt
+Date: Tue,  3 May 2022 12:48:41 -0700
+Message-Id: <20220503194843.1379101-73-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
 References: <20220503194843.1379101-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,136 +87,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace 5 helpers with 1.  Store pc before raising
-privileged and undefined instruction exceptions,
-which means we don't need to use tcg unwinding.
+Introduce EXCP_IRQ and EXCP_FIRQ to remember the decision
+that we made in rx_cpu_exec_interrupt.  Use a switch to
+select between exceptions; unify stacked interrupt frame
+creation; abort if unknown exception.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/rx/helper.h    |  6 +-----
- target/rx/op_helper.c | 25 ++++---------------------
- target/rx/translate.c | 23 +++++++++++------------
- 3 files changed, 16 insertions(+), 38 deletions(-)
+ target/rx/cpu.h    |   4 ++
+ target/rx/helper.c | 118 ++++++++++++++++++++++-----------------------
+ 2 files changed, 61 insertions(+), 61 deletions(-)
 
-diff --git a/target/rx/helper.h b/target/rx/helper.h
-index ebb4739474..e6763b5a90 100644
---- a/target/rx/helper.h
-+++ b/target/rx/helper.h
-@@ -1,9 +1,5 @@
--DEF_HELPER_1(raise_illegal_instruction, noreturn, env)
--DEF_HELPER_1(raise_access_fault, noreturn, env)
--DEF_HELPER_1(raise_privilege_violation, noreturn, env)
-+DEF_HELPER_2(raise_exception, noreturn, env, i32)
- DEF_HELPER_1(wait, noreturn, env)
--DEF_HELPER_2(rxint, noreturn, env, i32)
--DEF_HELPER_1(rxbrk, noreturn, env)
- DEF_HELPER_FLAGS_3(fadd, TCG_CALL_NO_WG, f32, env, f32, f32)
- DEF_HELPER_FLAGS_3(fsub, TCG_CALL_NO_WG, f32, env, f32, f32)
- DEF_HELPER_FLAGS_3(fmul, TCG_CALL_NO_WG, f32, env, f32, f32)
-diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index 6ab7b070bd..f2b58bcad5 100644
---- a/target/rx/op_helper.c
-+++ b/target/rx/op_helper.c
-@@ -428,19 +428,12 @@ void raise_exception(CPURXState *env, int index, uintptr_t retaddr)
-     cpu_loop_exit_restore(cs, retaddr);
- }
- 
--G_NORETURN void helper_raise_privilege_violation(CPURXState *env)
-+G_NORETURN void helper_raise_exception(CPURXState *env, uint32_t index)
- {
--    raise_exception(env, EXCP_PRIVILEGED, GETPC());
--}
-+    CPUState *cs = env_cpu(env);
- 
--G_NORETURN void helper_raise_access_fault(CPURXState *env)
--{
--    raise_exception(env, EXCP_ACCESS, GETPC());
--}
--
--G_NORETURN void helper_raise_illegal_instruction(CPURXState *env)
--{
--    raise_exception(env, EXCP_UNDEFINED, GETPC());
-+    cs->exception_index = index;
-+    cpu_loop_exit(cs);
- }
- 
- G_NORETURN void helper_wait(CPURXState *env)
-@@ -452,13 +445,3 @@ G_NORETURN void helper_wait(CPURXState *env)
-     env->psw_i = 1;
-     raise_exception(env, EXCP_HLT, 0);
- }
--
--G_NORETURN void helper_rxint(CPURXState *env, uint32_t vec)
--{
--    raise_exception(env, EXCP_INTB_0 + vec, 0);
--}
--
--G_NORETURN void helper_rxbrk(CPURXState *env)
--{
--    raise_exception(env, EXCP_INTB_0, 0);
--}
-diff --git a/target/rx/translate.c b/target/rx/translate.c
-index 62aee66937..ddf31afb11 100644
---- a/target/rx/translate.c
-+++ b/target/rx/translate.c
-@@ -156,6 +156,13 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
-     dc->base.is_jmp = DISAS_NORETURN;
- }
- 
-+static void gen_raise_exception(DisasContext *ctx, int vec, bool advance_pc)
-+{
-+    tcg_gen_movi_i32(cpu_pc, advance_pc ? ctx->base.pc_next : ctx->pc);
-+    gen_helper_raise_exception(cpu_env, tcg_constant_i32(vec));
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+}
+diff --git a/target/rx/cpu.h b/target/rx/cpu.h
+index 99e28fb70f..5b93c0dcb0 100644
+--- a/target/rx/cpu.h
++++ b/target/rx/cpu.h
+@@ -84,6 +84,10 @@ enum {
+      */
+     EXCP_INTB_0      = 0x100,
+     EXCP_INTB_255    = EXCP_INTB_0 + 255,
 +
- /* generic load wrapper */
- static inline void rx_gen_ld(unsigned int size, TCGv reg, TCGv mem)
- {
-@@ -234,7 +241,7 @@ static int is_privileged(DisasContext *ctx, int is_exception)
- {
-     if (FIELD_EX32(ctx->tb_flags, PSW, PM)) {
-         if (is_exception) {
--            gen_helper_raise_privilege_violation(cpu_env);
-+            gen_raise_exception(ctx, EXCP_PRIVILEGED, false);
-         }
-         return 0;
-     } else {
-@@ -2261,23 +2268,15 @@ static bool trans_RTE(DisasContext *ctx, arg_RTE *a)
- /* brk */
- static bool trans_BRK(DisasContext *ctx, arg_BRK *a)
- {
--    tcg_gen_movi_i32(cpu_pc, ctx->base.pc_next);
--    gen_helper_rxbrk(cpu_env);
--    ctx->base.is_jmp = DISAS_NORETURN;
-+    gen_raise_exception(ctx, EXCP_INTB_0, true);
-     return true;
- }
++    /* Private to the qemu implementation. */
++    EXCP_IRQ,
++    EXCP_FIRQ,
+ };
  
- /* int #imm */
- static bool trans_INT(DisasContext *ctx, arg_INT *a)
- {
--    TCGv vec;
--
-     tcg_debug_assert(a->imm < 0x100);
--    vec = tcg_const_i32(a->imm);
--    tcg_gen_movi_i32(cpu_pc, ctx->base.pc_next);
--    gen_helper_rxint(cpu_env, vec);
--    tcg_temp_free(vec);
--    ctx->base.is_jmp = DISAS_NORETURN;
-+    gen_raise_exception(ctx, EXCP_INTB_0 + a->imm, true);
-     return true;
- }
+ typedef struct CPUArchState {
+diff --git a/target/rx/helper.c b/target/rx/helper.c
+index 29a4b075fa..d12e551cc2 100644
+--- a/target/rx/helper.c
++++ b/target/rx/helper.c
+@@ -42,12 +42,13 @@ void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int rte)
  
-@@ -2318,7 +2317,7 @@ static void rx_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     ctx->pc = ctx->base.pc_next;
-     insn = decode_load(ctx);
-     if (!decode(ctx, insn)) {
--        gen_helper_raise_illegal_instruction(cpu_env);
-+        gen_raise_exception(ctx, EXCP_UNDEFINED, false);
+ #ifndef CONFIG_USER_ONLY
+ 
+-#define INT_FLAGS (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR)
+ void rx_cpu_do_interrupt(CPUState *cs)
+ {
+     RXCPU *cpu = RX_CPU(cs);
+     CPURXState *env = &cpu->env;
+-    int do_irq = cs->interrupt_request & INT_FLAGS;
++    uint32_t vec = cs->exception_index;
++    target_ulong vec_table = 0xffffff80u; /* fixed vector table */
++    const char *expname;
+     uint32_t save_psw;
+ 
+     env->in_sleep = 0;
+@@ -60,69 +61,62 @@ void rx_cpu_do_interrupt(CPUState *cs)
+     save_psw = rx_cpu_pack_psw(env);
+     env->psw_pm = env->psw_i = env->psw_u = 0;
+ 
+-    if (do_irq) {
+-        if (do_irq & CPU_INTERRUPT_FIR) {
+-            env->bpc = env->pc;
+-            env->bpsw = save_psw;
+-            env->pc = env->fintv;
+-            env->psw_ipl = 15;
+-            cs->interrupt_request &= ~CPU_INTERRUPT_FIR;
+-            qemu_set_irq(env->ack, env->ack_irq);
+-            qemu_log_mask(CPU_LOG_INT, "fast interrupt raised\n");
+-        } else if (do_irq & CPU_INTERRUPT_HARD) {
+-            env->isp -= 4;
+-            cpu_stl_data(env, env->isp, save_psw);
+-            env->isp -= 4;
+-            cpu_stl_data(env, env->isp, env->pc);
+-            env->pc = cpu_ldl_data(env, env->intb + env->ack_irq * 4);
+-            env->psw_ipl = env->ack_ipl;
+-            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
+-            qemu_set_irq(env->ack, env->ack_irq);
+-            qemu_log_mask(CPU_LOG_INT,
+-                          "interrupt 0x%02x raised\n", env->ack_irq);
+-        }
+-    } else {
+-        uint32_t vec = cs->exception_index;
+-        const char *expname;
++    switch (vec) {
++    case EXCP_FIRQ:
++        env->bpc = env->pc;
++        env->bpsw = save_psw;
++        env->pc = env->fintv;
++        env->psw_ipl = 15;
++        cs->interrupt_request &= ~CPU_INTERRUPT_FIR;
++        qemu_set_irq(env->ack, env->ack_irq);
++        qemu_log_mask(CPU_LOG_INT, "fast interrupt raised\n");
++        break;
+ 
++    case EXCP_IRQ:
++        env->psw_ipl = env->ack_ipl;
++        cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
++        qemu_set_irq(env->ack, env->ack_irq);
++        expname = "interrupt";
++        vec_table = env->intb;
++        vec = env->ack_ipl;
++        goto do_stacked;
++
++    case EXCP_PRIVILEGED:
++        expname = "privilege violation";
++        goto do_stacked;
++    case EXCP_ACCESS:
++        expname = "access exception";
++        goto do_stacked;
++    case EXCP_UNDEFINED:
++        expname = "illegal instruction";
++        goto do_stacked;
++    case EXCP_FPU:
++        expname = "fpu exception";
++        goto do_stacked;
++    case EXCP_NMI:
++        expname = "non-maskable interrupt";
++        goto do_stacked;
++    case EXCP_RESET:
++        expname = "reset interrupt";
++        goto do_stacked;
++
++    case EXCP_INTB_0 ... EXCP_INTB_255:
++        expname = "unconditional trap";
++        vec_table = env->intb;
++        vec -= EXCP_INTB_0;
++        goto do_stacked;
++
++    do_stacked:
+         env->isp -= 4;
+         cpu_stl_data(env, env->isp, save_psw);
+         env->isp -= 4;
+         cpu_stl_data(env, env->isp, env->pc);
++        env->pc = cpu_ldl_data(env, vec_table + vec * 4);
++        qemu_log_mask(CPU_LOG_INT, "%s raised (0x%02x)\n", expname, vec);
++        break;
+ 
+-        if (vec < EXCP_INTB_0) {
+-            env->pc = cpu_ldl_data(env, 0xffffff80 + vec * 4);
+-        } else {
+-            env->pc = cpu_ldl_data(env, env->intb + (vec - EXCP_INTB_0) * 4);
+-        }
+-        switch (vec) {
+-        case EXCP_PRIVILEGED:
+-            expname = "privilege violation";
+-            break;
+-        case EXCP_ACCESS:
+-            expname = "access exception";
+-            break;
+-        case EXCP_UNDEFINED:
+-            expname = "illegal instruction";
+-            break;
+-        case EXCP_FPU:
+-            expname = "fpu exception";
+-            break;
+-        case EXCP_NMI:
+-            expname = "non-maskable interrupt";
+-            break;
+-        case EXCP_RESET:
+-            expname = "reset interrupt";
+-            break;
+-        case EXCP_INTB_0 ... EXCP_INTB_255:
+-            expname = "unconditional trap";
+-            break;
+-        default:
+-            expname = "unknown exception";
+-            break;
+-        }
+-        qemu_log_mask(CPU_LOG_INT, "exception 0x%02x [%s] raised\n",
+-                      (vec & 0xff), expname);
++    default:
++        g_assert_not_reached();
      }
+     env->regs[0] = env->isp;
  }
- 
+@@ -132,19 +126,21 @@ bool rx_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     RXCPU *cpu = RX_CPU(cs);
+     CPURXState *env = &cpu->env;
+     int accept = 0;
++
+     /* hardware interrupt (Normal) */
+     if ((interrupt_request & CPU_INTERRUPT_HARD) &&
+         env->psw_i && (env->psw_ipl < env->req_ipl)) {
+         env->ack_irq = env->req_irq;
+         env->ack_ipl = env->req_ipl;
+-        accept = 1;
++        accept = EXCP_IRQ;
+     }
+     /* hardware interrupt (FIR) */
+     if ((interrupt_request & CPU_INTERRUPT_FIR) &&
+         env->psw_i && (env->psw_ipl < 15)) {
+-        accept = 1;
++        accept = EXCP_FIRQ;
+     }
+     if (accept) {
++        cs->exception_index = accept;
+         rx_cpu_do_interrupt(cs);
+         return true;
+     }
 -- 
 2.34.1
 
