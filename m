@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA751519131
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 00:17:38 +0200 (CEST)
-Received: from localhost ([::1]:56032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C328A5190F9
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 00:07:34 +0200 (CEST)
+Received: from localhost ([::1]:36864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm0pt-0004sJ-LN
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 18:17:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50182)
+	id 1nm0g9-0000QI-Mx
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 18:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlzKF-0006VS-Pe
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:40:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38235)
+ id 1nlz44-0008NA-8D
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:24:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlzKD-00027W-He
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:40:51 -0400
+ id 1nlz41-0005IJ-Ga
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:24:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651610449;
+ s=mimecast20190719; t=1651609444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6RRqL7i84XbpzmUlWx/HNN79SJV/Wu7hItybY5jAc6Q=;
- b=Hks4rHG6Azq61N9JO9YCf2O02T2QPiudakxiL2M+wRiAR8X12lF+WZfVfBb/Xizu8MNX/G
- EHRLM7No7g0ord2Kc85hzS8wniNLFRx33foUKgHNXeJNax2m7Kma8hCfQPqk5wyDAL9TeR
- EDEH4SkJcP3CZf6VUsIJeg97Rqu2SDg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/B3JUrtBEqjJ+aFyAHIZ1ZXZ+Ykx206WXCymw/II6W8=;
+ b=PnIh+3Vf1md4H+1a3bDxZVRwFSGJWgDX3Hw+ZD7RHI9+H+UeZNx3aVB0Qwww6ckvujulMP
+ t/jjgVLeGhTlx6Rr+6XaaAr9ToVPjfM5lHlnmZfKHzFB0FwASGFLJOqCu/xjvsPmEehLZ7
+ LBQkmsufZ1fKig1ROKtOlhmWjSGb83g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-LpIoGY0mPI-JvTg3ZeKeyw-1; Tue, 03 May 2022 11:42:29 -0400
-X-MC-Unique: LpIoGY0mPI-JvTg3ZeKeyw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-204-6oeboqwBNL25O98PvUVyng-1; Tue, 03 May 2022 11:45:11 -0400
+X-MC-Unique: 6oeboqwBNL25O98PvUVyng-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FC2A140E3B8;
- Tue,  3 May 2022 13:13:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2236238FE2D2;
+ Tue,  3 May 2022 13:13:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC34AC27EB1;
- Tue,  3 May 2022 13:12:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC449E71;
+ Tue,  3 May 2022 13:13:22 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 00/23] Misc patches
-Date: Tue,  3 May 2022 17:12:33 +0400
-Message-Id: <20220503131256.187238-1-marcandre.lureau@redhat.com>
+Subject: [PULL 04/23] libqtest: split QMP part in libqmp
+Date: Tue,  3 May 2022 17:12:37 +0400
+Message-Id: <20220503131256.187238-5-marcandre.lureau@redhat.com>
+In-Reply-To: <20220503131256.187238-1-marcandre.lureau@redhat.com>
+References: <20220503131256.187238-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -81,246 +84,670 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The following changes since commit f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65:
+This will help moving QAPI/QMP in a common subproject.
 
-  Merge tag 'pull-9p-20220501' of https://github.com/cschoenebeck/qemu into staging (2022-05-01 07:48:11 -0700)
-
-are available in the Git repository at:
-
-  git@gitlab.com:marcandre.lureau/qemu.git tags/misc-pull-request
-
-for you to fetch changes up to ff5927baa7ffb9c97873a071f6a8d85a3584182b:
-
-  util: rename qemu_*block() socket functions (2022-05-03 15:53:20 +0400)
-
-----------------------------------------------------------------
-Misc cleanups
-
-----------------------------------------------------------------
-
-Marc-André Lureau (23):
-  Use QEMU_SANITIZE_THREAD
-  Use QEMU_SANITIZE_ADDRESS
-  tests: move libqtest.h back under qtest/
-  libqtest: split QMP part in libqmp
-  Use g_unix_set_fd_nonblocking()
-  block: move fcntl_setfl()
-  Replace qemu_pipe() with g_unix_open_pipe()
-  util: replace pipe()+cloexec with g_unix_open_pipe()
-  qga: replace pipe() with g_unix_open_pipe(CLOEXEC)
-  tests: replace pipe() with g_unix_open_pipe(CLOEXEC)
-  os-posix: replace pipe()+cloexec with g_unix_open_pipe(CLOEXEC)
-  virtiofsd: replace pipe() with g_unix_open_pipe(CLOEXEC)
-  io: replace pipe() with g_unix_open_pipe(CLOEXEC)
-  Replace fcntl(O_NONBLOCK) with g_unix_set_fd_nonblocking()
-  io: make qio_channel_command_new_pid() static
-  chardev: replace qemu_set_nonblock()
-  io: replace qemu_set{_non}block()
-  qga: replace qemu_set_nonblock()
-  hw: replace qemu_set_nonblock()
-  ui: replace qemu_set_nonblock()
-  net: replace qemu_set_nonblock()
-  tests: replace qemu_set_nonblock()
-  util: rename qemu_*block() socket functions
-
- docs/devel/qtest.rst                          |   2 +-
- include/io/channel-command.h                  |  25 --
- include/qemu/atomic.h                         |   8 +-
- include/qemu/osdep.h                          |   4 -
- include/qemu/sockets.h                        |   6 +-
- include/sysemu/os-posix.h                     |   2 -
- subprojects/libvhost-user/include/compiler.h  |   1 +
- tests/qtest/acpi-utils.h                      |   2 +-
- tests/qtest/boot-sector.h                     |   2 +-
- tests/qtest/fuzz/fuzz.h                       |   2 +-
- tests/qtest/libqmp.h                          |  50 ++++
- tests/qtest/libqos/fw_cfg.h                   |   2 +-
- tests/qtest/libqos/i2c.h                      |   2 +-
- tests/qtest/libqos/libqos.h                   |   2 +-
- tests/qtest/libqos/malloc.h                   |   2 +-
- tests/qtest/libqos/pci.h                      |   2 +-
- tests/qtest/libqos/sdhci-cmd.h                |   2 +-
- tests/qtest/libqtest-single.h                 |   2 +-
- tests/qtest/{libqos => }/libqtest.h           |  29 +--
- tests/qtest/migration-helpers.h               |   2 +-
- tests/qtest/tpm-emu.h                         |   2 +-
- block/file-posix.c                            |  15 ++
- chardev/char-fd.c                             |   4 +-
- chardev/char-pty.c                            |   5 +-
- chardev/char-serial.c                         |   5 +-
- chardev/char-socket.c                         |   2 +-
- chardev/char-stdio.c                          |   5 +-
- contrib/ivshmem-server/ivshmem-server.c       |   2 +-
- hw/hyperv/syndbg.c                            |   2 +-
- hw/input/virtio-input-host.c                  |   5 +-
- hw/misc/ivshmem.c                             |   2 +-
- hw/virtio/vhost-user.c                        |   2 +-
- hw/virtio/vhost-vsock.c                       |  11 +-
- io/channel-command.c                          |  46 +++-
- io/channel-file.c                             |  13 +-
- io/channel-socket.c                           |   6 +-
- net/l2tpv3.c                                  |   2 +-
- net/socket.c                                  |  10 +-
- net/tap-bsd.c                                 |   4 +-
- net/tap-linux.c                               |   2 +-
- net/tap-solaris.c                             |   2 +-
- net/tap.c                                     |  33 +--
- os-posix.c                                    |   3 +-
- qemu-nbd.c                                    |   5 +-
- qga/channel-posix.c                           |   2 +-
- qga/commands-posix.c                          |   8 +-
- tests/qtest/ac97-test.c                       |   2 +-
- tests/qtest/ahci-test.c                       |   2 +-
- tests/qtest/am53c974-test.c                   |   2 +-
- tests/qtest/arm-cpu-features.c                |   2 +-
- tests/qtest/aspeed_hace-test.c                |   2 +-
- tests/qtest/boot-order-test.c                 |   2 +-
- tests/qtest/boot-sector.c                     |   2 +-
- tests/qtest/boot-serial-test.c                |   2 +-
- tests/qtest/cdrom-test.c                      |   2 +-
- tests/qtest/dbus-display-test.c               |   2 +-
- tests/qtest/dbus-vmstate-test.c               |   2 +-
- tests/qtest/device-introspect-test.c          |   2 +-
- tests/qtest/device-plug-test.c                |   2 +-
- tests/qtest/drive_del-test.c                  |   2 +-
- tests/qtest/ds1338-test.c                     |   2 +-
- tests/qtest/e1000-test.c                      |   2 +-
- tests/qtest/eepro100-test.c                   |   2 +-
- tests/qtest/endianness-test.c                 |   2 +-
- tests/qtest/erst-test.c                       |   2 +-
- tests/qtest/es1370-test.c                     |   2 +-
- tests/qtest/fdc-test.c                        |   2 +-
- tests/qtest/fuzz-e1000e-test.c                |   2 +-
- tests/qtest/fuzz-lsi53c895a-test.c            |   2 +-
- tests/qtest/fuzz-megasas-test.c               |   2 +-
- tests/qtest/fuzz-sb16-test.c                  |   2 +-
- tests/qtest/fuzz-sdcard-test.c                |   2 +-
- tests/qtest/fuzz-virtio-scsi-test.c           |   2 +-
- tests/qtest/fuzz-xlnx-dp-test.c               |   2 +-
- tests/qtest/fuzz/fuzz.c                       |   2 +-
- tests/qtest/fuzz/generic_fuzz.c               |   2 +-
- tests/qtest/fuzz/i440fx_fuzz.c                |   2 +-
- tests/qtest/fuzz/qos_fuzz.c                   |   2 +-
- tests/qtest/fuzz/virtio_blk_fuzz.c            |   2 +-
- tests/qtest/fuzz/virtio_net_fuzz.c            |   4 +-
- tests/qtest/fuzz/virtio_scsi_fuzz.c           |   2 +-
- tests/qtest/fw_cfg-test.c                     |   2 +-
- tests/qtest/hd-geo-test.c                     |   2 +-
- tests/qtest/hexloader-test.c                  |   2 +-
- tests/qtest/ide-test.c                        |   2 +-
- tests/qtest/ipoctal232-test.c                 |   2 +-
- tests/qtest/ivshmem-test.c                    |   7 +-
- tests/qtest/libqmp.c                          | 233 ++++++++++++++++++
- .../libqos/aarch64-xlnx-zcu102-machine.c      |   2 +-
- tests/qtest/libqos/ahci.c                     |   2 +-
- tests/qtest/libqos/arm-imx25-pdk-machine.c    |   2 +-
- tests/qtest/libqos/arm-n800-machine.c         |   2 +-
- tests/qtest/libqos/arm-raspi2-machine.c       |   2 +-
- tests/qtest/libqos/arm-sabrelite-machine.c    |   2 +-
- tests/qtest/libqos/arm-smdkc210-machine.c     |   2 +-
- tests/qtest/libqos/arm-virt-machine.c         |   2 +-
- .../qtest/libqos/arm-xilinx-zynq-a9-machine.c |   2 +-
- tests/qtest/libqos/e1000e.c                   |   2 +-
- tests/qtest/libqos/fw_cfg.c                   |   2 +-
- tests/qtest/libqos/i2c-imx.c                  |   2 +-
- tests/qtest/libqos/i2c-omap.c                 |   2 +-
- tests/qtest/libqos/i2c.c                      |   2 +-
- tests/qtest/libqos/libqos.c                   |   2 +-
- tests/qtest/libqos/pci-pc.c                   |   2 +-
- tests/qtest/libqos/pci-spapr.c                |   2 +-
- tests/qtest/libqos/ppc64_pseries-machine.c    |   2 +-
- tests/qtest/libqos/qgraph.c                   |   2 +-
- tests/qtest/libqos/qos_external.c             |   2 +-
- tests/qtest/libqos/rtas.c                     |   2 +-
- tests/qtest/libqos/sdhci-cmd.c                |   2 +-
- tests/qtest/libqos/sdhci.c                    |   2 +-
- tests/qtest/libqos/tpci200.c                  |   2 +-
- tests/qtest/libqos/usb.c                      |   2 +-
- tests/qtest/libqos/vhost-user-blk.c           |   2 +-
- tests/qtest/libqos/virtio-9p.c                |   2 +-
- tests/qtest/libqos/virtio-balloon.c           |   2 +-
- tests/qtest/libqos/virtio-blk.c               |   2 +-
- tests/qtest/libqos/virtio-iommu.c             |   2 +-
- tests/qtest/libqos/virtio-mmio.c              |   2 +-
- tests/qtest/libqos/virtio-net.c               |   2 +-
- tests/qtest/libqos/virtio-pci.c               |   2 +-
- tests/qtest/libqos/virtio-rng.c               |   2 +-
- tests/qtest/libqos/virtio-scsi.c              |   2 +-
- tests/qtest/libqos/virtio-serial.c            |   2 +-
- tests/qtest/libqos/virtio.c                   |   2 +-
- tests/qtest/libqos/x86_64_pc-machine.c        |   2 +-
- tests/qtest/libqtest.c                        | 207 +---------------
- tests/qtest/lpc-ich9-test.c                   |   2 +-
- tests/qtest/m48t59-test.c                     |   2 +-
- tests/qtest/machine-none-test.c               |   2 +-
- tests/qtest/megasas-test.c                    |   2 +-
- tests/qtest/microbit-test.c                   |   2 +-
- tests/qtest/migration-test.c                  |   2 +-
- tests/qtest/modules-test.c                    |   2 +-
- tests/qtest/ne2000-test.c                     |   2 +-
- tests/qtest/npcm7xx_adc-test.c                |   2 +-
- tests/qtest/npcm7xx_pwm-test.c                |   2 +-
- tests/qtest/npcm7xx_sdhci-test.c              |   2 +-
- tests/qtest/npcm7xx_smbus-test.c              |   2 +-
- tests/qtest/npcm7xx_watchdog_timer-test.c     |   2 +-
- tests/qtest/numa-test.c                       |   2 +-
- tests/qtest/nvme-test.c                       |   2 +-
- tests/qtest/pca9552-test.c                    |   2 +-
- tests/qtest/pci-test.c                        |   2 +-
- tests/qtest/pcnet-test.c                      |   2 +-
- tests/qtest/pflash-cfi02-test.c               |   2 +-
- tests/qtest/pnv-xscom-test.c                  |   2 +-
- tests/qtest/prom-env-test.c                   |   2 +-
- tests/qtest/pvpanic-pci-test.c                |   2 +-
- tests/qtest/pvpanic-test.c                    |   2 +-
- tests/qtest/pxe-test.c                        |   2 +-
- tests/qtest/q35-test.c                        |   2 +-
- tests/qtest/qmp-cmd-test.c                    |   2 +-
- tests/qtest/qmp-test.c                        |   2 +-
- tests/qtest/qom-test.c                        |   2 +-
- tests/qtest/rtas-test.c                       |   2 +-
- tests/qtest/sdhci-test.c                      |   2 +-
- tests/qtest/spapr-phb-test.c                  |   2 +-
- tests/qtest/tco-test.c                        |   2 +-
- tests/qtest/test-filter-mirror.c              |   2 +-
- tests/qtest/test-filter-redirector.c          |   2 +-
- tests/qtest/test-hmp.c                        |   2 +-
- tests/qtest/tpm-crb-swtpm-test.c              |   2 +-
- tests/qtest/tpm-tis-device-swtpm-test.c       |   2 +-
- tests/qtest/tpm-tis-swtpm-test.c              |   2 +-
- tests/qtest/tpm-util.c                        |   2 +-
- tests/qtest/tulip-test.c                      |   2 +-
- tests/qtest/vhost-user-test.c                 |   4 +-
- tests/qtest/virtio-net-failover.c             |   2 +-
- tests/qtest/virtio-rng-test.c                 |   2 +-
- tests/qtest/virtio-test.c                     |   2 +-
- tests/qtest/vmgenid-test.c                    |   2 +-
- tests/qtest/vmxnet3-test.c                    |   2 +-
- tests/qtest/wdt_ib700-test.c                  |   2 +-
- tests/qtest/xlnx-can-test.c                   |   2 +-
- tests/unit/socket-helpers.c                   |   2 +-
- tests/unit/test-crypto-tlssession.c           |   8 +-
- tests/unit/test-io-channel-file.c             |   2 +-
- tests/unit/test-iov.c                         |   4 +-
- tests/unit/test-qga.c                         |   2 +-
- tools/virtiofsd/helper.c                      |   2 +-
- ui/input-linux.c                              |   5 +-
- util/compatfd.c                               |   5 +-
- util/coroutine-ucontext.c                     |   2 +-
- util/event_notifier-posix.c                   |   8 +-
- util/main-loop.c                              |   2 +-
- util/oslib-posix.c                            |  61 +----
- util/oslib-win32.c                            |   8 +-
- util/vhost-user-server.c                      |   4 +-
- scripts/oss-fuzz/output_reproducer.py         |   2 +-
- tests/qtest/libqos/meson.build                |   5 +-
- tests/unit/meson.build                        |   2 +-
- 192 files changed, 609 insertions(+), 565 deletions(-)
- create mode 120000 subprojects/libvhost-user/include/compiler.h
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/libqmp.h           |  50 +++++++
+ tests/qtest/libqtest.h         |  29 +---
+ tests/qtest/libqmp.c           | 233 +++++++++++++++++++++++++++++++++
+ tests/qtest/libqtest.c         | 205 +----------------------------
+ tests/qtest/libqos/meson.build |   5 +-
+ tests/unit/meson.build         |   2 +-
+ 6 files changed, 290 insertions(+), 234 deletions(-)
  create mode 100644 tests/qtest/libqmp.h
- rename tests/qtest/{libqos => }/libqtest.h (95%)
  create mode 100644 tests/qtest/libqmp.c
 
+diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
+new file mode 100644
+index 000000000000..94aa97328a17
+--- /dev/null
++++ b/tests/qtest/libqmp.h
+@@ -0,0 +1,50 @@
++/*
++ * libqmp test unit
++ *
++ * Copyright IBM, Corp. 2012
++ * Copyright Red Hat, Inc. 2012
++ * Copyright SUSE LINUX Products GmbH 2013
++ *
++ * Authors:
++ *  Anthony Liguori   <aliguori@us.ibm.com>
++ *  Paolo Bonzini     <pbonzini@redhat.com>
++ *  Andreas Färber    <afaerber@suse.de>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++#ifndef LIBQMP_H_
++#define LIBQMP_H_
++
++#include "qapi/qmp/qdict.h"
++
++QDict *qmp_fd_receive(int fd);
++void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
++                      const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
++void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
++void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
++void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
++void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
++QDict *qmp_fdv(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
++QDict *qmp_fd(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
++
++/**
++ * qmp_rsp_is_err:
++ * @rsp: QMP response to check for error
++ *
++ * Test @rsp for error and discard @rsp.
++ * Returns 'true' if there is error in @rsp and 'false' otherwise.
++ */
++bool qmp_rsp_is_err(QDict *rsp);
++
++/**
++ * qmp_expect_error_and_unref:
++ * @rsp: QMP response to check for error
++ * @class: an error class
++ *
++ * Assert the response has the given error class and discard @rsp.
++ */
++void qmp_expect_error_and_unref(QDict *rsp, const char *class);
++
++#endif /* LIBQMP_H_ */
+diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+index 552667f17e37..4ab0cad3266d 100644
+--- a/tests/qtest/libqtest.h
++++ b/tests/qtest/libqtest.h
+@@ -19,6 +19,7 @@
+ 
+ #include "qapi/qmp/qobject.h"
+ #include "qapi/qmp/qdict.h"
++#include "libqmp.h"
+ 
+ typedef struct QTestState QTestState;
+ 
+@@ -690,16 +691,6 @@ void qtest_remove_abrt_handler(void *data);
+ void qtest_qmp_assert_success(QTestState *qts, const char *fmt, ...)
+     G_GNUC_PRINTF(2, 3);
+ 
+-QDict *qmp_fd_receive(int fd);
+-void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+-                      const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
+-void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
+-void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+-void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+-void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
+-QDict *qmp_fdv(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
+-QDict *qmp_fd(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+-
+ /**
+  * qtest_cb_for_every_machine:
+  * @cb: Pointer to the callback function
+@@ -771,24 +762,6 @@ void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd);
+  */
+ void qtest_qmp_device_del(QTestState *qts, const char *id);
+ 
+-/**
+- * qmp_rsp_is_err:
+- * @rsp: QMP response to check for error
+- *
+- * Test @rsp for error and discard @rsp.
+- * Returns 'true' if there is error in @rsp and 'false' otherwise.
+- */
+-bool qmp_rsp_is_err(QDict *rsp);
+-
+-/**
+- * qmp_expect_error_and_unref:
+- * @rsp: QMP response to check for error
+- * @class: an error class
+- *
+- * Assert the response has the given error class and discard @rsp.
+- */
+-void qmp_expect_error_and_unref(QDict *rsp, const char *class);
+-
+ /**
+  * qtest_probe_child:
+  * @s: QTestState instance to operate on.
+diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
+new file mode 100644
+index 000000000000..0358b8313dc4
+--- /dev/null
++++ b/tests/qtest/libqmp.c
+@@ -0,0 +1,233 @@
++/*
++ * QTest
++ *
++ * Copyright IBM, Corp. 2012
++ * Copyright Red Hat, Inc. 2012
++ * Copyright SUSE LINUX Products GmbH 2013
++ *
++ * Authors:
++ *  Anthony Liguori   <aliguori@us.ibm.com>
++ *  Paolo Bonzini     <pbonzini@redhat.com>
++ *  Andreas Färber    <afaerber@suse.de>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "libqmp.h"
++
++#include "qapi/error.h"
++#include "qapi/qmp/json-parser.h"
++#include "qapi/qmp/qjson.h"
++
++#define SOCKET_MAX_FDS 16
++
++typedef struct {
++    JSONMessageParser parser;
++    QDict *response;
++} QMPResponseParser;
++
++static void socket_send(int fd, const char *buf, size_t size)
++{
++    size_t res = qemu_write_full(fd, buf, size);
++
++    assert(res == size);
++}
++
++static void qmp_response(void *opaque, QObject *obj, Error *err)
++{
++    QMPResponseParser *qmp = opaque;
++
++    assert(!obj != !err);
++
++    if (err) {
++        error_prepend(&err, "QMP JSON response parsing failed: ");
++        error_report_err(err);
++        abort();
++    }
++
++    g_assert(!qmp->response);
++    qmp->response = qobject_to(QDict, obj);
++    g_assert(qmp->response);
++}
++
++QDict *qmp_fd_receive(int fd)
++{
++    QMPResponseParser qmp;
++    bool log = getenv("QTEST_LOG") != NULL;
++
++    qmp.response = NULL;
++    json_message_parser_init(&qmp.parser, qmp_response, &qmp, NULL);
++    while (!qmp.response) {
++        ssize_t len;
++        char c;
++
++        len = read(fd, &c, 1);
++        if (len == -1 && errno == EINTR) {
++            continue;
++        }
++
++        if (len == -1 || len == 0) {
++            fprintf(stderr, "Broken pipe\n");
++            abort();
++        }
++
++        if (log) {
++            g_assert(write(2, &c, 1) == 1);
++        }
++        json_message_parser_feed(&qmp.parser, &c, 1);
++    }
++    if (log) {
++        g_assert(write(2, "\n", 1) == 1);
++    }
++    json_message_parser_destroy(&qmp.parser);
++
++    return qmp.response;
++}
++
++/* Sends a message and file descriptors to the socket.
++ * It's needed for qmp-commands like getfd/add-fd */
++static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
++                            const char *buf, size_t buf_size)
++{
++    ssize_t ret;
++    struct msghdr msg = { 0 };
++    char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)] = { 0 };
++    size_t fdsize = sizeof(int) * fds_num;
++    struct cmsghdr *cmsg;
++    struct iovec iov = { .iov_base = (char *)buf, .iov_len = buf_size };
++
++    msg.msg_iov = &iov;
++    msg.msg_iovlen = 1;
++
++    if (fds && fds_num > 0) {
++        g_assert_cmpuint(fds_num, <, SOCKET_MAX_FDS);
++
++        msg.msg_control = control;
++        msg.msg_controllen = CMSG_SPACE(fdsize);
++
++        cmsg = CMSG_FIRSTHDR(&msg);
++        cmsg->cmsg_len = CMSG_LEN(fdsize);
++        cmsg->cmsg_level = SOL_SOCKET;
++        cmsg->cmsg_type = SCM_RIGHTS;
++        memcpy(CMSG_DATA(cmsg), fds, fdsize);
++    }
++
++    do {
++        ret = sendmsg(socket_fd, &msg, 0);
++    } while (ret < 0 && errno == EINTR);
++    g_assert_cmpint(ret, >, 0);
++}
++
++/**
++ * Allow users to send a message without waiting for the reply,
++ * in the case that they choose to discard all replies up until
++ * a particular EVENT is received.
++ */
++void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
++                      const char *fmt, va_list ap)
++{
++    QObject *qobj;
++
++    /* Going through qobject ensures we escape strings properly */
++    qobj = qobject_from_vjsonf_nofail(fmt, ap);
++
++    /* No need to send anything for an empty QObject.  */
++    if (qobj) {
++        int log = getenv("QTEST_LOG") != NULL;
++        GString *str = qobject_to_json(qobj);
++
++        /*
++         * BUG: QMP doesn't react to input until it sees a newline, an
++         * object, or an array.  Work-around: give it a newline.
++         */
++        g_string_append_c(str, '\n');
++
++        if (log) {
++            fprintf(stderr, "%s", str->str);
++        }
++        /* Send QMP request */
++        if (fds && fds_num > 0) {
++            socket_send_fds(fd, fds, fds_num, str->str, str->len);
++        } else {
++            socket_send(fd, str->str, str->len);
++        }
++
++        g_string_free(str, true);
++        qobject_unref(qobj);
++    }
++}
++
++void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
++{
++    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
++}
++
++
++QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
++{
++    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
++
++    return qmp_fd_receive(fd);
++}
++
++QDict *qmp_fd(int fd, const char *fmt, ...)
++{
++    va_list ap;
++    QDict *response;
++
++    va_start(ap, fmt);
++    response = qmp_fdv(fd, fmt, ap);
++    va_end(ap);
++    return response;
++}
++
++void qmp_fd_send(int fd, const char *fmt, ...)
++{
++    va_list ap;
++
++    va_start(ap, fmt);
++    qmp_fd_vsend(fd, fmt, ap);
++    va_end(ap);
++}
++
++void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap)
++{
++    bool log = getenv("QTEST_LOG") != NULL;
++    char *str = g_strdup_vprintf(fmt, ap);
++
++    if (log) {
++        fprintf(stderr, "%s", str);
++    }
++    socket_send(fd, str, strlen(str));
++    g_free(str);
++}
++
++void qmp_fd_send_raw(int fd, const char *fmt, ...)
++{
++    va_list ap;
++
++    va_start(ap, fmt);
++    qmp_fd_vsend_raw(fd, fmt, ap);
++    va_end(ap);
++}
++
++bool qmp_rsp_is_err(QDict *rsp)
++{
++    QDict *error = qdict_get_qdict(rsp, "error");
++    qobject_unref(rsp);
++    return !!error;
++}
++
++void qmp_expect_error_and_unref(QDict *rsp, const char *class)
++{
++    QDict *error = qdict_get_qdict(rsp, "error");
++
++    g_assert_cmpstr(qdict_get_try_str(error, "class"), ==, class);
++    g_assert_nonnull(qdict_get_try_str(error, "desc"));
++    g_assert(!qdict_haskey(rsp, "return"));
++
++    qobject_unref(rsp);
++}
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index aaf5ab0ca533..228357f1eade 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -21,10 +21,9 @@
+ #include <sys/un.h>
+ 
+ #include "libqtest.h"
++#include "libqmp.h"
+ #include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+-#include "qapi/error.h"
+-#include "qapi/qmp/json-parser.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qjson.h"
+ #include "qapi/qmp/qlist.h"
+@@ -32,8 +31,6 @@
+ 
+ #define MAX_IRQ 256
+ #define SOCKET_TIMEOUT 50
+-#define SOCKET_MAX_FDS 16
+-
+ 
+ typedef void (*QTestSendFn)(QTestState *s, const char *buf);
+ typedef void (*ExternalSendFn)(void *s, const char *buf);
+@@ -440,40 +437,6 @@ static void G_GNUC_PRINTF(2, 3) qtest_sendf(QTestState *s, const char *fmt, ...)
+     g_free(str);
+ }
+ 
+-/* Sends a message and file descriptors to the socket.
+- * It's needed for qmp-commands like getfd/add-fd */
+-static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
+-                            const char *buf, size_t buf_size)
+-{
+-    ssize_t ret;
+-    struct msghdr msg = { 0 };
+-    char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)] = { 0 };
+-    size_t fdsize = sizeof(int) * fds_num;
+-    struct cmsghdr *cmsg;
+-    struct iovec iov = { .iov_base = (char *)buf, .iov_len = buf_size };
+-
+-    msg.msg_iov = &iov;
+-    msg.msg_iovlen = 1;
+-
+-    if (fds && fds_num > 0) {
+-        g_assert_cmpuint(fds_num, <, SOCKET_MAX_FDS);
+-
+-        msg.msg_control = control;
+-        msg.msg_controllen = CMSG_SPACE(fdsize);
+-
+-        cmsg = CMSG_FIRSTHDR(&msg);
+-        cmsg->cmsg_len = CMSG_LEN(fdsize);
+-        cmsg->cmsg_level = SOL_SOCKET;
+-        cmsg->cmsg_type = SCM_RIGHTS;
+-        memcpy(CMSG_DATA(cmsg), fds, fdsize);
+-    }
+-
+-    do {
+-        ret = sendmsg(socket_fd, &msg, 0);
+-    } while (ret < 0 && errno == EINTR);
+-    g_assert_cmpint(ret, >, 0);
+-}
+-
+ static GString *qtest_client_socket_recv_line(QTestState *s)
+ {
+     GString *line;
+@@ -568,62 +531,6 @@ static int qtest_query_target_endianness(QTestState *s)
+     return big_endian;
+ }
+ 
+-typedef struct {
+-    JSONMessageParser parser;
+-    QDict *response;
+-} QMPResponseParser;
+-
+-static void qmp_response(void *opaque, QObject *obj, Error *err)
+-{
+-    QMPResponseParser *qmp = opaque;
+-
+-    assert(!obj != !err);
+-
+-    if (err) {
+-        error_prepend(&err, "QMP JSON response parsing failed: ");
+-        error_report_err(err);
+-        abort();
+-    }
+-
+-    g_assert(!qmp->response);
+-    qmp->response = qobject_to(QDict, obj);
+-    g_assert(qmp->response);
+-}
+-
+-QDict *qmp_fd_receive(int fd)
+-{
+-    QMPResponseParser qmp;
+-    bool log = getenv("QTEST_LOG") != NULL;
+-
+-    qmp.response = NULL;
+-    json_message_parser_init(&qmp.parser, qmp_response, &qmp, NULL);
+-    while (!qmp.response) {
+-        ssize_t len;
+-        char c;
+-
+-        len = read(fd, &c, 1);
+-        if (len == -1 && errno == EINTR) {
+-            continue;
+-        }
+-
+-        if (len == -1 || len == 0) {
+-            fprintf(stderr, "Broken pipe\n");
+-            abort();
+-        }
+-
+-        if (log) {
+-            g_assert(write(2, &c, 1) == 1);
+-        }
+-        json_message_parser_feed(&qmp.parser, &c, 1);
+-    }
+-    if (log) {
+-        g_assert(write(2, "\n", 1) == 1);
+-    }
+-    json_message_parser_destroy(&qmp.parser);
+-
+-    return qmp.response;
+-}
+-
+ QDict *qtest_qmp_receive(QTestState *s)
+ {
+     while (true) {
+@@ -664,50 +571,6 @@ int qtest_socket_server(const char *socket_path)
+     return sock;
+ }
+ 
+-/**
+- * Allow users to send a message without waiting for the reply,
+- * in the case that they choose to discard all replies up until
+- * a particular EVENT is received.
+- */
+-void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+-                      const char *fmt, va_list ap)
+-{
+-    QObject *qobj;
+-
+-    /* Going through qobject ensures we escape strings properly */
+-    qobj = qobject_from_vjsonf_nofail(fmt, ap);
+-
+-    /* No need to send anything for an empty QObject.  */
+-    if (qobj) {
+-        int log = getenv("QTEST_LOG") != NULL;
+-        GString *str = qobject_to_json(qobj);
+-
+-        /*
+-         * BUG: QMP doesn't react to input until it sees a newline, an
+-         * object, or an array.  Work-around: give it a newline.
+-         */
+-        g_string_append_c(str, '\n');
+-
+-        if (log) {
+-            fprintf(stderr, "%s", str->str);
+-        }
+-        /* Send QMP request */
+-        if (fds && fds_num > 0) {
+-            socket_send_fds(fd, fds, fds_num, str->str, str->len);
+-        } else {
+-            socket_send(fd, str->str, str->len);
+-        }
+-
+-        g_string_free(str, true);
+-        qobject_unref(qobj);
+-    }
+-}
+-
+-void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
+-{
+-    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
+-}
+-
+ void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
+                          const char *fmt, va_list ap)
+ {
+@@ -719,13 +582,6 @@ void qtest_qmp_vsend(QTestState *s, const char *fmt, va_list ap)
+     qmp_fd_vsend_fds(s->qmp_fd, NULL, 0, fmt, ap);
+ }
+ 
+-QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
+-{
+-    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
+-
+-    return qmp_fd_receive(fd);
+-}
+-
+ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
+                       const char *fmt, va_list ap)
+ {
+@@ -743,26 +599,6 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
+     return qtest_qmp_receive(s);
+ }
+ 
+-QDict *qmp_fd(int fd, const char *fmt, ...)
+-{
+-    va_list ap;
+-    QDict *response;
+-
+-    va_start(ap, fmt);
+-    response = qmp_fdv(fd, fmt, ap);
+-    va_end(ap);
+-    return response;
+-}
+-
+-void qmp_fd_send(int fd, const char *fmt, ...)
+-{
+-    va_list ap;
+-
+-    va_start(ap, fmt);
+-    qmp_fd_vsend(fd, fmt, ap);
+-    va_end(ap);
+-}
+-
+ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
+                      const char *fmt, ...)
+ {
+@@ -795,27 +631,6 @@ void qtest_qmp_send(QTestState *s, const char *fmt, ...)
+     va_end(ap);
+ }
+ 
+-void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap)
+-{
+-    bool log = getenv("QTEST_LOG") != NULL;
+-    char *str = g_strdup_vprintf(fmt, ap);
+-
+-    if (log) {
+-        fprintf(stderr, "%s", str);
+-    }
+-    socket_send(fd, str, strlen(str));
+-    g_free(str);
+-}
+-
+-void qmp_fd_send_raw(int fd, const char *fmt, ...)
+-{
+-    va_list ap;
+-
+-    va_start(ap, fmt);
+-    qmp_fd_vsend_raw(fd, fmt, ap);
+-    va_end(ap);
+-}
+-
+ void qtest_qmp_send_raw(QTestState *s, const char *fmt, ...)
+ {
+     va_list ap;
+@@ -1539,24 +1354,6 @@ void qtest_qmp_device_del(QTestState *qts, const char *id)
+     qtest_qmp_eventwait(qts, "DEVICE_DELETED");
+ }
+ 
+-bool qmp_rsp_is_err(QDict *rsp)
+-{
+-    QDict *error = qdict_get_qdict(rsp, "error");
+-    qobject_unref(rsp);
+-    return !!error;
+-}
+-
+-void qmp_expect_error_and_unref(QDict *rsp, const char *class)
+-{
+-    QDict *error = qdict_get_qdict(rsp, "error");
+-
+-    g_assert_cmpstr(qdict_get_try_str(error, "class"), ==, class);
+-    g_assert_nonnull(qdict_get_try_str(error, "desc"));
+-    g_assert(!qdict_haskey(rsp, "return"));
+-
+-    qobject_unref(rsp);
+-}
+-
+ static void qtest_client_set_tx_handler(QTestState *s,
+                     QTestSendFn send)
+ {
+diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+index e988d1579172..9f292339f9cf 100644
+--- a/tests/qtest/libqos/meson.build
++++ b/tests/qtest/libqos/meson.build
+@@ -1,4 +1,7 @@
+-libqos_srcs = files('../libqtest.c',
++libqos_srcs = files(
++        '../libqtest.c',
++        '../libqmp.c',
++
+         'qgraph.c',
+         'qos_external.c',
+         'pci.c',
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index ab01e00f12cf..264f2bc0c81d 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -154,7 +154,7 @@ if have_system
+ endif
+ 
+ if have_ga and targetos == 'linux'
+-  tests += {'test-qga': ['../qtest/libqtest.c']}
++  tests += {'test-qga': ['../qtest/libqmp.c']}
+   test_deps += {'test-qga': qga}
+ endif
+ 
 -- 
 2.36.0.44.g0f828332d5ac
 
