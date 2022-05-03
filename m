@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE4D518FD9
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:17:03 +0200 (CEST)
-Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9925F518F6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:52:27 +0200 (CEST)
+Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlztG-0001AZ-Rs
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:17:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
+	id 1nlzVS-0005p6-LF
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZt-0000hU-FU
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:57 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37849)
+ id 1nlyZw-0000le-SQ
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:01 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZr-0006Nr-Ab
- for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:56 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id 15so14810581pgf.4
+ id 1nlyZr-0006O0-Ap
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:59 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ w5-20020a17090aaf8500b001d74c754128so3254562pjq.0
  for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=PoRUGz2szMDJicl6LiDwHi+o01/ArFupEpZx2x6+ISI=;
- b=UWXG/xvTRELgCqD7Gj4fW+QmJxBn2ZB/mOEaOoejrI1RBqJp67tXD/jrzjpW1MTtdW
- KjWko7slI/iP/Wg633Aez2qxKzeRUVUpEbzG5IEl08F0TnqAmlJV5GgFe5hMyaSN8t5S
- J5CkstPWLUeSLJL79fky1Y+JguYSk5/R2AsEHIFlZ4Rl/1uFw42ft/Yjism0c72GEq7m
- jwi7p3o4hRQRiepmKZdnbo+GBWIkECfNI4vr8Y/iB4DsvBgkGHPghM2HHK3uBycFMDk6
- moHeibuFGpXdzmQsDiAmtAabxu/f4HcZ8u0pevB6RpQcBcP7XkCmm3kPfEdQLzOl/oEX
- soyw==
+ bh=ocWIh32CouzGFfi6GAu6bp81akmgvCStQtCfH36MgiM=;
+ b=eUJ6tNVTMwM1wm+HV9JryQMqqsYDnb7huOrG1P+TLz+Czcy2+mrfwXx37Jd6irFwEL
+ 7D49/BSHQu3fiRquAyJ2VZjBTXmBpkp6n52MfAjpn1v2rnoGq/cQmPTWxtFSWqDvqjuG
+ PgkUBdQC4IujNo4UcwJicw2ZFPi9wAChGyLkppGbbLNjWVGIZOhvJCR6ugcDTADRb0LC
+ goQKKCEl2+mXawAorMQA9ChQ8rS//tjiyIpWFpZlvU10K3iW9iaqC24alU7ZkXMLic8g
+ LEaFwpChD5Q4/Xy8nrKPmgh5t0F1ceXh4a15ZEwVU6O4hG4dNKoA/W1El/of5IvPiuCX
+ IW7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PoRUGz2szMDJicl6LiDwHi+o01/ArFupEpZx2x6+ISI=;
- b=4EdLsIe4GkLPCsWEfSsYl3Ein1IbzaH3R71GLb7yh42M2Jq4nlLH/iJC8LDMJ6sLY/
- MVqf0vTum9b+R6ACW0zED9pI9HBjQJZ2TLb12u5+0+ji19rH5ycsJOLO1irisInpJHUd
- AfptcW4MXJ2ZD0uo2b3FbjC0E9sTJHgzmYx4vwKM4/rMreEVqC0106gvyDFthcnjG686
- 6Ts5AY3IuYiusVcvQG1Ecw/78Fux+YRQ4AxxWwDriODsbEh+GKYjoOtF+vka+eccDQ7D
- OIoqteVURhSq0ROxDBbPXAECYt6nCZ5bUa1gmVzXcWy/GP5uToVrUu4SW80myBxvd0N5
- UmKg==
-X-Gm-Message-State: AOAM533LcRxR96qplncoM65qAUgUPwnWZR/fNHNI/0U++JUs8Q1ESWEE
- hVmE0pK5B5+qfL27J/DE4znp1k94ZU6MpA==
-X-Google-Smtp-Source: ABdhPJxtBnI6SPcYQH6TjrJbVPkOhuaqWpl/WjLOH3E/euSL+L4/BlMmVbi/IOiWxTEEOBzmwi+egQ==
-X-Received: by 2002:a63:fa41:0:b0:3c2:1941:5894 with SMTP id
- g1-20020a63fa41000000b003c219415894mr9272333pgk.296.1651607573045; 
+ bh=ocWIh32CouzGFfi6GAu6bp81akmgvCStQtCfH36MgiM=;
+ b=B6Jl3mwtMXdlaC9Db/4blZsKVJ+BeQmoTnUE/RxU4Avh+nTxFcca/6TjA20wnPCsd8
+ BqbXExZHcZZSytUMW1DtcpkE1K9yH7Q+NEhe/ojZvzKv5kJAqrwpb2hvVXjJjNFH6YwB
+ KPp6oMSjCTfWb7hirKiIxxcEiUvrRbAQnDUIoHWMO80HXlez9YnYDvDZ8Sxik6N4+EJ+
+ nUNW3YokeZRV4I8S0pIsbaAgd7ws9KjEDSHVBkiQ+rhYEpod5B1DUmzgpK6+jhD5S00/
+ HEGvo4M1AVMWsXwISrLLalCMt3MCc7fuBhl4SE9DOB05dqBoj1MnFVjCHwK/s+4rWbkV
+ Cevg==
+X-Gm-Message-State: AOAM530g36n+58g2VzOC2iG7ksjIattL4YJuN2zhBmoPHXNjYc7ZyZzB
+ NqmDieOq/voqGsk1b18GKKL6plkDUHBcfA==
+X-Google-Smtp-Source: ABdhPJw4TWg7nNvPUPIA+XfbvFyluyjw7g9Ci4F0JRDg3QVYhggXgPTCZfbR8AiFvKbktxgSILd2Ew==
+X-Received: by 2002:a17:903:410b:b0:15c:fd57:aa34 with SMTP id
+ r11-20020a170903410b00b0015cfd57aa34mr17922864pld.82.1651607573962; 
  Tue, 03 May 2022 12:52:53 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.52
+ fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:52:52 -0700 (PDT)
+ Tue, 03 May 2022 12:52:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 67/74] tests/docker: Add debian-rx-cross image
-Date: Tue,  3 May 2022 12:48:36 -0700
-Message-Id: <20220503194843.1379101-68-richard.henderson@linaro.org>
+Subject: [PATCH v2 68/74] hw/rx: Handle a kernel file that is ELF
+Date: Tue,  3 May 2022 12:48:37 -0700
+Message-Id: <20220503194843.1379101-69-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
 References: <20220503194843.1379101-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,149 +88,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build the entire cross tool chain from source.
-For this reason, default to caching.
+Attempt to load the kernel with load_elf.  If this fails with
+ELF_LOAD_NOT_ELF, continue to treat the kernel as a raw image.
+
+This will be handy for running semihosting programs.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- MAINTAINERS                                   |  1 +
- tests/docker/Makefile.include                 |  6 ++
- .../debian-rx-cross.d/build-toolchain.sh      | 58 +++++++++++++++++++
- tests/tcg/configure.sh                        |  6 ++
- 4 files changed, 71 insertions(+)
- create mode 100755 tests/docker/dockerfiles/debian-rx-cross.d/build-toolchain.sh
+ hw/rx/rx-gdbsim.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 294c88ace9..62d2640f35 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -297,6 +297,7 @@ RENESAS RX CPUs
- R: Yoshinori Sato <ysato@users.sourceforge.jp>
- S: Orphan
- F: target/rx/
-+F: tests/docker/dockerfiles/debian-rx-cross.d/build-toolchain.sh
+diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+index be147b4bd9..64b533181d 100644
+--- a/hw/rx/rx-gdbsim.c
++++ b/hw/rx/rx-gdbsim.c
+@@ -26,6 +26,7 @@
+ #include "sysemu/device_tree.h"
+ #include "hw/boards.h"
+ #include "qom/object.h"
++#include "elf.h"
  
- S390 TCG CPUs
- M: Richard Henderson <richard.henderson@linaro.org>
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index ca2157db46..1795a49da2 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -142,6 +142,10 @@ docker-image-debian-nios2-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
-     $(DOCKER_FILES_DIR)/debian-nios2-cross.d/build-toolchain.sh
- 	$(call debian-toolchain, $@)
+ /* Same address of GDB integrated simulator */
+ #define SDRAM_BASE  EXT_CS_BASE
+@@ -57,15 +58,32 @@ static void rx_load_image(RXCPU *cpu, const char *filename,
+                           uint32_t start, uint32_t size)
+ {
+     static uint32_t extable[32];
+-    long kernel_size;
++    ssize_t kernel_size;
++    uint64_t kernel_entry;
+     int i;
  
-+docker-image-debian-rx-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
-+    $(DOCKER_FILES_DIR)/debian-rx-cross.d/build-toolchain.sh
-+	$(call debian-toolchain, $@)
++    /* Try an ELF image first. */
 +
- # Specialist build images, sometimes very limited tools
- docker-image-debian-tricore-cross: docker-image-debian10
- docker-image-debian-all-test-cross: docker-image-debian10
-@@ -149,6 +153,7 @@ docker-image-debian-microblaze-cross: docker-image-debian10
- docker-image-debian-nios2-cross: docker-image-debian10
- docker-image-debian-powerpc-test-cross: docker-image-debian11
- docker-image-debian-riscv64-test-cross: docker-image-debian11
-+docker-image-debian-rx-cross: docker-image-debian10
++    kernel_size = load_elf(filename, NULL, NULL, NULL, &kernel_entry,
++                           NULL, NULL, NULL, false, EM_RX, false, false);
++    if (kernel_size >= 0) {
++        cpu_set_pc(CPU(cpu), kernel_entry);
++        return;
++    }
++    if (kernel_size != ELF_LOAD_NOT_ELF) {
++        error_report("could not load kernel '%s': %s",
++                     filename, load_elf_strerror(kernel_size));
++        exit(1);
++    }
++
++    /* Not ELF: load a raw image, e.g. zImage. */
++
+     kernel_size = load_image_targphys(filename, start, size);
+     if (kernel_size < 0) {
+-        fprintf(stderr, "qemu: could not load kernel '%s'\n", filename);
++        error_report("could not load kernel '%s'", filename);
+         exit(1);
+     }
+-    cpu->env.pc = start;
++    cpu_set_pc(CPU(cpu), start);
  
- # These images may be good enough for building tests but not for test builds
- DOCKER_PARTIAL_IMAGES += debian-alpha-cross
-@@ -158,6 +163,7 @@ DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
- DOCKER_PARTIAL_IMAGES += debian-microblaze-cross
- DOCKER_PARTIAL_IMAGES += debian-nios2-cross
- DOCKER_PARTIAL_IMAGES += debian-riscv64-test-cross
-+DOCKER_PARTIAL_IMAGES += debian-rx-cross
- DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
- DOCKER_PARTIAL_IMAGES += debian-tricore-cross
- DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
-diff --git a/tests/docker/dockerfiles/debian-rx-cross.d/build-toolchain.sh b/tests/docker/dockerfiles/debian-rx-cross.d/build-toolchain.sh
-new file mode 100755
-index 0000000000..0d22280dee
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-rx-cross.d/build-toolchain.sh
-@@ -0,0 +1,58 @@
-+#!/bin/bash
-+
-+set -e
-+
-+TARGET=rx-elf
-+
-+J=$(expr $(nproc) / 2)
-+TOOLCHAIN_INSTALL=/usr/local
-+TOOLCHAIN_BIN=${TOOLCHAIN_INSTALL}/bin
-+CROSS_SYSROOT=${TOOLCHAIN_INSTALL}/$TARGET/sys-root
-+
-+export PATH=${TOOLCHAIN_BIN}:$PATH
-+
-+#
-+# Grab all of the source for the toolchain bootstrap.
-+#
-+
-+wget https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.xz
-+wget https://ftp.gnu.org/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
-+
-+tar axf binutils-2.37.tar.xz
-+tar axf gcc-11.2.0.tar.xz
-+
-+git clone --depth 1 --branch newlib-4.1.0 \
-+  https://sourceware.org/git/newlib-cygwin.git newlib-4.1.0
-+
-+# Create a combined gcc/newlib source tree
-+
-+mkdir -p src/include
-+cd src
-+ln -s ../gcc*/* . || true
-+ln -s ../newlib*/* . || true
-+cd include
-+ln -s ../../gcc*/include/* . || true
-+ln -s ../../newlib*/include/* . || true
-+cd ../../
-+
-+# Build binutils
-+
-+mkdir -p bld-b
-+cd bld-b
-+../binu*/configure --disable-werror \
-+  --prefix=${TOOLCHAIN_INSTALL} --with-sysroot --target=${TARGET}
-+make -j${J}
-+make install
-+cd ..
-+
-+# Build gcc+newlib
-+
-+mkdir -p bld
-+cd bld
-+../src/configure --disable-werror --disable-shared \
-+  --prefix=${TOOLCHAIN_INSTALL} --with-sysroot --target=${TARGET} \
-+  --enable-languages=c --disable-libssp --disable-libsanitizer \
-+  --disable-libatomic --disable-libgomp --disable-libquadmath
-+make -j${J}
-+make install
-+cd ..
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 691d90abac..34c94f3045 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -68,6 +68,7 @@ fi
- : ${cross_cc_ppc64le="$cross_cc_ppc64"}
- : ${cross_cc_cflags_ppc64le="-m64 -mlittle-endian"}
- : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
-+: ${cross_cc_rx="rx-elf-gcc"}
- : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
- : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
-@@ -192,6 +193,11 @@ for target in $target_list; do
-       container_image=debian-riscv64-test-cross
-       container_cross_cc=riscv64-linux-gnu-gcc
-       ;;
-+    rx-*)
-+      container_hosts=x86_64
-+      container_image=debian-rx-cross
-+      container_cross_cc=rx-elf-gcc
-+      ;;
-     s390x-*)
-       container_hosts=x86_64
-       container_image=debian-s390x-cross
+     /* setup exception trap trampoline */
+     /* linux kernel only works little-endian mode */
 -- 
 2.34.1
 
