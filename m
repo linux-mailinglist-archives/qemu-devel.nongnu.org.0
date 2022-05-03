@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3949051904F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:42:59 +0200 (CEST)
-Received: from localhost ([::1]:45356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA7F519015
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:32:07 +0200 (CEST)
+Received: from localhost ([::1]:51220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm0IL-0005pN-TL
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:42:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
+	id 1nm07q-0006qL-CD
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:32:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nlywJ-0002wo-L5
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:16:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53263)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nlyuY-0000i4-NF
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nlywH-0003UO-U6
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:16:07 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nlyuX-0002yf-06
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651608964;
+ s=mimecast20190719; t=1651608856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gr6Vz9OGm9QeWjjKnSfDc7wJml3ls6mGEGPhiIEQjeo=;
- b=VUaRb13gPg3wcA9aUGEhsyNBJ5wM4uMSDBtj5aGD6Ess3+iI8RIOmUE/Avev+gT5uwLwAM
- xDwc6EwuSJaReYsLtEBBb4T5BttBYE9CLmvTUS/Z8WZvrZs8iEVFb7Afg5Xgq42nOjZKX6
- DjOvBQElUgerwfsR2LQO/oj4Qmbb7Bc=
+ bh=ij22TRKHMBWJRY8XZ1BtVkL5983598AMxqypVYRPyC0=;
+ b=ZjsmBM7J3JbjhkpqHuTOsAtZNkrUMSWL36uAYvKHIrcdLh9untAQEEj6Lif+4O4Nv/GZce
+ o+y0qp2j0j0OPxR8ywUbUZ0mEw5nrnwj4E9TLyGhdoLPLyjduq4Lb1KGgo0aS7v73Fpo+h
+ NkAGBiqqyVL51Ytj2CwsGcQysgq0NV8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-Oa7jqMrJNGGcjRVfRr464w-1; Tue, 03 May 2022 10:42:19 -0400
-X-MC-Unique: Oa7jqMrJNGGcjRVfRr464w-1
+ us-mta-262-JZe9ILJgO2eJmGxSMRPqwA-1; Tue, 03 May 2022 10:49:13 -0400
+X-MC-Unique: JZe9ILJgO2eJmGxSMRPqwA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E174399C5AF;
- Tue,  3 May 2022 14:04:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20DB31D808EB;
+ Tue,  3 May 2022 14:04:16 +0000 (UTC)
 Received: from gshan.redhat.com (ovpn-12-47.pek2.redhat.com [10.72.12.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7755153AD00;
- Tue,  3 May 2022 14:03:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D48A1537ED9;
+ Tue,  3 May 2022 14:04:06 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, mst@redhat.com, imammedo@redhat.com,
@@ -49,9 +49,10 @@ Cc: qemu-devel@nongnu.org, mst@redhat.com, imammedo@redhat.com,
  eblake@redhat.com, armbru@redhat.com, thuth@redhat.com, lvivier@redhat.com,
  pbonzini@redhat.com, berrange@redhat.com, Jonathan.Cameron@Huawei.com,
  drjones@redhat.com, zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: [PATCH v9 5/6] hw/arm/virt: Fix CPU's default NUMA node ID
-Date: Tue,  3 May 2022 22:03:03 +0800
-Message-Id: <20220503140304.855514-6-gshan@redhat.com>
+Subject: [PATCH v9 6/6] hw/acpi/aml-build: Use existing CPU topology to build
+ PPTT table
+Date: Tue,  3 May 2022 22:03:04 +0800
+Message-Id: <20220503140304.855514-7-gshan@redhat.com>
 In-Reply-To: <20220503140304.855514-1-gshan@redhat.com>
 References: <20220503140304.855514-1-gshan@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,72 +83,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When CPU-to-NUMA association isn't explicitly provided by users,
-the default one is given by mc->get_default_cpu_node_id(). However,
-the CPU topology isn't fully considered in the default association
-and this causes CPU topology broken warnings on booting Linux guest.
+When the PPTT table is built, the CPU topology is re-calculated, but
+it's unecessary because the CPU topology has been populated in
+virt_possible_cpu_arch_ids() on arm/virt machine.
 
-For example, the following warning messages are observed when the
-Linux guest is booted with the following command lines.
-
-  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
-  -accel kvm -machine virt,gic-version=host               \
-  -cpu host                                               \
-  -smp 6,sockets=2,cores=3,threads=1                      \
-  -m 1024M,slots=16,maxmem=64G                            \
-  -object memory-backend-ram,id=mem0,size=128M            \
-  -object memory-backend-ram,id=mem1,size=128M            \
-  -object memory-backend-ram,id=mem2,size=128M            \
-  -object memory-backend-ram,id=mem3,size=128M            \
-  -object memory-backend-ram,id=mem4,size=128M            \
-  -object memory-backend-ram,id=mem4,size=384M            \
-  -numa node,nodeid=0,memdev=mem0                         \
-  -numa node,nodeid=1,memdev=mem1                         \
-  -numa node,nodeid=2,memdev=mem2                         \
-  -numa node,nodeid=3,memdev=mem3                         \
-  -numa node,nodeid=4,memdev=mem4                         \
-  -numa node,nodeid=5,memdev=mem5
-         :
-  alternatives: patching kernel code
-  BUG: arch topology borken
-  the CLS domain not a subset of the MC domain
-  <the above error log repeats>
-  BUG: arch topology borken
-  the DIE domain not a subset of the NODE domain
-
-With current implementation of mc->get_default_cpu_node_id(),
-CPU#0 to CPU#5 are associated with NODE#0 to NODE#5 separately.
-That's incorrect because CPU#0/1/2 should be associated with same
-NUMA node because they're seated in same socket.
-
-This fixes the issue by considering the socket ID when the default
-CPU-to-NUMA association is provided in virt_possible_cpu_arch_ids().
-With this applied, no more CPU topology broken warnings are seen
-from the Linux guest. The 6 CPUs are associated with NODE#0/1, but
-there are no CPUs associated with NODE#2/3/4/5.
+This reworks build_pptt() to avoid by reusing the existing IDs in
+ms->possible_cpus. Currently, the only user of build_pptt() is
+arm/virt machine.
 
 Signed-off-by: Gavin Shan <gshan@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Tested-by: Yanan Wang <wangyanan55@huawei.com>
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/arm/virt.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/acpi/aml-build.c | 111 +++++++++++++++++++-------------------------
+ 1 file changed, 48 insertions(+), 63 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 6df3981b1e..766c9acd7f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2552,7 +2552,9 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
- 
- static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index 4086879ebf..e6bfac95c7 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2002,86 +2002,71 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+                 const char *oem_id, const char *oem_table_id)
  {
--    return idx % ms->numa_state->num_nodes;
-+    int64_t socket_id = ms->possible_cpus->cpus[idx].props.socket_id;
-+
-+    return socket_id % ms->numa_state->num_nodes;
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+-    GQueue *list = g_queue_new();
+-    guint pptt_start = table_data->len;
+-    guint parent_offset;
+-    guint length, i;
+-    int uid = 0;
+-    int socket;
++    CPUArchIdList *cpus = ms->possible_cpus;
++    int64_t socket_id = -1, cluster_id = -1, core_id = -1;
++    uint32_t socket_offset = 0, cluster_offset = 0, core_offset = 0;
++    uint32_t pptt_start = table_data->len;
++    int n;
+     AcpiTable table = { .sig = "PPTT", .rev = 2,
+                         .oem_id = oem_id, .oem_table_id = oem_table_id };
+ 
+     acpi_table_begin(&table, table_data);
+ 
+-    for (socket = 0; socket < ms->smp.sockets; socket++) {
+-        g_queue_push_tail(list,
+-            GUINT_TO_POINTER(table_data->len - pptt_start));
+-        build_processor_hierarchy_node(
+-            table_data,
+-            /*
+-             * Physical package - represents the boundary
+-             * of a physical package
+-             */
+-            (1 << 0),
+-            0, socket, NULL, 0);
+-    }
+-
+-    if (mc->smp_props.clusters_supported) {
+-        length = g_queue_get_length(list);
+-        for (i = 0; i < length; i++) {
+-            int cluster;
+-
+-            parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+-            for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
+-                g_queue_push_tail(list,
+-                    GUINT_TO_POINTER(table_data->len - pptt_start));
+-                build_processor_hierarchy_node(
+-                    table_data,
+-                    (0 << 0), /* not a physical package */
+-                    parent_offset, cluster, NULL, 0);
+-            }
++    /*
++     * This works with the assumption that cpus[n].props.*_id has been
++     * sorted from top to down levels in mc->possible_cpu_arch_ids().
++     * Otherwise, the unexpected and duplicated containers will be
++     * created.
++     */
++    for (n = 0; n < cpus->len; n++) {
++        if (cpus->cpus[n].props.socket_id != socket_id) {
++            assert(cpus->cpus[n].props.socket_id > socket_id);
++            socket_id = cpus->cpus[n].props.socket_id;
++            cluster_id = -1;
++            core_id = -1;
++            socket_offset = table_data->len - pptt_start;
++            build_processor_hierarchy_node(table_data,
++                (1 << 0), /* Physical package */
++                0, socket_id, NULL, 0);
+         }
+-    }
+ 
+-    length = g_queue_get_length(list);
+-    for (i = 0; i < length; i++) {
+-        int core;
+-
+-        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+-        for (core = 0; core < ms->smp.cores; core++) {
+-            if (ms->smp.threads > 1) {
+-                g_queue_push_tail(list,
+-                    GUINT_TO_POINTER(table_data->len - pptt_start));
+-                build_processor_hierarchy_node(
+-                    table_data,
+-                    (0 << 0), /* not a physical package */
+-                    parent_offset, core, NULL, 0);
+-            } else {
+-                build_processor_hierarchy_node(
+-                    table_data,
+-                    (1 << 1) | /* ACPI Processor ID valid */
+-                    (1 << 3),  /* Node is a Leaf */
+-                    parent_offset, uid++, NULL, 0);
++        if (mc->smp_props.clusters_supported) {
++            if (cpus->cpus[n].props.cluster_id != cluster_id) {
++                assert(cpus->cpus[n].props.cluster_id > cluster_id);
++                cluster_id = cpus->cpus[n].props.cluster_id;
++                core_id = -1;
++                cluster_offset = table_data->len - pptt_start;
++                build_processor_hierarchy_node(table_data,
++                    (0 << 0), /* Not a physical package */
++                    socket_offset, cluster_id, NULL, 0);
+             }
++        } else {
++            cluster_offset = socket_offset;
+         }
+-    }
+ 
+-    length = g_queue_get_length(list);
+-    for (i = 0; i < length; i++) {
+-        int thread;
++        if (ms->smp.threads == 1) {
++            build_processor_hierarchy_node(table_data,
++                (1 << 1) | /* ACPI Processor ID valid */
++                (1 << 3),  /* Node is a Leaf */
++                cluster_offset, n, NULL, 0);
++        } else {
++            if (cpus->cpus[n].props.core_id != core_id) {
++                assert(cpus->cpus[n].props.core_id > core_id);
++                core_id = cpus->cpus[n].props.core_id;
++                core_offset = table_data->len - pptt_start;
++                build_processor_hierarchy_node(table_data,
++                    (0 << 0), /* Not a physical package */
++                    cluster_offset, core_id, NULL, 0);
++            }
+ 
+-        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+-        for (thread = 0; thread < ms->smp.threads; thread++) {
+-            build_processor_hierarchy_node(
+-                table_data,
++            build_processor_hierarchy_node(table_data,
+                 (1 << 1) | /* ACPI Processor ID valid */
+                 (1 << 2) | /* Processor is a Thread */
+                 (1 << 3),  /* Node is a Leaf */
+-                parent_offset, uid++, NULL, 0);
++                core_offset, n, NULL, 0);
+         }
+     }
+ 
+-    g_queue_free(list);
+     acpi_table_end(linker, &table);
  }
  
- static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
 -- 
 2.23.0
 
