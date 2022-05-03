@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B189518089
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:03:38 +0200 (CEST)
-Received: from localhost ([::1]:38180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F0B5180A8
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:08:03 +0200 (CEST)
+Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nloRU-0005PK-Of
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38310)
+	id 1nloVl-0002by-UM
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EuPl=VL=zx2c4.com=Jason@kernel.org>)
- id 1nloJ3-0004dm-6c
- for qemu-devel@nongnu.org; Tue, 03 May 2022 04:54:53 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:38840)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nloJ8-0004hQ-F1
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 04:55:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EuPl=VL=zx2c4.com=Jason@kernel.org>)
- id 1nloJ0-0005nC-SR
- for qemu-devel@nongnu.org; Tue, 03 May 2022 04:54:52 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E3F756128D;
- Tue,  3 May 2022 08:54:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF748C385A4;
- Tue,  3 May 2022 08:54:46 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=fail reason="signature verification failed" (1024-bit key)
- header.d=zx2c4.com header.i=@zx2c4.com header.b="b4ipqw2J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1651568084;
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nloJ6-0005os-KG
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 04:54:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651568095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UadzwdyTPAXDsdMBLEUAPEXbwWfoUKoOfbRoM8Rb0RI=;
- b=b4ipqw2JKXpiCxJlvRmvUQa7M2XfgLsFpXcJ5TLiNXXhyZQOR34nOqPh7KEnYGO74kOLI4
- WNikGPxD/srFw/o+A/PIbtuS9hCzX+WrQYusYQzRS9iQC0gPdzWt2NZXotrJFHlyn4fzcM
- KYAfDcS2i46sHYFsnNv4QMarCjO7u7k=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4be660f1
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Tue, 3 May 2022 08:54:44 +0000 (UTC)
-Date: Tue, 3 May 2022 10:54:41 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, openrisc@lists.librecores.org, shorne@gmail.com
-Subject: Re: [PATCH] target/openrisc: implement shutdown and reset helpers
-Message-ID: <YnDt0YZK3aG3y8Tl@zx2c4.com>
-References: <20220502225230.237369-1-Jason@zx2c4.com>
- <b1cf3942-115c-bca3-81cf-1f7bfd66dc5a@linaro.org>
+ bh=Ynf200O3Ih5MndiHA1iT4GFgB8QjKekL1cYyVcI3uZ0=;
+ b=IfMcWcK8FDwsLSA9f46XerJog3J8QYikKS+GLUpxd2xJ+KzKCa3OcL2LvL2hh+ODQtOI7y
+ LYuDifgIVQk3fFyAFnpXcD8qqt2jdYbJgg5pVENWc8ip0I0fI5NYBziO/Suc7ldaIhdBwh
+ hYRxZfxC8/Zsku00tzd7F+fztice8H4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-pSj1fzH3MYatxmb9HWXAAg-1; Tue, 03 May 2022 04:54:54 -0400
+X-MC-Unique: pSj1fzH3MYatxmb9HWXAAg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ q128-20020a1c4386000000b003942fe15835so2375962wma.6
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 01:54:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Ynf200O3Ih5MndiHA1iT4GFgB8QjKekL1cYyVcI3uZ0=;
+ b=2IqtNvjLkWpll0ZHClf3NdaTHJH2WAu5FfkLAZkWl0KAaw+kXVIOBE2VMAo9GxilCe
+ dFf7QQVNqaiE8VLX1SfPjHp16nGVLIdxj5BOz28aiGPM0eCPNEHvnGmAQFg0QPO2HFhP
+ rdfc9GxKU0/92q8eOQwZedrlPHegVplgcdmWK7N9toP/YcNq+HHd9lmUUS8QFROeAGF1
+ H2TfNPhMc2aPtSDFl79G8iovtVnBapIVcK2oqFUqUbo8RfUYg2tJg7Ll0Ty8U9u0SAH9
+ fXA/pwOE1Be5foSILc6df0P+FA1xbiY+VU1tU4yujLLVm4u0FCgq4ZMfLxtinNYVtrWr
+ 2N8g==
+X-Gm-Message-State: AOAM532bAbKBFRlA65QiCztl5ZBZqt3kYUe8qeyw6KvaYKspOz84Xf9j
+ BWZFwGG++awRBVQmpxkAw0lL2UsT2qNYCNygxpCs6qz8BOPW9U881fZZOoQk7H6ahkiczUZlrIq
+ kKcj64fOYdBFo9sA=
+X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
+ bg25-20020a05600c3c9900b00392b49c7b79mr2377637wmb.199.1651568093637; 
+ Tue, 03 May 2022 01:54:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzymVgt3xLEv/+E4xcMNcF8Y7lAOQQ7PYMx2UTwKZNf3Ua4l15CWsGmcRtezc7vd+3BYwUBFQ==
+X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
+ bg25-20020a05600c3c9900b00392b49c7b79mr2377615wmb.199.1651568093407; 
+ Tue, 03 May 2022 01:54:53 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ h19-20020a1ccc13000000b003942a244ed7sm1202325wmb.28.2022.05.03.01.54.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 May 2022 01:54:53 -0700 (PDT)
+Date: Tue, 3 May 2022 10:54:51 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, lvivier@redhat.com,
+ eduardo@habkost.net, thuth@redhat.com, berrange@redhat.com,
+ shan.gavin@gmail.com, peter.maydell@linaro.org,
+ Jonathan.Cameron@Huawei.com, zhenyzha@redhat.com, mst@redhat.com,
+ armbru@redhat.com, ani@anisinha.ca, pbonzini@redhat.com,
+ drjones@redhat.com, eblake@redhat.com, f4bug@amsat.org,
+ wangyanan55@huawei.com
+Subject: Re: [PATCH v8 1/5] qapi/machine.json: Add cluster-id
+Message-ID: <20220503105451.40a00f2e@redhat.com>
+In-Reply-To: <20220425032802.365061-2-gshan@redhat.com>
+References: <20220425032802.365061-1-gshan@redhat.com>
+ <20220425032802.365061-2-gshan@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b1cf3942-115c-bca3-81cf-1f7bfd66dc5a@linaro.org>
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=EuPl=VL=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,24 +106,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 02, 2022 at 04:57:43PM -0700, Richard Henderson wrote:
-> On 5/2/22 15:52, Jason A. Donenfeld wrote:
-> > OpenRISC defines various nop instructions in or1k as meaning shutdown or
-> > reset. Implement these in TCG. This has been tested with Linux and
-> > confirmed to work.
-> 
-> No, OpenRISC does not define various nop instructions, etc.
-> 
-> OpenRISC defines a Power Management Register to handle doze and suspend; there is no 
-> specification for shutdown or reset.
-> 
-> See https://openrisc.io/architecture
+On Mon, 25 Apr 2022 11:27:58 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
+> This adds cluster-id in CPU instance properties, which will be used
+> by arm/virt machine. Besides, the cluster-id is also verified or
+> dumped in various spots:
+> 
+>   * hw/core/machine.c::machine_set_cpu_numa_node() to associate
+>     CPU with its NUMA node.
+> 
+>   * hw/core/machine.c::machine_numa_finish_cpu_init() to record
+>     CPU slots with no NUMA mapping set.
+> 
+>   * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
+>     cluster-id.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 
-Stafford is in the process of documenting/spec'ing the nop stuff.
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
+> ---
+>  hw/core/machine-hmp-cmds.c |  4 ++++
+>  hw/core/machine.c          | 16 ++++++++++++++++
+>  qapi/machine.json          |  6 ++++--
+>  3 files changed, 24 insertions(+), 2 deletions(-)
 > 
-> 
-> r~
-> 
+> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+> index 4e2f319aeb..5cb5eecbfc 100644
+> --- a/hw/core/machine-hmp-cmds.c
+> +++ b/hw/core/machine-hmp-cmds.c
+> @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
+>          if (c->has_die_id) {
+>              monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
+>          }
+> +        if (c->has_cluster_id) {
+> +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
+> +                           c->cluster_id);
+> +        }
+>          if (c->has_core_id) {
+>              monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
+>          }
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index cb9bbc844d..700c1e76b8 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -682,6 +682,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>              return;
+>          }
+>  
+> +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
+> +            error_setg(errp, "cluster-id is not supported");
+> +            return;
+> +        }
+> +
+>          if (props->has_socket_id && !slot->props.has_socket_id) {
+>              error_setg(errp, "socket-id is not supported");
+>              return;
+> @@ -701,6 +706,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>                  continue;
+>          }
+>  
+> +        if (props->has_cluster_id &&
+> +            props->cluster_id != slot->props.cluster_id) {
+> +                continue;
+> +        }
+> +
+>          if (props->has_die_id && props->die_id != slot->props.die_id) {
+>                  continue;
+>          }
+> @@ -995,6 +1005,12 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
+>          }
+>          g_string_append_printf(s, "die-id: %"PRId64, cpu->props.die_id);
+>      }
+> +    if (cpu->props.has_cluster_id) {
+> +        if (s->len) {
+> +            g_string_append_printf(s, ", ");
+> +        }
+> +        g_string_append_printf(s, "cluster-id: %"PRId64, cpu->props.cluster_id);
+> +    }
+>      if (cpu->props.has_core_id) {
+>          if (s->len) {
+>              g_string_append_printf(s, ", ");
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index d25a481ce4..4c417e32a5 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -868,10 +868,11 @@
+>  # @node-id: NUMA node ID the CPU belongs to
+>  # @socket-id: socket number within node/board the CPU belongs to
+>  # @die-id: die number within socket the CPU belongs to (since 4.1)
+> -# @core-id: core number within die the CPU belongs to
+> +# @cluster-id: cluster number within die the CPU belongs to (since 7.1)
+> +# @core-id: core number within cluster the CPU belongs to
+>  # @thread-id: thread number within core the CPU belongs to
+>  #
+> -# Note: currently there are 5 properties that could be present
+> +# Note: currently there are 6 properties that could be present
+>  #       but management should be prepared to pass through other
+>  #       properties with device_add command to allow for future
+>  #       interface extension. This also requires the filed names to be kept in
+> @@ -883,6 +884,7 @@
+>    'data': { '*node-id': 'int',
+>              '*socket-id': 'int',
+>              '*die-id': 'int',
+> +            '*cluster-id': 'int',
+>              '*core-id': 'int',
+>              '*thread-id': 'int'
+>    }
+
 
