@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0EC518FE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:17:36 +0200 (CEST)
-Received: from localhost ([::1]:48458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6702518F78
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:56:11 +0200 (CEST)
+Received: from localhost ([::1]:40844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlztn-00021m-HP
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40688)
+	id 1nlzZ4-0003bN-9J
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZz-0000ne-1v
+ id 1nlyZz-0000np-3s
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:03 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44608)
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:46714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZw-0006Ob-KO
+ id 1nlyZw-0006Og-Kq
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:53:02 -0400
-Received: by mail-pl1-x631.google.com with SMTP id j8so15862848pll.11
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:58 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ cq17-20020a17090af99100b001dc0386cd8fso2880402pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zSABYP4n5j9DpaRkrATAbL9o0CDfndEvUo9tSY+Ych0=;
- b=Ef5saaaj5hJEJ5KnBAj9hB8RkLBpZoilw0vNu9Y3kretFp+rixJqjwjb5OgVeoOZOv
- 95w+s4jSQy/Qf8+nS+0LqYUeujvC+33YGLo8MmvM0coZRVplTGOAnT0NlhALh3smsAl8
- stiPFR4BmWm9SiUwjh3J3QVjtah/CCIv6UwZgbDkmNo7vkKL94QdDbSfOIERJAWiG8T4
- v7WwQh/sEMviMyLe1/hmvBiknQzVmkzD125DPODM3Jg2MzVPBgIxo+se/8MtelNCt1HZ
- 76w15DFW7VFbIM0Ds/wmGNlIe2Ft7Hpvn9+Om190W78t8G1aftNJwGkLGDyHs8VpvagX
- 3YvQ==
+ bh=M6M9lcOtJHcXS0OKn/tF20xzatLhV5u4RJXc0wtgF7E=;
+ b=IIsJn8nEcvEVsQqLbbj1DUQtXzbnRWqguqyho+nZiwXNBOZ5dfHa3hR8kiiiBONZC3
+ 4jOsJsqzg3aS3ACXD8H90Lro2pvSo90S9tSUhO+dpJyQo6ubzEMP3qIpL7fvOy5/lhTY
+ 8tSDF9Rpk89ej0lsjyPh8Ki603PpRy2VHfizlqbrqu5cXKj+pif+H54GZkiQfAJlLEb4
+ tWTspQEpblWTN3B6ELHSFdVpDagW4ga/L4A36Kd660wmgXCPl5IcIL09LaC5AF62Qqdh
+ HUyC/p9sjADWFKF3+mahYgJ6bbPPETUT1urhxL0f9FDWfuHjxPNbiIGaHRDJc5Jow4e9
+ Kzng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zSABYP4n5j9DpaRkrATAbL9o0CDfndEvUo9tSY+Ych0=;
- b=XHMDvofTFzgmf3HcHyfnXUtfSwTV3P6xnrBxekvucOleA2JDg3Zkx2FcUa9XgX5CDx
- by9bCge3WXFeTpBukcHuWrt9aVDKLujr5XNmUEsT+wyPbZ52tWoy1b9V1TLYsXGCHU4/
- 9TUkyrbh2wbPzY9MirgJiI4owNMFLcWtFY/jdE26E/odKuL3FGE8zH7UQSuQFheX0r79
- zu9v9z0HkjjCaXo82mzHmnMix1YucpyzNlLLdsc+2yio2YSP7ezJr8Sj7llZFRMcG+7Z
- E1lD62wkGQCrD+BK8CmJjlpWHcgVtmT536oP5kyHIiSPBDA/rPOrF7yxkEgtq2Q4g0dJ
- VG5A==
-X-Gm-Message-State: AOAM533gkQW0GFTVtNN4i9AWad5Gee7k4poPqPi+6EZbkaZe+LSy6WXY
- SFHVgHBj8qaBvoi70o3nPpWSLWmHO+JgHA==
-X-Google-Smtp-Source: ABdhPJx4XuUu8nnZmOWcu5Mto3jc5EGOKAH31za81JxszAMtZ/D+L7VQjMeIfAAcFy3IloE6OiiXUg==
-X-Received: by 2002:a17:90b:1c04:b0:1dc:4dfd:5a43 with SMTP id
- oc4-20020a17090b1c0400b001dc4dfd5a43mr6628138pjb.160.1651607577572; 
- Tue, 03 May 2022 12:52:57 -0700 (PDT)
+ bh=M6M9lcOtJHcXS0OKn/tF20xzatLhV5u4RJXc0wtgF7E=;
+ b=32KwjiEVHRX8e/7+lvZ5AAL/V+ic051TMsdQcNCUCwTXiNiz1+tvOTIuF3LIDqTna8
+ cnB+qXcYAMbdoEibfY4dbjzb7mpfvU6EQBRd8jF1UyYcj4h3uxPSEWkIxs0xnSVKgM3O
+ ma+60ZPy4uXYsVfvXTgW9BlI0D/TnbvSyOCqGpvQQZxbbHExgx2bDjxLOhWVa8iZDWrD
+ UCol5B6NRSjJnxYb4Kro5FD7GOsswvfKbfT41+5VGCRXOhmj711SCA20W231H0XaGoid
+ +Tv4d5oOJ6ZqEe+gmnobaO1hfD+oR/ycfjiYB5hqJLZIPG1QgfsxYGuoyHNLFmykCL2H
+ jPQQ==
+X-Gm-Message-State: AOAM5308WhvWa+cRG7W+A5Z8s1TyILVfkYMqKRO5oPWFU9gfwa86DMOe
+ ay/4WdDzZwieteZpSU5XlkFrewWMBfw5/Q==
+X-Google-Smtp-Source: ABdhPJwDfO7SI8OgrNUzwHkFaFeeyvOx17LO1xJRX43xWmhndNinMgOp418h6k6U0UHfVxFA3fmlZg==
+X-Received: by 2002:a17:903:3009:b0:15c:f92b:7fba with SMTP id
+ o9-20020a170903300900b0015cf92b7fbamr18075831pla.82.1651607578586; 
+ Tue, 03 May 2022 12:52:58 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.56
+ fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.57
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:52:57 -0700 (PDT)
+ Tue, 03 May 2022 12:52:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 72/74] target/rx: Cleanup rx_cpu_do_interrupt
-Date: Tue,  3 May 2022 12:48:41 -0700
-Message-Id: <20220503194843.1379101-73-richard.henderson@linaro.org>
+Subject: [PATCH v2 73/74] target/rx: Implement libgloss semihosting
+Date: Tue,  3 May 2022 12:48:42 -0700
+Message-Id: <20220503194843.1379101-74-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
 References: <20220503194843.1379101-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,196 +88,316 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce EXCP_IRQ and EXCP_FIRQ to remember the decision
-that we made in rx_cpu_exec_interrupt.  Use a switch to
-select between exceptions; unify stacked interrupt frame
-creation; abort if unknown exception.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/rx/cpu.h    |   4 ++
- target/rx/helper.c | 118 ++++++++++++++++++++++-----------------------
- 2 files changed, 61 insertions(+), 61 deletions(-)
+ configs/devices/rx-softmmu/default.mak |   1 +
+ target/rx/cpu.h                        |   2 +
+ target/rx/helper.c                     |   5 +
+ target/rx/rx-semi.c                    | 165 +++++++++++++++++++++++++
+ target/rx/translate.c                  |   7 +-
+ qemu-options.hx                        |  13 +-
+ target/rx/meson.build                  |   4 +-
+ 7 files changed, 189 insertions(+), 8 deletions(-)
+ create mode 100644 target/rx/rx-semi.c
 
+diff --git a/configs/devices/rx-softmmu/default.mak b/configs/devices/rx-softmmu/default.mak
+index df2b4e4f42..5c1033a2d3 100644
+--- a/configs/devices/rx-softmmu/default.mak
++++ b/configs/devices/rx-softmmu/default.mak
+@@ -1,3 +1,4 @@
+ # Default configuration for rx-softmmu
+ 
+ CONFIG_RX_GDBSIM=y
++CONFIG_SEMIHOSTING=y
 diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-index 99e28fb70f..5b93c0dcb0 100644
+index 5b93c0dcb0..117cfea027 100644
 --- a/target/rx/cpu.h
 +++ b/target/rx/cpu.h
-@@ -84,6 +84,10 @@ enum {
-      */
-     EXCP_INTB_0      = 0x100,
-     EXCP_INTB_255    = EXCP_INTB_0 + 255,
-+
-+    /* Private to the qemu implementation. */
-+    EXCP_IRQ,
-+    EXCP_FIRQ,
+@@ -88,6 +88,7 @@ enum {
+     /* Private to the qemu implementation. */
+     EXCP_IRQ,
+     EXCP_FIRQ,
++    EXCP_SEMIHOST,
  };
  
  typedef struct CPUArchState {
+@@ -147,6 +148,7 @@ const char *rx_crname(uint8_t cr);
+ #ifndef CONFIG_USER_ONLY
+ void rx_cpu_do_interrupt(CPUState *cpu);
+ bool rx_cpu_exec_interrupt(CPUState *cpu, int int_req);
++void rx_cpu_do_semihosting(CPURXState *env);
+ #endif /* !CONFIG_USER_ONLY */
+ void rx_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ int rx_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
 diff --git a/target/rx/helper.c b/target/rx/helper.c
-index 29a4b075fa..d12e551cc2 100644
+index d12e551cc2..00f72b2090 100644
 --- a/target/rx/helper.c
 +++ b/target/rx/helper.c
-@@ -42,12 +42,13 @@ void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int rte)
- 
- #ifndef CONFIG_USER_ONLY
- 
--#define INT_FLAGS (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR)
- void rx_cpu_do_interrupt(CPUState *cs)
- {
-     RXCPU *cpu = RX_CPU(cs);
-     CPURXState *env = &cpu->env;
--    int do_irq = cs->interrupt_request & INT_FLAGS;
-+    uint32_t vec = cs->exception_index;
-+    target_ulong vec_table = 0xffffff80u; /* fixed vector table */
-+    const char *expname;
-     uint32_t save_psw;
+@@ -53,6 +53,11 @@ void rx_cpu_do_interrupt(CPUState *cs)
  
      env->in_sleep = 0;
-@@ -60,69 +61,62 @@ void rx_cpu_do_interrupt(CPUState *cs)
-     save_psw = rx_cpu_pack_psw(env);
-     env->psw_pm = env->psw_i = env->psw_u = 0;
  
--    if (do_irq) {
--        if (do_irq & CPU_INTERRUPT_FIR) {
--            env->bpc = env->pc;
--            env->bpsw = save_psw;
--            env->pc = env->fintv;
--            env->psw_ipl = 15;
--            cs->interrupt_request &= ~CPU_INTERRUPT_FIR;
--            qemu_set_irq(env->ack, env->ack_irq);
--            qemu_log_mask(CPU_LOG_INT, "fast interrupt raised\n");
--        } else if (do_irq & CPU_INTERRUPT_HARD) {
--            env->isp -= 4;
--            cpu_stl_data(env, env->isp, save_psw);
--            env->isp -= 4;
--            cpu_stl_data(env, env->isp, env->pc);
--            env->pc = cpu_ldl_data(env, env->intb + env->ack_irq * 4);
--            env->psw_ipl = env->ack_ipl;
--            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
--            qemu_set_irq(env->ack, env->ack_irq);
--            qemu_log_mask(CPU_LOG_INT,
--                          "interrupt 0x%02x raised\n", env->ack_irq);
--        }
--    } else {
--        uint32_t vec = cs->exception_index;
--        const char *expname;
-+    switch (vec) {
-+    case EXCP_FIRQ:
-+        env->bpc = env->pc;
-+        env->bpsw = save_psw;
-+        env->pc = env->fintv;
-+        env->psw_ipl = 15;
-+        cs->interrupt_request &= ~CPU_INTERRUPT_FIR;
-+        qemu_set_irq(env->ack, env->ack_irq);
-+        qemu_log_mask(CPU_LOG_INT, "fast interrupt raised\n");
++    if (vec == EXCP_SEMIHOST) {
++        rx_cpu_do_semihosting(env);
++        return;
++    }
++
+     if (env->psw_u) {
+         env->usp = env->regs[0];
+     } else {
+diff --git a/target/rx/rx-semi.c b/target/rx/rx-semi.c
+new file mode 100644
+index 0000000000..f2406ad219
+--- /dev/null
++++ b/target/rx/rx-semi.c
+@@ -0,0 +1,165 @@
++/*
++ *  gdbsim semihosting syscall interface.
++ *  The semihosting protocol implemented here is described in
++ *
++ *  libgloss sources:
++ *  https://sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/syscall.h;hb=HEAD
++ *
++ *  gdb sources:
++ *  https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob;f=sim/rx/syscalls.c;hb=HEAD
++ *
++ *  Copyright (c) 2022 Linaro, Ltd.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/gdbstub.h"
++#include "semihosting/syscalls.h"
++#include "qemu/log.h"
++
++/*
++ * These are the syscall numbers from libgloss/syscall.h,
++ * but note that not all of them are implemented.
++ */
++enum {
++    TARGET_SYS_exit = 1,
++    TARGET_SYS_open,
++    TARGET_SYS_close,
++    TARGET_SYS_read,
++    TARGET_SYS_write,
++    TARGET_SYS_lseek,
++    TARGET_SYS_unlink,
++    TARGET_SYS_getpid,
++    TARGET_SYS_kill,
++    TARGET_SYS_fstat,
++    TARGET_SYS_sbrk,
++    TARGET_SYS_argvlen,
++    TARGET_SYS_argv,
++    TARGET_SYS_chdir,
++    TARGET_SYS_stat,
++    TARGET_SYS_chmod,
++    TARGET_SYS_utime,
++    TARGET_SYS_time,
++    TARGET_SYS_gettimeofday,
++    TARGET_SYS_times,
++    TARGET_SYS_link,
++    TARGET_SYS_argc,
++    TARGET_SYS_argnlen,
++    TARGET_SYS_argn,
++    TARGET_SYS_reconfig,
++};
++
++static void rx_semi_cb(CPUState *cs, uint64_t ret, int err)
++{
++    CPURXState *env = cs->env_ptr;
++
++    /* There is no concept of errno in this interface. */
++    env->regs[1] = ret;
++}
++
++static bool rx_semi_arg(CPURXState *env, uint32_t *ret, int argn)
++{
++    if (argn < 4) {
++        *ret = env->regs[argn + 1];
++    } else {
++        uint32_t stack_addr = env->regs[0] + 4 + (argn - 4) * 4;
++        if (cpu_memory_rw_debug(env_cpu(env), stack_addr, ret, 4, 0)) {
++            return false;
++        }
++        tswap32s(ret);
++    }
++    return true;
++}
++
++#define GET_ARG(E, N) \
++    ({ uint32_t v_; if (!rx_semi_arg((E), &v_, (N))) goto failed; v_; })
++
++void rx_cpu_do_semihosting(CPURXState *env)
++{
++    CPUState *cs = env_cpu(env);
++    uint32_t nr = env->regs[5];
++    uint32_t a0, a1, a2;
++
++    switch (nr) {
++    case TARGET_SYS_exit:
++        a0 = GET_ARG(env, 0);
++        gdb_exit(a0);
++        exit(a0);
++
++    case TARGET_SYS_open:
++        /*
++         * This function is declared int open(char *path, int flags, ...),
++         * which means that only the first argument is in registers.
++         */
++        a0 = GET_ARG(env, 0);
++        a1 = GET_ARG(env, 4);
++        a2 = GET_ARG(env, 5);
++        semihost_sys_open(cs, rx_semi_cb, a0, 0, a1, a2);
 +        break;
- 
-+    case EXCP_IRQ:
-+        env->psw_ipl = env->ack_ipl;
-+        cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-+        qemu_set_irq(env->ack, env->ack_irq);
-+        expname = "interrupt";
-+        vec_table = env->intb;
-+        vec = env->ack_ipl;
-+        goto do_stacked;
 +
-+    case EXCP_PRIVILEGED:
-+        expname = "privilege violation";
-+        goto do_stacked;
-+    case EXCP_ACCESS:
-+        expname = "access exception";
-+        goto do_stacked;
-+    case EXCP_UNDEFINED:
-+        expname = "illegal instruction";
-+        goto do_stacked;
-+    case EXCP_FPU:
-+        expname = "fpu exception";
-+        goto do_stacked;
-+    case EXCP_NMI:
-+        expname = "non-maskable interrupt";
-+        goto do_stacked;
-+    case EXCP_RESET:
-+        expname = "reset interrupt";
-+        goto do_stacked;
-+
-+    case EXCP_INTB_0 ... EXCP_INTB_255:
-+        expname = "unconditional trap";
-+        vec_table = env->intb;
-+        vec -= EXCP_INTB_0;
-+        goto do_stacked;
-+
-+    do_stacked:
-         env->isp -= 4;
-         cpu_stl_data(env, env->isp, save_psw);
-         env->isp -= 4;
-         cpu_stl_data(env, env->isp, env->pc);
-+        env->pc = cpu_ldl_data(env, vec_table + vec * 4);
-+        qemu_log_mask(CPU_LOG_INT, "%s raised (0x%02x)\n", expname, vec);
++    case TARGET_SYS_close:
++        a0 = GET_ARG(env, 0);
++        semihost_sys_close(cs, rx_semi_cb, a0);
 +        break;
- 
--        if (vec < EXCP_INTB_0) {
--            env->pc = cpu_ldl_data(env, 0xffffff80 + vec * 4);
--        } else {
--            env->pc = cpu_ldl_data(env, env->intb + (vec - EXCP_INTB_0) * 4);
--        }
--        switch (vec) {
--        case EXCP_PRIVILEGED:
--            expname = "privilege violation";
--            break;
--        case EXCP_ACCESS:
--            expname = "access exception";
--            break;
--        case EXCP_UNDEFINED:
--            expname = "illegal instruction";
--            break;
--        case EXCP_FPU:
--            expname = "fpu exception";
--            break;
--        case EXCP_NMI:
--            expname = "non-maskable interrupt";
--            break;
--        case EXCP_RESET:
--            expname = "reset interrupt";
--            break;
--        case EXCP_INTB_0 ... EXCP_INTB_255:
--            expname = "unconditional trap";
--            break;
--        default:
--            expname = "unknown exception";
--            break;
--        }
--        qemu_log_mask(CPU_LOG_INT, "exception 0x%02x [%s] raised\n",
--                      (vec & 0xff), expname);
++
++    case TARGET_SYS_read:
++        a0 = GET_ARG(env, 0);
++        a1 = GET_ARG(env, 1);
++        a2 = GET_ARG(env, 2);
++        semihost_sys_read(cs, rx_semi_cb, a0, a1, a2);
++        break;
++
++    case TARGET_SYS_write:
++        a0 = GET_ARG(env, 0);
++        a1 = GET_ARG(env, 1);
++        a2 = GET_ARG(env, 2);
++        semihost_sys_write(cs, rx_semi_cb, a0, a1, a2);
++        break;
++
++    case TARGET_SYS_getpid:
++        rx_semi_cb(cs, 42, 0);
++        break;
++
++    case TARGET_SYS_gettimeofday:
++        a0 = GET_ARG(env, 0);
++        semihost_sys_gettimeofday(cs, rx_semi_cb, a0, 0);
++        break;
++
++    case TARGET_SYS_kill:
++        a0 = GET_ARG(env, 0);
++        if (a0 != 42) {
++            goto failed;
++        }
++        /* Without defined signal numbers, pretend they're all SIGABRT. */
++        gdb_exit(-1);
++        abort();
++
 +    default:
-+        g_assert_not_reached();
-     }
-     env->regs[0] = env->isp;
- }
-@@ -132,19 +126,21 @@ bool rx_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     RXCPU *cpu = RX_CPU(cs);
-     CPURXState *env = &cpu->env;
-     int accept = 0;
++        qemu_log_mask(LOG_GUEST_ERROR, "rx-semihosting: unsupported "
++                      "semihosting syscall %u\n", nr);
++        /* fall through */
 +
-     /* hardware interrupt (Normal) */
-     if ((interrupt_request & CPU_INTERRUPT_HARD) &&
-         env->psw_i && (env->psw_ipl < env->req_ipl)) {
-         env->ack_irq = env->req_irq;
-         env->ack_ipl = env->req_ipl;
--        accept = 1;
-+        accept = EXCP_IRQ;
-     }
-     /* hardware interrupt (FIR) */
-     if ((interrupt_request & CPU_INTERRUPT_FIR) &&
-         env->psw_i && (env->psw_ipl < 15)) {
--        accept = 1;
-+        accept = EXCP_FIRQ;
-     }
-     if (accept) {
-+        cs->exception_index = accept;
-         rx_cpu_do_interrupt(cs);
-         return true;
-     }
++    failed:
++        rx_semi_cb(cs, -1, 0);
++        break;
++    }
++
++    /*
++     * Skip the semihosting insn (int #255).
++     * Must be done after any cpu_loop_exit() within the syscalls.
++     */
++    env->pc += 3;
++}
+diff --git a/target/rx/translate.c b/target/rx/translate.c
+index ddf31afb11..4a072661ca 100644
+--- a/target/rx/translate.c
++++ b/target/rx/translate.c
+@@ -27,6 +27,7 @@
+ #include "exec/helper-gen.h"
+ #include "exec/translator.h"
+ #include "exec/log.h"
++#include "semihosting/semihost.h"
+ 
+ typedef struct DisasContext {
+     DisasContextBase base;
+@@ -2276,7 +2277,11 @@ static bool trans_BRK(DisasContext *ctx, arg_BRK *a)
+ static bool trans_INT(DisasContext *ctx, arg_INT *a)
+ {
+     tcg_debug_assert(a->imm < 0x100);
+-    gen_raise_exception(ctx, EXCP_INTB_0 + a->imm, true);
++    if (semihosting_enabled() && a->imm == 0xff) {
++        gen_raise_exception(ctx, EXCP_SEMIHOST, false);
++    } else {
++        gen_raise_exception(ctx, EXCP_INTB_0 + a->imm, true);
++    }
+     return true;
+ }
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 5f69b94b8e..4feb969b14 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4530,10 +4530,11 @@ ERST
+ DEF("semihosting", 0, QEMU_OPTION_semihosting,
+     "-semihosting    semihosting mode\n",
+     QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
+-    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
++    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV | QEMU_ARCH_RX)
+ SRST
+ ``-semihosting``
+-    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V only).
++    Enable semihosting mode
++    (Only ARM, M68K, Xtensa, MIPS, Nios II, RISC-V, RX).
+ 
+     Note that this allows guest direct access to the host filesystem, so
+     should only be used with a trusted guest OS.
+@@ -4545,11 +4546,11 @@ DEF("semihosting-config", HAS_ARG, QEMU_OPTION_semihosting_config,
+     "-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,arg=str[,...]]\n" \
+     "                semihosting configuration\n",
+ QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
+-QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
++QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV | QEMU_ARCH_RX)
+ SRST
+ ``-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,arg=str[,...]]``
+-    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V
+-    only).
++    Enable and configure semihosting
++    (Only ARM, M68K, Xtensa, MIPS, Nios II, RISC-V, RX).
+ 
+     Note that this allows guest direct access to the host filesystem, so
+     should only be used with a trusted guest OS.
+@@ -4557,7 +4558,7 @@ SRST
+     On Arm this implements the standard semihosting API, version 2.0.
+ 
+     On M68K this implements the "ColdFire GDB" interface used by
+-    libgloss.
++    libgloss.  Nios II and RX also use the libgloss interface.
+ 
+     Xtensa semihosting provides basic file IO calls, such as
+     open/read/write/seek/select. Tensilica baremetal libc for ISS and
+diff --git a/target/rx/meson.build b/target/rx/meson.build
+index 8de0ad49b9..2eeac0c1b5 100644
+--- a/target/rx/meson.build
++++ b/target/rx/meson.build
+@@ -10,7 +10,9 @@ rx_ss.add(files(
+   'helper.c',
+   'cpu.c',
+   'gdbstub.c',
+-  'disas.c'))
++  'disas.c',
++  'rx-semi.c',
++))
+ 
+ target_arch += {'rx': rx_ss}
+ target_softmmu_arch += {'rx': ss.source_set()}
 -- 
 2.34.1
 
