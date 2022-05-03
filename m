@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA7F519015
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:32:07 +0200 (CEST)
-Received: from localhost ([::1]:51220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E18519014
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:31:57 +0200 (CEST)
+Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm07q-0006qL-CD
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:32:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44854)
+	id 1nm07g-0006Mc-4w
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nlyuY-0000i4-NF
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41603)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nlyyM-0006oA-0r
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:18:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nlyuX-0002yf-06
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:18 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nlyyH-0003h0-Vn
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:18:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651608856;
+ s=mimecast20190719; t=1651609088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ij22TRKHMBWJRY8XZ1BtVkL5983598AMxqypVYRPyC0=;
- b=ZjsmBM7J3JbjhkpqHuTOsAtZNkrUMSWL36uAYvKHIrcdLh9untAQEEj6Lif+4O4Nv/GZce
- o+y0qp2j0j0OPxR8ywUbUZ0mEw5nrnwj4E9TLyGhdoLPLyjduq4Lb1KGgo0aS7v73Fpo+h
- NkAGBiqqyVL51Ytj2CwsGcQysgq0NV8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3be/CCx89B5Fv4W76dTMGR8m9fuC+mGprX2whLJA7zQ=;
+ b=RgqrLlp9roaqQ9a1LJLVNbudjeN4bRrSSRLz3I1XTIUdIID3myHUKsAMbogm35/oWREB1x
+ 7CLTpGVSK/KzPmqDkBz+BnseLfE/KLqPiLxo+qKb4MDQ96d6tqs4Qkt9VYFDd1eZL5yFOt
+ cxO72SzORzk94R1KXRi0Kdgntw/hE04=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-262-JZe9ILJgO2eJmGxSMRPqwA-1; Tue, 03 May 2022 10:49:13 -0400
-X-MC-Unique: JZe9ILJgO2eJmGxSMRPqwA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-479-TLWsC7BdNiCKfbRb0yeAMA-1; Tue, 03 May 2022 11:06:38 -0400
+X-MC-Unique: TLWsC7BdNiCKfbRb0yeAMA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20DB31D808EB;
- Tue,  3 May 2022 14:04:16 +0000 (UTC)
-Received: from gshan.redhat.com (ovpn-12-47.pek2.redhat.com [10.72.12.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D48A1537ED9;
- Tue,  3 May 2022 14:04:06 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, mst@redhat.com, imammedo@redhat.com,
- ani@anisinha.ca, peter.maydell@linaro.org, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
- eblake@redhat.com, armbru@redhat.com, thuth@redhat.com, lvivier@redhat.com,
- pbonzini@redhat.com, berrange@redhat.com, Jonathan.Cameron@Huawei.com,
- drjones@redhat.com, zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: [PATCH v9 6/6] hw/acpi/aml-build: Use existing CPU topology to build
- PPTT table
-Date: Tue,  3 May 2022 22:03:04 +0800
-Message-Id: <20220503140304.855514-7-gshan@redhat.com>
-In-Reply-To: <20220503140304.855514-1-gshan@redhat.com>
-References: <20220503140304.855514-1-gshan@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2C3E107D710;
+ Tue,  3 May 2022 14:55:30 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D2DB400E89D;
+ Tue,  3 May 2022 14:55:30 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Subject: [PATCH 0/4] block/file: Show extent size in qemu-img info
+Date: Tue,  3 May 2022 16:55:25 +0200
+Message-Id: <20220503145529.37070-1-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,162 +76,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the PPTT table is built, the CPU topology is re-calculated, but
-it's unecessary because the CPU topology has been populated in
-virt_possible_cpu_arch_ids() on arm/virt machine.
+Hi,
 
-This reworks build_pptt() to avoid by reusing the existing IDs in
-ms->possible_cpus. Currently, the only user of build_pptt() is
-arm/virt machine.
+This series makes qemu-img info print the extent size of an image file
+(if available).  To do so, we have to do a couple of things:
+1. Add a .bdrv_get_specific_info handler to the file-posix driver
+   (patch 4)
+2. Have bdrv_query_image_info() collect this driver-specific info not
+   only on the format level, but also on the protocol level (if there is
+   an unambiguous node) so we actually get the information from the
+   file-posix node when querying whatever format node is on top
+   (patch 2)
+3. Have bdrv_image_info_dump() print this protocol-level information
+   (patch 3)
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
-Tested-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/acpi/aml-build.c | 111 +++++++++++++++++++-------------------------
- 1 file changed, 48 insertions(+), 63 deletions(-)
+Extent size informations seems unavailable on ext4 at least, so if we
+did just this, you would see the following for an image on ext4:
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 4086879ebf..e6bfac95c7 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2002,86 +2002,71 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-                 const char *oem_id, const char *oem_table_id)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
--    GQueue *list = g_queue_new();
--    guint pptt_start = table_data->len;
--    guint parent_offset;
--    guint length, i;
--    int uid = 0;
--    int socket;
-+    CPUArchIdList *cpus = ms->possible_cpus;
-+    int64_t socket_id = -1, cluster_id = -1, core_id = -1;
-+    uint32_t socket_offset = 0, cluster_offset = 0, core_offset = 0;
-+    uint32_t pptt_start = table_data->len;
-+    int n;
-     AcpiTable table = { .sig = "PPTT", .rev = 2,
-                         .oem_id = oem_id, .oem_table_id = oem_table_id };
- 
-     acpi_table_begin(&table, table_data);
- 
--    for (socket = 0; socket < ms->smp.sockets; socket++) {
--        g_queue_push_tail(list,
--            GUINT_TO_POINTER(table_data->len - pptt_start));
--        build_processor_hierarchy_node(
--            table_data,
--            /*
--             * Physical package - represents the boundary
--             * of a physical package
--             */
--            (1 << 0),
--            0, socket, NULL, 0);
--    }
--
--    if (mc->smp_props.clusters_supported) {
--        length = g_queue_get_length(list);
--        for (i = 0; i < length; i++) {
--            int cluster;
--
--            parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--            for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
--                g_queue_push_tail(list,
--                    GUINT_TO_POINTER(table_data->len - pptt_start));
--                build_processor_hierarchy_node(
--                    table_data,
--                    (0 << 0), /* not a physical package */
--                    parent_offset, cluster, NULL, 0);
--            }
-+    /*
-+     * This works with the assumption that cpus[n].props.*_id has been
-+     * sorted from top to down levels in mc->possible_cpu_arch_ids().
-+     * Otherwise, the unexpected and duplicated containers will be
-+     * created.
-+     */
-+    for (n = 0; n < cpus->len; n++) {
-+        if (cpus->cpus[n].props.socket_id != socket_id) {
-+            assert(cpus->cpus[n].props.socket_id > socket_id);
-+            socket_id = cpus->cpus[n].props.socket_id;
-+            cluster_id = -1;
-+            core_id = -1;
-+            socket_offset = table_data->len - pptt_start;
-+            build_processor_hierarchy_node(table_data,
-+                (1 << 0), /* Physical package */
-+                0, socket_id, NULL, 0);
-         }
--    }
- 
--    length = g_queue_get_length(list);
--    for (i = 0; i < length; i++) {
--        int core;
--
--        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--        for (core = 0; core < ms->smp.cores; core++) {
--            if (ms->smp.threads > 1) {
--                g_queue_push_tail(list,
--                    GUINT_TO_POINTER(table_data->len - pptt_start));
--                build_processor_hierarchy_node(
--                    table_data,
--                    (0 << 0), /* not a physical package */
--                    parent_offset, core, NULL, 0);
--            } else {
--                build_processor_hierarchy_node(
--                    table_data,
--                    (1 << 1) | /* ACPI Processor ID valid */
--                    (1 << 3),  /* Node is a Leaf */
--                    parent_offset, uid++, NULL, 0);
-+        if (mc->smp_props.clusters_supported) {
-+            if (cpus->cpus[n].props.cluster_id != cluster_id) {
-+                assert(cpus->cpus[n].props.cluster_id > cluster_id);
-+                cluster_id = cpus->cpus[n].props.cluster_id;
-+                core_id = -1;
-+                cluster_offset = table_data->len - pptt_start;
-+                build_processor_hierarchy_node(table_data,
-+                    (0 << 0), /* Not a physical package */
-+                    socket_offset, cluster_id, NULL, 0);
-             }
-+        } else {
-+            cluster_offset = socket_offset;
-         }
--    }
- 
--    length = g_queue_get_length(list);
--    for (i = 0; i < length; i++) {
--        int thread;
-+        if (ms->smp.threads == 1) {
-+            build_processor_hierarchy_node(table_data,
-+                (1 << 1) | /* ACPI Processor ID valid */
-+                (1 << 3),  /* Node is a Leaf */
-+                cluster_offset, n, NULL, 0);
-+        } else {
-+            if (cpus->cpus[n].props.core_id != core_id) {
-+                assert(cpus->cpus[n].props.core_id > core_id);
-+                core_id = cpus->cpus[n].props.core_id;
-+                core_offset = table_data->len - pptt_start;
-+                build_processor_hierarchy_node(table_data,
-+                    (0 << 0), /* Not a physical package */
-+                    cluster_offset, core_id, NULL, 0);
-+            }
- 
--        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--        for (thread = 0; thread < ms->smp.threads; thread++) {
--            build_processor_hierarchy_node(
--                table_data,
-+            build_processor_hierarchy_node(table_data,
-                 (1 << 1) | /* ACPI Processor ID valid */
-                 (1 << 2) | /* Processor is a Thread */
-                 (1 << 3),  /* Node is a Leaf */
--                parent_offset, uid++, NULL, 0);
-+                core_offset, n, NULL, 0);
-         }
-     }
- 
--    g_queue_free(list);
-     acpi_table_end(linker, &table);
- }
- 
+```
+$ qemu-img info -f raw test.img
+image: test.img
+file format: raw
+virtual size: 1 MiB (1048576 bytes)
+disk size: 4 KiB
+Protocol specific information:
+```
+
+That last part looks a bit strange -- it's a heading without a section.
+So patch 1 makes bdrv_image_info_specific_dump() omit that heading if
+there is no information that can be printed.
+
+
+Hanna Reitz (4):
+  block: Improve empty format-specific info dump
+  block: Add protocol-specific image info
+  block: Print protocol-specific information
+  block/file: Add file-specific image info
+
+ qapi/block-core.json | 32 ++++++++++++++++++++--
+ include/block/qapi.h |  3 +-
+ block/file-posix.c   | 30 ++++++++++++++++++++
+ block/qapi.c         | 65 +++++++++++++++++++++++++++++++++++++++++---
+ qemu-io-cmds.c       |  4 +--
+ 5 files changed, 124 insertions(+), 10 deletions(-)
+
 -- 
-2.23.0
+2.35.1
 
 
