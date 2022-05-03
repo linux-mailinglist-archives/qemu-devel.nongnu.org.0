@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055085182B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:55:31 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F126B518298
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:51:49 +0200 (CEST)
+Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlqBl-00057e-Rl
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:55:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38886)
+	id 1nlq8B-0000ov-IQ
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlpy5-000532-1m
- for qemu-devel@nongnu.org; Tue, 03 May 2022 06:41:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30062)
+ id 1nlpz1-0005zS-7X
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 06:42:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlpy0-0006Au-QX
- for qemu-devel@nongnu.org; Tue, 03 May 2022 06:41:20 -0400
+ id 1nlpyz-0006U2-HS
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 06:42:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651574476;
+ s=mimecast20190719; t=1651574536;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M7hFvLEukGTaKMkQVBrcIKCE4R10PLMycx8aeqntG9k=;
- b=C6d+6BFlL48+GIHKpqGFjKmcyAN6MFI1ZdleZGcuk9p1+v9yunX5btw+STxFDjWa5Zy6hK
- Nm1odyUdNPWOr+SvbKq6rPe5tMwhhfwKCXxPwPLWQ4Lc5QMKsZX+gIXA3CfMmU10YKa7oB
- p5/swZRF9/WJOkxsuOX5liTBGS00Yk4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=67vTaYl1Z5DvRNr5OKgZdHxU6RJ7HAEqRmnhMoFXUgI=;
+ b=HaRjq7QlWc9APE+YGenWXrG1kZ4FYkQzVGQRAOjsGTIOmHlnHUn4zrJyBKCui/J+J8Jq1k
+ 7HsM4OMF2rPPGB2k9wymasfYxfOCqp2rtXF+Kp8ObXY1deTZbIzQNJR9pvIJ7dKm/vINbI
+ nT+iIKX32VeYFe+XayRCN8q0IU3sCT8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-uayGGemtOfGFfO3r6o-aEQ-1; Tue, 03 May 2022 06:41:15 -0400
-X-MC-Unique: uayGGemtOfGFfO3r6o-aEQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-673-3vs6LewFP9CW75lLdxFlSQ-1; Tue, 03 May 2022 06:42:15 -0400
+X-MC-Unique: 3vs6LewFP9CW75lLdxFlSQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A52711C05136
- for <qemu-devel@nongnu.org>; Tue,  3 May 2022 10:41:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B1718002B2
+ for <qemu-devel@nongnu.org>; Tue,  3 May 2022 10:42:15 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E4EC840D2820;
- Tue,  3 May 2022 10:41:13 +0000 (UTC)
-Date: Tue, 3 May 2022 11:41:11 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A6C3F492D42;
+ Tue,  3 May 2022 10:42:14 +0000 (UTC)
+Date: Tue, 3 May 2022 11:42:11 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 23/26] ui: replace qemu_set_nonblock()
-Message-ID: <YnEGx9JWeu4eB/0T@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v2 24/26] net: replace qemu_set_nonblock()
+Message-ID: <YnEHA55blGwhg7Pq@redhat.com>
 References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
- <20220426092715.3931705-24-marcandre.lureau@redhat.com>
+ <20220426092715.3931705-25-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426092715.3931705-24-marcandre.lureau@redhat.com>
+In-Reply-To: <20220426092715.3931705-25-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -84,15 +84,16 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 01:27:12PM +0400, marcandre.lureau@redhat.com wrote:
+On Tue, Apr 26, 2022 at 01:27:13PM +0400, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> The call is POSIX-specific. Use the dedicated GLib API.
+> Those calls are POSIX-specific. Use the dedicated GLib
+> API. (qemu_set_nonblock() is for socket-like)
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  ui/input-linux.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  net/tap.c | 33 +++++++++++++++++++--------------
+>  1 file changed, 19 insertions(+), 14 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
