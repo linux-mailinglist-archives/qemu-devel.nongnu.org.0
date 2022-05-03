@@ -2,98 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BC5517DF2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 08:57:37 +0200 (CEST)
-Received: from localhost ([::1]:38696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3327517E10
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:08:59 +0200 (CEST)
+Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlmTY-0001lh-5v
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 02:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48212)
+	id 1nlmeY-00078r-2O
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlmRv-0000yQ-Ge
- for qemu-devel@nongnu.org; Tue, 03 May 2022 02:55:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43641)
+ (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
+ id 1nlmUx-0002yN-AL; Tue, 03 May 2022 02:59:03 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:58681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nlmRs-00076K-I9
- for qemu-devel@nongnu.org; Tue, 03 May 2022 02:55:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651560951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/RovPfaO4vWfkaoJO4SECi+1v74TIRKRkhM00FV1TYs=;
- b=MhryAt5MNBSvN94gyHUE50Gq1+8CGRQGKV/Jog7pmi2eZfjlRpFITGwG8lecWKJWyU8ezR
- um3iNCX24LHPtEN4thsXkrwIUZmyPzOT001vUTm5HLavck2bbyV3QqAWt9BPVEzwR1SmFv
- 6FDStYJ2N4p3+MfER+P4ZsZ5ndFAJnc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-Vcp2rMcUMMe-qiZvwaxJ1g-1; Tue, 03 May 2022 02:55:48 -0400
-X-MC-Unique: Vcp2rMcUMMe-qiZvwaxJ1g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m186-20020a1c26c3000000b003943e12185dso1452839wmm.7
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 23:55:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/RovPfaO4vWfkaoJO4SECi+1v74TIRKRkhM00FV1TYs=;
- b=UDw3t0V2URPIXtayVREl/eO8bG+nW3JkWirrIuNrtY99ihbK71UYzNsP6yGzRiDYGO
- i6ouOEyEWngZoIsK2x+j8v1Bri8FwuJ3Sx/1Pbe+dOcWnEY3LOwcpoKNlaLKYGdyOe98
- QZO6DJ1+JTIthnEiRBSphqLBqK6/PoyB3RpF9qZFDqtY6iLInlK2b+jf8ZyYlsiNL9Ge
- UQeCTIMoXEwV8h+EUArCgJBqrnPvsNuQEXpypmPkA3qDmZqHUaVkuMDH3ThNT3i9bulH
- w32EgexkEGjE9faagSspOzRVXRDXiP7XeTjzoio40LwtqpiamZOzlyrETRHClCEkdHXN
- gDMw==
-X-Gm-Message-State: AOAM533ffYxtPaAcrkepnFyX5FBgkZVBiXzcKebMNXS3isytv7t63XnT
- CRVXZdFdIwQ8td1swrZdv1YlWcjy1p2EjpsbJmZcPrvSE0q3Om9VCkcfsP8L8gZNAorllww0KZ6
- 53z8ayIGBU8ZfYZ0=
-X-Received: by 2002:a5d:67c6:0:b0:20c:3e1c:d333 with SMTP id
- n6-20020a5d67c6000000b0020c3e1cd333mr11337877wrw.66.1651560947308; 
- Mon, 02 May 2022 23:55:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyv6JcBWZwJwy6cSz8IyS5jiZpJIIZ/kouW4r30tXGJzL6RCBwRqzQWGeAj9IbvMeYmTkBtnQ==
-X-Received: by 2002:a5d:67c6:0:b0:20c:3e1c:d333 with SMTP id
- n6-20020a5d67c6000000b0020c3e1cd333mr11337859wrw.66.1651560947066; 
- Mon, 02 May 2022 23:55:47 -0700 (PDT)
-Received: from [10.33.198.128] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- be13-20020a05600c1e8d00b003942a244ee6sm1200262wmb.43.2022.05.02.23.55.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 23:55:46 -0700 (PDT)
-Message-ID: <348d3383-0bd4-1f18-2d14-08962be66c32@redhat.com>
-Date: Tue, 3 May 2022 08:55:45 +0200
+ (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
+ id 1nlmUv-0007Ro-Bo; Tue, 03 May 2022 02:59:02 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrR11fcNz4ySb;
+ Tue,  3 May 2022 16:58:53 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrQz4lLnz4yST;
+ Tue,  3 May 2022 16:58:51 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 00/19] aspeed queue
+Date: Tue,  3 May 2022 08:58:29 +0200
+Message-Id: <20220503065848.125215-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v6 00/13] s390x/tcg: Implement Vector-Enhancements
- Facility 2
-Content-Language: en-US
-To: David Miller <dmiller423@gmail.com>, David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-References: <20220428094708.84835-1-david@redhat.com>
- <97f9be15-4ccd-505b-a35e-8d95823df03a@redhat.com>
- <85dffe1d-a6d2-9e93-749b-29febb0b6dc5@redhat.com>
- <CAEgyohV9kjXUW_LMQM7YryQL1=0VW3pSCbffG2uFG7d5vNo5iw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAEgyohV9kjXUW_LMQM7YryQL1=0VW3pSCbffG2uFG7d5vNo5iw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=XF6a=VL=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,60 +61,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi!
+The following changes since commit f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65:
 
-On 02/05/2022 18.06, David Miller wrote:
-> There was also the patch that had them as .insn in the other series of emails.
+  Merge tag 'pull-9p-20220501' of https://github.com/cschoenebeck/qemu into staging (2022-05-01 07:48:11 -0700)
 
-Sorry, I missed that patch, could you please point me to the mail on 
-https://lore.kernel.org/qemu-devel/ ? I remember that there was a discussion 
-about the vri-d encoding, but I apparently missed the patch that came out of 
-this discussion...
+are available in the Git repository at:
 
-  Thomas
+  https://github.com/legoater/qemu/ tags/pull-aspeed-20220503
 
-> On Mon, May 2, 2022 at 11:52 AM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 02.05.22 09:20, Thomas Huth wrote:
->>> On 28/04/2022 11.46, David Hildenbrand wrote:
->>>> Implement Vector-Enhancements Facility 2 for s390x
->>>>
->>>> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
->>>>
->>>> implements:
->>>>       VECTOR LOAD ELEMENTS REVERSED               (VLER)
->>>>       VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
->>>>       VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
->>>>       VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
->>>>       VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
->>>>       VECTOR STORE ELEMENTS REVERSED              (VSTER)
->>>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
->>>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
->>>>       VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
->>>>       VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
->>>>       VECTOR STRING SEARCH                        (VSTRS)
->>>>
->>>>       modifies:
->>>>       VECTOR FP CONVERT FROM FIXED                (VCFPS)
->>>>       VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
->>>>       VECTOR FP CONVERT TO FIXED                  (VCSFP)
->>>>       VECTOR FP CONVERT TO LOGICAL                (VCLFP)
->>>>       VECTOR SHIFT LEFT                           (VSL)
->>>>       VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
->>>>       VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
->>>
->>> Thanks, queued to my s390x-next branch now:
->>>
->>>    https://gitlab.com/thuth/qemu/-/commits/s390x-next/
->>>
->> Thanks for fixing up. At this point I would have suggested to exclude
->> the tests for now.
->>
->> --
->> Thanks,
->>
->> David / dhildenb
->>
-> 
+for you to fetch changes up to e056c52233910ef156e6d790ce41b33cd838bad6:
 
+  aspeed/hace: Support AST1030 HACE (2022-05-03 07:17:20 +0200)
+
+----------------------------------------------------------------
+aspeed queue:
+
+* New AST1030 SoC and eval board
+* Accumulative mode support for HACE controller
+* GPIO fix and unit test
+* Clock modeling adjustments for the AST2600
+* Dummy eMMC Boot Controller model
+* Change of AST2500 EVB and AST2600 EVB flash model (for quad IO)
+
+----------------------------------------------------------------
+Jae Hyun Yoo (1):
+      hw/arm/aspeed: fix AST2500/AST2600 EVB fmc model
+
+Jamin Lin (2):
+      aspeed: Add an AST1030 eval board
+      test/avocado/machine_aspeed.py: Add ast1030 test case
+
+Joel Stanley (2):
+      aspeed: sbc: Correct default reset values
+      aspeed: Add eMMC Boot Controller stub
+
+Peter Delevoryas (1):
+      hw/gpio/aspeed_gpio: Fix QOM pin property
+
+Steven Lee (13):
+      hw: aspeed_scu: Add AST2600 apb_freq and hpll calculation function
+      hw: aspeed_scu: Introduce clkin_25Mhz attribute
+      aspeed/adc: Add AST1030 support
+      aspeed/smc: Add AST1030 support
+      aspeed/wdt: Fix ast2500/ast2600 default reload value
+      aspeed/wdt: Add AST1030 support
+      aspeed/timer: Add AST1030 support
+      aspeed/scu: Add AST1030 support
+      aspeed/soc : Add AST1030 support
+      aspeed/hace: Support HMAC Key Buffer register.
+      aspeed/hace: Support AST2600 HACE
+      tests/qtest: Add test for Aspeed HACE accumulative mode
+      aspeed/hace: Support AST1030 HACE
+
+ include/hw/adc/aspeed_adc.h      |   1 +
+ include/hw/arm/aspeed_soc.h      |   4 +
+ include/hw/misc/aspeed_hace.h    |   7 +
+ include/hw/misc/aspeed_scu.h     |  45 ++++++
+ include/hw/timer/aspeed_timer.h  |   1 +
+ include/hw/watchdog/wdt_aspeed.h |   3 +
+ hw/adc/aspeed_adc.c              |  16 +++
+ hw/arm/aspeed.c                  |  70 ++++++++-
+ hw/arm/aspeed_ast10x0.c          | 299 +++++++++++++++++++++++++++++++++++++++
+ hw/arm/aspeed_ast2600.c          |   6 +
+ hw/gpio/aspeed_gpio.c            |   2 +-
+ hw/misc/aspeed_hace.c            | 159 ++++++++++++++++++++-
+ hw/misc/aspeed_sbc.c             |   7 +-
+ hw/misc/aspeed_scu.c             | 108 +++++++++++++-
+ hw/ssi/aspeed_smc.c              | 157 ++++++++++++++++++++
+ hw/timer/aspeed_timer.c          |  17 +++
+ hw/watchdog/wdt_aspeed.c         |  34 ++++-
+ tests/qtest/aspeed_gpio-test.c   |  87 ++++++++++++
+ tests/qtest/aspeed_hace-test.c   | 147 +++++++++++++++++++
+ hw/arm/meson.build               |   6 +-
+ tests/avocado/machine_aspeed.py  |  36 +++++
+ tests/qtest/meson.build          |   3 +-
+ 22 files changed, 1199 insertions(+), 16 deletions(-)
+ create mode 100644 hw/arm/aspeed_ast10x0.c
+ create mode 100644 tests/qtest/aspeed_gpio-test.c
+ create mode 100644 tests/avocado/machine_aspeed.py
 
