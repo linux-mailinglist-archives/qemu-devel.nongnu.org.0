@@ -2,116 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBE0518743
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 16:52:55 +0200 (CEST)
-Received: from localhost ([::1]:48822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4715B51878D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 16:59:16 +0200 (CEST)
+Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlttW-0002hR-DB
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 10:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48612)
+	id 1nltzf-00087w-9S
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 10:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nltrK-000164-5W; Tue, 03 May 2022 10:50:38 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nltrH-00063E-Hf; Tue, 03 May 2022 10:50:37 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 243Dh2ho002072;
- Tue, 3 May 2022 14:50:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date : from
- : subject : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=UwgTh5QOcMbfmV9n+HGuKkuoRjZtv3LKIv4WmbpVBD8=;
- b=ci7Fo6y2ZPrUSCpE0CehUCAGDNdW7B910moh4AwuU00n8pXuYi0cj6oaPlyLS27vb2XT
- y8qq025W54XVft280SCTepbxoM1W50SMV/ZmFmjnBvDSOKc56hfGZVgjuMw5+Vn/1DOU
- fn8Hwhdg+Iw//o3PgWC57FmsOSI9Zzp5hmMgrZvN5YnbMd/clvncWuOig4qsqPV5ZSfx
- Mhe+nLu1hdjBLIhNGYSFjUkG+nHqxGTNEWp64K1cT+TpSRCceYGHwFNfbnor1bhOiHfK
- 4BHjiydyt3aTvHX0nhqod9h4a7gKAtLGoD9dhBZJ0LMe7U+Jy59KoHng5m909R/eq9od sQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fu2v6mjrt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 May 2022 14:50:30 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 243EncdE010633;
- Tue, 3 May 2022 14:50:29 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fu2v6mjqx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 May 2022 14:50:29 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 243EmEGh004610;
- Tue, 3 May 2022 14:50:26 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04fra.de.ibm.com with ESMTP id 3frvr8uf70-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 May 2022 14:50:26 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 243EoNWE40173992
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 3 May 2022 14:50:23 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6815B42045;
- Tue,  3 May 2022 14:50:23 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A66564203F;
- Tue,  3 May 2022 14:50:22 +0000 (GMT)
-Received: from [9.171.15.97] (unknown [9.171.15.97])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  3 May 2022 14:50:22 +0000 (GMT)
-Message-ID: <d0e37544-f355-b1cf-5fc0-77e25b20b459@linux.ibm.com>
-Date: Tue, 3 May 2022 16:53:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-From: Pierre Morel <pmorel@linux.ibm.com>
-Subject: Re: [PATCH v5 7/9] s390x/pci: enable adapter event notification for
- interpreted devices
-To: Matthew Rosato <mjrosato@linux.ibm.com>,
- Niklas Schnelle <schnelle@linux.ibm.com>, qemu-s390x@nongnu.org,
- alex.williamson@redhat.com
-Cc: cohuck@redhat.com, thuth@redhat.com, farman@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-8-mjrosato@linux.ibm.com>
- <31b5f911-0e1f-ba3c-94f2-1947d5b16057@linux.ibm.com>
- <9a171204-6d71-ee1d-d8bd-cd4eac91c3d5@linux.ibm.com>
- <d14625f4-d648-05d9-38aa-a5ad7e0c9cf5@linux.ibm.com>
- <2df134498bf60e4878bdb362a28c56ec32d902f8.camel@linux.ibm.com>
- <eb2fde35-7b9d-a8c8-3212-ae92b2b3e754@linux.ibm.com>
- <8ad9f2c8-9fb8-cb47-fd1e-f9a33eced548@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <8ad9f2c8-9fb8-cb47-fd1e-f9a33eced548@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: f9dffIdHfqUMsOPAG0OREyI-oZgCpAZa
-X-Proofpoint-GUID: wFTMgtS3unEA3n949KIqy-eadB9kmS56
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nltxf-0006Db-EP; Tue, 03 May 2022 10:57:11 -0400
+Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e]:39520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nltxd-00070J-Fk; Tue, 03 May 2022 10:57:11 -0400
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ m3-20020a4ac683000000b0035f13dde9ccso363401ooq.6; 
+ Tue, 03 May 2022 07:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6ftIcnuDu9Q6DpntA6Qn628mdxfV0S3QB1LMgkAulvA=;
+ b=AsWNwkhxSLwuRYc2dn4yx3RZl8KVvCPQC/yOZFmeTSI1+im9xMmKParqDqCU3mNXgQ
+ q6Uoat89lsJ8RjTLxSBg6WxfxP0SpAF6Q7GgJqHc4oZnQSYGK6sPoFHQrUds1ANeRefX
+ mcG7/1R4UmUtSdDRdO3khKkaw64TXv1BJihj3l0aTrSE4Rr/tU60h7es4sJB/EXwAcl2
+ zncYpYjHitTuMQ5FqKlILAoVJFgj7hiClXCgHNEStAq8nVi9Cts/1qy9hCQlM8Z0WC0s
+ xlTB/XobeQpaWCJbuhWk4voj8KeG4Bu58CSJZKW8yHCQ/ZppD0WgMGnJGIuCb9Ch/POw
+ 3djA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6ftIcnuDu9Q6DpntA6Qn628mdxfV0S3QB1LMgkAulvA=;
+ b=bADGWcmArtgGqEBPC5/8zjff9Bq9q5R2NrxfDfhrp6UshHvA7Mpy0a+SfDJdUP7QmA
+ seOSvBYyqoMUBWV3H0g5wSZWkT232ucteR/oif2w/rJvqSzbOXUvGo9wQMgUq1hoopBl
+ OKjrprvyTDbtg1JTw1oS7TYBsKx/7qIvQiR4q9iXUV/m0zXVqsHROqFLJVXQIVFvAapU
+ OhGQWnvGMs+cot7EhDB6Ltw296Vtfmy/HbzL5iJIPKG/xsGZRgb1NkTjOzAsuliKS4UP
+ M6B8Ir1v2UErAjtWgS0lVvbFjvO1jReDaR891eWjESZA/+bD1hW/H2TvkSdSi+C8LLeT
+ /e8Q==
+X-Gm-Message-State: AOAM5311xh3I9FI9PBfnlz6inoXXDS8BmsPpiaIKoB3ezePrFyQST7Lp
+ VfHWQRWkt9wJb79PBYZAAgq3pq5ttKoRio4ZS9A=
+X-Google-Smtp-Source: ABdhPJyUBlikxW1xZD1wFo2rk2ZYFp3wdh2nFGcBK13o+mUkawNidwpkXphXVsGooJgPbM0doxwqGduvHXsvgDBfD5o=
+X-Received: by 2002:a4a:95c7:0:b0:35e:8a87:16e7 with SMTP id
+ p7-20020a4a95c7000000b0035e8a8716e7mr5813987ooi.71.1651589828123; Tue, 03 May
+ 2022 07:57:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-03_06,2022-05-02_03,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- mlxlogscore=999 adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
- spamscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205030104
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220428094708.84835-1-david@redhat.com>
+ <97f9be15-4ccd-505b-a35e-8d95823df03a@redhat.com>
+ <85dffe1d-a6d2-9e93-749b-29febb0b6dc5@redhat.com>
+ <CAEgyohV9kjXUW_LMQM7YryQL1=0VW3pSCbffG2uFG7d5vNo5iw@mail.gmail.com>
+ <348d3383-0bd4-1f18-2d14-08962be66c32@redhat.com>
+ <CAEgyohUw8GBMaoKpVB4D0GCbKVQ1NTaT9px6LBX1BsS-ex-nxg@mail.gmail.com>
+In-Reply-To: <CAEgyohUw8GBMaoKpVB4D0GCbKVQ1NTaT9px6LBX1BsS-ex-nxg@mail.gmail.com>
+From: David Miller <dmiller423@gmail.com>
+Date: Tue, 3 May 2022 10:57:32 -0400
+Message-ID: <CAEgyohUk3cX32XXrecAKNbSxd9R8H-dvmesnAPPdW=Mz5Xi+7w@mail.gmail.com>
+Subject: Re: [PATCH v6 00/13] s390x/tcg: Implement Vector-Enhancements
+ Facility 2
+To: Thomas Huth <thuth@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, 
+ Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
+ envelope-from=dmiller423@gmail.com; helo=mail-oo1-xc2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,212 +91,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It looks like google killed allowing password access early, nothing
+makes it work anymore.
+They had plans to disable 'less secure app' in may,  but it thought it
+was the end of the month.
+I'll try copy/paste as plain text as well though I Know it will likely
+screw it up..
 
-
-On 5/2/22 21:57, Matthew Rosato wrote:
-> On 5/2/22 7:30 AM, Pierre Morel wrote:
->>
->>
->> On 5/2/22 11:19, Niklas Schnelle wrote:
->>> On Mon, 2022-05-02 at 09:48 +0200, Pierre Morel wrote:
->>>>
->>>> On 4/22/22 14:10, Matthew Rosato wrote:
->>>>> On 4/22/22 5:39 AM, Pierre Morel wrote:
->>>>>>
->>>>>> On 4/4/22 20:17, Matthew Rosato wrote:
->>>>>>> Use the associated kvm ioctl operation to enable adapter event
->>>>>>> notification
->>>>>>> and forwarding for devices when requested.  This feature will be 
->>>>>>> set up
->>>>>>> with or without firmware assist based upon the 'forwarding_assist'
->>>>>>> setting.
->>>>>>>
->>>>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>>>>>> ---
->>>>>>>    hw/s390x/s390-pci-bus.c         | 20 ++++++++++++++---
->>>>>>>    hw/s390x/s390-pci-inst.c        | 40 
->>>>>>> +++++++++++++++++++++++++++++++--
->>>>>>>    hw/s390x/s390-pci-kvm.c         | 30 +++++++++++++++++++++++++
->>>>>>>    include/hw/s390x/s390-pci-bus.h |  1 +
->>>>>>>    include/hw/s390x/s390-pci-kvm.h | 14 ++++++++++++
->>>>>>>    5 files changed, 100 insertions(+), 5 deletions(-)
->>>>>>>
->>>>>>> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
->>>>>>> index 9c02d31250..47918d2ce9 100644
->>>>>>> --- a/hw/s390x/s390-pci-bus.c
->>>>>>> +++ b/hw/s390x/s390-pci-bus.c
->>>>>>> @@ -190,7 +190,10 @@ void s390_pci_sclp_deconfigure(SCCB *sccb)
->>>>>>>            rc = SCLP_RC_NO_ACTION_REQUIRED;
->>>>>>>            break;
->>>>>>>        default:
->>>>>>> -        if (pbdev->summary_ind) {
->>>>>>> +        if (pbdev->interp && (pbdev->fh & FH_MASK_ENABLE)) {
->>>>>>> +            /* Interpreted devices were using interrupt 
->>>>>>> forwarding */
->>>>>>> +            s390_pci_kvm_aif_disable(pbdev);
->>>>>>
->>>>>> Same remark as for the kernel part.
->>>>>> The VFIO device is already initialized and the action is on this
->>>>>> device, Shouldn't we use the VFIO device interface instead of the KVM
->>>>>> interface?
->>>>>>
->>>>>
->>>>> I don't necessarily disagree, but in v3 of the kernel series I was 
->>>>> told
->>>>> not to use VFIO ioctls to accomplish tasks that are unique to KVM 
->>>>> (e.g.
->>>>> AEN interpretation) and to instead use a KVM ioctl.
->>>>>
->>>>> VFIO_DEVICE_SET_IRQS won't work as-is for reasons described in the
->>>>> kernel series (e.g. we don't see any of the config space notifiers
->>>>> because of instruction interpretation) -- as far as I can figure we
->>>>> could add our own s390 code to QEMU to issue VFIO_DEVICE_SET_IRQS
->>>>> directly for an interpreted device, but I think would also need
->>>>> s390-specific changes to VFIO_DEVICE_SET_IRQS accommodate this (e.g.
->>>>> maybe something like a VFIO_IRQ_SET_DATA_S390AEN where we can then
->>>>> specify the aen information in vfio_irq_set.data -- or something 
->>>>> else I
->>>>
->>>> Hi,
->>>>
->>>> yes this in VFIO_DEVICE_SET_IRQS is what I think should be done.
->>>>
->>>>> haven't though of yet) -- I can try to look at this some more and 
->>>>> see if
->>>>> I get a good idea.
->>>>
->>>>
->>>> I understood that the demand was concerning the IOMMU but I may be 
->>>> wrong.
-> 
-> The IOMMU was an issue, but the request to move the ioctl out of vfio to 
-> kvm was specifically because these ioctl operations were only relevant 
-> for VMs and are not applicable to vfio uses cases outside of 
-> virtualization.
-> 
-> https://lore.kernel.org/kvm/20220208185141.GH4160@nvidia.com/
-
-I absolutely agree that KVM specific handling should go through KVM fd.
-But as I say here under, AEN is not KVM specific but device specific.
-Instruction interpretation is KVM specific.
-see later---v
-
-> 
->>>> For my opinion, the handling of AEN is not specific to KVM but specific
->>>> to the device, for example the code should be the same if Z ever decide
->>>> to use XEN or another hypervizor, except for the GISA part but this 
->>>> part
->>>> is already implemented in KVM in a way it can be used from a device 
->>>> like
->>>> in VFIO AP.
-> 
-> 
-> Fundamentally, these operations are valid only when you have _both_ a 
-> virtual machine and vfio device.  (Yes, you could swap in a new 
-> hypervisor with a new GISA implementation, but at the end of it the 
-> hypervisor must still provide the GISA designation for this to work)
-> 
-> If fh lookup is a concern, one idea that Jason floated was passing the 
-> vfio device fd as an argument to the kvm ioctl (so pass this down on a 
-> kvm ioctl from userspace instead of a fh) and then using a new vfio 
-> external API to get the relevant device from the provided fd.
-> 
-> https://lore.kernel.org/kvm/20220208195117.GI4160@nvidia.com/
-
-^------
-This looks like a wrong architecture to me.
-
-If something is used to virtualize the I/O of a device it should go 
-through the device VFIO fd.
-
-If we need a new VFIO external API why not using an extension of the 
-VFIO_DEVICE_SET_IRQS and use directly the VFIO device to setup interrupts?
-
-see following ----v
-
-> 
->>>>
->>>> @Alex, what do you think?
->>>>
->>>> Regards,
->>>> Pierre
->>>>
->>>
->>> As I understand it the question isn't if it is specific to KVM but
->>> rather if it is specific to virtualization. As vfio-pci is also used
->>> for non virtualization purposes such as with DPDK/SPDK or a fully
->>> emulating QEMU, it should only be in VFIO if it is relevant for these
->>> kinds of user-space PCI accesses too. I'm not an AEN expert but as I
->>> understand it, this does forwarding interrupts into a SIE context which
->>> only makes sense for virtualization not for general user-space PCI.
-> 
-> Right, AEN forwarding is only relevant for virtual machines.
-> 
->>>
->>
->> Being in VFIO kernel part does not mean that this part should be 
->> called from any user of VFIO in userland.
->> That is a reason why I did propose an extension and not using the 
->> current implementation of VFIO_DEVICE_SET_IRQS as is.
->>
->> The reason behind is that the AEN hardware handling is device 
->> specific: we need the Function Handle to program AEN.
-> 
-> You also need the GISA designation which is provided by the kvm or you 
-> also can't program AEN.  So you ultimately need both a function handle 
-> that is 'owned' by the device (vfio device fd) and the GISA designation 
-> that is 'owned' by kvm (kvm fd).  So there are 2 different "owning" fds 
-> involved.
-
-Yes GISA is a host structure, not device specific but guest specific and 
-exist very soon during the guest creation, there should be no problem to 
-retrieve it from a VFIO device IOTCL.
-
-> 
->>
->> If the API is through KVM which is device agnostic the implementation 
->> in KVM has to search through the system to find the device being 
->> handled to apply AEN on it.
-> 
-> See comment above about instead passing the vfio device fd.
-> 
->>
->> This not the logical way for me and it is a potential source of 
->> problems for future extensions.
->>
-> 
-> 
+On Tue, May 3, 2022 at 10:42 AM David Miller <dmiller423@gmail.com> wrote:
 >
-^------
-
-There are three different things to modify for the Z-guest to use VFIO:
-- IOMMU
-- device IRQ
-- instruction interpretation, feature negociation
-
-For my opinion only the last one should go directly through the KVM fd.
-
-This should be possible for all architectures.
-If it is not possible for Z, the failing path must be adapted it should 
-not go through another path.
-
-Giving the right IRQ information to the host can be done with a 
-dedicated IOCTL through the VFIO device fd, just like we need an 
-extension in the other direction to retrieve the Z specific capabilities.
-
-I am quite sure that other architectures will need some specificity too 
-for the interrupt or IOMMU handling in the future with increasing 
-implementation of virtualization in the firmware.
-
-Having a dedicated IOCTL command means it can be called from QEMU and 
-for guest virtualizuation only then let unused for other userland access.
-
-
-Regards,
-Pierre
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+> Sorry,  It was in the discussion for v4 patches,  as an attachment .
+> mail thread:
+> [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+> So it likely never made it to the mailing list.
+>
+> I've reattached and will forward the patch (by itself) to the mailing list.
+>
+> I think the other solution works just as well by ignoring if compiler
+> doesn't support z15.
+>
+> I just thought I'd bring it back up as I saw discussion about it.
+>
+> Thanks
+> - David Miller
+>
+>
+>
+>
+>
+>
+> On Tue, May 3, 2022 at 2:55 AM Thomas Huth <thuth@redhat.com> wrote:
+> >
+> >   Hi!
+> >
+> > On 02/05/2022 18.06, David Miller wrote:
+> > > There was also the patch that had them as .insn in the other series of emails.
+> >
+> > Sorry, I missed that patch, could you please point me to the mail on
+> > https://lore.kernel.org/qemu-devel/ ? I remember that there was a discussion
+> > about the vri-d encoding, but I apparently missed the patch that came out of
+> > this discussion...
+> >
+> >   Thomas
+> >
+> > > On Mon, May 2, 2022 at 11:52 AM David Hildenbrand <david@redhat.com> wrote:
+> > >>
+> > >> On 02.05.22 09:20, Thomas Huth wrote:
+> > >>> On 28/04/2022 11.46, David Hildenbrand wrote:
+> > >>>> Implement Vector-Enhancements Facility 2 for s390x
+> > >>>>
+> > >>>> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+> > >>>>
+> > >>>> implements:
+> > >>>>       VECTOR LOAD ELEMENTS REVERSED               (VLER)
+> > >>>>       VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
+> > >>>>       VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
+> > >>>>       VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
+> > >>>>       VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
+> > >>>>       VECTOR STORE ELEMENTS REVERSED              (VSTER)
+> > >>>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
+> > >>>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
+> > >>>>       VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
+> > >>>>       VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
+> > >>>>       VECTOR STRING SEARCH                        (VSTRS)
+> > >>>>
+> > >>>>       modifies:
+> > >>>>       VECTOR FP CONVERT FROM FIXED                (VCFPS)
+> > >>>>       VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
+> > >>>>       VECTOR FP CONVERT TO FIXED                  (VCSFP)
+> > >>>>       VECTOR FP CONVERT TO LOGICAL                (VCLFP)
+> > >>>>       VECTOR SHIFT LEFT                           (VSL)
+> > >>>>       VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
+> > >>>>       VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
+> > >>>
+> > >>> Thanks, queued to my s390x-next branch now:
+> > >>>
+> > >>>    https://gitlab.com/thuth/qemu/-/commits/s390x-next/
+> > >>>
+> > >> Thanks for fixing up. At this point I would have suggested to exclude
+> > >> the tests for now.
+> > >>
+> > >> --
+> > >> Thanks,
+> > >>
+> > >> David / dhildenb
+> > >>
+> > >
+> >
 
