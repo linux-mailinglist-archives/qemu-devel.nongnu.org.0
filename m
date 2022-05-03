@@ -2,39 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3327517E10
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:08:59 +0200 (CEST)
-Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFD2517E16
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:09:47 +0200 (CEST)
+Received: from localhost ([::1]:46408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlmeY-00078r-2O
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48912)
+	id 1nlmfK-0007nl-Dw
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmUx-0002yN-AL; Tue, 03 May 2022 02:59:03 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:58681)
+ id 1nlmUx-0002yO-AL; Tue, 03 May 2022 02:59:03 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:35489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmUv-0007Ro-Bo; Tue, 03 May 2022 02:59:02 -0400
+ id 1nlmUv-0007Rt-8M; Tue, 03 May 2022 02:59:03 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrR11fcNz4ySb;
- Tue,  3 May 2022 16:58:53 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrR33qRnz4xXh;
+ Tue,  3 May 2022 16:58:55 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrQz4lLnz4yST;
- Tue,  3 May 2022 16:58:51 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrR15K3fz4yST;
+ Tue,  3 May 2022 16:58:53 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Steven Lee <steven_lee@aspeedtech.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 00/19] aspeed queue
-Date: Tue,  3 May 2022 08:58:29 +0200
-Message-Id: <20220503065848.125215-1-clg@kaod.org>
+Subject: [PULL 01/19] hw: aspeed_scu: Add AST2600 apb_freq and hpll
+ calculation function
+Date: Tue,  3 May 2022 08:58:30 +0200
+Message-Id: <20220503065848.125215-2-clg@kaod.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220503065848.125215-1-clg@kaod.org>
+References: <20220503065848.125215-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,82 +65,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65:
+From: Steven Lee <steven_lee@aspeedtech.com>
 
-  Merge tag 'pull-9p-20220501' of https://github.com/cschoenebeck/qemu into staging (2022-05-01 07:48:11 -0700)
+AST2600's HPLL register offset and bit definition are different from
+AST2500. Add a hpll calculation function and an apb frequency calculation
+function based on SCU200 register description in ast2600v11.pdf.
 
-are available in the Git repository at:
+Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+[ clg: checkpatch fixes ]
+Message-Id: <20220315075753.8591-2-steven_lee@aspeedtech.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ include/hw/misc/aspeed_scu.h | 19 ++++++++++++++++++
+ hw/misc/aspeed_scu.c         | 39 +++++++++++++++++++++++++++++++++++-
+ 2 files changed, 57 insertions(+), 1 deletion(-)
 
-  https://github.com/legoater/qemu/ tags/pull-aspeed-20220503
+diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
+index c14aff2bcbb5..8c4c8c8d5cbb 100644
+--- a/include/hw/misc/aspeed_scu.h
++++ b/include/hw/misc/aspeed_scu.h
+@@ -56,6 +56,7 @@ struct AspeedSCUClass {
+ 
+     const uint32_t *resets;
+     uint32_t (*calc_hpll)(AspeedSCUState *s, uint32_t hpll_reg);
++    uint32_t (*get_apb)(AspeedSCUState *s);
+     uint32_t apb_divider;
+     uint32_t nr_regs;
+     const MemoryRegionOps *ops;
+@@ -316,4 +317,22 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s);
+         SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
+         SCU_AST2500_HW_STRAP_RESERVED1)
+ 
++/*
++ * SCU200   H-PLL Parameter Register (for Aspeed AST2600 SOC)
++ *
++ *  28:26  H-PLL Parameters
++ *  25     Enable H-PLL reset
++ *  24     Enable H-PLL bypass mode
++ *  23     Turn off H-PLL
++ *  22:19  H-PLL Post Divider (P)
++ *  18:13  H-PLL Numerator (M)
++ *  12:0   H-PLL Denumerator (N)
++ *
++ *  (Output frequency) = CLKIN(25MHz) * [(M+1) / (N+1)] / (P+1)
++ *
++ * The default frequency is 1200Mhz when CLKIN = 25MHz
++ */
++#define SCU_AST2600_H_PLL_BYPASS_EN                        (0x1 << 24)
++#define SCU_AST2600_H_PLL_OFF                              (0x1 << 23)
++
+ #endif /* ASPEED_SCU_H */
+diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+index d06e179a6e65..d65f86df3d12 100644
+--- a/hw/misc/aspeed_scu.c
++++ b/hw/misc/aspeed_scu.c
+@@ -213,6 +213,11 @@ static uint32_t aspeed_scu_get_random(void)
+ }
+ 
+ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
++{
++    return ASPEED_SCU_GET_CLASS(s)->get_apb(s);
++}
++
++static uint32_t aspeed_2400_scu_get_apb_freq(AspeedSCUState *s)
+ {
+     AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
+     uint32_t hpll = asc->calc_hpll(s, s->regs[HPLL_PARAM]);
+@@ -221,6 +226,15 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
+         / asc->apb_divider;
+ }
+ 
++static uint32_t aspeed_2600_scu_get_apb_freq(AspeedSCUState *s)
++{
++    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
++    uint32_t hpll = asc->calc_hpll(s, s->regs[AST2600_HPLL_PARAM]);
++
++    return hpll / (SCU_CLK_GET_PCLK_DIV(s->regs[AST2600_CLK_SEL]) + 1)
++        / asc->apb_divider;
++}
++
+ static uint64_t aspeed_scu_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     AspeedSCUState *s = ASPEED_SCU(opaque);
+@@ -426,6 +440,26 @@ static uint32_t aspeed_2500_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
+     return clkin * multiplier;
+ }
+ 
++static uint32_t aspeed_2600_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
++{
++    uint32_t multiplier = 1;
++    uint32_t clkin = aspeed_scu_get_clkin(s);
++
++    if (hpll_reg & SCU_AST2600_H_PLL_OFF) {
++        return 0;
++    }
++
++    if (!(hpll_reg & SCU_AST2600_H_PLL_BYPASS_EN)) {
++        uint32_t p = (hpll_reg >> 19) & 0xf;
++        uint32_t n = (hpll_reg >> 13) & 0x3f;
++        uint32_t m = hpll_reg & 0x1fff;
++
++        multiplier = ((m + 1) / (n + 1)) / (p + 1);
++    }
++
++    return clkin * multiplier;
++}
++
+ static void aspeed_scu_reset(DeviceState *dev)
+ {
+     AspeedSCUState *s = ASPEED_SCU(dev);
+@@ -525,6 +559,7 @@ static void aspeed_2400_scu_class_init(ObjectClass *klass, void *data)
+     dc->desc = "ASPEED 2400 System Control Unit";
+     asc->resets = ast2400_a0_resets;
+     asc->calc_hpll = aspeed_2400_scu_calc_hpll;
++    asc->get_apb = aspeed_2400_scu_get_apb_freq;
+     asc->apb_divider = 2;
+     asc->nr_regs = ASPEED_SCU_NR_REGS;
+     asc->ops = &aspeed_ast2400_scu_ops;
+@@ -545,6 +580,7 @@ static void aspeed_2500_scu_class_init(ObjectClass *klass, void *data)
+     dc->desc = "ASPEED 2500 System Control Unit";
+     asc->resets = ast2500_a1_resets;
+     asc->calc_hpll = aspeed_2500_scu_calc_hpll;
++    asc->get_apb = aspeed_2400_scu_get_apb_freq;
+     asc->apb_divider = 4;
+     asc->nr_regs = ASPEED_SCU_NR_REGS;
+     asc->ops = &aspeed_ast2500_scu_ops;
+@@ -716,7 +752,8 @@ static void aspeed_2600_scu_class_init(ObjectClass *klass, void *data)
+     dc->desc = "ASPEED 2600 System Control Unit";
+     dc->reset = aspeed_ast2600_scu_reset;
+     asc->resets = ast2600_a3_resets;
+-    asc->calc_hpll = aspeed_2500_scu_calc_hpll; /* No change since AST2500 */
++    asc->calc_hpll = aspeed_2600_scu_calc_hpll;
++    asc->get_apb = aspeed_2600_scu_get_apb_freq;
+     asc->apb_divider = 4;
+     asc->nr_regs = ASPEED_AST2600_SCU_NR_REGS;
+     asc->ops = &aspeed_ast2600_scu_ops;
+-- 
+2.35.1
 
-for you to fetch changes up to e056c52233910ef156e6d790ce41b33cd838bad6:
-
-  aspeed/hace: Support AST1030 HACE (2022-05-03 07:17:20 +0200)
-
-----------------------------------------------------------------
-aspeed queue:
-
-* New AST1030 SoC and eval board
-* Accumulative mode support for HACE controller
-* GPIO fix and unit test
-* Clock modeling adjustments for the AST2600
-* Dummy eMMC Boot Controller model
-* Change of AST2500 EVB and AST2600 EVB flash model (for quad IO)
-
-----------------------------------------------------------------
-Jae Hyun Yoo (1):
-      hw/arm/aspeed: fix AST2500/AST2600 EVB fmc model
-
-Jamin Lin (2):
-      aspeed: Add an AST1030 eval board
-      test/avocado/machine_aspeed.py: Add ast1030 test case
-
-Joel Stanley (2):
-      aspeed: sbc: Correct default reset values
-      aspeed: Add eMMC Boot Controller stub
-
-Peter Delevoryas (1):
-      hw/gpio/aspeed_gpio: Fix QOM pin property
-
-Steven Lee (13):
-      hw: aspeed_scu: Add AST2600 apb_freq and hpll calculation function
-      hw: aspeed_scu: Introduce clkin_25Mhz attribute
-      aspeed/adc: Add AST1030 support
-      aspeed/smc: Add AST1030 support
-      aspeed/wdt: Fix ast2500/ast2600 default reload value
-      aspeed/wdt: Add AST1030 support
-      aspeed/timer: Add AST1030 support
-      aspeed/scu: Add AST1030 support
-      aspeed/soc : Add AST1030 support
-      aspeed/hace: Support HMAC Key Buffer register.
-      aspeed/hace: Support AST2600 HACE
-      tests/qtest: Add test for Aspeed HACE accumulative mode
-      aspeed/hace: Support AST1030 HACE
-
- include/hw/adc/aspeed_adc.h      |   1 +
- include/hw/arm/aspeed_soc.h      |   4 +
- include/hw/misc/aspeed_hace.h    |   7 +
- include/hw/misc/aspeed_scu.h     |  45 ++++++
- include/hw/timer/aspeed_timer.h  |   1 +
- include/hw/watchdog/wdt_aspeed.h |   3 +
- hw/adc/aspeed_adc.c              |  16 +++
- hw/arm/aspeed.c                  |  70 ++++++++-
- hw/arm/aspeed_ast10x0.c          | 299 +++++++++++++++++++++++++++++++++++++++
- hw/arm/aspeed_ast2600.c          |   6 +
- hw/gpio/aspeed_gpio.c            |   2 +-
- hw/misc/aspeed_hace.c            | 159 ++++++++++++++++++++-
- hw/misc/aspeed_sbc.c             |   7 +-
- hw/misc/aspeed_scu.c             | 108 +++++++++++++-
- hw/ssi/aspeed_smc.c              | 157 ++++++++++++++++++++
- hw/timer/aspeed_timer.c          |  17 +++
- hw/watchdog/wdt_aspeed.c         |  34 ++++-
- tests/qtest/aspeed_gpio-test.c   |  87 ++++++++++++
- tests/qtest/aspeed_hace-test.c   | 147 +++++++++++++++++++
- hw/arm/meson.build               |   6 +-
- tests/avocado/machine_aspeed.py  |  36 +++++
- tests/qtest/meson.build          |   3 +-
- 22 files changed, 1199 insertions(+), 16 deletions(-)
- create mode 100644 hw/arm/aspeed_ast10x0.c
- create mode 100644 tests/qtest/aspeed_gpio-test.c
- create mode 100644 tests/avocado/machine_aspeed.py
 
