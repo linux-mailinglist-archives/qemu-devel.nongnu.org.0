@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C7F51900C
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:25:02 +0200 (CEST)
-Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC40251904D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:38:50 +0200 (CEST)
+Received: from localhost ([::1]:38712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm00z-00046Q-KW
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44220)
+	id 1nm0EL-0000XO-MT
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlyrR-000443-Az
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:11:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60531)
+ id 1nlyuG-0000TJ-TY
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlyrN-0002XA-TO
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:11:04 -0400
+ id 1nlyuD-0002xC-TT
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651608661;
+ s=mimecast20190719; t=1651608833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/B3JUrtBEqjJ+aFyAHIZ1ZXZ+Ykx206WXCymw/II6W8=;
- b=RA+YwqokmRoBV5BiRnJ0xQpET3TKaCX7P/ck2eGBu88IC2euaB/zs+UrfyECOQOIaBNMU6
- ff7PGsHJ8Sw963VGBmvqMEW4SfvW8z+X5melBq6mvXryXItJEoUN57SU+pKUYqfQEBQZKh
- 9+pQaPYLz8nJlvC8apItEpEuyRR7pMk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WzRy/RaI9MhxFyECgyDG//yYxBQzB5Yathm3QqKh3CA=;
+ b=MKFRuLm6CexA8du5ZcX4YJOLTcULfWVbTtxrGJWTUars9dRp9y29RbwKqWWLY5lzAkGJn0
+ Sgh+2WoPKZMOBMYJu52w8tZJChnWN434zWTQlr8c4QrTQVeFPQj0VvqUoRJDKJuqfb5HS7
+ +87W4uRFJNmeC/ExzHeV3YG7I97h6hk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-32-yhVacArmPkqW9ObOH7qHZA-1; Tue, 03 May 2022 11:37:31 -0400
-X-MC-Unique: yhVacArmPkqW9ObOH7qHZA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-410-xhPpL0M0MBS0z9QrtI8eZA-1; Tue, 03 May 2022 11:33:59 -0400
+X-MC-Unique: xhPpL0M0MBS0z9QrtI8eZA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 284283CF0ABF;
- Tue,  3 May 2022 13:00:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DE09131A708;
+ Tue,  3 May 2022 13:01:01 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78FA940D282C;
- Tue,  3 May 2022 13:00:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 97EB753CD;
+ Tue,  3 May 2022 13:00:57 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 04/23] libqtest: split QMP part in libqmp
-Date: Tue,  3 May 2022 17:00:04 +0400
-Message-Id: <20220503130023.180544-5-marcandre.lureau@redhat.com>
+Subject: [PULL 05/23] Use g_unix_set_fd_nonblocking()
+Date: Tue,  3 May 2022 17:00:05 +0400
+Message-Id: <20220503130023.180544-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20220503130023.180544-1-marcandre.lureau@redhat.com>
 References: <20220503130023.180544-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,669 +84,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This will help moving QAPI/QMP in a common subproject.
+API available since glib 2.30. It also preserves errno.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qtest/libqmp.h           |  50 +++++++
- tests/qtest/libqtest.h         |  29 +---
- tests/qtest/libqmp.c           | 233 +++++++++++++++++++++++++++++++++
- tests/qtest/libqtest.c         | 205 +----------------------------
- tests/qtest/libqos/meson.build |   5 +-
- tests/unit/meson.build         |   2 +-
- 6 files changed, 290 insertions(+), 234 deletions(-)
- create mode 100644 tests/qtest/libqmp.h
- create mode 100644 tests/qtest/libqmp.c
+ hw/misc/ivshmem.c           | 2 +-
+ util/event_notifier-posix.c | 6 ++----
+ util/main-loop.c            | 2 +-
+ 3 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
-new file mode 100644
-index 000000000000..94aa97328a17
---- /dev/null
-+++ b/tests/qtest/libqmp.h
-@@ -0,0 +1,50 @@
-+/*
-+ * libqmp test unit
-+ *
-+ * Copyright IBM, Corp. 2012
-+ * Copyright Red Hat, Inc. 2012
-+ * Copyright SUSE LINUX Products GmbH 2013
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *  Paolo Bonzini     <pbonzini@redhat.com>
-+ *  Andreas Färber    <afaerber@suse.de>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+#ifndef LIBQMP_H_
-+#define LIBQMP_H_
-+
-+#include "qapi/qmp/qdict.h"
-+
-+QDict *qmp_fd_receive(int fd);
-+void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                      const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
-+void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
-+void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-+void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-+void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
-+QDict *qmp_fdv(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
-+QDict *qmp_fd(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-+
-+/**
-+ * qmp_rsp_is_err:
-+ * @rsp: QMP response to check for error
-+ *
-+ * Test @rsp for error and discard @rsp.
-+ * Returns 'true' if there is error in @rsp and 'false' otherwise.
-+ */
-+bool qmp_rsp_is_err(QDict *rsp);
-+
-+/**
-+ * qmp_expect_error_and_unref:
-+ * @rsp: QMP response to check for error
-+ * @class: an error class
-+ *
-+ * Assert the response has the given error class and discard @rsp.
-+ */
-+void qmp_expect_error_and_unref(QDict *rsp, const char *class);
-+
-+#endif /* LIBQMP_H_ */
-diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-index 552667f17e37..4ab0cad3266d 100644
---- a/tests/qtest/libqtest.h
-+++ b/tests/qtest/libqtest.h
-@@ -19,6 +19,7 @@
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index e7c0099bdaf6..8270db53cda7 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -537,7 +537,7 @@ static void process_msg_connect(IVShmemState *s, uint16_t posn, int fd,
  
- #include "qapi/qmp/qobject.h"
- #include "qapi/qmp/qdict.h"
-+#include "libqmp.h"
+     IVSHMEM_DPRINTF("eventfds[%d][%d] = %d\n", posn, vector, fd);
+     event_notifier_init_fd(&peer->eventfds[vector], fd);
+-    fcntl_setfl(fd, O_NONBLOCK); /* msix/irqfd poll non block */
++    g_unix_set_fd_nonblocking(fd, true, NULL); /* msix/irqfd poll non block */
  
- typedef struct QTestState QTestState;
+     if (posn == s->vm_id) {
+         setup_interrupt(s, vector, errp);
+diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
+index 8dc30c51414d..2aa14eabb38e 100644
+--- a/util/event_notifier-posix.c
++++ b/util/event_notifier-posix.c
+@@ -52,13 +52,11 @@ int event_notifier_init(EventNotifier *e, int active)
+         if (qemu_pipe(fds) < 0) {
+             return -errno;
+         }
+-        ret = fcntl_setfl(fds[0], O_NONBLOCK);
+-        if (ret < 0) {
++        if (!g_unix_set_fd_nonblocking(fds[0], true, NULL)) {
+             ret = -errno;
+             goto fail;
+         }
+-        ret = fcntl_setfl(fds[1], O_NONBLOCK);
+-        if (ret < 0) {
++        if (!g_unix_set_fd_nonblocking(fds[1], true, NULL)) {
+             ret = -errno;
+             goto fail;
+         }
+diff --git a/util/main-loop.c b/util/main-loop.c
+index b7b0ce4ca087..9afac10dff0f 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -114,7 +114,7 @@ static int qemu_signal_init(Error **errp)
+         return -errno;
+     }
  
-@@ -690,16 +691,6 @@ void qtest_remove_abrt_handler(void *data);
- void qtest_qmp_assert_success(QTestState *qts, const char *fmt, ...)
-     G_GNUC_PRINTF(2, 3);
+-    fcntl_setfl(sigfd, O_NONBLOCK);
++    g_unix_set_fd_nonblocking(sigfd, true, NULL);
  
--QDict *qmp_fd_receive(int fd);
--void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
--                      const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
--void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
--void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
--void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
--void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
--QDict *qmp_fdv(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
--QDict *qmp_fd(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
--
- /**
-  * qtest_cb_for_every_machine:
-  * @cb: Pointer to the callback function
-@@ -771,24 +762,6 @@ void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd);
-  */
- void qtest_qmp_device_del(QTestState *qts, const char *id);
- 
--/**
-- * qmp_rsp_is_err:
-- * @rsp: QMP response to check for error
-- *
-- * Test @rsp for error and discard @rsp.
-- * Returns 'true' if there is error in @rsp and 'false' otherwise.
-- */
--bool qmp_rsp_is_err(QDict *rsp);
--
--/**
-- * qmp_expect_error_and_unref:
-- * @rsp: QMP response to check for error
-- * @class: an error class
-- *
-- * Assert the response has the given error class and discard @rsp.
-- */
--void qmp_expect_error_and_unref(QDict *rsp, const char *class);
--
- /**
-  * qtest_probe_child:
-  * @s: QTestState instance to operate on.
-diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
-new file mode 100644
-index 000000000000..0358b8313dc4
---- /dev/null
-+++ b/tests/qtest/libqmp.c
-@@ -0,0 +1,233 @@
-+/*
-+ * QTest
-+ *
-+ * Copyright IBM, Corp. 2012
-+ * Copyright Red Hat, Inc. 2012
-+ * Copyright SUSE LINUX Products GmbH 2013
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *  Paolo Bonzini     <pbonzini@redhat.com>
-+ *  Andreas Färber    <afaerber@suse.de>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "libqmp.h"
-+
-+#include "qapi/error.h"
-+#include "qapi/qmp/json-parser.h"
-+#include "qapi/qmp/qjson.h"
-+
-+#define SOCKET_MAX_FDS 16
-+
-+typedef struct {
-+    JSONMessageParser parser;
-+    QDict *response;
-+} QMPResponseParser;
-+
-+static void socket_send(int fd, const char *buf, size_t size)
-+{
-+    size_t res = qemu_write_full(fd, buf, size);
-+
-+    assert(res == size);
-+}
-+
-+static void qmp_response(void *opaque, QObject *obj, Error *err)
-+{
-+    QMPResponseParser *qmp = opaque;
-+
-+    assert(!obj != !err);
-+
-+    if (err) {
-+        error_prepend(&err, "QMP JSON response parsing failed: ");
-+        error_report_err(err);
-+        abort();
-+    }
-+
-+    g_assert(!qmp->response);
-+    qmp->response = qobject_to(QDict, obj);
-+    g_assert(qmp->response);
-+}
-+
-+QDict *qmp_fd_receive(int fd)
-+{
-+    QMPResponseParser qmp;
-+    bool log = getenv("QTEST_LOG") != NULL;
-+
-+    qmp.response = NULL;
-+    json_message_parser_init(&qmp.parser, qmp_response, &qmp, NULL);
-+    while (!qmp.response) {
-+        ssize_t len;
-+        char c;
-+
-+        len = read(fd, &c, 1);
-+        if (len == -1 && errno == EINTR) {
-+            continue;
-+        }
-+
-+        if (len == -1 || len == 0) {
-+            fprintf(stderr, "Broken pipe\n");
-+            abort();
-+        }
-+
-+        if (log) {
-+            g_assert(write(2, &c, 1) == 1);
-+        }
-+        json_message_parser_feed(&qmp.parser, &c, 1);
-+    }
-+    if (log) {
-+        g_assert(write(2, "\n", 1) == 1);
-+    }
-+    json_message_parser_destroy(&qmp.parser);
-+
-+    return qmp.response;
-+}
-+
-+/* Sends a message and file descriptors to the socket.
-+ * It's needed for qmp-commands like getfd/add-fd */
-+static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
-+                            const char *buf, size_t buf_size)
-+{
-+    ssize_t ret;
-+    struct msghdr msg = { 0 };
-+    char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)] = { 0 };
-+    size_t fdsize = sizeof(int) * fds_num;
-+    struct cmsghdr *cmsg;
-+    struct iovec iov = { .iov_base = (char *)buf, .iov_len = buf_size };
-+
-+    msg.msg_iov = &iov;
-+    msg.msg_iovlen = 1;
-+
-+    if (fds && fds_num > 0) {
-+        g_assert_cmpuint(fds_num, <, SOCKET_MAX_FDS);
-+
-+        msg.msg_control = control;
-+        msg.msg_controllen = CMSG_SPACE(fdsize);
-+
-+        cmsg = CMSG_FIRSTHDR(&msg);
-+        cmsg->cmsg_len = CMSG_LEN(fdsize);
-+        cmsg->cmsg_level = SOL_SOCKET;
-+        cmsg->cmsg_type = SCM_RIGHTS;
-+        memcpy(CMSG_DATA(cmsg), fds, fdsize);
-+    }
-+
-+    do {
-+        ret = sendmsg(socket_fd, &msg, 0);
-+    } while (ret < 0 && errno == EINTR);
-+    g_assert_cmpint(ret, >, 0);
-+}
-+
-+/**
-+ * Allow users to send a message without waiting for the reply,
-+ * in the case that they choose to discard all replies up until
-+ * a particular EVENT is received.
-+ */
-+void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                      const char *fmt, va_list ap)
-+{
-+    QObject *qobj;
-+
-+    /* Going through qobject ensures we escape strings properly */
-+    qobj = qobject_from_vjsonf_nofail(fmt, ap);
-+
-+    /* No need to send anything for an empty QObject.  */
-+    if (qobj) {
-+        int log = getenv("QTEST_LOG") != NULL;
-+        GString *str = qobject_to_json(qobj);
-+
-+        /*
-+         * BUG: QMP doesn't react to input until it sees a newline, an
-+         * object, or an array.  Work-around: give it a newline.
-+         */
-+        g_string_append_c(str, '\n');
-+
-+        if (log) {
-+            fprintf(stderr, "%s", str->str);
-+        }
-+        /* Send QMP request */
-+        if (fds && fds_num > 0) {
-+            socket_send_fds(fd, fds, fds_num, str->str, str->len);
-+        } else {
-+            socket_send(fd, str->str, str->len);
-+        }
-+
-+        g_string_free(str, true);
-+        qobject_unref(qobj);
-+    }
-+}
-+
-+void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
-+{
-+    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+}
-+
-+
-+QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
-+{
-+    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+
-+    return qmp_fd_receive(fd);
-+}
-+
-+QDict *qmp_fd(int fd, const char *fmt, ...)
-+{
-+    va_list ap;
-+    QDict *response;
-+
-+    va_start(ap, fmt);
-+    response = qmp_fdv(fd, fmt, ap);
-+    va_end(ap);
-+    return response;
-+}
-+
-+void qmp_fd_send(int fd, const char *fmt, ...)
-+{
-+    va_list ap;
-+
-+    va_start(ap, fmt);
-+    qmp_fd_vsend(fd, fmt, ap);
-+    va_end(ap);
-+}
-+
-+void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap)
-+{
-+    bool log = getenv("QTEST_LOG") != NULL;
-+    char *str = g_strdup_vprintf(fmt, ap);
-+
-+    if (log) {
-+        fprintf(stderr, "%s", str);
-+    }
-+    socket_send(fd, str, strlen(str));
-+    g_free(str);
-+}
-+
-+void qmp_fd_send_raw(int fd, const char *fmt, ...)
-+{
-+    va_list ap;
-+
-+    va_start(ap, fmt);
-+    qmp_fd_vsend_raw(fd, fmt, ap);
-+    va_end(ap);
-+}
-+
-+bool qmp_rsp_is_err(QDict *rsp)
-+{
-+    QDict *error = qdict_get_qdict(rsp, "error");
-+    qobject_unref(rsp);
-+    return !!error;
-+}
-+
-+void qmp_expect_error_and_unref(QDict *rsp, const char *class)
-+{
-+    QDict *error = qdict_get_qdict(rsp, "error");
-+
-+    g_assert_cmpstr(qdict_get_try_str(error, "class"), ==, class);
-+    g_assert_nonnull(qdict_get_try_str(error, "desc"));
-+    g_assert(!qdict_haskey(rsp, "return"));
-+
-+    qobject_unref(rsp);
-+}
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index aaf5ab0ca533..228357f1eade 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -21,10 +21,9 @@
- #include <sys/un.h>
- 
- #include "libqtest.h"
-+#include "libqmp.h"
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
--#include "qapi/error.h"
--#include "qapi/qmp/json-parser.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qlist.h"
-@@ -32,8 +31,6 @@
- 
- #define MAX_IRQ 256
- #define SOCKET_TIMEOUT 50
--#define SOCKET_MAX_FDS 16
--
- 
- typedef void (*QTestSendFn)(QTestState *s, const char *buf);
- typedef void (*ExternalSendFn)(void *s, const char *buf);
-@@ -440,40 +437,6 @@ static void G_GNUC_PRINTF(2, 3) qtest_sendf(QTestState *s, const char *fmt, ...)
-     g_free(str);
- }
- 
--/* Sends a message and file descriptors to the socket.
-- * It's needed for qmp-commands like getfd/add-fd */
--static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
--                            const char *buf, size_t buf_size)
--{
--    ssize_t ret;
--    struct msghdr msg = { 0 };
--    char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)] = { 0 };
--    size_t fdsize = sizeof(int) * fds_num;
--    struct cmsghdr *cmsg;
--    struct iovec iov = { .iov_base = (char *)buf, .iov_len = buf_size };
--
--    msg.msg_iov = &iov;
--    msg.msg_iovlen = 1;
--
--    if (fds && fds_num > 0) {
--        g_assert_cmpuint(fds_num, <, SOCKET_MAX_FDS);
--
--        msg.msg_control = control;
--        msg.msg_controllen = CMSG_SPACE(fdsize);
--
--        cmsg = CMSG_FIRSTHDR(&msg);
--        cmsg->cmsg_len = CMSG_LEN(fdsize);
--        cmsg->cmsg_level = SOL_SOCKET;
--        cmsg->cmsg_type = SCM_RIGHTS;
--        memcpy(CMSG_DATA(cmsg), fds, fdsize);
--    }
--
--    do {
--        ret = sendmsg(socket_fd, &msg, 0);
--    } while (ret < 0 && errno == EINTR);
--    g_assert_cmpint(ret, >, 0);
--}
--
- static GString *qtest_client_socket_recv_line(QTestState *s)
- {
-     GString *line;
-@@ -568,62 +531,6 @@ static int qtest_query_target_endianness(QTestState *s)
-     return big_endian;
- }
- 
--typedef struct {
--    JSONMessageParser parser;
--    QDict *response;
--} QMPResponseParser;
--
--static void qmp_response(void *opaque, QObject *obj, Error *err)
--{
--    QMPResponseParser *qmp = opaque;
--
--    assert(!obj != !err);
--
--    if (err) {
--        error_prepend(&err, "QMP JSON response parsing failed: ");
--        error_report_err(err);
--        abort();
--    }
--
--    g_assert(!qmp->response);
--    qmp->response = qobject_to(QDict, obj);
--    g_assert(qmp->response);
--}
--
--QDict *qmp_fd_receive(int fd)
--{
--    QMPResponseParser qmp;
--    bool log = getenv("QTEST_LOG") != NULL;
--
--    qmp.response = NULL;
--    json_message_parser_init(&qmp.parser, qmp_response, &qmp, NULL);
--    while (!qmp.response) {
--        ssize_t len;
--        char c;
--
--        len = read(fd, &c, 1);
--        if (len == -1 && errno == EINTR) {
--            continue;
--        }
--
--        if (len == -1 || len == 0) {
--            fprintf(stderr, "Broken pipe\n");
--            abort();
--        }
--
--        if (log) {
--            g_assert(write(2, &c, 1) == 1);
--        }
--        json_message_parser_feed(&qmp.parser, &c, 1);
--    }
--    if (log) {
--        g_assert(write(2, "\n", 1) == 1);
--    }
--    json_message_parser_destroy(&qmp.parser);
--
--    return qmp.response;
--}
--
- QDict *qtest_qmp_receive(QTestState *s)
- {
-     while (true) {
-@@ -664,50 +571,6 @@ int qtest_socket_server(const char *socket_path)
-     return sock;
- }
- 
--/**
-- * Allow users to send a message without waiting for the reply,
-- * in the case that they choose to discard all replies up until
-- * a particular EVENT is received.
-- */
--void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
--                      const char *fmt, va_list ap)
--{
--    QObject *qobj;
--
--    /* Going through qobject ensures we escape strings properly */
--    qobj = qobject_from_vjsonf_nofail(fmt, ap);
--
--    /* No need to send anything for an empty QObject.  */
--    if (qobj) {
--        int log = getenv("QTEST_LOG") != NULL;
--        GString *str = qobject_to_json(qobj);
--
--        /*
--         * BUG: QMP doesn't react to input until it sees a newline, an
--         * object, or an array.  Work-around: give it a newline.
--         */
--        g_string_append_c(str, '\n');
--
--        if (log) {
--            fprintf(stderr, "%s", str->str);
--        }
--        /* Send QMP request */
--        if (fds && fds_num > 0) {
--            socket_send_fds(fd, fds, fds_num, str->str, str->len);
--        } else {
--            socket_send(fd, str->str, str->len);
--        }
--
--        g_string_free(str, true);
--        qobject_unref(qobj);
--    }
--}
--
--void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
--{
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
--}
--
- void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
-                          const char *fmt, va_list ap)
- {
-@@ -719,13 +582,6 @@ void qtest_qmp_vsend(QTestState *s, const char *fmt, va_list ap)
-     qmp_fd_vsend_fds(s->qmp_fd, NULL, 0, fmt, ap);
- }
- 
--QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
--{
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
--
--    return qmp_fd_receive(fd);
--}
--
- QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
-                       const char *fmt, va_list ap)
- {
-@@ -743,26 +599,6 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
-     return qtest_qmp_receive(s);
- }
- 
--QDict *qmp_fd(int fd, const char *fmt, ...)
--{
--    va_list ap;
--    QDict *response;
--
--    va_start(ap, fmt);
--    response = qmp_fdv(fd, fmt, ap);
--    va_end(ap);
--    return response;
--}
--
--void qmp_fd_send(int fd, const char *fmt, ...)
--{
--    va_list ap;
--
--    va_start(ap, fmt);
--    qmp_fd_vsend(fd, fmt, ap);
--    va_end(ap);
--}
--
- QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
-                      const char *fmt, ...)
- {
-@@ -795,27 +631,6 @@ void qtest_qmp_send(QTestState *s, const char *fmt, ...)
-     va_end(ap);
- }
- 
--void qmp_fd_vsend_raw(int fd, const char *fmt, va_list ap)
--{
--    bool log = getenv("QTEST_LOG") != NULL;
--    char *str = g_strdup_vprintf(fmt, ap);
--
--    if (log) {
--        fprintf(stderr, "%s", str);
--    }
--    socket_send(fd, str, strlen(str));
--    g_free(str);
--}
--
--void qmp_fd_send_raw(int fd, const char *fmt, ...)
--{
--    va_list ap;
--
--    va_start(ap, fmt);
--    qmp_fd_vsend_raw(fd, fmt, ap);
--    va_end(ap);
--}
--
- void qtest_qmp_send_raw(QTestState *s, const char *fmt, ...)
- {
-     va_list ap;
-@@ -1539,24 +1354,6 @@ void qtest_qmp_device_del(QTestState *qts, const char *id)
-     qtest_qmp_eventwait(qts, "DEVICE_DELETED");
- }
- 
--bool qmp_rsp_is_err(QDict *rsp)
--{
--    QDict *error = qdict_get_qdict(rsp, "error");
--    qobject_unref(rsp);
--    return !!error;
--}
--
--void qmp_expect_error_and_unref(QDict *rsp, const char *class)
--{
--    QDict *error = qdict_get_qdict(rsp, "error");
--
--    g_assert_cmpstr(qdict_get_try_str(error, "class"), ==, class);
--    g_assert_nonnull(qdict_get_try_str(error, "desc"));
--    g_assert(!qdict_haskey(rsp, "return"));
--
--    qobject_unref(rsp);
--}
--
- static void qtest_client_set_tx_handler(QTestState *s,
-                     QTestSendFn send)
- {
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index e988d1579172..9f292339f9cf 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -1,4 +1,7 @@
--libqos_srcs = files('../libqtest.c',
-+libqos_srcs = files(
-+        '../libqtest.c',
-+        '../libqmp.c',
-+
-         'qgraph.c',
-         'qos_external.c',
-         'pci.c',
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index ab01e00f12cf..264f2bc0c81d 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -154,7 +154,7 @@ if have_system
- endif
- 
- if have_ga and targetos == 'linux'
--  tests += {'test-qga': ['../qtest/libqtest.c']}
-+  tests += {'test-qga': ['../qtest/libqmp.c']}
-   test_deps += {'test-qga': qga}
- endif
+     qemu_set_fd_handler(sigfd, sigfd_handler, NULL, (void *)(intptr_t)sigfd);
  
 -- 
 2.36.0.44.g0f828332d5ac
