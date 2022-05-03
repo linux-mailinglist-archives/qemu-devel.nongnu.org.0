@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377AD518E3A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:10:02 +0200 (CEST)
-Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E19518EDF
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:34:28 +0200 (CEST)
+Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlyqO-0007sx-Tl
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39418)
+	id 1nlzE3-0000cT-0K
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:34:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyWT-0002Gh-7C
+ id 1nlyWT-0002Gj-7n
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:49:28 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43782)
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:42900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyWN-0003c6-6O
+ id 1nlyWN-0003cN-6r
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:49:21 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id q76so11750651pgq.10
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:49:17 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ l11-20020a17090a49cb00b001d923a9ca99so2886784pjm.1
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/Tnt2IWUsnzN1DncvQNw1ounPVnk2pgfg+nnvDvrCdE=;
- b=LUyAqobHP30Lh8OtIA+55QMwrRw5jqnYhqmQOvEGqYMj1i4ID6zpUKSKuc1N6tXY66
- dmmVomoGcDXL9Npj6XHnHQW5topaox+SA9JamHHnvn9FMKDIWnnTeAnW0J8ctgQt7FBV
- 1ly+/q4fbnmmxaZW0bG5QaNZwvhWQrQ0Sg1/g1jgNfnciWqZr6yVTO2lMDzMfnOJgS/H
- wuyYFi4vOQyuxZGmKwt26tKwvJyoZGtUiKGYGhKw6cGnGY5ki9JFoXkGgJck/oQ/JLMl
- Fo4j8EslpnIzXgLhqvaIis7qncCrOXn3kT1SagsrVwBYwc7X9GgbNt3sNbbgwoKP0tCS
- p4gg==
+ bh=7WEErp9U3fuLYooIL1EDmPgWGgYpjbgO1xt64/VLw3c=;
+ b=WpHk3OKdGQadFBQi9LTKD1EOge5zzf+hP5X5uue2tytY9RDaCJWffi+NxFkHRIYdlp
+ yqneyb9lVVXhRGn7MA8sWobo5kH+v6vPAyLubXGecnmTIimfR/tOJGirZZa1PGDrvh2a
+ uoSUpekIWW1CIsez+pJlw1ZfizbIG/NcNsTIZfdAGDXV5JTrvuDACY0r+JQg2TZDha25
+ zUs/Bz2BxooR8wQC0zop2swRYn2CrDB8RtlGxqOovo3g7AzaDfMC/u8XFZYMW13wgVlP
+ y3XAse3zhmie6/v51df7vm4ZSdmjYDkSijgaCutZOVDNAMDzllHF9k8r9+5CylitfDwz
+ /PyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/Tnt2IWUsnzN1DncvQNw1ounPVnk2pgfg+nnvDvrCdE=;
- b=oT+o+wQXT7ZfP+QIeSJrRRFTldLt5pVVECGaGlSw3EN/35LedLD7C7Yl40mJfOcpoH
- HzWgOBCY+LPoR+eWE1XSRAKeE66JW7hPzRyYRf7IBbNf8ebSMQ6QtEB394hcmh8K/Yjh
- hprzDgqgah2C+85TaEJZg98Fy7d1gXxIdQ24laAufPF8F88lkgAaJn/vHhYVTYvp2QWM
- FnI1H5mPO7kGwOX5MvexO29VEX/TdWFKHZsB73KuM1WmbFpRn8qNBcJMwuvRqIguFTyo
- PuXjs7LQlPM3PidH1T2JfPoS2YBfCRUZISGNfcsZyGCvDRDPRaDYCPl0rGm0CGlTu+rU
- NZGw==
-X-Gm-Message-State: AOAM533Q2umBvJ3l/G2NaII3SqYv3RjNzhDw5NXeWq3Z934eA8G98FLu
- CpxMfBtuDlKW1MPk9t8SPYAZBCtfaet+ww==
-X-Google-Smtp-Source: ABdhPJy90ZlHT+oSOPOlWdKxwnNoy6yPcP7aPhu5M0yDYcf5tdRlk1HnYAp/y88ppyX+zqtJUMzMbA==
-X-Received: by 2002:a63:85c8:0:b0:3ab:24cf:e625 with SMTP id
- u191-20020a6385c8000000b003ab24cfe625mr15309386pgd.212.1651607356343; 
- Tue, 03 May 2022 12:49:16 -0700 (PDT)
+ bh=7WEErp9U3fuLYooIL1EDmPgWGgYpjbgO1xt64/VLw3c=;
+ b=fSfxk+3x12C6kOCOwwnMNBFL/ilM19CYZDn+80Ld5NNAgPJlNIsLAtzfUAR+LCUXOw
+ NCXlmV0z95wQNrCPXJxaQHK8yOFhSAQIupob7beTg3YZxXgzcVL5L8SqHl9+nVD7uSRq
+ lz2pzgKoUZAhQ7Knm/1kMWGW3pvK/cNsX5tAU8CYG+DvGzAA4/aSI8BI8dvPtU6wGpMo
+ RK+cq481v4grZjOs8y5BKbR78TwzaOyNLO5pdVDY4GSK0ySoO/yEILS1Ov8xxiM5XQbf
+ /oaG3d5I6S35WR2kOLqvVAbleRSWghDVGdCTxjsKUZUQ3ngpIszgXYfF49DRzjpumU+Y
+ 27Jw==
+X-Gm-Message-State: AOAM531OFF2nmfjruS+2wE0/sycIw9SaI71oKUkt2in6g4qIALuqge8g
+ m0nO4UPyjWRZ8qN9knypBVDqV8lpZXAmwg==
+X-Google-Smtp-Source: ABdhPJyTuR7WBIf3cPyaEkSKOlS6Q4ITGoJfLuYKatxD1yjcwzzcJEaV74BtHR/wm8DffZlfccKDSg==
+X-Received: by 2002:a17:902:ab04:b0:156:1517:411a with SMTP id
+ ik4-20020a170902ab0400b001561517411amr18089563plb.128.1651607357204; 
+ Tue, 03 May 2022 12:49:17 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- p11-20020a17090ad30b00b001cd4989fed3sm1712383pju.31.2022.05.03.12.49.15
+ p11-20020a17090ad30b00b001cd4989fed3sm1712383pju.31.2022.05.03.12.49.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:49:15 -0700 (PDT)
+ Tue, 03 May 2022 12:49:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 31/74] semihosting: Split out semihost_sys_system
-Date: Tue,  3 May 2022 12:48:00 -0700
-Message-Id: <20220503194843.1379101-32-richard.henderson@linaro.org>
+Subject: [PATCH v2 32/74] semihosting: Create semihost_sys_{stat,fstat}
+Date: Tue,  3 May 2022 12:48:01 -0700
+Message-Id: <20220503194843.1379101-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
 References: <20220503194843.1379101-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,113 +88,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out the non-ARM specific portions of SYS_SYSTEM to a
-reusable function.
+These syscalls will be used by m68k and nios2 semihosting.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/syscalls.h |  3 +++
- semihosting/arm-compat-semi.c  | 12 +---------
- semihosting/syscalls.c         | 40 ++++++++++++++++++++++++++++++++++
- 3 files changed, 44 insertions(+), 11 deletions(-)
+ include/semihosting/syscalls.h |   7 ++
+ semihosting/syscalls.c         | 137 +++++++++++++++++++++++++++++++++
+ 2 files changed, 144 insertions(+)
 
 diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-index 21430aa0ef..c9f9e66be1 100644
+index c9f9e66be1..ecc97751a9 100644
 --- a/include/semihosting/syscalls.h
 +++ b/include/semihosting/syscalls.h
-@@ -56,4 +56,7 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-                          target_ulong oname, target_ulong oname_len,
-                          target_ulong nname, target_ulong nname_len);
+@@ -49,6 +49,13 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
+                        gdb_syscall_complete_cb flen_cb,
+                        int fd, target_ulong fstat_addr);
  
-+void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
-+                         target_ulong cmd, target_ulong cmd_len);
++void semihost_sys_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
++                        int fd, target_ulong addr);
 +
- #endif /* SEMIHOSTING_SYSCALLS_H */
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index f554f4761f..a7520d6f41 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -496,17 +496,7 @@ void do_common_semihosting(CPUState *cs)
-     case TARGET_SYS_SYSTEM:
-         GET_ARG(0);
-         GET_ARG(1);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(common_semi_cb, "system,%s", arg0, (int)arg1 + 1);
--            break;
--        }
--        s = lock_user_string(arg0);
--        if (!s) {
--            goto do_fault;
--        }
--        ret = system(s);
--        unlock_user(s, arg0, 0);
--        common_semi_cb(cs, ret, ret == -1 ? errno : 0);
-+        semihost_sys_system(cs, common_semi_cb, arg0, arg1 + 1);
-         break;
++void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
++                       target_ulong fname, target_ulong fname_len,
++                       target_ulong addr);
++
+ void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+                          target_ulong fname, target_ulong fname_len);
  
-     case TARGET_SYS_ERRNO:
 diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index 96d823e8b3..b6c395af22 100644
+index b6c395af22..7bc2640512 100644
 --- a/semihosting/syscalls.c
 +++ b/semihosting/syscalls.c
-@@ -195,6 +195,18 @@ static void gdb_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-     gdb_do_syscall(complete, "rename,%s,%s", oname, olen, nname, nlen);
+@@ -93,6 +93,52 @@ static int errno_for_gdb(void)
+ #undef E
  }
  
-+static void gdb_system(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       target_ulong cmd, target_ulong cmd_len)
++/*
++ * TODO: Note that gdb always stores the stat structure big-endian.
++ * So far, that's ok, as the only two targets using this are also
++ * big-endian.  Until we do something with gdb, also produce the
++ * same big-endian result from the host.
++ */
++static int copy_stat_to_user(CPUState *cs, target_ulong addr,
++                             const struct stat *s)
 +{
-+    int len = validate_strlen(cs, cmd, cmd_len);
++    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
++    struct gdb_stat *p;
++
++    if (s->st_dev != (uint32_t)s->st_dev ||
++        s->st_ino != (uint32_t)s->st_ino) {
++        return -GDB_EOVERFLOW;
++    }
++
++    p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0);
++    if (!p) {
++        return -GDB_EFAULT;
++    }
++
++    p->gdb_st_dev = cpu_to_be32(s->st_dev);
++    p->gdb_st_ino = cpu_to_be32(s->st_ino);
++    p->gdb_st_mode = cpu_to_be32(s->st_mode);
++    p->gdb_st_nlink = cpu_to_be32(s->st_nlink);
++    p->gdb_st_uid = cpu_to_be32(s->st_uid);
++    p->gdb_st_gid = cpu_to_be32(s->st_gid);
++    p->gdb_st_rdev = cpu_to_be32(s->st_rdev);
++    p->gdb_st_size = cpu_to_be64(s->st_size);
++#ifdef _WIN32
++    /* Windows stat is missing some fields.  */
++    p->gdb_st_blksize = 0;
++    p->gdb_st_blocks = 0;
++#else
++    p->gdb_st_blksize = cpu_to_be64(s->st_blksize);
++    p->gdb_st_blocks = cpu_to_be64(s->st_blocks);
++#endif
++    p->gdb_st_atime = cpu_to_be32(s->st_atime);
++    p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
++    p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
++
++    unlock_user(p, addr, sizeof(struct gdb_stat));
++    return 0;
++}
++
+ /*
+  * GDB semihosting syscall implementations.
+  */
+@@ -163,6 +209,19 @@ static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
+     gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
+ }
+ 
++static void gdb_stat(CPUState *cs, gdb_syscall_complete_cb complete,
++                     target_ulong fname, target_ulong fname_len,
++                     target_ulong addr)
++{
++    int len = validate_strlen(cs, fname, fname_len);
 +    if (len < 0) {
 +        complete(cs, -1, -len);
 +        return;
 +    }
 +
-+    gdb_do_syscall(complete, "system,%s", cmd, len);
++    gdb_do_syscall(complete, "stat,%s,%x", fname, len, addr);
 +}
 +
- /*
-  * Host semihosting syscall implementations.
-  */
-@@ -383,6 +395,24 @@ static void host_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-     unlock_user(nstr, nname, 0);
+ static void gdb_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+                        target_ulong fname, target_ulong fname_len)
+ {
+@@ -351,6 +410,51 @@ static void host_flen(CPUState *cs, gdb_syscall_complete_cb complete,
+     }
  }
  
-+static void host_system(CPUState *cs, gdb_syscall_complete_cb complete,
-+                        target_ulong cmd, target_ulong cmd_len)
++static void host_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
++                       GuestFD *gf, target_ulong addr)
 +{
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    char *p;
++    struct stat buf;
 +    int ret;
 +
-+    ret = validate_lock_user_string(&p, cs, cmd, cmd_len);
++    ret = fstat(gf->hostfd, &buf);
++    if (ret) {
++        complete(cs, -1, errno_for_gdb());
++        return;
++    }
++    ret = copy_stat_to_user(cs, addr, &buf);
++    complete(cs, ret ? -1 : 0, ret ? -ret : 0);
++}
++
++static void host_stat(CPUState *cs, gdb_syscall_complete_cb complete,
++                      target_ulong fname, target_ulong fname_len,
++                      target_ulong addr)
++{
++    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
++    struct stat buf;
++    char *name;
++    int ret, err;
++
++    ret = validate_lock_user_string(&name, cs, fname, fname_len);
 +    if (ret < 0) {
 +        complete(cs, -1, -ret);
 +        return;
 +    }
 +
-+    ret = system(p);
-+    complete(cs, ret, ret == -1 ? errno_for_gdb() : 0);
-+    unlock_user(p, cmd, 0);
++    ret = stat(name, &buf);
++    if (ret) {
++        err = errno_for_gdb();
++    } else {
++        ret = copy_stat_to_user(cs, addr, &buf);
++        err = 0;
++        if (ret < 0) {
++            err = -ret;
++            ret = -1;
++        }
++    }
++    complete(cs, ret, err);
++    unlock_user(name, fname, 0);
 +}
 +
- /*
-  * Static file semihosting syscall implementations.
-  */
-@@ -649,3 +679,13 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-         host_rename(cs, complete, oname, oname_len, nname, nname_len);
+ static void host_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+                         target_ulong fname, target_ulong fname_len)
+ {
+@@ -659,6 +763,39 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
      }
  }
-+
-+void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
-+                         target_ulong cmd, target_ulong cmd_len)
+ 
++void semihost_sys_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
++                        int fd, target_ulong addr)
 +{
-+    if (use_gdb_syscalls()) {
-+        gdb_system(cs, complete, cmd, cmd_len);
-+    } else {
-+        host_system(cs, complete, cmd, cmd_len);
++    GuestFD *gf = get_guestfd(fd);
++
++    if (!gf) {
++        complete(cs, -1, GDB_EBADF);
++        return;
++    }
++    switch (gf->type) {
++    case GuestFDGDB:
++        gdb_fstat(cs, complete, gf, addr);
++        break;
++    case GuestFDHost:
++        host_fstat(cs, complete, gf, addr);
++        break;
++    case GuestFDStatic:
++    default:
++        g_assert_not_reached();
 +    }
 +}
++
++void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
++                       target_ulong fname, target_ulong fname_len,
++                       target_ulong addr)
++{
++    if (use_gdb_syscalls()) {
++        gdb_stat(cs, complete, fname, fname_len, addr);
++    } else {
++        host_stat(cs, complete, fname, fname_len, addr);
++    }
++}
++
+ void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+                          target_ulong fname, target_ulong fname_len)
+ {
 -- 
 2.34.1
 
