@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FEF5190C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:54:14 +0200 (CEST)
-Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E65519065
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:45:08 +0200 (CEST)
+Received: from localhost ([::1]:50760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm0TF-0006xu-QJ
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48248)
+	id 1nm0KR-00015q-Qc
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:45:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlzBV-0006F0-Au
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:31:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21133)
+ id 1nlz0h-00027q-Kn
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:20:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlzBP-0008Sf-V2
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:31:48 -0400
+ id 1nlz0e-0004zh-Ju
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:20:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651609856;
+ s=mimecast20190719; t=1651609235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WzRy/RaI9MhxFyECgyDG//yYxBQzB5Yathm3QqKh3CA=;
- b=LA5jb9fwcuse60l7i68uKtEpTmFovpN9ityqTuaW4ICmX/ocgk+QHUcxhwq1oNX4cDSf0A
- B8dPT1Yj8SuPtiBCOvBKzSXAv1Ckfalj7l3L9XBaWF4W3oSb/1TBestw2SSRQXaJ7+rp18
- 2jd7kHaKKIgUGGXQk/aG6rR7uo0LbVo=
+ bh=bkeLNHuE43AGX49aIl9MIjSjAC3Z3ipnR5IIpltTe8o=;
+ b=FZp6ZrddllfLx+uYocqQVD4NFngGuIkyBTjJJhcpYMccFZ/6BDQaalWMnDmjUXmatK185F
+ h2WPvQ4iXcF9wKAS1wRrO/ikWBnKSWeqDMhnpM2FckX+UQCm26JsFAMMj6GumjKTVqvMWz
+ RTQuBBJ+iQffHeMqOOQ0qY6adYmhG1g=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-674-nfOhL0EROA6H85-j51hM1A-1; Tue, 03 May 2022 10:48:24 -0400
-X-MC-Unique: nfOhL0EROA6H85-j51hM1A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-662-E4f_5O-KPeiufwfd2OBtQw-1; Tue, 03 May 2022 11:42:25 -0400
+X-MC-Unique: E4f_5O-KPeiufwfd2OBtQw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42B211947A4D;
- Tue,  3 May 2022 13:13:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A020BAE9F22;
+ Tue,  3 May 2022 13:13:36 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 029B0C28100;
- Tue,  3 May 2022 13:13:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C429E42B943;
+ Tue,  3 May 2022 13:13:35 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 05/23] Use g_unix_set_fd_nonblocking()
-Date: Tue,  3 May 2022 17:12:38 +0400
-Message-Id: <20220503131256.187238-6-marcandre.lureau@redhat.com>
+Subject: [PULL 07/23] Replace qemu_pipe() with g_unix_open_pipe()
+Date: Tue,  3 May 2022 17:12:40 +0400
+Message-Id: <20220503131256.187238-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20220503131256.187238-1-marcandre.lureau@redhat.com>
 References: <20220503131256.187238-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,62 +84,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-API available since glib 2.30. It also preserves errno.
+GLib g_unix_open_pipe() is essentially like qemu_pipe(), available since
+2.30.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/misc/ivshmem.c           | 2 +-
- util/event_notifier-posix.c | 6 ++----
- util/main-loop.c            | 2 +-
- 3 files changed, 4 insertions(+), 6 deletions(-)
+ include/qemu/osdep.h        |  4 ----
+ qemu-nbd.c                  |  5 +++--
+ util/event_notifier-posix.c |  2 +-
+ util/oslib-posix.c          | 22 ----------------------
+ 4 files changed, 4 insertions(+), 29 deletions(-)
 
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index e7c0099bdaf6..8270db53cda7 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -537,7 +537,7 @@ static void process_msg_connect(IVShmemState *s, uint16_t posn, int fd,
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 52d81c027ba0..1c1e7eca9898 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -547,10 +547,6 @@ static inline void qemu_timersub(const struct timeval *val1,
+ ssize_t qemu_write_full(int fd, const void *buf, size_t count)
+     G_GNUC_WARN_UNUSED_RESULT;
  
-     IVSHMEM_DPRINTF("eventfds[%d][%d] = %d\n", posn, vector, fd);
-     event_notifier_init_fd(&peer->eventfds[vector], fd);
--    fcntl_setfl(fd, O_NONBLOCK); /* msix/irqfd poll non block */
-+    g_unix_set_fd_nonblocking(fd, true, NULL); /* msix/irqfd poll non block */
+-#ifndef _WIN32
+-int qemu_pipe(int pipefd[2]);
+-#endif
+-
+ void qemu_set_cloexec(int fd);
  
-     if (posn == s->vm_id) {
-         setup_interrupt(s, vector, errp);
+ /* Return a dynamically allocated directory path that is appropriate for storing
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index db63980df1e4..2382b5042adf 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -909,13 +909,14 @@ int main(int argc, char **argv)
+ 
+     if ((device && !verbose) || fork_process) {
+ #ifndef WIN32
++        g_autoptr(GError) err = NULL;
+         int stderr_fd[2];
+         pid_t pid;
+         int ret;
+ 
+-        if (qemu_pipe(stderr_fd) < 0) {
++        if (!g_unix_open_pipe(stderr_fd, FD_CLOEXEC, &err)) {
+             error_report("Error setting up communication pipe: %s",
+-                         strerror(errno));
++                         err->message);
+             exit(EXIT_FAILURE);
+         }
+ 
 diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
-index 8dc30c51414d..2aa14eabb38e 100644
+index 2aa14eabb38e..76420c5b560c 100644
 --- a/util/event_notifier-posix.c
 +++ b/util/event_notifier-posix.c
-@@ -52,13 +52,11 @@ int event_notifier_init(EventNotifier *e, int active)
-         if (qemu_pipe(fds) < 0) {
+@@ -49,7 +49,7 @@ int event_notifier_init(EventNotifier *e, int active)
+         if (errno != ENOSYS) {
              return -errno;
          }
--        ret = fcntl_setfl(fds[0], O_NONBLOCK);
--        if (ret < 0) {
-+        if (!g_unix_set_fd_nonblocking(fds[0], true, NULL)) {
-             ret = -errno;
-             goto fail;
+-        if (qemu_pipe(fds) < 0) {
++        if (!g_unix_open_pipe(fds, FD_CLOEXEC, NULL)) {
+             return -errno;
          }
--        ret = fcntl_setfl(fds[1], O_NONBLOCK);
--        if (ret < 0) {
-+        if (!g_unix_set_fd_nonblocking(fds[1], true, NULL)) {
-             ret = -errno;
-             goto fail;
-         }
-diff --git a/util/main-loop.c b/util/main-loop.c
-index b7b0ce4ca087..9afac10dff0f 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -114,7 +114,7 @@ static int qemu_signal_init(Error **errp)
-         return -errno;
-     }
+         if (!g_unix_set_fd_nonblocking(fds[0], true, NULL)) {
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 289efca3fae1..2a6f6248ad03 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -274,28 +274,6 @@ void qemu_set_cloexec(int fd)
+     assert(f != -1);
+ }
  
--    fcntl_setfl(sigfd, O_NONBLOCK);
-+    g_unix_set_fd_nonblocking(sigfd, true, NULL);
- 
-     qemu_set_fd_handler(sigfd, sigfd_handler, NULL, (void *)(intptr_t)sigfd);
- 
+-/*
+- * Creates a pipe with FD_CLOEXEC set on both file descriptors
+- */
+-int qemu_pipe(int pipefd[2])
+-{
+-    int ret;
+-
+-#ifdef CONFIG_PIPE2
+-    ret = pipe2(pipefd, O_CLOEXEC);
+-    if (ret != -1 || errno != ENOSYS) {
+-        return ret;
+-    }
+-#endif
+-    ret = pipe(pipefd);
+-    if (ret == 0) {
+-        qemu_set_cloexec(pipefd[0]);
+-        qemu_set_cloexec(pipefd[1]);
+-    }
+-
+-    return ret;
+-}
+-
+ char *
+ qemu_get_local_state_dir(void)
+ {
 -- 
 2.36.0.44.g0f828332d5ac
 
