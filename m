@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B2D518812
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 17:14:17 +0200 (CEST)
-Received: from localhost ([::1]:45982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1F451887D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 17:26:14 +0200 (CEST)
+Received: from localhost ([::1]:51222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nluEC-0004o2-Q4
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 11:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54712)
+	id 1nluPk-0000jo-PF
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 11:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nluCZ-00034r-Vw
- for qemu-devel@nongnu.org; Tue, 03 May 2022 11:12:36 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40533)
+ id 1nluO2-0008M2-J7
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 11:24:26 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nluCX-00015E-Ky
- for qemu-devel@nongnu.org; Tue, 03 May 2022 11:12:34 -0400
-Received: by mail-pl1-x629.google.com with SMTP id i1so9069493plg.7
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 08:12:33 -0700 (PDT)
+ id 1nluO0-0003DN-G8
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 11:24:26 -0400
+Received: by mail-pg1-x535.google.com with SMTP id i62so14279661pgd.6
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 08:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=uAwKGu1VN1PCVVXeSCI2y/w/tTvq0hhwQDsvb9v+mBU=;
- b=Sg3V2ZJ8Vnrm5wf04jRfw6nw7Ce93ah4qZ+DMIqKaZdkOq35qV1xg14SAXOA7UpMoX
- aiM1SXSwKcJT+XL+3U8p0qUCozF9Z9XFrjNduM5X/aD2quJDrgovLU/EFUpT1MV3Lpqb
- Nk8siR7iQb/hX9elojwgC4tsaiGanu2dF6DZ2QUYB8Kj/Db6yxHSDnYJThEv0bMdWWi4
- gM51OJH1ieAeqpNGXuct0M5DkBTG6ZpveIhB7+X0RtHYgR23Pa2JOYQ/+WTHows7hCLh
- TtaRQGHEIpVGayQYKcmzJjQLY93oMNeFN8JgnywbJ0SagcUV6CjyLALIT1fq21r+MV6/
- Aajg==
+ bh=ecrSbEUzaN9aPqp6arQnOUNREXKqEhJcUF4s+4+3mBI=;
+ b=bSDtVoyIRNMcwnoB9K6sKTRpOhdmiAKD8IXWh1OcvboBQ4bUooxAsAppCeDrQFLnud
+ ymmk0rFP5l0x+1yIhqtZyDfQZFEvFJVhXUsnL/TkukFx4AVEFhb1TOXnJLvVLQLfJ7vq
+ y9gLxWGWcPoj8aJyLd9uJyd4ZKD/+ah2abydg84/T/+hd8RssWwjUKPhG1a0Ike4pwyb
+ SzxBqvDKLm96AjCkoknjguaKdd9Me3ZrLFH+l474dhOBUawbgdOObr8byBcMPuvYvSXN
+ 8unWO6iLVRdttOfYkimJKLnOKCSLkpzpTXBM6IxyMwhIaNNlteZ17sYaAbAfXfIgDYNJ
+ nY/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uAwKGu1VN1PCVVXeSCI2y/w/tTvq0hhwQDsvb9v+mBU=;
- b=3ObVR5CC0VgtDm+kzFcuZFnfHS3I/pxvX/ttXLU+E1AufouqywSRacTTNGXJm6BtIR
- YJTPbvBTCpywQOc47WE8QgGf0f0vdjBfupVKCH6BR/RTOzo/aoNnwqhcsh5bboOXrm/2
- hw/bE8aZQwlbfsl5xix7krtz1vZvAgvfzndU5C0JjNBYuNiIv/vxGxMt0Z90AW/W30Uo
- 67qSZQA5i/hlbJ10Q+vXGcn+ywh+KZxqrpsJZb4yfsCxSXwicz5scefNZi6HGiMlRQeD
- 8djFFRPpnH5JdgOd7/+r/7u2Rb7xGXSwQsq+XX+NcYoyHOzabQz5J3En/VsQmPIQtsdQ
- eJJw==
-X-Gm-Message-State: AOAM532B+BtxRb/DR8jAE4BcAxoGNNR7Eec/mFP88nb8rIbVxactwkgw
- aaU490DiMO4eZppQ743f3ocWa4rB0uUdBQ==
-X-Google-Smtp-Source: ABdhPJwCn+OeWeV/iO26O8nzNislHX7i4OBCcHceL1mToW9RDigkfNhGDOcVqFECf0aYJDNpB2jKTQ==
-X-Received: by 2002:a17:902:7fc9:b0:15b:d408:5b19 with SMTP id
- t9-20020a1709027fc900b0015bd4085b19mr17202289plb.12.1651590752358; 
- Tue, 03 May 2022 08:12:32 -0700 (PDT)
+ bh=ecrSbEUzaN9aPqp6arQnOUNREXKqEhJcUF4s+4+3mBI=;
+ b=dtY80YvLYZdUiYLF0Pz9ICqNmBpmcwLcq9oIu19dlUVSB+HuhPOWNzwxdBJ6n00IcZ
+ uHk+qXipwgEoE9yc8iR1cFbGXDdrr+awbC4lN0WzkWeGEAfDwsCz67KjwVt3jNMRjCba
+ OxQxjPU/bLwCgwZnH2x2kIvXyMUGALJR8ECX1W4SsIsIHbrMFub8UYoKXL0b3OKGWgPH
+ uS8WJleEF0CTUD6gnPKt2z058XorKZdssSjqndoTkrI8sc27DsZjeRzAMo/GS3Wm23bx
+ nCuJ6PyGiDfkutPKhz0foayaCvMAF0OXC1Ky4PMBPsG46V9CkfCn9XPLYIiN7HrGlwzC
+ ILHw==
+X-Gm-Message-State: AOAM531u3jTiuVBXAvGNCNY5hTlFAd//AQZzP/LCbb7CrJSJGrrmVlm/
+ IzSAYHMI1RUWQzegg0xGzfy4pA==
+X-Google-Smtp-Source: ABdhPJxBHPlWt7uIywB611fOmXHb3grIJgXQjaMDQ/Xvt3KIhDZUK6oSxrba4fdqUnE+1j8hzM+D3w==
+X-Received: by 2002:a05:6a00:1ac9:b0:50e:15b5:e936 with SMTP id
+ f9-20020a056a001ac900b0050e15b5e936mr2035372pfv.30.1651591462720; 
+ Tue, 03 May 2022 08:24:22 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- k21-20020aa792d5000000b0050dc7628159sm6409998pfa.51.2022.05.03.08.12.31
+ y21-20020aa78555000000b0050dc762819bsm6410541pfn.117.2022.05.03.08.24.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 08:12:31 -0700 (PDT)
-Message-ID: <9724000f-6a78-36ad-5a39-1d2b2298a919@linaro.org>
-Date: Tue, 3 May 2022 08:12:29 -0700
+ Tue, 03 May 2022 08:24:22 -0700 (PDT)
+Message-ID: <8b32cbb4-325c-b99a-87e3-72af84e19e3c@linaro.org>
+Date: Tue, 3 May 2022 08:24:20 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 3/4] target/mips: Fix msa checking condition in
- trans_msa_elm_fn()
+Subject: Re: [PATCH] target/mips: Fix FTRUNC_S and FTRUNC_U trans helper
 Content-Language: en-US
 To: nihui <shuizhuyuanluo@126.com>, qemu-devel@nongnu.org,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220503130708.272850-1-shuizhuyuanluo@126.com>
- <20220503130708.272850-3-shuizhuyuanluo@126.com>
+References: <20220503144241.289239-1-shuizhuyuanluo@126.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220503130708.272850-3-shuizhuyuanluo@126.com>
+In-Reply-To: <20220503144241.289239-1-shuizhuyuanluo@126.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,30 +92,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/22 06:07, nihui wrote:
-> From: Ni Hui <shuizhuyuanluo@126.com>
+On 5/3/22 07:42, nihui wrote:
+> Fix the FTRUNC_S and FTRUNC_U trans helper problem.
 > 
-> Fix issue that condition of check_msa_enabled(ctx) is reversed
-> that causes segfault when msa elm_fn op encountered.
-> 
-> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+> Signed-off-by: nihui <shuizhuyuanluo@126.com>
 > ---
->   target/mips/tcg/msa_translate.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   target/mips/tcg/msa_translate.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-> index aa45bae0aa..92ccc6f921 100644
+> index 0b3dd0957c..1bcdbb1121 100644
 > --- a/target/mips/tcg/msa_translate.c
 > +++ b/target/mips/tcg/msa_translate.c
-> @@ -599,7 +599,7 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
->           return false;
->       }
+> @@ -752,8 +752,8 @@ static bool trans_msa_2rf(DisasContext *ctx, arg_msa_r *a,
+>   }
 >   
-> -    if (check_msa_enabled(ctx)) {
-> +    if (!check_msa_enabled(ctx)) {
->           return true;
->       }
->   
+>   TRANS(FCLASS,   trans_msa_2rf, gen_helper_msa_fclass_df);
+> -TRANS(FTRUNC_S, trans_msa_2rf, gen_helper_msa_fclass_df);
+> -TRANS(FTRUNC_U, trans_msa_2rf, gen_helper_msa_ftrunc_s_df);
+> +TRANS(FTRUNC_S, trans_msa_2rf, gen_helper_msa_ftrunc_s_df);
+> +TRANS(FTRUNC_U, trans_msa_2rf, gen_helper_msa_ftrunc_u_df);
+>   TRANS(FSQRT,    trans_msa_2rf, gen_helper_msa_fsqrt_df);
+>   TRANS(FRSQRT,   trans_msa_2rf, gen_helper_msa_frsqrt_df);
+>   TRANS(FRCP,     trans_msa_2rf, gen_helper_msa_frcp_df);
 
 Cc: phil
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
