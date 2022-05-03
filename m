@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C9F518684
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 16:22:48 +0200 (CEST)
-Received: from localhost ([::1]:55252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2545186B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 16:30:51 +0200 (CEST)
+Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nltQN-0000Ah-LB
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 10:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42556)
+	id 1nltYA-0002S1-Er
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 10:30:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nltLp-0001MJ-1K
- for qemu-devel@nongnu.org; Tue, 03 May 2022 10:18:05 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:28696)
+ id 1nltLe-0000ng-Mf
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 10:17:54 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:27602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nltLm-0001R0-Jo
- for qemu-devel@nongnu.org; Tue, 03 May 2022 10:18:04 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 243E1bJK019152;
+ id 1nltLc-0001Qx-4R
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 10:17:54 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 243ECdiJ004338;
  Tue, 3 May 2022 14:17:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=bwpQbyF89pYHKySXBqp31gT7ja4B8YdjbKTW5AdBJlg=;
- b=axMzp8+x/GSHEbxX8RGkHlB3a1nz5Tez1uLrkVqd8YG4f67oMc3OLnpInYY8acJCBLIP
- /nXgaQKEYKL+mSEMV9hneGmBcTr4Bd3tLbdajAWnMCvzBr/aQa9G+0BSiqYhhlh2xRq3
- 1XYsgCNEb+FiNbAROjy3EIU5V601B179+tWT6X3xwr7Aq57tOywBHDIkf6k4PVnQ6PR6
- /YtmlgKU2zCwYrlmSiZw7RLT3W5wL2eYbLMr0nZgIe4FJVB1R9KKZjCpRH9wHeBx4b0y
- E7DM8xQ+wFrUUqBI/LbgzCma9MxhkfXAD4suZ5hi4gpIU8KEijSYrvpFJa3/yDWXU0AW ow== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3frw0annjk-1
+ s=corp-2021-07-09; bh=mlCkAwpcRuzDafSgT+t7m0vM+vkwgP/E+WlP+5gnIcg=;
+ b=tGEvApXdqOY8INtOV5t7gid5Cmwq+0UJPUpquE5HPOAGzDQ8kRkW8+jQEhRX7sGJs5UX
+ FTHJFKvjSgKsKfZYodRNkH3iviRarZL9Me/yC8gcczE3YRzBbhq26lIHPuwuchq3j++H
+ twTIb+USlWb9N+pZkWLxtuxk07UOab7GsbF+QTnog2PcOZoyN7PQrj3QuN2/UdpWbkxP
+ 0ep+94/pWTeSew0K3+ANssVyJIADG1y/6KMe/KC+2PTnlexM3yOytZB2foRG5/R62HqB
+ BbqCcKuS0GeaGkTymXFfiPQmc2nBVwSp/NjDIr/c2Ew4Fn0YNwbpJV+o0Th4o1wnFRbK sA== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fruq0dtrk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 03 May 2022 14:17:47 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 243EGPwW002277; Tue, 3 May 2022 14:17:46 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2042.outbound.protection.outlook.com [104.47.57.42])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3fruj2e5uq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 03 May 2022 14:17:45 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 243EEqli016184; Tue, 3 May 2022 14:17:43 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3fruj8keq9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 May 2022 14:17:43 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ABZ9bD7g23FnFKyjtfar7U8ijlyVr4UBsV2fKZHHuMFwzY+8tiSRDYG+6H2E4+AdAKcwl/XJ7rY15d/LfggpXF8CVKC1M1gb3ar2eDbP45JJHEjwQCIs3KgaK5C8WxHwDuyTATiAlvoHCwSfsYysgKL5Nq/lsXeRq0B9R4dJcgn3ZRNpZOZtrlbW5Fu9+BX8Fsr7Vwx4+fmPxnCLv0Rv5/l+0C3xmLjSGBBly/gfaObppJJFWIMJoku+ezxeq2/t75dQ2grPDARUrGbbl5/JnBXFE8pz6L52RCDja+bYI7OphzdP1O15PQmp78pdlC+IGT/WWSaoxS1Guu5kNP/gCw==
+ b=CuYV4saL/Nt3hRPCGXuqxmlrM+YFPzT64wMbLIs5FuB9puLk8wVmwXmawlEcKSXJVV/uACEByh8RbceuZzBB//+LzSgMmAHUr7TjF16QXD6Qh4OmoT18ssbosFB0IRhgcGle5sXt3tdga5UJwONEfFcLY9ntrAlmO/s/wBHOmZQ6HxxNKGYXJepSI7aiJOO65aLPCpsVO8om5hSdxVAd1hgE4lT6Y7tEzcUvm61boIyBK7nNrWsFS6MY8Wt9La9GgRGhiE3b9f8WdAoyQoiRau/nlBbD30WMwCfUnZ4Jg3SY46P89PSMfsHh0wOsWB73Cb81Lci9eFoVsume0fpDug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bwpQbyF89pYHKySXBqp31gT7ja4B8YdjbKTW5AdBJlg=;
- b=YGiqXGiMIQxyuDeZSf2a+c9YIM1cMY8f1YCBmuYPrc7oXKW2uqSju0lxVzvBKjCY8AZeu/+EENlk3Tro+9NieQOyc7KRtM5w8QT78LRUGWKMeCHnZArO0ZSvlHocHDF2yxhRoAteLf6lr+cALstjyo2xJ1gr14qYaMAi3WXzhpDXkRsosRIyYNM8D+hNKA65RKaYhKD9Yu4mofKlWA1Kn0C6WYJBpj3iYMmNyxYATrLGGqW+hNl9Z5JImV6ebo+imI5TnrskCLSXqIXjSJ9LYTMyInmKlPwIv10aNRirFmYQ/bnan5tsR6DREgXBP12ZU3wOgaWo33ndN+Pg34Ws1g==
+ bh=mlCkAwpcRuzDafSgT+t7m0vM+vkwgP/E+WlP+5gnIcg=;
+ b=hWf5ifH2fIo2tSuavzdHfRFEsaCLHvSq/z+mWQTruGO3+7jl1Qq2CeJkPH9IYjJB0L/76t6zgDRzJebBzFKdDrQMONUvusBGbLACK/UT81ZiXATgexvgsHmgvAXeSVXB45w0hf2jmPS8LqmkZorGk0sub0sI1ZBP7nCF1zFwFqQC1q1VkYj4QAFqnotDy9MfSiegu5GfPBfG3WxPza7AGe0qiQI/9DzXs2CBc+N3ViMzxooPYCY8kYSWWcNcx+o9wnZzp+2gN82HTyFg3EWlvvkNNJIb6aSJUCdE9XnknOpfCjjQPQ9lpPydA4BVybXmB/zj49I1p3A7c4ck2d0/vw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bwpQbyF89pYHKySXBqp31gT7ja4B8YdjbKTW5AdBJlg=;
- b=vznvNLwj97ZI1eJHjJQG+klSyKm5yzqQsMY4PjuamlmhrZ4sdY9Oa7sgrMlIGG1JVGKeGXsnhT0IgtJcpehO6juWV7W9Sd5dvEwfoSG+jZ4jltsCX5eURGwtMR/Xhikpag1CrT9tMVrhfc7jz9m6fJ6l66SNkzyZHXiS9s2PyVw=
+ bh=mlCkAwpcRuzDafSgT+t7m0vM+vkwgP/E+WlP+5gnIcg=;
+ b=rudI5Z3UocLm9nPfktOmSVtzrwRvhoNgCl/WD4gvHs/Cm3vy5FWHnJuITm2Z9mYtsbQNMWF6lkEnrZep7RqG5sJksJcW6tfCrsVTUDQx/7ruYtlOMbrTnYl2R0sVcfGtrUuKIIA9j4+ms1HfT0Uqecb5QOIWB/MI12kE/ouRJEw=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
- by BYAPR10MB2600.namprd10.prod.outlook.com (2603:10b6:a02:aa::16)
+ by MN2PR10MB3358.namprd10.prod.outlook.com (2603:10b6:208:12f::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Tue, 3 May
- 2022 14:17:41 +0000
+ 2022 14:17:43 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::e9cb:e1ca:8189:f191]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::e9cb:e1ca:8189:f191%7]) with mapi id 15.20.5206.013; Tue, 3 May 2022
- 14:17:40 +0000
+ 14:17:43 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, mst@redhat.com, f4bug@amsat.org, pbonzini@redhat.com, 
@@ -81,9 +81,9 @@ Cc: stefanha@redhat.com, mst@redhat.com, f4bug@amsat.org, pbonzini@redhat.com,
  john.levon@nutanix.com, thanos.makatos@nutanix.com,
  elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
  kanth.ghatraju@oracle.com, jag.raman@oracle.com
-Subject: [PATCH v9 14/17] vfio-user: handle PCI BAR accesses
-Date: Tue,  3 May 2022 10:16:55 -0400
-Message-Id: <677a333e1c2843aafa8c6c2487e149208a5a5032.1651586203.git.jag.raman@oracle.com>
+Subject: [PATCH v9 15/17] vfio-user: handle device interrupts
+Date: Tue,  3 May 2022 10:16:56 -0400
+Message-Id: <25ab3efc76a9f2b4fedf82f53a4a0cbf8bcd5eb6.1651586203.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1651586203.git.jag.raman@oracle.com>
 References: <cover.1651586203.git.jag.raman@oracle.com>
@@ -94,68 +94,68 @@ X-ClientProxiedBy: SA9PR11CA0005.namprd11.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4e143c4f-c4eb-4a9b-d82d-08da2d0faec6
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2600:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR10MB2600AF93495B246AA5EF25B090C09@BYAPR10MB2600.namprd10.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 02836736-ff19-4f4a-5bd5-08da2d0fb057
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3358:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR10MB3358EBB44315C15C001A4DE390C09@MN2PR10MB3358.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xeynjphcred6hC4T+gTnZl+I3UoC5EOrm/ijuXYXqtEGcmgP7gXrOAF9VWE4IP7CMDpGcQ7DjVz1yQgxDBwCZIk7WVs7juYyHKZae0KWonwnurFcQ8GO8//OKiHbWoUetKYGAZCgVB0Q7+nnxvPb6fAjwy2tIhG6m6yuoNun3DJ0TDhJM8XhmHhF46SchYiA8o4fV+ZHm2JWk5Fv1JdkmtRGBtBsZpkB5YUSkghnNLPLpNc8nWyuT0MfgftIOslpX4zczc0OYtpphp+s83zHpRdEhzmflOUPoS02rQDqfZF+WcfBW4+nboW2V0LC2KfEoKagfVTctJrTMykKKwGeGY+Bn2HZyBJb7c4PHQcydXt0sJumP+5vQ1t/YZQq0sTFXuEfFErXTpj4B2kqFQGEo+HonHjm7FIIfP4bu6f2BEsw8PUqS5QLee1vf8f9dCok9p6f0Dzu/bUtWZafqJSAlfEkZGjSL1jjtt95SvwyiPXZPQl0iU5WujO9OuYM0uXLMdp/M+ieFmnYVHjT9NKFQ+GZ9ygO7bgt8jnIJH1UWAsIvGuX83vi2vcexatKQGSzGJgV9TAuVB3fMToxWrz/zv+5LT7iqqxDKAsOlfCbqJDfCdRMEns8h1AtZVfU7DzlcYDXue55KL1+B3B5nV2CXvkBdoHLj0mfl5Z/tjCbRhKWhUcnJMwj+RQdL6Fn3esWvdz00uRPkhVagDFD4R/G1Q==
+X-Microsoft-Antispam-Message-Info: UJDAa5Jn1UXeJvTYI7lE7WGlK3Nqu9dz2hsfUX91QnZv7eDecloXhKfTrqliplJfXPjywJLkHQQ49Xu0yVbcgEQA+z6930vTXwExA9RPpm510v+gje/knctCHkVast12jzfNZFO7WeJ04HLJXOqtUnujpzVQHVfDxmvkxcj3po+O8LYQB8p82ypZitnK91UeElRRcwDk+HA+cHRHYV8WXcofJVqRkvWzOSichIS9dgU0kUv5cpvIiWk8EyEcmlChnt8MhpMy1a/Qkk03jdYVJ9AUtBquBtDOx5FLnrWQjRNP3IciO4V30+kmbBRqt2TuTjxHSy61MjsAyk5ugr0uB9rbwcPamhszXLihPpVX4Ub+Mw+jTsjN/psEA+4SkdzMDrWJQJQfbGvMk8Jv/iE4DE8d9t1lMkOnBIVbfngHMBRP57/xDEELsCFfsFX7D7awFu6kpRo4RtqzS1YxesjNHUAKagZRfr9aTcKBY+0FEyar20DP3/LfDGbdMq0t1bL0PiYvAraE3ZAaXnKS1Theo+O2MzXkv9y7Rz/hwa942G2Q8oznuoabtS+2M+xIxkjSq2/IVz6kMDMqHvjSueWgc5/c67owNRPgR77FTKD+TqWWTsUax3pqS16NCiuPbAXMyeN+3iUoD0cBbrJsnIM3Z+AMsNa5D3k2nQz5W/WUs3AgjRu53pxbwpastDakTHmRhKuC3+kKeLbGiOkKodjsWg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6916009)(38100700002)(316002)(36756003)(38350700002)(83380400001)(52116002)(66476007)(6666004)(8676002)(5660300002)(66946007)(508600001)(186003)(66556008)(4326008)(7416002)(2906002)(6486002)(86362001)(6512007)(26005)(8936002)(107886003)(2616005)(6506007);
+ SFS:(13230001)(366004)(36756003)(83380400001)(66946007)(2616005)(6506007)(186003)(107886003)(30864003)(2906002)(6486002)(6916009)(316002)(38350700002)(38100700002)(7416002)(5660300002)(8936002)(6512007)(86362001)(4326008)(6666004)(52116002)(66476007)(508600001)(8676002)(26005)(66556008);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/3oquNaY1WbwZDaRwlvBBrsPickeWq5T2Fo695g4K6JfsjYIFszKFuYDND0v?=
- =?us-ascii?Q?vPghiWfr5nW3WhAh6DETI3jv03MDn8eGCs8SxNB4bcMMr7bGF+01rsJrUeo0?=
- =?us-ascii?Q?vPOc4IpwaMADDwnSl4B4ikOmMqw/MaWrQj3OMsh+jw6k9VWJRa7ebVgWFCqm?=
- =?us-ascii?Q?ppnTuJrUfxbAuMU3OLtZwrRt2lV0xacvyw0uBWWAttCg4iukwf4O4jeDwroU?=
- =?us-ascii?Q?zEtUZPn77cpPkF+gZJkvP9oTueFlguBQnRVLUM1fE9SPNnuKQnYSYc9mVJ1W?=
- =?us-ascii?Q?zHn3kpu7xeZKZNiGIlkjVUXfCTYfwEWNVL0dt1agDh6e4Fg/KTTq7SnazTou?=
- =?us-ascii?Q?4rKh3/peF2K/nKjLlGp2r4o9LUKQ7mU3RHz9dFD5f+hb2D2KAa5UPsYxjtHs?=
- =?us-ascii?Q?7hf4em0sTr01mEzMS9QbCjSkWAfhOHxRnrl9zu3c3rklYAnjNXZ09rSLOHWi?=
- =?us-ascii?Q?Ybbv9zQi6imXJ0H4sNo7FsWqTxeVPMbaPU/Ciinnz/UwgMRuYN/4gWUACAHU?=
- =?us-ascii?Q?4PhD5BIAAcoNNnjW2pRi9g7bbAA24WV6sXtf5hvCzkHzBbL5r7BVRRYjG6jF?=
- =?us-ascii?Q?YqviId9qS9Oh2tgnC73a5Rtha2fqzauOPRV2RiYA8BbttQ6+RTA1IyPkaDXK?=
- =?us-ascii?Q?yVrnWDfZZmK7wooEl+bE6S7am+nt/8MVFNLV2giS74SpQMWIehjKNTHdcyvt?=
- =?us-ascii?Q?ESbz5RHqhxJpIdAD32S+2S12gdo8Wgk9mM4MSXKQ925QA6UsWyyQhh/eBUFR?=
- =?us-ascii?Q?TEqnUnYHcXmnKO8E9r/3/mNYgJf5Ye47+i8ALuDdZCVAWCV0FBfb+yTmH+MG?=
- =?us-ascii?Q?Cwmd2DDbUcZvU5w08uc6r53wOR2spFqkoqkxsIRSxoUSrGQA0puoaCZjb1XE?=
- =?us-ascii?Q?cO5rHhWLWqfS/L0v8bSbqF5whbo7HeYka9J6PrVRsLaTC7ZpEwAbdJ8654YU?=
- =?us-ascii?Q?7EscmDDqO/iAC0mcmJBrN+nYjpNKKzPswIQxTRh9b3tRNXddvrWrpFujLCXc?=
- =?us-ascii?Q?1AUHS4V6zmulYJML2j4OBQ2oSUrui/n7MO5kXACmaFeE+Cbk3pguSWUq8z05?=
- =?us-ascii?Q?lumm/LmnZquk/uIVW+jd3cr3fLTjbpQCC71PeLVKEczMDVB9GNUzzcmzYlwt?=
- =?us-ascii?Q?uapwobHjr9iTmyZOx8fc5rQNpaKylZgOS96KiIqQlXT5ePZ1PqmEvLp8z7FC?=
- =?us-ascii?Q?3sZ5Yn6d3MQSv/+Evm6xuy2MsHCSUd8DHtcTSoeHNJgMujjD8sch9kZkGWPp?=
- =?us-ascii?Q?geq45PdTTj+833CC459Y6jQiB4UA+PXPAtn2pwb7/qoKa3XqgwDcMIV+pxmN?=
- =?us-ascii?Q?AHZEDblUE7N+d4kIHUVWC6hPsSYI0bbW5eUF0fgXHPMtJ38ZXNUsyaqUp7OP?=
- =?us-ascii?Q?Y7vGH0mhzlc+wdhT6Q0QkwwiO9hl1QBjDlc3Jl2ZVEZhoB5SZ+BqkuDLMBUS?=
- =?us-ascii?Q?xeUNKd7TmFNl+inWotViKYwg4i0b6TnghhrvlNUeFM9F3HMmOAxIT8EFOyMX?=
- =?us-ascii?Q?C66/JDgCfvrzPcrnlLlit8A8f9cNRS0YimTbbIyEEJdl63+GOMLopL7UmW49?=
- =?us-ascii?Q?LCWETfRyE4hZi/LrnrJTPx70eBPXyjTOcxbGKwEPnRl20FR9QYLYOMOFwztM?=
- =?us-ascii?Q?o1AzCwwjnro4msaVcgN5RwGu1etUSxORKPRYGj2boOf4mta8NQIm0Pz2gcrs?=
- =?us-ascii?Q?KqFyqvXGvdjTKbCYEyTbB4rsous5OMaMJMfEBHbphCSOEnDPmVSywIPjrZCL?=
- =?us-ascii?Q?E2IMWiHE5g=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?egDBvlbQaN5W7E+ErZ9j4pu7a8lHN5xYDpNXJb3vBdTmq5bjudZgd26ikK5l?=
+ =?us-ascii?Q?S8DdidN6hio8+1h2Rviyk132fbNfdAJouZT5Q1P5KzB3Qj0spq8PRsYGWmvu?=
+ =?us-ascii?Q?+9MrvQ4kpKoFlmykQuATS0ifhLcYwQfX6OVHDovTw3GE76uGTnhOxRaFf04K?=
+ =?us-ascii?Q?LQTBDZ+FQUXn97BI8YMNQIKdLjmZuONG2z8/dcLMSn8IoyBlOyr+xo+IHw/1?=
+ =?us-ascii?Q?V4WwELmeev9yS9Ztph6eIrEx8aTdffmyApN8frVibnBaEBbsBpIAvhhM7HP2?=
+ =?us-ascii?Q?m7okhOg0693Y94h9vhdMx0LqzciUGoudNk54KhVQXo82EwcuV90ig2p/FoJl?=
+ =?us-ascii?Q?G+LxrcLE3B6tQ9U6AH3MVdlm3SdaBtdeuyeGqPb/YcZVVdcX6ww6XP2U/R6J?=
+ =?us-ascii?Q?RKl41xBIP6+z8Gy/7JjGqSHc+emMFmwqY+YjSv4kB47qT4ZDadpGaBd4wx+3?=
+ =?us-ascii?Q?5zeN9ElHYki/Q2S1UoCmuX7kovfifTiASftZ4/HMg//tgXGLgBBcum5+/io0?=
+ =?us-ascii?Q?CAQgqIlR/kwxZRmSLY13EAbgegZ4ReFI0GKOwoHUzk+1Fplita2F51BNG7+E?=
+ =?us-ascii?Q?4z6hu2VoddLYpk4/w48UcTdZQxRjLiIHSE+FvgnEfuXtBvA2JZxLdcMfdzJ9?=
+ =?us-ascii?Q?IAoOcwtobPe1mswMZ5I2pLEdXegN3QW4FW0sRmy3HDX7cELc6hwNlp9J8KOC?=
+ =?us-ascii?Q?j/MB3P7l8wGl8cYTaMEZRfHWSu2WHZoyMX7a3XA9NElOKgtZbCxDQo5mMOpC?=
+ =?us-ascii?Q?9Blsuv0CRb6+/NHTXR3ggMsJrjsi+ntHgGrpku+Od7dXpgQUdbcDQn6zYXqE?=
+ =?us-ascii?Q?4m0zrjk5RtihgNmbqKuwkoKDBnoXmHPRJg/u+hLWIxxqrb+2m1LZ5opqD0xS?=
+ =?us-ascii?Q?cM1Q67tCgn6DAX8r1kznub819gtF7ZB08iE+PfYeSjb68Hbu+Y1D5C3DcnDy?=
+ =?us-ascii?Q?AbEGOPVktP/18EWP46iwCZ/4fvkdcUsUkSAFx6FB9RfvXLkEyAlekHqwdc7L?=
+ =?us-ascii?Q?M/nrO9wigx+dMW937Fl8/oGBTEwRNL+fQZQc43buNpL5zN0qoXqtNPtRvS5z?=
+ =?us-ascii?Q?kARuh6TA/gIu55ibjldW5s8hsVb2oRAHy+pAMgWS/TKKEDg6zBYqojyydpCr?=
+ =?us-ascii?Q?gppD5pZ9CAx/U4psvewpQd9YPGnttFQzCq/wItubiBACO8OdDPVDeyo3Y25p?=
+ =?us-ascii?Q?g4MSD13yRnzsNrnlBfciLwBscVchkoYXaqiCOGrHq5uEAtcXorKBE5Q9aR0U?=
+ =?us-ascii?Q?WzL4T7bXWN1gxFyGcRisIBLo13bHVZeYYdAY0720XFggNi/+RM4djftPDIYV?=
+ =?us-ascii?Q?Vt7XG7OdZ+gxHLBQ+A1ej8fuIR3l87W5hAf6CyibAp8ZsLhTcxMpihibzRr8?=
+ =?us-ascii?Q?ZooLrDgf9CsZf5ZyxjY16u6O+s6NNDIjjtmx1gFin/J+s80gZL0rJ95mCdJL?=
+ =?us-ascii?Q?fLT8flEbB/E5GmO5+ZY1chSCnNIhMVMci97u9eEeBOjS3xFwi/HYs/VEk/St?=
+ =?us-ascii?Q?eirv88aaJSoZOcupuIKm3VhdeLf/HT6NSLnZCnaFGA8tOkv1gSW/0irTetQh?=
+ =?us-ascii?Q?4Ght9skKM6Sz2pcU5k1pT7H3BtMQP/537HBkt4sGHASLWUOmFpfgFJrl/+yW?=
+ =?us-ascii?Q?wIJTU1yh1yHUYe+aP3l5KRZj/J7oPCDu/fBKu0wM+Pf0NRJmin3HHGX7wxlX?=
+ =?us-ascii?Q?WOOaCHoeGT6rNsA1qE9smRzptilmXqry4HLR6V8AtqUXw9ICxlHwns8TUKRM?=
+ =?us-ascii?Q?X0XKhc+mvw=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e143c4f-c4eb-4a9b-d82d-08da2d0faec6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02836736-ff19-4f4a-5bd5-08da2d0fb057
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2022 14:17:40.9185 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2022 14:17:43.5433 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qji8nKWniK/ck92n59sdhTSjjn+U6Nuw5Gz62/0lPlBSDXLjelQ/BHs/A5Ot7NJwkbvaZ1QpboRqWQMGtvJ2xA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2600
+X-MS-Exchange-CrossTenant-UserPrincipalName: kX0b86fOyLFFGKUoM1vDcpSB3GYvaA+OKrAUV2dzKhA4Jy6XljnQlwB5VgVMnJWkthXVRqMTyTcvgB9hwEVnWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3358
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
  definitions=2022-05-03_05:2022-05-02,
  2022-05-03 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 adultscore=0
- bulkscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205030103
-X-Proofpoint-GUID: 4Zn9MS4LvUB7GFqj24frHNn0UGP0d1q7
-X-Proofpoint-ORIG-GUID: 4Zn9MS4LvUB7GFqj24frHNn0UGP0d1q7
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205030103
+X-Proofpoint-ORIG-GUID: Fe5NbwZeFPVQv3unklAe9RXEpm4b_31M
+X-Proofpoint-GUID: Fe5NbwZeFPVQv3unklAe9RXEpm4b_31M
 Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
  helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -180,311 +180,457 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Determine the BARs used by the PCI device and register handlers to
-manage the access to the same.
+Forward remote device's interrupts to the guest
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- include/exec/memory.h           |   3 +
- hw/remote/vfio-user-obj.c       | 190 ++++++++++++++++++++++++++++++++
- softmmu/physmem.c               |   4 +-
- tests/qtest/fuzz/generic_fuzz.c |   9 +-
- hw/remote/trace-events          |   3 +
- 5 files changed, 203 insertions(+), 6 deletions(-)
+ include/hw/pci/pci.h              |  13 ++++
+ include/hw/remote/vfio-user-obj.h |   6 ++
+ hw/pci/msi.c                      |  16 ++--
+ hw/pci/msix.c                     |  10 ++-
+ hw/pci/pci.c                      |  13 ++++
+ hw/remote/machine.c               |  14 +++-
+ hw/remote/vfio-user-obj.c         | 123 ++++++++++++++++++++++++++++++
+ stubs/vfio-user-obj.c             |   6 ++
+ MAINTAINERS                       |   1 +
+ hw/remote/trace-events            |   1 +
+ stubs/meson.build                 |   1 +
+ 11 files changed, 193 insertions(+), 11 deletions(-)
+ create mode 100644 include/hw/remote/vfio-user-obj.h
+ create mode 100644 stubs/vfio-user-obj.c
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index f1c19451bc..a6a0f4d8ad 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2810,6 +2810,9 @@ MemTxResult address_space_write_cached_slow(MemoryRegionCache *cache,
-                                             hwaddr addr, const void *buf,
-                                             hwaddr len);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 3a32b8dd40..7595c05c98 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -16,6 +16,7 @@ extern bool pci_available;
+ #define PCI_SLOT(devfn)         (((devfn) >> 3) & 0x1f)
+ #define PCI_FUNC(devfn)         ((devfn) & 0x07)
+ #define PCI_BUILD_BDF(bus, devfn)     ((bus << 8) | (devfn))
++#define PCI_BDF_TO_DEVFN(x)     ((x) & 0xff)
+ #define PCI_BUS_MAX             256
+ #define PCI_DEVFN_MAX           256
+ #define PCI_SLOT_MAX            32
+@@ -127,6 +128,10 @@ typedef void PCIMapIORegionFunc(PCIDevice *pci_dev, int region_num,
+                                 pcibus_t addr, pcibus_t size, int type);
+ typedef void PCIUnregisterFunc(PCIDevice *pci_dev);
  
-+int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr);
-+bool prepare_mmio_access(MemoryRegion *mr);
++typedef void MSITriggerFunc(PCIDevice *dev, MSIMessage msg);
++typedef MSIMessage MSIPrepareMessageFunc(PCIDevice *dev, unsigned vector);
++typedef MSIMessage MSIxPrepareMessageFunc(PCIDevice *dev, unsigned vector);
 +
- static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
+ typedef struct PCIIORegion {
+     pcibus_t addr; /* current PCI mapping address. -1 means not mapped */
+ #define PCI_BAR_UNMAPPED (~(pcibus_t)0)
+@@ -321,6 +326,14 @@ struct PCIDevice {
+     /* Space to store MSIX table & pending bit array */
+     uint8_t *msix_table;
+     uint8_t *msix_pba;
++
++    /* May be used by INTx or MSI during interrupt notification */
++    void *irq_opaque;
++
++    MSITriggerFunc *msi_trigger;
++    MSIPrepareMessageFunc *msi_prepare_message;
++    MSIxPrepareMessageFunc *msix_prepare_message;
++
+     /* MemoryRegion container for msix exclusive BAR setup */
+     MemoryRegion msix_exclusive_bar;
+     /* Memory Regions for MSIX table and pending bit entries. */
+diff --git a/include/hw/remote/vfio-user-obj.h b/include/hw/remote/vfio-user-obj.h
+new file mode 100644
+index 0000000000..87ab78b875
+--- /dev/null
++++ b/include/hw/remote/vfio-user-obj.h
+@@ -0,0 +1,6 @@
++#ifndef VFIO_USER_OBJ_H
++#define VFIO_USER_OBJ_H
++
++void vfu_object_set_bus_irq(PCIBus *pci_bus);
++
++#endif
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index 47d2b0f33c..d556e17a09 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -134,7 +134,7 @@ void msi_set_message(PCIDevice *dev, MSIMessage msg)
+     pci_set_word(dev->config + msi_data_off(dev, msi64bit), msg.data);
+ }
+ 
+-MSIMessage msi_get_message(PCIDevice *dev, unsigned int vector)
++static MSIMessage msi_prepare_message(PCIDevice *dev, unsigned int vector)
  {
-     if (is_write) {
+     uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
+     bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
+@@ -159,6 +159,11 @@ MSIMessage msi_get_message(PCIDevice *dev, unsigned int vector)
+     return msg;
+ }
+ 
++MSIMessage msi_get_message(PCIDevice *dev, unsigned int vector)
++{
++    return dev->msi_prepare_message(dev, vector);
++}
++
+ bool msi_enabled(const PCIDevice *dev)
+ {
+     return msi_present(dev) &&
+@@ -241,6 +246,8 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
+                      0xffffffff >> (PCI_MSI_VECTORS_MAX - nr_vectors));
+     }
+ 
++    dev->msi_prepare_message = msi_prepare_message;
++
+     return 0;
+ }
+ 
+@@ -256,6 +263,7 @@ void msi_uninit(struct PCIDevice *dev)
+     cap_size = msi_cap_sizeof(flags);
+     pci_del_capability(dev, PCI_CAP_ID_MSI, cap_size);
+     dev->cap_present &= ~QEMU_PCI_CAP_MSI;
++    dev->msi_prepare_message = NULL;
+ 
+     MSI_DEV_PRINTF(dev, "uninit\n");
+ }
+@@ -334,11 +342,7 @@ void msi_notify(PCIDevice *dev, unsigned int vector)
+ 
+ void msi_send_message(PCIDevice *dev, MSIMessage msg)
+ {
+-    MemTxAttrs attrs = {};
+-
+-    attrs.requester_id = pci_requester_id(dev);
+-    address_space_stl_le(&dev->bus_master_as, msg.address, msg.data,
+-                         attrs, NULL);
++    dev->msi_trigger(dev, msg);
+ }
+ 
+ /* Normally called by pci_default_write_config(). */
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index ae9331cd0b..6f85192d6f 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -31,7 +31,7 @@
+ #define MSIX_ENABLE_MASK (PCI_MSIX_FLAGS_ENABLE >> 8)
+ #define MSIX_MASKALL_MASK (PCI_MSIX_FLAGS_MASKALL >> 8)
+ 
+-MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
++static MSIMessage msix_prepare_message(PCIDevice *dev, unsigned vector)
+ {
+     uint8_t *table_entry = dev->msix_table + vector * PCI_MSIX_ENTRY_SIZE;
+     MSIMessage msg;
+@@ -41,6 +41,11 @@ MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
+     return msg;
+ }
+ 
++MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
++{
++    return dev->msix_prepare_message(dev, vector);
++}
++
+ /*
+  * Special API for POWER to configure the vectors through
+  * a side channel. Should never be used by devices.
+@@ -344,6 +349,8 @@ int msix_init(struct PCIDevice *dev, unsigned short nentries,
+                           "msix-pba", pba_size);
+     memory_region_add_subregion(pba_bar, pba_offset, &dev->msix_pba_mmio);
+ 
++    dev->msix_prepare_message = msix_prepare_message;
++
+     return 0;
+ }
+ 
+@@ -429,6 +436,7 @@ void msix_uninit(PCIDevice *dev, MemoryRegion *table_bar, MemoryRegion *pba_bar)
+     g_free(dev->msix_entry_used);
+     dev->msix_entry_used = NULL;
+     dev->cap_present &= ~QEMU_PCI_CAP_MSIX;
++    dev->msix_prepare_message = NULL;
+ }
+ 
+ void msix_uninit_exclusive_bar(PCIDevice *dev)
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index e99417e501..f451300ce7 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -306,6 +306,15 @@ void pci_device_deassert_intx(PCIDevice *dev)
+     }
+ }
+ 
++static void pci_msi_trigger(PCIDevice *dev, MSIMessage msg)
++{
++    MemTxAttrs attrs = {};
++
++    attrs.requester_id = pci_requester_id(dev);
++    address_space_stl_le(&dev->bus_master_as, msg.address, msg.data,
++                         attrs, NULL);
++}
++
+ static void pci_reset_regions(PCIDevice *dev)
+ {
+     int r;
+@@ -1201,6 +1210,8 @@ static void pci_qdev_unrealize(DeviceState *dev)
+ 
+     pci_device_deassert_intx(pci_dev);
+     do_pci_unregister_device(pci_dev);
++
++    pci_dev->msi_trigger = NULL;
+ }
+ 
+ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+@@ -2235,6 +2246,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+     }
+ 
+     pci_set_power(pci_dev, true);
++
++    pci_dev->msi_trigger = pci_msi_trigger;
+ }
+ 
+ PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
+diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+index 645b54343d..75d550daae 100644
+--- a/hw/remote/machine.c
++++ b/hw/remote/machine.c
+@@ -23,6 +23,8 @@
+ #include "hw/remote/iommu.h"
+ #include "hw/qdev-core.h"
+ #include "hw/remote/iommu.h"
++#include "hw/remote/vfio-user-obj.h"
++#include "hw/pci/msi.h"
+ 
+ static void remote_machine_init(MachineState *machine)
+ {
+@@ -54,12 +56,16 @@ static void remote_machine_init(MachineState *machine)
+ 
+     if (s->vfio_user) {
+         remote_iommu_setup(pci_host->bus);
+-    }
+ 
+-    remote_iohub_init(&s->iohub);
++        msi_nonbroken = true;
++
++        vfu_object_set_bus_irq(pci_host->bus);
++    } else {
++        remote_iohub_init(&s->iohub);
+ 
+-    pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
+-                 &s->iohub, REMOTE_IOHUB_NB_PIRQS);
++        pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
++                     &s->iohub, REMOTE_IOHUB_NB_PIRQS);
++    }
+ 
+     qbus_set_hotplug_handler(BUS(pci_host->bus), OBJECT(s));
+ }
 diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index 736339c74a..f5ca909e68 100644
+index f5ca909e68..d351b1daa3 100644
 --- a/hw/remote/vfio-user-obj.c
 +++ b/hw/remote/vfio-user-obj.c
-@@ -52,6 +52,7 @@
- #include "hw/qdev-core.h"
+@@ -53,6 +53,9 @@
  #include "hw/pci/pci.h"
  #include "qemu/timer.h"
-+#include "exec/memory.h"
+ #include "exec/memory.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
++#include "hw/remote/vfio-user-obj.h"
  
  #define TYPE_VFU_OBJECT "x-vfio-user-server"
  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
-@@ -330,6 +331,193 @@ static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
-     trace_vfu_dma_unregister((uint64_t)info->iova.iov_base);
+@@ -96,6 +99,10 @@ struct VfuObject {
+     Error *unplug_blocker;
+ 
+     int vfu_poll_fd;
++
++    MSITriggerFunc *default_msi_trigger;
++    MSIPrepareMessageFunc *default_msi_prepare_message;
++    MSIxPrepareMessageFunc *default_msix_prepare_message;
+ };
+ 
+ static void vfu_object_init_ctx(VfuObject *o, Error **errp);
+@@ -518,6 +525,111 @@ static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
+     }
  }
  
-+static int vfu_object_mr_rw(MemoryRegion *mr, uint8_t *buf, hwaddr offset,
-+                            hwaddr size, const bool is_write)
++static int vfu_object_map_irq(PCIDevice *pci_dev, int intx)
 +{
-+    uint8_t *ptr = buf;
-+    bool release_lock = false;
-+    uint8_t *ram_ptr = NULL;
-+    MemTxResult result;
-+    int access_size;
-+    uint64_t val;
++    int pci_bdf = PCI_BUILD_BDF(pci_bus_num(pci_get_bus(pci_dev)),
++                                pci_dev->devfn);
 +
-+    if (memory_access_is_direct(mr, is_write)) {
-+        /**
-+         * Some devices expose a PCI expansion ROM, which could be buffer
-+         * based as compared to other regions which are primarily based on
-+         * MemoryRegionOps. memory_region_find() would already check
-+         * for buffer overflow, we don't need to repeat it here.
++    return pci_bdf;
++}
++
++static void vfu_object_set_irq(void *opaque, int pirq, int level)
++{
++    PCIBus *pci_bus = opaque;
++    PCIDevice *pci_dev = NULL;
++    vfu_ctx_t *vfu_ctx = NULL;
++    int pci_bus_num, devfn;
++
++    if (level) {
++        pci_bus_num = PCI_BUS_NUM(pirq);
++        devfn = PCI_BDF_TO_DEVFN(pirq);
++
++        /*
++         * pci_find_device() performs at O(1) if the device is attached
++         * to the root PCI bus. Whereas, if the device is attached to a
++         * secondary PCI bus (such as when a root port is involved),
++         * finding the parent PCI bus could take O(n)
 +         */
-+        ram_ptr = memory_region_get_ram_ptr(mr);
++        pci_dev = pci_find_device(pci_bus, pci_bus_num, devfn);
 +
-+        if (is_write) {
-+            memcpy((ram_ptr + offset), buf, size);
-+        } else {
-+            memcpy(buf, (ram_ptr + offset), size);
-+        }
++        vfu_ctx = pci_dev->irq_opaque;
 +
-+        return 0;
++        g_assert(vfu_ctx);
++
++        vfu_irq_trigger(vfu_ctx, 0);
++    }
++}
++
++static MSIMessage vfu_object_msi_prepare_msg(PCIDevice *pci_dev,
++                                             unsigned int vector)
++{
++    MSIMessage msg;
++
++    msg.address = 0;
++    msg.data = vector;
++
++    return msg;
++}
++
++static void vfu_object_msi_trigger(PCIDevice *pci_dev, MSIMessage msg)
++{
++    vfu_ctx_t *vfu_ctx = pci_dev->irq_opaque;
++
++    vfu_irq_trigger(vfu_ctx, msg.data);
++}
++
++static void vfu_object_setup_msi_cbs(VfuObject *o)
++{
++    o->default_msi_trigger = o->pci_dev->msi_trigger;
++    o->default_msi_prepare_message = o->pci_dev->msi_prepare_message;
++    o->default_msix_prepare_message = o->pci_dev->msix_prepare_message;
++
++    o->pci_dev->msi_trigger = vfu_object_msi_trigger;
++    o->pci_dev->msi_prepare_message = vfu_object_msi_prepare_msg;
++    o->pci_dev->msix_prepare_message = vfu_object_msi_prepare_msg;
++}
++
++static void vfu_object_restore_msi_cbs(VfuObject *o)
++{
++    o->pci_dev->msi_trigger = o->default_msi_trigger;
++    o->pci_dev->msi_prepare_message = o->default_msi_prepare_message;
++    o->pci_dev->msix_prepare_message = o->default_msix_prepare_message;
++}
++
++static int vfu_object_setup_irqs(VfuObject *o, PCIDevice *pci_dev)
++{
++    vfu_ctx_t *vfu_ctx = o->vfu_ctx;
++    int ret;
++
++    ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_INTX_IRQ, 1);
++    if (ret < 0) {
++        return ret;
 +    }
 +
-+    while (size) {
-+        /**
-+         * The read/write logic used below is similar to the ones in
-+         * flatview_read/write_continue()
-+         */
-+        release_lock = prepare_mmio_access(mr);
-+
-+        access_size = memory_access_size(mr, size, offset);
-+
-+        if (is_write) {
-+            val = ldn_he_p(ptr, access_size);
-+
-+            result = memory_region_dispatch_write(mr, offset, val,
-+                                                  size_memop(access_size),
-+                                                  MEMTXATTRS_UNSPECIFIED);
-+        } else {
-+            result = memory_region_dispatch_read(mr, offset, &val,
-+                                                 size_memop(access_size),
-+                                                 MEMTXATTRS_UNSPECIFIED);
-+
-+            stn_he_p(ptr, access_size, val);
-+        }
-+
-+        if (release_lock) {
-+            qemu_mutex_unlock_iothread();
-+            release_lock = false;
-+        }
-+
-+        if (result != MEMTX_OK) {
-+            return -1;
-+        }
-+
-+        size -= access_size;
-+        ptr += access_size;
-+        offset += access_size;
++    if (msix_nr_vectors_allocated(pci_dev)) {
++        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSIX_IRQ,
++                                       msix_nr_vectors_allocated(pci_dev));
++    } else if (msi_nr_vectors_allocated(pci_dev)) {
++        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSI_IRQ,
++                                       msi_nr_vectors_allocated(pci_dev));
 +    }
++
++    if (ret < 0) {
++        return ret;
++    }
++
++    vfu_object_setup_msi_cbs(o);
++
++    pci_dev->irq_opaque = vfu_ctx;
 +
 +    return 0;
 +}
 +
-+static size_t vfu_object_bar_rw(PCIDevice *pci_dev, int pci_bar,
-+                                hwaddr bar_offset, char * const buf,
-+                                hwaddr len, const bool is_write)
++void vfu_object_set_bus_irq(PCIBus *pci_bus)
 +{
-+    MemoryRegionSection section = { 0 };
-+    uint8_t *ptr = (uint8_t *)buf;
-+    MemoryRegion *section_mr = NULL;
-+    uint64_t section_size;
-+    hwaddr section_offset;
-+    hwaddr size = 0;
-+
-+    while (len) {
-+        section = memory_region_find(pci_dev->io_regions[pci_bar].memory,
-+                                     bar_offset, len);
-+
-+        if (!section.mr) {
-+            warn_report("vfu: invalid address 0x%"PRIx64"", bar_offset);
-+            return size;
-+        }
-+
-+        section_mr = section.mr;
-+        section_offset = section.offset_within_region;
-+        section_size = int128_get64(section.size);
-+
-+        if (is_write && section_mr->readonly) {
-+            warn_report("vfu: attempting to write to readonly region in "
-+                        "bar %d - [0x%"PRIx64" - 0x%"PRIx64"]",
-+                        pci_bar, bar_offset,
-+                        (bar_offset + section_size));
-+            memory_region_unref(section_mr);
-+            return size;
-+        }
-+
-+        if (vfu_object_mr_rw(section_mr, ptr, section_offset,
-+                             section_size, is_write)) {
-+            warn_report("vfu: failed to %s "
-+                        "[0x%"PRIx64" - 0x%"PRIx64"] in bar %d",
-+                        is_write ? "write to" : "read from", bar_offset,
-+                        (bar_offset + section_size), pci_bar);
-+            memory_region_unref(section_mr);
-+            return size;
-+        }
-+
-+        size += section_size;
-+        bar_offset += section_size;
-+        ptr += section_size;
-+        len -= section_size;
-+
-+        memory_region_unref(section_mr);
-+    }
-+
-+    return size;
-+}
-+
-+/**
-+ * VFU_OBJECT_BAR_HANDLER - macro for defining handlers for PCI BARs.
-+ *
-+ * To create handler for BAR number 2, VFU_OBJECT_BAR_HANDLER(2) would
-+ * define vfu_object_bar2_handler
-+ */
-+#define VFU_OBJECT_BAR_HANDLER(BAR_NO)                                         \
-+    static ssize_t vfu_object_bar##BAR_NO##_handler(vfu_ctx_t *vfu_ctx,        \
-+                                        char * const buf, size_t count,        \
-+                                        loff_t offset, const bool is_write)    \
-+    {                                                                          \
-+        VfuObject *o = vfu_get_private(vfu_ctx);                               \
-+        PCIDevice *pci_dev = o->pci_dev;                                       \
-+                                                                               \
-+        return vfu_object_bar_rw(pci_dev, BAR_NO, offset,                      \
-+                                 buf, count, is_write);                        \
-+    }                                                                          \
-+
-+VFU_OBJECT_BAR_HANDLER(0)
-+VFU_OBJECT_BAR_HANDLER(1)
-+VFU_OBJECT_BAR_HANDLER(2)
-+VFU_OBJECT_BAR_HANDLER(3)
-+VFU_OBJECT_BAR_HANDLER(4)
-+VFU_OBJECT_BAR_HANDLER(5)
-+VFU_OBJECT_BAR_HANDLER(6)
-+
-+static vfu_region_access_cb_t *vfu_object_bar_handlers[PCI_NUM_REGIONS] = {
-+    &vfu_object_bar0_handler,
-+    &vfu_object_bar1_handler,
-+    &vfu_object_bar2_handler,
-+    &vfu_object_bar3_handler,
-+    &vfu_object_bar4_handler,
-+    &vfu_object_bar5_handler,
-+    &vfu_object_bar6_handler,
-+};
-+
-+/**
-+ * vfu_object_register_bars - Identify active BAR regions of pdev and setup
-+ *                            callbacks to handle read/write accesses
-+ */
-+static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
-+{
-+    int flags = VFU_REGION_FLAG_RW;
-+    int i;
-+
-+    for (i = 0; i < PCI_NUM_REGIONS; i++) {
-+        if (!pdev->io_regions[i].size) {
-+            continue;
-+        }
-+
-+        if ((i == VFU_PCI_DEV_ROM_REGION_IDX) ||
-+            pdev->io_regions[i].memory->readonly) {
-+            flags &= ~VFU_REGION_FLAG_WRITE;
-+        }
-+
-+        vfu_setup_region(vfu_ctx, VFU_PCI_DEV_BAR0_REGION_IDX + i,
-+                         (size_t)pdev->io_regions[i].size,
-+                         vfu_object_bar_handlers[i],
-+                         flags, NULL, 0, -1, 0);
-+
-+        trace_vfu_bar_register(i, pdev->io_regions[i].addr,
-+                               pdev->io_regions[i].size);
-+    }
++    pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus, 1);
 +}
 +
  /*
   * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
   * properties. It also depends on devices instantiated in QEMU. These
-@@ -426,6 +614,8 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
-         goto fail;
-     }
+@@ -616,6 +728,13 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
  
-+    vfu_object_register_bars(o->vfu_ctx, o->pci_dev);
+     vfu_object_register_bars(o->vfu_ctx, o->pci_dev);
+ 
++    ret = vfu_object_setup_irqs(o, o->pci_dev);
++    if (ret < 0) {
++        error_setg(errp, "vfu: Failed to setup interrupts for %s",
++                   o->device);
++        goto fail;
++    }
 +
      ret = vfu_realize_ctx(o->vfu_ctx);
      if (ret < 0) {
          error_setg(errp, "vfu: Failed to realize device %s- %s",
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 657841eed0..fb16be57a6 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2719,7 +2719,7 @@ void memory_region_flush_rom_device(MemoryRegion *mr, hwaddr addr, hwaddr size)
-     invalidate_and_set_dirty(mr, addr, size);
- }
+@@ -641,6 +760,8 @@ fail:
+         o->unplug_blocker = NULL;
+     }
+     if (o->pci_dev) {
++        vfu_object_restore_msi_cbs(o);
++        o->pci_dev->irq_opaque = NULL;
+         object_unref(OBJECT(o->pci_dev));
+         o->pci_dev = NULL;
+     }
+@@ -700,6 +821,8 @@ static void vfu_object_finalize(Object *obj)
+     }
  
--static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
-+int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
- {
-     unsigned access_size_max = mr->ops->valid.max_access_size;
+     if (o->pci_dev) {
++        vfu_object_restore_msi_cbs(o);
++        o->pci_dev->irq_opaque = NULL;
+         object_unref(OBJECT(o->pci_dev));
+         o->pci_dev = NULL;
+     }
+diff --git a/stubs/vfio-user-obj.c b/stubs/vfio-user-obj.c
+new file mode 100644
+index 0000000000..79100d768e
+--- /dev/null
++++ b/stubs/vfio-user-obj.c
+@@ -0,0 +1,6 @@
++#include "qemu/osdep.h"
++#include "hw/remote/vfio-user-obj.h"
++
++void vfu_object_set_bus_irq(PCIBus *pci_bus)
++{
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f257afcf8a..d2e977affb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3600,6 +3600,7 @@ F: hw/remote/iohub.c
+ F: include/hw/remote/iohub.h
+ F: subprojects/libvfio-user
+ F: hw/remote/vfio-user-obj.c
++F: include/hw/remote/vfio-user-obj.h
+ F: hw/remote/iommu.c
+ F: include/hw/remote/iommu.h
  
-@@ -2746,7 +2746,7 @@ static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
-     return l;
- }
- 
--static bool prepare_mmio_access(MemoryRegion *mr)
-+bool prepare_mmio_access(MemoryRegion *mr)
- {
-     bool release_lock = false;
- 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index bce8360482..8cd33f6c7e 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -144,7 +144,7 @@ static void *pattern_alloc(pattern p, size_t len)
-     return buf;
- }
- 
--static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
-+static int fuzz_memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
- {
-     unsigned access_size_max = mr->ops->valid.max_access_size;
- 
-@@ -242,11 +242,12 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
- 
-         /*
-          *  If mr1 isn't RAM, address_space_translate doesn't update l. Use
--         *  memory_access_size to identify the number of bytes that it is safe
--         *  to write without accidentally writing to another MemoryRegion.
-+         *  fuzz_memory_access_size to identify the number of bytes that it
-+         *  is safe to write without accidentally writing to another
-+         *  MemoryRegion.
-          */
-         if (!memory_region_is_ram(mr1)) {
--            l = memory_access_size(mr1, l, addr1);
-+            l = fuzz_memory_access_size(mr1, l, addr1);
-         }
-         if (memory_region_is_ram(mr1) ||
-             memory_region_is_romd(mr1) ||
 diff --git a/hw/remote/trace-events b/hw/remote/trace-events
-index f945c7e33b..847d50d88f 100644
+index 847d50d88f..c167b3c7a5 100644
 --- a/hw/remote/trace-events
 +++ b/hw/remote/trace-events
-@@ -9,3 +9,6 @@ vfu_cfg_read(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u -> 0x%x"
- vfu_cfg_write(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u <- 0x%x"
- vfu_dma_register(uint64_t gpa, size_t len) "vfu: registering GPA 0x%"PRIx64", %zu bytes"
- vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
-+vfu_bar_register(int i, uint64_t addr, uint64_t size) "vfu: BAR %d: addr 0x%"PRIx64" size 0x%"PRIx64""
-+vfu_bar_rw_enter(const char *op, uint64_t addr) "vfu: %s request for BAR address 0x%"PRIx64""
-+vfu_bar_rw_exit(const char *op, uint64_t addr) "vfu: Finished %s of BAR address 0x%"PRIx64""
+@@ -12,3 +12,4 @@ vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
+ vfu_bar_register(int i, uint64_t addr, uint64_t size) "vfu: BAR %d: addr 0x%"PRIx64" size 0x%"PRIx64""
+ vfu_bar_rw_enter(const char *op, uint64_t addr) "vfu: %s request for BAR address 0x%"PRIx64""
+ vfu_bar_rw_exit(const char *op, uint64_t addr) "vfu: Finished %s of BAR address 0x%"PRIx64""
++vfu_interrupt(int pirq) "vfu: sending interrupt to device - PIRQ %d"
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 6f80fec761..d8f3fd5c44 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -60,3 +60,4 @@ if have_system
+ else
+   stub_ss.add(files('qdev.c'))
+ endif
++stub_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_false: files('vfio-user-obj.c'))
 -- 
 2.20.1
 
