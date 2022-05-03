@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F62518301
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 13:03:38 +0200 (CEST)
-Received: from localhost ([::1]:56782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055085182B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:55:31 +0200 (CEST)
+Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlqJT-0000Lc-8a
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 07:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34112)
+	id 1nlqBl-00057e-Rl
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlpvI-0000Sz-A6
- for qemu-devel@nongnu.org; Tue, 03 May 2022 06:38:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34602)
+ id 1nlpy5-000532-1m
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 06:41:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nlpvF-0004oq-BZ
- for qemu-devel@nongnu.org; Tue, 03 May 2022 06:38:27 -0400
+ id 1nlpy0-0006Au-QX
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 06:41:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651574304;
+ s=mimecast20190719; t=1651574476;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/W4dMp5rdBwlm6jl4dB9twmmxxWMLAGIi/ywylhmILE=;
- b=jOS3eP0Iqex8JEzhwjmn8ljvnmxoDM6NYghp0jtu/2l8mJgX+bwTmW/quZoefUE2a0KCfL
- GFlYLmahWs9Bke0GaSaTb7rPxPYZ0oZGOg4TMFpB6WmIjtCfJ8hJFUOCLuCNYb80+2Qu/B
- GgsEtti23+jtV9/evzJTC39hdJ25k5A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M7hFvLEukGTaKMkQVBrcIKCE4R10PLMycx8aeqntG9k=;
+ b=C6d+6BFlL48+GIHKpqGFjKmcyAN6MFI1ZdleZGcuk9p1+v9yunX5btw+STxFDjWa5Zy6hK
+ Nm1odyUdNPWOr+SvbKq6rPe5tMwhhfwKCXxPwPLWQ4Lc5QMKsZX+gIXA3CfMmU10YKa7oB
+ p5/swZRF9/WJOkxsuOX5liTBGS00Yk4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-setoWfURPjG7NLqESCX5nA-1; Tue, 03 May 2022 06:38:23 -0400
-X-MC-Unique: setoWfURPjG7NLqESCX5nA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-427-uayGGemtOfGFfO3r6o-aEQ-1; Tue, 03 May 2022 06:41:15 -0400
+X-MC-Unique: uayGGemtOfGFfO3r6o-aEQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EF19185A79C
- for <qemu-devel@nongnu.org>; Tue,  3 May 2022 10:38:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A52711C05136
+ for <qemu-devel@nongnu.org>; Tue,  3 May 2022 10:41:14 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C9869E6D;
- Tue,  3 May 2022 10:38:09 +0000 (UTC)
-Date: Tue, 3 May 2022 11:38:07 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E4EC840D2820;
+ Tue,  3 May 2022 10:41:13 +0000 (UTC)
+Date: Tue, 3 May 2022 11:41:11 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 22/26] hw: replace qemu_set_nonblock()
-Message-ID: <YnEGDy2yFGG7awQH@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 23/26] ui: replace qemu_set_nonblock()
+Message-ID: <YnEGx9JWeu4eB/0T@redhat.com>
 References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
- <20220426092715.3931705-23-marcandre.lureau@redhat.com>
+ <20220426092715.3931705-24-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426092715.3931705-23-marcandre.lureau@redhat.com>
+In-Reply-To: <20220426092715.3931705-24-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,17 +84,15 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 01:27:11PM +0400, marcandre.lureau@redhat.com wrote:
+On Tue, Apr 26, 2022 at 01:27:12PM +0400, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Those calls are non-socket fd, or are POSIX-specific. Use the dedicated
-> GLib API. (qemu_set_nonblock() is for socket-like)
+> The call is POSIX-specific. Use the dedicated GLib API.
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  hw/input/virtio-input-host.c |  5 ++++-
->  hw/virtio/vhost-vsock.c      | 11 +++++++----
->  2 files changed, 11 insertions(+), 5 deletions(-)
+>  ui/input-linux.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
