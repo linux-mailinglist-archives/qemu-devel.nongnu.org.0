@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD1451900A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:23:55 +0200 (CEST)
-Received: from localhost ([::1]:33136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DF3518FD7
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:16:55 +0200 (CEST)
+Received: from localhost ([::1]:46694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlzzu-0002gh-0t
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43278)
+	id 1nlzt8-0000iQ-Hl
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1nlymW-0001HK-Aa; Tue, 03 May 2022 16:06:00 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:46073)
+ id 1nlyme-0001cd-KX; Tue, 03 May 2022 16:06:08 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:52956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1nlymU-0008Q3-Kl; Tue, 03 May 2022 16:06:00 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id h12so15888775plf.12;
- Tue, 03 May 2022 13:05:57 -0700 (PDT)
+ id 1nlyma-0008Qt-0Z; Tue, 03 May 2022 16:06:08 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id e24so16285834pjt.2;
+ Tue, 03 May 2022 13:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rB2t5tn1inP0ifvr+a75qrs1lXFqufxW9vylkGaycJc=;
- b=g1/LTu5/2E03HFNfOJGT+JwoCFa5eB71EX1lHtKoCDlQi+EKRJ29RfKlAA5tVEu7/e
- nX8sgfvyl1ODox4+UVC4RMiZ6o/JNQdThHfFxyYTM7xs8P5HVhIe/m0vcduBXbozJW3W
- fLejTlNglbESNTW+M2uHK2HLS3VYda0PHI010VKhJc9EvEHYFYQi6lueckxWL61Nwor2
- z28hYqyKYWyDE+7HByb7mZTPLTWg/QkdqhHZLzkF1QrDA9stlPcWC31F8JOK7eON06SF
- 10pmbqjzjuLClPutlFbvqja23bxyqhZhVvzaxdoHGm53GS4wyJAzBnSmKL8JzPjYh7Mg
- OZYw==
+ bh=CdOKV/thj8b18wgN2+zK8yNjMAUbJZ9uaJbaHRQKzI8=;
+ b=OqUNV4VNDJQfS/c0EutpsebETsyoP1/QQ58yceVaFyZAqvV6oFb7qmO2T4L0qXYXuJ
+ nLYoAzPOHK2qnv77oNtPNLNmni1fDKzx9bxoJSAVL4Q3gt/U4PBQdqY0BQWP10O90jSu
+ z9ai/C1189QkmX69L7GVwzv5Md8UtZ9Ghq2bXTs+ZP5us8C1UnhGExnWlvW9e9z9CjwY
+ PgqvKzLtSpuOYSbecgvP06WJXL2uLld5NspasIt3/NkYAVg2M8RFVlooM2xLT6xhZ348
+ hv270JcWBzq2VEejF+C0VlTEGZvZFp8OYTJB6lCH315qsCoWpIG5QPPoaPViTOAjB1fc
+ 1p7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rB2t5tn1inP0ifvr+a75qrs1lXFqufxW9vylkGaycJc=;
- b=BBZ6VSlofXa2bK087hmIx32bpEl4mwx1NZiMSSrOTeDc0hPmFN3ZRcbZaDZKbruNvS
- 21du/KWCWuzWL18T260gmukVrfzoUKi2JKD7izL8u8Ba9mPaH65IW2HSPxu9AboptD7X
- Pqj0mgzDeI0Fdy48+RCZM5zg0pCDUSTV3ywLl99NPZhJSQcID4ywICDKBF0J65t/QiMy
- erBDmDs2ma/x1Wpi/H8gYz7v4vRmFlZHFM/joAn1LLpjkMVYthzvVwBwdAf/gE7y/sJ/
- NFW0QKGqFhsYqSyGjy53RvgHu4+BaKsTuoHGjPfYgQnXG7gywMAbyYInR++HpDSw+bxK
- OjsA==
-X-Gm-Message-State: AOAM531cKdOHyqzBYjx2ybUUy3jmdVmryjzQ+czHuP5soFZaDx3OkMvA
- +7wmPAdBe+THlB6G7ALagW49RwxCNug=
-X-Google-Smtp-Source: ABdhPJyZLAwJA4OTIMhOabcTaHwSgZg429dTPfZHTEErnf3usLKOh+csLSeZVOFW68HtkQyEvShx0g==
-X-Received: by 2002:a17:902:f78d:b0:14d:522e:deb3 with SMTP id
- q13-20020a170902f78d00b0014d522edeb3mr18442424pln.173.1651608356145; 
- Tue, 03 May 2022 13:05:56 -0700 (PDT)
+ bh=CdOKV/thj8b18wgN2+zK8yNjMAUbJZ9uaJbaHRQKzI8=;
+ b=Ay0aWAbFSvwrroENZDIu2jHMclzth/YeKEeMZhY85q5oPjuFsV4wbQUwK+7KUYQhfn
+ ke4pc9UqIe99XDlQxB848Ci4BAD4baxcavo3u5AwMv7jDLAApZ8kfqcwV5Toq8s5jdLH
+ 6NEejQ7PyaHTeODMxuFTYBN/8Ibv+1WQvQU8kX1ArYW1iOaVGcliXnULtKA9g8FfhdhS
+ TCgHenuSFKoiU1eux+bCrGsr353JKWdWrCB3jIa2h6dYU044tGK44tv2981haRO7vcL2
+ gFHmicn7e+/9qiiC2z+SpY5y47LPEYatiP/YnILBaP/gto1SosBJtGgyliUAlOV/wvWV
+ 31Jg==
+X-Gm-Message-State: AOAM531zQ/q+TCAejiRLo5LBS9nBKSqutPvyWplDLHNH6jy1k+f0uuSW
+ eSvommtb//v8HgqzYVDSwEFcq7Zmgls=
+X-Google-Smtp-Source: ABdhPJz6F4Juf8zq90qBWwPyRPlw/i8CkLLV57B1gVnvuW0oFIAQc29Ba2YnDBtnjkjahbbGeHY76A==
+X-Received: by 2002:a17:90b:3910:b0:1dc:515e:1b12 with SMTP id
+ ob16-20020a17090b391000b001dc515e1b12mr6563372pjb.107.1651608361516; 
+ Tue, 03 May 2022 13:06:01 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- q26-20020a63505a000000b003aa8b87feb5sm13670148pgl.0.2022.05.03.13.05.51
+ q26-20020a63505a000000b003aa8b87feb5sm13670148pgl.0.2022.05.03.13.05.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 13:05:55 -0700 (PDT)
+ Tue, 03 May 2022 13:06:00 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -58,16 +58,16 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
  Yonggang Luo <luoyonggang@gmail.com>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 1/2] cirrus/win32: upgrade mingw base packages
-Date: Wed,  4 May 2022 04:05:23 +0800
-Message-Id: <20220503200524.1868-2-luoyonggang@gmail.com>
+Subject: [PATCH 2/2] gitlab-ci: Upgrade mingw base package.
+Date: Wed,  4 May 2022 04:05:24 +0800
+Message-Id: <20220503200524.1868-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.36.0.windows.1
 In-Reply-To: <20220503200524.1868-1-luoyonggang@gmail.com>
 References: <20220503200524.1868-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,22 +92,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- .cirrus.yml | 2 +-
+ .gitlab-ci.d/windows.yml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 7552d70974..20843a420c 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -12,7 +12,7 @@ windows_msys2_task:
-     CIRRUS_SHELL: powershell
-     MSYS: winsymlinks:nativestrict
-     MSYSTEM: MINGW64
--    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2021-04-19/msys2-base-x86_64-20210419.sfx.exe
-+    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.sfx.exe
-     MSYS2_FINGERPRINT: 0
-     MSYS2_PACKAGES: "
-       diffutils git grep make pkg-config sed
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 1df1630349..47f6073773 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -16,7 +16,7 @@
+     }
+   - If ( !(Test-Path -Path msys64\var\cache\msys2.exe ) ) {
+       Invoke-WebRequest
+-      "https://github.com/msys2/msys2-installer/releases/download/2021-07-25/msys2-base-x86_64-20210725.sfx.exe"
++      "https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.sfx.exe"
+       -outfile "msys64\var\cache\msys2.exe"
+     }
+   - msys64\var\cache\msys2.exe -y
 -- 
 2.36.0.windows.1
 
