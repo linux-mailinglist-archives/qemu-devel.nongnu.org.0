@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B77A51901A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:35:29 +0200 (CEST)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3A3519010
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:28:28 +0200 (CEST)
+Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm0B6-00034D-53
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
+	id 1nm04J-00014N-BC
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlyv9-0001Hk-7w
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23201)
+ id 1nlysQ-000647-9C
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:12:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlyv7-00031r-O2
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:14:54 -0400
+ id 1nlysO-0002jf-HF
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:12:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651608893;
+ s=mimecast20190719; t=1651608723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9hMdh9cpsvkt5DkxFqlwfDQSjcB2gcew1FUOpUo7mUQ=;
- b=OymLIcIB/tDQ4O0PtRa4+cN5sZoALI9ClXuWYvyeImXe1v7X8CgZQnxblI7Pd1sfVfQ6Eo
- MUrYRmDfNFEdKo3B9UvaOZlnv0HVu21nmykxWdU0YSJgSmubDrZOEQ/c8UpCKTCuaenrbT
- oQ2nR3DeRcTm9Adsw0VJ3iUW/lVr2Ng=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=spcnoU6B6qZO+mMZtjLZJhWRg+6PC57/TK/gztEAXZ4=;
+ b=aGBgSk6P4IEkXlm8lRj5TIWIbGbyteM7bcoT0H4GAe9/SRllQ9JhkwrB05xeg3yjfO0zag
+ AQ4P2KRA6CS5tTBoswl5jKCuYejFbET2mC6uGQLFuPYdo/63YP+lKv+nGFoLdT+BFRPMam
+ 3vc8id+M9XeLFGQVCcn7SSDs++U6Zoo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-217-CcxArYicMMCGAHxtSw_CuQ-1; Tue, 03 May 2022 11:36:06 -0400
-X-MC-Unique: CcxArYicMMCGAHxtSw_CuQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-375-HyD4babPM6Wb-zFdvW1yXA-1; Tue, 03 May 2022 11:34:31 -0400
+X-MC-Unique: HyD4babPM6Wb-zFdvW1yXA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 588D03CF16F4;
- Tue,  3 May 2022 13:01:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A004A131AE42;
+ Tue,  3 May 2022 13:01:41 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87B5E428F19;
- Tue,  3 May 2022 13:01:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBABF153AD3A;
+ Tue,  3 May 2022 13:01:40 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 12/23] virtiofsd: replace pipe() with g_unix_open_pipe(CLOEXEC)
-Date: Tue,  3 May 2022 17:00:12 +0400
-Message-Id: <20220503130023.180544-13-marcandre.lureau@redhat.com>
+Subject: [PULL 13/23] io: replace pipe() with g_unix_open_pipe(CLOEXEC)
+Date: Tue,  3 May 2022 17:00:13 +0400
+Message-Id: <20220503130023.180544-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20220503130023.180544-1-marcandre.lureau@redhat.com>
 References: <20220503130023.180544-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -88,22 +88,24 @@ Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tools/virtiofsd/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ io/channel-command.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index f8981e5bdf1a..f5f66f292c70 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -275,7 +275,7 @@ int fuse_daemonize(int foreground)
-         int waiter[2];
-         char completed;
+diff --git a/io/channel-command.c b/io/channel-command.c
+index 338da73ade56..539685ea8340 100644
+--- a/io/channel-command.c
++++ b/io/channel-command.c
+@@ -76,8 +76,8 @@ qio_channel_command_new_spawn(const char *const argv[],
+         }
+     }
  
--        if (pipe(waiter)) {
-+        if (!g_unix_open_pipe(waiter, FD_CLOEXEC, NULL)) {
-             fuse_log(FUSE_LOG_ERR, "fuse_daemonize: pipe: %s\n",
-                      strerror(errno));
-             return -1;
+-    if ((!stdinnull && pipe(stdinfd) < 0) ||
+-        (!stdoutnull && pipe(stdoutfd) < 0)) {
++    if ((!stdinnull && !g_unix_open_pipe(stdinfd, FD_CLOEXEC, NULL)) ||
++        (!stdoutnull && !g_unix_open_pipe(stdoutfd, FD_CLOEXEC, NULL))) {
+         error_setg_errno(errp, errno,
+                          "Unable to open pipe");
+         goto error;
 -- 
 2.36.0.44.g0f828332d5ac
 
