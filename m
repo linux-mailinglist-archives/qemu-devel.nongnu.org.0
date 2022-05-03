@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3A3519010
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:28:28 +0200 (CEST)
-Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED36518FE3
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 23:20:06 +0200 (CEST)
+Received: from localhost ([::1]:54782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm04J-00014N-BC
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
+	id 1nlzwD-0006XI-0f
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 17:20:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlysQ-000647-9C
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:12:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56028)
+ id 1nlyqd-0002jb-2i
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:10:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nlysO-0002jf-HF
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:12:05 -0400
+ id 1nlyqb-0002Sb-6e
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:10:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651608723;
+ s=mimecast20190719; t=1651608612;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=spcnoU6B6qZO+mMZtjLZJhWRg+6PC57/TK/gztEAXZ4=;
- b=aGBgSk6P4IEkXlm8lRj5TIWIbGbyteM7bcoT0H4GAe9/SRllQ9JhkwrB05xeg3yjfO0zag
- AQ4P2KRA6CS5tTBoswl5jKCuYejFbET2mC6uGQLFuPYdo/63YP+lKv+nGFoLdT+BFRPMam
- 3vc8id+M9XeLFGQVCcn7SSDs++U6Zoo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vGAsPEx3J2jPmQD3Acyc8kZGSS2G4k65JexyADFPDzg=;
+ b=SvK5tZ/G9u5eQUqFE5QmciIbh/A4U8FjHzjFARNwcrtTYScl9Z5fUHIYwBDz3cKGtrhiD/
+ 3GlUsgzPEqUZEWWgNK1n1mrfHNsCYZDPwfgBgghOO4P4UdaA7FmuARLlBINL8Rl1pKwRca
+ UYtZZP0RtOkXIFEuetOvDZJgsEF3EkA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-375-HyD4babPM6Wb-zFdvW1yXA-1; Tue, 03 May 2022 11:34:31 -0400
-X-MC-Unique: HyD4babPM6Wb-zFdvW1yXA-1
+ us-mta-627-OxjJIOG0OQ6ZQ8FLs4JZiw-1; Tue, 03 May 2022 11:36:36 -0400
+X-MC-Unique: OxjJIOG0OQ6ZQ8FLs4JZiw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A004A131AE42;
- Tue,  3 May 2022 13:01:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 664063CF16FE;
+ Tue,  3 May 2022 13:01:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBABF153AD3A;
- Tue,  3 May 2022 13:01:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C21E153AD3A;
+ Tue,  3 May 2022 13:01:45 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 13/23] io: replace pipe() with g_unix_open_pipe(CLOEXEC)
-Date: Tue,  3 May 2022 17:00:13 +0400
-Message-Id: <20220503130023.180544-14-marcandre.lureau@redhat.com>
+Subject: [PULL 14/23] Replace fcntl(O_NONBLOCK) with
+ g_unix_set_fd_nonblocking()
+Date: Tue,  3 May 2022 17:00:14 +0400
+Message-Id: <20220503130023.180544-15-marcandre.lureau@redhat.com>
 In-Reply-To: <20220503130023.180544-1-marcandre.lureau@redhat.com>
 References: <20220503130023.180544-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -86,26 +87,130 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- io/channel-command.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/tap-bsd.c                      |  4 ++--
+ net/tap-linux.c                    |  2 +-
+ net/tap-solaris.c                  |  2 +-
+ tests/qtest/fuzz/virtio_net_fuzz.c |  2 +-
+ tests/unit/test-iov.c              |  4 ++--
+ util/oslib-posix.c                 | 16 ++--------------
+ 6 files changed, 9 insertions(+), 21 deletions(-)
 
-diff --git a/io/channel-command.c b/io/channel-command.c
-index 338da73ade56..539685ea8340 100644
---- a/io/channel-command.c
-+++ b/io/channel-command.c
-@@ -76,8 +76,8 @@ qio_channel_command_new_spawn(const char *const argv[],
+diff --git a/net/tap-bsd.c b/net/tap-bsd.c
+index 7e65bd391f0b..005ce05c6e07 100644
+--- a/net/tap-bsd.c
++++ b/net/tap-bsd.c
+@@ -98,7 +98,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
+             return -1;
          }
      }
+-    fcntl(fd, F_SETFL, O_NONBLOCK);
++    g_unix_set_fd_nonblocking(fd, true, NULL);
+     return fd;
+ }
  
--    if ((!stdinnull && pipe(stdinfd) < 0) ||
--        (!stdoutnull && pipe(stdoutfd) < 0)) {
-+    if ((!stdinnull && !g_unix_open_pipe(stdinfd, FD_CLOEXEC, NULL)) ||
-+        (!stdoutnull && !g_unix_open_pipe(stdoutfd, FD_CLOEXEC, NULL))) {
-         error_setg_errno(errp, errno,
-                          "Unable to open pipe");
+@@ -189,7 +189,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
          goto error;
+     }
+ 
+-    fcntl(fd, F_SETFL, O_NONBLOCK);
++    g_unix_set_fd_nonblocking(fd, true, NULL);
+     return fd;
+ 
+ error:
+diff --git a/net/tap-linux.c b/net/tap-linux.c
+index 3e24d232e782..304ff45071dd 100644
+--- a/net/tap-linux.c
++++ b/net/tap-linux.c
+@@ -113,7 +113,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
+         return -1;
+     }
+     pstrcpy(ifname, ifname_size, ifr.ifr_name);
+-    fcntl(fd, F_SETFL, O_NONBLOCK);
++    g_unix_set_fd_nonblocking(fd, true, NULL);
+     return fd;
+ }
+ 
+diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+index 79919785c9f6..a44f8805c23e 100644
+--- a/net/tap-solaris.c
++++ b/net/tap-solaris.c
+@@ -198,7 +198,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
+             return -1;
+         }
+     }
+-    fcntl(fd, F_SETFL, O_NONBLOCK);
++    g_unix_set_fd_nonblocking(fd, true, NULL);
+     return fd;
+ }
+ 
+diff --git a/tests/qtest/fuzz/virtio_net_fuzz.c b/tests/qtest/fuzz/virtio_net_fuzz.c
+index 3df78d9c1c2a..c2c15f07f062 100644
+--- a/tests/qtest/fuzz/virtio_net_fuzz.c
++++ b/tests/qtest/fuzz/virtio_net_fuzz.c
+@@ -151,7 +151,7 @@ static void *virtio_net_test_setup_socket(GString *cmd_line, void *arg)
+ {
+     int ret = socketpair(PF_UNIX, SOCK_STREAM, 0, sockfds);
+     g_assert_cmpint(ret, !=, -1);
+-    fcntl(sockfds[0], F_SETFL, O_NONBLOCK);
++    g_unix_set_fd_nonblocking(sockfds[0], true, NULL);
+     sockfds_initialized = true;
+     g_string_append_printf(cmd_line, " -netdev socket,fd=%d,id=hs0 ",
+                            sockfds[1]);
+diff --git a/tests/unit/test-iov.c b/tests/unit/test-iov.c
+index 0d2ba9ba87d9..93bda00f0e10 100644
+--- a/tests/unit/test-iov.c
++++ b/tests/unit/test-iov.c
+@@ -186,7 +186,7 @@ static void test_io(void)
+ 
+        close(sv[0]);
+        FD_SET(sv[1], &fds);
+-       fcntl(sv[1], F_SETFL, O_RDWR|O_NONBLOCK);
++       g_unix_set_fd_nonblocking(sv[1], true, NULL);
+        r = g_test_rand_int_range(sz / 2, sz);
+        setsockopt(sv[1], SOL_SOCKET, SO_SNDBUF, &r, sizeof(r));
+ 
+@@ -220,7 +220,7 @@ static void test_io(void)
+ 
+        close(sv[1]);
+        FD_SET(sv[0], &fds);
+-       fcntl(sv[0], F_SETFL, O_RDWR|O_NONBLOCK);
++       g_unix_set_fd_nonblocking(sv[0], true, NULL);
+        r = g_test_rand_int_range(sz / 2, sz);
+        setsockopt(sv[0], SOL_SOCKET, SO_RCVBUF, &r, sizeof(r));
+        usleep(500000);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 2a6f6248ad03..72f25e599dba 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -226,24 +226,12 @@ void qemu_anon_ram_free(void *ptr, size_t size)
+ 
+ void qemu_set_block(int fd)
+ {
+-    int f;
+-    f = fcntl(fd, F_GETFL);
+-    assert(f != -1);
+-    f = fcntl(fd, F_SETFL, f & ~O_NONBLOCK);
+-    assert(f != -1);
++    g_unix_set_fd_nonblocking(fd, false, NULL);
+ }
+ 
+ int qemu_try_set_nonblock(int fd)
+ {
+-    int f;
+-    f = fcntl(fd, F_GETFL);
+-    if (f == -1) {
+-        return -errno;
+-    }
+-    if (fcntl(fd, F_SETFL, f | O_NONBLOCK) == -1) {
+-        return -errno;
+-    }
+-    return 0;
++    return g_unix_set_fd_nonblocking(fd, true, NULL) ? 0 : -errno;
+ }
+ 
+ void qemu_set_nonblock(int fd)
 -- 
 2.36.0.44.g0f828332d5ac
 
