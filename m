@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705A85185C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 15:41:06 +0200 (CEST)
-Received: from localhost ([::1]:53034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2765185C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 15:41:04 +0200 (CEST)
+Received: from localhost ([::1]:52912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlsm1-0006JF-6P
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 09:41:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60194)
+	id 1nlsly-0006EC-OH
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 09:41:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shuizhuyuanluo@126.com>)
- id 1nlsjf-0004HW-2U
- for qemu-devel@nongnu.org; Tue, 03 May 2022 09:38:39 -0400
-Received: from m15112.mail.126.com ([220.181.15.112]:53346)
+ id 1nlsje-0004HY-22
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 09:38:38 -0400
+Received: from m15112.mail.126.com ([220.181.15.112]:53347)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shuizhuyuanluo@126.com>) id 1nlsjZ-0003ru-PS
+ (envelope-from <shuizhuyuanluo@126.com>) id 1nlsjZ-0003rv-NU
  for qemu-devel@nongnu.org; Tue, 03 May 2022 09:38:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=wqJwB
- kcNQsQcmfntOxUMeGMPpGzTbkFTSTOj3vASXfw=; b=WJunDnmvzeFvoDj4Ney1t
- n3yRje3EQx7eVpRUfkSHpzPNS9xbWyu5Anj4P9ptW9arVvmyezw9/59SCHxg4s0N
- D7TNIbQi4TBAp6k4bPH86ZLzEDf/OJ4MrqZi6h9lhsHcwflLeuUnjic5tO15dTM1
- oKCIWj5J+8lwNwzybqH72o=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=HFpcS
+ +pGqSJ5jr/A4X6ZFFO6aiKYct6QTiXhYjB3Vxk=; b=evpCmtx4fLmcpawcTUWsN
+ TLVbumC5u8d5DcdwYIlyf7pmitXYneGK4qjZGguZokCX58/SvogUGSZrQzcRT3bb
+ TaSKWq6Hq7qYgUMHT+Xu7PYrPbjnexzReNvSETzdrtkUtbb64gahNob7YSLrEmd8
+ L578cWCKn1WKIU4G2r82DQ=
 Received: from localhost.localdomain (unknown [101.228.28.144])
- by smtp2 (Coremail) with SMTP id DMmowABHS_38KHFixa2dBA--.22839S3;
+ by smtp2 (Coremail) with SMTP id DMmowABHS_38KHFixa2dBA--.22839S4;
  Tue, 03 May 2022 21:07:09 +0800 (CST)
 From: nihui <shuizhuyuanluo@126.com>
 To: qemu-devel@nongnu.org
 Cc: Ni Hui <shuizhuyuanluo@126.com>
-Subject: [PATCH 2/4] target/mips: Fix df_extract_val() and df_extract_df() dfe
- lookup
-Date: Tue,  3 May 2022 21:07:06 +0800
-Message-Id: <20220503130708.272850-2-shuizhuyuanluo@126.com>
+Subject: [PATCH 3/4] target/mips: Fix msa checking condition in
+ trans_msa_elm_fn()
+Date: Tue,  3 May 2022 21:07:07 +0800
+Message-Id: <20220503130708.272850-3-shuizhuyuanluo@126.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220503130708.272850-1-shuizhuyuanluo@126.com>
 References: <20220503130708.272850-1-shuizhuyuanluo@126.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DMmowABHS_38KHFixa2dBA--.22839S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7JFWxKF18Gr4fZryDuF4rKrg_yoW8JryrpF
- sFk3Wjkr48XrW29F9rGw45Xr4UCFyrKayUA3ZrKwn3Xr90g34rW3W8tryrKF4fGF95uFn8
- ZF1Fvr98Cw4I9FJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR8nYwUUUUU=
+X-CM-TRANSID: DMmowABHS_38KHFixa2dBA--.22839S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWruFyfZF1fGFWrArW3Xry8AFb_yoW3Jrc_Cw
+ 1xCr4kKr45WF429a1DCr1xGr18AFykur1Fy3Z7A3yYgaykurW8JrykWF1kuFn8u34fAFy3
+ A39Iqry0gF4fCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_HUDJUUUUU==
 X-Originating-IP: [101.228.28.144]
-X-CM-SenderInfo: pvkxx65kx13tpqox0qqrswhudrp/1tbiHB71elpEGjQkeAAAsh
+X-CM-SenderInfo: pvkxx65kx13tpqox0qqrswhudrp/1tbi7hX1eltC+GVfFAAAs7
 Received-SPF: pass client-ip=220.181.15.112;
  envelope-from=shuizhuyuanluo@126.com; helo=m15112.mail.126.com
 X-Spam_score_int: -20
@@ -72,38 +72,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ni Hui <shuizhuyuanluo@126.com>
 
-Actually look into dfe structure data so that df_extract_val() and
-df_extract_df() can return immediate and datafield other than BYTE.
+Fix issue that condition of check_msa_enabled(ctx) is reversed
+that causes segfault when msa elm_fn op encountered.
 
 Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
 ---
- target/mips/tcg/msa_translate.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/mips/tcg/msa_translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index 76307102f2..aa45bae0aa 100644
+index aa45bae0aa..92ccc6f921 100644
 --- a/target/mips/tcg/msa_translate.c
 +++ b/target/mips/tcg/msa_translate.c
-@@ -68,8 +68,8 @@ struct dfe {
- static int df_extract_val(DisasContext *ctx, int x, const struct dfe *s)
- {
-     for (unsigned i = 0; i < 4; i++) {
--        if (extract32(x, s->start, s->length) == s->mask) {
--            return extract32(x, 0, s->start);
-+        if (extract32(x, s[i].start, s[i].length) == s[i].mask) {
-+            return extract32(x, 0, s[i].start);
-         }
+@@ -599,7 +599,7 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
+         return false;
      }
-     return -1;
-@@ -82,7 +82,7 @@ static int df_extract_val(DisasContext *ctx, int x, const struct dfe *s)
- static int df_extract_df(DisasContext *ctx, int x, const struct dfe *s)
- {
-     for (unsigned i = 0; i < 4; i++) {
--        if (extract32(x, s->start, s->length) == s->mask) {
-+        if (extract32(x, s[i].start, s[i].length) == s[i].mask) {
-             return i;
-         }
+ 
+-    if (check_msa_enabled(ctx)) {
++    if (!check_msa_enabled(ctx)) {
+         return true;
      }
+ 
 -- 
 2.25.1
 
