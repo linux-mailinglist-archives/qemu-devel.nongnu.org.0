@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EB151818B
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:46:46 +0200 (CEST)
-Received: from localhost ([::1]:56324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2532D5181A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:48:45 +0200 (CEST)
+Received: from localhost ([::1]:59918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlp7F-0004o2-Fn
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:46:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46848)
+	id 1nlp9A-0007P9-5z
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:48:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nlp2H-0000mg-Kf
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:41:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26506)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=EuPl=VL=zx2c4.com=Jason@kernel.org>)
+ id 1nlp6E-0005HM-Oa
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:45:43 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:40936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nlp2F-0004LQ-Mt
- for qemu-devel@nongnu.org; Tue, 03 May 2022 05:41:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651570894;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=EuPl=VL=zx2c4.com=Jason@kernel.org>)
+ id 1nlp6C-0004xl-QJ
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:45:42 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C51FC6146C;
+ Tue,  3 May 2022 09:45:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB99C385A9;
+ Tue,  3 May 2022 09:45:37 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="FeSLEXto"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1651571136;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5MUfsdylKu96Yi+6Iyoy8SyfhgvJPh1eVodoqMzVgMY=;
- b=FnqMShmP/lbWhGALpZy0RPSTiv83yks9yT8p7AT/CtsIVYE/BVf/uHxBO5U9Rt7/DhLskC
- 3W5t/2+3y65ZlP/RtVH8u409mvLqJ5AMyQWSIhkds1+TjGFUwjyRRv8WQS0XK/LgOtKhXs
- 0X3kZBMBQqqz3fgDRT4RkPT612mItvE=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-345-j8rc-U6oOoicdKvNeGn_Fg-1; Tue, 03 May 2022 05:41:33 -0400
-X-MC-Unique: j8rc-U6oOoicdKvNeGn_Fg-1
-Received: by mail-yb1-f198.google.com with SMTP id
- b33-20020a25aea1000000b0064588c45fbaso9835047ybj.16
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 02:41:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5MUfsdylKu96Yi+6Iyoy8SyfhgvJPh1eVodoqMzVgMY=;
- b=vNCHZuKD96FcDixpTBhFCFtfEOtdfNLILNGkOlO/GEC0PEsGXjvTNzvzovmilgPpKU
- OgJOgkwXMnTxkRoX4Yu67bH1u33+e0leYzeY1kbZ1dflnSM9AYnyV/zUtl6/q7M48MBg
- ajaNizXyaRCOZV2adWLtyzE5k53DLgyfadSHsy1PFiaFvx+u9iEouWrOB+XjHO//wGzq
- HGneYmnvChl/BWAgmRn3Hllztnsm3QazH95AO44VR6PSOmq27KmVCrbSmhc66wVxaLZH
- 0nORNsllsP1PdFz9294Q2DvFeLiHumUVMPHqsf35OhR7TiOYra1isS7Wxpon/Nyr5TNd
- C+Ig==
-X-Gm-Message-State: AOAM5331kVwBdL8joxVYgsUhhErU76UjW4wE2zicuYLcwbhkyS5vPVdE
- vws/aM2fJJD3k5SyPz+TMS49j4/Cl8ChM3ta/27NbgMJQjcTXXpVYfdcoYJR95Bxm4Ax32ADXuW
- XR5PNsY16wGJnbLg3XL3VyjjUpB/YbqI=
-X-Received: by 2002:a81:b044:0:b0:2d6:bd1f:5d8b with SMTP id
- x4-20020a81b044000000b002d6bd1f5d8bmr14467599ywk.27.1651570892996; 
- Tue, 03 May 2022 02:41:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwlrFDkmA4dyZXbyNsO6Pm9Wezpz7KJpr2f91cc73g+YXus3sHgbBKeZzbTDtCEqpR6rwdwtTwwrfz7LSC4Wjo=
-X-Received: by 2002:a81:b044:0:b0:2d6:bd1f:5d8b with SMTP id
- x4-20020a81b044000000b002d6bd1f5d8bmr14467586ywk.27.1651570892800; Tue, 03
- May 2022 02:41:32 -0700 (PDT)
+ bh=cDqyYBTb2VLcJLG8q4FQnCZ2mbz3xpLWhjf3FPvWSIM=;
+ b=FeSLEXtoldoeZ6kYqLDcXK3dWsb+kaT17e4IhwSJlfOPQIlkw9QB7+gt0JwGIu1DudrZ2J
+ QnKpG3OBTBwnBResPOYgMVeAnuF16p0lldKLaz3pAyQdbbiRJHhgcyRKscctdl8hfE/q12
+ wsItlpu40Pkljb02AEjH/mZ+/Rgm4so=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 61cb67cd
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Tue, 3 May 2022 09:45:35 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org, openrisc@lists.librecores.org, shorne@gmail.com,
+ richard.henderson@linaro.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH v2] hw/openrisc: use right OMPIC size variable
+Date: Tue,  3 May 2022 11:45:33 +0200
+Message-Id: <20220503094533.402157-1-Jason@zx2c4.com>
+In-Reply-To: <20220502232800.259036-1-Jason@zx2c4.com>
+References: <20220502232800.259036-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-References: <20220428182120.302066-1-kkostiuk@redhat.com>
- <0b0afdba-2f8f-1035-458b-f13d1f09f355@redhat.com>
- <YnDu4lkn9UPcspqX@redhat.com>
-In-Reply-To: <YnDu4lkn9UPcspqX@redhat.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Tue, 3 May 2022 12:41:22 +0300
-Message-ID: <CAPMcbCrCefWrcbNC5hieSC7GHL53hBvnW6owH2xGYveWA5XX3g@mail.gmail.com>
-Subject: Re: [PATCH 0/2] build improvments
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>, 
- Thomas Huth <thuth@redhat.com>, Michael Roth <michael.roth@amd.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006314ce05de1850c6"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=EuPl=VL=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,111 +80,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006314ce05de1850c6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This appears to be a copy and paste error. The UART size was used
+instead of the much smaller OMPIC size. But actually that smaller OMPIC
+size is wrong too and doesn't allow the IPI to work in Linux. So set it
+to the old value.
 
-Hi Daniel,
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/openrisc/openrisc_sim.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This was my mistake when I sent patches.
-Thanks for your comment.
-
-Best Regards,
-Konstantin Kostiuk.
-
-
-On Tue, May 3, 2022 at 11:59 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
-
-> On Fri, Apr 29, 2022 at 12:10:34AM +0200, Paolo Bonzini wrote:
-> > On 4/28/22 20:21, Konstantin Kostiuk wrote:
-> > > Konstantin Kostiuk (2):
-> > >    configure: Add cross prefix for widl tool
-> > >    qga-vss: always build qga-vss.tlb when qga-vss.dll is built
-> > >
-> > >   configure                 | 3 +++
-> > >   qga/vss-win32/meson.build | 4 ++--
-> > >   2 files changed, 5 insertions(+), 2 deletions(-)
-> >
-> > Both titles make sense, but they didn't reach the mailing list.
->
-> They did, but were each sent as standalone mail threads before this
-> cover letter was sent.
->
-> Konstantin: I'd suggest using 'git-publish' for sending patches in
-> future, as it automatically does the right thing, ensuring that the
-> threading is set correctly, and has many other benefits over sending
-> patch emails manually
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
-
---0000000000006314ce05de1850c6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Daniel,</div><div><br></div><div>This was my mista=
-ke when I sent patches.</div><div>Thanks for your comment. </div><div><br><=
-/div><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D=
-"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</div><div>Konstantin =
-Kostiuk.</div></div></div></div><br></div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 3, 2022 at 11:59 AM D=
-aniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@=
-redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Fri, Apr 29, 2022 at 12:10:34AM +0200, Paolo Bonzini wrote:<b=
-r>
-&gt; On 4/28/22 20:21, Konstantin Kostiuk wrote:<br>
-&gt; &gt; Konstantin Kostiuk (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 configure: Add cross prefix for widl tool<br>
-&gt; &gt;=C2=A0 =C2=A0 qga-vss: always build qga-vss.tlb when qga-vss.dll i=
-s built<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 =C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 3 +++<br>
-&gt; &gt;=C2=A0 =C2=A0qga/vss-win32/meson.build | 4 ++--<br>
-&gt; &gt;=C2=A0 =C2=A02 files changed, 5 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; Both titles make sense, but they didn&#39;t reach the mailing list.<br=
->
-<br>
-They did, but were each sent as standalone mail threads before this<br>
-cover letter was sent.<br>
-<br>
-Konstantin: I&#39;d suggest using &#39;git-publish&#39; for sending patches=
- in<br>
-future, as it automatically does the right thing, ensuring that the<br>
-threading is set correctly, and has many other benefits over sending<br>
-patch emails manually<br>
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div>
-
---0000000000006314ce05de1850c6--
+diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+index 99b14940f4..3218db6656 100644
+--- a/hw/openrisc/openrisc_sim.c
++++ b/hw/openrisc/openrisc_sim.c
+@@ -78,7 +78,7 @@ static const struct MemmapEntry {
+     [OR1KSIM_DRAM] =      { 0x00000000,          0 },
+     [OR1KSIM_UART] =      { 0x90000000,      0x100 },
+     [OR1KSIM_ETHOC] =     { 0x92000000,      0x800 },
+-    [OR1KSIM_OMPIC] =     { 0x98000000,         16 },
++    [OR1KSIM_OMPIC] =     { 0x98000000,      0x100 },
+ };
+ 
+ static struct openrisc_boot_info {
+@@ -410,7 +410,7 @@ static void openrisc_sim_init(MachineState *machine)
+ 
+     if (smp_cpus > 1) {
+         openrisc_sim_ompic_init(state, or1ksim_memmap[OR1KSIM_OMPIC].base,
+-                                or1ksim_memmap[OR1KSIM_UART].size,
++                                or1ksim_memmap[OR1KSIM_OMPIC].size,
+                                 smp_cpus, cpus, OR1KSIM_OMPIC_IRQ);
+     }
+ 
+-- 
+2.35.1
 
 
