@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1966518F09
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:38:15 +0200 (CEST)
-Received: from localhost ([::1]:33694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EFF518F16
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 22:42:04 +0200 (CEST)
+Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlzHi-0007Ck-Kl
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40150)
+	id 1nlzLP-0005tI-Fq
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 16:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZT-0007jb-CH
+ id 1nlyZU-0007kf-5A
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:32 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:55202)
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:33363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlyZR-0006DT-Mh
+ id 1nlyZS-0006Gc-I9
  for qemu-devel@nongnu.org; Tue, 03 May 2022 15:52:31 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id fv2so16244353pjb.4
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:29 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ cu23-20020a17090afa9700b001d98d8e53b7so2552004pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 12:52:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OuPQ5G9+kppu3GspUe2XHyinl3n08DHsjMhXklSdxDY=;
- b=CafpJ52OJRi616BOkfEVqfnuOE/xZg6qkgWPVJSRereVqMVVZC1khsJITQ4/SB3xMK
- o3kqWUCgnIKTKLjwkaFiCp4t/MKECW6zlM/kc5T3A7/SW1cdaXa1eiHvGeMJ2Y1iNMX1
- fZD4fRSGlZ0Lqdc58WXMSFgEK0d0vpmUIgKP1mzsgsZdzB5M8YA8R+RT7IrQ2BMCEM/b
- I5w8g62LKrQQskFB/XmbiQx/vC9TxznBCGV3F4s1vydqzNu3vT8iQWaGaUBqIrNgZw14
- mpTTOmctOSqkutB/SZReLbXjfx4VmJacZKZHJuab+tM3ijppNn1tnvVhrJWBtlm3uK6s
- +mbQ==
+ bh=3j65Vrb+cTtoRUM0a2SN2E+0qaLnPvILTBqh1dXrOWQ=;
+ b=jrHav2i+5I/qLGY9K9HW1GUG1B0v0tqQaw1sxwF8+hAXzl/nlrWcIhOBNH+MhU01jj
+ ybi0bBD4d39hxFNlMrwfj7I2Jce4BDonJqnCvr+kLxPQXhSNoc7N6gTJmXXp9lvPKXqY
+ 8A4X4Bzb8H6YFbH7gW8Xs82lEStXTeMOf4iTHs8nzmKZMsVmSDBudvNQu1nkr629NEMc
+ iTL3WlJhoet6C+naIpnRPyzaJFoiJrJUqUCBxi1xFnrHsx1juSjFEZJHgOqwMonELOB7
+ rnp9rASI/j35SJed8jEf1Z0jov2938eOKB1WZ1S+b6hBEd7OIYXVQlxN4EkfF3gGXJJr
+ Z1gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OuPQ5G9+kppu3GspUe2XHyinl3n08DHsjMhXklSdxDY=;
- b=c1K3oLybqxUAo6ar2rwvlPbG4Nw2LtO8rGY+N0TBltDvPfQ1YNLEPw+ou5axIIA6hw
- VAGBXSBcwKpcChPKI/eqdbxv+/JnMen6jUP/HrP6xkE6yq6+oGBNIN5vyJXE0x/5nFJj
- 5uLm2JM6E+nYe6IUsGlDWiYNB3eSvBMgXRBGNeoQG8QPqKtNdHUPo5aHPQx4actLNzJf
- qbLUhxDfbQExJEvLB47N1C+jyNvHz7gTTXq+FtJt7XfQNFtsxoqvjq7g6VNzDggI3JTK
- eJyTlrFUIKqUz0eL5j/PLdQ2uTShxNnVpCcgIh32/jO9ShIuHNzQFxms/EYmDVgIpyGt
- IoaQ==
-X-Gm-Message-State: AOAM530XydXv0ds30FGlZ6YnB4Ju6tPZwpbzBBsXxT5pdAEgpE/GFt0v
- 7HZqltT7lhgueEAt8oMckqBlCrSHx+S1pw==
-X-Google-Smtp-Source: ABdhPJySOJTm2zFQ0wFhfeZ6huphzMsjRy1zgeTrksZgldn66NgqDjYRjAhe7b2/egWg0ZRY/zeGhw==
-X-Received: by 2002:a17:902:da90:b0:15e:bcf0:cf25 with SMTP id
- j16-20020a170902da9000b0015ebcf0cf25mr2914727plx.40.1651607548358; 
- Tue, 03 May 2022 12:52:28 -0700 (PDT)
+ bh=3j65Vrb+cTtoRUM0a2SN2E+0qaLnPvILTBqh1dXrOWQ=;
+ b=nGlkYv7wLrVjoyQsLv2QQR2iri1ZrQWh9nW/+8p8NynNNAfACJw7JajPCpVlpNd+y0
+ l53vA7qx8lmeZ0eIE1jkbw8D+0tl607nitr8oOYzSXOOCXigFwztlUvu6DkFNnhlwfQr
+ dNhPxmMzwoAKE9JG7hkLirY7ckbfuCPSRlsGJsC6X1mYEeW8V9QcCS8IUviGf6UktPaC
+ +Yz2VxZOazbiYN/E1YuTixViMjW6rECVtBuKhS8elouKDY4c/usDcjVs1z2DXvOQUbG9
+ LAzA5ktVKMm2sK2NHvGRFhhKedKTeAf6za73WfWZzo65QUklqG48p67SFCdkrkF3UvLd
+ OhjA==
+X-Gm-Message-State: AOAM530mt9Ty35BtCUFCAVGRA/NQKyM40UY8LFVQ1oX8O6UktTRENnab
+ WeJh81EZNdZtsKr/BtX1YPtptWRzYlRh9A==
+X-Google-Smtp-Source: ABdhPJwMQmKXENmyF2BXZrzb5tZ0y9cP4jXyQF6JrkFrL5xpX4Fkr7Hy1pmU/eIPWGAzaRFPYwG3uw==
+X-Received: by 2002:a17:902:8304:b0:155:d594:5c04 with SMTP id
+ bd4-20020a170902830400b00155d5945c04mr17582533plb.105.1651607549270; 
+ Tue, 03 May 2022 12:52:29 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.27
+ fz16-20020a17090b025000b001dbe11be891sm1692286pjb.44.2022.05.03.12.52.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 12:52:27 -0700 (PDT)
+ Tue, 03 May 2022 12:52:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 43/74] semihosting: Use console_out_gf for SYS_WRITEC
-Date: Tue,  3 May 2022 12:48:12 -0700
-Message-Id: <20220503194843.1379101-44-richard.henderson@linaro.org>
+Subject: [PATCH v2 44/74] semihosting: Remove qemu_semihosting_console_outc
+Date: Tue,  3 May 2022 12:48:13 -0700
+Message-Id: <20220503194843.1379101-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220503194843.1379101-1-richard.henderson@linaro.org>
 References: <20220503194843.1379101-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,56 +88,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This function has been replaced by *_write.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ include/semihosting/console.h | 13 -------------
+ linux-user/semihost.c         | 16 ----------------
+ semihosting/console.c         | 18 ------------------
+ 3 files changed, 47 deletions(-)
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 34d635006d..430cb4167b 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -230,6 +230,15 @@ static void common_semi_cb(CPUState *cs, uint64_t ret, int err)
-     common_semi_set_ret(cs, ret);
+diff --git a/include/semihosting/console.h b/include/semihosting/console.h
+index 6994f23c82..d6c1cc58ab 100644
+--- a/include/semihosting/console.h
++++ b/include/semihosting/console.h
+@@ -24,19 +24,6 @@
+  */
+ int qemu_semihosting_console_outs(CPUArchState *env, target_ulong s);
+ 
+-/**
+- * qemu_semihosting_console_outc:
+- * @env: CPUArchState
+- * @s: host address of null terminated guest string
+- *
+- * Send single character from guest memory to the debug console. This
+- * may be the remote gdb session if a softmmu guest is currently being
+- * debugged.
+- *
+- * Returns: nothing
+- */
+-void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+-
+ /**
+  * qemu_semihosting_console_read:
+  * @cs: CPUState
+diff --git a/linux-user/semihost.c b/linux-user/semihost.c
+index 871edf993a..f8bc8889f3 100644
+--- a/linux-user/semihost.c
++++ b/linux-user/semihost.c
+@@ -33,22 +33,6 @@ int qemu_semihosting_console_outs(CPUArchState *env, target_ulong addr)
+     return len;
  }
  
-+/*
-+ * Use 0xdeadbeef as the return value when there isn't a defined
-+ * return value for the call.
-+ */
-+static void common_semi_dead_cb(CPUState *cs, uint64_t ret, int err)
-+{
-+    common_semi_set_ret(cs, 0xdeadbeef);
-+}
-+
+-void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
+-{
+-    char c;
+-
+-    if (get_user_u8(c, addr)) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: passed inaccessible address " TARGET_FMT_lx,
+-                      __func__, addr);
+-    } else {
+-        if (write(STDERR_FILENO, &c, 1) != 1) {
+-            qemu_log_mask(LOG_UNIMP, "%s: unexpected write to stdout failure",
+-                          __func__);
+-        }
+-    }
+-}
+-
  /*
-  * SYS_READ and SYS_WRITE always return the number of bytes not read/written.
-  * There is no error condition, other than returning the original length.
-@@ -332,8 +341,7 @@ static const uint8_t featurefile_data[] = {
-  * The specification always says that the "return register" either
-  * returns a specific value or is corrupted, so we don't need to
-  * report to our caller whether we are returning a value or trying to
-- * leave the register unchanged. We use 0xdeadbeef as the return value
-- * when there isn't a defined return value for the call.
-+ * leave the register unchanged.
-  */
- void do_common_semihosting(CPUState *cs)
- {
-@@ -410,8 +418,12 @@ void do_common_semihosting(CPUState *cs)
-         break;
+  * For linux-user we can safely block. However as we want to return as
+  * soon as a character is read we need to tweak the termio to disable
+diff --git a/semihosting/console.c b/semihosting/console.c
+index 677ec2b176..f6fab5933a 100644
+--- a/semihosting/console.c
++++ b/semihosting/console.c
+@@ -96,24 +96,6 @@ int qemu_semihosting_console_outs(CPUArchState *env, target_ulong addr)
+     return out;
+ }
  
-     case TARGET_SYS_WRITEC:
--        qemu_semihosting_console_outc(env, args);
--        common_semi_set_ret(cs, 0xdeadbeef);
-+        /*
-+         * FIXME: the byte to be written is in a target_ulong slot,
-+         * which means this is wrong for a big-endian guest.
-+         */
-+        semihost_sys_write_gf(cs, common_semi_dead_cb,
-+                              &console_out_gf, args, 1);
-         break;
+-void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
+-{
+-    CPUState *cpu = env_cpu(env);
+-    uint8_t c;
+-
+-    if (cpu_memory_rw_debug(cpu, addr, &c, 1, 0) == 0) {
+-        if (use_gdb_syscalls()) {
+-            gdb_do_syscall(semihosting_cb, "write,2,%x,%x", addr, 1);
+-        } else {
+-            qemu_semihosting_log_out((const char *) &c, 1);
+-        }
+-    } else {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: passed inaccessible address " TARGET_FMT_lx,
+-                      __func__, addr);
+-    }
+-}
+-
+ #define FIFO_SIZE   1024
  
-     case TARGET_SYS_WRITE0:
+ static int console_can_read(void *opaque)
 -- 
 2.34.1
 
