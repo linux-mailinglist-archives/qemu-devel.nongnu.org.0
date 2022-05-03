@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7994D519224
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 01:06:38 +0200 (CEST)
-Received: from localhost ([::1]:43196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FD851922D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 01:11:43 +0200 (CEST)
+Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm1bJ-00045J-GF
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 19:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51078)
+	id 1nm1gE-0004kW-0S
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 19:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nlzOX-0005tx-65
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:45:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22159)
+ (Exim 4.90_1) (envelope-from <prvs=61228a338c=pdel@fb.com>)
+ id 1nlzP4-0006Tz-Uf
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:45:53 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:22956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nlzOU-0002T7-Os
- for qemu-devel@nongnu.org; Tue, 03 May 2022 16:45:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651610687;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=gH3vmaLr8PwTUtyB6eWjEAbcA6W8sgBrj6SSN+DphEo=;
- b=Yh3JA4T9MneUs1jXg5DoqLncQHEckZDUFaPcBvlcdSeCx6er/hYYtKj62qxSNtxcqjruzr
- fZb2KWoMFiW99L99iLmoypNj/g15QSsB8hG+AlLv9BdBnPQLGj6Dm8yMDJ9txkX8nGVhMe
- ajT2Hx9KxhDzEG/7Qlvczuq6FE66G+0=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-250-BxlBsCM5NhiJYaHiE2QCIQ-1; Tue, 03 May 2022 16:44:39 -0400
-X-MC-Unique: BxlBsCM5NhiJYaHiE2QCIQ-1
-Received: by mail-ua1-f71.google.com with SMTP id
- r4-20020ab06604000000b00360317232f6so7947261uam.6
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 13:44:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=gH3vmaLr8PwTUtyB6eWjEAbcA6W8sgBrj6SSN+DphEo=;
- b=Hy8NIc/VMKMS3ICu3nb4zyMEd7u7+0/k1MI/2wyad9MYPBpUv6+8bQxvrwF2g6biqG
- OBlmCXOuEFtNy0itcBgczwcp3NCxut2xytSfMfFjXmKkniSuFlxJjVKIR9XBywbtYaAZ
- cf1mYdnKnhQPElVqJB81fDPzZO2/8JvFdGlR+jllv/4PdB5XU/9/7u00IXlQ10zJ05dQ
- ooCVSiCsWV5zEtzdio73rkdlE3MQhRDh0EvYO6fpJgH1bdd4FivdJ1R4aPIyxTd2T+rb
- RqjYrGKp4P4grDP+L5V20mU0LcmGEmCw8NbOQO5oVW5PHymcpLwpbYE+lmq697VfV1O8
- rrQg==
-X-Gm-Message-State: AOAM531YhRpdfuvSSXajOdE1SySXjBNghgqnzZT6bl7CvpIPmvDD8pq+
- dVaTyFPB465hnqsq0bnwR9BS+ifEFEYT9KVZGJHGiguzXXGMDSwG2fHnXPmH7lsCpuPD9DL/iMD
- gMEdAEu0XTY2TGT9WHu3/XUYZGrCK/kg=
-X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
- w15-20020ab067cf000000b00341257fce52mr5249635uar.109.1651610672189; 
- Tue, 03 May 2022 13:44:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwb508Qv10zKgJ36dSs9Xu+LKh/bADhem5O2yy5xuOhtslD9qP+owROQgY7aOrpsiWXOVG+dzY/fqdk7xD0pDM=
-X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
- w15-20020ab067cf000000b00341257fce52mr5249628uar.109.1651610672020; Tue, 03
- May 2022 13:44:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <prvs=61228a338c=pdel@fb.com>)
+ id 1nlzP0-0002pS-Le
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 16:45:49 -0400
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 243HFj8W007274
+ for <qemu-devel@nongnu.org>; Tue, 3 May 2022 13:45:43 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=facebook; bh=H0kcl9bBxfoMcRYwUuFvEYrF29d3BGOhHPSec29Rsmc=;
+ b=raDngWrdhoCOQuF8dZP3JYfohUeHCOMSy/MSfvS4e7kcRHR4WFAngI9Yzb2qKxoNhbGj
+ GVGIPu+lSCqYChloqCpnFl/GEiLhHh03AYb6j2/4M3V2pTS+QOCtTrcK4rELQzp0HkNf
+ cqJ2TJn75C6FYHMBtyW/wSZNf8F9G4TUFyk= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3fu6mkat5s-3
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 13:45:43 -0700
+Received: from twshared13579.04.prn5.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 3 May 2022 13:45:35 -0700
+Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
+ id 528BF5ACF47A; Tue,  3 May 2022 13:45:30 -0700 (PDT)
+From: Peter Delevoryas <pdel@fb.com>
+To: 
+CC: <pdel@fb.com>, <patrick@stwcx.xyz>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>, <clg@kaod.org>
+Subject: [PATCH 0/1] hw/arm/aspeed: Add fby35 machine type
+Date: Tue, 3 May 2022 13:44:51 -0700
+Message-ID: <20220503204451.1257898-1-pdel@fb.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 3 May 2022 16:44:21 -0400
-Message-ID: <CAFn=p-bw5qjmEuXSSuYRUYLQzXXnkw68pFua970zx4ggMrvq+Q@mail.gmail.com>
-Subject: [python-qemu-qmp MR] Add Sphinx documentation
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Cleber Rosa <crosa@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
- Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: RAy0UuiSJiC1wPgI2tpfW5i5cLGTBhXQ
+X-Proofpoint-ORIG-GUID: RAy0UuiSJiC1wPgI2tpfW5i5cLGTBhXQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-03_08,2022-05-02_03,2022-02-23_01
+Received-SPF: pass client-ip=67.231.145.42;
+ envelope-from=prvs=61228a338c=pdel@fb.com; helo=mx0a-00082601.pphosted.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,36 +81,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm continuing to mail these manually for now, until I settle on an
-automated solution or feel like there's enough buy-in on the GitLab
-instance to not warrant the advertisement. Please consider
-starring/watching the repo if you're interested in QMP lib updates as
-I try to angle for an initial public release.
+Hey everyone,
 
--
+I'm submitting another Facebook (Meta Platforms) machine type: this time =
+I'm
+including an acceptance test too.
 
-MR: https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/4
-From: https://gitlab.com/jsnow
+Unfortunately, this machine boots _very_ slowly. 300+ seconds. I'm not su=
+re why
+this is (so I don't know how to fix it easily) and I don't know how to ov=
+erride
+the avocado test timeout just for a single test, so I increased the globa=
+l
+timeout for all "boot_linux_console.py" tests from 90s to 400s. I doubt t=
+his is
+acceptable, but what other option is there? Should I add
+AVOCADO_TIMEOUT_EXPECTED?
 
-Howdy! This MR:
+@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
 
-- Adds sphinx documentation as a build artifact
-- Ensures documentation builds without errors in the CI pipeline
-(preventing stale cross-reference bitrot)
-- Publishes docs to e.g. https://jsnow.gitlab.io/python-qemu-qmp/
-- Revamps some of the docstrings to make the rendered output more
-appealing/accurate/etc.
+What is the point of this environment variable though, except to skip it =
+in CIT?
+If I run the test with this environment variable defined, it doesn't disa=
+ble the
+timeout, it just skips it right? I want an option to run this test with a=
+ larger
+timeout.
 
-I'm looking for holistic feedback on the documentation. Feedback on
-grammar, readability, layout and presentation of the HTML docs, etc
-are all welcome. If you have feedback on the design of the library
-itself: that is also extremely welcome, but may need to be addressed
-in subsequent MRs, filed as issues/bugs/change-requests and so on.
+Thanks,
+Peter
 
-Note: This MR is going to show a failed pipeline. This is due to other
-GitLab configuration issues that I'm working on addressing in !3.
-However, I wanted to begin soliciting feedback on the documentation
-here in the meantime, because I predict it will be a very iterative
-process.
+Peter Delevoryas (1):
+  hw/arm/aspeed: Add fby35 machine type
+
+ hw/arm/aspeed.c                     | 63 +++++++++++++++++++++++++++++
+ tests/avocado/boot_linux_console.py | 20 ++++++++-
+ 2 files changed, 82 insertions(+), 1 deletion(-)
+
+--=20
+2.30.2
 
 
