@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54126517B1C
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 02:01:44 +0200 (CEST)
-Received: from localhost ([::1]:35564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C968C517B2B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 02:14:14 +0200 (CEST)
+Received: from localhost ([::1]:39120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlfz5-0005aG-3F
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 20:01:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58662)
+	id 1nlgBB-0000Qu-Bj
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 20:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlfxK-0004j2-R0
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:59:54 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:43592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nlfxI-0004s9-Qh
- for qemu-devel@nongnu.org; Mon, 02 May 2022 19:59:53 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- j8-20020a17090a060800b001cd4fb60dccso694403pjj.2
- for <qemu-devel@nongnu.org>; Mon, 02 May 2022 16:59:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=/6N++rATlhaiduQ5L4IVlX1V3UnUUWIZkgivu1sR6+o=;
- b=TSUVEt5+y0GYQeCPB+KzUroXeA3qF7rWPajL3EVKOVVPlgWRqkDmYB0zHWjyVvTs1E
- 1BcISM8QhgwY8DkZ+d3G1AV+So1oyLFlNrEgk7RfKMdzQ8c5sCe7zvWZ3jbOrk7yLedM
- J2GzpVJiZ7NK3tmnPWRS3EE0ZMqnLXukz7Na/BbLuRr86HkGjgIYdHaQdWridC8BwU2n
- 2JKsjuZzlQtdWxvQqpo66T0Mpyoh0GM8ARbRdNmgtF6PvVR+aVL/iC75aeAX9RvzDO2K
- PNO8MWjqa5e3XQPQWL/t+Zck/u2lqvkfDkt/d8OGqaV+pyuXT+/PFN+16IB75XrRu3HE
- /RwQ==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nlgAC-0008Bt-D7
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 20:13:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34304)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nlgA8-0006ra-4U
+ for qemu-devel@nongnu.org; Mon, 02 May 2022 20:13:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651536786;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DDaIusHQhzDj3fvBNDUs6Z1z6vWmSmNhBiIenSBST4I=;
+ b=PTO4jdSvAXVmBH+c8fCQ3YAgJEC06l/yztE4GZ/m9J+tFMsxbfp+NVxswDR615u6PsPUXw
+ uSr5JnR2r328fVsxMJ2pwe+PkeA6pA7o5nyC7rT7380eQml8ebnP4hCJyBJk9bSEbghr1Z
+ CMRXMnX52WNt0+1LeBOQh7wpddox++w=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-NJQqsilzOtCCFFvtoSviDQ-1; Mon, 02 May 2022 20:13:05 -0400
+X-MC-Unique: NJQqsilzOtCCFFvtoSviDQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ x2-20020a1709065ac200b006d9b316257fso7627528ejs.12
+ for <qemu-devel@nongnu.org>; Mon, 02 May 2022 17:13:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/6N++rATlhaiduQ5L4IVlX1V3UnUUWIZkgivu1sR6+o=;
- b=LV7xc0tdtdgDW45JNxcVx3YxdZH2+yPtGQy7s37VjdwaaeuenrwsZ9hR5KcmQa3op2
- Vv5YPEnc20eTvn5rrVYk/UEM6oyAuio8dbDk3MJ4W7fzLuSf65mNUtG+l5X0DdrO8dOl
- g2wHuktq8smlldxveO4J4dsAwJD5J2FCNfUB39Rk7t1pptvOUcIlmX407uWB8ESswCY1
- UgvnXrupmg0djQL2UD/n8QBC9pjQ6LNE0ZMlN1qA7tAtqZ1ZtKJ/5FYqBwq8c2rsx6Mm
- wZrVIc5i8HZq9IRUP4jsNH0f9Eajzg03oeIGecQrzeDky0JHFHtchYnCVMN0v///d0zQ
- OAQA==
-X-Gm-Message-State: AOAM531I+awAkOZ1XO2BDDMthYnP+9jb9lhd1RAo/w8qB/pUNaMO/21Z
- lylUCalcCXdzXDNeNCxXauRhwXkXs7wvKA==
-X-Google-Smtp-Source: ABdhPJyZNLVYBzrIbVDpJ4kAU5ca83wjlSTupbeFWXXPrsZWpfnFaJFHPigr6fQ9KtfAygkHzeh0PA==
-X-Received: by 2002:a17:90b:1c86:b0:1bf:2a7e:5c75 with SMTP id
- oo6-20020a17090b1c8600b001bf2a7e5c75mr1783870pjb.145.1651535989894; 
- Mon, 02 May 2022 16:59:49 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- q11-20020a170902dacb00b0015e8d4eb27dsm5209548plx.199.2022.05.02.16.59.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 16:59:49 -0700 (PDT)
-Message-ID: <c6d3a823-b9a4-411a-b4b8-5fb1f1c9c214@linaro.org>
-Date: Mon, 2 May 2022 16:59:47 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DDaIusHQhzDj3fvBNDUs6Z1z6vWmSmNhBiIenSBST4I=;
+ b=BwjQIJPTWJWyiJM2HFAfsCaM3pT4gGjpOFrwY5ZLTWU/msxhABxy/eH0xiGehDdvx6
+ qOvnkzu8a4mDyOgQlgGpiY11ya0hkif1WMJmJEa1ZDKFpkDT639N+hjt65ncuR/f3K6q
+ Jq++XfCofevcTsT8Lzl6ZeLXhTvg71rdMQTAKsCu0Wsu2HV70JYx8iiVrKUGUNygvQ4X
+ H2w1wTX/abPAcUS5UZBBG1xmLnTHbR7WC1jNYs9LfAyUkHDN+zpIXYdbhkK1E4o04K4G
+ bhgU3fPv2Eo6Mt+9IXt8Rh88zhpfzrVAkOJuIw4faFt0SZUx+ziE0d91kGWxuTKHVBLn
+ vrrA==
+X-Gm-Message-State: AOAM530ebJs+yGCUvegIDXnXQV7C3Yn14swQwvDMLQKUjU/JQIBRPSKO
+ wNqdRSGONeKJXfK/mcPxvGz/h/yZ7mZYh5qsCNDIafnbFaIWN0wmvc9kRI2OdZkYoCVwH9kt+AN
+ iAVR6IuGsjFfJRfHCNDJrO4JT5/F//R8=
+X-Received: by 2002:a17:906:7684:b0:6e8:5d05:196b with SMTP id
+ o4-20020a170906768400b006e85d05196bmr13442907ejm.209.1651536784378; 
+ Mon, 02 May 2022 17:13:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWRCWymQRuAuGZZIGeoubKXA/wnagL5sJxP/N1EInRWQaPquG1opeyaYqPa3oNQ5nZVUC/Yx86ZxWzWg6RGDo=
+X-Received: by 2002:a17:906:7684:b0:6e8:5d05:196b with SMTP id
+ o4-20020a170906768400b006e85d05196bmr13442892ejm.209.1651536784185; Mon, 02
+ May 2022 17:13:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] hw/openrisc: use right OMPIC size variable
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org,
- openrisc@lists.librecores.org, shorne@gmail.com
-References: <20220502232800.259036-1-Jason@zx2c4.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220502232800.259036-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220428144052.263382-1-dgilbert@redhat.com>
+ <20220428144052.263382-7-dgilbert@redhat.com>
+ <Ymq+5bPaYTyUHF6L@work-vm>
+ <CAJ6HWG5Mm_O3NqkNkzBryj0nNhTRZWYxSTXKO_40=WbFUmzXAQ@mail.gmail.com>
+ <YnBunLRaqmkZh3Re@xz-m1.local>
+In-Reply-To: <YnBunLRaqmkZh3Re@xz-m1.local>
+From: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Date: Mon, 2 May 2022 21:12:53 -0300
+Message-ID: <CAJ6HWG4r8p_K1WFCXgGrifKTVSHtm-vHES7NQ-A4U99bzv7_6w@mail.gmail.com>
+Subject: Re: [PULL 06/11] QIOChannelSocket: Implement io_writev zero copy flag
+ & io_flush for CONFIG_LINUX
+To: Peter Xu <peterx@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, 
+ Daniel Berrange <berrange@redhat.com>, Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,16 +98,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/22 16:28, Jason A. Donenfeld wrote:
-> This appears to be a copy and paste error. The UART size was used
-> instead of the much smaller OMPIC size.
-> 
-> Signed-off-by: Jason A. Donenfeld<Jason@zx2c4.com>
-> ---
->   hw/openrisc/openrisc_sim.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Hello Peter,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Mon, May 2, 2022 at 8:52 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> Leo,
+>
+> On Fri, Apr 29, 2022 at 11:40:44PM -0300, Leonardo Bras Soares Passos wrote:
+> > Does anyone else have any further suggestions, or know how this kind of issue
+> > is generally solved in qemu?
+>
+> I've no solid idea why it can't see MSG_ZEROCOPY defined in the specific
+> environment, but when I was looking at bits/socket.h I saw this:
+>
+> #ifndef _SYS_SOCKET_H
+> # error "Never include <bits/socket.h> directly; use <sys/socket.h> instead."
+> #endif
+>
+> Maybe worth a shot to do a replacement in all cases?
+>
 
-r~
+Sure, no problem with this, I will update for v11.
+(Or should I send a different patch since Dave has already merged in his tree?)
+
+But it should not interfere in MSG_ZEROCOPY definition:
+
+> > I tracked down how the test happened, downloaded the same docker image from the
+> > tests(opensuse-leap-15.2), and took a look at the filesystem for the
+> > MSG_ZEROCOPY define, which I could not find anywhere.
+
+By this, I mean I did a 'grep MSG_ZEROCOPY -r /' and could not find anything, so
+it's probably not defined anywhere in the fs.
+
+> --
+> Peter Xu
+>
+
+Thanks Peter!
+
+Best regards,
+Leo
+
 
