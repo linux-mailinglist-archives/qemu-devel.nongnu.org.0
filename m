@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64CF518279
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:42:53 +0200 (CEST)
-Received: from localhost ([::1]:41368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA06F51827E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 12:45:58 +0200 (CEST)
+Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlpzY-0004QH-Ih
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58894)
+	id 1nlq2X-0006s7-N1
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 06:45:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nlpqo-0003yd-C7; Tue, 03 May 2022 06:33:56 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:36702)
+ id 1nlpqq-0003yi-6q; Tue, 03 May 2022 06:33:56 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nlpqm-0003ev-Ow; Tue, 03 May 2022 06:33:50 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id z16so14375338pfh.3;
- Tue, 03 May 2022 03:33:47 -0700 (PDT)
+ id 1nlpqo-0003f7-Ar; Tue, 03 May 2022 06:33:51 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ a15-20020a17090ad80f00b001dc2e23ad84so1820748pjv.4; 
+ Tue, 03 May 2022 03:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u/kA7T2GMCtCLNudknximE6UqDzwULMgjCP/toncnkA=;
- b=afBKUlygdwo1jruzAbBSY4njWqPlBhY9m5XANkgEwteZtSWV70HU+I1nP/eLgUZ+Ms
- UUfKJxaUvxp+PsNJpXEJj/81ZDYaEh5yz2/ho5fKHY7s6nZwaVhNyjq62wtxvopZfYkT
- Nyutc2+VVp7sbC/5eAL7FzRCXPcn13lFWVkuhl5HiDMfh4jPtjtI6TPnEnnUDF4Nzjns
- 9s8ANxdoSFqBT6a5ip2S48itTl3NeSQbOCgTb3w4PYeaM3U05kkwdzODdaYuc8HxkGeG
- c5B6fHqmAP/Xj9bV/DggIjsI0F+o2NFhGlSlenIHCWkDjx/HrJUVmF5ivv7zfYpJljUf
- cxlQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2uq6KnBqo+6CSEhbKzngQA2FxHJ1XZB++97y0vZbTJE=;
+ b=cVDH97BgMnxeNk5bjazUZ0lKjGbEqvBmZDx2ww33H7FRMk4Ye8aqBKY+2Y+XDXwy5Y
+ kE0YR0tnNqB96SzGxc6xHzwo54BcWdLwQxcoZeIzGZ0m+q0jG0igOp3fCruby9yDaPZt
+ H+kLuFCJmQWkf8oHV86R/1UJ34u0Qkpjqm8pFpChyde3/YP06DT+m97kocI9CYK+Asiq
+ Jm4DDIBr3z3hEq6DYtjcoBRynytwKrGWVjNBw/pvQqnQgUb7mWXG2NvGWTsAdEEPHcH7
+ W1Cmto7kun0josBc8QIq6EejubAczdzZ7t5mkMLBfbnMzeOJ5mDobhleagqr/jmc1anZ
+ lmqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u/kA7T2GMCtCLNudknximE6UqDzwULMgjCP/toncnkA=;
- b=Slv+Ig/Xkp5iAdbQqf52REua+wzQO215R+7dUfwGVObLVXQcYuywrGwJ/OIw7pS1r6
- OCU4y3mPcOw61OnrVgstGtyuQY5o4/P0vKuWxyozvctm6YCiswl67zKRXwDB4mj7D9pf
- k1n2qTPCdw7rh/d11A+egUsDNhxO9L/air/YTdc3Vb2f7K0QvNlafl85w5j4HlTATe2J
- 7MOlCv9KRXPykFvR+jjZKg1Ej+hVZMnPko/iPpVOAQp9Wdw2wiSuisZ0yV/kNW8izVAG
- ZGFg3zbjG4/M7o84bTbqRRlOQJ7jSCyXRBhfeiyAnzwstdWFx+2l4a+XClM5yNbQap5F
- DoUQ==
-X-Gm-Message-State: AOAM5330T/67hV/cduCb55s2ebz2QN8fqqh3Twb7D7XjKP2YNK42exu0
- p1XR8YlAHhuGtJ6MndIRfRI8LIfJSTUElA==
-X-Google-Smtp-Source: ABdhPJyBkUkVcYqVnsmDhywkZYvhvdChiC2g/lYO49D8N4VZoa2lVbO2CS+IoRwI3AKUqikZBN83BA==
-X-Received: by 2002:a63:82c1:0:b0:3c2:83b9:e975 with SMTP id
- w184-20020a6382c1000000b003c283b9e975mr1233177pgd.297.1651574026229; 
- Tue, 03 May 2022 03:33:46 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2uq6KnBqo+6CSEhbKzngQA2FxHJ1XZB++97y0vZbTJE=;
+ b=0DyANN205h5kUQ2f5Jnjw8fuChKPtKGvxFsCMAzI1ap9Lvx1Apj3MvzuSj//cQsLI+
+ xKT0nzuO8QenP+8JZfCMFyrFpPKKSw504Slc9ntryK8xmbGM4NLAKRllovarkoueVQKZ
+ 3HKGb+6mQbJSHipeptdR8B2zCD+KNi4w4WXHmDd0vAK07xj2U0Fl8AvXuudUxhZUT5oR
+ //mzsNpn32CtSbKwLfjtH+38fU8mWazAJi/gX4wR6Ot7rZlQFvsV4S+E1/wDFtAY46xB
+ RGqwxSkwEzqGJaxr2B4H5ivYltNbxDkX2Rg6uyMMRYtAWP/tsOX8wip1OhgbXyrFzn33
+ zZIA==
+X-Gm-Message-State: AOAM531wpvEC5LBc/3/dKJUmbbOLEhfsaP0RMPPP7Iwz0+c1vdcebsYz
+ FA0NCqWb0aJQRHBwYYPexMxQRRZT1ZYYfQ==
+X-Google-Smtp-Source: ABdhPJz/NpmKkgwiexUeF0a4WGl+NsYpxR6LXUrETQ6sRYXCTezIIuV9SMLXUmpmkiX0d5oIajJSLA==
+X-Received: by 2002:a17:902:e84d:b0:15e:b0af:477b with SMTP id
+ t13-20020a170902e84d00b0015eb0af477bmr5514045plg.49.1651574028691; 
+ Tue, 03 May 2022 03:33:48 -0700 (PDT)
 Received: from bobo.ozlabs.ibm.com (193-116-108-62.tpgi.com.au.
  [193.116.108.62]) by smtp.gmail.com with ESMTPSA id
- x48-20020a056a000bf000b0050dc76281dcsm6056301pfu.182.2022.05.03.03.33.43
+ x48-20020a056a000bf000b0050dc76281dcsm6056301pfu.182.2022.05.03.03.33.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 03:33:45 -0700 (PDT)
+ Tue, 03 May 2022 03:33:48 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/4] target/ppc: Fix eieio memory ordering semantics
-Date: Tue,  3 May 2022 20:33:31 +1000
-Message-Id: <20220503103334.2046414-1-npiggin@gmail.com>
+Subject: [RFC PATCH 2/4] tcg/ppc: ST_ST memory ordering is not provided with
+ eieio
+Date: Tue,  3 May 2022 20:33:32 +1000
+Message-Id: <20220503103334.2046414-2-npiggin@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220503103334.2046414-1-npiggin@gmail.com>
+References: <20220503103334.2046414-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,53 +89,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generated eieio memory ordering semantics do not match the
-instruction definition in the architecture. Add a big comment to
-explain this strange instruction and correct the memory ordering
-behaviour.
+eieio does not provide ordering between stores to CI memory and stores
+to cacheable memory so it can't be used as a general ST_ST barrier.
 
-Signed-off: Nicholas Piggin <npiggin@gmail.com>
+Signed-of-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- target/ppc/translate.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ tcg/ppc/tcg-target.c.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index fa34f81c30..abb8807180 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -3513,7 +3513,31 @@ static void gen_stswx(DisasContext *ctx)
- /* eieio */
- static void gen_eieio(DisasContext *ctx)
- {
--    TCGBar bar = TCG_MO_LD_ST;
-+    TCGBar bar = TCG_MO_ALL;
-+
-+    /*
-+     * eieio has complex semanitcs. It provides memory ordering between
-+     * operations in the set:
-+     * - loads from CI memory.
-+     * - stores to CI memory.
-+     * - stores to WT memory.
-+     *
-+     * It separately also orders memory for operations in the set:
-+     * - stores to cacheble memory.
-+     *
-+     * It also serializes instructions:
-+     * - dcbt and dcbst.
-+     *
-+     * It separately serializes:
-+     * - tlbie and tlbsync.
-+     *
-+     * And separately serializes:
-+     * - slbieg, slbiag, and slbsync.
-+     *
-+     * The end result is that CI memory ordering requires TCG_MO_ALL
-+     * and it is not possible to special-case more relaxed ordering for
-+     * cacheable accesses. TCG_BAR_SC is required to provide the serialization.
-+     */
- 
-     /*
-      * POWER9 has a eieio instruction variant using bit 6 as a hint to
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index cfcd121f9c..3ff845d063 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -1836,8 +1836,6 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+     a0 &= TCG_MO_ALL;
+     if (a0 == TCG_MO_LD_LD) {
+         insn = LWSYNC;
+-    } else if (a0 == TCG_MO_ST_ST) {
+-        insn = EIEIO;
+     }
+     tcg_out32(s, insn);
+ }
 -- 
 2.35.1
 
