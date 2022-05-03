@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9F5518C9E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 20:52:17 +0200 (CEST)
-Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89E9518CA3
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 20:54:20 +0200 (CEST)
+Received: from localhost ([::1]:47142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlxdA-0000u9-PZ
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 14:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52544)
+	id 1nlxf9-00040d-GZ
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 14:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nlxZW-0007oV-7T
- for qemu-devel@nongnu.org; Tue, 03 May 2022 14:48:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52771)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nlxcV-0001W7-S0
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 14:51:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nlxZU-0001xp-Jp
- for qemu-devel@nongnu.org; Tue, 03 May 2022 14:48:29 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nlxcU-0003yg-1A
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 14:51:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651603708;
+ s=mimecast20190719; t=1651603880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ho06QajLtin9k8DTDAt/m8Rezlnq/nM3DPRxTsYPk9I=;
- b=AfbqXJlDgPFZDj/QpMmnp3QZ8mmeZOx9kUueNCz5KbcOOJP9Eu/ClWS/N60JeKoRIP1yCg
- q9qXZCNctnpSoC3vG8Y6ORUngsye7GjFD45GFLntguIwBpNw6c3a4Ss5oanpkzi4j4cYUc
- xYc7gIzqOC7BdhX3g8y6Y9sZhN3rrPk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ii6bpoOAFhsNCNad559iDBuDBifd+IUwJf14cwSErkI=;
+ b=KwF8gX1/NTCi+idNQ6OOQlLUAe3e1NZ7J7NA7gywFGJwKgwb9oWYl5ri5qbxfzZzgVJjZs
+ TZIA5s2ryK8blsppVp+XledVMQt/nUbcDKUwfQDbJ/mybq3uzBbuo+TPSlvRRxq2dHf2YE
+ 4rVtmloMmPf/ufp2Dgs7DYZHhLvyr4o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-IePC-WPdMsmkK33o41keUw-1; Tue, 03 May 2022 14:48:26 -0400
-X-MC-Unique: IePC-WPdMsmkK33o41keUw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-650-PXbH8d_FOmyckEqEcC0lZg-1; Tue, 03 May 2022 14:50:52 -0400
+X-MC-Unique: PXbH8d_FOmyckEqEcC0lZg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8433E3C13A08;
- Tue,  3 May 2022 18:48:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05073950B9B;
+ Tue,  3 May 2022 18:50:50 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.10.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 195D4112131E;
- Tue,  3 May 2022 18:48:05 +0000 (UTC)
-Date: Tue, 3 May 2022 13:48:03 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FF809E71;
+ Tue,  3 May 2022 18:50:49 +0000 (UTC)
+Date: Tue, 3 May 2022 13:50:47 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Hanna Reitz <hreitz@redhat.com>
 Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 3/4] block: Print protocol-specific information
-Message-ID: <20220503184803.dgouwfwc6rsflui2@redhat.com>
+Subject: Re: [PATCH 4/4] block/file: Add file-specific image info
+Message-ID: <20220503185047.4w4ulpdrzn2wbpdq@redhat.com>
 References: <20220503145529.37070-1-hreitz@redhat.com>
- <20220503145529.37070-4-hreitz@redhat.com>
+ <20220503145529.37070-5-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220503145529.37070-4-hreitz@redhat.com>
+In-Reply-To: <20220503145529.37070-5-hreitz@redhat.com>
 User-Agent: NeoMutt/20220415-26-c08bba
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,37 +79,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 03, 2022 at 04:55:28PM +0200, Hanna Reitz wrote:
-> Make bdrv_image_info_dump() print protocol-specific information.
+On Tue, May 03, 2022 at 04:55:29PM +0200, Hanna Reitz wrote:
+> Add some (optional) information that the file driver can provide for
+> image files, namely the extent size.
 > 
 > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->  block/qapi.c | 5 +++++
->  1 file changed, 5 insertions(+)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-(and now I should probably go write a patch to expose protocol
-information for NBD...)
-
+>  qapi/block-core.json | 26 ++++++++++++++++++++++++--
+>  block/file-posix.c   | 30 ++++++++++++++++++++++++++++++
+>  2 files changed, 54 insertions(+), 2 deletions(-)
 > 
-> diff --git a/block/qapi.c b/block/qapi.c
-> index 293983cf82..169ea08f70 100644
-> --- a/block/qapi.c
-> +++ b/block/qapi.c
-> @@ -921,4 +921,9 @@ void bdrv_image_info_dump(ImageInfo *info)
->          bdrv_image_info_specific_dump(info->format_specific,
->                                        "Format specific information:\n");
->      }
-> +
-> +    if (info->has_protocol_specific) {
-> +        bdrv_image_info_specific_dump(info->protocol_specific,
-> +                                      "Protocol specific information:\n");
-> +    }
+
+> +++ b/block/file-posix.c
+> @@ -3068,6 +3068,34 @@ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+>      return 0;
 >  }
-> -- 
-> 2.35.1
-> 
+>  
+> +static ImageInfoSpecific *raw_get_specific_info(BlockDriverState *bs,
+> +                                                Error **errp)
+> +{
+> +    BDRVRawState *s = bs->opaque;
+> +    ImageInfoSpecificFile *file_info = g_new0(ImageInfoSpecificFile, 1);
+> +    ImageInfoSpecific *spec_info = g_new(ImageInfoSpecific, 1);
+> +
+> +    *spec_info = (ImageInfoSpecific){
+> +        .type = IMAGE_INFO_SPECIFIC_KIND_FILE,
+> +        .u.file.data = file_info,
+> +    };
+> +
+> +#ifdef FS_IOC_FSGETXATTR
+> +    {
+> +        struct fsxattr attr;
+> +        int ret;
+> +
+> +        ret = ioctl(s->fd, FS_IOC_FSGETXATTR, &attr);
+> +        if (!ret && attr.fsx_extsize != 0) {
+> +            file_info->has_extent_size = true;
+> +            file_info->extent_size = attr.fsx_extsize;
+> +        }
+> +    }
+> +#endif
+
+Can/should we fall back to stat's st_blksize when the ioctl produces
+nothing?
 
 -- 
 Eric Blake, Principal Software Engineer
