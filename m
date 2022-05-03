@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F37D517EC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:24:23 +0200 (CEST)
-Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC16517EC5
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 09:23:35 +0200 (CEST)
+Received: from localhost ([::1]:36346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlmtR-0004zF-M8
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49222)
+	id 1nlmsg-0003lx-07
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 03:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmVb-0003T3-4R; Tue, 03 May 2022 02:59:51 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:58481)
+ id 1nlmVg-0003TH-DC; Tue, 03 May 2022 02:59:51 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:47861
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=XF6a=VL=kaod.org=clg@ozlabs.org>)
- id 1nlmVZ-0007X1-0g; Tue, 03 May 2022 02:59:42 -0400
+ id 1nlmVb-0007XI-Fl; Tue, 03 May 2022 02:59:45 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrRt4d34z4ySt;
- Tue,  3 May 2022 16:59:38 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsrRx1L1mz4ySb;
+ Tue,  3 May 2022 16:59:41 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrRr0h0Hz4yST;
- Tue,  3 May 2022 16:59:35 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsrRv17qhz4yST;
+ Tue,  3 May 2022 16:59:38 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Steven Lee <steven_lee@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>,
- Thomas Huth <thuth@redhat.com>, Joel Stanley <joel@jms.id.au>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <pdel@fb.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 17/19] tests/qtest: Add test for Aspeed HACE accumulative mode
-Date: Tue,  3 May 2022 08:58:46 +0200
-Message-Id: <20220503065848.125215-18-clg@kaod.org>
+Subject: [PULL 18/19] hw/gpio/aspeed_gpio: Fix QOM pin property
+Date: Tue,  3 May 2022 08:58:47 +0200
+Message-Id: <20220503065848.125215-19-clg@kaod.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220503065848.125215-1-clg@kaod.org>
 References: <20220503065848.125215-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=XF6a=VL=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -16
 X-Spam_score: -1.7
@@ -66,214 +65,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Steven Lee <steven_lee@aspeedtech.com>
+From: Peter Delevoryas <pdel@fb.com>
 
-This add two addition test cases for accumulative mode under sg enabled.
+I was setting gpioV4-7 to "1110" using the QOM pin property handler and
+noticed that lowering gpioV7 was inadvertently lowering gpioV4-6 too.
 
-The input vector was manually craft with "abc" + bit 1 + padding zeros + L.
-The padding length depends on algorithm, i.e. SHA512 (1024 bit),
-SHA256 (512 bit).
+    (qemu) qom-set /machine/soc/gpio gpioV4 true
+    (qemu) qom-set /machine/soc/gpio gpioV5 true
+    (qemu) qom-set /machine/soc/gpio gpioV6 true
+    (qemu) qom-get /machine/soc/gpio gpioV4
+    true
+    (qemu) qom-set /machine/soc/gpio gpioV7 false
+    (qemu) qom-get /machine/soc/gpio gpioV4
+    false
 
-The result was calculated by command line sha512sum/sha256sum utilities
-without padding, i.e. only "abc" ascii text.
+An expression in aspeed_gpio_set_pin_level was using a logical NOT
+operator instead of a bitwise NOT operator:
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-[ clg: checkpatch fixes ]
-Message-Id: <20220426021120.28255-4-steven_lee@aspeedtech.com>
+    value &= !pin_mask;
+
+The original author probably intended to make a bitwise NOT expression
+"~", but mistakenly used a logical NOT operator "!" instead. Some
+programming languages like Rust use "!" for both purposes.
+
+Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and
+AST2500")
+Signed-off-by: Peter Delevoryas <pdel@fb.com>
+Message-Id: <20220502080827.244815-1-pdel@fb.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/qtest/aspeed_hace-test.c | 147 +++++++++++++++++++++++++++++++++
- 1 file changed, 147 insertions(+)
+ hw/gpio/aspeed_gpio.c          |  2 +-
+ tests/qtest/aspeed_gpio-test.c | 87 ++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build        |  3 +-
+ 3 files changed, 90 insertions(+), 2 deletions(-)
+ create mode 100644 tests/qtest/aspeed_gpio-test.c
 
-diff --git a/tests/qtest/aspeed_hace-test.c b/tests/qtest/aspeed_hace-test.c
-index 58aa22014d04..935a27671b8a 100644
---- a/tests/qtest/aspeed_hace-test.c
-+++ b/tests/qtest/aspeed_hace-test.c
-@@ -20,6 +20,7 @@
- #define  HACE_ALGO_SHA512        (BIT(5) | BIT(6))
- #define  HACE_ALGO_SHA384        (BIT(5) | BIT(6) | BIT(10))
- #define  HACE_SG_EN              BIT(18)
-+#define  HACE_ACCUM_EN           BIT(8)
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index c63634d3d3e2..9b736e7a9f26 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -312,7 +312,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+     if (level) {
+         value |= pin_mask;
+     } else {
+-        value &= !pin_mask;
++        value &= ~pin_mask;
+     }
  
- #define HACE_STS                 0x1c
- #define  HACE_RSA_ISR            BIT(13)
-@@ -95,6 +96,57 @@ static const uint8_t test_result_sg_sha256[] = {
-     0x55, 0x1e, 0x1e, 0xc5, 0x80, 0xdd, 0x6d, 0x5a, 0x6e, 0xcd, 0xe9, 0xf3,
-     0xd3, 0x5e, 0x6e, 0x4a, 0x71, 0x7f, 0xbd, 0xe4};
- 
+     aspeed_gpio_update(s, &s->sets[set_idx], value);
+diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
+new file mode 100644
+index 000000000000..c1003f2d1bc4
+--- /dev/null
++++ b/tests/qtest/aspeed_gpio-test.c
+@@ -0,0 +1,87 @@
 +/*
-+ * The accumulative mode requires firmware to provide internal initial state
-+ * and message padding (including length L at the end of padding).
++ * QTest testcase for the Aspeed GPIO Controller.
 + *
-+ * This test vector is a ascii text "abc" with padding message.
++ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
 + *
-+ * Expected results were generated using command line utitiles:
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
 + *
-+ *  echo -n -e 'abc' | dd of=/tmp/test
-+ *  for hash in sha512sum sha256sum; do $hash /tmp/test; done
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
-+static const uint8_t test_vector_accum_512[] = {
-+    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
 +
-+static const uint8_t test_vector_accum_256[] = {
-+    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/timer.h"
++#include "qapi/qmp/qdict.h"
++#include "libqtest-single.h"
 +
-+static const uint8_t test_result_accum_sha512[] = {
-+    0xdd, 0xaf, 0x35, 0xa1, 0x93, 0x61, 0x7a, 0xba, 0xcc, 0x41, 0x73, 0x49,
-+    0xae, 0x20, 0x41, 0x31, 0x12, 0xe6, 0xfa, 0x4e, 0x89, 0xa9, 0x7e, 0xa2,
-+    0x0a, 0x9e, 0xee, 0xe6, 0x4b, 0x55, 0xd3, 0x9a, 0x21, 0x92, 0x99, 0x2a,
-+    0x27, 0x4f, 0xc1, 0xa8, 0x36, 0xba, 0x3c, 0x23, 0xa3, 0xfe, 0xeb, 0xbd,
-+    0x45, 0x4d, 0x44, 0x23, 0x64, 0x3c, 0xe8, 0x0e, 0x2a, 0x9a, 0xc9, 0x4f,
-+    0xa5, 0x4c, 0xa4, 0x9f};
-+
-+static const uint8_t test_result_accum_sha256[] = {
-+    0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea, 0x41, 0x41, 0x40, 0xde,
-+    0x5d, 0xae, 0x22, 0x23, 0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x9c,
-+    0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad};
- 
- static void write_regs(QTestState *s, uint32_t base, uint32_t src,
-                        uint32_t length, uint32_t out, uint32_t method)
-@@ -307,6 +359,88 @@ static void test_sha512_sg(const char *machine, const uint32_t base,
-     qtest_quit(s);
- }
- 
-+static void test_sha256_accum(const char *machine, const uint32_t base,
-+                        const uint32_t src_addr)
++static bool qom_get_bool(QTestState *s, const char *path, const char *property)
 +{
-+    QTestState *s = qtest_init(machine);
++    QDict *r;
++    bool b;
 +
-+    const uint32_t buffer_addr = src_addr + 0x1000000;
-+    const uint32_t digest_addr = src_addr + 0x4000000;
-+    uint8_t digest[32] = {0};
-+    struct AspeedSgList array[] = {
-+        {  cpu_to_le32(sizeof(test_vector_accum_256) | SG_LIST_LEN_LAST),
-+           cpu_to_le32(buffer_addr) },
-+    };
++    r = qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
++                     "{ 'path': %s, 'property': %s } }", path, property);
++    b = qdict_get_bool(r, "return");
++    qobject_unref(r);
 +
-+    /* Check engine is idle, no busy or irq bits set */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
++    return b;
++}
 +
-+    /* Write test vector into memory */
-+    qtest_memwrite(s, buffer_addr, test_vector_accum_256,
-+                   sizeof(test_vector_accum_256));
-+    qtest_memwrite(s, src_addr, array, sizeof(array));
++static void qom_set_bool(QTestState *s, const char *path, const char *property,
++                         bool value)
++{
++    QDict *r;
 +
-+    write_regs(s, base, src_addr, sizeof(test_vector_accum_256),
-+               digest_addr, HACE_ALGO_SHA256 | HACE_SG_EN | HACE_ACCUM_EN);
++    r = qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
++                     "{ 'path': %s, 'property': %s, 'value': %i } }",
++                     path, property, value);
++    qobject_unref(r);
++}
 +
-+    /* Check hash IRQ status is asserted */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
++static void test_set_colocated_pins(const void *data)
++{
++    QTestState *s = (QTestState *)data;
 +
-+    /* Clear IRQ status and check status is deasserted */
-+    qtest_writel(s, base + HACE_STS, 0x00000200);
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
++    /*
++     * gpioV4-7 occupy bits within a single 32-bit value, so we want to make
++     * sure that modifying one doesn't affect the other.
++     */
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
++    qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
++    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
++    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
++    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
++    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
++}
 +
-+    /* Read computed digest from memory */
-+    qtest_memread(s, digest_addr, digest, sizeof(digest));
++int main(int argc, char **argv)
++{
++    QTestState *s;
++    int r;
 +
-+    /* Check result of computation */
-+    g_assert_cmpmem(digest, sizeof(digest),
-+                    test_result_accum_sha256, sizeof(digest));
++    g_test_init(&argc, &argv, NULL);
 +
++    s = qtest_init("-machine ast2600-evb");
++    qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
++                        test_set_colocated_pins);
++    r = g_test_run();
 +    qtest_quit(s);
++
++    return r;
 +}
-+
-+static void test_sha512_accum(const char *machine, const uint32_t base,
-+                        const uint32_t src_addr)
-+{
-+    QTestState *s = qtest_init(machine);
-+
-+    const uint32_t buffer_addr = src_addr + 0x1000000;
-+    const uint32_t digest_addr = src_addr + 0x4000000;
-+    uint8_t digest[64] = {0};
-+    struct AspeedSgList array[] = {
-+        {  cpu_to_le32(sizeof(test_vector_accum_512) | SG_LIST_LEN_LAST),
-+           cpu_to_le32(buffer_addr) },
-+    };
-+
-+    /* Check engine is idle, no busy or irq bits set */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Write test vector into memory */
-+    qtest_memwrite(s, buffer_addr, test_vector_accum_512,
-+                   sizeof(test_vector_accum_512));
-+    qtest_memwrite(s, src_addr, array, sizeof(array));
-+
-+    write_regs(s, base, src_addr, sizeof(test_vector_accum_512),
-+               digest_addr, HACE_ALGO_SHA512 | HACE_SG_EN | HACE_ACCUM_EN);
-+
-+    /* Check hash IRQ status is asserted */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-+
-+    /* Clear IRQ status and check status is deasserted */
-+    qtest_writel(s, base + HACE_STS, 0x00000200);
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Read computed digest from memory */
-+    qtest_memread(s, digest_addr, digest, sizeof(digest));
-+
-+    /* Check result of computation */
-+    g_assert_cmpmem(digest, sizeof(digest),
-+                    test_result_accum_sha512, sizeof(digest));
-+
-+    qtest_quit(s);
-+}
-+
- struct masks {
-     uint32_t src;
-     uint32_t dest;
-@@ -395,6 +529,16 @@ static void test_sha512_sg_ast2600(void)
-     test_sha512_sg("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
- }
- 
-+static void test_sha256_accum_ast2600(void)
-+{
-+    test_sha256_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-+}
-+
-+static void test_sha512_accum_ast2600(void)
-+{
-+    test_sha512_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-+}
-+
- static void test_addresses_ast2600(void)
- {
-     test_addresses("-machine ast2600-evb", 0x1e6d0000, &ast2600_masks);
-@@ -454,6 +598,9 @@ int main(int argc, char **argv)
-     qtest_add_func("ast2600/hace/sha512_sg", test_sha512_sg_ast2600);
-     qtest_add_func("ast2600/hace/sha256_sg", test_sha256_sg_ast2600);
- 
-+    qtest_add_func("ast2600/hace/sha512_accum", test_sha512_accum_ast2600);
-+    qtest_add_func("ast2600/hace/sha256_accum", test_sha256_accum_ast2600);
-+
-     qtest_add_func("ast2500/hace/addresses", test_addresses_ast2500);
-     qtest_add_func("ast2500/hace/sha512", test_sha512_ast2500);
-     qtest_add_func("ast2500/hace/sha256", test_sha256_ast2500);
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 6b9807c1830d..32fb8cf75583 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -189,7 +189,8 @@ qtests_npcm7xx = \
+    (slirp.found() ? ['npcm7xx_emc-test'] : [])
+ qtests_aspeed = \
+   ['aspeed_hace-test',
+-   'aspeed_smc-test']
++   'aspeed_smc-test',
++   'aspeed_gpio-test']
+ qtests_arm = \
+   (config_all_devices.has_key('CONFIG_MPS2') ? ['sse-timer-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-apb-dualtimer-test'] : []) + \
 -- 
 2.35.1
 
