@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C153C5189D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 18:26:08 +0200 (CEST)
-Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2915189EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 18:29:06 +0200 (CEST)
+Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlvLj-0001GH-R0
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 12:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39776)
+	id 1nlvOb-0006j7-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 12:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nluz2-0007IM-BR
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:02:40 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:41945)
+ id 1nlv4E-00037L-CC
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:08:08 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:34395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nluyz-0002RV-Nq
- for qemu-devel@nongnu.org; Tue, 03 May 2022 12:02:39 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2ebf4b91212so184883447b3.8
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:02:37 -0700 (PDT)
+ id 1nlv4C-0003O6-SW
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 12:08:02 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id y76so31920679ybe.1
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 09:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NUfaEa2keNLK+OHuF8tjYDm/pNXCbqGn/NigOG8BKwI=;
- b=ck2EJOeBp7X5K/bidTlayveOtu7M+/ozGX1vdro707Soikkov3R7rq9eJqAfZUbXU/
- NVGuYTBhmQjWkUymsfbdxVBTPWByqPHvTcKA9f1ylpDTiu7ykiacYjW95ydEKycYgtSw
- 4clDEwb54okiuSNc4on12MNSX5fuTEh7Io4oz03hYWhp5FiMhKEGfahAPpEnj5CI9ZQs
- FuCvOT9HJIgnjwD4VdeZ8rSessOzXgQy9k+AHDK+JDl4sM0H2hzBxHOQ1vH7Zc42BTM6
- Wy++p2FSmX3FPUMiZpviklduK7M6GVMZysFM6HF9TtZNw0m/HzkudS0lK0Yvpb3RDwEE
- YvJw==
+ :cc; bh=IPD9dbw61T2wlLQpQCxHtoXCtlev3liUI24xtuAWnYw=;
+ b=ZKtK3G7/emLGmqb3yHmvhPwbYMbRuXK+rRBScg8s7Sd652RG46FZsJ85/ZVT2S/QIG
+ JiNEG9sjVxyzAmo4OuwIyTZRhdTn8R/qha3/AT1Cw6bpJaOFqpMNsvrn7o6wv6t6bGIu
+ 39Yf/dy/LAoJGyNbgFbQjs7QiOtI+N7MVRzCH3VePYVwxtqRQ0pVnj2QSP8BsU28IZfP
+ hkzNrmBsYC/ci3H6Y/K62leSn+0NEHjQOeVAYYqsn4SeVWoLwfCgLeWDIPDLv3K9CSUt
+ rhHJjekHNdqi7Y2cZSAn4zBB2ug5Gjm+f7XpoxImcGwn9JAcHDY8s1ufj/wbAsGdGbel
+ tohw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NUfaEa2keNLK+OHuF8tjYDm/pNXCbqGn/NigOG8BKwI=;
- b=Z6topM8NubWETZwOC4L/fOrEz+vHikO83v3PlPLyBSYyQnoMyaAHwfxTFhC7AjbEP1
- 2gwtKY2ShMo206caOmtWmsVhtPoUMesAh513sRjcavWUHCv/R7HNHNZ4dMO9EGEAIFkp
- 3yZxpapVrib/Uu6m02ydyvKlpfIhrXgpuAfTAjaSgh5Q3MOqIfIZlV6kSxfCIgcT3glW
- kSs+PH5IJKSCIi9zCSutSzqGqVBrVp92aUPH1XmcHysoR8JNwFOkOfo6ZQPBOpNw85CI
- WBGeOv0SwT0iaQFTY+at8KA8qsGyIKMlqUN2SB9FThqi9binQ2CjT7C66e+1UVznBh3V
- zNjw==
-X-Gm-Message-State: AOAM532TwJsFE/LQpc7EiwHus1n6TViTg7e4nUwZFVJRz3ENvlMSHIsX
- wTke/fehBOWcB/q7VLN42iNSWj+rOuXaNu+3nq4r+w==
-X-Google-Smtp-Source: ABdhPJxbleBwAYs1R6ao4FbcitDVf/oHXbd5wSyAmrThX5PhMcKZFVGE5yv31JVambf+BXQhtmAB08BFnvZAzpqZ70s=
-X-Received: by 2002:a81:6cc1:0:b0:2f8:bb31:143b with SMTP id
- h184-20020a816cc1000000b002f8bb31143bmr15382454ywc.64.1651593756468; Tue, 03
- May 2022 09:02:36 -0700 (PDT)
+ bh=IPD9dbw61T2wlLQpQCxHtoXCtlev3liUI24xtuAWnYw=;
+ b=wGJp2JN0l1CMM+gB7m146b9hP5iSq8JxcWNqDgJsh1eOE7I79SPN7XUo/OnyCrsn/8
+ bkWjh4yyAP8aBB9Axe3pZNCVSwETR9DV/885B0HngzFeXeUl0Qa2g8XiaO04QIJGVnpS
+ aDIQPeq+QelRk1LB1YEhMiRdubYe3qPdNdAKm9JH2H2uw/4XVwXC7IgrB8kVEz9lHVUc
+ shSWTjdZKOlCunzEx6V06Xs4zadjn8RGxRNp9YI+YiMLcpBwsqvZfMdL7PxAtyjEzI7r
+ khoA+6BxP8R1n0mHvNChI9hnhybpfUxbgVGp+eZ3Empl6jU4DMPc9kZFEW68vjgBxf+l
+ tcqw==
+X-Gm-Message-State: AOAM531o/rgcxSUKJNRtTgd7QH5CUqwlBmFTKLGtnFB58IRIwbUboFgw
+ M6N4CHLIteaJKGs7c2GVOX9ubDZX8zBh7yeOFTAUHg==
+X-Google-Smtp-Source: ABdhPJyaRp4bMn3FXSVNGCemXkI7/vSHOj0ggURalshti0eMOetHlFTYXaFQQODnyo5v6vCnmuCMKArxz8gVw+K6kI8=
+X-Received: by 2002:a25:cf4d:0:b0:645:755c:a5af with SMTP id
+ f74-20020a25cf4d000000b00645755ca5afmr13556589ybg.140.1651594079798; Tue, 03
+ May 2022 09:07:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220501055028.646596-1-richard.henderson@linaro.org>
- <20220501055028.646596-12-richard.henderson@linaro.org>
-In-Reply-To: <20220501055028.646596-12-richard.henderson@linaro.org>
+ <20220501055028.646596-13-richard.henderson@linaro.org>
+In-Reply-To: <20220501055028.646596-13-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 May 2022 17:02:25 +0100
-Message-ID: <CAFEAcA8n1WXdoFaiGytxdoSP0S3MTFjrRaG=qRRfW6_u=M97Ag@mail.gmail.com>
-Subject: Re: [PATCH v4 11/45] target/arm: Store cpregs key in the hash table
- directly
+Date: Tue, 3 May 2022 17:07:48 +0100
+Message-ID: <CAFEAcA9+orqoQn=gMu9H=TJoGysC4Jds83qq7OPhTRDOTJvzMQ@mail.gmail.com>
+Subject: Re: [PATCH v4 12/45] target/arm: Merge allocation of the cpreg and
+ its name
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,19 +83,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 1 May 2022 at 07:05, Richard Henderson
+On Sun, 1 May 2022 at 07:18, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Cast the uint32_t key into a gpointer directly, which
-> allows us to avoid allocating storage for each key.
+> Simplify freeing cp_regs hash table entries by using a single
+> allocation for the entire value.
 >
-> Use g_hash_table_lookup when we already have a gpointer
-> (e.g. for callbacks like count_cpreg), or when using
-> get_arm_cp_reginfo would require casting away const.
+> This fixes a theoretical bug if we were to ever free the entire
+> hash table, because we've been installing string literal constants
+> into the cpreg structure in define_arm_vh_e2h_redirects_aliases.
+> However, at present we only free entries created for AArch32
+> wildcard cpregs which get overwritten by more specific cpregs,
+> so this bug is never exposed.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v4: Adjust usage of functions to match new note above.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
