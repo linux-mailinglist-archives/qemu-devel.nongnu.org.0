@@ -2,46 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78714517F9E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 10:21:32 +0200 (CEST)
-Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E835C517F80
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 10:11:46 +0200 (CEST)
+Received: from localhost ([::1]:57250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlnml-0001j0-5A
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 04:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
+	id 1nlndJ-00084O-T1
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 04:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nlmjL-00076C-JY; Tue, 03 May 2022 03:13:55 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:43876)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nln6t-0006bF-IA
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 03:38:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nlmjI-0000xC-LR; Tue, 03 May 2022 03:13:55 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id D81AC11EEFE;
- Tue,  3 May 2022 07:13:49 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Tue, 03 May 2022 07:13:49 +0000
-MIME-Version: 1.0
-Subject: [PATCH qemu v14 00/15] Add tail agnostic behavior for rvv instructions
-Message-ID: <165156202959.27941.9731161369415852149-0@git.sr.ht>
-X-Mailer: git.sr.ht
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nln6q-00043N-Pa
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 03:38:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651563492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c50vPfifeXyJL+s8pWyJZvStZwpl9XtvI+Q472AX1XU=;
+ b=VGTbowKAJtbozE2p8N1Pzyb2HDOldwuX3Y9h3JI4JBms+Z6jsHVFH1vN0+vOo5K65bH3c0
+ Wr2AyPEy6umElr2yRrlw9rQ4JGUB05Ew2rcE4uvcWv25Fibk8f5SFZeXP2L3DDoL767/X4
+ yygma6PJJueKLnWnrNhyCtgBKG/HfIE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-437-5axR5c2oPNCy2-Sp9AwGsw-1; Tue, 03 May 2022 03:38:09 -0400
+X-MC-Unique: 5axR5c2oPNCy2-Sp9AwGsw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C72373834C06;
+ Tue,  3 May 2022 07:38:08 +0000 (UTC)
+Received: from harajuku.usersys.redhat.com (unknown [10.40.194.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F9389E71;
+ Tue,  3 May 2022 07:37:38 +0000 (UTC)
+From: Andrea Bolognani <abologna@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Markus Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>
+Subject: [PATCH v2 0/8] qapi: Primarily whitespace tweaks
+Date: Tue,  3 May 2022 09:37:29 +0200
+Message-Id: <20220503073737.84223-1-abologna@redhat.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,123 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to v-spec, tail agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s". An option
-'rvv_ta_all_1s' is added to enable the behavior, it is default as
-disabled.
+If patch 8/8 is accepted, 7/8 should be squashed into it to reduce=0D
+churn.=0D
+=0D
+Changes from [v1]:=0D
+=0D
+  * use a more fine-grained split for whitespace changes.=0D
+=0D
+[v1] https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg05406.html=0D
+=0D
+Andrea Bolognani (8):=0D
+  qapi: Drop stray trailing symbol=0D
+  qapi: Fix comment indentation=0D
+  qapi: Add missing separators between sections=0D
+  qapi: Drop unnecessary empty lines in comments=0D
+  qapi: Drop unnecessary empty lines outside of comments=0D
+  qapi: Drop unnecessary whitespace in comments=0D
+  qapi: Reduce whitespace used for alignment in comments=0D
+  qapi: Stop using whitespace for alignment in comments=0D
+=0D
+ qapi/audio.json          |  1 -=0D
+ qapi/block-core.json     | 97 ++++++++++++++++++----------------------=0D
+ qapi/block-export.json   |  2 +-=0D
+ qapi/block.json          | 13 +++---=0D
+ qapi/char.json           | 10 ++---=0D
+ qapi/common.json         |  2 -=0D
+ qapi/control.json        | 13 +++---=0D
+ qapi/crypto.json         | 62 ++++++++++++-------------=0D
+ qapi/dump.json           |  4 +-=0D
+ qapi/job.json            |  1 -=0D
+ qapi/machine-target.json |  1 -=0D
+ qapi/machine.json        | 12 +++--=0D
+ qapi/migration.json      | 19 ++++----=0D
+ qapi/misc-target.json    | 13 ++----=0D
+ qapi/misc.json           |  6 +--=0D
+ qapi/replay.json         |  1 -=0D
+ qapi/run-state.json      | 10 ++---=0D
+ qapi/sockets.json        |  6 +--=0D
+ qapi/ui.json             | 70 ++++++++++-------------------=0D
+ 19 files changed, 136 insertions(+), 207 deletions(-)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between tail policies. Setting agnostic elements to
-all 1s makes things simple and allow QEMU to express this.
-
-We may explore other possibility of agnostic behavior by adding
-other options in the future. Please understand that this patch-set
-is limited.
-
-v2 updates:
-- Addressed comments from Weiwei Li
-- Added commit tail agnostic on load / store instructions (which
-  I forgot to include into the patch-set)
-
-v3 updates:
-- Missed the very 1st commit, adding it back
-
-v4 updates:
-- Renamed vlmax to total_elems
-- Deal with tail element when vl_eq_vlmax == true
-
-v5 updates:
-- Let `vext_get_total_elems` take `desc` and `esz`
-- Utilize `simd_maxsz(desc)` to get `vlenb`
-- Fix alignments to code
-
-v6 updates:
-- Fix `vext_get_total_elems`
-
-v7 updates:
-- Reuse `max_elems` for vector load / store helper functions. The
-  translation sets desc's `lmul` to `min(1, lmul)`, making
-  `vext_max_elems` equivalent to `vext_get_total_elems`.
-
-v8 updates:
-- Simplify `vext_set_elems_1s`, don't need `vext_set_elems_1s_fns`
-- Fix `vext_get_total_elems`, it should derive upon EMUL instead
-  of LMUL
-
-v9 updates:
-- Let instructions that is tail agnostic regardless of vta respect the
-  option and not the vta.
-
-v10 updates:
-- Correct range to set element to 1s for load instructions
-
-v11 updates:
-- Separate addition of option 'rvv_ta_all_1s' as a new (last) commit
-- Add description to show intent of the option in first commit for the
-  optional tail agnostic behavior
-- Tag WeiWei as Reviewed-by for all commits
-- Tag Alistair as Reviewed-by for commit 01, 02
-- Tag Alistair as Acked-by for commit 03
-
-v12 updates:
-- Add missing space in WeiWei's "Reviewed-by" tag
-
-v13 updates:
-- Fix tail agnostic for vext_ldst_us. The function operates on input
-  parameter 'evl' rather than 'env->vl'.
-- Fix tail elements for vector segment load / store instructions
-  A vector segment load / store instruction may contain fractional
-  lmul with nf * lmul > 1. The rest of the elements in the last
-  register should be treated as tail elements.
-- Fix tail agnostic length for instructions with mask destination
-  register. Instructions with mask destination register should have
-  'vlen - vl' tail elements.
-
-v14 updates:
-- Pass lmul information to into vector helper function.
-  `vext_get_total_elems` needs it.
-
-eopXD (15):
-  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
-  target/riscv: rvv: Rename ambiguous esz
-  target/riscv: rvv: Early exit when vstart >= vl
-  target/riscv: rvv: Add tail agnostic for vv instructions
-  target/riscv: rvv: Add tail agnostic for vector load / store
-    instructions
-  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
-  target/riscv: rvv: Add tail agnostic for vector integer shift
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector integer comparison
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector integer merge and move
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector floating-point
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector reduction instructions
-  target/riscv: rvv: Add tail agnostic for vector mask instructions
-  target/riscv: rvv: Add tail agnostic for vector permutation
-    instructions
-  target/riscv: rvv: Add option 'rvv_ta_all_1s' to enable optional tail
-    agnostic behavior
-
- target/riscv/cpu.c                      |    1 +
- target/riscv/cpu.h                      |    2 +
- target/riscv/cpu_helper.c               |    2 +
- target/riscv/insn_trans/trans_rvv.c.inc |  179 +++
- target/riscv/internals.h                |    6 +-
- target/riscv/translate.c                |    4 +
- target/riscv/vector_helper.c            | 1558 ++++++++++++++---------
- 7 files changed, 1135 insertions(+), 617 deletions(-)
-
--- 
-2.34.2
 
