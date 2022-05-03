@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22325181A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:49:19 +0200 (CEST)
-Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EB151818B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 May 2022 11:46:46 +0200 (CEST)
+Received: from localhost ([::1]:56324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlp9i-0000Tq-Rv
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46682)
+	id 1nlp7F-0004o2-Fn
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 05:46:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1nlp1g-0000YW-9k; Tue, 03 May 2022 05:41:00 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:43316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1nlp1e-0004D8-7x; Tue, 03 May 2022 05:40:59 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5281D1F750;
- Tue,  3 May 2022 09:40:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651570852; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1nlp2H-0000mg-Kf
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:41:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1nlp2F-0004LQ-Mt
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 05:41:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651570894;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Yd/iDnQM5oGNN8QPbxPCoU1QbjGVJ37w6kFC3XxuskY=;
- b=VVVQknNcQBlWCec+8uskws2EnUzr7pb3nRuRjOmZ4yO+hYVeRgcPRSBlQKe8gg9gvT3cnj
- Peq04is022y5D+WvOKKpuT+Ceg5H7i/sWC4F9opT5eqg5BZ3ahXH26CVcxMAIgvsiR1apG
- UECZm/qRxEeINw+7i2X/UybTkhlGzUg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651570852;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yd/iDnQM5oGNN8QPbxPCoU1QbjGVJ37w6kFC3XxuskY=;
- b=1L4AADtYLiN/qDY8UU0aYBdy5+OaGtaxRpk/9gTxQVP40/skFeWiW6POdT+xoKzCrmfyiH
- Vq10GNv7ZZYmHXBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D0A5313AA3;
- Tue,  3 May 2022 09:40:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lRg9MaP4cGL+XAAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 03 May 2022 09:40:51 +0000
-Subject: Re: [PATCH v7 00/22] host: Support macOS 12
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b0933f87-3a73-fbfb-f3ee-52e7ecde73a0@suse.de>
-Date: Tue, 3 May 2022 11:40:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=5MUfsdylKu96Yi+6Iyoy8SyfhgvJPh1eVodoqMzVgMY=;
+ b=FnqMShmP/lbWhGALpZy0RPSTiv83yks9yT8p7AT/CtsIVYE/BVf/uHxBO5U9Rt7/DhLskC
+ 3W5t/2+3y65ZlP/RtVH8u409mvLqJ5AMyQWSIhkds1+TjGFUwjyRRv8WQS0XK/LgOtKhXs
+ 0X3kZBMBQqqz3fgDRT4RkPT612mItvE=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-345-j8rc-U6oOoicdKvNeGn_Fg-1; Tue, 03 May 2022 05:41:33 -0400
+X-MC-Unique: j8rc-U6oOoicdKvNeGn_Fg-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ b33-20020a25aea1000000b0064588c45fbaso9835047ybj.16
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 02:41:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5MUfsdylKu96Yi+6Iyoy8SyfhgvJPh1eVodoqMzVgMY=;
+ b=vNCHZuKD96FcDixpTBhFCFtfEOtdfNLILNGkOlO/GEC0PEsGXjvTNzvzovmilgPpKU
+ OgJOgkwXMnTxkRoX4Yu67bH1u33+e0leYzeY1kbZ1dflnSM9AYnyV/zUtl6/q7M48MBg
+ ajaNizXyaRCOZV2adWLtyzE5k53DLgyfadSHsy1PFiaFvx+u9iEouWrOB+XjHO//wGzq
+ HGneYmnvChl/BWAgmRn3Hllztnsm3QazH95AO44VR6PSOmq27KmVCrbSmhc66wVxaLZH
+ 0nORNsllsP1PdFz9294Q2DvFeLiHumUVMPHqsf35OhR7TiOYra1isS7Wxpon/Nyr5TNd
+ C+Ig==
+X-Gm-Message-State: AOAM5331kVwBdL8joxVYgsUhhErU76UjW4wE2zicuYLcwbhkyS5vPVdE
+ vws/aM2fJJD3k5SyPz+TMS49j4/Cl8ChM3ta/27NbgMJQjcTXXpVYfdcoYJR95Bxm4Ax32ADXuW
+ XR5PNsY16wGJnbLg3XL3VyjjUpB/YbqI=
+X-Received: by 2002:a81:b044:0:b0:2d6:bd1f:5d8b with SMTP id
+ x4-20020a81b044000000b002d6bd1f5d8bmr14467599ywk.27.1651570892996; 
+ Tue, 03 May 2022 02:41:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlrFDkmA4dyZXbyNsO6Pm9Wezpz7KJpr2f91cc73g+YXus3sHgbBKeZzbTDtCEqpR6rwdwtTwwrfz7LSC4Wjo=
+X-Received: by 2002:a81:b044:0:b0:2d6:bd1f:5d8b with SMTP id
+ x4-20020a81b044000000b002d6bd1f5d8bmr14467586ywk.27.1651570892800; Tue, 03
+ May 2022 02:41:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220428182120.302066-1-kkostiuk@redhat.com>
+ <0b0afdba-2f8f-1035-458b-f13d1f09f355@redhat.com>
+ <YnDu4lkn9UPcspqX@redhat.com>
+In-Reply-To: <YnDu4lkn9UPcspqX@redhat.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Tue, 3 May 2022 12:41:22 +0300
+Message-ID: <CAPMcbCrCefWrcbNC5hieSC7GHL53hBvnW6owH2xGYveWA5XX3g@mail.gmail.com>
+Subject: Re: [PATCH 0/2] build improvments
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>, 
+ Thomas Huth <thuth@redhat.com>, Michael Roth <michael.roth@amd.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000006314ce05de1850c6"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,122 +96,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/22 12:17 AM, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> Few patches to be able to build QEMU on macOS 12 (Monterey).
-> 
-> Missing review:
->  0006-hvf-Fix-OOB-write-in-RDTSCP-instruction-decode.patch
->  0013-osdep-Avoid-using-Clang-specific-__builtin_available.patch
->  0014-meson-Resolve-the-entitlement.sh-script-once-for-goo.patch
->  0015-meson-Log-QEMU_CXXFLAGS-content-in-summary.patch
->  0016-configure-Pass-filtered-QEMU_OBJCFLAGS-to-meson.patch
->  0017-ui-cocoa-Constify-qkeycode-translation-arrays.patch
->  0020-ui-cocoa-capture-all-keys-and-combos-when-mouse-is-g.patch
->  0021-ui-cocoa-add-option-to-swap-Option-and-Command.patch
->  0022-gitlab-ci-Support-macOS-12-via-cirrus-run.patch
-> 
-> Since v6:
-> - Dropped merged patches
-> - Addressed Akihiko Odaki comments (squashed 2 patches, added R/T-b)
-> - Dropped 'configure: Disable out-of-line atomic operations on Aarch64'
-> - Add few macos patches on the list pending for 7.0 so tested by CI
+--0000000000006314ce05de1850c6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Daniel,
+
+This was my mistake when I sent patches.
+Thanks for your comment.
+
+Best Regards,
+Konstantin Kostiuk.
 
 
-Hi Philippe, I did not find v6 somehow,
+On Tue, May 3, 2022 at 11:59 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-and I was looking for patch:
+> On Fri, Apr 29, 2022 at 12:10:34AM +0200, Paolo Bonzini wrote:
+> > On 4/28/22 20:21, Konstantin Kostiuk wrote:
+> > > Konstantin Kostiuk (2):
+> > >    configure: Add cross prefix for widl tool
+> > >    qga-vss: always build qga-vss.tlb when qga-vss.dll is built
+> > >
+> > >   configure                 | 3 +++
+> > >   qga/vss-win32/meson.build | 4 ++--
+> > >   2 files changed, 5 insertions(+), 2 deletions(-)
+> >
+> > Both titles make sense, but they didn't reach the mailing list.
+>
+> They did, but were each sent as standalone mail threads before this
+> cover letter was sent.
+>
+> Konstantin: I'd suggest using 'git-publish' for sending patches in
+> future, as it automatically does the right thing, ensuring that the
+> threading is set correctly, and has many other benefits over sending
+> patch emails manually
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
 
-"[PATCH v5 06/16] hvf: Enable RDTSCP support"
+--0000000000006314ce05de1850c6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-was it dropped / merged with something else? I do not see it in latest git, nor in this respin,
-maybe it is in your tree somewhere?
+<div dir=3D"ltr"><div>Hi Daniel,</div><div><br></div><div>This was my mista=
+ke when I sent patches.</div><div>Thanks for your comment. </div><div><br><=
+/div><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D=
+"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</div><div>Konstantin =
+Kostiuk.</div></div></div></div><br></div></div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 3, 2022 at 11:59 AM D=
+aniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@=
+redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Fri, Apr 29, 2022 at 12:10:34AM +0200, Paolo Bonzini wrote:<b=
+r>
+&gt; On 4/28/22 20:21, Konstantin Kostiuk wrote:<br>
+&gt; &gt; Konstantin Kostiuk (2):<br>
+&gt; &gt;=C2=A0 =C2=A0 configure: Add cross prefix for widl tool<br>
+&gt; &gt;=C2=A0 =C2=A0 qga-vss: always build qga-vss.tlb when qga-vss.dll i=
+s built<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| 3 +++<br>
+&gt; &gt;=C2=A0 =C2=A0qga/vss-win32/meson.build | 4 ++--<br>
+&gt; &gt;=C2=A0 =C2=A02 files changed, 5 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; Both titles make sense, but they didn&#39;t reach the mailing list.<br=
+>
+<br>
+They did, but were each sent as standalone mail threads before this<br>
+cover letter was sent.<br>
+<br>
+Konstantin: I&#39;d suggest using &#39;git-publish&#39; for sending patches=
+ in<br>
+future, as it automatically does the right thing, ensuring that the<br>
+threading is set correctly, and has many other benefits over sending<br>
+patch emails manually<br>
+<br>
+With regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div>
 
-Thanks,
-
-Claudio
-
-> 
-> Since v5:
-> - Fixed failed rebase between patches 10 and 16 (Akihiko)
-> - Include "ui/cocoa: Fix the leak of qemu_console_get_label"
-> 
-> Since v4:
-> - Use MAC_OS_X_VERSION_MIN_REQUIRED definition (Akihiko)
-> - Include patches from Akihiko
-> 
-> Since v3:
-> - Fix --enable-modules
-> - Ignore #pragma on softfloat3 tests
-> - Addressed Akihiko Odaki comments
-> - Include Cameron Esfahani patches
-> 
-> Since v2:
-> - Addressed Akihiko Odaki comments:
->   . use __is_identifier(),
->   . remove cocoa setAllowedFileTypes()
-> - Addressed Daniel Berrangé comment:
->   . rebased on testing/next, update libvirt-ci/lcitool
-> 
-> Akihiko Odaki (2):
->   audio: Log context for audio bug
->   coreaudio: Always return 0 in handle_voice_change
-> 
-> Cameron Esfahani (2):
->   hvf: Use standard CR0 and CR4 register definitions
->   hvf: Fix OOB write in RDTSCP instruction decode
-> 
-> Carwyn Ellis (2):
->   ui/cocoa: add option to disable left-command forwarding to guest
->   ui/cocoa: release mouse when user switches away from QEMU window
-> 
-> Gustavo Noronha Silva (2):
->   ui/cocoa: capture all keys and combos when mouse is grabbed
->   ui/cocoa: add option to swap Option and Command
-> 
-> Philippe Mathieu-Daudé (14):
->   configure: Allow passing extra Objective C compiler flags
->   tests/fp/berkeley-testfloat-3: Ignore ignored #pragma directives
->   hvf: Make hvf_get_segments() / hvf_put_segments() local
->   hvf: Remove deprecated hv_vcpu_flush() calls
->   block/file-posix: Remove a deprecation warning on macOS 12
->   audio/coreaudio: Remove a deprecation warning on macOS 12
->   audio/dbus: Fix building with modules on macOS
->   audio: Rename coreaudio extension to use Objective-C compiler
->   osdep: Avoid using Clang-specific __builtin_available()
->   meson: Resolve the entitlement.sh script once for good
->   meson: Log QEMU_CXXFLAGS content in summary
->   configure: Pass filtered QEMU_OBJCFLAGS to meson
->   ui/cocoa: Constify qkeycode translation arrays
->   gitlab-ci: Support macOS 12 via cirrus-run
-> 
->  .gitlab-ci.d/cirrus.yml            |  16 ++++
->  .gitlab-ci.d/cirrus/macos-12.vars  |  16 ++++
->  audio/audio.c                      |  25 +++---
->  audio/audio_template.h             |  27 +++----
->  audio/{coreaudio.c => coreaudio.m} |  23 +++---
->  audio/meson.build                  |   4 +-
->  block/file-posix.c                 |  14 +++-
->  configure                          |  31 ++++++++
->  include/qemu/osdep.h               |  10 +--
->  meson.build                        |  17 +++-
->  qapi/ui.json                       |  29 +++++++
->  qemu-options.hx                    |  15 ++++
->  target/i386/hvf/vmx.h              |  19 +++--
->  target/i386/hvf/x86.c              |   6 +-
->  target/i386/hvf/x86.h              |  34 --------
->  target/i386/hvf/x86_decode.c       |  12 ++-
->  target/i386/hvf/x86_mmu.c          |   2 +-
->  target/i386/hvf/x86_task.c         |   4 +-
->  target/i386/hvf/x86hvf.c           |  14 +++-
->  target/i386/hvf/x86hvf.h           |   3 +-
->  tests/fp/meson.build               |   5 ++
->  tests/lcitool/refresh              |   1 +
->  ui/cocoa.m                         | 122 ++++++++++++++++++++++++++---
->  23 files changed, 327 insertions(+), 122 deletions(-)
->  create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
->  rename audio/{coreaudio.c => coreaudio.m} (97%)
-> 
+--0000000000006314ce05de1850c6--
 
 
