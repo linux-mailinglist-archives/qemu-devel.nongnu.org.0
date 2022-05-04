@@ -2,54 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9660651B12A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 23:38:43 +0200 (CEST)
-Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3899851B013
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 23:07:30 +0200 (CEST)
+Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmMhm-0002uU-Nk
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 17:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33156)
+	id 1nmMDZ-0007kZ-BG
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 17:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nmMIQ-0007FJ-UZ; Wed, 04 May 2022 17:12:30 -0400
-Received: from [187.72.171.209] (port=54992 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nmMIM-0001MW-7P; Wed, 04 May 2022 17:12:30 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 4 May 2022 18:07:53 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 12285800902;
- Wed,  4 May 2022 18:07:53 -0300 (-03)
-From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org, balaton@eik.bme.hu,
- victor.colombo@eldorado.org.br
-Subject: [PATCH v4 22/22] target/ppc: Change MSR_* to follow POWER ISA
- numbering convention
-Date: Wed,  4 May 2022 18:05:41 -0300
-Message-Id: <20220504210541.115256-23-victor.colombo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220504210541.115256-1-victor.colombo@eldorado.org.br>
-References: <20220504210541.115256-1-victor.colombo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmMCY-0006Lk-Ne
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 17:06:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49848)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmMCV-0007AP-Bv
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 17:06:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651698382;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H4rNiF0N7fdN6KO0nV74IhQX4WOT/vBdcy/QQMPmWnc=;
+ b=P2sxSLutP0tC6ciOgvgMOefNzxkONGVNU0DyN0wNYfZE1Ul09Z+37mcc+rgadR+bdiB7nj
+ csjXYK6V1RB978C2uqcfQeloiQi/3WTFEWlv/hFAx0G4kSKNO8lgpSwhMXaqlnBQUAPmpL
+ 9d4+8l0RCNakYHfVBRlCfcEhNdZomyE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-529-K7T6shSQMi2VhBijpHjqfw-1; Wed, 04 May 2022 17:06:21 -0400
+X-MC-Unique: K7T6shSQMi2VhBijpHjqfw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ cw28-20020a056402229c00b00425dda4b67dso1411899edb.10
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 14:06:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H4rNiF0N7fdN6KO0nV74IhQX4WOT/vBdcy/QQMPmWnc=;
+ b=RqZypOx2YPfhctEjZHwU0NCcedJKG+oaJ7WfdtCuPzgT6Yznzn3vgs0FSmnJJb+ixX
+ LQDOVdjpCLylgTHjUCf3lTupdRkPKRV5ijqx8TuJJDfGRD7UJSGSIW2Sqm5HtdLcLoC8
+ 89bgUR2O2hrVJ5IP+UmPN6fKzt/vndWGBhLMETvDm3OVO8EMSfCY7+JReKppppYMIohs
+ trOiXdNazU3iRdjNr5IkxqqxRs7AA7gqKvV/rNs17iDvdhKZeMirzaEtWv5ApFWyrgJc
+ MZDqZDIq5fiEq6r0II5By6ktHMeFYIU+dDzyJ643GosbXjHrpjC1WuD0+Rs71VQv7FCH
+ 2Cmw==
+X-Gm-Message-State: AOAM530HFHhbscEmuHuH3X/zsfdcln/FDPstDIZgEriCs4VHqgaa1r3W
+ /uKRkvQ/G+PQvPmYU7NNbc1FTJ2tfblwclrN3rpxwJ6zG6iJD07yQemLQ8CAz1HA+rMIghVFWg0
+ Qb2sWcTfU/BPnkSOIhK4vApgigC+m890l5NNACkMRMmxYWpESyUUpBHDUn3yZ3c0GQvg=
+X-Received: by 2002:a17:906:594a:b0:6f3:d242:8d64 with SMTP id
+ g10-20020a170906594a00b006f3d2428d64mr22094633ejr.34.1651698379657; 
+ Wed, 04 May 2022 14:06:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQafNN1CU/quMdeJbkbv7qhC5gDMBC94erSB5+4PHH2Tb986IyJG49rhFdgBAnIYkP4d1G2Q==
+X-Received: by 2002:a17:906:594a:b0:6f3:d242:8d64 with SMTP id
+ g10-20020a170906594a00b006f3d2428d64mr22094590ejr.34.1651698379219; 
+ Wed, 04 May 2022 14:06:19 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ og21-20020a1709071dd500b006f3ef214df8sm6135982ejc.94.2022.05.04.14.06.17
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 14:06:18 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v4 00/25] Misc patches for 2022-04-29
+Date: Wed,  4 May 2022 23:06:14 +0200
+Message-Id: <20220504210615.680072-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 May 2022 21:07:53.0401 (UTC)
- FILETIME=[05134A90:01D85FFB]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,128 +97,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Today we have the issue where MSR_* values are the 'inverted order'
-bit numbers from what the ISA specifies. e.g. MSR_LE is bit 63 but
-is defined as 0 in QEMU.
+The following changes since commit f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65:
 
-Add a macro to be used to convert from QEMU order to ISA order.
+  Merge tag 'pull-9p-20220501' of https://github.com/cschoenebeck/qemu into staging (2022-05-01 07:48:11 -0700)
 
-This solution requires less changes than to use the already defined
-PPC_BIT macro, which would turn MSR_* in masks instead of the numbers
-itself.
+are available in the Git repository at:
 
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/cpu.h | 87 ++++++++++++++++++++++++------------------------
- 1 file changed, 44 insertions(+), 43 deletions(-)
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 4577cfcc23..48596cfb25 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -38,6 +38,7 @@
- #define PPC_ELF_MACHINE     EM_PPC
- #endif
- 
-+#define PPC_BIT_NR(bit)         (63 - (bit))
- #define PPC_BIT(bit)            (0x8000000000000000ULL >> (bit))
- #define PPC_BIT32(bit)          (0x80000000 >> (bit))
- #define PPC_BIT8(bit)           (0x80 >> (bit))
-@@ -310,49 +311,49 @@ typedef enum {
- 
- /*****************************************************************************/
- /* Machine state register bits definition                                    */
--#define MSR_SF   63 /* Sixty-four-bit mode                            hflags */
--#define MSR_TAG  62 /* Tag-active mode (POWERx ?)                            */
--#define MSR_ISF  61 /* Sixty-four-bit interrupt mode on 630                  */
--#define MSR_HV   60 /* hypervisor state                               hflags */
--#define MSR_TS0  34 /* Transactional state, 2 bits (Book3s)                  */
--#define MSR_TS1  33
--#define MSR_TM   32 /* Transactional Memory Available (Book3s)               */
--#define MSR_CM   31 /* Computation mode for BookE                     hflags */
--#define MSR_ICM  30 /* Interrupt computation mode for BookE                  */
--#define MSR_GS   28 /* guest state for BookE                                 */
--#define MSR_UCLE 26 /* User-mode cache lock enable for BookE                 */
--#define MSR_VR   25 /* altivec available                            x hflags */
--#define MSR_SPE  25 /* SPE enable for BookE                         x hflags */
--#define MSR_VSX  23 /* Vector Scalar Extension (ISA 2.06 and later) x hflags */
--#define MSR_S    22 /* Secure state                                          */
--#define MSR_KEY  19 /* key bit on 603e                                       */
--#define MSR_POW  18 /* Power management                                      */
--#define MSR_WE   18 /* Wait State Enable on 405                              */
--#define MSR_TGPR 17 /* TGPR usage on 602/603                        x        */
--#define MSR_CE   17 /* Critical interrupt enable on embedded PowerPC x       */
--#define MSR_ILE  16 /* Interrupt little-endian mode                          */
--#define MSR_EE   15 /* External interrupt enable                             */
--#define MSR_PR   14 /* Problem state                                  hflags */
--#define MSR_FP   13 /* Floating point available                       hflags */
--#define MSR_ME   12 /* Machine check interrupt enable                        */
--#define MSR_FE0  11 /* Floating point exception mode 0                       */
--#define MSR_SE   10 /* Single-step trace enable                     x hflags */
--#define MSR_DWE  10 /* Debug wait enable on 405                     x        */
--#define MSR_UBLE 10 /* User BTB lock enable on e500                 x        */
--#define MSR_BE   9  /* Branch trace enable                          x hflags */
--#define MSR_DE   9  /* Debug interrupts enable on embedded PowerPC  x        */
--#define MSR_FE1  8  /* Floating point exception mode 1                       */
--#define MSR_AL   7  /* AL bit on POWER                                       */
--#define MSR_EP   6  /* Exception prefix on 601                               */
--#define MSR_IR   5  /* Instruction relocate                                  */
--#define MSR_DR   4  /* Data relocate                                         */
--#define MSR_IS   5  /* Instruction address space (BookE)                     */
--#define MSR_DS   4  /* Data address space (BookE)                            */
--#define MSR_PE   3  /* Protection enable on 403                              */
--#define MSR_PX   2  /* Protection exclusive on 403                  x        */
--#define MSR_PMM  2  /* Performance monitor mark on POWER            x        */
--#define MSR_RI   1  /* Recoverable interrupt                        1        */
--#define MSR_LE   0  /* Little-endian mode                           1 hflags */
-+#define MSR_SF   PPC_BIT_NR(0)  /* Sixty-four-bit mode                hflags */
-+#define MSR_TAG  PPC_BIT_NR(1)  /* Tag-active mode (POWERx ?)                */
-+#define MSR_ISF  PPC_BIT_NR(2)  /* Sixty-four-bit interrupt mode on 630      */
-+#define MSR_HV   PPC_BIT_NR(3)  /* hypervisor state                   hflags */
-+#define MSR_TS0  PPC_BIT_NR(29) /* Transactional state, 2 bits (Book3s)      */
-+#define MSR_TS1  PPC_BIT_NR(30)
-+#define MSR_TM   PPC_BIT_NR(31) /* Transactional Memory Available (Book3s)   */
-+#define MSR_CM   PPC_BIT_NR(32) /* Computation mode for BookE         hflags */
-+#define MSR_ICM  PPC_BIT_NR(33) /* Interrupt computation mode for BookE      */
-+#define MSR_GS   PPC_BIT_NR(35) /* guest state for BookE                     */
-+#define MSR_UCLE PPC_BIT_NR(37) /* User-mode cache lock enable for BookE     */
-+#define MSR_VR   PPC_BIT_NR(38) /* altivec available                x hflags */
-+#define MSR_SPE  PPC_BIT_NR(38) /* SPE enable for BookE             x hflags */
-+#define MSR_VSX  PPC_BIT_NR(40) /* Vector Scalar Extension (>= 2.06)x hflags */
-+#define MSR_S    PPC_BIT_NR(41) /* Secure state                              */
-+#define MSR_KEY  PPC_BIT_NR(44) /* key bit on 603e                           */
-+#define MSR_POW  PPC_BIT_NR(45) /* Power management                          */
-+#define MSR_WE   PPC_BIT_NR(45) /* Wait State Enable on 405                  */
-+#define MSR_TGPR PPC_BIT_NR(46) /* TGPR usage on 602/603            x        */
-+#define MSR_CE   PPC_BIT_NR(46) /* Critical int. enable on embedded PPC x    */
-+#define MSR_ILE  PPC_BIT_NR(47) /* Interrupt little-endian mode              */
-+#define MSR_EE   PPC_BIT_NR(48) /* External interrupt enable                 */
-+#define MSR_PR   PPC_BIT_NR(49) /* Problem state                      hflags */
-+#define MSR_FP   PPC_BIT_NR(50) /* Floating point available           hflags */
-+#define MSR_ME   PPC_BIT_NR(51) /* Machine check interrupt enable            */
-+#define MSR_FE0  PPC_BIT_NR(52) /* Floating point exception mode 0           */
-+#define MSR_SE   PPC_BIT_NR(53) /* Single-step trace enable         x hflags */
-+#define MSR_DWE  PPC_BIT_NR(53) /* Debug wait enable on 405         x        */
-+#define MSR_UBLE PPC_BIT_NR(53) /* User BTB lock enable on e500     x        */
-+#define MSR_BE   PPC_BIT_NR(54) /* Branch trace enable              x hflags */
-+#define MSR_DE   PPC_BIT_NR(54) /* Debug int. enable on embedded PPC   x     */
-+#define MSR_FE1  PPC_BIT_NR(55) /* Floating point exception mode 1           */
-+#define MSR_AL   PPC_BIT_NR(56) /* AL bit on POWER                           */
-+#define MSR_EP   PPC_BIT_NR(57) /* Exception prefix on 601                   */
-+#define MSR_IR   PPC_BIT_NR(58) /* Instruction relocate                      */
-+#define MSR_IS   PPC_BIT_NR(58) /* Instruction address space (BookE)         */
-+#define MSR_DR   PPC_BIT_NR(59) /* Data relocate                             */
-+#define MSR_DS   PPC_BIT_NR(59) /* Data address space (BookE)                */
-+#define MSR_PE   PPC_BIT_NR(60) /* Protection enable on 403                  */
-+#define MSR_PX   PPC_BIT_NR(61) /* Protection exclusive on 403        x      */
-+#define MSR_PMM  PPC_BIT_NR(61) /* Performance monitor mark on POWER  x      */
-+#define MSR_RI   PPC_BIT_NR(62) /* Recoverable interrupt            1        */
-+#define MSR_LE   PPC_BIT_NR(63) /* Little-endian mode               1 hflags */
- 
- FIELD(MSR, SF, MSR_SF, 1)
- FIELD(MSR, TAG, MSR_TAG, 1)
+for you to fetch changes up to ec7bd939178789b371df86276ba1d983f2de07ce:
+
+  pc: remove -soundhw pcspk (2022-05-01 23:06:15 +0200)
+
+----------------------------------------------------------------
+* WHPX support for xcr0
+* qga-wss fixes
+* Meson conversions
+* Removed -soundhw pcspk
+
+----------------------------------------------------------------
+Konstantin Kostiuk (2):
+      configure: Add cross prefix for widl tool
+      qga-vss: always build qga-vss.tlb when qga-vss.dll is built
+
+Paolo Bonzini (22):
+      meson-buildoptions: add support for string options
+      meson, configure: move Xen detection to meson
+      configure, meson: move iasl detection to meson
+      configure: move Windows flags detection to meson
+      configure: switch string options to automatic parsing
+      meson, configure: move --tls-priority to meson
+      meson, configure: move bdrv whitelists to meson
+      meson, configure: move --with-pkgversion, CONFIG_STAMP to meson
+      meson, configure: move --interp-prefix to meson
+      meson: always combine directories with prefix
+      configure: switch directory options to automatic parsing
+      meson: pass more options directly as -D
+      configure: omit options with default values from meson command line
+      meson, virtio: place all virtio-pci devices under virtio_pci_ss
+      configure: simplify vhost-net-{user, vdpa} configuration
+      build: move vhost-vsock configuration to Kconfig
+      build: move vhost-scsi configuration to Kconfig
+      build: move vhost-user-fs configuration to Kconfig
+      meson: create have_vhost_* variables
+      meson: use have_vhost_* variables to pick sources
+      configure, meson: move vhost options to Meson
+      pc: remove -soundhw pcspk
+
+Sunil Muthuswamy (1):
+      WHPX: support for xcr0
+
+ Kconfig.host                                    |   3 -
+ backends/meson.build                            |   8 +-
+ configure                                       | 673 ++----------------------
+ docs/meson.build                                |   2 +-
+ hw/audio/pcspk.c                                |  10 -
+ hw/audio/soundhw.c                              |  27 +-
+ hw/net/meson.build                              |   8 +-
+ hw/scsi/Kconfig                                 |   5 +
+ hw/virtio/Kconfig                               |  18 +-
+ hw/virtio/meson.build                           |  34 +-
+ include/hw/audio/soundhw.h                      |   3 -
+ include/hw/virtio/virtio-scsi.h                 |   2 -
+ meson.build                                     | 256 ++++++---
+ meson_options.txt                               |  28 +-
+ net/meson.build                                 |  12 +-
+ qga/vss-win32/meson.build                       |   4 +-
+ scripts/ci/org.centos/stream/8/x86_64/configure |   3 -
+ scripts/meson-buildoptions.py                   |  86 ++-
+ scripts/meson-buildoptions.sh                   |  74 ++-
+ scripts/qemu-stamp.py                           |  24 +
+ scripts/xen-detect.c                            | 203 +++++++
+ target/i386/whpx/whpx-all.c                     |  87 +++
+ target/i386/whpx/whpx-internal.h                |   3 +
+ tests/meson.build                               |   2 +-
+ tests/qtest/meson.build                         |   4 +-
+ tools/meson.build                               |   2 +-
+ 26 files changed, 776 insertions(+), 805 deletions(-)
+ create mode 100644 scripts/qemu-stamp.py
+ create mode 100644 scripts/xen-detect.c
 -- 
-2.25.1
+2.35.1
 
 
