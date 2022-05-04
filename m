@@ -2,56 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54719519698
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 06:33:42 +0200 (CEST)
-Received: from localhost ([::1]:58304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99098519775
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 08:39:45 +0200 (CEST)
+Received: from localhost ([::1]:58148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm6ho-0004kc-TD
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 00:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1nm8fi-0005J4-Rq
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 02:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shuizhuyuanluo@126.com>)
- id 1nm6fd-0003x1-Sc
- for qemu-devel@nongnu.org; Wed, 04 May 2022 00:31:27 -0400
-Received: from m15111.mail.126.com ([220.181.15.111]:22234)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shuizhuyuanluo@126.com>) id 1nm6fY-0004at-Ut
- for qemu-devel@nongnu.org; Wed, 04 May 2022 00:31:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=oQztY
- bugxmMIVSGCd2fdDupJQ6Qz34rCRuQsaJDxo80=; b=i7gWWosYydDIlHTiibdFZ
- me45F9wLDkmwnS4yolKGsxKVyzR260C6bGljKOesTPhmcm0rEkyax0IHFURcUD1P
- dsFhVzfYq8nYXNnuWjxTcPNJ0Ru8yH4ZJe4keG4YDxuBUQC4dLmmyRAH8bEwNF5x
- 5d1vZIS7hStv6JyxK3svvI=
-Received: from localhost.localdomain (unknown [101.228.28.144])
- by smtp1 (Coremail) with SMTP id C8mowABndSWLAXJiclQ4Bg--.37367S2;
- Wed, 04 May 2022 12:31:09 +0800 (CST)
-From: nihui <shuizhuyuanluo@126.com>
-To: qemu-devel@nongnu.org
-Cc: nihui <shuizhuyuanluo@126.com>
-Subject: [PATCH] linux-user: Expose risc-v V and H isa bit in get_elf_hwcap()
-Date: Wed,  4 May 2022 12:31:05 +0800
-Message-Id: <20220504043105.2574-1-shuizhuyuanluo@126.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nm8Xx-0003Ub-Q0
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 02:31:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28233)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nm8Xu-00023Z-9n
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 02:31:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651645889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GwKJx/JpnfwJPBe6dS3N4QtVrcvNyKmCdhuD49TDTrI=;
+ b=CB47v749j4bsTy1zKMoN2YqdcbgdaxPwMPq41Bqz8AWRbLlZ9w5MkV48dQSUNgKV2VtU/E
+ OiGzjWANKo4V4SEtxksaXp6X9jXSr7P4dr3zVxsPEZRQOHjae4rsykAvviFUvl/D92dD4L
+ h5N5jMupVA1UXcuME87ZNgriPC2G7Vc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-138-r7PGE4J-OkWGZP-mZR2G3g-1; Wed, 04 May 2022 02:31:28 -0400
+X-MC-Unique: r7PGE4J-OkWGZP-mZR2G3g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m8-20020adfc588000000b0020c4edd8a57so58756wrg.10
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 23:31:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GwKJx/JpnfwJPBe6dS3N4QtVrcvNyKmCdhuD49TDTrI=;
+ b=1AgrNQ+bqmv4ua0aHzaEB0JGhWlC7OCQfn1F4f0IKjDST2vQONalqiHvnPUR1KuJUD
+ SqwNStH7VXs9ZNUHnX7IIAFtYaQKPvJikF4cPll5dEm4cotjDZOYTqeR6UFhZprm8R0y
+ 30lODNl6iPDiw3BbAg9/SSX+jNx91YhSTFWVCPfcpJkdr8qEOSuFpoq9TXEDdAIey/gE
+ cNavo7oSI0EVUkpFJRhmWkMKLbALFSr952Sy1NMrGY+6yI1Ng17TEzjjpsv238uVe2vJ
+ I3mo/er/FbzhJDWA52Y0gEpHpKcjndBIryEFfoyeMsLuFla7kLVqMKatPYQykGMZIts/
+ aHIA==
+X-Gm-Message-State: AOAM533LyvFTH6Ub+nprP4njWQfok1iDC/X2XqSDqFZZkgHYutKQZEJC
+ 638H7cxjHZzJ9PGITYfm/3Hdb7N3bX61SkPKvJ3MmL5WYS882w0AvdgQXipYlhxByWF79zYjAlU
+ lmeYPzXvJPVTtbYE=
+X-Received: by 2002:a05:600c:3003:b0:393:fbf6:8040 with SMTP id
+ j3-20020a05600c300300b00393fbf68040mr6156827wmh.104.1651645886992; 
+ Tue, 03 May 2022 23:31:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMHkLPXOZBt/t7bOm4qFTrrifnwRVKjhnfQJItQ2X6Ty8xUmUBI6Hy2XmN1mmspOzl5VlpGA==
+X-Received: by 2002:a05:600c:3003:b0:393:fbf6:8040 with SMTP id
+ j3-20020a05600c300300b00393fbf68040mr6156801wmh.104.1651645886721; 
+ Tue, 03 May 2022 23:31:26 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-177-80.web.vodafone.de.
+ [109.43.177.80]) by smtp.gmail.com with ESMTPSA id
+ o4-20020a05600c338400b003942a244ec2sm3518308wmp.7.2022.05.03.23.31.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 May 2022 23:31:26 -0700 (PDT)
+Message-ID: <4c9c3404-59b3-8806-76a6-ead94e7f2581@redhat.com>
+Date: Wed, 4 May 2022 08:31:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: C8mowABndSWLAXJiclQ4Bg--.37367S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZr4UCw1UCryUtF1rXF4Dtwb_yoWfArg_A3
- yrZFs0qFW8AFW0v34Dtr1ft3WSvryDCr1kXFn8KF43Kwn7AF45tw1xXFs5ta1fJ393u34r
- Zr10yry0yr1S9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRHOJwtUUUUU==
-X-Originating-IP: [101.228.28.144]
-X-CM-SenderInfo: pvkxx65kx13tpqox0qqrswhudrp/1tbi7g32eltC+GwLzgAAsn
-Received-SPF: pass client-ip=220.181.15.111;
- envelope-from=shuizhuyuanluo@126.com; helo=m15111.mail.126.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [qemu-web PATCH] Add public key for tarball-signing to download
+ page
+Content-Language: en-US
+To: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, peter.maydell@linaro.org, stefanha@redhat.com
+References: <20220504002129.286001-1-michael.roth@amd.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220504002129.286001-1-michael.roth@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,30 +101,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch brings the optional risc-v vector and hypervisor bits
-in hwcap so that application could detect these isa support from
-/proc/self/auxv correctly in qemu userspace mode.
+On 04/05/2022 02.21, Michael Roth wrote:
+> We used to have public keys listed on the SecurityProcess page back
+> when it was still part of the wiki, but they are no longer available
+> there and some users have asked where to obtain them so they can verify
+> the tarball signatures.
+> 
+> That was probably not a great place for them anyway, so address this by
+> adding the public signing key directly to the download page.
+> 
+> Since a compromised tarball has a high likelyhood of coinciding with a
+> compromised host (in general at least), also include some information
+> so they can verify the correct signing key via stable tree git tags if
+> desired.
+> 
+> Reported-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> ---
+>   _download/source.html | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/_download/source.html b/_download/source.html
+> index 8671f4e..c0a55ac 100644
+> --- a/_download/source.html
+> +++ b/_download/source.html
+> @@ -23,6 +23,7 @@ make
+>   </pre>
+>   	{% endfor %}
+>   
+> +	<p>Source tarballs on this site are generated and signed by the package maintainer using the public key <a href="https://keys.openpgp.org/vks/v1/by-fingerprint/CEACC9E15534EBABB82D3FA03353C9CEF108B584">F108B584</a>.
 
-Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
----
- linux-user/elfload.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I'd maybe rather use 3353C9CEF108B584 instead of just F108B584 between the 
+<a> and </a>, since short key IDs are a no-go nowadays.
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 61063fd974..3f0ef2b8f6 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1484,7 +1484,8 @@ static uint32_t get_elf_hwcap(void)
- #define MISA_BIT(EXT) (1 << (EXT - 'A'))
-     RISCVCPU *cpu = RISCV_CPU(thread_cpu);
-     uint32_t mask = MISA_BIT('I') | MISA_BIT('M') | MISA_BIT('A')
--                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C');
-+                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C')
-+                    | MISA_BIT('V') | MISA_BIT('H');
- 
-     return cpu->env.misa_ext & mask;
- #undef MISA_BIT
--- 
-2.25.1
+Apart from that:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
