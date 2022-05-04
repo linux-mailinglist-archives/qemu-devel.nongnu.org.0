@@ -2,132 +2,182 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA71251A1D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:07:49 +0200 (CEST)
-Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8849151A1BB
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:04:52 +0200 (CEST)
+Received: from localhost ([::1]:52468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmFfQ-0001wG-Vx
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
+	id 1nmFcZ-0003ln-3C
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Stefan.Pejic@Syrmia.com>)
- id 1nmCoh-0001Ym-P6
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:05:13 -0400
-Received: from mail-db8eur05on20708.outbound.protection.outlook.com
- ([2a01:111:f400:7e1a::708]:59233
- helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nmFZE-00018j-DN
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 10:01:24 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:32514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Stefan.Pejic@Syrmia.com>)
- id 1nmCof-0001El-Ex
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:05:11 -0400
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nmFZ5-0007Ca-Fv
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 10:01:22 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244DAPKD003197;
+ Wed, 4 May 2022 14:00:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=xMAMK01qv0wZMz0Hn3t1VgGfhdwF8Hoz16VpYoMxmwo=;
+ b=AX4oBdH6WUca+/qZ5y+4Lb9/Nq0UC/Thrfh8oiB01bpJf8xvB6tTm4h5cKwCLwz/bNlC
+ Ozy1T4zsEUqxAkzoT+PjZ58NNiSceWQJ6QynQKk7t4XMaoLIAuUNjUR9Js4sfelrkdiP
+ kPOpD9GtpY2wCy4DWecR3OmAQakvbReXuJDD2bZEoeotPFHcAm5JZD+ZZPL/zwgaFByJ
+ 7eZ0OcPMDpR6sMmNanGxqF3aWHVB3q0jMt8jH7LKZ/erqhHuKTkN9wLBO5UEGBMcU1ru
+ BDoDYfzSLOtGm23sG7bwMcuiLfDu1kUX+/SLH2xjcTSPOQXvw7Z+oyzlJkANaPaKX4E0 yg== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3frw0aras2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 04 May 2022 14:00:57 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 244DuUNr014356; Wed, 4 May 2022 14:00:55 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07lp2049.outbound.protection.outlook.com [104.47.51.49])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3fruj3e14v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 04 May 2022 14:00:55 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BfC7dBGkqji0Q5TwawsN/YV5RhESXa+HqE1qHLG81Gi1jTdQQ0io3dNhaoGWtUCJQv4gSUjNQv5+Vf8JZJPIc+xOCt+nMD2rEHKNKGZu/scvK8IUb3rmS8gfTH5/u2XPnNhBWIuhXCkQod8Y7Xj1sHv6yN+GpZOLaQ3h/GfyeFbwALJ8L7vCFAb4KtRIjvk2jH+6i4bYg+N5LEK7VI6ECPq957QOM8V8XfPwHqw+fR5z8KZMWbqD1lfQmjFR42dNCJelzdzIpJHR+q5NWVZDVXeoLyvSkzpBuxji9hGLh0B4EOq7zM09Z798OmdhkFYKUkQoyjgRZRpKEdJCT7KQHw==
+ b=MfHvFSdX+7REZITRrg6yerTlpiEjoS5lcUH6tY+zpmWeoRLfXeUzLEMyWTPxWEoE0TOCqBVY8m8MgeZUyWKO8kejoYvKAqz3NsJ+JksizpqJY+8EdDE8vFOCd4YHJX26TpXF+vfsIuftYIleaMAWFGWZPXJRiPfhFzealmuWJ+CpikX4GOVb8B2+N6PwG0nt5n8V3+00k+27NgllyeBw2g6YEegv8lsgx2R4HKagzg3PFg2/pg0H2Lh3OxQYD+LQiofWR0JtHdvhtUhfZJD8Z4QmB+GllT/ebv1vsUKVKqrmZ/DnDV3no+IjxCyPYoI/EvVme7du/l7Oy6u1mQkryQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ozRZWXamtvJBh7cPTG4AjBo+CJtW+2SxDR23pwlF/ik=;
- b=h6BAUoD5XKiwXNjFa5mTo+xfz/lBocC74kqymws2ifpyIFf531AOG/ZQuuRn4q1B+HhrAXPjZVX+EzSMIZ1Ji74FlyGqCq+2g/AmgS1lYl2zC8OBhTryhZ0hvDzYOEoQa2INiiU9skngcm2Gqtaof7MjnLnwQfHz2DktL080qyx5F2hfU8pEiUDdLkvSi+GqOZvui/elSYV++YXj47PCNFpg2LskB6ITPzVAGBS/Di5/ShpGw2siEnQNupyVY8p880Xo43HfmCVHKmQrdAB+AgXZu+iT0v9qL8A7CIfygl1Pzwp8nN+IccXQUIfyDMzMbb6vUFTuOQNKpiA3oh9yrA==
+ bh=xMAMK01qv0wZMz0Hn3t1VgGfhdwF8Hoz16VpYoMxmwo=;
+ b=FTfdtfyLeGic1PIPCsbSL88atDry2OJwoNDKHo65Y0tOtu4Fc6wZakOqwPjQoMiesLtHq8ByoUSAMKuTl8LqvmbPayl8hiu/x5SroHaNCZmK4EErhR4F+NSK3iuYDyAybZeJRduXFF4ym/vhbyonVWkMMEyyO9fybiP4kQFjt8ufvGcPHSCOFx+QcP4CeEVOm7bvYc/vtt9AN+RwxYpfT+v7bOwc5yvQ9o0vSvFdAMA6f+rwFFPD+XTIqRrNysIlns0X0vXcP1/XzzBE53heCxowShzGBWume+U5uZDX29AxS/bak/RVXRAWRAXHQMfzW1BqJ9gNKIYAlLr/KzZv7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ozRZWXamtvJBh7cPTG4AjBo+CJtW+2SxDR23pwlF/ik=;
- b=lJ59z1cAE0kp9Qgtl+5A6BOVUdp7SOZBR+OyzPFLShS+m5+fsMtFGRwd4AHtprO/wDhhgum2zCIoUevz1nY5SU3m+7W6jOVKeYCUuaZmbAGlxE3nSYAfMHuRoywJEbQPuQdAKdFLexhZlxFMM/zPEhntqFL5FQbppoJaU0Ae0OY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB5501.eurprd03.prod.outlook.com (2603:10a6:803:11e::15)
- by DB6PR0302MB2631.eurprd03.prod.outlook.com (2603:10a6:4:b0::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.25; Wed, 4 May
- 2022 11:04:27 +0000
-Received: from VE1PR03MB5501.eurprd03.prod.outlook.com
- ([fe80::f0a0:695d:75c8:b463]) by VE1PR03MB5501.eurprd03.prod.outlook.com
- ([fe80::f0a0:695d:75c8:b463%7]) with mapi id 15.20.5206.024; Wed, 4 May 2022
- 11:04:27 +0000
-From: Stefan Pejic <stefan.pejic@syrmia.com>
-To: qemu-devel@nongnu.org
-Cc: ot_stefan.pejic@mediatek.com, ot_dragan.mladjenovic@mediatek.com,
- Stefan Pejic <stefan.pejic@syrmia.com>
-Subject: [PATCH 7/7] target/mips: Undeprecate nanoMips ISA support in QEMU
-Date: Wed,  4 May 2022 13:04:03 +0200
-Message-Id: <20220504110403.613168-8-stefan.pejic@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220504110403.613168-1-stefan.pejic@syrmia.com>
-References: <20220504110403.613168-1-stefan.pejic@syrmia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR06CA0132.eurprd06.prod.outlook.com
- (2603:10a6:803:a0::25) To VE1PR03MB5501.eurprd03.prod.outlook.com
- (2603:10a6:803:11e::15)
+ bh=xMAMK01qv0wZMz0Hn3t1VgGfhdwF8Hoz16VpYoMxmwo=;
+ b=dqNHHEK1T8DWmxNJreSNrRdpx/5JnuPnU/X9GrB0bt1RpqNHXOEXEG6Jv2Jd3Lty6M5A2SafBu1boWeHDdZr6QtOvTNnBAcUl/r1shUM2/gmHdBe9RNEz725rXtMu7USNkwpGIn+3MDTO28MgEOlP/m3ARg/QE8EkbQqcElHLAs=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by DS7PR10MB5069.namprd10.prod.outlook.com (2603:10b6:5:3a8::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Wed, 4 May
+ 2022 14:00:52 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::e9cb:e1ca:8189:f191]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::e9cb:e1ca:8189:f191%7]) with mapi id 15.20.5206.025; Wed, 4 May 2022
+ 14:00:52 +0000
+From: Jag Raman <jag.raman@oracle.com>
+To: Markus Armbruster <armbru@redhat.com>
+CC: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, "f4bug@amsat.org" <f4bug@amsat.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>, "berrange@redhat.com"
+ <berrange@redhat.com>, "eduardo@habkost.net" <eduardo@habkost.net>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>, "quintela@redhat.com"
+ <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, "peterx@redhat.com"
+ <peterx@redhat.com>, "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, Elena Ufimtseva
+ <elena.ufimtseva@oracle.com>, John Johnson <john.g.johnson@oracle.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v9 02/17] qdev: unplug blocker for devices
+Thread-Topic: [PATCH v9 02/17] qdev: unplug blocker for devices
+Thread-Index: AQHYXvh5w3EAJ0Scsk64+04Uorib660OkfPdgAAu1YA=
+Date: Wed, 4 May 2022 14:00:52 +0000
+Message-ID: <E1DCEB6B-6E5F-49C8-B9A9-55CBAE1CECA5@oracle.com>
+References: <cover.1651586203.git.jag.raman@oracle.com>
+ <01e8950f954c291acd74c9caf1d2016e898cd80c.1651586203.git.jag.raman@oracle.com>
+ <87ilql7dq9.fsf@pond.sub.org>
+In-Reply-To: <87ilql7dq9.fsf@pond.sub.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.80.82.1.1)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d8896663-bc73-41da-3ea0-08da2dd68063
+x-ms-traffictypediagnostic: DS7PR10MB5069:EE_
+x-microsoft-antispam-prvs: <DS7PR10MB5069DA07B1985C46C5F6D89A90C39@DS7PR10MB5069.namprd10.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5ZieVsdaUfeMp5Ek1LQfwLIU4qZfShFl6zGDzge+4G+sLUrYITu8oc91JILecmWVwZUyTogP8vMon/j1ntpA0Awla27424bHOEgmWUPAsTU7ii67NuBWv4brxigLp3pXD46aF7HjSaATigxo1TAukrLmivYzM++xqB1F1VpnRud6T1d2C1DV6T5syxE6YoCb+zXT9fouY6dpZn6l7l9w7Djw/jI3qzk52rD/rRgcTbKdT5tHWyTH/52k4NwMKx/vTExheMd1riPmt1Db0aaadLsASCsbbQ9PFbJ5gULh6iaiz631Bo7CmhK9O0b2tMvFFn242xMbgn6+PaKtfoUg/gS8rIKRCHHi+6HZB1/TYjlYM/5X+nzsrkUB+y7Cnr7nwWopPCQ7Gi1m6b1B607iqF+XPT5Z0qmoPOhnSuMSqibbjIT6tyxBTyrtFl0pXglYWll54McqPg2NsXTK3cjSw0QxcTgZmKeDUH8X/dkzk11xq0t9PYCJ8OnGX9ylusExLigVBpUyFnvObYQBBWEH86Lwqt2LuCtJgQ0m8dX2HOwmkGSVElQsuHSkgYlPrgIElPbFhcT/dDNJujbFbVYkOT1S5Tmkva06q7XV4Jb/NnL2Lorgb4nYRtUy2GrfcbSNTcRZ8+rLuQ8rSzncmr18qvMV56weJLzeASxb8GqZTeH6Dn/ezFFdN/CnPAESo/mBZ4mtz6DRIS1/ld4JMby5VJyzCxxbsj0YrxK0+H1vtCM=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(91956017)(8676002)(4326008)(64756008)(2906002)(66476007)(36756003)(33656002)(8936002)(38070700005)(66446008)(66556008)(6486002)(76116006)(38100700002)(186003)(44832011)(7416002)(508600001)(71200400001)(107886003)(5660300002)(316002)(66946007)(122000001)(6916009)(54906003)(53546011)(6506007)(2616005)(86362001)(83380400001)(6512007)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CzG22FgrD8rbeouZPC96AEd9riR7MhErcJ/AwKB8Vt0bqfCY6Fii+cBtShkf?=
+ =?us-ascii?Q?3b6DGcFXOcV3AmwKhgSvvktBUXzN1L+ShJl0WPfNjC92C+CFb6sfO6zLnsVy?=
+ =?us-ascii?Q?o49O1qh0AAYMRVaD0sY4+JUmHo0icX+EEQNyYmiOEkIuXSoNqJQ+YoHdOKnf?=
+ =?us-ascii?Q?kY9DrpRigpWXwMKgAqM6icIXoF/EsSpEXC7sJ36uPcWq4utwOB9Ldmxhz9EB?=
+ =?us-ascii?Q?98RovbMcSzv1mSodbJjKhEmRLBEoLOELSKB/0Q8MLlVGbP1Ooo4wACN5PE7n?=
+ =?us-ascii?Q?D0hD5mdFMBVfBA6oP+6ig+Rny6Ir1wfZE06KpXhfEr7MRMliDuQqyiEUTu8L?=
+ =?us-ascii?Q?tYQsVRjpPVaAWXI8NvaZdwHzrEekJ11shruU86529cbm4W48BYzy08nqMDUf?=
+ =?us-ascii?Q?u8abAr2blmyWKU7LPIG6zcMiBOybqHJ5wmFILRnv0OxY0Y/B3J/8nK+bFY6q?=
+ =?us-ascii?Q?JH5AbWhzYNzU7cKB+ZKaaervukjuSHhcjIsLyoywecAE7K1H85HfatqwJKSb?=
+ =?us-ascii?Q?CISD43BNi9EsHYWtSeHv+wiCIhH8olMeZ6hmhoa4jJg+MQJUsvO9qntN6Xmz?=
+ =?us-ascii?Q?ZCgFWw0U+PqrksawUK6gR2tKgDLvy5zgnGgyLDdvnm3w5DdYu6i64pcAL5sd?=
+ =?us-ascii?Q?VgQtuTtTBC6yMZ5jc/JKC5qyJXtAIUZ23idZthzp2T+jFGxAgeMIlDN39G7+?=
+ =?us-ascii?Q?7m1HXuqKRlx7Im3LwUFYu5k+aGMyvT0/3wQxwD+soyxfqZG/xGCCyNbjeejz?=
+ =?us-ascii?Q?lmatKvMdBT4zVGzJf0xv1pDh+o4+36f4RcxpT4dbC7uFcMwhpbm7TllFYg3k?=
+ =?us-ascii?Q?qJz1MQtjTZbmuS9EXR6Lt/utGIgoAwC3rylamPVpjjz31EPcmdjrw9Wh2dqv?=
+ =?us-ascii?Q?oJGfG53Du9zEXeXEXlH46W0iZMkT41Y3ya2hZktOR0jx+NPWiq4WWxgVjrnA?=
+ =?us-ascii?Q?sLoAG4nZhB5Bz3z4W8epR72rMj237ENAdX62mWTLwGgpApPf0VDKZr9puVI1?=
+ =?us-ascii?Q?hgd+zUT8xGEh24LkDgI7Qw4Zn480+cnPX+IJX2YAk6LzuSq4JrQpDdsNWPg8?=
+ =?us-ascii?Q?jSuJKxwldSbTK/U/RD3MJcfp0v1RkUGENJQpPikSEnznQ7yLPPTqtFYdZJoa?=
+ =?us-ascii?Q?lLY2vop7AOdsgBCZbqaOkR1aUzq9oAThGMxb8XCK5zWpj44JLHovNd9hLDg2?=
+ =?us-ascii?Q?6uDOIUM9Y5T7QeN2g0FzdU71NyQODua6Qrh8Oe+9ncSQRUQkHehSrNTG9qHa?=
+ =?us-ascii?Q?ZSje68/xbyuJwGGcoUqVnSYT3xvDL+4fv4rHCA/8M1h1ksPAC1VSBBR7P2mW?=
+ =?us-ascii?Q?pID3C46P2rZbWF5UknarQ68s8AtrteIxjoR8ubiQsCdRUWxklOGOIuqFsDcf?=
+ =?us-ascii?Q?gTlJFXqmHIhcprCBqOcQdnbqEWyFDbJLSvskvJ6kjDaVljuyzCh96Lml2EMu?=
+ =?us-ascii?Q?GqM4VgPp0AwBUOffmV/LlLz2jn35p0HvpBr/aTCudcP3sBqt2/OGmDat1FEQ?=
+ =?us-ascii?Q?0kK9HouVBapev2QcFCpTlWWcq3XGBD247E9XTWHdth6kg31Go3cBc1sT8XGG?=
+ =?us-ascii?Q?NrHymzn9SvTS041mPfDgpYXTSGncjjgJ6x8EsAKnpRhI8Q2EqpQA7B+dx/C+?=
+ =?us-ascii?Q?hGrQrm8BmJ/kJmR1j9nRkedvk3OAbQ1HWPkGbphXCNJ7Jif45fLAfiSIM7v0?=
+ =?us-ascii?Q?jWHe9yoRsA+8+Jc3uM6AkqBMG601BmyHxAg6lkz0HgmmOFFaIFUSWpKgJrE/?=
+ =?us-ascii?Q?PxD1+Eym0974sw/rNqKAU66EyQJbSck1RzOKHGujFxFzGSSL0SIe?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <17509A0D14090B41B374F732FF1965FD@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4fc2193b-672b-44da-7fe5-08da2dbddb12
-X-MS-TrafficTypeDiagnostic: DB6PR0302MB2631:EE_
-X-Microsoft-Antispam-PRVS: <DB6PR0302MB2631695AAB96B4BF1662F6B0F8C39@DB6PR0302MB2631.eurprd03.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g94YdkR737lxhYdzfSYtVxVOAScEC+E1A/mccyw4UR0R5Ki3Jfgfcjph7+1E4B9DvDDGParPW48ZfPAsD1qUR57/QzTjrRdrYdtMLTBCkx9Y5/psewO9ZoGo7mPLT+xj3hsxRHmvdR3AwyqCp8u7jKGc/AyuHvtrf9RXFTe5a45LyIQvCXWNZkYrpo9yQhtbQY/Z83uM+iTqcae0JhoXQOMPD8Z2iWX/9jTTeQQxyZHyDk1Y4faPuNKWnDRVWe1nUKZQFkuR2/OFhq4rejRyss+VDJ4tcdpEvAHRNbf9csnYQ/35cjpJhUPRyN6sawvyaf86TRY4YnzvtUtkfLGMuRYTuJle3czrSZT5gfa2a9aJEYMxdo4Z22gUKxmYB1m8nkQHfdsAbdtVHCdd+D90lPp+NcJreK8Nji0u3jOg9V6S1fgwhPtC1uKsGt036MvsbVK74XtZ2M4utDhv+lPzowFr5ZNqug6CEr4WDBzkbDMyYYMesFXrl4OuG3/ahoqRv8RAtU/STc25O01SnJr7T/71A/LypMOVqh58trIL9GIaRf7m1D5Cp2Q068t2MkWmD8qts0B3pN+2H1nPYvj0TnFjBp6bPmIbFo08sqhq0EfrHu2VoBHQMk8TsQjW6axt4dPXWhVyKL6YuCTsq6ewAQzgMdfIQkmFYJG7HTkKuBx/E/po3CY+YMkf/SZnkLC/i0No2h5Ic9M2whM5kuwmcA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB5501.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(39840400004)(346002)(396003)(376002)(136003)(366004)(52116002)(2616005)(107886003)(26005)(6506007)(83380400001)(6512007)(1076003)(3450700001)(36756003)(2906002)(44832011)(8936002)(5660300002)(6666004)(86362001)(4326008)(8676002)(6486002)(66556008)(66946007)(66476007)(186003)(6916009)(38100700002)(38350700002)(508600001)(316002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aTy8gRs2eu2+dMZh8+VpvJtC5AyvRBIL5F7JZO21jyXVKtHnO0cYn9qbyzNr?=
- =?us-ascii?Q?8uDozvo+nJS7dCPsEnDPZyBpBg3ZPQP852Iw+l93U20JoRgNRbcunZORlsdc?=
- =?us-ascii?Q?N0HiGyiRz70SdntEFZEI6DqFu/w1T/ZDLTltpQ3EpYJTLgyRfBeK3UYWtHgn?=
- =?us-ascii?Q?DQQyD2cqh9E6TIJ6iYvsndTujYayVvUWyN8krCP3WBMVFqsI3sCufiAapGib?=
- =?us-ascii?Q?xkxSI0xj05q1DfjYQfP7mj3RLRArT92OzynPvLKOPExRwwK8DRikmbaq6tSf?=
- =?us-ascii?Q?q5NlfkFzKsjO2eb7AUYqoNpHT2rOt+Xzfjv/pvo9UQzc8tKT+4iwVtxPHlKB?=
- =?us-ascii?Q?GvR3rW/EQd9bpyLxd/+0Y5gFzLkUVSDUjL7ex7IzEHFaJo9s8llA+lYzqBO5?=
- =?us-ascii?Q?hw1RfgJuwtwk7Nglx87RBblKswyQnvLgtcfBnfdD2lNOvkqioPTsIyh7UT50?=
- =?us-ascii?Q?0cwKQxqfoCyhjC5jfGpgmObJBV4SkEtNoPG71Quz3O/7gaUX9dYCjBOIswuJ?=
- =?us-ascii?Q?nT01w8TaMbPeXZ3a42tSE9IX8loS8/QDOYt79euO9IX3MyoWdJt7imCtemmQ?=
- =?us-ascii?Q?Zg6nsEokQOu8lLr6pfS04A3g/3cwRnRFlcOJqLwgvL7IuSRbuGkOWYUsY6hL?=
- =?us-ascii?Q?x1M7MtFDX2/kRFdSiuC1cvQRQDcfRitaYFuwN5dsfjanQp8Uel8WfU9OX2vy?=
- =?us-ascii?Q?ETLxE8pix2ad7msuPUWKHR7QUBU+ZLj9siMxGKqB4NxRC0txQSxEYBhedbqc?=
- =?us-ascii?Q?5qrjYBa9Xec9eypqRA4dJnnpbbJ+xlVQMEzGzkNdGpiFeulStiD5ilpD88OA?=
- =?us-ascii?Q?DgT5azURR+Wqx82nnhRWkK5m4nkiRI6zIcB69epA+pruZ4MgRxL8pcAVjZD+?=
- =?us-ascii?Q?TtJGai8FNIDi0KddVzm71UZ/BftpkxdMyu6QrgKeaxSUwtsCyTyB8ywPviMb?=
- =?us-ascii?Q?4fDACriLsUxhPqwSgfCkaheoyHnPX1guCsGkAINTHaOUUpU0RvwDhISMCTBT?=
- =?us-ascii?Q?U87Xgd/AvB11Hf4kUNGUOzucrsrOMktUY9CErCkOWSv9oQiWdYcHPV3wIR0p?=
- =?us-ascii?Q?M4l0rMoJM7innoojGNV27pbErt5JEAKzpVRt4NZUFGEo0HK35KiCO6orUJbx?=
- =?us-ascii?Q?AeWF1SERjhn+bGisq9O/mAWg2ObkOuLqPvWY/V3RvXleVD5Tweq2zT6DuOb4?=
- =?us-ascii?Q?Y4hIg6Lp7DGM8irutjnO73L0rtC+4Arcl7SPkk9hkiBBuWAEabbICq5ac/5N?=
- =?us-ascii?Q?hDLFYeK6jl5hTVu6936xjHke70+kc67HA/Jn93Jy662AsEPZd9+XbOSXK3QO?=
- =?us-ascii?Q?+zjwRIE86szHNAGCO2pwZyfv/PN+wryNz4G94y/wIQh21sdflrK6+Go7Vi8p?=
- =?us-ascii?Q?NPnge3Ewop91BS3/vbw68Ocw45fj9OrijR9k6gHlK98uWw4CV6jIr4DJKDxj?=
- =?us-ascii?Q?/OAMM4POPPlFGHb2e9y1MrGyfwRWhRHwWB3umfuJMlXAzpRcrJ7q+rzzVkyB?=
- =?us-ascii?Q?5B03xfFs8DIFhuIdzzDRetAu2t27YnPx3HxImxKNLaik/MHUOMdtyO58UEwB?=
- =?us-ascii?Q?fUzY5Y07rIKVOEFcPMs+a7KD6EAo091NQqEMLuCGJaxwnPlrkhu/5azKUEjh?=
- =?us-ascii?Q?JxjcsfLdkFxa8DbjTeKOW/HAbXwgcbOy5xQQe7W8r20UUBkhGo8h514n6NBz?=
- =?us-ascii?Q?EsqBZj4+VkTTSUkX27y1A0HR5b6ySawqsSUWGtvNcL/FjxJJK4SSWVpLDu9f?=
- =?us-ascii?Q?Aarx1BGohllUNaahEfYYF/xiPPn7VDk=3D?=
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fc2193b-672b-44da-7fe5-08da2dbddb12
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5501.eurprd03.prod.outlook.com
+X-OriginatorOrg: oracle.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 11:04:27.6494 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rMeXYaWI/bP/Bio31hZUuCWm9gzROHjmHuSjWdmou4ztP158eBCMbfXmMH2qgPbqZM2P50o/l1NZsTGSPw5lgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0302MB2631
-Received-SPF: pass client-ip=2a01:111:f400:7e1a::708;
- envelope-from=Stefan.Pejic@Syrmia.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8896663-bc73-41da-3ea0-08da2dd68063
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2022 14:00:52.6273 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7hFtS9ULafB0S5j1+eUuzmVnnUsTpuEJC5A9jqKrT/7PR0S+cPiZBZSozGa4xGAp+gepEzNmLYqwXi38QPbnAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5069
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
+ definitions=2022-05-04_04:2022-05-04,
+ 2022-05-04 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205040089
+X-Proofpoint-GUID: UFe0O059x_HZ876feHkCnZ2lSl4fuIuM
+X-Proofpoint-ORIG-GUID: UFe0O059x_HZ876feHkCnZ2lSl4fuIuM
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 04 May 2022 10:01:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,89 +189,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Stefan Pejic <stefan.pejic@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nanoMips ISA support in QEMU is actively used by MediaTek and is
-planned to be maintained and potentially extended by MediaTek in
-future.
 
-Un-orphan nanoMips ISA support in QEMU by setting a mainainer from
-MediaTek and remove deprecation notes from documentation as well.
 
-Signed-off-by: Stefan Pejic <stefan.pejic@syrmia.com>
----
- MAINTAINERS               |  3 ++-
- docs/about/deprecated.rst | 26 --------------------------
- 2 files changed, 2 insertions(+), 27 deletions(-)
+> On May 4, 2022, at 7:13 AM, Markus Armbruster <armbru@redhat.com> wrote:
+>=20
+> Jagannathan Raman <jag.raman@oracle.com> writes:
+>=20
+>> Add blocker to prevent hot-unplug of devices
+>>=20
+>> TYPE_VFIO_USER_SERVER, which is introduced shortly, attaches itself to a
+>> PCIDevice on which it depends. If the attached PCIDevice gets removed
+>> while the server in use, it could cause it crash. To prevent this,
+>> TYPE_VFIO_USER_SERVER adds an unplug blocker for the PCIDevice.
+>=20
+> Appreciate the explanation :)
+>=20
+>>=20
+>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>> include/hw/qdev-core.h | 29 +++++++++++++++++++++++++++++
+>> hw/core/qdev.c         | 24 ++++++++++++++++++++++++
+>> softmmu/qdev-monitor.c |  4 ++++
+>> 3 files changed, 57 insertions(+)
+>>=20
+>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+>> index 92c3d65208..1b9fa25e5c 100644
+>> --- a/include/hw/qdev-core.h
+>> +++ b/include/hw/qdev-core.h
+>> @@ -193,6 +193,7 @@ struct DeviceState {
+>>     int instance_id_alias;
+>>     int alias_required_for_version;
+>>     ResettableState reset;
+>> +    GSList *unplug_blockers;
+>> };
+>>=20
+>> struct DeviceListener {
+>> @@ -419,6 +420,34 @@ void qdev_simple_device_unplug_cb(HotplugHandler *h=
+otplug_dev,
+>> void qdev_machine_creation_done(void);
+>> bool qdev_machine_modified(void);
+>>=20
+>> +/*
+>=20
+> Use /** here like we do in the other function comments nearby.
+>=20
+> In case you're curious: it's GTK-Doc format.  It's intended for
+> generating documentation from doc comments.  Which we don't do, and
+> perhaps never will.  But let's be locally consistent.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 294c88ace9..f1e0dee8a2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -240,7 +240,8 @@ F: docs/system/cpu-models-mips.rst.inc
- F: tests/tcg/mips/
- 
- MIPS TCG CPUs (nanoMIPS ISA)
--S: Orphan
-+M: Stefan Pejic <stefan.pejic@syrmia.com>
-+S: Maintained
- F: disas/nanomips.*
- F: target/mips/tcg/*nanomips*
- 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 896e5a97ab..4b0868886f 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -276,13 +276,6 @@ System emulator CPUS
- ``Icelake-Client`` CPU Models are deprecated. Use ``Icelake-Server`` CPU
- Models instead.
- 
--MIPS ``I7200`` CPU Model (since 5.2)
--''''''''''''''''''''''''''''''''''''
--
--The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
--(the ISA has never been upstreamed to a compiler toolchain). Therefore
--this CPU is also deprecated.
--
- 
- QEMU API (QAPI) events
- ----------------------
-@@ -382,16 +375,6 @@ The above, converted to the current supported format::
- 
-   json:{"file.driver":"rbd", "file.pool":"rbd", "file.image":"name"}
- 
--linux-user mode CPUs
----------------------
--
--MIPS ``I7200`` CPU (since 5.2)
--''''''''''''''''''''''''''''''
--
--The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
--(the ISA has never been upstreamed to a compiler toolchain). Therefore
--this CPU is also deprecated.
--
- Backwards compatibility
- -----------------------
- 
-@@ -421,15 +404,6 @@ versions, aliases will point to newer CPU model versions
- depending on the machine type, so management software must
- resolve CPU model aliases before starting a virtual machine.
- 
--Guest Emulator ISAs
---------------------
--
--nanoMIPS ISA
--''''''''''''
--
--The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
--As it is hard to generate binaries for it, declare it deprecated.
--
- Tools
- -----
- 
--- 
-2.25.1
+Sure, will do.
+
+>=20
+>> + * qdev_add_unplug_blocker: Adds an unplug blocker to a device
+>=20
+> Recommend imperative mood for function comments: "Add an unplug
+> blocker to a device".
+
+OK, got it. Will update the comments. :)
+
+--
+Jag
+
+>=20
+> More of the same below.
+>=20
+> [...]
+>=20
 
 
