@@ -2,94 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B6D51A154
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 15:50:38 +0200 (CEST)
-Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9501251A15E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 15:52:09 +0200 (CEST)
+Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmFOm-0004Gk-34
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 09:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60436)
+	id 1nmFQG-0005yX-FJ
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 09:52:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nmFL4-0001Cj-Og
- for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51098)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmFL6-0001EA-JA
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nmFL1-0002eE-VA
- for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmFL4-0002n1-QZ
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651672002;
+ s=mimecast20190719; t=1651672005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/lpDh6gK9irmqxQs1mt+Zsz8sF8AUdOJKIPrb5KkDjU=;
- b=WUe0MeZncehCLdtrCbHuzOxDTlCbgd7StlrT9YpFuk9DeFIJkWmJDHlwK7ozNFhlI6DhjA
- KftzkMDFZdIM3jEGUaK5nwdh7gD3NPOV6ER7hAnEhK444SDfezVTtbsRhcglYrT4FZE2/6
- 8ZR2MPimkzRktsEO82VDV0K2C59gcxM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1hmwZ1bKWWAkDbx2BvSb49dhMxHrUcF7QHzEpRlsEEk=;
+ b=CQG4JSM9ATxdNWCI0plNB/iOjvjXfDzFSI/gwIZk1cZEecS+BQs2lIim1FFFkj50JosqTf
+ egjmNugt+Guit+ypR/5MwSjKYJgySQidYt1ERBtxShg900E/1lpJh04INPdH2kr0KMjAKE
+ iqYwlgcxZKl3MKc8w1tLw9zbUabV12k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-J1Mbct0MNaiJWok-NX4hNA-1; Wed, 04 May 2022 09:46:41 -0400
-X-MC-Unique: J1Mbct0MNaiJWok-NX4hNA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j5-20020a05600c1c0500b0039419a269a1so712323wms.3
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 06:46:41 -0700 (PDT)
+ us-mta-274-kDPOgmx7Nfa7gUqa4-a_gg-1; Wed, 04 May 2022 09:46:44 -0400
+X-MC-Unique: kDPOgmx7Nfa7gUqa4-a_gg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m186-20020a1c26c3000000b003943e12185dso703670wmm.7
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 06:46:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/lpDh6gK9irmqxQs1mt+Zsz8sF8AUdOJKIPrb5KkDjU=;
- b=sENAe4vbXInXMOgLhPcz6f33L54t2Sc7cTilXT5/MqpxT5LSBeL/1Zr/2/ePXq/Dmc
- SUoQyrO0+bMA/wRHqi/SCOUkToQIEHJ8RitosToC8kRHlnzzZsZQbJ1Nyupl0ipyV1l+
- 9h5u6lu7mBak8Yi/jpLJ/01YTgjpl2RfwA/Fo1p2NUyVG9vaZT0XCPMcXAgAuF+EvCDD
- Z2EOxcY2nGHNWpTDWbcAP9awzVVrJNpa8d7zrpntghSuhQvhATgGORixF5oKfmMB2Tym
- v3d5+2yKQwjtNbRU2T9l4bxcMGUzR6HjhaBFreY3g8lpEJptFnRj+AVfZ46ss1Kfs6K6
- GZXA==
-X-Gm-Message-State: AOAM532fFCUFhYuHPqnJIQiwkB1MBy7tttZXk47p1ICwiXDXrQsb13N3
- GZr18NOrLDzjoHLrCCFe/pwuI9+9/RXjo6bwqwwiXVBNGdHTWImI0crmO6DYVpJRxnJNU9qV7FY
- /VDDbHL/ORlt+t04=
-X-Received: by 2002:a05:6000:381:b0:20c:5e07:f75f with SMTP id
- u1-20020a056000038100b0020c5e07f75fmr9310486wrf.678.1651672000116; 
- Wed, 04 May 2022 06:46:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXSQRQTEZoLGJnKpD/PXnziP9xk79QWXpgr+tej1CYH3LgtHUWFZiQSY+KB5fRQwZW5YhsUw==
-X-Received: by 2002:a05:6000:381:b0:20c:5e07:f75f with SMTP id
- u1-20020a056000038100b0020c5e07f75fmr9310449wrf.678.1651671999787; 
- Wed, 04 May 2022 06:46:39 -0700 (PDT)
-Received: from localhost ([185.140.112.229]) by smtp.gmail.com with ESMTPSA id
- g8-20020a05600c4ec800b003942a244f57sm4023378wmq.48.2022.05.04.06.46.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 06:46:39 -0700 (PDT)
-Date: Wed, 4 May 2022 15:46:37 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
- ani@anisinha.ca, peter.maydell@linaro.org, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
- eblake@redhat.com, armbru@redhat.com, thuth@redhat.com, lvivier@redhat.com,
- pbonzini@redhat.com, berrange@redhat.com, Jonathan.Cameron@Huawei.com,
- drjones@redhat.com, zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: Re: [PATCH v9 4/6] qtest/numa-test: Correct CPU and NUMA
- association in aarch64_numa_cpu()
-Message-ID: <20220504154637.17cfc995@redhat.com>
-In-Reply-To: <20220503140304.855514-5-gshan@redhat.com>
-References: <20220503140304.855514-1-gshan@redhat.com>
- <20220503140304.855514-5-gshan@redhat.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1hmwZ1bKWWAkDbx2BvSb49dhMxHrUcF7QHzEpRlsEEk=;
+ b=5yRBqzA2uud5nypbhhX2p4GMJ9WfJbj5qGnauJQdNCeDQ7WSOmr4Rjhm+WI0inG1Gi
+ +Ggt8rDXZluXqizL8YkUQrLfRti+OBYGuu5YvC4m22Grz8f7cgUSWFRMZuroSRmd/G0k
+ 68K/hhd4j+5suEFX4IgRTAEA0fpO5G5wj9WwCZjpLF3C6fawcQBaivtAS2q7Ex9Fo4n4
+ nSshZwOFg08ovs6YEPAkozz9nqzKnFwZ468bQ/2Ack+7jvtljneb4DPBWCgeoWSDCFXh
+ mMh4njsWQLd2oBT3wTwbESKK9NfM+Ga5GnOawcoAk7a52N57jttW4lVv/W0OHBSaPXmw
+ nU1A==
+X-Gm-Message-State: AOAM531SQMfqiaJyumDw6CepAf4m1MNH83vsSC+FQbNdfLlBsAUCHHsc
+ tAuIMhlw1L93iTcPPk3mLlFsjwl/ymkdxk4AWgf6UwioNoedvTR/mlTdld9a+WDC3fh9gu2XxOU
+ jk/xofensmCsjsr8=
+X-Received: by 2002:a5d:5441:0:b0:20a:cdc0:6e90 with SMTP id
+ w1-20020a5d5441000000b0020acdc06e90mr16754703wrv.566.1651672002934; 
+ Wed, 04 May 2022 06:46:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzw87CgLYUV2qkZkNZ8oNnBkrNp+FxDAEdHkK0T/xWwYcbiEJ4SGhpTRR0Qln+ziGJu9Ih2cw==
+X-Received: by 2002:a5d:5441:0:b0:20a:cdc0:6e90 with SMTP id
+ w1-20020a5d5441000000b0020acdc06e90mr16754688wrv.566.1651672002749; 
+ Wed, 04 May 2022 06:46:42 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ f2-20020a7bcd02000000b003942a244f48sm3808680wmj.33.2022.05.04.06.46.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 06:46:42 -0700 (PDT)
+Message-ID: <197bb25a-f9d4-c29b-8893-1ad73c135127@redhat.com>
+Date: Wed, 4 May 2022 15:46:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] linux-user/host/s390: Treat EX and EXRL as writes
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220504114819.1729737-1-iii@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220504114819.1729737-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,89 +102,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  3 May 2022 22:03:02 +0800
-Gavin Shan <gshan@redhat.com> wrote:
-
-> In aarch64_numa_cpu(), the CPU and NUMA association is something
-> like below. Two threads in the same core/cluster/socket are
-> associated with two individual NUMA nodes, which is unreal as
-> Igor Mammedov mentioned. We don't expect the association to break
-> NUMA-to-socket boundary, which matches with the real world.
+On 04/05/2022 13.48, Ilya Leoshkevich wrote:
+> clang-built s390x branch-relative-long test fails on clang-built s390x
+> QEMU due to the following sequence of events:
 > 
->     NUMA-node  socket  cluster   core   thread
->     ------------------------------------------
->         0       0        0        0      0
->         1       0        0        0      1
+> - The test zeroes out a code page, clang generates exrl+xc for this.
 > 
-> This corrects the topology for CPUs and their association with
-> NUMA nodes. After this patch is applied, the CPU and NUMA
-> association becomes something like below, which looks real.
-> Besides, socket/cluster/core/thread IDs are all checked when
-> the NUMA node IDs are verified. It helps to check if the CPU
-> topology is properly populated or not.
+> - do_helper_xc() is called. Clang generates exrl+xc there as well.
 > 
->     NUMA-node  socket  cluster   core   thread
->     ------------------------------------------
->        0        1        0        0       0
->        1        0        0        0       0
-
-I'd place 'socket 1' on node 0, so it wouldn't look odd.
-But it probably doesn't matter, so
-
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> - Since there already exists a TB for the code in question, its page is
+>    read-only and SIGSEGV is raised.
+> 
+> - host_signal_handler() calls host_signal_write() and the latter does
+>    not recognize exrl as a write. Therefore page_unprotect() is not
+>    called and the signal is forwarded to the test.
+> 
+> Fix by treating EXRL (and EX, just in case) as writes. There may be
+> false positives, but they will lead only to an extra page_unprotect()
+> call.
+> 
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 > ---
->  tests/qtest/numa-test.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-> index aeda8c774c..32e35daaae 100644
-> --- a/tests/qtest/numa-test.c
-> +++ b/tests/qtest/numa-test.c
-> @@ -224,17 +224,17 @@ static void aarch64_numa_cpu(const void *data)
->      g_autofree char *cli = NULL;
->  
->      cli = make_cli(data, "-machine "
-> -        "smp.cpus=2,smp.sockets=1,smp.clusters=1,smp.cores=1,smp.threads=2 "
-> +        "smp.cpus=2,smp.sockets=2,smp.clusters=1,smp.cores=1,smp.threads=1 "
->          "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-> -        "-numa cpu,node-id=1,thread-id=0 "
-> -        "-numa cpu,node-id=0,thread-id=1");
-> +        "-numa cpu,node-id=0,socket-id=1,cluster-id=0,core-id=0,thread-id=0 "
-> +        "-numa cpu,node-id=1,socket-id=0,cluster-id=0,core-id=0,thread-id=0");
->      qts = qtest_init(cli);
->      cpus = get_cpus(qts, &resp);
->      g_assert(cpus);
->  
->      while ((e = qlist_pop(cpus))) {
->          QDict *cpu, *props;
-> -        int64_t thread, node;
-> +        int64_t socket, cluster, core, thread, node;
->  
->          cpu = qobject_to(QDict, e);
->          g_assert(qdict_haskey(cpu, "props"));
-> @@ -242,12 +242,18 @@ static void aarch64_numa_cpu(const void *data)
->  
->          g_assert(qdict_haskey(props, "node-id"));
->          node = qdict_get_int(props, "node-id");
-> +        g_assert(qdict_haskey(props, "socket-id"));
-> +        socket = qdict_get_int(props, "socket-id");
-> +        g_assert(qdict_haskey(props, "cluster-id"));
-> +        cluster = qdict_get_int(props, "cluster-id");
-> +        g_assert(qdict_haskey(props, "core-id"));
-> +        core = qdict_get_int(props, "core-id");
->          g_assert(qdict_haskey(props, "thread-id"));
->          thread = qdict_get_int(props, "thread-id");
->  
-> -        if (thread == 0) {
-> +        if (socket == 0 && cluster == 0 && core == 0 && thread == 0) {
->              g_assert_cmpint(node, ==, 1);
-> -        } else if (thread == 1) {
-> +        } else if (socket == 1 && cluster == 0 && core == 0 && thread == 0) {
->              g_assert_cmpint(node, ==, 0);
->          } else {
->              g_assert(false);
+>   linux-user/include/host/s390/host-signal.h | 7 +++++++
+>   1 file changed, 7 insertions(+)
+
+Great, this fixes the crash for me, indeed! Thank you!
+
+Tested-by: Thomas Huth <thuth@redhat.com>
 
 
