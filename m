@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AC451B00A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 23:03:02 +0200 (CEST)
-Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C7051B011
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 23:06:01 +0200 (CEST)
+Received: from localhost ([::1]:37460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmM9F-0000pT-PS
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 17:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58350)
+	id 1nmMC8-0004cC-F2
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 17:06:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmM6a-0006Ye-Se
- for qemu-devel@nongnu.org; Wed, 04 May 2022 17:00:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37339)
+ id 1nmM6j-0006p8-BQ
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 17:00:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmM6Y-00068x-8K
- for qemu-devel@nongnu.org; Wed, 04 May 2022 17:00:16 -0400
+ id 1nmM6h-0006Do-LJ
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 17:00:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651698013;
+ s=mimecast20190719; t=1651698022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZpbfXhhFu37+qhfFpaMUS+AAe9dGLE6sTDUGZufIQeE=;
- b=eVh50sXNiFO0SI7nSsm02T+Nz+9RdmlbAB49ObAKfze2vRnyNLjuGlF4AqmvnESiH5Pb1Z
- 4DNlykhy3WLw6AOnUe6F7BD+WygAjFLf/vtp6UF1M6Bab2tkjGN5zIk0h5wh3YW7AR+hNv
- sqcFk6OgjJoqDQU7hULvMWob7BvkAKI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=md1jglYd6z9CUp+wyyryd9+VqjBQdVs9CtFhknqbrD0=;
+ b=UQxmpsZL1oMh76GYTGpv29Ipc5ZjUXoCOpUTmOX1NU/EGL3VdUKZ/b9CgXccnehhc4jigL
+ d/wIMQSinpWPxnEPnry16in3+EUCe42MeDoUNWHQCpYbRf0Ic1YXjwKQvdPOwFg7W2NXv5
+ Np3qniJOSjRkyzn+1kMRCv+OUgRlfCg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-gNIoul4gPWeg9YXxcflawg-1; Wed, 04 May 2022 17:00:11 -0400
-X-MC-Unique: gNIoul4gPWeg9YXxcflawg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- qb36-20020a1709077ea400b006f45e182187so1491142ejc.14
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 14:00:11 -0700 (PDT)
+ us-mta-286-W9E8elBxN9OL1d3ucHSO6g-1; Wed, 04 May 2022 17:00:19 -0400
+X-MC-Unique: W9E8elBxN9OL1d3ucHSO6g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ eg38-20020a05640228a600b00425d61d0302so1392870edb.17
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 14:00:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZpbfXhhFu37+qhfFpaMUS+AAe9dGLE6sTDUGZufIQeE=;
- b=zJCq0lUZX4v5hBCbEyf/NqpKUqI/AB+TD0Cjhn/4pvWBkfAROyUu427HcpDcP4LPki
- kvg6mlz7k1BHNDbG46KIpZMzO5BgAjo51B3unKw64kDkf3mKsFL2oTWZEqm0YT1F1xE8
- RDaIXC0oNsTmn8PjBn5TQ5HQH57TQGaNwOjXX8LemWv7OsmaUTzc7SjEhJtBbKbxjuBG
- 2bYyGsGriKGvldyq2o9TCvdrwJc/CfVSAb+MkX9UPng8rfFev84yz4vCwL3WBqhzctM3
- eW9gbriLg5OZjl5ga9/zz2OZLqnpr0ObxMwWJIPa7UN64j5Asn3lw81HLmYgZi/56q5y
- PuPg==
-X-Gm-Message-State: AOAM533LKz9MEcwL596C0M94RHh6JQZnpKrUecv3wmIrgPRfg08/O+5h
- zA3owD42D5gtjoKtSzyKSfrZzWTa3pauKyOieDJGEhuVQG9opMTmSdVpQgD8uO27MApPo+q1GnV
- QuvE0/Wtq9pL3D7ijDezM+47qgeYWQaIKcueUEfcKTHob/rlmUc4gWJnsy4+wIrc++Uo=
-X-Received: by 2002:a17:906:58ca:b0:6f4:444f:31ef with SMTP id
- e10-20020a17090658ca00b006f4444f31efmr16107838ejs.135.1651698010383; 
- Wed, 04 May 2022 14:00:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhiVilalOqStR4a555syKmLdhyvdAsHzeisgUiyTFqgFpaj5MYDWg4W4P3eGipbC3JKja4PQ==
-X-Received: by 2002:a17:906:58ca:b0:6f4:444f:31ef with SMTP id
- e10-20020a17090658ca00b006f4444f31efmr16107804ejs.135.1651698010092; 
- Wed, 04 May 2022 14:00:10 -0700 (PDT)
+ bh=md1jglYd6z9CUp+wyyryd9+VqjBQdVs9CtFhknqbrD0=;
+ b=hNukFHnvfJSAaJFP6HDfcA00i25gOt//BqVW4FGQaXeHImA5An0gggFY6HlAERpWIW
+ U6oxQFozyLQ+o/L/10ZVwikVgWjqTMX2nd7dfxwfAyUH/Eus+7r+x2mrbk09lN2R3FFP
+ tYEP6JTQE+b/b2tzh/EE4EwqhB1iSYijVLpx4zFHRN315mSbuD/9OROyF1O9ZoKz1rpG
+ NT4QvewGWL9o88lQaDQT6TuQ9i/7Xsdcs6nnuIdB4mh3WFtIw7azopgIbDem2lIET7wk
+ yJT+DW/NJeQq3lAdZyyEP7Y5MHt3FJJ1qJV163X/++Lxim3nizu9ptW0KXz/J3lbX3bL
+ 2o8w==
+X-Gm-Message-State: AOAM533NwU1RGWKHnOKhgJp0x28P9x39iNqSpbaNeSzEFPbT1aWtpXmO
+ np4wfPqNtbcEd+szdMkugLZ5SO6xjmcjaHr6mMbNQiCN0b5kIfikGFE0T7q2oEfcKOxlGCsMVZl
+ j0bwS8FyKhlrv1mCmIQnLb9YiZBd8z5/40boS9ktxiVDtHWPK5FsLrnbuXj5zlUgRv+8=
+X-Received: by 2002:a05:6402:3590:b0:427:ba05:6f19 with SMTP id
+ y16-20020a056402359000b00427ba056f19mr20399267edc.334.1651698013469; 
+ Wed, 04 May 2022 14:00:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyiyfjRE5HEaSPhx1nokpdhhb6EvCLQAhjdEQLMN0zKtXPWAvynArPUvNQ5XbywDtvfGxVLQ==
+X-Received: by 2002:a05:6402:3590:b0:427:ba05:6f19 with SMTP id
+ y16-20020a056402359000b00427ba056f19mr20399241edc.334.1651698013228; 
+ Wed, 04 May 2022 14:00:13 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- ml20-20020a170906cc1400b006f3ef214dc6sm6087593ejb.44.2022.05.04.14.00.08
+ f12-20020a056402150c00b0042617ba638esm9550516edw.24.2022.05.04.14.00.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 14:00:09 -0700 (PDT)
+ Wed, 04 May 2022 14:00:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: [PATCH 4/5] net: slirp: add support for CFI-friendly timer API
-Date: Wed,  4 May 2022 23:00:00 +0200
-Message-Id: <20220504210001.678419-5-pbonzini@redhat.com>
+Subject: [PATCH 5/5] net: slirp: allow CFI with libslirp >= 4.7
+Date: Wed,  4 May 2022 23:00:01 +0200
+Message-Id: <20220504210001.678419-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220504210001.678419-1-pbonzini@redhat.com>
 References: <20220504210001.678419-1-pbonzini@redhat.com>
@@ -99,96 +99,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libslirp 4.7 introduces a CFI-friendly version of the .timer_new callback.
-The new callback replaces the function pointer with an enum; invoking the
-callback is done with a new function slirp_handle_timer.
-
-Support the new API so that CFI can be made compatible with using a system
-libslirp.
+slirp 4.7 introduces a new CFI-friendly timer callback that does
+not pass function pointers within libslirp as callbacks for timers.
+Check the version number and, if it is new enough, allow using CFI
+even with a system libslirp.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- net/slirp.c | 41 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
+ meson.build | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/net/slirp.c b/net/slirp.c
-index b3a92d6e38..57af42299d 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -184,10 +184,43 @@ static int64_t net_slirp_clock_get_ns(void *opaque)
-     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
- }
+diff --git a/meson.build b/meson.build
+index c26aa442d4..defe604065 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2509,10 +2509,25 @@ if have_system
+   slirp_opt = get_option('slirp')
+   if slirp_opt in ['enabled', 'auto', 'system']
+     have_internal = fs.exists(meson.current_source_dir() / 'slirp/meson.build')
++    slirp_dep_required = (slirp_opt == 'system' or
++                          slirp_opt == 'enabled' and not have_internal)
+     slirp = dependency('slirp', kwargs: static_kwargs,
+                        method: 'pkg-config',
+-                       required: slirp_opt == 'system' or
+-                                 slirp_opt == 'enabled' and not have_internal)
++                       required: slirp_dep_required)
++    # slirp <4.7 is incompatible with CFI support in QEMU.  This is because
++    # it passes function pointers within libslirp as callbacks for timers.
++    # When using a system-wide shared libslirp, the type information for the
++    # callback is missing and the timer call produces a false positive with CFI.
++    # Do not use the "version" keyword argument to produce a better error.
++    # with control-flow integrity.
++    if get_option('cfi') and slirp.found() and slirp.version().version_compare('<4.7')
++      if slirp_dep_required
++        error('Control-Flow Integrity requires libslirp 4.7.')
++      else
++        warning('Control-Flow Integrity requires libslirp 4.7, not using system-wide libslirp.')
++        slirp = not_found
++      endif
++    endif
+     if slirp.found()
+       slirp_opt = 'system'
+     elif have_internal
+@@ -2585,18 +2600,6 @@ if have_system
+   endif
+ endif
  
-+typedef struct SlirpTimer SlirpTimer;
- struct SlirpTimer {
-     QEMUTimer timer;
-+#if SLIRP_CHECK_VERSION(4,7,0)
-+    Slirp *slirp;
-+    SlirpTimerId id;
-+    void *cb_opaque;
-+#endif
-+};
-+
-+#if SLIRP_CHECK_VERSION(4,7,0)
-+static void net_slirp_init_completed(Slirp *slirp, void *opaque)
-+{
-+    SlirpState *s = opaque;
-+    s->slirp = slirp;
- }
- 
-+static void net_slirp_timer_cb(void *opaque)
-+{
-+    SlirpTimer *t = opaque;
-+    slirp_handle_timer(t->slirp, t->id, t->cb_opaque);
-+}
-+
-+static void *net_slirp_timer_new_opaque(SlirpTimerId id,
-+                                        void *cb_opaque, void *opaque)
-+{
-+    SlirpState *s = opaque;
-+    SlirpTimer *t = g_new(SlirpTimer, 1);
-+    t->slirp = s->slirp;
-+    t->id = id;
-+    t->cb_opaque = cb_opaque;
-+    timer_init_full(&t->timer, NULL, QEMU_CLOCK_VIRTUAL,
-+                    SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
-+                    net_slirp_timer_cb, t);
-+    return t;
-+}
-+#else
- static void *net_slirp_timer_new(SlirpTimerCb cb,
-                                  void *cb_opaque, void *opaque)
- {
-@@ -197,6 +230,7 @@ static void *net_slirp_timer_new(SlirpTimerCb cb,
-                     cb, cb_opaque);
-     return t;
- }
-+#endif
- 
- static void net_slirp_timer_free(void *timer, void *opaque)
- {
-@@ -231,7 +265,12 @@ static const SlirpCb slirp_cb = {
-     .send_packet = net_slirp_send_packet,
-     .guest_error = net_slirp_guest_error,
-     .clock_get_ns = net_slirp_clock_get_ns,
-+#if SLIRP_CHECK_VERSION(4,7,0)
-+    .init_completed = net_slirp_init_completed,
-+    .timer_new_opaque = net_slirp_timer_new_opaque,
-+#else
-     .timer_new = net_slirp_timer_new,
-+#endif
-     .timer_free = net_slirp_timer_free,
-     .timer_mod = net_slirp_timer_mod,
-     .register_poll_fd = net_slirp_register_poll_fd,
-@@ -578,7 +617,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
- 
-     s = DO_UPCAST(SlirpState, nc, nc);
- 
--    cfg.version = 3;
-+    cfg.version = SLIRP_CHECK_VERSION(4,7,0) ? 4 : 3;
-     cfg.restricted = restricted;
-     cfg.in_enabled = ipv4;
-     cfg.vnetwork = net;
+-# For CFI, we need to compile slirp as a static library together with qemu.
+-# This is because we register slirp functions as callbacks for QEMU Timers.
+-# When using a system-wide shared libslirp, the type information for the
+-# callback is missing and the timer call produces a false positive with CFI.
+-#
+-# Now that slirp_opt has been defined, check if the selected slirp is compatible
+-# with control-flow integrity.
+-if get_option('cfi') and slirp_opt == 'system'
+-  error('Control-Flow Integrity is not compatible with system-wide slirp.' \
+-         + ' Please configure with --enable-slirp=git')
+-endif
+-
+ fdt = not_found
+ if have_system
+   fdt_opt = get_option('fdt')
 -- 
 2.35.1
 
