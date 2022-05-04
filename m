@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973EC51A337
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 17:08:22 +0200 (CEST)
-Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C3951A356
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 17:11:46 +0200 (CEST)
+Received: from localhost ([::1]:49896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmGc1-0002Rh-8u
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 11:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55310)
+	id 1nmGfI-0006vG-SM
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 11:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmGac-0000LG-Hq
- for qemu-devel@nongnu.org; Wed, 04 May 2022 11:06:54 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:43759)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nmGe8-0006Ak-2C
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 11:10:32 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:35445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmGaa-0000D2-MU
- for qemu-devel@nongnu.org; Wed, 04 May 2022 11:06:54 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id o190so1770130iof.10
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 08:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=B6PMqW97A/0hsP1vHlejwfPgZB1m7757+mlH926YcTI=;
- b=YXa6UOERw8FeH6GR4R3Gqgb/kq1v1PngwzaLTJ/p3/7rPY21H8nA9IZ9TDlvwyktsC
- ZvyGiI1tGFYtBUzp3WYFQyxtdZkJi/HUaaT/g8rgm9Q4rcB3qU2uU5dB4cMAOLlLT6sp
- /rEJTMIqW6xvgNcmaVHSmT1JmseiP3neAfWNU9zHSlGEpIKLVCm1iIVGMIZVkKG0NyMO
- ebVPoh1dDbGvOq7B99laJA2zAKYcLCNlErbhx++lueXm07XjYF9ZN0PrTObiIBHWSyeC
- HeIT8UC5rbP1UuSn5suxi4n6uEegjSlHD8YLWrTtSKrAgU0BpwC43+xfF/keGOlkHfyx
- U/iA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nmGe6-0000wU-Je
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 11:10:31 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id f4so1802238iov.2
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 08:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XabFLlCeCgVtD6+4MI6dTbmjvDydpqizDkWqS/Ap7Sw=;
+ b=A177Mjot7ndYI8KtBQNahomReq5Jfx8PvQiG/b/3X/mf6Rzu8Qdc7lFUr//vNEnpy+
+ cNTSit4gv3gOg/OYgW4Eg4lc7ICCGHEf4XH5uTwNzb6Vayf+4Z+Uj0ZETT3EkCgmzCkC
+ sB4mA80W3zfp5FYgrb3EhZegD6UjBPE8IZKi8OPgEqU/kIEuOjmA6bC3AwB2v+r0sJRA
+ rWxhysTeNzY4/rkR5JavqcCrKA0hE8Me44YEfrKpEZVjYNY2PSJYD0MG+BtKWPny89KA
+ BZJsbQ1SHNu+3esj8vKBA/tQY4R+hnd6i3Xm88Sqb7j10Ul0CwIj3gX46KhUvwYhUxB8
+ dX2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=B6PMqW97A/0hsP1vHlejwfPgZB1m7757+mlH926YcTI=;
- b=1u+yQFgMP0v2Rhfxy/wIs1snME5PsN8lvSVB8N9aDoxO35ND+X61Of1ml+c1N4pXVZ
- MvhDtgCRjVH5ZCBEzkmOebapbT8vj1GbmKbDZiC9i7ZIaxqeRmgMmq/hJTBakfRqrKne
- Hi/43R4zLf5vzvsYoDNqsauLoG2LYlRK0p4Xt/LhNpwrrB2Ofd+l6KWvLR4Kw0aL53ik
- PlgWWsJMe9LrmL0HyB7cSe44HaXVsJeGgkbtvb1uwOb9fR83yK1cD9XqBBYAtrbSNoQp
- PaE88dMt+oupZde4H0x/ByGUtNwpvt/F1+XEqQxZ+xQ/g7SP/g2MAA0EEyqRtHDQqdx9
- 2MXw==
-X-Gm-Message-State: AOAM533eL2O66qHp4SCu3oXZyllT4TQURIcBYtgBawfHfbV0QEYH1fbe
- UJzv81N05s6gQ05ZCd6/GxBLsg==
-X-Google-Smtp-Source: ABdhPJxO10pZvYdN8LJdM+0u1SSDyn0Vy7aCGECnZ4+zFeONuA1NCoch3HcdDTPYN08OGZtWbN0KpQ==
-X-Received: by 2002:a05:6638:164b:b0:323:ac42:8d4b with SMTP id
- a11-20020a056638164b00b00323ac428d4bmr9357350jat.75.1651676811527; 
- Wed, 04 May 2022 08:06:51 -0700 (PDT)
-Received: from [172.19.1.158] ([75.104.86.150])
- by smtp.gmail.com with ESMTPSA id
- v5-20020a92c805000000b002cde6e352edsm4209877iln.55.2022.05.04.08.06.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 08:06:50 -0700 (PDT)
-Message-ID: <fb9c0e3a-8760-4c95-2c17-11ee4fd26b0d@linaro.org>
-Date: Wed, 4 May 2022 08:06:39 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XabFLlCeCgVtD6+4MI6dTbmjvDydpqizDkWqS/Ap7Sw=;
+ b=HnKRIDBSM/cfbuYZ7WKwRCz8GDzy6wBLrnwFhphScm3cTVmSNm6dm9YmYUhgliCXTI
+ GPXLg8T2BEgcDxIMdDx8ihBMJoNi5PjL6k4tWOA7j1X/eTRJakLofEUDoedkGd/iPcAb
+ pOQsZsTTM/uiba5+M11Dg2lZuZxUL/i05C30m99HYC/BvDbYdbQjP11xtK3lV6o67XQb
+ pvjjiw4oKg8pIzRa0Hr0JcgCaPo4z0MyvuHtW1vxhdjJuPOEjHsY4KtsixDg1f905+Df
+ PsqdSp5djd6g2M+D2wbiGS9tSrk15qADTDFqJG8sG2Hyo2pJIXrNYVUKFwnp+pMhm0Ur
+ ng2g==
+X-Gm-Message-State: AOAM530qHUSznkQHRT+mChNegM6YnBvKdSkOlPdDYgLScpWWj1Svh/7x
+ 7PGDpd4tezLaZSwjQ3nt5HYf3Bs/zSfWOJZywsQFjlVI1+lwO1NkTJQ=
+X-Google-Smtp-Source: ABdhPJxwZDuNQs6RbUlgSQWQsJMhdRvP9IWzC6BBrVjn+wMHQsXq33W2UZjyLftfnXLoBFmD0fZaIbi3AyQkC7kIYX0=
+X-Received: by 2002:a05:6638:14c1:b0:32a:aa03:93e1 with SMTP id
+ l1-20020a05663814c100b0032aaa0393e1mr9485867jak.66.1651677029491; Wed, 04 May
+ 2022 08:10:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 0/7] QGA patches
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Michael Roth <michael.roth@amd.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220504100101.564747-1-marcandre.lureau@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220504100101.564747-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20220504043105.2574-1-shuizhuyuanluo@126.com>
+In-Reply-To: <20220504043105.2574-1-shuizhuyuanluo@126.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 5 May 2022 01:10:03 +1000
+Message-ID: <CAKmqyKPbTh87h=_ibuXBS=TAdF3MxdQ0r=ojwrqci4fUsm+z4A@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Expose risc-v V and H isa bit in
+ get_elf_hwcap()
+To: nihui <shuizhuyuanluo@126.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,48 +83,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/22 03:00, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> The following changes since commit 2e3408b3cc7de4e87a9adafc8c19bfce3abec947:
-> 
->    Merge tag 'misc-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-05-03 09:13:17 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git@gitlab.com:marcandre.lureau/qemu.git tags/qga-pull-request
-> 
-> for you to fetch changes up to 22668881f3def13e9ffcf16840e5fde974a55b1e:
-> 
->    qga: Introduce disk smart (2022-05-04 13:03:19 +0400)
-> 
-> ----------------------------------------------------------------
-> QGA Pull request
+On Wed, May 4, 2022 at 2:32 PM nihui <shuizhuyuanluo@126.com> wrote:
+>
+> This patch brings the optional risc-v vector and hypervisor bits
+> in hwcap so that application could detect these isa support from
+> /proc/self/auxv correctly in qemu userspace mode.
+>
+> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+> ---
+>  linux-user/elfload.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 61063fd974..3f0ef2b8f6 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -1484,7 +1484,8 @@ static uint32_t get_elf_hwcap(void)
+>  #define MISA_BIT(EXT) (1 << (EXT - 'A'))
+>      RISCVCPU *cpu = RISCV_CPU(thread_cpu);
+>      uint32_t mask = MISA_BIT('I') | MISA_BIT('M') | MISA_BIT('A')
+> -                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C');
+> +                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C')
+> +                    | MISA_BIT('V') | MISA_BIT('H');
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+The kernel doesn't support H or V. I understand V should be supported
+in the future, but what is the use case for H?
 
+Alistair
 
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> 
-> Andrew Deason (5):
->    qga/commands-posix: Use getifaddrs when available
->    qga/commands-posix: Fix iface hw address detection
->    qga/commands-posix: Fix listing ifaces for Solaris
->    qga/commands-posix: Log all net stats failures
->    qga/commands-posix: 'guest-shutdown' for Solaris
-> 
-> Zhenwei Pi (2):
->    qga: Introduce NVMe disk bus type
->    qga: Introduce disk smart
-> 
->   meson.build          |   1 +
->   qga/qapi-schema.json |  56 +++-
->   qga/commands-posix.c | 591 ++++++++++++++++++++++++++-----------------
->   3 files changed, 413 insertions(+), 235 deletions(-)
-> 
-
+>
+>      return cpu->env.misa_ext & mask;
+>  #undef MISA_BIT
+> --
+> 2.25.1
+>
+>
 
