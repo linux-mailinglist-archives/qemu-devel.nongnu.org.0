@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3984E51A249
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:34:58 +0200 (CEST)
-Received: from localhost ([::1]:48974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDCE51A23E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:32:59 +0200 (CEST)
+Received: from localhost ([::1]:38918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmG5h-0000jr-Aq
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44182)
+	id 1nmG3m-0002Kt-Ut
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwl-0000ty-Bt
- for qemu-devel@nongnu.org; Wed, 04 May 2022 10:25:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48360)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwk-0000tq-Un
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 10:25:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwh-0007Go-Le
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwi-0007HA-9U
  for qemu-devel@nongnu.org; Wed, 04 May 2022 10:25:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1651674339;
@@ -23,38 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/8HRoTe5Si1EPm2zBxMmsdNODjn1RuROexxK2Q5XatA=;
- b=W+1xpIq8CHayNnv6Vo3267dRJDFUj1u107+0ReaxZgkJBZhyLPg5hjzaSDhR2vpUq73pjF
- 6RzM8B8gckeDoLNhzIGtRH5IZEPas/hwlfChn08ZhGOYSQo/Wbjf+ITKUOMt951ncEhbav
- s7vG4cEdMlUCNng0lroW0hdW1HDQ/oY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=E7xwsxesBQ+3VuWv6RvchuwUM5KU8fumXkBFuXRjQwk=;
+ b=L0QHtM7C8IG8C+TcTTVhJr9KilNS6wzCqSDgoe/VhTOvZFQOSB1Kf38TGOhvn0765rw78Q
+ zr9Cyk+85c/NsKmgPFp55Jr4oNhqEubPF6n+ciXI/AWL6u4T4MVU0wVVgfUVBkhUSjFnL8
+ xWu8nUtlOGCKZFnzkConREl1ReOsh28=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-yre8KemCOgKaVZ83S9wxhA-1; Wed, 04 May 2022 10:25:35 -0400
-X-MC-Unique: yre8KemCOgKaVZ83S9wxhA-1
+ us-mta-371-Zdq_0Z4nMwuYJryLv9mhmA-1; Wed, 04 May 2022 10:25:36 -0400
+X-MC-Unique: Zdq_0Z4nMwuYJryLv9mhmA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F81B3C62B64;
- Wed,  4 May 2022 14:25:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A6C88039D7;
+ Wed,  4 May 2022 14:25:36 +0000 (UTC)
 Received: from merkur.str.redhat.com (dhcp-192-180.str.redhat.com
  [10.33.192.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2607402189;
- Wed,  4 May 2022 14:25:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF625402189;
+ Wed,  4 May 2022 14:25:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 08/13] iotests: Add regression test for issue 945
-Date: Wed,  4 May 2022 16:25:17 +0200
-Message-Id: <20220504142522.167506-9-kwolf@redhat.com>
+Subject: [PULL 09/13] block/vmdk: Fix reopening bs->file
+Date: Wed,  4 May 2022 16:25:18 +0200
+Message-Id: <20220504142522.167506-10-kwolf@redhat.com>
 In-Reply-To: <20220504142522.167506-1-kwolf@redhat.com>
 References: <20220504142522.167506-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,120 +80,128 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-Create a VM with a BDS in an iothread, add -incoming defer to the
-command line, and then export this BDS via NBD.  Doing so should not
-fail an assertion.
+VMDK disk data is stored in extents, which may or may not be separate
+from bs->file.  VmdkExtent.file points to where they are stored.  Each
+that is stored in bs->file will simply reuse the exact pointer value of
+bs->file.
+
+(That is why vmdk_free_extents() will unref VmdkExtent.file (e->file)
+only if e->file != bs->file.)
+
+Reopen operations can change bs->file (they will replace the whole
+BdrvChild object, not just the BDS stored in that BdrvChild), and then
+we will need to change all .file pointers of all such VmdkExtents to
+point to the new BdrvChild.
+
+In vmdk_reopen_prepare(), we have to check which VmdkExtents are
+affected, and in vmdk_reopen_commit(), we can modify them.  We have to
+split this because:
+- The new BdrvChild is created only after prepare, so we can change
+  VmdkExtent.file only in commit
+- In commit, there no longer is any (valid) reference to the old
+  BdrvChild object, so there would be nothing to compare VmdkExtent.file
+  against to see whether it was equal to bs->file before reopening
+  (There is BDRVReopenState.old_file_bs, but the old bs->file
+  BdrvChild's .bs pointer will be NULL-ed when the new BdrvChild is
+  created, and so we cannot compare VmdkExtent.file->bs against
+  BDRVReopenState.old_file_bs)
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220427114057.36651-5-hreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Tested-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20220314162719.65384-2-hreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- .../tests/export-incoming-iothread            | 81 +++++++++++++++++++
- .../tests/export-incoming-iothread.out        |  5 ++
- 2 files changed, 86 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/export-incoming-iothread
- create mode 100644 tests/qemu-iotests/tests/export-incoming-iothread.out
+ block/vmdk.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 55 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/tests/export-incoming-iothread b/tests/qemu-iotests/tests/export-incoming-iothread
-new file mode 100755
-index 0000000000..7679e49103
---- /dev/null
-+++ b/tests/qemu-iotests/tests/export-incoming-iothread
-@@ -0,0 +1,81 @@
-+#!/usr/bin/env python3
-+# group: rw quick migration
-+#
-+# Regression test for issue 945:
-+# https://gitlab.com/qemu-project/qemu/-/issues/945
-+# Test adding an export on top of an iothread-ed block device while in
-+# -incoming defer.
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 37c0946066..38e5ab3806 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -178,6 +178,10 @@ typedef struct BDRVVmdkState {
+     char *create_type;
+ } BDRVVmdkState;
+ 
++typedef struct BDRVVmdkReopenState {
++    bool *extents_using_bs_file;
++} BDRVVmdkReopenState;
 +
-+import os
-+import iotests
-+from iotests import qemu_img_create
+ typedef struct VmdkMetaData {
+     unsigned int l1_index;
+     unsigned int l2_index;
+@@ -400,15 +404,63 @@ static int vmdk_is_cid_valid(BlockDriverState *bs)
+     return 1;
+ }
+ 
+-/* We have nothing to do for VMDK reopen, stubs just return success */
+ static int vmdk_reopen_prepare(BDRVReopenState *state,
+                                BlockReopenQueue *queue, Error **errp)
+ {
++    BDRVVmdkState *s;
++    BDRVVmdkReopenState *rs;
++    int i;
 +
+     assert(state != NULL);
+     assert(state->bs != NULL);
++    assert(state->opaque == NULL);
 +
-+image_size = 1 * 1024 * 1024
-+test_img = os.path.join(iotests.test_dir, 'test.img')
-+node_name = 'node0'
-+iothread_id = 'iothr0'
++    s = state->bs->opaque;
 +
-+nbd_sock = os.path.join(iotests.sock_dir, 'nbd.sock')
++    rs = g_new0(BDRVVmdkReopenState, 1);
++    state->opaque = rs;
 +
++    /*
++     * Check whether there are any extents stored in bs->file; if bs->file
++     * changes, we will need to update their .file pointers to follow suit
++     */
++    rs->extents_using_bs_file = g_new(bool, s->num_extents);
++    for (i = 0; i < s->num_extents; i++) {
++        rs->extents_using_bs_file[i] = s->extents[i].file == state->bs->file;
++    }
 +
-+class TestExportIncomingIothread(iotests.QMPTestCase):
-+    def setUp(self) -> None:
-+        qemu_img_create('-f', iotests.imgfmt, test_img, str(image_size))
+     return 0;
+ }
+ 
++static void vmdk_reopen_clean(BDRVReopenState *state)
++{
++    BDRVVmdkReopenState *rs = state->opaque;
 +
-+        self.vm = iotests.VM()
-+        self.vm.add_object(f'iothread,id={iothread_id}')
-+        self.vm.add_blockdev((
-+            f'driver={iotests.imgfmt}',
-+            f'node-name={node_name}',
-+            'file.driver=file',
-+            f'file.filename={test_img}'
-+        ))
-+        self.vm.add_incoming('defer')
-+        self.vm.launch()
++    g_free(rs->extents_using_bs_file);
++    g_free(rs);
++    state->opaque = NULL;
++}
 +
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(test_img)
++static void vmdk_reopen_commit(BDRVReopenState *state)
++{
++    BDRVVmdkState *s = state->bs->opaque;
++    BDRVVmdkReopenState *rs = state->opaque;
++    int i;
 +
-+    def test_export_add(self):
-+        result = self.vm.qmp('nbd-server-start', {
-+            'addr': {
-+                'type': 'unix',
-+                'data': {
-+                    'path': nbd_sock
-+                }
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
++    for (i = 0; i < s->num_extents; i++) {
++        if (rs->extents_using_bs_file[i]) {
++            s->extents[i].file = state->bs->file;
++        }
++    }
 +
-+        # Regression test for issue 945: This should not fail an assertion
-+        result = self.vm.qmp('block-export-add', {
-+            'type': 'nbd',
-+            'id': 'exp0',
-+            'node-name': node_name,
-+            'iothread': iothread_id
-+        })
-+        self.assert_qmp(result, 'return', {})
++    vmdk_reopen_clean(state);
++}
 +
++static void vmdk_reopen_abort(BDRVReopenState *state)
++{
++    vmdk_reopen_clean(state);
++}
 +
-+if __name__ == '__main__':
-+    iotests.main(supported_fmts=['generic'],
-+                 unsupported_fmts=['luks'], # Would need a secret
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/export-incoming-iothread.out b/tests/qemu-iotests/tests/export-incoming-iothread.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/export-incoming-iothread.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
+ static int vmdk_parent_open(BlockDriverState *bs)
+ {
+     char *p_name;
+@@ -3072,6 +3124,8 @@ static BlockDriver bdrv_vmdk = {
+     .bdrv_open                    = vmdk_open,
+     .bdrv_co_check                = vmdk_co_check,
+     .bdrv_reopen_prepare          = vmdk_reopen_prepare,
++    .bdrv_reopen_commit           = vmdk_reopen_commit,
++    .bdrv_reopen_abort            = vmdk_reopen_abort,
+     .bdrv_child_perm              = bdrv_default_perms,
+     .bdrv_co_preadv               = vmdk_co_preadv,
+     .bdrv_co_pwritev              = vmdk_co_pwritev,
 -- 
 2.35.1
 
