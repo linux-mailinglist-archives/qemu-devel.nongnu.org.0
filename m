@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC37519A18
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 10:41:26 +0200 (CEST)
-Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6F0519A9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 10:50:53 +0200 (CEST)
+Received: from localhost ([::1]:34302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmAZY-0002xr-53
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 04:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39514)
+	id 1nmAih-0005hX-5h
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 04:50:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmAUu-0000qe-Bf
- for qemu-devel@nongnu.org; Wed, 04 May 2022 04:36:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25929)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmAeS-0004m3-W7
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 04:46:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmAUp-0001xp-Au
- for qemu-devel@nongnu.org; Wed, 04 May 2022 04:36:33 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmAeP-00043h-NO
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 04:46:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651653389;
+ s=mimecast20190719; t=1651653984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1nebev3lmKWif61iSR/PTMae1U2KbaimYrAgt7HGMII=;
- b=C7LNk9HpJ3REtzDwQweOc0oC2YB8CPcr7hsZhRVsf1sQBb3ajcycchX+WSXnk6NMn+iGGn
- k3bNLcshnH+kpXjZcSCoIuaJSjRpAe8AAPuNXfRlBCcA+5M9aDd78Xueecd+o/ogd86+zy
- ulSoiTNUP7Yl6DzHZ/KkrSdNNj+EZbc=
+ bh=u0vA+eQWMnvtBxurd7eTdLcoFRx9/7niHHpi3Vp0fpU=;
+ b=Sgmgi5je0RiohURvhQNnEtWN8vE1J6KWUpL5MyD7Ughqme/AMtoS03HCaHLp12aOOSXU+/
+ VmnfVlm6u5DYDOZNsOh0rZl7ZI7E4siof3CWKFqcMUBSAzFI7uUHbGWzE8uqocFVG8wq7N
+ oEYLhUxTqi0ljqjDWDsj9Uv2BU3uW7w=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-XxiDTrSZPAOmG4SGiYeP3w-1; Wed, 04 May 2022 04:36:24 -0400
-X-MC-Unique: XxiDTrSZPAOmG4SGiYeP3w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-656-KJM57s9zOZGPHEjUrouBKQ-1; Wed, 04 May 2022 04:46:23 -0400
+X-MC-Unique: KJM57s9zOZGPHEjUrouBKQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F0991C06EC4;
- Wed,  4 May 2022 08:36:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2527829AB3FE;
+ Wed,  4 May 2022 08:46:23 +0000 (UTC)
 Received: from redhat.com (dhcp-192-180.str.redhat.com [10.33.192.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71D89432717;
- Wed,  4 May 2022 08:36:23 +0000 (UTC)
-Date: Wed, 4 May 2022 10:36:22 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4985CC28101;
+ Wed,  4 May 2022 08:46:22 +0000 (UTC)
+Date: Wed, 4 May 2022 10:46:21 +0200
 From: Kevin Wolf <kwolf@redhat.com>
 To: Hanna Reitz <hreitz@redhat.com>
 Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 2/4] block: Add protocol-specific image info
-Message-ID: <YnI7Bt3bVzUpBzVt@redhat.com>
+Subject: Re: [PATCH 4/4] block/file: Add file-specific image info
+Message-ID: <YnI9XZkxiNNJX3dC@redhat.com>
 References: <20220503145529.37070-1-hreitz@redhat.com>
- <20220503145529.37070-3-hreitz@redhat.com>
+ <20220503145529.37070-5-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220503145529.37070-3-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+In-Reply-To: <20220503145529.37070-5-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,112 +79,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Am 03.05.2022 um 16:55 hat Hanna Reitz geschrieben:
-> The ImageInfo object currently only contains (optional) format-specific
-> image information.  However, perhaps the protocol node can provide some
-> additional information, so add a new field presenting it.
+> Add some (optional) information that the file driver can provide for
+> image files, namely the extent size.
 > 
 > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->  qapi/block-core.json |  6 +++++-
->  block/qapi.c         | 19 +++++++++++++++++++
->  2 files changed, 24 insertions(+), 1 deletion(-)
+>  qapi/block-core.json | 26 ++++++++++++++++++++++++--
+>  block/file-posix.c   | 30 ++++++++++++++++++++++++++++++
+>  2 files changed, 54 insertions(+), 2 deletions(-)
 > 
 > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index beeb91952a..e7d6c2e0cc 100644
+> index e7d6c2e0cc..728da051ae 100644
 > --- a/qapi/block-core.json
 > +++ b/qapi/block-core.json
-> @@ -236,6 +236,9 @@
->  # @format-specific: structure supplying additional format-specific
->  #                   information (since 1.7)
->  #
-> +# @protocol-specific: structure supplying additional protocol-specific
-> +#                     information (since 7.1)
-> +#
->  # Since: 1.3
->  #
->  ##
-> @@ -246,7 +249,8 @@
->             '*backing-filename': 'str', '*full-backing-filename': 'str',
->             '*backing-filename-format': 'str', '*snapshots': ['SnapshotInfo'],
->             '*backing-image': 'ImageInfo',
-> -           '*format-specific': 'ImageInfoSpecific' } }
-> +           '*format-specific': 'ImageInfoSpecific',
-> +           '*protocol-specific': 'ImageInfoSpecific' } }
-
-I'm not a fan of this one. It solves the problem for exactly one special
-case (even if admittedly a common one) and leaves everything else as it
-is. It is unclear what it produces in configurations that aren't the
-simple one format node on top of one protocol node layout.
-
-I would rather interpret 'format-specific' as 'driver-specific' and make
-the ImageInfo for any child node accessible.
-
-With rbd we already interpret it like a generic driver thing that is not
-just for formats that because it implements .bdrv_get_specific_info even
-though we didn't have a 'protocol-specific' yet.
-
-Making other nodes has precedence, too. 'backing-image' is even in the
-context of this hunk. VMDK exposes its extents the same way. So maybe
-what we really want is a 'children' list with the ImageInfo of every
-child node. And then qemu-img could go through all children and print
-headings like "Driver specific information for file (#block123)". Then
-filters like blkdebug could add their information and it would be
-printed, too.
-
->  ##
->  # @ImageCheck:
-> diff --git a/block/qapi.c b/block/qapi.c
-> index 51202b470a..293983cf82 100644
-> --- a/block/qapi.c
-> +++ b/block/qapi.c
-> @@ -262,6 +262,7 @@ void bdrv_query_image_info(BlockDriverState *bs,
->      int64_t size;
->      const char *backing_filename;
->      BlockDriverInfo bdi;
-> +    BlockDriverState *protocol_bs;
->      int ret;
->      Error *err = NULL;
->      ImageInfo *info;
-> @@ -303,6 +304,24 @@ void bdrv_query_image_info(BlockDriverState *bs,
->      }
->      info->has_format_specific = info->format_specific != NULL;
+> @@ -139,16 +139,29 @@
+>        '*encryption-format': 'RbdImageEncryptionFormat'
+>    } }
 >  
-> +    /* Try to look for an unambiguous protocol node */
-> +    protocol_bs = bs;
-> +    while (protocol_bs && !QLIST_EMPTY(&protocol_bs->children)) {
-> +        protocol_bs = bdrv_primary_bs(protocol_bs);
-> +    }
+> +##
+> +# @ImageInfoSpecificFile:
+> +#
+> +# @extent-size: Extent size (if available)
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'ImageInfoSpecificFile',
+> +  'data': {
+> +      '*extent-size': 'size'
+> +  } }
 
-If bs is already a leaf node, this duplicates the information, which
-looks weird:
-
-    $ build/qemu-img info -f file ~/tmp/test.raw
-    image: /home/kwolf/tmp/test.raw
-    file format: file
-    virtual size: 10 GiB (10737418240 bytes)
-    disk size: 7.63 GiB
-    Format specific information:
-        extent size: 1048576
-    Protocol specific information:
-        extent size: 1048576
-
->
-> +    if (protocol_bs) {
-> +        /* Assert that this is a protocol node */
-> +        assert(QLIST_EMPTY(&protocol_bs->children));
-> +
-> +        info->protocol_specific = bdrv_get_specific_info(protocol_bs, &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            qapi_free_ImageInfo(info);
-> +            goto out;
-> +        }
-> +        info->has_protocol_specific = info->protocol_specific != NULL;
-> +    }
-> +
->      backing_filename = bs->backing_file;
->      if (backing_filename[0] != '\0') {
->          char *backing_filename2;
+It's not "the extent size" (the whole point of extents is that they
+don't have a fixed size like blocks), but an extent size *hint* that
+tells the filesystem the minimum size to allocate for an extent. The
+xfs_io man page calls it the preferred extent size for allocatino, which
+works for the documentation if you prefer, but BlockdevCreateOptionsFile
+has 'extent-size-hint', so I'd prefer consistency on the wire at least.
 
 Kevin
 
