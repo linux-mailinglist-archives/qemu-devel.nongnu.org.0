@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC6351B156
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 23:46:57 +0200 (CEST)
-Received: from localhost ([::1]:57294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B638E51B1C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 00:25:49 +0200 (CEST)
+Received: from localhost ([::1]:45760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmMpk-0008Jz-83
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 17:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39238)
+	id 1nmNRM-0006hS-CO
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 18:25:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmMoQ-0007NB-SP; Wed, 04 May 2022 17:45:34 -0400
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:38132)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nmNOp-00057d-EH
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 18:23:11 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:45929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmMoP-0005Y4-2T; Wed, 04 May 2022 17:45:34 -0400
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-e5e433d66dso2546496fac.5; 
- Wed, 04 May 2022 14:45:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nmNOn-0005Np-CS
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 18:23:10 -0400
+Received: by mail-pf1-x432.google.com with SMTP id h1so2191557pfv.12
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 15:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Taf3ljLiP3GtleE2Lp27LxHFTlb9TH1USzN/xvKm9vY=;
- b=JhgNcZ+ZE6OpDLK9/v5Jf6yQP5kaVsd1m7iIxp80WZ+yOLv1Hfpn1661q0ypH5Xzej
- 4/4s06XTtoqpof7074yGW/4C/5eJPtbTDepuKmz4xq2vVJLLbH7XfiQSMOYE2X9wyuTd
- RZRTO41zZBH4PnSM5vO3KVxmAB8gJaEblLuIVTDQ3FfGegVQfuM265L98nxYZGvla7Eq
- jVOtwrqUnCoYO6oOmjs67fr4Lx/e74K3RTkgGwGNZl9I6sGXuU663RK8HPDg/fwvg6jt
- 5aZ3aZOXudhcIt3i2BOWBJMc+SKXFd866DGMaiP38I9HxgW/Xr5pLz/6lA61uqYvAvy7
- 1DRA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kYPjshZPWZRxlyOXuRE0i0eYpRN407/bZgJI2j/y13A=;
+ b=TGdx4OjT67TfDvR1hrCi4fDOrvdlNUGymmur+DNADiERpHTuyXnajjbOZkMM+6NsO5
+ fhG9LS4ly1R292cU4G6kKlhkI5cesNE7mRnEfxv3POLUi6sejYKhHrLMvNSF+4eaPTFN
+ 0s7lRdezYScBPeLca6vggADHoWL+r4HjM18B6cw+yZss2P/06FiSeurWACi6jpjC2Og0
+ NxlI287XkSZrhF3IwmY+SU1K/pderVT4wXhgxRvnqCuvvq3JNw2UyyOF8UJv73G1UjBh
+ B0lS6K7TwC98PQRUosTwe43ig69RXOdL8njeoXaX3Fd184wwAhO9lmHZKu5TZTjJVt2k
+ faTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Taf3ljLiP3GtleE2Lp27LxHFTlb9TH1USzN/xvKm9vY=;
- b=BI0YJ6EYskwFkpJnbCVp46InKjYdIGuWZWLjyqQKdMHl9YSA8TiYqBJzM6s6DPUU2I
- qCEVQQe9V37Ao5dsSu5qIRHNDohg3r2+4Nt7mDIfCWvLcj+Cycpmb6d6smz1sdWRi63s
- qxj/m6VzmiCX9xmHCtjVLwPvpOOGp+RfTZrJwD4CBvU4wg35ecx/EU81ynbdgeHlxS4t
- 6WJTsEsC3jSZ7XY+SRqtTfgHcedkbHYFAMc3r0983WWf8N5F5Acj3MIEEqSoRnhN1fa2
- +IaCAILtwd5k4K2a6eQ+87gqXLtcqV2YSG99l8QK6CF7V0FZZfaX3beqjG/vojitEBFf
- 3pkA==
-X-Gm-Message-State: AOAM533Lr7Juzr60HRk7vUD4Dl5PMWbvmsa2VRk/bbaJEZ1cRg/8so0o
- 13Xn1I4kp7UkIG49y0MGXUc=
-X-Google-Smtp-Source: ABdhPJz2hyQPCkC5o4VtrZ2fXgv71F7U6+HPZH12qS44mJhR8l9fi73TvHgV0ZWD3QjA/YGL7U+rnA==
-X-Received: by 2002:a05:6870:708a:b0:e9:9349:9410 with SMTP id
- v10-20020a056870708a00b000e993499410mr784672oae.265.1651700731217; 
- Wed, 04 May 2022 14:45:31 -0700 (PDT)
-Received: from [192.168.10.102] (201-1-57-208.dsl.telesp.net.br.
- [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- t4-20020a4adbc4000000b0035e9f149b90sm40811oou.3.2022.05.04.14.45.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 14:45:30 -0700 (PDT)
-Message-ID: <0debc21d-fefa-bb7f-6fdc-3d542d463751@gmail.com>
-Date: Wed, 4 May 2022 18:45:27 -0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kYPjshZPWZRxlyOXuRE0i0eYpRN407/bZgJI2j/y13A=;
+ b=rDrNkvYq8txDO7vPjWauuatpWJeFge/aOqWgRJkwj9jkZv2B3iPBh1DvPya6+GZUyr
+ oNPK6Z53vE5mQzvt8VjqqxrDmba6PbUi2Iodac/fnkAxE/2U6mDtZGkuLBUxSM2eC/MF
+ lXof5Ak+H2P8f8QorEQZuT2C5hXhU6omAxroHSvJ3Ab0z0Yk66MQ9iJcDxOg5vKqeldw
+ +EKjYufDV8r+XO30wFtFcsMSQ+kiDsmQTVTre2ffWVesHbFXG6O0fALIhr6DJdDbvN3H
+ ek4tirA0cRwjfKuBwwGDkbjEdR7sth6pPDGm1EO6izkkbPPmyf8Q0kdiSd78e8cG5RqG
+ zQUg==
+X-Gm-Message-State: AOAM531cJ/KwPvD3rXDdYbTD2LPmOHaJ2+qjR6jKv9Z06DIt5yn6O61h
+ YFoZiGeMQX/539utPww9c+g=
+X-Google-Smtp-Source: ABdhPJzBrP7vU8o1Xyyb1tFlyFDyDQBvUGTHNDWxv3wj4jdX2VrM28VlZnJTms3kTCp5BKT977XdQg==
+X-Received: by 2002:a65:524b:0:b0:383:1b87:2d21 with SMTP id
+ q11-20020a65524b000000b003831b872d21mr19539514pgp.482.1651702987068; 
+ Wed, 04 May 2022 15:23:07 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id
+ m19-20020a17090a7f9300b001cd60246575sm3806415pjl.17.2022.05.04.15.23.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 15:23:06 -0700 (PDT)
+Date: Thu, 5 May 2022 07:23:04 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, openrisc@lists.librecores.org,
+ richard.henderson@linaro.org
+Subject: Re: [PATCH v2] hw/openrisc: use right OMPIC size variable
+Message-ID: <YnL8yLrfC0EcyFgy@antec>
+References: <20220502232800.259036-1-Jason@zx2c4.com>
+ <20220503094533.402157-1-Jason@zx2c4.com> <YnGPDumfp1+6DUQG@antec>
+ <CAHmME9prmCzpg6h-j3o7zUiYzePuegqJOAGSH167H4L-DH=QMg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] vhost-user: Use correct macro name TARGET_PPC64
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, mopsfelder@gmail.com,
- Fabiano Rosas <farosas@linux.ibm.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Peter Turschmid <peter.turschm@nutanix.com>
-References: <20220503180108.34506-1-muriloo@linux.ibm.com>
- <20220504165920-mutt-send-email-mst@kernel.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220504165920-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHmME9prmCzpg6h-j3o7zUiYzePuegqJOAGSH167H4L-DH=QMg@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=shorne@gmail.com; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,48 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 5/4/22 17:59, Michael S. Tsirkin wrote:
-> On Tue, May 03, 2022 at 03:01:08PM -0300, Murilo Opsfelder Araujo wrote:
->> The correct name of the macro is TARGET_PPC64.
->>
->> Fixes: 27598393a232 ("Lift max memory slots limit imposed by vhost-user")
->> Reported-by: Fabiano Rosas <farosas@linux.ibm.com>
->> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
->> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
->> Cc: Peter Turschmid <peter.turschm@nutanix.com>
+On Wed, May 04, 2022 at 01:10:04PM +0200, Jason A. Donenfeld wrote:
+> On Tue, May 3, 2022 at 10:22 PM Stafford Horne <shorne@gmail.com> wrote:
+> >
+> > On Tue, May 03, 2022 at 11:45:33AM +0200, Jason A. Donenfeld wrote:
+> > > This appears to be a copy and paste error. The UART size was used
+> > > instead of the much smaller OMPIC size. But actually that smaller OMPIC
+> > > size is wrong too and doesn't allow the IPI to work in Linux. So set it
+> > > to the old value.
+> > >
+> > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > ---
+> > >  hw/openrisc/openrisc_sim.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+> > > index 99b14940f4..3218db6656 100644
+> > > --- a/hw/openrisc/openrisc_sim.c
+> > > +++ b/hw/openrisc/openrisc_sim.c
+> > > @@ -78,7 +78,7 @@ static const struct MemmapEntry {
+> > >      [OR1KSIM_DRAM] =      { 0x00000000,          0 },
+> > >      [OR1KSIM_UART] =      { 0x90000000,      0x100 },
+> > >      [OR1KSIM_ETHOC] =     { 0x92000000,      0x800 },
+> > > -    [OR1KSIM_OMPIC] =     { 0x98000000,         16 },
+> > > +    [OR1KSIM_OMPIC] =     { 0x98000000,      0x100 },
+> >
+> > Right, I missed this as part of my series.  OMPIC will allocate 2 32-bit
+> > registers per CPU.  I documented this here:
+> >
+> >   - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/irqchip/irq-ompic.c
+> >
+> > I think what we will want here is something like:
+> >
+> > [OR1KSIM_OMPIC] =     { 0x98000000, 8 * OR1KSIM_CPUS_MAX },
 > 
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ok to merge through the ppc tree
+> Do you want a v3 or are you going to fix it up yourself?
 
-Thanks for the r-b.  Queued in gitlab.com/danielhb/qemu/tree/ppc-next.
+I'll fix it up.
 
-
-
-Daniel
-
-> 
->> ---
->>   hw/virtio/vhost-user.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->> index 9c4f84f35f..e356c72c81 100644
->> --- a/hw/virtio/vhost-user.c
->> +++ b/hw/virtio/vhost-user.c
->> @@ -51,7 +51,7 @@
->>   #include "hw/acpi/acpi.h"
->>   #define VHOST_USER_MAX_RAM_SLOTS ACPI_MAX_RAM_SLOTS
->>   
->> -#elif defined(TARGET_PPC) || defined(TARGET_PPC_64)
->> +#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
->>   #include "hw/ppc/spapr.h"
->>   #define VHOST_USER_MAX_RAM_SLOTS SPAPR_MAX_RAM_SLOTS
->>   
->> -- 
->> 2.35.1
-> 
-> 
+-Stafford
 
