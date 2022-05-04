@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A4551AF35
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 22:33:02 +0200 (CEST)
-Received: from localhost ([::1]:32856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707D351AF47
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 22:34:46 +0200 (CEST)
+Received: from localhost ([::1]:36424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmLgD-000437-G3
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 16:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52258)
+	id 1nmLht-0006T8-BE
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 16:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmLet-0002fp-FA
- for qemu-devel@nongnu.org; Wed, 04 May 2022 16:31:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmLeq-0005lM-7C
- for qemu-devel@nongnu.org; Wed, 04 May 2022 16:31:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651696294;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DIYlM1zcjs7uBiWVUcbszpOWdRDGMPFDgJLi8zN0CmU=;
- b=e7MLPsBB1S1uYcoqaQy+W7h2XshY3/n4HcEg2Y5sGsIhATqnS0SKX4dYEFfL2gpxPgagMn
- GNB3n6ehd+vqGSA+tZQFOx6AqWFUk38Jmvk1iyyL+d8NiJz4mol9CrTt23zMwYVmFvBU+x
- d2UfgvxIBHbCgaoMEqf2zGtGCqynZPk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-corjapowNly73C4HXBLTdQ-1; Wed, 04 May 2022 16:31:33 -0400
-X-MC-Unique: corjapowNly73C4HXBLTdQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- dk9-20020a0564021d8900b00425a9c3d40cso1377381edb.7
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 13:31:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmLgb-0005WQ-49; Wed, 04 May 2022 16:33:25 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:42615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmLgZ-00066z-FB; Wed, 04 May 2022 16:33:24 -0400
+Received: by mail-oi1-x230.google.com with SMTP id w194so1149014oie.9;
+ Wed, 04 May 2022 13:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ls2YESuPHouHy4eJcjH62jn447e2NQGcQO76B7wzLoo=;
+ b=P2Pii3d+twMSpfGTCe7EnEVfr5HTQO6tz9WYunoLLVeEBFLc4DDaC58wCrBojpKR0J
+ KOfk//mluLuiqZuApvsOuOkanv/IwSD5pRNyDNMtI3yLhXE1N/0MTe7/tVh7Os5/OPaD
+ hOQgPBLX8OP5gk1Jb4XsPxQQIuamrCueFCdpJ95qwvtIve4s/lxUY6Byqkb1uGdOxDzU
+ a9ysJ7TyRQJrZCn3b9YhAEHQsmiO8O5Gv+/eOdOqxAtb38UO5n7Ofugh9I0senXGg2w4
+ ruYMM90yH4rytjdvA+vx/zqYku2iFgL9Y3716b6vFhc3B/qnWI0Pz5ATc1QiCBP0gIoo
+ Xr+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=DIYlM1zcjs7uBiWVUcbszpOWdRDGMPFDgJLi8zN0CmU=;
- b=rGCjW16DcIg9IUxPlkrPd/8LvXryUDcnziNcMtqt84GHLtVyGOgriCZta3D0sPI6ui
- ukXpaetcBUnQLT/0BY6f4hKFB6wY0QCyCAeF1p7StJdO4uHN/uI7Yz0e9uK/VE3dvhYi
- 8bt5xr5lEbXa8f036bdMEzwPRyd8PtFf+F731YDIFcERW0fLtS706pNgSNRYDPuGBHlu
- rqLyhLpLG6YNTtFW4Nomzqg8I5L2yd+ADEtMD/YottMXSvRiUqPb5BAlT7IuFi/IcIAS
- VntSrwOIdaWjvnPM+Lf+7x7H10W506p/8x5WBTve56IZ9q88MsSrjpx+vzkS1oMgtxAx
- y0sQ==
-X-Gm-Message-State: AOAM533KviYcPELOc0AW0QlWJc1zkIlMt88GWkW5BA4dmT9XLdG2WVUK
- osgIxpQ/eE2zvlLfbjOpH/DrAfnBPa4XWrE89u+fwY3TY4n41FkZM4PF+BRPe5BknnZWDyMRHPC
- gifEYLOOvgPqAVkg8WGMrHAhWNdjKjaifqEEh0lu6L/swbPpAiDhFvya8B1FVqmEwguA=
-X-Received: by 2002:a05:6402:518c:b0:426:32d4:87 with SMTP id
- q12-20020a056402518c00b0042632d40087mr25223475edd.394.1651696291859; 
- Wed, 04 May 2022 13:31:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/GVkx9TZE/IPs7Z5Sv81IkVbHs/8KM9oG1d0f+u9xV4SVza0VOsy7J/eBP0yLEaizpVPDuw==
-X-Received: by 2002:a05:6402:518c:b0:426:32d4:87 with SMTP id
- q12-20020a056402518c00b0042632d40087mr25223448edd.394.1651696291465; 
- Wed, 04 May 2022 13:31:31 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- h14-20020a1709070b0e00b006f3ef214db9sm6033938ejl.31.2022.05.04.13.31.30
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 13:31:30 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] checkpatch: fix g_malloc check
-Date: Wed,  4 May 2022 22:31:29 +0200
-Message-Id: <20220504203129.672944-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ bh=ls2YESuPHouHy4eJcjH62jn447e2NQGcQO76B7wzLoo=;
+ b=2OBTbUbuEJXI401W3aFW69OCAU8PAMhWXQWObyIaZpTl2NZPCFcjtQ7fs+XmT/oYGi
+ okGd2cn/INxOeTzxff0dMFMF2CE2sKmBIxnR1hgLkc47eOaB+I6Il/966PdIKQueDbKR
+ v0eiI0hbJgfI3M1ihdfn/bdz/Y37OnteAMV2I607jTwcNHZtfPF/xmBmYHjqCo8MFrOK
+ qiZNlj72XERK2jSLH3A0n/Go+fxomyoGjC9cxdOKaUGlXQcDYY4C1aQWYfC81BN8MrCg
+ Cma1XnyC2HogQ5WVO2g/kKRHkyGw2rxOaF9jL0Z/5N0/lOoFPN+4zuX1ENQnXlS3x8rN
+ 9SAg==
+X-Gm-Message-State: AOAM531VZIb+1mUVa+Wd62HC6VCD96chDP6rgN0c/cs+MQg1MMGxh8Zw
+ 2TDZ5+SNd1hkl7i88EpWhPA=
+X-Google-Smtp-Source: ABdhPJy5kp1JrsV6sHOlrAAzSHY+GXZUuu/mW/ryKBHTPyW33H3vlkRkdH1MoonQnR4VqAU8A/avDA==
+X-Received: by 2002:a05:6808:18a2:b0:325:ce71:e16 with SMTP id
+ bi34-20020a05680818a200b00325ce710e16mr682329oib.94.1651696401912; 
+ Wed, 04 May 2022 13:33:21 -0700 (PDT)
+Received: from [192.168.10.102] (201-1-57-208.dsl.telesp.net.br.
+ [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
+ t9-20020a0568301e2900b006060322126bsm5356539otr.59.2022.05.04.13.33.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 13:33:21 -0700 (PDT)
+Message-ID: <1f75f784-af04-3ed4-f8ad-d13eb4216b6e@gmail.com>
+Date: Wed, 4 May 2022 17:33:17 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 00/21] target/ppc: Remove hidden usages of *env
+Content-Language: en-US
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ richard.henderson@linaro.org, balaton@eik.bme.hu
+References: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,31 +93,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the string equality operator "eq", and ensure that $1 is defined by
-using "(try|)" instead of "(try)?".  The alternative "((?:try)?)" is
-longer and less readable.
+I asked Victor to rebase this series on top of ppc-next at:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/checkpatch.pl | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+gitlab.com/danielhb/qemu/tree/ppc-next
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 4763d02ae7..d900d18048 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2831,8 +2831,8 @@ sub process {
- 		}
- 
- # check for pointless casting of g_malloc return
--		if ($line =~ /\*\s*\)\s*g_(try)?(m|re)alloc(0?)(_n)?\b/) {
--			if ($2 == 'm') {
-+		if ($line =~ /\*\s*\)\s*g_(try|)(m|re)alloc(0?)(_n)?\b/) {
-+			if ($2 eq 'm') {
- 				ERROR("unnecessary cast may hide bugs, use g_$1new$3 instead\n" . $herecurr);
- 			} else {
- 				ERROR("unnecessary cast may hide bugs, use g_$1renew$3 instead\n" . $herecurr);
--- 
-2.35.1
+Because of
 
+"[PATCH v2] target/ppc: Fix BookE debug interrupt generation​"
+
+that added new occurrences of the msr_de macro that wasn't being handled.
+I believe that the changes needed are not removing msr_de in patch 02 and
+adding a new patch to handle the two existing msr_de instances.
+
+
+After this series is fully reviewed I'll send a PR with it ASAP to avoid
+further conflicts.
+
+
+Thanks,
+
+
+Daniel
+
+
+
+
+
+On 5/3/22 17:24, Víctor Colombo wrote:
+> By running the grep command `git grep -nr 'define \(fpscr\|msr\)_[a-z0-9]\+\>'`
+> we can find multiple macros that use `env->fpscr` and `env->msr` but doesn't
+> take *env as a parameter.
+> 
+> Richard Henderson said [1] that these macros hiding the usage of *env "are evil".
+> This patch series remove them and substitute with an explicit usage of *env by
+> using registerfields API.
+> 
+> Patch 20 (target/ppc: Add unused msr bits FIELDs) declares unused FIELDs, the
+> same that were removed in patch 02 (target/ppc: Remove unused msr_* macros). I
+> did that to keep the changes consistent with what was already present before.
+> 
+> Patch 21 (target/ppc: Change MSR_* to follow POWER ISA numbering convention)
+> changes the MSR_* bit number to match POWER ISA by adding a new macro to
+> 'invert' the ordering. (added in v2)
+> 
+> [1]: https://lists.gnu.org/archive/html/qemu-ppc/2021-11/msg00280.html
+> 
+> Patches requiring review: 11, 14, 15, 16, 17, 21
+> Patch 17 was reviewed before, but I created a macro to extract both FE0
+>      and FE1, so decided to drop the R-b for you to take a look at the
+>      new version. Thanks
+> 
+> v2:
+> - Abandon the ideia to add an M_MSR_* macro
+> - Instead, use registerfields API as suggested by Richard
+> - Add patch 21 to invert MSR_* values to match ISA ordering
+> 
+> v3:
+> - Add macro to extract both FE0 and FE1. Use it to simplify the
+>    conditionals in patch 17
+> - Fix the checks that should be a xor
+> - Fix incorrect parameter in FIELD_EX64 (was env->msr should be value)
+>    in patch 16
+> - Fix patch 13 title
+> 
+> Víctor Colombo (21):
+>    target/ppc: Remove fpscr_* macros from cpu.h
+>    target/ppc: Remove unused msr_* macros
+>    target/ppc: Remove msr_pr macro
+>    target/ppc: Remove msr_le macro
+>    target/ppc: Remove msr_ds macro
+>    target/ppc: Remove msr_ile macro
+>    target/ppc: Remove msr_ee macro
+>    target/ppc: Remove msr_ce macro
+>    target/ppc: Remove msr_pow macro
+>    target/ppc: Remove msr_me macro
+>    target/ppc: Remove msr_gs macro
+>    target/ppc: Remove msr_fp macro
+>    target/ppc: Remove msr_cm macro
+>    target/ppc: Remove msr_ir macro
+>    target/ppc: Remove msr_dr macro
+>    target/ppc: Remove msr_ep macro
+>    target/ppc: Remove msr_fe0 and msr_fe1 macros
+>    target/ppc: Remove msr_ts macro
+>    target/ppc: Remove msr_hv macro
+>    target/ppc: Add unused msr bits FIELDs
+>    target/ppc: Change MSR_* to follow POWER ISA numbering convention
+> 
+>   hw/ppc/pegasos2.c        |   2 +-
+>   hw/ppc/spapr.c           |   2 +-
+>   target/ppc/cpu.c         |   2 +-
+>   target/ppc/cpu.h         | 219 ++++++++++++++++++---------------------
+>   target/ppc/cpu_init.c    |  23 ++--
+>   target/ppc/excp_helper.c |  54 +++++-----
+>   target/ppc/fpu_helper.c  |  28 ++---
+>   target/ppc/gdbstub.c     |   2 +-
+>   target/ppc/helper_regs.c |  11 +-
+>   target/ppc/kvm.c         |   7 +-
+>   target/ppc/machine.c     |   2 +-
+>   target/ppc/mem_helper.c  |  23 ++--
+>   target/ppc/misc_helper.c |   2 +-
+>   target/ppc/mmu-radix64.c |  11 +-
+>   target/ppc/mmu_common.c  |  40 +++----
+>   target/ppc/mmu_helper.c  |   6 +-
+>   16 files changed, 217 insertions(+), 217 deletions(-)
+> 
 
