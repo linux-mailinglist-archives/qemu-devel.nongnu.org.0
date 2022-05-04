@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF75051A316
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 17:04:57 +0200 (CEST)
-Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973EC51A337
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 17:08:22 +0200 (CEST)
+Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmGYi-0006K7-AR
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 11:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54240)
+	id 1nmGc1-0002Rh-8u
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 11:08:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmGXM-0005de-El
- for qemu-devel@nongnu.org; Wed, 04 May 2022 11:03:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmGXJ-0007yV-Bq
- for qemu-devel@nongnu.org; Wed, 04 May 2022 11:03:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651676607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1vYsA36Gst+tsylPCsX2hqATcMr9Ls4oSE2Oo4sgw9s=;
- b=WGQ7D2FOmP8wVbo82inL255ObUkqg7jzNdYf57EgD0dYOqXaO6t9y3kdM8wHMcF1JH64Md
- JC5dn2gsaZV8O7Ff5QoX6oWbMmkDp532+E7FtaHhQlgz2MTdNR5DlVUUDlh894YBleGO7f
- GudZaIgHYEAUOGEyNiXb2RAgMpenOek=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-208-LgU8OBy0MFqYvez59FSDUA-1; Wed, 04 May 2022 11:03:24 -0400
-X-MC-Unique: LgU8OBy0MFqYvez59FSDUA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF96486B8AC;
- Wed,  4 May 2022 15:03:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71E1E4320E6;
- Wed,  4 May 2022 15:03:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3A28A21E6880; Wed,  4 May 2022 17:03:22 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Stefan Hajnoczi
- <stefanha@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  "pbonzini@redhat.com"
- <pbonzini@redhat.com>,  "marcandre.lureau@redhat.com"
- <marcandre.lureau@redhat.com>,  "thuth@redhat.com" <thuth@redhat.com>,
- "bleal@redhat.com" <bleal@redhat.com>,  "berrange@redhat.com"
- <berrange@redhat.com>,  "eduardo@habkost.net" <eduardo@habkost.net>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "eblake@redhat.com" <eblake@redhat.com>,  "quintela@redhat.com"
- <quintela@redhat.com>,  "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>,  "peterx@redhat.com"
- <peterx@redhat.com>,  "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,  Elena
- Ufimtseva <elena.ufimtseva@oracle.com>,  John Johnson
- <john.g.johnson@oracle.com>,  Kanth Ghatraju <kanth.ghatraju@oracle.com>
-Subject: Re: [PATCH v9 00/17] vfio-user server in QEMU
-References: <cover.1651586203.git.jag.raman@oracle.com>
- <87a6bx7cma.fsf@pond.sub.org>
- <9BA58418-7B64-469E-81F8-886EB17C7796@oracle.com>
-Date: Wed, 04 May 2022 17:03:22 +0200
-In-Reply-To: <9BA58418-7B64-469E-81F8-886EB17C7796@oracle.com> (Jag Raman's
- message of "Wed, 4 May 2022 14:26:21 +0000")
-Message-ID: <87tua51gsl.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nmGac-0000LG-Hq
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 11:06:54 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:43759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nmGaa-0000D2-MU
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 11:06:54 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id o190so1770130iof.10
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 08:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=B6PMqW97A/0hsP1vHlejwfPgZB1m7757+mlH926YcTI=;
+ b=YXa6UOERw8FeH6GR4R3Gqgb/kq1v1PngwzaLTJ/p3/7rPY21H8nA9IZ9TDlvwyktsC
+ ZvyGiI1tGFYtBUzp3WYFQyxtdZkJi/HUaaT/g8rgm9Q4rcB3qU2uU5dB4cMAOLlLT6sp
+ /rEJTMIqW6xvgNcmaVHSmT1JmseiP3neAfWNU9zHSlGEpIKLVCm1iIVGMIZVkKG0NyMO
+ ebVPoh1dDbGvOq7B99laJA2zAKYcLCNlErbhx++lueXm07XjYF9ZN0PrTObiIBHWSyeC
+ HeIT8UC5rbP1UuSn5suxi4n6uEegjSlHD8YLWrTtSKrAgU0BpwC43+xfF/keGOlkHfyx
+ U/iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=B6PMqW97A/0hsP1vHlejwfPgZB1m7757+mlH926YcTI=;
+ b=1u+yQFgMP0v2Rhfxy/wIs1snME5PsN8lvSVB8N9aDoxO35ND+X61Of1ml+c1N4pXVZ
+ MvhDtgCRjVH5ZCBEzkmOebapbT8vj1GbmKbDZiC9i7ZIaxqeRmgMmq/hJTBakfRqrKne
+ Hi/43R4zLf5vzvsYoDNqsauLoG2LYlRK0p4Xt/LhNpwrrB2Ofd+l6KWvLR4Kw0aL53ik
+ PlgWWsJMe9LrmL0HyB7cSe44HaXVsJeGgkbtvb1uwOb9fR83yK1cD9XqBBYAtrbSNoQp
+ PaE88dMt+oupZde4H0x/ByGUtNwpvt/F1+XEqQxZ+xQ/g7SP/g2MAA0EEyqRtHDQqdx9
+ 2MXw==
+X-Gm-Message-State: AOAM533eL2O66qHp4SCu3oXZyllT4TQURIcBYtgBawfHfbV0QEYH1fbe
+ UJzv81N05s6gQ05ZCd6/GxBLsg==
+X-Google-Smtp-Source: ABdhPJxO10pZvYdN8LJdM+0u1SSDyn0Vy7aCGECnZ4+zFeONuA1NCoch3HcdDTPYN08OGZtWbN0KpQ==
+X-Received: by 2002:a05:6638:164b:b0:323:ac42:8d4b with SMTP id
+ a11-20020a056638164b00b00323ac428d4bmr9357350jat.75.1651676811527; 
+ Wed, 04 May 2022 08:06:51 -0700 (PDT)
+Received: from [172.19.1.158] ([75.104.86.150])
+ by smtp.gmail.com with ESMTPSA id
+ v5-20020a92c805000000b002cde6e352edsm4209877iln.55.2022.05.04.08.06.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 08:06:50 -0700 (PDT)
+Message-ID: <fb9c0e3a-8760-4c95-2c17-11ee4fd26b0d@linaro.org>
+Date: Wed, 4 May 2022 08:06:39 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 0/7] QGA patches
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220504100101.564747-1-marcandre.lureau@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220504100101.564747-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,17 +93,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jag Raman <jag.raman@oracle.com> writes:
+On 5/4/22 03:00, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> The following changes since commit 2e3408b3cc7de4e87a9adafc8c19bfce3abec947:
+> 
+>    Merge tag 'misc-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-05-03 09:13:17 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git@gitlab.com:marcandre.lureau/qemu.git tags/qga-pull-request
+> 
+> for you to fetch changes up to 22668881f3def13e9ffcf16840e5fde974a55b1e:
+> 
+>    qga: Introduce disk smart (2022-05-04 13:03:19 +0400)
+> 
+> ----------------------------------------------------------------
+> QGA Pull request
 
->> On May 4, 2022, at 7:37 AM, Markus Armbruster <armbru@redhat.com> wrote:
->> 
->> Does not apply for me.  What's your base?
->
-> The base I used is f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65.
->
-> The patchew tool says it was able to apply the patches:
-> https://patchew.org/QEMU/cover.1651586203.git.jag.raman@oracle.com/
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Local tooling error, sorry for the noise.
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> 
+> Andrew Deason (5):
+>    qga/commands-posix: Use getifaddrs when available
+>    qga/commands-posix: Fix iface hw address detection
+>    qga/commands-posix: Fix listing ifaces for Solaris
+>    qga/commands-posix: Log all net stats failures
+>    qga/commands-posix: 'guest-shutdown' for Solaris
+> 
+> Zhenwei Pi (2):
+>    qga: Introduce NVMe disk bus type
+>    qga: Introduce disk smart
+> 
+>   meson.build          |   1 +
+>   qga/qapi-schema.json |  56 +++-
+>   qga/commands-posix.c | 591 ++++++++++++++++++++++++++-----------------
+>   3 files changed, 413 insertions(+), 235 deletions(-)
+> 
 
 
