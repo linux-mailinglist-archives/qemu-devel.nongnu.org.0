@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9653951A1CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:07:47 +0200 (CEST)
-Received: from localhost ([::1]:33626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491EF51A1C8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:07:16 +0200 (CEST)
+Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmFfO-0001q0-J8
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1nmFes-0001OR-Su
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Stefan.Pejic@Syrmia.com>)
- id 1nmCoZ-0001X6-PE
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:05:06 -0400
+ id 1nmCoX-0001Wy-1d
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:05:04 -0400
 Received: from mail-am6eur05on20702.outbound.protection.outlook.com
  ([2a01:111:f400:7e1b::702]:5752
  helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Stefan.Pejic@Syrmia.com>)
- id 1nmCoX-0001EJ-6R
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:05:03 -0400
+ id 1nmCoU-0001EJ-Eq
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:04:59 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gK0Dp+WBKkN7xJrc8tLcUsxryWzKaHtpQJ5QuFtDwooxbh1pkDYSAej+kl4/ZSzmTf47id23awCkf11lfxT/By6IZfzT699FtQVrARSofDJAArDj/Vdr2UQVrmkeI8vHCAgVWnTyb/VMiovqUncMTV5f3y5sYS6Hngd5y9BSsx1e3CCtKEEkAsSCFGPiLveg9Oq+Xu5NiCwCS01p0zCWZVfaMMcN5z0S4kIxprYzuRhf+Z0rFC20POsBDqLREN25rP06yyQTW2KyKKz0pFISBt91ehmUKaz5DGynNqez8FyF/TYpbnI4tR7Iud8dGWahWJL30VhQEkFB+UC8z4glmg==
+ b=MbujUQrqBJNWYYWRqt8V3u08ND91in/ad2pKjMxPQw0wQLVa19QDm/9N4msxa9vUmQcv2mpLb+GYOi3ioiN6ZaQh6pQ2aBUl3ZGqjuuYj+LR4i9P/06iu4ElYvFhrwwtXIhfx+Hlaz3EJSCgNn2CPoJ6aTLaPWrKUqAnJ7P9HsHWOsdJiJKPhdGWW8blrqXUxKKKsrlGS6xFrpr5EuONy3PYEH6hLSs10GMDEJplNcpL56UmN2zBs9O7zo3QbTZnVpc1k3poN4dG439ZWBicp4yviGyDRB26a9EaC/sfPjiW2jhrC5ZNReLVmwq/UZ/6h0kW8RPuLb5H9wkBA5IJbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LLcVULaT4HSJLyIyFFLZanGYxpcXYir5tcaegUgSLdE=;
- b=AJ6wZLLWjXoGOtAA+vszaOdIGzILG06xYIKHvWOq5jYL/xpUOkEAk82WPHPmRZG6IMrqzdpg8gk2Ldc082gj9RlPLGldw/oDNVE8zP3DzrjRSo6XjAbyAXkeKQ3aQunSWUJcAcJZj4dlE2Vra9kgppzWkivMwTvhfYMU7wESb9HCyCYkR6EctaUHoyQ7eFMeY04j5SaqHCNPpm0HfVpy+htflAYKrJc7yul0LMUeRC7VFq91aGZu5/SROLfEQbf580+3XjCga5eESiLWauGbMVJGI2m3wLH5AxUe+3+JiU6f49sYtSzpUKAfaMNrK0YTvcI3Rzd21O3QKUritDVtSw==
+ bh=+eWEKkeWWtnDzqZYQ8GW2QUsplmJ2C3cad4vZJUg7uE=;
+ b=e2549/MG6MfyQrsjLVNUrBGhsZDpgPKSXFhFdPbIXfYaQspAJtqCN9SNEGv0Sd4qWmHqQZEv+8wC+EOgrY5dSu6NUoD2ZeKg1M7bU2PDVWY4DC6+oVRlgu/034RAJTc7baOTgpEQ9QS7FOU0KRvo+QIIU0+tq1rRcU5qRYLD0V6TMiaC07BvSn7j5otqHqtzYHSQbyQrRtFNesQJ5z6PYV/QXqLAfghh8n2JMJwVQAgGai7i6gLs9ZLQgJIA8YucIbtvk/82IemdXD/5foVi0372orCb3kNAKkq/WoeNmGTY4ELIrP4+TQzW8ArHJuVETXl6VhVjX0fqlxIb8yVQgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LLcVULaT4HSJLyIyFFLZanGYxpcXYir5tcaegUgSLdE=;
- b=P//Cncw9i6w5BEa307jxzhGwJHL4TgAqHhjwC9i9I7RYsFRT+OOJT1w5Vylv2CVCMfUE0MdO+s1RGZKE3umsynPfDMb9BPJWiyPX3Y8q05LYw9vTvZbzSNN+EK/BccBoGbaQu4urdqMoZb4hjbrvAWmpkpL4NdjuMuFlnEMn91g=
+ bh=+eWEKkeWWtnDzqZYQ8GW2QUsplmJ2C3cad4vZJUg7uE=;
+ b=vkFC4butsn4AnDKhfiiZihVNCATC//aJUD7/v2Ll7234+51ifBUdfV6vAVTcXZHPi0QpUBsE2pP2b29oQIpNafkJMN/Kvk68CHnssX/M0A3ISb5lO+ksLEKsugA32ALcLUgH2w3vnTUuehaWy64hwj97m52K4XqhojXb98aWGAw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5501.eurprd03.prod.outlook.com (2603:10a6:803:11e::15)
  by DU0PR03MB8551.eurprd03.prod.outlook.com (2603:10a6:10:3e2::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.25; Wed, 4 May
- 2022 11:04:22 +0000
+ 2022 11:04:23 +0000
 Received: from VE1PR03MB5501.eurprd03.prod.outlook.com
  ([fe80::f0a0:695d:75c8:b463]) by VE1PR03MB5501.eurprd03.prod.outlook.com
  ([fe80::f0a0:695d:75c8:b463%7]) with mapi id 15.20.5206.024; Wed, 4 May 2022
- 11:04:22 +0000
+ 11:04:23 +0000
 From: Stefan Pejic <stefan.pejic@syrmia.com>
 To: qemu-devel@nongnu.org
 Cc: ot_stefan.pejic@mediatek.com, ot_dragan.mladjenovic@mediatek.com,
+ Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>,
  Stefan Pejic <stefan.pejic@syrmia.com>
-Subject: [PATCH 1/7] target/mips: Fix emulation of nanoMips MTHLIP instruction
-Date: Wed,  4 May 2022 13:03:57 +0200
-Message-Id: <20220504110403.613168-2-stefan.pejic@syrmia.com>
+Subject: [PATCH 2/7] target/mips: Fix emulation of nanoMips EXTRV_S.H
+ instruction
+Date: Wed,  4 May 2022 13:03:58 +0200
+Message-Id: <20220504110403.613168-3-stefan.pejic@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220504110403.613168-1-stefan.pejic@syrmia.com>
 References: <20220504110403.613168-1-stefan.pejic@syrmia.com>
@@ -64,57 +66,57 @@ X-ClientProxiedBy: VI1PR06CA0132.eurprd06.prod.outlook.com
  (2603:10a6:803:11e::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 217bd3f3-6496-48c4-9b7d-08da2dbdd817
+X-MS-Office365-Filtering-Correlation-Id: 1829e020-22f5-4c62-20ec-08da2dbdd85f
 X-MS-TrafficTypeDiagnostic: DU0PR03MB8551:EE_
-X-Microsoft-Antispam-PRVS: <DU0PR03MB855167E7886BBDFA8068D14DF8C39@DU0PR03MB8551.eurprd03.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DU0PR03MB8551A94CD99684C49DF7730BF8C39@DU0PR03MB8551.eurprd03.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3JQw2rWrUqS8Wz2g10KDbTvQ0jnl2tUmPVrTCrPBpt2jYrovhGtzr7+KKAPJ8eqTtaWzwkBJz8tqDkgU5qy3S2oHrUlgKMDGNeDpxuYlDT+iWxCs1nJ1rqrNiFyZxGLrtw4uyOl985nZkI3YPq5lxXs1UDkHuaVaRaWQVFUCeewPsH5XcSD7/DVrfTSq5WJ/VQpgJM4W7yLoyOqVpAhIqgwmd6UtQkpqdIxc5BXJOqsYIy6QYi016jgbULQR6/Tx/3pb6r2VniZC5DAL8C52S4EV31L04W/WEc0TroeKNzNobXm6+4j0TOpPmmexrCMfwbR7bqWLvLLjO4LD6kkE7hGCWejuwccJcqRq7J/nsDHMIsKO38jnBy67XhGxOkt7srImKx91b7ZKOXCTvSpxIra22N4T0HTOg7B9uYkOO9gG1wLSFT+PyfmWfIvCsRtN1KIU2CcMtY8b7YwbuBuichIt4VSTnSnG/IeJCDzdQ63v0q5HI0QXJq7eiiLrAhLJdGscXUbpq/z9mpxRP3iDdV05/lUlO4wC8fTFrXfPfBwBRcwD1T20MMQaHndFiLu1Rs+PWBhNigElfYKZ9kvrKEPsslXxU4GESgtyMBnkzFLknIQCvjItM3uDy8p5F6QxPG9nru48lR9mutpwrwDxMkFQ90WSQkuL6M9E1kolakhcmIy7QMRVi2gOvC+J5dzWkwJQeUf9t2pRqJjrqzUySw==
+X-Microsoft-Antispam-Message-Info: g/k6q9+C2J9bbbJCR+BmVzTGhtKOFOIWFar7Y0hfrW7LbV9d3EzMX26kvwxa/KAwxo/oGDO3NvashTeKGNTxbsPh2u4CtfCsXf1YbgC40TsbTktzIV60RwX5l/uF+Gnbr2CmoUSs2f3NL1Hmr4SOwXJc1pW98jkDt/rO1PWA9O6/lWQXeriHIfq84c0QiJKhu0tSpuvwbxVGx65KMp9d6sQ3JZT5NTl2I2mv7PH2D4MjOG4MsNXi34DKiwrTeYyxxyC+vP7MytEnLsPFiaM+RcJCZBmdL5e3hCe7a/itkBECmMFZUO6Kj8Zm0OGrPsIoFoqup5KtwT6/Vw/M/2pR+dwVjhXNY+TCL8AepvMs/QrwCIoYm3i5aZtUlwPhq4A8Phfxb+yLG1hxC2AfS7g+HtTLGMkabeLD3i+/Ng9eXbvJKMvOb+ZG2qB4AE0rFnzxQHyCCkLRapfRiNP5YyiCjXLFqrTzfyOkeiU382l8/q58PQQx5WF43QgFcxozZ/NY7svpI2WDbi+nwg25A4CJ3Z8OyJzc97M/OImdssS/UEcA59vj3L5WYyzmN2y34WfhySMCt5tzeqx5WXW5O7boSwlCqaWcq3LcGtRC7/jD6ZKU1rQtRtE/Gd7nSyMd8LTP5/stf6toH8WjS2n3d6r5xDdN2Mujq6Ka+ImcAAEc1bNffL0/H3mKeF1p0Q3zznvR3XXgIYA+PY/oKP+G+0ZkhQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5501.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(39840400004)(346002)(376002)(396003)(136003)(38100700002)(8936002)(36756003)(38350700002)(316002)(1076003)(83380400001)(6506007)(6916009)(2616005)(186003)(4326008)(44832011)(107886003)(6486002)(2906002)(3450700001)(5660300002)(508600001)(8676002)(66556008)(52116002)(6666004)(66946007)(66476007)(6512007)(26005)(86362001);
+ SFS:(13230001)(366004)(39840400004)(346002)(376002)(396003)(136003)(38100700002)(8936002)(36756003)(38350700002)(316002)(1076003)(83380400001)(6506007)(54906003)(6916009)(2616005)(186003)(4326008)(44832011)(107886003)(6486002)(2906002)(3450700001)(5660300002)(508600001)(8676002)(66556008)(52116002)(6666004)(66946007)(66476007)(6512007)(26005)(86362001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iKH7pI5Y1Kxqd7/qPc999RUMWoBaVfTuGWFa4dadhUq6H5ZM2XLCY7VaKIOE?=
- =?us-ascii?Q?JtdPecLU93oJi5D1v48YJtuHizCA2Q9/3OpPNUP88JJyfP3nuPknlT8DYOD2?=
- =?us-ascii?Q?ubdUJSnDM7f/OPedTq+KDJ+EI+G6zQbf42oNesBig0OEoaWSBCxH3UFXNzB2?=
- =?us-ascii?Q?FLY5zBgaUqYUK3HWfEXJoqMKKTQPNF6DjluWnzLEhYpiow3Gng7vS7RAZ2gp?=
- =?us-ascii?Q?BpOjZPTuvqa0BaXKcwhIl/cxS63nMkbUmLSq6jJubiSA/7Z5mT8NuPSv5MId?=
- =?us-ascii?Q?sBnoO/sslulyH+qJ+18kk615FROYqYlliEZDAtqhnsmD+BZaqN9/RwipiaDA?=
- =?us-ascii?Q?We/axyiIGiLTs8iNbEmbFQiN0VWqUFtoFBVM/B+ZV7rFfFf3H4qz7JIeWXPp?=
- =?us-ascii?Q?iyaa5uiwuwXZHOgKFTSJGkW8TNJvR2jZmmlKaq4DJyze0PEL1lT4rNdV5XhJ?=
- =?us-ascii?Q?OjUWOm2bGC/7izpu/CMf1rZhLv3LGkCD2fWA6yzMYClhlFvmJZVXTF0cqMV+?=
- =?us-ascii?Q?wDpRHGJPMf8OxUzU488FiVH2bEkQ0t8GmDYe1Z9v8KLVnDvmXvHNx/cLgi3V?=
- =?us-ascii?Q?9G5COgWzHtxf3jQxig1U/HtjkHK1FoWczBE2IqvxQMcmE4ame6bgitpUoJy3?=
- =?us-ascii?Q?/T/NrsjrxrPr8L3FZ0K22tymqGqmM8XBro3RzwAu9r+LbLT6CcYu8npZcRrn?=
- =?us-ascii?Q?12tESlNL9WwLhYCvFxzxsFL039IVFDnILvZnFO+PTXcRHOiVtzStBmulNBZh?=
- =?us-ascii?Q?JAjOv2pvyPdcOrv0GNmfk54BJQ2vK+fF0LQIOjnWeUz7w3aCSBVZUiavnSrg?=
- =?us-ascii?Q?TAX05RYYGMGBdpJIC9223VKrtBkgGFz+yIFZQBxdpW1p+CN/7fSjxjSjz1P3?=
- =?us-ascii?Q?ytBU5r0uQeldOGOliHjE9Ok93CLQen9M7w9HHaDXitu5y+OkL9L44fVFppWJ?=
- =?us-ascii?Q?2h2Qxnojaos2/lZcRMU/kvQ6zzaKT0c0uspfCeteE3WYCuRDXBwNyPBbbsEq?=
- =?us-ascii?Q?yNzdYfaNzvnYMiLr5yAOtff+HaWQkTmXEcO9vrGbvO+btSqalDYcgU625oJq?=
- =?us-ascii?Q?7d8tRNqCxzmn9x+W8PdT781am9V3Ji1j6ICBdRhxkl/4MomytNKyMR2xjCAZ?=
- =?us-ascii?Q?m9JHsC5REuzsd/fbs9sf9lBWkzvhfWKbFW56MpHOFrd4K0XaV8d5v0pq+6qG?=
- =?us-ascii?Q?KDqgvVkwYFzUqLgeS82uc6c2VGZUM9zgYEHuEfbI/VzyWZy3Tqjw9ezCdyPG?=
- =?us-ascii?Q?3X/cMOIcqGAU55fbar4wGl+RSlBF+mVT6Sfo02qjLpOPe1JDkOu40kwXuasY?=
- =?us-ascii?Q?mbmzTy0VBMd45a18w6iIb1Z3Eujq3WtmBqVWaceX+4yzX4XJTo2SY9AqkdTG?=
- =?us-ascii?Q?wYiGeLkzJwAczVyDm5QxHQavHyFFRMaMjQx57y+FonEmPrBybMz8E/LhJ9o6?=
- =?us-ascii?Q?7ifLONm6CQ7+lzxvHmlaz7FMavX20ji1hmAzL0m6iEeSS2i1V2/XLxGrlfgH?=
- =?us-ascii?Q?tm/DJR8uSsXyPC3lSj27q8ut9MIQqmPEeIFfUJAU+L0/fkSYobyrX2qiG41o?=
- =?us-ascii?Q?8LfDsmv0bt2UDV0jIbVT6npLbT9PtFKavlugJxdsiFGXDPn5c+L66cTgdpdS?=
- =?us-ascii?Q?CjhygwPx94C39ECyJUOAmWpECvAwFXunSb0ZZmVyVMyMqpmdsJqu1J/AUt6o?=
- =?us-ascii?Q?P2PRs0FWMH0YiShdKKUl6vFP5/d0sOnImXyk6t9IJg0c57iln2Xm47gCc/iT?=
- =?us-ascii?Q?+hI9OqWLwFgFy6J2KJvahDtx0Eg7iLo=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xqQ2D6a+JfwW/odEDNA+xIEj+OGDNIUGFUqDaMvpJAQLdX48JhveWhqyo7xD?=
+ =?us-ascii?Q?OX95T9RQI9my/uksTvSMt3MXgDIjaOsXpUUzzqqKyIQMMOFiauU9ejyI+n4O?=
+ =?us-ascii?Q?XdIMOeFmMdvMGAdqoO2ta7YCvdec0t3QR9FF2bCX4OuQ3vtyOBzHV6XIdgAL?=
+ =?us-ascii?Q?F3NCSIhq18PDTg7WcO8PYQWv4YkjRNCRdTKMoJCTYvg+CTEI73klGxyOzoJs?=
+ =?us-ascii?Q?3IY0Xj3qgkZWz8y8qMBhizwN8EVW3uXBmMkSYRkP9eqxzY67bH35Bpi3weUt?=
+ =?us-ascii?Q?WcDXXwPNBX2cJr7j0KWQXbRwA6Sb2LDpkYS7pqkO7mp9cgGB9cQpmt78/Idz?=
+ =?us-ascii?Q?ZbeAMY1cAVEiMwJq5li1mIfiIOUlYgCosuW4494YKRyNsgagHWX8hXedQgYs?=
+ =?us-ascii?Q?DvbEZnnxaL5fTXjxVCQeXVZ7eQ9bGFOvPHnEyxsG6HA9w8a/WqJi8Ss7EKlR?=
+ =?us-ascii?Q?2ffcnXA0XwzwAvxAWv1fvIwqcfQnyzuawsE+PIqsBD2jeH+Z6C6BY9e7yoow?=
+ =?us-ascii?Q?emuOUuw0M/zqkP1boad1/8f2w4ubQVgI0BlAIyAU212Q9IWB09o3//as92q8?=
+ =?us-ascii?Q?b6D/eTx+w/wkf1xtGjTuGAwzZjB6E4OiNJt8qM714bYTSkegHtk11ArFnp1r?=
+ =?us-ascii?Q?S8p4Nj/nqiWOxnUlZjofuoaxKA8g2OZJ6IXKRnwPSAb7LZ1SzDiWD3GGxdLd?=
+ =?us-ascii?Q?p7vwdxv3niag7Jl2PHCyEHC0xqRLnEtjJsKKfAA4+YQOmXznhoM/8B5x7Jjx?=
+ =?us-ascii?Q?w1JN6PhTDDEkR9aW42SoE3fI0RJUuIZ7MMzsOVv8/0DEfe73CMbzoevVMarw?=
+ =?us-ascii?Q?p/BWM77J7UExV2x2lhFvGjNWTwX6lrUQXxYBnpWZXBdaicl7GD5b/06KJ6Df?=
+ =?us-ascii?Q?TJO2AEuAApKS/OC5T+ZhOGVHIbIPURS8S7qQEUeahMRIDWu9iArfSDeJunhu?=
+ =?us-ascii?Q?YCglj+FFmZ2NfVdIV7QO7DTacQHSlcWbgiW/XKSk8aENaLR4NceYSnuvWlS/?=
+ =?us-ascii?Q?tkcDqwHnf1ZyhNrJ+vu3jOSq6jdwO5DlVSCwGcsjDvSlnjJDjW//NFPXslo5?=
+ =?us-ascii?Q?rJ1MpxWSjQeMAbHuqWgKElmadCj0BzgNvYb2rYMOyQDdevkEifCpwHawrNB3?=
+ =?us-ascii?Q?3MF06hYzhioqxEZjY2YliLJ4Su5K3dlKRQ8cfUfsdZW8pavijXliXmKQFjyQ?=
+ =?us-ascii?Q?8bmSNqpBXHrPH8+UVgBnEm9u/AfviOBr3pIkQAEiAWvaWMi0S+ZaXBdznVuG?=
+ =?us-ascii?Q?v7CL4SI1V+qz0Ay/mpiNsUAhEEKlbhbKNvEU+jshSBF4sDl7kW+KrTpCAU0c?=
+ =?us-ascii?Q?93n+MmVLLgOEqHe78qTp4AjrgSnpGNlrHQihtt31eHbaw4RhVTCtLaqfFc0i?=
+ =?us-ascii?Q?fWOmPUQpSDtPawqQg2NldxJ39hE+A15uoQnorD0nEQzTD6+oI737gGSkrZc5?=
+ =?us-ascii?Q?Q7OVOch/gYpzWLLHLJp7TJFEwUDvXm7r1/cJt88Gur5ld581ft+zNEypdO6v?=
+ =?us-ascii?Q?iu7SM0/Z0YfD5Ebd/P1ehFQ/Cudgm5JnLc4vL86EgiDNNehBms0UX2YlfUEK?=
+ =?us-ascii?Q?VBbtURv7nG55EnlxyE7i16GlN+JHU+FF+a9rNMdgG2TC6kG1B9/gGtBYBddV?=
+ =?us-ascii?Q?aQSeNvCyp/XZnQC6w5NJB25ndFOywSnLh+LZqMIrmIGH8wp2ZkmaHQRdzFKF?=
+ =?us-ascii?Q?izb8NqLJto9wpyE8On9QcnfMB88hUgYHeyaEYryUqQVa2ZtlrG5poovyVB3j?=
+ =?us-ascii?Q?GT2JORR6V/h9gFkfI2hbQU+A4gNzUBg=3D?=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 217bd3f3-6496-48c4-9b7d-08da2dbdd817
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1829e020-22f5-4c62-20ec-08da2dbdd85f
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5501.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 11:04:22.5091 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 11:04:22.9778 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dQaTEodESK236fBJ5fB3oW4bEi6gvCOCBEcEKLMaQt8IYaBDaQ6wR5+1B32huVQW+S4HcaZ85+JkQN222ru3MQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: VKdZJQ45xVsXT97SjGde/djCSie+g/8J0yMSWRZzmUlCd8KfnRH/TILkjdUxO4rBoLWNpyHL0osb4bH4UzePlw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR03MB8551
 Received-SPF: pass client-ip=2a01:111:f400:7e1b::702;
  envelope-from=Stefan.Pejic@Syrmia.com;
@@ -143,30 +145,37 @@ Reply-To: Stefan Pejic <stefan.pejic@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The field ac in nanoMips instruction MTHLIP rs, ac is specified in
-nanoMips documentation as opcode[15..14] (2 bits). However, in the
-current QEMU code, the corresponding argument passed to the helper
-gen_helper_mthlip() has the value of opcode[15..11] (5 bits). Right
-shift the value of this argument by three bits to fix this.
+From: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
 
+The field rs in the instruction EXTRV_S.H rt, ac, rs is specified in
+nanoMips documentation as opcode[20..16]. It is, however, erroneously
+considered as opcode[25..21] in the current QEMU implementation. In
+function gen_pool32axf_2_nanomips_insn(), the variable v0_t corresponds
+to rt/opcode[25..21], and v1_t corresponds to rs/opcode[20..16]), and
+v0_t is by mistake passed to the helper gen_helper_extr_s_h().
+
+Use v1_t rather than v0_t in the invocation of gen_helper_extr_s_h()
+to fix this.
+
+Signed-off-by: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
 Signed-off-by: Stefan Pejic <stefan.pejic@syrmia.com>
 ---
  target/mips/tcg/nanomips_translate.c.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index 916cece4d2..58ae35a156 100644
+index 58ae35a156..9ee4df2135 100644
 --- a/target/mips/tcg/nanomips_translate.c.inc
 +++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -1597,7 +1597,7 @@ static void gen_pool32axf_1_nanomips_insn(DisasContext *ctx, uint32_t opc,
-         check_dsp(ctx);
-         switch (extract32(ctx->opcode, 12, 2)) {
-         case NM_MTHLIP:
--            tcg_gen_movi_tl(t0, v2);
-+            tcg_gen_movi_tl(t0, v2 >> 3);
-             gen_helper_mthlip(t0, v0_t, cpu_env);
+@@ -2036,7 +2036,7 @@ static void gen_pool32axf_2_nanomips_insn(DisasContext *ctx, uint32_t opc,
+         case NM_EXTRV_S_H:
+             check_dsp(ctx);
+             tcg_gen_movi_tl(t0, rd >> 3);
+-            gen_helper_extr_s_h(t0, t0, v0_t, cpu_env);
++            gen_helper_extr_s_h(t0, t0, v1_t, cpu_env);
+             gen_store_gpr(t0, ret);
              break;
-         case NM_SHILOV:
+         }
 -- 
 2.25.1
 
