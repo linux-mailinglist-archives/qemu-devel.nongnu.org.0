@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A15E51B007
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 23:02:45 +0200 (CEST)
-Received: from localhost ([::1]:58992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F8F51B00E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 23:05:07 +0200 (CEST)
+Received: from localhost ([::1]:36630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmM8y-0008MX-6Q
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 17:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58084)
+	id 1nmMBH-00043p-0n
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 17:05:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nmM66-0005q0-Ee
- for qemu-devel@nongnu.org; Wed, 04 May 2022 16:59:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52937)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmM6T-0006PS-F3
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 17:00:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nmM62-0005gs-Qf
- for qemu-devel@nongnu.org; Wed, 04 May 2022 16:59:44 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmM6R-00067s-PL
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 17:00:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651697978;
+ s=mimecast20190719; t=1651698006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dWxnlC7wB8YqtotXAbxmzQTqy8EDzZFlucUQhgZaxXo=;
- b=DRh1OLX4hVENtBLh63qK81EaCFEpwXfBJ7kwq0sPFTj2CfA85Lr3PzDhjt0IvqgjlZe6W9
- R81+FgbKmNxXAclD5PI8rSvhOc+IHmxm2/ZTmGj9pPL9wX4mE3k+c1cCWTqlGMOHGqsCUr
- dp1Fr6T+XEOS45+W8wlSJrSDrTbyE/s=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BM26IEeM8p4E03a27dsjikLHcepoDQUe6a04+YYT5Ys=;
+ b=ilpBAcIqRm6A5iHUmLwF/4Miom42ow39fMNSV+cjbgSsGegnv5FpZZLFjdKyPpswvp8Oro
+ J+q6T2FTfuDZeSSlZHfWErV2ZwiiGzF4F1YX6DdJb8d0oqNvwA/VihxMbMJP1C1pSAnuoX
+ 67XCDD3PAp3OIZZP3L07PyIc8fDu3gQ=
 Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
  [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-gGqdBorXOtWt4on1Ev7PWg-1; Wed, 04 May 2022 16:59:37 -0400
-X-MC-Unique: gGqdBorXOtWt4on1Ev7PWg-1
+ us-mta-384-fBUSeGIaNpWf2m4R_aViJQ-1; Wed, 04 May 2022 17:00:05 -0400
+X-MC-Unique: fBUSeGIaNpWf2m4R_aViJQ-1
 Received: by mail-ej1-f70.google.com with SMTP id
- sh14-20020a1709076e8e00b006f4a5de6888so1508980ejc.8
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 13:59:37 -0700 (PDT)
+ qf19-20020a1709077f1300b006f439243355so1499516ejc.3
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 14:00:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dWxnlC7wB8YqtotXAbxmzQTqy8EDzZFlucUQhgZaxXo=;
- b=PXzqA1pv9erjoO28A6L+H0loBqrTvkZfyWvkNrtWEH1BnR4co5bsa8vkE9f1OaKlYK
- LywczInXq3T8UBQUDpED9bu2lpVzFRo9XPnND5iB5IMayNUjiubuxR3/Wc1WuKsWgW2p
- xAZQ8hVmVEJixKlI7aVcYrOR2gxRoCJsqaWFUEspTBf2JDNXOi3YxwGBCbcjJu4v2u1n
- rUqliiJF39Le5X5NMjJrKv/yl//3op97ht+NprlkojccZ2q+bA5XxW6vUaKqXSSYFTje
- BipqHDEpB25MiAfhit6z/RrkrALKPC7sqSHq4Yqgv6aHgpc4CEQ4Ds4FaFYh/L/dst5I
- vbyA==
-X-Gm-Message-State: AOAM530/R9jYp2tj/ililvWdtYl4rqGLprcuxM0mv5oELmdqgyGSpoL3
- GtEpaaeMD0e2FjJrK9tXbTDHXetO4GF7xKhGXXsC7Xc9nFmhtIpxoJV6sZR41sS233WWXKyckn5
- B6mu+9Bkpx2tHKYM=
-X-Received: by 2002:aa7:c49a:0:b0:425:d526:98ad with SMTP id
- m26-20020aa7c49a000000b00425d52698admr25068173edq.352.1651697976131; 
- Wed, 04 May 2022 13:59:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzY/zszcIC/Z4oJhhQNqk6fuqQaNv7P2z/IptsskyZhaJ8FzN0knR2/O7W2wrF48KzDOloWJA==
-X-Received: by 2002:aa7:c49a:0:b0:425:d526:98ad with SMTP id
- m26-20020aa7c49a000000b00425d52698admr25068152edq.352.1651697975954; 
- Wed, 04 May 2022 13:59:35 -0700 (PDT)
-Received: from redhat.com ([2.53.148.199]) by smtp.gmail.com with ESMTPSA id
- eb7-20020a170907280700b006f3ef214e46sm6146207ejc.172.2022.05.04.13.59.33
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BM26IEeM8p4E03a27dsjikLHcepoDQUe6a04+YYT5Ys=;
+ b=Hdd6mb5A5+JqV6cakV+Wh5Q0/5cnLaOdkvCY0Lhg4JHypiS/wZzdL1L5zH/4Uhr4nn
+ 7eGTU+0pE+gzKGRybsdxxWBytyKNzBFXN+GFUQwiFsiIvLIAfpJhL8qJPNBHw4qmo31r
+ O7Ssx6HetyKPKWHVtj4RvNSvsTu+5/+0XgJoKb+6/+DQZ5TPGApBbA7GhitvcC60Wp4I
+ JnRJ3rhJmdnihHrbCELl33+bcCMN/vPdxKfrQfrYQWmmJMliZZsJFegvUOnIO0ZAMGCM
+ upF69YC45iCTsTOsMWDa7XXj8ysdqic4GCi40um1VNdROoAs3g8L6QJxikdj/91C9ulB
+ /0NA==
+X-Gm-Message-State: AOAM533R330NuFmCDtltWEWcVBDFRNi3/3RTkxoqpjQ0Z5XZVyFJOlJr
+ szyjw7HHiyA2I0G9b0OQdlv5dQmD/E3dR09xc8F6cYP6O14ttTnJD9cSw9Wcetx/fnZftoofQff
+ q+w5y5FmBc/AhC5jc4CgqYayb3A8ycxD6Aomq7rOPahqdmIvKncuXQX+vw7QQGThdCRU=
+X-Received: by 2002:a17:906:19c6:b0:6ce:98a4:5ee6 with SMTP id
+ h6-20020a17090619c600b006ce98a45ee6mr21857722ejd.567.1651698003846; 
+ Wed, 04 May 2022 14:00:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwH3LlR861048p8PSc6YcY19QI9GPaL3BCEDyvt6q6CBnjRyMNLGjfd0aGxmgnV/9rYgFIlYw==
+X-Received: by 2002:a17:906:19c6:b0:6ce:98a4:5ee6 with SMTP id
+ h6-20020a17090619c600b006ce98a45ee6mr21857698ejd.567.1651698003515; 
+ Wed, 04 May 2022 14:00:03 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ gz14-20020a170907a04e00b006f3ef214e71sm6042381ejc.215.2022.05.04.14.00.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 13:59:35 -0700 (PDT)
-Date: Wed, 4 May 2022 16:59:31 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, mopsfelder@gmail.com,
- Fabiano Rosas <farosas@linux.ibm.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Peter Turschmid <peter.turschm@nutanix.com>
-Subject: Re: [PATCH] vhost-user: Use correct macro name TARGET_PPC64
-Message-ID: <20220504165920-mutt-send-email-mst@kernel.org>
-References: <20220503180108.34506-1-muriloo@linux.ibm.com>
+ Wed, 04 May 2022 14:00:02 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: [PATCH 0/5] net: support for CFI with libslirp >= 4.7
+Date: Wed,  4 May 2022 22:59:56 +0200
+Message-Id: <20220504210001.678419-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503180108.34506-1-muriloo@linux.ibm.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,37 +96,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 03, 2022 at 03:01:08PM -0300, Murilo Opsfelder Araujo wrote:
-> The correct name of the macro is TARGET_PPC64.
-> 
-> Fixes: 27598393a232 ("Lift max memory slots limit imposed by vhost-user")
-> Reported-by: Fabiano Rosas <farosas@linux.ibm.com>
-> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> Cc: Peter Turschmid <peter.turschm@nutanix.com>
+Up until now, a CFI-enabled build would require slirp to be compiled as
+a static library, using the version that is bundled together with QEMU.
+This is because slirp registers functions as callbacks for QEMU Timers
+and, when using a system-wide shared libslirp, the type information for
+the callback is missing.  Thus, the timer call produces a false positive
+with CFI.
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+slirp 4.7 introduces a new CFI-friendly timer callback that does not pass
+function pointers within libslirp as callbacks for timers.  Check the
+version number and, if it is new enough, allow using CFI even with a
+system libslirp.
 
-ok to merge through the ppc tree
+Supersedes: <20220412121337.207203-1-pbonzini@redhat.com>
+Paolo
 
-> ---
->  hw/virtio/vhost-user.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 9c4f84f35f..e356c72c81 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -51,7 +51,7 @@
->  #include "hw/acpi/acpi.h"
->  #define VHOST_USER_MAX_RAM_SLOTS ACPI_MAX_RAM_SLOTS
->  
-> -#elif defined(TARGET_PPC) || defined(TARGET_PPC_64)
-> +#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
->  #include "hw/ppc/spapr.h"
->  #define VHOST_USER_MAX_RAM_SLOTS SPAPR_MAX_RAM_SLOTS
->  
-> -- 
-> 2.35.1
+Paolo Bonzini (5):
+  slirp: bump submodule to 4.7 release
+  net: slirp: introduce a wrapper struct for QemuTimer
+  net: slirp: switch to slirp_new
+  net: slirp: add support for CFI-friendly timer API
+  net: slirp: allow CFI with libslirp >= 4.7
+
+ meson.build | 31 ++++++++++---------
+ net/slirp.c | 85 ++++++++++++++++++++++++++++++++++++++++++++++-------
+ slirp       |  2 +-
+ 3 files changed, 92 insertions(+), 26 deletions(-)
+
+-- 
+2.35.1
 
 
