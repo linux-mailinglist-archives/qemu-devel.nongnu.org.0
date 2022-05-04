@@ -2,86 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D1851955D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 04:12:33 +0200 (CEST)
-Received: from localhost ([::1]:52532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3459B519580
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 04:34:37 +0200 (CEST)
+Received: from localhost ([::1]:36984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm4VE-0006cU-26
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 22:12:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33758)
+	id 1nm4qZ-0008L9-8w
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 22:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nm4SX-0004Hb-FX
- for qemu-devel@nongnu.org; Tue, 03 May 2022 22:09:47 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nm4SW-0006ge-2q
- for qemu-devel@nongnu.org; Tue, 03 May 2022 22:09:45 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- m14-20020a17090a34ce00b001d5fe250e23so43993pjf.3
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 19:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Xhi0Zm23EaxqFhmwJ76V0iYSwOz2aTVPCyjxhuT5g+E=;
- b=on1NO5KjWa0J82CWRAu4v1q1xaaWrpugihRuThBTnQwysa50vNBiv1XL0OEFQre8Tu
- klbgOx0eK1RcGMdNcjWr6tNgNsumnIXUA1E+201H2P4l06+aF43I19jnx0MCANsQM3Gs
- t7f2sD8ExP3WIPI7Us/t1pQfUqr+hnhfloQBUrzDp/Wda92/qtVGf9NOOxwP+2Qgaz3z
- k1xSkXGukIwE8EHXwL1vfqkeAZCQgFmwj3mNBUS/XDu79lQdQyL19MG+VNWH/4djHf3y
- y6IUY5zQC4mpGDO7j8ducbAt7e8i+UKt84MU5pX2QPUQA49VpMtrrzdKDxizamO011xN
- jDFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Xhi0Zm23EaxqFhmwJ76V0iYSwOz2aTVPCyjxhuT5g+E=;
- b=g2+rKdNKlnCc5sqoqrv601CRAE5tzJtvoUKQ19fU3pyaJ1pAvZNjl0R1L8CBGvLrld
- +tmndW0QU+bpT/iKdW6jGjI4ssQLB9f+VriINGtnC0RtMzEetueZgMcfBK0XCtjEzkG+
- NTxX25hwX2I+5Mde1o1ePEgZMJjpy0m/gbmFUaQPoKH64ctTkhb6poDlO2ViCWrNfDaT
- D81g0ZQo0OXO9qv9O4s1j/m57qZVRadRffX0nF3SR1GA3xTyS495RBtOMI1jwnOsojDE
- tVKDkxVKB6iHxCUV2trTGF9TZHNq8PwjgzEnLbS2CJatqd8pYXgSA9TtVPkMaVHcJF32
- ehiw==
-X-Gm-Message-State: AOAM530KAo6v5j2rfNSEnnRh4XfEJNBhCPqjCY+TJpAJKcujUoK5pnbD
- tjD7XpxzNCFujuyNrpcUDTemkQ==
-X-Google-Smtp-Source: ABdhPJyIEtVOpqe496XmB+jFNoy1f4orqItjkXMnM/FYeCiiDWvqZlbF1G/rwfIlIgY88rw4vRHWaw==
-X-Received: by 2002:a17:902:da87:b0:15d:2e44:c1a6 with SMTP id
- j7-20020a170902da8700b0015d2e44c1a6mr20023821plx.85.1651630182225; 
- Tue, 03 May 2022 19:09:42 -0700 (PDT)
-Received: from [192.168.4.112] (50-206-49-78-static.hfc.comcastbusiness.net.
- [50.206.49.78]) by smtp.gmail.com with ESMTPSA id
- z26-20020aa785da000000b0050dc762819csm6946217pfn.118.2022.05.03.19.09.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 19:09:41 -0700 (PDT)
-Message-ID: <e9931d80-dcc6-725e-5b4a-be63b0eba298@linaro.org>
-Date: Tue, 3 May 2022 19:09:39 -0700
+ (Exim 4.90_1) (envelope-from <shuizhuyuanluo@126.com>)
+ id 1nm4pj-0007fW-CP
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 22:33:43 -0400
+Received: from m15113.mail.126.com ([220.181.15.113]:26325)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <shuizhuyuanluo@126.com>) id 1nm4pe-0005tw-2m
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 22:33:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ZYNTd
+ apQKGsEx0hTfsnMJyXhaK6iKBfCJTpJFvGolug=; b=pO5oS7TLXUwkBAfPanL0W
+ wfMUYzoeOWOGsSQ15DXBRss7Wv9x1rRPFBI1mryQ6DeqNUyhM9Byjj4aDd0iGW09
+ XDNez07OVT/qNuL6aZ/0FA69MPYr6ZMEiIY6i0GyJE9CpEuIjrXY3Qwhw+hE0+rH
+ NXSxyAIMafijxf4MTgjQbQ=
+Received: from localhost.localdomain (unknown [101.228.28.144])
+ by smtp3 (Coremail) with SMTP id DcmowAAXJ5_05XFirnPRBA--.47075S2;
+ Wed, 04 May 2022 10:33:25 +0800 (CST)
+From: nihui <shuizhuyuanluo@126.com>
+To: qemu-devel@nongnu.org
+Cc: nihui <shuizhuyuanluo@126.com>
+Subject: [PATCH] target/mips: Fix store adress of high 64bit in
+ helper_msa_st_b()
+Date: Wed,  4 May 2022 10:33:19 +0800
+Message-Id: <20220504023319.12923-1-shuizhuyuanluo@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 21/21] target/ppc: Change MSR_* to follow POWER ISA
- numbering convention
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, balaton@eik.bme.hu
-References: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
- <20220503202441.129549-22-victor.colombo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220503202441.129549-22-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-CM-TRANSID: DcmowAAXJ5_05XFirnPRBA--.47075S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7XFy3KFy8JFWDuF1fWw18uFg_yoWfJwc_Ww
+ 4I9rs2y390gF4jvF4rAr1xtr1xCr4kAr9Iya1jyrnag348ta43Ww1DtF4fCas09a43Jr15
+ tanxAryfXa13ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRCPfQ5UUUUU==
+X-Originating-IP: [101.228.28.144]
+X-CM-SenderInfo: pvkxx65kx13tpqox0qqrswhudrp/1tbiHBb2elpEGjn42wAAsY
+Received-SPF: pass client-ip=220.181.15.113;
+ envelope-from=shuizhuyuanluo@126.com; helo=m15113.mail.126.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,23 +68,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/22 13:24, Víctor Colombo wrote:
-> Today we have the issue where MSR_* values are the 'inverted order'
-> bit numbers from what the ISA specifies. e.g. MSR_LE is bit 63 but
-> is defined as 0 in QEMU.
-> 
-> Add a macro to be used to convert from QEMU order to ISA order.
-> 
-> This solution requires less changes than to use the already defined
-> PPC_BIT macro, which would turn MSR_* in masks instead of the numbers
-> itself.
-> 
-> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
-> ---
->   target/ppc/cpu.h | 87 ++++++++++++++++++++++++------------------------
->   1 file changed, 44 insertions(+), 43 deletions(-)
+This patch fix the issue that helper_msa_st_b() write high 64bit
+data to where the low 64bit resides, leaving high 64bit undefined.
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+---
+ target/mips/tcg/msa_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-r~
+diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
+index 4dde5d639a..736283e2af 100644
+--- a/target/mips/tcg/msa_helper.c
++++ b/target/mips/tcg/msa_helper.c
+@@ -8329,7 +8329,7 @@ void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
+ 
+     /* Store 8 bytes at a time.  Vector element ordering makes this LE.  */
+     cpu_stq_le_data_ra(env, addr + 0, pwd->d[0], ra);
+-    cpu_stq_le_data_ra(env, addr + 0, pwd->d[1], ra);
++    cpu_stq_le_data_ra(env, addr + 8, pwd->d[1], ra);
+ }
+ 
+ void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
+-- 
+2.25.1
+
 
