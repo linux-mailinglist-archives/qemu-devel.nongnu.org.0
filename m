@@ -2,76 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0AF5199DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 10:33:52 +0200 (CEST)
-Received: from localhost ([::1]:51962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1369519A0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 10:39:32 +0200 (CEST)
+Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmASF-0005tf-60
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 04:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
+	id 1nmAXj-0001dV-NP
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 04:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmAMl-0004Hl-Ep
- for qemu-devel@nongnu.org; Wed, 04 May 2022 04:28:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43364)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmANS-00054P-FI
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 04:28:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmAMj-0000Qk-Ob
- for qemu-devel@nongnu.org; Wed, 04 May 2022 04:28:11 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmANQ-0000Vc-1N
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 04:28:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651652889;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1651652931;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gvBzULLGKC1NPYHn/pU9bQtuvimsC/sXRNIWE7ne4bM=;
- b=gNvYLwAzpna9DeBGwbfzDWfnDgLV08P7BefAbIhLlvrA9b2bpCrhf2wYz4m53PH69D/suR
- c5DvbDOCR8Y4nuQD6LT/8GQLjdHQq1qePj5OVS4oBn1SCbwdsFD2KoqIa8SlZIlueAnnmj
- iL3cGQt0AYDnDX/TYfU8LX9EJMA28WQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=la87yxmq2FStYM4j1RWvxQPBtd1a9wUi3mfw5hOXQqo=;
+ b=PtJtOypn33mhy1hW3WxTEIOIOof8sF8TqSNp7APs2DBcru4GPYmF9FqYZQ3P/zcG0v1AUI
+ kih0ILYoLgwiKi3ye1wwwnnJsBNH+9pHS/UFrZbROSz0j/lZGGoOddr6r3kfGV1siLo242
+ 5zWOT8NSx3HZoK/eOKhTiPkq/+J8N1A=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-utAVuO1BML2JmExSh_G5Ow-1; Wed, 04 May 2022 04:28:05 -0400
-X-MC-Unique: utAVuO1BML2JmExSh_G5Ow-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A84985A5BE;
- Wed,  4 May 2022 08:28:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D0AA1557D5B;
- Wed,  4 May 2022 08:28:04 +0000 (UTC)
-Date: Wed, 4 May 2022 09:28:01 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dongwon Kim <dongwon.kim@intel.com>
-Cc: qemu-devel@nongnu.org, philmd@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 2/3] ui/gtk: detach_all option for making all VCs
- detached upon starting
-Message-ID: <YnI5EeToL+y6i0ER@redhat.com>
-References: <20220428231304.19472-1-dongwon.kim@intel.com>
- <20220428231304.19472-3-dongwon.kim@intel.com>
- <YnDyC4jvC/V0o33Z@redhat.com>
- <20220503232144.GB352@dongwonk-MOBL.amr.corp.intel.com>
+ us-mta-98-rPnG2q1dNsSx-Qeno6An0w-1; Wed, 04 May 2022 04:28:50 -0400
+X-MC-Unique: rPnG2q1dNsSx-Qeno6An0w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v184-20020a1cacc1000000b00393e492a398so2675081wme.5
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 01:28:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=la87yxmq2FStYM4j1RWvxQPBtd1a9wUi3mfw5hOXQqo=;
+ b=2nTpMSSjbOJ5Bpj8YyqXXAKnxdl3s7tVaWaX2rS5w+tcQk2eBNaRx/cr0pAtMwVQdS
+ s2raYaedQg70ozHWaxQbIntzOJIGbFx/dwQri2sh9LYy0xYUw6t8ed6wc8TjyboecBcY
+ bhvc16la5FixMR7K1YvBAnvNjScmwzVlgfaDQeReBZqBcD2NNQS8HzQJBC71yMBrXecZ
+ pZ9m60l8eTyW3Bi2LziHSqIuXBFmqbENVgBRRvSA85oXbOn26y0xNSbhRX36F4MJSjZd
+ JuvVxcrgp7cOvSGdrmX3olwQrCJjHx4ofNBgSyc0bbS9Juz8VHkn9fUZ7EtgsRWOB+uJ
+ znWg==
+X-Gm-Message-State: AOAM532yKkOqzPnS3KR+KwnSA7Oz6RdRh8nRi2SWBPlurP46FPGFEXK6
+ uyyAKjGLhBiKLJrve/sG804k7YKQfqsSxgFzsuMn1N4tNmvCRdF9qRIQ1oUCDt/Mk1CgGwlDmX5
+ tB+6rNyuAgxi8zp8=
+X-Received: by 2002:a05:6000:144f:b0:20c:6090:3040 with SMTP id
+ v15-20020a056000144f00b0020c60903040mr10449283wrx.479.1651652929152; 
+ Wed, 04 May 2022 01:28:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyM3zSMbckePCjw7CQcmBUGBjLKCXp8+Jy2NfU7HAKTO0foHoOW/0uso2xT7umQExec0+Aa0Q==
+X-Received: by 2002:a05:6000:144f:b0:20c:6090:3040 with SMTP id
+ v15-20020a056000144f00b0020c60903040mr10449271wrx.479.1651652928907; 
+ Wed, 04 May 2022 01:28:48 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-177-80.web.vodafone.de.
+ [109.43.177.80]) by smtp.gmail.com with ESMTPSA id
+ r8-20020a05600c320800b003942a244ec1sm3268621wmp.6.2022.05.04.01.28.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 01:28:48 -0700 (PDT)
+Message-ID: <146dfa10-295e-0d8e-4f28-7e4c84fb18f5@redhat.com>
+Date: Wed, 4 May 2022 10:28:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220503232144.GB352@dongwonk-MOBL.amr.corp.intel.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v6 00/13] s390x/tcg: Implement Vector-Enhancements
+ Facility 2
+Content-Language: en-US
+To: David Miller <dmiller423@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>
+References: <20220428094708.84835-1-david@redhat.com>
+ <97f9be15-4ccd-505b-a35e-8d95823df03a@redhat.com>
+ <85dffe1d-a6d2-9e93-749b-29febb0b6dc5@redhat.com>
+ <CAEgyohV9kjXUW_LMQM7YryQL1=0VW3pSCbffG2uFG7d5vNo5iw@mail.gmail.com>
+ <348d3383-0bd4-1f18-2d14-08962be66c32@redhat.com>
+ <CAEgyohUw8GBMaoKpVB4D0GCbKVQ1NTaT9px6LBX1BsS-ex-nxg@mail.gmail.com>
+ <CAEgyohUk3cX32XXrecAKNbSxd9R8H-dvmesnAPPdW=Mz5Xi+7w@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAEgyohUk3cX32XXrecAKNbSxd9R8H-dvmesnAPPdW=Mz5Xi+7w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,61 +108,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 03, 2022 at 04:21:44PM -0700, Dongwon Kim wrote:
-> On Tue, May 03, 2022 at 10:12:43AM +0100, Daniel P. Berrangé wrote:
-> > On Thu, Apr 28, 2022 at 04:13:03PM -0700, Dongwon Kim wrote:
-> > > With "detach-all=on" for display, QEMU starts with all VC windows
-> > > detached automatically.
-> > > 
-> > > If used with "full-screen=on", it places individual windows (from
-> > > top window) starting from monitor 0 or monitor n in case monitor=n.
-> > > 
-> > > In case # mon < # VCs, only same number of VCs as # mon will be sent to
-> > > the monitors for full-screen while others are remaining in windowed-mode.
-> > > 
-> > > Target monitor number for individual VC is rotated in case monitor=n
-> > > (n != 0) (e.g. if monitor=1 and # VCs = 2, the top window will be
-> > > full-screened on monitor 1 and top second window will be full-screened
-> > > on monitor 0.)
-> > 
-> > I tend to wonder whether we actually need this at all, as opposed
-> > to just changing QEMU's behaviour by default.
-> > 
-> > It makes sense to have tabs per-VC for the things like the HMP
-> > console, serial ports, etc, but I think graphical video outputs
-> > should always be displayed as multiple windows. Putting graphical
-> > outputs as tabs rather defeats the purpose of having multiple
-> > outputs IMHO. 
-> > 
-> > IOW, why won't we just create 1 gtk window per graphical output
-> > all the time.
-> 
-> I got your point but I think this requires changes in the
-> policy, which I guess need community-wide agreement. Why don't we move
-> on with this new option and at the same time start the discussion?
+On 03/05/2022 16.57, David Miller wrote:
+> It looks like google killed allowing password access early, nothing
+> makes it work anymore.
 
-Once we add a CLI option is it is more complicated to remove it again
-later. So if we don't actually need it, it is better not to add it in
-the first place.
+Uh, that's ugly! I hope you'll figure out a way to work-around that problem!
 
-> One more point is, I tried to find out but I couldn't think of any good way
-> to distinguish between guest output consoles and other consoles. Do you
-> have any thought on this?
+> They had plans to disable 'less secure app' in may,  but it thought it
+> was the end of the month.
+> I'll try copy/paste as plain text as well though I Know it will likely
+> screw it up..
 
-There's a helper:
+Yup, that plain text patch didn't apply anymore - so I went for the 
+attachment from your previous mail this time instead (hoping that you'll 
+find another way for using git-send-email again in the future).
 
-  bool qemu_console_is_graphic(QemuConsole *con);
- 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Thomas
 
 
