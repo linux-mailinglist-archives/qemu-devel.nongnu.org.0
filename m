@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2A7519C84
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 12:05:10 +0200 (CEST)
-Received: from localhost ([::1]:49784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85120519C9A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 12:11:25 +0200 (CEST)
+Received: from localhost ([::1]:58372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmBsa-0003cZ-RF
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 06:05:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51670)
+	id 1nmBye-00019f-J2
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 06:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHv-00082K-PZ
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:17 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49094)
+ id 1nmBHz-000875-JA
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:19 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHu-00043D-3t
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:15 -0400
+ id 1nmBHy-00043Z-2t
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:19 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBGm-0002VG-1l; Wed, 04 May 2022 10:26:08 +0100
+ id 1nmBGq-0002VG-Cp; Wed, 04 May 2022 10:26:12 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Wed,  4 May 2022 10:25:28 +0100
-Message-Id: <20220504092600.10048-19-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  4 May 2022 10:25:29 +0100
+Message-Id: <20220504092600.10048-20-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 18/50] dino: remove unused dino_set_timer_irq() IRQ handler
+Subject: [PATCH v2 19/50] hppa: move dino_init() from dino.c to machine.c
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,89 +61,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the comments in dino.c the timer IRQ is unused, so remove the empty
-dino_set_timer_irq() handler function and simply pass NULL to mc146818_rtc_init()
-in machine.c instead.
+Now that dino_init() is completely decoupled from dino.c it can be moved to
+machine.c with the rest of the board configuration.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- hw/hppa/dino.c     | 10 +---------
- hw/hppa/hppa_sys.h |  2 +-
- hw/hppa/machine.c  |  5 ++---
- 3 files changed, 4 insertions(+), 13 deletions(-)
+ hw/hppa/dino.c     | 14 --------------
+ hw/hppa/hppa_sys.h |  2 --
+ hw/hppa/machine.c  | 12 ++++++++++++
+ 3 files changed, 12 insertions(+), 16 deletions(-)
 
 diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-index 80ffe27188..d8baf139d6 100644
+index d8baf139d6..6d12c385aa 100644
 --- a/hw/hppa/dino.c
 +++ b/hw/hppa/dino.c
-@@ -399,13 +399,7 @@ static int dino_pci_map_irq(PCIDevice *d, int irq_num)
+@@ -399,20 +399,6 @@ static int dino_pci_map_irq(PCIDevice *d, int irq_num)
      return slot & 0x03;
  }
  
--static void dino_set_timer_irq(void *opaque, int irq, int level)
+-DinoState *dino_init(MemoryRegion *addr_space)
 -{
--    /* ??? Not connected.  */
+-    DeviceState *dev;
+-    DinoState *s;
+-
+-    dev = qdev_new(TYPE_DINO_PCI_HOST_BRIDGE);
+-    object_property_set_link(OBJECT(dev), "memory-as", OBJECT(addr_space),
+-                             &error_fatal);
+-    s = DINO_PCI_HOST_BRIDGE(dev);
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-
+-    return s;
 -}
 -
--DinoState *dino_init(MemoryRegion *addr_space,
--                     qemu_irq *p_rtc_irq)
-+DinoState *dino_init(MemoryRegion *addr_space)
+ static void dino_pcihost_reset(DeviceState *dev)
  {
-     DeviceState *dev;
-     DinoState *s;
-@@ -416,8 +410,6 @@ DinoState *dino_init(MemoryRegion *addr_space,
-     s = DINO_PCI_HOST_BRIDGE(dev);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
- 
--    *p_rtc_irq = qemu_allocate_irq(dino_set_timer_irq, s, 0);
--
-     return s;
- }
- 
+     DinoState *s = DINO_PCI_HOST_BRIDGE(dev);
 diff --git a/hw/hppa/hppa_sys.h b/hw/hppa/hppa_sys.h
-index c238e7ebc8..ebedecf1c8 100644
+index ebedecf1c8..7c31dd8396 100644
 --- a/hw/hppa/hppa_sys.h
 +++ b/hw/hppa/hppa_sys.h
-@@ -11,7 +11,7 @@
- #include "hppa_hardware.h"
- #include "dino.h"
+@@ -9,9 +9,7 @@
+ #include "hw/intc/i8259.h"
  
--DinoState *dino_init(MemoryRegion *, qemu_irq *);
-+DinoState *dino_init(MemoryRegion *);
+ #include "hppa_hardware.h"
+-#include "dino.h"
+ 
+-DinoState *dino_init(MemoryRegion *);
  DeviceState *lasi_init(MemoryRegion *);
  #define enable_lasi_lan()       0
  
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index f757aecda0..49ecb971be 100644
+index 49ecb971be..4b753fa346 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -130,7 +130,6 @@ static void machine_hppa_init(MachineState *machine)
-     DeviceState *dev, *dino_dev;
-     PCIBus *pci_bus;
-     ISABus *isa_bus;
--    qemu_irq rtc_irq;
-     char *firmware_filename;
-     uint64_t firmware_low, firmware_high;
-     long size;
-@@ -167,7 +166,7 @@ static void machine_hppa_init(MachineState *machine)
-     lasi_init(addr_space);
+@@ -122,6 +122,18 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
+     return fw_cfg;
+ }
  
-     /* Init Dino (PCI host bus chip).  */
--    dino_dev = DEVICE(dino_init(addr_space, &rtc_irq));
-+    dino_dev = DEVICE(dino_init(addr_space));
-     memory_region_add_subregion(addr_space, DINO_HPA,
-                                 sysbus_mmio_get_region(
-                                     SYS_BUS_DEVICE(dino_dev), 0));
-@@ -179,7 +178,7 @@ static void machine_hppa_init(MachineState *machine)
-     assert(isa_bus);
- 
-     /* Realtime clock, used by firmware for PDC_TOD call. */
--    mc146818_rtc_init(isa_bus, 2000, rtc_irq);
-+    mc146818_rtc_init(isa_bus, 2000, NULL);
- 
-     /* Serial code setup.  */
-     if (serial_hd(0)) {
++static DinoState *dino_init(MemoryRegion *addr_space)
++{
++    DeviceState *dev;
++
++    dev = qdev_new(TYPE_DINO_PCI_HOST_BRIDGE);
++    object_property_set_link(OBJECT(dev), "memory-as", OBJECT(addr_space),
++                             &error_fatal);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
++    return DINO_PCI_HOST_BRIDGE(dev);
++}
++
+ static void machine_hppa_init(MachineState *machine)
+ {
+     const char *kernel_filename = machine->kernel_filename;
 -- 
 2.20.1
 
