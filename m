@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91CE4519DF1
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 13:27:46 +0200 (CEST)
-Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3518F519E1D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 13:34:24 +0200 (CEST)
+Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmDAX-0001vY-D6
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 07:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32796)
+	id 1nmDGw-0001ib-Vf
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 07:34:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nmBu2-0007gs-GB; Wed, 04 May 2022 06:06:38 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:33649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nmBty-0006wR-TL; Wed, 04 May 2022 06:06:38 -0400
-Received: by mail-io1-xd29.google.com with SMTP id i20so1004908ion.0;
- Wed, 04 May 2022 03:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zBctnKNr6vVnnzTXycQoHcfZlvZLNkYUoVRfaFboIRM=;
- b=R965ueKlFRvQTmUnJACNr4PjPvQGlIQc75aPudYpFFkLxC1VRkPukA7X+DjIoGk4Jn
- 4aXejYiZV5+kTZibUuEJMC+JXLc3hScsf7f2NghxzIwn0gRDaZOerKAQFg28dVvjvKjM
- xARfwWKglamlwlwmpOs2YPt7AjV2HIUlmnkTrfqC1O1ZcYQwvmYpwh8VZdqmmGoS/beJ
- 36Gf7OpKjwyd6fp0NOXtvaJ5mC+T5G5Qavj3uVpWMhImdFtwxt5YlP7f2WBijt9v4TbU
- 8xQMWaAKoGEM8pqd7teBorADP4OJw19pT5yVx3bL4ItSKZtPPZNsrhwr4R23X/V/HFLM
- hf7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zBctnKNr6vVnnzTXycQoHcfZlvZLNkYUoVRfaFboIRM=;
- b=bW/VI8vondHJj0Yg7d9Jmkuf89SKZ3NVFz1F9F9eSmrSVylQ4VBIUhyA8kU+uSFVC2
- ISSeVJEa0WUPzZBe2ml5vggnus8lHJAZcZj7lkz6QUavZmWXuuLYwDBGZdl7ZW5dZK1i
- 9xazDI91h8oM7QU3pW9IQQ6tkq9umiTOw2M5fE1E8YjReSEEEacEZ2EJbQMddN7off+F
- BjIgOo7TAt1qBIqcDR/7pCjdGFmot6ya51GoL20qs9XlsMwmPfTViPPzsU61SzcMYhRF
- ibSJDtiia47C5KMnrfoL/HJjNjpYAU+Dpqx/V7qyhvQRhGiJIHMu9hx1DbP0K7UHYE8h
- HsHw==
-X-Gm-Message-State: AOAM533/HoFna9YtMq35+81FgnxePAvIqszfVYJ+53EfXAsh7dV6IZ7F
- wVqPxtMnlAz0hM7HoDUluGUKqminrkeeY7uum+c=
-X-Google-Smtp-Source: ABdhPJwNsL7x6LpQe9EUXoSUrh/13CvjZ6+/L0YXpm3iuKlE3YXjQZcXKHw7+Rju75IZy8TfI5fbul4cl+FPWhTp0dE=
-X-Received: by 2002:a5d:948a:0:b0:64d:23a4:9afa with SMTP id
- v10-20020a5d948a000000b0064d23a49afamr7726749ioj.114.1651658791457; Wed, 04
- May 2022 03:06:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nmCRS-0006Hv-Hq
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 06:41:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nmCRP-0001J3-Ds
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 06:41:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651660866;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Ftsd8Y8+0LUKRUmsexVcctz7PV5eTh5V45TTzNKtWps=;
+ b=Iw/+YrBy1qIeCqA7bQfDGwnqi6ULLvTMFW/0MgHQn6veFYTkIzvwbJK1BGTbtE9Z4lkAWP
+ rt9vONL74iSZtARsG1DVl5+WdP3O01W6qutXeHtpDhXPVsGqeUESdm4sWNZeNkn7yxu87p
+ DuR7BgDUgjdeI2fVcXxzl00R3lyShXI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-215-L7ggzszHO9CIP50CRlPVdg-1; Wed, 04 May 2022 06:41:05 -0400
+X-MC-Unique: L7ggzszHO9CIP50CRlPVdg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A98403C977C2;
+ Wed,  4 May 2022 10:41:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C87E155B05D;
+ Wed,  4 May 2022 10:41:03 +0000 (UTC)
+Date: Wed, 4 May 2022 11:40:59 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Michael Roth <michael.roth@amd.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org,
+ thuth@redhat.com, stefanha@redhat.com
+Subject: Re: [qemu-web PATCH] Add public key for tarball-signing to download
+ page
+Message-ID: <YnJYO4YcfoMpApNu@redhat.com>
+References: <20220504002129.286001-1-michael.roth@amd.com>
 MIME-Version: 1.0
-References: <20220331000127.2107823-1-atishp@rivosinc.com>
- <20220331000127.2107823-9-atishp@rivosinc.com>
- <CAKmqyKMmY_nfFpO7r2F+VHjFgLTO3BtB7kgCJ=H9OYJfZ7L2+Q@mail.gmail.com>
- <CAHBxVyEa5Hc7NC57c02VRL9OkjgZ6kOwsPczpts7i6+JpQcsJQ@mail.gmail.com>
- <CAKmqyKO8cpdfW3Y=62PYJJCS7e6yN96FYiyGYESeC8Tyq5EwyA@mail.gmail.com>
- <CAOnJCUKSrq2+voMtTdMPOVf5XE=Z42EyHrCSvy0Svz7kM-csEg@mail.gmail.com>
- <CAKmqyKM-HTbeN_j6Mg5msYP-iQKAFPA6A-B1k969QBV=h1_S3w@mail.gmail.com>
-In-Reply-To: <CAKmqyKM-HTbeN_j6Mg5msYP-iQKAFPA6A-B1k969QBV=h1_S3w@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 4 May 2022 20:06:05 +1000
-Message-ID: <CAKmqyKP6fY_BG1U-xVyZiBMnUL_UzUFOo2v6Wy-pRD8P_X+23w@mail.gmail.com>
-Subject: Re: [PATCH v7 08/12] target/riscv: Add sscofpmf extension support
-To: Atish Patra <atishp@atishpatra.org>
-Cc: Atish Kumar Patra <atishp@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220504002129.286001-1-michael.roth@amd.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,389 +78,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 4, 2022 at 8:03 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Wed, Apr 27, 2022 at 7:33 AM Atish Patra <atishp@atishpatra.org> wrote:
-> >
-> > On Mon, Apr 18, 2022 at 3:46 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Sat, Apr 16, 2022 at 9:54 AM Atish Kumar Patra <atishp@rivosinc.com> wrote:
-> > > >
-> > > > On Wed, Apr 13, 2022 at 12:08 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > >
-> > > > > On Thu, Mar 31, 2022 at 10:19 AM Atish Patra <atishp@rivosinc.com> wrote:
-> > > > > >
-> > > > > > The Sscofpmf ('Ss' for Privileged arch and Supervisor-level extensions,
-> > > > > > and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
-> > > > > > extension allows the perf to handle overflow interrupts and filtering
-> > > > > > support. This patch provides a framework for programmable
-> > > > > > counters to leverage the extension. As the extension doesn't have any
-> > > > > > provision for the overflow bit for fixed counters, the fixed events
-> > > > > > can also be monitoring using programmable counters. The underlying
-> > > > > > counters for cycle and instruction counters are always running. Thus,
-> > > > > > a separate timer device is programmed to handle the overflow.
-> > > > > >
-> > > > > > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > > > > > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > > > > > ---
-> > > > > >  target/riscv/cpu.c      |  11 ++
-> > > > > >  target/riscv/cpu.h      |  25 +++
-> > > > > >  target/riscv/cpu_bits.h |  55 +++++++
-> > > > > >  target/riscv/csr.c      | 156 ++++++++++++++++--
-> > > > > >  target/riscv/pmu.c      | 347 +++++++++++++++++++++++++++++++++++++++-
-> > > > > >  target/riscv/pmu.h      |   7 +
-> > > > > >  6 files changed, 590 insertions(+), 11 deletions(-)
-> > > > > >
-> > > > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > > > > > index f63602828680..9715eed2fc4e 100644
-> > > > > > --- a/target/riscv/cpu.c
-> > > > > > +++ b/target/riscv/cpu.c
-> > > > > > @@ -22,6 +22,7 @@
-> > > > > >  #include "qemu/ctype.h"
-> > > > > >  #include "qemu/log.h"
-> > > > > >  #include "cpu.h"
-> > > > > > +#include "pmu.h"
-> > > > > >  #include "internals.h"
-> > > > > >  #include "exec/exec-all.h"
-> > > > > >  #include "qapi/error.h"
-> > > > > > @@ -696,6 +697,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> > > > > >          set_misa(env, env->misa_mxl, ext);
-> > > > > >      }
-> > > > > >
-> > > > > > +#ifndef CONFIG_USER_ONLY
-> > > > > > +    if (cpu->cfg.pmu_num) {
-> > > > > > +        if (!riscv_pmu_init(cpu, cpu->cfg.pmu_num) && cpu->cfg.ext_sscofpmf) {
-> > > > > > +            cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-> > > > > > +                                          riscv_pmu_timer_cb, cpu);
-> > > > > > +        }
-> > > > > > +     }
-> > > > > > +#endif
-> > > > > > +
-> > > > > >      riscv_cpu_register_gdb_regs_for_features(cs);
-> > > > > >
-> > > > > >      qemu_init_vcpu(cs);
-> > > > > > @@ -795,6 +805,7 @@ static Property riscv_cpu_properties[] = {
-> > > > > >      DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
-> > > > > >      DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
-> > > > > >      DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
-> > > > > > +    DEFINE_PROP_BOOL("sscofpmf", RISCVCPU, cfg.ext_sscofpmf, false),
-> > > > > >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> > > > > >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> > > > > >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-> > > > > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > > > > > index 0fa15595fb37..a0e2279ea5e6 100644
-> > > > > > --- a/target/riscv/cpu.h
-> > > > > > +++ b/target/riscv/cpu.h
-> > > > > > @@ -131,6 +131,8 @@ typedef struct PMUCTRState {
-> > > > > >      /* Snapshort value of a counter in RV32 */
-> > > > > >      target_ulong mhpmcounterh_prev;
-> > > > > >      bool started;
-> > > > > > +    /* Value beyond UINT32_MAX/UINT64_MAX before overflow interrupt trigger */
-> > > > > > +    target_ulong irq_overflow_left;
-> > > > > >  } PMUCTRState;
-> > > > > >
-> > > > > >  struct CPUArchState {
-> > > > > > @@ -291,6 +293,9 @@ struct CPUArchState {
-> > > > > >      /* PMU event selector configured values. First three are unused*/
-> > > > > >      target_ulong mhpmevent_val[RV_MAX_MHPMEVENTS];
-> > > > > >
-> > > > > > +    /* PMU event selector configured values for RV32*/
-> > > > > > +    target_ulong mhpmeventh_val[RV_MAX_MHPMEVENTS];
-> > > > > > +
-> > > > > >      target_ulong sscratch;
-> > > > > >      target_ulong mscratch;
-> > > > > >
-> > > > > > @@ -413,6 +418,7 @@ struct RISCVCPUConfig {
-> > > > > >      bool ext_zhinxmin;
-> > > > > >      bool ext_zve32f;
-> > > > > >      bool ext_zve64f;
-> > > > > > +    bool ext_sscofpmf;
-> > > > > >
-> > > > > >      /* Vendor-specific custom extensions */
-> > > > > >      bool ext_XVentanaCondOps;
-> > > > > > @@ -452,6 +458,12 @@ struct ArchCPU {
-> > > > > >
-> > > > > >      /* Configuration Settings */
-> > > > > >      RISCVCPUConfig cfg;
-> > > > > > +
-> > > > > > +    QEMUTimer *pmu_timer;
-> > > > > > +    /* A bitmask of Available programmable counters */
-> > > > > > +    uint32_t pmu_avail_ctrs;
-> > > > > > +    /* Mapping of events to counters */
-> > > > > > +    GHashTable *pmu_event_ctr_map;
-> > > > > >  };
-> > > > > >
-> > > > > >  static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
-> > > > > > @@ -709,6 +721,19 @@ enum {
-> > > > > >      CSR_TABLE_SIZE = 0x1000
-> > > > > >  };
-> > > > > >
-> > > > > > +/**
-> > > > > > + * The event id are encoded based on the encoding specified in the
-> > > > > > + * SBI specification v0.3
-> > > > > > + */
-> > > > > > +
-> > > > > > +enum riscv_pmu_event_idx {
-> > > > > > +    RISCV_PMU_EVENT_HW_CPU_CYCLES = 0x01,
-> > > > > > +    RISCV_PMU_EVENT_HW_INSTRUCTIONS = 0x02,
-> > > > > > +    RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS = 0x10019,
-> > > > > > +    RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS = 0x1001B,
-> > > > > > +    RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS = 0x10021,
-> > > > > > +};
-> > > > > > +
-> > > > > >  /* CSR function table */
-> > > > > >  extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
-> > > > > >
-> > > > > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > > > > > index 48b39e6d52a7..d0b53e5ea072 100644
-> > > > > > --- a/target/riscv/cpu_bits.h
-> > > > > > +++ b/target/riscv/cpu_bits.h
-> > > > > > @@ -400,6 +400,37 @@
-> > > > > >  #define CSR_MHPMEVENT29     0x33d
-> > > > > >  #define CSR_MHPMEVENT30     0x33e
-> > > > > >  #define CSR_MHPMEVENT31     0x33f
-> > > > > > +
-> > > > > > +#define CSR_MHPMEVENT3H     0x723
-> > > > > > +#define CSR_MHPMEVENT4H     0x724
-> > > > > > +#define CSR_MHPMEVENT5H     0x725
-> > > > > > +#define CSR_MHPMEVENT6H     0x726
-> > > > > > +#define CSR_MHPMEVENT7H     0x727
-> > > > > > +#define CSR_MHPMEVENT8H     0x728
-> > > > > > +#define CSR_MHPMEVENT9H     0x729
-> > > > > > +#define CSR_MHPMEVENT10H    0x72a
-> > > > > > +#define CSR_MHPMEVENT11H    0x72b
-> > > > > > +#define CSR_MHPMEVENT12H    0x72c
-> > > > > > +#define CSR_MHPMEVENT13H    0x72d
-> > > > > > +#define CSR_MHPMEVENT14H    0x72e
-> > > > > > +#define CSR_MHPMEVENT15H    0x72f
-> > > > > > +#define CSR_MHPMEVENT16H    0x730
-> > > > > > +#define CSR_MHPMEVENT17H    0x731
-> > > > > > +#define CSR_MHPMEVENT18H    0x732
-> > > > > > +#define CSR_MHPMEVENT19H    0x733
-> > > > > > +#define CSR_MHPMEVENT20H    0x734
-> > > > > > +#define CSR_MHPMEVENT21H    0x735
-> > > > > > +#define CSR_MHPMEVENT22H    0x736
-> > > > > > +#define CSR_MHPMEVENT23H    0x737
-> > > > > > +#define CSR_MHPMEVENT24H    0x738
-> > > > > > +#define CSR_MHPMEVENT25H    0x739
-> > > > > > +#define CSR_MHPMEVENT26H    0x73a
-> > > > > > +#define CSR_MHPMEVENT27H    0x73b
-> > > > > > +#define CSR_MHPMEVENT28H    0x73c
-> > > > > > +#define CSR_MHPMEVENT29H    0x73d
-> > > > > > +#define CSR_MHPMEVENT30H    0x73e
-> > > > > > +#define CSR_MHPMEVENT31H    0x73f
-> > > > > > +
-> > > > > >  #define CSR_MHPMCOUNTER3H   0xb83
-> > > > > >  #define CSR_MHPMCOUNTER4H   0xb84
-> > > > > >  #define CSR_MHPMCOUNTER5H   0xb85
-> > > > > > @@ -461,6 +492,7 @@
-> > > > > >  #define CSR_VSMTE           0x2c0
-> > > > > >  #define CSR_VSPMMASK        0x2c1
-> > > > > >  #define CSR_VSPMBASE        0x2c2
-> > > > > > +#define CSR_SCOUNTOVF       0xda0
-> > > > > >
-> > > > > >  /* mstatus CSR bits */
-> > > > > >  #define MSTATUS_UIE         0x00000001
-> > > > > > @@ -635,6 +667,7 @@ typedef enum RISCVException {
-> > > > > >  #define IRQ_VS_EXT                         10
-> > > > > >  #define IRQ_M_EXT                          11
-> > > > > >  #define IRQ_S_GEXT                         12
-> > > > > > +#define IRQ_PMU_OVF                        13
-> > > > > >  #define IRQ_LOCAL_MAX                      16
-> > > > > >  #define IRQ_LOCAL_GUEST_MAX                (TARGET_LONG_BITS - 1)
-> > > > > >
-> > > > > > @@ -652,11 +685,13 @@ typedef enum RISCVException {
-> > > > > >  #define MIP_VSEIP                          (1 << IRQ_VS_EXT)
-> > > > > >  #define MIP_MEIP                           (1 << IRQ_M_EXT)
-> > > > > >  #define MIP_SGEIP                          (1 << IRQ_S_GEXT)
-> > > > > > +#define MIP_LCOFIP                         (1 << IRQ_PMU_OVF)
-> > > > > >
-> > > > > >  /* sip masks */
-> > > > > >  #define SIP_SSIP                           MIP_SSIP
-> > > > > >  #define SIP_STIP                           MIP_STIP
-> > > > > >  #define SIP_SEIP                           MIP_SEIP
-> > > > > > +#define SIP_LCOFIP                         MIP_LCOFIP
-> > > > > >
-> > > > > >  /* MIE masks */
-> > > > > >  #define MIE_SEIE                           (1 << IRQ_S_EXT)
-> > > > > > @@ -804,4 +839,24 @@ typedef enum RISCVException {
-> > > > > >  #define HVICTL_VALID_MASK                  \
-> > > > > >      (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
-> > > > > >
-> > > > > > +/* PMU related bits */
-> > > > > > +#define MIE_LCOFIE                         (1 << IRQ_PMU_OVF)
-> > > > > > +
-> > > > > > +#define MHPMEVENT_BIT_OF                   BIT_ULL(63)
-> > > > > > +#define MHPMEVENTH_BIT_OF                  BIT(31)
-> > > > > > +#define MHPMEVENT_BIT_MINH                 BIT_ULL(62)
-> > > > > > +#define MHPMEVENTH_BIT_MINH                BIT(30)
-> > > > > > +#define MHPMEVENT_BIT_SINH                 BIT_ULL(61)
-> > > > > > +#define MHPMEVENTH_BIT_SINH                BIT(29)
-> > > > > > +#define MHPMEVENT_BIT_UINH                 BIT_ULL(60)
-> > > > > > +#define MHPMEVENTH_BIT_UINH                BIT(28)
-> > > > > > +#define MHPMEVENT_BIT_VSINH                BIT_ULL(59)
-> > > > > > +#define MHPMEVENTH_BIT_VSINH               BIT(27)
-> > > > > > +#define MHPMEVENT_BIT_VUINH                BIT_ULL(58)
-> > > > > > +#define MHPMEVENTH_BIT_VUINH               BIT(26)
-> > > > > > +
-> > > > > > +#define MHPMEVENT_SSCOF_MASK               _ULL(0xFFFF000000000000)
-> > > > > > +#define MHPMEVENT_IDX_MASK                 0xFFFFF
-> > > > > > +#define MHPMEVENT_SSCOF_RESVD              16
-> > > > > > +
-> > > > > >  #endif
-> > > > > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > > > > > index 04796b99d0fe..519d6377fd9f 100644
-> > > > > > --- a/target/riscv/csr.c
-> > > > > > +++ b/target/riscv/csr.c
-> > > > > > @@ -72,7 +72,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > >      CPUState *cs = env_cpu(env);
-> > > > > >      RISCVCPU *cpu = RISCV_CPU(cs);
-> > > > > >      int ctr_index;
-> > > > > > -    int base_csrno = CSR_HPMCOUNTER3;
-> > > > > > +    int base_csrno = CSR_CYCLE;
-> > > > > >      bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
-> > > > > >
-> > > > > >      if (rv32 && csrno >= CSR_CYCLEH) {
-> > > > > > @@ -81,11 +81,18 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > >      }
-> > > > > >      ctr_index = csrno - base_csrno;
-> > > > > >
-> > > > > > -    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num)) {
-> > > > > > +    if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
-> > > > > > +        (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
-> > > > > > +        goto skip_ext_pmu_check;
-> > > > > > +    }
-> > > > > > +
-> > > > > > +    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
-> > > > > >          /* No counter is enabled in PMU or the counter is out of range */
-> > > > > >          return RISCV_EXCP_ILLEGAL_INST;
-> > > > > >      }
-> > > > > >
-> > > > > > +skip_ext_pmu_check:
-> > > > > > +
-> > > > > >      if (env->priv == PRV_S) {
-> > > > > >          switch (csrno) {
-> > > > > >          case CSR_CYCLE:
-> > > > > > @@ -104,7 +111,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > >              }
-> > > > > >              break;
-> > > > > >          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> > > > > > -            ctr_index = csrno - CSR_CYCLE;
-> > > > > >              if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > >                  return RISCV_EXCP_ILLEGAL_INST;
-> > > > > >              }
-> > > > > > @@ -128,7 +134,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > >                  }
-> > > > > >                  break;
-> > > > > >              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> > > > > > -                ctr_index = csrno - CSR_CYCLEH;
-> > > > > >                  if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > >                      return RISCV_EXCP_ILLEGAL_INST;
-> > > > > >                  }
-> > > > > > @@ -158,7 +163,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > >              }
-> > > > > >              break;
-> > > > > >          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> > > > > > -            ctr_index = csrno - CSR_CYCLE;
-> > > > > >              if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> > > > > >                   get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > >                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > > > > > @@ -186,7 +190,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > >                  }
-> > > > > >                  break;
-> > > > > >              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> > > > > > -                ctr_index = csrno - CSR_CYCLEH;
-> > > > > >                  if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> > > > > >                       get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > >                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > > > > > @@ -238,6 +241,18 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
-> > > > > >      return mctr(env, csrno);
-> > > > > >  }
-> > > > > >
-> > > > > > +static RISCVException sscofpmf(CPURISCVState *env, int csrno)
-> > > > > > +{
-> > > > > > +    CPUState *cs = env_cpu(env);
-> > > > > > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > > > > > +
-> > > > > > +    if (!cpu->cfg.ext_sscofpmf) {
-> > > > > > +        return RISCV_EXCP_ILLEGAL_INST;
-> > > > > > +    }
-> > > > > > +
-> > > > > > +    return RISCV_EXCP_NONE;
-> > > > > > +}
-> > > > > > +
-> > > > > >  static RISCVException any(CPURISCVState *env, int csrno)
-> > > > > >  {
-> > > > > >      return RISCV_EXCP_NONE;
-> > > > > > @@ -622,11 +637,36 @@ static int write_mhpmevent(CPURISCVState *env, int csrno, target_ulong val)
-> > > > > >  {
-> > > > > >      int evt_index = csrno - CSR_MCOUNTINHIBIT;
-> > > > > >
-> > > > > > +    if (riscv_cpu_mxl(env) != MXL_RV32) {
-> > > > >
-> > > > > Is this right? What if the guest writes the high bytes first?
-> > > > >
-> > > >
-> > > > Most of the current software is implemented with lower bytes first.
-> > > > But I understand your concern
-> > > > that it doesn't provide any guarantee. We probably can have another
-> > > > field that can track the order of the updates.
-> > > > riscv_pmu_update_event_map will be only called when both lower/upper
-> > > > half is complete.
-> > >
-> > > Why can't you just update it on every write? Guest software should be
-> >
-> > riscv_pmu_update_event_map maintains a hashmap between counter and event ID.
-> > Updating at every write is unnecessary as it will do the hashmap
-> > lookup and return fail
-> > for high bytes write.
+On Tue, May 03, 2022 at 07:21:29PM -0500, Michael Roth wrote:
+> We used to have public keys listed on the SecurityProcess page back
+> when it was still part of the wiki, but they are no longer available
+> there and some users have asked where to obtain them so they can verify
+> the tarball signatures.
+> 
+> That was probably not a great place for them anyway, so address this by
+> adding the public signing key directly to the download page.
+> 
+> Since a compromised tarball has a high likelyhood of coinciding with a
+> compromised host (in general at least), also include some information
+> so they can verify the correct signing key via stable tree git tags if
+> desired.
+> 
+> Reported-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> ---
+>  _download/source.html | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/_download/source.html b/_download/source.html
+> index 8671f4e..c0a55ac 100644
+> --- a/_download/source.html
+> +++ b/_download/source.html
+> @@ -23,6 +23,7 @@ make
+>  </pre>
+>  	{% endfor %}
+>  
+> +	<p>Source tarballs on this site are generated and signed by the package maintainer using the public key <a href="https://keys.openpgp.org/vks/v1/by-fingerprint/CEACC9E15534EBABB82D3FA03353C9CEF108B584">F108B584</a>. This key is also used to tag the QEMU stable releases in the official QEMU gitlab mirror, and so can be verified through git as well if there are concerns about the authenticity of this information.</p>
 
-You don't handle the error so does this really matter?
+Line wrap your text at 80 cols please.
 
-Also, as you don't handle the error you probably don't need to return
-it. Maybe just log relevant errors instead?
+Also when downloading the key from that link, it does not contain any
+user IDs, which does not fill me with confidence as someone wanting
+to verify QEMU releases. Is there a link we can use which has the
+user IDs in the key ?
 
-Alistair
+I don't think we need to put the caveat about authenticity in the
+last sentance, as that's just needlessly sowing seeds of doubt
+IMHO. Lets keep is simple & clearly identify the key owner, so people can
+match what they download against what we display, thus:
 
-> >
-> > The events encoded as the SBI PMU spec will always have the event id
-> > in lower 20 bits.
-> > Technically, it is okay to just call riscv_pmu_update_event_map in
-> > write_mhpmevent not in
-> > write_mhpmeventh for rv32 as well.
-> >
-> > However, I want to keep riscv/pmu.c as generic as possible to allow
-> > future implementations
-> > to have different event ID value > UINT32_MAX.
->
-> I agree. If there is a high CSR for 32-bit we need to support 64-bit values.
->
-> >
-> > Let me know if you like to keep it simple and just update
-> > riscv_pmu_update_event_map in lower bits
-> > update right now.
->
-> We need to handle both writer ordres. Unless the spec states that
-> writes must occur in a certain order we can't assume that they will.
-> Otherwise this is just a bug waiting to be discovered
->
-> Alitair
->
-> >
-> > > setting the high bits to 0xFFFF_FFFF first to avoid any issues
-> > >
-> > > Alistair
-> > >
-> > > >
-> > > >
-> > > > > Alistair
-> > >
-> >
-> >
-> > --
-> > Regards,
-> > Atish
+
+  <p>Git tags and source tarballs for official QEMU releases are signed by
+     the release manager using
+     <a href="https://keys.openpgp.org/vks/v1/by-fingerprint/CEACC9E15534EBABB82D3FA03353C9CEF108B584">this GPG Public Key</a>:
+  </p>
+
+  <pre>
+pub   rsa2048/0x3353C9CEF108B584 2013-10-18 [SC]
+      Key fingerprint = CEAC C9E1 5534 EBAB B82D  3FA0 3353 C9CE F108 B584
+uid                    Michael Roth <flukshun@gmail.com>
+uid                    Michael Roth <mdroth@utexas.edu>
+uid                    Michael Roth <mdroth@linux.vnet.ibm.com>
+sub   rsa2048/0x3B0B7D75D7AC684E 2013-10-18 [E]
+  </pre>
+
+
+Might be good to republish your key with updated UID for your AMD email
+addr too, so there's an unambiguous connection between the email addr
+you use you announce releases on the mailing list and the key used to
+sign.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
