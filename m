@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CEF8519E9D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 13:55:10 +0200 (CEST)
-Received: from localhost ([::1]:43710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2DC519EB7
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 13:59:28 +0200 (CEST)
+Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmDb3-0004I3-Jo
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 07:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
+	id 1nmDfD-0000Oj-U5
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 07:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=BVmj=VM=zx2c4.com=Jason@kernel.org>)
- id 1nmCtx-0004D5-MJ
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:10:38 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:59744)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmCwP-0005Qq-Mk
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:13:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=BVmj=VM=zx2c4.com=Jason@kernel.org>)
- id 1nmCtr-0002lU-1c
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:10:33 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5FA6261B75
- for <qemu-devel@nongnu.org>; Wed,  4 May 2022 11:10:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EE9CC385AE
- for <qemu-devel@nongnu.org>; Wed,  4 May 2022 11:10:18 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="kyRhvdzK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1651662616;
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmCwN-0003ga-9r
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:13:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651662785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sChtuXGZ9YP+4H0o5k4v/GPndPTTWnkPojaSeBimyOM=;
- b=kyRhvdzKz9H+ZU4RPqEcqPiXLYj1YbA3Oxi2R34QJnIuisAir7Ml0yWY8uKwtieIKuIM3w
- yWTa2iDsdIQx7P4YyVFhOCuWsapeoBiWz3fu8KZDJSxVxL7vBq4Vm/hA53X8sip88FRgDu
- PXP377wfz7IBIoq/SFPwMPzAWoO/qtk=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 327a62fd
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Wed, 4 May 2022 11:10:16 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-2f7d19cac0bso11040477b3.13
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 04:10:15 -0700 (PDT)
-X-Gm-Message-State: AOAM532gIo40rmJMOLUEEM3fAlJzxV7cWjgNoLnu+AGx2XGLpGSAopCb
- bDf9hTva3P0vuOfRPQx4YpraDPqObRSOd9gxbEo=
-X-Google-Smtp-Source: ABdhPJwMiZUuiuxWJRySwh0SK+aGojTawLBmdtaeP3evtNqT/kWZFLtbBfHaiI5YSEXGP27AJzWPXE74J1gpzuBA2lo=
-X-Received: by 2002:a81:2541:0:b0:2f8:efd7:8962 with SMTP id
- l62-20020a812541000000b002f8efd78962mr17268902ywl.404.1651662615314; Wed, 04
- May 2022 04:10:15 -0700 (PDT)
+ bh=eyMPN12soflHnEnXOPwVLYlvLi7x5qC8YJIFGzfYcpI=;
+ b=hnQEVH+g/kFVAN2vhfNmGTbHuSYblhnCdXCzhhBKGB+BWJpeBThxMa60lYI7KKDyMa/Cww
+ re3b+4NKju2OgvgDmsJZ8P6rHJwDlvKK23Jcl0J49xqHhjZ9TJdqSuVVjW8PzBGXpOW1U9
+ A+R1WsssbrP/H9xTUr772+5wl+ozx/0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-84-INuWpOIcNMafPagYgngD-Q-1; Wed, 04 May 2022 07:13:04 -0400
+X-MC-Unique: INuWpOIcNMafPagYgngD-Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4A7F185A7B2;
+ Wed,  4 May 2022 11:13:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77A7A40314E;
+ Wed,  4 May 2022 11:13:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 48A7E21E68BC; Wed,  4 May 2022 13:13:02 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Cc: qemu-devel@nongnu.org,  stefanha@redhat.com,  mst@redhat.com,
+ f4bug@amsat.org,  pbonzini@redhat.com,  marcandre.lureau@redhat.com,
+ thuth@redhat.com,  bleal@redhat.com,  berrange@redhat.com,
+ eduardo@habkost.net,  marcel.apfelbaum@gmail.com,  eblake@redhat.com,
+ quintela@redhat.com,  dgilbert@redhat.com,  imammedo@redhat.com,
+ peterx@redhat.com,  john.levon@nutanix.com,  thanos.makatos@nutanix.com,
+ elena.ufimtseva@oracle.com,  john.g.johnson@oracle.com,
+ kanth.ghatraju@oracle.com
+Subject: Re: [PATCH v9 02/17] qdev: unplug blocker for devices
+References: <cover.1651586203.git.jag.raman@oracle.com>
+ <01e8950f954c291acd74c9caf1d2016e898cd80c.1651586203.git.jag.raman@oracle.com>
+Date: Wed, 04 May 2022 13:13:02 +0200
+In-Reply-To: <01e8950f954c291acd74c9caf1d2016e898cd80c.1651586203.git.jag.raman@oracle.com>
+ (Jagannathan Raman's message of "Tue, 3 May 2022 10:16:43 -0400")
+Message-ID: <87ilql7dq9.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220502232800.259036-1-Jason@zx2c4.com>
- <20220503094533.402157-1-Jason@zx2c4.com> <YnGPDumfp1+6DUQG@antec>
-In-Reply-To: <YnGPDumfp1+6DUQG@antec>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 4 May 2022 13:10:04 +0200
-X-Gmail-Original-Message-ID: <CAHmME9prmCzpg6h-j3o7zUiYzePuegqJOAGSH167H4L-DH=QMg@mail.gmail.com>
-Message-ID: <CAHmME9prmCzpg6h-j3o7zUiYzePuegqJOAGSH167H4L-DH=QMg@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/openrisc: use right OMPIC size variable
-To: Stafford Horne <shorne@gmail.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, openrisc@lists.librecores.org, 
- richard.henderson@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=BVmj=VM=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,40 +87,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 3, 2022 at 10:22 PM Stafford Horne <shorne@gmail.com> wrote:
->
-> On Tue, May 03, 2022 at 11:45:33AM +0200, Jason A. Donenfeld wrote:
-> > This appears to be a copy and paste error. The UART size was used
-> > instead of the much smaller OMPIC size. But actually that smaller OMPIC
-> > size is wrong too and doesn't allow the IPI to work in Linux. So set it
-> > to the old value.
-> >
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > ---
-> >  hw/openrisc/openrisc_sim.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> > index 99b14940f4..3218db6656 100644
-> > --- a/hw/openrisc/openrisc_sim.c
-> > +++ b/hw/openrisc/openrisc_sim.c
-> > @@ -78,7 +78,7 @@ static const struct MemmapEntry {
-> >      [OR1KSIM_DRAM] =      { 0x00000000,          0 },
-> >      [OR1KSIM_UART] =      { 0x90000000,      0x100 },
-> >      [OR1KSIM_ETHOC] =     { 0x92000000,      0x800 },
-> > -    [OR1KSIM_OMPIC] =     { 0x98000000,         16 },
-> > +    [OR1KSIM_OMPIC] =     { 0x98000000,      0x100 },
->
-> Right, I missed this as part of my series.  OMPIC will allocate 2 32-bit
-> registers per CPU.  I documented this here:
->
->   - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/irqchip/irq-ompic.c
->
-> I think what we will want here is something like:
->
-> [OR1KSIM_OMPIC] =     { 0x98000000, 8 * OR1KSIM_CPUS_MAX },
+Jagannathan Raman <jag.raman@oracle.com> writes:
 
-Do you want a v3 or are you going to fix it up yourself?
+> Add blocker to prevent hot-unplug of devices
+>
+> TYPE_VFIO_USER_SERVER, which is introduced shortly, attaches itself to a
+> PCIDevice on which it depends. If the attached PCIDevice gets removed
+> while the server in use, it could cause it crash. To prevent this,
+> TYPE_VFIO_USER_SERVER adds an unplug blocker for the PCIDevice.
 
-Jason
+Appreciate the explanation :)
+
+>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/hw/qdev-core.h | 29 +++++++++++++++++++++++++++++
+>  hw/core/qdev.c         | 24 ++++++++++++++++++++++++
+>  softmmu/qdev-monitor.c |  4 ++++
+>  3 files changed, 57 insertions(+)
+>
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index 92c3d65208..1b9fa25e5c 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -193,6 +193,7 @@ struct DeviceState {
+>      int instance_id_alias;
+>      int alias_required_for_version;
+>      ResettableState reset;
+> +    GSList *unplug_blockers;
+>  };
+>  
+>  struct DeviceListener {
+> @@ -419,6 +420,34 @@ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
+>  void qdev_machine_creation_done(void);
+>  bool qdev_machine_modified(void);
+>  
+> +/*
+
+Use /** here like we do in the other function comments nearby.
+
+In case you're curious: it's GTK-Doc format.  It's intended for
+generating documentation from doc comments.  Which we don't do, and
+perhaps never will.  But let's be locally consistent.
+
+> + * qdev_add_unplug_blocker: Adds an unplug blocker to a device
+
+Recommend imperative mood for function comments: "Add an unplug
+blocker to a device".
+
+More of the same below.
+
+[...]
+
 
