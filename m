@@ -2,85 +2,156 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6909A51A76C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 19:01:33 +0200 (CEST)
-Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D30B51A5A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 18:36:35 +0200 (CEST)
+Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmINY-0005qr-Ge
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 13:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
+	id 1nmHzM-0003Vk-CB
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 12:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nmIII-0006oE-Dm
- for qemu-devel@nongnu.org; Wed, 04 May 2022 12:56:06 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nmIIG-00035t-9o
- for qemu-devel@nongnu.org; Wed, 04 May 2022 12:56:06 -0400
-Received: by mail-ej1-x635.google.com with SMTP id m20so4025096ejj.10
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 09:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=user-agent:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iIxYdSaCvS9mXRtYUIrCkFhtf1OgXwgRZvQCJDcGjlc=;
- b=CovVzbvotB3Tkm1CfmCjQek8qBlxRq4ZRuOn3iciQMTRR0aGYgRZVMafqx9zjehYPQ
- JHMGVb1mIoLtg3tsjKbvFCnztT00QpVDs0oOvTUOJnPynqJinRg8Yu9Qr2xIXYiuqTkk
- Tl71SenLT+Uw7N3i8IB2yAbuNMNmbMC7ybtcuvaqbc1S2XFpb1QA3HW9OZnhWOlKRziS
- jb6YmwSfEuxICCghajV0rl5NhUKgDs8RlbPfy71lHQwhZyKUwyKe6o7/5MrA8Jt/14b9
- h444I7tK83Zslzw8eTVOxkO3laP4bCSfjIltl/b52LYSkbhmzHudRkc/uGyP1w0QWci/
- Akkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=iIxYdSaCvS9mXRtYUIrCkFhtf1OgXwgRZvQCJDcGjlc=;
- b=mdOJWpBrCkhL7AJlhEgFW/GfwFRKOlb5bVJJzVN2zUGCIU96GRk7cy4JmML/JkR90a
- i0H6u/n70yrmGwcOWIkV96IECd+YOoIe7D63WlR6Qtt/UWKt8zzqKgJhk2WM13YgeP+r
- MPYNcoCxNOYXFe+J3O06FoNiRN32OoXA49wtzzGc7IJf5Ajx6D2QIbiCnszZwMTcB5F8
- DcDnV8ROpfUA7WWTpkanGg2Qxi/vHujxoFxsNrkOGdEcsP+ZWfu5mwkYxYEw60Uy9fp+
- CG6rjJCM6tXNfRYGP7cCLSHWm+B6I4Mpu4CAzZ6wYtv6kS14QJOwdTGWrj5ZRm/RiB+T
- ysqQ==
-X-Gm-Message-State: AOAM532UyufEy3bHGeDqjCP5TRsv/WnA6wOEThp9YEh+PV1CHWc6HYnC
- hAKMnffpOtXf8U8vUMH5PYutSg==
-X-Google-Smtp-Source: ABdhPJyh41LG4mQbzR5vQyeq+9p/P4kNvaEl5OK4tlxHYPALQdYPM1k4aD70xMOyGw6Mh+SvnOSS9w==
-X-Received: by 2002:a17:907:7284:b0:6f4:28a8:9452 with SMTP id
- dt4-20020a170907728400b006f428a89452mr18116432ejc.344.1651683360954; 
- Wed, 04 May 2022 09:56:00 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- s23-20020a056402037700b0042617ba639bsm9358548edw.37.2022.05.04.09.55.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 09:55:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3D8211FFB7;
- Wed,  4 May 2022 17:55:59 +0100 (BST)
-User-agent: mu4e 1.7.13; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>, Jason
- Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Christian
- Schoenebeck <qemu_oss@crudebyte.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Dima Stepanov <dimastep@yandex-team.ru>, Markus Armbruster
- <armbru@redhat.com>, Michael S. Tsirkin <mst@redhat.com>, =?utf-8?Q?Marc-?=
- =?utf-8?Q?Andr=C3=A9?=
- Lureau <marcandre.lureau@redhat.com>, Eric Blake <eblake@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Help trying to add a new vhost-user test to qos-test
-Date: Wed, 04 May 2022 17:28:11 +0100
-Message-ID: <874k25uti8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <prvs=6123628e29=pdel@fb.com>)
+ id 1nmHxS-00028M-7O; Wed, 04 May 2022 12:34:34 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:54966
+ helo=mx0a-00082601.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=6123628e29=pdel@fb.com>)
+ id 1nmHxP-0002VC-Ha; Wed, 04 May 2022 12:34:33 -0400
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+ by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 244DvbgJ006423;
+ Wed, 4 May 2022 09:34:19 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=U/YJI53OQ507VjaFIUQnboQBlY3dJr12n/2zdfis6+E=;
+ b=KHaEKdtcTOM4EKgdMvp9VpMxGdVvz0rMcJBXJSJXLVQoCnyaFOvVBGmwyQgX1TPVqHE5
+ jFMPMPCXFH6TXu4YT2BhTAn+VXGeEfaYPoAqfoyIktt/avXmDujLSXaFSKVBjpfAzuyX
+ /kVROPcA3mVbNMHOXvnVp2N6+FrdLmgeA90= 
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
+ by m0001303.ppops.net (PPS) with ESMTPS id 3fuqp1t4a3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 May 2022 09:34:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=he+6VDQ6IoH4+BvD6LPg/02i8ByeQvINrFZOLo4REj8kTOhTNXhrBTHbANbdjvpi5/lVkqdJfN6O/bW4M3a1EOVFUxtjilRqneZewvwL7vOmhraFCR926UZg5x10Vc0oT7qgNoc7VVg7qnPxAwsNnIXlfuIr6LG0jzStwoxtS9OHXmKcBaxOHBKhszA2Yb/9QlTGqx8IdBjRAmKDvYPd3n5jvQVr4QC4iW4yEmHxO9kZMHyNa02aD4qDmrc3pa2OfhA/TEdfcihbNOPdZwpv6oQYOobkSBiRt/zrfzOMNzbx9FGv5qadaBoR7tOqE/YITKxUeOyiLHgvV4FhsOAP2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U/YJI53OQ507VjaFIUQnboQBlY3dJr12n/2zdfis6+E=;
+ b=IVP0HUCgBdkVgIdkLZhMVbA68/lZElDnNKbPnHwdb5cD/F17c6MgCmCC6Q9Y75RNjuRGI710uoHjDEqpYUiUmE+znArgkw/HAlDNqy02o2yRDh1v/jo6s1d+B2IfHUFK7i2Nxe5R7V351eqEuTGRQShOZAIAokMn9XNrEDGazRHZKF57GWo2tTI1Mg1dxcHqpZfp8g4Nvag55LKzBbygocADDX5n/k96qJUw7HWm3YoE7UU9jxmYWCmISW7tmQOd472+m1bDcJk4QmkeRz8+mrkE5x6EOqEtRG3imc/y4A/MsWS3zNehnhZm9jXEUEqrxXotggFip1LygPiZCswlJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com (2603:10b6:a03:ff::11)
+ by DM4PR15MB5453.namprd15.prod.outlook.com (2603:10b6:8:be::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.25; Wed, 4 May
+ 2022 16:34:16 +0000
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::70e4:6720:69ef:5541]) by BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::70e4:6720:69ef:5541%4]) with mapi id 15.20.5206.025; Wed, 4 May 2022
+ 16:34:16 +0000
+From: Peter Delevoryas <pdel@fb.com>
+To: =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>
+CC: "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "qemu-arm@nongnu.org"
+ <qemu-arm@nongnu.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 1/1] hw/arm/aspeed: Add fby35 machine type
+Thread-Topic: [PATCH v2 1/1] hw/arm/aspeed: Add fby35 machine type
+Thread-Index: AQHYX0HIkqOKjoOJ/k+YKhqMRITql60OVaUAgACVbwk=
+Date: Wed, 4 May 2022 16:34:16 +0000
+Message-ID: <856683F7-3F36-449E-B203-89EC3D876DD9@fb.com>
+References: <20220503225925.1798324-1-pdel@fb.com>
+ <20220503225925.1798324-2-pdel@fb.com>
+ <2ab490a2-875d-ae82-38d0-425415f9818c@kaod.org>
+In-Reply-To: <2ab490a2-875d-ae82-38d0-425415f9818c@kaod.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0ed79b5e-3f04-4dc0-6e0f-08da2debee78
+x-ms-traffictypediagnostic: DM4PR15MB5453:EE_
+x-microsoft-antispam-prvs: <DM4PR15MB54531630D9C1DF18D17C0C92ACC39@DM4PR15MB5453.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: JOX+hJXwYO3IfVNNOI3EWI8kgk7nSks0yskKiTZiRX40mhbh98txxvuoUC0rA/rKr8F+hD0T2d52XuDKg/TX1QH+PiTIrHXNQEoJn6QE4xIOAqBmEG0uMm1ulkTB5j0TikLF6wMxevEhbWpaU9Cg29lh1uaXQpRvUu7bkz3djOnr6+zen2I2saQzJdaxBlc76NF355jgnAMwlFvsEUQ9dSv4IbAI/81/pWHutiX5klbt7FQjlWbMg5Fvr2rk2JXjhvm3ne36UhYs3zXp+lkaC83EkqefrtQcN/OS+NHmhDvcZsUMUHnGTfH6YlpOSXLaiqjyIbuZprf2vL8xzoi9/+4NBDufSE3YaKcOPsIhD9tALPsvBtE/ycpFPDnZy4EggfPGPRwR9w+mDrsw6NvxUW+dbVneDxeeOGHOVfulrNp9xykIPng9IitIyJ+kbka1QT2/oo7suw1fKn8Ek4ucyxMK7PGF4DlBrvkRvEDfVLleZB5ERbk4njgG35PF4oLvT5kYItvcjfrKaaB6r1tm6dC5czi5j1CGQyCJxtPNz4ZXrdaw47OGlIbWEY90daoHdxl7ll2RGF84v1TVi2DhU5BzVoDmoDr68wZI2+BH0DUbC6H9X80LaOVh81t1Yi+GcJDWlRcLiB0CC33W1ReaSi9TTvRLyoA0EQG2DLktGOsigzG6K8YcgBY+rzWAAtbm01jrl1Uo0sFdotY/mQ4wWqprv/64uaTtSzBfX7rN1SGpsFblpVK+1KbC0fKJwiFnDry0CRPsXapiMLplWEbxGl2de2dsl9Sfep+E4mQihEmqtHWwW7E3Y3bju8g93UmKMUAVSTdkZICrZ/8xGnrji//m0yALXmpC1o5881YZXU8=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR15MB3032.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(76116006)(2906002)(508600001)(5660300002)(6916009)(6506007)(966005)(6486002)(54906003)(26005)(86362001)(6512007)(53546011)(8676002)(66946007)(66446008)(66556008)(64756008)(66476007)(4326008)(33656002)(36756003)(316002)(71200400001)(38100700002)(122000001)(38070700005)(186003)(83380400001)(2616005)(8936002)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RGVLRkNvQXRIRFo5TVJtVlVsWHlTdXYyMjF1V043S2dKbWtDd2tqeXJqNk9p?=
+ =?utf-8?B?NXZJNlBCbnYyRUhvZDNMVVI2aG1UbmxiNEkzVUFoRkZBUWxwejhwMTRGTDF5?=
+ =?utf-8?B?Mk5FME5KMjFLVUp5SWQvdExQTjJycEdZODR5cExiTldtYXdGWnJaQkp0WXdE?=
+ =?utf-8?B?eWJlakgvcHhVcUJFdXRJSTl5aWFveW0xZ2tseHBJQ2FtMWp1eGtXTWx0RTlV?=
+ =?utf-8?B?VXpNeDVHakRiUHZYelpQeU1jZUQrSzZCSkQ3SG04MHRTUHYvS0o3K1RvODlh?=
+ =?utf-8?B?aXBkNmxCVDZJNlVNNUpqQlorcVdFQVFmTENOWGlUdzhOTGZmOVFBUi9RSk1L?=
+ =?utf-8?B?Q0xNZFVKWVdEMVZPQ1lmYk9Oa3h5bSt1VksxK0hCVmlxaGRDZ0FOaFdaT1p5?=
+ =?utf-8?B?MGtOTmdJd3M0TUQvQ3RjVEpjTnJ6aUpCeWg4Nm5KTTM5bFZRbmtpVW1ncDlp?=
+ =?utf-8?B?Ny9IakdVYjRFaThyZGhSVG9mY0U2NW0xb0hsTkJDRUJkalVwSWFudk1tVW9y?=
+ =?utf-8?B?NjB4ZVdWeVI2T3VDRk1DalpSMmFEcGh4Q2I0REI0YWQ2SlVzYU5qWXdYbnFE?=
+ =?utf-8?B?TGdxbkVsaXZmQzRmVGZaUkxudWVwYWQ0K2txcnBxbEdtYVpUUDkyQ1pXbC9p?=
+ =?utf-8?B?dkphZU9zaXFFZ0h3dG81cHA0OHc4NC9FYU1KUENEbjZjdkxXMHR2bmplaGJL?=
+ =?utf-8?B?MW53NU5yWWozNHl0bEFaNm0ydm4ydDY0M0VBTkE2TmFIR1U4bTI0WS92SzZ3?=
+ =?utf-8?B?RGJVTi9XUVBzVlpod1FPYmhHTGFIU2Y5R3o4eDRqS01SVnhsU1BucFdnZFVh?=
+ =?utf-8?B?dlVlQUxSNlVKRUlidWMxYWtGdGVBc1Jia1hQa3lkRFgxd3VjQ2kwQW9HTVgx?=
+ =?utf-8?B?N3dnaXlWQXd3ck1zOGt2Nkx5QmJNTVVJQnRWTFcxeThJYzRvMTFUVlZKTlRI?=
+ =?utf-8?B?eWFZaTNhUEdHcEJUclhIN2hPVmZRRTZvZ1hFalVNRUpCNXJzMFltS2ZOU1M0?=
+ =?utf-8?B?Tnp1S2kzZTZVUW5KZDFxSGp2M3JtZFJLODVIQm51azBjYWFJMTBIUVhDR3Ax?=
+ =?utf-8?B?Z3JuWWZFeDhEblNlT3lUVThkL1lRR1hUS1BwQS9RNTlBN3F1WW5LT1U2dUll?=
+ =?utf-8?B?SHZpQXBLMTlEUmpZbDliVHdRQlBRMHcxMXJ6UGhQYkpZNDlnbjRpaGJYN1ho?=
+ =?utf-8?B?eVdnMHlRQy9OS3ViRXFzUzdPQ054bmdDVnNGMmZXcjZKZDZHSW92b3ZxMlNT?=
+ =?utf-8?B?aHpZL3RxRUZiMFU3NW45YytERnlnWGR2NUFYWXp2WXkzYVBVUjFNTkIrMC9L?=
+ =?utf-8?B?RVhCaFFlRXJXcVRqb0w0OXVTWjRRWjFpMzVXaGRoclMwQ2liQVVuQ1dGMGs1?=
+ =?utf-8?B?TUJFZndIV1ZGVHdlSU1jRjJtVSs2TmRLQjNtcWUrVHpYNWJCdG4veDFnZTZN?=
+ =?utf-8?B?U1lveWlhaDl1b05tSDBNVVdMaGNtelFxK2hjMmt5V2xzR1Z6T21CRUJ4MG05?=
+ =?utf-8?B?cVBweE11YzJ6bzI0WnByVUdJQmQ1Y2h3VnZPMXFGK1ROMGlOUTIyNUJ2dG9j?=
+ =?utf-8?B?bDlPYXFiTThHbldrdmhwcVk0MjY0cGhtR2tOVHBESU1KMy9DYWwwSnZVblA0?=
+ =?utf-8?B?WkUyWHduRzY1Zk5Oa3FrTEJCOGh5SDV3SGpMUndzN2tsUXB3dDVtVC90NkRy?=
+ =?utf-8?B?NE9Eb2Jub3lKOW9tZzAraWVmckRnRWNTUmh2b1dFWFZTdUdUUkNVdzhOZVZE?=
+ =?utf-8?B?SWowTEtkbm9FUDlROFA4OUNHak9GemtHMUhzM0U1Y2VBM3M0UUdBclNtUGEr?=
+ =?utf-8?B?SmFmMFV6c3JwNWk4dDJUbkFlRHNOWVplTzRNTFplUEFqenQ2SzBvQjg5V2hF?=
+ =?utf-8?B?RU9FcmtnVDJIMGR4ZVNjdnMxc2Rrd05mdWRPYm1FcUFqNlV6bEZjUmlCMk1h?=
+ =?utf-8?B?N2UvTWppdWJDenI4MTZucGlKd0Zxa0ZMQXZuRHFaMVRvejV5b0o0ekcvS0lO?=
+ =?utf-8?B?ZlZEMlFmL2dkeGFkMHpYaitNK0FvQmFGWFlwMVpPWC94VDhKMVp6dWR6UTlE?=
+ =?utf-8?B?QW1RaXd0WnRhUlZFRUlkWjNIV1Bob3NNa050ZnVWR1J3c21oTjcxem1PQzBG?=
+ =?utf-8?B?cXNPWk5xL1NEMUlwNzFDb2RBa05tRTJySEp0M1NVRVh6REY3WTFUZEdoMnI4?=
+ =?utf-8?B?Q2JRWmNSRUcxNXk3dUFZTXUwZ2Zoa3JTakdYcTkwVmh3NzFpRkFIaUcvNWNa?=
+ =?utf-8?B?Zit4QUZ1a1h0MER2aElseDNqcWdxSURjdXphcVJMSmlpRVl0WUNsaUZ5L1k0?=
+ =?utf-8?Q?E/14rB64f1DsSniM0K?=
+Content-Type: text/plain; charset="utf-8"
+X-OriginatorOrg: fb.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB3032.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ed79b5e-3f04-4dc0-6e0f-08da2debee78
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2022 16:34:16.7155 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3AOAg/BmfZWiFHbXcMcCSyliKqlxqY8A8DriSJRVPTUkFo6oc9fQKZopTCOOvlSl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR15MB5453
+X-Proofpoint-ORIG-GUID: Pr8_z6sXkRnwCwRUACLUMdVqLkXFz-EX
+X-Proofpoint-GUID: Pr8_z6sXkRnwCwRUACLUMdVqLkXFz-EX
+Content-Transfer-Encoding: base64
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-04_04,2022-05-04_02,2022-02-23_01
+Received-SPF: pass client-ip=67.231.153.30;
+ envelope-from=prvs=6123628e29=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,235 +168,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-Apologies for the wide CC but I'm stuck trying to work out what is
-going on. I've had a very frustrating few weeks trying to enable a basic
-vhost-user test for the gpio stub device. I've been attempting to model
-it on the existing vhost-user-test for virtio-net but I think I've
-triggered some sort of subtle race condition but it's very hard to work
-out amongst the moving pieces. I think this comes down to the fact that
-the GPIO device supports the VHOST_USER_GET_CONFIG message and this
-subtly breaks the test harness as can be seen by the following
-backtrace:
-
-  #0  virtio_pci_set_guest_notifiers (d=3D0x5615571bf620, nvqs=3D2, assign=
-=3Dfalse) at ../../hw/virtio/virtio-pci.c:990
-  #1  0x0000561553a585d5 in vu_gpio_stop (vdev=3D0x5615571c79c0) at ../../h=
-w/virtio/vhost-user-gpio.c:106
-  #2  0x0000561553a58958 in vu_gpio_disconnect (dev=3D0x5615571c79c0) at ..=
-/../hw/virtio/vhost-user-gpio.c:215
-  #3  0x0000561553a589fa in vu_gpio_event (opaque=3D0x5615571c79c0, event=
-=3DCHR_EVENT_CLOSED) at ../../hw/virtio/vhost-user-gpio.c:233
-  #4  0x0000561553bf47ac in chr_be_event (s=3D0x561556608000, event=3DCHR_E=
-VENT_CLOSED) at ../../chardev/char.c:61
-  #5  0x0000561553bf4820 in qemu_chr_be_event (s=3D0x561556608000, event=3D=
-CHR_EVENT_CLOSED) at ../../chardev/char.c:81
-  #6  0x0000561553bf06f9 in tcp_chr_disconnect_locked (chr=3D0x561556608000=
-) at ../../chardev/char-socket.c:470
-  #7  0x0000561553bf0768 in tcp_chr_disconnect (chr=3D0x561556608000) at ..=
-/../chardev/char-socket.c:480
-  #8  0x0000561553bf094c in tcp_chr_hup (channel=3D0x561556532c00, cond=3DG=
-_IO_HUP, opaque=3D0x561556608000) at ../../chardev/char-socket.c:520
-  #9  0x0000561553ae7ab5 in qio_channel_fd_source_dispatch (source=3D0x5615=
-567a6c00, callback=3D0x561553bf091d <tcp_chr_hup>, user_data=3D0x5615566080=
-00) at ../../io/channel-watch.c:84
-  #10 0x00007f905b47fd6f in g_main_dispatch (context=3D0x5615571fff00) at .=
-./../../glib/gmain.c:3325
-  #11 g_main_context_dispatch (context=3D0x5615571fff00) at ../../../glib/g=
-main.c:4043
-  #12 0x00007f905b480118 in g_main_context_iterate (context=3D0x5615571fff0=
-0, block=3Dblock@entry=3D1, dispatch=3Ddispatch@entry=3D1, self=3D<optimize=
-d out>) at ../../../glib/gmain.c:4119
-  #13 0x00007f905b48040b in g_main_loop_run (loop=3D0x561557200170) at
-  #../../../glib/gmain.c:4317
-
-For a not totally clear reason we dispatch a new run loop and discover
-the vhost user socket has been closed down. This triggers the above stop
-which then asserts because we haven't had a chance to fully initialise
-the device yet.
-
-  #14 0x0000561553a36fc3 in vhost_user_read (dev=3D0x5615571c7be0, msg=3D0x=
-7ffcac609df0) at ../../hw/virtio/vhost-user.c:406
-  #15 0x0000561553a3be39 in vhost_user_get_config (dev=3D0x5615571c7be0, co=
-nfig=3D0x5615571c7bd0 "", config_len=3D8, errp=3D0x7ffcac60a120) at ../../h=
-w/virtio/vhost-user.c:2304
-  #16 0x0000561553a344b6 in vhost_dev_get_config (hdev=3D0x5615571c7be0, co=
-nfig=3D0x5615571c7bd0 "", config_len=3D8, errp=3D0x7ffcac60a120) at ../../h=
-w/virtio/vhost.c:1593
-  #17 0x0000561553a58c0e in vu_gpio_device_realize (dev=3D0x5615571c79c0, e=
-rrp=3D0x7ffcac60a120) at ../../hw/virtio/vhost-user-gpio.c:283
-  #18 0x0000561553a2ec5d in virtio_device_realize (dev=3D0x5615571c79c0, er=
-rp=3D0x7ffcac60a180) at ../../hw/virtio/virtio.c:3623
-  #19 0x0000561553ad5ee0 in device_set_realized (obj=3D0x5615571c79c0, valu=
-e=3Dtrue, errp=3D0x7ffcac60a428) at ../../hw/core/qdev.c:531
-  #20 0x0000561553adf935 in property_set_bool (obj=3D0x5615571c79c0, v=3D0x=
-5615571cfbe0, name=3D0x561553ef77d1 "realized", opaque=3D0x5615564a4b80, er=
-rp=3D0x7ffcac60a428) at ../../qom/object.c:2273
-  #21 0x0000561553add97c in object_property_set (obj=3D0x5615571c79c0, name=
-=3D0x561553ef77d1 "realized", v=3D0x5615571cfbe0, errp=3D0x7ffcac60a428) at=
- ../../qom/object.c:1408
-  #22 0x0000561553ae1d27 in object_property_set_qobject (obj=3D0x5615571c79=
-c0, name=3D0x561553ef77d1 "realized", value=3D0x5615571cfbc0, errp=3D0x7ffc=
-ac60a428) at ../../qom/qom-qobject.c:28
-  #23 0x0000561553addce1 in object_property_set_bool (obj=3D0x5615571c79c0,=
- name=3D0x561553ef77d1 "realized", value=3Dtrue, errp=3D0x7ffcac60a428) at =
-../../qom/object.c:1477
-  #24 0x0000561553ad57a8 in qdev_realize (dev=3D0x5615571c79c0, bus=3D0x561=
-5571c7938, errp=3D0x7ffcac60a428) at ../../hw/core/qdev.c:333
-  #25 0x0000561553a58fe0 in vhost_user_gpio_pci_realize (vpci_dev=3D0x56155=
-71bf620, errp=3D0x7ffcac60a428) at ../../hw/virtio/vhost-user-gpio-pci.c:32
-  #26 0x0000561553679b82 in virtio_pci_realize (pci_dev=3D0x5615571bf620, e=
-rrp=3D0x7ffcac60a428) at ../../hw/virtio/virtio-pci.c:1926
-  #27 0x000056155357a983 in pci_qdev_realize (qdev=3D0x5615571bf620, errp=
-=3D0x7ffcac60a4e0) at ../../hw/pci/pci.c:2191
-  #28 0x0000561553679f26 in virtio_pci_dc_realize (qdev=3D0x5615571bf620, e=
-rrp=3D0x7ffcac60a4e0) at ../../hw/virtio/virtio-pci.c:2011
-  #29 0x0000561553ad5ee0 in device_set_realized (obj=3D0x5615571bf620, valu=
-e=3Dtrue, errp=3D0x7ffcac60a750) at ../../hw/core/qdev.c:531
-  #30 0x0000561553adf935 in property_set_bool (obj=3D0x5615571bf620, v=3D0x=
-5615571c9db0, name=3D0x561553ef77d1 "realized", opaque=3D0x5615564a4b80, er=
-rp=3D0x7ffcac60a750) at ../../qom/object.c:2273
-  #31 0x0000561553add97c in object_property_set (obj=3D0x5615571bf620, name=
-=3D0x561553ef77d1 "realized", v=3D0x5615571c9db0, errp=3D0x7ffcac60a750) at=
- ../../qom/object.c:1408
-  #32 0x0000561553ae1d27 in object_property_set_qobject (obj=3D0x5615571bf6=
-20, name=3D0x561553ef77d1 "realized", value=3D0x5615571ca040, errp=3D0x7ffc=
-ac60a750) at ../../qom/qom-qobject.c:28
-  #33 0x0000561553addce1 in object_property_set_bool (obj=3D0x5615571bf620,=
- name=3D0x561553ef77d1 "realized", value=3Dtrue, errp=3D0x7ffcac60a750) at =
-../../qom/object.c:1477
-  #34 0x0000561553ad57a8 in qdev_realize (dev=3D0x5615571bf620, bus=3D0x561=
-5569e82e0, errp=3D0x7ffcac60a750) at ../../hw/core/qdev.c:333
-  #35 0x00005615532f2523 in qdev_device_add_from_qdict (opts=3D0x5615571be5=
-00, from_json=3Dfalse, errp=3D0x7ffcac60a750) at ../../softmmu/qdev-monitor=
-.c:713
-  #36 0x00005615532f25c1 in qdev_device_add (opts=3D0x5615564a29d0, errp=3D=
-0x56155451b300 <error_fatal>) at ../../softmmu/qdev-monitor.c:732
-  #37 0x00005615532f7b3d in device_init_func (opaque=3D0x0, opts=3D0x561556=
-4a29d0, errp=3D0x56155451b300 <error_fatal>) at ../../softmmu/vl.c:1230
-  #38 0x0000561553cb965b in qemu_opts_foreach (list=3D0x561554373400 <qemu_=
-device_opts>, func=3D0x5615532f7b16 <device_init_func>, opaque=3D0x0, errp=
-=3D0x56155451b300 <error_fatal>) at ../../util/qemu-option.c:1135
-  #39 0x00005615532fb339 in qemu_create_cli_devices () at ../../softmmu/vl.=
-c:2685
-  #40 0x00005615532fb4c1 in qmp_x_exit_preconfig (errp=3D0x56155451b300 <er=
-ror_fatal>) at ../../softmmu/vl.c:2747
-  #41 0x00005615532fdb84 in qemu_init (argc=3D27, argv=3D0x7ffcac60ab78, en=
-vp=3D0x0) at ../../softmmu/vl.c:3776
-  #42 0x000056155326f0bd in qemu_main (argc=3D27, argv=3D0x7ffcac60ab78, en=
-vp=3D0x0) at ../../softmmu/main.c:35
-  #43 0x000056155326f0f3 in main (argc=3D27, argv=3D0x7ffcac60ab78) at ../.=
-./softmmu/main.c:45
-
-I thought it was the vhost-user server that was closing things but as
-far as I can tell things just hang on the first attempt to respond to
-the protocol features:
-
-  # Start of read-guest-mem tests
-  subprocess_run_one_test: /aarch64/virt/generic-pcihost/pci-bus-generic/pc=
-i-bus/vhost-user-gpio-pci/vhost-user-gpio/vhost-user-gpio-tests/read-guest-=
-mem/memfile/subprocess
-  virtio_net_register_nodes: dbg
-  virtio_gpio_register_nodes: dbg
-  qos_set_machines_devices_available: query machines
-  qos_set_machines_devices_available: qom-list-types
-  qemu_chr_be_event: closing char0/(null)
-  qemu_chr_be_event: closing qtest/(null)
-  run_one_test: -M virt, -cpu max -device vhost-user-gpio-pci,id=3Dgpio0,ad=
-dr=3D04.0,chardev=3Dchr-vhost-user-test
-  run_one_test: -M virt, -cpu max -device vhost-user-gpio-pci,id=3Dgpio0,ad=
-dr=3D04.0,chardev=3Dchr-vhost-user-test
-  test_server_create_chr: created chr-vhost-user-test unix:/tmp/vhost-test-=
-01rNam/vhost-user-test.sock,server=3Don,wait=3Doff
-  vhost_user_test_setup: -M virt, -cpu max -device vhost-user-gpio-pci,id=
-=3Dgpio0,addr=3D04.0,chardev=3Dchr-vhost-user-test
-  restart_qemu_or_continue: starting -M virt, -cpu max -device vhost-user-g=
-pio-pci,id=3Dgpio0,addr=3D04.0,chardev=3Dchr-vhost-user-test -m 256 -object=
- memory-backend-memfd,id=3Dmem,si
-  ze=3D256M, -numa node,memdev=3Dmem -chardev socket,id=3Dchr-vhost-user-te=
-st,path=3D/tmp/vhost-test-01rNam/vhost-user-test.sock
-  chr_event: 1
-  vu_gpio_get_protocol_features: 0x202
-  vu_gpio_get_protocol_features: sent 20 byte reply
-  qemu_chr_be_event: closing chr-vhost-user-test/disconnected:unix:/tmp/vho=
-st-test-01rNam/vhost-user-test.sock
-  virtio_pci_set_guest_notifiers: assign:false nvqs:2/0
-  qemu-system-aarch64: ../../hw/virtio/virtio-pci.c:1004: virtio_pci_set_gu=
-est_notifiers: Assertion `assign || nvqs =3D=3D proxy->nvqs_with_notifiers'=
- failed.
-  qemu_chr_be_event: closing char0/disconnected:unix:/tmp/qtest-740831.qmp
-
-The vu_gpio_get_protocol_features seems to succeed in sending the reply
-but hangs at that point and eventually times out and the whole thing is
-torn down. Compared to the vhost-net test which runs a lot more cleanly.
-
-  # Start of read-guest-mem tests
-  subprocess_run_one_test: /aarch64/virt/generic-pcihost/pci-bus-generic/pc=
-i-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/read-guest-mem/=
-memfile/subprocess
-  virtio_net_register_nodes: dbg
-  virtio_gpio_register_nodes: dbg
-  qos_set_machines_devices_available: query machines
-  qos_set_machines_devices_available: qom-list-types
-  qemu_chr_be_event: closing char0/(null)
-  qemu_chr_be_event: closing qtest/(null)
-  run_one_test: -M virt, -cpu max -device virtio-net-pci,netdev=3Dhs0,addr=
-=3D04.0
-  run_one_test: -M virt, -cpu max -device virtio-net-pci,netdev=3Dhs0,addr=
-=3D04.0
-  test_server_create_chr: created chr-vhost-user-test unix:/tmp/vhost-test-=
-jtqo81/vhost-user-test.sock,server=3Don,wait=3Doff
-  vhost_user_test_setup: -M virt, -cpu max -device virtio-net-pci,netdev=3D=
-hs0,addr=3D04.0
-  restart_qemu_or_continue: starting -M virt, -cpu max -device virtio-net-p=
-ci,netdev=3Dhs0,addr=3D04.0 -m 256 -object memory-backend-memfd,id=3Dmem,si=
-ze=3D256M, -numa node,memdev=3Dmem=20
-  -chardev socket,id=3Dchr-vhost-user-test,path=3D/tmp/vhost-test-jtqo81/vh=
-ost-user-test.sock -netdev vhost-user,id=3Dhs0,chardev=3Dchr-vhost-user-tes=
-t,vhostforce=3Don
-  chr_event: 1=20=20=20=20=20=20=20=20=20=20
-  vu_net_get_protocol_features: 0x42
-  vu_net_get_protocol_features: sent 20 byte reply
-  virtio_set_status: 0x55896cab9510/0
-  virtio_set_status: 0x55896cab9510/0
-  restart_qemu_or_continue: returned from qtest_start
-  qos_machine_new: aarch64/virt
-  qos_driver_new: virtio-net-pci
-  virtio_set_status: 0x55896cab9510/0
-  virtio_set_status: 0x55896cab9510/0
-  virtio_set_status: 0x55896cab9510/1
-  virtio_set_status: 0x55896cab9510/3
-  virtio_set_status: 0x55896cab9510/7
-  virtio_set_started: true
-  virtio_pci_set_guest_notifiers: assign:true nvqs:2/0
-  vhost_dev_start: 0x55896c1902c0 0x55896cab9510
-  vu_net_set_features: 0x40000000
-  test_read_guest_mem: start
-  vhost_user_test_cleanup: shutting down
-  qemu_chr_be_event: closing chr-vhost-user-test/disconnected:unix:/tmp/vho=
-st-test-jtqo81/vhost-user-test.sock
-  qemu-system-aarch64:qemu_chr_be_event: closing chr-vhost-user-test/(null)
-   Failed to set msg fds.
-  qemu-system-aarch64: vhost VQ 0 ring restore failed: -22: Invalid argumen=
-t (22)
-  qemu-system-aarch64: Failed to set msg fds.=20
-  qemu-system-aarch64: vhost VQ 1 ring restore failed: -22: Invalid argumen=
-t (22)
-  virtio_pci_set_guest_notifiers: assign:false nvqs:2/2
-  virtio_set_status: 0x55896cab9510/7
-  qemu_chr_be_event: closing chr-vhost-user-test/(null)
-  qemu_chr_be_event: closing char0/(null)
-  qemu_chr_be_event: closing qtest/(null)
-
-I'm open to any suggestions of the best way to track down where the
-chardev might be torn down and by who. Could it be the lifetime of the
-QMP and vhost-user sockets is being limited somehow?
-
-The backtrace shows the chardev in the state of G_IO_HUP which makes it
-seem like the vhost-user daemon has dropped the connection as soon as it
-has sent the protocol request reply?
-
---=20
-Alex Benn=C3=A9e
+DQo+IE9uIE1heSA0LCAyMDIyLCBhdCAxMjozOSBBTSwgQ8OpZHJpYyBMZSBHb2F0ZXIgPGNsZ0Br
+YW9kLm9yZz4gd3JvdGU6DQo+IA0KPiDvu79PbiA1LzQvMjIgMDA6NTksIFBldGVyIERlbGV2b3J5
+YXMgd3JvdGU6DQo+PiBBZGQgdGhlICdmYnkzNS1ibWMnIG1hY2hpbmUgdHlwZSBiYXNlZCBvbiB0
+aGUga2VybmVsIERUU1sxXSBhbmQgdXNlcnNwYWNlDQo+PiBpMmMgc2V0dXAgc2NyaXB0c1syXS4g
+VW5kZWZpbmVkIHZhbHVlcyBhcmUgaW5oZXJpdGVkIGZyb20gdGhlIEFTVDI2MDAtRVZCLg0KPj4g
+UmVmZXJlbmNlIGltYWdlcyBjYW4gYmUgZm91bmQgaW4gRmFjZWJvb2sgT3BlbkJNQyBHaXRodWIg
+UmVsZWFzZSBhc3NldHMNCj4+IGFzICJmYnkzNS5tdGQiLiBbM10NCj4+IFlvdSBjYW4gYm9vdCB0
+aGUgcmVmZXJlbmNlIGltYWdlcyBhcyBmb2xsb3dzIChmYnkzNSB1c2VzIGR1YWwtZmxhc2gpOg0K
+Pj4gcWVtdS1zeXN0ZW0tYXJtIC1tYWNoaW5lIGZieTM1LWJtYyBcDQo+PiAgICAgLWRyaXZlIGZp
+bGU9ZmJ5MzUubXRkLGZvcm1hdD1yYXcsaWY9bXRkIFwNCj4+ICAgICAtZHJpdmUgZmlsZT1mYnkz
+NS5tdGQsZm9ybWF0PXJhdyxpZj1tdGQgXA0KPj4gICAgIC1ub2dyYXBoaWMNCj4+IFsxXSBodHRw
+czovL2dpdGh1Yi5jb20vZmFjZWJvb2svb3BlbmJtYy1saW51eC9ibG9iLzQxMmQ1MDUzMjU4MDA3
+MTE3ZTk0YjFlMzYwMTVhZWZjMTMwMTQ3NGIvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1m
+YWNlYm9vay1mYnkzNS5kdHMNCj4+IFsyXSBodHRwczovL2dpdGh1Yi5jb20vZmFjZWJvb2svb3Bl
+bmJtYy9ibG9iL2UyMjk0ZmY1ZDMxZGQ2NWMyNDhmZTM5NmEzODUyODZkNmQ1YzQ2M2QvbWV0YS1m
+YWNlYm9vay9tZXRhLWZieTM1L3JlY2lwZXMtZmJ5MzUvcGxhdC11dGlscy9maWxlcy9zZXR1cC1k
+ZXYuc2gNCj4+IFszXSBodHRwczovL2dpdGh1Yi5jb20vZmFjZWJvb2svb3BlbmJtYy9yZWxlYXNl
+cw0KPj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgRGVsZXZvcnlhcyA8cGRlbEBmYi5jb20+DQo+IA0K
+PiBSZXZpZXdlZC1ieTogQ8OpZHJpYyBMZSBHb2F0ZXIgPGNsZ0BrYW9kLm9yZz4NCg0KVGhhbmtz
+IQ0KDQo+IA0KPiBhIHF1ZXN0aW9uIGJlbG93LA0KPiANCj4+IC0tLQ0KPj4gdjI6IFJlbW92ZWQg
+YXZvY2FkbyB0ZXN0LCB1cGRhdGVkIGNvbW1pdCBtZXNzYWdlLg0KPj4gIGh3L2FybS9hc3BlZWQu
+YyB8IDYzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysN
+Cj4+ICAxIGZpbGUgY2hhbmdlZCwgNjMgaW5zZXJ0aW9ucygrKQ0KPj4gZGlmZiAtLWdpdCBhL2h3
+L2FybS9hc3BlZWQuYyBiL2h3L2FybS9hc3BlZWQuYw0KPj4gaW5kZXggYTc0YzEzYWIwZi4uNzI1
+YzE2OTQ4OCAxMDA2NDQNCj4+IC0tLSBhL2h3L2FybS9hc3BlZWQuYw0KPj4gKysrIGIvaHcvYXJt
+L2FzcGVlZC5jDQo+PiBAQCAtMjEsNiArMjEsNyBAQA0KPj4gICNpbmNsdWRlICJody9taXNjL2xl
+ZC5oIg0KPj4gICNpbmNsdWRlICJody9xZGV2LXByb3BlcnRpZXMuaCINCj4+ICAjaW5jbHVkZSAi
+c3lzZW11L2Jsb2NrLWJhY2tlbmQuaCINCj4+ICsjaW5jbHVkZSAic3lzZW11L3Jlc2V0LmgiDQo+
+PiAgI2luY2x1ZGUgImh3L2xvYWRlci5oIg0KPj4gICNpbmNsdWRlICJxZW11L2Vycm9yLXJlcG9y
+dC5oIg0KPj4gICNpbmNsdWRlICJxZW11L3VuaXRzLmgiDQo+PiBAQCAtOTUxLDYgKzk1MiwzNSBA
+QCBzdGF0aWMgdm9pZCBibGV0Y2hsZXlfYm1jX2kyY19pbml0KEFzcGVlZE1hY2hpbmVTdGF0ZSAq
+Ym1jKQ0KPj4gICAgICBpMmNfc2xhdmVfY3JlYXRlX3NpbXBsZShpMmNbMTJdLCBUWVBFX1BDQTk1
+NTIsIDB4NjcpOw0KPj4gIH0NCj4+ICArc3RhdGljIHZvaWQgZmJ5MzVfaTJjX2luaXQoQXNwZWVk
+TWFjaGluZVN0YXRlICpibWMpDQo+PiArew0KPj4gKyAgICBBc3BlZWRTb0NTdGF0ZSAqc29jID0g
+JmJtYy0+c29jOw0KPj4gKyAgICBJMkNCdXMgKmkyY1sxNl07DQo+PiArDQo+PiArICAgIGZvciAo
+aW50IGkgPSAwOyBpIDwgMTY7IGkrKykgew0KPj4gKyAgICAgICAgaTJjW2ldID0gYXNwZWVkX2ky
+Y19nZXRfYnVzKCZzb2MtPmkyYywgaSk7DQo+PiArICAgIH0NCj4+ICsNCj4+ICsgICAgaTJjX3Ns
+YXZlX2NyZWF0ZV9zaW1wbGUoaTJjWzJdLCBUWVBFX0xNNzUsIDB4NGYpOw0KPj4gKyAgICBpMmNf
+c2xhdmVfY3JlYXRlX3NpbXBsZShpMmNbOF0sIFRZUEVfVE1QNDIxLCAweDFmKTsNCj4+ICsgICAg
+LyogSG90c3dhcCBjb250cm9sbGVyIGlzIGFjdHVhbGx5IHN1cHBvc2VkIHRvIGJlIG1wNTkyMCBv
+ciBsdGM0MjgyLiAqLw0KPj4gKyAgICBpMmNfc2xhdmVfY3JlYXRlX3NpbXBsZShpMmNbMTFdLCAi
+YWRtMTI3MiIsIDB4NDQpOw0KPj4gKyAgICBpMmNfc2xhdmVfY3JlYXRlX3NpbXBsZShpMmNbMTJd
+LCBUWVBFX0xNNzUsIDB4NGUpOw0KPj4gKyAgICBpMmNfc2xhdmVfY3JlYXRlX3NpbXBsZShpMmNb
+MTJdLCBUWVBFX0xNNzUsIDB4NGYpOw0KPj4gKw0KPj4gKyAgICBhc3BlZWRfZWVwcm9tX2luaXQo
+aTJjWzRdLCAweDUxLCAxMjggKiBLaUIpOw0KPj4gKyAgICBhc3BlZWRfZWVwcm9tX2luaXQoaTJj
+WzZdLCAweDUxLCAxMjggKiBLaUIpOw0KPj4gKyAgICBhc3BlZWRfZWVwcm9tX2luaXQoaTJjWzhd
+LCAweDUwLCAzMiAqIEtpQik7DQo+PiArICAgIGFzcGVlZF9lZXByb21faW5pdChpMmNbMTFdLCAw
+eDUxLCAxMjggKiBLaUIpOw0KPj4gKyAgICBhc3BlZWRfZWVwcm9tX2luaXQoaTJjWzExXSwgMHg1
+NCwgMTI4ICogS2lCKTsNCj4+ICsNCj4+ICsgICAgLyoNCj4+ICsgICAgICogVE9ETzogVGhlcmUg
+aXMgYSBtdWx0aS1tYXN0ZXIgaTJjIGNvbm5lY3Rpb24gdG8gYW4gQVNUMTAzMCBNaW5pQk1DIG9u
+DQo+PiArICAgICAqIGJ1c2VzIDAsIDEsIDIsIDMsIGFuZCA5LiBTb3VyY2UgYWRkcmVzcyAweDEw
+LCB0YXJnZXQgYWRkcmVzcyAweDIwIG9uDQo+PiArICAgICAqIGVhY2guDQo+PiArICAgICAqLw0K
+PiANCj4gDQo+IEhhdmUgeW91IGNvbnNpZGVyZWQgZXh0ZW5kaW5nIHRoZSBlbXVsYXRpb24gdG8g
+aW5jbHVkZSBhIEFTVDEwMzAgU29DDQo+IGluIGEgbGFyZ2VyIG1hY2hpbmUgPw0KPiANCj4gVGhl
+IEFTVDEwMzAgU29DIGlzIG1lcmdlZCBhbmQgSSB0aGluayB0aGF0IFFFTVUgY291bGQgcnVuIGEg
+Y29ydGV4LW00DQo+IENQVSBhbmQgYSBBNyBDUFUuIEEgKyBSIENQVXMgaXMgc3VwcG9ydGVkIChY
+aWxpbnggYm9hcmRzKS4NCj4gDQoNCkFzIGEgbWF0dGVyIG9mIGZhY3QgeWVzISBJIHRlc3RlZCBi
+b290aW5nIG91ciBPcGVuQklDIFplcGh5ciBrZXJuZWwgbGFzdCB3ZWVrIHdpdGggdGhlIDEwMzAs
+IHRoYXQgd29ya2VkLiBJIGFsc28gdXNlZCB0aGUgZXhwZXJpbWVudGFsIGkyYyBtdWx0aS1tYXN0
+ZXIgcGF0Y2hlcyBmcm9tIEtsYXVzIHRvIG1ha2UgYSBpMmMtbmV0ZGV2IGRldmljZSB0aGF0IGNv
+bm5lY3RzIHR3byBzZXBhcmF0ZSBRRU1VIGluc3RhbmNlcyB0aHJvdWdoIGEgc29ja2V0IGFuZCBz
+ZW5kcyB0aGVpciBpMmMgbWVzc2FnZXMgYmFjayBhbmQgZm9ydGguIEkgd2FzIGFibGUgdG8gdGVz
+dCBhIGJhc2ljIE1DVFAgdHJhbnNhY3Rpb24uDQoNCknigJltIGhvcGluZyB0byBoZWxwIGhvd2V2
+ZXIgcG9zc2libGUgd2l0aCBtZXJnaW5nIEtsYXVz4oCZcyBjaGFuZ2VzLCBhbmQgdGhlbiBwcm9w
+b3NlIHRoZSBpMmMtbmV0ZGV2IHRoaW5nIHRvby4NCg0KPiBUaGFua3MsDQo+IA0KPiBDLg0KPiAN
+Cj4gDQo+PiArfQ0KPj4gKw0KPj4gIHN0YXRpYyBib29sIGFzcGVlZF9nZXRfbW1pb19leGVjKE9i
+amVjdCAqb2JqLCBFcnJvciAqKmVycnApDQo+PiAgew0KPj4gICAgICByZXR1cm4gQVNQRUVEX01B
+Q0hJTkUob2JqKS0+bW1pb19leGVjOw0KPj4gQEAgLTEyOTMsNiArMTMyMywzNSBAQCBzdGF0aWMg
+dm9pZCBhc3BlZWRfbWFjaGluZV9ibGV0Y2hsZXlfY2xhc3NfaW5pdChPYmplY3RDbGFzcyAqb2Ms
+IHZvaWQgKmRhdGEpDQo+PiAgICAgICAgICBhc3BlZWRfc29jX251bV9jcHVzKGFtYy0+c29jX25h
+bWUpOw0KPj4gIH0NCj4+ICArc3RhdGljIHZvaWQgZmJ5MzVfcmVzZXQoTWFjaGluZVN0YXRlICpz
+dGF0ZSkNCj4+ICt7DQo+PiArICAgIEFzcGVlZE1hY2hpbmVTdGF0ZSAqYm1jID0gQVNQRUVEX01B
+Q0hJTkUoc3RhdGUpOw0KPj4gKyAgICBBc3BlZWRHUElPU3RhdGUgKmdwaW8gPSAmYm1jLT5zb2Mu
+Z3BpbzsNCj4+ICsNCj4+ICsgICAgcWVtdV9kZXZpY2VzX3Jlc2V0KCk7DQo+PiArDQo+PiArICAg
+IC8qIEJvYXJkIElEICovDQo+PiArICAgIG9iamVjdF9wcm9wZXJ0eV9zZXRfYm9vbChPQkpFQ1Qo
+Z3BpbyksICJncGlvVjQiLCB0cnVlLCAmZXJyb3JfZmF0YWwpOw0KPj4gKyAgICBvYmplY3RfcHJv
+cGVydHlfc2V0X2Jvb2woT0JKRUNUKGdwaW8pLCAiZ3Bpb1Y1IiwgdHJ1ZSwgJmVycm9yX2ZhdGFs
+KTsNCj4+ICsgICAgb2JqZWN0X3Byb3BlcnR5X3NldF9ib29sKE9CSkVDVChncGlvKSwgImdwaW9W
+NiIsIHRydWUsICZlcnJvcl9mYXRhbCk7DQo+PiArICAgIG9iamVjdF9wcm9wZXJ0eV9zZXRfYm9v
+bChPQkpFQ1QoZ3BpbyksICJncGlvVjciLCBmYWxzZSwgJmVycm9yX2ZhdGFsKTsNCj4+ICt9DQo+
+PiArDQo+PiArc3RhdGljIHZvaWQgYXNwZWVkX21hY2hpbmVfZmJ5MzVfY2xhc3NfaW5pdChPYmpl
+Y3RDbGFzcyAqb2MsIHZvaWQgKmRhdGEpDQo+PiArew0KPj4gKyAgICBNYWNoaW5lQ2xhc3MgKm1j
+ID0gTUFDSElORV9DTEFTUyhvYyk7DQo+PiArICAgIEFzcGVlZE1hY2hpbmVDbGFzcyAqYW1jID0g
+QVNQRUVEX01BQ0hJTkVfQ0xBU1Mob2MpOw0KPj4gKw0KPj4gKyAgICBtYy0+ZGVzYyAgICAgICA9
+ICJGYWNlYm9vayBmYnkzNSBCTUMgKENvcnRleC1BNykiOw0KPj4gKyAgICBtYy0+cmVzZXQgICAg
+ICA9IGZieTM1X3Jlc2V0Ow0KPj4gKyAgICBhbWMtPmZtY19tb2RlbCA9ICJteDY2bDFnNDVnIjsN
+Cj4+ICsgICAgYW1jLT5udW1fY3MgICAgPSAyOw0KPj4gKyAgICBhbWMtPm1hY3NfbWFzayA9IEFT
+UEVFRF9NQUMzX09OOw0KPj4gKyAgICBhbWMtPmkyY19pbml0ICA9IGZieTM1X2kyY19pbml0Ow0K
+Pj4gKyAgICAvKiBGSVhNRTogUmVwbGFjZSB0aGlzIG1hY3JvIHdpdGggc29tZXRoaW5nIG1vcmUg
+Z2VuZXJhbCAqLw0KPj4gKyAgICBtYy0+ZGVmYXVsdF9yYW1fc2l6ZSA9IEZVSklfQk1DX1JBTV9T
+SVpFOw0KPj4gK30NCj4+ICsNCj4+ICAjZGVmaW5lIEFTVDEwMzBfSU5URVJOQUxfRkxBU0hfU0la
+RSAoMTAyNCAqIDEwMjQpDQo+PiAgLyogTWFpbiBTWVNDTEsgZnJlcXVlbmN5IGluIEh6ICgyMDBN
+SHopICovDQo+PiAgI2RlZmluZSBTWVNDTEtfRlJRIDIwMDAwMDAwMFVMTA0KPj4gQEAgLTE0MTEs
+NiArMTQ3MCwxMCBAQCBzdGF0aWMgY29uc3QgVHlwZUluZm8gYXNwZWVkX21hY2hpbmVfdHlwZXNb
+XSA9IHsNCj4+ICAgICAgICAgIC5uYW1lICAgICAgICAgID0gTUFDSElORV9UWVBFX05BTUUoImJs
+ZXRjaGxleS1ibWMiKSwNCj4+ICAgICAgICAgIC5wYXJlbnQgICAgICAgID0gVFlQRV9BU1BFRURf
+TUFDSElORSwNCj4+ICAgICAgICAgIC5jbGFzc19pbml0ICAgID0gYXNwZWVkX21hY2hpbmVfYmxl
+dGNobGV5X2NsYXNzX2luaXQsDQo+PiArICAgIH0sIHsNCj4+ICsgICAgICAgIC5uYW1lICAgICAg
+ICAgID0gTUFDSElORV9UWVBFX05BTUUoImZieTM1LWJtYyIpLA0KPj4gKyAgICAgICAgLnBhcmVu
+dCAgICAgICAgPSBNQUNISU5FX1RZUEVfTkFNRSgiYXN0MjYwMC1ldmIiKSwNCj4+ICsgICAgICAg
+IC5jbGFzc19pbml0ICAgID0gYXNwZWVkX21hY2hpbmVfZmJ5MzVfY2xhc3NfaW5pdCwNCj4+ICAg
+ICAgfSwgew0KPj4gICAgICAgICAgLm5hbWUgICAgICAgICAgID0gTUFDSElORV9UWVBFX05BTUUo
+ImFzdDEwMzAtZXZiIiksDQo+PiAgICAgICAgICAucGFyZW50ICAgICAgICAgPSBUWVBFX0FTUEVF
+RF9NQUNISU5FLA0KPiANCg==
 
