@@ -2,112 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0983351A085
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 15:18:46 +0200 (CEST)
-Received: from localhost ([::1]:46116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35ADC51A0DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 15:24:35 +0200 (CEST)
+Received: from localhost ([::1]:53366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmEtw-0002TV-Mc
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 09:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53064)
+	id 1nmEzZ-0007a7-Ou
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 09:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1nmEry-0001Sh-Ac; Wed, 04 May 2022 09:16:43 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18108)
+ (Exim 4.90_1) (envelope-from <Suravee.Suthikulpanit@amd.com>)
+ id 1nmExL-0006Of-Bw
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 09:22:15 -0400
+Received: from mail-co1nam11on2044.outbound.protection.outlook.com
+ ([40.107.220.44]:2656 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1nmErv-0002qm-MC; Wed, 04 May 2022 09:16:42 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244D5EgQ008921;
- Wed, 4 May 2022 13:16:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- reply-to : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding : mime-version; s=pp1;
- bh=tXL+UaM6JgNkL7LeSZ1j0Pq0aXxG0ejv1dt78NykRsQ=;
- b=IH3lfIxFN4g7tuPTGhIV2r8NtuMUPE33GEa70wrdLDiP51bLDdpADLP506rdl/pWRAzW
- o8oyKcsWAaj6IRgYZLFoNaytIVOTcc43q3/V9M/79qABoT9ghpk6xMCRIoEYpHx5lRA7
- /ELoc9UCMAs5o9i+n5zYYHmi/Ai9A/vF5+K5pa2bMbTD6WXyWSHlK91uXV+wrBmKSamF
- D5CWrEoWhhj46+JaY4NUOrTemvy0QPF0QTBowBLvEY+/mjatfn6wSHSEAwlP9WIyDaJQ
- mpB8CUBqCejQsTpwSxjMj6MQ33S86DN6TmHx9PYriGVpdf050fSKh5aVyFk/WeBrFefZ bA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fussfrvdm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 May 2022 13:16:23 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 244D5NuQ009969;
- Wed, 4 May 2022 13:16:23 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fussfrvd7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 May 2022 13:16:23 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 244D8cVb019397;
- Wed, 4 May 2022 13:16:22 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma05wdc.us.ibm.com with ESMTP id 3frvra2svk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 May 2022 13:16:22 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 244DGLYR26870178
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 4 May 2022 13:16:21 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 73368C605D;
- Wed,  4 May 2022 13:16:21 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E7477C605F;
- Wed,  4 May 2022 13:16:19 +0000 (GMT)
-Received: from [9.65.252.158] (unknown [9.65.252.158])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Wed,  4 May 2022 13:16:19 +0000 (GMT)
-Message-ID: <6b41eea4-687e-11cf-392f-75fa6f5d2e34@linux.ibm.com>
-Date: Wed, 4 May 2022 10:16:18 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.8.0
-Subject: Re: [PATCH] mos6522: fix linking error when CONFIG_MOS6522 is not set
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-Cc: Fabiano Rosas <farosas@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220429233146.29662-1-muriloo@linux.ibm.com>
- <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
- <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
- <0cc7cfdb-db80-f05b-49d8-d5db8baa6bfd@ilande.co.uk>
-From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
-Organization: IBM
-In-Reply-To: <0cc7cfdb-db80-f05b-49d8-d5db8baa6bfd@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YFx8LSXKvnAs6kgbiwXEGXpjkKh-olRn
-X-Proofpoint-ORIG-GUID: 4kLxzAwkC4e4ZTwep0ffjVPyunqc-daB
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <Suravee.Suthikulpanit@amd.com>)
+ id 1nmExJ-0004WU-6I
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 09:22:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ISRr9JX3N8t5rro2GP/uYXbOiLeOGdLHxDFU3bvskEcDblcF8fPxuirQJboDN6DOxcYPXHXEFWHCa2fbGh7lV+UE1Hmu8bQ+1v5tYzovfX0dhhSmIRE2XDPg4BPer4PAGKw1a6lV6Raip+OF10cXakSeuwOlZl97diCK2lH4YbO9kq6R4WRvwhBBmpzSwUK+G7h6JXCa8t65YMfV+nzwSrKEOQW9mZ9OfI0GQHugvCRCdpTiuBjXho35Uv/I9LTDlj4RluWYxmYRvxVLF6zk99ZoTnoUust8rXbbqgSxvgUHq9JOabEVVtVnI7KMGGzlpo5HoA2fbblGG4pP3o2A7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FdkRXByMS4anA0seoB0utGmKvM/+MSknN5ezd7h6RGA=;
+ b=ivmUx48j8pbLo5pBBf8lVv2T+uupmZbpgL7RxraQ/NmqaE2R3Jg1pJrJuWFYZMPkJP3ItpHouQwFtgB3WJb6hJI01NF0GX3JX01yF1umQKRZ0XKBvduYEZ7GmPqy1tmJo9WM6ulrDc1zYyJLWexjgYjLpPawmrQXSt3aC3LaUh/cP96hBIDes61Gjr2yg/QOPqi0OzEBjB7FB0EBE7+v+CXGNmdNZCsjb+GdQpMHnjrBEVxdy6leww79APqA09wNQdgrPi55O9oQ/14DyYgiPlrmmp8Qxc42VAPCRhbgzWQ2DYuXxnoYUrKf6bRWbmzqUBTxqg0tzh0KVWXiTBgJmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FdkRXByMS4anA0seoB0utGmKvM/+MSknN5ezd7h6RGA=;
+ b=k4kpMpkcAStbjUSsyp+kN+hfZgrkB3oq8Y9iRmAMBBD7HlesZx3zD2/CpXwMt49IqwRW3A0PMkhe2HoYoVH800vA1IPKlgey3ohY2y4u/xJBRo7PXKMa3xOOvn3QlFWCyn2Gspjt8uWMHtW67R9MTukZYItdTPEBz7lmVfLuQoA=
+Received: from MW3PR06CA0005.namprd06.prod.outlook.com (2603:10b6:303:2a::10)
+ by DM6PR12MB4602.namprd12.prod.outlook.com (2603:10b6:5:168::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.18; Wed, 4 May
+ 2022 13:17:06 +0000
+Received: from CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:2a:cafe::bd) by MW3PR06CA0005.outlook.office365.com
+ (2603:10b6:303:2a::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24 via Frontend
+ Transport; Wed, 4 May 2022 13:17:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT045.mail.protection.outlook.com (10.13.175.181) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5227.15 via Frontend Transport; Wed, 4 May 2022 13:17:06 +0000
+Received: from sp5-759chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 4 May
+ 2022 08:17:04 -0500
+From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <marcel.apfelbaum@gmail.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <richard.henderson@linaro.org>, <eduardo@habkost.net>, <jon.grimm@amd.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Subject: [PATCH] pc: q35: Bump max_cpus to 512
+Date: Wed, 4 May 2022 08:16:39 -0500
+Message-ID: <20220504131639.13570-1-suravee.suthikulpanit@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-04_04,2022-05-04_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 mlxscore=0
- lowpriorityscore=0 spamscore=0 mlxlogscore=999 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205040082
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=muriloo@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec5462c5-dfb2-47c1-b21c-08da2dd062f1
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4602:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4602642C2A5E0F38974AA792F3C39@DM6PR12MB4602.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xNSJ+u1ZFuvNWEc5PGBYIUHnvOwwXGH/uclAja3ov556fKjhwhHLZ2xbhdpyZILcwPuY8ALNU9W7EFe046qnYXZOPyy0mdaM2UtxEPrTR+nazo5saaH8aYxoJ0jPNYTtxb641eEkc1KhBGGE+jrYtKtVDJbReABlsqLtIoSs5OEHAZWoRD+6eHZfklyD7+VH8iWxbSpu8lm3P+HFNJETjSNEsWOSAc6f4Pb5yFH7y65fpD8fHZ4ymeF8Iz6aSACWxFyiEbk5U/vgc7phMz7fldAIYHkz1oT6TlvruIljMJ49OS5YDy3SQ61Xitiok3xrGtV7OznsaAuHRgcK98GxyVF+RNfKjHhRR/EsUNhiTNxtlBTWf8VhKrGMgXxjznf8Tni+r4/L5hkEpqxPRoqV2h22AbtUCTMp61o/2xA+OSNL2e+thLiIOflh2AI2S+APT3PY+2aCx3hdPO4RAsZr1ShgUk1r0H70aCkCOYps7tNpFdncE94gxe5Myjil2eY30jPcJhkbaOPWTXQQm07o1E9d54MYKSA/v8oATNVlymy/kxVdHY0z5Vf4Gac0OyG7f4wXivTo2/OyUFhiNTziBmHo3Eo1IXxRiNw8MvtRCJV0KWaDmbrSjBRxA11dCzjkqfJbsLNekEmv10itKnONBQAGrZVjIunTblMCzV+wVs1oXOOank97kU2F28axO3lCOy9phUOg+S1eGAQdEP5QtQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(44832011)(4326008)(70206006)(2906002)(36756003)(36860700001)(47076005)(70586007)(5660300002)(8936002)(40460700003)(4744005)(1076003)(426003)(336012)(186003)(2616005)(16526019)(7696005)(26005)(508600001)(6666004)(8676002)(6916009)(316002)(54906003)(82310400005)(83380400001)(356005)(86362001)(81166007)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 13:17:06.0926 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec5462c5-dfb2-47c1-b21c-08da2dd062f1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4602
+Received-SPF: softfail client-ip=40.107.220.44;
+ envelope-from=Suravee.Suthikulpanit@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,175 +119,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: muriloo@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Mark.
+This is the maximum number of vCPU supported by
+the AMD x2APIC virtualization.
 
-On 5/4/22 04:10, Mark Cave-Ayland wrote:
-> On 02/05/2022 14:36, Murilo Opsfelder Araújo wrote:
-> 
->> Hi, Mark.
->>
->> Thanks for reviewing.  Comments below.
->>
->> On 5/2/22 06:43, Mark Cave-Ayland wrote:
->>> On 30/04/2022 00:31, Murilo Opsfelder Araujo wrote:
->>>
->>>> When CONFIG_MOS6522 is not set, building ppc64-softmmu target fails:
->>>>
->>>>      /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): undefined reference to `hmp_info_via'
->>>>      clang-13: error: linker command failed with exit code 1 (use -v to see invocation)
->>>>
->>>> Add CONFIG_MOS6522 check for hmp_info_via in hmp-commands-info.hx to fix
->>>> such linking error.
->>>>
->>>> Fixes: 409e9f7131e5 (mos6522: add "info via" HMP command for debugging)
->>>> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
->>>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> Cc: Fabiano Rosas <farosas@linux.ibm.com>
->>>> ---
->>>>   hmp-commands-info.hx | 2 ++
->>>>   1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->>>> index adfa085a9b..9ad784dd9f 100644
->>>> --- a/hmp-commands-info.hx
->>>> +++ b/hmp-commands-info.hx
->>>> @@ -881,6 +881,7 @@ SRST
->>>>   ERST
->>>>   #if defined(TARGET_M68K) || defined(TARGET_PPC)
->>>> +#if defined(CONFIG_MOS6522)
->>>>       {
->>>>           .name         = "via",
->>>>           .args_type    = "",
->>>> @@ -889,6 +890,7 @@ ERST
->>>>           .cmd          = hmp_info_via,
->>>>       },
->>>>   #endif
->>>> +#endif
->>>>   SRST
->>>>     ``info via``
->>>
->>> Hmmm. The patch in its proposed form isn't correct, since device CONFIG_* defines aren't declared when processing hmp-commands-info.hx. This was something that was discovered and discussed in the original thread for which the current workaround is to use the per-target TARGET_* defines instead.
->>
->> So my proposed fix worked just by coincidence.  Thanks for providing the background.
->>
->>>
->>> Given that the g3beige and mac99 machines are included by default in qemu-system-ppc64 which both contain the MOS6522 device, I can't quite understand how CONFIG_MOS6522 isn't being selected.
->>>
->>> Can you give more information about how you are building QEMU including your configure command line?
->>
->> Here is a reproducer adapted from CentOS 9 Stream qemu-kvm[0] package
->> (build failed on c9s ppc64le with QEMU at commit f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65):
->>
->> $ cat > configs/devices/rh-virtio.mak <<"EOF"
->> CONFIG_VIRTIO=y
->> CONFIG_VIRTIO_BALLOON=y
->> CONFIG_VIRTIO_BLK=y
->> CONFIG_VIRTIO_GPU=y
->> CONFIG_VIRTIO_INPUT=y
->> CONFIG_VIRTIO_INPUT_HOST=y
->> CONFIG_VIRTIO_NET=y
->> CONFIG_VIRTIO_RNG=y
->> CONFIG_VIRTIO_SCSI=y
->> CONFIG_VIRTIO_SERIAL=y
->> EOF
->>
->> $ cat > configs/devices/ppc64-softmmu/ppc64-rh-devices.mak <<"EOF"
->> include ../rh-virtio.mak
->> CONFIG_DIMM=y
->> CONFIG_MEM_DEVICE=y
->> CONFIG_NVDIMM=y
->> CONFIG_PCI=y
->> CONFIG_PCI_DEVICES=y
->> CONFIG_PCI_TESTDEV=y
->> CONFIG_PCI_EXPRESS=y
->> CONFIG_PSERIES=y
->> CONFIG_SCSI=y
->> CONFIG_SPAPR_VSCSI=y
->> CONFIG_TEST_DEVICES=y
->> CONFIG_USB=y
->> CONFIG_USB_OHCI=y
->> CONFIG_USB_OHCI_PCI=y
->> CONFIG_USB_SMARTCARD=y
->> CONFIG_USB_STORAGE_CORE=y
->> CONFIG_USB_STORAGE_CLASSIC=y
->> CONFIG_USB_XHCI=y
->> CONFIG_USB_XHCI_NEC=y
->> CONFIG_USB_XHCI_PCI=y
->> CONFIG_VFIO=y
->> CONFIG_VFIO_PCI=y
->> CONFIG_VGA=y
->> CONFIG_VGA_PCI=y
->> CONFIG_VHOST_USER=y
->> CONFIG_VIRTIO_PCI=y
->> CONFIG_VIRTIO_VGA=y
->> CONFIG_WDT_IB6300ESB=y
->> CONFIG_XICS=y
->> CONFIG_XIVE=y
->> CONFIG_TPM=y
->> CONFIG_TPM_SPAPR=y
->> CONFIG_TPM_EMULATOR=y
->> EOF
->>
->> $ mkdir build
->> $ cd build
->>
->> $ ../configure --cc=clang --cxx=/bin/false --prefix=/usr --libdir=/usr/lib64 --datadir=/usr/share --sysconfdir=/etc --interp-prefix=/usr/qemu-%M --localstatedir=/var --docdir=/usr/share/doc --libexecdir=/usr/libexec '--extra-ldflags=-Wl,-z,relro -Wl,--as-needed  -Wl,-z,now   ' '--extra-cflags=-O2 -fexceptions -g -grecord-gcc-switches -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS --config /usr/lib/rpm/redhat/redhat-hardened-clang.cfg -fstack-protector-strong   -m64 -mcpu=power9 -mtune=power9 -fasynchronous-unwind-tables -fstack-clash-protection -Wno-string-plus-int' --with-pkgversion=qemu-kvm-7.0.0-1.el9 --with-suffix=qemu-kvm --firmwarepath=/usr/share/qemu-firmware:/usr/share/ipxe/qemu:/usr/share/seavgabios:/usr/share/seabios --meson=internal --enable-trace-backend=dtrace --with-coroutine=ucontext --with-git=git --tls-priority=@QEMU,SYSTEM --audio-drv-list= --disable-alsa --disable-attr --disable-auth-pam --disable-avx2 
->> --disable-avx512f --disable-block-drv-whitelist-in-tools --disable-bochs --disable-bpf --disable-brlapi --disable-bsd-user --disable-bzip2 --disable-cap-ng --disable-capstone --disable-cfi --disable-cfi-debug --disable-cloop --disable-cocoa --disable-coreaudio --disable-coroutine-pool --disable-crypto-afalg --disable-curl --disable-curses --disable-dbus-display --disable-debug-info --disable-debug-mutex --disable-debug-tcg --disable-dmg --disable-docs --disable-dsound --disable-fdt --disable-fuse --disable-fuse-lseek --disable-gcrypt --disable-gettext --disable-gio --disable-glusterfs --disable-gnutls --disable-gtk --disable-guest-agent --disable-guest-agent-msi --disable-hax --disable-hvf --disable-iconv --disable-jack --disable-kvm --disable-l2tpv3 --disable-libdaxctl --disable-libiscsi --disable-libnfs --disable-libpmem --disable-libssh --disable-libudev --disable-libusb --disable-linux-aio --disable-linux-io-uring --disable-linux-user --disable-live-block-migration 
->> --disable-lto --disable-lzfse --disable-lzo --disable-malloc-trim --disable-membarrier --disable-modules --disable-module-upgrades --disable-mpath --disable-multiprocess --disable-netmap --disable-nettle --disable-numa --disable-nvmm --disable-opengl --disable-oss --disable-pa --disable-parallels --disable-pie --disable-pvrdma --disable-qcow1 --disable-qed --disable-qga-vss --disable-qom-cast-debug --disable-rbd --disable-rdma --disable-replication --disable-rng-none --disable-safe-stack --disable-sanitizers --disable-sdl --disable-sdl-image --disable-seccomp --disable-selinux --disable-slirp --disable-slirp-smbd --disable-smartcard --disable-snappy --disable-sparse --disable-spice --disable-spice-protocol --disable-strip --disable-system --disable-tcg --disable-tools --disable-tpm --disable-u2f --disable-usb-redir --disable-user --disable-vde --disable-vdi --disable-vhost-crypto --disable-vhost-kernel --disable-vhost-net --disable-vhost-scsi --disable-vhost-user 
->> --disable-vhost-user-blk-server --disable-vhost-vdpa --disable-vhost-vsock --disable-virglrenderer --disable-virtfs --disable-virtiofsd --disable-vnc --disable-vnc-jpeg --disable-vnc-sasl --disable-vte --disable-vvfat --disable-werror --disable-whpx --disable-xen --disable-xen-pci-passthrough --disable-xkbcommon --disable-zstd --with-git-submodules=ignore --without-default-devices --with-devices-ppc64=ppc64-rh-devices --target-list=ppc64-softmmu --block-drv-rw-whitelist=qcow2,raw,file,host_device,nbd,iscsi,rbd,blkdebug,luks,null-co,nvme,copy-on-read,throttle,compress --block-drv-ro-whitelist=vdi,vmdk,vhdx,vpc,https --enable-attr --enable-cap-ng --enable-capstone=internal --enable-coroutine-pool --enable-curl --enable-debug-info --enable-docs --enable-fdt=system --enable-gnutls --enable-guest-agent --enable-iconv --enable-kvm --enable-libusb --enable-libudev --enable-linux-aio --enable-lzo --enable-malloc-trim --enable-modules --enable-mpath --enable-numa --enable-pa 
->> --enable-pie --enable-rbd --enable-rdma --enable-seccomp --enable-selinux --enable-slirp=system --enable-snappy --enable-spice-protocol --enable-system --enable-tcg --enable-tools --enable-tpm --enable-vdi --enable-virtiofsd --enable-vhost-kernel --enable-vhost-net --enable-vhost-user --enable-vhost-user-blk-server --enable-vhost-vdpa --enable-vhost-vsock --enable-vnc --enable-vnc-sasl --enable-werror --enable-xkbcommon
->>
->> $ make -O -j$(nproc) V=1 VERBOSE=1
->> ...
->> /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): undefined reference to `hmp_info_via'
->> clang-13: error: linker command failed with exit code 1 (use -v to see invocation)
->>
->> I have figured that it also fails with this minimal set of configure options
->> (in addition to the devices CONFIG_* options above):
->>
->> $ ../configure --without-default-devices --with-devices-ppc64=ppc64-rh-devices --target-list=ppc64-softmmu
->> $ make -j
->> ...
->> /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data.rel+0x3228): undefined reference to `hmp_info_via'
->> collect2: error: ld returned 1 exit status
->>
->> Since TARGET_PPC is defined when building target ppc64-softmmu, the hmp_info_via will be referenced when processing the hmp-commands-info.hx.
->> However, hmp_info_via implementation resides on hw/misc/mos6522.c, which is built only if CONFIG_MOS6522 is defined, as per hw/misc/meson.build.
->>
->> If hmp_info_via is generic enough and not device-specific, it could be moved out of mos6522.c to somewhere else.
->>
->> What do you think?
->>
->> [0] https://gitlab.com/redhat/centos-stream/rpms/qemu-kvm/-/blob/c9s/qemu-kvm.spec#L686
-> 
-> It's probably easier if I post a link to the original thread at https://lore.kernel.org/all/20220127205405.23499-9-mark.cave-ayland@ilande.co.uk/ for reference but the main takeaway is:
-> 
-> - Device CONFIG_* defines aren't present when building hmp-commands-info.hx
-> 
-> - The TARGET_* defines are poisoned in qapi/qapi-commands-misc-target.h
-> 
-> - The long-term solution is to implement a DeviceClass function callback that allows
->    "info debug <foo>" QMP-wrapped monitor commands to be registered dynamically by
->    devices. But that needs someone with the time and ability to implement it.
-> 
-> The compromise was to accept the command wrapped by TARGET_ defines where it is used, but of course that won't work in this case where you're generating a custom configuration as above.
-> 
-> Certainly QEMU could do better here, but then if you are already patching the build to generate a custom configuration as above, you might as well just patch out the relevant part of hmp-commands-info.hx at the same time until proper per-device HMP/QMP support is added.
+Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+---
+ hw/i386/pc_q35.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We are not patching the build.  We are just configuring it.
-
-QEMU at tag v6.2.0 works with the exact same configuration.
-QEMU 7.0.0 does not.
-This is a regression in QEMU source code.
-
-Is my ideia of moving the hmp_info_via implementation out of mos6522.c an acceptable way to have this fixed in the short-term?
-
-Thank you!
-
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 302288342a..e82b1c690d 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+-    m->max_cpus = 288;
++    m->max_cpus = 512;
+ }
+ 
+ static void pc_q35_7_1_machine_options(MachineClass *m)
 -- 
-Murilo
+2.25.1
+
 
