@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FFE519CAB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 12:14:40 +0200 (CEST)
-Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A163519CD0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 12:20:59 +0200 (CEST)
+Received: from localhost ([::1]:44880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmC1n-0005ch-EP
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 06:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52224)
+	id 1nmC7u-000349-FC
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 06:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBIu-0000er-Is
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:28:16 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49264)
+ id 1nmBIy-0000mj-KR
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:28:20 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBIt-0004Bn-18
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:28:16 -0400
+ id 1nmBIx-0004CR-7M
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:28:20 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHl-0002VG-R8; Wed, 04 May 2022 10:27:09 +0100
+ id 1nmBHp-0002VG-LG; Wed, 04 May 2022 10:27:13 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Wed,  4 May 2022 10:25:49 +0100
-Message-Id: <20220504092600.10048-40-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  4 May 2022 10:25:50 +0100
+Message-Id: <20220504092600.10048-41-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 39/50] lasi: use constants for device register offsets
+Subject: [PATCH v2 40/50] lasi: use numerical constant for iar reset value
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,92 +61,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of generating the offset based upon the physical address of the
-register, add constants for each of the device registers to lasi.h and
-update lasi.c to use them.
+This is to allow us to decouple the LASI device from the board logic. If it is
+decided later that this value needs to be configurable then it can easily be
+converted to a qdev property.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- hw/hppa/lasi.c | 28 ++++++++++++++--------------
- hw/hppa/lasi.h |  5 +++++
- 2 files changed, 19 insertions(+), 14 deletions(-)
+ hw/hppa/lasi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
-index ad50880a13..11ca33fba3 100644
+index 11ca33fba3..5ef36f3f58 100644
 --- a/hw/hppa/lasi.c
 +++ b/hw/hppa/lasi.c
-@@ -36,10 +36,10 @@ static bool lasi_chip_mem_valid(void *opaque, hwaddr addr,
-     case LASI_ICR:
-     case LASI_IAR:
+@@ -231,7 +231,7 @@ static void lasi_reset(DeviceState *dev)
+ {
+     LasiState *s = LASI_CHIP(dev);
  
--    case (LASI_LAN_HPA - LASI_HPA):
--    case (LASI_LPT_HPA - LASI_HPA):
--    case (LASI_UART_HPA - LASI_HPA):
--    case (LASI_RTC_HPA - LASI_HPA):
-+    case LASI_LPT:
-+    case LASI_UART:
-+    case LASI_LAN:
-+    case LASI_RTC:
+-    s->iar = CPU_HPA + 3;
++    s->iar = 0xFFFB0000 + 3; /* CPU_HPA + 3 */
  
-     case LASI_PCR ... LASI_AMR:
-         ret = true;
-@@ -76,12 +76,12 @@ static MemTxResult lasi_chip_read_with_attrs(void *opaque, hwaddr addr,
-         val = s->iar;
-         break;
- 
--    case (LASI_LAN_HPA - LASI_HPA):
--    case (LASI_LPT_HPA - LASI_HPA):
--    case (LASI_UART_HPA - LASI_HPA):
-+    case LASI_LPT:
-+    case LASI_UART:
-+    case LASI_LAN:
-         val = 0;
-         break;
--    case (LASI_RTC_HPA - LASI_HPA):
-+    case LASI_RTC:
-         val = time(NULL);
-         val += s->rtc_ref;
-         break;
-@@ -141,16 +141,16 @@ static MemTxResult lasi_chip_write_with_attrs(void *opaque, hwaddr addr,
-         s->iar = val;
-         break;
- 
--    case (LASI_LAN_HPA - LASI_HPA):
--        /* XXX: reset LAN card */
--        break;
--    case (LASI_LPT_HPA - LASI_HPA):
-+    case LASI_LPT:
-         /* XXX: reset parallel port */
-         break;
--    case (LASI_UART_HPA - LASI_HPA):
-+    case LASI_UART:
-         /* XXX: reset serial port */
-         break;
--    case (LASI_RTC_HPA - LASI_HPA):
-+    case LASI_LAN:
-+        /* XXX: reset LAN card */
-+        break;
-+    case LASI_RTC:
-         s->rtc_ref = val - time(NULL);
-         break;
- 
-diff --git a/hw/hppa/lasi.h b/hw/hppa/lasi.h
-index 63a2be3740..11cf7d6b0b 100644
---- a/hw/hppa/lasi.h
-+++ b/hw/hppa/lasi.h
-@@ -21,6 +21,11 @@ OBJECT_DECLARE_SIMPLE_TYPE(LasiState, LASI_CHIP)
- #define LASI_ICR        0x0c
- #define LASI_IAR        0x10
- 
-+#define LASI_LPT        0x02000
-+#define LASI_UART       0x05000
-+#define LASI_LAN        0x07000
-+#define LASI_RTC        0x09000
-+
- #define LASI_PCR        0x0C000 /* LASI Power Control register */
- #define LASI_ERRLOG     0x0C004 /* LASI Error Logging register */
- #define LASI_VER        0x0C008 /* LASI Version Control register */
+     /* Real time clock (RTC), it's only one 32-bit counter @9000 */
+     s->rtc = time(NULL);
 -- 
 2.20.1
 
