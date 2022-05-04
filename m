@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1166519D44
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 12:42:43 +0200 (CEST)
-Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83715519D4F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 12:49:10 +0200 (CEST)
+Received: from localhost ([::1]:39410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmCSw-0005oU-Mr
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 06:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
+	id 1nmCZB-0004e6-Kg
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 06:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nmBTH-00049v-K6
+ id 1nmBTH-00049w-L3
  for qemu-devel@nongnu.org; Wed, 04 May 2022 05:38:59 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:37070)
+Received: from mail.ispras.ru ([83.149.199.84]:37078)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nmBTF-0005sy-LI
+ id 1nmBTG-0005sz-0t
  for qemu-devel@nongnu.org; Wed, 04 May 2022 05:38:59 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 73F0B4076253;
- Wed,  4 May 2022 09:38:49 +0000 (UTC)
-Subject: [PATCH v2 0/9] Record/replay refactoring and stuff
+ by mail.ispras.ru (Postfix) with ESMTPSA id DA6604076254;
+ Wed,  4 May 2022 09:38:54 +0000 (UTC)
+Subject: [PATCH v2 1/9] replay: fix event queue flush for qemu shutdown
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
 Cc: pavel.dovgalyuk@ispras.ru, pbonzini@redhat.com, alex.bennee@linaro.org,
  crosa@redhat.com, f4bug@amsat.org
-Date: Wed, 04 May 2022 12:38:49 +0300
-Message-ID: <165165712922.1062896.3966737516733314504.stgit@pasha-ThinkPad-X280>
+Date: Wed, 04 May 2022 12:38:54 +0300
+Message-ID: <165165713469.1062896.18091878036050964508.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <165165712922.1062896.3966737516733314504.stgit@pasha-ThinkPad-X280>
+References: <165165712922.1062896.3966737516733314504.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -55,53 +57,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following series includes the following record/replay-related changes:
-- simplified async event processing
-- updated record/replay documentation, which was also converted to rst
-- avocado tests for record/replay of Linux for x86_64 and Aarch64
-- some bugfixes
+This patch fixes event queue flush in the case of emulator
+shutdown. replay_finish_events should be called when replay_mode
+is not cleared.
 
-v2 changes:
- - rebased to master
- - fixed some issues found by Richard Henderson
-
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
+ replay/replay.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Pavel Dovgalyuk (9):
-      replay: fix event queue flush for qemu shutdown
-      replay: notify vCPU when BH is scheduled
-      replay: rewrite async event handling
-      replay: simplify async event processing
-      docs: convert docs/devel/replay page to rst
-      docs: move replay docs to docs/system/replay.rst
-      tests/avocado: update replay_linux test
-      tests/avocado: add replay Linux tests for virtio machine
-      tests/avocado: add replay Linux test for Aarch64 machines
+diff --git a/replay/replay.c b/replay/replay.c
+index 6df2abc18c..2d3607998a 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -387,9 +387,8 @@ void replay_finish(void)
+     g_free(replay_snapshot);
+     replay_snapshot = NULL;
+ 
+-    replay_mode = REPLAY_MODE_NONE;
+-
+     replay_finish_events();
++    replay_mode = REPLAY_MODE_NONE;
+ }
+ 
+ void replay_add_blocker(Error *reason)
 
-
- accel/tcg/tcg-accel-ops-icount.c |   5 +-
- docs/devel/index-tcg.rst         |   1 +
- docs/devel/replay.rst            | 306 +++++++++++++++++++++++
- docs/devel/replay.txt            |  46 ----
- docs/replay.txt                  | 410 -------------------------------
- docs/system/index.rst            |   1 +
- docs/system/replay.rst           | 237 ++++++++++++++++++
- include/sysemu/cpu-timers.h      |   1 +
- include/sysemu/replay.h          |   9 +-
- replay/replay-events.c           |  56 ++---
- replay/replay-internal.h         |  37 ++-
- replay/replay-snapshot.c         |   2 -
- replay/replay.c                  |  75 +++---
- softmmu/icount.c                 |  12 +-
- stubs/icount.c                   |   4 +
- tests/avocado/replay_linux.py    |  86 ++++++-
- util/async.c                     |   8 +
- 17 files changed, 726 insertions(+), 570 deletions(-)
- create mode 100644 docs/devel/replay.rst
- delete mode 100644 docs/devel/replay.txt
- delete mode 100644 docs/replay.txt
- create mode 100644 docs/system/replay.rst
-
---
-Pavel Dovgalyuk
 
