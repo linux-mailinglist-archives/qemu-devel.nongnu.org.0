@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47065519BF7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:36:05 +0200 (CEST)
-Received: from localhost ([::1]:54242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3FB4519C0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:40:41 +0200 (CEST)
+Received: from localhost ([::1]:33030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmBQS-0008Q4-AE
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51388)
+	id 1nmBUv-0005os-0g
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:40:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHL-0007fm-49
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:26:39 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48990)
+ id 1nmBHP-0007gy-16
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:26:43 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHJ-000401-I3
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:26:38 -0400
+ id 1nmBHM-00040S-VS
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:26:42 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBGL-0002VG-TC; Wed, 04 May 2022 10:25:41 +0100
+ id 1nmBGP-0002VG-Kb; Wed, 04 May 2022 10:25:45 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Wed,  4 May 2022 10:25:15 +0100
-Message-Id: <20220504092600.10048-6-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  4 May 2022 10:25:16 +0100
+Message-Id: <20220504092600.10048-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 05/50] dino: add memory-as property containing a link to
- the memory address space
+Subject: [PATCH v2 06/50] dino: move pci_setup_iommu() to dino_pcihost_init()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,55 +64,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- hw/hppa/dino.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/hppa/dino.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-index bc27aad5dc..13b2210462 100644
+index 13b2210462..dcebb9f98f 100644
 --- a/hw/hppa/dino.c
 +++ b/hw/hppa/dino.c
-@@ -17,6 +17,7 @@
- #include "hw/irq.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
-+#include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "hppa_sys.h"
- #include "trace.h"
-@@ -124,6 +125,8 @@ struct DinoState {
-     MemoryRegion pci_mem;
-     MemoryRegion pci_mem_alias[32];
+@@ -556,7 +556,6 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+     memory_region_add_subregion(&s->bm, 0xfff00000,
+                                 &s->bm_cpu_alias);
+     address_space_init(&s->bm_as, &s->bm, "pci-bm");
+-    pci_setup_iommu(b, dino_pcihost_set_iommu, s);
  
-+    MemoryRegion *memory_as;
+     *p_rtc_irq = qemu_allocate_irq(dino_set_timer_irq, s, 0);
+     *p_ser_irq = qemu_allocate_irq(dino_set_serial_irq, s, 0);
+@@ -605,6 +604,8 @@ static void dino_pcihost_init(Object *obj)
+         g_free(name);
+     }
+ 
++    pci_setup_iommu(phb->bus, dino_pcihost_set_iommu, s);
 +
-     AddressSpace bm_as;
-     MemoryRegion bm;
-     MemoryRegion bm_ram_alias;
-@@ -521,6 +524,8 @@ PCIBus *dino_init(MemoryRegion *addr_space,
-     PCIBus *b;
- 
-     dev = qdev_new(TYPE_DINO_PCI_HOST_BRIDGE);
-+    object_property_set_link(OBJECT(dev), "memory-as", OBJECT(addr_space),
-+                             &error_fatal);
-     s = DINO_PCI_HOST_BRIDGE(dev);
-     s->iar0 = s->iar1 = CPU_HPA + 3;
-     s->toc_addr = 0xFFFA0030; /* IO_COMMAND of CPU */
-@@ -603,10 +608,17 @@ static void dino_pcihost_init(Object *obj)
      sysbus_init_mmio(sbd, &s->this_mem);
- }
- 
-+static Property dino_pcihost_properties[] = {
-+    DEFINE_PROP_LINK("memory-as", DinoState, memory_as, TYPE_MEMORY_REGION,
-+                     MemoryRegion *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void dino_pcihost_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-+    device_class_set_props(dc, dino_pcihost_properties);
-     dc->vmsd = &vmstate_dino;
  }
  
 -- 
