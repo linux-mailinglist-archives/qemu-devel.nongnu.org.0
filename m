@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7164E519C63
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:54:03 +0200 (CEST)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224DD519C78
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:59:22 +0200 (CEST)
+Received: from localhost ([::1]:38248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmBhq-0006Te-HS
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
+	id 1nmBmz-00045N-8d
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHe-0007pl-Or
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:26:58 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49052)
+ id 1nmBHf-0007r6-6F
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:00 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHc-00041P-Su
+ id 1nmBHd-00041R-9w
  for qemu-devel@nongnu.org; Wed, 04 May 2022 05:26:58 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBGV-0002VG-Sm; Wed, 04 May 2022 10:25:51 +0100
+ id 1nmBGZ-0002VG-FC; Wed, 04 May 2022 10:25:51 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Wed,  4 May 2022 10:25:22 +0100
-Message-Id: <20220504092600.10048-13-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  4 May 2022 10:25:23 +0100
+Message-Id: <20220504092600.10048-14-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 12/50] hppa: use new CONFIG_HPPA_B160L option instead of
- CONFIG_DINO to build hppa machine
+Subject: [PATCH v2 13/50] dino: change dino_init() to return the DINO device
+ instead of PCIBus
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,66 +62,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DINO refers to the GSC-PCI bridge device which will soon be handled separately,
-however the QEMU HPPA machine is actually based upon the HPPA B160L as indicated
-by the Linux kernel dmesg output when booted in qemu-system-hppa and the QEMU
-MAINTAINERS file.
-
-Update the machine configuration to use CONFIG_HPPA_B160L instead of CONFIG_DINO
-and also update the machine description accordingly.
+This is in preparation for using more qdev APIs during the configuration of the
+HPPA generic machine.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- configs/devices/hppa-softmmu/default.mak | 2 +-
- hw/hppa/Kconfig                          | 2 +-
- hw/hppa/machine.c                        | 2 +-
- hw/hppa/meson.build                      | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ hw/hppa/dino.c     | 8 +++-----
+ hw/hppa/hppa_sys.h | 3 ++-
+ hw/hppa/machine.c  | 6 ++++--
+ 3 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/configs/devices/hppa-softmmu/default.mak b/configs/devices/hppa-softmmu/default.mak
-index b64c5eb3ff..b0364bb88f 100644
---- a/configs/devices/hppa-softmmu/default.mak
-+++ b/configs/devices/hppa-softmmu/default.mak
-@@ -6,4 +6,4 @@
+diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
+index 01546ff6fc..6c488c908e 100644
+--- a/hw/hppa/dino.c
++++ b/hw/hppa/dino.c
+@@ -409,12 +409,11 @@ static void dino_set_serial_irq(void *opaque, int irq, int level)
+     dino_set_irq(opaque, 10, level);
+ }
  
- # Boards:
- #
--CONFIG_DINO=y
-+CONFIG_HPPA_B160L=y
-diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
-index 22948db025..8d64ead217 100644
---- a/hw/hppa/Kconfig
-+++ b/hw/hppa/Kconfig
-@@ -1,4 +1,4 @@
--config DINO
-+config HPPA_B160L
-     bool
-     imply PCI_DEVICES
-     imply E1000_PCI
+-PCIBus *dino_init(MemoryRegion *addr_space,
+-                  qemu_irq *p_rtc_irq, qemu_irq *p_ser_irq)
++DinoState *dino_init(MemoryRegion *addr_space,
++                     qemu_irq *p_rtc_irq, qemu_irq *p_ser_irq)
+ {
+     DeviceState *dev;
+     DinoState *s;
+-    PCIBus *pci_bus;
+ 
+     dev = qdev_new(TYPE_DINO_PCI_HOST_BRIDGE);
+     object_property_set_link(OBJECT(dev), "memory-as", OBJECT(addr_space),
+@@ -428,8 +427,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+     *p_rtc_irq = qemu_allocate_irq(dino_set_timer_irq, s, 0);
+     *p_ser_irq = qemu_allocate_irq(dino_set_serial_irq, s, 0);
+ 
+-    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+-    return pci_bus;
++    return s;
+ }
+ 
+ static void dino_pcihost_reset(DeviceState *dev)
+diff --git a/hw/hppa/hppa_sys.h b/hw/hppa/hppa_sys.h
+index 9d8b28ec01..88773d2c35 100644
+--- a/hw/hppa/hppa_sys.h
++++ b/hw/hppa/hppa_sys.h
+@@ -9,8 +9,9 @@
+ #include "hw/intc/i8259.h"
+ 
+ #include "hppa_hardware.h"
++#include "dino.h"
+ 
+-PCIBus *dino_init(MemoryRegion *, qemu_irq *, qemu_irq *);
++DinoState *dino_init(MemoryRegion *, qemu_irq *, qemu_irq *);
+ DeviceState *lasi_init(MemoryRegion *);
+ #define enable_lasi_lan()       0
+ 
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index f7595c0857..971d7ffcfe 100644
+index 971d7ffcfe..94bc1b202a 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -366,7 +366,7 @@ static void hppa_nmi(NMIState *n, int cpu_index, Error **errp)
+@@ -17,6 +17,7 @@
+ #include "hw/char/serial.h"
+ #include "hw/net/lasi_82596.h"
+ #include "hw/nmi.h"
++#include "dino.h"
+ #include "hppa_sys.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+@@ -126,7 +127,7 @@ static void machine_hppa_init(MachineState *machine)
+     const char *kernel_filename = machine->kernel_filename;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     const char *initrd_filename = machine->initrd_filename;
+-    DeviceState *dev;
++    DeviceState *dev, *dino_dev;
+     PCIBus *pci_bus;
+     ISABus *isa_bus;
+     qemu_irq rtc_irq, serial_irq;
+@@ -166,7 +167,8 @@ static void machine_hppa_init(MachineState *machine)
+     lasi_init(addr_space);
  
- static void machine_hppa_machine_init(MachineClass *mc)
- {
--    mc->desc = "HPPA generic machine";
-+    mc->desc = "HPPA B160L machine";
-     mc->default_cpu_type = TYPE_HPPA_CPU;
-     mc->init = machine_hppa_init;
-     mc->reset = hppa_machine_reset;
-diff --git a/hw/hppa/meson.build b/hw/hppa/meson.build
-index 1deae83aee..32072bf204 100644
---- a/hw/hppa/meson.build
-+++ b/hw/hppa/meson.build
-@@ -1,4 +1,4 @@
- hppa_ss = ss.source_set()
--hppa_ss.add(when: 'CONFIG_DINO', if_true: files('pci.c', 'machine.c', 'dino.c', 'lasi.c'))
-+hppa_ss.add(when: 'CONFIG_HPPA_B160L', if_true: files('pci.c', 'machine.c', 'dino.c', 'lasi.c'))
+     /* Init Dino (PCI host bus chip).  */
+-    pci_bus = dino_init(addr_space, &rtc_irq, &serial_irq);
++    dino_dev = DEVICE(dino_init(addr_space, &rtc_irq, &serial_irq));
++    pci_bus = PCI_BUS(qdev_get_child_bus(dino_dev, "pci"));
+     assert(pci_bus);
  
- hw_arch += {'hppa': hppa_ss}
+     /* Create ISA bus. */
 -- 
 2.20.1
 
