@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95A5519803
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 09:22:34 +0200 (CEST)
-Received: from localhost ([::1]:35532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0584519865
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 09:34:30 +0200 (CEST)
+Received: from localhost ([::1]:49682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm9LF-0004cc-DW
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 03:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47402)
+	id 1nm9Wn-0006ed-9K
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 03:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nm9Ft-0001F1-7p; Wed, 04 May 2022 03:17:03 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48728)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nm9PI-0001dc-Tu; Wed, 04 May 2022 03:26:45 -0400
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:57577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nm9Fq-0002ih-R9; Wed, 04 May 2022 03:17:00 -0400
-Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nm9Ep-0001V3-LE; Wed, 04 May 2022 08:15:59 +0100
-Message-ID: <2ab9e2b3-5dba-4e18-ed2e-6063a2716f4c@ilande.co.uk>
-Date: Wed, 4 May 2022 08:16:48 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nm9PG-0004J2-TT; Wed, 04 May 2022 03:26:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.141])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 47E0B21426;
+ Wed,  4 May 2022 07:26:39 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Wed, 4 May 2022
+ 09:26:38 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001d605532e-2f39-4147-9167-6343b7212c7e,
+ 6B2DFAB2A66AAC820148B8778CE376EF5247917D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <3d9de3d0-8690-7665-5328-2a18167d566c@kaod.org>
+Date: Wed, 4 May 2022 09:26:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
+Subject: Re: [PATCH 0/1] hw/arm/aspeed: Add fby35 machine type
 Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, muriloo@linux.ibm.com,
- qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220429233146.29662-1-muriloo@linux.ibm.com>
- <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
- <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
- <87sfpqaey7.fsf@linux.ibm.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <87sfpqaey7.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Delevoryas <pdel@fb.com>
+CC: "patrick@stwcx.xyz" <patrick@stwcx.xyz>, qemu-arm <qemu-arm@nongnu.org>,
+ Cameron Esfahani via <qemu-devel@nongnu.org>
+References: <20220503204451.1257898-1-pdel@fb.com>
+ <f0143ab9-54e9-09cd-d203-e779f9d8d6e4@kaod.org>
+ <A0BF3AA6-C57B-4A95-BCE2-92CE7A3733A8@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <A0BF3AA6-C57B-4A95-BCE2-92CE7A3733A8@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] mos6522: fix linking error when CONFIG_MOS6522 is not set
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: ceebc710-f481-4fd6-ad5e-0b5e464ba6ce
+X-Ovh-Tracer-Id: 3075677074327964640
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekgdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,115 +76,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2022 15:06, Fabiano Rosas wrote:
-
-> Murilo Opsfelder Araújo <muriloo@linux.ibm.com> writes:
+On 5/4/22 00:47, Peter Delevoryas wrote:
 > 
->> $ cat > configs/devices/rh-virtio.mak <<"EOF"
->> CONFIG_VIRTIO=y
->> CONFIG_VIRTIO_BALLOON=y
->> CONFIG_VIRTIO_BLK=y
->> CONFIG_VIRTIO_GPU=y
->> CONFIG_VIRTIO_INPUT=y
->> CONFIG_VIRTIO_INPUT_HOST=y
->> CONFIG_VIRTIO_NET=y
->> CONFIG_VIRTIO_RNG=y
->> CONFIG_VIRTIO_SCSI=y
->> CONFIG_VIRTIO_SERIAL=y
->> EOF
+> 
+>> On May 3, 2022, at 2:35 PM, Cédric Le Goater <clg@kaod.org> wrote:
 >>
->> $ cat > configs/devices/ppc64-softmmu/ppc64-rh-devices.mak <<"EOF"
->> include ../rh-virtio.mak
->> CONFIG_DIMM=y
->> CONFIG_MEM_DEVICE=y
->> CONFIG_NVDIMM=y
->> CONFIG_PCI=y
->> CONFIG_PCI_DEVICES=y
->> CONFIG_PCI_TESTDEV=y
->> CONFIG_PCI_EXPRESS=y
->> CONFIG_PSERIES=y
->> CONFIG_SCSI=y
->> CONFIG_SPAPR_VSCSI=y
->> CONFIG_TEST_DEVICES=y
->> CONFIG_USB=y
->> CONFIG_USB_OHCI=y
->> CONFIG_USB_OHCI_PCI=y
->> CONFIG_USB_SMARTCARD=y
->> CONFIG_USB_STORAGE_CORE=y
->> CONFIG_USB_STORAGE_CLASSIC=y
->> CONFIG_USB_XHCI=y
->> CONFIG_USB_XHCI_NEC=y
->> CONFIG_USB_XHCI_PCI=y
->> CONFIG_VFIO=y
->> CONFIG_VFIO_PCI=y
->> CONFIG_VGA=y
->> CONFIG_VGA_PCI=y
->> CONFIG_VHOST_USER=y
->> CONFIG_VIRTIO_PCI=y
->> CONFIG_VIRTIO_VGA=y
->> CONFIG_WDT_IB6300ESB=y
->> CONFIG_XICS=y
->> CONFIG_XIVE=y
->> CONFIG_TPM=y
->> CONFIG_TPM_SPAPR=y
->> CONFIG_TPM_EMULATOR=y
->> EOF
+>> On 5/3/22 22:44, Peter Delevoryas wrote:
+>>> Hey everyone,
+>>> I'm submitting another Facebook (Meta Platforms) machine type: this time I'm
+>>> including an acceptance test too.
+>>> Unfortunately, this machine boots _very_ slowly. 300+ seconds.
 >>
->> $ mkdir build
->> $ cd build
+>> This is too much for avocado tests.
+> 
+> Erg, yeah I figured as much. I’ll just resubmit it without the avocado test then,
+> if that sounds ok to you.
+> 
 >>
-> 
-> <snip>
-> 
->> $ ../configure --without-default-devices --with-devices-ppc64=ppc64-rh-devices --target-list=ppc64-softmmu
->> $ make -j
->> ...
->> /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data.rel+0x3228): undefined reference to `hmp_info_via'
->> collect2: error: ld returned 1 exit status
+>>> I'm not sure why this is (so I don't know how to fix it easily)
 >>
->> Since TARGET_PPC is defined when building target ppc64-softmmu, the hmp_info_via will be referenced when processing the hmp-commands-info.hx.
->> However, hmp_info_via implementation resides on hw/misc/mos6522.c, which is built only if CONFIG_MOS6522 is defined, as per hw/misc/meson.build.
+>> The fuji has the same kind of problem. It takes ages to load the lzma ramdisk.
+>> Could it be a modeling issue ? or how the FW image is compiled ?
 > 
-> I think this particular problem you hit is due to the 64 bit devices
-> file including 32 bit as well:
-> 
-> $ cat configs/devices/ppc64-softmmu/default.mak
-> # Default configuration for ppc64-softmmu
-> 
-> # Include all 32-bit boards
-> include ../ppc-softmmu/default.mak <----- here
-> 
-> # For PowerNV
-> CONFIG_POWERNV=y
-> 
-> # For pSeries
-> CONFIG_PSERIES=y
-> ---
-> 
-> So ppc64-softmmu doesn't quite do what it says on the tin. I think in
-> the long run we need to revisit the conversation about whether to keep
-> the 32 & 64 bit builds separate. It is misleading that you're explicitly
-> excluding ppc-softmmu from the `--target-list`, but a some 32 bit stuff
-> still comes along implicitly.
+> Yeah, one reason is that Facebook OpenBMC machines have an unnecessarily
+> big initramfs that includes all the rootfs stuff, 
 
-Unfortunately for historical reasons it isn't quite that simple: the mac99 machine in 
-hw/ppc/mac_newworld.c is both a 32-bit and a 64-bit machine, but with a different PCI 
-host bridge and a 970 CPU if run from qemu-system-ppc64. Unfortunately it pre-dates 
-my time working on QEMU's PPC Mac machines but I believe it was (is?) capable of 
-booting Linux, even though I doubt it accurately represents a real machine.
+Indeed,
 
->> If hmp_info_via is generic enough and not device-specific, it could be moved out of mos6522.c to somewhere else.
+    Trying 'ramdisk@1' ramdisk subimage
+      Description:  RAMDISK
+      Type:         RAMDisk Image
+      Compression:  lzma compressed
+      Data Start:   0x2047da18
+      Data Size:    21938373 Bytes = 20.9 MiB
+
+That doesn't help for sure.
+
+> whereas regular OpenBMC machines have a smaller initramfs right? 
+
+yes, about 1MB.
+
+> I don’t entirely know what I’m talking about though.
 > 
-> Perhaps it would be easier to just have a stub for the 64 bits build? Do
-> HMP commands get in any way enabled/disabled depending on the emulated
-> hw that is available? It might be ok to have a hmp_info_via that is a
-> noop in 64bit.
+> I think most FB machines have moved to zstd compression recently though,
+> but this one may have been missed: I can fix that on the image side. I’ll
+> also experiment more to see if it’s something wrong with the image, or possibly
+> a regression in QEMU. It would really be super awesome if it could boot faster,
+> so I’m very motivated to find a solution.
 
-I've provided a pointer back to the original thread in my previous reply which I hope 
-will give some background here.
+there is something else because loading the kernel on the fuji takes
+much longer than on the ast2600-evb and it is the same size :
+
+    Trying 'kernel@1' kernel subimage
+      Description:  Linux kernel
+      Type:         Kernel Image
+      Compression:  uncompressed
+      Data Start:   0x201000e0
+      Data Size:    3659848 Bytes = 3.5 MiB
 
 
-ATB,
+Is uboot doing some special CPU configuration which would slow down
+emulation ? Try profiling may be.
 
-Mark.
+Thanks,
+
+C.
 
