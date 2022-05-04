@@ -2,87 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B13351AA51
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 19:21:21 +0200 (CEST)
-Received: from localhost ([::1]:32992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE6351AABF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 19:32:35 +0200 (CEST)
+Received: from localhost ([::1]:38918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmIgg-00022G-04
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 13:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
+	id 1nmIra-0006y9-Hu
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 13:32:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nmIfN-0000ct-If
- for qemu-devel@nongnu.org; Wed, 04 May 2022 13:19:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52910)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nmIpg-0004bb-Va
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 13:30:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nmIfK-0008Ck-Qg
- for qemu-devel@nongnu.org; Wed, 04 May 2022 13:19:56 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nmIpf-0002zX-46
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 13:30:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651684791;
+ s=mimecast20190719; t=1651685433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XUx81F93oNc2rrQWMl1U0oFjPsCmhrKF1pGEcW2KZHo=;
- b=T+ywPkE2T3tA1Y0FHtiH61fxh7b3Cnn0G+MeTRKnfkHgO4czt8tj0UROrA1t3Jse0xfJy1
- MUsWKzSos3dxrC4cFkO7G0t7VqA1jHn8NrkFqZlG/Xf+jQpLq1zmonxJpHe1LZ4JbM2G1p
- 7GNCd9CUVvu9bsNtGQvb0Lv4ohA0dNQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=V2tkWasWMy2wuaumwxKZb//mK5bdZ6NM81Be7A1Fddk=;
+ b=FcPD+3eS+H0sR0xBak7ptxI95kYFbCferWgbl8iu6fHNLg6cezcbkk/KsiAZ1kvoFMmVm5
+ o9IwtVbqRoo24THB2GGNPoBalS1fI4Hx71/mfIjg4yPtVp1JlG5Rh19vLjYo1a7PbS6Xop
+ bvzQUWB9+9B4/Lc3tRQ20uYpLkGLlw4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-uKsz3CZCM-qI8-T1IO3iHw-1; Wed, 04 May 2022 13:19:50 -0400
-X-MC-Unique: uKsz3CZCM-qI8-T1IO3iHw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cf16-20020a0564020b9000b00425d543c75dso1133355edb.11
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 10:19:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XUx81F93oNc2rrQWMl1U0oFjPsCmhrKF1pGEcW2KZHo=;
- b=Pn3NPh22rvs30zFyI9wWZxNZL7jsW5sUCaIzPkCn4FqNTmqZe5/VcrtDKo8+nPi7sa
- 5hz3woMdQxYzAGIR2Kita+VxI8OG1FNiVpGed9f3HU1Im/0NNrbNlPRl3icwhhQh45+b
- 2ptjarO1Bw0YvgrDkL/rrYvhxRKsMLblW1Dvvi/d3U4aiUi+Py9zeawI+cy6P1hV3VkA
- 0Mt95v/L0+QeC4VD269lbQwmqyZ4Q81IYP6je7nDYcOFGeREz1p2/z7CG8K4cuMnWu3R
- TPLUcDwgcHLYbOnqAEwbmiGuET+9+ncZgAWyeftzBkV+cev4oQwGjkV6Gzk5+EluNvfd
- cy4g==
-X-Gm-Message-State: AOAM530BD3ee3MYlsBTfwbaXR0EB2Kr4+MlN8z3AxRRHdoVyGGdhbD+S
- uyu6AHao4orO96pE+NmuHnPQLRw2+qL8PZ264+8Xe2Wqtyq++aTkSJiY+OVoF0Tr8SJ6r4OkN7j
- y+N8zZMgZqdKPI9f/RV/XSa5o6yaKybY=
-X-Received: by 2002:a17:906:99c3:b0:6f4:a9d7:6dac with SMTP id
- s3-20020a17090699c300b006f4a9d76dacmr6190513ejn.85.1651684788892; 
- Wed, 04 May 2022 10:19:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwg2u8OHNxg8e7ChkWT0mfoMoOkSQNyVe2w2EvhB3yXddkj1rnrTNwRdqbCGfk5txGsxqX9ibUtPzN3pn+DsUU=
-X-Received: by 2002:a17:906:99c3:b0:6f4:a9d7:6dac with SMTP id
- s3-20020a17090699c300b006f4a9d76dacmr6190492ejn.85.1651684788669; Wed, 04 May
- 2022 10:19:48 -0700 (PDT)
+ us-mta-50-DEewslJpND6lKm_oLi5IQw-1; Wed, 04 May 2022 13:30:29 -0400
+X-MC-Unique: DEewslJpND6lKm_oLi5IQw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43463800186;
+ Wed,  4 May 2022 17:30:29 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0BE68C27D8F;
+ Wed,  4 May 2022 17:30:27 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Laurent Vivier <lvivier@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH 00/16] Misc cleanups
+Date: Wed,  4 May 2022 21:30:09 +0400
+Message-Id: <20220504173025.650167-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20220425215055.611825-1-leobras@redhat.com>
- <20220425215055.611825-4-leobras@redhat.com>
- <87mtfx7eui.fsf@pond.sub.org>
-In-Reply-To: <87mtfx7eui.fsf@pond.sub.org>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 4 May 2022 14:19:37 -0300
-Message-ID: <CAJ6HWG5YdqFDZXBUrPRXUmoigErYb6kqpO6M+VKMAjHnFVHaQg@mail.gmail.com>
-Subject: Re: [PATCH v9 3/7] migration: Add zero-copy-send parameter for
- QMP/HMP for Linux
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, 
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Xu <peterx@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -106,68 +85,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 4, 2022 at 7:48 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Leonardo Bras <leobras@redhat.com> writes:
->
-> > Add property that allows zero-copy migration of memory pages
-> > on the sending side, and also includes a helper function
-> > migrate_use_zero_copy_send() to check if it's enabled.
-> >
-> > No code is introduced to actually do the migration, but it allow
-> > future implementations to enable/disable this feature.
-> >
-> > On non-Linux builds this parameter is compiled-out.
-> >
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > Reviewed-by: Juan Quintela <quintela@redhat.com>
-> > ---
-> >  qapi/migration.json   | 24 ++++++++++++++++++++++++
-> >  migration/migration.h |  5 +++++
-> >  migration/migration.c | 32 ++++++++++++++++++++++++++++++++
-> >  migration/socket.c    | 11 +++++++++--
-> >  monitor/hmp-cmds.c    |  6 ++++++
-> >  5 files changed, 76 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/qapi/migration.json b/qapi/migration.json
-> > index 409eb086a2..04246481ce 100644
-> > --- a/qapi/migration.json
-> > +++ b/qapi/migration.json
-> > @@ -741,6 +741,13 @@
-> >  #                      will consume more CPU.
-> >  #                      Defaults to 1. (Since 5.0)
-> >  #
-> > +# @zero-copy-send: Controls behavior on sending memory pages on migrat=
-ion.
-> > +#                  When true, enables a zero-copy mechanism for sendin=
-g memory
-> > +#                  pages, if host supports it.
-> > +#                  Requires that QEMU be permitted to use locked memor=
-y for guest
-> > +#                  RAM pages.
->
-> Please wrap lines around column 75.  More of the same below.
->
-> > +#                  Defaults to false. (Since 7.1)
-> > +#
-> >  # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
-> >  #                        aliases for the purpose of dirty bitmap migra=
-tion.  Such
-> >  #                        aliases may for example be the corresponding =
-names on the
->
-> With that, QAPI schema
-> Acked-by: Markus Armbruster <armbru@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Thanks Markus!
+Hi,
 
-Best regards,
-Leo
+Perhaps the last series of preliminary patches before I propose a longer series
+to add qemu-common & qga meson subprojects. That's why they are mostly
+QGA-related cleanups.
 
->
-> [...]
->
+Thanks for the reviews!
+
+Marc-André Lureau (16):
+  include: move qemu_*_exec_dir() to cutils
+  util/win32: simplify qemu_get_local_state_dir()
+  tests: make libqmp buildable for win32
+  compiler.h: add QEMU_{BEGIN,END}_IGNORE_INITIALIZER_OVERRIDES
+  qobject/json-lexer: disable -Winitializer-overrides warnings
+  include: adjust header guards after renaming
+  qga: flatten safe_open_or_create()
+  osdep: export qemu_open_cloexec()
+  qga: use qemu_open_cloexec() for safe_open_or_create()
+  qapi/error: add g_autoptr(Error) support
+  qga: replace qemu_open_old() with qemu_open_cloexec()
+  test/qga: use G_TEST_DIR to locate os-release test file
+  qga/wixl: prefer variables over environment
+  qga/wixl: require Mingw_bin
+  qga/wixl: simplify some pre-processing
+  qga/wixl: replace QEMU_GA_MSI_MINGW_BIN_PATH with glib bindir
+
+ configure                            |   9 +-
+ meson.build                          |   5 +-
+ include/qapi/error.h                 |   2 +
+ include/qemu/compiler.h              |  11 ++
+ include/qemu/cutils.h                |   7 ++
+ include/qemu/help-texts.h            |   4 +-
+ include/qemu/osdep.h                 |   9 +-
+ tests/qtest/libqmp.h                 |   2 +
+ qemu-io.c                            |   1 +
+ qga/channel-posix.c                  |  18 ++--
+ qga/commands-posix.c                 | 146 +++++++++++++--------------
+ qobject/json-lexer.c                 |   4 +
+ storage-daemon/qemu-storage-daemon.c |   1 +
+ tests/qtest/fuzz/fuzz.c              |   1 +
+ tests/qtest/libqmp.c                 |  35 +++++--
+ tests/unit/test-qga.c                |  11 +-
+ util/cutils.c                        | 108 ++++++++++++++++++++
+ util/osdep.c                         |  10 +-
+ util/oslib-posix.c                   |  81 ---------------
+ util/oslib-win32.c                   |  53 +---------
+ qga/installer/qemu-ga.wxs            |  83 +++++----------
+ qga/meson.build                      |  11 +-
+ 22 files changed, 313 insertions(+), 299 deletions(-)
+
+-- 
+2.36.0.44.g0f828332d5ac
 
 
