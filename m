@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2630C51AC62
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 20:08:29 +0200 (CEST)
-Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134CA51AC77
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 20:11:53 +0200 (CEST)
+Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmJQJ-0007Hg-Op
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 14:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48784)
+	id 1nmJTb-0000k2-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 14:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1nmJP7-0006VJ-JC; Wed, 04 May 2022 14:07:13 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:53820
+ id 1nmJSf-0008GW-LK; Wed, 04 May 2022 14:10:53 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]:53854
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1nmJP5-00061k-FL; Wed, 04 May 2022 14:07:13 -0400
+ id 1nmJSd-0007Dz-Na; Wed, 04 May 2022 14:10:53 -0400
 Received: from [192.168.178.59] (p57b42628.dip0.t-ipconnect.de [87.180.38.40])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 417CFDA042B;
- Wed,  4 May 2022 20:07:07 +0200 (CEST)
-Message-ID: <f9ba1995-d903-702d-b78d-379a97d55b4b@weilnetz.de>
-Date: Wed, 4 May 2022 20:07:06 +0200
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 6B779DA0DFB;
+ Wed,  4 May 2022 20:10:49 +0200 (CEST)
+Message-ID: <7ac0d436-d380-c4a1-3a9a-f6c27f6b0761@weilnetz.de>
+Date: Wed, 4 May 2022 20:10:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH 02/16] util/win32: simplify qemu_get_local_state_dir()
+Subject: Re: [PATCH 06/16] include: adjust header guards after renaming
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent Vivier <lvivier@redhat.com>,
@@ -39,11 +39,11 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Bandan Das <bsd@redhat.com>, Michael Roth <michael.roth@amd.com>,
  Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>
 References: <20220504173025.650167-1-marcandre.lureau@redhat.com>
- <20220504173025.650167-3-marcandre.lureau@redhat.com>
-In-Reply-To: <20220504173025.650167-3-marcandre.lureau@redhat.com>
+ <20220504173025.650167-7-marcandre.lureau@redhat.com>
+In-Reply-To: <20220504173025.650167-7-marcandre.lureau@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------DkOnRyp6kZDfPs0a7eZdA3fR"
+ boundary="------------IZT04Wef0u0S9Aru182aKoPB"
 Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
  helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -18
@@ -70,8 +70,8 @@ Reply-to:  Stefan Weil <sw@weilnetz.de>
 From:  Stefan Weil via <qemu-devel@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------DkOnRyp6kZDfPs0a7eZdA3fR
-Content-Type: multipart/mixed; boundary="------------K8KhYhL5jzb1jBqWmsWXrqfO";
+--------------IZT04Wef0u0S9Aru182aKoPB
+Content-Type: multipart/mixed; boundary="------------KnXHA3ta0Q1n5Dcdl6tzUHnx";
  protected-headers="v1"
 From: Stefan Weil <sw@weilnetz.de>
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
@@ -82,37 +82,35 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  qemu-block@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
  Bandan Das <bsd@redhat.com>, Michael Roth <michael.roth@amd.com>,
  Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>
-Message-ID: <f9ba1995-d903-702d-b78d-379a97d55b4b@weilnetz.de>
-Subject: Re: [PATCH 02/16] util/win32: simplify qemu_get_local_state_dir()
+Message-ID: <7ac0d436-d380-c4a1-3a9a-f6c27f6b0761@weilnetz.de>
+Subject: Re: [PATCH 06/16] include: adjust header guards after renaming
 References: <20220504173025.650167-1-marcandre.lureau@redhat.com>
- <20220504173025.650167-3-marcandre.lureau@redhat.com>
-In-Reply-To: <20220504173025.650167-3-marcandre.lureau@redhat.com>
+ <20220504173025.650167-7-marcandre.lureau@redhat.com>
+In-Reply-To: <20220504173025.650167-7-marcandre.lureau@redhat.com>
 
---------------K8KhYhL5jzb1jBqWmsWXrqfO
-Content-Type: multipart/mixed; boundary="------------FEAndfUmRKmReVLMinOvH6Pc"
+--------------KnXHA3ta0Q1n5Dcdl6tzUHnx
+Content-Type: multipart/mixed; boundary="------------sXNCcbIvvucbDHqe8W9Pan4n"
 
---------------FEAndfUmRKmReVLMinOvH6Pc
+--------------sXNCcbIvvucbDHqe8W9Pan4n
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
 QW0gMDQuMDUuMjIgdW0gMTk6MzAgc2NocmllYiBtYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5j
 b206DQoNCj4gRnJvbTogTWFyYy1BbmRyw6kgTHVyZWF1IDxtYXJjYW5kcmUubHVyZWF1QHJl
-ZGhhdC5jb20+DQo+DQo+IFNIR2V0Rm9sZGVyUGF0aCgpIGlzIGEgZGVwcmVjYXRlZCBBUEk6
-DQo+IGh0dHBzOi8vZG9jcy5taWNyb3NvZnQuY29tL2VuLXVzL3dpbmRvd3Mvd2luMzIvYXBp
-L3NobG9ial9jb3JlL25mLXNobG9ial9jb3JlLXNoZ2V0Zm9sZGVycGF0aGENCj4NCj4gSXQg
-aXMgYSB3cmFwcGVyIGZvciBTSEdldEtub3duRm9sZGVyUGF0aCgpIGFuZCBDU0lETF9DT01N
-T05fUEFUSCBpcw0KPiBtYXBwZWQgdG8gRk9MREVSSURfUHJvZ3JhbURhdGE6DQo+IGh0dHBz
-Oi8vZG9jcy5taWNyb3NvZnQuY29tL2VuLXVzL3dpbmRvd3Mvd2luMzIvc2hlbGwvY3NpZGwN
-Cj4NCj4gZ19nZXRfc3lzdGVtX2RhdGFfZGlycygpIGlzIGEgc3VpdGFibGUgcmVwbGFjZW1l
-bnQsIGFzIGl0IHdpbGwgaGF2ZQ0KPiBGT0xERVJJRF9Qcm9ncmFtRGF0YSBpbiB0aGUgcmV0
-dXJuZWQgbGlzdC4gSG93ZXZlciwgaXQgZm9sbG93cyB0aGUgWERHDQo+IEJhc2UgRGlyZWN0
-b3J5IFNwZWNpZmljYXRpb24sIGlmIGBYREdfREFUQV9ESVJTYCBpcyBkZWZpbmVkLCBpdCB3
-aWxsIGJlDQo+IHJldHVybmVkIGluc3RlYWQuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IE1hcmMt
-QW5kcsOpIEx1cmVhdSA8bWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPg0KPiAtLS0NCj4g
-ICB1dGlsL29zbGliLXdpbjMyLmMgfCAxNyArKysrLS0tLS0tLS0tLS0tLQ0KPiAgIDEgZmls
-ZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQ0KPg0KDQpSZXZp
-ZXdlZC1ieTogU3RlZmFuIFdlaWwgPHN3QHdlaWxuZXR6LmRlPg0KDQoNCg==
---------------FEAndfUmRKmReVLMinOvH6Pc
+ZGhhdC5jb20+DQo+DQo+IFNpZ25lZC1vZmYtYnk6IE1hcmMtQW5kcsOpIEx1cmVhdSA8bWFy
+Y2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPg0KPiAtLS0NCj4gICBpbmNsdWRlL3FlbXUvaGVs
+cC10ZXh0cy5oIHwgNCArKy0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvcWVtdS9oZWxw
+LXRleHRzLmggYi9pbmNsdWRlL3FlbXUvaGVscC10ZXh0cy5oDQo+IGluZGV4IGJhMzJjYzhi
+MWYzOS4uNGYyNjVmZWQ4ZGYxIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL3FlbXUvaGVscC10
+ZXh0cy5oDQo+ICsrKyBiL2luY2x1ZGUvcWVtdS9oZWxwLXRleHRzLmgNCj4gQEAgLTEsNSAr
+MSw1IEBADQo+IC0jaWZuZGVmIFFFTVVfQ09NTU9OX0gNCj4gLSNkZWZpbmUgUUVNVV9DT01N
+T05fSA0KPiArI2lmbmRlZiBRRU1VX0hFTFBfVEVYVFNfSA0KPiArI2RlZmluZSBRRU1VX0hF
+TFBfVEVYVFNfSA0KPiAgIA0KPiAgIC8qIENvcHlyaWdodCBzdHJpbmcgZm9yIC12ZXJzaW9u
+IGFyZ3VtZW50cywgQWJvdXQgZGlhbG9ncywgZXRjICovDQo+ICAgI2RlZmluZSBRRU1VX0NP
+UFlSSUdIVCAiQ29weXJpZ2h0IChjKSAyMDAzLTIwMjIgIiBcDQoNCg0KUmV2aWV3ZWQtYnk6
+IFN0ZWZhbiBXZWlsIDxzd0B3ZWlsbmV0ei5kZT4NCg0KDQo=
+--------------sXNCcbIvvucbDHqe8W9Pan4n
 Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Description: OpenPGP public key
@@ -365,30 +363,30 @@ DeVClG6eQIiK2EnmDChLRkVIQzbkV0iG+NJVVJHLGK7/OsO47+zq
 =3DcqGX
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------FEAndfUmRKmReVLMinOvH6Pc--
+--------------sXNCcbIvvucbDHqe8W9Pan4n--
 
---------------K8KhYhL5jzb1jBqWmsWXrqfO--
+--------------KnXHA3ta0Q1n5Dcdl6tzUHnx--
 
---------------DkOnRyp6kZDfPs0a7eZdA3fR
+--------------IZT04Wef0u0S9Aru182aKoPB
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmJywMoFAwAAAAAACgkQ4Iwh1Wd0UK1d
-fBAAkm6y43y4ETmwGdg1VE/8RnFxyAxbTHnFOr+Q/ir4wVfsGGRlcGBwUBzx+r3OfeGJKVNYXBj6
-7sKhLP24Ei9TtcFY4rdffXm3T+Po1oHhl0LHeEJlbuW5KPKp6bqBenfo6A9/AD+SqkXn01wVNsKu
-x9e/7KFhEDtiq1iy5cp9BJtdImK/qD9Aflgua+98Z0/7G6AdwpF49H+MfGNItRnV1gSB+0cfhqbW
-zN5XyK/xSvCFpa951Uc2Yp1SPbl9YqJlMPOgTnDE4yhQ+1ovGSvEun0LD70WF9ojrtwqNfgcJZOj
-6pIchgaMNpAQT1XilC2DFIrvnzOAD6uLucaIfMgO6/Y8vMnQGngXkSEavggU3mHd2/XbqslKPOgI
-QGsmWG/uBwn0Oao9d0ub0gTwDN4JClP+M5RePW961APFytEyxC/lNIL8yT2MI9HU3NGZQg78Vsfo
-tAYBQquwu4opju/NKBJQcGWD309+RjF29ZBZrYMR+2aiBoZR8c7gej0wfZbB1kudIwkz8Jm37ZqJ
-3WFuKAlmJu3hV6WYYuOMJNYTNqp2H1bzjpOe1Oo1o8wM27ppIBcET5mMsiIpLaBLB+G2ZFlG3fCf
-Cshw3i1emHW7zQiOGJcacs/cOqmMv0KyLI1oM1njT9rkF1LnRM1EUjye4ARpCLXhhGoIAgRxmQVQ
-uQI=
-=7hYm
+wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmJywakFAwAAAAAACgkQ4Iwh1Wd0UK0c
+8RAAgvaUoeRL9I/W/HjyT1GwcPNXiuY6bNjvFryRR030upTaMXLL+xCAe8pq0WA7bjSoEkc6te1z
+zfPmTdMau9eVrwQoPZeofRGyDMpVa7qO9sxRY/qkGqv2NvyP7jEQLdipVWKAlbCqzZYZFz8bC0MV
+wiHVay8XjDXFM3ONXp8tJnIvqMxRIeoIKOUK8pjmYtb2tLi5Qc1UgNgbJJVkrrqM7hb2DMP4I/Ej
+aVVASi5SGVR7ubhS3ybeBR0NcP8ndunKZj2sIAP74Qa2SxsETjfR6lYnu4BpgOeVE6qdBmhvPK3A
+rFKc1fVkImFhAvb5libSWjRL1pVBS3RHlGLI00a6+oSiYdADwFU9wymUHtxNSbVQXCmDSsuqXbQN
+RVhc2baQXuod4EFcMdGNVmi9C795S9B//PyhB/YNMJR5fH4UMixRAYvCDwwQkmbKlT9MhBga7VDP
+/gBH2svWowAwMesgOwsqofoYcfgK2hAB4QR1UFAuFuFgAF9dm7KqJClw/m8UVaKdRJVSkIRYSvwq
+1EaFCatevpsulLkvBizff2K5OFPqc/wHu+OWzZoMQN4MRt5H4URrnJFht9zc9ckQRXgB/wZUopHo
+X/mdYT1grlF4dq43kCxZ/dCFHBHu9YcQQoauqUqULHPXKKei0z4Vw5zvGYXyh6DNg70hIJzt9vyN
+kPE=
+=5t4H
 -----END PGP SIGNATURE-----
 
---------------DkOnRyp6kZDfPs0a7eZdA3fR--
+--------------IZT04Wef0u0S9Aru182aKoPB--
 
