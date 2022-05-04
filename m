@@ -2,75 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3085519F18
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 14:18:16 +0200 (CEST)
-Received: from localhost ([::1]:54002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B7C519F26
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 14:22:46 +0200 (CEST)
+Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmDxP-0006gn-DF
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 08:18:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56300)
+	id 1nmE1j-00021y-4J
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 08:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmDRU-0003aL-In
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:45:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59407)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nmDUe-0006E6-8y; Wed, 04 May 2022 07:48:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmDRR-0005yg-Ne
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:45:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651664712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5iFeVL0+DYVMSkeyB2I0ldQraj4Bk44Arqo+g5aS5O0=;
- b=TVOhohAZSLTYXLZ/5kkEYwfNV+g6OAGV/aE4Po/qlhzQ7FsBQLgs1ipmH9FQr8Jkgb6KBT
- SQCfbJ8f/gT3Bsnoizl/fHsELBS6uXsWJ2zYRqutmSUILQ23YeLOXxSsyPCklLfP4/YWSm
- xncstvSihxPqucaICKEBXLpUfypQHgo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-BlE_jNdTPqieaYPi1HL0Tg-1; Wed, 04 May 2022 07:45:09 -0400
-X-MC-Unique: BlE_jNdTPqieaYPi1HL0Tg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA82E904864;
- Wed,  4 May 2022 11:45:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81CEF155973A;
- Wed,  4 May 2022 11:45:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 743EF21E68BC; Wed,  4 May 2022 13:45:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Cc: qemu-devel@nongnu.org,  stefanha@redhat.com,  mst@redhat.com,
- f4bug@amsat.org,  pbonzini@redhat.com,  marcandre.lureau@redhat.com,
- thuth@redhat.com,  bleal@redhat.com,  berrange@redhat.com,
- eduardo@habkost.net,  marcel.apfelbaum@gmail.com,  eblake@redhat.com,
- quintela@redhat.com,  dgilbert@redhat.com,  imammedo@redhat.com,
- peterx@redhat.com,  john.levon@nutanix.com,  thanos.makatos@nutanix.com,
- elena.ufimtseva@oracle.com,  john.g.johnson@oracle.com,
- kanth.ghatraju@oracle.com
-Subject: Re: [PATCH v9 07/17] vfio-user: define vfio-user-server object
-References: <cover.1651586203.git.jag.raman@oracle.com>
- <48d0f7214036d48b1f70b90a8c4a6c2a46363ee9.1651586203.git.jag.raman@oracle.com>
-Date: Wed, 04 May 2022 13:45:07 +0200
-In-Reply-To: <48d0f7214036d48b1f70b90a8c4a6c2a46363ee9.1651586203.git.jag.raman@oracle.com>
- (Jagannathan Raman's message of "Tue, 3 May 2022 10:16:48 -0400")
-Message-ID: <871qx97c8s.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nmDUc-0006g7-Fe; Wed, 04 May 2022 07:48:31 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244Bc7ei011970;
+ Wed, 4 May 2022 11:48:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=RUeSHhbUgUfo46KCEyXZizyqFvSdKTR6hRvbE0qkfO8=;
+ b=M3xHl82GD9KrnoQ81QTj1jl8I1a/psFQYwJ33O0l1gb773eo/TrVlkDkVmdpTSu57wGR
+ sPKZE7Sh03VZzwmPvvnpiFp39hglc7tlFHSsB56gPS4rpFmRd8VD6puUVvlBZG53LU1k
+ Rgh8dgb6ktlzamAUmtJ/CbX0HAPZom8olAisCPEEG7AQFBZKruF2rN7L/x0mMePnfeiX
+ m8dvquG3hgn/P+Tiu3lMEjsXR5eU0aQF1zcZxx5dSuLgipwS+u7ZmtLO0D/Hu6OGcgSh
+ s2RWlDmnvdm0QlW1Letw6LWzQOJYkrd3fuiyhtCWtr3X+YhG3qm4eaZFURXo+r2LKQOE pA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3furmc08c4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 May 2022 11:48:27 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 244BeRJ3017227;
+ Wed, 4 May 2022 11:48:27 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3furmc08bg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 May 2022 11:48:26 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 244BgX9j005725;
+ Wed, 4 May 2022 11:48:24 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06fra.de.ibm.com with ESMTP id 3fttcj1qrp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 May 2022 11:48:24 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 244BmLi841288060
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 4 May 2022 11:48:21 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4045C4C044;
+ Wed,  4 May 2022 11:48:21 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C63D24C046;
+ Wed,  4 May 2022 11:48:20 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.50.79])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  4 May 2022 11:48:20 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] linux-user/host/s390: Treat EX and EXRL as writes
+Date: Wed,  4 May 2022 13:48:19 +0200
+Message-Id: <20220504114819.1729737-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 93BDZSW-rGO7QIsjNGMW5paUix6HgKiJ
+X-Proofpoint-ORIG-GUID: 5nFCX-oXsjDWqKZF4Zx11igj53DGopvC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-04_03,2022-05-04_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 phishscore=0 spamscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 lowpriorityscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205040076
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,77 +112,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jagannathan Raman <jag.raman@oracle.com> writes:
+clang-built s390x branch-relative-long test fails on clang-built s390x
+QEMU due to the following sequence of events:
 
-> Define vfio-user object which is remote process server for QEMU. Setup
-> object initialization functions and properties necessary to instantiate
-> the object
->
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  qapi/qom.json               |  20 +++-
->  include/hw/remote/machine.h |   2 +
->  hw/remote/machine.c         |  27 +++++
->  hw/remote/vfio-user-obj.c   | 210 ++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                 |   1 +
->  hw/remote/meson.build       |   1 +
->  hw/remote/trace-events      |   3 +
->  7 files changed, 262 insertions(+), 2 deletions(-)
->  create mode 100644 hw/remote/vfio-user-obj.c
->
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index eeb5395ff3..582def0522 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -703,6 +703,20 @@
->  { 'struct': 'RemoteObjectProperties',
->    'data': { 'fd': 'str', 'devid': 'str' } }
->  
-> +##
-> +# @VfioUserServerProperties:
-> +#
-> +# Properties for x-vfio-user-server objects.
-> +#
-> +# @socket: socket to be used by the libvfio-user library
-> +#
-> +# @device: the id of the device to be emulated at the server
+- The test zeroes out a code page, clang generates exrl+xc for this.
 
-Suggest "the ID", because "id" is not a word.
+- do_helper_xc() is called. Clang generates exrl+xc there as well.
 
-What kind of ID is this?  The kind set with -device id=...?
+- Since there already exists a TB for the code in question, its page is
+  read-only and SIGSEGV is raised.
 
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'VfioUserServerProperties',
-> +  'data': { 'socket': 'SocketAddress', 'device': 'str' } }
-> +
->  ##
->  # @RngProperties:
->  #
-> @@ -842,7 +856,8 @@
->      'tls-creds-psk',
->      'tls-creds-x509',
->      'tls-cipher-suites',
-> -    { 'name': 'x-remote-object', 'features': [ 'unstable' ] }
-> +    { 'name': 'x-remote-object', 'features': [ 'unstable' ] },
-> +    { 'name': 'x-vfio-user-server', 'features': [ 'unstable' ] }
->    ] }
->  
->  ##
-> @@ -905,7 +920,8 @@
->        'tls-creds-psk':              'TlsCredsPskProperties',
->        'tls-creds-x509':             'TlsCredsX509Properties',
->        'tls-cipher-suites':          'TlsCredsProperties',
-> -      'x-remote-object':            'RemoteObjectProperties'
-> +      'x-remote-object':            'RemoteObjectProperties',
-> +      'x-vfio-user-server':         'VfioUserServerProperties'
->    } }
->  
->  ##
+- host_signal_handler() calls host_signal_write() and the latter does
+  not recognize exrl as a write. Therefore page_unprotect() is not
+  called and the signal is forwarded to the test.
 
-[...]
+Fix by treating EXRL (and EX, just in case) as writes. There may be
+false positives, but they will lead only to an extra page_unprotect()
+call.
+
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/include/host/s390/host-signal.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/linux-user/include/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
+index 6f191e64d7..25fefa00bd 100644
+--- a/linux-user/include/host/s390/host-signal.h
++++ b/linux-user/include/host/s390/host-signal.h
+@@ -50,6 +50,7 @@ static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
+     case 0x50: /* ST */
+     case 0x42: /* STC */
+     case 0x40: /* STH */
++    case 0x44: /* EX */
+     case 0xba: /* CS */
+     case 0xbb: /* CDS */
+         return true;
+@@ -61,6 +62,12 @@ static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
+             return true;
+         }
+         break;
++    case 0xc6: /* RIL-b format insns */
++        switch (pinsn[0] & 0xf) {
++        case 0x0: /* EXRL */
++            return true;
++        }
++        break;
+     case 0xc8: /* SSF format insns */
+         switch (pinsn[0] & 0xf) {
+         case 0x2: /* CSST */
+-- 
+2.35.1
 
 
