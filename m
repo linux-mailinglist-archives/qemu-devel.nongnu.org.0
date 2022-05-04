@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490E05198A7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 09:49:19 +0200 (CEST)
-Received: from localhost ([::1]:60368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64EF851990C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 09:58:32 +0200 (CEST)
+Received: from localhost ([::1]:48130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm9l8-00061w-6X
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 03:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52606)
+	id 1nm9u3-0000Vm-E0
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 03:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nm9dF-0002d8-C4
- for qemu-devel@nongnu.org; Wed, 04 May 2022 03:41:20 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53116)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nm9di-0002oq-2R; Wed, 04 May 2022 03:41:38 -0400
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:46053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nm9dC-00075J-VQ
- for qemu-devel@nongnu.org; Wed, 04 May 2022 03:41:09 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id e24so523750pjt.2
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 00:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Xk261oHbXKFFnsukENd6oL02N15hbamNQACtPikcMSk=;
- b=MtiB/xPsRn1rHqMJnCx8eSuq4M7QvEwDZVL4E3fmXjduSgjIwgHG+w/Yh4C1YrnbED
- OXUXJOyGaaGLYDdReFm0NZNdyhCxXYBOIDvv8+sbNIHnm/kMY++sWk+Xi0+r86H3wBum
- UMwZiGVXp++ZaJOfgL7Q+O6bUopA0BUBKi1OxD+T/MTq0Rw4b2+F0aEnBxf2PcI8TyB2
- RWNnRN5WdRpDMrb/ylz3NDm1d/xLUZR4BQ31p+6POt53sRzG4UA9t5i0ni7JGmpVUhZz
- 7Zjjc3ekLpML76f39Ol/UHLdCU4DJfvvoLIbeEdvr0ZSnKnBTwcL7BsvHiegQGeJtmxt
- CJ5g==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nm9dg-0007VW-Do; Wed, 04 May 2022 03:41:37 -0400
+Received: by mail-lj1-x232.google.com with SMTP id q14so622269ljc.12;
+ Wed, 04 May 2022 00:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4l5c1TagE86iLy8NoyKuu9R0AyoGb91AHPjuctgeggU=;
+ b=Rf0GVfwUtoBtFgwTtNerR8dMSNlNw2ykYbV/hlCRZNilCJWOPRvtOHyz+gFsLz1L8o
+ N9Amxth9oope9XHC/PB8ZtahRtp4+TuqFqtDiQ7ozQ6iWcHywavnH4jsezeHTPcIv9QY
+ 32KKeO176OW411MIxXoEirzzwx0w+s637FBvNYUA//4Yj5+3qsimLM+n++9WeKEpO/YR
+ T77EMt6b73KCet5aBIxg44wLYgejwNxcntXmg3weBNxJyrsrRzhUwlxfWkFqedJ4NYWc
+ ZZqYZ4k2weR4WaQKhyfGBR5H9yr2AoOTTv1OLORRUoNw5xPUPgoGV74H7e8VZhVNt0x+
+ NOCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Xk261oHbXKFFnsukENd6oL02N15hbamNQACtPikcMSk=;
- b=YDJm7UqlQCDGRqUxn+Wj5eI+zzBqRSOQ/W7HYJTMzsjPcUgpEbXKgBXLAioeM4vadE
- m6ZvqM9jLVIgB+4SFXJaSEUM70lusAWAnijPaS01vVFNXiB+2KrR1+jeNIE62ezUUq+P
- lshEjzFnGv3YANVmY5oc+9hSSAf6Cu5vbMqz5GGNSjhwiT6ms01krV1ahDsPGjjurm7q
- PPl83mlk94V5Y2VLwvFiThxKwguwst+hGuuMM3uu+lmBydLqbHwPOQx08VCsuESAFKjC
- qDvVogGF2UtJ1Au5DtmciCReQwr0Lmg47gHDa/KOFoEfHyIb5K1a129vM54907/kaNkw
- rtNQ==
-X-Gm-Message-State: AOAM530KsrjpSJ4NTDbkarDHTJtfXf4daWFNPzSr/iM2Ix4joaSZCC6P
- SjN2w2mE7wIRBgLeMcF1boqW
-X-Google-Smtp-Source: ABdhPJxTfVtXy8swI6avJk+u6PipbaKq3Xzcl1In4D81Xl6gD1bsU1W5NPdGIUxlIqBn5BfVNf6IXQ==
-X-Received: by 2002:a17:90b:1d03:b0:1dc:9589:7c90 with SMTP id
- on3-20020a17090b1d0300b001dc95897c90mr3769593pjb.225.1651650065260; 
- Wed, 04 May 2022 00:41:05 -0700 (PDT)
-Received: from localhost ([139.177.225.233]) by smtp.gmail.com with ESMTPSA id
- i3-20020a17090a718300b001d6a79768b6sm2584446pjk.49.2022.05.04.00.41.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 00:41:04 -0700 (PDT)
-From: Xie Yongji <xieyongji@bytedance.com>
-To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
- sgarzare@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
- mlureau@redhat.com, jsnow@redhat.com, eblake@redhat.com,
- Coiby.Xu@gmail.com, hreitz@redhat.com
-Cc: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v5 7/8] vduse-blk: Add vduse-blk resize support
-Date: Wed,  4 May 2022 15:40:50 +0800
-Message-Id: <20220504074051.90-8-xieyongji@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220504074051.90-1-xieyongji@bytedance.com>
-References: <20220504074051.90-1-xieyongji@bytedance.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4l5c1TagE86iLy8NoyKuu9R0AyoGb91AHPjuctgeggU=;
+ b=d0x73+/pf2xp0RqEYu45WHupvCvxZs7V99j2D/BZ/W9IgS/5JwpwR6uKouJpFRZmFV
+ HBqzQifcykFRltrgTqVSZQZYg1yOXGHHlBnpSPHu9Q23xfbXQW77HlAahzF6QdlshTBl
+ Osrh7jm9/Xv9cV0+kqgyU5cZIZ3cGScf6/iTrqIt8QZpR/dLeaBDMfcHx8XykB/uyNGk
+ BXS91JTufuNqnEOWxjfmp1W1kSNiIYyWTpxww6GN9a/OyyPQ/IBs5oLLfLGyV2Dx40ow
+ Vdcb+qo+aO+jN9eCXT6a5GkJVMCxdmBMa9ab/X0kQSlCCbCcUNGHGm256LGiQPjOfMKW
+ NWDw==
+X-Gm-Message-State: AOAM531vLE5NNAaZCDJACO5MBlT7YK9me4xxUA6xBKGvJtMWyJiA8czT
+ bWT4X5A0XDyPB7QHauXRSfoCEZy3VVW+ePw+smM=
+X-Google-Smtp-Source: ABdhPJyuCaPIEN9SeFh0klTOzYqsphXXPc8RPqG3SrRMtvb6dXMkD7Nnxob/SATakEy4q0KuGuOawrvLefBaYX/xKOg=
+X-Received: by 2002:a2e:b0d7:0:b0:24f:1300:df37 with SMTP id
+ g23-20020a2eb0d7000000b0024f1300df37mr11851416ljl.507.1651650093426; Wed, 04
+ May 2022 00:41:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220503200524.1868-1-luoyonggang@gmail.com>
+In-Reply-To: <20220503200524.1868-1-luoyonggang@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 4 May 2022 11:41:21 +0400
+Message-ID: <CAJ+F1CLhE5LFVv6ZHV-=Bek3xO-3wV-ovFUAsRnJYYmgwjOQvw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Upgrade mingw base packages
+To: Yonggang Luo <luoyonggang@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ qemu trival <qemu-trivial@nongnu.org>, Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000001caaff05de2ac163"
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,62 +84,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To support block resize, this uses vduse_dev_update_config()
-to update the capacity field in configuration space and inject
-config interrupt on the block resize callback.
+--0000000000001caaff05de2ac163
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/export/vduse-blk.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Hi
 
-diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-index 8580ae929f..2b72baf7ab 100644
---- a/block/export/vduse-blk.c
-+++ b/block/export/vduse-blk.c
-@@ -188,6 +188,23 @@ static void blk_aio_detach(void *opaque)
-     vblk_exp->export.ctx = NULL;
- }
- 
-+static void vduse_blk_resize(void *opaque)
-+{
-+    BlockExport *exp = opaque;
-+    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
-+    struct virtio_blk_config config;
-+
-+    config.capacity =
-+            cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
-+    vduse_dev_update_config(vblk_exp->dev, sizeof(config.capacity),
-+                            offsetof(struct virtio_blk_config, capacity),
-+                            (char *)&config.capacity);
-+}
-+
-+static const BlockDevOps vduse_block_ops = {
-+    .resize_cb = vduse_blk_resize,
-+};
-+
- static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-                                 Error **errp)
- {
-@@ -284,6 +301,8 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-                                  vblk_exp);
- 
-+    blk_set_dev_ops(exp->blk, &vduse_block_ops, exp);
-+
-     return 0;
- }
- 
-@@ -293,6 +312,7 @@ static void vduse_blk_exp_delete(BlockExport *exp)
- 
-     blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-                                     vblk_exp);
-+    blk_set_dev_ops(exp->blk, NULL, NULL);
-     vduse_dev_destroy(vblk_exp->dev);
- }
- 
--- 
-2.20.1
+On Wed, May 4, 2022 at 1:19 AM Yonggang Luo <luoyonggang@gmail.com> wrote:
 
+> v1. upgrade both cirrus and gitlab-ci to the newest mingw base release
+>
+> Yonggang Luo (2):
+>   cirrus/win32: upgrade mingw base packages
+>   gitlab-ci: Upgrade mingw base package.
+>
+
+lgtm,
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+It would help though to have some rationale for the change. Unfortunately,
+the installer news/changelog leaves a lot to be desired:
+https://github.com/msys2/msys2-installer/releases.
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000001caaff05de2ac163
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 4, 2022 at 1:19 AM Yong=
+gang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+v1. upgrade both cirrus and gitlab-ci to the newest mingw base release<br>
+<br>
+Yonggang Luo (2):<br>
+=C2=A0 cirrus/win32: upgrade mingw base packages<br>
+=C2=A0 gitlab-ci: Upgrade mingw base package.<br></blockquote><div><br></di=
+v><div>lgtm,<br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=
+=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=
+</div><div>=C2=A0</div><div>It would help though to have some rationale for=
+ the change. Unfortunately, the installer news/changelog leaves a lot to be=
+ desired: <a href=3D"https://github.com/msys2/msys2-installer/releases">htt=
+ps://github.com/msys2/msys2-installer/releases</a>.</div></div><br>-- <br><=
+div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div><=
+/div>
+
+--0000000000001caaff05de2ac163--
 
