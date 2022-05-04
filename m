@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134CA51AC77
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 20:11:53 +0200 (CEST)
-Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE7551AC8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 20:16:40 +0200 (CEST)
+Received: from localhost ([::1]:35944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmJTb-0000k2-Q2
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 14:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
+	id 1nmJYF-0004Ki-Dc
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 14:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1nmJSf-0008GW-LK; Wed, 04 May 2022 14:10:53 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:53854
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nmJWx-0002up-Rq
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 14:15:22 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:34035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1nmJSd-0007Dz-Na; Wed, 04 May 2022 14:10:53 -0400
-Received: from [192.168.178.59] (p57b42628.dip0.t-ipconnect.de [87.180.38.40])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 6B779DA0DFB;
- Wed,  4 May 2022 20:10:49 +0200 (CEST)
-Message-ID: <7ac0d436-d380-c4a1-3a9a-f6c27f6b0761@weilnetz.de>
-Date: Wed, 4 May 2022 20:10:49 +0200
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nmJWv-0008HR-Db
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 14:15:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=xllsAuj2GZH4QlTBbzBMKrKLnVVJy0Tl8SFqLyJ/t1I=; b=WOZ8LAeLx2MvH7yepN/Wv9vy9Q
+ 4OmdQWB6Ot1c+cevR4jqOwBJSU1GeXfd+8Mz3USsbf1er51J/b8q9RO0ZxjPXr4aZPGJjFZtibpJH
+ SNZ6Bai7fg7jTIrhiUCT1vxBIr9eOyV8F8dNBjeu7uJoex0faR4lZCpSW3zGUPcZvrzLFHLTyJZm/
+ ADrGxqPZeKDUqu0fowUoCBXzkkrsIhw3KyDBOvUEFGnn0HWtARd9P4iuYUZ58cNBY2BN/ZATO6K89
+ k9Clns846zSJ9rGQctbP38/6MEwHpNcn0TmnEfEnVV9fqspo4emeeuBgW8kXWMhkoLNE9hZ7OyL+a
+ WNWq0NJemd2crSNn9pvAcpQwvQ52IMd8YgCVeRm6Ee9OkwKuYVsrDVaK4uEFhv1HSyaBd793rahbw
+ 1IBMlIFJvDbtQRPnlkBtkRKICPThJtA4btqjpo1RxxloFdXE4glPAmJPNYB08+Eat6ywudOh3KA2v
+ UQag+HLjFOT11+lK0W5znIuz35G3i6oS6MGyzLZDNCMA4KVHKsesm6DZk/owMgI8WwUeROwEiWeCc
+ qKI7Jcl2GTuZ1tFj9EcYhI85AYiuyotAx0cL5JsUlK4G6l9m1PpDoJ+nz3Tg2LDnrSH31PBgys4fX
+ 7jAXnUISWPSAdg+MR9nfLmgLky2a6gBswbMZVxyGI=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Bin Meng <bin.meng@windriver.com>,
+ Guohuai Shi <guohuai.shi@windriver.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH 9/9] hw/9p: win32: Translate Windows error number to Linux
+ value
+Date: Wed, 04 May 2022 20:15:12 +0200
+Message-ID: <3252858.3Ads0fb212@silver>
+In-Reply-To: <20220425142705.2099270-10-bmeng.cn@gmail.com>
+References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
+ <20220425142705.2099270-10-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH 06/16] include: adjust header guards after renaming
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent Vivier <lvivier@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
- Bandan Das <bsd@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>
-References: <20220504173025.650167-1-marcandre.lureau@redhat.com>
- <20220504173025.650167-7-marcandre.lureau@redhat.com>
-In-Reply-To: <20220504173025.650167-7-marcandre.lureau@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------IZT04Wef0u0S9Aru182aKoPB"
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,327 +69,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------IZT04Wef0u0S9Aru182aKoPB
-Content-Type: multipart/mixed; boundary="------------KnXHA3ta0Q1n5Dcdl6tzUHnx";
- protected-headers="v1"
-From: Stefan Weil <sw@weilnetz.de>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent Vivier <lvivier@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
- Bandan Das <bsd@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>
-Message-ID: <7ac0d436-d380-c4a1-3a9a-f6c27f6b0761@weilnetz.de>
-Subject: Re: [PATCH 06/16] include: adjust header guards after renaming
-References: <20220504173025.650167-1-marcandre.lureau@redhat.com>
- <20220504173025.650167-7-marcandre.lureau@redhat.com>
-In-Reply-To: <20220504173025.650167-7-marcandre.lureau@redhat.com>
+On Montag, 25. April 2022 16:27:05 CEST Bin Meng wrote:
+> From: Guohuai Shi <guohuai.shi@windriver.com>
+> 
+> Some of Windows error numbers have different value from Linux ones.
+> For example, ENOTEMPTY is defined to 39 in Linux, but is defined to
+> 41 in Windows. So deleting a directory from a Linux guest on top
+> of QEMU from a Windows host complains:
+> 
+>   # rmdir tmp
+>   rmdir: 'tmp': Unknown error 41
+> 
+> This commit provides error number traslation from Windows to Linux.
+> It can make Linux guest OS happy with the error number when running
+> on top of QEMU from a Windows host.
+> 
+> This has a side effet that it requires all guest OSes' 9pfs drivers
+> to use the same errno.
+> 
+> It looks like macOS has different errno too so using 9p in a Linux
+> on top of QEMU from a macOS host may also fail in the above case.
+> I suspect we only tested 9p from a macOS guest on top of QEMU from
+> a macOS host, so this issue was not exposed.
+> 
+> I am not aware of Windows's native support for 9pfs so I think using
+> the Linux errnor as the standard is probably okay, but I am open for
+> suggestions.
+> 
+> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
 
---------------KnXHA3ta0Q1n5Dcdl6tzUHnx
-Content-Type: multipart/mixed; boundary="------------sXNCcbIvvucbDHqe8W9Pan4n"
+This patch collides with recent fixes for macOS hosts. Please rebase and use 
+the already existing function errno_to_dotl().
 
---------------sXNCcbIvvucbDHqe8W9Pan4n
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> 
+>  hw/9pfs/9p.h            |  4 ++++
+>  hw/9pfs/9p-util-win32.c | 38 ++++++++++++++++++++++++++++++++++++++
+>  hw/9pfs/9p.c            |  7 +++++++
+>  3 files changed, 49 insertions(+)
+> 
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 87e8eac840..db2013d549 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -490,6 +490,10 @@ void pdu_free(V9fsPDU *pdu);
+>  void pdu_submit(V9fsPDU *pdu, P9MsgHeader *hdr);
+>  void v9fs_reset(V9fsState *s);
+> 
+> +#ifdef CONFIG_WIN32
+> +int errno_translate_win32(int errno_win32);
+> +#endif
+> +
+>  struct V9fsTransport {
+>      ssize_t     (*pdu_vmarshal)(V9fsPDU *pdu, size_t offset, const char
+> *fmt, va_list ap);
+> diff --git a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c
+> index d9b35e7425..c4f90c6503 100644
+> --- a/hw/9pfs/9p-util-win32.c
+> +++ b/hw/9pfs/9p-util-win32.c
+> @@ -20,6 +20,11 @@
+>  #define V9FS_MAGIC 0x53465039 /* string "9PFS" */
+>  #endif
+> 
+> +struct translate_map {
+> +    int output;     /* Linux error number */
+> +    int input;      /* Windows error number */
+> +};
+> +
 
-QW0gMDQuMDUuMjIgdW0gMTk6MzAgc2NocmllYiBtYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5j
-b206DQoNCj4gRnJvbTogTWFyYy1BbmRyw6kgTHVyZWF1IDxtYXJjYW5kcmUubHVyZWF1QHJl
-ZGhhdC5jb20+DQo+DQo+IFNpZ25lZC1vZmYtYnk6IE1hcmMtQW5kcsOpIEx1cmVhdSA8bWFy
-Y2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPg0KPiAtLS0NCj4gICBpbmNsdWRlL3FlbXUvaGVs
-cC10ZXh0cy5oIHwgNCArKy0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvcWVtdS9oZWxw
-LXRleHRzLmggYi9pbmNsdWRlL3FlbXUvaGVscC10ZXh0cy5oDQo+IGluZGV4IGJhMzJjYzhi
-MWYzOS4uNGYyNjVmZWQ4ZGYxIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL3FlbXUvaGVscC10
-ZXh0cy5oDQo+ICsrKyBiL2luY2x1ZGUvcWVtdS9oZWxwLXRleHRzLmgNCj4gQEAgLTEsNSAr
-MSw1IEBADQo+IC0jaWZuZGVmIFFFTVVfQ09NTU9OX0gNCj4gLSNkZWZpbmUgUUVNVV9DT01N
-T05fSA0KPiArI2lmbmRlZiBRRU1VX0hFTFBfVEVYVFNfSA0KPiArI2RlZmluZSBRRU1VX0hF
-TFBfVEVYVFNfSA0KPiAgIA0KPiAgIC8qIENvcHlyaWdodCBzdHJpbmcgZm9yIC12ZXJzaW9u
-IGFyZ3VtZW50cywgQWJvdXQgZGlhbG9ncywgZXRjICovDQo+ICAgI2RlZmluZSBRRU1VX0NP
-UFlSSUdIVCAiQ29weXJpZ2h0IChjKSAyMDAzLTIwMjIgIiBcDQoNCg0KUmV2aWV3ZWQtYnk6
-IFN0ZWZhbiBXZWlsIDxzd0B3ZWlsbmV0ei5kZT4NCg0KDQo=
---------------sXNCcbIvvucbDHqe8W9Pan4n
-Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+No need to define a structure for this. Your motivation was to define a sparse 
+array. That safes you only a couple bytes and comes with runtime overhead 
+OTOH. See below.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+>  static int build_ads_name(char *namebuf, size_t namebuflen,
+>                            const char *dirname, const char *filename,
+>                            const char *ads_name)
+> @@ -301,3 +306,36 @@ int qemu_statfs(const char *fs_root, struct statfs
+> *stbuf)
+> 
+>      return 0;
+>  }
+> +
+> +int errno_translate_win32(int errno_win32)
+> +    {
+> +    unsigned int i;
+> +
+> +    /*
+> +     * The translation table only contains values which could be returned
+> +     * as a result of a filesystem operation, i.e. network/socket related
+> +     * errno values need not be considered for translation.
+> +     */
+> +    static struct translate_map errno_map[] = {
+> +        /* Linux errno          Windows errno   */
+> +        { L_EDEADLK,            EDEADLK         },
+> +        { L_ENAMETOOLONG,       ENAMETOOLONG    },
+> +        { L_ENOLCK,             ENOLCK          },
+> +        { L_ENOSYS,             ENOSYS          },
+> +        { L_ENOTEMPTY,          ENOTEMPTY       },
+> +        { L_EILSEQ,             EILSEQ          },
+> +        { L_ELOOP,              ELOOP           },
+> +    };
 
-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
-JOrf/GvAd7nTp5it3HdD6laiYi3OX5wZslYID2YAojYQEGZeUMTV3poTrqY9mO6U
-bSJaxRqvLRfOp9idHaXqygHjvVXeoU4vNsTtYaacCAA7i22Ah2uyHq5rvXQjVAb4
-gtW6hNQvzD8U0Ez45VO1X8NB59v+gZla60AA7mVNk0pbzRRNWnEGeAHwQmtuhTEE
-7KQwNIvxOICJ4xYPam1jXbm4nw4zSUnP439DrkhbEdxxeNgCnGQMvEN71ZwKTQL+
-WzlaZLmA1eZKJXQR5ZFjGocInIecvEuOG6XF+LXK7EBWac8slT2bNFZKYPm7Zqe0
-COf1oQf0j1+xNrCrR9fBSogc8rN6dPrfXdwaNvFLO+YlB6L74TV5YXrs35l0yNsu
-1laoyudqwjMa/6uCNb9MlD6sqBbTuT2ySY+FqIhiXcngST77q3aLkdcGbwciW1/8
-K4s5ckoKscTfLFh8DR2abp0qPezuvHi+p+P5GOKmhe1bdSSC7ir1tJcoSL0ZVakt
-wSLBWrzDFd15YNnN8E34CBeNTcHV/Jg4BpRZlhQ1kiMIClE/wU/e8mrVK7FIb7x5
-wsBzBBABCAAdFiEEQHf8HnnvXGEFZVeNhOAqAqO72aUFAltg1lYACgkQhOAqAqO7
-2aVAtwgAzKdzVOKbYOLpAaMD998RTaWBL1ZBe3jkEmnWHgCStcvbyJkrN7/iWdCZ
-r9ilD/b24h+IPGUr9LATHA+T8ztOM3CxctAjuOOQy4kb6aF5O9VlUpkwXvf7aTps
-FWGWQj5+NSi4sCaEO1FEMYXDlRYhNyz3QWo0pg36PwE6sQXJsBndAzoqUqz0HpnT
-P43IDSwqxFhMC0LApjaTmOsrYWpPx4UdTmy/2ocvSI81Mo9ktK42anidl/YhFQjA
-8hR8WF7mI7+LpINQMdKyHWqXmoRqnkP+sfdnZSWjLyePMqlLW7k9Vz2bIHdI2UOj
-p089ha25kLhcrpWUtHI9Qkjk2nnwPc1MU3RlZmFuIFdlaWwgKFVuaXZlcnNpdMOk
-dHNiaWJsaW90aGVrIE1hbm5oZWltKSA8c3RlZmFuLndlaWxAdW5pLW1hbm5oZWlt
-LmRlPsLBjgQTAQgAOBYhBEkjb+p1yV1pjsK3iuCMIdVndFCtBQJiUx1kAhsDBQsJ
-CAcDBRUKCQgLBRYCAwEAAh4FAheAAAoJEOCMIdVndFCtGjoP/0xKqdIY6NatyyJd
-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
-=3DcqGX
------END PGP PUBLIC KEY BLOCK-----
+So far we are using if .. else if ... blocks for macOS host errno translation, 
+because I needed quick and small patches for qemu-stable for fixing macOS host 
+support.
 
---------------sXNCcbIvvucbDHqe8W9Pan4n--
+So it is OK to use an array solution, but simply use a dense array and use GCC 
+designated initializers ...
 
---------------KnXHA3ta0Q1n5Dcdl6tzUHnx--
+> +
+> +    /* scan errno_win32 table for a matching Linux errno value */
+> +
+> +    for (i = 0; i < sizeof(errno_map) / sizeof(errno_map[0]); i++) {
+> +        if (errno_win32 == errno_map[i].input) {
+> +            return errno_map[i].output;
+> +        }
+> +    }
 
---------------IZT04Wef0u0S9Aru182aKoPB
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+... then this loop will become unnecessary, and you can just make a constant 
+time array access with prior array range check.
 
------BEGIN PGP SIGNATURE-----
+> +
+> +    /* no translation necessary */
+> +
+> +    return errno_win32;
+> +    }
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index a04889c1d6..0a9c0a509e 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1062,6 +1062,13 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu,
+> ssize_t len) id = P9_RERROR;
+>          }
+> 
+> +#ifdef CONFIG_WIN32
+> +        /*
+> +         * Some Windows errnos have different value from Linux,
+> +         * and they need to be translated to the Linux value.
+> +         */
+> +        err = errno_translate_win32(err);
+> +#endif
 
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmJywakFAwAAAAAACgkQ4Iwh1Wd0UK0c
-8RAAgvaUoeRL9I/W/HjyT1GwcPNXiuY6bNjvFryRR030upTaMXLL+xCAe8pq0WA7bjSoEkc6te1z
-zfPmTdMau9eVrwQoPZeofRGyDMpVa7qO9sxRY/qkGqv2NvyP7jEQLdipVWKAlbCqzZYZFz8bC0MV
-wiHVay8XjDXFM3ONXp8tJnIvqMxRIeoIKOUK8pjmYtb2tLi5Qc1UgNgbJJVkrrqM7hb2DMP4I/Ej
-aVVASi5SGVR7ubhS3ybeBR0NcP8ndunKZj2sIAP74Qa2SxsETjfR6lYnu4BpgOeVE6qdBmhvPK3A
-rFKc1fVkImFhAvb5libSWjRL1pVBS3RHlGLI00a6+oSiYdADwFU9wymUHtxNSbVQXCmDSsuqXbQN
-RVhc2baQXuod4EFcMdGNVmi9C795S9B//PyhB/YNMJR5fH4UMixRAYvCDwwQkmbKlT9MhBga7VDP
-/gBH2svWowAwMesgOwsqofoYcfgK2hAB4QR1UFAuFuFgAF9dm7KqJClw/m8UVaKdRJVSkIRYSvwq
-1EaFCatevpsulLkvBizff2K5OFPqc/wHu+OWzZoMQN4MRt5H4URrnJFht9zc9ckQRXgB/wZUopHo
-X/mdYT1grlF4dq43kCxZ/dCFHBHu9YcQQoauqUqULHPXKKei0z4Vw5zvGYXyh6DNg70hIJzt9vyN
-kPE=
-=5t4H
------END PGP SIGNATURE-----
+This would translate it for all 9p protocol versions. We want translation only 
+for 9p2000.L. Current git version does this already correctly. So after having 
+rebased you should not need to change anything here.
 
---------------IZT04Wef0u0S9Aru182aKoPB--
+>          ret = pdu_marshal(pdu, len, "d", err);
+>          if (ret < 0) {
+>              goto out_notify;
+
+
 
