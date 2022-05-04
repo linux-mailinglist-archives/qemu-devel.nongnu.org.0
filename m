@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA892519C10
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:41:06 +0200 (CEST)
-Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0268C519C52
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:51:39 +0200 (CEST)
+Received: from localhost ([::1]:49992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmBVK-00063H-1r
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:41:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51596)
+	id 1nmBfW-00012u-4H
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHk-0007td-HX
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:04 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49070)
+ id 1nmBHo-0007xz-An
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:09 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBHi-00041h-Hq
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:04 -0400
+ id 1nmBHl-000429-Iy
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:27:06 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nmBGd-0002VG-Mc; Wed, 04 May 2022 10:25:56 +0100
+ id 1nmBGe-0002VG-3F; Wed, 04 May 2022 10:26:00 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Wed,  4 May 2022 10:25:25 +0100
-Message-Id: <20220504092600.10048-16-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  4 May 2022 10:25:26 +0100
+Message-Id: <20220504092600.10048-17-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 15/50] dino.h: add defines for DINO IRQ numbers
+Subject: [PATCH v2 16/50] dino: define IRQ inputs as qdev GPIOs
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,37 +61,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is to allow the DINO IRQs to be defined as qdev GPIOs.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- hw/hppa/dino.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/hppa/dino.c | 2 ++
+ hw/hppa/dino.h | 2 ++
+ 2 files changed, 4 insertions(+)
 
+diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
+index 82f301653b..f58aebf94d 100644
+--- a/hw/hppa/dino.c
++++ b/hw/hppa/dino.c
+@@ -513,6 +513,8 @@ static void dino_pcihost_init(Object *obj)
+     pci_setup_iommu(phb->bus, dino_pcihost_set_iommu, s);
+ 
+     sysbus_init_mmio(sbd, &s->this_mem);
++
++    qdev_init_gpio_in(DEVICE(obj), dino_set_irq, DINO_IRQS);
+ }
+ 
+ static Property dino_pcihost_properties[] = {
 diff --git a/hw/hppa/dino.h b/hw/hppa/dino.h
-index 1a26667377..70fb8c52c8 100644
+index 70fb8c52c8..ca380515f2 100644
 --- a/hw/hppa/dino.h
 +++ b/hw/hppa/dino.h
-@@ -58,6 +58,18 @@ OBJECT_DECLARE_SIMPLE_TYPE(DinoState, DINO_PCI_HOST_BRIDGE)
- #define DINO_LOCAL_IRQS   (DINO_IRQS + 1)
- #define DINO_MASK_IRQ(x)  (1 << (x))
- 
-+#define DINO_IRQ_PCIINTA   0
-+#define DINO_IRQ_PCIINTB   1
-+#define DINO_IRQ_PCIINTC   2
-+#define DINO_IRQ_PCIINTD   3
-+#define DINO_IRQ_PCIINTE   4
-+#define DINO_IRQ_PCIINTF   5
-+#define DINO_IRQ_GSCEXTINT 6
-+#define DINO_IRQ_BUSERRINT 7
-+#define DINO_IRQ_PS2INT    8
-+#define DINO_IRQ_UNUSED    9
-+#define DINO_IRQ_RS232INT  10
+@@ -134,6 +134,8 @@ struct DinoState {
+     MemoryRegion bm_ram_alias;
+     MemoryRegion bm_pci_alias;
+     MemoryRegion bm_cpu_alias;
 +
- #define PCIINTA   0x001
- #define PCIINTB   0x002
- #define PCIINTC   0x004
++    qemu_irq irqs[DINO_IRQS];
+ };
+ 
+ #endif
 -- 
 2.20.1
 
