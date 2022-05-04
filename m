@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B991651955C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 04:12:05 +0200 (CEST)
-Received: from localhost ([::1]:51474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2D251955E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 04:12:46 +0200 (CEST)
+Received: from localhost ([::1]:53268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm4Um-0005tS-N5
-	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 22:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33542)
+	id 1nm4VR-0007A1-SX
+	for lists+qemu-devel@lfdr.de; Tue, 03 May 2022 22:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nm4Rn-0003TC-HJ
- for qemu-devel@nongnu.org; Tue, 03 May 2022 22:08:59 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:40870)
+ id 1nm4Rs-0003dN-8N
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 22:09:04 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:39504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nm4Rj-0004DY-Cp
- for qemu-devel@nongnu.org; Tue, 03 May 2022 22:08:56 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id i24so34673pfa.7
- for <qemu-devel@nongnu.org>; Tue, 03 May 2022 19:08:54 -0700 (PDT)
+ id 1nm4Rq-0004Fd-Oz
+ for qemu-devel@nongnu.org; Tue, 03 May 2022 22:09:03 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id x18so192103plg.6
+ for <qemu-devel@nongnu.org>; Tue, 03 May 2022 19:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=LzdLUOwlvZY0E9fadFC+y9CeZ+8mgw558Fg9VnPQj+M=;
- b=VzrjgRCsKoQKx3Yv+QkFB3ZF8ES4/Qf6jwcIZXh9NAyFMhhQQ1rN5qOaYPF1PxnnWr
- AnxLl82N0V/4UgfOlu/WrU/gxW4UZK+oEqgtCV0vi8xiLQrkYtBDllw3xLIIJsVQKD9g
- XxeZ8QRh0Xoao+z4WE+lB8I8X8xeyIKiCVR+tMsyD/9aOCPihieuDQ4xdw82GCPMJBXw
- ltaDdnhQQc16QdqcKShNts3ARQPOvRLnU26gApVWqHmuOLF4hIHNtC6C4+cf5/YGHb0+
- jt1urYa6b4P8ats5K4Cl+W8aSEEi2hcUJhsMukI6DYamRm2pRh12kFzz9RdIkAKYQtwV
- IIOg==
+ bh=jKbxtLmdV/Tgy6fBB9VupwUWn6GZCsiTaKUNNBmazrk=;
+ b=lXniOerL9mg/fijK4AvhGuWZ0ULtajFa9Nh4pmlaDwCacHA15UIe8guYR+25yF89TO
+ W5vFwDMjPlxS3gF10wldQPa2MgNNmtuc/bh8T7aYMaIytiWNhwjx59Y8gnlsS9PbyGJ1
+ AcGtKE4no1miQosqdeTTVwOIRnJlpp8yR141b3Ymh3oD+bjQYyHGkPLJOR0Vpl5jJMIm
+ 9fOSCMm/37f2/cKBDmyaVW6kgl+2e4exEgsYFP2HfrDMOHZJZ6CksIdyMvzQH/ssc44C
+ hLsSJQKTigIZJEJkL89IUob7vr684UQRi/BglNKP0wCwghySE9R/d2iLdECtAUVqSMiT
+ KaEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=LzdLUOwlvZY0E9fadFC+y9CeZ+8mgw558Fg9VnPQj+M=;
- b=wIQdvMP/kD7VJxm7wlcrRWQhYugH0JSQmWiiESBdKQ73AoDVTct4r+8ARZJ/G3gQwN
- x4p39PrX7Gc69sn8OvwmWIFPRsd2tC9nIcGZJ6HJW7CrWpqRLosha8mMJTRW+airCTsH
- k+g06LTMJ7ueSQQIBU3GS6k5IuvOs4UVBDiNoYt0SUpMA0+pToqgfEAZaJVX7BmHgtOR
- dHQEKcP6/IB0GRpXfkDm0cQwO4kczNJ4+pvOMX+FmHJMqzgIbr/4Emk9hdUMWRagzYKu
- wDWvYLJ5sR25N3yTY3yVtZGwEnip/FvyRA4pl0qbmsfquowSuSpNR7O2Z7L2rbtY45vj
- Wtxg==
-X-Gm-Message-State: AOAM530zuhvqH8r3jNuRbc4qP4/FCAX3gxBQN6kcOokzdQAmG6r1Eihs
- FpPAxO9lU9ivSSMYzu+QugIgTg==
-X-Google-Smtp-Source: ABdhPJyD2l1gCouzgiGrO34Kgex43dDMImkdU4vroJ5gc8vhjCSF7qh6OPi/xs0y8oYNaPbBiFYDdQ==
-X-Received: by 2002:aa7:9557:0:b0:50d:b868:4798 with SMTP id
- w23-20020aa79557000000b0050db8684798mr19222751pfq.84.1651630133780; 
- Tue, 03 May 2022 19:08:53 -0700 (PDT)
+ bh=jKbxtLmdV/Tgy6fBB9VupwUWn6GZCsiTaKUNNBmazrk=;
+ b=g3H+2nZY3HHLGI8kMxWQa1Y0LibkoVOgMG7bn9kkUE4iBvhd5HzDmSHxK3KpZ4xlpN
+ 10nAkhXJ6EWuTjZtfL3604dpQM82WzLSmYEc5b8yAKoyGQDqSiM67a/QW3GIo9SHkzzZ
+ V8+ThZaoj2xMIkOaRzhFseS+cqa43PabFFQkjuXfPqUxDDG349qIcGRVw6rMDl81Hw8e
+ xBTrim8wTOa+o6gj8LOzzrodmDHyPPAr29Lj+wmlSvjB+SeYuGk+wuvrs6QPuTYkvTGI
+ buYenFRC5ZCo285d+t+we3iNEOtdkREarq8BJ7CaOEkMOf1bLgf8glQZ4Wb2Rh5qAKEn
+ oOwA==
+X-Gm-Message-State: AOAM533dle+vyIjViNVE1GJ6IhvUIsj1aWTo8Hm/00zbXg2sPvfIVH2O
+ 9SHonyO2fsrgflE02HVPfhbapg==
+X-Google-Smtp-Source: ABdhPJxL2tDJ86/Wq5STkyrLk0kk7QEuYG17JkVXkQDd6T7ASfWcEhChtiHxmIucPREGB8np98X8Tg==
+X-Received: by 2002:a17:903:2c7:b0:158:2f26:6016 with SMTP id
+ s7-20020a17090302c700b001582f266016mr19422113plk.154.1651630141469; 
+ Tue, 03 May 2022 19:09:01 -0700 (PDT)
 Received: from [192.168.4.112] (50-206-49-78-static.hfc.comcastbusiness.net.
  [50.206.49.78]) by smtp.gmail.com with ESMTPSA id
- j11-20020a170903024b00b0015e8d4eb1easm5977062plh.52.2022.05.03.19.08.12
+ n25-20020a62e519000000b0050dc7628182sm7169718pff.92.2022.05.03.19.08.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 19:08:53 -0700 (PDT)
-Message-ID: <3273026d-76e4-0591-3a9c-67ccd3054472@linaro.org>
-Date: Tue, 3 May 2022 19:08:04 -0700
+ Tue, 03 May 2022 19:09:01 -0700 (PDT)
+Message-ID: <2ecf8336-a0c5-737e-6db2-d7c263826749@linaro.org>
+Date: Tue, 3 May 2022 19:08:56 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v3 16/21] target/ppc: Remove msr_ep macro
+Subject: Re: [PATCH v3 17/21] target/ppc: Remove msr_fe0 and msr_fe1 macros
 Content-Language: en-US
 To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, balaton@eik.bme.hu
 References: <20220503202441.129549-1-victor.colombo@eldorado.org.br>
- <20220503202441.129549-17-victor.colombo@eldorado.org.br>
+ <20220503202441.129549-18-victor.colombo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220503202441.129549-17-victor.colombo@eldorado.org.br>
+In-Reply-To: <20220503202441.129549-18-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,22 +96,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/3/22 13:24, Víctor Colombo wrote:
-> msr_ep macro hides the usage of env->msr, which is a bad behavior
-> Substitute it with FIELD_EX64 calls that explicitly use env->msr
-> as a parameter.
+> msr_fe0 and msr_fe1 macros hide the usage of env->msr, which is a bad
+> behavior. Substitute it with FIELD_EX64 calls that explicitly use
+> env->msr as a parameter.
 > 
 > Suggested-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
 > 
 > ---
 > 
-> v3: Fix the difference check to use a xor
->      fix incorrect "FIELD_EX64(env->msr, ..." -> "FIELD_EX64(value, ..."
+> v3: Added a combined macro for FE0 and FE1. Use it to simplify
+>      conditionals. Removed Richard's R-b because of this change.
 > Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
 > ---
->   target/ppc/cpu.h         | 2 +-
->   target/ppc/helper_regs.c | 4 ++--
->   2 files changed, 3 insertions(+), 3 deletions(-)
+>   target/ppc/cpu.h         | 11 +++++++++--
+>   target/ppc/excp_helper.c | 18 ++++++------------
+>   2 files changed, 15 insertions(+), 14 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
