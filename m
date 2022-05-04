@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF37E51A770
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 19:02:48 +0200 (CEST)
-Received: from localhost ([::1]:47346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BA551A7F5
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 19:06:06 +0200 (CEST)
+Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmIOm-0008Gk-1u
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 13:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
+	id 1nmIRx-0002iR-0W
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 13:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmIIO-0006vJ-2z
- for qemu-devel@nongnu.org; Wed, 04 May 2022 12:56:12 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:43848)
+ id 1nmIJ5-0000Hx-NI
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 12:56:55 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:33501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmIIM-00037F-Ln
- for qemu-devel@nongnu.org; Wed, 04 May 2022 12:56:11 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- m6-20020a05683023a600b0060612720715so1265817ots.10
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 09:56:09 -0700 (PDT)
+ id 1nmIJ4-0003KT-30
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 12:56:55 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id l203so1799091oif.0
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 09:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=QNsBdgDANVzmqxow9mxwpgHM0wtI84SgPR+bRzvzMyk=;
- b=RnIs29sz9tv46FeF1Doah8QcZaMKKXW+BqA8yHZDCSC7UC/0HkmxATgY2U1vXZ/lYr
- Oo9PlAg4ddLxeODhkpSZ190dbUtUo7Mu3DIyROArNVt+SiH6lIg2qushxY/tEVD36a9o
- pC6Vdp0mT/ln27+kQorfyM0J9ghqA6VCPRdtSruPZNw9PRPZ10Y5C6op90HbdFkx5+Vt
- FpEuzgVTrY7AgixZ3lDRBkMXWDvt0VGj0+5ZNrP09nJOFrdiBBHHWXoaGldrxbcFuM+b
- BblqBQrDmAYrKgzJrLVpfbQW6i/ZNfwOYTLVSEDdOIx6uIrmXubxKTiMb3VYFULddBVn
- NQ0Q==
+ bh=pVBP8NyDB+8NSkcbyltv/yrUGpbKcB07KYV0JQfDdKc=;
+ b=paxuG7gWwjV81hAOMwF/tHpZ5kdIFOMzBybaha+IPcoJJCqhZp9GYhbhJtp1T05wHB
+ mhdyk0++09j7htLajau7j4Oaq1z7O8h+kG4vadwuAnZ+XEgX5QlqATpEqoJ3uk3QHlAe
+ rZVPpFYoBQoKc8Cv9tZLr7gTFcsV4ubmSqI+zyZu3/q36QnS4FJsMA53o1raQBkdDtF2
+ S8U5KIx3TScnreHbAOF9YMWv8x5u1C/zGGM+HrIN9uWcKILMwvBn2pbnnjRqKVo9eD4L
+ /owJSDnwltG9Q7eixTUqjfqSoy3VVscn8gBZdSTmDqnAs5fejMQFZtJqbPGTl9WGPYII
+ kqxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QNsBdgDANVzmqxow9mxwpgHM0wtI84SgPR+bRzvzMyk=;
- b=p0vCGzuMoz/J75IIaNqlOFHrpFxY6V7T/V0fXGdGfOoXKGKwZhbdWYoC35BEStM93y
- vt7iDpvu1NrMsn78rLxLUFY6q0IORLBxFxfougf04SnZObqSAflObsed/wLXdcWWOlL5
- dyrRjnt7KxVOocApGR/5E90wsKScEIieveiU7mn5Dzofejm3E+vieCq7dJ5q8Vmb2MrN
- EXMmxcJ/infUsP8HxOttIC4HVFMnUFW0r9rRsN2ZCzHLf+FNU52hBLXabxZn4gCcmXif
- 93xJzIdqUus6s50FtPgHzBhbrgxGo5m/wh3C2/MtJa7iODtk1m8Z11XIhopIB/+4Xo6R
- VQLA==
-X-Gm-Message-State: AOAM530yrQpf1Bzj2d8MBQ5ziRIBREAYllKxnkZNKZRhEqrfqKac1vbn
- pMxPJQvIDMnwBbKQAcl6ZveOpQ==
-X-Google-Smtp-Source: ABdhPJwuGI+AX/0YWNdVXUtXbLQFXI3RmEjmx2Z5S8MDe6HXwgSPcCn8cB9YplVXhW3yoXuczP/G7A==
-X-Received: by 2002:a05:6830:1e16:b0:606:4dc:5494 with SMTP id
- s22-20020a0568301e1600b0060604dc5494mr7224819otr.131.1651683369111; 
- Wed, 04 May 2022 09:56:09 -0700 (PDT)
+ bh=pVBP8NyDB+8NSkcbyltv/yrUGpbKcB07KYV0JQfDdKc=;
+ b=nTqBawQ8AgN1jwjRjZhyq1zw9hwZOrzvT6T026YWxUnEPZOT67ifmaWMVqe2eHvyfx
+ LqBiV0+UL0Lvc1urAaXCkptTNvU8Epa5NZ84RDr0UjU3NMTJ/a9Us3TsXEMEQ9Cko27U
+ 59pqqWSo7kF2XFscrYQZdx2koTONCGKP7tv+UWbU+ajJF46rD91MilH3ZFZnNivhvg8z
+ 0nv78mardhyfj1dDVHgu41/s60NYBHiMp55tOAXsfVorm+pYPOtmrmrMT4fY8V+ccT8U
+ fJHNq32UMEDRdU+6lfjyKhxUa5/H3LKUeprxcUBbDlfvzhNNAoAsdOIlYoELLbT5vjeP
+ ZXFQ==
+X-Gm-Message-State: AOAM533zrmyA5ufu9Pbyx2A8c6wi+oQw6bt/DJXfas2M35i2fE/D0sw8
+ qp+/WcVK1KoUOgxnwoc7v/iHEw==
+X-Google-Smtp-Source: ABdhPJz6jzivJa8GvFiNgbTk7jgdoTrkV1V9g55aHS+k/qzFbCzSCYLczLN0TQ2jgC+r2X3NHqy6vg==
+X-Received: by 2002:a05:6808:e8d:b0:322:4fbe:8c5f with SMTP id
+ k13-20020a0568080e8d00b003224fbe8c5fmr188304oil.284.1651683411263; 
+ Wed, 04 May 2022 09:56:51 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:8a62:c821:2abd:6cc8:9397:7fb1?
  ([2607:fb90:8a62:c821:2abd:6cc8:9397:7fb1])
  by smtp.gmail.com with ESMTPSA id
- c9-20020a9d2789000000b0060603221279sm5239336otb.73.2022.05.04.09.56.07
+ x10-20020a056830408a00b006063f1f05dfsm1468458ott.18.2022.05.04.09.56.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 09:56:08 -0700 (PDT)
-Message-ID: <59ca6890-ad61-1c37-80a9-c10aaf6fc16e@linaro.org>
-Date: Wed, 4 May 2022 11:56:05 -0500
+ Wed, 04 May 2022 09:56:50 -0700 (PDT)
+Message-ID: <2a790cf2-6ab8-327f-c41a-84337f0f998d@linaro.org>
+Date: Wed, 4 May 2022 11:56:47 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 09/50] dino: use QOM cast instead of directly
- referencing parent_obj
+Subject: Re: [PATCH v2 10/50] dino: return PCIBus from dino_init() using
+ qdev_get_child_bus()
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, deller@gmx.de,
  qemu-devel@nongnu.org
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <20220504092600.10048-10-mark.cave-ayland@ilande.co.uk>
+ <20220504092600.10048-11-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220504092600.10048-10-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220504092600.10048-11-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,14 +96,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/22 02:25, Mark Cave-Ayland wrote:
-> Use a QOM cast in both dino_chip_read_with_attrs() and dino_chip_write_with_attrs()
-> instead of directly referencing parent_obj.
+> This allows access to the PCI bus without having to reference parent_obj directly.
 > 
-> Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
-> Acked-by: Helge Deller<deller@gmx.de>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Acked-by: Helge Deller <deller@gmx.de>
 > ---
->   hw/hppa/dino.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   hw/hppa/dino.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
+> index 77b8089664..d89b48493f 100644
+> --- a/hw/hppa/dino.c
+> +++ b/hw/hppa/dino.c
+> @@ -523,14 +523,12 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+>   {
+>       DeviceState *dev;
+>       DinoState *s;
+> -    PCIBus *b;
+> +    PCIBus *pci_bus;
+>   
+>       dev = qdev_new(TYPE_DINO_PCI_HOST_BRIDGE);
+>       object_property_set_link(OBJECT(dev), "memory-as", OBJECT(addr_space),
+>                                &error_fatal);
+>       s = DINO_PCI_HOST_BRIDGE(dev);
+> -
+> -    b = s->parent_obj.bus;
+>       sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>   
+>       memory_region_add_subregion(addr_space, DINO_HPA,
+> @@ -539,7 +537,8 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+>       *p_rtc_irq = qemu_allocate_irq(dino_set_timer_irq, s, 0);
+>       *p_ser_irq = qemu_allocate_irq(dino_set_serial_irq, s, 0);
+>   
+> -    return b;
+> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+> +    return pci_bus;
+>   }
+>   
+>   static void dino_pcihost_reset(DeviceState *dev)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
