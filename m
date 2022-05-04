@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A392551A127
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 15:41:12 +0200 (CEST)
-Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B6D51A154
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 15:50:38 +0200 (CEST)
+Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmFFc-00078K-JP
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 09:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58142)
+	id 1nmFOm-0004Gk-34
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 09:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nmFDn-0006Cz-Q8
- for qemu-devel@nongnu.org; Wed, 04 May 2022 09:39:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30995)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nmFL4-0001Cj-Og
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nmFDl-0000WN-Iy
- for qemu-devel@nongnu.org; Wed, 04 May 2022 09:39:15 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nmFL1-0002eE-VA
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651671552;
+ s=mimecast20190719; t=1651672002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YH3AC12SzS3u+E3W0s1qeXVG0K7B/qBdgGI2wbLcPmc=;
- b=ZTIt3Hb49JN44nOsTvMpCMGCxKYsKD/l6uclu0tWULCq4BShja3enH2xGGO9h+ZXwLI6dT
- xt2AHx+0DvEjF0WXjILIlWmDl9fvCeZ+wu9XpF4T46m63KN4g/Qq1USY09KJwKn3+K6o4y
- Ll9rMWDQ0rkNZLo6hVXVlY+8xOcMzE0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/lpDh6gK9irmqxQs1mt+Zsz8sF8AUdOJKIPrb5KkDjU=;
+ b=WUe0MeZncehCLdtrCbHuzOxDTlCbgd7StlrT9YpFuk9DeFIJkWmJDHlwK7ozNFhlI6DhjA
+ KftzkMDFZdIM3jEGUaK5nwdh7gD3NPOV6ER7hAnEhK444SDfezVTtbsRhcglYrT4FZE2/6
+ 8ZR2MPimkzRktsEO82VDV0K2C59gcxM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-nPSFL1NhNCyWDA43U1VqeQ-1; Wed, 04 May 2022 09:39:09 -0400
-X-MC-Unique: nPSFL1NhNCyWDA43U1VqeQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29B391014A68;
- Wed,  4 May 2022 13:39:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF818C27EBA;
- Wed,  4 May 2022 13:39:06 +0000 (UTC)
-Date: Wed, 4 May 2022 14:39:05 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Message-ID: <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
-References: <20220426085114.199647-1-eesposit@redhat.com>
+ us-mta-43-J1Mbct0MNaiJWok-NX4hNA-1; Wed, 04 May 2022 09:46:41 -0400
+X-MC-Unique: J1Mbct0MNaiJWok-NX4hNA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j5-20020a05600c1c0500b0039419a269a1so712323wms.3
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 06:46:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/lpDh6gK9irmqxQs1mt+Zsz8sF8AUdOJKIPrb5KkDjU=;
+ b=sENAe4vbXInXMOgLhPcz6f33L54t2Sc7cTilXT5/MqpxT5LSBeL/1Zr/2/ePXq/Dmc
+ SUoQyrO0+bMA/wRHqi/SCOUkToQIEHJ8RitosToC8kRHlnzzZsZQbJ1Nyupl0ipyV1l+
+ 9h5u6lu7mBak8Yi/jpLJ/01YTgjpl2RfwA/Fo1p2NUyVG9vaZT0XCPMcXAgAuF+EvCDD
+ Z2EOxcY2nGHNWpTDWbcAP9awzVVrJNpa8d7zrpntghSuhQvhATgGORixF5oKfmMB2Tym
+ v3d5+2yKQwjtNbRU2T9l4bxcMGUzR6HjhaBFreY3g8lpEJptFnRj+AVfZ46ss1Kfs6K6
+ GZXA==
+X-Gm-Message-State: AOAM532fFCUFhYuHPqnJIQiwkB1MBy7tttZXk47p1ICwiXDXrQsb13N3
+ GZr18NOrLDzjoHLrCCFe/pwuI9+9/RXjo6bwqwwiXVBNGdHTWImI0crmO6DYVpJRxnJNU9qV7FY
+ /VDDbHL/ORlt+t04=
+X-Received: by 2002:a05:6000:381:b0:20c:5e07:f75f with SMTP id
+ u1-20020a056000038100b0020c5e07f75fmr9310486wrf.678.1651672000116; 
+ Wed, 04 May 2022 06:46:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXSQRQTEZoLGJnKpD/PXnziP9xk79QWXpgr+tej1CYH3LgtHUWFZiQSY+KB5fRQwZW5YhsUw==
+X-Received: by 2002:a05:6000:381:b0:20c:5e07:f75f with SMTP id
+ u1-20020a056000038100b0020c5e07f75fmr9310449wrf.678.1651671999787; 
+ Wed, 04 May 2022 06:46:39 -0700 (PDT)
+Received: from localhost ([185.140.112.229]) by smtp.gmail.com with ESMTPSA id
+ g8-20020a05600c4ec800b003942a244f57sm4023378wmq.48.2022.05.04.06.46.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 06:46:39 -0700 (PDT)
+Date: Wed, 4 May 2022 15:46:37 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
+ ani@anisinha.ca, peter.maydell@linaro.org, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
+ eblake@redhat.com, armbru@redhat.com, thuth@redhat.com, lvivier@redhat.com,
+ pbonzini@redhat.com, berrange@redhat.com, Jonathan.Cameron@Huawei.com,
+ drjones@redhat.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH v9 4/6] qtest/numa-test: Correct CPU and NUMA
+ association in aarch64_numa_cpu()
+Message-ID: <20220504154637.17cfc995@redhat.com>
+In-Reply-To: <20220503140304.855514-5-gshan@redhat.com>
+References: <20220503140304.855514-1-gshan@redhat.com>
+ <20220503140304.855514-5-gshan@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dGyLSrZCx2hNt4RD"
-Content-Disposition: inline
-In-Reply-To: <20220426085114.199647-1-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -68,7 +89,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,60 +105,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue,  3 May 2022 22:03:02 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
---dGyLSrZCx2hNt4RD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> In aarch64_numa_cpu(), the CPU and NUMA association is something
+> like below. Two threads in the same core/cluster/socket are
+> associated with two individual NUMA nodes, which is unreal as
+> Igor Mammedov mentioned. We don't expect the association to break
+> NUMA-to-socket boundary, which matches with the real world.
+> 
+>     NUMA-node  socket  cluster   core   thread
+>     ------------------------------------------
+>         0       0        0        0      0
+>         1       0        0        0      1
+> 
+> This corrects the topology for CPUs and their association with
+> NUMA nodes. After this patch is applied, the CPU and NUMA
+> association becomes something like below, which looks real.
+> Besides, socket/cluster/core/thread IDs are all checked when
+> the NUMA node IDs are verified. It helps to check if the CPU
+> topology is properly populated or not.
+> 
+>     NUMA-node  socket  cluster   core   thread
+>     ------------------------------------------
+>        0        1        0        0       0
+>        1        0        0        0       0
 
-On Tue, Apr 26, 2022 at 04:51:06AM -0400, Emanuele Giuseppe Esposito wrote:
-> This is a new attempt to replace the need to take the AioContext lock to
-> protect graph modifications. In particular, we aim to remove
-> (or better, substitute) the AioContext around bdrv_replace_child_noperm,
-> since this function changes BlockDriverState's ->parents and ->children
-> lists.
->=20
-> In the previous version, we decided to discard using subtree_drains to
-> protect the nodes, for different reasons: for those unfamiliar with it,
-> please see https://patchew.org/QEMU/20220301142113.163174-1-eesposit@redh=
-at.com/
+I'd place 'socket 1' on node 0, so it wouldn't look odd.
+But it probably doesn't matter, so
 
-I reread the thread and it's unclear to me why drain is the wrong
-mechanism for protecting graph modifications. We theorized a lot but
-ultimately is this new mechanism sufficiently different from
-bdrv_drained_begin()/end() to make it worth implementing?
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-Instead of invoking .drained_begin() callbacks to stop further I/O,
-we're now queuing coroutines (without backpressure information that
-whoever is spawning I/O needs so they can stop). The writer still waits
-for in-flight I/O to finish, including I/O not associated with the bdrv
-graph we wish to modify (because rdlock is per-AioContext and unrelated
-to a specific graph). Is this really more lightweight than drain?
-
-If I understand correctly, the original goal was to avoid the need to
-hold the AioContext lock across bdrv_replace_child_noperm(). I would
-focus on that and use drain for now.
-
-Maybe I've missed an important point about why the new mechanism is
-needed?
-
-Stefan
-
---dGyLSrZCx2hNt4RD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJygfkACgkQnKSrs4Gr
-c8hccQf+O0aO3pnPvMOFvUX3K9XVBB+S2b8GTaWiSHQkQCMfWPkAngrcA0076GAA
-5uApRLxq5CeuVdYzgVz+hsUTWmYIWZ0a4PJSAsMu/jMkbv2qWAXYWpU4gZhDszgt
-RLLVnb9mMpceabMtN5EKW+N1YduK3FKUhKpGne6OZKWwDNcldHXLsfyNDitnp/MW
-yeWdrpatn85EsklVnw4AejQgb2b1CYZWxdraTVsPLZBagJhus87yTwgr7P9wXl8T
-R5PBj0kAAJBCImrL0Ms0KThSmDfFkYJ3L4i68Os/OU0FMfRitGYxvK5RR03ZWSsT
-jFwiupDp1cqEKozIUHjMN8QeoPhL9A==
-=6vrM
------END PGP SIGNATURE-----
-
---dGyLSrZCx2hNt4RD--
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  tests/qtest/numa-test.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+> index aeda8c774c..32e35daaae 100644
+> --- a/tests/qtest/numa-test.c
+> +++ b/tests/qtest/numa-test.c
+> @@ -224,17 +224,17 @@ static void aarch64_numa_cpu(const void *data)
+>      g_autofree char *cli = NULL;
+>  
+>      cli = make_cli(data, "-machine "
+> -        "smp.cpus=2,smp.sockets=1,smp.clusters=1,smp.cores=1,smp.threads=2 "
+> +        "smp.cpus=2,smp.sockets=2,smp.clusters=1,smp.cores=1,smp.threads=1 "
+>          "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
+> -        "-numa cpu,node-id=1,thread-id=0 "
+> -        "-numa cpu,node-id=0,thread-id=1");
+> +        "-numa cpu,node-id=0,socket-id=1,cluster-id=0,core-id=0,thread-id=0 "
+> +        "-numa cpu,node-id=1,socket-id=0,cluster-id=0,core-id=0,thread-id=0");
+>      qts = qtest_init(cli);
+>      cpus = get_cpus(qts, &resp);
+>      g_assert(cpus);
+>  
+>      while ((e = qlist_pop(cpus))) {
+>          QDict *cpu, *props;
+> -        int64_t thread, node;
+> +        int64_t socket, cluster, core, thread, node;
+>  
+>          cpu = qobject_to(QDict, e);
+>          g_assert(qdict_haskey(cpu, "props"));
+> @@ -242,12 +242,18 @@ static void aarch64_numa_cpu(const void *data)
+>  
+>          g_assert(qdict_haskey(props, "node-id"));
+>          node = qdict_get_int(props, "node-id");
+> +        g_assert(qdict_haskey(props, "socket-id"));
+> +        socket = qdict_get_int(props, "socket-id");
+> +        g_assert(qdict_haskey(props, "cluster-id"));
+> +        cluster = qdict_get_int(props, "cluster-id");
+> +        g_assert(qdict_haskey(props, "core-id"));
+> +        core = qdict_get_int(props, "core-id");
+>          g_assert(qdict_haskey(props, "thread-id"));
+>          thread = qdict_get_int(props, "thread-id");
+>  
+> -        if (thread == 0) {
+> +        if (socket == 0 && cluster == 0 && core == 0 && thread == 0) {
+>              g_assert_cmpint(node, ==, 1);
+> -        } else if (thread == 1) {
+> +        } else if (socket == 1 && cluster == 0 && core == 0 && thread == 0) {
+>              g_assert_cmpint(node, ==, 0);
+>          } else {
+>              g_assert(false);
 
 
