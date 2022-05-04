@@ -2,96 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FFF51AED4
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 22:12:27 +0200 (CEST)
-Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A4551AF35
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 22:33:02 +0200 (CEST)
+Received: from localhost ([::1]:32856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmLMH-0005st-7k
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 16:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48362)
+	id 1nmLgD-000437-G3
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 16:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nmLLK-0005Dd-3d
- for qemu-devel@nongnu.org; Wed, 04 May 2022 16:11:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60194)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmLet-0002fp-FA
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 16:31:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nmLLI-0006sc-6V
- for qemu-devel@nongnu.org; Wed, 04 May 2022 16:11:25 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmLeq-0005lM-7C
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 16:31:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651695082;
+ s=mimecast20190719; t=1651696294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g8w8l8ma28D4DTNwuvPt+cKMYwBDuhQgRyZ4PAYyzes=;
- b=StjLhsWdC7/EXf1ZHSLAKZJPt5WLk8ZivfQgdGmtbRZ95jrTl/bDt3l7waEvjQQmuLmtb1
- Xe9z/lIGLfG4C59kaxblwBCCAl8DDH4o9iLzuHeaCPMCbXtXJWZo77MVKtDcSVPfklo5dp
- V+a+mjJ9McOb114E4m4snrETCNHE7Uc=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DIYlM1zcjs7uBiWVUcbszpOWdRDGMPFDgJLi8zN0CmU=;
+ b=e7MLPsBB1S1uYcoqaQy+W7h2XshY3/n4HcEg2Y5sGsIhATqnS0SKX4dYEFfL2gpxPgagMn
+ GNB3n6ehd+vqGSA+tZQFOx6AqWFUk38Jmvk1iyyL+d8NiJz4mol9CrTt23zMwYVmFvBU+x
+ d2UfgvxIBHbCgaoMEqf2zGtGCqynZPk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-194-I8p_LE-kOs2xj1sq2_ndWg-1; Wed, 04 May 2022 16:11:21 -0400
-X-MC-Unique: I8p_LE-kOs2xj1sq2_ndWg-1
-Received: by mail-il1-f197.google.com with SMTP id
- q6-20020a056e0215c600b002c2c4091914so1269746ilu.14
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 13:11:21 -0700 (PDT)
+ us-mta-360-corjapowNly73C4HXBLTdQ-1; Wed, 04 May 2022 16:31:33 -0400
+X-MC-Unique: corjapowNly73C4HXBLTdQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ dk9-20020a0564021d8900b00425a9c3d40cso1377381edb.7
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 13:31:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=g8w8l8ma28D4DTNwuvPt+cKMYwBDuhQgRyZ4PAYyzes=;
- b=TGUPhexw03ZHRveKcpvC3kQudBILqtDYNFRMJFrPoQ/wenrZOm4/JuEl3f/hHwgmhw
- XX8rBZMEe9B6h3TNk4qoIHlRIhg39B1f8XfLM5GgwkChZGRI/VI1d/nGvosoBC7w5y/R
- g6k40HXtzxIxS9i0FVKKbTA+A9fyrT+I2T1KLbGf0zrf9SUELqGfrZfaVMdQvVMnLS5F
- hBpji1th/kscAHrG5yeGB3hlI/endNyLEidCAlGuu9eWo6SBRk+pR4y32Fafr8yKZwKM
- w7renCCI6sZkcpMZfGXwubSEfsZcuM+zI/BPkWc/QKeuEKNciCZY24nbGXpgi0B9s1QE
- yHPw==
-X-Gm-Message-State: AOAM532XPUm2LI9WNOrtOKomYGacwFLeATiq0xef/nmwkuzwlwGyK2DN
- u8XZKpgoQR2UzDPdbvWyAWKXfmsKhJ1mH2Pyzpo552kMMqdU89o6m482/PksAMNeWRwo9R+xWHU
- Hvhojix4U59pcivU=
-X-Received: by 2002:a6b:7845:0:b0:64c:9acc:9f1a with SMTP id
- h5-20020a6b7845000000b0064c9acc9f1amr8823478iop.103.1651695080517; 
- Wed, 04 May 2022 13:11:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXxJw8HskfKMhb2KmHeGVSapHKE///TS2gM+2yR+mKxK0u2oG3LMHfrNfO5rQ1xcrxh7e6RA==
-X-Received: by 2002:a6b:7845:0:b0:64c:9acc:9f1a with SMTP id
- h5-20020a6b7845000000b0064c9acc9f1amr8823452iop.103.1651695080319; 
- Wed, 04 May 2022 13:11:20 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DIYlM1zcjs7uBiWVUcbszpOWdRDGMPFDgJLi8zN0CmU=;
+ b=rGCjW16DcIg9IUxPlkrPd/8LvXryUDcnziNcMtqt84GHLtVyGOgriCZta3D0sPI6ui
+ ukXpaetcBUnQLT/0BY6f4hKFB6wY0QCyCAeF1p7StJdO4uHN/uI7Yz0e9uK/VE3dvhYi
+ 8bt5xr5lEbXa8f036bdMEzwPRyd8PtFf+F731YDIFcERW0fLtS706pNgSNRYDPuGBHlu
+ rqLyhLpLG6YNTtFW4Nomzqg8I5L2yd+ADEtMD/YottMXSvRiUqPb5BAlT7IuFi/IcIAS
+ VntSrwOIdaWjvnPM+Lf+7x7H10W506p/8x5WBTve56IZ9q88MsSrjpx+vzkS1oMgtxAx
+ y0sQ==
+X-Gm-Message-State: AOAM533KviYcPELOc0AW0QlWJc1zkIlMt88GWkW5BA4dmT9XLdG2WVUK
+ osgIxpQ/eE2zvlLfbjOpH/DrAfnBPa4XWrE89u+fwY3TY4n41FkZM4PF+BRPe5BknnZWDyMRHPC
+ gifEYLOOvgPqAVkg8WGMrHAhWNdjKjaifqEEh0lu6L/swbPpAiDhFvya8B1FVqmEwguA=
+X-Received: by 2002:a05:6402:518c:b0:426:32d4:87 with SMTP id
+ q12-20020a056402518c00b0042632d40087mr25223475edd.394.1651696291859; 
+ Wed, 04 May 2022 13:31:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/GVkx9TZE/IPs7Z5Sv81IkVbHs/8KM9oG1d0f+u9xV4SVza0VOsy7J/eBP0yLEaizpVPDuw==
+X-Received: by 2002:a05:6402:518c:b0:426:32d4:87 with SMTP id
+ q12-20020a056402518c00b0042632d40087mr25223448edd.394.1651696291465; 
+ Wed, 04 May 2022 13:31:31 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- q19-20020a0566380ed300b0032b3a78179csm4960800jas.96.2022.05.04.13.11.18
+ h14-20020a1709070b0e00b006f3ef214db9sm6033938ejl.31.2022.05.04.13.31.30
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 13:11:20 -0700 (PDT)
-Date: Wed, 4 May 2022 16:11:17 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
- Eric Auger <eric.auger@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- "John G . Johnson" <john.g.johnson@oracle.com>, kvm@vger.kernel.org
-Subject: Re: [PATCH RFC 04/10] intel_iommu: Second Stage Access Dirty bit
- support
-Message-ID: <YnLd5b3GssL0l/uE@xz-m1.local>
-References: <20220428211351.3897-1-joao.m.martins@oracle.com>
- <20220428211351.3897-5-joao.m.martins@oracle.com>
+ Wed, 04 May 2022 13:31:30 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] checkpatch: fix g_malloc check
+Date: Wed,  4 May 2022 22:31:29 +0200
+Message-Id: <20220504203129.672944-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220428211351.3897-5-joao.m.martins@oracle.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -115,29 +96,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Joao,
+Use the string equality operator "eq", and ensure that $1 is defined by
+using "(try|)" instead of "(try)?".  The alternative "((?:try)?)" is
+longer and less readable.
 
-On Thu, Apr 28, 2022 at 10:13:45PM +0100, Joao Martins wrote:
-> +/* Get the content of a spte located in @base_addr[@index] */
-> +static uint64_t vtd_set_slpte(dma_addr_t base_addr, uint32_t index,
-> +                              uint64_t slpte)
-> +{
-> +
-> +    if (dma_memory_write(&address_space_memory,
-> +                         base_addr + index * sizeof(slpte), &slpte,
-> +                         sizeof(slpte), MEMTXATTRS_UNSPECIFIED)) {
-> +        slpte = (uint64_t)-1;
-> +        return slpte;
-> +    }
-> +
-> +    return vtd_get_slpte(base_addr, index);
-> +}
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/checkpatch.pl | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Could I ask when the write succeeded, why need to read slpte again?
-
-Thanks,
-
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 4763d02ae7..d900d18048 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2831,8 +2831,8 @@ sub process {
+ 		}
+ 
+ # check for pointless casting of g_malloc return
+-		if ($line =~ /\*\s*\)\s*g_(try)?(m|re)alloc(0?)(_n)?\b/) {
+-			if ($2 == 'm') {
++		if ($line =~ /\*\s*\)\s*g_(try|)(m|re)alloc(0?)(_n)?\b/) {
++			if ($2 eq 'm') {
+ 				ERROR("unnecessary cast may hide bugs, use g_$1new$3 instead\n" . $herecurr);
+ 			} else {
+ 				ERROR("unnecessary cast may hide bugs, use g_$1renew$3 instead\n" . $herecurr);
 -- 
-Peter Xu
+2.35.1
 
 
