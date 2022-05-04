@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D8551ADBC
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 21:26:12 +0200 (CEST)
-Received: from localhost ([::1]:50448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0716651ADCA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 21:28:44 +0200 (CEST)
+Received: from localhost ([::1]:57268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmKdX-0006Ug-AM
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 15:26:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37770)
+	id 1nmKfz-0002nQ-58
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 15:28:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nmKXc-0005vc-BA
- for qemu-devel@nongnu.org; Wed, 04 May 2022 15:20:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25713)
+ id 1nmKXg-00062q-Kq
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 15:20:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nmKXa-0004w2-A0
- for qemu-devel@nongnu.org; Wed, 04 May 2022 15:20:03 -0400
+ id 1nmKXd-000582-Gj
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 15:20:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651692001;
+ s=mimecast20190719; t=1651692004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BZIKdC9CBTOoGSOxiKlehHClOyXyO++DM7pHDFCUjH8=;
- b=albVfMICwIyNCsoyHr2zNfFJqQ0Ahk6jrFO0C4Tmq6A8NdPXxB6gidlikrO4yCGlBE+fFI
- g5U+K15h4iB/BUfkpAu3Aeurcodxe6PT7dAFjfzBondhFyfn16SGBFvnbvGzpPSUNFZnhi
- 2PZSb6fmI4yAWzQjz5S2l+e9ZN675P0=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=q7DMweZwI0WS3P4NKRpm531MiYefI5dSL7mrvAgRHYU=;
+ b=Bp1MfC3bdKAmlvWaXA5j8QgADvvZLwDBPpGCNLOBCetE4MqLCPD+L3QfIDJv4NNl9KLi/0
+ 3WPiRzNr5ZEXC2k9n8htMUp6VI/HNfcN4rJlGXnrbmUvYQKmkGZPy2tdPPvlFIjWVpnuGq
+ kyD8tVlpBDrD2DA9J1PSDPcqpkcixE4=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-149-7eKXbov4OF2N1XTjk6_pPQ-1; Wed, 04 May 2022 15:20:00 -0400
-X-MC-Unique: 7eKXbov4OF2N1XTjk6_pPQ-1
-Received: by mail-ua1-f72.google.com with SMTP id
- o7-20020ab01e87000000b00362757f955aso927382uak.15
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 12:20:00 -0700 (PDT)
+ us-mta-260-67z0PYLrPdO8VZnWGj2wGQ-1; Wed, 04 May 2022 15:20:03 -0400
+X-MC-Unique: 67z0PYLrPdO8VZnWGj2wGQ-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ x9-20020ab05789000000b002fa60bdf012so943027uaa.1
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 12:20:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BZIKdC9CBTOoGSOxiKlehHClOyXyO++DM7pHDFCUjH8=;
- b=i6EMpZl2jGq0paL1k4FSaRzuZ9Loau9vV9CM2enVHN47O8Qdm4s6dsvWSsEvzkL0vq
- E2WcDT1pyZ3b1GovDE+AW7rVcA5gElaXvdNbGuajPRPDJH3BGq4qem9Mc0+uAoVhyPzT
- HWy1QjzH5QkkhZ2ENYaIvlH/BTev1chefyf51Io7fbpB+AcMxV+1OK9ibQGghzI63KC5
- e+yObkGaKSeVOjJa/y9oOyGNi7Eg3r+ozcC8db7kCmLyLWro2Gk4DWKwHy0wVtFE4N6f
- DcWd5N/xqZWF2aKzPaiWjFotD+qqpn1hj7RJ7zSvJTGYZnXiDQZYadr0bTbo7F9N+k4f
- Nz7Q==
-X-Gm-Message-State: AOAM5315aqEY6/xliuS2RBGWDZ51QqNLyjLPmDpSupE/Qi9UNEAL+jjl
- 9XxzpPYhKKlUocxwlnDlcIAQCpaer1ja9Ggp3fOfPn5FsqhHAwO67AvIFN6habQEz6CPBktvMmb
- 6G1JPojKRyFD0GcE=
-X-Received: by 2002:a05:6122:21a9:b0:34f:32a7:daff with SMTP id
- j41-20020a05612221a900b0034f32a7daffmr4863307vkd.28.1651691999878; 
- Wed, 04 May 2022 12:19:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAavdBx1x2N664ZwZH2xSbx7IvYNEH14wbQinW7E2M3fJtOgbwPUbQx8ILHGgjAIoHEqJHig==
-X-Received: by 2002:a05:6122:21a9:b0:34f:32a7:daff with SMTP id
- j41-20020a05612221a900b0034f32a7daffmr4863288vkd.28.1651691999582; 
- Wed, 04 May 2022 12:19:59 -0700 (PDT)
+ bh=q7DMweZwI0WS3P4NKRpm531MiYefI5dSL7mrvAgRHYU=;
+ b=LFXGnMdBG2IZukt2fzzqIwp0J6pvn7qkcBzXaTL5Uf8aWTKcgDnc7QuoUNWx/vyepP
+ 2C1Nz+y7XfIzovspakRPocqpFmPjtmgKikbogklPDHkywtTABuKcIiSve6/2MEnaI7AH
+ qmkR/TitbPjTIpT5Oijq2rLuHhZQECeH1FelBDVZZfre/wlnubefHiELaVi3vUoJdyj7
+ ESSZTt/0ef3WpNTg3R5YyzBcsfvFu+OybNfaR0Njait++39KBrQU/ERoKHbuIkO0kfNo
+ tW0s0EE9F9z/H1gCd/ZUNc7pZOj6KOe6jjZsmwn+dsRvdrzGklVAhwVcAyXRjjyBLydL
+ WMaw==
+X-Gm-Message-State: AOAM5313vR/r9AELZ3JnjWqjgf7SsPK0llzpjK0pQea4pPJ6xMu2ziiF
+ 8Y4G+KneAM0Jh+Vb/tLIyfSfkmiUlZEHz4jYex76LCVfmUAqGcam0Cxuok/ggzsmQwq80Ed4V+B
+ jkO1iehR6/kxU4fA=
+X-Received: by 2002:a67:fa58:0:b0:32c:bc65:8f1f with SMTP id
+ j24-20020a67fa58000000b0032cbc658f1fmr6968060vsq.8.1651692002854; 
+ Wed, 04 May 2022 12:20:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtvi5Zt+z/Mq7QcYwaevEoA2TUT7bcvk1m67umFeCeHNWUsYxvQEFR1cAiDJqWUKvSoP+vdg==
+X-Received: by 2002:a67:fa58:0:b0:32c:bc65:8f1f with SMTP id
+ j24-20020a67fa58000000b0032cbc658f1fmr6968037vsq.8.1651692002585; 
+ Wed, 04 May 2022 12:20:02 -0700 (PDT)
 Received: from LeoBras.redhat.com ([2804:431:c7f1:1312:73ed:3343:f316:7ef5])
  by smtp.gmail.com with ESMTPSA id
- o80-20020a1fa553000000b0034e6f1fd04esm1647302vke.24.2022.05.04.12.19.56
+ o80-20020a1fa553000000b0034e6f1fd04esm1647302vke.24.2022.05.04.12.19.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 12:19:59 -0700 (PDT)
+ Wed, 04 May 2022 12:20:02 -0700 (PDT)
 From: Leonardo Bras <leobras@redhat.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -76,17 +76,17 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
 Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
  qemu-block@nongnu.org
-Subject: [PATCH v11 2/7] QIOChannelSocket: Implement io_writev zero copy flag
- & io_flush for CONFIG_LINUX
-Date: Wed,  4 May 2022 16:18:31 -0300
-Message-Id: <20220504191835.791580-3-leobras@redhat.com>
+Subject: [PATCH v11 3/7] migration: Add zero-copy-send parameter for QMP/HMP
+ for Linux
+Date: Wed,  4 May 2022 16:18:32 -0300
+Message-Id: <20220504191835.791580-4-leobras@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220504191835.791580-1-leobras@redhat.com>
 References: <20220504191835.791580-1-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -94,7 +94,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,238 +110,232 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For CONFIG_LINUX, implement the new zero copy flag and the optional callback
-io_flush on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
-feature is available in the host kernel, which is checked on
-qio_channel_socket_connect_sync()
+Add property that allows zero-copy migration of memory pages
+on the sending side, and also includes a helper function
+migrate_use_zero_copy_send() to check if it's enabled.
 
-qio_channel_socket_flush() was implemented by counting how many times
-sendmsg(...,MSG_ZEROCOPY) was successfully called, and then reading the
-socket's error queue, in order to find how many of them finished sending.
-Flush will loop until those counters are the same, or until some error occurs.
+No code is introduced to actually do the migration, but it allow
+future implementations to enable/disable this feature.
 
-Notes on using writev() with QIO_CHANNEL_WRITE_FLAG_ZERO_COPY:
-1: Buffer
-- As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid copying,
-some caution is necessary to avoid overwriting any buffer before it's sent.
-If something like this happen, a newer version of the buffer may be sent instead.
-- If this is a problem, it's recommended to call qio_channel_flush() before freeing
-or re-using the buffer.
-
-2: Locked memory
-- When using MSG_ZERCOCOPY, the buffer memory will be locked after queued, and
-unlocked after it's sent.
-- Depending on the size of each buffer, and how often it's sent, it may require
-a larger amount of locked memory than usually available to non-root user.
-- If the required amount of locked memory is not available, writev_zero_copy
-will return an error, which can abort an operation like migration,
-- Because of this, when an user code wants to add zero copy as a feature, it
-requires a mechanism to disable it, so it can still be accessible to less
-privileged users.
+On non-Linux builds this parameter is compiled-out.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/io/channel-socket.h |   2 +
- io/channel-socket.c         | 120 ++++++++++++++++++++++++++++++++++--
- 2 files changed, 118 insertions(+), 4 deletions(-)
+ qapi/migration.json   | 24 ++++++++++++++++++++++++
+ migration/migration.h |  5 +++++
+ migration/migration.c | 32 ++++++++++++++++++++++++++++++++
+ migration/socket.c    | 11 +++++++++--
+ monitor/hmp-cmds.c    |  6 ++++++
+ 5 files changed, 76 insertions(+), 2 deletions(-)
 
-diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-index e747e63514..513c428fe4 100644
---- a/include/io/channel-socket.h
-+++ b/include/io/channel-socket.h
-@@ -47,6 +47,8 @@ struct QIOChannelSocket {
-     socklen_t localAddrLen;
-     struct sockaddr_storage remoteAddr;
-     socklen_t remoteAddrLen;
-+    ssize_t zero_copy_queued;
-+    ssize_t zero_copy_sent;
- };
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 409eb086a2..04246481ce 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -741,6 +741,13 @@
+ #                      will consume more CPU.
+ #                      Defaults to 1. (Since 5.0)
+ #
++# @zero-copy-send: Controls behavior on sending memory pages on migration.
++#                  When true, enables a zero-copy mechanism for sending memory
++#                  pages, if host supports it.
++#                  Requires that QEMU be permitted to use locked memory for guest
++#                  RAM pages.
++#                  Defaults to false. (Since 7.1)
++#
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #                        aliases for the purpose of dirty bitmap migration.  Such
+ #                        aliases may for example be the corresponding names on the
+@@ -780,6 +787,7 @@
+            'xbzrle-cache-size', 'max-postcopy-bandwidth',
+            'max-cpu-throttle', 'multifd-compression',
+            'multifd-zlib-level' ,'multifd-zstd-level',
++           { 'name': 'zero-copy-send', 'if' : 'CONFIG_LINUX'},
+            'block-bitmap-mapping' ] }
  
+ ##
+@@ -906,6 +914,13 @@
+ #                      will consume more CPU.
+ #                      Defaults to 1. (Since 5.0)
+ #
++# @zero-copy-send: Controls behavior on sending memory pages on migration.
++#                  When true, enables a zero-copy mechanism for sending memory
++#                  pages, if host supports it.
++#                  Requires that QEMU be permitted to use locked memory for guest
++#                  RAM pages.
++#                  Defaults to false. (Since 7.1)
++#
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #                        aliases for the purpose of dirty bitmap migration.  Such
+ #                        aliases may for example be the corresponding names on the
+@@ -960,6 +975,7 @@
+             '*multifd-compression': 'MultiFDCompression',
+             '*multifd-zlib-level': 'uint8',
+             '*multifd-zstd-level': 'uint8',
++            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
+             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
  
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index 696a04dc9c..ae756ce166 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -25,9 +25,25 @@
- #include "io/channel-watch.h"
- #include "trace.h"
- #include "qapi/clone-visitor.h"
+ ##
+@@ -1106,6 +1122,13 @@
+ #                      will consume more CPU.
+ #                      Defaults to 1. (Since 5.0)
+ #
++# @zero-copy-send: Controls behavior on sending memory pages on migration.
++#                  When true, enables a zero-copy mechanism for sending memory
++#                  pages, if host supports it.
++#                  Requires that QEMU be permitted to use locked memory for guest
++#                  RAM pages.
++#                  Defaults to false. (Since 7.1)
++#
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #                        aliases for the purpose of dirty bitmap migration.  Such
+ #                        aliases may for example be the corresponding names on the
+@@ -1158,6 +1181,7 @@
+             '*multifd-compression': 'MultiFDCompression',
+             '*multifd-zlib-level': 'uint8',
+             '*multifd-zstd-level': 'uint8',
++            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
+             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
+ 
+ ##
+diff --git a/migration/migration.h b/migration/migration.h
+index a863032b71..e8f2941a55 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -375,6 +375,11 @@ MultiFDCompression migrate_multifd_compression(void);
+ int migrate_multifd_zlib_level(void);
+ int migrate_multifd_zstd_level(void);
+ 
 +#ifdef CONFIG_LINUX
-+#include <linux/errqueue.h>
-+#include <sys/socket.h>
++bool migrate_use_zero_copy_send(void);
++#else
++#define migrate_use_zero_copy_send() (false)
 +#endif
- 
- #define SOCKET_MAX_FDS 16
- 
-+/*
-+ * Zero-copy defines bellow are included to avoid breaking builds on systems
-+ * that don't support MSG_ZEROCOPY, while keeping the functions more readable
-+ * (without a lot of ifdefs).
-+ */
-+#ifndef MSG_ZEROCOPY
-+#define MSG_ZEROCOPY 0x4000000
+ int migrate_use_xbzrle(void);
+ uint64_t migrate_xbzrle_cache_size(void);
+ bool migrate_colo_enabled(void);
+diff --git a/migration/migration.c b/migration/migration.c
+index 5a31b23bd6..3e91f4b5e2 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -910,6 +910,10 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
+     params->multifd_zlib_level = s->parameters.multifd_zlib_level;
+     params->has_multifd_zstd_level = true;
+     params->multifd_zstd_level = s->parameters.multifd_zstd_level;
++#ifdef CONFIG_LINUX
++    params->has_zero_copy_send = true;
++    params->zero_copy_send = s->parameters.zero_copy_send;
 +#endif
-+#ifndef SO_ZEROCOPY
-+#define SO_ZEROCOPY 60
-+#endif
-+
- SocketAddress *
- qio_channel_socket_get_local_address(QIOChannelSocket *ioc,
-                                      Error **errp)
-@@ -54,6 +70,8 @@ qio_channel_socket_new(void)
- 
-     sioc = QIO_CHANNEL_SOCKET(object_new(TYPE_QIO_CHANNEL_SOCKET));
-     sioc->fd = -1;
-+    sioc->zero_copy_queued = 0;
-+    sioc->zero_copy_sent = 0;
- 
-     ioc = QIO_CHANNEL(sioc);
-     qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_SHUTDOWN);
-@@ -153,6 +171,16 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
-         return -1;
+     params->has_xbzrle_cache_size = true;
+     params->xbzrle_cache_size = s->parameters.xbzrle_cache_size;
+     params->has_max_postcopy_bandwidth = true;
+@@ -1567,6 +1571,11 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
+     if (params->has_multifd_compression) {
+         dest->multifd_compression = params->multifd_compression;
      }
- 
 +#ifdef CONFIG_LINUX
-+    int ret, v = 1;
-+    ret = setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
-+    if (ret == 0) {
-+        /* Zero copy available on host */
-+        qio_channel_set_feature(QIO_CHANNEL(ioc),
-+                                QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY);
++    if (params->has_zero_copy_send) {
++        dest->zero_copy_send = params->zero_copy_send;
 +    }
 +#endif
-+
-     return 0;
- }
- 
-@@ -533,6 +561,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-     char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)];
-     size_t fdsize = sizeof(int) * nfds;
-     struct cmsghdr *cmsg;
-+    int sflags = 0;
- 
-     memset(control, 0, CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS));
- 
-@@ -557,15 +586,27 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-         memcpy(CMSG_DATA(cmsg), fds, fdsize);
+     if (params->has_xbzrle_cache_size) {
+         dest->xbzrle_cache_size = params->xbzrle_cache_size;
      }
- 
-+    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-+        sflags = MSG_ZEROCOPY;
-+    }
-+
-  retry:
--    ret = sendmsg(sioc->fd, &msg, 0);
-+    ret = sendmsg(sioc->fd, &msg, sflags);
-     if (ret <= 0) {
--        if (errno == EAGAIN) {
-+        switch (errno) {
-+        case EAGAIN:
-             return QIO_CHANNEL_ERR_BLOCK;
--        }
--        if (errno == EINTR) {
-+        case EINTR:
-             goto retry;
-+        case ENOBUFS:
-+            if (sflags & MSG_ZEROCOPY) {
-+                error_setg_errno(errp, errno,
-+                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
-+                return -1;
-+            }
-+            break;
-         }
-+
-         error_setg_errno(errp, errno,
-                          "Unable to write to socket");
-         return -1;
-@@ -659,6 +700,74 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
- }
- #endif /* WIN32 */
- 
-+
+@@ -1679,6 +1688,11 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+     if (params->has_multifd_compression) {
+         s->parameters.multifd_compression = params->multifd_compression;
+     }
 +#ifdef CONFIG_LINUX
-+static int qio_channel_socket_flush(QIOChannel *ioc,
-+                                    Error **errp)
++    if (params->has_zero_copy_send) {
++        s->parameters.zero_copy_send = params->zero_copy_send;
++    }
++#endif
+     if (params->has_xbzrle_cache_size) {
+         s->parameters.xbzrle_cache_size = params->xbzrle_cache_size;
+         xbzrle_cache_resize(params->xbzrle_cache_size, errp);
+@@ -2563,6 +2577,17 @@ int migrate_multifd_zstd_level(void)
+     return s->parameters.multifd_zstd_level;
+ }
+ 
++#ifdef CONFIG_LINUX
++bool migrate_use_zero_copy_send(void)
 +{
-+    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-+    struct msghdr msg = {};
-+    struct sock_extended_err *serr;
-+    struct cmsghdr *cm;
-+    char control[CMSG_SPACE(sizeof(*serr))];
-+    int received;
-+    int ret = 1;
++    MigrationState *s;
 +
-+    msg.msg_control = control;
-+    msg.msg_controllen = sizeof(control);
-+    memset(control, 0, sizeof(control));
++    s = migrate_get_current();
 +
-+    while (sioc->zero_copy_sent < sioc->zero_copy_queued) {
-+        received = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
-+        if (received < 0) {
-+            switch (errno) {
-+            case EAGAIN:
-+                /* Nothing on errqueue, wait until something is available */
-+                qio_channel_wait(ioc, G_IO_ERR);
-+                continue;
-+            case EINTR:
-+                continue;
-+            default:
-+                error_setg_errno(errp, errno,
-+                                 "Unable to read errqueue");
-+                return -1;
-+            }
-+        }
++    return s->parameters.zero_copy_send;
++}
++#endif
 +
-+        cm = CMSG_FIRSTHDR(&msg);
-+        if (cm->cmsg_level != SOL_IP &&
-+            cm->cmsg_type != IP_RECVERR) {
-+            error_setg_errno(errp, EPROTOTYPE,
-+                             "Wrong cmsg in errqueue");
-+            return -1;
-+        }
+ int migrate_use_xbzrle(void)
+ {
+     MigrationState *s;
+@@ -4206,6 +4231,10 @@ static Property migration_properties[] = {
+     DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
+                       parameters.multifd_zstd_level,
+                       DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
++#ifdef CONFIG_LINUX
++    DEFINE_PROP_BOOL("zero_copy_send", MigrationState,
++                      parameters.zero_copy_send, false),
++#endif
+     DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
+                       parameters.xbzrle_cache_size,
+                       DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
+@@ -4303,6 +4332,9 @@ static void migration_instance_init(Object *obj)
+     params->has_multifd_compression = true;
+     params->has_multifd_zlib_level = true;
+     params->has_multifd_zstd_level = true;
++#ifdef CONFIG_LINUX
++    params->has_zero_copy_send = true;
++#endif
+     params->has_xbzrle_cache_size = true;
+     params->has_max_postcopy_bandwidth = true;
+     params->has_max_cpu_throttle = true;
+diff --git a/migration/socket.c b/migration/socket.c
+index 05705a32d8..3754d8f72c 100644
+--- a/migration/socket.c
++++ b/migration/socket.c
+@@ -74,9 +74,16 @@ static void socket_outgoing_migration(QIOTask *task,
+ 
+     if (qio_task_propagate_error(task, &err)) {
+         trace_migration_socket_outgoing_error(error_get_pretty(err));
+-    } else {
+-        trace_migration_socket_outgoing_connected(data->hostname);
++           goto out;
+     }
 +
-+        serr = (void *) CMSG_DATA(cm);
-+        if (serr->ee_errno != SO_EE_ORIGIN_NONE) {
-+            error_setg_errno(errp, serr->ee_errno,
-+                             "Error on socket");
-+            return -1;
-+        }
-+        if (serr->ee_origin != SO_EE_ORIGIN_ZEROCOPY) {
-+            error_setg_errno(errp, serr->ee_origin,
-+                             "Error not from zero copy");
-+            return -1;
-+        }
++    trace_migration_socket_outgoing_connected(data->hostname);
 +
-+        /* No errors, count successfully finished sendmsg()*/
-+        sioc->zero_copy_sent += serr->ee_data - serr->ee_info + 1;
-+
-+        /* If any sendmsg() succeeded using zero copy, return 0 at the end */
-+        if (serr->ee_code != SO_EE_CODE_ZEROCOPY_COPIED) {
-+            ret = 0;
-+        }
++    if (migrate_use_zero_copy_send()) {
++        error_setg(&err, "Zero copy send not available in migration");
 +    }
 +
-+    return ret;
-+}
-+
-+#endif /* CONFIG_LINUX */
-+
- static int
- qio_channel_socket_set_blocking(QIOChannel *ioc,
-                                 bool enabled,
-@@ -789,6 +898,9 @@ static void qio_channel_socket_class_init(ObjectClass *klass,
-     ioc_klass->io_set_delay = qio_channel_socket_set_delay;
-     ioc_klass->io_create_watch = qio_channel_socket_create_watch;
-     ioc_klass->io_set_aio_fd_handler = qio_channel_socket_set_aio_fd_handler;
-+#ifdef CONFIG_LINUX
-+    ioc_klass->io_flush = qio_channel_socket_flush;
-+#endif
++out:
+     migration_channel_connect(data->s, sioc, data->hostname, err);
+     object_unref(OBJECT(sioc));
  }
- 
- static const TypeInfo qio_channel_socket_info = {
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 93061a11af..622c783c32 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1309,6 +1309,12 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
+         p->has_multifd_zstd_level = true;
+         visit_type_uint8(v, param, &p->multifd_zstd_level, &err);
+         break;
++#ifdef CONFIG_LINUX
++    case MIGRATION_PARAMETER_ZERO_COPY_SEND:
++        p->has_zero_copy_send = true;
++        visit_type_bool(v, param, &p->zero_copy_send, &err);
++        break;
++#endif
+     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
+         p->has_xbzrle_cache_size = true;
+         if (!visit_type_size(v, param, &cache_size, &err)) {
 -- 
 2.36.0
 
