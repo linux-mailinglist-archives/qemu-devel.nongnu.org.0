@@ -2,92 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9501251A15E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 15:52:09 +0200 (CEST)
-Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E4051A1CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:07:46 +0200 (CEST)
+Received: from localhost ([::1]:33564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmFQG-0005yX-FJ
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 09:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60464)
+	id 1nmFfN-0001ng-VW
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmFL6-0001EA-JA
- for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51831)
+ (Exim 4.90_1) (envelope-from <Stefan.Pejic@Syrmia.com>)
+ id 1nmCsw-0003nm-Pq
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:09:36 -0400
+Received: from mail-eopbgr140129.outbound.protection.outlook.com
+ ([40.107.14.129]:5511 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmFL4-0002n1-QZ
- for qemu-devel@nongnu.org; Wed, 04 May 2022 09:46:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651672005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1hmwZ1bKWWAkDbx2BvSb49dhMxHrUcF7QHzEpRlsEEk=;
- b=CQG4JSM9ATxdNWCI0plNB/iOjvjXfDzFSI/gwIZk1cZEecS+BQs2lIim1FFFkj50JosqTf
- egjmNugt+Guit+ypR/5MwSjKYJgySQidYt1ERBtxShg900E/1lpJh04INPdH2kr0KMjAKE
- iqYwlgcxZKl3MKc8w1tLw9zbUabV12k=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-274-kDPOgmx7Nfa7gUqa4-a_gg-1; Wed, 04 May 2022 09:46:44 -0400
-X-MC-Unique: kDPOgmx7Nfa7gUqa4-a_gg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m186-20020a1c26c3000000b003943e12185dso703670wmm.7
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 06:46:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1hmwZ1bKWWAkDbx2BvSb49dhMxHrUcF7QHzEpRlsEEk=;
- b=5yRBqzA2uud5nypbhhX2p4GMJ9WfJbj5qGnauJQdNCeDQ7WSOmr4Rjhm+WI0inG1Gi
- +Ggt8rDXZluXqizL8YkUQrLfRti+OBYGuu5YvC4m22Grz8f7cgUSWFRMZuroSRmd/G0k
- 68K/hhd4j+5suEFX4IgRTAEA0fpO5G5wj9WwCZjpLF3C6fawcQBaivtAS2q7Ex9Fo4n4
- nSshZwOFg08ovs6YEPAkozz9nqzKnFwZ468bQ/2Ack+7jvtljneb4DPBWCgeoWSDCFXh
- mMh4njsWQLd2oBT3wTwbESKK9NfM+Ga5GnOawcoAk7a52N57jttW4lVv/W0OHBSaPXmw
- nU1A==
-X-Gm-Message-State: AOAM531SQMfqiaJyumDw6CepAf4m1MNH83vsSC+FQbNdfLlBsAUCHHsc
- tAuIMhlw1L93iTcPPk3mLlFsjwl/ymkdxk4AWgf6UwioNoedvTR/mlTdld9a+WDC3fh9gu2XxOU
- jk/xofensmCsjsr8=
-X-Received: by 2002:a5d:5441:0:b0:20a:cdc0:6e90 with SMTP id
- w1-20020a5d5441000000b0020acdc06e90mr16754703wrv.566.1651672002934; 
- Wed, 04 May 2022 06:46:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzw87CgLYUV2qkZkNZ8oNnBkrNp+FxDAEdHkK0T/xWwYcbiEJ4SGhpTRR0Qln+ziGJu9Ih2cw==
-X-Received: by 2002:a5d:5441:0:b0:20a:cdc0:6e90 with SMTP id
- w1-20020a5d5441000000b0020acdc06e90mr16754688wrv.566.1651672002749; 
- Wed, 04 May 2022 06:46:42 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- f2-20020a7bcd02000000b003942a244f48sm3808680wmj.33.2022.05.04.06.46.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 06:46:42 -0700 (PDT)
-Message-ID: <197bb25a-f9d4-c29b-8893-1ad73c135127@redhat.com>
-Date: Wed, 4 May 2022 15:46:41 +0200
+ (Exim 4.90_1) (envelope-from <Stefan.Pejic@Syrmia.com>)
+ id 1nmCsv-0002KW-7A
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:09:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z5C63nC/oPrxZ7S9KHVKbit2iXDbFsNxuKd8HtQ1RIkTwh+MvaZoH+huApmP4fHr2aAQM8/F0ArNWWa9Y0S3UhQQq3czL2IbWbGIhIig4rNxYJofCWYouA70/ZHryEmLKtaGGL4YnHUSjZdin/oJNAAOE96KT/NMh3tD/Oaj2d/hEAD57QhXVGfXddlza0X8vUa25RdCRlNOB8259+njQkBPwUys3JtsWpRjMN5avG+SHnJLA/EvIZ/zm65y36C5s3lM0Y91TL3nOFmqG7Gq7CxkXkajJsRztyH3YsDwfCZYNCnn3asLYm0/fEEOAGF60R9YX2vzw3cPLjjEP6mz9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ihO/cO/a+PPiXGUnlX3VUBIuW3Lfj00KOHDSlEyp/ss=;
+ b=C11QmZpSi0OZXZwnfAWeb7SDSnsFqAzCgBp056hVJENB8YbC3qxXF5KcAQPLe80D4nsrlTOebFppmY+Rl7Nuuoh800WOLpd3I4LO95q/YcyIWYim1fErYDoMg0OR2EQT0R3vs9mBiTXdzjVC0Q7t1HuSLhNmGEcKr4N0OWu/De2MeBbFp0XWlD/CEax6rBQ4yyS5DUUgpCv0bs8vdC6zdqLiJ25WJHC5+SXNHCeJip5wIi+AIaL+dtvSIWOgQJmca22dHkY4cR3ozsncsz7mxF8r+AHBAWLPDBCcR1LWx9ni5i1/8HEhJcdVESBoRyHMyieTWD/eRVC6jvKXyFVjtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ihO/cO/a+PPiXGUnlX3VUBIuW3Lfj00KOHDSlEyp/ss=;
+ b=em2K7P7zlO6hF8hCyX5GIzQhZBFrSm50cssRRhb664gPAJYGy3LayBhLcqDZlFjAnTPUiZ3Szf5vQmeh3cXtODC/yBgyewE78gDwoPz6XW08DQXZcs/8w1EBDPf2kkGj+gHWyf5XMtAl5G4YLW3kWPruR9B3gJqVe54ivl+4xRk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=syrmia.com;
+Received: from VE1PR03MB5501.eurprd03.prod.outlook.com (2603:10a6:803:11e::15)
+ by DU0PR03MB8551.eurprd03.prod.outlook.com (2603:10a6:10:3e2::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.25; Wed, 4 May
+ 2022 11:04:22 +0000
+Received: from VE1PR03MB5501.eurprd03.prod.outlook.com
+ ([fe80::f0a0:695d:75c8:b463]) by VE1PR03MB5501.eurprd03.prod.outlook.com
+ ([fe80::f0a0:695d:75c8:b463%7]) with mapi id 15.20.5206.024; Wed, 4 May 2022
+ 11:04:22 +0000
+From: Stefan Pejic <stefan.pejic@syrmia.com>
+To: qemu-devel@nongnu.org
+Cc: ot_stefan.pejic@mediatek.com, ot_dragan.mladjenovic@mediatek.com,
+ Stefan Pejic <stefan.pejic@syrmia.com>
+Subject: [PATCH 0/7] Undeprecate nanoMIPS and fix multiple bugs
+Date: Wed,  4 May 2022 13:03:56 +0200
+Message-Id: <20220504110403.613168-1-stefan.pejic@syrmia.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR06CA0132.eurprd06.prod.outlook.com
+ (2603:10a6:803:a0::25) To VE1PR03MB5501.eurprd03.prod.outlook.com
+ (2603:10a6:803:11e::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] linux-user/host/s390: Treat EX and EXRL as writes
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220504114819.1729737-1-iii@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220504114819.1729737-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7d7f3aef-b80e-4af4-c83d-08da2dbdd7c1
+X-MS-TrafficTypeDiagnostic: DU0PR03MB8551:EE_
+X-Microsoft-Antispam-PRVS: <DU0PR03MB855166AF967CB5392221006FF8C39@DU0PR03MB8551.eurprd03.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5W/r3LMuNyh1DcBwvdNwEA+hHr0ysXqq3n0TD0USXhIyd6O3k7weKgOzVbW24PX22iyOiCbWjL8vJUij8sqGftp0lt2Lcw+D5iDuyUsb/AFjGk+lYbJF0kx5WPdBIu62cHc3eRVpbN3TRLEOHqwuu6fgX45qqrAcGYfTg56vuD4SVKMe6KW6F806/eEhOyjLaNMuKweJpb1Y/hLKOih9N9+unWpL0aR4akAI4yJ2hdKF4JTTEUmLUrSTJzodkdchVkHt14j/rPPUfgJB/cZcweBpk8Bd5IxeR4O6vOqPUaxdTG5vxTdXFpnH/C+wfjJrn2yEdxz4iLf+GLkZ3kJOGHHGun2yj0QjL09oXu50V2/OR/KTjcdN+/a7ZiHLLXHVS6XeaaELzxo0Vp9XL4ZpnuwS/Z+YeLRmu4EmsaNyQde9h46W+ZXAGuJj8mdBE6IvdyymWdHuOOkwTRxUFn/NUJ5WymMQxwvdy88R794Muf7nvTBKEtL20zeXEyH7SuJPMWFpwp6hXFDD3tt7tE4YKkluMlUbxHoGHJZ1URfrANA1euSGfxiz0PFNrLtX8drFBXFquD+eSZuOyTZsahk76JaD0oWQrqgL6xLeek3m8AkaSP/Yh3wyBdLbZY9qFejR1/hbs8QqZry0OH+3rixkP5pjsspfDBbZyNRjEElL6BIjW6MIjbDA/NS+SOIF8HXhbGGGgY09HsT0Vpo5q9jWjw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR03MB5501.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(39840400004)(346002)(376002)(396003)(136003)(38100700002)(8936002)(36756003)(38350700002)(316002)(1076003)(83380400001)(6506007)(6916009)(2616005)(186003)(4326008)(44832011)(107886003)(6486002)(2906002)(4744005)(3450700001)(5660300002)(508600001)(8676002)(66556008)(52116002)(6666004)(66946007)(66476007)(6512007)(26005)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tvvWWNmUktzCkKewWEg7WDoWEEZ511HV+ZusEK75A69GM9cDl8e+rrKeIeTo?=
+ =?us-ascii?Q?NnuvT/cOX2qCuXJCHdko3B7Is41YgZjKiw+V6iMZIZbqxFn9uYVxPFkXTPbc?=
+ =?us-ascii?Q?sHbV28V4E/LSNRBOthoKOTgx1qABbUa/wqKGvEXXn46iZNbAMH2OflqM/z/3?=
+ =?us-ascii?Q?khQFjfLixqnvaLa8WZTCZKBsDLFqpKfsnzAz/FUSEh1cgb40xtnKHs4wIPig?=
+ =?us-ascii?Q?OtmhHs7/gxGdV90Vynoe6WiVFWmnvq2JvWr7Shg+77q0/94YCvg89WJL2HGR?=
+ =?us-ascii?Q?mm5+i3P0Q8WM6q0Ef7F5UoS3w89sFdjYd2iVFCPlJZcuokz40rGZAywPAq7f?=
+ =?us-ascii?Q?4gnicUEhts8yA2gjpwS3my8eIrgPNKBFn34Me9RoCTARNk5Fa1yFCMF+GwY9?=
+ =?us-ascii?Q?jqBzp/8g3+TZK7wH5HEXml4Zf8HMuDRQBc1neDebbo1aL0MPvnRIUthfi9hq?=
+ =?us-ascii?Q?LukZAbFImvV0h/zguu/2oeVit7kTOKcLTODsBeQvxOg5SokVNZ+COqTzxi0p?=
+ =?us-ascii?Q?7sCXXyMt6ucN1vEp0JAzxSFJZWRf2pjPRg20ei9MxEFQtWQ1dlkFWvinzqBj?=
+ =?us-ascii?Q?5QmU5K+nQ6TG+Acdpi6EfNyk8E7CAN4WowraQVWvWvqhvXrpzYO0qf51Xt/Z?=
+ =?us-ascii?Q?axh2QrJ1h8QqhdT+JYmWbpt1j53eAc1bJesypfD71ues9wcdjF3rxfU50X+B?=
+ =?us-ascii?Q?MCl6heCP6ZlKiQq8LOn5jKj9qxzSi8IwEwvyGb/zXfhahkYbmyQc/+2cugLi?=
+ =?us-ascii?Q?HQ5VrVaX1bm6ujKqliZ+hNYKz2LbDBMK1JfTQMNUB1FPokCNXMAA8OonEoq+?=
+ =?us-ascii?Q?zd91OdeoMJBjE/yE88E9qoEhnr36GkILQzbF0l6498GYwD2YBSHuMuIzz6Kv?=
+ =?us-ascii?Q?Y/xA/jDwekAKk7fBmqYbotZHome3Z3wj3lKiQ1FCh4cpAk+7oLNRiW4CJMxv?=
+ =?us-ascii?Q?4RO/dh6Q6Km2Qff9IWm4QKA4f2u1G+M5oNxcKzxlga2rwfgPEsgyOIaopi+P?=
+ =?us-ascii?Q?0MdjDSMe4vZCDq+/f3R9FsbyYnmetsj4KOpE91/nJnuNCcnvya4jYLeAm0MP?=
+ =?us-ascii?Q?73659DvBckUVuNdiqCZyysiuDAp282tHaWupBSS+83ppLJh3tujympG6utPz?=
+ =?us-ascii?Q?7X7K7RWsoRAkGwzhLKiQcFb4AXubK8C3Npl6bLHykMIRreF7G7LteZmu2JrY?=
+ =?us-ascii?Q?P3PnV/LlgCj9HBugZH8IXKmo7veLBpTBk+W1svTOf7I3T+wiNQZ/fUI0tFJl?=
+ =?us-ascii?Q?mkTZGJUzXtJQBNqtM5HZP22ToYKi4qQLc5WlJIBl8CAWetl6bVvZm+BcY0zL?=
+ =?us-ascii?Q?YoYe1mQwL3hFmGvhlVqfBllB+TqZaHrUfy2m5CxSUpsvNdwPU6UXU4mhH+Gg?=
+ =?us-ascii?Q?xvQNj5XlFiMAl0Vi/9mM0QFyxMkho6dwZU1sM4SUZbo0OGyUT2tBF9WO67RP?=
+ =?us-ascii?Q?84s1uwGAGaoj7r7Lsy3iKHizNGgSHiSNMKjKu/qV+EDSeQIpE4OPIArwI4+Q?=
+ =?us-ascii?Q?FDtnkb0JIjne9KcM7B6mit0fgrvDLUOXi2TAZXRObT46GS4948uvJt9zSUyK?=
+ =?us-ascii?Q?MhhiTy6tCOmPjuOiIyE0n438J3F3vwzprrCzJfZl33ST/hMIMvRBczof837O?=
+ =?us-ascii?Q?A8m1BXQImZ/ezQ4jjchmke2SefDMo7yEBp4EalEDFAYFR1GmGHr/8e3hlQrZ?=
+ =?us-ascii?Q?YsGz9xfZLJ82ysf5JJaD/BYZW7WTe8WouixbQ1mToxM/UQSWxOh0rIQPi3Uc?=
+ =?us-ascii?Q?QvyiQQLliopfaKjKPsNJXrTfBJDo9Wk=3D?=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d7f3aef-b80e-4af4-c83d-08da2dbdd7c1
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5501.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 11:04:22.0403 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vAJGdWdboV5ZdEHMogj0pPBgm3/LDSwAuMlQAzS9J2pA/4AwnTwakO3el661j7maadlHnXUgeLqPucFmvmVHLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR03MB8551
+Received-SPF: pass client-ip=40.107.14.129;
+ envelope-from=Stefan.Pejic@Syrmia.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 04 May 2022 10:01:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,36 +136,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Stefan Pejic <stefan.pejic@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/05/2022 13.48, Ilya Leoshkevich wrote:
-> clang-built s390x branch-relative-long test fails on clang-built s390x
-> QEMU due to the following sequence of events:
-> 
-> - The test zeroes out a code page, clang generates exrl+xc for this.
-> 
-> - do_helper_xc() is called. Clang generates exrl+xc there as well.
-> 
-> - Since there already exists a TB for the code in question, its page is
->    read-only and SIGSEGV is raised.
-> 
-> - host_signal_handler() calls host_signal_write() and the latter does
->    not recognize exrl as a write. Therefore page_unprotect() is not
->    called and the signal is forwarded to the test.
-> 
-> Fix by treating EXRL (and EX, just in case) as writes. There may be
-> false positives, but they will lead only to an extra page_unprotect()
-> call.
-> 
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   linux-user/include/host/s390/host-signal.h | 7 +++++++
->   1 file changed, 7 insertions(+)
+This series of patches aims to undeprecate nanoMIPS architecture and fix
+several issues that were found in recent testings.
 
-Great, this fixes the crash for me, indeed! Thank you!
+Dragan Mladjenovic (4):
+  target/mips: Fix emulation of nanoMips EXTRV_S.H instruction
+  target/mips: Fix emulation of nanoMips BPOSGE32C instruction
+  target/mips: Fix emulation of nanoMips BNEC[32] instruction
+  target/mips: Fix handling of unaligned memory access for nanoMips ISA
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+Stefan Pejic (3):
+  target/mips: Fix emulation of nanoMips MTHLIP instruction
+  target/mips: Add missing default cases for some nanoMips pools
+  target/mips: Undeprecate nanoMips ISA support in QEMU
+
+ MAINTAINERS                              |  3 ++-
+ docs/about/deprecated.rst                | 26 -------------------
+ target/mips/cpu.h                        |  2 +-
+ target/mips/tcg/nanomips_translate.c.inc | 33 +++++++++++++++++++++---
+ target/mips/tcg/translate.c              |  5 ++--
+ 5 files changed, 35 insertions(+), 34 deletions(-)
+
+-- 
+2.25.1
 
 
