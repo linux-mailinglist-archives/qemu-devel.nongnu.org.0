@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AD351AAC2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 19:32:54 +0200 (CEST)
-Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FD351AAFA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 19:36:16 +0200 (CEST)
+Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmIrt-00084q-Qc
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 13:32:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39972)
+	id 1nmIv9-0004SV-RJ
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 13:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nmIpt-0004gk-OV
- for qemu-devel@nongnu.org; Wed, 04 May 2022 13:30:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56674)
+ id 1nmIqU-00067j-17
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 13:31:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nmIps-00032s-90
- for qemu-devel@nongnu.org; Wed, 04 May 2022 13:30:49 -0400
+ id 1nmIqS-0003gU-4H
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 13:31:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651685447;
+ s=mimecast20190719; t=1651685483;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5dJot8tk6kKbfP9FuMVBrWASiBGKrHapwjgWaYms2iA=;
- b=FYnO6hmdwrkxHSZFwrR8oKX5F6LplM6ICjo3W6iEOMxPwzsMJMgkOCvsyNMLeq4EdMv1oy
- hj/0JwHMJ0Mx8udE7wU6ewP2AUgqcLD2LSYIG7M1s4iAeCBlAbnpq6wUblqA4uuEBFpCOK
- 4gKDxbkUkzK4RekMI17u1IoTAGpxzMc=
+ bh=yrHUqEZc+pioxw2SrMQwmx2Z83DwbbWvSVsse/scDpw=;
+ b=X64naR802z3vMkk0bNCnXd/BSGLxakjcT3rPk4IztNQ4zdjR6XO45t06LmFacxdcP/o2Lb
+ pqvlzW3wkYDGVNsATipdfhte1wqlA2NAG62u1M3swys2jGkE5kn5dD3DeDjsMIRf2J975k
+ oC2DexUQ7Qh818D5WpK/uMys7Uhi/jI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-SYe1ckYpMBKCHBJiYobzKQ-1; Wed, 04 May 2022 13:30:42 -0400
-X-MC-Unique: SYe1ckYpMBKCHBJiYobzKQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-207-Nyb04l0qPxW6GUz5TZbqPQ-1; Wed, 04 May 2022 13:31:20 -0400
+X-MC-Unique: Nyb04l0qPxW6GUz5TZbqPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C27329ABA06;
- Wed,  4 May 2022 17:30:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFFF7380450B;
+ Wed,  4 May 2022 17:31:19 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 245F54643C5;
- Wed,  4 May 2022 17:30:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8907A1D093;
+ Wed,  4 May 2022 17:30:45 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -54,15 +54,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Michael Roth <michael.roth@amd.com>,
  Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 03/16] tests: make libqmp buildable for win32
-Date: Wed,  4 May 2022 21:30:12 +0400
-Message-Id: <20220504173025.650167-4-marcandre.lureau@redhat.com>
+Subject: [PATCH 04/16] compiler.h: add QEMU_{BEGIN,
+ END}_IGNORE_INITIALIZER_OVERRIDES
+Date: Wed,  4 May 2022 21:30:13 +0400
+Message-Id: <20220504173025.650167-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20220504173025.650167-1-marcandre.lureau@redhat.com>
 References: <20220504173025.650167-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,122 +91,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+clang has this default warning which QEMU codes triggers in many
+situations. However, other projects in general may not want to disable
+globally the warning but only in limited specific code blocks.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/qtest/libqmp.h |  2 ++
- tests/qtest/libqmp.c | 35 +++++++++++++++++++++++++++++------
- 2 files changed, 31 insertions(+), 6 deletions(-)
+ include/qemu/compiler.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
-index 94aa97328a17..772f18b73ba3 100644
---- a/tests/qtest/libqmp.h
-+++ b/tests/qtest/libqmp.h
-@@ -20,8 +20,10 @@
- #include "qapi/qmp/qdict.h"
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index f20a76e4a286..ea0797959641 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -184,4 +184,15 @@
+ #define QEMU_DISABLE_CFI
+ #endif
  
- QDict *qmp_fd_receive(int fd);
-+#ifndef G_OS_WIN32
- void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-                       const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
-+#endif
- void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
- void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
- void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
-index 0358b8313dc4..93c9b31cd4ca 100644
---- a/tests/qtest/libqmp.c
-+++ b/tests/qtest/libqmp.c
-@@ -15,9 +15,13 @@
-  */
- 
- #include "qemu/osdep.h"
--
- #include "libqmp.h"
- 
-+#ifndef G_OS_WIN32
-+#include <sys/socket.h>
++#if defined (__clang__)
++#define QEMU_BEGIN_IGNORE_INITIALIZER_OVERRIDES                     \
++    _Pragma("clang diagnostic push")                                \
++    _Pragma("clang diagnostic ignored \"-Winitializer-overrides\"")
++#define QEMU_END_IGNORE_INITIALIZER_OVERRIDES \
++    _Pragma("clang diagnostic pop")
++#else
++#define QEMU_BEGIN_IGNORE_INITIALIZER_OVERRIDES
++#define QEMU_END_IGNORE_INITIALIZER_OVERRIDES
 +#endif
 +
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "qapi/qmp/json-parser.h"
- #include "qapi/qmp/qjson.h"
-@@ -87,6 +91,7 @@ QDict *qmp_fd_receive(int fd)
-     return qmp.response;
- }
- 
-+#ifndef G_OS_WIN32
- /* Sends a message and file descriptors to the socket.
-  * It's needed for qmp-commands like getfd/add-fd */
- static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
-@@ -120,17 +125,23 @@ static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
-     } while (ret < 0 && errno == EINTR);
-     g_assert_cmpint(ret, >, 0);
- }
-+#endif
- 
- /**
-  * Allow users to send a message without waiting for the reply,
-  * in the case that they choose to discard all replies up until
-  * a particular EVENT is received.
-  */
--void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
--                      const char *fmt, va_list ap)
-+static void
-+_qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                  const char *fmt, va_list ap)
- {
-     QObject *qobj;
- 
-+#ifdef G_OS_WIN32
-+    assert(fds_num == 0);
-+#endif
-+
-     /* Going through qobject ensures we escape strings properly */
-     qobj = qobject_from_vjsonf_nofail(fmt, ap);
- 
-@@ -148,10 +159,14 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-         if (log) {
-             fprintf(stderr, "%s", str->str);
-         }
-+
-+#ifndef G_OS_WIN32
-         /* Send QMP request */
-         if (fds && fds_num > 0) {
-             socket_send_fds(fd, fds, fds_num, str->str, str->len);
--        } else {
-+        } else
-+#endif
-+        {
-             socket_send(fd, str->str, str->len);
-         }
- 
-@@ -160,15 +175,23 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-     }
- }
- 
-+#ifndef G_OS_WIN32
-+void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                      const char *fmt, va_list ap)
-+{
-+    _qmp_fd_vsend_fds(fd, fds, fds_num, fmt, ap);
-+}
-+#endif
-+
- void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
- {
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
- }
- 
- 
- QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
- {
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
- 
-     return qmp_fd_receive(fd);
- }
+ #endif /* COMPILER_H */
 -- 
 2.36.0.44.g0f828332d5ac
 
