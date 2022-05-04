@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E32C519B7E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:21:07 +0200 (CEST)
-Received: from localhost ([::1]:60936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B97519B9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 11:25:22 +0200 (CEST)
+Received: from localhost ([::1]:37512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmBBy-00007Q-OI
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48390)
+	id 1nmBG4-0003iS-R5
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 05:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmB68-0005BE-6P
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:15:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56511)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmB9a-00089F-2e
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:18:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmB65-0001kv-Gr
- for qemu-devel@nongnu.org; Wed, 04 May 2022 05:15:03 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmB9X-0002RV-LQ
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 05:18:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651655700;
+ s=mimecast20190719; t=1651655915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sNUupHrLdR+u6oE3tsAmhnUVn1EyTTpFkYNPwliwz/Q=;
- b=ieyFZcpQ0OHCeCiSBcd1hMVeBSXHx5/Dt+wEGvzsk5VJBWiG7bCnGe9otWPdB3Rz+Dv6lG
- n8nbfVFFAw7XNMYi/edvWPjOC6joys5elGYiyVgPYLEaqi05mGb4+I2ZcLtC4LCYQFVEIQ
- wc3Cd42Re8NN4e9tXBSQXADbnLXt4oc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6kx50nvry8VzJhmCyYYwu7bhIg9sBCtj5QBwcWXZUtA=;
+ b=G3ARCsL1TmQeqOhUx6TYVhC0hQSDaPodEMpQLizi0ZUeiO/MGFw7gWEH0ZXMsmb+tm2+NG
+ vUa5l+d2FkL1fx1Pc3Pu0z3CEVR535ZdPszNWKJolF/m5MRpl7goJ3OBN9169FjGi4v4/0
+ V55/hy7jQ8daJkdP13XvwgKcwRO2Fjs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-RStDsUTRNtyubIPX-yIUMA-1; Wed, 04 May 2022 05:14:59 -0400
-X-MC-Unique: RStDsUTRNtyubIPX-yIUMA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p13-20020a05600c358d00b00394586f6959so933942wmq.1
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 02:14:59 -0700 (PDT)
+ us-mta-358-V65ErMNjP7-1MUA9ZWpwzg-1; Wed, 04 May 2022 05:18:33 -0400
+X-MC-Unique: V65ErMNjP7-1MUA9ZWpwzg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g14-20020a1c4e0e000000b0039425ef54d6so392091wmh.9
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 02:18:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=sNUupHrLdR+u6oE3tsAmhnUVn1EyTTpFkYNPwliwz/Q=;
- b=SZopI1Yn9i9b9j9RAWiRt6tdMvp15rMcuRfVD26fBrBZZ99Hw/VVhDvYDv7hkUrk9r
- ndM/EaYoPstB5NbZsX0O4Ay+5WsC3GxIcfpuE76VavugC8FMEVInW+BS/ETKFGY+wWBG
- nARtyHs3mSFmsy7TUlz+svrYlQMv/VmRtgGybyvyTmzl+/T4jESYxSBb79esNotR3FUn
- 3Oz/UCZOlMHR/p0/tX+awVHlvFVOLHPoQaTYYX5orvaoqBCD+lk215/9OBc1/jMvlsQW
- VD1Jvj0y5WeF0+6ccz65WjJgowiiAGvgv45ordqYMT8pWVAXs8S39XqdMcTqm4fMACKR
- ARgw==
-X-Gm-Message-State: AOAM5303ZyHNqStXiPvidzy071keoHXPskd0OcFQR7PkRbOHNupsheb2
- n8tM/h/cV52TkoKxbcve+J0taNORY6Zd6qpL+1Zzt3IBA5PzKyVjePbbi6NA9H81QodOWX4ZE/U
- G52aqvwxG52XrhWs=
-X-Received: by 2002:a1c:a3c6:0:b0:392:a630:286c with SMTP id
- m189-20020a1ca3c6000000b00392a630286cmr6793223wme.72.1651655698315; 
- Wed, 04 May 2022 02:14:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJym+C2zEn8NP6DB3LdliLERaw06yAdRghS2kw3vv7curlBdlX3x7vtuUksA1Y6FO7QDc5nwmQ==
-X-Received: by 2002:a1c:a3c6:0:b0:392:a630:286c with SMTP id
- m189-20020a1ca3c6000000b00392a630286cmr6793209wme.72.1651655698118; 
- Wed, 04 May 2022 02:14:58 -0700 (PDT)
+ bh=6kx50nvry8VzJhmCyYYwu7bhIg9sBCtj5QBwcWXZUtA=;
+ b=VXvHassfNz4rA7VWGRDjK+lHMQG3K2wq8stteB5xQLui+EGzrTB0gDlhHq16OM+eVO
+ IbgXG7oErg6RWFdmB7VgwN/RufMQfdxXG17QzO21ikLPANPykeGgygDY3ikJZZHIf/p9
+ cIG1usv84GcTmnYxlDcaaqWVLB/2y6aE70sZL8c4weGLDwdf4f9TwFwLHhNaZqyeXvEp
+ zADt64G/LVFVPjFjtsRN2KFvAicVJBExcbdwYDiHZ3Z3ghUHNdiZ9K4cJD9nnSXEOMSw
+ tX5OxMME5Z5jb1SDaxG+Nbx21/uOHdWSI6QuOvnkZUHSgqo8udH100ceIvUtAIjGPoI4
+ 7nsg==
+X-Gm-Message-State: AOAM533z5a5U3pmuSC02Mw13j4dNE07mhuvi/VM3ZzPENvEUch0pooar
+ Tbqh6a3cyW2DrTyESXk+TNYV7g65mGqFsYlE3LTQsCRt6My/Cj/IST/uoPeNu51r33JjjH28z6t
+ eNPyh0vvS+z+WeSY=
+X-Received: by 2002:a5d:6481:0:b0:20c:6b71:211f with SMTP id
+ o1-20020a5d6481000000b0020c6b71211fmr8115451wri.666.1651655912646; 
+ Wed, 04 May 2022 02:18:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzilk/X5o5Ir4ZrkHCt2boUJ5WA2HE5ExBhIc07KbLT0PN4Q3WzNrlYOt6Nr+X8s/dvOHng/Q==
+X-Received: by 2002:a5d:6481:0:b0:20c:6b71:211f with SMTP id
+ o1-20020a5d6481000000b0020c6b71211fmr8115434wri.666.1651655912423; 
+ Wed, 04 May 2022 02:18:32 -0700 (PDT)
 Received: from [192.168.0.2] (ip-109-43-177-80.web.vodafone.de.
  [109.43.177.80]) by smtp.gmail.com with ESMTPSA id
- c11-20020adfa70b000000b0020c5253d90esm14580840wrd.90.2022.05.04.02.14.57
+ d14-20020adfa40e000000b0020c5253d8casm11202801wra.22.2022.05.04.02.18.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 02:14:57 -0700 (PDT)
-Message-ID: <dc9b9d50-aa32-9483-551a-2054e31b36a4@redhat.com>
-Date: Wed, 4 May 2022 11:14:56 +0200
+ Wed, 04 May 2022 02:18:31 -0700 (PDT)
+Message-ID: <e3fe483b-f304-38af-bbfb-a65b2f350843@redhat.com>
+Date: Wed, 4 May 2022 11:18:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: branch-relative-long fails on s390x host (was: [PATCH]
- tests/tcg/s390x: Use a different PCRel32 notation in branch-relative-long.c)
+Subject: Re: [RFC PATCH] gitlab-ci: Switch the 'check-patch' & 'check-dco'
+ jobs to use python-container
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
- David Hildenbrand <david@redhat.com>
-References: <20220502164830.1622191-1-iii@linux.ibm.com>
- <0e5c5988-c764-edd8-5f8f-f208f5cef1d0@redhat.com>
- <e71d638b-3c62-31db-1abd-02ba40042eab@redhat.com>
- <8543dc2de432c787770f9f01c448434ab1e30c63.camel@linux.ibm.com>
- <f7a77dcc-590c-96f5-8e92-5806f51ac0d4@redhat.com>
- <1c4e55e45a92250f93d7671b4f658e616fc1edce.camel@linux.ibm.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220503203621.243153-1-thuth@redhat.com>
+ <YnJDZp809F14a0DB@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <1c4e55e45a92250f93d7671b4f658e616fc1edce.camel@linux.ibm.com>
+In-Reply-To: <YnJDZp809F14a0DB@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -91,8 +89,8 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,66 +106,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/05/2022 11.07, Ilya Leoshkevich wrote:
-> On Wed, 2022-05-04 at 09:01 +0200, Thomas Huth wrote:
->> On 04/05/2022 00.46, Ilya Leoshkevich wrote:
->>> On Tue, 2022-05-03 at 21:26 +0200, Thomas Huth wrote:
->>>> On 03/05/2022 11.02, Thomas Huth wrote:
->>>>> On 02/05/2022 18.48, Ilya Leoshkevich wrote:
->>>>>> Binutils >=2.37 and Clang do not accept (. - 0x100000000)
->>>>>> PCRel32
->>>>>> constants. While this looks like a bug that needs fixing, use
->>>>>> a
->>>>>> different notation (-0x100000000) as a workaround.
->>>>>>
->>>>>> Reported-by: Thomas Huth <thuth@redhat.com>
->>>>>> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
->>>>>> ---
->>>>>>     tests/tcg/s390x/branch-relative-long.c | 4 ++--
->>>>>>     1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/tests/tcg/s390x/branch-relative-long.c
->>>>>> b/tests/tcg/s390x/branch-relative-long.c
->>>>>> index 94219afcad..8ce9f1c2e5 100644
->>>>>> --- a/tests/tcg/s390x/branch-relative-long.c
->>>>>> +++ b/tests/tcg/s390x/branch-relative-long.c
->>>>>> @@ -13,8 +13,8 @@
->>>>>>             #_name "_end:\n");
->>>>>>     DEFINE_ASM(br_r14, "br %r14");
->>>>>> -DEFINE_ASM(brasl_r0, "brasl %r0,.-0x100000000");
->>>>>> -DEFINE_ASM(brcl_0xf, "brcl 0xf,.-0x100000000");
->>>>>> +DEFINE_ASM(brasl_r0, "brasl %r0,-0x100000000");
->>>>>> +DEFINE_ASM(brcl_0xf, "brcl 0xf,-0x100000000");
->>>>>
->>>>> Works for me, thanks!
->>>>
->>>> Sorry, I spoke too soon - it compiles fine, and also runs fine
->>>> when I
->>>> run it
->>>> natively, but when I run it through "qemu-s390x", it crashes...
->>>> does
->>>> that
->>>> work for you?
->>>
->>> Hi, yes, I just double-checked - it works fine for me.
->>> Could you please share the resulting test binary?
->>
->>
->> Sure, here it is:
->>
->> https://people.redhat.com/~thuth/data/branch-relative-long
->>
->>    Thomas
+On 04/05/2022 11.12, Daniel P. Berrangé wrote:
+> On Tue, May 03, 2022 at 10:36:21PM +0200, Thomas Huth wrote:
+>> The 'check-patch' and 'check-dco' jobs only need Python and git for
+>> checking the patches, so it's not really necessary to use a container
+>> here that has all the other build dependencies installed. By installing
+>> "git" in the python container, we can use this light-weight container
+>> for these jobs instead.
 > 
-> Your binary worked fine for me.
+> Our python container is far from light-weight....
 > 
-> QEMU commit 2e3408b3cc7de4e87a9adafc8c19bfce3abec947,
-> x86_64 host,
+> $ time podman pull registry.gitlab.com/qemu-project/qemu/qemu/python
+> 
+> real	1m52.717s
+> user	1m32.327s
+> sys	0m19.453s
+> 
+> vs
+> 
+> $ time podman pull python:3.8-alpine
+> 
+> real	0m4.509s
+> user	0m3.780s
+> sys	0m1.052s
+> 
+> 
+> It is quicker to use the alpine python container and then just
+> install 'git' on every job, than it is to use the pre-built
+> qemu python container
+> 
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   Mark as RFC since I'm not sure whether we want to have "git" in
+>>   the python container or not?
+>>
+>>   .gitlab-ci.d/static_checks.yml         | 8 ++++----
+>>   tests/docker/dockerfiles/python.docker | 1 +
+>>   2 files changed, 5 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+>> index 5e955540d3..0e080bd0a0 100644
+>> --- a/.gitlab-ci.d/static_checks.yml
+>> +++ b/.gitlab-ci.d/static_checks.yml
+>> @@ -1,8 +1,8 @@
+>>   check-patch:
+>>     stage: build
+>> -  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+>> +  image: $CI_REGISTRY_IMAGE/qemu/python:latest
+>>     needs:
+>> -    job: amd64-centos8-container
+>> +    job: python-container
+>>     script:
+>>       - .gitlab-ci.d/check-patch.py
+>>     variables:
+>> @@ -15,9 +15,9 @@ check-patch:
+>>   
+>>   check-dco:
+>>     stage: build
+>> -  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+>> +  image: $CI_REGISTRY_IMAGE/qemu/python:latest
+>>     needs:
+>> -    job: amd64-centos8-container
+>> +    job: python-container
+>>     script: .gitlab-ci.d/check-dco.py
+>>     variables:
+>>       GIT_DEPTH: 1000
+> 
+> IOW this is sufficient:
+> 
+>    image: python:3.8-alpine
+>    needs: []
+>    before_script:
+>      - apk update
+>      - apk add git
+>    script: ./gitlab-ci.d/check-dco.py
+> 
+> 
+> I expect the same would work for check-patch.py container
 
-Oh, well, now that you've mentioned it: I was running "make check-tcg" on a 
-s390x host. It works fine on a x86, indeed. So the new problem is likely in 
-the s390x TCG host backend... Richard, could you maybe have a look?
+... or would it make sense to switch tests/docker/dockerfiles/python.docker 
+to use alpine instead of fedora?
 
   Thomas
+
 
 
