@@ -2,51 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4245197B8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 08:59:26 +0200 (CEST)
-Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864CC5197B9
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 09:00:01 +0200 (CEST)
+Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nm8yr-0005Ig-6X
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 02:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44096)
+	id 1nm8zQ-0005oK-Cc
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 03:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nm8uS-0003lc-MI
- for qemu-devel@nongnu.org; Wed, 04 May 2022 02:54:52 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:40484)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nm8uQ-00089J-5X
- for qemu-devel@nongnu.org; Wed, 04 May 2022 02:54:52 -0400
-Received: from [10.12.102.111] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 56EDC40755D8;
- Wed,  4 May 2022 06:54:20 +0000 (UTC)
-Message-ID: <318d672a-9ad2-cfe0-4361-933d81fa28f4@ispras.ru>
-Date: Wed, 4 May 2022 09:54:20 +0300
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>)
+ id 1nm8vK-00041Z-8g; Wed, 04 May 2022 02:55:46 -0400
+Received: from ozlabs.ru ([107.174.27.60]:35066)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <aik@ozlabs.ru>)
+ id 1nm8vH-0008VX-NQ; Wed, 04 May 2022 02:55:45 -0400
+Received: from fstn1-p1.ozlabs.ibm.com. (localhost [IPv6:::1])
+ by ozlabs.ru (Postfix) with ESMTP id 30DD580511;
+ Wed,  4 May 2022 02:55:38 -0400 (EDT)
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: qemu-ppc@nongnu.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH qemu] spapr: Use address from elf parser for kernel address
+Date: Wed,  4 May 2022 16:55:36 +1000
+Message-Id: <20220504065536.3534488-1-aik@ozlabs.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 2/9] replay: notify vCPU when BH is scheduled
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: wrampazz@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- alex.bennee@linaro.org
-References: <165062838915.526882.13230207960407998257.stgit@pasha-ThinkPad-X280>
- <165062840023.526882.4524922830180183891.stgit@pasha-ThinkPad-X280>
- <40c2ef33-2775-5d85-e9ff-122d6aae4ced@linaro.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-In-Reply-To: <40c2ef33-2775-5d85-e9ff-122d6aae4ced@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+Received-SPF: pass client-ip=107.174.27.60; envelope-from=aik@ozlabs.ru;
+ helo=ozlabs.ru
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,21 +53,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.04.2022 21:45, Richard Henderson wrote:
-> On 4/22/22 04:53, Pavel Dovgalyuk wrote:
->> +void icount_notify_exit(void)
->> +{
->> +    if (icount_enabled() && first_cpu) {
->> +        cpu_exit(first_cpu);
->> +        qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
->> +    }
->> +}
-> 
-> Why first_cpu?  Did you really want to continue to the end of the 
-> round-robin?
-> Otherwise I'd expect qemu_cpu_kick(current_cpu), or something.
+tl;dr: This allows Big Endian zImage booting via -kernel + x-vof=on.
 
-Looks reasonable, thank you.
+QEMU loads the kernel at 0x400000 by default which works most of
+the time as Linux kernels are relocatable, 64bit and compiled with "-pie"
+(position independent code). This works for a little endian zImage too.
 
+However a big endian zImage is compiled without -pie, is 32bit, linked to
+0x4000000 so current QEMU ends up loading it at
+0x4400000 but keeps spapr->kernel_addr unchanged so booting fails.
+
+This uses the kernel address returned from load_elf().
+If the default kernel_addr is used, there is no change in behavior (as
+translate_kernel_address() takes care of this), which is:
+LE/BE vmlinux and LE zImage boot, BE zImage does not.
+If the VM created with "-machine kernel-addr=0,x-vof=on", then QEMU
+prints a warning and BE zImage boots.
+
+Note #1: SLOF (x-vof=off) still cannot boot a big endian zImage as
+SLOF enables MSR_SF for everything loaded by QEMU and this leads to early
+crash of 32bit zImage.
+
+Note #2: BE/LE vmlinux images set MSR_SF in early boot so these just work;
+a LE zImage restores MSR_SF after every CI call and we are lucky enough
+not to crash before the first CI call.
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+---
+
+We could probably change SLOF to always clear MSR_SF before jumping to
+the kernel but this is 1) SLOF fix 2) not quite sure if it brings
+lots of value.
+
+
+I really wish I had this when tested this fix:
+https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20220406070038.3704604-1-aik@ozlabs.ru/
+
+---
+ hw/ppc/spapr.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index a4372ba1891e..89f18f6564bd 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2971,14 +2971,16 @@ static void spapr_machine_init(MachineState *machine)
+     }
+ 
+     if (kernel_filename) {
++        uint64_t loaded_addr = 0;
++
+         spapr->kernel_size = load_elf(kernel_filename, NULL,
+                                       translate_kernel_address, spapr,
+-                                      NULL, NULL, NULL, NULL, 1,
++                                      NULL, &loaded_addr, NULL, NULL, 1,
+                                       PPC_ELF_MACHINE, 0, 0);
+         if (spapr->kernel_size == ELF_LOAD_WRONG_ENDIAN) {
+             spapr->kernel_size = load_elf(kernel_filename, NULL,
+                                           translate_kernel_address, spapr,
+-                                          NULL, NULL, NULL, NULL, 0,
++                                          NULL, &loaded_addr, NULL, NULL, 0,
+                                           PPC_ELF_MACHINE, 0, 0);
+             spapr->kernel_le = spapr->kernel_size > 0;
+         }
+@@ -2988,6 +2990,12 @@ static void spapr_machine_init(MachineState *machine)
+             exit(1);
+         }
+ 
++        if (spapr->kernel_addr != loaded_addr) {
++            warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
++                        spapr->kernel_addr, loaded_addr);
++            spapr->kernel_addr = loaded_addr;
++        }
++
+         /* load initrd */
+         if (initrd_filename) {
+             /* Try to locate the initrd in the gap between the kernel
+-- 
+2.30.2
 
 
