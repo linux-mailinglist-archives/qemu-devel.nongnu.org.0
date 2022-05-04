@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB7B51A231
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:29:04 +0200 (CEST)
-Received: from localhost ([::1]:58614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E5F51A23D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 16:32:39 +0200 (CEST)
+Received: from localhost ([::1]:37322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmFzz-0004ha-Oy
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43832)
+	id 1nmG3S-0001F3-VU
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 10:32:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwd-0000mB-V5
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwd-0000mC-Vo
  for qemu-devel@nongnu.org; Wed, 04 May 2022 10:25:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35035)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwc-0007E5-8o
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmFwc-0007ED-Eo
  for qemu-devel@nongnu.org; Wed, 04 May 2022 10:25:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1651674333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=b+P3PiqwGea+oVSwAGMVOqLoLaam+vt1T5Xy6afs/mc=;
- b=dSs+9bXOcFwhwISxSokLoduMbfqJVq0ksqzCdBBbCAIX8MRweB0VwECnBjjnliJJd6RDhN
- D0G/l34ACQkYSwBRyY4aC1yKp3X7Malq+igjv3Gzmfv2WWYzRa7UwmY6HIBGmXXKftZsqA
- bx6ACD0phkJhs1T60uBO7FmcOypNrFQ=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JPenWIdohtSBCEhLlxaLO6pPH5tqekKoSOptC+3Z9cE=;
+ b=RXNZPYsg/zaixZQxdacfP2Fc0FrzsLprwWoCgNj6zIASInZerkfPX2wcFYSoJjxTN5x+9P
+ CvgWDFCekkDJ3fp3LPY6BYyTmcGe6BLNsGh4akCEoVIQ7DIH7Z3LE5zhQmdr8TfFOGzQNU
+ M2ulzzTH20Aj3Pr32b58TJTTFmooVjA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-7767qIsJNcmyPo_sL53gAA-1; Wed, 04 May 2022 10:25:30 -0400
-X-MC-Unique: 7767qIsJNcmyPo_sL53gAA-1
+ us-mta-538-uK-ZU5UsMkabA6Apitkwng-1; Wed, 04 May 2022 10:25:30 -0400
+X-MC-Unique: uK-ZU5UsMkabA6Apitkwng-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7579811E76;
- Wed,  4 May 2022 14:25:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72DEB811E83;
+ Wed,  4 May 2022 14:25:30 +0000 (UTC)
 Received: from merkur.str.redhat.com (dhcp-192-180.str.redhat.com
  [10.33.192.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35EFF4021A2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7493402189;
  Wed,  4 May 2022 14:25:29 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 00/13] Block layer patches
-Date: Wed,  4 May 2022 16:25:09 +0200
-Message-Id: <20220504142522.167506-1-kwolf@redhat.com>
+Subject: [PULL 01/13] qemu-img: properly list formats which have consistency
+ check implemented
+Date: Wed,  4 May 2022 16:25:10 +0200
+Message-Id: <20220504142522.167506-2-kwolf@redhat.com>
+In-Reply-To: <20220504142522.167506-1-kwolf@redhat.com>
+References: <20220504142522.167506-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,70 +79,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2e3408b3cc7de4e87a9adafc8c19bfce3abec947:
+From: "Denis V. Lunev" <den@openvz.org>
 
-  Merge tag 'misc-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-05-03 09:13:17 -0700)
+Simple grep for the .bdrv_co_check callback presence gives the following
+list of block drivers
+* QED
+* VDI
+* VHDX
+* VMDK
+* Parallels
+which have this callback. The presense of the callback means that
+consistency check is supported.
 
-are available in the Git repository at:
+The patch updates documentation accordingly.
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20220407083932.531965-1-den@openvz.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ docs/tools/qemu-img.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to c1fe694357a328c807ae3cc6961c19e923448fcc:
-
-  coroutine-win32: use QEMU_DEFINE_STATIC_CO_TLS() (2022-05-04 15:55:23 +0200)
-
-----------------------------------------------------------------
-Block layer patches
-
-- Fix and re-enable GLOBAL_STATE_CODE assertions
-- vhost-user: Fixes for VHOST_USER_ADD/REM_MEM_REG
-- vmdk: Fix reopening bs->file
-- coroutine: use QEMU_DEFINE_STATIC_CO_TLS()
-- docs/qemu-img: Fix list of formats which implement check
-
-----------------------------------------------------------------
-Denis V. Lunev (1):
-      qemu-img: properly list formats which have consistency check implemented
-
-Hanna Reitz (6):
-      block: Classify bdrv_get_flags() as I/O function
-      qcow2: Do not reopen data_file in invalidate_cache
-      Revert "main-loop: Disable GLOBAL_STATE_CODE() assertions"
-      iotests: Add regression test for issue 945
-      block/vmdk: Fix reopening bs->file
-      iotests/reopen-file: Test reopening file child
-
-Kevin Wolf (3):
-      docs/vhost-user: Clarifications for VHOST_USER_ADD/REM_MEM_REG
-      libvhost-user: Fix extra vu_add/rem_mem_reg reply
-      vhost-user: Don't pass file descriptor for VHOST_USER_REM_MEM_REG
-
-Stefan Hajnoczi (3):
-      coroutine-ucontext: use QEMU_DEFINE_STATIC_CO_TLS()
-      coroutine: use QEMU_DEFINE_STATIC_CO_TLS()
-      coroutine-win32: use QEMU_DEFINE_STATIC_CO_TLS()
-
- docs/interop/vhost-user.rst                        |  17 ++++
- docs/tools/qemu-img.rst                            |   4 +-
- include/block/block-global-state.h                 |   1 -
- include/block/block-io.h                           |   1 +
- include/qemu/main-loop.h                           |   3 +-
- block.c                                            |   2 +-
- block/qcow2.c                                      | 104 ++++++++++++---------
- block/vmdk.c                                       |  56 ++++++++++-
- hw/virtio/vhost-user.c                             |   2 +-
- subprojects/libvhost-user/libvhost-user.c          |  17 ++--
- util/coroutine-ucontext.c                          |  38 +++++---
- util/coroutine-win32.c                             |  18 +++-
- util/qemu-coroutine.c                              |  41 ++++----
- tests/qemu-iotests/tests/export-incoming-iothread  |  81 ++++++++++++++++
- .../tests/export-incoming-iothread.out             |   5 +
- tests/qemu-iotests/tests/reopen-file               |  89 ++++++++++++++++++
- tests/qemu-iotests/tests/reopen-file.out           |   5 +
- 17 files changed, 388 insertions(+), 96 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/export-incoming-iothread
- create mode 100644 tests/qemu-iotests/tests/export-incoming-iothread.out
- create mode 100755 tests/qemu-iotests/tests/reopen-file
- create mode 100644 tests/qemu-iotests/tests/reopen-file.out
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 8885ea11cf..85a6e05b35 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -332,8 +332,8 @@ Command description:
+   ``-r all`` fixes all kinds of errors, with a higher risk of choosing the
+   wrong fix or hiding corruption that has already occurred.
+ 
+-  Only the formats ``qcow2``, ``qed`` and ``vdi`` support
+-  consistency checks.
++  Only the formats ``qcow2``, ``qed``, ``parallels``, ``vhdx``, ``vmdk`` and
++  ``vdi`` support consistency checks.
+ 
+   In case the image does not have any inconsistencies, check exits with ``0``.
+   Other exit codes indicate the kind of inconsistency found or if another error
+-- 
+2.35.1
 
 
