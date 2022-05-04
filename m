@@ -2,100 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1369519A0F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 10:39:32 +0200 (CEST)
-Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC37519A18
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 10:41:26 +0200 (CEST)
+Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmAXj-0001dV-NP
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 04:39:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37758)
+	id 1nmAZY-0002xr-53
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 04:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmANS-00054P-FI
- for qemu-devel@nongnu.org; Wed, 04 May 2022 04:28:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52937)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmAUu-0000qe-Bf
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 04:36:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmANQ-0000Vc-1N
- for qemu-devel@nongnu.org; Wed, 04 May 2022 04:28:53 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmAUp-0001xp-Au
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 04:36:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651652931;
+ s=mimecast20190719; t=1651653389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=la87yxmq2FStYM4j1RWvxQPBtd1a9wUi3mfw5hOXQqo=;
- b=PtJtOypn33mhy1hW3WxTEIOIOof8sF8TqSNp7APs2DBcru4GPYmF9FqYZQ3P/zcG0v1AUI
- kih0ILYoLgwiKi3ye1wwwnnJsBNH+9pHS/UFrZbROSz0j/lZGGoOddr6r3kfGV1siLo242
- 5zWOT8NSx3HZoK/eOKhTiPkq/+J8N1A=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1nebev3lmKWif61iSR/PTMae1U2KbaimYrAgt7HGMII=;
+ b=C7LNk9HpJ3REtzDwQweOc0oC2YB8CPcr7hsZhRVsf1sQBb3ajcycchX+WSXnk6NMn+iGGn
+ k3bNLcshnH+kpXjZcSCoIuaJSjRpAe8AAPuNXfRlBCcA+5M9aDd78Xueecd+o/ogd86+zy
+ ulSoiTNUP7Yl6DzHZ/KkrSdNNj+EZbc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-rPnG2q1dNsSx-Qeno6An0w-1; Wed, 04 May 2022 04:28:50 -0400
-X-MC-Unique: rPnG2q1dNsSx-Qeno6An0w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v184-20020a1cacc1000000b00393e492a398so2675081wme.5
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 01:28:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=la87yxmq2FStYM4j1RWvxQPBtd1a9wUi3mfw5hOXQqo=;
- b=2nTpMSSjbOJ5Bpj8YyqXXAKnxdl3s7tVaWaX2rS5w+tcQk2eBNaRx/cr0pAtMwVQdS
- s2raYaedQg70ozHWaxQbIntzOJIGbFx/dwQri2sh9LYy0xYUw6t8ed6wc8TjyboecBcY
- bhvc16la5FixMR7K1YvBAnvNjScmwzVlgfaDQeReBZqBcD2NNQS8HzQJBC71yMBrXecZ
- pZ9m60l8eTyW3Bi2LziHSqIuXBFmqbENVgBRRvSA85oXbOn26y0xNSbhRX36F4MJSjZd
- JuvVxcrgp7cOvSGdrmX3olwQrCJjHx4ofNBgSyc0bbS9Juz8VHkn9fUZ7EtgsRWOB+uJ
- znWg==
-X-Gm-Message-State: AOAM532yKkOqzPnS3KR+KwnSA7Oz6RdRh8nRi2SWBPlurP46FPGFEXK6
- uyyAKjGLhBiKLJrve/sG804k7YKQfqsSxgFzsuMn1N4tNmvCRdF9qRIQ1oUCDt/Mk1CgGwlDmX5
- tB+6rNyuAgxi8zp8=
-X-Received: by 2002:a05:6000:144f:b0:20c:6090:3040 with SMTP id
- v15-20020a056000144f00b0020c60903040mr10449283wrx.479.1651652929152; 
- Wed, 04 May 2022 01:28:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyM3zSMbckePCjw7CQcmBUGBjLKCXp8+Jy2NfU7HAKTO0foHoOW/0uso2xT7umQExec0+Aa0Q==
-X-Received: by 2002:a05:6000:144f:b0:20c:6090:3040 with SMTP id
- v15-20020a056000144f00b0020c60903040mr10449271wrx.479.1651652928907; 
- Wed, 04 May 2022 01:28:48 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-177-80.web.vodafone.de.
- [109.43.177.80]) by smtp.gmail.com with ESMTPSA id
- r8-20020a05600c320800b003942a244ec1sm3268621wmp.6.2022.05.04.01.28.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 01:28:48 -0700 (PDT)
-Message-ID: <146dfa10-295e-0d8e-4f28-7e4c84fb18f5@redhat.com>
-Date: Wed, 4 May 2022 10:28:46 +0200
+ us-mta-631-XxiDTrSZPAOmG4SGiYeP3w-1; Wed, 04 May 2022 04:36:24 -0400
+X-MC-Unique: XxiDTrSZPAOmG4SGiYeP3w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F0991C06EC4;
+ Wed,  4 May 2022 08:36:24 +0000 (UTC)
+Received: from redhat.com (dhcp-192-180.str.redhat.com [10.33.192.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 71D89432717;
+ Wed,  4 May 2022 08:36:23 +0000 (UTC)
+Date: Wed, 4 May 2022 10:36:22 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 2/4] block: Add protocol-specific image info
+Message-ID: <YnI7Bt3bVzUpBzVt@redhat.com>
+References: <20220503145529.37070-1-hreitz@redhat.com>
+ <20220503145529.37070-3-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v6 00/13] s390x/tcg: Implement Vector-Enhancements
- Facility 2
-Content-Language: en-US
-To: David Miller <dmiller423@gmail.com>
-Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-References: <20220428094708.84835-1-david@redhat.com>
- <97f9be15-4ccd-505b-a35e-8d95823df03a@redhat.com>
- <85dffe1d-a6d2-9e93-749b-29febb0b6dc5@redhat.com>
- <CAEgyohV9kjXUW_LMQM7YryQL1=0VW3pSCbffG2uFG7d5vNo5iw@mail.gmail.com>
- <348d3383-0bd4-1f18-2d14-08962be66c32@redhat.com>
- <CAEgyohUw8GBMaoKpVB4D0GCbKVQ1NTaT9px6LBX1BsS-ex-nxg@mail.gmail.com>
- <CAEgyohUk3cX32XXrecAKNbSxd9R8H-dvmesnAPPdW=Mz5Xi+7w@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAEgyohUk3cX32XXrecAKNbSxd9R8H-dvmesnAPPdW=Mz5Xi+7w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503145529.37070-3-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,21 +78,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2022 16.57, David Miller wrote:
-> It looks like google killed allowing password access early, nothing
-> makes it work anymore.
+Am 03.05.2022 um 16:55 hat Hanna Reitz geschrieben:
+> The ImageInfo object currently only contains (optional) format-specific
+> image information.  However, perhaps the protocol node can provide some
+> additional information, so add a new field presenting it.
+> 
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  qapi/block-core.json |  6 +++++-
+>  block/qapi.c         | 19 +++++++++++++++++++
+>  2 files changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index beeb91952a..e7d6c2e0cc 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -236,6 +236,9 @@
+>  # @format-specific: structure supplying additional format-specific
+>  #                   information (since 1.7)
+>  #
+> +# @protocol-specific: structure supplying additional protocol-specific
+> +#                     information (since 7.1)
+> +#
+>  # Since: 1.3
+>  #
+>  ##
+> @@ -246,7 +249,8 @@
+>             '*backing-filename': 'str', '*full-backing-filename': 'str',
+>             '*backing-filename-format': 'str', '*snapshots': ['SnapshotInfo'],
+>             '*backing-image': 'ImageInfo',
+> -           '*format-specific': 'ImageInfoSpecific' } }
+> +           '*format-specific': 'ImageInfoSpecific',
+> +           '*protocol-specific': 'ImageInfoSpecific' } }
 
-Uh, that's ugly! I hope you'll figure out a way to work-around that problem!
+I'm not a fan of this one. It solves the problem for exactly one special
+case (even if admittedly a common one) and leaves everything else as it
+is. It is unclear what it produces in configurations that aren't the
+simple one format node on top of one protocol node layout.
 
-> They had plans to disable 'less secure app' in may,  but it thought it
-> was the end of the month.
-> I'll try copy/paste as plain text as well though I Know it will likely
-> screw it up..
+I would rather interpret 'format-specific' as 'driver-specific' and make
+the ImageInfo for any child node accessible.
 
-Yup, that plain text patch didn't apply anymore - so I went for the 
-attachment from your previous mail this time instead (hoping that you'll 
-find another way for using git-send-email again in the future).
+With rbd we already interpret it like a generic driver thing that is not
+just for formats that because it implements .bdrv_get_specific_info even
+though we didn't have a 'protocol-specific' yet.
 
-  Thomas
+Making other nodes has precedence, too. 'backing-image' is even in the
+context of this hunk. VMDK exposes its extents the same way. So maybe
+what we really want is a 'children' list with the ImageInfo of every
+child node. And then qemu-img could go through all children and print
+headings like "Driver specific information for file (#block123)". Then
+filters like blkdebug could add their information and it would be
+printed, too.
+
+>  ##
+>  # @ImageCheck:
+> diff --git a/block/qapi.c b/block/qapi.c
+> index 51202b470a..293983cf82 100644
+> --- a/block/qapi.c
+> +++ b/block/qapi.c
+> @@ -262,6 +262,7 @@ void bdrv_query_image_info(BlockDriverState *bs,
+>      int64_t size;
+>      const char *backing_filename;
+>      BlockDriverInfo bdi;
+> +    BlockDriverState *protocol_bs;
+>      int ret;
+>      Error *err = NULL;
+>      ImageInfo *info;
+> @@ -303,6 +304,24 @@ void bdrv_query_image_info(BlockDriverState *bs,
+>      }
+>      info->has_format_specific = info->format_specific != NULL;
+>  
+> +    /* Try to look for an unambiguous protocol node */
+> +    protocol_bs = bs;
+> +    while (protocol_bs && !QLIST_EMPTY(&protocol_bs->children)) {
+> +        protocol_bs = bdrv_primary_bs(protocol_bs);
+> +    }
+
+If bs is already a leaf node, this duplicates the information, which
+looks weird:
+
+    $ build/qemu-img info -f file ~/tmp/test.raw
+    image: /home/kwolf/tmp/test.raw
+    file format: file
+    virtual size: 10 GiB (10737418240 bytes)
+    disk size: 7.63 GiB
+    Format specific information:
+        extent size: 1048576
+    Protocol specific information:
+        extent size: 1048576
+
+>
+> +    if (protocol_bs) {
+> +        /* Assert that this is a protocol node */
+> +        assert(QLIST_EMPTY(&protocol_bs->children));
+> +
+> +        info->protocol_specific = bdrv_get_specific_info(protocol_bs, &err);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            qapi_free_ImageInfo(info);
+> +            goto out;
+> +        }
+> +        info->has_protocol_specific = info->protocol_specific != NULL;
+> +    }
+> +
+>      backing_filename = bs->backing_file;
+>      if (backing_filename[0] != '\0') {
+>          char *backing_filename2;
+
+Kevin
 
 
