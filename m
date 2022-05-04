@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB8951AE1A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 21:41:43 +0200 (CEST)
-Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE13A51AE71
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 21:54:58 +0200 (CEST)
+Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmKsX-0002rW-Vs
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 15:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41924)
+	id 1nmL5N-0000yv-C7
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 15:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nmKpy-0001TM-75
- for qemu-devel@nongnu.org; Wed, 04 May 2022 15:39:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44345)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nmL3j-00008K-Lp
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 15:53:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nmKpv-0008Ov-5z
- for qemu-devel@nongnu.org; Wed, 04 May 2022 15:39:00 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nmL3h-0003Nv-H7
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 15:53:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651693137;
+ s=mimecast20190719; t=1651693992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=Y35OSmr8GF56WbRRZAP15kUBVJw5R/ALNxp/k/XQo/4=;
- b=fYBN0TtPxCQRLvHSVgcTCqMpmN4bovDM9lzWC4NmIEO757/iBPTpluKUtU8fIID+fnyl5z
- QSXLlpFJfaOsWwt80gYwEpLqQ0YJurU+vUS0AAhb5yjvj4dRvBahJp7dKmDCWt8fXpEumh
- 0T5QnV/VFdujocR2/HteH/ZZ7lEDe0s=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+sgWUL2CtZFTRpdmMUrlr2SlAEfN39jSnr9bDrYkMN0=;
+ b=YkAE6Cs6rkSWXHXGg2/W4Ma/QacZsoXbSbHT7GbJk2YE0ffTmLPA9Wl+JsQuM1kmZwNhSC
+ pvxfelfJmQFXjsta1ROozkVDzZHaTl4YaMsA3K3XuuU08tOtZAzwix3+jsNgWJswhskYQX
+ RLx7z9lB18NnbZiln+g0b3EzqccTmOc=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-155-LaNoGbIpMWum6nr2M0H5_Q-1; Wed, 04 May 2022 15:38:56 -0400
-X-MC-Unique: LaNoGbIpMWum6nr2M0H5_Q-1
-Received: by mail-ua1-f69.google.com with SMTP id
- x17-20020ab07811000000b0036280ecb145so938578uaq.17
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 12:38:56 -0700 (PDT)
+ us-mta-156-ZqRJBveMN5mNZRT8e77JRQ-1; Wed, 04 May 2022 15:53:11 -0400
+X-MC-Unique: ZqRJBveMN5mNZRT8e77JRQ-1
+Received: by mail-il1-f197.google.com with SMTP id
+ m3-20020a056e02158300b002b6e3d1f97cso1238108ilu.19
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 12:53:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=Y35OSmr8GF56WbRRZAP15kUBVJw5R/ALNxp/k/XQo/4=;
- b=R7dlgTagrQ2jN7Y202ZDEtsRJ2PMts7wgpNTWOXTVjgf7QLVWPp9Earfu96PaquhdN
- VsIHsKqMGkhphE/BxDzLHoB+o6s26/JrTlnYUDQA3A7fNvwXkxKG/+rkeL86IJe8HIfk
- uQWECe7EN/r6NWCJH47zJqXPhaa5UInEN22LoKE4IAQO6yo6/T+2Tt62aJRXLkCF1fnt
- sBoeNLu5mfdzgjqOk6L81jZzb+P8KoGuP51Oez2YL3zCGTKTr5eO6OJa7CHHpq3icFqH
- +O/v9c1/fT5/QT4PbonJJCyLxvxH8vNoO08XUTQqpzswRUPzGS3jre0A2bSJImSBZL1k
- Qlsg==
-X-Gm-Message-State: AOAM5313g0j2HYFYvccYAada3cw4oWN9LbcAjVRGePyq26J1MeQACjej
- rksOO1jaGBfHg8IspRsknIxgSs2DkEXVL6XJ6DQEn/CxtRTPcj0K29hVHNdoVxIKQGIEYDgXuND
- Xe+jac66P3dLKPie9e/P+kYZPd+KRXsY=
-X-Received: by 2002:a9f:2046:0:b0:35d:bfc:2c9 with SMTP id
- 64-20020a9f2046000000b0035d0bfc02c9mr7153264uam.119.1651693136330; 
- Wed, 04 May 2022 12:38:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxDEWqXjJxvHyY0XmV/yUxv9TOVMTWL0xWhjYO/YhjHAGcDU4P+ula9mgxhhTrBQKUFQwWmgSW2QDFRPEneEbQ=
-X-Received: by 2002:a9f:2046:0:b0:35d:bfc:2c9 with SMTP id
- 64-20020a9f2046000000b0035d0bfc02c9mr7153252uam.119.1651693136125; 
- Wed, 04 May 2022 12:38:56 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+sgWUL2CtZFTRpdmMUrlr2SlAEfN39jSnr9bDrYkMN0=;
+ b=Gng8yde6r+lkdbTQMs+gzzw7YYiLSWCacR/bueuIVEak4SwxCMeBZkK9tl+yxqRLOL
+ Ddr9nGRAqmuWC/DhXnEhrU2khXTP6Qym7VoWOgbAy3TQ98cVxKauD2OanDcBpGSO65/t
+ 7lafVIQxg8FBo6sOYYpJCo9DZmq99nx1VHhhQ4EOVDSszWWXN+lVDD4TaVhZ0V4h71N1
+ TRlUs6Ru6Pe+be28mS3szXAGL+VIJNoqbRt5alpY4+73cz4/0h9wsVAnc3kRp/TzW8gw
+ dCvZX6RddQgPH+dpjnIhihtkw7Vz7ICtN7V+2RP3wdiJ9abPMJ5CbuFgBWND9ADtDaIa
+ tXeg==
+X-Gm-Message-State: AOAM53254zPeMih1O5P9NmcJUXV1jznGPe2yomen5Epmgl62JDyMNhL0
+ 8mqidhyo2C/pEbSTZoLK91nDUOwFyoSk0V2Q8kbYV6VIgTeYgF8zVZ383Z9kl+gwySJhJ262ghM
+ 1m4SsZfSUyCXJrfQ=
+X-Received: by 2002:a05:6e02:20ee:b0:2cf:38af:d466 with SMTP id
+ q14-20020a056e0220ee00b002cf38afd466mr3736348ilv.64.1651693989610; 
+ Wed, 04 May 2022 12:53:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFOxu6m8W+N0Zj6q7EhZ5BpTM4rMGOdPamwYYTOim9q4JXrWk6YXG6Cs0Ayw8+zpJ7e9cB3A==
+X-Received: by 2002:a05:6e02:20ee:b0:2cf:38af:d466 with SMTP id
+ q14-20020a056e0220ee00b002cf38afd466mr3736321ilv.64.1651693989067; 
+ Wed, 04 May 2022 12:53:09 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ d1-20020a02a481000000b0032b3a781785sm4906527jam.73.2022.05.04.12.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 12:53:08 -0700 (PDT)
+Date: Wed, 4 May 2022 15:53:06 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: Re: [PATCH v11 2/7] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+Message-ID: <YnLZovDd8YCj/QxF@xz-m1.local>
+References: <20220504191835.791580-1-leobras@redhat.com>
+ <20220504191835.791580-3-leobras@redhat.com>
 MIME-Version: 1.0
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 4 May 2022 15:38:45 -0400
-Message-ID: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
-Subject: iotests and python dependencies
-To: Qemu-block <qemu-block@nongnu.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, 
- Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220504191835.791580-3-leobras@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -72,7 +92,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,61 +108,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Howdy!
+On Wed, May 04, 2022 at 04:18:31PM -0300, Leonardo Bras wrote:
+> +/*
+> + * Zero-copy defines bellow are included to avoid breaking builds on systems
+> + * that don't support MSG_ZEROCOPY, while keeping the functions more readable
+> + * (without a lot of ifdefs).
+> + */
+> +#ifndef MSG_ZEROCOPY
+> +#define MSG_ZEROCOPY 0x4000000
+> +#endif
+> +#ifndef SO_ZEROCOPY
+> +#define SO_ZEROCOPY 60
+> +#endif
 
-So, I want to finally delete python/qemu/qmp from qemu.git, and this
-creates a small problem -- namely, iotests needs access to it in order
-to run the python-based tests.
+So this will define these two values on e.g. FreeBSD, while they do not
+make sense at all there because these numbers are pure magics and
+meaningless outside Linux..
 
-What I think needs to happen is that we create a virtual environment
-that installs python/qemu/. The reason this cannot be done with
-PYTHONPATH alone anymore is because the qmp package itself won't be
-there anymore, we need an installer like `pip` to actually fetch it
-for us and put it somewhere. (i.e., we need to process the
-dependencies of python/qemu now and can't treat it as a pre-installed
-location.)
+I don't think it's anything dangerous, but IMHO it's another way of being
+not clean comparing of using some "#ifdef"s.  Comparing to this approach
+the "use #ifdef" approach is actually slightly more cleaner to me. :)
 
-Avocado tests are already creating a venv for the purposes of
-installing and running Avocado. We can amend e.g. "../../python" to
-tests/requirements.txt and the Avocado environment is A-OK good-to-go.
-The Makefile magic for avocado tests creates a venv-per-build. It
-seems to work well enough. One thing to note here is that the
-supported invocation for avocado tests is only through the Makefile,
-which handles creating and entering the venv to make the command
-seamless.
+Let's wait for some other inputs.
 
-iotests, however, manages its own execution environment with
-testenv.py, and we support running iotests from outside of the
-Makefile, for example by going to $build/tests/qemu-iotests and
-running ./check.
-
-Now ... I could update testenv.py to be smart enough to create and
-enter a python venv, and have even prototyped this. It seems to work
-pretty well! This approach seemed like the least invasive to how
-iotests are expected to be run and used. But a downside with this
-approach is that now avocado tests and iotests are each managing their
-own python venv. Worse, vm-tests and device-crash-test are still
-unhandled entirely.
-
-I'd like to find a solution where I create a unified python testing
-venv tied to the build shared by avocado, iotests, vm-tests and
-device-crash-test. I'm not completely sure how exactly I'll manage
-that right now, but I wanted to throw this out there in case there are
-some requirements I might be overlooking.
-
-I think vm-tests and avocado-tests can both have a venv created for
-them and activated before the test runs. device-crash-test I believe
-will need a script change in the gitlab ci yaml. iotests is somewhat
-unique in that it needs to run both by manual invocation and from
-makefile invocations. If I want a shared VM between all of these, I'll
-need to isolate the create-and-enter-venv logic somewhere where it can
-be shared both inside and outside of a Makefile.
-
-I'll see what I can cook up, but if you have any concerns or Cool
-Ideas, lemme know. I want to make sure this is as painless as I can
-think to make it.
-
-Thanks,
---js
+-- 
+Peter Xu
 
 
