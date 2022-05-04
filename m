@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356F4519E0B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 13:30:23 +0200 (CEST)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2550519E7D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 May 2022 13:48:50 +0200 (CEST)
+Received: from localhost ([::1]:60642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmDD4-0004Jt-2E
-	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 07:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50490)
+	id 1nmDUw-0004VW-1i
+	for lists+qemu-devel@lfdr.de; Wed, 04 May 2022 07:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nmD89-0000sq-Ey
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:25:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53716)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmDP0-0001QD-Fz
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:42:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nmD85-00017n-S9
- for qemu-devel@nongnu.org; Wed, 04 May 2022 07:25:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmDOy-0005YA-OO
+ for qemu-devel@nongnu.org; Wed, 04 May 2022 07:42:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651663512;
+ s=mimecast20190719; t=1651664560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=86uG9quml9zT0y/w0pJ5woOCcnmxOYLBcIwth6aV4oU=;
- b=eXwyq6CKqOLreapZO60n9cweiQZVaLHLGo8P4eEGcQmS9HE+G3zG2Pt0TH6qSjVswobyc4
- cUg7Blt47IKzbeWuRfgfh894FL4TlGiOp03dNTEmnQHaG1dOpK/3uHSqOBdxr5zoG6UTJy
- AVN5id3a5vFJ3xU7JtyuDREg/QQRrfY=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eWuhooiqo+OdXyRXh36mUIm/0aC33heVz+jzAbfgpIA=;
+ b=C/Ux0DZSMxDgmcDdaNlqZRvvlvJk9b/gmaQObBGZPt2ugifzmIEbJsj+/ho/B/1ikwy64g
+ QD07WXeFcWMctFQ93vawXbtPDnI8ijvf58P84eGUutn7X6PTVXfnM8IBV/Ju+oon3by9Fl
+ Hx9sppBlwODoAOu8+kWMQRZ14qkz0BQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47-LlZDMgW3M2m6ELgXgEfoyg-1; Wed, 04 May 2022 07:25:11 -0400
-X-MC-Unique: LlZDMgW3M2m6ELgXgEfoyg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- ee56-20020a056402293800b00425b0f5b9c6so617304edb.9
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 04:25:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=86uG9quml9zT0y/w0pJ5woOCcnmxOYLBcIwth6aV4oU=;
- b=RSI5GkOHc5jjBMfreeUidtSp/f+AQJmZCBSSyfP0LZzCbujvCZcYks7lFr2ikQ2JwQ
- bEHeQ4YBqwV+0oLOFnEJF0OXObCIvbnQZKKjZebGGzQlMmtzjKVBFPm/EGYM+DmiArjF
- 0Sj1XSwe+y6dxB6vDdMCijqrkGobfIeR3smmmYMS3wkq1l06Z7cvAiCs+oAOoVuYl24a
- VCVLZElyc0ECYS281rta5Wjre88MLfz89g7ZH9sQQmI1vExcSPRyhHQbrankBMqarAkM
- 69AU4g2e4WDHUh4FbtKeJ6kyAU6IobmYNBxSRuOXcsxWYbG3ZyEfSd8i2yMn9kJXC0Aq
- fzgQ==
-X-Gm-Message-State: AOAM5308f6AVx4ucc/grPEg4IUweBeWZV3G4Ki26XXIfArk9wsMw39dZ
- //ej9w9TYjR8lj0X5IRtdy70KlU3LWeLD7T7/pEbop3lkCCBwCFmFtYMTg7t5xSt2AoCHdXwY/T
- jPkseEj0MScIHuKM=
-X-Received: by 2002:a17:906:4985:b0:6ef:b344:2a56 with SMTP id
- p5-20020a170906498500b006efb3442a56mr20201741eju.625.1651663510132; 
- Wed, 04 May 2022 04:25:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwc0iDWK9ZVb4+rVr/gXArA/mNX7YLAe/P+laeK0kkqRlAkil256GTJJRDFfWlhXSs6T3nKpw==
-X-Received: by 2002:a17:906:4985:b0:6ef:b344:2a56 with SMTP id
- p5-20020a170906498500b006efb3442a56mr20201711eju.625.1651663509703; 
- Wed, 04 May 2022 04:25:09 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- hf27-20020a1709072c5b00b006f3ef214e31sm5614485ejc.151.2022.05.04.04.25.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 04:25:09 -0700 (PDT)
-Message-ID: <49b5b98d-2e12-a383-f445-6adfc54811c0@redhat.com>
-Date: Wed, 4 May 2022 13:25:08 +0200
+ us-mta-509-Cjt_VEHJN8qSRPQQilH3QA-1; Wed, 04 May 2022 07:42:36 -0400
+X-MC-Unique: Cjt_VEHJN8qSRPQQilH3QA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86AC3811E76;
+ Wed,  4 May 2022 11:42:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A698413721;
+ Wed,  4 May 2022 11:42:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D03DA21E68BC; Wed,  4 May 2022 13:42:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Cc: qemu-devel@nongnu.org,  stefanha@redhat.com,  mst@redhat.com,
+ f4bug@amsat.org,  pbonzini@redhat.com,  marcandre.lureau@redhat.com,
+ thuth@redhat.com,  bleal@redhat.com,  berrange@redhat.com,
+ eduardo@habkost.net,  marcel.apfelbaum@gmail.com,  eblake@redhat.com,
+ quintela@redhat.com,  dgilbert@redhat.com,  imammedo@redhat.com,
+ peterx@redhat.com,  john.levon@nutanix.com,  thanos.makatos@nutanix.com,
+ elena.ufimtseva@oracle.com,  john.g.johnson@oracle.com,
+ kanth.ghatraju@oracle.com
+Subject: Re: [PATCH v9 10/17] vfio-user: run vfio-user context
+References: <cover.1651586203.git.jag.raman@oracle.com>
+ <7350f4813b73af783965b758ecf39d0a6a76db53.1651586203.git.jag.raman@oracle.com>
+Date: Wed, 04 May 2022 13:42:33 +0200
+In-Reply-To: <7350f4813b73af783965b758ecf39d0a6a76db53.1651586203.git.jag.raman@oracle.com>
+ (Jagannathan Raman's message of "Tue, 3 May 2022 10:16:51 -0400")
+Message-ID: <877d717cd2.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/4] block: Add protocol-specific image info
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20220503145529.37070-1-hreitz@redhat.com>
- <20220503145529.37070-3-hreitz@redhat.com> <YnI7Bt3bVzUpBzVt@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <YnI7Bt3bVzUpBzVt@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,215 +87,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.05.22 10:36, Kevin Wolf wrote:
-> Am 03.05.2022 um 16:55 hat Hanna Reitz geschrieben:
->> The ImageInfo object currently only contains (optional) format-specific
->> image information.  However, perhaps the protocol node can provide some
->> additional information, so add a new field presenting it.
->>
->> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
->> ---
->>   qapi/block-core.json |  6 +++++-
->>   block/qapi.c         | 19 +++++++++++++++++++
->>   2 files changed, 24 insertions(+), 1 deletion(-)
->>
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index beeb91952a..e7d6c2e0cc 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -236,6 +236,9 @@
->>   # @format-specific: structure supplying additional format-specific
->>   #                   information (since 1.7)
->>   #
->> +# @protocol-specific: structure supplying additional protocol-specific
->> +#                     information (since 7.1)
->> +#
->>   # Since: 1.3
->>   #
->>   ##
->> @@ -246,7 +249,8 @@
->>              '*backing-filename': 'str', '*full-backing-filename': 'str',
->>              '*backing-filename-format': 'str', '*snapshots': ['SnapshotInfo'],
->>              '*backing-image': 'ImageInfo',
->> -           '*format-specific': 'ImageInfoSpecific' } }
->> +           '*format-specific': 'ImageInfoSpecific',
->> +           '*protocol-specific': 'ImageInfoSpecific' } }
-> I'm not a fan of this one. It solves the problem for exactly one special
-> case (even if admittedly a common one) and leaves everything else as it
-> is. It is unclear what it produces in configurations that aren't the
-> simple one format node on top of one protocol node layout.
+Jagannathan Raman <jag.raman@oracle.com> writes:
 
-I don’t disagree, but I do wonder how often this structure is used 
-outside of `qemu-img info`, where filter nodes and more complex 
-configurations are very rare.  I understand wanting to support complex 
-block graph configurations everywhere, I’m just wondering whether there 
-is actually much of a use for that here.
-
-> I would rather interpret 'format-specific' as 'driver-specific' and make
-> the ImageInfo for any child node accessible.
-
-Again, I don’t disagree, but I have reservations about that.  I don’t 
-think this is a trivial approach to take.
-
-First, that will be kind of bad for VMDK files, which already have all 
-of their extent children in their driver-specific info, so we’d 
-duplicate that info.
-
-Second, same for the backing child, generally.  Do we want to exclude 
-specifically the backing child from that list of ImageInfos for all 
-children, because we already have an entry for it in ImageInfo itself?  
-That wouldn’t make much sense.  Deprecate backing-child?  Works for the 
-future, weird in the meantime.
-
-Third, the implementation would not be trivial. bdrv_query_image_info() 
-specifically says to return "flat" image information, i.e. not to query 
-the backing child information. Currently, its callers fill that blank 
-some way or another, with `qemu-img info` creating a list of files (i.e. 
-the backing chain) instead of using that backing-image field.  I 
-actually have no idea how we should bring that together.  Should 
-bdrv_query_image_info() also not collect that ImageInfo list of all 
-children, and then collect_image_info_list() will put those into its 
-list, too, making it recursive?  Then we have the problem of describing 
-nodes in this graph, and as written below I wouldn’t be happy to use 
-auto-generated node names for this.  Or should bdrv_query_image_info() 
-collect all those children, and then collect_image_info_list() will just 
-drop the backing child from them, so that it still gets a flat backing 
-chain list, but the other children will be nested, allowing users to 
-identify which nodes those are based on nesting?  (And nesting would 
-require adding indentation support to bdrv_image_info_dump(), and 
-bdrv_snapshot_dump().)
-
-Fourth, precisely for the common case of not having filters or other 
-more complex configurations, the additional info provided by the 
-protocol node’s ImageInfo is limited.  Most of it just duplicates 
-information from the format node, the really interesting bit is just the 
-ImageInfoSpecific, so for `qemu-img info` it’ll mostly just clutter the 
-output.  Many fields are also named on the assumption that this 
-information is about a format node ("file format", "virtual size"), and 
-so I personally find it confusing to see those things in the information 
-about a protocol node when using `qemu-img info`.
-
-> With rbd we already interpret it like a generic driver thing that is not
-> just for formats that because it implements .bdrv_get_specific_info even
-> though we didn't have a 'protocol-specific' yet.
-
-On one hand, that’s the same thing I’m doing in this series.  On the 
-other, I think the rbd implementation as a whole has not been well 
-thought out, because it must have faced exactly the same problem that 
-I’m trying to solve in this patch here, but obviously it hasn’t been 
-addressed yet.
-
-(Instead, it probably relied on users calling `qemu-img info -f rbd`, 
-which is just cheating.  I mean, I could do that, too, and just drop 
-anything but patch 4.)
-
-> Making other nodes has precedence, too. 'backing-image' is even in the
-> context of this hunk. VMDK exposes its extents the same way.
-
-Both of which now make the solution to include the list of all 
-children’s ImageInfos just more complicated, yes. O:)
-
-(I know that me saying that simply means that these were probably bad 
-solutions then, and that maybe we should’ve had a list of all children’s 
-ImageInfos from the start.  Which means dancing around the issue even 
-more won’t make it better, I know.  O:)  I’m just trying to say that 
-simply adding this list isn’t an ideal solution now, under the current 
-circumstances; but I’m not saying there is any ideal solution.)
-
-> So maybe
-> what we really want is a 'children' list with the ImageInfo of every
-> child node. And then qemu-img could go through all children and print
-> headings like "Driver specific information for file (#block123)".
-
-I would very much rather drop auto-generated node names, and instead 
-just print the child name and rely on indentation.  I have an example below.
-
-> Then
-> filters like blkdebug could add their information and it would be
-> printed, too.
-
-Is this really something that would ever be useful in practice?
-
-
-I understand your concern (and share it to a degree), but I feel like 
-allowing for this ImageInfo struct to represent and encompass a complex 
-block graph comes at the detriment of readability and understandability 
-of `qemu-img info` output for plain images.
-
-For example, this is how I’d imagine the output for a raw image:
-
-image: test.raw
-file format: raw
-virtual size: 10 GiB (10737418240 bytes)
-disk size: 1 MiB
-child 'file':
-     image: test.raw
-     file format: file
-     virtual size: 10 GiB (10737418240 bytes)
-     disk size: 1 MiB
-     Driver specific information:
-         extent size: 1048576
-
-Personally, I like that less than what this series’s v1 produces.  I 
-understand it represents the modular nature of the block graph, but 
-that’s generally not something I want to see when I run `qemu-img info` 
-on a plain image (which is 98 % of the use I have for `qemu-img info`).
-
->>   ##
->>   # @ImageCheck:
->> diff --git a/block/qapi.c b/block/qapi.c
->> index 51202b470a..293983cf82 100644
->> --- a/block/qapi.c
->> +++ b/block/qapi.c
->> @@ -262,6 +262,7 @@ void bdrv_query_image_info(BlockDriverState *bs,
->>       int64_t size;
->>       const char *backing_filename;
->>       BlockDriverInfo bdi;
->> +    BlockDriverState *protocol_bs;
->>       int ret;
->>       Error *err = NULL;
->>       ImageInfo *info;
->> @@ -303,6 +304,24 @@ void bdrv_query_image_info(BlockDriverState *bs,
->>       }
->>       info->has_format_specific = info->format_specific != NULL;
->>   
->> +    /* Try to look for an unambiguous protocol node */
->> +    protocol_bs = bs;
->> +    while (protocol_bs && !QLIST_EMPTY(&protocol_bs->children)) {
->> +        protocol_bs = bdrv_primary_bs(protocol_bs);
->> +    }
-> If bs is already a leaf node, this duplicates the information, which
-> looks weird:
+> Setup a handler to run vfio-user context. The context is driven by
+> messages to the file descriptor associated with it - get the fd for
+> the context and hook up the handler with it
 >
->      $ build/qemu-img info -f file ~/tmp/test.raw
->      image: /home/kwolf/tmp/test.raw
->      file format: file
->      virtual size: 10 GiB (10737418240 bytes)
->      disk size: 7.63 GiB
->      Format specific information:
->          extent size: 1048576
->      Protocol specific information:
->          extent size: 1048576
-
-I mean, that isn’t wrong, but also fixable if need be.
-
->> +    if (protocol_bs) {
->> +        /* Assert that this is a protocol node */
->> +        assert(QLIST_EMPTY(&protocol_bs->children));
->> +
->> +        info->protocol_specific = bdrv_get_specific_info(protocol_bs, &err);
->> +        if (err) {
->> +            error_propagate(errp, err);
->> +            qapi_free_ImageInfo(info);
->> +            goto out;
->> +        }
->> +        info->has_protocol_specific = info->protocol_specific != NULL;
->> +    }
->> +
->>       backing_filename = bs->backing_file;
->>       if (backing_filename[0] != '\0') {
->>           char *backing_filename2;
-> Kevin
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  qapi/misc.json            |  30 +++++++++++
+>  hw/remote/vfio-user-obj.c | 102 +++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 131 insertions(+), 1 deletion(-)
 >
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index b83cc39029..fa49f2876a 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -553,3 +553,33 @@
+>  ##
+>  { 'event': 'RTC_CHANGE',
+>    'data': { 'offset': 'int', 'qom-path': 'str' } }
+> +
+> +##
+> +# @VFU_CLIENT_HANGUP:
+> +#
+> +# Emitted when the client of a TYPE_VFIO_USER_SERVER closes the
+> +# communication channel
+> +#
+> +# @vfu-id: ID of the TYPE_VFIO_USER_SERVER object
+> +#
+> +# @vfu-qom-path: path to the TYPE_VFIO_USER_SERVER object in the QOM tree
+> +#
+> +# @dev-id: ID of attached PCI device
+> +#
+> +# @dev-qom-path: path to attached PCI device in the QOM tree
+
+I'm still unsure what kind(s) of ID @vfu-id and @dev-id are.  See below.
+
+> +#
+> +# Since: 7.1
+> +#
+> +# Example:
+> +#
+> +# <- { "event": "VFU_CLIENT_HANGUP",
+> +#      "data": { "vfu-id": "vfu1",
+> +#                "vfu-qom-path": "/objects/vfu1",
+> +#                "dev-id": "sas1",
+> +#                "dev-qom-path": "/machine/peripheral/sas1" },
+> +#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+> +#
+> +##
+> +{ 'event': 'VFU_CLIENT_HANGUP',
+> +  'data': { 'vfu-id': 'str', 'vfu-qom-path': 'str',
+> +            'dev-id': 'str', 'dev-qom-path': 'str' } }
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> index 3ca6aa2b45..3a4c6a9fa0 100644
+> --- a/hw/remote/vfio-user-obj.c
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -27,6 +27,9 @@
+>   *
+>   * device - id of a device on the server, a required option. PCI devices
+>   *          alone are supported presently.
+> + *
+> + * notes - x-vfio-user-server could block IO and monitor during the
+> + *         initialization phase.
+>   */
+>  
+>  #include "qemu/osdep.h"
+> @@ -40,11 +43,14 @@
+>  #include "hw/remote/machine.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-visit-sockets.h"
+> +#include "qapi/qapi-events-misc.h"
+>  #include "qemu/notify.h"
+> +#include "qemu/thread.h"
+>  #include "sysemu/sysemu.h"
+>  #include "libvfio-user.h"
+>  #include "hw/qdev-core.h"
+>  #include "hw/pci/pci.h"
+> +#include "qemu/timer.h"
+>  
+>  #define TYPE_VFU_OBJECT "x-vfio-user-server"
+>  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
+> @@ -86,6 +92,8 @@ struct VfuObject {
+>      PCIDevice *pci_dev;
+>  
+>      Error *unplug_blocker;
+> +
+> +    int vfu_poll_fd;
+>  };
+>  
+>  static void vfu_object_init_ctx(VfuObject *o, Error **errp);
+> @@ -164,6 +172,76 @@ static void vfu_object_set_device(Object *obj, const char *str, Error **errp)
+>      vfu_object_init_ctx(o, errp);
+>  }
+>  
+> +static void vfu_object_ctx_run(void *opaque)
+> +{
+> +    VfuObject *o = opaque;
+> +    const char *vfu_id;
+> +    char *vfu_path, *pci_dev_path;
+> +    int ret = -1;
+> +
+> +    while (ret != 0) {
+> +        ret = vfu_run_ctx(o->vfu_ctx);
+> +        if (ret < 0) {
+> +            if (errno == EINTR) {
+> +                continue;
+> +            } else if (errno == ENOTCONN) {
+> +                vfu_id = object_get_canonical_path_component(OBJECT(o));
+> +                vfu_path = object_get_canonical_path(OBJECT(o));
+
+Hmm.  @vfu_id is always the last component of @vfu_path.  Why do we need
+to send both?
+
+> +                g_assert(o->pci_dev);
+> +                pci_dev_path = object_get_canonical_path(OBJECT(o->pci_dev));
+> +                qapi_event_send_vfu_client_hangup(vfu_id, vfu_path,
+> +                                                  o->device, pci_dev_path);
+
+Where is o->device set?  I'm asking because I it must not be null here,
+and that's not locally obvious.
+
+> +                qemu_set_fd_handler(o->vfu_poll_fd, NULL, NULL, NULL);
+> +                o->vfu_poll_fd = -1;
+> +                object_unparent(OBJECT(o));
+> +                g_free(vfu_path);
+> +                g_free(pci_dev_path);
+> +                break;
+> +            } else {
+> +                VFU_OBJECT_ERROR(o, "vfu: Failed to run device %s - %s",
+> +                                 o->device, strerror(errno));
+> +                break;
+> +            }
+> +        }
+> +    }
+> +}
+
+[...]
 
 
