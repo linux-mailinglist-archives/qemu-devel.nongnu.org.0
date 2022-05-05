@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D4751C96D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:46:31 +0200 (CEST)
-Received: from localhost ([::1]:47506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B923551C9D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 22:02:14 +0200 (CEST)
+Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmhQk-0004rS-7q
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:46:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47776)
+	id 1nmhfx-0008E2-Gz
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 16:02:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmgYo-0003Hw-7X
- for qemu-devel@nongnu.org; Thu, 05 May 2022 14:50:46 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:40691)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmgZV-0003w6-JB; Thu, 05 May 2022 14:51:29 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:39568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmgYm-0004c6-9C
- for qemu-devel@nongnu.org; Thu, 05 May 2022 14:50:45 -0400
-Received: by mail-ot1-x335.google.com with SMTP id
- g11-20020a9d648b000000b00605e4278793so3509998otl.7
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 11:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmgZT-0004oH-Sj; Thu, 05 May 2022 14:51:29 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ z15-20020a9d65cf000000b00605f064482cso3519111oth.6; 
+ Thu, 05 May 2022 11:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zS8iy63zUNyzTAn358CLXJXvtW6Z0IyKqcTl9uBiuyg=;
- b=rGnf9CAui+YDLtBZwLybfnOWZfceePp8T0P0lR/t+X3ydPbQt66USLtQPt0fDCQWVY
- 5AJDaylxxIXEspnCYUicUR2AxdW4o8qYwXLCDC/FRXHi2+7Jmklf5HXMpHzHj7mAeHOR
- JzppiGXs99lxtV/UCL/NiLUFMQ3wDno7ToqA9cCUcAvuwNt/COif+nCCzRtoHblSeZQz
- GRJyqtBQqQYxhjmCHzL+3lHIjWgRYTWJfOlOM4xT6hx7FUY/GjyCD3aId/zJN7Qd9bbX
- lSXaWKgs9Y0hwWyJEWjahcUeJM//bDKrSqBn1qGE6ockHZRt3DhntJ9FsOVzXJ6Uc9iv
- XHUQ==
+ bh=IdCfcze6EGR9I8aqWW73Q8OAoWf7FWuqvqpGkA3rNHg=;
+ b=fhqYWAFly7VinC7Aep10TmT1eYY3rYm1jGA+BSI5KoA0g+/HKoXd2x6dRYugbvwiPN
+ BOhM+nK2d2R4Yh2Qh/98NrS064dwA/DqLF4/ehQC7JJuGnHRkYe3wO0yDcoQz1iw+uXz
+ WVtkfHJicFymAOACEDOkO27/bN9aO3WSa/EnKmMWrpDTuu2CG5/u3g0+51EtvWduyeSj
+ D6Q3oy2CXK6GwYl1gZSRFM/Je4AEZmvIjK/5scD2bT7OCc70tJTpUWywdoJHuBsCZHT6
+ Zwz7LiUbvqv/v/w6yCrT4AVt6SL6XlsVphGTFU2YUu0CzYW4DDD4WhOG8RHgeUS6+z/V
+ lKBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zS8iy63zUNyzTAn358CLXJXvtW6Z0IyKqcTl9uBiuyg=;
- b=c4IHc/4UItA6bG5VUrOqDxcmEzOcivsy+nZlPvddSs9qFN1xlVrpkgpvnZVxZ0Sybg
- 91iVAnq8RLK/OQc4cE4uJrw5kWVwmW31RIBO/soewghCVvdGJ0iaYfnSToG+U7LCwJNd
- DlSciVf6LSrOytcutOV0P/mqKc/Swxjvj6Re6SmbgEz5N5z6l02SIGnmXmh+dsTQCMq5
- vHY81vVkF3asMRYSjFxNTkdJSTqYI9oIc4RcpYFkyLsDIMuGm7o0zKqTDanlcsWAZuOx
- ZYGzpVKEBv+/1PuspGfNt4jMRBpwuGwCaQEW15VEeXXrf0U91Uwk+uAx3OnUh2nD9p8C
- uhJg==
-X-Gm-Message-State: AOAM530CJy75Jg/4Q74BmlkseupEJY8cDiIibbgxgr4io1ijZsCL/BLR
- rQ2kER7dT1I+tm01UlAiDS077n7U1VKv3baM
-X-Google-Smtp-Source: ABdhPJxg4poQh6EuRmG+3NDXH+OiSIw2x6FmxOwHiIu8kF+OKVXAd8C8ulgxDEVkxpnF7N+fPrBpdQ==
-X-Received: by 2002:a05:6830:2307:b0:606:1573:172a with SMTP id
- u7-20020a056830230700b006061573172amr7996084ote.334.1651776643256; 
- Thu, 05 May 2022 11:50:43 -0700 (PDT)
-Received: from stoup.. ([2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6])
- by smtp.gmail.com with ESMTPSA id
- s36-20020a0568302aa400b0060603221259sm857273otu.41.2022.05.05.11.50.41
+ bh=IdCfcze6EGR9I8aqWW73Q8OAoWf7FWuqvqpGkA3rNHg=;
+ b=BKQ0kWiQ2FMTTmnsQCexGWjMn9Inzl7/EQliybu5iFZKvToh3LRG7arPRo+KYVl3gf
+ VyGUdcYNtL2ywmMZ/MgvY5Ee8t30mw9SRxAlwnE8Uyx12klg2NAkhFq9auBBla1S4rSM
+ sxpr9GS/arnSifg/BDXd7rm98oFz05jRbunPyO3Lpa4SjZpq4BjafQ7xBDQgV4rCoj+/
+ XKQcUsStI6ViqA2X3Q5YF5z7MZ4+1IuB8+pC/pC02dX3uDr0r+cqFVgN7WBff1f4Jj9m
+ Dmj1w3WO8/sa0fvk0rLwtPbjkLgph+zt1t/kuyzOkMyoPKi5ai5dn9Ipkak5b4HyJYV8
+ b4BA==
+X-Gm-Message-State: AOAM531A/fxVW2FswaY9J+K16YR50QnMkFCAY4BXfCv7Cigmeq2X10Zn
+ uep/mVDOtetNAqPCMkkoQtvUXs5Q7hE=
+X-Google-Smtp-Source: ABdhPJwCTDZ2CupblSsHNySGbnQD3X+Hy8DcYDVLitEtxEnUfCeOPNZZQ03SzPeLTsNxJ85zRCEUGQ==
+X-Received: by 2002:a05:6830:2375:b0:605:f3fb:79ab with SMTP id
+ r21-20020a056830237500b00605f3fb79abmr10172685oth.261.1651776686803; 
+ Thu, 05 May 2022 11:51:26 -0700 (PDT)
+Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
+ [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.51.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:50:42 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Thu, 05 May 2022 11:51:26 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v5 24/24] target/arm: Define neoverse-n1
-Date: Thu,  5 May 2022 13:50:06 -0500
-Message-Id: <20220505185006.200555-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220505185006.200555-1-richard.henderson@linaro.org>
-References: <20220505185006.200555-1-richard.henderson@linaro.org>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
+ richard.henderson@linaro.org,
+ =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+Subject: [PULL 26/30] target/ppc: Remove msr_ts macro
+Date: Thu,  5 May 2022 15:49:34 -0300
+Message-Id: <20220505184938.351866-27-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
+References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,138 +91,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable the n1 for virt and sbsa board use.
+From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+msr_ts macro hides the usage of env->msr, which is a bad
+behavior. Substitute it with FIELD_EX64 calls that explicitly use
+env->msr as a parameter.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220504210541.115256-19-victor.colombo@eldorado.org.br>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- docs/system/arm/virt.rst |  1 +
- hw/arm/sbsa-ref.c        |  1 +
- hw/arm/virt.c            |  1 +
- target/arm/cpu64.c       | 66 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 69 insertions(+)
+ target/ppc/cpu.h     | 2 +-
+ target/ppc/kvm.c     | 4 ++--
+ target/ppc/machine.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 3e264d85af..3d1058a80c 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -58,6 +58,7 @@ Supported guest CPU types:
- - ``cortex-a76`` (64-bit)
- - ``a64fx`` (64-bit)
- - ``host`` (with KVM only)
-+- ``neoverse-n1`` (64-bit)
- - ``max`` (same as ``host`` for KVM; best possible emulation with TCG)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 74a3c01f99..5ac7d7d68f 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -354,6 +354,7 @@ typedef enum {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
- Note that the default is ``cortex-a15``, so for an AArch64 guest you must
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 2ddde88f5e..dac8860f2d 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -146,6 +146,7 @@ static const char * const valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-     ARM_CPU_TYPE_NAME("cortex-a76"),
-+    ARM_CPU_TYPE_NAME("neoverse-n1"),
-     ARM_CPU_TYPE_NAME("max"),
- };
++FIELD(MSR, TS, MSR_TS0, 2)
+ FIELD(MSR, CM, MSR_CM, 1)
+ FIELD(MSR, GS, MSR_GS, 1)
+ FIELD(MSR, POW, MSR_POW, 1)
+@@ -494,7 +495,6 @@ FIELD(MSR, LE, MSR_LE, 1)
+ #define msr_hv   (0)
+ #endif
+ #define msr_de   ((env->msr >> MSR_DE)   & 1)
+-#define msr_ts   ((env->msr >> MSR_TS1)  & 3)
  
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 12bc2318ec..da7e3ede56 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -204,6 +204,7 @@ static const char *valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-     ARM_CPU_TYPE_NAME("cortex-a76"),
-     ARM_CPU_TYPE_NAME("a64fx"),
-+    ARM_CPU_TYPE_NAME("neoverse-n1"),
-     ARM_CPU_TYPE_NAME("host"),
-     ARM_CPU_TYPE_NAME("max"),
- };
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index adfe6b26be..04427e073f 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -259,6 +259,71 @@ static void aarch64_a76_initfn(Object *obj)
-     cpu->isar.mvfr2 = 0x00000043;
+ #define DBCR0_ICMP (1 << 27)
+ #define DBCR0_BRT (1 << 26)
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index db3a92869c..6eed466f80 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -974,7 +974,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         }
+ 
+ #ifdef TARGET_PPC64
+-        if (msr_ts) {
++        if (FIELD_EX64(env->msr, MSR, TS)) {
+             for (i = 0; i < ARRAY_SIZE(env->tm_gpr); i++) {
+                 kvm_set_one_reg(cs, KVM_REG_PPC_TM_GPR(i), &env->tm_gpr[i]);
+             }
+@@ -1282,7 +1282,7 @@ int kvm_arch_get_registers(CPUState *cs)
+         }
+ 
+ #ifdef TARGET_PPC64
+-        if (msr_ts) {
++        if (FIELD_EX64(env->msr, MSR, TS)) {
+             for (i = 0; i < ARRAY_SIZE(env->tm_gpr); i++) {
+                 kvm_get_one_reg(cs, KVM_REG_PPC_TM_GPR(i), &env->tm_gpr[i]);
+             }
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index e673944597..7104a5c67e 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -417,7 +417,7 @@ static bool tm_needed(void *opaque)
+ {
+     PowerPCCPU *cpu = opaque;
+     CPUPPCState *env = &cpu->env;
+-    return msr_ts;
++    return FIELD_EX64(env->msr, MSR, TS);
  }
  
-+static void aarch64_neoverse_n1_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,neoverse-n1";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+
-+    /* Ordered by B2.4 AArch64 registers by functional group */
-+    cpu->clidr = 0x82000023;
-+    cpu->ctr = 0x8444c004;
-+    cpu->dcz_blocksize = 4;
-+    cpu->isar.id_aa64dfr0  = 0x0000000110305408ull;
-+    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
-+    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
-+    cpu->isar.id_aa64mmfr0 = 0x0000000000101125ull;
-+    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
-+    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
-+    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
-+    cpu->isar.id_aa64pfr1  = 0x0000000000000020ull;
-+    cpu->id_afr0       = 0x00000000;
-+    cpu->isar.id_dfr0  = 0x04010088;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x01011121;
-+    cpu->isar.id_isar6 = 0x00000010;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02122211;
-+    cpu->isar.id_mmfr4 = 0x00021110;
-+    cpu->isar.id_pfr0  = 0x10010131;
-+    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
-+    cpu->isar.id_pfr2  = 0x00000011;
-+    cpu->midr = 0x414fd0c1;          /* r4p1 */
-+    cpu->revidr = 0;
-+
-+    /* From B2.23 CCSIDR_EL1 */
-+    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
-+    cpu->ccsidr[2] = 0x70ffe03a; /* 1MB L2 cache */
-+
-+    /* From B2.98 SCTLR_EL3 */
-+    cpu->reset_sctlr = 0x30c50838;
-+
-+    /* From B4.23 ICH_VTR_EL2 */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+
-+    /* From B5.1 AdvSIMD AArch64 register summary */
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x13211111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+}
-+
- void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
- {
-     /*
-@@ -948,6 +1013,7 @@ static const ARMCPUInfo aarch64_cpus[] = {
-     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
-     { .name = "cortex-a76",         .initfn = aarch64_a76_initfn },
-     { .name = "a64fx",              .initfn = aarch64_a64fx_initfn },
-+    { .name = "neoverse-n1",        .initfn = aarch64_neoverse_n1_initfn },
-     { .name = "max",                .initfn = aarch64_max_initfn },
- #if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-     { .name = "host",               .initfn = aarch64_host_initfn },
+ static const VMStateDescription vmstate_tm = {
 -- 
-2.34.1
+2.32.0
 
 
