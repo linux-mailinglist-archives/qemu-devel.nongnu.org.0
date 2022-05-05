@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A47251C902
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:28:19 +0200 (CEST)
-Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BAE651C923
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:32:55 +0200 (CEST)
+Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmh98-0006vb-Dw
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47380)
+	id 1nmhDa-00064l-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYd-00031m-Sg; Thu, 05 May 2022 14:50:35 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:44707)
+ id 1nmgYg-00036Q-AI; Thu, 05 May 2022 14:50:38 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:45976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYa-0004NN-Ty; Thu, 05 May 2022 14:50:35 -0400
-Received: by mail-oi1-x230.google.com with SMTP id m11so5238858oib.11;
- Thu, 05 May 2022 11:50:32 -0700 (PDT)
+ id 1nmgYd-0004TA-SN; Thu, 05 May 2022 14:50:38 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id n24so5238424oie.12;
+ Thu, 05 May 2022 11:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RPMxvwAqQam90MVgCoGz5ATuhdIJWRrG9JDb0zbUbBg=;
- b=S0BoOJJeH4ENEAL3Q4gAbXS/ODEE99PPB04kBLNU6p5skZiGE+u8SmNrnCn9aCcFLP
- GXSNVUVPgWOMSHTANxsA1UYpJht7Pj48sQYMYvXjFgC+yylA+YJ0EwWvDRCWotzIidO+
- tprR+t9mMNe12x6wR3UMYsN8agEkytzqvS7cJZbUTT1dDXRPl9aKGY+xlNv62uBTJTNo
- jGSxQKqo21QjRjvZIFlRv2enF3TafK2KTWcRHFStbny/YWG0jcQuk7ym5Ih7fyoJ8MW8
- +Cc1nLMVkhpzoKKBbIOHg8zh7BC+5wmbMVnBEquxGys4fTXReEQv/7j0tKGZt94JmgWy
- dp1A==
+ bh=DgeR4cuRrvzEO+XBkxrkKEi6LD3ZhYBgpK28/rrC3Kc=;
+ b=LpqJsA5K09J5/S2Ul7miV1C4wZsOMc7rOw53mBCsA+fCUlyE2QHHDtt5yol4gX2Rsi
+ zkVyn1WiittYk8jdlfVe7ILgf3/J5RNILZdXnC6o2rFPm/b1lgscGnSVGQlV3hGda5ep
+ qp7CEanUiVMwvtZLXA6PUgIdbQBi6zjDBWOU49S0FzUyHSonL+h2C0Yf1XSOT585FMR1
+ e3UeJ2a2JZ1JRNmW2nhWk7yiN9/HCqxD/z9fdjBKRx24LRo4QKF5G7egm8TIWPn7x4Bl
+ KKhz17CzSsJ0aGNhCtGOHrnoBvm4gjiL74l0Ql/TAyuoLEz79Vfkx7amI10WqjgtQzS8
+ M4zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RPMxvwAqQam90MVgCoGz5ATuhdIJWRrG9JDb0zbUbBg=;
- b=nmLsueqpJCIxqKwoC9/JyQI/Jd93rH8CXXSAXJGZvnmGHaRISgIzP5ArRYrvW+ee/e
- kPtWV+uZrQ9mayButhW/lFEToGUXnfBuq4jSs533BgfrCLjjnRL0TneYGp721bn1RoCc
- iISwExH/0Qf5qX/rf1dYrH4zjZKwLSaDUBv9Lj3jnKTXne4NbYBVDwh/NS0Ou5qVGVWp
- HxLFUls//0TgEoIVr39rVIZ/DTrsYHoqEU1EXyJszuBsGS+6OEVWOC9+Ykc+bjhrKg9o
- 8NCFJ+3LZPm7vn96Iw/pHainioCH5NCIAKWQ4h/2U1TeigyhhL5zFin0uSNB5zGrq2N7
- 9eWw==
-X-Gm-Message-State: AOAM533/ceBkmeFJzRM6jF0y1q/CTypPGeur7fjX0zLAS26h8gzw8Cz7
- JTbe6X5wNFdBq5smDNw2uSOvrn9bivc=
-X-Google-Smtp-Source: ABdhPJyb08ziSO5n8m56n2jOHvoy4PjlH7ZPe/EB9A2ogn3a8AIJ0PYbzHzac/npvF5TqU8Gud5LJQ==
-X-Received: by 2002:a05:6808:a89:b0:325:9d65:7b24 with SMTP id
- q9-20020a0568080a8900b003259d657b24mr3244572oij.266.1651776631689; 
- Thu, 05 May 2022 11:50:31 -0700 (PDT)
+ bh=DgeR4cuRrvzEO+XBkxrkKEi6LD3ZhYBgpK28/rrC3Kc=;
+ b=0Qz5nI6ZBnR6YwKV2J4huCkDEE3gIgztR7VdXn7DATGL5Mx1QISVyB+cAej1byZkhc
+ j3cGkUcsRcn8VuxC2JKBg430+yXZQYsJjmISn8uKIiONXLSClQJjQ6sn9vN44gT8E/mT
+ 2Y4bRle5g3n2tk3vGcMiLS8omzIu1kS600cA6/7z6Vir/eCPY8zU5jmhFiyS9vi6ou2P
+ L0mPxyGbOcD4ulb+Upwnqb3Jdw0ZNru8F0GFNuEEBvAzuSF/k7YnKnY9z3+bV9uIXMj/
+ D0ocgW8dMO+B6YNq2z4Rwm6xncqAqUB7DoQ9rEWk0/WHw1+u/nwYQ9gli33sCCgELTtQ
+ 8c9Q==
+X-Gm-Message-State: AOAM531kf0n1ICMGmpTnUft1KSmAy470I/PUl8qFMltIldaI9ONSE7FK
+ YdwLZcfHXCXKYPW72hv1UdlNQDsvKZg=
+X-Google-Smtp-Source: ABdhPJx03bBqOa1laC/kF9ZIPRyYfBqFoF0Iik9bVvDMvuoEebTB6qG7glIvekmJo0hNXAhsShdLIw==
+X-Received: by 2002:a05:6808:1392:b0:326:4e8:1672 with SMTP id
+ c18-20020a056808139200b0032604e81672mr3200796oiw.177.1651776634593; 
+ Thu, 05 May 2022 11:50:34 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.28
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:50:31 -0700 (PDT)
+ Thu, 05 May 2022 11:50:34 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 08/30] ppc/xive: Update the state of the External interrupt
- signal
-Date: Thu,  5 May 2022 15:49:16 -0300
-Message-Id: <20220505184938.351866-9-danielhb413@gmail.com>
+ richard.henderson@linaro.org,
+ =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+Subject: [PULL 09/30] target/ppc: Remove fpscr_* macros from cpu.h
+Date: Thu,  5 May 2022 15:49:17 -0300
+Message-Id: <20220505184938.351866-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
 References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,117 +90,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frederic Barrat <fbarrat@linux.ibm.com>
+From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-When pulling or pushing an OS context from/to a CPU, we should
-re-evaluate the state of the External interrupt signal. Otherwise, we
-can end up catching the External interrupt exception in hypervisor
-mode, which is unexpected.
+fpscr_* defined macros are hiding the usage of *env behind them.
+Substitute the usage of these macros with `env->fpscr & FP_*` to make
+the code cleaner.
 
-The problem is best illustrated with the following scenario:
-
-1. an External interrupt is raised while the guest is on the CPU.
-
-2. before the guest can ack the External interrupt, an hypervisor
-interrupt is raised, for example the Hypervisor Decrementer or
-Hypervisor Virtualization interrupt. The hypervisor interrupt forces
-the guest to exit while the External interrupt is still pending.
-
-3. the hypervisor handles the hypervisor interrupt. At this point, the
-External interrupt is still pending. So it's very likely to be
-delivered while the hypervisor is running. That's unexpected and can
-result in an infinite loop where the hypervisor catches the External
-interrupt, looks for an interrupt in its hypervisor queue, doesn't
-find any, exits the interrupt handler with the External interrupt
-still raised, repeat...
-
-The fix is simply to always lower the External interrupt signal when
-pulling an OS context. It means it needs to be raised again when
-re-pushing the OS context. Fortunately, it's already the case, as we
-now always call xive_tctx_ipb_update(), which will raise the signal if
-needed.
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Message-Id: <20220429071620.177142-3-fbarrat@linux.ibm.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Message-Id: <20220504210541.115256-2-victor.colombo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/intc/xive.c        | 14 ++++++++++++++
- hw/intc/xive2.c       |  2 ++
- include/hw/ppc/xive.h |  1 +
- 3 files changed, 17 insertions(+)
+ target/ppc/cpu.c        |  2 +-
+ target/ppc/cpu.h        | 29 -----------------------------
+ target/ppc/fpu_helper.c | 28 ++++++++++++++--------------
+ 3 files changed, 15 insertions(+), 44 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index c729f6a478..ae221fed73 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -114,6 +114,17 @@ static void xive_tctx_notify(XiveTCTX *tctx, uint8_t ring)
-     }
- }
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index d7b42bae52..401b6f9e63 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -88,7 +88,7 @@ static inline void fpscr_set_rounding_mode(CPUPPCState *env)
+     int rnd_type;
  
-+void xive_tctx_reset_os_signal(XiveTCTX *tctx)
-+{
-+    /*
-+     * Lower the External interrupt. Used when pulling an OS
-+     * context. It is necessary to avoid catching it in the hypervisor
-+     * context. It should be raised again when re-pushing the OS
-+     * context.
-+     */
-+    qemu_irq_lower(xive_tctx_output(tctx, TM_QW1_OS));
-+}
-+
- static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8_t ring, uint8_t cppr)
+     /* Set rounding mode */
+-    switch (fpscr_rn) {
++    switch (env->fpscr & FP_RN) {
+     case 0:
+         /* Best approximation (round to nearest) */
+         rnd_type = float_round_nearest_even;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c2b6c987c0..ad31e51d69 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -713,41 +713,12 @@ enum {
+ #define FPSCR_NI     2  /* Floating-point non-IEEE mode                      */
+ #define FPSCR_RN1    1
+ #define FPSCR_RN0    0  /* Floating-point rounding control                   */
+-#define fpscr_drn    (((env->fpscr) & FP_DRN) >> FPSCR_DRN0)
+-#define fpscr_fex    (((env->fpscr) >> FPSCR_FEX)    & 0x1)
+-#define fpscr_vx     (((env->fpscr) >> FPSCR_VX)     & 0x1)
+-#define fpscr_ox     (((env->fpscr) >> FPSCR_OX)     & 0x1)
+-#define fpscr_ux     (((env->fpscr) >> FPSCR_UX)     & 0x1)
+-#define fpscr_zx     (((env->fpscr) >> FPSCR_ZX)     & 0x1)
+-#define fpscr_xx     (((env->fpscr) >> FPSCR_XX)     & 0x1)
+-#define fpscr_vxsnan (((env->fpscr) >> FPSCR_VXSNAN) & 0x1)
+-#define fpscr_vxisi  (((env->fpscr) >> FPSCR_VXISI)  & 0x1)
+-#define fpscr_vxidi  (((env->fpscr) >> FPSCR_VXIDI)  & 0x1)
+-#define fpscr_vxzdz  (((env->fpscr) >> FPSCR_VXZDZ)  & 0x1)
+-#define fpscr_vximz  (((env->fpscr) >> FPSCR_VXIMZ)  & 0x1)
+-#define fpscr_vxvc   (((env->fpscr) >> FPSCR_VXVC)   & 0x1)
+-#define fpscr_fpcc   (((env->fpscr) >> FPSCR_FPCC)   & 0xF)
+-#define fpscr_vxsoft (((env->fpscr) >> FPSCR_VXSOFT) & 0x1)
+-#define fpscr_vxsqrt (((env->fpscr) >> FPSCR_VXSQRT) & 0x1)
+-#define fpscr_vxcvi  (((env->fpscr) >> FPSCR_VXCVI)  & 0x1)
+-#define fpscr_ve     (((env->fpscr) >> FPSCR_VE)     & 0x1)
+-#define fpscr_oe     (((env->fpscr) >> FPSCR_OE)     & 0x1)
+-#define fpscr_ue     (((env->fpscr) >> FPSCR_UE)     & 0x1)
+-#define fpscr_ze     (((env->fpscr) >> FPSCR_ZE)     & 0x1)
+-#define fpscr_xe     (((env->fpscr) >> FPSCR_XE)     & 0x1)
+-#define fpscr_ni     (((env->fpscr) >> FPSCR_NI)     & 0x1)
+-#define fpscr_rn     (((env->fpscr) >> FPSCR_RN0)    & 0x3)
+ /* Invalid operation exception summary */
+ #define FPSCR_IX     ((1 << FPSCR_VXSNAN) | (1 << FPSCR_VXISI)  | \
+                       (1 << FPSCR_VXIDI)  | (1 << FPSCR_VXZDZ)  | \
+                       (1 << FPSCR_VXIMZ)  | (1 << FPSCR_VXVC)   | \
+                       (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
+                       (1 << FPSCR_VXCVI))
+-/* exception summary */
+-#define fpscr_ex  (((env->fpscr) >> FPSCR_XX) & 0x1F)
+-/* enabled exception summary */
+-#define fpscr_eex (((env->fpscr) >> FPSCR_XX) & ((env->fpscr) >> FPSCR_XE) &  \
+-                   0x1F)
+ 
+ #define FP_DRN2         (1ull << FPSCR_DRN2)
+ #define FP_DRN1         (1ull << FPSCR_DRN1)
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 99281cc37a..f6c8318a71 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -202,7 +202,7 @@ static void finish_invalid_op_excp(CPUPPCState *env, int op, uintptr_t retaddr)
+     env->fpscr |= FP_VX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_ve != 0) {
++    if (env->fpscr & FP_VE) {
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+         if (fp_exceptions_enabled(env)) {
+@@ -216,7 +216,7 @@ static void finish_invalid_op_arith(CPUPPCState *env, int op,
+                                     bool set_fpcc, uintptr_t retaddr)
  {
-     uint8_t *regs = &tctx->regs[ring];
-@@ -388,6 +399,8 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-     /* Invalidate CAM line */
-     qw1w2_new = xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
-     xive_tctx_set_os_cam(tctx, qw1w2_new);
-+
-+    xive_tctx_reset_os_signal(tctx);
-     return qw1w2;
- }
+     env->fpscr &= ~(FP_FR | FP_FI);
+-    if (fpscr_ve == 0) {
++    if (!(env->fpscr & FP_VE)) {
+         if (set_fpcc) {
+             env->fpscr &= ~FP_FPCC;
+             env->fpscr |= (FP_C | FP_FU);
+@@ -286,7 +286,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+     /* We must update the target FPR before raising the exception */
+-    if (fpscr_ve != 0) {
++    if (env->fpscr & FP_VE) {
+         CPUState *cs = env_cpu(env);
  
-@@ -420,6 +433,7 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
-      * was saved when the context was pulled and that we need to take
-      * into account by recalculating the PIPR (which is not
-      * saved/restored).
-+     * It will also raise the External interrupt signal if needed.
-      */
-     xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
- }
-diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-index 400fd70aa8..4d9ff41956 100644
---- a/hw/intc/xive2.c
-+++ b/hw/intc/xive2.c
-@@ -269,6 +269,7 @@ uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-         xive2_tctx_save_os_ctx(xrtr, tctx, nvp_blk, nvp_idx);
-     }
- 
-+    xive_tctx_reset_os_signal(tctx);
-     return qw1w2;
- }
- 
-@@ -350,6 +351,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
-      * was saved when the context was pulled and that we need to take
-      * into account by recalculating the PIPR (which is not
-      * saved/restored).
-+     * It will also raise the External interrupt signal if needed.
-      */
-     xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
- }
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 126e4e2c3a..f7eea4ca81 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -527,6 +527,7 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp);
- void xive_tctx_reset(XiveTCTX *tctx);
- void xive_tctx_destroy(XiveTCTX *tctx);
- void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
-+void xive_tctx_reset_os_signal(XiveTCTX *tctx);
- 
- /*
-  * KVM XIVE device helpers
+         cs->exception_index = POWERPC_EXCP_PROGRAM;
+@@ -303,7 +303,7 @@ static void float_invalid_op_vxcvi(CPUPPCState *env, bool set_fpcc,
+ {
+     env->fpscr |= FP_VXCVI;
+     env->fpscr &= ~(FP_FR | FP_FI);
+-    if (fpscr_ve == 0) {
++    if (!(env->fpscr & FP_VE)) {
+         if (set_fpcc) {
+             env->fpscr &= ~FP_FPCC;
+             env->fpscr |= (FP_C | FP_FU);
+@@ -318,7 +318,7 @@ static inline void float_zero_divide_excp(CPUPPCState *env, uintptr_t raddr)
+     env->fpscr &= ~(FP_FR | FP_FI);
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_ze != 0) {
++    if (env->fpscr & FP_ZE) {
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+         if (fp_exceptions_enabled(env)) {
+@@ -336,7 +336,7 @@ static inline void float_overflow_excp(CPUPPCState *env)
+     env->fpscr |= FP_OX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_oe != 0) {
++    if (env->fpscr & FP_OE) {
+         /* XXX: should adjust the result */
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+@@ -356,7 +356,7 @@ static inline void float_underflow_excp(CPUPPCState *env)
+     env->fpscr |= FP_UX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_ue != 0) {
++    if (env->fpscr & FP_UE) {
+         /* XXX: should adjust the result */
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+@@ -374,7 +374,7 @@ static inline void float_inexact_excp(CPUPPCState *env)
+     env->fpscr |= FP_XX;
+     /* Update the floating-point exception summary */
+     env->fpscr |= FP_FX;
+-    if (fpscr_xe != 0) {
++    if (env->fpscr & FP_XE) {
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+         /* We must update the target FPR before raising the exception */
+@@ -2274,7 +2274,7 @@ VSX_MADDQ(XSNMSUBQPO, NMSUB_FLGS, 0)
+         vxvc = svxvc;                                                         \
+         if (flags & float_flag_invalid_snan) {                                \
+             float_invalid_op_vxsnan(env, GETPC());                            \
+-            vxvc &= fpscr_ve == 0;                                            \
++            vxvc &= !(env->fpscr & FP_VE);                                    \
+         }                                                                     \
+         if (vxvc) {                                                           \
+             float_invalid_op_vxvc(env, 0, GETPC());                           \
+@@ -2375,7 +2375,7 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
+         if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||
+             float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {
+             vxsnan_flag = true;
+-            if (fpscr_ve == 0 && ordered) {
++            if (!(env->fpscr & FP_VE) && ordered) {
+                 vxvc_flag = true;
+             }
+         } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||
+@@ -2440,7 +2440,7 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
+         if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||
+             float128_is_signaling_nan(xb->f128, &env->fp_status)) {
+             vxsnan_flag = true;
+-            if (fpscr_ve == 0 && ordered) {
++            if (!(env->fpscr & FP_VE) && ordered) {
+                 vxvc_flag = true;
+             }
+         } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||
+@@ -2590,7 +2590,7 @@ void helper_##name(CPUPPCState *env,                                          \
+         t.VsrD(0) = xb->VsrD(0);                                              \
+     }                                                                         \
+                                                                               \
+-    vex_flag = fpscr_ve & vxsnan_flag;                                        \
++    vex_flag = (env->fpscr & FP_VE) && vxsnan_flag;                           \
+     if (vxsnan_flag) {                                                        \
+         float_invalid_op_vxsnan(env, GETPC());                                \
+     }                                                                         \
+@@ -3320,7 +3320,7 @@ void helper_xsrqpi(CPUPPCState *env, uint32_t opcode,
+     if (r == 0 && rmc == 0) {
+         rmode = float_round_ties_away;
+     } else if (r == 0 && rmc == 0x3) {
+-        rmode = fpscr_rn;
++        rmode = env->fpscr & FP_RN;
+     } else if (r == 1) {
+         switch (rmc) {
+         case 0:
+@@ -3374,7 +3374,7 @@ void helper_xsrqpxp(CPUPPCState *env, uint32_t opcode,
+     if (r == 0 && rmc == 0) {
+         rmode = float_round_ties_away;
+     } else if (r == 0 && rmc == 0x3) {
+-        rmode = fpscr_rn;
++        rmode = env->fpscr & FP_RN;
+     } else if (r == 1) {
+         switch (rmc) {
+         case 0:
 -- 
 2.32.0
 
