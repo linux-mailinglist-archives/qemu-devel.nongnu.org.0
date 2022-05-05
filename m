@@ -2,55 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C1F51BF9C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 14:39:35 +0200 (CEST)
-Received: from localhost ([::1]:35874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D8A51BFAF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 14:44:29 +0200 (CEST)
+Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmala-0005Pb-Ai
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 08:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32862)
+	id 1nmaqJ-00017p-W8
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 08:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nmahC-0002rL-Cd
- for qemu-devel@nongnu.org; Thu, 05 May 2022 08:35:02 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:4508)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmalj-0007HB-Ju
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 08:39:43 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:41140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nmah8-0004ng-IJ
- for qemu-devel@nongnu.org; Thu, 05 May 2022 08:35:01 -0400
-Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KvCmK4QNmzfbHn;
- Thu,  5 May 2022 20:33:37 +0800 (CST)
-Received: from [10.174.148.223] (10.174.148.223) by
- kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 5 May 2022 20:34:41 +0800
-Message-ID: <f3f15ecc-6b1b-a21e-a0c1-bda78570b500@huawei.com>
-Date: Thu, 5 May 2022 20:34:40 +0800
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmalg-0005lJ-AL
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 08:39:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651754378;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ongEbF86KN0RDZSQOqBAD3iOj/p/XGbVbYGJkJeYtKw=;
+ b=ZuLoNhZMgczS5rcss6AGAmJ9IJqcDLaVFcu9275lBUQoRSRIdJogBEfLuZ9QZ64+uaDNFW
+ iNkTLSZkrFF8RNHZFr5r3SJS/46sBgvwOl9x0cCQkuWme9/i0MprbGSrul2ybpgZ488Uys
+ ghz9g2orHjYQG9M2+2rIk76eQ9hgAtY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-647-pZW95oSJOPetWbJRkot5bQ-1; Thu, 05 May 2022 08:39:35 -0400
+X-MC-Unique: pZW95oSJOPetWbJRkot5bQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D9BC1C05EA6;
+ Thu,  5 May 2022 12:39:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64A2A40C1247;
+ Thu,  5 May 2022 12:39:34 +0000 (UTC)
+Date: Thu, 5 May 2022 14:39:33 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Cleber Rosa <crosa@redhat.com>
+Subject: Re: iotests and python dependencies
+Message-ID: <YnPFhVqpCIg70MPC@redhat.com>
+References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
+ <YnOQAP1J94zH1pEK@redhat.com>
+ <6f3c3414-f837-85c9-b401-d856f091ddf4@redhat.com>
+ <YnOt+Q6p0fbJzWzy@redhat.com>
+ <a592403d-6a89-6686-1aeb-e04a884657f6@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Fio regression caused by f9fc8932b11f3bcf2a2626f567cb6fdd36a33a94
-To: Stefan Hajnoczi <stefanha@gmail.com>
-CC: qemu-devel <qemu-devel@nongnu.org>, =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?=
- <ldoktor@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <35dd4da8-5278-767e-4193-ccf53e836969@redhat.com>
- <YnOiRPrLkfjoPbU+@stefanha-x1.localdomain>
-In-Reply-To: <YnOiRPrLkfjoPbU+@stefanha-x1.localdomain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi500025.china.huawei.com (7.221.188.170)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a592403d-6a89-6686-1aeb-e04a884657f6@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,62 +82,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 
-Hi Stefan,
+Am 05.05.2022 um 14:24 hat Paolo Bonzini geschrieben:
+> On 5/5/22 12:59, Kevin Wolf wrote:
+> > Am 05.05.2022 um 11:28 hat Paolo Bonzini geschrieben:
+> > > > Or actually, it could just unconditionally run 'make check-venv' by
+> > > > itself, which is probably easier to implement than checking the
+> > > > dependencies and more convenient for the user, too.
+> > > 
+> > > One small complication is that on BSD systems the binary is actually
+> > > called "gmake", so you'd have to pass the variable somehow
+> > 
+> > I guess we could just export $MAKE as an environment variable?
+> 
+> That would work when invoked by "make", but then that's the case in which
+> the venv would be there anyway.
+> 
+> For the other case, it would have to parse config-host.mak and/or
+> reintroduce something like tests/qemu-iotests/common.env.  All in all it
+> seems like an unnecessary complication over just printing a clear and polite
+> error message.
 
-在 2022/5/5 18:09, Stefan Hajnoczi 写道:
-> On Tue, May 03, 2022 at 09:43:15AM +0200, Lukáš Doktor wrote:
->> Hello Mike, Paolo, others,
->>
->> in my perf pipeline I noticed a regression bisected to the f9fc8932b11f3bcf2a2626f567cb6fdd36a33a94 - "thread-posix: remove the posix semaphore support" commit and I'd like to ask you to verify it might have caused that and eventually consider fixing it. The regression is visible, reproducible and clearly bisectable to this commit with the following 2 scenarios:
-> I can't parse the commit message for
-> f9fc8932b11f3bcf2a2626f567cb6fdd36a33a94, so it's not 100% clear to me
-> why it was necessary to remove sem_*() calls.
+Or try 'make' and print the error message only if that fails.
 
-We can find the previous discussion here:
+Kevin
 
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg870174.html
-
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg870409.html
-
-
-Because sem_timedwait() only supports absolute time and it would be 
-affected
-
-if the system time is changing. Another reason to remove sem_*() is to make
-
-the code much neater.
-
-
-> util/thread-pool.c uses qemu_sem_*() to notify worker threads when work
-> becomes available. It makes sense that this operation is
-> performance-critical and that's why the benchmark regressed.
->
-> Maybe thread-pool.c can use qemu_cond_*() instead of qemu_sem_*(). That
-> avoids the extra mutex (we already have pool->lock) and counter (we
-> already have pool->request_list)?
->
->> 1. fio write 4KiB using the nbd ioengine on localhost
->> 2. fio read 4KiB using #cpu jobs and iodepth=8 on a rotational disk using qcow2 image and default virt-install
->>
->>      <disk type="file" device="disk">
->>        <driver name="qemu" type="qcow2"/>
->>        <source file="/var/lib/libvirt/images/RHEL-8.4.0-20210503.1-virtlab506.DefaultLibvirt0.qcow2"/>
->>        <target dev="vda" bus="virtio"/>
->>      </disk>
->>
->> but smaller regressions can be seen under other scenarios as well since this commit. You can find the report from bisections here:
->>
->> https://ldoktor.github.io/tmp/RedHat-virtlab506/v7.0.0/RedHat-virtlab506-f9fc8932b11f3bcf2a2626f567cb6fdd36a33a94-RHEL-8.4.0-20210503.1-1.html
->> https://ldoktor.github.io/tmp/RedHat-virtlab506/v7.0.0/RedHat-virtlab506-f9fc8932b11f3bcf2a2626f567cb6fdd36a33a94-RHEL-8.4.0-20210503.1-2.html
->>
->> Regards,
->> Lukáš
->
->
->
->
 
