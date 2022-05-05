@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F96E51C68C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 19:51:26 +0200 (CEST)
-Received: from localhost ([::1]:34720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E268E51C666
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 19:42:53 +0200 (CEST)
+Received: from localhost ([::1]:49588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmfdN-0004qK-9v
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 13:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
+	id 1nmfV7-00046v-0U
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 13:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1nmf0z-0006B8-VM
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:11:45 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:41964)
+ id 1nmf17-0006R0-75
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:11:53 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:41966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1nmf0s-0002BC-JT
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:11:45 -0400
+ id 1nmf14-0002BD-SZ
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:11:52 -0400
 Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 245FTMUW030007
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 245FGvR9004338
  for <qemu-devel@nongnu.org>; Thu, 5 May 2022 17:11:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : subject :
  date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=WJrXH9w4WXzMwxBe2udP8+wGYiE0ysr7klSvd1YyjGg=;
- b=dG5ov3DylixNer4tOQJsJeUwU3IPn+6e1yKl1NVjijNRgr+Xz7rZmDkcoX8NjejoaUXn
- 6taxI6KDsjXGBOQZ9S8OOJQwnjxmk3ZwJ9CpvXge0kg48JMntycWWBccY5b8kW3oX5ae
- Z4EqCDmd36Zr+g8R5Hk55VSgp4K9cdQ/ryqjPF+2jy+MYWJTD2FJez8p5l8RwOBdhNyz
- OQB7IAo9Le7tDC0d9Aktzbv6ILormKUCnxrDD38cCs/fDs1GJtRzHemE4su0a6ioAO7B
- h2W9Oqx4IttrBWY5Io0Z5v9JMJ0WDzzejOoumfGsTDOp4/4P9zCnuTIotqu/uVPl3YNR Tg== 
+ bh=yoFJ9Qsq95Gs0eyOcaeO9MC/j6xqhhNZYswheoezAeE=;
+ b=qBLCtUWUYyXY6p9IGlwl684kRgTSSwMmLICnBCikww36Zhr6EknBVtvabWiPt/aE5xTD
+ hDApB+5v3584L53fxgV/dIPzQjoBTK2nz8halGo1V/oIGJ6ZzZE9hPTeK3WoTG1JoTJx
+ oXQEmpg0GXooGdEFbnZqtFkvDeJ3uikNBjhsTNwA9egxX2Vru7p55PyJJrZBmZ3VfflC
+ sOZ5XzWr09OJvlnKtZWd12+En655IPqrh1lCbFH74Sxt37sfpzzUi6NPtpXQh97dRV9W
+ 2kr6I5QVkQeD9M/K+5zhtK3R1vcGvO3s8ncxijZNnsVamWqqi9qY5FQpFcKbjg53YDWc GA== 
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fruq0m36w-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fruq0m36x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 17:11:18 +0000
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 17:11:19 +0000
 Received: from pps.filterd
  (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 245H0sqK013487
+ with SMTP id 245H0sqL013487
  for <qemu-devel@nongnu.org>; Thu, 5 May 2022 17:11:18 GMT
 Received: from nam11-co1-obe.outbound.protection.outlook.com
  (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3fruj4xq8q-2
+ 3fruj4xq8q-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
  for <qemu-devel@nongnu.org>; Thu, 05 May 2022 17:11:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EX0WM9+LeNsWUkS3ceT+yaiYYVq2vjh+40TpKsPKtoaZ5uZnPAt88lH8cbfsdsZKa4zMgbhFNEzevtzGZGlaioEASFA32IR6QaMrLd9oa6s9EuhPTRm+TtdlbM9IIO477ogy/Z3+egdvCnflHFthstxggk37sqbwcLyzFNU7oJnUC4TfdrmPBwzuVhndUv/2f11/CZqbqThfnvitP+R01PaFXh1c+6MDOKWy+TxyyYp2z6UYMkzyHO5h0sqHDRyL/PTIU4svfWSKrhPA136qcxhIMZ2ZDwzvxwiYi+jeKEcGZJLhfFhJ7/YNp9vs6/usnmJj2TxuqUc77sSwgREcJA==
+ b=FwHyBri0MnMxaTEmBXGS0rQQolZfXMqR1ynqrNtfs4ua+5aC8sBUDV23i4SFH5UtFuN/vlym38pulNTHgL0Azy8MF67kY71uNUMakSiauohuamivwekxowzL8xLsDL5GjYqzhMSughawJXK71Q0t3L82vynY/N1HZOd60hAqteQCUwEXNz/HY9BKKKnU4qogJV+NcJW1jXReD3HyZFeY3D2uuUbe+aNxSfus6eYY+osC+jfkKcNJuQ1AK14POoTr/jxkqs27Bc4aWr0W19Bg4VbSD3flbAcyQTeoI42Fd79ec9sbq0MQ2tN4PJwhExV5cmmBplGHnjI6eWOyye3ePA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WJrXH9w4WXzMwxBe2udP8+wGYiE0ysr7klSvd1YyjGg=;
- b=jKQjkYGMgdARwyFy4yhAjf7iDj9t1YYQudmeLFKuCkOmFqRuekH/exr8lNHxZI4PasD2AkN9WYP3e+1XHFFEvZtNaqnaaQEjEHneIafi/3/M9ZDbdOvJ6tQz5m3b7Zu4/iJp5flF99KLMZ4tj+xrbwSICwk3I21Bon3D6GzgQK8M3GssgTyCdc4H1YCDdEiEazUsurvjTjDQTshaFrknGWXdjB5z2+Xz2LZmipZDqP1bSy2oi/h+Fu5D+Zs0cZqEdg31cX7BjatPLyiVctsO0vjT97/d/wzXw5yz4KGsMASpBwDPkEhVKNjCb34oGRw7+o0BNo92JkcDxXaWb+3r+Q==
+ bh=yoFJ9Qsq95Gs0eyOcaeO9MC/j6xqhhNZYswheoezAeE=;
+ b=iPK8WAX+rtcoKrYUrD4XiSkH3qRJjweCAgs7CCrhyoxfB3NRsuzrxaqRWWOBKJtpduVi4U5NBfz3j1+TKFvE6BFvkd7jWMVvdtQMDWdgUtT+oL5Ap5KUi34Jmc9CWuXUsq++pY//iAS/gAtB0CMJr6jnSYCh8pQqobZis6AavHnPXlZQzcAJ0b7Ud5n26bOYNVuWqymK5kzGLY7GKyHCfuA/D99lAcME5IE48BkgzcBvCVrGu41ZjoiDPKkVyZ/ER3aT4atcxcn35b4TNPJJBt2fzFEjoVln6lEX0psmgO+/vMRApyybLZgjVcJWK7bvgMRyo27f2xtwEhx8lrgpvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WJrXH9w4WXzMwxBe2udP8+wGYiE0ysr7klSvd1YyjGg=;
- b=ztfcr19FFaanLFlZqWiV62avD55seMU32UjgoGjnxbcCw5jnJIqP4n5SqX+Or4MBIj+iHxFkYsN1M+gNYZbGD+L3wXWgM3ULkfdtfWBeHtJJzbYRv7K011JofOB9lGifZL77itaPkCyqglKL7NciXregTGtQfaIrv5oSFvtY3Ck=
+ bh=yoFJ9Qsq95Gs0eyOcaeO9MC/j6xqhhNZYswheoezAeE=;
+ b=abeBMErUXj1IJLx5L5d7kvAOkKeYDnheseMF9l+PqcQmqoTYw16807ur+AGOeLEyfIFi8rK0wP7R0UvdIf4qFI+nMlMsCmntvMtG/jREzRJNZppgifHJvDNvVa8BrMHHfGJUhB00yZy77xXG2qsH2SzU6Pj2khZbAGaVvPYYqxM=
 Received: from BYAPR10MB3255.namprd10.prod.outlook.com (2603:10b6:a03:156::22)
  by DM5PR10MB1867.namprd10.prod.outlook.com (2603:10b6:3:10b::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Thu, 5 May
- 2022 17:11:16 +0000
+ 2022 17:11:17 +0000
 Received: from BYAPR10MB3255.namprd10.prod.outlook.com
  ([fe80::cce6:1c15:c6bd:dd05]) by BYAPR10MB3255.namprd10.prod.outlook.com
  ([fe80::cce6:1c15:c6bd:dd05%7]) with mapi id 15.20.5206.027; Thu, 5 May 2022
  17:11:16 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 02/23] vfio-user: add VFIO base abstract class
-Date: Thu,  5 May 2022 10:19:45 -0700
-Message-Id: <16e96a8cef34aba538588d8a4b2949523622b3d3.1651709440.git.john.g.johnson@oracle.com>
+Subject: [RFC v5 03/23] vfio-user: add container IO ops vector
+Date: Thu,  5 May 2022 10:19:46 -0700
+Message-Id: <e5371b014b09de7d452ea610571f689a00bc3afd.1651709440.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1651709440.git.john.g.johnson@oracle.com>
 References: <cover.1651709440.git.john.g.johnson@oracle.com>
@@ -86,57 +86,57 @@ X-ClientProxiedBy: BYAPR06CA0048.namprd06.prod.outlook.com
  (2603:10b6:a03:156::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 13a2a28d-8d46-41d9-0da5-08da2eba438a
+X-MS-Office365-Filtering-Correlation-Id: 7b6d5c3d-97b4-4cac-4522-08da2eba43c3
 X-MS-TrafficTypeDiagnostic: DM5PR10MB1867:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR10MB1867345B73778517DF85EE16B6C29@DM5PR10MB1867.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM5PR10MB18673E2B11CA72AA755BA02BB6C29@DM5PR10MB1867.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ar7WMpji79w2uA9yNPBRdY6XQVEVvwr2pfecUPhXf5HWTYkcrZWCTY2yi7WsZPc6CtfXM8aWb9bdJObPD3eKhVmeBGA/FgyEIDXQQs1wU0iY1o54C+dkmGAQ/LYhVXCbrWLpIDzVAxj3RBj6AJnc4C673cA4OWsj2pHjt5MhQnC3sW3RD79kNlI4jTKB5jd5OGX0zBGalETB+ow0GSljCbq+OflvB1IY61n1FVieES9ezUjJtkpDgKdVYSWmMTd2x+3yMAv0clpG7R2f3y/TmiY7PVRoo/BtYgRZO9XWcOY136+skzR5Ex7+WXn5bXoyo9mjrpesOLEhDQ9ZNHlmoyswTz2av91msvScIMMvPpGianSCR4EB5v4YxBiFgkhpXf5BheXHFhemZ1Q5yXCCOaSFVnH2CIWdm8DMHA8vviZjoqR05Ng4Tf5MvkQxabXi1/4kssnyP8gePDD1j562BsHxVEOlt6+3IqFhXB09N8bO5EutnkxSms+k/WO/DeUZGyHWW0QmMNSKJGhOvnMhssiZz5ZnU0AyC/7UUtImgkWpJCQ8d+0zIhxvvbSn0X4+567+8og7defwpxM/XL22NI5od2VZKzClEQIdVVnVfDRjJ+ufhx52ZR5PXc4Ku2TY/UAA+9ofQUJX62YtHOwmLbhnmxKgwrO34HhbfpL9bVl0VW9K5w8VbmxhR+mGGdIOfLbnkVBrm51HpXmZHVBxhA==
+X-Microsoft-Antispam-Message-Info: jhIiKJsQHlhNUofMPvZNhwpC2VfUZKOWLMHDhlOvT31HRCYUyZdT9QadXnUlLT/rUan20vUmw5dkeVobLpB7fB4OLxe+kMzbJI/bI5yf58KshVvYfYDfL8GTMF75PNF+IWFhROShRT7w2uL7GxKcZz0IwayPf3nb/p752r0qN52slxM/mLWRcIMk2BkN+02WF/NlZEvxYEmEP2XlWbffpJ/ot2atTlw6qxtv01AuTpuLK72m20Tl9CtsrQDSSPEQFqDgDpjlu8GBrkHptQzBjkiNSj+9IKNxXcbFXC+sRKSDoNtdHPtmD2oOCrnwOxjgGZSG64L0JksdQojWkK1kj6AFSojmmHl5teEWPiwy7DSF1/yKjDyXK4cIXfnfBl+88viysvQ4LCI9FnFMoNiGFngnD2dDj9pDJilUqfknELBtlY7Lr6DxSwpp0OGqDgUx8rHCWskYkfAmsnw7MoI1oGijz9132dLkjEoFOyKXJGsXEknI0fxZg18LjPpeFTDILYFRpdPReClI74QG5kaRsk8u4Q9L8zMnzKSS7QHZm1hIKQ0M+d/dQE0kAnNnWhK64wzuWv2aLfn/uJOn/RSG7yxpwwZ9X8q6AesMHa73Nqq8wqislzlCfoXxzrNqvPxK9qgjb/NjkjO0Lf48kHIukFm7AsSdDgS37gV7RVIJyLNDu8Wjj1QO26mWwBM4evwtkYWYkVylP/xaYnPzv1t9XQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3255.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(52116002)(6666004)(8676002)(66556008)(66946007)(66476007)(8936002)(38100700002)(38350700002)(5660300002)(86362001)(508600001)(6486002)(316002)(6506007)(186003)(83380400001)(36756003)(30864003)(2616005)(2906002)(26005)(6512007)(6916009);
+ SFS:(13230001)(366004)(52116002)(6666004)(8676002)(66556008)(66946007)(66476007)(8936002)(38100700002)(38350700002)(5660300002)(86362001)(508600001)(6486002)(316002)(6506007)(186003)(83380400001)(36756003)(2616005)(2906002)(26005)(6512007)(6916009);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Mbos/j91dpuYZ6vejLFjQAKbxbNSKyEbEvFXjvtGlEo9eBJ5motlBPrO2iwb?=
- =?us-ascii?Q?syJLj7YkR2/N/cWjMWFWBsEQY0hfUN6sI50XICttt6j/UzAyNuqidp5xOzUs?=
- =?us-ascii?Q?6iWQLO9FZXRhbYdgBAWGH/QMwIZd5XwaGr7xwiassJdn88ZKOgWIkrZWFWwn?=
- =?us-ascii?Q?fe3Kn7mL4DRhfjrDNtqTr2VLRL+GhDnV7YcD8YaL+Y0bd36BiO8tm4DSe2hT?=
- =?us-ascii?Q?JD2xwcP/Rx8yMvb8x/tUGrTgQt5n2bGRKNqJTsySzeXhZzRLa+zpHvbxDjCa?=
- =?us-ascii?Q?H7J4NZGo/0Y/82+iB8de9KXpy0klFdUz87gy/r0suT1gwWdumxxGMqMrJCE9?=
- =?us-ascii?Q?6BQwIqIfFxgPNzY7YLuta4oslyc+so6IoYCiTQdPTr1NfTsOZnrdGwZyaVI6?=
- =?us-ascii?Q?DsAS+PtPDVf8x1z2wmuIZrJHwd2m4MSoJeXqCNAwFZbMyUF7KnsqKKbLN3Cq?=
- =?us-ascii?Q?6LA4DUu1XpdaihHSGqZr/iI4VSsUbYKZ9X1UDrKNlsf4hWZdwIXnxMfhNfQ1?=
- =?us-ascii?Q?bpd5iy7eDMUdvWgQE6dhAyuHE8iOq1YPDjAUInQI2BVjkFF7/lX5XwEyk8Nt?=
- =?us-ascii?Q?wMd6CYu3Vg/n2K7tLTriqryR2r3SlBWmgB8gInzAqC0E6ypk4sL+5INUDl30?=
- =?us-ascii?Q?XKWxIAv+/Bf8gY0B4/heZa95u55av4wxoPnKnV/Aam7yYMw8qLzdJqAOUJGv?=
- =?us-ascii?Q?fic8ukdvHO3BxOY8BcD2146YCXG8TDxvu/CLuxuNhJZv2RGxuLQJrdyile8J?=
- =?us-ascii?Q?zm0JgZ6BMDX1LgNfCTx+4YvLufr9IpvICR0mB+THuJLPvvoJkID4OsZbquLy?=
- =?us-ascii?Q?2PXL9ZSn/RMDsn6ykK0+v8HjCDLEywqr5IStgh5bn9zbRdNJ6ZP0Nk35LJoA?=
- =?us-ascii?Q?fXlfygBc20MbKAp72xdp+bw2c8uGn9dc+9nt7nXf68Nse1NKSjYHrJGSh4kW?=
- =?us-ascii?Q?g3QqXspw0VpAh9DZmfFJzlQTNNqp1IKng5woV9LnEXpImP61ktU+ze+wfGS+?=
- =?us-ascii?Q?BImRIIrDGSaQOdzmKhLExV1wN7LXZJPMiUhzLYiyeAHUCwA00MPhqxRrWY/k?=
- =?us-ascii?Q?ZE56Au0eVDdZmDUM9PDZ9pzU4A5KLNQzSqWwXzmLbKg2JIZWVZ7z+V4dBKWp?=
- =?us-ascii?Q?Y/pbokOcsYs/yd/bOTtnVjRlFp/T/rs/hf0fMELiWWFqzr0v6Cci3ljWdq+G?=
- =?us-ascii?Q?f13Fno3DDyr3fmrNy2QvT4orpD+MthmxVsSp3tiiaNdDqrYcaYzW/9MoWGaJ?=
- =?us-ascii?Q?XibaSAk90tck2cJQAjdR6p5n38jBZsHghw5YjxCpdfE9BozhmIyD+0cVj7YP?=
- =?us-ascii?Q?v/Q/oYZPMPaBidVMICw73h+Da5Lx8ep+RrUKab/J+/9P53HScPwredd+X57o?=
- =?us-ascii?Q?1hv81GopR5oGyNh66mrlSmpJaRgevBqBuv9xMQrV6mH/ASU8y+viQo8bOfwo?=
- =?us-ascii?Q?Rl2G/yDFdtBGgWkmKlc8WOzRN8tgH7Ui53Fy7V/QU09L8c+9JXqxEq1BsqZc?=
- =?us-ascii?Q?N1IrFFMWfg//G8GAKFccwVbyT/RNDemwE8aRLriDKWFoW2lb33x3/+ErBwpm?=
- =?us-ascii?Q?yBpLo5HuCcUfzCcXpGMRGg7so9om43r4zmWAtahEysiUZQgHEf3cSZ0qa+gy?=
- =?us-ascii?Q?MpuxWB1JI97AxgJsRkMzL2rTd8bJReS0K6ePSFt0SffMx1RdPzaInBxZNgNC?=
- =?us-ascii?Q?LzAhWSOQ7EgqRdhkeP5LwlYEaBemBwWl4cwmlpMsUuj3XnOXlwsoo92Bh8Vo?=
- =?us-ascii?Q?VjJSlDoxaTEU+PXo8YKhQiN6lt/LBOE=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/FQ2Na2A0Ja9AhgDBhetaauCK5TsB/71MTPTjBURbDl8pL0omJSAmGzoF9hY?=
+ =?us-ascii?Q?FromzzxLUJI9tqZiswcmpiBzKjwjbGB/+ITTswkFZdY/hXswCk4YmBcu8UZs?=
+ =?us-ascii?Q?N81G+Rts7/6L3Htz2WiJN+/zvTskB4CKUhkOz+KXoq5YRpE8jZvMCv3s17sK?=
+ =?us-ascii?Q?OZrsO6zb1bJaYaZfaHNdFZu+lzF7s8JruvYjaWLgYqy8EAH9exZ7cdUF/KuC?=
+ =?us-ascii?Q?6i/Ki4r4sfxUenL+BOV4GrX4E18PnTrVHOhIej9F+KygNhN3pQhE+d8KKDz+?=
+ =?us-ascii?Q?TxCsF4lhB4+GVToQdp05mfZf4zNHWW2v2heYx50TOxMFllnwZ40eaxtNOVsn?=
+ =?us-ascii?Q?Lm7HCz8NMcyWtCxrQuMtljF56ERVK2ydrlDogwLmYFBl8EKc3wVYOXPPsd4W?=
+ =?us-ascii?Q?u1dowlKyX6WGKCGbjAyxX9XMglpEXPiZsCpL9ccoKvcJo9IquIOTkaJNDkrb?=
+ =?us-ascii?Q?iIbuogany0QPFNMAsf65LwH9AKAECueFqVhoTeR7xztU8/nslBILG/2/HMZr?=
+ =?us-ascii?Q?30dexs0fKcnen7MVIcfyoTCajr/U3euWDMHzQULsICByucqnJCnqX8f+fWJc?=
+ =?us-ascii?Q?Ulfg4rRS2sVE4yiYDn/Fg5vC927uU3me+e+/9bhx7KUuSZ7U1QcQ/V9SeCgB?=
+ =?us-ascii?Q?sMfoFp4e/Eol7VO35XQLODrOYvS28+fbA0nM3JTHEvZk13HI/tu1svTqY65p?=
+ =?us-ascii?Q?38e0RFpoyssasN5L4o5PcyMrufer2TX/6fJhuL34jF9WZKbpto8+wV8YUudN?=
+ =?us-ascii?Q?ltw56o2IO6/vdLbWlNuu9uN9/GV8LWDKM5i8y2VWca4kBtsHjNdFhiQr3IRo?=
+ =?us-ascii?Q?S+mL07A+B0p8iMZ4Mfnk3rmG3UBGIZkhWCETZBe4hNt4NrT2+SH/mkFA6oMH?=
+ =?us-ascii?Q?vNUQII9qOwbQZlOCMyg3oEuzKVSGJ+Mwf7Ug15SEfy0MJXMMAwEdLdCrG1S4?=
+ =?us-ascii?Q?3bKh75bOX1Z4kZ2WrUDPv16yGfjt7WWiLuMVWhtW6uJQCY3vP8mL4tmnMAzW?=
+ =?us-ascii?Q?4sTqk0shXPeaAnDY+oOSCkqGTHEBTmCqSA3baPtNB5o0Y91EUN/iOcJWfCSt?=
+ =?us-ascii?Q?c0a/QW565qwIyEVrOBJjRZRa3crcVnAHoclIF9t3i3rDBeTfTj34+lRlxyff?=
+ =?us-ascii?Q?+xGpeCooMZIYg4RMTQ/iupv1/+NqsDiQDaNsFnHnowW4OREmgYhOcDwLerZt?=
+ =?us-ascii?Q?270BEMQBNaUstcsz1sTo3hMTFlju+T/OimtRvrX8/prlKiSzJtnpmH/1wi/c?=
+ =?us-ascii?Q?SYz4oKW9b7mGOmvmLSFAYCuAP449CQU+nmdpssRuCnLWSPPSunYiJfrTVaab?=
+ =?us-ascii?Q?cH1PRP/2F2QSV5rH0D/WB08Hh9dJG92ONMzrh0E32qeS8CsZ2CWWI57Brc/B?=
+ =?us-ascii?Q?pzIuo95AMN+nxFXgq5jHX/+czIgCPVscNBsvJ67koJTG0cg7cVvDKo8XppcX?=
+ =?us-ascii?Q?s1gKyPrb9ERqE6IlQtf6nkfHv4Gw5jf00n1SynbKrV+8OPAE9UYjzXR5xnEc?=
+ =?us-ascii?Q?kr33EPH7x1MZXcFGeYuhgCVdH7+tgPNJ/wyp/pyqcvj7QG1MTeFuxWPCKYxN?=
+ =?us-ascii?Q?vvv9j5aRYPO7VV47gN6tOyM3BcUwiAgkl0Dm0DRBGyNHW8j9jdjw1AaTsO4r?=
+ =?us-ascii?Q?rHkLM9Ls5M1tD/Yga3GWRuLxKHe8WO61JXktFAoQgkDq0dZWZnfOBoLELW17?=
+ =?us-ascii?Q?4Hp68UDRhcDDm6ZCjLg/ZX/QwKAG+NZHFGAWmU8rAZA1OWgWqA9Z7KXUCELi?=
+ =?us-ascii?Q?Iyt7R80rPHyBSaOynWYUrMHN/vqGd9s=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13a2a28d-8d46-41d9-0da5-08da2eba438a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b6d5c3d-97b4-4cac-4522-08da2eba43c3
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3255.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 17:11:15.9668 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 17:11:16.3418 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uY73RMBMmpUDyCPnTet4QgLpLEBY26f9dh94jQcUROv61EiAq+T+kRwUel2wo2yuY69RZCfF5/dmEsj9Kwz/DvGa+5Bz5P7LmmgKW0aCyak=
+X-MS-Exchange-CrossTenant-UserPrincipalName: aWFqzmB2NrLgJ12sjzG1gwGD9t8C7XW2nMEUKzH2suzw9te7e3x189tTK2y3jS0O+cKKlyhcr7a/Mhdx1QvHAfLm8lTYRZ/qr7PJSXVmbYU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1867
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
  definitions=2022-05-05_06:2022-05-05,
@@ -146,8 +146,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
  mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 spamscore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2205050118
-X-Proofpoint-ORIG-GUID: uoQCkJ_aMrzi_GY8DjbzTr1Tc3NNnSBx
-X-Proofpoint-GUID: uoQCkJ_aMrzi_GY8DjbzTr1Tc3NNnSBx
+X-Proofpoint-ORIG-GUID: yl92ww0495SgQJ14ePlAiQfK5o78_Z6-
+X-Proofpoint-GUID: yl92ww0495SgQJ14ePlAiQfK5o78_Z6-
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -172,301 +172,264 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an abstract base class both the kernel driver
-and user socket implementations can use to share code.
+Used for communication with VFIO driver
+(prep work for vfio-user, which will communicate over a socket)
 
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/pci.h |  16 +++++++--
- hw/vfio/pci.c | 106 +++++++++++++++++++++++++++++++++++-----------------------
- 2 files changed, 78 insertions(+), 44 deletions(-)
+ include/hw/vfio/vfio-common.h |  33 +++++++++++
+ hw/vfio/common.c              | 126 ++++++++++++++++++++++++++++--------------
+ 2 files changed, 117 insertions(+), 42 deletions(-)
 
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 6477751..bbc78aa 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -114,8 +114,13 @@ typedef struct VFIOMSIXInfo {
-     unsigned long *pending;
- } VFIOMSIXInfo;
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 8af11b0..2761a62 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -75,6 +75,7 @@ typedef struct VFIOAddressSpace {
+ } VFIOAddressSpace;
  
--#define TYPE_VFIO_PCI "vfio-pci"
--OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI)
+ struct VFIOGroup;
++typedef struct VFIOContIO VFIOContIO;
+ 
+ typedef struct VFIOContainer {
+     VFIOAddressSpace *space;
+@@ -83,6 +84,7 @@ typedef struct VFIOContainer {
+     MemoryListener prereg_listener;
+     unsigned iommu_type;
+     Error *error;
++    VFIOContIO *io_ops;
+     bool initialized;
+     bool dirty_pages_supported;
+     uint64_t dirty_pgsizes;
+@@ -154,6 +156,37 @@ struct VFIODeviceOps {
+     int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
+ };
+ 
++#ifdef CONFIG_LINUX
++
 +/*
-+ * TYPE_VFIO_PCI_BASE is an abstract type used to share code
-+ * between VFIO implementations that use a kernel driver
-+ * with those that use user sockets.
++ * The next 2 ops vectors are how Devices and Containers
++ * communicate with the server.  The default option is
++ * through ioctl() to the kernel VFIO driver, but vfio-user
++ * can use a socket to a remote process.
 + */
-+#define TYPE_VFIO_PCI_BASE "vfio-pci-base"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI_BASE)
- 
- struct VFIOPCIDevice {
-     PCIDevice pdev;
-@@ -175,6 +180,13 @@ struct VFIOPCIDevice {
-     Notifier irqchip_change_notifier;
- };
- 
-+#define TYPE_VFIO_PCI "vfio-pci"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOKernPCIDevice, VFIO_PCI)
 +
-+struct VFIOKernPCIDevice {
-+    VFIOPCIDevice device;
++struct VFIOContIO {
++    int (*dma_map)(VFIOContainer *container,
++                   struct vfio_iommu_type1_dma_map *map);
++    int (*dma_unmap)(VFIOContainer *container,
++                     struct vfio_iommu_type1_dma_unmap *unmap,
++                     struct vfio_bitmap *bitmap);
++    int (*dirty_bitmap)(VFIOContainer *container,
++                        struct vfio_iommu_type1_dirty_bitmap *bitmap,
++                        struct vfio_iommu_type1_dirty_bitmap_get *range);
 +};
 +
- /* Use uin32_t for vendor & device so PCI_ANY_ID expands and cannot match hw */
- static inline bool vfio_pci_is(VFIOPCIDevice *vdev, uint32_t vendor, uint32_t device)
- {
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 9fd9fae..4ee5215 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -231,7 +231,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
- 
- static void vfio_intx_routing_notifier(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     PCIINTxRoute route;
- 
-     if (vdev->interrupt != VFIO_INT_INTx) {
-@@ -460,7 +460,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
- static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-                                    MSIMessage *msg, IOHandler *handler)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIOMSIVector *vector;
-     int ret;
- 
-@@ -545,7 +545,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
- 
- static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIOMSIVector *vector = &vdev->msi_vectors[nr];
- 
-     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
-@@ -1066,7 +1066,7 @@ static const MemoryRegionOps vfio_vga_ops = {
-  */
- static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIORegion *region = &vdev->bars[bar].region;
-     MemoryRegion *mmap_mr, *region_mr, *base_mr;
-     PCIIORegion *r;
-@@ -1112,7 +1112,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
-  */
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
- 
-     memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
-@@ -1145,7 +1145,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- void vfio_pci_write_config(PCIDevice *pdev,
-                            uint32_t addr, uint32_t val, int len)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     uint32_t val_le = cpu_to_le32(val);
- 
-     trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
-@@ -2802,7 +2802,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
- 
- static void vfio_realize(PCIDevice *pdev, Error **errp)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
-     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
-@@ -3125,7 +3125,7 @@ error:
- 
- static void vfio_instance_finalize(Object *obj)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-     vfio_display_finalize(vdev);
-@@ -3145,7 +3145,7 @@ static void vfio_instance_finalize(Object *obj)
- 
- static void vfio_exitfn(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
- 
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-@@ -3164,7 +3164,7 @@ static void vfio_exitfn(PCIDevice *pdev)
- 
- static void vfio_pci_reset(DeviceState *dev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(dev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(dev);
- 
-     trace_vfio_pci_reset(vdev->vbasedev.name);
- 
-@@ -3204,7 +3204,7 @@ post_reset:
- static void vfio_instance_init(Object *obj)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(obj);
--    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
- 
-     device_add_bootindex_property(obj, &vdev->bootindex,
-                                   "bootindex", NULL,
-@@ -3221,24 +3221,12 @@ static void vfio_instance_init(Object *obj)
-     pci_dev->cap_present |= QEMU_PCI_CAP_EXPRESS;
- }
- 
--static Property vfio_pci_dev_properties[] = {
--    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
--    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+static Property vfio_pci_base_dev_properties[] = {
-     DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
-                             vbasedev.pre_copy_dirty_page_tracking,
-                             ON_OFF_AUTO_ON),
--    DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
--                            display, ON_OFF_AUTO_OFF),
--    DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
--    DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
-     DEFINE_PROP_UINT32("x-intx-mmap-timeout-ms", VFIOPCIDevice,
-                        intx.mmap_timeout, 1100),
--    DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_VGA_BIT, false),
--    DEFINE_PROP_BIT("x-req", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_REQ_BIT, true),
--    DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-     DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
-                      vbasedev.enable_migration, false),
-     DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
-@@ -3247,8 +3235,6 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_BOOL("x-no-kvm-intx", VFIOPCIDevice, no_kvm_intx, false),
-     DEFINE_PROP_BOOL("x-no-kvm-msi", VFIOPCIDevice, no_kvm_msi, false),
-     DEFINE_PROP_BOOL("x-no-kvm-msix", VFIOPCIDevice, no_kvm_msix, false),
--    DEFINE_PROP_BOOL("x-no-geforce-quirks", VFIOPCIDevice,
--                     no_geforce_quirks, false),
-     DEFINE_PROP_BOOL("x-no-kvm-ioeventfd", VFIOPCIDevice, no_kvm_ioeventfd,
-                      false),
-     DEFINE_PROP_BOOL("x-no-vfio-ioeventfd", VFIOPCIDevice, no_vfio_ioeventfd,
-@@ -3259,10 +3245,6 @@ static Property vfio_pci_dev_properties[] = {
-                        sub_vendor_id, PCI_ANY_ID),
-     DEFINE_PROP_UINT32("x-pci-sub-device-id", VFIOPCIDevice,
-                        sub_device_id, PCI_ANY_ID),
--    DEFINE_PROP_UINT32("x-igd-gms", VFIOPCIDevice, igd_gms, 0),
--    DEFINE_PROP_UNSIGNED_NODEFAULT("x-nv-gpudirect-clique", VFIOPCIDevice,
--                                   nv_gpudirect_clique,
--                                   qdev_prop_nv_gpudirect_clique, uint8_t),
-     DEFINE_PROP_OFF_AUTO_PCIBAR("x-msix-relocation", VFIOPCIDevice, msix_relo,
-                                 OFF_AUTOPCIBAR_OFF),
-     /*
-@@ -3273,28 +3255,25 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
-+static void vfio_pci_base_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
- 
--    dc->reset = vfio_pci_reset;
--    device_class_set_props(dc, vfio_pci_dev_properties);
--    dc->desc = "VFIO-based PCI device assignment";
-+    device_class_set_props(dc, vfio_pci_base_dev_properties);
-+    dc->desc = "VFIO PCI base device";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
--    pdc->realize = vfio_realize;
-     pdc->exit = vfio_exitfn;
-     pdc->config_read = vfio_pci_read_config;
-     pdc->config_write = vfio_pci_write_config;
- }
- 
--static const TypeInfo vfio_pci_dev_info = {
--    .name = TYPE_VFIO_PCI,
-+static const TypeInfo vfio_pci_base_dev_info = {
-+    .name = TYPE_VFIO_PCI_BASE,
-     .parent = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VFIOPCIDevice),
--    .class_init = vfio_pci_dev_class_init,
--    .instance_init = vfio_instance_init,
--    .instance_finalize = vfio_instance_finalize,
-+    .instance_size = 0,
-+    .abstract = true,
-+    .class_init = vfio_pci_base_dev_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_PCIE_DEVICE },
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-@@ -3302,6 +3281,48 @@ static const TypeInfo vfio_pci_dev_info = {
-     },
- };
- 
-+static Property vfio_pci_dev_properties[] = {
-+    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
-+    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+    DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
-+                            display, ON_OFF_AUTO_OFF),
-+    DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
-+    DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
-+    DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_VGA_BIT, false),
-+    DEFINE_PROP_BIT("x-req", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_REQ_BIT, true),
-+    DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-+    DEFINE_PROP_BOOL("x-no-geforce-quirks", VFIOPCIDevice,
-+                     no_geforce_quirks, false),
-+    DEFINE_PROP_UINT32("x-igd-gms", VFIOPCIDevice, igd_gms, 0),
-+    DEFINE_PROP_UNSIGNED_NODEFAULT("x-nv-gpudirect-clique", VFIOPCIDevice,
-+                                   nv_gpudirect_clique,
-+                                   qdev_prop_nv_gpudirect_clique, uint8_t),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
++#define CONT_DMA_MAP(cont, map) \
++    ((cont)->io_ops->dma_map((cont), (map)))
++#define CONT_DMA_UNMAP(cont, unmap, bitmap) \
++    ((cont)->io_ops->dma_unmap((cont), (unmap), (bitmap)))
++#define CONT_DIRTY_BITMAP(cont, bitmap, range) \
++    ((cont)->io_ops->dirty_bitmap((cont), (bitmap), (range)))
 +
-+static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
++extern VFIOContIO vfio_cont_io_ioctl;
++
++#endif /* CONFIG_LINUX */
++
+ typedef struct VFIOGroup {
+     int fd;
+     int groupid;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 2b1f78f..917da0f 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -431,12 +431,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+         goto unmap_exit;
+     }
+ 
+-    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
++    ret = CONT_DMA_UNMAP(container, unmap, bitmap);
+     if (!ret) {
+         cpu_physical_memory_set_dirty_lebitmap((unsigned long *)bitmap->data,
+                 iotlb->translated_addr, pages);
+     } else {
+-        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
++        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %s", strerror(-ret));
+     }
+ 
+     g_free(bitmap->data);
+@@ -464,30 +464,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
+         return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+     }
+ 
+-    while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+-        /*
+-         * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
+-         * v4.15) where an overflow in its wrap-around check prevents us from
+-         * unmapping the last page of the address space.  Test for the error
+-         * condition and re-try the unmap excluding the last page.  The
+-         * expectation is that we've never mapped the last page anyway and this
+-         * unmap request comes via vIOMMU support which also makes it unlikely
+-         * that this page is used.  This bug was introduced well after type1 v2
+-         * support was introduced, so we shouldn't need to test for v1.  A fix
+-         * is queued for kernel v5.0 so this workaround can be removed once
+-         * affected kernels are sufficiently deprecated.
+-         */
+-        if (errno == EINVAL && unmap.size && !(unmap.iova + unmap.size) &&
+-            container->iommu_type == VFIO_TYPE1v2_IOMMU) {
+-            trace_vfio_dma_unmap_overflow_workaround();
+-            unmap.size -= 1ULL << ctz64(container->pgsizes);
+-            continue;
+-        }
+-        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
+-        return -errno;
+-    }
+-
+-    return 0;
++    return CONT_DMA_UNMAP(container, &unmap, NULL);
+ }
+ 
+ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+@@ -500,24 +477,18 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+         .iova = iova,
+         .size = size,
+     };
++    int ret;
+ 
+     if (!readonly) {
+         map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
+     }
+ 
+-    /*
+-     * Try the mapping, if it fails with EBUSY, unmap the region and try
+-     * again.  This shouldn't be necessary, but we sometimes see it in
+-     * the VGA ROM space.
+-     */
+-    if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0 ||
+-        (errno == EBUSY && vfio_dma_unmap(container, iova, size, NULL) == 0 &&
+-         ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0)) {
+-        return 0;
+-    }
++    ret = CONT_DMA_MAP(container, &map);
+ 
+-    error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
+-    return -errno;
++    if (ret < 0) {
++        error_report("VFIO_MAP_DMA failed: %s", strerror(-ret));
++    }
++    return ret;
+ }
+ 
+ static void vfio_host_win_add(VFIOContainer *container,
+@@ -1230,10 +1201,10 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+         dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
+     }
+ 
+-    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
++    ret = CONT_DIRTY_BITMAP(container, &dirty, NULL);
+     if (ret) {
+         error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+-                     dirty.flags, errno);
++                     dirty.flags, -ret);
+     }
+ }
+ 
+@@ -1283,11 +1254,11 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+         goto err_out;
+     }
+ 
+-    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
++    ret = CONT_DIRTY_BITMAP(container, dbitmap, range);
+     if (ret) {
+         error_report("Failed to get dirty bitmap for iova: 0x%"PRIx64
+                 " size: 0x%"PRIx64" err: %d", (uint64_t)range->iova,
+-                (uint64_t)range->size, errno);
++                (uint64_t)range->size, -ret);
+         goto err_out;
+     }
+ 
+@@ -2058,6 +2029,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     container->error = NULL;
+     container->dirty_pages_supported = false;
+     container->dma_max_mappings = 0;
++    container->io_ops = &vfio_cont_io_ioctl;
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
+     QLIST_INIT(&container->vrdl_list);
+@@ -2594,3 +2566,73 @@ int vfio_eeh_as_op(AddressSpace *as, uint32_t op)
+     }
+     return vfio_eeh_container_op(container, op);
+ }
++
++/*
++ * Traditional ioctl() based io_ops
++ */
++
++static int vfio_io_dma_map(VFIOContainer *container,
++                           struct vfio_iommu_type1_dma_map *map)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
 +
-+    dc->reset = vfio_pci_reset;
-+    device_class_set_props(dc, vfio_pci_dev_properties);
-+    dc->desc = "VFIO-based PCI device assignment";
-+    pdc->realize = vfio_realize;
++    /*
++     * Try the mapping, if it fails with EBUSY, unmap the region and try
++     * again.  This shouldn't be necessary, but we sometimes see it in
++     * the VGA ROM space.
++     */
++    if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, map) == 0 ||
++        (errno == EBUSY &&
++         vfio_dma_unmap(container, map->iova, map->size, NULL) == 0 &&
++         ioctl(container->fd, VFIO_IOMMU_MAP_DMA, map) == 0)) {
++        return 0;
++    }
++    return -errno;
 +}
 +
-+static const TypeInfo vfio_pci_dev_info = {
-+    .name = TYPE_VFIO_PCI,
-+    .parent = TYPE_VFIO_PCI_BASE,
-+    .instance_size = sizeof(VFIOKernPCIDevice),
-+    .class_init = vfio_pci_dev_class_init,
-+    .instance_init = vfio_instance_init,
-+    .instance_finalize = vfio_instance_finalize,
-+};
++static int vfio_io_dma_unmap(VFIOContainer *container,
++                             struct vfio_iommu_type1_dma_unmap *unmap,
++                             struct vfio_bitmap *bitmap)
++{
 +
- static Property vfio_pci_dev_nohotplug_properties[] = {
-     DEFINE_PROP_BOOL("ramfb", VFIOPCIDevice, enable_ramfb, false),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -3318,12 +3339,13 @@ static void vfio_pci_nohotplug_dev_class_init(ObjectClass *klass, void *data)
- static const TypeInfo vfio_pci_nohotplug_dev_info = {
-     .name = TYPE_VFIO_PCI_NOHOTPLUG,
-     .parent = TYPE_VFIO_PCI,
--    .instance_size = sizeof(VFIOPCIDevice),
-+    .instance_size = sizeof(VFIOKernPCIDevice),
-     .class_init = vfio_pci_nohotplug_dev_class_init,
- };
- 
- static void register_vfio_pci_dev_type(void)
- {
-+    type_register_static(&vfio_pci_base_dev_info);
-     type_register_static(&vfio_pci_dev_info);
-     type_register_static(&vfio_pci_nohotplug_dev_info);
- }
++    while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap)) {
++        /*
++         * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
++         * v4.15) where an overflow in its wrap-around check prevents us from
++         * unmapping the last page of the address space.  Test for the error
++         * condition and re-try the unmap excluding the last page.  The
++         * expectation is that we've never mapped the last page anyway and this
++         * unmap request comes via vIOMMU support which also makes it unlikely
++         * that this page is used.  This bug was introduced well after type1 v2
++         * support was introduced, so we shouldn't need to test for v1.  A fix
++         * is queued for kernel v5.0 so this workaround can be removed once
++         * affected kernels are sufficiently deprecated.
++         */
++        if (errno == EINVAL && unmap->size && !(unmap->iova + unmap->size) &&
++            container->iommu_type == VFIO_TYPE1v2_IOMMU) {
++            trace_vfio_dma_unmap_overflow_workaround();
++            unmap->size -= 1ULL << ctz64(container->pgsizes);
++            continue;
++        }
++        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
++        return -errno;
++    }
++
++    return 0;
++}
++
++static int vfio_io_dirty_bitmap(VFIOContainer *container,
++                                struct vfio_iommu_type1_dirty_bitmap *bitmap,
++                                struct vfio_iommu_type1_dirty_bitmap_get *range)
++{
++    int ret;
++
++    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, bitmap);
++
++    return ret < 0 ? -errno : ret;
++}
++
++VFIOContIO vfio_cont_io_ioctl = {
++    .dma_map = vfio_io_dma_map,
++    .dma_unmap = vfio_io_dma_unmap,
++    .dirty_bitmap = vfio_io_dirty_bitmap,
++};
 -- 
 1.8.3.1
 
