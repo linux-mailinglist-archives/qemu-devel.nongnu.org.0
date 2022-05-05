@@ -2,102 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2603F51B962
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 09:43:57 +0200 (CEST)
-Received: from localhost ([::1]:56044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95B051B973
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 09:48:07 +0200 (CEST)
+Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmW9T-0002g1-QT
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 03:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45870)
+	id 1nmWDW-0004TI-TA
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 03:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nmW70-0001vo-EX
- for qemu-devel@nongnu.org; Thu, 05 May 2022 03:41:24 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:25802)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmWB8-0003ai-Ix
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 03:45:38 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:43156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nmW6x-0008S1-BX
- for qemu-devel@nongnu.org; Thu, 05 May 2022 03:41:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmWB6-0001V3-QJ
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 03:45:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651736477;
+ s=mimecast20190719; t=1651736734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iImyyWJeXSKqwvAOGyL0QZeKnk1NDA9mP6GMZtxX0sQ=;
- b=cV6xat34OFGFj1XCjwMEMRgbmDBEQN2WDIEI6bkS+sczVxCuUpAgbjMmQkUzNNnTMtPdW4
- Kkhj0uLA0DF8A2bY7oMEFIEsJMcULAMecW8sE3XYyn0KuvTJmh5vLLN+ox3E0SxSme/lVq
- 8mtbCJtGwyPVOYLjJNfvRxizx8PP1oE=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iS2kOKKeybUZmGbG8yjBftIRd8rq1ctq+VwMMntLL+c=;
+ b=CUuMISVqAvGZknnJCrxcqrZ2zA1xwWRodzvEf2DNCzYfuppriGpu9eMBWEiFBYZ/hTcj5L
+ PrlU8os/VIpjLij3KWyqjw72NsxYahX31MW9S5NiQzfgurFPD6xxyb7IwVwwyL8hwUe+jf
+ pGfxyxFgw1RZMcEO722rrB1+zCHG1W8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-286-yOybJalsPV2fLa4LhpsBVA-1; Thu, 05 May 2022 03:41:16 -0400
-X-MC-Unique: yOybJalsPV2fLa4LhpsBVA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- k11-20020a05651210cb00b00471d1b1be81so1428203lfg.17
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 00:41:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iImyyWJeXSKqwvAOGyL0QZeKnk1NDA9mP6GMZtxX0sQ=;
- b=2AdThqeXRYKEge68JcMVIzoSHeFD8SJCuC2Se6FGPvYiCGZZvvFbU4quetCyjrla5p
- +06FCQLtZKQLoEqdgihZ66t0GlckLNLqgvG/BKxT3JXAA/4CbVLM9CzRFLuoGlwYuecq
- D7tm7O5vlcE+NzEh9PdUXP2KW8+sLTUVirV9CZZp+hYAgm7Eb8hn6NlOZpw1QsfmQDI7
- B4YM2pYLtYkihrM9wkvd66VekZnNbni9RCB1cmYMF2HEA6LpxZMMqD2ZVCLh6UkDw2J+
- d5Xkp6b12lI0YkEg1feb7z9Xovx/DSyzeDeHt0bs9w8rI1Q4os3FTfpFq83CdTpek5ty
- i54w==
-X-Gm-Message-State: AOAM530I5+qfXiVkhk7L8rEgg/2TdttNEa//RH3dlPxw8Tof1ZwY/YgX
- j7eZ7yLm6YKh+LnwTvkZAMeF4kYVEmD2eAF6nPpXZ7BI5eb4KQyTvrpRmHQL25g5RoLtHV4Nxpn
- Je5aDf1bqHKGbQlNAai5cy9XIGwPaAxo=
-X-Received: by 2002:a05:651c:89:b0:250:87c9:d4e6 with SMTP id
- 9-20020a05651c008900b0025087c9d4e6mr3462474ljq.315.1651736474670; 
- Thu, 05 May 2022 00:41:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpnQn0feimHP2UoZ+5XWkNS4nxvIlMmfwO3DobMPr/iVBIJU4hpeTmpZe4KvBJMKq4OORdzsy7jTTiTjtnkXE=
-X-Received: by 2002:a05:651c:89:b0:250:87c9:d4e6 with SMTP id
- 9-20020a05651c008900b0025087c9d4e6mr3462441ljq.315.1651736474362; Thu, 05 May
- 2022 00:41:14 -0700 (PDT)
+ us-mta-333-HpdqrqMdOpO8NXci_yIYSA-1; Thu, 05 May 2022 03:45:29 -0400
+X-MC-Unique: HpdqrqMdOpO8NXci_yIYSA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EED261C08960;
+ Thu,  5 May 2022 07:45:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D8542026D6A;
+ Thu,  5 May 2022 07:44:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 37C6B21E6880; Thu,  5 May 2022 09:44:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ "f4bug@amsat.org" <f4bug@amsat.org>,  "pbonzini@redhat.com"
+ <pbonzini@redhat.com>,  "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>,  "thuth@redhat.com" <thuth@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,  "berrange@redhat.com"
+ <berrange@redhat.com>,  "eduardo@habkost.net" <eduardo@habkost.net>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,  "quintela@redhat.com"
+ <quintela@redhat.com>,  "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,  "peterx@redhat.com"
+ <peterx@redhat.com>,  "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,  Elena
+ Ufimtseva <elena.ufimtseva@oracle.com>,  John Johnson
+ <john.g.johnson@oracle.com>,  Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v9 10/17] vfio-user: run vfio-user context
+References: <cover.1651586203.git.jag.raman@oracle.com>
+ <7350f4813b73af783965b758ecf39d0a6a76db53.1651586203.git.jag.raman@oracle.com>
+ <877d717cd2.fsf@pond.sub.org>
+ <86AE24D4-C203-491D-9FBF-BEE748A52E2C@oracle.com>
+Date: Thu, 05 May 2022 09:44:48 +0200
+In-Reply-To: <86AE24D4-C203-491D-9FBF-BEE748A52E2C@oracle.com> (Jag Raman's
+ message of "Wed, 4 May 2022 15:22:30 +0000")
+Message-ID: <87k0b0zamn.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220428211351.3897-1-joao.m.martins@oracle.com>
- <20220428211351.3897-5-joao.m.martins@oracle.com>
- <CACGkMEug0zW0pWCSEtHQ5KE5KRpXyWvgJmPZm-yvJnCLmocAYg@mail.gmail.com>
- <f90a8126-7805-be8d-e378-f129196e753d@oracle.com>
- <Ymwsl5G/TCuRFja2@xz-m1.local>
- <62f26667-5ccd-619d-2e0f-eb3a3f304984@oracle.com>
-In-Reply-To: <62f26667-5ccd-619d-2e0f-eb3a3f304984@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 5 May 2022 15:41:03 +0800
-Message-ID: <CACGkMEtVVmz7fLYSSE+OWA6VsjUO8R4EOHDH-0o=97ZJkXDJuw@mail.gmail.com>
-Subject: Re: [PATCH RFC 04/10] intel_iommu: Second Stage Access Dirty bit
- support
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: Peter Xu <peterx@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Alex Williamson <alex.williamson@redhat.com>,
- David Hildenbrand <david@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Nicolin Chen <nicolinc@nvidia.com>, 
- Yishai Hadas <yishaih@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
- Yi Liu <yi.l.liu@intel.com>, 
- Eric Auger <eric.auger@redhat.com>, Thanos Makatos <thanos.makatos@nutanix.com>,
- "John G . Johnson" <john.g.johnson@oracle.com>, kvm <kvm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.74; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,66 +98,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 4, 2022 at 4:47 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->
-> On 4/29/22 19:21, Peter Xu wrote:
-> > On Fri, Apr 29, 2022 at 10:12:01AM +0100, Joao Martins wrote:
-> >> On 4/29/22 03:26, Jason Wang wrote:
-> >>> On Fri, Apr 29, 2022 at 5:14 AM Joao Martins <joao.m.martins@oracle.com> wrote:
-> >>>> @@ -3693,7 +3759,8 @@ static void vtd_init(IntelIOMMUState *s)
-> >>>>
-> >>>>      /* TODO: read cap/ecap from host to decide which cap to be exposed. */
-> >>>>      if (s->scalable_mode) {
-> >>>> -        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
-> >>>> +        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS |
-> >>>> +                   VTD_ECAP_SLADS;
-> >>>>      }
-> >>>
-> >>> We probably need a dedicated command line parameter and make it compat
-> >>> for pre 7.1 machines.
-> >>>
-> >>> Otherwise we may break migration.
-> >>
-> >> I can gate over an 'x-ssads' option (default disabled). Which reminds me that I probably
-> >> should rename to the most recent mnemonic (as SLADS no longer exists in manuals).
-> >>
-> >> If we all want by default enabled I can add a separate patch to do so.
-> >
-> > The new option sounds good.
-> >
->
-> OK, I'll fix it then for the next iteration.
->
-> Also, perhaps I might take the emulated iommu patches out of the iommufd stuff into a
-> separate series. There might be a place for them in the realm of testing/prototyping.
+Jag Raman <jag.raman@oracle.com> writes:
 
-That would be better.
-
+>> On May 4, 2022, at 7:42 AM, Markus Armbruster <armbru@redhat.com> wrote:
+>>=20
+>> Jagannathan Raman <jag.raman@oracle.com> writes:
+>>=20
+>>> Setup a handler to run vfio-user context. The context is driven by
+>>> messages to the file descriptor associated with it - get the fd for
+>>> the context and hook up the handler with it
+>>>=20
+>>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> ---
+>>> qapi/misc.json | 30 +++++++++++
+>>> hw/remote/vfio-user-obj.c | 102 +++++++++++++++++++++++++++++++++++++-
+>>> 2 files changed, 131 insertions(+), 1 deletion(-)
+>>>=20
+>>> diff --git a/qapi/misc.json b/qapi/misc.json
+>>> index b83cc39029..fa49f2876a 100644
+>>> --- a/qapi/misc.json
+>>> +++ b/qapi/misc.json
+>>> @@ -553,3 +553,33 @@
+>>> ##
+>>> { 'event': 'RTC_CHANGE',
+>>> 'data': { 'offset': 'int', 'qom-path': 'str' } }
+>>> +
+>>> +##
+>>> +# @VFU_CLIENT_HANGUP:
+>>> +#
+>>> +# Emitted when the client of a TYPE_VFIO_USER_SERVER closes the
+>>> +# communication channel
+>>> +#
+>>> +# @vfu-id: ID of the TYPE_VFIO_USER_SERVER object
+>>> +#
+>>> +# @vfu-qom-path: path to the TYPE_VFIO_USER_SERVER object in the QOM t=
+ree
+>>> +#
+>>> +# @dev-id: ID of attached PCI device
+>>> +#
+>>> +# @dev-qom-path: path to attached PCI device in the QOM tree
+>>=20
+>> I'm still unsure what kind(s) of ID @vfu-id and @dev-id are. See below.
 >
-> > Jason, per our previous discussion, shall we not worry about the
-> > compatibility issues per machine-type until the whole feature reaches a
-> > mostly-complete stage?
-> >
-> > There seems to have a bunch of sub-features for scalable mode and it's a
-> > large project as a whole.  I'm worried trying to maintain compatibilities
-> > for all the small sub-features could be an unnessary burden to the code
-> > base.
+> I=E2=80=99m not sure what you mean by kind of ID - I thought of ID as a
+> unique string. I=E2=80=99ll try my best to explain.
 
-My understanding, if it's not too hard, it looks better for each
-sub-features to try its best for compatibility. For this case, having
-a dedicated option might help for debugging as well.
+Okay, let me try to clarify.
 
-> Perhaps best to see how close we are to spec is to check what we support in intel-iommu
-> in terms of VT-d revision versus how many buckets we fill in. I think SLADS/SSADS was in
-> 3.0 IIRC.
+We have many, many ID namespaces, each associated with a certain kind of
+object: device IDs for TYPE_DEVICE, object IDs for TYPE_OBJECT
+implementing TYPE_USER_CREATABLE), block backend node names for
+BlockDriverState, ...
+
+Aside: I believe a single namespace would have been a wiser design
+choice, but that ship sailed long ago.
+
+To which of these namespaces do these two IDs belong, respectively?
+
+> dev-id and vfu-id are the =E2=80=9Cid" sub-options of =E2=80=9C-device=E2=
+=80=9D and =E2=80=9C-object=E2=80=9D command-line
+> options respectively.
+
+This answers my question.
+
+> "dev-id=E2=80=9D is the =E2=80=9Cid=E2=80=9D member of =E2=80=9CDeviceSta=
+te=E2=80=9D which QEMU sets using
+> qdev_set_id() when the device is added.=20
 >
-> I can take the compat stuff out if it's too early for that -- But I take it
-> these are questions for Jason.
+> The Object ID (vfu-id in this case) is a bit tricky. It=E2=80=99s also th=
+e =E2=80=9Cid=E2=80=9D
+> command-line sub-option, but QEMU stores it as a child property
+> of the parent object.
 >
+>>=20
+>>> +#
+>>> +# Since: 7.1
+>>> +#
+>>> +# Example:
+>>> +#
+>>> +# <- { "event": "VFU_CLIENT_HANGUP",
+>>> +# "data": { "vfu-id": "vfu1",
+>>> +# "vfu-qom-path": "/objects/vfu1",
+>>> +# "dev-id": "sas1",
+>>> +# "dev-qom-path": "/machine/peripheral/sas1" },
+>>> +# "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+>>> +#
+>>> +##
+>>> +{ 'event': 'VFU_CLIENT_HANGUP',
+>>> + 'data': { 'vfu-id': 'str', 'vfu-qom-path': 'str',
+>>> + 'dev-id': 'str', 'dev-qom-path': 'str' } }
+>>> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+>>> index 3ca6aa2b45..3a4c6a9fa0 100644
+>>> --- a/hw/remote/vfio-user-obj.c
+>>> +++ b/hw/remote/vfio-user-obj.c
+>>> @@ -27,6 +27,9 @@
+>>> *
+>>> * device - id of a device on the server, a required option. PCI devices
+>>> * alone are supported presently.
+>>> + *
+>>> + * notes - x-vfio-user-server could block IO and monitor during the
+>>> + * initialization phase.
+>>> */
+>>>=20
+>>> #include "qemu/osdep.h"
+>>> @@ -40,11 +43,14 @@
+>>> #include "hw/remote/machine.h"
+>>> #include "qapi/error.h"
+>>> #include "qapi/qapi-visit-sockets.h"
+>>> +#include "qapi/qapi-events-misc.h"
+>>> #include "qemu/notify.h"
+>>> +#include "qemu/thread.h"
+>>> #include "sysemu/sysemu.h"
+>>> #include "libvfio-user.h"
+>>> #include "hw/qdev-core.h"
+>>> #include "hw/pci/pci.h"
+>>> +#include "qemu/timer.h"
+>>>=20
+>>> #define TYPE_VFU_OBJECT "x-vfio-user-server"
+>>> OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
+>>> @@ -86,6 +92,8 @@ struct VfuObject {
+>>> PCIDevice *pci_dev;
+>>>=20
+>>> Error *unplug_blocker;
+>>> +
+>>> + int vfu_poll_fd;
+>>> };
+>>>=20
+>>> static void vfu_object_init_ctx(VfuObject *o, Error **errp);
+>>> @@ -164,6 +172,76 @@ static void vfu_object_set_device(Object *obj, con=
+st char *str, Error **errp)
+>>> vfu_object_init_ctx(o, errp);
+>>> }
+>>>=20
+>>> +static void vfu_object_ctx_run(void *opaque)
+>>> +{
+>>> + VfuObject *o =3D opaque;
+>>> + const char *vfu_id;
+>>> + char *vfu_path, *pci_dev_path;
+>>> + int ret =3D -1;
+>>> +
+>>> + while (ret !=3D 0) {
+>>> + ret =3D vfu_run_ctx(o->vfu_ctx);
+>>> + if (ret < 0) {
+>>> + if (errno =3D=3D EINTR) {
+>>> + continue;
+>>> + } else if (errno =3D=3D ENOTCONN) {
+>>> + vfu_id =3D object_get_canonical_path_component(OBJECT(o));
+>>> + vfu_path =3D object_get_canonical_path(OBJECT(o));
+>>=20
+>> Hmm. @vfu_id is always the last component of @vfu_path. Why do we need
+>> to send both?
+>
+> vfu_id is the ID that the user/Orchestrator passed as a command-line opti=
+on
+> during addition/creation. So it made sense to report back with the same ID
+> that they used. But I=E2=80=99m OK with dropping this if that=E2=80=99s w=
+hat you prefer.
 
-There's probably no need for the compat stuff, having a dedicated
-option and making it disabled by default should be fine.
+Matter of taste, I guess.  I'd drop it simply to saves us the trouble of
+documenting it.
 
-Thanks
+If we decide to keep it, then I think we should document it's always the
+last component of @vfu_path.
+
+>>> + g_assert(o->pci_dev);
+>>> + pci_dev_path =3D object_get_canonical_path(OBJECT(o->pci_dev));
+>>> + qapi_event_send_vfu_client_hangup(vfu_id, vfu_path,
+>>> + o->device, pci_dev_path);
+>>=20
+>> Where is o->device set? I'm asking because I it must not be null here,
+>> and that's not locally obvious.
+>
+> Yeah, it=E2=80=99s not obvious from this patch that o->device is guarante=
+ed to be
+> non-NULL. It=E2=80=99s set by vfu_object_set_device(). Please see the fol=
+lowing
+> patches in the series:
+> vfio-user: define vfio-user-server object
+> vfio-user: instantiate vfio-user context
+
+vfu_object_set_device() is a QOM property setter.  It gets called if and
+only if the property is set.  If it's never set, ->device remains null.
+What ensures it's always set?
+
+> There=E2=80=99s already an assert for o->pci_dev here, but we could add o=
+ne
+> for o->device too?
+
+I'll make up my mind when I'm convinced o->device can't be null here.
+
+> Thank you!
+
+You're welcome!
 
 
