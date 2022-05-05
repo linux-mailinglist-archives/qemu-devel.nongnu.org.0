@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE3151BE4F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:41:31 +0200 (CEST)
-Received: from localhost ([::1]:39644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CC151BE58
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:44:20 +0200 (CEST)
+Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZrN-0006r0-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
+	id 1nmZu7-000107-Dz
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:44:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
- id 1nmZnv-0005Fq-2z
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:37:55 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:54636)
+ id 1nmZpx-0007CJ-Ew
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:40:01 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:59824)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
- id 1nmZns-0007Kc-OR
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:37:54 -0400
+ id 1nmZpu-0007ja-43
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:39:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651750672; x=1683286672;
+ t=1651750798; x=1683286798;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=KfdhKqcjfgpoTGtwR/CqeEOejIUJzirghrJv9mQvnP8=;
- b=S1uUUYaliP+ur3GwJVogIm0hTEOHkcbyCv4n2sGyM3Lh+PmP1YydkCq8
- XOIguRXcvpATkjeyADpMA4Fv4th0ZMsOI5OF5cudgRDCvLhKdH4uYNaVA
- uxW1YONF6sDI3zhUTQndoXmhi/RkLcynVY3pAdOmNhuvVQFD1ES0wgqtp o=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 05 May 2022 04:37:49 -0700
+ bh=8dS1PT67125I2Gjo/88Oynj+576VIoAudaJTP8DXyoI=;
+ b=Le3Q2v5FZ8vQGUjnjdkP0Qra2vBiZbfh+qTRLxVnsV0c6P/aRSVNWyIF
+ w+hHzK23XRJ+9UabY2atDkYzYXRMgTscZ2Zn173/Qj/+eFRHKP8scDeJU
+ 3cHPomR55U+81GVwkCFAKQMUT68gmB8Cgj5wJLuNsksKosKjB1niQi7Jf k=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 05 May 2022 04:39:56 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 04:37:49 -0700
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2022 04:39:55 -0700
 Received: from qc-i7.qualcomm.com (10.80.80.8) by nasanex01c.na.qualcomm.com
  (10.47.97.222) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 5 May 2022
- 04:37:47 -0700
+ 04:39:54 -0700
 From: Leif Lindholm <quic_llindhol@quicinc.com>
 To: <qemu-devel@nongnu.org>
-CC: Leif Lindholm <leif@nuviainc.com>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2] MAINTAINERS/.mailmap: update email for Leif Lindholm
-Date: Thu, 5 May 2022 12:37:40 +0100
-Message-ID: <20220505113740.75565-1-quic_llindhol@quicinc.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, Radoslaw Biernacki
+ <rad@semihalf.com>, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH v2] hw/arm: add versioning to sbsa-ref machine DT
+Date: Thu, 5 May 2022 12:39:47 +0100
+Message-ID: <20220505113947.75714-1-quic_llindhol@quicinc.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01c.na.qualcomm.com (10.47.97.222)
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=quic_llindhol@quicinc.com; helo=alexa-out-sd-01.qualcomm.com
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=quic_llindhol@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -75,50 +76,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NUVIA was acquired by Qualcomm in March 2021, but kept functioning on
-separate infrastructure for a transitional period. We've now switched
-over to contributing as Qualcomm Innocation Center (quicinc), so update
-my email address to reflect this.
+The sbsa-ref machine is continuously evolving. Some of the changes we
+want to make in the near future, to align with real components (e.g.
+the GIC-700), will break compatibility for existing firmware.
+
+Introduce two new properties to the DT generated on machine generation:
+- machine-version-major
+  To be incremented when a platform change makes the machine
+  incompatible with existing firmware.
+- machine-version-minor
+  To be incremented when functionality is added to the machine
+  without causing incompatibility with existing firmware.
+  to be reset to 0 when machine-version-major is incremented.
+
+This versioning scheme is *neither*:
+- A QEMU versioned machine type; a given version of QEMU will emulate
+  a given version of the platform.
+- A reflection of level of SBSA (now SystemReady SR) support provided.
+
+The version will increment on guest-visible functional changes only,
+akin to a revision ID register found on a physical platform.
+
+These properties are both introduced with the value 0.
+(Hence, a machine where the DT is lacking these nodes is equivalent
+to version 0.0.)
 
 Signed-off-by: Leif Lindholm <quic_llindhol@quicinc.com>
-Cc: Leif Lindholm <leif@nuviainc.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Radoslaw Biernacki <rad@semihalf.com>
+Cc: Cédric Le Goater <clg@kaod.org>
 ---
 
 Changes since v1:
-- Redirect both historic addresses to quicinc.com.
+- More detail added to commit message.
+- Verbose comment added adjacent to code additions.
 
- .mailmap    | 3 ++-
- MAINTAINERS | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/arm/sbsa-ref.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/.mailmap b/.mailmap
-index 2976a675ea..8c326709cf 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -62,7 +62,8 @@ Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
- Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
- Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
- James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
--Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-+Leif Lindholm <quic_llindhol@quicinc.com> <leif.lindholm@linaro.org>
-+Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
- Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
- Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
- Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 218c9459b6..cd013850c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -889,7 +889,7 @@ F: include/hw/ssi/imx_spi.h
- SBSA-REF
- M: Radoslaw Biernacki <rad@semihalf.com>
- M: Peter Maydell <peter.maydell@linaro.org>
--R: Leif Lindholm <leif@nuviainc.com>
-+R: Leif Lindholm <quic_llindhol@quicinc.com>
- L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/sbsa-ref.c
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 2387401963..d0c25ddfcf 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -190,6 +190,20 @@ static void create_fdt(SBSAMachineState *sms)
+     qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x2);
+     qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x2);
+ 
++    /*
++     * This versioning scheme is for informing platform fw only. It is neither:
++     * - A QEMU versioned machine type; a given version of QEMU will emulate
++     *   a given version of the platform.
++     * - A reflection of level of SBSA (now SystemReady SR) support provided.
++     *
++     * machine-version-major: updated when changes breaking fw compatibility
++     *                        are introduced.
++     * machine-version-minor: updated when features are added that don't break
++     *                        fw compatibility.
++     */
++    qemu_fdt_setprop_cell(fdt, "/", "machine-version-major", 0);
++    qemu_fdt_setprop_cell(fdt, "/", "machine-version-minor", 0);
++
+     if (ms->numa_state->have_numa_distance) {
+         int size = nb_numa_nodes * nb_numa_nodes * 3 * sizeof(uint32_t);
+         uint32_t *matrix = g_malloc0(size);
 -- 
 2.30.2
 
