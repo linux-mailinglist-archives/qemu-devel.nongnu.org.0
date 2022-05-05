@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A05551C8B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:10:35 +0200 (CEST)
-Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45AB51C899
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:59:06 +0200 (CEST)
+Received: from localhost ([::1]:38812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmgrx-0006g1-JP
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46532)
+	id 1nmggr-0004pd-MX
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYC-0002Ht-DZ; Thu, 05 May 2022 14:50:08 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:33573)
+ id 1nmgYO-0002O2-8K; Thu, 05 May 2022 14:50:21 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:37824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgY9-0004KL-VT; Thu, 05 May 2022 14:50:07 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id l203so5284655oif.0;
- Thu, 05 May 2022 11:50:05 -0700 (PDT)
+ id 1nmgYD-0004LN-Ey; Thu, 05 May 2022 14:50:11 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id r1so5261361oie.4;
+ Thu, 05 May 2022 11:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=njVStiJZTdD00E/hsajQ9El7TBvd0RvJ9CrPKI5QohA=;
- b=lrOg+lPvpQuexoawqLRW1GyJObZO3H9q/NnZQqNS3olCUDb+4VO3uFbU7Pa8DDGjXH
- FIXQ7BJcUTc2TwAttuXiqyEyw76MgID4XyvJV//VFSEV8bpO9LyOpPWFjD+8pQZ05r9Q
- zPAULAcC6B9aLlX63py/MfU84+YLjHY3urnWHd/Cucd++RkmDo57V5Fmz7nb7TwkjHUp
- acn3LDjmjnoRFEYaRTAkVDUF+wLGT8QXEAZpkKSBppXCZQHprYvVytGBXcPWURF+zhKe
- V0rzIuMKbP2EREe2Ww7KlJGw9ZIkFOPb3FIWxLMWsHt67x0UN38RuT8SwYQ75MUWVqNn
- mHWg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8wRFsB4oxkSKLu/a1qVp36Mev+RY06uW0DVJiFCGAJk=;
+ b=KGBv952lbkOAnZGy+ufi8U//mnLPYF4KmXyZlSInm6wl1rvA479kFy2KwSpVHhgJwy
+ PFvlSnVnqxKh/ksOZGvbhsnRGx1ijg+bWgNsGc/JxjUBnqbK6sf6a4omSJZK+XYcFONI
+ QI44Donrf7WdYqnkjCPsAyW5uVRRlkwd5EeOSD9dOge3Mp9kO6sdjdEKWghztQLFcGYj
+ 81tUw4gSi3GwLjXXKk/Yj+SyZnCuX+pjIRlYOTUd0ExUoe8Ug6jnQeCA2Uk/TD3xX7o9
+ lgwsFS5ECk5V4BWrgF0rtxTAFvJqW2WV7Fp6hw8e92BHfdCSSPFLuFEDmLhWThp0FUrO
+ 7cGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=njVStiJZTdD00E/hsajQ9El7TBvd0RvJ9CrPKI5QohA=;
- b=Xv3pJYbSBmUiSCUOQhYY9MwAmXlXx0AW/R+75CwesNC/yp+ghhdwK5erTs2cmXvQIA
- 2WaNDgXkqbEtMYW8KU00Lhsi3VmmY6ItdFYvmGmFPJA6NJOA9wIQ2Hr3/oBswYa7TotP
- ImcT9kBH5M6DExMJAgZNCF+tNDqinHc0VWdr9qF2kqJo8rNJ/KPNAvULA7YsZattZSgI
- Urqho8wF8ryCd1L2DV+93O8xg35XEa0mdGrBezwtAHa5+7cV04ZOrz5x9w1vImFUz731
- AhTLe2sXOEK/skOaVR6bbiDK67YBjW4/Po7WARvpRzm4/wGTI110dfSa2fStvdJe3Jjk
- Ir4Q==
-X-Gm-Message-State: AOAM532c+OUtLk//cQyIicMkQKo97biLRZxh2zvFHVGTXThfPAVodWbV
- eZD0zwqEGxRJbHsc8rk8u6G7f5FDGD4=
-X-Google-Smtp-Source: ABdhPJzSvaBd6BEdWnK2TIGGG33z6JF5YL+onvuC61ZxQMV8c4e5KQ4ZwGz7sjj8SQNwat8IphgA3A==
-X-Received: by 2002:a05:6808:220c:b0:325:c254:9b0a with SMTP id
- bd12-20020a056808220c00b00325c2549b0amr3044837oib.239.1651776604248; 
- Thu, 05 May 2022 11:50:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8wRFsB4oxkSKLu/a1qVp36Mev+RY06uW0DVJiFCGAJk=;
+ b=zVTiZwcVsA/KMjVxhCw3Ux5WjBOD7DpwKVlBJvIvGMiQ0zmyEWxFtnljcgRxuMBsBQ
+ 6ZR7UBJC6WwSg4VJvKMj2B0S3pCLQSvDzsnTXYFFM0JNmX/Bk6zS7QCLM17fgPlqdQcx
+ gZr38xxpNHFxPxA49+fVmDfsYHbdNNI3w9u771YYuOc5FXqg1bfl4zfwEUSELaAiDMUO
+ mXHx7dDGba4y4BmuF6DyUE37PBlWlwdp1a6oInNyAPHwBxJq4KfrpRnXbSW9CvSv0iU4
+ Mf2hNmCb5tYoiMRqVzfoVHbGH4MKmNTZXN8jYd7BA2e/Hlg2jGUN2mgsMNLNv+J7Xte7
+ 5Ugg==
+X-Gm-Message-State: AOAM532w0kgRr20VRrY3aqFKucEVwhwWCfO86vXNrTwcMSGyLkCs0WE+
+ +XD+/b3oI6qRgWJAUCTzIsRDzs0CToo=
+X-Google-Smtp-Source: ABdhPJz0LFf/f4jT6UHoW08+tCaMLBAH0lvJJC2HyNITaHmFiOMenrpT1d85INEwx8xpF6g6+XwHDw==
+X-Received: by 2002:a05:6808:120f:b0:325:cef0:3f7 with SMTP id
+ a15-20020a056808120f00b00325cef003f7mr3339685oil.38.1651776607643; 
+ Thu, 05 May 2022 11:50:07 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.01
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:50:03 -0700 (PDT)
+ Thu, 05 May 2022 11:50:07 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org
-Subject: [PULL 00/30] ppc queue
-Date: Thu,  5 May 2022 15:49:08 -0300
-Message-Id: <20220505184938.351866-1-danielhb413@gmail.com>
+ richard.henderson@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+Subject: [PULL 01/30] target/ppc: initialize 'val' union in kvm_get_one_spr()
+Date: Thu,  5 May 2022 15:49:09 -0300
+Message-Id: <20220505184938.351866-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
+References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -87,93 +91,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e91b8994115d2f093e7556c9af2d051a26a98cfb:
+Valgrind isn't convinced that we are initializing the values we assign
+to env->spr[spr] because it doesn't understand that the 'val' union is
+being written by the kvm_vcpu_ioctl() that follows (via struct
+kvm_one_reg).
 
-  Merge tag 'pull-target-arm-20220505' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-05-05 11:30:33 -0500)
+This results in Valgrind complaining about uninitialized values every
+time we use env->spr in a conditional, like this instance:
 
-are available in the Git repository at:
+==707578== Thread 1:
+==707578== Conditional jump or move depends on uninitialised value(s)
+==707578==    at 0xA10A40: hreg_compute_hflags_value (helper_regs.c:106)
+==707578==    by 0xA10C9F: hreg_compute_hflags (helper_regs.c:173)
+==707578==    by 0xA110F7: hreg_store_msr (helper_regs.c:262)
+==707578==    by 0xA051A3: ppc_cpu_reset (cpu_init.c:7168)
+==707578==    by 0xD4730F: device_transitional_reset (qdev.c:799)
+==707578==    by 0xD4A11B: resettable_phase_hold (resettable.c:182)
+==707578==    by 0xD49A77: resettable_assert_reset (resettable.c:60)
+==707578==    by 0xD4994B: resettable_reset (resettable.c:45)
+==707578==    by 0xD458BB: device_cold_reset (qdev.c:296)
+==707578==    by 0x48FBC7: cpu_reset (cpu-common.c:114)
+==707578==    by 0x97B5EB: spapr_reset_vcpu (spapr_cpu_core.c:38)
+==707578==    by 0x97BABB: spapr_cpu_core_reset (spapr_cpu_core.c:209)
+==707578==  Uninitialised value was created by a stack allocation
+==707578==    at 0xB11F08: kvm_get_one_spr (kvm.c:543)
 
-  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220505
+Initializing 'val' has no impact in the logic and makes Valgrind output
+more bearable.
 
-for you to fetch changes up to bf3dd1e6d0d7c5c4906f89776e15dddc22af784b:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20220331001717.616938-2-danielhb413@gmail.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/kvm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  target/ppc: Change MSR_* to follow POWER ISA numbering convention (2022-05-05 15:36:17 -0300)
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index a3c31b4e48..01baea467f 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -542,10 +542,11 @@ static void kvm_get_one_spr(CPUState *cs, uint64_t id, int spr)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
++    /* Init 'val' to avoid "uninitialised value" Valgrind warnings */
+     union {
+         uint32_t u32;
+         uint64_t u64;
+-    } val;
++    } val = { };
+     struct kvm_one_reg reg = {
+         .id = id,
+         .addr = (uintptr_t) &val,
+-- 
+2.32.0
 
-----------------------------------------------------------------
-ppc patch queue for 2022-05-05:
-
-The star of the show in this PR is the 'Remove hidden usages of *env'
-work done by Víctor, which impacts a lot of target/ppc code and we want
-to get it landed ASAP so future target/ppc contributions can be based on
-it.
-
-Other changes:
-
-- XIVE fixes in guest interrupt handling
-- BookE debug interrupt fix
-- vhost-user TARGET_PPC64 macro fix
-- valgrind fixes in kvmppc functions
-
-----------------------------------------------------------------
-Bin Meng (1):
-      target/ppc: Fix BookE debug interrupt generation
-
-Daniel Henrique Barboza (4):
-      target/ppc: initialize 'val' union in kvm_get_one_spr()
-      target/ppc: init 'lpcr' in kvmppc_enable_cap_large_decr()
-      target/ppc: init 'sregs' in kvmppc_put_books_sregs()
-      target/ppc: init 'rmmu_info' in kvm_get_radix_page_info()
-
-Frederic Barrat (2):
-      ppc/xive: Always recompute the PIPR when pushing an OS context
-      ppc/xive: Update the state of the External interrupt signal
-
-Murilo Opsfelder Araujo (1):
-      vhost-user: Use correct macro name TARGET_PPC64
-
-Víctor Colombo (22):
-      target/ppc: Remove fpscr_* macros from cpu.h
-      target/ppc: Remove unused msr_* macros
-      target/ppc: Remove msr_pr macro
-      target/ppc: Remove msr_le macro
-      target/ppc: Remove msr_ds macro
-      target/ppc: Remove msr_ile macro
-      target/ppc: Remove msr_ee macro
-      target/ppc: Remove msr_ce macro
-      target/ppc: Remove msr_pow macro
-      target/ppc: Remove msr_me macro
-      target/ppc: Remove msr_gs macro
-      target/ppc: Remove msr_fp macro
-      target/ppc: Remove msr_cm macro
-      target/ppc: Remove msr_ir macro
-      target/ppc: Remove msr_dr macro
-      target/ppc: Remove msr_ep macro
-      target/ppc: Remove msr_fe0 and msr_fe1 macros
-      target/ppc: Remove msr_ts macro
-      target/ppc: Remove msr_hv macro
-      target/ppc: Remove msr_de macro
-      target/ppc: Add unused msr bits FIELDs
-      target/ppc: Change MSR_* to follow POWER ISA numbering convention
-
- hw/intc/xive.c           |  25 +++++-
- hw/intc/xive2.c          |  18 ++--
- hw/ppc/pegasos2.c        |   2 +-
- hw/ppc/spapr.c           |   2 +-
- hw/virtio/vhost-user.c   |   2 +-
- include/hw/ppc/xive.h    |   1 +
- target/ppc/cpu.c         |   2 +-
- target/ppc/cpu.h         | 220 ++++++++++++++++++++++-------------------------
- target/ppc/cpu_init.c    |  23 +++--
- target/ppc/excp_helper.c |  54 ++++++------
- target/ppc/fpu_helper.c  |  28 +++---
- target/ppc/gdbstub.c     |   2 +-
- target/ppc/helper_regs.c |  15 ++--
- target/ppc/kvm.c         |  16 ++--
- target/ppc/machine.c     |   2 +-
- target/ppc/mem_helper.c  |  23 ++---
- target/ppc/misc_helper.c |   2 +-
- target/ppc/mmu-radix64.c |  11 +--
- target/ppc/mmu_common.c  |  40 +++++----
- target/ppc/mmu_helper.c  |   6 +-
- 20 files changed, 260 insertions(+), 234 deletions(-)
 
