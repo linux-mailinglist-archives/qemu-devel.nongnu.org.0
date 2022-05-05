@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2820D51BE8D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:55:04 +0200 (CEST)
-Received: from localhost ([::1]:58434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3F851BEAB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:57:10 +0200 (CEST)
+Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nma4V-0003l6-9e
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:55:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48002)
+	id 1nma6X-0006RN-7v
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nma2T-0001c7-5v
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:52:57 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:30844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nma2R-0001tO-IA
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:52:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651751574;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GOewFIR/AyhFTSTNUniSTH4HDi0aAiO1qU8V2oBzj+w=;
- b=AvPoOKl/5x0TkAST+D2MYsgxH5HykLrexIqll4ad1bUkzvAX/xq7A3UMAMe859bBRSj3me
- +CcVBBI2/Klm//Yx6f4ab6iOtPwR133bZecq6kMrQVQj3pGgCTmClaaR5Mmfe5654sKlbB
- XOpK/vM/NQ5GLH7XDwLjl2EFxo6L3/E=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-ekTcBkXsPZaqLFO8Pn8YdA-1; Thu, 05 May 2022 07:52:51 -0400
-X-MC-Unique: ekTcBkXsPZaqLFO8Pn8YdA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CEE7185A79C;
- Thu,  5 May 2022 11:52:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 139B0463E1F;
- Thu,  5 May 2022 11:52:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0C88321E6880; Thu,  5 May 2022 13:52:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  Mark
- Cave-Ayland <mark.cave-ayland@ilande.co.uk>,  John Snow
- <jsnow@redhat.com>,  =?utf-8?Q?Herv=C3=A9?= Poussineau
- <hpoussin@reactos.org>,  Aleksandar
- Rikalo <aleksandar.rikalo@syrmia.com>,  qemu-block@nongnu.org
-Subject: Re: [PATCH v2] hw/block/fdc-sysbus: Always mark sysbus floppy
- controllers as not having DMA
-References: <20220505101842.2757905-1-peter.maydell@linaro.org>
-Date: Thu, 05 May 2022 13:52:50 +0200
-In-Reply-To: <20220505101842.2757905-1-peter.maydell@linaro.org> (Peter
- Maydell's message of "Thu, 5 May 2022 11:18:42 +0100")
-Message-ID: <87ee18urfx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nma4c-0004jg-AC; Thu, 05 May 2022 07:55:10 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:36741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nma4Z-0002DQ-IW; Thu, 05 May 2022 07:55:09 -0400
+Received: by mail-lf1-x134.google.com with SMTP id bq30so7070428lfb.3;
+ Thu, 05 May 2022 04:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iduq/YaY7ua7tW2R9TbNVLap0Gitql+BZY7uN4xW6QQ=;
+ b=S4jFIovQrNjgwiqR6aRjit1YMMzbcYdxrhLoL8Rw9cI1HKJ8uY7sOrtFSU3yIM9PV2
+ PPeIxqLaxEtXAGUg72eDUHCp94eNTEvs4jKvmW/yTxdj5dqZNiMO926RkEbroobBRa0A
+ mXVdYOB4b6MyEB4W0mpxPEEA0XmAIOMeiPBLRR/+vWAxs95N+QNrb1mc/K0ECcSBjPQQ
+ Yz+V+R6bdcyB7aJQw3eEh0hftQ/2mjMLG0MDW93qG5F1cstlzPWojUtYOIQ7gScG39Ws
+ 6gGyLTiWahVcCiwUcUMl2jyVeJA6DLcSZdqzz5MksuSj2iRbayIBkZeAUS1MuUbVNLI3
+ mTug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iduq/YaY7ua7tW2R9TbNVLap0Gitql+BZY7uN4xW6QQ=;
+ b=Q7MlbyLf6mDTM9Ba8RrtluZJgU4sxVvrXcwx7DadjS6uA6J+vcsMZZ3xxUUQ3pzvK8
+ pVDs+DZdXq7y9k7aaGnxdqp8PocJY+oXFc+L4KqmoYSdEuT5DvICgO3cxsAQn9JT/lu7
+ fqjZBE5XqCaGaKGjFpUP3lAnl/hQtb6Oo6S8pqBo9C2DBER3UFoe0DCe6nnxpW3te0lr
+ 6exlgdcFM5DrJ723muwUvkMn1+zVpSZMQB6mRAbUlmIXZuoqvZ0xA3+iMnCNRJi6seyD
+ zFlWEDC2HrAVAuPvg3ivCBXSsppH1tPW1YRkie4+zF1x0PgzlKSxrgfQcsnDi3PaIiTz
+ adww==
+X-Gm-Message-State: AOAM5312m+KWRAL25aNuNJsiZTB3QVIOlmqBkSwn00eTbc65jKTZr3y4
+ Tb8c195nrD88JBkuQ+Sh0ns6leRCZmAJkf789mk=
+X-Google-Smtp-Source: ABdhPJz+/DB574FOp6oWME2ZIYw2hYFVeKji3dLsytxd4DuZ8Xp3NWXQC1vo0VLBz9wtAhqXwFK7JnjifWgXj2MaptY=
+X-Received: by 2002:a05:6512:33b9:b0:472:10b0:4c14 with SMTP id
+ i25-20020a05651233b900b0047210b04c14mr17195844lfg.77.1651751704630; Thu, 05
+ May 2022 04:55:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
+ <20220505081431.934739-10-marcandre.lureau@redhat.com>
+ <87bkwcw6hv.fsf@pond.sub.org>
+In-Reply-To: <87bkwcw6hv.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 5 May 2022 15:54:52 +0400
+Message-ID: <CAJ+F1CJ5F6VhAZnyfxVhP2XbH-cW8ZqVbK8MFcHF+Bgi8id5fA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/15] qga: replace qemu_open_old() with
+ qemu_open_cloexec()
+To: Markus Armbruster <armbru@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Darren Kenny <darren.kenny@oracle.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ "open list:Block layer core" <qemu-block@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000009c9c6405de426929"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,40 +90,392 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+--0000000000009c9c6405de426929
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The sysbus floppy controllers (devices sysbus-fdc and sun-fdtwo)
-> don't support DMA.  The core floppy controller code expects this to
-> be indicated by setting FDCtrl::dma_chann to -1.  This used to be
-> done in the device instance_init functions sysbus_fdc_initfn() and
-> sun4m_fdc_initfn(), but in commit 1430759ec3e we refactored this code
-> and accidentally lost the setting of dma_chann.
+Hi
 
-Worth a
+On Thu, May 5, 2022 at 3:43 PM Markus Armbruster <armbru@redhat.com> wrote:
 
-  Fixes: 1430759ec3e4cb92da224d739c914a0e8d78d786
-
-tag?
-
+> marcandre.lureau@redhat.com writes:
 >
-> For sysbus-fdc this has no ill effects because we were redundantly
-> also setting dma_chann in fdctrl_init_sysbus(), but for sun-fdtwo
-> this means that guests which try to enable DMA on the floppy
-> controller will cause QEMU to crash because FDCtrl::dma is NULL.
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > qemu_open_old() uses qemu_open_internal() which handles special
+> > "/dev/fdset/" path for monitor fd sets, set CLOEXEC, and uses Error
+> > reporting (and some O_DIRECT special error casing).
+> >
+> > The monitor fdset handling is unnecessary for qga, use
+> > qemu_open_cloexec() instead.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  qga/channel-posix.c  | 14 +++++++++-----
+> >  qga/commands-posix.c | 24 ++++++++++++------------
+> >  2 files changed, 21 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+> > index 0ce594bc36c2..a1262b130145 100644
+> > --- a/qga/channel-posix.c
+> > +++ b/qga/channel-posix.c
+> > @@ -1,4 +1,5 @@
+> >  #include "qemu/osdep.h"
+> > +#include "qemu/cutils.h"
+> >  #include <termios.h>
+> >  #include "qapi/error.h"
+> >  #include "qemu/sockets.h"
+> > @@ -128,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c,
+> const gchar *path,
+> >      switch (c->method) {
+> >      case GA_CHANNEL_VIRTIO_SERIAL: {
+> >          assert(fd < 0);
+> > -        fd =3D qemu_open_old(path, O_RDWR | O_NONBLOCK
+> > +        fd =3D qemu_open_cloexec(
+> > +            path,
+> >  #ifndef CONFIG_SOLARIS
+> > -                           | O_ASYNC
+> > +            O_ASYNC |
+> >  #endif
+> > -                           );
+> > +            O_RDWR | O_NONBLOCK,
+> > +            0,
+> > +            errp
+> > +        );
+> >          if (fd =3D=3D -1) {
+> >              error_setg_errno(errp, errno, "error opening channel");
+> >              return false;
+> > @@ -157,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, const
+> gchar *path,
+> >          struct termios tio;
+> >
+> >          assert(fd < 0);
+> > -        fd =3D qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
+> > +        fd =3D qemu_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK,=
+ 0,
+> errp);
+> >          if (fd =3D=3D -1) {
+> > -            error_setg_errno(errp, errno, "error opening channel");
+> >              return false;
+> >          }
+> >          tcgetattr(fd, &tio);
+> > diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> > index 8ebc327c5e02..f82205e25813 100644
+> > --- a/qga/commands-posix.c
+> > +++ b/qga/commands-posix.c
+> > @@ -1392,6 +1392,7 @@ static GuestDiskInfoList *get_disk_partitions(
+> >
+> >  static void get_nvme_smart(GuestDiskInfo *disk)
+> >  {
+> > +    Error *err =3D NULL;
+> >      int fd;
+> >      GuestNVMeSmart *smart;
+> >      NvmeSmartLog log =3D {0};
+> > @@ -1404,9 +1405,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)
+> >                   | (((sizeof(log) >> 2) - 1) << 16)
+> >      };
+> >
+> > -    fd =3D qemu_open_old(disk->name, O_RDONLY);
+> > +    fd =3D qemu_open_cloexec(disk->name, O_RDONLY, 0, &err);
+> >      if (fd =3D=3D -1) {
+> > -        g_debug("Failed to open device: %s: %s", disk->name,
+> g_strerror(errno));
+> > +        g_debug("Failed to open device: %s: %s", disk->name,
+> error_get_pretty(err));
+> > +        error_free(err);
+> >          return;
+> >      }
+> >
+> > @@ -1737,9 +1739,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool
+> has_mountpoints,
+> >              }
+> >          }
+> >
+> > -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
+> > +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
+> >          if (fd =3D=3D -1) {
+> > -            error_setg_errno(errp, errno, "failed to open %s",
+> mount->dirname);
+> >              goto error;
+> >          }
+> >
+> > @@ -1804,7 +1805,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+> >
+> >      QTAILQ_FOREACH(mount, &mounts, next) {
+> >          logged =3D false;
+> > -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
+> > +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, NULL);
+> >          if (fd =3D=3D -1) {
+> >              continue;
+> >          }
+> > @@ -1864,21 +1865,20 @@ static void guest_fsfreeze_cleanup(void)
+> >  GuestFilesystemTrimResponse *
+> >  qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+> >  {
+> > +    ERRP_GUARD();
+> >      GuestFilesystemTrimResponse *response;
+> >      GuestFilesystemTrimResult *result;
+> >      int ret =3D 0;
+> >      FsMountList mounts;
+> >      struct FsMount *mount;
+> >      int fd;
+> > -    Error *local_err =3D NULL;
+> >      struct fstrim_range r;
+> >
+> >      slog("guest-fstrim called");
+> >
+> >      QTAILQ_INIT(&mounts);
+> > -    build_fs_mount_list(&mounts, &local_err);
+> > -    if (local_err) {
+> > -        error_propagate(errp, local_err);
+> > +    build_fs_mount_list(&mounts, errp);
+> > +    if (*errp) {
 >
-> Set dma_chann to -1 in the common instance init, and remove the
-> redundant code in fdctrl_init_sysbus() that is also setting it.
+> Suggest to change build_fs_mount_list() to return bool, in accordance
+> with the guidance under =3D Rules =3D in include/qapi/error.h, then do
 >
-> There is a six-year-old FIXME comment in the jazz board code to the
-> effect that in theory it should support doing DMA via a custom DMA
-> controller.  If anybody ever chooses to fix that they can do it by
-> adding support for setting both FDCtrl::dma_chann and FDCtrl::dma.
-> (A QOM link property 'dma-controller' on the sysbus device which can
-> be set to an instance of IsaDmaClass is probably the way to go.)
+>        if (!build_fs_mount_list(&mounts, errp)) {
 >
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/958
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>
+ack
 
+
+> No need for ERRP_GUARD() then.
+>
+>
+This is not a demand.
+>
+> >          return NULL;
+> >      }
+> >
+> > @@ -1890,11 +1890,11 @@ qmp_guest_fstrim(bool has_minimum, int64_t
+> minimum, Error **errp)
+> >
+> >          QAPI_LIST_PREPEND(response->paths, result);
+> >
+> > -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
+> > +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
+> >          if (fd =3D=3D -1) {
+> > -            result->error =3D g_strdup_printf("failed to open: %s",
+> > -                                            strerror(errno));
+> > +            result->error =3D g_strdup(error_get_pretty(*errp));
+> >              result->has_error =3D true;
+> > +            g_clear_pointer(errp, error_free);
+> >              continue;
+> >          }
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000009c9c6405de426929
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 5, 2022 at 3:43 PM Mark=
+us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a =
+href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lur=
+eau@redhat.com</a> writes:<br>
+<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; qemu_open_old() uses qemu_open_internal() which handles special<br>
+&gt; &quot;/dev/fdset/&quot; path for monitor fd sets, set CLOEXEC, and use=
+s Error<br>
+&gt; reporting (and some O_DIRECT special error casing).<br>
+&gt;<br>
+&gt; The monitor fdset handling is unnecessary for qga, use<br>
+&gt; qemu_open_cloexec() instead.<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 qga/channel-posix.c=C2=A0 | 14 +++++++++-----<br>
+&gt;=C2=A0 qga/commands-posix.c | 24 ++++++++++++------------<br>
+&gt;=C2=A0 2 files changed, 21 insertions(+), 17 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/qga/channel-posix.c b/qga/channel-posix.c<br>
+&gt; index 0ce594bc36c2..a1262b130145 100644<br>
+&gt; --- a/qga/channel-posix.c<br>
+&gt; +++ b/qga/channel-posix.c<br>
+&gt; @@ -1,4 +1,5 @@<br>
+&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
+&gt; +#include &quot;qemu/cutils.h&quot;<br>
+&gt;=C2=A0 #include &lt;termios.h&gt;<br>
+&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
+&gt;=C2=A0 #include &quot;qemu/sockets.h&quot;<br>
+&gt; @@ -128,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c, co=
+nst gchar *path,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 switch (c-&gt;method) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 case GA_CHANNEL_VIRTIO_SERIAL: {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(fd &lt; 0);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(path, O_RDWR | O_NON=
+BLOCK<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 path,<br>
+&gt;=C2=A0 #ifndef CONFIG_SOLARIS<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0| O_ASYNC<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O_ASYNC |<br>
+&gt;=C2=A0 #endif<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O_RDWR | O_NONBLOCK,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errp<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 );<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp,=
+ errno, &quot;error opening channel&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt; @@ -157,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, cons=
+t gchar *path,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct termios tio;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(fd &lt; 0);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(path, O_RDWR | O_NOC=
+TTY | O_NONBLOCK);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(path, O_RDWR | O=
+_NOCTTY | O_NONBLOCK, 0, errp);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errn=
+o, &quot;error opening channel&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcgetattr(fd, &amp;tio);<br>
+&gt; diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+&gt; index 8ebc327c5e02..f82205e25813 100644<br>
+&gt; --- a/qga/commands-posix.c<br>
+&gt; +++ b/qga/commands-posix.c<br>
+&gt; @@ -1392,6 +1392,7 @@ static GuestDiskInfoList *get_disk_partitions(<b=
+r>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static void get_nvme_smart(GuestDiskInfo *disk)<br>
+&gt;=C2=A0 {<br>
+&gt; +=C2=A0 =C2=A0 Error *err =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int fd;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 GuestNVMeSmart *smart;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 NvmeSmartLog log =3D {0};<br>
+&gt; @@ -1404,9 +1405,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
+(((sizeof(log) &gt;&gt; 2) - 1) &lt;&lt; 16)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 fd =3D qemu_open_old(disk-&gt;name, O_RDONLY);<br>
+&gt; +=C2=A0 =C2=A0 fd =3D qemu_open_cloexec(disk-&gt;name, O_RDONLY, 0, &a=
+mp;err);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;Failed to open device: %s: =
+%s&quot;, disk-&gt;name, g_strerror(errno));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;Failed to open device: %s: =
+%s&quot;, disk-&gt;name, error_get_pretty(err));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_free(err);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; @@ -1737,9 +1739,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_=
+mountpoints,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(mount-&gt;dirname, O=
+_RDONLY);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(mount-&gt;dirnam=
+e, O_RDONLY, 0, errp);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errn=
+o, &quot;failed to open %s&quot;, mount-&gt;dirname);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto error;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; @@ -1804,7 +1805,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QTAILQ_FOREACH(mount, &amp;mounts, next) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logged =3D false;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(mount-&gt;dirname, O=
+_RDONLY);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(mount-&gt;dirnam=
+e, O_RDONLY, 0, NULL);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; @@ -1864,21 +1865,20 @@ static void guest_fsfreeze_cleanup(void)<br>
+&gt;=C2=A0 GuestFilesystemTrimResponse *<br>
+&gt;=C2=A0 qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp=
+)<br>
+&gt;=C2=A0 {<br>
+&gt; +=C2=A0 =C2=A0 ERRP_GUARD();<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 GuestFilesystemTrimResponse *response;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 GuestFilesystemTrimResult *result;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int ret =3D 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 FsMountList mounts;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 struct FsMount *mount;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int fd;<br>
+&gt; -=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 struct fstrim_range r;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 slog(&quot;guest-fstrim called&quot;);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QTAILQ_INIT(&amp;mounts);<br>
+&gt; -=C2=A0 =C2=A0 build_fs_mount_list(&amp;mounts, &amp;local_err);<br>
+&gt; -=C2=A0 =C2=A0 if (local_err) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
+&gt; +=C2=A0 =C2=A0 build_fs_mount_list(&amp;mounts, errp);<br>
+&gt; +=C2=A0 =C2=A0 if (*errp) {<br>
+<br>
+Suggest to change build_fs_mount_list() to return bool, in accordance<br>
+with the guidance under =3D Rules =3D in include/qapi/error.h, then do<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!build_fs_mount_list(&amp;mounts, errp)) {<b=
+r>
+<br></blockquote><div><br></div><div>ack</div><div>=C2=A0<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+No need for ERRP_GUARD() then.<br>=C2=A0 <br></blockquote><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+This is not a demand.<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; @@ -1890,11 +1890,11 @@ qmp_guest_fstrim(bool has_minimum, int64_t min=
+imum, Error **errp)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_PREPEND(response-&gt;paths=
+, result);<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(mount-&gt;dirname, O=
+_RDONLY);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(mount-&gt;dirnam=
+e, O_RDONLY, 0, errp);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =3D g_strd=
+up_printf(&quot;failed to open: %s&quot;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 strerror(errno));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =3D g_strd=
+up(error_get_pretty(*errp));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;has_error =
+=3D true;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_clear_pointer(errp, error=
+_free);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000009c9c6405de426929--
 
