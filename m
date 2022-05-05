@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11E951BCB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:01:40 +0200 (CEST)
-Received: from localhost ([::1]:46528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC4851BC33
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:32:21 +0200 (CEST)
+Received: from localhost ([::1]:59550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYIm-0000uA-26
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38706)
+	id 1nmXqO-0004DI-QM
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWp-0005Dk-3t
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:07 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43765)
+ id 1nmXWt-0005K8-L2
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:11 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWn-0003LF-3g
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:06 -0400
-Received: by mail-wr1-x433.google.com with SMTP id v12so5207350wrv.10
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:04 -0700 (PDT)
+ id 1nmXWs-0003Or-67
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:11 -0400
+Received: by mail-wr1-x435.google.com with SMTP id c11so5216773wrn.8
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Gw9AdCbfVxgEkULN3gOVJuvRjbon3y1ncll8PnUnHtE=;
- b=qrO23VvpfEVqJBPfTqjwby9GcLUy69XScSBYWWNiWvediHZGS6byvTuIdh3GaZpLG9
- G6j939US0o0ydbliFK23KmTA4fd3d8s7EL1WENVwQORQKA5uOwl5lC2cg40iUjezhGjl
- gss3J2ybRBIxZ26tPOtFhqzifYn06G9XY6tFaxByv3miGIVK+6dAymTppwkHWKH/YjP2
- NeUQ+dpANnD8mgogvFBYg8fonAPNwhyHKMj4ov8a1CD5dAzw8xItekt03+U6eof9FjEz
- Gmvtv74JMZKs7lXhH00UAsC1S0L/+CTwLvB2KPQO/cTiEtZmwGf9wXiGf0GX8ElffYNm
- qmpg==
+ bh=MaOeIv9GLNgP2YG/4viwRCAyaqZ3Xrc2Hu8qyXGGVPc=;
+ b=cyLsUlB/lTC2YTqEFR6ZfBiOAJT0eVmAX0FLPuRSoqJCiH7GevEE7vgiOYqpbqSk2c
+ DfPbHmRoX3Kglj4DTe/iD+XQ8IcU0rxpXYSC35/vUTfaeX5FxBNzdkFQ913a5YI808ss
+ HiTbW/VW/UYuepH0tzjji5Iyfq3HMRZeXHHrBBIYvePDedKh68Qj4Iz1s+Nw0+m7WgIX
+ DOywbmel2N2hS1VBf8SmGB6X/6RZB9AXv4MHD2FVruqWubn9vspJGmVEcaqJE/a/INB9
+ a91RKK8VTNYAus/BUe+zxV5+4kl6DHKLO2x9y4t+CDZM+Sh5Gp4j4wf/d6qtYG5dikw8
+ Tqlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Gw9AdCbfVxgEkULN3gOVJuvRjbon3y1ncll8PnUnHtE=;
- b=llHFiUVllbcfzqVgkUfJBJKQxE7a41X+t4AL0HPUqU7lN4lEHrGDPik3IllxuMMQ0L
- 17EFD1N8Ge4PsM1BiIkVcgz8R2KVQkpMAllT/bdmueZhxzqgMvUf6JlCNHYrhHRuXEm7
- d6UjKK5YMPjTr+A8ChahedAjlTVX1YnlXq/DH3ipmmnfEkdKUExyqaSa2jt/dQRsPNcL
- iJbghE5az82fWdEMsHgi3YlGF61BYEp9VlWFF5BrkJY2zUpvUL6ducYz+1bVdrhPMl79
- 1UhX5+A2Gg6jvVocdvmGqCjKbWyBK3eHzk4GP2fdt54JtiqRwavaE+bbyK4PEinzAxNJ
- uWlg==
-X-Gm-Message-State: AOAM533dt6zxGiF1WxJuBUychWnBB3iak2xA1UIndZz+qwoizXLhNfy+
- WExw12ow3ZxtPfexCUM45yB3pWN0J+Tf7Q==
-X-Google-Smtp-Source: ABdhPJwu0DSwwhty/Usi3/17XZzn2MoSaKcBEHO8MnGWO2O1h1kmZOOya0e2IrCDcQMkfTA21QOUKg==
-X-Received: by 2002:adf:c64c:0:b0:20a:79c7:4bf2 with SMTP id
- u12-20020adfc64c000000b0020a79c74bf2mr19535617wrg.587.1651741923086; 
- Thu, 05 May 2022 02:12:03 -0700 (PDT)
+ bh=MaOeIv9GLNgP2YG/4viwRCAyaqZ3Xrc2Hu8qyXGGVPc=;
+ b=A465MJGAbelNOwexnRE7/CTmzdlP0rC5A8BOeAamuo3u3XHN13uiOpNzXmGFjG5Gpn
+ wWX3mnOKuvnPFX8V8pjt/HFn7nNsae3guinMd5Bf1GC3Bw8QBuA65ACNkJSxKDKt7G+M
+ csB+zqg/hJNccjqTJCjRYvW3RnEstPAJxX07n/SdRA9Nzny4XwaEGewzKCUBCyVat+jn
+ F9gbLmqY1Xswf/8TbOXdXCsrim3v/6W6f+ryuUS918NMBpykeb1tnygbNh6+3aYa4h6c
+ 3FvGCtiR79ElANlL9iv9nm4y3rRSFBtmSmnIc0dcLouWjqAoRsRLjwpFrBSLqoG39Yy1
+ cVTA==
+X-Gm-Message-State: AOAM533hfhecT4YsU1mZgzKmaw83US5JyLQNVnz6ZJBOc9klSdLVDNTq
+ OlHZjxpm/dXN/ssA5SSLzk3VDD/eAuQNLg==
+X-Google-Smtp-Source: ABdhPJymPFLlq/0SARUEVNGTvu3pvajNJq5/kqerzJulFT7VwBAkPnG1unmSxBC1HcNp99/Mmoat9A==
+X-Received: by 2002:a5d:4f8b:0:b0:20c:6970:fb3c with SMTP id
+ d11-20020a5d4f8b000000b0020c6970fb3cmr12688387wru.554.1651741928760; 
+ Thu, 05 May 2022 02:12:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.02
+ j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:12:02 -0700 (PDT)
+ Thu, 05 May 2022 02:12:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/23] target/arm: Hoist computation of key in
- add_cpreg_to_hashtable
-Date: Thu,  5 May 2022 10:11:38 +0100
-Message-Id: <20220505091147.2657652-15-peter.maydell@linaro.org>
+Subject: [PULL 21/23] target/arm: Add isar predicates for FEAT_Debugv8p2
+Date: Thu,  5 May 2022 10:11:45 +0100
+Message-Id: <20220505091147.2657652-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220505091147.2657652-1-peter.maydell@linaro.org>
 References: <20220505091147.2657652-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,103 +90,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Move the computation of key to the top of the function.
-Hoist the resolution of cp as well, as an input to the
-computation of key.
-
-This will be required by a subsequent patch.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220501055028.646596-14-richard.henderson@linaro.org
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220501055028.646596-24-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 49 +++++++++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 22 deletions(-)
+ target/arm/cpu.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d92fd23445b..cbc873e3e60 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8509,8 +8509,34 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-     ARMCPRegInfo *r2;
-     int is64 = (r->type & ARM_CP_64BIT) ? 1 : 0;
-     int ns = (secstate & ARM_CP_SECSTATE_NS) ? 1 : 0;
-+    int cp = r->cp;
-     size_t name_len;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index d1b558385ce..7303103016f 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3704,6 +3704,11 @@ static inline bool isar_feature_aa32_ssbs(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_pfr2, ID_PFR2, SSBS) != 0;
+ }
  
-+    switch (state) {
-+    case ARM_CP_STATE_AA32:
-+        /* We assume it is a cp15 register if the .cp field is left unset. */
-+        if (cp == 0 && r->state == ARM_CP_STATE_BOTH) {
-+            cp = 15;
-+        }
-+        key = ENCODE_CP_REG(cp, is64, ns, r->crn, crm, opc1, opc2);
-+        break;
-+    case ARM_CP_STATE_AA64:
-+        /*
-+         * To allow abbreviation of ARMCPRegInfo definitions, we treat
-+         * cp == 0 as equivalent to the value for "standard guest-visible
-+         * sysreg".  STATE_BOTH definitions are also always "standard sysreg"
-+         * in their AArch64 view (the .cp value may be non-zero for the
-+         * benefit of the AArch32 view).
-+         */
-+        if (cp == 0 || r->state == ARM_CP_STATE_BOTH) {
-+            cp = CP_REG_ARM64_SYSREG_CP;
-+        }
-+        key = ENCODE_AA64_CP_REG(cp, r->crn, crm, r->opc0, opc1, opc2);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
++static inline bool isar_feature_aa32_debugv8p2(const ARMISARegisters *id)
++{
++    return FIELD_EX32(id->id_dfr0, ID_DFR0, COPDBG) >= 8;
++}
 +
-     /* Combine cpreg and name into one allocation. */
-     name_len = strlen(name) + 1;
-     r2 = g_malloc(sizeof(*r2) + name_len);
-@@ -8554,12 +8580,6 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-         }
+ /*
+  * 64-bit feature tests via id registers.
+  */
+@@ -4010,6 +4015,11 @@ static inline bool isar_feature_aa64_ssbs(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, SSBS) != 0;
+ }
  
-         if (r->state == ARM_CP_STATE_BOTH) {
--            /* We assume it is a cp15 register if the .cp field is left unset.
--             */
--            if (r2->cp == 0) {
--                r2->cp = 15;
--            }
--
- #if HOST_BIG_ENDIAN
-             if (r2->fieldoffset) {
-                 r2->fieldoffset += sizeof(uint32_t);
-@@ -8567,22 +8587,6 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
- #endif
-         }
-     }
--    if (state == ARM_CP_STATE_AA64) {
--        /* To allow abbreviation of ARMCPRegInfo
--         * definitions, we treat cp == 0 as equivalent to
--         * the value for "standard guest-visible sysreg".
--         * STATE_BOTH definitions are also always "standard
--         * sysreg" in their AArch64 view (the .cp value may
--         * be non-zero for the benefit of the AArch32 view).
--         */
--        if (r->cp == 0 || r->state == ARM_CP_STATE_BOTH) {
--            r2->cp = CP_REG_ARM64_SYSREG_CP;
--        }
--        key = ENCODE_AA64_CP_REG(r2->cp, r2->crn, crm,
--                                 r2->opc0, opc1, opc2);
--    } else {
--        key = ENCODE_CP_REG(r2->cp, is64, ns, r2->crn, crm, opc1, opc2);
--    }
-     if (opaque) {
-         r2->opaque = opaque;
-     }
-@@ -8593,6 +8597,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-     /* Make sure reginfo passed to helpers for wildcarded regs
-      * has the correct crm/opc1/opc2 for this reg, not CP_ANY:
-      */
-+    r2->cp = cp;
-     r2->crm = crm;
-     r2->opc1 = opc1;
-     r2->opc2 = opc2;
++static inline bool isar_feature_aa64_debugv8p2(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, DEBUGVER) >= 8;
++}
++
+ static inline bool isar_feature_aa64_sve2(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SVEVER) != 0;
+@@ -4093,6 +4103,11 @@ static inline bool isar_feature_any_tts2uxn(const ARMISARegisters *id)
+     return isar_feature_aa64_tts2uxn(id) || isar_feature_aa32_tts2uxn(id);
+ }
+ 
++static inline bool isar_feature_any_debugv8p2(const ARMISARegisters *id)
++{
++    return isar_feature_aa64_debugv8p2(id) || isar_feature_aa32_debugv8p2(id);
++}
++
+ /*
+  * Forward to the above feature tests given an ARMCPU pointer.
+  */
 -- 
 2.25.1
 
