@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F48251B869
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 09:06:18 +0200 (CEST)
-Received: from localhost ([::1]:33300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8398C51B893
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 09:16:55 +0200 (CEST)
+Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmVZ3-0001i7-6B
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 03:06:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37250)
+	id 1nmVjK-0007hV-4S
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 03:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1nmVSE-0005xA-Px
- for qemu-devel@nongnu.org; Thu, 05 May 2022 02:59:15 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:46855)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1nmVSC-0005kV-02
- for qemu-devel@nongnu.org; Thu, 05 May 2022 02:59:14 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2f7d19cac0bso38504627b3.13
- for <qemu-devel@nongnu.org>; Wed, 04 May 2022 23:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HCqSFq3oVEu16hXfjuJD5Xz6/2ri5PsUEtCI5dP/eEk=;
- b=LjkbNUZuq1MgTqQ6c9GrFxLv9X/Z/JLEbN1p/DybPvaPlA/wnjwYinbJVkM2YPrO9y
- iIxK8Ze6nf7hPu6QUXrxWhoO7To+J11K6OtAnfBJmYH5FsJw0c1DNBVR4GDp25CW2hT+
- q4VqDBKrHfmzKeLZ5PglPt2GNmC3FSnhjRhiE=
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmVdC-000541-DB
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 03:10:36 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:32398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmVd9-0008Lx-Ft
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 03:10:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651734629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xTyStVVAg27kxjoO/J9rOg0rNSvQSzXAF5lhxKRw/wk=;
+ b=QBSKfg+/YRd7Xz46IUz/Jv128HismjMUU5Rjwp/lyUH7XbbmUgpfJwWlvp+QAz10t7vIT1
+ ABg3gCSQCsNH/lKm/rmyHAfGjB0fqgO7QDQpcwup1HhlikTf3jVDbTKw3yuV4yP+qKD04A
+ bzogV7K4V7/3LajUDqewGOZzh/oLZh0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-283-2pkkcvC-OaaGxhCpUYagow-1; Thu, 05 May 2022 03:10:28 -0400
+X-MC-Unique: 2pkkcvC-OaaGxhCpUYagow-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hr42-20020a1709073faa00b006f4dc7f0be1so1306486ejc.22
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 00:10:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HCqSFq3oVEu16hXfjuJD5Xz6/2ri5PsUEtCI5dP/eEk=;
- b=cktDG2DfH0ToEW8ViGVKMVd14O1pATgqDbdmzzKC9LaY5J77KSeI8E2XTEP3hvU3/f
- VD+RK+dOI7dg+/8f1cXfAm4LXcOmTGE7ZEW8qpraEOTFA5ze6wByp/z9KwW3cFsD4B81
- Mb+ARzI6f4+Qtf+c800E8i4y48y1g7NdR4s3tNnvG4xBSNfMq/Oul+8bDTlPN7QPe/Kq
- D5UmLY+XYnBcnVtuWCjXjMm1sHF9dU46ZGBYFhrtJxGPuiLroS32NXXDu51ES/hjpwlI
- lz4B6JaKABW3pi6D41S1zzVU4Ua+R9fiRzbnRKHuAsoVLOFFAC0O/jFxe4oV5fwHszYL
- goOg==
-X-Gm-Message-State: AOAM530iUCB/OOY3atFnQf6u8GZ+IN3yVe8C9L/EP4pPlLrR34O+Ml/R
- f+I5wvRZCrubAj1I595osqXTGLQu5rv2ecKpLwNX
-X-Google-Smtp-Source: ABdhPJwrbq1pXXzdIYRSl2C1KOkY8y5pEd2tXGu3oKB8yBiP1SBzlcJ6GRyIQ7gY+6b37ux2VW47PHZDdyqQuC+iYZk=
-X-Received: by 2002:a81:e10d:0:b0:2f7:bb2a:6529 with SMTP id
- w13-20020a81e10d000000b002f7bb2a6529mr23147699ywh.62.1651733948526; Wed, 04
- May 2022 23:59:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xTyStVVAg27kxjoO/J9rOg0rNSvQSzXAF5lhxKRw/wk=;
+ b=sIuAt89atPPjXQFNe+jOhQt8I3PCLc49hLCKyTIeSmj58eXE7uHSdZ4KB2CMHiuZ9c
+ unUf8bFbEE1TcjtFYg4mLtImsUHyuXRnZz+7XDQgeePvSmPFQAVy/YjIaOlvg92U2NNt
+ szZ7/PAAu6Jacqh8bdHIj65H5Sk6Ogh4LEQCD1H7lD6zeS1fhUdZPuXxOOk0E4dEcdHC
+ 03s7UMlnvtMr875gUA93+CkZea9btbAZBkOMsZ/tU7F1p+HQweojV9e+fQm1BC1bcgTd
+ USXL9X1BuGb+vMJr9gx+vyqGmKF8qJsInR8tLePz5BvPopj/8uHYQ1tYbEikg1n7hnxr
+ sMBg==
+X-Gm-Message-State: AOAM531UDKUnUAywQi07zk8FUzw4yIgdN/Zqai7qRC39um/Ij250Jnsi
+ LpWIF/5EABk3YE+SLHDA1ovtLnJ1K32j1zrWdxg4IkMmKicOQF/CcPAyulSsz9KsYFDt9lewIfn
+ JMWbCg54OUKAetB8=
+X-Received: by 2002:a50:ed0e:0:b0:425:e476:f4ed with SMTP id
+ j14-20020a50ed0e000000b00425e476f4edmr27840690eds.32.1651734627318; 
+ Thu, 05 May 2022 00:10:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXtgQfvFs2eQPstzXi1CPp1JGiKx+h/vd1ka84p40au63K0u7ER/c3bb9dXWsoL2NCBwJd/w==
+X-Received: by 2002:a50:ed0e:0:b0:425:e476:f4ed with SMTP id
+ j14-20020a50ed0e000000b00425e476f4edmr27840671eds.32.1651734627063; 
+ Thu, 05 May 2022 00:10:27 -0700 (PDT)
+Received: from [127.0.0.1] (93-33-37-188.ip42.fastwebnet.it. [93.33.37.188])
+ by smtp.gmail.com with ESMTPSA id
+ t13-20020a056402524d00b0041d527833b9sm416444edd.3.2022.05.05.00.10.25
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 05 May 2022 00:10:26 -0700 (PDT)
+Date: Thu, 05 May 2022 09:10:17 +0200
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+CC: qemu-devel@nongnu.org, mark.kanda@oracle.com, berrange@redhat.com,
+ dgilbert@redhat.com
+Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+In-Reply-To: <87sfpp3018.fsf@pond.sub.org>
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-2-pbonzini@redhat.com> <87sfpp3018.fsf@pond.sub.org>
+Message-ID: <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
 MIME-Version: 1.0
-References: <20220331000127.2107823-1-atishp@rivosinc.com>
- <20220331000127.2107823-9-atishp@rivosinc.com>
- <CAKmqyKMmY_nfFpO7r2F+VHjFgLTO3BtB7kgCJ=H9OYJfZ7L2+Q@mail.gmail.com>
- <CAHBxVyEa5Hc7NC57c02VRL9OkjgZ6kOwsPczpts7i6+JpQcsJQ@mail.gmail.com>
- <CAKmqyKO8cpdfW3Y=62PYJJCS7e6yN96FYiyGYESeC8Tyq5EwyA@mail.gmail.com>
- <CAOnJCUKSrq2+voMtTdMPOVf5XE=Z42EyHrCSvy0Svz7kM-csEg@mail.gmail.com>
- <CAKmqyKM-HTbeN_j6Mg5msYP-iQKAFPA6A-B1k969QBV=h1_S3w@mail.gmail.com>
- <CAKmqyKP6fY_BG1U-xVyZiBMnUL_UzUFOo2v6Wy-pRD8P_X+23w@mail.gmail.com>
-In-Reply-To: <CAKmqyKP6fY_BG1U-xVyZiBMnUL_UzUFOo2v6Wy-pRD8P_X+23w@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Wed, 4 May 2022 23:58:57 -0700
-Message-ID: <CAOnJCU+c7ZVqXzzM-w2TqxiJERa_3X_d_ZG7mfqhfePo7x3zEA@mail.gmail.com>
-Subject: Re: [PATCH v7 08/12] target/riscv: Add sscofpmf extension support
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Atish Kumar Patra <atishp@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=atishp@atishpatra.org; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,407 +101,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 4, 2022 at 3:06 AM Alistair Francis <alistair23@gmail.com> wrote:
+
+
+Il 4 maggio 2022 15:22:27 CEST, Markus Armbruster <armbru@redhat=2Ecom> ha=
+ scritto:
+>Can you point to existing uses of KVM binary stats introspection data?
+
+There's none, but Google is using it in house=2E The same data was availab=
+le before in debugfs and available via the kvm_stat script, so you could al=
+so refer to Christian Borntraeger's KVM Forum 2019 talk=2E The problems wit=
+h debugfs are basically that it's only available to root and is disabled by=
+ secure boot (both issues are not fixable on general because they are Linux=
+ policy)=2E
+
+>> index 4912b9744e=2E=2E92d7ecc52c 100644
+>> --- a/qapi/qapi-schema=2Ejson
+>> +++ b/qapi/qapi-schema=2Ejson
+>> @@ -93,3 +93,4 @@
+>>  { 'include': 'audio=2Ejson' }
+>>  { 'include': 'acpi=2Ejson' }
+>>  { 'include': 'pci=2Ejson' }
+>> +{ 'include': 'stats=2Ejson' }
+>> diff --git a/qapi/stats=2Ejson b/qapi/stats=2Ejson
+>> new file mode 100644
+>> index 0000000000=2E=2E7454dd7daa
+>> --- /dev/null
+>> +++ b/qapi/stats=2Ejson
+>> @@ -0,0 +1,192 @@
+>> +# -*- Mode: Python -*-
+>> +# vim: filetype=3Dpython
+>> +#
+>> +# Copyright (c) 2022 Oracle and/or its affiliates=2E
+>> +#
+>> +# This work is licensed under the terms of the GNU GPL, version 2 or l=
+ater=2E
+>> +# See the COPYING file in the top-level directory=2E
+>> +#
+>> +# SPDX-License-Identifier: GPL-2=2E0-or-later
+>> +
+>> +##
+>> +# =3D Statistics
+>> +##
+>> +
+>> +##
+>> +# @StatsType:
+>> +#
+>> +# Enumeration of statistics types
+>> +#
+>> +# @cumulative: stat is cumulative; value can only increase=2E
+>> +# @instant: stat is instantaneous; value can increase or decrease=2E
+>> +# @peak: stat is the peak value; value can only increase=2E
+>> +# @linear-hist: stat is a linear histogram=2E
+>> +# @log-hist: stat is a logarithmic histogram=2E
 >
-> On Wed, May 4, 2022 at 8:03 PM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Wed, Apr 27, 2022 at 7:33 AM Atish Patra <atishp@atishpatra.org> wrote:
-> > >
-> > > On Mon, Apr 18, 2022 at 3:46 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > > >
-> > > > On Sat, Apr 16, 2022 at 9:54 AM Atish Kumar Patra <atishp@rivosinc.com> wrote:
-> > > > >
-> > > > > On Wed, Apr 13, 2022 at 12:08 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > > >
-> > > > > > On Thu, Mar 31, 2022 at 10:19 AM Atish Patra <atishp@rivosinc.com> wrote:
-> > > > > > >
-> > > > > > > The Sscofpmf ('Ss' for Privileged arch and Supervisor-level extensions,
-> > > > > > > and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
-> > > > > > > extension allows the perf to handle overflow interrupts and filtering
-> > > > > > > support. This patch provides a framework for programmable
-> > > > > > > counters to leverage the extension. As the extension doesn't have any
-> > > > > > > provision for the overflow bit for fixed counters, the fixed events
-> > > > > > > can also be monitoring using programmable counters. The underlying
-> > > > > > > counters for cycle and instruction counters are always running. Thus,
-> > > > > > > a separate timer device is programmed to handle the overflow.
-> > > > > > >
-> > > > > > > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > > > > > > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > > > > > > ---
-> > > > > > >  target/riscv/cpu.c      |  11 ++
-> > > > > > >  target/riscv/cpu.h      |  25 +++
-> > > > > > >  target/riscv/cpu_bits.h |  55 +++++++
-> > > > > > >  target/riscv/csr.c      | 156 ++++++++++++++++--
-> > > > > > >  target/riscv/pmu.c      | 347 +++++++++++++++++++++++++++++++++++++++-
-> > > > > > >  target/riscv/pmu.h      |   7 +
-> > > > > > >  6 files changed, 590 insertions(+), 11 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > > > > > > index f63602828680..9715eed2fc4e 100644
-> > > > > > > --- a/target/riscv/cpu.c
-> > > > > > > +++ b/target/riscv/cpu.c
-> > > > > > > @@ -22,6 +22,7 @@
-> > > > > > >  #include "qemu/ctype.h"
-> > > > > > >  #include "qemu/log.h"
-> > > > > > >  #include "cpu.h"
-> > > > > > > +#include "pmu.h"
-> > > > > > >  #include "internals.h"
-> > > > > > >  #include "exec/exec-all.h"
-> > > > > > >  #include "qapi/error.h"
-> > > > > > > @@ -696,6 +697,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> > > > > > >          set_misa(env, env->misa_mxl, ext);
-> > > > > > >      }
-> > > > > > >
-> > > > > > > +#ifndef CONFIG_USER_ONLY
-> > > > > > > +    if (cpu->cfg.pmu_num) {
-> > > > > > > +        if (!riscv_pmu_init(cpu, cpu->cfg.pmu_num) && cpu->cfg.ext_sscofpmf) {
-> > > > > > > +            cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-> > > > > > > +                                          riscv_pmu_timer_cb, cpu);
-> > > > > > > +        }
-> > > > > > > +     }
-> > > > > > > +#endif
-> > > > > > > +
-> > > > > > >      riscv_cpu_register_gdb_regs_for_features(cs);
-> > > > > > >
-> > > > > > >      qemu_init_vcpu(cs);
-> > > > > > > @@ -795,6 +805,7 @@ static Property riscv_cpu_properties[] = {
-> > > > > > >      DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
-> > > > > > >      DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
-> > > > > > >      DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
-> > > > > > > +    DEFINE_PROP_BOOL("sscofpmf", RISCVCPU, cfg.ext_sscofpmf, false),
-> > > > > > >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> > > > > > >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> > > > > > >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-> > > > > > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > > > > > > index 0fa15595fb37..a0e2279ea5e6 100644
-> > > > > > > --- a/target/riscv/cpu.h
-> > > > > > > +++ b/target/riscv/cpu.h
-> > > > > > > @@ -131,6 +131,8 @@ typedef struct PMUCTRState {
-> > > > > > >      /* Snapshort value of a counter in RV32 */
-> > > > > > >      target_ulong mhpmcounterh_prev;
-> > > > > > >      bool started;
-> > > > > > > +    /* Value beyond UINT32_MAX/UINT64_MAX before overflow interrupt trigger */
-> > > > > > > +    target_ulong irq_overflow_left;
-> > > > > > >  } PMUCTRState;
-> > > > > > >
-> > > > > > >  struct CPUArchState {
-> > > > > > > @@ -291,6 +293,9 @@ struct CPUArchState {
-> > > > > > >      /* PMU event selector configured values. First three are unused*/
-> > > > > > >      target_ulong mhpmevent_val[RV_MAX_MHPMEVENTS];
-> > > > > > >
-> > > > > > > +    /* PMU event selector configured values for RV32*/
-> > > > > > > +    target_ulong mhpmeventh_val[RV_MAX_MHPMEVENTS];
-> > > > > > > +
-> > > > > > >      target_ulong sscratch;
-> > > > > > >      target_ulong mscratch;
-> > > > > > >
-> > > > > > > @@ -413,6 +418,7 @@ struct RISCVCPUConfig {
-> > > > > > >      bool ext_zhinxmin;
-> > > > > > >      bool ext_zve32f;
-> > > > > > >      bool ext_zve64f;
-> > > > > > > +    bool ext_sscofpmf;
-> > > > > > >
-> > > > > > >      /* Vendor-specific custom extensions */
-> > > > > > >      bool ext_XVentanaCondOps;
-> > > > > > > @@ -452,6 +458,12 @@ struct ArchCPU {
-> > > > > > >
-> > > > > > >      /* Configuration Settings */
-> > > > > > >      RISCVCPUConfig cfg;
-> > > > > > > +
-> > > > > > > +    QEMUTimer *pmu_timer;
-> > > > > > > +    /* A bitmask of Available programmable counters */
-> > > > > > > +    uint32_t pmu_avail_ctrs;
-> > > > > > > +    /* Mapping of events to counters */
-> > > > > > > +    GHashTable *pmu_event_ctr_map;
-> > > > > > >  };
-> > > > > > >
-> > > > > > >  static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
-> > > > > > > @@ -709,6 +721,19 @@ enum {
-> > > > > > >      CSR_TABLE_SIZE = 0x1000
-> > > > > > >  };
-> > > > > > >
-> > > > > > > +/**
-> > > > > > > + * The event id are encoded based on the encoding specified in the
-> > > > > > > + * SBI specification v0.3
-> > > > > > > + */
-> > > > > > > +
-> > > > > > > +enum riscv_pmu_event_idx {
-> > > > > > > +    RISCV_PMU_EVENT_HW_CPU_CYCLES = 0x01,
-> > > > > > > +    RISCV_PMU_EVENT_HW_INSTRUCTIONS = 0x02,
-> > > > > > > +    RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS = 0x10019,
-> > > > > > > +    RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS = 0x1001B,
-> > > > > > > +    RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS = 0x10021,
-> > > > > > > +};
-> > > > > > > +
-> > > > > > >  /* CSR function table */
-> > > > > > >  extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
-> > > > > > >
-> > > > > > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > > > > > > index 48b39e6d52a7..d0b53e5ea072 100644
-> > > > > > > --- a/target/riscv/cpu_bits.h
-> > > > > > > +++ b/target/riscv/cpu_bits.h
-> > > > > > > @@ -400,6 +400,37 @@
-> > > > > > >  #define CSR_MHPMEVENT29     0x33d
-> > > > > > >  #define CSR_MHPMEVENT30     0x33e
-> > > > > > >  #define CSR_MHPMEVENT31     0x33f
-> > > > > > > +
-> > > > > > > +#define CSR_MHPMEVENT3H     0x723
-> > > > > > > +#define CSR_MHPMEVENT4H     0x724
-> > > > > > > +#define CSR_MHPMEVENT5H     0x725
-> > > > > > > +#define CSR_MHPMEVENT6H     0x726
-> > > > > > > +#define CSR_MHPMEVENT7H     0x727
-> > > > > > > +#define CSR_MHPMEVENT8H     0x728
-> > > > > > > +#define CSR_MHPMEVENT9H     0x729
-> > > > > > > +#define CSR_MHPMEVENT10H    0x72a
-> > > > > > > +#define CSR_MHPMEVENT11H    0x72b
-> > > > > > > +#define CSR_MHPMEVENT12H    0x72c
-> > > > > > > +#define CSR_MHPMEVENT13H    0x72d
-> > > > > > > +#define CSR_MHPMEVENT14H    0x72e
-> > > > > > > +#define CSR_MHPMEVENT15H    0x72f
-> > > > > > > +#define CSR_MHPMEVENT16H    0x730
-> > > > > > > +#define CSR_MHPMEVENT17H    0x731
-> > > > > > > +#define CSR_MHPMEVENT18H    0x732
-> > > > > > > +#define CSR_MHPMEVENT19H    0x733
-> > > > > > > +#define CSR_MHPMEVENT20H    0x734
-> > > > > > > +#define CSR_MHPMEVENT21H    0x735
-> > > > > > > +#define CSR_MHPMEVENT22H    0x736
-> > > > > > > +#define CSR_MHPMEVENT23H    0x737
-> > > > > > > +#define CSR_MHPMEVENT24H    0x738
-> > > > > > > +#define CSR_MHPMEVENT25H    0x739
-> > > > > > > +#define CSR_MHPMEVENT26H    0x73a
-> > > > > > > +#define CSR_MHPMEVENT27H    0x73b
-> > > > > > > +#define CSR_MHPMEVENT28H    0x73c
-> > > > > > > +#define CSR_MHPMEVENT29H    0x73d
-> > > > > > > +#define CSR_MHPMEVENT30H    0x73e
-> > > > > > > +#define CSR_MHPMEVENT31H    0x73f
-> > > > > > > +
-> > > > > > >  #define CSR_MHPMCOUNTER3H   0xb83
-> > > > > > >  #define CSR_MHPMCOUNTER4H   0xb84
-> > > > > > >  #define CSR_MHPMCOUNTER5H   0xb85
-> > > > > > > @@ -461,6 +492,7 @@
-> > > > > > >  #define CSR_VSMTE           0x2c0
-> > > > > > >  #define CSR_VSPMMASK        0x2c1
-> > > > > > >  #define CSR_VSPMBASE        0x2c2
-> > > > > > > +#define CSR_SCOUNTOVF       0xda0
-> > > > > > >
-> > > > > > >  /* mstatus CSR bits */
-> > > > > > >  #define MSTATUS_UIE         0x00000001
-> > > > > > > @@ -635,6 +667,7 @@ typedef enum RISCVException {
-> > > > > > >  #define IRQ_VS_EXT                         10
-> > > > > > >  #define IRQ_M_EXT                          11
-> > > > > > >  #define IRQ_S_GEXT                         12
-> > > > > > > +#define IRQ_PMU_OVF                        13
-> > > > > > >  #define IRQ_LOCAL_MAX                      16
-> > > > > > >  #define IRQ_LOCAL_GUEST_MAX                (TARGET_LONG_BITS - 1)
-> > > > > > >
-> > > > > > > @@ -652,11 +685,13 @@ typedef enum RISCVException {
-> > > > > > >  #define MIP_VSEIP                          (1 << IRQ_VS_EXT)
-> > > > > > >  #define MIP_MEIP                           (1 << IRQ_M_EXT)
-> > > > > > >  #define MIP_SGEIP                          (1 << IRQ_S_GEXT)
-> > > > > > > +#define MIP_LCOFIP                         (1 << IRQ_PMU_OVF)
-> > > > > > >
-> > > > > > >  /* sip masks */
-> > > > > > >  #define SIP_SSIP                           MIP_SSIP
-> > > > > > >  #define SIP_STIP                           MIP_STIP
-> > > > > > >  #define SIP_SEIP                           MIP_SEIP
-> > > > > > > +#define SIP_LCOFIP                         MIP_LCOFIP
-> > > > > > >
-> > > > > > >  /* MIE masks */
-> > > > > > >  #define MIE_SEIE                           (1 << IRQ_S_EXT)
-> > > > > > > @@ -804,4 +839,24 @@ typedef enum RISCVException {
-> > > > > > >  #define HVICTL_VALID_MASK                  \
-> > > > > > >      (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
-> > > > > > >
-> > > > > > > +/* PMU related bits */
-> > > > > > > +#define MIE_LCOFIE                         (1 << IRQ_PMU_OVF)
-> > > > > > > +
-> > > > > > > +#define MHPMEVENT_BIT_OF                   BIT_ULL(63)
-> > > > > > > +#define MHPMEVENTH_BIT_OF                  BIT(31)
-> > > > > > > +#define MHPMEVENT_BIT_MINH                 BIT_ULL(62)
-> > > > > > > +#define MHPMEVENTH_BIT_MINH                BIT(30)
-> > > > > > > +#define MHPMEVENT_BIT_SINH                 BIT_ULL(61)
-> > > > > > > +#define MHPMEVENTH_BIT_SINH                BIT(29)
-> > > > > > > +#define MHPMEVENT_BIT_UINH                 BIT_ULL(60)
-> > > > > > > +#define MHPMEVENTH_BIT_UINH                BIT(28)
-> > > > > > > +#define MHPMEVENT_BIT_VSINH                BIT_ULL(59)
-> > > > > > > +#define MHPMEVENTH_BIT_VSINH               BIT(27)
-> > > > > > > +#define MHPMEVENT_BIT_VUINH                BIT_ULL(58)
-> > > > > > > +#define MHPMEVENTH_BIT_VUINH               BIT(26)
-> > > > > > > +
-> > > > > > > +#define MHPMEVENT_SSCOF_MASK               _ULL(0xFFFF000000000000)
-> > > > > > > +#define MHPMEVENT_IDX_MASK                 0xFFFFF
-> > > > > > > +#define MHPMEVENT_SSCOF_RESVD              16
-> > > > > > > +
-> > > > > > >  #endif
-> > > > > > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > > > > > > index 04796b99d0fe..519d6377fd9f 100644
-> > > > > > > --- a/target/riscv/csr.c
-> > > > > > > +++ b/target/riscv/csr.c
-> > > > > > > @@ -72,7 +72,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > > >      CPUState *cs = env_cpu(env);
-> > > > > > >      RISCVCPU *cpu = RISCV_CPU(cs);
-> > > > > > >      int ctr_index;
-> > > > > > > -    int base_csrno = CSR_HPMCOUNTER3;
-> > > > > > > +    int base_csrno = CSR_CYCLE;
-> > > > > > >      bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
-> > > > > > >
-> > > > > > >      if (rv32 && csrno >= CSR_CYCLEH) {
-> > > > > > > @@ -81,11 +81,18 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > > >      }
-> > > > > > >      ctr_index = csrno - base_csrno;
-> > > > > > >
-> > > > > > > -    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num)) {
-> > > > > > > +    if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
-> > > > > > > +        (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
-> > > > > > > +        goto skip_ext_pmu_check;
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
-> > > > > > >          /* No counter is enabled in PMU or the counter is out of range */
-> > > > > > >          return RISCV_EXCP_ILLEGAL_INST;
-> > > > > > >      }
-> > > > > > >
-> > > > > > > +skip_ext_pmu_check:
-> > > > > > > +
-> > > > > > >      if (env->priv == PRV_S) {
-> > > > > > >          switch (csrno) {
-> > > > > > >          case CSR_CYCLE:
-> > > > > > > @@ -104,7 +111,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > > >              }
-> > > > > > >              break;
-> > > > > > >          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> > > > > > > -            ctr_index = csrno - CSR_CYCLE;
-> > > > > > >              if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > > >                  return RISCV_EXCP_ILLEGAL_INST;
-> > > > > > >              }
-> > > > > > > @@ -128,7 +134,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > > >                  }
-> > > > > > >                  break;
-> > > > > > >              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> > > > > > > -                ctr_index = csrno - CSR_CYCLEH;
-> > > > > > >                  if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > > >                      return RISCV_EXCP_ILLEGAL_INST;
-> > > > > > >                  }
-> > > > > > > @@ -158,7 +163,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > > >              }
-> > > > > > >              break;
-> > > > > > >          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> > > > > > > -            ctr_index = csrno - CSR_CYCLE;
-> > > > > > >              if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> > > > > > >                   get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > > >                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > > > > > > @@ -186,7 +190,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > > > > >                  }
-> > > > > > >                  break;
-> > > > > > >              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> > > > > > > -                ctr_index = csrno - CSR_CYCLEH;
-> > > > > > >                  if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> > > > > > >                       get_field(env->mcounteren, 1 << ctr_index)) {
-> > > > > > >                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > > > > > > @@ -238,6 +241,18 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
-> > > > > > >      return mctr(env, csrno);
-> > > > > > >  }
-> > > > > > >
-> > > > > > > +static RISCVException sscofpmf(CPURISCVState *env, int csrno)
-> > > > > > > +{
-> > > > > > > +    CPUState *cs = env_cpu(env);
-> > > > > > > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > > > > > > +
-> > > > > > > +    if (!cpu->cfg.ext_sscofpmf) {
-> > > > > > > +        return RISCV_EXCP_ILLEGAL_INST;
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    return RISCV_EXCP_NONE;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > >  static RISCVException any(CPURISCVState *env, int csrno)
-> > > > > > >  {
-> > > > > > >      return RISCV_EXCP_NONE;
-> > > > > > > @@ -622,11 +637,36 @@ static int write_mhpmevent(CPURISCVState *env, int csrno, target_ulong val)
-> > > > > > >  {
-> > > > > > >      int evt_index = csrno - CSR_MCOUNTINHIBIT;
-> > > > > > >
-> > > > > > > +    if (riscv_cpu_mxl(env) != MXL_RV32) {
-> > > > > >
-> > > > > > Is this right? What if the guest writes the high bytes first?
-> > > > > >
-> > > > >
-> > > > > Most of the current software is implemented with lower bytes first.
-> > > > > But I understand your concern
-> > > > > that it doesn't provide any guarantee. We probably can have another
-> > > > > field that can track the order of the updates.
-> > > > > riscv_pmu_update_event_map will be only called when both lower/upper
-> > > > > half is complete.
-> > > >
-> > > > Why can't you just update it on every write? Guest software should be
-> > >
-> > > riscv_pmu_update_event_map maintains a hashmap between counter and event ID.
-> > > Updating at every write is unnecessary as it will do the hashmap
-> > > lookup and return fail
-> > > for high bytes write.
+>For better or worse, we tend to eschew abbreviations in schema
+>identifiers=2E  Would you mind @linear-histogram and @log-histogram?
+
+Sure=2E
+
+
+>> +# Since: 7=2E1
+>> +##
+>> +{ 'enum': 'StatsTarget',
+>> +  'data': [ 'vm', 'vcpu' ] }
 >
-> You don't handle the error so does this really matter?
+>Do VM stats include vCPU stats?  "Entire virtual machine" suggests they
+>do=2E=2E=2E
+
+No, they don't=2E They are a different sets of data that is gathered on re=
+sources shared by the whole VM=2E Stuff such as "# of pages taken by the KV=
+M page tables" goes there because VCPUs share a single copy of the page tab=
+les, as opposed to "# of page faults" which is a VCPU stat=2E
+
+>> +# The arguments to the query-stats command; specifies a target for whi=
+ch to
+>> +# request statistics, and which statistics are requested from each pro=
+vider=2E
+>> +#
+>> +# Since: 7=2E1
+>> +##
+>> +{ 'struct': 'StatsFilter',
+>> +  'data': { 'target': 'StatsTarget' } }
 >
-> Also, as you don't handle the error you probably don't need to return
-> it. Maybe just log relevant errors instead?
+>The "and which statistics" part will be implemented later in this
+>series?
+
+Oh, indeed it is=2E Thanks for noticing=2E
+
+>> +{ 'struct': 'StatsResult',
+>> +  'data': { 'provider': 'StatsProvider',
+>> +            '*qom-path': 'str',
+>
+>When exactly will @qom-path be present?
+
+Only if the target is vcpus, for the current set of targets=2E Because the=
+ target is in the command I am not repeating it here with another discrimin=
+ated record=2E
+
+>> +# @type: kind of statistic, a @StatType=2E
+>
+>Generated documentation looks like
+>
+>       type: StatsType
+>              kind of statistic, a StatType=2E
+>
+>I think ", a @StatType" should be dropped=2E
+>
+>If we decide to keep it: @StatsType=2E
+
+Gotcha=2E
+
+>
+>> +#
+>> +# @unit: base unit of measurement for the statistics @StatUnit=2E
+>
+>"@StatUnit", too=2E
+>
+>If we decide to keep it: @StatsUnit=2E
+>
+>@unit is optional=2E  What's the default?
+
+The stat is an adimensional number: a count of events such a page faults, =
+or the maximum length of a bucket in a hash table,  etc=2E It's actually th=
+e common case=2E
+
+>> +# @base: base for the multiple of @unit that the statistic uses, eithe=
+r 2 or 10=2E
+>> +#        Only present if @exponent is non-zero=2E
+>> +#
+>> +# @exponent: exponent for the multiple of @unit that the statistic use=
+s
+>
+>Alright, given a stat value 42, what does it mean for the possible
+>combinations of @base and @exponent?
+
+Base and exponent are used to represent units like KiB, nanoseconds, etc=
+=2E
+
+>> +# @bucket-size: Used with linear-hist to report the width of each buck=
+et
+>> +#               of the histogram=2E
+>
+>Feels too terse=2E  Example, perhaps?
+>
+>I assume @bucket-size is present exactly when @type is @linear-hist=2E
+>Correct?
+
+Yep, will expand=2E
+
+>> +##
+>> +# @StatsSchema:
+>> +#
+>> +# Schema for all available statistics for a provider and target=2E
+>> +#
+>> +# @provider: provider for this set of statistics=2E
+>> +#
+>> +# @target: kind of object that can be queried through this provider=2E
+>> +#
+>> +# @stats: list of statistics=2E
+>> +#
+>> +# Since: 7=2E1
+>> +##
+>> +{ 'struct': 'StatsSchema',
+>> +  'data': { 'provider': 'StatsProvider',
+>> +            'target': 'StatsTarget',
+>> +            'stats': [ 'StatsSchemaValue' ] } }
+>
+>How am I to connect each element of the result of query-stats to an
+>element of the result of query-stats-schema?
+
+You gave the target to query-stats and the result of query-stats has the p=
+rovider and name=2E Target+provider+name uniquely identify a StatsSchemaVal=
+ue in the result of query-stats-schemas=2E
+
+Paolo
+
+>
+>> +
+>> +##
+>> +# @query-stats-schemas:
+>> +#
+>> +# Return the schema for all available runtime-collected statistics=2E
+>> +#
+>> +# Since: 7=2E1
+>> +##
+>> +{ 'command': 'query-stats-schemas',
+>> +  'data': { },
+>> +  'returns': [ 'StatsSchema' ] }
 >
 
-it's just unnecessary execution cycles and a bit odd as well. I will
-maintain a flag
-to track the order. We need similar flags for a few others as well
-(stimecmp, vstimecmp)
-anyways. That would make it closer to how actual hardware would implement also.
-
-I will send the patch.
-
-
-> Alistair
->
-> > >
-> > > The events encoded as the SBI PMU spec will always have the event id
-> > > in lower 20 bits.
-> > > Technically, it is okay to just call riscv_pmu_update_event_map in
-> > > write_mhpmevent not in
-> > > write_mhpmeventh for rv32 as well.
-> > >
-> > > However, I want to keep riscv/pmu.c as generic as possible to allow
-> > > future implementations
-> > > to have different event ID value > UINT32_MAX.
-> >
-> > I agree. If there is a high CSR for 32-bit we need to support 64-bit values.
-> >
-> > >
-> > > Let me know if you like to keep it simple and just update
-> > > riscv_pmu_update_event_map in lower bits
-> > > update right now.
-> >
-> > We need to handle both writer ordres. Unless the spec states that
-> > writes must occur in a certain order we can't assume that they will.
-> > Otherwise this is just a bug waiting to be discovered
-> >
-
-Fair enough.
-
-> > Alitair
-> >
-> > >
-> > > > setting the high bits to 0xFFFF_FFFF first to avoid any issues
-> > > >
-> > > > Alistair
-> > > >
-> > > > >
-> > > > >
-> > > > > > Alistair
-> > > >
-> > >
-> > >
-> > > --
-> > > Regards,
-> > > Atish
-
-
-
--- 
-Regards,
-Atish
 
