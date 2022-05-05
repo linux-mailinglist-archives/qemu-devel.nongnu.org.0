@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9289B51C1CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 16:01:34 +0200 (CEST)
-Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEB051C1D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 16:02:02 +0200 (CEST)
+Received: from localhost ([::1]:42120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmc2v-0004dQ-7k
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 10:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
+	id 1nmc3M-0005mO-3N
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 10:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nmc0C-0002pj-Co
- for qemu-devel@nongnu.org; Thu, 05 May 2022 09:58:45 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:43588)
+ id 1nmc0k-0003LN-L4
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 09:59:18 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nmc0A-0000om-8c
- for qemu-devel@nongnu.org; Thu, 05 May 2022 09:58:43 -0400
-Received: by mail-ed1-x534.google.com with SMTP id b24so5302313edu.10
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 06:58:40 -0700 (PDT)
+ id 1nmc0j-0000rf-1A
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 09:59:18 -0400
+Received: by mail-ed1-x530.google.com with SMTP id b24so5304418edu.10
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 06:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=G17Oaeg6sY6DNITObGKUlHgba78n4wFbBRMyGc5zwYw=;
- b=WdxVDdJuwM+CSbwNnANNP/a09IggU+aXP6CV3RU0WQXP6kNbA3alKRiBG8o+EwOooc
- casthciZRGF3Qq2+JmNsaNPaxyjpKNRmwqLZ0wJDWELGSDWr6l3abtKfSKsj2Uq+UrAX
- CVH0MTZh3focv63QJ5vaxop/DD3PSfqISSlGhoC7uiAa37zjsRd/F+5jLa1Dg8i6CxWF
- bF1zxQsgr07upF/+G0t4vJv80PitA08va2Lk7x+fYrZIGs0kvkFLOc5sSfkGvA8QALdh
- jdZkfDCkoBASR8apwGRWuYQ5xU7VFxDW1m1zxYi+lgeEUxFWQFG9q9WTiSNnz8ERLs6m
- l4zg==
+ bh=Af0GSeUozWLKgLeFivapD3Q2FAelNXvT8pnWkGP8Fb4=;
+ b=j0Z5TtQ0ip7XoAK/oLjO7XVmedjk5Y/7Kj0pr5gZadBQw+Th02mVn0Bsa7Ui8fQ+7V
+ p36tisXgwvGd+9jsuP+gp/dj9igLCt9f4UU4ohuizqUmValGX0VXaZAuncy8/CeMnMmm
+ WEwdb1hrp7Fs2xoDgrY0OHnp4I2ZWUFREG9nvb3gM9ffAKwADk1gAyN45tTfcdY1F6hb
+ nAI63Q9WEkYCR4dcnublnsyYM0b7Z0CYs70lWOVfjCN9LKF0sPJKSlvsKthBfxsryDlC
+ cqyuOtuUGv5arWQIcZJAs8AyPZclx34mdgl7LPvKNkixzYRV+4kZJtdfkkYew59QRcuG
+ CM6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=G17Oaeg6sY6DNITObGKUlHgba78n4wFbBRMyGc5zwYw=;
- b=3ZcJ4x97jFIzoV8eZaD6wnzVWVXrBZ2tyCYKXzK04ldzGYBo0MzpoQX42oGc6AqSrV
- /0a5nAtX1zBJuE1fN1+1x8CnMWREdzDdyn89mr2mY3Vko9pG/6PX/3VGemtcZwINt4x0
- BYTA+fN1opMfFUlUkr3T5XZMhf4Rnn9dQ7JIUTZylO8RgE1+eZ34XIfjvkw5RwHX3rbE
- kRa33Ldf37S//0NjDQuZxfVPA2vUCi5UMMgyZEGJna98ytL7z3kMxYVyLjg/0EXNHeB0
- 7/R+fbfg+Cmj0diWJeUjgIctU8Nc6SA4zjGzl5yvqbrycFvZrp5RRarGsfPBBnLAWR2d
- Q8Ig==
-X-Gm-Message-State: AOAM531ad0M7bpPl7z+Sx+6Sedrf3JvHT7UUytipRF+fzX3ykQaxFSrN
- YgNWChmgnZtHkqRTaCWEgPU=
-X-Google-Smtp-Source: ABdhPJyn2RsZqIyhLUgLcXG7lkzN+0A5jJfcMCiyke2smx+bnTv5ul7BkwpxPpiuA44xbA5Jo1o6OQ==
-X-Received: by 2002:aa7:d5c5:0:b0:425:b144:ab84 with SMTP id
- d5-20020aa7d5c5000000b00425b144ab84mr30343289eds.200.1651759119246; 
- Thu, 05 May 2022 06:58:39 -0700 (PDT)
+ bh=Af0GSeUozWLKgLeFivapD3Q2FAelNXvT8pnWkGP8Fb4=;
+ b=k0lia7TdhkkKpRbSCOEs0JOguZZVf4ZlE1k67BebZUmU2fWbKW4dQvA/KTcuLdJPJl
+ Eln7KkOX7P0E0S6GkLX8SizOZUVa+k+LbLDZCgP8soyEw3mQbOhU3sSoyTliXxwMgD9C
+ 7JD8nCI8X1v61D6VbrkVvsgUeUm6UDd9JFz8mqS1CmiV3wktjzcVU4LUhIjsMYiMiA0l
+ dqayIr/5IT1NEOkj5kwOEB8gP35mcglU8gcn4pdKKCtpZ7XwDKvyNTZ5jYxB0KUAjLuR
+ nlUhgN7siM6XzVJq3zKMNKA1a2ak9TbSTvE1d7LnZuvNra22OB4C31dmZjL/2LbYeJof
+ eMsg==
+X-Gm-Message-State: AOAM531Mpc+AOyvGgAQpzy9NaUn6lsEZ1EGAMue0jO40AnqsWjdkhwZN
+ 5kQ++t4uWIQpQH+qFTZH1dkzcj4qc4OgKw==
+X-Google-Smtp-Source: ABdhPJyFj9RmNkLmQTkv5PG34gYkSBEeSjRRZN2/BBYbhr1geci2Z5qGo7ReMdLqVW3yRLaMNPZd8g==
+X-Received: by 2002:a05:6402:28b1:b0:425:c39e:b773 with SMTP id
+ eg49-20020a05640228b100b00425c39eb773mr29294573edb.237.1651759155086; 
+ Thu, 05 May 2022 06:59:15 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- bx8-20020a0564020b4800b0042617ba639bsm868226edb.37.2022.05.05.06.58.38
+ f6-20020a05640214c600b0042617ba639dsm860630edx.39.2022.05.05.06.59.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 May 2022 06:58:38 -0700 (PDT)
-Message-ID: <e7056663-6f22-e0ec-679a-3f474df05788@redhat.com>
-Date: Thu, 5 May 2022 15:58:37 +0200
+ Thu, 05 May 2022 06:59:14 -0700 (PDT)
+Message-ID: <f3045c9f-aa78-fd50-ae46-1cf27ed18bae@redhat.com>
+Date: Thu, 5 May 2022 15:59:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+Subject: Re: [PATCH 3/8] qmp: add filtering of statistics by target vCPU
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, mark.kanda@oracle.com, berrange@redhat.com,
  dgilbert@redhat.com
 References: <20220426141619.304611-1-pbonzini@redhat.com>
- <20220426141619.304611-2-pbonzini@redhat.com> <87sfpp3018.fsf@pond.sub.org>
- <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
- <87v8ukt8g8.fsf@pond.sub.org>
+ <20220426141619.304611-4-pbonzini@redhat.com> <87y1zgrt2r.fsf@pond.sub.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87v8ukt8g8.fsf@pond.sub.org>
+In-Reply-To: <87y1zgrt2r.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,85 +97,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/22 15:28, Markus Armbruster wrote:
-> Double-checking (pardon my ignorance): we're basically exposing the host
-> kernel's KVM stats via QMP, with the option of extending it to other
-> sources of stats in the future.  Correct?
-
-Yes.  As long as KVM is the only source, it's basically an opaque 1:1 
-mapping of what the kernel gives.
-
-> I think the argument for accepting the interface is basically "if it's
-> good enough for the kernel, it's good enough for us".  Valid point.
-
-Also, it was designed from the beginning to be extensible to other 
-_kernel_ subsystems as well; i.e. it's not virt-specific in any way.
-
-There is one important point: theoretically, stats names are not part of 
-the kernel API.  In practice, you know what the chief penguin thinks of 
-breaking userspace and anyway I don't think any of the stats have ever 
-been removed when they were in debugfs (which makes them even less of a 
-stable API).
-
-For a similar situation see https://lwn.net/Articles/737530/: kernel 
-developers hate that tracepoints are part of the stable API, but in 
-practice they are (and stats are much harder to break than tracepoints, 
-if it's worth exposing them to userspace in the first place).
-
-> This means we'll acquire yet another introspection system, unrelated to
-> the introspection systems we already have in QEMU.
+On 5/5/22 15:45, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
 > 
-> There is overlap.  Quite a few query- commands return stats.  Should
-> they be redone as statistics provides in this new introspection system?
-
-I think so, potentially all of them can be moved.  Whether it is worth 
-doing it is another story.
-
-In addition, query-stats provides a home for TCG statistics that 
-currently QMP exposes only via x- commands; they can be added without 
-having to design the whole QAPI thing, and with a slightly less strong 
-guarantee of stability.
-
-> Alternatively, maybe: the "QOM path of the object for which the
-> statistics are returned" could be "/" or "/machine" when the object is
-> the VM.
-
-I like that in principle, however it's not possible to make qom_path 
-mandatory.  For example block devices would not have a QOM path.
->> The stat is an adimensional number: a count of events such a page faults, or the maximum length of a bucket in a hash table,  etc. It's actually the common case.
-> 
-> I've come to prefer defaulting to a value over giving "absent" its own
-> meaning.  However, own meaning is somewhat entrenched in the schema
-> language and its usage, and "absent @unit means adimensional" is kind of
-> fitting, so I'm not objecting.  I am asking for better documentation,
-> though :)
-
-Will document.
-
->>>> +# @base: base for the multiple of @unit that the statistic uses, either 2 or 10.
->>>> +#        Only present if @exponent is non-zero.
->>>> +#
->>>> +# @exponent: exponent for the multiple of @unit that the statistic uses
->>>
->>> Alright, given a stat value 42, what does it mean for the possible
->>> combinations of @base and @exponent?
+>> Introduce a simple filtering of statistics, that allows to retrieve
+>> statistics for a subset of the guest vCPUs.  This will be used for
+>> example by the HMP monitor, in order to retrieve the statistics
+>> for the currently selected CPU.
 >>
->> Base and exponent are used to represent units like KiB, nanoseconds, etc.
+>> Example:
+>> { "execute": "query-stats",
+>>    "arguments": {
+>>      "target": "vcpu",
+>>      "vcpus": [ "/machine/unattached/device[2]",
+>>                 "/machine/unattached/device[4]" ] } }
 > 
-> Put that in doc comments, please.
+> What heartless people put these poor vCPUs in the orphanage?
 
-Ok, I'll make an example.
-
->>> How am I to connect each element of the result of query-stats to an
->>> element of the result of query-stats-schema?
->>
->> You gave the target to query-stats and the result of query-stats has the provider and name. Target+provider+name uniquely identify a StatsSchemaValue in the result of query-stats-schemas.
-> 
-> Can we have that spelled out in documentation?
-> 
-> Doc comments or something under docs/, up to you.
-
-Hmm, it seemed obvious but I can add something to StatsSchemaValue.
+Phil tried to fix it but the testsuites hung in weird ways.
 
 Paolo
+
+>>
+>> Extracted from a patch by Mark Kanda.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> [...]
+> 
+>> diff --git a/qapi/stats.json b/qapi/stats.json
+>> index bcc897258a..26ee69588f 100644
+>> --- a/qapi/stats.json
+>> +++ b/qapi/stats.json
+>> @@ -65,6 +65,16 @@
+>>   { 'enum': 'StatsTarget',
+>>     'data': [ 'vm', 'vcpu' ] }
+>>   
+>> +##
+>> +# @StatsVCPUFilter:
+>> +#
+>> +# @vcpus: list of qom paths for the desired vCPU objects.
+> 
+> "QOM paths", because that's how we spell it elsewhere.
+> 
+>> +#
+>> +# Since: 7.1
+>> +##
+>> +{ 'struct': 'StatsVCPUFilter',
+>> +  'data': { '*vcpus': [ 'str' ] } }
+>> +
+>>   ##
+>>   # @StatsFilter:
+>>   #
+>> @@ -73,8 +83,10 @@
+>>   #
+>>   # Since: 7.1
+>>   ##
+>> -{ 'struct': 'StatsFilter',
+>> -  'data': { 'target': 'StatsTarget' } }
+>> +{ 'union': 'StatsFilter',
+>> +        'base': { 'target': 'StatsTarget' },
+>> +  'discriminator': 'target',
+>> +  'data': { 'vcpu': 'StatsVCPUFilter' } }
+>>   
+>>   ##
+>>   # @StatsValue:
+> 
+> 
+
 
