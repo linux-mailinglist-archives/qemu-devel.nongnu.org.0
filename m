@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFEC51BA75
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 10:29:55 +0200 (CEST)
-Received: from localhost ([::1]:48260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F75951BB0A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 10:53:04 +0200 (CEST)
+Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmWry-0004JK-Je
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 04:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53428)
+	id 1nmXEI-0007Ui-Pp
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 04:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nmWeg-00077N-CY
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:16:10 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:47350)
+ id 1nmWek-0007FW-Hv
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:16:15 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:22410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nmWee-0007wM-GI
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:16:09 -0400
+ id 1nmWej-0007yV-09
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:16:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651738567;
+ s=mimecast20190719; t=1651738572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XNQ/c09URpcdOpejx2bIqowJdwTpNyRlw871zeo0Abo=;
- b=WPtbZRQjP3b444LHNhEWaCQTlfUGV1JKpxulFJKC5A1FpDoll1Apv8EBVTYQleXXJOG3c/
- cEBc5aCLr3b5xqA1WHCBU2tzQXAKEVMpiFMOEL29oXBY8dK315iHNR2NUDeE9/62pV8apn
- 9L9UH2SoyUH5y9AS20DD0hjtIFdEcXM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6nQaHUnsbUm++6YauvTEXvH8F+hiBUZ26qTaZtgMhqY=;
+ b=Rg+niUFVRw7sPxNLEjY893jY0EyEKvE6goLAuOVfn4jhvflaTshTFjEvABUXQaNn683VXf
+ fQs1gaJlyf2HoqbD58lOwECRpi0anao/6nUQ2N4UlURBBQ2rFvKWJGCNTl8wyLWq7y4dP9
+ Oz/ncQWARoACvWuq6zNgOOXJc3GHCuo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-3nlkgYiTOr2WhGZ08vbaIw-1; Thu, 05 May 2022 04:16:04 -0400
-X-MC-Unique: 3nlkgYiTOr2WhGZ08vbaIw-1
+ us-mta-547-l_OD3SLwNvqjps14OnwsWA-1; Thu, 05 May 2022 04:16:09 -0400
+X-MC-Unique: l_OD3SLwNvqjps14OnwsWA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 618BA803D4E;
- Thu,  5 May 2022 08:16:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A43E229ABA37;
+ Thu,  5 May 2022 08:16:08 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B7BB400E86A;
- Thu,  5 May 2022 08:16:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB64D40CF900;
+ Thu,  5 May 2022 08:16:07 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
@@ -54,25 +54,26 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 09/15] qga: replace qemu_open_old() with qemu_open_cloexec()
-Date: Thu,  5 May 2022 12:14:25 +0400
-Message-Id: <20220505081431.934739-10-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 10/15] test/qga: use G_TEST_DIR to locate os-release test
+ file
+Date: Thu,  5 May 2022 12:14:26 +0400
+Message-Id: <20220505081431.934739-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20220505081431.934739-1-marcandre.lureau@redhat.com>
 References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.74;
+Received-SPF: pass client-ip=170.10.129.74;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,144 +91,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-qemu_open_old() uses qemu_open_internal() which handles special
-"/dev/fdset/" path for monitor fd sets, set CLOEXEC, and uses Error
-reporting (and some O_DIRECT special error casing).
-
-The monitor fdset handling is unnecessary for qga, use
-qemu_open_cloexec() instead.
+This a more accurate way to lookup the test data, and will allow to move
+the test in a subproject.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- qga/channel-posix.c  | 14 +++++++++-----
- qga/commands-posix.c | 24 ++++++++++++------------
- 2 files changed, 21 insertions(+), 17 deletions(-)
+ tests/unit/test-qga.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/qga/channel-posix.c b/qga/channel-posix.c
-index 0ce594bc36c2..a1262b130145 100644
---- a/qga/channel-posix.c
-+++ b/qga/channel-posix.c
-@@ -1,4 +1,5 @@
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include <termios.h>
- #include "qapi/error.h"
- #include "qemu/sockets.h"
-@@ -128,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-     switch (c->method) {
-     case GA_CHANNEL_VIRTIO_SERIAL: {
-         assert(fd < 0);
--        fd = qemu_open_old(path, O_RDWR | O_NONBLOCK
-+        fd = qemu_open_cloexec(
-+            path,
- #ifndef CONFIG_SOLARIS
--                           | O_ASYNC
-+            O_ASYNC |
- #endif
--                           );
-+            O_RDWR | O_NONBLOCK,
-+            0,
-+            errp
-+        );
-         if (fd == -1) {
-             error_setg_errno(errp, errno, "error opening channel");
-             return false;
-@@ -157,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-         struct termios tio;
- 
-         assert(fd < 0);
--        fd = qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
-+        fd = qemu_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0, errp);
-         if (fd == -1) {
--            error_setg_errno(errp, errno, "error opening channel");
-             return false;
-         }
-         tcgetattr(fd, &tio);
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 8ebc327c5e02..f82205e25813 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -1392,6 +1392,7 @@ static GuestDiskInfoList *get_disk_partitions(
- 
- static void get_nvme_smart(GuestDiskInfo *disk)
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+index d6df1ee92ea1..ab0b12a2dd16 100644
+--- a/tests/unit/test-qga.c
++++ b/tests/unit/test-qga.c
+@@ -914,15 +914,14 @@ static void test_qga_guest_get_osinfo(gconstpointer data)
  {
-+    Error *err = NULL;
-     int fd;
-     GuestNVMeSmart *smart;
-     NvmeSmartLog log = {0};
-@@ -1404,9 +1405,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)
-                  | (((sizeof(log) >> 2) - 1) << 16)
-     };
+     TestFixture fixture;
+     const gchar *str;
+-    gchar *cwd, *env[2];
+-    QDict *ret, *val;
++    QDict *ret = NULL;
++    char *env[2];
++    QDict *val;
  
--    fd = qemu_open_old(disk->name, O_RDONLY);
-+    fd = qemu_open_cloexec(disk->name, O_RDONLY, 0, &err);
-     if (fd == -1) {
--        g_debug("Failed to open device: %s: %s", disk->name, g_strerror(errno));
-+        g_debug("Failed to open device: %s: %s", disk->name, error_get_pretty(err));
-+        error_free(err);
-         return;
-     }
+-    cwd = g_get_current_dir();
+     env[0] = g_strdup_printf(
+-        "QGA_OS_RELEASE=%s%ctests%cdata%ctest-qga-os-release",
+-        cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
++        "QGA_OS_RELEASE=%s%c..%cdata%ctest-qga-os-release",
++        g_test_get_dir(G_TEST_DIST), G_DIR_SEPARATOR, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
+     env[1] = NULL;
+-    g_free(cwd);
+     fixture_setup(&fixture, NULL, env);
  
-@@ -1737,9 +1739,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
-             }
-         }
- 
--        fd = qemu_open_old(mount->dirname, O_RDONLY);
-+        fd = qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
-         if (fd == -1) {
--            error_setg_errno(errp, errno, "failed to open %s", mount->dirname);
-             goto error;
-         }
- 
-@@ -1804,7 +1805,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
- 
-     QTAILQ_FOREACH(mount, &mounts, next) {
-         logged = false;
--        fd = qemu_open_old(mount->dirname, O_RDONLY);
-+        fd = qemu_open_cloexec(mount->dirname, O_RDONLY, 0, NULL);
-         if (fd == -1) {
-             continue;
-         }
-@@ -1864,21 +1865,20 @@ static void guest_fsfreeze_cleanup(void)
- GuestFilesystemTrimResponse *
- qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
- {
-+    ERRP_GUARD();
-     GuestFilesystemTrimResponse *response;
-     GuestFilesystemTrimResult *result;
-     int ret = 0;
-     FsMountList mounts;
-     struct FsMount *mount;
-     int fd;
--    Error *local_err = NULL;
-     struct fstrim_range r;
- 
-     slog("guest-fstrim called");
- 
-     QTAILQ_INIT(&mounts);
--    build_fs_mount_list(&mounts, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    build_fs_mount_list(&mounts, errp);
-+    if (*errp) {
-         return NULL;
-     }
- 
-@@ -1890,11 +1890,11 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
- 
-         QAPI_LIST_PREPEND(response->paths, result);
- 
--        fd = qemu_open_old(mount->dirname, O_RDONLY);
-+        fd = qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
-         if (fd == -1) {
--            result->error = g_strdup_printf("failed to open: %s",
--                                            strerror(errno));
-+            result->error = g_strdup(error_get_pretty(*errp));
-             result->has_error = true;
-+            g_clear_pointer(errp, error_free);
-             continue;
-         }
- 
+     ret = qmp_fd(fixture.fd, "{'execute': 'guest-get-osinfo'}");
 -- 
 2.36.0.44.g0f828332d5ac
 
