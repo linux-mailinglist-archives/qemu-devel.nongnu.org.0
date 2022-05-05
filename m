@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E75A51BD13
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:22:14 +0200 (CEST)
-Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019AD51BD5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:38:55 +0200 (CEST)
+Received: from localhost ([::1]:49010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYce-0008GN-WB
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
+	id 1nmYso-0001pM-27
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmXlK-0000Y3-Vl
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:27:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:44787)
+ id 1nmXnA-0002Q4-Tp
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:29:00 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:23357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmXlH-0008Bz-4k
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:27:05 -0400
+ id 1nmXn9-0008WU-DP
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:29:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651742821;
+ s=mimecast20190719; t=1651742938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=hTVRTsFjk2Aih71W8GkzS5uwuC3WRq4ds1vV4wMktcY=;
- b=SixgIjRETwVMnboLUddhr+j/L2E9j54s21X8djQsKoZRrqA+JBM41ltC+T+MXxE3v5HxO3
- KSFKHOvDcv9BcrxfyasaU4DfwSuN/9N+BOEkutuxa4P5kp0b8ZW5N8aaI5GJVzdlbZca+o
- mSwpqy6O9FPKU/9WND2Epfi4Z1yyYMA=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/HnFy47mGtJXtGfmvVgZZDTcJGu2bgR6HU+Xgm5sp1c=;
+ b=TOGAjlpKs8Sb+Po1/Yv9WTvy0Z6eu0bsRq5joFncSn4/ZXAOIRYsRAMCk6DL9NH7L9lB6n
+ Ndl84SvvdTpU39+0Jg0l3OJ3cc51gPn3ceWiX3SKhneXS7VDA/wRO2RBnccMVlj7RFyln1
+ GUVOUqnHx/+GFY2WMyJoguWjYyhuPuE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-378-7Y0N_W-OMOKPSjYZTXrnYA-1; Thu, 05 May 2022 05:27:00 -0400
-X-MC-Unique: 7Y0N_W-OMOKPSjYZTXrnYA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- qf19-20020a1709077f1300b006f439243355so2287262ejc.3
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:27:00 -0700 (PDT)
+ us-mta-630-ox_Y_kF0N3yft2ibcdXZIg-1; Thu, 05 May 2022 05:28:57 -0400
+X-MC-Unique: ox_Y_kF0N3yft2ibcdXZIg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b65-20020a509f47000000b00427b34634d3so1992776edf.20
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:28:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
  :content-transfer-encoding;
- bh=hTVRTsFjk2Aih71W8GkzS5uwuC3WRq4ds1vV4wMktcY=;
- b=Czpu+gGb5ihHsXd3MKjhqbVmt9w0HYdrHaZe1+BfC/89Axh+CFN9JxOjBWqaDD3mGi
- aadkmrhtvd21pfIYE5AZxawWJkUiZ4F9G7t92uxGlqDGeSxJQ2bg4hILuEXiWG/x4w3i
- JfpoqTTStgEhfSur/yiueNwWMMOde++cLnl24JpOyDZNgzPs8zqwK2+jz/lJtqa2M8Cd
- vlPZqzAz+kGwu57FLEf7KFWnJJX/yEkKI8yVuKwCQf8/xgN8N0y/sDFVUCv9VPCdVsYU
- RgKo+wwfQDQIgN2IJtNkqA3Xiid4caOSMBHp/efypdcGMgwFNzjWiVY2XzvxExdFHUAc
- neQw==
-X-Gm-Message-State: AOAM533+Sr0lEYCAiHBGjcxeJtYz7TlfQrXVX7VHmrlVcYE9Kij85B63
- ZL0LT+t8Jd/jywGu3rpwzSqsn8r92YMKGWhbvOFHGnKyOW7fbvLVjnofFpYYPQkU9mPi6uXxjuv
- SnV+kIahYpiBRW+3fsdeGGnesORjNRalQmFu25czjVBslZLbXCKQ4fYGfmMlxCNXSQTM=
-X-Received: by 2002:a17:907:9812:b0:6da:aaaf:7713 with SMTP id
- ji18-20020a170907981200b006daaaaf7713mr24252088ejc.163.1651742819156; 
- Thu, 05 May 2022 02:26:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFB0cQ1E5DoS5g8lzp5y99LzK6DJqAUCbcNFYex0XStZ5pyM4kPubSJO88f/X9b9oIHaMmxQ==
-X-Received: by 2002:a17:907:9812:b0:6da:aaaf:7713 with SMTP id
- ji18-20020a170907981200b006daaaaf7713mr24252065ejc.163.1651742818794; 
- Thu, 05 May 2022 02:26:58 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- dk20-20020a0564021d9400b0042617ba63c0sm552314edb.74.2022.05.05.02.26.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:26:58 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org
-Subject: [PATCH] pseries: allow setting stdout-path even on machines with a VGA
-Date: Thu,  5 May 2022 11:26:56 +0200
-Message-Id: <20220505092656.728925-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ bh=/HnFy47mGtJXtGfmvVgZZDTcJGu2bgR6HU+Xgm5sp1c=;
+ b=CqpCiCoEpCh4TIqZGqyf2+maEj3rLQYxYbEF4O4eSHv0uRGH+4In9DgiC++2mV4xNE
+ zSirT+cjiZTXHObaBSDR+t/0gXX7VbbDzKwriJbi0Uw9D3Nl+nAKDJJ9cFjsdQuHD4yM
+ ofkrX5n/zqLs1EpQHxcUDiIpE75Wn/Pnb25+PbCzfy/RdTiEuN4t8dfp3AlIBrGxwzbf
+ CK+ZHNVv9az0PrCJKrPv0FT6OLkRwyy6VApMSBL1lPqCxxERj1o43X0zKf8e8th5IaVV
+ xEQ+K4pb4afo/p4k0i1vY4DdNDa6b1lxC0dewjU95qDd7yjswfxi9bq6pkpw1kFJe1PH
+ LF9A==
+X-Gm-Message-State: AOAM531qCid6+0FMXpjRkjO1f7oZSv7dQlBje5NvfFv95M4RUcEDJCK3
+ ZlXIRHIEQ78xG8ki0Lealel5FBUcR+7m8IKJBApwcLF7mVXkG+uGpFtuYlQ3Qsc7vAcmjtxswWj
+ 5LXxh3loIF7HgwnI=
+X-Received: by 2002:a17:907:1c8e:b0:6f4:e24f:20e0 with SMTP id
+ nb14-20020a1709071c8e00b006f4e24f20e0mr4249444ejc.227.1651742936114; 
+ Thu, 05 May 2022 02:28:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjdbyw/mPWuue8LLl1y3pZbF4uHTKxiQls0btt6bEI0W9KlHeQEuWt7fRUdrP9IZEDcixmSg==
+X-Received: by 2002:a17:907:1c8e:b0:6f4:e24f:20e0 with SMTP id
+ nb14-20020a1709071c8e00b006f4e24f20e0mr4249421ejc.227.1651742935851; 
+ Thu, 05 May 2022 02:28:55 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ w12-20020a50f10c000000b0042617ba63c4sm558796edl.78.2022.05.05.02.28.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 02:28:55 -0700 (PDT)
+Message-ID: <6f3c3414-f837-85c9-b401-d856f091ddf4@redhat.com>
+Date: Thu, 5 May 2022 11:28:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Cleber Rosa <crosa@redhat.com>
+References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
+ <YnOQAP1J94zH1pEK@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: iotests and python dependencies
+In-Reply-To: <YnOQAP1J94zH1pEK@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.74; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
 X-Spam_score_int: -21
@@ -79,8 +90,9 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,81 +108,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--machine graphics=off is the usual way to tell the firmware or the OS that the
-user wants a serial console.  The pseries machine however does not support
-this, and never adds the stdout-path node to the device tree if a VGA device
-is provided.  This is in addition to the other magic behavior of VGA devices,
-which is to add a keyboard and mouse to the default USB bus.
+On 5/5/22 10:51, Kevin Wolf wrote:
+> If not, I guess it would be enough if iotests just checks that the venv
+> exists and all of the dependencies are there in the right version and
+> error out if not, telling the user to run 'make check-venv'.
+> 
+> Or actually, it could just unconditionally run 'make check-venv' by
+> itself, which is probably easier to implement than checking the
+> dependencies and more convenient for the user, too.
 
-Split spapr->has_graphics in two variables so that the two behaviors can be
-separated: the USB devices remains the same, but the stdout-path is added
-even with "-device VGA -machine graphics=off".
+Note that you would still have to add a 'check-block: check-venv' 
+dependency in the Makefile, otherwise two "instances" of check-venv 
+could run in parallel.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/ppc/spapr.c         | 12 ++++++++----
- include/hw/ppc/spapr.h |  2 +-
- 2 files changed, 9 insertions(+), 5 deletions(-)
+One small complication is that on BSD systems the binary is actually 
+called "gmake", so you'd have to pass the variable somehow
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 22569305d2..05eacf29b8 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1066,7 +1066,7 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
-             _FDT(fdt_setprop_string(fdt, chosen, "qemu,boot-device", boot_device));
-         }
- 
--        if (!spapr->has_graphics && stdout_path) {
-+        if (!spapr->want_stdout_path && stdout_path) {
-             /*
-              * "linux,stdout-path" and "stdout" properties are
-              * deprecated by linux kernel. New platforms should only
-@@ -2711,6 +2711,7 @@ static void spapr_machine_init(MachineState *machine)
-     const char *kernel_filename = machine->kernel_filename;
-     const char *initrd_filename = machine->initrd_filename;
-     PCIHostState *phb;
-+    bool has_vga;
-     int i;
-     MemoryRegion *sysmem = get_system_memory();
-     long load_limit, fw_size;
-@@ -2949,9 +2950,12 @@ static void spapr_machine_init(MachineState *machine)
-     }
- 
-     /* Graphics */
--    if (spapr_vga_init(phb->bus, &error_fatal)) {
--        spapr->has_graphics = true;
-+    has_vga = spapr_vga_init(phb->bus, &error_fatal);
-+    if (has_vga) {
-+        spapr->want_stdout_path = !machine->enable_graphics;
-         machine->usb |= defaults_enabled() && !machine->usb_disabled;
-+    } else {
-+        spapr->want_stdout_path = true;
-     }
- 
-     if (machine->usb) {
-@@ -2961,7 +2965,7 @@ static void spapr_machine_init(MachineState *machine)
-             pci_create_simple(phb->bus, -1, "nec-usb-xhci");
-         }
- 
--        if (spapr->has_graphics) {
-+        if (has_vga) {
-             USBBus *usb_bus = usb_bus_find(-1);
- 
-             usb_create_simple(usb_bus, "usb-kbd");
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 14b01c3f59..072dda2c72 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -194,7 +194,7 @@ struct SpaprMachineState {
-     Vof *vof;
-     uint64_t rtc_offset; /* Now used only during incoming migration */
-     struct PPCTimebase tb;
--    bool has_graphics;
-+    bool want_stdout_path;
-     uint32_t vsmt;       /* Virtual SMT mode (KVM's "core stride") */
- 
-     /* Nested HV support (TCG only) */
--- 
-2.35.1
+Paolo
 
 
