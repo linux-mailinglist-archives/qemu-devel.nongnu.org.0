@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B580D51C212
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 16:14:29 +0200 (CEST)
-Received: from localhost ([::1]:51900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EABB51C227
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 16:16:32 +0200 (CEST)
+Received: from localhost ([::1]:58216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmcFQ-00051f-9u
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 10:14:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60304)
+	id 1nmcHP-0001AS-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 10:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmcDN-0003jX-3W
- for qemu-devel@nongnu.org; Thu, 05 May 2022 10:12:21 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:27599)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nmcEd-0005iG-3K
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 10:13:39 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:23394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmcDK-0003Pc-Ot
- for qemu-devel@nongnu.org; Thu, 05 May 2022 10:12:19 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nmcEb-0003ZL-H8
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 10:13:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651759937;
+ s=mimecast20190719; t=1651760016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=f3Tyg/RoDj/9QGWUqcfQPndJvTKtHy/i+6ommI6LvGE=;
- b=W+ktWurf3Oxa8M4XFKyrrFLQvvvdEhJpFZo3nN+c92rAjA6VP7ACiSvjclccVgGSRowUF3
- /QZEeDR+DMZL/ZvcNtsjuIEPDpjDbczbR+lhuMOgjGMUnEgZ9QS3pBQwc4iw4agYLW6496
- KwvHEZHSdUbHpYP7XuMfOm0uEkjDbQU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UG0vrolYaXw+IuL4G0IN7oIr+F1pT0t2IrMcf41xrw4=;
+ b=G2Keq3m1rV3cUsDpp26UKf5oyS6UR34CDXHBhxFmmdyIUCTowVyYDL1vj0+7r3VOqxA9JY
+ PZD97XHzMLjipi1njHwZvFvDKflqdB53pTMGbJQpMteOh7/oPgWZrl/RNrUQSuuJNvDYdm
+ 7M7kKnr2CybMjVyH0M1xHdKmgJF1wC8=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-gBE8AODvPtChDwzKiJZ1ng-1; Thu, 05 May 2022 10:12:15 -0400
-X-MC-Unique: gBE8AODvPtChDwzKiJZ1ng-1
-Received: by mail-wm1-f71.google.com with SMTP id
- g3-20020a7bc4c3000000b0039409519611so1757134wmk.9
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 07:12:15 -0700 (PDT)
+ us-mta-455-X8cVsqqeNNOA_QVb6BgT1Q-1; Thu, 05 May 2022 10:13:33 -0400
+X-MC-Unique: X8cVsqqeNNOA_QVb6BgT1Q-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ 125-20020a1f1683000000b0034dbcda9c6aso439578vkw.8
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 07:13:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=f3Tyg/RoDj/9QGWUqcfQPndJvTKtHy/i+6ommI6LvGE=;
- b=25n+t7LzkGk97zs5OffxalptSbdau12pHVPevf9GmUgoA1kaKeLLeFcWcaAY4o99cP
- C5KCbCXl+WMDdeuVUkq+kQxU3uazL6t5MqZIZ583yqwT5P9Lf8rjXZbkNGoeyJHUB5Up
- RXPzxs570dGrUSokP/6RT8x9MN6xjMCArXBYcLYkverNGdgJrGn1XL8nty+TPQpfNIQw
- t/fhrVyCtxm3ua0aKdC55VmkB72K/ibzltKJwqJG4j/BgrIA2NHObUPNZP1iV7+7nVZ9
- hsh6jHrm3WRnrJt+iw8rhGjcvCOhlBlbH0N426wdHxvQB6e16p9NW9Nr6sdNqwmLOf/f
- vONg==
-X-Gm-Message-State: AOAM533xa5oK5b6GRD7mb/6PxKISkg0bVX+wsssMZoY7Txf7cVScUjZh
- LYpKDlsJSs36/GazpvMoDlUXtI1ZXWhfyWvXDOYW92/BTiYvjqT6guCwee5UFQchtqY/POPFtVP
- nS05ATnPDvIeasxY=
-X-Received: by 2002:a05:6000:18a1:b0:20c:4d65:393c with SMTP id
- b1-20020a05600018a100b0020c4d65393cmr20861627wri.639.1651759934582; 
- Thu, 05 May 2022 07:12:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4Ts3XtSxD6fb+hYugSS8b8yqZMlhoA1jGtCTZ3BPV41x8qlzGEp5+z0qKGbIf98RLXfdbHg==
-X-Received: by 2002:a05:6000:18a1:b0:20c:4d65:393c with SMTP id
- b1-20020a05600018a100b0020c4d65393cmr20861601wri.639.1651759934298; 
- Thu, 05 May 2022 07:12:14 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
- [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- n1-20020a1c2701000000b003942a244eebsm1492667wmn.48.2022.05.05.07.12.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 May 2022 07:12:13 -0700 (PDT)
-Message-ID: <fb070833-d9d4-4842-8470-979cf7aa859d@redhat.com>
-Date: Thu, 5 May 2022 16:12:11 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UG0vrolYaXw+IuL4G0IN7oIr+F1pT0t2IrMcf41xrw4=;
+ b=zKMtc15emtW2ygmHbUH07px8cBUTVMFq5CZny7faAEI4AmcI+YibFh5+14bhdyjBZZ
+ 7kX7VQA6i5R8+XHNZ1T814QKIqXAU9I3W2fCoDobfZ3P7D+0R72UTRdTgTeW6u+2n4VH
+ /hzG8KaxKTsVDIGH5RWp+Ka2Dl8o+Ad45ziYD3msKMWziI8TKQqh6uC5cIEdVJ0H5wJZ
+ KP8Kqnh23VhsGAELGWHTYN8q+3mHrr2hhOAwTpKjg8QD6z+tjBxOklNdld5Mir8pg86C
+ BCkDfr6KOAm5I9vth2puCxMsLuWK497U51imf3+7nS6esfHH0x/vlTzy4/IMDzHzTYOI
+ rIGQ==
+X-Gm-Message-State: AOAM531Svj458DBcHt4lk+IR7RffUeoM308pB/kZaa0ZRf8S7cNjSg5r
+ uEMrNkiWJvj55GkTKiZHQYujHS494/Zb8AUbFLFCtxoR3+525LxymkIzrWwEPtAhSvwEKPicFbX
+ Jwpy2NQ3546LIOyArp7KXq3s3QfmFaQQ=
+X-Received: by 2002:a05:6102:418e:b0:32d:4291:d708 with SMTP id
+ cd14-20020a056102418e00b0032d4291d708mr5645808vsb.61.1651760012806; 
+ Thu, 05 May 2022 07:13:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6774RZXLZfh6KKhKf1qU5xoUF4p6lraJDDlbefhLVU5wbTQvjGvYM/UvDjbJib4hjndcGwjJrXpMb+Lwwqd8=
+X-Received: by 2002:a05:6102:418e:b0:32d:4291:d708 with SMTP id
+ cd14-20020a056102418e00b0032d4291d708mr5645781vsb.61.1651760012522; Thu, 05
+ May 2022 07:13:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] docs/about: Update the support statement for Windows
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Yonggang Luo <luoyonggang@gmail.com>,
- Stefan Weil <sw@weilnetz.de>
-References: <20220505074841.406185-1-thuth@redhat.com>
- <YnOHgZWHZ3fdYXqM@redhat.com> <YnO7TUI4RV+6+WPH@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YnO7TUI4RV+6+WPH@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.74; envelope-from=thuth@redhat.com;
+References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
+ <YnOGJ+rUIn2S8ZOD@redhat.com>
+ <CAFn=p-bBCbokmZ8FeHon6FBGxp38_z4=vmDNMi5vKKF_1KjQLQ@mail.gmail.com>
+ <YnPEGrwa9KVyup6T@redhat.com>
+ <CAFn=p-ZpoJvoZSnk9gN+uiaas=h-tvZqBCZw2kJf88=rq_5LYQ@mail.gmail.com>
+ <07a829c2-4eb8-01e3-0c8c-691c1420f51a@redhat.com>
+In-Reply-To: <07a829c2-4eb8-01e3-0c8c-691c1420f51a@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 5 May 2022 10:13:22 -0400
+Message-ID: <CAFn=p-Zfonw462fKT=TBKCRLbZ2xPUwsK-SeRJhgfxYwNRJEsg@mail.gmail.com>
+Subject: Re: iotests and python dependencies
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Cleber Rosa <crosa@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000cd120105de445874"
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,43 +99,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/2022 13.55, Daniel P. Berrangé wrote:
-> On Thu, May 05, 2022 at 09:14:57AM +0100, Daniel P. Berrangé wrote:
->> On Thu, May 05, 2022 at 09:48:41AM +0200, Thomas Huth wrote:
->>> Our support statement for Windows currently talks about "Vista / Server
->>> 2008" - which is related to the API of Windows, and this is not easy
->>> to understand for the non-technical users. It might also not be quite
->>> true anymore, since we only compile-test QEMU with recent toolchains.
->>
->> We documented Vista / Server 2008 because that is what our code is
->> declaring it wants in terms of Windows public APIs:
->>
->> In osdep.h we have:
->>
->>    #ifdef _WIN32
->>    /* as defined in sdkddkver.h */
->>    #ifndef _WIN32_WINNT
->>    #define _WIN32_WINNT 0x0600 /* Vista */
->>    #endif
->>
->> which tells Mingw / MSys not to expose windows header file declarations
->> that post-date Vista.
-> 
-> Of course we rely on 3rd party libraries and in particular GLib2 is
-> mandatory, and it also set _WIN32_WINNT. So our constraint is the
-> newer of the _WIN32_WINNT constraint set by QEMU and whatever version
-> of GLib2 being compiled against.
-> 
-> QEMU sets a min GLib of 2.56, and that version of GLib sets 0x0601
-> which means Windows >= 7.  So even though QEMU only asks for Vista,
-> in practice our minimum is 7.
+--000000000000cd120105de445874
+Content-Type: text/plain; charset="UTF-8"
 
-Windows 7 does not receive any security updates since 2020 anymore, so I'd 
-rather would bump it to the level of Windows 8.1 directly instead. Or 
-directly go for Windows 10 to mimic the behavior that we have with most of 
-the Linux distros (max. two major releases at a time).
+On Thu, May 5, 2022, 9:16 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-  Thomas
+> On 5/5/22 15:10, John Snow wrote:
+> >
+> >      > Hm, do we need iotests during an rpm build? Is it because of
+> >     "make check"?
+> >
+> >     Yes, and this is good, because it prevents us from outputting an
+> >     RPM build that has a broken QEMU in it.
+> >
+> > Guess this means I need to make a Fedora package too, though. My hubris.
+>
+> I would rather keep python/qemu/qmp as a submodule for a longer time,
+> and still go through a virtual environment that installs it together
+> with its pip dependencies.
+>
 
+A small headache relating fixes to both locations, but if you'd like to see
+it to prove that the installation mechanism works in general, then OK. I'm
+willing to deal with the pain until the next release to let us go through a
+testing cycle. Reluctantly. Maybe.
+
+I'm assuming you mean as a subpackage and not a [git] submodule. If you do
+mean git, then ... uh. That might be messy.
+
+--000000000000cd120105de445874
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, May 5, 2022, 9:16 AM Paolo Bonzini &lt;<a href=
+=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">On 5/5/22 15:10, John Snow wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Hm, do we need iotests during an rpm build? I=
+s it because of<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&quot;make check&quot;?<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Yes, and this is good, because it prevents us from =
+outputting an<br>
+&gt;=C2=A0 =C2=A0 =C2=A0RPM build that has a broken QEMU in it.<br>
+&gt; <br>
+&gt; Guess this means I need to make a Fedora package too, though. My hubri=
+s.<br>
+<br>
+I would rather keep python/qemu/qmp as a submodule for a longer time, <br>
+and still go through a virtual environment that installs it together <br>
+with its pip dependencies.<br></blockquote></div></div><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">A small headache relating fixes to both locations=
+, but if you&#39;d like to see it to prove that the installation mechanism =
+works in general, then OK. I&#39;m willing to deal with the pain until the =
+next release to let us go through a testing cycle. Reluctantly. Maybe.</div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;m assuming you mean as=
+ a subpackage and not a [git] submodule. If you do mean git, then ... uh. T=
+hat might be messy.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div=
+ class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
+
+--000000000000cd120105de445874--
 
 
