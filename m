@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79E651C280
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 16:25:34 +0200 (CEST)
-Received: from localhost ([::1]:36960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C447851C2D6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 16:46:24 +0200 (CEST)
+Received: from localhost ([::1]:49492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmcQ9-0006LZ-LA
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 10:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34542)
+	id 1nmckJ-0007tI-CC
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 10:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nmcOV-0005bW-0c
- for qemu-devel@nongnu.org; Thu, 05 May 2022 10:23:52 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:36112)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmcgk-0005yv-Rg
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 10:42:42 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:49010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nmcOT-0005VV-G4
- for qemu-devel@nongnu.org; Thu, 05 May 2022 10:23:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmcgh-0000ts-RN
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 10:42:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651760628;
+ s=mimecast20190719; t=1651761758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F3Ekez7QXBJgYBG8aASxs0AeI8UaBsRkSmSU3tjfR7I=;
- b=eKnB931hR8tNwuKonlxzjUih+0Fnkty/hpiR0oX+9pxe1uoXl/IMVlGDS5w6idOmTKKJpC
- EELNZcsQESkQqbLCO3jFmUMMK9MIXW65w3t284/zZF4OI01RKxsVF0o8Fll4ljom9wh2C3
- to3dY9LJFznurJyJ5Fws7iPDkfZOOck=
+ bh=cyiWLiTEEGiRpnGFU2p0guTZ+DrhSOhGEL/qyiWNCFc=;
+ b=Px1lzYBBt1IARo77WgZ6m3hdGNI1MY1d6mytFpmS8iEhtHANCiodIFY9TQPHSaUzOGstHj
+ GMxM79goFQfSpLy7nmNsc3hCAvtFtmZvookpdnsAoFk4+fwcC2EMdfOpp21gWwdbSwQ9ee
+ k+lXSKbIBfP003aQFk5kjSxN7MzeZCQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-124-iNwhUuPXMHy14KnUafw-Qw-1; Thu, 05 May 2022 10:23:45 -0400
-X-MC-Unique: iNwhUuPXMHy14KnUafw-Qw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-510-JIkt-UtWOpe9x1y7OUvERA-1; Thu, 05 May 2022 10:42:35 -0400
+X-MC-Unique: JIkt-UtWOpe9x1y7OUvERA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 284C33AF42A3;
- Thu,  5 May 2022 14:23:45 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5D4BC28103;
- Thu,  5 May 2022 14:23:44 +0000 (UTC)
-Date: Thu, 5 May 2022 15:23:43 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, longpeng2@huawei.com,
- =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>
-Subject: Re: [PATCH] thread-pool: replace semaphore with condition variable
-Message-ID: <YnPd79qEDIgcY7EJ@stefanha-x1.localdomain>
-References: <20220505131346.823941-1-pbonzini@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD3B5299E74F;
+ Thu,  5 May 2022 14:42:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F9064010E2C;
+ Thu,  5 May 2022 14:42:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2B96B21E6880; Thu,  5 May 2022 16:42:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ "f4bug@amsat.org" <f4bug@amsat.org>,  "pbonzini@redhat.com"
+ <pbonzini@redhat.com>,  "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>,  "thuth@redhat.com" <thuth@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,  "berrange@redhat.com"
+ <berrange@redhat.com>,  "eduardo@habkost.net" <eduardo@habkost.net>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,  "quintela@redhat.com"
+ <quintela@redhat.com>,  "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,  "peterx@redhat.com"
+ <peterx@redhat.com>,  "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,  Elena
+ Ufimtseva <elena.ufimtseva@oracle.com>,  John Johnson
+ <john.g.johnson@oracle.com>,  Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v9 10/17] vfio-user: run vfio-user context
+References: <cover.1651586203.git.jag.raman@oracle.com>
+ <7350f4813b73af783965b758ecf39d0a6a76db53.1651586203.git.jag.raman@oracle.com>
+ <877d717cd2.fsf@pond.sub.org>
+ <86AE24D4-C203-491D-9FBF-BEE748A52E2C@oracle.com>
+ <87k0b0zamn.fsf@pond.sub.org>
+ <A0DB61EE-A8D2-4EBB-82E7-BC5F205C7051@oracle.com>
+Date: Thu, 05 May 2022 16:42:33 +0200
+In-Reply-To: <A0DB61EE-A8D2-4EBB-82E7-BC5F205C7051@oracle.com> (Jag Raman's
+ message of "Thu, 5 May 2022 13:39:41 +0000")
+Message-ID: <87y1zgqbvq.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1+qsuPBAIzzeitpO"
-Content-Disposition: inline
-In-Reply-To: <20220505131346.823941-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.74; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.74; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -80,78 +100,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Jag Raman <jag.raman@oracle.com> writes:
 
---1+qsuPBAIzzeitpO
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> On May 5, 2022, at 3:44 AM, Markus Armbruster <armbru@redhat.com> wrote:
+>>=20
+>> Jag Raman <jag.raman@oracle.com> writes:
+>>=20
+>>>> On May 4, 2022, at 7:42 AM, Markus Armbruster <armbru@redhat.com> wrot=
+e:
+>>>>=20
+>>>> Jagannathan Raman <jag.raman@oracle.com> writes:
+>>>>=20
+>>>>> Setup a handler to run vfio-user context. The context is driven by
+>>>>> messages to the file descriptor associated with it - get the fd for
+>>>>> the context and hook up the handler with it
+>>>>>=20
+>>>>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>>>>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+>>>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>>>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-On Thu, May 05, 2022 at 03:13:46PM +0200, Paolo Bonzini wrote:
-> Since commit f9fc8932b1 ("thread-posix: remove the posix semaphore
-> support", 2022-04-06) QemuSemaphore has its own mutex and condition
-> variable; this adds unnecessary overhead on I/O with small block sizes.
->=20
-> Check the QTAILQ directly instead of adding the indirection of a
-> semaphore's count.  Using a semaphore has not been necessary since
-> qemu_cond_timedwait was introduced; the new code has to be careful about
-> spurious wakeups but it is simpler, for example thread_pool_cancel does
-> not have to worry about synchronizing the semaphore count with the number
-> of elements of pool->request_list.
->=20
-> Note that the return value of qemu_cond_timedwait (0 for timeout, 1 for
-> signal or spurious wakeup) is different from that of qemu_sem_timedwait
-> (-1 for timeout, 0 for success).
->=20
-> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  util/thread-pool.c | 30 +++++++++++-------------------
->  1 file changed, 11 insertions(+), 19 deletions(-)
+[...]
 
-Thanks for writing the patch so quickly, Paolo!
+>>>>> @@ -164,6 +172,76 @@ static void vfu_object_set_device(Object *obj, c=
+onst char *str, Error **errp)
+>>>>> vfu_object_init_ctx(o, errp);
+>>>>> }
+>>>>>=20
+>>>>> +static void vfu_object_ctx_run(void *opaque)
+>>>>> +{
+>>>>> + VfuObject *o =3D opaque;
+>>>>> + const char *vfu_id;
+>>>>> + char *vfu_path, *pci_dev_path;
+>>>>> + int ret =3D -1;
+>>>>> +
+>>>>> + while (ret !=3D 0) {
+>>>>> + ret =3D vfu_run_ctx(o->vfu_ctx);
+>>>>> + if (ret < 0) {
+>>>>> + if (errno =3D=3D EINTR) {
+>>>>> + continue;
+>>>>> + } else if (errno =3D=3D ENOTCONN) {
+>>>>> + vfu_id =3D object_get_canonical_path_component(OBJECT(o));
+>>>>> + vfu_path =3D object_get_canonical_path(OBJECT(o));
+>>>>=20
+>>>> Hmm. @vfu_id is always the last component of @vfu_path. Why do we need
+>>>> to send both?
+>>>=20
+>>> vfu_id is the ID that the user/Orchestrator passed as a command-line op=
+tion
+>>> during addition/creation. So it made sense to report back with the same=
+ ID
+>>> that they used. But I=E2=80=99m OK with dropping this if that=E2=80=99s=
+ what you prefer.
+>>=20
+>> Matter of taste, I guess.  I'd drop it simply to saves us the trouble of
+>> documenting it.
+>>=20
+>> If we decide to keep it, then I think we should document it's always the
+>> last component of @vfu_path.
+>>=20
+>>>>> + g_assert(o->pci_dev);
+>>>>> + pci_dev_path =3D object_get_canonical_path(OBJECT(o->pci_dev));
+>>>>> + qapi_event_send_vfu_client_hangup(vfu_id, vfu_path,
+>>>>> + o->device, pci_dev_path);
+>>>>=20
+>>>> Where is o->device set? I'm asking because I it must not be null here,
+>>>> and that's not locally obvious.
+>>>=20
+>>> Yeah, it=E2=80=99s not obvious from this patch that o->device is guaran=
+teed to be
+>>> non-NULL. It=E2=80=99s set by vfu_object_set_device(). Please see the f=
+ollowing
+>>> patches in the series:
+>>> vfio-user: define vfio-user-server object
+>>> vfio-user: instantiate vfio-user context
+>>=20
+>> vfu_object_set_device() is a QOM property setter.  It gets called if and
+>> only if the property is set.  If it's never set, ->device remains null.
+>> What ensures it's always set?
+>
+> That=E2=80=99s a good question - it=E2=80=99s not obvious from this patch.
+>
+> The code would not reach here if o->device is not set. If o->device is NU=
+LL,
+> vfu_object_init_ctx() would bail out early without setting up
+> vfu_object_attach_ctx() and vfu_object_ctx_run() (this function)
+> handlers.
 
-Luk=C3=A1=C5=A1: please try this patch to see if it solves the regression. =
-Thanks!
+Yes:
 
-> @@ -337,15 +330,14 @@ void thread_pool_free(ThreadPool *pool)
-> =20
->      /* Wait for worker threads to terminate */
->      pool->stopping =3D true;
-> +    qemu_cond_broadcast(&pool->request_cond);
->      while (pool->cur_threads > 0) {
-> -        qemu_sem_post(&pool->sem);
->          qemu_cond_wait(&pool->worker_stopped, &pool->lock);
->      }
-> =20
->      qemu_mutex_unlock(&pool->lock);
-> =20
->      qemu_bh_delete(pool->completion_bh);
-> -    qemu_sem_destroy(&pool->sem);
->      qemu_cond_destroy(&pool->worker_stopped);
->      qemu_mutex_destroy(&pool->lock);
->      g_free(pool);
+    static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+    {
+        ERRP_GUARD();
+        DeviceState *dev =3D NULL;
+        vfu_pci_type_t pci_type =3D VFU_PCI_TYPE_CONVENTIONAL;
+        int ret;
 
-Missing qemu_cond_destroy(&pool->request_cond);?
+        if (o->vfu_ctx || !o->socket || !o->device ||
+                !phase_check(PHASE_MACHINE_READY)) {
+            return;
+        }
 
-Otherwise:
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Bails out without setting an error.  Sure that's appropriate?
 
---1+qsuPBAIzzeitpO
-Content-Type: application/pgp-signature; name="signature.asc"
+> Also, device is a required parameter. QEMU would not initialize this obje=
+ct
+> without it. Please see the definition of VfioUserServerProperties in the
+> following patch - noting that optional parameters are prefixed with a =E2=
+=80=98*=E2=80=99:
+> [PATCH v9 07/17] vfio-user: define vfio-user-server object.
+>
+> May be we should add a comment here to explain why o->device
+> wouldn=E2=80=99t be NULL?
 
------BEGIN PGP SIGNATURE-----
+Perhaps assertion with a comment explaining why it holds.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJz3e8ACgkQnKSrs4Gr
-c8gQmAgArZECYqBW5rs/OJS5waRHZkMKKoYgar7ybg7300yUWUGi8ZBhSHWWjmlK
-6FS90YjI0jtC6LoayVgi9wNUEK3+O0riqViWyDnzYWuCP45UeAFW7/MnjcAiII+D
-VUOFDYm8kSApsUeG24jxZpY6Kxv9feicpqhcxOkvkfuUuD4T9pyxgDZRUCtPZSHm
-GSCafzCdLPPpJzSUdoCeD7H9USOsKF5riBA0Tv5iyxJ/u/KXjvgbzAwEZpJ4QWtv
-V8u1ttVTaL2hzBjCr/SQK1MAW/NCXcC907L/mBiAL6rBOOxcb7NAo7LDOgLZBfCO
-vcrQJVbAF+TPcn9X9GnCxvRZbrhnhA==
-=Apns
------END PGP SIGNATURE-----
+> Thank you!
 
---1+qsuPBAIzzeitpO--
+You're welcome!
 
 
