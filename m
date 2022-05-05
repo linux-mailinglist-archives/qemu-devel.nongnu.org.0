@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7C151C959
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:40:04 +0200 (CEST)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F2551C9A9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:53:26 +0200 (CEST)
+Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmhKV-0003RY-RK
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:40:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
+	id 1nmhXR-0000po-6c
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:53:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYr-0003Jm-Mx; Thu, 05 May 2022 14:50:52 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:33573)
+ id 1nmgYu-0003Ks-KC; Thu, 05 May 2022 14:50:53 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:45664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYq-0004KL-5n; Thu, 05 May 2022 14:50:49 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id l203so5284655oif.0;
- Thu, 05 May 2022 11:50:47 -0700 (PDT)
+ id 1nmgYt-0004Pb-3w; Thu, 05 May 2022 14:50:52 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-e93bbb54f9so5080726fac.12; 
+ Thu, 05 May 2022 11:50:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MhbrV+sPh98Wjah4fShxYwAeYTq1APxwR/puaCj88KY=;
- b=BAhCtRjRzSw1BnkzRuc5IpEIIcHtc4JZuY7cPi861owdt3C/pyZx5555o+ebXpiEsZ
- DkYxJCYKAMsV65j7aSVaaGUxtM69h09RZmw9dLY0sdm+Db47I0YCYRr0JUCF5oDf5Dyp
- e2yVbcW9o8j+qC2uCL8TdynQw0ci7Bkhx9gG72pEtFt6hhSPctZBqOcxjSvykiMZICxI
- 1FcYV7NbDbqcCF4ng0d60duQmtj8qXxXchnBdvk0/aplV6D738tSm42gEZ1N92jtK0Xq
- Y6UmujPHquxe6kgdCXjtaXKsCjAdCiisoqkv9jcsa2q+CSQ3S6d8jLZjLJt395MFpcVb
- OJDA==
+ bh=AIkvIFum4rl4GYZMjv7mQoM6eVPSOn+G8IcVUodEjUI=;
+ b=gPXyWQYeRPSnXpdH6Ew42k5tSc3BOimpq38VZTDUMk7qCTi8rbZsazSxMl6SYleJHm
+ wLHslgbt5tzrVFu+dStV4yKcBJKPeABapkzawlnCJ7jRHamvHppASSXZKduz8wTMaSz6
+ Bv9oOATrQZJ/8U1K+xW4V3KDBwWAAYKZKEhbzH2yqU9zcwVSEkrzAa7vNBa4CrRhYRU0
+ 8F0K0+vevB1GWTAhtujbXSp126WwSmlkJmQOWtZrkKYyKoyQ5Ug1tTlHk75Tn8bc37rI
+ AD2Czw9HSdE6SBGr5L04QLMhmJNAvxfDWpsIEamWdgrB/K7pRtIZjBM0aEe+DwOV12p7
+ dDKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MhbrV+sPh98Wjah4fShxYwAeYTq1APxwR/puaCj88KY=;
- b=6xRPVlOrwcyYuye4pYXXfsKPWWc+oC4VBBcXLBpa8CwTSjLZmlGV25xyGjuVLeyQh5
- J0v4d8SV0mlCePObE2BduREzW9c3DO4ymfgsQeM9Is5AftzrbqiVIrFEFnxI2jpas8cY
- m1r6Q+0splPaU8eRdJ51PfuqoO0hI3FS6vYmyba8JLudxC0C6vzDHPPxridqp6G0KTK1
- Gq5dn6ZpOfN4idZuRlnKrIk/Lnt+E5PsRJum75lRCyi6OY23sadOxPsQ20bBSISrebP8
- yxUFzjZqWCL0rBYLVT5Urq99VslQqFrZbu5IgE6zRC2gYd+uTDZyIQb4Fdtf7X0LMn0d
- WTxQ==
-X-Gm-Message-State: AOAM531vs20yxy8wr7RswU84Q4MD16OCEz0BfgzU1z5QR9aKcFlMAC1p
- ehO5FdVuK0QlkzWXQqu+LhySAxbERXQ=
-X-Google-Smtp-Source: ABdhPJxayXzKt7gnPyClusBIPSjf7jypjf/RO49Hoq2xaPD86neIW9nhsTW1oXa6QQeucy74OZQJnQ==
-X-Received: by 2002:a05:6808:ec3:b0:2ef:3f6a:5a1e with SMTP id
- q3-20020a0568080ec300b002ef3f6a5a1emr3383140oiv.296.1651776647006; 
- Thu, 05 May 2022 11:50:47 -0700 (PDT)
+ bh=AIkvIFum4rl4GYZMjv7mQoM6eVPSOn+G8IcVUodEjUI=;
+ b=qa1dlq45weM0pqLtx4MP80nzl6/JThX0StF9VHj1K2NUOWg+OA4NCjbve1M8MEMyiV
+ IzlnRBd3bAIbuYjzZ4KmjGe0EkJJsqFm0QIG0VgHa/gO3lxisbPae0b7ctg0DUwJGMFP
+ 8vbygr+WmXcZyslK4u8j+lYDgwVdVD45WTi7G87mhwDd/5eiW7yZfsOs0qhqrnzdwWTV
+ Ju8Z1Za/Zn6yS9M4DrlRBsAhq8uyLWzoWnL7CyO20p2D6QvHse9cm+tkEqEdSQ5mbIpQ
+ Anvb0lAxCaUP4QfxO0YpD1UzYjwsyF9lRvMKXwpAmbS8FaUonT8OhBW8RGPThjZXQJ0C
+ xX6A==
+X-Gm-Message-State: AOAM532SzuD1yBhp6tH+QmX0sMVLhqPrY/xVv8dcsk5S3iuMa5vdU+PI
+ CdcyAtRJ+uVs5QYWrGpvXGezEX2ATN8=
+X-Google-Smtp-Source: ABdhPJxJHDarlYcpKbke2etkri5ygj9Uo5hUzObBGgS9Mzv01ABCSekEFq4stGR1ZN180z10yT0rbw==
+X-Received: by 2002:a05:6870:580e:b0:e2:7e06:e785 with SMTP id
+ r14-20020a056870580e00b000e27e06e785mr3085964oap.38.1651776650058; 
+ Thu, 05 May 2022 11:50:50 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.44
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:50:46 -0700 (PDT)
+ Thu, 05 May 2022 11:50:49 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-Subject: [PULL 13/30] target/ppc: Remove msr_ds macro
-Date: Thu,  5 May 2022 15:49:21 -0300
-Message-Id: <20220505184938.351866-14-danielhb413@gmail.com>
+Subject: [PULL 14/30] target/ppc: Remove msr_ile macro
+Date: Thu,  5 May 2022 15:49:22 -0300
+Message-Id: <20220505184938.351866-15-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
 References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,53 +93,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-msr_ds macro hides the usage of env->msr, which is a bad behavior
+msr_ile macro hides the usage of env->msr, which is a bad behavior
 Substitute it with FIELD_EX64 calls that explicitly use env->msr
 as a parameter.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220504210541.115256-6-victor.colombo@eldorado.org.br>
+Message-Id: <20220504210541.115256-7-victor.colombo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h        | 2 +-
- target/ppc/mmu_common.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/cpu.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index c561d664de..5abc612fe0 100644
+index 5abc612fe0..0d5a850794 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -355,6 +355,7 @@ typedef enum {
+@@ -354,6 +354,7 @@ typedef enum {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
  #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
++FIELD(MSR, ILE, MSR_ILE, 1)
  FIELD(MSR, PR, MSR_PR, 1)
-+FIELD(MSR, DS, MSR_DS, 1)
+ FIELD(MSR, DS, MSR_DS, 1)
  FIELD(MSR, LE, MSR_LE, 1)
- 
- /* PMU bits */
-@@ -486,7 +487,6 @@ FIELD(MSR, LE, MSR_LE, 1)
- #define msr_ep   ((env->msr >> MSR_EP)   & 1)
- #define msr_ir   ((env->msr >> MSR_IR)   & 1)
- #define msr_dr   ((env->msr >> MSR_DR)   & 1)
--#define msr_ds   ((env->msr >> MSR_DS)   & 1)
- #define msr_ts   ((env->msr >> MSR_TS1)  & 3)
- 
- #define DBCR0_ICMP (1 << 27)
-diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
-index 6ef8b1c00d..7e77b9b84a 100644
---- a/target/ppc/mmu_common.c
-+++ b/target/ppc/mmu_common.c
-@@ -768,7 +768,7 @@ static bool mmubooke206_get_as(CPUPPCState *env,
-         *pr_out = !!(epidr & EPID_EPR);
-         return true;
+@@ -477,7 +478,6 @@ FIELD(MSR, LE, MSR_LE, 1)
+ #define msr_gs   ((env->msr >> MSR_GS)   & 1)
+ #define msr_pow  ((env->msr >> MSR_POW)  & 1)
+ #define msr_ce   ((env->msr >> MSR_CE)   & 1)
+-#define msr_ile  ((env->msr >> MSR_ILE)  & 1)
+ #define msr_ee   ((env->msr >> MSR_EE)   & 1)
+ #define msr_fp   ((env->msr >> MSR_FP)   & 1)
+ #define msr_me   ((env->msr >> MSR_ME)   & 1)
+@@ -2679,7 +2679,7 @@ static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu, bool hv)
+     } else if (pcc->lpcr_mask & LPCR_ILE) {
+         ile = !!(env->spr[SPR_LPCR] & LPCR_ILE);
      } else {
--        *as_out = msr_ds;
-+        *as_out = FIELD_EX64(env->msr, MSR, DS);
-         *pr_out = FIELD_EX64(env->msr, MSR, PR);
-         return false;
+-        ile = !!(msr_ile);
++        ile = FIELD_EX64(env->msr, MSR, ILE);
      }
+ 
+     return ile;
 -- 
 2.32.0
 
