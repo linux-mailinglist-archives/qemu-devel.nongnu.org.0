@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECC051BD59
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:38:54 +0200 (CEST)
-Received: from localhost ([::1]:49014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9C151BCC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:06:52 +0200 (CEST)
+Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYsn-0001pj-Qc
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38704)
+	id 1nmYNn-0006yy-BK
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWp-0005Di-3N
+ id 1nmXWp-0005FG-T0
  for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:07 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52032)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:43667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWn-0003Hd-4F
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:06 -0400
-Received: by mail-wm1-x329.google.com with SMTP id q20so2247239wmq.1
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:04 -0700 (PDT)
+ id 1nmXWn-0003HP-EJ
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:07 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ r1-20020a1c2b01000000b00394398c5d51so2243166wmr.2
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cBRWuGW1oEM07qzwDlQeqzeKAnOLvL3dCwuFE/tT94s=;
- b=RpQT4ZPj3XLPLQnLT5FHpfIFCL6CGVRBLwta0hR8EptMxLzkw1Wrkr1pLcY4O69KOU
- jpdZhJkLPxQXTiQ6uIHQ0dsZAYdCf96/lsUx5zVQE1pmrrUJYFAn7PJkHloUrg2cCNgn
- wtdS8mpxtdruydjRUoxBwlHOrZaB2dX4G2VAkpWluXFSquvlvJyop4kYzOddSGivXcvZ
- 65rb2BQQKh0UjOO7jXdEp+rXiqgiHzLlLDy6yZOg6tdjv83H+BPqLFz56MClDJXyoIVH
- v81VgVH1XW012ARh46qyQHX3grI4ud4eEfkRKu6auiJJ7B8LA6JbWcWMR/i/86hBntmq
- Gxog==
+ bh=0QUzI2/FD81tuRNLLLXX+GyatmmpQmLOhxx+o3WhZiE=;
+ b=SbANoYQJFLLJ3c8jbLidGtYUk+tVGDnAHYHFP53ilfZawv2sexopLVJJcG1vJSUgbo
+ uwJ1EL4Ag9aakIeSJ408fPu/h1eS5LbLiSKce9Hcnj/WTEyzzf/GKmKz2sEjdmZOSfsl
+ el5T+3hUZTgdK8Difd4PC/h9XuG4ohnC3hKwGOrto9r3pvOphyfY+sM7BnQIzSsqdlz0
+ lH21RevOOcKEHiwBjPSoDIxz8VZbvZ6yDO6lEKmc2vafG1RGLd+YK8xPw+wWRpm1cWYg
+ X/f411vhsF+gLHKnmToe3wAQgWvIEb1gK616lzROPqfHMNdhQ8y6EOGUFUdQsjoJQKru
+ P9rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cBRWuGW1oEM07qzwDlQeqzeKAnOLvL3dCwuFE/tT94s=;
- b=u3CILVkDmD0niJk8pwxwK535gckeJC3AURRBzyHV2FiWFTM5vZGKP6Wqb7OCAQl0li
- IkwZ2joy6yfudNd4H+8oxQUxd6ep61tqPGNF0dlxzhHTc3EuCNxyYlOYmaVL88PdGN/x
- iY/LR1RzmCBLslp+NLz3HtKdoGKYrtODjnNlz37eAjSsSlA9UkLOmbQuYEGyFATcHeEU
- fYQOrhjPsTwgAhoVMMSk9lXY/IHnt4E7emsYmHR25fkGXcE63a8iYDbpM4OCGkB/ZwQM
- u0fbSntz06aqsEwFJQmKmS5smtWf6N12zZpq03CeUhWRvlEEbJERBjszQsUTyeq5MGF+
- 4j8g==
-X-Gm-Message-State: AOAM533uRFZDAzo1D+GOjshK113efmedP7qUHmsWeLNZUw++u1NDJ/nR
- sbcFNDKSNuqPEDcn88k3LoCSVqXEFE61fg==
-X-Google-Smtp-Source: ABdhPJy2GsRp7P+ytDA8et1hr84yKg+sQLX4EmkM1/rQnW27xeACfwUlqL+Grma+H+S2bSHHPLoiBQ==
-X-Received: by 2002:a05:600c:4e06:b0:394:56be:19c with SMTP id
- b6-20020a05600c4e0600b0039456be019cmr3532434wmq.168.1651741923791; 
- Thu, 05 May 2022 02:12:03 -0700 (PDT)
+ bh=0QUzI2/FD81tuRNLLLXX+GyatmmpQmLOhxx+o3WhZiE=;
+ b=hTNqztVeN4m5jd2/C+7TqQGqttwO0Vx5RJEeWcH9E4U5LuQ0ap4nXqTZ/QxkVx1Djb
+ xyd+NrtGT7QxBx5ghlZNRdsxBDjE2HnJBF6NXfq4uEjx+Mf8U2LVYNdBL4k0tOZ0rq4b
+ jINFGGOxmWNCEQBp5c53Rza0bfFaG1NovOKn7Qgd7MnOWx6MlRVxFSmfjLFnXVbOQoFJ
+ PzT6YQhqUXKoXWrmQmKN0kQN5NeeWp2/8N1cvf6N4PlZUXZjikfLzAmUUlctl6vHdkWQ
+ ed/kZ2A2LlIm8Mr4Zx9AeONnXIYI0P+ZMJkh5vAxEnw4AoCpNIK4W2K7lzlxxcLbt0KU
+ hC0g==
+X-Gm-Message-State: AOAM531wtvds6m8ZjM/MAi6XfdrCVZuQDz1+SY6ZowNNcbCdUdg1LRSF
+ HNCi0f5cJ5gwixSkj3/9cZueIUaUdiTmiw==
+X-Google-Smtp-Source: ABdhPJz5Kec+w4le8b3NITX3D51pfgNHsNyl03vaJCSDSEU/dYgYp9C20Tu3AQDP5LB15bNywt4jew==
+X-Received: by 2002:a7b:c095:0:b0:393:fd2e:9191 with SMTP id
+ r21-20020a7bc095000000b00393fd2e9191mr3587417wmh.137.1651741924565; 
+ Thu, 05 May 2022 02:12:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:12:03 -0700 (PDT)
+ Thu, 05 May 2022 02:12:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/23] target/arm: Consolidate cpreg updates in
+Subject: [PULL 16/23] target/arm: Use bool for is64 and ns in
  add_cpreg_to_hashtable
-Date: Thu,  5 May 2022 10:11:39 +0100
-Message-Id: <20220505091147.2657652-16-peter.maydell@linaro.org>
+Date: Thu,  5 May 2022 10:11:40 +0100
+Message-Id: <20220505091147.2657652-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220505091147.2657652-1-peter.maydell@linaro.org>
 References: <20220505091147.2657652-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,65 +92,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Put most of the value writeback to the same place,
-and improve the comment that goes with them.
+Bool is a more appropriate type for these variables.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220501055028.646596-15-richard.henderson@linaro.org
+Message-id: 20220501055028.646596-16-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ target/arm/helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cbc873e3e60..8ee96d5c042 100644
+index 8ee96d5c042..bba010d7cf5 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8543,10 +8543,19 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-     *r2 = *r;
-     r2->name = memcpy(r2 + 1, name, name_len);
- 
--    /* Reset the secure state to the specific incoming state.  This is
--     * necessary as the register may have been defined with both states.
-+    /*
-+     * Update fields to match the instantiation, overwiting wildcards
-+     * such as CP_ANY, ARM_CP_STATE_BOTH, or ARM_CP_SECSTATE_BOTH.
+@@ -8507,8 +8507,8 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
       */
-+    r2->cp = cp;
-+    r2->crm = crm;
-+    r2->opc1 = opc1;
-+    r2->opc2 = opc2;
-+    r2->state = state;
-     r2->secure = secstate;
-+    if (opaque) {
-+        r2->opaque = opaque;
-+    }
+     uint32_t key;
+     ARMCPRegInfo *r2;
+-    int is64 = (r->type & ARM_CP_64BIT) ? 1 : 0;
+-    int ns = (secstate & ARM_CP_SECSTATE_NS) ? 1 : 0;
++    bool is64 = r->type & ARM_CP_64BIT;
++    bool ns = secstate & ARM_CP_SECSTATE_NS;
+     int cp = r->cp;
+     size_t name_len;
  
-     if (r->bank_fieldoffsets[0] && r->bank_fieldoffsets[1]) {
-         /* Register is banked (using both entries in array).
-@@ -8587,20 +8596,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
- #endif
-         }
-     }
--    if (opaque) {
--        r2->opaque = opaque;
--    }
--    /* reginfo passed to helpers is correct for the actual access,
--     * and is never ARM_CP_STATE_BOTH:
--     */
--    r2->state = state;
--    /* Make sure reginfo passed to helpers for wildcarded regs
--     * has the correct crm/opc1/opc2 for this reg, not CP_ANY:
--     */
--    r2->cp = cp;
--    r2->crm = crm;
--    r2->opc1 = opc1;
--    r2->opc2 = opc2;
-+
-     /* By convention, for wildcarded registers only the first
-      * entry is used for migration; the others are marked as
-      * ALIAS so we don't try to transfer the register
 -- 
 2.25.1
 
