@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE2D51C843
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:45:16 +0200 (CEST)
-Received: from localhost ([::1]:38998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A05551C8B6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:10:35 +0200 (CEST)
+Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmgTR-0001bq-UM
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:45:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43878)
+	id 1nmgrx-0006g1-JP
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmgOO-0006xj-RQ
- for qemu-devel@nongnu.org; Thu, 05 May 2022 14:40:04 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42605)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmgYC-0002Ht-DZ; Thu, 05 May 2022 14:50:08 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:33573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmgOM-0002Ar-JW
- for qemu-devel@nongnu.org; Thu, 05 May 2022 14:39:59 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- n126-20020a1c2784000000b0038e8af3e788so3148651wmn.1
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 11:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmgY9-0004KL-VT; Thu, 05 May 2022 14:50:07 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id l203so5284655oif.0;
+ Thu, 05 May 2022 11:50:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ZrbOgyRHel1WsxZxJsJlMGVG2H1MqvD6A/WHr3xS78s=;
- b=TWEI4nTaN5hI01MIGwiFetwiVQ7upWwssaLsscSkrX71I7jJ++xd5NTetcl8stTZOZ
- ptje5NLs+rG1i0ZhZoWyuvQSeKbBrqKtlpRx+xxx0WIN7Z8ZtX3Vs/8MO7Jbo5UwxC4r
- 029OgDPSiaIVRI9QJhIHH9ZQCMKVcYSptzms1vyJM0Bi5R8UdaLzpEQ2xvEiaPyak0WS
- M0VTlNsYeQwFKj5YKDjDW5TGnfQC/MGcA9zsMHc8PEDzRZJlM3joeDDXspkA00qFTAj7
- naCNe1y7LOcjmfcmfDRAQRrs21xP2SFcSHQekD2gzO4iqHD0jb8jORI55hgy7KMK5lT0
- 1kzA==
+ bh=njVStiJZTdD00E/hsajQ9El7TBvd0RvJ9CrPKI5QohA=;
+ b=lrOg+lPvpQuexoawqLRW1GyJObZO3H9q/NnZQqNS3olCUDb+4VO3uFbU7Pa8DDGjXH
+ FIXQ7BJcUTc2TwAttuXiqyEyw76MgID4XyvJV//VFSEV8bpO9LyOpPWFjD+8pQZ05r9Q
+ zPAULAcC6B9aLlX63py/MfU84+YLjHY3urnWHd/Cucd++RkmDo57V5Fmz7nb7TwkjHUp
+ acn3LDjmjnoRFEYaRTAkVDUF+wLGT8QXEAZpkKSBppXCZQHprYvVytGBXcPWURF+zhKe
+ V0rzIuMKbP2EREe2Ww7KlJGw9ZIkFOPb3FIWxLMWsHt67x0UN38RuT8SwYQ75MUWVqNn
+ mHWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZrbOgyRHel1WsxZxJsJlMGVG2H1MqvD6A/WHr3xS78s=;
- b=TgvEICrcfAXOcL2wH9/qrLxw/xdD5fG14cW7w8yF0NVkSW8IoY7kt8fcf/2Ke5UnqO
- g+Mj+qNFHCIQo11Jfspj/oY49FhhMq2g35bP1JIJB2S+Ct3AVhnPisJR+6+vCplbmP2i
- RX32DB6FqdzIbrEuHntAJF7MDC4/QrqB/B9YEjd6wBhM+mvqc15cYyUS2les5zicCP6/
- zk0Z0+SCn5L87g3Jckn9fdP9tDT94Juv1yX7p8m7u0Y58Ol91OopR5Mbt+roUGzklxCb
- gYMNaC4uDYgvc/JAGKvn88CQ2JqOhurQgTsurIFB37FwyNfA+QcJU0xL+2bKIlxlenbV
- q2eQ==
-X-Gm-Message-State: AOAM530eRgKt53yNqzhwxc1tKKTk8PlaQLihmg08W4i5LeNfHfPoDm3U
- uWfoNLq0iGtSPiiKOpRc2ssC3A==
-X-Google-Smtp-Source: ABdhPJxrAYHDTD71Jc3T7XhEeItpGJgpKP1K6mwtoMtEAPiC0dXIdSm4GcdX2hyzPpTBfqq3vh1IAg==
-X-Received: by 2002:a05:600c:3391:b0:393:fbba:3789 with SMTP id
- o17-20020a05600c339100b00393fbba3789mr6320440wmp.206.1651775995887; 
- Thu, 05 May 2022 11:39:55 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- o35-20020a05600c512300b0039454a85a9asm2302121wms.30.2022.05.05.11.39.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=njVStiJZTdD00E/hsajQ9El7TBvd0RvJ9CrPKI5QohA=;
+ b=Xv3pJYbSBmUiSCUOQhYY9MwAmXlXx0AW/R+75CwesNC/yp+ghhdwK5erTs2cmXvQIA
+ 2WaNDgXkqbEtMYW8KU00Lhsi3VmmY6ItdFYvmGmFPJA6NJOA9wIQ2Hr3/oBswYa7TotP
+ ImcT9kBH5M6DExMJAgZNCF+tNDqinHc0VWdr9qF2kqJo8rNJ/KPNAvULA7YsZattZSgI
+ Urqho8wF8ryCd1L2DV+93O8xg35XEa0mdGrBezwtAHa5+7cV04ZOrz5x9w1vImFUz731
+ AhTLe2sXOEK/skOaVR6bbiDK67YBjW4/Po7WARvpRzm4/wGTI110dfSa2fStvdJe3Jjk
+ Ir4Q==
+X-Gm-Message-State: AOAM532c+OUtLk//cQyIicMkQKo97biLRZxh2zvFHVGTXThfPAVodWbV
+ eZD0zwqEGxRJbHsc8rk8u6G7f5FDGD4=
+X-Google-Smtp-Source: ABdhPJzSvaBd6BEdWnK2TIGGG33z6JF5YL+onvuC61ZxQMV8c4e5KQ4ZwGz7sjj8SQNwat8IphgA3A==
+X-Received: by 2002:a05:6808:220c:b0:325:c254:9b0a with SMTP id
+ bd12-20020a056808220c00b00325c2549b0amr3044837oib.239.1651776604248; 
+ Thu, 05 May 2022 11:50:04 -0700 (PDT)
+Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
+ [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:39:55 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/arm: Enable FEAT_S2FWB for -cpu max
-Date: Thu,  5 May 2022 19:39:50 +0100
-Message-Id: <20220505183950.2781801-5-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220505183950.2781801-1-peter.maydell@linaro.org>
-References: <20220505183950.2781801-1-peter.maydell@linaro.org>
+ Thu, 05 May 2022 11:50:03 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
+ richard.henderson@linaro.org
+Subject: [PULL 00/30] ppc queue
+Date: Thu,  5 May 2022 15:49:08 -0300
+Message-Id: <20220505184938.351866-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,57 +87,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable the FEAT_S2FWB for -cpu max. Since FEAT_S2FWB requires that
-CLIDR_EL1.{LoUU,LoUIS} are zero, we explicitly squash these (the
-inherited CLIDR_EL1 value from the Cortex-A57 has them as 1).
+The following changes since commit e91b8994115d2f093e7556c9af2d051a26a98cfb:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/arm/emulation.rst |  1 +
- target/arm/cpu64.c            | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+  Merge tag 'pull-target-arm-20220505' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-05-05 11:30:33 -0500)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index c3bd0676a87..122306a99f1 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -42,6 +42,7 @@ the following architecture extensions:
- - FEAT_PMUv3p4 (PMU Extensions v3.4)
- - FEAT_RDM (Advanced SIMD rounding double multiply accumulate instructions)
- - FEAT_RNG (Random number generator)
-+- FEAT_S2FWB (Stage 2 forced Write-Back)
- - FEAT_SB (Speculation Barrier)
- - FEAT_SEL2 (Secure EL2)
- - FEAT_SHA1 (SHA1 instructions)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 2974cbc0d35..ed2831f1f38 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -769,6 +769,15 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, MIDR_EL1, REVISION, 0);
-     cpu->midr = t;
- 
-+    /*
-+     * We're going to set FEAT_S2FWB, which mandates that CLIDR_EL1.{LoUU,LoUIS}
-+     * are zero.
-+     */
-+    u = cpu->clidr;
-+    u = FIELD_DP32(u, CLIDR_EL1, LOUIS, 0);
-+    u = FIELD_DP32(u, CLIDR_EL1, LOUU, 0);
-+    cpu->clidr = u;
-+
-     t = cpu->isar.id_aa64isar0;
-     t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
-     t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
-@@ -841,6 +850,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1); /* FEAT_LVA */
-     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1); /* FEAT_TTL */
-     t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2); /* FEAT_BBM at level 2 */
-+    t = FIELD_DP64(t, ID_AA64MMFR2, FWB, 1); /* FEAT_S2FWB */
-     cpu->isar.id_aa64mmfr2 = t;
- 
-     t = cpu->isar.id_aa64zfr0;
--- 
-2.25.1
+are available in the Git repository at:
 
+  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220505
+
+for you to fetch changes up to bf3dd1e6d0d7c5c4906f89776e15dddc22af784b:
+
+  target/ppc: Change MSR_* to follow POWER ISA numbering convention (2022-05-05 15:36:17 -0300)
+
+----------------------------------------------------------------
+ppc patch queue for 2022-05-05:
+
+The star of the show in this PR is the 'Remove hidden usages of *env'
+work done by Víctor, which impacts a lot of target/ppc code and we want
+to get it landed ASAP so future target/ppc contributions can be based on
+it.
+
+Other changes:
+
+- XIVE fixes in guest interrupt handling
+- BookE debug interrupt fix
+- vhost-user TARGET_PPC64 macro fix
+- valgrind fixes in kvmppc functions
+
+----------------------------------------------------------------
+Bin Meng (1):
+      target/ppc: Fix BookE debug interrupt generation
+
+Daniel Henrique Barboza (4):
+      target/ppc: initialize 'val' union in kvm_get_one_spr()
+      target/ppc: init 'lpcr' in kvmppc_enable_cap_large_decr()
+      target/ppc: init 'sregs' in kvmppc_put_books_sregs()
+      target/ppc: init 'rmmu_info' in kvm_get_radix_page_info()
+
+Frederic Barrat (2):
+      ppc/xive: Always recompute the PIPR when pushing an OS context
+      ppc/xive: Update the state of the External interrupt signal
+
+Murilo Opsfelder Araujo (1):
+      vhost-user: Use correct macro name TARGET_PPC64
+
+Víctor Colombo (22):
+      target/ppc: Remove fpscr_* macros from cpu.h
+      target/ppc: Remove unused msr_* macros
+      target/ppc: Remove msr_pr macro
+      target/ppc: Remove msr_le macro
+      target/ppc: Remove msr_ds macro
+      target/ppc: Remove msr_ile macro
+      target/ppc: Remove msr_ee macro
+      target/ppc: Remove msr_ce macro
+      target/ppc: Remove msr_pow macro
+      target/ppc: Remove msr_me macro
+      target/ppc: Remove msr_gs macro
+      target/ppc: Remove msr_fp macro
+      target/ppc: Remove msr_cm macro
+      target/ppc: Remove msr_ir macro
+      target/ppc: Remove msr_dr macro
+      target/ppc: Remove msr_ep macro
+      target/ppc: Remove msr_fe0 and msr_fe1 macros
+      target/ppc: Remove msr_ts macro
+      target/ppc: Remove msr_hv macro
+      target/ppc: Remove msr_de macro
+      target/ppc: Add unused msr bits FIELDs
+      target/ppc: Change MSR_* to follow POWER ISA numbering convention
+
+ hw/intc/xive.c           |  25 +++++-
+ hw/intc/xive2.c          |  18 ++--
+ hw/ppc/pegasos2.c        |   2 +-
+ hw/ppc/spapr.c           |   2 +-
+ hw/virtio/vhost-user.c   |   2 +-
+ include/hw/ppc/xive.h    |   1 +
+ target/ppc/cpu.c         |   2 +-
+ target/ppc/cpu.h         | 220 ++++++++++++++++++++++-------------------------
+ target/ppc/cpu_init.c    |  23 +++--
+ target/ppc/excp_helper.c |  54 ++++++------
+ target/ppc/fpu_helper.c  |  28 +++---
+ target/ppc/gdbstub.c     |   2 +-
+ target/ppc/helper_regs.c |  15 ++--
+ target/ppc/kvm.c         |  16 ++--
+ target/ppc/machine.c     |   2 +-
+ target/ppc/mem_helper.c  |  23 ++---
+ target/ppc/misc_helper.c |   2 +-
+ target/ppc/mmu-radix64.c |  11 +--
+ target/ppc/mmu_common.c  |  40 +++++----
+ target/ppc/mmu_helper.c  |   6 +-
+ 20 files changed, 260 insertions(+), 234 deletions(-)
 
