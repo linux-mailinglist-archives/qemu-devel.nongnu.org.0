@@ -2,190 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83CD51BD52
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:35:45 +0200 (CEST)
-Received: from localhost ([::1]:41932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5133C51BD91
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:57:23 +0200 (CEST)
+Received: from localhost ([::1]:50018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYpk-00050u-PT
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:35:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48272)
+	id 1nmZAf-0005q1-QA
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:57:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1nmYCf-0004iF-Bx
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:55:22 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54552)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nmYLa-0006b5-5S
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 06:04:36 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:32211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1nmYCc-0006Zo-8Z
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:55:20 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2456UMre013507;
- Thu, 5 May 2022 09:55:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=PeXQxzNfSewY/taWyYR+m1fd5mhLL6SnOQvzbabDEpc=;
- b=dEmbjaK/kkxHrcwIOODMnb7Fkp+ueFEu6g9it/7Up46I47d+TMy3UqbzXbIFjnM+iAMD
- f155cu6mMduCRsiB6Cfze6Q2u294MfgTevWweFI4/rAxfXLJp4E5Z95FPIjrUQH3t8Pw
- Lm5cScOSY4r9KziCIQj3Y8S/aATmyCQ9R8B9XBiy+7LlVL8VHZ3m3zZMScv44y1D7vHu
- Xk7AZtSuWrJaqfOwkHMeRrpETUPXKdfEbDIkBVrgCtDqfWcY6LtpdfOkkqgOsw1ZLYc2
- OyXi6K2gIKuQ3WGvtivjWl+EtmmliYDPD70u9CwHvvo63Vo9+QqEST7A4y82VGZD90ui Dw== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3frvqsjvg4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 05 May 2022 09:55:08 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 2459pQFZ020195; Thu, 5 May 2022 09:55:08 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3fs1a6rchn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 05 May 2022 09:55:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sjdz3/tIIoqlJEZROMk7o3Ca1FPjqcRkVIyGFRs2wigp8cg2rbTJd7jpxqnDInMLd64jUUxs4lhgU3geiFYd3VM1wjcK/W3RC5R++kbTeEblznJh2D9lKgRXBsndOgR6pRP5xWnHqdIqHVNDqg2BYlAItCG4w726/WBmpuWV1894ljoo7NcdEg2CndZRooRGkXq2YpjKrb8dY6Bb+nqNCQCZz+oFJ/1tqlMA0JF1ho3cn4auNSF/xOJt/Uflrqutz2zgz0jO2fblHEZ/Z+pKtOZbOeFrdZUac6+8+M+WEOq6DGsaDMCEfvCmRyQevbeDHI6vVhEvh7sSuMo0Csfv9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PeXQxzNfSewY/taWyYR+m1fd5mhLL6SnOQvzbabDEpc=;
- b=Vfu9F3SVZrp2QovqumVtO3HI7rZbZ28EYEpip03XESh+tFBeYF/bRhPH9e1ZjnVWg+2TwCqB1Pwl+CISIKWsgc4l3OPZOvBQfQXMzUjW2SLMfkFQ0BYVuXuJmWnE6SI/7M9bkZ265Wemgci3xV8B2yXFrtw1iObobT0Brcphg/ZqPO5o+fBSkQZwuJDTRL4ZNNLV7UKqcNX97uM9cYt7+J3bGquufIftYe+xET6O32ZpSM4/CltmTgQQftcElJiqXuGAaMhB8ywtZn7caGi6+2VHda5R4M2Rrqjfy9xXiNORkftZ/tzaNxjw49DS0jxp87qd6s+1T29lnRiA4I9CkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PeXQxzNfSewY/taWyYR+m1fd5mhLL6SnOQvzbabDEpc=;
- b=NjnlZDTLADzstmP9WU0xPrnmMKjobggXU7cavqyXyd38CCXt3JhGOVxMv44eP8Nf29Jm6g/2QZBvljGWQ4ArQYryjUsFoCPYx9KQwXZ/aXOcdea6ws6VAHVrE2g6qFqVfWJb2iD/xzqS6Y82p5DJdF3+y3emhqVhheqlBwMjSjs=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by DS7PR10MB5327.namprd10.prod.outlook.com (2603:10b6:5:3b1::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.13; Thu, 5 May
- 2022 09:55:05 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::b9e5:d1b6:b4be:f9d]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::b9e5:d1b6:b4be:f9d%5]) with mapi id 15.20.5206.027; Thu, 5 May 2022
- 09:55:05 +0000
-Message-ID: <90b6d741-7b18-e3e7-ab42-363ba58a96b0@oracle.com>
-Date: Thu, 5 May 2022 10:54:57 +0100
-Subject: Re: [PATCH RFC 04/10] intel_iommu: Second Stage Access Dirty bit
- support
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Nicolin Chen <nicolinc@nvidia.com>,
- Yishai Hadas <yishaih@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
- Yi Liu <yi.l.liu@intel.com>, Eric Auger <eric.auger@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- "John G . Johnson" <john.g.johnson@oracle.com>, kvm@vger.kernel.org
-References: <20220428211351.3897-1-joao.m.martins@oracle.com>
- <20220428211351.3897-5-joao.m.martins@oracle.com>
- <YnLd5b3GssL0l/uE@xz-m1.local>
-From: Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <YnLd5b3GssL0l/uE@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P190CA0011.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::16) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nmYLV-00081T-0f
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 06:04:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651745067;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E9FH101KTZZWIAvqn9LR0ITq56PtqC+GaTidZ4+S39Y=;
+ b=Vqj2TGTCGiN+9tgbYcLwhelq2B/wrbunmmFbupkR0Ycj15nNAVGIuEr5uuv/CoF2IONxdI
+ 2vEnzJUlqE7xJd67k88qj90XM4WKLbUMBNbscWmkn+evqDnjs60oJKvsg/LHYyqD8jY0hr
+ AY/jMwKDs8nboR1ELZOrIzSQuyeQFVU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-55-CTCuYzOKPfemNrhJ68EZQg-1; Thu, 05 May 2022 06:04:19 -0400
+X-MC-Unique: CTCuYzOKPfemNrhJ68EZQg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14063801210;
+ Thu,  5 May 2022 10:04:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 714E940CF8E7;
+ Thu,  5 May 2022 10:04:16 +0000 (UTC)
+Date: Thu, 5 May 2022 11:04:13 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Atish Patra <atishp@atishpatra.org>, Atish Patra <atishp@rivosinc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
+Message-ID: <YnOhHZGJphk30SmJ@redhat.com>
+References: <20220412021009.582424-1-atishp@rivosinc.com>
+ <Yl7oiF7kUrIQ0qk5@redhat.com>
+ <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
+ <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
+ <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5402a549-eb08-4004-098f-08da2e7d549e
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5327:EE_
-X-Microsoft-Antispam-PRVS: <DS7PR10MB532783EDDE6AE3BACB18E844BBC29@DS7PR10MB5327.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +0ujqOSrW0zhS+8gpmeMfOIVUObJG/imbE1+AMdcrO+/C7KzXlbylt+QHCkqd4VeQrJFtl0/U443ZpiQ+DBT00UOvgVlAvMP3/ZEQZQPkAcXaA4PtQe5PGlHJcDVB8W3h+rNBSwVXanjpx/+qRCywFu67U3r+0rHsMq8ep2N7QzI8QKp05EZoGIj6VO0bjQ+vWZnX5YWqWOdZ7UDEwJcfCy5hIEoClfEgZagkaAdrVblbpi0QIi92kynBSrUl9HUDKrzxIntqzy06umzyj17E61f6cZJf102o+AnaYtucTLE8p/wZVBPG0IFsdalcWVZ0yKks5kHkrt+Dql4B09EVkToEtP2hXD+zOsLstxaWlRex6JuX6tNFTCGVjiYM7SzG33X0mtlZV7ggfF/iP/CVe9Rtd0t+PNQddHy6sNG0PtBzeWjxEtwqQ+XfKo9OnBP2qUx83DzABjBcjcXC+tunRe+ygm+NFZFvHZfublmGMGy1YmGvv6YN8flQoceFV2NN9rDiOO/fS8vse42GGnNnOzAbrXrwO1WuIOUtUwHGODZp5II3mJ2db5mcwE16f/1nmdf6RPdVL4O2F+18hL11Hz8Eoc1XDxNxkF1hUIduKljWZBXUsdQOQAHrTl5Z/jcPh9q82spmQ/ZicIILrwfd1YbJZchy4+B192j69chIwguHyJKqcbTqXC1aWYTw+A/DP+vJtZL4juvb1j7R7tL8jewYgVG37nAs0EOiidOp6Y=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(7416002)(2616005)(26005)(186003)(5660300002)(38100700002)(6512007)(31686004)(36756003)(2906002)(54906003)(6666004)(4744005)(83380400001)(6506007)(6916009)(316002)(86362001)(31696002)(8936002)(508600001)(4326008)(6486002)(8676002)(66946007)(66476007)(66556008)(53546011)(14143004)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHhOUSsrMDFHMy8yMHFXdlkxb1pBYlZHNkdrRjBDRlR6NWlCc204TnlrRjlo?=
- =?utf-8?B?RlJUMGUrbGRnS1pNQy9zeC9QMnJVN0duSVQxYnhYZDdkWFhucWplYzQ5bXdU?=
- =?utf-8?B?TFBNaTNqSm5MTEdqY0daaEhXSXEzKzd6dmhNYlJGcWdSby8xOXNESFRtWWpw?=
- =?utf-8?B?TFR3NVFwN0JleEM4ZzlpSnpieXEzOWZxRnVFVnhXSFpFaXpyNXhQWGVTeHlQ?=
- =?utf-8?B?bFVnS2pTMzNkem94UnRYTmI3WWRabGlQTllKbHdtSnZaSDhYZ1ZyTjNCcCtB?=
- =?utf-8?B?elUveTZqeW9VUW1aMk00dDhKZ0h6NVJGWGFLbUpHWVc3R3lEdW5FZ0tVV0Nn?=
- =?utf-8?B?V3JKV296UGEycXNpWWZ3aXl2NGtPMVZ4L0pWd1RvdFpPdUxCSlpKeitaMS9a?=
- =?utf-8?B?LzQzMkFlRlUvdjV5VnlVMnJnZjFzKzUzNngwczFqa0lRRzNjNE1laUZCRGdI?=
- =?utf-8?B?UnJJdG1wRDlON21mVjRROVpPOG5qMzVzZk1JSmViYlZ0VitpUjRENEI2T2lk?=
- =?utf-8?B?RTRSckk2UloybXpncmZkRzdTNkJoYi9LamtFVlZVL3BKWDJPa1dISS85TkNO?=
- =?utf-8?B?VTFNd0ZPNjF2bFhQMTFlZTUrd1I0S3J5K3liNEk1VGxrTFd5VW1yMkNDNUw1?=
- =?utf-8?B?Qk9yWWlVR1FhZ0lTK0pZNXA2ZE5hS3VmVk4wVW5yYllSY0xuTlNlNHl2NFpE?=
- =?utf-8?B?alF1OEdtcnJkTklXeXpCVkVMcWJqc1RNRkwzWE9Bb1ltUm1POFZpYll4Zmsv?=
- =?utf-8?B?c2xlejRBbU5aWWNuaitHcHZ1aUh5dytYZU9NNTllekp1VnBLSmpCZkx3L0Rv?=
- =?utf-8?B?ZVR6QWhvTFg2ZWo0NDVKRCtEdkpVeXpkVlZoOUxlSGgxSlN6WTIrbzAxUFov?=
- =?utf-8?B?Ym5TTUNVSnFZV3ZBaUd4QnZKaWlZbmZGWlhZY1ZUUjI5bDZVMUxIZlFjNDR0?=
- =?utf-8?B?RC9INUF6U1RZdGVIWGNoa2x4UnkvekpJU09xS0JzSlRSMkI3M1l3ZXM2czRD?=
- =?utf-8?B?NnNNd3UxWUFORER3VThpc1ZJamxGdGdiemhzd1YwdklhU0o5U3JRSXlqRXc1?=
- =?utf-8?B?cjNhQ21pSlcxMnpFNk1aTGRULzVpZ2UrNVBOa01BK2dZdVhTQXRnT0ZaTFVL?=
- =?utf-8?B?NlFtU3BPVnNqWm50UWpTNU81NGhDYzFJMTd1dnpibjk5SlpwNXhFTVNJRVpD?=
- =?utf-8?B?ZDJoYnhWbktKUUtWc0VaeTJaYnZmbmpGNVM3ZzlTQng3MXRUeVA0b2IyNVlD?=
- =?utf-8?B?TFIwcENmdTIxbVJ4YitwbjhVVGl5THQ2RmJSd1VVU2JBcmVDTHBPRVhyYlpM?=
- =?utf-8?B?aW1KTW42dXhpZVpwOEdkeEloVzZZMDlPRk0xb0g3a1BVSEJqK05GT3JxdEVH?=
- =?utf-8?B?bWJwTzVzSTFraUl2Wk80empyVmRndktxcWRSZTZuL3lVcjFTK0Fmc1dUNnI5?=
- =?utf-8?B?OXlUQlFsNDFycmMrdmpsdXBuVHNKSjBTaTc2SnFmRDl6c2lha0ZHaWVrRGVZ?=
- =?utf-8?B?c0JUOTFmaFpaWkg3RXdjQVFZUVJ4elNnU3JudHhmV0dEazhVZmkzMkswV3B5?=
- =?utf-8?B?Mkd3TlZvOGlvbHhsYXpha1JyZU1iSTNVcjBYUGRDbkhKVDQ2b1VodEF3dm5B?=
- =?utf-8?B?SFQ2RERSRUUydk1mOEt0WnlKL252aXpkYUZQcXphYzJIeC90MFhnbVRWeU1C?=
- =?utf-8?B?T2xaNE1YY2FIU2tlM0lRQUZZeUVvejdnTjNNc0xKU3Y4eE03aXBka0pSZFpH?=
- =?utf-8?B?TjgrdG1JNHZsamMyQzZMYkpRcGtRTmh5THJmU29MeDBNT01oKzhYNmNRTVJU?=
- =?utf-8?B?YXpaZzR6U1pYRXhwZzVwdEUrVXJFc1hZeFVZMHQxOW9IMXI3OUh4ckVvN3NW?=
- =?utf-8?B?T0VWQWlGcnlOR3VPSzRLbkRSclBKQzk2RFpHSjFka2dsOVoyQVBKcGVBL01U?=
- =?utf-8?B?c0g5Rk4xa2NBNzZySGd0eWRCNmtZUXJZY3NDckRuYkovZ0R2RVRQRUY4d3ZG?=
- =?utf-8?B?ZVdEeHFrUTV1RlBzVXlnZUdGdTFiM2lDREUrQmZ0S0Y0T0dQOVdES1VoOUpY?=
- =?utf-8?B?QVROeitEYzdKRXMxbDQ4OUtCamFYWW0zL0R0T0JUbXVaS1pkdm96c0FpVWdj?=
- =?utf-8?B?cmIra0poVTE4dkVjUEczL0t5MzJLVDdIbDlTR2VCcmJISGp5cFE3c0pxWlFn?=
- =?utf-8?B?VFpqWFM5dFRjR0xqblJVbjhiNG9DbmlWbGI0RHNuQUVlS0tzYnBaaVd5NVRi?=
- =?utf-8?B?ZGJ0clFoMVlkNXo2dUdIMjg5YTR6UkNwNDg1VGVyYktKS3hpY0laKzdwcmtN?=
- =?utf-8?B?bCtaWUczRVdkZ1JNd3o4UmJWQS8xdm44RFd6WUNndG9CL1VCdnRuSGVJbGdr?=
- =?utf-8?Q?m1BfftGBqDpIPVRg=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5402a549-eb08-4004-098f-08da2e7d549e
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 09:55:05.5060 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P98J8QNgg3VjnVGvTURRFn15oOupJka7Yy5TrrwkUjM8FWG/MYDOdG2vkv7iia7LwwSZnSMy0YT2J+hvMORSjG+nQk7kpf2+/20FGr1ig/U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5327
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
- definitions=2022-05-05_04:2022-05-05,
- 2022-05-05 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- bulkscore=0 malwarescore=0
- spamscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205050069
-X-Proofpoint-GUID: ufGjmbVh4hxqv-9Xc7wZzHjr6_ZUfTK2
-X-Proofpoint-ORIG-GUID: ufGjmbVh4hxqv-9Xc7wZzHjr6_ZUfTK2
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -198,32 +88,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/22 21:11, Peter Xu wrote:
-> Hi, Joao,
+On Thu, May 05, 2022 at 07:36:51PM +1000, Alistair Francis wrote:
+> On Tue, May 3, 2022 at 5:57 PM Atish Patra <atishp@atishpatra.org> wrote:
+> >
+> > On Tue, Apr 19, 2022 at 5:26 PM Atish Patra <atishp@atishpatra.org> wrote:
+> > >
+> > > On Tue, Apr 19, 2022 at 9:51 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > >
+> > > > On Mon, Apr 11, 2022 at 07:10:06PM -0700, Atish Patra wrote:
+> > > > >
+> > > > > The RISC-V virt machine has helped RISC-V software eco system to evolve at a
+> > > > > rapid pace even in absense of the real hardware. It is definitely commendable.
+> > > > > However, the number of devices & commandline options keeps growing as a result
+> > > > > of that as well. That adds flexibility but will also become bit difficult
+> > > > > to manage in the future as more extension support will be added. As it is the
+> > > > > most commonly used qemu machine, it needs to support all kinds of device and
+> > > > > interrupts as well. Moreover, virt machine has limitations on the maximum
+> > > > > number of harts it can support because of all the MMIO devices it has to support.
+> > > > >
+> > > > > The RISC-V IMSIC specification allows to develop machines completely relying
+> > > > > on MSI and don't care about the wired interrupts at all. It just requires
+> > > > > all the devices to be present behind a PCI bus or present themselves as platform
+> > > > > MSI device. The former is a more common scenario in x86 world where most
+> > > > > of the devices are behind PCI bus. As there is very limited MMIO device
+> > > > > support, it can also scale to very large number of harts.
+> > > > >
+> > > > > That's why, this patch series introduces a minimalistic yet very extensible
+> > > > > forward looking machine called as "RISC-V Mini Computer" or "minic". The
+> > > > > idea is to build PC or server like systems with this machine. The machine can
+> > > > > work with or without virtio framework. The current implementation only
+> > > > > supports RV64. I am not sure if building a RV32 machine would be of interest
+> > > > > for such machines. The only mmio device it requires is clint to emulate
+> > > > > the mtimecmp.
+> > > >
+> >
+> > Any other thoughts ?
 > 
-> On Thu, Apr 28, 2022 at 10:13:45PM +0100, Joao Martins wrote:
->> +/* Get the content of a spte located in @base_addr[@index] */
->> +static uint64_t vtd_set_slpte(dma_addr_t base_addr, uint32_t index,
->> +                              uint64_t slpte)
->> +{
->> +
->> +    if (dma_memory_write(&address_space_memory,
->> +                         base_addr + index * sizeof(slpte), &slpte,
->> +                         sizeof(slpte), MEMTXATTRS_UNSPECIFIED)) {
->> +        slpte = (uint64_t)-1;
->> +        return slpte;
->> +    }
->> +
->> +    return vtd_get_slpte(base_addr, index);
->> +}
+> I don't *love* this idea. I think the virt machine is useful, but I'm
+> not convinced we need a second one.
 > 
-> Could I ask when the write succeeded, why need to read slpte again?
+> This feels a little bit more like a "none" machine, as it contains
+> just the bare minimum to work.
+> 
+> >
+> > > > I would ask what you see as the long term future usage for 'virt' vs
+> > > > 'minic' machine types ? Would you expect all existing users of 'virt'
+> > > > to ultimately switch to 'minic', or are there distinct non-overlapping
+> > > > use cases for 'virt' vs 'minic' such that both end up widely used ?
+> > > >
+> > >
+> > > Nope. I don't expect existing 'virt' users to switch to 'minic' as
+> > > they aim to cater to different users.
+> > >
+> > > Here are the major differences
+> > > 1. virt machine supports MMIO devices & wired interrupts. Minic doesn't
+> 
+> This seems like the main difference
+> 
+> > > 2. virt machine doesn't support the MSI only option yet (can be added
+> > > though[1]). Minic does.
+> 
+> This could be fixed
+> 
+> > > 3. Number of cpu supported by virt machine are limited because of the
+> > > MMIO devices. Minic can scale to very
+> > > large numbers of cpu.
+> 
+> Similar to 1
+> 
+> > > 4. 'Minic' only supports PCI based MSI capable devices. Thus, MSI is a
+> > > mandatory requirement for 'minic' while
+> > > it is optional for 'virt'.
+> 
+> I'm not fully convinced we need this, but it also doesn't seem to cost
+> us a lot in terms of maintenance. It would be beneficial if we could
+> share a bit more of the code. Can we share the socket creation code as
+> well?
+> 
+> I don't like the name minic though. What about something like
+> `virt-hpc`, `virt-pcie-minimal` or something like that? That way we
+> indicate it's still a virt board
 
-We don't, I should delete this.
+We're not versioning the 'virt' machine type right so. IOW, we've not
+made any promises about its long term featureset. 
 
-Perhaps I was obsessed that what I set is what I get in the end and this
-was a remnant of it.
+If the virt machine type isn't the perfect match right now, should
+we change it, in a potentially incompatible way, to give us the right
+solution long term, rather than introducing a brand new machine type
+with significant overlap.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
