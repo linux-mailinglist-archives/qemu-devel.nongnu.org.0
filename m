@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB0D51CF51
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 05:17:56 +0200 (CEST)
-Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097E451D091
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 07:18:23 +0200 (CEST)
+Received: from localhost ([::1]:48286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmoTb-0000se-56
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 23:17:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41228)
+	id 1nmqM9-0003Oq-K1
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 01:18:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1nmoSC-0007La-IM; Thu, 05 May 2022 23:16:28 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:40033)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nmqJe-0002HZ-Uz; Fri, 06 May 2022 01:15:46 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:44278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1nmoS9-00073w-T7; Thu, 05 May 2022 23:16:27 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 24632OOh041963;
- Fri, 6 May 2022 11:02:24 +0800 (GMT-8)
- (envelope-from jamin_lin@aspeedtech.com)
-Received: from localhost.localdomain (192.168.70.87) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 6 May
- 2022 11:15:22 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-CC: <troy_lee@aspeedtech.com>, <steven_lee@aspeedtech.com>
-Subject: [PATCH v1 1/1] docs: add minibmc section in aspeed document
-Date: Fri, 6 May 2022 11:15:21 +0800
-Message-ID: <20220506031521.13254-2-jamin_lin@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220506031521.13254-1-jamin_lin@aspeedtech.com>
-References: <20220506031521.13254-1-jamin_lin@aspeedtech.com>
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nmqJd-0007hs-32; Fri, 06 May 2022 01:15:46 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id CDD6511EE05;
+ Fri,  6 May 2022 05:15:40 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Thu, 05 May 2022 02:42:17 -0700
+Subject: [PATCH qemu] target/riscv: rvv: Fix early exit condition for whole
+ register load/store
+Message-ID: <165181414065.18540.14828125053334599921-0@git.sr.ht>
+X-Mailer: git.sr.ht
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.87]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 24632OOh041963
-Received-SPF: pass client-ip=211.20.114.71;
- envelope-from=jamin_lin@aspeedtech.com; helo=twspam01.aspeedtech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,84 +55,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+From: eopXD <eop.chen@sifive.com>
+
+Vector whole register load instructions have EEW encoded in the opcode,
+so we shouldn't take SEW here. Vector whole register store instructions
+are always EEW=3D8.
+
+Signed-off-by: eop Chen <eop.chen@sifive.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 ---
- docs/system/arm/aspeed.rst | 61 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+ target/riscv/insn_trans/trans_rvv.c.inc | 58 +++++++++++++------------
+ 1 file changed, 31 insertions(+), 27 deletions(-)
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index 60ed94f187..6f2e4fb53d 100644
---- a/docs/system/arm/aspeed.rst
-+++ b/docs/system/arm/aspeed.rst
-@@ -120,3 +120,64 @@ FMC chip and a bigger (64M) SPI chip, use :
- .. code-block:: bash
- 
-   -M ast2500-evb,fmc-model=mx25l25635e,spi-model=mx66u51235f
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
+s/trans_rvv.c.inc
+index 90327509f7..391c61fe93 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1118,10 +1118,10 @@ GEN_VEXT_TRANS(vle64ff_v, MO_64, r2nfvm, ldff_op, ld_=
+us_check)
+ typedef void gen_helper_ldst_whole(TCGv_ptr, TCGv, TCGv_env, TCGv_i32);
+=20
+ static bool ldst_whole_trans(uint32_t vd, uint32_t rs1, uint32_t nf,
+-                             gen_helper_ldst_whole *fn, DisasContext *s,
+-                             bool is_store)
++                             uint32_t width, gen_helper_ldst_whole *fn,
++                             DisasContext *s, bool is_store)
+ {
+-    uint32_t evl =3D (s->cfg_ptr->vlen / 8) * nf / (1 << s->sew);
++    uint32_t evl =3D (s->cfg_ptr->vlen / 8) * nf / width;
+     TCGLabel *over =3D gen_new_label();
+     tcg_gen_brcondi_tl(TCG_COND_GEU, cpu_vstart, evl, over);
+=20
+@@ -1153,38 +1153,42 @@ static bool ldst_whole_trans(uint32_t vd, uint32_t rs=
+1, uint32_t nf,
+  * load and store whole register instructions ignore vtype and vl setting.
+  * Thus, we don't need to check vill bit. (Section 7.9)
+  */
+-#define GEN_LDST_WHOLE_TRANS(NAME, ARG_NF, IS_STORE)                      \
++#define GEN_LDST_WHOLE_TRANS(NAME, ARG_NF, WIDTH, IS_STORE)               \
+ static bool trans_##NAME(DisasContext *s, arg_##NAME * a)                 \
+ {                                                                         \
+     if (require_rvv(s) &&                                                 \
+         QEMU_IS_ALIGNED(a->rd, ARG_NF)) {                                 \
+-        return ldst_whole_trans(a->rd, a->rs1, ARG_NF, gen_helper_##NAME, \
+-                                s, IS_STORE);                             \
++        return ldst_whole_trans(a->rd, a->rs1, ARG_NF, WIDTH,             \
++                                gen_helper_##NAME, s, IS_STORE);          \
+     }                                                                     \
+     return false;                                                         \
+ }
+=20
+-GEN_LDST_WHOLE_TRANS(vl1re8_v,  1, false)
+-GEN_LDST_WHOLE_TRANS(vl1re16_v, 1, false)
+-GEN_LDST_WHOLE_TRANS(vl1re32_v, 1, false)
+-GEN_LDST_WHOLE_TRANS(vl1re64_v, 1, false)
+-GEN_LDST_WHOLE_TRANS(vl2re8_v,  2, false)
+-GEN_LDST_WHOLE_TRANS(vl2re16_v, 2, false)
+-GEN_LDST_WHOLE_TRANS(vl2re32_v, 2, false)
+-GEN_LDST_WHOLE_TRANS(vl2re64_v, 2, false)
+-GEN_LDST_WHOLE_TRANS(vl4re8_v,  4, false)
+-GEN_LDST_WHOLE_TRANS(vl4re16_v, 4, false)
+-GEN_LDST_WHOLE_TRANS(vl4re32_v, 4, false)
+-GEN_LDST_WHOLE_TRANS(vl4re64_v, 4, false)
+-GEN_LDST_WHOLE_TRANS(vl8re8_v,  8, false)
+-GEN_LDST_WHOLE_TRANS(vl8re16_v, 8, false)
+-GEN_LDST_WHOLE_TRANS(vl8re32_v, 8, false)
+-GEN_LDST_WHOLE_TRANS(vl8re64_v, 8, false)
+-
+-GEN_LDST_WHOLE_TRANS(vs1r_v, 1, true)
+-GEN_LDST_WHOLE_TRANS(vs2r_v, 2, true)
+-GEN_LDST_WHOLE_TRANS(vs4r_v, 4, true)
+-GEN_LDST_WHOLE_TRANS(vs8r_v, 8, true)
++GEN_LDST_WHOLE_TRANS(vl1re8_v,  1, 1, false)
++GEN_LDST_WHOLE_TRANS(vl1re16_v, 1, 2, false)
++GEN_LDST_WHOLE_TRANS(vl1re32_v, 1, 4, false)
++GEN_LDST_WHOLE_TRANS(vl1re64_v, 1, 8, false)
++GEN_LDST_WHOLE_TRANS(vl2re8_v,  2, 1, false)
++GEN_LDST_WHOLE_TRANS(vl2re16_v, 2, 2, false)
++GEN_LDST_WHOLE_TRANS(vl2re32_v, 2, 4, false)
++GEN_LDST_WHOLE_TRANS(vl2re64_v, 2, 8, false)
++GEN_LDST_WHOLE_TRANS(vl4re8_v,  4, 1, false)
++GEN_LDST_WHOLE_TRANS(vl4re16_v, 4, 2, false)
++GEN_LDST_WHOLE_TRANS(vl4re32_v, 4, 4, false)
++GEN_LDST_WHOLE_TRANS(vl4re64_v, 4, 8, false)
++GEN_LDST_WHOLE_TRANS(vl8re8_v,  8, 1, false)
++GEN_LDST_WHOLE_TRANS(vl8re16_v, 8, 2, false)
++GEN_LDST_WHOLE_TRANS(vl8re32_v, 8, 4, false)
++GEN_LDST_WHOLE_TRANS(vl8re64_v, 8, 8, false)
 +
-+
-+Aspeed minibmc family boards (``ast1030-evb``)
-+==================================================================
-+
-+The QEMU Aspeed machines model mini BMCs of various Aspeed evaluation
-+boards. They are based on different releases of the
-+Aspeed SoC : the AST1030 integrating an ARM Cortex M4F CPU (200MHz).
-+
-+The SoC comes with SRAM, SPI, I2C, etc.
-+
-+AST1030 SoC based machines :
-+
-+- ``ast1030-evb``          Aspeed AST1030 Evaluation board (Cortex-M4F)
-+
-+Supported devices
-+-----------------
-+
-+ * SMP (for the AST1030 Cortex-M4F)
-+ * Interrupt Controller (VIC)
-+ * Timer Controller
-+ * I2C Controller
-+ * System Control Unit (SCU)
-+ * SRAM mapping
-+ * Static Memory Controller (SMC or FMC) - Only SPI Flash support
-+ * SPI Memory Controller
-+ * USB 2.0 Controller
-+ * Watchdog Controller
-+ * GPIO Controller (Master only)
-+ * UART
-+ * LPC Peripheral Controller (a subset of subdevices are supported)
-+ * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
-+ * ADC
-+
-+
-+Missing devices
-+---------------
-+
-+ * PWM and Fan Controller
-+ * Slave GPIO Controller
-+ * PECI Controller
-+ * Mailbox Controller
-+ * Virtual UART
-+ * eSPI Controller
-+ * I3C Controller
-+
-+Boot options
-+------------
-+
-+The Aspeed machines can be started using the ``-kernel`` to load a
-+Zephyr OS or from a firmware. Images can be downloaded from the
-+ASPEED GitHub release repository :
-+
-+   https://github.com/AspeedTech-BMC/zephyr/releases
-+
-+To boot a kernel directly from a Zephyr build tree:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M ast1030-evb -nographic \
-+        -kernel zephyr.elf
--- 
-2.17.1
-
++/*
++ * The vector whole register store instructions are encoded similar to
++ * unmasked unit-stride store of elements with EEW=3D8.
++ */
++GEN_LDST_WHOLE_TRANS(vs1r_v, 1, 1, true)
++GEN_LDST_WHOLE_TRANS(vs2r_v, 2, 1, true)
++GEN_LDST_WHOLE_TRANS(vs4r_v, 4, 1, true)
++GEN_LDST_WHOLE_TRANS(vs8r_v, 8, 1, true)
+=20
+ /*
+  *** Vector Integer Arithmetic Instructions
+--=20
+2.34.2
 
