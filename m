@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B841551C797
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:28:47 +0200 (CEST)
-Received: from localhost ([::1]:48802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA7751C6BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:08:39 +0200 (CEST)
+Received: from localhost ([::1]:39742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmgDW-0004vu-J3
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
+	id 1nmfu2-0002VM-OH
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmfbH-0005FM-Pa
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:49:15 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:36498)
+ id 1nmfcL-00061S-JT
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:50:22 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:38722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmfbG-0000bZ-7p
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:49:15 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id v66so5097433oib.3
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 10:49:13 -0700 (PDT)
+ id 1nmfcK-0000rP-6K
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:50:21 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-e5e433d66dso4935484fac.5
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 10:50:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=l7+oh46ssaKjqd685x5QUfiSHmGnqXC6ONpT48/SiEY=;
- b=R1OCImwCgfgvoDFwAASxhByXmpXsTsO2z4YhM+/4uiAJidykYOWwxSp+CcbwTsaz2H
- LTZu6bPgfpTEo4RPCC42MIGidPxbhQ02E/YPn7sLNcgfHr9dimWA6K0rNH4OMad4bEH5
- A3K0yBv3eQ/1omKbr+p7tou6xazX7fxJnj+XPKNdlkb6/7Luiej7jbABWOE7UPj2Ohf3
- gwJbYSDP+X8zO+paEbI6pQtcH1XjENTf7cwGsu95PQdGe4rCINffBWVgDD2FQPJy3oEO
- CsmZyz4b/7JRP6Gaeb9yztF6B9YsDiLgJfSr9wX/QdeVClUAf3pkpVEKJ8lmRf+iHbOp
- TKng==
+ bh=F7vLNTRbHdf3aol22CDwLtsZPntUOHVtML43vGdl394=;
+ b=YqaySX/T6Aq4asQcDSBVMUgeWOcsUoELM2MzgQWMluISbpR5GXSH5F3MAmgJmyVVLU
+ SNaARAcPwURG/2ow1mM2DUZjqxtlpylDSz0EUweOJYXFVvWPkm86TyHh9hvj9ZZj7iHH
+ j2aRTBCbfjPBEmAOgniO0z7sjYOG/qFDt+8IoiuFmGhjuuGt2wgDbZglixvjw3kshQGX
+ GvZ7HV8wOaHVZmL4A+F+hsy86gj63LapC4AKSsPf0ODmSo6q27T2Q0i4Y3q6/xas9ARM
+ ImUksnvulH1rfJtaYvWeZLgJUQzTkxo0ulSu812sN6SHxREmBXuBD0Yf0XO1RnQJP00/
+ YKoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=l7+oh46ssaKjqd685x5QUfiSHmGnqXC6ONpT48/SiEY=;
- b=qrjuA5S8TyNsD3s3RN+9DNKo46lOWcwX7BRKecsqF3BdHWcO6BfkM30N6a+++VqO+B
- cOjJtmXGZV1U5ZsBRREGyhwktIfXoyxmM8Fos9s0Nf2JxQgMLYnRUE083isSbWm/YFLR
- aIYonQ9kaxWI5oBEjqFH0REi2FHubErhe8Gxz4vhvc3eRBUzD39QN9v9l/22PZ8gcE58
- T8/qGGATNucMLNW+4zaleBfOz1BDStJaY/DwJUTxmCb6ZlL53Q82FSHcz+rYRQZXW+YV
- Xsx1IGoZJBU7pWgPcRbjuZLJxwhMBu/MqA2JZzvOUxYeTZKL7uDU83axWQKml/LTg+qp
- FjiA==
-X-Gm-Message-State: AOAM533goUq9MIuFXLzqX3IYjnm43qkDR0sPVdCIuZ9qtr9n3Cqv+IB1
- rzCrmeKLY4wi3VTaBs4cWkaFTA==
-X-Google-Smtp-Source: ABdhPJwpfGaTpfcCwwQw0HXdbWIe8RuSyK5o3pI3pFtjjXKSoprEjpp/6dHiogA/qLD1bMCv7FCmlQ==
-X-Received: by 2002:aca:1817:0:b0:2ec:f542:c96c with SMTP id
- h23-20020aca1817000000b002ecf542c96cmr3173873oih.36.1651772953015; 
- Thu, 05 May 2022 10:49:13 -0700 (PDT)
+ bh=F7vLNTRbHdf3aol22CDwLtsZPntUOHVtML43vGdl394=;
+ b=x4DG0WfzQecB0P2VeOf8QKoXlAQvS/o1VAoAqlxHlyLU8CUGsUL44QhS3Ei2mXrnfJ
+ n71fyS+BrNrnG4igX/AtiOY2N2ZQwGKexwtO2w6IOiEseXSjIihuM6ao11Vebf2aOtCo
+ kAWZY5SFU2ZzxYt6DgXkS+Bj03+Dqq9RTrAdZaobnozPZtcKKelwnyA1OwMkEmVmMnT4
+ 3LQsuUE8yheDYPlDAW3vt0nsjor2izC/PPPacyvZeduBMdnloKXcxGRYQ8RPLx6Kh6Ck
+ okKC2REDuHgWJd2y54TUnuD1Tzcw0gGJAyH5ed2WFOkdHfliMTBIAIeAXEqhuob1NDmy
+ RouA==
+X-Gm-Message-State: AOAM532xOXCbP0ey4imqbRY7a4a8fRXftZ2tEednAlEtYDIuhtT7p5EH
+ i6SG7FjZ4KxeiUvbQPTfEYWFEw==
+X-Google-Smtp-Source: ABdhPJz5kGwSQIhpAGNKZC9rRtiw6oUiS8y7xMtCYssDBNoKsXyfQDOdDH0/4VCKOWc+O9KRqgaokg==
+X-Received: by 2002:a05:6870:7084:b0:ed:d709:34be with SMTP id
+ v4-20020a056870708400b000edd70934bemr2781296oae.4.1651773018865; 
+ Thu, 05 May 2022 10:50:18 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6?
  ([2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6])
  by smtp.gmail.com with ESMTPSA id
- v5-20020a056870310500b000ead8b89484sm767224oaa.5.2022.05.05.10.49.11
+ c21-20020a9d75d5000000b0060603221279sm786263otl.73.2022.05.05.10.50.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 May 2022 10:49:12 -0700 (PDT)
-Message-ID: <a4415eeb-b9a9-4645-296d-3e2647c649b0@linaro.org>
-Date: Thu, 5 May 2022 12:49:09 -0500
+ Thu, 05 May 2022 10:50:18 -0700 (PDT)
+Message-ID: <768aa292-c6d1-79b6-376b-f5f2d6794f44@linaro.org>
+Date: Thu, 5 May 2022 12:50:16 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 18/50] dino: remove unused dino_set_timer_irq() IRQ
- handler
+Subject: Re: [PATCH v2 19/50] hppa: move dino_init() from dino.c to machine.c
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, deller@gmx.de,
  qemu-devel@nongnu.org
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <20220504092600.10048-19-mark.cave-ayland@ilande.co.uk>
+ <20220504092600.10048-20-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220504092600.10048-19-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220504092600.10048-20-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,17 +96,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/22 04:25, Mark Cave-Ayland wrote:
-> According to the comments in dino.c the timer IRQ is unused, so remove the empty
-> dino_set_timer_irq() handler function and simply pass NULL to mc146818_rtc_init()
-> in machine.c instead.
+> Now that dino_init() is completely decoupled from dino.c it can be moved to
+> machine.c with the rest of the board configuration.
 > 
 > Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
 > Acked-by: Helge Deller<deller@gmx.de>
 > ---
->   hw/hppa/dino.c     | 10 +---------
->   hw/hppa/hppa_sys.h |  2 +-
->   hw/hppa/machine.c  |  5 ++---
->   3 files changed, 4 insertions(+), 13 deletions(-)
+>   hw/hppa/dino.c     | 14 --------------
+>   hw/hppa/hppa_sys.h |  2 --
+>   hw/hppa/machine.c  | 12 ++++++++++++
+>   3 files changed, 12 insertions(+), 16 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
