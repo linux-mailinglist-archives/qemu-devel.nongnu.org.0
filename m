@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC2551C42B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 17:45:41 +0200 (CEST)
-Received: from localhost ([::1]:41032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D339151C427
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 17:44:54 +0200 (CEST)
+Received: from localhost ([::1]:39620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmdfg-00029C-DO
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 11:45:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53632)
+	id 1nmdev-0001Ai-VA
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 11:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmdci-0007jC-6c
- for qemu-devel@nongnu.org; Thu, 05 May 2022 11:42:36 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:50593)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nmdcO-00075d-2c
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 11:42:16 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:54157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmdcf-0004Zc-Ug
- for qemu-devel@nongnu.org; Thu, 05 May 2022 11:42:35 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nmdcL-0004SO-DC
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 11:42:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651765353;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=WMNcQ1ItBsDV0y8/vJ9tQ/LcILz31/YziORiasjuFXU=;
- b=hK8WvCttQ6LDAaL50g+pYBtM/BZv02C0xi1EBalVaMyKcowI1knrH/BOamHTgMo5QqaLcF
- Ed30NVpPpzPICEa1og7omOrGdgNoHRMusmes+5SdrgM84XPYvTa9tCFL4AoENOJ2Uuj8eH
- rDTxNJ6OAF7Xp1xUJyVJ+zcxIi0nnUk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1651765332;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=598C09uNdBApjtXM7Cut0P/EtshcEgsLtTZ+fdQ0uRY=;
+ b=ZU95Bzhv2GrGC2ZBHpOWPs3RDgRIvILNPIvXf7oUryWfrMAtKnh/VHpnwO50AejGVpfXe+
+ PuqkUAH41TzC/PDAuwLB2tsiD8y8Mu6FCXVAKoulpCctYQv6xjDz/jXy9KEVpupIYJ7Wgd
+ LN4xhernUAssmxNatxivq6fABi2Fbmc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-5XVUab1tOLWDz-Bo8rERdQ-1; Thu, 05 May 2022 11:42:30 -0400
-X-MC-Unique: 5XVUab1tOLWDz-Bo8rERdQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-441-yb9BF6wbMjGWm6sv0X4tgg-1; Thu, 05 May 2022 11:42:01 -0400
+X-MC-Unique: yb9BF6wbMjGWm6sv0X4tgg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BC091C06EC3;
- Thu,  5 May 2022 15:42:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 116A22166BA4;
- Thu,  5 May 2022 15:41:49 +0000 (UTC)
-Date: Thu, 5 May 2022 16:41:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org,
- mst@redhat.com, f4bug@amsat.org, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, thuth@redhat.com, bleal@redhat.com,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
- imammedo@redhat.com, peterx@redhat.com, john.levon@nutanix.com,
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF027800B21;
+ Thu,  5 May 2022 15:42:00 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61FAC40D2820;
+ Thu,  5 May 2022 15:42:00 +0000 (UTC)
+Date: Thu, 5 May 2022 16:41:59 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, f4bug@amsat.org,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
+ bleal@redhat.com, berrange@redhat.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com, imammedo@redhat.com,
+ peterx@redhat.com, john.levon@nutanix.com,
  thanos.makatos@nutanix.com, elena.ufimtseva@oracle.com,
  john.g.johnson@oracle.com, kanth.ghatraju@oracle.com
-Subject: Re: [PATCH v9 06/17] vfio-user: build library
-Message-ID: <YnPwOzqeuzDTgISV@redhat.com>
+Subject: Re: [PATCH v9 07/17] vfio-user: define vfio-user-server object
+Message-ID: <YnPwR4cuC0wabG9e@stefanha-x1.localdomain>
 References: <cover.1651586203.git.jag.raman@oracle.com>
- <7560757f7e08842bbfc78bafdee6959f2ab43f80.1651586203.git.jag.raman@oracle.com>
- <YnPvtyp54seM8ibH@stefanha-x1.localdomain>
+ <48d0f7214036d48b1f70b90a8c4a6c2a46363ee9.1651586203.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FrX8QCrg5LL1lQAx"
 Content-Disposition: inline
-In-Reply-To: <YnPvtyp54seM8ibH@stefanha-x1.localdomain>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=berrange@redhat.com;
+In-Reply-To: <48d0f7214036d48b1f70b90a8c4a6c2a46363ee9.1651586203.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,62 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 05, 2022 at 04:39:35PM +0100, Stefan Hajnoczi wrote:
-> On Tue, May 03, 2022 at 10:16:47AM -0400, Jagannathan Raman wrote:
-> > diff --git a/subprojects/libvfio-user b/subprojects/libvfio-user
-> > new file mode 160000
-> > index 0000000000..030d2f6e79
-> > --- /dev/null
-> > +++ b/subprojects/libvfio-user
-> > @@ -0,0 +1 @@
-> > +Subproject commit 030d2f6e7978b8ca7577b81d4f48e2771bcd8f47
-> > diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-> > index 4b20925bbf..300833d8e0 100644
-> > --- a/tests/docker/dockerfiles/centos8.docker
-> > +++ b/tests/docker/dockerfiles/centos8.docker
-> > @@ -23,6 +23,7 @@ RUN dnf update -y && \
-> >          capstone-devel \
-> >          ccache \
-> >          clang \
-> > +        cmake \
-> 
-> Good, CentOS 8 has CMake 3.20.0.
-> 
-> > diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-> > index a3b38884e3..7c6131686a 100644
-> > --- a/tests/docker/dockerfiles/ubuntu2004.docker
-> > +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-> > @@ -18,6 +18,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-> >              ca-certificates \
-> >              ccache \
-> >              clang \
-> > +            cmake \
-> 
-> Ubuntu 20.04LTS has CMake 3.16.3:
-> https://packages.ubuntu.com/focal/cmake
-> 
-> That does not meet the minimum version requirement in this patch series
-> (3.19.0).
-> 
-> Please re-run container build to check if Ubuntu actually works.
-> 
-> Hopefully libvfio-user will support meson and CMake can be dropped from
-> this patch series.
 
-That's something I have proposed here:
+--FrX8QCrg5LL1lQAx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  https://github.com/nutanix/libvfio-user/pull/666
+On Tue, May 03, 2022 at 10:16:48AM -0400, Jagannathan Raman wrote:
+> Define vfio-user object which is remote process server for QEMU. Setup
+> object initialization functions and properties necessary to instantiate
+> the object
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  qapi/qom.json               |  20 +++-
+>  include/hw/remote/machine.h |   2 +
+>  hw/remote/machine.c         |  27 +++++
+>  hw/remote/vfio-user-obj.c   | 210 ++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                 |   1 +
+>  hw/remote/meson.build       |   1 +
+>  hw/remote/trace-events      |   3 +
+>  7 files changed, 262 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/remote/vfio-user-obj.c
 
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--FrX8QCrg5LL1lQAx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJz8EcACgkQnKSrs4Gr
+c8jD7Qf/atePvbUwQK4a5Tu8AAw7/4F1G4f8bbAd9MLCvMmgoiBVBeTJBtBGlPCf
+SqQy8GN9at9+4cOkWfmQjDOxts3KzvGSWmZSoup1+l6lUBGKm+7iat9+21VdxCoO
+hmzZNxIzCa8w9vFy0hFLNyv98uPusJ2P0AUlteNQ9pm9D0fDPvr3fA2hMBILzFSB
+NRDm0bkh2bpedjCjhBgzaTEDqKWtS2V9UshnIYnnm7SvpAJuyL9sDiFRYSXFYfqS
+SNHNAUExQGN0L9JKp9JQa0ufLJm1BAXVc/kHtqy+qvz7m4OXNGrF9ju/7kaBrpXP
+bn0Wz1OMQxLnnJ8o2zt4Prrba5lE4Q==
+=FrNX
+-----END PGP SIGNATURE-----
+
+--FrX8QCrg5LL1lQAx--
 
 
