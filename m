@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1329E51BB5E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:04:45 +0200 (CEST)
-Received: from localhost ([::1]:35160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E3951BB86
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:10:55 +0200 (CEST)
+Received: from localhost ([::1]:47848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmXPf-0001hq-P4
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54648)
+	id 1nmXVe-0001zU-1r
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nmWjm-0005fB-5a
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:21:26 -0400
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:35686)
+ id 1nmWkV-0006tD-8p
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:22:14 -0400
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:40474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nmWjk-0000cz-IM
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:21:25 -0400
-Received: by mail-lf1-x135.google.com with SMTP id h29so6256579lfj.2
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 01:21:24 -0700 (PDT)
+ id 1nmWkR-0000hQ-6L
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:22:09 -0400
+Received: by mail-lj1-x231.google.com with SMTP id l19so4631421ljb.7
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 01:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bfrG5g3SsoZ4yl+R6NqKBMo1D1WTIr2+iYITFvUiJVQ=;
- b=dMHNB2am6OXFKhlqhoRHQxSVc8saFzinmYIg2tlGuvnHAK+ciH/W/tFtltS8Q9UNcf
- Ty0SqSYQ+n96Abv8k/BydPR6d9jBKchuCOy6eJDUinyOfOM7c54bO9LgabnlFxjXncVy
- rzji5ATqDAqhbMYZqr14dK19uU2KBJWjZXmAYdmy1LqIvYlbs5ziTeNq9vldVouzs7Iw
- nfi6cj3NHyDXnuy5V4BtsSdGphVC+o4A0hgAeVyL7jsNecpXmZl+f85roVXN31TTrK3N
- nwmrLMMchh8rxD8C9eBIPssKNP1VvwlyPHyWpyyKGi1W/qXioPMzYBoVIPmjINizRCHz
- Eegw==
+ :cc; bh=rMHDl+sen8pqzKFwEH6b24BepcfJPdpCmPLodKwHAxk=;
+ b=ETiMVXYezpAJceX0e5k2M29CVjy30djlP1HtQ1tg6IZtU1uILvQgb4UigRszjizFgj
+ MgoMqb85tSCdQMUHX6LCD1akV4nllMMgVzdHzLxKcl38Bk9DOS4kmE8KViMCgZMPh0BC
+ u3JQoOip/nX9HZ58nwlEzBhqN2rFzVUCaR4O2jKVToAbRjWNkE9HUe56UmnEsEOUNQ2f
+ bOpl8dCKw0S5AUzllZGHO+zm03clveM4Pcq2dAIPURQVOyVWzHgZ4oy+F+tpyoIeLf1h
+ uJT0SNHaOwQZ2o2MMY4PKUnyy+LchFtNiqPzp21sDbo2gWkoGo4DOCzhAFLq5MjlhPFX
+ p+lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bfrG5g3SsoZ4yl+R6NqKBMo1D1WTIr2+iYITFvUiJVQ=;
- b=zVmrNa/22GswcFilgCWdg9XxEDi0bVC6eioPMqWE2QxkWM6beSWpAvjnbWXKDsZjuV
- 2+jHZBDxMnvHgx9yu5pG9C5gvqqYP/iO1poc7n5F2zD+AGqvXe9TObo+8kDRqBNS6ByL
- 1984qknnc8Q+UyDbrt0lfY0bsbwfS3yPpAMD0nmjQl7moRX+4nFFz0uOthdcvWT41IjA
- G1lFjD8PQ0qTjUqdeVn+ar0f464w7pAcDIbovXMEU5n0SbPc/WNzt3StheU3/fNj7Ik2
- FGM/YVSIWxsxUyYmpVGudbybbyDlVgUzq4uVC/n87l5IvNNC+poe621Kqwmv7hym2xK2
- DgQQ==
-X-Gm-Message-State: AOAM533vnpAA4rg+84V4QotqKGNAIrvdkRRzy+BqWS4RTnwwJVIGS8ql
- GliYq0+7FdXnzgz4XsAL9knN7AV4UgI2zuDuqUKDNI5H
-X-Google-Smtp-Source: ABdhPJzprZu9vCkgSzwkCOyxaAO3XRe01OZ1vIuOq56dfPfCZoX0vz3IdtXKGdYrdFXCL4tDumAosImOc/VecSNRMbo=
-X-Received: by 2002:a05:6512:4004:b0:472:5e6b:91d5 with SMTP id
- br4-20020a056512400400b004725e6b91d5mr13546221lfb.357.1651738882810; Thu, 05
- May 2022 01:21:22 -0700 (PDT)
+ bh=rMHDl+sen8pqzKFwEH6b24BepcfJPdpCmPLodKwHAxk=;
+ b=ZNA45V+AwozzpKbpujd4B697+SRRcYvZ/T+w6E6KKBkq64d0+Oj9j7kL9neJsHwQxB
+ GI6vzc/SXXRzQ1ZB/uzv4yK35GojRWED+PVeqN7uaVgg+FEP7c+nR7q+cjdxwERDyVBG
+ a4dJR6yr7Sjvjqwj4JCXT3nKVKHTnh7jpHORRxvNxnx0J3iP/tPytfNda6EdK5349Kqa
+ xlcrVDuYsD50dccxgbN4wR8rSkTs7GTd5glOMtWvs5vNdetsylQrMNwCUeG1NSpDl64N
+ BbT2WAURQiwMP8En9G82wBohC4yP2BQfFA+qZzxbrFcZaRdr5x3Z2+KHOqlrpPq9VxIi
+ 9x2w==
+X-Gm-Message-State: AOAM531+FzfIRUkXFXmOMoz1ikmNuuEXpBbfIeNBLM+YOCS3BxfFDlRf
+ 8WL//MlnuOhBhDY8300OgQpbNLzs8j/OLmUxTDM=
+X-Google-Smtp-Source: ABdhPJzBQrtQV/82Tceb7PirTrgR51yEhntPIHtRsRI3RthGvE6BIwRPteIBT7SFo3Eu6VMuD21tHossdQ/v2YTWkV0=
+X-Received: by 2002:a2e:bc26:0:b0:24f:528f:fb9f with SMTP id
+ b38-20020a2ebc26000000b0024f528ffb9fmr12163346ljf.344.1651738925551; Thu, 05
+ May 2022 01:22:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220504210001.678419-1-pbonzini@redhat.com>
- <20220504210001.678419-2-pbonzini@redhat.com>
-In-Reply-To: <20220504210001.678419-2-pbonzini@redhat.com>
+ <20220504210001.678419-6-pbonzini@redhat.com>
+In-Reply-To: <20220504210001.678419-6-pbonzini@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 5 May 2022 12:21:11 +0400
-Message-ID: <CAJ+F1CJgNMcVNFsctNR9MAaQ_5XojbX1J=LgjsVqyveArW6Xuw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] slirp: bump submodule to 4.7 release
+Date: Thu, 5 May 2022 12:21:54 +0400
+Message-ID: <CAJ+F1CLCN_1AhnXA_sUhwQq5Rrf23wAccCkPZ5FYVuLd7KtZLg@mail.gmail.com>
+Subject: Re: [PATCH 5/5] net: slirp: allow CFI with libslirp >= 4.7
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: QEMU <qemu-devel@nongnu.org>, Daniele Buono <dbuono@linux.vnet.ibm.com>
-Content-Type: multipart/alternative; boundary="0000000000005f268c05de3f6d59"
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x135.google.com
+Content-Type: multipart/alternative; boundary="000000000000eb527305de3f6f22"
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,21 +82,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005f268c05de3f6d59
+--000000000000eb527305de3f6f22
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 5, 2022 at 1:06 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+Hi
 
-> Version 4.7 of slirp provides a new timer API that works better with CFI,
-> together with several other improvements:
->
-> * Allow disabling the internal DHCP server !22
-> * Support Unix sockets in hostfwd !103
-> * IPv6 DNS proxying support !110
-> * bootp: add support for UEFI HTTP boot !111
->
-> and bugfixes.
+On Thu, May 5, 2022 at 1:04 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> slirp 4.7 introduces a new CFI-friendly timer callback that does
+> not pass function pointers within libslirp as callbacks for timers.
+> Check the version number and, if it is new enough, allow using CFI
+> even with a system libslirp.
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 >
@@ -105,16 +102,75 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 > ---
->  slirp | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meson.build | 31 +++++++++++++++++--------------
+>  1 file changed, 17 insertions(+), 14 deletions(-)
 >
-> diff --git a/slirp b/slirp
-> index a88d9ace23..3ad1710a96 160000
-> --- a/slirp
-> +++ b/slirp
-> @@ -1 +1 @@
-> -Subproject commit a88d9ace234a24ce1c17189642ef9104799425e0
-> +Subproject commit 3ad1710a96678fe79066b1469cead4058713a1d9
+> diff --git a/meson.build b/meson.build
+> index c26aa442d4..defe604065 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2509,10 +2509,25 @@ if have_system
+>    slirp_opt =3D get_option('slirp')
+>    if slirp_opt in ['enabled', 'auto', 'system']
+>      have_internal =3D fs.exists(meson.current_source_dir() /
+> 'slirp/meson.build')
+> +    slirp_dep_required =3D (slirp_opt =3D=3D 'system' or
+> +                          slirp_opt =3D=3D 'enabled' and not have_intern=
+al)
+>      slirp =3D dependency('slirp', kwargs: static_kwargs,
+>                         method: 'pkg-config',
+> -                       required: slirp_opt =3D=3D 'system' or
+> -                                 slirp_opt =3D=3D 'enabled' and not
+> have_internal)
+> +                       required: slirp_dep_required)
+> +    # slirp <4.7 is incompatible with CFI support in QEMU.  This is
+> because
+> +    # it passes function pointers within libslirp as callbacks for timer=
+s.
+> +    # When using a system-wide shared libslirp, the type information for
+> the
+> +    # callback is missing and the timer call produces a false positive
+> with CFI.
+> +    # Do not use the "version" keyword argument to produce a better erro=
+r.
+> +    # with control-flow integrity.
+> +    if get_option('cfi') and slirp.found() and
+> slirp.version().version_compare('<4.7')
+> +      if slirp_dep_required
+> +        error('Control-Flow Integrity requires libslirp 4.7.')
+> +      else
+> +        warning('Control-Flow Integrity requires libslirp 4.7, not using
+> system-wide libslirp.')
+> +        slirp =3D not_found
+> +      endif
+> +    endif
+>      if slirp.found()
+>        slirp_opt =3D 'system'
+>      elif have_internal
+> @@ -2585,18 +2600,6 @@ if have_system
+>    endif
+>  endif
+>
+> -# For CFI, we need to compile slirp as a static library together with
+> qemu.
+> -# This is because we register slirp functions as callbacks for QEMU
+> Timers.
+> -# When using a system-wide shared libslirp, the type information for the
+> -# callback is missing and the timer call produces a false positive with
+> CFI.
+> -#
+> -# Now that slirp_opt has been defined, check if the selected slirp is
+> compatible
+> -# with control-flow integrity.
+> -if get_option('cfi') and slirp_opt =3D=3D 'system'
+> -  error('Control-Flow Integrity is not compatible with system-wide
+> slirp.' \
+> -         + ' Please configure with --enable-slirp=3Dgit')
+> -endif
+> -
+>  fdt =3D not_found
+>  if have_system
+>    fdt_opt =3D get_option('fdt')
 > --
 > 2.35.1
 >
@@ -124,42 +180,107 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000005f268c05de3f6d59
+--000000000000eb527305de3f6f22
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 5, 2022 at 1:06 AM Paolo =
-Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Versi=
-on 4.7 of slirp provides a new timer API that works better with CFI,<br>
-together with several other improvements:<br>
-<br>
-* Allow disabling the internal DHCP server !22<br>
-* Support Unix sockets in hostfwd !103<br>
-* IPv6 DNS proxying support !110<br>
-* bootp: add support for UEFI HTTP boot !111<br>
-<br>
-and bugfixes.<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 5, 2022 at 1:04 AM Paol=
+o Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">sli=
+rp 4.7 introduces a new CFI-friendly timer callback that does<br>
+not pass function pointers within libslirp as callbacks for timers.<br>
+Check the version number and, if it is new enough, allow using CFI<br>
+even with a system libslirp.<br>
 <br>
 Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
 get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
 div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
-eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></d=
+eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br></div><div>=C2=A0</d=
 iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
 er-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0slirp | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meson.build | 31 +++++++++++++++++--------------<br>
+=C2=A01 file changed, 17 insertions(+), 14 deletions(-)<br>
 <br>
-diff --git a/slirp b/slirp<br>
-index a88d9ace23..3ad1710a96 160000<br>
---- a/slirp<br>
-+++ b/slirp<br>
-@@ -1 +1 @@<br>
--Subproject commit a88d9ace234a24ce1c17189642ef9104799425e0<br>
-+Subproject commit 3ad1710a96678fe79066b1469cead4058713a1d9<br>
+diff --git a/meson.build b/meson.build<br>
+index c26aa442d4..defe604065 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -2509,10 +2509,25 @@ if have_system<br>
+=C2=A0 =C2=A0slirp_opt =3D get_option(&#39;slirp&#39;)<br>
+=C2=A0 =C2=A0if slirp_opt in [&#39;enabled&#39;, &#39;auto&#39;, &#39;syste=
+m&#39;]<br>
+=C2=A0 =C2=A0 =C2=A0have_internal =3D fs.exists(meson.current_source_dir() =
+/ &#39;slirp/meson.build&#39;)<br>
++=C2=A0 =C2=A0 slirp_dep_required =3D (slirp_opt =3D=3D &#39;system&#39; or=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 slirp_opt =3D=3D &#39;enabled&#39; and not have_internal)=
+<br>
+=C2=A0 =C2=A0 =C2=A0slirp =3D dependency(&#39;slirp&#39;, kwargs: static_kw=
+args,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 method: &#39;pkg-config&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0required: slirp_opt =3D=3D &#39;system&#39; or<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0slirp_opt =3D=3D &#39;enabled&=
+#39; and not have_internal)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0required: slirp_dep_required)<br>
++=C2=A0 =C2=A0 # slirp &lt;4.7 is incompatible with CFI support in QEMU.=C2=
+=A0 This is because<br>
++=C2=A0 =C2=A0 # it passes function pointers within libslirp as callbacks f=
+or timers.<br>
++=C2=A0 =C2=A0 # When using a system-wide shared libslirp, the type informa=
+tion for the<br>
++=C2=A0 =C2=A0 # callback is missing and the timer call produces a false po=
+sitive with CFI.<br>
++=C2=A0 =C2=A0 # Do not use the &quot;version&quot; keyword argument to pro=
+duce a better error.<br>
++=C2=A0 =C2=A0 # with control-flow integrity.<br>
++=C2=A0 =C2=A0 if get_option(&#39;cfi&#39;) and slirp.found() and slirp.ver=
+sion().version_compare(&#39;&lt;4.7&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 if slirp_dep_required<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error(&#39;Control-Flow Integrity requires lib=
+slirp 4.7.&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 warning(&#39;Control-Flow Integrity requires l=
+ibslirp 4.7, not using system-wide libslirp.&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 slirp =3D not_found<br>
++=C2=A0 =C2=A0 =C2=A0 endif<br>
++=C2=A0 =C2=A0 endif<br>
+=C2=A0 =C2=A0 =C2=A0if slirp.found()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0slirp_opt =3D &#39;system&#39;<br>
+=C2=A0 =C2=A0 =C2=A0elif have_internal<br>
+@@ -2585,18 +2600,6 @@ if have_system<br>
+=C2=A0 =C2=A0endif<br>
+=C2=A0endif<br>
+<br>
+-# For CFI, we need to compile slirp as a static library together with qemu=
+.<br>
+-# This is because we register slirp functions as callbacks for QEMU Timers=
+.<br>
+-# When using a system-wide shared libslirp, the type information for the<b=
+r>
+-# callback is missing and the timer call produces a false positive with CF=
+I.<br>
+-#<br>
+-# Now that slirp_opt has been defined, check if the selected slirp is comp=
+atible<br>
+-# with control-flow integrity.<br>
+-if get_option(&#39;cfi&#39;) and slirp_opt =3D=3D &#39;system&#39;<br>
+-=C2=A0 error(&#39;Control-Flow Integrity is not compatible with system-wid=
+e slirp.&#39; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ &#39; Please configure with --enable-s=
+lirp=3Dgit&#39;)<br>
+-endif<br>
+-<br>
+=C2=A0fdt =3D not_found<br>
+=C2=A0if have_system<br>
+=C2=A0 =C2=A0fdt_opt =3D get_option(&#39;fdt&#39;)<br>
 -- <br>
 2.35.1<br>
 <br>
@@ -167,5 +288,5 @@ index a88d9ace23..3ad1710a96 160000<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000005f268c05de3f6d59--
+--000000000000eb527305de3f6f22--
 
