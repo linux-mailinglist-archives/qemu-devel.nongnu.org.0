@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3229251B7CC
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 08:13:21 +0200 (CEST)
-Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DD251B7CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 08:13:38 +0200 (CEST)
+Received: from localhost ([::1]:42074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmUjn-0002VA-N6
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 02:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56432)
+	id 1nmUk5-0002yV-Ej
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 02:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nmUde-0000Sd-Az; Thu, 05 May 2022 02:06:59 -0400
-Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:41473)
+ id 1nmUeI-0000vH-8s; Thu, 05 May 2022 02:07:38 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:33617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nmUdZ-0007eP-Ts; Thu, 05 May 2022 02:06:56 -0400
-Received: by mail-qv1-xf33.google.com with SMTP id jt15so2355882qvb.8;
- Wed, 04 May 2022 23:06:53 -0700 (PDT)
+ id 1nmUeG-0007oI-7G; Thu, 05 May 2022 02:07:37 -0400
+Received: by mail-qk1-x735.google.com with SMTP id s4so2551529qkh.0;
+ Wed, 04 May 2022 23:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GKI2PQJ3UH7qZ6q8CpTXaexPU5Gx76S64U6BQxuvTM4=;
- b=dkAyRHDzx71biUkCAw/KkyIKNOeDr49qu1Ui65goE6c/QvcJl/HaMcnd9Mts7LOT5U
- E+U8xhikTRHVSAioxWoMeUV9zzfp8V3Pfo/knBIWTNumyiOumwjXOCen50nPDp571j+i
- zp3zOWx+O7ZNyvtrFopp7mIgWbTmP2WMBC1E0=
+ :cc; bh=5jtnt+IVnQvyRp5Wq1ihtH/HrpmnY7EK24TNB/Y1cig=;
+ b=b/64HrsqtFtWGrNumCuyUqaua/dSQ8SyQ5rSWJvW+OxbbMatSw0vCbY8moOq3AY8NQ
+ 5vkKP8GmAJDYTYDAX8FVgJqZ1zEltLf21bn+xeX6LX2jKyxMWbhUJ/F3igU+OnNDbUYO
+ 3/DimYC3KEoAPJ2DuEXIA7+N9LXjV528isExI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GKI2PQJ3UH7qZ6q8CpTXaexPU5Gx76S64U6BQxuvTM4=;
- b=ixKmcRnrKniFNaOFPXA9ahtmkbyiQtEHt1BpqyG6uS0EsrV018ZPQV7hRp4CJui48f
- yckN/IOkOZ6avnKKKOq1kYw5MtL+hZitbqF9esBKZgzEMmvxb3gKKTE6r2sOYJZMTxno
- gqUq/srVq59iIA5pbqgZStahJL2cYo0/8ZnJqpW/CwZyRypaiMVNsjphsTCiD2nZXk7f
- nCIg8Q6xBt/tkI/Tel2ac+orD+/VpRbYbSVpAdV2/J2R41P9oPJCArmlZ+Zp3jI7XXnA
- oX8VinUpXELhxHjGBKzYRur2Lb+pQcGedmDwWTvHIgN6Clcf7ijPDpcfJYSZsbhkJxJf
- znOQ==
-X-Gm-Message-State: AOAM530eJCoR9XxUaBY1rePvZ6Adr/OjIuKsZ4PdGhBaYcNJ+2kWVGa9
- xS2Sfi4dpox9MePh/cKSspbhYFxOBXaXQrDDWZo=
-X-Google-Smtp-Source: ABdhPJyJN3f6SJ5aShgvVlloc2bPuKUHtkgI/3q8B6KLhFbkqV6UHPOFlWvRK1T83RBsjk+y17UGAMp2T/7xstTlChQ=
-X-Received: by 2002:ad4:4e05:0:b0:456:50a4:7494 with SMTP id
- dl5-20020ad44e05000000b0045650a47494mr20668219qvb.6.1651730812444; Wed, 04
- May 2022 23:06:52 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=5jtnt+IVnQvyRp5Wq1ihtH/HrpmnY7EK24TNB/Y1cig=;
+ b=tZg8o+shHds66ZRf6BK2muLFJcwLwKxKjH4R4i2sLOWXsRdapC++8wVrRzOY/kH4dF
+ yoqblxPoYJ01DdajXdGb42UaokpWgYL8uSv/9NJTEveuEfQ308O+QX0RLj7oWDTTNhVX
+ PxFqjAmwZOa4F6qmVoTG1T0UINQGH76yMfzSC0dblWko+XYFUOjjBgaBfbCph0ZezPl7
+ djGBKxa1B3MAL+l6ZtSG0L5aTmAYOlgviVyDT9verHGmHNLOdUiJm6myYxOecA3TnHRb
+ hiTxjW94t6x8UbqGBfD1zIBmLuvpha1Q8EWVzog2H7hnQJKX1plBUOXcTfvTBECMqRaP
+ 7otQ==
+X-Gm-Message-State: AOAM530gK3XGUkoV3ZLLlUCkpJA5uiikcR/HXqWsjkogaoq7ctPkl/En
+ 5f/xkHxXj2aYeZmJuisx3z1JFdc197x2gkvE9qc=
+X-Google-Smtp-Source: ABdhPJyH7HQW9pqImg8ojxak0+tekSqZ9gVdW8fK0hFGefNxSnFnT4dmgND8wzVZgKA/PmAIVECfPMFdy4M3st5X6po=
+X-Received: by 2002:a05:620a:859:b0:6a0:15d6:60ca with SMTP id
+ u25-20020a05620a085900b006a015d660camr4809576qku.350.1651730854883; Wed, 04
+ May 2022 23:07:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
- <CACPK8Xea8cE3bAPKqDDgQ671m+rxTo57OPYrDTBOEDrpLSD9tg@mail.gmail.com>
- <eb7ec5f6-effb-fba5-21fa-60707754f9d3@kaod.org>
-In-Reply-To: <eb7ec5f6-effb-fba5-21fa-60707754f9d3@kaod.org>
+References: <20220427064204.373027-1-joel@jms.id.au>
+ <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
+In-Reply-To: <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 5 May 2022 06:06:39 +0000
-Message-ID: <CACPK8Xesdy9RYEiLy5TutiiDFHB04xSzyzHBS8nW5tLhpTX0WQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/7] VSX MMA Implementation
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>, 
- David Gibson <david@gibson.dropbear.id.au>, 
- Leandro Lupori <leandro.lupori@eldorado.org.br>, 
- Matheus Ferst <matheus.ferst@eldorado.org.br>
+Date: Thu, 5 May 2022 06:07:22 +0000
+Message-ID: <CACPK8Xf7pRBy48yGRVjUvvbp+wBjfjDtTYXTqjtsg1EnCEb-5A@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, 
+ "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org, 
+ QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
- envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=joel.stan@gmail.com; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,94 +81,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 at 07:10, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Wed, 27 Apr 2022 at 20:51, Daniel Henrique Barboza
+<danielhb413@gmail.com> wrote:
 >
-> Hello,
 >
-> On 4/27/22 08:21, Joel Stanley wrote:
-> > On Tue, 26 Apr 2022 at 12:51, Lucas Mateus Castro(alqotel)
-> > <lucas.araujo@eldorado.org.br> wrote:
-> >>
-> >> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-> >>
-> >> This patch series is an RFC of the Matrix-Multiply Assist (MMA)
-> >> instructions implementation from the PowerISA 3.1
-> >>
-> >> These and the VDIV/VMOD implementation are the last new PowerISA 3.1
-> >> instructions left to be implemented.
-> >>
-> >> Thanks
-> >> Lucas Mateus Castro (alqotel) (7):
-> >>    target/ppc: Implement xxm[tf]acc and xxsetaccz
-> >>    target/ppc: Implemented xvi*ger* instructions
-> >>    target/ppc: Implemented pmxvi*ger* instructions
-> >>    target/ppc: Implemented xvf*ger*
-> >>    target/ppc: Implemented xvf16ger*
-> >>    target/ppc: Implemented pmxvf*ger*
-> >>    target/ppc: Implemented [pm]xvbf16ger2*
+>
+> On 4/27/22 03:42, Joel Stanley wrote:
+> > These are new hwcap bits added for power10.
 > >
-> > I have a small test case for the MMA instructions that Alistair wrote
-> > a while back[1]. It passes when run with these patches applied
-> > (previously it would sigill).
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> > MMA support for TCG is on the list so I think it makes sense for this to
+> > land after those are merged.
 >
-> Could we have your Tested-by then ?
+> I believe you mean this series:
+>
+>
+> [RFC PATCH 0/7] VSX MMA Implementation
+>
+>
+> In that case I'll queue this patch together with it.
 
-Sure! I was going to re-test v2, but it doesn't hurt to mention it for
-this version.
+That's the one, thanks.
 
-Tested-by: Joel Stanley <joel@jms.id.au>
+Cheers,
 
->
->
-> >
-> > $ qemu-ppc64le -cpu power10  -L ~/ppc64le/ ./test -m
-> > Smoke test MMA
-> > MMA[0] =3D 1 (Correct)
-> > MMA[1] =3D 2 (Correct)
-> > MMA[2] =3D 3 (Correct)
-> > MMA[3] =3D 4 (Correct)
-> > MMA[4] =3D 2 (Correct)
-> > MMA[5] =3D 4 (Correct)
-> > MMA[6] =3D 6 (Correct)
-> > MMA[7] =3D 8 (Correct)
-> > MMA[8] =3D 3 (Correct)
-> > MMA[9] =3D 6 (Correct)
-> > MMA[10] =3D 9 (Correct)
-> > MMA[11] =3D 12 (Correct)
-> > MMA[12] =3D 4 (Correct)
-> > MMA[13] =3D 8 (Correct)
-> > MMA[14] =3D 12 (Correct)
-> > MMA[15] =3D 16 (Correct)
-> >
-> > [1] https://github.com/shenki/p10_tests
->
-> Looks like a good candidate for tests/tcg/ppc64le/. Adding Matheus and Le=
-andro.
->
-> Thanks,
->
-> C.
->
->
->
-> >
-> >
-> >>
-> >>   include/fpu/softfloat.h             |   9 ++
-> >>   target/ppc/cpu.h                    |  15 +++
-> >>   target/ppc/fpu_helper.c             | 130 ++++++++++++++++++
-> >>   target/ppc/helper.h                 |   7 +
-> >>   target/ppc/insn32.decode            |  49 +++++++
-> >>   target/ppc/insn64.decode            |  80 +++++++++++
-> >>   target/ppc/int_helper.c             |  85 ++++++++++++
-> >>   target/ppc/internal.h               |  28 ++++
-> >>   target/ppc/translate/vsx-impl.c.inc | 200 ++++++++++++++++++++++++++=
-++
-> >>   9 files changed, 603 insertions(+)
-> >>
-> >> --
-> >> 2.31.1
-> >>
-> >>
->
+Joel
 
