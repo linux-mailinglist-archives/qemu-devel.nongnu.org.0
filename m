@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB1551C918
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:31:44 +0200 (CEST)
-Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D882351C95C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:41:31 +0200 (CEST)
+Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmhCR-0003jN-82
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:31:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47196)
+	id 1nmhLu-0005Lk-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYZ-0002rn-Pu; Thu, 05 May 2022 14:50:31 -0400
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:42520)
+ id 1nmgYc-0002yx-9K; Thu, 05 May 2022 14:50:34 -0400
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:44105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYU-0004S5-C8; Thu, 05 May 2022 14:50:31 -0400
-Received: by mail-oo1-xc2a.google.com with SMTP id
- c22-20020a4ad216000000b0035f13ae7646so867905oos.9; 
- Thu, 05 May 2022 11:50:25 -0700 (PDT)
+ id 1nmgYY-0004Td-4O; Thu, 05 May 2022 14:50:33 -0400
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-ed9a75c453so5073268fac.11; 
+ Thu, 05 May 2022 11:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k7eT0Lfa1qnnuLGivv3EdVnPTTC18fviHD0RR8SDR1Y=;
- b=R1lFV9h2AvG2M5Pf7uSejpTSAXLBtD6y0RiZjrq1Ym8J+o0HS2P/fCl9WrWLUSBNjE
- d31LeVpnxP4EI1pEim+yIqc/YG8AXIohLK623zsQGyCMDNLak1LcWvopIqx2//ont6zc
- zArO9YAIcAz3Hq8F0s/Y8svr/WMaQwq4AiqFOdU6fauMdE8Dq7zzufmp6spR/DOPpOvg
- oQr68eidk6uDJ9DVMIsu2POfN5gNQRJ5lHYG+fJwFirfsLB5GtU2zoxstN8XW64rE4oG
- WV4odjKOAzBcBpCFhClMdC1oiLI7R+YDVS9273YfDDEU72FMe9xKKy6vsCRTcOACbFra
- cyRw==
+ bh=ceXIRmvDGwZG2ZoRhYTNniMrHQbaZU4/f2aaZDKJUo4=;
+ b=CjKbhySb+qyxsIokCHgJNYK6I0Okq5NIAy+EIjBjG97L63Bqc6HC9wb/zzWlaUUUTp
+ tQUhkr+IeCiCSniRcL3yOVxCyFXPUbXLm8TFSNXfmqR5z3NaDsjRf7YUPbhnBUdblySR
+ WK3P8GTZ8mKIx9yIfRr5f+XSXdct0XbQ0RYjU/eq8/tPgOgb8V+9Vzu44WtPwVVTWnFz
+ hZ6GD8zYAjXIr75jM4C3FMtkBBKsP/ME6v0lRtzSfsbv5R9yGReK3PLr+DrDIUo0ubpv
+ NitSPDM8rSB3SVDBVVFI5WZyiXt1iaLOsruKxRcrCr3f/nKks8suDwz4QOnmGglH1XLn
+ zEBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k7eT0Lfa1qnnuLGivv3EdVnPTTC18fviHD0RR8SDR1Y=;
- b=cMEAFI66/jA90j49em4ExL359JR6FFL7HziUi+SDrk5ITnSQ0RSzSAzJ7ePXb5BsLu
- Hm0zmsLIKivROznpp80gUDo/JkjBOgx2hHIN7eOYbCqxC++2Lhnn2HUU4MHo4w2JhLaG
- r4RvFKcFJvlH5H7OHYRdO4SzTy7gMTfDSNsE7rrIrAQ9LD1l+9n83Ger7UVygPTm2b9F
- KKKxA8nKq+F1gyOaaDpxzGK2HeIjuahY5YRxLTIrMpRahqhpGxj5KIDBvXYq3Wq2k4f4
- 7nJPpkgROqzc4adcqwhiP6j1pad1qvPhJC67sfdkdRH3l+2j7ELX2+ZEs6j3Tro1IyMi
- FkNg==
-X-Gm-Message-State: AOAM533/Pl04Z8IkzU6xKDcp910g6YiZb9Dewj11JlMXXFmr9Wv+sNBr
- 2Z4sRYSoXkR1UiDmTCqBhNZdudZi7iY=
-X-Google-Smtp-Source: ABdhPJwms68YiCbE7m2rhZXoQPM4lqnSLqw1UGO48AjJGAJ7FqzsLL7Ut0roANkQFlmcL7rfKCy6kA==
-X-Received: by 2002:a4a:ea16:0:b0:35e:9a71:4826 with SMTP id
- x22-20020a4aea16000000b0035e9a714826mr9795255ood.76.1651776624761; 
- Thu, 05 May 2022 11:50:24 -0700 (PDT)
+ bh=ceXIRmvDGwZG2ZoRhYTNniMrHQbaZU4/f2aaZDKJUo4=;
+ b=VtjagNUFVLh7VcTp2ymVbod1Cxyk6QAjmCM+GgDwOy8uJWHmm9cm4S7tD+Zpxg4p+p
+ wYl3VkfytBoeHmbriUnSZ9+r+dYX+9TXUkkcK+kaBRPtChvEiYuElXMR9tH5Sy6tPQJr
+ 7FlC+pbDtIzT6sUWfXz/oYtIsKZ/fpDoLL3wf9ZvMVxoUZqqej+20xFSL8or+qSsks0v
+ 5zQLe/HQNic5O4ShhzLV5gIUALy15dLPODzYiL/H3nm2LxSOg2oGfp+UbW5F7KcboRzi
+ g4TdE+EkuJ+hdVOBs5dT6DI7mv0x/omHs1491NuowwRKgOf4UwHFFzMbSYSUmAZGh+DF
+ W3Og==
+X-Gm-Message-State: AOAM530Q5FVZPlZ7KaGPyHDsFrj52Mc3QuiNxqmmGUj1D5Mbhjbpkp6g
+ s6xmo5gP6dsospbrvmxOYgVNAq4k0Bo=
+X-Google-Smtp-Source: ABdhPJz6Cz3411O97cfT5MpRP+VMrBDMkGnXGmwTZDc+Z6QQIbAUOai/O4mppnAdRBYWURq48mo8nA==
+X-Received: by 2002:a05:6870:d5a2:b0:de:f682:6c4d with SMTP id
+ u34-20020a056870d5a200b000def6826c4dmr2930370oao.283.1651776628311; 
+ Thu, 05 May 2022 11:50:28 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.20
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:50:24 -0700 (PDT)
+ Thu, 05 May 2022 11:50:27 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Fabiano Rosas <farosas@linux.ibm.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Peter Turschmid <peter.turschm@nutanix.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 06/30] vhost-user: Use correct macro name TARGET_PPC64
-Date: Thu,  5 May 2022 15:49:14 -0300
-Message-Id: <20220505184938.351866-7-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 07/30] ppc/xive: Always recompute the PIPR when pushing an OS
+ context
+Date: Thu,  5 May 2022 15:49:15 -0300
+Message-Id: <20220505184938.351866-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
 References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,37 +92,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
 
-The correct name of the macro is TARGET_PPC64.
+The Post Interrupt Priority Register (PIPR) is not restored like the
+other OS-context related fields of the TIMA when pushing an OS context
+on the CPU. It's not needed because it can be calculated from the
+Interrupt Pending Buffer (IPB), which is saved and restored. The PIPR
+must therefore always be recomputed when pushing an OS context.
 
-Fixes: 27598393a232 ("Lift max memory slots limit imposed by vhost-user")
-Reported-by: Fabiano Rosas <farosas@linux.ibm.com>
-Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Cc: Peter Turschmid <peter.turschm@nutanix.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <20220503180108.34506-1-muriloo@linux.ibm.com>
+This patch fixes a path on P9 and P10 where it was not done. If there
+was a pending interrupt when the OS context was pulled, the IPB was
+saved correctly. When pushing back the context, the code in
+xive_tctx_need_resend() was checking for a interrupt raised while the
+context was not on the CPU, saved in the NVT. If one was found, then
+it was merged with the saved IPB and the PIPR updated and everything
+was fine. However, if there was no interrupt found in the NVT, then
+xive_tctx_ipb_update() was not being called and the PIPR was not
+updated. This patch fixes it by always calling xive_tctx_ipb_update().
+
+Note that on P10 (xive2.c) and because of the above, there's no longer
+any need to check the CPPR value so it can go away.
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Message-Id: <20220429071620.177142-2-fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/virtio/vhost-user.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/xive.c  | 11 ++++++++---
+ hw/intc/xive2.c | 16 +++++++++-------
+ 2 files changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 2d434ff0bc..afd51f79b3 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -51,7 +51,7 @@
- #include "hw/acpi/acpi.h"
- #define VHOST_USER_MAX_RAM_SLOTS ACPI_MAX_RAM_SLOTS
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index b8e4c7294d..c729f6a478 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -413,10 +413,15 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
+         /* Reset the NVT value */
+         nvt.w4 = xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
+         xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
+-
+-        /* Merge in current context */
+-        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+     }
++    /*
++     * Always call xive_tctx_ipb_update(). Even if there were no
++     * escalation triggered, there could be a pending interrupt which
++     * was saved when the context was pulled and that we need to take
++     * into account by recalculating the PIPR (which is not
++     * saved/restored).
++     */
++    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+ }
  
--#elif defined(TARGET_PPC) || defined(TARGET_PPC_64)
-+#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
- #include "hw/ppc/spapr.h"
- #define VHOST_USER_MAX_RAM_SLOTS SPAPR_MAX_RAM_SLOTS
+ /*
+diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
+index 3aff42a69e..400fd70aa8 100644
+--- a/hw/intc/xive2.c
++++ b/hw/intc/xive2.c
+@@ -316,7 +316,6 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+ {
+     Xive2Nvp nvp;
+     uint8_t ipb;
+-    uint8_t cppr = 0;
  
+     /*
+      * Grab the associated thread interrupt context registers in the
+@@ -337,7 +336,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+     /* Automatically restore thread context registers */
+     if (xive2_router_get_config(xrtr) & XIVE2_VP_SAVE_RESTORE &&
+         do_restore) {
+-        cppr = xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
++        xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
+     }
+ 
+     ipb = xive_get_field32(NVP2_W2_IPB, nvp.w2);
+@@ -345,11 +344,14 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+         nvp.w2 = xive_set_field32(NVP2_W2_IPB, nvp.w2, 0);
+         xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 2);
+     }
+-
+-    /* An IPB or CPPR change can trigger a resend */
+-    if (ipb || cppr) {
+-        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+-    }
++    /*
++     * Always call xive_tctx_ipb_update(). Even if there were no
++     * escalation triggered, there could be a pending interrupt which
++     * was saved when the context was pulled and that we need to take
++     * into account by recalculating the PIPR (which is not
++     * saved/restored).
++     */
++    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+ }
+ 
+ /*
 -- 
 2.32.0
 
