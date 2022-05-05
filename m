@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBED651C9E7
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 22:05:21 +0200 (CEST)
-Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDAB51C9ED
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 22:06:11 +0200 (CEST)
+Received: from localhost ([::1]:39584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmhiy-00052t-94
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 16:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48358)
+	id 1nmhjm-0006Qt-P4
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 16:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZb-0003xM-IY; Thu, 05 May 2022 14:51:38 -0400
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:35943)
+ id 1nmgZg-0003y4-2e; Thu, 05 May 2022 14:51:41 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:33984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZY-0004sT-8U; Thu, 05 May 2022 14:51:35 -0400
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-edeb6c3642so5109680fac.3; 
- Thu, 05 May 2022 11:51:31 -0700 (PDT)
+ id 1nmgZd-0004u7-Tt; Thu, 05 May 2022 14:51:39 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-ed9ac77cbbso5113740fac.1; 
+ Thu, 05 May 2022 11:51:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Chk0RINyrs3VC8UL+UPYQkDpM9x5xllD+vsKhxm4sfM=;
- b=e7au+DnA80YcxCewrvqIIhtYpxiwN6ib+SpfbB5IB02b/KozZ/YLLQxozDjy6dJ5Vn
- Se1qG9hYt4ZqSSZNh4HSi+/9RCe8GEIWzS3rMn9l2vuOxYMR2TVW2S+Vy0YmEmOishoa
- ps/1y9+l2h1VdqQfhjm7pwxFvTyZd2b9ueaHi11+CrzXNJiigfvjr4eDqljKUf2r75Zi
- Dv9MjuIrvC/H7SR5ypN6dXLSsvrHOTgFk7Un/hBfhZa5riZCv1rn9Ry2srNAlQ7OwyQW
- E8FQC5c3PEZABo3tB0+t/3spevY7JNbFowoKNm3DmbGx/kwNN4V6NZPX8lmkfxka4ytq
- uNrA==
+ bh=JfkptA3k6zDvg13eWVud+CrqF77f1D11YWXmGhqaOao=;
+ b=Mldqv95+6lsD9SUB8pfrQmnTEhAraTu58huEMsflDKjpq89zaQiUw7q5vHNZilXd9M
+ kHKBBjX/fzxwMhjez+VcLQ/bJhwxURIhKeZLb5KPzEQ7YYYCXj1hC9RmecP26yVJ1Jzz
+ fpnKFHdfjAn2BBXPqy1Wz8jO1if0Z5E6BiviuPE6FgNqRYEQhAtXNyYxO2JGiEFJ/N5e
+ 7OI1ZMN5kxOJqP+Ddt6lWYaRCgUJAn4b7sDAYf1sjEArvCS3evpJCjK6nb9Z95cPhOkP
+ 50WNZwabP+9OCstgIsvr7OvctJSjMzN40TJ1y1m7gsZMwUO8Xf5joE3fznWEVVfNRbaD
+ Zm2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Chk0RINyrs3VC8UL+UPYQkDpM9x5xllD+vsKhxm4sfM=;
- b=EZSd5jTlAeaIn/tqbN7Xi7CdTxgYXymNfVk30CJyt9bMuz7tdpv6XPy3lFyhn+Xs8S
- uQaKQu/Xhh8u+KAiWucJHynE+JzNcS/D30XP7CB55XXJLm7gq+EwtR+UVncU6tATGFPS
- 0TrIsZNCejhmjKWZC9bEw0bcCFknd4MeoE+Tu/Xv1Cp7mxWeA8muUFUTeoYev8ZQWDJQ
- WdlaMRfc4Biz+TGf0S5+v9Pdss8RUSsFBFkrcPG8yFk1ha81pOjx12TLNk5O89WJV++R
- kuZ6uVlcm96PCfOyYNU2KhjKxUvLhtoLxadHwlJCcdr27Cjhq1fcHee7sYl1wvMFqapV
- xU5Q==
-X-Gm-Message-State: AOAM5322B4VTpiiwNx7KdrpirgeoFk1z0ZnYdZjjZ5ZRgl1l94znnsVd
- L27/h9Kma8xbbmXmeBzyhmBaWOXzMuY=
-X-Google-Smtp-Source: ABdhPJzVCMq6/DLstsnOIggEL49GYxd80kaeytsJAtaY00JF02ldYf+piuQNTEIILFPo+BrZWw1LIQ==
-X-Received: by 2002:a05:6870:f728:b0:ed:9d92:7ba3 with SMTP id
- ej40-20020a056870f72800b000ed9d927ba3mr2950371oab.177.1651776690528; 
- Thu, 05 May 2022 11:51:30 -0700 (PDT)
+ bh=JfkptA3k6zDvg13eWVud+CrqF77f1D11YWXmGhqaOao=;
+ b=3YVGSbvTinS24L8m1oBLFlxrz0Ehkh+YuBS00Cf0HhGXsvxSJ9qsm388GSD5OzQm0C
+ /m3Jo6N+3NfVRWcIGs1b34PP6TEGGXkJwx77b8PiUbU2iC4QnH/s4RDVw1Jh3bf6l7aP
+ uGWbbs/ItpQm99ZwSdCq6P2J3eXYOdp5LWJbCxXU7J3hF4l1pkx92iF4+xVzkgg65Xy2
+ rJvp9XjQ7JcgwIDk8i4q3pOAsol25zvi3e+xrRtiqg7Wdd+3VgtrmWrUoXcxoY1owcFP
+ 5FX71gV5+0zHpIqjMrZs1u4T51a6retqqsqNW7QK5Ip7YUh7kZ6iqJV2/YsurDx+zXr7
+ q9rw==
+X-Gm-Message-State: AOAM532ZsdYvBuGO+6fr8DCaCdMtjGqzDQ0Ayhq+32h0GFSgb2K3oRNZ
+ zEtpdRjxcdRLLsP9kGevg1R+9ituJGA=
+X-Google-Smtp-Source: ABdhPJxxRBQX75BEXfvUaGuayUsdSWIJLt8K8WaDUtyh+9n5DRQLvUG8ZA2e0F/6u6ltQSpiUV7rYg==
+X-Received: by 2002:a05:6870:c20c:b0:ed:dbd5:59d2 with SMTP id
+ z12-20020a056870c20c00b000eddbd559d2mr2814355oae.239.1651776696433; 
+ Thu, 05 May 2022 11:51:36 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.51.27
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.51.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:51:29 -0700 (PDT)
+ Thu, 05 May 2022 11:51:36 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-Subject: [PULL 27/30] target/ppc: Remove msr_hv macro
-Date: Thu,  5 May 2022 15:49:35 -0300
-Message-Id: <20220505184938.351866-28-danielhb413@gmail.com>
+Subject: [PULL 29/30] target/ppc: Add unused msr bits FIELDs
+Date: Thu,  5 May 2022 15:49:37 -0300
+Message-Id: <20220505184938.351866-30-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
 References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -75,7 +75,8 @@ X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,173 +94,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-msr_hv macro hides the usage of env->msr, which is a bad
-behavior. Substitute it with FIELD_EX64 calls that explicitly use
-env->msr as a parameter.
+Add FIELDs macros for msr bits that had an unused msr_* before.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220504210541.115256-20-victor.colombo@eldorado.org.br>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220504210541.115256-22-victor.colombo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h         | 11 ++++++-----
- target/ppc/cpu_init.c    |  6 ++++--
- target/ppc/excp_helper.c |  8 ++++----
- target/ppc/mem_helper.c  |  4 ++--
- target/ppc/misc_helper.c |  2 +-
- target/ppc/mmu-radix64.c |  6 +++---
- 6 files changed, 20 insertions(+), 17 deletions(-)
+ target/ppc/cpu.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 5ac7d7d68f..9f19b3c0a8 100644
+index af249239d5..4577cfcc23 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -354,6 +354,12 @@ typedef enum {
+@@ -354,16 +354,31 @@ typedef enum {
  #define MSR_RI   1  /* Recoverable interrupt                        1        */
  #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
-+#if defined(TARGET_PPC64)
-+FIELD(MSR, HV, MSR_HV, 1)
-+#define FIELD_EX64_HV(storage) FIELD_EX64(storage, MSR, HV)
-+#else
-+#define FIELD_EX64_HV(storage) 0
-+#endif
++FIELD(MSR, SF, MSR_SF, 1)
++FIELD(MSR, TAG, MSR_TAG, 1)
++FIELD(MSR, ISF, MSR_ISF, 1)
+ #if defined(TARGET_PPC64)
+ FIELD(MSR, HV, MSR_HV, 1)
+ #define FIELD_EX64_HV(storage) FIELD_EX64(storage, MSR, HV)
+ #else
+ #define FIELD_EX64_HV(storage) 0
+ #endif
++FIELD(MSR, TS0, MSR_TS0, 1)
++FIELD(MSR, TS1, MSR_TS1, 1)
  FIELD(MSR, TS, MSR_TS0, 2)
++FIELD(MSR, TM, MSR_TM, 1)
  FIELD(MSR, CM, MSR_CM, 1)
++FIELD(MSR, ICM, MSR_ICM, 1)
  FIELD(MSR, GS, MSR_GS, 1)
-@@ -489,11 +495,6 @@ FIELD(MSR, LE, MSR_LE, 1)
- #define HFSCR_MSGP     PPC_BIT(53) /* Privileged Message Send Facilities */
- #define HFSCR_IC_MSGP  0xA
++FIELD(MSR, UCLE, MSR_UCLE, 1)
++FIELD(MSR, VR, MSR_VR, 1)
++FIELD(MSR, SPE, MSR_SPE, 1)
++FIELD(MSR, VSX, MSR_VSX, 1)
++FIELD(MSR, S, MSR_S, 1)
++FIELD(MSR, KEY, MSR_KEY, 1)
+ FIELD(MSR, POW, MSR_POW, 1)
++FIELD(MSR, WE, MSR_WE, 1)
++FIELD(MSR, TGPR, MSR_TGPR, 1)
+ FIELD(MSR, CE, MSR_CE, 1)
+ FIELD(MSR, ILE, MSR_ILE, 1)
+ FIELD(MSR, EE, MSR_EE, 1)
+@@ -371,12 +386,22 @@ FIELD(MSR, PR, MSR_PR, 1)
+ FIELD(MSR, FP, MSR_FP, 1)
+ FIELD(MSR, ME, MSR_ME, 1)
+ FIELD(MSR, FE0, MSR_FE0, 1)
++FIELD(MSR, SE, MSR_SE, 1)
++FIELD(MSR, DWE, MSR_DWE, 1)
++FIELD(MSR, UBLE, MSR_UBLE, 1)
++FIELD(MSR, BE, MSR_BE, 1)
+ FIELD(MSR, DE, MSR_DE, 1)
+ FIELD(MSR, FE1, MSR_FE1, 1)
++FIELD(MSR, AL, MSR_AL, 1)
+ FIELD(MSR, EP, MSR_EP, 1)
+ FIELD(MSR, IR, MSR_IR, 1)
+ FIELD(MSR, DR, MSR_DR, 1)
++FIELD(MSR, IS, MSR_IS, 1)
+ FIELD(MSR, DS, MSR_DS, 1)
++FIELD(MSR, PE, MSR_PE, 1)
++FIELD(MSR, PX, MSR_PX, 1)
++FIELD(MSR, PMM, MSR_PMM, 1)
++FIELD(MSR, RI, MSR_RI, 1)
+ FIELD(MSR, LE, MSR_LE, 1)
  
--#if defined(TARGET_PPC64)
--#define msr_hv   ((env->msr >> MSR_HV)   & 1)
--#else
--#define msr_hv   (0)
--#endif
- #define msr_de   ((env->msr >> MSR_DE)   & 1)
- 
- #define DBCR0_ICMP (1 << 27)
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 10e7c41bc9..d4c7813de5 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -6305,7 +6305,8 @@ static bool cpu_has_work_POWER9(CPUState *cs)
-         if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
-             (env->spr[SPR_LPCR] & LPCR_EEE)) {
-             bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
--            if (!heic || !msr_hv || FIELD_EX64(env->msr, MSR, PR)) {
-+            if (!heic || !FIELD_EX64_HV(env->msr) ||
-+                FIELD_EX64(env->msr, MSR, PR)) {
-                 return true;
-             }
-         }
-@@ -6520,7 +6521,8 @@ static bool cpu_has_work_POWER10(CPUState *cs)
-         if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
-             (env->spr[SPR_LPCR] & LPCR_EEE)) {
-             bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
--            if (!heic || !msr_hv || FIELD_EX64(env->msr, MSR, PR)) {
-+            if (!heic || !FIELD_EX64_HV(env->msr) ||
-+                FIELD_EX64(env->msr, MSR, PR)) {
-                 return true;
-             }
-         }
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index aa201c63c6..cb752b184a 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -1715,7 +1715,7 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-     if (env->pending_interrupts & (1 << PPC_INTERRUPT_HDECR)) {
-         /* LPCR will be clear when not supported so this will work */
-         bool hdice = !!(env->spr[SPR_LPCR] & LPCR_HDICE);
--        if ((async_deliver || msr_hv == 0) && hdice) {
-+        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hdice) {
-             /* HDEC clears on delivery */
-             env->pending_interrupts &= ~(1 << PPC_INTERRUPT_HDECR);
-             powerpc_excp(cpu, POWERPC_EXCP_HDECR);
-@@ -1727,7 +1727,7 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-     if (env->pending_interrupts & (1 << PPC_INTERRUPT_HVIRT)) {
-         /* LPCR will be clear when not supported so this will work */
-         bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
--        if ((async_deliver || msr_hv == 0) && hvice) {
-+        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
-             powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
-             return;
-         }
-@@ -1738,9 +1738,9 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-         bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
-         bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
-         /* HEIC blocks delivery to the hypervisor */
--        if ((async_deliver && !(heic && msr_hv &&
-+        if ((async_deliver && !(heic && FIELD_EX64_HV(env->msr) &&
-             !FIELD_EX64(env->msr, MSR, PR))) ||
--            (env->has_hv_mode && msr_hv == 0 && !lpes0)) {
-+            (env->has_hv_mode && !FIELD_EX64_HV(env->msr) && !lpes0)) {
-             if (books_vhyp_promotes_external_to_hvirt(cpu)) {
-                 powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
-             } else {
-diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-index 9af135e88e..d1163f316c 100644
---- a/target/ppc/mem_helper.c
-+++ b/target/ppc/mem_helper.c
-@@ -612,11 +612,11 @@ void helper_tbegin(CPUPPCState *env)
-     env->spr[SPR_TEXASR] =
-         (1ULL << TEXASR_FAILURE_PERSISTENT) |
-         (1ULL << TEXASR_NESTING_OVERFLOW) |
--        (msr_hv << TEXASR_PRIVILEGE_HV) |
-+        (FIELD_EX64_HV(env->msr) << TEXASR_PRIVILEGE_HV) |
-         (FIELD_EX64(env->msr, MSR, PR) << TEXASR_PRIVILEGE_PR) |
-         (1ULL << TEXASR_FAILURE_SUMMARY) |
-         (1ULL << TEXASR_TFIAR_EXACT);
--    env->spr[SPR_TFIAR] = env->nip | (msr_hv << 1) |
-+    env->spr[SPR_TFIAR] = env->nip | (FIELD_EX64_HV(env->msr) << 1) |
-                           FIELD_EX64(env->msr, MSR, PR);
-     env->spr[SPR_TFHAR] = env->nip + 4;
-     env->crf[0] = 0xB; /* 0b1010 = transaction failure */
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 06aa716cab..b0a5e7ce76 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -73,7 +73,7 @@ void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-                                  const char *caller, uint32_t cause)
- {
- #ifdef TARGET_PPC64
--    if ((env->msr_mask & MSR_HVB) && !msr_hv &&
-+    if ((env->msr_mask & MSR_HVB) && !FIELD_EX64(env->msr, MSR, HV) &&
-                                      !(env->spr[SPR_HFSCR] & (1UL << bit))) {
-         raise_hv_fu_exception(env, bit, caller, cause, GETPC());
-     }
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index e88f51fd34..21ac958e48 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -37,7 +37,7 @@ static bool ppc_radix64_get_fully_qualified_addr(const CPUPPCState *env,
-         return false;
-     }
- 
--    if (msr_hv) { /* MSR[HV] -> Hypervisor/bare metal */
-+    if (FIELD_EX64(env->msr, MSR, HV)) { /* MSR[HV] -> Hypervisor/bare metal */
-         switch (eaddr & R_EADDR_QUADRANT) {
-         case R_EADDR_QUADRANT0:
-             *lpid = 0;
-@@ -306,7 +306,7 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_t lpid, ppc_v3_pate_t *pate)
-     if (!(pate->dw0 & PATE0_HR)) {
-         return false;
-     }
--    if (lpid == 0 && !msr_hv) {
-+    if (lpid == 0 && !FIELD_EX64(env->msr, MSR, HV)) {
-         return false;
-     }
-     if ((pate->dw0 & PATE1_R_PRTS) < 5) {
-@@ -431,7 +431,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-     *g_page_size = PRTBE_R_GET_RTS(prtbe0);
-     base_addr = prtbe0 & PRTBE_R_RPDB;
-     nls = prtbe0 & PRTBE_R_RPDS;
--    if (msr_hv || vhyp_flat_addressing(cpu)) {
-+    if (FIELD_EX64(env->msr, MSR, HV) || vhyp_flat_addressing(cpu)) {
-         /*
-          * Can treat process table addresses as real addresses
-          */
+ /*
 -- 
 2.32.0
 
