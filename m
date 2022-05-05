@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BB351BD6A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:45:48 +0200 (CEST)
-Received: from localhost ([::1]:33330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B37D51BD18
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:23:51 +0200 (CEST)
+Received: from localhost ([::1]:56106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYzT-0002Mg-Po
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38806)
+	id 1nmYeE-0002mt-G0
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWt-0005Jg-Gw
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:11 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37664)
+ id 1nmXWv-0005La-As
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:14 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWr-0003OT-Vt
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:11 -0400
-Received: by mail-wr1-x435.google.com with SMTP id t6so5237009wra.4
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:09 -0700 (PDT)
+ id 1nmXWt-0003P1-2N
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:12 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ a14-20020a7bc1ce000000b00393fb52a386so4711953wmj.1
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lUUUty35mHrdlwzzNpzWoTHLJi4hbdRcoTC6a1ASl1U=;
- b=CmktfocO/gJapdbi5n3Yx0H9W7/XwioywVs5X2HjhwZ0rFQvKMcX1hJiDAN+AtOyFP
- nTd+XBlDR3loVwIr6Jma7/xJOZdA3VR0SjRDyoXlOoIndFBFCJjGIRgYOkn37ooXRI2d
- hI0DmK86GwM9kD9vptoY2DB93ZaKLOqXg6Q9FwC1VmXSViN9+f7pZxD3Y+3DUzXewx6I
- TynS3ZRcsj6HXhtQ5mDQ1xjaqY7fFYecsPxZWYBzfbanipL/hWHc/ghBb66awX12c2IP
- WJuNMHoT2NvTxK7yupz8cebemGA0Ny3TdKOG4Jc9KSa19KvzfpUzRfN6mdO+h5QFBKw4
- 4vng==
+ bh=EWdjm92nfPShmGSJgJfifu3iePdWQS75dHEQNsXsTtM=;
+ b=SLS4Rgfy/P4dsfCSzI7yfxhDWCzxpVEd/vO9FzzP6NklYY4Px+AnACbc4HGuY0VoVO
+ HIyHFzKcRo3sGhsRJWB0deo+0WLYdRa1KZ+/gW8mJxiUvABMIWhiazirjLM/IrqQClkK
+ aqqoCpoN9lJTbDA5r+KonFHepmDgrEv/7HzwRoRqL+GHAMaZq41u51r0uVqjfElvjEO/
+ VDkSkO8cFdrIZ0vDLn9CSIPwLP+19rlYQryz2e5yM/5+JKpyXgUORR04afMcLOGfI+9B
+ IIdfqWNDRRdH/XUnff7BaWhe3I/wsfsEM5COScwlyq2VVSdLN2RcTKkzb94PMFUWE0TN
+ vcvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lUUUty35mHrdlwzzNpzWoTHLJi4hbdRcoTC6a1ASl1U=;
- b=q4IPW+hRS6fFViOPQ3Or4X/BT3VFXzfvEHI4EYmnNIlVvcWWAXow7uaq79DCQeeQEW
- XfSdvQAarhMXRhYjyjpWDms1A2mpZDmseCzxIUcNWw5m1rbU9u3Do6LLs71OpbSpYWav
- ZWJk4EjQ/Ba5o+sOdvQ2STWgefwx3uSno3SNuU4ASGwXRYAYZoC4yNh8Fne4Z57BywOF
- jJMOP81HvKa6tEc6W0vj/1NbgsqYmUc7HUkOXA0R8DAXwp/DlW1DSju4qUMZGo94C4yx
- XsqnfXNGQhyAoCzuYBXr6XXCDyG3cG6W6GAPTa5uc7BqtJHAicfgfPa83Vxc5Wx27diA
- iyDQ==
-X-Gm-Message-State: AOAM533PsJpWn2THZlt4oq/PDZ2QscL5ZItDBBvLDiq9BzXtRgKViSH7
- V2UZ9gavaiKAQjlXnWF7VNk1IQyvRgIYmQ==
-X-Google-Smtp-Source: ABdhPJzZ0rDT8Sxs5gLWOXWv62txKXHYLKxlsAl5dDPmqHNDdrXyytnPY+KsWUT4P9uaAlpRdo2gkA==
-X-Received: by 2002:a05:6000:1841:b0:20c:788b:9306 with SMTP id
- c1-20020a056000184100b0020c788b9306mr8265320wri.369.1651741927952; 
- Thu, 05 May 2022 02:12:07 -0700 (PDT)
+ bh=EWdjm92nfPShmGSJgJfifu3iePdWQS75dHEQNsXsTtM=;
+ b=YaUXGGMRXfe548PMKreL/SL15zG2oWrkqaVK1xnd2pq8ewYxrjgxp204OuNP4TW061
+ wv5CWHSQU4fhL2IU/MBO39M1Kmq3uz0q5oc/HKyufW26G2AtNnn0aW+TZ50FmEt8fDnX
+ DZnzmRSp8yKGnest8Yr0BBh8tbEw4q3HUwwniv/PHhGvY0a02Y7EvK3XmkTKyycEwXvu
+ kiiwOefC/C5UX9ymZfJSBgBQd8n9BhIzGNo+YTz/V+WZqP23lm7vRdq2jbCDToO4Hzbl
+ wyRSArzRKBnivdzx8axS21Dmbga/WXioEc1afTFFnwvGVJw2Sij5ZHIY7gCOQrk0VIHO
+ dBRg==
+X-Gm-Message-State: AOAM5329sRgLUJ7+CUW1SiGK+UTV3KTwMZIqN7FUgw+Xp4pza1sH9IUF
+ e0U8ySMC6/uBx0ZuuH64PK3Se4sMdCiOSQ==
+X-Google-Smtp-Source: ABdhPJy2+gmkchV44nfTRxA0/AxFsdY+jmphqOIrKKEyFzOEZuxqqYjSxgJCAufsq+5dvnZLmVSGPA==
+X-Received: by 2002:a05:600c:4f94:b0:394:6dec:7392 with SMTP id
+ n20-20020a05600c4f9400b003946dec7392mr692040wmq.149.1651741929556; 
+ Thu, 05 May 2022 02:12:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.07
+ j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:12:07 -0700 (PDT)
+ Thu, 05 May 2022 02:12:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/23] target/arm: Remove HOST_BIG_ENDIAN ifdef in
- add_cpreg_to_hashtable
-Date: Thu,  5 May 2022 10:11:44 +0100
-Message-Id: <20220505091147.2657652-21-peter.maydell@linaro.org>
+Subject: [PULL 22/23] target/arm: Add isar_feature_{aa64,any}_ras
+Date: Thu,  5 May 2022 10:11:46 +0100
+Message-Id: <20220505091147.2657652-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220505091147.2657652-1-peter.maydell@linaro.org>
 References: <20220505091147.2657652-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,38 +91,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Since e03b56863d2bc, our host endian indicator is unconditionally
-set, which means that we can use a normal C condition.
+Add the aa64 predicate for detecting RAS support from id registers.
+We already have the aa32 version from the M-profile work.
+Add the 'any' predicate for testing both aa64 and aa32.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220501055028.646596-20-richard.henderson@linaro.org
-[PMM: quote correct git hash in commit message]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220501055028.646596-34-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ target/arm/cpu.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 81612952f3a..14ea5caad94 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8602,12 +8602,9 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-             r2->type |= ARM_CP_ALIAS;
-         }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 7303103016f..ca01f909a86 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3886,6 +3886,11 @@ static inline bool isar_feature_aa64_aa32_el1(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, EL1) >= 2;
+ }
  
--        if (r->state == ARM_CP_STATE_BOTH) {
--#if HOST_BIG_ENDIAN
--            if (r2->fieldoffset) {
--                r2->fieldoffset += sizeof(uint32_t);
--            }
--#endif
-+        if (HOST_BIG_ENDIAN &&
-+            r->state == ARM_CP_STATE_BOTH && r2->fieldoffset) {
-+            r2->fieldoffset += sizeof(uint32_t);
-         }
-     }
++static inline bool isar_feature_aa64_ras(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, RAS) != 0;
++}
++
+ static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
+@@ -4108,6 +4113,11 @@ static inline bool isar_feature_any_debugv8p2(const ARMISARegisters *id)
+     return isar_feature_aa64_debugv8p2(id) || isar_feature_aa32_debugv8p2(id);
+ }
  
++static inline bool isar_feature_any_ras(const ARMISARegisters *id)
++{
++    return isar_feature_aa64_ras(id) || isar_feature_aa32_ras(id);
++}
++
+ /*
+  * Forward to the above feature tests given an ARMCPU pointer.
+  */
 -- 
 2.25.1
 
