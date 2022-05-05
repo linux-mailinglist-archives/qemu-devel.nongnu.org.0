@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D88751C6AF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:04:31 +0200 (CEST)
-Received: from localhost ([::1]:35368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E34C51C6AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:03:39 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmfq2-0007m1-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54630)
+	id 1nmfpC-0006Xf-5n
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:03:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nmf8P-00074W-G8
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:19:25 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44996)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nmf8N-0003Rd-OD
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:19:25 -0400
-Received: by mail-ej1-x636.google.com with SMTP id i19so9980032eja.11
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 10:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=z78bLrtcaASPzi8w1CnjMXbUtXV5m6K37RHzoP7DafM=;
- b=iykYk5+5hDiJRdFD5io93oHSpZUZ0la9QRSL4B+zlNZABqqpTWRWbaMxvrJCcSWu32
- 1clvMsm4xZtF2WCr8fwYuy5uPufwbHCNkbFjyje6QUZrMyvtWsdjuhS3DoZjAvW2p1r3
- cALeALgKEf6FL/8F4Id3GMxmr4G8BvMyWg74PYJIGQtQ1asmn86D79zn6M7bwQCpT7Ir
- RCwSt6er8/7pkYoC3Cc9K3uGy3ohpPG/dEO/Adc/OwD/w7xm+F3XqZzWleSFfl9j7W3b
- EjLYv/0L8elKviNfogxVSNQDEGwM9Bm5yIgHJ883Ysx6h/6jUPT3YWCrexbcYS+u7i3t
- lFgQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nmfAc-0000wu-EU
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:21:42 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:26717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nmfAZ-0003vq-RR
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:21:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651771296;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x+lSRVIzqwP4f9F0rCcIC5vAqIsCT6BV5YIBVfJmWwU=;
+ b=eHqrraZznZeRmzrJlCste70yOgAXA6j2WOEBCX7gwkY/YXdX943hN1l2bvE960XavvMfu9
+ fuAIKyfIlvRS0+6hH6MU/sIcxjkM8LL7qafWnqHuUFRZIShv4APxtQBYAU3lr5pHxP586O
+ CHZ9zad5YtWTIn0zAv/vWszrJM7h9ew=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-530-JYITGtrPNYWxMM-zQILY6g-1; Thu, 05 May 2022 13:21:29 -0400
+X-MC-Unique: JYITGtrPNYWxMM-zQILY6g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u26-20020adfb21a000000b0020ac48a9aa4so1713004wra.5
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 10:21:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=z78bLrtcaASPzi8w1CnjMXbUtXV5m6K37RHzoP7DafM=;
- b=54ELNaTl5Tmtc7i6deV1oYgC649m3nCioiAvATcAXaikS646i1jZkKYlJyCdTdHtrr
- ocTDn/0MUFqnV9FHruF/zbcKhM8ZuGb4gacAz+npjoe/rvnkei3TIGIrevRrw0FcWPag
- xq1TgN/IE2rEUOTXeUvaIrOAqE1Z/U2i876hHlGU9jMxVehmnVlxocMET3PZuU9D8ps5
- TtEM3xlO8uTsPKVExxQZ34VOdHOAAWt7ossuHztx/FuT5DsWzJXDVT5d1PXeBD1CdE4g
- lP/xpdKYLiQ1uKyd3uH0ahvZnoGlROv8y6PfklTAKpSVbWFpE/IworjJvM45NEkA62Oe
- oYWg==
-X-Gm-Message-State: AOAM531bZpZd4lS0nh+I6O8Yecwr0M/OcEN9In6FH6b5ZJPYrZwuLnsj
- TvpzAmno226yL2E+4NZwkyw=
-X-Google-Smtp-Source: ABdhPJxr9nrK94wnRmKYpYIpyt52l0nFJVvWtYEBVin3/ydfLULHXVwJoqBaEGNiXOq1M0RBivxY/Q==
-X-Received: by 2002:a17:906:dc8d:b0:6f4:75da:2fc8 with SMTP id
- cs13-20020a170906dc8d00b006f475da2fc8mr16506527ejc.7.1651771161811; 
- Thu, 05 May 2022 10:19:21 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- d13-20020a170906640d00b006f50ceabcb8sm244413ejm.102.2022.05.05.10.19.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 May 2022 10:19:21 -0700 (PDT)
-Message-ID: <a0e6e14f-5326-be45-2f6a-41da01ea05fd@redhat.com>
-Date: Thu, 5 May 2022 19:19:18 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=x+lSRVIzqwP4f9F0rCcIC5vAqIsCT6BV5YIBVfJmWwU=;
+ b=hISR+8ArfOmGjLIgVtM5zpe9OK8vsmSOiOrJXzlcaOY9WgnIVM15RzJeUC9SjYP9CH
+ WgIVyt0DRHjIQXLNv+sky24ItEThHk7NPM686zPe9+ViFvNtQR8ta/aHNCMck4G6Lv+p
+ DgK2DDL/dWoagkLQQBYgwsz8/slrCJbhOPm0ti5JmIUPophqQXdN5Mct3VQEopUrlwMR
+ Vi7Y4pkwOI/zMBYQ2z2sgxP2eS15aHw07ClM0rQ7bYahy7vI8fJ879sYxisXbofQwa7i
+ cLMdCDKDZkbeFCWAq2jHKeN/FkCu1LlDwug/YBqk8CSsVeD0GmHBmMB/4Ozz1lWQeZui
+ az+A==
+X-Gm-Message-State: AOAM533BcAL+Gjn9vjqj2+mic1scIQM1vnNG3rL+DuogQMd2fcd5MWzG
+ NCFPhIZXya3rEgxvyU4vpkgBrHL4X1hiB/INkyGAgr/5Mk/5Pg1gU5xDlKLYjE1beOdnmyiu4Rq
+ m2p/cjs0aUm4Hd6Y=
+X-Received: by 2002:adf:e942:0:b0:20a:c907:90d6 with SMTP id
+ m2-20020adfe942000000b0020ac90790d6mr22017499wrn.163.1651771287780; 
+ Thu, 05 May 2022 10:21:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCHIOVgLc0DOOjcEytEcLzE0MPW7FMP4L41kBsuS1r3J/p1DzvLItspaMfSFq4WzdPrVgLmQ==
+X-Received: by 2002:adf:e942:0:b0:20a:c907:90d6 with SMTP id
+ m2-20020adfe942000000b0020ac90790d6mr22017489wrn.163.1651771287584; 
+ Thu, 05 May 2022 10:21:27 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ d7-20020adffbc7000000b0020c66310845sm1619282wrs.55.2022.05.05.10.21.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 May 2022 10:21:26 -0700 (PDT)
+Date: Thu, 5 May 2022 18:21:24 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ mark.kanda@oracle.com
+Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+Message-ID: <YnQHlN19Vuft1+/H@work-vm>
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-2-pbonzini@redhat.com>
+ <87sfpp3018.fsf@pond.sub.org>
+ <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
+ <87v8ukt8g8.fsf@pond.sub.org> <YnPTeO8PvfpH4jMQ@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL v4 00/25] Misc patches for 2022-04-29
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220504210615.680072-1-pbonzini@redhat.com>
- <8fd8cf3b-08f5-3666-edac-2dec322e88b0@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <8fd8cf3b-08f5-3666-edac-2dec322e88b0@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+In-Reply-To: <YnPTeO8PvfpH4jMQ@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.74; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,39 +107,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/22 17:17, Richard Henderson wrote:
-> In file included from 
-> /home/gitlab-runner/builds/Jpwtyaz7/0/qemu-project/qemu/include/qemu/osdep.h:30, 
+* Daniel P. Berrang� (berrange@redhat.com) wrote:
+> On Thu, May 05, 2022 at 03:28:23PM +0200, Markus Armbruster wrote:
+> > Paolo Bonzini <pbonzini@redhat.com> writes:
+> > 
+> > > Il 4 maggio 2022 15:22:27 CEST, Markus Armbruster <armbru@redhat.com> ha scritto:
+> > >>Can you point to existing uses of KVM binary stats introspection data?
+> > >
+> > > There's none, but Google is using it in house. The same data was available before in debugfs and available via the kvm_stat script, so you could also refer to Christian Borntraeger's KVM Forum 2019 talk. The problems with debugfs are basically that it's only available to root and is disabled by secure boot (both issues are not fixable on general because they are Linux policy).
+> > 
+> > I keep bothering you about use cases, because I'm habitually opposed to
+> > adding features without credible use cases.
+> > 
+> > For small features, a bit of plausible hand-waving can suffice, but this
+> > one isn't small enough for that.
+> > 
+> > Plausible hand-waving can sometimes suffice for *experimental* features.
+> > Say when the use case can't really materialize without the feature.
+> > 
+> > Double-checking (pardon my ignorance): we're basically exposing the host
+> > kernel's KVM stats via QMP, with the option of extending it to other
+> > sources of stats in the future.  Correct?
+> > 
+> > I think the argument for accepting the interface is basically "if it's
+> > good enough for the kernel, it's good enough for us".  Valid point.
+> > 
+> > This means we'll acquire yet another introspection system, unrelated to
+> > the introspection systems we already have in QEMU.
 > 
->                   from ../block.c:26:
-> ../block.c: In function ‘bdrv_format_is_whitelisted’:
-> ./config-host.h:44:163: error: called object is not a function or 
-> function pointer
->   #define CONFIG_BDRV_RW_WHITELIST "qcow2", "raw", "file", 
-> "host_device", "nbd", "iscsi", "rbd", "blkdebug", "luks", "null-co", 
-> "nvme", "copy-on-read", "throttle", "gluster"
+> The second introspection system was the bit I disliked the most.
 > 
->                                                                            ^~~~~~~~~
-> ../block.c:478:9: note: in expansion of macro ‘CONFIG_BDRV_RW_WHITELIST’
->           CONFIG_BDRV_RW_WHITELIST
->           ^~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from 
-> /home/gitlab-runner/builds/Jpwtyaz7/0/qemu-project/qemu/include/qemu/osdep.h:30, 
+> The inherant tension we have in that respect is that traditionally
+> with QMP we explicitly /want/ the developer to have todo design+coding
+> work to expose every new piece of data. Similarly on the client side
+> we are expecting work to consume any new piece of data.
 > 
->                   from ../block.c:26:
-> ./config-host.h:42:66: error: called object is not a function or 
-> function pointer
->   #define CONFIG_BDRV_RO_WHITELIST "vmdk", "vhdx", "vpc", "https", "ssh"
->                                                                    ^~~~~
-> ../block.c:482:9: note: in expansion of macro ‘CONFIG_BDRV_RO_WHITELIST’
->           CONFIG_BDRV_RO_WHITELIST
->           ^~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/2418086124
+> With this command we explicitly do NOT want the developer to do
+> any new design+coding work, but instead allow almost arbitrary
+> passthrough of whatever data the kernel decides to expose, and
+> consumption of arbitrary data without writing new code.
 
-I'm really sorry.  At least this should have been caught by the 
-contributor CI though, I'll send a patch.
+The developer is going to have had to made that design when they put it
+in the kernel; they don't really want to repeat the bikeshedding at each
+further layer up the stack.  We have to be able to accept that we're
+dealing with another (open) interface which has already gone through
+review.
 
-Paolo
+Dave
+
+> There is some appeal in why we want todo that, but it is certainly
+> a divergance from our historical approach to QMP, so we shouldn't
+> make this decision lightly.
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
