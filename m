@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A038151BC9B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:59:11 +0200 (CEST)
-Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A6F51BBEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:23:45 +0200 (CEST)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYGM-0007Bz-I4
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38476)
+	id 1nmXi5-0000ld-0O
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWf-0004s4-8b
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:11:57 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39690)
+ id 1nmXWi-00051f-Um
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:01 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:43667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWd-0003C1-6x
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:11:56 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d5so5217645wrb.6
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:11:54 -0700 (PDT)
+ id 1nmXWh-0003HP-5y
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:00 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ r1-20020a1c2b01000000b00394398c5d51so2243166wmr.2
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:11:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bYZBKnLPYoT9NJwctlvQqMu7v1ZG2DSl8oWKZwkh4ng=;
- b=svJCPHV3XzdhTClsT94Dwp/Jgjc8ghTeQnCP00DWuuzNtkk0Whg1Ef48OHJWPgRAi7
- MX0f4worBZ8x2ltQ5Glbo94cGbVg0zh3wLCKQyancign4RRix3Zg9g+HYNGLt6yNR7qn
- hjUQLsGfbP7qnBZJ7j4xi61iuYevTtmkoMKPPoFKHz29TYSLSLZG3j+zZOW6GXIqfh5x
- 7ALagO4PVsxNqP59wiKNXQGO6DbX8iJBReC461u2hAPYeGsLtc3tRXlpWC027NSo/4wv
- OuuuJjW6GXiKpuNgA/xklBkp18Jr7SgAx77ecKp+H09qnqJJF+GoSGZjko1iwKrifEE6
- Z2kg==
+ bh=hSAkfjiq8NHovzsRkuZFZACusQ6Byf9p05IGivYIsEk=;
+ b=BnnXWoEls/1ZUJBnUPnoGJEGoOKXhnk/9Ow5zmAyIOlY8sKr4PEIsRP9xJopWGM187
+ OD0rFpZHJE20Qj/7UlsYWbFBg6mP2HTpXNtUuzL49fc8ANX/AuC8GctRY35zVNDsBMKE
+ ribhN4T3tDVCU5XqNbvRtiXyKKz+xoObpo7E1xeIT7jrHn5buFDFhvTID6LVNEWseL6y
+ rgQUVis9hVrHpUqWRETzbBQ0HZMBLGfGkdVTVzv5/D7szD50V9F8PjhNsCV9SnnBoLQZ
+ Zpwyhdw/w/fBhnp+0INwwE7A+UB55ka0PjY7fZQMvLdpMz35/04ZqXQJsZ2cm5lSYwSu
+ 7MCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bYZBKnLPYoT9NJwctlvQqMu7v1ZG2DSl8oWKZwkh4ng=;
- b=S+2hoRubccV/4oouzWg2cvL+tQTj5WvLxY9wJahaxjysPtjSNTTphj90T3LLC8Kkt1
- jiaX9eVlz6YdeuWiw4P99GSwGHE+PVrLhP8OCN+X5R5pDgzIGVIRD+MrDLUkX6ZNxpOX
- QZ0Tk/XK0IlRpe0CisesuiYY2DeEn0pTGNGZn39aJWf7Lv9wXuHo+zvhRzwD2kqHX3DB
- I52bQiFx7mYCVZax96Wir41FT59anjLBc039120QMjEriqeWtwVB64DmwLYoVXgGtHHU
- dUtrx/Q4dQOKjCUVekWl2aqLr73Q8+IYl1ESapBrsJRCnHWNEPWheO4JlrcMMURfgqBj
- wMDw==
-X-Gm-Message-State: AOAM532KrJCoP+1hJq1MVs5/nlIf1m8bzss2ylQwH5UIqHXAy3s40XTz
- f5CJd/U0WqaH1pcTGU2nnwMKHMaHRIr39w==
-X-Google-Smtp-Source: ABdhPJz6F6DXXOuxRhpXRTQZC41RNXN5xllNA7QO/9CyTVXQky+sMB53rIWPBaRFlSf73+/HVOY01g==
-X-Received: by 2002:adf:e3c1:0:b0:20a:aba9:9b38 with SMTP id
- k1-20020adfe3c1000000b0020aaba99b38mr19615869wrm.673.1651741913562; 
- Thu, 05 May 2022 02:11:53 -0700 (PDT)
+ bh=hSAkfjiq8NHovzsRkuZFZACusQ6Byf9p05IGivYIsEk=;
+ b=m1FCV3wqIi5VKr0jLuwsQlaQpuI+qIyFbz7ONsqprxQ+F5ijy77Z9RG2Um63d+K43a
+ y8atYVsfPjZwH3HECyohWCrLem2iOmlUkpjebCiM7kH4X1t16YvxMyf1Lf8jyjN5UuY2
+ /XG7iIVvaoth1QzxGtcwxL+1SiIJwioD9eGp4DypMa18/7cQa4Xw6Vol0ftNUyF7PCil
+ SUoa9zvzNsOPRedtKasZAZ6n5MX7oFiwFwvABgN9Pyh4E6utC83xnTIqJic92fcdiblr
+ 20AdZIS7X00rZu9lUjVmBYXpwdy+xO8MRGj6Ap+z2dd27utdFySKsb/XUwfKJey4XMbJ
+ D2nw==
+X-Gm-Message-State: AOAM533i1Ea4wYho38EgOVk8hgHDppJGG95iKtKkbhAUtSGDljzbipT0
+ TCTIAn9ddti1F3SfsQrFJdcweoN7dibKqQ==
+X-Google-Smtp-Source: ABdhPJyhiMsq9V4krNmuQHXP7bvS0axIBqbHAaukZt9d1UjYGAegNdl1JCJOd0NytLVyZxGs9YVguQ==
+X-Received: by 2002:a7b:ce04:0:b0:394:1f46:213 with SMTP id
+ m4-20020a7bce04000000b003941f460213mr3489656wmc.157.1651741917613; 
+ Thu, 05 May 2022 02:11:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.11.52
+ j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.11.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:11:53 -0700 (PDT)
+ Thu, 05 May 2022 02:11:57 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/23] target/arm: Reorg CPAccessResult and access_check_cp_reg
-Date: Thu,  5 May 2022 10:11:27 +0100
-Message-Id: <20220505091147.2657652-4-peter.maydell@linaro.org>
+Subject: [PULL 07/23] target/arm: Avoid bare abort() or assert(0)
+Date: Thu,  5 May 2022 10:11:31 +0100
+Message-Id: <20220505091147.2657652-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220505091147.2657652-1-peter.maydell@linaro.org>
 References: <20220505091147.2657652-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,160 +91,187 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Rearrange the values of the enumerators of CPAccessResult
-so that we may directly extract the target el. For the two
-special cases in access_check_cp_reg, use CPAccessResult.
+Standardize on g_assert_not_reached() for "should not happen".
+Retain abort() when preceeded by fprintf or error_report.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220501055028.646596-3-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20220501055028.646596-7-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpregs.h    | 26 ++++++++++++--------
- target/arm/op_helper.c | 56 +++++++++++++++++++++---------------------
- 2 files changed, 44 insertions(+), 38 deletions(-)
+ target/arm/helper.c         | 7 +++----
+ target/arm/hvf/hvf.c        | 2 +-
+ target/arm/kvm-stub.c       | 4 ++--
+ target/arm/kvm.c            | 4 ++--
+ target/arm/machine.c        | 4 ++--
+ target/arm/translate-a64.c  | 4 ++--
+ target/arm/translate-neon.c | 2 +-
+ target/arm/translate.c      | 4 ++--
+ 8 files changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index 8064c0763e2..7f2c30eab1c 100644
---- a/target/arm/cpregs.h
-+++ b/target/arm/cpregs.h
-@@ -167,26 +167,32 @@ static inline bool cptype_valid(int cptype)
- typedef enum CPAccessResult {
-     /* Access is permitted */
-     CP_ACCESS_OK = 0,
-+
-+    /*
-+     * Combined with one of the following, the low 2 bits indicate the
-+     * target exception level.  If 0, the exception is taken to the usual
-+     * target EL (EL1 or PL1 if in EL0, otherwise to the current EL).
-+     */
-+    CP_ACCESS_EL_MASK = 3,
-+
-     /*
-      * Access fails due to a configurable trap or enable which would
-      * result in a categorized exception syndrome giving information about
-      * the failing instruction (ie syndrome category 0x3, 0x4, 0x5, 0x6,
--     * 0xc or 0x18). The exception is taken to the usual target EL (EL1 or
--     * PL1 if in EL0, otherwise to the current EL).
-+     * 0xc or 0x18).
-      */
--    CP_ACCESS_TRAP = 1,
-+    CP_ACCESS_TRAP = (1 << 2),
-+    CP_ACCESS_TRAP_EL2 = CP_ACCESS_TRAP | 2,
-+    CP_ACCESS_TRAP_EL3 = CP_ACCESS_TRAP | 3,
-+
-     /*
-      * Access fails and results in an exception syndrome 0x0 ("uncategorized").
-      * Note that this is not a catch-all case -- the set of cases which may
-      * result in this failure is specifically defined by the architecture.
-      */
--    CP_ACCESS_TRAP_UNCATEGORIZED = 2,
--    /* As CP_ACCESS_TRAP, but for traps directly to EL2 or EL3 */
--    CP_ACCESS_TRAP_EL2 = 3,
--    CP_ACCESS_TRAP_EL3 = 4,
--    /* As CP_ACCESS_UNCATEGORIZED, but for traps directly to EL2 or EL3 */
--    CP_ACCESS_TRAP_UNCATEGORIZED_EL2 = 5,
--    CP_ACCESS_TRAP_UNCATEGORIZED_EL3 = 6,
-+    CP_ACCESS_TRAP_UNCATEGORIZED = (2 << 2),
-+    CP_ACCESS_TRAP_UNCATEGORIZED_EL2 = CP_ACCESS_TRAP_UNCATEGORIZED | 2,
-+    CP_ACCESS_TRAP_UNCATEGORIZED_EL3 = CP_ACCESS_TRAP_UNCATEGORIZED | 3,
- } CPAccessResult;
- 
- typedef struct ARMCPRegInfo ARMCPRegInfo;
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 67be91c7323..76499ffa149 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -632,11 +632,13 @@ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
-                                  uint32_t isread)
- {
-     const ARMCPRegInfo *ri = rip;
-+    CPAccessResult res = CP_ACCESS_OK;
-     int target_el;
- 
-     if (arm_feature(env, ARM_FEATURE_XSCALE) && ri->cp < 14
-         && extract32(env->cp15.c15_cpar, ri->cp, 1) == 0) {
--        raise_exception(env, EXCP_UDEF, syndrome, exception_target_el(env));
-+        res = CP_ACCESS_TRAP;
-+        goto fail;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index f84377babe1..06f8864c778 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8740,8 +8740,7 @@ void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu,
+             break;
+         default:
+             /* broken reginfo with out-of-range opc1 */
+-            assert(false);
+-            break;
++            g_assert_not_reached();
+         }
+         /* assert our permissions are not too lax (stricter is fine) */
+         assert((r->access & ~mask) == 0);
+@@ -10823,7 +10822,7 @@ static bool get_phys_addr_v5(CPUARMState *env, uint32_t address,
+             break;
+         default:
+             /* Never happens, but compiler isn't smart enough to tell.  */
+-            abort();
++            g_assert_not_reached();
+         }
+     }
+     *prot = ap_to_rw_prot(env, mmu_idx, ap, domain_prot);
+@@ -10944,7 +10943,7 @@ static bool get_phys_addr_v6(CPUARMState *env, uint32_t address,
+             break;
+         default:
+             /* Never happens, but compiler isn't smart enough to tell.  */
+-            abort();
++            g_assert_not_reached();
+         }
+     }
+     if (domain_prot == 3) {
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index b11a8b9a189..86710509d20 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -1200,7 +1200,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+         /* we got kicked, no exit to process */
+         return 0;
+     default:
+-        assert(0);
++        g_assert_not_reached();
      }
  
-     /*
-@@ -655,48 +657,46 @@ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
-         mask &= ~((1 << 4) | (1 << 14));
+     hvf_sync_vtimer(cpu);
+diff --git a/target/arm/kvm-stub.c b/target/arm/kvm-stub.c
+index 56a7099e6b9..965a486b320 100644
+--- a/target/arm/kvm-stub.c
++++ b/target/arm/kvm-stub.c
+@@ -15,10 +15,10 @@
  
-         if (env->cp15.hstr_el2 & mask) {
--            target_el = 2;
--            goto exept;
-+            res = CP_ACCESS_TRAP_EL2;
-+            goto fail;
+ bool write_kvmstate_to_list(ARMCPU *cpu)
+ {
+-    abort();
++    g_assert_not_reached();
+ }
+ 
+ bool write_list_to_kvmstate(ARMCPU *cpu, int level)
+ {
+-    abort();
++    g_assert_not_reached();
+ }
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index 5fc37ac10a5..4339e1cd6e0 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -540,7 +540,7 @@ bool write_kvmstate_to_list(ARMCPU *cpu)
+             ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &r);
+             break;
+         default:
+-            abort();
++            g_assert_not_reached();
+         }
+         if (ret) {
+             ok = false;
+@@ -575,7 +575,7 @@ bool write_list_to_kvmstate(ARMCPU *cpu, int level)
+             r.addr = (uintptr_t)(cpu->cpreg_values + i);
+             break;
+         default:
+-            abort();
++            g_assert_not_reached();
+         }
+         ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &r);
+         if (ret) {
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 135d2420b5c..285e387d2c3 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -661,7 +661,7 @@ static int cpu_pre_save(void *opaque)
+     if (kvm_enabled()) {
+         if (!write_kvmstate_to_list(cpu)) {
+             /* This should never fail */
+-            abort();
++            g_assert_not_reached();
+         }
+ 
+         /*
+@@ -672,7 +672,7 @@ static int cpu_pre_save(void *opaque)
+     } else {
+         if (!write_cpustate_to_list(cpu, false)) {
+             /* This should never fail. */
+-            abort();
++            g_assert_not_reached();
          }
      }
  
--    if (!ri->accessfn) {
-+    if (ri->accessfn) {
-+        res = ri->accessfn(env, ri, isread);
-+    }
-+    if (likely(res == CP_ACCESS_OK)) {
-         return;
-     }
- 
--    switch (ri->accessfn(env, ri, isread)) {
--    case CP_ACCESS_OK:
--        return;
-+ fail:
-+    switch (res & ~CP_ACCESS_EL_MASK) {
-     case CP_ACCESS_TRAP:
--        target_el = exception_target_el(env);
--        break;
--    case CP_ACCESS_TRAP_EL2:
--        /* Requesting a trap to EL2 when we're in EL3 is
--         * a bug in the access function.
--         */
--        assert(arm_current_el(env) != 3);
--        target_el = 2;
--        break;
--    case CP_ACCESS_TRAP_EL3:
--        target_el = 3;
-         break;
-     case CP_ACCESS_TRAP_UNCATEGORIZED:
--        target_el = exception_target_el(env);
--        syndrome = syn_uncategorized();
--        break;
--    case CP_ACCESS_TRAP_UNCATEGORIZED_EL2:
--        target_el = 2;
--        syndrome = syn_uncategorized();
--        break;
--    case CP_ACCESS_TRAP_UNCATEGORIZED_EL3:
--        target_el = 3;
-         syndrome = syn_uncategorized();
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index a82f5d5984b..b80313670f9 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -6151,7 +6151,7 @@ static void handle_fp_1src_half(DisasContext *s, int opcode, int rd, int rn)
+         gen_helper_advsimd_rinth(tcg_res, tcg_op, fpst);
          break;
      default:
-         g_assert_not_reached();
+-        abort();
++        g_assert_not_reached();
      }
  
--exept:
-+    target_el = res & CP_ACCESS_EL_MASK;
-+    switch (target_el) {
-+    case 0:
-+        target_el = exception_target_el(env);
-+        break;
-+    case 2:
-+        assert(arm_current_el(env) != 3);
-+        assert(arm_is_el2_enabled(env));
-+        break;
-+    case 3:
-+        assert(arm_feature(env, ARM_FEATURE_EL3));
-+        break;
-+    default:
-+        /* No "direct" traps to EL1 */
+     write_fp_sreg(s, rd, tcg_res);
+@@ -6392,7 +6392,7 @@ static void handle_fp_fcvt(DisasContext *s, int opcode,
+         break;
+     }
+     default:
+-        abort();
 +        g_assert_not_reached();
-+    }
-+
-     raise_exception(env, EXCP_UDEF, syndrome, target_el);
+     }
  }
  
+diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
+index 2e4d1ec87d9..321c17e2c7e 100644
+--- a/target/arm/translate-neon.c
++++ b/target/arm/translate-neon.c
+@@ -679,7 +679,7 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
+         }
+         break;
+     default:
+-        abort();
++        g_assert_not_reached();
+     }
+     if ((vd + a->stride * (nregs - 1)) > 31) {
+         /*
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 050c237b076..4e19191ed5c 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -5156,7 +5156,7 @@ static void gen_srs(DisasContext *s,
+         offset = 4;
+         break;
+     default:
+-        abort();
++        g_assert_not_reached();
+     }
+     tcg_gen_addi_i32(addr, addr, offset);
+     tmp = load_reg(s, 14);
+@@ -5181,7 +5181,7 @@ static void gen_srs(DisasContext *s,
+             offset = 0;
+             break;
+         default:
+-            abort();
++            g_assert_not_reached();
+         }
+         tcg_gen_addi_i32(addr, addr, offset);
+         gen_helper_set_r13_banked(cpu_env, tcg_constant_i32(mode), addr);
 -- 
 2.25.1
 
