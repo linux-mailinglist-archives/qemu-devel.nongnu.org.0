@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8ED351C565
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 18:49:53 +0200 (CEST)
-Received: from localhost ([::1]:52256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C7551C51D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 18:28:31 +0200 (CEST)
+Received: from localhost ([::1]:43134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmefo-0003vo-VY
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 12:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37252)
+	id 1nmeL7-0003QO-Oh
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 12:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nmeBP-00023X-I6; Thu, 05 May 2022 12:18:27 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46792)
+ id 1nmeBR-00027x-Pi; Thu, 05 May 2022 12:18:34 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nmeBN-0005i6-Rp; Thu, 05 May 2022 12:18:27 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id j6so9656119ejc.13;
- Thu, 05 May 2022 09:18:25 -0700 (PDT)
+ id 1nmeBP-0005ju-RB; Thu, 05 May 2022 12:18:29 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id p18so5800840edr.7;
+ Thu, 05 May 2022 09:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MEkiF45uG0tcJHA4L/93sG9+aM2PpilRQO/AdqVmaNU=;
- b=pcdpqXJ8iC8QpqlZeY+Tr8Aiva5pGdiIar8BZkFwn40rVJKXuFuLlUySXqgFSEt617
- pVxCiZE33GAEyWd+UFKQlPDMxaWpZEupipdTXm9pz50qP+Pi8SEYtg1mUXfT+WNOgf/M
- 3elgPGlBhYeJlZBfR4geXzHTcNxdsOPgRvhBaoRRkgtcGurVFA6VMhgHRZ0hjX1E29tv
- BB2IY2ULh3FGnP3/xAMoD0+yCpMU5lOPWCE0wyM4CQHOQtGhfDU1EZart/J20mQqlLOR
- pm8k5RTz50ce1x2JQhTqcyEXBJwA9rmRGte02i1JkzHua9tBks+fvxzmryKLrvI3jhIX
- bq7A==
+ bh=T3N5ocw7wyJjyTDsryXEF2wyCqbBVbiZiu2UEGxzxkc=;
+ b=d3oby60CYMPot/H08C8LeATp6tAjV0OEX4I7K8IeuARphjQ6NJPhA2kFaRrNuulI3t
+ BTXg2A02Sd4x+C7D+3Ih5Z/W2zdBpBFfti5qwEwbexwNgLQgsCCjAHoRB4ugJaLvB+4J
+ a0Ao9mZh5/WkFkKpRgeXvIOVmXZJzTmqhje76DomG/faepUwhr5AbKwAM86JtsUR4G6E
+ UGqynHkL0BSZQVUFD4l0TSvOgkUcSocx2GY/yIrLv+0v+lzxXO0JjCxmv+zkr1dQ5SrT
+ eVt5D8XoNDgviCnWCUCG+HxDvAYMMV45jWQ6gSEO7jjbXnHcGhlI/1lFbl34fAKOcOaU
+ nsBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MEkiF45uG0tcJHA4L/93sG9+aM2PpilRQO/AdqVmaNU=;
- b=QdQvGTH3zrlSujuqsQ0YBus3QPObIlq5wbeH+ITo4rKUQImYnsqBfIxknUsmQHPgcs
- v0cF/yahuNnehSsDh8OrFTYQF2gHjttMi+aQj3evHMirASiQb55/vsjPmxY+oVEVr13Z
- 7+01QNH3mDBkunhU+SeJKcBdmLWUIetZP8P7rhHq7Aemt2gfMdwLaAz/0LpJj6sTKzoa
- rqer8jnSZ9gU3OJyOXm6eKPp8KdV55rQ8higN9OIiTxzrhMjsVaZbKkbRAi+bJpn33Jk
- b97iwKb47Sxcvd10ftWlU/tu7q5I2d3HaGKBzVW9h5PaZlSeqeSrVJbKB5+H9NFXioNW
- 0yTA==
-X-Gm-Message-State: AOAM532lsi7SDJ6QLZxe2+/jM15sc2IF2wIs7bBzd9kaXaXE7nXY1SRC
- ZsY9KIg+WSNVHkwdk3LmYWDOekIXhoA=
-X-Google-Smtp-Source: ABdhPJyVqIV5yRyA/vUAfVLAgIXvCb33+LACCdlIJNrlTh0rtAN4Ff0Dxh503XMFSU4+R7MoHJR/RA==
-X-Received: by 2002:a17:907:7f2a:b0:6f4:a358:c826 with SMTP id
- qf42-20020a1709077f2a00b006f4a358c826mr12655332ejc.404.1651767504570; 
- Thu, 05 May 2022 09:18:24 -0700 (PDT)
+ bh=T3N5ocw7wyJjyTDsryXEF2wyCqbBVbiZiu2UEGxzxkc=;
+ b=bBE0vJSXW2DD0LkjFYvd0onYxL9Go684d8X7Mshp5Qavf8utsf6gmG9eJBzLqbJLoc
+ K3tlZaNO1uwygBQv43+itxuCl8IZMDybdhdihGEB/KAHHd0UgHWJvSJSWRvaM/qC35hx
+ ReN3dVMQZMPlIzcW1jmcNZ4ypATNDIBnAHmLAl/l7vPwdfHSK+6BnTqjZn/anQ3utXRv
+ WNDPVahyQOAyWbhHD/EMLiLrMiLzxj5h4RjWmw62p/rFmj/tGe7n48S2IJnQmuDWcK0R
+ DuqjFTqB2VMxK7k05LhQsbHvH44D8K16duDxCyNC1MdD8SaRtKu+6QDvzTDuNs/j5qR9
+ t0OQ==
+X-Gm-Message-State: AOAM5327NyWsykPYFif0nCwCgqf1b52/KY+QyTnIDb5aUWTN7Q8i/Rgl
+ //KrB9nisBqqsWcKEMNAaMjrF8gFR/A=
+X-Google-Smtp-Source: ABdhPJy0h8+C0scy9Y5eP95wLW/fFSPNpdii8ufdVYda1mX3y1wjO0ySPXv6jYDy0MpxLHdrKLuekA==
+X-Received: by 2002:a05:6402:11cd:b0:427:bf42:44ef with SMTP id
+ j13-20020a05640211cd00b00427bf4244efmr24748369edw.336.1651767505527; 
+ Thu, 05 May 2022 09:18:25 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-078-054-123-159.78.54.pool.telefonica.de. [78.54.123.159])
  by smtp.gmail.com with ESMTPSA id
- i6-20020a17090685c600b006f3ef214dcfsm868542ejy.53.2022.05.05.09.18.23
+ i6-20020a17090685c600b006f3ef214dcfsm868542ejy.53.2022.05.05.09.18.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 09:18:24 -0700 (PDT)
+ Thu, 05 May 2022 09:18:25 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH 06/11] hw/i386/pc: Remove orphan declarations
-Date: Thu,  5 May 2022 18:18:00 +0200
-Message-Id: <20220505161805.11116-7-shentey@gmail.com>
+ qemu-ppc@nongnu.org (open list:e500)
+Subject: [PATCH 07/11] hw/ppc/e500: Remove unused BINARY_DEVICE_TREE_FILE
+Date: Thu,  5 May 2022 18:18:01 +0200
+Message-Id: <20220505161805.11116-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220505161805.11116-1-shentey@gmail.com>
 References: <20220505161805.11116-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,25 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit 28290f37e20cda27574f15be9e9499493e3d0fe8 'PPC: E500: Generate
+device tree on reset' improved device tree generation and made
+BINARY_DEVICE_TREE_FILE obsolete.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- include/hw/i386/pc.h | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/ppc/e500.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index a087ea7598..2cd58ee0c6 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -172,9 +172,6 @@ void pc_cmos_init(PCMachineState *pcms,
-                   BusState *ide0, BusState *ide1,
-                   ISADevice *s);
- void pc_nic_init(PCMachineClass *pcmc, ISABus *isa_bus, PCIBus *pci_bus);
--void pc_pci_device_init(PCIBus *pci_bus);
--
--typedef void (*cpu_set_smm_t)(int smm, void *arg);
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 2bc3dce1fb..7f7f5b3452 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -47,7 +47,6 @@
+ #include "hw/irq.h"
  
- void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs);
- 
+ #define EPAPR_MAGIC                (0x45504150)
+-#define BINARY_DEVICE_TREE_FILE    "mpc8544ds.dtb"
+ #define DTC_LOAD_PAD               0x1800000
+ #define DTC_PAD_MASK               0xFFFFF
+ #define DTB_MAX_SIZE               (8 * MiB)
 -- 
 2.36.0
 
