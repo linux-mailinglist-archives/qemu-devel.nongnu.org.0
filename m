@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C24B51BCAF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:01:28 +0200 (CEST)
-Received: from localhost ([::1]:45980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEBF51BBA8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:14:12 +0200 (CEST)
+Received: from localhost ([::1]:53192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYIZ-0000XR-Jv
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:01:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
+	id 1nmXYp-0005iX-O3
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:14:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmXCl-0008OY-Ae
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:51:23 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:28059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmXCi-0006ui-Mz
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:51:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651740679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rs5VBfMFmDAwLvEBVxiDhVg1HtRqfOD9AbERhGlB1mI=;
- b=LJvuL3YWTn3w0u/3yr4lkSN6eJqwen/IJYvN+9VoTuXuwHNVCSCTH2k+r8Yiyf8VTh2X76
- /WmBVz0TCAiJlk+QlUK/UxHpJzFKswmCe5PUONrVRZEjTMcW+mNlRmdU9B+3kf/AITPN2W
- LM65Iq1tJ7hUnhmLc1lI7sHHmqHK+9Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-lnXcpvWAMCKVubhjtAguZQ-1; Thu, 05 May 2022 04:51:16 -0400
-X-MC-Unique: lnXcpvWAMCKVubhjtAguZQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C220A1800762;
- Thu,  5 May 2022 08:51:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8350840C1247;
- Thu,  5 May 2022 08:51:13 +0000 (UTC)
-Date: Thu, 5 May 2022 10:51:12 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Subject: Re: iotests and python dependencies
-Message-ID: <YnOQAP1J94zH1pEK@redhat.com>
-References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <internshipits2@gmail.com>)
+ id 1nmXKu-0000U7-Si
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:59:49 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <internshipits2@gmail.com>)
+ id 1nmXKs-0000Eu-Pp
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:59:48 -0400
+Received: by mail-pl1-x631.google.com with SMTP id q4so913807plr.11
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 01:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=3/4ECQgbf5dsch3JVcG9MAn0zlR1bsxA51LINdMAVXM=;
+ b=cPwYuLCExiaA3NwDKHYa/o0t6/M2EddUz4zRVRxWro5eCpoj/inctNstpAduPEjgC6
+ PIG1VGjmKYhSa67OCe0QpXiTysNOrpihbtNHCFz2mNwT9RzbEW0y3aNFdrE1+//6BPN0
+ Jqtha/PAVfugFt88LWdlbLIh57sAU37PGVP7Zwr6c0pTOnyYv62rxclgqFzd/Y7aL85k
+ nMgVr5BL6mPcVODCd9+7ulMz7oh8oBdkVx/KMd9+Wj/UmNQrrTEhM6P9OnUTQngSJyzO
+ SvbVR+eFYt/9ky6fs1D3uhMb2sQRH51LJxueNaOKRvxL+Spf9CooNcinneV6kCS6OAPS
+ PMlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=3/4ECQgbf5dsch3JVcG9MAn0zlR1bsxA51LINdMAVXM=;
+ b=73AwIaPLTzFr/HokZoghG5QPmoI/t2OO7tOvid7fCnVLHlBJFyhDbEasX1UrEWWZ8b
+ qyhHEf2Nb3H1SM0GXg/a9e4IzmD9PZtVYJuyQlyzhvRurUVPkMROrUfMHmC3yZRo7j+a
+ xhhxgiOsybSLhN9DznO1XEZqzSafkuA1mOLsFFYc/3lgRfLRjsCnxi42vtA2XovD2Y3z
+ XzUNfOSfmtBlC8y/6QGUAkPGfQE4LwG3d1E34wt70TPa9HIzSNlRjrcdMyvuvVhFXhc6
+ 3smvTtBCIElOzlxGh868K4Xorq5VhD0SYxemw9npfblq1YJ7vm+bTGZNrer4kBg5pcV9
+ LteA==
+X-Gm-Message-State: AOAM530BuDrF6B2D8p68k61Wmm/BzW9utNjDQYJCMfXsxr6Zzb5JCBDF
+ U5qkc0toU2DItxyHVSP1bNGB+1gz0GVuwB2zrw+k0XX6T/EKBWi+
+X-Google-Smtp-Source: ABdhPJwd80K9IYtpuqQCdBzLK77VhL230yl+FaUx6y9ivo20TSR642DtlfIHQydJ5ve13uJcGlzk5esjUfEe/9I1zCs=
+X-Received: by 2002:a17:90b:1d0e:b0:1d2:79e9:21aa with SMTP id
+ on14-20020a17090b1d0e00b001d279e921aamr4724713pjb.153.1651741184840; Thu, 05
+ May 2022 01:59:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.74; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+From: "I. Its" <internshipits2@gmail.com>
+Date: Thu, 5 May 2022 10:59:36 +0200
+Message-ID: <CACvJYaMDT-9UguT1MSj24w3r8T_xOhjd=S76cZxL8WQJH6Grag@mail.gmail.com>
+Subject: AMD SEV-SNP: Support for attestating initrd
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000009559e705de3ff6d9"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=internshipits2@gmail.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,88 +78,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.05.2022 um 21:38 hat John Snow geschrieben:
-> Howdy!
-> 
-> So, I want to finally delete python/qemu/qmp from qemu.git, and this
-> creates a small problem -- namely, iotests needs access to it in order
-> to run the python-based tests.
-> 
-> What I think needs to happen is that we create a virtual environment
-> that installs python/qemu/. The reason this cannot be done with
-> PYTHONPATH alone anymore is because the qmp package itself won't be
-> there anymore, we need an installer like `pip` to actually fetch it
-> for us and put it somewhere. (i.e., we need to process the
-> dependencies of python/qemu now and can't treat it as a pre-installed
-> location.)
-> 
-> Avocado tests are already creating a venv for the purposes of
-> installing and running Avocado. We can amend e.g. "../../python" to
-> tests/requirements.txt and the Avocado environment is A-OK good-to-go.
-> The Makefile magic for avocado tests creates a venv-per-build.
+--0000000000009559e705de3ff6d9
+Content-Type: text/plain; charset="UTF-8"
 
-"per build" sounded pretty bad, because I thought it meant building a
-new venv every time I run either 'make' or the tests. This would
-obviously be very noticable for short-running tests like some iotests.
-But fortunately this is not what it does, it keeps the venv around in
-the build directory. So it's only per build directory really, which I
-guess is fine.
+Hi all,
 
-> It seems to work well enough. One thing to note here is that the
-> supported invocation for avocado tests is only through the Makefile,
-> which handles creating and entering the venv to make the command
-> seamless.
-> 
-> iotests, however, manages its own execution environment with
-> testenv.py, and we support running iotests from outside of the
-> Makefile, for example by going to $build/tests/qemu-iotests and
-> running ./check.
+we are currently working with SEV-SNP to include initrd in attestation
+report. However, the function sev_add_kernel_loader_hashes() in
+/qemu/target/i386/sev.c returns false when SEV-SNP is enabled:
 
-Yes, and I agree that this is important.
+if (sev_snp_enabled()) {
+  return false;
+}
 
-> Now ... I could update testenv.py to be smart enough to create and
-> enter a python venv, and have even prototyped this. It seems to work
-> pretty well! This approach seemed like the least invasive to how
-> iotests are expected to be run and used. But a downside with this
-> approach is that now avocado tests and iotests are each managing their
-> own python venv. Worse, vm-tests and device-crash-test are still
-> unhandled entirely.
 
-Is there a reason why testenv.py couldn't enter just the shared venv in
-build/tests/venv?
+Could someone elaborate on this topic and provide steps to support this
+kind of attestation? Any hint is also very appreciated.
 
-If not, I guess it would be enough if iotests just checks that the venv
-exists and all of the dependencies are there in the right version and
-error out if not, telling the user to run 'make check-venv'.
+--0000000000009559e705de3ff6d9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Or actually, it could just unconditionally run 'make check-venv' by
-itself, which is probably easier to implement than checking the
-dependencies and more convenient for the user, too.
+<div dir=3D"ltr"><div>Hi all,</div><br><div>we are currently working with S=
+EV-SNP to include initrd in attestation report. However, the function sev_a=
+dd_kernel_loader_hashes() in /qemu/target/i386/sev.c returns false when SEV=
+-SNP is enabled:</div><div><br></div><div>
+<pre class=3D"gmail-notranslate"><code class=3D"gmail-notranslate">if (sev_=
+snp_enabled()) {
+  return false;
+}</code></pre>
 
-(One more detail: 'make check-venv GIT_SUBMODULES_ACTION=ignore' seems
-to make it pretty much instantaneous if the venv is current, but leaving
-the submodule mechanism enabled adds a noticable delay.)
+</div><div><br>Could someone elaborate on this topic and provide steps to s=
+upport this kind of attestation? Any hint is also very appreciated.<br></di=
+v><div><br> </div></div>
 
-> I'd like to find a solution where I create a unified python testing
-> venv tied to the build shared by avocado, iotests, vm-tests and
-> device-crash-test. I'm not completely sure how exactly I'll manage
-> that right now, but I wanted to throw this out there in case there are
-> some requirements I might be overlooking.
-> 
-> I think vm-tests and avocado-tests can both have a venv created for
-> them and activated before the test runs. device-crash-test I believe
-> will need a script change in the gitlab ci yaml. iotests is somewhat
-> unique in that it needs to run both by manual invocation and from
-> makefile invocations. If I want a shared VM between all of these, I'll
-> need to isolate the create-and-enter-venv logic somewhere where it can
-> be shared both inside and outside of a Makefile.
-
-If just calling 'make' isn't an option, then moving that part out into a
-separate script probably wouldn't be too hard either. But 'make' has the
-advantage that it already contains the check if the venv is already
-there and requirements.txt hasn't changed, which you would have to
-replicate otherwise.
-
-Kevin
-
+--0000000000009559e705de3ff6d9--
 
