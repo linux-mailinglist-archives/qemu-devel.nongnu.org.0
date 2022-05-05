@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDE051C9C0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:57:25 +0200 (CEST)
-Received: from localhost ([::1]:47574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986B751C87A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:54:17 +0200 (CEST)
+Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmhbI-0007xn-Po
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
+	id 1nmgcC-0006UM-N5
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZd-0003xa-D0; Thu, 05 May 2022 14:51:40 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:45992)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nmgYO-0002O5-Ch
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 14:50:21 -0400
+Received: from mail-oo1-xc36.google.com ([2607:f8b0:4864:20::c36]:47060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZb-0004tg-PY; Thu, 05 May 2022 14:51:37 -0400
-Received: by mail-oi1-x234.google.com with SMTP id n24so5241483oie.12;
- Thu, 05 May 2022 11:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HodvTr3B4YWOvMygizk75ypRfURZqF5htRLu+QyFfAw=;
- b=eeCJxwdFflV7c0TwG7s+AnnHS1Hwy/+9HdbWsqU4OXDbVv+Eelj/36N0H0LtyuI0sI
- z/YFjTSO+wSzTmhpube1DvXx+vui/Jg/VpajMQYr61KWtCTneo2vlqaHXR3YjGktq+I7
- cZ7paPkc3c0KCWuXkrVFirSITjn66O8eFiBPwPsowU5JO8NhfKlfbETCmP3stYHLeDqS
- 7/wK/5YHHmFIlYymR8PfQDQD2NDbBmi/50lXqqtKi3k9eMPCjaZ8CkWonrqa6vfiSLrG
- akrKSCGCfhmUs4h7amMvjFiV8x0J7YJ7BAo2Gz72/INmhWkkTJsj6dW/Jtb7fYZtSH41
- Ijrw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nmgYE-0004Lf-2K
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 14:50:11 -0400
+Received: by mail-oo1-xc36.google.com with SMTP id
+ f2-20020a4a8f42000000b0035e74942d42so864212ool.13
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 11:50:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BuN1/EkWnUbBt19DDokANHZeP/nibOZEcRUeiluYd6M=;
+ b=vKJF0NIMtHf683eDQCWvqhbBPNKoPR4hO/JlX9BNjbI2Vfox0C6lzZuhvw7pzQMsye
+ btwDIdT4FuQeOyK97F8Fm3CVYjJrDDuVzO62KR0y8XQY+lb9nZrKYjvOF8fvNYx+ta43
+ Hd/64UvNAfuH/jdzCxNeShN3DDEApFaqr/xjaQJ3Ni8VTWDQmcckCnzp33/K/i08XO4q
+ hCGLMdCJqF9fMOVCi73uE4A+VMz/ND3VGWl6XGHtZeUDoVvddlY++KnfIt5lxx5Lct2P
+ 3mWeexPk8+74qxLzaUbrC62uVQAwHeQEOMs+uFZPGqB/9nj+km9k+7ehGvZExzRmVSar
+ M2oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HodvTr3B4YWOvMygizk75ypRfURZqF5htRLu+QyFfAw=;
- b=OPpM6wEAOsje6IZF1Ddt41qPx995GxsmEn8be8KkRL4BjmpQmjNOuFaqboTVx5Xqrk
- EiFPyqZXDh6V5QaEyYtxkhpDd5vWgciEpjxr63vYUzTUyNUjWmWm296C3MqAbNW7uCq2
- OcONP4F109O1atDo8tszyOtCKqMXqqVCtJ6TJeiR1AJAJxHID26hvyGvRqUK8DAdDL8G
- ZROBNQNrXg4OZeODo4fTdK1AU7ees/Cy0GswSI+Gvsagvy5bxb98ptoOb/aHggarMKdv
- /lA5866PXGlHzjkpYxzdx6djsoXOZq5nQhckagl2jzmhmXiXGhrePuNkBsasWeo+eLRQ
- 40AQ==
-X-Gm-Message-State: AOAM533PuMLymuQWsd7+PMesp7HgJXJKjK0eupvApk/mC6NUH/W+jP4Q
- 0IrgygjeYU35tOdyaW4dGIZ0TQ540q8=
-X-Google-Smtp-Source: ABdhPJwRe1Y4JIzkMNJ0q1jAlq/OBtlSUOyKd0tN1//ANzmD0FMUcdvjK8MgWLEFDB68XQ23XpfRnQ==
-X-Received: by 2002:a05:6808:120f:b0:325:bc53:2150 with SMTP id
- a15-20020a056808120f00b00325bc532150mr3266103oil.139.1651776693488; 
- Thu, 05 May 2022 11:51:33 -0700 (PDT)
-Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
- [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.51.30
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BuN1/EkWnUbBt19DDokANHZeP/nibOZEcRUeiluYd6M=;
+ b=mi1B+X69qbOscFRKHtEWj6/W2T3LCDo4l31uGZ6FMG5MeZi9DmMZSH9bHTak4AtMT/
+ 4WVVKxjjUPERsqV/7jIlBymLzbfvp19juveexK0r5vEENkX71EHvVw8WPRLXdWfzM1u8
+ frPiJcukkKHncEWNFqPh3GlP5elbrxXVNtMWH29UV9xzLpCwPcGpzxJywuVIMc4xWUZU
+ CR2NXwNc07OVs0tBNHI/HtnI2ruvOh5QitMscWva33YA7drp8ZcUk61MmJA30AMaayKy
+ y4YgYJTy2iIubMzSGfHQP242RfrYOOlYYO43mCW51+pqdLO2l94Ch7ZGMDYUIZ16NvCm
+ A0Hw==
+X-Gm-Message-State: AOAM5320PJP/kC2epOQSp/8+8o0Xdvb+0T0Sk6CWsmPvADwDexOh8N3B
+ keMSRNmWehjDRqEFU0azmwL0TM5bOS29DA==
+X-Google-Smtp-Source: ABdhPJxH1CheRLEUdmCCYnUl6/Reftnr05vZ4uP127dRuwqCA2PJuhirNdDnqATRB9BqpxqPBjEutw==
+X-Received: by 2002:a4a:b48d:0:b0:338:da9e:87b5 with SMTP id
+ b13-20020a4ab48d000000b00338da9e87b5mr9883130ooo.59.1651776608850; 
+ Thu, 05 May 2022 11:50:08 -0700 (PDT)
+Received: from stoup.. ([2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6])
+ by smtp.gmail.com with ESMTPSA id
+ s36-20020a0568302aa400b0060603221259sm857273otu.41.2022.05.05.11.50.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:51:33 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+ Thu, 05 May 2022 11:50:08 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-Subject: [PULL 28/30] target/ppc: Remove msr_de macro
-Date: Thu,  5 May 2022 15:49:36 -0300
-Message-Id: <20220505184938.351866-29-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
-References: <20220505184938.351866-1-danielhb413@gmail.com>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v5 00/24] target/arm: Cleanups, new features, new cpus
+Date: Thu,  5 May 2022 13:49:42 -0500
+Message-Id: <20220505185006.200555-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,61 +87,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Víctor Colombo <victor.colombo@eldorado.org.br>
+Changes for v4:
+  * Rebase on master, where the second third is upstream.
+  * Add ARM_CP_EL3_NO_EL2_C_NZ flag, and use that in the
+    two cpregs called out by rule RJFFP that become constant
+    but not zero.
+  * Set SCTLR_EL1.TSCXT for user-only.
 
-msr_de macro hides the usage of env->msr, which is a bad
-behavior. Substitute it with FIELD_EX64 calls that explicitly use
-env->msr as a parameter.
+Patches lacking review:
+  01-target-arm-Handle-cpreg-registration-for-missing-.patch
+  02-target-arm-Drop-EL3-no-EL2-fallbacks.patch
+  20-target-arm-Enable-FEAT_CSV2_2-for-cpu-max.patch
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220504210541.115256-21-victor.colombo@eldorado.org.br>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/cpu.h         | 3 +--
- target/ppc/helper_regs.c | 4 ++--
- 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 9f19b3c0a8..af249239d5 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -371,6 +371,7 @@ FIELD(MSR, PR, MSR_PR, 1)
- FIELD(MSR, FP, MSR_FP, 1)
- FIELD(MSR, ME, MSR_ME, 1)
- FIELD(MSR, FE0, MSR_FE0, 1)
-+FIELD(MSR, DE, MSR_DE, 1)
- FIELD(MSR, FE1, MSR_FE1, 1)
- FIELD(MSR, EP, MSR_EP, 1)
- FIELD(MSR, IR, MSR_IR, 1)
-@@ -495,8 +496,6 @@ FIELD(MSR, LE, MSR_LE, 1)
- #define HFSCR_MSGP     PPC_BIT(53) /* Privileged Message Send Facilities */
- #define HFSCR_IC_MSGP  0xA
- 
--#define msr_de   ((env->msr >> MSR_DE)   & 1)
--
- #define DBCR0_ICMP (1 << 27)
- #define DBCR0_BRT (1 << 26)
- #define DBSR_ICMP (1 << 27)
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 97cd263131..6159a15b7b 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -63,10 +63,10 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
- 
-     if (ppc_flags & POWERPC_FLAG_DE) {
-         target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
--        if ((dbcr0 & DBCR0_ICMP) && msr_de) {
-+        if ((dbcr0 & DBCR0_ICMP) && FIELD_EX64(env->msr, MSR, DE)) {
-             hflags |= 1 << HFLAGS_SE;
-         }
--        if ((dbcr0 & DBCR0_BRT) && msr_de) {
-+        if ((dbcr0 & DBCR0_BRT) && FIELD_EX64(env->msr, MSR, DE)) {
-             hflags |= 1 << HFLAGS_BE;
-         }
-     } else {
+r~
+
+
+Richard Henderson (24):
+  target/arm: Handle cpreg registration for missing EL
+  target/arm: Drop EL3 no EL2 fallbacks
+  target/arm: Merge zcr reginfo
+  target/arm: Adjust definition of CONTEXTIDR_EL2
+  target/arm: Move cortex impdef sysregs to cpu_tcg.c
+  target/arm: Update qemu-system-arm -cpu max to cortex-a57
+  target/arm: Set ID_DFR0.PerfMon for qemu-system-arm -cpu max
+  target/arm: Split out aa32_max_features
+  target/arm: Annotate arm_max_initfn with FEAT identifiers
+  target/arm: Use field names for manipulating EL2 and EL3 modes
+  target/arm: Enable FEAT_Debugv8p2 for -cpu max
+  target/arm: Enable FEAT_Debugv8p4 for -cpu max
+  target/arm: Add minimal RAS registers
+  target/arm: Enable SCR and HCR bits for RAS
+  target/arm: Implement virtual SError exceptions
+  target/arm: Implement ESB instruction
+  target/arm: Enable FEAT_RAS for -cpu max
+  target/arm: Enable FEAT_IESB for -cpu max
+  target/arm: Enable FEAT_CSV2 for -cpu max
+  target/arm: Enable FEAT_CSV2_2 for -cpu max
+  target/arm: Enable FEAT_CSV3 for -cpu max
+  target/arm: Enable FEAT_DGH for -cpu max
+  target/arm: Define cortex-a76
+  target/arm: Define neoverse-n1
+
+ docs/system/arm/emulation.rst |  10 +
+ docs/system/arm/virt.rst      |   2 +
+ target/arm/cpregs.h           |  11 +
+ target/arm/cpu.h              |  23 ++
+ target/arm/helper.h           |   1 +
+ target/arm/internals.h        |  16 +
+ target/arm/syndrome.h         |   5 +
+ target/arm/a32.decode         |  16 +-
+ target/arm/t32.decode         |  18 +-
+ hw/arm/sbsa-ref.c             |   2 +
+ hw/arm/virt.c                 |   2 +
+ target/arm/cpu.c              |  66 +++-
+ target/arm/cpu64.c            | 353 +++++++++++---------
+ target/arm/cpu_tcg.c          | 227 +++++++++----
+ target/arm/helper.c           | 600 ++++++++++++++++++++--------------
+ target/arm/op_helper.c        |  43 +++
+ target/arm/translate-a64.c    |  18 +
+ target/arm/translate.c        |  23 ++
+ 18 files changed, 949 insertions(+), 487 deletions(-)
+
 -- 
-2.32.0
+2.34.1
 
 
