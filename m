@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8398C51B893
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 09:16:55 +0200 (CEST)
-Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0991D51B8AD
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 09:24:35 +0200 (CEST)
+Received: from localhost ([::1]:50886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmVjK-0007hV-4S
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 03:16:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
+	id 1nmVqj-0006QO-EK
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 03:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmVdC-000541-DB
- for qemu-devel@nongnu.org; Thu, 05 May 2022 03:10:36 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:32398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nmVd9-0008Lx-Ft
- for qemu-devel@nongnu.org; Thu, 05 May 2022 03:10:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651734629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xTyStVVAg27kxjoO/J9rOg0rNSvQSzXAF5lhxKRw/wk=;
- b=QBSKfg+/YRd7Xz46IUz/Jv128HismjMUU5Rjwp/lyUH7XbbmUgpfJwWlvp+QAz10t7vIT1
- ABg3gCSQCsNH/lKm/rmyHAfGjB0fqgO7QDQpcwup1HhlikTf3jVDbTKw3yuV4yP+qKD04A
- bzogV7K4V7/3LajUDqewGOZzh/oLZh0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-283-2pkkcvC-OaaGxhCpUYagow-1; Thu, 05 May 2022 03:10:28 -0400
-X-MC-Unique: 2pkkcvC-OaaGxhCpUYagow-1
-Received: by mail-ej1-f72.google.com with SMTP id
- hr42-20020a1709073faa00b006f4dc7f0be1so1306486ejc.22
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 00:10:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=xTyStVVAg27kxjoO/J9rOg0rNSvQSzXAF5lhxKRw/wk=;
- b=sIuAt89atPPjXQFNe+jOhQt8I3PCLc49hLCKyTIeSmj58eXE7uHSdZ4KB2CMHiuZ9c
- unUf8bFbEE1TcjtFYg4mLtImsUHyuXRnZz+7XDQgeePvSmPFQAVy/YjIaOlvg92U2NNt
- szZ7/PAAu6Jacqh8bdHIj65H5Sk6Ogh4LEQCD1H7lD6zeS1fhUdZPuXxOOk0E4dEcdHC
- 03s7UMlnvtMr875gUA93+CkZea9btbAZBkOMsZ/tU7F1p+HQweojV9e+fQm1BC1bcgTd
- USXL9X1BuGb+vMJr9gx+vyqGmKF8qJsInR8tLePz5BvPopj/8uHYQ1tYbEikg1n7hnxr
- sMBg==
-X-Gm-Message-State: AOAM531UDKUnUAywQi07zk8FUzw4yIgdN/Zqai7qRC39um/Ij250Jnsi
- LpWIF/5EABk3YE+SLHDA1ovtLnJ1K32j1zrWdxg4IkMmKicOQF/CcPAyulSsz9KsYFDt9lewIfn
- JMWbCg54OUKAetB8=
-X-Received: by 2002:a50:ed0e:0:b0:425:e476:f4ed with SMTP id
- j14-20020a50ed0e000000b00425e476f4edmr27840690eds.32.1651734627318; 
- Thu, 05 May 2022 00:10:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXtgQfvFs2eQPstzXi1CPp1JGiKx+h/vd1ka84p40au63K0u7ER/c3bb9dXWsoL2NCBwJd/w==
-X-Received: by 2002:a50:ed0e:0:b0:425:e476:f4ed with SMTP id
- j14-20020a50ed0e000000b00425e476f4edmr27840671eds.32.1651734627063; 
- Thu, 05 May 2022 00:10:27 -0700 (PDT)
-Received: from [127.0.0.1] (93-33-37-188.ip42.fastwebnet.it. [93.33.37.188])
- by smtp.gmail.com with ESMTPSA id
- t13-20020a056402524d00b0041d527833b9sm416444edd.3.2022.05.05.00.10.25
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 05 May 2022 00:10:26 -0700 (PDT)
-Date: Thu, 05 May 2022 09:10:17 +0200
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-CC: qemu-devel@nongnu.org, mark.kanda@oracle.com, berrange@redhat.com,
- dgilbert@redhat.com
-Subject: Re: [PATCH 1/8] qmp: Support for querying stats
-In-Reply-To: <87sfpp3018.fsf@pond.sub.org>
-References: <20220426141619.304611-1-pbonzini@redhat.com>
- <20220426141619.304611-2-pbonzini@redhat.com> <87sfpp3018.fsf@pond.sub.org>
-Message-ID: <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1nmVpO-0005Ym-23
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 03:23:10 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:54890 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nmVpK-00038I-Ft
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 03:23:09 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxmthQe3NiUJYKAA--.22794S3; 
+ Thu, 05 May 2022 15:22:56 +0800 (CST)
+Subject: Re: [PATCH v3 25/43] target/loongarch: Add LoongArch CSR instruction
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
+References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
+ <20220429100729.1572481-26-yangxiaojuan@loongson.cn>
+ <22c74d5e-f0b6-dc6e-c7e8-7c28774f80e4@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <928f57a8-7124-e122-4129-f75fcd289647@loongson.cn>
+Date: Thu, 5 May 2022 15:22:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <22c74d5e-f0b6-dc6e-c7e8-7c28774f80e4@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9AxmthQe3NiUJYKAA--.22794S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrZFWfKFW3Xw4UZw4xJw48Xrb_yoW3ZrX_uw
+ 48Ww1DuF1qg3yIyw10qr1xZr17Kr4jkr1Ut3y5AryDWF1UXasYgr13G3s5Aw1UGr45XFnF
+ kr9xta1ak3WDXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbIAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+ 026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+ JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+ vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
+ aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyT
+ uYvjfU5WlkUUUUU
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,193 +78,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Richard,
 
-
-Il 4 maggio 2022 15:22:27 CEST, Markus Armbruster <armbru@redhat=2Ecom> ha=
- scritto:
->Can you point to existing uses of KVM binary stats introspection data?
-
-There's none, but Google is using it in house=2E The same data was availab=
-le before in debugfs and available via the kvm_stat script, so you could al=
-so refer to Christian Borntraeger's KVM Forum 2019 talk=2E The problems wit=
-h debugfs are basically that it's only available to root and is disabled by=
- secure boot (both issues are not fixable on general because they are Linux=
- policy)=2E
-
->> index 4912b9744e=2E=2E92d7ecc52c 100644
->> --- a/qapi/qapi-schema=2Ejson
->> +++ b/qapi/qapi-schema=2Ejson
->> @@ -93,3 +93,4 @@
->>  { 'include': 'audio=2Ejson' }
->>  { 'include': 'acpi=2Ejson' }
->>  { 'include': 'pci=2Ejson' }
->> +{ 'include': 'stats=2Ejson' }
->> diff --git a/qapi/stats=2Ejson b/qapi/stats=2Ejson
->> new file mode 100644
->> index 0000000000=2E=2E7454dd7daa
->> --- /dev/null
->> +++ b/qapi/stats=2Ejson
->> @@ -0,0 +1,192 @@
->> +# -*- Mode: Python -*-
->> +# vim: filetype=3Dpython
->> +#
->> +# Copyright (c) 2022 Oracle and/or its affiliates=2E
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or l=
-ater=2E
->> +# See the COPYING file in the top-level directory=2E
->> +#
->> +# SPDX-License-Identifier: GPL-2=2E0-or-later
->> +
->> +##
->> +# =3D Statistics
->> +##
->> +
->> +##
->> +# @StatsType:
->> +#
->> +# Enumeration of statistics types
->> +#
->> +# @cumulative: stat is cumulative; value can only increase=2E
->> +# @instant: stat is instantaneous; value can increase or decrease=2E
->> +# @peak: stat is the peak value; value can only increase=2E
->> +# @linear-hist: stat is a linear histogram=2E
->> +# @log-hist: stat is a logarithmic histogram=2E
+On 2022/5/1 上午1:22, Richard Henderson wrote:
+> On 4/29/22 03:07, Xiaojuan Yang wrote:
+>> +    [LOONGARCH_CSR_CPUID] = {
+>> +        .offset = -1,
+>> +        .flags = CSRFL_READONLY,
+>> +        .readfn = gen_helper_csrrd_cpuid,
+>> +        .writefn = NULL
+>> +    },
 >
->For better or worse, we tend to eschew abbreviations in schema
->identifiers=2E  Would you mind @linear-histogram and @log-histogram?
-
-Sure=2E
-
-
->> +# Since: 7=2E1
->> +##
->> +{ 'enum': 'StatsTarget',
->> +  'data': [ 'vm', 'vcpu' ] }
+> The offset should be
 >
->Do VM stats include vCPU stats?  "Entire virtual machine" suggests they
->do=2E=2E=2E
-
-No, they don't=2E They are a different sets of data that is gathered on re=
-sources shared by the whole VM=2E Stuff such as "# of pages taken by the KV=
-M page tables" goes there because VCPUs share a single copy of the page tab=
-les, as opposed to "# of page faults" which is a VCPU stat=2E
-
->> +# The arguments to the query-stats command; specifies a target for whi=
-ch to
->> +# request statistics, and which statistics are requested from each pro=
-vider=2E
->> +#
->> +# Since: 7=2E1
->> +##
->> +{ 'struct': 'StatsFilter',
->> +  'data': { 'target': 'StatsTarget' } }
+>     (int)offsetof(CPUState, cpu_index) - (int)offsetof(LoongArchCPU, env)
 >
->The "and which statistics" part will be implemented later in this
->series?
-
-Oh, indeed it is=2E Thanks for noticing=2E
-
->> +{ 'struct': 'StatsResult',
->> +  'data': { 'provider': 'StatsProvider',
->> +            '*qom-path': 'str',
+> at which point you don't need the readfn.
 >
->When exactly will @qom-path be present?
+>> +target_ulong helper_csrrd_tval(CPULoongArchState *env)
+>> +{
+>> +    LoongArchCPU *cpu = LOONGARCH_CPU(env_cpu(env));
+>
+> cpu = env_archcpu(env).
+>
+> Several other instances in the file.
+>
+> Otherwise it looks good.
+>
+>
+> r~ \
+Sorry for the late reply,    I will correct it on v4,
 
-Only if the target is vcpus, for the current set of targets=2E Because the=
- target is in the command I am not repeating it here with another discrimin=
-ated record=2E
-
->> +# @type: kind of statistic, a @StatType=2E
->
->Generated documentation looks like
->
->       type: StatsType
->              kind of statistic, a StatType=2E
->
->I think ", a @StatType" should be dropped=2E
->
->If we decide to keep it: @StatsType=2E
-
-Gotcha=2E
-
->
->> +#
->> +# @unit: base unit of measurement for the statistics @StatUnit=2E
->
->"@StatUnit", too=2E
->
->If we decide to keep it: @StatsUnit=2E
->
->@unit is optional=2E  What's the default?
-
-The stat is an adimensional number: a count of events such a page faults, =
-or the maximum length of a bucket in a hash table,  etc=2E It's actually th=
-e common case=2E
-
->> +# @base: base for the multiple of @unit that the statistic uses, eithe=
-r 2 or 10=2E
->> +#        Only present if @exponent is non-zero=2E
->> +#
->> +# @exponent: exponent for the multiple of @unit that the statistic use=
-s
->
->Alright, given a stat value 42, what does it mean for the possible
->combinations of @base and @exponent?
-
-Base and exponent are used to represent units like KiB, nanoseconds, etc=
-=2E
-
->> +# @bucket-size: Used with linear-hist to report the width of each buck=
-et
->> +#               of the histogram=2E
->
->Feels too terse=2E  Example, perhaps?
->
->I assume @bucket-size is present exactly when @type is @linear-hist=2E
->Correct?
-
-Yep, will expand=2E
-
->> +##
->> +# @StatsSchema:
->> +#
->> +# Schema for all available statistics for a provider and target=2E
->> +#
->> +# @provider: provider for this set of statistics=2E
->> +#
->> +# @target: kind of object that can be queried through this provider=2E
->> +#
->> +# @stats: list of statistics=2E
->> +#
->> +# Since: 7=2E1
->> +##
->> +{ 'struct': 'StatsSchema',
->> +  'data': { 'provider': 'StatsProvider',
->> +            'target': 'StatsTarget',
->> +            'stats': [ 'StatsSchemaValue' ] } }
->
->How am I to connect each element of the result of query-stats to an
->element of the result of query-stats-schema?
-
-You gave the target to query-stats and the result of query-stats has the p=
-rovider and name=2E Target+provider+name uniquely identify a StatsSchemaVal=
-ue in the result of query-stats-schemas=2E
-
-Paolo
-
->
->> +
->> +##
->> +# @query-stats-schemas:
->> +#
->> +# Return the schema for all available runtime-collected statistics=2E
->> +#
->> +# Since: 7=2E1
->> +##
->> +{ 'command': 'query-stats-schemas',
->> +  'data': { },
->> +  'returns': [ 'StatsSchema' ] }
->
+Thanks.
+Xiaojuan
 
 
