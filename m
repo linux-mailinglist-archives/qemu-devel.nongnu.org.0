@@ -2,105 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828DB51C566
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 18:50:01 +0200 (CEST)
-Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E65F651C555
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 18:48:18 +0200 (CEST)
+Received: from localhost ([::1]:50574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmefw-0004Fh-D5
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 12:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38600)
+	id 1nmeeH-0002lk-RM
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 12:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nmeF7-0006Tg-26
- for qemu-devel@nongnu.org; Thu, 05 May 2022 12:22:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:43755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nmeF3-0006g6-Gs
- for qemu-devel@nongnu.org; Thu, 05 May 2022 12:22:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651767731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qvXn0QBi57tOKwMSHA44I5GoegyVwuJ+6h/Xc1lILqI=;
- b=YapVIjXXwvaY/iFoAJmGgrFx86bDan/tZup5CqbKaZzjCaIWq6CD4kO+7OeUiKhyXyyC8v
- VcS4zECtQ/TA+lFOKNn93VWQ5EcuCqJoCjeR73BKW74Q/QbzVVVkHAOgjGV9LjMFjQdiAN
- 44Rdh+R5kRUEchucmSATDQvsZSvv0VU=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-13_9_IYwMVmTrzLdAzAiAA-1; Thu, 05 May 2022 12:22:10 -0400
-X-MC-Unique: 13_9_IYwMVmTrzLdAzAiAA-1
-Received: by mail-io1-f71.google.com with SMTP id
- t1-20020a056602140100b0065393cc1dc3so3247626iov.5
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 09:22:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nmeM2-0006Kr-E6
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 12:29:27 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:35356)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nmeLz-0008IG-R5
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 12:29:25 -0400
+Received: by mail-oi1-x234.google.com with SMTP id m25so4870946oih.2
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 09:29:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=gwkJCDBSgsJNRJyRzJ8I6W2s35I1SuP2n4jEM9X9xXA=;
+ b=sJYhr0IpgWe2iyJ5qjILOltXeGAAcI+0US8IHBeDDmMBDrP9GEo2sznt64WMTNRrPJ
+ p7307h1jg9dZAkJe7o1BunNbcML6T7LKypr0D6UXiMI+ZEJ0JeD64pOh2jG6z0kwY+Gg
+ cvzqxkAhuUKw7BeMkQ0kXmqXfCab14nEfB2drxloTL3MxplI6Km6WOtNqLAvqLXf2Pf0
+ 2PDWJd5H5wbh7vXMNrgxaxkVFK2P1DSTjUKibyK0FsINYKa9DlK5BJo+er0RDF4KLKjm
+ 0Wuiu7i2gelFevilwUPSTBZeOcf6EKeClt9toqLML9rmHoAVgvvxf+oo4ugsu2F8PpyL
+ HQTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=qvXn0QBi57tOKwMSHA44I5GoegyVwuJ+6h/Xc1lILqI=;
- b=Q/FHrh3gKtH+fJ7GZL7QFjjVZuckRCIc7v/A2ySjyneBMnir9ucX6pEdZg/NsNLFtX
- NVUkZuovmVJ52/St0+R2E0bB7Lu6Wk83Oe2DuxY/vS8k2p1uXr5KTdbIpWK5ysxZo5Em
- +l9zv9NREHusWbfpsbJKhNRB/KtlmrST3rtrISjObeFQ/xs+VmsyOORGKd+gPy9w4FeX
- 3b9qCC8aHByXAFnEKrbLwumIlS0nuQNKydXnwkRxejt/fq32jZB6SiegeZDiXBthGmMm
- vg0naImSbPrFek73EM79mCbwI0vcOnbyDrsVF3BW2kSwXvTxRBNJtpfERs5oyalwfLHm
- rpBg==
-X-Gm-Message-State: AOAM533eMiOaoIm1apJFwjFGbCtxYNoPtWaJjlWWclA2FIOBeCeRMYmh
- HRXHLa+RlIyI2cM2+9LfRLcllYQG+tAEk8RbRJo7kU9HPmZ1StHUjV8WxYui5QMj6BfBY8knH9M
- vwT4uctRR6ejq3bY=
-X-Received: by 2002:a05:6638:411d:b0:32b:7465:fee2 with SMTP id
- ay29-20020a056638411d00b0032b7465fee2mr8329302jab.318.1651767729922; 
- Thu, 05 May 2022 09:22:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbtWkjlKoB3laox7FxvrKfVeIJBH44SMxXM6BQVIdtH/JZbNPbo9zeIjHhXWKXDnA1Be5jxA==
-X-Received: by 2002:a05:6638:411d:b0:32b:7465:fee2 with SMTP id
- ay29-20020a056638411d00b0032b7465fee2mr8329280jab.318.1651767729629; 
- Thu, 05 May 2022 09:22:09 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- cd27-20020a0566381a1b00b0032b3a7817b5sm597243jab.121.2022.05.05.09.22.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 09:22:09 -0700 (PDT)
-Date: Thu, 5 May 2022 10:22:07 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <f4bug@amsat.org>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "bleal@redhat.com"
- <bleal@redhat.com>, "berrange@redhat.com" <berrange@redhat.com>,
- "eduardo@habkost.net" <eduardo@habkost.net>, "marcel.apfelbaum@gmail.com"
- <marcel.apfelbaum@gmail.com>, "eblake@redhat.com" <eblake@redhat.com>,
- "armbru@redhat.com" <armbru@redhat.com>, "quintela@redhat.com"
- <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, Elena Ufimtseva
- <elena.ufimtseva@oracle.com>, John Johnson <john.g.johnson@oracle.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>, Jag Raman
- <jag.raman@oracle.com>
-Subject: Re: [PATCH v8 15/17] vfio-user: handle device interrupts
-Message-ID: <20220505102207.4aef06f6.alex.williamson@redhat.com>
-In-Reply-To: <YmpkPIlq/V4rXSWj@stefanha-x1.localdomain>
-References: <cover.1650379269.git.jag.raman@oracle.com>
- <847e6d373eb3d8ff4cdeb7a3ad9b935785bfbf8e.1650379269.git.jag.raman@oracle.com>
- <YmZ3nAtyjt+gjqvL@stefanha-x1.localdomain>
- <0C1A24F0-A2F5-4B08-A015-92CBAA003497@oracle.com>
- <YmpkPIlq/V4rXSWj@stefanha-x1.localdomain>
-Organization: Red Hat
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gwkJCDBSgsJNRJyRzJ8I6W2s35I1SuP2n4jEM9X9xXA=;
+ b=0Ykd9HpUkDg0jrzppWeBT8DCbfFH2996rocnHo8TJ3/bdZtRYNLeATlJtAb/iOGv3x
+ tdrCBk5Yrb1bDqFZ9+gCtdGXgHFpuomKp3/rmSXSCMrya44OZLYqmWf+4J8x2U6ayXbd
+ snVpMIVu8RbsVpBDhO00uzqGYGCImTBme+4kFR+w1E6S7px+bLaNRRzJcr2+QIla01cz
+ 703rMP5eSOGe+YFeqae9F5o7L8Ptku9Ffbg5TiY4hJoktpKU0kqKb+UOLxK2/5v46HaY
+ C6vm7v7ao23LRqE1EJ8qowyF1lURRvFrFUOf2yBGn3mf1phEJGXPYegaqBNvSFhrMDej
+ cRuA==
+X-Gm-Message-State: AOAM53149eFktyOGoNDXIHDNUuC+v240aPvl95M3h4ZpxB4JgJ4bv877
+ Pci+3nTKLaFCdRD5woQKW9eLzQ==
+X-Google-Smtp-Source: ABdhPJxsznH7aB0Ct6B83nxwz7DOHwLPaBSQ2i3slWgDNMwVZwKHVQJwh18e/yMoNJtFnc8kyOXMug==
+X-Received: by 2002:a54:4119:0:b0:325:a6dc:efae with SMTP id
+ l25-20020a544119000000b00325a6dcefaemr2820669oic.100.1651768162662; 
+ Thu, 05 May 2022 09:29:22 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6?
+ ([2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6])
+ by smtp.gmail.com with ESMTPSA id
+ x35-20020a4a97e6000000b0035eb4e5a6d2sm904545ooi.40.2022.05.05.09.29.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 09:29:22 -0700 (PDT)
+Message-ID: <ae41daa5-4c10-b805-59e5-442c43876036@linaro.org>
+Date: Thu, 5 May 2022 11:29:19 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.74;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 0/3] Block patches
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org
+References: <20220505084208.2338968-1-stefanha@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220505084208.2338968-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,72 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Apr 2022 10:54:04 +0100
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On 5/5/22 03:42, Stefan Hajnoczi wrote:
+> The following changes since commit 9cf289af47bcfae5c75de37d8e5d6fd23705322c:
+> 
+>    Merge tag 'qga-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-05-04 03:42:49 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> 
+> for you to fetch changes up to bef2e050d6a7feb865854c65570c496ac5a8cf53:
+> 
+>    util/event-loop-base: Introduce options to set the thread pool size (2022-05-04 17:02:19 +0100)
+> 
+> ----------------------------------------------------------------
+> Pull request
+> 
+> Add new thread-pool-min/thread-pool-max parameters to control the thread pool
+> used for async I/O.
+> 
+> ----------------------------------------------------------------
+> 
+> Nicolas Saenz Julienne (3):
+>    Introduce event-loop-base abstract class
+>    util/main-loop: Introduce the main loop into QOM
+>    util/event-loop-base: Introduce options to set the thread pool size
+> 
+>   qapi/qom.json                    |  43 ++++++++--
+>   meson.build                      |  26 +++---
+>   include/block/aio.h              |  10 +++
+>   include/block/thread-pool.h      |   3 +
+>   include/qemu/main-loop.h         |  10 +++
+>   include/sysemu/event-loop-base.h |  41 +++++++++
+>   include/sysemu/iothread.h        |   6 +-
+>   event-loop-base.c                | 140 +++++++++++++++++++++++++++++++
+>   iothread.c                       |  68 +++++----------
+>   util/aio-posix.c                 |   1 +
+>   util/async.c                     |  20 +++++
+>   util/main-loop.c                 |  65 ++++++++++++++
+>   util/thread-pool.c               |  55 +++++++++++-
+>   13 files changed, 419 insertions(+), 69 deletions(-)
+>   create mode 100644 include/sysemu/event-loop-base.h
+>   create mode 100644 event-loop-base.c
+> 
 
-> On Mon, Apr 25, 2022 at 05:40:01PM +0000, Jag Raman wrote:
-> > > On Apr 25, 2022, at 6:27 AM, Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> > >=20
-> > > On Tue, Apr 19, 2022 at 04:44:20PM -0400, Jagannathan Raman wrote: =20
-> > >> +static MSIMessage vfu_object_msi_prepare_msg(PCIDevice *pci_dev,
-> > >> +                                             unsigned int vector)
-> > >> +{
-> > >> +    MSIMessage msg;
-> > >> +
-> > >> +    msg.address =3D 0;
-> > >> +    msg.data =3D vector;
-> > >> +
-> > >> +    return msg;
-> > >> +}
-> > >> +
-> > >> +static void vfu_object_msi_trigger(PCIDevice *pci_dev, MSIMessage m=
-sg)
-> > >> +{
-> > >> +    vfu_ctx_t *vfu_ctx =3D pci_dev->irq_opaque;
-> > >> +
-> > >> +    vfu_irq_trigger(vfu_ctx, msg.data);
-> > >> +} =20
-> > >=20
-> > > Why did you switch to vfu_object_msi_prepare_msg() +
-> > > vfu_object_msi_trigger() in this revision? =20
-> >=20
-> > We previously did not do this switch because the server didn=E2=80=99t =
-get updates
-> > to the MSIx table & PBA.
-> >=20
-> > The latest client version (which is not part of this series) forwards a=
-ccesses
-> > to the MSIx table & PBA over to the server. It also reads the PBA set b=
-y the
-> > server. These change make it possible for the server to make this switc=
-h. =20
->=20
-> Interesting. That's different from kernel VFIO. Before vfio-user commits
-> to a new approach it would be worth checking with Alex that he agrees
-> with the design.
->=20
-> I remember sending an email asking about why VFIO MSI-X PBA does not
-> offer the full semantics described in the PCIe spec but didn't get a
-> response from Alex (Message-Id:
-> YkMWp0lUJAHhivJA@stefanha-x1.localdomain).
+This appears to introduce a new error on msys2-64bit:
 
-IIUC, the question is why we redirect the MSI-X interrupt from the KVM
-irqfd to be handled in QEMU when the vector is masked.  This is largely
-to work around the fact that we haven't had a means to implement mask
-and unmask in the kernel, therefore we leave the vector enabled and
-only enable the emulated PBA if a masked vector fires.  This works
-because nobody really cares about the PBA, nor operates in a mode where
-vectors are masked and the PBA is polled.  Drivers that understand the
-device likely have better places to poll for service requests than the
-PBA.
 
-Ideally, masking a vector would make use of the existing mask and
-unmask uAPI via the SET_IRQS ioctl, but we haven't been able to
-implement this due to lack of internal kernel APIs to support it.  We
-may have those interfaces now, but lacking bandwidth, I haven't checked
-recently and we seem to be getting by ok as is.  Thanks,
+14/85 qemu:unit / test-aio                                          ERROR           2.14s 
+   exit status 3
+ >>> MALLOC_PERTURB_=82 G_TEST_SRCDIR=C:/GitLab-Runner/builds/qemu-project/qemu/tests/unit 
+G_TEST_BUILDDIR=C:/GitLab-Runner/builds/qemu-project/qemu/build/tests/unit 
+C:/GitLab-Runner/builds/qemu-project/qemu/build/tests/unit/test-aio.exe --tap -k
+------------------------------------- 8< -------------------------------------
+stderr:
+(test program exited with status code 3)
 
-Alex
+https://gitlab.com/qemu-project/qemu/-/jobs/2418935125
 
+Are you in a position to test this yourself locally?
+
+
+r~
 
