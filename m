@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5133C51BD91
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:57:23 +0200 (CEST)
-Received: from localhost ([::1]:50018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0C951BD97
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:59:41 +0200 (CEST)
+Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZAf-0005q1-QA
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
+	id 1nmZCu-0008DI-E0
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:59:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmYLa-0006b5-5S
- for qemu-devel@nongnu.org; Thu, 05 May 2022 06:04:36 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:32211)
+ id 1nmYOK-00010L-3v
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 06:07:27 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:35546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmYLV-00081T-0f
- for qemu-devel@nongnu.org; Thu, 05 May 2022 06:04:32 -0400
+ id 1nmYOH-0000QM-36
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 06:07:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651745067;
+ s=mimecast20190719; t=1651745239;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E9FH101KTZZWIAvqn9LR0ITq56PtqC+GaTidZ4+S39Y=;
- b=Vqj2TGTCGiN+9tgbYcLwhelq2B/wrbunmmFbupkR0Ycj15nNAVGIuEr5uuv/CoF2IONxdI
- 2vEnzJUlqE7xJd67k88qj90XM4WKLbUMBNbscWmkn+evqDnjs60oJKvsg/LHYyqD8jY0hr
- AY/jMwKDs8nboR1ELZOrIzSQuyeQFVU=
+ bh=N/315jSzMTU8IKFccJcB31Sy9to3XQ2cyeTlrRX+fJU=;
+ b=hWJ1xVLvfMS2x/k33LnvaPGv7ifF1s97UxjLO4xpQ0ODm7w8/d+xKyyKhx1YBDpZdZ1Lr5
+ iMuGjQnHHiMNN0fCZ6uYRP59aLeBjF8lF88RUaSV4hDcBG1t6TFk+cWOtbTRSop/JL1NQw
+ 2ONN8BeZ/DOoIOSRA69jiEZ3WmpTpN0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-CTCuYzOKPfemNrhJ68EZQg-1; Thu, 05 May 2022 06:04:19 -0400
-X-MC-Unique: CTCuYzOKPfemNrhJ68EZQg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-138-Yl0PcQdvMlCwfcLQfvyCqQ-1; Thu, 05 May 2022 06:07:16 -0400
+X-MC-Unique: Yl0PcQdvMlCwfcLQfvyCqQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14063801210;
- Thu,  5 May 2022 10:04:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E282811E75;
+ Thu,  5 May 2022 10:07:16 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 714E940CF8E7;
- Thu,  5 May 2022 10:04:16 +0000 (UTC)
-Date: Thu, 5 May 2022 11:04:13 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B6E214C18DF;
+ Thu,  5 May 2022 10:07:15 +0000 (UTC)
+Date: Thu, 5 May 2022 11:07:13 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Atish Patra <atishp@atishpatra.org>, Atish Patra <atishp@rivosinc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
-Message-ID: <YnOhHZGJphk30SmJ@redhat.com>
-References: <20220412021009.582424-1-atishp@rivosinc.com>
- <Yl7oiF7kUrIQ0qk5@redhat.com>
- <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
- <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
- <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>, Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH 3/5] net: slirp: switch to slirp_new
+Message-ID: <YnOh0To8iqUfjlnu@redhat.com>
+References: <20220504210001.678419-1-pbonzini@redhat.com>
+ <20220504210001.678419-4-pbonzini@redhat.com>
+ <CAJ+F1CLyTN90uBhc5W8i8i_Vre+FsMU3O-OXUy53kf-4EWxRiQ@mail.gmail.com>
+ <CABgObfZaucTwU5vo5JKLabiBEKg7dEPhqYv+vSDvbHS72bDk1A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
+In-Reply-To: <CABgObfZaucTwU5vo5JKLabiBEKg7dEPhqYv+vSDvbHS72bDk1A@mail.gmail.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.74; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,94 +87,38 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 05, 2022 at 07:36:51PM +1000, Alistair Francis wrote:
-> On Tue, May 3, 2022 at 5:57 PM Atish Patra <atishp@atishpatra.org> wrote:
+On Thu, May 05, 2022 at 10:29:07AM +0200, Paolo Bonzini wrote:
+> On Thu, May 5, 2022 at 10:20 AM Marc-André Lureau
+> <marcandre.lureau@gmail.com> wrote:
 > >
-> > On Tue, Apr 19, 2022 at 5:26 PM Atish Patra <atishp@atishpatra.org> wrote:
-> > >
-> > > On Tue, Apr 19, 2022 at 9:51 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > >
-> > > > On Mon, Apr 11, 2022 at 07:10:06PM -0700, Atish Patra wrote:
-> > > > >
-> > > > > The RISC-V virt machine has helped RISC-V software eco system to evolve at a
-> > > > > rapid pace even in absense of the real hardware. It is definitely commendable.
-> > > > > However, the number of devices & commandline options keeps growing as a result
-> > > > > of that as well. That adds flexibility but will also become bit difficult
-> > > > > to manage in the future as more extension support will be added. As it is the
-> > > > > most commonly used qemu machine, it needs to support all kinds of device and
-> > > > > interrupts as well. Moreover, virt machine has limitations on the maximum
-> > > > > number of harts it can support because of all the MMIO devices it has to support.
-> > > > >
-> > > > > The RISC-V IMSIC specification allows to develop machines completely relying
-> > > > > on MSI and don't care about the wired interrupts at all. It just requires
-> > > > > all the devices to be present behind a PCI bus or present themselves as platform
-> > > > > MSI device. The former is a more common scenario in x86 world where most
-> > > > > of the devices are behind PCI bus. As there is very limited MMIO device
-> > > > > support, it can also scale to very large number of harts.
-> > > > >
-> > > > > That's why, this patch series introduces a minimalistic yet very extensible
-> > > > > forward looking machine called as "RISC-V Mini Computer" or "minic". The
-> > > > > idea is to build PC or server like systems with this machine. The machine can
-> > > > > work with or without virtio framework. The current implementation only
-> > > > > supports RV64. I am not sure if building a RV32 machine would be of interest
-> > > > > for such machines. The only mmio device it requires is clint to emulate
-> > > > > the mtimecmp.
-> > > >
+> > Hi
 > >
-> > Any other thoughts ?
-> 
-> I don't *love* this idea. I think the virt machine is useful, but I'm
-> not convinced we need a second one.
-> 
-> This feels a little bit more like a "none" machine, as it contains
-> just the bare minimum to work.
-> 
+> > On Thu, May 5, 2022 at 1:07 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>
+> >> Replace slirp_init with slirp_new, so that a more recent cfg.version
+> >> can be specified.
 > >
-> > > > I would ask what you see as the long term future usage for 'virt' vs
-> > > > 'minic' machine types ? Would you expect all existing users of 'virt'
-> > > > to ultimately switch to 'minic', or are there distinct non-overlapping
-> > > > use cases for 'virt' vs 'minic' such that both end up widely used ?
-> > > >
-> > >
-> > > Nope. I don't expect existing 'virt' users to switch to 'minic' as
-> > > they aim to cater to different users.
-> > >
-> > > Here are the major differences
-> > > 1. virt machine supports MMIO devices & wired interrupts. Minic doesn't
+> >
+> > It was introduced in v4.1.0, but I don't see a minimum libslirp version check.
 > 
-> This seems like the main difference
+> In fact 4.3.0 is needed for version 3 of the struct, so the following
+> needs to be
+> squashed:
 > 
-> > > 2. virt machine doesn't support the MSI only option yet (can be added
-> > > though[1]). Minic does.
-> 
-> This could be fixed
-> 
-> > > 3. Number of cpu supported by virt machine are limited because of the
-> > > MMIO devices. Minic can scale to very
-> > > large numbers of cpu.
-> 
-> Similar to 1
-> 
-> > > 4. 'Minic' only supports PCI based MSI capable devices. Thus, MSI is a
-> > > mandatory requirement for 'minic' while
-> > > it is optional for 'virt'.
-> 
-> I'm not fully convinced we need this, but it also doesn't seem to cost
-> us a lot in terms of maintenance. It would be beneficial if we could
-> share a bit more of the code. Can we share the socket creation code as
-> well?
-> 
-> I don't like the name minic though. What about something like
-> `virt-hpc`, `virt-pcie-minimal` or something like that? That way we
-> indicate it's still a virt board
+> diff --git a/meson.build b/meson.build
+> index 11876f5141..c902dfabd3 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2638,7 +2638,7 @@ if have_system
+>    if slirp_opt in ['enabled', 'auto', 'system']
+>      have_internal = fs.exists(meson.current_source_dir() / 'slirp/meson.build')
+>      slirp = dependency('slirp', kwargs: static_kwargs,
+> -                       method: 'pkg-config',
+> +                       method: 'pkg-config', version: '>=4.3.0',
 
-We're not versioning the 'virt' machine type right so. IOW, we've not
-made any promises about its long term featureset. 
-
-If the virt machine type isn't the perfect match right now, should
-we change it, in a potentially incompatible way, to give us the right
-solution long term, rather than introducing a brand new machine type
-with significant overlap.
+Adding a dep on version 4.3.0 is not desirable. Ubuntu 20.04 has
+version 4.1.0, and we want to be able to drop slirp submodule
+when we drop Ubuntu 18.04 (hopfully in this dev cycle).
 
 
 With regards,
