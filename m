@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964EC51BC7B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:49:54 +0200 (CEST)
-Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0282551BBBF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:18:24 +0200 (CEST)
+Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmY7N-0007Vy-Hn
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
+	id 1nmXct-0003BU-0Z
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWc-0004mf-R1
+ id 1nmXWc-0004nD-U5
  for qemu-devel@nongnu.org; Thu, 05 May 2022 05:11:54 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36795)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWZ-00039a-S1
+ id 1nmXWa-00039c-7Z
  for qemu-devel@nongnu.org; Thu, 05 May 2022 05:11:54 -0400
-Received: by mail-wr1-x432.google.com with SMTP id u3so5241629wrg.3
+Received: by mail-wr1-x42c.google.com with SMTP id b19so5210540wrh.11
  for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=YYZsNTkKcxKQaZCczUmEZTFEfw8mKce6egKgLBzskqM=;
- b=Lcn8iavmQB4bl7NmG6wOm7mHdO8YIPgwYfdkVjcqqUPQ9egu55fi048kr1Gky+SbU2
- 4JorIzs+o5+O2cpW7udX0QaCHK33VQXQA2Fge8k5WadvF0GGu/fE+PeFqcv9XZzc6V82
- 69H9BCrRWEPVxdtE6fH0UApBjxWQsrNugUFtkmTqe6z06DJKf19al/1aL5oAh4vzkKsf
- b4jpeg8oospOeUhr9u+z//F3CdLz+6A8Npi6EkqFntSXQ5eHFqWTUgaOO8rwClQvKc0I
- Veq4Ia5jeEiAPslKMXGH31sWPCmuIJjmR8zpuOrUKSmVVmaWUsSv+Qufi1ioD7paktog
- 5mrw==
+ bh=qfuC15wVhgbtf/sFl4PEa+tcmWHsuyafqPjoww1w/hI=;
+ b=dVV/E+RuyBmbbozQCgqG39EvJV5ONedx5ZNcjcYqt1bu6pEXRzWzwcb5iAZin8KuNz
+ zGTyj8GjHdzQ9z39ESlBP7QGKZe/D93O7aZokGkE7BfRdYAEu32RDnVpCg9aZDqFI9cM
+ Ww4/+Y1DqXvrfBQZz+4CAX3iD4tGYg6zCLQp4SPWNJ+znFMj6wsBIRdxTYDa/8pm3001
+ 94pD3T37VtL7tph0mcPs5RZMBkE/Fm1ZpEzc0ShC2v/tNMXaiqNKaak8/bV7rrzepQqP
+ 54qYbud/cf6uVUaCjWOfd5fzfBNJnO5Sh9wLCz+36hlrPJmaehVjtv8xWEBbgqaqRFnX
+ 7K3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YYZsNTkKcxKQaZCczUmEZTFEfw8mKce6egKgLBzskqM=;
- b=6XjHQoZNhAI6mObLoXdQsUyNKamxtXn6AUyfQahZoTSeefEQ84NsTmLrIRs0wuyiG5
- CHK6g2+PwaHuZskLnobsLF+EuPsIedUQNwuUPM1huP6YWPof1GlE/MB19N0jvFEfxaHy
- tjtB+EvE5nRUGMjbuDTE+alUMUQXPCzBJbf46W6E2msKaa6F0t9RI2rK55AFbFt7nuLD
- zcFnFtNwKspc5jiBNBeQfDwO0kGoX+rd3BvipzHi2iERf10o60ddqC5rAqjf3XMyyEgZ
- bVthTqgHIXT6ulrRzxZenmz6yvsePM0R3XQWZntsYqIsRKMs9tUNv48FeZsmg8z5y1IX
- YELw==
-X-Gm-Message-State: AOAM533ECd8M4sFyPri2J3QYw0MSt/0cuGvuNCCujCXEsq59c3UMvLoS
- qRbXO4yCiGVzRHHXqwrvmgNyx276KqRVbg==
-X-Google-Smtp-Source: ABdhPJzrIllvA7UAK1ApC675ccXVaf4pPmYs0sgV2ujwBIqtHkOwtR6pEXCAH9EZoOIQozIiMlrghQ==
-X-Received: by 2002:adf:ed86:0:b0:20a:db50:1b1b with SMTP id
- c6-20020adfed86000000b0020adb501b1bmr20127131wro.506.1651741909806; 
- Thu, 05 May 2022 02:11:49 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qfuC15wVhgbtf/sFl4PEa+tcmWHsuyafqPjoww1w/hI=;
+ b=t0iD/yGMDd0i3KNVex36oGNSAQfbKdZc19bJOAW5otZhJ+sIpHZTn2ig3d+xTGjrpD
+ w7CtopteDS8uxA4151zx+GAZqsowDKHAkFccN+MKDY/MEm3VNo3lJllifB4c1HgqFRv9
+ JSbL8h11EvKTrTBOjqSRmuXdjwbt6ySBmuQqtRH86dDcaX0lQRVx+sbfntCW4mWhiQv9
+ wXjyVZYkK9p0ggoeLHBq3rxoPEJte6QlHKMtAmUYXpJezO3w/OgO/ZYc4z+YAMEaGp9N
+ uRrILrEc+sZV85xVOPOonLSyoARUFyvwNQlSQ9PCdmrVh/mTyWwhiggA0ZLBgZdGqrSk
+ 57bA==
+X-Gm-Message-State: AOAM5338WNSwugxp6bKPVSPt3uOPCsUrNkhiiadf+ZWsZ76C4Onshp9f
+ yiCpHLESQI+XPWPDfQn0EtLrBA64Fewf7w==
+X-Google-Smtp-Source: ABdhPJy0aoHLOgEIOrxcA4PcgTcjuOCXvGEZlwQJepRL9b7ejgUDAgMhV7Mokxrad7UcilzghaQNbA==
+X-Received: by 2002:a5d:4ac2:0:b0:20c:7844:fb79 with SMTP id
+ y2-20020a5d4ac2000000b0020c7844fb79mr8647245wrs.33.1651741910669; 
+ Thu, 05 May 2022 02:11:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.11.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:11:49 -0700 (PDT)
+ Thu, 05 May 2022 02:11:50 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/23] target-arm queue
-Date: Thu,  5 May 2022 10:11:24 +0100
-Message-Id: <20220505091147.2657652-1-peter.maydell@linaro.org>
+Subject: [PULL 01/23] target/arm: Enable SCTLR_EL1.BT0 for aarch64-linux-user
+Date: Thu,  5 May 2022 10:11:25 +0100
+Message-Id: <20220505091147.2657652-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220505091147.2657652-1-peter.maydell@linaro.org>
+References: <20220505091147.2657652-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,79 +88,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two small bugfixes, plus most of RTH's refactoring of cpregs
-handling.
+From: Richard Henderson <richard.henderson@linaro.org>
 
--- PMM
+This controls whether the PACI{A,B}SP instructions trap with BTYPE=3
+(indirect branch from register other than x16/x17).  The linux kernel
+sets this in bti_enable().
 
-The following changes since commit 1fba9dc71a170b3a05b9d3272dd8ecfe7f26e215:
-
-  Merge tag 'pull-request-2022-05-04' of https://gitlab.com/thuth/qemu into staging (2022-05-04 08:07:02 -0700)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220505
-
-for you to fetch changes up to 99a50d1a67c602126fc2b3a4812d3000eba9bf34:
-
-  target/arm: read access to performance counters from EL0 (2022-05-05 09:36:22 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Enable read access to performance counters from EL0
- * Enable SCTLR_EL1.BT0 for aarch64-linux-user
- * Refactoring of cpreg handling
-
-----------------------------------------------------------------
-Alex Zuepke (1):
-      target/arm: read access to performance counters from EL0
-
-Richard Henderson (22):
-      target/arm: Enable SCTLR_EL1.BT0 for aarch64-linux-user
-      target/arm: Split out cpregs.h
-      target/arm: Reorg CPAccessResult and access_check_cp_reg
-      target/arm: Replace sentinels with ARRAY_SIZE in cpregs.h
-      target/arm: Make some more cpreg data static const
-      target/arm: Reorg ARMCPRegInfo type field bits
-      target/arm: Avoid bare abort() or assert(0)
-      target/arm: Change cpreg access permissions to enum
-      target/arm: Name CPState type
-      target/arm: Name CPSecureState type
-      target/arm: Drop always-true test in define_arm_vh_e2h_redirects_aliases
-      target/arm: Store cpregs key in the hash table directly
-      target/arm: Merge allocation of the cpreg and its name
-      target/arm: Hoist computation of key in add_cpreg_to_hashtable
-      target/arm: Consolidate cpreg updates in add_cpreg_to_hashtable
-      target/arm: Use bool for is64 and ns in add_cpreg_to_hashtable
-      target/arm: Hoist isbanked computation in add_cpreg_to_hashtable
-      target/arm: Perform override check early in add_cpreg_to_hashtable
-      target/arm: Reformat comments in add_cpreg_to_hashtable
-      target/arm: Remove HOST_BIG_ENDIAN ifdef in add_cpreg_to_hashtable
-      target/arm: Add isar predicates for FEAT_Debugv8p2
-      target/arm: Add isar_feature_{aa64,any}_ras
-
- target/arm/cpregs.h               | 453 ++++++++++++++++++++++++++++++++++++++
- target/arm/cpu.h                  | 393 +++------------------------------
- hw/arm/pxa2xx.c                   |   2 +-
- hw/arm/pxa2xx_pic.c               |   2 +-
- hw/intc/arm_gicv3_cpuif.c         |   6 +-
- hw/intc/arm_gicv3_kvm.c           |   3 +-
- target/arm/cpu.c                  |  25 +--
- target/arm/cpu64.c                |   2 +-
- target/arm/cpu_tcg.c              |   5 +-
- target/arm/gdbstub.c              |   5 +-
- target/arm/helper.c               | 358 +++++++++++++-----------------
- target/arm/hvf/hvf.c              |   2 +-
- target/arm/kvm-stub.c             |   4 +-
- target/arm/kvm.c                  |   4 +-
- target/arm/machine.c              |   4 +-
- target/arm/op_helper.c            |  57 ++---
- target/arm/translate-a64.c        |  14 +-
- target/arm/translate-neon.c       |   2 +-
- target/arm/translate.c            |  13 +-
- tests/tcg/aarch64/bti-3.c         |  42 ++++
- tests/tcg/aarch64/Makefile.target |   6 +-
- 21 files changed, 738 insertions(+), 664 deletions(-)
- create mode 100644 target/arm/cpregs.h
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/998
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20220427042312.294300-1-richard.henderson@linaro.org
+[PMM: remove stray change to makefile comment]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.c                  |  2 ++
+ tests/tcg/aarch64/bti-3.c         | 42 +++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  6 ++---
+ 3 files changed, 47 insertions(+), 3 deletions(-)
  create mode 100644 tests/tcg/aarch64/bti-3.c
+
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index e46a766d770..2b81b18351a 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -197,6 +197,8 @@ static void arm_cpu_reset(DeviceState *dev)
+         /* Enable all PAC keys.  */
+         env->cp15.sctlr_el[1] |= (SCTLR_EnIA | SCTLR_EnIB |
+                                   SCTLR_EnDA | SCTLR_EnDB);
++        /* Trap on btype=3 for PACIxSP. */
++        env->cp15.sctlr_el[1] |= SCTLR_BT0;
+         /* and to the FP/Neon instructions */
+         env->cp15.cpacr_el1 = deposit64(env->cp15.cpacr_el1, 20, 2, 3);
+         /* and to the SVE instructions */
+diff --git a/tests/tcg/aarch64/bti-3.c b/tests/tcg/aarch64/bti-3.c
+new file mode 100644
+index 00000000000..a852856d9a6
+--- /dev/null
++++ b/tests/tcg/aarch64/bti-3.c
+@@ -0,0 +1,42 @@
++/*
++ * BTI vs PACIASP
++ */
++
++#include "bti-crt.inc.c"
++
++static void skip2_sigill(int sig, siginfo_t *info, ucontext_t *uc)
++{
++    uc->uc_mcontext.pc += 8;
++    uc->uc_mcontext.pstate = 1;
++}
++
++#define BTYPE_1() \
++    asm("mov %0,#1; adr x16, 1f; br x16; 1: hint #25; mov %0,#0" \
++        : "=r"(skipped) : : "x16", "x30")
++
++#define BTYPE_2() \
++    asm("mov %0,#1; adr x16, 1f; blr x16; 1: hint #25; mov %0,#0" \
++        : "=r"(skipped) : : "x16", "x30")
++
++#define BTYPE_3() \
++    asm("mov %0,#1; adr x15, 1f; br x15; 1: hint #25; mov %0,#0" \
++        : "=r"(skipped) : : "x15", "x30")
++
++#define TEST(WHICH, EXPECT) \
++    do { WHICH(); fail += skipped ^ EXPECT; } while (0)
++
++int main()
++{
++    int fail = 0;
++    int skipped;
++
++    /* Signal-like with SA_SIGINFO.  */
++    signal_info(SIGILL, skip2_sigill);
++
++    /* With SCTLR_EL1.BT0 set, PACIASP is not compatible with type=3. */
++    TEST(BTYPE_1, 0);
++    TEST(BTYPE_2, 0);
++    TEST(BTYPE_3, 1);
++
++    return fail;
++}
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 6ad0ad49f98..d6a74d24dc0 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -28,9 +28,9 @@ endif
+ # BTI Tests
+ # bti-1 tests the elf notes, so we require special compiler support.
+ ifneq ($(CROSS_CC_HAS_ARMV8_BTI),)
+-AARCH64_TESTS += bti-1
+-bti-1: CFLAGS += -mbranch-protection=standard
+-bti-1: LDFLAGS += -nostdlib
++AARCH64_TESTS += bti-1 bti-3
++bti-1 bti-3: CFLAGS += -mbranch-protection=standard
++bti-1 bti-3: LDFLAGS += -nostdlib
+ endif
+ # bti-2 tests PROT_BTI, so no special compiler support required.
+ AARCH64_TESTS += bti-2
+-- 
+2.25.1
+
 
