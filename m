@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719DA51BAE3
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 10:46:14 +0200 (CEST)
-Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B9F51BAB0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 10:38:30 +0200 (CEST)
+Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmX7l-0003FX-5e
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 04:46:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53296)
+	id 1nmX0H-0003dw-Sf
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 04:38:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nmWeO-0006mK-LO
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:15:52 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:26716)
+ id 1nmWeS-0006nV-2n
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:16:01 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:31786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nmWeM-0007sh-VL
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:15:52 -0400
+ id 1nmWeO-0007ss-Lm
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:15:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651738550;
+ s=mimecast20190719; t=1651738552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uQOpHYPfgI2lX2Mdfl+rfOehX+tXCf4jqiRnGqO398A=;
- b=YkahhGYNI8X7AwCUITkWuwcu7AuRNpt+elUi3YnDlFdoQHZnb6bAfLHXwt1HpdLYdEK9Iy
- ODlnRVZBE2DxZAMdxRiJ4k3U8tj41vJ1TSDIlE5XJiIgLXdQ2/6+rSROY/Ha+LUWtfgDAM
- E9UrMsN2LOD/xOBM/PmIK3CoYbyCkH0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KlsHIrWV+HO7aeZTRbvh+8pSkcJ71kOwRP1Qu6+MR7M=;
+ b=do9Hh2k5iaAkwjOB2jGxK/GhYQiiF5qAIQsLoj8B94/kZdk3GblR+SGWxO1MuzSsN/OUTg
+ nucWYXO7yGAs4vMKP6jblNB3Cdu4KL/c1o5LFAT5tE7SQM9MF9o6F+4cYtUf/rw+Hqra3f
+ Kgit7p9e5WjKURW2jad2ncl3FllATcA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-j1LoL1EyOCKvuj-lwD2gEw-1; Thu, 05 May 2022 04:15:47 -0400
-X-MC-Unique: j1LoL1EyOCKvuj-lwD2gEw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-333-GkuFbQeTOmC53r62SEiAqg-1; Thu, 05 May 2022 04:15:51 -0400
+X-MC-Unique: GkuFbQeTOmC53r62SEiAqg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76A0C29ABA35;
- Thu,  5 May 2022 08:15:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F74D803792;
+ Thu,  5 May 2022 08:15:50 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A0DAC28102;
- Thu,  5 May 2022 08:15:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC4AE1468D6B;
+ Thu,  5 May 2022 08:15:49 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
@@ -54,25 +54,25 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 05/15] qga: flatten safe_open_or_create()
-Date: Thu,  5 May 2022 12:14:21 +0400
-Message-Id: <20220505081431.934739-6-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 06/15] osdep: export qemu_open_cloexec()
+Date: Thu,  5 May 2022 12:14:22 +0400
+Message-Id: <20220505081431.934739-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20220505081431.934739-1-marcandre.lureau@redhat.com>
 References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.74;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.74;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,157 +90,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-There is a bit too much branching in the function, this can be
-simplified a bit, and have a common exit point thanks to ERRP_PROPAGATE.
-
-This also helps with the following error handling changes.
+Used in the next patch, to simplify qga code.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- qga/commands-posix.c | 124 ++++++++++++++++++++++---------------------
- 1 file changed, 63 insertions(+), 61 deletions(-)
+ include/qemu/osdep.h |  1 +
+ util/osdep.c         | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 69f209af87e6..0ef049650e31 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -339,73 +339,75 @@ find_open_flag(const char *mode_str, Error **errp)
- static FILE *
- safe_open_or_create(const char *path, const char *mode, Error **errp)
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 67cc4654166b..64f51cfb7a62 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -489,6 +489,7 @@ void sigaction_invoke(struct sigaction *action,
+  */
+ int qemu_open_old(const char *name, int flags, ...);
+ int qemu_open(const char *name, int flags, Error **errp);
++int qemu_open_cloexec(const char *name, int flags, mode_t mode, Error **errp);
+ int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+ int qemu_close(int fd);
+ int qemu_unlink(const char *name);
+diff --git a/util/osdep.c b/util/osdep.c
+index 60fcbbaebe72..67541b7654ef 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -279,9 +279,11 @@ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
+ }
+ #endif
+ 
+-static int qemu_open_cloexec(const char *name, int flags, mode_t mode)
++int qemu_open_cloexec(const char *name, int flags, mode_t mode, Error **errp)
  {
--    Error *local_err = NULL;
--    int oflag;
--
--    oflag = find_open_flag(mode, &local_err);
--    if (local_err == NULL) {
--        int fd;
 +    ERRP_GUARD();
-+    int oflag, fd = -1;
-+    FILE *f = NULL;
+     int ret;
 +
-+    oflag = find_open_flag(mode, errp);
-+    if (*errp) {
-+        goto end;
-+    }
-+
-+    /* If the caller wants / allows creation of a new file, we implement it
-+     * with a two step process: open() + (open() / fchmod()).
-+     *
-+     * First we insist on creating the file exclusively as a new file. If
-+     * that succeeds, we're free to set any file-mode bits on it. (The
-+     * motivation is that we want to set those file-mode bits independently
-+     * of the current umask.)
-+     *
-+     * If the exclusive creation fails because the file already exists
-+     * (EEXIST is not possible for any other reason), we just attempt to
-+     * open the file, but in this case we won't be allowed to change the
-+     * file-mode bits on the preexistent file.
-+     *
-+     * The pathname should never disappear between the two open()s in
-+     * practice. If it happens, then someone very likely tried to race us.
-+     * In this case just go ahead and report the ENOENT from the second
-+     * open() to the caller.
-+     *
-+     * If the caller wants to open a preexistent file, then the first
-+     * open() is decisive and its third argument is ignored, and the second
-+     * open() and the fchmod() are never called.
-+     */
-+    fd = open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
-+    if (fd == -1 && errno == EEXIST) {
-+        oflag &= ~(unsigned)O_CREAT;
-+        fd = open(path, oflag);
-+    }
-+    if (fd == -1) {
-+        error_setg_errno(errp, errno,
-+                         "failed to open file '%s' "
-+                         "(mode: '%s')",
-+                         path, mode);
-+        goto end;
-+    }
- 
--        /* If the caller wants / allows creation of a new file, we implement it
--         * with a two step process: open() + (open() / fchmod()).
--         *
--         * First we insist on creating the file exclusively as a new file. If
--         * that succeeds, we're free to set any file-mode bits on it. (The
--         * motivation is that we want to set those file-mode bits independently
--         * of the current umask.)
--         *
--         * If the exclusive creation fails because the file already exists
--         * (EEXIST is not possible for any other reason), we just attempt to
--         * open the file, but in this case we won't be allowed to change the
--         * file-mode bits on the preexistent file.
--         *
--         * The pathname should never disappear between the two open()s in
--         * practice. If it happens, then someone very likely tried to race us.
--         * In this case just go ahead and report the ENOENT from the second
--         * open() to the caller.
--         *
--         * If the caller wants to open a preexistent file, then the first
--         * open() is decisive and its third argument is ignored, and the second
--         * open() and the fchmod() are never called.
--         */
--        fd = open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
--        if (fd == -1 && errno == EEXIST) {
--            oflag &= ~(unsigned)O_CREAT;
--            fd = open(path, oflag);
--        }
-+    qemu_set_cloexec(fd);
- 
--        if (fd == -1) {
--            error_setg_errno(&local_err, errno, "failed to open file '%s' "
--                             "(mode: '%s')", path, mode);
--        } else {
--            qemu_set_cloexec(fd);
-+    if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) == -1) {
-+        error_setg_errno(errp, errno,
-+                         "failed to set permission 0%03o on new file '%s' (mode: '%s')",
-+                         (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
-+        goto end;
-+    }
- 
--            if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) == -1) {
--                error_setg_errno(&local_err, errno, "failed to set permission "
--                                 "0%03o on new file '%s' (mode: '%s')",
--                                 (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
--            } else {
--                FILE *f;
--
--                f = fdopen(fd, mode);
--                if (f == NULL) {
--                    error_setg_errno(&local_err, errno, "failed to associate "
--                                     "stdio stream with file descriptor %d, "
--                                     "file '%s' (mode: '%s')", fd, path, mode);
--                } else {
--                    return f;
--                }
--            }
-+    f = fdopen(fd, mode);
-+    if (f == NULL) {
-+        error_setg_errno(errp, errno,
-+                         "failed to associate stdio stream with file descriptor %d, "
-+                         "file '%s' (mode: '%s')",
-+                         fd, path, mode);
-+    }
- 
--            close(fd);
--            if (oflag & O_CREAT) {
--                unlink(path);
--            }
-+end:
-+    if (f == NULL && fd != -1) {
-+        close(fd);
-+        if (oflag & O_CREAT) {
-+            unlink(path);
-         }
+ #ifdef O_CLOEXEC
+     ret = open(name, flags | O_CLOEXEC, mode);
+ #else
+@@ -290,6 +292,10 @@ static int qemu_open_cloexec(const char *name, int flags, mode_t mode)
+         qemu_set_cloexec(ret);
      }
--
--    error_propagate(errp, local_err);
--    return NULL;
-+    return f;
+ #endif
++    if (ret == -1) {
++        error_setg_errno(errp, errno, "Could not open '%s'", name);
++    }
++
+     return ret;
  }
  
- int64_t qmp_guest_file_open(const char *path, bool has_mode, const char *mode,
+@@ -327,7 +333,7 @@ qemu_open_internal(const char *name, int flags, mode_t mode, Error **errp)
+     }
+ #endif
+ 
+-    ret = qemu_open_cloexec(name, flags, mode);
++    ret = qemu_open_cloexec(name, flags, mode, NULL);
+ 
+     if (ret == -1) {
+         const char *action = flags & O_CREAT ? "create" : "open";
 -- 
 2.36.0.44.g0f828332d5ac
 
