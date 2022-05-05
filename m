@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7FD51BDD8
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:15:07 +0200 (CEST)
-Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1075C51BDC8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:12:25 +0200 (CEST)
+Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZRp-0005pF-PD
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34404)
+	id 1nmZPE-0001cx-6a
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmZCX-0000T1-DB
- for qemu-devel@nongnu.org; Thu, 05 May 2022 06:59:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:20822)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nmZLV-0007P1-6n
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:08:33 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:37275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nmZCV-0005zo-Tw
- for qemu-devel@nongnu.org; Thu, 05 May 2022 06:59:17 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nmZLR-0008US-T4
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:08:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651748355;
+ s=mimecast20190719; t=1651748908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h8ne3Khn4etN/xrpUdyFIcbD18zbaL0bQF8DGdnvtus=;
- b=UUBcIudVHVwNL5IVtLsaHQZBLVjXmMYQScsDJKWeHsKkSkdOIKgcdBXfNA7Dv+CvnKpu0u
- yUxqUDFFrMWJT7YpeNfPZkOU9Qmxd18LsCCEZHZ7gs3fYOc5AaiKpLAmpT6goTg9Zma88i
- ACPwB+bRo7ihTx57NGT1Yayq93Ikxds=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mARCJLgq4Gt3jN3KLUozondG9uC2HeF4VT4yjEtrCos=;
+ b=R2HaldFgOWslRE4pMUuwSGbhTD6G9pjF9txRGMquVxd+UPyeje2MBQNTyzLz1AdHxtmAei
+ TpeNJXS8TwtRAKHefWDlWkMdjir+Np/t4KjTrAWAm42RC1S4RVaf5Sg2fxBTZIDvW7EC8v
+ hOrjkG1PbcsaaNWRuHCf0TwFk+NykuQ=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-505-wsVAoEwqNXK1Ijp7-H1lDw-1; Thu, 05 May 2022 06:59:12 -0400
-X-MC-Unique: wsVAoEwqNXK1Ijp7-H1lDw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2CBC3810D2C;
- Thu,  5 May 2022 10:59:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 519BB9E93;
- Thu,  5 May 2022 10:59:06 +0000 (UTC)
-Date: Thu, 5 May 2022 12:59:05 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: John Snow <jsnow@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Cleber Rosa <crosa@redhat.com>
-Subject: Re: iotests and python dependencies
-Message-ID: <YnOt+Q6p0fbJzWzy@redhat.com>
-References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
- <YnOQAP1J94zH1pEK@redhat.com>
- <6f3c3414-f837-85c9-b401-d856f091ddf4@redhat.com>
+ us-mta-422-Mx0pUk0MM8Sh5yHRXLmTbQ-1; Thu, 05 May 2022 07:08:27 -0400
+X-MC-Unique: Mx0pUk0MM8Sh5yHRXLmTbQ-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ w133-20020a25c78b000000b0064847b10a22so3334316ybe.18
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 04:08:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mARCJLgq4Gt3jN3KLUozondG9uC2HeF4VT4yjEtrCos=;
+ b=ESkbfXAxSUjrkmO8gn+CEEcZfzfCuP2+J5PdFb0OB6IbrCTooXB9nlowqsGtL7SQyY
+ ftFih5S4qZoxY5ieLBHMlX9kLJNyT8WToMKFPsoTBUT0EzHXJQvFGgZYeHg9cwsfi+bL
+ u64GtkSM1iDvIEvZw+5od1vwE4pKOxfy/PD5hazLVwuq4KUnOjrYt26sFPUuVy0o7UUy
+ W56H5YKZbBkHRZ6193amwJfJ1aqlCbRDYf1nN5gd5rxN0kKRqHHBB5HeKU6iF1IwyuyH
+ CdlepSoPnt6x4tRhNpu+zy25WIXJMK3ZeYr0YAmsIx5r3HmVrdY1ZexTsCGnWR3yLccy
+ V4mQ==
+X-Gm-Message-State: AOAM531EU5UjjE25JYROCqPTrqUUaMlEQqJutmP62yTG0Ut3Ohy6HgG3
+ 80s2K3XYyKuAhvgXWddClEPPe/UaKHz1HjvP9XWSD3UMDQxXNcsyEzkP8ScU+zs6uLGtWtAlj7O
+ v/y7EjpOq6Lk9LrxP/U2N2qNN/eQQyns=
+X-Received: by 2002:a81:7b43:0:b0:2ec:8bb:3aef with SMTP id
+ w64-20020a817b43000000b002ec08bb3aefmr23571877ywc.267.1651748906959; 
+ Thu, 05 May 2022 04:08:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiPBPgw4rh1czjR50O741uMj9ixlMgjOogB6fF8QtdNkNt83/rRx34zO+HGku9yr+pVyUoReH6CG9ksd9WJTI=
+X-Received: by 2002:a81:7b43:0:b0:2ec:8bb:3aef with SMTP id
+ w64-20020a817b43000000b002ec08bb3aefmr23571855ywc.267.1651748906770; Thu, 05
+ May 2022 04:08:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f3c3414-f837-85c9-b401-d856f091ddf4@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=kwolf@redhat.com;
+References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
+ <20220505081431.934739-4-marcandre.lureau@redhat.com>
+ <875ymkxne4.fsf@pond.sub.org>
+In-Reply-To: <875ymkxne4.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 5 May 2022 15:08:15 +0400
+Message-ID: <CAMxuvayhwawMwxGk7Rc3=hsgn4q=kLATsFtbB3jAQbDKxCJoZA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/15] tests: make libqmp buildable for win32
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Darren Kenny <darren.kenny@oracle.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ qemu-block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.74; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,28 +103,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 05.05.2022 um 11:28 hat Paolo Bonzini geschrieben:
-> On 5/5/22 10:51, Kevin Wolf wrote:
-> > If not, I guess it would be enough if iotests just checks that the venv
-> > exists and all of the dependencies are there in the right version and
-> > error out if not, telling the user to run 'make check-venv'.
-> > 
-> > Or actually, it could just unconditionally run 'make check-venv' by
-> > itself, which is probably easier to implement than checking the
-> > dependencies and more convenient for the user, too.
-> 
-> Note that you would still have to add a 'check-block: check-venv'
-> dependency in the Makefile, otherwise two "instances" of check-venv
-> could run in parallel.
+Hi
 
-Good point. I only considered manual invocations, but for 'make
-check-block' that sounds right.
+On Thu, May 5, 2022 at 2:52 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > Reviewed-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  tests/qtest/libqmp.h |  2 ++
+> >  tests/qtest/libqmp.c | 35 +++++++++++++++++++++++++++++------
+> >  2 files changed, 31 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
+> > index 94aa97328a17..772f18b73ba3 100644
+> > --- a/tests/qtest/libqmp.h
+> > +++ b/tests/qtest/libqmp.h
+> > @@ -20,8 +20,10 @@
+> >  #include "qapi/qmp/qdict.h"
+> >
+> >  QDict *qmp_fd_receive(int fd);
+> > +#ifndef G_OS_WIN32
+>
+> What's the difference between G_OS_WIN32 and _WIN32?
+>
+> We have 10 of the former, but >250 of the latter.  If they are
+> effectively the same, we should pick one and stick to it.
 
-> One small complication is that on BSD systems the binary is actually
-> called "gmake", so you'd have to pass the variable somehow
+There are some subtle differences when compiling for cygwin, in which
+case G_OS_WIN32 is not defined.
 
-I guess we could just export $MAKE as an environment variable?
+I usually pick G_OS_{UNIX,WIN32} defines, mostly for consistency, but
+in many situation _WIN32/WIN32 is fine.
 
-Kevin
+(and we also have CONFIG_WIN32)
 
 
