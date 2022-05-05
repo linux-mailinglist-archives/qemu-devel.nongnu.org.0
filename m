@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2CD51C053
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 15:13:44 +0200 (CEST)
-Received: from localhost ([::1]:43546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE0151C056
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 15:15:10 +0200 (CEST)
+Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmbId-00081m-JI
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 09:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45532)
+	id 1nmbK2-00038X-0o
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 09:15:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nmbFd-0005lx-1f
- for qemu-devel@nongnu.org; Thu, 05 May 2022 09:10:37 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:52773)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmbIp-0001T5-9y
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 09:13:55 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:24218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nmbFb-00078K-CN
- for qemu-devel@nongnu.org; Thu, 05 May 2022 09:10:36 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nmbIn-0007h2-EP
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 09:13:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651756234;
+ s=mimecast20190719; t=1651756432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KK4ZgQWi881h7PKcOdKlPtDMl5tWsHYTycfuP2LbfIU=;
- b=C8CVD4K9OrK3ASflZRPXytbC+sh7Ni8CirX42DO5TkWJ4uOIrGW+yjY9Ma3Kaw764/WShb
- FNawBXBqxOZE82Ged5AmlQb1oJdNi0cOSDCRnzCvMrmChGlJvcoy/GlTvIsrHZsCzAHNQC
- 5tlgLA+PP3CYjoIzvxURO4QZrWhRckc=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rM5w4dOGEFRt6nxPv1eFZIsMEVDi+xSDgrxnzoxtcWU=;
+ b=OpAzHvnN5iErHP8QC0mfxCek8rjRG03Gt3899+Aw9bdRYr+H4B6u56aHc9ImOr2bW79kh9
+ +QebzcLcVxJOv+mbO5m2WR/RdAGXfdjWZ7iPLn246QKYbg7XofJib3NdqLjROgYr/MR7rU
+ +3UKN2h2AXBogKy6T56PzNFHdQwtHUw=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-s-P8IzxoPielY1oQ8C93gA-1; Thu, 05 May 2022 09:10:28 -0400
-X-MC-Unique: s-P8IzxoPielY1oQ8C93gA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- x9-20020ab05789000000b002fa60bdf012so1869691uaa.1
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 06:10:28 -0700 (PDT)
+ us-mta-86-pMZRCeFWM0W97LyxryndRA-1; Thu, 05 May 2022 09:13:51 -0400
+X-MC-Unique: pMZRCeFWM0W97LyxryndRA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ c23-20020a50d657000000b00425d5162a0dso2296334edj.16
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 06:13:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KK4ZgQWi881h7PKcOdKlPtDMl5tWsHYTycfuP2LbfIU=;
- b=Atlguq7n2ZbqiIFEbD2BrrwDj5yBKmQ/6slTGSeINOKt0B4LX7MNHPqCms4h8pZr65
- 4N4WeeqYXa3+YkqqyzxI0shhtUW/bS/iT8P+nsaafMui+fv1WW0tVI6zqWAGqIdQCS3j
- MoOP6PxtIoSwFp4zvcvwHmJEDPckeQRxccIGlZPscgcW3908X99dlND1WC/SD6Whg+CV
- ua5bOGqmK7EjTdjdYN/rnJTp/+vcwXFc0+AedGY1GqGEMbn0aghVaIlEx8xW3oR0liHm
- DbcZvjZQ4E61jme1nQMiB0qd0oMu0YAMNbTI/59ulSZ7yEM/paKDY45Bq4ICKSR0sc/D
- NckQ==
-X-Gm-Message-State: AOAM530rEsZJhw27vp0XqkRcE8OOxt6An+MH2lhveuNhTpxUoyhto7x0
- OfXslTKIaWItwSOs3d6f9Xye7d7PWFiLu/wqVUbgOsQDmSdx9m8aU+mmN5c/RzS33CkUcrNgJhS
- MCHajFf+w+6taoUQJzoBxGIHK0JJpOxA=
-X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
- l23-20020a67fe17000000b0032ce77ec3b4mr8279286vsr.11.1651756227890; 
- Thu, 05 May 2022 06:10:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzf2Ng21vuiw7p3ufFtvYaH8kGBJH7YjuKu4GPfOfGygxi+DjqjlDiJTI6Tjisx70qHyTiN5FpTZBGl/+ZePg4=
-X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
- l23-20020a67fe17000000b0032ce77ec3b4mr8279273vsr.11.1651756227619; Thu, 05
- May 2022 06:10:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rM5w4dOGEFRt6nxPv1eFZIsMEVDi+xSDgrxnzoxtcWU=;
+ b=tGBCbYKOumvW+gFYzTEVC4vbkqB7Ki+A0ZzwBTnM+N6M1J0JzpuDc22WMz8sS2kbQ/
+ 64UV72eW6jDP3uLsUZrjTnukGX/5D6ZNCCMycTLnnf9yBGAVnC6KtApklzxBGcV+rQza
+ zkXTwmxHRf0IpMZA0a0kG4x2ESgE7Jq4mbqMP0nX3cG6jb3035/mWoOTePcOyFZUBbkR
+ 9gnZEZM1l2uy7Q2nu3qn3h2woCdic0KZnN5xIn9VNRQ3tfGKf7tJydGKmum6pSIdihSz
+ GV3BBa/qJfcd2xqM9UVLEZKRQCmITZGyQy/cgoAavRxhXjnfFFjPBPjVgG3mPZTBkIFZ
+ ciHw==
+X-Gm-Message-State: AOAM531PyRMcXoOSsnUYzTjQxogJPeJ7smsP6Fnwi9hNMFRKLCe1yvgk
+ T7g8/mTnDVIOiPBGkHaICaUqjCIJ4BrIlXW/2NGBaBdfDkdu3/hddQRg7lypDKyXag6qIjC3zcI
+ lmDNbJ1w1KL2NzSY3+96SrI1UqLrvV1Ty9JFjDtUO8MAXSJbSsLjTba+6CXj+ZqivI0s=
+X-Received: by 2002:a05:6402:1913:b0:427:ba16:179d with SMTP id
+ e19-20020a056402191300b00427ba16179dmr24129381edz.174.1651756429707; 
+ Thu, 05 May 2022 06:13:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoRJ4QLcGZCV4GMqtKyOmlhb1ztMASvc6vNLQCDc8ooOYXFqaf9YciLnK0TNk3610ZeVeRBQ==
+X-Received: by 2002:a05:6402:1913:b0:427:ba16:179d with SMTP id
+ e19-20020a056402191300b00427ba16179dmr24129330edz.174.1651756429328; 
+ Thu, 05 May 2022 06:13:49 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ hy21-20020a1709068a7500b006f3ef214dddsm750779ejc.67.2022.05.05.06.13.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 May 2022 06:13:48 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: longpeng2@huawei.com,
+ =?UTF-8?q?Luk=C3=A1=C5=A1=20Doktor?= <ldoktor@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] thread-pool: replace semaphore with condition variable
+Date: Thu,  5 May 2022 15:13:46 +0200
+Message-Id: <20220505131346.823941-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
- <YnOGJ+rUIn2S8ZOD@redhat.com>
- <CAFn=p-bBCbokmZ8FeHon6FBGxp38_z4=vmDNMi5vKKF_1KjQLQ@mail.gmail.com>
- <YnPEGrwa9KVyup6T@redhat.com>
-In-Reply-To: <YnPEGrwa9KVyup6T@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 5 May 2022 09:10:17 -0400
-Message-ID: <CAFn=p-ZpoJvoZSnk9gN+uiaas=h-tvZqBCZw2kJf88=rq_5LYQ@mail.gmail.com>
-Subject: Re: iotests and python dependencies
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000034054c05de4377a8"
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.74; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,115 +99,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000034054c05de4377a8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Since commit f9fc8932b1 ("thread-posix: remove the posix semaphore
+support", 2022-04-06) QemuSemaphore has its own mutex and condition
+variable; this adds unnecessary overhead on I/O with small block sizes.
 
-On Thu, May 5, 2022, 8:33 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
+Check the QTAILQ directly instead of adding the indirection of a
+semaphore's count.  Using a semaphore has not been necessary since
+qemu_cond_timedwait was introduced; the new code has to be careful about
+spurious wakeups but it is simpler, for example thread_pool_cancel does
+not have to worry about synchronizing the semaphore count with the number
+of elements of pool->request_list.
 
-> On Thu, May 05, 2022 at 08:08:42AM -0400, John Snow wrote:
-> > On Thu, May 5, 2022, 4:09 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om>
-> wrote:
-> >
-> > > On Wed, May 04, 2022 at 03:38:45PM -0400, John Snow wrote:
-> > > > Howdy!
-> > > >
-> > > > So, I want to finally delete python/qemu/qmp from qemu.git, and thi=
-s
-> > > > creates a small problem -- namely, iotests needs access to it in
-> order
-> > > > to run the python-based tests.
-> > > >
-> > > > What I think needs to happen is that we create a virtual environmen=
-t
-> > > > that installs python/qemu/. The reason this cannot be done with
-> > > > PYTHONPATH alone anymore is because the qmp package itself won't be
-> > > > there anymore, we need an installer like `pip` to actually fetch it
-> > > > for us and put it somewhere. (i.e., we need to process the
-> > > > dependencies of python/qemu now and can't treat it as a pre-install=
-ed
-> > > > location.)
-> > >
-> > > Having pip fetch it on the fly creates a problem for RPM builds,
-> > > because the koji build env has no network access. We will, however,
-> > > have an RPM of python-qemu-qmp installed on the host system though.
-> > > IOW we need to be able to run iotests using system python and its
-> > > installed libs, not a virtual env.  So if we do anything with a
-> > > virtual env, it will need to be optional I believe.
-> > >
-> >
-> > Hm, do we need iotests during an rpm build? Is it because of "make
-> check"?
->
-> Yes, and this is good, because it prevents us from outputting an
-> RPM build that has a broken QEMU in it.
+Note that the return value of qemu_cond_timedwait (0 for timeout, 1 for
+signal or spurious wakeup) is different from that of qemu_sem_timedwait
+(-1 for timeout, 0 for success).
 
+Reported-by: Lukáš Doktor <ldoktor@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ util/thread-pool.c | 30 +++++++++++-------------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
-Guess this means I need to make a Fedora package too, though. My hubris.
-
-OK, plenty of work to do.
-
---00000000000034054c05de4377a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, May 5, 2022, 8:33 AM Daniel P. Berrang=C3=A9 &=
-lt;<a href=3D"mailto:berrange@redhat.com" target=3D"_blank" rel=3D"noreferr=
-er">berrange@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">On Thu, May 05, 2022 at 08:08:42AM -0400, John Snow wrote:<br>
-&gt; On Thu, May 5, 2022, 4:09 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D"ma=
-ilto:berrange@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">b=
-errange@redhat.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; On Wed, May 04, 2022 at 03:38:45PM -0400, John Snow wrote:<br>
-&gt; &gt; &gt; Howdy!<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; So, I want to finally delete python/qemu/qmp from qemu.git, =
-and this<br>
-&gt; &gt; &gt; creates a small problem -- namely, iotests needs access to i=
-t in order<br>
-&gt; &gt; &gt; to run the python-based tests.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; What I think needs to happen is that we create a virtual env=
-ironment<br>
-&gt; &gt; &gt; that installs python/qemu/. The reason this cannot be done w=
-ith<br>
-&gt; &gt; &gt; PYTHONPATH alone anymore is because the qmp package itself w=
-on&#39;t be<br>
-&gt; &gt; &gt; there anymore, we need an installer like `pip` to actually f=
-etch it<br>
-&gt; &gt; &gt; for us and put it somewhere. (i.e., we need to process the<b=
-r>
-&gt; &gt; &gt; dependencies of python/qemu now and can&#39;t treat it as a =
-pre-installed<br>
-&gt; &gt; &gt; location.)<br>
-&gt; &gt;<br>
-&gt; &gt; Having pip fetch it on the fly creates a problem for RPM builds,<=
-br>
-&gt; &gt; because the koji build env has no network access. We will, howeve=
-r,<br>
-&gt; &gt; have an RPM of python-qemu-qmp installed on the host system thoug=
-h.<br>
-&gt; &gt; IOW we need to be able to run iotests using system python and its=
-<br>
-&gt; &gt; installed libs, not a virtual env.=C2=A0 So if we do anything wit=
-h a<br>
-&gt; &gt; virtual env, it will need to be optional I believe.<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Hm, do we need iotests during an rpm build? Is it because of &quot;mak=
-e check&quot;?<br>
-<br>
-Yes, and this is good, because it prevents us from outputting an<br>
-RPM build that has a broken QEMU in it.</blockquote></div></div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">Guess this means I need to make a Fedora=
- package too, though. My hubris.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">OK, plenty of work to do.</div></div>
-
---00000000000034054c05de4377a8--
+diff --git a/util/thread-pool.c b/util/thread-pool.c
+index d763cea505..ccdfc82d71 100644
+--- a/util/thread-pool.c
++++ b/util/thread-pool.c
+@@ -57,7 +57,7 @@ struct ThreadPool {
+     QEMUBH *completion_bh;
+     QemuMutex lock;
+     QemuCond worker_stopped;
+-    QemuSemaphore sem;
++    QemuCond request_cond;
+     int max_threads;
+     QEMUBH *new_thread_bh;
+ 
+@@ -85,15 +85,14 @@ static void *worker_thread(void *opaque)
+         ThreadPoolElement *req;
+         int ret;
+ 
+-        do {
++        if (QTAILQ_EMPTY(&pool->request_list)) {
+             pool->idle_threads++;
+-            qemu_mutex_unlock(&pool->lock);
+-            ret = qemu_sem_timedwait(&pool->sem, 10000);
+-            qemu_mutex_lock(&pool->lock);
++            ret = qemu_cond_timedwait(&pool->request_cond, &pool->lock, 10000);
+             pool->idle_threads--;
+-        } while (ret == -1 && !QTAILQ_EMPTY(&pool->request_list));
+-        if (ret == -1 || pool->stopping) {
+-            break;
++            if (!ret && QTAILQ_EMPTY(&pool->request_list)) {
++                break;
++            }
++            continue;
+         }
+ 
+         req = QTAILQ_FIRST(&pool->request_list);
+@@ -211,13 +210,7 @@ static void thread_pool_cancel(BlockAIOCB *acb)
+     trace_thread_pool_cancel(elem, elem->common.opaque);
+ 
+     QEMU_LOCK_GUARD(&pool->lock);
+-    if (elem->state == THREAD_QUEUED &&
+-        /* No thread has yet started working on elem. we can try to "steal"
+-         * the item from the worker if we can get a signal from the
+-         * semaphore.  Because this is non-blocking, we can do it with
+-         * the lock taken and ensure that elem will remain THREAD_QUEUED.
+-         */
+-        qemu_sem_timedwait(&pool->sem, 0) == 0) {
++    if (elem->state == THREAD_QUEUED) {
+         QTAILQ_REMOVE(&pool->request_list, elem, reqs);
+         qemu_bh_schedule(pool->completion_bh);
+ 
+@@ -261,8 +254,8 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
+         spawn_thread(pool);
+     }
+     QTAILQ_INSERT_TAIL(&pool->request_list, req, reqs);
++    qemu_cond_signal(&pool->request_cond);
+     qemu_mutex_unlock(&pool->lock);
+-    qemu_sem_post(&pool->sem);
+     return &req->common;
+ }
+ 
+@@ -305,7 +298,7 @@ static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
+     pool->completion_bh = aio_bh_new(ctx, thread_pool_completion_bh, pool);
+     qemu_mutex_init(&pool->lock);
+     qemu_cond_init(&pool->worker_stopped);
+-    qemu_sem_init(&pool->sem, 0);
++    qemu_cond_init(&pool->request_cond);
+     pool->max_threads = 64;
+     pool->new_thread_bh = aio_bh_new(ctx, spawn_thread_bh_fn, pool);
+ 
+@@ -337,15 +330,14 @@ void thread_pool_free(ThreadPool *pool)
+ 
+     /* Wait for worker threads to terminate */
+     pool->stopping = true;
++    qemu_cond_broadcast(&pool->request_cond);
+     while (pool->cur_threads > 0) {
+-        qemu_sem_post(&pool->sem);
+         qemu_cond_wait(&pool->worker_stopped, &pool->lock);
+     }
+ 
+     qemu_mutex_unlock(&pool->lock);
+ 
+     qemu_bh_delete(pool->completion_bh);
+-    qemu_sem_destroy(&pool->sem);
+     qemu_cond_destroy(&pool->worker_stopped);
+     qemu_mutex_destroy(&pool->lock);
+     g_free(pool);
+-- 
+2.35.1
 
 
