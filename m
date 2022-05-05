@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F7E51C89C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:00:26 +0200 (CEST)
-Received: from localhost ([::1]:41634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE2D51C843
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:45:16 +0200 (CEST)
+Received: from localhost ([::1]:38998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmgi8-0006tC-Uq
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
+	id 1nmgTR-0001bq-UM
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmgON-0006wx-Gy
- for qemu-devel@nongnu.org; Thu, 05 May 2022 14:40:00 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44688)
+ id 1nmgOO-0006xj-RQ
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 14:40:04 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmgOK-0002AY-Pb
+ id 1nmgOM-0002Ar-JW
  for qemu-devel@nongnu.org; Thu, 05 May 2022 14:39:59 -0400
-Received: by mail-wr1-x433.google.com with SMTP id b19so7206004wrh.11
+Received: by mail-wm1-x333.google.com with SMTP id
+ n126-20020a1c2784000000b0038e8af3e788so3148651wmn.1
  for <qemu-devel@nongnu.org>; Thu, 05 May 2022 11:39:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BK37fHRVqnthuH26rW9Ll64hvEKI8MD8UM28AzmRwT8=;
- b=uJozRu9wwK26qd7XxlZ0LdjtatqxguT+TdkhMvjcTFb/DTMfuz43qRAJXkMYpgZIw1
- LKl/XAxGESPvsUkma/fhnpJFT6vHuA/wYR0HCj353wmU61ZhULULDrRIhxhJsiqx+x7l
- hF6n/O9Tgv9AjmH8gQIGOKyA03myeD4j4CF047xjKPPc3j91wMgtvUBnndQ8Lur6pddw
- sA1zmQU3SsatS0XyvWfzmRC2JmJFfWCGDkiB7Gyo52RODXsucejRp4Ll3EkXAGL7RGkZ
- ru7VwTFjBtNluCDAicUSoKAi+TVJzyFKorWw1+5snw0XfSUADbjUdfAJiKVhrHgdx7WD
- PQCQ==
+ bh=ZrbOgyRHel1WsxZxJsJlMGVG2H1MqvD6A/WHr3xS78s=;
+ b=TWEI4nTaN5hI01MIGwiFetwiVQ7upWwssaLsscSkrX71I7jJ++xd5NTetcl8stTZOZ
+ ptje5NLs+rG1i0ZhZoWyuvQSeKbBrqKtlpRx+xxx0WIN7Z8ZtX3Vs/8MO7Jbo5UwxC4r
+ 029OgDPSiaIVRI9QJhIHH9ZQCMKVcYSptzms1vyJM0Bi5R8UdaLzpEQ2xvEiaPyak0WS
+ M0VTlNsYeQwFKj5YKDjDW5TGnfQC/MGcA9zsMHc8PEDzRZJlM3joeDDXspkA00qFTAj7
+ naCNe1y7LOcjmfcmfDRAQRrs21xP2SFcSHQekD2gzO4iqHD0jb8jORI55hgy7KMK5lT0
+ 1kzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BK37fHRVqnthuH26rW9Ll64hvEKI8MD8UM28AzmRwT8=;
- b=rnGoPKtRbY5f5DD5XA43u6ii4tFFeKOXE7m78T7eowXwdbNWYCxtrT/v4pTnmqGoXY
- k7XONHgmu7ZIfL/pjFecL44aRqGx9+3YoM86QFxSaAu8HVRoF+TMeVG3Lv3pGW1ma7Pn
- YRnzTDOGeR/txgaADPiOz1sgZlW+MMntIEjgC610ubLlCieRoXw9YgseNx4OPUEazzwP
- IAPmJCh3GBd4wB5BVtCbstl83pvwjlncIortWsJk1p5Tn1+f+oqjHrYZ1CYJ9p5zdgMw
- qEtI9KMiqyVk637DakxpvnCzODWT3qSM48RJ7C88M79V6Q3V2rDfyF6ZKZQzOcS5kqkY
- /5cw==
-X-Gm-Message-State: AOAM531HtFdEl7vUz2TSPL8uoLficOXKeBvAwGbmUlVJy8vmWVcS8lcx
- iL1FuXEbTLEyNp3mKbfP/PTI8ae1hfSg/A==
-X-Google-Smtp-Source: ABdhPJwUEk4DFKkWJVH3cAXjxc2zXbG28rrlwzFpkF8vmAuzfIzGWTBV3yuUpDgP+AZ1ebSFd8uKOQ==
-X-Received: by 2002:adf:f0c6:0:b0:20a:d31b:6 with SMTP id
- x6-20020adff0c6000000b0020ad31b0006mr22168714wro.162.1651775995094; 
+ bh=ZrbOgyRHel1WsxZxJsJlMGVG2H1MqvD6A/WHr3xS78s=;
+ b=TgvEICrcfAXOcL2wH9/qrLxw/xdD5fG14cW7w8yF0NVkSW8IoY7kt8fcf/2Ke5UnqO
+ g+Mj+qNFHCIQo11Jfspj/oY49FhhMq2g35bP1JIJB2S+Ct3AVhnPisJR+6+vCplbmP2i
+ RX32DB6FqdzIbrEuHntAJF7MDC4/QrqB/B9YEjd6wBhM+mvqc15cYyUS2les5zicCP6/
+ zk0Z0+SCn5L87g3Jckn9fdP9tDT94Juv1yX7p8m7u0Y58Ol91OopR5Mbt+roUGzklxCb
+ gYMNaC4uDYgvc/JAGKvn88CQ2JqOhurQgTsurIFB37FwyNfA+QcJU0xL+2bKIlxlenbV
+ q2eQ==
+X-Gm-Message-State: AOAM530eRgKt53yNqzhwxc1tKKTk8PlaQLihmg08W4i5LeNfHfPoDm3U
+ uWfoNLq0iGtSPiiKOpRc2ssC3A==
+X-Google-Smtp-Source: ABdhPJxrAYHDTD71Jc3T7XhEeItpGJgpKP1K6mwtoMtEAPiC0dXIdSm4GcdX2hyzPpTBfqq3vh1IAg==
+X-Received: by 2002:a05:600c:3391:b0:393:fbba:3789 with SMTP id
+ o17-20020a05600c339100b00393fbba3789mr6320440wmp.206.1651775995887; 
  Thu, 05 May 2022 11:39:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- o35-20020a05600c512300b0039454a85a9asm2302121wms.30.2022.05.05.11.39.54
+ o35-20020a05600c512300b0039454a85a9asm2302121wms.30.2022.05.05.11.39.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:39:54 -0700 (PDT)
+ Thu, 05 May 2022 11:39:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 3/4] target/arm: Implement FEAT_S2FWB
-Date: Thu,  5 May 2022 19:39:49 +0100
-Message-Id: <20220505183950.2781801-4-peter.maydell@linaro.org>
+Subject: [PATCH 4/4] target/arm: Enable FEAT_S2FWB for -cpu max
+Date: Thu,  5 May 2022 19:39:50 +0100
+Message-Id: <20220505183950.2781801-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220505183950.2781801-1-peter.maydell@linaro.org>
 References: <20220505183950.2781801-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,158 +89,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the handling of FEAT_S2FWB; the meat of this is in the new
-combined_attrs_fwb() function which combines S1 and S2 attributes
-when HCR_EL2.FWB is set.
+Enable the FEAT_S2FWB for -cpu max. Since FEAT_S2FWB requires that
+CLIDR_EL1.{LoUU,LoUIS} are zero, we explicitly squash these (the
+inherited CLIDR_EL1 value from the Cortex-A57 has them as 1).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h    |  5 +++
- target/arm/helper.c | 84 +++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 86 insertions(+), 3 deletions(-)
+ docs/system/arm/emulation.rst |  1 +
+ target/arm/cpu64.c            | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index db8ff044497..dff0f634c38 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4289,6 +4289,11 @@ static inline bool isar_feature_aa64_st(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, ST) != 0;
- }
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index c3bd0676a87..122306a99f1 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -42,6 +42,7 @@ the following architecture extensions:
+ - FEAT_PMUv3p4 (PMU Extensions v3.4)
+ - FEAT_RDM (Advanced SIMD rounding double multiply accumulate instructions)
+ - FEAT_RNG (Random number generator)
++- FEAT_S2FWB (Stage 2 forced Write-Back)
+ - FEAT_SB (Speculation Barrier)
+ - FEAT_SEL2 (Secure EL2)
+ - FEAT_SHA1 (SHA1 instructions)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 2974cbc0d35..ed2831f1f38 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -769,6 +769,15 @@ static void aarch64_max_initfn(Object *obj)
+     t = FIELD_DP64(t, MIDR_EL1, REVISION, 0);
+     cpu->midr = t;
  
-+static inline bool isar_feature_aa64_fwb(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, FWB) != 0;
-+}
-+
- static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2828f0dacf3..fb8d2bf5c9d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5290,6 +5290,9 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
-         if (cpu_isar_feature(aa64_mte, cpu)) {
-             valid_mask |= HCR_ATA | HCR_DCT | HCR_TID5;
-         }
-+        if (cpu_isar_feature(aa64_fwb, cpu)) {
-+            valid_mask |= HCR_FWB;
-+        }
-     }
- 
-     /* Clear RES0 bits.  */
-@@ -5301,8 +5304,10 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
-      * HCR_PTW forbids certain page-table setups
-      * HCR_DC disables stage1 and enables stage2 translation
-      * HCR_DCT enables tagging on (disabled) stage1 translation
-+     * HCR_FWB changes the interpretation of stage2 descriptor bits
-      */
--    if ((env->cp15.hcr_el2 ^ value) & (HCR_VM | HCR_PTW | HCR_DC | HCR_DCT)) {
-+    if ((env->cp15.hcr_el2 ^ value) &
-+        (HCR_VM | HCR_PTW | HCR_DC | HCR_DCT | HCR_FWB)) {
-         tlb_flush(CPU(cpu));
-     }
-     env->cp15.hcr_el2 = value;
-@@ -10685,9 +10690,15 @@ static bool ptw_attrs_are_device(CPUARMState *env, ARMCacheAttrs cacheattrs)
-      * attributes are therefore only Device if stage 2 specifies Device.
-      * With HCR_EL2.FWB == 0 this is when descriptor bits [5:4] are 0b00,
-      * ie when cacheattrs.attrs bits [3:2] are 0b00.
-+     * With HCR_EL2.FWB == 1 this is when descriptor bit [4] is 0, ie
-+     * when cacheattrs.attrs bit [2] is 0.
-      */
-     assert(cacheattrs.is_s2_format);
--    return (cacheattrs.attrs & 0xc) == 0;
-+    if (arm_hcr_el2_eff(env) & HCR_FWB) {
-+        return (cacheattrs.attrs & 0x4) == 0;
-+    } else {
-+        return (cacheattrs.attrs & 0xc) == 0;
-+    }
- }
- 
- /* Translate a S1 pagetable walk through S2 if needed.  */
-@@ -12572,6 +12583,69 @@ static uint8_t combined_attrs_nofwb(CPUARMState *env,
-     return ret_attrs;
- }
- 
-+static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
-+{
 +    /*
-+     * Given the 4 bits specifying the outer or inner cacheability
-+     * in MAIR format, return a value specifying Normal Write-Back,
-+     * with the allocation and transient hints taken from the input
-+     * if the input specified some kind of cacheable attribute.
++     * We're going to set FEAT_S2FWB, which mandates that CLIDR_EL1.{LoUU,LoUIS}
++     * are zero.
 +     */
-+    if (attr == 0 || attr == 4) {
-+        /*
-+         * 0 == an UNPREDICTABLE encoding
-+         * 4 == Non-cacheable
-+         * Either way, force Write-Back RW allocate non-transient
-+         */
-+        return 0xf;
-+    }
-+    /* Change WriteThrough to WriteBack, keep allocation and transient hints */
-+    return attr | 4;
-+}
++    u = cpu->clidr;
++    u = FIELD_DP32(u, CLIDR_EL1, LOUIS, 0);
++    u = FIELD_DP32(u, CLIDR_EL1, LOUU, 0);
++    cpu->clidr = u;
 +
-+/*
-+ * Combine the memory type and cacheability attributes of
-+ * s1 and s2 for the HCR_EL2.FWB == 1 case, returning the
-+ * combined attributes in MAIR_EL1 format.
-+ */
-+static uint8_t combined_attrs_fwb(CPUARMState *env,
-+                                  ARMCacheAttrs s1, ARMCacheAttrs s2)
-+{
-+    switch (s2.attrs) {
-+    case 7:
-+        /* Use stage 1 attributes */
-+        return s1.attrs;
-+    case 6:
-+        /*
-+         * Force Normal Write-Back. Note that if S1 is Normal cacheable
-+         * then we take the allocation hints from it; otherwise it is
-+         * RW allocate, non-transient.
-+         */
-+        if ((s1.attrs & 0xf0) == 0) {
-+            /* S1 is Device */
-+            return 0xff;
-+        }
-+        /* Need to check the Inner and Outer nibbles separately */
-+        return force_cacheattr_nibble_wb(s1.attrs & 0xf) |
-+            force_cacheattr_nibble_wb(s1.attrs >> 4) << 4;
-+    case 5:
-+        /* If S1 attrs are Device, use them; otherwise Normal Non-cacheable */
-+        if ((s1.attrs & 0xf0) == 0) {
-+            return s1.attrs;
-+        }
-+        return 0x44;
-+    case 0 ... 3:
-+        /* Force Device, of subtype specified by S2 */
-+        return s2.attrs << 2;
-+    default:
-+        /*
-+         * RESERVED values (including RES0 descriptor bit [5] being nonzero);
-+         * arbitrarily force Device.
-+         */
-+        return 0;
-+    }
-+}
-+
- /* Combine S1 and S2 cacheability/shareability attributes, per D4.5.4
-  * and CombineS1S2Desc()
-  *
-@@ -12606,7 +12680,11 @@ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
-     }
+     t = cpu->isar.id_aa64isar0;
+     t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
+     t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
+@@ -841,6 +850,7 @@ static void aarch64_max_initfn(Object *obj)
+     t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1); /* FEAT_LVA */
+     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1); /* FEAT_TTL */
+     t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2); /* FEAT_BBM at level 2 */
++    t = FIELD_DP64(t, ID_AA64MMFR2, FWB, 1); /* FEAT_S2FWB */
+     cpu->isar.id_aa64mmfr2 = t;
  
-     /* Combine memory type and cacheability attributes */
--    ret.attrs = combined_attrs_nofwb(env, s1, s2);
-+    if (arm_hcr_el2_eff(env) & HCR_FWB) {
-+        ret.attrs = combined_attrs_fwb(env, s1, s2);
-+    } else {
-+        ret.attrs = combined_attrs_nofwb(env, s1, s2);
-+    }
- 
-     /*
-      * Any location for which the resultant memory type is any
+     t = cpu->isar.id_aa64zfr0;
 -- 
 2.25.1
 
