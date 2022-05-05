@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BC551BC4E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:40:05 +0200 (CEST)
-Received: from localhost ([::1]:40474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6681A51BC5F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:44:15 +0200 (CEST)
+Received: from localhost ([::1]:49302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmXxs-0002Vo-OC
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40524)
+	id 1nmY1u-0000I5-GO
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:44:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nmXeX-0007Jz-Ba
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:20:05 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34615)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nmXnL-0002oj-1G
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:29:11 -0400
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:41910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nmXeV-0005qw-E2
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:20:04 -0400
-Received: by mail-wr1-x432.google.com with SMTP id q23so5270114wra.1
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=3haBgs4PIBPpKdoZTjBSTYT+BclEds/TNIsz5zmvEB0=;
- b=QQXY5zb4+AOWYN43qOX1efV+/tsWecH7ZaGjHSCktkEQhaW3pMHMzQt6ZL75CPiZDz
- OyaL1JSr9fWSPl93iA9RSph+U622vZIjVYI0yUeim+oelK4Xrstcz2dKfhipCI+4KruK
- tPIlNOE675X16efglI+Ao01rG8roI43EjCEwN7GtpO7I9uXiYsseM+ltIZFe5TVbpcR3
- Jlg2SFWxTd0SapRX17ANB6oFP19asvc7wfiWS8SAv4YJ8eRYvgX1rxRb0mjWx+TOFJv9
- xpDNvhHKSlckFz/wrAKP6MqulMLk1xQ3FaifoF2CmL4ZHHX2yWb4je7pj9C3Tiirxl0b
- NbCg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nmXnJ-00005X-17
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:29:10 -0400
+Received: by mail-io1-xd35.google.com with SMTP id z26so4111348iot.8
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jutkbPbsoAbqQJt+ny+NpS+OK9Uj8ivO7sEvrfIDjBk=;
+ b=aDJCdcGTbRbHgafmN3pz494hvIjQmPg6Yvdsl2qdnPM2Wcan2utmsxlWU7rXRICNdK
+ KyOxHjeAq3tMfOe9mMUc/A0j1Byh6j/ZMWnHfulSOJMPvS5KV+SvKQPbnZaMJ1bl68un
+ amIdempiQZv+T+izWYGwb0aLno28GyQHOO9hhyKrJ5lbRkWVCRtDI9OIH3WHjbubvZxb
+ ql/6vRseQHfXecQJSIfnjCm9h93Z9RrSTA/GeXF4LXT+ZAdzPxbk+xPuR9W5lhCuSq3I
+ k3ftutcxEgviv0sVJdNxRZWsRTKgW1tu6ZdWzK5vo62TbQrP83rJ2+8RaMbhGfi7r5ul
+ zfoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=3haBgs4PIBPpKdoZTjBSTYT+BclEds/TNIsz5zmvEB0=;
- b=sG7LhZEqeMGt4sA1RY3NYD1oF6W9n/1Op9DmBCvOEcqwRJsSo7ZVp31cQCkx8ib4qx
- noJWgPq1h/Fp5wSKWTL3At2KjbBsxLJE56z6aa5dYTNwYoRdZ44dOk2JQJyFHPWfUnGR
- gsFUsp6TLzJJS5RJtrYvjdIWku06MMuzzmSDoSs0flvjcYKp6y+KGkdcm+YQcdPVrOgc
- uBA+CtAotfxPrb+t40R+pTCbsJUl4t+OW1mId97omaw385/6RoXn5DcsuwlOX6DLQBQl
- aelrs7drBkMFsj2Ao7X3+Avi+dV9GY130fFl97SFQ4/7v7odriHMovT1jOJbjlT3aV49
- hMMQ==
-X-Gm-Message-State: AOAM531oCUYSJcn9SueZ5a+kL9dKmUd5pfynE1NvHp9+MGIZH9D7nn+q
- 3v9vMackFKOECP+koLiOH+EX/A==
-X-Google-Smtp-Source: ABdhPJyun+P5kUztrlJchx3TS293NwG9V12etsqhPkpcsCoTInFnOmA+IrM2jqGIMxL6hrxRMUvIjA==
-X-Received: by 2002:a5d:6b11:0:b0:20a:a247:25f4 with SMTP id
- v17-20020a5d6b11000000b0020aa24725f4mr19555402wrw.234.1651742398314; 
- Thu, 05 May 2022 02:19:58 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- b4-20020a05600010c400b0020c5253d8fesm742274wrx.74.2022.05.05.02.19.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:19:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6B5D41FFB7;
- Thu,  5 May 2022 10:19:56 +0100 (BST)
-References: <20220503200524.1868-1-luoyonggang@gmail.com>
- <177e1d2f-1f67-4921-a49c-413ac1488487@redhat.com>
-User-agent: mu4e 1.7.13; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org, Wainer dos
- Santos Moschetta <wainersm@redhat.com>, qemu-trivial@nongnu.org, Beraldo
- Leal <bleal@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>
-Subject: Re: [PATCH 0/2] Upgrade mingw base packages
-Date: Thu, 05 May 2022 10:19:33 +0100
-In-reply-to: <177e1d2f-1f67-4921-a49c-413ac1488487@redhat.com>
-Message-ID: <87zgjwtjyb.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jutkbPbsoAbqQJt+ny+NpS+OK9Uj8ivO7sEvrfIDjBk=;
+ b=YvGWxyUFnhVAMsiDqXAi5A1YZo7whXSMBNDjrPU4fyMffCDBp6eocl7NabY+J21IKB
+ GbolUzaG/osukd13i0Hmw9hIxSDfgLgacq3Gv+ZUm2ki2v/T7qbOCPSx9O4422TK4ETJ
+ KZnIW3VBkt/6GPqeUg27U6fF+vazpaT6WyDl7+lpaVIFyieZNYOI/0Ve0zF2HAfBISFY
+ hz7/h07HEyGr8QR/PPaKVhMr4wVt0dlmZ17F5F9pQvv7GTrTbVr4A5gVOnLKP/HK1huM
+ ZR+rOzuFQOHSNO0j314WXxcaM7neobKVrY2KGfKw8wBoqhF6x7s62gq7WYz/2szxBj8V
+ M64g==
+X-Gm-Message-State: AOAM530+nBZQ1QDI2SWQCGRHZV5NMiIuZGDcMWPK9u7LV0dtN8jyxYEL
+ TJjQ6zmztK7efsZWVA8VHXJNb2sbRbmzO9Mn7y8=
+X-Google-Smtp-Source: ABdhPJzB9g2Ii0Me27EGPRoKdwEnVo8rg3YHRboOt389C0FHnnFytdo/RQj4fG7WiNufQS8Xqe1SzoRh0a8/2pfsIK4=
+X-Received: by 2002:a05:6638:370b:b0:32b:21bf:ecec with SMTP id
+ k11-20020a056638370b00b0032b21bfececmr11368681jav.267.1651742947713; Thu, 05
+ May 2022 02:29:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <mhng-205d4899-352a-4ef8-b8c9-d251d83d8071@palmer-ri-x1c9>
+ <9112465.1c07.180920d7dab.Coremail.shuizhuyuanluo@126.com>
+In-Reply-To: <9112465.1c07.180920d7dab.Coremail.shuizhuyuanluo@126.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 5 May 2022 19:28:41 +1000
+Message-ID: <CAKmqyKMN67aUDbufbg2OQq2R-jiwO7c3NajJerSrPZa4RwPcUA@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Expose risc-v V and H isa bit in
+ get_elf_hwcap()
+To: nihui <shuizhuyuanluo@126.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@gmail.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,26 +85,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Thomas Huth <thuth@redhat.com> writes:
-
-> On 03/05/2022 22.05, Yonggang Luo wrote:
->> v1. upgrade both cirrus and gitlab-ci to the newest mingw base release
->> Yonggang Luo (2):
->>    cirrus/win32: upgrade mingw base packages
->>    gitlab-ci: Upgrade mingw base package.
->>   .cirrus.yml              | 2 +-
->>   .gitlab-ci.d/windows.yml | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>=20
+On Thu, May 5, 2022 at 12:30 PM nihui <shuizhuyuanluo@126.com> wrote:
 >
-> Tested-by: Thomas Huth <thuth@redhat.com>
+> Ah, I admit that I haven't tested the availability of the H extension,
+> I could update the new patch to only add the V extension.
 >
-> I can take this through my next misc/testing pull request if nobody
-> else wants to take it first.
+> Regarding the motivation for this modification,
+> the ncnn project uses the risc-v vector extension to optimize the efficiency of nn inference.
+> I am very happy to find that qemu already supports rvv.
 
-Go for it, I don't have any testing/next brewing at the moment.
+I'm glad to hear that QEMU is helping you test Vector extensions!
 
---=20
-Alex Benn=C3=A9e
+> I want to use qemu's userspace mode to do unit testing faster and more conveniently on the ci server.
+
+Does your Linux system expose V via hwcap? As Palmer says I think you
+are currently stuck with just enabling it at build time as Linux
+doesn't expose this information to userspace
+
+>
+> In the past, I used the rvv branch of sifive/qemu.
+> On that branch, the V bit exists in hwcap and works well [1].
+> I can distinguish at runtime whether the current system supports rvv by checking this bit.
+>
+> As an early adopter of rvv, I think exposing V bit will help rvv to be more tested and widely used.
+> After all, rvv is not enabled by default.
+
+I agree, but Linux and other software doesn't support Vector yet (at
+least not that I know of) so it's difficult to enable by default.
+
+> This V bit will only exist in the -cpu rv64,v=true parameter, which is for some advanced developers.
+> We know that qemu currently implements rvv-1.0 and removes rvv-0.7.1.
+>
+> [1] https://github.com/sifive/qemu/commit/7a3e8e23b4cf1422ec48e9d4b4009337a05a635d
+>
+> best wishes
+> nihui
+>
+> At 2022-05-05 00:05:31, "Palmer Dabbelt" <palmer@dabbelt.com> wrote:
+> >On Wed, 04 May 2022 08:10:03 PDT (-0700), alistair23@gmail.com wrote:
+> >> On Wed, May 4, 2022 at 2:32 PM nihui <shuizhuyuanluo@126.com> wrote:
+> >>>
+> >>> This patch brings the optional risc-v vector and hypervisor bits
+> >>> in hwcap so that application could detect these isa support from
+> >>> /proc/self/auxv correctly in qemu userspace mode.
+> >>>
+> >>> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+> >>> ---
+> >>>  linux-user/elfload.c | 3 ++-
+> >>>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> >>> index 61063fd974..3f0ef2b8f6 100644
+> >>> --- a/linux-user/elfload.c
+> >>> +++ b/linux-user/elfload.c
+> >>> @@ -1484,7 +1484,8 @@ static uint32_t get_elf_hwcap(void)
+> >>>  #define MISA_BIT(EXT) (1 << (EXT - 'A'))
+> >>>      RISCVCPU *cpu = RISCV_CPU(thread_cpu);
+> >>>      uint32_t mask = MISA_BIT('I') | MISA_BIT('M') | MISA_BIT('A')
+> >>> -                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C');
+> >>> +                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C')
+> >>> +                    | MISA_BIT('V') | MISA_BIT('H');
+> >>
+> >> The kernel doesn't support H or V. I understand V should be supported
+> >> in the future, but what is the use case for H?
+> >
+> >IMO even V is a bit in question: sure that bit's likely to be set at
+> >some point, but there's many flavors of V now and we'll have to give
+> >userspace a way to differentiate between them.  There's been some
+> >proposals (see Kito's talk from Plumbers last year, for example) about
+> >how to deal with this, but nothing really concrete has shown up yet.
+> >
+> >If we flip on the V bit in user mode emulation then we run the risk of
+> >having a wacky ABI here, where QEMU is setting the V bit but then not
+> >setting whatever extra info is expected to come along with it.  That'd
+> >mean userspace has to deal with that case -- maybe that's not the worst
+> >problem, and I guess it's better than just assuming V is always on,
+> >which is all userspace can do now, but any ABI divergence is going to
+> >lead to headaches at some point.
+> >
+> >IMO the right way forward here is to just sort out what the actual
+> >interface is, last time I talked to Kito about it we had a rough idea of
+> >where to go and plans to do it.  Not sure what's up these days, so I've
+> >added him to the thread.  If it's a long way off then we can always toss
+> >some intermediate thing together like this, but if it's close then it's
+> >probably best to just get the interface ironed out and then have it
+> >match.
+
+Thank you for the patch, we really appreciate it and I hope to see
+more patches from you in the future!
+
+I think in this case though we shouldn't take this patch in QEMU at
+the moment. It's important that QEMU follows Linux here, as we don't
+want to diverge.
+
+Alistair
 
