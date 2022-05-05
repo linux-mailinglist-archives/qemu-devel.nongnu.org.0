@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FA851BD3E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:30:19 +0200 (CEST)
-Received: from localhost ([::1]:36034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BECC051BD59
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:38:54 +0200 (CEST)
+Received: from localhost ([::1]:49014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmYkU-0000IT-5a
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:30:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38664)
+	id 1nmYsn-0001pj-Qc
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:38:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWn-0005CB-CJ
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:05 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39690)
+ id 1nmXWp-0005Di-3N
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:07 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWl-0003C1-6Q
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:04 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d5so5217645wrb.6
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:02 -0700 (PDT)
+ id 1nmXWn-0003Hd-4F
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:06 -0400
+Received: by mail-wm1-x329.google.com with SMTP id q20so2247239wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SjjyaPs6OMir0qoBbc7kdJL63HtWlrJst0Uy7ZOsTsk=;
- b=XhGUE1qiNtk50sHhwvlqPT2YlWr7g7Szn1wqBbaZpDaDgFTyrj7nGnBOzf3Nf30EkO
- ADjVq22yTkYcg/25QBUd5CWhiutBFxK1aY5gi2LnLJoQHyNmMn0VXXtNNSlkHjeb4iiw
- vY+JuQXWFlrT0E6WFDqktkHiBh12EOO2ZFkthN9bp+wsnYoRlIwxaX1mS4yef7u4WM77
- 6I0vXZljzs+HZ6IwTsKhYbp92Sy8kbYHnWbTDKAGHCru2Qzj78GjmmKNRv/JgxKPQFvV
- kJhp5NXdacbnyDwATvhttYgKQFMO95RpAb6mpq+QGygCquPmZOVYEsSqw5uugkPw3gKC
- XEJw==
+ bh=cBRWuGW1oEM07qzwDlQeqzeKAnOLvL3dCwuFE/tT94s=;
+ b=RpQT4ZPj3XLPLQnLT5FHpfIFCL6CGVRBLwta0hR8EptMxLzkw1Wrkr1pLcY4O69KOU
+ jpdZhJkLPxQXTiQ6uIHQ0dsZAYdCf96/lsUx5zVQE1pmrrUJYFAn7PJkHloUrg2cCNgn
+ wtdS8mpxtdruydjRUoxBwlHOrZaB2dX4G2VAkpWluXFSquvlvJyop4kYzOddSGivXcvZ
+ 65rb2BQQKh0UjOO7jXdEp+rXiqgiHzLlLDy6yZOg6tdjv83H+BPqLFz56MClDJXyoIVH
+ v81VgVH1XW012ARh46qyQHX3grI4ud4eEfkRKu6auiJJ7B8LA6JbWcWMR/i/86hBntmq
+ Gxog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SjjyaPs6OMir0qoBbc7kdJL63HtWlrJst0Uy7ZOsTsk=;
- b=EgxseGn4qYmyDYyvO654ptGAdGbe/6VzOyNLviYmV4so2tKYbz4qdAMnCrbXR+TJg1
- vHRrn0Qr8QUXd7/hE1kvN3GErqQOQD5bN/SyZ1YafYeySq4IXz/3Ah0Yx6QqLAXpgB9W
- cnO8frUuAkFhMa1qHv7n9htiWAWu0MGB0xrelzjccHIABhury1+wiPlV7GXfZld9dWCg
- HrBeSRg8F3ErxE0TAJUFFVMzmcMJ0A1uTFMpfoNiwiJ19hONK5ictxXPUnfMB5P/HbRk
- Xy16KU7tBVV2ZK1ktX4GCduoE2p+NwrBN/s0gnxMnOIpM4qkfUSAs2UA9jGa+3eob3oh
- 7uBw==
-X-Gm-Message-State: AOAM531jJ8P9iIf/WpiKhFJVGBOSbEQKElXtGbWZXriJEkWr/E21KwzH
- bvy7gXrppAGOqxc/XSpNfV1uDOD9Z6e/cA==
-X-Google-Smtp-Source: ABdhPJzf9uOES74xHr8eU/FagYNiz9B9c7HVrM5QHZXXVMz3nBLgLk5p1uWzvsC5ty1ZtqeTvvssJg==
-X-Received: by 2002:adf:d1e7:0:b0:20c:61a7:de2a with SMTP id
- g7-20020adfd1e7000000b0020c61a7de2amr14896318wrd.332.1651741922299; 
- Thu, 05 May 2022 02:12:02 -0700 (PDT)
+ bh=cBRWuGW1oEM07qzwDlQeqzeKAnOLvL3dCwuFE/tT94s=;
+ b=u3CILVkDmD0niJk8pwxwK535gckeJC3AURRBzyHV2FiWFTM5vZGKP6Wqb7OCAQl0li
+ IkwZ2joy6yfudNd4H+8oxQUxd6ep61tqPGNF0dlxzhHTc3EuCNxyYlOYmaVL88PdGN/x
+ iY/LR1RzmCBLslp+NLz3HtKdoGKYrtODjnNlz37eAjSsSlA9UkLOmbQuYEGyFATcHeEU
+ fYQOrhjPsTwgAhoVMMSk9lXY/IHnt4E7emsYmHR25fkGXcE63a8iYDbpM4OCGkB/ZwQM
+ u0fbSntz06aqsEwFJQmKmS5smtWf6N12zZpq03CeUhWRvlEEbJERBjszQsUTyeq5MGF+
+ 4j8g==
+X-Gm-Message-State: AOAM533uRFZDAzo1D+GOjshK113efmedP7qUHmsWeLNZUw++u1NDJ/nR
+ sbcFNDKSNuqPEDcn88k3LoCSVqXEFE61fg==
+X-Google-Smtp-Source: ABdhPJy2GsRp7P+ytDA8et1hr84yKg+sQLX4EmkM1/rQnW27xeACfwUlqL+Grma+H+S2bSHHPLoiBQ==
+X-Received: by 2002:a05:600c:4e06:b0:394:56be:19c with SMTP id
+ b6-20020a05600c4e0600b0039456be019cmr3532434wmq.168.1651741923791; 
+ Thu, 05 May 2022 02:12:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.01
+ j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:12:01 -0700 (PDT)
+ Thu, 05 May 2022 02:12:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/23] target/arm: Merge allocation of the cpreg and its name
-Date: Thu,  5 May 2022 10:11:37 +0100
-Message-Id: <20220505091147.2657652-14-peter.maydell@linaro.org>
+Subject: [PULL 15/23] target/arm: Consolidate cpreg updates in
+ add_cpreg_to_hashtable
+Date: Thu,  5 May 2022 10:11:39 +0100
+Message-Id: <20220505091147.2657652-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220505091147.2657652-1-peter.maydell@linaro.org>
 References: <20220505091147.2657652-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,82 +91,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Simplify freeing cp_regs hash table entries by using a single
-allocation for the entire value.
-
-This fixes a theoretical bug if we were to ever free the entire
-hash table, because we've been installing string literal constants
-into the cpreg structure in define_arm_vh_e2h_redirects_aliases.
-However, at present we only free entries created for AArch32
-wildcard cpregs which get overwritten by more specific cpregs,
-so this bug is never exposed.
+Put most of the value writeback to the same place,
+and improve the comment that goes with them.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220501055028.646596-13-richard.henderson@linaro.org
+Message-id: 20220501055028.646596-15-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c    | 16 +---------------
- target/arm/helper.c | 10 ++++++++--
- 2 files changed, 9 insertions(+), 17 deletions(-)
+ target/arm/helper.c | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 602c060fff7..01176b2569f 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1071,27 +1071,13 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
-     return (Aff1 << ARM_AFF1_SHIFT) | Aff0;
- }
- 
--static void cpreg_hashtable_data_destroy(gpointer data)
--{
--    /*
--     * Destroy function for cpu->cp_regs hashtable data entries.
--     * We must free the name string because it was g_strdup()ed in
--     * add_cpreg_to_hashtable(). It's OK to cast away the 'const'
--     * from r->name because we know we definitely allocated it.
--     */
--    ARMCPRegInfo *r = data;
--
--    g_free((void *)r->name);
--    g_free(r);
--}
--
- static void arm_cpu_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-     cpu_set_cpustate_pointers(cpu);
-     cpu->cp_regs = g_hash_table_new_full(g_direct_hash, g_direct_equal,
--                                         NULL, cpreg_hashtable_data_destroy);
-+                                         NULL, g_free);
- 
-     QLIST_INIT(&cpu->pre_el_change_hooks);
-     QLIST_INIT(&cpu->el_change_hooks);
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2bc81dbc5ec..d92fd23445b 100644
+index cbc873e3e60..8ee96d5c042 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8506,11 +8506,17 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-      * add a single reginfo struct to the hash table.
-      */
-     uint32_t key;
--    ARMCPRegInfo *r2 = g_memdup(r, sizeof(ARMCPRegInfo));
-+    ARMCPRegInfo *r2;
-     int is64 = (r->type & ARM_CP_64BIT) ? 1 : 0;
-     int ns = (secstate & ARM_CP_SECSTATE_NS) ? 1 : 0;
-+    size_t name_len;
-+
-+    /* Combine cpreg and name into one allocation. */
-+    name_len = strlen(name) + 1;
-+    r2 = g_malloc(sizeof(*r2) + name_len);
-+    *r2 = *r;
-+    r2->name = memcpy(r2 + 1, name, name_len);
+@@ -8543,10 +8543,19 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
+     *r2 = *r;
+     r2->name = memcpy(r2 + 1, name, name_len);
  
--    r2->name = g_strdup(name);
-     /* Reset the secure state to the specific incoming state.  This is
-      * necessary as the register may have been defined with both states.
+-    /* Reset the secure state to the specific incoming state.  This is
+-     * necessary as the register may have been defined with both states.
++    /*
++     * Update fields to match the instantiation, overwiting wildcards
++     * such as CP_ANY, ARM_CP_STATE_BOTH, or ARM_CP_SECSTATE_BOTH.
       */
++    r2->cp = cp;
++    r2->crm = crm;
++    r2->opc1 = opc1;
++    r2->opc2 = opc2;
++    r2->state = state;
+     r2->secure = secstate;
++    if (opaque) {
++        r2->opaque = opaque;
++    }
+ 
+     if (r->bank_fieldoffsets[0] && r->bank_fieldoffsets[1]) {
+         /* Register is banked (using both entries in array).
+@@ -8587,20 +8596,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
+ #endif
+         }
+     }
+-    if (opaque) {
+-        r2->opaque = opaque;
+-    }
+-    /* reginfo passed to helpers is correct for the actual access,
+-     * and is never ARM_CP_STATE_BOTH:
+-     */
+-    r2->state = state;
+-    /* Make sure reginfo passed to helpers for wildcarded regs
+-     * has the correct crm/opc1/opc2 for this reg, not CP_ANY:
+-     */
+-    r2->cp = cp;
+-    r2->crm = crm;
+-    r2->opc1 = opc1;
+-    r2->opc2 = opc2;
++
+     /* By convention, for wildcarded registers only the first
+      * entry is used for migration; the others are marked as
+      * ALIAS so we don't try to transfer the register
 -- 
 2.25.1
 
