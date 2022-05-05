@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937C251BBB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:16:34 +0200 (CEST)
-Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73AC51BBEB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:23:31 +0200 (CEST)
+Received: from localhost ([::1]:41218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmXb7-0001N0-Kt
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55838)
+	id 1nmXhq-0008Ox-3M
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nmWog-0003LC-EF
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:26:31 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:59273)
+ id 1nmWpO-0003k7-QO
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:27:16 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:44447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nmWod-0001bd-Ly
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:26:28 -0400
+ id 1nmWpM-0001i9-Gt
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:27:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651739184;
+ s=mimecast20190719; t=1651739231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VGETtUFUPMvK7Xgk10CcyxQ6ahAIX6jWZM4XDZxbBEM=;
- b=N9uenLMg2XktS9+rhvAt1PcLXL1jXczmMFhzIzz6PUBNed+kYuNTPDZpSRkD2WM/2o6XbU
- IWH0+D0Cy30mEae+dzAgVCe7khL8qMT/VGfgLn9GFsfGLkXYbW26IsVIrpzgKzy53usB24
- DUZZy933WZKDMY1jf+51rrAzOfIC4Bo=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6FjarNmbXQ4XkMo8eyyXTmyuh5gicvD/H8AixHeyUew=;
+ b=dqxlro+uocb0QuPFptuFwDitTW0DffnNdKjX9gqMffbZtOFVdCCKInx4ey0TGCNCar85Sp
+ CBK+7Y8WnsL2h8pZ8Io7Bj88b+O3luUPxusW1jbh3kopqYbHLjYlc5mYnlpH991Ynv8Ivw
+ TZxYmJLab1XUl4A4J3ziT4bnfHgDWYw=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-QvSJ0DTUOO-G8RvjrDVAOw-1; Thu, 05 May 2022 04:26:23 -0400
-X-MC-Unique: QvSJ0DTUOO-G8RvjrDVAOw-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-2f7c5767f0fso33058957b3.4
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 01:26:23 -0700 (PDT)
+ us-mta-190-t9OFrJLYOdewDVJCB-UK0g-1; Thu, 05 May 2022 04:27:09 -0400
+X-MC-Unique: t9OFrJLYOdewDVJCB-UK0g-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ t42-20020a25aaad000000b00649d5b19ee3so3106262ybi.4
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 01:27:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VGETtUFUPMvK7Xgk10CcyxQ6ahAIX6jWZM4XDZxbBEM=;
- b=yAgca2zm9CEOZedh/2JDsXtETFo3le3CTSdDKjnmoPvOyxfguSsRbEh3lzmfbgRWsP
- vd+qm+F7n41vFEDxHzZWHCtpm9fYZsSdiNVadL5dBYMTk5LZfMIVo/eeWM/yjP7rZK+7
- MrOjo4cLHVpZdd2bhEOkZIxS2WidNIa103c03gRGGzCT2zgpgJbEhU4AukTYoLGK/yYO
- dx57Xk1HJ+5Y4/ZDDfNf1zDiUyEop+CjYBVl1rOA98NCpaX149fld2jvBzeEWpGGIPqT
- xuunqj8iqFRk28xC+V8VqvDysogi4gJEj3t4nMS96r1jS6k8L3QL9IqMDdJMaX3gU6ri
- 6wnw==
-X-Gm-Message-State: AOAM530BE+WGIriAEl/j+aVqBy0ZzV/yRmdONOUBete5oGdbssjWbOlg
- y/vAJ0lLh3NzraZ6YxAYXYJOMDQRfrLNWclVZtoitX1GKWj4QMSN9iZPdGwcwOmsRHD9Sv5BEKw
- LiG8BlUjKEMWvZQK32pVBS3N+jPfbMsk=
-X-Received: by 2002:a81:b044:0:b0:2d6:bd1f:5d8b with SMTP id
- x4-20020a81b044000000b002d6bd1f5d8bmr22797715ywk.27.1651739182716; 
- Thu, 05 May 2022 01:26:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQC/Lk2/DKKVXuChqc5l/k74v5zMQQMPEt4Utc6KGWrt8Az8OYLhoCXzVSmbP+yt45nd4kSh2c/9EKwAzSHUg=
-X-Received: by 2002:a81:b044:0:b0:2d6:bd1f:5d8b with SMTP id
- x4-20020a81b044000000b002d6bd1f5d8bmr22797701ywk.27.1651739182533; Thu, 05
- May 2022 01:26:22 -0700 (PDT)
+ bh=6FjarNmbXQ4XkMo8eyyXTmyuh5gicvD/H8AixHeyUew=;
+ b=ql5jthrWQt8q0cAFP2oiH4sZVoH8pRDDrQRVTUxrW0xJb31mP/3nQ0opk1F9hED91Z
+ wRcmcha820o/chlgJAG9bOpp/gZv2ldSjGW4w4xDI8iOQXDeah+m3tBDTWatOmynLN7T
+ IOa9jxQaRoi+hfqmyW6IoySqXrq9EU6Y31UVwl912INShMKM+GqqXqucu8sic+j3HzYU
+ UmX2MOXt0KepCo9ATJR7Q5hVgnZ9XRES+KQ3tLT4qliNd/vreMlSN5GG5XGVV5xv/jC3
+ PLNYudWDF8+WpjxDB56DoZayKM9e9XpgZsRyQTrYhBASAWwy2Gk3UPW795xWv5hzJOVw
+ ADMQ==
+X-Gm-Message-State: AOAM530FbFijLvbf3BdsGf0EbHG2sspSrQNK3GWwYcsnZVIJVVijZEOy
+ p6b92D9cYq3LuDOCKDJUJ8tbtc8+tGf2SYisymMRO4YChoSzKuos3x/HrSuH6igmABM6eT2Yq8D
+ q4HVIwIejz5V73gyDkcUZosH7t99pcwc=
+X-Received: by 2002:a81:9387:0:b0:2f7:eb1b:d25e with SMTP id
+ k129-20020a819387000000b002f7eb1bd25emr14923232ywg.402.1651739228782; 
+ Thu, 05 May 2022 01:27:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdvmzeECI+0gd40nlFccPrx2UwJlP7jt0ESDaGNng3UMmr63AjaVTGzUjuN2DVfrw+A37ggjO9UlMvOKZ1zhA=
+X-Received: by 2002:a81:9387:0:b0:2f7:eb1b:d25e with SMTP id
+ k129-20020a819387000000b002f7eb1bd25emr14923215ywg.402.1651739228610; Thu, 05
+ May 2022 01:27:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
- <20220505081431.934739-13-marcandre.lureau@redhat.com>
-In-Reply-To: <20220505081431.934739-13-marcandre.lureau@redhat.com>
+ <20220505081431.934739-14-marcandre.lureau@redhat.com>
+In-Reply-To: <20220505081431.934739-14-marcandre.lureau@redhat.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Thu, 5 May 2022 11:26:11 +0300
-Message-ID: <CAPMcbCrm=-Awb7HeDkzPY2Z7F5fxvz67H6kCoMYCum7ES9OkGQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/15] qga/wixl: require Mingw_bin
+Date: Thu, 5 May 2022 11:26:57 +0300
+Message-ID: <CAPMcbCq6Z7MgQAERcDyJbj4m5Km=AqJzL-usv96cey1B86RDpA@mail.gmail.com>
+Subject: Re: [PATCH v2 13/15] qga/wixl: simplify some pre-processing
 To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Cc: QEMU <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
  Bandan Das <bsd@redhat.com>, 
@@ -75,15 +75,15 @@ Cc: QEMU <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
  Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>, 
  Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000003c9ff405de3f7fba"
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=kkostiuk@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000fbb76305de3f810c"
+Received-SPF: pass client-ip=170.10.133.74; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,7 +100,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003c9ff405de3f7fba
+--000000000000fbb76305de3f810c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -110,39 +110,52 @@ On Thu, May 5, 2022 at 11:16 AM <marcandre.lureau@redhat.com> wrote:
 
 > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> No clear reason to make guesses here.
+> Sadly, wixl doesn't have 'elif'.
 >
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  qga/installer/qemu-ga.wxs | 9 ---------
->  1 file changed, 9 deletions(-)
+>  qga/installer/qemu-ga.wxs | 20 +++++++-------------
+>  1 file changed, 7 insertions(+), 13 deletions(-)
 >
 > diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-> index 8a19aa165651..651db6e51cda 100644
+> index 651db6e51cda..e5b0958e1898 100644
 > --- a/qga/installer/qemu-ga.wxs
 > +++ b/qga/installer/qemu-ga.wxs
-> @@ -4,15 +4,6 @@
->      <?error Define Arch to 32 or 64?>
->    <?endif?>
->
-> -  <?ifndef var.Mingw_bin?>
-> -    <?if $(var.Arch) =3D "64"?>
-> -      <?define Mingw_bin=3D/usr/x86_64-w64-mingw32/sys-root/mingw/bin ?>
-> -    <?endif?>
-> -    <?if $(var.Arch) =3D "32"?>
-> -      <?define Mingw_bin=3D/usr/i686-w64-mingw32/sys-root/mingw/bin ?>
-> -    <?endif?>
+> @@ -1,21 +1,15 @@
+>  <?xml version=3D"1.0" encoding=3D"UTF-8"?>
+>  <Wix xmlns=3D"http://schemas.microsoft.com/wix/2006/wi">
+> -  <?ifndef var.Arch?>
+> -    <?error Define Arch to 32 or 64?>
 > -  <?endif?>
 > -
 >    <?if $(var.Arch) =3D "64"?>
 >      <?define ArchLib=3Dlibgcc_s_seh-1.dll?>
 >      <?define GaProgramFilesFolder=3D"ProgramFiles64Folder" ?>
+> -  <?endif?>
+> -
+> -  <?if $(var.Arch) =3D "32"?>
+> -    <?define ArchLib=3Dlibgcc_s_dw2-1.dll?>
+> -    <?define GaProgramFilesFolder=3D"ProgramFilesFolder" ?>
+> -  <?endif?>
+> -
+> -  <?ifndef var.ArchLib ?>
+> -    <?error Unexpected Arch value $(var.Arch)?>
+> +  <?else?>
+> +    <?if $(var.Arch) =3D "32"?>
+> +      <?define ArchLib=3Dlibgcc_s_dw2-1.dll?>
+> +      <?define GaProgramFilesFolder=3D"ProgramFilesFolder" ?>
+> +    <?else?>
+> +      <?error Unexpected Arch value $(var.Arch)?>
+> +    <?endif?>
+>    <?endif?>
+>
+>    <Product
 > --
 > 2.36.0.44.g0f828332d5ac
 >
 >
 
---0000000000003c9ff405de3f7fba
+--000000000000fbb76305de3f810c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -156,42 +169,58 @@ uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
 rcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a=
 >&gt;<br>
 <br>
-No clear reason to make guesses here.<br>
+Sadly, wixl doesn&#39;t have &#39;elif&#39;.<br>
 <br>
 Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
 u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0qga/installer/qemu-ga.wxs | 9 ---------<br>
-=C2=A01 file changed, 9 deletions(-)<br>
+=C2=A0qga/installer/qemu-ga.wxs | 20 +++++++-------------<br>
+=C2=A01 file changed, 7 insertions(+), 13 deletions(-)<br>
 <br>
 diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs<br>
-index 8a19aa165651..651db6e51cda 100644<br>
+index 651db6e51cda..e5b0958e1898 100644<br>
 --- a/qga/installer/qemu-ga.wxs<br>
 +++ b/qga/installer/qemu-ga.wxs<br>
-@@ -4,15 +4,6 @@<br>
-=C2=A0 =C2=A0 =C2=A0&lt;?error Define Arch to 32 or 64?&gt;<br>
-=C2=A0 =C2=A0&lt;?endif?&gt;<br>
-<br>
--=C2=A0 &lt;?ifndef var.Mingw_bin?&gt;<br>
--=C2=A0 =C2=A0 &lt;?if $(var.Arch) =3D &quot;64&quot;?&gt;<br>
--=C2=A0 =C2=A0 =C2=A0 &lt;?define Mingw_bin=3D/usr/x86_64-w64-mingw32/sys-r=
-oot/mingw/bin ?&gt;<br>
--=C2=A0 =C2=A0 &lt;?endif?&gt;<br>
--=C2=A0 =C2=A0 &lt;?if $(var.Arch) =3D &quot;32&quot;?&gt;<br>
--=C2=A0 =C2=A0 =C2=A0 &lt;?define Mingw_bin=3D/usr/i686-w64-mingw32/sys-roo=
-t/mingw/bin ?&gt;<br>
--=C2=A0 =C2=A0 &lt;?endif?&gt;<br>
+@@ -1,21 +1,15 @@<br>
+=C2=A0&lt;?xml version=3D&quot;1.0&quot; encoding=3D&quot;UTF-8&quot;?&gt;<=
+br>
+=C2=A0&lt;Wix xmlns=3D&quot;<a href=3D"http://schemas.microsoft.com/wix/200=
+6/wi" rel=3D"noreferrer" target=3D"_blank">http://schemas.microsoft.com/wix=
+/2006/wi</a>&quot;&gt;<br>
+-=C2=A0 &lt;?ifndef var.Arch?&gt;<br>
+-=C2=A0 =C2=A0 &lt;?error Define Arch to 32 or 64?&gt;<br>
 -=C2=A0 &lt;?endif?&gt;<br>
 -<br>
 =C2=A0 =C2=A0&lt;?if $(var.Arch) =3D &quot;64&quot;?&gt;<br>
 =C2=A0 =C2=A0 =C2=A0&lt;?define ArchLib=3Dlibgcc_s_seh-1.dll?&gt;<br>
 =C2=A0 =C2=A0 =C2=A0&lt;?define GaProgramFilesFolder=3D&quot;ProgramFiles64=
 Folder&quot; ?&gt;<br>
+-=C2=A0 &lt;?endif?&gt;<br>
+-<br>
+-=C2=A0 &lt;?if $(var.Arch) =3D &quot;32&quot;?&gt;<br>
+-=C2=A0 =C2=A0 &lt;?define ArchLib=3Dlibgcc_s_dw2-1.dll?&gt;<br>
+-=C2=A0 =C2=A0 &lt;?define GaProgramFilesFolder=3D&quot;ProgramFilesFolder&=
+quot; ?&gt;<br>
+-=C2=A0 &lt;?endif?&gt;<br>
+-<br>
+-=C2=A0 &lt;?ifndef var.ArchLib ?&gt;<br>
+-=C2=A0 =C2=A0 &lt;?error Unexpected Arch value $(var.Arch)?&gt;<br>
++=C2=A0 &lt;?else?&gt;<br>
++=C2=A0 =C2=A0 &lt;?if $(var.Arch) =3D &quot;32&quot;?&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 &lt;?define ArchLib=3Dlibgcc_s_dw2-1.dll?&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 &lt;?define GaProgramFilesFolder=3D&quot;ProgramFiles=
+Folder&quot; ?&gt;<br>
++=C2=A0 =C2=A0 &lt;?else?&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 &lt;?error Unexpected Arch value $(var.Arch)?&gt;<br>
++=C2=A0 =C2=A0 &lt;?endif?&gt;<br>
+=C2=A0 =C2=A0&lt;?endif?&gt;<br>
+<br>
+=C2=A0 =C2=A0&lt;Product<br>
 -- <br>
 2.36.0.44.g0f828332d5ac<br>
 <br>
 </blockquote></div>
 
---0000000000003c9ff405de3f7fba--
+--000000000000fbb76305de3f810c--
 
 
