@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA7051C9A1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:50:04 +0200 (CEST)
-Received: from localhost ([::1]:58150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AB551C9AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:53:39 +0200 (CEST)
+Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmhUB-0003wL-In
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48196)
+	id 1nmhXe-0001Zs-PH
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZM-0003lc-F3; Thu, 05 May 2022 14:51:20 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:41648)
+ id 1nmgZP-0003r2-M5; Thu, 05 May 2022 14:51:23 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:38709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZK-0004ph-Pb; Thu, 05 May 2022 14:51:20 -0400
-Received: by mail-oi1-x230.google.com with SMTP id e189so5247309oia.8;
- Thu, 05 May 2022 11:51:18 -0700 (PDT)
+ id 1nmgZO-0004q7-4f; Thu, 05 May 2022 14:51:23 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 88-20020a9d0ee1000000b005d0ae4e126fso3518570otj.5; 
+ Thu, 05 May 2022 11:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/x1aF0z1ehstGW5JiUUCt9PevsZu893oCeFaCZnerLQ=;
- b=GC1cO4T3G4xUQgEejK+iWATay242csi/HNKc9y8/Zx2uych8d2HhnpNG0zu/R8Swaq
- F0sAOGcBJI2ai673j5/oZI8kwiZ5HigEwZoSa+h4bbFcAbjruVgfMJ92IU8/CInRVSH+
- JdhFGsDeB5eEoX/ihPr+KVrLuc9aNanXt+NX0h/0hZRnrtmsCzjsSL3TP76UW8tWbq5k
- vpApN1eEUF7saPUYe5wx5Cb4imzv3N78aWPQX1tyg50f92gFJdjYpgRexsvcKPdT482R
- O2epSwyy3cDA7MoFuSn++8H7Y+TfHEOOUyCwYXkA+TpPTfAY+JJJd9Pnxrfu1HBBG+k+
- mwUg==
+ bh=OgoxkURypwIbLDY3Z92W4Ub2bDcBdBdi030FbyLdqy0=;
+ b=SLjoowvCQK6I00DNrQeMVycZGBtI1XckgfNnpLVUMUQJ+blbLOvcEUnQWIa5KRUEBA
+ k5qaQDvXzFN89GmKRDS1lePw5LGA3QEgtwaBBrrHneazxNyfsT70KE8tZ4GOXX4Ycdv3
+ je2OZQ3+uHnQRnUP98B78QfQg7yidA7S95sl3F/1IkbVH0aFhZujlU/Q1qJjTWK6V7lM
+ tlRJukOXi6GwGOLhf0pAZ7vHUDQvWbcjMzWIS8NNlDj8J/D8vCgHSAjOHq4LdtfyrtVq
+ hbP7K8d++WdIV4Dew7yT/JVIi28wuk6wZmQ4LgLHcKFTzC/ZkJLIJf8J8bdQHl2VNJYs
+ iusg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/x1aF0z1ehstGW5JiUUCt9PevsZu893oCeFaCZnerLQ=;
- b=XsFQ+1xrJ+OF/oTLhI0NdomRv2SwUyNdDkhN7EdKG9VtrkFcxk/I2vkGHVybWPsC+h
- zkz86HXTJq59ATGayV6niCHofsrKPHHfcPbDhQNYyfx8u8EWeaNzvEXQXqgTm/Hy0tK2
- 4i5AZIDZISsevN0AoNO85Dqz8u1+vx2fVdzOuRMZIV3OnVAWKYENBJTSSs1VHLveZixb
- Ng9/lOYs1Bs8C2ZcIPMjVc9BfauxkRJ8YpQfDvXIYSoeu2Cj++7zWZ9P/n1eCPl3dBvc
- GsfXqBk/UfoPcOnPKjQoseOte8HMS6lC2NdtmLfhfYiWsa7ILg/FZVAC0p7Mzv1Nge2Z
- noew==
-X-Gm-Message-State: AOAM532Pm8ZOomwarcJoAI2K7+4hQl3sedUaVk1rlneay2VhMNV1aWDw
- Q6WDoUSMyKikUGzLz5efYEwZv1Dg77Y=
-X-Google-Smtp-Source: ABdhPJyiTHMb7aB4HmT6lsOjp1Lx2Aox9dYfMSS4jKaOeQUi/rUeFWmkHuo2hXLtv9D2I8HmkHZkdw==
-X-Received: by 2002:a05:6808:18a4:b0:326:c33:316d with SMTP id
- bi36-20020a05680818a400b003260c33316dmr3077874oib.59.1651776677333; 
- Thu, 05 May 2022 11:51:17 -0700 (PDT)
+ bh=OgoxkURypwIbLDY3Z92W4Ub2bDcBdBdi030FbyLdqy0=;
+ b=PdAj+W+FUeNe/FSNap2iCekfbm1W/r9GYbPNln1LCmg3imYPj1y39jfZwvo9kTNTl+
+ 2RewSS/tTWc4jM6mjKQHEEFhX5cNmZzl/yc6lfhqxFG05/gyaM8mu7ypn3OI/gzlpCAF
+ YH8M7p+XgBZTsY+pM6ZdQ1kczntsiDL2cWx9F8CuXChthsvILpyAKvQoE8T2vIENLM9a
+ T+MUGLIT/5sQ2+6oIorkQIL0Pt2JrDCw/el2pIlPTomS2Fb/kXoh+C2VirzCWI0RJOSn
+ bYVJ4USlxaDctWjkdtwKPB3YMCjk22twW/zDnTKjiOuGUXYgYlIWDLxeLuNauJJgBVpI
+ rWrA==
+X-Gm-Message-State: AOAM530Z6cqkTxc/00ecNwHfvCZ1vYZjUpsdNfOj58KVIfG3LBH9JGZk
+ mNWjDQ5WyT7yz7xmxKwyl3AyMgQGiwU=
+X-Google-Smtp-Source: ABdhPJz3AqVZYSVB4TspzCL3goVvodPDVmSLhJFw4xZKQ2VUMQ3a+ob3CqGId4WPBTdMfx3SRh1i/w==
+X-Received: by 2002:a9d:f25:0:b0:606:1c42:6b49 with SMTP id
+ 34-20020a9d0f25000000b006061c426b49mr7297249ott.368.1651776680705; 
+ Thu, 05 May 2022 11:51:20 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.51.14
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.51.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:51:17 -0700 (PDT)
+ Thu, 05 May 2022 11:51:19 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-Subject: [PULL 23/30] target/ppc: Remove msr_dr macro
-Date: Thu,  5 May 2022 15:49:31 -0300
-Message-Id: <20220505184938.351866-24-danielhb413@gmail.com>
+Subject: [PULL 24/30] target/ppc: Remove msr_ep macro
+Date: Thu,  5 May 2022 15:49:32 -0300
+Message-Id: <20220505184938.351866-25-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
 References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,90 +93,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-msr_dr macro hides the usage of env->msr, which is a bad behavior
+msr_ep macro hides the usage of env->msr, which is a bad behavior
 Substitute it with FIELD_EX64 calls that explicitly use env->msr
 as a parameter.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220504210541.115256-16-victor.colombo@eldorado.org.br>
+Message-Id: <20220504210541.115256-17-victor.colombo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h         |  2 +-
- target/ppc/helper_regs.c |  3 +--
- target/ppc/mmu_common.c  | 10 ++++++----
- 3 files changed, 8 insertions(+), 7 deletions(-)
+ target/ppc/cpu.h         | 2 +-
+ target/ppc/helper_regs.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 6cfbec26a1..cd672dec93 100644
+index cd672dec93..5e804f0373 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -364,6 +364,7 @@ FIELD(MSR, PR, MSR_PR, 1)
+@@ -363,6 +363,7 @@ FIELD(MSR, EE, MSR_EE, 1)
+ FIELD(MSR, PR, MSR_PR, 1)
  FIELD(MSR, FP, MSR_FP, 1)
  FIELD(MSR, ME, MSR_ME, 1)
++FIELD(MSR, EP, MSR_EP, 1)
  FIELD(MSR, IR, MSR_IR, 1)
-+FIELD(MSR, DR, MSR_DR, 1)
+ FIELD(MSR, DR, MSR_DR, 1)
  FIELD(MSR, DS, MSR_DS, 1)
- FIELD(MSR, LE, MSR_LE, 1)
- 
 @@ -486,7 +487,6 @@ FIELD(MSR, LE, MSR_LE, 1)
+ #define msr_fe0  ((env->msr >> MSR_FE0)  & 1)
  #define msr_de   ((env->msr >> MSR_DE)   & 1)
  #define msr_fe1  ((env->msr >> MSR_FE1)  & 1)
- #define msr_ep   ((env->msr >> MSR_EP)   & 1)
--#define msr_dr   ((env->msr >> MSR_DR)   & 1)
+-#define msr_ep   ((env->msr >> MSR_EP)   & 1)
  #define msr_ts   ((env->msr >> MSR_TS1)  & 3)
  
  #define DBCR0_ICMP (1 << 27)
 diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index e40078c001..b150b78182 100644
+index b150b78182..97cd263131 100644
 --- a/target/ppc/helper_regs.c
 +++ b/target/ppc/helper_regs.c
-@@ -227,8 +227,7 @@ int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv)
-         value &= ~MSR_HVB;
-         value |= env->msr & MSR_HVB;
+@@ -240,8 +240,8 @@ int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv)
+         /* Swap temporary saved registers with GPRs */
+         hreg_swap_gpr_tgpr(env);
      }
--    if (((value ^ env->msr) & R_MSR_IR_MASK) ||
--        ((value >> MSR_DR) & 1) != msr_dr) {
-+    if ((value ^ env->msr) & (R_MSR_IR_MASK | R_MSR_DR_MASK)) {
-         cpu_interrupt_exittb(cs);
+-    if (unlikely((value >> MSR_EP) & 1) != msr_ep) {
+-        env->excp_prefix = ((value >> MSR_EP) & 1) * 0xFFF00000;
++    if (unlikely((value ^ env->msr) & R_MSR_EP_MASK)) {
++        env->excp_prefix = FIELD_EX64(value, MSR, EP) * 0xFFF00000;
      }
-     if ((env->mmu_model == POWERPC_MMU_BOOKE ||
-diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
-index 30deca0425..89107a6af2 100644
---- a/target/ppc/mmu_common.c
-+++ b/target/ppc/mmu_common.c
-@@ -388,7 +388,8 @@ static int get_segment_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
-                   " nip=" TARGET_FMT_lx " lr=" TARGET_FMT_lx
-                   " ir=%d dr=%d pr=%d %d t=%d\n",
-                   eaddr, (int)(eaddr >> 28), sr, env->nip, env->lr,
--                  (int)FIELD_EX64(env->msr, MSR, IR), (int)msr_dr, pr ? 1 : 0,
-+                  (int)FIELD_EX64(env->msr, MSR, IR),
-+                  (int)FIELD_EX64(env->msr, MSR, DR), pr ? 1 : 0,
-                   access_type == MMU_DATA_STORE, type);
-     pgidx = (eaddr & ~SEGMENT_MASK_256M) >> target_page_bits;
-     hash = vsid ^ pgidx;
-@@ -627,7 +628,8 @@ found_tlb:
- 
-     /* Check the address space */
-     if ((access_type == MMU_INST_FETCH ?
--        FIELD_EX64(env->msr, MSR, IR) : msr_dr) != (tlb->attr & 1)) {
-+        FIELD_EX64(env->msr, MSR, IR) :
-+        FIELD_EX64(env->msr, MSR, DR)) != (tlb->attr & 1)) {
-         qemu_log_mask(CPU_LOG_MMU, "%s: AS doesn't match\n", __func__);
-         return -1;
-     }
-@@ -1170,8 +1172,8 @@ int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
-                                      int mmu_idx)
- {
-     int ret = -1;
--    bool real_mode = (type == ACCESS_CODE && !FIELD_EX64(env->msr, MSR, IR))
--        || (type != ACCESS_CODE && msr_dr == 0);
-+    bool real_mode = (type == ACCESS_CODE && !FIELD_EX64(env->msr, MSR, IR)) ||
-+                     (type != ACCESS_CODE && !FIELD_EX64(env->msr, MSR, DR));
- 
-     switch (env->mmu_model) {
-     case POWERPC_MMU_SOFT_6xx:
+     /*
+      * If PR=1 then EE, IR and DR must be 1
 -- 
 2.32.0
 
