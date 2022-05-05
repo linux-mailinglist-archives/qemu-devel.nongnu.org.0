@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0404951BD76
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 12:47:43 +0200 (CEST)
-Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A218D51BDA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:01:56 +0200 (CEST)
+Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZ1H-0004Gh-43
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 06:47:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
+	id 1nmZF5-0000xR-DT
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:01:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmYaj-0008Gm-J8
- for qemu-devel@nongnu.org; Thu, 05 May 2022 06:20:13 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:43895)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nmYqa-0000FK-4k
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 06:36:36 -0400
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:41807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmYah-0003fQ-MW
- for qemu-devel@nongnu.org; Thu, 05 May 2022 06:20:13 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id g28so6790036ybj.10
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 03:20:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nmYqY-0007Ni-AL
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 06:36:35 -0400
+Received: by mail-lj1-x234.google.com with SMTP id m23so5024925ljb.8
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 03:36:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oCcmjq+KLY3vt2KkeOarmC/lBvM+SdG85UFm9C3o/18=;
- b=ck7isc8UC74dw3GSzMNIria59n0FzcjCIfneyg5km1ofMztVcCOVR2ciHZKKvSCkSv
- CNO0g0IeqQehbaojxDTcfT5pcKFypRnQB7UC/zs/jGl2EZco2oh88AEdSg4O0H8yNlbm
- wpjDkYopjDN9X3NGZlkBZoZy5f8inB+5kI7rJUMrmgtvPxMk4OgZPs2qKvjvUzIHB/BU
- s+OBalPrtMu44LTHa3B5gnvX+7ByeGXtR0kuuPxkQeB8kxkovzlJVnATuM5rE9PwDKtF
- Fzl8VbHMdA9Tu9Cx4d86QS3lU3nI2mXQKrtXa7ADvw4BjtukHIvFIfjyRIxqwCjNwOvj
- u0sg==
+ :cc; bh=LB8xwLgA33HT1YCqT01YKpv31M8hmxYaUswcXMxL5vQ=;
+ b=Xj4EY7G9Otn4aEKfa9due1VKMvYcmdhvO09EZa1b07d7vKFxQJeElAP6ydSLww1yDo
+ 3Stz1jPsZlJWzDUps2tkXcYLlIJkCFXJJ8h2IBiq3NNsedfTFZUKpMjckw1dOUdn1aCS
+ pg2BhgWYC4CIGGhISzj3wDYt3wGm0JUa5HfkJ3u5ZVFW9/CqHx+/FLhqFMnAe/B1qCHC
+ 9u3kZiIXku8euyrAKbT52+leBK4EIGjwSZsf6t8m0XXUkYGh0dobIx/5Qquhd3HVR0ec
+ wZyzwfjaIRNizdrSWrW3IKUA4CuSAAiJoAE0kk3Nnk3+doKWq3CHm4883c2pYyL2b6Vo
+ biEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=oCcmjq+KLY3vt2KkeOarmC/lBvM+SdG85UFm9C3o/18=;
- b=dL+bi1DryJGcENZtO54qIaWW3Km0703eyELP5t5YFIIfPk71zp0dCNXOAZWWHh7sKb
- pPcltunNuvQCFplabu4eZNelvKNhtdlSvE/blAycmXc3AZCVGdU5S7kG9jOpg/Tz3r70
- wKg59T0x4PYOmPghrSJ/1gmCxeFbfyNdrp3M7NJUjGRMuveKj0RktCi6RBkrkRjXNiF3
- EFGxUM17ZdBE5MNg/zUatnPRLCI6ZND2tRvn6wKUO6ZeamWmumMj08NjRsPLt22LFLux
- p4a1myPmJkHeb7/oEHdb0DDs7OFaSID1eAbhrA2d9BDnpEBmfHKGC69TpaUf1wtpttQS
- psTQ==
-X-Gm-Message-State: AOAM532EwDNmXBzKZ/2HCpxInG77xTnhtICm4tVuqiBQCzFdw9LKcTX2
- 0+pUUny7gaYmdO+jrSLoEcv5B1nMgctlhMmVJFGbgQ==
-X-Google-Smtp-Source: ABdhPJwV8+bKyFwTI3bkOMldBUVD3dU9ub0k9QnCo5l9lDiJwf+4KhXjoffBa5O8A+TmH2GUiYjTZKtyr6zK7Ui529Q=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr21107949ybq.67.1651746010440; Thu, 05
- May 2022 03:20:10 -0700 (PDT)
+ bh=LB8xwLgA33HT1YCqT01YKpv31M8hmxYaUswcXMxL5vQ=;
+ b=dQXfV5mTS0J3ynmoQVERB/5cKHd+lESm8ssrofUpt6pswoI7DMWx7R7mYaWu4sxRYw
+ 6TetOdw3fogPnd3njA0xs0zjFJSys25GatOOdFLAto796hokH0uKDzVZsNRMyvjitxho
+ TGkdyyYjUMy0qTKvIxpmjTCVzYvVw1O6F2UnFtiZy4uC3Nt3dVZf7fuvHhQGqLZYgP6D
+ JPt/c2VA7xm6CrFoVVhIoGa5XDtUVNXCi2eP9cnQwoEmzC936WVPUxavz82q7+MteWaH
+ uRuFLvBCGiNcv8HlYgdRzXtgAW8oRjfREWEnXGd5mqMalsacb60/+kUk4WKF3QEpEP1B
+ SOqw==
+X-Gm-Message-State: AOAM5316f5E/gWJZUDJiHG9LojQAgTXZ/Pj6jPtb+Mt6BdHNR3kcZGD5
+ 7rIyFAjl+xrLI4hMxcmYJKU/F05ojKSrW+JEA6j7xw==
+X-Google-Smtp-Source: ABdhPJxEZZNRSRpsufdUTCfxP2LdPUmE8qgIEFyG4O0uTanYZ8ot1UqTUKekP0wl/txgYgpoF0vCrW11V1App/4yYjs=
+X-Received: by 2002:a2e:8902:0:b0:24f:1446:3101 with SMTP id
+ d2-20020a2e8902000000b0024f14463101mr15630291lji.266.1651746991978; Thu, 05
+ May 2022 03:36:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <4ad779bc-09f6-4041-d671-624fd0e22cf9@web.de>
- <CAFEAcA-8Awh2jbKTBCig7C-oAfVhs3iuP3E6EzkW=DVAKSZ0=A@mail.gmail.com>
- <b46706e1-cf63-446d-f614-4c6adf16d72e@siemens.com>
-In-Reply-To: <b46706e1-cf63-446d-f614-4c6adf16d72e@siemens.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 May 2022 11:19:59 +0100
-Message-ID: <CAFEAcA_G_Ff6CNu9T2E2bj7UjovDy=DqPy79igoz=QVrh=TEpg@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm: virt: Add SBSA watchdog
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: qemu-arm <qemu-arm@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+References: <20220429033409.258707-1-apatel@ventanamicro.com>
+ <20220429033409.258707-3-apatel@ventanamicro.com>
+ <CAKmqyKMFVanzOMKPuo_i7hWZEJOmReBpp+wgqv3e2ExV2Jb-7g@mail.gmail.com>
+In-Reply-To: <CAKmqyKMFVanzOMKPuo_i7hWZEJOmReBpp+wgqv3e2ExV2Jb-7g@mail.gmail.com>
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Thu, 5 May 2022 16:06:20 +0530
+Message-ID: <CAK9=C2UBXfEoCEe1Nexa+v51ZxY7qd3xpJDd5x77L6FM8T2Qag@mail.gmail.com>
+Subject: Re: [PATCH 2/4] target/riscv: Fix hstatus.GVA bit setting for traps
+ taken from HS-mode
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Anup Patel <anup@brainfault.org>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atishp@atishpatra.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=apatel@ventanamicro.com; helo=mail-lj1-x234.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,39 +91,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 May 2022 at 11:17, Jan Kiszka <jan.kiszka@siemens.com> wrote:
+On Thu, May 5, 2022 at 3:21 PM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> On 05.05.22 10:40, Peter Maydell wrote:
-> > On Sun, 1 May 2022 at 19:07, Jan Kiszka <jan.kiszka@web.de> wrote:
-> >>
-> >> From: Jan Kiszka <jan.kiszka@siemens.com>
-> >>
-> >> The virt machine lacks a watchdog so far while the sbsa-ref has a simple
-> >> model that is also supported by Linux and even U-Boot. Let's take it to
-> >> allow, e.g., system integration tests of A/B software update under
-> >> watchdog monitoring.
-> >>
-> >> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+> On Fri, Apr 29, 2022 at 1:38 PM Anup Patel <apatel@ventanamicro.com> wrote:
 > >
-> > The virt board has a PCI bus, and QEMU has a model of a
-> > PCI watchdog device -- the i6300esb. Can you use that?
+> > Currently, QEMU does not set hstatus.GVA bit for traps taken from
+> > HS-mode into HS-mode which breaks the Xvisor nested MMU test suite
+> > on QEMU. This was working previously.
+> >
+> > This patch updates riscv_cpu_do_interrupt() to fix the above issue.
+> >
+> > Fixes: 86d0c457396b ("target/riscv: Fixup setting GVA")
+> > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> > ---
+> >  target/riscv/cpu_helper.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index e1aa4f2097..d83579accf 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -1434,7 +1434,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >                  /* Trap into HS mode */
+> >                  env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
+> >                  htval = env->guest_phys_fault_addr;
+> > -                write_gva = false;
 >
-> While one could do that, it implies using completely alien Intel x86
-> host controller bits on this platform. And, thus, would require changes
-> in firmware (e.g. adding a driver to U-Boot).
-
-> > In general I much prefer it if we can support use cases in
-> > virt via pluggable PCI devices rather than hard-wired MMIO
-> > devices -- it means that only users who want the functionality
-> > need to have the exposed attack surface area of the device
-> > present in their VM.
+> This doesn't seem right.
 >
-> Valid point - would making this opt-in via a machine feature be sufficient?
+> "Field GVA (Guest Virtual Address) is written by the implementation
+> whenever a trap is taken
+> into HS-mode. For any trap (breakpoint, address misaligned, access
+> fault, page fault, or guest-
+> page fault) that writes a guest virtual address to stval, GVA is set
+> to 1. For any other trap into
+> HS-mode, GVA is set to 0"
+>
+> So if we are trapping from HS to HS, the address in stval should not
+> be a guest virtual address, at least in general.
 
-I really strongly prefer the PCI device solution. If you don't
-like the i6300esb you could write a model of some other
-PCI device.
+That's not correct. The HLV/HSV instructions executed by hypervisor
+(HS-mode) take guest virtual address. These instructions can trap
+from HS-mode to HS-mode.
 
-thanks
--- PMM
+>
+> We probably aren't correctly setting GVA if MPRV is set though, as
+> then the page faults should be guest addresses. That's probably the
+> issue you are seeing.
+
+The Xvisor nested MMU test-suit is broken on QEMU because it
+uses HLV/HSV instructions in HS-mode.
+
+Regards,
+Anup
+
+>
+> Alistair
+>
+> >              }
+> >              env->hstatus = set_field(env->hstatus, HSTATUS_GVA, write_gva);
+> >          }
+> > --
+> > 2.34.1
+> >
+> >
 
