@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8AF51BE1F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:35:00 +0200 (CEST)
-Received: from localhost ([::1]:33588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE3151BE4F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:41:31 +0200 (CEST)
+Received: from localhost ([::1]:39644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZl6-0002Oy-26
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43618)
+	id 1nmZrN-0006r0-Ni
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZjG-00010V-Jk
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:33:06 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:54476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZjE-0006LE-4c
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:33:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651750380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XAlS+n0Ik9xPrZNWtEP8XQqGVhrBDm3n+lnLZQxObmY=;
- b=V56Kh3eFvW2LqXYCjIxQGUyJ1Jn+kwPUpdtxnr0VO2sbiVWkRBIGLZ1k9QB5zTEXugV+I5
- WSmCXoROEvd/1wWFG+KG0RdcUHx7+mr3lpihTVYVuhTzT84uO9yVwT0ZNKoT8sCcKJjpXE
- GTJFMaxODn6PnAqHpHCvM5oCc6liJ9c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-IPrEkONDOhGdXZqiQ6zh4Q-1; Thu, 05 May 2022 07:32:57 -0400
-X-MC-Unique: IPrEkONDOhGdXZqiQ6zh4Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DD9C29ABA34;
- Thu,  5 May 2022 11:32:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DED5FC28103;
- Thu,  5 May 2022 11:32:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AB05D21E6880; Thu,  5 May 2022 13:32:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Alexander Bulekov <alxndr@bu.edu>,  Bandan Das
- <bsd@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Hanna Reitz
- <hreitz@redhat.com>,  Konstantin Kostiuk <kkostiuk@redhat.com>,  Stefan
- Weil <sw@weilnetz.de>,  Kevin Wolf <kwolf@redhat.com>,  Darren Kenny
- <darren.kenny@oracle.com>,  Laurent Vivier <lvivier@redhat.com>,  Michael
- Roth <michael.roth@amd.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Qiuhao
- Li <Qiuhao.Li@outlook.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH v2 07/15] qga: use qemu_open_cloexec() for
- safe_open_or_create()
-References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
- <20220505081431.934739-8-marcandre.lureau@redhat.com>
-Date: Thu, 05 May 2022 13:32:55 +0200
-In-Reply-To: <20220505081431.934739-8-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Thu, 5 May 2022 12:14:23 +0400")
-Message-ID: <87mtfww6xk.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1nmZnv-0005Fq-2z
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:37:55 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:54636)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1nmZns-0007Kc-OR
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:37:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651750672; x=1683286672;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KfdhKqcjfgpoTGtwR/CqeEOejIUJzirghrJv9mQvnP8=;
+ b=S1uUUYaliP+ur3GwJVogIm0hTEOHkcbyCv4n2sGyM3Lh+PmP1YydkCq8
+ XOIguRXcvpATkjeyADpMA4Fv4th0ZMsOI5OF5cudgRDCvLhKdH4uYNaVA
+ uxW1YONF6sDI3zhUTQndoXmhi/RkLcynVY3pAdOmNhuvVQFD1ES0wgqtp o=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 05 May 2022 04:37:49 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2022 04:37:49 -0700
+Received: from qc-i7.qualcomm.com (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.47.97.222) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 5 May 2022
+ 04:37:47 -0700
+From: Leif Lindholm <quic_llindhol@quicinc.com>
+To: <qemu-devel@nongnu.org>
+CC: Leif Lindholm <leif@nuviainc.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2] MAINTAINERS/.mailmap: update email for Leif Lindholm
+Date: Thu, 5 May 2022 12:37:40 +0100
+Message-ID: <20220505113740.75565-1-quic_llindhol@quicinc.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.47.97.222)
+Received-SPF: pass client-ip=199.106.114.38;
+ envelope-from=quic_llindhol@quicinc.com; helo=alexa-out-sd-01.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,69 +75,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+NUVIA was acquired by Qualcomm in March 2021, but kept functioning on
+separate infrastructure for a transitional period. We've now switched
+over to contributing as Qualcomm Innocation Center (quicinc), so update
+my email address to reflect this.
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The function takes care of setting CLOEXEC, and reporting error.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  qga/commands-posix.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 0ef049650e31..8ebc327c5e02 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -370,21 +370,16 @@ safe_open_or_create(const char *path, const char *m=
-ode, Error **errp)
->       * open() is decisive and its third argument is ignored, and the sec=
-ond
->       * open() and the fchmod() are never called.
->       */
-> -    fd =3D open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
-> +    fd =3D qemu_open_cloexec(path, oflag | ((oflag & O_CREAT) ? O_EXCL :=
- 0), 0, errp);
->      if (fd =3D=3D -1 && errno =3D=3D EEXIST) {
-> +        g_clear_pointer(errp, error_free);
+Signed-off-by: Leif Lindholm <quic_llindhol@quicinc.com>
+Cc: Leif Lindholm <leif@nuviainc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+---
 
-Aha, this is where you really need ERRP_GUARD().
+Changes since v1:
+- Redirect both historic addresses to quicinc.com.
 
-Elsewhere, we use
+ .mailmap    | 3 ++-
+ MAINTAINERS | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-           error_free(errp);
-           errp =3D NULL;
-
-If one of these two ways is superior, we should use the superior one
-everywhere.
-
-If it's a wash, we should stick to the prevalent way.
-
->          oflag &=3D ~(unsigned)O_CREAT;
-> -        fd =3D open(path, oflag);
-> +        fd =3D qemu_open_cloexec(path, oflag, 0, errp);
->      }
->      if (fd =3D=3D -1) {
-> -        error_setg_errno(errp, errno,
-> -                         "failed to open file '%s' "
-> -                         "(mode: '%s')",
-> -                         path, mode);
-
-This changes the error message, doesn't it?
-
-Not an objection, just something that might be worth noting in the
-commit message.
-
->          goto end;
->      }
->=20=20
-> -    qemu_set_cloexec(fd);
-> -
->      if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) =3D=3D -1=
-) {
->          error_setg_errno(errp, errno,
->                           "failed to set permission 0%03o on new file '%s=
-' (mode: '%s')",
+diff --git a/.mailmap b/.mailmap
+index 2976a675ea..8c326709cf 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -62,7 +62,8 @@ Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+-Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
++Leif Lindholm <quic_llindhol@quicinc.com> <leif.lindholm@linaro.org>
++Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
+ Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
+ Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
+ Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 218c9459b6..cd013850c7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -889,7 +889,7 @@ F: include/hw/ssi/imx_spi.h
+ SBSA-REF
+ M: Radoslaw Biernacki <rad@semihalf.com>
+ M: Peter Maydell <peter.maydell@linaro.org>
+-R: Leif Lindholm <leif@nuviainc.com>
++R: Leif Lindholm <quic_llindhol@quicinc.com>
+ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/sbsa-ref.c
+-- 
+2.30.2
 
 
