@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CC151BE58
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:44:20 +0200 (CEST)
-Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7900151BE59
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:44:33 +0200 (CEST)
+Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZu7-000107-Dz
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:44:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45166)
+	id 1nmZuK-0001dQ-Ac
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
- id 1nmZpx-0007CJ-Ew
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:40:01 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:59824)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
- id 1nmZpu-0007ja-43
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:39:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651750798; x=1683286798;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8dS1PT67125I2Gjo/88Oynj+576VIoAudaJTP8DXyoI=;
- b=Le3Q2v5FZ8vQGUjnjdkP0Qra2vBiZbfh+qTRLxVnsV0c6P/aRSVNWyIF
- w+hHzK23XRJ+9UabY2atDkYzYXRMgTscZ2Zn173/Qj/+eFRHKP8scDeJU
- 3cHPomR55U+81GVwkCFAKQMUT68gmB8Cgj5wJLuNsksKosKjB1niQi7Jf k=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 05 May 2022 04:39:56 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 04:39:55 -0700
-Received: from qc-i7.qualcomm.com (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.47.97.222) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 5 May 2022
- 04:39:54 -0700
-From: Leif Lindholm <quic_llindhol@quicinc.com>
-To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Radoslaw Biernacki
- <rad@semihalf.com>, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v2] hw/arm: add versioning to sbsa-ref machine DT
-Date: Thu, 5 May 2022 12:39:47 +0100
-Message-ID: <20220505113947.75714-1-quic_llindhol@quicinc.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZqK-0007MW-HG
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:40:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:48624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZqI-00080V-D8
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:40:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651750821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lFgyMbROZSzqsbdfQdZ8Xghlz+zYcxU5H1rqu1YjrGw=;
+ b=E7y9+liJA4OjRw6I/V5BcxBGjwzyR/YwwXAFsMTQjiJDKAKkhMYBo6OD25Xo7bHxP0UA+l
+ ZGLyKqwq46B0sJmzxECHNMOfc8l1rt5wKEWjFymsvT3I2bsV0gPQ4ASPF1N1ARX7u7hnIX
+ 25I8CfaQPO8YFEloXlsP+PRUpLkSNY0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-209-D7R2wXmQPDm7q9Xn1iRcUg-1; Thu, 05 May 2022 07:40:16 -0400
+X-MC-Unique: D7R2wXmQPDm7q9Xn1iRcUg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1455A299E741;
+ Thu,  5 May 2022 11:40:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3684111E3EB;
+ Thu,  5 May 2022 11:39:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C298E21E6880; Thu,  5 May 2022 13:39:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Alexander Bulekov <alxndr@bu.edu>,  Bandan Das
+ <bsd@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Hanna Reitz
+ <hreitz@redhat.com>,  Konstantin Kostiuk <kkostiuk@redhat.com>,  Stefan
+ Weil <sw@weilnetz.de>,  Kevin Wolf <kwolf@redhat.com>,  Darren Kenny
+ <darren.kenny@oracle.com>,  Laurent Vivier <lvivier@redhat.com>,  Michael
+ Roth <michael.roth@amd.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Qiuhao
+ Li <Qiuhao.Li@outlook.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v2 08/15] qga: throw an Error in ga_channel_open()
+References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
+ <20220505081431.934739-9-marcandre.lureau@redhat.com>
+Date: Thu, 05 May 2022 13:39:58 +0200
+In-Reply-To: <20220505081431.934739-9-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Thu, 5 May 2022 12:14:24 +0400")
+Message-ID: <87h764w6lt.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.47.97.222)
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=quic_llindhol@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,70 +89,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sbsa-ref machine is continuously evolving. Some of the changes we
-want to make in the near future, to align with real components (e.g.
-the GIC-700), will break compatibility for existing firmware.
+marcandre.lureau@redhat.com writes:
 
-Introduce two new properties to the DT generated on machine generation:
-- machine-version-major
-  To be incremented when a platform change makes the machine
-  incompatible with existing firmware.
-- machine-version-minor
-  To be incremented when functionality is added to the machine
-  without causing incompatibility with existing firmware.
-  to be reset to 0 when machine-version-major is incremented.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Allow for a single point of error reporting, and further refactoring.
 
-This versioning scheme is *neither*:
-- A QEMU versioned machine type; a given version of QEMU will emulate
-  a given version of the platform.
-- A reflection of level of SBSA (now SystemReady SR) support provided.
+This sounds like there is no behavioral change intended.  But it looks
+like there is change; see below.
 
-The version will increment on guest-visible functional changes only,
-akin to a revision ID register found on a physical platform.
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  qga/channel-posix.c | 42 +++++++++++++++++-------------------------
+>  1 file changed, 17 insertions(+), 25 deletions(-)
+>
+> diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+> index a996858e2492..0ce594bc36c2 100644
+> --- a/qga/channel-posix.c
+> +++ b/qga/channel-posix.c
+> @@ -119,8 +119,9 @@ static int ga_channel_client_add(GAChannel *c, int fd)
+>  }
+>=20=20
+>  static gboolean ga_channel_open(GAChannel *c, const gchar *path,
+> -                                GAChannelMethod method, int fd)
+> +                                GAChannelMethod method, int fd, Error **=
+errp)
+>  {
+> +    ERRP_GUARD();
+>      int ret;
+>      c->method =3D method;
+>=20=20
+> @@ -133,21 +134,20 @@ static gboolean ga_channel_open(GAChannel *c, const=
+ gchar *path,
+>  #endif
+>                             );
+>          if (fd =3D=3D -1) {
+> -            g_critical("error opening channel: %s", strerror(errno));
+> +            error_setg_errno(errp, errno, "error opening channel");
+>              return false;
+>          }
+>  #ifdef CONFIG_SOLARIS
+>          ret =3D ioctl(fd, I_SETSIG, S_OUTPUT | S_INPUT | S_HIPRI);
+>          if (ret =3D=3D -1) {
+> -            g_critical("error setting event mask for channel: %s",
+> -                       strerror(errno));
+> +            error_setg_errno(errp, errno, "error setting event mask for =
+channel");
+>              close(fd);
+>              return false;
+>          }
+>  #endif
+>          ret =3D ga_channel_client_add(c, fd);
+>          if (ret) {
+> -            g_critical("error adding channel to main loop");
+> +            error_setg(errp, "error adding channel to main loop");
+>              close(fd);
+>              return false;
+>          }
+> @@ -159,7 +159,7 @@ static gboolean ga_channel_open(GAChannel *c, const g=
+char *path,
+>          assert(fd < 0);
+>          fd =3D qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
+>          if (fd =3D=3D -1) {
+> -            g_critical("error opening channel: %s", strerror(errno));
+> +            error_setg_errno(errp, errno, "error opening channel");
+>              return false;
+>          }
+>          tcgetattr(fd, &tio);
+> @@ -180,7 +180,7 @@ static gboolean ga_channel_open(GAChannel *c, const g=
+char *path,
+>          tcsetattr(fd, TCSANOW, &tio);
+>          ret =3D ga_channel_client_add(c, fd);
+>          if (ret) {
+> -            g_critical("error adding channel to main loop");
+> +            error_setg(errp, "error adding channel to main loop");
+>              close(fd);
+>              return false;
+>          }
+> @@ -188,12 +188,8 @@ static gboolean ga_channel_open(GAChannel *c, const =
+gchar *path,
+>      }
+>      case GA_CHANNEL_UNIX_LISTEN: {
+>          if (fd < 0) {
+> -            Error *local_err =3D NULL;
+> -
+> -            fd =3D unix_listen(path, &local_err);
+> -            if (local_err !=3D NULL) {
+> -                g_critical("%s", error_get_pretty(local_err));
+> -                error_free(local_err);
+> +            fd =3D unix_listen(path, errp);
+> +            if (fd < 0) {
+>                  return false;
+>              }
+>          }
+> @@ -202,24 +198,19 @@ static gboolean ga_channel_open(GAChannel *c, const=
+ gchar *path,
+>      }
+>      case GA_CHANNEL_VSOCK_LISTEN: {
+>          if (fd < 0) {
+> -            Error *local_err =3D NULL;
+>              SocketAddress *addr;
+>              char *addr_str;
+>=20=20
+>              addr_str =3D g_strdup_printf("vsock:%s", path);
+> -            addr =3D socket_parse(addr_str, &local_err);
+> +            addr =3D socket_parse(addr_str, errp);
+>              g_free(addr_str);
+> -            if (local_err !=3D NULL) {
+> -                g_critical("%s", error_get_pretty(local_err));
+> -                error_free(local_err);
+> +            if (*errp) {
 
-These properties are both introduced with the value 0.
-(Hence, a machine where the DT is lacking these nodes is equivalent
-to version 0.0.)
+Recommend
 
-Signed-off-by: Leif Lindholm <quic_llindhol@quicinc.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Radoslaw Biernacki <rad@semihalf.com>
-Cc: Cédric Le Goater <clg@kaod.org>
----
+               if (!addr) {
 
-Changes since v1:
-- More detail added to commit message.
-- Verbose comment added adjacent to code additions.
+>                  return false;
+>              }
+>=20=20
+> -            fd =3D socket_listen(addr, 1, &local_err);
+> +            fd =3D socket_listen(addr, 1, errp);
+>              qapi_free_SocketAddress(addr);
+> -            if (local_err !=3D NULL) {
+> -                g_critical("%s", error_get_pretty(local_err));
+> -                error_free(local_err);
+> +            if (*errp) {
 
- hw/arm/sbsa-ref.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Recommend
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 2387401963..d0c25ddfcf 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -190,6 +190,20 @@ static void create_fdt(SBSAMachineState *sms)
-     qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x2);
-     qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x2);
- 
-+    /*
-+     * This versioning scheme is for informing platform fw only. It is neither:
-+     * - A QEMU versioned machine type; a given version of QEMU will emulate
-+     *   a given version of the platform.
-+     * - A reflection of level of SBSA (now SystemReady SR) support provided.
-+     *
-+     * machine-version-major: updated when changes breaking fw compatibility
-+     *                        are introduced.
-+     * machine-version-minor: updated when features are added that don't break
-+     *                        fw compatibility.
-+     */
-+    qemu_fdt_setprop_cell(fdt, "/", "machine-version-major", 0);
-+    qemu_fdt_setprop_cell(fdt, "/", "machine-version-minor", 0);
-+
-     if (ms->numa_state->have_numa_distance) {
-         int size = nb_numa_nodes * nb_numa_nodes * 3 * sizeof(uint32_t);
-         uint32_t *matrix = g_malloc0(size);
--- 
-2.30.2
+               if (fd < 0) {
+
+Do you still need ERRP_GUARD() then?
+
+>                  return false;
+>              }
+>          }
+> @@ -227,7 +218,7 @@ static gboolean ga_channel_open(GAChannel *c, const g=
+char *path,
+>          break;
+>      }
+>      default:
+> -        g_critical("error binding/listening to specified socket");
+> +        error_setg(errp, "error binding/listening to specified socket");
+>          return false;
+>      }
+>=20=20
+> @@ -272,12 +263,13 @@ GIOStatus ga_channel_read(GAChannel *c, gchar *buf,=
+ gsize size, gsize *count)
+>  GAChannel *ga_channel_new(GAChannelMethod method, const gchar *path,
+>                            int listen_fd, GAChannelCallback cb, gpointer =
+opaque)
+>  {
+> +    Error *err =3D NULL;
+>      GAChannel *c =3D g_new0(GAChannel, 1);
+>      c->event_cb =3D cb;
+>      c->user_data =3D opaque;
+>=20=20
+> -    if (!ga_channel_open(c, path, method, listen_fd)) {
+> -        g_critical("error opening channel");
+> +    if (!ga_channel_open(c, path, method, listen_fd, &err)) {
+> +        error_report_err(err);
+>          ga_channel_free(c);
+>          return NULL;
+>      }
+
+This changes error reporting from g_critical() (which doesn't count as
+error reporting in my book) to error_report_err().
+
+How does this affect the program's behavior?
 
 
