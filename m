@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01C351C709
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:17:35 +0200 (CEST)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 349DE51C793
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 20:23:18 +0200 (CEST)
+Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmg2h-0006xT-08
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60546)
+	id 1nmg8D-0005oR-3v
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 14:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmfYe-00025j-Ud
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:46:33 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:44699)
+ id 1nmfZU-0002p3-08
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:47:24 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nmfYd-0000F0-8S
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:46:32 -0400
-Received: by mail-oi1-x235.google.com with SMTP id m11so5064444oib.11
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 10:46:30 -0700 (PDT)
+ id 1nmfZS-0000OF-Ja
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 13:47:23 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ 31-20020a9d0822000000b00605f1807664so3411601oty.3
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 10:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=/6kjGji0MCDChSGL5SXMF4gPTdhnqq07mbuoiL/jtuY=;
- b=B0H/xL9wCLbfkxaiPuH6TkuyP+ZiWr8ehB1vxG2J6caNmx6WJib1EptQ0W/mQxTO/+
- 0X2TsdveWeRdL+A35euYYSE3e8RqW2w4wmbncB7YO0aE3t4fnUtLXl1KgQ1vKgE20Xc0
- siAaHGFc+fHHByWN+JlAMgDepnrDr1o5WjoCZaHo5TSwsvdJEnRvYBzPc8rEin5DPskB
- Py/dLZ9/4x4EfwX2P2zHSyjxvGR/ugK28vfFdyjWCT4eKbGXaWFmWEL97CReSJ7gf+DY
- AYYoDZIdGy3fu+WTSoCO/b8it0SRIl+5wYl7TkWopVQaI2PQ1PI3CnErcdRdKCaAD0l4
- O60g==
+ bh=9w+gTKJPpT+0wLdAN8lsGrKJqWtzGiJsLvUX08/exQw=;
+ b=NyqovUEf8Obtdm27JM0qbB/sdwFcx3/08B/gX7thmm2+mrGuKRVTrsjMWp9KLMGySl
+ EXuU750nCTsEUgbc0JL/SMKFrCwATrvwbNmcb1xz5g57tHw2NmHqsu9lvXeEOBxZm2Ra
+ gpxbNs9aWgrrA/noZ/Ew7aNQUzV6HjustrmD/aSKZRanJTwE4w+o0KiYJ/UeKiCcwUQB
+ FI0tOlgnCMhaeix8CPFs+q//jIyfw+bHC59qGqEYVNYOADBrMZ12o8K8z2uKaMCBz/6j
+ jFOl0dskX2METiApazQ2Pe2uvmupIIrTxEDZo6/mKYUu3TWNN2UFjlbu/7FRij8461Mi
+ Vapg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/6kjGji0MCDChSGL5SXMF4gPTdhnqq07mbuoiL/jtuY=;
- b=azwu15ow2JUOJhWx5sqM46sY0PdrFk50g4tfdVoJY0YuIF7RDvDu1qk5zU3RwUTTe4
- Qgi+ovNYmCZDbOo4RWnXObYQ5zel21FztWC8erI46uyo2aC7SgGQflnhfl2imEYofLHy
- +3GGs7zRqNPFuKVWn2hDJLvqeq3YITx7cmzOI01J62oUGjgfmiDTEK8EJx6L8Kft8h8e
- TTPcjekPCmizaRJ8iC3Cb0CdXzvdUds5T/RYva86XkuPvTVegwXjOVGN4s/STKqb3OCr
- aDJ9DSReHp+kPyTzK1kB+akw5zcRRQkF666GMc3aZGabCM4iYjGdRRMEM4q7mZgNzWlU
- 7yXQ==
-X-Gm-Message-State: AOAM532HTtgxMRuAmIQfwItWnUC1dgorMmspROSNBKlmWYeySGObDomw
- 4eTZXYusDI0NWkRZgczy5mcZuw==
-X-Google-Smtp-Source: ABdhPJzentvnefYJu8gAgvOjXo/Ic5vNNghcRl8ngJR+S4azoDR+DjP9WCl/oMyF8AIkZDta3v3QmQ==
-X-Received: by 2002:a05:6808:e83:b0:322:3344:13c with SMTP id
- k3-20020a0568080e8300b003223344013cmr2915840oil.233.1651772790184; 
- Thu, 05 May 2022 10:46:30 -0700 (PDT)
+ bh=9w+gTKJPpT+0wLdAN8lsGrKJqWtzGiJsLvUX08/exQw=;
+ b=xFeDj/GjiVavykCoGuljGfH2Gt7LqW68ePnS0V6VKWf9vbZmvJqVJg9XABhUMWwjSf
+ VNEjXQMQPZ+mJoL1Ggyk7r+o9fyKBJ/iIsGuq2qVBIxwIOBFrEJ+KnExWHpGuCVQxDRB
+ oJdLp2voTpLIe1XcaJVZF3MasCZclEMEbtZty3iJ4jMC9UpOkSxoxgfGgY0Ik88Ijtwz
+ a+XY6sUWUo38GUl6qD3J7zhf8YbjVD7KfFmZbJ8YGFz4fyc1nR5N7tXvDg4bz1t9ToTY
+ gEU7DaLIteGz3DZm0eNugagsBbSrB6pUJfy4/48Wl/VGauesUJlZAWu8+XzNd4U3sSkK
+ MyUw==
+X-Gm-Message-State: AOAM530k0eSlUs1dbDq800f++qUDgTHgeNvbaNZEUHHpR3LwRLQpnz+p
+ kAk2xp8LZJf5P7zTKJsLe90YbHlPRSGddA==
+X-Google-Smtp-Source: ABdhPJzqhJAK5OdtASbq5pf9EL4735/I5jU3bOXQQqa3cmkOh+4gKuoqzPwVSq4bSc2nZ1nWVjoUVA==
+X-Received: by 2002:a9d:3ad:0:b0:604:c1fd:cd4c with SMTP id
+ f42-20020a9d03ad000000b00604c1fdcd4cmr10200875otf.288.1651772841348; 
+ Thu, 05 May 2022 10:47:21 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6?
  ([2607:fb90:5fe8:83ea:bbf4:c9ef:4f3:11c6])
  by smtp.gmail.com with ESMTPSA id
- l21-20020a544515000000b00325cda1ffb8sm830427oil.55.2022.05.05.10.46.29
+ y23-20020a0568301d9700b006060322126esm805197oti.62.2022.05.05.10.47.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 May 2022 10:46:29 -0700 (PDT)
-Message-ID: <10c162fb-ad53-0de8-6bc6-ec61d1683f33@linaro.org>
-Date: Thu, 5 May 2022 12:46:27 -0500
+ Thu, 05 May 2022 10:47:20 -0700 (PDT)
+Message-ID: <f8346f00-6eef-fb6b-025d-e1e78e9e3035@linaro.org>
+Date: Thu, 5 May 2022 12:47:18 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 15/50] dino.h: add defines for DINO IRQ numbers
+Subject: Re: [PATCH v2 16/50] dino: define IRQ inputs as qdev GPIOs
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, deller@gmx.de,
  qemu-devel@nongnu.org
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <20220504092600.10048-16-mark.cave-ayland@ilande.co.uk>
+ <20220504092600.10048-17-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220504092600.10048-16-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220504092600.10048-17-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,13 +96,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/22 04:25, Mark Cave-Ayland wrote:
-> This is to allow the DINO IRQs to be defined as qdev GPIOs.
-> 
 > Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
 > Acked-by: Helge Deller<deller@gmx.de>
 > ---
->   hw/hppa/dino.h | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+>   hw/hppa/dino.c | 2 ++
+>   hw/hppa/dino.h | 2 ++
+>   2 files changed, 4 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
