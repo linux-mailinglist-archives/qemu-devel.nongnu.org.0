@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429FC51C5AB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 19:04:12 +0200 (CEST)
-Received: from localhost ([::1]:45494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0611E51C5A6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 19:02:30 +0200 (CEST)
+Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmete-0002uw-FA
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 13:04:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47380)
+	id 1nmes0-0008QB-K5
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 13:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nmej8-0001F7-0G; Thu, 05 May 2022 12:53:18 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:46795)
+ id 1nmemB-0005IF-3z; Thu, 05 May 2022 12:56:27 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:37557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nmej6-0006GD-C4; Thu, 05 May 2022 12:53:17 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id j6so9829114ejc.13;
- Thu, 05 May 2022 09:53:15 -0700 (PDT)
+ id 1nmem9-000743-2z; Thu, 05 May 2022 12:56:26 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id kq17so9902719ejb.4;
+ Thu, 05 May 2022 09:56:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:in-reply-to:references:message-id
  :mime-version:content-transfer-encoding;
- bh=Msiwtik8tFyyUA5/qnFh0wN4ESwSdwAjl499C0bOXzM=;
- b=DZh73zKh5p05y4YQ7ba5dZ7rZ9itSo0q3HWpQGCglBV6eWx0WLnc0sc4BuAAqv6f7c
- FQLi6ToMTm70uevfdhD/37gULU7fvslX9kRTlCcFtPlzg3tFqrLJl7x4NATA40ynof62
- 2gdiTmwmidPGvi+SikTzry0ojB+jufGa1M1qrh7Cd1FvaBwa1myek42nVqNhY4+6VLeP
- 6OgbDMUdInRgWSmEa7DvbI6XwOQJMtYwUKV9c8H4TbjeEYHjbXNKB+b3ZOqptS1FM9YB
- FA+1oVkaw6aIeKj1bom/L9gGxbvtTnVc0BgugBWafMp1hXQLJHzNpyIwk3hZ3YzT9l/x
- DzlQ==
+ bh=aT8n2Q/86mgGHyA52H8QO57xMKfk9owtluLVyhl3rJM=;
+ b=RO075sw+Qc8bN17Cb7VDOx6wLx0tg2DUukKC+wKRvifrTns/8wKFyZieA4352tTfeN
+ xdrit8Qmfi91NumKp0XwlYSymQD/hA05i/UklqRDs63xj5u+0+xcUEfoJDl+Y9hFbg7n
+ QZt7UFjaA5BKriX+NGHr7SgeSg+ugYwbtW9LT6HNoQUx9lJrFkl045sABRtxIW8/lZDv
+ D3RYO/YSmG2lP/SL7+55h4tmcueaqvt4W4xPoUALMPXYg6UzZ3gfstrWaLV0emcXIBxg
+ tORkX0tmQaMR5zpqV+ziezxPqCwefrhsBYj5dyA7PnzkAxbwsZlwuE3nSyL1CE2jF6rK
+ 96Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=Msiwtik8tFyyUA5/qnFh0wN4ESwSdwAjl499C0bOXzM=;
- b=5R2JZGxaknAbSrR0tFA8ELuuqZ6aCYbZ+/cF6+874xYU2toi84Y0tvTTAFWWS5jAuZ
- vec4shsitvQmBYxc8ki7B1jeufonlm14BNxY9U9y6cYMe7QPangeu/rg1/ev6Ldq0bne
- PDGTZK2+oLE71EJFAqps5dGT5EkfNm+UKqYDbHCj8HR1kxfX8af0pSftWSHCrJleQrBL
- +wzoRRdjaOmFo0O/sfMUCsplkasCcMQPQG7vvVDZDFAIYfPVvHfNK+vM4tUxnFUSVFdp
- 0u0LrtzhUy0EHhgvGzIEBBVbbu+m6YLGNxoO2XwMfxOVPfAlgbwbC+eekkMfftk2HbN8
- /FDQ==
-X-Gm-Message-State: AOAM530YIdfqhj29OKtBIjVArtx0TP648T1gGDPMsSmUeYIRpvprwjWk
- 5EP2vasEaI6DJAC+ekih46b3IneZ7q8=
-X-Google-Smtp-Source: ABdhPJwjw6aOeC8L0JIoD8ewlvq7U86CwW30zhsRlNghG1fpYJJM5Pymiz8vCbxMcSp72+C8j4Z3hQ==
-X-Received: by 2002:a17:907:60cf:b0:6f4:4240:849 with SMTP id
- hv15-20020a17090760cf00b006f442400849mr21995415ejc.566.1651769594098; 
- Thu, 05 May 2022 09:53:14 -0700 (PDT)
+ bh=aT8n2Q/86mgGHyA52H8QO57xMKfk9owtluLVyhl3rJM=;
+ b=Ln8szLDUBu38VaxtCjeTrUkjNmvSEqOQeF41ZoS5rZNKkNNz9yZ0ldxuGPuIpXRBBN
+ GOUTl2DlRVRTFC0krqTeb6bkLHxB9rpcwLgTMBMnPmvha5c44QWsqU6QvpjdOGW4xmkt
+ TPAgJIu+Fm9TmP2wndUikkO5Xl5JLx5zVTsOiNd8uIDrLPYAXGRn2FnckjdvL5IDf5jB
+ ZBdEcDdMtP3czA3x/qwRKsp1nAUjrpuVWXCa23Xcl1MmmWlDsVrJ5iDAayi6aikXBENZ
+ SyA2iXGPujBMUv/356BDNHjVlZF5U7DT6zp4OAWb74kC0vNLibrG+0QNuz56m2EniacK
+ GfrA==
+X-Gm-Message-State: AOAM530DlVLCRSE9rUXVgQYaDDrjnwJ4SIURcAwLiLwnuOp5nqJfAq3y
+ QxL4ZwHgoFNglUoo+EDJT8BKDcTIlXs=
+X-Google-Smtp-Source: ABdhPJygDgK4GMH3gssMVYGlTRXqpKn7pFaVEUxM8eb/rL7Zj8agSKAdOt+gS73K9IaJI5o8060nUQ==
+X-Received: by 2002:a17:907:1c20:b0:6f4:639e:9400 with SMTP id
+ nc32-20020a1709071c2000b006f4639e9400mr18753602ejc.485.1651769783085; 
+ Thu, 05 May 2022 09:56:23 -0700 (PDT)
 Received: from [127.0.0.1] (dynamic-078-054-123-159.78.54.pool.telefonica.de.
  [78.54.123.159]) by smtp.gmail.com with ESMTPSA id
- cf11-20020a170906b2cb00b006f3ef214da7sm945564ejb.13.2022.05.05.09.53.13
+ qs24-20020a170906459800b006f3ef214e60sm898957ejc.198.2022.05.05.09.56.22
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 05 May 2022 09:53:13 -0700 (PDT)
-Date: Thu, 05 May 2022 16:52:13 +0000
+ Thu, 05 May 2022 09:56:22 -0700 (PDT)
+Date: Thu, 05 May 2022 16:56:21 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-CC: qemu-trivial@nongnu.org
-Subject: Re: [PATCH RESEND 0/2] Resolve some redundant property accessors
-In-Reply-To: <20220301225220.239065-1-shentey@gmail.com>
-References: <20220301225220.239065-1-shentey@gmail.com>
-Message-ID: <A987D65D-940B-4827-B547-92D27FBBA46E@gmail.com>
+CC: qemu-trivial@nongnu.org, Anthony PERARD <anthony.perard@citrix.com>
+Subject: Re: [PATCH 0/2] Confine igd-passthrough-isa-bridge to XEN
+In-Reply-To: <20220326165825.30794-1-shentey@gmail.com>
+References: <20220326165825.30794-1-shentey@gmail.com>
+Message-ID: <F58C8DE7-6EF1-49B5-AABA-FE7D754C7FC8@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,36 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 1=2E M=C3=A4rz 2022 22:52:18 UTC schrieb Bernhard Beschow <shentey@gmail=
-=2Ecom>:
->No changes=2E Just also CC'ed to qemu-trivial=2E
->
->The QOM API already provides appropriate accessors, so reuse them=2E
->
->Testing done:
->
->  :$ make check
->  Ok:                 570
->  Expected Fail:      0
->  Fail:               0
->  Unexpected Pass:    0
->  Skipped:            178
->  Timeout:            0
->
+Am 26=2E M=C3=A4rz 2022 16:58:22 UTC schrieb Bernhard Beschow <shentey@gmai=
+l=2Ecom>:
+>This patch series changes the "igd-passthrough-isa-bridge" device only to=
+ be
+>provided if CONFIG_XEN_PCI_PASSTHROUGH is true=2E With it xen_pt gets dec=
+oupled
+>from i386/pc=2E
 >
 >Bernhard Beschow (2):
->  hw/vfio/pci-quirks: Resolve redundant property getters
->  hw/riscv/sifive_u: Resolve redundant property accessors
+>  hw/xen/xen_pt: Confine igd-passthrough-isa-bridge to XEN
+>  hw/xen/xen_pt: Resolve igd_passthrough_isa_bridge_create() indirection
 >
-> hw/riscv/sifive_u=2Ec  | 24 ++++--------------------
-> hw/vfio/pci-quirks=2Ec | 34 +++++++++-------------------------
-> 2 files changed, 13 insertions(+), 45 deletions(-)
+> hw/i386/pc_piix=2Ec        | 118 -------------------------------------
+> hw/xen/xen_pt=2Ec          |  12 ----
+> hw/xen/xen_pt=2Eh          |   2 +
+> hw/xen/xen_pt_graphics=2Ec | 122 +++++++++++++++++++++++++++++++++++++++
+> include/hw/i386/pc=2Eh     |   1 -
+> 5 files changed, 124 insertions(+), 131 deletions(-)
 >
 
 Ping
 
-First round of trivial patches went already in for 7=2E1, hence a reminder=
-=2E
+Thanks to Anthony the series is reviewed=2E Which tree wants to pick it up=
+?
 
 Best regards,
 Bernhard
