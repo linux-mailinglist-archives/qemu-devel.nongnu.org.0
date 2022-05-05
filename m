@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FBF51BE5B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:45:55 +0200 (CEST)
-Received: from localhost ([::1]:45680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D884A51BE5E
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:47:57 +0200 (CEST)
+Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZve-0002mx-Eb
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45700)
+	id 1nmZxc-0005Dd-SK
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:47:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZsK-0000Xl-9G
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:42:28 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:44464)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nmZtx-00028W-QF
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:44:09 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:39953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZsH-0008IL-Tt
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:42:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651750945;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DjEY+EyqM7xmP76NbKMe9eQj0Ru9Hur2ScvkP6dT1jA=;
- b=Lqc1OGTeHQXV5nhDkCDHMhDrIwXagUh8Vl1X6tlhmEyjIn6owXARAUbuLjCcx9Phlk00B9
- iKumazHaev5AMZmPdTkRi2ZOCZBXsP2FpLFdZgWwLP1cC4jeIBMpV8X/DLGw3vWaXaAcqD
- Npcw6EAP/tb0ssoUjSBFKEdlMt7i49s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-149--QKRrMKFNN2GwOHhBSW_VA-1; Thu, 05 May 2022 07:42:22 -0400
-X-MC-Unique: -QKRrMKFNN2GwOHhBSW_VA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC255101AA44;
- Thu,  5 May 2022 11:42:21 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 830D0551CF7;
- Thu,  5 May 2022 11:42:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7F3EE21E6880; Thu,  5 May 2022 13:42:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Alexander Bulekov <alxndr@bu.edu>,  Bandan Das
- <bsd@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Hanna Reitz
- <hreitz@redhat.com>,  Konstantin Kostiuk <kkostiuk@redhat.com>,  Stefan
- Weil <sw@weilnetz.de>,  Kevin Wolf <kwolf@redhat.com>,  Darren Kenny
- <darren.kenny@oracle.com>,  Laurent Vivier <lvivier@redhat.com>,  Michael
- Roth <michael.roth@amd.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Qiuhao
- Li <Qiuhao.Li@outlook.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH v2 09/15] qga: replace qemu_open_old() with
- qemu_open_cloexec()
-References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
- <20220505081431.934739-10-marcandre.lureau@redhat.com>
-Date: Thu, 05 May 2022 13:42:20 +0200
-In-Reply-To: <20220505081431.934739-10-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Thu, 5 May 2022 12:14:25 +0400")
-Message-ID: <87bkwcw6hv.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nmZtv-0008TZ-I2
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:44:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=HZ2oLinZsjQwpTPQ28znuwKbGhxCITyjXzh/F4pnaa4=; b=jgKM4Nw9b8JLO2kXKNObxLkzHH
+ oA5mhrl31cpjXwyMArq5MXc01XPOO67QkRCZ3b1frrbYfSejOUhydGx4tNs5o7A+QjNSlLH+hlHvv
+ 6Q+BB3gq2a28Zj557s6Oajm6W8MVNsBfJIXb5vj2vHYS4znom2L3+5lzq0I6CUjpZIVAKSLcJ1fDM
+ KgvBLniLBWQtzz2aYjPoi5K+lwM39vCe0YJD6ANlLOAfBLPGvA13m/xCybuAvYF2a/A6N/Htwzsr6
+ yvr/qWEZQPKiQouZoVC+wCeZ3BAICwtQweSK7unx7OFCOpsiGqKCTGqJqF+hKfDLNqZBdkUZ/xPBE
+ f1exYSu/vFIkWYGfGcnK+qpo16N5yTpzHg1f7ADJASlO02VRk8ReaaNOUMJjHXjkZJ6MbMt/M9N3A
+ k420pWtSSn62gCC6htIR1Lm9BR/6Br1n39hvHM6B/1TjXEA+jyD17fZLOyH7Z+T+LAFSp855rwXvN
+ GWGjPJNn2l7ASaqxe93SgksdwI+2SeHcITDpdfnL6qEStIjvOb84LZu3fl+orCssevICUow84UIY7
+ u8czyAt8kHBz6wUbQkqp9SeTz4OCIbmt4PSX2nVPon5Z/qCvsnHyYCJVqVkJKuVYvPf/gOtxDu1TY
+ vQmlamaueuWWfC97F3lF8X1Gxmpsb05Qu8q6VQ4cw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, "Shi, Guohuai" <Guohuai.Shi@windriver.com>,
+ Greg Kurz <groug@kaod.org>
+Cc: "Meng, Bin" <Bin.Meng@windriver.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver for
+ Windows
+Date: Thu, 05 May 2022 13:43:33 +0200
+Message-ID: <4564343.M1kaXOOn0d@silver>
+In-Reply-To: <CH2PR11MB445462A54AC1006BD093737BEFC39@CH2PR11MB4454.namprd11.prod.outlook.com>
+References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
+ <2749735.hgEqPgphOh@silver>
+ <CH2PR11MB445462A54AC1006BD093737BEFC39@CH2PR11MB4454.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,164 +71,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+On Mittwoch, 4. Mai 2022 21:34:22 CEST Shi, Guohuai wrote:
+[...]
+> > > index 0000000000..aab7c9f7b5
+> > > --- /dev/null
+> > > +++ b/hw/9pfs/9p-local-win32.c
+> > > @@ -0,0 +1,1242 @@
+> > > +/*
+> > > + * 9p Windows callback
+> > > + *
+> > > + * Copyright (c) 2022 Wind River Systems, Inc.
+> > > + *
+> > > + * Based on hw/9pfs/9p-local.c
+> > > + *
+> > > + * This work is licensed under the terms of the GNU GPL, version 2. 
+> > > See
+> > > + * the COPYING file in the top-level directory.
+> > > + */
+> > > +
+> > > +/*
+> > > + * Not so fast! You might want to read the 9p developer docs first:
+> > > + * https://wiki.qemu.org/Documentation/9p
+> > > + */
+> > > +
+> > > +#include "qemu/osdep.h"
+> > > +#include <windows.h>
+> > > +#include <dirent.h>
+> > > +#include "9p.h"
+> > > +#include "9p-local.h"
+> > > +#include "9p-xattr.h"
+> > > +#include "9p-util.h"
+> > > +#include "fsdev/qemu-fsdev.h"   /* local_ops */
+> > > +#include "qapi/error.h"
+> > > +#include "qemu/cutils.h"
+> > > +#include "qemu/error-report.h"
+> > > +#include "qemu/option.h"
+> > > +#include <libgen.h>
+> > 
+> > I'm not sure whether all of this (i.e. 9p-local-win32.c in general) is
+> > really needed. I mean yes, it probably does the job, but you basically
+> > add a complete
+> > separate 'local' backend implementation just for the Windows host
+> > platform.
+> > 
+> > My expectation would be to stick to 9p-local.c being OS-agnostic, and only
+> > define OS-specific functionality in 9p-util-windows.c if needed.
+> > 
+> > And most importantly: don't duplicate code as far as possible! I mean
+> > somebody
+> > would need to also review and maintain all of this.
+> 
+> Actually, almost all FileOperations functions are re-written for Windows
+> host.
+> 
+> Here is the comparison statistics for 9p-local.c and 9p-local-win32.c:
+> Total lines : 1611
+> Changed lines: 590
+> Inserted lines: 138
+> Removed lines: 414
+> 
+> For function level difference count:
+> 
+> Changed function: 39
+> Unchanged function: 13
+> 
+> If use "#ifdef _WIN32" to sperate Windows host code, it may need to be
+> inserted about 150 code blocks (or 39 code blocks for all changed
+> functions).
+> 
+> I am not sure if it is a good idea to insert so many "#ifdef _WIN32", it may
+> cause this file not readable.
+> 
+> If stick to 9p-local.c being OS-agnostic, I think it is better to create two
+> new files: 9p-local-linux.c and 9p-local-win32.c
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> qemu_open_old() uses qemu_open_internal() which handles special
-> "/dev/fdset/" path for monitor fd sets, set CLOEXEC, and uses Error
-> reporting (and some O_DIRECT special error casing).
->
-> The monitor fdset handling is unnecessary for qga, use
-> qemu_open_cloexec() instead.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  qga/channel-posix.c  | 14 +++++++++-----
->  qga/commands-posix.c | 24 ++++++++++++------------
->  2 files changed, 21 insertions(+), 17 deletions(-)
->
-> diff --git a/qga/channel-posix.c b/qga/channel-posix.c
-> index 0ce594bc36c2..a1262b130145 100644
-> --- a/qga/channel-posix.c
-> +++ b/qga/channel-posix.c
-> @@ -1,4 +1,5 @@
->  #include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
->  #include <termios.h>
->  #include "qapi/error.h"
->  #include "qemu/sockets.h"
-> @@ -128,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c, const=
- gchar *path,
->      switch (c->method) {
->      case GA_CHANNEL_VIRTIO_SERIAL: {
->          assert(fd < 0);
-> -        fd =3D qemu_open_old(path, O_RDWR | O_NONBLOCK
-> +        fd =3D qemu_open_cloexec(
-> +            path,
->  #ifndef CONFIG_SOLARIS
-> -                           | O_ASYNC
-> +            O_ASYNC |
->  #endif
-> -                           );
-> +            O_RDWR | O_NONBLOCK,
-> +            0,
-> +            errp
-> +        );
->          if (fd =3D=3D -1) {
->              error_setg_errno(errp, errno, "error opening channel");
->              return false;
-> @@ -157,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, const g=
-char *path,
->          struct termios tio;
->=20=20
->          assert(fd < 0);
-> -        fd =3D qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
-> +        fd =3D qemu_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0=
-, errp);
->          if (fd =3D=3D -1) {
-> -            error_setg_errno(errp, errno, "error opening channel");
->              return false;
->          }
->          tcgetattr(fd, &tio);
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 8ebc327c5e02..f82205e25813 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1392,6 +1392,7 @@ static GuestDiskInfoList *get_disk_partitions(
->=20=20
->  static void get_nvme_smart(GuestDiskInfo *disk)
->  {
-> +    Error *err =3D NULL;
->      int fd;
->      GuestNVMeSmart *smart;
->      NvmeSmartLog log =3D {0};
-> @@ -1404,9 +1405,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)
->                   | (((sizeof(log) >> 2) - 1) << 16)
->      };
->=20=20
-> -    fd =3D qemu_open_old(disk->name, O_RDONLY);
-> +    fd =3D qemu_open_cloexec(disk->name, O_RDONLY, 0, &err);
->      if (fd =3D=3D -1) {
-> -        g_debug("Failed to open device: %s: %s", disk->name, g_strerror(=
-errno));
-> +        g_debug("Failed to open device: %s: %s", disk->name, error_get_p=
-retty(err));
-> +        error_free(err);
->          return;
->      }
->=20=20
-> @@ -1737,9 +1739,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mou=
-ntpoints,
->              }
->          }
->=20=20
-> -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
-> +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
->          if (fd =3D=3D -1) {
-> -            error_setg_errno(errp, errno, "failed to open %s", mount->di=
-rname);
->              goto error;
->          }
->=20=20
-> @@ -1804,7 +1805,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
->=20=20
->      QTAILQ_FOREACH(mount, &mounts, next) {
->          logged =3D false;
-> -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
-> +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, NULL);
->          if (fd =3D=3D -1) {
->              continue;
->          }
-> @@ -1864,21 +1865,20 @@ static void guest_fsfreeze_cleanup(void)
->  GuestFilesystemTrimResponse *
->  qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
->  {
-> +    ERRP_GUARD();
->      GuestFilesystemTrimResponse *response;
->      GuestFilesystemTrimResult *result;
->      int ret =3D 0;
->      FsMountList mounts;
->      struct FsMount *mount;
->      int fd;
-> -    Error *local_err =3D NULL;
->      struct fstrim_range r;
->=20=20
->      slog("guest-fstrim called");
->=20=20
->      QTAILQ_INIT(&mounts);
-> -    build_fs_mount_list(&mounts, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> +    build_fs_mount_list(&mounts, errp);
-> +    if (*errp) {
+The thing is, as this is presented right now, I can hardly even see where 
+deviating behaviour for Windows would be, where not, and I'm missing any 
+explanations and reasons for the individual deviations right now. Chances are 
+that you are unnecessarilly adding duplicate code and unnecessary code 
+deviations. For me this 9p-local-win32.c approach looks overly complex and not 
+appropriately abstracted on first sight.
 
-Suggest to change build_fs_mount_list() to return bool, in accordance
-with the guidance under =3D Rules =3D in include/qapi/error.h, then do
+I suggest waiting for Greg to give his opinion on this as well before 
+continuing.
 
-       if (!build_fs_mount_list(&mounts, errp)) {
+Best regards,
+Christian Schoenebeck
 
-No need for ERRP_GUARD() then.
-
-This is not a demand.
-
->          return NULL;
->      }
->=20=20
-> @@ -1890,11 +1890,11 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimu=
-m, Error **errp)
->=20=20
->          QAPI_LIST_PREPEND(response->paths, result);
->=20=20
-> -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
-> +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
->          if (fd =3D=3D -1) {
-> -            result->error =3D g_strdup_printf("failed to open: %s",
-> -                                            strerror(errno));
-> +            result->error =3D g_strdup(error_get_pretty(*errp));
->              result->has_error =3D true;
-> +            g_clear_pointer(errp, error_free);
->              continue;
->          }
 
 
