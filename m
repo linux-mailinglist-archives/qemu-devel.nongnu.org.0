@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96ED951C604
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 19:23:05 +0200 (CEST)
-Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FE551C617
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 19:29:01 +0200 (CEST)
+Received: from localhost ([::1]:57582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmfBw-0000G2-Ef
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 13:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50224)
+	id 1nmfHg-0006nB-0m
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 13:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nmerZ-0001v9-PW
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:02:01 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:50239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nmerW-0008Oq-R6
- for qemu-devel@nongnu.org; Thu, 05 May 2022 13:02:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651770117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yu7k5+F7DkOqpSo51FmQogE0Dwx96qja50kktw2D/1o=;
- b=M7iq+q+O0zHgJsU9pSWG21DY3DlNqiJYw4Bwtu687bTI3kDpCKHgHl0mnmHOgI0ztG/Ykx
- Yj2YgUXAJa3aVu9Or+A/vju9alj8cHoWmlfgLVqbq0Ep8DbVZ4rYxejLYwZn0Dwx5PZH5I
- JwwWYrfIJe63fln6WOHwaj6bVfIGQRs=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-152-GwLEJ-CAOfuCRXpXeWTdvQ-1; Thu, 05 May 2022 13:01:56 -0400
-X-MC-Unique: GwLEJ-CAOfuCRXpXeWTdvQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- i14-20020a17090639ce00b006dabe6a112fso2940038eje.13
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 10:01:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmews-0001Fo-TN; Thu, 05 May 2022 13:07:31 -0400
+Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33]:37843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nmewq-0001BP-7u; Thu, 05 May 2022 13:07:30 -0400
+Received: by mail-oo1-xc33.google.com with SMTP id
+ f6-20020a4ace86000000b0035f083d2216so821875oos.4; 
+ Thu, 05 May 2022 10:07:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+QH995lV1H/eaDp3XzJoY1q1espmc3OWGrW7PPstr+4=;
+ b=pjDFISlRbj2eidcNnwaKsFmp9jFCxyQbtsJ+bblfPt9Nt+Ic6hUyUwc7cVf/cgoD6N
+ y7LExmvmUL2Pz2Hlf+lJHdBTvVRsEyVb8Wkz2vuLO2MOHiCnHkG0gCDDYkIrEjDfsuWq
+ FJbOP8x50Py/HCiisqjjLkLDvkSeZosAmgtZ1FjJkA4qDR5o8WUGTGaMbmPaSoUD+C1E
+ 2YP0rcXqrVTecZBCVOLjTx1te0jsygjObupHOD9R2P3NR4GmQj4ZH4q5GuvgUzasvWBR
+ N7R6o+75tBgHS2hMSHKcD3O3kI609Dw1C0srvlVAWzJZk3iFB7zycH60j0ECjT7N0tXJ
+ tkvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yu7k5+F7DkOqpSo51FmQogE0Dwx96qja50kktw2D/1o=;
- b=khCNdjcFDElGFEPaQXkHghNcxsSNsCpjCmUMKbs7fbwkGQc9onFY2/+YFRSeeIOx9g
- S3+dCjN7GDsJpa9kz1YhTaxOEfFsLChK6Kpr5ws3fwZyE85v4RdZ0ZLyPI9AufUztFLs
- CkXj+uqUuGliPiP1c/CT1bIAo8CyuZQxN7neWWSiWtiLKjKQrqKRpwu0ERtAMxTSNvJ9
- hQwoMLkYyu+Cs8Cb5dBRYoyIRkPeeOolfg1pwi3wF+ZRpcrnZ8oatrUYTrhS5HBL7clJ
- ziWT0DkqDA8ikQm3H5dnnbwd9ZZRHFGMM6znpgKzpdBdXFqTg3okCK1Vrw1Z5BQvwPqM
- 0//Q==
-X-Gm-Message-State: AOAM530UEQVxV0VnMC3rtBMOMyDV028vhOCSyTQB2pHyuU/9LKER3w6g
- k/XdW0Hra1oqD+6YW++5hXlTrHJMssVefl7uRu/jx5unJ0JG+BgNXRHhgu9/2hWZVqHgdPsZWd+
- 8xLiRvKS1VRrFvzJ9avBagDEX9BJBtdE=
-X-Received: by 2002:a17:906:99c3:b0:6f4:a9d7:6dac with SMTP id
- s3-20020a17090699c300b006f4a9d76dacmr12219889ejn.85.1651770115140; 
- Thu, 05 May 2022 10:01:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5INNzXXjzHWjRE6U/JYeb2vYPMoxFhN92RBcnnsPTDfPboBMcLRxI7WC6RgaaS8VHNF8ecaUAwnz2sKKy5/E=
-X-Received: by 2002:a17:906:99c3:b0:6f4:a9d7:6dac with SMTP id
- s3-20020a17090699c300b006f4a9d76dacmr12219857ejn.85.1651770114846; Thu, 05
- May 2022 10:01:54 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+QH995lV1H/eaDp3XzJoY1q1espmc3OWGrW7PPstr+4=;
+ b=ptmoZ0+4lPjZrAeb0hM8C2A4XDAYCBXFzrQb2dWC8IV/PIX0MW9mOI199eOWmdcFk8
+ eySyjM1F7NaKYz1vKgniQknFEyDdUC+S5lneMWKDruYn0rMe+W9NYT4UsUHuqMskess2
+ pMsMvG0iF2ACMxUNSQ0AYfV8o1aH7PLXEkMNc0ddCwu3L6eElH4kfe495Cwq6SRwbNEV
+ +pH7vBYbWNFZ2U2/boLvHADNdAUOgQD5NMk84M52lh2UXiMQXBNqpDbw2oGcuP1bYLbN
+ Yn9q9MhpBhctyxbJKpK0z5L+oO01WaV0lZZe7oFxheVUGiRoiPHboqHeIx4qBvUaw4ki
+ CZlA==
+X-Gm-Message-State: AOAM533sXlsrkNPqoCXbHdGaxmeL6GUehnS31pSG0C4uNVn832FWOhkb
+ VTmjTs9/DRLWIV8aJqcqvBE=
+X-Google-Smtp-Source: ABdhPJzfPMt62ULTXB/vfKtn9ogqHvVrM6HpVFD836kHXVL3U+RY/oGCdz25FYohmcKyRosSIfMP1Q==
+X-Received: by 2002:a4a:de4b:0:b0:35e:bac9:807f with SMTP id
+ z11-20020a4ade4b000000b0035ebac9807fmr9683226oot.16.1651770446763; 
+ Thu, 05 May 2022 10:07:26 -0700 (PDT)
+Received: from [192.168.10.102] (201-1-57-208.dsl.telesp.net.br.
+ [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
+ y23-20020a0568301d9700b006060322126esm771052oti.62.2022.05.05.10.07.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 10:07:25 -0700 (PDT)
+Message-ID: <b0ab5827-4df3-ef92-47cb-7fcf69d5fa54@gmail.com>
+Date: Thu, 5 May 2022 14:07:20 -0300
 MIME-Version: 1.0
-References: <20220504191835.791580-1-leobras@redhat.com>
- <20220504191835.791580-3-leobras@redhat.com>
- <YnOFUnA439GftKyQ@redhat.com>
- <CAJ6HWG7ZAPqyszS_ZGA_JH3jvQUpsZD=zQ8ismHtgq_PiSYRgw@mail.gmail.com>
- <YnPzb3PG0bff7AXG@redhat.com>
-In-Reply-To: <YnPzb3PG0bff7AXG@redhat.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Thu, 5 May 2022 14:01:43 -0300
-Message-ID: <CAJ6HWG5BvGa=k4P+9x9a1cmSK-MpfSs8=CdXBEvHZojOcFTi9g@mail.gmail.com>
-Subject: Re: [PATCH v11 2/7] QIOChannelSocket: Implement io_writev zero copy
- flag & io_flush for CONFIG_LINUX
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, 
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, 
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Fam Zheng <fam@euphon.net>, 
- Peter Xu <peterx@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.74; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v4 00/22] target/ppc: Remove hidden usages of *env
+Content-Language: en-US
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ richard.henderson@linaro.org, balaton@eik.bme.hu
+References: <20220504210541.115256-1-victor.colombo@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220504210541.115256-1-victor.colombo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,92 +94,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 5, 2022 at 12:55 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Thu, May 05, 2022 at 12:42:47PM -0300, Leonardo Bras Soares Passos wro=
-te:
-> >
-> > Hello Daniel,
-> >
-> > But what if this gets compiled in a Linux system without MSG_ZEROCOPY s=
-upport?
-> > As qapi will have zero-copy-send as an option we could have this scenar=
-io:
-> >
-> > - User request migration using zero-copy-send
-> > - multifd_save_setup() will set write_flags =3D QIO_CHANNEL_WRITE_FLAG_=
-ZERO_COPY
-> > - In qio_channel_socket_connect_sync(): setsockopt() part will be
-> > compiled-out, so no error here
-> > - above part in qio_channel_socket_writev() will be commented-out,
-> > which means write_flags will be ignored
-> > - sflags will not contain MSG_ZEROCOPY, so sendmsg() will use copy-mode
-> > - migration will succeed
-> >
-> > In the above case, the user has all the reason to think migration is
-> > using MSG_ZEROCOPY, but in fact it's quietly falling back to
-> > copy-mode.
->
-> I think we're ok because qio_channel_writev_full() does
->
->     if ((flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) &&
->         !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY=
-)) {
->         error_setg_errno(errp, EINVAL,
->                          "Requested Zero Copy feature is not available");
->         return -1;
->     }
->
-> and since there's no way for QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY to
-> get set when MSG_ZEROCOPY is compiled out, we'll trigger the error
-> condition.
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
-Oh, that's right. It will fail in the first writev(), I was just
-considering failing during setup.
 
->
-> > That's why I suggested creating a 'global' config usiing SO_ZEROCOPY &
-> > MSG_ZEROCOPY & CONFIG_LINUX so we can use in qapi and have no chance
-> > of even offering zero-copy-send if we don't have it.
-> >
-> > Another local option is to do implement your suggestions, and also
-> > change qio_channel_socket_connect_sync() so it returns an error if
-> > MSG_ZEROCOPY && SO_ZEROCOPY is not present, such as:
-> >
-> > +#ifdef CONFIG_LINUX
-> > +#if defined(MSG_ZEROCOPY)  && defined(SO_ZEROCOPY)
-> > +    int ret, v =3D 1;
-> > +    ret =3D setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
-> > +    if (ret =3D=3D 0) {
-> > +        /* Zero copy available on host */
-> > +        qio_channel_set_feature(QIO_CHANNEL(ioc),
-> > +                                QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY);
-> > +    }
-> > +#else
-> > +    error_setg_errno(errp, errno,"MSG_ZEROCOPY not available");
-> > +    return -1;
-> > +#endif
-> > +#endif
->
-> Do we actually need the ifdef CONFIG_LINUX bit at all ?
->
-> Sufficient to just have the check for MSG_ZEROCOPY + SO_ZEROCOPY,
-> which will fail on non-Linux anyway.
+Daniel
 
-By some include issue, or by future implementations we can have
-MSG_ZEROCOPY or SO_ZEROCOPY getting defined in OS other than Linux,
-which would introduce some headaches.
-
-Since you pointed out that migration will fail on writev, the above
-piece of code is not necessary.
-We could have a local define that equals to (MSG_ZEROCOPY &&
-SO_ZEROCOPY && CONFIG_LINUX) so that we can make the code simpler
-where needed.
-
-I will work on a v12 and send it here.
-
-Best regards,
-Leo
-
+On 5/4/22 18:05, Víctor Colombo wrote:
+> By running the grep command `git grep -nr 'define \(fpscr\|msr\)_[a-z0-9]\+\>'`
+> we can find multiple macros that use `env->fpscr` and `env->msr` but doesn't
+> take *env as a parameter.
+> 
+> Richard Henderson said [1] that these macros hiding the usage of *env "are evil".
+> This patch series remove them and substitute with an explicit usage of *env by
+> using registerfields API.
+> 
+> Patch 20 (target/ppc: Add unused msr bits FIELDs) declares unused FIELDs, the
+> same that were removed in patch 02 (target/ppc: Remove unused msr_* macros). I
+> did that to keep the changes consistent with what was already present before.
+> 
+> Patch 21 (target/ppc: Change MSR_* to follow POWER ISA numbering convention)
+> changes the MSR_* bit number to match POWER ISA by adding a new macro to
+> 'invert' the ordering. (added in v2)
+> 
+> [1]: https://lists.gnu.org/archive/html/qemu-ppc/2021-11/msg00280.html
+> 
+> Sending a v4 because another patch queued in ppc-next added an usage of
+> msr_de
+> 
+> v2:
+> - Abandon the ideia to add an M_MSR_* macro
+> - Instead, use registerfields API as suggested by Richard
+> - Add patch 21 to invert MSR_* values to match ISA ordering
+> 
+> v3:
+> - Add macro to extract both FE0 and FE1. Use it to simplify the
+>    conditionals in patch 17
+> - Fix the checks that should be a xor
+> - Fix incorrect parameter in FIELD_EX64 (was env->msr should be value)
+>    in patch 16
+> - Fix patch 13 title
+> 
+> v4:
+> - Rebase on top of target/ppc: Fix BookE debug interrupt generation
+> - Add patch target/ppc: Remove msr_de macro. msr_de was not being used
+>    anywhere before, but an usage was added in the patch
+>    target/ppc: Fix BookE debug interrupt generation
+> - Necessary changes in other patches:
+>    dont remove msr_de in patch 2
+>    context change in other patches
+> 
+> 
+> Víctor Colombo (22):
+>    target/ppc: Remove fpscr_* macros from cpu.h
+>    target/ppc: Remove unused msr_* macros
+>    target/ppc: Remove msr_pr macro
+>    target/ppc: Remove msr_le macro
+>    target/ppc: Remove msr_ds macro
+>    target/ppc: Remove msr_ile macro
+>    target/ppc: Remove msr_ee macro
+>    target/ppc: Remove msr_ce macro
+>    target/ppc: Remove msr_pow macro
+>    target/ppc: Remove msr_me macro
+>    target/ppc: Remove msr_gs macro
+>    target/ppc: Remove msr_fp macro
+>    target/ppc: Remove msr_cm macro
+>    target/ppc: Remove msr_ir macro
+>    target/ppc: Remove msr_dr macro
+>    target/ppc: Remove msr_ep macro
+>    target/ppc: Remove msr_fe0 and msr_fe1 macros
+>    target/ppc: Remove msr_ts macro
+>    target/ppc: Remove msr_hv macro
+>    target/ppc: Remove msr_de macro
+>    target/ppc: Add unused msr bits FIELDs
+>    target/ppc: Change MSR_* to follow POWER ISA numbering convention
+> 
+>   hw/ppc/pegasos2.c        |   2 +-
+>   hw/ppc/spapr.c           |   2 +-
+>   target/ppc/cpu.c         |   2 +-
+>   target/ppc/cpu.h         | 220 ++++++++++++++++++---------------------
+>   target/ppc/cpu_init.c    |  23 ++--
+>   target/ppc/excp_helper.c |  54 +++++-----
+>   target/ppc/fpu_helper.c  |  28 ++---
+>   target/ppc/gdbstub.c     |   2 +-
+>   target/ppc/helper_regs.c |  15 ++-
+>   target/ppc/kvm.c         |   7 +-
+>   target/ppc/machine.c     |   2 +-
+>   target/ppc/mem_helper.c  |  23 ++--
+>   target/ppc/misc_helper.c |   2 +-
+>   target/ppc/mmu-radix64.c |  11 +-
+>   target/ppc/mmu_common.c  |  40 +++----
+>   target/ppc/mmu_helper.c  |   6 +-
+>   16 files changed, 220 insertions(+), 219 deletions(-)
+> 
 
