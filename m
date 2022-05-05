@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7995751C53C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 18:38:25 +0200 (CEST)
-Received: from localhost ([::1]:60820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D0351C53F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 18:39:38 +0200 (CEST)
+Received: from localhost ([::1]:33624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmeUi-0007GB-Hs
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 12:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37150)
+	id 1nmeVt-0007yi-BW
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 12:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nmeBK-0001r5-Iz; Thu, 05 May 2022 12:18:22 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46792)
+ id 1nmeBM-0001vp-Aq; Thu, 05 May 2022 12:18:24 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nmeBI-0005i6-UB; Thu, 05 May 2022 12:18:22 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id j6so9656119ejc.13;
- Thu, 05 May 2022 09:18:20 -0700 (PDT)
+ id 1nmeBK-0005iO-NV; Thu, 05 May 2022 12:18:23 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id gh6so9747462ejb.0;
+ Thu, 05 May 2022 09:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J/6+mxJShYSyNeMzfW/wdjGGv9Bb6vFzmsX6eoKrHRk=;
- b=miDSWfIkmiUY/gnVWh/Ljtfwn6XC6wPipfvuBfqYxYYoDwdPJFvAYZsrVI4ea10qzS
- AqXyTBbeYf292uKemAOWeoVLWOa2XybcL8DlWwwrhJ1jo+u23Qba7LdtKqhVOihgBto7
- MaPn+p1sCJhRGQkz3r60ut6/lzlN5y8y1YwNL+/awZXWmoIJz6glK72mJpSrRreqgYW+
- 49EUzJE/rahFSEvTVWgGvZOFgfiD8p5r9ago3fT+EBaCXXAyVhCiCyUDAXS5ixgfFVgS
- xE5geH8DJ2xwvQOLTAXdJw3pcoIEfLSLVhUB6UvpKksg5hHH8IPmYc+dZxYHsK6Ismi7
- N2og==
+ bh=7MxLriz5xbAd+BcL6eLZMlnBhbAdcemwHPwNNnHpCCY=;
+ b=ELfhp9FMeL2dIP+E0VbWE89x9GN9igwhGwcnXx2LbUZfO+Z+ifshd4U3jeJW/fx/nq
+ 6UNC9TiHL0gmlui8TDz9MQB4Fe+Ck1FZTuVSg+kwO3i+WEVLmsuGnHNmZExFsXn+9a9h
+ 9s2zNEIKypvaFYRn0yRqVVQMmrPgpR+8p5BkmVEKovbzsUwcKBMmp4XWuw1dfn5Xttjq
+ 2w4bCsJ8cfwZGyTFgg50tMOl+3PDv4Xj1SQOsbROZZCqG0WgYBh4hWJuaQ41dXcZ3sS4
+ 8wLtBWtEJr2zADyZK3UrQMbrYQpGtKaCBCvYSsSq2mme6Y/K/V15/lG8+WrjizKD90dw
+ Kw7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J/6+mxJShYSyNeMzfW/wdjGGv9Bb6vFzmsX6eoKrHRk=;
- b=PQY5cp3G1/ZXdXtJdIDbOINjjvetZTBT8P8pCI68zCgcAUef3667l+C1/z2gmsOBqL
- 5wy8pU61RL2PNirkRH0l5SaWa0XKartBxtBTUfgn4McTcZjKecD5QiB8MtzYNPoiA1DO
- 9M03EdKtTTtn9gZvn9aM/HajZG4KuzMwLenU6b4lHPgMABt8I8c8rvLzN8zob9PJd59N
- mb7EhCey0R+LP+ZKZrwmyfOa+5tHDr0h/gsBUkVe2xcZGaZuQRGuM/anmSYF5b8EoqPN
- /Z+tYDYByZnxYNgdQUoXSpJnuSP01z91nRX8+GbMVhV7W+gEEXDRKHKsAmTDbLi24idz
- a5+g==
-X-Gm-Message-State: AOAM533vq0TvQ19YT8VBm/LUqs8Dlxtzs0NiCK47jVOUAsS03TuahD3u
- PW46ysv3K1lF/D2M2jz8Rp76l2Ijwqo=
-X-Google-Smtp-Source: ABdhPJz8vVfU/hDV5dhc96hloRUT+iF27TJTwsopYOEQixwM+6EynORU5ouK4cePv59e7cB0REOeHw==
-X-Received: by 2002:a17:906:cb90:b0:6f4:d91b:1025 with SMTP id
- mf16-20020a170906cb9000b006f4d91b1025mr7536531ejb.177.1651767498935; 
- Thu, 05 May 2022 09:18:18 -0700 (PDT)
+ bh=7MxLriz5xbAd+BcL6eLZMlnBhbAdcemwHPwNNnHpCCY=;
+ b=NaxmCfGqJeR10/6a8IGEFXj987swi2drxf712MY1oVdEJyQrRB0ly/ZG0q1KoA5ykp
+ Aqs4RNR/HYu5d8LJWuHtBIPQrMHdAap3h0jdDGXF/XPUlEP4K5oYb5lmuVoLGZv8ZZR4
+ EMjYq4kaV1QlxAsxXMLvXhpx/mrLo1R51mMhRx5z81O72l1uUmqbGQDMWe2NSPnJEPqI
+ NFismsUZ+IUDz2hH0VUqkzpb3BkEUuCk05iHDWcJ532uyozh2zy2QKBVoemT4wjxcohD
+ so2fANvKtK7p2yPM901tYeG5AkJIhAymm+eNOhyC3eXqUl1VRQ7upercEMY/nioJCucl
+ TynQ==
+X-Gm-Message-State: AOAM530xXXjOoKPtbCNcGyQ4IVAbo1+OdUzEJCpbu33/bTnr1DJDoe7f
+ PcCxDclfUJb9EicT2UgZ19XoVUz5KgM=
+X-Google-Smtp-Source: ABdhPJyYxd40FUn/Oz7tVpdQk3zDoHOsx4ZNDJeHl6H3UVLUBipYazoN2tiHR/du/qDDQ3uxQ0ymlQ==
+X-Received: by 2002:a17:907:7811:b0:6ef:a896:b407 with SMTP id
+ la17-20020a170907781100b006efa896b407mr26059056ejc.645.1651767500127; 
+ Thu, 05 May 2022 09:18:20 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-078-054-123-159.78.54.pool.telefonica.de. [78.54.123.159])
  by smtp.gmail.com with ESMTPSA id
- i6-20020a17090685c600b006f3ef214dcfsm868542ejy.53.2022.05.05.09.18.18
+ i6-20020a17090685c600b006f3ef214dcfsm868542ejy.53.2022.05.05.09.18.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 09:18:18 -0700 (PDT)
+ Thu, 05 May 2022 09:18:19 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 01/11] hw/rtc/mc146818rtc: Inline isa_connect_gpio_out() and
- remove it
-Date: Thu,  5 May 2022 18:17:55 +0200
-Message-Id: <20220505161805.11116-2-shentey@gmail.com>
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
+Subject: [PATCH 02/11] hw: Reuse TYPE_I8042 define
+Date: Thu,  5 May 2022 18:17:56 +0200
+Message-Id: <20220505161805.11116-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220505161805.11116-1-shentey@gmail.com>
 References: <20220505161805.11116-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,60 +94,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 250263033c5343012b2cd6f01210ffb5b908a159 'isa: introduce wrapper
-isa_connect_gpio_out' introduced it in 2016. Since then, its only user
-remained mc146818rtc. Remove this one-off solution.
+TYPE_I8042 is exported, so reuse it for consistency.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/isa-bus.c     | 6 ------
- hw/rtc/mc146818rtc.c | 3 ++-
- include/hw/isa/isa.h | 1 -
- 3 files changed, 2 insertions(+), 8 deletions(-)
+ hw/i386/pc.c       | 4 ++--
+ hw/sparc64/sun4u.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 0ad1c5fd65..59eb1af9e3 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -85,12 +85,6 @@ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
-     return isabus->irqs[isairq];
- }
- 
--void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
--{
--    qemu_irq irq = isa_get_irq(isadev, isairq);
--    qdev_connect_gpio_out(DEVICE(isadev), gpioirq, irq);
--}
--
- void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16)
- {
-     assert(bus && dma8 && dma16);
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index f235c2ddbe..79c43391cb 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -972,7 +972,8 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
-     if (intercept_irq) {
-         qdev_connect_gpio_out(dev, 0, intercept_irq);
-     } else {
--        isa_connect_gpio_out(isadev, 0, s->isairq);
-+        qemu_irq irq = isa_get_irq(isadev, s->isairq);
-+        qdev_connect_gpio_out(dev, 0, irq);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 23bba9d82c..649511a49b 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1042,7 +1042,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
+         return;
      }
  
-     object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(isadev),
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 034d706ba1..1b758ae1ab 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -90,7 +90,6 @@ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion *address_space,
-                     MemoryRegion *address_space_io, Error **errp);
- void isa_bus_irqs(ISABus *bus, qemu_irq *irqs);
- qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
--void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
- void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16);
- IsaDma *isa_get_dma(ISABus *bus, int nchan);
- MemoryRegion *isa_address_space(ISADevice *dev);
+-    i8042 = isa_create_simple(isa_bus, "i8042");
++    i8042 = isa_create_simple(isa_bus, TYPE_I8042);
+     if (!no_vmport) {
+         isa_create_simple(isa_bus, TYPE_VMPORT);
+         vmmouse = isa_try_new("vmmouse");
+@@ -1050,7 +1050,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
+         vmmouse = NULL;
+     }
+     if (vmmouse) {
+-        object_property_set_link(OBJECT(vmmouse), "i8042", OBJECT(i8042),
++        object_property_set_link(OBJECT(vmmouse), TYPE_I8042, OBJECT(i8042),
+                                  &error_abort);
+         isa_realize_and_unref(vmmouse, isa_bus, &error_fatal);
+     }
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 6fd08e2298..77687dc649 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -334,7 +334,7 @@ static void ebus_realize(PCIDevice *pci_dev, Error **errp)
+     parallel_hds_isa_init(s->isa_bus, MAX_PARALLEL_PORTS);
+ 
+     /* Keyboard */
+-    isa_create_simple(s->isa_bus, "i8042");
++    isa_create_simple(s->isa_bus, TYPE_I8042);
+ 
+     /* Floppy */
+     for (i = 0; i < MAX_FD; i++) {
 -- 
 2.36.0
 
