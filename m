@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909E551C9AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:53:32 +0200 (CEST)
-Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E20751C9BD
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:56:57 +0200 (CEST)
+Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmhXX-00016x-Hp
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47944)
+	id 1nmhaq-00077v-JP
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZ8-0003Ro-TC; Thu, 05 May 2022 14:51:06 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:42851)
+ id 1nmgZB-0003Sj-2H; Thu, 05 May 2022 14:51:10 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:46072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgZ5-0004Uh-Nj; Thu, 05 May 2022 14:51:06 -0400
-Received: by mail-oi1-x230.google.com with SMTP id w194so4040332oie.9;
- Thu, 05 May 2022 11:51:02 -0700 (PDT)
+ id 1nmgZ8-0004b2-3Q; Thu, 05 May 2022 14:51:07 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ s18-20020a056830149200b006063fef3e17so3501558otq.12; 
+ Thu, 05 May 2022 11:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l9mWrtPruW1hxZRc0VV0WVjuoWYnJjip3JU6QBbiMZY=;
- b=f+ycOlRY1zu3YuWkCWNEV7RzZFHKIQ5hTWj9uEDfP6emh3js7vKsvHmEPbDCAjSyas
- g8FykwJKFU993Ymub26a5L9pEHhIRwNzk8VkSpfDeH5oR9p6v3lSx1cY++hrU9gnQZ20
- 9KHsWaMg0ZIE8WXunEkYTL5oex6w6KwkF1q0Oidn8Mh90SnOH5xpDMNJbikeZ3Yqizl8
- /8gIGc+C6BYFvKCjBE4o5JuIvPUP9PKql7FsZNDy0qE1H69S68RJCX9+PJJ2fn94XzFP
- //xSCW3w7x29sMMcuM7lWTE2XefQJOAg+4c/I8oUsUckJMc1IzmnHeAcw6pKyygcieQ9
- /uYA==
+ bh=iREEK7YQCVNl6aqmIZD6DiVspuMek65x7eD0wvb4T9M=;
+ b=LRE9sFqLnNVdp96wrWyPd/mk58N2drK6Eht6MhUnFc5hFvfattVg0ZhzHnVTG/D7Gn
+ JA2j4jih40FX6VxrLEi5PCxMwuz1gtU7Bin5XXGSnha6uyq5s0iLph028exALPEFUuLw
+ JuntCu7YW3gwEbwu8SLKn2YJesQw/5SfS9SSxwIR7ClRv4xnisHpEbkDrO0xMTV7YjS5
+ 3nA6/4zhH7CO0TtyO3mkLISNXpF2XK1O0E4EUh8zewN5dsshEIogDEun2CXuH6E+mO7r
+ aTBFQOu3Y5klnLLxVuKVP/FQk6b1kNjpbGGcd+yy2iVm8ZL4DlMWD20vAhg9nT4gkuvU
+ +OLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l9mWrtPruW1hxZRc0VV0WVjuoWYnJjip3JU6QBbiMZY=;
- b=4G4UGtCc1+U3fxxfiAUnkXnH64rkcVEaSetLCfqTkoYFEybH74irFteCZP5f4YFUZN
- fjKjVqCPSuf4qdMg3DlyLU2OtWbwskxzkBSm+7MEQtQ3QdrcDo16UVQCMW76eRcVaOkN
- ECDjYwaFATSFSx7EbaQ8pCCxurMIlhXsxnJU/GOrcQwox8Ch2HqvTlb8VK4UFK90T9T3
- RhuCSdtwICg06ZEPz0uNlTtNY9W+SzjpeN+wL1ExKjJ0JXUw7TdPP+SbQc3s2cXdgZO7
- LLDQ7mPv/51CN0ND3EgGEDqEb8Q40FOP9UhfMZHb3oqXHeCYKoDWsOUdh3wbbozDFrpa
- XNsA==
-X-Gm-Message-State: AOAM530l1vYoH0dQfKCj6RZk8qbQsv9ln+xqJHdXfSzJvqw68lg1fU1g
- Sri1YHEB/XMN+xVniXT0xavndhw3OiM=
-X-Google-Smtp-Source: ABdhPJy9qIYZRVi5gbdCB1t8Lu+GeldDxXvP0dJFQeeY1kigKYNGsfJwCf6eIfh8KQjGvfPJ0JAmUw==
-X-Received: by 2002:a05:6808:98f:b0:325:d44d:62d6 with SMTP id
- a15-20020a056808098f00b00325d44d62d6mr3111314oic.145.1651776661869; 
- Thu, 05 May 2022 11:51:01 -0700 (PDT)
+ bh=iREEK7YQCVNl6aqmIZD6DiVspuMek65x7eD0wvb4T9M=;
+ b=GdJ8etTKpXf7bJCXPDFVGXWiLt9/ZHIwLq6GMWaKVguzVTGCBkznNaDx08uVwFDH3X
+ tq1kDprURnzBuhJvVO/lD/bXNtH+x4dFYtQsStTjv28UGkWUTqfK7WSSuuj7cRCRujvz
+ TPQ5pDD37I858uPl5WNIp2Fhq2IsrcwO068qaRpF0YdDIn/+8gW2JvOw9dVFyF6tENuO
+ GbOIid5qmlkSZyoJnwNjXi5U/0Z58N6xvgIPu7rNh4a8YT7SF1BfAmsj5EFyy9zvw/el
+ cHrkYBV/gSt6NvMd0Cr8o9G37PPztAOiEvjqBzvt+FK79KFJXJfdyWZGzYZlM2lqC9LK
+ wkzw==
+X-Gm-Message-State: AOAM533D24BsF6l4OEHTXequaoXJyuR5XJaH0nG7EirLxr5yBacyzdkS
+ MRlNWjCWmTYmncmm6X4X1HKGHSazjCA=
+X-Google-Smtp-Source: ABdhPJyS4foRERjMlFP587Vi0fjMET3Y3hvaTgmc6J3PKoFkqYC1Qo2Era9YQeVjwc426U33iG6TKA==
+X-Received: by 2002:a9d:5e91:0:b0:605:df49:462 with SMTP id
+ f17-20020a9d5e91000000b00605df490462mr10180618otl.228.1651776664952; 
+ Thu, 05 May 2022 11:51:04 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.59
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.51.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:51:01 -0700 (PDT)
+ Thu, 05 May 2022 11:51:04 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-Subject: [PULL 18/30] target/ppc: Remove msr_me macro
-Date: Thu,  5 May 2022 15:49:26 -0300
-Message-Id: <20220505184938.351866-19-danielhb413@gmail.com>
+Subject: [PULL 19/30] target/ppc: Remove msr_gs macro
+Date: Thu,  5 May 2022 15:49:27 -0300
+Message-Id: <20220505184938.351866-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
 References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,98 +93,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-msr_me macro hides the usage of env->msr, which is a bad behavior
+msr_gs macro hides the usage of env->msr, which is a bad behavior
 Substitute it with FIELD_EX64 calls that explicitly use env->msr
 as a parameter.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220504210541.115256-11-victor.colombo@eldorado.org.br>
+Message-Id: <20220504210541.115256-12-victor.colombo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h         |  2 +-
- target/ppc/excp_helper.c | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ target/ppc/cpu.h         | 2 +-
+ target/ppc/helper_regs.c | 2 +-
+ target/ppc/mmu_helper.c  | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 5a83c4b028..deb861f5f3 100644
+index deb861f5f3..bd5dffc9b1 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -359,6 +359,7 @@ FIELD(MSR, CE, MSR_CE, 1)
- FIELD(MSR, ILE, MSR_ILE, 1)
- FIELD(MSR, EE, MSR_EE, 1)
- FIELD(MSR, PR, MSR_PR, 1)
-+FIELD(MSR, ME, MSR_ME, 1)
- FIELD(MSR, DS, MSR_DS, 1)
- FIELD(MSR, LE, MSR_LE, 1)
+@@ -354,6 +354,7 @@ typedef enum {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
-@@ -480,7 +481,6 @@ FIELD(MSR, LE, MSR_LE, 1)
++FIELD(MSR, GS, MSR_GS, 1)
+ FIELD(MSR, POW, MSR_POW, 1)
+ FIELD(MSR, CE, MSR_CE, 1)
+ FIELD(MSR, ILE, MSR_ILE, 1)
+@@ -479,7 +480,6 @@ FIELD(MSR, LE, MSR_LE, 1)
+ #define msr_hv   (0)
+ #endif
  #define msr_cm   ((env->msr >> MSR_CM)   & 1)
- #define msr_gs   ((env->msr >> MSR_GS)   & 1)
+-#define msr_gs   ((env->msr >> MSR_GS)   & 1)
  #define msr_fp   ((env->msr >> MSR_FP)   & 1)
--#define msr_me   ((env->msr >> MSR_ME)   & 1)
  #define msr_fe0  ((env->msr >> MSR_FE0)  & 1)
  #define msr_de   ((env->msr >> MSR_DE)   & 1)
- #define msr_fe1  ((env->msr >> MSR_FE1)  & 1)
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index ee63641dd0..e254ae806c 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -444,7 +444,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
-         srr1 = SPR_40x_SRR3;
-         break;
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -575,7 +575,7 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
-         break;
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -748,7 +748,7 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 79c0143a7a..4e649d8b0e 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -233,7 +233,7 @@ int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv)
+     }
+     if ((env->mmu_model == POWERPC_MMU_BOOKE ||
+          env->mmu_model == POWERPC_MMU_BOOKE206) &&
+-        ((value >> MSR_GS) & 1) != msr_gs) {
++        ((value ^ env->msr) & R_MSR_GS_MASK)) {
+         cpu_interrupt_exittb(cs);
+     }
+     if (unlikely((env->flags & POWERPC_FLAG_TGPR) &&
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 142a717255..5bb5c71038 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -935,7 +935,7 @@ void helper_booke206_tlbwe(CPUPPCState *env)
+     }
  
-     switch (excp) {
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -933,7 +933,7 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
+     if (((env->spr[SPR_BOOKE_MAS0] & MAS0_ATSEL) == MAS0_ATSEL_LRAT) &&
+-        !msr_gs) {
++        !FIELD_EX64(env->msr, MSR, GS)) {
+         /* XXX we don't support direct LRAT setting yet */
+         fprintf(stderr, "cpu: don't support LRAT setting yet\n");
+         return;
+@@ -962,7 +962,7 @@ void helper_booke206_tlbwe(CPUPPCState *env)
+                                POWERPC_EXCP_INVAL_INVAL, GETPC());
+     }
  
-     switch (excp) {
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -1128,7 +1128,7 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
-         srr1 = SPR_BOOKE_CSRR1;
-         break;
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
-@@ -1366,7 +1366,7 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+-    if (msr_gs) {
++    if (FIELD_EX64(env->msr, MSR, GS)) {
+         cpu_abort(env_cpu(env), "missing HV implementation\n");
+     }
  
-     switch (excp) {
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
--        if (msr_me == 0) {
-+        if (!FIELD_EX64(env->msr, MSR, ME)) {
-             /*
-              * Machine check exception is not enabled.  Enter
-              * checkstop state.
 -- 
 2.32.0
 
