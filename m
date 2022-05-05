@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A7D51C8EB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:26:18 +0200 (CEST)
-Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5A451C8D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 21:18:16 +0200 (CEST)
+Received: from localhost ([::1]:38354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmh7A-0003qN-FN
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47054)
+	id 1nmgzP-0000HS-80
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 15:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYW-0002ir-Mq; Thu, 05 May 2022 14:50:28 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:44707)
+ id 1nmgYS-0002YI-P3; Thu, 05 May 2022 14:50:24 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:37830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nmgYP-0004NN-34; Thu, 05 May 2022 14:50:28 -0400
-Received: by mail-oi1-x230.google.com with SMTP id m11so5238858oib.11;
- Thu, 05 May 2022 11:50:14 -0700 (PDT)
+ id 1nmgYO-0004Ot-JW; Thu, 05 May 2022 14:50:24 -0400
+Received: by mail-oi1-x234.google.com with SMTP id r1so5261781oie.4;
+ Thu, 05 May 2022 11:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uSsF244vZwVV0oKrilhMtJ2vlWLa4NxggLes2MVhJig=;
- b=dUuFytaMw++zSDaS9Bw2yTrgumuTHSikepaL6yYNGdrxFsJuGOyAk9nYLErZEkyenG
- qO2LrpxRKop1l1D1XTk+IZ0RvcPwAZIE1Tvf5Fa3HxU16cby27Owdto6Y6dgHQivhBbm
- OpXMfie5iaCgMCBGB2bbbHRGURxFfPV8dCnAI38C8/J8c/WsIgki+cRlafq4c9nznJ00
- 1FciT6yGu8bLFj3bk3A1oRRi31vE7z7JEuEpG4t8RL5HktDrnC72VZfATI4unzkf9QRS
- N+xzE4YIkLCzw/xOFaCA61hC4oNPiuzQwnN0MVVUEuhsI3cJ6vk+wrr3pjLzJYKOClqD
- IHOg==
+ bh=qo46eIt3CY06YeK+ivE+F/5vS7XIdMDSLi7s453OL4k=;
+ b=ItDw4IVbwSN4BwuKpmxLQ1qCW05iymhTgOXVjmq0ZCWEkydrAm44vQpcYB704qoROs
+ oaeWji7sKqWW+9+iY9cE8scLLPmi6WjK8HNm8gAJh7RlPkjfEdoY7ajRHdQng0IdI9tL
+ CnpMBFqmmuXCoAvBWhluRDfKICkBoyMzJDp1iR6jap7uvpqE4tBEn6Y9tMyg7PHTTJSd
+ geNMTAjVJOPe/rjcaEtE6WbOkwG6SiTJ7eA66Dj2jp+/6/GwR2Rqghl3L6+guc6/t5CH
+ Wi1EHrbpo5r6vKF9mbA/dNm9jnkmt8ldyOh35xtueBH5CI/pKS2n8H4JiSvZio6ZOgNF
+ 1imw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uSsF244vZwVV0oKrilhMtJ2vlWLa4NxggLes2MVhJig=;
- b=zCw6LDqNPp8GePtEq0gtlzAqq5nq59RidqZyW2sUtLIL1d69ksGyZWFBfOAIj1OcRn
- EYjOh8irF6il2i3Ma4ASWtlcHFIQtGU9cm2GDseoa32A6GNlqOjG6KYeUQviUCcUnFc3
- CcxmYEyYPiBH7L7FydlMq1Q9sysQjdYCrm//Kb+vN6fOW0qb6LfP34czpziipNAcajtv
- NGnzqN4rtkK2fmtbR0nEikjObgzTddJ5CbmVyYa4hTvh4bM5hwvlUULOALqJwbhpoa74
- NsWyVhny8rEQyqA6ExlJsrnx0VfZK3BW6H9MzpwrzHCPFAOvDac0P8QuQ7Q83iBHVMwS
- wMUw==
-X-Gm-Message-State: AOAM5332msqsHHWyCKr0EtqCk/2ccYPx0lvQAcAXN9IykcfFK8hAbOkq
- wN6Fj3R9+ef00d5tm5zoPf0InJkFrts=
-X-Google-Smtp-Source: ABdhPJySpGsr0FOHdX1pd7oizkFaR5X9B18EJrRDxy8J9jIbPskxuiwPtb2XfJFaaxmTLQpxDYJzBg==
-X-Received: by 2002:a05:6808:120f:b0:325:bc53:2150 with SMTP id
- a15-20020a056808120f00b00325bc532150mr3263700oil.139.1651776613505; 
- Thu, 05 May 2022 11:50:13 -0700 (PDT)
+ bh=qo46eIt3CY06YeK+ivE+F/5vS7XIdMDSLi7s453OL4k=;
+ b=DSbBAXoCSLUdXXjeGiECwSS03bL6ZcejEbW/QyLw3iA2UKXr4RTgUyV3+jFdVosZ3x
+ wlKivhSPcPSNVfdAfav6vnRj2u2AvhBu6iovTMa7HiYNEyc+jGxbKPemPIZuv9L5gU0o
+ olzFyHrunaWLLViUNjHZrFrq8b+PsNfVXmEj3FaEEangC37/7nnaFa9BuB0WX6QwVKg9
+ Noo4FHUuNpLWiF5QFsO4i5F6ZcgfqtQoKR9PAJ/e1wK89XAF2xCs6i/MM162yOTVG8ru
+ 2d9ijuQckWFD+taqnIbVr04oNPrUixp1FyT8AEXRwtn8JuoRgJv+ToVShVHPNlXGqoKP
+ f0BA==
+X-Gm-Message-State: AOAM532FMaQDgffbplHJ3G8xsmkXkSETdb44K2GxJJ1mE1hMW/bGsU85
+ m+aRZ4rcnn9GCLNUQoi8lKeKb2zghco=
+X-Google-Smtp-Source: ABdhPJwrgUN/APIg+P86Iw1YQNnKormX7g2ieZjtQjTZvPjBnzewPbHXwpqxXBRrFYlV8LkflYNZKA==
+X-Received: by 2002:a05:6808:220c:b0:325:c254:9b0a with SMTP id
+ bd12-20020a056808220c00b00325c2549b0amr3045215oib.239.1651776616487; 
+ Thu, 05 May 2022 11:50:16 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.10
+ n67-20020aca4046000000b00325cda1ff94sm917146oia.19.2022.05.05.11.50.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 11:50:13 -0700 (PDT)
+ Thu, 05 May 2022 11:50:16 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 03/30] target/ppc: init 'sregs' in kvmppc_put_books_sregs()
-Date: Thu,  5 May 2022 15:49:11 -0300
-Message-Id: <20220505184938.351866-4-danielhb413@gmail.com>
+Subject: [PULL 04/30] target/ppc: init 'rmmu_info' in kvm_get_radix_page_info()
+Date: Thu,  5 May 2022 15:49:12 -0300
+Message-Id: <20220505184938.351866-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505184938.351866-1-danielhb413@gmail.com>
 References: <20220505184938.351866-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,52 +90,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Init 'sregs' to avoid Valgrind complaints about uninitialized bytes
-from kvmppc_put_books_sregs():
+Init the struct to avoid Valgrind complaints about unitialized bytes,
+such as this one:
 
-==54059== Thread 3:
-==54059== Syscall param ioctl(generic) points to uninitialised byte(s)
-==54059==    at 0x55864E4: ioctl (in /usr/lib64/libc.so.6)
-==54059==    by 0xD1FA23: kvm_vcpu_ioctl (kvm-all.c:3053)
-==54059==    by 0xAFB18B: kvmppc_put_books_sregs (kvm.c:891)
-==54059==    by 0xAFB47B: kvm_arch_put_registers (kvm.c:949)
-==54059==    by 0xD1EDA7: do_kvm_cpu_synchronize_post_init (kvm-all.c:2766)
-==54059==    by 0x481AF3: process_queued_cpu_work (cpus-common.c:343)
-==54059==    by 0x4EF247: qemu_wait_io_event_common (cpus.c:412)
-==54059==    by 0x4EF343: qemu_wait_io_event (cpus.c:436)
-==54059==    by 0xD21E83: kvm_vcpu_thread_fn (kvm-accel-ops.c:54)
-==54059==    by 0xFFEBF3: qemu_thread_start (qemu-thread-posix.c:556)
-==54059==    by 0x54E6DC3: start_thread (in /usr/lib64/libc.so.6)
-==54059==    by 0x5596C9F: clone (in /usr/lib64/libc.so.6)
-==54059==  Address 0x799d1cc is on thread 3's stack
-==54059==  in frame #2, created by kvmppc_put_books_sregs (kvm.c:851)
-==54059==  Uninitialised value was created by a stack allocation
-==54059==    at 0xAFAEB0: kvmppc_put_books_sregs (kvm.c:851)
-
-This happens because Valgrind does not consider the 'sregs'
-initialization done by kvm_vcpu_ioctl() at the end of the function.
+==39549== Syscall param ioctl(generic) points to uninitialised byte(s)
+==39549==    at 0x55864E4: ioctl (in /usr/lib64/libc.so.6)
+==39549==    by 0xD1F7EF: kvm_vm_ioctl (kvm-all.c:3035)
+==39549==    by 0xAF8F5B: kvm_get_radix_page_info (kvm.c:276)
+==39549==    by 0xB00533: kvmppc_host_cpu_class_init (kvm.c:2369)
+==39549==    by 0xD3DCE7: type_initialize (object.c:366)
+==39549==    by 0xD3FACF: object_class_foreach_tramp (object.c:1071)
+==39549==    by 0x502757B: g_hash_table_foreach (in /usr/lib64/libglib-2.0.so.0.7000.5)
+==39549==    by 0xD3FC1B: object_class_foreach (object.c:1093)
+==39549==    by 0xB0141F: kvm_ppc_register_host_cpu_type (kvm.c:2613)
+==39549==    by 0xAF87E7: kvm_arch_init (kvm.c:157)
+==39549==    by 0xD1E2A7: kvm_init (kvm-all.c:2595)
+==39549==    by 0x8E6E93: accel_init_machine (accel-softmmu.c:39)
+==39549==  Address 0x1fff00e208 is on thread 1's stack
+==39549==  in frame #2, created by kvm_get_radix_page_info (kvm.c:267)
+==39549==  Uninitialised value was created by a stack allocation
+==39549==    at 0xAF8EE8: kvm_get_radix_page_info (kvm.c:267)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220331001717.616938-4-danielhb413@gmail.com>
+Message-Id: <20220331001717.616938-5-danielhb413@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
  target/ppc/kvm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 69094ddb7a..c4180b7270 100644
+index c4180b7270..7a777a4d0c 100644
 --- a/target/ppc/kvm.c
 +++ b/target/ppc/kvm.c
-@@ -850,7 +850,7 @@ static int kvm_put_vpa(CPUState *cs)
- int kvmppc_put_books_sregs(PowerPCCPU *cpu)
+@@ -266,7 +266,7 @@ struct ppc_radix_page_info *kvm_get_radix_page_info(void)
  {
-     CPUPPCState *env = &cpu->env;
--    struct kvm_sregs sregs;
-+    struct kvm_sregs sregs = { };
+     KVMState *s = KVM_STATE(current_accel());
+     struct ppc_radix_page_info *radix_page_info;
+-    struct kvm_ppc_rmmu_info rmmu_info;
++    struct kvm_ppc_rmmu_info rmmu_info = { };
      int i;
  
-     sregs.pvr = env->spr[SPR_PVR];
+     if (!kvm_check_extension(s, KVM_CAP_PPC_MMU_RADIX)) {
 -- 
 2.32.0
 
