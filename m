@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DD251B7CE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 08:13:38 +0200 (CEST)
-Received: from localhost ([::1]:42074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B9051B7FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 08:32:51 +0200 (CEST)
+Received: from localhost ([::1]:48662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmUk5-0002yV-Ej
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 02:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56564)
+	id 1nmV2f-0008Ju-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 02:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nmUeI-0000vH-8s; Thu, 05 May 2022 02:07:38 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:33617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nmUeG-0007oI-7G; Thu, 05 May 2022 02:07:37 -0400
-Received: by mail-qk1-x735.google.com with SMTP id s4so2551529qkh.0;
- Wed, 04 May 2022 23:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5jtnt+IVnQvyRp5Wq1ihtH/HrpmnY7EK24TNB/Y1cig=;
- b=b/64HrsqtFtWGrNumCuyUqaua/dSQ8SyQ5rSWJvW+OxbbMatSw0vCbY8moOq3AY8NQ
- 5vkKP8GmAJDYTYDAX8FVgJqZ1zEltLf21bn+xeX6LX2jKyxMWbhUJ/F3igU+OnNDbUYO
- 3/DimYC3KEoAPJ2DuEXIA7+N9LXjV528isExI=
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmUze-0007PS-Sr
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 02:29:42 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:31916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmUzb-0006am-8f
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 02:29:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651732176;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NwueIcE8rn+UZ1R9CRxlkFtaza7X+UUsUVSRIty7iEg=;
+ b=N3nEjf4Vn4908rF3b8YetjfUBIBncVjaQc0F5qj0IRPCYgBtblcbUUpf7cyFoMUP9PI9SJ
+ 5//4xhWDndq4d7t4RoheRmiWKeDcIup31HhVdA8jtlNjbPrZJtO2K8olsgzmUuAYZ4t01N
+ eBYaCZaCxjoLTuWSnbYhE2JoCODxS/0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-328-bZFRgNoxN5CY_QXnuHMy1g-1; Thu, 05 May 2022 02:29:31 -0400
+X-MC-Unique: bZFRgNoxN5CY_QXnuHMy1g-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ nb10-20020a1709071c8a00b006e8f89863ceso2075562ejc.18
+ for <qemu-devel@nongnu.org>; Wed, 04 May 2022 23:29:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5jtnt+IVnQvyRp5Wq1ihtH/HrpmnY7EK24TNB/Y1cig=;
- b=tZg8o+shHds66ZRf6BK2muLFJcwLwKxKjH4R4i2sLOWXsRdapC++8wVrRzOY/kH4dF
- yoqblxPoYJ01DdajXdGb42UaokpWgYL8uSv/9NJTEveuEfQ308O+QX0RLj7oWDTTNhVX
- PxFqjAmwZOa4F6qmVoTG1T0UINQGH76yMfzSC0dblWko+XYFUOjjBgaBfbCph0ZezPl7
- djGBKxa1B3MAL+l6ZtSG0L5aTmAYOlgviVyDT9verHGmHNLOdUiJm6myYxOecA3TnHRb
- hiTxjW94t6x8UbqGBfD1zIBmLuvpha1Q8EWVzog2H7hnQJKX1plBUOXcTfvTBECMqRaP
- 7otQ==
-X-Gm-Message-State: AOAM530gK3XGUkoV3ZLLlUCkpJA5uiikcR/HXqWsjkogaoq7ctPkl/En
- 5f/xkHxXj2aYeZmJuisx3z1JFdc197x2gkvE9qc=
-X-Google-Smtp-Source: ABdhPJyH7HQW9pqImg8ojxak0+tekSqZ9gVdW8fK0hFGefNxSnFnT4dmgND8wzVZgKA/PmAIVECfPMFdy4M3st5X6po=
-X-Received: by 2002:a05:620a:859:b0:6a0:15d6:60ca with SMTP id
- u25-20020a05620a085900b006a015d660camr4809576qku.350.1651730854883; Wed, 04
- May 2022 23:07:34 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NwueIcE8rn+UZ1R9CRxlkFtaza7X+UUsUVSRIty7iEg=;
+ b=elTLTCZ8ZemRnZcQa0Ilo/9Wzb4zWviuY56V0ZkZaX892/Pj5s55jhipfyS+ifx981
+ 5QLbVMjgXyXqB1dhi5VG2kEdIjhH2xHut0OlSKtFQOFMkLPnt/f1qd3SKtUWzWCLaCZw
+ XvVXzDcjHrCZQT7NsxMjvsElPM0aJYXSbWdNQK0s+SMdN83CEuJroO8uQX8FEb8hhEuz
+ SAMDcuU/ZSF8ArDSVJI+PbuFe+0bddrvO1MVR1eqBeHE2X/XbVftokRUf814069QwsqF
+ zKh6rqoM0rYl0YBrDHH4G1Pj7IjcVv61wObgP38hGTZAr1lAoTnm+7pOReeIIwguIxUn
+ lubA==
+X-Gm-Message-State: AOAM532OszlhJS54U+EuZzdBfWZzhQ3qKcm+wx5x1tkK/mA4GwwYdveB
+ S1FfNmkEeQMPoEyzoYdUBJLNDFxrmjDzaPCxS8LOvn/neY/QD2DzZBTowZUJtjn1V+vYAhX9a6/
+ bIqTDPBDVdSecgYY=
+X-Received: by 2002:a17:907:338b:b0:6f4:6e1:ed66 with SMTP id
+ zj11-20020a170907338b00b006f406e1ed66mr23986338ejb.341.1651732170625; 
+ Wed, 04 May 2022 23:29:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyi5yHYppZN2TvI/tgcaB/YyPN7uXzuRSr+5DpDV+IAFa1ONP3cKipbW/XxJGpDHdzMRgIawg==
+X-Received: by 2002:a17:907:338b:b0:6f4:6e1:ed66 with SMTP id
+ zj11-20020a170907338b00b006f406e1ed66mr23986322ejb.341.1651732170397; 
+ Wed, 04 May 2022 23:29:30 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-178-123.web.vodafone.de.
+ [109.43.178.123]) by smtp.gmail.com with ESMTPSA id
+ qx16-20020a170907b59000b006f3a8b81ff7sm391096ejc.3.2022.05.04.23.29.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 23:29:29 -0700 (PDT)
+Message-ID: <177e1d2f-1f67-4921-a49c-413ac1488487@redhat.com>
+Date: Thu, 5 May 2022 08:29:28 +0200
 MIME-Version: 1.0
-References: <20220427064204.373027-1-joel@jms.id.au>
- <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
-In-Reply-To: <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 5 May 2022 06:07:22 +0000
-Message-ID: <CACPK8Xf7pRBy48yGRVjUvvbp+wBjfjDtTYXTqjtsg1EnCEb-5A@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: Laurent Vivier <laurent@vivier.eu>, 
- "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=joel.stan@gmail.com; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/2] Upgrade mingw base packages
+Content-Language: en-US
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-trivial@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20220503200524.1868-1-luoyonggang@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220503200524.1868-1-luoyonggang@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.74; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,30 +103,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 at 20:51, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
->
->
->
-> On 4/27/22 03:42, Joel Stanley wrote:
-> > These are new hwcap bits added for power10.
-> >
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> > MMA support for TCG is on the list so I think it makes sense for this to
-> > land after those are merged.
->
-> I believe you mean this series:
->
->
-> [RFC PATCH 0/7] VSX MMA Implementation
->
->
-> In that case I'll queue this patch together with it.
+On 03/05/2022 22.05, Yonggang Luo wrote:
+> v1. upgrade both cirrus and gitlab-ci to the newest mingw base release
+> 
+> Yonggang Luo (2):
+>    cirrus/win32: upgrade mingw base packages
+>    gitlab-ci: Upgrade mingw base package.
+> 
+>   .cirrus.yml              | 2 +-
+>   .gitlab-ci.d/windows.yml | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
 
-That's the one, thanks.
+Tested-by: Thomas Huth <thuth@redhat.com>
 
-Cheers,
+I can take this through my next misc/testing pull request if nobody else 
+wants to take it first.
 
-Joel
 
