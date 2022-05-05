@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100B851BB76
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:08:37 +0200 (CEST)
-Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE6751BAA7
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 10:38:10 +0200 (CEST)
+Received: from localhost ([::1]:58566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmXTP-0007bF-S3
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
+	id 1nmWzx-0003CF-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 04:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nmWme-0001XX-3g
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:24:24 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:38634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nmWmc-0000zp-6o
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:24:23 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id p12so6259797lfs.5
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 01:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9Q35Hx9bmprLC82Tz+BnhLMZARxDopUxIUN7NlIzWu8=;
- b=k/c955zGQY+ADV4bSeGKtNF5x83tRgGdOSMGrJ+W2nzVdo6Qln18JXyxOUP7mpM+Sb
- upRawdBzI9WliA2N/U1GKNjbtNuHi7xap8Pmen20++H9sLHH3qgms6Lfj0qg7akr6iDZ
- 0ypcnphmqtJ4u88FYdRZwOaORV//Lp94qJ48tEYYOdCe5LvzhI+cdj00qJPxzI2bTiWg
- 1q4ypQTpoXvfDqbADY5kmQVcCj7A7n5Rb83tXsz6UW5K6n5cQLS2uEzy6s1/u72oG1JS
- ZqjVcSVtH25qLLBaXI7OFZoYG94DyCp3CJLlI76yiNosH0uNv3nRPcxlU3Li3OwGyj/4
- LB3g==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nmWo4-0002W6-GY
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:25:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:32162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nmWnz-0001Wg-Fc
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 04:25:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651739145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CW7gHgIJggu9M8iTkyQ2ePygBeTl7PEQ4XW++SCo0vw=;
+ b=XTSfeaXiqI5ecSQxRNxR7/jDyiblfYdkkn+h2gDW4iYvTUxb7r5MsaKpXOLY6+vh1vjWsR
+ SJA/qfzQcuTbY/WU4GrHTA/wPdMzFyZzuA7LTghF0WV/8DAIMM6aNY0PU3VC8vR7f5AnPE
+ y9GYlERC3Y0kYgWzA4V8UadJ/uOZcQE=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-171-iSJrGLjbM2ejUsQ7_tpkLQ-1; Thu, 05 May 2022 04:25:44 -0400
+X-MC-Unique: iSJrGLjbM2ejUsQ7_tpkLQ-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ m5-20020a2e8705000000b0024f0fca4516so1159673lji.3
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 01:25:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9Q35Hx9bmprLC82Tz+BnhLMZARxDopUxIUN7NlIzWu8=;
- b=zWM7Ay6rRHdPeLtmywTStpOTnYsSU9Au7o/4+MhhcKY25xMqHFjNSZOn+csaF+FtHZ
- Hjufb1AhmBypAfuOmeWCPVRY9MDbFNoJVItfODwAAiksYV+Vbe6DHSwjCIwUEgHJf9fx
- ZoRXsDCCpl2CS8qOCURqbMrpBDAVwTIWSHxUgPlqgVhym3TTfXCa231VK4wbo80pjkEX
- Rrx+gL5tx5Sf1VHYrj8u6NmorbX0W/xZMxoe3rsE6/oqHvX+49bYZ8nYZgNxqOPEL+Q7
- RfSQFia9hZV6OK0XEYIJuPS0VE1mpHqeM9UgTYoUzXO6n80F/0Otq0+xgNUO8V9ILSzO
- IOug==
-X-Gm-Message-State: AOAM5311/6SIQPuR+hD12jZ0TxDvbXuA51xHAtmsI+kQ/zWzCAzxKwMZ
- urCHM1ejdmcVWH9HllAjmnJe/0mbfwmkzAnUK7Y=
-X-Google-Smtp-Source: ABdhPJw2NMFMfm0Nna16mIrttvF4lVHOAjBkTxMqSGpdNX5OhCyNxMc3R+9KD4Yzu6dl7R/QfnoWbxP+uJ89iUqeQZI=
-X-Received: by 2002:a05:6512:32c2:b0:473:ac22:36b7 with SMTP id
- f2-20020a05651232c200b00473ac2236b7mr7441020lfg.532.1651739060563; Thu, 05
- May 2022 01:24:20 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CW7gHgIJggu9M8iTkyQ2ePygBeTl7PEQ4XW++SCo0vw=;
+ b=KgIzl500vWjlAFshF0xLbmPTnfxbHkEJ47A0d6LXHJBbuPp38pd2coUfJ4izI9/5tY
+ ST9XRHb4pDbcYK+VBGoVuG3C9uwOCsoVyV3Dywx4+SRMif+Nxz0suEuKDExY7imcI6W3
+ 2/d/Bvlafpke+iX6SDdhPin6Gq6PRWoVtAiNqoED6/x7ttTcndkwrpzbCDgHyHYKByWq
+ q/c3HKy7aJOaCpvSCvqDVfvceyXihhXpbyZRTtLfn08WeFk2l2tJw3P6MJ52iUkkcsv+
+ nVkgZQQW+IKeaY72bWJg7Z1zp++vH4dr8AcFqWby/4BdI+mylfbOfhQHxM7VIjZdSw5y
+ iTmA==
+X-Gm-Message-State: AOAM533ZWCiGfuhQMPJxiyEt8bGdgnUuqNjWsKRnUC2dGsbP38SQG11w
+ 4qQelRuZD8HNjip3/ASdXDPW49wZnpIWyKdMc2E3t+UqYKh0W86ZfWygvKk/1KqsttVKBZgtA8Q
+ j007C1Kw9CcSZir6qz87Y7RIyHCVwmoY=
+X-Received: by 2002:a2e:bc05:0:b0:24b:212d:7521 with SMTP id
+ b5-20020a2ebc05000000b0024b212d7521mr15336308ljf.243.1651739143100; 
+ Thu, 05 May 2022 01:25:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzluZpGmn0XSRuDZP2ORWGnsmQf23wUs0fp11gXyTMoNzJ4jnwvZGxi37P08itJJNWr9xKVLyAQXWv5bZYAVE=
+X-Received: by 2002:a2e:bc05:0:b0:24b:212d:7521 with SMTP id
+ b5-20020a2ebc05000000b0024b212d7521mr15336298ljf.243.1651739142876; Thu, 05
+ May 2022 01:25:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504210001.678419-1-pbonzini@redhat.com>
- <20220504210001.678419-5-pbonzini@redhat.com>
-In-Reply-To: <20220504210001.678419-5-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 5 May 2022 12:24:09 +0400
-Message-ID: <CAJ+F1CJm-i-Ap4r7hmrxS06aA9QgyxvoeaJK8TskvPk25O5PFw@mail.gmail.com>
-Subject: Re: [PATCH 4/5] net: slirp: add support for CFI-friendly timer API
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Daniele Buono <dbuono@linux.vnet.ibm.com>
-Content-Type: multipart/alternative; boundary="000000000000f7741105de3f7746"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <1651048216-3365-1-git-send-email-si-wei.liu@oracle.com>
+ <1651048216-3365-3-git-send-email-si-wei.liu@oracle.com>
+ <ba73db72-c8b5-0028-bf15-56dba91af7b6@redhat.com>
+ <7b08b80a-ffa6-80aa-47f3-64cb9608e2f9@oracle.com>
+In-Reply-To: <7b08b80a-ffa6-80aa-47f3-64cb9608e2f9@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 5 May 2022 16:25:32 +0800
+Message-ID: <CACGkMEvZ0XV3W5x7D4FN0KQGJ2KhL8O58xOV-ASQRu0Wv9jrrg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] virtio-net: align ctrl_vq index for non-mq guest
+ for vhost_vdpa
+To: Si-Wei Liu <si-wei.liu@oracle.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>, 
+ eperezma <eperezma@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Eli Cohen <eli@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,241 +99,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f7741105de3f7746
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 5, 2022 at 1:01 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> libslirp 4.7 introduces a CFI-friendly version of the .timer_new callback=
+On Sat, Apr 30, 2022 at 9:13 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+>
+>
+>
+> On 4/28/2022 7:23 PM, Jason Wang wrote:
+> >
+> > =E5=9C=A8 2022/4/27 16:30, Si-Wei Liu =E5=86=99=E9=81=93:
+> >> With MQ enabled vdpa device and non-MQ supporting guest e.g.
+> >> booting vdpa with mq=3Don over OVMF of single vqp, below assert
+> >> failure is seen:
+> >>
+> >> ../hw/virtio/vhost-vdpa.c:560: vhost_vdpa_get_vq_index: Assertion
+> >> `idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs' failed.
+> >>
+> >> 0  0x00007f8ce3ff3387 in raise () at /lib64/libc.so.6
+> >> 1  0x00007f8ce3ff4a78 in abort () at /lib64/libc.so.6
+> >> 2  0x00007f8ce3fec1a6 in __assert_fail_base () at /lib64/libc.so.6
+> >> 3  0x00007f8ce3fec252 in  () at /lib64/libc.so.6
+> >> 4  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=3D<optimized
+> >> out>, idx=3D<optimized out>) at ../hw/virtio/vhost-vdpa.c:563
+> >> 5  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=3D<optimized
+> >> out>, idx=3D<optimized out>) at ../hw/virtio/vhost-vdpa.c:558
+> >> 6  0x0000558f52d7329a in vhost_virtqueue_mask (hdev=3D0x558f55c01800,
+> >> vdev=3D0x558f568f91f0, n=3D2, mask=3D<optimized out>) at
+> >> ../hw/virtio/vhost.c:1557
+> >> 7  0x0000558f52c6b89a in virtio_pci_set_guest_notifier
+> >> (d=3Dd@entry=3D0x558f568f0f60, n=3Dn@entry=3D2, assign=3Dassign@entry=
+=3Dtrue,
+> >> with_irqfd=3Dwith_irqfd@entry=3Dfalse)
+> >>     at ../hw/virtio/virtio-pci.c:974
+> >> 8  0x0000558f52c6c0d8 in virtio_pci_set_guest_notifiers
+> >> (d=3D0x558f568f0f60, nvqs=3D3, assign=3Dtrue) at
+> >> ../hw/virtio/virtio-pci.c:1019
+> >> 9  0x0000558f52bf091d in vhost_net_start
+> >> (dev=3Ddev@entry=3D0x558f568f91f0, ncs=3D0x558f56937cd0,
+> >> data_queue_pairs=3Ddata_queue_pairs@entry=3D1, cvq=3Dcvq@entry=3D1)
+> >>     at ../hw/net/vhost_net.c:361
+> >> 10 0x0000558f52d4e5e7 in virtio_net_set_status (status=3D<optimized
+> >> out>, n=3D0x558f568f91f0) at ../hw/net/virtio-net.c:289
+> >> 11 0x0000558f52d4e5e7 in virtio_net_set_status (vdev=3D0x558f568f91f0,
+> >> status=3D15 '\017') at ../hw/net/virtio-net.c:370
+> >> 12 0x0000558f52d6c4b2 in virtio_set_status
+> >> (vdev=3Dvdev@entry=3D0x558f568f91f0, val=3Dval@entry=3D15 '\017') at
+> >> ../hw/virtio/virtio.c:1945
+> >> 13 0x0000558f52c69eff in virtio_pci_common_write
+> >> (opaque=3D0x558f568f0f60, addr=3D<optimized out>, val=3D<optimized out=
+>,
+> >> size=3D<optimized out>) at ../hw/virtio/virtio-pci.c:1292
+> >> 14 0x0000558f52d15d6e in memory_region_write_accessor
+> >> (mr=3D0x558f568f19d0, addr=3D20, value=3D<optimized out>, size=3D1,
+> >> shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)
+> >>     at ../softmmu/memory.c:492
+> >> 15 0x0000558f52d127de in access_with_adjusted_size
+> >> (addr=3Daddr@entry=3D20, value=3Dvalue@entry=3D0x7f8cdbffe748,
+> >> size=3Dsize@entry=3D1, access_size_min=3D<optimized out>,
+> >> access_size_max=3D<optimized out>, access_fn=3D0x558f52d15cf0
+> >> <memory_region_write_accessor>, mr=3D0x558f568f19d0, attrs=3D...) at
+> >> ../softmmu/memory.c:554
+> >> 16 0x0000558f52d157ef in memory_region_dispatch_write
+> >> (mr=3Dmr@entry=3D0x558f568f19d0, addr=3D20, data=3D<optimized out>,
+> >> op=3D<optimized out>, attrs=3Dattrs@entry=3D...)
+> >>     at ../softmmu/memory.c:1504
+> >> 17 0x0000558f52d078e7 in flatview_write_continue
+> >> (fv=3Dfv@entry=3D0x7f8accbc3b90, addr=3Daddr@entry=3D103079215124, att=
+rs=3D...,
+> >> ptr=3Dptr@entry=3D0x7f8ce6300028, len=3Dlen@entry=3D1, addr1=3D<optimi=
+zed out>,
+> >> l=3D<optimized out>, mr=3D0x558f568f19d0) at
+> >> /home/opc/qemu-upstream/include/qemu/host-utils.h:165
+> >> 18 0x0000558f52d07b06 in flatview_write (fv=3D0x7f8accbc3b90,
+> >> addr=3D103079215124, attrs=3D..., buf=3D0x7f8ce6300028, len=3D1) at
+> >> ../softmmu/physmem.c:2822
+> >> 19 0x0000558f52d0b36b in address_space_write (as=3D<optimized out>,
+> >> addr=3D<optimized out>, attrs=3D..., buf=3Dbuf@entry=3D0x7f8ce6300028,
+> >> len=3D<optimized out>)
+> >>     at ../softmmu/physmem.c:2914
+> >> 20 0x0000558f52d0b3da in address_space_rw (as=3D<optimized out>,
+> >> addr=3D<optimized out>, attrs=3D...,
+> >>     attrs@entry=3D..., buf=3Dbuf@entry=3D0x7f8ce6300028, len=3D<optimi=
+zed
+> >> out>, is_write=3D<optimized out>) at ../softmmu/physmem.c:2924
+> >> 21 0x0000558f52dced09 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x558f55c2da6=
+0)
+> >> at ../accel/kvm/kvm-all.c:2903
+> >> 22 0x0000558f52dcfabd in kvm_vcpu_thread_fn
+> >> (arg=3Darg@entry=3D0x558f55c2da60) at ../accel/kvm/kvm-accel-ops.c:49
+> >> 23 0x0000558f52f9f04a in qemu_thread_start (args=3D<optimized out>) at
+> >> ../util/qemu-thread-posix.c:556
+> >> 24 0x00007f8ce4392ea5 in start_thread () at /lib64/libpthread.so.0
+> >> 25 0x00007f8ce40bb9fd in clone () at /lib64/libc.so.6
+> >>
+> >> The cause for the assert failure is due to that the vhost_dev index
+> >> for the ctrl vq was not aligned with actual one in use by the guest.
+> >> Upon multiqueue feature negotiation in virtio_net_set_multiqueue(),
+> >> if guest doesn't support multiqueue, the guest vq layout would shrink
+> >> to a single queue pair, consisting of 3 vqs in total (rx, tx and ctrl)=
 .
-> The new callback replaces the function pointer with an enum; invoking the
-> callback is done with a new function slirp_handle_timer.
+> >> This results in ctrl_vq taking a different vhost_dev group index than
+> >> the default. We can map vq to the correct vhost_dev group by checking
+> >> if MQ is supported by guest and successfully negotiated. Since the
+> >> MQ feature is only present along with CTRL_VQ, we make sure the index
+> >> 2 is only meant for the control vq while MQ is not supported by guest.
+> >>
+> >> Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
+> >> Suggested-by: Jason Wang <jasowang@redhat.com>
+> >> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+> >> ---
+> >>   hw/net/virtio-net.c | 22 ++++++++++++++++++++--
+> >>   1 file changed, 20 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> >> index ffb3475..8ca0b80 100644
+> >> --- a/hw/net/virtio-net.c
+> >> +++ b/hw/net/virtio-net.c
+> >> @@ -3171,8 +3171,17 @@ static NetClientInfo net_virtio_info =3D {
+> >>   static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev,
+> >> int idx)
+> >>   {
+> >>       VirtIONet *n =3D VIRTIO_NET(vdev);
+> >> -    NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
+> >> +    NetClientState *nc;
+> >>       assert(n->vhost_started);
+> >> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx =3D=3D=
+ 2) {
+> >> +        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
+> >> +           error_report("virtio-net: bogus vq index ignored");
+> >
+> >
+> > This seems trigger-able by guest.
+> Yes, this is trigger-able by either buggy guest or buggy migration flow
+> (could be due to remote buggy QEMU). I was not sure if it'll be too
+> determined to use LOG_GUEST_ERROR, and doesn't seem it's the convention
+> to log guest error in the same file. What's your preference here, switch
+> to LOG_GUEST_ERROR, or simply drop the error message?
+
+I think it's better to use LOG_GUEST_ERROR here.
+
+Thanks
+
 >
-> Support the new API so that CFI can be made compatible with using a syste=
-m
-> libslirp.
+> Thanks,
+> -Siwei
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> >
+> > Other looks good.
+> >
+> > Thanks
+> >
+> >
+> >> +           return false;
+> >> +        }
+> >> +        nc =3D qemu_get_subqueue(n->nic, n->max_queue_pairs);
+> >> +    } else {
+> >> +        nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
+> >> +    }
+> >>       return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx)=
+;
+> >>   }
+> >>   @@ -3180,8 +3189,17 @@ static void
+> >> virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> >>                                              bool mask)
+> >>   {
+> >>       VirtIONet *n =3D VIRTIO_NET(vdev);
+> >> -    NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
+> >> +    NetClientState *nc;
+> >>       assert(n->vhost_started);
+> >> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx =3D=3D=
+ 2) {
+> >> +        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
+> >> +           error_report("virtio-net: bogus vq index ignored");
+> >> +           return;
+> >> +        }
+> >> +        nc =3D qemu_get_subqueue(n->nic, n->max_queue_pairs);
+> >> +    } else {
+> >> +        nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
+> >> +    }
+> >>       vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+> >>                                vdev, idx, mask);
+> >>   }
+> >
 >
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  net/slirp.c | 41 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 40 insertions(+), 1 deletion(-)
->
-> diff --git a/net/slirp.c b/net/slirp.c
-> index b3a92d6e38..57af42299d 100644
-> --- a/net/slirp.c
-> +++ b/net/slirp.c
-> @@ -184,10 +184,43 @@ static int64_t net_slirp_clock_get_ns(void *opaque)
->      return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->  }
->
-> +typedef struct SlirpTimer SlirpTimer;
->  struct SlirpTimer {
->      QEMUTimer timer;
-> +#if SLIRP_CHECK_VERSION(4,7,0)
-> +    Slirp *slirp;
-> +    SlirpTimerId id;
-> +    void *cb_opaque;
-> +#endif
-> +};
-> +
-> +#if SLIRP_CHECK_VERSION(4,7,0)
-> +static void net_slirp_init_completed(Slirp *slirp, void *opaque)
-> +{
-> +    SlirpState *s =3D opaque;
-> +    s->slirp =3D slirp;
->  }
->
-> +static void net_slirp_timer_cb(void *opaque)
-> +{
-> +    SlirpTimer *t =3D opaque;
-> +    slirp_handle_timer(t->slirp, t->id, t->cb_opaque);
-> +}
-> +
-> +static void *net_slirp_timer_new_opaque(SlirpTimerId id,
-> +                                        void *cb_opaque, void *opaque)
-> +{
-> +    SlirpState *s =3D opaque;
-> +    SlirpTimer *t =3D g_new(SlirpTimer, 1);
-> +    t->slirp =3D s->slirp;
-> +    t->id =3D id;
-> +    t->cb_opaque =3D cb_opaque;
-> +    timer_init_full(&t->timer, NULL, QEMU_CLOCK_VIRTUAL,
-> +                    SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
-> +                    net_slirp_timer_cb, t);
-> +    return t;
-> +}
-> +#else
->  static void *net_slirp_timer_new(SlirpTimerCb cb,
->                                   void *cb_opaque, void *opaque)
->  {
-> @@ -197,6 +230,7 @@ static void *net_slirp_timer_new(SlirpTimerCb cb,
->                      cb, cb_opaque);
->      return t;
->  }
-> +#endif
->
->  static void net_slirp_timer_free(void *timer, void *opaque)
->  {
-> @@ -231,7 +265,12 @@ static const SlirpCb slirp_cb =3D {
->      .send_packet =3D net_slirp_send_packet,
->      .guest_error =3D net_slirp_guest_error,
->      .clock_get_ns =3D net_slirp_clock_get_ns,
-> +#if SLIRP_CHECK_VERSION(4,7,0)
-> +    .init_completed =3D net_slirp_init_completed,
-> +    .timer_new_opaque =3D net_slirp_timer_new_opaque,
-> +#else
->      .timer_new =3D net_slirp_timer_new,
-> +#endif
->      .timer_free =3D net_slirp_timer_free,
->      .timer_mod =3D net_slirp_timer_mod,
->      .register_poll_fd =3D net_slirp_register_poll_fd,
-> @@ -578,7 +617,7 @@ static int net_slirp_init(NetClientState *peer, const
-> char *model,
->
->      s =3D DO_UPCAST(SlirpState, nc, nc);
->
-> -    cfg.version =3D 3;
-> +    cfg.version =3D SLIRP_CHECK_VERSION(4,7,0) ? 4 : 3;
->      cfg.restricted =3D restricted;
->      cfg.in_enabled =3D ipv4;
->      cfg.vnetwork =3D net;
-> --
-> 2.35.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000f7741105de3f7746
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 5, 2022 at 1:01 AM Paolo =
-Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">libsl=
-irp 4.7 introduces a CFI-friendly version of the .timer_new callback.<br>
-The new callback replaces the function pointer with an enum; invoking the<b=
-r>
-callback is done with a new function slirp_handle_timer.<br>
-<br>
-Support the new API so that CFI can be made compatible with using a system<=
-br>
-libslirp.<br>
-<br>
-Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
-get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
-eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0net/slirp.c | 41 ++++++++++++++++++++++++++++++++++++++++-<br>
-=C2=A01 file changed, 40 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/net/slirp.c b/net/slirp.c<br>
-index b3a92d6e38..57af42299d 100644<br>
---- a/net/slirp.c<br>
-+++ b/net/slirp.c<br>
-@@ -184,10 +184,43 @@ static int64_t net_slirp_clock_get_ns(void *opaque)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);<br>
-=C2=A0}<br>
-<br>
-+typedef struct SlirpTimer SlirpTimer;<br>
-=C2=A0struct SlirpTimer {<br>
-=C2=A0 =C2=A0 =C2=A0QEMUTimer timer;<br>
-+#if SLIRP_CHECK_VERSION(4,7,0)<br>
-+=C2=A0 =C2=A0 Slirp *slirp;<br>
-+=C2=A0 =C2=A0 SlirpTimerId id;<br>
-+=C2=A0 =C2=A0 void *cb_opaque;<br>
-+#endif<br>
-+};<br>
-+<br>
-+#if SLIRP_CHECK_VERSION(4,7,0)<br>
-+static void net_slirp_init_completed(Slirp *slirp, void *opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 SlirpState *s =3D opaque;<br>
-+=C2=A0 =C2=A0 s-&gt;slirp =3D slirp;<br>
-=C2=A0}<br>
-<br>
-+static void net_slirp_timer_cb(void *opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 SlirpTimer *t =3D opaque;<br>
-+=C2=A0 =C2=A0 slirp_handle_timer(t-&gt;slirp, t-&gt;id, t-&gt;cb_opaque);<=
-br>
-+}<br>
-+<br>
-+static void *net_slirp_timer_new_opaque(SlirpTimerId id,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *cb=
-_opaque, void *opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 SlirpState *s =3D opaque;<br>
-+=C2=A0 =C2=A0 SlirpTimer *t =3D g_new(SlirpTimer, 1);<br>
-+=C2=A0 =C2=A0 t-&gt;slirp =3D s-&gt;slirp;<br>
-+=C2=A0 =C2=A0 t-&gt;id =3D id;<br>
-+=C2=A0 =C2=A0 t-&gt;cb_opaque =3D cb_opaque;<br>
-+=C2=A0 =C2=A0 timer_init_full(&amp;t-&gt;timer, NULL, QEMU_CLOCK_VIRTUAL,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SCAL=
-E_MS, QEMU_TIMER_ATTR_EXTERNAL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 net_=
-slirp_timer_cb, t);<br>
-+=C2=A0 =C2=A0 return t;<br>
-+}<br>
-+#else<br>
-=C2=A0static void *net_slirp_timer_new(SlirpTimerCb cb,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *cb_opaque, void *opaque=
-)<br>
-=C2=A0{<br>
-@@ -197,6 +230,7 @@ static void *net_slirp_timer_new(SlirpTimerCb cb,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0cb, cb_opaque);<br>
-=C2=A0 =C2=A0 =C2=A0return t;<br>
-=C2=A0}<br>
-+#endif<br>
-<br>
-=C2=A0static void net_slirp_timer_free(void *timer, void *opaque)<br>
-=C2=A0{<br>
-@@ -231,7 +265,12 @@ static const SlirpCb slirp_cb =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.send_packet =3D net_slirp_send_packet,<br>
-=C2=A0 =C2=A0 =C2=A0.guest_error =3D net_slirp_guest_error,<br>
-=C2=A0 =C2=A0 =C2=A0.clock_get_ns =3D net_slirp_clock_get_ns,<br>
-+#if SLIRP_CHECK_VERSION(4,7,0)<br>
-+=C2=A0 =C2=A0 .init_completed =3D net_slirp_init_completed,<br>
-+=C2=A0 =C2=A0 .timer_new_opaque =3D net_slirp_timer_new_opaque,<br>
-+#else<br>
-=C2=A0 =C2=A0 =C2=A0.timer_new =3D net_slirp_timer_new,<br>
-+#endif<br>
-=C2=A0 =C2=A0 =C2=A0.timer_free =3D net_slirp_timer_free,<br>
-=C2=A0 =C2=A0 =C2=A0.timer_mod =3D net_slirp_timer_mod,<br>
-=C2=A0 =C2=A0 =C2=A0.register_poll_fd =3D net_slirp_register_poll_fd,<br>
-@@ -578,7 +617,7 @@ static int net_slirp_init(NetClientState *peer, const c=
-har *model,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0s =3D DO_UPCAST(SlirpState, nc, nc);<br>
-<br>
--=C2=A0 =C2=A0 cfg.version =3D 3;<br>
-+=C2=A0 =C2=A0 cfg.version =3D SLIRP_CHECK_VERSION(4,7,0) ? 4 : 3;<br>
-=C2=A0 =C2=A0 =C2=A0cfg.restricted =3D restricted;<br>
-=C2=A0 =C2=A0 =C2=A0cfg.in_enabled =3D ipv4;<br>
-=C2=A0 =C2=A0 =C2=A0cfg.vnetwork =3D net;<br>
--- <br>
-2.35.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000f7741105de3f7746--
 
