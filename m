@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8977151BA41
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 10:24:22 +0200 (CEST)
-Received: from localhost ([::1]:41178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C044551BAEB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 10:47:28 +0200 (CEST)
+Received: from localhost ([::1]:43320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmWmb-0007k1-IM
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 04:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53012)
+	id 1nmX8x-0003r6-L8
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 04:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmWdd-0005k7-DT
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:15:05 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:33281)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nmWiU-0004pt-Ua; Thu, 05 May 2022 04:20:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nmWdb-0007TI-2k
- for qemu-devel@nongnu.org; Thu, 05 May 2022 04:15:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651738502;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=f7UpaE8ZnpfIU0GxGamyWxRnilwv6X4q2C2eo44NbjA=;
- b=cJIajEM6ohrjh7AZ3TeUKk1pVPWcKLO6DpeqyNGKF6M7sPcuX7RYKvXy3TvXAdP8Q/8rU1
- il1nd1aPxQ9oOLr9CiX3JlvLZzxTy/M841zkAB1S8Ze4TF6Ak9TqAmg5WvTveTAzX4yr9N
- jZGyBFt0rEwjXT/qk0l2mk9xregVn7U=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-RhikGSFXOESwjYNfYImdIQ-1; Thu, 05 May 2022 04:15:01 -0400
-X-MC-Unique: RhikGSFXOESwjYNfYImdIQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF0B03C8ACF6;
- Thu,  5 May 2022 08:15:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFD1F4010124;
- Thu,  5 May 2022 08:14:59 +0000 (UTC)
-Date: Thu, 5 May 2022 09:14:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH] docs/about: Update the support statement for Windows
-Message-ID: <YnOHgZWHZ3fdYXqM@redhat.com>
-References: <20220505074841.406185-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nmWiR-00007g-ON; Thu, 05 May 2022 04:20:06 -0400
+Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nmWhP-000Acc-Mn; Thu, 05 May 2022 09:19:04 +0100
+Message-ID: <0664ffae-9037-3096-ea0d-6d6732ac0214@ilande.co.uk>
+Date: Thu, 5 May 2022 09:19:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220505074841.406185-1-thuth@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: muriloo@linux.ibm.com, qemu-devel@nongnu.org
+Cc: Fabiano Rosas <farosas@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20220429233146.29662-1-muriloo@linux.ibm.com>
+ <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
+ <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
+ <0cc7cfdb-db80-f05b-49d8-d5db8baa6bfd@ilande.co.uk>
+ <6b41eea4-687e-11cf-392f-75fa6f5d2e34@linux.ibm.com>
+ <9f68b28d-62e8-2a96-4f92-cc8f5bfd473f@ilande.co.uk>
+ <aefec76d-a3a7-0312-6925-a35d9b2cec18@linux.ibm.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <aefec76d-a3a7-0312-6925-a35d9b2cec18@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] mos6522: fix linking error when CONFIG_MOS6522 is not set
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,36 +68,400 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 05, 2022 at 09:48:41AM +0200, Thomas Huth wrote:
-> Our support statement for Windows currently talks about "Vista / Server
-> 2008" - which is related to the API of Windows, and this is not easy
-> to understand for the non-technical users. It might also not be quite
-> true anymore, since we only compile-test QEMU with recent toolchains.
+On 05/05/2022 02:24, Murilo Opsfelder Araújo wrote:
 
-We documented Vista / Server 2008 because that is what our code is
-declaring it wants in terms of Windows public APIs:
+> Hi, Mark.
+> 
+> On 5/4/22 11:32, Mark Cave-Ayland wrote:
+>> On 04/05/2022 14:16, Murilo Opsfelder Araújo wrote:
+>>> Hi, Mark.
+>>>
+>>> On 5/4/22 04:10, Mark Cave-Ayland wrote:
+>>>> On 02/05/2022 14:36, Murilo Opsfelder Araújo wrote:
+>>>>
+>>>>> Hi, Mark.
+>>>>>
+>>>>> Thanks for reviewing.  Comments below.
+>>>>>
+>>>>> On 5/2/22 06:43, Mark Cave-Ayland wrote:
+>>>>>> On 30/04/2022 00:31, Murilo Opsfelder Araujo wrote:
+>>>>>>
+>>>>>>> When CONFIG_MOS6522 is not set, building ppc64-softmmu target fails:
+>>>>>>>
+>>>>>>>      /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): 
+>>>>>>> undefined reference to `hmp_info_via'
+>>>>>>>      clang-13: error: linker command failed with exit code 1 (use -v to see 
+>>>>>>> invocation)
+>>>>>>>
+>>>>>>> Add CONFIG_MOS6522 check for hmp_info_via in hmp-commands-info.hx to fix
+>>>>>>> such linking error.
+>>>>>>>
+>>>>>>> Fixes: 409e9f7131e5 (mos6522: add "info via" HMP command for debugging)
+>>>>>>> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+>>>>>>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>>>> Cc: Fabiano Rosas <farosas@linux.ibm.com>
+>>>>>>> ---
+>>>>>>>   hmp-commands-info.hx | 2 ++
+>>>>>>>   1 file changed, 2 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+>>>>>>> index adfa085a9b..9ad784dd9f 100644
+>>>>>>> --- a/hmp-commands-info.hx
+>>>>>>> +++ b/hmp-commands-info.hx
+>>>>>>> @@ -881,6 +881,7 @@ SRST
+>>>>>>>   ERST
+>>>>>>>   #if defined(TARGET_M68K) || defined(TARGET_PPC)
+>>>>>>> +#if defined(CONFIG_MOS6522)
+>>>>>>>       {
+>>>>>>>           .name         = "via",
+>>>>>>>           .args_type    = "",
+>>>>>>> @@ -889,6 +890,7 @@ ERST
+>>>>>>>           .cmd          = hmp_info_via,
+>>>>>>>       },
+>>>>>>>   #endif
+>>>>>>> +#endif
+>>>>>>>   SRST
+>>>>>>>     ``info via``
+>>>>>>
+>>>>>> Hmmm. The patch in its proposed form isn't correct, since device CONFIG_* 
+>>>>>> defines aren't declared when processing hmp-commands-info.hx. This was 
+>>>>>> something that was discovered and discussed in the original thread for which 
+>>>>>> the current workaround is to use the per-target TARGET_* defines instead.
+>>>>>
+>>>>> So my proposed fix worked just by coincidence.  Thanks for providing the 
+>>>>> background.
+>>>>>
+>>>>>>
+>>>>>> Given that the g3beige and mac99 machines are included by default in 
+>>>>>> qemu-system-ppc64 which both contain the MOS6522 device, I can't quite 
+>>>>>> understand how CONFIG_MOS6522 isn't being selected.
+>>>>>>
+>>>>>> Can you give more information about how you are building QEMU including your 
+>>>>>> configure command line?
+>>>>>
+>>>>> Here is a reproducer adapted from CentOS 9 Stream qemu-kvm[0] package
+>>>>> (build failed on c9s ppc64le with QEMU at commit 
+>>>>> f5643914a9e8f79c606a76e6a9d7ea82a3fc3e65):
+>>>>>
+>>>>> $ cat > configs/devices/rh-virtio.mak <<"EOF"
+>>>>> CONFIG_VIRTIO=y
+>>>>> CONFIG_VIRTIO_BALLOON=y
+>>>>> CONFIG_VIRTIO_BLK=y
+>>>>> CONFIG_VIRTIO_GPU=y
+>>>>> CONFIG_VIRTIO_INPUT=y
+>>>>> CONFIG_VIRTIO_INPUT_HOST=y
+>>>>> CONFIG_VIRTIO_NET=y
+>>>>> CONFIG_VIRTIO_RNG=y
+>>>>> CONFIG_VIRTIO_SCSI=y
+>>>>> CONFIG_VIRTIO_SERIAL=y
+>>>>> EOF
+>>>>>
+>>>>> $ cat > configs/devices/ppc64-softmmu/ppc64-rh-devices.mak <<"EOF"
+>>>>> include ../rh-virtio.mak
+>>>>> CONFIG_DIMM=y
+>>>>> CONFIG_MEM_DEVICE=y
+>>>>> CONFIG_NVDIMM=y
+>>>>> CONFIG_PCI=y
+>>>>> CONFIG_PCI_DEVICES=y
+>>>>> CONFIG_PCI_TESTDEV=y
+>>>>> CONFIG_PCI_EXPRESS=y
+>>>>> CONFIG_PSERIES=y
+>>>>> CONFIG_SCSI=y
+>>>>> CONFIG_SPAPR_VSCSI=y
+>>>>> CONFIG_TEST_DEVICES=y
+>>>>> CONFIG_USB=y
+>>>>> CONFIG_USB_OHCI=y
+>>>>> CONFIG_USB_OHCI_PCI=y
+>>>>> CONFIG_USB_SMARTCARD=y
+>>>>> CONFIG_USB_STORAGE_CORE=y
+>>>>> CONFIG_USB_STORAGE_CLASSIC=y
+>>>>> CONFIG_USB_XHCI=y
+>>>>> CONFIG_USB_XHCI_NEC=y
+>>>>> CONFIG_USB_XHCI_PCI=y
+>>>>> CONFIG_VFIO=y
+>>>>> CONFIG_VFIO_PCI=y
+>>>>> CONFIG_VGA=y
+>>>>> CONFIG_VGA_PCI=y
+>>>>> CONFIG_VHOST_USER=y
+>>>>> CONFIG_VIRTIO_PCI=y
+>>>>> CONFIG_VIRTIO_VGA=y
+>>>>> CONFIG_WDT_IB6300ESB=y
+>>>>> CONFIG_XICS=y
+>>>>> CONFIG_XIVE=y
+>>>>> CONFIG_TPM=y
+>>>>> CONFIG_TPM_SPAPR=y
+>>>>> CONFIG_TPM_EMULATOR=y
+>>>>> EOF
+>>>>>
+>>>>> $ mkdir build
+>>>>> $ cd build
+>>>>>
+>>>>> $ ../configure --cc=clang --cxx=/bin/false --prefix=/usr --libdir=/usr/lib64 
+>>>>> --datadir=/usr/share --sysconfdir=/etc --interp-prefix=/usr/qemu-%M 
+>>>>> --localstatedir=/var --docdir=/usr/share/doc --libexecdir=/usr/libexec 
+>>>>> '--extra-ldflags=-Wl,-z,relro -Wl,--as-needed  -Wl,-z,now   ' 
+>>>>> '--extra-cflags=-O2 -fexceptions -g -grecord-gcc-switches -pipe -Wall 
+>>>>> -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS 
+>>>>> --config /usr/lib/rpm/redhat/redhat-hardened-clang.cfg 
+>>>>> -fstack-protector-strong   -m64 -mcpu=power9 -mtune=power9 
+>>>>> -fasynchronous-unwind-tables -fstack-clash-protection -Wno-string-plus-int' 
+>>>>> --with-pkgversion=qemu-kvm-7.0.0-1.el9 --with-suffix=qemu-kvm 
+>>>>> --firmwarepath=/usr/share/qemu-firmware:/usr/share/ipxe/qemu:/usr/share/seavgabios:/usr/share/seabios 
+>>>>> --meson=internal --enable-trace-backend=dtrace --with-coroutine=ucontext 
+>>>>> --with-git=git --tls-priority=@QEMU,SYSTEM --audio-drv-list= --disable-alsa 
+>>>>> --disable-attr --disable-auth-pam --disable-avx2 --disable-avx512f 
+>>>>> --disable-block-drv-whitelist-in-tools --disable-bochs --disable-bpf 
+>>>>> --disable-brlapi --disable-bsd-user --disable-bzip2 --disable-cap-ng 
+>>>>> --disable-capstone --disable-cfi --disable-cfi-debug --disable-cloop 
+>>>>> --disable-cocoa --disable-coreaudio --disable-coroutine-pool 
+>>>>> --disable-crypto-afalg --disable-curl --disable-curses --disable-dbus-display 
+>>>>> --disable-debug-info --disable-debug-mutex --disable-debug-tcg --disable-dmg 
+>>>>> --disable-docs --disable-dsound --disable-fdt --disable-fuse 
+>>>>> --disable-fuse-lseek --disable-gcrypt --disable-gettext --disable-gio 
+>>>>> --disable-glusterfs --disable-gnutls --disable-gtk --disable-guest-agent 
+>>>>> --disable-guest-agent-msi --disable-hax --disable-hvf --disable-iconv 
+>>>>> --disable-jack --disable-kvm --disable-l2tpv3 --disable-libdaxctl 
+>>>>> --disable-libiscsi --disable-libnfs --disable-libpmem --disable-libssh 
+>>>>> --disable-libudev --disable-libusb --disable-linux-aio --disable-linux-io-uring 
+>>>>> --disable-linux-user --disable-live-block-migration --disable-lto 
+>>>>> --disable-lzfse --disable-lzo --disable-malloc-trim --disable-membarrier 
+>>>>> --disable-modules --disable-module-upgrades --disable-mpath 
+>>>>> --disable-multiprocess --disable-netmap --disable-nettle --disable-numa 
+>>>>> --disable-nvmm --disable-opengl --disable-oss --disable-pa --disable-parallels 
+>>>>> --disable-pie --disable-pvrdma --disable-qcow1 --disable-qed --disable-qga-vss 
+>>>>> --disable-qom-cast-debug --disable-rbd --disable-rdma --disable-replication 
+>>>>> --disable-rng-none --disable-safe-stack --disable-sanitizers --disable-sdl 
+>>>>> --disable-sdl-image --disable-seccomp --disable-selinux --disable-slirp 
+>>>>> --disable-slirp-smbd --disable-smartcard --disable-snappy --disable-sparse 
+>>>>> --disable-spice --disable-spice-protocol --disable-strip --disable-system 
+>>>>> --disable-tcg --disable-tools --disable-tpm --disable-u2f --disable-usb-redir 
+>>>>> --disable-user --disable-vde --disable-vdi --disable-vhost-crypto 
+>>>>> --disable-vhost-kernel --disable-vhost-net --disable-vhost-scsi 
+>>>>> --disable-vhost-user --disable-vhost-user-blk-server --disable-vhost-vdpa 
+>>>>> --disable-vhost-vsock --disable-virglrenderer --disable-virtfs 
+>>>>> --disable-virtiofsd --disable-vnc --disable-vnc-jpeg --disable-vnc-sasl 
+>>>>> --disable-vte --disable-vvfat --disable-werror --disable-whpx --disable-xen 
+>>>>> --disable-xen-pci-passthrough --disable-xkbcommon --disable-zstd 
+>>>>> --with-git-submodules=ignore --without-default-devices 
+>>>>> --with-devices-ppc64=ppc64-rh-devices --target-list=ppc64-softmmu 
+>>>>> --block-drv-rw-whitelist=qcow2,raw,file,host_device,nbd,iscsi,rbd,blkdebug,luks,null-co,nvme,copy-on-read,throttle,compress 
+>>>>> --block-drv-ro-whitelist=vdi,vmdk,vhdx,vpc,https --enable-attr --enable-cap-ng 
+>>>>> --enable-capstone=internal --enable-coroutine-pool --enable-curl 
+>>>>> --enable-debug-info --enable-docs --enable-fdt=system --enable-gnutls 
+>>>>> --enable-guest-agent --enable-iconv --enable-kvm --enable-libusb 
+>>>>> --enable-libudev --enable-linux-aio --enable-lzo --enable-malloc-trim 
+>>>>> --enable-modules --enable-mpath --enable-numa --enable-pa --enable-pie 
+>>>>> --enable-rbd --enable-rdma --enable-seccomp --enable-selinux 
+>>>>> --enable-slirp=system --enable-snappy --enable-spice-protocol --enable-system 
+>>>>> --enable-tcg --enable-tools --enable-tpm --enable-vdi --enable-virtiofsd 
+>>>>> --enable-vhost-kernel --enable-vhost-net --enable-vhost-user 
+>>>>> --enable-vhost-user-blk-server --enable-vhost-vdpa --enable-vhost-vsock 
+>>>>> --enable-vnc --enable-vnc-sasl --enable-werror --enable-xkbcommon
+>>>>>
+>>>>> $ make -O -j$(nproc) V=1 VERBOSE=1
+>>>>> ...
+>>>>> /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): 
+>>>>> undefined reference to `hmp_info_via'
+>>>>> clang-13: error: linker command failed with exit code 1 (use -v to see invocation)
+>>>>>
+>>>>> I have figured that it also fails with this minimal set of configure options
+>>>>> (in addition to the devices CONFIG_* options above):
+>>>>>
+>>>>> $ ../configure --without-default-devices --with-devices-ppc64=ppc64-rh-devices 
+>>>>> --target-list=ppc64-softmmu
+>>>>> $ make -j
+>>>>> ...
+>>>>> /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data.rel+0x3228): 
+>>>>> undefined reference to `hmp_info_via'
+>>>>> collect2: error: ld returned 1 exit status
+>>>>>
+>>>>> Since TARGET_PPC is defined when building target ppc64-softmmu, the hmp_info_via 
+>>>>> will be referenced when processing the hmp-commands-info.hx.
+>>>>> However, hmp_info_via implementation resides on hw/misc/mos6522.c, which is 
+>>>>> built only if CONFIG_MOS6522 is defined, as per hw/misc/meson.build.
+>>>>>
+>>>>> If hmp_info_via is generic enough and not device-specific, it could be moved out 
+>>>>> of mos6522.c to somewhere else.
+>>>>>
+>>>>> What do you think?
+>>>>>
+>>>>> [0] 
+>>>>> https://gitlab.com/redhat/centos-stream/rpms/qemu-kvm/-/blob/c9s/qemu-kvm.spec#L686
+>>>>
+>>>> It's probably easier if I post a link to the original thread at 
+>>>> https://lore.kernel.org/all/20220127205405.23499-9-mark.cave-ayland@ilande.co.uk/ 
+>>>> for reference but the main takeaway is:
+>>>>
+>>>> - Device CONFIG_* defines aren't present when building hmp-commands-info.hx
+>>>>
+>>>> - The TARGET_* defines are poisoned in qapi/qapi-commands-misc-target.h
+>>>>
+>>>> - The long-term solution is to implement a DeviceClass function callback that allows
+>>>>    "info debug <foo>" QMP-wrapped monitor commands to be registered dynamically by
+>>>>    devices. But that needs someone with the time and ability to implement it.
+>>>>
+>>>> The compromise was to accept the command wrapped by TARGET_ defines where it is 
+>>>> used, but of course that won't work in this case where you're generating a custom 
+>>>> configuration as above.
+>>>>
+>>>> Certainly QEMU could do better here, but then if you are already patching the 
+>>>> build to generate a custom configuration as above, you might as well just patch 
+>>>> out the relevant part of hmp-commands-info.hx at the same time until proper 
+>>>> per-device HMP/QMP support is added.
+>>>
+>>> We are not patching the build.  We are just configuring it.
+>>
+>> That's not true though: the spec file linked above contains 20 patches to the 
+>> vanilla QEMU source, including feeding custom device lists into the build system 
+>> via 
+>> https://gitlab.com/redhat/centos-stream/rpms/qemu-kvm/-/blob/c9s/0005-Enable-disable-devices-for-RHEL.patch. 
+>>
+> 
+> I'm sorry.  I think I wasn't clear enough.
+> 
+> The reproducer I sent in the email was *adapted* from CentOS/RHEL qemu-kvm.spec.
+> Meaning that we configured the devices in the same way that the CentOS/RHEL package 
+> is configuring but used the unmodified QEMU source tree from upstream.
+> 
+> I did that because I wanted to mimic its configuration (devices and configure 
+> options) against the upstream code to determine if the failure was a downstream or 
+> upstream issue.
+> It turns out it's an upstream regression.
 
-In osdep.h we have:
+Ah so that's the problem then - you can't guarantee the configuration from a 
+vendor-customised build will work with upstream, particularly when the build system 
+itself has been patched. More explanation below.
 
-  #ifdef _WIN32
-  /* as defined in sdkddkver.h */
-  #ifndef _WIN32_WINNT
-  #define _WIN32_WINNT 0x0600 /* Vista */
-  #endif
+>> Perhaps CONFIG_MOS6522 is missing from ppc64-rh-devices?
+> 
+> I don't think so.  Since the CONFIG_MOS6522 is available, one can build without it 
+> and code should cope with that.
 
-which tells Mingw / MSys not to expose windows header file declarations
-that post-date Vista.
+In an upstream build the default boards for each target are listed in the configs/ 
+directory and Kconfig specifies the dependencies such that for ppc and ppc64 
+CONFIG_MOS6522 is **always** defined. However what happens in the .spec file you 
+linked to is that the device lists **are being overridden** by the provided 
+ppc64-rh-devices file which **doesn't** contain CONFIG_MOS6522. It seems to me that 
+the .spec file can only work with that vendor-specific ppc64-rh-devices file if it 
+also patches the build system to prevent this error occurring.
+
+The question to ask is: what are you trying to do? If you want to test the latest and 
+greatest code on a regular basis, then you want to be building from vanilla upstream 
+to ensure that none of the vendor patches are responsible for any errors that you see.
+
+If you're taking upstream and applying a vendor-specific configuration then equally 
+that isn't a valid test, since your builds aren't integrating the vendor-specific 
+patches which can potentially cause regressions/differences or different behaviours 
+that don't exist in upstream.
+
+Do you get a working build if you run rpmbuild on the SRPM containing the .spec file 
+you linked to? Updating that .spec file to use a tarball of the latest code seems to 
+be the only way to get a build that is as close as possible to RHEL/CentOS stream.
+
+>> If you need to generate a build within a short timeframe then patching out the part 
+>> of the build that fails for you is going to be the quickest solution.
+>>
+>>> QEMU at tag v6.2.0 works with the exact same configuration.
+>>> QEMU 7.0.0 does not.
+>>> This is a regression in QEMU source code.
+>>
+>> I've just tried a plain "./configure --target-list=ppc64-softmmu" build here on my 
+>> x86_64 host using git master and everything builds fine, and of course it passes 
+>> gitlab-CI since that is a pre-requisite for merging. The only thing I can think is 
+>> that your RHEL ppc64 build is being patched to remove the Mac machines which is why 
+>> you see the failure, in which case you should also update the patch to remove the 
+>> part referencing hmp_info_via.
+> 
+> You need to configure the devices in order to reproduce the build issue.
+> 
+> Let me paste again the commands here in case you want to give them a try:
+> 
+> cat > configs/devices/rh-virtio.mak <<"EOF"
+> CONFIG_VIRTIO=y
+> CONFIG_VIRTIO_BALLOON=y
+> CONFIG_VIRTIO_BLK=y
+> CONFIG_VIRTIO_GPU=y
+> CONFIG_VIRTIO_INPUT=y
+> CONFIG_VIRTIO_INPUT_HOST=y
+> CONFIG_VIRTIO_NET=y
+> CONFIG_VIRTIO_RNG=y
+> CONFIG_VIRTIO_SCSI=y
+> CONFIG_VIRTIO_SERIAL=y
+> EOF
+> 
+> cat > configs/devices/ppc64-softmmu/ppc64-rh-devices.mak <<"EOF"
+> include ../rh-virtio.mak
+> CONFIG_DIMM=y
+> CONFIG_MEM_DEVICE=y
+> CONFIG_NVDIMM=y
+> CONFIG_PCI=y
+> CONFIG_PCI_DEVICES=y
+> CONFIG_PCI_TESTDEV=y
+> CONFIG_PCI_EXPRESS=y
+> CONFIG_PSERIES=y
+> CONFIG_SCSI=y
+> CONFIG_SPAPR_VSCSI=y
+> CONFIG_TEST_DEVICES=y
+> CONFIG_USB=y
+> CONFIG_USB_OHCI=y
+> CONFIG_USB_OHCI_PCI=y
+> CONFIG_USB_SMARTCARD=y
+> CONFIG_USB_STORAGE_CORE=y
+> CONFIG_USB_STORAGE_CLASSIC=y
+> CONFIG_USB_XHCI=y
+> CONFIG_USB_XHCI_NEC=y
+> CONFIG_USB_XHCI_PCI=y
+> CONFIG_VFIO=y
+> CONFIG_VFIO_PCI=y
+> CONFIG_VGA=y
+> CONFIG_VGA_PCI=y
+> CONFIG_VHOST_USER=y
+> CONFIG_VIRTIO_PCI=y
+> CONFIG_VIRTIO_VGA=y
+> CONFIG_WDT_IB6300ESB=y
+> CONFIG_XICS=y
+> CONFIG_XIVE=y
+> CONFIG_TPM=y
+> CONFIG_TPM_SPAPR=y
+> CONFIG_TPM_EMULATOR=y
+> EOF
+> 
+> mkdir build && cd build
+> 
+> ../configure --without-default-devices --with-devices-ppc64=ppc64-rh-devices 
+> --target-list=ppc64-softmmu
+> make -j
+> 
+>>
+>>> Is my ideia of moving the hmp_info_via implementation out of mos6522.c an 
+>>> acceptable way to have this fixed in the short-term?
+>>
+>> The current solution was agreed after discussions with David and Daniel (the HMP 
+>> and QMP maintainers) so they are the people who can advise you as to the best 
+>> approach here.
+> 
+> David, Daniel - any recommendation to fix this regression?
+> 
+>> Unfortunately QEMU changes can involve testing an N x M matrix which gets even 
+>> bigger when different accelerators are involved, so occassionally issues like this 
+>> can still occur.
+> 
+> Indeed.  We can't predict what downstream or users will specify for device and 
+> configure options.
+> 
+>>
+>> If you feel strongly that upstream should support this particular RHEL 
+>> configuration then please consider adding it to gitlab-CI so that build issues like 
+>> this can be detected before merge.
+> 
+> That's certainly a good idea.
 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+ATB,
+
+Mark.
 
 
