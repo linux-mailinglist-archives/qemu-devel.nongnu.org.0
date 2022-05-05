@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF01B51C443
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 17:49:07 +0200 (CEST)
-Received: from localhost ([::1]:46076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413AF51C452
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 17:56:39 +0200 (CEST)
+Received: from localhost ([::1]:55614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmdj0-00064O-0k
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 11:49:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54096)
+	id 1nmdqI-0004d5-5f
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 11:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nmde9-0001OL-VY
- for qemu-devel@nongnu.org; Thu, 05 May 2022 11:44:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:35231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nmde8-0004w8-Fs
- for qemu-devel@nongnu.org; Thu, 05 May 2022 11:44:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651765443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fCaGY44ipjdpono7WUMXJLE48RtLUdX4vplxyktHTRI=;
- b=CK8NuqCI9dInFe1eLHr6xMMlJ/PsR8nS16552ONVDj1yw4cy9AkD1n228LJSIRBwd5gAU5
- IiI/w1AJ1pYBngjQJ99BgQrrEFLPmq1rg0s2cmPJqfkO30SedqK+6jUilnIpWd1JXhmlS+
- hh2HnlTKrgmFcOxC0OkRHsJy6xiSAGY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-MuACr9-RPD-lyHD4ANJ8sw-1; Thu, 05 May 2022 11:44:01 -0400
-X-MC-Unique: MuACr9-RPD-lyHD4ANJ8sw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24ACD8919B6;
- Thu,  5 May 2022 15:43:53 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B226440CFD45;
- Thu,  5 May 2022 15:43:52 +0000 (UTC)
-Date: Thu, 5 May 2022 16:43:51 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, f4bug@amsat.org,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
- bleal@redhat.com, berrange@redhat.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com, imammedo@redhat.com,
- peterx@redhat.com, john.levon@nutanix.com,
- thanos.makatos@nutanix.com, elena.ufimtseva@oracle.com,
- john.g.johnson@oracle.com, kanth.ghatraju@oracle.com
-Subject: Re: [PATCH v9 14/17] vfio-user: handle PCI BAR accesses
-Message-ID: <YnPwtywhe/dhtWTG@stefanha-x1.localdomain>
-References: <cover.1651586203.git.jag.raman@oracle.com>
- <677a333e1c2843aafa8c6c2487e149208a5a5032.1651586203.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nmdjz-0000Na-GB; Thu, 05 May 2022 11:50:09 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:33282)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nmdjx-0006LX-HV; Thu, 05 May 2022 11:50:07 -0400
+Received: by mail-ej1-x633.google.com with SMTP id gh6so9589498ejb.0;
+ Thu, 05 May 2022 08:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=g05cc1a4gdayGzLVXAcYQmlWghTZVxQCxakW1++iUQ0=;
+ b=NVUJU/rEshQ/H7YnPVtWBq2901NG4K4KLaX1JVuTs3X/mDcPHQH27vJfyd5pqPetRR
+ sWpcjvu9t4+q66fD7xeNbRRHi+W/us179gCRzpQ4LfplUUOojv1MaIY0nyF7mHCW/3Dh
+ d0VbeIz7hFYybVD2Nqxmz4tvVePDirLDuGToGQLxDrzbwMP5IcycN9XnTulG+voEkRKW
+ CvIQWW7sM1Re5vtTSGs23IKnWm7UGdmz3aua27CNhmL3Gwv0DaQFgyWTV1aUZrtXQ/Tg
+ fuZVPI2C8tVqGKqWlqvy/C3/WsmmUrFyrJmiG9X21pOCDJ9DdOMzLPWHgJ1jCYeBKNj+
+ NYIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=g05cc1a4gdayGzLVXAcYQmlWghTZVxQCxakW1++iUQ0=;
+ b=0Ygvmo77CHKzfr2SJohj/FIhX7m9XaYbs8+H6/NMbfc1GOQ5dAR7bMNSuZ2LL4RrZi
+ IVqTGtZBon2htejvgj1fx4eYC+mS7Qv0zeaDYiilrCzPP688nOrnkXld1krRiXbsKqeL
+ DyTPHNjZABoNHccEMA7M0vSdyFmqukrlsV7ftHLAQnlh+N18RgjkmZRXQLLOk56CiYCs
+ 2VSBQTkw+DFuG26nEhJrVqcVu6bSHbRwREnLiNJTVEGteE1DmlcKXu3BLmH4W+5e61pT
+ 53VoxL6Rc4Rj5wFUg3+qSRGXrg0AGg+7YLK7habQMDLZN1DXScewWbOegC0nP7+pPi10
+ 78Pw==
+X-Gm-Message-State: AOAM530Xt8xN2JAAKNwmF9yOgLmxGM64LEm+uN/e8NuQ1//hJ8D/NvOj
+ cMNsb7GiO2kbAxQErM34wV0=
+X-Google-Smtp-Source: ABdhPJx+mbfT7RcFJQEaNhsf8cQx7TeIhBMlkpVqvU5gy9SDqEVqtUd8F3BcIXJD6oqb213+zGl/kA==
+X-Received: by 2002:a17:907:3f8b:b0:6e8:318d:1def with SMTP id
+ hr11-20020a1709073f8b00b006e8318d1defmr27775287ejc.153.1651765802799; 
+ Thu, 05 May 2022 08:50:02 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ k14-20020aa7c04e000000b0042617ba639asm999085edo.36.2022.05.05.08.50.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 08:50:01 -0700 (PDT)
+Message-ID: <ca23e571-354e-1251-412d-5cae1741aa61@redhat.com>
+Date: Thu, 5 May 2022 17:50:00 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PLkU0UMYfVcFvg2C"
-Content-Disposition: inline
-In-Reply-To: <677a333e1c2843aafa8c6c2487e149208a5a5032.1651586203.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: iotests and python dependencies
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Cleber Rosa <crosa@redhat.com>
+References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
+ <YnOGJ+rUIn2S8ZOD@redhat.com>
+ <CAFn=p-bBCbokmZ8FeHon6FBGxp38_z4=vmDNMi5vKKF_1KjQLQ@mail.gmail.com>
+ <YnPEGrwa9KVyup6T@redhat.com>
+ <CAFn=p-ZpoJvoZSnk9gN+uiaas=h-tvZqBCZw2kJf88=rq_5LYQ@mail.gmail.com>
+ <07a829c2-4eb8-01e3-0c8c-691c1420f51a@redhat.com>
+ <CAFn=p-Zfonw462fKT=TBKCRLbZ2xPUwsK-SeRJhgfxYwNRJEsg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFn=p-Zfonw462fKT=TBKCRLbZ2xPUwsK-SeRJhgfxYwNRJEsg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,44 +103,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/5/22 16:13, John Snow wrote:
+> 
+>     I would rather keep python/qemu/qmp as a submodule for a longer time,
+>     and still go through a virtual environment that installs it together
+>     with its pip dependencies.
+> 
+> 
+> A small headache relating fixes to both locations, but if you'd like to 
+> see it to prove that the installation mechanism works in general, then 
+> OK. I'm willing to deal with the pain until the next release to let us 
+> go through a testing cycle. Reluctantly. Maybe.
+> 
+> I'm assuming you mean as a subpackage and not a [git] submodule. If you 
+> do mean git, then ... uh. That might be messy.
 
---PLkU0UMYfVcFvg2C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yeah, I meant a git submodule in qemu.git...  It would also be the 
+easiest way to build a subpackage in Fedora, since it would be part of 
+the QEMU tarballs.
 
-On Tue, May 03, 2022 at 10:16:55AM -0400, Jagannathan Raman wrote:
-> Determine the BARs used by the PCI device and register handlers to
-> manage the access to the same.
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  include/exec/memory.h           |   3 +
->  hw/remote/vfio-user-obj.c       | 190 ++++++++++++++++++++++++++++++++
->  softmmu/physmem.c               |   4 +-
->  tests/qtest/fuzz/generic_fuzz.c |   9 +-
->  hw/remote/trace-events          |   3 +
->  5 files changed, 203 insertions(+), 6 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---PLkU0UMYfVcFvg2C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJz8LcACgkQnKSrs4Gr
-c8imfAf7BzjbVK1PhHZygdpKxt5Qjde34vHvBRYh+npzp9p9QntdH9rZI8b5CVjp
-aVvROLWhPceAQQEL0G9ccRt6B0DuMWAIi2wIi6QkSEbt5x+5Dd6FTFBTGTjPa46D
-cEHwEnlZpDcGyBXc9Fg+YcC1tyPvmkkhM2nTpItcA5gTybHcLBjcow4OffZWQgaT
-YPHfgXhto8lZoienZWKjmVKeF51SWwg0O7sbQMss2c22zT3jl1krMYITjviGWiEH
-iR2b3SpD+jdWYJ1y1FU4AqEy+fwWzFSQil5Tr9bl8OO+bFcVwQJTHnKCX0MoIi5N
-5nScMgG+fbu8cYOgmcm3QlqL+x3iPQ==
-=KOWK
------END PGP SIGNATURE-----
-
---PLkU0UMYfVcFvg2C--
-
+Paolo
 
