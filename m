@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0BD51BF4B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 14:31:22 +0200 (CEST)
-Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44DD51BF80
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 14:34:56 +0200 (CEST)
+Received: from localhost ([::1]:59518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmadc-0008Um-S6
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 08:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58842)
+	id 1nmah5-0001qF-V3
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 08:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nmaZI-0006Is-81
- for qemu-devel@nongnu.org; Thu, 05 May 2022 08:26:52 -0400
-Received: from mout.gmx.net ([212.227.15.19]:47679)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nmaZG-0002HJ-8s
- for qemu-devel@nongnu.org; Thu, 05 May 2022 08:26:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1651753606;
- bh=HWmTxSbKfqtHeAyagURspH0+aLcN4SsETTayhS6FtyY=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=ghyYihOHa9T5TmdkqRiVH6jeWEKZjixbxINDdlGAJ6odsHRrahPXTygds/qVT1N9c
- jhEP25u0hNmv9Q+bHKJ4k7mLqU/AoL8mWYjbu/0U/o44aPPMmgSmIyUXpeUByUhaQs
- Q/qHO4LXXh2KjPs41YQH3VAuHmSEH8Gm0A260SWM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.153.59]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIdeR-1naGuJ1C4L-00Eh2X; Thu, 05
- May 2022 14:26:46 +0200
-Message-ID: <ede9e4f0-0972-c7dd-cc20-62579cac310f@gmx.de>
-Date: Thu, 5 May 2022 14:26:43 +0200
+ (Exim 4.90_1) (envelope-from <mkei@sfc.wide.ad.jp>)
+ id 1nmacr-0000Vh-4D; Thu, 05 May 2022 08:30:33 -0400
+Received: from mail1.sfc.wide.ad.jp ([2001:200:0:8803:203:178:142:133]:39266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mkei@sfc.wide.ad.jp>)
+ id 1nmacl-0003OB-2X; Thu, 05 May 2022 08:30:31 -0400
+Received: from [10.0.1.12] (h219-110-166-078.catv02.itscom.jp [219.110.166.78])
+ (Authenticated sender: mkei)
+ by mail1.sfc.wide.ad.jp (Postfix) with ESMTPSA id B69FCAF90;
+ Thu,  5 May 2022 21:30:19 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sfc.wide.ad.jp;
+ s=mail1; t=1651753819;
+ bh=TmP13wsmF4jLlpXsjw2mFIsFoYX4sK5E9LWJpKYtnGQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FRjdTA8hOwb9t9pQ94x+1qGoNCRK/linZ+rsjutUcc4HJU5lz7diWKOXU5xBS8jjj
+ DWUJgbkMGe59XM2L2Z6jFITvmZXzM7Drbg0dcA2T3x24FOAKE6EhCc9HBQmZIrhVoH
+ 8wn7yflB0MsPlqI/5HUYX5IQl/AHUffuWNVdIi7SSVaRsGAOCLQNThOzf5IjOaC5on
+ ST2clc6IJgY0CTk1hmT5x4F6lwkq5gdKYE7qU6SENGkO2VlgBQbWgaEQxNz8Kks5xY
+ hs2k532Qaw8DUKVwMKzRJg1dnuyASDPEhYVOEQMeyIxMj02i8XN4+/tU+LxYrQ9+6X
+ El/oo0gRHQHiQ==
+Content-Type: multipart/alternative;
+ boundary="------------u9VVMAGh4Y8lhyxda03qmM1c"
+Message-ID: <43b4340d-5ddd-094b-408f-111082a73501@sfc.wide.ad.jp>
+Date: Thu, 5 May 2022 21:30:19 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 0/3] artist: minor fixes and performance improvement
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] target/arm: fix s2mmu input size check
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, svens@stackframe.org,
- qemu-devel@nongnu.org
-References: <20220504153708.10352-1-mark.cave-ayland@ilande.co.uk>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220504153708.10352-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jOrwnFpeLq6eEPgXO7tDQAMZ1Cyhe2Yazbtk9qmfmC9Z7HjQhld
- CnfjI3ie6t1PPcN52nb4kNHijyWYOHkwPLJmLHbj9EdoqJHIE/k8GkP6q3TeQ66CGZsQv2K
- gr7RdlpsQ/dH0W4W8ntUcRY4ConacThoNY5dL0E5NgdGfJwGUz/TC2Y4U+r7yNKT6aU+nXw
- VzMH0IdMfYvVgy0gBBgJA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zgGeFfREPig=:mI9c794kgvlpu1CrNP5GCz
- 8VF07vjJvF0aPIkPcyBnGU5BaEneAUUFXO5L5C41wk2WBoUdiJ2ZO/g7/VSiVoYo5M3n5ruW7
- HBfJtlc9O4wvXeSUyTGnUU998SlVPGHs2/gH8gW1IO0c8o6oSURKuBvlvycMKqYPR2wMCDfwP
- IEBgIxAQ/JPzRa9b9DA6Bq8kM62+eZrfiXoFZ9R1T3dmeNFnFI3+QVyEIVB0Uh6jQszL2AlAC
- C/PHKvKne7PrkuxFEzSomsJ/bKhtQRtzeSgnwlr0XIWU/iRV+YKS7FnyLeoRJJ8KPuG1eHvVA
- p/ph63Fp5+f+6gekEjgZ+2XLQvvAL6jtzmFUScmEXgR8j8SA5kWTRfoKow6rft2FK6MdlfJix
- /6mCEq4i8XNTenwR45HTY3A1dL2/DP8FLbdgLu0vX180siLOA0PptUfzv76HIzbWaNULRDMZr
- 8RBQaCxFT1FPgJWItHOdk6YuBm1U04CzRWMwIzzS/Ga9EcP85AWlVf8uuuwF+EX+VOKnImuBQ
- qxbYBSHqR/O/jxWzlLuf4ynQRecSAeBwOsAaqM377AZU7jyj8+yfeYfHx0E7/EMr+9Km9Bb82
- WPcPpI9v6yGUiQEoahtO/6rw8tHTiUP8zY0fKELDPggdTL+QziNZpBHHN9hS2G779kCkTuff8
- H7u8dihLfs1ZstUDJmIZe6j/jpOxrYyKFQl7PZKhzH9lZBYGpCOfgS11FYlEa+OzTr7dcMvjl
- 3q7qkZK/IvWi4IUaBx2M6xLG1s6DgorW5ZKQjjdCos9wQCNi1CrW6GZlZpWopCqaRejdYKJOk
- J69jkz9vgmDFfsJ+DmQaJAQ58vfwFvFuAbqUWhZTqD40Z4QSvt1Y+Q7ZESEWap7pO9fNB9luM
- wjFnnXcUkirzckDQm4eLxgko12A+ROoZSAjYzvB3luHFN4Rl9IkO0pRElEDuWSPbf45WkY7R+
- WsEw8rcsUS4KCqqbDVKt9hrCvs1Htts1UVsHxCxD9JxS/gOd7DqykTo6r3igcHzIj2wkX3r7W
- jAj+KACUJZJBynFV4FdnJux4yBHO4KPddiTa1vUMpstLB572XX5h5qvXL3ubY2lckMtF3JUbU
- m85MfdZId8SDSU=
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+References: <20220505004046.6711-1-mkei@sfc.wide.ad.jp>
+ <CAFEAcA_XA_-Gfq+UQRV63Uxp7Pz4DksZGb8dR0NuZ1KkQ+iozA@mail.gmail.com>
+From: Keisuke Iida <mkei@sfc.wide.ad.jp>
+In-Reply-To: <CAFEAcA_XA_-Gfq+UQRV63Uxp7Pz4DksZGb8dR0NuZ1KkQ+iozA@mail.gmail.com>
+Received-SPF: pass client-ip=2001:200:0:8803:203:178:142:133;
+ envelope-from=mkei@sfc.wide.ad.jp; helo=mail1.sfc.wide.ad.jp
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,51 +70,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/22 17:37, Mark Cave-Ayland wrote:
-> Patch 1 updates artist.c to fix some style issues and ensure that artist=
-.c passes
-> checkpatch for the remainder of the patchset, whilst patch 2 removes the=
- ROP8OFF()
-> macro which is currently unused.
+This is a multi-part message in MIME format.
+--------------u9VVMAGh4Y8lhyxda03qmM1c
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Address Translation Fault is triggered when PA size set by VTCR_EL2.PS is less than IPA size set by VTCR_EL2.T0SZ on the guest. (e.g. vtcr_el2.PS = 1 && vtcr_el2.T0SZ = 25. PA size is 36bit, and IPA size is 39bit.)
+
+         ps = FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+         ps = MIN(ps, param.ps);
+         assert(ps < ARRAY_SIZE(pamax_map));
+         outputsize = pamax_map[ps];
+
+When 'param.ps' determined by VTCR_EL2.PS less than 'ps', 'outputsize' is set to PA address by VTCR_EL2.PS.
+
+--
+
+Keisuke Iida
+
+On 2022/05/05 17:20, Peter Maydell wrote:
+
+> On Thu, 5 May 2022 at 01:40,<mkei@sfc.wide.ad.jp>  wrote:
+>> From: Keisuke Iida<mkei@sfc.wide.ad.jp>
+>>
+>> The maximum IPA size('inputsize') is constrained by the implemented PA size that is
+>> specified by ID_AA64MMFR0_EL1.PARange. Please reference Arm Architecture Reference
+>> Manual for A-profile architecture "Supported IPA size" on page D5-4788.
+>>
+>> Signed-off-by: Keisuke Iida<mkei@sfc.wide.ad.jp>
+>> ---
+>>   target/arm/helper.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+>> index 5a244c3ed9..868e7a2c0b 100644
+>> --- a/target/arm/helper.c
+>> +++ b/target/arm/helper.c
+>> @@ -11116,7 +11116,7 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+>>           }
+>>
+>>           /* Inputsize checks.  */
+>> -        if (inputsize > outputsize &&
+>> +        if (inputsize > arm_pamax(cpu) &&
+>>               (arm_el_is_aa64(&cpu->env, 1) || inputsize > 40)) {
+>>               /* This is CONSTRAINED UNPREDICTABLE and we choose to fault.  */
+>>               return false;
+> Can you give an example, eg a test case, where you see wrong
+> behaviour? The 'outputsize' variable in this function is
+> passed in from the caller get_phys_addr_lpae(), where (for
+> an AArch64 guest) it is indeed constrained to the value
+> of ID_AA64MMFR0.PARange:
 >
-> Finally patch 3 is the main reason for this patchset and improves the pe=
-rformance
-> of the artist framebuffer by only rendering the dirty scanlines to the d=
-isplay
-> surface, which noticeably improves boot times and makes the GTK UI usabl=
-e on my
-> fairly modest laptop.
+>          /*
+>           * Bound PS by PARANGE to find the effective output address size.
+>           * ID_AA64MMFR0 is a read-only register so values outside of the
+>           * supported mappings can be considered an implementation error.
+>           */
+>          ps = FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+>          ps = MIN(ps, param.ps);
+>          assert(ps < ARRAY_SIZE(pamax_map));
+>          outputsize = pamax_map[ps];
 >
-> [Helge/Sven: if you can provide a Tested-by or Reviewed-by tag for this =
-patchset
-> before the weekend, I can include it in my PR containing all the other H=
-PPA
-> updates]
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> thanks
+> -- PMM
+--------------u9VVMAGh4Y8lhyxda03qmM1c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-I tested it and indeed, the GTK GUI is now really much faster, even with t=
-he
-GTK window forwarded over X11.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <pre>Address Translation Fault is triggered when PA size set by VTCR_EL2.PS is less than IPA size set by VTCR_EL2.T0SZ on the guest. (e.g. vtcr_el2.PS = 1 &amp;&amp; vtcr_el2.T0SZ = 25. PA size is 36bit, and IPA size is 39bit.)
 
-Ideally, can the patch #3 (the GTK speedup) be backported?
+        ps = FIELD_EX64(cpu-&gt;isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+        ps = MIN(ps, param.ps);
+        assert(ps &lt; ARRAY_SIZE(pamax_map));
+        outputsize = pamax_map[ps];
 
-I applied, reviewed and tested it. Please add:
+When 'param.ps' determined by VTCR_EL2.PS less than 'ps', 'outputsize' is set to PA address by VTCR_EL2.PS.
 
-Reviewed-by: Helge Deller <deller@gmx.de>
+--</pre>
+    <pre>Keisuke Iida
+</pre>
+    <div class="moz-cite-prefix">
+      <pre>On 2022/05/05 17:20, Peter Maydell wrote:</pre>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAFEAcA_XA_-Gfq+UQRV63Uxp7Pz4DksZGb8dR0NuZ1KkQ+iozA@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">On Thu, 5 May 2022 at 01:40, <a class="moz-txt-link-rfc2396E" href="mailto:mkei@sfc.wide.ad.jp">&lt;mkei@sfc.wide.ad.jp&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+From: Keisuke Iida <a class="moz-txt-link-rfc2396E" href="mailto:mkei@sfc.wide.ad.jp">&lt;mkei@sfc.wide.ad.jp&gt;</a>
 
-Thanks!
-Helge
+The maximum IPA size('inputsize') is constrained by the implemented PA size that is
+specified by ID_AA64MMFR0_EL1.PARange. Please reference Arm Architecture Reference
+Manual for A-profile architecture "Supported IPA size" on page D5-4788.
+
+Signed-off-by: Keisuke Iida <a class="moz-txt-link-rfc2396E" href="mailto:mkei@sfc.wide.ad.jp">&lt;mkei@sfc.wide.ad.jp&gt;</a>
+---
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 5a244c3ed9..868e7a2c0b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11116,7 +11116,7 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+         }
+
+         /* Inputsize checks.  */
+-        if (inputsize &gt; outputsize &amp;&amp;
++        if (inputsize &gt; arm_pamax(cpu) &amp;&amp;
+             (arm_el_is_aa64(&amp;cpu-&gt;env, 1) || inputsize &gt; 40)) {
+             /* This is CONSTRAINED UNPREDICTABLE and we choose to fault.  */
+             return false;
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Can you give an example, eg a test case, where you see wrong
+behaviour? The 'outputsize' variable in this function is
+passed in from the caller get_phys_addr_lpae(), where (for
+an AArch64 guest) it is indeed constrained to the value
+of ID_AA64MMFR0.PARange:
+
+        /*
+         * Bound PS by PARANGE to find the effective output address size.
+         * ID_AA64MMFR0 is a read-only register so values outside of the
+         * supported mappings can be considered an implementation error.
+         */
+        ps = FIELD_EX64(cpu-&gt;isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+        ps = MIN(ps, param.ps);
+        assert(ps &lt; ARRAY_SIZE(pamax_map));
+        outputsize = pamax_map[ps];
 
 
->
-> Mark Cave-Ayland (3):
->   artist: checkpatch and newline style fixes
->   artist: remove unused ROP8OFF() macro
->   artist: only render dirty scanlines on the display surface
->
->  hw/display/artist.c | 33 ++++++++++++++-------------------
->  1 file changed, 14 insertions(+), 19 deletions(-)
->
+thanks
+-- PMM
+</pre>
+    </blockquote>
+  </body>
+</html>
 
+--------------u9VVMAGh4Y8lhyxda03qmM1c--
 
