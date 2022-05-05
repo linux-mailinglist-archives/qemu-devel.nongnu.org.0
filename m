@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D884A51BE5E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:47:57 +0200 (CEST)
-Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4788951BE68
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 13:50:51 +0200 (CEST)
+Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmZxc-0005Dd-SK
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
+	id 1nma0Q-0007Ez-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 07:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nmZtx-00028W-QF
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:44:09 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:39953)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZxR-0005n7-H6
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:47:46 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:37434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nmZtv-0008TZ-I2
- for qemu-devel@nongnu.org; Thu, 05 May 2022 07:44:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=HZ2oLinZsjQwpTPQ28znuwKbGhxCITyjXzh/F4pnaa4=; b=jgKM4Nw9b8JLO2kXKNObxLkzHH
- oA5mhrl31cpjXwyMArq5MXc01XPOO67QkRCZ3b1frrbYfSejOUhydGx4tNs5o7A+QjNSlLH+hlHvv
- 6Q+BB3gq2a28Zj557s6Oajm6W8MVNsBfJIXb5vj2vHYS4znom2L3+5lzq0I6CUjpZIVAKSLcJ1fDM
- KgvBLniLBWQtzz2aYjPoi5K+lwM39vCe0YJD6ANlLOAfBLPGvA13m/xCybuAvYF2a/A6N/Htwzsr6
- yvr/qWEZQPKiQouZoVC+wCeZ3BAICwtQweSK7unx7OFCOpsiGqKCTGqJqF+hKfDLNqZBdkUZ/xPBE
- f1exYSu/vFIkWYGfGcnK+qpo16N5yTpzHg1f7ADJASlO02VRk8ReaaNOUMJjHXjkZJ6MbMt/M9N3A
- k420pWtSSn62gCC6htIR1Lm9BR/6Br1n39hvHM6B/1TjXEA+jyD17fZLOyH7Z+T+LAFSp855rwXvN
- GWGjPJNn2l7ASaqxe93SgksdwI+2SeHcITDpdfnL6qEStIjvOb84LZu3fl+orCssevICUow84UIY7
- u8czyAt8kHBz6wUbQkqp9SeTz4OCIbmt4PSX2nVPon5Z/qCvsnHyYCJVqVkJKuVYvPf/gOtxDu1TY
- vQmlamaueuWWfC97F3lF8X1Gxmpsb05Qu8q6VQ4cw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, "Shi, Guohuai" <Guohuai.Shi@windriver.com>,
- Greg Kurz <groug@kaod.org>
-Cc: "Meng, Bin" <Bin.Meng@windriver.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver for
- Windows
-Date: Thu, 05 May 2022 13:43:33 +0200
-Message-ID: <4564343.M1kaXOOn0d@silver>
-In-Reply-To: <CH2PR11MB445462A54AC1006BD093737BEFC39@CH2PR11MB4454.namprd11.prod.outlook.com>
-References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
- <2749735.hgEqPgphOh@silver>
- <CH2PR11MB445462A54AC1006BD093737BEFC39@CH2PR11MB4454.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmZxQ-0000wE-0v
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 07:47:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651751263;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f1FjFJvN+Ow3/JC52Hv5fU0jXhxIv0o4ldCuJMEMHFM=;
+ b=AKm2Bt7mFLSXRUoY6Zyt+eT9gXD5DNbjxkZ1cK6jtOOB0K0GJDoHFyRvk+38UzroXAgu4n
+ vbtQBRz7HhfoBvf2/LsWiOtq4zyr2NP85HSXVTOkMVQn2rgUayUyRO++HiKz3UAHcQtx7J
+ 0QdB8M1g/2g9PN49f2mRSXqGUiKR/2Y=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-363-gqMjgAFMOuqd_DuE6QuaHA-1; Thu, 05 May 2022 07:47:32 -0400
+X-MC-Unique: gqMjgAFMOuqd_DuE6QuaHA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 276F83C02B7A;
+ Thu,  5 May 2022 11:47:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 475D4176C3;
+ Thu,  5 May 2022 11:47:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 24E1921E6880; Thu,  5 May 2022 13:47:18 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Alexander Bulekov <alxndr@bu.edu>,  Bandan Das
+ <bsd@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Hanna Reitz
+ <hreitz@redhat.com>,  Konstantin Kostiuk <kkostiuk@redhat.com>,  Stefan
+ Weil <sw@weilnetz.de>,  Kevin Wolf <kwolf@redhat.com>,  Darren Kenny
+ <darren.kenny@oracle.com>,  Laurent Vivier <lvivier@redhat.com>,  Michael
+ Roth <michael.roth@amd.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Qiuhao
+ Li <Qiuhao.Li@outlook.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v2 15/15] test/qga: use g_auto wherever sensible
+References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
+ <20220505081431.934739-16-marcandre.lureau@redhat.com>
+Date: Thu, 05 May 2022 13:47:18 +0200
+In-Reply-To: <20220505081431.934739-16-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Thu, 5 May 2022 12:14:31 +0400")
+Message-ID: <871qx8w69l.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-74.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,92 +89,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 4. Mai 2022 21:34:22 CEST Shi, Guohuai wrote:
+marcandre.lureau@redhat.com writes:
+
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  tests/unit/test-qga.c | 125 +++++++++++++++---------------------------
+>  1 file changed, 45 insertions(+), 80 deletions(-)
+>
+> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+> index ab0b12a2dd16..53cefc2c2649 100644
+> --- a/tests/unit/test-qga.c
+> +++ b/tests/unit/test-qga.c
+> @@ -51,8 +51,11 @@ static void
+>  fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
+>  {
+>      const gchar *extra_arg =3D data;
+> -    GError *error =3D NULL;
+> -    gchar *cwd, *path, *cmd, **argv =3D NULL;
+> +    g_autoptr(GError) error =3D NULL;
+> +    g_autofree char *cwd =3D NULL;
+> +    g_autofree char *path =3D NULL;
+> +    g_autofree char *cmd =3D NULL;
+> +    g_auto(GStrv) argv =3D NULL;
+
+Arranges five variables to be auto-freed, where ...
+
+>=20=20
+>      fixture->loop =3D g_main_loop_new(NULL, FALSE);
+>=20=20
+> @@ -78,17 +81,12 @@ fixture_setup(TestFixture *fixture, gconstpointer dat=
+a, gchar **envp)
+>=20=20
+>      fixture->fd =3D connect_qga(path);
+>      g_assert_cmpint(fixture->fd, !=3D, -1);
+> -
+> -    g_strfreev(argv);
+> -    g_free(cmd);
+> -    g_free(cwd);
+> -    g_free(path);
+
+... only four were freed before.  The extra one is @error.  Which can
+only be null here, thanks to g_assert_no_error(), can't it?
+
+>  }
+
+Didn't look further.
+
 [...]
-> > > index 0000000000..aab7c9f7b5
-> > > --- /dev/null
-> > > +++ b/hw/9pfs/9p-local-win32.c
-> > > @@ -0,0 +1,1242 @@
-> > > +/*
-> > > + * 9p Windows callback
-> > > + *
-> > > + * Copyright (c) 2022 Wind River Systems, Inc.
-> > > + *
-> > > + * Based on hw/9pfs/9p-local.c
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2. 
-> > > See
-> > > + * the COPYING file in the top-level directory.
-> > > + */
-> > > +
-> > > +/*
-> > > + * Not so fast! You might want to read the 9p developer docs first:
-> > > + * https://wiki.qemu.org/Documentation/9p
-> > > + */
-> > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include <windows.h>
-> > > +#include <dirent.h>
-> > > +#include "9p.h"
-> > > +#include "9p-local.h"
-> > > +#include "9p-xattr.h"
-> > > +#include "9p-util.h"
-> > > +#include "fsdev/qemu-fsdev.h"   /* local_ops */
-> > > +#include "qapi/error.h"
-> > > +#include "qemu/cutils.h"
-> > > +#include "qemu/error-report.h"
-> > > +#include "qemu/option.h"
-> > > +#include <libgen.h>
-> > 
-> > I'm not sure whether all of this (i.e. 9p-local-win32.c in general) is
-> > really needed. I mean yes, it probably does the job, but you basically
-> > add a complete
-> > separate 'local' backend implementation just for the Windows host
-> > platform.
-> > 
-> > My expectation would be to stick to 9p-local.c being OS-agnostic, and only
-> > define OS-specific functionality in 9p-util-windows.c if needed.
-> > 
-> > And most importantly: don't duplicate code as far as possible! I mean
-> > somebody
-> > would need to also review and maintain all of this.
-> 
-> Actually, almost all FileOperations functions are re-written for Windows
-> host.
-> 
-> Here is the comparison statistics for 9p-local.c and 9p-local-win32.c:
-> Total lines : 1611
-> Changed lines: 590
-> Inserted lines: 138
-> Removed lines: 414
-> 
-> For function level difference count:
-> 
-> Changed function: 39
-> Unchanged function: 13
-> 
-> If use "#ifdef _WIN32" to sperate Windows host code, it may need to be
-> inserted about 150 code blocks (or 39 code blocks for all changed
-> functions).
-> 
-> I am not sure if it is a good idea to insert so many "#ifdef _WIN32", it may
-> cause this file not readable.
-> 
-> If stick to 9p-local.c being OS-agnostic, I think it is better to create two
-> new files: 9p-local-linux.c and 9p-local-win32.c
-
-The thing is, as this is presented right now, I can hardly even see where 
-deviating behaviour for Windows would be, where not, and I'm missing any 
-explanations and reasons for the individual deviations right now. Chances are 
-that you are unnecessarilly adding duplicate code and unnecessary code 
-deviations. For me this 9p-local-win32.c approach looks overly complex and not 
-appropriately abstracted on first sight.
-
-I suggest waiting for Greg to give his opinion on this as well before 
-continuing.
-
-Best regards,
-Christian Schoenebeck
-
 
 
