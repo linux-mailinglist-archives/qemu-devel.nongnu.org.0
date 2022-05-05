@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4247651B7B1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 08:03:02 +0200 (CEST)
-Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3229251B7CC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 08:13:21 +0200 (CEST)
+Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmUZp-0007W8-4K
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 02:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54080)
+	id 1nmUjn-0002VA-N6
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 02:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmUSm-0005JZ-RN
- for qemu-devel@nongnu.org; Thu, 05 May 2022 01:55:47 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:60238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmUSl-0005IZ-1a
- for qemu-devel@nongnu.org; Thu, 05 May 2022 01:55:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651730142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=duiTPIBM7H6mROeL50umaObWJmCAVulLPlcK584gJSI=;
- b=ad7SEi5QqFFcWsMfWKl0n6EnSnol/0J4mEo0n+dxPQXot2QxVMiK+ByibOX1whZzxO/Xl4
- R3Bdwp0LfegYe3aGqaQvmsEcRiWHL+Oe7S4823YaDSumAvNE7W6wU1Cwwz/vmm1GTEDZyw
- lagJ6eJ5GDMOcN1t8r4uZl2dkrR9AWw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-450-Ba9QssOcOOqla6pzYZqqeQ-1; Thu, 05 May 2022 01:55:41 -0400
-X-MC-Unique: Ba9QssOcOOqla6pzYZqqeQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B1B785A5A8;
- Thu,  5 May 2022 05:55:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 315C3C28102;
- Thu,  5 May 2022 05:55:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E9FEE21E6880; Thu,  5 May 2022 07:55:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Paolo
- Bonzini
- <pbonzini@redhat.com>,  Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,  John G Johnson
- <john.g.johnson@oracle.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Eric Blake <eblake@redhat.com>,  Markus Armbruster
- <armbru@redhat.com>,  Fam Zheng <fam@euphon.net>,  Peter Xu
- <peterx@redhat.com>,  qemu-devel@nongnu.org,  qemu-block@nongnu.org
-Subject: Re: [PATCH v11 3/7] migration: Add zero-copy-send parameter for
- QMP/HMP for Linux
-References: <20220504191835.791580-1-leobras@redhat.com>
- <20220504191835.791580-4-leobras@redhat.com>
-Date: Thu, 05 May 2022 07:55:38 +0200
-In-Reply-To: <20220504191835.791580-4-leobras@redhat.com> (Leonardo Bras's
- message of "Wed, 4 May 2022 16:18:32 -0300")
-Message-ID: <87r158zfol.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1nmUde-0000Sd-Az; Thu, 05 May 2022 02:06:59 -0400
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:41473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1nmUdZ-0007eP-Ts; Thu, 05 May 2022 02:06:56 -0400
+Received: by mail-qv1-xf33.google.com with SMTP id jt15so2355882qvb.8;
+ Wed, 04 May 2022 23:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GKI2PQJ3UH7qZ6q8CpTXaexPU5Gx76S64U6BQxuvTM4=;
+ b=dkAyRHDzx71biUkCAw/KkyIKNOeDr49qu1Ui65goE6c/QvcJl/HaMcnd9Mts7LOT5U
+ E+U8xhikTRHVSAioxWoMeUV9zzfp8V3Pfo/knBIWTNumyiOumwjXOCen50nPDp571j+i
+ zp3zOWx+O7ZNyvtrFopp7mIgWbTmP2WMBC1E0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GKI2PQJ3UH7qZ6q8CpTXaexPU5Gx76S64U6BQxuvTM4=;
+ b=ixKmcRnrKniFNaOFPXA9ahtmkbyiQtEHt1BpqyG6uS0EsrV018ZPQV7hRp4CJui48f
+ yckN/IOkOZ6avnKKKOq1kYw5MtL+hZitbqF9esBKZgzEMmvxb3gKKTE6r2sOYJZMTxno
+ gqUq/srVq59iIA5pbqgZStahJL2cYo0/8ZnJqpW/CwZyRypaiMVNsjphsTCiD2nZXk7f
+ nCIg8Q6xBt/tkI/Tel2ac+orD+/VpRbYbSVpAdV2/J2R41P9oPJCArmlZ+Zp3jI7XXnA
+ oX8VinUpXELhxHjGBKzYRur2Lb+pQcGedmDwWTvHIgN6Clcf7ijPDpcfJYSZsbhkJxJf
+ znOQ==
+X-Gm-Message-State: AOAM530eJCoR9XxUaBY1rePvZ6Adr/OjIuKsZ4PdGhBaYcNJ+2kWVGa9
+ xS2Sfi4dpox9MePh/cKSspbhYFxOBXaXQrDDWZo=
+X-Google-Smtp-Source: ABdhPJyJN3f6SJ5aShgvVlloc2bPuKUHtkgI/3q8B6KLhFbkqV6UHPOFlWvRK1T83RBsjk+y17UGAMp2T/7xstTlChQ=
+X-Received: by 2002:ad4:4e05:0:b0:456:50a4:7494 with SMTP id
+ dl5-20020ad44e05000000b0045650a47494mr20668219qvb.6.1651730812444; Wed, 04
+ May 2022 23:06:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
+ <CACPK8Xea8cE3bAPKqDDgQ671m+rxTo57OPYrDTBOEDrpLSD9tg@mail.gmail.com>
+ <eb7ec5f6-effb-fba5-21fa-60707754f9d3@kaod.org>
+In-Reply-To: <eb7ec5f6-effb-fba5-21fa-60707754f9d3@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 5 May 2022 06:06:39 +0000
+Message-ID: <CACPK8Xesdy9RYEiLy5TutiiDFHB04xSzyzHBS8nW5tLhpTX0WQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/7] VSX MMA Implementation
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>, 
+ David Gibson <david@gibson.dropbear.id.au>, 
+ Leandro Lupori <leandro.lupori@eldorado.org.br>, 
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.74; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf33.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,119 +87,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leonardo Bras <leobras@redhat.com> writes:
-
-> Add property that allows zero-copy migration of memory pages
-> on the sending side, and also includes a helper function
-> migrate_use_zero_copy_send() to check if it's enabled.
+On Wed, 27 Apr 2022 at 07:10, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> No code is introduced to actually do the migration, but it allow
-> future implementations to enable/disable this feature.
+> Hello,
 >
-> On non-Linux builds this parameter is compiled-out.
+> On 4/27/22 08:21, Joel Stanley wrote:
+> > On Tue, 26 Apr 2022 at 12:51, Lucas Mateus Castro(alqotel)
+> > <lucas.araujo@eldorado.org.br> wrote:
+> >>
+> >> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+> >>
+> >> This patch series is an RFC of the Matrix-Multiply Assist (MMA)
+> >> instructions implementation from the PowerISA 3.1
+> >>
+> >> These and the VDIV/VMOD implementation are the last new PowerISA 3.1
+> >> instructions left to be implemented.
+> >>
+> >> Thanks
+> >> Lucas Mateus Castro (alqotel) (7):
+> >>    target/ppc: Implement xxm[tf]acc and xxsetaccz
+> >>    target/ppc: Implemented xvi*ger* instructions
+> >>    target/ppc: Implemented pmxvi*ger* instructions
+> >>    target/ppc: Implemented xvf*ger*
+> >>    target/ppc: Implemented xvf16ger*
+> >>    target/ppc: Implemented pmxvf*ger*
+> >>    target/ppc: Implemented [pm]xvbf16ger2*
+> >
+> > I have a small test case for the MMA instructions that Alistair wrote
+> > a while back[1]. It passes when run with these patches applied
+> > (previously it would sigill).
 >
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  qapi/migration.json   | 24 ++++++++++++++++++++++++
->  migration/migration.h |  5 +++++
->  migration/migration.c | 32 ++++++++++++++++++++++++++++++++
->  migration/socket.c    | 11 +++++++++--
->  monitor/hmp-cmds.c    |  6 ++++++
->  5 files changed, 76 insertions(+), 2 deletions(-)
+> Could we have your Tested-by then ?
+
+Sure! I was going to re-test v2, but it doesn't hurt to mention it for
+this version.
+
+Tested-by: Joel Stanley <joel@jms.id.au>
+
 >
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 409eb086a2..04246481ce 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -741,6 +741,13 @@
->  #                      will consume more CPU.
->  #                      Defaults to 1. (Since 5.0)
->  #
-> +# @zero-copy-send: Controls behavior on sending memory pages on migratio=
-n.
-> +#                  When true, enables a zero-copy mechanism for sending =
-memory
-> +#                  pages, if host supports it.
-> +#                  Requires that QEMU be permitted to use locked memory =
-for guest
-
-Please wrap lines around column 75.  More of the same below.
-
-> +#                  RAM pages.
-> +#                  Defaults to false. (Since 7.1)
-> +#
->  # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
->  #                        aliases for the purpose of dirty bitmap migrati=
-on.  Such
->  #                        aliases may for example be the corresponding na=
-mes on the
-> @@ -780,6 +787,7 @@
->             'xbzrle-cache-size', 'max-postcopy-bandwidth',
->             'max-cpu-throttle', 'multifd-compression',
->             'multifd-zlib-level' ,'multifd-zstd-level',
-> +           { 'name': 'zero-copy-send', 'if' : 'CONFIG_LINUX'},
->             'block-bitmap-mapping' ] }
->=20=20
->  ##
-> @@ -906,6 +914,13 @@
->  #                      will consume more CPU.
->  #                      Defaults to 1. (Since 5.0)
->  #
-> +# @zero-copy-send: Controls behavior on sending memory pages on migratio=
-n.
-> +#                  When true, enables a zero-copy mechanism for sending =
-memory
-> +#                  pages, if host supports it.
-> +#                  Requires that QEMU be permitted to use locked memory =
-for guest
-> +#                  RAM pages.
-> +#                  Defaults to false. (Since 7.1)
-> +#
->  # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
->  #                        aliases for the purpose of dirty bitmap migrati=
-on.  Such
->  #                        aliases may for example be the corresponding na=
-mes on the
-> @@ -960,6 +975,7 @@
->              '*multifd-compression': 'MultiFDCompression',
->              '*multifd-zlib-level': 'uint8',
->              '*multifd-zstd-level': 'uint8',
-> +            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
->              '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
->=20=20
->  ##
-> @@ -1106,6 +1122,13 @@
->  #                      will consume more CPU.
->  #                      Defaults to 1. (Since 5.0)
->  #
-> +# @zero-copy-send: Controls behavior on sending memory pages on migratio=
-n.
-> +#                  When true, enables a zero-copy mechanism for sending =
-memory
-> +#                  pages, if host supports it.
-> +#                  Requires that QEMU be permitted to use locked memory =
-for guest
-> +#                  RAM pages.
-> +#                  Defaults to false. (Since 7.1)
-> +#
->  # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
->  #                        aliases for the purpose of dirty bitmap migrati=
-on.  Such
->  #                        aliases may for example be the corresponding na=
-mes on the
-> @@ -1158,6 +1181,7 @@
->              '*multifd-compression': 'MultiFDCompression',
->              '*multifd-zlib-level': 'uint8',
->              '*multifd-zstd-level': 'uint8',
-> +            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
->              '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
->=20=20
->  ##
-
-[...]
-
+>
+> >
+> > $ qemu-ppc64le -cpu power10  -L ~/ppc64le/ ./test -m
+> > Smoke test MMA
+> > MMA[0] =3D 1 (Correct)
+> > MMA[1] =3D 2 (Correct)
+> > MMA[2] =3D 3 (Correct)
+> > MMA[3] =3D 4 (Correct)
+> > MMA[4] =3D 2 (Correct)
+> > MMA[5] =3D 4 (Correct)
+> > MMA[6] =3D 6 (Correct)
+> > MMA[7] =3D 8 (Correct)
+> > MMA[8] =3D 3 (Correct)
+> > MMA[9] =3D 6 (Correct)
+> > MMA[10] =3D 9 (Correct)
+> > MMA[11] =3D 12 (Correct)
+> > MMA[12] =3D 4 (Correct)
+> > MMA[13] =3D 8 (Correct)
+> > MMA[14] =3D 12 (Correct)
+> > MMA[15] =3D 16 (Correct)
+> >
+> > [1] https://github.com/shenki/p10_tests
+>
+> Looks like a good candidate for tests/tcg/ppc64le/. Adding Matheus and Le=
+andro.
+>
+> Thanks,
+>
+> C.
+>
+>
+>
+> >
+> >
+> >>
+> >>   include/fpu/softfloat.h             |   9 ++
+> >>   target/ppc/cpu.h                    |  15 +++
+> >>   target/ppc/fpu_helper.c             | 130 ++++++++++++++++++
+> >>   target/ppc/helper.h                 |   7 +
+> >>   target/ppc/insn32.decode            |  49 +++++++
+> >>   target/ppc/insn64.decode            |  80 +++++++++++
+> >>   target/ppc/int_helper.c             |  85 ++++++++++++
+> >>   target/ppc/internal.h               |  28 ++++
+> >>   target/ppc/translate/vsx-impl.c.inc | 200 ++++++++++++++++++++++++++=
+++
+> >>   9 files changed, 603 insertions(+)
+> >>
+> >> --
+> >> 2.31.1
+> >>
+> >>
+>
 
