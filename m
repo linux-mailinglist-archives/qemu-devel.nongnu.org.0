@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC4851BC33
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:32:21 +0200 (CEST)
-Received: from localhost ([::1]:59550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BC551BC4E
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 May 2022 11:40:05 +0200 (CEST)
+Received: from localhost ([::1]:40474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmXqO-0004DI-QM
-	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38810)
+	id 1nmXxs-0002Vo-OC
+	for lists+qemu-devel@lfdr.de; Thu, 05 May 2022 05:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWt-0005K8-L2
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:11 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41980)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nmXeX-0007Jz-Ba
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:20:05 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nmXWs-0003Or-67
- for qemu-devel@nongnu.org; Thu, 05 May 2022 05:12:11 -0400
-Received: by mail-wr1-x435.google.com with SMTP id c11so5216773wrn.8
- for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:12:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nmXeV-0005qw-E2
+ for qemu-devel@nongnu.org; Thu, 05 May 2022 05:20:04 -0400
+Received: by mail-wr1-x432.google.com with SMTP id q23so5270114wra.1
+ for <qemu-devel@nongnu.org>; Thu, 05 May 2022 02:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=MaOeIv9GLNgP2YG/4viwRCAyaqZ3Xrc2Hu8qyXGGVPc=;
- b=cyLsUlB/lTC2YTqEFR6ZfBiOAJT0eVmAX0FLPuRSoqJCiH7GevEE7vgiOYqpbqSk2c
- DfPbHmRoX3Kglj4DTe/iD+XQ8IcU0rxpXYSC35/vUTfaeX5FxBNzdkFQ913a5YI808ss
- HiTbW/VW/UYuepH0tzjji5Iyfq3HMRZeXHHrBBIYvePDedKh68Qj4Iz1s+Nw0+m7WgIX
- DOywbmel2N2hS1VBf8SmGB6X/6RZB9AXv4MHD2FVruqWubn9vspJGmVEcaqJE/a/INB9
- a91RKK8VTNYAus/BUe+zxV5+4kl6DHKLO2x9y4t+CDZM+Sh5Gp4j4wf/d6qtYG5dikw8
- Tqlw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3haBgs4PIBPpKdoZTjBSTYT+BclEds/TNIsz5zmvEB0=;
+ b=QQXY5zb4+AOWYN43qOX1efV+/tsWecH7ZaGjHSCktkEQhaW3pMHMzQt6ZL75CPiZDz
+ OyaL1JSr9fWSPl93iA9RSph+U622vZIjVYI0yUeim+oelK4Xrstcz2dKfhipCI+4KruK
+ tPIlNOE675X16efglI+Ao01rG8roI43EjCEwN7GtpO7I9uXiYsseM+ltIZFe5TVbpcR3
+ Jlg2SFWxTd0SapRX17ANB6oFP19asvc7wfiWS8SAv4YJ8eRYvgX1rxRb0mjWx+TOFJv9
+ xpDNvhHKSlckFz/wrAKP6MqulMLk1xQ3FaifoF2CmL4ZHHX2yWb4je7pj9C3Tiirxl0b
+ NbCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MaOeIv9GLNgP2YG/4viwRCAyaqZ3Xrc2Hu8qyXGGVPc=;
- b=A465MJGAbelNOwexnRE7/CTmzdlP0rC5A8BOeAamuo3u3XHN13uiOpNzXmGFjG5Gpn
- wWX3mnOKuvnPFX8V8pjt/HFn7nNsae3guinMd5Bf1GC3Bw8QBuA65ACNkJSxKDKt7G+M
- csB+zqg/hJNccjqTJCjRYvW3RnEstPAJxX07n/SdRA9Nzny4XwaEGewzKCUBCyVat+jn
- F9gbLmqY1Xswf/8TbOXdXCsrim3v/6W6f+ryuUS918NMBpykeb1tnygbNh6+3aYa4h6c
- 3FvGCtiR79ElANlL9iv9nm4y3rRSFBtmSmnIc0dcLouWjqAoRsRLjwpFrBSLqoG39Yy1
- cVTA==
-X-Gm-Message-State: AOAM533hfhecT4YsU1mZgzKmaw83US5JyLQNVnz6ZJBOc9klSdLVDNTq
- OlHZjxpm/dXN/ssA5SSLzk3VDD/eAuQNLg==
-X-Google-Smtp-Source: ABdhPJymPFLlq/0SARUEVNGTvu3pvajNJq5/kqerzJulFT7VwBAkPnG1unmSxBC1HcNp99/Mmoat9A==
-X-Received: by 2002:a5d:4f8b:0:b0:20c:6970:fb3c with SMTP id
- d11-20020a5d4f8b000000b0020c6970fb3cmr12688387wru.554.1651741928760; 
- Thu, 05 May 2022 02:12:08 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=3haBgs4PIBPpKdoZTjBSTYT+BclEds/TNIsz5zmvEB0=;
+ b=sG7LhZEqeMGt4sA1RY3NYD1oF6W9n/1Op9DmBCvOEcqwRJsSo7ZVp31cQCkx8ib4qx
+ noJWgPq1h/Fp5wSKWTL3At2KjbBsxLJE56z6aa5dYTNwYoRdZ44dOk2JQJyFHPWfUnGR
+ gsFUsp6TLzJJS5RJtrYvjdIWku06MMuzzmSDoSs0flvjcYKp6y+KGkdcm+YQcdPVrOgc
+ uBA+CtAotfxPrb+t40R+pTCbsJUl4t+OW1mId97omaw385/6RoXn5DcsuwlOX6DLQBQl
+ aelrs7drBkMFsj2Ao7X3+Avi+dV9GY130fFl97SFQ4/7v7odriHMovT1jOJbjlT3aV49
+ hMMQ==
+X-Gm-Message-State: AOAM531oCUYSJcn9SueZ5a+kL9dKmUd5pfynE1NvHp9+MGIZH9D7nn+q
+ 3v9vMackFKOECP+koLiOH+EX/A==
+X-Google-Smtp-Source: ABdhPJyun+P5kUztrlJchx3TS293NwG9V12etsqhPkpcsCoTInFnOmA+IrM2jqGIMxL6hrxRMUvIjA==
+X-Received: by 2002:a5d:6b11:0:b0:20a:a247:25f4 with SMTP id
+ v17-20020a5d6b11000000b0020aa24725f4mr19555402wrw.234.1651742398314; 
+ Thu, 05 May 2022 02:19:58 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- j14-20020adfe50e000000b0020c6a524fd5sm841612wrm.99.2022.05.05.02.12.08
- for <qemu-devel@nongnu.org>
+ b4-20020a05600010c400b0020c5253d8fesm742274wrx.74.2022.05.05.02.19.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 02:12:08 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 21/23] target/arm: Add isar predicates for FEAT_Debugv8p2
-Date: Thu,  5 May 2022 10:11:45 +0100
-Message-Id: <20220505091147.2657652-22-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220505091147.2657652-1-peter.maydell@linaro.org>
-References: <20220505091147.2657652-1-peter.maydell@linaro.org>
+ Thu, 05 May 2022 02:19:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6B5D41FFB7;
+ Thu,  5 May 2022 10:19:56 +0100 (BST)
+References: <20220503200524.1868-1-luoyonggang@gmail.com>
+ <177e1d2f-1f67-4921-a49c-413ac1488487@redhat.com>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org, Wainer dos
+ Santos Moschetta <wainersm@redhat.com>, qemu-trivial@nongnu.org, Beraldo
+ Leal <bleal@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>
+Subject: Re: [PATCH 0/2] Upgrade mingw base packages
+Date: Thu, 05 May 2022 10:19:33 +0100
+In-reply-to: <177e1d2f-1f67-4921-a49c-413ac1488487@redhat.com>
+Message-ID: <87zgjwtjyb.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,57 +96,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220501055028.646596-24-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Thomas Huth <thuth@redhat.com> writes:
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d1b558385ce..7303103016f 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3704,6 +3704,11 @@ static inline bool isar_feature_aa32_ssbs(const ARMISARegisters *id)
-     return FIELD_EX32(id->id_pfr2, ID_PFR2, SSBS) != 0;
- }
- 
-+static inline bool isar_feature_aa32_debugv8p2(const ARMISARegisters *id)
-+{
-+    return FIELD_EX32(id->id_dfr0, ID_DFR0, COPDBG) >= 8;
-+}
-+
- /*
-  * 64-bit feature tests via id registers.
-  */
-@@ -4010,6 +4015,11 @@ static inline bool isar_feature_aa64_ssbs(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, SSBS) != 0;
- }
- 
-+static inline bool isar_feature_aa64_debugv8p2(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, DEBUGVER) >= 8;
-+}
-+
- static inline bool isar_feature_aa64_sve2(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SVEVER) != 0;
-@@ -4093,6 +4103,11 @@ static inline bool isar_feature_any_tts2uxn(const ARMISARegisters *id)
-     return isar_feature_aa64_tts2uxn(id) || isar_feature_aa32_tts2uxn(id);
- }
- 
-+static inline bool isar_feature_any_debugv8p2(const ARMISARegisters *id)
-+{
-+    return isar_feature_aa64_debugv8p2(id) || isar_feature_aa32_debugv8p2(id);
-+}
-+
- /*
-  * Forward to the above feature tests given an ARMCPU pointer.
-  */
--- 
-2.25.1
+> On 03/05/2022 22.05, Yonggang Luo wrote:
+>> v1. upgrade both cirrus and gitlab-ci to the newest mingw base release
+>> Yonggang Luo (2):
+>>    cirrus/win32: upgrade mingw base packages
+>>    gitlab-ci: Upgrade mingw base package.
+>>   .cirrus.yml              | 2 +-
+>>   .gitlab-ci.d/windows.yml | 2 +-
+>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>=20
+>
+> Tested-by: Thomas Huth <thuth@redhat.com>
+>
+> I can take this through my next misc/testing pull request if nobody
+> else wants to take it first.
 
+Go for it, I don't have any testing/next brewing at the moment.
+
+--=20
+Alex Benn=C3=A9e
 
