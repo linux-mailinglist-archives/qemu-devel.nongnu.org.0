@@ -2,65 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C6751D990
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 15:46:26 +0200 (CEST)
-Received: from localhost ([::1]:36296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A219A51D999
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 15:50:27 +0200 (CEST)
+Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmyHo-0000ih-KZ
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 09:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60458)
+	id 1nmyLh-0005Fy-Vz
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 09:50:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nmyDw-0005ZR-Ok
- for qemu-devel@nongnu.org; Fri, 06 May 2022 09:42:26 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.133.74]:23892)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1nmyJM-0003lb-0c
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 09:48:00 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8238
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nmyDt-0004rJ-Q3
- for qemu-devel@nongnu.org; Fri, 06 May 2022 09:42:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651844540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vS8+LpB/AzCn9vqBZWdvaPaNCottJ5OTY3JpW1Ch/kg=;
- b=aoXTe3/kQrkSYTgerPuUBOl2ItDWMSiJnEfGPICqdqqCqJ0W/dJwz9tgCHhKkWEErkFYrt
- anfCXTz7922xKYqJYUQvbFGxB9uU17fNpMF4SfQqLElATLkqTopqz4yXWytMU91+khY3af
- bOLj9K6DLccQIH3EAEckvQRb540YCwI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-lK5I3eUgMCewptkGbTZgmw-1; Fri, 06 May 2022 09:42:17 -0400
-X-MC-Unique: lK5I3eUgMCewptkGbTZgmw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 977521C06ED2;
- Fri,  6 May 2022 13:42:17 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D4832028E9B;
- Fri,  6 May 2022 13:42:17 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-Subject: [PATCH] iotests/testrunner: Flush after run_test()
-Date: Fri,  6 May 2022 15:42:15 +0200
-Message-Id: <20220506134215.10086-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1nmyJK-0005ho-8i
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 09:47:59 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 246Dl7Hg007340;
+ Fri, 6 May 2022 13:47:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=BflMXvsEQ7dpzNL0Hg5xBWsQ+hMUVUkmOIfC0CxQ++Y=;
+ b=ZdvZS9QaDcWr2B07BZqswqfPJkw3HSlKe0EKMBKY0Xtm1AtJGefaJeAOQSnKJZJpH744
+ 4wHDvjcIkZQEvcPwEY6l2MqBzQQbje88+qSNbBnRzf3X4Z/2lc4idz2wez8seuZtHqpS
+ pDCcq6Xe+SwXz5OTrcFjpMu8UiRZwi9fezEiHI4p5lEsatVcG4AyY7jQSxzy+f/ZVANY
+ ivjboXwFkYGM6v3BsPKH8oxTX4u/cidUea4IDfNGUgc0MukVGHCZ1ubUj2Mcblct9h8o
+ 20iDI2P+PhhTYGz1YZHDlL8UY80h6TErVzpWIgOTz/Q8F1TZMmdpH7Ehj3ym6tIotlto tg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw4v600kv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 13:47:55 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 246DlFYm007636;
+ Fri, 6 May 2022 13:47:55 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw4v600kn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 13:47:55 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 246DSRPN011816;
+ Fri, 6 May 2022 13:47:54 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04dal.us.ibm.com with ESMTP id 3frvraaqa8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 13:47:54 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 246DlrIm22807010
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 6 May 2022 13:47:53 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 53AE2BE051;
+ Fri,  6 May 2022 13:47:53 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF75FBE04F;
+ Fri,  6 May 2022 13:47:52 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri,  6 May 2022 13:47:52 +0000 (GMT)
+Message-ID: <96940f79-a6e0-d14f-5d74-abe280846f26@linux.ibm.com>
+Date: Fri, 6 May 2022 09:47:52 -0400
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.74; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 1/2] sysemu: tpm: Add a stub function for TPM_IS_CRB
+Content-Language: en-US
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com
+Cc: stefanb@linux.vnet.ibm.com, cohuck@redhat.com, f4bug@amsat.org
+References: <20220506132510.1847942-1-eric.auger@redhat.com>
+ <20220506132510.1847942-2-eric.auger@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20220506132510.1847942-2-eric.auger@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: r0UeiIXhmPICaYwqJR5IcJhBwR3daYnN
+X-Proofpoint-GUID: p_iIA4RmKu4VaqTFTL0rtgzA-lzL7bC4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-06_04,2022-05-06_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 clxscore=1015 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205060076
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,40 +120,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When stdout is not a terminal, the buffer may not be flushed at each end
-of line, so we should flush after each test is done.  This is especially
-apparent when run by check-block, in two ways:
 
-First, when running make check-block -jX with X > 1, progress indication
-was missing, even though testrunner.py does theoretically print each
-test's status once it has been run, even in multi-processing mode.
-Flushing after each test restores this progress indication.
 
-Second, sometimes make check-block failed altogether, with an error
-message that "too few tests [were] run".  I presume that's because one
-worker process in the job pool did not get to flush its stdout before
-the main process exited, and so meson did not get to see that worker's
-test results.  In any case, by flushing at the end of run_test(), the
-problem has disappeared for me.
+On 5/6/22 09:25, Eric Auger wrote:
+> In a subsequent patch, VFIO will need to recognize if
+> a memory region owner is a TPM CRB device. Hence VFIO
+> needs to use TPM_IS_CRB() even if CONFIG_TPM is unset. So
+> let's add a stub function.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Suggested-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linnux.ibm.com>
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- tests/qemu-iotests/testrunner.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index aae70a8341..10d9e8ef27 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -378,6 +378,7 @@ def run_test(self, test: str,
-             else:
-                 print(res.casenotrun)
- 
-+        sys.stdout.flush()
-         return res
- 
-     def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
--- 
-2.35.1
-
+> ---
+>   include/sysemu/tpm.h | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+> index 68b2206463c..fb40e30ff60 100644
+> --- a/include/sysemu/tpm.h
+> +++ b/include/sysemu/tpm.h
+> @@ -80,6 +80,12 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
+>   #define tpm_init()  (0)
+>   #define tpm_cleanup()
+> 
+> +/* needed for an alignment check in non-tpm code */
+> +static inline Object *TPM_IS_CRB(Object *obj)
+> +{
+> +     return NULL;
+> +}
+> +
+>   #endif /* CONFIG_TPM */
+> 
+>   #endif /* QEMU_TPM_H */
 
