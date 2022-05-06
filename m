@@ -2,97 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7765951D292
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 09:51:25 +0200 (CEST)
-Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA4351D2A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 09:54:58 +0200 (CEST)
+Received: from localhost ([::1]:41390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmskF-0007Pz-Nc
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 03:51:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47444)
+	id 1nmsnh-0000dm-3P
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 03:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nmsj1-0006eL-5Q
- for qemu-devel@nongnu.org; Fri, 06 May 2022 03:50:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:49459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nmsiy-0003TM-3b
- for qemu-devel@nongnu.org; Fri, 06 May 2022 03:50:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651823402;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Aal96kCfsW2df6LVwsjwzVExhovLi6zY09lpD1zJHA=;
- b=AZx/h1dTz0Wm8CeGWYUvqe83VkAK3qCjtVOsFc74I9jYu6X4jY0rLaNV4tcs97f6UE1YAV
- fQvmFxMpMgxP0r0RCdNWylo13AktuaR7L8il75ra0xQqG27HzJBFce5Xj9XegE96R9oxrN
- 9QKjsJVJ9wMufgxPwqDVzJoDWc+gJl0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-329-TldZsBagMACx4Zpxzyp7jQ-1; Fri, 06 May 2022 03:50:01 -0400
-X-MC-Unique: TldZsBagMACx4Zpxzyp7jQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u26-20020adfb21a000000b0020ac48a9aa4so2280529wra.5
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 00:50:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nmsmP-0008MA-Hl
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 03:53:37 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:35535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nmsmN-00040j-W9
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 03:53:37 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id h29so11255406lfj.2
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 00:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JtVy8osQD4yWEUc1A/gOePecndoIJ4+dMPdbHQtICwE=;
+ b=Y8t+o94hGUpVs+tjzLDtsRdcgt/bfhL7MuPrMY3F1tNDDrPMEciDyzPpL/J7EL3syQ
+ t8ijircSaTOYt8DCGFrKafLuuex0LyeFHQdL4XMsyzFE8VCGZl2Pbg8TetGuiz8qZHZJ
+ OfW38zqMyQORYaOF/ZwCC6muimUOMAkjrC/oVlQkSqSawg8JG8jhz6ZZMbkEVTku8RAj
+ jOOt4WP6IepgGUoF4L8k7Un7sfYTqLKnM7YBDqckCe3tVtuaOBfsaXef0xKcmk2jEk5B
+ l4O/Ir6YvXfcSE3cfDeUvXjReT/l0pzG/AhjPpjPRR7G5jdIef84hkQOpDRITt3WrV8n
+ W2UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9Aal96kCfsW2df6LVwsjwzVExhovLi6zY09lpD1zJHA=;
- b=ZasCmYc1Ti/CRn4+ZHQBBqx16eKhIrt9dswtPsBTz4FCFmGmopxUvBG7fqOhKdKIFY
- VCAowA5tZjpLx5SQPU+JWybAK9HkMmyWNBodU5hAAE8nxSC1vAI/+j0A67zzj1zEBd2D
- afOMAFWG+2AS/pz9p9KZlqKPMwZyS789zZjycP/VK5HtJwDp7+y7IRVhwj1yxfHcHn7J
- 6UDuSU76ultFIP9HmQsa9Hm/p9v0sszMA5UIt7W3SSfta1KkOEG9QnwsWwSvy5qfMDnT
- DIIkqA7LV3et+f5ad7XhwqZph9LW5lbldUOWLyouxT+nkoYasSnxfNqxp4ocEeDAzUhA
- qFjw==
-X-Gm-Message-State: AOAM531YAFxY1eBNmtV+NDz7UsIKVfynxc77RZW3wMza4STs4bwjNgI4
- symjwwANzI/Xz8LeX50O9o3Hzo71KjWJa0bh8eyBudJ6TybynoU61gEmAVeu+6BORipn14pongh
- UNM9joZ8FBauV8nQ=
-X-Received: by 2002:a05:6000:1562:b0:20c:64fc:34f with SMTP id
- 2-20020a056000156200b0020c64fc034fmr1618854wrz.132.1651823400515; 
- Fri, 06 May 2022 00:50:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEM1NhqJeWY8LqOqZw7MVKGFzO752p+3PYL7rD/roey1DpzuHYsjM2h6ziyNtjvOLod8IaUA==
-X-Received: by 2002:a05:6000:1562:b0:20c:64fc:34f with SMTP id
- 2-20020a056000156200b0020c64fc034fmr1618839wrz.132.1651823400234; 
- Fri, 06 May 2022 00:50:00 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- w8-20020a1cf608000000b003942a244ed0sm3391877wmc.21.2022.05.06.00.49.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 00:49:59 -0700 (PDT)
-Message-ID: <2b710806-cecc-aeb9-aca6-ae5a8ddaa136@redhat.com>
-Date: Fri, 6 May 2022 09:49:57 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JtVy8osQD4yWEUc1A/gOePecndoIJ4+dMPdbHQtICwE=;
+ b=IDkJ6sDFNLiTOIon4FELnPcfPWsNY0Xzd99qnogabiiQmGSI+szs3q8hI8uZR/yCZq
+ dF8OBZ3CHseTT9/7MkADPSWOk4rKxGS+SkPxvEVlIowA+ryuwC6t3QP/1K6cN2U3bSqv
+ PSwGpH/oy+QgSgu59qnwbEnigigYs2nLVT+8LaIIj/RUTGvH3IeEMo6ISDrzNsKptNRK
+ wirfqBRCHUHn7xJ7dge1y8NRsQfZN1UGd8TGNglQCdttJMhSvupX42gm0eBEA89fV/bb
+ FEWtbcw/uRkR3m+zJCHvPL0AeuflfJNDDNC+/eV6co1tbsoZjKMTb2YQ7TiQNHCxTFSi
+ +fWw==
+X-Gm-Message-State: AOAM531OVU31+Er+RcR74M1jmtYR3dhPxEaqcNRUCORCbyvH32LveHxk
+ o16VIj0eYMXhVsYNYwiwP/ylRchW/8gpJ7XHB/M=
+X-Google-Smtp-Source: ABdhPJwDuivXByxMj09AOnJT8IIpexoVF8Dl4JlWkwsCBaLSI7l8IlydNxbl38LzfoxHgcERCJIuaj53bOl5RGU81NU=
+X-Received: by 2002:a05:6512:b9b:b0:473:e0a4:77eb with SMTP id
+ b27-20020a0565120b9b00b00473e0a477ebmr1696429lfv.507.1651823614129; Fri, 06
+ May 2022 00:53:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v4] vfio/common: remove spurious tpm-crb-cmd misalignment
- warning
-Content-Language: en-US
-To: Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
-Cc: eric.auger.pro@gmail.com, qemu-devel@nongnu.org,
- stefanb@linux.vnet.ibm.com, f4bug@amsat.org
-References: <20220428134945.511829-1-eric.auger@redhat.com>
- <20220428141423.6e2da84c.alex.williamson@redhat.com>
- <019b265a-2489-c595-acd4-b1b5c1772707@redhat.com> <875ymj5d2z.fsf@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <875ymj5d2z.fsf@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220505214030.4261-1-dongwon.kim@intel.com>
+In-Reply-To: <20220505214030.4261-1-dongwon.kim@intel.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 6 May 2022 11:53:22 +0400
+Message-ID: <CAJ+F1CJ_vLG31zk9y2rphOy3y+NhVkn1VSriSXYv4mXCbFEWJQ@mail.gmail.com>
+Subject: Re: [PATCH] virtio-gpu: update done only on the scanout associated
+ with rect
+To: Dongwon Kim <dongwon.kim@intel.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Content-Type: multipart/alternative; boundary="000000000000c07b5b05de53277a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,103 +80,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Connie,
+--000000000000c07b5b05de53277a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/6/22 09:34, Cornelia Huck wrote:
-> On Fri, May 06 2022, Eric Auger <eric.auger@redhat.com> wrote:
+Hi
+
+On Fri, May 6, 2022 at 1:46 AM Dongwon Kim <dongwon.kim@intel.com> wrote:
+
+> It only needs to update the scanouts containing the rect area
+> coming with the resource-flush request from the guest.
 >
->> Hi Alex,
->>
->> On 4/28/22 22:14, Alex Williamson wrote:
->>> On Thu, 28 Apr 2022 15:49:45 +0200
->>> Eric Auger <eric.auger@redhat.com> wrote:
->>>> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
->>>> +{
->>>> +    MemoryRegion *mr = section->mr;
->>>> +
->>>> +    if (!TPM_IS_CRB(mr->owner)) {
->>>> +        return false;
->>>> +    }
->>> It looks like this test is going to need to be wrapped in #ifdef
->>> CONFIG_TPM:
->> sorry for the delay. Your message fell though the cracks :-(
->>
->> if I put an '#ifdef CONFIG_TPM' I need to inverse the logic because by
->> default the function shall return false.
->>
->> solution #1
->>
->> #ifdef CONFIG_TPM  
->>  if (TPM_IS_CRB(mr->owner)) {
->>
->>     /* this is a known safe misaligned region, just trace for debug purpose */
->>     trace_vfio_known_safe_misalignment(memory_region_name(mr),
->>                                        section->offset_within_address_space,
->>                                        section->offset_within_region,
->>                                        qemu_real_host_page_size());
->>
->>     return true;
->>    }
->>
->> #endif
->> return false;
->>
->> This looks weird to me.
->>
->> +    if (!object_dynamic_cast(mr->owner, TYPE_TPM_CRB)) {
->> +        return false;
->> +    }
->>
->>
->> solution #2
->> replace !object_dynamic_cast(mr->owner, TYPE_TPM_CRB) by
->> !object_dynamic_cast(mr->owner, "tpm-crb")
->> and add a comment saying that we don't use TYPE_TPM_CRB on purpose
->>
->> solution #3
->> Move #define TPM_IS_CRB(chr) and related defined out of
->> #ifdef CONFIG_TPM hoping it does not have other side effects
->>
->> Thoughts?
->> Eric
-> solution #4
 >
-> #ifndef CONFIG_TPM
-> /* needed for an alignment check in non-tpm code */
-> static inline Object *TPM_IS_CRB(Object *obj)
-> {
->     return NULL;
-> }
-> #endif
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> ---
+>  hw/display/virtio-gpu.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> I think it would be good if we could hide the configuration details in
-> the header.
+> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> index 529b5246b2..165ecafd7a 100644
+> --- a/hw/display/virtio-gpu.c
+> +++ b/hw/display/virtio-gpu.c
+> @@ -514,6 +514,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+>          for (i =3D 0; i < g->parent_obj.conf.max_outputs; i++) {
+>              scanout =3D &g->parent_obj.scanout[i];
+>              if (scanout->resource_id =3D=3D res->resource_id &&
+> +                rf.r.x >=3D scanout->x && rf.r.y >=3D scanout->y &&
+> +                rf.r.x + rf.r.width <=3D scanout->x + scanout->width &&
+> +                rf.r.y + rf.r.height <=3D scanout->y + scanout->height &=
+&
 >
-Yep, I forgot to mention solution #3 also happened in include/sysemu/tpm.h.
-Connie, either we add your stub function or we move the following out of
-the #ifdef CONFIG_TPM. This should be harmless, no?
-Stefan, any preference?
-
-#define TYPE_TPM_TIS_ISA            "tpm-tis"
-#define TYPE_TPM_TIS_SYSBUS         "tpm-tis-device"
-#define TYPE_TPM_CRB                "tpm-crb"
-#define TYPE_TPM_SPAPR              "tpm-spapr"
-
-#define TPM_IS_TIS_ISA(chr)                         \
-    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
-#define TPM_IS_TIS_SYSBUS(chr)                      \
-    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SYSBUS)
-#define TPM_IS_CRB(chr)                             \
-    object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
-#define TPM_IS_SPAPR(chr)                           \
-    object_dynamic_cast(OBJECT(chr), TYPE_TPM_SPAPR)
-
-Eric
 
 
+That doesn't seem to handle intersections/overlapping, I think it should.
 
+
+>                  console_has_gl(scanout->con)) {
+>                  dpy_gl_update(scanout->con, 0, 0, scanout->width,
+>                                scanout->height);
+> --
+> 2.30.2
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000c07b5b05de53277a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 6, 2022 at 1:46 AM Dong=
+won Kim &lt;<a href=3D"mailto:dongwon.kim@intel.com">dongwon.kim@intel.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I=
+t only needs to update the scanouts containing the rect area<br>
+coming with the resource-flush request from the guest.<br>=C2=A0 <br></bloc=
+kquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Cc: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank=
+">kraxel@redhat.com</a>&gt;<br>
+Cc: Vivek Kasireddy &lt;<a href=3D"mailto:vivek.kasireddy@intel.com" target=
+=3D"_blank">vivek.kasireddy@intel.com</a>&gt;<br>
+Signed-off-by: Dongwon Kim &lt;<a href=3D"mailto:dongwon.kim@intel.com" tar=
+get=3D"_blank">dongwon.kim@intel.com</a>&gt;<br>
+---<br>
+=C2=A0hw/display/virtio-gpu.c | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c<br>
+index 529b5246b2..165ecafd7a 100644<br>
+--- a/hw/display/virtio-gpu.c<br>
++++ b/hw/display/virtio-gpu.c<br>
+@@ -514,6 +514,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; g-&gt;parent_obj.con=
+f.max_outputs; i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scanout =3D &amp;g-&gt;pare=
+nt_obj.scanout[i];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (scanout-&gt;resource_id=
+ =3D=3D res-&gt;resource_id &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.x &gt;=3D sca=
+nout-&gt;x &amp;&amp; rf.r.y &gt;=3D scanout-&gt;y &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.x + rf.r.widt=
+h &lt;=3D scanout-&gt;x + scanout-&gt;width &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.y + rf.r.heig=
+ht &lt;=3D scanout-&gt;y + scanout-&gt;height &amp;&amp;<br></blockquote><d=
+iv><br></div><div><div><br></div><div>That doesn&#39;t seem to handle inter=
+sections/overlapping, I think it should.</div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0console_has_g=
+l(scanout-&gt;con)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpy_gl_update=
+(scanout-&gt;con, 0, 0, scanout-&gt;width,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scanout-&gt;height);<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000c07b5b05de53277a--
 
