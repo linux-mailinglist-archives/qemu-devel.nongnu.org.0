@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03ACE51D2AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 09:58:11 +0200 (CEST)
-Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72EC851D333
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 10:18:12 +0200 (CEST)
+Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmsqo-0002pN-5t
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 03:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48538)
+	id 1nmtAB-0002Ju-5h
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 04:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nmspY-0001Zv-RI
- for qemu-devel@nongnu.org; Fri, 06 May 2022 03:56:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:31567)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nmt8c-0001Go-Ka
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 04:16:37 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:29295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nmspV-0004TZ-JD
- for qemu-devel@nongnu.org; Fri, 06 May 2022 03:56:51 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nmt8Z-0007ZH-4U
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 04:16:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651823808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1651824989;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZAwznink3OcOk/iodEfQpqvgIWTP8mRaxv0pR7zYc7c=;
- b=ThXc0h8oj5u5XDuzQNg+pEeQqTNUAthY6APUiwipX8w5QOxzG0ysbRpiO/OqgekdqlsKBI
- h7gB8kEDVKGDvhL3++mYOZt1nlrG09337SxlYd/NyCko2NCDjZZ3E43y+I6Ah4P5RowDHc
- nFTq4wVEeMSPRRME1KoH8NEyHO/s2iA=
+ bh=hQgwneD91Qayr3wEyJIH1zExFbkD7Nv1J+fjDuwpCL8=;
+ b=ZdhegWKZUuNdr4veNPTwSxmhlVr5T0wwJio9Opo3WADW5TIkJoj2DEjGnuLS9vy903wVT9
+ 8/AVsXxFPXGKYnh6BTn+UwSVCePj8i5ABVFl7ucMmZAxzr9+ZN/Pkgvesu4hNASml+Q5mC
+ e0I8wfkH6zvYsQiTiPmLUtK9I5e3PAg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-nHDqRVSZM3CnM7_Wbc_hXA-1; Fri, 06 May 2022 03:56:44 -0400
-X-MC-Unique: nHDqRVSZM3CnM7_Wbc_hXA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-517-aIRs4HorOwG4lBV896D2og-1; Fri, 06 May 2022 04:16:26 -0400
+X-MC-Unique: aIRs4HorOwG4lBV896D2og-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6BCF8038E3;
- Fri,  6 May 2022 07:56:43 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5686340CF8E8;
- Fri,  6 May 2022 07:56:43 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: eric.auger@redhat.com, Alex Williamson <alex.williamson@redhat.com>
-Cc: eric.auger.pro@gmail.com, qemu-devel@nongnu.org,
- stefanb@linux.vnet.ibm.com, f4bug@amsat.org
-Subject: Re: [PATCH v4] vfio/common: remove spurious tpm-crb-cmd
- misalignment warning
-In-Reply-To: <2b710806-cecc-aeb9-aca6-ae5a8ddaa136@redhat.com>
-Organization: Red Hat GmbH
-References: <20220428134945.511829-1-eric.auger@redhat.com>
- <20220428141423.6e2da84c.alex.williamson@redhat.com>
- <019b265a-2489-c595-acd4-b1b5c1772707@redhat.com>
- <875ymj5d2z.fsf@redhat.com>
- <2b710806-cecc-aeb9-aca6-ae5a8ddaa136@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Fri, 06 May 2022 09:56:42 +0200
-Message-ID: <8735hn5c1x.fsf@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB2F4801210;
+ Fri,  6 May 2022 08:16:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 02C3BC1D3AD;
+ Fri,  6 May 2022 08:16:23 +0000 (UTC)
+Date: Fri, 6 May 2022 09:16:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Atish Patra <atishp@atishpatra.org>, Atish Patra <atishp@rivosinc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
+Message-ID: <YnTZP1iG+77Cugaq@redhat.com>
+References: <20220412021009.582424-1-atishp@rivosinc.com>
+ <Yl7oiF7kUrIQ0qk5@redhat.com>
+ <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
+ <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
+ <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
+ <YnOhHZGJphk30SmJ@redhat.com>
+ <CAKmqyKMKxb81ZSpz-ncGc3fpt8f06EcEcXvtHjEpWLABXGT+uQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=cohuck@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKmqyKMKxb81ZSpz-ncGc3fpt8f06EcEcXvtHjEpWLABXGT+uQ@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.74; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -69,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,120 +90,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 06 2022, Eric Auger <eric.auger@redhat.com> wrote:
+On Fri, May 06, 2022 at 06:34:47AM +1000, Alistair Francis wrote:
+> On Thu, May 5, 2022 at 8:04 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Thu, May 05, 2022 at 07:36:51PM +1000, Alistair Francis wrote:
+> > > On Tue, May 3, 2022 at 5:57 PM Atish Patra <atishp@atishpatra.org> wrote:
+> > > >
+> > > > On Tue, Apr 19, 2022 at 5:26 PM Atish Patra <atishp@atishpatra.org> wrote:
+> > > > >
+> > > > > On Tue, Apr 19, 2022 at 9:51 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > > > >
+> > > > > > On Mon, Apr 11, 2022 at 07:10:06PM -0700, Atish Patra wrote:
+> > > > > > >
+> > > > > > > The RISC-V virt machine has helped RISC-V software eco system to evolve at a
+> > > > > > > rapid pace even in absense of the real hardware. It is definitely commendable.
+> > > > > > > However, the number of devices & commandline options keeps growing as a result
+> > > > > > > of that as well. That adds flexibility but will also become bit difficult
+> > > > > > > to manage in the future as more extension support will be added. As it is the
+> > > > > > > most commonly used qemu machine, it needs to support all kinds of device and
+> > > > > > > interrupts as well. Moreover, virt machine has limitations on the maximum
+> > > > > > > number of harts it can support because of all the MMIO devices it has to support.
+> > > > > > >
+> > > > > > > The RISC-V IMSIC specification allows to develop machines completely relying
+> > > > > > > on MSI and don't care about the wired interrupts at all. It just requires
+> > > > > > > all the devices to be present behind a PCI bus or present themselves as platform
+> > > > > > > MSI device. The former is a more common scenario in x86 world where most
+> > > > > > > of the devices are behind PCI bus. As there is very limited MMIO device
+> > > > > > > support, it can also scale to very large number of harts.
+> > > > > > >
+> > > > > > > That's why, this patch series introduces a minimalistic yet very extensible
+> > > > > > > forward looking machine called as "RISC-V Mini Computer" or "minic". The
+> > > > > > > idea is to build PC or server like systems with this machine. The machine can
+> > > > > > > work with or without virtio framework. The current implementation only
+> > > > > > > supports RV64. I am not sure if building a RV32 machine would be of interest
+> > > > > > > for such machines. The only mmio device it requires is clint to emulate
+> > > > > > > the mtimecmp.
+> > > > > >
+> > > >
+> > > > Any other thoughts ?
+> > >
+> > > I don't *love* this idea. I think the virt machine is useful, but I'm
+> > > not convinced we need a second one.
+> > >
+> > > This feels a little bit more like a "none" machine, as it contains
+> > > just the bare minimum to work.
+> > >
+> > > >
+> > > > > > I would ask what you see as the long term future usage for 'virt' vs
+> > > > > > 'minic' machine types ? Would you expect all existing users of 'virt'
+> > > > > > to ultimately switch to 'minic', or are there distinct non-overlapping
+> > > > > > use cases for 'virt' vs 'minic' such that both end up widely used ?
+> > > > > >
+> > > > >
+> > > > > Nope. I don't expect existing 'virt' users to switch to 'minic' as
+> > > > > they aim to cater to different users.
+> > > > >
+> > > > > Here are the major differences
+> > > > > 1. virt machine supports MMIO devices & wired interrupts. Minic doesn't
+> > >
+> > > This seems like the main difference
+> > >
+> > > > > 2. virt machine doesn't support the MSI only option yet (can be added
+> > > > > though[1]). Minic does.
+> > >
+> > > This could be fixed
+> > >
+> > > > > 3. Number of cpu supported by virt machine are limited because of the
+> > > > > MMIO devices. Minic can scale to very
+> > > > > large numbers of cpu.
+> > >
+> > > Similar to 1
+> > >
+> > > > > 4. 'Minic' only supports PCI based MSI capable devices. Thus, MSI is a
+> > > > > mandatory requirement for 'minic' while
+> > > > > it is optional for 'virt'.
+> > >
+> > > I'm not fully convinced we need this, but it also doesn't seem to cost
+> > > us a lot in terms of maintenance. It would be beneficial if we could
+> > > share a bit more of the code. Can we share the socket creation code as
+> > > well?
+> > >
+> > > I don't like the name minic though. What about something like
+> > > `virt-hpc`, `virt-pcie-minimal` or something like that? That way we
+> > > indicate it's still a virt board
+> >
+> > We're not versioning the 'virt' machine type right so. IOW, we've not
+> > made any promises about its long term featureset.
+> >
+> > If the virt machine type isn't the perfect match right now, should
+> > we change it, in a potentially incompatible way, to give us the right
+> > solution long term, rather than introducing a brand new machine type
+> > with significant overlap.
+> 
+> Even if we didn't worry about backwards compatibility the current virt
+> machine would still be what most users want. It's just a small number
+> of users who don't want MMIO devices and instead want to use PCIe for
+> everything. Realistically it's only HPC users who would want this type
+> of machine, at least that's my understanding.
 
-> Hi Connie,
->
-> On 5/6/22 09:34, Cornelia Huck wrote:
->> On Fri, May 06 2022, Eric Auger <eric.auger@redhat.com> wrote:
->>
->>> Hi Alex,
->>>
->>> On 4/28/22 22:14, Alex Williamson wrote:
->>>> On Thu, 28 Apr 2022 15:49:45 +0200
->>>> Eric Auger <eric.auger@redhat.com> wrote:
->>>>> +static bool vfio_known_safe_misalignment(MemoryRegionSection *sectio=
-n)
->>>>> +{
->>>>> +    MemoryRegion *mr =3D section->mr;
->>>>> +
->>>>> +    if (!TPM_IS_CRB(mr->owner)) {
->>>>> +        return false;
->>>>> +    }
->>>> It looks like this test is going to need to be wrapped in #ifdef
->>>> CONFIG_TPM:
->>> sorry for the delay. Your message fell though the cracks :-(
->>>
->>> if I put an '#ifdef CONFIG_TPM' I need to inverse the logic because by
->>> default the function shall return false.
->>>
->>> solution #1
->>>
->>> #ifdef CONFIG_TPM=C2=A0=C2=A0
->>> =C2=A0if (TPM_IS_CRB(mr->owner)) {
->>>
->>>     /* this is a known safe misaligned region, just trace for debug pur=
-pose */
->>>     trace_vfio_known_safe_misalignment(memory_region_name(mr),
->>>                                        section->offset_within_address_s=
-pace,
->>>                                        section->offset_within_region,
->>>                                        qemu_real_host_page_size());
->>>
->>>     return true;
->>>    }
->>>
->>> #endif
->>> return false;
->>>
->>> This looks weird to me.
->>>
->>> +    if (!object_dynamic_cast(mr->owner, TYPE_TPM_CRB)) {
->>> +        return false;
->>> +    }
->>>
->>>
->>> solution #2
->>> replace !object_dynamic_cast(mr->owner, TYPE_TPM_CRB) by
->>> !object_dynamic_cast(mr->owner, "tpm-crb")
->>> and add a comment saying that we don't use TYPE_TPM_CRB on purpose
->>>
->>> solution #3
->>> Move #define TPM_IS_CRB(chr) and related defined out of
->>> #ifdef CONFIG_TPM hoping it does not have other side effects
->>>
->>> Thoughts?
->>> Eric
->> solution #4
->>
->> #ifndef CONFIG_TPM
->> /* needed for an alignment check in non-tpm code */
->> static inline Object *TPM_IS_CRB(Object *obj)
->> {
->>     return NULL;
->> }
->> #endif
->>
->> I think it would be good if we could hide the configuration details in
->> the header.
->>
-> Yep, I forgot to mention solution #3 also happened in include/sysemu/tpm.=
-h.
-> Connie, either we add your stub function or we move the following out of
-> the #ifdef CONFIG_TPM. This should be harmless, no?
-> Stefan, any preference?
->
-> #define TYPE_TPM_TIS_ISA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 "tpm-tis"
-> #define TYPE_TPM_TIS_SYSBUS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 "tpm-tis-device"
-> #define TYPE_TPM_CRB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "tpm-crb"
-> #define TYPE_TPM_SPAPR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 "tpm-spapr"
->
-> #define TPM_IS_TIS_ISA(chr)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0 object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
-> #define TPM_IS_TIS_SYSBUS(chr)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0 object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SYSBUS)
-> #define TPM_IS_CRB(chr)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0 object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
-> #define TPM_IS_SPAPR(chr)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0 object_dynamic_cast(OBJECT(chr), TYPE_TPM_SPAPR)
+I'm not so sure about that. Every other architecture has ended up
+standardizing on PCI for general purpose virtual machines. IIRC,
+aarch64 started off with MMIO, but switched to PCI as it matured. 
 
-If it's just those simple defines, I can't see how that could break
-things (you won't have the respective objects anyway). So yes, I think
-that is the best solution.
+In terms of having VM mgmt tools "just work" for risc-v, I think
+it will be very compelling for the general 'virt' machine to be
+PCI based, otherwise all the assumptions about PCI in mgmt apps
+are going to break requiring never ending riscv fixes.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
