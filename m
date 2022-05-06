@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279E951DE2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 19:09:56 +0200 (CEST)
-Received: from localhost ([::1]:47642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6EF51DE30
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 19:11:12 +0200 (CEST)
+Received: from localhost ([::1]:49974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn1Sl-0008OD-9U
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 13:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
+	id 1nn1Tz-0001d7-0w
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 13:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nn1QP-0006zd-LS
- for qemu-devel@nongnu.org; Fri, 06 May 2022 13:07:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51121)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1nn1SR-0008Uu-Hy
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 13:09:35 -0400
+Received: from mga03.intel.com ([134.134.136.65]:48802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nn1QN-0003OY-Th
- for qemu-devel@nongnu.org; Fri, 06 May 2022 13:07:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651856847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Gqs3GnbwMO7Nhe6s1Qpq1tySV+aT43DoVzsg1Gdk64s=;
- b=G6RAzc4ZkxXorPucNqZWqDLuR43Az8ihWxcQXhv6Ka5eKqRdAZCDtyVGQaNJTRSZyIDnRf
- W5yrDZgA0o3zZujLtMqZdJNafpZRc/6/Agid80vAt4m9P8iBYd/QsIZJgIDeXB+POCQ/eh
- bISpQcW79AUTpduTd1IlqjUjfY6fXvw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-I3GwFre5NmedrsRzbY1KoA-1; Fri, 06 May 2022 13:07:24 -0400
-X-MC-Unique: I3GwFre5NmedrsRzbY1KoA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D39763802126;
- Fri,  6 May 2022 17:07:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B2254010E2F;
- Fri,  6 May 2022 17:07:23 +0000 (UTC)
-Date: Fri, 6 May 2022 12:07:21 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-Subject: Re: [PATCH] iotests/testrunner: Flush after run_test()
-Message-ID: <20220506170721.nnr3ixgmlqiy36ht@redhat.com>
-References: <20220506134215.10086-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1nn1SP-0003db-S7
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 13:09:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651856973; x=1683392973;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=MQl4lNC5AE5M7DDUDIos/VtudUXNK+BGY2jQOWwnWlc=;
+ b=hS0HIOgePrzgE8dTFt/d6+ObvOUzC/SDoHsPMAFflYHKsemlmndg7SDr
+ 76XA2Oid9dvtX/1LisS3Coht2uBFkxrclgNnGsfdZMZG+2a8RbKCT0j8g
+ pn+fDR74/hDivPLqHTiovWpKyFkOjuWKWpPjviHHyZnjtmMVmzHNmssc3
+ FC1sbCZbFPRap1MErJT4UxvpA/EMv53/7fD/62lZDvUa0h1k/Lcqe/5bx
+ AvEt2pig+DaK7cVcog8D+TBqYvE386LwN/oL99875ZccX1f29aJCkgV9W
+ 82NauOiBd7H9HKLW2U7Q9Y9L5RMw5DjclIK+tU5nVoMMo1oCWrPM9HpnU Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="268418695"
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="268418695"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 10:09:31 -0700
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="709555465"
+Received: from dongwonk-mobl.amr.corp.intel.com ([10.121.200.203])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 10:09:31 -0700
+Date: Fri, 6 May 2022 10:09:30 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH] virtio-gpu: update done only on the scanout associated
+ with rect
+Message-ID: <20220506170930.GB369@dongwonk-MOBL.amr.corp.intel.com>
+References: <20220505214030.4261-1-dongwon.kim@intel.com>
+ <CAJ+F1CJ_vLG31zk9y2rphOy3y+NhVkn1VSriSXYv4mXCbFEWJQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220506134215.10086-1-hreitz@redhat.com>
-User-Agent: NeoMutt/20220429-35-ca2e7f
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1CJ_vLG31zk9y2rphOy3y+NhVkn1VSriSXYv4mXCbFEWJQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.65;
+ envelope-from=dongwon.kim@intel.com; helo=mga03.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,51 +80,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 06, 2022 at 03:42:15PM +0200, Hanna Reitz wrote:
-> When stdout is not a terminal, the buffer may not be flushed at each end
-> of line, so we should flush after each test is done.  This is especially
-> apparent when run by check-block, in two ways:
+On Fri, May 06, 2022 at 11:53:22AM +0400, Marc-André Lureau wrote:
+> Hi
 > 
-> First, when running make check-block -jX with X > 1, progress indication
-> was missing, even though testrunner.py does theoretically print each
-> test's status once it has been run, even in multi-processing mode.
-> Flushing after each test restores this progress indication.
+> On Fri, May 6, 2022 at 1:46 AM Dongwon Kim <dongwon.kim@intel.com> wrote:
 > 
-> Second, sometimes make check-block failed altogether, with an error
-> message that "too few tests [were] run".  I presume that's because one
-> worker process in the job pool did not get to flush its stdout before
-> the main process exited, and so meson did not get to see that worker's
-> test results.  In any case, by flushing at the end of run_test(), the
-> problem has disappeared for me.
+> > It only needs to update the scanouts containing the rect area
+> > coming with the resource-flush request from the guest.
+> >
+> >
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> > ---
+> >  hw/display/virtio-gpu.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> > index 529b5246b2..165ecafd7a 100644
+> > --- a/hw/display/virtio-gpu.c
+> > +++ b/hw/display/virtio-gpu.c
+> > @@ -514,6 +514,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+> >          for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
+> >              scanout = &g->parent_obj.scanout[i];
+> >              if (scanout->resource_id == res->resource_id &&
+> > +                rf.r.x >= scanout->x && rf.r.y >= scanout->y &&
+> > +                rf.r.x + rf.r.width <= scanout->x + scanout->width &&
+> > +                rf.r.y + rf.r.height <= scanout->y + scanout->height &&
+> >
 > 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  tests/qemu-iotests/testrunner.py | 1 +
->  1 file changed, 1 insertion(+)
+> 
+> That doesn't seem to handle intersections/overlapping, I think it should.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+so set-scanouts and resource flushes are issued per scanout(CRTC/plane
+from guest's point of view). In case of intersections/overlapping, there
+will be two resource flushes (in case there are two scanouts) and each
+resource flush will take care of updating the scanout that covers
+partial damaged area.
+
+The problem with the original code is that even if there is a resource
+flush request for a single scanout, it does update on both (or more) as
+well, which is unnecessary burden.
+
+Thanks
 
 > 
-> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-> index aae70a8341..10d9e8ef27 100644
-> --- a/tests/qemu-iotests/testrunner.py
-> +++ b/tests/qemu-iotests/testrunner.py
-> @@ -378,6 +378,7 @@ def run_test(self, test: str,
->              else:
->                  print(res.casenotrun)
->  
-> +        sys.stdout.flush()
->          return res
->  
->      def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
+> 
+> >                  console_has_gl(scanout->con)) {
+> >                  dpy_gl_update(scanout->con, 0, 0, scanout->width,
+> >                                scanout->height);
+> > --
+> > 2.30.2
+> >
+> >
+> >
+> 
 > -- 
-> 2.35.1
-> 
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+> Marc-André Lureau
 
