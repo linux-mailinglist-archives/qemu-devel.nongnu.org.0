@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0141251D9A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 15:53:55 +0200 (CEST)
-Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD2851D9FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 16:09:07 +0200 (CEST)
+Received: from localhost ([::1]:35582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmyP4-000255-3k
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 09:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
+	id 1nmydm-0004v3-GU
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 10:09:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmyKe-0005uN-Bu
- for qemu-devel@nongnu.org; Fri, 06 May 2022 09:49:23 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:60735)
+ (Exim 4.90_1) (envelope-from <svens@stackframe.org>)
+ id 1nmtqc-0005Cf-Dx
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 05:02:02 -0400
+Received: from outbound3.eu.mailhop.org ([52.29.21.168]:43071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmyKa-0005qN-O4
- for qemu-devel@nongnu.org; Fri, 06 May 2022 09:49:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651844956;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rc4WgCyHZXq4RAj+fNzYqnWUjsIWyN8ELMZ+4y8siXI=;
- b=dQ9lmaAJKo4K0uuQ8Wti6biBWa8pW7OWYy3B0p6Kfr4MbsMKVzGeYOliJA8kEkf+6KjerW
- 5ubH6begG+H8yezc3N1SPUh1BO3hcMTt1M5eJqdS0Kp5uXxonQ3VqGwDlt8cUzrytaA4k5
- jwSiy5mqf4/KRsKM5NvXNPYPlDmbPIE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-wmFRNUfrPSqjy6t4KFSVAg-1; Fri, 06 May 2022 09:49:14 -0400
-X-MC-Unique: wmFRNUfrPSqjy6t4KFSVAg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B5243810D30
- for <qemu-devel@nongnu.org>; Fri,  6 May 2022 13:49:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1BF7416157
- for <qemu-devel@nongnu.org>; Fri,  6 May 2022 13:49:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B5CD421E68BC; Fri,  6 May 2022 15:49:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] Clean up decorations and whitespace around header guards
-Date: Fri,  6 May 2022 15:49:11 +0200
-Message-Id: <20220506134911.2856099-5-armbru@redhat.com>
-In-Reply-To: <20220506134911.2856099-1-armbru@redhat.com>
-References: <20220506134911.2856099-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <svens@stackframe.org>)
+ id 1nmtqW-0006Ir-NT
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 05:02:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1651826747; cv=none;
+ d=outbound.mailhop.org; s=arc-outbound20181012;
+ b=DyrM7zwzopeFlvIzOdc8yLZAQSiWmFNYTC/2GxPaQGU8ZoO2jokwu+4PmBhS9afF7SPtK3hV2oWix
+ zwRWuRALOMTFJT9oSZABN2vOJEx3mUAtHdKB+nZRxkR6hIY6QcHKXncs5KmWx5VFKgCb/3ZQCuhXV8
+ j80dfmySBs6ZtOkWrZ3yg7455z48abHhg3SzKRC2mDqHgaOZqSNPo2WZjvCTpO50bZPTaL7q5dic42
+ t0Vp9oTx7cVs0jkdliOs2bTFe+OqvfMc9HUnqcqRfrubPznIOsMa2kmJ6iKZgz07n/6cAeQCj0hki8
+ 5afKJe2pZvNOCUEBquEZkXZFlZQ9kzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=outbound.mailhop.org; s=arc-outbound20181012;
+ h=content-type:mime-version:message-id:in-reply-to:date:references:subject:cc:
+ to:from:dkim-signature:dkim-signature:from;
+ bh=3OfKiKCW9mFg7rktq6MOYeLIGN4tBC6CZy8zgkwgdkg=;
+ b=W2jzRMdcLVcPBpzViZiIDLb627XIRDRPi7ZwIv0Fz/pwpTHaGGloEq/eS4ek1vKTYBguDQpP2/+rZ
+ FMKA+6wi8oF7Rfx+la7GGdO82KmNi7W9qyKdVjOQtjhB34jYLKuafSdXNTGOEEFgac8Mrek2KCg5h1
+ MNP6f/z9jrNqIc1dhXZDXudJwHEUj5q/UHv1MWsQS/tlx92wFDWAHb8bwNhA+DYvWqzqcg+MAkYkQw
+ BRkzzjWQqGl8Mn1dcl+W7J2OCYDVAN27FKS0JIEzpAAeFovig9Xg5w4TXI1BsWar8C0Hduu4+nQOn4
+ iF0Yz6oZjdECRp/q1/834TDDNYubezw==
+ARC-Authentication-Results: i=1; outbound3.eu.mailhop.org;
+ spf=pass smtp.mailfrom=stackframe.org smtp.remote-ip=130.180.31.158;
+ dmarc=none header.from=stackframe.org;
+ arc=none header.oldest-pass=0;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stackframe.org; s=duo-1634547266507-560c42ae;
+ h=content-type:mime-version:message-id:in-reply-to:date:references:subject:cc:
+ to:from:from; bh=3OfKiKCW9mFg7rktq6MOYeLIGN4tBC6CZy8zgkwgdkg=;
+ b=cYoqLLJrqNlxmghA8k3w214b0Eu/TIIHMr9KimU5kljWZgAQPIGr8bXiEP9ASfR7tFqezJuU6c9Bi
+ QBxCMx/1YMHc9YBfta+gdKtqI7GZjkuLbU4gEsmPxcNskj8p98wl9ZJXrTQQit5QqZJX7fENwxocSn
+ SrQTtV/KPrUYbRGM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=outbound.mailhop.org; s=dkim-high;
+ h=content-type:mime-version:message-id:in-reply-to:date:references:subject:cc:
+ to:from:from; bh=3OfKiKCW9mFg7rktq6MOYeLIGN4tBC6CZy8zgkwgdkg=;
+ b=Jvh3+pwjgwFXd4lH2dLn60jEur+bX3l4VQedpVdA8VBbr7ikSoFkTykFdmFvmj9zdpz0lpI75DuuS
+ XBLDam0l+gI5rTUoXevT0T+zvgdr3Qg9oroiQ2uydfz6vkc0VtHEN++blLZ1rwb5AvXWMObePoxUaW
+ 9f/3SBgeNutSV8Sxe94JGkzh0F2BCYfUZ1OO1FjWEKc7zfp19dbqi7P3829MpTUiCljhSW7ZChsmZV
+ K1raqgYL8l5k/qXjKT0WmrO/Ki0b+ejmAkoAzy8J1LAMmtM0cTMLFQAT1NMlXMJ61EeCKaF+i3Umpw
+ J49sf/jT+gwi2QGP8m7QX24SW27T7eQ==
+X-Originating-IP: 130.180.31.158
+X-MHO-RoutePath: dG9ta2lzdG5lcm51
+X-MHO-User: e9b6f847-cd18-11ec-be1c-8777f00826c1
+X-Report-Abuse-To: https://support.duocircle.com/support/solutions/articles/5000540958-duocircle-standard-smtp-abuse-information
+X-Mail-Handler: DuoCircle Outbound SMTP
+Received: from mail.duncanthrax.net
+ (ip-130-180-031-158.um40.pools.vodafone-ip.de [130.180.31.158])
+ by outbound3.eu.mailhop.org (Halon) with ESMTPSA
+ id e9b6f847-cd18-11ec-be1c-8777f00826c1;
+ Fri, 06 May 2022 08:45:44 +0000 (UTC)
+Received: from ip-046-005-169-013.um12.pools.vodafone-ip.de ([46.5.169.13]
+ helo=x1.stackframe.org.stackframe.org)
+ by mail.duncanthrax.net with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <svens@stackframe.org>)
+ id 1nmtao-0001Ni-1c; Fri, 06 May 2022 10:45:42 +0200
+From: Sven Schnelle <svens@stackframe.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: deller@gmx.de,  qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/3] artist: minor fixes and performance improvement
+References: <20220504153708.10352-1-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 06 May 2022 10:45:41 +0200
+In-Reply-To: <20220504153708.10352-1-mark.cave-ayland@ilande.co.uk> (Mark
+ Cave-Ayland's message of "Wed, 4 May 2022 16:37:05 +0100")
+Message-ID: <87wnez9hhm.fsf@x1.stackframe.org>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain
+Received-SPF: pass client-ip=52.29.21.168; envelope-from=svens@stackframe.org;
+ helo=outbound3.eu.mailhop.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 06 May 2022 10:06:16 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,299 +108,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleaned up with scripts/clean-header-guards.pl.
+Hi Mark,
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- bsd-user/arm/target.h                      | 2 +-
- bsd-user/x86_64/target.h                   | 2 +-
- chardev/chardev-internal.h                 | 3 ++-
- include/block/block_int-global-state.h     | 3 ++-
- include/exec/translator.h                  | 2 +-
- include/fpu/softfloat-helpers.h            | 2 +-
- include/hw/gpio/aspeed_gpio.h              | 2 +-
- include/hw/intc/rx_icu.h                   | 2 +-
- include/hw/misc/aspeed_hace.h              | 2 +-
- include/hw/misc/aspeed_lpc.h               | 2 +-
- include/hw/misc/aspeed_sbc.h               | 2 +-
- include/hw/net/allwinner-sun8i-emac.h      | 2 +-
- include/hw/rtc/m48t59.h                    | 2 +-
- include/hw/rtc/mc146818rtc.h               | 2 +-
- include/qemu/plugin-memory.h               | 2 +-
- include/qemu/selfmap.h                     | 2 +-
- include/user/syscall-trace.h               | 2 +-
- linux-user/hexagon/target_signal.h         | 2 +-
- target/avr/cpu.h                           | 2 +-
- target/hexagon/attribs.h                   | 2 +-
- target/xtensa/core-de233_fpu/core-matmap.h | 4 +---
- target/xtensa/core-dsp3400/core-matmap.h   | 4 +---
- 22 files changed, 24 insertions(+), 26 deletions(-)
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
 
-diff --git a/bsd-user/arm/target.h b/bsd-user/arm/target.h
-index 419c039b68..7c423ec575 100644
---- a/bsd-user/arm/target.h
-+++ b/bsd-user/arm/target.h
-@@ -17,5 +17,5 @@ static inline bool regpairs_aligned(void *cpu_env)
-     return true;
- }
- 
--#endif /* ! TARGET_H */
-+#endif /* TARGET_H */
- 
-diff --git a/bsd-user/x86_64/target.h b/bsd-user/x86_64/target.h
-index 8956631db1..0cf0e2a14a 100644
---- a/bsd-user/x86_64/target.h
-+++ b/bsd-user/x86_64/target.h
-@@ -17,5 +17,5 @@ static inline bool regpairs_aligned(void *cpu_env)
-     return false;
- }
- 
--#endif /* ! TARGET_H */
-+#endif /* TARGET_H */
- 
-diff --git a/chardev/chardev-internal.h b/chardev/chardev-internal.h
-index aba0240759..4e03af3147 100644
---- a/chardev/chardev-internal.h
-+++ b/chardev/chardev-internal.h
-@@ -21,6 +21,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #ifndef CHARDEV_INTERNAL_H
- #define CHARDEV_INTERNAL_H
- 
-@@ -64,4 +65,4 @@ void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event);
- 
- Object *get_chardevs_root(void);
- 
--#endif /* CHAR_MUX_H */
-+#endif /* CHARDEV_INTERNAL_H */
-diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
-index 8b2e95f5ff..b49f4eb35b 100644
---- a/include/block/block_int-global-state.h
-+++ b/include/block/block_int-global-state.h
-@@ -21,6 +21,7 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
-+
- #ifndef BLOCK_INT_GLOBAL_STATE_H
- #define BLOCK_INT_GLOBAL_STATE_H
- 
-@@ -326,4 +327,4 @@ static inline void assert_bdrv_graph_writable(BlockDriverState *bs)
-     assert(qemu_in_main_thread());
- }
- 
--#endif /* BLOCK_INT_GLOBAL_STATE */
-+#endif /* BLOCK_INT_GLOBAL_STATE_H */
-diff --git a/include/exec/translator.h b/include/exec/translator.h
-index 31d3fa76ff..7db6845535 100644
---- a/include/exec/translator.h
-+++ b/include/exec/translator.h
-@@ -187,4 +187,4 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
- 
- #undef GEN_TRANSLATOR_LD
- 
--#endif  /* EXEC__TRANSLATOR_H */
-+#endif /* EXEC__TRANSLATOR_H */
-diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
-index a98d759cd3..94cbe073ec 100644
---- a/include/fpu/softfloat-helpers.h
-+++ b/include/fpu/softfloat-helpers.h
-@@ -141,4 +141,4 @@ static inline bool get_default_nan_mode(float_status *status)
-     return status->default_nan_mode;
- }
- 
--#endif /* _SOFTFLOAT_HELPERS_H_ */
-+#endif /* SOFTFLOAT_HELPERS_H */
-diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
-index 801846befb..6dee3cd438 100644
---- a/include/hw/gpio/aspeed_gpio.h
-+++ b/include/hw/gpio/aspeed_gpio.h
-@@ -93,4 +93,4 @@ struct AspeedGPIOState {
-     } sets[ASPEED_GPIO_MAX_NR_SETS];
- };
- 
--#endif /* _ASPEED_GPIO_H_ */
-+#endif /* ASPEED_GPIO_H */
-diff --git a/include/hw/intc/rx_icu.h b/include/hw/intc/rx_icu.h
-index 7f5889b36f..b23504f3dd 100644
---- a/include/hw/intc/rx_icu.h
-+++ b/include/hw/intc/rx_icu.h
-@@ -73,4 +73,4 @@ struct RXICUState {
- #define TYPE_RX_ICU "rx-icu"
- OBJECT_DECLARE_SIMPLE_TYPE(RXICUState, RX_ICU)
- 
--#endif /* RX_ICU_H */
-+#endif /* HW_INTC_RX_ICU_H */
-diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
-index 4f9ce179bf..ecb1b67de8 100644
---- a/include/hw/misc/aspeed_hace.h
-+++ b/include/hw/misc/aspeed_hace.h
-@@ -47,4 +47,4 @@ struct AspeedHACEClass {
-     uint32_t hash_mask;
- };
- 
--#endif /* _ASPEED_HACE_H_ */
-+#endif /* ASPEED_HACE_H */
-diff --git a/include/hw/misc/aspeed_lpc.h b/include/hw/misc/aspeed_lpc.h
-index df418cfcd3..fd228731d2 100644
---- a/include/hw/misc/aspeed_lpc.h
-+++ b/include/hw/misc/aspeed_lpc.h
-@@ -44,4 +44,4 @@ typedef struct AspeedLPCState {
-     uint32_t hicr7;
- } AspeedLPCState;
- 
--#endif /* _ASPEED_LPC_H_ */
-+#endif /* ASPEED_LPC_H */
-diff --git a/include/hw/misc/aspeed_sbc.h b/include/hw/misc/aspeed_sbc.h
-index 651747e28f..67e43b53ec 100644
---- a/include/hw/misc/aspeed_sbc.h
-+++ b/include/hw/misc/aspeed_sbc.h
-@@ -29,4 +29,4 @@ struct AspeedSBCClass {
-     SysBusDeviceClass parent_class;
- };
- 
--#endif /* _ASPEED_SBC_H_ */
-+#endif /* ASPEED_SBC_H */
-diff --git a/include/hw/net/allwinner-sun8i-emac.h b/include/hw/net/allwinner-sun8i-emac.h
-index 460a58f1ca..185895f4e1 100644
---- a/include/hw/net/allwinner-sun8i-emac.h
-+++ b/include/hw/net/allwinner-sun8i-emac.h
-@@ -101,4 +101,4 @@ struct AwSun8iEmacState {
- 
- };
- 
--#endif /* HW_NET_ALLWINNER_SUN8I_H */
-+#endif /* HW_NET_ALLWINNER_SUN8I_EMAC_H */
-diff --git a/include/hw/rtc/m48t59.h b/include/hw/rtc/m48t59.h
-index d9b45eb161..c14937476c 100644
---- a/include/hw/rtc/m48t59.h
-+++ b/include/hw/rtc/m48t59.h
-@@ -47,4 +47,4 @@ struct NvramClass {
-     void (*toggle_lock)(Nvram *obj, int lock);
- };
- 
--#endif /* HW_M48T59_H */
-+#endif /* HW_RTC_M48T59_H */
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index deef93f89a..33d85753c0 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -56,4 +56,4 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
- void rtc_set_memory(ISADevice *dev, int addr, int val);
- int rtc_get_memory(ISADevice *dev, int addr);
- 
--#endif /* MC146818RTC_H */
-+#endif /* HW_RTC_MC146818RTC_H */
-diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
-index 0f59226727..8ad13c110c 100644
---- a/include/qemu/plugin-memory.h
-+++ b/include/qemu/plugin-memory.h
-@@ -37,4 +37,4 @@ struct qemu_plugin_hwaddr {
- bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
-                        bool is_store, struct qemu_plugin_hwaddr *data);
- 
--#endif /* _PLUGIN_MEMORY_H_ */
-+#endif /* PLUGIN_MEMORY_H */
-diff --git a/include/qemu/selfmap.h b/include/qemu/selfmap.h
-index 80cf920fba..3479a2a618 100644
---- a/include/qemu/selfmap.h
-+++ b/include/qemu/selfmap.h
-@@ -41,4 +41,4 @@ GSList *read_self_maps(void);
-  */
- void free_self_maps(GSList *info);
- 
--#endif /* _SELFMAP_H_ */
-+#endif /* SELFMAP_H */
-diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
-index 614cfacfa5..b4e53d3870 100644
---- a/include/user/syscall-trace.h
-+++ b/include/user/syscall-trace.h
-@@ -39,4 +39,4 @@ static inline void record_syscall_return(void *cpu, int num, abi_long ret)
- }
- 
- 
--#endif /* _SYSCALL_TRACE_H_ */
-+#endif /* SYSCALL_TRACE_H */
-diff --git a/linux-user/hexagon/target_signal.h b/linux-user/hexagon/target_signal.h
-index 193abac340..68fb71312e 100644
---- a/linux-user/hexagon/target_signal.h
-+++ b/linux-user/hexagon/target_signal.h
-@@ -22,4 +22,4 @@
- 
- #define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
- 
--#endif /* TARGET_SIGNAL_H */
-+#endif /* HEXAGON_TARGET_SIGNAL_H */
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index 55497f851d..d304f33301 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -247,4 +247,4 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- 
- #include "exec/cpu-all.h"
- 
--#endif /* !defined (QEMU_AVR_CPU_H) */
-+#endif /* QEMU_AVR_CPU_H */
-diff --git a/target/hexagon/attribs.h b/target/hexagon/attribs.h
-index 54576f4143..d51bb4f732 100644
---- a/target/hexagon/attribs.h
-+++ b/target/hexagon/attribs.h
-@@ -32,4 +32,4 @@ extern DECLARE_BITMAP(opcode_attribs[XX_LAST_OPCODE], A_ZZ_LASTATTRIB);
- #define GET_ATTRIB(opcode, attrib) \
-     test_bit(attrib, opcode_attribs[opcode])
- 
--#endif /* ATTRIBS_H */
-+#endif /* HEXAGON_ATTRIBS_H */
-diff --git a/target/xtensa/core-de233_fpu/core-matmap.h b/target/xtensa/core-de233_fpu/core-matmap.h
-index cca51c7af1..e99e7d3123 100644
---- a/target/xtensa/core-de233_fpu/core-matmap.h
-+++ b/target/xtensa/core-de233_fpu/core-matmap.h
-@@ -43,11 +43,9 @@
-    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
- 
--
- #ifndef XTENSA_CONFIG_CORE_MATMAP_H
- #define XTENSA_CONFIG_CORE_MATMAP_H
- 
--
- /*----------------------------------------------------------------------
- 			CACHE (MEMORY ACCESS) ATTRIBUTES
-   ----------------------------------------------------------------------*/
-@@ -713,5 +711,5 @@
- 
- 
- 
--#endif /*XTENSA_CONFIG_CORE_MATMAP_H*/
-+#endif /* XTENSA_CONFIG_CORE_MATMAP_H */
- 
-diff --git a/target/xtensa/core-dsp3400/core-matmap.h b/target/xtensa/core-dsp3400/core-matmap.h
-index 8d1aa8336e..692012f9f4 100644
---- a/target/xtensa/core-dsp3400/core-matmap.h
-+++ b/target/xtensa/core-dsp3400/core-matmap.h
-@@ -43,11 +43,9 @@
-    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
- 
--
- #ifndef XTENSA_CONFIG_CORE_MATMAP_H
- #define XTENSA_CONFIG_CORE_MATMAP_H
- 
--
- /*----------------------------------------------------------------------
- 			CACHE (MEMORY ACCESS) ATTRIBUTES
-   ----------------------------------------------------------------------*/
-@@ -308,5 +306,5 @@
- 
- 
- 
--#endif /*XTENSA_CONFIG_CORE_MATMAP_H*/
-+#endif /* XTENSA_CONFIG_CORE_MATMAP_H */
- 
--- 
-2.35.1
+> Patch 1 updates artist.c to fix some style issues and ensure that artist.c passes
+> checkpatch for the remainder of the patchset, whilst patch 2 removes the ROP8OFF()
+> macro which is currently unused.
+>
+> Finally patch 3 is the main reason for this patchset and improves the performance
+> of the artist framebuffer by only rendering the dirty scanlines to the display
+> surface, which noticeably improves boot times and makes the GTK UI usable on my
+> fairly modest laptop.
+>
+> [Helge/Sven: if you can provide a Tested-by or Reviewed-by tag for this patchset
+> before the weekend, I can include it in my PR containing all the other HPPA
+> updates]
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>
+>
+> Mark Cave-Ayland (3):
+>   artist: checkpatch and newline style fixes
+>   artist: remove unused ROP8OFF() macro
+>   artist: only render dirty scanlines on the display surface
+>
+>  hw/display/artist.c | 33 ++++++++++++++-------------------
+>  1 file changed, 14 insertions(+), 19 deletions(-)
 
+I reviewed and tested the patches with HP-UX 10.20 and HP-UX 11.11. Feel
+free to add my
+
+Reviewed-by: Sven Schnelle <svens@stackframe.org>
 
