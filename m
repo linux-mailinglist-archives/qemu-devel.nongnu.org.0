@@ -2,79 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B42951DDA3
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 18:30:58 +0200 (CEST)
-Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A1451DDA6
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 18:32:44 +0200 (CEST)
+Received: from localhost ([::1]:45086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn0r3-0007je-5v
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 12:30:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40478)
+	id 1nn0sl-0001yW-4m
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 12:32:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nn0pk-00073y-Uz
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:29:36 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:36685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nn0pj-0005w7-E9
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:29:36 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2f7b815ac06so87250387b3.3
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 09:29:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dldZtvrGiquzLnudNOD4ZnGCR4hfh0ITKPFZ+gmBKrI=;
- b=V8tkY5EawU9KnbTMyiA1P8+Z7/c9DkP2QbMMexYiL3EhFIvXsD8q/CYvowD8wcHQ1X
- QHi3H5AOTh4rkm9xcqsA5tDx0Vue4Ryzhklc4SsZdDU6XmbslDiD8MnNh0OhEpiVmPtn
- fmHI5zkxJ/F/UVt1bIdT3KV20fhDbU/8ZMjzlEzPoVL+1ozqEr8PI2lHt0eUCCNLzw+0
- h9j5Qd+QPQBq4dsKU/bfU/wfQH3S6bvafkxFOwhZwa+htEudiPm6pINIlvTeBL3jKDL2
- 8s8BNQ8Q0ybTZRClpoOiSONDSmrQ5B6v9PXmhjZKGCgFdQQZePzX7V+/hCEl6Gxd6qKw
- crMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dldZtvrGiquzLnudNOD4ZnGCR4hfh0ITKPFZ+gmBKrI=;
- b=3uwXnDECWCO188Uct6wE29mIvzQDmZXVXDFL9LCtq56nvi2bYqu9tQTEeyuvruLUKI
- Y58+xPZrorRhzmzsgK3ZF2nCBl//6YsSNwaIiWLzNEorEfSrCgbyvcEoXM6w6l5RpfcM
- oPQ8iLewCtiM61qKwVnPITFvPYKE83YU9Zm6cdeFUr82GqikLHq9c4VUYzAL9E2bV/kz
- JHAaDsX1nSBOtjW8vq88nq/zQgXh+HpHqRrWvTIbuSRwWEdZ1Z5tbFf6hNen5KkmJFUu
- kmlx/W/kRDO6jLqrHKKGq20DrmCocDiYRAupp0kIcShptDc9oIiPx0Prias/UePFc1w5
- +3Tw==
-X-Gm-Message-State: AOAM530Z5UIgrSHlXiW3CCScyNyrN1Yu3wPk0mR8KqJWpHYtqkcFJns9
- BmoXz3BDxMR7hbw/kd5mqb0tp77Qeq7wIiR7g/w52w==
-X-Google-Smtp-Source: ABdhPJxIdIfUN/26e1AUq4t13VbLyCukghFL2R6gmI+V3IdtaM0l9U3xC3NT+/Ky5iuJOmuPyZ0ArDIE+kjCiQYt2Lc=
-X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
- z23-20020a81ac57000000b002f199ec91a2mr3280529ywj.329.1651854574170; Fri, 06
- May 2022 09:29:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <t.zhang2@samsung.com>)
+ id 1nn0rP-0000Xp-FP; Fri, 06 May 2022 12:31:20 -0400
+Received: from mailout1.w2.samsung.com ([211.189.100.11]:33609)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <t.zhang2@samsung.com>)
+ id 1nn0rN-0006NW-QY; Fri, 06 May 2022 12:31:19 -0400
+Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20220506163107usoutp01930c52429bf46083e9bf0fc19903b83f~skRF_Q1SV0869808698usoutp01b;
+ Fri,  6 May 2022 16:31:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20220506163107usoutp01930c52429bf46083e9bf0fc19903b83f~skRF_Q1SV0869808698usoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1651854667;
+ bh=1ZjvoENIycjky5C3cXuao6J9XyheLQrjNGLqV80MRCw=;
+ h=From:To:CC:Subject:Date:References:From;
+ b=VwLfa3iUiQ9qpKKd0b4ZIq5GXwaMAegU9ElWXGL0V4NpYCK0zW/U40rq6qIjKQDGY
+ YR8I8AdpM5/nuzRcLWlvLFlRVjp+K/zqjDOpBKi1dvDMYjUaXob1x1zVayZs/3627b
+ jF/+3PKfQ0ifi/n0qKJHchxDPjlKoq9GaQcIbgFQ=
+Received: from ussmges3new.samsung.com (u112.gpu85.samsung.co.kr
+ [203.254.195.112]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220506163107uscas1p1255299366ad933575db61d7e2dc23178~skRFaS9yi3044830448uscas1p1B;
+ Fri,  6 May 2022 16:31:07 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges3new.samsung.com (USCPEMTA) with SMTP id 58.97.09749.A4D45726; Fri, 
+ 6 May 2022 12:31:06 -0400 (EDT)
+Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
+ [203.254.195.89]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220506163106uscas1p20aa8ba0a290a9b50be54df6ec4f9cee0~skRFDtAsx1463714637uscas1p2t;
+ Fri,  6 May 2022 16:31:06 +0000 (GMT)
+X-AuditID: cbfec370-a83ff70000002615-23-62754d4a7f7f
+Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.145]) by
+ ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id 1F.8D.52349.A4D45726; Fri, 
+ 6 May 2022 12:31:06 -0400 (EDT)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+ SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.7; Fri, 6 May 2022 09:31:05 -0700
+Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
+ SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.007; Fri,
+ 6 May 2022 09:31:05 -0700
+From: Tong Zhang <t.zhang2@samsung.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "David Hildenbrand" <david@redhat.com>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "ztong0001@gmail.com" <ztong0001@gmail.com>, "qemu-trivial@nongnu.org"
+ <qemu-trivial@nongnu.org>, Tong Zhang <t.zhang2@samsung.com>, "Francisco
+ Londono" <f.londono@samsung.com>
+Subject: [RESEND PATCH] hw/dma: fix crash caused by race condition
+Thread-Topic: [RESEND PATCH] hw/dma: fix crash caused by race condition
+Thread-Index: AQHYYWauxUs3tXrAZkiwq8GTgHSRFw==
+Date: Fri, 6 May 2022 16:31:05 +0000
+Message-ID: <20220506163059.2517-1-t.zhang2@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220501122505.29202-1-gautamnagrawal@gmail.com>
- <YnUvpsaM0hwUSZvM@stefanha-x1.localdomain>
- <b16d2b2d-f086-636b-4da5-79d3134a4482@redhat.com>
- <CAFEAcA9rK6T03mkUrojf+Wz=UCiakibXtj56W0F=uuEjeqoZig@mail.gmail.com>
- <7551dedd-7417-6292-907b-28ff8304cd83@redhat.com>
- <CAFEAcA8i5t0i61HT0NEV5BHYEkK_ipSAeNGuc+3Zg3uqTGkzYQ@mail.gmail.com>
- <b754d9a3-1762-71d2-417a-3c61ae87f3de@redhat.com>
-In-Reply-To: <b754d9a3-1762-71d2-417a-3c61ae87f3de@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 May 2022 17:29:23 +0100
-Message-ID: <CAFEAcA9VaYjMCXUuRk0B-Me6kNApmDcLiwnsNa1eH2WN71Jmjw@mail.gmail.com>
-Subject: Re: [PATCH v3] Warn user if the vga flag is passed but no vga device
- is created
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>, 
- Richard Henderson <richard.henderson@linaro.org>, kraxel@redhat.com,
- qemu-devel@nongnu.org, Gautam Agrawal <gutamnagrawal@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNKsWRmVeSWpSXmKPExsWy7djX87pevqVJBs/um1l8Xf+L2eLEpoPM
+ Fvu3/WO12LL/G7vF8d4dLBZrz8xltTj56jybA7vHgRcL2T12zrrL7vHk2mYmj/f7rrIFsERx
+ 2aSk5mSWpRbp2yVwZcz9klWwmbNi4RK+Bsab7F2MnBwSAiYSp64/Z+5i5OIQEljJKNHb8YQJ
+ wmllkmi8f4gNpmrRw42sILaQwFpGidv7nCDsD4wSC+9EQDQsZZQ4duMNC0iCTUBd4lfnIjaQ
+ hIjAQ0aJ130rwBxmgR2MEmu+/gRbLizgJLF+bgsTiC0i4C5x59g7KFtP4vO/TkYQm0VARWJJ
+ w3awOK+AhcSs5vlgNqOAmMT3U2vAbGYBcYlbTyDiEgKCEotm72GGsMUk/u16CPWCosT97y/Z
+ Ier1JG5MncIGYWtLLFv4mhlivqDEyZlPWCDqJSUOrrjBAnK0hMBSDombU2+xQiRcJHZ8a4Qa
+ Ki1x9fpUqGX1EjNv/WCEaOgB+vLIemgQW0v8OroHajOfxN9fj4CKOIDivBIdbUITGJVmIflh
+ FpL7ZiG5bxaS+xYwsqxiFC8tLs5NTy02zkst1ytOzC0uzUvXS87P3cQITD+n/x0u2MF469ZH
+ vUOMTByMhxglOJiVRHiFZ5UkCfGmJFZWpRblxxeV5qQWH2KU5mBREuddlrkhUUggPbEkNTs1
+ tSC1CCbLxMEp1cCU99Nn+qYGx/5rk1T0qtqNlz/LTJ27csl+I6NTZzLqr1u9a7/l93ZqQ8Vz
+ jcyWG7s8lhgFLjnRHDsjJWxbWsOUoJ5ZGx77r1++/4jwvT7LLeGtMi4X+asP/vywtTTgtf4h
+ h/LTU4J+rq4Pe3D66arLO2+6TZ9/U1uuxMZv1qMKp/x9wjq6AWvOzA7dUM3mnxE1r8S77bOq
+ rev8vZVuErGZuyceWLS0pNPBPCK26coxAUmFycZPz+ZXL1/mmR9p1e+zv8x0+90ndrOFfD75
+ 1sd7uauHuXkYF62X6lFYscHh2y+GXYtNZV+svW6eGeuTdKvQtvvjVuf7rTV+UxruH7+e+CaI
+ rdlWyCRSxPPjqwAlluKMREMt5qLiRABKqMIDrgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRmVeSWpSXmKPExsWS2cA0UdfLtzTJ4PRnZYuv638xW5zYdJDZ
+ Yv+2f6wWW/Z/Y7c43ruDxWLtmbmsFidfnWdzYPc48GIhu8fOWXfZPZ5c28zk8X7fVbYAligu
+ m5TUnMyy1CJ9uwSujLlfsgo2c1YsXMLXwHiTvYuRk0NCwERi0cONrF2MXBxCAqsZJe58v8QI
+ 4XxglNi2dBaUs5RRomnaYWaQFjYBdYlfnYvYQBIiAvcZJR7tnsoM4jAL7GCUWPP1J9hgYQEn
+ ifVzW5hAbBEBd4k7x95B2XoSn/91MoLYLAIqEksatoPFeQUsJGY1zwezGQXEJL6fWgNmMwuI
+ S9x6AhGXEBCQWLLnPDOELSrx8vE/VghbUeL+95fsEPV6EjemTmGDsLUlli18zQwxX1Di5Mwn
+ LBD1khIHV9xgmcAoOgvJillI2mchaZ+FpH0BI8sqRvHS4uLc9Ipiw7zUcr3ixNzi0rx0veT8
+ 3E2MwKg7/e9w5A7Go7c+6h1iZOJgPMQowcGsJMIrPKskSYg3JbGyKrUoP76oNCe1+BCjNAeL
+ kjivkOvEeCGB9MSS1OzU1ILUIpgsEwenVAPTRr4FakFhU31mRsSFJKy53l3e/H7H84D/G49Z
+ sid1sPn8qb/NzH6k2sBQfruBpMEJ5ocBGcaSZpGlSz9nzjjClfP1WqvKtukVdnX6y99p9ku4
+ vRW/tPpDfX7ma+3mE6btjYyxy0+vO9Il63NB2Wq3ue1xho2H85e+DdGe/ebWV11/q+/fl6ox
+ WfffEkw4o3bxcdX3vjxmHZn3i7hYJ4tzcu+Ve87U1RJ/34jd/57R05lpv+3mvss8NDFeIMll
+ xt+D19Z/qVukoPYs9OS3oAsbdy68Vy81UzPZ5xrDDeEveo0/rwnnb+QSmGagmlNUGMNT8t50
+ GSfvRIdzPY5tuTfWNBgz3VFLfqgR4CotPkWJpTgj0VCLuag4EQA3JR/2KQMAAA==
+X-CMS-MailID: 20220506163106uscas1p20aa8ba0a290a9b50be54df6ec4f9cee0
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20220506163106uscas1p20aa8ba0a290a9b50be54df6ec4f9cee0
+References: <CGME20220506163106uscas1p20aa8ba0a290a9b50be54df6ec4f9cee0@uscas1p2.samsung.com>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=t.zhang2@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,40 +133,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 May 2022 at 17:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 5/6/22 17:47, Peter Maydell wrote:
-> >>        if (!vga_model && !default_vga) {
-> >>            vga_interface_type = VGA_DEVICE;
-> >> +          vga_interface_created = true;
-> >>        }
-> >>        if (!has_defaults || machine_class->no_serial) {
-> >>            default_serial = 0;
-> >
-> > Can you explain why that's right? qemu_disable_default_devices()
-> > isn't creating any devices at all, so it's not clear to me
-> > (a) why it's setting vga_interface_type or (b) why setting
-> > vga_interface_created to true is OK.
->
-> VGA_DEVICE means the device has been specified on the command line, but
-> the board should otherwise behave as if "-vga something" was there.
+assert(dbs->acb) is meant to check the return value of io_func per
+documented in commit 6bee44ea34 ("dma: the passed io_func does not
+return NULL"). However, there is a chance that after calling
+aio_context_release(dbs->ctx); the dma_blk_cb function is called before
+the assertion and dbs->acb is set to NULL again at line 121. Thus when
+we run assert at line 181 it will fail.
 
-Oh, I see now -- qemu_disable_default_devices() does a
-preliminary scan through of every supplied -device option,
-looking to see if it has a driver=foo that matches some
-value in the default_list[] array; if it does then we
-set default_vga or whatever to false. (So effectively we
-have a hardcoded list of things we consider to be "VGA
-devices" for this purpose, which might or might not be the same
-as the set of actual VGA devices we support...)
+  softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
 
-I guess this is all here for backwards compatibility purposes?
-I kind of expect that short options like '-vga' might have
-magic extra behaviour beyond "create a device", but having
-some devices that have magic "make the board behave differently"
-behaviour when they're created with '-device' is a bit
-unexpected to me.
+Reported-by: Francisco Londono <f.londono@samsung.com>
+Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
+---
+ softmmu/dma-helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
+index 7820fec54c..cb81017928 100644
+--- a/softmmu/dma-helpers.c
++++ b/softmmu/dma-helpers.c
+@@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
+     aio_context_acquire(dbs->ctx);
+     dbs->acb =3D dbs->io_func(dbs->offset, &dbs->iov,
+                             dma_blk_cb, dbs, dbs->io_func_opaque);
+-    aio_context_release(dbs->ctx);
+     assert(dbs->acb);
++    aio_context_release(dbs->ctx);
+ }
+=20
+ static void dma_aio_cancel(BlockAIOCB *acb)
+--=20
+2.25.1
 
