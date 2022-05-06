@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D5651DD50
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 18:13:45 +0200 (CEST)
-Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2823A51DD8A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 18:23:59 +0200 (CEST)
+Received: from localhost ([::1]:57216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn0aN-0003ek-No
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 12:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36882)
+	id 1nn0kH-0007iU-QQ
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 12:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nn0Wz-0002SP-PG
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:10:14 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:41787)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nn0i0-0005NK-U8
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 12:21:37 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nn0Wx-0003N7-Uy
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:10:13 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id dk23so15348383ejb.8
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 09:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nn0hy-00051c-4e
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 12:21:36 -0400
+Received: by mail-wr1-x433.google.com with SMTP id e2so10684732wrh.7
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 09:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=s5W/YkqXX+/eG4fp8Wo3NOOi3A9f/Q3PrFXhLSAJSTQ=;
- b=aK4LVphySqvuFj1jm/txcFSJSGa8Iub54gJSJ4Sz8K8zGGw2JJe1aEen0XT1M+psO9
- 1mo9J7BT3rBxADI4UEMxSW6gkWYy5c9QBC80ruLvgC16pDc841WTBI7TAh/XWauTVth/
- 5jpf/zFulh+P+dJ+b5sQpAMe9oMgvyEHYvSE6pfnp5OXeg1SuAmaRFZhIsDkyjNb25sX
- Gq1L1CWpNAdyQS1EH+qX9INC5E1UFj49XkWg8BUfocUNSKyb+h0KGtpfbzsErFBS2xLB
- vq5WL2RH8pcJxtU8ljinP1igcExhkP/2Tqobqdsa7G4HB7xYvmCB8tLsarNxEyPSAwLf
- GcRw==
+ bh=ydvGhN0t90iiq5XA2T/fENqieiHK1rfWLY/HogNzzMQ=;
+ b=Mg1+TFFFhlicPhHTToZ8ET0LfFBc8QkCedXw+yYmQmix3Xh2BqQ/Lthm84MaMAYwAz
+ JaHMMgAIvQPmbfsecuCLNudP5mssHBrQ8jiGGx1b5ZlyFvBsXBuMuw/GcddfdUhYenaa
+ ZUiAgvaxhkFlp0WoIOZl5oJimOIIwS1sUMPPdkGZeZj5U0UGjs+P5dtMUF7PQ8LoX0VV
+ 7AE2akSGDCX89lE+gQKbComrajdqHXmMGHwyafCT1nVqcYB9lMDVkKM5ybek4lQqcqUO
+ tJi9hAOxKDZj2MIr2I0NbOv+MEI5Nq90yjvurwvIRRz52LZ8kVB4IgL1vmF+jmw9a8aL
+ Br8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=s5W/YkqXX+/eG4fp8Wo3NOOi3A9f/Q3PrFXhLSAJSTQ=;
- b=X/ypFinQsaMV4H1fo2lycvxqgwJuo/6HbJ3ukscObBTnzO5+dAnWXKVPA3a0Z4WnkC
- TQfda3hJrEK5ET46d0pyJMS5fmbz/BrXZ7we8qyJeQ2vLG5QbmQy9gQ5Kirq1UO1J/Vq
- ykoQMGy1E7Slxzw7vZqmTvgRU94eYuuc0anWeSrndbeCooIlaxsBzuO84QPQnHKJktPO
- nH7vId0uUjWEObIWYLHMM0EHydPyOb0gI5XwJh35OyDEKydGhRO2eklzFKR82Prhai9Y
- hsFLRMLy0K4UqVC+H2Gt765ZFa3Zja/aRsy0PQN3cv0sPjEzGKfCi/uemq2BqgCgQw+n
- WdKQ==
-X-Gm-Message-State: AOAM530klRUN2+5kj4n/Osn+nw2fO1nXM2Y9sjfNe1MuU4aWqsO55a+Q
- tLjC/0zGqe7RxKmPAV49+mo=
-X-Google-Smtp-Source: ABdhPJybLMp8DVOBb+sTkkjA/dKrmjHG7sVQD3fYuC9FIwiPkXsEoII9dFGybndomEPjR8kK4PJeWw==
-X-Received: by 2002:a17:907:2394:b0:6f5:108c:a43 with SMTP id
- vf20-20020a170907239400b006f5108c0a43mr3617640ejb.28.1651853409642; 
- Fri, 06 May 2022 09:10:09 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- d2-20020a170907272200b006f3ef214e21sm2062361ejl.135.2022.05.06.09.10.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 09:10:08 -0700 (PDT)
-Message-ID: <b754d9a3-1762-71d2-417a-3c61ae87f3de@redhat.com>
-Date: Fri, 6 May 2022 18:10:07 +0200
+ bh=ydvGhN0t90iiq5XA2T/fENqieiHK1rfWLY/HogNzzMQ=;
+ b=2Z9wgq8qYYBdkU8uN56rsB2J/wUwYlveyEmVbYwrawEDOpWiOVEMb6hwQeG/Pii/zp
+ ABiEZXCRTUcM1Tcg0uYrYJtjs8cfvfXSJf9rJXelGt/HbgnH5xR3dXDxv5FFBa9Qw3zP
+ shC2Ghtu2sAKpz8f/v138rPfvhFGqxPT9Ms9twF7YoGhphYxewZ5K7KTpe78RHZI+rF6
+ q9dJ315VNus2xo0lpx0sW/4LcE4KM0MRlLB0cK0c6FeeMHISKN6xBzOm8qT67LzgwIRN
+ x7girl/3zJiwhYiU9BL6f0P/mNp24v+FD4dyPIccsus4DbySJbYTMCeOtZ0zrqm4Jtbi
+ SieQ==
+X-Gm-Message-State: AOAM5313IzYAU+Eqd+0w4K3z3wzj/dKhoGxv5fXFv+cPrDX/+2uNdqy8
+ Tn5GXr6psVYdEOtr7DwlM1E138ke04SfIQ==
+X-Google-Smtp-Source: ABdhPJwfl21HFJPoxzdId8MNtm5RinorC94CQb0EWW8ItfMIY4Ka6ndMdF6GKTbqOkQSyxoa/38WSw==
+X-Received: by 2002:a05:6000:168b:b0:20c:54e5:7beb with SMTP id
+ y11-20020a056000168b00b0020c54e57bebmr3282395wrd.223.1651854091733; 
+ Fri, 06 May 2022 09:21:31 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ j2-20020a5d4482000000b0020c5253d926sm3782082wrq.114.2022.05.06.09.21.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 May 2022 09:21:31 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/5] gicv3: Use right number of prio bits for the CPU
+Date: Fri,  6 May 2022 17:21:24 +0100
+Message-Id: <20220506162129.2896966-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3] Warn user if the vga flag is passed but no vga device
- is created
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, kraxel@redhat.com,
- qemu-devel@nongnu.org, Gautam Agrawal <gutamnagrawal@gmail.com>
-References: <20220501122505.29202-1-gautamnagrawal@gmail.com>
- <YnUvpsaM0hwUSZvM@stefanha-x1.localdomain>
- <b16d2b2d-f086-636b-4da5-79d3134a4482@redhat.com>
- <CAFEAcA9rK6T03mkUrojf+Wz=UCiakibXtj56W0F=uuEjeqoZig@mail.gmail.com>
- <7551dedd-7417-6292-907b-28ff8304cd83@redhat.com>
- <CAFEAcA8i5t0i61HT0NEV5BHYEkK_ipSAeNGuc+3Zg3uqTGkzYQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA8i5t0i61HT0NEV5BHYEkK_ipSAeNGuc+3Zg3uqTGkzYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,28 +86,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/22 17:47, Peter Maydell wrote:
->>        if (!vga_model && !default_vga) {
->>            vga_interface_type = VGA_DEVICE;
->> +          vga_interface_created = true;
->>        }
->>        if (!has_defaults || machine_class->no_serial) {
->>            default_serial = 0;
->
-> Can you explain why that's right? qemu_disable_default_devices()
-> isn't creating any devices at all, so it's not clear to me
-> (a) why it's setting vga_interface_type or (b) why setting
-> vga_interface_created to true is OK.
+This patchset fills in an odd inconsistency in our GICv3 emulation
+that I noticed while I was doing the GICv4 work. At the moment we
+allow the CPU to specify the number of bits of virtual priority
+(via the ARMCPU::gic_vpribits field), but we always use 8 bits of
+physical priority, even though to my knowledge no real Arm CPU
+hardware has that many.
 
-VGA_DEVICE means the device has been specified on the command line, but 
-the board should otherwise behave as if "-vga something" was there.
+This series makes the GICv3 emulation use a runtime-configurable
+number of physical priority bits, and sets it to match the number
+used by the various CPUs we implement (which is 5 for all the
+Cortex-Axx CPUs we emulate). Because changing the number of
+priority bits is a migration compatibility break, we use a compat
+property to keep the number of priority bits at 8 for older
+versions of the virt board.
 
-While the device has not been created yet, it will be in 
-qemu_create_cli_devices(), and that's what !default_vga means at this 
-point of the function.
+There is one TODO left in this series, which is that I don't know
+the right value to use for the A64FX, so I've guessed that it
+is 5, like all the Arm implementations.
 
-This in fact means that almost all three occurrences of 
-"vga_interface_type != VGA_NONE" are wrong. :(
+Patch 1 is an independent bugfix; patch 5 is cleanup.
 
-Paolo
+thanks
+-- PMM
+
+Peter Maydell (5):
+  hw/intc/arm_gicv3: report correct PRIbits field in ICV_CTLR_EL1
+  hw/intc/arm_gicv3_kvm.c: Stop using GIC_MIN_BPR constant
+  hw/intc/arm_gicv3: Support configurable number of physical priority
+    bits
+  hw/intc/arm_gicv3: Use correct number of priority bits for the CPU
+  hw/intc/arm_gicv3: Provide ich_num_aprs()
+
+ include/hw/intc/arm_gicv3_common.h |   8 +-
+ target/arm/cpu.h                   |   1 +
+ hw/core/machine.c                  |   4 +-
+ hw/intc/arm_gicv3_common.c         |   5 +
+ hw/intc/arm_gicv3_cpuif.c          | 208 ++++++++++++++++++++---------
+ hw/intc/arm_gicv3_kvm.c            |  16 ++-
+ target/arm/cpu64.c                 |   9 ++
+ 7 files changed, 179 insertions(+), 72 deletions(-)
+
+-- 
+2.25.1
+
 
