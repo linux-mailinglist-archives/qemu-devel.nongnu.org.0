@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C5151E0EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 23:18:14 +0200 (CEST)
-Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC3A51E029
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 22:32:27 +0200 (CEST)
+Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn5L3-0008F0-0S
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 17:18:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1nn4cj-0001ft-Kf
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 16:32:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@rivosinc.com>)
- id 1nn1GI-0001wP-Qa
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:57:02 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:41955)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nn4af-0000nm-5v
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 16:30:17 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:41682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dylan@rivosinc.com>)
- id 1nn1GH-0001vw-0W
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:57:02 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id s14so8000668plk.8
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 09:57:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nn4ac-0002VO-Ud
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 16:30:16 -0400
+Received: by mail-lf1-x132.google.com with SMTP id j4so14419743lfh.8
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 13:30:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vjFMwkzOm8q8FQjtwUt5drq44ZnFk8LSmvePpqG7hGo=;
- b=RBL48KIe5TLOpEE0SbvDMiz0lMejxmT/E0jnrXUCOboW+5LRVV2kA+RHdy5Hm8crs+
- TFEtqr9sYbdNOT0w3VJz/3atcZKAsRxEbFwWyoG5rKQkTo4J3V2PbdIX0aKtktERnDRj
- FoAZ1g/LSh/mS8qmyo/+GHGyyHAO6yjaEk7+vAoEOpxcA+NLb0ir4ClCiNG8DtnMMgEz
- /ZkTqWuRzBJCm1/5y0R1/TewoOsl9R4dmS0A+Czb9uMToaK94uyWaX6fuCmnxWNtbPuX
- 11wIZGfs5hRhXzdG+4BpZvFjjEga8JqAX25G4lq1VTsdoKe/bkgvGH/HZw9u0UEkq0fl
- gxqw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Q1fiHO3eZkwGYGPxATm9BLAnzUfQTW37oe0wgPPdwPE=;
+ b=38fqm1u3cWg+qQrvOswfh06vQXqDUF/DYxclkuIts8vJ3q38Ux+8q65i0ovHNAI9GO
+ CbRq9gOdflqIxa+Imof8K9KYwvvhOQlgf+SsX86Kux/5x97PSutBHqQWE7T6cmGpmisA
+ lc/x3e+LPetNfX/KTPPR8IuwiXV/IIzd4+GAo0U2FFZFZaht7ePQJeubEEFTbiEA4GqL
+ vi5914MshlDlMXxw+oHL0i79hdBbHrEF3GbCtlH5alRjNeMWI1zSFzACnH3UPu7KlbgB
+ dyTmXs935wXTIYDVtmENCEuzCrI2eT915ZgktBkj8nx4tyFR5yuwhBuPA1YgzV/M+T5G
+ VJpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vjFMwkzOm8q8FQjtwUt5drq44ZnFk8LSmvePpqG7hGo=;
- b=Dyn/hTT0eA8jtyc4VqkDPPVJu+ZBN2cJjBq9/aCuunNg+wLNIifKmvni/rOguekfhz
- trgak/3TxU/dmQklsbU84u1cVTz7h9xvrWmI5hCEG8TnhQztiprrNHUYdxm62+V9LTuT
- NmMJ3uYdKDvo8CXeJSaDpB6wNzH2vTayBy8EVlgiJX4ni4m/0e/oWhTChcPxx1zRXtmo
- PdVQCU1JVQZcbDLh/Kw1WjmVUQRMc3sXgEG7GyuEwwy3dHeaKf+S3ZMkba0NbIcAQPLW
- Di+XniTtBbNAB7iby978gCIYBrBTwwXsiMSU9KoB/te8m88UkxR2PWpRxrlUOqb5Ln75
- liVg==
-X-Gm-Message-State: AOAM533L//bsAU1jCdm6x8Qd0r2+NhYxMimzroEqmefWOb0qRMulTpfA
- OqWaLDh6QF7RCEoU53kkVK6c4/v/sUGxAyMS
-X-Google-Smtp-Source: ABdhPJx3sBaI9RFfpc9fGMf2QGMz6Ccotxu08qcB+k+0ZOBTK2ZFDtz5FDynCXUosWStnvGLn8aqCQ==
-X-Received: by 2002:a17:903:1cd:b0:15e:8c4a:c543 with SMTP id
- e13-20020a17090301cd00b0015e8c4ac543mr4474146plh.126.1651856219049; 
- Fri, 06 May 2022 09:56:59 -0700 (PDT)
-Received: from localhost.localdomain (c-73-222-83-91.hsd1.ca.comcast.net.
- [73.222.83.91]) by smtp.gmail.com with ESMTPSA id
- i13-20020a63584d000000b003c14af50606sm3414719pgm.30.2022.05.06.09.56.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 May 2022 09:56:58 -0700 (PDT)
-From: Dylan Reid <dylan@rivosinc.com>
-X-Google-Original-From: Dylan Reid <dgreid@rivosinc.com>
-To: qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- Dylan Reid <dgreid@rivosinc.com>
-Subject: [PATCH] target/riscv: Fix VS mode hypervisor CSR access
-Date: Fri,  6 May 2022 16:54:57 +0000
-Message-Id: <20220506165456.297058-1-dgreid@rivosinc.com>
-X-Mailer: git-send-email 2.30.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Q1fiHO3eZkwGYGPxATm9BLAnzUfQTW37oe0wgPPdwPE=;
+ b=e9aYwqnW5//6f7x/HQf4uZEyssa7kMhTOmWj6X5kJRytRyCUtMEHKjpwEdGaz1UGxs
+ V1YBqv7LevY5bXYSFyioCo9OUKJfYMeuS9xVWcDOMOMSd0OzBRT2VO0zJ8D+oxbQGwcq
+ bScbxATs6tDYH66DgLzDKEPjM5ZnpDcSqHS/M2cs7gWobM51HonZjjdclw8MMq/Pn8VL
+ v4g1D5MzBRvZdou2olor7WThwxOOSABqCPEAgTeB3thFKfdo0q4EHPmKMXvqCb6f8Aog
+ ISHJuH+OJzI8eF5No4n/+6OMsHSSoBOFEPj1MvaWedRniH8gp2OBxxbfYrH29ztw4mj+
+ 6bLQ==
+X-Gm-Message-State: AOAM531NmwiLJYi44tHrINI0x/wOo0BlmXqMzlTocUg6OzDLTGM1NnQb
+ 6ctLi1u8XKm2eDf/n1oJa7DWwQyZlzVIu9BSGAWFpQ==
+X-Google-Smtp-Source: ABdhPJz76jJ354W4yCi91Miki0tfOCN1/HEP9IHCfgCVRa6fEKN1n46uDLvzeittSy6L1Q3IUaVt+dOmZGYVLTG3QtU=
+X-Received: by 2002:a19:8c1a:0:b0:472:315:48db with SMTP id
+ o26-20020a198c1a000000b00472031548dbmr3594173lfd.235.1651869012902; Fri, 06
+ May 2022 13:30:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=dylan@rivosinc.com; helo=mail-pl1-x62f.google.com
+References: <20220412021009.582424-1-atishp@rivosinc.com>
+ <Yl7oiF7kUrIQ0qk5@redhat.com>
+ <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
+ <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
+ <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
+ <YnOhHZGJphk30SmJ@redhat.com>
+ <CAKmqyKMKxb81ZSpz-ncGc3fpt8f06EcEcXvtHjEpWLABXGT+uQ@mail.gmail.com>
+ <YnTZP1iG+77Cugaq@redhat.com>
+ <CAFEAcA_MncAJWUqG3yRVGMT0mXKvnBUqJLdoHwMdd=OW8fnodQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_MncAJWUqG3yRVGMT0mXKvnBUqJLdoHwMdd=OW8fnodQ@mail.gmail.com>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Fri, 6 May 2022 13:30:01 -0700
+Message-ID: <CAHBxVyH=7hX5mjWcUBODk_tNHoczefdkfS8dFcf6is=vpz=SZw@mail.gmail.com>
+Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Alistair Francis <alistair23@gmail.com>, Atish Patra <atishp@atishpatra.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=atishp@rivosinc.com; helo=mail-lf1-x132.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 06 May 2022 17:16:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,42 +98,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VS mode access to hypervisor CSRs should generate virtual, not illegal,
-instruction exceptions.
+On Fri, May 6, 2022 at 4:00 AM Peter Maydell <peter.maydell@linaro.org> wro=
+te:
+>
+> On Fri, 6 May 2022 at 09:18, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+> >
+> > On Fri, May 06, 2022 at 06:34:47AM +1000, Alistair Francis wrote:
+> > > Even if we didn't worry about backwards compatibility the current vir=
+t
+> > > machine would still be what most users want. It's just a small number
+> > > of users who don't want MMIO devices and instead want to use PCIe for
+> > > everything. Realistically it's only HPC users who would want this typ=
+e
+> > > of machine, at least that's my understanding.
+> >
+> > I'm not so sure about that. Every other architecture has ended up
+> > standardizing on PCI for general purpose virtual machines. IIRC,
+> > aarch64 started off with MMIO, but switched to PCI as it matured.
+> >
+> > In terms of having VM mgmt tools "just work" for risc-v, I think
+> > it will be very compelling for the general 'virt' machine to be
+> > PCI based, otherwise all the assumptions about PCI in mgmt apps
+> > are going to break requiring never ending riscv fixes.
+>
+> Mmm, my experience with aarch64 virt is that PCI is much nicer
+> as a general preference. aarch64 virt has some MMIO devices
+> for historical reasons and some because you can't reasonably
+> do the necessary things with PCI, but I'm actively trying to
+> push people who submit new MMIO device features for virt to
+> try to use a PCI-based solution instead if they possibly can.
+>
 
-Don't return early and indicate an illegal instruction exception when
-accessing a hypervisor CSR from VS mode. Instead, fall through to the
-`hmode` predicate to return the correct virtual instruction exception.
+Yeah. That was one of the primary goals of this series. If we have an
+alternate PCI only machine,
+folks will be more motivated to add only PCI based solutions in the
+future. In that case, there will be minimal
+or no change required to the machine code itself.
 
-Signed-off-by: Dylan Reid <dgreid@rivosinc.com>
----
- target/riscv/csr.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Just for clarification: We can achieve the same with the current virt
+machine. But it is already bloated with a bunch of MMIO devices
+and will probably continue to do so because of its flexibility. In
+addition to that, any real PCI based platform emulation can not reuse
+the virt machine code which will result in more vendor specific
+implementations in the future..
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 3500e07f92..4ea7df02c9 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3141,13 +3141,13 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
- #if !defined(CONFIG_USER_ONLY)
-     int effective_priv = env->priv;
- 
--    if (riscv_has_ext(env, RVH) &&
--        env->priv == PRV_S &&
--        !riscv_cpu_virt_enabled(env)) {
-+    if (riscv_has_ext(env, RVH) && env->priv == PRV_S) {
-         /*
--         * We are in S mode without virtualisation, therefore we are in HS Mode.
-+         * We are in either HS or VS mode.
-          * Add 1 to the effective privledge level to allow us to access the
--         * Hypervisor CSRs.
-+         * Hypervisor CSRs. The `hmode` predicate will determine if access
-+         * should be allowed(HS) or if a virtual instruction exception should be
-+         * raised(VS).
-          */
-         effective_priv++;
-     }
--- 
-2.30.2
-
+> thanks
+> -- PMM
 
