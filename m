@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003D251D9A2
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 15:52:51 +0200 (CEST)
-Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0141251D9A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 15:53:55 +0200 (CEST)
+Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmyO0-0000BH-Rp
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 09:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33836)
+	id 1nmyP4-000255-3k
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 09:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmyKd-0005uG-BQ
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmyKe-0005uN-Bu
  for qemu-devel@nongnu.org; Fri, 06 May 2022 09:49:23 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:44059)
+Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:60735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmyKa-0005q4-1b
- for qemu-devel@nongnu.org; Fri, 06 May 2022 09:49:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nmyKa-0005qN-O4
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 09:49:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651844954;
+ s=mimecast20190719; t=1651844956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H/HYpmkAnlGF1w1XfD7jQepRZoWCCfPeInF/CPv6I2s=;
- b=N6ehpCWX+X4zglmjUjRwzj4zYHJPHzCPAxKy+yUzYyOtiQFQNrKIt2458PX1SeoLk0oKfL
- UBl5xyNwbmEfXgxpZpv7G8PXJRoXy1fZ7K0wXilBmb4LCToSSgVQ8iCqSRN4BsfIfPQm+y
- Cfzgi16DJXhtTpeR1q6Q1sGEHLR1E6A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rc4WgCyHZXq4RAj+fNzYqnWUjsIWyN8ELMZ+4y8siXI=;
+ b=dQ9lmaAJKo4K0uuQ8Wti6biBWa8pW7OWYy3B0p6Kfr4MbsMKVzGeYOliJA8kEkf+6KjerW
+ 5ubH6begG+H8yezc3N1SPUh1BO3hcMTt1M5eJqdS0Kp5uXxonQ3VqGwDlt8cUzrytaA4k5
+ jwSiy5mqf4/KRsKM5NvXNPYPlDmbPIE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-nY0K2N4LMh2OVOA3gm8zdw-1; Fri, 06 May 2022 09:49:13 -0400
-X-MC-Unique: nY0K2N4LMh2OVOA3gm8zdw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-633-wmFRNUfrPSqjy6t4KFSVAg-1; Fri, 06 May 2022 09:49:14 -0400
+X-MC-Unique: wmFRNUfrPSqjy6t4KFSVAg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B9081014A64
- for <qemu-devel@nongnu.org>; Fri,  6 May 2022 13:49:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B5243810D30
+ for <qemu-devel@nongnu.org>; Fri,  6 May 2022 13:49:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E15BB468A6F
- for <qemu-devel@nongnu.org>; Fri,  6 May 2022 13:49:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1BF7416157
+ for <qemu-devel@nongnu.org>; Fri,  6 May 2022 13:49:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B3A7C21E6887; Fri,  6 May 2022 15:49:11 +0200 (CEST)
+ id B5CD421E68BC; Fri,  6 May 2022 15:49:11 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] Normalize header guard symbol definition
-Date: Fri,  6 May 2022 15:49:10 +0200
-Message-Id: <20220506134911.2856099-4-armbru@redhat.com>
+Subject: [PATCH 4/4] Clean up decorations and whitespace around header guards
+Date: Fri,  6 May 2022 15:49:11 +0200
+Message-Id: <20220506134911.2856099-5-armbru@redhat.com>
 In-Reply-To: <20220506134911.2856099-1-armbru@redhat.com>
 References: <20220506134911.2856099-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.74; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-74.mimecast.com
 X-Spam_score_int: -28
@@ -78,294 +78,297 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We commonly define the header guard symbol without an explicit value.
-Normalize the exceptions.
-
-Done with scripts/clean-header-guards.pl.
+Cleaned up with scripts/clean-header-guards.pl.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/exec/memopidx.h       | 2 +-
- include/tcg/tcg-ldst.h        | 2 +-
- target/alpha/cpu-param.h      | 2 +-
- target/arm/cpu-param.h        | 2 +-
- target/cris/cpu-param.h       | 2 +-
- target/hppa/cpu-param.h       | 2 +-
- target/i386/cpu-param.h       | 2 +-
- target/m68k/cpu-param.h       | 2 +-
- target/microblaze/cpu-param.h | 2 +-
- target/mips/cpu-param.h       | 2 +-
- target/nios2/cpu-param.h      | 2 +-
- target/openrisc/cpu-param.h   | 2 +-
- target/ppc/cpu-param.h        | 2 +-
- target/riscv/cpu-param.h      | 2 +-
- target/s390x/cpu-param.h      | 2 +-
- target/sh4/cpu-param.h        | 2 +-
- target/sparc/cpu-param.h      | 2 +-
- target/tricore/cpu-param.h    | 2 +-
- target/xtensa/cpu-param.h     | 2 +-
- tcg/tcg-internal.h            | 2 +-
- 20 files changed, 20 insertions(+), 20 deletions(-)
+ bsd-user/arm/target.h                      | 2 +-
+ bsd-user/x86_64/target.h                   | 2 +-
+ chardev/chardev-internal.h                 | 3 ++-
+ include/block/block_int-global-state.h     | 3 ++-
+ include/exec/translator.h                  | 2 +-
+ include/fpu/softfloat-helpers.h            | 2 +-
+ include/hw/gpio/aspeed_gpio.h              | 2 +-
+ include/hw/intc/rx_icu.h                   | 2 +-
+ include/hw/misc/aspeed_hace.h              | 2 +-
+ include/hw/misc/aspeed_lpc.h               | 2 +-
+ include/hw/misc/aspeed_sbc.h               | 2 +-
+ include/hw/net/allwinner-sun8i-emac.h      | 2 +-
+ include/hw/rtc/m48t59.h                    | 2 +-
+ include/hw/rtc/mc146818rtc.h               | 2 +-
+ include/qemu/plugin-memory.h               | 2 +-
+ include/qemu/selfmap.h                     | 2 +-
+ include/user/syscall-trace.h               | 2 +-
+ linux-user/hexagon/target_signal.h         | 2 +-
+ target/avr/cpu.h                           | 2 +-
+ target/hexagon/attribs.h                   | 2 +-
+ target/xtensa/core-de233_fpu/core-matmap.h | 4 +---
+ target/xtensa/core-dsp3400/core-matmap.h   | 4 +---
+ 22 files changed, 24 insertions(+), 26 deletions(-)
 
-diff --git a/include/exec/memopidx.h b/include/exec/memopidx.h
-index 83bce97874..eb7f1591a3 100644
---- a/include/exec/memopidx.h
-+++ b/include/exec/memopidx.h
-@@ -9,7 +9,7 @@
+diff --git a/bsd-user/arm/target.h b/bsd-user/arm/target.h
+index 419c039b68..7c423ec575 100644
+--- a/bsd-user/arm/target.h
++++ b/bsd-user/arm/target.h
+@@ -17,5 +17,5 @@ static inline bool regpairs_aligned(void *cpu_env)
+     return true;
+ }
+ 
+-#endif /* ! TARGET_H */
++#endif /* TARGET_H */
+ 
+diff --git a/bsd-user/x86_64/target.h b/bsd-user/x86_64/target.h
+index 8956631db1..0cf0e2a14a 100644
+--- a/bsd-user/x86_64/target.h
++++ b/bsd-user/x86_64/target.h
+@@ -17,5 +17,5 @@ static inline bool regpairs_aligned(void *cpu_env)
+     return false;
+ }
+ 
+-#endif /* ! TARGET_H */
++#endif /* TARGET_H */
+ 
+diff --git a/chardev/chardev-internal.h b/chardev/chardev-internal.h
+index aba0240759..4e03af3147 100644
+--- a/chardev/chardev-internal.h
++++ b/chardev/chardev-internal.h
+@@ -21,6 +21,7 @@
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
   */
++
+ #ifndef CHARDEV_INTERNAL_H
+ #define CHARDEV_INTERNAL_H
  
- #ifndef EXEC_MEMOPIDX_H
--#define EXEC_MEMOPIDX_H 1
-+#define EXEC_MEMOPIDX_H
+@@ -64,4 +65,4 @@ void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event);
  
- #include "exec/memop.h"
+ Object *get_chardevs_root(void);
  
-diff --git a/include/tcg/tcg-ldst.h b/include/tcg/tcg-ldst.h
-index 121a156933..2ba22bd5fe 100644
---- a/include/tcg/tcg-ldst.h
-+++ b/include/tcg/tcg-ldst.h
-@@ -23,7 +23,7 @@
+-#endif /* CHAR_MUX_H */
++#endif /* CHARDEV_INTERNAL_H */
+diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
+index 8b2e95f5ff..b49f4eb35b 100644
+--- a/include/block/block_int-global-state.h
++++ b/include/block/block_int-global-state.h
+@@ -21,6 +21,7 @@
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
   */
++
+ #ifndef BLOCK_INT_GLOBAL_STATE_H
+ #define BLOCK_INT_GLOBAL_STATE_H
  
- #ifndef TCG_LDST_H
--#define TCG_LDST_H 1
-+#define TCG_LDST_H
+@@ -326,4 +327,4 @@ static inline void assert_bdrv_graph_writable(BlockDriverState *bs)
+     assert(qemu_in_main_thread());
+ }
  
- #ifdef CONFIG_SOFTMMU
+-#endif /* BLOCK_INT_GLOBAL_STATE */
++#endif /* BLOCK_INT_GLOBAL_STATE_H */
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 31d3fa76ff..7db6845535 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -187,4 +187,4 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
  
-diff --git a/target/alpha/cpu-param.h b/target/alpha/cpu-param.h
-index 1153992e42..17cd14e590 100644
---- a/target/alpha/cpu-param.h
-+++ b/target/alpha/cpu-param.h
-@@ -6,7 +6,7 @@
+ #undef GEN_TRANSLATOR_LD
+ 
+-#endif  /* EXEC__TRANSLATOR_H */
++#endif /* EXEC__TRANSLATOR_H */
+diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
+index a98d759cd3..94cbe073ec 100644
+--- a/include/fpu/softfloat-helpers.h
++++ b/include/fpu/softfloat-helpers.h
+@@ -141,4 +141,4 @@ static inline bool get_default_nan_mode(float_status *status)
+     return status->default_nan_mode;
+ }
+ 
+-#endif /* _SOFTFLOAT_HELPERS_H_ */
++#endif /* SOFTFLOAT_HELPERS_H */
+diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
+index 801846befb..6dee3cd438 100644
+--- a/include/hw/gpio/aspeed_gpio.h
++++ b/include/hw/gpio/aspeed_gpio.h
+@@ -93,4 +93,4 @@ struct AspeedGPIOState {
+     } sets[ASPEED_GPIO_MAX_NR_SETS];
+ };
+ 
+-#endif /* _ASPEED_GPIO_H_ */
++#endif /* ASPEED_GPIO_H */
+diff --git a/include/hw/intc/rx_icu.h b/include/hw/intc/rx_icu.h
+index 7f5889b36f..b23504f3dd 100644
+--- a/include/hw/intc/rx_icu.h
++++ b/include/hw/intc/rx_icu.h
+@@ -73,4 +73,4 @@ struct RXICUState {
+ #define TYPE_RX_ICU "rx-icu"
+ OBJECT_DECLARE_SIMPLE_TYPE(RXICUState, RX_ICU)
+ 
+-#endif /* RX_ICU_H */
++#endif /* HW_INTC_RX_ICU_H */
+diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
+index 4f9ce179bf..ecb1b67de8 100644
+--- a/include/hw/misc/aspeed_hace.h
++++ b/include/hw/misc/aspeed_hace.h
+@@ -47,4 +47,4 @@ struct AspeedHACEClass {
+     uint32_t hash_mask;
+ };
+ 
+-#endif /* _ASPEED_HACE_H_ */
++#endif /* ASPEED_HACE_H */
+diff --git a/include/hw/misc/aspeed_lpc.h b/include/hw/misc/aspeed_lpc.h
+index df418cfcd3..fd228731d2 100644
+--- a/include/hw/misc/aspeed_lpc.h
++++ b/include/hw/misc/aspeed_lpc.h
+@@ -44,4 +44,4 @@ typedef struct AspeedLPCState {
+     uint32_t hicr7;
+ } AspeedLPCState;
+ 
+-#endif /* _ASPEED_LPC_H_ */
++#endif /* ASPEED_LPC_H */
+diff --git a/include/hw/misc/aspeed_sbc.h b/include/hw/misc/aspeed_sbc.h
+index 651747e28f..67e43b53ec 100644
+--- a/include/hw/misc/aspeed_sbc.h
++++ b/include/hw/misc/aspeed_sbc.h
+@@ -29,4 +29,4 @@ struct AspeedSBCClass {
+     SysBusDeviceClass parent_class;
+ };
+ 
+-#endif /* _ASPEED_SBC_H_ */
++#endif /* ASPEED_SBC_H */
+diff --git a/include/hw/net/allwinner-sun8i-emac.h b/include/hw/net/allwinner-sun8i-emac.h
+index 460a58f1ca..185895f4e1 100644
+--- a/include/hw/net/allwinner-sun8i-emac.h
++++ b/include/hw/net/allwinner-sun8i-emac.h
+@@ -101,4 +101,4 @@ struct AwSun8iEmacState {
+ 
+ };
+ 
+-#endif /* HW_NET_ALLWINNER_SUN8I_H */
++#endif /* HW_NET_ALLWINNER_SUN8I_EMAC_H */
+diff --git a/include/hw/rtc/m48t59.h b/include/hw/rtc/m48t59.h
+index d9b45eb161..c14937476c 100644
+--- a/include/hw/rtc/m48t59.h
++++ b/include/hw/rtc/m48t59.h
+@@ -47,4 +47,4 @@ struct NvramClass {
+     void (*toggle_lock)(Nvram *obj, int lock);
+ };
+ 
+-#endif /* HW_M48T59_H */
++#endif /* HW_RTC_M48T59_H */
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index deef93f89a..33d85753c0 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -56,4 +56,4 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+ void rtc_set_memory(ISADevice *dev, int addr, int val);
+ int rtc_get_memory(ISADevice *dev, int addr);
+ 
+-#endif /* MC146818RTC_H */
++#endif /* HW_RTC_MC146818RTC_H */
+diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
+index 0f59226727..8ad13c110c 100644
+--- a/include/qemu/plugin-memory.h
++++ b/include/qemu/plugin-memory.h
+@@ -37,4 +37,4 @@ struct qemu_plugin_hwaddr {
+ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
+                        bool is_store, struct qemu_plugin_hwaddr *data);
+ 
+-#endif /* _PLUGIN_MEMORY_H_ */
++#endif /* PLUGIN_MEMORY_H */
+diff --git a/include/qemu/selfmap.h b/include/qemu/selfmap.h
+index 80cf920fba..3479a2a618 100644
+--- a/include/qemu/selfmap.h
++++ b/include/qemu/selfmap.h
+@@ -41,4 +41,4 @@ GSList *read_self_maps(void);
   */
+ void free_self_maps(GSList *info);
  
- #ifndef ALPHA_CPU_PARAM_H
--#define ALPHA_CPU_PARAM_H 1
-+#define ALPHA_CPU_PARAM_H
+-#endif /* _SELFMAP_H_ */
++#endif /* SELFMAP_H */
+diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
+index 614cfacfa5..b4e53d3870 100644
+--- a/include/user/syscall-trace.h
++++ b/include/user/syscall-trace.h
+@@ -39,4 +39,4 @@ static inline void record_syscall_return(void *cpu, int num, abi_long ret)
+ }
  
- #define TARGET_LONG_BITS 64
- #define TARGET_PAGE_BITS 13
-diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-index b59d505761..68ffb12427 100644
---- a/target/arm/cpu-param.h
-+++ b/target/arm/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
  
- #ifndef ARM_CPU_PARAM_H
--#define ARM_CPU_PARAM_H 1
-+#define ARM_CPU_PARAM_H
+-#endif /* _SYSCALL_TRACE_H_ */
++#endif /* SYSCALL_TRACE_H */
+diff --git a/linux-user/hexagon/target_signal.h b/linux-user/hexagon/target_signal.h
+index 193abac340..68fb71312e 100644
+--- a/linux-user/hexagon/target_signal.h
++++ b/linux-user/hexagon/target_signal.h
+@@ -22,4 +22,4 @@
  
- #ifdef TARGET_AARCH64
- # define TARGET_LONG_BITS             64
-diff --git a/target/cris/cpu-param.h b/target/cris/cpu-param.h
-index 36a3058761..12ec22d8df 100644
---- a/target/cris/cpu-param.h
-+++ b/target/cris/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
+ #define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
  
- #ifndef CRIS_CPU_PARAM_H
--#define CRIS_CPU_PARAM_H 1
-+#define CRIS_CPU_PARAM_H
+-#endif /* TARGET_SIGNAL_H */
++#endif /* HEXAGON_TARGET_SIGNAL_H */
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+index 55497f851d..d304f33301 100644
+--- a/target/avr/cpu.h
++++ b/target/avr/cpu.h
+@@ -247,4 +247,4 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
  
- #define TARGET_LONG_BITS 32
- #define TARGET_PAGE_BITS 13
-diff --git a/target/hppa/cpu-param.h b/target/hppa/cpu-param.h
-index a97d1428df..a48a2701ae 100644
---- a/target/hppa/cpu-param.h
-+++ b/target/hppa/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
+ #include "exec/cpu-all.h"
  
- #ifndef HPPA_CPU_PARAM_H
--#define HPPA_CPU_PARAM_H 1
-+#define HPPA_CPU_PARAM_H
+-#endif /* !defined (QEMU_AVR_CPU_H) */
++#endif /* QEMU_AVR_CPU_H */
+diff --git a/target/hexagon/attribs.h b/target/hexagon/attribs.h
+index 54576f4143..d51bb4f732 100644
+--- a/target/hexagon/attribs.h
++++ b/target/hexagon/attribs.h
+@@ -32,4 +32,4 @@ extern DECLARE_BITMAP(opcode_attribs[XX_LAST_OPCODE], A_ZZ_LASTATTRIB);
+ #define GET_ATTRIB(opcode, attrib) \
+     test_bit(attrib, opcode_attribs[opcode])
  
- #ifdef TARGET_HPPA64
- # define TARGET_LONG_BITS             64
-diff --git a/target/i386/cpu-param.h b/target/i386/cpu-param.h
-index 57abc64c0d..9740bd7abd 100644
---- a/target/i386/cpu-param.h
-+++ b/target/i386/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
+-#endif /* ATTRIBS_H */
++#endif /* HEXAGON_ATTRIBS_H */
+diff --git a/target/xtensa/core-de233_fpu/core-matmap.h b/target/xtensa/core-de233_fpu/core-matmap.h
+index cca51c7af1..e99e7d3123 100644
+--- a/target/xtensa/core-de233_fpu/core-matmap.h
++++ b/target/xtensa/core-de233_fpu/core-matmap.h
+@@ -43,11 +43,9 @@
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
  
- #ifndef I386_CPU_PARAM_H
--#define I386_CPU_PARAM_H 1
-+#define I386_CPU_PARAM_H
+-
+ #ifndef XTENSA_CONFIG_CORE_MATMAP_H
+ #define XTENSA_CONFIG_CORE_MATMAP_H
  
- #ifdef TARGET_X86_64
- # define TARGET_LONG_BITS             64
-diff --git a/target/m68k/cpu-param.h b/target/m68k/cpu-param.h
-index 06556dfbf3..44a8d193f0 100644
---- a/target/m68k/cpu-param.h
-+++ b/target/m68k/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
+-
+ /*----------------------------------------------------------------------
+ 			CACHE (MEMORY ACCESS) ATTRIBUTES
+   ----------------------------------------------------------------------*/
+@@ -713,5 +711,5 @@
  
- #ifndef M68K_CPU_PARAM_H
--#define M68K_CPU_PARAM_H 1
-+#define M68K_CPU_PARAM_H
  
- #define TARGET_LONG_BITS 32
- /*
-diff --git a/target/microblaze/cpu-param.h b/target/microblaze/cpu-param.h
-index 4d8297fa94..5e54ea0108 100644
---- a/target/microblaze/cpu-param.h
-+++ b/target/microblaze/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
  
- #ifndef MICROBLAZE_CPU_PARAM_H
--#define MICROBLAZE_CPU_PARAM_H 1
-+#define MICROBLAZE_CPU_PARAM_H
+-#endif /*XTENSA_CONFIG_CORE_MATMAP_H*/
++#endif /* XTENSA_CONFIG_CORE_MATMAP_H */
  
- /*
-  * While system mode can address up to 64 bits of address space,
-diff --git a/target/mips/cpu-param.h b/target/mips/cpu-param.h
-index 1aebd01df9..f4c76994ea 100644
---- a/target/mips/cpu-param.h
-+++ b/target/mips/cpu-param.h
-@@ -5,7 +5,7 @@
-  */
+diff --git a/target/xtensa/core-dsp3400/core-matmap.h b/target/xtensa/core-dsp3400/core-matmap.h
+index 8d1aa8336e..692012f9f4 100644
+--- a/target/xtensa/core-dsp3400/core-matmap.h
++++ b/target/xtensa/core-dsp3400/core-matmap.h
+@@ -43,11 +43,9 @@
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
  
- #ifndef MIPS_CPU_PARAM_H
--#define MIPS_CPU_PARAM_H 1
-+#define MIPS_CPU_PARAM_H
+-
+ #ifndef XTENSA_CONFIG_CORE_MATMAP_H
+ #define XTENSA_CONFIG_CORE_MATMAP_H
  
- #ifdef TARGET_MIPS64
- # define TARGET_LONG_BITS 64
-diff --git a/target/nios2/cpu-param.h b/target/nios2/cpu-param.h
-index 38bedbfd61..177d720864 100644
---- a/target/nios2/cpu-param.h
-+++ b/target/nios2/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
+-
+ /*----------------------------------------------------------------------
+ 			CACHE (MEMORY ACCESS) ATTRIBUTES
+   ----------------------------------------------------------------------*/
+@@ -308,5 +306,5 @@
  
- #ifndef NIOS2_CPU_PARAM_H
--#define NIOS2_CPU_PARAM_H 1
-+#define NIOS2_CPU_PARAM_H
  
- #define TARGET_LONG_BITS 32
- #define TARGET_PAGE_BITS 12
-diff --git a/target/openrisc/cpu-param.h b/target/openrisc/cpu-param.h
-index 06ee64d171..73be699f36 100644
---- a/target/openrisc/cpu-param.h
-+++ b/target/openrisc/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
  
- #ifndef OPENRISC_CPU_PARAM_H
--#define OPENRISC_CPU_PARAM_H 1
-+#define OPENRISC_CPU_PARAM_H
- 
- #define TARGET_LONG_BITS 32
- #define TARGET_PAGE_BITS 13
-diff --git a/target/ppc/cpu-param.h b/target/ppc/cpu-param.h
-index 37b458d33d..ea377b7d06 100644
---- a/target/ppc/cpu-param.h
-+++ b/target/ppc/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
- 
- #ifndef PPC_CPU_PARAM_H
--#define PPC_CPU_PARAM_H 1
-+#define PPC_CPU_PARAM_H
- 
- #ifdef TARGET_PPC64
- # define TARGET_LONG_BITS 64
-diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
-index 80eb615f93..ebaf26d26d 100644
---- a/target/riscv/cpu-param.h
-+++ b/target/riscv/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
- 
- #ifndef RISCV_CPU_PARAM_H
--#define RISCV_CPU_PARAM_H 1
-+#define RISCV_CPU_PARAM_H
- 
- #if defined(TARGET_RISCV64)
- # define TARGET_LONG_BITS 64
-diff --git a/target/s390x/cpu-param.h b/target/s390x/cpu-param.h
-index 472db648d7..bf951a002e 100644
---- a/target/s390x/cpu-param.h
-+++ b/target/s390x/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
- 
- #ifndef S390_CPU_PARAM_H
--#define S390_CPU_PARAM_H 1
-+#define S390_CPU_PARAM_H
- 
- #define TARGET_LONG_BITS 64
- #define TARGET_PAGE_BITS 12
-diff --git a/target/sh4/cpu-param.h b/target/sh4/cpu-param.h
-index 81ace3503b..98a02509bb 100644
---- a/target/sh4/cpu-param.h
-+++ b/target/sh4/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
- 
- #ifndef SH4_CPU_PARAM_H
--#define SH4_CPU_PARAM_H 1
-+#define SH4_CPU_PARAM_H
- 
- #define TARGET_LONG_BITS 32
- #define TARGET_PAGE_BITS 12  /* 4k */
-diff --git a/target/sparc/cpu-param.h b/target/sparc/cpu-param.h
-index 4746d89411..72ddc4a34f 100644
---- a/target/sparc/cpu-param.h
-+++ b/target/sparc/cpu-param.h
-@@ -5,7 +5,7 @@
-  */
- 
- #ifndef SPARC_CPU_PARAM_H
--#define SPARC_CPU_PARAM_H 1
-+#define SPARC_CPU_PARAM_H
- 
- #ifdef TARGET_SPARC64
- # define TARGET_LONG_BITS 64
-diff --git a/target/tricore/cpu-param.h b/target/tricore/cpu-param.h
-index cf5d9af89d..2727913047 100644
---- a/target/tricore/cpu-param.h
-+++ b/target/tricore/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
- 
- #ifndef TRICORE_CPU_PARAM_H
--#define TRICORE_CPU_PARAM_H 1
-+#define TRICORE_CPU_PARAM_H
- 
- #define TARGET_LONG_BITS 32
- #define TARGET_PAGE_BITS 14
-diff --git a/target/xtensa/cpu-param.h b/target/xtensa/cpu-param.h
-index 4fde21b941..b53e9a3e08 100644
---- a/target/xtensa/cpu-param.h
-+++ b/target/xtensa/cpu-param.h
-@@ -6,7 +6,7 @@
-  */
- 
- #ifndef XTENSA_CPU_PARAM_H
--#define XTENSA_CPU_PARAM_H 1
-+#define XTENSA_CPU_PARAM_H
- 
- #define TARGET_LONG_BITS 32
- #define TARGET_PAGE_BITS 12
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 92c91dcde9..cc82088d52 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -23,7 +23,7 @@
-  */
- 
- #ifndef TCG_INTERNAL_H
--#define TCG_INTERNAL_H 1
-+#define TCG_INTERNAL_H
- 
- #define TCG_HIGHWATER 1024
+-#endif /*XTENSA_CONFIG_CORE_MATMAP_H*/
++#endif /* XTENSA_CONFIG_CORE_MATMAP_H */
  
 -- 
 2.35.1
