@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBE551DB8A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 17:07:07 +0200 (CEST)
-Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056F051DC52
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 17:41:40 +0200 (CEST)
+Received: from localhost ([::1]:46248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmzXu-0000uq-KJ
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 11:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51554)
+	id 1nn05I-0005RG-3c
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 11:41:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmzWE-0008WD-5z
- for qemu-devel@nongnu.org; Fri, 06 May 2022 11:05:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26133)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nn035-00041m-EF
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 11:39:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmzW8-0001e7-Ab
- for qemu-devel@nongnu.org; Fri, 06 May 2022 11:05:19 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nn033-0006ws-W8
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 11:39:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651849513;
+ s=mimecast20190719; t=1651851553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=OhAQOILUaaeoQKF86aO3faod9R3gTkf4EN2P2v3fPXM=;
- b=NBRTKj2ADpLZyRJ7t+kCeYWklxzhjoVLhqXHAhS7bL4BfiQjZ7ipEwN+wYoCO9LZbtz/72
- KqCdV5ncjuhxoo2/DB3sm5SkUsguKHA+F96i3Pajq9f8/pzwFkVyk775LvjDNHw0GY+BDZ
- tPy+edoKeRkpuqUapPdVBvgmBjJfzLQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YKu6fLLsO54RoL7+fBIjIUL2xD1a16wTAITWebE/fsA=;
+ b=YSvWggVyvkXaHU/qSJHr6hJslJl+FAh/ufzxWjpgYCIllk5xDnOmgEdNXfZIKgV9HtWlv/
+ CsbguA9EhwEhwtS3+QIJbpnCLFeMwnLxa9tkQLph1Qcl7w8NlEwiqAIg7M1EUzUFakdicy
+ EpPk7Ozlmy37n7lsovXMTPXE3TDkNoE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-jM9uALddOSyUCR1urGplaA-1; Fri, 06 May 2022 11:05:10 -0400
-X-MC-Unique: jM9uALddOSyUCR1urGplaA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-425-v8Q0mbRVOzuvBsIOnOyf5w-1; Fri, 06 May 2022 11:39:10 -0400
+X-MC-Unique: v8Q0mbRVOzuvBsIOnOyf5w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCF478339B5;
- Fri,  6 May 2022 15:01:50 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EF4340D2830;
- Fri,  6 May 2022 15:01:49 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH] docs/devel/writing-monitor-commands: Replace obsolete
- STEXI/ETEXI tags
-Date: Fri,  6 May 2022 17:01:46 +0200
-Message-Id: <20220506150146.564244-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FDC23C977C1;
+ Fri,  6 May 2022 15:39:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45F0740869CC;
+ Fri,  6 May 2022 15:39:08 +0000 (UTC)
+Date: Fri, 6 May 2022 10:39:06 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Fabian Ebner <f.ebner@proxmox.com>
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
+ qemu-block@nongnu.org, integration@gluster.org,
+ qemu-stable@nongnu.org, vsementsov@virtuozzo.com, v.sementsov-og@mail.ru
+Subject: Re: [PATCH] block/gluster: correctly set max_pdiscard which is int64_t
+Message-ID: <20220506153906.gyh6rty6kr7hkixs@redhat.com>
+References: <20220505083124.163404-1-f.ebner@proxmox.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220505083124.163404-1-f.ebner@proxmox.com>
+User-Agent: NeoMutt/20220429-35-ca2e7f
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -61,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,37 +79,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-STEXI and ETEXI is not used anymore since we switched to Sphinx.
-Replace them in the example with SRST and ERST, too.
+On Thu, May 05, 2022 at 10:31:24AM +0200, Fabian Ebner wrote:
+> Previously, max_pdiscard would be zero in the following assertion:
+> qemu-system-x86_64: ../block/io.c:3166: bdrv_co_pdiscard: Assertion
+> `max_pdiscard >= bs->bl.request_alignment' failed.
+> 
+> Fixes: 0c8022876f ("block: use int64_t instead of int in driver discard handlers")
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+> ---
+>  block/gluster.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/block/gluster.c b/block/gluster.c
+> index 398976bc66..592e71b22a 100644
+> --- a/block/gluster.c
+> +++ b/block/gluster.c
+> @@ -891,7 +891,7 @@ out:
+>  static void qemu_gluster_refresh_limits(BlockDriverState *bs, Error **errp)
+>  {
+>      bs->bl.max_transfer = GLUSTER_MAX_TRANSFER;
+> -    bs->bl.max_pdiscard = SIZE_MAX;
+> +    bs->bl.max_pdiscard = INT64_MAX;
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/devel/writing-monitor-commands.rst | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+SIZE_MAX is unsigned, but can differ between 32- and 64-bit platforms.
+Blindly setting max_pdiscard to a signed 64-bit value seems wrong if
+glfs_discard_async() takes a size_t and you are on a 32-bit platform.
 
-diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
-index 1693822f8f..4aa2bb904d 100644
---- a/docs/devel/writing-monitor-commands.rst
-+++ b/docs/devel/writing-monitor-commands.rst
-@@ -331,13 +331,10 @@ we should add it to the hmp-commands.hx file::
-         .cmd        = hmp_hello_world,
-     },
- 
--::
--
-- STEXI
-- @item hello_world @var{message}
-- @findex hello_world
-- Print message to the standard output
-- ETEXI
-+ SRST
-+ ``hello_world`` *message*
-+   Print message to the standard output
-+ ERST
- 
- To test this you have to open a user monitor and issue the "hello-world"
- command. It might be instructive to check the command's documentation with
+Is the real issue that SIZE_MAX on a 64-bit platform is too large,
+where we want min(SIZE_MAX,INT_MAX) as our real cap?
+
+>  }
+>  
+>  static int qemu_gluster_reopen_prepare(BDRVReopenState *state,
+> @@ -1304,7 +1304,7 @@ static coroutine_fn int qemu_gluster_co_pdiscard(BlockDriverState *bs,
+>      GlusterAIOCB acb;
+>      BDRVGlusterState *s = bs->opaque;
+>  
+> -    assert(bytes <= SIZE_MAX); /* rely on max_pdiscard */
+> +    assert(bytes <= INT64_MAX); /* rely on max_pdiscard */
+>  
+>      acb.size = 0;
+>      acb.ret = 0;
+> -- 
+> 2.30.2
+> 
+> 
+> 
+
 -- 
-2.27.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
