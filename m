@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FFE51DAD4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 16:41:14 +0200 (CEST)
-Received: from localhost ([::1]:55266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB29F51DAEC
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 16:44:08 +0200 (CEST)
+Received: from localhost ([::1]:34014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmz8r-0003nI-AC
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 10:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45316)
+	id 1nmzBg-00009n-2D
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 10:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5o-00019M-J8
- for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32023)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5r-0001Bg-BN
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5m-0005YX-K5
- for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:03 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5p-0005ZB-LA
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651847881;
+ s=mimecast20190719; t=1651847885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lI6pJkpnXE+0eP5L8nMsRwG1cHPH/7Yp7An6v5/Fu6o=;
- b=Nwj+JdKAsmPcRI/vKpcroYz3FLvTnvyNm3pmxfJGBHvA4D9INvGkG3yZseGo3Z7S4Oa624
- 9TUUvauyU0rezmGC6FopGED/gcEV3v624tsjhirx1r10h6i7V1euBdHl9ezrvQ52vE/EL5
- HMYtdHe+Orn0pTyVOS4aOLGmeSKMMx8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MmGWyb7GP9HxU18rJwmkzLq55bRoz+0gMvBXD0f/Zu0=;
+ b=VL0gkkK2wHx4fXeFk6zOt7aOPUE4kkWx1FW2nwTsB+YCb/5eWKCwbZwFSoGFj5dNTxtVkx
+ nKMxW2x/Xa66BrXa5W7kd0JOn5yfb4pxdN88+bmDlJLmUYu79gLDYT2qNQ9okLDiZcN5wa
+ 9AH1nBhUSLwkZ8XkzJEb1uTfwVK/zh0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-347-_ovdKQLKMDGR1tISm-cyEQ-1; Fri, 06 May 2022 10:38:00 -0400
-X-MC-Unique: _ovdKQLKMDGR1tISm-cyEQ-1
+ us-mta-116-73O9Ps8xN9G-bbc91WQD7A-1; Fri, 06 May 2022 10:38:01 -0400
+X-MC-Unique: 73O9Ps8xN9G-bbc91WQD7A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0BEA13C0D195;
- Fri,  6 May 2022 14:38:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99C3F811E76;
+ Fri,  6 May 2022 14:38:01 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF10E2166B2D;
- Fri,  6 May 2022 14:37:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83E012166B2D;
+ Fri,  6 May 2022 14:38:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 3/9] softmmu/vl: Fence 'xenfb' if Xen support is not compiled in
-Date: Fri,  6 May 2022 16:37:44 +0200
-Message-Id: <20220506143750.559526-4-thuth@redhat.com>
+Subject: [PULL 4/9] qemu-options: Limit the -xen options to x86 and arm
+Date: Fri,  6 May 2022 16:37:45 +0200
+Message-Id: <20220506143750.559526-5-thuth@redhat.com>
 In-Reply-To: <20220506143750.559526-1-thuth@redhat.com>
 References: <20220506143750.559526-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,44 +77,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'xenfb' parameter for the '-vga' command line option is currently
-always enabled unconditionally (since the xenfb is not a proper QOM
-device that could be tested via its class name). That means it also
-shows up if Xen is not enabled at all, e.g. like this:
+The Xen hypervisor is only available on x86 and arm - thus let's
+limit the related options to these targets.
 
- $ ./qemu-system-sparc -vga help
- none                 no graphic card
- xenfb                Xen paravirtualized framebuffer
- tcx                  TCX framebuffer (default)
- cg3                  CG3 framebuffer
-
-Let's avoid this situation by fencing the parameter with the
-CONFIG_XEN_BACKEND switch.
-
-Message-Id: <20220427123316.329312-1-thuth@redhat.com>
+Message-Id: <20220427133156.344418-1-thuth@redhat.com>
 Acked-by: Anthony PERARD <anthony.perard@citrix.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- softmmu/vl.c | 2 ++
- 1 file changed, 2 insertions(+)
+ qemu-options.hx | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index c2919579fd..ad886fb878 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -934,10 +934,12 @@ static const VGAInterfaceInfo vga_interfaces[VGA_TYPE_MAX] = {
-         .name = "CG3 framebuffer",
-         .class_names = { "cgthree" },
-     },
-+#ifdef CONFIG_XEN_BACKEND
-     [VGA_XENFB] = {
-         .opt_name = "xenfb",
-         .name = "Xen paravirtualized framebuffer",
-     },
-+#endif
- };
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 5f69b94b8e..796229c433 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4186,16 +4186,17 @@ SRST
+ ERST
  
- static bool vga_interface_available(VGAInterfaceType t)
+ DEF("xen-domid", HAS_ARG, QEMU_OPTION_xen_domid,
+-    "-xen-domid id   specify xen guest domain id\n", QEMU_ARCH_ALL)
++    "-xen-domid id   specify xen guest domain id\n",
++    QEMU_ARCH_ARM | QEMU_ARCH_I386)
+ DEF("xen-attach", 0, QEMU_OPTION_xen_attach,
+     "-xen-attach     attach to existing xen domain\n"
+     "                libxl will use this when starting QEMU\n",
+-    QEMU_ARCH_ALL)
++    QEMU_ARCH_ARM | QEMU_ARCH_I386)
+ DEF("xen-domid-restrict", 0, QEMU_OPTION_xen_domid_restrict,
+     "-xen-domid-restrict     restrict set of available xen operations\n"
+     "                        to specified domain id. (Does not affect\n"
+     "                        xenpv machine type).\n",
+-    QEMU_ARCH_ALL)
++    QEMU_ARCH_ARM | QEMU_ARCH_I386)
+ SRST
+ ``-xen-domid id``
+     Specify xen guest domain id (XEN only).
 -- 
 2.27.0
 
