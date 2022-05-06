@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6FB51D174
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 08:34:47 +0200 (CEST)
-Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E05A51D18B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 08:42:26 +0200 (CEST)
+Received: from localhost ([::1]:53598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmrY5-0008HP-RR
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 02:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36310)
+	id 1nmrfV-0004Hq-4z
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 02:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nmrTk-0007Dr-Mr
- for qemu-devel@nongnu.org; Fri, 06 May 2022 02:30:17 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:48481)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nmraF-0001IR-Dw; Fri, 06 May 2022 02:36:59 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:46559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nmrTi-0000bf-BL
- for qemu-devel@nongnu.org; Fri, 06 May 2022 02:30:16 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id A98E621D0C;
- Fri,  6 May 2022 06:30:10 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Fri, 6 May 2022
- 08:30:10 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005a661c56a-4da7-4bb7-bb46-6bded6cdaa71,
- 85FEA43FB7D152D5FE87D0D31D0EEF45A371AE19) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <97674ac7-17c5-06cf-6bd0-0e7acc37abcc@kaod.org>
-Date: Fri, 6 May 2022 08:30:04 +0200
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nmraD-0001iQ-A1; Fri, 06 May 2022 02:36:59 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 187B83200AC3;
+ Fri,  6 May 2022 02:36:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 06 May 2022 02:36:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1651819012; x=1651905412; bh=R1qB75FaGT
+ +MkpPH7xiqW88NcnO32vodpve9fNaDHcU=; b=pbbMeNsQopTXt7q8du+Ubgt7cX
+ qFD+bdVWay7NhZaR8hgrt2rsqCKa54ETZYHXSPtR+i7GRxJqdsaB5YBEudadp9Vk
+ +aDRqWtKszATqBQTp821UuGWVw21xxWLmpYqcvqpntYPFVf454Cw/fWmtLH9athE
+ +t/Q2m+cZDIsfYQsRKqJkeTU35rrXE5SKA5/XiV5anEAdMYef9tWthbq3EMKRsuc
+ 6pO/cpMNfSSDVkVnN9S0E35j3HhikmI/1GqBDi33MqLa4FHTwNy24+u+nFxkRKaU
+ ODiEFc1rdtqPsBn9K5UwN2w7a2DId/7Tw9FpJNpYI66mk+wNk6vODDVpmGlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; t=1651819012; x=1651905412; bh=R
+ 1qB75FaGT+MkpPH7xiqW88NcnO32vodpve9fNaDHcU=; b=c5nBPO1qgl0Yi+NME
+ gLqsQU36ZfwaAMPveoJ8wcF4QQxGCfS8TtoRWyEo8Wf9QJc1jcAQRzHMYC4F0BVj
+ xTtYEJK36tcPZ7kF1RErY0f62Tuc7UV9LJ50wKCB1lcUW9a529R+U6bl80u6vYsZ
+ neZ5DawSdnAxO8EhiVLN9EFW5SWOoQfcZcCWOu5vGe0+jU/LiVU7h3ouVMiG1dCM
+ ARBkNswf4mRhInlNTKLTvVfHtOAXa2KpyaVKKazAAzQqSvW8JpaNu0M386A5o//8
+ Z7yLAmGI46fwRJQbPXXPRMAreCVsRDyCz2hoCsB7A+u7MJQv57Wx76s5uNzSVbDt
+ PDJCw==
+X-ME-Sender: <xms:A8J0Yu_FIHqh7CiqwHvSnd4BCfpUsD7geRpDbA9DwF8KaqPULKBaUA>
+ <xme:A8J0YuscE3TOk-e77adAXT5BIBwm5z4_f1iv-obrPLiU6wiWAzyG4C5xdPVDKiCDd
+ kdP3Gg-O55kRrxEEYM>
+X-ME-Received: <xmr:A8J0YkDKIgKNcf-a_H6PcRjy0NIEy_fNmgW_rHdzZ8SqAt8QG3NxH-Odo6W_OJasgIblzL3QSABqqlSpHnj-CQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvgddutdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnheptdeludfhgeelheelledtjefffeejtdeluedvgfetveffgeetvdevkeehieeikeet
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:A8J0YmcJaWIlVVCozQoLZIQAQtZjgvq8MXPPdXuWYCeapnxkd-snhg>
+ <xmx:A8J0YjNPY34KzUqpRcz4-CFa0xGH0BzOW0LXFduXgeSAz-m8y99-aQ>
+ <xmx:A8J0YgknW8cL9K677OWP9UpJ2D0UVLJK3bTWzl2XxDGXwV2QIf8DxA>
+ <xmx:BMJ0Yool_8IzLl22WPWNM3_n4MoXzQG_nZVcCN-ZG9mrDjX7Rl7u6g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 May 2022 02:36:50 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Zhenwei Pi <pizhenwei@bytedance.com>, qemu-block@nongnu.org,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH] hw/nvme: fix smart aen
+Date: Fri,  6 May 2022 08:36:49 +0200
+Message-Id: <20220506063649.13361-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 1/1] hw/arm/aspeed: Add fby35 machine type
-Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>
-CC: "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "qemu-arm@nongnu.org"
- <qemu-arm@nongnu.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter
- Maydell <peter.maydell@linaro.org>, Klaus Jensen <its@irrelevant.dk>
-References: <20220503225925.1798324-1-pdel@fb.com>
- <20220503225925.1798324-2-pdel@fb.com>
- <2ab490a2-875d-ae82-38d0-425415f9818c@kaod.org>
- <856683F7-3F36-449E-B203-89EC3D876DD9@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <856683F7-3F36-449E-B203-89EC3D876DD9@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a99988e5-e2cf-4127-9b12-839ce753a2b7
-X-Ovh-Tracer-Id: 13867146206085155622
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhtedtkeegheetfeetfeefkeeltedtieeggfehjeejfeethfeuveeijedtgefgjeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhsvghtuhhpqdguvghvrdhshhdprhgvrgguthhhvgguohgtshdrihhopdhoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehithhssehirhhrvghlvghvrghnthdrughk
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
- helo=10.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,57 +97,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/22 18:34, Peter Delevoryas wrote:
-> 
->> On May 4, 2022, at 12:39 AM, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> ﻿On 5/4/22 00:59, Peter Delevoryas wrote:
->>> Add the 'fby35-bmc' machine type based on the kernel DTS[1] and userspace
->>> i2c setup scripts[2]. Undefined values are inherited from the AST2600-EVB.
->>> Reference images can be found in Facebook OpenBMC Github Release assets
->>> as "fby35.mtd". [3]
->>> You can boot the reference images as follows (fby35 uses dual-flash):
->>> qemu-system-arm -machine fby35-bmc \
->>>      -drive file=fby35.mtd,format=raw,if=mtd \
->>>      -drive file=fby35.mtd,format=raw,if=mtd \
->>>      -nographic
->>> [1] https://github.com/facebook/openbmc-linux/blob/412d5053258007117e94b1e36015aefc1301474b/arch/arm/boot/dts/aspeed-bmc-facebook-fby35.dts
->>> [2] https://github.com/facebook/openbmc/blob/e2294ff5d31dd65c248fe396a385286d6d5c463d/meta-facebook/meta-fby35/recipes-fby35/plat-utils/files/setup-dev.sh
->>> [3] https://github.com/facebook/openbmc/releases
->>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
->>
->> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> 
-> Thanks!
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Could you please send a v2 with an update of the documentation ?
-or a follow up ? no need to resend the first patch unless you
-want to change something. A one-liner in :
+Pass the right constant to nvme_smart_event(). The NVME_AER* values hold
+the bit position in the SMART byte, not the shifted value that we expect
+it to be in nvme_smart_event().
 
-   https://qemu.readthedocs.io/en/latest/system/arm/aspeed.html
+Fixes: c62720f137df ("hw/block/nvme: trigger async event during injecting smart warning")
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[ ... ]
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 08574c4dcbc8..a2f6069f7fe1 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5325,7 +5325,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+ 
+         if ((n->temperature >= n->features.temp_thresh_hi) ||
+             (n->temperature <= n->features.temp_thresh_low)) {
+-            nvme_smart_event(n, NVME_AER_INFO_SMART_TEMP_THRESH);
++            nvme_smart_event(n, NVME_SMART_TEMPERATURE);
+         }
+ 
+         break;
+-- 
+2.36.0
 
-> As a matter of fact yes! I tested booting our OpenBIC Zephyr kernel last week with the 1030, that worked. I also used the experimental i2c multi-master patches from Klaus to make a i2c-netdev device that connects two separate QEMU instances through a socket and sends their i2c messages back and forth. I was able to test a basic MCTP transaction.
-
-Nice ! And do you need anything special from the I2C Aspeed models ?
-Apart from :
-
-  https://patchwork.ozlabs.org/project/qemu-devel/list/?series=292928
-
-> I’m hoping to help however possible with merging Klaus’s changes, 
-
-They don't need much work. Klaus doesn't have the datasheet, so we
-should help him with the changes requiring some internal knowledge.
-
-> and then propose the i2c-netdev thing too.
-
-I was going to ask since I didn't see any models for such devices.
-
-I hope to do something similar with the usb-net device but it needs
-fixes first.
-
-Thanks,
-
-C.
 
