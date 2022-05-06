@@ -2,90 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB1451D397
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 10:43:56 +0200 (CEST)
-Received: from localhost ([::1]:36728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9475C51D3E9
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 11:01:11 +0200 (CEST)
+Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmtZ4-0003eC-PO
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 04:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58294)
+	id 1nmtpm-0003o5-79
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 05:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nmtXZ-0002x3-Kv
- for qemu-devel@nongnu.org; Fri, 06 May 2022 04:42:21 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:42941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nmtXT-0003GY-EA
- for qemu-devel@nongnu.org; Fri, 06 May 2022 04:42:21 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- n126-20020a1c2784000000b0038e8af3e788so3956478wmn.1
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 01:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ltr8BDfMoXfWQWd0EAkzVEQWNTQ8Vcxe+0FA1E9M2vg=;
- b=GrnEi5suxRaUAAZ/Aa0jpCPlbLLWSSR7uLSWZX4V1DaDpfktLv59yK8FVmoaascQKz
- VoppcYBn36HU8Ow1CeHuTyYMSe5iyjbTFF+FXW1pRr9HlZu6KySZ1ZPYW+meeOG6JLdc
- QO1+HozpkKEFD9qg9/eJqHblYILOzWi3Y/hS9/4NPo/wiM9KxrVI4YKEcnb3O+vihq/a
- rHakNl2YRmvbIn3sQlnp0c5jcA/n2g9zJjZIsAnDmsXW53E3E9OMIw8vl0xKdWwUFQdo
- d/cO7wgfrZMOyn5CXpElNh2ztnc9ngVzJuTjxqQ5eaLoFHIlF/SGvSluvWmmrotENpVL
- 2nqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ltr8BDfMoXfWQWd0EAkzVEQWNTQ8Vcxe+0FA1E9M2vg=;
- b=e5QIANdkksmoEk0575qB8saWJzXSyfsd0XwpJiYYsPz1GbNc8BQfQkzm7M5RKOw+8w
- h7LsiiGGNcMCVw1/HNYzMalAS3arS7k1geto+XTA+t9W01VMsnNmNSVNAdSIxlgPsJ30
- ujpxvlUbP6Pc/6Wm+yLodCtMgr6xg3gxER12jzGyDeeCYi5tN60wmxgMwxPagBhTD3Ut
- LbE5JorPbWBN7KoQ7Du9x5/QUWjk02SJIiqfxeOT00c4Z3FiSpBkJNqg+Z/QijC/QQTS
- +cYMBPXpEQSNu69D5Jl1T+H7EwG74SSRHAMos0FJfk/Bvjpb2bo2r1m85qjLMwmgUDR/
- VJcg==
-X-Gm-Message-State: AOAM533/6zaIpk560JEBnNcf2ioTnLeyNOBgcW1hHp18WV28lVKHhULE
- 1I3fqtoFaCgzM6T5uds5xGg=
-X-Google-Smtp-Source: ABdhPJwS9p+orvUtXirJFAzMzx9XLUyWtv2XwRvr0Ktj1Ba665xadToyoRMKOOCf3ZRK+SIEcrONvw==
-X-Received: by 2002:a05:600c:35cc:b0:394:7b56:ef38 with SMTP id
- r12-20020a05600c35cc00b003947b56ef38mr1528605wmq.34.1651826533918; 
- Fri, 06 May 2022 01:42:13 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928?
- ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
- by smtp.googlemail.com with ESMTPSA id
- h3-20020a05600016c300b0020c5253d8cesm3035808wrf.26.2022.05.06.01.42.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 01:42:13 -0700 (PDT)
-Message-ID: <1c2caac1-1ea3-7dd5-eaee-1a6763e9b672@redhat.com>
-Date: Fri, 6 May 2022 10:42:05 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nmtoU-0002ga-G4; Fri, 06 May 2022 04:59:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nmtoS-0005lS-OD; Fri, 06 May 2022 04:59:50 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2468HEU0040710;
+ Fri, 6 May 2022 08:59:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=6zJ+cTe2e4M4qQBq/K8Xll46shNXHZHpKTBj61qET4A=;
+ b=IUPhNXCoMH85XY+TFhCzdCKw6IOXaaajjHiG1p3vRONcZfs8uLfIEV7+MO2jUrFHd6Dw
+ o5rDZMZQIJTTXgn/TroxJLLcNFT8MCm3CpEXD+0p0LZqtcWwWq2QrhYRu52ioQU1fESD
+ HOoCanviC66ODL7rRQZi0tGuCwCB902W1aHCXxQdOJqvhINH8t0N0btHyKZdhJWNBhIY
+ iS+X58RIJu9TRNjZmtL22k1v0ejGZyVvQgXGApHJWlU/nj50+/J2Xb1Kg2GKHgGI547W
+ J7Vi2jxLP+IQd9I+M71B9fEh54vDNeZ3EPLQBCBrZoXkndmJlFDjUU7WxkAx39do5Wdi 5w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw0178r7q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 08:59:43 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2468guHE007258;
+ Fri, 6 May 2022 08:59:43 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw0178r6u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 08:59:42 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2468qED9026073;
+ Fri, 6 May 2022 08:59:40 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06fra.de.ibm.com with ESMTP id 3fttcj41a2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 08:59:40 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2468xbnN34013584
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 6 May 2022 08:59:37 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3D22DAE051;
+ Fri,  6 May 2022 08:59:37 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7691BAE045;
+ Fri,  6 May 2022 08:59:36 +0000 (GMT)
+Received: from [9.171.62.79] (unknown [9.171.62.79])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  6 May 2022 08:59:36 +0000 (GMT)
+Message-ID: <b10d70da-6548-328d-b7ed-f4936f16545b@linux.ibm.com>
+Date: Fri, 6 May 2022 11:03:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: Fio regression caused by f9fc8932b11f3bcf2a2626f567cb6fdd36a33a94
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 9/9] s390x/pci: reflect proper maxstbl for groups of
+ interpreted devices
 Content-Language: en-US
-To: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>
-Cc: longpeng2@huawei.com, qemu-devel <qemu-devel@nongnu.org>
-References: <35dd4da8-5278-767e-4193-ccf53e836969@redhat.com>
- <YnOiRPrLkfjoPbU+@stefanha-x1.localdomain> <YnPGoOlV0CykrKwm@redhat.com>
- <f8cff216-de53-c789-6aa3-b0a23523fb5f@redhat.com>
- <1f773376-afc7-8117-60cc-760879a740e1@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <1f773376-afc7-8117-60cc-760879a740e1@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
+References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
+ <20220404181726.60291-10-mjrosato@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20220404181726.60291-10-mjrosato@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _RfjCH4bQSExgPv5WMXIobvmIjwSjEpq
+X-Proofpoint-ORIG-GUID: CKAl7fR1Reo6w53T0xlNyFqLKIXTVDBQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-06_03,2022-05-05_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0
+ clxscore=1015 priorityscore=1501 mlxscore=0 mlxlogscore=999 bulkscore=0
+ spamscore=0 suspectscore=0 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205060045
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,115 +121,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/22 06:30, Lukáš Doktor wrote:
-> Also let me briefly share the details about the execution:
 
-Thanks, this is super useful!
 
-I got very similar results to yours:
+On 4/4/22 20:17, Matthew Rosato wrote:
+> The maximum supported store block length might be different depending
+> on whether the instruction is interpretively executed (firmware-reported
+> maximum) or handled via userspace intercept (host kernel API maximum).
+> Choose the best available value during group creation.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-QEMU 6.2			bw=1132MiB/s
-QEMU 7.0			bw=1046MiB/s
-QEMU 7.0 + patch		bw=1012MiB/s
-QEMU 7.0 + tweaked patch	bw=1077MiB/s
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 
-"tweaked patch" is moving qemu_cond_signal after qemu_mutex_unlock.
-It's better than QemuSemaphore in QEMU 7.0 but still not as good as
-the original.  /me thinks
-
-Paolo
 
 > ---
+>   hw/s390x/s390-pci-vfio.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> mkdir -p /var/lib/runperf/runperf-nbd/
-> truncate -s 256M /var/lib/runperf/runperf-nbd//disk.img
-> nohup qemu-nbd -t -k /var/lib/runperf/runperf-nbd//socket -f raw /var/lib/runperf/runperf-nbd//disk.img &> $(mktemp /var/lib/runperf/runperf-nbd//qemu_nbd_XXXX.log) & echo $! >> /var/lib/runperf/runperf-nbd//kill_pids
-> for PID in $(cat /var/lib/runperf/runperf-nbd//kill_pids); do disown -h $PID; done
-> export TERM=xterm-256color
-> true
-> mkdir -p /var/lib/runperf/runperf-nbd/
-> cat > /var/lib/runperf/runperf-nbd/nbd.fio << \Gr1UaS
-> # To use fio to test nbdkit:
-> #
-> # nbdkit -U - memory size=256M --run 'export unixsocket; fio examples/nbd.fio'
-> #
-> # To use fio to test qemu-nbd:
-> #
-> # rm -f /tmp/disk.img /tmp/socket
-> # truncate -s 256M /tmp/disk.img
-> # export target=/tmp/socket
-> # qemu-nbd -t -k $target -f raw /tmp/disk.img &
-> # fio examples/nbd.fio
-> # killall qemu-nbd
+> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+> index 985980f021..212dd053f7 100644
+> --- a/hw/s390x/s390-pci-vfio.c
+> +++ b/hw/s390x/s390-pci-vfio.c
+> @@ -213,7 +213,11 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
+>           resgrp->msia = cap->msi_addr;
+>           resgrp->mui = cap->mui;
+>           resgrp->i = cap->noi;
+> -        resgrp->maxstbl = cap->maxstbl;
+> +        if (pbdev->interp && hdr->version >= 2) {
+> +            resgrp->maxstbl = cap->imaxstbl;
+> +        } else {
+> +            resgrp->maxstbl = cap->maxstbl;
+> +        }
+>           resgrp->version = cap->version;
+>           resgrp->dtsm = ZPCI_DTSM;
+>       }
 > 
-> [global]
-> bs = $@
-> runtime = 30
-> ioengine = nbd
-> iodepth = 32
-> direct = 1
-> sync = 0
-> time_based = 1
-> clocksource = gettimeofday
-> ramp_time = 5
-> write_bw_log = fio
-> write_iops_log = fio
-> write_lat_log = fio
-> log_avg_msec = 1000
-> write_hist_log = fio
-> log_hist_msec = 10000
-> # log_hist_coarseness = 4 # 76 bins
-> 
-> rw = $@
-> uri=nbd+unix:///?socket=/var/lib/runperf/runperf-nbd/socket
-> # Starting from nbdkit 1.14 the following will work:
-> #uri=${uri}
-> 
-> [job0]
-> offset=0
-> 
-> [job1]
-> offset=64m
-> 
-> [job2]
-> offset=128m
-> 
-> [job3]
-> offset=192m
-> 
-> Gr1UaS
-> 
-> benchmark_bin=/usr/local/bin/fio pbench-fio  --block-sizes=4 --job-file=/var/lib/runperf/runperf-nbd/nbd.fio --numjobs=4 --runtime=60 --samples=5 --test-types=write --clients=$WORKER_IP
-> 
-> ---
-> 
-> I am using pbench to run the execution, but you can simply replace the "$@" variables in the produced "/var/lib/runperf/runperf-nbd/nbd.fio" and run it directly using fio.
-> 
-> Regards,
-> Lukáš
-> 
-> 
-> Dne 05. 05. 22 v 15:27 Paolo Bonzini napsal(a):
->> On 5/5/22 14:44, Daniel P. Berrangé wrote:
->>>> util/thread-pool.c uses qemu_sem_*() to notify worker threads when work
->>>> becomes available. It makes sense that this operation is
->>>> performance-critical and that's why the benchmark regressed.
->>>
->>> Doh, I questioned whether the change would have a performance impact,
->>> and it wasn't thought to be used in perf critical places
->>
->> The expectation was that there would be no contention and thus no overhead because of the pool->lock that exists anyway, but that was optimistic.
->>
->> Lukáš, can you run a benchmark with this condvar implementation that was suggested by Stefan:
->>
->> https://lore.kernel.org/qemu-devel/20220505131346.823941-1-pbonzini@redhat.com/raw
->>
->> ?
->>
->> If it still regresses, we can either revert the patch or look at a different implementation (even getting rid of the global queue is an option).
->>
->> Thanks,
->>
->> Paolo
 
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
