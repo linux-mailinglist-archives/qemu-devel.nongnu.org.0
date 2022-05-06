@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6430051D23E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 09:27:51 +0200 (CEST)
-Received: from localhost ([::1]:53562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E01151D26C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 09:38:40 +0200 (CEST)
+Received: from localhost ([::1]:57878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmsNS-0004s1-0n
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 03:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43402)
+	id 1nmsXu-0000HK-Vv
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 03:38:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nmsKo-0003EU-7P
- for qemu-devel@nongnu.org; Fri, 06 May 2022 03:25:09 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([170.10.129.74]:52720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nmsKk-0008Jp-D6
- for qemu-devel@nongnu.org; Fri, 06 May 2022 03:25:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651821901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wep84ps590PkyVxR7RDGjl30jm7YU601QgBddRXIN24=;
- b=QFQ+pPoZlCiz9hBrzLlthuLduJY0WH/+yLaBsC5MFAy24p0to19NyXfeV8B25TryBsb8Te
- WboE9RyV0ksWcyoy8OCbvzzF1KFz2VCxkqxGodcVtI9KPJ4vPSoWepWEIJBKogJMlVIdTU
- bdZOVAt+4jCdfY+bRYQWu2eTTemihCE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-eJb3o--aNACiuGTrMZm3OQ-1; Fri, 06 May 2022 03:23:45 -0400
-X-MC-Unique: eJb3o--aNACiuGTrMZm3OQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2ED9B101AA42;
- Fri,  6 May 2022 07:23:45 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D85BC40D2820;
- Fri,  6 May 2022 07:23:44 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, Eric Farman
- <farman@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH] hw/s390x/s390-virtio-ccw: Improve the machine
- description string
-In-Reply-To: <20220506065026.513590-1-thuth@redhat.com>
-Organization: Red Hat GmbH
-References: <20220506065026.513590-1-thuth@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Fri, 06 May 2022 09:23:43 +0200
-Message-ID: <878rrf5dkw.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nmsUj-0006Yn-8J
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 03:35:22 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:33276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nmsUe-0001Ob-82
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 03:35:18 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ cu23-20020a17090afa9700b001d98d8e53b7so7374191pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 00:35:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=FSq39btoSUPbxgijg54rilLRVSPMSsyBPUtASQE0ZQc=;
+ b=IyU7hxYCf46mLXq4TYu7zKIWabBQUqgLbCdR0yuaDMi8mdcn0HHimj4KCSeKnjC5eP
+ 7lMwUoRRFufshGD0vj+AyBDv3OX7XklYcu1MDsHvmudCPgT7cCUv3R/CiUNKIRTFwIfo
+ ZPNsF6t7Pfuh2+E4SK467DfmulP5wLZ2EwIVxFl4fO+nYc/tnFOxys4XJv18lKPzbuqE
+ +fGQxpub8zAfv54jEZdhF1tS2dlxeMSMOCMNgwnBRcrdcoK9F0n+CrCbulqR4PSpXRBQ
+ LgNj3E1Nz0lKkj39gvDLNmt/kXG3p56pMZ0P4m+6op354KlG8Y4qHW2W0fq7KAlGPWlG
+ mWOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FSq39btoSUPbxgijg54rilLRVSPMSsyBPUtASQE0ZQc=;
+ b=QDluso7VTBo9ZDsoD+LvntAHCaT6Li6wylQ/juF7RJf0odp75S0wMO0prkePYOblAC
+ EPxgi4hv7DEAPlQKrBAHzGjzeI0x3XhSh2EdyYXSIpI3X7SrAezXdI0JduPgd+Zn2isA
+ kTH5BVdVKH/nCE79X1DYYKnhJo6EoU+Geix/08YQ0gUNRWjbHCOSCwlaypk1ATW/ExpR
+ lHrqIA1jgCBoSCwJK/gdTQ6rhaXSOK4W0m5EAVzFXpQNG7oY98OUJhI+brGp5VtlO4si
+ 504OCxKplAvL0sEx4yaXYnFLqIE2lROzk+TT/W1YkSBC/3rK4JntQ42BVGw+KTjb6Fwz
+ TgPA==
+X-Gm-Message-State: AOAM532cw/8BFuLIIHMIV9qOXlaqV73NU1rPIb5QmF6CyXEfPSDO0sP6
+ TB/LWKRY6a+sd8raVwh6mykFKg==
+X-Google-Smtp-Source: ABdhPJywN9hRS+zfdR48appRWM/2jtzeAcKIltu0OxkcXMY3J+aaTMdpR1ENI9FoTIKKVDhVsA79Tw==
+X-Received: by 2002:a17:90a:fd85:b0:1d9:6281:d158 with SMTP id
+ cx5-20020a17090afd8500b001d96281d158mr10705043pjb.187.1651822513540; 
+ Fri, 06 May 2022 00:35:13 -0700 (PDT)
+Received: from [10.255.89.252] ([139.177.225.255])
+ by smtp.gmail.com with ESMTPSA id
+ s3-20020a170902c64300b0015e8d4eb277sm914469pls.193.2022.05.06.00.35.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 May 2022 00:35:12 -0700 (PDT)
+Message-ID: <849547ae-003d-baa8-ac3e-3cb9b60b21b2@bytedance.com>
+Date: Fri, 6 May 2022 15:31:20 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.74; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-74.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] hw/nvme: fix smart aen
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <k.jensen@samsung.com>
+References: <20220506063649.13361-1-its@irrelevant.dk>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <20220506063649.13361-1-its@irrelevant.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,42 +95,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 06 2022, Thomas Huth <thuth@redhat.com> wrote:
-
-> The machine name already contains the words "ccw" and "virtio", so
-> using "VirtIO-ccw" in the description likely does not really help
-> the average user to get an idea what this machine type is about.
-> Thus let's switch to "Virtual s390x machine" now, since "virtual
-> machine" should be a familiar term, and "s390x" signals that this
-> is about 64-bit guests (unlike S390 which could mean that it is
-> 31-bit only).
-
-Do we foresee any s390x machines that don't default to ccw virtio
-devices in the future?
-
-> Also expand "v" to "version, since this makes it easier to use
-
-s/"version/"version"/ :)
-
-> this macro also with non-numeric machine names in downstream.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 5/6/22 14:36, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Pass the right constant to nvme_smart_event(). The NVME_AER* values hold
+> the bit position in the SMART byte, not the shifted value that we expect
+> it to be in nvme_smart_event().
+> 
+> Fixes: c62720f137df ("hw/block/nvme: trigger async event during injecting smart warning")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  hw/s390x/s390-virtio-ccw.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 8fa488d13a..11a942a325 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -768,7 +768,7 @@ bool css_migration_enabled(void)
->      {                                                                         \
->          MachineClass *mc = MACHINE_CLASS(oc);                                 \
->          ccw_machine_##suffix##_class_options(mc);                             \
-> -        mc->desc = "VirtIO-ccw based S390 machine v" verstr;                  \
-> +        mc->desc = "Virtual s390x machine (version " verstr ")";      \
->          if (latest) {                                                         \
->              mc->alias = "s390-ccw-virtio";                                    \
->              mc->is_default = true;                                            \
+>   hw/nvme/ctrl.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 08574c4dcbc8..a2f6069f7fe1 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -5325,7 +5325,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+>   
+>           if ((n->temperature >= n->features.temp_thresh_hi) ||
+>               (n->temperature <= n->features.temp_thresh_low)) {
+> -            nvme_smart_event(n, NVME_AER_INFO_SMART_TEMP_THRESH);
+> +            nvme_smart_event(n, NVME_SMART_TEMPERATURE);
+>           }
+>   
+>           break;
 
+It looks good to me.
+
+Acked-by: zhenwei pi <pizhenwei@bytedance.com>
+
+-- 
+zhenwei pi
 
