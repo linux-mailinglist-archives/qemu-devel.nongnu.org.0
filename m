@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4B551DFAC
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 21:35:34 +0200 (CEST)
-Received: from localhost ([::1]:38398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BB551DFAD
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 21:35:35 +0200 (CEST)
+Received: from localhost ([::1]:38504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn3jh-0007XU-CM
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 15:35:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53708)
+	id 1nn3ji-0007bS-O0
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 15:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=6125b5e310=pdel@fb.com>)
- id 1nn3iO-00061N-D3
- for qemu-devel@nongnu.org; Fri, 06 May 2022 15:34:12 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:18698)
+ id 1nn3iP-00061e-6M
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 15:34:13 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:4810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=6125b5e310=pdel@fb.com>)
- id 1nn3iM-00028M-4t
- for qemu-devel@nongnu.org; Fri, 06 May 2022 15:34:11 -0400
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 246CI8DT019159
- for <qemu-devel@nongnu.org>; Fri, 6 May 2022 12:34:09 -0700
+ id 1nn3iM-000287-KG
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 15:34:12 -0400
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 246H0tNd008383
+ for <qemu-devel@nongnu.org>; Fri, 6 May 2022 12:34:06 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
  h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=facebook; bh=Ix6CeN7RMOZa0r/fAlRDM6WYeFJ+uPAP2MbUAKjns5g=;
- b=k0ZNBpbAkIs47EFjgb3TXzUHP75BjFkFa47JVge/Cq/ABaB0hx3JJF5Ij7QQxRqmdFiQ
- 6bfL86P8aby5U87Wc6BzJwbZ2Ev4376YOntXQdrBxWCQq+peOrIqFhMQP367PZuc+3nQ
- JYwVsrimEli1NOJgRbIZ71w2S9mHOOBWA5g= 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=facebook;
+ bh=ts/PNulP+NDUmLMbRyIQpZdrWAAO71Dq0mF88efIU/Q=;
+ b=PgGkN++a7qYsyh3eN0qDegYg5qG1Fn4f/xenyBpuS5GcVNDyqLvcnzTXC/EXExwZTOms
+ nSpxRNUEuRKEktvjqw5ghYUlVJuY4kFTTOQ2+k8Vhgw3BqUtB7xxzILnghN9PEAF1Uf2
+ xHhJhE2hw1TCOtMNsvWUpCmK3pnj4rHw1fs= 
 Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3fw3jfapth-2
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3fvhd1gkxk-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 12:34:08 -0700
-Received: from twshared13315.14.prn3.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::e) with Microsoft SMTP Server
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 12:34:06 -0700
+Received: from twshared31479.05.prn5.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 6 May 2022 12:34:07 -0700
+ 15.1.2375.24; Fri, 6 May 2022 12:34:04 -0700
 Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
- id F3A815D276FB; Fri,  6 May 2022 12:33:58 -0700 (PDT)
+ id 065C75D276FD; Fri,  6 May 2022 12:33:59 -0700 (PDT)
 From: Peter Delevoryas <pdel@fb.com>
 To: 
 CC: <pdel@fb.com>, <patrick@stwcx.xyz>, <qemu-arm@nongnu.org>,
  <qemu-devel@nongnu.org>, <clg@kaod.org>
-Subject: [PATCH 0/1] docs: aspeed: Add fby35 board
-Date: Fri, 6 May 2022 12:33:53 -0700
-Message-ID: <20220506193354.990532-1-pdel@fb.com>
+Subject: [PATCH 1/1] docs: aspeed: Add fby35 board
+Date: Fri, 6 May 2022 12:33:54 -0700
+Message-ID: <20220506193354.990532-2-pdel@fb.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220506193354.990532-1-pdel@fb.com>
+References: <20220506193354.990532-1-pdel@fb.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: _unJ2-4B9LzMn4AeZ2eoCZINpSqs_Vje
-X-Proofpoint-ORIG-GUID: _unJ2-4B9LzMn4AeZ2eoCZINpSqs_Vje
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
+X-Proofpoint-ORIG-GUID: _8LOOT8_2YaYxmlpXKZn6NcIRKG06AmW
+X-Proofpoint-GUID: _8LOOT8_2YaYxmlpXKZn6NcIRKG06AmW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-05-06_07,2022-05-06_01,2022-02-23_01
@@ -82,20 +84,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding fby35 to the list of Aspeed boards in the QEMU documentation, per
-Cedric's request[1]. This is intended to be merged with the patch adding the
-machine definition[2].
+Add fby35 to the list of Aspeed boards.
 
-[1] https://lore.kernel.org/qemu-devel/97674ac7-17c5-06cf-6bd0-0e7acc37abcc=
-@kaod.org/
-[2] https://lore.kernel.org/qemu-devel/20220503225925.1798324-1-pdel@fb.com/
-
-Peter Delevoryas (1):
-  docs: aspeed: Add fby35 board
-
+Signed-off-by: Peter Delevoryas <pdel@fb.com>
+---
  docs/system/arm/aspeed.rst | 1 +
  1 file changed, 1 insertion(+)
 
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index 60ed94f187..fa98549c11 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -31,6 +31,7 @@ AST2600 SoC based machines :
+ - ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
+ - ``rainier-bmc``          IBM Rainier POWER10 BMC
+ - ``fuji-bmc``             Facebook Fuji BMC
++- ``fby35-bmc``            Facebook fby35 BMC
+=20
+ Supported devices
+ -----------------
 --=20
 2.30.2
 
