@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6BA51E04A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 22:49:31 +0200 (CEST)
-Received: from localhost ([::1]:47458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5B651E059
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 22:52:09 +0200 (CEST)
+Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn4tG-0003a0-J1
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 16:49:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
+	id 1nn4vo-0000eC-Qc
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 16:52:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nn4qt-0007ON-6W
- for qemu-devel@nongnu.org; Fri, 06 May 2022 16:47:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55884)
+ id 1nn4rA-00084X-LI
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 16:47:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nn4qr-0005f5-Cx
- for qemu-devel@nongnu.org; Fri, 06 May 2022 16:47:02 -0400
+ id 1nn4r8-0005iW-HJ
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 16:47:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651870020;
+ s=mimecast20190719; t=1651870037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0PgnS/MOgqGJpG1/gybB3D7xtnL4b+xzg5aImGSy2Yw=;
- b=Qbn8eRcaL/d38vI0ShwIVu4u69ysGLTjnO/15Z6gvt3ya78FVUaF1XFgBpkCPDQjt9AEU2
- hf0HCxN8Ii/AqK1kGhTATs0lqejYU3wkBq3Uwa/tCL0IRT3JXhM2uLKVhebGV+yXL9xUAI
- 7AlRpukjW4jFr6mL+U7J3UQ3jyEFUxs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KMC7fkuPzxdHFdRF6NuW+G75zb9JGmuEXzQ0lAY/nHI=;
+ b=SU3hWn0Is3W3YdR5umeHGXg8Ixlgj5aH6IoQoxIg2NaTSNWgBBwoZdkaPZPNlo2a4StBAs
+ ahLfOwanYA8CHGlibVIKdH2xgLTKs4BEbcDgFwRUZ5ODSIKBuv8PUYAaSUaBrBFOYHjNGg
+ nwxjvsHfzR8m5YKrduYCYDd1ikFst8U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-tu-AXZbXPS6Yte1971W45g-1; Fri, 06 May 2022 16:46:57 -0400
-X-MC-Unique: tu-AXZbXPS6Yte1971W45g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-474-IKuRCtgxPtWEmKc4sZpmOQ-1; Fri, 06 May 2022 16:47:14 -0400
+X-MC-Unique: IKuRCtgxPtWEmKc4sZpmOQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FDA1296A603;
- Fri,  6 May 2022 20:46:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B88085A5BC;
+ Fri,  6 May 2022 20:47:14 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9BC940CF8E8;
- Fri,  6 May 2022 20:46:56 +0000 (UTC)
-Subject: [PULL 02/11] vfio: move re-enabling INTX out of the common helper
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FE472166B2D;
+ Fri,  6 May 2022 20:47:04 +0000 (UTC)
+Subject: [PULL 03/11] vfio: simplify the failure path in vfio_msi_enable
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Longpeng (Mike)" <longpeng2@huawei.com>
-Date: Fri, 06 May 2022 14:46:56 -0600
-Message-ID: <165187001325.4166595.12497497370534530517.stgit@omen>
+Date: Fri, 06 May 2022 14:47:04 -0600
+Message-ID: <165187002220.4166595.313427389692792372.stgit@omen>
 In-Reply-To: <165186988363.4166595.3147442303200167674.stgit@omen>
 References: <165186988363.4166595.3147442303200167674.stgit@omen>
 User-Agent: StGit/1.0-8-g6af9-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,71 +83,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Longpeng(Mike) <longpeng2@huawei.com>
 
-Move re-enabling INTX out, and the callers should decide to
-re-enable it or not.
+Use vfio_msi_disable_common to simplify the error handling
+in vfio_msi_enable.
 
 Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
-Link: https://lore.kernel.org/r/20220326060226.1892-3-longpeng2@huawei.com
+Link: https://lore.kernel.org/r/20220326060226.1892-4-longpeng2@huawei.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/pci.c |   17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ hw/vfio/pci.c |   16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
 diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index cab1a6ef57f1..b3c27c22aaeb 100644
+index b3c27c22aaeb..50562629ea8f 100644
 --- a/hw/vfio/pci.c
 +++ b/hw/vfio/pci.c
-@@ -693,7 +693,6 @@ retry:
+@@ -47,6 +47,7 @@
  
- static void vfio_msi_disable_common(VFIOPCIDevice *vdev)
- {
--    Error *err = NULL;
-     int i;
+ static void vfio_disable_interrupts(VFIOPCIDevice *vdev);
+ static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled);
++static void vfio_msi_disable_common(VFIOPCIDevice *vdev);
  
-     for (i = 0; i < vdev->nr_vectors; i++) {
-@@ -712,15 +711,11 @@ static void vfio_msi_disable_common(VFIOPCIDevice *vdev)
-     vdev->msi_vectors = NULL;
-     vdev->nr_vectors = 0;
-     vdev->interrupt = VFIO_INT_NONE;
+ /*
+  * Disabling BAR mmaping can be slow, but toggling it around INTx can
+@@ -658,24 +659,12 @@ retry:
+                          "MSI vectors, retry with %d", vdev->nr_vectors, ret);
+         }
+ 
+-        for (i = 0; i < vdev->nr_vectors; i++) {
+-            VFIOMSIVector *vector = &vdev->msi_vectors[i];
+-            if (vector->virq >= 0) {
+-                vfio_remove_kvm_msi_virq(vector);
+-            }
+-            qemu_set_fd_handler(event_notifier_get_fd(&vector->interrupt),
+-                                NULL, NULL, NULL);
+-            event_notifier_cleanup(&vector->interrupt);
+-        }
 -
--    vfio_intx_enable(vdev, &err);
--    if (err) {
--        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
--    }
- }
+-        g_free(vdev->msi_vectors);
+-        vdev->msi_vectors = NULL;
++        vfio_msi_disable_common(vdev);
  
- static void vfio_msix_disable(VFIOPCIDevice *vdev)
- {
-+    Error *err = NULL;
-     int i;
+         if (ret > 0) {
+             vdev->nr_vectors = ret;
+             goto retry;
+         }
+-        vdev->nr_vectors = 0;
  
-     msix_unset_vector_notifiers(&vdev->pdev);
-@@ -741,6 +736,10 @@ static void vfio_msix_disable(VFIOPCIDevice *vdev)
+         /*
+          * Failing to setup MSI doesn't really fall within any specification.
+@@ -683,7 +672,6 @@ retry:
+          * out to fall back to INTx for this device.
+          */
+         error_report("vfio: Error: Failed to enable MSI");
+-        vdev->interrupt = VFIO_INT_NONE;
+ 
+         return;
      }
- 
-     vfio_msi_disable_common(vdev);
-+    vfio_intx_enable(vdev, &err);
-+    if (err) {
-+        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-+    }
- 
-     memset(vdev->msix->pending, 0,
-            BITS_TO_LONGS(vdev->msix->entries) * sizeof(unsigned long));
-@@ -750,8 +749,14 @@ static void vfio_msix_disable(VFIOPCIDevice *vdev)
- 
- static void vfio_msi_disable(VFIOPCIDevice *vdev)
- {
-+    Error *err = NULL;
-+
-     vfio_disable_irqindex(&vdev->vbasedev, VFIO_PCI_MSI_IRQ_INDEX);
-     vfio_msi_disable_common(vdev);
-+    vfio_intx_enable(vdev, &err);
-+    if (err) {
-+        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-+    }
- 
-     trace_vfio_msi_disable(vdev->vbasedev.name);
- }
 
 
 
