@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945D151DAD6
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 16:41:38 +0200 (CEST)
-Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE5351DB04
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 16:46:43 +0200 (CEST)
+Received: from localhost ([::1]:37352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmz9F-0004rI-Lm
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 10:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45334)
+	id 1nmzEA-0002Vt-S1
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 10:46:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5q-0001Af-UZ
- for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26165)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5t-0001FJ-41
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5k-0005YN-Os
- for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:05 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nmz5m-0005Yj-Uo
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 10:38:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651847880;
+ s=mimecast20190719; t=1651847882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NF2YMhFbIc8NEQLE2tqYmixOkSIa6tmg5pcvKDNONho=;
- b=RuAyeDwCFWuWjtBX8qDHqfrco+xA1GnC4pyITYlu3V2/78M0eGcZGjLMA7icCoEsJEJplb
- aOCl23y2Y0klG/JMZ8oxssFmneMiSBRIezBet8QEeF7+0s6e0+jJAmSBKa711IFsj3ebO3
- KciGDyYOTP2Hjy99YZ1j2QdhO1r4ANQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=F+FWOYDf5Pd7xzSYXUPmWbhu9szZzHk4LSVBu6bsRDU=;
+ b=MF6Xgf1GsK2v5Djau3vvFs7DFa6V1wgdU7h0BhLtb/LZHqyfCO32rIZn+gx98ADdeXZsyv
+ Nn7obzuXX79BVL7xWYNKaaWeINnMxRBNIw3vcI4ly1iDOIpz2ZPyMny+1IoXW9/iH2zvs1
+ rhsSPPI5I3js/mmPuZ4Bt/sd2mXxWYo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-ajYtxCj-PAmK2J66KgEHtw-1; Fri, 06 May 2022 10:37:56 -0400
-X-MC-Unique: ajYtxCj-PAmK2J66KgEHtw-1
+ us-mta-511-Aj74OmoMOYC0q7eUdm075g-1; Fri, 06 May 2022 10:37:58 -0400
+X-MC-Unique: Aj74OmoMOYC0q7eUdm075g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D3122999B53;
- Fri,  6 May 2022 14:37:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B01B8001EA;
+ Fri,  6 May 2022 14:37:58 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A02A2166B2D;
- Fri,  6 May 2022 14:37:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D67BA2166B17;
+ Fri,  6 May 2022 14:37:56 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/9] disas: Remove old libopcode arm disassembler
-Date: Fri,  6 May 2022 16:37:42 +0200
-Message-Id: <20220506143750.559526-2-thuth@redhat.com>
+Subject: [PULL 2/9] disas: Remove old libopcode i386 disassembler
+Date: Fri,  6 May 2022 16:37:43 +0200
+Message-Id: <20220506143750.559526-3-thuth@redhat.com>
 In-Reply-To: <20220506143750.559526-1-thuth@redhat.com>
 References: <20220506143750.559526-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -76,4127 +76,6875 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Capstone should be superior to the old libopcode disassembler, so
-we can drop the old file nowadays.
+Capstone should be superior to the old libopcode disassembler,
+so we can drop the old file nowadays.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220412165836.355850-3-thuth@redhat.com>
+Message-Id: <20220412165836.355850-4-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
  include/disas/dis-asm.h |    1 -
- disas.c                 |    1 -
- disas/arm.c             | 4012 ---------------------------------------
- target/arm/cpu.c        |    8 -
+ disas.c                 |    2 -
+ disas/i386.c            | 6771 ---------------------------------------
+ target/i386/cpu.c       |    1 -
  MAINTAINERS             |    2 -
  disas/meson.build       |    1 -
- 6 files changed, 4025 deletions(-)
- delete mode 100644 disas/arm.c
+ 6 files changed, 6778 deletions(-)
+ delete mode 100644 disas/i386.c
 
 diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index aebd23dc20..e857f0ae8b 100644
+index e857f0ae8b..6484caca9e 100644
 --- a/include/disas/dis-asm.h
 +++ b/include/disas/dis-asm.h
-@@ -429,7 +429,6 @@ int print_insn_h8500            (bfd_vma, disassemble_info*);
- int print_insn_arm_a64          (bfd_vma, disassemble_info*);
- int print_insn_alpha            (bfd_vma, disassemble_info*);
- disassembler_ftype arc_get_disassembler (int, int);
--int print_insn_arm              (bfd_vma, disassemble_info*);
- int print_insn_sparc            (bfd_vma, disassemble_info*);
- int print_insn_big_a29k         (bfd_vma, disassemble_info*);
- int print_insn_little_a29k      (bfd_vma, disassemble_info*);
+@@ -418,7 +418,6 @@ int print_insn_tci(bfd_vma, disassemble_info*);
+ int print_insn_big_mips         (bfd_vma, disassemble_info*);
+ int print_insn_little_mips      (bfd_vma, disassemble_info*);
+ int print_insn_nanomips         (bfd_vma, disassemble_info*);
+-int print_insn_i386             (bfd_vma, disassemble_info*);
+ int print_insn_m68k             (bfd_vma, disassemble_info*);
+ int print_insn_z8001            (bfd_vma, disassemble_info*);
+ int print_insn_z8002            (bfd_vma, disassemble_info*);
 diff --git a/disas.c b/disas.c
-index d41f34915d..4e443b4d49 100644
+index 4e443b4d49..b6f4dc73b2 100644
 --- a/disas.c
 +++ b/disas.c
-@@ -192,7 +192,6 @@ static void initialize_debug_host(CPUDebug *s)
-     s->info.mach = bfd_mach_sparc_v9b;
- #elif defined(__arm__)
-     /* TCG only generates code for arm mode.  */
--    s->info.print_insn = print_insn_arm;
-     s->info.cap_arch = CS_ARCH_ARM;
- #elif defined(__MIPSEB__)
-     s->info.print_insn = print_insn_big_mips;
-diff --git a/disas/arm.c b/disas/arm.c
+@@ -153,14 +153,12 @@ static void initialize_debug_host(CPUDebug *s)
+     s->info.print_insn = print_insn_tci;
+ #elif defined(__i386__)
+     s->info.mach = bfd_mach_i386_i386;
+-    s->info.print_insn = print_insn_i386;
+     s->info.cap_arch = CS_ARCH_X86;
+     s->info.cap_mode = CS_MODE_32;
+     s->info.cap_insn_unit = 1;
+     s->info.cap_insn_split = 8;
+ #elif defined(__x86_64__)
+     s->info.mach = bfd_mach_x86_64;
+-    s->info.print_insn = print_insn_i386;
+     s->info.cap_arch = CS_ARCH_X86;
+     s->info.cap_mode = CS_MODE_64;
+     s->info.cap_insn_unit = 1;
+diff --git a/disas/i386.c b/disas/i386.c
 deleted file mode 100644
-index 7d940f2396..0000000000
---- a/disas/arm.c
+index 06c835236e..0000000000
+--- a/disas/i386.c
 +++ /dev/null
-@@ -1,4012 +0,0 @@
--/* Instruction printing code for the ARM
--   Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
--   2007, Free Software Foundation, Inc.
--   Contributed by Richard Earnshaw (rwe@pegasus.esprit.ec.org)
--   Modification by James G. Smith (jsmith@cygnus.co.uk)
+@@ -1,6771 +0,0 @@
+-/* opcodes/i386-dis.c r1.126 */
+-/* Print i386 instructions for GDB, the GNU debugger.
+-   Copyright 1988, 1989, 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+-   2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 -
--   This file is part of libopcodes.
+-   This file is part of GDB.
 -
--   This program is free software; you can redistribute it and/or modify it under
--   the terms of the GNU General Public License as published by the Free
--   Software Foundation; either version 2 of the License, or (at your option)
--   any later version.
+-   This program is free software; you can redistribute it and/or modify
+-   it under the terms of the GNU General Public License as published by
+-   the Free Software Foundation; either version 2 of the License, or
+-   (at your option) any later version.
 -
--   This program is distributed in the hope that it will be useful, but WITHOUT
--   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
--   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
--   more details.
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-
+-   You should have received a copy of the GNU General Public License
+-   along with this program; if not, see <http://www.gnu.org/licenses/>. */
+-
+-/* 80386 instruction printer by Pace Willisson (pace@prep.ai.mit.edu)
+-   July 1988
+-    modified by John Hassey (hassey@dg-rtp.dg.com)
+-    x86-64 support added by Jan Hubicka (jh@suse.cz)
+-    VIA PadLock support by Michal Ludvig (mludvig@suse.cz).  */
+-
+-/* The main tables describing the instructions is essentially a copy
+-   of the "Opcode Map" chapter (Appendix A) of the Intel 80386
+-   Programmers Manual.  Usually, there is a capital letter, followed
+-   by a small letter.  The capital letter tell the addressing mode,
+-   and the small letter tells about the operand size.  Refer to
+-   the Intel manual for details.  */
+-
+-#include "qemu/osdep.h"
+-#include "disas/dis-asm.h"
+-#include "qemu/cutils.h"
+-
+-/* include/opcode/i386.h r1.78 */
+-
+-/* opcode/i386.h -- Intel 80386 opcode macros
+-   Copyright 1989, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+-   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
+-   Free Software Foundation, Inc.
+-
+-   This file is part of GAS, the GNU Assembler, and GDB, the GNU Debugger.
+-
+-   This program is free software; you can redistribute it and/or modify
+-   it under the terms of the GNU General Public License as published by
+-   the Free Software Foundation; either version 2 of the License, or
+-   (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
 -
 -   You should have received a copy of the GNU General Public License
 -   along with this program; if not, see <http://www.gnu.org/licenses/>.  */
 -
--/* Start of qemu specific additions.  Mostly this is stub definitions
--   for things we don't care about.  */
+-/* The SystemV/386 SVR3.2 assembler, and probably all AT&T derived
+-   ix86 Unix assemblers, generate floating point instructions with
+-   reversed source and destination registers in certain cases.
+-   Unfortunately, gcc and possibly many other programs use this
+-   reversed syntax, so we're stuck with it.
 -
--#include "qemu/osdep.h"
--#include "disas/dis-asm.h"
+-   eg. `fsub %st(3),%st' results in st = st - st(3) as expected, but
+-   `fsub %st,%st(3)' results in st(3) = st - st(3), rather than
+-   the expected st(3) = st(3) - st
 -
--#define ARM_EXT_V1	 0
--#define ARM_EXT_V2	 0
--#define ARM_EXT_V2S	 0
--#define ARM_EXT_V3	 0
--#define ARM_EXT_V3M	 0
--#define ARM_EXT_V4	 0
--#define ARM_EXT_V4T	 0
--#define ARM_EXT_V5	 0
--#define ARM_EXT_V5T	 0
--#define ARM_EXT_V5ExP	 0
--#define ARM_EXT_V5E	 0
--#define ARM_EXT_V5J	 0
--#define ARM_EXT_V6       0
--#define ARM_EXT_V6K      0
--#define ARM_EXT_V6Z      0
--#define ARM_EXT_V6T2	 0
--#define ARM_EXT_V7	 0
--#define ARM_EXT_DIV	 0
+-   This happens with all the non-commutative arithmetic floating point
+-   operations with two register operands, where the source register is
+-   %st, and destination register is %st(i).
 -
--/* Co-processor space extensions.  */
--#define ARM_CEXT_XSCALE   0
--#define ARM_CEXT_MAVERICK 0
--#define ARM_CEXT_IWMMXT   0
+-   The affected opcode map is dceX, dcfX, deeX, defX.  */
 -
--#define FPU_FPA_EXT_V1	 0
--#define FPU_FPA_EXT_V2	 0
--#define FPU_VFP_EXT_NONE 0
--#define FPU_VFP_EXT_V1xD 0
--#define FPU_VFP_EXT_V1	 0
--#define FPU_VFP_EXT_V2	 0
--#define FPU_MAVERICK	 0
--#define FPU_VFP_EXT_V3	 0
--#define FPU_NEON_EXT_V1	 0
+-#ifndef SYSV386_COMPAT
+-/* Set non-zero for broken, compatible instructions.  Set to zero for
+-   non-broken opcodes at your peril.  gcc generates SystemV/386
+-   compatible instructions.  */
+-#define SYSV386_COMPAT 1
+-#endif
+-#ifndef OLDGCC_COMPAT
+-/* Set non-zero to cater for old (<= 2.8.1) versions of gcc that could
+-   generate nonsense fsubp, fsubrp, fdivp and fdivrp with operands
+-   reversed.  */
+-#define OLDGCC_COMPAT SYSV386_COMPAT
+-#endif
 -
--/* Assume host uses ieee float.  */
--static void floatformat_to_double (unsigned char *data, double *dest)
+-#define MOV_AX_DISP32 0xa0
+-#define POP_SEG_SHORT 0x07
+-#define JUMP_PC_RELATIVE 0xeb
+-#define INT_OPCODE  0xcd
+-#define INT3_OPCODE 0xcc
+-/* The opcode for the fwait instruction, which disassembler treats as a
+-   prefix when it can.  */
+-#define FWAIT_OPCODE 0x9b
+-#define ADDR_PREFIX_OPCODE 0x67
+-#define DATA_PREFIX_OPCODE 0x66
+-#define LOCK_PREFIX_OPCODE 0xf0
+-#define CS_PREFIX_OPCODE 0x2e
+-#define DS_PREFIX_OPCODE 0x3e
+-#define ES_PREFIX_OPCODE 0x26
+-#define FS_PREFIX_OPCODE 0x64
+-#define GS_PREFIX_OPCODE 0x65
+-#define SS_PREFIX_OPCODE 0x36
+-#define REPNE_PREFIX_OPCODE 0xf2
+-#define REPE_PREFIX_OPCODE  0xf3
+-
+-#define TWO_BYTE_OPCODE_ESCAPE 0x0f
+-#define NOP_OPCODE (char) 0x90
+-
+-/* register numbers */
+-#define EBP_REG_NUM 5
+-#define ESP_REG_NUM 4
+-
+-/* modrm_byte.regmem for twobyte escape */
+-#define ESCAPE_TO_TWO_BYTE_ADDRESSING ESP_REG_NUM
+-/* index_base_byte.index for no index register addressing */
+-#define NO_INDEX_REGISTER ESP_REG_NUM
+-/* index_base_byte.base for no base register addressing */
+-#define NO_BASE_REGISTER EBP_REG_NUM
+-#define NO_BASE_REGISTER_16 6
+-
+-/* modrm.mode = REGMEM_FIELD_HAS_REG when a register is in there */
+-#define REGMEM_FIELD_HAS_REG 0x3/* always = 0x3 */
+-#define REGMEM_FIELD_HAS_MEM (~REGMEM_FIELD_HAS_REG)
+-
+-/* x86-64 extension prefix.  */
+-#define REX_OPCODE	0x40
+-
+-/* Indicates 64 bit operand size.  */
+-#define REX_W	8
+-/* High extension to reg field of modrm byte.  */
+-#define REX_R	4
+-/* High extension to SIB index field.  */
+-#define REX_X	2
+-/* High extension to base field of modrm or SIB, or reg field of opcode.  */
+-#define REX_B	1
+-
+-/* max operands per insn */
+-#define MAX_OPERANDS 4
+-
+-/* max immediates per insn (lcall, ljmp, insertq, extrq) */
+-#define MAX_IMMEDIATE_OPERANDS 2
+-
+-/* max memory refs per insn (string ops) */
+-#define MAX_MEMORY_OPERANDS 2
+-
+-/* max size of insn mnemonics.  */
+-#define MAX_MNEM_SIZE 16
+-
+-/* max size of register name in insn mnemonics.  */
+-#define MAX_REG_NAME_SIZE 8
+-
+-/* opcodes/i386-dis.c r1.126 */
+-
+-static int fetch_data2(struct disassemble_info *, bfd_byte *);
+-static int fetch_data(struct disassemble_info *, bfd_byte *);
+-static void ckprefix (void);
+-static const char *prefix_name (int, int);
+-static int print_insn (bfd_vma, disassemble_info *);
+-static void dofloat (int);
+-static void OP_ST (int, int);
+-static void OP_STi (int, int);
+-static int putop (const char *, int);
+-static void oappend (const char *);
+-static void append_seg (void);
+-static void OP_indirE (int, int);
+-static void print_operand_value (char *buf, size_t bufsize, int hex, bfd_vma disp);
+-static void print_displacement (char *, bfd_vma);
+-static void OP_E (int, int);
+-static void OP_G (int, int);
+-static void OP_vvvv (int, int);
+-static bfd_vma get64 (void);
+-static bfd_signed_vma get32 (void);
+-static bfd_signed_vma get32s (void);
+-static int get16 (void);
+-static void set_op (bfd_vma, int);
+-static void OP_REG (int, int);
+-static void OP_IMREG (int, int);
+-static void OP_I (int, int);
+-static void OP_I64 (int, int);
+-static void OP_sI (int, int);
+-static void OP_J (int, int);
+-static void OP_SEG (int, int);
+-static void OP_DIR (int, int);
+-static void OP_OFF (int, int);
+-static void OP_OFF64 (int, int);
+-static void ptr_reg (int, int);
+-static void OP_ESreg (int, int);
+-static void OP_DSreg (int, int);
+-static void OP_C (int, int);
+-static void OP_D (int, int);
+-static void OP_T (int, int);
+-static void OP_R (int, int);
+-static void OP_MMX (int, int);
+-static void OP_XMM (int, int);
+-static void OP_EM (int, int);
+-static void OP_EX (int, int);
+-static void OP_EMC (int,int);
+-static void OP_MXC (int,int);
+-static void OP_MS (int, int);
+-static void OP_XS (int, int);
+-static void OP_M (int, int);
+-static void OP_VMX (int, int);
+-static void OP_0fae (int, int);
+-static void OP_0f07 (int, int);
+-static void NOP_Fixup1 (int, int);
+-static void NOP_Fixup2 (int, int);
+-static void OP_3DNowSuffix (int, int);
+-static void OP_SIMD_Suffix (int, int);
+-static void SIMD_Fixup (int, int);
+-static void PNI_Fixup (int, int);
+-static void SVME_Fixup (int, int);
+-static void INVLPG_Fixup (int, int);
+-static void BadOp (void);
+-static void VMX_Fixup (int, int);
+-static void REP_Fixup (int, int);
+-static void CMPXCHG8B_Fixup (int, int);
+-static void XMM_Fixup (int, int);
+-static void CRC32_Fixup (int, int);
+-
+-struct dis_private {
+-  /* Points to first byte not fetched.  */
+-  bfd_byte *max_fetched;
+-  bfd_byte the_buffer[MAX_MNEM_SIZE];
+-  bfd_vma insn_start;
+-  int orig_sizeflag;
+-  sigjmp_buf bailout;
+-};
+-
+-enum address_mode
 -{
--    union {
--        uint32_t i;
--        float f;
--    } u;
--    u.i = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
--    *dest = u.f;
--}
+-  mode_16bit,
+-  mode_32bit,
+-  mode_64bit
+-};
 -
--static int arm_read_memory(bfd_vma memaddr, bfd_byte *b, int length,
--                           struct disassemble_info *info)
+-static enum address_mode address_mode;
+-
+-/* Flags for the prefixes for the current instruction.  See below.  */
+-static int prefixes;
+-
+-/* REX prefix the current instruction.  See below.  */
+-static int rex;
+-/* Bits of REX we've already used.  */
+-static int rex_used;
+-/* Mark parts used in the REX prefix.  When we are testing for
+-   empty prefix (for 8bit register REX extension), just mask it
+-   out.  Otherwise test for REX bit is excuse for existence of REX
+-   only in case value is nonzero.  */
+-#define USED_REX(value)					\
+-  {							\
+-    if (value)						\
+-      {							\
+-	if ((rex & value))				\
+-	  rex_used |= (value) | REX_OPCODE;		\
+-      }							\
+-    else						\
+-      rex_used |= REX_OPCODE;				\
+-  }
+-
+-/* Flags for prefixes which we somehow handled when printing the
+-   current instruction.  */
+-static int used_prefixes;
+-
+-/* The VEX.vvvv register, unencoded.  */
+-static int vex_reg;
+-
+-/* Flags stored in PREFIXES.  */
+-#define PREFIX_REPZ 1
+-#define PREFIX_REPNZ 2
+-#define PREFIX_LOCK 4
+-#define PREFIX_CS 8
+-#define PREFIX_SS 0x10
+-#define PREFIX_DS 0x20
+-#define PREFIX_ES 0x40
+-#define PREFIX_FS 0x80
+-#define PREFIX_GS 0x100
+-#define PREFIX_DATA 0x200
+-#define PREFIX_ADDR 0x400
+-#define PREFIX_FWAIT 0x800
+-
+-#define PREFIX_VEX_0F    0x1000
+-#define PREFIX_VEX_0F38  0x2000
+-#define PREFIX_VEX_0F3A  0x4000
+-
+-/* Make sure that bytes from INFO->PRIVATE_DATA->BUFFER (inclusive)
+-   to ADDR (exclusive) are valid.  Returns 1 for success, longjmps
+-   on error.  */
+-static int
+-fetch_data2(struct disassemble_info *info, bfd_byte *addr)
 -{
--    assert((info->flags & INSN_ARM_BE32) == 0 || length == 2 || length == 4);
+-  int status;
+-  struct dis_private *priv = (struct dis_private *) info->private_data;
+-  bfd_vma start = priv->insn_start + (priv->max_fetched - priv->the_buffer);
 -
--    if ((info->flags & INSN_ARM_BE32) != 0 && length == 2) {
--        memaddr ^= 2;
+-  if (addr <= priv->the_buffer + MAX_MNEM_SIZE)
+-    status = (*info->read_memory_func) (start,
+-					priv->max_fetched,
+-					addr - priv->max_fetched,
+-					info);
+-  else
+-    status = -1;
+-  if (status != 0)
+-    {
+-      /* If we did manage to read at least one byte, then
+-	 print_insn_i386 will do something sensible.  Otherwise, print
+-	 an error.  We do that here because this is where we know
+-	 STATUS.  */
+-      if (priv->max_fetched == priv->the_buffer)
+-	(*info->memory_error_func) (status, start, info);
+-      siglongjmp(priv->bailout, 1);
 -    }
--    return info->read_memory_func(memaddr, b, length, info);
+-  else
+-    priv->max_fetched = addr;
+-  return 1;
 -}
 -
--/* End of qemu specific additions.  */
--
--struct opcode32
+-static int
+-fetch_data(struct disassemble_info *info, bfd_byte *addr)
 -{
--  unsigned long arch;		/* Architecture defining this insn.  */
--  unsigned long value, mask;	/* Recognise insn if (op&mask)==value.  */
--  const char *assembler;	/* How to disassemble this insn.  */
+-    if (addr <= ((struct dis_private *) (info->private_data))->max_fetched) {
+-        return 1;
+-    } else {
+-        return fetch_data2(info, addr);
+-    }
+-}
+-
+-
+-#define XX { NULL, 0 }
+-
+-#define Bv { OP_vvvv, v_mode }
+-#define Eb { OP_E, b_mode }
+-#define Ev { OP_E, v_mode }
+-#define Ed { OP_E, d_mode }
+-#define Edq { OP_E, dq_mode }
+-#define Edqw { OP_E, dqw_mode }
+-#define Edqb { OP_E, dqb_mode }
+-#define Edqd { OP_E, dqd_mode }
+-#define indirEv { OP_indirE, stack_v_mode }
+-#define indirEp { OP_indirE, f_mode }
+-#define stackEv { OP_E, stack_v_mode }
+-#define Em { OP_E, m_mode }
+-#define Ew { OP_E, w_mode }
+-#define M { OP_M, 0 }		/* lea, lgdt, etc. */
+-#define Ma { OP_M, v_mode }
+-#define Mp { OP_M, f_mode }		/* 32 or 48 bit memory operand for LDS, LES etc */
+-#define Mq { OP_M, q_mode }
+-#define Gb { OP_G, b_mode }
+-#define Gv { OP_G, v_mode }
+-#define Gd { OP_G, d_mode }
+-#define Gdq { OP_G, dq_mode }
+-#define Gm { OP_G, m_mode }
+-#define Gw { OP_G, w_mode }
+-#define Rd { OP_R, d_mode }
+-#define Rm { OP_R, m_mode }
+-#define Ib { OP_I, b_mode }
+-#define sIb { OP_sI, b_mode }	/* sign extended byte */
+-#define Iv { OP_I, v_mode }
+-#define Iq { OP_I, q_mode }
+-#define Iv64 { OP_I64, v_mode }
+-#define Iw { OP_I, w_mode }
+-#define I1 { OP_I, const_1_mode }
+-#define Jb { OP_J, b_mode }
+-#define Jv { OP_J, v_mode }
+-#define Cm { OP_C, m_mode }
+-#define Dm { OP_D, m_mode }
+-#define Td { OP_T, d_mode }
+-
+-#define RMeAX { OP_REG, eAX_reg }
+-#define RMeBX { OP_REG, eBX_reg }
+-#define RMeCX { OP_REG, eCX_reg }
+-#define RMeDX { OP_REG, eDX_reg }
+-#define RMeSP { OP_REG, eSP_reg }
+-#define RMeBP { OP_REG, eBP_reg }
+-#define RMeSI { OP_REG, eSI_reg }
+-#define RMeDI { OP_REG, eDI_reg }
+-#define RMrAX { OP_REG, rAX_reg }
+-#define RMrBX { OP_REG, rBX_reg }
+-#define RMrCX { OP_REG, rCX_reg }
+-#define RMrDX { OP_REG, rDX_reg }
+-#define RMrSP { OP_REG, rSP_reg }
+-#define RMrBP { OP_REG, rBP_reg }
+-#define RMrSI { OP_REG, rSI_reg }
+-#define RMrDI { OP_REG, rDI_reg }
+-#define RMAL { OP_REG, al_reg }
+-#define RMAL { OP_REG, al_reg }
+-#define RMCL { OP_REG, cl_reg }
+-#define RMDL { OP_REG, dl_reg }
+-#define RMBL { OP_REG, bl_reg }
+-#define RMAH { OP_REG, ah_reg }
+-#define RMCH { OP_REG, ch_reg }
+-#define RMDH { OP_REG, dh_reg }
+-#define RMBH { OP_REG, bh_reg }
+-#define RMAX { OP_REG, ax_reg }
+-#define RMDX { OP_REG, dx_reg }
+-
+-#define eAX { OP_IMREG, eAX_reg }
+-#define eBX { OP_IMREG, eBX_reg }
+-#define eCX { OP_IMREG, eCX_reg }
+-#define eDX { OP_IMREG, eDX_reg }
+-#define eSP { OP_IMREG, eSP_reg }
+-#define eBP { OP_IMREG, eBP_reg }
+-#define eSI { OP_IMREG, eSI_reg }
+-#define eDI { OP_IMREG, eDI_reg }
+-#define AL { OP_IMREG, al_reg }
+-#define CL { OP_IMREG, cl_reg }
+-#define DL { OP_IMREG, dl_reg }
+-#define BL { OP_IMREG, bl_reg }
+-#define AH { OP_IMREG, ah_reg }
+-#define CH { OP_IMREG, ch_reg }
+-#define DH { OP_IMREG, dh_reg }
+-#define BH { OP_IMREG, bh_reg }
+-#define AX { OP_IMREG, ax_reg }
+-#define DX { OP_IMREG, dx_reg }
+-#define zAX { OP_IMREG, z_mode_ax_reg }
+-#define indirDX { OP_IMREG, indir_dx_reg }
+-
+-#define Sw { OP_SEG, w_mode }
+-#define Sv { OP_SEG, v_mode }
+-#define Ap { OP_DIR, 0 }
+-#define Ob { OP_OFF64, b_mode }
+-#define Ov { OP_OFF64, v_mode }
+-#define Xb { OP_DSreg, eSI_reg }
+-#define Xv { OP_DSreg, eSI_reg }
+-#define Xz { OP_DSreg, eSI_reg }
+-#define Yb { OP_ESreg, eDI_reg }
+-#define Yv { OP_ESreg, eDI_reg }
+-#define DSBX { OP_DSreg, eBX_reg }
+-
+-#define es { OP_REG, es_reg }
+-#define ss { OP_REG, ss_reg }
+-#define cs { OP_REG, cs_reg }
+-#define ds { OP_REG, ds_reg }
+-#define fs { OP_REG, fs_reg }
+-#define gs { OP_REG, gs_reg }
+-
+-#define MX { OP_MMX, 0 }
+-#define XM { OP_XMM, 0 }
+-#define EM { OP_EM, v_mode }
+-#define EMd { OP_EM, d_mode }
+-#define EMq { OP_EM, q_mode }
+-#define EXd { OP_EX, d_mode }
+-#define EXq { OP_EX, q_mode }
+-#define EXx { OP_EX, x_mode }
+-#define MS { OP_MS, v_mode }
+-#define XS { OP_XS, v_mode }
+-#define EMC { OP_EMC, v_mode }
+-#define MXC { OP_MXC, 0 }
+-#define VM { OP_VMX, q_mode }
+-#define OPSUF { OP_3DNowSuffix, 0 }
+-#define OPSIMD { OP_SIMD_Suffix, 0 }
+-#define XMM0 { XMM_Fixup, 0 }
+-
+-/* Used handle "rep" prefix for string instructions.  */
+-#define Xbr { REP_Fixup, eSI_reg }
+-#define Xvr { REP_Fixup, eSI_reg }
+-#define Ybr { REP_Fixup, eDI_reg }
+-#define Yvr { REP_Fixup, eDI_reg }
+-#define Yzr { REP_Fixup, eDI_reg }
+-#define indirDXr { REP_Fixup, indir_dx_reg }
+-#define ALr { REP_Fixup, al_reg }
+-#define eAXr { REP_Fixup, eAX_reg }
+-
+-#define cond_jump_flag { NULL, cond_jump_mode }
+-#define loop_jcxz_flag { NULL, loop_jcxz_mode }
+-
+-/* bits in sizeflag */
+-#define SUFFIX_ALWAYS 4
+-#define AFLAG 2
+-#define DFLAG 1
+-
+-#define b_mode 1  /* byte operand */
+-#define v_mode 2  /* operand size depends on prefixes */
+-#define w_mode 3  /* word operand */
+-#define d_mode 4  /* double word operand  */
+-#define q_mode 5  /* quad word operand */
+-#define t_mode 6  /* ten-byte operand */
+-#define x_mode 7  /* 16-byte XMM operand */
+-#define m_mode 8  /* d_mode in 32bit, q_mode in 64bit mode.  */
+-#define cond_jump_mode 9
+-#define loop_jcxz_mode 10
+-#define dq_mode 11 /* operand size depends on REX prefixes.  */
+-#define dqw_mode 12 /* registers like dq_mode, memory like w_mode.  */
+-#define f_mode 13 /* 4- or 6-byte pointer operand */
+-#define const_1_mode 14
+-#define stack_v_mode 15 /* v_mode for stack-related opcodes.  */
+-#define z_mode 16 /* non-quad operand size depends on prefixes */
+-#define o_mode 17  /* 16-byte operand */
+-#define dqb_mode 18 /* registers like dq_mode, memory like b_mode.  */
+-#define dqd_mode 19 /* registers like dq_mode, memory like d_mode.  */
+-
+-#define es_reg 100
+-#define cs_reg 101
+-#define ss_reg 102
+-#define ds_reg 103
+-#define fs_reg 104
+-#define gs_reg 105
+-
+-#define eAX_reg 108
+-#define eCX_reg 109
+-#define eDX_reg 110
+-#define eBX_reg 111
+-#define eSP_reg 112
+-#define eBP_reg 113
+-#define eSI_reg 114
+-#define eDI_reg 115
+-
+-#define al_reg 116
+-#define cl_reg 117
+-#define dl_reg 118
+-#define bl_reg 119
+-#define ah_reg 120
+-#define ch_reg 121
+-#define dh_reg 122
+-#define bh_reg 123
+-
+-#define ax_reg 124
+-#define cx_reg 125
+-#define dx_reg 126
+-#define bx_reg 127
+-#define sp_reg 128
+-#define bp_reg 129
+-#define si_reg 130
+-#define di_reg 131
+-
+-#define rAX_reg 132
+-#define rCX_reg 133
+-#define rDX_reg 134
+-#define rBX_reg 135
+-#define rSP_reg 136
+-#define rBP_reg 137
+-#define rSI_reg 138
+-#define rDI_reg 139
+-
+-#define z_mode_ax_reg 149
+-#define indir_dx_reg 150
+-
+-#define FLOATCODE 1
+-#define USE_GROUPS 2
+-#define USE_PREFIX_USER_TABLE 3
+-#define X86_64_SPECIAL 4
+-#define IS_3BYTE_OPCODE 5
+-
+-#define FLOAT	  NULL, { { NULL, FLOATCODE } }
+-
+-#define GRP1a	  NULL, { { NULL, USE_GROUPS }, { NULL,  0 } }
+-#define GRP1b	  NULL, { { NULL, USE_GROUPS }, { NULL,  1 } }
+-#define GRP1S	  NULL, { { NULL, USE_GROUPS }, { NULL,  2 } }
+-#define GRP1Ss	  NULL, { { NULL, USE_GROUPS }, { NULL,  3 } }
+-#define GRP2b	  NULL, { { NULL, USE_GROUPS }, { NULL,  4 } }
+-#define GRP2S	  NULL, { { NULL, USE_GROUPS }, { NULL,  5 } }
+-#define GRP2b_one NULL, { { NULL, USE_GROUPS }, { NULL,  6 } }
+-#define GRP2S_one NULL, { { NULL, USE_GROUPS }, { NULL,  7 } }
+-#define GRP2b_cl  NULL, { { NULL, USE_GROUPS }, { NULL,  8 } }
+-#define GRP2S_cl  NULL, { { NULL, USE_GROUPS }, { NULL,  9 } }
+-#define GRP3b	  NULL, { { NULL, USE_GROUPS }, { NULL, 10 } }
+-#define GRP3S	  NULL, { { NULL, USE_GROUPS }, { NULL, 11 } }
+-#define GRP4	  NULL, { { NULL, USE_GROUPS }, { NULL, 12 } }
+-#define GRP5	  NULL, { { NULL, USE_GROUPS }, { NULL, 13 } }
+-#define GRP6	  NULL, { { NULL, USE_GROUPS }, { NULL, 14 } }
+-#define GRP7	  NULL, { { NULL, USE_GROUPS }, { NULL, 15 } }
+-#define GRP8	  NULL, { { NULL, USE_GROUPS }, { NULL, 16 } }
+-#define GRP9	  NULL, { { NULL, USE_GROUPS }, { NULL, 17 } }
+-#define GRP11_C6  NULL, { { NULL, USE_GROUPS }, { NULL, 18 } }
+-#define GRP11_C7  NULL, { { NULL, USE_GROUPS }, { NULL, 19 } }
+-#define GRP12	  NULL, { { NULL, USE_GROUPS }, { NULL, 20 } }
+-#define GRP13	  NULL, { { NULL, USE_GROUPS }, { NULL, 21 } }
+-#define GRP14	  NULL, { { NULL, USE_GROUPS }, { NULL, 22 } }
+-#define GRP15	  NULL, { { NULL, USE_GROUPS }, { NULL, 23 } }
+-#define GRP16	  NULL, { { NULL, USE_GROUPS }, { NULL, 24 } }
+-#define GRPAMD	  NULL, { { NULL, USE_GROUPS }, { NULL, 25 } }
+-#define GRPPADLCK1 NULL, { { NULL, USE_GROUPS }, { NULL, 26 } }
+-#define GRPPADLCK2 NULL, { { NULL, USE_GROUPS }, { NULL, 27 } }
+-
+-#define PREGRP0   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  0 } }
+-#define PREGRP1   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  1 } }
+-#define PREGRP2   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  2 } }
+-#define PREGRP3   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  3 } }
+-#define PREGRP4   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  4 } }
+-#define PREGRP5   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  5 } }
+-#define PREGRP6   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  6 } }
+-#define PREGRP7   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  7 } }
+-#define PREGRP8   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  8 } }
+-#define PREGRP9   NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL,  9 } }
+-#define PREGRP10  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 10 } }
+-#define PREGRP11  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 11 } }
+-#define PREGRP12  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 12 } }
+-#define PREGRP13  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 13 } }
+-#define PREGRP14  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 14 } }
+-#define PREGRP15  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 15 } }
+-#define PREGRP16  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 16 } }
+-#define PREGRP17  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 17 } }
+-#define PREGRP18  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 18 } }
+-#define PREGRP19  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 19 } }
+-#define PREGRP20  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 20 } }
+-#define PREGRP21  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 21 } }
+-#define PREGRP22  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 22 } }
+-#define PREGRP23  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 23 } }
+-#define PREGRP24  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 24 } }
+-#define PREGRP25  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 25 } }
+-#define PREGRP26  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 26 } }
+-#define PREGRP27  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 27 } }
+-#define PREGRP28  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 28 } }
+-#define PREGRP29  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 29 } }
+-#define PREGRP30  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 30 } }
+-#define PREGRP31  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 31 } }
+-#define PREGRP32  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 32 } }
+-#define PREGRP33  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 33 } }
+-#define PREGRP34  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 34 } }
+-#define PREGRP35  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 35 } }
+-#define PREGRP36  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 36 } }
+-#define PREGRP37  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 37 } }
+-#define PREGRP38  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 38 } }
+-#define PREGRP39  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 39 } }
+-#define PREGRP40  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 40 } }
+-#define PREGRP41  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 41 } }
+-#define PREGRP42  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 42 } }
+-#define PREGRP43  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 43 } }
+-#define PREGRP44  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 44 } }
+-#define PREGRP45  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 45 } }
+-#define PREGRP46  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 46 } }
+-#define PREGRP47  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 47 } }
+-#define PREGRP48  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 48 } }
+-#define PREGRP49  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 49 } }
+-#define PREGRP50  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 50 } }
+-#define PREGRP51  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 51 } }
+-#define PREGRP52  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 52 } }
+-#define PREGRP53  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 53 } }
+-#define PREGRP54  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 54 } }
+-#define PREGRP55  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 55 } }
+-#define PREGRP56  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 56 } }
+-#define PREGRP57  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 57 } }
+-#define PREGRP58  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 58 } }
+-#define PREGRP59  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 59 } }
+-#define PREGRP60  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 60 } }
+-#define PREGRP61  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 61 } }
+-#define PREGRP62  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 62 } }
+-#define PREGRP63  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 63 } }
+-#define PREGRP64  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 64 } }
+-#define PREGRP65  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 65 } }
+-#define PREGRP66  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 66 } }
+-#define PREGRP67  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 67 } }
+-#define PREGRP68  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 68 } }
+-#define PREGRP69  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 69 } }
+-#define PREGRP70  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 70 } }
+-#define PREGRP71  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 71 } }
+-#define PREGRP72  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 72 } }
+-#define PREGRP73  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 73 } }
+-#define PREGRP74  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 74 } }
+-#define PREGRP75  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 75 } }
+-#define PREGRP76  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 76 } }
+-#define PREGRP77  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 77 } }
+-#define PREGRP78  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 78 } }
+-#define PREGRP79  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 79 } }
+-#define PREGRP80  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 80 } }
+-#define PREGRP81  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 81 } }
+-#define PREGRP82  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 82 } }
+-#define PREGRP83  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 83 } }
+-#define PREGRP84  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 84 } }
+-#define PREGRP85  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 85 } }
+-#define PREGRP86  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 86 } }
+-#define PREGRP87  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 87 } }
+-#define PREGRP88  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 88 } }
+-#define PREGRP89  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 89 } }
+-#define PREGRP90  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 90 } }
+-#define PREGRP91  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 91 } }
+-#define PREGRP92  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 92 } }
+-#define PREGRP93  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 93 } }
+-#define PREGRP94  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 94 } }
+-#define PREGRP95  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 95 } }
+-#define PREGRP96  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 96 } }
+-#define PREGRP97  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 97 } }
+-#define PREGRP98  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 98 } }
+-#define PREGRP99  NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 99 } }
+-#define PREGRP100 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 100 } }
+-#define PREGRP101 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 101 } }
+-#define PREGRP102 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 102 } }
+-#define PREGRP103 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 103 } }
+-#define PREGRP104 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 104 } }
+-#define PREGRP105 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 105 } }
+-#define PREGRP106 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 106 } }
+-#define PREGRP107 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 107 } }
+-#define PREGRP108 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 108 } }
+-#define PREGRP109 NULL, { { NULL, USE_PREFIX_USER_TABLE }, { NULL, 109 } }
+-
+-#define X86_64_0  NULL, { { NULL, X86_64_SPECIAL }, { NULL, 0 } }
+-#define X86_64_1  NULL, { { NULL, X86_64_SPECIAL }, { NULL, 1 } }
+-#define X86_64_2  NULL, { { NULL, X86_64_SPECIAL }, { NULL, 2 } }
+-#define X86_64_3  NULL, { { NULL, X86_64_SPECIAL }, { NULL, 3 } }
+-
+-#define THREE_BYTE_0 NULL, { { NULL, IS_3BYTE_OPCODE }, { NULL, 0 } }
+-#define THREE_BYTE_1 NULL, { { NULL, IS_3BYTE_OPCODE }, { NULL, 1 } }
+-
+-typedef void (*op_rtn) (int bytemode, int sizeflag);
+-
+-struct dis386 {
+-  const char *name;
+-  struct
+-    {
+-      op_rtn rtn;
+-      int bytemode;
+-    } op[MAX_OPERANDS];
 -};
 -
--struct opcode16
--{
--  unsigned long arch;		/* Architecture defining this insn.  */
--  unsigned short value, mask;	/* Recognise insn if (op&mask)==value.  */
--  const char *assembler;	/* How to disassemble this insn.  */
--};
+-/* Upper case letters in the instruction names here are macros.
+-   'A' => print 'b' if no register operands or suffix_always is true
+-   'B' => print 'b' if suffix_always is true
+-   'C' => print 's' or 'l' ('w' or 'd' in Intel mode) depending on operand
+-   .      size prefix
+-   'D' => print 'w' if no register operands or 'w', 'l' or 'q', if
+-   .      suffix_always is true
+-   'E' => print 'e' if 32-bit form of jcxz
+-   'F' => print 'w' or 'l' depending on address size prefix (loop insns)
+-   'G' => print 'w' or 'l' depending on operand size prefix (i/o insns)
+-   'H' => print ",pt" or ",pn" branch hint
+-   'I' => honor following macro letter even in Intel mode (implemented only
+-   .      for some of the macro letters)
+-   'J' => print 'l'
+-   'K' => print 'd' or 'q' if rex prefix is present.
+-   'L' => print 'l' if suffix_always is true
+-   'N' => print 'n' if instruction has no wait "prefix"
+-   'O' => print 'd' or 'o' (or 'q' in Intel mode)
+-   'P' => print 'w', 'l' or 'q' if instruction has an operand size prefix,
+-   .      or suffix_always is true.  print 'q' if rex prefix is present.
+-   'Q' => print 'w', 'l' or 'q' if no register operands or suffix_always
+-   .      is true
+-   'R' => print 'w', 'l' or 'q' ('d' for 'l' and 'e' in Intel mode)
+-   'S' => print 'w', 'l' or 'q' if suffix_always is true
+-   'T' => print 'q' in 64bit mode and behave as 'P' otherwise
+-   'U' => print 'q' in 64bit mode and behave as 'Q' otherwise
+-   'V' => print 'q' in 64bit mode and behave as 'S' otherwise
+-   'W' => print 'b', 'w' or 'l' ('d' in Intel mode)
+-   'X' => print 's', 'd' depending on data16 prefix (for XMM)
+-   'Y' => 'q' if instruction has an REX 64bit overwrite prefix
+-   'Z' => print 'q' in 64bit mode and behave as 'L' otherwise
 -
--/* print_insn_coprocessor recognizes the following format control codes:
+-   Many of the above letters print nothing in Intel mode.  See "putop"
+-   for the details.
 -
--   %%			%
--
--   %c			print condition code (always bits 28-31 in ARM mode)
--   %q			print shifter argument
--   %u			print condition code (unconditional in ARM mode)
--   %A			print address for ldc/stc/ldf/stf instruction
--   %B			print vstm/vldm register list
--   %C			print vstr/vldr address operand
--   %I                   print cirrus signed shift immediate: bits 0..3|4..6
--   %F			print the COUNT field of a LFM/SFM instruction.
--   %P			print floating point precision in arithmetic insn
--   %Q			print floating point precision in ldf/stf insn
--   %R			print floating point rounding mode
--
--   %<bitfield>r		print as an ARM register
--   %<bitfield>d		print the bitfield in decimal
--   %<bitfield>k		print immediate for VFPv3 conversion instruction
--   %<bitfield>x		print the bitfield in hex
--   %<bitfield>X		print the bitfield as 1 hex digit without leading "0x"
--   %<bitfield>f		print a floating point constant if >7 else a
--			floating point register
--   %<bitfield>w         print as an iWMMXt width field - [bhwd]ss/us
--   %<bitfield>g         print as an iWMMXt 64-bit register
--   %<bitfield>G         print as an iWMMXt general purpose or control register
--   %<bitfield>D		print as a NEON D register
--   %<bitfield>Q		print as a NEON Q register
--
--   %y<code>		print a single precision VFP reg.
--			  Codes: 0=>Sm, 1=>Sd, 2=>Sn, 3=>multi-list, 4=>Sm pair
--   %z<code>		print a double precision VFP reg
--			  Codes: 0=>Dm, 1=>Dd, 2=>Dn, 3=>multi-list
--
--   %<bitfield>'c	print specified char iff bitfield is all ones
--   %<bitfield>`c	print specified char iff bitfield is all zeroes
--   %<bitfield>?ab...    select from array of values in big endian order
--
--   %L			print as an iWMMXt N/M width field.
--   %Z			print the Immediate of a WSHUFH instruction.
--   %l			like 'A' except use byte offsets for 'B' & 'H'
--			versions.
--   %i			print 5-bit immediate in bits 8,3..0
--			(print "32" when 0)
--   %r			print register offset address for wldt/wstr instruction
+-   Braces '{' and '}', and vertical bars '|', indicate alternative
+-   mnemonic strings for AT&T, Intel, X86_64 AT&T, and X86_64 Intel
+-   modes.  In cases where there are only two alternatives, the X86_64
+-   instruction is reserved, and "(bad)" is printed.
 -*/
 -
--/* Common coprocessor opcodes shared between Arm and Thumb-2.  */
--
--static const struct opcode32 coprocessor_opcodes[] =
--{
--  /* XScale instructions.  */
--  {ARM_CEXT_XSCALE, 0x0e200010, 0x0fff0ff0, "mia%c\tacc0, %0-3r, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e280010, 0x0fff0ff0, "miaph%c\tacc0, %0-3r, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e2c0010, 0x0ffc0ff0, "mia%17'T%17`B%16'T%16`B%c\tacc0, %0-3r, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0c400000, 0x0ff00fff, "mar%c\tacc0, %12-15r, %16-19r"},
--  {ARM_CEXT_XSCALE, 0x0c500000, 0x0ff00fff, "mra%c\t%12-15r, %16-19r, acc0"},
--
--  /* Intel Wireless MMX technology instructions.  */
--#define FIRST_IWMMXT_INSN 0x0e130130
--#define IWMMXT_INSN_COUNT 73
--  {ARM_CEXT_IWMMXT, 0x0e130130, 0x0f3f0fff, "tandc%22-23w%c\t%12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e400010, 0x0ff00f3f, "tbcst%6-7w%c\t%16-19g, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e130170, 0x0f3f0ff8, "textrc%22-23w%c\t%12-15r, #%0-2d"},
--  {ARM_CEXT_XSCALE, 0x0e100070, 0x0f300ff0, "textrm%3?su%22-23w%c\t%12-15r, %16-19g, #%0-2d"},
--  {ARM_CEXT_XSCALE, 0x0e600010, 0x0ff00f38, "tinsr%6-7w%c\t%16-19g, %12-15r, #%0-2d"},
--  {ARM_CEXT_XSCALE, 0x0e000110, 0x0ff00fff, "tmcr%c\t%16-19G, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0c400000, 0x0ff00ff0, "tmcrr%c\t%0-3g, %12-15r, %16-19r"},
--  {ARM_CEXT_XSCALE, 0x0e2c0010, 0x0ffc0e10, "tmia%17?tb%16?tb%c\t%5-8g, %0-3r, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e200010, 0x0fff0e10, "tmia%c\t%5-8g, %0-3r, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e280010, 0x0fff0e10, "tmiaph%c\t%5-8g, %0-3r, %12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e100030, 0x0f300fff, "tmovmsk%22-23w%c\t%12-15r, %16-19g"},
--  {ARM_CEXT_XSCALE, 0x0e100110, 0x0ff00ff0, "tmrc%c\t%12-15r, %16-19G"},
--  {ARM_CEXT_XSCALE, 0x0c500000, 0x0ff00ff0, "tmrrc%c\t%12-15r, %16-19r, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e130150, 0x0f3f0fff, "torc%22-23w%c\t%12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e130190, 0x0f3f0fff, "torvsc%22-23w%c\t%12-15r"},
--  {ARM_CEXT_XSCALE, 0x0e2001c0, 0x0f300fff, "wabs%22-23w%c\t%12-15g, %16-19g"},
--  {ARM_CEXT_XSCALE, 0x0e0001c0, 0x0f300fff, "wacc%22-23w%c\t%12-15g, %16-19g"},
--  {ARM_CEXT_XSCALE, 0x0e000180, 0x0f000ff0, "wadd%20-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e2001a0, 0x0f300ff0, "waddbhus%22?ml%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0ea001a0, 0x0ff00ff0, "waddsubhx%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000020, 0x0f800ff0, "waligni%c\t%12-15g, %16-19g, %0-3g, #%20-22d"},
--  {ARM_CEXT_XSCALE, 0x0e800020, 0x0fc00ff0, "walignr%20-21d%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e200000, 0x0fe00ff0, "wand%20'n%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e800000, 0x0fa00ff0, "wavg2%22?hb%20'r%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e400000, 0x0fe00ff0, "wavg4%20'r%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000060, 0x0f300ff0, "wcmpeq%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e100060, 0x0f100ff0, "wcmpgt%21?su%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0xfc500100, 0xfe500f00, "wldrd\t%12-15g, %r"},
--  {ARM_CEXT_XSCALE, 0xfc100100, 0xfe500f00, "wldrw\t%12-15G, %A"},
--  {ARM_CEXT_XSCALE, 0x0c100000, 0x0e100e00, "wldr%L%c\t%12-15g, %l"},
--  {ARM_CEXT_XSCALE, 0x0e400100, 0x0fc00ff0, "wmac%21?su%20'z%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e800100, 0x0fc00ff0, "wmadd%21?su%20'x%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0ec00100, 0x0fd00ff0, "wmadd%21?sun%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000160, 0x0f100ff0, "wmax%21?su%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000080, 0x0f100fe0, "wmerge%c\t%12-15g, %16-19g, %0-3g, #%21-23d"},
--  {ARM_CEXT_XSCALE, 0x0e0000a0, 0x0f800ff0, "wmia%21?tb%20?tb%22'n%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e800120, 0x0f800ff0, "wmiaw%21?tb%20?tb%22'n%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e100160, 0x0f100ff0, "wmin%21?su%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000100, 0x0fc00ff0, "wmul%21?su%20?ml%23'r%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0ed00100, 0x0fd00ff0, "wmul%21?sumr%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0ee000c0, 0x0fe00ff0, "wmulwsm%20`r%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0ec000c0, 0x0fe00ff0, "wmulwum%20`r%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0eb000c0, 0x0ff00ff0, "wmulwl%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e8000a0, 0x0f800ff0, "wqmia%21?tb%20?tb%22'n%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e100080, 0x0fd00ff0, "wqmulm%21'r%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0ec000e0, 0x0fd00ff0, "wqmulwm%21'r%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000000, 0x0ff00ff0, "wor%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000080, 0x0f000ff0, "wpack%20-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0xfe300040, 0xff300ef0, "wror%22-23w\t%12-15g, %16-19g, #%i"},
--  {ARM_CEXT_XSCALE, 0x0e300040, 0x0f300ff0, "wror%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e300140, 0x0f300ff0, "wror%22-23wg%c\t%12-15g, %16-19g, %0-3G"},
--  {ARM_CEXT_XSCALE, 0x0e000120, 0x0fa00ff0, "wsad%22?hb%20'z%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e0001e0, 0x0f000ff0, "wshufh%c\t%12-15g, %16-19g, #%Z"},
--  {ARM_CEXT_XSCALE, 0xfe100040, 0xff300ef0, "wsll%22-23w\t%12-15g, %16-19g, #%i"},
--  {ARM_CEXT_XSCALE, 0x0e100040, 0x0f300ff0, "wsll%22-23w%8'g%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e100148, 0x0f300ffc, "wsll%22-23w%8'g%c\t%12-15g, %16-19g, %0-3G"},
--  {ARM_CEXT_XSCALE, 0xfe000040, 0xff300ef0, "wsra%22-23w\t%12-15g, %16-19g, #%i"},
--  {ARM_CEXT_XSCALE, 0x0e000040, 0x0f300ff0, "wsra%22-23w%8'g%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e000148, 0x0f300ffc, "wsra%22-23w%8'g%c\t%12-15g, %16-19g, %0-3G"},
--  {ARM_CEXT_XSCALE, 0xfe200040, 0xff300ef0, "wsrl%22-23w\t%12-15g, %16-19g, #%i"},
--  {ARM_CEXT_XSCALE, 0x0e200040, 0x0f300ff0, "wsrl%22-23w%8'g%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e200148, 0x0f300ffc, "wsrl%22-23w%8'g%c\t%12-15g, %16-19g, %0-3G"},
--  {ARM_CEXT_XSCALE, 0xfc400100, 0xfe500f00, "wstrd\t%12-15g, %r"},
--  {ARM_CEXT_XSCALE, 0xfc000100, 0xfe500f00, "wstrw\t%12-15G, %A"},
--  {ARM_CEXT_XSCALE, 0x0c000000, 0x0e100e00, "wstr%L%c\t%12-15g, %l"},
--  {ARM_CEXT_XSCALE, 0x0e0001a0, 0x0f000ff0, "wsub%20-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0ed001c0, 0x0ff00ff0, "wsubaddhx%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e1001c0, 0x0f300ff0, "wabsdiff%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e0000c0, 0x0fd00fff, "wunpckeh%21?sub%c\t%12-15g, %16-19g"},
--  {ARM_CEXT_XSCALE, 0x0e4000c0, 0x0fd00fff, "wunpckeh%21?suh%c\t%12-15g, %16-19g"},
--  {ARM_CEXT_XSCALE, 0x0e8000c0, 0x0fd00fff, "wunpckeh%21?suw%c\t%12-15g, %16-19g"},
--  {ARM_CEXT_XSCALE, 0x0e0000e0, 0x0f100fff, "wunpckel%21?su%22-23w%c\t%12-15g, %16-19g"},
--  {ARM_CEXT_XSCALE, 0x0e1000c0, 0x0f300ff0, "wunpckih%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e1000e0, 0x0f300ff0, "wunpckil%22-23w%c\t%12-15g, %16-19g, %0-3g"},
--  {ARM_CEXT_XSCALE, 0x0e100000, 0x0ff00ff0, "wxor%c\t%12-15g, %16-19g, %0-3g"},
--
--  /* Floating point coprocessor (FPA) instructions */
--  {FPU_FPA_EXT_V1, 0x0e000100, 0x0ff08f10, "adf%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e100100, 0x0ff08f10, "muf%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e200100, 0x0ff08f10, "suf%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e300100, 0x0ff08f10, "rsf%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e400100, 0x0ff08f10, "dvf%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e500100, 0x0ff08f10, "rdf%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e600100, 0x0ff08f10, "pow%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e700100, 0x0ff08f10, "rpw%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e800100, 0x0ff08f10, "rmf%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e900100, 0x0ff08f10, "fml%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ea00100, 0x0ff08f10, "fdv%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0eb00100, 0x0ff08f10, "frd%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ec00100, 0x0ff08f10, "pol%c%P%R\t%12-14f, %16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e008100, 0x0ff08f10, "mvf%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e108100, 0x0ff08f10, "mnf%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e208100, 0x0ff08f10, "abs%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e308100, 0x0ff08f10, "rnd%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e408100, 0x0ff08f10, "sqt%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e508100, 0x0ff08f10, "log%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e608100, 0x0ff08f10, "lgn%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e708100, 0x0ff08f10, "exp%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e808100, 0x0ff08f10, "sin%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e908100, 0x0ff08f10, "cos%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ea08100, 0x0ff08f10, "tan%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0eb08100, 0x0ff08f10, "asn%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ec08100, 0x0ff08f10, "acs%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ed08100, 0x0ff08f10, "atn%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ee08100, 0x0ff08f10, "urd%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ef08100, 0x0ff08f10, "nrm%c%P%R\t%12-14f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0e000110, 0x0ff00f1f, "flt%c%P%R\t%16-18f, %12-15r"},
--  {FPU_FPA_EXT_V1, 0x0e100110, 0x0fff0f98, "fix%c%R\t%12-15r, %0-2f"},
--  {FPU_FPA_EXT_V1, 0x0e200110, 0x0fff0fff, "wfs%c\t%12-15r"},
--  {FPU_FPA_EXT_V1, 0x0e300110, 0x0fff0fff, "rfs%c\t%12-15r"},
--  {FPU_FPA_EXT_V1, 0x0e400110, 0x0fff0fff, "wfc%c\t%12-15r"},
--  {FPU_FPA_EXT_V1, 0x0e500110, 0x0fff0fff, "rfc%c\t%12-15r"},
--  {FPU_FPA_EXT_V1, 0x0e90f110, 0x0ff8fff0, "cmf%c\t%16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0eb0f110, 0x0ff8fff0, "cnf%c\t%16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ed0f110, 0x0ff8fff0, "cmfe%c\t%16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0ef0f110, 0x0ff8fff0, "cnfe%c\t%16-18f, %0-3f"},
--  {FPU_FPA_EXT_V1, 0x0c000100, 0x0e100f00, "stf%c%Q\t%12-14f, %A"},
--  {FPU_FPA_EXT_V1, 0x0c100100, 0x0e100f00, "ldf%c%Q\t%12-14f, %A"},
--  {FPU_FPA_EXT_V2, 0x0c000200, 0x0e100f00, "sfm%c\t%12-14f, %F, %A"},
--  {FPU_FPA_EXT_V2, 0x0c100200, 0x0e100f00, "lfm%c\t%12-14f, %F, %A"},
--
--  /* Register load/store */
--  {FPU_NEON_EXT_V1, 0x0d200b00, 0x0fb00f01, "vstmdb%c\t%16-19r%21'!, %B"},
--  {FPU_NEON_EXT_V1, 0x0d300b00, 0x0fb00f01, "vldmdb%c\t%16-19r%21'!, %B"},
--  {FPU_NEON_EXT_V1, 0x0c800b00, 0x0f900f01, "vstmia%c\t%16-19r%21'!, %B"},
--  {FPU_NEON_EXT_V1, 0x0c900b00, 0x0f900f01, "vldmia%c\t%16-19r%21'!, %B"},
--  {FPU_NEON_EXT_V1, 0x0d000b00, 0x0f300f00, "vstr%c\t%12-15,22D, %C"},
--  {FPU_NEON_EXT_V1, 0x0d100b00, 0x0f300f00, "vldr%c\t%12-15,22D, %C"},
--
--  /* Data transfer between ARM and NEON registers */
--  {FPU_NEON_EXT_V1, 0x0e800b10, 0x0ff00f70, "vdup%c.32\t%16-19,7D, %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0e800b30, 0x0ff00f70, "vdup%c.16\t%16-19,7D, %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0ea00b10, 0x0ff00f70, "vdup%c.32\t%16-19,7Q, %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0ea00b30, 0x0ff00f70, "vdup%c.16\t%16-19,7Q, %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0ec00b10, 0x0ff00f70, "vdup%c.8\t%16-19,7D, %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0ee00b10, 0x0ff00f70, "vdup%c.8\t%16-19,7Q, %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0c400b10, 0x0ff00fd0, "vmov%c\t%0-3,5D, %12-15r, %16-19r"},
--  {FPU_NEON_EXT_V1, 0x0c500b10, 0x0ff00fd0, "vmov%c\t%12-15r, %16-19r, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0x0e000b10, 0x0fd00f70, "vmov%c.32\t%16-19,7D[%21d], %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0e100b10, 0x0f500f70, "vmov%c.32\t%12-15r, %16-19,7D[%21d]"},
--  {FPU_NEON_EXT_V1, 0x0e000b30, 0x0fd00f30, "vmov%c.16\t%16-19,7D[%6,21d], %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0e100b30, 0x0f500f30, "vmov%c.%23?us16\t%12-15r, %16-19,7D[%6,21d]"},
--  {FPU_NEON_EXT_V1, 0x0e400b10, 0x0fd00f10, "vmov%c.8\t%16-19,7D[%5,6,21d], %12-15r"},
--  {FPU_NEON_EXT_V1, 0x0e500b10, 0x0f500f10, "vmov%c.%23?us8\t%12-15r, %16-19,7D[%5,6,21d]"},
--
--  /* Floating point coprocessor (VFP) instructions */
--  {FPU_VFP_EXT_V1xD, 0x0ef1fa10, 0x0fffffff, "fmstat%c"},
--  {FPU_VFP_EXT_V1xD, 0x0ee00a10, 0x0fff0fff, "fmxr%c\tfpsid, %12-15r"},
--  {FPU_VFP_EXT_V1xD, 0x0ee10a10, 0x0fff0fff, "fmxr%c\tfpscr, %12-15r"},
--  {FPU_VFP_EXT_V1xD, 0x0ee60a10, 0x0fff0fff, "fmxr%c\tmvfr1, %12-15r"},
--  {FPU_VFP_EXT_V1xD, 0x0ee70a10, 0x0fff0fff, "fmxr%c\tmvfr0, %12-15r"},
--  {FPU_VFP_EXT_V1xD, 0x0ee80a10, 0x0fff0fff, "fmxr%c\tfpexc, %12-15r"},
--  {FPU_VFP_EXT_V1xD, 0x0ee90a10, 0x0fff0fff, "fmxr%c\tfpinst, %12-15r\t@ Impl def"},
--  {FPU_VFP_EXT_V1xD, 0x0eea0a10, 0x0fff0fff, "fmxr%c\tfpinst2, %12-15r\t@ Impl def"},
--  {FPU_VFP_EXT_V1xD, 0x0ef00a10, 0x0fff0fff, "fmrx%c\t%12-15r, fpsid"},
--  {FPU_VFP_EXT_V1xD, 0x0ef10a10, 0x0fff0fff, "fmrx%c\t%12-15r, fpscr"},
--  {FPU_VFP_EXT_V1xD, 0x0ef60a10, 0x0fff0fff, "fmrx%c\t%12-15r, mvfr1"},
--  {FPU_VFP_EXT_V1xD, 0x0ef70a10, 0x0fff0fff, "fmrx%c\t%12-15r, mvfr0"},
--  {FPU_VFP_EXT_V1xD, 0x0ef80a10, 0x0fff0fff, "fmrx%c\t%12-15r, fpexc"},
--  {FPU_VFP_EXT_V1xD, 0x0ef90a10, 0x0fff0fff, "fmrx%c\t%12-15r, fpinst\t@ Impl def"},
--  {FPU_VFP_EXT_V1xD, 0x0efa0a10, 0x0fff0fff, "fmrx%c\t%12-15r, fpinst2\t@ Impl def"},
--  {FPU_VFP_EXT_V1, 0x0e000b10, 0x0ff00fff, "fmdlr%c\t%z2, %12-15r"},
--  {FPU_VFP_EXT_V1, 0x0e100b10, 0x0ff00fff, "fmrdl%c\t%12-15r, %z2"},
--  {FPU_VFP_EXT_V1, 0x0e200b10, 0x0ff00fff, "fmdhr%c\t%z2, %12-15r"},
--  {FPU_VFP_EXT_V1, 0x0e300b10, 0x0ff00fff, "fmrdh%c\t%12-15r, %z2"},
--  {FPU_VFP_EXT_V1xD, 0x0ee00a10, 0x0ff00fff, "fmxr%c\t<impl def %16-19x>, %12-15r"},
--  {FPU_VFP_EXT_V1xD, 0x0ef00a10, 0x0ff00fff, "fmrx%c\t%12-15r, <impl def %16-19x>"},
--  {FPU_VFP_EXT_V1xD, 0x0e000a10, 0x0ff00f7f, "fmsr%c\t%y2, %12-15r"},
--  {FPU_VFP_EXT_V1xD, 0x0e100a10, 0x0ff00f7f, "fmrs%c\t%12-15r, %y2"},
--  {FPU_VFP_EXT_V1xD, 0x0eb50a40, 0x0fbf0f70, "fcmp%7'ezs%c\t%y1"},
--  {FPU_VFP_EXT_V1, 0x0eb50b40, 0x0fbf0f70, "fcmp%7'ezd%c\t%z1"},
--  {FPU_VFP_EXT_V1xD, 0x0eb00a40, 0x0fbf0fd0, "fcpys%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0eb00ac0, 0x0fbf0fd0, "fabss%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1, 0x0eb00b40, 0x0fbf0fd0, "fcpyd%c\t%z1, %z0"},
--  {FPU_VFP_EXT_V1, 0x0eb00bc0, 0x0fbf0fd0, "fabsd%c\t%z1, %z0"},
--  {FPU_VFP_EXT_V1xD, 0x0eb10a40, 0x0fbf0fd0, "fnegs%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0eb10ac0, 0x0fbf0fd0, "fsqrts%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1, 0x0eb10b40, 0x0fbf0fd0, "fnegd%c\t%z1, %z0"},
--  {FPU_VFP_EXT_V1, 0x0eb10bc0, 0x0fbf0fd0, "fsqrtd%c\t%z1, %z0"},
--  {FPU_VFP_EXT_V1, 0x0eb70ac0, 0x0fbf0fd0, "fcvtds%c\t%z1, %y0"},
--  {FPU_VFP_EXT_V1, 0x0eb70bc0, 0x0fbf0fd0, "fcvtsd%c\t%y1, %z0"},
--  {FPU_VFP_EXT_V1xD, 0x0eb80a40, 0x0fbf0fd0, "fuitos%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0eb80ac0, 0x0fbf0fd0, "fsitos%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1, 0x0eb80b40, 0x0fbf0fd0, "fuitod%c\t%z1, %y0"},
--  {FPU_VFP_EXT_V1, 0x0eb80bc0, 0x0fbf0fd0, "fsitod%c\t%z1, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0eb40a40, 0x0fbf0f50, "fcmp%7'es%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1, 0x0eb40b40, 0x0fbf0f50, "fcmp%7'ed%c\t%z1, %z0"},
--  {FPU_VFP_EXT_V3, 0x0eba0a40, 0x0fbe0f50, "f%16?us%7?lhtos%c\t%y1, #%5,0-3k"},
--  {FPU_VFP_EXT_V3, 0x0eba0b40, 0x0fbe0f50, "f%16?us%7?lhtod%c\t%z1, #%5,0-3k"},
--  {FPU_VFP_EXT_V1xD, 0x0ebc0a40, 0x0fbe0f50, "fto%16?sui%7'zs%c\t%y1, %y0"},
--  {FPU_VFP_EXT_V1, 0x0ebc0b40, 0x0fbe0f50, "fto%16?sui%7'zd%c\t%y1, %z0"},
--  {FPU_VFP_EXT_V3, 0x0ebe0a40, 0x0fbe0f50, "fto%16?us%7?lhs%c\t%y1, #%5,0-3k"},
--  {FPU_VFP_EXT_V3, 0x0ebe0b40, 0x0fbe0f50, "fto%16?us%7?lhd%c\t%z1, #%5,0-3k"},
--  {FPU_VFP_EXT_V1, 0x0c500b10, 0x0fb00ff0, "fmrrd%c\t%12-15r, %16-19r, %z0"},
--  {FPU_VFP_EXT_V3, 0x0eb00a00, 0x0fb00ff0, "fconsts%c\t%y1, #%0-3,16-19d"},
--  {FPU_VFP_EXT_V3, 0x0eb00b00, 0x0fb00ff0, "fconstd%c\t%z1, #%0-3,16-19d"},
--  {FPU_VFP_EXT_V2, 0x0c400a10, 0x0ff00fd0, "fmsrr%c\t%y4, %12-15r, %16-19r"},
--  {FPU_VFP_EXT_V2, 0x0c400b10, 0x0ff00fd0, "fmdrr%c\t%z0, %12-15r, %16-19r"},
--  {FPU_VFP_EXT_V2, 0x0c500a10, 0x0ff00fd0, "fmrrs%c\t%12-15r, %16-19r, %y4"},
--  {FPU_VFP_EXT_V1xD, 0x0e000a00, 0x0fb00f50, "fmacs%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0e000a40, 0x0fb00f50, "fnmacs%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1, 0x0e000b00, 0x0fb00f50, "fmacd%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1, 0x0e000b40, 0x0fb00f50, "fnmacd%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1xD, 0x0e100a00, 0x0fb00f50, "fmscs%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0e100a40, 0x0fb00f50, "fnmscs%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1, 0x0e100b00, 0x0fb00f50, "fmscd%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1, 0x0e100b40, 0x0fb00f50, "fnmscd%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1xD, 0x0e200a00, 0x0fb00f50, "fmuls%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0e200a40, 0x0fb00f50, "fnmuls%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1, 0x0e200b00, 0x0fb00f50, "fmuld%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1, 0x0e200b40, 0x0fb00f50, "fnmuld%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1xD, 0x0e300a00, 0x0fb00f50, "fadds%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1xD, 0x0e300a40, 0x0fb00f50, "fsubs%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1, 0x0e300b00, 0x0fb00f50, "faddd%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1, 0x0e300b40, 0x0fb00f50, "fsubd%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1xD, 0x0e800a00, 0x0fb00f50, "fdivs%c\t%y1, %y2, %y0"},
--  {FPU_VFP_EXT_V1, 0x0e800b00, 0x0fb00f50, "fdivd%c\t%z1, %z2, %z0"},
--  {FPU_VFP_EXT_V1xD, 0x0d200a00, 0x0fb00f00, "fstmdbs%c\t%16-19r!, %y3"},
--  {FPU_VFP_EXT_V1xD, 0x0d200b00, 0x0fb00f00, "fstmdb%0?xd%c\t%16-19r!, %z3"},
--  {FPU_VFP_EXT_V1xD, 0x0d300a00, 0x0fb00f00, "fldmdbs%c\t%16-19r!, %y3"},
--  {FPU_VFP_EXT_V1xD, 0x0d300b00, 0x0fb00f00, "fldmdb%0?xd%c\t%16-19r!, %z3"},
--  {FPU_VFP_EXT_V1xD, 0x0d000a00, 0x0f300f00, "fsts%c\t%y1, %A"},
--  {FPU_VFP_EXT_V1, 0x0d000b00, 0x0f300f00, "fstd%c\t%z1, %A"},
--  {FPU_VFP_EXT_V1xD, 0x0d100a00, 0x0f300f00, "flds%c\t%y1, %A"},
--  {FPU_VFP_EXT_V1, 0x0d100b00, 0x0f300f00, "fldd%c\t%z1, %A"},
--  {FPU_VFP_EXT_V1xD, 0x0c800a00, 0x0f900f00, "fstmias%c\t%16-19r%21'!, %y3"},
--  {FPU_VFP_EXT_V1xD, 0x0c800b00, 0x0f900f00, "fstmia%0?xd%c\t%16-19r%21'!, %z3"},
--  {FPU_VFP_EXT_V1xD, 0x0c900a00, 0x0f900f00, "fldmias%c\t%16-19r%21'!, %y3"},
--  {FPU_VFP_EXT_V1xD, 0x0c900b00, 0x0f900f00, "fldmia%0?xd%c\t%16-19r%21'!, %z3"},
--
--  /* Cirrus coprocessor instructions.  */
--  {ARM_CEXT_MAVERICK, 0x0d100400, 0x0f500f00, "cfldrs%c\tmvf%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c100400, 0x0f500f00, "cfldrs%c\tmvf%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0d500400, 0x0f500f00, "cfldrd%c\tmvd%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c500400, 0x0f500f00, "cfldrd%c\tmvd%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0d100500, 0x0f500f00, "cfldr32%c\tmvfx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c100500, 0x0f500f00, "cfldr32%c\tmvfx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0d500500, 0x0f500f00, "cfldr64%c\tmvdx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c500500, 0x0f500f00, "cfldr64%c\tmvdx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0d000400, 0x0f500f00, "cfstrs%c\tmvf%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c000400, 0x0f500f00, "cfstrs%c\tmvf%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0d400400, 0x0f500f00, "cfstrd%c\tmvd%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c400400, 0x0f500f00, "cfstrd%c\tmvd%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0d000500, 0x0f500f00, "cfstr32%c\tmvfx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c000500, 0x0f500f00, "cfstr32%c\tmvfx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0d400500, 0x0f500f00, "cfstr64%c\tmvdx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0c400500, 0x0f500f00, "cfstr64%c\tmvdx%12-15d, %A"},
--  {ARM_CEXT_MAVERICK, 0x0e000450, 0x0ff00ff0, "cfmvsr%c\tmvf%16-19d, %12-15r"},
--  {ARM_CEXT_MAVERICK, 0x0e100450, 0x0ff00ff0, "cfmvrs%c\t%12-15r, mvf%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000410, 0x0ff00ff0, "cfmvdlr%c\tmvd%16-19d, %12-15r"},
--  {ARM_CEXT_MAVERICK, 0x0e100410, 0x0ff00ff0, "cfmvrdl%c\t%12-15r, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000430, 0x0ff00ff0, "cfmvdhr%c\tmvd%16-19d, %12-15r"},
--  {ARM_CEXT_MAVERICK, 0x0e100430, 0x0ff00fff, "cfmvrdh%c\t%12-15r, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000510, 0x0ff00fff, "cfmv64lr%c\tmvdx%16-19d, %12-15r"},
--  {ARM_CEXT_MAVERICK, 0x0e100510, 0x0ff00fff, "cfmvr64l%c\t%12-15r, mvdx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000530, 0x0ff00fff, "cfmv64hr%c\tmvdx%16-19d, %12-15r"},
--  {ARM_CEXT_MAVERICK, 0x0e100530, 0x0ff00fff, "cfmvr64h%c\t%12-15r, mvdx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e200440, 0x0ff00fff, "cfmval32%c\tmvax%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e100440, 0x0ff00fff, "cfmv32al%c\tmvfx%12-15d, mvax%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e200460, 0x0ff00fff, "cfmvam32%c\tmvax%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e100460, 0x0ff00fff, "cfmv32am%c\tmvfx%12-15d, mvax%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e200480, 0x0ff00fff, "cfmvah32%c\tmvax%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e100480, 0x0ff00fff, "cfmv32ah%c\tmvfx%12-15d, mvax%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e2004a0, 0x0ff00fff, "cfmva32%c\tmvax%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e1004a0, 0x0ff00fff, "cfmv32a%c\tmvfx%12-15d, mvax%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e2004c0, 0x0ff00fff, "cfmva64%c\tmvax%12-15d, mvdx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e1004c0, 0x0ff00fff, "cfmv64a%c\tmvdx%12-15d, mvax%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e2004e0, 0x0fff0fff, "cfmvsc32%c\tdspsc, mvdx%12-15d"},
--  {ARM_CEXT_MAVERICK, 0x0e1004e0, 0x0fff0fff, "cfmv32sc%c\tmvdx%12-15d, dspsc"},
--  {ARM_CEXT_MAVERICK, 0x0e000400, 0x0ff00fff, "cfcpys%c\tmvf%12-15d, mvf%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000420, 0x0ff00fff, "cfcpyd%c\tmvd%12-15d, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000460, 0x0ff00fff, "cfcvtsd%c\tmvd%12-15d, mvf%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000440, 0x0ff00fff, "cfcvtds%c\tmvf%12-15d, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000480, 0x0ff00fff, "cfcvt32s%c\tmvf%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e0004a0, 0x0ff00fff, "cfcvt32d%c\tmvd%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e0004c0, 0x0ff00fff, "cfcvt64s%c\tmvf%12-15d, mvdx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e0004e0, 0x0ff00fff, "cfcvt64d%c\tmvd%12-15d, mvdx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e100580, 0x0ff00fff, "cfcvts32%c\tmvfx%12-15d, mvf%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e1005a0, 0x0ff00fff, "cfcvtd32%c\tmvfx%12-15d, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e1005c0, 0x0ff00fff, "cftruncs32%c\tmvfx%12-15d, mvf%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e1005e0, 0x0ff00fff, "cftruncd32%c\tmvfx%12-15d, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e000550, 0x0ff00ff0, "cfrshl32%c\tmvfx%16-19d, mvfx%0-3d, %12-15r"},
--  {ARM_CEXT_MAVERICK, 0x0e000570, 0x0ff00ff0, "cfrshl64%c\tmvdx%16-19d, mvdx%0-3d, %12-15r"},
--  {ARM_CEXT_MAVERICK, 0x0e000500, 0x0ff00f10, "cfsh32%c\tmvfx%12-15d, mvfx%16-19d, #%I"},
--  {ARM_CEXT_MAVERICK, 0x0e200500, 0x0ff00f10, "cfsh64%c\tmvdx%12-15d, mvdx%16-19d, #%I"},
--  {ARM_CEXT_MAVERICK, 0x0e100490, 0x0ff00ff0, "cfcmps%c\t%12-15r, mvf%16-19d, mvf%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e1004b0, 0x0ff00ff0, "cfcmpd%c\t%12-15r, mvd%16-19d, mvd%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100590, 0x0ff00ff0, "cfcmp32%c\t%12-15r, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e1005b0, 0x0ff00ff0, "cfcmp64%c\t%12-15r, mvdx%16-19d, mvdx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e300400, 0x0ff00fff, "cfabss%c\tmvf%12-15d, mvf%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300420, 0x0ff00fff, "cfabsd%c\tmvd%12-15d, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300440, 0x0ff00fff, "cfnegs%c\tmvf%12-15d, mvf%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300460, 0x0ff00fff, "cfnegd%c\tmvd%12-15d, mvd%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300480, 0x0ff00ff0, "cfadds%c\tmvf%12-15d, mvf%16-19d, mvf%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e3004a0, 0x0ff00ff0, "cfaddd%c\tmvd%12-15d, mvd%16-19d, mvd%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e3004c0, 0x0ff00ff0, "cfsubs%c\tmvf%12-15d, mvf%16-19d, mvf%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e3004e0, 0x0ff00ff0, "cfsubd%c\tmvd%12-15d, mvd%16-19d, mvd%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100400, 0x0ff00ff0, "cfmuls%c\tmvf%12-15d, mvf%16-19d, mvf%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100420, 0x0ff00ff0, "cfmuld%c\tmvd%12-15d, mvd%16-19d, mvd%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e300500, 0x0ff00fff, "cfabs32%c\tmvfx%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300520, 0x0ff00fff, "cfabs64%c\tmvdx%12-15d, mvdx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300540, 0x0ff00fff, "cfneg32%c\tmvfx%12-15d, mvfx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300560, 0x0ff00fff, "cfneg64%c\tmvdx%12-15d, mvdx%16-19d"},
--  {ARM_CEXT_MAVERICK, 0x0e300580, 0x0ff00ff0, "cfadd32%c\tmvfx%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e3005a0, 0x0ff00ff0, "cfadd64%c\tmvdx%12-15d, mvdx%16-19d, mvdx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e3005c0, 0x0ff00ff0, "cfsub32%c\tmvfx%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e3005e0, 0x0ff00ff0, "cfsub64%c\tmvdx%12-15d, mvdx%16-19d, mvdx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100500, 0x0ff00ff0, "cfmul32%c\tmvfx%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100520, 0x0ff00ff0, "cfmul64%c\tmvdx%12-15d, mvdx%16-19d, mvdx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100540, 0x0ff00ff0, "cfmac32%c\tmvfx%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100560, 0x0ff00ff0, "cfmsc32%c\tmvfx%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e000600, 0x0ff00f10, "cfmadd32%c\tmvax%5-7d, mvfx%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e100600, 0x0ff00f10, "cfmsub32%c\tmvax%5-7d, mvfx%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e200600, 0x0ff00f10, "cfmadda32%c\tmvax%5-7d, mvax%12-15d, mvfx%16-19d, mvfx%0-3d"},
--  {ARM_CEXT_MAVERICK, 0x0e300600, 0x0ff00f10, "cfmsuba32%c\tmvax%5-7d, mvax%12-15d, mvfx%16-19d, mvfx%0-3d"},
--
--  /* Generic coprocessor instructions */
--  {ARM_EXT_V2, 0x0c400000, 0x0ff00000, "mcrr%c\t%8-11d, %4-7d, %12-15r, %16-19r, cr%0-3d"},
--  {ARM_EXT_V2, 0x0c500000, 0x0ff00000, "mrrc%c\t%8-11d, %4-7d, %12-15r, %16-19r, cr%0-3d"},
--  {ARM_EXT_V2, 0x0e000000, 0x0f000010, "cdp%c\t%8-11d, %20-23d, cr%12-15d, cr%16-19d, cr%0-3d, {%5-7d}"},
--  {ARM_EXT_V2, 0x0e100010, 0x0f100010, "mrc%c\t%8-11d, %21-23d, %12-15r, cr%16-19d, cr%0-3d, {%5-7d}"},
--  {ARM_EXT_V2, 0x0e000010, 0x0f100010, "mcr%c\t%8-11d, %21-23d, %12-15r, cr%16-19d, cr%0-3d, {%5-7d}"},
--  {ARM_EXT_V2, 0x0c000000, 0x0e100000, "stc%22'l%c\t%8-11d, cr%12-15d, %A"},
--  {ARM_EXT_V2, 0x0c100000, 0x0e100000, "ldc%22'l%c\t%8-11d, cr%12-15d, %A"},
--
--  /* V6 coprocessor instructions */
--  {ARM_EXT_V6, 0xfc500000, 0xfff00000, "mrrc2%c\t%8-11d, %4-7d, %12-15r, %16-19r, cr%0-3d"},
--  {ARM_EXT_V6, 0xfc400000, 0xfff00000, "mcrr2%c\t%8-11d, %4-7d, %12-15r, %16-19r, cr%0-3d"},
--
--  /* V5 coprocessor instructions */
--  {ARM_EXT_V5, 0xfc100000, 0xfe100000, "ldc2%22'l%c\t%8-11d, cr%12-15d, %A"},
--  {ARM_EXT_V5, 0xfc000000, 0xfe100000, "stc2%22'l%c\t%8-11d, cr%12-15d, %A"},
--  {ARM_EXT_V5, 0xfe000000, 0xff000010, "cdp2%c\t%8-11d, %20-23d, cr%12-15d, cr%16-19d, cr%0-3d, {%5-7d}"},
--  {ARM_EXT_V5, 0xfe000010, 0xff100010, "mcr2%c\t%8-11d, %21-23d, %12-15r, cr%16-19d, cr%0-3d, {%5-7d}"},
--  {ARM_EXT_V5, 0xfe100010, 0xff100010, "mrc2%c\t%8-11d, %21-23d, %12-15r, cr%16-19d, cr%0-3d, {%5-7d}"},
--
--  {0, 0, 0, 0}
+-static const struct dis386 dis386[] = {
+-  /* 00 */
+-  { "addB",		{ Eb, Gb } },
+-  { "addS",		{ Ev, Gv } },
+-  { "addB",		{ Gb, Eb } },
+-  { "addS",		{ Gv, Ev } },
+-  { "addB",		{ AL, Ib } },
+-  { "addS",		{ eAX, Iv } },
+-  { "push{T|}",		{ es } },
+-  { "pop{T|}",		{ es } },
+-  /* 08 */
+-  { "orB",		{ Eb, Gb } },
+-  { "orS",		{ Ev, Gv } },
+-  { "orB",		{ Gb, Eb } },
+-  { "orS",		{ Gv, Ev } },
+-  { "orB",		{ AL, Ib } },
+-  { "orS",		{ eAX, Iv } },
+-  { "push{T|}",		{ cs } },
+-  { "(bad)",		{ XX } },	/* 0x0f extended opcode escape */
+-  /* 10 */
+-  { "adcB",		{ Eb, Gb } },
+-  { "adcS",		{ Ev, Gv } },
+-  { "adcB",		{ Gb, Eb } },
+-  { "adcS",		{ Gv, Ev } },
+-  { "adcB",		{ AL, Ib } },
+-  { "adcS",		{ eAX, Iv } },
+-  { "push{T|}",		{ ss } },
+-  { "pop{T|}",		{ ss } },
+-  /* 18 */
+-  { "sbbB",		{ Eb, Gb } },
+-  { "sbbS",		{ Ev, Gv } },
+-  { "sbbB",		{ Gb, Eb } },
+-  { "sbbS",		{ Gv, Ev } },
+-  { "sbbB",		{ AL, Ib } },
+-  { "sbbS",		{ eAX, Iv } },
+-  { "push{T|}",		{ ds } },
+-  { "pop{T|}",		{ ds } },
+-  /* 20 */
+-  { "andB",		{ Eb, Gb } },
+-  { "andS",		{ Ev, Gv } },
+-  { "andB",		{ Gb, Eb } },
+-  { "andS",		{ Gv, Ev } },
+-  { "andB",		{ AL, Ib } },
+-  { "andS",		{ eAX, Iv } },
+-  { "(bad)",		{ XX } },	/* SEG ES prefix */
+-  { "daa{|}",		{ XX } },
+-  /* 28 */
+-  { "subB",		{ Eb, Gb } },
+-  { "subS",		{ Ev, Gv } },
+-  { "subB",		{ Gb, Eb } },
+-  { "subS",		{ Gv, Ev } },
+-  { "subB",		{ AL, Ib } },
+-  { "subS",		{ eAX, Iv } },
+-  { "(bad)",		{ XX } },	/* SEG CS prefix */
+-  { "das{|}",		{ XX } },
+-  /* 30 */
+-  { "xorB",		{ Eb, Gb } },
+-  { "xorS",		{ Ev, Gv } },
+-  { "xorB",		{ Gb, Eb } },
+-  { "xorS",		{ Gv, Ev } },
+-  { "xorB",		{ AL, Ib } },
+-  { "xorS",		{ eAX, Iv } },
+-  { "(bad)",		{ XX } },	/* SEG SS prefix */
+-  { "aaa{|}",		{ XX } },
+-  /* 38 */
+-  { "cmpB",		{ Eb, Gb } },
+-  { "cmpS",		{ Ev, Gv } },
+-  { "cmpB",		{ Gb, Eb } },
+-  { "cmpS",		{ Gv, Ev } },
+-  { "cmpB",		{ AL, Ib } },
+-  { "cmpS",		{ eAX, Iv } },
+-  { "(bad)",		{ XX } },	/* SEG DS prefix */
+-  { "aas{|}",		{ XX } },
+-  /* 40 */
+-  { "inc{S|}",		{ RMeAX } },
+-  { "inc{S|}",		{ RMeCX } },
+-  { "inc{S|}",		{ RMeDX } },
+-  { "inc{S|}",		{ RMeBX } },
+-  { "inc{S|}",		{ RMeSP } },
+-  { "inc{S|}",		{ RMeBP } },
+-  { "inc{S|}",		{ RMeSI } },
+-  { "inc{S|}",		{ RMeDI } },
+-  /* 48 */
+-  { "dec{S|}",		{ RMeAX } },
+-  { "dec{S|}",		{ RMeCX } },
+-  { "dec{S|}",		{ RMeDX } },
+-  { "dec{S|}",		{ RMeBX } },
+-  { "dec{S|}",		{ RMeSP } },
+-  { "dec{S|}",		{ RMeBP } },
+-  { "dec{S|}",		{ RMeSI } },
+-  { "dec{S|}",		{ RMeDI } },
+-  /* 50 */
+-  { "pushV",		{ RMrAX } },
+-  { "pushV",		{ RMrCX } },
+-  { "pushV",		{ RMrDX } },
+-  { "pushV",		{ RMrBX } },
+-  { "pushV",		{ RMrSP } },
+-  { "pushV",		{ RMrBP } },
+-  { "pushV",		{ RMrSI } },
+-  { "pushV",		{ RMrDI } },
+-  /* 58 */
+-  { "popV",		{ RMrAX } },
+-  { "popV",		{ RMrCX } },
+-  { "popV",		{ RMrDX } },
+-  { "popV",		{ RMrBX } },
+-  { "popV",		{ RMrSP } },
+-  { "popV",		{ RMrBP } },
+-  { "popV",		{ RMrSI } },
+-  { "popV",		{ RMrDI } },
+-  /* 60 */
+-  { X86_64_0 },
+-  { X86_64_1 },
+-  { X86_64_2 },
+-  { X86_64_3 },
+-  { "(bad)",		{ XX } },	/* seg fs */
+-  { "(bad)",		{ XX } },	/* seg gs */
+-  { "(bad)",		{ XX } },	/* op size prefix */
+-  { "(bad)",		{ XX } },	/* adr size prefix */
+-  /* 68 */
+-  { "pushT",		{ Iq } },
+-  { "imulS",		{ Gv, Ev, Iv } },
+-  { "pushT",		{ sIb } },
+-  { "imulS",		{ Gv, Ev, sIb } },
+-  { "ins{b||b|}",	{ Ybr, indirDX } },
+-  { "ins{R||G|}",	{ Yzr, indirDX } },
+-  { "outs{b||b|}",	{ indirDXr, Xb } },
+-  { "outs{R||G|}",	{ indirDXr, Xz } },
+-  /* 70 */
+-  { "joH",		{ Jb, XX, cond_jump_flag } },
+-  { "jnoH",		{ Jb, XX, cond_jump_flag } },
+-  { "jbH",		{ Jb, XX, cond_jump_flag } },
+-  { "jaeH",		{ Jb, XX, cond_jump_flag } },
+-  { "jeH",		{ Jb, XX, cond_jump_flag } },
+-  { "jneH",		{ Jb, XX, cond_jump_flag } },
+-  { "jbeH",		{ Jb, XX, cond_jump_flag } },
+-  { "jaH",		{ Jb, XX, cond_jump_flag } },
+-  /* 78 */
+-  { "jsH",		{ Jb, XX, cond_jump_flag } },
+-  { "jnsH",		{ Jb, XX, cond_jump_flag } },
+-  { "jpH",		{ Jb, XX, cond_jump_flag } },
+-  { "jnpH",		{ Jb, XX, cond_jump_flag } },
+-  { "jlH",		{ Jb, XX, cond_jump_flag } },
+-  { "jgeH",		{ Jb, XX, cond_jump_flag } },
+-  { "jleH",		{ Jb, XX, cond_jump_flag } },
+-  { "jgH",		{ Jb, XX, cond_jump_flag } },
+-  /* 80 */
+-  { GRP1b },
+-  { GRP1S },
+-  { "(bad)",		{ XX } },
+-  { GRP1Ss },
+-  { "testB",		{ Eb, Gb } },
+-  { "testS",		{ Ev, Gv } },
+-  { "xchgB",		{ Eb, Gb } },
+-  { "xchgS",		{ Ev, Gv } },
+-  /* 88 */
+-  { "movB",		{ Eb, Gb } },
+-  { "movS",		{ Ev, Gv } },
+-  { "movB",		{ Gb, Eb } },
+-  { "movS",		{ Gv, Ev } },
+-  { "movD",		{ Sv, Sw } },
+-  { "leaS",		{ Gv, M } },
+-  { "movD",		{ Sw, Sv } },
+-  { GRP1a },
+-  /* 90 */
+-  { PREGRP38 },
+-  { "xchgS",		{ RMeCX, eAX } },
+-  { "xchgS",		{ RMeDX, eAX } },
+-  { "xchgS",		{ RMeBX, eAX } },
+-  { "xchgS",		{ RMeSP, eAX } },
+-  { "xchgS",		{ RMeBP, eAX } },
+-  { "xchgS",		{ RMeSI, eAX } },
+-  { "xchgS",		{ RMeDI, eAX } },
+-  /* 98 */
+-  { "cW{t||t|}R",	{ XX } },
+-  { "cR{t||t|}O",	{ XX } },
+-  { "Jcall{T|}",	{ Ap } },
+-  { "(bad)",		{ XX } },	/* fwait */
+-  { "pushfT",		{ XX } },
+-  { "popfT",		{ XX } },
+-  { "sahf{|}",		{ XX } },
+-  { "lahf{|}",		{ XX } },
+-  /* a0 */
+-  { "movB",		{ AL, Ob } },
+-  { "movS",		{ eAX, Ov } },
+-  { "movB",		{ Ob, AL } },
+-  { "movS",		{ Ov, eAX } },
+-  { "movs{b||b|}",	{ Ybr, Xb } },
+-  { "movs{R||R|}",	{ Yvr, Xv } },
+-  { "cmps{b||b|}",	{ Xb, Yb } },
+-  { "cmps{R||R|}",	{ Xv, Yv } },
+-  /* a8 */
+-  { "testB",		{ AL, Ib } },
+-  { "testS",		{ eAX, Iv } },
+-  { "stosB",		{ Ybr, AL } },
+-  { "stosS",		{ Yvr, eAX } },
+-  { "lodsB",		{ ALr, Xb } },
+-  { "lodsS",		{ eAXr, Xv } },
+-  { "scasB",		{ AL, Yb } },
+-  { "scasS",		{ eAX, Yv } },
+-  /* b0 */
+-  { "movB",		{ RMAL, Ib } },
+-  { "movB",		{ RMCL, Ib } },
+-  { "movB",		{ RMDL, Ib } },
+-  { "movB",		{ RMBL, Ib } },
+-  { "movB",		{ RMAH, Ib } },
+-  { "movB",		{ RMCH, Ib } },
+-  { "movB",		{ RMDH, Ib } },
+-  { "movB",		{ RMBH, Ib } },
+-  /* b8 */
+-  { "movS",		{ RMeAX, Iv64 } },
+-  { "movS",		{ RMeCX, Iv64 } },
+-  { "movS",		{ RMeDX, Iv64 } },
+-  { "movS",		{ RMeBX, Iv64 } },
+-  { "movS",		{ RMeSP, Iv64 } },
+-  { "movS",		{ RMeBP, Iv64 } },
+-  { "movS",		{ RMeSI, Iv64 } },
+-  { "movS",		{ RMeDI, Iv64 } },
+-  /* c0 */
+-  { GRP2b },
+-  { GRP2S },
+-  { "retT",		{ Iw } },
+-  { "retT",		{ XX } },
+-  { "les{S|}",		{ Gv, Mp } },
+-  { "ldsS",		{ Gv, Mp } },
+-  { GRP11_C6 },
+-  { GRP11_C7 },
+-  /* c8 */
+-  { "enterT",		{ Iw, Ib } },
+-  { "leaveT",		{ XX } },
+-  { "lretP",		{ Iw } },
+-  { "lretP",		{ XX } },
+-  { "int3",		{ XX } },
+-  { "int",		{ Ib } },
+-  { "into{|}",		{ XX } },
+-  { "iretP",		{ XX } },
+-  /* d0 */
+-  { GRP2b_one },
+-  { GRP2S_one },
+-  { GRP2b_cl },
+-  { GRP2S_cl },
+-  { "aam{|}",		{ sIb } },
+-  { "aad{|}",		{ sIb } },
+-  { "(bad)",		{ XX } },
+-  { "xlat",		{ DSBX } },
+-  /* d8 */
+-  { FLOAT },
+-  { FLOAT },
+-  { FLOAT },
+-  { FLOAT },
+-  { FLOAT },
+-  { FLOAT },
+-  { FLOAT },
+-  { FLOAT },
+-  /* e0 */
+-  { "loopneFH",		{ Jb, XX, loop_jcxz_flag } },
+-  { "loopeFH",		{ Jb, XX, loop_jcxz_flag } },
+-  { "loopFH",		{ Jb, XX, loop_jcxz_flag } },
+-  { "jEcxzH",		{ Jb, XX, loop_jcxz_flag } },
+-  { "inB",		{ AL, Ib } },
+-  { "inG",		{ zAX, Ib } },
+-  { "outB",		{ Ib, AL } },
+-  { "outG",		{ Ib, zAX } },
+-  /* e8 */
+-  { "callT",		{ Jv } },
+-  { "jmpT",		{ Jv } },
+-  { "Jjmp{T|}",		{ Ap } },
+-  { "jmp",		{ Jb } },
+-  { "inB",		{ AL, indirDX } },
+-  { "inG",		{ zAX, indirDX } },
+-  { "outB",		{ indirDX, AL } },
+-  { "outG",		{ indirDX, zAX } },
+-  /* f0 */
+-  { "(bad)",		{ XX } },	/* lock prefix */
+-  { "icebp",		{ XX } },
+-  { "(bad)",		{ XX } },	/* repne */
+-  { "(bad)",		{ XX } },	/* repz */
+-  { "hlt",		{ XX } },
+-  { "cmc",		{ XX } },
+-  { GRP3b },
+-  { GRP3S },
+-  /* f8 */
+-  { "clc",		{ XX } },
+-  { "stc",		{ XX } },
+-  { "cli",		{ XX } },
+-  { "sti",		{ XX } },
+-  { "cld",		{ XX } },
+-  { "std",		{ XX } },
+-  { GRP4 },
+-  { GRP5 },
 -};
 -
--/* Neon opcode table:  This does not encode the top byte -- that is
--   checked by the print_insn_neon routine, as it depends on whether we are
--   doing thumb32 or arm32 disassembly.  */
--
--/* print_insn_neon recognizes the following format control codes:
--
--   %%			%
--
--   %c			print condition code
--   %A			print v{st,ld}[1234] operands
--   %B			print v{st,ld}[1234] any one operands
--   %C			print v{st,ld}[1234] single->all operands
--   %D			print scalar
--   %E			print vmov, vmvn, vorr, vbic encoded constant
--   %F			print vtbl,vtbx register list
--
--   %<bitfield>r		print as an ARM register
--   %<bitfield>d		print the bitfield in decimal
--   %<bitfield>e         print the 2^N - bitfield in decimal
--   %<bitfield>D		print as a NEON D register
--   %<bitfield>Q		print as a NEON Q register
--   %<bitfield>R		print as a NEON D or Q register
--   %<bitfield>Sn	print byte scaled width limited by n
--   %<bitfield>Tn	print short scaled width limited by n
--   %<bitfield>Un	print long scaled width limited by n
--
--   %<bitfield>'c	print specified char iff bitfield is all ones
--   %<bitfield>`c	print specified char iff bitfield is all zeroes
--   %<bitfield>?ab...    select from array of values in big endian order  */
--
--static const struct opcode32 neon_opcodes[] =
--{
--  /* Extract */
--  {FPU_NEON_EXT_V1, 0xf2b00840, 0xffb00850, "vext%c.8\t%12-15,22R, %16-19,7R, %0-3,5R, #%8-11d"},
--  {FPU_NEON_EXT_V1, 0xf2b00000, 0xffb00810, "vext%c.8\t%12-15,22R, %16-19,7R, %0-3,5R, #%8-11d"},
--
--  /* Move data element to all lanes */
--  {FPU_NEON_EXT_V1, 0xf3b40c00, 0xffb70f90, "vdup%c.32\t%12-15,22R, %0-3,5D[%19d]"},
--  {FPU_NEON_EXT_V1, 0xf3b20c00, 0xffb30f90, "vdup%c.16\t%12-15,22R, %0-3,5D[%18-19d]"},
--  {FPU_NEON_EXT_V1, 0xf3b10c00, 0xffb10f90, "vdup%c.8\t%12-15,22R, %0-3,5D[%17-19d]"},
--
--  /* Table lookup */
--  {FPU_NEON_EXT_V1, 0xf3b00800, 0xffb00c50, "vtbl%c.8\t%12-15,22D, %F, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf3b00840, 0xffb00c50, "vtbx%c.8\t%12-15,22D, %F, %0-3,5D"},
--
--  /* Two registers, miscellaneous */
--  {FPU_NEON_EXT_V1, 0xf2880a10, 0xfebf0fd0, "vmovl%c.%24?us8\t%12-15,22Q, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2900a10, 0xfebf0fd0, "vmovl%c.%24?us16\t%12-15,22Q, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2a00a10, 0xfebf0fd0, "vmovl%c.%24?us32\t%12-15,22Q, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf3b00500, 0xffbf0f90, "vcnt%c.8\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00580, 0xffbf0f90, "vmvn%c\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b20000, 0xffbf0f90, "vswp%c\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b20200, 0xffb30fd0, "vmovn%c.i%18-19T2\t%12-15,22D, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf3b20240, 0xffb30fd0, "vqmovun%c.s%18-19T2\t%12-15,22D, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf3b20280, 0xffb30fd0, "vqmovn%c.s%18-19T2\t%12-15,22D, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf3b202c0, 0xffb30fd0, "vqmovn%c.u%18-19T2\t%12-15,22D, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf3b20300, 0xffb30fd0, "vshll%c.i%18-19S2\t%12-15,22Q, %0-3,5D, #%18-19S2"},
--  {FPU_NEON_EXT_V1, 0xf3bb0400, 0xffbf0e90, "vrecpe%c.%8?fu%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3bb0480, 0xffbf0e90, "vrsqrte%c.%8?fu%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00000, 0xffb30f90, "vrev64%c.%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00080, 0xffb30f90, "vrev32%c.%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00100, 0xffb30f90, "vrev16%c.%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00400, 0xffb30f90, "vcls%c.s%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00480, 0xffb30f90, "vclz%c.i%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00700, 0xffb30f90, "vqabs%c.s%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00780, 0xffb30f90, "vqneg%c.s%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b20080, 0xffb30f90, "vtrn%c.%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b20100, 0xffb30f90, "vuzp%c.%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b20180, 0xffb30f90, "vzip%c.%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b10000, 0xffb30b90, "vcgt%c.%10?fs%18-19S2\t%12-15,22R, %0-3,5R, #0"},
--  {FPU_NEON_EXT_V1, 0xf3b10080, 0xffb30b90, "vcge%c.%10?fs%18-19S2\t%12-15,22R, %0-3,5R, #0"},
--  {FPU_NEON_EXT_V1, 0xf3b10100, 0xffb30b90, "vceq%c.%10?fi%18-19S2\t%12-15,22R, %0-3,5R, #0"},
--  {FPU_NEON_EXT_V1, 0xf3b10180, 0xffb30b90, "vcle%c.%10?fs%18-19S2\t%12-15,22R, %0-3,5R, #0"},
--  {FPU_NEON_EXT_V1, 0xf3b10200, 0xffb30b90, "vclt%c.%10?fs%18-19S2\t%12-15,22R, %0-3,5R, #0"},
--  {FPU_NEON_EXT_V1, 0xf3b10300, 0xffb30b90, "vabs%c.%10?fs%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b10380, 0xffb30b90, "vneg%c.%10?fs%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00200, 0xffb30f10, "vpaddl%c.%7?us%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b00600, 0xffb30f10, "vpadal%c.%7?us%18-19S2\t%12-15,22R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3b30600, 0xffb30e10, "vcvt%c.%7-8?usff%18-19Sa.%7-8?ffus%18-19Sa\t%12-15,22R, %0-3,5R"},
--
--  /* Three registers of the same length */
--  {FPU_NEON_EXT_V1, 0xf2000110, 0xffb00f10, "vand%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2100110, 0xffb00f10, "vbic%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2200110, 0xffb00f10, "vorr%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2300110, 0xffb00f10, "vorn%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000110, 0xffb00f10, "veor%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3100110, 0xffb00f10, "vbsl%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3200110, 0xffb00f10, "vbit%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3300110, 0xffb00f10, "vbif%c\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000d00, 0xffa00f10, "vadd%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000d10, 0xffa00f10, "vmla%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000e00, 0xffa00f10, "vceq%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000f00, 0xffa00f10, "vmax%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000f10, 0xffa00f10, "vrecps%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2200d00, 0xffa00f10, "vsub%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2200d10, 0xffa00f10, "vmls%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2200f00, 0xffa00f10, "vmin%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2200f10, 0xffa00f10, "vrsqrts%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000d00, 0xffa00f10, "vpadd%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000d10, 0xffa00f10, "vmul%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000e00, 0xffa00f10, "vcge%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000e10, 0xffa00f10, "vacge%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000f00, 0xffa00f10, "vpmax%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3200d00, 0xffa00f10, "vabd%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3200e00, 0xffa00f10, "vcgt%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3200e10, 0xffa00f10, "vacgt%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3200f00, 0xffa00f10, "vpmin%c.f%20U0\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000800, 0xff800f10, "vadd%c.i%20-21S3\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000810, 0xff800f10, "vtst%c.%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000900, 0xff800f10, "vmla%c.i%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000b00, 0xff800f10, "vqdmulh%c.s%20-21S6\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000b10, 0xff800f10, "vpadd%c.i%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000800, 0xff800f10, "vsub%c.i%20-21S3\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000810, 0xff800f10, "vceq%c.i%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000900, 0xff800f10, "vmls%c.i%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf3000b00, 0xff800f10, "vqrdmulh%c.s%20-21S6\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000000, 0xfe800f10, "vhadd%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000010, 0xfe800f10, "vqadd%c.%24?us%20-21S3\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000100, 0xfe800f10, "vrhadd%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000200, 0xfe800f10, "vhsub%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000210, 0xfe800f10, "vqsub%c.%24?us%20-21S3\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000300, 0xfe800f10, "vcgt%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000310, 0xfe800f10, "vcge%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000400, 0xfe800f10, "vshl%c.%24?us%20-21S3\t%12-15,22R, %0-3,5R, %16-19,7R"},
--  {FPU_NEON_EXT_V1, 0xf2000410, 0xfe800f10, "vqshl%c.%24?us%20-21S3\t%12-15,22R, %0-3,5R, %16-19,7R"},
--  {FPU_NEON_EXT_V1, 0xf2000500, 0xfe800f10, "vrshl%c.%24?us%20-21S3\t%12-15,22R, %0-3,5R, %16-19,7R"},
--  {FPU_NEON_EXT_V1, 0xf2000510, 0xfe800f10, "vqrshl%c.%24?us%20-21S3\t%12-15,22R, %0-3,5R, %16-19,7R"},
--  {FPU_NEON_EXT_V1, 0xf2000600, 0xfe800f10, "vmax%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000610, 0xfe800f10, "vmin%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000700, 0xfe800f10, "vabd%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000710, 0xfe800f10, "vaba%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000910, 0xfe800f10, "vmul%c.%24?pi%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000a00, 0xfe800f10, "vpmax%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--  {FPU_NEON_EXT_V1, 0xf2000a10, 0xfe800f10, "vpmin%c.%24?us%20-21S2\t%12-15,22R, %16-19,7R, %0-3,5R"},
--
--  /* One register and an immediate value */
--  {FPU_NEON_EXT_V1, 0xf2800e10, 0xfeb80fb0, "vmov%c.i8\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800e30, 0xfeb80fb0, "vmov%c.i64\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800f10, 0xfeb80fb0, "vmov%c.f32\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800810, 0xfeb80db0, "vmov%c.i16\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800830, 0xfeb80db0, "vmvn%c.i16\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800910, 0xfeb80db0, "vorr%c.i16\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800930, 0xfeb80db0, "vbic%c.i16\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800c10, 0xfeb80eb0, "vmov%c.i32\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800c30, 0xfeb80eb0, "vmvn%c.i32\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800110, 0xfeb809b0, "vorr%c.i32\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800130, 0xfeb809b0, "vbic%c.i32\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800010, 0xfeb808b0, "vmov%c.i32\t%12-15,22R, %E"},
--  {FPU_NEON_EXT_V1, 0xf2800030, 0xfeb808b0, "vmvn%c.i32\t%12-15,22R, %E"},
--
--  /* Two registers and a shift amount */
--  {FPU_NEON_EXT_V1, 0xf2880810, 0xffb80fd0, "vshrn%c.i16\t%12-15,22D, %0-3,5Q, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880850, 0xffb80fd0, "vrshrn%c.i16\t%12-15,22D, %0-3,5Q, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880810, 0xfeb80fd0, "vqshrun%c.s16\t%12-15,22D, %0-3,5Q, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880850, 0xfeb80fd0, "vqrshrun%c.s16\t%12-15,22D, %0-3,5Q, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880910, 0xfeb80fd0, "vqshrn%c.%24?us16\t%12-15,22D, %0-3,5Q, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880950, 0xfeb80fd0, "vqrshrn%c.%24?us16\t%12-15,22D, %0-3,5Q, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880a10, 0xfeb80fd0, "vshll%c.%24?us8\t%12-15,22D, %0-3,5Q, #%16-18d"},
--  {FPU_NEON_EXT_V1, 0xf2900810, 0xffb00fd0, "vshrn%c.i32\t%12-15,22D, %0-3,5Q, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900850, 0xffb00fd0, "vrshrn%c.i32\t%12-15,22D, %0-3,5Q, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2880510, 0xffb80f90, "vshl%c.%24?us8\t%12-15,22R, %0-3,5R, #%16-18d"},
--  {FPU_NEON_EXT_V1, 0xf3880410, 0xffb80f90, "vsri%c.8\t%12-15,22R, %0-3,5R, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf3880510, 0xffb80f90, "vsli%c.8\t%12-15,22R, %0-3,5R, #%16-18d"},
--  {FPU_NEON_EXT_V1, 0xf3880610, 0xffb80f90, "vqshlu%c.s8\t%12-15,22R, %0-3,5R, #%16-18d"},
--  {FPU_NEON_EXT_V1, 0xf2900810, 0xfeb00fd0, "vqshrun%c.s32\t%12-15,22D, %0-3,5Q, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900850, 0xfeb00fd0, "vqrshrun%c.s32\t%12-15,22D, %0-3,5Q, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900910, 0xfeb00fd0, "vqshrn%c.%24?us32\t%12-15,22D, %0-3,5Q, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900950, 0xfeb00fd0, "vqrshrn%c.%24?us32\t%12-15,22D, %0-3,5Q, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900a10, 0xfeb00fd0, "vshll%c.%24?us16\t%12-15,22D, %0-3,5Q, #%16-19d"},
--  {FPU_NEON_EXT_V1, 0xf2880010, 0xfeb80f90, "vshr%c.%24?us8\t%12-15,22R, %0-3,5R, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880110, 0xfeb80f90, "vsra%c.%24?us8\t%12-15,22R, %0-3,5R, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880210, 0xfeb80f90, "vrshr%c.%24?us8\t%12-15,22R, %0-3,5R, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880310, 0xfeb80f90, "vrsra%c.%24?us8\t%12-15,22R, %0-3,5R, #%16-18e"},
--  {FPU_NEON_EXT_V1, 0xf2880710, 0xfeb80f90, "vqshl%c.%24?us8\t%12-15,22R, %0-3,5R, #%16-18d"},
--  {FPU_NEON_EXT_V1, 0xf2a00810, 0xffa00fd0, "vshrn%c.i64\t%12-15,22D, %0-3,5Q, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2a00850, 0xffa00fd0, "vrshrn%c.i64\t%12-15,22D, %0-3,5Q, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2900510, 0xffb00f90, "vshl%c.%24?us16\t%12-15,22R, %0-3,5R, #%16-19d"},
--  {FPU_NEON_EXT_V1, 0xf3900410, 0xffb00f90, "vsri%c.16\t%12-15,22R, %0-3,5R, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf3900510, 0xffb00f90, "vsli%c.16\t%12-15,22R, %0-3,5R, #%16-19d"},
--  {FPU_NEON_EXT_V1, 0xf3900610, 0xffb00f90, "vqshlu%c.s16\t%12-15,22R, %0-3,5R, #%16-19d"},
--  {FPU_NEON_EXT_V1, 0xf2a00a10, 0xfea00fd0, "vshll%c.%24?us32\t%12-15,22D, %0-3,5Q, #%16-20d"},
--  {FPU_NEON_EXT_V1, 0xf2900010, 0xfeb00f90, "vshr%c.%24?us16\t%12-15,22R, %0-3,5R, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900110, 0xfeb00f90, "vsra%c.%24?us16\t%12-15,22R, %0-3,5R, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900210, 0xfeb00f90, "vrshr%c.%24?us16\t%12-15,22R, %0-3,5R, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900310, 0xfeb00f90, "vrsra%c.%24?us16\t%12-15,22R, %0-3,5R, #%16-19e"},
--  {FPU_NEON_EXT_V1, 0xf2900710, 0xfeb00f90, "vqshl%c.%24?us16\t%12-15,22R, %0-3,5R, #%16-19d"},
--  {FPU_NEON_EXT_V1, 0xf2800810, 0xfec00fd0, "vqshrun%c.s64\t%12-15,22D, %0-3,5Q, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2800850, 0xfec00fd0, "vqrshrun%c.s64\t%12-15,22D, %0-3,5Q, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2800910, 0xfec00fd0, "vqshrn%c.%24?us64\t%12-15,22D, %0-3,5Q, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2800950, 0xfec00fd0, "vqrshrn%c.%24?us64\t%12-15,22D, %0-3,5Q, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2a00510, 0xffa00f90, "vshl%c.%24?us32\t%12-15,22R, %0-3,5R, #%16-20d"},
--  {FPU_NEON_EXT_V1, 0xf3a00410, 0xffa00f90, "vsri%c.32\t%12-15,22R, %0-3,5R, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf3a00510, 0xffa00f90, "vsli%c.32\t%12-15,22R, %0-3,5R, #%16-20d"},
--  {FPU_NEON_EXT_V1, 0xf3a00610, 0xffa00f90, "vqshlu%c.s32\t%12-15,22R, %0-3,5R, #%16-20d"},
--  {FPU_NEON_EXT_V1, 0xf2a00010, 0xfea00f90, "vshr%c.%24?us32\t%12-15,22R, %0-3,5R, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2a00110, 0xfea00f90, "vsra%c.%24?us32\t%12-15,22R, %0-3,5R, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2a00210, 0xfea00f90, "vrshr%c.%24?us32\t%12-15,22R, %0-3,5R, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2a00310, 0xfea00f90, "vrsra%c.%24?us32\t%12-15,22R, %0-3,5R, #%16-20e"},
--  {FPU_NEON_EXT_V1, 0xf2a00710, 0xfea00f90, "vqshl%c.%24?us32\t%12-15,22R, %0-3,5R, #%16-20d"},
--  {FPU_NEON_EXT_V1, 0xf2800590, 0xff800f90, "vshl%c.%24?us64\t%12-15,22R, %0-3,5R, #%16-21d"},
--  {FPU_NEON_EXT_V1, 0xf3800490, 0xff800f90, "vsri%c.64\t%12-15,22R, %0-3,5R, #%16-21e"},
--  {FPU_NEON_EXT_V1, 0xf3800590, 0xff800f90, "vsli%c.64\t%12-15,22R, %0-3,5R, #%16-21d"},
--  {FPU_NEON_EXT_V1, 0xf3800690, 0xff800f90, "vqshlu%c.s64\t%12-15,22R, %0-3,5R, #%16-21d"},
--  {FPU_NEON_EXT_V1, 0xf2800090, 0xfe800f90, "vshr%c.%24?us64\t%12-15,22R, %0-3,5R, #%16-21e"},
--  {FPU_NEON_EXT_V1, 0xf2800190, 0xfe800f90, "vsra%c.%24?us64\t%12-15,22R, %0-3,5R, #%16-21e"},
--  {FPU_NEON_EXT_V1, 0xf2800290, 0xfe800f90, "vrshr%c.%24?us64\t%12-15,22R, %0-3,5R, #%16-21e"},
--  {FPU_NEON_EXT_V1, 0xf2800390, 0xfe800f90, "vrsra%c.%24?us64\t%12-15,22R, %0-3,5R, #%16-21e"},
--  {FPU_NEON_EXT_V1, 0xf2800790, 0xfe800f90, "vqshl%c.%24?us64\t%12-15,22R, %0-3,5R, #%16-21d"},
--  {FPU_NEON_EXT_V1, 0xf2a00e10, 0xfea00e90, "vcvt%c.%24,8?usff32.%24,8?ffus32\t%12-15,22R, %0-3,5R, #%16-20e"},
--
--  /* Three registers of different lengths */
--  {FPU_NEON_EXT_V1, 0xf2800e00, 0xfea00f50, "vmull%c.p%20S0\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800400, 0xff800f50, "vaddhn%c.i%20-21T2\t%12-15,22D, %16-19,7Q, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf2800600, 0xff800f50, "vsubhn%c.i%20-21T2\t%12-15,22D, %16-19,7Q, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf2800900, 0xff800f50, "vqdmlal%c.s%20-21S6\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800b00, 0xff800f50, "vqdmlsl%c.s%20-21S6\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800d00, 0xff800f50, "vqdmull%c.s%20-21S6\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf3800400, 0xff800f50, "vraddhn%c.i%20-21T2\t%12-15,22D, %16-19,7Q, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf3800600, 0xff800f50, "vrsubhn%c.i%20-21T2\t%12-15,22D, %16-19,7Q, %0-3,5Q"},
--  {FPU_NEON_EXT_V1, 0xf2800000, 0xfe800f50, "vaddl%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800100, 0xfe800f50, "vaddw%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7Q, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800200, 0xfe800f50, "vsubl%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800300, 0xfe800f50, "vsubw%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7Q, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800500, 0xfe800f50, "vabal%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800700, 0xfe800f50, "vabdl%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800800, 0xfe800f50, "vmlal%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800a00, 0xfe800f50, "vmlsl%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--  {FPU_NEON_EXT_V1, 0xf2800c00, 0xfe800f50, "vmull%c.%24?us%20-21S2\t%12-15,22Q, %16-19,7D, %0-3,5D"},
--
--  /* Two registers and a scalar */
--  {FPU_NEON_EXT_V1, 0xf2800040, 0xff800f50, "vmla%c.i%20-21S6\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800140, 0xff800f50, "vmla%c.f%20-21Sa\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800340, 0xff800f50, "vqdmlal%c.s%20-21S6\t%12-15,22Q, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800440, 0xff800f50, "vmls%c.i%20-21S6\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800540, 0xff800f50, "vmls%c.f%20-21S6\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800740, 0xff800f50, "vqdmlsl%c.s%20-21S6\t%12-15,22Q, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800840, 0xff800f50, "vmul%c.i%20-21S6\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800940, 0xff800f50, "vmul%c.f%20-21Sa\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800b40, 0xff800f50, "vqdmull%c.s%20-21S6\t%12-15,22Q, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800c40, 0xff800f50, "vqdmulh%c.s%20-21S6\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800d40, 0xff800f50, "vqrdmulh%c.s%20-21S6\t%12-15,22D, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800040, 0xff800f50, "vmla%c.i%20-21S6\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800140, 0xff800f50, "vmla%c.f%20-21Sa\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800440, 0xff800f50, "vmls%c.i%20-21S6\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800540, 0xff800f50, "vmls%c.f%20-21Sa\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800840, 0xff800f50, "vmul%c.i%20-21S6\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800940, 0xff800f50, "vmul%c.f%20-21Sa\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800c40, 0xff800f50, "vqdmulh%c.s%20-21S6\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf3800d40, 0xff800f50, "vqrdmulh%c.s%20-21S6\t%12-15,22Q, %16-19,7Q, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800240, 0xfe800f50, "vmlal%c.%24?us%20-21S6\t%12-15,22Q, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800640, 0xfe800f50, "vmlsl%c.%24?us%20-21S6\t%12-15,22Q, %16-19,7D, %D"},
--  {FPU_NEON_EXT_V1, 0xf2800a40, 0xfe800f50, "vmull%c.%24?us%20-21S6\t%12-15,22Q, %16-19,7D, %D"},
--
--  /* Element and structure load/store */
--  {FPU_NEON_EXT_V1, 0xf4a00fc0, 0xffb00fc0, "vld4%c.32\t%C"},
--  {FPU_NEON_EXT_V1, 0xf4a00c00, 0xffb00f00, "vld1%c.%6-7S2\t%C"},
--  {FPU_NEON_EXT_V1, 0xf4a00d00, 0xffb00f00, "vld2%c.%6-7S2\t%C"},
--  {FPU_NEON_EXT_V1, 0xf4a00e00, 0xffb00f00, "vld3%c.%6-7S2\t%C"},
--  {FPU_NEON_EXT_V1, 0xf4a00f00, 0xffb00f00, "vld4%c.%6-7S2\t%C"},
--  {FPU_NEON_EXT_V1, 0xf4000200, 0xff900f00, "v%21?ls%21?dt1%c.%6-7S3\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000300, 0xff900f00, "v%21?ls%21?dt2%c.%6-7S2\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000400, 0xff900f00, "v%21?ls%21?dt3%c.%6-7S2\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000500, 0xff900f00, "v%21?ls%21?dt3%c.%6-7S2\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000600, 0xff900f00, "v%21?ls%21?dt1%c.%6-7S3\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000700, 0xff900f00, "v%21?ls%21?dt1%c.%6-7S3\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000800, 0xff900f00, "v%21?ls%21?dt2%c.%6-7S2\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000900, 0xff900f00, "v%21?ls%21?dt2%c.%6-7S2\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000a00, 0xff900f00, "v%21?ls%21?dt1%c.%6-7S3\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4000000, 0xff900e00, "v%21?ls%21?dt4%c.%6-7S2\t%A"},
--  {FPU_NEON_EXT_V1, 0xf4800000, 0xff900300, "v%21?ls%21?dt1%c.%10-11S2\t%B"},
--  {FPU_NEON_EXT_V1, 0xf4800100, 0xff900300, "v%21?ls%21?dt2%c.%10-11S2\t%B"},
--  {FPU_NEON_EXT_V1, 0xf4800200, 0xff900300, "v%21?ls%21?dt3%c.%10-11S2\t%B"},
--  {FPU_NEON_EXT_V1, 0xf4800300, 0xff900300, "v%21?ls%21?dt4%c.%10-11S2\t%B"},
--
--  {0,0 ,0, 0}
+-static const struct dis386 dis386_twobyte[] = {
+-  /* 00 */
+-  { GRP6 },
+-  { GRP7 },
+-  { "larS",		{ Gv, Ew } },
+-  { "lslS",		{ Gv, Ew } },
+-  { "(bad)",		{ XX } },
+-  { "syscall",		{ XX } },
+-  { "clts",		{ XX } },
+-  { "sysretP",		{ XX } },
+-  /* 08 */
+-  { "invd",		{ XX } },
+-  { "wbinvd",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "ud2a",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { GRPAMD },
+-  { "femms",		{ XX } },
+-  { "",			{ MX, EM, OPSUF } }, /* See OP_3DNowSuffix.  */
+-  /* 10 */
+-  { PREGRP8 },
+-  { PREGRP9 },
+-  { PREGRP30 },
+-  { "movlpX",		{ EXq, XM, { SIMD_Fixup, 'h' } } },
+-  { "unpcklpX",		{ XM, EXq } },
+-  { "unpckhpX",		{ XM, EXq } },
+-  { PREGRP31 },
+-  { "movhpX",		{ EXq, XM, { SIMD_Fixup, 'l' } } },
+-  /* 18 */
+-  { GRP16 },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "nopQ",		{ Ev } },
+-  /* 20 */
+-  { "movZ",		{ Rm, Cm } },
+-  { "movZ",		{ Rm, Dm } },
+-  { "movZ",		{ Cm, Rm } },
+-  { "movZ",		{ Dm, Rm } },
+-  { "movL",		{ Rd, Td } },
+-  { "(bad)",		{ XX } },
+-  { "movL",		{ Td, Rd } },
+-  { "(bad)",		{ XX } },
+-  /* 28 */
+-  { "movapX",		{ XM, EXx } },
+-  { "movapX",		{ EXx,  XM } },
+-  { PREGRP2 },
+-  { PREGRP33 },
+-  { PREGRP4 },
+-  { PREGRP3 },
+-  { PREGRP93 },
+-  { PREGRP94 },
+-  /* 30 */
+-  { "wrmsr",		{ XX } },
+-  { "rdtsc",		{ XX } },
+-  { "rdmsr",		{ XX } },
+-  { "rdpmc",		{ XX } },
+-  { "sysenter",		{ XX } },
+-  { "sysexit",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  /* 38 */
+-  { THREE_BYTE_0 },
+-  { "(bad)",		{ XX } },
+-  { THREE_BYTE_1 },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  /* 40 */
+-  { "cmovo",		{ Gv, Ev } },
+-  { "cmovno",		{ Gv, Ev } },
+-  { "cmovb",		{ Gv, Ev } },
+-  { "cmovae",		{ Gv, Ev } },
+-  { "cmove",		{ Gv, Ev } },
+-  { "cmovne",		{ Gv, Ev } },
+-  { "cmovbe",		{ Gv, Ev } },
+-  { "cmova",		{ Gv, Ev } },
+-  /* 48 */
+-  { "cmovs",		{ Gv, Ev } },
+-  { "cmovns",		{ Gv, Ev } },
+-  { "cmovp",		{ Gv, Ev } },
+-  { "cmovnp",		{ Gv, Ev } },
+-  { "cmovl",		{ Gv, Ev } },
+-  { "cmovge",		{ Gv, Ev } },
+-  { "cmovle",		{ Gv, Ev } },
+-  { "cmovg",		{ Gv, Ev } },
+-  /* 50 */
+-  { "movmskpX",		{ Gdq, XS } },
+-  { PREGRP13 },
+-  { PREGRP12 },
+-  { PREGRP11 },
+-  { "andpX",		{ XM, EXx } },
+-  { "andnpX",		{ XM, EXx } },
+-  { "orpX",		{ XM, EXx } },
+-  { "xorpX",		{ XM, EXx } },
+-  /* 58 */
+-  { PREGRP0 },
+-  { PREGRP10 },
+-  { PREGRP17 },
+-  { PREGRP16 },
+-  { PREGRP14 },
+-  { PREGRP7 },
+-  { PREGRP5 },
+-  { PREGRP6 },
+-  /* 60 */
+-  { PREGRP95 },
+-  { PREGRP96 },
+-  { PREGRP97 },
+-  { "packsswb",		{ MX, EM } },
+-  { "pcmpgtb",		{ MX, EM } },
+-  { "pcmpgtw",		{ MX, EM } },
+-  { "pcmpgtd",		{ MX, EM } },
+-  { "packuswb",		{ MX, EM } },
+-  /* 68 */
+-  { "punpckhbw",	{ MX, EM } },
+-  { "punpckhwd",	{ MX, EM } },
+-  { "punpckhdq",	{ MX, EM } },
+-  { "packssdw",		{ MX, EM } },
+-  { PREGRP26 },
+-  { PREGRP24 },
+-  { "movd",		{ MX, Edq } },
+-  { PREGRP19 },
+-  /* 70 */
+-  { PREGRP22 },
+-  { GRP12 },
+-  { GRP13 },
+-  { GRP14 },
+-  { "pcmpeqb",		{ MX, EM } },
+-  { "pcmpeqw",		{ MX, EM } },
+-  { "pcmpeqd",		{ MX, EM } },
+-  { "emms",		{ XX } },
+-  /* 78 */
+-  { PREGRP34 },
+-  { PREGRP35 },
+-  { "(bad)",		{ XX } },
+-  { "(bad)",		{ XX } },
+-  { PREGRP28 },
+-  { PREGRP29 },
+-  { PREGRP23 },
+-  { PREGRP20 },
+-  /* 80 */
+-  { "joH",		{ Jv, XX, cond_jump_flag } },
+-  { "jnoH",		{ Jv, XX, cond_jump_flag } },
+-  { "jbH",		{ Jv, XX, cond_jump_flag } },
+-  { "jaeH",		{ Jv, XX, cond_jump_flag } },
+-  { "jeH",		{ Jv, XX, cond_jump_flag } },
+-  { "jneH",		{ Jv, XX, cond_jump_flag } },
+-  { "jbeH",		{ Jv, XX, cond_jump_flag } },
+-  { "jaH",		{ Jv, XX, cond_jump_flag } },
+-  /* 88 */
+-  { "jsH",		{ Jv, XX, cond_jump_flag } },
+-  { "jnsH",		{ Jv, XX, cond_jump_flag } },
+-  { "jpH",		{ Jv, XX, cond_jump_flag } },
+-  { "jnpH",		{ Jv, XX, cond_jump_flag } },
+-  { "jlH",		{ Jv, XX, cond_jump_flag } },
+-  { "jgeH",		{ Jv, XX, cond_jump_flag } },
+-  { "jleH",		{ Jv, XX, cond_jump_flag } },
+-  { "jgH",		{ Jv, XX, cond_jump_flag } },
+-  /* 90 */
+-  { "seto",		{ Eb } },
+-  { "setno",		{ Eb } },
+-  { "setb",		{ Eb } },
+-  { "setae",		{ Eb } },
+-  { "sete",		{ Eb } },
+-  { "setne",		{ Eb } },
+-  { "setbe",		{ Eb } },
+-  { "seta",		{ Eb } },
+-  /* 98 */
+-  { "sets",		{ Eb } },
+-  { "setns",		{ Eb } },
+-  { "setp",		{ Eb } },
+-  { "setnp",		{ Eb } },
+-  { "setl",		{ Eb } },
+-  { "setge",		{ Eb } },
+-  { "setle",		{ Eb } },
+-  { "setg",		{ Eb } },
+-  /* a0 */
+-  { "pushT",		{ fs } },
+-  { "popT",		{ fs } },
+-  { "cpuid",		{ XX } },
+-  { "btS",		{ Ev, Gv } },
+-  { "shldS",		{ Ev, Gv, Ib } },
+-  { "shldS",		{ Ev, Gv, CL } },
+-  { GRPPADLCK2 },
+-  { GRPPADLCK1 },
+-  /* a8 */
+-  { "pushT",		{ gs } },
+-  { "popT",		{ gs } },
+-  { "rsm",		{ XX } },
+-  { "btsS",		{ Ev, Gv } },
+-  { "shrdS",		{ Ev, Gv, Ib } },
+-  { "shrdS",		{ Ev, Gv, CL } },
+-  { GRP15 },
+-  { "imulS",		{ Gv, Ev } },
+-  /* b0 */
+-  { "cmpxchgB",		{ Eb, Gb } },
+-  { "cmpxchgS",		{ Ev, Gv } },
+-  { "lssS",		{ Gv, Mp } },
+-  { "btrS",		{ Ev, Gv } },
+-  { "lfsS",		{ Gv, Mp } },
+-  { "lgsS",		{ Gv, Mp } },
+-  { "movz{bR|x|bR|x}",	{ Gv, Eb } },
+-  { "movz{wR|x|wR|x}",	{ Gv, Ew } }, /* yes, there really is movzww ! */
+-  /* b8 */
+-  { PREGRP37 },
+-  { "ud2b",		{ XX } },
+-  { GRP8 },
+-  { "btcS",		{ Ev, Gv } },
+-  { PREGRP107 },
+-  { PREGRP36 },
+-  { "movs{bR|x|bR|x}",	{ Gv, Eb } },
+-  { "movs{wR|x|wR|x}",	{ Gv, Ew } }, /* yes, there really is movsww ! */
+-  /* c0 */
+-  { "xaddB",		{ Eb, Gb } },
+-  { "xaddS",		{ Ev, Gv } },
+-  { PREGRP1 },
+-  { "movntiS",		{ Ev, Gv } },
+-  { "pinsrw",		{ MX, Edqw, Ib } },
+-  { "pextrw",		{ Gdq, MS, Ib } },
+-  { "shufpX",		{ XM, EXx, Ib } },
+-  { GRP9 },
+-  /* c8 */
+-  { "bswap",		{ RMeAX } },
+-  { "bswap",		{ RMeCX } },
+-  { "bswap",		{ RMeDX } },
+-  { "bswap",		{ RMeBX } },
+-  { "bswap",		{ RMeSP } },
+-  { "bswap",		{ RMeBP } },
+-  { "bswap",		{ RMeSI } },
+-  { "bswap",		{ RMeDI } },
+-  /* d0 */
+-  { PREGRP27 },
+-  { "psrlw",		{ MX, EM } },
+-  { "psrld",		{ MX, EM } },
+-  { "psrlq",		{ MX, EM } },
+-  { "paddq",		{ MX, EM } },
+-  { "pmullw",		{ MX, EM } },
+-  { PREGRP21 },
+-  { "pmovmskb",		{ Gdq, MS } },
+-  /* d8 */
+-  { "psubusb",		{ MX, EM } },
+-  { "psubusw",		{ MX, EM } },
+-  { "pminub",		{ MX, EM } },
+-  { "pand",		{ MX, EM } },
+-  { "paddusb",		{ MX, EM } },
+-  { "paddusw",		{ MX, EM } },
+-  { "pmaxub",		{ MX, EM } },
+-  { "pandn",		{ MX, EM } },
+-  /* e0 */
+-  { "pavgb",		{ MX, EM } },
+-  { "psraw",		{ MX, EM } },
+-  { "psrad",		{ MX, EM } },
+-  { "pavgw",		{ MX, EM } },
+-  { "pmulhuw",		{ MX, EM } },
+-  { "pmulhw",		{ MX, EM } },
+-  { PREGRP15 },
+-  { PREGRP25 },
+-  /* e8 */
+-  { "psubsb",		{ MX, EM } },
+-  { "psubsw",		{ MX, EM } },
+-  { "pminsw",		{ MX, EM } },
+-  { "por",		{ MX, EM } },
+-  { "paddsb",		{ MX, EM } },
+-  { "paddsw",		{ MX, EM } },
+-  { "pmaxsw",		{ MX, EM } },
+-  { "pxor",		{ MX, EM } },
+-  /* f0 */
+-  { PREGRP32 },
+-  { "psllw",		{ MX, EM } },
+-  { "pslld",		{ MX, EM } },
+-  { "psllq",		{ MX, EM } },
+-  { "pmuludq",		{ MX, EM } },
+-  { "pmaddwd",		{ MX, EM } },
+-  { "psadbw",		{ MX, EM } },
+-  { PREGRP18 },
+-  /* f8 */
+-  { "psubb",		{ MX, EM } },
+-  { "psubw",		{ MX, EM } },
+-  { "psubd",		{ MX, EM } },
+-  { "psubq",		{ MX, EM } },
+-  { "paddb",		{ MX, EM } },
+-  { "paddw",		{ MX, EM } },
+-  { "paddd",		{ MX, EM } },
+-  { "(bad)",		{ XX } },
 -};
 -
--/* Opcode tables: ARM, 16-bit Thumb, 32-bit Thumb.  All three are partially
--   ordered: they must be searched linearly from the top to obtain a correct
--   match.  */
--
--/* print_insn_arm recognizes the following format control codes:
--
--   %%			%
--
--   %a			print address for ldr/str instruction
--   %s                   print address for ldr/str halfword/signextend instruction
--   %b			print branch destination
--   %c			print condition code (always bits 28-31)
--   %m			print register mask for ldm/stm instruction
--   %o			print operand2 (immediate or register + shift)
--   %p			print 'p' iff bits 12-15 are 15
--   %t			print 't' iff bit 21 set and bit 24 clear
--   %B			print arm BLX(1) destination
--   %C			print the PSR sub type.
--   %U			print barrier type.
--   %P			print address for pli instruction.
--
--   %<bitfield>r		print as an ARM register
--   %<bitfield>d		print the bitfield in decimal
--   %<bitfield>W         print the bitfield plus one in decimal
--   %<bitfield>x		print the bitfield in hex
--   %<bitfield>X		print the bitfield as 1 hex digit without leading "0x"
--
--   %<bitfield>'c	print specified char iff bitfield is all ones
--   %<bitfield>`c	print specified char iff bitfield is all zeroes
--   %<bitfield>?ab...    select from array of values in big endian order
--
--   %e                   print arm SMI operand (bits 0..7,8..19).
--   %E			print the LSB and WIDTH fields of a BFI or BFC instruction.
--   %V                   print the 16-bit immediate field of a MOVT or MOVW instruction.  */
--
--static const struct opcode32 arm_opcodes[] =
--{
--  /* ARM instructions.  */
--  {ARM_EXT_V1, 0xe1a00000, 0xffffffff, "nop\t\t\t(mov r0,r0)"},
--  {ARM_EXT_V4T | ARM_EXT_V5, 0x012FFF10, 0x0ffffff0, "bx%c\t%0-3r"},
--  {ARM_EXT_V2, 0x00000090, 0x0fe000f0, "mul%20's%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V2, 0x00200090, 0x0fe000f0, "mla%20's%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V2S, 0x01000090, 0x0fb00ff0, "swp%22'b%c\t%12-15r, %0-3r, [%16-19r]"},
--  {ARM_EXT_V3M, 0x00800090, 0x0fa000f0, "%22?sumull%20's%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V3M, 0x00a00090, 0x0fa000f0, "%22?sumlal%20's%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--
--  /* IDIV instructions.  */
--  {ARM_EXT_DIV, 0x0710f010, 0x0ff0f0f0, "sdiv%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_DIV, 0x0730f010, 0x0ff0f0f0, "udiv%c\t%16-19r, %0-3r, %8-11r"},
--
--  /* V7 instructions.  */
--  {ARM_EXT_V7, 0xf450f000, 0xfd70f000, "pli\t%P"},
--  {ARM_EXT_V7, 0x0320f0f0, 0x0ffffff0, "dbg%c\t#%0-3d"},
--  {ARM_EXT_V7, 0xf57ff050, 0xfffffff0, "dmb\t%U"},
--  {ARM_EXT_V7, 0xf57ff040, 0xfffffff0, "dsb\t%U"},
--  {ARM_EXT_V7, 0xf57ff060, 0xfffffff0, "isb\t%U"},
--
--  /* ARM V6T2 instructions.  */
--  {ARM_EXT_V6T2, 0x07c0001f, 0x0fe0007f, "bfc%c\t%12-15r, %E"},
--  {ARM_EXT_V6T2, 0x07c00010, 0x0fe00070, "bfi%c\t%12-15r, %0-3r, %E"},
--  {ARM_EXT_V6T2, 0x00600090, 0x0ff000f0, "mls%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V6T2, 0x006000b0, 0x0f7000f0, "strht%c\t%12-15r, %s"},
--  {ARM_EXT_V6T2, 0x00300090, 0x0f300090, "ldr%6's%5?hbt%c\t%12-15r, %s"},
--  {ARM_EXT_V6T2, 0x03000000, 0x0ff00000, "movw%c\t%12-15r, %V"},
--  {ARM_EXT_V6T2, 0x03400000, 0x0ff00000, "movt%c\t%12-15r, %V"},
--  {ARM_EXT_V6T2, 0x06ff0f30, 0x0fff0ff0, "rbit%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V6T2, 0x07a00050, 0x0fa00070, "%22?usbfx%c\t%12-15r, %0-3r, #%7-11d, #%16-20W"},
--
--  /* ARM V6Z instructions.  */
--  {ARM_EXT_V6Z, 0x01600070, 0x0ff000f0, "smc%c\t%e"},
--
--  /* ARM V6K instructions.  */
--  {ARM_EXT_V6K, 0xf57ff01f, 0xffffffff, "clrex"},
--  {ARM_EXT_V6K, 0x01d00f9f, 0x0ff00fff, "ldrexb%c\t%12-15r, [%16-19r]"},
--  {ARM_EXT_V6K, 0x01b00f9f, 0x0ff00fff, "ldrexd%c\t%12-15r, [%16-19r]"},
--  {ARM_EXT_V6K, 0x01f00f9f, 0x0ff00fff, "ldrexh%c\t%12-15r, [%16-19r]"},
--  {ARM_EXT_V6K, 0x01c00f90, 0x0ff00ff0, "strexb%c\t%12-15r, %0-3r, [%16-19r]"},
--  {ARM_EXT_V6K, 0x01a00f90, 0x0ff00ff0, "strexd%c\t%12-15r, %0-3r, [%16-19r]"},
--  {ARM_EXT_V6K, 0x01e00f90, 0x0ff00ff0, "strexh%c\t%12-15r, %0-3r, [%16-19r]"},
--
--  /* ARM V6K NOP hints.  */
--  {ARM_EXT_V6K, 0x0320f001, 0x0fffffff, "yield%c"},
--  {ARM_EXT_V6K, 0x0320f002, 0x0fffffff, "wfe%c"},
--  {ARM_EXT_V6K, 0x0320f003, 0x0fffffff, "wfi%c"},
--  {ARM_EXT_V6K, 0x0320f004, 0x0fffffff, "sev%c"},
--  {ARM_EXT_V6K, 0x0320f000, 0x0fffff00, "nop%c\t{%0-7d}"},
--
--  /* ARM V6 instructions. */
--  {ARM_EXT_V6, 0xf1080000, 0xfffffe3f, "cpsie\t%8'a%7'i%6'f"},
--  {ARM_EXT_V6, 0xf10a0000, 0xfffffe20, "cpsie\t%8'a%7'i%6'f,#%0-4d"},
--  {ARM_EXT_V6, 0xf10C0000, 0xfffffe3f, "cpsid\t%8'a%7'i%6'f"},
--  {ARM_EXT_V6, 0xf10e0000, 0xfffffe20, "cpsid\t%8'a%7'i%6'f,#%0-4d"},
--  {ARM_EXT_V6, 0xf1000000, 0xfff1fe20, "cps\t#%0-4d"},
--  {ARM_EXT_V6, 0x06800010, 0x0ff00ff0, "pkhbt%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06800010, 0x0ff00070, "pkhbt%c\t%12-15r, %16-19r, %0-3r, lsl #%7-11d"},
--  {ARM_EXT_V6, 0x06800050, 0x0ff00ff0, "pkhtb%c\t%12-15r, %16-19r, %0-3r, asr #32"},
--  {ARM_EXT_V6, 0x06800050, 0x0ff00070, "pkhtb%c\t%12-15r, %16-19r, %0-3r, asr #%7-11d"},
--  {ARM_EXT_V6, 0x01900f9f, 0x0ff00fff, "ldrex%c\tr%12-15d, [%16-19r]"},
--  {ARM_EXT_V6, 0x06200f10, 0x0ff00ff0, "qadd16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06200f90, 0x0ff00ff0, "qadd8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06200f30, 0x0ff00ff0, "qaddsubx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06200f70, 0x0ff00ff0, "qsub16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06200ff0, 0x0ff00ff0, "qsub8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06200f50, 0x0ff00ff0, "qsubaddx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06100f10, 0x0ff00ff0, "sadd16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06100f90, 0x0ff00ff0, "sadd8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06100f30, 0x0ff00ff0, "saddaddx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06300f10, 0x0ff00ff0, "shadd16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06300f90, 0x0ff00ff0, "shadd8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06300f30, 0x0ff00ff0, "shaddsubx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06300f70, 0x0ff00ff0, "shsub16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06300ff0, 0x0ff00ff0, "shsub8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06300f50, 0x0ff00ff0, "shsubaddx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06100f70, 0x0ff00ff0, "ssub16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06100ff0, 0x0ff00ff0, "ssub8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06100f50, 0x0ff00ff0, "ssubaddx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06500f10, 0x0ff00ff0, "uadd16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06500f90, 0x0ff00ff0, "uadd8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06500f30, 0x0ff00ff0, "uaddsubx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06700f10, 0x0ff00ff0, "uhadd16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06700f90, 0x0ff00ff0, "uhadd8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06700f30, 0x0ff00ff0, "uhaddsubx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06700f70, 0x0ff00ff0, "uhsub16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06700ff0, 0x0ff00ff0, "uhsub8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06700f50, 0x0ff00ff0, "uhsubaddx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06600f10, 0x0ff00ff0, "uqadd16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06600f90, 0x0ff00ff0, "uqadd8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06600f30, 0x0ff00ff0, "uqaddsubx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06600f70, 0x0ff00ff0, "uqsub16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06600ff0, 0x0ff00ff0, "uqsub8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06600f50, 0x0ff00ff0, "uqsubaddx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06500f70, 0x0ff00ff0, "usub16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06500ff0, 0x0ff00ff0, "usub8%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06500f50, 0x0ff00ff0, "usubaddx%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06bf0f30, 0x0fff0ff0, "rev%c\t\%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x06bf0fb0, 0x0fff0ff0, "rev16%c\t\%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x06ff0fb0, 0x0fff0ff0, "revsh%c\t\%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0xf8100a00, 0xfe50ffff, "rfe%23?id%24?ba\t\%16-19r%21'!"},
--  {ARM_EXT_V6, 0x06bf0070, 0x0fff0ff0, "sxth%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x06bf0470, 0x0fff0ff0, "sxth%c\t%12-15r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06bf0870, 0x0fff0ff0, "sxth%c\t%12-15r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06bf0c70, 0x0fff0ff0, "sxth%c\t%12-15r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x068f0070, 0x0fff0ff0, "sxtb16%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x068f0470, 0x0fff0ff0, "sxtb16%c\t%12-15r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x068f0870, 0x0fff0ff0, "sxtb16%c\t%12-15r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x068f0c70, 0x0fff0ff0, "sxtb16%c\t%12-15r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06af0070, 0x0fff0ff0, "sxtb%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x06af0470, 0x0fff0ff0, "sxtb%c\t%12-15r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06af0870, 0x0fff0ff0, "sxtb%c\t%12-15r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06af0c70, 0x0fff0ff0, "sxtb%c\t%12-15r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06ff0070, 0x0fff0ff0, "uxth%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x06ff0470, 0x0fff0ff0, "uxth%c\t%12-15r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06ff0870, 0x0fff0ff0, "uxth%c\t%12-15r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06ff0c70, 0x0fff0ff0, "uxth%c\t%12-15r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06cf0070, 0x0fff0ff0, "uxtb16%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x06cf0470, 0x0fff0ff0, "uxtb16%c\t%12-15r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06cf0870, 0x0fff0ff0, "uxtb16%c\t%12-15r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06cf0c70, 0x0fff0ff0, "uxtb16%c\t%12-15r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06ef0070, 0x0fff0ff0, "uxtb%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V6, 0x06ef0470, 0x0fff0ff0, "uxtb%c\t%12-15r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06ef0870, 0x0fff0ff0, "uxtb%c\t%12-15r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06ef0c70, 0x0fff0ff0, "uxtb%c\t%12-15r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06b00070, 0x0ff00ff0, "sxtah%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06b00470, 0x0ff00ff0, "sxtah%c\t%12-15r, %16-19r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06b00870, 0x0ff00ff0, "sxtah%c\t%12-15r, %16-19r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06b00c70, 0x0ff00ff0, "sxtah%c\t%12-15r, %16-19r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06800070, 0x0ff00ff0, "sxtab16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06800470, 0x0ff00ff0, "sxtab16%c\t%12-15r, %16-19r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06800870, 0x0ff00ff0, "sxtab16%c\t%12-15r, %16-19r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06800c70, 0x0ff00ff0, "sxtab16%c\t%12-15r, %16-19r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06a00070, 0x0ff00ff0, "sxtab%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06a00470, 0x0ff00ff0, "sxtab%c\t%12-15r, %16-19r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06a00870, 0x0ff00ff0, "sxtab%c\t%12-15r, %16-19r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06a00c70, 0x0ff00ff0, "sxtab%c\t%12-15r, %16-19r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06f00070, 0x0ff00ff0, "uxtah%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06f00470, 0x0ff00ff0, "uxtah%c\t%12-15r, %16-19r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06f00870, 0x0ff00ff0, "uxtah%c\t%12-15r, %16-19r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06f00c70, 0x0ff00ff0, "uxtah%c\t%12-15r, %16-19r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06c00070, 0x0ff00ff0, "uxtab16%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06c00470, 0x0ff00ff0, "uxtab16%c\t%12-15r, %16-19r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06c00870, 0x0ff00ff0, "uxtab16%c\t%12-15r, %16-19r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06c00c70, 0x0ff00ff0, "uxtab16%c\t%12-15r, %16-19r, %0-3r, ROR #24"},
--  {ARM_EXT_V6, 0x06e00070, 0x0ff00ff0, "uxtab%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0x06e00470, 0x0ff00ff0, "uxtab%c\t%12-15r, %16-19r, %0-3r, ror #8"},
--  {ARM_EXT_V6, 0x06e00870, 0x0ff00ff0, "uxtab%c\t%12-15r, %16-19r, %0-3r, ror #16"},
--  {ARM_EXT_V6, 0x06e00c70, 0x0ff00ff0, "uxtab%c\t%12-15r, %16-19r, %0-3r, ror #24"},
--  {ARM_EXT_V6, 0x06800fb0, 0x0ff00ff0, "sel%c\t%12-15r, %16-19r, %0-3r"},
--  {ARM_EXT_V6, 0xf1010000, 0xfffffc00, "setend\t%9?ble"},
--  {ARM_EXT_V6, 0x0700f010, 0x0ff0f0d0, "smuad%5'x%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V6, 0x0700f050, 0x0ff0f0d0, "smusd%5'x%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V6, 0x07000010, 0x0ff000d0, "smlad%5'x%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V6, 0x07400010, 0x0ff000d0, "smlald%5'x%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V6, 0x07000050, 0x0ff000d0, "smlsd%5'x%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V6, 0x07400050, 0x0ff000d0, "smlsld%5'x%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V6, 0x0750f010, 0x0ff0f0d0, "smmul%5'r%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V6, 0x07500010, 0x0ff000d0, "smmla%5'r%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V6, 0x075000d0, 0x0ff000d0, "smmls%5'r%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V6, 0xf84d0500, 0xfe5fffe0, "srs%23?id%24?ba\t%16-19r%21'!, #%0-4d"},
--  {ARM_EXT_V6, 0x06a00010, 0x0fe00ff0, "ssat%c\t%12-15r, #%16-20W, %0-3r"},
--  {ARM_EXT_V6, 0x06a00010, 0x0fe00070, "ssat%c\t%12-15r, #%16-20W, %0-3r, lsl #%7-11d"},
--  {ARM_EXT_V6, 0x06a00050, 0x0fe00070, "ssat%c\t%12-15r, #%16-20W, %0-3r, asr #%7-11d"},
--  {ARM_EXT_V6, 0x06a00f30, 0x0ff00ff0, "ssat16%c\t%12-15r, #%16-19W, %0-3r"},
--  {ARM_EXT_V6, 0x01800f90, 0x0ff00ff0, "strex%c\t%12-15r, %0-3r, [%16-19r]"},
--  {ARM_EXT_V6, 0x00400090, 0x0ff000f0, "umaal%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V6, 0x0780f010, 0x0ff0f0f0, "usad8%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V6, 0x07800010, 0x0ff000f0, "usada8%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V6, 0x06e00010, 0x0fe00ff0, "usat%c\t%12-15r, #%16-20d, %0-3r"},
--  {ARM_EXT_V6, 0x06e00010, 0x0fe00070, "usat%c\t%12-15r, #%16-20d, %0-3r, lsl #%7-11d"},
--  {ARM_EXT_V6, 0x06e00050, 0x0fe00070, "usat%c\t%12-15r, #%16-20d, %0-3r, asr #%7-11d"},
--  {ARM_EXT_V6, 0x06e00f30, 0x0ff00ff0, "usat16%c\t%12-15r, #%16-19d, %0-3r"},
--
--  /* V5J instruction.  */
--  {ARM_EXT_V5J, 0x012fff20, 0x0ffffff0, "bxj%c\t%0-3r"},
--
--  /* V5 Instructions.  */
--  {ARM_EXT_V5, 0xe1200070, 0xfff000f0, "bkpt\t0x%16-19X%12-15X%8-11X%0-3X"},
--  {ARM_EXT_V5, 0xfa000000, 0xfe000000, "blx\t%B"},
--  {ARM_EXT_V5, 0x012fff30, 0x0ffffff0, "blx%c\t%0-3r"},
--  {ARM_EXT_V5, 0x016f0f10, 0x0fff0ff0, "clz%c\t%12-15r, %0-3r"},
--
--  /* V5E "El Segundo" Instructions.  */
--  {ARM_EXT_V5E, 0x000000d0, 0x0e1000f0, "ldrd%c\t%12-15r, %s"},
--  {ARM_EXT_V5E, 0x000000f0, 0x0e1000f0, "strd%c\t%12-15r, %s"},
--  {ARM_EXT_V5E, 0xf450f000, 0xfc70f000, "pld\t%a"},
--  {ARM_EXT_V5ExP, 0x01000080, 0x0ff000f0, "smlabb%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V5ExP, 0x010000a0, 0x0ff000f0, "smlatb%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V5ExP, 0x010000c0, 0x0ff000f0, "smlabt%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V5ExP, 0x010000e0, 0x0ff000f0, "smlatt%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--
--  {ARM_EXT_V5ExP, 0x01200080, 0x0ff000f0, "smlawb%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--  {ARM_EXT_V5ExP, 0x012000c0, 0x0ff000f0, "smlawt%c\t%16-19r, %0-3r, %8-11r, %12-15r"},
--
--  {ARM_EXT_V5ExP, 0x01400080, 0x0ff000f0, "smlalbb%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V5ExP, 0x014000a0, 0x0ff000f0, "smlaltb%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V5ExP, 0x014000c0, 0x0ff000f0, "smlalbt%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V5ExP, 0x014000e0, 0x0ff000f0, "smlaltt%c\t%12-15r, %16-19r, %0-3r, %8-11r"},
--
--  {ARM_EXT_V5ExP, 0x01600080, 0x0ff0f0f0, "smulbb%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V5ExP, 0x016000a0, 0x0ff0f0f0, "smultb%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V5ExP, 0x016000c0, 0x0ff0f0f0, "smulbt%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V5ExP, 0x016000e0, 0x0ff0f0f0, "smultt%c\t%16-19r, %0-3r, %8-11r"},
--
--  {ARM_EXT_V5ExP, 0x012000a0, 0x0ff0f0f0, "smulwb%c\t%16-19r, %0-3r, %8-11r"},
--  {ARM_EXT_V5ExP, 0x012000e0, 0x0ff0f0f0, "smulwt%c\t%16-19r, %0-3r, %8-11r"},
--
--  {ARM_EXT_V5ExP, 0x01000050, 0x0ff00ff0,  "qadd%c\t%12-15r, %0-3r, %16-19r"},
--  {ARM_EXT_V5ExP, 0x01400050, 0x0ff00ff0, "qdadd%c\t%12-15r, %0-3r, %16-19r"},
--  {ARM_EXT_V5ExP, 0x01200050, 0x0ff00ff0,  "qsub%c\t%12-15r, %0-3r, %16-19r"},
--  {ARM_EXT_V5ExP, 0x01600050, 0x0ff00ff0, "qdsub%c\t%12-15r, %0-3r, %16-19r"},
--
--  /* ARM Instructions.  */
--  {ARM_EXT_V1, 0x00000090, 0x0e100090, "str%6's%5?hb%c\t%12-15r, %s"},
--  {ARM_EXT_V1, 0x00100090, 0x0e100090, "ldr%6's%5?hb%c\t%12-15r, %s"},
--  {ARM_EXT_V1, 0x00000000, 0x0de00000, "and%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x00200000, 0x0de00000, "eor%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x00400000, 0x0de00000, "sub%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x00600000, 0x0de00000, "rsb%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x00800000, 0x0de00000, "add%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x00a00000, 0x0de00000, "adc%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x00c00000, 0x0de00000, "sbc%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x00e00000, 0x0de00000, "rsc%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V3, 0x0120f000, 0x0db0f000, "msr%c\t%22?SCPSR%C, %o"},
--  {ARM_EXT_V3, 0x010f0000, 0x0fbf0fff, "mrs%c\t%12-15r, %22?SCPSR"},
--  {ARM_EXT_V1, 0x01000000, 0x0de00000, "tst%p%c\t%16-19r, %o"},
--  {ARM_EXT_V1, 0x01200000, 0x0de00000, "teq%p%c\t%16-19r, %o"},
--  {ARM_EXT_V1, 0x01400000, 0x0de00000, "cmp%p%c\t%16-19r, %o"},
--  {ARM_EXT_V1, 0x01600000, 0x0de00000, "cmn%p%c\t%16-19r, %o"},
--  {ARM_EXT_V1, 0x01800000, 0x0de00000, "orr%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x03a00000, 0x0fef0000, "mov%20's%c\t%12-15r, %o"},
--  {ARM_EXT_V1, 0x01a00000, 0x0def0ff0, "mov%20's%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V1, 0x01a00000, 0x0def0060, "lsl%20's%c\t%12-15r, %q"},
--  {ARM_EXT_V1, 0x01a00020, 0x0def0060, "lsr%20's%c\t%12-15r, %q"},
--  {ARM_EXT_V1, 0x01a00040, 0x0def0060, "asr%20's%c\t%12-15r, %q"},
--  {ARM_EXT_V1, 0x01a00060, 0x0def0ff0, "rrx%20's%c\t%12-15r, %0-3r"},
--  {ARM_EXT_V1, 0x01a00060, 0x0def0060, "ror%20's%c\t%12-15r, %q"},
--  {ARM_EXT_V1, 0x01c00000, 0x0de00000, "bic%20's%c\t%12-15r, %16-19r, %o"},
--  {ARM_EXT_V1, 0x01e00000, 0x0de00000, "mvn%20's%c\t%12-15r, %o"},
--  {ARM_EXT_V1, 0x052d0004, 0x0fff0fff, "push%c\t{%12-15r}\t\t; (str%c %12-15r, %a)"},
--  {ARM_EXT_V1, 0x04000000, 0x0e100000, "str%22'b%t%c\t%12-15r, %a"},
--  {ARM_EXT_V1, 0x06000000, 0x0e100ff0, "str%22'b%t%c\t%12-15r, %a"},
--  {ARM_EXT_V1, 0x04000000, 0x0c100010, "str%22'b%t%c\t%12-15r, %a"},
--  {ARM_EXT_V1, 0x06000010, 0x0e000010, "undefined"},
--  {ARM_EXT_V1, 0x049d0004, 0x0fff0fff, "pop%c\t{%12-15r}\t\t; (ldr%c %12-15r, %a)"},
--  {ARM_EXT_V1, 0x04100000, 0x0c100000, "ldr%22'b%t%c\t%12-15r, %a"},
--  {ARM_EXT_V1, 0x092d0000, 0x0fff0000, "push%c\t%m"},
--  {ARM_EXT_V1, 0x08800000, 0x0ff00000, "stm%c\t%16-19r%21'!, %m%22'^"},
--  {ARM_EXT_V1, 0x08000000, 0x0e100000, "stm%23?id%24?ba%c\t%16-19r%21'!, %m%22'^"},
--  {ARM_EXT_V1, 0x08bd0000, 0x0fff0000, "pop%c\t%m"},
--  {ARM_EXT_V1, 0x08900000, 0x0f900000, "ldm%c\t%16-19r%21'!, %m%22'^"},
--  {ARM_EXT_V1, 0x08100000, 0x0e100000, "ldm%23?id%24?ba%c\t%16-19r%21'!, %m%22'^"},
--  {ARM_EXT_V1, 0x0a000000, 0x0e000000, "b%24'l%c\t%b"},
--  {ARM_EXT_V1, 0x0f000000, 0x0f000000, "svc%c\t%0-23x"},
--
--  /* The rest.  */
--  {ARM_EXT_V1, 0x00000000, 0x00000000, "undefined instruction %0-31x"},
--  {0, 0x00000000, 0x00000000, 0}
+-static const unsigned char onebyte_has_modrm[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0, /* 00 */
+-  /* 10 */ 1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0, /* 10 */
+-  /* 20 */ 1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0, /* 20 */
+-  /* 30 */ 1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0, /* 30 */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 40 */
+-  /* 50 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 50 */
+-  /* 60 */ 0,0,1,1,0,0,0,0,0,1,0,1,0,0,0,0, /* 60 */
+-  /* 70 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 70 */
+-  /* 80 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 80 */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 90 */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* a0 */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* b0 */
+-  /* c0 */ 1,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0, /* c0 */
+-  /* d0 */ 1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1, /* d0 */
+-  /* e0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* e0 */
+-  /* f0 */ 0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1  /* f0 */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
 -};
 -
--/* print_insn_thumb16 recognizes the following format control codes:
--
--   %S                   print Thumb register (bits 3..5 as high number if bit 6 set)
--   %D                   print Thumb register (bits 0..2 as high number if bit 7 set)
--   %<bitfield>I         print bitfield as a signed decimal
--				(top bit of range being the sign bit)
--   %N                   print Thumb register mask (with LR)
--   %O                   print Thumb register mask (with PC)
--   %M                   print Thumb register mask
--   %b			print CZB's 6-bit unsigned branch destination
--   %s			print Thumb right-shift immediate (6..10; 0 == 32).
--   %c			print the condition code
--   %C			print the condition code, or "s" if not conditional
--   %x			print warning if conditional an not at end of IT block"
--   %X			print "\t; unpredictable <IT:code>" if conditional
--   %I			print IT instruction suffix and operands
--   %<bitfield>r		print bitfield as an ARM register
--   %<bitfield>d		print bitfield as a decimal
--   %<bitfield>H         print (bitfield * 2) as a decimal
--   %<bitfield>W         print (bitfield * 4) as a decimal
--   %<bitfield>a         print (bitfield * 4) as a pc-rel offset + decoded symbol
--   %<bitfield>B         print Thumb branch destination (signed displacement)
--   %<bitfield>c         print bitfield as a condition code
--   %<bitnum>'c		print specified char iff bit is one
--   %<bitnum>?ab		print a if bit is one else print b.  */
--
--static const struct opcode16 thumb_opcodes[] =
--{
--  /* Thumb instructions.  */
--
--  /* ARM V6K no-argument instructions.  */
--  {ARM_EXT_V6K, 0xbf00, 0xffff, "nop%c"},
--  {ARM_EXT_V6K, 0xbf10, 0xffff, "yield%c"},
--  {ARM_EXT_V6K, 0xbf20, 0xffff, "wfe%c"},
--  {ARM_EXT_V6K, 0xbf30, 0xffff, "wfi%c"},
--  {ARM_EXT_V6K, 0xbf40, 0xffff, "sev%c"},
--  {ARM_EXT_V6K, 0xbf00, 0xff0f, "nop%c\t{%4-7d}"},
--
--  /* ARM V6T2 instructions.  */
--  {ARM_EXT_V6T2, 0xb900, 0xfd00, "cbnz\t%0-2r, %b%X"},
--  {ARM_EXT_V6T2, 0xb100, 0xfd00, "cbz\t%0-2r, %b%X"},
--  {ARM_EXT_V6T2, 0xbf00, 0xff00, "it%I%X"},
--
--  /* ARM V6.  */
--  {ARM_EXT_V6, 0xb660, 0xfff8, "cpsie\t%2'a%1'i%0'f%X"},
--  {ARM_EXT_V6, 0xb670, 0xfff8, "cpsid\t%2'a%1'i%0'f%X"},
--  {ARM_EXT_V6, 0x4600, 0xffc0, "mov%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V6, 0xba00, 0xffc0, "rev%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V6, 0xba40, 0xffc0, "rev16%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V6, 0xbac0, 0xffc0, "revsh%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V6, 0xb650, 0xfff7, "setend\t%3?ble%X"},
--  {ARM_EXT_V6, 0xb200, 0xffc0, "sxth%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V6, 0xb240, 0xffc0, "sxtb%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V6, 0xb280, 0xffc0, "uxth%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V6, 0xb2c0, 0xffc0, "uxtb%c\t%0-2r, %3-5r"},
--
--  /* ARM V5 ISA extends Thumb.  */
--  {ARM_EXT_V5T, 0xbe00, 0xff00, "bkpt\t%0-7x"}, /* Is always unconditional.  */
--  /* This is BLX(2).  BLX(1) is a 32-bit instruction.  */
--  {ARM_EXT_V5T, 0x4780, 0xff87, "blx%c\t%3-6r%x"},	/* note: 4 bit register number.  */
--  /* ARM V4T ISA (Thumb v1).  */
--  {ARM_EXT_V4T, 0x46C0, 0xFFFF, "nop%c\t\t\t(mov r8, r8)"},
--  /* Format 4.  */
--  {ARM_EXT_V4T, 0x4000, 0xFFC0, "and%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4040, 0xFFC0, "eor%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4080, 0xFFC0, "lsl%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x40C0, 0xFFC0, "lsr%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4100, 0xFFC0, "asr%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4140, 0xFFC0, "adc%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4180, 0xFFC0, "sbc%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x41C0, 0xFFC0, "ror%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4200, 0xFFC0, "tst%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4240, 0xFFC0, "neg%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4280, 0xFFC0, "cmp%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x42C0, 0xFFC0, "cmn%c\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4300, 0xFFC0, "orr%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4340, 0xFFC0, "mul%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x4380, 0xFFC0, "bic%C\t%0-2r, %3-5r"},
--  {ARM_EXT_V4T, 0x43C0, 0xFFC0, "mvn%C\t%0-2r, %3-5r"},
--  /* format 13 */
--  {ARM_EXT_V4T, 0xB000, 0xFF80, "add%c\tsp, #%0-6W"},
--  {ARM_EXT_V4T, 0xB080, 0xFF80, "sub%c\tsp, #%0-6W"},
--  /* format 5 */
--  {ARM_EXT_V4T, 0x4700, 0xFF80, "bx%c\t%S%x"},
--  {ARM_EXT_V4T, 0x4400, 0xFF00, "add%c\t%D, %S"},
--  {ARM_EXT_V4T, 0x4500, 0xFF00, "cmp%c\t%D, %S"},
--  {ARM_EXT_V4T, 0x4600, 0xFF00, "mov%c\t%D, %S"},
--  /* format 14 */
--  {ARM_EXT_V4T, 0xB400, 0xFE00, "push%c\t%N"},
--  {ARM_EXT_V4T, 0xBC00, 0xFE00, "pop%c\t%O"},
--  /* format 2 */
--  {ARM_EXT_V4T, 0x1800, 0xFE00, "add%C\t%0-2r, %3-5r, %6-8r"},
--  {ARM_EXT_V4T, 0x1A00, 0xFE00, "sub%C\t%0-2r, %3-5r, %6-8r"},
--  {ARM_EXT_V4T, 0x1C00, 0xFE00, "add%C\t%0-2r, %3-5r, #%6-8d"},
--  {ARM_EXT_V4T, 0x1E00, 0xFE00, "sub%C\t%0-2r, %3-5r, #%6-8d"},
--  /* format 8 */
--  {ARM_EXT_V4T, 0x5200, 0xFE00, "strh%c\t%0-2r, [%3-5r, %6-8r]"},
--  {ARM_EXT_V4T, 0x5A00, 0xFE00, "ldrh%c\t%0-2r, [%3-5r, %6-8r]"},
--  {ARM_EXT_V4T, 0x5600, 0xF600, "ldrs%11?hb%c\t%0-2r, [%3-5r, %6-8r]"},
--  /* format 7 */
--  {ARM_EXT_V4T, 0x5000, 0xFA00, "str%10'b%c\t%0-2r, [%3-5r, %6-8r]"},
--  {ARM_EXT_V4T, 0x5800, 0xFA00, "ldr%10'b%c\t%0-2r, [%3-5r, %6-8r]"},
--  /* format 1 */
--  {ARM_EXT_V4T, 0x0000, 0xF800, "lsl%C\t%0-2r, %3-5r, #%6-10d"},
--  {ARM_EXT_V4T, 0x0800, 0xF800, "lsr%C\t%0-2r, %3-5r, %s"},
--  {ARM_EXT_V4T, 0x1000, 0xF800, "asr%C\t%0-2r, %3-5r, %s"},
--  /* format 3 */
--  {ARM_EXT_V4T, 0x2000, 0xF800, "mov%C\t%8-10r, #%0-7d"},
--  {ARM_EXT_V4T, 0x2800, 0xF800, "cmp%c\t%8-10r, #%0-7d"},
--  {ARM_EXT_V4T, 0x3000, 0xF800, "add%C\t%8-10r, #%0-7d"},
--  {ARM_EXT_V4T, 0x3800, 0xF800, "sub%C\t%8-10r, #%0-7d"},
--  /* format 6 */
--  {ARM_EXT_V4T, 0x4800, 0xF800, "ldr%c\t%8-10r, [pc, #%0-7W]\t(%0-7a)"},  /* TODO: Disassemble PC relative "LDR rD,=<symbolic>" */
--  /* format 9 */
--  {ARM_EXT_V4T, 0x6000, 0xF800, "str%c\t%0-2r, [%3-5r, #%6-10W]"},
--  {ARM_EXT_V4T, 0x6800, 0xF800, "ldr%c\t%0-2r, [%3-5r, #%6-10W]"},
--  {ARM_EXT_V4T, 0x7000, 0xF800, "strb%c\t%0-2r, [%3-5r, #%6-10d]"},
--  {ARM_EXT_V4T, 0x7800, 0xF800, "ldrb%c\t%0-2r, [%3-5r, #%6-10d]"},
--  /* format 10 */
--  {ARM_EXT_V4T, 0x8000, 0xF800, "strh%c\t%0-2r, [%3-5r, #%6-10H]"},
--  {ARM_EXT_V4T, 0x8800, 0xF800, "ldrh%c\t%0-2r, [%3-5r, #%6-10H]"},
--  /* format 11 */
--  {ARM_EXT_V4T, 0x9000, 0xF800, "str%c\t%8-10r, [sp, #%0-7W]"},
--  {ARM_EXT_V4T, 0x9800, 0xF800, "ldr%c\t%8-10r, [sp, #%0-7W]"},
--  /* format 12 */
--  {ARM_EXT_V4T, 0xA000, 0xF800, "add%c\t%8-10r, pc, #%0-7W\t(adr %8-10r, %0-7a)"},
--  {ARM_EXT_V4T, 0xA800, 0xF800, "add%c\t%8-10r, sp, #%0-7W"},
--  /* format 15 */
--  {ARM_EXT_V4T, 0xC000, 0xF800, "stmia%c\t%8-10r!, %M"},
--  {ARM_EXT_V4T, 0xC800, 0xF800, "ldmia%c\t%8-10r!, %M"},
--  /* format 17 */
--  {ARM_EXT_V4T, 0xDF00, 0xFF00, "svc%c\t%0-7d"},
--  /* format 16 */
--  {ARM_EXT_V4T, 0xDE00, 0xFE00, "undefined"},
--  {ARM_EXT_V4T, 0xD000, 0xF000, "b%8-11c.n\t%0-7B%X"},
--  /* format 18 */
--  {ARM_EXT_V4T, 0xE000, 0xF800, "b%c.n\t%0-10B%x"},
--
--  /* The E800 .. FFFF range is unconditionally redirected to the
--     32-bit table, because even in pre-V6T2 ISAs, BL and BLX(1) pairs
--     are processed via that table.  Thus, we can never encounter a
--     bare "second half of BL/BLX(1)" instruction here.  */
--  {ARM_EXT_V1,  0x0000, 0x0000, "undefined"},
--  {0, 0, 0, 0}
+-static const unsigned char twobyte_has_modrm[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,1, /* 0f */
+-  /* 10 */ 1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1, /* 1f */
+-  /* 20 */ 1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0, /* 3f */
+-  /* 40 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 4f */
+-  /* 50 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 5f */
+-  /* 60 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 6f */
+-  /* 70 */ 1,1,1,1,1,1,1,0,1,1,0,0,1,1,1,1, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 9f */
+-  /* a0 */ 0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1, /* af */
+-  /* b0 */ 1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1, /* bf */
+-  /* c0 */ 1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* df */
+-  /* e0 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* ef */
+-  /* f0 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0  /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
 -};
 -
--/* Thumb32 opcodes use the same table structure as the ARM opcodes.
--   We adopt the convention that hw1 is the high 16 bits of .value and
--   .mask, hw2 the low 16 bits.
--
--   print_insn_thumb32 recognizes the following format control codes:
--
--       %%		%
--
--       %I		print a 12-bit immediate from hw1[10],hw2[14:12,7:0]
--       %M		print a modified 12-bit immediate (same location)
--       %J		print a 16-bit immediate from hw1[3:0,10],hw2[14:12,7:0]
--       %K		print a 16-bit immediate from hw2[3:0],hw1[3:0],hw2[11:4]
--       %S		print a possibly-shifted Rm
--
--       %a		print the address of a plain load/store
--       %w		print the width and signedness of a core load/store
--       %m		print register mask for ldm/stm
--
--       %E		print the lsb and width fields of a bfc/bfi instruction
--       %F		print the lsb and width fields of a sbfx/ubfx instruction
--       %b		print a conditional branch offset
--       %B		print an unconditional branch offset
--       %s		print the shift field of an SSAT instruction
--       %R		print the rotation field of an SXT instruction
--       %U		print barrier type.
--       %P		print address for pli instruction.
--       %c		print the condition code
--       %x		print warning if conditional an not at end of IT block"
--       %X		print "\t; unpredictable <IT:code>" if conditional
--
--       %<bitfield>d	print bitfield in decimal
--       %<bitfield>W	print bitfield*4 in decimal
--       %<bitfield>r	print bitfield as an ARM register
--       %<bitfield>c	print bitfield as a condition code
--
--       %<bitfield>'c	print specified char iff bitfield is all ones
--       %<bitfield>`c	print specified char iff bitfield is all zeroes
--       %<bitfield>?ab... select from array of values in big endian order
--
--   With one exception at the bottom (done because BL and BLX(1) need
--   to come dead last), this table was machine-sorted first in
--   decreasing order of number of bits set in the mask, then in
--   increasing numeric order of mask, then in increasing numeric order
--   of opcode.  This order is not the clearest for a human reader, but
--   is guaranteed never to catch a special-case bit pattern with a more
--   general mask, which is important, because this instruction encoding
--   makes heavy use of special-case bit patterns.  */
--static const struct opcode32 thumb32_opcodes[] =
--{
--  /* V7 instructions.  */
--  {ARM_EXT_V7, 0xf910f000, 0xff70f000, "pli%c\t%a"},
--  {ARM_EXT_V7, 0xf3af80f0, 0xfffffff0, "dbg%c\t#%0-3d"},
--  {ARM_EXT_V7, 0xf3bf8f50, 0xfffffff0, "dmb%c\t%U"},
--  {ARM_EXT_V7, 0xf3bf8f40, 0xfffffff0, "dsb%c\t%U"},
--  {ARM_EXT_V7, 0xf3bf8f60, 0xfffffff0, "isb%c\t%U"},
--  {ARM_EXT_DIV, 0xfb90f0f0, 0xfff0f0f0, "sdiv%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_DIV, 0xfbb0f0f0, 0xfff0f0f0, "udiv%c\t%8-11r, %16-19r, %0-3r"},
--
--  /* Instructions defined in the basic V6T2 set.  */
--  {ARM_EXT_V6T2, 0xf3af8000, 0xffffffff, "nop%c.w"},
--  {ARM_EXT_V6T2, 0xf3af8001, 0xffffffff, "yield%c.w"},
--  {ARM_EXT_V6T2, 0xf3af8002, 0xffffffff, "wfe%c.w"},
--  {ARM_EXT_V6T2, 0xf3af8003, 0xffffffff, "wfi%c.w"},
--  {ARM_EXT_V6T2, 0xf3af9004, 0xffffffff, "sev%c.w"},
--  {ARM_EXT_V6T2, 0xf3af8000, 0xffffff00, "nop%c.w\t{%0-7d}"},
--
--  {ARM_EXT_V6T2, 0xf3bf8f2f, 0xffffffff, "clrex%c"},
--  {ARM_EXT_V6T2, 0xf3af8400, 0xffffff1f, "cpsie.w\t%7'a%6'i%5'f%X"},
--  {ARM_EXT_V6T2, 0xf3af8600, 0xffffff1f, "cpsid.w\t%7'a%6'i%5'f%X"},
--  {ARM_EXT_V6T2, 0xf3c08f00, 0xfff0ffff, "bxj%c\t%16-19r%x"},
--  {ARM_EXT_V6T2, 0xe810c000, 0xffd0ffff, "rfedb%c\t%16-19r%21'!"},
--  {ARM_EXT_V6T2, 0xe990c000, 0xffd0ffff, "rfeia%c\t%16-19r%21'!"},
--  {ARM_EXT_V6T2, 0xf3ef8000, 0xffeff000, "mrs%c\t%8-11r, %D"},
--  {ARM_EXT_V6T2, 0xf3af8100, 0xffffffe0, "cps\t#%0-4d%X"},
--  {ARM_EXT_V6T2, 0xe8d0f000, 0xfff0fff0, "tbb%c\t[%16-19r, %0-3r]%x"},
--  {ARM_EXT_V6T2, 0xe8d0f010, 0xfff0fff0, "tbh%c\t[%16-19r, %0-3r, lsl #1]%x"},
--  {ARM_EXT_V6T2, 0xf3af8500, 0xffffff00, "cpsie\t%7'a%6'i%5'f, #%0-4d%X"},
--  {ARM_EXT_V6T2, 0xf3af8700, 0xffffff00, "cpsid\t%7'a%6'i%5'f, #%0-4d%X"},
--  {ARM_EXT_V6T2, 0xf3de8f00, 0xffffff00, "subs%c\tpc, lr, #%0-7d"},
--  {ARM_EXT_V6T2, 0xf3808000, 0xffe0f000, "msr%c\t%C, %16-19r"},
--  {ARM_EXT_V6T2, 0xe8500f00, 0xfff00fff, "ldrex%c\t%12-15r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xe8d00f4f, 0xfff00fef, "ldrex%4?hb%c\t%12-15r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xe800c000, 0xffd0ffe0, "srsdb%c\t%16-19r%21'!, #%0-4d"},
--  {ARM_EXT_V6T2, 0xe980c000, 0xffd0ffe0, "srsia%c\t%16-19r%21'!, #%0-4d"},
--  {ARM_EXT_V6T2, 0xfa0ff080, 0xfffff0c0, "sxth%c.w\t%8-11r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa1ff080, 0xfffff0c0, "uxth%c.w\t%8-11r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa2ff080, 0xfffff0c0, "sxtb16%c\t%8-11r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa3ff080, 0xfffff0c0, "uxtb16%c\t%8-11r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa4ff080, 0xfffff0c0, "sxtb%c.w\t%8-11r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa5ff080, 0xfffff0c0, "uxtb%c.w\t%8-11r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xe8400000, 0xfff000ff, "strex%c\t%8-11r, %12-15r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xe8d0007f, 0xfff000ff, "ldrexd%c\t%12-15r, %8-11r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xfa80f000, 0xfff0f0f0, "sadd8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa80f010, 0xfff0f0f0, "qadd8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa80f020, 0xfff0f0f0, "shadd8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa80f040, 0xfff0f0f0, "uadd8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa80f050, 0xfff0f0f0, "uqadd8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa80f060, 0xfff0f0f0, "uhadd8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa80f080, 0xfff0f0f0, "qadd%c\t%8-11r, %0-3r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfa80f090, 0xfff0f0f0, "qdadd%c\t%8-11r, %0-3r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfa80f0a0, 0xfff0f0f0, "qsub%c\t%8-11r, %0-3r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfa80f0b0, 0xfff0f0f0, "qdsub%c\t%8-11r, %0-3r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfa90f000, 0xfff0f0f0, "sadd16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa90f010, 0xfff0f0f0, "qadd16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa90f020, 0xfff0f0f0, "shadd16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa90f040, 0xfff0f0f0, "uadd16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa90f050, 0xfff0f0f0, "uqadd16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa90f060, 0xfff0f0f0, "uhadd16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa90f080, 0xfff0f0f0, "rev%c.w\t%8-11r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfa90f090, 0xfff0f0f0, "rev16%c.w\t%8-11r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfa90f0a0, 0xfff0f0f0, "rbit%c\t%8-11r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfa90f0b0, 0xfff0f0f0, "revsh%c.w\t%8-11r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfaa0f000, 0xfff0f0f0, "saddsubx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfaa0f010, 0xfff0f0f0, "qaddsubx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfaa0f020, 0xfff0f0f0, "shaddsubx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfaa0f040, 0xfff0f0f0, "uaddsubx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfaa0f050, 0xfff0f0f0, "uqaddsubx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfaa0f060, 0xfff0f0f0, "uhaddsubx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfaa0f080, 0xfff0f0f0, "sel%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfab0f080, 0xfff0f0f0, "clz%c\t%8-11r, %16-19r"},
--  {ARM_EXT_V6T2, 0xfac0f000, 0xfff0f0f0, "ssub8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfac0f010, 0xfff0f0f0, "qsub8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfac0f020, 0xfff0f0f0, "shsub8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfac0f040, 0xfff0f0f0, "usub8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfac0f050, 0xfff0f0f0, "uqsub8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfac0f060, 0xfff0f0f0, "uhsub8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfad0f000, 0xfff0f0f0, "ssub16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfad0f010, 0xfff0f0f0, "qsub16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfad0f020, 0xfff0f0f0, "shsub16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfad0f040, 0xfff0f0f0, "usub16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfad0f050, 0xfff0f0f0, "uqsub16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfad0f060, 0xfff0f0f0, "uhsub16%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfae0f000, 0xfff0f0f0, "ssubaddx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfae0f010, 0xfff0f0f0, "qsubaddx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfae0f020, 0xfff0f0f0, "shsubaddx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfae0f040, 0xfff0f0f0, "usubaddx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfae0f050, 0xfff0f0f0, "uqsubaddx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfae0f060, 0xfff0f0f0, "uhsubaddx%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfb00f000, 0xfff0f0f0, "mul%c.w\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfb70f000, 0xfff0f0f0, "usad8%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa00f000, 0xffe0f0f0, "lsl%20's%c.w\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa20f000, 0xffe0f0f0, "lsr%20's%c.w\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa40f000, 0xffe0f0f0, "asr%20's%c.w\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa60f000, 0xffe0f0f0, "ror%20's%c.w\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xe8c00f40, 0xfff00fe0, "strex%4?hb%c\t%0-3r, %12-15r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xf3200000, 0xfff0f0e0, "ssat16%c\t%8-11r, #%0-4d, %16-19r"},
--  {ARM_EXT_V6T2, 0xf3a00000, 0xfff0f0e0, "usat16%c\t%8-11r, #%0-4d, %16-19r"},
--  {ARM_EXT_V6T2, 0xfb20f000, 0xfff0f0e0, "smuad%4'x%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfb30f000, 0xfff0f0e0, "smulw%4?tb%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfb40f000, 0xfff0f0e0, "smusd%4'x%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfb50f000, 0xfff0f0e0, "smmul%4'r%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfa00f080, 0xfff0f0c0, "sxtah%c\t%8-11r, %16-19r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa10f080, 0xfff0f0c0, "uxtah%c\t%8-11r, %16-19r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa20f080, 0xfff0f0c0, "sxtab16%c\t%8-11r, %16-19r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa30f080, 0xfff0f0c0, "uxtab16%c\t%8-11r, %16-19r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa40f080, 0xfff0f0c0, "sxtab%c\t%8-11r, %16-19r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfa50f080, 0xfff0f0c0, "uxtab%c\t%8-11r, %16-19r, %0-3r%R"},
--  {ARM_EXT_V6T2, 0xfb10f000, 0xfff0f0c0, "smul%5?tb%4?tb%c\t%8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xf36f0000, 0xffff8020, "bfc%c\t%8-11r, %E"},
--  {ARM_EXT_V6T2, 0xea100f00, 0xfff08f00, "tst%c.w\t%16-19r, %S"},
--  {ARM_EXT_V6T2, 0xea900f00, 0xfff08f00, "teq%c\t%16-19r, %S"},
--  {ARM_EXT_V6T2, 0xeb100f00, 0xfff08f00, "cmn%c.w\t%16-19r, %S"},
--  {ARM_EXT_V6T2, 0xebb00f00, 0xfff08f00, "cmp%c.w\t%16-19r, %S"},
--  {ARM_EXT_V6T2, 0xf0100f00, 0xfbf08f00, "tst%c.w\t%16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf0900f00, 0xfbf08f00, "teq%c\t%16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf1100f00, 0xfbf08f00, "cmn%c.w\t%16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf1b00f00, 0xfbf08f00, "cmp%c.w\t%16-19r, %M"},
--  {ARM_EXT_V6T2, 0xea4f0000, 0xffef8000, "mov%20's%c.w\t%8-11r, %S"},
--  {ARM_EXT_V6T2, 0xea6f0000, 0xffef8000, "mvn%20's%c.w\t%8-11r, %S"},
--  {ARM_EXT_V6T2, 0xe8c00070, 0xfff000f0, "strexd%c\t%0-3r, %12-15r, %8-11r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xfb000000, 0xfff000f0, "mla%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfb000010, 0xfff000f0, "mls%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfb700000, 0xfff000f0, "usada8%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfb800000, 0xfff000f0, "smull%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfba00000, 0xfff000f0, "umull%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfbc00000, 0xfff000f0, "smlal%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfbe00000, 0xfff000f0, "umlal%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfbe00060, 0xfff000f0, "umaal%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xe8500f00, 0xfff00f00, "ldrex%c\t%12-15r, [%16-19r, #%0-7W]"},
--  {ARM_EXT_V6T2, 0xf7f08000, 0xfff0f000, "smc%c\t%K"},
--  {ARM_EXT_V6T2, 0xf04f0000, 0xfbef8000, "mov%20's%c.w\t%8-11r, %M"},
--  {ARM_EXT_V6T2, 0xf06f0000, 0xfbef8000, "mvn%20's%c.w\t%8-11r, %M"},
--  {ARM_EXT_V6T2, 0xf810f000, 0xff70f000, "pld%c\t%a"},
--  {ARM_EXT_V6T2, 0xfb200000, 0xfff000e0, "smlad%4'x%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfb300000, 0xfff000e0, "smlaw%4?tb%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfb400000, 0xfff000e0, "smlsd%4'x%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfb500000, 0xfff000e0, "smmla%4'r%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfb600000, 0xfff000e0, "smmls%4'r%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfbc000c0, 0xfff000e0, "smlald%4'x%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xfbd000c0, 0xfff000e0, "smlsld%4'x%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xeac00000, 0xfff08030, "pkhbt%c\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xeac00020, 0xfff08030, "pkhtb%c\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xf3400000, 0xfff08020, "sbfx%c\t%8-11r, %16-19r, %F"},
--  {ARM_EXT_V6T2, 0xf3c00000, 0xfff08020, "ubfx%c\t%8-11r, %16-19r, %F"},
--  {ARM_EXT_V6T2, 0xf8000e00, 0xff900f00, "str%wt%c\t%12-15r, %a"},
--  {ARM_EXT_V6T2, 0xfb100000, 0xfff000c0, "smla%5?tb%4?tb%c\t%8-11r, %16-19r, %0-3r, %12-15r"},
--  {ARM_EXT_V6T2, 0xfbc00080, 0xfff000c0, "smlal%5?tb%4?tb%c\t%12-15r, %8-11r, %16-19r, %0-3r"},
--  {ARM_EXT_V6T2, 0xf3600000, 0xfff08020, "bfi%c\t%8-11r, %16-19r, %E"},
--  {ARM_EXT_V6T2, 0xf8100e00, 0xfe900f00, "ldr%wt%c\t%12-15r, %a"},
--  {ARM_EXT_V6T2, 0xf3000000, 0xffd08020, "ssat%c\t%8-11r, #%0-4d, %16-19r%s"},
--  {ARM_EXT_V6T2, 0xf3800000, 0xffd08020, "usat%c\t%8-11r, #%0-4d, %16-19r%s"},
--  {ARM_EXT_V6T2, 0xf2000000, 0xfbf08000, "addw%c\t%8-11r, %16-19r, %I"},
--  {ARM_EXT_V6T2, 0xf2400000, 0xfbf08000, "movw%c\t%8-11r, %J"},
--  {ARM_EXT_V6T2, 0xf2a00000, 0xfbf08000, "subw%c\t%8-11r, %16-19r, %I"},
--  {ARM_EXT_V6T2, 0xf2c00000, 0xfbf08000, "movt%c\t%8-11r, %J"},
--  {ARM_EXT_V6T2, 0xea000000, 0xffe08000, "and%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xea200000, 0xffe08000, "bic%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xea400000, 0xffe08000, "orr%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xea600000, 0xffe08000, "orn%20's%c\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xea800000, 0xffe08000, "eor%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xeb000000, 0xffe08000, "add%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xeb400000, 0xffe08000, "adc%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xeb600000, 0xffe08000, "sbc%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xeba00000, 0xffe08000, "sub%20's%c.w\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xebc00000, 0xffe08000, "rsb%20's%c\t%8-11r, %16-19r, %S"},
--  {ARM_EXT_V6T2, 0xe8400000, 0xfff00000, "strex%c\t%8-11r, %12-15r, [%16-19r, #%0-7W]"},
--  {ARM_EXT_V6T2, 0xf0000000, 0xfbe08000, "and%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf0200000, 0xfbe08000, "bic%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf0400000, 0xfbe08000, "orr%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf0600000, 0xfbe08000, "orn%20's%c\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf0800000, 0xfbe08000, "eor%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf1000000, 0xfbe08000, "add%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf1400000, 0xfbe08000, "adc%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf1600000, 0xfbe08000, "sbc%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf1a00000, 0xfbe08000, "sub%20's%c.w\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xf1c00000, 0xfbe08000, "rsb%20's%c\t%8-11r, %16-19r, %M"},
--  {ARM_EXT_V6T2, 0xe8800000, 0xffd00000, "stmia%c.w\t%16-19r%21'!, %m"},
--  {ARM_EXT_V6T2, 0xe8900000, 0xffd00000, "ldmia%c.w\t%16-19r%21'!, %m"},
--  {ARM_EXT_V6T2, 0xe9000000, 0xffd00000, "stmdb%c\t%16-19r%21'!, %m"},
--  {ARM_EXT_V6T2, 0xe9100000, 0xffd00000, "ldmdb%c\t%16-19r%21'!, %m"},
--  {ARM_EXT_V6T2, 0xe9c00000, 0xffd000ff, "strd%c\t%12-15r, %8-11r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xe9d00000, 0xffd000ff, "ldrd%c\t%12-15r, %8-11r, [%16-19r]"},
--  {ARM_EXT_V6T2, 0xe9400000, 0xff500000, "strd%c\t%12-15r, %8-11r, [%16-19r, #%23`-%0-7W]%21'!"},
--  {ARM_EXT_V6T2, 0xe9500000, 0xff500000, "ldrd%c\t%12-15r, %8-11r, [%16-19r, #%23`-%0-7W]%21'!"},
--  {ARM_EXT_V6T2, 0xe8600000, 0xff700000, "strd%c\t%12-15r, %8-11r, [%16-19r], #%23`-%0-7W"},
--  {ARM_EXT_V6T2, 0xe8700000, 0xff700000, "ldrd%c\t%12-15r, %8-11r, [%16-19r], #%23`-%0-7W"},
--  {ARM_EXT_V6T2, 0xf8000000, 0xff100000, "str%w%c.w\t%12-15r, %a"},
--  {ARM_EXT_V6T2, 0xf8100000, 0xfe100000, "ldr%w%c.w\t%12-15r, %a"},
--
--  /* Filter out Bcc with cond=E or F, which are used for other instructions.  */
--  {ARM_EXT_V6T2, 0xf3c08000, 0xfbc0d000, "undefined (bcc, cond=0xF)"},
--  {ARM_EXT_V6T2, 0xf3808000, 0xfbc0d000, "undefined (bcc, cond=0xE)"},
--  {ARM_EXT_V6T2, 0xf0008000, 0xf800d000, "b%22-25c.w\t%b%X"},
--  {ARM_EXT_V6T2, 0xf0009000, 0xf800d000, "b%c.w\t%B%x"},
--
--  /* These have been 32-bit since the invention of Thumb.  */
--  {ARM_EXT_V4T,  0xf000c000, 0xf800d000, "blx%c\t%B%x"},
--  {ARM_EXT_V4T,  0xf000d000, 0xf800d000, "bl%c\t%B%x"},
--
--  /* Fallback.  */
--  {ARM_EXT_V1,   0x00000000, 0x00000000, "undefined"},
--  {0, 0, 0, 0}
+-static const unsigned char twobyte_uses_DATA_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0f */
+-  /* 10 */ 1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0, /* 3f */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1, /* 6f */
+-  /* 70 */ 1,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0, /* df */
+-  /* e0 */ 0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0  /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
 -};
 -
--static const char *const arm_conditional[] =
--{"eq", "ne", "cs", "cc", "mi", "pl", "vs", "vc",
-- "hi", "ls", "ge", "lt", "gt", "le", "al", "<und>", ""};
+-static const unsigned char twobyte_uses_REPNZ_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0f */
+-  /* 10 */ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 3f */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,1,0,0,0,0,0,0,1,1,1,0,1,1,1,1, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 6f */
+-  /* 70 */ 1,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0, /* df */
+-  /* e0 */ 0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
 -
--static const char *const arm_fp_const[] =
--{"0.0", "1.0", "2.0", "3.0", "4.0", "5.0", "0.5", "10.0"};
+-static const unsigned char twobyte_uses_REPZ_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0f */
+-  /* 10 */ 1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 3f */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, /* 6f */
+-  /* 70 */ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0, /* bf */
+-  /* c0 */ 0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0, /* df */
+-  /* e0 */ 0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
 -
--static const char *const arm_shift[] =
--{"lsl", "lsr", "asr", "ror"};
+-/* This is used to determine if opcode 0f 38 XX uses DATA prefix.  */
+-static const unsigned char threebyte_0x38_uses_DATA_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0, /* 0f */
+-  /* 10 */ 1,0,0,0,1,1,0,1,0,0,0,0,1,1,1,0, /* 1f */
+-  /* 20 */ 1,1,1,1,1,1,0,0,1,1,1,1,0,0,0,0, /* 2f */
+-  /* 30 */ 1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1, /* 3f */
+-  /* 40 */ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 6f */
+-  /* 70 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1, /* df */
+-  /* e0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
 -
--typedef struct
+-/* This is used to determine if opcode 0f 38 XX uses REPNZ prefix.  */
+-static const unsigned char threebyte_0x38_uses_REPNZ_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0f */
+-  /* 10 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 3f */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 6f */
+-  /* 70 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* df */
+-  /* e0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 1,1,0,0,0,1,0,1,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
+-
+-/* This is used to determine if opcode 0f 38 XX uses REPZ prefix.  */
+-static const unsigned char threebyte_0x38_uses_REPZ_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0f */
+-  /* 10 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 3f */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 6f */
+-  /* 70 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* df */
+-  /* e0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
+-
+-/* This is used to determine if opcode 0f 3a XX uses DATA prefix.  */
+-static const unsigned char threebyte_0x3a_uses_DATA_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1, /* 0f */
+-  /* 10 */ 0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 3f */
+-  /* 40 */ 1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 5f */
+-  /* 60 */ 1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, /* 6f */
+-  /* 70 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, /* df */
+-  /* e0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
+-
+-/* This is used to determine if opcode 0f 3a XX uses REPNZ prefix.  */
+-static const unsigned char threebyte_0x3a_uses_REPNZ_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0f */
+-  /* 10 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 3f */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 6f */
+-  /* 70 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* df */
+-  /* e0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
+-
+-/* This is used to determine if opcode 0f 3a XX uses REPZ prefix.  */
+-static const unsigned char threebyte_0x3a_uses_REPZ_prefix[256] = {
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-  /*       -------------------------------        */
+-  /* 00 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0f */
+-  /* 10 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 1f */
+-  /* 20 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 2f */
+-  /* 30 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 3f */
+-  /* 40 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 4f */
+-  /* 50 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 5f */
+-  /* 60 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 6f */
+-  /* 70 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 7f */
+-  /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
+-  /* 90 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 9f */
+-  /* a0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* af */
+-  /* b0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* bf */
+-  /* c0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* cf */
+-  /* d0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* df */
+-  /* e0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ef */
+-  /* f0 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* ff */
+-  /*       -------------------------------        */
+-  /*       0 1 2 3 4 5 6 7 8 9 a b c d e f        */
+-};
+-
+-static char obuf[100];
+-static char *obufp;
+-static char scratchbuf[100];
+-static unsigned char *start_codep;
+-static unsigned char *insn_codep;
+-static unsigned char *codep;
+-static disassemble_info *the_info;
+-static struct
+-  {
+-    int mod;
+-    int reg;
+-    int rm;
+-  }
+-modrm;
+-static unsigned char need_modrm;
+-
+-/* If we are accessing mod/rm/reg without need_modrm set, then the
+-   values are stale.  Hitting this abort likely indicates that you
+-   need to update onebyte_has_modrm or twobyte_has_modrm.  */
+-#define MODRM_CHECK  if (!need_modrm) abort ()
+-
+-static const char * const *names64;
+-static const char * const *names32;
+-static const char * const *names16;
+-static const char * const *names8;
+-static const char * const *names8rex;
+-static const char * const *names_seg;
+-static const char * const *index16;
+-
+-static const char * const intel_names64[] = {
+-  "rax", "rcx", "rdx", "rbx", "rsp", "rbp", "rsi", "rdi",
+-  "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"
+-};
+-static const char * const intel_names32[] = {
+-  "eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi",
+-  "r8d", "r9d", "r10d", "r11d", "r12d", "r13d", "r14d", "r15d"
+-};
+-static const char * const intel_names16[] = {
+-  "ax", "cx", "dx", "bx", "sp", "bp", "si", "di",
+-  "r8w", "r9w", "r10w", "r11w", "r12w", "r13w", "r14w", "r15w"
+-};
+-static const char * const intel_names8[] = {
+-  "al", "cl", "dl", "bl", "ah", "ch", "dh", "bh",
+-};
+-static const char * const intel_names8rex[] = {
+-  "al", "cl", "dl", "bl", "spl", "bpl", "sil", "dil",
+-  "r8b", "r9b", "r10b", "r11b", "r12b", "r13b", "r14b", "r15b"
+-};
+-static const char * const intel_names_seg[] = {
+-  "es", "cs", "ss", "ds", "fs", "gs", "?", "?",
+-};
+-static const char * const intel_index16[] = {
+-  "bx+si", "bx+di", "bp+si", "bp+di", "si", "di", "bp", "bx"
+-};
+-
+-static const char * const att_names64[] = {
+-  "%rax", "%rcx", "%rdx", "%rbx", "%rsp", "%rbp", "%rsi", "%rdi",
+-  "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15"
+-};
+-static const char * const att_names32[] = {
+-  "%eax", "%ecx", "%edx", "%ebx", "%esp", "%ebp", "%esi", "%edi",
+-  "%r8d", "%r9d", "%r10d", "%r11d", "%r12d", "%r13d", "%r14d", "%r15d"
+-};
+-static const char * const att_names16[] = {
+-  "%ax", "%cx", "%dx", "%bx", "%sp", "%bp", "%si", "%di",
+-  "%r8w", "%r9w", "%r10w", "%r11w", "%r12w", "%r13w", "%r14w", "%r15w"
+-};
+-static const char * const att_names8[] = {
+-  "%al", "%cl", "%dl", "%bl", "%ah", "%ch", "%dh", "%bh",
+-};
+-static const char * const att_names8rex[] = {
+-  "%al", "%cl", "%dl", "%bl", "%spl", "%bpl", "%sil", "%dil",
+-  "%r8b", "%r9b", "%r10b", "%r11b", "%r12b", "%r13b", "%r14b", "%r15b"
+-};
+-static const char * const att_names_seg[] = {
+-  "%es", "%cs", "%ss", "%ds", "%fs", "%gs", "%?", "%?",
+-};
+-static const char * const att_index16[] = {
+-  "%bx,%si", "%bx,%di", "%bp,%si", "%bp,%di", "%si", "%di", "%bp", "%bx"
+-};
+-
+-static const struct dis386 grps[][8] = {
+-  /* GRP1a */
+-  {
+-    { "popU",	{ stackEv } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* GRP1b */
+-  {
+-    { "addA",	{ Eb, Ib } },
+-    { "orA",	{ Eb, Ib } },
+-    { "adcA",	{ Eb, Ib } },
+-    { "sbbA",	{ Eb, Ib } },
+-    { "andA",	{ Eb, Ib } },
+-    { "subA",	{ Eb, Ib } },
+-    { "xorA",	{ Eb, Ib } },
+-    { "cmpA",	{ Eb, Ib } },
+-  },
+-  /* GRP1S */
+-  {
+-    { "addQ",	{ Ev, Iv } },
+-    { "orQ",	{ Ev, Iv } },
+-    { "adcQ",	{ Ev, Iv } },
+-    { "sbbQ",	{ Ev, Iv } },
+-    { "andQ",	{ Ev, Iv } },
+-    { "subQ",	{ Ev, Iv } },
+-    { "xorQ",	{ Ev, Iv } },
+-    { "cmpQ",	{ Ev, Iv } },
+-  },
+-  /* GRP1Ss */
+-  {
+-    { "addQ",	{ Ev, sIb } },
+-    { "orQ",	{ Ev, sIb } },
+-    { "adcQ",	{ Ev, sIb } },
+-    { "sbbQ",	{ Ev, sIb } },
+-    { "andQ",	{ Ev, sIb } },
+-    { "subQ",	{ Ev, sIb } },
+-    { "xorQ",	{ Ev, sIb } },
+-    { "cmpQ",	{ Ev, sIb } },
+-  },
+-  /* GRP2b */
+-  {
+-    { "rolA",	{ Eb, Ib } },
+-    { "rorA",	{ Eb, Ib } },
+-    { "rclA",	{ Eb, Ib } },
+-    { "rcrA",	{ Eb, Ib } },
+-    { "shlA",	{ Eb, Ib } },
+-    { "shrA",	{ Eb, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "sarA",	{ Eb, Ib } },
+-  },
+-  /* GRP2S */
+-  {
+-    { "rolQ",	{ Ev, Ib } },
+-    { "rorQ",	{ Ev, Ib } },
+-    { "rclQ",	{ Ev, Ib } },
+-    { "rcrQ",	{ Ev, Ib } },
+-    { "shlQ",	{ Ev, Ib } },
+-    { "shrQ",	{ Ev, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "sarQ",	{ Ev, Ib } },
+-  },
+-  /* GRP2b_one */
+-  {
+-    { "rolA",	{ Eb, I1 } },
+-    { "rorA",	{ Eb, I1 } },
+-    { "rclA",	{ Eb, I1 } },
+-    { "rcrA",	{ Eb, I1 } },
+-    { "shlA",	{ Eb, I1 } },
+-    { "shrA",	{ Eb, I1 } },
+-    { "(bad)",	{ XX } },
+-    { "sarA",	{ Eb, I1 } },
+-  },
+-  /* GRP2S_one */
+-  {
+-    { "rolQ",	{ Ev, I1 } },
+-    { "rorQ",	{ Ev, I1 } },
+-    { "rclQ",	{ Ev, I1 } },
+-    { "rcrQ",	{ Ev, I1 } },
+-    { "shlQ",	{ Ev, I1 } },
+-    { "shrQ",	{ Ev, I1 } },
+-    { "(bad)",	{ XX } },
+-    { "sarQ",	{ Ev, I1 } },
+-  },
+-  /* GRP2b_cl */
+-  {
+-    { "rolA",	{ Eb, CL } },
+-    { "rorA",	{ Eb, CL } },
+-    { "rclA",	{ Eb, CL } },
+-    { "rcrA",	{ Eb, CL } },
+-    { "shlA",	{ Eb, CL } },
+-    { "shrA",	{ Eb, CL } },
+-    { "(bad)",	{ XX } },
+-    { "sarA",	{ Eb, CL } },
+-  },
+-  /* GRP2S_cl */
+-  {
+-    { "rolQ",	{ Ev, CL } },
+-    { "rorQ",	{ Ev, CL } },
+-    { "rclQ",	{ Ev, CL } },
+-    { "rcrQ",	{ Ev, CL } },
+-    { "shlQ",	{ Ev, CL } },
+-    { "shrQ",	{ Ev, CL } },
+-    { "(bad)",	{ XX } },
+-    { "sarQ",	{ Ev, CL } },
+-  },
+-  /* GRP3b */
+-  {
+-    { "testA",	{ Eb, Ib } },
+-    { "(bad)",	{ Eb } },
+-    { "notA",	{ Eb } },
+-    { "negA",	{ Eb } },
+-    { "mulA",	{ Eb } },	/* Don't print the implicit %al register,  */
+-    { "imulA",	{ Eb } },	/* to distinguish these opcodes from other */
+-    { "divA",	{ Eb } },	/* mul/imul opcodes.  Do the same for div  */
+-    { "idivA",	{ Eb } },	/* and idiv for consistency.		   */
+-  },
+-  /* GRP3S */
+-  {
+-    { "testQ",	{ Ev, Iv } },
+-    { "(bad)",	{ XX } },
+-    { "notQ",	{ Ev } },
+-    { "negQ",	{ Ev } },
+-    { "mulQ",	{ Ev } },	/* Don't print the implicit register.  */
+-    { "imulQ",	{ Ev } },
+-    { "divQ",	{ Ev } },
+-    { "idivQ",	{ Ev } },
+-  },
+-  /* GRP4 */
+-  {
+-    { "incA",	{ Eb } },
+-    { "decA",	{ Eb } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* GRP5 */
+-  {
+-    { "incQ",	{ Ev } },
+-    { "decQ",	{ Ev } },
+-    { "callT",	{ indirEv } },
+-    { "JcallT",	{ indirEp } },
+-    { "jmpT",	{ indirEv } },
+-    { "JjmpT",	{ indirEp } },
+-    { "pushU",	{ stackEv } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* GRP6 */
+-  {
+-    { "sldtD",	{ Sv } },
+-    { "strD",	{ Sv } },
+-    { "lldt",	{ Ew } },
+-    { "ltr",	{ Ew } },
+-    { "verr",	{ Ew } },
+-    { "verw",	{ Ew } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* GRP7 */
+-  {
+-    { "sgdt{Q|IQ||}", { { VMX_Fixup, 0 } } },
+-    { "sidt{Q|IQ||}", { { PNI_Fixup, 0 } } },
+-    { "lgdt{Q|Q||}",	 { M } },
+-    { "lidt{Q|Q||}",	 { { SVME_Fixup, 0 } } },
+-    { "smswD",	{ Sv } },
+-    { "(bad)",	{ XX } },
+-    { "lmsw",	{ Ew } },
+-    { "invlpg",	{ { INVLPG_Fixup, w_mode } } },
+-  },
+-  /* GRP8 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "btQ",	{ Ev, Ib } },
+-    { "btsQ",	{ Ev, Ib } },
+-    { "btrQ",	{ Ev, Ib } },
+-    { "btcQ",	{ Ev, Ib } },
+-  },
+-  /* GRP9 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "cmpxchg8b", { { CMPXCHG8B_Fixup, q_mode } } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "",	{ VM } },		/* See OP_VMX.  */
+-    { "vmptrst", { Mq } },
+-  },
+-  /* GRP11_C6 */
+-  {
+-    { "movA",	{ Eb, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* GRP11_C7 */
+-  {
+-    { "movQ",	{ Ev, Iv } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",  { XX } },
+-  },
+-  /* GRP12 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "psrlw",	{ MS, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "psraw",	{ MS, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "psllw",	{ MS, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* GRP13 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "psrld",	{ MS, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "psrad",	{ MS, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "pslld",	{ MS, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* GRP14 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "psrlq",	{ MS, Ib } },
+-    { "psrldq",	{ MS, Ib } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "psllq",	{ MS, Ib } },
+-    { "pslldq",	{ MS, Ib } },
+-  },
+-  /* GRP15 */
+-  {
+-    { "fxsave",		{ Ev } },
+-    { "fxrstor",	{ Ev } },
+-    { "ldmxcsr",	{ Ev } },
+-    { "stmxcsr",	{ Ev } },
+-    { "(bad)",		{ XX } },
+-    { "lfence",		{ { OP_0fae, 0 } } },
+-    { "mfence",		{ { OP_0fae, 0 } } },
+-    { "clflush",	{ { OP_0fae, 0 } } },
+-  },
+-  /* GRP16 */
+-  {
+-    { "prefetchnta",	{ Ev } },
+-    { "prefetcht0",	{ Ev } },
+-    { "prefetcht1",	{ Ev } },
+-    { "prefetcht2",	{ Ev } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-  },
+-  /* GRPAMD */
+-  {
+-    { "prefetch",	{ Eb } },
+-    { "prefetchw",	{ Eb } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-    { "(bad)",		{ XX } },
+-  },
+-  /* GRPPADLCK1 */
+-  {
+-    { "xstore-rng",	{ { OP_0f07, 0 } } },
+-    { "xcrypt-ecb",	{ { OP_0f07, 0 } } },
+-    { "xcrypt-cbc",	{ { OP_0f07, 0 } } },
+-    { "xcrypt-ctr",	{ { OP_0f07, 0 } } },
+-    { "xcrypt-cfb",	{ { OP_0f07, 0 } } },
+-    { "xcrypt-ofb",	{ { OP_0f07, 0 } } },
+-    { "(bad)",		{ { OP_0f07, 0 } } },
+-    { "(bad)",		{ { OP_0f07, 0 } } },
+-  },
+-  /* GRPPADLCK2 */
+-  {
+-    { "montmul",	{ { OP_0f07, 0 } } },
+-    { "xsha1",		{ { OP_0f07, 0 } } },
+-    { "xsha256",	{ { OP_0f07, 0 } } },
+-    { "(bad)",		{ { OP_0f07, 0 } } },
+-    { "(bad)",		{ { OP_0f07, 0 } } },
+-    { "(bad)",		{ { OP_0f07, 0 } } },
+-    { "(bad)",		{ { OP_0f07, 0 } } },
+-    { "(bad)",		{ { OP_0f07, 0 } } },
+-  }
+-};
+-
+-static const struct dis386 prefix_user_table[][4] = {
+-  /* PREGRP0 */
+-  {
+-    { "addps", { XM, EXx } },
+-    { "addss", { XM, EXd } },
+-    { "addpd", { XM, EXx } },
+-    { "addsd", { XM, EXq } },
+-  },
+-  /* PREGRP1 */
+-  {
+-    { "", { XM, EXx, OPSIMD } },	/* See OP_SIMD_SUFFIX.  */
+-    { "", { XM, EXx, OPSIMD } },
+-    { "", { XM, EXx, OPSIMD } },
+-    { "", { XM, EXx, OPSIMD } },
+-  },
+-  /* PREGRP2 */
+-  {
+-    { "cvtpi2ps", { XM, EMC } },
+-    { "cvtsi2ssY", { XM, Ev } },
+-    { "cvtpi2pd", { XM, EMC } },
+-    { "cvtsi2sdY", { XM, Ev } },
+-  },
+-  /* PREGRP3 */
+-  {
+-    { "cvtps2pi", { MXC, EXx } },
+-    { "cvtss2siY", { Gv, EXx } },
+-    { "cvtpd2pi", { MXC, EXx } },
+-    { "cvtsd2siY", { Gv, EXx } },
+-  },
+-  /* PREGRP4 */
+-  {
+-    { "cvttps2pi", { MXC, EXx } },
+-    { "cvttss2siY", { Gv, EXx } },
+-    { "cvttpd2pi", { MXC, EXx } },
+-    { "cvttsd2siY", { Gv, EXx } },
+-  },
+-  /* PREGRP5 */
+-  {
+-    { "divps",	{ XM, EXx } },
+-    { "divss",	{ XM, EXx } },
+-    { "divpd",	{ XM, EXx } },
+-    { "divsd",	{ XM, EXx } },
+-  },
+-  /* PREGRP6 */
+-  {
+-    { "maxps",	{ XM, EXx } },
+-    { "maxss",	{ XM, EXx } },
+-    { "maxpd",	{ XM, EXx } },
+-    { "maxsd",	{ XM, EXx } },
+-  },
+-  /* PREGRP7 */
+-  {
+-    { "minps",	{ XM, EXx } },
+-    { "minss",	{ XM, EXx } },
+-    { "minpd",	{ XM, EXx } },
+-    { "minsd",	{ XM, EXx } },
+-  },
+-  /* PREGRP8 */
+-  {
+-    { "movups",	{ XM, EXx } },
+-    { "movss",	{ XM, EXx } },
+-    { "movupd",	{ XM, EXx } },
+-    { "movsd",	{ XM, EXx } },
+-  },
+-  /* PREGRP9 */
+-  {
+-    { "movups",	{ EXx,  XM } },
+-    { "movss",	{ EXx,  XM } },
+-    { "movupd",	{ EXx,  XM } },
+-    { "movsd",	{ EXx,  XM } },
+-  },
+-  /* PREGRP10 */
+-  {
+-    { "mulps",	{ XM, EXx } },
+-    { "mulss",	{ XM, EXx } },
+-    { "mulpd",	{ XM, EXx } },
+-    { "mulsd",	{ XM, EXx } },
+-  },
+-  /* PREGRP11 */
+-  {
+-    { "rcpps",	{ XM, EXx } },
+-    { "rcpss",	{ XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-  },
+-  /* PREGRP12 */
+-  {
+-    { "rsqrtps",{ XM, EXx } },
+-    { "rsqrtss",{ XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-  },
+-  /* PREGRP13 */
+-  {
+-    { "sqrtps", { XM, EXx } },
+-    { "sqrtss", { XM, EXx } },
+-    { "sqrtpd", { XM, EXx } },
+-    { "sqrtsd",	{ XM, EXx } },
+-  },
+-  /* PREGRP14 */
+-  {
+-    { "subps",	{ XM, EXx } },
+-    { "subss",	{ XM, EXx } },
+-    { "subpd",	{ XM, EXx } },
+-    { "subsd",	{ XM, EXx } },
+-  },
+-  /* PREGRP15 */
+-  {
+-    { "(bad)",	{ XM, EXx } },
+-    { "cvtdq2pd", { XM, EXq } },
+-    { "cvttpd2dq", { XM, EXx } },
+-    { "cvtpd2dq", { XM, EXx } },
+-  },
+-  /* PREGRP16 */
+-  {
+-    { "cvtdq2ps", { XM, EXx } },
+-    { "cvttps2dq", { XM, EXx } },
+-    { "cvtps2dq", { XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-  },
+-  /* PREGRP17 */
+-  {
+-    { "cvtps2pd", { XM, EXq } },
+-    { "cvtss2sd", { XM, EXx } },
+-    { "cvtpd2ps", { XM, EXx } },
+-    { "cvtsd2ss", { XM, EXx } },
+-  },
+-  /* PREGRP18 */
+-  {
+-    { "maskmovq", { MX, MS } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "maskmovdqu", { XM, XS } },
+-    { "(bad)",	{ XM, EXx } },
+-  },
+-  /* PREGRP19 */
+-  {
+-    { "movq",	{ MX, EM } },
+-    { "movdqu",	{ XM, EXx } },
+-    { "movdqa",	{ XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-  },
+-  /* PREGRP20 */
+-  {
+-    { "movq",	{ EM, MX } },
+-    { "movdqu",	{ EXx,  XM } },
+-    { "movdqa",	{ EXx,  XM } },
+-    { "(bad)",	{ EXx,  XM } },
+-  },
+-  /* PREGRP21 */
+-  {
+-    { "(bad)",	{ EXx,  XM } },
+-    { "movq2dq",{ XM, MS } },
+-    { "movq",	{ EXx,  XM } },
+-    { "movdq2q",{ MX, XS } },
+-  },
+-  /* PREGRP22 */
+-  {
+-    { "pshufw",	{ MX, EM, Ib } },
+-    { "pshufhw",{ XM, EXx, Ib } },
+-    { "pshufd",	{ XM, EXx, Ib } },
+-    { "pshuflw",{ XM, EXx, Ib } },
+-  },
+-  /* PREGRP23 */
+-  {
+-    { "movd",	{ Edq, MX } },
+-    { "movq",	{ XM, EXx } },
+-    { "movd",	{ Edq, XM } },
+-    { "(bad)",	{ Ed, XM } },
+-  },
+-  /* PREGRP24 */
+-  {
+-    { "(bad)",	{ MX, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "punpckhqdq", { XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-  },
+-  /* PREGRP25 */
+-  {
+-    { "movntq",	{ EM, MX } },
+-    { "(bad)",	{ EM, XM } },
+-    { "movntdq",{ EM, XM } },
+-    { "(bad)",	{ EM, XM } },
+-  },
+-  /* PREGRP26 */
+-  {
+-    { "(bad)",	{ MX, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "punpcklqdq", { XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-  },
+-  /* PREGRP27 */
+-  {
+-    { "(bad)",	{ MX, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "addsubpd", { XM, EXx } },
+-    { "addsubps", { XM, EXx } },
+-  },
+-  /* PREGRP28 */
+-  {
+-    { "(bad)",	{ MX, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "haddpd",	{ XM, EXx } },
+-    { "haddps",	{ XM, EXx } },
+-  },
+-  /* PREGRP29 */
+-  {
+-    { "(bad)",	{ MX, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "hsubpd",	{ XM, EXx } },
+-    { "hsubps",	{ XM, EXx } },
+-  },
+-  /* PREGRP30 */
+-  {
+-    { "movlpX",	{ XM, EXq, { SIMD_Fixup, 'h' } } }, /* really only 2 operands */
+-    { "movsldup", { XM, EXx } },
+-    { "movlpd",	{ XM, EXq } },
+-    { "movddup", { XM, EXq } },
+-  },
+-  /* PREGRP31 */
+-  {
+-    { "movhpX",	{ XM, EXq, { SIMD_Fixup, 'l' } } },
+-    { "movshdup", { XM, EXx } },
+-    { "movhpd",	{ XM, EXq } },
+-    { "(bad)",	{ XM, EXq } },
+-  },
+-  /* PREGRP32 */
+-  {
+-    { "(bad)",	{ XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "(bad)",	{ XM, EXx } },
+-    { "lddqu",	{ XM, M } },
+-  },
+-  /* PREGRP33 */
+-  {
+-    {"movntps", { Ev, XM } },
+-    {"movntss", { Ev, XM } },
+-    {"movntpd", { Ev, XM } },
+-    {"movntsd", { Ev, XM } },
+-  },
+-
+-  /* PREGRP34 */
+-  {
+-    {"vmread",	{ Em, Gm } },
+-    {"(bad)",	{ XX } },
+-    {"extrq",	{ XS, Ib, Ib } },
+-    {"insertq",	{ XM, XS, Ib, Ib } },
+-  },
+-
+- /* PREGRP35 */
+-  {
+-    {"vmwrite",	{ Gm, Em } },
+-    {"(bad)",	{ XX } },
+-    {"extrq",	{ XM, XS } },
+-    {"insertq",	{ XM, XS } },
+-  },
+-
+-  /* PREGRP36 */
+-  {
+-    { "bsrS",	{ Gv, Ev } },
+-    { "lzcntS",	{ Gv, Ev } },
+-    { "bsrS",	{ Gv, Ev } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP37 */
+-  {
+-    { "(bad)", { XX } },
+-    { "popcntS", { Gv, Ev } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-  },
+-
+-  /* PREGRP38 */
+-  {
+-    { "xchgS", { { NOP_Fixup1, eAX_reg }, { NOP_Fixup2, eAX_reg } } },
+-    { "pause", { XX } },
+-    { "xchgS", { { NOP_Fixup1, eAX_reg }, { NOP_Fixup2, eAX_reg } } },
+-    { "(bad)", { XX } },
+-  },
+-
+-  /* PREGRP39 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pblendvb", {XM, EXx, XMM0 } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP40 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "blendvps", {XM, EXx, XMM0 } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP41 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "blendvpd", { XM, EXx, XMM0 } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP42 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "ptest",  { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP43 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovsxbw", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP44 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovsxbd", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP45 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovsxbq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP46 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovsxwd", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP47 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovsxwq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP48 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovsxdq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP49 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmuldq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP50 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pcmpeqq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP51 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "movntdqa", { XM, EM } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP52 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "packusdw", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP53 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovzxbw", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP54 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovzxbd", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP55 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovzxbq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP56 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovzxwd", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP57 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovzxwq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP58 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmovzxdq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP59 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pminsb",	{ XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP60 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pminsd",	{ XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP61 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pminuw",	{ XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP62 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pminud",	{ XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP63 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmaxsb",	{ XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP64 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmaxsd",	{ XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP65 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmaxuw", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP66 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmaxud", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP67 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pmulld", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP68 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "phminposuw", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP69 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "roundps", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP70 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "roundpd", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP71 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "roundss", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP72 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "roundsd", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP73 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "blendps", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP74 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "blendpd", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP75 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pblendw", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP76 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pextrb",	{ Edqb, XM, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP77 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pextrw",	{ Edqw, XM, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP78 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pextrK",	{ Edq, XM, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP79 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "extractps", { Edqd, XM, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP80 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pinsrb",	{ XM, Edqb, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP81 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "insertps", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP82 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pinsrK",	{ XM, Edq, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP83 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "dpps",	{ XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP84 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "dppd",	{ XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP85 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "mpsadbw", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP86 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pcmpgtq", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP87 */
+-  {
+-    { "movbe",	{ Gv, Ev } },
+-    { "(bad)",	{ XX } },
+-    { "movbe",	{ Gv, Ev } },
+-    { "crc32",	{ Gdq, { CRC32_Fixup, b_mode } } },
+-  },
+-
+-  /* PREGRP88 */
+-  {
+-    { "movbe",	{ Ev, Gv } },
+-    { "(bad)",	{ XX } },
+-    { "movbe",	{ Ev, Gv } },
+-    { "crc32",	{ Gdq, { CRC32_Fixup, v_mode } } },
+-  },
+-
+-  /* PREGRP89 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pcmpestrm", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP90 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pcmpestri", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP91 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pcmpistrm", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP92 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pcmpistri", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP93 */
+-  {
+-    { "ucomiss",{ XM, EXd } },
+-    { "(bad)",	{ XX } },
+-    { "ucomisd",{ XM, EXq } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP94 */
+-  {
+-    { "comiss",	{ XM, EXd } },
+-    { "(bad)",	{ XX } },
+-    { "comisd",	{ XM, EXq } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP95 */
+-  {
+-    { "punpcklbw",{ MX, EMd } },
+-    { "(bad)",	{ XX } },
+-    { "punpcklbw",{ MX, EMq } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP96 */
+-  {
+-    { "punpcklwd",{ MX, EMd } },
+-    { "(bad)",	{ XX } },
+-    { "punpcklwd",{ MX, EMq } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP97 */
+-  {
+-    { "punpckldq",{ MX, EMd } },
+-    { "(bad)",	{ XX } },
+-    { "punpckldq",{ MX, EMq } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP98 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "pclmulqdq", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP99 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "aesimc", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP100 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "aesenc", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP101 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "aesenclast", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP102 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "aesdec", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP103 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "aesdeclast", { XM, EXx } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP104 */
+-  {
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "aeskeygenassist", { XM, EXx, Ib } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP105 */
+-  {
+-    { "andnS",	{ Gv, Bv, Ev } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP106 */
+-  {
+-    { "bextrS",	{ Gv, Ev, Bv } },
+-    { "sarxS",	{ Gv, Ev, Bv } },
+-    { "shlxS",	{ Gv, Ev, Bv } },
+-    { "shrxS",	{ Gv, Ev, Bv } },
+-  },
+-
+-  /* PREGRP107 */
+-  {
+-    { "bsfS",	{ Gv, Ev } },
+-    { "tzcntS",	{ Gv, Ev } },
+-    { "bsfS",	{ Gv, Ev } },
+-    { "(bad)",	{ XX } },
+-  },
+-
+-  /* PREGRP108 */
+-  {
+-    { "bzhi",   { Gv, Ev, Bv } },
+-    { "pext",   { Gv, Bv, Ev } },
+-    { "(bad)",  { XX } },
+-    { "pdep",   { Gv, Bv, Ev } },
+-  },
+-
+-  /* PREGRP109 */
+-  {
+-    { "(bad)",  { XX } },
+-    { "(bad)",  { XX } },
+-    { "(bad)",  { XX } },
+-    { "rorx",   { Gv, Ev, Ib } },
+-  },
+-};
+-
+-static const struct dis386 x86_64_table[][2] = {
+-  {
+-    { "pusha{P|}", { XX } },
+-    { "(bad)", { XX } },
+-  },
+-  {
+-    { "popa{P|}", { XX } },
+-    { "(bad)", { XX } },
+-  },
+-  {
+-    { "bound{S|}", { Gv, Ma } },
+-    { "(bad)", { XX } },
+-  },
+-  {
+-    { "arpl", { Ew, Gw } },
+-    { "movs{||lq|xd}", { Gv, Ed } },
+-  },
+-};
+-
+-static const struct dis386 three_byte_table[][256] = {
+-  /* THREE_BYTE_0 */
+-  {
+-    /* 00 */
+-    { "pshufb", { MX, EM } },
+-    { "phaddw", { MX, EM } },
+-    { "phaddd",	{ MX, EM } },
+-    { "phaddsw", { MX, EM } },
+-    { "pmaddubsw", { MX, EM } },
+-    { "phsubw", { MX, EM } },
+-    { "phsubd", { MX, EM } },
+-    { "phsubsw", { MX, EM } },
+-    /* 08 */
+-    { "psignb", { MX, EM } },
+-    { "psignw", { MX, EM } },
+-    { "psignd", { MX, EM } },
+-    { "pmulhrsw", { MX, EM } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 10 */
+-    { PREGRP39 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { PREGRP40 },
+-    { PREGRP41 },
+-    { "(bad)", { XX } },
+-    { PREGRP42 },
+-    /* 18 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "pabsb", { MX, EM } },
+-    { "pabsw", { MX, EM } },
+-    { "pabsd", { MX, EM } },
+-    { "(bad)", { XX } },
+-    /* 20 */
+-    { PREGRP43 },
+-    { PREGRP44 },
+-    { PREGRP45 },
+-    { PREGRP46 },
+-    { PREGRP47 },
+-    { PREGRP48 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 28 */
+-    { PREGRP49 },
+-    { PREGRP50 },
+-    { PREGRP51 },
+-    { PREGRP52 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 30 */
+-    { PREGRP53 },
+-    { PREGRP54 },
+-    { PREGRP55 },
+-    { PREGRP56 },
+-    { PREGRP57 },
+-    { PREGRP58 },
+-    { "(bad)", { XX } },
+-    { PREGRP86 },
+-    /* 38 */
+-    { PREGRP59 },
+-    { PREGRP60 },
+-    { PREGRP61 },
+-    { PREGRP62 },
+-    { PREGRP63 },
+-    { PREGRP64 },
+-    { PREGRP65 },
+-    { PREGRP66 },
+-    /* 40 */
+-    { PREGRP67 },
+-    { PREGRP68 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 48 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 50 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 58 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 60 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 68 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 70 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 78 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 80 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 88 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 90 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 98 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* a0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* a8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* b0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* b8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* c0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* c8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* d0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* d8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { PREGRP99 },
+-    { PREGRP100 },
+-    { PREGRP101 },
+-    { PREGRP102 },
+-    { PREGRP103 },
+-    /* e0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* e8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* f0 */
+-    { PREGRP87 },
+-    { PREGRP88 },
+-    { PREGRP105 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { PREGRP108 },
+-    { "(bad)", { XX } },
+-    { PREGRP106 },
+-    /* f8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-  },
+-  /* THREE_BYTE_1 */
+-  {
+-    /* 00 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 08 */
+-    { PREGRP69 },
+-    { PREGRP70 },
+-    { PREGRP71 },
+-    { PREGRP72 },
+-    { PREGRP73 },
+-    { PREGRP74 },
+-    { PREGRP75 },
+-    { "palignr", { MX, EM, Ib } },
+-    /* 10 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { PREGRP76 },
+-    { PREGRP77 },
+-    { PREGRP78 },
+-    { PREGRP79 },
+-    /* 18 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 20 */
+-    { PREGRP80 },
+-    { PREGRP81 },
+-    { PREGRP82 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 28 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 30 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 38 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 40 */
+-    { PREGRP83 },
+-    { PREGRP84 },
+-    { PREGRP85 },
+-    { "(bad)", { XX } },
+-    { PREGRP98 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 48 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 50 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 58 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 60 */
+-    { PREGRP89 },
+-    { PREGRP90 },
+-    { PREGRP91 },
+-    { PREGRP92 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 68 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 70 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 78 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 80 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 88 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 90 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* 98 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* a0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* a8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* b0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* b8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* c0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* c8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* d0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* d8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { PREGRP104 },
+-    /* e0 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* e8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* f0 */
+-    { PREGRP109 },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    /* f8 */
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-    { "(bad)", { XX } },
+-  }
+-};
+-
+-#define INTERNAL_DISASSEMBLER_ERROR "<internal disassembler error>"
+-
+-static void
+-ckprefix (void)
 -{
--  const char *name;
--  const char *description;
--  const char *reg_names[16];
+-  int newrex;
+-  rex = 0;
+-  prefixes = 0;
+-  used_prefixes = 0;
+-  rex_used = 0;
+-  while (1)
+-    {
+-      fetch_data(the_info, codep + 1);
+-      newrex = 0;
+-      switch (*codep)
+-	{
+-	/* REX prefixes family.  */
+-	case 0x40:
+-	case 0x41:
+-	case 0x42:
+-	case 0x43:
+-	case 0x44:
+-	case 0x45:
+-	case 0x46:
+-	case 0x47:
+-	case 0x48:
+-	case 0x49:
+-	case 0x4a:
+-	case 0x4b:
+-	case 0x4c:
+-	case 0x4d:
+-	case 0x4e:
+-	case 0x4f:
+-	    if (address_mode == mode_64bit)
+-	      newrex = *codep;
+-	    else
+-	      return;
+-	  break;
+-	case 0xf3:
+-	  prefixes |= PREFIX_REPZ;
+-	  break;
+-	case 0xf2:
+-	  prefixes |= PREFIX_REPNZ;
+-	  break;
+-	case 0xf0:
+-	  prefixes |= PREFIX_LOCK;
+-	  break;
+-	case 0x2e:
+-	  prefixes |= PREFIX_CS;
+-	  break;
+-	case 0x36:
+-	  prefixes |= PREFIX_SS;
+-	  break;
+-	case 0x3e:
+-	  prefixes |= PREFIX_DS;
+-	  break;
+-	case 0x26:
+-	  prefixes |= PREFIX_ES;
+-	  break;
+-	case 0x64:
+-	  prefixes |= PREFIX_FS;
+-	  break;
+-	case 0x65:
+-	  prefixes |= PREFIX_GS;
+-	  break;
+-	case 0x66:
+-	  prefixes |= PREFIX_DATA;
+-	  break;
+-	case 0x67:
+-	  prefixes |= PREFIX_ADDR;
+-	  break;
+-	case FWAIT_OPCODE:
+-	  /* fwait is really an instruction.  If there are prefixes
+-	     before the fwait, they belong to the fwait, *not* to the
+-	     following instruction.  */
+-	  if (prefixes || rex)
+-	    {
+-	      prefixes |= PREFIX_FWAIT;
+-	      codep++;
+-	      return;
+-	    }
+-	  prefixes = PREFIX_FWAIT;
+-	  break;
+-	default:
+-	  return;
+-	}
+-      /* Rex is ignored when followed by another prefix.  */
+-      if (rex)
+-	{
+-	  rex_used = rex;
+-	  return;
+-	}
+-      rex = newrex;
+-      codep++;
+-    }
 -}
--arm_regname;
 -
--static const arm_regname regnames[] =
+-static void
+-ckvexprefix (void)
 -{
--  { "raw" , "Select raw register names",
--    { "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"}},
--  { "gcc",  "Select register names used by GCC",
--    { "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "sl",  "fp",  "ip",  "sp",  "lr",  "pc" }},
--  { "std",  "Select register names used in ARM's ISA documentation",
--    { "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", "r11", "r12", "sp",  "lr",  "pc" }},
--  { "apcs", "Select register names used in the APCS",
--    { "a1", "a2", "a3", "a4", "v1", "v2", "v3", "v4", "v5", "v6", "sl",  "fp",  "ip",  "sp",  "lr",  "pc" }},
--  { "atpcs", "Select register names used in the ATPCS",
--    { "a1", "a2", "a3", "a4", "v1", "v2", "v3", "v4", "v5", "v6", "v7",  "v8",  "IP",  "SP",  "LR",  "PC" }},
--  { "special-atpcs", "Select special register names used in the ATPCS",
--    { "a1", "a2", "a3", "a4", "v1", "v2", "v3", "WR", "v5", "SB", "SL",  "FP",  "IP",  "SP",  "LR",  "PC" }},
--};
+-    int op, vex2, vex3, newrex = 0, newpfx = prefixes;
 -
--static const char *const iwmmxt_wwnames[] =
--{"b", "h", "w", "d"};
+-    if (address_mode == mode_16bit) {
+-        return;
+-    }
 -
--static const char *const iwmmxt_wwssnames[] =
--{"b", "bus", "bc", "bss",
-- "h", "hus", "hc", "hss",
-- "w", "wus", "wc", "wss",
-- "d", "dus", "dc", "dss"
--};
+-    fetch_data(the_info, codep + 1);
+-    op = *codep;
 -
--static const char *const iwmmxt_regnames[] =
--{ "wr0", "wr1", "wr2", "wr3", "wr4", "wr5", "wr6", "wr7",
--  "wr8", "wr9", "wr10", "wr11", "wr12", "wr13", "wr14", "wr15"
--};
+-    if (op != 0xc4 && op != 0xc5) {
+-        return;
+-    }
 -
--static const char *const iwmmxt_cregnames[] =
--{ "wcid", "wcon", "wcssf", "wcasf", "reserved", "reserved", "reserved", "reserved",
--  "wcgr0", "wcgr1", "wcgr2", "wcgr3", "reserved", "reserved", "reserved", "reserved"
--};
+-    fetch_data(the_info, codep + 2);
+-    vex2 = codep[1];
 -
--/* Default to GCC register name set.  */
--static unsigned int regname_selected = 1;
+-    if (address_mode == mode_32bit && (vex2 & 0xc0) != 0xc0) {
+-        return;
+-    }
 -
--#define arm_regnames      regnames[regname_selected].reg_names
+-    if (op == 0xc4) {
+-        /* Three byte VEX prefix.  */
+-        fetch_data(the_info, codep + 3);
+-        vex3 = codep[2];
 -
--static bfd_boolean force_thumb = false;
+-        newrex |= (vex2 & 0x80 ? 0 : REX_R);
+-        newrex |= (vex2 & 0x40 ? 0 : REX_X);
+-        newrex |= (vex2 & 0x20 ? 0 : REX_B);
+-        newrex |= (vex3 & 0x80 ? REX_W : 0);
+-        switch (vex2 & 0x1f) {      /* VEX.m-mmmm */
+-        case 1:
+-            newpfx |= PREFIX_VEX_0F;
+-            break;
+-        case 2:
+-            newpfx |= PREFIX_VEX_0F | PREFIX_VEX_0F38;
+-            break;
+-        case 3:
+-            newpfx |= PREFIX_VEX_0F | PREFIX_VEX_0F3A;
+-            break;
+-        }
+-        vex2 = vex3;
+-        codep += 3;
+-    } else {
+-        /* Two byte VEX prefix.  */
+-        newrex |= (vex2 & 0x80 ? 0 : REX_R);
+-        newpfx |= PREFIX_VEX_0F;
+-        codep += 2;
+-    }
 -
--/* Current IT instruction state.  This contains the same state as the IT
--   bits in the CPSR.  */
--static unsigned int ifthen_state;
--/* IT state for the next instruction.  */
--static unsigned int ifthen_next_state;
--/* The address of the insn for which the IT state is valid.  */
--static bfd_vma ifthen_address;
--#define IFTHEN_COND ((ifthen_state >> 4) & 0xf)
+-    vex_reg = (~vex2 >> 3) & 15;     /* VEX.vvvv */
+-    switch (vex2 & 3) {              /* VEX.pp */
+-    case 1:
+-        newpfx |= PREFIX_DATA;     /* 0x66 */
+-        break;
+-    case 2:
+-        newpfx |= PREFIX_REPZ;     /* 0xf3 */
+-        break;
+-    case 3:
+-        newpfx |= PREFIX_REPNZ;    /* 0xf2 */
+-        break;
+-    }
 -
--/* Cached mapping symbol state.  */
--enum map_type {
--  MAP_ARM,
--  MAP_THUMB,
--  MAP_DATA
--};
+-    rex = newrex;
+-    prefixes = newpfx;
+-}
 -
--/* Decode a bitfield of the form matching regexp (N(-N)?,)*N(-N)?.
--   Returns pointer to following character of the format string and
--   fills in *VALUEP and *WIDTHP with the extracted value and number of
--   bits extracted.  WIDTHP can be NULL. */
+-/* Return the name of the prefix byte PREF, or NULL if PREF is not a
+-   prefix byte.  */
 -
 -static const char *
--arm_decode_bitfield (const char *ptr, unsigned long insn,
--		     unsigned long *valuep, int *widthp)
+-prefix_name (int pref, int sizeflag)
 -{
--  unsigned long value = 0;
--  int width = 0;
--
--  do
+-  static const char * const rexes [16] =
 -    {
--      int start, end;
--      int bits;
+-      "rex",		/* 0x40 */
+-      "rex.B",		/* 0x41 */
+-      "rex.X",		/* 0x42 */
+-      "rex.XB",		/* 0x43 */
+-      "rex.R",		/* 0x44 */
+-      "rex.RB",		/* 0x45 */
+-      "rex.RX",		/* 0x46 */
+-      "rex.RXB",	/* 0x47 */
+-      "rex.W",		/* 0x48 */
+-      "rex.WB",		/* 0x49 */
+-      "rex.WX",		/* 0x4a */
+-      "rex.WXB",	/* 0x4b */
+-      "rex.WR",		/* 0x4c */
+-      "rex.WRB",	/* 0x4d */
+-      "rex.WRX",	/* 0x4e */
+-      "rex.WRXB",	/* 0x4f */
+-    };
 -
--      for (start = 0; *ptr >= '0' && *ptr <= '9'; ptr++)
--	start = start * 10 + *ptr - '0';
--      if (*ptr == '-')
--	for (end = 0, ptr++; *ptr >= '0' && *ptr <= '9'; ptr++)
--	  end = end * 10 + *ptr - '0';
+-  switch (pref)
+-    {
+-    /* REX prefixes family.  */
+-    case 0x40:
+-    case 0x41:
+-    case 0x42:
+-    case 0x43:
+-    case 0x44:
+-    case 0x45:
+-    case 0x46:
+-    case 0x47:
+-    case 0x48:
+-    case 0x49:
+-    case 0x4a:
+-    case 0x4b:
+-    case 0x4c:
+-    case 0x4d:
+-    case 0x4e:
+-    case 0x4f:
+-      return rexes [pref - 0x40];
+-    case 0xf3:
+-      return "repz";
+-    case 0xf2:
+-      return "repnz";
+-    case 0xf0:
+-      return "lock";
+-    case 0x2e:
+-      return "cs";
+-    case 0x36:
+-      return "ss";
+-    case 0x3e:
+-      return "ds";
+-    case 0x26:
+-      return "es";
+-    case 0x64:
+-      return "fs";
+-    case 0x65:
+-      return "gs";
+-    case 0x66:
+-      return (sizeflag & DFLAG) ? "data16" : "data32";
+-    case 0x67:
+-      if (address_mode == mode_64bit)
+-	return (sizeflag & AFLAG) ? "addr32" : "addr64";
 -      else
--	end = start;
--      bits = end - start;
--      if (bits < 0)
--	abort ();
--      value |= ((insn >> start) & ((2ul << bits) - 1)) << width;
--      width += bits + 1;
+-	return (sizeflag & AFLAG) ? "addr16" : "addr32";
+-    case FWAIT_OPCODE:
+-      return "fwait";
+-    default:
+-      return NULL;
 -    }
--  while (*ptr++ == ',');
--  *valuep = value;
--  if (widthp)
--    *widthp = width;
--  return ptr - 1;
 -}
 -
--static void
--arm_decode_shift (long given, fprintf_function func, void *stream,
--		  int print_shift)
+-static char op_out[MAX_OPERANDS][100];
+-static int op_ad, op_index[MAX_OPERANDS];
+-static int two_source_ops;
+-static bfd_vma op_address[MAX_OPERANDS];
+-static bfd_vma op_riprel[MAX_OPERANDS];
+-static bfd_vma start_pc;
+-
+-/*
+- *   On the 386's of 1988, the maximum length of an instruction is 15 bytes.
+- *   (see topic "Redundant prefixes" in the "Differences from 8086"
+- *   section of the "Virtual 8086 Mode" chapter.)
+- * 'pc' should be the address of this instruction, it will
+- *   be used to print the target address if this is a relative jump or call
+- * The function returns the length of this instruction in bytes.
+- */
+-
+-static char intel_syntax;
+-static char open_char;
+-static char close_char;
+-static char separator_char;
+-static char scale_char;
+-
+-int
+-print_insn_i386 (bfd_vma pc, disassemble_info *info)
 -{
--  func (stream, "%s", arm_regnames[given & 0xf]);
+-  intel_syntax = -1;
 -
--  if ((given & 0xff0) != 0)
--    {
--      if ((given & 0x10) == 0)
--	{
--	  int amount = (given & 0xf80) >> 7;
--	  int shift = (given & 0x60) >> 5;
--
--	  if (amount == 0)
--	    {
--	      if (shift == 3)
--		{
--		  func (stream, ", rrx");
--		  return;
--		}
--
--	      amount = 32;
--	    }
--
--	  if (print_shift)
--	    func (stream, ", %s #%d", arm_shift[shift], amount);
--	  else
--	    func (stream, ", #%d", amount);
--	}
--      else if (print_shift)
--	func (stream, ", %s %s", arm_shift[(given & 0x60) >> 5],
--	      arm_regnames[(given & 0xf00) >> 8]);
--      else
--	func (stream, ", %s", arm_regnames[(given & 0xf00) >> 8]);
--    }
+-  return print_insn (pc, info);
 -}
 -
--/* Print one coprocessor instruction on INFO->STREAM.
--   Return true if the instruction matched, false if this is not a
--   recognised coprocessor instruction.  */
--
--static bfd_boolean
--print_insn_coprocessor (bfd_vma pc, struct disassemble_info *info, long given,
--			bfd_boolean thumb)
+-static int
+-print_insn (bfd_vma pc, disassemble_info *info)
 -{
--  const struct opcode32 *insn;
--  void *stream = info->stream;
--  fprintf_function func = info->fprintf_func;
--  unsigned long mask;
--  unsigned long value;
--  int cond;
+-  const struct dis386 *dp;
+-  int i;
+-  char *op_txt[MAX_OPERANDS];
+-  int needcomma;
+-  unsigned char uses_DATA_prefix, uses_LOCK_prefix;
+-  unsigned char uses_REPNZ_prefix, uses_REPZ_prefix;
+-  int sizeflag;
+-  const char *p;
+-  struct dis_private priv;
+-  unsigned char op;
+-  unsigned char threebyte;
 -
--  for (insn = coprocessor_opcodes; insn->assembler; insn++)
+-  if (info->mach == bfd_mach_x86_64_intel_syntax
+-      || info->mach == bfd_mach_x86_64)
+-    address_mode = mode_64bit;
+-  else
+-    address_mode = mode_32bit;
+-
+-  if (intel_syntax == (char) -1)
+-    intel_syntax = (info->mach == bfd_mach_i386_i386_intel_syntax
+-		    || info->mach == bfd_mach_x86_64_intel_syntax);
+-
+-  if (info->mach == bfd_mach_i386_i386
+-      || info->mach == bfd_mach_x86_64
+-      || info->mach == bfd_mach_i386_i386_intel_syntax
+-      || info->mach == bfd_mach_x86_64_intel_syntax)
+-    priv.orig_sizeflag = AFLAG | DFLAG;
+-  else if (info->mach == bfd_mach_i386_i8086)
+-    priv.orig_sizeflag = 0;
+-  else
+-    abort ();
+-
+-  for (p = info->disassembler_options; p != NULL; )
 -    {
--      if (insn->value == FIRST_IWMMXT_INSN
--	  && info->mach != bfd_mach_arm_XScale
--	  && info->mach != bfd_mach_arm_iWMMXt
--	  && info->mach != bfd_mach_arm_iWMMXt2)
--	insn = insn + IWMMXT_INSN_COUNT;
--
--      mask = insn->mask;
--      value = insn->value;
--      if (thumb)
+-      if (strncmp (p, "x86-64", 6) == 0)
 -	{
--	  /* The high 4 bits are 0xe for Arm conditional instructions, and
--	     0xe for arm unconditional instructions.  The rest of the
--	     encoding is the same.  */
--	  mask |= 0xf0000000;
--	  value |= 0xe0000000;
--	  if (ifthen_state)
--	    cond = IFTHEN_COND;
--	  else
--	    cond = 16;
+-	  address_mode = mode_64bit;
+-	  priv.orig_sizeflag = AFLAG | DFLAG;
 -	}
--      else
+-      else if (strncmp (p, "i386", 4) == 0)
 -	{
--          /* Only match unconditional instructions against unconditional
--	     patterns.  */
--	  if ((given & 0xf0000000) == 0xf0000000)
+-	  address_mode = mode_32bit;
+-	  priv.orig_sizeflag = AFLAG | DFLAG;
+-	}
+-      else if (strncmp (p, "i8086", 5) == 0)
+-	{
+-	  address_mode = mode_16bit;
+-	  priv.orig_sizeflag = 0;
+-	}
+-      else if (strncmp (p, "intel", 5) == 0)
+-	{
+-	  intel_syntax = 1;
+-	}
+-      else if (strncmp (p, "att", 3) == 0)
+-	{
+-	  intel_syntax = 0;
+-	}
+-      else if (strncmp (p, "addr", 4) == 0)
+-	{
+-	  if (address_mode == mode_64bit)
 -	    {
--	      mask |= 0xf0000000;
--	      cond = 16;
+-	      if (p[4] == '3' && p[5] == '2')
+-		priv.orig_sizeflag &= ~AFLAG;
+-	      else if (p[4] == '6' && p[5] == '4')
+-		priv.orig_sizeflag |= AFLAG;
 -	    }
 -	  else
 -	    {
--	      cond = (given >> 28) & 0xf;
--	      if (cond == 0xe)
--		cond = 16;
+-	      if (p[4] == '1' && p[5] == '6')
+-		priv.orig_sizeflag &= ~AFLAG;
+-	      else if (p[4] == '3' && p[5] == '2')
+-		priv.orig_sizeflag |= AFLAG;
 -	    }
 -	}
--      if ((given & mask) == value)
+-      else if (strncmp (p, "data", 4) == 0)
 -	{
--	  const char *c;
--
--	  for (c = insn->assembler; *c; c++)
--	    {
--	      if (*c == '%')
--		{
--		  switch (*++c)
--		    {
--		    case '%':
--		      func (stream, "%%");
--		      break;
--
--		    case 'A':
--		      func (stream, "[%s", arm_regnames [(given >> 16) & 0xf]);
--
--		      if ((given & (1 << 24)) != 0)
--			{
--			  int offset = given & 0xff;
--
--			  if (offset)
--			    func (stream, ", #%s%d]%s",
--				  ((given & 0x00800000) == 0 ? "-" : ""),
--				  offset * 4,
--				  ((given & 0x00200000) != 0 ? "!" : ""));
--			  else
--			    func (stream, "]");
--			}
--		      else
--			{
--			  int offset = given & 0xff;
--
--			  func (stream, "]");
--
--			  if (given & (1 << 21))
--			    {
--			      if (offset)
--				func (stream, ", #%s%d",
--				      ((given & 0x00800000) == 0 ? "-" : ""),
--				      offset * 4);
--			    }
--			  else
--			    func (stream, ", {%d}", offset);
--			}
--		      break;
--
--		    case 'B':
--		      {
--			int regno = ((given >> 12) & 0xf) | ((given >> (22 - 4)) & 0x10);
--			int offset = (given >> 1) & 0x3f;
--
--			if (offset == 1)
--			  func (stream, "{d%d}", regno);
--			else if (regno + offset > 32)
--			  func (stream, "{d%d-<overflow reg d%d>}", regno, regno + offset - 1);
--			else
--			  func (stream, "{d%d-d%d}", regno, regno + offset - 1);
--		      }
--		      break;
--
--		    case 'C':
--		      {
--			int rn = (given >> 16) & 0xf;
--			int offset = (given & 0xff) * 4;
--			int add = (given >> 23) & 1;
--
--			func (stream, "[%s", arm_regnames[rn]);
--
--			if (offset)
--			  {
--			    if (!add)
--			      offset = -offset;
--			    func (stream, ", #%d", offset);
--			  }
--			func (stream, "]");
--			if (rn == 15)
--			  {
--			    func (stream, "\t; ");
--                            /* FIXME: Unsure if info->bytes_per_chunk is the
--                               right thing to use here.  */
--			    info->print_address_func (offset + pc
--                              + info->bytes_per_chunk * 2, info);
--			  }
--		      }
--		      break;
--
--		    case 'c':
--		      func (stream, "%s", arm_conditional[cond]);
--		      break;
--
--		    case 'I':
--		      /* Print a Cirrus/DSP shift immediate.  */
--		      /* Immediates are 7bit signed ints with bits 0..3 in
--			 bits 0..3 of opcode and bits 4..6 in bits 5..7
--			 of opcode.  */
--		      {
--			int imm;
--
--			imm = (given & 0xf) | ((given & 0xe0) >> 1);
--
--			/* Is ``imm'' a negative number?  */
--			if (imm & 0x40)
--			  imm |= (~0u << 7);
--
--			func (stream, "%d", imm);
--		      }
--
--		      break;
--
--		    case 'F':
--		      switch (given & 0x00408000)
--			{
--			case 0:
--			  func (stream, "4");
--			  break;
--			case 0x8000:
--			  func (stream, "1");
--			  break;
--			case 0x00400000:
--			  func (stream, "2");
--			  break;
--			default:
--			  func (stream, "3");
--			}
--		      break;
--
--		    case 'P':
--		      switch (given & 0x00080080)
--			{
--			case 0:
--			  func (stream, "s");
--			  break;
--			case 0x80:
--			  func (stream, "d");
--			  break;
--			case 0x00080000:
--			  func (stream, "e");
--			  break;
--			default:
--			  func (stream, "<illegal precision>");
--			  break;
--			}
--		      break;
--		    case 'Q':
--		      switch (given & 0x00408000)
--			{
--			case 0:
--			  func (stream, "s");
--			  break;
--			case 0x8000:
--			  func (stream, "d");
--			  break;
--			case 0x00400000:
--			  func (stream, "e");
--			  break;
--			default:
--			  func (stream, "p");
--			  break;
--			}
--		      break;
--		    case 'R':
--		      switch (given & 0x60)
--			{
--			case 0:
--			  break;
--			case 0x20:
--			  func (stream, "p");
--			  break;
--			case 0x40:
--			  func (stream, "m");
--			  break;
--			default:
--			  func (stream, "z");
--			  break;
--			}
--		      break;
--
--		    case '0': case '1': case '2': case '3': case '4':
--		    case '5': case '6': case '7': case '8': case '9':
--		      {
--			int width;
--			unsigned long value;
--
--			c = arm_decode_bitfield (c, given, &value, &width);
--
--			switch (*c)
--			  {
--			  case 'r':
--			    func (stream, "%s", arm_regnames[value]);
--			    break;
--			  case 'D':
--			    func (stream, "d%ld", value);
--			    break;
--			  case 'Q':
--			    if (value & 1)
--			      func (stream, "<illegal reg q%ld.5>", value >> 1);
--			    else
--			      func (stream, "q%ld", value >> 1);
--			    break;
--			  case 'd':
--			    func (stream, "%ld", value);
--			    break;
--                          case 'k':
--                            {
--                              int from = (given & (1 << 7)) ? 32 : 16;
--                              func (stream, "%ld", from - value);
--                            }
--                            break;
--
--			  case 'f':
--			    if (value > 7)
--			      func (stream, "#%s", arm_fp_const[value & 7]);
--			    else
--			      func (stream, "f%ld", value);
--			    break;
--
--			  case 'w':
--			    if (width == 2)
--			      func (stream, "%s", iwmmxt_wwnames[value]);
--			    else
--			      func (stream, "%s", iwmmxt_wwssnames[value]);
--			    break;
--
--			  case 'g':
--			    func (stream, "%s", iwmmxt_regnames[value]);
--			    break;
--			  case 'G':
--			    func (stream, "%s", iwmmxt_cregnames[value]);
--			    break;
--
--			  case 'x':
--			    func (stream, "0x%lx", value);
--			    break;
--
--			  case '`':
--			    c++;
--			    if (value == 0)
--			      func (stream, "%c", *c);
--			    break;
--			  case '\'':
--			    c++;
--			    if (value == ((1ul << width) - 1))
--			      func (stream, "%c", *c);
--			    break;
--			  case '?':
--			    func (stream, "%c", c[(1 << width) - (int)value]);
--			    c += 1 << width;
--			    break;
--			  default:
--			    abort ();
--			  }
--			break;
--
--		      case 'y':
--		      case 'z':
--			{
--			  int single = *c++ == 'y';
--			  int regno;
--
--			  switch (*c)
--			    {
--			    case '4': /* Sm pair */
--			      func (stream, "{");
--			      /* Fall through.  */
--			    case '0': /* Sm, Dm */
--			      regno = given & 0x0000000f;
--			      if (single)
--				{
--				  regno <<= 1;
--				  regno += (given >> 5) & 1;
--				}
--                              else
--                                regno += ((given >> 5) & 1) << 4;
--			      break;
--
--			    case '1': /* Sd, Dd */
--			      regno = (given >> 12) & 0x0000000f;
--			      if (single)
--				{
--				  regno <<= 1;
--				  regno += (given >> 22) & 1;
--				}
--                              else
--                                regno += ((given >> 22) & 1) << 4;
--			      break;
--
--			    case '2': /* Sn, Dn */
--			      regno = (given >> 16) & 0x0000000f;
--			      if (single)
--				{
--				  regno <<= 1;
--				  regno += (given >> 7) & 1;
--				}
--                              else
--                                regno += ((given >> 7) & 1) << 4;
--			      break;
--
--			    case '3': /* List */
--			      func (stream, "{");
--			      regno = (given >> 12) & 0x0000000f;
--			      if (single)
--				{
--				  regno <<= 1;
--				  regno += (given >> 22) & 1;
--				}
--                              else
--                                regno += ((given >> 22) & 1) << 4;
--			      break;
--
--			    default:
--			      abort ();
--			    }
--
--			  func (stream, "%c%d", single ? 's' : 'd', regno);
--
--			  if (*c == '3')
--			    {
--			      int count = given & 0xff;
--
--			      if (single == 0)
--				count >>= 1;
--
--			      if (--count)
--				{
--				  func (stream, "-%c%d",
--					single ? 's' : 'd',
--					regno + count);
--				}
--
--			      func (stream, "}");
--			    }
--			  else if (*c == '4')
--			    func (stream, ", %c%d}", single ? 's' : 'd',
--				  regno + 1);
--			}
--			break;
--
--		      case 'L':
--			switch (given & 0x00400100)
--			  {
--			  case 0x00000000: func (stream, "b"); break;
--			  case 0x00400000: func (stream, "h"); break;
--			  case 0x00000100: func (stream, "w"); break;
--			  case 0x00400100: func (stream, "d"); break;
--			  default:
--			    break;
--			  }
--			break;
--
--		      case 'Z':
--			{
--			  int value;
--			  /* given (20, 23) | given (0, 3) */
--			  value = ((given >> 16) & 0xf0) | (given & 0xf);
--			  func (stream, "%d", value);
--			}
--			break;
--
--		      case 'l':
--			/* This is like the 'A' operator, except that if
--			   the width field "M" is zero, then the offset is
--			   *not* multiplied by four.  */
--			{
--			  int offset = given & 0xff;
--			  int multiplier = (given & 0x00000100) ? 4 : 1;
--
--			  func (stream, "[%s", arm_regnames [(given >> 16) & 0xf]);
--
--			  if (offset)
--			    {
--			      if ((given & 0x01000000) != 0)
--				func (stream, ", #%s%d]%s",
--				      ((given & 0x00800000) == 0 ? "-" : ""),
--				      offset * multiplier,
--				      ((given & 0x00200000) != 0 ? "!" : ""));
--			      else
--				func (stream, "], #%s%d",
--				      ((given & 0x00800000) == 0 ? "-" : ""),
--				      offset * multiplier);
--			    }
--			  else
--			    func (stream, "]");
--			}
--			break;
--
--		      case 'r':
--			{
--			  int imm4 = (given >> 4) & 0xf;
--			  int puw_bits = ((given >> 22) & 6) | ((given >> 21) & 1);
--			  int ubit = (given >> 23) & 1;
--			  const char *rm = arm_regnames [given & 0xf];
--			  const char *rn = arm_regnames [(given >> 16) & 0xf];
--
--			  switch (puw_bits)
--			    {
--			    case 1:
--			      /* fall through */
--			    case 3:
--			      func (stream, "[%s], %c%s", rn, ubit ? '+' : '-', rm);
--			      if (imm4)
--				func (stream, ", lsl #%d", imm4);
--			      break;
--
--			    case 4:
--			      /* fall through */
--			    case 5:
--			      /* fall through */
--			    case 6:
--			      /* fall through */
--			    case 7:
--			      func (stream, "[%s, %c%s", rn, ubit ? '+' : '-', rm);
--			      if (imm4 > 0)
--				func (stream, ", lsl #%d", imm4);
--			      func (stream, "]");
--			      if (puw_bits == 5 || puw_bits == 7)
--				func (stream, "!");
--			      break;
--
--			    default:
--			      func (stream, "INVALID");
--			    }
--			}
--			break;
--
--		      case 'i':
--			{
--			  long imm5;
--			  imm5 = ((given & 0x100) >> 4) | (given & 0xf);
--			  func (stream, "%ld", (imm5 == 0) ? 32 : imm5);
--			}
--			break;
--
--		      default:
--			abort ();
--		      }
--		    }
--		}
--	      else
--		func (stream, "%c", *c);
--	    }
--	  return true;
+-	  if (p[4] == '1' && p[5] == '6')
+-	    priv.orig_sizeflag &= ~DFLAG;
+-	  else if (p[4] == '3' && p[5] == '2')
+-	    priv.orig_sizeflag |= DFLAG;
 -	}
+-      else if (strncmp (p, "suffix", 6) == 0)
+-	priv.orig_sizeflag |= SUFFIX_ALWAYS;
+-
+-      p = strchr (p, ',');
+-      if (p != NULL)
+-	p++;
 -    }
--  return false;
--}
 -
--static void
--print_arm_address (bfd_vma pc, struct disassemble_info *info, long given)
--{
--  void *stream = info->stream;
--  fprintf_function func = info->fprintf_func;
--
--  if (((given & 0x000f0000) == 0x000f0000)
--      && ((given & 0x02000000) == 0))
+-  if (intel_syntax)
 -    {
--      int offset = given & 0xfff;
--
--      func (stream, "[pc");
--
--      if (given & 0x01000000)
--	{
--	  if ((given & 0x00800000) == 0)
--	    offset = - offset;
--
--	  /* Pre-indexed.  */
--	  func (stream, ", #%d]", offset);
--
--	  offset += pc + 8;
--
--	  /* Cope with the possibility of write-back
--	     being used.  Probably a very dangerous thing
--	     for the programmer to do, but who are we to
--	     argue ?  */
--	  if (given & 0x00200000)
--	    func (stream, "!");
--	}
--      else
--	{
--	  /* Post indexed.  */
--	  func (stream, "], #%d", offset);
--
--	  /* ie ignore the offset.  */
--	  offset = pc + 8;
--	}
--
--      func (stream, "\t; ");
--      info->print_address_func (offset, info);
+-      names64 = intel_names64;
+-      names32 = intel_names32;
+-      names16 = intel_names16;
+-      names8 = intel_names8;
+-      names8rex = intel_names8rex;
+-      names_seg = intel_names_seg;
+-      index16 = intel_index16;
+-      open_char = '[';
+-      close_char = ']';
+-      separator_char = '+';
+-      scale_char = '*';
 -    }
 -  else
 -    {
--      func (stream, "[%s",
--	    arm_regnames[(given >> 16) & 0xf]);
--      if ((given & 0x01000000) != 0)
+-      names64 = att_names64;
+-      names32 = att_names32;
+-      names16 = att_names16;
+-      names8 = att_names8;
+-      names8rex = att_names8rex;
+-      names_seg = att_names_seg;
+-      index16 = att_index16;
+-      open_char = '(';
+-      close_char =  ')';
+-      separator_char = ',';
+-      scale_char = ',';
+-    }
+-
+-  /* The output looks better if we put 7 bytes on a line, since that
+-     puts most long word instructions on a single line.  */
+-  info->bytes_per_line = 7;
+-
+-  info->private_data = &priv;
+-  priv.max_fetched = priv.the_buffer;
+-  priv.insn_start = pc;
+-
+-  obuf[0] = 0;
+-  for (i = 0; i < MAX_OPERANDS; ++i)
+-    {
+-      op_out[i][0] = 0;
+-      op_index[i] = -1;
+-    }
+-
+-  the_info = info;
+-  start_pc = pc;
+-  start_codep = priv.the_buffer;
+-  codep = priv.the_buffer;
+-
+-  if (sigsetjmp(priv.bailout, 0) != 0)
+-    {
+-      const char *name;
+-
+-      /* Getting here means we tried for data but didn't get it.  That
+-	 means we have an incomplete instruction of some sort.  Just
+-	 print the first byte as a prefix or a .byte pseudo-op.  */
+-      if (codep > priv.the_buffer)
 -	{
--	  if ((given & 0x02000000) == 0)
--	    {
--	      int offset = given & 0xfff;
--	      if (offset)
--		func (stream, ", #%s%d",
--		      (((given & 0x00800000) == 0)
--		       ? "-" : ""), offset);
--	    }
+-	  name = prefix_name (priv.the_buffer[0], priv.orig_sizeflag);
+-	  if (name != NULL)
+-	    (*info->fprintf_func) (info->stream, "%s", name);
 -	  else
 -	    {
--	      func (stream, ", %s",
--		    (((given & 0x00800000) == 0)
--		     ? "-" : ""));
--	      arm_decode_shift (given, func, stream, 1);
+-	      /* Just print the first byte as a .byte instruction.  */
+-	      (*info->fprintf_func) (info->stream, ".byte 0x%x",
+-				     (unsigned int) priv.the_buffer[0]);
 -	    }
 -
--	  func (stream, "]%s",
--		((given & 0x00200000) != 0) ? "!" : "");
+-	  return 1;
 -	}
+-
+-      return -1;
+-    }
+-
+-  obufp = obuf;
+-  ckprefix ();
+-  ckvexprefix ();
+-
+-  insn_codep = codep;
+-  sizeflag = priv.orig_sizeflag;
+-
+-  fetch_data(info, codep + 1);
+-  two_source_ops = (*codep == 0x62) || (*codep == 0xc8);
+-
+-  if (((prefixes & PREFIX_FWAIT)
+-       && ((*codep < 0xd8) || (*codep > 0xdf)))
+-      || (rex && rex_used))
+-    {
+-      const char *name;
+-
+-      /* fwait not followed by floating point instruction, or rex followed
+-	 by other prefixes.  Print the first prefix.  */
+-      name = prefix_name (priv.the_buffer[0], priv.orig_sizeflag);
+-      if (name == NULL)
+-	name = INTERNAL_DISASSEMBLER_ERROR;
+-      (*info->fprintf_func) (info->stream, "%s", name);
+-      return 1;
+-    }
+-
+-  op = 0;
+-  if (prefixes & PREFIX_VEX_0F)
+-    {
+-      used_prefixes |= PREFIX_VEX_0F | PREFIX_VEX_0F38 | PREFIX_VEX_0F3A;
+-      if (prefixes & PREFIX_VEX_0F38)
+-        threebyte = 0x38;
+-      else if (prefixes & PREFIX_VEX_0F3A)
+-        threebyte = 0x3a;
 -      else
+-        threebyte = *codep++;
+-      goto vex_opcode;
+-    }
+-  if (*codep == 0x0f)
+-    {
+-      fetch_data(info, codep + 2);
+-      threebyte = codep[1];
+-      codep += 2;
+-    vex_opcode:
+-      dp = &dis386_twobyte[threebyte];
+-      need_modrm = twobyte_has_modrm[threebyte];
+-      uses_DATA_prefix = twobyte_uses_DATA_prefix[threebyte];
+-      uses_REPNZ_prefix = twobyte_uses_REPNZ_prefix[threebyte];
+-      uses_REPZ_prefix = twobyte_uses_REPZ_prefix[threebyte];
+-      uses_LOCK_prefix = (threebyte & ~0x02) == 0x20;
+-      if (dp->name == NULL && dp->op[0].bytemode == IS_3BYTE_OPCODE)
 -	{
--	  if ((given & 0x02000000) == 0)
+-          fetch_data(info, codep + 2);
+-	  op = *codep++;
+-	  switch (threebyte)
 -	    {
--	      int offset = given & 0xfff;
--	      if (offset)
--		func (stream, "], #%s%d",
--		      (((given & 0x00800000) == 0)
--		       ? "-" : ""), offset);
+-	    case 0x38:
+-	      uses_DATA_prefix = threebyte_0x38_uses_DATA_prefix[op];
+-	      uses_REPNZ_prefix = threebyte_0x38_uses_REPNZ_prefix[op];
+-	      uses_REPZ_prefix = threebyte_0x38_uses_REPZ_prefix[op];
+-	      break;
+-	    case 0x3a:
+-	      uses_DATA_prefix = threebyte_0x3a_uses_DATA_prefix[op];
+-	      uses_REPNZ_prefix = threebyte_0x3a_uses_REPNZ_prefix[op];
+-	      uses_REPZ_prefix = threebyte_0x3a_uses_REPZ_prefix[op];
+-	      break;
+-	    default:
+-	      break;
+-	    }
+-	}
+-    }
+-  else
+-    {
+-      dp = &dis386[*codep];
+-      need_modrm = onebyte_has_modrm[*codep];
+-      uses_DATA_prefix = 0;
+-      uses_REPNZ_prefix = 0;
+-      /* pause is 0xf3 0x90.  */
+-      uses_REPZ_prefix = *codep == 0x90;
+-      uses_LOCK_prefix = 0;
+-      codep++;
+-    }
+-
+-  if (!uses_REPZ_prefix && (prefixes & PREFIX_REPZ))
+-    {
+-      oappend ("repz ");
+-      used_prefixes |= PREFIX_REPZ;
+-    }
+-  if (!uses_REPNZ_prefix && (prefixes & PREFIX_REPNZ))
+-    {
+-      oappend ("repnz ");
+-      used_prefixes |= PREFIX_REPNZ;
+-    }
+-
+-  if (!uses_LOCK_prefix && (prefixes & PREFIX_LOCK))
+-    {
+-      oappend ("lock ");
+-      used_prefixes |= PREFIX_LOCK;
+-    }
+-
+-  if (prefixes & PREFIX_ADDR)
+-    {
+-      sizeflag ^= AFLAG;
+-      if (dp->op[2].bytemode != loop_jcxz_mode || intel_syntax)
+-	{
+-	  if ((sizeflag & AFLAG) || address_mode == mode_64bit)
+-	    oappend ("addr32 ");
+-	  else
+-	    oappend ("addr16 ");
+-	  used_prefixes |= PREFIX_ADDR;
+-	}
+-    }
+-
+-  if (!uses_DATA_prefix && (prefixes & PREFIX_DATA))
+-    {
+-      sizeflag ^= DFLAG;
+-      if (dp->op[2].bytemode == cond_jump_mode
+-	  && dp->op[0].bytemode == v_mode
+-	  && !intel_syntax)
+-	{
+-	  if (sizeflag & DFLAG)
+-	    oappend ("data32 ");
+-	  else
+-	    oappend ("data16 ");
+-	  used_prefixes |= PREFIX_DATA;
+-	}
+-    }
+-
+-  if (dp->name == NULL && dp->op[0].bytemode == IS_3BYTE_OPCODE)
+-    {
+-      dp = &three_byte_table[dp->op[1].bytemode][op];
+-      modrm.mod = (*codep >> 6) & 3;
+-      modrm.reg = (*codep >> 3) & 7;
+-      modrm.rm = *codep & 7;
+-    }
+-  else if (need_modrm)
+-    {
+-      fetch_data(info, codep + 1);
+-      modrm.mod = (*codep >> 6) & 3;
+-      modrm.reg = (*codep >> 3) & 7;
+-      modrm.rm = *codep & 7;
+-    }
+-
+-  if (dp->name == NULL && dp->op[0].bytemode == FLOATCODE)
+-    {
+-      dofloat (sizeflag);
+-    }
+-  else
+-    {
+-      int index;
+-      if (dp->name == NULL)
+-	{
+-	  switch (dp->op[0].bytemode)
+-	    {
+-	    case USE_GROUPS:
+-	      dp = &grps[dp->op[1].bytemode][modrm.reg];
+-	      break;
+-
+-	    case USE_PREFIX_USER_TABLE:
+-	      index = 0;
+-	      used_prefixes |= (prefixes & PREFIX_REPZ);
+-	      if (prefixes & PREFIX_REPZ)
+-		index = 1;
 -	      else
--		func (stream, "]");
--	    }
--	  else
--	    {
--	      func (stream, "], %s",
--		    (((given & 0x00800000) == 0)
--		     ? "-" : ""));
--	      arm_decode_shift (given, func, stream, 1);
--	    }
--	}
--    }
--}
--
--/* Print one neon instruction on INFO->STREAM.
--   Return true if the instruction matched, false if this is not a
--   recognised neon instruction.  */
--
--static bfd_boolean
--print_insn_neon (struct disassemble_info *info, long given, bfd_boolean thumb)
--{
--  const struct opcode32 *insn;
--  void *stream = info->stream;
--  fprintf_function func = info->fprintf_func;
--
--  if (thumb)
--    {
--      if ((given & 0xef000000) == 0xef000000)
--	{
--	  /* move bit 28 to bit 24 to translate Thumb2 to ARM encoding.  */
--	  unsigned long bit28 = given & (1 << 28);
--
--	  given &= 0x00ffffff;
--	  if (bit28)
--            given |= 0xf3000000;
--          else
--	    given |= 0xf2000000;
--	}
--      else if ((given & 0xff000000) == 0xf9000000)
--	given ^= 0xf9000000 ^ 0xf4000000;
--      else
--	return false;
--    }
--
--  for (insn = neon_opcodes; insn->assembler; insn++)
--    {
--      if ((given & insn->mask) == insn->value)
--	{
--	  const char *c;
--
--	  for (c = insn->assembler; *c; c++)
--	    {
--	      if (*c == '%')
 -		{
--		  switch (*++c)
+-		  /* We should check PREFIX_REPNZ and PREFIX_REPZ
+-		     before PREFIX_DATA.  */
+-		  used_prefixes |= (prefixes & PREFIX_REPNZ);
+-		  if (prefixes & PREFIX_REPNZ)
+-		    index = 3;
+-		  else
 -		    {
--		    case '%':
--		      func (stream, "%%");
--		      break;
--
--		    case 'c':
--		      if (thumb && ifthen_state)
--			func (stream, "%s", arm_conditional[IFTHEN_COND]);
--		      break;
--
--		    case 'A':
--		      {
--			static const unsigned char enc[16] =
--			{
--			  0x4, 0x14, /* st4 0,1 */
--			  0x4, /* st1 2 */
--			  0x4, /* st2 3 */
--			  0x3, /* st3 4 */
--			  0x13, /* st3 5 */
--			  0x3, /* st1 6 */
--			  0x1, /* st1 7 */
--			  0x2, /* st2 8 */
--			  0x12, /* st2 9 */
--			  0x2, /* st1 10 */
--			  0, 0, 0, 0, 0
--			};
--			int rd = ((given >> 12) & 0xf) | (((given >> 22) & 1) << 4);
--			int rn = ((given >> 16) & 0xf);
--			int rm = ((given >> 0) & 0xf);
--			int align = ((given >> 4) & 0x3);
--			int type = ((given >> 8) & 0xf);
--			int n = enc[type] & 0xf;
--			int stride = (enc[type] >> 4) + 1;
--			int ix;
--
--			func (stream, "{");
--			if (stride > 1)
--			  for (ix = 0; ix != n; ix++)
--			    func (stream, "%sd%d", ix ? "," : "", rd + ix * stride);
--			else if (n == 1)
--			  func (stream, "d%d", rd);
--			else
--			  func (stream, "d%d-d%d", rd, rd + n - 1);
--			func (stream, "}, [%s", arm_regnames[rn]);
--			if (align)
--			  func (stream, ", :%d", 32 << align);
--			func (stream, "]");
--			if (rm == 0xd)
--			  func (stream, "!");
--			else if (rm != 0xf)
--			  func (stream, ", %s", arm_regnames[rm]);
--		      }
--		      break;
--
--		    case 'B':
--		      {
--			int rd = ((given >> 12) & 0xf) | (((given >> 22) & 1) << 4);
--			int rn = ((given >> 16) & 0xf);
--			int rm = ((given >> 0) & 0xf);
--			int idx_align = ((given >> 4) & 0xf);
--                        int align = 0;
--			int size = ((given >> 10) & 0x3);
--			int idx = idx_align >> (size + 1);
--                        int length = ((given >> 8) & 3) + 1;
--                        int stride = 1;
--                        int i;
--
--                        if (length > 1 && size > 0)
--                          stride = (idx_align & (1 << size)) ? 2 : 1;
--
--                        switch (length)
--                          {
--                          case 1:
--                            {
--                              int amask = (1 << size) - 1;
--                              if ((idx_align & (1 << size)) != 0)
--                                return false;
--                              if (size > 0)
--                                {
--                                  if ((idx_align & amask) == amask)
--                                    align = 8 << size;
--                                  else if ((idx_align & amask) != 0)
--                                    return false;
--                                }
--                              }
--                            break;
--
--                          case 2:
--                            if (size == 2 && (idx_align & 2) != 0)
--                              return false;
--                            align = (idx_align & 1) ? 16 << size : 0;
--                            break;
--
--                          case 3:
--                            if ((size == 2 && (idx_align & 3) != 0)
--                                || (idx_align & 1) != 0)
--                              return false;
--                            break;
--
--                          case 4:
--                            if (size == 2)
--                              {
--                                if ((idx_align & 3) == 3)
--                                  return false;
--                                align = (idx_align & 3) * 64;
--                              }
--                            else
--                              align = (idx_align & 1) ? 32 << size : 0;
--                            break;
--
--                          default:
--                            abort ();
--                          }
--
--			func (stream, "{");
--                        for (i = 0; i < length; i++)
--                          func (stream, "%sd%d[%d]", (i == 0) ? "" : ",",
--                            rd + i * stride, idx);
--                        func (stream, "}, [%s", arm_regnames[rn]);
--			if (align)
--			  func (stream, ", :%d", align);
--			func (stream, "]");
--			if (rm == 0xd)
--			  func (stream, "!");
--			else if (rm != 0xf)
--			  func (stream, ", %s", arm_regnames[rm]);
--		      }
--		      break;
--
--		    case 'C':
--		      {
--			int rd = ((given >> 12) & 0xf) | (((given >> 22) & 1) << 4);
--			int rn = ((given >> 16) & 0xf);
--			int rm = ((given >> 0) & 0xf);
--			int align = ((given >> 4) & 0x1);
--			int size = ((given >> 6) & 0x3);
--			int type = ((given >> 8) & 0x3);
--			int n = type + 1;
--			int stride = ((given >> 5) & 0x1);
--			int ix;
--
--			if (stride && (n == 1))
--			  n++;
--			else
--			  stride++;
--
--			func (stream, "{");
--			if (stride > 1)
--			  for (ix = 0; ix != n; ix++)
--			    func (stream, "%sd%d[]", ix ? "," : "", rd + ix * stride);
--			else if (n == 1)
--			  func (stream, "d%d[]", rd);
--			else
--			  func (stream, "d%d[]-d%d[]", rd, rd + n - 1);
--			func (stream, "}, [%s", arm_regnames[rn]);
--			if (align)
--			  {
--                            int align = (8 * (type + 1)) << size;
--                            if (type == 3)
--                              align = (size > 1) ? align >> 1 : align;
--			    if (type == 2 || (type == 0 && !size))
--			      func (stream, ", :<bad align %d>", align);
--			    else
--			      func (stream, ", :%d", align);
--			  }
--			func (stream, "]");
--			if (rm == 0xd)
--			  func (stream, "!");
--			else if (rm != 0xf)
--			  func (stream, ", %s", arm_regnames[rm]);
--		      }
--		      break;
--
--		    case 'D':
--		      {
--			int raw_reg = (given & 0xf) | ((given >> 1) & 0x10);
--			int size = (given >> 20) & 3;
--			int reg = raw_reg & ((4 << size) - 1);
--			int ix = raw_reg >> size >> 2;
--
--			func (stream, "d%d[%d]", reg, ix);
--		      }
--		      break;
--
--		    case 'E':
--		      /* Neon encoded constant for mov, mvn, vorr, vbic */
--		      {
--			int bits = 0;
--			int cmode = (given >> 8) & 0xf;
--			int op = (given >> 5) & 0x1;
--			unsigned long value = 0, hival = 0;
--			unsigned shift;
--                        int size = 0;
--                        int isfloat = 0;
--
--			bits |= ((given >> 24) & 1) << 7;
--			bits |= ((given >> 16) & 7) << 4;
--			bits |= ((given >> 0) & 15) << 0;
--
--			if (cmode < 8)
--			  {
--			    shift = (cmode >> 1) & 3;
--			    value = (unsigned long)bits << (8 * shift);
--                            size = 32;
--			  }
--			else if (cmode < 12)
--			  {
--			    shift = (cmode >> 1) & 1;
--			    value = (unsigned long)bits << (8 * shift);
--                            size = 16;
--			  }
--			else if (cmode < 14)
--			  {
--			    shift = (cmode & 1) + 1;
--			    value = (unsigned long)bits << (8 * shift);
--			    value |= (1ul << (8 * shift)) - 1;
--                            size = 32;
--			  }
--			else if (cmode == 14)
--			  {
--			    if (op)
--			      {
--				/* bit replication into bytes */
--				int ix;
--				unsigned long mask;
--
--				value = 0;
--                                hival = 0;
--				for (ix = 7; ix >= 0; ix--)
--				  {
--				    mask = ((bits >> ix) & 1) ? 0xff : 0;
--                                    if (ix <= 3)
--				      value = (value << 8) | mask;
--                                    else
--                                      hival = (hival << 8) | mask;
--				  }
--                                size = 64;
--			      }
--                            else
--                              {
--                                /* byte replication */
--                                value = (unsigned long)bits;
--                                size = 8;
--                              }
--			  }
--			else if (!op)
--			  {
--			    /* floating point encoding */
--			    int tmp;
--
--			    value = (unsigned long)(bits & 0x7f) << 19;
--			    value |= (unsigned long)(bits & 0x80) << 24;
--			    tmp = bits & 0x40 ? 0x3c : 0x40;
--			    value |= (unsigned long)tmp << 24;
--                            size = 32;
--                            isfloat = 1;
--			  }
--			else
--			  {
--			    func (stream, "<illegal constant %.8x:%x:%x>",
--                                  bits, cmode, op);
--			    break;
--			  }
--                        switch (size)
--                          {
--                          case 8:
--			    func (stream, "#%ld\t; 0x%.2lx", value, value);
--                            break;
--
--                          case 16:
--                            func (stream, "#%ld\t; 0x%.4lx", value, value);
--                            break;
--
--                          case 32:
--                            if (isfloat)
--                              {
--                                unsigned char valbytes[4];
--                                double fvalue;
--
--                                /* Do this a byte at a time so we don't have to
--                                   worry about the host's endianness.  */
--                                valbytes[0] = value & 0xff;
--                                valbytes[1] = (value >> 8) & 0xff;
--                                valbytes[2] = (value >> 16) & 0xff;
--                                valbytes[3] = (value >> 24) & 0xff;
--
--                                floatformat_to_double (valbytes, &fvalue);
--
--                                func (stream, "#%.7g\t; 0x%.8lx", fvalue,
--                                      value);
--                              }
--                            else
--                              func (stream, "#%ld\t; 0x%.8lx",
--				(long) ((value & 0x80000000)
--					? value | ~0xffffffffl : value), value);
--                            break;
--
--                          case 64:
--                            func (stream, "#0x%.8lx%.8lx", hival, value);
--                            break;
--
--                          default:
--                            abort ();
--                          }
--		      }
--		      break;
--
--		    case 'F':
--		      {
--			int regno = ((given >> 16) & 0xf) | ((given >> (7 - 4)) & 0x10);
--			int num = (given >> 8) & 0x3;
--
--			if (!num)
--			  func (stream, "{d%d}", regno);
--			else if (num + regno >= 32)
--			  func (stream, "{d%d-<overflow reg d%d}", regno, regno + num);
--			else
--			  func (stream, "{d%d-d%d}", regno, regno + num);
--		      }
--		      break;
--
--
--		    case '0': case '1': case '2': case '3': case '4':
--		    case '5': case '6': case '7': case '8': case '9':
--		      {
--			int width;
--			unsigned long value;
--
--			c = arm_decode_bitfield (c, given, &value, &width);
--
--			switch (*c)
--			  {
--			  case 'r':
--			    func (stream, "%s", arm_regnames[value]);
--			    break;
--			  case 'd':
--			    func (stream, "%ld", value);
--			    break;
--			  case 'e':
--			    func (stream, "%ld", (1ul << width) - value);
--			    break;
--
--			  case 'S':
--			  case 'T':
--			  case 'U':
--			    /* various width encodings */
--			    {
--			      int base = 8 << (*c - 'S'); /* 8,16 or 32 */
--			      int limit;
--			      unsigned low, high;
--
--			      c++;
--			      if (*c >= '0' && *c <= '9')
--				limit = *c - '0';
--			      else if (*c >= 'a' && *c <= 'f')
--				limit = *c - 'a' + 10;
--			      else
--				abort ();
--			      low = limit >> 2;
--			      high = limit & 3;
--
--			      if (value < low || value > high)
--				func (stream, "<illegal width %d>", base << value);
--			      else
--				func (stream, "%d", base << value);
--			    }
--			    break;
--			  case 'R':
--			    if (given & (1 << 6))
--			      goto Q;
--			    /* FALLTHROUGH */
--			  case 'D':
--			    func (stream, "d%ld", value);
--			    break;
--			  case 'Q':
--			  Q:
--			    if (value & 1)
--			      func (stream, "<illegal reg q%ld.5>", value >> 1);
--			    else
--			      func (stream, "q%ld", value >> 1);
--			    break;
--
--			  case '`':
--			    c++;
--			    if (value == 0)
--			      func (stream, "%c", *c);
--			    break;
--			  case '\'':
--			    c++;
--			    if (value == ((1ul << width) - 1))
--			      func (stream, "%c", *c);
--			    break;
--			  case '?':
--			    func (stream, "%c", c[(1 << width) - (int)value]);
--			    c += 1 << width;
--			    break;
--			  default:
--			    abort ();
--			  }
--			break;
--
--		      default:
--			abort ();
--		      }
+-		      used_prefixes |= (prefixes & PREFIX_DATA);
+-		      if (prefixes & PREFIX_DATA)
+-			index = 2;
 -		    }
 -		}
--	      else
--		func (stream, "%c", *c);
+-	      dp = &prefix_user_table[dp->op[1].bytemode][index];
+-	      break;
+-
+-	    case X86_64_SPECIAL:
+-	      index = address_mode == mode_64bit ? 1 : 0;
+-	      dp = &x86_64_table[dp->op[1].bytemode][index];
+-	      break;
+-
+-	    default:
+-	      oappend (INTERNAL_DISASSEMBLER_ERROR);
+-	      break;
 -	    }
--	  return true;
+-	}
+-
+-      if (dp->name != NULL && putop (dp->name, sizeflag) == 0)
+-        {
+-	  for (i = 0; i < MAX_OPERANDS; ++i)
+-	    {
+-	      obufp = op_out[i];
+-	      op_ad = MAX_OPERANDS - 1 - i;
+-	      if (dp->op[i].rtn)
+-		(*dp->op[i].rtn) (dp->op[i].bytemode, sizeflag);
+-	    }
 -	}
 -    }
--  return false;
+-
+-  /* See if any prefixes were not used.  If so, print the first one
+-     separately.  If we don't do this, we'll wind up printing an
+-     instruction stream which does not precisely correspond to the
+-     bytes we are disassembling.  */
+-  if ((prefixes & ~used_prefixes) != 0)
+-    {
+-      const char *name;
+-
+-      name = prefix_name (priv.the_buffer[0], priv.orig_sizeflag);
+-      if (name == NULL)
+-	name = INTERNAL_DISASSEMBLER_ERROR;
+-      (*info->fprintf_func) (info->stream, "%s", name);
+-      return 1;
+-    }
+-  if (rex & ~rex_used)
+-    {
+-      const char *name;
+-      name = prefix_name (rex | 0x40, priv.orig_sizeflag);
+-      if (name == NULL)
+-	name = INTERNAL_DISASSEMBLER_ERROR;
+-      (*info->fprintf_func) (info->stream, "%s ", name);
+-    }
+-
+-  obufp = obuf + strlen (obuf);
+-  for (i = strlen (obuf); i < 6; i++)
+-    oappend (" ");
+-  oappend (" ");
+-  (*info->fprintf_func) (info->stream, "%s", obuf);
+-
+-  /* The enter and bound instructions are printed with operands in the same
+-     order as the intel book; everything else is printed in reverse order.  */
+-  if (intel_syntax || two_source_ops)
+-    {
+-      bfd_vma riprel;
+-
+-      for (i = 0; i < MAX_OPERANDS; ++i)
+-        op_txt[i] = op_out[i];
+-
+-      for (i = 0; i < (MAX_OPERANDS >> 1); ++i)
+-	{
+-          op_ad = op_index[i];
+-          op_index[i] = op_index[MAX_OPERANDS - 1 - i];
+-          op_index[MAX_OPERANDS - 1 - i] = op_ad;
+-	  riprel = op_riprel[i];
+-	  op_riprel[i] = op_riprel [MAX_OPERANDS - 1 - i];
+-	  op_riprel[MAX_OPERANDS - 1 - i] = riprel;
+-	}
+-    }
+-  else
+-    {
+-      for (i = 0; i < MAX_OPERANDS; ++i)
+-        op_txt[MAX_OPERANDS - 1 - i] = op_out[i];
+-    }
+-
+-  needcomma = 0;
+-  for (i = 0; i < MAX_OPERANDS; ++i)
+-    if (*op_txt[i])
+-      {
+-	if (needcomma)
+-	  (*info->fprintf_func) (info->stream, ",");
+-	if (op_index[i] != -1 && !op_riprel[i])
+-	  (*info->print_address_func) ((bfd_vma) op_address[op_index[i]], info);
+-	else
+-	  (*info->fprintf_func) (info->stream, "%s", op_txt[i]);
+-	needcomma = 1;
+-      }
+-
+-  for (i = 0; i < MAX_OPERANDS; i++)
+-    if (op_index[i] != -1 && op_riprel[i])
+-      {
+-	(*info->fprintf_func) (info->stream, "        # ");
+-	(*info->print_address_func) ((bfd_vma) (start_pc + codep - start_codep
+-						+ op_address[op_index[i]]), info);
+-	break;
+-      }
+-  return codep - priv.the_buffer;
 -}
 -
--/* Print one ARM instruction from PC on INFO->STREAM.  */
+-static const char *float_mem[] = {
+-  /* d8 */
+-  "fadd{s||s|}",
+-  "fmul{s||s|}",
+-  "fcom{s||s|}",
+-  "fcomp{s||s|}",
+-  "fsub{s||s|}",
+-  "fsubr{s||s|}",
+-  "fdiv{s||s|}",
+-  "fdivr{s||s|}",
+-  /* d9 */
+-  "fld{s||s|}",
+-  "(bad)",
+-  "fst{s||s|}",
+-  "fstp{s||s|}",
+-  "fldenvIC",
+-  "fldcw",
+-  "fNstenvIC",
+-  "fNstcw",
+-  /* da */
+-  "fiadd{l||l|}",
+-  "fimul{l||l|}",
+-  "ficom{l||l|}",
+-  "ficomp{l||l|}",
+-  "fisub{l||l|}",
+-  "fisubr{l||l|}",
+-  "fidiv{l||l|}",
+-  "fidivr{l||l|}",
+-  /* db */
+-  "fild{l||l|}",
+-  "fisttp{l||l|}",
+-  "fist{l||l|}",
+-  "fistp{l||l|}",
+-  "(bad)",
+-  "fld{t||t|}",
+-  "(bad)",
+-  "fstp{t||t|}",
+-  /* dc */
+-  "fadd{l||l|}",
+-  "fmul{l||l|}",
+-  "fcom{l||l|}",
+-  "fcomp{l||l|}",
+-  "fsub{l||l|}",
+-  "fsubr{l||l|}",
+-  "fdiv{l||l|}",
+-  "fdivr{l||l|}",
+-  /* dd */
+-  "fld{l||l|}",
+-  "fisttp{ll||ll|}",
+-  "fst{l||l|}",
+-  "fstp{l||l|}",
+-  "frstorIC",
+-  "(bad)",
+-  "fNsaveIC",
+-  "fNstsw",
+-  /* de */
+-  "fiadd",
+-  "fimul",
+-  "ficom",
+-  "ficomp",
+-  "fisub",
+-  "fisubr",
+-  "fidiv",
+-  "fidivr",
+-  /* df */
+-  "fild",
+-  "fisttp",
+-  "fist",
+-  "fistp",
+-  "fbld",
+-  "fild{ll||ll|}",
+-  "fbstp",
+-  "fistp{ll||ll|}",
+-};
+-
+-static const unsigned char float_mem_mode[] = {
+-  /* d8 */
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  /* d9 */
+-  d_mode,
+-  0,
+-  d_mode,
+-  d_mode,
+-  0,
+-  w_mode,
+-  0,
+-  w_mode,
+-  /* da */
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  /* db */
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  d_mode,
+-  0,
+-  t_mode,
+-  0,
+-  t_mode,
+-  /* dc */
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  /* dd */
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  q_mode,
+-  0,
+-  0,
+-  0,
+-  w_mode,
+-  /* de */
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  /* df */
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  w_mode,
+-  t_mode,
+-  q_mode,
+-  t_mode,
+-  q_mode
+-};
+-
+-#define ST { OP_ST, 0 }
+-#define STi { OP_STi, 0 }
+-
+-#define FGRPd9_2 NULL, { { NULL, 0 } }
+-#define FGRPd9_4 NULL, { { NULL, 1 } }
+-#define FGRPd9_5 NULL, { { NULL, 2 } }
+-#define FGRPd9_6 NULL, { { NULL, 3 } }
+-#define FGRPd9_7 NULL, { { NULL, 4 } }
+-#define FGRPda_5 NULL, { { NULL, 5 } }
+-#define FGRPdb_4 NULL, { { NULL, 6 } }
+-#define FGRPde_3 NULL, { { NULL, 7 } }
+-#define FGRPdf_4 NULL, { { NULL, 8 } }
+-
+-static const struct dis386 float_reg[][8] = {
+-  /* d8 */
+-  {
+-    { "fadd",	{ ST, STi } },
+-    { "fmul",	{ ST, STi } },
+-    { "fcom",	{ STi } },
+-    { "fcomp",	{ STi } },
+-    { "fsub",	{ ST, STi } },
+-    { "fsubr",	{ ST, STi } },
+-    { "fdiv",	{ ST, STi } },
+-    { "fdivr",	{ ST, STi } },
+-  },
+-  /* d9 */
+-  {
+-    { "fld",	{ STi } },
+-    { "fxch",	{ STi } },
+-    { FGRPd9_2 },
+-    { "(bad)",	{ XX } },
+-    { FGRPd9_4 },
+-    { FGRPd9_5 },
+-    { FGRPd9_6 },
+-    { FGRPd9_7 },
+-  },
+-  /* da */
+-  {
+-    { "fcmovb",	{ ST, STi } },
+-    { "fcmove",	{ ST, STi } },
+-    { "fcmovbe",{ ST, STi } },
+-    { "fcmovu",	{ ST, STi } },
+-    { "(bad)",	{ XX } },
+-    { FGRPda_5 },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* db */
+-  {
+-    { "fcmovnb",{ ST, STi } },
+-    { "fcmovne",{ ST, STi } },
+-    { "fcmovnbe",{ ST, STi } },
+-    { "fcmovnu",{ ST, STi } },
+-    { FGRPdb_4 },
+-    { "fucomi",	{ ST, STi } },
+-    { "fcomi",	{ ST, STi } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* dc */
+-  {
+-    { "fadd",	{ STi, ST } },
+-    { "fmul",	{ STi, ST } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-#if SYSV386_COMPAT
+-    { "fsub",	{ STi, ST } },
+-    { "fsubr",	{ STi, ST } },
+-    { "fdiv",	{ STi, ST } },
+-    { "fdivr",	{ STi, ST } },
+-#else
+-    { "fsubr",	{ STi, ST } },
+-    { "fsub",	{ STi, ST } },
+-    { "fdivr",	{ STi, ST } },
+-    { "fdiv",	{ STi, ST } },
+-#endif
+-  },
+-  /* dd */
+-  {
+-    { "ffree",	{ STi } },
+-    { "(bad)",	{ XX } },
+-    { "fst",	{ STi } },
+-    { "fstp",	{ STi } },
+-    { "fucom",	{ STi } },
+-    { "fucomp",	{ STi } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-  },
+-  /* de */
+-  {
+-    { "faddp",	{ STi, ST } },
+-    { "fmulp",	{ STi, ST } },
+-    { "(bad)",	{ XX } },
+-    { FGRPde_3 },
+-#if SYSV386_COMPAT
+-    { "fsubp",	{ STi, ST } },
+-    { "fsubrp",	{ STi, ST } },
+-    { "fdivp",	{ STi, ST } },
+-    { "fdivrp",	{ STi, ST } },
+-#else
+-    { "fsubrp",	{ STi, ST } },
+-    { "fsubp",	{ STi, ST } },
+-    { "fdivrp",	{ STi, ST } },
+-    { "fdivp",	{ STi, ST } },
+-#endif
+-  },
+-  /* df */
+-  {
+-    { "ffreep",	{ STi } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { "(bad)",	{ XX } },
+-    { FGRPdf_4 },
+-    { "fucomip", { ST, STi } },
+-    { "fcomip", { ST, STi } },
+-    { "(bad)",	{ XX } },
+-  },
+-};
+-
+-static const char *fgrps[][8] = {
+-  /* d9_2  0 */
+-  {
+-    "fnop","(bad)","(bad)","(bad)","(bad)","(bad)","(bad)","(bad)",
+-  },
+-
+-  /* d9_4  1 */
+-  {
+-    "fchs","fabs","(bad)","(bad)","ftst","fxam","(bad)","(bad)",
+-  },
+-
+-  /* d9_5  2 */
+-  {
+-    "fld1","fldl2t","fldl2e","fldpi","fldlg2","fldln2","fldz","(bad)",
+-  },
+-
+-  /* d9_6  3 */
+-  {
+-    "f2xm1","fyl2x","fptan","fpatan","fxtract","fprem1","fdecstp","fincstp",
+-  },
+-
+-  /* d9_7  4 */
+-  {
+-    "fprem","fyl2xp1","fsqrt","fsincos","frndint","fscale","fsin","fcos",
+-  },
+-
+-  /* da_5  5 */
+-  {
+-    "(bad)","fucompp","(bad)","(bad)","(bad)","(bad)","(bad)","(bad)",
+-  },
+-
+-  /* db_4  6 */
+-  {
+-    "feni(287 only)","fdisi(287 only)","fNclex","fNinit",
+-    "fNsetpm(287 only)","(bad)","(bad)","(bad)",
+-  },
+-
+-  /* de_3  7 */
+-  {
+-    "(bad)","fcompp","(bad)","(bad)","(bad)","(bad)","(bad)","(bad)",
+-  },
+-
+-  /* df_4  8 */
+-  {
+-    "fNstsw","(bad)","(bad)","(bad)","(bad)","(bad)","(bad)","(bad)",
+-  },
+-};
 -
 -static void
--print_insn_arm_internal (bfd_vma pc, struct disassemble_info *info, long given)
+-dofloat (int sizeflag)
 -{
--  const struct opcode32 *insn;
--  void *stream = info->stream;
--  fprintf_function func = info->fprintf_func;
+-  const struct dis386 *dp;
+-  unsigned char floatop;
 -
--  if (print_insn_coprocessor (pc, info, given, false))
--    return;
+-  floatop = codep[-1];
 -
--  if (print_insn_neon (info, given, false))
--    return;
--
--  for (insn = arm_opcodes; insn->assembler; insn++)
+-  if (modrm.mod != 3)
 -    {
--      if (insn->value == FIRST_IWMMXT_INSN
--	  && info->mach != bfd_mach_arm_XScale
--	  && info->mach != bfd_mach_arm_iWMMXt)
--	insn = insn + IWMMXT_INSN_COUNT;
+-      int fp_indx = (floatop - 0xd8) * 8 + modrm.reg;
 -
--      if ((given & insn->mask) == insn->value
--	  /* Special case: an instruction with all bits set in the condition field
--	     (0xFnnn_nnnn) is only matched if all those bits are set in insn->mask,
--	     or by the catchall at the end of the table.  */
--	  && ((given & 0xF0000000) != 0xF0000000
--	      || (insn->mask & 0xF0000000) == 0xF0000000
--	      || (insn->mask == 0 && insn->value == 0)))
+-      putop (float_mem[fp_indx], sizeflag);
+-      obufp = op_out[0];
+-      op_ad = 2;
+-      OP_E (float_mem_mode[fp_indx], sizeflag);
+-      return;
+-    }
+-  /* Skip mod/rm byte.  */
+-  MODRM_CHECK;
+-  codep++;
+-
+-  dp = &float_reg[floatop - 0xd8][modrm.reg];
+-  if (dp->name == NULL)
+-    {
+-      putop (fgrps[dp->op[0].bytemode][modrm.rm], sizeflag);
+-
+-      /* Instruction fnstsw is only one with strange arg.  */
+-      if (floatop == 0xdf && codep[-1] == 0xe0)
+-        pstrcpy (op_out[0], sizeof(op_out[0]), names16[0]);
+-    }
+-  else
+-    {
+-      putop (dp->name, sizeflag);
+-
+-      obufp = op_out[0];
+-      op_ad = 2;
+-      if (dp->op[0].rtn)
+-	(*dp->op[0].rtn) (dp->op[0].bytemode, sizeflag);
+-
+-      obufp = op_out[1];
+-      op_ad = 1;
+-      if (dp->op[1].rtn)
+-	(*dp->op[1].rtn) (dp->op[1].bytemode, sizeflag);
+-    }
+-}
+-
+-static void
+-OP_ST (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  oappend ("%st" + intel_syntax);
+-}
+-
+-static void
+-OP_STi (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%st(%d)", modrm.rm);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-/* Capital letters in template are macros.  */
+-static int
+-putop (const char *template, int sizeflag)
+-{
+-  const char *p;
+-  int alt = 0;
+-
+-  for (p = template; *p; p++)
+-    {
+-      switch (*p)
 -	{
--	  const char *c;
--
--	  for (c = insn->assembler; *c; c++)
+-	default:
+-	  *obufp++ = *p;
+-	  break;
+-	case '{':
+-	  alt = 0;
+-	  if (intel_syntax)
+-	    alt += 1;
+-	  if (address_mode == mode_64bit)
+-	    alt += 2;
+-	  while (alt != 0)
 -	    {
--	      if (*c == '%')
+-	      while (*++p != '|')
 -		{
--		  switch (*++c)
+-		  if (*p == '}')
 -		    {
--		    case '%':
--		      func (stream, "%%");
--		      break;
--
--		    case 'a':
--		      print_arm_address (pc, info, given);
--		      break;
--
--		    case 'P':
--		      /* Set P address bit and use normal address
--			 printing routine.  */
--		      print_arm_address (pc, info, given | (1 << 24));
--		      break;
--
--		    case 's':
--                      if ((given & 0x004f0000) == 0x004f0000)
--			{
--                          /* PC relative with immediate offset.  */
--			  int offset = ((given & 0xf00) >> 4) | (given & 0xf);
--
--			  if ((given & 0x00800000) == 0)
--			    offset = -offset;
--
--			  func (stream, "[pc, #%d]\t; ", offset);
--			  info->print_address_func (offset + pc + 8, info);
--			}
--		      else
--			{
--			  func (stream, "[%s",
--				arm_regnames[(given >> 16) & 0xf]);
--			  if ((given & 0x01000000) != 0)
--			    {
--                              /* Pre-indexed.  */
--			      if ((given & 0x00400000) == 0x00400000)
--				{
--                                  /* Immediate.  */
--                                  int offset = ((given & 0xf00) >> 4) | (given & 0xf);
--				  if (offset)
--				    func (stream, ", #%s%d",
--					  (((given & 0x00800000) == 0)
--					   ? "-" : ""), offset);
--				}
--			      else
--				{
--                                  /* Register.  */
--				  func (stream, ", %s%s",
--					(((given & 0x00800000) == 0)
--					 ? "-" : ""),
--                                        arm_regnames[given & 0xf]);
--				}
--
--			      func (stream, "]%s",
--				    ((given & 0x00200000) != 0) ? "!" : "");
--			    }
--			  else
--			    {
--                              /* Post-indexed.  */
--			      if ((given & 0x00400000) == 0x00400000)
--				{
--                                  /* Immediate.  */
--                                  int offset = ((given & 0xf00) >> 4) | (given & 0xf);
--				  if (offset)
--				    func (stream, "], #%s%d",
--					  (((given & 0x00800000) == 0)
--					   ? "-" : ""), offset);
--				  else
--				    func (stream, "]");
--				}
--			      else
--				{
--                                  /* Register.  */
--				  func (stream, "], %s%s",
--					(((given & 0x00800000) == 0)
--					 ? "-" : ""),
--                                        arm_regnames[given & 0xf]);
--				}
--			    }
--			}
--		      break;
--
--		    case 'b':
--		      {
--			int disp = (((given & 0xffffff) ^ 0x800000) - 0x800000);
--			info->print_address_func (disp*4 + pc + 8, info);
--		      }
--		      break;
--
--		    case 'c':
--		      if (((given >> 28) & 0xf) != 0xe)
--			func (stream, "%s",
--			      arm_conditional [(given >> 28) & 0xf]);
--		      break;
--
--		    case 'm':
--		      {
--			int started = 0;
--			int reg;
--
--			func (stream, "{");
--			for (reg = 0; reg < 16; reg++)
--			  if ((given & (1 << reg)) != 0)
--			    {
--			      if (started)
--				func (stream, ", ");
--			      started = 1;
--			      func (stream, "%s", arm_regnames[reg]);
--			    }
--			func (stream, "}");
--		      }
--		      break;
--
--		    case 'q':
--		      arm_decode_shift (given, func, stream, 0);
--		      break;
--
--		    case 'o':
--		      if ((given & 0x02000000) != 0)
--			{
--			  int rotate = (given & 0xf00) >> 7;
--			  int immed = (given & 0xff);
--			  immed = (((immed << (32 - rotate))
--				    | (immed >> rotate)) & 0xffffffff);
--			  func (stream, "#%d\t; 0x%x", immed, immed);
--			}
--		      else
--			arm_decode_shift (given, func, stream, 1);
--		      break;
--
--		    case 'p':
--		      if ((given & 0x0000f000) == 0x0000f000)
--			func (stream, "p");
--		      break;
--
--		    case 't':
--		      if ((given & 0x01200000) == 0x00200000)
--			func (stream, "t");
--		      break;
--
--		    case 'A':
--		      func (stream, "[%s", arm_regnames [(given >> 16) & 0xf]);
--
--		      if ((given & (1 << 24)) != 0)
--			{
--			  int offset = given & 0xff;
--
--			  if (offset)
--			    func (stream, ", #%s%d]%s",
--				  ((given & 0x00800000) == 0 ? "-" : ""),
--				  offset * 4,
--				  ((given & 0x00200000) != 0 ? "!" : ""));
--			  else
--			    func (stream, "]");
--			}
--		      else
--			{
--			  int offset = given & 0xff;
--
--			  func (stream, "]");
--
--			  if (given & (1 << 21))
--			    {
--			      if (offset)
--				func (stream, ", #%s%d",
--				      ((given & 0x00800000) == 0 ? "-" : ""),
--				      offset * 4);
--			    }
--			  else
--			    func (stream, ", {%d}", offset);
--			}
--		      break;
--
--		    case 'B':
--		      /* Print ARM V5 BLX(1) address: pc+25 bits.  */
--		      {
--			bfd_vma address;
--			bfd_vma offset = 0;
--
--			if (given & 0x00800000)
--			  /* Is signed, hi bits should be ones.  */
--			  offset = (-1) ^ 0x00ffffff;
--
--			/* Offset is (SignExtend(offset field)<<2).  */
--			offset += given & 0x00ffffff;
--			offset <<= 2;
--			address = offset + pc + 8;
--
--			if (given & 0x01000000)
--			  /* H bit allows addressing to 2-byte boundaries.  */
--			  address += 2;
--
--		        info->print_address_func (address, info);
--		      }
--		      break;
--
--		    case 'C':
--		      func (stream, "_");
--		      if (given & 0x80000)
--			func (stream, "f");
--		      if (given & 0x40000)
--			func (stream, "s");
--		      if (given & 0x20000)
--			func (stream, "x");
--		      if (given & 0x10000)
--			func (stream, "c");
--		      break;
--
--		    case 'U':
--		      switch (given & 0xf)
--			{
--			case 0xf: func(stream, "sy"); break;
--			case 0x7: func(stream, "un"); break;
--			case 0xe: func(stream, "st"); break;
--			case 0x6: func(stream, "unst"); break;
--			default:
--			  func(stream, "#%d", (int)given & 0xf);
--			  break;
--			}
--		      break;
--
--		    case '0': case '1': case '2': case '3': case '4':
--		    case '5': case '6': case '7': case '8': case '9':
--		      {
--			int width;
--			unsigned long value;
--
--			c = arm_decode_bitfield (c, given, &value, &width);
--
--			switch (*c)
--			  {
--			  case 'r':
--			    func (stream, "%s", arm_regnames[value]);
--			    break;
--			  case 'd':
--			    func (stream, "%ld", value);
--			    break;
--			  case 'b':
--			    func (stream, "%ld", value * 8);
--			    break;
--			  case 'W':
--			    func (stream, "%ld", value + 1);
--			    break;
--			  case 'x':
--			    func (stream, "0x%08lx", value);
--
--			    /* Some SWI instructions have special
--			       meanings.  */
--			    if ((given & 0x0fffffff) == 0x0FF00000)
--			      func (stream, "\t; IMB");
--			    else if ((given & 0x0fffffff) == 0x0FF00001)
--			      func (stream, "\t; IMBRange");
--			    break;
--			  case 'X':
--			    func (stream, "%01lx", value & 0xf);
--			    break;
--			  case '`':
--			    c++;
--			    if (value == 0)
--			      func (stream, "%c", *c);
--			    break;
--			  case '\'':
--			    c++;
--			    if (value == ((1ul << width) - 1))
--			      func (stream, "%c", *c);
--			    break;
--			  case '?':
--			    func (stream, "%c", c[(1 << width) - (int)value]);
--			    c += 1 << width;
--			    break;
--			  default:
--			    abort ();
--			  }
--			break;
--
--		      case 'e':
--			{
--			  int imm;
--
--			  imm = (given & 0xf) | ((given & 0xfff00) >> 4);
--			  func (stream, "%d", imm);
--			}
--			break;
--
--		      case 'E':
--			/* LSB and WIDTH fields of BFI or BFC.  The machine-
--			   language instruction encodes LSB and MSB.  */
--			{
--			  long msb = (given & 0x001f0000) >> 16;
--			  long lsb = (given & 0x00000f80) >> 7;
--
--			  long width = msb - lsb + 1;
--			  if (width > 0)
--			    func (stream, "#%lu, #%lu", lsb, width);
--			  else
--			    func (stream, "(invalid: %lu:%lu)", lsb, msb);
--			}
--			break;
--
--		      case 'V':
--			/* 16-bit unsigned immediate from a MOVT or MOVW
--			   instruction, encoded in bits 0:11 and 15:19.  */
--			{
--			  long hi = (given & 0x000f0000) >> 4;
--			  long lo = (given & 0x00000fff);
--			  long imm16 = hi | lo;
--			  func (stream, "#%lu\t; 0x%lx", imm16, imm16);
--			}
--			break;
--
--		      default:
--			abort ();
--		      }
+-		      /* Alternative not valid.  */
+-                      pstrcpy (obuf, sizeof(obuf), "(bad)");
+-		      obufp = obuf + 5;
+-		      return 1;
 -		    }
+-		  else if (*p == '\0')
+-		    abort ();
 -		}
+-	      alt--;
+-	    }
+-	  /* Fall through.  */
+-	case 'I':
+-	  alt = 1;
+-	  continue;
+-	case '|':
+-	  while (*++p != '}')
+-	    {
+-	      if (*p == '\0')
+-		abort ();
+-	    }
+-	  break;
+-	case '}':
+-	  break;
+-	case 'A':
+-	  if (intel_syntax)
+-	    break;
+-	  if (modrm.mod != 3 || (sizeflag & SUFFIX_ALWAYS))
+-	    *obufp++ = 'b';
+-	  break;
+-	case 'B':
+-	  if (intel_syntax)
+-	    break;
+-	  if (sizeflag & SUFFIX_ALWAYS)
+-	    *obufp++ = 'b';
+-	  break;
+-	case 'C':
+-	  if (intel_syntax && !alt)
+-	    break;
+-	  if ((prefixes & PREFIX_DATA) || (sizeflag & SUFFIX_ALWAYS))
+-	    {
+-	      if (sizeflag & DFLAG)
+-		*obufp++ = intel_syntax ? 'd' : 'l';
 -	      else
--		func (stream, "%c", *c);
+-		*obufp++ = intel_syntax ? 'w' : 's';
+-	      used_prefixes |= (prefixes & PREFIX_DATA);
+-	    }
+-	  break;
+-	case 'D':
+-	  if (intel_syntax || !(sizeflag & SUFFIX_ALWAYS))
+-	    break;
+-	  USED_REX (REX_W);
+-	  if (modrm.mod == 3)
+-	    {
+-	      if (rex & REX_W)
+-		*obufp++ = 'q';
+-	      else if (sizeflag & DFLAG)
+-		*obufp++ = intel_syntax ? 'd' : 'l';
+-	      else
+-		*obufp++ = 'w';
+-	      used_prefixes |= (prefixes & PREFIX_DATA);
+-	    }
+-	  else
+-	    *obufp++ = 'w';
+-	  break;
+-	case 'E':		/* For jcxz/jecxz */
+-	  if (address_mode == mode_64bit)
+-	    {
+-	      if (sizeflag & AFLAG)
+-		*obufp++ = 'r';
+-	      else
+-		*obufp++ = 'e';
+-	    }
+-	  else
+-	    if (sizeflag & AFLAG)
+-	      *obufp++ = 'e';
+-	  used_prefixes |= (prefixes & PREFIX_ADDR);
+-	  break;
+-	case 'F':
+-	  if (intel_syntax)
+-	    break;
+-	  if ((prefixes & PREFIX_ADDR) || (sizeflag & SUFFIX_ALWAYS))
+-	    {
+-	      if (sizeflag & AFLAG)
+-		*obufp++ = address_mode == mode_64bit ? 'q' : 'l';
+-	      else
+-		*obufp++ = address_mode == mode_64bit ? 'l' : 'w';
+-	      used_prefixes |= (prefixes & PREFIX_ADDR);
+-	    }
+-	  break;
+-	case 'G':
+-	  if (intel_syntax || (obufp[-1] != 's' && !(sizeflag & SUFFIX_ALWAYS)))
+-	    break;
+-	  if ((rex & REX_W) || (sizeflag & DFLAG))
+-	    *obufp++ = 'l';
+-	  else
+-	    *obufp++ = 'w';
+-	  if (!(rex & REX_W))
+-	    used_prefixes |= (prefixes & PREFIX_DATA);
+-	  break;
+-	case 'H':
+-	  if (intel_syntax)
+-	    break;
+-	  if ((prefixes & (PREFIX_CS | PREFIX_DS)) == PREFIX_CS
+-	      || (prefixes & (PREFIX_CS | PREFIX_DS)) == PREFIX_DS)
+-	    {
+-	      used_prefixes |= prefixes & (PREFIX_CS | PREFIX_DS);
+-	      *obufp++ = ',';
+-	      *obufp++ = 'p';
+-	      if (prefixes & PREFIX_DS)
+-		*obufp++ = 't';
+-	      else
+-		*obufp++ = 'n';
+-	    }
+-	  break;
+-	case 'J':
+-	  if (intel_syntax)
+-	    break;
+-	  *obufp++ = 'l';
+-	  break;
+-	case 'K':
+-	  USED_REX (REX_W);
+-	  if (rex & REX_W)
+-	    *obufp++ = 'q';
+-	  else
+-	    *obufp++ = 'd';
+-	  break;
+-	case 'Z':
+-	  if (intel_syntax)
+-	    break;
+-	  if (address_mode == mode_64bit && (sizeflag & SUFFIX_ALWAYS))
+-	    {
+-	      *obufp++ = 'q';
+-	      break;
+-	    }
+-	  /* Fall through.  */
+-	case 'L':
+-	  if (intel_syntax)
+-	    break;
+-	  if (sizeflag & SUFFIX_ALWAYS)
+-	    *obufp++ = 'l';
+-	  break;
+-	case 'N':
+-	  if ((prefixes & PREFIX_FWAIT) == 0)
+-	    *obufp++ = 'n';
+-	  else
+-	    used_prefixes |= PREFIX_FWAIT;
+-	  break;
+-	case 'O':
+-	  USED_REX (REX_W);
+-	  if (rex & REX_W)
+-	    *obufp++ = 'o';
+-	  else if (intel_syntax && (sizeflag & DFLAG))
+-	    *obufp++ = 'q';
+-	  else
+-	    *obufp++ = 'd';
+-	  if (!(rex & REX_W))
+-	    used_prefixes |= (prefixes & PREFIX_DATA);
+-	  break;
+-	case 'T':
+-	  if (intel_syntax)
+-	    break;
+-	  if (address_mode == mode_64bit && (sizeflag & DFLAG))
+-	    {
+-	      *obufp++ = 'q';
+-	      break;
+-	    }
+-	  /* Fall through.  */
+-	case 'P':
+-	  if (intel_syntax)
+-	    break;
+-	  if ((prefixes & PREFIX_DATA)
+-	      || (rex & REX_W)
+-	      || (sizeflag & SUFFIX_ALWAYS))
+-	    {
+-	      USED_REX (REX_W);
+-	      if (rex & REX_W)
+-		*obufp++ = 'q';
+-	      else
+-		{
+-		   if (sizeflag & DFLAG)
+-		      *obufp++ = 'l';
+-		   else
+-		     *obufp++ = 'w';
+-		}
+-	      used_prefixes |= (prefixes & PREFIX_DATA);
+-	    }
+-	  break;
+-	case 'U':
+-	  if (intel_syntax)
+-	    break;
+-	  if (address_mode == mode_64bit && (sizeflag & DFLAG))
+-	    {
+-	      if (modrm.mod != 3 || (sizeflag & SUFFIX_ALWAYS))
+-		*obufp++ = 'q';
+-	      break;
+-	    }
+-	  /* Fall through.  */
+-	case 'Q':
+-	  if (intel_syntax && !alt)
+-	    break;
+-	  USED_REX (REX_W);
+-	  if (modrm.mod != 3 || (sizeflag & SUFFIX_ALWAYS))
+-	    {
+-	      if (rex & REX_W)
+-		*obufp++ = 'q';
+-	      else
+-		{
+-		  if (sizeflag & DFLAG)
+-		    *obufp++ = intel_syntax ? 'd' : 'l';
+-		  else
+-		    *obufp++ = 'w';
+-		}
+-	      used_prefixes |= (prefixes & PREFIX_DATA);
+-	    }
+-	  break;
+-	case 'R':
+-	  USED_REX (REX_W);
+-	  if (rex & REX_W)
+-	    *obufp++ = 'q';
+-	  else if (sizeflag & DFLAG)
+-	    {
+-	      if (intel_syntax)
+-		  *obufp++ = 'd';
+-	      else
+-		  *obufp++ = 'l';
+-	    }
+-	  else
+-	    *obufp++ = 'w';
+-	  if (intel_syntax && !p[1]
+-	      && ((rex & REX_W) || (sizeflag & DFLAG)))
+-	    *obufp++ = 'e';
+-	  if (!(rex & REX_W))
+-	    used_prefixes |= (prefixes & PREFIX_DATA);
+-	  break;
+-	case 'V':
+-	  if (intel_syntax)
+-	    break;
+-	  if (address_mode == mode_64bit && (sizeflag & DFLAG))
+-	    {
+-	      if (sizeflag & SUFFIX_ALWAYS)
+-		*obufp++ = 'q';
+-	      break;
+-	    }
+-	  /* Fall through.  */
+-	case 'S':
+-	  if (intel_syntax)
+-	    break;
+-	  if (sizeflag & SUFFIX_ALWAYS)
+-	    {
+-	      if (rex & REX_W)
+-		*obufp++ = 'q';
+-	      else
+-		{
+-		  if (sizeflag & DFLAG)
+-		    *obufp++ = 'l';
+-		  else
+-		    *obufp++ = 'w';
+-		  used_prefixes |= (prefixes & PREFIX_DATA);
+-		}
+-	    }
+-	  break;
+-	case 'X':
+-	  if (prefixes & PREFIX_DATA)
+-	    *obufp++ = 'd';
+-	  else
+-	    *obufp++ = 's';
+-	  used_prefixes |= (prefixes & PREFIX_DATA);
+-	  break;
+-	case 'Y':
+-	  if (intel_syntax)
+-	    break;
+-	  if (rex & REX_W)
+-	    {
+-	      USED_REX (REX_W);
+-	      *obufp++ = 'q';
+-	    }
+-	  break;
+-	  /* implicit operand size 'l' for i386 or 'q' for x86-64 */
+-	case 'W':
+-	  /* operand size flag for cwtl, cbtw */
+-	  USED_REX (REX_W);
+-	  if (rex & REX_W)
+-	    {
+-	      if (intel_syntax)
+-		*obufp++ = 'd';
+-	      else
+-		*obufp++ = 'l';
+-	    }
+-	  else if (sizeflag & DFLAG)
+-	    *obufp++ = 'w';
+-	  else
+-	    *obufp++ = 'b';
+-	  if (!(rex & REX_W))
+-	    used_prefixes |= (prefixes & PREFIX_DATA);
+-	  break;
+-	}
+-      alt = 0;
+-    }
+-  *obufp = 0;
+-  return 0;
+-}
+-
+-static void
+-oappend (const char *s)
+-{
+-  strcpy (obufp, s);
+-  obufp += strlen (s);
+-}
+-
+-static void
+-append_seg (void)
+-{
+-  if (prefixes & PREFIX_CS)
+-    {
+-      used_prefixes |= PREFIX_CS;
+-      oappend ("%cs:" + intel_syntax);
+-    }
+-  if (prefixes & PREFIX_DS)
+-    {
+-      used_prefixes |= PREFIX_DS;
+-      oappend ("%ds:" + intel_syntax);
+-    }
+-  if (prefixes & PREFIX_SS)
+-    {
+-      used_prefixes |= PREFIX_SS;
+-      oappend ("%ss:" + intel_syntax);
+-    }
+-  if (prefixes & PREFIX_ES)
+-    {
+-      used_prefixes |= PREFIX_ES;
+-      oappend ("%es:" + intel_syntax);
+-    }
+-  if (prefixes & PREFIX_FS)
+-    {
+-      used_prefixes |= PREFIX_FS;
+-      oappend ("%fs:" + intel_syntax);
+-    }
+-  if (prefixes & PREFIX_GS)
+-    {
+-      used_prefixes |= PREFIX_GS;
+-      oappend ("%gs:" + intel_syntax);
+-    }
+-}
+-
+-static void
+-OP_indirE (int bytemode, int sizeflag)
+-{
+-  if (!intel_syntax)
+-    oappend ("*");
+-  OP_E (bytemode, sizeflag);
+-}
+-
+-static void
+-print_operand_value (char *buf, size_t bufsize, int hex, bfd_vma disp)
+-{
+-  if (address_mode == mode_64bit)
+-    {
+-      if (hex)
+-	{
+-	  char tmp[30];
+-	  int i;
+-	  buf[0] = '0';
+-	  buf[1] = 'x';
+-          snprintf_vma (tmp, sizeof(tmp), disp);
+-          for (i = 0; tmp[i] == '0' && tmp[i + 1]; i++) {
+-          }
+-          pstrcpy (buf + 2, bufsize - 2, tmp + i);
+-	}
+-      else
+-	{
+-	  bfd_signed_vma v = disp;
+-	  char tmp[30];
+-	  int i;
+-	  if (v < 0)
+-	    {
+-	      *(buf++) = '-';
+-	      v = -disp;
+-	      /* Check for possible overflow on 0x8000000000000000.  */
+-	      if (v < 0)
+-		{
+-                  pstrcpy (buf, bufsize, "9223372036854775808");
+-		  return;
+-		}
+-	    }
+-	  if (!v)
+-	    {
+-                pstrcpy (buf, bufsize, "0");
+-	      return;
+-	    }
+-
+-	  i = 0;
+-	  tmp[29] = 0;
+-	  while (v)
+-	    {
+-	      tmp[28 - i] = (v % 10) + '0';
+-	      v /= 10;
+-	      i++;
+-	    }
+-          pstrcpy (buf, bufsize, tmp + 29 - i);
+-	}
+-    }
+-  else
+-    {
+-      if (hex)
+-        snprintf (buf, bufsize, "0x%x", (unsigned int) disp);
+-      else
+-        snprintf (buf, bufsize, "%d", (int) disp);
+-    }
+-}
+-
+-/* Put DISP in BUF as signed hex number.  */
+-
+-static void
+-print_displacement (char *buf, bfd_vma disp)
+-{
+-  bfd_signed_vma val = disp;
+-  char tmp[30];
+-  int i, j = 0;
+-
+-  if (val < 0)
+-    {
+-      buf[j++] = '-';
+-      val = -disp;
+-
+-      /* Check for possible overflow.  */
+-      if (val < 0)
+-	{
+-	  switch (address_mode)
+-	    {
+-	    case mode_64bit:
+-	      strcpy (buf + j, "0x8000000000000000");
+-	      break;
+-	    case mode_32bit:
+-	      strcpy (buf + j, "0x80000000");
+-	      break;
+-	    case mode_16bit:
+-	      strcpy (buf + j, "0x8000");
+-	      break;
 -	    }
 -	  return;
 -	}
 -    }
--  abort ();
--}
 -
--/* Print one 16-bit Thumb instruction from PC on INFO->STREAM.  */
+-  buf[j++] = '0';
+-  buf[j++] = 'x';
+-
+-  snprintf_vma (tmp, sizeof(tmp), val);
+-  for (i = 0; tmp[i] == '0'; i++)
+-    continue;
+-  if (tmp[i] == '\0')
+-    i--;
+-  strcpy (buf + j, tmp + i);
+-}
 -
 -static void
--print_insn_thumb16 (bfd_vma pc, struct disassemble_info *info, long given)
+-intel_operand_size (int bytemode, int sizeflag)
 -{
--  const struct opcode16 *insn;
--  void *stream = info->stream;
--  fprintf_function func = info->fprintf_func;
--
--  for (insn = thumb_opcodes; insn->assembler; insn++)
--    if ((given & insn->mask) == insn->value)
--      {
--	const char *c = insn->assembler;
--	for (; *c; c++)
--	  {
--	    int domaskpc = 0;
--	    int domasklr = 0;
--
--	    if (*c != '%')
--	      {
--		func (stream, "%c", *c);
--		continue;
--	      }
--
--	    switch (*++c)
--	      {
--	      case '%':
--		func (stream, "%%");
--		break;
--
--	      case 'c':
--		if (ifthen_state)
--		  func (stream, "%s", arm_conditional[IFTHEN_COND]);
--		break;
--
--	      case 'C':
--		if (ifthen_state)
--		  func (stream, "%s", arm_conditional[IFTHEN_COND]);
--		else
--		  func (stream, "s");
--		break;
--
--	      case 'I':
--		{
--		  unsigned int tmp;
--
--		  ifthen_next_state = given & 0xff;
--		  for (tmp = given << 1; tmp & 0xf; tmp <<= 1)
--		    func (stream, ((given ^ tmp) & 0x10) ? "e" : "t");
--		  func (stream, "\t%s", arm_conditional[(given >> 4) & 0xf]);
--		}
--		break;
--
--	      case 'x':
--		if (ifthen_next_state)
--		  func (stream, "\t; unpredictable branch in IT block\n");
--		break;
--
--	      case 'X':
--		if (ifthen_state)
--		  func (stream, "\t; unpredictable <IT:%s>",
--			arm_conditional[IFTHEN_COND]);
--		break;
--
--	      case 'S':
--		{
--		  long reg;
--
--		  reg = (given >> 3) & 0x7;
--		  if (given & (1 << 6))
--		    reg += 8;
--
--		  func (stream, "%s", arm_regnames[reg]);
--		}
--		break;
--
--	      case 'D':
--		{
--		  long reg;
--
--		  reg = given & 0x7;
--		  if (given & (1 << 7))
--		    reg += 8;
--
--		  func (stream, "%s", arm_regnames[reg]);
--		}
--		break;
--
--	      case 'N':
--		if (given & (1 << 8))
--		  domasklr = 1;
--		/* Fall through.  */
--	      case 'O':
--		if (*c == 'O' && (given & (1 << 8)))
--		  domaskpc = 1;
--		/* Fall through.  */
--	      case 'M':
--		{
--		  int started = 0;
--		  int reg;
--
--		  func (stream, "{");
--
--		  /* It would be nice if we could spot
--		     ranges, and generate the rS-rE format: */
--		  for (reg = 0; (reg < 8); reg++)
--		    if ((given & (1 << reg)) != 0)
--		      {
--			if (started)
--			  func (stream, ", ");
--			started = 1;
--			func (stream, "%s", arm_regnames[reg]);
--		      }
--
--		  if (domasklr)
--		    {
--		      if (started)
--			func (stream, ", ");
--		      started = 1;
--		      func (stream, "%s", arm_regnames[14] /* "lr" */);
--		    }
--
--		  if (domaskpc)
--		    {
--		      if (started)
--			func (stream, ", ");
--		      func (stream, "%s", arm_regnames[15] /* "pc" */);
--		    }
--
--		  func (stream, "}");
--		}
--		break;
--
--	      case 'b':
--		/* Print ARM V6T2 CZB address: pc+4+6 bits.  */
--		{
--		  bfd_vma address = (pc + 4
--				     + ((given & 0x00f8) >> 2)
--				     + ((given & 0x0200) >> 3));
--		  info->print_address_func (address, info);
--		}
--		break;
--
--	      case 's':
--		/* Right shift immediate -- bits 6..10; 1-31 print
--		   as themselves, 0 prints as 32.  */
--		{
--		  long imm = (given & 0x07c0) >> 6;
--		  if (imm == 0)
--		    imm = 32;
--		  func (stream, "#%ld", imm);
--		}
--		break;
--
--	      case '0': case '1': case '2': case '3': case '4':
--	      case '5': case '6': case '7': case '8': case '9':
--		{
--		  int bitstart = *c++ - '0';
--		  int bitend = 0;
--
--		  while (*c >= '0' && *c <= '9')
--		    bitstart = (bitstart * 10) + *c++ - '0';
--
--		  switch (*c)
--		    {
--		    case '-':
--		      {
--			long reg;
--
--			c++;
--			while (*c >= '0' && *c <= '9')
--			  bitend = (bitend * 10) + *c++ - '0';
--			if (!bitend)
--			  abort ();
--			reg = given >> bitstart;
--			reg &= (2 << (bitend - bitstart)) - 1;
--			switch (*c)
--			  {
--			  case 'r':
--			    func (stream, "%s", arm_regnames[reg]);
--			    break;
--
--			  case 'd':
--			    func (stream, "%ld", reg);
--			    break;
--
--			  case 'H':
--			    func (stream, "%ld", reg << 1);
--			    break;
--
--			  case 'W':
--			    func (stream, "%ld", reg << 2);
--			    break;
--
--			  case 'a':
--			    /* PC-relative address -- the bottom two
--			       bits of the address are dropped
--			       before the calculation.  */
--			    info->print_address_func
--			      (((pc + 4) & ~3) + (reg << 2), info);
--			    break;
--
--			  case 'x':
--			    func (stream, "0x%04lx", reg);
--			    break;
--
--			  case 'B':
--			    reg = ((reg ^ (1 << bitend)) - (1 << bitend));
--			    info->print_address_func (reg * 2 + pc + 4, info);
--			    break;
--
--			  case 'c':
--			    func (stream, "%s", arm_conditional [reg]);
--			    break;
--
--			  default:
--			    abort ();
--			  }
--		      }
--		      break;
--
--		    case '\'':
--		      c++;
--		      if ((given & (1 << bitstart)) != 0)
--			func (stream, "%c", *c);
--		      break;
--
--		    case '?':
--		      ++c;
--		      if ((given & (1 << bitstart)) != 0)
--			func (stream, "%c", *c++);
--		      else
--			func (stream, "%c", *++c);
--		      break;
--
--		    default:
--		      abort ();
--		    }
--		}
--		break;
--
--	      default:
--		abort ();
--	      }
--	  }
--	return;
--      }
--
--  /* No match.  */
--  abort ();
--}
--
--/* Return the name of an V7M special register.  */
--static const char *
--psr_name (int regno)
--{
--  switch (regno)
+-  switch (bytemode)
 -    {
--    case 0: return "APSR";
--    case 1: return "IAPSR";
--    case 2: return "EAPSR";
--    case 3: return "PSR";
--    case 5: return "IPSR";
--    case 6: return "EPSR";
--    case 7: return "IEPSR";
--    case 8: return "MSP";
--    case 9: return "PSP";
--    case 16: return "PRIMASK";
--    case 17: return "BASEPRI";
--    case 18: return "BASEPRI_MASK";
--    case 19: return "FAULTMASK";
--    case 20: return "CONTROL";
--    default: return "<unknown>";
+-    case b_mode:
+-    case dqb_mode:
+-      oappend ("BYTE PTR ");
+-      break;
+-    case w_mode:
+-    case dqw_mode:
+-      oappend ("WORD PTR ");
+-      break;
+-    case stack_v_mode:
+-      if (address_mode == mode_64bit && (sizeflag & DFLAG))
+-	{
+-	  oappend ("QWORD PTR ");
+-	  used_prefixes |= (prefixes & PREFIX_DATA);
+-	  break;
+-	}
+-      /* FALLTHRU */
+-    case v_mode:
+-    case dq_mode:
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	oappend ("QWORD PTR ");
+-      else if ((sizeflag & DFLAG) || bytemode == dq_mode)
+-	oappend ("DWORD PTR ");
+-      else
+-	oappend ("WORD PTR ");
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case z_mode:
+-      if ((rex & REX_W) || (sizeflag & DFLAG))
+-	*obufp++ = 'D';
+-      oappend ("WORD PTR ");
+-      if (!(rex & REX_W))
+-	used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case d_mode:
+-    case dqd_mode:
+-      oappend ("DWORD PTR ");
+-      break;
+-    case q_mode:
+-      oappend ("QWORD PTR ");
+-      break;
+-    case m_mode:
+-      if (address_mode == mode_64bit)
+-	oappend ("QWORD PTR ");
+-      else
+-	oappend ("DWORD PTR ");
+-      break;
+-    case f_mode:
+-      if (sizeflag & DFLAG)
+-	oappend ("FWORD PTR ");
+-      else
+-	oappend ("DWORD PTR ");
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case t_mode:
+-      oappend ("TBYTE PTR ");
+-      break;
+-    case x_mode:
+-      oappend ("XMMWORD PTR ");
+-      break;
+-    case o_mode:
+-      oappend ("OWORD PTR ");
+-      break;
+-    default:
+-      break;
 -    }
 -}
 -
--/* Print one 32-bit Thumb instruction from PC on INFO->STREAM.  */
--
 -static void
--print_insn_thumb32 (bfd_vma pc, struct disassemble_info *info, long given)
+-OP_E (int bytemode, int sizeflag)
 -{
--  const struct opcode32 *insn;
--  void *stream = info->stream;
--  fprintf_function func = info->fprintf_func;
+-  bfd_vma disp;
+-  int add = 0;
+-  int riprel = 0;
+-  USED_REX (REX_B);
+-  if (rex & REX_B)
+-    add += 8;
 -
--  if (print_insn_coprocessor (pc, info, given, true))
--    return;
+-  /* Skip mod/rm byte.  */
+-  MODRM_CHECK;
+-  codep++;
 -
--  if (print_insn_neon (info, given, true))
--    return;
+-  if (modrm.mod == 3)
+-    {
+-      switch (bytemode)
+-	{
+-	case b_mode:
+-	  USED_REX (0);
+-	  if (rex)
+-	    oappend (names8rex[modrm.rm + add]);
+-	  else
+-	    oappend (names8[modrm.rm + add]);
+-	  break;
+-	case w_mode:
+-	  oappend (names16[modrm.rm + add]);
+-	  break;
+-	case d_mode:
+-	  oappend (names32[modrm.rm + add]);
+-	  break;
+-	case q_mode:
+-	  oappend (names64[modrm.rm + add]);
+-	  break;
+-	case m_mode:
+-	  if (address_mode == mode_64bit)
+-	    oappend (names64[modrm.rm + add]);
+-	  else
+-	    oappend (names32[modrm.rm + add]);
+-	  break;
+-	case stack_v_mode:
+-	  if (address_mode == mode_64bit && (sizeflag & DFLAG))
+-	    {
+-	      oappend (names64[modrm.rm + add]);
+-	      used_prefixes |= (prefixes & PREFIX_DATA);
+-	      break;
+-	    }
+-	  bytemode = v_mode;
+-	  /* FALLTHRU */
+-	case v_mode:
+-	case dq_mode:
+-	case dqb_mode:
+-	case dqd_mode:
+-	case dqw_mode:
+-	  USED_REX (REX_W);
+-	  if (rex & REX_W)
+-	    oappend (names64[modrm.rm + add]);
+-	  else if ((sizeflag & DFLAG) || bytemode != v_mode)
+-	    oappend (names32[modrm.rm + add]);
+-	  else
+-	    oappend (names16[modrm.rm + add]);
+-	  used_prefixes |= (prefixes & PREFIX_DATA);
+-	  break;
+-	case 0:
+-	  break;
+-	default:
+-	  oappend (INTERNAL_DISASSEMBLER_ERROR);
+-	  break;
+-	}
+-      return;
+-    }
 -
--  for (insn = thumb32_opcodes; insn->assembler; insn++)
--    if ((given & insn->mask) == insn->value)
--      {
--	const char *c = insn->assembler;
--	for (; *c; c++)
+-  disp = 0;
+-  if (intel_syntax)
+-    intel_operand_size (bytemode, sizeflag);
+-  append_seg ();
+-
+-  if ((sizeflag & AFLAG) || address_mode == mode_64bit)
+-    {
+-      /* 32/64 bit address mode */
+-      int havedisp;
+-      int havesib;
+-      int havebase;
+-      int base;
+-      int index = 0;
+-      int scale = 0;
+-
+-      havesib = 0;
+-      havebase = 1;
+-      base = modrm.rm;
+-
+-      if (base == 4)
+-	{
+-	  havesib = 1;
+-          fetch_data(the_info, codep + 1);
+-	  index = (*codep >> 3) & 7;
+-	  if (address_mode == mode_64bit || index != 0x4)
+-	    /* When INDEX == 0x4 in 32 bit mode, SCALE is ignored.  */
+-	    scale = (*codep >> 6) & 3;
+-	  base = *codep & 7;
+-	  USED_REX (REX_X);
+-	  if (rex & REX_X)
+-	    index += 8;
+-	  codep++;
+-	}
+-      base += add;
+-
+-      switch (modrm.mod)
+-	{
+-	case 0:
+-	  if ((base & 7) == 5)
+-	    {
+-	      havebase = 0;
+-	      if (address_mode == mode_64bit && !havesib)
+-		riprel = 1;
+-	      disp = get32s ();
+-	    }
+-	  break;
+-	case 1:
+-          fetch_data (the_info, codep + 1);
+-	  disp = *codep++;
+-	  if ((disp & 0x80) != 0)
+-	    disp -= 0x100;
+-	  break;
+-	case 2:
+-	  disp = get32s ();
+-	  break;
+-	}
+-
+-      havedisp = havebase || (havesib && (index != 4 || scale != 0));
+-
+-      if (!intel_syntax)
+-	if (modrm.mod != 0 || (base & 7) == 5)
 -	  {
--	    if (*c != '%')
+-	    if (havedisp || riprel)
+-	      print_displacement (scratchbuf, disp);
+-	    else
+-              print_operand_value (scratchbuf, sizeof(scratchbuf), 1, disp);
+-	    oappend (scratchbuf);
+-	    if (riprel)
 -	      {
--		func (stream, "%c", *c);
--		continue;
--	      }
--
--	    switch (*++c)
--	      {
--	      case '%':
--		func (stream, "%%");
--		break;
--
--	      case 'c':
--		if (ifthen_state)
--		  func (stream, "%s", arm_conditional[IFTHEN_COND]);
--		break;
--
--	      case 'x':
--		if (ifthen_next_state)
--		  func (stream, "\t; unpredictable branch in IT block\n");
--		break;
--
--	      case 'X':
--		if (ifthen_state)
--		  func (stream, "\t; unpredictable <IT:%s>",
--			arm_conditional[IFTHEN_COND]);
--		break;
--
--	      case 'I':
--		{
--		  unsigned int imm12 = 0;
--		  imm12 |= (given & 0x000000ffu);
--		  imm12 |= (given & 0x00007000u) >> 4;
--		  imm12 |= (given & 0x04000000u) >> 15;
--		  func (stream, "#%u\t; 0x%x", imm12, imm12);
--		}
--		break;
--
--	      case 'M':
--		{
--		  unsigned int bits = 0, imm, imm8, mod;
--		  bits |= (given & 0x000000ffu);
--		  bits |= (given & 0x00007000u) >> 4;
--		  bits |= (given & 0x04000000u) >> 15;
--		  imm8 = (bits & 0x0ff);
--		  mod = (bits & 0xf00) >> 8;
--		  switch (mod)
--		    {
--		    case 0: imm = imm8; break;
--		    case 1: imm = ((imm8<<16) | imm8); break;
--		    case 2: imm = ((imm8<<24) | (imm8 << 8)); break;
--		    case 3: imm = ((imm8<<24) | (imm8 << 16) | (imm8 << 8) | imm8); break;
--		    default:
--		      mod  = (bits & 0xf80) >> 7;
--		      imm8 = (bits & 0x07f) | 0x80;
--		      imm  = (((imm8 << (32 - mod)) | (imm8 >> mod)) & 0xffffffff);
--		    }
--		  func (stream, "#%u\t; 0x%x", imm, imm);
--		}
--		break;
--
--	      case 'J':
--		{
--		  unsigned int imm = 0;
--		  imm |= (given & 0x000000ffu);
--		  imm |= (given & 0x00007000u) >> 4;
--		  imm |= (given & 0x04000000u) >> 15;
--		  imm |= (given & 0x000f0000u) >> 4;
--		  func (stream, "#%u\t; 0x%x", imm, imm);
--		}
--		break;
--
--	      case 'K':
--		{
--		  unsigned int imm = 0;
--		  imm |= (given & 0x000f0000u) >> 16;
--		  imm |= (given & 0x00000ff0u) >> 0;
--		  imm |= (given & 0x0000000fu) << 12;
--		  func (stream, "#%u\t; 0x%x", imm, imm);
--		}
--		break;
--
--	      case 'S':
--		{
--		  unsigned int reg = (given & 0x0000000fu);
--		  unsigned int stp = (given & 0x00000030u) >> 4;
--		  unsigned int imm = 0;
--		  imm |= (given & 0x000000c0u) >> 6;
--		  imm |= (given & 0x00007000u) >> 10;
--
--		  func (stream, "%s", arm_regnames[reg]);
--		  switch (stp)
--		    {
--		    case 0:
--		      if (imm > 0)
--			func (stream, ", lsl #%u", imm);
--		      break;
--
--		    case 1:
--		      if (imm == 0)
--			imm = 32;
--		      func (stream, ", lsr #%u", imm);
--		      break;
--
--		    case 2:
--		      if (imm == 0)
--			imm = 32;
--		      func (stream, ", asr #%u", imm);
--		      break;
--
--		    case 3:
--		      if (imm == 0)
--			func (stream, ", rrx");
--		      else
--			func (stream, ", ror #%u", imm);
--		    }
--		}
--		break;
--
--	      case 'a':
--		{
--		  unsigned int Rn  = (given & 0x000f0000) >> 16;
--		  unsigned int U   = (given & 0x00800000) >> 23;
--		  unsigned int op  = (given & 0x00000f00) >> 8;
--		  unsigned int i12 = (given & 0x00000fff);
--		  unsigned int i8  = (given & 0x000000ff);
--		  bfd_boolean writeback = false, postind = false;
--		  int offset = 0;
--
--		  func (stream, "[%s", arm_regnames[Rn]);
--		  if (U) /* 12-bit positive immediate offset */
--		    offset = i12;
--		  else if (Rn == 15) /* 12-bit negative immediate offset */
--		    offset = -(int)i12;
--		  else if (op == 0x0) /* shifted register offset */
--		    {
--		      unsigned int Rm = (i8 & 0x0f);
--		      unsigned int sh = (i8 & 0x30) >> 4;
--		      func (stream, ", %s", arm_regnames[Rm]);
--		      if (sh)
--			func (stream, ", lsl #%u", sh);
--		      func (stream, "]");
--		      break;
--		    }
--		  else switch (op)
--		    {
--		    case 0xE:  /* 8-bit positive immediate offset */
--		      offset = i8;
--		      break;
--
--		    case 0xC:  /* 8-bit negative immediate offset */
--		      offset = -i8;
--		      break;
--
--		    case 0xF:  /* 8-bit + preindex with wb */
--		      offset = i8;
--		      writeback = true;
--		      break;
--
--		    case 0xD:  /* 8-bit - preindex with wb */
--		      offset = -i8;
--		      writeback = true;
--		      break;
--
--		    case 0xB:  /* 8-bit + postindex */
--		      offset = i8;
--		      postind = true;
--		      break;
--
--		    case 0x9:  /* 8-bit - postindex */
--		      offset = -i8;
--		      postind = true;
--		      break;
--
--		    default:
--		      func (stream, ", <undefined>]");
--		      goto skip;
--		    }
--
--		  if (postind)
--		    func (stream, "], #%d", offset);
--		  else
--		    {
--		      if (offset)
--			func (stream, ", #%d", offset);
--		      func (stream, writeback ? "]!" : "]");
--		    }
--
--		  if (Rn == 15)
--		    {
--		      func (stream, "\t; ");
--		      info->print_address_func (((pc + 4) & ~3) + offset, info);
--		    }
--		}
--	      skip:
--		break;
--
--	      case 'A':
--		{
--		  unsigned int P   = (given & 0x01000000) >> 24;
--		  unsigned int U   = (given & 0x00800000) >> 23;
--		  unsigned int W   = (given & 0x00400000) >> 21;
--		  unsigned int Rn  = (given & 0x000f0000) >> 16;
--		  unsigned int off = (given & 0x000000ff);
--
--		  func (stream, "[%s", arm_regnames[Rn]);
--		  if (P)
--		    {
--		      if (off || !U)
--			func (stream, ", #%c%u", U ? '+' : '-', off * 4);
--		      func (stream, "]");
--		      if (W)
--			func (stream, "!");
--		    }
--		  else
--		    {
--		      func (stream, "], ");
--		      if (W)
--			func (stream, "#%c%u", U ? '+' : '-', off * 4);
--		      else
--			func (stream, "{%u}", off);
--		    }
--		}
--		break;
--
--	      case 'w':
--		{
--		  unsigned int Sbit = (given & 0x01000000) >> 24;
--		  unsigned int type = (given & 0x00600000) >> 21;
--		  switch (type)
--		    {
--		    case 0: func (stream, Sbit ? "sb" : "b"); break;
--		    case 1: func (stream, Sbit ? "sh" : "h"); break;
--		    case 2:
--		      if (Sbit)
--			func (stream, "??");
--		      break;
--		    case 3:
--		      func (stream, "??");
--		      break;
--		    }
--		}
--		break;
--
--	      case 'm':
--		{
--		  int started = 0;
--		  int reg;
--
--		  func (stream, "{");
--		  for (reg = 0; reg < 16; reg++)
--		    if ((given & (1 << reg)) != 0)
--		      {
--			if (started)
--			  func (stream, ", ");
--			started = 1;
--			func (stream, "%s", arm_regnames[reg]);
--		      }
--		  func (stream, "}");
--		}
--		break;
--
--	      case 'E':
--		{
--		  unsigned int msb = (given & 0x0000001f);
--		  unsigned int lsb = 0;
--		  lsb |= (given & 0x000000c0u) >> 6;
--		  lsb |= (given & 0x00007000u) >> 10;
--		  func (stream, "#%u, #%u", lsb, msb - lsb + 1);
--		}
--		break;
--
--	      case 'F':
--		{
--		  unsigned int width = (given & 0x0000001f) + 1;
--		  unsigned int lsb = 0;
--		  lsb |= (given & 0x000000c0u) >> 6;
--		  lsb |= (given & 0x00007000u) >> 10;
--		  func (stream, "#%u, #%u", lsb, width);
--		}
--		break;
--
--	      case 'b':
--		{
--		  unsigned int S = (given & 0x04000000u) >> 26;
--		  unsigned int J1 = (given & 0x00002000u) >> 13;
--		  unsigned int J2 = (given & 0x00000800u) >> 11;
--		  int offset = 0;
--
--		  offset |= !S << 20;
--		  offset |= J2 << 19;
--		  offset |= J1 << 18;
--		  offset |= (given & 0x003f0000) >> 4;
--		  offset |= (given & 0x000007ff) << 1;
--		  offset -= (1 << 20);
--
--		  info->print_address_func (pc + 4 + offset, info);
--		}
--		break;
--
--	      case 'B':
--		{
--		  unsigned int S = (given & 0x04000000u) >> 26;
--		  unsigned int I1 = (given & 0x00002000u) >> 13;
--		  unsigned int I2 = (given & 0x00000800u) >> 11;
--		  int offset = 0;
--
--		  offset |= !S << 24;
--		  offset |= !(I1 ^ S) << 23;
--		  offset |= !(I2 ^ S) << 22;
--		  offset |= (given & 0x03ff0000u) >> 4;
--		  offset |= (given & 0x000007ffu) << 1;
--		  offset -= (1 << 24);
--		  offset += pc + 4;
--
--		  /* BLX target addresses are always word aligned.  */
--		  if ((given & 0x00001000u) == 0)
--		      offset &= ~2u;
--
--		  info->print_address_func (offset, info);
--		}
--		break;
--
--	      case 's':
--		{
--		  unsigned int shift = 0;
--		  shift |= (given & 0x000000c0u) >> 6;
--		  shift |= (given & 0x00007000u) >> 10;
--		  if (given & 0x00200000u)
--		    func (stream, ", asr #%u", shift);
--		  else if (shift)
--		    func (stream, ", lsl #%u", shift);
--		  /* else print nothing - lsl #0 */
--		}
--		break;
--
--	      case 'R':
--		{
--		  unsigned int rot = (given & 0x00000030) >> 4;
--		  if (rot)
--		    func (stream, ", ror #%u", rot * 8);
--		}
--		break;
--
--	      case 'U':
--		switch (given & 0xf)
--		  {
--		  case 0xf: func(stream, "sy"); break;
--		  case 0x7: func(stream, "un"); break;
--		  case 0xe: func(stream, "st"); break;
--		  case 0x6: func(stream, "unst"); break;
--		  default:
--		    func(stream, "#%d", (int)given & 0xf);
--		    break;
--		  }
--		break;
--
--	      case 'C':
--		if ((given & 0xff) == 0)
--		  {
--		    func (stream, "%cPSR_", (given & 0x100000) ? 'S' : 'C');
--		    if (given & 0x800)
--		      func (stream, "f");
--		    if (given & 0x400)
--		      func (stream, "s");
--		    if (given & 0x200)
--		      func (stream, "x");
--		    if (given & 0x100)
--		      func (stream, "c");
--		  }
--		else
--		  {
--		    func (stream, "%s", psr_name (given & 0xff));
--		  }
--		break;
--
--	      case 'D':
--		if ((given & 0xff) == 0)
--		  func (stream, "%cPSR", (given & 0x100000) ? 'S' : 'C');
--		else
--		  func (stream, "%s", psr_name (given & 0xff));
--		break;
--
--	      case '0': case '1': case '2': case '3': case '4':
--	      case '5': case '6': case '7': case '8': case '9':
--		{
--		  int width;
--		  unsigned long val;
--
--		  c = arm_decode_bitfield (c, given, &val, &width);
--
--		  switch (*c)
--		    {
--		    case 'd': func (stream, "%lu", val); break;
--		    case 'W': func (stream, "%lu", val * 4); break;
--		    case 'r': func (stream, "%s", arm_regnames[val]); break;
--
--		    case 'c':
--		      func (stream, "%s", arm_conditional[val]);
--		      break;
--
--		    case '\'':
--		      c++;
--		      if (val == ((1ul << width) - 1))
--			func (stream, "%c", *c);
--		      break;
--
--		    case '`':
--		      c++;
--		      if (val == 0)
--			func (stream, "%c", *c);
--		      break;
--
--		    case '?':
--		      func (stream, "%c", c[(1 << width) - (int)val]);
--		      c += 1 << width;
--		      break;
--
--		    default:
--		      abort ();
--		    }
--		}
--		break;
--
--	      default:
--		abort ();
+-		set_op (disp, 1);
+-		oappend ("(%rip)");
 -	      }
 -	  }
--	return;
--      }
 -
--  /* No match.  */
--  abort ();
+-      if (havedisp || (intel_syntax && riprel))
+-	{
+-	  *obufp++ = open_char;
+-	  if (intel_syntax && riprel)
+-	    {
+-	      set_op (disp, 1);
+-	      oappend ("rip");
+-	    }
+-	  *obufp = '\0';
+-	  if (havebase)
+-	    oappend (address_mode == mode_64bit && (sizeflag & AFLAG)
+-		     ? names64[base] : names32[base]);
+-	  if (havesib)
+-	    {
+-	      if (index != 4)
+-		{
+-		  if (!intel_syntax || havebase)
+-		    {
+-		      *obufp++ = separator_char;
+-		      *obufp = '\0';
+-		    }
+-		  oappend (address_mode == mode_64bit && (sizeflag & AFLAG)
+-			   ? names64[index] : names32[index]);
+-		}
+-	      if (scale != 0 || (!intel_syntax && index != 4))
+-		{
+-		  *obufp++ = scale_char;
+-		  *obufp = '\0';
+-		  snprintf (scratchbuf, sizeof(scratchbuf), "%d", 1 << scale);
+-		  oappend (scratchbuf);
+-		}
+-	    }
+-	  if (intel_syntax
+-	      && (disp || modrm.mod != 0 || (base & 7) == 5))
+-	    {
+-	      if ((bfd_signed_vma) disp >= 0)
+-		{
+-		  *obufp++ = '+';
+-		  *obufp = '\0';
+-		}
+-	      else if (modrm.mod != 1)
+-		{
+-		  *obufp++ = '-';
+-		  *obufp = '\0';
+-		  disp = - (bfd_signed_vma) disp;
+-		}
+-
+-	      print_displacement (scratchbuf, disp);
+-	      oappend (scratchbuf);
+-	    }
+-
+-	  *obufp++ = close_char;
+-	  *obufp = '\0';
+-	}
+-      else if (intel_syntax)
+-	{
+-	  if (modrm.mod != 0 || (base & 7) == 5)
+-	    {
+-	      if (prefixes & (PREFIX_CS | PREFIX_SS | PREFIX_DS
+-			      | PREFIX_ES | PREFIX_FS | PREFIX_GS))
+-		;
+-	      else
+-		{
+-		  oappend (names_seg[ds_reg - es_reg]);
+-		  oappend (":");
+-		}
+-	      print_operand_value (scratchbuf, sizeof(scratchbuf), 1, disp);
+-	      oappend (scratchbuf);
+-	    }
+-	}
+-    }
+-  else
+-    { /* 16 bit address mode */
+-      switch (modrm.mod)
+-	{
+-	case 0:
+-	  if (modrm.rm == 6)
+-	    {
+-	      disp = get16 ();
+-	      if ((disp & 0x8000) != 0)
+-		disp -= 0x10000;
+-	    }
+-	  break;
+-	case 1:
+-          fetch_data(the_info, codep + 1);
+-	  disp = *codep++;
+-	  if ((disp & 0x80) != 0)
+-	    disp -= 0x100;
+-	  break;
+-	case 2:
+-	  disp = get16 ();
+-	  if ((disp & 0x8000) != 0)
+-	    disp -= 0x10000;
+-	  break;
+-	}
+-
+-      if (!intel_syntax)
+-	if (modrm.mod != 0 || modrm.rm == 6)
+-	  {
+-	    print_displacement (scratchbuf, disp);
+-	    oappend (scratchbuf);
+-	  }
+-
+-      if (modrm.mod != 0 || modrm.rm != 6)
+-	{
+-	  *obufp++ = open_char;
+-	  *obufp = '\0';
+-	  oappend (index16[modrm.rm]);
+-	  if (intel_syntax
+-	      && (disp || modrm.mod != 0 || modrm.rm == 6))
+-	    {
+-	      if ((bfd_signed_vma) disp >= 0)
+-		{
+-		  *obufp++ = '+';
+-		  *obufp = '\0';
+-		}
+-	      else if (modrm.mod != 1)
+-		{
+-		  *obufp++ = '-';
+-		  *obufp = '\0';
+-		  disp = - (bfd_signed_vma) disp;
+-		}
+-
+-	      print_displacement (scratchbuf, disp);
+-	      oappend (scratchbuf);
+-	    }
+-
+-	  *obufp++ = close_char;
+-	  *obufp = '\0';
+-	}
+-      else if (intel_syntax)
+-	{
+-	  if (prefixes & (PREFIX_CS | PREFIX_SS | PREFIX_DS
+-			  | PREFIX_ES | PREFIX_FS | PREFIX_GS))
+-	    ;
+-	  else
+-	    {
+-	      oappend (names_seg[ds_reg - es_reg]);
+-	      oappend (":");
+-	    }
+-	  print_operand_value (scratchbuf, sizeof(scratchbuf), 1,
+-                               disp & 0xffff);
+-	  oappend (scratchbuf);
+-	}
+-    }
 -}
 -
--/* Print data bytes on INFO->STREAM.  */
+-static void
+-OP_G (int bytemode, int sizeflag)
+-{
+-  int add = 0;
+-  USED_REX (REX_R);
+-  if (rex & REX_R)
+-    add += 8;
+-  switch (bytemode)
+-    {
+-    case b_mode:
+-      USED_REX (0);
+-      if (rex)
+-	oappend (names8rex[modrm.reg + add]);
+-      else
+-	oappend (names8[modrm.reg + add]);
+-      break;
+-    case w_mode:
+-      oappend (names16[modrm.reg + add]);
+-      break;
+-    case d_mode:
+-      oappend (names32[modrm.reg + add]);
+-      break;
+-    case q_mode:
+-      oappend (names64[modrm.reg + add]);
+-      break;
+-    case v_mode:
+-    case dq_mode:
+-    case dqb_mode:
+-    case dqd_mode:
+-    case dqw_mode:
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	oappend (names64[modrm.reg + add]);
+-      else if ((sizeflag & DFLAG) || bytemode != v_mode)
+-	oappend (names32[modrm.reg + add]);
+-      else
+-	oappend (names16[modrm.reg + add]);
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case m_mode:
+-      if (address_mode == mode_64bit)
+-	oappend (names64[modrm.reg + add]);
+-      else
+-	oappend (names32[modrm.reg + add]);
+-      break;
+-    default:
+-      oappend (INTERNAL_DISASSEMBLER_ERROR);
+-      break;
+-    }
+-}
 -
 -static void
--print_insn_data (bfd_vma pc ATTRIBUTE_UNUSED, struct disassemble_info *info,
--		 long given)
+-OP_vvvv (int bytemode, int sizeflags)
 -{
--  switch (info->bytes_per_chunk)
+-    USED_REX (REX_W);
+-    if (rex & REX_W) {
+-        oappend(names64[vex_reg]);
+-    } else {
+-        oappend(names32[vex_reg]);
+-    }
+-}
+-
+-static bfd_vma
+-get64 (void)
+-{
+-  bfd_vma x;
+-#ifdef BFD64
+-  unsigned int a;
+-  unsigned int b;
+-
+-  fetch_data(the_info, codep + 8);
+-  a = *codep++ & 0xff;
+-  a |= (*codep++ & 0xff) << 8;
+-  a |= (*codep++ & 0xff) << 16;
+-  a |= (*codep++ & 0xff) << 24;
+-  b = *codep++ & 0xff;
+-  b |= (*codep++ & 0xff) << 8;
+-  b |= (*codep++ & 0xff) << 16;
+-  b |= (*codep++ & 0xff) << 24;
+-  x = a + ((bfd_vma) b << 32);
+-#else
+-  abort ();
+-  x = 0;
+-#endif
+-  return x;
+-}
+-
+-static bfd_signed_vma
+-get32 (void)
+-{
+-  bfd_signed_vma x = 0;
+-
+-  fetch_data(the_info, codep + 4);
+-  x = *codep++ & (bfd_signed_vma) 0xff;
+-  x |= (*codep++ & (bfd_signed_vma) 0xff) << 8;
+-  x |= (*codep++ & (bfd_signed_vma) 0xff) << 16;
+-  x |= (*codep++ & (bfd_signed_vma) 0xff) << 24;
+-  return x;
+-}
+-
+-static bfd_signed_vma
+-get32s (void)
+-{
+-  bfd_signed_vma x = 0;
+-
+-  fetch_data(the_info, codep + 4);
+-  x = *codep++ & (bfd_signed_vma) 0xff;
+-  x |= (*codep++ & (bfd_signed_vma) 0xff) << 8;
+-  x |= (*codep++ & (bfd_signed_vma) 0xff) << 16;
+-  x |= (*codep++ & (bfd_signed_vma) 0xff) << 24;
+-
+-  x = (x ^ ((bfd_signed_vma) 1 << 31)) - ((bfd_signed_vma) 1 << 31);
+-
+-  return x;
+-}
+-
+-static int
+-get16 (void)
+-{
+-  int x = 0;
+-
+-  fetch_data(the_info, codep + 2);
+-  x = *codep++ & 0xff;
+-  x |= (*codep++ & 0xff) << 8;
+-  return x;
+-}
+-
+-static void
+-set_op (bfd_vma op, int riprel)
+-{
+-  op_index[op_ad] = op_ad;
+-  if (address_mode == mode_64bit)
 -    {
--    case 1:
--      info->fprintf_func (info->stream, ".byte\t0x%02lx", given);
+-      op_address[op_ad] = op;
+-      op_riprel[op_ad] = riprel;
+-    }
+-  else
+-    {
+-      /* Mask to get a 32-bit address.  */
+-      op_address[op_ad] = op & 0xffffffff;
+-      op_riprel[op_ad] = riprel & 0xffffffff;
+-    }
+-}
+-
+-static void
+-OP_REG (int code, int sizeflag)
+-{
+-  const char *s;
+-  int add = 0;
+-  USED_REX (REX_B);
+-  if (rex & REX_B)
+-    add = 8;
+-
+-  switch (code)
+-    {
+-    case ax_reg: case cx_reg: case dx_reg: case bx_reg:
+-    case sp_reg: case bp_reg: case si_reg: case di_reg:
+-      s = names16[code - ax_reg + add];
 -      break;
--    case 2:
--      info->fprintf_func (info->stream, ".short\t0x%04lx", given);
+-    case es_reg: case ss_reg: case cs_reg:
+-    case ds_reg: case fs_reg: case gs_reg:
+-      s = names_seg[code - es_reg + add];
 -      break;
--    case 4:
--      info->fprintf_func (info->stream, ".word\t0x%08lx", given);
+-    case al_reg: case ah_reg: case cl_reg: case ch_reg:
+-    case dl_reg: case dh_reg: case bl_reg: case bh_reg:
+-      USED_REX (0);
+-      if (rex)
+-	s = names8rex[code - al_reg + add];
+-      else
+-	s = names8[code - al_reg];
+-      break;
+-    case rAX_reg: case rCX_reg: case rDX_reg: case rBX_reg:
+-    case rSP_reg: case rBP_reg: case rSI_reg: case rDI_reg:
+-      if (address_mode == mode_64bit && (sizeflag & DFLAG))
+-	{
+-	  s = names64[code - rAX_reg + add];
+-	  break;
+-	}
+-      code += eAX_reg - rAX_reg;
+-      /* Fall through.  */
+-    case eAX_reg: case eCX_reg: case eDX_reg: case eBX_reg:
+-    case eSP_reg: case eBP_reg: case eSI_reg: case eDI_reg:
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	s = names64[code - eAX_reg + add];
+-      else if (sizeflag & DFLAG)
+-	s = names32[code - eAX_reg + add];
+-      else
+-	s = names16[code - eAX_reg + add];
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    default:
+-      s = INTERNAL_DISASSEMBLER_ERROR;
+-      break;
+-    }
+-  oappend (s);
+-}
+-
+-static void
+-OP_IMREG (int code, int sizeflag)
+-{
+-  const char *s;
+-
+-  switch (code)
+-    {
+-    case indir_dx_reg:
+-      if (intel_syntax)
+-	s = "dx";
+-      else
+-	s = "(%dx)";
+-      break;
+-    case ax_reg: case cx_reg: case dx_reg: case bx_reg:
+-    case sp_reg: case bp_reg: case si_reg: case di_reg:
+-      s = names16[code - ax_reg];
+-      break;
+-    case es_reg: case ss_reg: case cs_reg:
+-    case ds_reg: case fs_reg: case gs_reg:
+-      s = names_seg[code - es_reg];
+-      break;
+-    case al_reg: case ah_reg: case cl_reg: case ch_reg:
+-    case dl_reg: case dh_reg: case bl_reg: case bh_reg:
+-      USED_REX (0);
+-      if (rex)
+-	s = names8rex[code - al_reg];
+-      else
+-	s = names8[code - al_reg];
+-      break;
+-    case eAX_reg: case eCX_reg: case eDX_reg: case eBX_reg:
+-    case eSP_reg: case eBP_reg: case eSI_reg: case eDI_reg:
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	s = names64[code - eAX_reg];
+-      else if (sizeflag & DFLAG)
+-	s = names32[code - eAX_reg];
+-      else
+-	s = names16[code - eAX_reg];
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case z_mode_ax_reg:
+-      if ((rex & REX_W) || (sizeflag & DFLAG))
+-	s = *names32;
+-      else
+-	s = *names16;
+-      if (!(rex & REX_W))
+-	used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    default:
+-      s = INTERNAL_DISASSEMBLER_ERROR;
+-      break;
+-    }
+-  oappend (s);
+-}
+-
+-static void
+-OP_I (int bytemode, int sizeflag)
+-{
+-  bfd_signed_vma op;
+-  bfd_signed_vma mask = -1;
+-
+-  switch (bytemode)
+-    {
+-    case b_mode:
+-      fetch_data(the_info, codep + 1);
+-      op = *codep++;
+-      mask = 0xff;
+-      break;
+-    case q_mode:
+-      if (address_mode == mode_64bit)
+-	{
+-	  op = get32s ();
+-	  break;
+-	}
+-      /* Fall through.  */
+-    case v_mode:
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	op = get32s ();
+-      else if (sizeflag & DFLAG)
+-	{
+-	  op = get32 ();
+-	  mask = 0xffffffff;
+-	}
+-      else
+-	{
+-	  op = get16 ();
+-	  mask = 0xfffff;
+-	}
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case w_mode:
+-      mask = 0xfffff;
+-      op = get16 ();
+-      break;
+-    case const_1_mode:
+-      if (intel_syntax)
+-        oappend ("1");
+-      return;
+-    default:
+-      oappend (INTERNAL_DISASSEMBLER_ERROR);
+-      return;
+-    }
+-
+-  op &= mask;
+-  scratchbuf[0] = '$';
+-  print_operand_value (scratchbuf + 1, sizeof(scratchbuf) - 1, 1, op);
+-  oappend (scratchbuf + intel_syntax);
+-  scratchbuf[0] = '\0';
+-}
+-
+-static void
+-OP_I64 (int bytemode, int sizeflag)
+-{
+-  bfd_signed_vma op;
+-  bfd_signed_vma mask = -1;
+-
+-  if (address_mode != mode_64bit)
+-    {
+-      OP_I (bytemode, sizeflag);
+-      return;
+-    }
+-
+-  switch (bytemode)
+-    {
+-    case b_mode:
+-      fetch_data(the_info, codep + 1);
+-      op = *codep++;
+-      mask = 0xff;
+-      break;
+-    case v_mode:
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	op = get64 ();
+-      else if (sizeflag & DFLAG)
+-	{
+-	  op = get32 ();
+-	  mask = 0xffffffff;
+-	}
+-      else
+-	{
+-	  op = get16 ();
+-	  mask = 0xfffff;
+-	}
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case w_mode:
+-      mask = 0xfffff;
+-      op = get16 ();
+-      break;
+-    default:
+-      oappend (INTERNAL_DISASSEMBLER_ERROR);
+-      return;
+-    }
+-
+-  op &= mask;
+-  scratchbuf[0] = '$';
+-  print_operand_value (scratchbuf + 1, sizeof(scratchbuf) - 1, 1, op);
+-  oappend (scratchbuf + intel_syntax);
+-  scratchbuf[0] = '\0';
+-}
+-
+-static void
+-OP_sI (int bytemode, int sizeflag)
+-{
+-  bfd_signed_vma op;
+-
+-  switch (bytemode)
+-    {
+-    case b_mode:
+-      fetch_data(the_info, codep + 1);
+-      op = *codep++;
+-      if ((op & 0x80) != 0)
+-	op -= 0x100;
+-      break;
+-    case v_mode:
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	op = get32s ();
+-      else if (sizeflag & DFLAG)
+-	{
+-	  op = get32s ();
+-	}
+-      else
+-	{
+-	  op = get16 ();
+-	  if ((op & 0x8000) != 0)
+-	    op -= 0x10000;
+-	}
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    case w_mode:
+-      op = get16 ();
+-      if ((op & 0x8000) != 0)
+-	op -= 0x10000;
+-      break;
+-    default:
+-      oappend (INTERNAL_DISASSEMBLER_ERROR);
+-      return;
+-    }
+-
+-  scratchbuf[0] = '$';
+-  print_operand_value (scratchbuf + 1, sizeof(scratchbuf) - 1, 1, op);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_J (int bytemode, int sizeflag)
+-{
+-  bfd_vma disp;
+-  bfd_vma mask = -1;
+-  bfd_vma segment = 0;
+-
+-  switch (bytemode)
+-    {
+-    case b_mode:
+-      fetch_data(the_info, codep + 1);
+-      disp = *codep++;
+-      if ((disp & 0x80) != 0)
+-	disp -= 0x100;
+-      break;
+-    case v_mode:
+-      if ((sizeflag & DFLAG) || (rex & REX_W))
+-	disp = get32s ();
+-      else
+-	{
+-	  disp = get16 ();
+-	  if ((disp & 0x8000) != 0)
+-	    disp -= 0x10000;
+-	  /* In 16bit mode, address is wrapped around at 64k within
+-	     the same segment.  Otherwise, a data16 prefix on a jump
+-	     instruction means that the pc is masked to 16 bits after
+-	     the displacement is added!  */
+-	  mask = 0xffff;
+-	  if ((prefixes & PREFIX_DATA) == 0)
+-	    segment = ((start_pc + codep - start_codep)
+-		       & ~((bfd_vma) 0xffff));
+-	}
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    default:
+-      oappend (INTERNAL_DISASSEMBLER_ERROR);
+-      return;
+-    }
+-  disp = ((start_pc + codep - start_codep + disp) & mask) | segment;
+-  set_op (disp, 0);
+-  print_operand_value (scratchbuf, sizeof(scratchbuf), 1, disp);
+-  oappend (scratchbuf);
+-}
+-
+-static void
+-OP_SEG (int bytemode, int sizeflag)
+-{
+-  if (bytemode == w_mode)
+-    oappend (names_seg[modrm.reg]);
+-  else
+-    OP_E (modrm.mod == 3 ? bytemode : w_mode, sizeflag);
+-}
+-
+-static void
+-OP_DIR (int dummy ATTRIBUTE_UNUSED, int sizeflag)
+-{
+-  int seg, offset;
+-
+-  if (sizeflag & DFLAG)
+-    {
+-      offset = get32 ();
+-      seg = get16 ();
+-    }
+-  else
+-    {
+-      offset = get16 ();
+-      seg = get16 ();
+-    }
+-  used_prefixes |= (prefixes & PREFIX_DATA);
+-  if (intel_syntax)
+-    snprintf (scratchbuf, sizeof(scratchbuf), "0x%x:0x%x", seg, offset);
+-  else
+-    snprintf (scratchbuf, sizeof(scratchbuf), "$0x%x,$0x%x", seg, offset);
+-  oappend (scratchbuf);
+-}
+-
+-static void
+-OP_OFF (int bytemode, int sizeflag)
+-{
+-  bfd_vma off;
+-
+-  if (intel_syntax && (sizeflag & SUFFIX_ALWAYS))
+-    intel_operand_size (bytemode, sizeflag);
+-  append_seg ();
+-
+-  if ((sizeflag & AFLAG) || address_mode == mode_64bit)
+-    off = get32 ();
+-  else
+-    off = get16 ();
+-
+-  if (intel_syntax)
+-    {
+-      if (!(prefixes & (PREFIX_CS | PREFIX_SS | PREFIX_DS
+-			| PREFIX_ES | PREFIX_FS | PREFIX_GS)))
+-	{
+-	  oappend (names_seg[ds_reg - es_reg]);
+-	  oappend (":");
+-	}
+-    }
+-  print_operand_value (scratchbuf, sizeof(scratchbuf), 1, off);
+-  oappend (scratchbuf);
+-}
+-
+-static void
+-OP_OFF64 (int bytemode, int sizeflag)
+-{
+-  bfd_vma off;
+-
+-  if (address_mode != mode_64bit
+-      || (prefixes & PREFIX_ADDR))
+-    {
+-      OP_OFF (bytemode, sizeflag);
+-      return;
+-    }
+-
+-  if (intel_syntax && (sizeflag & SUFFIX_ALWAYS))
+-    intel_operand_size (bytemode, sizeflag);
+-  append_seg ();
+-
+-  off = get64 ();
+-
+-  if (intel_syntax)
+-    {
+-      if (!(prefixes & (PREFIX_CS | PREFIX_SS | PREFIX_DS
+-			| PREFIX_ES | PREFIX_FS | PREFIX_GS)))
+-	{
+-	  oappend (names_seg[ds_reg - es_reg]);
+-	  oappend (":");
+-	}
+-    }
+-  print_operand_value (scratchbuf, sizeof(scratchbuf), 1, off);
+-  oappend (scratchbuf);
+-}
+-
+-static void
+-ptr_reg (int code, int sizeflag)
+-{
+-  const char *s;
+-
+-  *obufp++ = open_char;
+-  used_prefixes |= (prefixes & PREFIX_ADDR);
+-  if (address_mode == mode_64bit)
+-    {
+-      if (!(sizeflag & AFLAG))
+-	s = names32[code - eAX_reg];
+-      else
+-	s = names64[code - eAX_reg];
+-    }
+-  else if (sizeflag & AFLAG)
+-    s = names32[code - eAX_reg];
+-  else
+-    s = names16[code - eAX_reg];
+-  oappend (s);
+-  *obufp++ = close_char;
+-  *obufp = 0;
+-}
+-
+-static void
+-OP_ESreg (int code, int sizeflag)
+-{
+-  if (intel_syntax)
+-    {
+-      switch (codep[-1])
+-	{
+-	case 0x6d:	/* insw/insl */
+-	  intel_operand_size (z_mode, sizeflag);
+-	  break;
+-	case 0xa5:	/* movsw/movsl/movsq */
+-	case 0xa7:	/* cmpsw/cmpsl/cmpsq */
+-	case 0xab:	/* stosw/stosl */
+-	case 0xaf:	/* scasw/scasl */
+-	  intel_operand_size (v_mode, sizeflag);
+-	  break;
+-	default:
+-	  intel_operand_size (b_mode, sizeflag);
+-	}
+-    }
+-  oappend ("%es:" + intel_syntax);
+-  ptr_reg (code, sizeflag);
+-}
+-
+-static void
+-OP_DSreg (int code, int sizeflag)
+-{
+-  if (intel_syntax)
+-    {
+-      switch (codep[-1])
+-	{
+-	case 0x6f:	/* outsw/outsl */
+-	  intel_operand_size (z_mode, sizeflag);
+-	  break;
+-	case 0xa5:	/* movsw/movsl/movsq */
+-	case 0xa7:	/* cmpsw/cmpsl/cmpsq */
+-	case 0xad:	/* lodsw/lodsl/lodsq */
+-	  intel_operand_size (v_mode, sizeflag);
+-	  break;
+-	default:
+-	  intel_operand_size (b_mode, sizeflag);
+-	}
+-    }
+-  if ((prefixes
+-       & (PREFIX_CS
+-	  | PREFIX_DS
+-	  | PREFIX_SS
+-	  | PREFIX_ES
+-	  | PREFIX_FS
+-	  | PREFIX_GS)) == 0)
+-    prefixes |= PREFIX_DS;
+-  append_seg ();
+-  ptr_reg (code, sizeflag);
+-}
+-
+-static void
+-OP_C (int dummy ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  int add = 0;
+-  if (rex & REX_R)
+-    {
+-      USED_REX (REX_R);
+-      add = 8;
+-    }
+-  else if (address_mode != mode_64bit && (prefixes & PREFIX_LOCK))
+-    {
+-      used_prefixes |= PREFIX_LOCK;
+-      add = 8;
+-    }
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%cr%d", modrm.reg + add);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_D (int dummy ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  int add = 0;
+-  USED_REX (REX_R);
+-  if (rex & REX_R)
+-    add = 8;
+-  if (intel_syntax)
+-    snprintf (scratchbuf, sizeof(scratchbuf), "db%d", modrm.reg + add);
+-  else
+-    snprintf (scratchbuf, sizeof(scratchbuf), "%%db%d", modrm.reg + add);
+-  oappend (scratchbuf);
+-}
+-
+-static void
+-OP_T (int dummy ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%tr%d", modrm.reg);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_R (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod == 3)
+-    OP_E (bytemode, sizeflag);
+-  else
+-    BadOp ();
+-}
+-
+-static void
+-OP_MMX (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  used_prefixes |= (prefixes & PREFIX_DATA);
+-  if (prefixes & PREFIX_DATA)
+-    {
+-      int add = 0;
+-      USED_REX (REX_R);
+-      if (rex & REX_R)
+-	add = 8;
+-      snprintf (scratchbuf, sizeof(scratchbuf), "%%xmm%d", modrm.reg + add);
+-    }
+-  else
+-    snprintf (scratchbuf, sizeof(scratchbuf), "%%mm%d", modrm.reg);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_XMM (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  int add = 0;
+-  USED_REX (REX_R);
+-  if (rex & REX_R)
+-    add = 8;
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%xmm%d", modrm.reg + add);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_EM (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod != 3)
+-    {
+-      if (intel_syntax && bytemode == v_mode)
+-	{
+-	  bytemode = (prefixes & PREFIX_DATA) ? x_mode : q_mode;
+-	  used_prefixes |= (prefixes & PREFIX_DATA);
+-	}
+-      OP_E (bytemode, sizeflag);
+-      return;
+-    }
+-
+-  /* Skip mod/rm byte.  */
+-  MODRM_CHECK;
+-  codep++;
+-  used_prefixes |= (prefixes & PREFIX_DATA);
+-  if (prefixes & PREFIX_DATA)
+-    {
+-      int add = 0;
+-
+-      USED_REX (REX_B);
+-      if (rex & REX_B)
+-	add = 8;
+-      snprintf (scratchbuf, sizeof(scratchbuf), "%%xmm%d", modrm.rm + add);
+-    }
+-  else
+-    snprintf (scratchbuf, sizeof(scratchbuf), "%%mm%d", modrm.rm);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-/* cvt* are the only instructions in sse2 which have
+-   both SSE and MMX operands and also have 0x66 prefix
+-   in their opcode. 0x66 was originally used to differentiate
+-   between SSE and MMX instruction(operands). So we have to handle the
+-   cvt* separately using OP_EMC and OP_MXC */
+-static void
+-OP_EMC (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod != 3)
+-    {
+-      if (intel_syntax && bytemode == v_mode)
+-	{
+-	  bytemode = (prefixes & PREFIX_DATA) ? x_mode : q_mode;
+-	  used_prefixes |= (prefixes & PREFIX_DATA);
+-	}
+-      OP_E (bytemode, sizeflag);
+-      return;
+-    }
+-
+-  /* Skip mod/rm byte.  */
+-  MODRM_CHECK;
+-  codep++;
+-  used_prefixes |= (prefixes & PREFIX_DATA);
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%mm%d", modrm.rm);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_MXC (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  used_prefixes |= (prefixes & PREFIX_DATA);
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%mm%d", modrm.reg);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_EX (int bytemode, int sizeflag)
+-{
+-  int add = 0;
+-  if (modrm.mod != 3)
+-    {
+-      OP_E (bytemode, sizeflag);
+-      return;
+-    }
+-  USED_REX (REX_B);
+-  if (rex & REX_B)
+-    add = 8;
+-
+-  /* Skip mod/rm byte.  */
+-  MODRM_CHECK;
+-  codep++;
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%xmm%d", modrm.rm + add);
+-  oappend (scratchbuf + intel_syntax);
+-}
+-
+-static void
+-OP_MS (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod == 3)
+-    OP_EM (bytemode, sizeflag);
+-  else
+-    BadOp ();
+-}
+-
+-static void
+-OP_XS (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod == 3)
+-    OP_EX (bytemode, sizeflag);
+-  else
+-    BadOp ();
+-}
+-
+-static void
+-OP_M (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod == 3)
+-    /* bad bound,lea,lds,les,lfs,lgs,lss,cmpxchg8b,vmptrst modrm */
+-    BadOp ();
+-  else
+-    OP_E (bytemode, sizeflag);
+-}
+-
+-static void
+-OP_0f07 (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod != 3 || modrm.rm != 0)
+-    BadOp ();
+-  else
+-    OP_E (bytemode, sizeflag);
+-}
+-
+-static void
+-OP_0fae (int bytemode, int sizeflag)
+-{
+-  if (modrm.mod == 3)
+-    {
+-      if (modrm.reg == 7)
+-	strcpy (obuf + strlen (obuf) - sizeof ("clflush") + 1, "sfence");
+-
+-      if (modrm.reg < 5 || modrm.rm != 0)
+-	{
+-	  BadOp ();	/* bad sfence, mfence, or lfence */
+-	  return;
+-	}
+-    }
+-  else if (modrm.reg != 7)
+-    {
+-      BadOp ();		/* bad clflush */
+-      return;
+-    }
+-
+-  OP_E (bytemode, sizeflag);
+-}
+-
+-/* NOP is an alias of "xchg %ax,%ax" in 16bit mode, "xchg %eax,%eax" in
+-   32bit mode and "xchg %rax,%rax" in 64bit mode.  */
+-
+-static void
+-NOP_Fixup1 (int bytemode, int sizeflag)
+-{
+-  if ((prefixes & PREFIX_DATA) != 0
+-      || (rex != 0
+-	  && rex != 0x48
+-	  && address_mode == mode_64bit))
+-    OP_REG (bytemode, sizeflag);
+-  else
+-    strcpy (obuf, "nop");
+-}
+-
+-static void
+-NOP_Fixup2 (int bytemode, int sizeflag)
+-{
+-  if ((prefixes & PREFIX_DATA) != 0
+-      || (rex != 0
+-	  && rex != 0x48
+-	  && address_mode == mode_64bit))
+-    OP_IMREG (bytemode, sizeflag);
+-}
+-
+-static const char *Suffix3DNow[] = {
+-/* 00 */	NULL,		NULL,		NULL,		NULL,
+-/* 04 */	NULL,		NULL,		NULL,		NULL,
+-/* 08 */	NULL,		NULL,		NULL,		NULL,
+-/* 0C */	"pi2fw",	"pi2fd",	NULL,		NULL,
+-/* 10 */	NULL,		NULL,		NULL,		NULL,
+-/* 14 */	NULL,		NULL,		NULL,		NULL,
+-/* 18 */	NULL,		NULL,		NULL,		NULL,
+-/* 1C */	"pf2iw",	"pf2id",	NULL,		NULL,
+-/* 20 */	NULL,		NULL,		NULL,		NULL,
+-/* 24 */	NULL,		NULL,		NULL,		NULL,
+-/* 28 */	NULL,		NULL,		NULL,		NULL,
+-/* 2C */	NULL,		NULL,		NULL,		NULL,
+-/* 30 */	NULL,		NULL,		NULL,		NULL,
+-/* 34 */	NULL,		NULL,		NULL,		NULL,
+-/* 38 */	NULL,		NULL,		NULL,		NULL,
+-/* 3C */	NULL,		NULL,		NULL,		NULL,
+-/* 40 */	NULL,		NULL,		NULL,		NULL,
+-/* 44 */	NULL,		NULL,		NULL,		NULL,
+-/* 48 */	NULL,		NULL,		NULL,		NULL,
+-/* 4C */	NULL,		NULL,		NULL,		NULL,
+-/* 50 */	NULL,		NULL,		NULL,		NULL,
+-/* 54 */	NULL,		NULL,		NULL,		NULL,
+-/* 58 */	NULL,		NULL,		NULL,		NULL,
+-/* 5C */	NULL,		NULL,		NULL,		NULL,
+-/* 60 */	NULL,		NULL,		NULL,		NULL,
+-/* 64 */	NULL,		NULL,		NULL,		NULL,
+-/* 68 */	NULL,		NULL,		NULL,		NULL,
+-/* 6C */	NULL,		NULL,		NULL,		NULL,
+-/* 70 */	NULL,		NULL,		NULL,		NULL,
+-/* 74 */	NULL,		NULL,		NULL,		NULL,
+-/* 78 */	NULL,		NULL,		NULL,		NULL,
+-/* 7C */	NULL,		NULL,		NULL,		NULL,
+-/* 80 */	NULL,		NULL,		NULL,		NULL,
+-/* 84 */	NULL,		NULL,		NULL,		NULL,
+-/* 88 */	NULL,		NULL,		"pfnacc",	NULL,
+-/* 8C */	NULL,		NULL,		"pfpnacc",	NULL,
+-/* 90 */	"pfcmpge",	NULL,		NULL,		NULL,
+-/* 94 */	"pfmin",	NULL,		"pfrcp",	"pfrsqrt",
+-/* 98 */	NULL,		NULL,		"pfsub",	NULL,
+-/* 9C */	NULL,		NULL,		"pfadd",	NULL,
+-/* A0 */	"pfcmpgt",	NULL,		NULL,		NULL,
+-/* A4 */	"pfmax",	NULL,		"pfrcpit1",	"pfrsqit1",
+-/* A8 */	NULL,		NULL,		"pfsubr",	NULL,
+-/* AC */	NULL,		NULL,		"pfacc",	NULL,
+-/* B0 */	"pfcmpeq",	NULL,		NULL,		NULL,
+-/* B4 */	"pfmul",	NULL,		"pfrcpit2",	"pmulhrw",
+-/* B8 */	NULL,		NULL,		NULL,		"pswapd",
+-/* BC */	NULL,		NULL,		NULL,		"pavgusb",
+-/* C0 */	NULL,		NULL,		NULL,		NULL,
+-/* C4 */	NULL,		NULL,		NULL,		NULL,
+-/* C8 */	NULL,		NULL,		NULL,		NULL,
+-/* CC */	NULL,		NULL,		NULL,		NULL,
+-/* D0 */	NULL,		NULL,		NULL,		NULL,
+-/* D4 */	NULL,		NULL,		NULL,		NULL,
+-/* D8 */	NULL,		NULL,		NULL,		NULL,
+-/* DC */	NULL,		NULL,		NULL,		NULL,
+-/* E0 */	NULL,		NULL,		NULL,		NULL,
+-/* E4 */	NULL,		NULL,		NULL,		NULL,
+-/* E8 */	NULL,		NULL,		NULL,		NULL,
+-/* EC */	NULL,		NULL,		NULL,		NULL,
+-/* F0 */	NULL,		NULL,		NULL,		NULL,
+-/* F4 */	NULL,		NULL,		NULL,		NULL,
+-/* F8 */	NULL,		NULL,		NULL,		NULL,
+-/* FC */	NULL,		NULL,		NULL,		NULL,
+-};
+-
+-static void
+-OP_3DNowSuffix (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  const char *mnemonic;
+-
+-  fetch_data(the_info, codep + 1);
+-  /* AMD 3DNow! instructions are specified by an opcode suffix in the
+-     place where an 8-bit immediate would normally go.  ie. the last
+-     byte of the instruction.  */
+-  obufp = obuf + strlen (obuf);
+-  mnemonic = Suffix3DNow[*codep++ & 0xff];
+-  if (mnemonic)
+-    oappend (mnemonic);
+-  else
+-    {
+-      /* Since a variable sized modrm/sib chunk is between the start
+-	 of the opcode (0x0f0f) and the opcode suffix, we need to do
+-	 all the modrm processing first, and don't know until now that
+-	 we have a bad opcode.  This necessitates some cleaning up.  */
+-      op_out[0][0] = '\0';
+-      op_out[1][0] = '\0';
+-      BadOp ();
+-    }
+-}
+-
+-static const char *simd_cmp_op[] = {
+-  "eq",
+-  "lt",
+-  "le",
+-  "unord",
+-  "neq",
+-  "nlt",
+-  "nle",
+-  "ord"
+-};
+-
+-static void
+-OP_SIMD_Suffix (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  unsigned int cmp_type;
+-
+-  fetch_data(the_info, codep + 1);
+-  obufp = obuf + strlen (obuf);
+-  cmp_type = *codep++ & 0xff;
+-  if (cmp_type < 8)
+-    {
+-      char suffix1 = 'p', suffix2 = 's';
+-      used_prefixes |= (prefixes & PREFIX_REPZ);
+-      if (prefixes & PREFIX_REPZ)
+-	suffix1 = 's';
+-      else
+-	{
+-	  used_prefixes |= (prefixes & PREFIX_DATA);
+-	  if (prefixes & PREFIX_DATA)
+-	    suffix2 = 'd';
+-	  else
+-	    {
+-	      used_prefixes |= (prefixes & PREFIX_REPNZ);
+-	      if (prefixes & PREFIX_REPNZ)
+-		suffix1 = 's', suffix2 = 'd';
+-	    }
+-	}
+-      snprintf (scratchbuf, sizeof(scratchbuf), "cmp%s%c%c",
+-                simd_cmp_op[cmp_type], suffix1, suffix2);
+-      used_prefixes |= (prefixes & PREFIX_REPZ);
+-      oappend (scratchbuf);
+-    }
+-  else
+-    {
+-      /* We have a bad extension byte.  Clean up.  */
+-      op_out[0][0] = '\0';
+-      op_out[1][0] = '\0';
+-      BadOp ();
+-    }
+-}
+-
+-static void
+-SIMD_Fixup (int extrachar, int sizeflag ATTRIBUTE_UNUSED)
+-{
+-  /* Change movlps/movhps to movhlps/movlhps for 2 register operand
+-     forms of these instructions.  */
+-  if (modrm.mod == 3)
+-    {
+-      char *p = obuf + strlen (obuf);
+-      *(p + 1) = '\0';
+-      *p       = *(p - 1);
+-      *(p - 1) = *(p - 2);
+-      *(p - 2) = *(p - 3);
+-      *(p - 3) = extrachar;
+-    }
+-}
+-
+-static void
+-PNI_Fixup (int extrachar ATTRIBUTE_UNUSED, int sizeflag)
+-{
+-  if (modrm.mod == 3 && modrm.reg == 1 && modrm.rm <= 1)
+-    {
+-      /* Override "sidt".  */
+-      size_t olen = strlen (obuf);
+-      char *p = obuf + olen - 4;
+-      const char * const *names = (address_mode == mode_64bit
+-			    ? names64 : names32);
+-
+-      /* We might have a suffix when disassembling with -Msuffix.  */
+-      if (*p == 'i')
+-	--p;
+-
+-      /* Remove "addr16/addr32" if we aren't in Intel mode.  */
+-      if (!intel_syntax
+-	  && (prefixes & PREFIX_ADDR)
+-	  && olen >= (4 + 7)
+-	  && *(p - 1) == ' '
+-	  && strncmp (p - 7, "addr", 4) == 0
+-	  && (strncmp (p - 3, "16", 2) == 0
+-	      || strncmp (p - 3, "32", 2) == 0))
+-	p -= 7;
+-
+-      if (modrm.rm)
+-	{
+-	  /* mwait %eax,%ecx  */
+-	  strcpy (p, "mwait");
+-	  if (!intel_syntax)
+-	    strcpy (op_out[0], names[0]);
+-	}
+-      else
+-	{
+-	  /* monitor %eax,%ecx,%edx"  */
+-	  strcpy (p, "monitor");
+-	  if (!intel_syntax)
+-	    {
+-	      const char * const *op1_names;
+-	      if (!(prefixes & PREFIX_ADDR))
+-		op1_names = (address_mode == mode_16bit
+-			     ? names16 : names);
+-	      else
+-		{
+-		  op1_names = (address_mode != mode_32bit
+-			       ? names32 : names16);
+-		  used_prefixes |= PREFIX_ADDR;
+-		}
+-	      strcpy (op_out[0], op1_names[0]);
+-	      strcpy (op_out[2], names[2]);
+-	    }
+-	}
+-      if (!intel_syntax)
+-	{
+-	  strcpy (op_out[1], names[1]);
+-	  two_source_ops = 1;
+-	}
+-
+-      codep++;
+-    }
+-  else
+-    OP_M (0, sizeflag);
+-}
+-
+-static void
+-SVME_Fixup (int bytemode, int sizeflag)
+-{
+-  const char *alt;
+-  char *p;
+-
+-  switch (*codep)
+-    {
+-    case 0xd8:
+-      alt = "vmrun";
+-      break;
+-    case 0xd9:
+-      alt = "vmmcall";
+-      break;
+-    case 0xda:
+-      alt = "vmload";
+-      break;
+-    case 0xdb:
+-      alt = "vmsave";
+-      break;
+-    case 0xdc:
+-      alt = "stgi";
+-      break;
+-    case 0xdd:
+-      alt = "clgi";
+-      break;
+-    case 0xde:
+-      alt = "skinit";
+-      break;
+-    case 0xdf:
+-      alt = "invlpga";
+-      break;
+-    default:
+-      OP_M (bytemode, sizeflag);
+-      return;
+-    }
+-  /* Override "lidt".  */
+-  p = obuf + strlen (obuf) - 4;
+-  /* We might have a suffix.  */
+-  if (*p == 'i')
+-    --p;
+-  strcpy (p, alt);
+-  if (!(prefixes & PREFIX_ADDR))
+-    {
+-      ++codep;
+-      return;
+-    }
+-  used_prefixes |= PREFIX_ADDR;
+-  switch (*codep++)
+-    {
+-    case 0xdf:
+-      strcpy (op_out[1], names32[1]);
+-      two_source_ops = 1;
+-	  /* Fall through.  */
+-    case 0xd8:
+-    case 0xda:
+-    case 0xdb:
+-      *obufp++ = open_char;
+-      if (address_mode == mode_64bit || (sizeflag & AFLAG))
+-        alt = names32[0];
+-      else
+-        alt = names16[0];
+-      strcpy (obufp, alt);
+-      obufp += strlen (alt);
+-      *obufp++ = close_char;
+-      *obufp = '\0';
+-      break;
+-    }
+-}
+-
+-static void
+-INVLPG_Fixup (int bytemode, int sizeflag)
+-{
+-  const char *alt;
+-
+-  switch (*codep)
+-    {
+-    case 0xf8:
+-      alt = "swapgs";
+-      break;
+-    case 0xf9:
+-      alt = "rdtscp";
+-      break;
+-    default:
+-      OP_M (bytemode, sizeflag);
+-      return;
+-    }
+-  /* Override "invlpg".  */
+-  strcpy (obuf + strlen (obuf) - 6, alt);
+-  codep++;
+-}
+-
+-static void
+-BadOp (void)
+-{
+-  /* Throw away prefixes and 1st. opcode byte.  */
+-  codep = insn_codep + 1;
+-  oappend ("(bad)");
+-}
+-
+-static void
+-VMX_Fixup (int extrachar ATTRIBUTE_UNUSED, int sizeflag)
+-{
+-  if (modrm.mod == 3
+-      && modrm.reg == 0
+-      && modrm.rm >=1
+-      && modrm.rm <= 4)
+-    {
+-      /* Override "sgdt".  */
+-      char *p = obuf + strlen (obuf) - 4;
+-
+-      /* We might have a suffix when disassembling with -Msuffix.  */
+-      if (*p == 'g')
+-	--p;
+-
+-      switch (modrm.rm)
+-	{
+-	case 1:
+-	  strcpy (p, "vmcall");
+-	  break;
+-	case 2:
+-	  strcpy (p, "vmlaunch");
+-	  break;
+-	case 3:
+-	  strcpy (p, "vmresume");
+-	  break;
+-	case 4:
+-	  strcpy (p, "vmxoff");
+-	  break;
+-	}
+-
+-      codep++;
+-    }
+-  else
+-    OP_E (0, sizeflag);
+-}
+-
+-static void
+-OP_VMX (int bytemode, int sizeflag)
+-{
+-  used_prefixes |= (prefixes & (PREFIX_DATA | PREFIX_REPZ));
+-  if (prefixes & PREFIX_DATA)
+-    strcpy (obuf, "vmclear");
+-  else if (prefixes & PREFIX_REPZ)
+-    strcpy (obuf, "vmxon");
+-  else
+-    strcpy (obuf, "vmptrld");
+-  OP_E (bytemode, sizeflag);
+-}
+-
+-static void
+-REP_Fixup (int bytemode, int sizeflag)
+-{
+-  /* The 0xf3 prefix should be displayed as "rep" for ins, outs, movs,
+-     lods and stos.  */
+-  size_t ilen = 0;
+-
+-  if (prefixes & PREFIX_REPZ)
+-    switch (*insn_codep)
+-      {
+-      case 0x6e:	/* outsb */
+-      case 0x6f:	/* outsw/outsl */
+-      case 0xa4:	/* movsb */
+-      case 0xa5:	/* movsw/movsl/movsq */
+-	if (!intel_syntax)
+-	  ilen = 5;
+-	else
+-	  ilen = 4;
+-	break;
+-      case 0xaa:	/* stosb */
+-      case 0xab:	/* stosw/stosl/stosq */
+-      case 0xac:	/* lodsb */
+-      case 0xad:	/* lodsw/lodsl/lodsq */
+-	if (!intel_syntax && (sizeflag & SUFFIX_ALWAYS))
+-	  ilen = 5;
+-	else
+-	  ilen = 4;
+-	break;
+-      case 0x6c:	/* insb */
+-      case 0x6d:	/* insl/insw */
+-	if (!intel_syntax)
+-	  ilen = 4;
+-	else
+-	  ilen = 3;
+-	break;
+-      default:
+-	abort ();
+-	break;
+-      }
+-
+-  if (ilen != 0)
+-    {
+-      size_t olen;
+-      char *p;
+-
+-      olen = strlen (obuf);
+-      p = obuf + olen - ilen - 1 - 4;
+-      /* Handle "repz [addr16|addr32]".  */
+-      if ((prefixes & PREFIX_ADDR))
+-	p -= 1 + 6;
+-
+-      memmove (p + 3, p + 4, olen - (p + 3 - obuf));
+-    }
+-
+-  switch (bytemode)
+-    {
+-    case al_reg:
+-    case eAX_reg:
+-    case indir_dx_reg:
+-      OP_IMREG (bytemode, sizeflag);
+-      break;
+-    case eDI_reg:
+-      OP_ESreg (bytemode, sizeflag);
+-      break;
+-    case eSI_reg:
+-      OP_DSreg (bytemode, sizeflag);
 -      break;
 -    default:
 -      abort ();
+-      break;
 -    }
 -}
 -
--/* Search back through the insn stream to determine if this instruction is
--   conditionally executed.  */
 -static void
--find_ifthen_state (bfd_vma pc, struct disassemble_info *info,
--		   bfd_boolean little)
+-CMPXCHG8B_Fixup (int bytemode, int sizeflag)
 -{
--  unsigned char b[2];
--  unsigned int insn;
--  int status;
--  /* COUNT is twice the number of instructions seen.  It will be odd if we
--     just crossed an instruction boundary.  */
--  int count;
--  int it_count;
--  unsigned int seen_it;
--  bfd_vma addr;
--
--  ifthen_address = pc;
--  ifthen_state = 0;
--
--  addr = pc;
--  count = 1;
--  it_count = 0;
--  seen_it = 0;
--  /* Scan backwards looking for IT instructions, keeping track of where
--     instruction boundaries are.  We don't know if something is actually an
--     IT instruction until we find a definite instruction boundary.  */
--  for (;;)
+-  USED_REX (REX_W);
+-  if (rex & REX_W)
 -    {
--      if (addr == 0 || info->symbol_at_address_func(addr, info))
--	{
--	  /* A symbol must be on an instruction boundary, and will not
--	     be within an IT block.  */
--	  if (seen_it && (count & 1))
--	    break;
--
--	  return;
--	}
--      addr -= 2;
--      status = arm_read_memory (addr, (bfd_byte *)b, 2, info);
--      if (status)
--	return;
--
--      if (little)
--	insn = (b[0]) | (b[1] << 8);
--      else
--	insn = (b[1]) | (b[0] << 8);
--      if (seen_it)
--	{
--	  if ((insn & 0xf800) < 0xe800)
--	    {
--	      /* Addr + 2 is an instruction boundary.  See if this matches
--	         the expected boundary based on the position of the last
--		 IT candidate.  */
--	      if (count & 1)
--		break;
--	      seen_it = 0;
--	    }
--	}
--      if ((insn & 0xff00) == 0xbf00 && (insn & 0xf) != 0)
--	{
--	  /* This could be an IT instruction.  */
--	  seen_it = insn;
--	  it_count = count >> 1;
--	}
--      if ((insn & 0xf800) >= 0xe800)
--	count++;
--      else
--	count = (count + 2) | 1;
--      /* IT blocks contain at most 4 instructions.  */
--      if (count >= 8 && !seen_it)
--	return;
+-      /* Change cmpxchg8b to cmpxchg16b.  */
+-      char *p = obuf + strlen (obuf) - 2;
+-      strcpy (p, "16b");
+-      bytemode = o_mode;
 -    }
--  /* We found an IT instruction.  */
--  ifthen_state = (seen_it & 0xe0) | ((seen_it << it_count) & 0x1f);
--  if ((ifthen_state & 0xf) == 0)
--    ifthen_state = 0;
+-  OP_M (bytemode, sizeflag);
 -}
 -
--/* NOTE: There are no checks in these routines that
--   the relevant number of data bytes exist.  */
--
--int
--print_insn_arm (bfd_vma pc, struct disassemble_info *info)
+-static void
+-XMM_Fixup (int reg, int sizeflag ATTRIBUTE_UNUSED)
 -{
--  unsigned char b[4];
--  long		given;
--  int           status;
--  int           is_thumb = false;
--  int           is_data = false;
--  unsigned int	size = 4;
--  void	 	(*printer) (bfd_vma, struct disassemble_info *, long);
--  int little;
+-  snprintf (scratchbuf, sizeof(scratchbuf), "%%xmm%d", reg);
+-  oappend (scratchbuf + intel_syntax);
+-}
 -
--  little = (info->endian == BFD_ENDIAN_LITTLE);
--  is_thumb |= (pc & 1);
--  pc &= ~(bfd_vma)1;
+-static void
+-CRC32_Fixup (int bytemode, int sizeflag)
+-{
+-  /* Add proper suffix to "crc32".  */
+-  char *p = obuf + strlen (obuf);
 -
--  if (force_thumb)
--    is_thumb = true;
--
--  info->bytes_per_line = 4;
--
--  if (is_data)
+-  switch (bytemode)
 -    {
--      int i;
+-    case b_mode:
+-      if (intel_syntax)
+-	break;
 -
--      /* size was already set above.  */
--      info->bytes_per_chunk = size;
--      printer = print_insn_data;
+-      *p++ = 'b';
+-      break;
+-    case v_mode:
+-      if (intel_syntax)
+-	break;
 -
--      status = arm_read_memory (pc, (bfd_byte *)b, size, info);
--      given = 0;
--      if (little)
--	for (i = size - 1; i >= 0; i--)
--	  given = b[i] | (given << 8);
+-      USED_REX (REX_W);
+-      if (rex & REX_W)
+-	*p++ = 'q';
+-      else if (sizeflag & DFLAG)
+-	*p++ = 'l';
 -      else
--	for (i = 0; i < (int) size; i++)
--	  given = b[i] | (given << 8);
+-	*p++ = 'w';
+-      used_prefixes |= (prefixes & PREFIX_DATA);
+-      break;
+-    default:
+-      oappend (INTERNAL_DISASSEMBLER_ERROR);
+-      break;
 -    }
--  else if (!is_thumb)
+-  *p = '\0';
+-
+-  if (modrm.mod == 3)
 -    {
--      /* In ARM mode endianness is a straightforward issue: the instruction
--	 is four bytes long and is either ordered 0123 or 3210.  */
--      printer = print_insn_arm_internal;
--      info->bytes_per_chunk = 4;
--      size = 4;
+-      int add;
 -
--      status = arm_read_memory (pc, (bfd_byte *)b, 4, info);
--      if (little)
--	given = (b[0]) | (b[1] << 8) | (b[2] << 16) | ((unsigned)b[3] << 24);
--      else
--	given = (b[3]) | (b[2] << 8) | (b[1] << 16) | ((unsigned)b[0] << 24);
--    }
--  else
--    {
--      /* In Thumb mode we have the additional wrinkle of two
--	 instruction lengths.  Fortunately, the bits that determine
--	 the length of the current instruction are always to be found
--	 in the first two bytes.  */
--      printer = print_insn_thumb16;
--      info->bytes_per_chunk = 2;
--      size = 2;
+-      /* Skip mod/rm byte.  */
+-      MODRM_CHECK;
+-      codep++;
 -
--      status = arm_read_memory (pc, (bfd_byte *)b, 2, info);
--      if (little)
--	given = (b[0]) | (b[1] << 8);
--      else
--	given = (b[1]) | (b[0] << 8);
--
--      if (!status)
+-      USED_REX (REX_B);
+-      add = (rex & REX_B) ? 8 : 0;
+-      if (bytemode == b_mode)
 -	{
--	  /* These bit patterns signal a four-byte Thumb
--	     instruction.  */
--	  if ((given & 0xF800) == 0xF800
--	      || (given & 0xF800) == 0xF000
--	      || (given & 0xF800) == 0xE800)
--	    {
--	      status = arm_read_memory (pc + 2, (bfd_byte *)b, 2, info);
--	      if (little)
--		given = (b[0]) | (b[1] << 8) | (given << 16);
--	      else
--		given = (b[1]) | (b[0] << 8) | (given << 16);
--
--	      printer = print_insn_thumb32;
--	      size = 4;
--	    }
--	}
--
--      if (ifthen_address != pc)
--	find_ifthen_state(pc, info, little);
--
--      if (ifthen_state)
--	{
--	  if ((ifthen_state & 0xf) == 0x8)
--	    ifthen_next_state = 0;
+-	  USED_REX (0);
+-	  if (rex)
+-	    oappend (names8rex[modrm.rm + add]);
 -	  else
--	    ifthen_next_state = (ifthen_state & 0xe0)
--				| ((ifthen_state & 0xf) << 1);
--	}
--    }
--
--  if (status)
--    {
--      info->memory_error_func (status, pc, info);
--      return -1;
--    }
--  if (info->flags & INSN_HAS_RELOC)
--    /* If the instruction has a reloc associated with it, then
--       the offset field in the instruction will actually be the
--       addend for the reloc.  (We are using REL type relocs).
--       In such cases, we can ignore the pc when computing
--       addresses, since the addend is not currently pc-relative.  */
--    pc = 0;
--
--  /* We include the hexdump of the instruction. The format here
--     matches that used by objdump and the ARM ARM (in particular,
--     32 bit Thumb instructions are displayed as pairs of halfwords,
--     not as a single word.)  */
--  if (is_thumb)
--    {
--      if (size == 2)
--	{
--	  info->fprintf_func(info->stream, "%04lx       ",
--			     ((unsigned long)given) & 0xffff);
+-	    oappend (names8[modrm.rm + add]);
 -	}
 -      else
 -	{
--	  info->fprintf_func(info->stream, "%04lx %04lx  ",
--			     (((unsigned long)given) >> 16) & 0xffff,
--			     ((unsigned long)given) & 0xffff);
+-	  USED_REX (REX_W);
+-	  if (rex & REX_W)
+-	    oappend (names64[modrm.rm + add]);
+-	  else if ((prefixes & PREFIX_DATA))
+-	    oappend (names16[modrm.rm + add]);
+-	  else
+-	    oappend (names32[modrm.rm + add]);
 -	}
 -    }
 -  else
--    {
--      info->fprintf_func(info->stream, "%08lx      ",
--			 ((unsigned long)given) & 0xffffffff);
--    }
--
--  printer (pc, info, given);
--
--  if (is_thumb)
--    {
--      ifthen_state = ifthen_next_state;
--      ifthen_address += size;
--    }
--  return size;
+-    OP_E (bytemode, sizeflag);
 -}
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index e46a766d77..6c25e5125b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -772,12 +772,6 @@ static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 99343be926..62c240fa91 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6821,7 +6821,6 @@ static void x86_disas_set_info(CPUState *cs, disassemble_info *info)
+     info->mach = (env->hflags & HF_CS64_MASK ? bfd_mach_x86_64
+                   : env->hflags & HF_CS32_MASK ? bfd_mach_i386_i386
+                   : bfd_mach_i386_i8086);
+-    info->print_insn = print_insn_i386;
  
- #endif
- 
--static int
--print_insn_thumb1(bfd_vma pc, disassemble_info *info)
--{
--  return print_insn_arm(pc | 1, info);
--}
--
- static void arm_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-     ARMCPU *ac = ARM_CPU(cpu);
-@@ -798,12 +792,10 @@ static void arm_disas_set_info(CPUState *cpu, disassemble_info *info)
-     } else {
-         int cap_mode;
-         if (env->thumb) {
--            info->print_insn = print_insn_thumb1;
-             info->cap_insn_unit = 2;
-             info->cap_insn_split = 4;
-             cap_mode = CS_MODE_THUMB;
-         } else {
--            info->print_insn = print_insn_arm;
-             info->cap_insn_unit = 4;
-             info->cap_insn_split = 4;
-             cap_mode = CS_MODE_ARM;
+     info->cap_arch = CS_ARCH_X86;
+     info->cap_mode = (env->hflags & HF_CS64_MASK ? CS_MODE_64
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 218c9459b6..224bebcfeb 100644
+index 224bebcfeb..c44ff74c20 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -165,7 +165,6 @@ F: tests/qtest/arm-cpu-features.c
- F: hw/arm/
- F: hw/cpu/a*mpcore.c
- F: include/hw/cpu/a*mpcore.h
--F: disas/arm.c
- F: disas/arm-a64.cc
- F: disas/libvixl/
- F: docs/system/target-arm.rst
-@@ -3267,7 +3266,6 @@ M: Richard Henderson <richard.henderson@linaro.org>
- S: Maintained
- L: qemu-arm@nongnu.org
- F: tcg/arm/
--F: disas/arm.c
+@@ -334,7 +334,6 @@ F: target/i386/tcg/
+ F: tests/tcg/i386/
+ F: tests/tcg/x86_64/
+ F: hw/i386/
+-F: disas/i386.c
+ F: docs/system/cpu-models-x86*
+ T: git https://gitlab.com/ehabkost/qemu.git x86-next
  
- i386 TCG target
+@@ -3271,7 +3270,6 @@ i386 TCG target
  M: Richard Henderson <richard.henderson@linaro.org>
+ S: Maintained
+ F: tcg/i386/
+-F: disas/i386.c
+ 
+ LoongArch64 TCG target
+ M: WANG Xuerui <git@xen0n.name>
 diff --git a/disas/meson.build b/disas/meson.build
-index e3e1b67923..a6402e7e1c 100644
+index a6402e7e1c..b0d18b9d47 100644
 --- a/disas/meson.build
 +++ b/disas/meson.build
-@@ -4,7 +4,6 @@ subdir('libvixl')
- common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
- common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
- common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
--common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
+@@ -7,7 +7,6 @@ common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
  common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
  common_ss.add(when: 'CONFIG_HEXAGON_DIS', if_true: files('hexagon.c'))
  common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
+-common_ss.add(when: 'CONFIG_I386_DIS', if_true: files('i386.c'))
+ common_ss.add(when: 'CONFIG_M68K_DIS', if_true: files('m68k.c'))
+ common_ss.add(when: 'CONFIG_MICROBLAZE_DIS', if_true: files('microblaze.c'))
+ common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c'))
 -- 
 2.27.0
 
