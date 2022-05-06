@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138E351E0FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 23:19:15 +0200 (CEST)
-Received: from localhost ([::1]:51992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1964151E1A6
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 00:45:07 +0200 (CEST)
+Received: from localhost ([::1]:33952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn5M2-0001kW-7g
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 17:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43512)
+	id 1nn6h7-0006Lz-Oa
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 18:45:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nn5Kc-0000BK-BJ
- for qemu-devel@nongnu.org; Fri, 06 May 2022 17:17:46 -0400
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:46525)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1nn6fu-0005B3-WE
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 18:43:51 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nn5Ka-0001RA-B9
- for qemu-devel@nongnu.org; Fri, 06 May 2022 17:17:45 -0400
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so8495388fac.13
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 14:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IlxWrrfqj4ov0L8068BQJecwogapZnOph3Sg6tB9F4c=;
- b=oiS4K1CB31s/2gjgKbdNz8y9JuPOBh7RIaVYn+07xKGQl2TgSzeiHY4D28spAPWwHv
- RFmBBHA2D0CJ0xknTmqlSgEWeYdhG7zyhC5l2vHKmJsPISlGxaAwsyNekeF40i8fAtUI
- afSA/PepR8ulqao97WKhILlsmOjVw2ReNuY1W+YXN49o2MGvuKSVPt7c8tkFQ//LeSp2
- CYxT7oRtuMfwAJCLdnwP8YwChdldaalA/eu+X1SjvCIV51QWB/TZk409+ITiiQGZcDD8
- cTbedJSvdE+igQs8tVnDKpSK/PLrVZRnMie4AxZOsWlltIkRl4hny41OBKv9eORFJCL6
- 0P6Q==
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1nn6fs-00050s-Sf
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 18:43:50 -0400
+Received: by mail-pf1-x433.google.com with SMTP id 204so4590753pfx.3
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 15:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=34kUrbV+fMKR5tRSaJpFEXUZtoE6lcj6qSX+WXl/vUM=;
+ b=fvU6WgCxzsHrzmpf/dtmvDOlGYFdGtCVYJgca9n09sLAroVJ3Mm6d+GXs+KJ3EUN4l
+ dXecoB5NBjV7BjKbfe38UMX2ttaGySXG6tswQ8idO5z5w3Z7v5IpRTaqzvemyZGyXFyV
+ 8oy9pxL3PRUqn+KqLUiGtGlGKf30jgvjT3qHjITj6dIdCYWSM4bMyQyM5exP81xh0TgM
+ o0Z6rGKmd+cIm3gnY5bVYqpilTZ3z18Ywwt72H1mD+T53EskPTPJdzFcxLwxmyWZItoE
+ Us85CUHkY2Q88CaoVLVKSKWR2byVcbsiiIe/p7AMmtzgzdfo3I7cl5xvyi4A80b4ycUi
+ 6xjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IlxWrrfqj4ov0L8068BQJecwogapZnOph3Sg6tB9F4c=;
- b=N538jnamX7RDGRsKjYtkkHTTw4NOr4zNnOizQVwu0FaA3ijni/QLblK1ICu1SbAtqH
- QitsxczC9ZmjFnG8VAsO3w+IHIEnYTSef0hR5n3qPWOBWqvLm9aSQuezZpw/sg1R9UGW
- zVWtfmJds4TOAcStTLfO4/HkNIJS4iD/clSgXwus0+al2R6aS4qnhauHuL8SbCJ9oK7m
- eMXHyNzbs8x/MXZ9QfIScevTkapzKVg7/oIg5xB1OcbBMyPdTPISYVCGwaQS1RWHmhXG
- bTjEdZrCkFEK+al13ytPKcwe+qDlx1AjXBOPjwxH+dCRnhjzuPFMF4+17CMrCCAyX0Ac
- 1bwg==
-X-Gm-Message-State: AOAM533sjor9+FKBTkZ+QGXKxQ5eN0QJYwCFLAt/W1+qz4f7C3VLXvCU
- t/uulr9alYhmvYtRd4/dNz8kmg==
-X-Google-Smtp-Source: ABdhPJzVqj6vDUmOfiYGbRVObb3cVBvy5v/COA/Q9/9moZ32gouJoyqBaSYSKY17z1ivbwuHq+O6WQ==
-X-Received: by 2002:a05:6870:3112:b0:ce:c0c9:62b with SMTP id
- v18-20020a056870311200b000cec0c9062bmr5270951oaa.125.1651871861739; 
- Fri, 06 May 2022 14:17:41 -0700 (PDT)
-Received: from ?IPV6:2607:fb91:2c60:4168:5603:e850:fc4d:149c?
- ([2607:fb91:2c60:4168:5603:e850:fc4d:149c])
+ bh=34kUrbV+fMKR5tRSaJpFEXUZtoE6lcj6qSX+WXl/vUM=;
+ b=T3JqEVhz+Ssez+FjC0xPGIonYh4Pwu5wNpaAqBiHiRgvgzAdfsOYFWOKOPV9HHbDlL
+ fwatYbZ0h0Vmq+H+1CojTFeBIuUBGVzJOWXQ2wPwI87x+J/S8UMeOVil2zEDgIAKdavh
+ bzNRwGblPmyUgjDfcE03yBXeC+QzLWvayCmc2NZ72mmTxya4ALBV+j4jg0khlo6Dv/td
+ Vs+/IEiteidu4QR8IH/+H07x7FtQHCzBcRfWe5sBB+fVUEVxhWckMyhZQyBha54CXwq9
+ vH1MnKmbMa8GPGLWjyvNTpcgtOJhQ0tEBbQWq2+FUarHBaYYjtb+LwVmHfQcSUqgg3vw
+ 3Bxg==
+X-Gm-Message-State: AOAM532j94Qb44ETnB8dttjImmZrAIQFRxrdIdC7MeyYkYjEUiYCJkCj
+ ZZDbw3vxLPNfyUa8wPAM1tZdrxnrLhw=
+X-Google-Smtp-Source: ABdhPJxYZvUJhVApqBTQKjR1dqK2Hbeez1RiQKhmVx13/55DEDmjWh1oioAWSbnaLUBsxSBXawj7Aw==
+X-Received: by 2002:a63:8343:0:b0:3c6:7789:2243 with SMTP id
+ h64-20020a638343000000b003c677892243mr358260pge.361.1651877027174; 
+ Fri, 06 May 2022 15:43:47 -0700 (PDT)
+Received: from octofox.hsd1.ca.comcast.net
+ ([2601:641:401:1d20:5ef0:be36:e4fa:f949])
  by smtp.gmail.com with ESMTPSA id
- w3-20020acadf03000000b003265922b72fsm2007292oig.40.2022.05.06.14.17.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 14:17:41 -0700 (PDT)
-Message-ID: <75464333-8807-e316-0b37-16c544616394@linaro.org>
-Date: Fri, 6 May 2022 16:17:37 -0500
+ gi2-20020a17090b110200b001d952b8f728sm8054363pjb.2.2022.05.06.15.43.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 May 2022 15:43:46 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PULL v2 00/18] target/xtensa updates for v7.1
+Date: Fri,  6 May 2022 15:43:31 -0700
+Message-Id: <20220506224331.3886707-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/18] target/xtensa updates for v7.1
-Content-Language: en-US
-To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20220506195213.3835272-1-jcmvbkbc@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220506195213.3835272-1-jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,99 +90,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/22 14:52, Max Filippov wrote:
-> Hello,
-> 
-> please pull the following updates for the target/xtensa.
-> 
-> The following changes since commit 823a3f11fb8f04c3c3cc0f95f968fef1bfc6534f:
-> 
->    Update version for v7.0.0 release (2022-04-19 18:44:36 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/OSLL/qemu-xtensa.git tags/20220506-xtensa
-> 
-> for you to fetch changes up to 5e1d80a3fc16d5dbe7d677af6ba4df94d68c75d2:
-> 
->    tests/tcg/xtensa: fix vectors and checks in timer test (2022-04-27 10:15:23 -0700)
-> 
-> ----------------------------------------------------------------
-> target/xtensa updates for v7.1:
-> 
-> - expand test coverage to big-endian, MMUv3, cores without windowed
->    registers or loop option;
-> - import lx106 core (used in the esp8266 IoT chips);
-> - use tcg_constant_* in the front end;
-> - add clock input to the xtensa CPU;
-> - fix reset state of the xtensa MX PIC.
+Hello,
 
-Auto-merging MAINTAINERS
+please pull the following updates for the target/xtensa.
 
-Auto-merging target/xtensa/cpu.h
+Changes since v1:
+- rebase series to the current master
+- drop big-endian tests enabling patch (cannot test it because of the
+  test infrastructure change)
+- add cache testing opcodes patch
 
-Auto-merging target/xtensa/translate.c
+The following changes since commit 31abf61c4929a91275fe32f1fafe6e6b3e840b2a:
 
-Auto-merging tests/tcg/xtensa/Makefile.softmmu-target
+  Merge tag 'pull-ppc-20220505' of https://gitlab.com/danielhb/qemu into staging (2022-05-05 13:52:22 -0500)
 
-CONFLICT (content): Merge conflict in tests/tcg/xtensa/Makefile.softmmu-target
+are available in the Git repository at:
 
+  https://github.com/OSLL/qemu-xtensa.git tags/20220506-xtensa-1
 
-This branch is based on the v7.0 tag.  You need to rebase to master branch.
+for you to fetch changes up to 59491e97f89eaeee275f57fb6bb40f0152429fb3:
 
+  target/xtensa: implement cache test option opcodes (2022-05-06 15:37:10 -0700)
 
-r~
+----------------------------------------------------------------
+target/xtensa updates for v7.1:
 
+- expand test coverage to MMUv3, cores without windowed registers or
+  loop option;
+- import lx106 core (used in the esp8266 IoT chips);
+- use tcg_constant_* in the front end;
+- add clock input to the xtensa CPU;
+- fix reset state of the xtensa MX PIC;
+- implement cache testing opcodes.
 
-> 
-> ----------------------------------------------------------------
-> Max Filippov (17):
->        tests/tcg/xtensa: allow testing big-endian cores
->        target/xtensa: fix missing tcg_temp_free in gen_window_check
->        target/xtensa: use tcg_contatnt_* for numeric literals
->        target/xtensa: use tcg_constant_* for exceptions
->        target/xtensa: use tcg_constant_* for TLB opcodes
->        target/xtensa: use tcg_constant_* for numbered special registers
->        target/xtensa: use tcg_constant_* for FPU conversion opcodes
->        target/xtensa: use tcg_constant_* for remaining opcodes
->        target/xtensa: add clock input to xtensa CPU
->        hw/xtensa: fix reset value of MIROUT register of MX PIC
->        tests/tcg/xtensa: fix build for cores without windowed registers
->        tests/tcg/xtensa: restore vecbase SR after test
->        tests/tcg/xtensa: fix watchpoint test
->        tests/tcg/xtensa: remove dependency on the loop option
->        tests/tcg/xtensa: enable autorefill phys_mem tests for MMUv3
->        tests/tcg/xtensa: enable mmu tests for MMUv3
->        tests/tcg/xtensa: fix vectors and checks in timer test
-> 
-> Simon Safar (1):
->        target/xtensa: import core lx106
-> 
->   MAINTAINERS                                   |    1 +
->   hw/xtensa/mx_pic.c                            |    2 +-
->   target/xtensa/core-lx106.c                    |   52 +
->   target/xtensa/core-lx106/core-isa.h           |  470 ++
->   target/xtensa/core-lx106/gdb-config.c.inc     |   83 +
->   target/xtensa/core-lx106/xtensa-modules.c.inc | 7668 +++++++++++++++++++++++++
->   target/xtensa/cores.list                      |    1 +
->   target/xtensa/cpu.c                           |   15 +
->   target/xtensa/cpu.h                           |    5 +
->   target/xtensa/op_helper.c                     |    7 +-
->   target/xtensa/translate.c                     |  173 +-
->   tests/tcg/xtensa/Makefile.softmmu-target      |    4 +-
->   tests/tcg/xtensa/crt.S                        |    2 +
->   tests/tcg/xtensa/test_break.S                 |   86 +-
->   tests/tcg/xtensa/test_mmu.S                   |  182 +-
->   tests/tcg/xtensa/test_phys_mem.S              |   10 +-
->   tests/tcg/xtensa/test_sr.S                    |    2 +
->   tests/tcg/xtensa/test_timer.S                 |   68 +-
->   tests/tcg/xtensaeb/Makefile.softmmu-target    |    5 +
->   19 files changed, 8575 insertions(+), 261 deletions(-)
->   create mode 100644 target/xtensa/core-lx106.c
->   create mode 100644 target/xtensa/core-lx106/core-isa.h
->   create mode 100644 target/xtensa/core-lx106/gdb-config.c.inc
->   create mode 100644 target/xtensa/core-lx106/xtensa-modules.c.inc
->   create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
-> 
+----------------------------------------------------------------
+Max Filippov (17):
+      target/xtensa: fix missing tcg_temp_free in gen_window_check
+      target/xtensa: use tcg_contatnt_* for numeric literals
+      target/xtensa: use tcg_constant_* for exceptions
+      target/xtensa: use tcg_constant_* for TLB opcodes
+      target/xtensa: use tcg_constant_* for numbered special registers
+      target/xtensa: use tcg_constant_* for FPU conversion opcodes
+      target/xtensa: use tcg_constant_* for remaining opcodes
+      target/xtensa: add clock input to xtensa CPU
+      hw/xtensa: fix reset value of MIROUT register of MX PIC
+      tests/tcg/xtensa: fix build for cores without windowed registers
+      tests/tcg/xtensa: restore vecbase SR after test
+      tests/tcg/xtensa: fix watchpoint test
+      tests/tcg/xtensa: remove dependency on the loop option
+      tests/tcg/xtensa: enable autorefill phys_mem tests for MMUv3
+      tests/tcg/xtensa: enable mmu tests for MMUv3
+      tests/tcg/xtensa: fix vectors and checks in timer test
+      target/xtensa: implement cache test option opcodes
 
+Simon Safar (1):
+      target/xtensa: import core lx106
+
+ hw/xtensa/mx_pic.c                            |    2 +-
+ target/xtensa/core-lx106.c                    |   51 +
+ target/xtensa/core-lx106/core-isa.h           |  470 ++
+ target/xtensa/core-lx106/gdb-config.c.inc     |   83 +
+ target/xtensa/core-lx106/xtensa-modules.c.inc | 7668 +++++++++++++++++++++++++
+ target/xtensa/cores.list                      |    1 +
+ target/xtensa/cpu.c                           |   15 +
+ target/xtensa/cpu.h                           |    5 +
+ target/xtensa/op_helper.c                     |    7 +-
+ target/xtensa/translate.c                     |  211 +-
+ tests/tcg/xtensa/crt.S                        |    2 +
+ tests/tcg/xtensa/test_break.S                 |   86 +-
+ tests/tcg/xtensa/test_mmu.S                   |  182 +-
+ tests/tcg/xtensa/test_phys_mem.S              |   10 +-
+ tests/tcg/xtensa/test_sr.S                    |    2 +
+ tests/tcg/xtensa/test_timer.S                 |   68 +-
+ 16 files changed, 8604 insertions(+), 259 deletions(-)
+ create mode 100644 target/xtensa/core-lx106.c
+ create mode 100644 target/xtensa/core-lx106/core-isa.h
+ create mode 100644 target/xtensa/core-lx106/gdb-config.c.inc
+ create mode 100644 target/xtensa/core-lx106/xtensa-modules.c.inc
+
+-- 
+Thanks.
+-- Max
 
