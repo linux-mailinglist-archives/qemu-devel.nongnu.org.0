@@ -2,109 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9475C51D3E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 11:01:11 +0200 (CEST)
-Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B2C51D45B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 11:27:53 +0200 (CEST)
+Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nmtpm-0003o5-79
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 05:01:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33008)
+	id 1nmuFb-0004H6-V3
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 05:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nmtoU-0002ga-G4; Fri, 06 May 2022 04:59:50 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24226)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nmtoS-0005lS-OD; Fri, 06 May 2022 04:59:50 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2468HEU0040710;
- Fri, 6 May 2022 08:59:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=6zJ+cTe2e4M4qQBq/K8Xll46shNXHZHpKTBj61qET4A=;
- b=IUPhNXCoMH85XY+TFhCzdCKw6IOXaaajjHiG1p3vRONcZfs8uLfIEV7+MO2jUrFHd6Dw
- o5rDZMZQIJTTXgn/TroxJLLcNFT8MCm3CpEXD+0p0LZqtcWwWq2QrhYRu52ioQU1fESD
- HOoCanviC66ODL7rRQZi0tGuCwCB902W1aHCXxQdOJqvhINH8t0N0btHyKZdhJWNBhIY
- iS+X58RIJu9TRNjZmtL22k1v0ejGZyVvQgXGApHJWlU/nj50+/J2Xb1Kg2GKHgGI547W
- J7Vi2jxLP+IQd9I+M71B9fEh54vDNeZ3EPLQBCBrZoXkndmJlFDjUU7WxkAx39do5Wdi 5w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw0178r7q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 May 2022 08:59:43 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2468guHE007258;
- Fri, 6 May 2022 08:59:43 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw0178r6u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 May 2022 08:59:42 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2468qED9026073;
- Fri, 6 May 2022 08:59:40 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06fra.de.ibm.com with ESMTP id 3fttcj41a2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 May 2022 08:59:40 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2468xbnN34013584
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 6 May 2022 08:59:37 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D22DAE051;
- Fri,  6 May 2022 08:59:37 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7691BAE045;
- Fri,  6 May 2022 08:59:36 +0000 (GMT)
-Received: from [9.171.62.79] (unknown [9.171.62.79])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  6 May 2022 08:59:36 +0000 (GMT)
-Message-ID: <b10d70da-6548-328d-b7ed-f4936f16545b@linux.ibm.com>
-Date: Fri, 6 May 2022 11:03:12 +0200
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nmuDF-0003Ob-3C
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 05:25:25 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:41673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nmuDD-0001bA-5c
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 05:25:24 -0400
+Received: by mail-ot1-x334.google.com with SMTP id
+ y14-20020a9d460e000000b00605ee347da1so4558728ote.8
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 02:25:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=tbi2iTIDAr0JWaEoEcZvwMoUEhzTD2dj1MA75pXBL8M=;
+ b=PxzQEhlxTVR/Z56PMze6DumXVIB1zuB1hW5ENCEApUQKU3pLqKYo9Ge0KX3SkVHNND
+ 61iQ7e9yXRMbZlTz7RkEzXJxjhq748/utwXI6Eej7XfVhJNWA6OAW0y3706bseZaqkmg
+ uf1Fem8+vOB1GdHdKLd82IxE8DbfRi6hdIeeEARBl543E9Qh/LPcHu6txbgemP6sSGsn
+ xArFj+zEU2XiDxxHvloN/N+s7MmvxGGvrPv+NDlE/cJ2w+2Gspluo0HeRCCMcJP4+wxX
+ ToGDJBJ76AN52V4Y22OcMA8r7+oC5G4LQ9vG+q0Og44YNqZQSeOJ4diKNzzJznox2MWX
+ Ha6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=tbi2iTIDAr0JWaEoEcZvwMoUEhzTD2dj1MA75pXBL8M=;
+ b=W+fYoDZqzZhfrSOHPIDKB+vJn+wf8gkGTIqPktP0mX93ZxfJ1K30igG6xjiaUGz5VA
+ lWIgmEqm3sqLnUGR9TzrlfjpnX9nb/jF46EDAa93nfCkhlM0LyumE8wptp7ltCHsfqO7
+ xyT1/OoWTTTw1BhsYNg8HJeyZySY/P1g33avyEvgOjZSSSrLfnbVFq8hN9EVhrrlHjNe
+ YyFhSQUyU9HEnneZkNgq8jHW23qNWDGSwkQOSVmc9yOex3pSNxtzH0v2OcUWeGU4ZhWP
+ Hmxri/STNOnfASO6leQxo6nz1XySQPR1N6rsdYirG6Lq5R+Xrwz0Phm7cBOZy+TwI1DC
+ ZQ/g==
+X-Gm-Message-State: AOAM533BHgZ3zdfpCIN2CJ306Ebslkk4cQkgaB9Abe7ReSte89f3I7/W
+ fzoV/uNG1MBIRxvGnKx+VYGMVg==
+X-Google-Smtp-Source: ABdhPJwMzOzAoNpRH3MIoUjYLGmGJ4dNRBZt8GFMeVJwUaWwDHM2cn5t6mbKSBsYiDKG0hdsFVmbOQ==
+X-Received: by 2002:a05:6830:268c:b0:606:4156:e0d8 with SMTP id
+ l12-20020a056830268c00b006064156e0d8mr722092otu.187.1651829121264; 
+ Fri, 06 May 2022 02:25:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ l21-20020a9d7095000000b0060603221263sm1419486otj.51.2022.05.06.02.25.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 May 2022 02:25:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6F3991FFB7;
+ Fri,  6 May 2022 10:25:17 +0100 (BST)
+References: <20220324134812.541274-1-bmeng.cn@gmail.com>
+ <CAEUhbmVUqSghy+HE9p2qg1bJXYHBjy83jowesA_Zx383JrO7CQ@mail.gmail.com>
+ <CAEUhbmVrvzvvNeKJvT5saPbXDoEnHdZcZyuNTmt4R=YzOs1R2A@mail.gmail.com>
+ <CAEUhbmUDqwtXiEioBuSOi6ZyVNKnJgjYZAPTubGx+McbMFwZKA@mail.gmail.com>
+ <CAEUhbmXuYt2KqKtrvMRoR2acFaweO3zVGa4+tyoxMnSc-kg11Q@mail.gmail.com>
+ <CAEUhbmV2SH80i2vCato_2qRGeDCqeDqVp1m0Lc_SrJLGhZK-jw@mail.gmail.com>
+ <CAEUhbmVxfbrkw3ZvzOb3gVm-c_5KU_B_UiT42m+bgVQdPPJtLQ@mail.gmail.com>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "qemu-devel@nongnu.org
+ Developers" <qemu-devel@nongnu.org>, Richard Henderson
+ <richard.henderson@linaro.org>, Thomas Huth <thuth@redhat.com>, Bin Meng
+ <bin.meng@windriver.com>, Alistair Francis <alistair@alistair23.me>, Nick
+ Hudson <nick.hudson@gmx.co.uk>
+Subject: Re: [PATCH v2 1/2] hw/core: Sync uboot_image.h from U-Boot v2022.01
+Date: Fri, 06 May 2022 10:20:45 +0100
+In-reply-to: <CAEUhbmVxfbrkw3ZvzOb3gVm-c_5KU_B_UiT42m+bgVQdPPJtLQ@mail.gmail.com>
+Message-ID: <87v8ujt3lu.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 9/9] s390x/pci: reflect proper maxstbl for groups of
- interpreted devices
-Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-10-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20220404181726.60291-10-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _RfjCH4bQSExgPv5WMXIobvmIjwSjEpq
-X-Proofpoint-ORIG-GUID: CKAl7fR1Reo6w53T0xlNyFqLKIXTVDBQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-06_03,2022-05-05_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0
- clxscore=1015 priorityscore=1501 mlxscore=0 mlxlogscore=999 bulkscore=0
- spamscore=0 suspectscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205060045
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ot1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,42 +104,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Bin Meng <bmeng.cn@gmail.com> writes:
 
-On 4/4/22 20:17, Matthew Rosato wrote:
-> The maximum supported store block length might be different depending
-> on whether the instruction is interpretively executed (firmware-reported
-> maximum) or handled via userspace intercept (host kernel API maximum).
-> Choose the best available value during group creation.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> +more
+>
+> On Tue, May 3, 2022 at 11:44 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> On Thu, Apr 28, 2022 at 4:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>> >
+>> > On Fri, Apr 22, 2022 at 11:00 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>> > >
+>> > > +Richard
+>> > >
+>> > > On Wed, Apr 20, 2022 at 4:16 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>> > > >
+>> > > > On Tue, Apr 12, 2022 at 9:11 AM Bin Meng <bmeng.cn@gmail.com> wrot=
+e:
+>> > > > >
+>> > > > > On Thu, Mar 24, 2022 at 9:48 PM Bin Meng <bmeng.cn@gmail.com> wr=
+ote:
+>> > > > > >
+>> > > > > > From: Bin Meng <bin.meng@windriver.com>
+>> > > > > >
+>> > > > > > Sync uboot_image.h from upstream U-Boot v2022.01 release [1].
+>> > > > > >
+>> > > > > > [1] https://source.denx.de/u-boot/u-boot/-/blob/v2022.01/inclu=
+de/image.h
+>> > > > > >
+>> > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>> > > > > > ---
+>> > > > > >
+>> > > > > > (no changes since v1)
+>> > > > > >
+>> > > > > >  hw/core/uboot_image.h | 213 ++++++++++++++++++++++++++++-----=
+---------
+>> > > > > >  1 file changed, 142 insertions(+), 71 deletions(-)
+>> > > > > >
+>> > > > >
+>> > > > > Ping?
+>> > > >
+>> > > > Ping?
+>> > >
+>> > > Richard, is that you to pick up this series?
+>> > >
+>> >
+>> > Ping?
+>>
+>> Ping? Can you please indicate who is the right person to pick up this
+>> series? Thanks.
+>>
+>
+> I pinged several times, but there's radio silence, sigh. Can you
+> please let me know who is supposed to pick up this series?
 
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+The only file that includes this is hw/core/loader.c so I would assume
+that's in Alistair's domain. However it's not well matched by
+MAINTAINERS and has only seen periodic updates since it's inclusion in
+2007.
+
+Alistair can you take this and update MAINTAINERS so it doesn't fall
+through the cracks again?=20
 
 
-> ---
->   hw/s390x/s390-pci-vfio.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index 985980f021..212dd053f7 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -213,7 +213,11 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
->           resgrp->msia = cap->msi_addr;
->           resgrp->mui = cap->mui;
->           resgrp->i = cap->noi;
-> -        resgrp->maxstbl = cap->maxstbl;
-> +        if (pbdev->interp && hdr->version >= 2) {
-> +            resgrp->maxstbl = cap->imaxstbl;
-> +        } else {
-> +            resgrp->maxstbl = cap->maxstbl;
-> +        }
->           resgrp->version = cap->version;
->           resgrp->dtsm = ZPCI_DTSM;
->       }
-> 
+>
+> Regards,
+> Bin
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+
+--=20
+Alex Benn=C3=A9e
 
