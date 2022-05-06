@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8886251E079
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 22:57:16 +0200 (CEST)
-Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138E351E0FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 23:19:15 +0200 (CEST)
+Received: from localhost ([::1]:51992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn50l-0000mU-Mf
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 16:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39484)
+	id 1nn5M2-0001kW-7g
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 17:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nn4tE-0005KI-4r
- for qemu-devel@nongnu.org; Fri, 06 May 2022 16:49:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nn4tC-0005wb-7l
- for qemu-devel@nongnu.org; Fri, 06 May 2022 16:49:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651870165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xmkN+2PGuHqCGODmkj2ntnwkD12X+yWq79vXD1RqwrI=;
- b=fGp2Dk5PqEDV0sL0FUHbm/3xOEbOqJzRNmKgVFOgbAQEEqiIQOvfLSRbT8OZUKMQAclGlW
- xG576Y7FoHBpm84JFgT8BkVH02AWEFIREEqnL/jJSoEQx0+m7yd8fe0XP7dKyfRW/g03pL
- hIPk3j132lEiAORyLYuRE/vfxqXoeWk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-27-4uihxJVhNb25kCeY2sHJFA-1; Fri, 06 May 2022 16:49:22 -0400
-X-MC-Unique: 4uihxJVhNb25kCeY2sHJFA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 241D0811E78;
- Fri,  6 May 2022 20:49:22 +0000 (UTC)
-Received: from [172.30.41.16] (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFA8D554A3C;
- Fri,  6 May 2022 20:49:21 +0000 (UTC)
-Subject: [PULL 11/11] vfio/common: Rename VFIOGuestIOMMU::iommu into ::iommu_mr
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Yi Liu <yi.l.liu@intel.com>
-Date: Fri, 06 May 2022 14:49:21 -0600
-Message-ID: <165187015835.4166595.8691903256855460050.stgit@omen>
-In-Reply-To: <165186988363.4166595.3147442303200167674.stgit@omen>
-References: <165186988363.4166595.3147442303200167674.stgit@omen>
-User-Agent: StGit/1.0-8-g6af9-dirty
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nn5Kc-0000BK-BJ
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 17:17:46 -0400
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:46525)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nn5Ka-0001RA-B9
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 17:17:45 -0400
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-d39f741ba0so8495388fac.13
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 14:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=IlxWrrfqj4ov0L8068BQJecwogapZnOph3Sg6tB9F4c=;
+ b=oiS4K1CB31s/2gjgKbdNz8y9JuPOBh7RIaVYn+07xKGQl2TgSzeiHY4D28spAPWwHv
+ RFmBBHA2D0CJ0xknTmqlSgEWeYdhG7zyhC5l2vHKmJsPISlGxaAwsyNekeF40i8fAtUI
+ afSA/PepR8ulqao97WKhILlsmOjVw2ReNuY1W+YXN49o2MGvuKSVPt7c8tkFQ//LeSp2
+ CYxT7oRtuMfwAJCLdnwP8YwChdldaalA/eu+X1SjvCIV51QWB/TZk409+ITiiQGZcDD8
+ cTbedJSvdE+igQs8tVnDKpSK/PLrVZRnMie4AxZOsWlltIkRl4hny41OBKv9eORFJCL6
+ 0P6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IlxWrrfqj4ov0L8068BQJecwogapZnOph3Sg6tB9F4c=;
+ b=N538jnamX7RDGRsKjYtkkHTTw4NOr4zNnOizQVwu0FaA3ijni/QLblK1ICu1SbAtqH
+ QitsxczC9ZmjFnG8VAsO3w+IHIEnYTSef0hR5n3qPWOBWqvLm9aSQuezZpw/sg1R9UGW
+ zVWtfmJds4TOAcStTLfO4/HkNIJS4iD/clSgXwus0+al2R6aS4qnhauHuL8SbCJ9oK7m
+ eMXHyNzbs8x/MXZ9QfIScevTkapzKVg7/oIg5xB1OcbBMyPdTPISYVCGwaQS1RWHmhXG
+ bTjEdZrCkFEK+al13ytPKcwe+qDlx1AjXBOPjwxH+dCRnhjzuPFMF4+17CMrCCAyX0Ac
+ 1bwg==
+X-Gm-Message-State: AOAM533sjor9+FKBTkZ+QGXKxQ5eN0QJYwCFLAt/W1+qz4f7C3VLXvCU
+ t/uulr9alYhmvYtRd4/dNz8kmg==
+X-Google-Smtp-Source: ABdhPJzVqj6vDUmOfiYGbRVObb3cVBvy5v/COA/Q9/9moZ32gouJoyqBaSYSKY17z1ivbwuHq+O6WQ==
+X-Received: by 2002:a05:6870:3112:b0:ce:c0c9:62b with SMTP id
+ v18-20020a056870311200b000cec0c9062bmr5270951oaa.125.1651871861739; 
+ Fri, 06 May 2022 14:17:41 -0700 (PDT)
+Received: from ?IPV6:2607:fb91:2c60:4168:5603:e850:fc4d:149c?
+ ([2607:fb91:2c60:4168:5603:e850:fc4d:149c])
+ by smtp.gmail.com with ESMTPSA id
+ w3-20020acadf03000000b003265922b72fsm2007292oig.40.2022.05.06.14.17.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 May 2022 14:17:41 -0700 (PDT)
+Message-ID: <75464333-8807-e316-0b37-16c544616394@linaro.org>
+Date: Fri, 6 May 2022 16:17:37 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 00/18] target/xtensa updates for v7.1
+Content-Language: en-US
+To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220506195213.3835272-1-jcmvbkbc@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220506195213.3835272-1-jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,106 +94,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yi Liu <yi.l.liu@intel.com>
+On 5/6/22 14:52, Max Filippov wrote:
+> Hello,
+> 
+> please pull the following updates for the target/xtensa.
+> 
+> The following changes since commit 823a3f11fb8f04c3c3cc0f95f968fef1bfc6534f:
+> 
+>    Update version for v7.0.0 release (2022-04-19 18:44:36 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/OSLL/qemu-xtensa.git tags/20220506-xtensa
+> 
+> for you to fetch changes up to 5e1d80a3fc16d5dbe7d677af6ba4df94d68c75d2:
+> 
+>    tests/tcg/xtensa: fix vectors and checks in timer test (2022-04-27 10:15:23 -0700)
+> 
+> ----------------------------------------------------------------
+> target/xtensa updates for v7.1:
+> 
+> - expand test coverage to big-endian, MMUv3, cores without windowed
+>    registers or loop option;
+> - import lx106 core (used in the esp8266 IoT chips);
+> - use tcg_constant_* in the front end;
+> - add clock input to the xtensa CPU;
+> - fix reset state of the xtensa MX PIC.
 
-Rename VFIOGuestIOMMU iommu field into iommu_mr. Then it becomes clearer
-it is an IOMMU memory region.
+Auto-merging MAINTAINERS
 
-no functional change intended
+Auto-merging target/xtensa/cpu.h
 
-Signed-off-by: Yi Liu <yi.l.liu@intel.com>
-Link: https://lore.kernel.org/r/20220502094223.36384-4-yi.l.liu@intel.com
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
- hw/vfio/common.c              |   16 ++++++++--------
- include/hw/vfio/vfio-common.h |    2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+Auto-merging target/xtensa/translate.c
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index cfcb71974a61..159f910421bc 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1017,7 +1017,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
-          * device emulation the VFIO iommu handles to use).
-          */
-         giommu = g_malloc0(sizeof(*giommu));
--        giommu->iommu = iommu_mr;
-+        giommu->iommu_mr = iommu_mr;
-         giommu->iommu_offset = section->offset_within_address_space -
-                                section->offset_within_region;
-         giommu->container = container;
-@@ -1032,7 +1032,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                             int128_get64(llend),
-                             iommu_idx);
- 
--        ret = memory_region_iommu_set_page_size_mask(giommu->iommu,
-+        ret = memory_region_iommu_set_page_size_mask(giommu->iommu_mr,
-                                                      container->pgsizes,
-                                                      &err);
-         if (ret) {
-@@ -1047,7 +1047,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
-             goto fail;
-         }
-         QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
--        memory_region_iommu_replay(giommu->iommu, &giommu->n);
-+        memory_region_iommu_replay(giommu->iommu_mr, &giommu->n);
- 
-         return;
-     }
-@@ -1153,7 +1153,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
-         VFIOGuestIOMMU *giommu;
- 
-         QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
--            if (MEMORY_REGION(giommu->iommu) == section->mr &&
-+            if (MEMORY_REGION(giommu->iommu_mr) == section->mr &&
-                 giommu->n.start == section->offset_within_region) {
-                 memory_region_unregister_iommu_notifier(section->mr,
-                                                         &giommu->n);
-@@ -1418,11 +1418,11 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
-         VFIOGuestIOMMU *giommu;
- 
-         QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
--            if (MEMORY_REGION(giommu->iommu) == section->mr &&
-+            if (MEMORY_REGION(giommu->iommu_mr) == section->mr &&
-                 giommu->n.start == section->offset_within_region) {
-                 Int128 llend;
-                 vfio_giommu_dirty_notifier gdn = { .giommu = giommu };
--                int idx = memory_region_iommu_attrs_to_index(giommu->iommu,
-+                int idx = memory_region_iommu_attrs_to_index(giommu->iommu_mr,
-                                                        MEMTXATTRS_UNSPECIFIED);
- 
-                 llend = int128_add(int128_make64(section->offset_within_region),
-@@ -1435,7 +1435,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
-                                     section->offset_within_region,
-                                     int128_get64(llend),
-                                     idx);
--                memory_region_iommu_replay(giommu->iommu, &gdn.n);
-+                memory_region_iommu_replay(giommu->iommu_mr, &gdn.n);
-                 break;
-             }
-         }
-@@ -2270,7 +2270,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
- 
-         QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
-             memory_region_unregister_iommu_notifier(
--                    MEMORY_REGION(giommu->iommu), &giommu->n);
-+                    MEMORY_REGION(giommu->iommu_mr), &giommu->n);
-             QLIST_REMOVE(giommu, giommu_next);
-             g_free(giommu);
-         }
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 8af11b0a7692..e573f5a9f19f 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -98,7 +98,7 @@ typedef struct VFIOContainer {
- 
- typedef struct VFIOGuestIOMMU {
-     VFIOContainer *container;
--    IOMMUMemoryRegion *iommu;
-+    IOMMUMemoryRegion *iommu_mr;
-     hwaddr iommu_offset;
-     IOMMUNotifier n;
-     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
+Auto-merging tests/tcg/xtensa/Makefile.softmmu-target
 
+CONFLICT (content): Merge conflict in tests/tcg/xtensa/Makefile.softmmu-target
+
+
+This branch is based on the v7.0 tag.  You need to rebase to master branch.
+
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Max Filippov (17):
+>        tests/tcg/xtensa: allow testing big-endian cores
+>        target/xtensa: fix missing tcg_temp_free in gen_window_check
+>        target/xtensa: use tcg_contatnt_* for numeric literals
+>        target/xtensa: use tcg_constant_* for exceptions
+>        target/xtensa: use tcg_constant_* for TLB opcodes
+>        target/xtensa: use tcg_constant_* for numbered special registers
+>        target/xtensa: use tcg_constant_* for FPU conversion opcodes
+>        target/xtensa: use tcg_constant_* for remaining opcodes
+>        target/xtensa: add clock input to xtensa CPU
+>        hw/xtensa: fix reset value of MIROUT register of MX PIC
+>        tests/tcg/xtensa: fix build for cores without windowed registers
+>        tests/tcg/xtensa: restore vecbase SR after test
+>        tests/tcg/xtensa: fix watchpoint test
+>        tests/tcg/xtensa: remove dependency on the loop option
+>        tests/tcg/xtensa: enable autorefill phys_mem tests for MMUv3
+>        tests/tcg/xtensa: enable mmu tests for MMUv3
+>        tests/tcg/xtensa: fix vectors and checks in timer test
+> 
+> Simon Safar (1):
+>        target/xtensa: import core lx106
+> 
+>   MAINTAINERS                                   |    1 +
+>   hw/xtensa/mx_pic.c                            |    2 +-
+>   target/xtensa/core-lx106.c                    |   52 +
+>   target/xtensa/core-lx106/core-isa.h           |  470 ++
+>   target/xtensa/core-lx106/gdb-config.c.inc     |   83 +
+>   target/xtensa/core-lx106/xtensa-modules.c.inc | 7668 +++++++++++++++++++++++++
+>   target/xtensa/cores.list                      |    1 +
+>   target/xtensa/cpu.c                           |   15 +
+>   target/xtensa/cpu.h                           |    5 +
+>   target/xtensa/op_helper.c                     |    7 +-
+>   target/xtensa/translate.c                     |  173 +-
+>   tests/tcg/xtensa/Makefile.softmmu-target      |    4 +-
+>   tests/tcg/xtensa/crt.S                        |    2 +
+>   tests/tcg/xtensa/test_break.S                 |   86 +-
+>   tests/tcg/xtensa/test_mmu.S                   |  182 +-
+>   tests/tcg/xtensa/test_phys_mem.S              |   10 +-
+>   tests/tcg/xtensa/test_sr.S                    |    2 +
+>   tests/tcg/xtensa/test_timer.S                 |   68 +-
+>   tests/tcg/xtensaeb/Makefile.softmmu-target    |    5 +
+>   19 files changed, 8575 insertions(+), 261 deletions(-)
+>   create mode 100644 target/xtensa/core-lx106.c
+>   create mode 100644 target/xtensa/core-lx106/core-isa.h
+>   create mode 100644 target/xtensa/core-lx106/gdb-config.c.inc
+>   create mode 100644 target/xtensa/core-lx106/xtensa-modules.c.inc
+>   create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
+> 
 
 
