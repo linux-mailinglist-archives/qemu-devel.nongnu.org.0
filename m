@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C1351E070
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 22:56:06 +0200 (CEST)
-Received: from localhost ([::1]:36692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8886251E079
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 22:57:16 +0200 (CEST)
+Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn4zd-0006sM-LI
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 16:56:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39442)
+	id 1nn50l-0000mU-Mf
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 16:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nn4t3-0004dC-Ao
- for qemu-devel@nongnu.org; Fri, 06 May 2022 16:49:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59767)
+ id 1nn4tE-0005KI-4r
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 16:49:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nn4t1-0005vn-8h
- for qemu-devel@nongnu.org; Fri, 06 May 2022 16:49:17 -0400
+ id 1nn4tC-0005wb-7l
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 16:49:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651870154;
+ s=mimecast20190719; t=1651870165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zS1lsXsoLJY5e0iorj0DJL7ygNnl8UUIdx8c49eSXcY=;
- b=guV8rtfErAzFySFlBoiVF1DsKnaQxgk6dXYwCgei9a4FgKu8LPqDNDB0ySaXf/uZwvSwGR
- Csq9bCFXaSB1A9dc2/FgQhC+5NI7TfPPt0ADxPYN43bk81c1upoFAVrkcsNqwt0n+/LYj+
- cQPr1NifUWHrskiv3HbWNhiQcei4jmI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xmkN+2PGuHqCGODmkj2ntnwkD12X+yWq79vXD1RqwrI=;
+ b=fGp2Dk5PqEDV0sL0FUHbm/3xOEbOqJzRNmKgVFOgbAQEEqiIQOvfLSRbT8OZUKMQAclGlW
+ xG576Y7FoHBpm84JFgT8BkVH02AWEFIREEqnL/jJSoEQx0+m7yd8fe0XP7dKyfRW/g03pL
+ hIPk3j132lEiAORyLYuRE/vfxqXoeWk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-LhRp8q8fM2K2nGBY5LmMrw-1; Fri, 06 May 2022 16:49:13 -0400
-X-MC-Unique: LhRp8q8fM2K2nGBY5LmMrw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-27-4uihxJVhNb25kCeY2sHJFA-1; Fri, 06 May 2022 16:49:22 -0400
+X-MC-Unique: 4uihxJVhNb25kCeY2sHJFA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43AB1398CA6A;
- Fri,  6 May 2022 20:49:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 241D0811E78;
+ Fri,  6 May 2022 20:49:22 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E079D14E0B70;
- Fri,  6 May 2022 20:49:12 +0000 (UTC)
-Subject: [PULL 10/11] vfio/pci: Use vbasedev local variable in vfio_realize()
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CFA8D554A3C;
+ Fri,  6 May 2022 20:49:21 +0000 (UTC)
+Subject: [PULL 11/11] vfio/common: Rename VFIOGuestIOMMU::iommu into ::iommu_mr
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Eric Auger <eric.auger@redhat.com>, Yi Liu <yi.l.liu@intel.com>
-Date: Fri, 06 May 2022 14:49:12 -0600
-Message-ID: <165187014792.4166595.9539353046382635608.stgit@omen>
+Cc: Yi Liu <yi.l.liu@intel.com>
+Date: Fri, 06 May 2022 14:49:21 -0600
+Message-ID: <165187015835.4166595.8691903256855460050.stgit@omen>
 In-Reply-To: <165186988363.4166595.3147442303200167674.stgit@omen>
 References: <165186988363.4166595.3147442303200167674.stgit@omen>
 User-Agent: StGit/1.0-8-g6af9-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -81,194 +81,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Yi Liu <yi.l.liu@intel.com>
 
-Using a VFIODevice handle local variable to improve the code readability.
+Rename VFIOGuestIOMMU iommu field into iommu_mr. Then it becomes clearer
+it is an IOMMU memory region.
 
 no functional change intended
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Yi Liu <yi.l.liu@intel.com>
-Link: https://lore.kernel.org/r/20220502094223.36384-3-yi.l.liu@intel.com
+Link: https://lore.kernel.org/r/20220502094223.36384-4-yi.l.liu@intel.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/pci.c |   49 +++++++++++++++++++++++++------------------------
- 1 file changed, 25 insertions(+), 24 deletions(-)
+ hw/vfio/common.c              |   16 ++++++++--------
+ include/hw/vfio/vfio-common.h |    2 +-
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index cb912bd3f4b2..939dcc3d4a9e 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2846,6 +2846,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
- static void vfio_realize(PCIDevice *pdev, Error **errp)
- {
-     VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIODevice *vbasedev = &vdev->vbasedev;
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
-     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
-@@ -2856,7 +2857,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     int i, ret;
-     bool is_mdev;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index cfcb71974a61..159f910421bc 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1017,7 +1017,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+          * device emulation the VFIO iommu handles to use).
+          */
+         giommu = g_malloc0(sizeof(*giommu));
+-        giommu->iommu = iommu_mr;
++        giommu->iommu_mr = iommu_mr;
+         giommu->iommu_offset = section->offset_within_address_space -
+                                section->offset_within_region;
+         giommu->container = container;
+@@ -1032,7 +1032,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+                             int128_get64(llend),
+                             iommu_idx);
  
--    if (!vdev->vbasedev.sysfsdev) {
-+    if (!vbasedev->sysfsdev) {
-         if (!(~vdev->host.domain || ~vdev->host.bus ||
-               ~vdev->host.slot || ~vdev->host.function)) {
-             error_setg(errp, "No provided host device");
-@@ -2864,24 +2865,24 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-                               "or -device vfio-pci,sysfsdev=PATH_TO_DEVICE\n");
-             return;
+-        ret = memory_region_iommu_set_page_size_mask(giommu->iommu,
++        ret = memory_region_iommu_set_page_size_mask(giommu->iommu_mr,
+                                                      container->pgsizes,
+                                                      &err);
+         if (ret) {
+@@ -1047,7 +1047,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+             goto fail;
          }
--        vdev->vbasedev.sysfsdev =
-+        vbasedev->sysfsdev =
-             g_strdup_printf("/sys/bus/pci/devices/%04x:%02x:%02x.%01x",
-                             vdev->host.domain, vdev->host.bus,
-                             vdev->host.slot, vdev->host.function);
-     }
+         QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
+-        memory_region_iommu_replay(giommu->iommu, &giommu->n);
++        memory_region_iommu_replay(giommu->iommu_mr, &giommu->n);
  
--    if (stat(vdev->vbasedev.sysfsdev, &st) < 0) {
-+    if (stat(vbasedev->sysfsdev, &st) < 0) {
-         error_setg_errno(errp, errno, "no such host device");
--        error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.sysfsdev);
-+        error_prepend(errp, VFIO_MSG_PREFIX, vbasedev->sysfsdev);
          return;
      }
+@@ -1153,7 +1153,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+         VFIOGuestIOMMU *giommu;
  
--    vdev->vbasedev.name = g_path_get_basename(vdev->vbasedev.sysfsdev);
--    vdev->vbasedev.ops = &vfio_pci_ops;
--    vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
--    vdev->vbasedev.dev = DEVICE(vdev);
-+    vbasedev->name = g_path_get_basename(vbasedev->sysfsdev);
-+    vbasedev->ops = &vfio_pci_ops;
-+    vbasedev->type = VFIO_DEVICE_TYPE_PCI;
-+    vbasedev->dev = DEVICE(vdev);
+         QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
+-            if (MEMORY_REGION(giommu->iommu) == section->mr &&
++            if (MEMORY_REGION(giommu->iommu_mr) == section->mr &&
+                 giommu->n.start == section->offset_within_region) {
+                 memory_region_unregister_iommu_notifier(section->mr,
+                                                         &giommu->n);
+@@ -1418,11 +1418,11 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+         VFIOGuestIOMMU *giommu;
  
--    tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
-+    tmp = g_strdup_printf("%s/iommu_group", vbasedev->sysfsdev);
-     len = readlink(tmp, group_path, sizeof(group_path));
-     g_free(tmp);
+         QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
+-            if (MEMORY_REGION(giommu->iommu) == section->mr &&
++            if (MEMORY_REGION(giommu->iommu_mr) == section->mr &&
+                 giommu->n.start == section->offset_within_region) {
+                 Int128 llend;
+                 vfio_giommu_dirty_notifier gdn = { .giommu = giommu };
+-                int idx = memory_region_iommu_attrs_to_index(giommu->iommu,
++                int idx = memory_region_iommu_attrs_to_index(giommu->iommu_mr,
+                                                        MEMTXATTRS_UNSPECIFIED);
  
-@@ -2899,7 +2900,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         goto error;
-     }
- 
--    trace_vfio_realize(vdev->vbasedev.name, groupid);
-+    trace_vfio_realize(vbasedev->name, groupid);
- 
-     group = vfio_get_group(groupid, pci_device_iommu_address_space(pdev), errp);
-     if (!group) {
-@@ -2907,7 +2908,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     }
- 
-     QLIST_FOREACH(vbasedev_iter, &group->device_list, next) {
--        if (strcmp(vbasedev_iter->name, vdev->vbasedev.name) == 0) {
-+        if (strcmp(vbasedev_iter->name, vbasedev->name) == 0) {
-             error_setg(errp, "device is already attached");
-             vfio_put_group(group);
-             goto error;
-@@ -2920,22 +2921,22 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-      * stays in sync with the active working set of the guest driver.  Prevent
-      * the x-balloon-allowed option unless this is minimally an mdev device.
-      */
--    tmp = g_strdup_printf("%s/subsystem", vdev->vbasedev.sysfsdev);
-+    tmp = g_strdup_printf("%s/subsystem", vbasedev->sysfsdev);
-     subsys = realpath(tmp, NULL);
-     g_free(tmp);
-     is_mdev = subsys && (strcmp(subsys, "/sys/bus/mdev") == 0);
-     free(subsys);
- 
--    trace_vfio_mdev(vdev->vbasedev.name, is_mdev);
-+    trace_vfio_mdev(vbasedev->name, is_mdev);
- 
--    if (vdev->vbasedev.ram_block_discard_allowed && !is_mdev) {
-+    if (vbasedev->ram_block_discard_allowed && !is_mdev) {
-         error_setg(errp, "x-balloon-allowed only potentially compatible "
-                    "with mdev devices");
-         vfio_put_group(group);
-         goto error;
-     }
- 
--    ret = vfio_get_device(group, vdev->vbasedev.name, &vdev->vbasedev, errp);
-+    ret = vfio_get_device(group, vbasedev->name, vbasedev, errp);
-     if (ret) {
-         vfio_put_group(group);
-         goto error;
-@@ -2948,7 +2949,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     }
- 
-     /* Get a copy of config space */
--    ret = pread(vdev->vbasedev.fd, vdev->pdev.config,
-+    ret = pread(vbasedev->fd, vdev->pdev.config,
-                 MIN(pci_config_size(&vdev->pdev), vdev->config_size),
-                 vdev->config_offset);
-     if (ret < (int)MIN(pci_config_size(&vdev->pdev), vdev->config_size)) {
-@@ -2976,7 +2977,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-             goto error;
+                 llend = int128_add(int128_make64(section->offset_within_region),
+@@ -1435,7 +1435,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+                                     section->offset_within_region,
+                                     int128_get64(llend),
+                                     idx);
+-                memory_region_iommu_replay(giommu->iommu, &gdn.n);
++                memory_region_iommu_replay(giommu->iommu_mr, &gdn.n);
+                 break;
+             }
          }
-         vfio_add_emulated_word(vdev, PCI_VENDOR_ID, vdev->vendor_id, ~0);
--        trace_vfio_pci_emulated_vendor_id(vdev->vbasedev.name, vdev->vendor_id);
-+        trace_vfio_pci_emulated_vendor_id(vbasedev->name, vdev->vendor_id);
-     } else {
-         vdev->vendor_id = pci_get_word(pdev->config + PCI_VENDOR_ID);
-     }
-@@ -2987,7 +2988,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-             goto error;
+@@ -2270,7 +2270,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
+ 
+         QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
+             memory_region_unregister_iommu_notifier(
+-                    MEMORY_REGION(giommu->iommu), &giommu->n);
++                    MEMORY_REGION(giommu->iommu_mr), &giommu->n);
+             QLIST_REMOVE(giommu, giommu_next);
+             g_free(giommu);
          }
-         vfio_add_emulated_word(vdev, PCI_DEVICE_ID, vdev->device_id, ~0);
--        trace_vfio_pci_emulated_device_id(vdev->vbasedev.name, vdev->device_id);
-+        trace_vfio_pci_emulated_device_id(vbasedev->name, vdev->device_id);
-     } else {
-         vdev->device_id = pci_get_word(pdev->config + PCI_DEVICE_ID);
-     }
-@@ -2999,7 +3000,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         }
-         vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_VENDOR_ID,
-                                vdev->sub_vendor_id, ~0);
--        trace_vfio_pci_emulated_sub_vendor_id(vdev->vbasedev.name,
-+        trace_vfio_pci_emulated_sub_vendor_id(vbasedev->name,
-                                               vdev->sub_vendor_id);
-     }
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 8af11b0a7692..e573f5a9f19f 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -98,7 +98,7 @@ typedef struct VFIOContainer {
  
-@@ -3009,7 +3010,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-             goto error;
-         }
-         vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_ID, vdev->sub_device_id, ~0);
--        trace_vfio_pci_emulated_sub_device_id(vdev->vbasedev.name,
-+        trace_vfio_pci_emulated_sub_device_id(vbasedev->name,
-                                               vdev->sub_device_id);
-     }
- 
-@@ -3068,7 +3069,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-             goto out_teardown;
-         }
- 
--        ret = vfio_get_dev_region_info(&vdev->vbasedev,
-+        ret = vfio_get_dev_region_info(vbasedev,
-                         VFIO_REGION_TYPE_PCI_VENDOR_TYPE | PCI_VENDOR_ID_INTEL,
-                         VFIO_REGION_SUBTYPE_INTEL_IGD_OPREGION, &opregion);
-         if (ret) {
-@@ -3144,9 +3145,9 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     }
- 
-     if (!pdev->failover_pair_id) {
--        ret = vfio_migration_probe(&vdev->vbasedev, errp);
-+        ret = vfio_migration_probe(vbasedev, errp);
-         if (ret) {
--            error_report("%s: Migration disabled", vdev->vbasedev.name);
-+            error_report("%s: Migration disabled", vbasedev->name);
-         }
-     }
- 
-@@ -3163,7 +3164,7 @@ out_teardown:
-     vfio_teardown_msi(vdev);
-     vfio_bars_exit(vdev);
- error:
--    error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-+    error_prepend(errp, VFIO_MSG_PREFIX, vbasedev->name);
- }
- 
- static void vfio_instance_finalize(Object *obj)
+ typedef struct VFIOGuestIOMMU {
+     VFIOContainer *container;
+-    IOMMUMemoryRegion *iommu;
++    IOMMUMemoryRegion *iommu_mr;
+     hwaddr iommu_offset;
+     IOMMUNotifier n;
+     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
 
 
 
