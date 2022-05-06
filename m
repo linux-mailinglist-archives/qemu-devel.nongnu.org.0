@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BC651DDE4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 18:50:58 +0200 (CEST)
-Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8288651DE1F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 19:08:00 +0200 (CEST)
+Received: from localhost ([::1]:45262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn1AM-0005Bm-Vv
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 12:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45080)
+	id 1nn1Qt-0006f6-6i
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 13:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nn19F-0004U4-VQ
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:49:45 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:43013)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1nn1Ou-0005vE-4o
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 13:05:56 -0400
+Received: from mga02.intel.com ([134.134.136.20]:58052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nn19D-0000cB-Um
- for qemu-devel@nongnu.org; Fri, 06 May 2022 12:49:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.56])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 5A5B2FD2572B;
- Fri,  6 May 2022 18:49:38 +0200 (CEST)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Fri, 6 May 2022
- 18:49:37 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0046693672d-6964-4645-8c3f-1a524d43eee8,
- 85FEA43FB7D152D5FE87D0D31D0EEF45A371AE19) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <c7086bc1-ff69-41cd-f80e-95b643140e2b@kaod.org>
-Date: Fri, 6 May 2022 18:49:37 +0200
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1nn1Or-0003GB-PM
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 13:05:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651856753; x=1683392753;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=VCcuDIGkUArFP8wmkrf6ILandXq9gtiE4f6SWt2oAA8=;
+ b=NI5c0d6foco55yb2QIizSKzMC/mfRHaoMQE27sm5Vy0eUXVHhotlgXkK
+ LhjtlmE7HwgXzAzKRMq18hGSQCopfX5R1vBcGmo4aX+HrHLhcrWyBd6ub
+ ADZPsm++TqtfiLtbTv90FpilNPiiqJhCMApMdWXWuQIZ2uNzOD6r6Nl7v
+ ebU2dIO4gCQJy/MtAV7hfwGvrE9J8MPvzogS1ZI5J2QKItAq+MvDkKyF6
+ BFORbqHt5RUwbCWxakUOFl+MpJDe8Rb1h3n2j8aEtBtnea740O4zhMIpI
+ /bdod02jhuBh8lrUH9j4cL0InHk02TZbdRVtmtAiD7mYyj4i1OhpZYPsW w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="256006086"
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="256006086"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 10:05:31 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="665559322"
+Received: from dongwonk-mobl.amr.corp.intel.com ([10.121.200.203])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 10:05:30 -0700
+Date: Fri, 6 May 2022 10:05:29 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, philmd@redhat.com, kraxel@redhat.com,
+ pbonzini@redhat.com, Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 3/3] ui/gtk: specify detached window's size and location
+Message-ID: <20220506170529.GA369@dongwonk-MOBL.amr.corp.intel.com>
+References: <20220428231304.19472-1-dongwon.kim@intel.com>
+ <20220428231304.19472-4-dongwon.kim@intel.com>
+ <YnDzOlLvFNIG7y8M@redhat.com>
+ <20220503233348.GA382@dongwonk-MOBL.amr.corp.intel.com>
+ <YnVODWc9uq8sx+Cu@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 0/4] hw/i2c: i2c slave mode support
-Content-Language: en-US
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>, Klaus Jensen
- <its@irrelevant.dk>, Padmakar Kalghatgi <p.kalghatgi@samsung.com>
-CC: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, Arun
- Kumar Kashinath Agasar <arun.kka@samsung.com>, Corey Minyard
- <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>, Klaus Jensen
- <k.jensen@samsung.com>, <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>, 
- Matt Johnston <matt@codeconstruct.com.au>, Jeremy Kerr <jk@ozlabs.org>
-References: <20220331165737.1073520-1-its@irrelevant.dk>
- <20220506150731.00000693@Huawei.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220506150731.00000693@Huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b066392c-59cc-4c18-97b2-f56e021e96b0
-X-Ovh-Tracer-Id: 5882264066874772411
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeifeehtdevfeeuhfelheekkeefieeivdfhgeevueeijeetjeekueeggedujeeiieenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhhksehoiihlrggsshdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YnVODWc9uq8sx+Cu@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=dongwon.kim@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,66 +83,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Jonathan,
-
-On 5/6/22 16:07, Jonathan Cameron wrote:
-> On Thu, 31 Mar 2022 18:57:33 +0200
-> Klaus Jensen <its@irrelevant.dk> wrote:
+On Fri, May 06, 2022 at 05:34:21PM +0100, Daniel P. Berrangé wrote:
+> On Tue, May 03, 2022 at 04:33:48PM -0700, Dongwon Kim wrote:
+> > I saw windows, especially, third and fourth ones are 1/4 size of
+> > the first when detached regardless of resolutions.
+> > 
+> > And the position is also pretty random and detached windows are usually
+> > placed somewhere on the previous window.
+> > 
+> > This patch is to make the sizes same as the original window's and make
+> > sure all detached windows are not overlapped each other.
 > 
->> From: Klaus Jensen <k.jensen@samsung.com>
->>
->> Hi all,
->>
->> This RFC series adds I2C "slave mode" support for the Aspeed I2C
->> controller as well as the necessary infrastructure in the i2c core to
->> support this.
->>
->> Background
->> ~~~~~~~~~~
->> We are working on an emulated NVM Express Management Interface[1] for
->> testing and validation purposes. NVMe-MI is based on the MCTP
->> protocol[2] which may use a variety of underlying transports. The one we
->> are interested in is I2C[3].
->>
->> The first general trickery here is that all MCTP transactions are based
->> on the SMBus Block Write bus protocol[4]. This means that the slave must
->> be able to master the bus to communicate. As you know, hw/i2c/core.c
->> currently does not support this use case.
->>
->> The second issue is how to interact with these mastering devices. Jeremy
->> and Matt (CC'ed) have been working on an MCTP stack for the Linux Kernel
->> (already upstream) and an I2C binding driver[5] is currently under
->> review. This binding driver relies on I2C slave mode support in the I2C
->> controller.
+> In terms of size, I think you need to just honour the surface
+> size like this:
 > 
-> Hi Klaus,
+> @@ -1354,6 +1354,9 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
+>  
+>          g_signal_connect(vc->window, "delete-event",
+>                           G_CALLBACK(gd_tab_window_close), vc);
+> +        gtk_window_set_default_size(GTK_WINDOW(vc->window),
+> +                                    surface_width(vc->gfx.ds),
+> +                                    surface_height(vc->gfx.ds));
+
+Thanks for this. I will modify the code and test it.
+
+>          gtk_widget_show_all(vc->window);
+>  
+>          if (qemu_console_is_graphic(vc->gfx.dcl.con)) {
 > 
-> Just thought I'd mention I'm also interested in MCTP over I2C emulation
-> for a couple of projects:
+> 
+> for position, I don't think we should be overriding the window
+> manager placement, as the logic applied could result in us
+> placing windows off screen.
 
-Klaus is working on a v2 :
-
-   http://patchwork.ozlabs.org/project/qemu-devel/patch/20220503225925.1798324-2-pdel@fb.com/
-
-Thanks,
-
-C.
-
+Ok, I think what you are saying makes sense.
 
 > 
-> 1) DMTF SPDM - mostly as a second transport for the kernel stack alongside
->     PCI DOE.
-> 2) CXL FM-API - adding support for the Fabric Manager interfaces
->     on emulated CXL switches which is also typically carried over
->     MCTP.
+> > 
+> > On Tue, May 03, 2022 at 10:17:46AM +0100, Daniel P. Berrangé wrote:
+> > > On Thu, Apr 28, 2022 at 04:13:04PM -0700, Dongwon Kim wrote:
+> > > > Specify location and size of detached window based on top level
+> > > > window's location and size info when detachment happens.
+> > > 
+> > > Can you explain what problem is being solved by this change ?
+> > > What's wrong with default size/placement logic ?
+> > > 
+> > > In terms of size at least, I would hope we are resizing
+> > > windows any time the guest changes the resolution of the
+> > > virtual video adapter.  If there are 2 outputs, they can
+> > > be at different resolution, so copying the size of the
+> > > existing window feels wrong - we need to copy the guest
+> > > resolution currently set.
+> > > 
+> > > Why do we need to mess around with position at all ?
+> > > 
+> > > > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > > > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > > > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> > > > ---
+> > > >  ui/gtk.c | 13 +++++++++++++
+> > > >  1 file changed, 13 insertions(+)
+> > > > 
+> > > > diff --git a/ui/gtk.c b/ui/gtk.c
+> > > > index f1ca6a7275..7dadf3b588 100644
+> > > > --- a/ui/gtk.c
+> > > > +++ b/ui/gtk.c
+> > > > @@ -1338,6 +1338,8 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
+> > > >                                         FALSE);
+> > > >      }
+> > > >      if (!vc->window) {
+> > > > +        gint x, y, w, h;
+> > > > +        int i;
+> > > >          gtk_widget_set_sensitive(vc->menu_item, false);
+> > > >          vc->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+> > > >  #if defined(CONFIG_OPENGL)
+> > > > @@ -1351,7 +1353,18 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
+> > > >          }
+> > > >  #endif
+> > > >          gd_widget_reparent(s->notebook, vc->window, vc->tab_item);
+> > > > +        gtk_window_get_position(GTK_WINDOW(s->window), &x, &y);
+> > > > +        gtk_window_get_size(GTK_WINDOW(s->window), &w, &h);
+> > > > +
+> > > > +        for (i = 0; i < s->nb_vcs; i++) {
+> > > > +            if (vc == &s->vc[i]) {
+> > > > +                break;
+> > > > +            }
+> > > > +        }
+> > > >  
+> > > > +        gtk_window_move(GTK_WINDOW(vc->window),
+> > > > +                        x + w * (i % (s->nb_vcs/2) + 1), y + h * (i / (s->nb_vcs/2)));
+> > > > +        gtk_window_resize(GTK_WINDOW(vc->window), w, h);
+> > > >          g_signal_connect(vc->window, "delete-event",
+> > > >                           G_CALLBACK(gd_tab_window_close), vc);
+> > > >          gtk_widget_show_all(vc->window);
+> > > > -- 
+> > > > 2.30.2
+> > > > 
+> > > > 
+> > > 
+> > > With regards,
+> > > Daniel
+> > > -- 
+> > > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> > > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> > > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> > > 
+> > 
 > 
-> I was thinking of emulating a MCTP over PCI VDM but this has saved me
-> going to the effort of doing that for now at least :)
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 > 
-> I have hacked a really really basic MCTP device together using this
-> series and it all seems to be working with the kernel stack (subject to a
-> few kernel driver bugs that I'll report / send fixes for next week).
-> I'm cheating all over the place so far, (lots of hard coded values) but
-> would be interested in a more flexible solution that might perhaps
-> share infrastructure with your NVMe-MI work.
 
