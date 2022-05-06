@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1DB51DF10
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 20:24:04 +0200 (CEST)
-Received: from localhost ([::1]:45222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C0851DF1D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 May 2022 20:28:33 +0200 (CEST)
+Received: from localhost ([::1]:54402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn2cV-0002j0-LE
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 14:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36492)
+	id 1nn2gq-0000gY-Ak
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 14:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nn2Sz-000151-37
- for qemu-devel@nongnu.org; Fri, 06 May 2022 14:14:13 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:35310)
+ id 1nn2V8-0004UY-KV
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 14:16:28 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:42541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nn2Sx-0005yw-CO
- for qemu-devel@nongnu.org; Fri, 06 May 2022 14:14:12 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-e2fa360f6dso8021711fac.2
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 11:14:10 -0700 (PDT)
+ id 1nn2V7-0006VM-26
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 14:16:26 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id w194so7114270oie.9
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 11:16:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=IkxR5VrvJUxfpcOruyMZK9+VjFO8QUBsQA+4dr7q4Io=;
- b=OwEj75vEPLiDB4MdvoMLC/IIuhHo89likg3vecHtnAlZyJL9MjATrnwNs7V18fFq7v
- vN/82F3mu6H9RGuYSTS+J3bO5ay7feNmyoTb+4DQuNvBZ9VXQPFoEt7E95HsQuNWkf0U
- Gkb+i8dJIoExUmVr09+QIX+1P38PfdagJOtomW183m/k53/JohwcLB/muAMVxkBdfc/x
- X3d7EroLUhNKQ8OyMt1EzYdJWLT+I8ySZWRrch3xnz0jv/KkyBL0+aAUh+VFZyt8TBT8
- ebiV22mFCBNsZZp7sSOP/yD8babDl6z7TWhOBry5qQ+yGGcvpwX0LwHzlGLorPnzKIEw
- 4YNA==
+ bh=Amt3S1iohugZ8K2mdODjMgH/bnRr1ue0EBc80EXJw00=;
+ b=RVtrQYXsMXd3PxGUYyA5UHZKOpCpczQ6R5gyua1+MMhX6rxonVQUxR/X8ccX/PNiGs
+ 78/ooEShF+6MB6/97PpgLTdeQZwGuapA88ur/AhgLYP9SCe/QrMoeRep2O2ZyauycOU8
+ UDEu07fGTCJCl5uIOIbmieHiaMGwYhOI/UWzBF0WyO3WnYLhE/n3jkDCcbq21bWAymgP
+ UBmxyQwD1cBFWw9V5lclxftQ5nn4hPJSulJ6mbD/MWt5hJmcict4CFmosSVl4igmS/ZH
+ OJV4AK1TJd7lSzc3yEKwYL2ezU5CnUd++T6mn264mlZHhRl7x25haYfEyyFUS0msXKgV
+ WWOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IkxR5VrvJUxfpcOruyMZK9+VjFO8QUBsQA+4dr7q4Io=;
- b=Zr8ceDi8i78xHqzr2AJYrmMQY9Y8Uq8qsVcXR67650S7Lf+0PUG9rE1zIwt0Qp4jst
- vI1Xuaw67l/lsDkF9KiL3Jqtgs1eHbZPF5uWJdVABu/KWjadHSPMveBzYOw61aa9ZJgf
- 4SQp3bUZt4mTTwoCQxBmyAb1os+kynBChAvI5xllBgBM4Knq5tiiNPLAJGV8tdndsdZd
- NKuJZrA9s7JVJz17in3FEJ2EfIFn3v/gQULDYzPfGbZgHAkc2KQ27VNvZcM3lS0+QMlF
- EZU9hNXGoewM5+Kx+Qsq62fIs19Ti8+BB2kkSM/buHDqIuJ9LANXmBn3Qowsb+m8lgnd
- MEOA==
-X-Gm-Message-State: AOAM530SUy2kAv0TMCD13PPswq5E0zqBLlkTNZeKd//CWmeFX9WbP7Ia
- Ikz8stNckwl7cNHhGy7X0KukNA==
-X-Google-Smtp-Source: ABdhPJwya4+Cpq6mxW3zcOwWCQwJle304HJxD6DyPw08Z5x5Z/ZEOU6TKPRkPQGdgh3m8uIjKFVvLA==
-X-Received: by 2002:a05:6870:3282:b0:ed:a4b1:39c6 with SMTP id
- q2-20020a056870328200b000eda4b139c6mr1894841oac.2.1651860850073; 
- Fri, 06 May 2022 11:14:10 -0700 (PDT)
+ bh=Amt3S1iohugZ8K2mdODjMgH/bnRr1ue0EBc80EXJw00=;
+ b=ayiTN/dNK17KAZrUKHWQZdXcVt97LFkGxpBluA33RlehEB/MfX1n3Q62ZphsiQc6bR
+ ac3dSVRIl0/GeaCWGMWBsSWqsoVwmNzFTAXfP1M/eoYW0RmjdMHGMzfr9wjF2elwhjg6
+ hufPR72ZKbUWKk4wgM4Xyiq163KN6ANRjrPbC77QuV536X9It7ZGxDZ66IT1F0n/fMEg
+ it3uifDO2TFc+oQ9tawuDwZFX3H620WJKaQjyG9QvJVA5rhyybzFhZayB57m+lpys6fC
+ yvFjMLKL8J+Om4GhiZ/e1O8DI1r2NXetvbm4tK2BTljx+dbmbK6S6VNEUIZMlfauXBr1
+ s1Kw==
+X-Gm-Message-State: AOAM531otRlXTb5vGEAuQ+ZBFdD23M1AYz9kL1mueEpE6M7tIa/sOMIT
+ VDsEHNyLBy83z1nKP/PRO661tQ==
+X-Google-Smtp-Source: ABdhPJxThjOHUYMhzEovMwNvlEaXJUcmD4LN0svItqpjcOWCPhjEJMGZ8INGBVfOe4Ipx6fT29Fh5w==
+X-Received: by 2002:a05:6808:1309:b0:324:f014:80c0 with SMTP id
+ y9-20020a056808130900b00324f01480c0mr2144596oiv.190.1651860983930; 
+ Fri, 06 May 2022 11:16:23 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:5fe1:b497:51bb:ba21:d1a7:eac2?
  ([2607:fb90:5fe1:b497:51bb:ba21:d1a7:eac2])
  by smtp.gmail.com with ESMTPSA id
- z39-20020a056870d6a700b000eb639a5652sm740461oap.37.2022.05.06.11.14.08
+ eh4-20020a056870f58400b000e686d1387csm1811790oab.22.2022.05.06.11.16.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 11:14:09 -0700 (PDT)
-Message-ID: <4f679852-3cef-3ad1-7f47-987dd0f6739a@linaro.org>
-Date: Fri, 6 May 2022 13:14:05 -0500
+ Fri, 06 May 2022 11:16:23 -0700 (PDT)
+Message-ID: <17fb75e1-b159-1021-061e-43e003dcd9f9@linaro.org>
+Date: Fri, 6 May 2022 13:16:19 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 1/4] target/arm: Postpone interpretation of stage 2
- descriptor attribute bits
+Subject: Re: [PATCH 2/4] target/arm: Factor out FWB=0 specific part of
+ combine_cacheattrs()
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220505183950.2781801-1-peter.maydell@linaro.org>
- <20220505183950.2781801-2-peter.maydell@linaro.org>
+ <20220505183950.2781801-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220505183950.2781801-2-peter.maydell@linaro.org>
+In-Reply-To: <20220505183950.2781801-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,43 +96,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/5/22 13:39, Peter Maydell wrote:
-> In the original Arm v8 two-stage translation, both stage 1 and stage
-> 2 specify memory attributes (memory type, cacheability,
-> shareability); these are then combined to produce the overall memory
-> attributes for the whole stage 1+2 access.  In QEMU we implement this
-> by having get_phys_addr() fill in an ARMCacheAttrs struct, and we
-> convert both the stage 1 and stage 2 attribute bit formats to the
-> same encoding (an 8-bit attribute value matching the MAIR_EL1 fields,
-> plus a 2-bit shareability value).
+> Factor out the part of combine_cacheattrs() that is specific to
+> handling HCR_EL2.FWB == 0.  This is the part where we combine the
+> memory type and cacheability attributes.
 > 
-> The new FEAT_S2FWB feature allows the guest to enable a different
-> interpretation of the attribute bits in the stage 2 descriptors.
-> These bits can now be used to control details of how the stage 1 and
-> 2 attributes should be combined (for instance they can say "always
-> use the stage 1 attributes" or "ignore the stage 1 attributes and
-> always be Device memory").  This means we need to pass the raw bit
-> information for stage 2 down to the function which combines the stage
-> 1 and stage 2 information.
-> 
-> Add a field to ARMCacheAttrs that indicates whether the attrs field
-> should be interpreted as MAIR format, or as the raw stage 2 attribute
-> bits from the descriptor, and store the appropriate values when
-> filling in cacheattrs.
-> 
-> We only need to interpret the attrs field in a few places:
->   * in do_ats_write(), where we know to expect a MAIR value
->     (there is no ATS instruction to do a stage-2-only walk)
->   * in S1_ptw_translate(), where we want to know whether the
->     combined S1 + S2 attributes indicate Device memory that
->     should provoke a fault
->   * in combine_cacheattrs(), which does the S1 + S2 combining
-> Update those places accordingly.
+> The "force Outer Shareable for Device or Normal Inner-NC Outer-NC"
+> logic remains in combine_cacheattrs() because it holds regardless
+> (this is the equivalent of the pseudocode EffectiveShareability()
+> function).
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/internals.h |  7 ++++++-
->   target/arm/helper.c    | 42 ++++++++++++++++++++++++++++++++++++------
->   2 files changed, 42 insertions(+), 7 deletions(-)
+>   target/arm/helper.c | 88 +++++++++++++++++++++++++--------------------
+>   1 file changed, 50 insertions(+), 38 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
