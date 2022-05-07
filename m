@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E09D51E953
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 21:09:47 +0200 (CEST)
-Received: from localhost ([::1]:60814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF2B51E958
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 21:12:43 +0200 (CEST)
+Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnPoI-0008SF-7y
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 15:09:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54772)
+	id 1nnPr8-0005LP-Uo
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 15:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nnPlN-000507-6f; Sat, 07 May 2022 15:06:45 -0400
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:35617)
+ id 1nnPlP-00059O-EL; Sat, 07 May 2022 15:06:47 -0400
+Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31]:44598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nnPlL-0001Y0-7k; Sat, 07 May 2022 15:06:44 -0400
-Received: by mail-ot1-x32b.google.com with SMTP id
- z5-20020a9d62c5000000b00606041d11f1so7238323otk.2; 
- Sat, 07 May 2022 12:06:42 -0700 (PDT)
+ id 1nnPlN-0001YN-LO; Sat, 07 May 2022 15:06:47 -0400
+Received: by mail-oo1-xc31.google.com with SMTP id
+ o10-20020a4abe8a000000b0035eac0a004aso1831427oop.11; 
+ Sat, 07 May 2022 12:06:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WNdXdxrL+6oruFfs4RMH79bNef2ZwDlHNs1lrvwqaXg=;
- b=LZjkVS0/Dzgy7awoWMYRRcPneiaaWb1wo1PHm257/lKOe5BzG4ZHCVmoXF6RCdhpQV
- q4WVuLDLV7r49rncaG53SkXD3aV6d/qkEBrbTjTQ9bc4o0amzTwixDY3pLWjh15YRAaC
- 3dTiwUtbiovyQ/9A4VQxdfXSbhxfzQUr+d0FkHTLGJ3uISNnQB2Tvrn9TcEYXykPc8J5
- I/J+UfO+w0k78UK/LnMSbTgeAEDQ2EpAuhJJq3kbdbkt33Pbi6sIRzPjnx2qZA10DWGx
- qv6YbI5iuMfL0VP9Ifc2cMQF+kwOgoIvl4+Fckk1LPSuIZLr5y/Llo9PqxsCIticbpkZ
- JHgg==
+ bh=dpaTjFiYrghI3JitsDctayMbtGiCYEaddztQT51dquM=;
+ b=fNVECFjzwy50cehAI/MVQ0ERPNUt5DVwEWOtTWevHGEYQJWZfEupf6rpJGVuULOu9t
+ 4wlcVyEToTlrNFu25nXLXMMxIFPUkuAs37DSSicusLKD8kiWMWzbAdFV+Fu6eScOUnaR
+ brN6FuXgJEUwlBkAycHsjjj8rFKKxASzvuyGF60OTWWvUVW056bQkrBqpOvrhkJgHN0o
+ 2aINRcLpgAOarPXnDYZFbViLPjuxGV2G1InKXOz3PlzDczjiDCFqcOU8lkv8Whci78NR
+ 1M8tFox/cNcPmH+sXxC0lBi1Hk/xlrn4bQCv128AWuZi02b77mt6mYthOOpfeWlbaWIQ
+ f9tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WNdXdxrL+6oruFfs4RMH79bNef2ZwDlHNs1lrvwqaXg=;
- b=KOGKH5TVsRLGCQtGPrMGVzqRmXRwDj4rL76szzpluijBn/fUy6PUJWuwYqXybRu3TA
- lc9TIgLsN7iO4I7SS4s/eStPu8g5Y31I7PnHRPU20bN7/WRmHBbDpkpHgjVoI1kQaVa7
- HY44+ZOIBUQMmsO8ZWgeMlclUexPrAwr+2MPm0Y3lnHEqNUWDxXtrwQgVxfdQPjdxrzR
- XZQpgLfzYqtG/4W2GB7XaTxjVnHzq2I5BOVjTl5YwX+jR8+BlGy507Fm+psO8JxDlCJX
- iyt+vf8sow6Vg/Ap4KM3FeO5GjXUUK81CsdKJSOKYX5gLkNLNkIaAmVv38IPlruPCuUp
- R6gA==
-X-Gm-Message-State: AOAM533sgZjTci0/iCeQ3ojcI76hY0Gz9EhFgh8cniPfM1tBYNK5QYtR
- f1U1l5yDyGSvYC11Wm5FMI1ft2vXTAg=
-X-Google-Smtp-Source: ABdhPJy7ZGGgkwYCobeq73Ygx2YrKgnSdJu49MJXYrotvLstCUm6N85eQztrJbz8zSefP9cWzbNlYA==
-X-Received: by 2002:a9d:58c3:0:b0:605:9fa7:f5b6 with SMTP id
- s3-20020a9d58c3000000b006059fa7f5b6mr3167019oth.230.1651950401678; 
- Sat, 07 May 2022 12:06:41 -0700 (PDT)
+ bh=dpaTjFiYrghI3JitsDctayMbtGiCYEaddztQT51dquM=;
+ b=WQyvLxMLxN2o1H3QHe3l1ID4t3K+WNei0krAFdwaSWqa3bfDqdgdCCj5YrHc7hT4yU
+ Jq0QKMYWF8Mjgrtw+EdlNmGwYPNyOAWmzqogck3rp3z2LDKJg5/Y3xHYEySjX6vn9TKp
+ n8DPWp6oXYUjfswp/pgfdsFIXMSotcZTYxRvHmi4Wr9jfh6HxszgNLZYe2RHI5Dtvx/o
+ +b19z+dwsfR7K0OitOQTXEILVL+ORuDTqcvJiNydg9OpaMRuR+ibLTnbEKU9yxzBhY8I
+ Q2Badpi0N8yxxjGO0YKp7IdtNqiiW5pdCtdEczkXgLP9fqXBMpDrYdK2j21J9WBebQsi
+ 6FWQ==
+X-Gm-Message-State: AOAM530CWnBFbh8dWjcclKj6NqlHBQjM4l0gKChQp0h30n+QZhH7ARdv
+ 8l8y5s3YOsk5CFksrLnuMi3QQrC/CwQ=
+X-Google-Smtp-Source: ABdhPJyJnH5XfOyx8DUxXZE3Ndr/TFL8+u33MxQA6A4d0t/Q9CG7aLoSwmUxrNLrL4MaxjKHT+ZFzA==
+X-Received: by 2002:a05:6820:1517:b0:35f:5a69:8cc0 with SMTP id
+ ay23-20020a056820151700b0035f5a698cc0mr2498903oob.72.1651950404196; 
+ Sat, 07 May 2022 12:06:44 -0700 (PDT)
 Received: from balboa.ibmmodules.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- p1-20020a0568301d4100b0060603221270sm2907397oth.64.2022.05.07.12.06.39
+ p1-20020a0568301d4100b0060603221270sm2907397oth.64.2022.05.07.12.06.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 May 2022 12:06:41 -0700 (PDT)
+ Sat, 07 May 2022 12:06:43 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
  fbarrat@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH 04/17] ppc/pnv: add unified pnv-phb header
-Date: Sat,  7 May 2022 16:06:11 -0300
-Message-Id: <20220507190624.507419-5-danielhb413@gmail.com>
+Subject: [PATCH 05/17] ppc/pnv: add pnv-phb device
+Date: Sat,  7 May 2022 16:06:12 -0300
+Message-Id: <20220507190624.507419-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220507190624.507419-1-danielhb413@gmail.com>
 References: <20220507190624.507419-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,29 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the pnv_phb.h header with the declarations we're going
-to use in this soon to be added device.
+This device works as a generic pnv-phb that redirects the control flow
+to one of the implemented PHB versions (PHB3 and PHB4 at this moment).
 
-It consists of an union between all attributes of PnvPHB3 and PnvPHB4
-devices. This will allow for the same PnvPHB device to be used for PHB3
-and PHB4 code.
+The control redirection happens in the instance_init() and realize()
+callbacks, where we check which powernv machine we're running and
+execute the PnvPHB3 callbacks if running powernv8 or PnvPHB4 if running
+powernv9/10.  This will allow us to keep the existing PHB3 and PHB4 code
+as is, just changing their device type to PnvPHB3/PnvPHB4 to PnvPHB when
+we're ready.
 
-Some struct definitions from PnvPHB3 had to be moved to the new header
-due to scope constraints.
+For now we're putting logic to handle the PHB3 version. We'll add PHB4
+later on.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- include/hw/pci-host/pnv_phb.h  | 211 +++++++++++++++++++++++++++++++++
- include/hw/pci-host/pnv_phb3.h |  65 +---------
- 2 files changed, 212 insertions(+), 64 deletions(-)
- create mode 100644 include/hw/pci-host/pnv_phb.h
+ hw/pci-host/meson.build        |   3 +-
+ hw/pci-host/pnv_phb.c          | 116 +++++++++++++++++++++++++++++++++
+ hw/pci-host/pnv_phb3.c         |   4 +-
+ include/hw/pci-host/pnv_phb3.h |   3 +
+ 4 files changed, 123 insertions(+), 3 deletions(-)
+ create mode 100644 hw/pci-host/pnv_phb.c
 
-diff --git a/include/hw/pci-host/pnv_phb.h b/include/hw/pci-host/pnv_phb.h
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index 4c4f39c15c..b4107b7a2a 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -32,5 +32,6 @@ specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
+   'pnv_phb3_msi.c',
+   'pnv_phb3_pbcq.c',
+   'pnv_phb4.c',
+-  'pnv_phb4_pec.c'
++  'pnv_phb4_pec.c',
++  'pnv_phb.c',
+ ))
+diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
 new file mode 100644
-index 0000000000..2a8bf9a66d
+index 0000000000..3dd08f768f
 --- /dev/null
-+++ b/include/hw/pci-host/pnv_phb.h
-@@ -0,0 +1,211 @@
++++ b/hw/pci-host/pnv_phb.c
+@@ -0,0 +1,116 @@
 +/*
 + * QEMU PowerPC PowerNV Unified PHB model
 + *
@@ -120,308 +137,148 @@ index 0000000000..2a8bf9a66d
 + * This code is licensed under the GPL version 2 or later. See the
 + * COPYING file in the top-level directory.
 + */
-+
-+#ifndef PCI_HOST_PNV_PHB_H
-+#define PCI_HOST_PNV_PHB_H
-+
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qapi/visitor.h"
++#include "qapi/error.h"
++#include "hw/pci-host/pnv_phb.h"
 +#include "hw/pci/pcie_host.h"
 +#include "hw/pci/pcie_port.h"
-+#include "hw/ppc/xics.h"
-+#include "hw/ppc/xive.h"
++#include "hw/ppc/pnv.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
 +#include "qom/object.h"
++#include "sysemu/sysemu.h"
 +
-+/* pnv_phb3.h types */
-+#define PNV_PHB3_NUM_M64      16
-+#define PNV_PHB3_NUM_REGS     (0x1000 >> 3)
-+#define PHB3_MAX_MSI     2048
 +
-+typedef struct PnvPHB3 PnvPHB3;
-+typedef struct PnvChip PnvChip;
++static char *pnv_phb_get_chip_typename(void)
++{
++    Object *qdev_machine = qdev_get_machine();
++    PnvMachineState *pnv = PNV_MACHINE(qdev_machine);
++    MachineState *machine = MACHINE(pnv);
++    g_autofree char *chip_typename = NULL;
++    int i;
 +
-+typedef struct Phb3MsiState {
-+    ICSState ics;
-+    qemu_irq *qirqs;
++    if (!machine->cpu_type) {
++        return NULL;
++    }
 +
-+    PnvPHB3 *phb;
-+    uint64_t rba[PHB3_MAX_MSI / 64];
-+    uint32_t rba_sum;
-+} Phb3MsiState;
++    i = strlen(machine->cpu_type) - strlen(POWERPC_CPU_TYPE_SUFFIX);
++    chip_typename = g_strdup_printf(PNV_CHIP_TYPE_NAME("%.*s"),
++                                    i, machine->cpu_type);
 +
-+typedef struct PnvPBCQState {
-+    DeviceState parent;
++    return g_steal_pointer(&chip_typename);
++}
 +
-+    uint32_t nest_xbase;
-+    uint32_t spci_xbase;
-+    uint32_t pci_xbase;
-+#define PBCQ_NEST_REGS_COUNT    0x46
-+#define PBCQ_PCI_REGS_COUNT     0x15
-+#define PBCQ_SPCI_REGS_COUNT    0x5
-+
-+    uint64_t nest_regs[PBCQ_NEST_REGS_COUNT];
-+    uint64_t spci_regs[PBCQ_SPCI_REGS_COUNT];
-+    uint64_t pci_regs[PBCQ_PCI_REGS_COUNT];
-+    MemoryRegion mmbar0;
-+    MemoryRegion mmbar1;
-+    MemoryRegion phbbar;
-+    uint64_t mmio0_base;
-+    uint64_t mmio0_size;
-+    uint64_t mmio1_base;
-+    uint64_t mmio1_size;
-+    PnvPHB3 *phb;
-+
-+    MemoryRegion xscom_nest_regs;
-+    MemoryRegion xscom_pci_regs;
-+    MemoryRegion xscom_spci_regs;
-+} PnvPBCQState;
-+
-+/*
-+ * We have one such address space wrapper per possible device under
-+ * the PHB since they need to be assigned statically at qemu device
-+ * creation time. The relationship to a PE is done later dynamically.
-+ * This means we can potentially create a lot of these guys. Q35
-+ * stores them as some kind of radix tree but we never really need to
-+ * do fast lookups so instead we simply keep a QLIST of them for now,
-+ * we can add the radix if needed later on.
-+ *
-+ * We do cache the PE number to speed things up a bit though.
-+ */
-+typedef struct PnvPhb3DMASpace {
-+    PCIBus *bus;
-+    uint8_t devfn;
-+    int pe_num;         /* Cached PE number */
-+#define PHB_INVALID_PE (-1)
-+    PnvPHB3 *phb;
-+    AddressSpace dma_as;
-+    IOMMUMemoryRegion dma_mr;
-+    MemoryRegion msi32_mr;
-+    MemoryRegion msi64_mr;
-+    QLIST_ENTRY(PnvPhb3DMASpace) list;
-+} PnvPhb3DMASpace;
-+
-+/* pnv_phb4.h types */
-+#define PNV_PHB4_MAX_LSIs          8
-+#define PNV_PHB4_MAX_INTs          4096
-+#define PNV_PHB4_MAX_MIST          (PNV_PHB4_MAX_INTs >> 2)
-+#define PNV_PHB4_MAX_MMIO_WINDOWS  32
-+#define PNV_PHB4_MIN_MMIO_WINDOWS  16
-+#define PNV_PHB4_NUM_REGS          (0x3000 >> 3)
-+#define PNV_PHB4_MAX_PEs           512
-+#define PNV_PHB4_MAX_TVEs          (PNV_PHB4_MAX_PEs * 2)
-+#define PNV_PHB4_MAX_PEEVs         (PNV_PHB4_MAX_PEs / 64)
-+#define PNV_PHB4_MAX_MBEs          (PNV_PHB4_MAX_MMIO_WINDOWS * 2)
-+typedef struct PnvPhb4PecState PnvPhb4PecState;
-+
-+/*
-+ * Unified PHB PCIe Host Bridge for PowerNV machines
-+ */
-+typedef struct PnvPHB PnvPHB;
-+#define TYPE_PNV_PHB "pnv-phb"
-+OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
-+
-+struct PnvPHB {
-+    PCIExpressHost parent_obj;
-+
-+    uint32_t chip_id;
-+    uint32_t phb_id;
-+    char bus_path[8];
-+    MemoryRegion pci_mmio;
-+    MemoryRegion pci_io;
-+    qemu_irq *qirqs;
++static void pnv_phb_instance_init(Object *obj)
++{
++    g_autofree char *chip_typename = pnv_phb_get_chip_typename();
 +
 +    /*
-+     * PnvPHB3 attributes
++     * When doing command line instrospection we won't have
++     * a valid machine->cpu_type value.
 +     */
-+    uint64_t regs3[PNV_PHB3_NUM_REGS];
-+    MemoryRegion mr_regs3;
++    if (!chip_typename) {
++        return;
++    }
 +
-+    MemoryRegion mr_m32;
-+    MemoryRegion mr_m64[PNV_PHB3_NUM_M64];
++    if (!strcmp(chip_typename, TYPE_PNV_CHIP_POWER8) ||
++        !strcmp(chip_typename, TYPE_PNV_CHIP_POWER8E) ||
++        !strcmp(chip_typename, TYPE_PNV_CHIP_POWER8NVL)) {
++        pnv_phb3_instance_init(obj);
++    }
++}
 +
-+    uint64_t ioda2_LIST[8];
-+    uint64_t ioda2_LXIVT[8];
-+    uint64_t ioda2_TVT[512];
-+    uint64_t ioda2_M64BT[16];
-+    uint64_t ioda2_MDT[256];
-+    uint64_t ioda2_PEEV[4];
++static void pnv_phb_realize(DeviceState *dev, Error **errp)
++{
++    g_autofree char *chip_typename = pnv_phb_get_chip_typename();
 +
-+    uint32_t total_irq;
-+    ICSState lsis;
-+    Phb3MsiState msis;
++    g_assert(chip_typename != NULL);
 +
-+    PnvPBCQState pbcq;
++    if (!strcmp(chip_typename, TYPE_PNV_CHIP_POWER8) ||
++        !strcmp(chip_typename, TYPE_PNV_CHIP_POWER8E) ||
++        !strcmp(chip_typename, TYPE_PNV_CHIP_POWER8NVL)) {
++        /* PnvPHB3 */
++        pnv_phb3_realize(dev, errp);
++    }
++}
 +
-+    QLIST_HEAD(, PnvPhb3DMASpace) v3_dma_spaces;
++static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
++                                          PCIBus *rootbus)
++{
++    PnvPHB *phb = PNV_PHB(host_bridge);
 +
-+    PnvChip *chip;
++    snprintf(phb->bus_path, sizeof(phb->bus_path), "00%02x:%02x",
++             phb->chip_id, phb->phb_id);
++    return phb->bus_path;
++}
 +
-+    /*
-+     * PnvPHB4 attributes
-+     */
-+    uint64_t version;
-+
-+    /* The owner PEC */
-+    PnvPhb4PecState *pec;
-+
-+    /* Main register images */
-+    uint64_t regs[PNV_PHB4_NUM_REGS];
-+    MemoryRegion mr_regs;
-+
-+    /* Extra SCOM-only register */
-+    uint64_t scom_hv_ind_addr_reg;
-+
-+    /*
-+     * Geometry of the PHB. There are two types, small and big PHBs, a
-+     * number of resources (number of PEs, windows etc...) are doubled
-+     * for a big PHB
-+     */
-+    bool big_phb;
-+
-+    /* Memory regions for MMIO space */
-+    MemoryRegion mr_mmio[PNV_PHB4_MAX_MMIO_WINDOWS];
-+
-+    /* PCI registers (excluding pass-through) */
-+#define PHB4_PEC_PCI_STK_REGS_COUNT  0xf
-+    uint64_t pci_regs[PHB4_PEC_PCI_STK_REGS_COUNT];
-+    MemoryRegion pci_regs_mr;
-+
-+    /* Nest registers */
-+#define PHB4_PEC_NEST_STK_REGS_COUNT  0x17
-+    uint64_t nest_regs[PHB4_PEC_NEST_STK_REGS_COUNT];
-+    MemoryRegion nest_regs_mr;
-+
-+    /* PHB pass-through XSCOM */
-+    MemoryRegion phb_regs_mr;
-+
-+    /* Memory windows from PowerBus to PHB */
-+    MemoryRegion phbbar;
-+    MemoryRegion intbar;
-+    MemoryRegion mmbar0;
-+    MemoryRegion mmbar1;
-+    uint64_t mmio0_base;
-+    uint64_t mmio0_size;
-+    uint64_t mmio1_base;
-+    uint64_t mmio1_size;
-+
-+    /* On-chip IODA tables */
-+    uint64_t ioda_LIST[PNV_PHB4_MAX_LSIs];
-+    uint64_t ioda_MIST[PNV_PHB4_MAX_MIST];
-+    uint64_t ioda_TVT[PNV_PHB4_MAX_TVEs];
-+    uint64_t ioda_MBT[PNV_PHB4_MAX_MBEs];
-+    uint64_t ioda_MDT[PNV_PHB4_MAX_PEs];
-+    uint64_t ioda_PEEV[PNV_PHB4_MAX_PEEVs];
-+
-+    /*
-+     * The internal PESTA/B is 2 bits per PE split into two tables, we
-+     * store them in a single array here to avoid wasting space.
-+     */
-+    uint8_t  ioda_PEST_AB[PNV_PHB4_MAX_PEs];
-+
-+    /* P9 Interrupt generation */
-+    XiveSource xsrc;
-+
-+    QLIST_HEAD(, PnvPhb4DMASpace) dma_spaces;
++static Property pnv_phb_properties[] = {
++    DEFINE_PROP_UINT32("index", PnvPHB, phb_id, 0),
++    DEFINE_PROP_UINT32("chip-id", PnvPHB, chip_id, 0),
++    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+#endif /* PCI_HOST_PNV_PHB_H */
++static void pnv_phb_class_init(ObjectClass *klass, void *data)
++{
++    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    hc->root_bus_path = pnv_phb_root_bus_path;
++    dc->realize = pnv_phb_realize;
++    device_class_set_props(dc, pnv_phb_properties);
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->user_creatable = true;
++}
++
++static const TypeInfo pnv_phb_type_info = {
++    .name          = TYPE_PNV_PHB,
++    .parent        = TYPE_PCIE_HOST_BRIDGE,
++    .instance_size = sizeof(PnvPHB),
++    .class_init    = pnv_phb_class_init,
++    .instance_init = pnv_phb_instance_init,
++};
++
++static void pnv_phb_register_types(void)
++{
++    type_register_static(&pnv_phb_type_info);
++}
++
++type_init(pnv_phb_register_types)
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index 70d92edd94..8e31a69083 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -966,7 +966,7 @@ static AddressSpace *pnv_phb3_dma_iommu(PCIBus *bus, void *opaque, int devfn)
+     return &ds->dma_as;
+ }
+ 
+-static void pnv_phb3_instance_init(Object *obj)
++void pnv_phb3_instance_init(Object *obj)
+ {
+     PnvPHB3 *phb = PNV_PHB3(obj);
+ 
+@@ -986,7 +986,7 @@ static void pnv_phb3_instance_init(Object *obj)
+ 
+ }
+ 
+-static void pnv_phb3_realize(DeviceState *dev, Error **errp)
++void pnv_phb3_realize(DeviceState *dev, Error **errp)
+ {
+     PnvPHB3 *phb = PNV_PHB3(dev);
+     PCIHostState *pci = PCI_HOST_BRIDGE(dev);
 diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-index 35483e59c3..b6b5f91684 100644
+index b6b5f91684..aba26f4f7c 100644
 --- a/include/hw/pci-host/pnv_phb3.h
 +++ b/include/hw/pci-host/pnv_phb3.h
-@@ -12,6 +12,7 @@
+@@ -102,4 +102,7 @@ void pnv_phb3_reg_write(void *opaque, hwaddr off, uint64_t val, unsigned size);
+ void pnv_phb3_update_regions(PnvPHB3 *phb);
+ void pnv_phb3_remap_irqs(PnvPHB3 *phb);
  
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pcie_port.h"
-+#include "hw/pci-host/pnv_phb.h"
- #include "hw/ppc/xics.h"
- #include "qom/object.h"
- 
-@@ -22,21 +23,9 @@ typedef struct PnvChip PnvChip;
-  * PHB3 XICS Source for MSIs
-  */
- #define TYPE_PHB3_MSI "phb3-msi"
--typedef struct Phb3MsiState Phb3MsiState;
- DECLARE_INSTANCE_CHECKER(Phb3MsiState, PHB3_MSI,
-                          TYPE_PHB3_MSI)
- 
--#define PHB3_MAX_MSI     2048
--
--struct Phb3MsiState {
--    ICSState ics;
--    qemu_irq *qirqs;
--
--    PnvPHB3 *phb;
--    uint64_t rba[PHB3_MAX_MSI / 64];
--    uint32_t rba_sum;
--};
--
- void pnv_phb3_msi_update_config(Phb3MsiState *msis, uint32_t base,
-                                 uint32_t count);
- void pnv_phb3_msi_send(Phb3MsiState *msis, uint64_t addr, uint16_t data,
-@@ -44,64 +33,12 @@ void pnv_phb3_msi_send(Phb3MsiState *msis, uint64_t addr, uint16_t data,
- void pnv_phb3_msi_ffi(Phb3MsiState *msis, uint64_t val);
- void pnv_phb3_msi_pic_print_info(Phb3MsiState *msis, Monitor *mon);
- 
--
--/*
-- * We have one such address space wrapper per possible device under
-- * the PHB since they need to be assigned statically at qemu device
-- * creation time. The relationship to a PE is done later dynamically.
-- * This means we can potentially create a lot of these guys. Q35
-- * stores them as some kind of radix tree but we never really need to
-- * do fast lookups so instead we simply keep a QLIST of them for now,
-- * we can add the radix if needed later on.
-- *
-- * We do cache the PE number to speed things up a bit though.
-- */
--typedef struct PnvPhb3DMASpace {
--    PCIBus *bus;
--    uint8_t devfn;
--    int pe_num;         /* Cached PE number */
--#define PHB_INVALID_PE (-1)
--    PnvPHB3 *phb;
--    AddressSpace dma_as;
--    IOMMUMemoryRegion dma_mr;
--    MemoryRegion msi32_mr;
--    MemoryRegion msi64_mr;
--    QLIST_ENTRY(PnvPhb3DMASpace) list;
--} PnvPhb3DMASpace;
--
- /*
-  * PHB3 Power Bus Common Queue
-  */
- #define TYPE_PNV_PBCQ "pnv-pbcq"
- OBJECT_DECLARE_SIMPLE_TYPE(PnvPBCQState, PNV_PBCQ)
- 
--struct PnvPBCQState {
--    DeviceState parent;
--
--    uint32_t nest_xbase;
--    uint32_t spci_xbase;
--    uint32_t pci_xbase;
--#define PBCQ_NEST_REGS_COUNT    0x46
--#define PBCQ_PCI_REGS_COUNT     0x15
--#define PBCQ_SPCI_REGS_COUNT    0x5
--
--    uint64_t nest_regs[PBCQ_NEST_REGS_COUNT];
--    uint64_t spci_regs[PBCQ_SPCI_REGS_COUNT];
--    uint64_t pci_regs[PBCQ_PCI_REGS_COUNT];
--    MemoryRegion mmbar0;
--    MemoryRegion mmbar1;
--    MemoryRegion phbbar;
--    uint64_t mmio0_base;
--    uint64_t mmio0_size;
--    uint64_t mmio1_base;
--    uint64_t mmio1_size;
--    PnvPHB3 *phb;
--
--    MemoryRegion xscom_nest_regs;
--    MemoryRegion xscom_pci_regs;
--    MemoryRegion xscom_spci_regs;
--};
--
- /*
-  * PHB3 PCIe Root port
-  */
++void pnv_phb3_instance_init(Object *obj);
++void pnv_phb3_realize(DeviceState *dev, Error **errp);
++
+ #endif /* PCI_HOST_PNV_PHB3_H */
 -- 
 2.32.0
 
