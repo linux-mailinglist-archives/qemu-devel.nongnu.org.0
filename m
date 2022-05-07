@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3847051E950
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 21:09:28 +0200 (CEST)
-Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7F351E951
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 21:09:31 +0200 (CEST)
+Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnPny-0007S5-OC
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 15:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54718)
+	id 1nnPo2-0007XM-Nd
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 15:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nnPlE-0004fy-OP; Sat, 07 May 2022 15:06:36 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:39927)
+ id 1nnPlG-0004h2-53; Sat, 07 May 2022 15:06:38 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:41520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nnPlC-0001XG-Ux; Sat, 07 May 2022 15:06:36 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-deb9295679so10547896fac.6; 
- Sat, 07 May 2022 12:06:33 -0700 (PDT)
+ id 1nnPlE-0001XM-Gh; Sat, 07 May 2022 15:06:37 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-edf9ddb312so9612740fac.8; 
+ Sat, 07 May 2022 12:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=J8SbmmJZOZ2K6d/7pVoqNk6UQWlFpU7U5UPZ7RXCdeM=;
- b=cF/2KQE89oil3BX+KlASoUa9YmiDTbwlXzMkZ533Cy/NTJzorY+8Hpu1WCcyI1CzX8
- 4D6P5+riP7fkBlTE+6cBbjFR+R+nXEY72h7yuV5+K1Bn5cGda99H9ddosUTNYs4GL8bn
- nT/54NTE3DD4/hSjydLwG0ZaxuWRGFY/d8ykR84/3AI4zxoXWNp2YCHCiAficYOUg2dG
- bOYr9ieDm1DTmEP9M9jLVegfWRgQ1aC3map850dxdU8TTvhahUTCN1kj7XofbocAvKZr
- boCJbLHazeARp9j834DozDT5dQJhVOv+rAb44U3suRZ+hhKsUJ0NMv96nXx7SQmen7AC
- Fhow==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7IGWV3nomi2hRzL2w+japFtQez8lN0OWE2s3gRdwtpo=;
+ b=VanFztx6S/5XXK5SX6vDwCI0EnH6nYRBB4qv9mJtWAW5lM2K1LLNP4ch7fHkeeB7wV
+ 085ulbHuFUB3VAF0bUyR1DiuuEQnrhsxkymazk8Gugo32tRebd9FaOMf88gWsJ4KhzvB
+ azZWYP8YQOf6J916I8dO3i18W9a1fqQybrTtPZtUGEauNT33nNvMbIOEpLT+fjLXs7vc
+ Ye1c+JsM6qN8i0lMS8vpQRcEh5G5NrqDJGbELsEU9E+dBcJ4fcVotVyOccaEfMxXKIC6
+ Fi8Nh5gt1zRz2mdW00wZxlI7Mk68QUy3YWDDaIZm/WrX8hX1eSRrK5eNvzJQJTfr5/UL
+ +I5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=J8SbmmJZOZ2K6d/7pVoqNk6UQWlFpU7U5UPZ7RXCdeM=;
- b=qpmbN1LVX2UG7YrkH09+gBRM9o2BOyu5ZrSYYfhi4mzw9VZou1mP4Cl3uzRIcwImoM
- n0H+QC1jAl2QWW47k+IKjPMp06fbKVz+RQV50rI+fHyLOqfFMyXro7l6QhQyMP1b7faX
- z1rkdv2bK2RbN1qS4kigmlkrubX7IXVG8WD15xDw0L4EKqJsp+4FTf2M2hGtGxB8Y+pP
- cQaRTwd+yCHbLXEwiwtLtRN0KjbWV04QGK116+YxQSUAIq+GBf+b7hpKEk9jbM87HIwa
- rdi29cmDB+ImNak1ELaCi03AJzkNTy/Zbz+PTo3ORmCnTgyhbE0hFgpBvZ42Y9uh8pEh
- yxyQ==
-X-Gm-Message-State: AOAM531MuMsotiEZIgGGQylWyyyCJk/VR1x4ronBJrP6SKDl7ggnsgoj
- svXUkivDRHJJUOuQNXEr4wKTes/avl8=
-X-Google-Smtp-Source: ABdhPJyh3ezbsLYxSRkdSzYGdDZ0/GyjpNFmBMtOKIfKXt0Yfg+jzxvXyZfCvf1tMKWDWbggD/2haQ==
-X-Received: by 2002:a05:6871:80e:b0:ed:895a:ae92 with SMTP id
- q14-20020a056871080e00b000ed895aae92mr3472148oap.187.1651950392540; 
- Sat, 07 May 2022 12:06:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7IGWV3nomi2hRzL2w+japFtQez8lN0OWE2s3gRdwtpo=;
+ b=CNSQlFiTRdxoL3LF9hrcb+Ct4qIGPOrMkSe+j0KNJTyNSqU3jjXrL0oclQwmZ6zK4j
+ MqrnK1sL2Y2mo+G4BjQSGAmGny5gzbci7SnTc9s1gB2BX+0l8ixEsq95fAhsML3InUSo
+ 0e7t3Nq+7oQl0ZUm+rRQHR75AYOApCb82RODyBuRir5z+awBTb3qdZENI2d4Qp0MRuNK
+ 226vgUlwLMsQ4hL4Nw+U3jrSyK/pt2PKzUBj4kDBqdEEIjBB4LURYByFO/4aMSV7tL1l
+ qDST0klQXaxRVi6eAHptUBfyYKxsvKLQ/E+XKpvAZt2RaDAdhVQoMcCrs1P1AAnT1Eyz
+ +O5Q==
+X-Gm-Message-State: AOAM532uyG09EHlCG3W6CgQGwvq+FntaCcHqw/BwGewPDBY91JwOViwy
+ IFnIRfhXAgmlNy5NOjTq57EIXlUppGU=
+X-Google-Smtp-Source: ABdhPJwE3h2VYRoje/uIquzctSjzZEYCA5nr5N3QFceZKpSU0cFsP+vfRJu3zK+Z95Z3wj7Kd7iv1Q==
+X-Received: by 2002:a05:6870:3b85:b0:ee:4232:a0c3 with SMTP id
+ gi5-20020a0568703b8500b000ee4232a0c3mr2654719oab.29.1651950394775; 
+ Sat, 07 May 2022 12:06:34 -0700 (PDT)
 Received: from balboa.ibmmodules.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- p1-20020a0568301d4100b0060603221270sm2907397oth.64.2022.05.07.12.06.30
+ p1-20020a0568301d4100b0060603221270sm2907397oth.64.2022.05.07.12.06.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 May 2022 12:06:31 -0700 (PDT)
+ Sat, 07 May 2022 12:06:34 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
  fbarrat@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH 00/17] powernv: introduce pnv-phb unified devices
-Date: Sat,  7 May 2022 16:06:07 -0300
-Message-Id: <20220507190624.507419-1-danielhb413@gmail.com>
+Subject: [PATCH 01/17] ppc/pnv: rename PnvPHB3.ioda* to PnvPHB3.ioda2*
+Date: Sat,  7 May 2022 16:06:08 -0300
+Message-Id: <20220507190624.507419-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220507190624.507419-1-danielhb413@gmail.com>
+References: <20220507190624.507419-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,114 +89,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+We're going to merge all the existing pnv-phb models into a single
+pnv-phb model. Users will be able to add phbs by using the same pnv-phb
+device, regardless of which powernv machine is being used, and
+internally we'll handle which PHB version the device needs to have.
 
-Since the 7.0.0 release cycle we have a desire to use the powernv
-emulation with libvirt. To do that we need to enable user creatable
-pnv-phb devices to allow more user customization an to avoid spamming
-multiple default devices in the domain XML. In the middle of the
-previous cycle we experimented with user created
-pnv-phb3/pnv-phb3-root-port/pnv-phb4/pnv-phb4-root-port/pnv-phb5. The
-end result, although functional, is that the user needs to deal with a
-lot of versioned devices that, from the user perspective, does the same
-thing. In a way we outsourced the implementation details of the PHBs
-(e.g. pnv8 uses phb3, pnv9 uses phb4) to the command line. Having more
-devices also puts an extra burden in the libvirt support we want to
-have.
+The unified pnv-phb model needs to be usable by the existing pnv_phb3
+and pnv_phb4 code base. One way of accomplishing that is to merge
+PnvPHB3 and PnvPHB4 into a single PnvPHB struct. To do that we need to
+handle the cases where the same attribute might have different
+meaning/semantics depending on the version.
 
-To solve this, Cedric and Frederic gave the idea of adding a common
-virtual pnv-phb device that the user can add in the command line, and
-QEMU handles the details internally. Unfortunatelly this idea turned out
-to be way harder than anticipated. Between creating a device that would
-just forward the callbacks to the existing devices internally, creating
-a PnvPHB device with the minimal attributes and making the other devices
-inherit from it, and making an 'abstract' device that could be casted
-for both phb3 and phb4 PHBs, all sorts of very obscure problems occured:
-PHBs not being detected, interrupts not being delivered and memory
-regions not being able to read/write registers. My initial impression is
-that there are assumptions made both in ppc/pnv and hw/pci-host that
-requires the memory region and the bus being in the same device. Even
-if we somehow figure all this out, the resulting code is hacky and
-annoying to maitain.
+One of these attributes is the 'ioda' arrays. This patch renames
+PnvPHB3.ioda* arrays to PnvPHB3.ioda2*. The reason why we're calling
+'ioda2' is because PnvPHB3 uses IODA version 2.
 
-This brings us to this series. The cleaner way I found to accomplish
-what we want to do is to create real, unified pnv-phb/phb-phb-root-port
-devices, and get rid of all the versioned ones. This is done by
-merging all the PHB3/PHB4 attributes in unified devices. pnv_phb3* and pnv_phb4*
-files end up using the same pnv-phb and phb-phb-root-port unified devices,
-with the difference that pnv_phb3* only cares about version 3 attributes
-and pnv_phb4* only cares about PHB4 attributes. Introducing new PHB
-versions in the future will be a matter of adding any non-existent
-attributes in the unified pnv-phb* devices and using them in separated
-pnv_phbN* files. 
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/pci-host/pnv_phb3.c         | 18 +++++++++---------
+ include/hw/pci-host/pnv_phb3.h | 12 ++++++------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
 
-The pnv-phb implementation per se is just a router for either phb3 or
-phb4 logic, done in init() and realize() time, after we check which powernv
-machine we're running. If running with powernv8 we redirect control to
-pnv_phb3_realize(), otherwise we redirect to pnv_phb4_realize(). The
-unified device does not do anything per se other than handling control
-to the right version.
-
-After this series, this same powernv8 command line that boots a powernv8
-machine with some phbs and root ports and with network:
-
-./qemu-system-ppc64 -m 4G \
--machine powernv8 -smp 2,sockets=2,cores=1,threads=1  \
--accel tcg,thread=multi -bios skiboot.lid  \
--kernel vmlinux -initrd buildroot.rootfs.cpio -append 'console=hvc0 ro xmon=on'  \
--nodefaults  -serial mon:stdio -nographic  \
--device pnv-phb,chip-id=0,index=0,id=pcie.0 \
--device pnv-phb,chip-id=0,index=1,id=pcie.1 \
--device pnv-phb,chip-id=1,index=2,id=pcie.2 \
--device pnv-phb-root-port,id=root0,bus=pcie.2 \
--device pnv-phb-root-port,id=root1,bus=pcie.1 \
--device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0  \
--device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
--drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none  \
--device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
--netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
--device nec-usb-xhci,bus=bridge1,addr=0x2
-
-
-Can be used to boot powernv9 and powernv10 machines with the same attributes
-just by changing the machine type. 
-
-
-Daniel Henrique Barboza (17):
-  ppc/pnv: rename PnvPHB3.ioda* to PnvPHB3.ioda2*
-  ppc/pnv: rename PnvPHB3.regs[] to PnvPHB3.regs3[]
-  ppc/pnv: rename PnvPHB3.dma_spaces to PnvPHB3.v3_dma_spaces
-  ppc/pnv: add unified pnv-phb header
-  ppc/pnv: add pnv-phb device
-  ppc/pnv: remove PnvPHB3
-  ppc/pnv: user created pnv-phb for powernv8
-  ppc/pnv: remove PnvPHB4
-  ppc/pnv: user creatable pnv-phb for powernv9
-  ppc/pnv: use PnvPHB.version
-  ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
-  ppc/pnv: user creatable pnv-phb for powernv10
-  ppc/pnv: add pnv_phb_get_current_machine()
-  ppc/pnv: add pnv-phb-root-port device
-  ppc/pnv: remove pnv-phb3-root-port
-  ppc/pnv: remove pnv-phb4-root-port
-  ppc/pnv: remove pecc->rp_model
-
- hw/pci-host/meson.build        |   3 +-
- hw/pci-host/pnv_phb.c          | 258 ++++++++++++++++++++++++++++
- hw/pci-host/pnv_phb3.c         | 256 +++++++++++-----------------
- hw/pci-host/pnv_phb3_msi.c     |  12 +-
- hw/pci-host/pnv_phb3_pbcq.c    |   8 +-
- hw/pci-host/pnv_phb4.c         | 298 ++++++++++++---------------------
- hw/pci-host/pnv_phb4_pec.c     |  14 +-
- hw/ppc/pnv.c                   |  41 ++++-
- include/hw/pci-host/pnv_phb.h  | 224 +++++++++++++++++++++++++
- include/hw/pci-host/pnv_phb3.h | 118 +------------
- include/hw/pci-host/pnv_phb4.h | 108 ++----------
- include/hw/ppc/pnv.h           |   3 +-
- 12 files changed, 757 insertions(+), 586 deletions(-)
- create mode 100644 hw/pci-host/pnv_phb.c
- create mode 100644 include/hw/pci-host/pnv_phb.h
-
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index 3f03467dde..860f8846df 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -165,7 +165,7 @@ static void pnv_phb3_check_m64(PnvPHB3 *phb, uint32_t index)
+     }
+ 
+     /* Get table entry */
+-    m64 = phb->ioda_M64BT[index];
++    m64 = phb->ioda2_M64BT[index];
+ 
+     if (!(m64 & IODA2_M64BT_ENABLE)) {
+         return;
+@@ -215,7 +215,7 @@ static void pnv_phb3_lxivt_write(PnvPHB3 *phb, unsigned idx, uint64_t val)
+ {
+     uint8_t server, prio;
+ 
+-    phb->ioda_LXIVT[idx] = val & (IODA2_LXIVT_SERVER |
++    phb->ioda2_LXIVT[idx] = val & (IODA2_LXIVT_SERVER |
+                                   IODA2_LXIVT_PRIORITY |
+                                   IODA2_LXIVT_NODE_ID);
+     server = GETFIELD(IODA2_LXIVT_SERVER, val);
+@@ -241,11 +241,11 @@ static uint64_t *pnv_phb3_ioda_access(PnvPHB3 *phb,
+ 
+     switch (table) {
+     case IODA2_TBL_LIST:
+-        tptr = phb->ioda_LIST;
++        tptr = phb->ioda2_LIST;
+         mask = 7;
+         break;
+     case IODA2_TBL_LXIVT:
+-        tptr = phb->ioda_LXIVT;
++        tptr = phb->ioda2_LXIVT;
+         mask = 7;
+         break;
+     case IODA2_TBL_IVC_CAM:
+@@ -263,7 +263,7 @@ static uint64_t *pnv_phb3_ioda_access(PnvPHB3 *phb,
+         mask = 255;
+         break;
+     case IODA2_TBL_TVT:
+-        tptr = phb->ioda_TVT;
++        tptr = phb->ioda2_TVT;
+         mask = 511;
+         break;
+     case IODA2_TBL_TCAM:
+@@ -271,15 +271,15 @@ static uint64_t *pnv_phb3_ioda_access(PnvPHB3 *phb,
+         mask = 63;
+         break;
+     case IODA2_TBL_M64BT:
+-        tptr = phb->ioda_M64BT;
++        tptr = phb->ioda2_M64BT;
+         mask = 15;
+         break;
+     case IODA2_TBL_M32DT:
+-        tptr = phb->ioda_MDT;
++        tptr = phb->ioda2_MDT;
+         mask = 255;
+         break;
+     case IODA2_TBL_PEEV:
+-        tptr = phb->ioda_PEEV;
++        tptr = phb->ioda2_PEEV;
+         mask = 3;
+         break;
+     default:
+@@ -869,7 +869,7 @@ static IOMMUTLBEntry pnv_phb3_translate_iommu(IOMMUMemoryRegion *iommu,
+         }
+         /* Choose TVE XXX Use PHB3 Control Register */
+         tve_sel = (addr >> 59) & 1;
+-        tve = ds->phb->ioda_TVT[ds->pe_num * 2 + tve_sel];
++        tve = ds->phb->ioda2_TVT[ds->pe_num * 2 + tve_sel];
+         pnv_phb3_translate_tve(ds, addr, flag & IOMMU_WO, tve, &ret);
+         break;
+     case 01:
+diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
+index af6ec83cf6..73da31fbd2 100644
+--- a/include/hw/pci-host/pnv_phb3.h
++++ b/include/hw/pci-host/pnv_phb3.h
+@@ -141,12 +141,12 @@ struct PnvPHB3 {
+     MemoryRegion pci_mmio;
+     MemoryRegion pci_io;
+ 
+-    uint64_t ioda_LIST[8];
+-    uint64_t ioda_LXIVT[8];
+-    uint64_t ioda_TVT[512];
+-    uint64_t ioda_M64BT[16];
+-    uint64_t ioda_MDT[256];
+-    uint64_t ioda_PEEV[4];
++    uint64_t ioda2_LIST[8];
++    uint64_t ioda2_LXIVT[8];
++    uint64_t ioda2_TVT[512];
++    uint64_t ioda2_M64BT[16];
++    uint64_t ioda2_MDT[256];
++    uint64_t ioda2_PEEV[4];
+ 
+     uint32_t total_irq;
+     ICSState lsis;
 -- 
 2.32.0
 
