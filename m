@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267A551E557
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 09:51:39 +0200 (CEST)
-Received: from localhost ([::1]:59256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8317D51E69C
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 13:16:32 +0200 (CEST)
+Received: from localhost ([::1]:40278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnFE1-0005K2-OU
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 03:51:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60404)
+	id 1nnIQJ-0005T4-6H
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 07:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nnFBx-0004Ut-MU; Sat, 07 May 2022 03:49:30 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40471)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nnINF-0004nB-Uz
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 07:13:21 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nnFBw-00047T-2u; Sat, 07 May 2022 03:49:29 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- iq2-20020a17090afb4200b001d93cf33ae9so12730450pjb.5; 
- Sat, 07 May 2022 00:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WTTZLH+nVD2rl4MfeDYdfYgJSBe3+wz5NxL4WrsRBZ0=;
- b=G26aOLDZEobU0MbGIiCdnU7wrRbm3TLAKDIrEImL37RG73n/VvRNOLm0+iLQkrZPps
- hpO4V673im18RVY5a+XD6iLxP8gQviIvdus8O/a21AA/y0TEDsH6bnhXf6VfoAXWO1St
- ibDdY8gDRsnexOqaUdWiikqYkoOr02cZbz40VMvqSI/TBeaCspBtG0t3/liBb2UAoZqb
- /UZFsrnsCujtNHkIsGJkPIx27C0HEIs1EF9arFCzjLObugq+sSJFxOPq8vLidls13e5e
- JxQorid4yzA/uX7oOdQgDHGLJtWYZ2x343mX4ZM1sC3QFoahWDthjOGkpS1d/1GGNCZI
- S+Kg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nnINE-0000q4-5D
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 07:13:21 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 7so8113127pga.12
+ for <qemu-devel@nongnu.org>; Sat, 07 May 2022 04:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=bQnQxpHxhSRvGX6jdPSKik6xQiF2F+/rL0K3EED0ZUo=;
+ b=ly2u4BBDuH3K/vc/lfPid5OgqZhvWzQQLQTK0BoVR+Dfmkdw8zjKbR4W3z+L0Zv3b7
+ cfLJOuxghKsTwTHPCRvM9BQX2fHVfK01Y574SKopePacte3/Iy2/MqOv22gsMa79bSXj
+ MhiZc2MyUTg0cG+Qk2HXw6TV54cHjgiryYujndVhG7WcbKa5WohmGG4F8C+CcTPJhzwR
+ aA7LdPsnpkB3C0XBqydJHKbYbvne/81X6n+w5H9JEKuISbYPW80lRxzhJpMlqkoQaho5
+ +3cq6I4pzZEk6EjjKGWvhUOGt3wjACN0a+MsrubHi4S5AXd87L2QUdUxk9TMF8+rDBY0
+ yZeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WTTZLH+nVD2rl4MfeDYdfYgJSBe3+wz5NxL4WrsRBZ0=;
- b=f9bJ1KR1k1d/jzHlrmjwBNx7Uj8a9Hj2Ty4yC/bjWjGknj/hyN7FgydTUFfRz0kMWu
- xl+3i7VC9RifMZfbRdfHK87v0hDmVJrj7JXZLwfF2xUqqbpDz9gA37864LfTdP/dJrzV
- IdiRyVQ7vg+QPXk6KRfrNqyOQ/LLJ02wmdJ73AhYepjIupz7MMQvcp7LaqXJYmLURIu6
- Z4hhp1kfeECIMxXA2L7z2KzLN3m1VKlg4wxW4XR2fExe2ULUPdjUtSzXpW8n+INiio5Q
- geMRhCex8UE9FxuQOB/U38VYgYMsx3rZM9QqM+DVc70eFJGv6pV3vl0eoTyUeYWMiNek
- odsQ==
-X-Gm-Message-State: AOAM533TByz+M/uKUqgpgMeK2Icl8g9uhM/fDRYacnczfnWI7c07iUEm
- XbHOmm9ezV06zbTHxeKRtIujQXGarX5Cnqm7ZFE=
-X-Google-Smtp-Source: ABdhPJxYcd2Iy5oGcFoZsghPI3i4CWEFDMaIiUobuylBx2aw7OztPYgmRoe7HzD9FtEBEmnkrbrTJWxdhYYyPa/GpNU=
-X-Received: by 2002:a17:90b:11d1:b0:1db:d99f:62cc with SMTP id
- gv17-20020a17090b11d100b001dbd99f62ccmr8589446pjb.200.1651909765712; Sat, 07
- May 2022 00:49:25 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bQnQxpHxhSRvGX6jdPSKik6xQiF2F+/rL0K3EED0ZUo=;
+ b=PfB7BcLuUOMDVZUzvm3lqFR32rxK/irITSXaH+JRRw0M6VfDxFyUzqJxbVVRQ9/M15
+ 0a4eZnV3Iv/Yd9cNpEWMCe8vDQZqcfuaNGcUGwUhc/oQUjNfhO4PeQLPtABoQ8KumHcZ
+ DNoq/aRHptEPSG57QenzK/lvp5JwTVNQ4URlrHsbDf4pdER5S9azwb9Ue+o3CTFUi0kR
+ +ebhSaF2GsIn7aZNWDDArTglq03+04R67Us/ofBmgoeQhTA8REkGougrofKaIJYrcWJh
+ wawkoLvm6nySDtleyE7rUxsT3/hWaWk97cf5rWFm9GxMXwfeekiR34DT8gMwHqbphSOh
+ PbDQ==
+X-Gm-Message-State: AOAM5331IoxesSz7zlVpQVtBLllf/P1IQofb++mWNrx6DLUl9Vcjaaat
+ nzL5QAQGjRJUtAGlwxLiuHb8tQ==
+X-Google-Smtp-Source: ABdhPJyUekCTrnDWN5/5SjCxI2qmewJJTpbeaNL0CPjk5Y1cDhWijzdbC5Ty5+bnNl5gp/MerWjCiw==
+X-Received: by 2002:a63:561c:0:b0:3c1:42fb:cd81 with SMTP id
+ k28-20020a63561c000000b003c142fbcd81mr6490609pgb.104.1651921998588; 
+ Sat, 07 May 2022 04:13:18 -0700 (PDT)
+Received: from [192.168.138.233] (50-233-235-3-static.hfc.comcastbusiness.net.
+ [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
+ w12-20020a17090aea0c00b001d9e3b0e10fsm8906088pjy.16.2022.05.07.04.13.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 May 2022 04:13:18 -0700 (PDT)
+Message-ID: <f3de97de-99d6-409c-b753-23087e3207b6@linaro.org>
+Date: Sat, 7 May 2022 06:13:14 -0500
 MIME-Version: 1.0
-References: <20220506162129.2896966-1-peter.maydell@linaro.org>
- <20220506162129.2896966-5-peter.maydell@linaro.org>
- <CAFEAcA8bT_LzFTuuciWOUEVnozpOqySrpr1pkZ76MGEk4NK2RA@mail.gmail.com>
-In-Reply-To: <CAFEAcA8bT_LzFTuuciWOUEVnozpOqySrpr1pkZ76MGEk4NK2RA@mail.gmail.com>
-From: Itaru Kitayama <itaru.kitayama@gmail.com>
-Date: Sat, 7 May 2022 16:49:15 +0900
-Message-ID: <CANW9uysf_7AkpExkQP63UWZfh+aSVczZo=0LJTTt80_x7SMq6w@mail.gmail.com>
-Subject: Re: [PATCH 4/5] hw/intc/arm_gicv3: Use correct number of priority
- bits for the CPU
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000c94eff05de673656"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=itaru.kitayama@gmail.com; helo=mail-pj1-x102e.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL v2 00/18] target/xtensa updates for v7.1
+Content-Language: en-US
+To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220506224331.3886707-1-jcmvbkbc@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220506224331.3886707-1-jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,121 +92,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c94eff05de673656
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 5/6/22 17:43, Max Filippov wrote:
+> Hello,
+> 
+> please pull the following updates for the target/xtensa.
+> 
+> Changes since v1:
+> - rebase series to the current master
+> - drop big-endian tests enabling patch (cannot test it because of the
+>    test infrastructure change)
+> - add cache testing opcodes patch
+> 
+> The following changes since commit 31abf61c4929a91275fe32f1fafe6e6b3e840b2a:
+> 
+>    Merge tag 'pull-ppc-20220505' of https://gitlab.com/danielhb/qemu into staging (2022-05-05 13:52:22 -0500)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/OSLL/qemu-xtensa.git tags/20220506-xtensa-1
+> 
+> for you to fetch changes up to 59491e97f89eaeee275f57fb6bb40f0152429fb3:
+> 
+>    target/xtensa: implement cache test option opcodes (2022-05-06 15:37:10 -0700)
+> 
+> ----------------------------------------------------------------
+> target/xtensa updates for v7.1:
+> 
+> - expand test coverage to MMUv3, cores without windowed registers or
+>    loop option;
+> - import lx106 core (used in the esp8266 IoT chips);
+> - use tcg_constant_* in the front end;
+> - add clock input to the xtensa CPU;
+> - fix reset state of the xtensa MX PIC;
+> - implement cache testing opcodes.
 
-Peter,
-I=E2=80=99ll talk with Shuichiro this coming Monday (here most of us on vac=
-ation),
-and get back to you.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Itaru.
 
-On Sat, May 7, 2022 at 1:34 Peter Maydell <peter.maydell@linaro.org> wrote:
+r~
 
-> On Fri, 6 May 2022 at 17:21, Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> >
-> > Make the GICv3 set its number of bits of physical priority from the
-> > implementation-specific value provided in the CPU state struct, in
-> > the same way we already do for virtual priority bits.  Because this
-> > would be a migration compatibility break, we provide a property
-> > force-8-bit-prio which is enabled for 7.0 and earlier versioned board
-> > models to retain the legacy "always use 8 bits" behaviour.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > I have guessed at the right value for the A64FX, but if we can
-> > find the correct ICC_CTLR_EL1 value that would be better.
->
-> Shuuichirou, Itaru: do either of you know the right setting for
-> the A64FX for this? If you can find what the hardware value of
-> the ICC_CTLR_EL3 or ICC_CTLR_EL1 register is (more specifically,
-> the PRIBits subfield) that should be enough to tell us.
->
-> > @@ -961,6 +964,12 @@ static void aarch64_a64fx_initfn(Object *obj)
-> >      cpu->gic_num_lrs =3D 4;
-> >      cpu->gic_vpribits =3D 5;
-> >      cpu->gic_vprebits =3D 5;
-> > +    /*
-> > +     * TODO: What does the real A64FX GICv3 provide ?
-> > +     * This is a guess based on what other Arm CPUs do; to find the
-> correct
-> > +     * answer we need the value of the A64FX's ICC_CTLR_EL1 register.
-> > +     */
-> > +    cpu->gic_pribits =3D 5;
-> >
-> >      /* Suppport of A64FX's vector length are 128,256 and 512bit only *=
-/
-> >      aarch64_add_sve_properties(obj);
-> > --
-> > 2.25.1
->
-> thanks
-> -- PMM
->
 
---000000000000c94eff05de673656
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> ----------------------------------------------------------------
+> Max Filippov (17):
+>        target/xtensa: fix missing tcg_temp_free in gen_window_check
+>        target/xtensa: use tcg_contatnt_* for numeric literals
+>        target/xtensa: use tcg_constant_* for exceptions
+>        target/xtensa: use tcg_constant_* for TLB opcodes
+>        target/xtensa: use tcg_constant_* for numbered special registers
+>        target/xtensa: use tcg_constant_* for FPU conversion opcodes
+>        target/xtensa: use tcg_constant_* for remaining opcodes
+>        target/xtensa: add clock input to xtensa CPU
+>        hw/xtensa: fix reset value of MIROUT register of MX PIC
+>        tests/tcg/xtensa: fix build for cores without windowed registers
+>        tests/tcg/xtensa: restore vecbase SR after test
+>        tests/tcg/xtensa: fix watchpoint test
+>        tests/tcg/xtensa: remove dependency on the loop option
+>        tests/tcg/xtensa: enable autorefill phys_mem tests for MMUv3
+>        tests/tcg/xtensa: enable mmu tests for MMUv3
+>        tests/tcg/xtensa: fix vectors and checks in timer test
+>        target/xtensa: implement cache test option opcodes
+> 
+> Simon Safar (1):
+>        target/xtensa: import core lx106
+> 
+>   hw/xtensa/mx_pic.c                            |    2 +-
+>   target/xtensa/core-lx106.c                    |   51 +
+>   target/xtensa/core-lx106/core-isa.h           |  470 ++
+>   target/xtensa/core-lx106/gdb-config.c.inc     |   83 +
+>   target/xtensa/core-lx106/xtensa-modules.c.inc | 7668 +++++++++++++++++++++++++
+>   target/xtensa/cores.list                      |    1 +
+>   target/xtensa/cpu.c                           |   15 +
+>   target/xtensa/cpu.h                           |    5 +
+>   target/xtensa/op_helper.c                     |    7 +-
+>   target/xtensa/translate.c                     |  211 +-
+>   tests/tcg/xtensa/crt.S                        |    2 +
+>   tests/tcg/xtensa/test_break.S                 |   86 +-
+>   tests/tcg/xtensa/test_mmu.S                   |  182 +-
+>   tests/tcg/xtensa/test_phys_mem.S              |   10 +-
+>   tests/tcg/xtensa/test_sr.S                    |    2 +
+>   tests/tcg/xtensa/test_timer.S                 |   68 +-
+>   16 files changed, 8604 insertions(+), 259 deletions(-)
+>   create mode 100644 target/xtensa/core-lx106.c
+>   create mode 100644 target/xtensa/core-lx106/core-isa.h
+>   create mode 100644 target/xtensa/core-lx106/gdb-config.c.inc
+>   create mode 100644 target/xtensa/core-lx106/xtensa-modules.c.inc
+> 
 
-<div dir=3D"auto">Peter,</div><div dir=3D"auto">I=E2=80=99ll talk with Shui=
-chiro this coming Monday (here most of us on vacation), and get back to you=
-.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Itaru.</div><div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, May=
- 7, 2022 at 1:34 Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.o=
-rg">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">On Fri, 6 May 2022 at 17:21, Peter Maydell &lt;<a href=3D"mailto:p=
-eter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;=
- wrote:<br>
-&gt;<br>
-&gt; Make the GICv3 set its number of bits of physical priority from the<br=
->
-&gt; implementation-specific value provided in the CPU state struct, in<br>
-&gt; the same way we already do for virtual priority bits.=C2=A0 Because th=
-is<br>
-&gt; would be a migration compatibility break, we provide a property<br>
-&gt; force-8-bit-prio which is enabled for 7.0 and earlier versioned board<=
-br>
-&gt; models to retain the legacy &quot;always use 8 bits&quot; behaviour.<b=
-r>
-&gt;<br>
-&gt; Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linar=
-o.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
-&gt; ---<br>
-&gt; I have guessed at the right value for the A64FX, but if we can<br>
-&gt; find the correct ICC_CTLR_EL1 value that would be better.<br>
-<br>
-Shuuichirou, Itaru: do either of you know the right setting for<br>
-the A64FX for this? If you can find what the hardware value of<br>
-the ICC_CTLR_EL3 or ICC_CTLR_EL1 register is (more specifically,<br>
-the PRIBits subfield) that should be enough to tell us.<br>
-<br>
-&gt; @@ -961,6 +964,12 @@ static void aarch64_a64fx_initfn(Object *obj)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;gic_num_lrs =3D 4;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;gic_vpribits =3D 5;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;gic_vprebits =3D 5;<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* TODO: What does the real A64FX GICv3 provide ?<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* This is a guess based on what other Arm CPUs do=
-; to find the correct<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* answer we need the value of the A64FX&#39;s ICC=
-_CTLR_EL1 register.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 cpu-&gt;gic_pribits =3D 5;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 /* Suppport of A64FX&#39;s vector length are 128,2=
-56 and 512bit only */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 aarch64_add_sve_properties(obj);<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div></div>
-
---000000000000c94eff05de673656--
 
