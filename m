@@ -2,99 +2,178 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F94351E370
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 04:06:28 +0200 (CEST)
-Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A156351E36F
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 04:06:02 +0200 (CEST)
+Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn9pz-0001Dx-Cy
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 22:06:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43840)
+	id 1nn9pW-0000V7-KW
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 22:05:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nn9iq-0006Hi-SE
- for qemu-devel@nongnu.org; Fri, 06 May 2022 21:59:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20365)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1nn9nx-0007AJ-L3
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 22:04:21 -0400
+Received: from mga17.intel.com ([192.55.52.151]:35408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nn9ip-0006lx-9D
- for qemu-devel@nongnu.org; Fri, 06 May 2022 21:59:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651888742;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j41EFxZl48K8PzXKwjw+VPUyqLUUbXh0uI/r17CYUNI=;
- b=PEPqO3pLkQ1TdhO7Ogz8kJZXgj24nQQAEf7otQI7xJMvpi4Un7grHov7cTUfMZANOksMOO
- 8IwzNCJFK0fxd2s8sljQwzIbnMUvC0medGK4s+OeOk1HjUhLFEA9hhGHlzocROe0pqcCPg
- iYoiheRCjd2Eas+mbYIqkoTkPhdtw9Q=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-224-RYVTe6PENpu5Wn9GP1LYTQ-1; Fri, 06 May 2022 21:58:54 -0400
-X-MC-Unique: RYVTe6PENpu5Wn9GP1LYTQ-1
-Received: by mail-ot1-f70.google.com with SMTP id
- c20-20020a056830349400b0060659610972so2050541otu.3
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 18:58:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=j41EFxZl48K8PzXKwjw+VPUyqLUUbXh0uI/r17CYUNI=;
- b=YfjvsG3w8H1lOIXb9aUDZs/AcuCk5W4e9HUOyStGy3YYKRxJcZIbA+GPGlQcvu2Nq7
- C749uC+YUp3kxtDjjfxKQDSxV5ILlPxbZaiNs3PGJtxzon+Hz3yr9OKSZ4BmGlLU9Sln
- s2cgcIM/A2tgE2Nq4d5OvP9l9uZw2sFWGtzbama/nVv8B2uleOtMKKRJPymG8cBVvLXn
- K/tz/kiM/k8yX24jRsca0gZoVxTp43ZLKtdLQzjjuAnQNvNd08oRR4m5CNCQ4vzF1mpW
- yPEo2XwK+5QJUqTJtWfqUeOkaMYMXlMaZaiML4ucinVRHcjpIMYtG0FNT7O5Oe7nrsNv
- eSSQ==
-X-Gm-Message-State: AOAM531Tw14Y5wE9vkEMw0LPM8FuEfFbuJn73OkfPjHPGTt0mXes60bD
- lnYeGtF4ZkhnmSJ0hUarBSwfcnAhzrUC8pxYi5UpSmAp5DazghyFJm2kKhsvHeAG1wEauvZeDV1
- gDdocZ3IIoX3yvg8=
-X-Received: by 2002:a05:6870:5707:b0:de:2cb8:7759 with SMTP id
- k7-20020a056870570700b000de2cb87759mr5785838oap.20.1651888733444; 
- Fri, 06 May 2022 18:58:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwY0PPqFxy+3E3QSqrMkpF7aaFWfuJFWlKT3Ol7IzEtiTtjzhXdhfJt0m08lK1dLk0T7Fy0MQ==
-X-Received: by 2002:a05:6870:5707:b0:de:2cb8:7759 with SMTP id
- k7-20020a056870570700b000de2cb87759mr5785834oap.20.1651888733242; 
- Fri, 06 May 2022 18:58:53 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7f0:55e:b3e6:9ebe:4b75:fe72])
- by smtp.gmail.com with ESMTPSA id
- v18-20020a056830141200b0060603221281sm2218124otp.81.2022.05.06.18.58.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 May 2022 18:58:52 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Subject: [PATCH v12 7/7] multifd: Implement zero copy write in multifd
- migration (multifd-zero-copy)
-Date: Fri,  6 May 2022 22:57:59 -0300
-Message-Id: <20220507015759.840466-8-leobras@redhat.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220507015759.840466-1-leobras@redhat.com>
-References: <20220507015759.840466-1-leobras@redhat.com>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1nn9ns-0007R6-Qy
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 22:04:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651889056; x=1683425056;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=HWiHtSKkznRzgoG6Q8MlCv/LUgp9S8121VOZjAM1Amk=;
+ b=dl/zgO9Wkge523GV3oLvC0Tfi+3r5eao1ZLQleBJim9Hw8D13V0lk2fK
+ S7PJiRWH4EgIfJpX3svv/5xw7ylTSE+zo+P/zegAap1Kbn5JDw0soUpLu
+ zwJAHLDD+fuJ9HGFxNv12xVvVX6/tJYx6fq5/Q5vOpyHNq/+gD3fwvVYI
+ B4/3FrhSxsGTnXMY+yWF575FJB87Vy5nFBV2bCgWxBtOFcPP7UHCuMZ+3
+ cI9ChrT9YtUlI/247qsTUe6V0rJi6GZ1KKG7cN0SvuH+HxyHvTijOwcCg
+ IWOmAnbDLXwDuBt68nzQibH1XxA+4trpmCYC8JTJLaxRDb183mebIgR7k g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="249165690"
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="249165690"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 19:03:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="600811799"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga001.jf.intel.com with ESMTP; 06 May 2022 19:03:50 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Fri, 6 May 2022 19:03:50 -0700
+Received: from orsmsx606.amr.corp.intel.com (10.22.229.19) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Fri, 6 May 2022 19:03:49 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Fri, 6 May 2022 19:03:49 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Fri, 6 May 2022 19:03:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jXdjQA1O86tJdtUoafDOSG5QqLr7XaIlzRKqiJzwtDU0Ojj5p1b/OhimyyPBjBOAq5t2H97Xi6BwpEAxoImcGH1ozqw1dOKMxiCKEiM9cJGYz77hBd1Y01PuAoLNFQSCEIBTPGqi7T6R5fXjvq2W7nGhk1DtaEQoQoMte5HdfjoYoYJkIbNvktJrecuyh81cSv3G6472fcvyTAiUJUvZyidCP/D01UkMYGJj+PpBC/NCD9egGy1LbC2MIJnV6rxU2sIGJC/3UsXK50b7hQjDX3kmFGT1UQ+VWkIVEtla7PktJTgK4g4/NYVZuHKaeCArx9je9XqRDwcpaEsLSlSHug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HWiHtSKkznRzgoG6Q8MlCv/LUgp9S8121VOZjAM1Amk=;
+ b=CM1fmB5wWtTSD263CbQwzwSb34tMhSBoRPr+/XmN6W1+R/VRopqFE3mRgCD4wfmfV0QuE2xl9ZL4m6+aX0eambx8zpbD05KEO76UCMotJeKHHdKfKvtTgr6q57Pc7QWbs+xBPT1f570xco1ZWN2tV+5hZHL6sG+wgrWG+vaaS5gIA0xMvAddbQ+ayH0VQqSZN+zJWp0VbykzZbnD3zACwqcrZsztviPoOGqvcw6Euy1x2lagMYbrbhX+AQnfuw+Hu/ZD9jDgRPsPfRDfWIIFXsrGAsuCfgIF2QoWBTSRAPyi7RN+V4H7aR8JN5HhXJG/YqjX+OY+UvNBrigy3TfW7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
+ by PH7PR11MB5766.namprd11.prod.outlook.com (2603:10b6:510:130::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.20; Sat, 7 May
+ 2022 02:03:48 +0000
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::84ea:da3f:8546:f002]) by MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::84ea:da3f:8546:f002%7]) with mapi id 15.20.5186.028; Sat, 7 May 2022
+ 02:03:47 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+CC: Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Like Xu <like.xu@linux.intel.com>
+Subject: RE: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition support
+ form COLO to PRELAUNCH
+Thread-Topic: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition
+ support form COLO to PRELAUNCH
+Thread-Index: AQHYRXzmizOHXYyq0ES2uHvbpCCqMa0DnnYAgAAE1MCADz4a4A==
+Date: Sat, 7 May 2022 02:03:47 +0000
+Message-ID: <MWHPR11MB00318C5C371743AD30AB9CE69BC49@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20220401034702.687057-1-chen.zhang@intel.com>
+ <20220401034702.687057-2-chen.zhang@intel.com>
+ <CACGkMEs7FeRCr4E9E68gS+GBTgdebeD=f0dYnPivyZ2G1mWmvw@mail.gmail.com>
+ <MWHPR11MB0031EE757A9C70E8F506BC899BFA9@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB0031EE757A9C70E8F506BC899BFA9@MWHPR11MB0031.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.401.20
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 68fd3e71-8ca6-4998-b3e9-08da2fcdd2af
+x-ms-traffictypediagnostic: PH7PR11MB5766:EE_
+x-microsoft-antispam-prvs: <PH7PR11MB57667D8E6DF2D6521D84270C9BC49@PH7PR11MB5766.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0UgrWXdpZNuZrF6uDaellLhyPqFuLMbqvE9h9ZE5RkVO3j1CJ2QwFBAdqyTJMguH19XfYvLcZxWsA4sj8RsdD85rxCQWoVRWjTMgs3qMWLODK+V915bg20f0x3+0DvRNkVWOVqsrCJlrt5k7PnoxQGf+f15rlaB6+tapWKC52zHg0PGU3VfYZMmnveKdTRQs1QbKHCgZHUR+ePTSr6ETkaYkRC/Bv0aXEvp9FDTYtGyAljyPTXgqkKp4GMF6Zny42unby9opBPZBPH8IvE0JHwb/DcHhUwX4PgdZ5qH3dJh0Da9eE3AlKnuW9NnrCkTXb0iHnfK0ZZdupq6VgKEIvZ346kUGaAKmcJASDHgj60pjwMq0JZJhtAi+glOlglyY/ne8dzFITM+DaFtge+eK7u7EQSW+NdsqCu99kOjSxltliqYtSMbQg71S31e0+WK0TB1aZnQEajZD/AExXVdrXuYYLp6+djkjUvWiSVupV8aIFK8KSGBrNPSZ4zaqyYgTX9dCViAoZTjswk7FfpI9W+PIzF63VfAomXpmDfrM8jv9E7IX60FV6uEYx4P6qEM84V3Rn6xeoqlRlQGT5HTUlGRJl0KfcIhvBafmm1Ctyk1UVtYQLAEdq0QXZpAydOHERsQlu8kPNlbC3Uw1/i32+DxG9ZpJBHIOLWEywBMo1Xm+Yqe+S3TEL/Zt3+768HgoVK9O0zDG/OldJ0euy0Wt4w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(52536014)(55016003)(71200400001)(83380400001)(38100700002)(38070700005)(508600001)(76116006)(66946007)(66556008)(6506007)(110136005)(33656002)(54906003)(8676002)(8936002)(4326008)(7696005)(86362001)(316002)(186003)(64756008)(66446008)(82960400001)(66476007)(2906002)(122000001)(5660300002)(26005)(9686003)(53546011);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NURHbkJQSDk0RFR5dzZpbUxISy9WaWUwaDlXeSs2ZzJ4S1EvVkJ0cjhRc0Iw?=
+ =?utf-8?B?YjV1WDJQcWFSTXJWYnY4cFVvTGQxT0ZvcGxSQnI4eFREY1J3ZFZXM3pCMUU0?=
+ =?utf-8?B?a2hiaE9ncW9oSzlydkxWWmV0cnhmYW5veXlRWXdtODRtdmxMUkNWS1FDWVBn?=
+ =?utf-8?B?S3Ixdk14WDF0S20zTXliNGptWml4WFFIWk5JRGpUQ2JESS9mZVNsNittYTZ5?=
+ =?utf-8?B?TWRseVRyUmNjU2gvMXY5eVBNb0dUUE0xLzVwaHhKbCtrMm5MdWdnam5oRVN2?=
+ =?utf-8?B?UUdFcU5LN0RNY3c1NmlFZzdDUlVURGh4WTBVNUFCS3RrVkxvaXQ3cUJ6Z25s?=
+ =?utf-8?B?WjJmdGNUQnlHd2lya0JFRUhPRHkra1BQZHdzTXlab3RHSmYzM2dnZFlrOWdt?=
+ =?utf-8?B?NTJ0Wjl6eFdrdnNGamhSeUFvK0tiMHZaTFhSYUhNREV3TXUzZ2I0N2FIeHRP?=
+ =?utf-8?B?MXF5TjRzNTFwNCtYa1lHVHhCYytRQ3AvY3hia3o5WWwxUmNBQkdhaWZYazFJ?=
+ =?utf-8?B?cFNXTC9qRTFvOTFsc29WQVRBYWFrdDRLRzZEaUlaWHNTcHlUdUZNWXlhQ3Rs?=
+ =?utf-8?B?WkJEYjEzMXp5VHZyc2Q1eE5wY3doUlJxbCsvNlVmbUVPV1VXWnVWU3lJYWFI?=
+ =?utf-8?B?ZzlzRnJEYmdZWG5yaUFaNjNVaHlCa3NwZjFuSU9TUEdoRDNVaFFOMkN5dTNu?=
+ =?utf-8?B?VUVXeHNzSCtYQndNdlRsS1MxbDFKQ1V0Syt3K3RlRUhHSGs0NmVMMkZNSWg1?=
+ =?utf-8?B?VmZ1c094WjB6Zld2Qld5clR0SHJaMXY3TVZranI5a21laTZvZVlGRHRJMUs0?=
+ =?utf-8?B?UnI3U3VjbERTM2pmbWVJMGdxMUdMN011WHkxQzQ2UUJWOVZmR0Z3aUF4bGRx?=
+ =?utf-8?B?UTkwTzhCZFZSOE5hZ3plSUhxY0YzYmxNb2VwOFhMT3RkUHgxd3FuVDk0L2ZJ?=
+ =?utf-8?B?YmtSNTAyNHFLdlRUL1EzSHc1V01yOGxKZ0ZYUmhUTkNzOEZoSHlSQTd2MEts?=
+ =?utf-8?B?SFlBeExKcXR6c2NJMTBJUHJEaUlvWEhIOVB0dnduVVdMbjNjMWdUeHV2b0NB?=
+ =?utf-8?B?Qk1YOXo5eHZ3bjRKWWNya3V1a2RiOHN5SlkrQU52L3VFRDVRbE9tckFUYmhF?=
+ =?utf-8?B?L25LS3ZveFJNM3lTQWV0VGdqcWR5YWozUmNVRmkxSXU5aUdjTERnTDk2UVFW?=
+ =?utf-8?B?Skk3WkNabDN4ZmJyQzFjeGk2SmlGZHZWYkYwVXRyNi9abWFYc2pvQ1hQTE1m?=
+ =?utf-8?B?VlhYdFNZUVJYRDd5WUdhMWtxam5ka2szaVp3eTlBUVF3Yng0TnZWaXNXTHdD?=
+ =?utf-8?B?a3VsaVRQWFpydlJOQmg4Q1ZKVngzQXNJZStsUm85N3hzRHcxcVVxd21vZjZ0?=
+ =?utf-8?B?dFVuVkpTYWRGcUZIeU90Q1lNUmFZOW9YSnNBVllzd0QxR2g0T2p2ZDlicmwv?=
+ =?utf-8?B?TmsvWGQ4YytZT1A3MkI1ZWVuUUhoK0w3VkxIdnhPWUtqSHc0Y2R0SnVpaTVw?=
+ =?utf-8?B?THRLcU16bkRxcnVpRmMxbTNBTHVZRW1hYm03djk3NEZNRWNTZXBYUzh6RDlu?=
+ =?utf-8?B?b2Y4ZGE1M3ZRZG1IMTVvVmhLSmQyaHFOaUxYeitCdlZHQm5ONFZ0MWNxdnUy?=
+ =?utf-8?B?Q1BKN1lpeWRkUFgrVC9tTFk1SCtFTzZhZnBJY3hSRnRrYi90MGhOZ3ppRzA5?=
+ =?utf-8?B?Um9Fc0V4ZnVFMjVSUlpBb1BocGNoRUkrQlZXYzlhakFYckZ3b244NEZZTnNW?=
+ =?utf-8?B?WDlhZW5tNXFqMmkzLzV4NHQzOTN1NWx3M1RoV1RIUE5yV251WnFIa0sxcmM4?=
+ =?utf-8?B?UU5CUCtCanJ6Z2FodDBwV0dSVWRyTkhBQ1BWSDcwRUhPVnJJVE00NzlSWXFt?=
+ =?utf-8?B?ZUVyVnE1UG5ZeHFvZ2VlQXdsNDhzMmd2UGZ5QnJvWVhGS2dzZVAxYkZWbTAr?=
+ =?utf-8?B?b01Ya1lUYXpPMmhvWWczK3c1NE90Q2YxV1pzZ3EzS1F0TFRpZWYzT3FWc1Fk?=
+ =?utf-8?B?c3dMVUVDOTlsenVLVE81OWZZakxOOTdWeENwb0hhTkl4bStPMXBMV21Nc0Ur?=
+ =?utf-8?B?SUJvLzZBWWxZYzhJUkVpMkZRS3p2Ujh2cDVsdHZQQy9IUE5pdVh0U1ZVaDNv?=
+ =?utf-8?B?SkpMZUlLN0J2ZVNLN1VrZWhEbFNhUHhzQy9zU1JFN05JZ1ZUWWF2VW5wdEx0?=
+ =?utf-8?B?WHFIRlV6c0FWendJZ2xPTm5SMS9nWjBrc3V6Mis3TFBaZ2VSK0lvNlJERlFZ?=
+ =?utf-8?B?eEY0OUZ6TlQzZVF4dDlCRjRkR0ZlVjlTSW82bVFCQmNza3hhOXV1S3R0MTJQ?=
+ =?utf-8?B?c2pZOGIzTmVzNVNlbjZRdmQ1WTRBYUZUb25DcWY3K2Y5dkhOTkVoUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68fd3e71-8ca6-4998-b3e9-08da2fcdd2af
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2022 02:03:47.5721 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8tpaNoLCzhS+Mw08MxHjvVhnSBqxqS3VlTD4uRRy6hWNbgpcZmxCbXfGuDUl/1Exb9PmExHzci/+/byaXtpiDg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5766
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,165 +189,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
-writev + flags & flush interface.
-
-Change multifd_send_sync_main() so flush_zero_copy() can be called
-after each iteration in order to make sure all dirty pages are sent before
-a new iteration is started. It will also flush at the beginning and at the
-end of migration.
-
-Also make it return -1 if flush_zero_copy() fails, in order to cancel
-the migration process, and avoid resuming the guest in the target host
-without receiving all current RAM.
-
-This will work fine on RAM migration because the RAM pages are not usually freed,
-and there is no problem on changing the pages content between writev_zero_copy() and
-the actual sending of the buffer, because this change will dirty the page and
-cause it to be re-sent on a next iteration anyway.
-
-A lot of locked memory may be needed in order to use multifd migration
-with zero-copy enabled, so disabling the feature should be necessary for
-low-privileged users trying to perform multifd migrations.
-
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- migration/multifd.h   |  2 ++
- migration/migration.c | 11 ++++++++++-
- migration/multifd.c   | 37 +++++++++++++++++++++++++++++++++++--
- migration/socket.c    |  5 +++--
- 4 files changed, 50 insertions(+), 5 deletions(-)
-
-diff --git a/migration/multifd.h b/migration/multifd.h
-index bcf5992945..4d8d89e5e5 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -92,6 +92,8 @@ typedef struct {
-     uint32_t packet_len;
-     /* pointer to the packet */
-     MultiFDPacket_t *packet;
-+    /* multifd flags for sending ram */
-+    int write_flags;
-     /* multifd flags for each packet */
-     uint32_t flags;
-     /* size of the next packet that contains pages */
-diff --git a/migration/migration.c b/migration/migration.c
-index 4b6df2eb5e..31739b2af9 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1497,7 +1497,16 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
-         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
-         return false;
-     }
--
-+#ifdef CONFIG_LINUX
-+    if (params->zero_copy_send &&
-+        (!migrate_use_multifd() ||
-+         params->multifd_compression != MULTIFD_COMPRESSION_NONE ||
-+         (params->tls_creds && *params->tls_creds))) {
-+        error_setg(errp,
-+                   "Zero copy only available for non-compressed non-TLS multifd migration");
-+        return false;
-+    }
-+#endif
-     return true;
- }
- 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 2541cd2322..9282ab6aa4 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -569,6 +569,7 @@ void multifd_save_cleanup(void)
- int multifd_send_sync_main(QEMUFile *f)
- {
-     int i;
-+    bool flush_zero_copy;
- 
-     if (!migrate_use_multifd()) {
-         return 0;
-@@ -579,6 +580,20 @@ int multifd_send_sync_main(QEMUFile *f)
-             return -1;
-         }
-     }
-+
-+    /*
-+     * When using zero-copy, it's necessary to flush the pages before any of
-+     * the pages can be sent again, so we'll make sure the new version of the
-+     * pages will always arrive _later_ than the old pages.
-+     *
-+     * Currently we achieve this by flushing the zero-page requested writes
-+     * per ram iteration, but in the future we could potentially optimize it
-+     * to be less frequent, e.g. only after we finished one whole scanning of
-+     * all the dirty bitmaps.
-+     */
-+
-+    flush_zero_copy = migrate_use_zero_copy_send();
-+
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
- 
-@@ -600,6 +615,17 @@ int multifd_send_sync_main(QEMUFile *f)
-         ram_counters.transferred += p->packet_len;
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
-+
-+        if (flush_zero_copy && p->c) {
-+            int ret;
-+            Error *err = NULL;
-+
-+            ret = qio_channel_flush(p->c, &err);
-+            if (ret < 0) {
-+                error_report_err(err);
-+                return -1;
-+            }
-+        }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
-@@ -684,8 +710,8 @@ static void *multifd_send_thread(void *opaque)
-                 p->iov[0].iov_base = p->packet;
-             }
- 
--            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
--                                         &local_err);
-+            ret = qio_channel_writev_full_all(p->c, p->iov, p->iovs_num, NULL,
-+                                              0, p->write_flags, &local_err);
-             if (ret != 0) {
-                 break;
-             }
-@@ -913,6 +939,13 @@ int multifd_save_setup(Error **errp)
-         /* We need one extra place for the packet header */
-         p->iov = g_new0(struct iovec, page_count + 1);
-         p->normal = g_new0(ram_addr_t, page_count);
-+
-+        if (migrate_use_zero_copy_send()) {
-+            p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
-+        } else {
-+            p->write_flags = 0;
-+        }
-+
-         socket_send_channel_create(multifd_new_send_channel_async, p);
-     }
- 
-diff --git a/migration/socket.c b/migration/socket.c
-index 3754d8f72c..4fd5e85f50 100644
---- a/migration/socket.c
-+++ b/migration/socket.c
-@@ -79,8 +79,9 @@ static void socket_outgoing_migration(QIOTask *task,
- 
-     trace_migration_socket_outgoing_connected(data->hostname);
- 
--    if (migrate_use_zero_copy_send()) {
--        error_setg(&err, "Zero copy send not available in migration");
-+    if (migrate_use_zero_copy_send() &&
-+        !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY)) {
-+        error_setg(&err, "Zero copy send feature not detected in host kernel");
-     }
- 
- out:
--- 
-2.36.0
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWmhhbmcsIENoZW4NCj4g
+U2VudDogV2VkbmVzZGF5LCBBcHJpbCAyNywgMjAyMiA1OjI2IFBNDQo+IFRvOiBKYXNvbiBXYW5n
+IDxqYXNvd2FuZ0ByZWRoYXQuY29tPjsgUGFvbG8gQm9uemluaQ0KPiA8cGJvbnppbmlAcmVkaGF0
+LmNvbT4NCj4gQ2M6IExpIFpoaWppYW4gPGxpemhpamlhbkBjbi5mdWppdHN1LmNvbT47IHFlbXUt
+ZGV2IDxxZW11LQ0KPiBkZXZlbEBub25nbnUub3JnPjsgTGlrZSBYdSA8bGlrZS54dUBsaW51eC5p
+bnRlbC5jb20+DQo+IFN1YmplY3Q6IFJFOiBbUEFUQ0ggVjIgMS80XSBzb2Z0bW11L3J1bnN0YXRl
+LmM6IGFkZCBSdW5TdGF0ZVRyYW5zaXRpb24NCj4gc3VwcG9ydCBmb3JtIENPTE8gdG8gUFJFTEFV
+TkNIDQo+IA0KPiANCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9t
+OiBKYXNvbiBXYW5nIDxqYXNvd2FuZ0ByZWRoYXQuY29tPg0KPiA+IFNlbnQ6IFdlZG5lc2RheSwg
+QXByaWwgMjcsIDIwMjIgNDo1NyBQTQ0KPiA+IFRvOiBaaGFuZywgQ2hlbiA8Y2hlbi56aGFuZ0Bp
+bnRlbC5jb20+DQo+ID4gQ2M6IExpIFpoaWppYW4gPGxpemhpamlhbkBjbi5mdWppdHN1LmNvbT47
+IHFlbXUtZGV2IDxxZW11LQ0KPiA+IGRldmVsQG5vbmdudS5vcmc+OyBMaWtlIFh1IDxsaWtlLnh1
+QGxpbnV4LmludGVsLmNvbT4NCj4gPiBTdWJqZWN0OiBSZTogW1BBVENIIFYyIDEvNF0gc29mdG1t
+dS9ydW5zdGF0ZS5jOiBhZGQgUnVuU3RhdGVUcmFuc2l0aW9uDQo+ID4gc3VwcG9ydCBmb3JtIENP
+TE8gdG8gUFJFTEFVTkNIDQo+ID4NCj4gPiBPbiBGcmksIEFwciAxLCAyMDIyIGF0IDExOjU5IEFN
+IFpoYW5nIENoZW4gPGNoZW4uemhhbmdAaW50ZWwuY29tPiB3cm90ZToNCj4gPiA+DQo+ID4gPiBJ
+ZiB0aGUgY2hlY2twb2ludCBvY2N1cnMgd2hlbiB0aGUgZ3Vlc3QgZmluaXNoZXMgcmVzdGFydGlu
+ZyBidXQgaGFzDQo+ID4gPiBub3Qgc3RhcnRlZCBydW5uaW5nLCB0aGUgcnVuc3RhdGVfc2V0KCkg
+bWF5IHJlamVjdCB0aGUgdHJhbnNpdGlvbg0KPiA+ID4gZnJvbSBDT0xPIHRvIFBSRUxBVU5DSCB3
+aXRoIHRoZSBjcmFzaCBsb2c6DQo+ID4gPg0KPiA+ID4geyJ0aW1lc3RhbXAiOiB7InNlY29uZHMi
+OiAxNTkzNDg0NTkxLCAibWljcm9zZWNvbmRzIjogMjY2MDV9LFwNCj4gPiA+ICJldmVudCI6ICJS
+RVNFVCIsICJkYXRhIjogeyJndWVzdCI6IHRydWUsICJyZWFzb24iOiAiZ3Vlc3QtcmVzZXQifX0N
+Cj4gPiA+IHFlbXUtc3lzdGVtLXg4Nl82NDogaW52YWxpZCBydW5zdGF0ZSB0cmFuc2l0aW9uOiAn
+Y29sbycgLT4gJ3ByZWxhdW5jaCcNCj4gPiA+DQo+ID4gPiBMb25nLXRlcm0gdGVzdGluZyBzYXlz
+IHRoYXQgaXQncyBwcmV0dHkgc2FmZS4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBMaWtl
+IFh1IDxsaWtlLnh1QGxpbnV4LmludGVsLmNvbT4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IFpoYW5n
+IENoZW4gPGNoZW4uemhhbmdAaW50ZWwuY29tPg0KPiA+DQo+ID4gSSdkIGV4cGVjdCB0aGlzIHRv
+IGdldCBhY2sgZnJvbSB0aGUgcmVsZXZhbnQgbWFpbnRhaW5lcnMuDQo+ID4NCj4gDQo+IFRoZSBz
+Y3JpcHRzL2dldF9tYWludGFpbmVyLnBsIGNhbid0IGZpbmQgcmVsZXZhbnQgbWFpbnRhaW5lcnMg
+Zm9yIHRoaXMgcGF0Y2guDQo+IE1heWJlIFBhb2xvIGhhdmUgdGltZSB0byBjb3ZlciB0aGlzIHNp
+bXBsZSBwYXRjaCByZWxhdGVkIHRvIHJ1bnN0YXRlPw0KDQpObyBuZXdzIGZvciBhIHdoaWxlLCBh
+bnkgY29tbWVudHMgZm9yIHVubWFpbnRhaW5lZCBmaWxlcyBjaGFuZ2VzID8NClBpbmcuLi4NCg0K
+VGhhbmtzDQpDaGVuDQoNCj4gDQo+IFRoYW5rcw0KPiBDaGVuDQo+IA0KPiA+IFRoYW5rcw0KPiA+
+DQo+ID4gPiAtLS0NCj4gPiA+ICBzb2Z0bW11L3J1bnN0YXRlLmMgfCAxICsNCj4gPiA+ICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvc29m
+dG1tdS9ydW5zdGF0ZS5jIGIvc29mdG1tdS9ydW5zdGF0ZS5jIGluZGV4DQo+ID4gPiBlMGQ4Njli
+MjFhLi5jMDIxYzU2MzM4IDEwMDY0NA0KPiA+ID4gLS0tIGEvc29mdG1tdS9ydW5zdGF0ZS5jDQo+
+ID4gPiArKysgYi9zb2Z0bW11L3J1bnN0YXRlLmMNCj4gPiA+IEBAIC0xMjcsNiArMTI3LDcgQEAg
+c3RhdGljIGNvbnN0IFJ1blN0YXRlVHJhbnNpdGlvbg0KPiA+IHJ1bnN0YXRlX3RyYW5zaXRpb25z
+X2RlZltdID0gew0KPiA+ID4gICAgICB7IFJVTl9TVEFURV9SRVNUT1JFX1ZNLCBSVU5fU1RBVEVf
+UFJFTEFVTkNIIH0sDQo+ID4gPg0KPiA+ID4gICAgICB7IFJVTl9TVEFURV9DT0xPLCBSVU5fU1RB
+VEVfUlVOTklORyB9LA0KPiA+ID4gKyAgICB7IFJVTl9TVEFURV9DT0xPLCBSVU5fU1RBVEVfUFJF
+TEFVTkNIIH0sDQo+ID4gPiAgICAgIHsgUlVOX1NUQVRFX0NPTE8sIFJVTl9TVEFURV9TSFVURE9X
+Tn0sDQo+ID4gPg0KPiA+ID4gICAgICB7IFJVTl9TVEFURV9SVU5OSU5HLCBSVU5fU1RBVEVfREVC
+VUcgfSwNCj4gPiA+IC0tDQo+ID4gPiAyLjI1LjENCj4gPiA+DQoNCg==
 
