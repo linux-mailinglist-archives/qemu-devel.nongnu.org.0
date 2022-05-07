@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B05B51E4BE
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 08:49:02 +0200 (CEST)
-Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD94D51E4F9
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 08:56:01 +0200 (CEST)
+Received: from localhost ([::1]:51610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnEFR-0008UW-2F
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 02:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48842)
+	id 1nnEMC-0003VX-Bd
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 02:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nnECp-0007lv-S3
- for qemu-devel@nongnu.org; Sat, 07 May 2022 02:46:20 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nnECo-0003ma-7k
- for qemu-devel@nongnu.org; Sat, 07 May 2022 02:46:19 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id i27so17980810ejd.9
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 23:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TVh7OK2unz0fMGMUVStK6eQUtfidUNMBFJYue3HndkU=;
- b=Jj3NrL1zPm1Ora5/y+mLYb99MCRLN8mixO6G3yJ2fV1UAHs9VK03LET1FIBU6GAPkn
- 1z2/MAIEjqMFRnv8Gb92Vz0MgTqUjvyxoKgX5LQn8rjgmKE7+31RuPGtd/sU4Cqqw11s
- Ja5/93jPtOjH3INvKfUatevg0zC5WzRCCjw9NEETaOs8npT6boQupzqJyb5f3I8zoNvs
- nHBzh3oLwtqZv+OGjnEu8wpLaZFjbAS5VMLcpAEszFHSgdSL1cVxUxGoxdeW2lWclMiw
- GsqFCvhzRC9p5ZZtYaA3VnwX/NfTPD81Dj0Lff8Ijf90T1R2qWNH5xQBN+EvpCZd2udL
- r0Fw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nnEK9-0002Zj-0y
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 02:53:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nnEK5-0004n1-ES
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 02:53:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651906427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cmxGvrOkJry/V93fRHs7tS5Rbp1UOlrFduhV0vemUYY=;
+ b=gnFMwXtmLlsSBT0mQNXk43B5j2viV74+FKMP7bHV1cMvX0skZMzkE+jSVe8fZj256OFte6
+ /NZPW5wpzSlJWq67vNHpYQMDHU759zEEsCANbwnxV1Ooqq24O4EBFne3vZ6ZM1MfYHR6Mq
+ n7f6OvEDVrS+yBvUApf2PwlvwmPaUUA=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-171-6CqwW1N9MSaV5eflcIFnwA-1; Sat, 07 May 2022 02:53:45 -0400
+X-MC-Unique: 6CqwW1N9MSaV5eflcIFnwA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ w25-20020a05651234d900b0044023ac3f64so4163570lfr.0
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 23:53:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TVh7OK2unz0fMGMUVStK6eQUtfidUNMBFJYue3HndkU=;
- b=arX5fIuZv4D6Nm+HyCG0A0HPFB9bc0hyJ9/LyChzItJvxcC98ga+udx0TxmM80oY7a
- 8X7uvvKO9FC6KGSNgMgodTsxwo2mWxkSB6kais7rb3ZSzfM5/qo08YMQM932jPvKFDe9
- lTC17MzeXwER74BGFbN4K+1JT3ttNer/UZUVO+yn2NhdAPGikBBhfdN/hQJd5EodXaHQ
- IP8P2qhdD7S3GTs5d64OUgq9PeHMFM8H0GfjnARmD+DRb9664x1b6F4+PHYHEl5ZybJX
- NfvT68khTG67Ocz8XhcUagABiVOPCUz8aVtGxZUL/G/9ku5+MmsqyoZHlMtYMxvk1W6e
- sc4w==
-X-Gm-Message-State: AOAM532xu2M1qW2wmPY87Gwh80yn5Xm4QQbvuPY9QFg+Xv/fhrieBhl7
- +vVSLtZPeDAJifvqC1BCuhE=
-X-Google-Smtp-Source: ABdhPJxDo/Xzm9g+kPYJi2hiw031Z13NkBt6GYVhaBqwlWzsB+gxe5s97UjplaFKo0AJb+nSwA2deg==
-X-Received: by 2002:a17:907:7293:b0:6f4:b0b4:c807 with SMTP id
- dt19-20020a170907729300b006f4b0b4c807mr6260113ejc.180.1651905976751; 
- Fri, 06 May 2022 23:46:16 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928?
- ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
- by smtp.googlemail.com with ESMTPSA id
- qu48-20020a17090767b000b006f3ef214dc3sm2711923ejc.41.2022.05.06.23.46.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 23:46:16 -0700 (PDT)
-Message-ID: <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
-Date: Sat, 7 May 2022 08:46:10 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cmxGvrOkJry/V93fRHs7tS5Rbp1UOlrFduhV0vemUYY=;
+ b=mYobcfm0Et/j3n05/OjaSgUANq8rm1OdYq/j9IYa5BDstBKvcP1GR2OV8atbMM9eun
+ pnIOSS8rTJG5bwhzxdOA4xLX3KwMjjEtKCIJkkOxYw7FWCX6xBL4pncpsr2WQRA+gQoi
+ gngTRqw1Mn8P8CX7qLAqnDP3CKRis3fjv+CxT8RLqj+JPcS1orWTd5I0XrtCS0dAEL7P
+ g821DWl1WIoVPCekP74al2iJUePhqP4m4m+D9eHDkKNTJ0V9Pa8i4cg/+fZNxLQOA790
+ nJf9nSrvec8nwvj0Fpf4hDAtPNoKVRzg+Zkye8+EnO76PGvVm3f91efB8PzWfKUQzA7F
+ 4h/w==
+X-Gm-Message-State: AOAM533V+MFDFcrvoXPPLaFQkgvlN86L2qCUOCPTOs3HHxC9M5ZWovLX
+ pPWBbPI/dcOMvsqMsfsQR7uJZmkchlgEspMzTQumZn/TfFnj+DDYac9waL5Dzgq5kJWPLmLvU1r
+ QeAN8sqfHbfSNJ0TMxKX5Cx3NuNnO0Z0=
+X-Received: by 2002:a05:651c:892:b0:249:9e23:15 with SMTP id
+ d18-20020a05651c089200b002499e230015mr4355136ljq.492.1651906424430; 
+ Fri, 06 May 2022 23:53:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzbCVH1HEG8cJR4zHK45dZi8+7qTDHI68XagbR9A4mJ/W4lPPX1yy/G5xaIUMSKegW8V+e+e5HPs9L/Vrt1Xjk=
+X-Received: by 2002:a05:651c:892:b0:249:9e23:15 with SMTP id
+ d18-20020a05651c089200b002499e230015mr4355117ljq.492.1651906424182; Fri, 06
+ May 2022 23:53:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Cc: Andrew Melnychenko <andrew@daynix.com>, qemu-devel <qemu-devel@nongnu.org>
 References: <87a6bulueg.fsf@pond.sub.org>
  <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
+In-Reply-To: <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Sat, 7 May 2022 14:53:33 +0800
+Message-ID: <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
+Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Andrew Melnychenko <andrew@daynix.com>, qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,14 +94,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/7/22 07:05, Jason Wang wrote:
->> If it was generated by something in the tree, it should not be committed
->> to git.  Doesn't look like it is.
-> Andrew may know more.
-> 
-> I remember it was generated by libbpf.
+On Sat, May 7, 2022 at 2:46 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 5/7/22 07:05, Jason Wang wrote:
+> >> If it was generated by something in the tree, it should not be committed
+> >> to git.  Doesn't look like it is.
+> > Andrew may know more.
+> >
+> > I remember it was generated by libbpf.
+>
+> What is the source?
 
-What is the source?
+It's tools/ebpf/rss.bpf.c.
 
-Paolo
+Thanks
+
+>
+> Paolo
+>
+
 
