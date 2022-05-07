@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875CE51E7BB
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 16:18:13 +0200 (CEST)
-Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DD251E82B
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 17:32:19 +0200 (CEST)
+Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnLG8-0007k4-4A
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 10:18:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52038)
+	id 1nnMPq-0001S7-5p
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 11:32:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnLED-0006FN-Qp
- for qemu-devel@nongnu.org; Sat, 07 May 2022 10:16:14 -0400
-Received: from mout.web.de ([217.72.192.78]:36617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnLEA-00044o-MM
- for qemu-devel@nongnu.org; Sat, 07 May 2022 10:16:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1651932968;
- bh=A/csNgxFBNNnI4OJla1cyy22/z1NyaiOkhlb+awMYsA=;
- h=X-UI-Sender-Class:From:Subject:Date:References:To:In-Reply-To;
- b=Yhp58Wiuni7/2z5l13ALWxdw/+o0vEd0ZzlsdZgwU9+sNX/u/LSEYjwzXwWeH68AR
- uMKR9dh3B1a5UyxD5WTFqWyPO0NTDbqcWuDvQFyjdi57g/g+jGViFAImoiaB5sF89R
- WpQazSKmDNvK9labyRQNoj/ryFKbaulLbyV17TvA=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N5lj7-1ntfjH1oc7-0174G0 for
- <qemu-devel@nongnu.org>; Sat, 07 May 2022 16:16:08 +0200
-From: Chris Howard <cvz185@web.de>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: Possible bug in Aarch64 single-stepping
-Date: Sat, 7 May 2022 16:16:07 +0200
-References: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
-To: qemu-devel@nongnu.org
-In-Reply-To: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
-Message-Id: <7988B475-EEC0-4574-B0E2-BB61738B8964@web.de>
-X-Mailer: Apple Mail (2.3445.104.21)
-X-Provags-ID: V03:K1:sw8f+HY1Am6G7nSHCOjnD7jO9adAWf0rHili/cYkcNFPei16TX/
- wW0iKvUA3JRURbQbeq7LVqX3/OevpOIHAwMO0F8n/Sl2o0gUmf3oh1Ig5ixFUHFqqYmwNPJ
- rkrO9wiIdz19Hzf1ETdU8rMrPLHQBRdKUmGZxDv4aaavqk68aJSKfRJDe6/D2MhxpHCH/Lu
- CUcSs9MOQlaKQADoU452g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RPCt66eB/SY=:M8VNUzmrbMKZDz2S8JrtvF
- HBb9mPKCzdKNfQ2Onrmr+1UCqQ0XlqLBD6fNnJCk3j7RW+M3hgBufoje3z/zQSHU/RiE2iA+X
- Hh6wqbR/nMPtI/422dlPco4/wQl23cnORM637kEHmQYa6gW5TB6n/jYMBjF8TCOZRwQb1+4QW
- aHBYlbpPdQzOKIMGg1nB7kH/d7ogWGjAOv29ELK8WyQ6OHggYNte74M7cFYn20D9b09IIayvm
- qPWNfwwRZO8TYwNH8ZkMgSHXDZm24kjP0Zgn3BWGCB82anrR/CidrLfTuJXwjzPgK1g1Q5Aex
- yuxlykXIwN6hYP9BJqtv82xjsDNwDoiHelR/G7MTEi/Fu6GDaVbXo2LRMTIqM96DldVP9NTqd
- 8LmYTLG5V7LgkbUIrDtfE/Yx7aQtS9xvlvlxTRWmJcXp5oBeGlK7uooP39Cuf3aCs3d4Pb/1W
- FPmAAOIY/l01r0taGOrbwiemZT9b+9AGEM4carsEIj6XYg8dDjq+p5JPWVRYYC4syym0Zp338
- yyt6hJPol1aVwFGJu2mmC9tByaO8CNwUeirvI2DWcC9LPjAk9f6IlGxkAK8lZF/qLzFYEoa0R
- t3EzqsNkO/w1q8Xgesn3be2rVsp3W3Mg4bLjLF3Xfn+MKmm4MpxyoD3y2ukQ2H5Smi1vHkbUt
- Xv1cHNH0XnlVKJi9lgqwxCQ2OaI4FuyYGmNFzXddQzwHAb9b0jLV1ewWH4K1bwANz3p0c2/2p
- iQ40nYzXeKFtUvkdHCQaeAqfrrq9bHq6xO1f7YhI8zhJsyFrnkFrKKUF5vYluyS+FhonnTtWt
- o8PGknVH+m+4KtvuDvRccfe5FOrpZlOnH/uKjNfxNynmgwXevOeTO/WKNE6slTsvVNZ7YF4Gz
- b2+hmN/AqaenrUn1X1geazbO7dSXMcsgFxXkqq31ZPcOkpD59ikVYObSrVQ1Mw5jzq3krNTyY
- EhK+U8cqWCc3r4wH0nUmZBOSl9jZWsD70FP+S6Puia9cMqtpdvpwOopZ0SbuwEtGle37R8ZVe
- LxTFq3f4wMiiV63ICSRXma+evf/hqHEL3ux9YrYRZGawcHqh0Ic/opHFUTaESoywbAEZRaIQD
- nmYcpFPTfYlMW8=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=cvz185@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nnMOl-0000mG-Oh
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 11:31:13 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34482)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nnMOg-0006Dg-H0
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 11:31:11 -0400
+Received: by mail-pf1-x434.google.com with SMTP id a11so8669698pff.1
+ for <qemu-devel@nongnu.org>; Sat, 07 May 2022 08:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:from:subject:to:cc
+ :references:content-language:in-reply-to:content-transfer-encoding;
+ bh=2vKBfGJv+6Fo2oj57RV66ifID3Csnui6MtncIVqtpb0=;
+ b=D3CvERfgJm9IfH2kZpeP7Fy2o+e2J61EQV+Bop3Mry93OT/Ut3yK4I2QRbbZrNSE8p
+ SowJn7MluhvKgzFa6avAlR3YChbhbVupebebyIl14naaT6GDNUqLL//DhR5zkrbCyz14
+ 1KWiyKy0ZAgYobNk7UitCV7nPrU1KReZlN4gTzk6r5x9drw5ddGZqG/LJAA1qp5dh1lH
+ iQObYRdRgYdCRbdi9dka6LWOJ8ttUsjOdLiyus3Ef5gH4U5xAYvvvAvtqOpP8ct/MSJy
+ 73ov6OiOZZvyGo0Pow9wi3vdJPmV4VX4qzKb+uYEnQfSGkJ0WPV2uezuO9mX0jUiHnIc
+ A2Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+ :subject:to:cc:references:content-language:in-reply-to
+ :content-transfer-encoding;
+ bh=2vKBfGJv+6Fo2oj57RV66ifID3Csnui6MtncIVqtpb0=;
+ b=nMM/6dm1pmGy2DwrR5oSlrraeyywDvGYSiQ6J9nsyAIJTVUkxcwNW9QOnevJ2yiTIx
+ jLcNvXnzOhaXhfM4okOTk7x9yEvLW6fpNz622TW9YU3wzAjj0ld2BaPjSM/LD1KzAZjj
+ BmCLug5QJj8JUOd0CRUBNwKrzApei/wxnd5hMyvxwMXLLnHcchoV/q33oVNW8KylQd7r
+ 6XFEtMU+DJ7T5BWSWXnJGmvDRNLNhJDRN9IrSBs3er8SAGFkVlK1fPpQhXMlblpdHm5U
+ YFRQC4SrW9yjYmtgT4CB5tO3lZm6FVC94fVihGw2QTqlx4xsgc+Ne6ZvPx4XTmJESKi1
+ Chxw==
+X-Gm-Message-State: AOAM532AIHxVl/vtnGPIacueID3M36LLUzStcByZ7OVrAn5/bYV2rO/X
+ eVGgW/TvWIBTldCpsM/ZJx0nAg==
+X-Google-Smtp-Source: ABdhPJxObx2BlPDF6nOR2vZEA+JDXdMRCZFhZl9MZ5Itflc0/kBHszHQHldYm7jLWAjc1yAWFaMCpA==
+X-Received: by 2002:a05:6a00:170a:b0:50d:3e40:9e0 with SMTP id
+ h10-20020a056a00170a00b0050d3e4009e0mr8622639pfc.48.1651937464681; 
+ Sat, 07 May 2022 08:31:04 -0700 (PDT)
+Received: from [192.168.138.233] (50-233-235-3-static.hfc.comcastbusiness.net.
+ [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
+ p18-20020a1709028a9200b0015e8d4eb2cdsm3784579plo.279.2022.05.07.08.31.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 May 2022 08:31:03 -0700 (PDT)
+Message-ID: <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
+Date: Sat, 7 May 2022 10:31:00 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+From: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 34/43] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
+References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
+ <20220429100729.1572481-35-yangxiaojuan@loongson.cn>
+Content-Language: en-US
+In-Reply-To: <20220429100729.1572481-35-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,48 +94,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7. May 2022, at 15:42, Chris Howard <cvz185@web.de> wrote:
->=20
-> Hi, I=E2=80=99m writing a simple debugger in assembly code for the =
-Raspberry Pi 3B (in aarch64).
->=20
-> I=E2=80=99m using QEMU 7.0.0. Everything is running in EL1. (I have =
-MDE and KDE set in MDSCR_EL1).
->=20
-> I=E2=80=99m coming across Unexpected Behaviour when playing with =
-single-stepping:
->=20
-> It appears that single-stepping is enabled (ie. an exception is =
-generated after every instruction) when the SS bit (bit-0) is set in =
-MDSCR_EL1 and debug events are enabled in the CPSR (=E2=80=9CD=E2=80=9D =
-bit clear) *** irrespective of whether the SS bit (bit-21) is set in =
-CPSR or not ***.
->=20
-> I thought the SS bit (bit-21) needs to be set in CPSR for =
-single-stepping to occur (and that it gets cleared whenever an exception =
-is taken and needs to be reset if one wants to single-step again).
->=20
-> Have I misunderstood / misconfigured something, or is this a bug?
->=20
-> Attached is a minimal(ish) example:
+On 4/29/22 05:07, Xiaojuan Yang wrote:
+> +    int ipmap_mask = 0xff << ipmap_offset;
+...
+> +    int cpu_mask = 0xff << ipmap_offset;
 
-Oh, and the exception occurs immediately (after the ERET), rather than =
-after the instruction has been executed. It appears to be acting like a =
-hardware breakpoint.
+These two masks are redundant with
+
+> +    ipnum = ((s->ipmap[ipmap_index] & ipmap_mask) >> ipmap_offset) & 0xf;
+...
+> +    cpu = ((s->coremap[cpu_index] & cpu_mask) >> cpu_offset) & 0xf;
+
+the 0xf masking here.
+
+> +    cpu = ctz32(cpu);
+> +    cpu = (cpu >= 4) ? 0 : cpu;
+
+You are not considering CSR[0x420][49], which changes the format of this mapping.
+
+I think this function is wrong because you maintain an unmapped enable bitmap, but you do 
+not maintain an unmapped status bitmap, which *should* be readable from 
+EXTIOI_ISR_{START,END}, but is not present in extioi_readw.
+
+I think that only extioi_setirq should actually change the unmapped status bitmap, and 
+that extioi_update_irq should only evaluate the mapping to apply changes to the cpus.
 
 
-PS. In plain gdb (ie. no nice user interface) a large number (but not =
-all) of the system registers gets displayed after each step. It would be =
-nice if these were sorted in some way. At the moment they=E2=80=99re =
-completely jumbled =E2=80=94 not alphabetic, not grouped by EL, nor by =
-=E2=80=9Cmeaning=E2=80=9D  (DBGWVR0_EL1 isn=E2=80=99t necessarily next =
-to DBGWCR0_EL1).
+> +    if (level) {
+> +        /* if not enable return false */
+> +        if (((s->enable[enable_index]) & (1 << enable_mask)) == 0) {
+> +            return;
+> +        }
+> +        s->coreisr[cpu][coreisr_index] |= (1 << coreisr_mask);
+> +        qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+> +    } else {
+> +        s->coreisr[cpu][coreisr_index] &= ~(1 << coreisr_mask);
+> +        qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+> +    }
 
-Also, there are multiple (identical?) instances of =E2=80=9CDBGBVR=E2=80=9D=
- and =E2=80=9CDBGBCR=E2=80=9D (and  =E2=80=9CDBGWVR=E2=80=9D and =
-=E2=80=9CDBGWCR=E2=80=9D) rather than the expected =E2=80=9CDBGWVR0_EL1=E2=
-=80=9D, =E2=80=9CDBGWVR1_EL1=E2=80=9D etc.
+This final bit, updating the cpu irq is also wrong, in that it should be unconditional. 
+This is the only way that it will work for the usage in updating the enable mask.
 
-Would this be a QEMU or a GDB issue? Or isn=E2=80=99t it an issue at =
-all? :-)=
+I think you are not considering when the MAP registers overlap outputs.  For instance, if 
+all 256 bits of EXT_IOIMap contain 0, then all of EXT_IOI[n*32+31 : n*32] overlap.  When 
+that happens, you cannot lower the level of the cpu pin until all of the matching ioi 
+interrupts are low.
+
+Or, perhaps I don't understand how this is supposed to work?
+The documentation is very weak.
+
+
+> +static void extioi_writew(void *opaque, hwaddr addr,
+> +                                   uint64_t val, unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    int cpu, index, old_data, data_offset;
+> +    uint32_t offset;
+> +    trace_loongarch_extioi_writew(size, (uint32_t)addr, val);
+> +
+> +    offset = addr & 0xffff;
+> +
+> +    switch (offset) {
+> +    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
+> +        index = (offset - EXTIOI_NODETYPE_START) >> 2;
+> +        s->nodetype[index] = val;
+> +        break;
+> +    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+> +        index = (offset - EXTIOI_IPMAP_START) >> 2;
+> +        s->ipmap[index] = val;
+> +        break;
+
+Do you need to recompute the entire interrupt map when ipmap changes?
+
+> +    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
+> +        index = (offset - EXTIOI_ENABLE_START) >> 2;
+> +        old_data = s->enable[index];
+> +        if (old_data != (int)val) {
+> +            s->enable[index] = val;
+> +            old_data = old_data ^ val;
+> +            data_offset = ctz32(old_data);
+> +            while (data_offset != 32) {
+> +                if (!(val & (1 << data_offset))) {
+> +                    extioi_update_irq(s, data_offset + index * 32, 0);
+
+This is not correct -- you're unconditionally setting level=0, corrupting the old value of 
+coreisr[cpu][index].  You need to recompute *without* changning those levels.
+
+> +    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+> +        index = (offset - EXTIOI_COREMAP_START) >> 2;
+> +        s->coremap[index] = val;
+> +        break;
+
+Recompute the entire interrupt map?
+
+
+r~
 
