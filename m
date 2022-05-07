@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F7551E952
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 21:09:37 +0200 (CEST)
-Received: from localhost ([::1]:60018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E09D51E953
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 21:09:47 +0200 (CEST)
+Received: from localhost ([::1]:60814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnPo8-0007vW-6A
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 15:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54756)
+	id 1nnPoI-0008SF-7y
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 15:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nnPlK-0004rk-Hy; Sat, 07 May 2022 15:06:42 -0400
-Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35]:46992)
+ id 1nnPlN-000507-6f; Sat, 07 May 2022 15:06:45 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:35617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nnPlJ-0001Xm-02; Sat, 07 May 2022 15:06:42 -0400
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so10527827fac.13; 
- Sat, 07 May 2022 12:06:40 -0700 (PDT)
+ id 1nnPlL-0001Y0-7k; Sat, 07 May 2022 15:06:44 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ z5-20020a9d62c5000000b00606041d11f1so7238323otk.2; 
+ Sat, 07 May 2022 12:06:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2fsBpqRRPOl8gqifPS+3uTgHpV11smNfVhP3WnzCOwA=;
- b=gjR5Qy6QBo+ACTk3sznyDvUrrGkOIk9n9JxwbdMJZdl8UmSfgfLd62qgbmkKlioE2a
- l0sSX7VLrH+/cxsS+6PZZtzcacFgiWTOp6crSRLP2Q8AODZgyQ+Z0RebVhc+SHPc1rSO
- rYjDYBqDO/hOzyNVpVrg2vMA8bnswyHpHg6eqnu9IR3xK0WHe29ZUSuLmKHjdZ80Dhiz
- aRZfRBp8LS4Ql+JtEUChnW19Aho7+52876ge3SWGdtpk0wrHa8uqo557hXNgWXF/krbL
- 0R0t0EJWutc4cf6FSFHeAGg4txx+QYoVpbBpiPs7l1HDiwEo/xY4lGe82XEoEqiFD88W
- PLvQ==
+ bh=WNdXdxrL+6oruFfs4RMH79bNef2ZwDlHNs1lrvwqaXg=;
+ b=LZjkVS0/Dzgy7awoWMYRRcPneiaaWb1wo1PHm257/lKOe5BzG4ZHCVmoXF6RCdhpQV
+ q4WVuLDLV7r49rncaG53SkXD3aV6d/qkEBrbTjTQ9bc4o0amzTwixDY3pLWjh15YRAaC
+ 3dTiwUtbiovyQ/9A4VQxdfXSbhxfzQUr+d0FkHTLGJ3uISNnQB2Tvrn9TcEYXykPc8J5
+ I/J+UfO+w0k78UK/LnMSbTgeAEDQ2EpAuhJJq3kbdbkt33Pbi6sIRzPjnx2qZA10DWGx
+ qv6YbI5iuMfL0VP9Ifc2cMQF+kwOgoIvl4+Fckk1LPSuIZLr5y/Llo9PqxsCIticbpkZ
+ JHgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2fsBpqRRPOl8gqifPS+3uTgHpV11smNfVhP3WnzCOwA=;
- b=1Me4O6GJ74wSNDmtYKCdSj7Rkiv4vwkhQ8L3+8kfPEfCkPDut667GJ38wThK3MHw7g
- 31iiKAivlbLmJizD88nMW0AiAwF6cAA/LctcMBfj1egicsSMIr5dxknPAHcbkvgXzajJ
- vIiEgAgqHq6lWpD1gVwxyV/suHLht/kuoombs58ZE06/iQ95Uw8gdOOvdvOkg3AIX8Tn
- fv5nloiMDVji4acQ9ZWdCOLV/aipVOlcHa7fEsFjga8g1wxs8CFBEro/GBSmDv9k2IrP
- ahgAzDv6u2msC6Lerj73LPAm+pwk8YydEMnOHHB6XiDqHfdbnHHpd5FLARph6P2Xm5MK
- 41pw==
-X-Gm-Message-State: AOAM531K+tP/b38aaxGHK7SDt2dLJBjrLeeTN5kM+TOXT0Hkl7Cm6INT
- qARS3QgzHqv4khZyCuMs2WKqBclkcxU=
-X-Google-Smtp-Source: ABdhPJx2M5lG3LkUjb3sBu9mmVyqazbWnhPL4QtEtl1qtfPh7veVyIl3V6W8ejAeOJL1jJRroWU9Qw==
-X-Received: by 2002:a05:6870:b490:b0:ed:9a21:3983 with SMTP id
- y16-20020a056870b49000b000ed9a213983mr7065233oap.116.1651950399393; 
- Sat, 07 May 2022 12:06:39 -0700 (PDT)
+ bh=WNdXdxrL+6oruFfs4RMH79bNef2ZwDlHNs1lrvwqaXg=;
+ b=KOGKH5TVsRLGCQtGPrMGVzqRmXRwDj4rL76szzpluijBn/fUy6PUJWuwYqXybRu3TA
+ lc9TIgLsN7iO4I7SS4s/eStPu8g5Y31I7PnHRPU20bN7/WRmHBbDpkpHgjVoI1kQaVa7
+ HY44+ZOIBUQMmsO8ZWgeMlclUexPrAwr+2MPm0Y3lnHEqNUWDxXtrwQgVxfdQPjdxrzR
+ XZQpgLfzYqtG/4W2GB7XaTxjVnHzq2I5BOVjTl5YwX+jR8+BlGy507Fm+psO8JxDlCJX
+ iyt+vf8sow6Vg/Ap4KM3FeO5GjXUUK81CsdKJSOKYX5gLkNLNkIaAmVv38IPlruPCuUp
+ R6gA==
+X-Gm-Message-State: AOAM533sgZjTci0/iCeQ3ojcI76hY0Gz9EhFgh8cniPfM1tBYNK5QYtR
+ f1U1l5yDyGSvYC11Wm5FMI1ft2vXTAg=
+X-Google-Smtp-Source: ABdhPJy7ZGGgkwYCobeq73Ygx2YrKgnSdJu49MJXYrotvLstCUm6N85eQztrJbz8zSefP9cWzbNlYA==
+X-Received: by 2002:a9d:58c3:0:b0:605:9fa7:f5b6 with SMTP id
+ s3-20020a9d58c3000000b006059fa7f5b6mr3167019oth.230.1651950401678; 
+ Sat, 07 May 2022 12:06:41 -0700 (PDT)
 Received: from balboa.ibmmodules.com (201-1-57-208.dsl.telesp.net.br.
  [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
- p1-20020a0568301d4100b0060603221270sm2907397oth.64.2022.05.07.12.06.37
+ p1-20020a0568301d4100b0060603221270sm2907397oth.64.2022.05.07.12.06.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 May 2022 12:06:39 -0700 (PDT)
+ Sat, 07 May 2022 12:06:41 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
  fbarrat@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH 03/17] ppc/pnv: rename PnvPHB3.dma_spaces to
- PnvPHB3.v3_dma_spaces
-Date: Sat,  7 May 2022 16:06:10 -0300
-Message-Id: <20220507190624.507419-4-danielhb413@gmail.com>
+Subject: [PATCH 04/17] ppc/pnv: add unified pnv-phb header
+Date: Sat,  7 May 2022 16:06:11 -0300
+Message-Id: <20220507190624.507419-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220507190624.507419-1-danielhb413@gmail.com>
 References: <20220507190624.507419-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::35;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,81 +89,339 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The last common attribute that has a different meaning/semantic between
-PnvPHB3 and PnvPHB4 devices is the 'dma_spaces' QLIST.
+This patch adds the pnv_phb.h header with the declarations we're going
+to use in this soon to be added device.
 
-Rename the PHB3 version to 'v3_dma_spaces'. The reason why we chose that
-instead of 'dma3_spaces' or similar is to avoid any misunderstanding
-about this being related to DMA version 3.
+It consists of an union between all attributes of PnvPHB3 and PnvPHB4
+devices. This will allow for the same PnvPHB device to be used for PHB3
+and PHB4 code.
+
+Some struct definitions from PnvPHB3 had to be moved to the new header
+due to scope constraints.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb3.c         | 10 +++++-----
- include/hw/pci-host/pnv_phb3.h |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ include/hw/pci-host/pnv_phb.h  | 211 +++++++++++++++++++++++++++++++++
+ include/hw/pci-host/pnv_phb3.h |  65 +---------
+ 2 files changed, 212 insertions(+), 64 deletions(-)
+ create mode 100644 include/hw/pci-host/pnv_phb.h
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 77ee2325be..70d92edd94 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -421,7 +421,7 @@ static void pnv_phb3_rtc_invalidate(PnvPHB3 *phb, uint64_t val)
-     PnvPhb3DMASpace *ds;
- 
-     /* Always invalidate all for now ... */
--    QLIST_FOREACH(ds, &phb->dma_spaces, list) {
-+    QLIST_FOREACH(ds, &phb->v3_dma_spaces, list) {
-         ds->pe_num = PHB_INVALID_PE;
-     }
- }
-@@ -460,7 +460,7 @@ static void pnv_phb3_update_all_msi_regions(PnvPHB3 *phb)
- {
-     PnvPhb3DMASpace *ds;
- 
--    QLIST_FOREACH(ds, &phb->dma_spaces, list) {
-+    QLIST_FOREACH(ds, &phb->v3_dma_spaces, list) {
-         pnv_phb3_update_msi_regions(ds);
-     }
- }
-@@ -938,7 +938,7 @@ static AddressSpace *pnv_phb3_dma_iommu(PCIBus *bus, void *opaque, int devfn)
-     PnvPHB3 *phb = opaque;
-     PnvPhb3DMASpace *ds;
- 
--    QLIST_FOREACH(ds, &phb->dma_spaces, list) {
-+    QLIST_FOREACH(ds, &phb->v3_dma_spaces, list) {
-         if (ds->bus == bus && ds->devfn == devfn) {
-             break;
-         }
-@@ -961,7 +961,7 @@ static AddressSpace *pnv_phb3_dma_iommu(PCIBus *bus, void *opaque, int devfn)
-                               ds, "msi64", 0x100000);
-         pnv_phb3_update_msi_regions(ds);
- 
--        QLIST_INSERT_HEAD(&phb->dma_spaces, ds, list);
-+        QLIST_INSERT_HEAD(&phb->v3_dma_spaces, ds, list);
-     }
-     return &ds->dma_as;
- }
-@@ -970,7 +970,7 @@ static void pnv_phb3_instance_init(Object *obj)
- {
-     PnvPHB3 *phb = PNV_PHB3(obj);
- 
--    QLIST_INIT(&phb->dma_spaces);
-+    QLIST_INIT(&phb->v3_dma_spaces);
- 
-     /* LSI sources */
-     object_initialize_child(obj, "lsi", &phb->lsis, TYPE_ICS);
+diff --git a/include/hw/pci-host/pnv_phb.h b/include/hw/pci-host/pnv_phb.h
+new file mode 100644
+index 0000000000..2a8bf9a66d
+--- /dev/null
++++ b/include/hw/pci-host/pnv_phb.h
+@@ -0,0 +1,211 @@
++/*
++ * QEMU PowerPC PowerNV Unified PHB model
++ *
++ * Copyright (c) 2022, IBM Corporation.
++ *
++ * This code is licensed under the GPL version 2 or later. See the
++ * COPYING file in the top-level directory.
++ */
++
++#ifndef PCI_HOST_PNV_PHB_H
++#define PCI_HOST_PNV_PHB_H
++
++#include "hw/pci/pcie_host.h"
++#include "hw/pci/pcie_port.h"
++#include "hw/ppc/xics.h"
++#include "hw/ppc/xive.h"
++#include "qom/object.h"
++
++/* pnv_phb3.h types */
++#define PNV_PHB3_NUM_M64      16
++#define PNV_PHB3_NUM_REGS     (0x1000 >> 3)
++#define PHB3_MAX_MSI     2048
++
++typedef struct PnvPHB3 PnvPHB3;
++typedef struct PnvChip PnvChip;
++
++typedef struct Phb3MsiState {
++    ICSState ics;
++    qemu_irq *qirqs;
++
++    PnvPHB3 *phb;
++    uint64_t rba[PHB3_MAX_MSI / 64];
++    uint32_t rba_sum;
++} Phb3MsiState;
++
++typedef struct PnvPBCQState {
++    DeviceState parent;
++
++    uint32_t nest_xbase;
++    uint32_t spci_xbase;
++    uint32_t pci_xbase;
++#define PBCQ_NEST_REGS_COUNT    0x46
++#define PBCQ_PCI_REGS_COUNT     0x15
++#define PBCQ_SPCI_REGS_COUNT    0x5
++
++    uint64_t nest_regs[PBCQ_NEST_REGS_COUNT];
++    uint64_t spci_regs[PBCQ_SPCI_REGS_COUNT];
++    uint64_t pci_regs[PBCQ_PCI_REGS_COUNT];
++    MemoryRegion mmbar0;
++    MemoryRegion mmbar1;
++    MemoryRegion phbbar;
++    uint64_t mmio0_base;
++    uint64_t mmio0_size;
++    uint64_t mmio1_base;
++    uint64_t mmio1_size;
++    PnvPHB3 *phb;
++
++    MemoryRegion xscom_nest_regs;
++    MemoryRegion xscom_pci_regs;
++    MemoryRegion xscom_spci_regs;
++} PnvPBCQState;
++
++/*
++ * We have one such address space wrapper per possible device under
++ * the PHB since they need to be assigned statically at qemu device
++ * creation time. The relationship to a PE is done later dynamically.
++ * This means we can potentially create a lot of these guys. Q35
++ * stores them as some kind of radix tree but we never really need to
++ * do fast lookups so instead we simply keep a QLIST of them for now,
++ * we can add the radix if needed later on.
++ *
++ * We do cache the PE number to speed things up a bit though.
++ */
++typedef struct PnvPhb3DMASpace {
++    PCIBus *bus;
++    uint8_t devfn;
++    int pe_num;         /* Cached PE number */
++#define PHB_INVALID_PE (-1)
++    PnvPHB3 *phb;
++    AddressSpace dma_as;
++    IOMMUMemoryRegion dma_mr;
++    MemoryRegion msi32_mr;
++    MemoryRegion msi64_mr;
++    QLIST_ENTRY(PnvPhb3DMASpace) list;
++} PnvPhb3DMASpace;
++
++/* pnv_phb4.h types */
++#define PNV_PHB4_MAX_LSIs          8
++#define PNV_PHB4_MAX_INTs          4096
++#define PNV_PHB4_MAX_MIST          (PNV_PHB4_MAX_INTs >> 2)
++#define PNV_PHB4_MAX_MMIO_WINDOWS  32
++#define PNV_PHB4_MIN_MMIO_WINDOWS  16
++#define PNV_PHB4_NUM_REGS          (0x3000 >> 3)
++#define PNV_PHB4_MAX_PEs           512
++#define PNV_PHB4_MAX_TVEs          (PNV_PHB4_MAX_PEs * 2)
++#define PNV_PHB4_MAX_PEEVs         (PNV_PHB4_MAX_PEs / 64)
++#define PNV_PHB4_MAX_MBEs          (PNV_PHB4_MAX_MMIO_WINDOWS * 2)
++typedef struct PnvPhb4PecState PnvPhb4PecState;
++
++/*
++ * Unified PHB PCIe Host Bridge for PowerNV machines
++ */
++typedef struct PnvPHB PnvPHB;
++#define TYPE_PNV_PHB "pnv-phb"
++OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
++
++struct PnvPHB {
++    PCIExpressHost parent_obj;
++
++    uint32_t chip_id;
++    uint32_t phb_id;
++    char bus_path[8];
++    MemoryRegion pci_mmio;
++    MemoryRegion pci_io;
++    qemu_irq *qirqs;
++
++    /*
++     * PnvPHB3 attributes
++     */
++    uint64_t regs3[PNV_PHB3_NUM_REGS];
++    MemoryRegion mr_regs3;
++
++    MemoryRegion mr_m32;
++    MemoryRegion mr_m64[PNV_PHB3_NUM_M64];
++
++    uint64_t ioda2_LIST[8];
++    uint64_t ioda2_LXIVT[8];
++    uint64_t ioda2_TVT[512];
++    uint64_t ioda2_M64BT[16];
++    uint64_t ioda2_MDT[256];
++    uint64_t ioda2_PEEV[4];
++
++    uint32_t total_irq;
++    ICSState lsis;
++    Phb3MsiState msis;
++
++    PnvPBCQState pbcq;
++
++    QLIST_HEAD(, PnvPhb3DMASpace) v3_dma_spaces;
++
++    PnvChip *chip;
++
++    /*
++     * PnvPHB4 attributes
++     */
++    uint64_t version;
++
++    /* The owner PEC */
++    PnvPhb4PecState *pec;
++
++    /* Main register images */
++    uint64_t regs[PNV_PHB4_NUM_REGS];
++    MemoryRegion mr_regs;
++
++    /* Extra SCOM-only register */
++    uint64_t scom_hv_ind_addr_reg;
++
++    /*
++     * Geometry of the PHB. There are two types, small and big PHBs, a
++     * number of resources (number of PEs, windows etc...) are doubled
++     * for a big PHB
++     */
++    bool big_phb;
++
++    /* Memory regions for MMIO space */
++    MemoryRegion mr_mmio[PNV_PHB4_MAX_MMIO_WINDOWS];
++
++    /* PCI registers (excluding pass-through) */
++#define PHB4_PEC_PCI_STK_REGS_COUNT  0xf
++    uint64_t pci_regs[PHB4_PEC_PCI_STK_REGS_COUNT];
++    MemoryRegion pci_regs_mr;
++
++    /* Nest registers */
++#define PHB4_PEC_NEST_STK_REGS_COUNT  0x17
++    uint64_t nest_regs[PHB4_PEC_NEST_STK_REGS_COUNT];
++    MemoryRegion nest_regs_mr;
++
++    /* PHB pass-through XSCOM */
++    MemoryRegion phb_regs_mr;
++
++    /* Memory windows from PowerBus to PHB */
++    MemoryRegion phbbar;
++    MemoryRegion intbar;
++    MemoryRegion mmbar0;
++    MemoryRegion mmbar1;
++    uint64_t mmio0_base;
++    uint64_t mmio0_size;
++    uint64_t mmio1_base;
++    uint64_t mmio1_size;
++
++    /* On-chip IODA tables */
++    uint64_t ioda_LIST[PNV_PHB4_MAX_LSIs];
++    uint64_t ioda_MIST[PNV_PHB4_MAX_MIST];
++    uint64_t ioda_TVT[PNV_PHB4_MAX_TVEs];
++    uint64_t ioda_MBT[PNV_PHB4_MAX_MBEs];
++    uint64_t ioda_MDT[PNV_PHB4_MAX_PEs];
++    uint64_t ioda_PEEV[PNV_PHB4_MAX_PEEVs];
++
++    /*
++     * The internal PESTA/B is 2 bits per PE split into two tables, we
++     * store them in a single array here to avoid wasting space.
++     */
++    uint8_t  ioda_PEST_AB[PNV_PHB4_MAX_PEs];
++
++    /* P9 Interrupt generation */
++    XiveSource xsrc;
++
++    QLIST_HEAD(, PnvPhb4DMASpace) dma_spaces;
++};
++
++#endif /* PCI_HOST_PNV_PHB_H */
 diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-index 486dbbefee..35483e59c3 100644
+index 35483e59c3..b6b5f91684 100644
 --- a/include/hw/pci-host/pnv_phb3.h
 +++ b/include/hw/pci-host/pnv_phb3.h
-@@ -155,7 +155,7 @@ struct PnvPHB3 {
+@@ -12,6 +12,7 @@
  
-     PnvPBCQState pbcq;
+ #include "hw/pci/pcie_host.h"
+ #include "hw/pci/pcie_port.h"
++#include "hw/pci-host/pnv_phb.h"
+ #include "hw/ppc/xics.h"
+ #include "qom/object.h"
  
--    QLIST_HEAD(, PnvPhb3DMASpace) dma_spaces;
-+    QLIST_HEAD(, PnvPhb3DMASpace) v3_dma_spaces;
+@@ -22,21 +23,9 @@ typedef struct PnvChip PnvChip;
+  * PHB3 XICS Source for MSIs
+  */
+ #define TYPE_PHB3_MSI "phb3-msi"
+-typedef struct Phb3MsiState Phb3MsiState;
+ DECLARE_INSTANCE_CHECKER(Phb3MsiState, PHB3_MSI,
+                          TYPE_PHB3_MSI)
  
-     PnvChip *chip;
- };
+-#define PHB3_MAX_MSI     2048
+-
+-struct Phb3MsiState {
+-    ICSState ics;
+-    qemu_irq *qirqs;
+-
+-    PnvPHB3 *phb;
+-    uint64_t rba[PHB3_MAX_MSI / 64];
+-    uint32_t rba_sum;
+-};
+-
+ void pnv_phb3_msi_update_config(Phb3MsiState *msis, uint32_t base,
+                                 uint32_t count);
+ void pnv_phb3_msi_send(Phb3MsiState *msis, uint64_t addr, uint16_t data,
+@@ -44,64 +33,12 @@ void pnv_phb3_msi_send(Phb3MsiState *msis, uint64_t addr, uint16_t data,
+ void pnv_phb3_msi_ffi(Phb3MsiState *msis, uint64_t val);
+ void pnv_phb3_msi_pic_print_info(Phb3MsiState *msis, Monitor *mon);
+ 
+-
+-/*
+- * We have one such address space wrapper per possible device under
+- * the PHB since they need to be assigned statically at qemu device
+- * creation time. The relationship to a PE is done later dynamically.
+- * This means we can potentially create a lot of these guys. Q35
+- * stores them as some kind of radix tree but we never really need to
+- * do fast lookups so instead we simply keep a QLIST of them for now,
+- * we can add the radix if needed later on.
+- *
+- * We do cache the PE number to speed things up a bit though.
+- */
+-typedef struct PnvPhb3DMASpace {
+-    PCIBus *bus;
+-    uint8_t devfn;
+-    int pe_num;         /* Cached PE number */
+-#define PHB_INVALID_PE (-1)
+-    PnvPHB3 *phb;
+-    AddressSpace dma_as;
+-    IOMMUMemoryRegion dma_mr;
+-    MemoryRegion msi32_mr;
+-    MemoryRegion msi64_mr;
+-    QLIST_ENTRY(PnvPhb3DMASpace) list;
+-} PnvPhb3DMASpace;
+-
+ /*
+  * PHB3 Power Bus Common Queue
+  */
+ #define TYPE_PNV_PBCQ "pnv-pbcq"
+ OBJECT_DECLARE_SIMPLE_TYPE(PnvPBCQState, PNV_PBCQ)
+ 
+-struct PnvPBCQState {
+-    DeviceState parent;
+-
+-    uint32_t nest_xbase;
+-    uint32_t spci_xbase;
+-    uint32_t pci_xbase;
+-#define PBCQ_NEST_REGS_COUNT    0x46
+-#define PBCQ_PCI_REGS_COUNT     0x15
+-#define PBCQ_SPCI_REGS_COUNT    0x5
+-
+-    uint64_t nest_regs[PBCQ_NEST_REGS_COUNT];
+-    uint64_t spci_regs[PBCQ_SPCI_REGS_COUNT];
+-    uint64_t pci_regs[PBCQ_PCI_REGS_COUNT];
+-    MemoryRegion mmbar0;
+-    MemoryRegion mmbar1;
+-    MemoryRegion phbbar;
+-    uint64_t mmio0_base;
+-    uint64_t mmio0_size;
+-    uint64_t mmio1_base;
+-    uint64_t mmio1_size;
+-    PnvPHB3 *phb;
+-
+-    MemoryRegion xscom_nest_regs;
+-    MemoryRegion xscom_pci_regs;
+-    MemoryRegion xscom_spci_regs;
+-};
+-
+ /*
+  * PHB3 PCIe Root port
+  */
 -- 
 2.32.0
 
