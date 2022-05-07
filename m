@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C679B51E365
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 04:01:18 +0200 (CEST)
-Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8018A51E364
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 04:00:55 +0200 (CEST)
+Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nn9kz-0000Nm-S2
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 22:01:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43698)
+	id 1nn9kc-0008Rk-Jn
+	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 22:00:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nn9iX-0005IM-4q
- for qemu-devel@nongnu.org; Fri, 06 May 2022 21:58:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59358)
+ id 1nn9id-0005Xl-CF
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 21:58:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nn9iV-0006ij-8e
- for qemu-devel@nongnu.org; Fri, 06 May 2022 21:58:44 -0400
+ id 1nn9ib-0006jW-Lv
+ for qemu-devel@nongnu.org; Fri, 06 May 2022 21:58:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651888722;
+ s=mimecast20190719; t=1651888729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FoiANFaZUsR+19YSs80XA8m23UAw8e0kNwzw/ub0qn0=;
- b=ivYz73DUUUiAgOMMqSIXJz0dN50TeyR18jLREIVqPy/9olIVpcSWa1XbXmkUM1xTKk1hX0
- hE97fmDqPVmCtqdSwnADG55jQ8qeWvr9ZFHB0REsLyzcbasFFs3Dg0/CD7WVJ2J0JvqxtL
- Daot/NDmPdVSejCM5HNC3pBZvtH/7UI=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OldqSj6ZhjcEWqr35wQqdzeCrylOxSMHkGFbo7CK6Qo=;
+ b=CYbDJMGeN6Mi6QxrhfBIuimxSX2C74xyHT4sg1Xgl6sqnueSyQ04XOjMnIsgmX3h2udquq
+ +eGL0tNVkPvy5Otyk7YV7j0D1L9ncbXhcoo5SDwb+tXMTUXjW8lnhUPDtQjEz/vcNWxcGn
+ VOib3pcrBdrlp8EihhcmYCu3v655pWI=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-510-9UFCCbbsMKeMcRYMKnodeQ-1; Fri, 06 May 2022 21:58:38 -0400
-X-MC-Unique: 9UFCCbbsMKeMcRYMKnodeQ-1
-Received: by mail-oo1-f69.google.com with SMTP id
- n26-20020a4abd1a000000b0035eb0243b06so4562268oop.22
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 18:58:38 -0700 (PDT)
+ us-mta-467-Dgqt0A3ANRCZCmcGedQldA-1; Fri, 06 May 2022 21:58:46 -0400
+X-MC-Unique: Dgqt0A3ANRCZCmcGedQldA-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ r65-20020acada44000000b002f9c653b942so3261562oig.16
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 18:58:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FoiANFaZUsR+19YSs80XA8m23UAw8e0kNwzw/ub0qn0=;
- b=Dd5lNBtBjMRCLZC7nPNikZmBaDJenSZybWyXUsOVxlzIjsODzbT+aRyBtMQgImvndF
- BZ5HuWqX+ZTFR+B1iPQfFWCUMUMG3YNazXa+jMNunl5kJbR6LEugOF4ha/Ei6e8verbY
- ZhmNuvbXVM2+ciTpNc4L4KTTlnZqkzrU84/A6zoqllwGZYAqqAJWHYkem7UNuDHyzPHk
- H2g5c81MjmMCgbQJ4FS/42PK0hi8leD6mbebTdP3n0Q/rJGBX2muqJ55+VIz2BNyhfXL
- gZ/MVZ/hIStmZOIDkdXuT2WhH0KqIzN7dgKIUMcoWA8wYgnbfrdGE1gTWN99TgMvuIOP
- 0gfA==
-X-Gm-Message-State: AOAM530nUhutrx5LB/1DOKNbPrs0niCFdetQedYI/XWEPpqItdt+QWV9
- zDiB7x9zsM1U8l8TTHqVRzkTNSXHJuLWiFkvKb8wNqpSFs0N5n+hacxQSJrV85PhoFE0G+8/kDc
- MEimqEwdvdftVR2Q=
-X-Received: by 2002:a9d:7392:0:b0:606:4524:ada7 with SMTP id
- j18-20020a9d7392000000b006064524ada7mr2036257otk.281.1651888717314; 
- Fri, 06 May 2022 18:58:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxq9xI5hzNfg3sGk0tIqQKmKo2N3fh4weeVHTZdTg5EXnyKFGUWcW/sHrZeWSBF58MtKE1BcA==
-X-Received: by 2002:a9d:7392:0:b0:606:4524:ada7 with SMTP id
- j18-20020a9d7392000000b006064524ada7mr2036249otk.281.1651888717061; 
- Fri, 06 May 2022 18:58:37 -0700 (PDT)
+ bh=OldqSj6ZhjcEWqr35wQqdzeCrylOxSMHkGFbo7CK6Qo=;
+ b=uUW2fSqf+ZFoU2e8LnAWGja4AD5WLbUP7zwrgOqXVNE7DI8PYpKoqt5KBhmBxkp5D0
+ R4Td1vInP4Dn9CCVnJTgx8g1v8Eb6Ca8HeUE0Ec3zWWrVaTBl6wQxJSWhCxwbzfBs+qH
+ z+Q6ktGGdrE1K0a+S3EUkz+trPejwdn+nKq0/6xD8bgmlH16MJEbO1Od3GXg8lUswL1u
+ i5LGf6El5ySVNnJPTV26TeQRrE0p/sVhT1xrOrLYKkrmzFI62hwLuPmZ33PJD/O/dgjm
+ qdT+lAJW++O4wj9wK8zhn0/mPzHrEzUJK7Uw64jVU5N6agZGc+nnfftQTEZvLg3uqFrR
+ icUA==
+X-Gm-Message-State: AOAM531Re0eXi7Uuh0w036QriHk+SSmtPlI0ipytKLp59WQBcF6jGU5l
+ P7Nvp94VgNvDvv4/6wAWHTrTk+J6sISozRzK05BtsJ5Ic5cTQN/duP4Gy/DDXfceHSId0oHV9ed
+ mEixnBWFhQ0jPmRE=
+X-Received: by 2002:a05:6870:a107:b0:ed:9a88:88b8 with SMTP id
+ m7-20020a056870a10700b000ed9a8888b8mr2644054oae.298.1651888725426; 
+ Fri, 06 May 2022 18:58:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw74r8xmEPod3P4somLw/hbNd1aqJfKhMfGgmvHhWAXiKbRXYz5zj9iBk9KTqXPt/4sYxebtQ==
+X-Received: by 2002:a05:6870:a107:b0:ed:9a88:88b8 with SMTP id
+ m7-20020a056870a10700b000ed9a8888b8mr2644042oae.298.1651888725236; 
+ Fri, 06 May 2022 18:58:45 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f0:55e:b3e6:9ebe:4b75:fe72])
  by smtp.gmail.com with ESMTPSA id
- v18-20020a056830141200b0060603221281sm2218124otp.81.2022.05.06.18.58.33
+ v18-20020a056830141200b0060603221281sm2218124otp.81.2022.05.06.18.58.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 May 2022 18:58:36 -0700 (PDT)
+ Fri, 06 May 2022 18:58:44 -0700 (PDT)
 From: Leonardo Bras <leobras@redhat.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -76,17 +76,17 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
 Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
  qemu-block@nongnu.org
-Subject: [PATCH v12 3/7] migration: Add zero-copy-send parameter for QMP/HMP
- for Linux
-Date: Fri,  6 May 2022 22:57:55 -0300
-Message-Id: <20220507015759.840466-4-leobras@redhat.com>
+Subject: [PATCH v12 5/7] multifd: multifd_send_sync_main now returns negative
+ on error
+Date: Fri,  6 May 2022 22:57:57 -0300
+Message-Id: <20220507015759.840466-6-leobras@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220507015759.840466-1-leobras@redhat.com>
 References: <20220507015759.840466-1-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -110,240 +110,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add property that allows zero-copy migration of memory pages
-on the sending side, and also includes a helper function
-migrate_use_zero_copy_send() to check if it's enabled.
+Even though multifd_send_sync_main() currently emits error_reports, it's
+callers don't really check it before continuing.
 
-No code is introduced to actually do the migration, but it allow
-future implementations to enable/disable this feature.
+Change multifd_send_sync_main() to return -1 on error and 0 on success.
+Also change all it's callers to make use of this change and possibly fail
+earlier.
 
-On non-Linux builds this parameter is compiled-out.
+(This change is important to next patch on  multifd zero copy
+implementation, to make it sure an error in zero-copy flush does not go
+unnoticed.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- qapi/migration.json   | 24 ++++++++++++++++++++++++
- migration/migration.h |  5 +++++
- migration/migration.c | 32 ++++++++++++++++++++++++++++++++
- migration/socket.c    | 11 +++++++++--
- monitor/hmp-cmds.c    |  6 ++++++
- roms/skiboot          |  2 +-
- 6 files changed, 77 insertions(+), 3 deletions(-)
+ migration/multifd.h |  2 +-
+ migration/multifd.c | 10 ++++++----
+ migration/ram.c     | 29 ++++++++++++++++++++++-------
+ 3 files changed, 29 insertions(+), 12 deletions(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 409eb086a2..2222f44250 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -741,6 +741,13 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @zero-copy-send: Controls behavior on sending memory pages on migration.
-+#                  When true, enables a zero-copy mechanism for sending
-+#                  memory pages, if host supports it.
-+#                  Requires that QEMU be permitted to use locked memory
-+#                  for guest RAM pages.
-+#                  Defaults to false. (Since 7.1)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -780,6 +787,7 @@
-            'xbzrle-cache-size', 'max-postcopy-bandwidth',
-            'max-cpu-throttle', 'multifd-compression',
-            'multifd-zlib-level' ,'multifd-zstd-level',
-+           { 'name': 'zero-copy-send', 'if' : 'CONFIG_LINUX'},
-            'block-bitmap-mapping' ] }
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 7d0effcb03..bcf5992945 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -20,7 +20,7 @@ int multifd_load_cleanup(Error **errp);
+ bool multifd_recv_all_channels_created(void);
+ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
+ void multifd_recv_sync_main(void);
+-void multifd_send_sync_main(QEMUFile *f);
++int multifd_send_sync_main(QEMUFile *f);
+ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
  
- ##
-@@ -906,6 +914,13 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @zero-copy-send: Controls behavior on sending memory pages on migration.
-+#                  When true, enables a zero-copy mechanism for sending
-+#                  memory pages, if host supports it.
-+#                  Requires that QEMU be permitted to use locked memory
-+#                  for guest RAM pages.
-+#                  Defaults to false. (Since 7.1)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -960,6 +975,7 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
-+            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
-@@ -1106,6 +1122,13 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @zero-copy-send: Controls behavior on sending memory pages on migration.
-+#                  When true, enables a zero-copy mechanism for sending
-+#                  memory pages, if host supports it.
-+#                  Requires that QEMU be permitted to use locked memory
-+#                  for guest RAM pages.
-+#                  Defaults to false. (Since 7.1)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -1158,6 +1181,7 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
-+            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
-diff --git a/migration/migration.h b/migration/migration.h
-index a863032b71..e8f2941a55 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -375,6 +375,11 @@ MultiFDCompression migrate_multifd_compression(void);
- int migrate_multifd_zlib_level(void);
- int migrate_multifd_zstd_level(void);
- 
-+#ifdef CONFIG_LINUX
-+bool migrate_use_zero_copy_send(void);
-+#else
-+#define migrate_use_zero_copy_send() (false)
-+#endif
- int migrate_use_xbzrle(void);
- uint64_t migrate_xbzrle_cache_size(void);
- bool migrate_colo_enabled(void);
-diff --git a/migration/migration.c b/migration/migration.c
-index 5a31b23bd6..3e91f4b5e2 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -910,6 +910,10 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-     params->multifd_zlib_level = s->parameters.multifd_zlib_level;
-     params->has_multifd_zstd_level = true;
-     params->multifd_zstd_level = s->parameters.multifd_zstd_level;
-+#ifdef CONFIG_LINUX
-+    params->has_zero_copy_send = true;
-+    params->zero_copy_send = s->parameters.zero_copy_send;
-+#endif
-     params->has_xbzrle_cache_size = true;
-     params->xbzrle_cache_size = s->parameters.xbzrle_cache_size;
-     params->has_max_postcopy_bandwidth = true;
-@@ -1567,6 +1571,11 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
-     if (params->has_multifd_compression) {
-         dest->multifd_compression = params->multifd_compression;
-     }
-+#ifdef CONFIG_LINUX
-+    if (params->has_zero_copy_send) {
-+        dest->zero_copy_send = params->zero_copy_send;
-+    }
-+#endif
-     if (params->has_xbzrle_cache_size) {
-         dest->xbzrle_cache_size = params->xbzrle_cache_size;
-     }
-@@ -1679,6 +1688,11 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
-     if (params->has_multifd_compression) {
-         s->parameters.multifd_compression = params->multifd_compression;
-     }
-+#ifdef CONFIG_LINUX
-+    if (params->has_zero_copy_send) {
-+        s->parameters.zero_copy_send = params->zero_copy_send;
-+    }
-+#endif
-     if (params->has_xbzrle_cache_size) {
-         s->parameters.xbzrle_cache_size = params->xbzrle_cache_size;
-         xbzrle_cache_resize(params->xbzrle_cache_size, errp);
-@@ -2563,6 +2577,17 @@ int migrate_multifd_zstd_level(void)
-     return s->parameters.multifd_zstd_level;
+ /* Multifd Compression flags */
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 2a8c8570c3..15fb668e64 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -566,17 +566,17 @@ void multifd_save_cleanup(void)
+     multifd_send_state = NULL;
  }
  
-+#ifdef CONFIG_LINUX
-+bool migrate_use_zero_copy_send(void)
-+{
-+    MigrationState *s;
-+
-+    s = migrate_get_current();
-+
-+    return s->parameters.zero_copy_send;
-+}
-+#endif
-+
- int migrate_use_xbzrle(void)
+-void multifd_send_sync_main(QEMUFile *f)
++int multifd_send_sync_main(QEMUFile *f)
  {
-     MigrationState *s;
-@@ -4206,6 +4231,10 @@ static Property migration_properties[] = {
-     DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
-                       parameters.multifd_zstd_level,
-                       DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
-+#ifdef CONFIG_LINUX
-+    DEFINE_PROP_BOOL("zero_copy_send", MigrationState,
-+                      parameters.zero_copy_send, false),
-+#endif
-     DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
-                       parameters.xbzrle_cache_size,
-                       DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
-@@ -4303,6 +4332,9 @@ static void migration_instance_init(Object *obj)
-     params->has_multifd_compression = true;
-     params->has_multifd_zlib_level = true;
-     params->has_multifd_zstd_level = true;
-+#ifdef CONFIG_LINUX
-+    params->has_zero_copy_send = true;
-+#endif
-     params->has_xbzrle_cache_size = true;
-     params->has_max_postcopy_bandwidth = true;
-     params->has_max_cpu_throttle = true;
-diff --git a/migration/socket.c b/migration/socket.c
-index 05705a32d8..3754d8f72c 100644
---- a/migration/socket.c
-+++ b/migration/socket.c
-@@ -74,9 +74,16 @@ static void socket_outgoing_migration(QIOTask *task,
+     int i;
  
-     if (qio_task_propagate_error(task, &err)) {
-         trace_migration_socket_outgoing_error(error_get_pretty(err));
--    } else {
--        trace_migration_socket_outgoing_connected(data->hostname);
-+           goto out;
+     if (!migrate_use_multifd()) {
+-        return;
++        return 0;
      }
+     if (multifd_send_state->pages->num) {
+         if (multifd_send_pages(f) < 0) {
+             error_report("%s: multifd_send_pages fail", __func__);
+-            return;
++            return -1;
+         }
+     }
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+@@ -589,7 +589,7 @@ void multifd_send_sync_main(QEMUFile *f)
+         if (p->quit) {
+             error_report("%s: channel %d has already quit", __func__, i);
+             qemu_mutex_unlock(&p->mutex);
+-            return;
++            return -1;
+         }
+ 
+         p->packet_num = multifd_send_state->packet_num++;
+@@ -608,6 +608,8 @@ void multifd_send_sync_main(QEMUFile *f)
+         qemu_sem_wait(&p->sem_sync);
+     }
+     trace_multifd_send_sync_main(multifd_send_state->packet_num);
 +
-+    trace_migration_socket_outgoing_connected(data->hostname);
-+
-+    if (migrate_use_zero_copy_send()) {
-+        error_setg(&err, "Zero copy send not available in migration");
++    return 0;
+ }
+ 
+ static void *multifd_send_thread(void *opaque)
+diff --git a/migration/ram.c b/migration/ram.c
+index a2489a2699..5f5e37f64d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2909,6 +2909,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+ {
+     RAMState **rsp = opaque;
+     RAMBlock *block;
++    int ret;
+ 
+     if (compress_threads_save_setup()) {
+         return -1;
+@@ -2943,7 +2944,11 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+ 
+-    multifd_send_sync_main(f);
++    ret =  multifd_send_sync_main(f);
++    if (ret < 0) {
++        return ret;
 +    }
 +
-+out:
-     migration_channel_connect(data->s, sioc, data->hostname, err);
-     object_unref(OBJECT(sioc));
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+ 
+@@ -3052,7 +3057,11 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
+ out:
+     if (ret >= 0
+         && migration_is_setup_or_active(migrate_get_current()->state)) {
+-        multifd_send_sync_main(rs->f);
++        ret = multifd_send_sync_main(rs->f);
++        if (ret < 0) {
++            return ret;
++        }
++
+         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+         qemu_fflush(f);
+         ram_transferred_add(8);
+@@ -3112,13 +3121,19 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
+     }
+ 
+-    if (ret >= 0) {
+-        multifd_send_sync_main(rs->f);
+-        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+-        qemu_fflush(f);
++    if (ret < 0) {
++        return ret;
+     }
+ 
+-    return ret;
++    ret = multifd_send_sync_main(rs->f);
++    if (ret < 0) {
++        return ret;
++    }
++
++    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
++    qemu_fflush(f);
++
++    return 0;
  }
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 93061a11af..622c783c32 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1309,6 +1309,12 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         p->has_multifd_zstd_level = true;
-         visit_type_uint8(v, param, &p->multifd_zstd_level, &err);
-         break;
-+#ifdef CONFIG_LINUX
-+    case MIGRATION_PARAMETER_ZERO_COPY_SEND:
-+        p->has_zero_copy_send = true;
-+        visit_type_bool(v, param, &p->zero_copy_send, &err);
-+        break;
-+#endif
-     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
-         p->has_xbzrle_cache_size = true;
-         if (!visit_type_size(v, param, &cache_size, &err)) {
-diff --git a/roms/skiboot b/roms/skiboot
-index 24a7eb3596..820d43c0a7 160000
---- a/roms/skiboot
-+++ b/roms/skiboot
-@@ -1 +1 @@
--Subproject commit 24a7eb35966d93455520bc2debdd7954314b638b
-+Subproject commit 820d43c0a7751e75a8830561f35535dfffd522bd
+ 
+ static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
 -- 
 2.36.0
 
