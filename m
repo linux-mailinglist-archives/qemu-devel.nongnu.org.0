@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E3551E438
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 07:07:33 +0200 (CEST)
-Received: from localhost ([::1]:60366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3C051E43D
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 07:10:46 +0200 (CEST)
+Received: from localhost ([::1]:36282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnCfE-0007sP-Az
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 01:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59888)
+	id 1nnCiL-0002Hm-76
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 01:10:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nnCdY-00079z-A9
- for qemu-devel@nongnu.org; Sat, 07 May 2022 01:05:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20485)
+ id 1nnCgj-0001XD-7C
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 01:09:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nnCdV-0005n1-3H
- for qemu-devel@nongnu.org; Sat, 07 May 2022 01:05:46 -0400
+ id 1nnCgg-00060l-9C
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 01:09:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651899943;
+ s=mimecast20190719; t=1651900141;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CU4ABKFMLQAE5e3J9QOClGbCFivCfwDV5zPXsnXO/EA=;
- b=WAsVfoZ/q15RM+hKJ/nyrnlzCMT+Oa5+rdxEONrn0ImGfkMnA6aq4rnM0H6mGyxvvIIy/2
- 2826dUmRBxS2voLe6nytCIEcXZ+IjIUXXbZXhwxAh/hQjkY/5SSzGREixHrQBc2IDUey7b
- NFrJK/W8CUnkuviBjWOaL/R+Ute47as=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=krRvoos8S1qWjv8gyAafH5Hwb+irr2nbxRMgAWR2/Pc=;
+ b=KSMchxoClR6W5xoieA8eijhTOOwCSPjvjVxhe730aSAUYIgmMpQR/3hlSdhXfR0zU93eR7
+ dKVqAVloMzodMn/mDTskMvpbT6kS4uEi+SJk+/XimkZTXbsRV+IRcalYdN2SVPHm78j7Kt
+ ZLYk+PorSpMkznDXSh2EDxUoQouNmqg=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-qCAG15pWMQWwHYPWMib60g-1; Sat, 07 May 2022 01:05:41 -0400
-X-MC-Unique: qCAG15pWMQWwHYPWMib60g-1
-Received: by mail-lf1-f71.google.com with SMTP id
- bp17-20020a056512159100b00472631eb445so4053001lfb.13
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 22:05:41 -0700 (PDT)
+ us-mta-448-FHZmnTP9P9ib0DPtaIN41Q-1; Sat, 07 May 2022 01:08:59 -0400
+X-MC-Unique: FHZmnTP9P9ib0DPtaIN41Q-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ n3-20020ac242c3000000b00473d8af3a0cso2772047lfl.21
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 22:08:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=CU4ABKFMLQAE5e3J9QOClGbCFivCfwDV5zPXsnXO/EA=;
- b=ZbWF6N1bMDAJpO685Bwq5EQsK7SbnWDatG970ZF7r3W0jziTHoZxhlKzDHDRaDbniI
- pNVOdUt6GHamNT6cC6+gYcalITmZTW4v5JFPXNNLG6nBerjSAMkV1P78u2ZEQ+NgTmlj
- +fgPFvMwMKwTp/WANMBWzyOj3qTI8CGVr38GaW8YWeHghI6URYpFmt1r93mbsBO++j7N
- SJSQ+nOAQJBbSDtRGGEDwERuGk2xZSsopWVdgeKs01twCFg0xbmxh72+LE4kbOsJ6/iE
- 2igGadeLjYvNab4Is1Zr+jxLX7UFJTMFLcWyHOQUJZuGTN9b14rRZ8bAvnkf6urpNYbe
- f46Q==
-X-Gm-Message-State: AOAM531BAn/SPoUKDvvRoRB4fGMDqwsz69IjNKXySNsx6QC9YN+GP6bo
- aTcm197e23PjkX4Rd5APtt8HqWiM9XHhhtThlGqwHYhfCoj5RkW2ktH92HzvkVptXnNY6qH3duY
- +I4FAX+pqQVhamoRaMjvMzkzLU4U1O6Q=
-X-Received: by 2002:a05:651c:89:b0:250:87c9:d4e6 with SMTP id
- 9-20020a05651c008900b0025087c9d4e6mr4136307ljq.315.1651899940295; 
- Fri, 06 May 2022 22:05:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqTxHmFoU/ietBkEf3zuP7AVl7LQG1kcGpGSNNLtjzb9Es8PgL88+8JEO+9Vx3ZzUkNrs62DN/hDOuVj84JGE=
-X-Received: by 2002:a05:651c:89:b0:250:87c9:d4e6 with SMTP id
- 9-20020a05651c008900b0025087c9d4e6mr4136295ljq.315.1651899940003; Fri, 06 May
- 2022 22:05:40 -0700 (PDT)
+ bh=krRvoos8S1qWjv8gyAafH5Hwb+irr2nbxRMgAWR2/Pc=;
+ b=NFmhykLHZT8TcvBBI3Al7a19aDuMxZm2OTZrN5OsDr4YleUm5OiaVBdY4MdCJ2Ydit
+ 1wOQGr05CSq3yEtgqZfYk5nsVtO8ITs4aIWwoU0CBjXHXMpjoK4d4lGazorRsf+onKKR
+ NaMVxGXmJi2NxGog3TtxRXuO6SkoYN8cot8UbzJJIn4/pV6m7Lr2c7KzSZn9FyEQLgUk
+ +V9rLMiWZpzxL2iLBrH9ImbtyLRHt8FBVdTj8C0qBVGz4BSg++pgrGdPdiKFbpmJIUJV
+ M/ls82eYafbbCAuRjpOkE2F0xYsRKaenvVLaofhATjCcDRYKkqBJEpSdmcypc8mUhq7/
+ 8N9A==
+X-Gm-Message-State: AOAM530N8Ep1XmiXg7W6F9/8omSmajGu7kqqfuID2D20nJe3Uv3XX3Dv
+ RzTP9rJUmCt/lpPkvS6j/9wxrsSDvBcuBxtUN2Uc2oLsKuk3yNNEWXe+qL8r3CZqNfd9JPC9AEc
+ LqcX5uC53rz2/98NjMXWEZHDvHuv08gA=
+X-Received: by 2002:a2e:b057:0:b0:24f:2668:833b with SMTP id
+ d23-20020a2eb057000000b0024f2668833bmr4096759ljl.300.1651900137714; 
+ Fri, 06 May 2022 22:08:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8zB5EQfO1AKh1jfKh3qTPwq+uOCgguzaAO42OTbwIlhw8IlyKJZKXLwgMHj6IPctKKyoWXVaeJO2fWHQGTh0=
+X-Received: by 2002:a2e:b057:0:b0:24f:2668:833b with SMTP id
+ d23-20020a2eb057000000b0024f2668833bmr4096749ljl.300.1651900137536; Fri, 06
+ May 2022 22:08:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <87a6bulueg.fsf@pond.sub.org>
-In-Reply-To: <87a6bulueg.fsf@pond.sub.org>
+References: <20220401034702.687057-1-chen.zhang@intel.com>
+ <20220401034702.687057-2-chen.zhang@intel.com>
+ <CACGkMEs7FeRCr4E9E68gS+GBTgdebeD=f0dYnPivyZ2G1mWmvw@mail.gmail.com>
+ <MWHPR11MB0031EE757A9C70E8F506BC899BFA9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <MWHPR11MB00318C5C371743AD30AB9CE69BC49@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB00318C5C371743AD30AB9CE69BC49@MWHPR11MB0031.namprd11.prod.outlook.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Sat, 7 May 2022 13:05:28 +0800
-Message-ID: <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
-Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Andrew Melnychenko <andrew@daynix.com>, qemu-devel <qemu-devel@nongnu.org>
+Date: Sat, 7 May 2022 13:08:46 +0800
+Message-ID: <CACGkMEtdaP6x0xdwVWfHmBLWOJQ=ffepbmz-6quWq3g8FC5GCg@mail.gmail.com>
+Subject: Re: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition support
+ form COLO to PRELAUNCH
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Like Xu <like.xu@linux.intel.com>, 
+ David Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,26 +98,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 6, 2022 at 8:26 PM Markus Armbruster <armbru@redhat.com> wrote:
+On Sat, May 7, 2022 at 10:03 AM Zhang, Chen <chen.zhang@intel.com> wrote:
 >
-> ebpf/rss.bpf.skeleton.h contains
 >
->     /* THIS FILE IS AUTOGENERATED! */
 >
-> If it was generated by something in the tree, it should not be committed
-> to git.  Doesn't look like it is.
+> > -----Original Message-----
+> > From: Zhang, Chen
+> > Sent: Wednesday, April 27, 2022 5:26 PM
+> > To: Jason Wang <jasowang@redhat.com>; Paolo Bonzini
+> > <pbonzini@redhat.com>
+> > Cc: Li Zhijian <lizhijian@cn.fujitsu.com>; qemu-dev <qemu-
+> > devel@nongnu.org>; Like Xu <like.xu@linux.intel.com>
+> > Subject: RE: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition
+> > support form COLO to PRELAUNCH
+> >
+> >
+> >
+> > > -----Original Message-----
+> > > From: Jason Wang <jasowang@redhat.com>
+> > > Sent: Wednesday, April 27, 2022 4:57 PM
+> > > To: Zhang, Chen <chen.zhang@intel.com>
+> > > Cc: Li Zhijian <lizhijian@cn.fujitsu.com>; qemu-dev <qemu-
+> > > devel@nongnu.org>; Like Xu <like.xu@linux.intel.com>
+> > > Subject: Re: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition
+> > > support form COLO to PRELAUNCH
+> > >
+> > > On Fri, Apr 1, 2022 at 11:59 AM Zhang Chen <chen.zhang@intel.com> wrote:
+> > > >
+> > > > If the checkpoint occurs when the guest finishes restarting but has
+> > > > not started running, the runstate_set() may reject the transition
+> > > > from COLO to PRELAUNCH with the crash log:
+> > > >
+> > > > {"timestamp": {"seconds": 1593484591, "microseconds": 26605},\
+> > > > "event": "RESET", "data": {"guest": true, "reason": "guest-reset"}}
+> > > > qemu-system-x86_64: invalid runstate transition: 'colo' -> 'prelaunch'
+> > > >
+> > > > Long-term testing says that it's pretty safe.
+> > > >
+> > > > Signed-off-by: Like Xu <like.xu@linux.intel.com>
+> > > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > >
+> > > I'd expect this to get ack from the relevant maintainers.
+> > >
+> >
+> > The scripts/get_maintainer.pl can't find relevant maintainers for this patch.
+> > Maybe Paolo have time to cover this simple patch related to runstate?
+>
+> No news for a while, any comments for unmaintained files changes ?
+> Ping...
 
-Andrew may know more.
-
-I remember it was generated by libbpf.
+Adding David and Juan.
 
 Thanks
 
 >
-> Perhaps it was copied from elsewhere, but the commit message offers no
-> clue.
+> Thanks
+> Chen
 >
-> Please advise.
+> >
+> > Thanks
+> > Chen
+> >
+> > > Thanks
+> > >
+> > > > ---
+> > > >  softmmu/runstate.c | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/softmmu/runstate.c b/softmmu/runstate.c index
+> > > > e0d869b21a..c021c56338 100644
+> > > > --- a/softmmu/runstate.c
+> > > > +++ b/softmmu/runstate.c
+> > > > @@ -127,6 +127,7 @@ static const RunStateTransition
+> > > runstate_transitions_def[] = {
+> > > >      { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
+> > > >
+> > > >      { RUN_STATE_COLO, RUN_STATE_RUNNING },
+> > > > +    { RUN_STATE_COLO, RUN_STATE_PRELAUNCH },
+> > > >      { RUN_STATE_COLO, RUN_STATE_SHUTDOWN},
+> > > >
+> > > >      { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
+> > > > --
+> > > > 2.25.1
+> > > >
 >
 
 
