@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585F451E3A3
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 04:39:46 +0200 (CEST)
-Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B96351E3EF
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 06:21:13 +0200 (CEST)
+Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnAMD-0001o5-7R
-	for lists+qemu-devel@lfdr.de; Fri, 06 May 2022 22:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47316)
+	id 1nnBwN-0001q5-KZ
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 00:21:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnAK5-0000NZ-Vq
- for qemu-devel@nongnu.org; Fri, 06 May 2022 22:37:34 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44670)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1nnBuV-00019d-Bt
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 00:19:15 -0400
+Received: from mail-pl1-f180.google.com ([209.85.214.180]:39733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnAK3-0003aV-UV
- for qemu-devel@nongnu.org; Fri, 06 May 2022 22:37:33 -0400
-Received: by mail-pg1-x529.google.com with SMTP id v10so7486474pgl.11
- for <qemu-devel@nongnu.org>; Fri, 06 May 2022 19:37:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=CQVQOkoAvLienzpvLjxYnSsmbMxuuMNBddbCETA9cEM=;
- b=L6htMzpPV/UDtTYzXO4ixtvvWWel42sUFOPxZvk0Mbz10CYSFIKlsBxs16DCeWhjs6
- l1i9F4boLUIfWpDtf45klLhGijlhirRnZ1nDtXBK+VwsdJt5RJsOWiWXMWuRFl7e3zyv
- Au0UlksYUdSntlwORL0BQQ6UDb6TViJ5YePl/l9zvY1Tp/lg2fAwanRHe2JeCfQ5Xh/o
- ZwzXdYNga6kxDpZwjrQhTGyjYPy/9zXSnE1NCyF6WsYNKSqzsMwNNmbfs5q5mQmWhPUH
- hFDGDFL9URrGH7Wdy+7W3xbQMNyG3/Y7dKkCcY0ZX5jHU4eBfpaKhsVnYSLaMjm5f1mA
- LwlQ==
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1nnBuT-0007Hf-J2
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 00:19:14 -0400
+Received: by mail-pl1-f180.google.com with SMTP id x18so9213494plg.6
+ for <qemu-devel@nongnu.org>; Fri, 06 May 2022 21:18:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=CQVQOkoAvLienzpvLjxYnSsmbMxuuMNBddbCETA9cEM=;
- b=iPG7DDfE+W1BMOpJlVAD90HvfQKk3pj3fHA1L9My5ULjNQR2p/RdIMVkA/O3AHFu7h
- Dg9/KfUSezehEvUOJtEWFQTCkHtHUUjolar38jqV0JDYCq+qN0nf+Mkc+zAJ+U4dTjm6
- frTpC/BI4HFm5U0GkCx7anu1AQZKvx2/5b4/0bpr4+iAUQIJvHu+DVtkcvuRtqcMJpKr
- OpF6UiZX/agqihic2z7cTwEYWGjrUWFGtDMAQ1miihzPsPm1fr0FEuC5u0nr+pBVd65y
- aWLS0IhSfr63LoQx7lngTLZ2quiZxs6ecyEeBiEW6LGyRIuR8jzICEsc2iOqFtyC+tlc
- x4ow==
-X-Gm-Message-State: AOAM531CJJzgZeYyXCa7TM89LiGQeCLiB8cMy9rw/APy9Q5obtCkuRyQ
- S7BDL8Xwn8oGAiDAqEfEHCTGoQ==
-X-Google-Smtp-Source: ABdhPJwblC5DjAKoIf9wicyRVnnfIaAWD5eQKeb4XWcBEtDlgYszHcL1t2eWknDJjStHP3fRNa8qHg==
-X-Received: by 2002:a63:2215:0:b0:3c1:fd25:b6a1 with SMTP id
- i21-20020a632215000000b003c1fd25b6a1mr5175041pgi.406.1651891050366; 
- Fri, 06 May 2022 19:37:30 -0700 (PDT)
-Received: from [192.168.138.233] (50-233-235-3-static.hfc.comcastbusiness.net.
- [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
- c20-20020a170902849400b0015e8d4eb281sm2477335plo.203.2022.05.06.19.37.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 19:37:29 -0700 (PDT)
-Message-ID: <a80ed6b3-22e6-c4d1-c99d-ecc929331814@linaro.org>
-Date: Fri, 6 May 2022 21:37:25 -0500
+ bh=2/xTeW5SHQqZq35IQKropiKdemKIbt4uB7e4L2uxmUg=;
+ b=0u9crS1Mk1sjFeb46/6RO242xKISlm7X+ehwczC2gbOwdEGyJ/kGwRLdhAqZiPc/W+
+ xG5VdjYfagVrehLSsJxt/kRPbauGGgPVtMuhlPpKq7EcrSQEGdDT9Izo2jDwOuZmo/Ey
+ zRNzeT7GrKvaulgXFEmm7bRdYTiYlMKHvf2f7GJM8ftB/z55IEyJseUMCnYjkM8Bcjk8
+ HI/cnXU6swi11hssR0aLO3J/DAA85ucTknQmnCW9ARBdADO6BCjxMIxgckGkZ3G/y7Au
+ 8+hnG3bTHlHlcZlRVTBRCMckpSsRmYX1t12omKEygSBejENTfWn+yovu5DUi56SRHvIV
+ D5dg==
+X-Gm-Message-State: AOAM53274xpPkyKoJnk04/K5O73Gc0N50koLwOAsqZHAgs5htWMb8DHC
+ NfxquUqk10yH3UEbyJZjhReOGTxJwWI=
+X-Google-Smtp-Source: ABdhPJw3RMDb1+fBFmO0X1UbcOZY1tFriPpMIth2ksrCRqfXvGms6wWlxEnY/CdIEt5mJpvRFZST7Q==
+X-Received: by 2002:a17:902:f605:b0:14d:bd53:e2cd with SMTP id
+ n5-20020a170902f60500b0014dbd53e2cdmr6961366plg.164.1651897132689; 
+ Fri, 06 May 2022 21:18:52 -0700 (PDT)
+Received: from localhost.localdomain ([2601:642:4c09:4a59:dcf4:b57f:c7f0:1f0a])
+ by smtp.gmail.com with ESMTPSA id
+ i13-20020a63584d000000b003c14af50606sm4007166pgm.30.2022.05.06.21.18.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 May 2022 21:18:52 -0700 (PDT)
+From: Joelle van Dyne <j@getutm.app>
+To: qemu-devel@nongnu.org
+Cc: Joelle van Dyne <j@getutm.app>,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] usbredir: avoid queuing hello packet on snapshot restore
+Date: Fri,  6 May 2022 21:18:50 -0700
+Message-Id: <20220507041850.98716-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/11] Series short description
-Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
-Cc: "Longpeng (Mike)" <longpeng2@huawei.com>,
- Xiang Chen <chenxiang66@hisilicon.com>,
- Stefan Berger <stefanb@linnux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Yi Liu <yi.l.liu@intel.com>,
- Stefan Berger <stefanb@linux.ibm.com>
-References: <165186988363.4166595.3147442303200167674.stgit@omen>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <165186988363.4166595.3147442303200167674.stgit@omen>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.214.180; envelope-from=osy86dev@gmail.com;
+ helo=mail-pl1-f180.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,70 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/22 15:46, Alex Williamson wrote:
-> Switching to gitlab for pull requests to take advantage of the CI.
-> Sorry for the delay in some of these.  Thanks,
-> 
-> Alex
-> 
-> The following changes since commit 31abf61c4929a91275fe32f1fafe6e6b3e840b2a:
-> 
->    Merge tag 'pull-ppc-20220505' of https://gitlab.com/danielhb/qemu into staging (2022-05-05 13:52:22 -0500)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/alex.williamson/qemu.git tags/vfio-updates-20220506.1
-> 
-> for you to fetch changes up to 44ee6aaae0c937abb631e57a9853c2cdef2bc9bb:
-> 
->    vfio/common: Rename VFIOGuestIOMMU::iommu into ::iommu_mr (2022-05-06 09:06:51 -0600)
-> 
-> ----------------------------------------------------------------
-> VFIO updates 2022-05-06
-> 
->   * Defer IRQ routing commits to improve setup and resume latency (Longpeng)
-> 
->   * Fix trace sparse mmap boundary condition (Xiang Chen)
-> 
->   * Quiet misalignment warning from TPM device mapping (Eric Auger)
-> 
->   * Misc cleanups (Yi Liu, Eric Auger)
+When launching QEMU with "-loadvm", usbredir_create_parser() should avoid
+setting up the hello packet (just as with "-incoming". On the latest version
+of libusbredir, usbredirparser_unserialize() will return error if the parser
+is not "pristine."
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+---
+ hw/usb/redirect.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> Eric Auger (4):
->        sysemu: tpm: Add a stub function for TPM_IS_CRB
->        vfio/common: remove spurious tpm-crb-cmd misalignment warning
->        hw/vfio/pci: fix vfio_pci_hot_reset_result trace point
->        vfio/pci: Use vbasedev local variable in vfio_realize()
-> 
-> Longpeng (Mike) (5):
->        vfio: simplify the conditional statements in vfio_msi_enable
->        vfio: move re-enabling INTX out of the common helper
->        vfio: simplify the failure path in vfio_msi_enable
->        Revert "vfio: Avoid disabling and enabling vectors repeatedly in VFIO migration"
->        vfio: defer to commit kvm irq routing when enable msi/msix
-> 
-> Xiang Chen (1):
->        vfio/common: Fix a small boundary issue of a trace
-> 
-> Yi Liu (1):
->        vfio/common: Rename VFIOGuestIOMMU::iommu into ::iommu_mr
-> 
->   hw/vfio/common.c              |  50 ++++++---
->   hw/vfio/pci.c                 | 234 +++++++++++++++++++++++++-----------------
->   hw/vfio/pci.h                 |   2 +
->   hw/vfio/trace-events          |   1 +
->   include/hw/vfio/vfio-common.h |   2 +-
->   include/sysemu/tpm.h          |   6 ++
->   6 files changed, 186 insertions(+), 109 deletions(-)
-> 
-> 
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 3bc4dee7fe..f8bec9b292 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -1280,7 +1280,8 @@ static void usbredir_create_parser(USBRedirDevice *dev)
+     }
+ #endif
+ 
+-    if (runstate_check(RUN_STATE_INMIGRATE)) {
++    if (runstate_check(RUN_STATE_INMIGRATE) ||
++        runstate_check(RUN_STATE_PRELAUNCH)) {
+         flags |= usbredirparser_fl_no_hello;
+     }
+     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
+-- 
+2.28.0
 
 
