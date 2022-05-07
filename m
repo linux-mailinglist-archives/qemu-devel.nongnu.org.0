@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE2351E7AF
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 16:11:02 +0200 (CEST)
-Received: from localhost ([::1]:60220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875CE51E7BB
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 May 2022 16:18:13 +0200 (CEST)
+Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnL9B-0002mk-5S
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 10:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51218)
+	id 1nnLG8-0007k4-4A
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 10:18:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkei@sfc.wide.ad.jp>)
- id 1nnL7W-0001Fc-7N; Sat, 07 May 2022 10:09:18 -0400
-Received: from mail1.sfc.wide.ad.jp ([2001:200:0:8803:203:178:142:133]:60924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mkei@sfc.wide.ad.jp>)
- id 1nnL7S-0002zg-10; Sat, 07 May 2022 10:09:16 -0400
-Received: from [10.0.1.12] (h219-110-166-078.catv02.itscom.jp [219.110.166.78])
- (Authenticated sender: mkei)
- by mail1.sfc.wide.ad.jp (Postfix) with ESMTPSA id 41DED119F6;
- Sat,  7 May 2022 23:09:03 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sfc.wide.ad.jp;
- s=mail1; t=1651932543;
- bh=ufGruaehO3lNVmQdRgD7l1kEibVecZJBsK+Z/0Uc86k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=abUiyVBHvxkVaKWt8sLdKqIURDs7TnPsUFEZRgPWhwerjkiftYfm4JbOqrpEp8CcK
- NB/uBxc7vZu3jLIeB/gW2SA80xAkh5pyXzfFLyVwHeqgaTzWmoyrzs1ODFsdQvuwDb
- Fb59PSnHUalVY3Ay4z3uU+dePfYC3tPaFlxTlAUOi/Qe1VBe7PnWIe7bdEHKW6Nbi/
- 2MjjTswFjFh3KaLGDGaTldZLCkEtqrLaH6vsE3HZKZwLkg1TflKks8CNejU11bFcKn
- OzS+WjBEeZ45R1QoEYKRRzvqlGxYbllfS6sVNKaHyXQeVcDmJMOqtdP8q7fd4i7FbX
- Aj+TaUr6BcrUQ==
-Message-ID: <abf37429-df24-4e68-b1d8-be54d3c0f732@sfc.wide.ad.jp>
-Date: Sat, 7 May 2022 23:09:02 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] target/arm: fix s2mmu input size check
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220505031234.20349-1-mkei@sfc.wide.ad.jp>
- <bc338b3d-06dd-6658-5601-0cc30d6689e2@linaro.org>
-From: Keisuke Iida <mkei@sfc.wide.ad.jp>
-In-Reply-To: <bc338b3d-06dd-6658-5601-0cc30d6689e2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:200:0:8803:203:178:142:133;
- envelope-from=mkei@sfc.wide.ad.jp; helo=mail1.sfc.wide.ad.jp
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnLED-0006FN-Qp
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 10:16:14 -0400
+Received: from mout.web.de ([217.72.192.78]:36617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnLEA-00044o-MM
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 10:16:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1651932968;
+ bh=A/csNgxFBNNnI4OJla1cyy22/z1NyaiOkhlb+awMYsA=;
+ h=X-UI-Sender-Class:From:Subject:Date:References:To:In-Reply-To;
+ b=Yhp58Wiuni7/2z5l13ALWxdw/+o0vEd0ZzlsdZgwU9+sNX/u/LSEYjwzXwWeH68AR
+ uMKR9dh3B1a5UyxD5WTFqWyPO0NTDbqcWuDvQFyjdi57g/g+jGViFAImoiaB5sF89R
+ WpQazSKmDNvK9labyRQNoj/ryFKbaulLbyV17TvA=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N5lj7-1ntfjH1oc7-0174G0 for
+ <qemu-devel@nongnu.org>; Sat, 07 May 2022 16:16:08 +0200
+From: Chris Howard <cvz185@web.de>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: Possible bug in Aarch64 single-stepping
+Date: Sat, 7 May 2022 16:16:07 +0200
+References: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
+To: qemu-devel@nongnu.org
+In-Reply-To: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
+Message-Id: <7988B475-EEC0-4574-B0E2-BB61738B8964@web.de>
+X-Mailer: Apple Mail (2.3445.104.21)
+X-Provags-ID: V03:K1:sw8f+HY1Am6G7nSHCOjnD7jO9adAWf0rHili/cYkcNFPei16TX/
+ wW0iKvUA3JRURbQbeq7LVqX3/OevpOIHAwMO0F8n/Sl2o0gUmf3oh1Ig5ixFUHFqqYmwNPJ
+ rkrO9wiIdz19Hzf1ETdU8rMrPLHQBRdKUmGZxDv4aaavqk68aJSKfRJDe6/D2MhxpHCH/Lu
+ CUcSs9MOQlaKQADoU452g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RPCt66eB/SY=:M8VNUzmrbMKZDz2S8JrtvF
+ HBb9mPKCzdKNfQ2Onrmr+1UCqQ0XlqLBD6fNnJCk3j7RW+M3hgBufoje3z/zQSHU/RiE2iA+X
+ Hh6wqbR/nMPtI/422dlPco4/wQl23cnORM637kEHmQYa6gW5TB6n/jYMBjF8TCOZRwQb1+4QW
+ aHBYlbpPdQzOKIMGg1nB7kH/d7ogWGjAOv29ELK8WyQ6OHggYNte74M7cFYn20D9b09IIayvm
+ qPWNfwwRZO8TYwNH8ZkMgSHXDZm24kjP0Zgn3BWGCB82anrR/CidrLfTuJXwjzPgK1g1Q5Aex
+ yuxlykXIwN6hYP9BJqtv82xjsDNwDoiHelR/G7MTEi/Fu6GDaVbXo2LRMTIqM96DldVP9NTqd
+ 8LmYTLG5V7LgkbUIrDtfE/Yx7aQtS9xvlvlxTRWmJcXp5oBeGlK7uooP39Cuf3aCs3d4Pb/1W
+ FPmAAOIY/l01r0taGOrbwiemZT9b+9AGEM4carsEIj6XYg8dDjq+p5JPWVRYYC4syym0Zp338
+ yyt6hJPol1aVwFGJu2mmC9tByaO8CNwUeirvI2DWcC9LPjAk9f6IlGxkAK8lZF/qLzFYEoa0R
+ t3EzqsNkO/w1q8Xgesn3be2rVsp3W3Mg4bLjLF3Xfn+MKmm4MpxyoD3y2ukQ2H5Smi1vHkbUt
+ Xv1cHNH0XnlVKJi9lgqwxCQ2OaI4FuyYGmNFzXddQzwHAb9b0jLV1ewWH4K1bwANz3p0c2/2p
+ iQ40nYzXeKFtUvkdHCQaeAqfrrq9bHq6xO1f7YhI8zhJsyFrnkFrKKUF5vYluyS+FhonnTtWt
+ o8PGknVH+m+4KtvuDvRccfe5FOrpZlOnH/uKjNfxNynmgwXevOeTO/WKNE6slTsvVNZ7YF4Gz
+ b2+hmN/AqaenrUn1X1geazbO7dSXMcsgFxXkqq31ZPcOkpD59ikVYObSrVQ1Mw5jzq3krNTyY
+ EhK+U8cqWCc3r4wH0nUmZBOSl9jZWsD70FP+S6Puia9cMqtpdvpwOopZ0SbuwEtGle37R8ZVe
+ LxTFq3f4wMiiV63ICSRXma+evf/hqHEL3ux9YrYRZGawcHqh0Ic/opHFUTaESoywbAEZRaIQD
+ nmYcpFPTfYlMW8=
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=cvz185@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,63 +86,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/05/06 1:13, Richard Henderson wrote:
-> On 5/4/22 22:12, mkei@sfc.wide.ad.jp wrote:
->> From: Keisuke Iida <mkei@sfc.wide.ad.jp>
->>
->> The maximum IPA size('inputsize') is constrained by the implemented 
->> PA size that is
->> specified by ID_AA64MMFR0_EL1.PARange. Please reference Arm 
->> Architecture Reference
->> Manual for A-profile architecture "Supported IPA size" on page D5-4788.
->>
->> Signed-off-by: Keisuke Iida <mkei@sfc.wide.ad.jp>
->> ---
->>   target/arm/helper.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/target/arm/helper.c b/target/arm/helper.c
->> index 5a244c3ed9..868e7a2c0b 100644
->> --- a/target/arm/helper.c
->> +++ b/target/arm/helper.c
->> @@ -11116,7 +11116,7 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, 
->> bool is_aa64, int level,
->>           }
->>             /* Inputsize checks.  */
->> -        if (inputsize > outputsize &&
->> +        if (inputsize > arm_pamax(cpu) &&
->
->
-> This is incorrect -- arm_pamax has already been taken into account in 
-> computing outputsize.  There are many more constraints than just this.
->
-> You need to have a look at the computation of ps and tsz in 
-> aa64_va_parameters, and then the computation of outputsize near the 
-> beginning of get_phys_addr_lpae, which takes arm_pamax into account by 
-> bounding ps against ID_AA64MMFR0.PARANGE, and pamax_map.
->
-> What problem are you encountering?
->
-Address Translation Fault is triggered when PA size set by VTCR_EL2.PS 
-is less than IPA size set by VTCR_EL2.T0SZ on the guest. (e.g. 
-vtcr_el2.PS = 1 && vtcr_el2.T0SZ = 25. PA size is 36bit, and IPA size is 
-39bit.)
+On 7. May 2022, at 15:42, Chris Howard <cvz185@web.de> wrote:
+>=20
+> Hi, I=E2=80=99m writing a simple debugger in assembly code for the =
+Raspberry Pi 3B (in aarch64).
+>=20
+> I=E2=80=99m using QEMU 7.0.0. Everything is running in EL1. (I have =
+MDE and KDE set in MDSCR_EL1).
+>=20
+> I=E2=80=99m coming across Unexpected Behaviour when playing with =
+single-stepping:
+>=20
+> It appears that single-stepping is enabled (ie. an exception is =
+generated after every instruction) when the SS bit (bit-0) is set in =
+MDSCR_EL1 and debug events are enabled in the CPSR (=E2=80=9CD=E2=80=9D =
+bit clear) *** irrespective of whether the SS bit (bit-21) is set in =
+CPSR or not ***.
+>=20
+> I thought the SS bit (bit-21) needs to be set in CPSR for =
+single-stepping to occur (and that it gets cleared whenever an exception =
+is taken and needs to be reset if one wants to single-step again).
+>=20
+> Have I misunderstood / misconfigured something, or is this a bug?
+>=20
+> Attached is a minimal(ish) example:
 
-In this case, inputsize = 39 and outputsize = 36, so inputsize > 
-outputsize is true and a fault is triggered.
+Oh, and the exception occurs immediately (after the ERET), rather than =
+after the instruction has been executed. It appears to be acting like a =
+hardware breakpoint.
 
-This behavior means that the effective minimum VTCR_EL2.T0SZ value 
-depends on VTCR_EL2.PS set by guest.
 
-Is this the expected behavior for qemu?
+PS. In plain gdb (ie. no nice user interface) a large number (but not =
+all) of the system registers gets displayed after each step. It would be =
+nice if these were sorted in some way. At the moment they=E2=80=99re =
+completely jumbled =E2=80=94 not alphabetic, not grouped by EL, nor by =
+=E2=80=9Cmeaning=E2=80=9D  (DBGWVR0_EL1 isn=E2=80=99t necessarily next =
+to DBGWCR0_EL1).
 
-As a side note, this does not happen before qemu 6.2.
+Also, there are multiple (identical?) instances of =E2=80=9CDBGBVR=E2=80=9D=
+ and =E2=80=9CDBGBCR=E2=80=9D (and  =E2=80=9CDBGWVR=E2=80=9D and =
+=E2=80=9CDBGWCR=E2=80=9D) rather than the expected =E2=80=9CDBGWVR0_EL1=E2=
+=80=9D, =E2=80=9CDBGWVR1_EL1=E2=80=9D etc.
 
->
-> r~
-
---
-
-Keisuke Iida <mkei@sfc.wide.ad.jp>
-
+Would this be a QEMU or a GDB issue? Or isn=E2=80=99t it an issue at =
+all? :-)=
 
