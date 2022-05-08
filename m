@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D4851EB29
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 05:00:04 +0200 (CEST)
-Received: from localhost ([::1]:33558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF7D51EB2A
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 05:00:49 +0200 (CEST)
+Received: from localhost ([::1]:35684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnX9P-0004qC-Gk
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 23:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36192)
+	id 1nnXA8-0006FU-HC
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 23:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnX7q-00047N-R6
- for qemu-devel@nongnu.org; Sat, 07 May 2022 22:58:26 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46821)
+ id 1nnX93-0004vR-Qg
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 22:59:41 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnX7p-00060I-6N
- for qemu-devel@nongnu.org; Sat, 07 May 2022 22:58:26 -0400
-Received: by mail-pl1-x631.google.com with SMTP id c11so10946014plg.13
- for <qemu-devel@nongnu.org>; Sat, 07 May 2022 19:58:24 -0700 (PDT)
+ id 1nnX92-00064p-Cu
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 22:59:41 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id i24so9473507pfa.7
+ for <qemu-devel@nongnu.org>; Sat, 07 May 2022 19:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=oE4fzb0Wzfml+GR2tsOZlJtqkUBAPu1z6BXQ7ljhQWs=;
- b=D9r6GKIfhWeFu8CmHUQ01H4tsulW6kRuO8Rh7MGYoxBbS3RuONupMPJRmAiNfvmdfp
- cxT9PxqHzQ8HDXrCORUZ9omxBveS3qEeZAHo9OAqYYwxqs+gQepjobU89RFm+9enhOsK
- LiTiQt+JTGS8kff8qoGVk86nPDvlXksSAVdtk+qzeFpb2elDjmE9oZFF7Z7jO5idmkGb
- IxmjS7MgqXGy8HUtPEJiiYV+LDN2ZiTXRT2bA7sJHfzyiIM0FnJ1k2EGSAOHDw380gym
- FXbY6Tc28wvjjdaJyOAP1zIWKEUDKuCeOKZo3+pQWNv6nUn1XUytE98iFLHjdpD45dla
- O1lw==
+ bh=jP6BsD3Yty34wG659Mr//NFfWdhS5A7bsz4rzCxx804=;
+ b=U1fFN+kjI5bafAWHAUNq89fFKNRHopzXlivdFl9IQXxW+wjoQisO3ff7OUor9Ni3YL
+ mr8H4wUcNm3/YjOEFQT+UNJRFA3SRYItQZ7472LN6+KH8cQVH1dwLPO7ZKRHLYuwYVFY
+ XGoiEI7Zo0txJDjNKXdSrBXNKKWrAlyEZI6i/MyEtGwUqyAfn8OLjRKpjXmMufdyLFL/
+ Bqd5n3btUwtbl3ZeMjHFWIr6j3+MckXTvi+FfejJIEuEO5IWG0AIm0l75gRMXnBYl9pz
+ OittF3cjp3MOXHWknzHBjXIRBvEJMooCRk85uoOR0T253gsaGdo88M3ipRy45CObHfk1
+ S3Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oE4fzb0Wzfml+GR2tsOZlJtqkUBAPu1z6BXQ7ljhQWs=;
- b=X8wA3yIcre4Tna95xjpxUL1nU84u2oslpzcHfjc1/l3LG8r6g82bQB8up06bVVijqo
- 16FZpEk/dNbKm+/K0oIhKYhJIB+L9d3xQX4p4wOilq/t8e64+iVEVz7txUMbFX8A7/WQ
- pq8nErMI6DFxzQUkHrBDhaEXniZqj9BcdgMe+X3/omfV7+hi3x/wb79LyYtfHfhHey0+
- UBoyV58bqNukarRI72AXzn78GrxqKXxbX3hwNciOgpdcPbOERHeT9itvBhfh4QxVtzW1
- +qylEA37OZ9kOO4tTL+NVI4C+c23BOJf5gGNBTKmRW/wdS38P63OqB33zpiCFoE6p3qp
- qkzQ==
-X-Gm-Message-State: AOAM533VGVCNG3u9LFjNjKtcg69TdJqpuskOO99t1N5+PUrdvCxYuWed
- tm21Y3i8aUfiKnTV+r8+mDHPvw==
-X-Google-Smtp-Source: ABdhPJy0oe3oFFMWWGPhL6rlIELZeru9d4hRe5ClOYPW/PxG5eQJHUHn9HfJzYAU6bV9EJhmI0WaxA==
-X-Received: by 2002:a17:90a:bc8a:b0:1db:382d:6fb5 with SMTP id
- x10-20020a17090abc8a00b001db382d6fb5mr19814935pjr.100.1651978703579; 
- Sat, 07 May 2022 19:58:23 -0700 (PDT)
+ bh=jP6BsD3Yty34wG659Mr//NFfWdhS5A7bsz4rzCxx804=;
+ b=hJMXqDdr1IaMph3RzSoF1kY4l/lFb+bAEgzK0aRmas+uG4vew+tRghB+aX2vuINsJI
+ 3Jkgw4l80cm2C4jm9kQs+5iHLCBOD/uRfHipdyuZhAbza39PEvver3dkCVRmnVr21x1+
+ bjbSU5K/VNUmeSIKLAqFV8igGEtWTrUOUKCYh6TGA8GMenSLD4SEVzxXTrkKRgDvaX3Y
+ tSB6QcN9zmAcSzrdKjHeSQRA51AkbhqH77vU5iRlrYXgK/2SbwGXC5/5XOdHeF4iATRx
+ gCNDXdUdq1lqUPhE6CglMU+Ligzjpr7272kPSIMWSF5KmpKQk9lEtN3lbPiOVwBJXA8X
+ bNew==
+X-Gm-Message-State: AOAM5302qakBkUtqDBeKhGwX9itCoe1yhM9QJU2da+ZhTMkPxwaguUhb
+ GZSDg+72cktggs5JdjFbiM/tMw==
+X-Google-Smtp-Source: ABdhPJy1/dcyO/JfhvrqlsGkrI+ebRlSp2vweEFjvh06Fp6StR1O252VoHnrrVS06skyNo9cFRzZVw==
+X-Received: by 2002:a65:6045:0:b0:399:3a5e:e25a with SMTP id
+ a5-20020a656045000000b003993a5ee25amr8049860pgp.139.1651978778898; 
+ Sat, 07 May 2022 19:59:38 -0700 (PDT)
 Received: from [192.168.4.112] (50-233-235-3-static.hfc.comcastbusiness.net.
  [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
- i10-20020a17090332ca00b0015e8d4eb265sm4341611plr.175.2022.05.07.19.58.22
+ w10-20020a170902d70a00b0015e8d4eb1bdsm4306787ply.7.2022.05.07.19.59.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 May 2022 19:58:23 -0700 (PDT)
-Message-ID: <2381f1af-acf0-8a72-07e2-2c91d86dd2f7@linaro.org>
-Date: Sat, 7 May 2022 21:58:19 -0500
+ Sat, 07 May 2022 19:59:38 -0700 (PDT)
+Message-ID: <b5d4ed2e-2918-feb1-5d21-f614ece7a3e1@linaro.org>
+Date: Sat, 7 May 2022 21:59:35 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 40/50] lasi: use numerical constant for iar reset value
+Subject: Re: [PATCH v2 41/50] hppa: move device headers from hppa_sys.h into
+ individual .c files
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, deller@gmx.de,
  qemu-devel@nongnu.org
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <20220504092600.10048-41-mark.cave-ayland@ilande.co.uk>
+ <20220504092600.10048-42-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220504092600.10048-41-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220504092600.10048-42-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,17 +95,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/22 04:25, Mark Cave-Ayland wrote:
-> This is to allow us to decouple the LASI device from the board logic. If it is
-> decided later that this value needs to be configurable then it can easily be
-> converted to a qdev property.
-> 
 > Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
 > Acked-by: Helge Deller<deller@gmx.de>
 > ---
->   hw/hppa/lasi.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/hppa/hppa_sys.h | 3 ---
+>   hw/hppa/lasi.h     | 4 ++++
+>   hw/hppa/machine.c  | 2 ++
+>   hw/hppa/pci.c      | 3 +++
+>   4 files changed, 9 insertions(+), 3 deletions(-)
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
