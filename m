@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA27D51ECDC
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 12:17:39 +0200 (CEST)
-Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853C951ECEE
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 12:42:24 +0200 (CEST)
+Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nndys-0000tn-Cf
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 06:17:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
+	id 1nneMp-00031U-Jv
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 06:42:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1nndxA-0007oN-45
- for qemu-devel@nongnu.org; Sun, 08 May 2022 06:15:53 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:42998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1nndx5-0005wI-Gf
- for qemu-devel@nongnu.org; Sun, 08 May 2022 06:15:50 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id C17463F187
- for <qemu-devel@nongnu.org>; Sun,  8 May 2022 10:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1652004939;
- bh=MhOuzXD9AYbN99Prs+mP+8qVRE3dp18kTazbBGpyLnE=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=Jshptt7kdI1u4fqrpBXwq9LHOzE8pHoFiV35MlWU2xox3DbHC6rZ3dekNUaru8C4J
- EUQY7xtfH2JAtAcrKqJk3KC0ySofA/j9W2sjPmmEuSf7ha0lylIU+5QFD+Hng5RicI
- xAN38M/yxePH1kTAjkuxPwsvDcZ47exuFiEw+dak0zcfEomKcJ78AShp1Kr2O4zwED
- he/nqVavq72H6+w7q02+kfOGK34R+j87hLgXaHcRUK00PWiauqCVkgF6dbLkKu/OGn
- bG8m2MxkUoQ57Oblh6rNZQZbI9S6dLHpdk1X4cunIwI/5ItEEv8ILK5liUFNWJoIzT
- Sz1hp7p/tXvvA==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 514192E8224
- for <qemu-devel@nongnu.org>; Sun,  8 May 2022 10:15:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 May 2022 10:08:55 -0000
-From: Andrii <1703506@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nneFr-0007C1-2I; Sun, 08 May 2022 06:35:11 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35791)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nneFp-0000Gy-E4; Sun, 08 May 2022 06:35:10 -0400
+Received: by mail-ej1-x631.google.com with SMTP id ks9so15422165ejb.2;
+ Sun, 08 May 2022 03:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fHfalXba0yxdVT4jiCEAE2tAlEFkYyn4n43Ditg9AEs=;
+ b=ACOBvNzNHsrHf/yA7Fcvz7jqjPZvqhcKxRqU8el5kXLuNYji5t8YmTcdRDUXO4+OCm
+ Kuy6NSN0Nhh3IXIhv8ukb1unAMWLBupP1Hw5Wvc0B/r3v2Z3s9MGQRwc2JKF7Xl90LwB
+ XbxxSJ9RMYyXWsjEnY5LiN3GPF3m+M3z6HBqryB3EWJpK7j68L6RWeaOWk1lfRybcCn5
+ g0hhz0zM5DLxQNeudz4tcBhQti+GFBt81f72ZwMWFfS2xqle9ZbMpDr0lf3eRF7z3+76
+ y65QQlriOV98r57XqYizltApycTRpRmoyDta2TjzojMUkWXXT/dN4YM81wdGtPLVOTd2
+ Rk1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fHfalXba0yxdVT4jiCEAE2tAlEFkYyn4n43Ditg9AEs=;
+ b=tdfVx27dKu3sYRwHgJ4SJkKcRco1PxWcPE+strfBzjB9p21eVdzVtpCumEQD9dWBdD
+ u3IedtWhO5FgFbjktVy/a+K1Ok0k5QJUMs0vKKWRhiNP8TP6d1l2TQY1clcjYhpSZtUW
+ dpEqbtCTIO7YuyFTaXbCTReG9113oK++nlRNbkq7vtD2/+xazTHfp9gHWJdstMNmuC1y
+ bqb+NtC006D227VGoU4otdKatsOCHshCGFUOlhs/eK7ejs+i/mwPsEGpAORTsNVR4YKf
+ W/8VEPJiSxz1/2Y9A20Cvw7SIauKhCFWt4mLCwcqMGWGPAw0BwhKDoLzYoNuGKiHb7+N
+ TOew==
+X-Gm-Message-State: AOAM53182IRem24DLBJ0H5rQEksz1+VZL72N9pzbgrip9zGVR/Qzd3lp
+ cSFfCKRSpKm7dYTdGhtJZwyOTfOqSJvtMQ==
+X-Google-Smtp-Source: ABdhPJzd+9WjjFI6xaPch0LTE/D2MQbO4yvuYeYZjBCvmqy8zpnk+bA1p6jtPd/4TBs6FDzPki5H6w==
+X-Received: by 2002:a17:907:6d93:b0:6f4:f84e:8cf1 with SMTP id
+ sb19-20020a1709076d9300b006f4f84e8cf1mr10271680ejc.555.1652006103562; 
+ Sun, 08 May 2022 03:35:03 -0700 (PDT)
+Received: from localhost.localdomain
+ (dynamic-077-183-246-161.77.183.pool.telefonica.de. [77.183.246.161])
+ by smtp.gmail.com with ESMTPSA id
+ ci18-20020a170907267200b006f388f6f927sm3901948ejc.1.2022.05.08.03.35.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 May 2022 03:35:03 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amnevar babumoger ehabkost imatimba janitor ptx0
- rs-databay ryzen27 scix th-huth
-X-Launchpad-Bug-Reporter: A S (scix)
-X-Launchpad-Bug-Modifier: Andrii (amnevar)
-References: <149974876377.6612.10329067332937096720.malonedeb@gac.canonical.com>
-Message-Id: <165200453581.19459.8373168970305312337.malone@angus.canonical.com>
-Subject: [Bug 1703506] Re: SMT not supported by QEMU on AMD Ryzen CPU
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a1979342dd08d6250d2d30773ae8aa97bed37b43"; Instance="production"
-X-Launchpad-Hash: 4b2fdcb272493d7fc27bd029c1dcb032baaf65b0
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Cc: qemu-trivial@nongnu.org,
+	Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 0/3] PIIX3-IDE XEN cleanup
+Date: Sun,  8 May 2022 12:34:29 +0200
+Message-Id: <20220508103432.14874-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,52 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1703506 <1703506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Found the same problem using Gnome boxes, as I understand it uses QEMU.
+This patch series first removes the redundant "piix3-ide-xen" device class and
+then moves a XEN-specific helper function from PIIX3 code to XEN code. The idea
+is to decouple PIIX3-IDE and XEN and to compile XEN-specific bits only if XEN
+support is enabled.
 
-Error I see in gnome boxes when I'm trying to install windows 10 vm:
-SYSTEM THREAD EXCEPTION NOT HANDLED
+Testing done:
+'qemu-system-x86_64 -M pc -m 1G -cdrom archlinux-2022.05.01-x86_64.iso" boots
+successfully and a 'poweroff' inside the VM also shuts it down correctly.
 
-Fresh install of Ubuntu 22.04
-CPU: AMD Ryzen 7 1700
+XEN mode wasn't tested for the time being since its setup procedure seems quite
+sophisticated. Please let me know in case this is an obstacle.
 
-The solution posted by asd fghjkl (ryzen27) worked for me too:
+Bernhard Beschow (3):
+  hw/ide/piix: Remove redundant "piix3-ide-xen" device class
+  hw/ide/piix: Add some documentation to pci_piix3_xen_ide_unplug()
+  include/hw/ide: Unexport pci_piix3_xen_ide_unplug()
 
-sudo nano /etc/modprobe.d/kvm.conf
-add "options kvm ignore_msrs=3D1" (without quotes)
-reboot
+ hw/i386/pc_piix.c          |  3 +--
+ hw/i386/xen/xen_platform.c | 49 +++++++++++++++++++++++++++++++++++++-
+ hw/ide/piix.c              | 42 --------------------------------
+ include/hw/ide.h           |  3 ---
+ 4 files changed, 49 insertions(+), 48 deletions(-)
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1703506
-
-Title:
-  SMT not supported by QEMU on AMD Ryzen CPU
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  HyperThreading/SMT is supported by AMD Ryzen CPUs but results in this
-  message when setting the topology to threads=3D2:
-
-  qemu-system-x86_64: AMD CPU doesn't support hyperthreading. Please
-  configure -smp options properly.
-
-  Checking in a Windows 10 guest reveals that SMT is not enabled, and
-  from what I understand, QEMU converts the topology from threads to
-  cores internally on AMD CPUs. This appears to cause performance
-  problems in the guest perhaps because programs are assuming that these
-  threads are actual cores.
-
-  Software: Linux 4.12, qemu 2.9.0 host with KVM enabled, Windows 10 pro
-  guest
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1703506/+subscriptions
+-- 
+2.36.1
 
 
