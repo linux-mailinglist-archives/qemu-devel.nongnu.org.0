@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5663951EE97
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 17:34:16 +0200 (CEST)
-Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0858F51F026
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 21:28:27 +0200 (CEST)
+Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnivG-0000wA-UL
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 11:34:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57626)
+	id 1nnmZt-0006sw-LN
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 15:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnout@bzzt.net>) id 1nnitr-0000Eh-7F
- for qemu-devel@nongnu.org; Sun, 08 May 2022 11:32:47 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:41395)
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmZ4-0006Dm-2O
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:27:34 -0400
+Received: from mout.web.de ([212.227.15.3]:56071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnout@bzzt.net>) id 1nnitp-00064D-8H
- for qemu-devel@nongnu.org; Sun, 08 May 2022 11:32:46 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id E8FBA5C00A0;
- Sun,  8 May 2022 11:32:42 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Sun, 08 May 2022 11:32:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bzzt.net; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm2; t=1652023962; x=1652110362; bh=+dT8tPH0Ct2IqpehkHXXd2LUN
- 7HyDKsOdTNUH2vcLcU=; b=V2KB7vpOfRXYW99lCHxn/pEOaSZAdI4LHenQWdKIJ
- K2v0g8zBsRuy70Wt5tG6r2RZRSarXnPuuvQ9eyQgiqvZPjW3KaQW9E9GwH9dGGVM
- p7bqkMVa+amT2lXVTKSFsh3YxX9xMbrDfCPnX9f9QhDKypmKwBAWS9hrRgx3bY8w
- 782G5qwkyrUKLqMXKxT470fgrla6U1K8K1biyv4GNeTsaIlPvidzCy27+qBWncML
- swY2jFber0iJJ7tCj47qr5W3FIdpWsrvnWJ7Q2s0Z0B3eYe6yjK9laKAyr6J/v3F
- nTagwb5GpDcycg1q3xP1VgmQMa947Me+WQgEmKcGVD7BQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; t=1652023962; x=1652110362; bh=+
- dT8tPH0Ct2IqpehkHXXd2LUN7HyDKsOdTNUH2vcLcU=; b=w0PMXZsbZGPiVTjni
- yn/Xvv6W2S/KTWKEodgKTLyxpT88iyGgw8xyenbCXqJlqUq/ULNhqKKfVg9KDR4m
- NxVSyqVPEExAjOR8jj03tLESc4C4PwRcFXV+5AO/XdTMYnVB1wdYWTd0eoJD2zpX
- RlfR2qiTPsZk8jX3h0+J4m06KE/HX8F0Ev1CyMTdJca1BEl1RHMukzTZxRX5E8IG
- iOciIFWg9iLXfuePOetiu83VHppir/91Yknecpu3m3B0ij3s2PGlLhgUXha/n1Pc
- 3oIXSCK4S7BtnQpKCfRwwTdXsjk16Tmx4wVJbzr+AqN+anVy3nSBYF1Uz9Xfyaiz
- UIZAw==
-X-ME-Sender: <xms:muJ3YlllfBoSMDrlSdsRYtSm3fjb1_J8tO-KHaA0Us2dXivBDW-qOA>
- <xme:muJ3Yg05B-7z2xREgFdoPBVZPUInuldA-5vUY5P04X-oPcA225v4bGoojzFh2gB-2
- LK_xnnV1E9UWOMKlTY>
-X-ME-Received: <xmr:muJ3YrpQsau3-Cc7QaVDXMntPYu42yVjPYjnHbYObYG5wrR6c_LO1CRSGB-9mT6g1QU0PrQxUXPIO8MB9GASqSRFEFHrb_c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgdeklecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
- dttdenucfhrhhomheptehrnhhouhhtucfgnhhgvghlvghnuceorghrnhhouhhtsegsiiii
- thdrnhgvtheqnecuggftrfgrthhtvghrnhepjeefjeffffffgffgiefhjeegvdfhgeegje
- eltdevkeejgeduieeuvdevudelieejnecuffhomhgrihhnpegtohhrvggsohhothdrohhr
- ghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprghrnhhouhhtsegsiiiithdrnhgvth
-X-ME-Proxy: <xmx:muJ3YlnnYWUn49s99E0PDNySgybrY9Qv5C-o1AHHJRs3Ov5xzHSojw>
- <xmx:muJ3Yj072dAdfUB6l77Q_ujkrsClCsCZCN6r1_SG0NAGcMqLhxnvSg>
- <xmx:muJ3Ykuj2RrcEE6cBfxizntP4Q6djF0HcWWqTUbhsOSeqsBeZHEb7A>
- <xmx:muJ3Ys8kg7Lya5fs3O4tX7zo6yGN6SBN1eA8JVLC3ICmsw2xZSz3yw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 8 May 2022 11:32:42 -0400 (EDT)
-From: Arnout Engelen <arnout@bzzt.net>
-To: kraxel@redhat.com,
-	qemu-devel@nongnu.org
-Cc: Arnout Engelen <arnout@bzzt.net>
-Subject: [PATCH] hw/usb/hcd-ehci: fix writeback order
-Date: Sun,  8 May 2022 17:32:22 +0200
-Message-Id: <20220508153222.3560803-1-arnout@bzzt.net>
-X-Mailer: git-send-email 2.35.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=arnout@bzzt.net;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmZ1-0002nT-SD
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:27:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1652038048;
+ bh=8ArM4rgF5rLllZ/DGVwtAxoKVrkjpvMe/YjI+zaBTBA=;
+ h=X-UI-Sender-Class:From:Subject:Date:References:To:In-Reply-To;
+ b=B5SDB2+sNGevIYFgL7CNwATMXnQOSzpk5GPC9ImOLf+CdSiOspu8thmMTCyhFckSA
+ ziO+KYI69cYgpKpTnuvvotpXE0U5P65BvEEKcsuxL07AsqFOCpy3PiLBDDxRUyRRfs
+ KzZuWlZzEDVhPuOuHoou/Gh5w4LFFo0XjcQRc28Q=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N7gXO-1nsxPp4Aew-014g5F; Sun, 08
+ May 2022 21:27:28 +0200
+From: Chris Howard <cvz185@web.de>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: Possible bug in Aarch64 single-stepping [PATCH]
+Date: Sun, 8 May 2022 21:27:27 +0200
+References: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
+ <7988B475-EEC0-4574-B0E2-BB61738B8964@web.de>
+ <CAFEAcA-Dy=nY9SCtxv0omYCQqDqGq6Qwvja4c6f_9rPR8L-KCA@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org
+In-Reply-To: <CAFEAcA-Dy=nY9SCtxv0omYCQqDqGq6Qwvja4c6f_9rPR8L-KCA@mail.gmail.com>
+Message-Id: <C07CCAE4-1679-4D7C-A472-57B9939D5DE0@web.de>
+X-Mailer: Apple Mail (2.3445.104.21)
+X-Provags-ID: V03:K1:c/wLnMjtnSMbPW6Z/jcK3zege4tYmDqbv0V8YF4L+FSWtd0CLNR
+ lLx8H7bXuLZG2goGezHLVtmOZ704nuQ3KzrBFIHta06EzpnKevoWxsp935fJZpeJ5xFSVfW
+ 6leb4QB2xNFTwx9GpWQnBLK6S313cFcqJ5GdZcTAMMG+uJRnULLqhpexHU2lRk04Iqi9gDK
+ CzyBOrPWlkFMc4vFyspXw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WiUH+qTZp2I=:AbhinQZR4vkHJPjDJexoGM
+ jCofaUebJOO+Ak9546d8wLslLS5w7Qo8ygZzQfzP0FnixHmUhW9l9dFtx1Q9SloK3Jkw703SQ
+ 8l+13PCUvoxIRjBF7BOWXhkC9PJCHIQfJAfBBCqDIz/dnCehPsVSJEXZF7z+4VEEGufiuOv6D
+ f9aA4/x8X6SW6lbn0qIuCQzhZtOxz4fti9jGU8S1YbXTcDgLuh8nd/a8AqtEtUKZ/mOOL5n1+
+ dab+fVQpeTB9BhBOF4s+GJ+lqT+Ruiuj07aWzwhn73t6iqUiiA70Eio1EmefUmsirPdchAwQu
+ gdLEAQMyLTzcnNataQSuIkPLTHtiH2ZPnMOj+xqgvAUAdE+OFzt12F6AFv9rxFp1KxFtIVzI4
+ IEEw1IUDlKs+wteCl3U+l3UvDnkJ5vPl6BcYLtLTPI9H4tiiVKxfI+oPM+J8k90lLjvOYsOXQ
+ kNoyqNeilIurQqE1DM4Uawvys97XRLyCD/Y9gmvcyMlNSrVYuJjGebhixPrMTVoBxqvS7azg4
+ ebRoLi7N9/N3bbKidFt89wpdT+zYWeck78fuZNziX8VzI7bLHTgBll1ZiU2w2yeNFH2op/A9g
+ b1qxU8Vb4dHskwxyJVC/qfnbhkdAW7S7lAzivFzrZKL5hMKD+wA+yGkaLzS8ZELBCNtlhkkwQ
+ kvtoTIJ4yYrLiUqGuN6aotyvsz+qteuXmxrwwQLQZOF0fOkllAH0HUWk86fweapSJzVfxE7Gz
+ opx1D/XcFTf7015rEAdCdUlMcPARV5N+tmbPWZ5pCAj7Frp2fJCMy3J/yjTrxSvDzxI/bp8+D
+ 0ETHK90PLwn8mPAVNRKdXWJSkwCWN8eaj8IeMdi0ET4llLRSnCFKL4bXtPsNGjgDWtp6cgzEP
+ 878AHdd7vQt4SenxpbTr2iCmUXq1k6GYJtuMXXunLv1om+9ROrPusiVI2YArkrYYgGCVWhCyj
+ iNJcAlBbMSpsgSzF5daYctxOETspq7spmqq2dduRPEwnbTCeWLptew81LEL+W7y34SMnmTo05
+ 2qEszx2LfT0AMS777joEOzY1ru31BMyMzRWfF+Cl2tz/hSNmuaNu5BhTFOrTxwuSuVcpxijAZ
+ qzRGwYJwQs9/C8=
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=cvz185@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,57 +89,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'active' bit passes control over a qTD between the guest and the
-controller: set to 1 by guest to enable execution by the controller,
-and the controller sets it to '0' to hand back control to the guest.
+On 8. May 2022, at 14:18, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
 
-ehci_state_writeback write two dwords to main memory using DMA:
-the third dword of the qTD (containing dt, total bytes to transfer,
-cpage, cerr and status) and the fourth dword of the qTD (containing
-the offset).
+> On Sat, 7 May 2022 at 15:18, Chris Howard <cvz185@web.de> wrote:
+>> PS. In plain gdb (ie. no nice user interface) a large number (but not =
+all) of the system registers gets displayed after each step. It would be =
+nice if these were sorted in some way. At the moment they=E2=80=99re =
+completely jumbled =E2=80=94 not alphabetic, not grouped by EL, nor by =
+=E2=80=9Cmeaning=E2=80=9D  (DBGWVR0_EL1 isn=E2=80=99t necessarily next =
+to DBGWCR0_EL1).
+>>=20
+>> Also, there are multiple (identical?) instances of =E2=80=9CDBGBVR=E2=80=
+=9D and =E2=80=9CDBGBCR=E2=80=9D (and  =E2=80=9CDBGWVR=E2=80=9D and =
+=E2=80=9CDBGWCR=E2=80=9D) rather than the expected =E2=80=9CDBGWVR0_EL1=E2=
+=80=9D, =E2=80=9CDBGWVR1_EL1=E2=80=9D etc.
+>>=20
+>> Would this be a QEMU or a GDB issue? Or isn=E2=80=99t it an issue at =
+all? :-)
+>=20
+> My gdb doesn't do that. Basically QEMU provides gdb with some XML
+> telling it that the sysregs are present, but it's up to gdb at
+> what points it chooses to display what registers and how it does that.
+>=20
+> The system register read access via the gdbstub is "best-effort"
+> on QEMU's part -- we implement it to the extent that it wasn't too
+> difficult to do, but there are some sharp edges, like the
+> register names not always being quite right, and also the way
+> that if you try to read a register that isn't supposed to be
+> accessible by the current EL you might find it's not correct.
+> Trying to read SP_EL2 while at EL2 is an example of that.
+>=20
+> The reason register names are sometimes funny is that the
+> infrastructure for system registers within QEMU was originally
+> written with the assumption that the name strings were merely
+> for convenience when debugging QEMU itself, so it's sometimes
+> a bit careless about them. We only added the "tell GDB about
+> these" part later.
+>=20
+> That said, adding the numbers into the watchpoint and breakpoint
+> registers would be pretty easy, so we should do that. That is,
+> in this code:
+> =
+https://gitlab.com/qemu-project/qemu/-/blob/master/target/arm/helper.c#L65=
+67
+> we should use g_strdup_printf() to create unique per-register
+> names, the same way we do for the PMU registers already here:
+> =
+https://gitlab.com/qemu-project/qemu/-/blob/master/target/arm/helper.c#L66=
+32
+>=20
+> thanks
+> -- PMM
 
-This commit makes sure the fourth dword is written before the third,
-avoiding a race condition where a new offset written into the qTD
-by the guest after it observed the status going to go to '0' gets
-overwritten by a 'late' DMA writeback of the previous offset.
+Thanks for the explanation. What with this being =E2=80=9Cpretty easy=E2=80=
+=9D I=E2=80=99m attempting my first ever patch!  :-)
 
-This race condition could lead to 'cpage out of range (5)' errors,
-and reproduced by:
+BE WARNED!
 
-./qemu-system-x86_64 -enable-kvm -bios $SEABIOS/bios.bin -m 4096 -device usb-ehci -blockdev driver=file,read-only=on,filename=/home/aengelen/Downloads/openSUSE-Tumbleweed-DVD-i586-Snapshot20220428-Media.iso,node-name=iso -device usb-storage,drive=iso,bootindex=0 -chardev pipe,id=shell,path=/tmp/pipe -device virtio-serial -device virtconsole,chardev=shell -device virtio-rng-pci -serial mon:stdio -nographic
+This is a context diff with respect to the cloned git repository =
+(Version 7.0.50)
 
-(press a key, select 'Installation' (2), and accept the default
-values. On my machine the 'cpage out of range' is reproduced while
-loading the Linux Kernel about once per 7 attempts. With the fix in
-this commit it no longer fails)
+$ git clone https://gitlab.com/qemu-project/qemu.git
 
-This problem was previously reported as a seabios problem in
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/OUTHT5ISSQJGXPNTUPY3O5E5EPZJCHM3/
-and as a nixos CI build failure in
-https://github.com/NixOS/nixpkgs/issues/170803
+created with
 
-Signed-off-by: Arnout Engelen <arnout@bzzt.net>
----
- hw/usb/hcd-ehci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+$ diff -c qemu/target/arm/helper.c qemu-patch/target/arm/helper.c > =
+aarch-dbg-regnames.patch
 
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 33a8a377bd..d4da8dcb8d 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -2011,7 +2011,10 @@ static int ehci_state_writeback(EHCIQueue *q)
-     ehci_trace_qtd(q, NLPTR_GET(p->qtdaddr), (EHCIqtd *) &q->qh.next_qtd);
-     qtd = (uint32_t *) &q->qh.next_qtd;
-     addr = NLPTR_GET(p->qtdaddr);
--    put_dwords(q->ehci, addr + 2 * sizeof(uint32_t), qtd + 2, 2);
-+    /* First write back the offset */
-+    put_dwords(q->ehci, addr + 3 * sizeof(uint32_t), qtd + 3, 1);
-+    /* Then write back the token, clearing the 'active' bit */
-+    put_dwords(q->ehci, addr + 2 * sizeof(uint32_t), qtd + 2, 1);
-     ehci_free_packet(p);
- 
-     /*
--- 
-2.35.3
+to be applied (in the target/arm directory) with
+
+$ patch -p3 <../../../aarch-dbg-regnames.patch
+
+
+=E2=80=94 chris
+
+
+=20
+*** qemu/target/arm/helper.c	2022-05-08 20:41:48.000000000 +0200
+--- qemu-patch/target/arm/helper.c	2022-05-08 20:55:25.000000000 =
++0200
+***************
+*** 6551,6559 ****
+          define_one_arm_cp_reg(cpu, &dbgdidr);
+      }
+ =20
+!     /* Note that all these register fields hold "number of Xs minus =
+1". */
+!     brps =3D arm_num_brps(cpu);
+!     wrps =3D arm_num_wrps(cpu);
+      ctx_cmps =3D arm_num_ctx_cmps(cpu);
+ =20
+      assert(ctx_cmps <=3D brps);
+--- 6551,6559 ----
+          define_one_arm_cp_reg(cpu, &dbgdidr);
+      }
+ =20
+!     /* Note that all these reg fields (in ID_AA64DFR0_EL1) hold =
+"number of Xs minus 1". */
+!     brps =3D arm_num_brps(cpu);			/* returns =
+actual number of breakpoints */
+!     wrps =3D arm_num_wrps(cpu);			/* returns =
+actual number of watchpoints */
+      ctx_cmps =3D arm_num_ctx_cmps(cpu);
+ =20
+      assert(ctx_cmps <=3D brps);
+***************
+*** 6565,6578 ****
+      }
+ =20
+      for (i =3D 0; i < brps; i++) {
+          ARMCPRegInfo dbgregs[] =3D {
+!             { .name =3D "DBGBVR", .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 4,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbvr[i]),
+                .writefn =3D dbgbvr_write, .raw_writefn =3D raw_write
+              },
+!             { .name =3D "DBGBCR", .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 5,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbcr[i]),
+--- 6565,6580 ----
+      }
+ =20
+      for (i =3D 0; i < brps; i++) {
++ 		char *dbgbvr_el1_name =3D =
+g_strdup_printf("DBGBVR%d_EL1", i);
++ 		char *dbgbcr_el1_name =3D =
+g_strdup_printf("DBGBCR%d_EL1", i);
+          ARMCPRegInfo dbgregs[] =3D {
+!             { .name =3D dbgbvr_el1_name, .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 4,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbvr[i]),
+                .writefn =3D dbgbvr_write, .raw_writefn =3D raw_write
+              },
+!             { .name =3D dbgbcr_el1_name, .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 5,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbcr[i]),
+***************
+*** 6580,6596 ****
+              },
+          };
+          define_arm_cp_regs(cpu, dbgregs);
+      }
+ =20
+      for (i =3D 0; i < wrps; i++) {
+          ARMCPRegInfo dbgregs[] =3D {
+!             { .name =3D "DBGWVR", .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 6,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwvr[i]),
+                .writefn =3D dbgwvr_write, .raw_writefn =3D raw_write
+              },
+!             { .name =3D "DBGWCR", .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 7,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwcr[i]),
+--- 6582,6602 ----
+              },
+          };
+          define_arm_cp_regs(cpu, dbgregs);
++         g_free(dbgbvr_el1_name);
++         g_free(dbgbcr_el1_name);
+      }
+ =20
+      for (i =3D 0; i < wrps; i++) {
++ 		char *dbgwvr_el1_name =3D =
+g_strdup_printf("DBGWVR%d_EL1", i);
++ 		char *dbgwcr_el1_name =3D =
+g_strdup_printf("DBGWCR%d_EL1", i);
+          ARMCPRegInfo dbgregs[] =3D {
+!             { .name =3D dbgwvr_el1_name, .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 6,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwvr[i]),
+                .writefn =3D dbgwvr_write, .raw_writefn =3D raw_write
+              },
+!             { .name =3D dbgwcr_el1_name, .state =3D ARM_CP_STATE_BOTH,
+                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
+ i, .opc2 =3D 7,
+                .access =3D PL1_RW, .accessfn =3D access_tda,
+                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwcr[i]),
+***************
+*** 6598,6603 ****
+--- 6604,6611 ----
+              },
+          };
+          define_arm_cp_regs(cpu, dbgregs);
++         g_free(dbgwvr_el1_name);
++         g_free(dbgwcr_el1_name);
+      }
+  }
+ =20
 
 
