@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0858F51F026
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 21:28:27 +0200 (CEST)
-Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D20A51F027
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 21:37:32 +0200 (CEST)
+Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnmZt-0006sw-LN
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 15:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41118)
+	id 1nnmih-0001cZ-1B
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 15:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmZ4-0006Dm-2O
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:27:34 -0400
-Received: from mout.web.de ([212.227.15.3]:56071)
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmh3-0000vo-0D
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:35:49 -0400
+Received: from mout.web.de ([212.227.17.11]:34233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmZ1-0002nT-SD
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:27:33 -0400
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmh0-0003y1-Mc
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:35:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1652038048;
- bh=8ArM4rgF5rLllZ/DGVwtAxoKVrkjpvMe/YjI+zaBTBA=;
+ s=dbaedf251592; t=1652038544;
+ bh=2k0hpSTlLXV2qEHo1f08xx0HC3MHm1Im5qr4C4YZ0BY=;
  h=X-UI-Sender-Class:From:Subject:Date:References:To:In-Reply-To;
- b=B5SDB2+sNGevIYFgL7CNwATMXnQOSzpk5GPC9ImOLf+CdSiOspu8thmMTCyhFckSA
- ziO+KYI69cYgpKpTnuvvotpXE0U5P65BvEEKcsuxL07AsqFOCpy3PiLBDDxRUyRRfs
- KzZuWlZzEDVhPuOuHoou/Gh5w4LFFo0XjcQRc28Q=
+ b=JHD+9++JGn5eWeDqg0vEF08sVO9+HN+EnOOz1y6r+35/Tn+IcwAP30Sh253+4pIHq
+ DEVcdJOOd2hGbhQcNErO1teUfwXLuspa8F8UdaMCSJczqlLnyPTSq6w+4tSDYArLgV
+ wrxn8xwDfajL0yJDDR2hrt16CvoB+v8DBwXYYoLg=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N7gXO-1nsxPp4Aew-014g5F; Sun, 08
- May 2022 21:27:28 +0200
+Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MumNN-1o6PXX0YLb-00rqLk; Sun, 08
+ May 2022 21:35:44 +0200
 From: Chris Howard <cvz185@web.de>
 Content-Type: text/plain;
 	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: Possible bug in Aarch64 single-stepping [PATCH]
-Date: Sun, 8 May 2022 21:27:27 +0200
+Subject: Re: Possible bug in Aarch64 single-stepping
+Date: Sun, 8 May 2022 21:35:43 +0200
 References: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
- <7988B475-EEC0-4574-B0E2-BB61738B8964@web.de>
- <CAFEAcA-Dy=nY9SCtxv0omYCQqDqGq6Qwvja4c6f_9rPR8L-KCA@mail.gmail.com>
+ <CAFEAcA8QmsHfxAdUQET2Oab_xXa7x4i4C4+_6Y-J8ZNs1t5pPg@mail.gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  qemu-devel@nongnu.org
-In-Reply-To: <CAFEAcA-Dy=nY9SCtxv0omYCQqDqGq6Qwvja4c6f_9rPR8L-KCA@mail.gmail.com>
-Message-Id: <C07CCAE4-1679-4D7C-A472-57B9939D5DE0@web.de>
+In-Reply-To: <CAFEAcA8QmsHfxAdUQET2Oab_xXa7x4i4C4+_6Y-J8ZNs1t5pPg@mail.gmail.com>
+Message-Id: <73FF0B20-89CD-4177-B536-049B2D0BDB61@web.de>
 X-Mailer: Apple Mail (2.3445.104.21)
-X-Provags-ID: V03:K1:c/wLnMjtnSMbPW6Z/jcK3zege4tYmDqbv0V8YF4L+FSWtd0CLNR
- lLx8H7bXuLZG2goGezHLVtmOZ704nuQ3KzrBFIHta06EzpnKevoWxsp935fJZpeJ5xFSVfW
- 6leb4QB2xNFTwx9GpWQnBLK6S313cFcqJ5GdZcTAMMG+uJRnULLqhpexHU2lRk04Iqi9gDK
- CzyBOrPWlkFMc4vFyspXw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WiUH+qTZp2I=:AbhinQZR4vkHJPjDJexoGM
- jCofaUebJOO+Ak9546d8wLslLS5w7Qo8ygZzQfzP0FnixHmUhW9l9dFtx1Q9SloK3Jkw703SQ
- 8l+13PCUvoxIRjBF7BOWXhkC9PJCHIQfJAfBBCqDIz/dnCehPsVSJEXZF7z+4VEEGufiuOv6D
- f9aA4/x8X6SW6lbn0qIuCQzhZtOxz4fti9jGU8S1YbXTcDgLuh8nd/a8AqtEtUKZ/mOOL5n1+
- dab+fVQpeTB9BhBOF4s+GJ+lqT+Ruiuj07aWzwhn73t6iqUiiA70Eio1EmefUmsirPdchAwQu
- gdLEAQMyLTzcnNataQSuIkPLTHtiH2ZPnMOj+xqgvAUAdE+OFzt12F6AFv9rxFp1KxFtIVzI4
- IEEw1IUDlKs+wteCl3U+l3UvDnkJ5vPl6BcYLtLTPI9H4tiiVKxfI+oPM+J8k90lLjvOYsOXQ
- kNoyqNeilIurQqE1DM4Uawvys97XRLyCD/Y9gmvcyMlNSrVYuJjGebhixPrMTVoBxqvS7azg4
- ebRoLi7N9/N3bbKidFt89wpdT+zYWeck78fuZNziX8VzI7bLHTgBll1ZiU2w2yeNFH2op/A9g
- b1qxU8Vb4dHskwxyJVC/qfnbhkdAW7S7lAzivFzrZKL5hMKD+wA+yGkaLzS8ZELBCNtlhkkwQ
- kvtoTIJ4yYrLiUqGuN6aotyvsz+qteuXmxrwwQLQZOF0fOkllAH0HUWk86fweapSJzVfxE7Gz
- opx1D/XcFTf7015rEAdCdUlMcPARV5N+tmbPWZ5pCAj7Frp2fJCMy3J/yjTrxSvDzxI/bp8+D
- 0ETHK90PLwn8mPAVNRKdXWJSkwCWN8eaj8IeMdi0ET4llLRSnCFKL4bXtPsNGjgDWtp6cgzEP
- 878AHdd7vQt4SenxpbTr2iCmUXq1k6GYJtuMXXunLv1om+9ROrPusiVI2YArkrYYgGCVWhCyj
- iNJcAlBbMSpsgSzF5daYctxOETspq7spmqq2dduRPEwnbTCeWLptew81LEL+W7y34SMnmTo05
- 2qEszx2LfT0AMS777joEOzY1ru31BMyMzRWfF+Cl2tz/hSNmuaNu5BhTFOrTxwuSuVcpxijAZ
- qzRGwYJwQs9/C8=
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=cvz185@web.de;
+X-Provags-ID: V03:K1:Z2cLMtKKHzd8OpVKkkDlXz9QoOQQrXI4/UwHyOhaPub0/WadZw+
+ eMGXyi1cs0mdoSz36YhQe4izI+fp3lzVL0pic3wyBkj9IR0RMVg/Ob9UtYANS86ZsuLMsDt
+ ocXl7rXQ91rOXn+O4ooJn75vtkU5IhFmUvo2WMxU/uhvNiXUSOWevxWHeGfjgNj58KkGFKe
+ mHB12YbWHJzev8ahHRIZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:i7uAfb2IlJM=:uf8WLtHSrZgw7leg5WLHZz
+ q01Z/wVuX965qFHy+o9uzdMnU9jp6rfBhDxnVhSoMIUuotchT6xtVpvJKxcXWBWlhBGL7oaBl
+ xYiY58jSUy+QcfQP7k9ePZrg/i6zPTprPxGajq4BYt9VPPqeMkwOYo7u6zZ2FqHkYLZ68PFo7
+ +g2Ci2N8fYL5PSFNFeEWt8pn59UdXbj+SJjwD/9Lj1TuGuhgZdHZMBE5k9oPE8pgIArVFZwsa
+ YdZlp44JyoHBrWqM4S+SdUxG55VgLbQgfrgw7zo0KdD3ykEzMdVnBOQWfrNCm2bGlEPSnzWAN
+ uO5vitSkhw5IBgXasecB8bKtIRDo3ClPw8IqV75XEk9h2/Y2bVA5czLQo0o3ECkPZ2wKl78Ml
+ HuTephLMd2ssmmWs02BYkHejdGeJ4/i3pHReOo4QpCeX2EfN+iAQq0s0+xraTrGh9wn9ECu0Y
+ nNuzfUL6ztUiFxTSu32OkJXgEePz6K8y0VbJ2+X8SBMgvmk7br8TaBQ06M4i2hUuL6WlaGdiZ
+ g0roPExmuO1J3+/YP/Dt1epGbGX4QLYh4z2pFRsHoPk6KhBwHjSR41q23CHHDRAbrxLwNFVXq
+ O11t3uMrISJCe4u5A5ZEty0VloCbUQ5sze9xmM/I571kRe3+Hbke9QM0mXLHtfBMZgTKkJNe6
+ aRXMOHLtIvWtE54u2ZIhUIoZyP8w6pTxmsysUI5EfPD6ptRMOCfv6Cx9stAkklgQ65ppfHuDy
+ mpllcxwmqf83U5NkHvzMP4qlfZJVG9SVTcH0GWpKPtmZpYnPuzBglghaT7XOJihm9usCArDUI
+ NTLEufR2ExKt51mBdHfEp7Fk/vtSzpD917Q+TzKTilXIo0iLKjbqg4ulyj9OXP7kSLrNkurej
+ emRjCEGEGm3GvF65UBgcZzx/dGn6eyPGusgk+YN2OhRMZ1vseqDgwJghKqtKlPq0cJur/qCWD
+ ucCU0p3rXxT5npg4kTIljHbzjtzC3hPRzp2AxxuP274x+ku72lT/WBBquQ21as5DkpRNJTyjG
+ UH4oAH7WHp5B6ZwVES/Yfrdy8IAGXLBTln9faUxdasYrsHnpqqL5O6gEiP6HcQDx2JYonEit/
+ 36g/z01A5aa2hQ=
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=cvz185@web.de;
  helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,207 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8. May 2022, at 14:18, Peter Maydell <peter.maydell@linaro.org> =
+On 8. May 2022, at 14:08, Peter Maydell <peter.maydell@linaro.org> =
 wrote:
-
-> On Sat, 7 May 2022 at 15:18, Chris Howard <cvz185@web.de> wrote:
->> PS. In plain gdb (ie. no nice user interface) a large number (but not =
-all) of the system registers gets displayed after each step. It would be =
-nice if these were sorted in some way. At the moment they=E2=80=99re =
-completely jumbled =E2=80=94 not alphabetic, not grouped by EL, nor by =
-=E2=80=9Cmeaning=E2=80=9D  (DBGWVR0_EL1 isn=E2=80=99t necessarily next =
-to DBGWCR0_EL1).
+>=20
+> On Sat, 7 May 2022 at 14:44, Chris Howard <cvz185@web.de> wrote:
 >>=20
->> Also, there are multiple (identical?) instances of =E2=80=9CDBGBVR=E2=80=
-=9D and =E2=80=9CDBGBCR=E2=80=9D (and  =E2=80=9CDBGWVR=E2=80=9D and =
-=E2=80=9CDBGWCR=E2=80=9D) rather than the expected =E2=80=9CDBGWVR0_EL1=E2=
-=80=9D, =E2=80=9CDBGWVR1_EL1=E2=80=9D etc.
+>> Hi, I=E2=80=99m writing a simple debugger in assembly code for the =
+Raspberry Pi 3B (in aarch64).
 >>=20
->> Would this be a QEMU or a GDB issue? Or isn=E2=80=99t it an issue at =
-all? :-)
+>> I=E2=80=99m using QEMU 7.0.0. Everything is running in EL1. (I have =
+MDE and KDE set in MDSCR_EL1).
+>>=20
+>> I=E2=80=99m coming across Unexpected Behaviour when playing with =
+single-stepping:
+>>=20
+>> It appears that single-stepping is enabled (ie. an exception is =
+generated after every instruction) when the SS bit (bit-0) is set in =
+MDSCR_EL1 and debug events are enabled in the CPSR (=E2=80=9CD=E2=80=9D =
+bit clear) *** irrespective of whether the SS bit (bit-21) is set in =
+CPSR or not ***.
+>>=20
+>> I thought the SS bit (bit-21) needs to be set in CPSR for =
+single-stepping to occur (and that it gets cleared whenever an exception =
+is taken and needs to be reset if one wants to single-step again).
+>>=20
+>> Have I misunderstood / misconfigured something, or is this a bug?
 >=20
-> My gdb doesn't do that. Basically QEMU provides gdb with some XML
-> telling it that the sysregs are present, but it's up to gdb at
-> what points it chooses to display what registers and how it does that.
+> I think you've misunderstood how the architectural single
+> step works. This is described in section D2.12 of the Arm ARM
+> (DDI0487H.a), but briefly, there is a state machine with three
+> states: Inactive, Active-not-pending, and Active-pending.
 >=20
-> The system register read access via the gdbstub is "best-effort"
-> on QEMU's part -- we implement it to the extent that it wasn't too
-> difficult to do, but there are some sharp edges, like the
-> register names not always being quite right, and also the way
-> that if you try to read a register that isn't supposed to be
-> accessible by the current EL you might find it's not correct.
-> Trying to read SP_EL2 while at EL2 is an example of that.
+> * Inactive is when MDSCR_EL1.SS is 0 or debug exceptions are
+> disabled from the current EL or security state.
 >=20
-> The reason register names are sometimes funny is that the
-> infrastructure for system registers within QEMU was originally
-> written with the assumption that the name strings were merely
-> for convenience when debugging QEMU itself, so it's sometimes
-> a bit careless about them. We only added the "tell GDB about
-> these" part later.
+> * Active-not-pending is when we're not Inactive (ie MDSCR_EL1.SS is 1
+> and so on) and PSTATE.SS is 1. This is the state for "we're currently
+> pointing at the instruction we would like to step". The CPU
+> does the step by doing "execute this one instruction, and then
+> clear PSTATE.SS". It does *not* take a "single step completed"
+> exception. (I ignore for the moment the possibility that the
+> insn resulted in some other exception.)
 >=20
-> That said, adding the numbers into the watchpoint and breakpoint
-> registers would be pretty easy, so we should do that. That is,
-> in this code:
-> =
-https://gitlab.com/qemu-project/qemu/-/blob/master/target/arm/helper.c#L65=
-67
-> we should use g_strdup_printf() to create unique per-register
-> names, the same way we do for the PMU registers already here:
-> =
-https://gitlab.com/qemu-project/qemu/-/blob/master/target/arm/helper.c#L66=
-32
+> * Active-pending is when we're not Inactive and PSTATE.SS is 0.
+> This state means "Software step is active, and a software step
+> is pending on the current instruction".
+> The usual way we get here is that we were in Active-not-pending
+> and then we executed the instruction and cleared PSTATE.SS.
+> But you can also get here in other ways (as your test case does).
+> In Active-pending state, the CPU does "take a software step
+> exception immediately, without doing anything else" -- which is
+> what you see.
+>=20
+> In other words, the design effectively separates out the
+> "execute one instruction" part from the "take the exception
+> that says we completed a step" part. (This separation is
+> irrelevant for the 'normal case' where the stepped instruction
+> doesn't cause any exceptions and no interrupts arrive either,
+> but it can matter if there is some interrupt to be taken. For
+> instance, suppose that we do a step, and while the insn is
+> executing an interrupt comes in that is routed to EL3. We
+> want to take that interrupt first, before taking the
+> 'single step complete' exception. Because the distinction
+> between 'active-not-pending' and 'active-pending' is stored
+> in PSTATE.SS, this works automatically -- we go to EL3, do
+> whatever the interrupt handler does, and then on the eret
+> to where we started, PSTATE.SS is restored to 0: so we then
+> correctly take the 'single step complete' exception without
+> executing another instruction.)
+>=20
+> So if you don't want to see single-step exceptions you need
+> to make sure you stay in the Inactive state.
 >=20
 > thanks
-> -- PMM
-
-Thanks for the explanation. What with this being =E2=80=9Cpretty easy=E2=80=
-=9D I=E2=80=99m attempting my first ever patch!  :-)
-
-BE WARNED!
-
-This is a context diff with respect to the cloned git repository =
-(Version 7.0.50)
-
-$ git clone https://gitlab.com/qemu-project/qemu.git
-
-created with
-
-$ diff -c qemu/target/arm/helper.c qemu-patch/target/arm/helper.c > =
-aarch-dbg-regnames.patch
-
-to be applied (in the target/arm directory) with
-
-$ patch -p3 <../../../aarch-dbg-regnames.patch
+> =E2=80=94 PMM
 
 
-=E2=80=94 chris
+I had indeed misunderstood :-) even though I had looked at that
+section (and the state machine diagram)  :-/
 
+Thanks for the EXCELLENT explanation! Very much appreciated.
 
-=20
-*** qemu/target/arm/helper.c	2022-05-08 20:41:48.000000000 +0200
---- qemu-patch/target/arm/helper.c	2022-05-08 20:55:25.000000000 =
-+0200
-***************
-*** 6551,6559 ****
-          define_one_arm_cp_reg(cpu, &dbgdidr);
-      }
- =20
-!     /* Note that all these register fields hold "number of Xs minus =
-1". */
-!     brps =3D arm_num_brps(cpu);
-!     wrps =3D arm_num_wrps(cpu);
-      ctx_cmps =3D arm_num_ctx_cmps(cpu);
- =20
-      assert(ctx_cmps <=3D brps);
---- 6551,6559 ----
-          define_one_arm_cp_reg(cpu, &dbgdidr);
-      }
- =20
-!     /* Note that all these reg fields (in ID_AA64DFR0_EL1) hold =
-"number of Xs minus 1". */
-!     brps =3D arm_num_brps(cpu);			/* returns =
-actual number of breakpoints */
-!     wrps =3D arm_num_wrps(cpu);			/* returns =
-actual number of watchpoints */
-      ctx_cmps =3D arm_num_ctx_cmps(cpu);
- =20
-      assert(ctx_cmps <=3D brps);
-***************
-*** 6565,6578 ****
-      }
- =20
-      for (i =3D 0; i < brps; i++) {
-          ARMCPRegInfo dbgregs[] =3D {
-!             { .name =3D "DBGBVR", .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 4,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbvr[i]),
-                .writefn =3D dbgbvr_write, .raw_writefn =3D raw_write
-              },
-!             { .name =3D "DBGBCR", .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 5,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbcr[i]),
---- 6565,6580 ----
-      }
- =20
-      for (i =3D 0; i < brps; i++) {
-+ 		char *dbgbvr_el1_name =3D =
-g_strdup_printf("DBGBVR%d_EL1", i);
-+ 		char *dbgbcr_el1_name =3D =
-g_strdup_printf("DBGBCR%d_EL1", i);
-          ARMCPRegInfo dbgregs[] =3D {
-!             { .name =3D dbgbvr_el1_name, .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 4,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbvr[i]),
-                .writefn =3D dbgbvr_write, .raw_writefn =3D raw_write
-              },
-!             { .name =3D dbgbcr_el1_name, .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 5,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgbcr[i]),
-***************
-*** 6580,6596 ****
-              },
-          };
-          define_arm_cp_regs(cpu, dbgregs);
-      }
- =20
-      for (i =3D 0; i < wrps; i++) {
-          ARMCPRegInfo dbgregs[] =3D {
-!             { .name =3D "DBGWVR", .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 6,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwvr[i]),
-                .writefn =3D dbgwvr_write, .raw_writefn =3D raw_write
-              },
-!             { .name =3D "DBGWCR", .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 7,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwcr[i]),
---- 6582,6602 ----
-              },
-          };
-          define_arm_cp_regs(cpu, dbgregs);
-+         g_free(dbgbvr_el1_name);
-+         g_free(dbgbcr_el1_name);
-      }
- =20
-      for (i =3D 0; i < wrps; i++) {
-+ 		char *dbgwvr_el1_name =3D =
-g_strdup_printf("DBGWVR%d_EL1", i);
-+ 		char *dbgwcr_el1_name =3D =
-g_strdup_printf("DBGWCR%d_EL1", i);
-          ARMCPRegInfo dbgregs[] =3D {
-!             { .name =3D dbgwvr_el1_name, .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 6,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwvr[i]),
-                .writefn =3D dbgwvr_write, .raw_writefn =3D raw_write
-              },
-!             { .name =3D dbgwcr_el1_name, .state =3D ARM_CP_STATE_BOTH,
-                .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D=
- i, .opc2 =3D 7,
-                .access =3D PL1_RW, .accessfn =3D access_tda,
-                .fieldoffset =3D offsetof(CPUARMState, cp15.dbgwcr[i]),
-***************
-*** 6598,6603 ****
---- 6604,6611 ----
-              },
-          };
-          define_arm_cp_regs(cpu, dbgregs);
-+         g_free(dbgwvr_el1_name);
-+         g_free(dbgwcr_el1_name);
-      }
-  }
- =20
+=E2=80=94chris
 
 
