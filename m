@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A3951ED79
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 14:21:43 +0200 (CEST)
-Received: from localhost ([::1]:48538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC7F51EDD4
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 15:32:15 +0200 (CEST)
+Received: from localhost ([::1]:54538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnfuw-00077a-9i
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 08:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41120)
+	id 1nnh1C-0003UU-8g
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 09:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nnft3-0005Gd-31
- for qemu-devel@nongnu.org; Sun, 08 May 2022 08:19:45 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:40460)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nngzH-0002km-CZ
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 09:30:15 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:46983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nnft1-0008Um-IJ
- for qemu-devel@nongnu.org; Sun, 08 May 2022 08:19:44 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id y2so20367634ybi.7
- for <qemu-devel@nongnu.org>; Sun, 08 May 2022 05:19:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nngzC-00030C-ML
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 09:30:13 -0400
+Received: by mail-qt1-x829.google.com with SMTP id o11so9267015qtp.13
+ for <qemu-devel@nongnu.org>; Sun, 08 May 2022 06:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ocokXtQl4rl2ryeBgabF5EOydXwdXDlseG4jxNRvCk0=;
- b=thDigvjWr1ZuVmZ+9jisosVipDXx8DnhrXXbvoGph7ftvRvduVfGztsgjvWM7uM2WQ
- L+pKTUHsITIfLSsws5anQRVdmM8y6llecChDcAMYBXkTQDntk4oHMOgEwBKCoIret/12
- 8ruqAgOAG5aUjWczCW5jcHwIiIXh7urTYj08KxDGV8Se5kM+qlZvNPYCLM/Y7RbN1+tI
- 53n+wOvSYRezjqW7emskoHiL3tD6tRJ4B5wcWXInoR2tVxDSTejHi4M1CDVdivuDxynR
- jqgMTR2Jy8a3QE9x7gWfudH+6aQjMVEmqgmMU1yv79mU3S59UL5c6nRZ9zpDAQU8jpQ4
- 4Szw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=8gLG2pWSNttgBwMQWqBo8AZHq9TWAN36W9nQGy+bhhU=;
+ b=gamFuI+omJro5WHONjP8Hfvimr9GiS3FVxSKEhBtGGA2n7qLjQCnoRmqr72BPgE5ef
+ MjV9wZbc6dXcua6IdorCQRsTlj1tf4YftFayCVvoNFcqCHdKrhzrE/vuYU8Yq5+OBBt9
+ DtFAem8O6FfeX/5/NMinGB6Pqvj/RlOHOjxz0mBAxcZqqDDiuYKvk5ZoaGlu5DDeSnZi
+ PSXyyAp7LAt4Y7T4V2S0tOEy5vfeSsGpnjvIIn/XKJ1uwRVTS9v3MFozrxzPCcFDHIY+
+ kbiDS7RUIHChS0OsUm+sANYDWwOKz4tjAMsip0QcV04f0tM0phjpZ3OEq25wvaVMKpBM
+ tZ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ocokXtQl4rl2ryeBgabF5EOydXwdXDlseG4jxNRvCk0=;
- b=vWXipv+Pd6DWKOWSB6lsDg2f5dn/EJ5FhbEIeWSC5B7b8FD1jRC4eVKVvzqO1fgEGF
- RjV2ksX8cpckTQDpH0vpggjXdXo62v04dcIojOVHhN6lRqZ3ici69Wkpk0rRRh/fBdm6
- U8Q7fGW1Idvim9YipB3j9CJBxnKcjdmIFTWHzOKn+lyoDKIAsGVHTfpL5Ms010bXGj2/
- Tvw/A3vr2N9PsP1n19Chs2kbUygKYEIbKvT269JPgOHQP24YNG/+iASzn0ONKGoCF+B4
- pMHbygkPXxbDQWdUdl8yBZE92+vt+zkdTiZ1SH0Ra3hhgWJJUZwBe5E6jcQwwIP2X1gY
- m5DA==
-X-Gm-Message-State: AOAM531eBKEMKaDF0/ngoeVH6n1pcmqteElkC0LYUp5Uypvw3cTyZVoM
- p+m8yNveZ36NhIjgkwoRQyl+vnpAAbjXNZvRRySv9A==
-X-Google-Smtp-Source: ABdhPJyTV0XPdThh8Q2SamCtkA77JOXpYOued7eQJDAp3oSbel+md5tSZMLKoK5SZrv4xdAh6xCnMAl386HQ6W2i3m8=
-X-Received: by 2002:a25:6f85:0:b0:64a:8b67:d3b2 with SMTP id
- k127-20020a256f85000000b0064a8b67d3b2mr7430525ybc.85.1652012382515; Sun, 08
- May 2022 05:19:42 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8gLG2pWSNttgBwMQWqBo8AZHq9TWAN36W9nQGy+bhhU=;
+ b=auW5lu3xxQFiAx+teJDJHNW928OiYvFU+pOadkAPjwm3RiTy+yZrk8hoqercz01V9X
+ u6ksjAU0aeY6zrEhEWZIMxbtslRhLrpg+hqV6UrcT9su/zAanhhSdkU4pcnsTdBQGdtd
+ RTYAstQdNNlGdw9HfYgu7VqkRVpMXPI7Z1SqeRFImxiGM2k/0y3922EGa4niWl1/zg4l
+ uQqUoLXLcOXORd8CWheAiNg1AZur9BE5p5HQHqHGwa41PH4Bm5UZjcqFgCxi3m5I3CLK
+ QssEQPp/mU6KmbzrsbtEaele+wUVntJhrx8LdIYnmkWervyHm65p6/D77Em+THpgWm20
+ mrRw==
+X-Gm-Message-State: AOAM533lvUx74KrF18l4ZWwx9ELy3VNnLA8MHjmz81wNIWPREYwAOHUX
+ 9fWby/G12hEhLgjNfV4hidJ7uw==
+X-Google-Smtp-Source: ABdhPJwsXEkDgBiKK066qOIhboUI9MHbigxaezRD3K8r4EKO0QWmYDbVjxW8lPC4VDhuiRfl253E9g==
+X-Received: by 2002:a05:622a:50b:b0:2f3:a8f3:2ffd with SMTP id
+ l11-20020a05622a050b00b002f3a8f32ffdmr10751320qtx.70.1652016609452; 
+ Sun, 08 May 2022 06:30:09 -0700 (PDT)
+Received: from [192.168.4.112] (50-233-235-3-static.hfc.comcastbusiness.net.
+ [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
+ g4-20020ac81244000000b002f3b561957asm6075712qtj.13.2022.05.08.06.30.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 08 May 2022 06:30:08 -0700 (PDT)
+Message-ID: <2de64d1e-b2a3-4b7d-cac8-2bc0399c972e@linaro.org>
+Date: Sun, 8 May 2022 08:30:06 -0500
 MIME-Version: 1.0
-References: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
- <7988B475-EEC0-4574-B0E2-BB61738B8964@web.de>
- <CAFEAcA-Dy=nY9SCtxv0omYCQqDqGq6Qwvja4c6f_9rPR8L-KCA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-Dy=nY9SCtxv0omYCQqDqGq6Qwvja4c6f_9rPR8L-KCA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 8 May 2022 13:19:31 +0100
-Message-ID: <CAFEAcA_2N-36Yv_aOVg3DvkZYvfBTUDDDibz19N6+uSZGwEfUw@mail.gmail.com>
-Subject: Re: Possible bug in Aarch64 single-stepping
-To: Chris Howard <cvz185@web.de>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 00/50] hppa: general improvements and tidy-ups
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, deller@gmx.de,
+ qemu-devel@nongnu.org
+References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
+ <d00386f5-238b-323d-0442-a1ea35ba5da1@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <d00386f5-238b-323d-0442-a1ea35ba5da1@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,15 +93,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 8 May 2022 at 13:18, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Introduction
->
-> This document will explain how setup Mutt email client using OAuth2
-> (modern authentication) to access your emails.
+On 5/8/22 04:21, Mark Cave-Ayland wrote:
+> Richard, thanks for taking the time to look over this (rather large) patchset. I've 
+> replied to your comments, and from what I can see the v2 patchset should be fine to merge. 
+> Are you happy for me to go ahead and send a PR with that and the artist fixes?
 
-Argh, sorry about this. I mis-clicked something and pasted a
-load of bogus text :-(
+Yes, please do.
 
--- PMM
+
+r~
 
