@@ -2,82 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF8D51EA6B
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 00:09:48 +0200 (CEST)
-Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFE151EAB6
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 02:39:55 +0200 (CEST)
+Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnScV-0008L4-0Y
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 18:09:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
+	id 1nnUxm-0003xj-JU
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 20:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnSbX-0007gm-8h
- for qemu-devel@nongnu.org; Sat, 07 May 2022 18:08:47 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnSbV-00014Y-JJ
- for qemu-devel@nongnu.org; Sat, 07 May 2022 18:08:46 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id d22so10600622plr.9
- for <qemu-devel@nongnu.org>; Sat, 07 May 2022 15:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Nc15w3+s7otaaxS6tdN6geMLP89x/U5eXIQlMmvjjbs=;
- b=lsM9V2APHHccyn9S7OsTegpfN88uf6KvyGanhWJ1estSvDl8VYMYqZODVZCVliCn/W
- Qc58J1b7t7MHQBnLn/AVgm36j9ZVXWZrWSt7shYLojpfSghNlbK+N8FaJ7o5yfkfC5qw
- xG+l7pC4F/J/AllRaFlCOSFmew3h9xwhqmRjeD4qfHlY0guPr6bQ+ZaHnQCMulT3dxa9
- GRKZw8Jog4DVAeBgwUQMohFyrFTo8L3bfBVPNSYFBnJru/lpvn7jkQGKXzjW2/MmJ/dd
- iF/A463A+4QnO0A9VLaH1dnX/6JcQkqrws8BS67ZzmTwcMYB951f4Tn8w6vT9dzDzam4
- 8+1A==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nnUwq-0003GB-H6
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 20:38:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36946)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nnUwn-0004Ok-Te
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 20:38:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651970332;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PGDF8pVwDhyRrNmAVitN6G/hKsNrG8t+hjv7n+8VP8I=;
+ b=e5/XmkiZqnsE4bKNdLjp2qFM8bAxXl2rcfo2Wq+33iOKIjrtFO2xoJz0UM4OBGhxJiCdbt
+ Tp4bmNGMPCZ3RgDch6Tf8yildfXg3OUpphgHglwsOsLWDvh0ifpptIiA8Dbss0A3hVEE8W
+ f1ZgDJzsrsXkFr8Fh+MELAuvpXcd5zk=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-13-FM8-tCPbPh2PGoyvixvJgw-1; Sat, 07 May 2022 20:38:51 -0400
+X-MC-Unique: FM8-tCPbPh2PGoyvixvJgw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ d186-20020a3768c3000000b0069fcfacbea0so7452534qkc.0
+ for <qemu-devel@nongnu.org>; Sat, 07 May 2022 17:38:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=Nc15w3+s7otaaxS6tdN6geMLP89x/U5eXIQlMmvjjbs=;
- b=f4yorLG1rf/C2w4TeUaXzm27WK/FLX5lXziY+ZrlUfsIWAApPNssBbMnrvXjv1gsJy
- /6CZ/77rzubqblOF+6uFvnW7QlS0rSZwgXUMIpBieax3UYnToY5Yoj8qJKIICMJQR8Wf
- ywh8vgj0P0u6YLV8NJAAwx9Eq1v7tX6LK9VDd8rlO1mE0dZMbZtZo5g+So9LCvoP3Fz+
- yBozLRkKHFDC51NQKKIsVOd33RTSmokYQNK+kZpP5zJnLkHEUynHh48wfZgXeRN+MZWk
- +ScibsO4QQEQo5ABCaW/71Q6Ac/jrMJClR2bprd55OEgSM+ET7Rx6zDeV0hsgLIOisWe
- 3+LQ==
-X-Gm-Message-State: AOAM531JkteeYdDrLTCTsri42lgASpADsepWPA3xoMQbtM9kJP2iLiDO
- dCqfikqqliv8vxshe5E8piqPlw==
-X-Google-Smtp-Source: ABdhPJwLn3dvHOmIBULLgg2BNvS8kutHzTj9oqZwtJMIc5YnkZQN/TSXtBaGpEKmBdLUJ6FZNK3v5g==
-X-Received: by 2002:a17:903:2287:b0:15e:99b4:9b0a with SMTP id
- b7-20020a170903228700b0015e99b49b0amr9675380plh.43.1651961323677; 
- Sat, 07 May 2022 15:08:43 -0700 (PDT)
-Received: from [192.168.4.112] (50-233-235-3-static.hfc.comcastbusiness.net.
- [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
- g4-20020a170902d5c400b0015e8d4eb23fsm4085343plh.137.2022.05.07.15.08.42
+ bh=PGDF8pVwDhyRrNmAVitN6G/hKsNrG8t+hjv7n+8VP8I=;
+ b=Lr4DZjjez+vxTXdcUVPVn5M/1OZEJWpcRBZyLitLooih9TeaHMopB7vbbrH6E1LXQd
+ 6mST2iTQqJfQLetjuZddf8m5frg4ISwuHKdFyPnJpvgNgPkp+DlfwSFWjWgP5+JFZWOD
+ 59hgmAGQSIQGimlX+JYmGdXM1FBzxAh5YRguNZH7AhVLG4foQkg8VAwawmhaZI78SfMR
+ Zm6aq1VLoUfTcXID8txn0mpFi5cK68VdQ0K+MnIpZz1V1GviaDb5PeaSY6AxMVYheiIf
+ Hx04JTbnC4BNgIhfh0E2ndyL8XtS7co1Qm0P3mQKoZc0I3qkNqhi3pwXMbXKvsQ+zKQh
+ 4YVg==
+X-Gm-Message-State: AOAM532HlEJoUzdJh23JPgRokhS30Jil5A6nriOWeHqNcWekPduyE1tg
+ auJMowzelBiA9QHrzgvPjDNnB2D5sROkGLMbTGHZNHRhOcsL/xNhfkGzz5pGPXDVD2QpyOPJx03
+ F888OG7hmfxwB5tg=
+X-Received: by 2002:a05:620a:1aa0:b0:6a0:a34:15e0 with SMTP id
+ bl32-20020a05620a1aa000b006a00a3415e0mr7382173qkb.19.1651970330761; 
+ Sat, 07 May 2022 17:38:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxox/XLw1XBebDTTvS3/TrPqcV2VGEU8dqkj8Cqf5fzbOltFgJKgiZ12nJ3WT/DdStv6O4mGQ==
+X-Received: by 2002:a05:620a:1aa0:b0:6a0:a34:15e0 with SMTP id
+ bl32-20020a05620a1aa000b006a00a3415e0mr7382163qkb.19.1651970330499; 
+ Sat, 07 May 2022 17:38:50 -0700 (PDT)
+Received: from [10.23.153.165] ([46.248.132.196])
+ by smtp.gmail.com with ESMTPSA id
+ r12-20020ac867cc000000b002f39b99f6b7sm4947498qtp.81.2022.05.07.17.38.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 May 2022 15:08:42 -0700 (PDT)
-Message-ID: <969b8628-53c5-4d40-26db-d85ab016c793@linaro.org>
-Date: Sat, 7 May 2022 17:08:40 -0500
+ Sat, 07 May 2022 17:38:49 -0700 (PDT)
+Message-ID: <ed4a912d-e614-3109-7e1e-d4a27ef01dc5@redhat.com>
+Date: Sun, 8 May 2022 02:38:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v3 39/43] hw/loongarch: Add LoongArch load elf function.
+Subject: Re: [PATCH 1/2] linux-user/s390x: Fix unwinding from signal handlers
 Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
-References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-40-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220429100729.1572481-40-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ulrich Weigand <ulrich.weigand@de.ibm.com>
+References: <20220503225157.1696774-1-iii@linux.ibm.com>
+ <20220503225157.1696774-2-iii@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220503225157.1696774-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,66 +106,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/22 05:07, Xiaojuan Yang wrote:
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   hw/loongarch/loongson3.c    | 66 +++++++++++++++++++++++++++++++++++--
->   include/hw/loongarch/virt.h |  9 +++++
->   target/loongarch/cpu.h      |  2 ++
->   3 files changed, 75 insertions(+), 2 deletions(-)
+On 04.05.22 00:51, Ilya Leoshkevich wrote:
+> Commit 31330e6cecfd ("linux-user/s390x: Implement setup_sigtramp")
+> removed an unused field from rt_sigframe, disturbing offsets of other
+> fields and breaking unwinding from signal handlers (e.g. libgcc's
+> s390_fallback_frame() relies on this struct having a specific layout).
+> Restore the field and add a comment.
 > 
-> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-> index 7029d8c8b8..f9ee024f63 100644
-> --- a/hw/loongarch/loongson3.c
-> +++ b/hw/loongarch/loongson3.c
-> @@ -19,6 +19,8 @@
->   #include "exec/address-spaces.h"
->   #include "hw/irq.h"
->   #include "net/net.h"
-> +#include "hw/loader.h"
-> +#include "elf.h"
->   #include "hw/intc/loongarch_ipi.h"
->   #include "hw/intc/loongarch_extioi.h"
->   #include "hw/intc/loongarch_pch_pic.h"
-> @@ -29,6 +31,36 @@
->   
->   #include "target/loongarch/cpu.h"
->   
-> +static struct _loaderparams {
-> +    unsigned long ram_size;
-> +    const char *kernel_filename;
-> +} loaderparams;
-
-Never use "unsigned long", only "uint{32,64}_t" or "size_t".
-Otherwise you don't know what the host is going to give you.
-
-> +static int64_t load_kernel_info(void)
-> +{
-> +    int64_t kernel_entry, kernel_low, kernel_high;
-
-Why are you using signed values here,
-
-> +    long kernel_size;
-> +
-> +    kernel_size = load_elf(loaderparams.kernel_filename, NULL,
-> +                           cpu_loongarch_virt_to_phys, NULL,
-> +                           (uint64_t *)&kernel_entry, (uint64_t *)&kernel_low,
-> +                           (uint64_t *)&kernel_high, NULL, 0,
-
-and casting them?  Oh, and kernel_size must be ssize_t.
-
-> @@ -237,22 +283,38 @@ static void loongarch_init(MachineState *machine)
->           cpu_create(machine->cpu_type);
->       }
->   
-> +    if (ram_size < 1 * GiB) {
-> +        error_report("ram_size must be greater than 1G.");
-> +        exit(1);
-> +    }
-
-Why is this here?  It's certainly not related to load_elf.
+> Reported-by: Ulrich Weigand <ulrich.weigand@de.ibm.com>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Fixes: 31330e6cecfd ("linux-user/s390x: Implement setup_sigtramp")
+> ---
+>  linux-user/s390x/signal.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+> index f47713e04a..4979c4b017 100644
+> --- a/linux-user/s390x/signal.c
+> +++ b/linux-user/s390x/signal.c
+> @@ -84,6 +84,11 @@ struct target_ucontext {
+>  
+>  typedef struct {
+>      uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
+> +    /*
+> +     * This field is no longer initialized by the kernel, but it's still a part
+> +     * of the ABI.
+> +     */
+> +    uint16_t svc_insn;
+>      struct target_siginfo info;
+>      struct target_ucontext uc;
+>  } rt_sigframe;
 
 
-r~
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
