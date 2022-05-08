@@ -2,77 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D20A51F027
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 21:37:32 +0200 (CEST)
-Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F7B51F0EB
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:01:08 +0200 (CEST)
+Received: from localhost ([::1]:50754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnmih-0001cZ-1B
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 15:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
+	id 1nnn5W-00068j-LG
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:01:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmh3-0000vo-0D
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:35:49 -0400
-Received: from mout.web.de ([212.227.17.11]:34233)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nnn1m-0004QT-3g
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:57:14 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nnmh0-0003y1-Mc
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:35:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1652038544;
- bh=2k0hpSTlLXV2qEHo1f08xx0HC3MHm1Im5qr4C4YZ0BY=;
- h=X-UI-Sender-Class:From:Subject:Date:References:To:In-Reply-To;
- b=JHD+9++JGn5eWeDqg0vEF08sVO9+HN+EnOOz1y6r+35/Tn+IcwAP30Sh253+4pIHq
- DEVcdJOOd2hGbhQcNErO1teUfwXLuspa8F8UdaMCSJczqlLnyPTSq6w+4tSDYArLgV
- wrxn8xwDfajL0yJDDR2hrt16CvoB+v8DBwXYYoLg=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MumNN-1o6PXX0YLb-00rqLk; Sun, 08
- May 2022 21:35:44 +0200
-From: Chris Howard <cvz185@web.de>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: Possible bug in Aarch64 single-stepping
-Date: Sun, 8 May 2022 21:35:43 +0200
-References: <F1037D57-EB8E-43FA-A2C7-A43C45FEA82C@web.de>
- <CAFEAcA8QmsHfxAdUQET2Oab_xXa7x4i4C4+_6Y-J8ZNs1t5pPg@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
-In-Reply-To: <CAFEAcA8QmsHfxAdUQET2Oab_xXa7x4i4C4+_6Y-J8ZNs1t5pPg@mail.gmail.com>
-Message-Id: <73FF0B20-89CD-4177-B536-049B2D0BDB61@web.de>
-X-Mailer: Apple Mail (2.3445.104.21)
-X-Provags-ID: V03:K1:Z2cLMtKKHzd8OpVKkkDlXz9QoOQQrXI4/UwHyOhaPub0/WadZw+
- eMGXyi1cs0mdoSz36YhQe4izI+fp3lzVL0pic3wyBkj9IR0RMVg/Ob9UtYANS86ZsuLMsDt
- ocXl7rXQ91rOXn+O4ooJn75vtkU5IhFmUvo2WMxU/uhvNiXUSOWevxWHeGfjgNj58KkGFKe
- mHB12YbWHJzev8ahHRIZw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:i7uAfb2IlJM=:uf8WLtHSrZgw7leg5WLHZz
- q01Z/wVuX965qFHy+o9uzdMnU9jp6rfBhDxnVhSoMIUuotchT6xtVpvJKxcXWBWlhBGL7oaBl
- xYiY58jSUy+QcfQP7k9ePZrg/i6zPTprPxGajq4BYt9VPPqeMkwOYo7u6zZ2FqHkYLZ68PFo7
- +g2Ci2N8fYL5PSFNFeEWt8pn59UdXbj+SJjwD/9Lj1TuGuhgZdHZMBE5k9oPE8pgIArVFZwsa
- YdZlp44JyoHBrWqM4S+SdUxG55VgLbQgfrgw7zo0KdD3ykEzMdVnBOQWfrNCm2bGlEPSnzWAN
- uO5vitSkhw5IBgXasecB8bKtIRDo3ClPw8IqV75XEk9h2/Y2bVA5czLQo0o3ECkPZ2wKl78Ml
- HuTephLMd2ssmmWs02BYkHejdGeJ4/i3pHReOo4QpCeX2EfN+iAQq0s0+xraTrGh9wn9ECu0Y
- nNuzfUL6ztUiFxTSu32OkJXgEePz6K8y0VbJ2+X8SBMgvmk7br8TaBQ06M4i2hUuL6WlaGdiZ
- g0roPExmuO1J3+/YP/Dt1epGbGX4QLYh4z2pFRsHoPk6KhBwHjSR41q23CHHDRAbrxLwNFVXq
- O11t3uMrISJCe4u5A5ZEty0VloCbUQ5sze9xmM/I571kRe3+Hbke9QM0mXLHtfBMZgTKkJNe6
- aRXMOHLtIvWtE54u2ZIhUIoZyP8w6pTxmsysUI5EfPD6ptRMOCfv6Cx9stAkklgQ65ppfHuDy
- mpllcxwmqf83U5NkHvzMP4qlfZJVG9SVTcH0GWpKPtmZpYnPuzBglghaT7XOJihm9usCArDUI
- NTLEufR2ExKt51mBdHfEp7Fk/vtSzpD917Q+TzKTilXIo0iLKjbqg4ulyj9OXP7kSLrNkurej
- emRjCEGEGm3GvF65UBgcZzx/dGn6eyPGusgk+YN2OhRMZ1vseqDgwJghKqtKlPq0cJur/qCWD
- ucCU0p3rXxT5npg4kTIljHbzjtzC3hPRzp2AxxuP274x+ku72lT/WBBquQ21as5DkpRNJTyjG
- UH4oAH7WHp5B6ZwVES/Yfrdy8IAGXLBTln9faUxdasYrsHnpqqL5O6gEiP6HcQDx2JYonEit/
- 36g/z01A5aa2hQ=
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=cvz185@web.de;
- helo=mout.web.de
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nnn1k-0006ws-Ac
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:57:13 -0400
+Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nnn0k-0000yR-81; Sun, 08 May 2022 20:56:14 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: richard.henderson@linaro.org,
+	deller@gmx.de,
+	qemu-devel@nongnu.org
+Date: Sun,  8 May 2022 20:55:57 +0100
+Message-Id: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 00/53] qemu-sparc queue 20220508
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,87 +59,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8. May 2022, at 14:08, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->=20
-> On Sat, 7 May 2022 at 14:44, Chris Howard <cvz185@web.de> wrote:
->>=20
->> Hi, I=E2=80=99m writing a simple debugger in assembly code for the =
-Raspberry Pi 3B (in aarch64).
->>=20
->> I=E2=80=99m using QEMU 7.0.0. Everything is running in EL1. (I have =
-MDE and KDE set in MDSCR_EL1).
->>=20
->> I=E2=80=99m coming across Unexpected Behaviour when playing with =
-single-stepping:
->>=20
->> It appears that single-stepping is enabled (ie. an exception is =
-generated after every instruction) when the SS bit (bit-0) is set in =
-MDSCR_EL1 and debug events are enabled in the CPSR (=E2=80=9CD=E2=80=9D =
-bit clear) *** irrespective of whether the SS bit (bit-21) is set in =
-CPSR or not ***.
->>=20
->> I thought the SS bit (bit-21) needs to be set in CPSR for =
-single-stepping to occur (and that it gets cleared whenever an exception =
-is taken and needs to be reset if one wants to single-step again).
->>=20
->> Have I misunderstood / misconfigured something, or is this a bug?
->=20
-> I think you've misunderstood how the architectural single
-> step works. This is described in section D2.12 of the Arm ARM
-> (DDI0487H.a), but briefly, there is a state machine with three
-> states: Inactive, Active-not-pending, and Active-pending.
->=20
-> * Inactive is when MDSCR_EL1.SS is 0 or debug exceptions are
-> disabled from the current EL or security state.
->=20
-> * Active-not-pending is when we're not Inactive (ie MDSCR_EL1.SS is 1
-> and so on) and PSTATE.SS is 1. This is the state for "we're currently
-> pointing at the instruction we would like to step". The CPU
-> does the step by doing "execute this one instruction, and then
-> clear PSTATE.SS". It does *not* take a "single step completed"
-> exception. (I ignore for the moment the possibility that the
-> insn resulted in some other exception.)
->=20
-> * Active-pending is when we're not Inactive and PSTATE.SS is 0.
-> This state means "Software step is active, and a software step
-> is pending on the current instruction".
-> The usual way we get here is that we were in Active-not-pending
-> and then we executed the instruction and cleared PSTATE.SS.
-> But you can also get here in other ways (as your test case does).
-> In Active-pending state, the CPU does "take a software step
-> exception immediately, without doing anything else" -- which is
-> what you see.
->=20
-> In other words, the design effectively separates out the
-> "execute one instruction" part from the "take the exception
-> that says we completed a step" part. (This separation is
-> irrelevant for the 'normal case' where the stepped instruction
-> doesn't cause any exceptions and no interrupts arrive either,
-> but it can matter if there is some interrupt to be taken. For
-> instance, suppose that we do a step, and while the insn is
-> executing an interrupt comes in that is routed to EL3. We
-> want to take that interrupt first, before taking the
-> 'single step complete' exception. Because the distinction
-> between 'active-not-pending' and 'active-pending' is stored
-> in PSTATE.SS, this works automatically -- we go to EL3, do
-> whatever the interrupt handler does, and then on the eret
-> to where we started, PSTATE.SS is restored to 0: so we then
-> correctly take the 'single step complete' exception without
-> executing another instruction.)
->=20
-> So if you don't want to see single-step exceptions you need
-> to make sure you stay in the Inactive state.
->=20
-> thanks
-> =E2=80=94 PMM
+The following changes since commit f1336649156cf57f5d874a98e619fb362e3fcb59:
 
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-05-07 06:14:16 -0500)
 
-I had indeed misunderstood :-) even though I had looked at that
-section (and the state machine diagram)  :-/
+are available in the Git repository at:
 
-Thanks for the EXCELLENT explanation! Very much appreciated.
+  https://github.com/mcayland/qemu.git tags/qemu-sparc-20220508
 
-=E2=80=94chris
+for you to fetch changes up to 1f110516190f146df40f49aef2f1ef5903b8f540:
 
+  artist: only render dirty scanlines on the display surface (2022-05-08 18:52:37 +0100)
+
+----------------------------------------------------------------
+qemu-sparc queue
+- HPPA general improvements and tidy-ups
+- artist minor fixes and performance improvement
+
+----------------------------------------------------------------
+Mark Cave-Ayland (53):
+      dino: checkpatch fixes
+      dino: move registers from dino_init() to DINO_PCI_BRIDGE init function
+      dino: move PCI bus initialisation to dino_pcihost_init()
+      dino: move PCI windows initialisation to dino_pcihost_init()
+      dino: add memory-as property containing a link to the memory address space
+      dino: move pci_setup_iommu() to dino_pcihost_init()
+      dino: move PCI bus master address space setup to dino_pcihost_realize()
+      dino: move initial register configuration to new dino_pcihost_reset() function
+      dino: use QOM cast instead of directly referencing parent_obj
+      dino: return PCIBus from dino_init() using qdev_get_child_bus()
+      dino: split declarations from dino.c into dino.h
+      hppa: use new CONFIG_HPPA_B160L option instead of CONFIG_DINO to build hppa machine
+      dino: change dino_init() to return the DINO device instead of PCIBus
+      machine.c: map DINO device during board configuration
+      dino.h: add defines for DINO IRQ numbers
+      dino: define IRQ inputs as qdev GPIOs
+      dino: wire up serial IRQ using a qdev GPIO in machine.c
+      dino: remove unused dino_set_timer_irq() IRQ handler
+      hppa: move dino_init() from dino.c to machine.c
+      dino: use numerical constant for iar0 and iar1 reset values
+      dino: move DINO HPA constants from hppa_hardware.h to dino.h
+      dino: move from hw/hppa to hw/pci-host
+      lasi: checkpatch fixes
+      lasi: move memory region initialisation to new lasi_init() function
+      lasi: move register memory mapping from lasi.c to machine.c
+      lasi: move initialisation of iar and rtc to new lasi_reset() function
+      lasi: move LASIState and associated QOM structures to lasi.h
+      lasi: replace lasi_get_irq() with defined constants
+      lasi: define IRQ inputs as qdev GPIOs
+      lasi: use qdev GPIOs to wire up IRQs in lasi_initfn()
+      lasi: fix serial port initialisation
+      lasi: update lasi_initfn() to return LASIState
+      lasi: move LAN initialisation to machine.c
+      lasi: move parallel port initialisation to machine.c
+      lasi: move second serial port initialisation to machine.c
+      lasi: move PS2 initialisation to machine.c
+      lasi: remove address space parameter from lasi_initfn()
+      lasi: move lasi_initfn() to machine.c
+      lasi: use constants for device register offsets
+      lasi: use numerical constant for iar reset value
+      hppa: move device headers from hppa_sys.h into individual .c files
+      lasi: move from hw/hppa to hw/misc
+      hppa: move hppa_pci_ignore_ops from pci.c to machine.c
+      hppa: remove hw/hppa/pci.c
+      hppa: remove unused trace-events from from hw/hppa
+      hppa: move enable_lan() define from hppa_sys.h to machine.c
+      hppa: remove the empty hppa_sys.h file
+      hppa: use MACHINE QOM macros for defining the hppa machine
+      hppa: fold machine_hppa_machine_init() into machine_hppa_machine_init_class_init()
+      hppa: simplify machine function names in machine.c
+      artist: checkpatch and newline style fixes
+      artist: remove unused ROP8OFF() macro
+      artist: only render dirty scanlines on the display surface
+
+ MAINTAINERS                              |   4 +
+ configs/devices/hppa-softmmu/default.mak |   2 +-
+ hw/display/artist.c                      |  33 ++---
+ hw/hppa/Kconfig                          |   5 +-
+ hw/hppa/hppa_hardware.h                  |   5 -
+ hw/hppa/hppa_sys.h                       |  24 ----
+ hw/hppa/machine.c                        | 124 ++++++++++++++---
+ hw/hppa/meson.build                      |   2 +-
+ hw/hppa/pci.c                            |  88 ------------
+ hw/hppa/trace-events                     |  14 --
+ hw/misc/Kconfig                          |   3 +
+ hw/{hppa => misc}/lasi.c                 | 161 +++++----------------
+ hw/misc/meson.build                      |   3 +
+ hw/misc/trace-events                     |   5 +
+ hw/pci-host/Kconfig                      |   4 +
+ hw/{hppa => pci-host}/dino.c             | 231 ++++++++++---------------------
+ hw/pci-host/meson.build                  |   3 +
+ hw/pci-host/trace-events                 |   5 +
+ include/hw/misc/lasi.h                   |  78 +++++++++++
+ include/hw/pci-host/dino.h               | 146 +++++++++++++++++++
+ meson.build                              |   1 -
+ 21 files changed, 477 insertions(+), 464 deletions(-)
+ delete mode 100644 hw/hppa/hppa_sys.h
+ delete mode 100644 hw/hppa/pci.c
+ delete mode 100644 hw/hppa/trace-events
+ rename hw/{hppa => misc}/lasi.c (60%)
+ rename hw/{hppa => pci-host}/dino.c (71%)
+ create mode 100644 include/hw/misc/lasi.h
+ create mode 100644 include/hw/pci-host/dino.h
 
