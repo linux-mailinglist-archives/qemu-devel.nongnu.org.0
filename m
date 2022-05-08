@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BCB51F1A2
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:37:34 +0200 (CEST)
-Received: from localhost ([::1]:48334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB4151F1A7
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:40:43 +0200 (CEST)
+Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnnen-0004v3-Ep
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:37:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47722)
+	id 1nnnhq-0003JD-Qg
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn5G-0008Cy-3D
- for qemu-devel@nongnu.org; Sun, 08 May 2022 16:00:51 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55516)
+ id 1nnn5l-0000wZ-Tm
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 16:01:22 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn5E-0007aJ-Gh
- for qemu-devel@nongnu.org; Sun, 08 May 2022 16:00:49 -0400
+ id 1nnn5i-0007d2-Ow
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 16:01:21 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn3x-0000yR-Pj; Sun, 08 May 2022 20:59:33 +0100
+ id 1nnn41-0000yR-Q3; Sun, 08 May 2022 20:59:37 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Sun,  8 May 2022 20:56:48 +0100
-Message-Id: <20220508195650.28590-52-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  8 May 2022 20:56:49 +0100
+Message-Id: <20220508195650.28590-53-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
 References: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 51/53] artist: checkpatch and newline style fixes
+Subject: [PULL 52/53] artist: remove unused ROP8OFF() macro
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,140 +61,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure that subsequent patches do not cause checkpatch to fail and also tidy up
-extra/missing newlines.
+This macro is unused and so can simply be removed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20220504153708.10352-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220504153708.10352-3-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Sven Schnelle <svens@stackframe.org>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/display/artist.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ hw/display/artist.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 8e121bb0b4..be92113494 100644
+index be92113494..4a9f7b5e59 100644
 --- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -211,8 +211,9 @@ static void artist_invalidate_lines(struct vram_buffer *buf,
-     int start = starty * buf->width;
-     int size;
+@@ -25,12 +25,6 @@
+ #define TYPE_ARTIST "artist"
+ OBJECT_DECLARE_SIMPLE_TYPE(ARTISTState, ARTIST)
  
--    if (starty + height > buf->height)
-+    if (starty + height > buf->height) {
-         height = buf->height - starty;
-+    }
- 
-     size = height * buf->width;
- 
-@@ -321,8 +322,9 @@ static void artist_get_cursor_pos(ARTISTState *s, int *x, int *y)
-     }
- 
-     lx = artist_get_x(s->cursor_pos);
--    if (lx < offset)
-+    if (lx < offset) {
-         offset = lx;
-+    }
-     *x = (lx - offset) / 2;
- 
-     *y = 1146 - artist_get_y(s->cursor_pos);
-@@ -343,6 +345,7 @@ static void artist_get_cursor_pos(ARTISTState *s, int *x, int *y)
- static void artist_invalidate_cursor(ARTISTState *s)
- {
-     int x, y;
-+
-     artist_get_cursor_pos(s, &x, &y);
-     artist_invalidate_lines(&s->vram_buffer[ARTIST_BUFFER_AP],
-                             y, s->cursor_height);
-@@ -470,10 +473,9 @@ static void draw_line(ARTISTState *s,
- 
-     if ((x1 >= buf->width && x2 >= buf->width) ||
-         (y1 >= buf->height && y2 >= buf->height)) {
--	return;
-+        return;
-     }
- 
+-#if HOST_BIG_ENDIAN
+-#define ROP8OFF(_i) (3 - (_i))
+-#else
+-#define ROP8OFF
+-#endif
 -
-     if (update_start) {
-         s->vram_start = (x2 << 16) | y2;
-     }
-@@ -553,15 +555,15 @@ static void draw_line(ARTISTState *s,
-         x++;
-     } while (x <= x2 && (max_pix == -1 || --max_pix > 0));
- 
--    if (c1)
-+    if (c1) {
-         artist_invalidate_lines(buf, x1, x2 - x1);
--    else
-+    } else {
-         artist_invalidate_lines(buf, y1 > y2 ? y2 : y1, x2 - x1);
-+    }
- }
- 
- static void draw_line_pattern_start(ARTISTState *s)
- {
--
-     int startx = artist_get_x(s->vram_start);
-     int starty = artist_get_y(s->vram_start);
-     int endx = artist_get_x(s->blockmove_size);
-@@ -574,7 +576,6 @@ static void draw_line_pattern_start(ARTISTState *s)
- 
- static void draw_line_pattern_next(ARTISTState *s)
- {
--
-     int startx = artist_get_x(s->vram_start);
-     int starty = artist_get_y(s->vram_start);
-     int endx = artist_get_x(s->blockmove_size);
-@@ -589,7 +590,6 @@ static void draw_line_pattern_next(ARTISTState *s)
- 
- static void draw_line_size(ARTISTState *s, bool update_start)
- {
--
-     int startx = artist_get_x(s->vram_start);
-     int starty = artist_get_y(s->vram_start);
-     int endx = artist_get_x(s->line_size);
-@@ -600,7 +600,6 @@ static void draw_line_size(ARTISTState *s, bool update_start)
- 
- static void draw_line_xy(ARTISTState *s, bool update_start)
- {
--
-     int startx = artist_get_x(s->vram_start);
-     int starty = artist_get_y(s->vram_start);
-     int sizex = artist_get_x(s->blockmove_size);
-@@ -650,7 +649,6 @@ static void draw_line_xy(ARTISTState *s, bool update_start)
- 
- static void draw_line_end(ARTISTState *s, bool update_start)
- {
--
-     int startx = artist_get_x(s->vram_start);
-     int starty = artist_get_y(s->vram_start);
-     int endx = artist_get_x(s->line_end);
-@@ -835,6 +833,7 @@ static void artist_vram_write(void *opaque, hwaddr addr, uint64_t val,
-                               unsigned size)
- {
-     ARTISTState *s = opaque;
-+
-     s->vram_char_y = 0;
-     trace_artist_vram_write(size, addr, val);
-     vram_bit_write(opaque, addr, 0, val, size);
-@@ -1244,7 +1243,6 @@ static void artist_update_display(void *opaque)
-     DisplaySurface *surface = qemu_console_surface(s->con);
-     int first = 0, last;
- 
--
-     framebuffer_update_display(surface, &s->fbsection, s->width, s->height,
-                                s->width, s->width * 4, 0, 0, artist_draw_line,
-                                s, &first, &last);
-@@ -1258,6 +1256,7 @@ static void artist_invalidate(void *opaque)
- {
-     ARTISTState *s = ARTIST(opaque);
-     struct vram_buffer *buf = &s->vram_buffer[ARTIST_BUFFER_AP];
-+
-     memory_region_set_dirty(&buf->mr, 0, buf->size);
- }
- 
+ struct vram_buffer {
+     MemoryRegion mr;
+     uint8_t *data;
 -- 
 2.20.1
 
