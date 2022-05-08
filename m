@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B7B51EB96
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 06:28:21 +0200 (CEST)
-Received: from localhost ([::1]:50482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DDD51EB97
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 06:31:05 +0200 (CEST)
+Received: from localhost ([::1]:54300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnYWq-0006Dt-R4
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 00:28:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
+	id 1nnYZU-0000SH-GX
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 00:31:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnYU1-0004Rn-9S
- for qemu-devel@nongnu.org; Sun, 08 May 2022 00:25:25 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:40931)
+ id 1nnYWH-0006vw-7l
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 00:27:45 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnYTw-0000TJ-4H
- for qemu-devel@nongnu.org; Sun, 08 May 2022 00:25:24 -0400
-Received: by mail-pl1-x635.google.com with SMTP id i1so11043138plg.7
- for <qemu-devel@nongnu.org>; Sat, 07 May 2022 21:25:17 -0700 (PDT)
+ id 1nnYWF-0000xc-Jp
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 00:27:44 -0400
+Received: by mail-pl1-x635.google.com with SMTP id s14so11065244plk.8
+ for <qemu-devel@nongnu.org>; Sat, 07 May 2022 21:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+lEl5LGIrWZk95Mnv12/JdWkcAjDATOOArcvnB21c/w=;
- b=Owi5WdDe7KTQGunmjvRci1Qbf5wm1fPzayFCgJkqmY95t3YdpBK9I5tCwJBc921ZKi
- BBCpQWVaZXAWg0pV1YLJwQBZT7v4Paozw2EfDA8R5cmlQVIpdFA03XweYnz5m/EGnAle
- Vm2M+onB8J3+/BV5zV3ZdWAO8Ew6LDm5H3q30bAZ14qHEaGjlJ/DW+98AOGGqGCqArdU
- cCi8BBb5A/xhGETBv+JTpvWTcGaRjoNgNjH4aHSF4tfSjueRpx/eLuxSfolupcjLrXq2
- 2w2pJeD2/CZd5q7jk/szsReyJ35IZAJNBVWh7fhZn6JVgQfQpSME3WLurZk6/cJcCZS4
- Ue/Q==
+ bh=DoPrVKWCV4MysxmdCVED5Ye8mF+ueMF+Ee8GYRNcZfo=;
+ b=rZdtUjaa27xHpNYoh9r4w8FvcvDpzd4gmnCKgGoBNWNxk+PhZNnjJLIVEDsssdfKeG
+ yyOunW9qHzDc4A1SIFrvC22AqMGLsiQ6CFdLPGz9Qc8XQodHICBwwJfCiA37ZESpXPn6
+ l5vjtSTtRGnaMl5aaJ1QDOhchNtTtyoRW952WrQuj2C+0EK0cph15JyjBXWhdcBJpTbY
+ Vk+QyutDcPHJmqsbG86tI3cbu8IwBob4dLSO4x7xMH/60GbcoprfwnjKeZl6apg6rvlN
+ Xvw/PMz/ck6TSv8rA/Kk/WY6u57vdS3V/BoA0SMSrXbiMVEWruNfL0d0xmTNmKlMhFoW
+ 3Ffw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+lEl5LGIrWZk95Mnv12/JdWkcAjDATOOArcvnB21c/w=;
- b=tBZROavDAt1zITzZg/GHZKDJFx2M7k1rQTqGipCCmDntcO2/cJvk7Yg5JGeHb4EdC/
- Uj5df+Q5q8rvJFqv9jFNn5OmOcMRjfeiWtMJXB8G1ngTo1TsliL77Ac/GU/e5CTv+/sy
- y1oBp2WlKLsVfXTJ00eRbkxk6Go3Hh22uEXG3Vz4qx8/YOa0grrREGIMA9Kv1IMGTsdJ
- D2UTCYCpR4mTP6f6GXJRdkzlkBH7x8EISNtLc9wYBUucng1leECDCLcvH65xmdtFLOM7
- 883msxvKbGv1wAiPHoswwBeYiIyNCMuBpGyWSbL5T44Ti1PFaOwzaivENg/e3OE8L4mO
- S1dg==
-X-Gm-Message-State: AOAM532cPeoymaT9NITDVXyQtlR3sM0dGg9AuZ+QNNdPepgiF4zdGm+H
- nDnQ3RoKrBwKM6I6BhEwtJxL2Q==
-X-Google-Smtp-Source: ABdhPJw1jLaIFkabOaRRhTIm/DTDMmi9vi/Oc1XegZlKJNwRGO48jC4cmAVfzHgIV2xPq8NdS4XyRA==
-X-Received: by 2002:a17:902:e74d:b0:15e:94f7:611e with SMTP id
- p13-20020a170902e74d00b0015e94f7611emr10662634plf.37.1651983916479; 
- Sat, 07 May 2022 21:25:16 -0700 (PDT)
+ bh=DoPrVKWCV4MysxmdCVED5Ye8mF+ueMF+Ee8GYRNcZfo=;
+ b=8L5AKJEGSoDD3pVerekEmrJdjRyyW8HjvA3Qgt6kmFe0Yx5wd2mXBg214YAqaDD/Wr
+ X5KfZgdiPWyreE8qt5uW73yimgAPOwbE5az68jiuLsohYka29R1UNbRJNczX8Qij9AzS
+ 7Hmf25jMC3z9IqSgvrOafVNufqNNvN/CI1JPA/Yggf2gOP/9wEgTnRBvMNCW4LC4B5Ce
+ FMz9uSR7PecfNwAYIBc0ZSc83Dw6h0MzlphpnH2ZiwMV7KZ4QgObBNMlwxWC99S9q3XY
+ sRPa+4XDxRFteNKHAKv0tvS6F1bPLTZ8k/6pNCcDUp5To5Mfbnze4Ld+BRVKRlJX4A4G
+ xNXA==
+X-Gm-Message-State: AOAM533CbURjlqkYqz3ZdthJupJqbxt1s8DXTNDMjKN4VHoJFNq+1G1h
+ D+FqRuVny318x1ODiX2pY3yF4g==
+X-Google-Smtp-Source: ABdhPJzIAXix9BQ30INKd7IXOjstqWKWnkujfCm/zERCww4G24U90kZdtbF+A1owKEXFYKhsbAnLLw==
+X-Received: by 2002:a17:90a:cf89:b0:1d7:7055:f49c with SMTP id
+ i9-20020a17090acf8900b001d77055f49cmr12288710pju.12.1651984062158; 
+ Sat, 07 May 2022 21:27:42 -0700 (PDT)
 Received: from [192.168.4.112] (50-233-235-3-static.hfc.comcastbusiness.net.
  [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
- q13-20020a170902dacd00b0015e8d4eb214sm4441098plx.94.2022.05.07.21.25.14
+ i24-20020a635418000000b003c14af50622sm5798959pgb.58.2022.05.07.21.27.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 May 2022 21:25:15 -0700 (PDT)
-Message-ID: <2856c808-89a2-cee7-af36-f1da3238b405@linaro.org>
-Date: Sat, 7 May 2022 23:25:13 -0500
+ Sat, 07 May 2022 21:27:41 -0700 (PDT)
+Message-ID: <461a810f-6ca0-98cc-4144-18062b165ad7@linaro.org>
+Date: Sat, 7 May 2022 23:27:39 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v2 6/7] target/ppc: Implemented pmxvf*ger*
+Subject: Re: [RFC PATCH v2 7/7] target/ppc: Implemented [pm]xvbf16ger2*
 Content-Language: en-US
 To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
  qemu-ppc@nongnu.org
@@ -68,9 +68,9 @@ Cc: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
  "open list:All patches CC here" <qemu-devel@nongnu.org>
 References: <20220506121844.18969-1-lucas.araujo@eldorado.org.br>
- <20220506121844.18969-7-lucas.araujo@eldorado.org.br>
+ <20220506121844.18969-8-lucas.araujo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220506121844.18969-7-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220506121844.18969-8-lucas.araujo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
@@ -98,47 +98,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/6/22 07:18, Lucas Mateus Castro(alqotel) wrote:
-> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 > 
 > Implement the following PowerISA v3.1 instructions:
-> pmxvf16ger2:   Prefixed Masked VSX Vector 16-bit Floating-Point GER
-> (rank-2 update)
-> pmxvf16ger2nn: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-> (rank-2 update) Negative multiply, Negative accumulate
-> pmxvf16ger2np: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-> (rank-2 update) Negative multiply, Positive accumulate
-> pmxvf16ger2pn: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-> (rank-2 update) Positive multiply, Negative accumulate
-> pmxvf16ger2pp: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-> (rank-2 update) Positive multiply, Positive accumulate
-> pmxvf32ger:    Prefixed Masked VSX Vector 32-bit Floating-Point GER
-> (rank-1 update)
-> pmxvf32gernn:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-> (rank-1 update) Negative multiply, Negative accumulate
-> pmxvf32gernp:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-> (rank-1 update) Negative multiply, Positive accumulate
-> pmxvf32gerpn:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-> (rank-1 update) Positive multiply, Negative accumulate
-> pmxvf32gerpp:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-> (rank-1 update) Positive multiply, Positive accumulate
-> pmxvf64ger:    Prefixed Masked VSX Vector 64-bit Floating-Point GER
-> (rank-1 update)
-> pmxvf64gernn:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-> (rank-1 update) Negative multiply, Negative accumulate
-> pmxvf64gernp:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-> (rank-1 update) Negative multiply, Positive accumulate
-> pmxvf64gerpn:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-> (rank-1 update) Positive multiply, Negative accumulate
-> pmxvf64gerpp:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-> (rank-1 update) Positive multiply, Positive accumulate
+> xvbf16ger2:   VSX Vector bfloat16 GER (rank-2 update)
+> xvbf16ger2nn: VSX Vector bfloat16 GER (rank-2 update) Negative multiply,
+> Negative accumulate
+> xvbf16ger2np: VSX Vector bfloat16 GER (rank-2 update) Negative multiply,
+> Positive accumulate
+> xvbf16ger2pn: VSX Vector bfloat16 GER (rank-2 update) Positive multiply,
+> Negative accumulate
+> xvbf16ger2pp: VSX Vector bfloat16 GER (rank-2 update) Positive multiply,
+> Positive accumulate
+> pmxvbf16ger2:   Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+> pmxvbf16ger2nn: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+> Negative multiply, Negative accumulate
+> pmxvbf16ger2np: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+> Negative multiply, Positive accumulate
+> pmxvbf16ger2pn: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+> Positive multiply, Negative accumulate
+> pmxvbf16ger2pp: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+> Positive multiply, Positive accumulate
 > 
-> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 > ---
->   target/ppc/insn64.decode            | 38 +++++++++++++++++++++++++++++
->   target/ppc/translate/vsx-impl.c.inc | 18 ++++++++++++++
->   2 files changed, 56 insertions(+)
+> There's a discrepancy between this implementation and mambo/the
+> hardware where implementing it with float64_mul then float64r32_muladd
+> sometimes results in an incorrect result after an underflow, but
+> implementing with float32_mul then float32_muladd results in incorrect
+> signal in some 0 or infinite results. I've not been able to solve this
 
+I did suggest that the float64_mul needs to be done in round-to-odd.
+
+Anyway, for this patch,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
