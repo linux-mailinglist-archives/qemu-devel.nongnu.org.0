@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF4351F100
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:12:13 +0200 (CEST)
-Received: from localhost ([::1]:59970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6566A51F112
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:19:59 +0200 (CEST)
+Received: from localhost ([::1]:58050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnnGG-0006Ll-Q5
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47132)
+	id 1nnnNm-0007Bz-DY
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn3f-00075U-LX
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:59:11 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55326)
+ id 1nnn3i-00077O-DD
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:59:15 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn3c-000740-LL
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:59:11 -0400
+ id 1nnn3g-00074R-PA
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:59:14 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn2U-0000yR-0z; Sun, 08 May 2022 20:58:01 +0100
+ id 1nnn2X-0000yR-Uu; Sun, 08 May 2022 20:58:06 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Sun,  8 May 2022 20:56:24 +0100
-Message-Id: <20220508195650.28590-28-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  8 May 2022 20:56:25 +0100
+Message-Id: <20220508195650.28590-29-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
 References: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 27/53] lasi: move LASIState and associated QOM structures to
- lasi.h
+Subject: [PULL 28/53] lasi: replace lasi_get_irq() with defined constants
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,135 +63,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220504092600.10048-28-mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220504092600.10048-29-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/hppa/lasi.c | 44 +-------------------------------------
- hw/hppa/lasi.h | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 59 insertions(+), 43 deletions(-)
- create mode 100644 hw/hppa/lasi.h
+ hw/hppa/lasi.c | 31 ++++---------------------------
+ hw/hppa/lasi.h |  9 +++++++++
+ 2 files changed, 13 insertions(+), 27 deletions(-)
 
 diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
-index 242713c7bd..c1dfd5310f 100644
+index c1dfd5310f..ec079601a1 100644
 --- a/hw/hppa/lasi.c
 +++ b/hw/hppa/lasi.c
-@@ -24,50 +24,8 @@
- #include "hw/input/lasips2.h"
- #include "migration/vmstate.h"
- #include "qom/object.h"
-+#include "lasi.h"
+@@ -231,29 +231,6 @@ static void lasi_set_irq(void *opaque, int irq, int level)
+     }
+ }
  
--#define TYPE_LASI_CHIP "lasi-chip"
+-static int lasi_get_irq(unsigned long hpa)
+-{
+-    switch (hpa) {
+-    case LASI_HPA:
+-        return 14;
+-    case LASI_UART_HPA:
+-        return 5;
+-    case LASI_LPT_HPA:
+-        return 7;
+-    case LASI_LAN_HPA:
+-        return 8;
+-    case LASI_SCSI_HPA:
+-        return 9;
+-    case LASI_AUDIO_HPA:
+-        return 13;
+-    case LASI_PS2KBD_HPA:
+-    case LASI_PS2MOU_HPA:
+-        return 26;
+-    default:
+-        g_assert_not_reached();
+-    }
+-}
 -
--#define LASI_IRR        0x00    /* RO */
--#define LASI_IMR        0x04
--#define LASI_IPR        0x08
--#define LASI_ICR        0x0c
--#define LASI_IAR        0x10
--
--#define LASI_PCR        0x0C000 /* LASI Power Control register */
--#define LASI_ERRLOG     0x0C004 /* LASI Error Logging register */
--#define LASI_VER        0x0C008 /* LASI Version Control register */
--#define LASI_IORESET    0x0C00C /* LASI I/O Reset register */
--#define LASI_AMR        0x0C010 /* LASI Arbitration Mask register */
--#define LASI_IO_CONF    0x7FFFE /* LASI primary configuration register */
--#define LASI_IO_CONF2   0x7FFFF /* LASI secondary configuration register */
--
--#define LASI_BIT(x)     (1ul << (x))
--#define LASI_IRQ_BITS   (LASI_BIT(5) | LASI_BIT(7) | LASI_BIT(8) | LASI_BIT(9) \
--            | LASI_BIT(13) | LASI_BIT(14) | LASI_BIT(16) | LASI_BIT(17) \
--            | LASI_BIT(18) | LASI_BIT(19) | LASI_BIT(20) | LASI_BIT(21) \
--            | LASI_BIT(26))
--
--#define ICR_BUS_ERROR_BIT  LASI_BIT(8)  /* bit 8 in ICR */
--#define ICR_TOC_BIT        LASI_BIT(1)  /* bit 1 in ICR */
--
--OBJECT_DECLARE_SIMPLE_TYPE(LasiState, LASI_CHIP)
--
--struct LasiState {
--    PCIHostState parent_obj;
--
--    uint32_t irr;
--    uint32_t imr;
--    uint32_t ipr;
--    uint32_t icr;
--    uint32_t iar;
--
--    uint32_t errlog;
--    uint32_t amr;
--    uint32_t rtc;
--    time_t rtc_ref;
--
--    MemoryRegion this_mem;
--};
+ DeviceState *lasi_initfn(MemoryRegion *address_space)
+ {
+     DeviceState *dev;
+@@ -266,20 +243,20 @@ DeviceState *lasi_initfn(MemoryRegion *address_space)
+     /* LAN */
+     if (enable_lasi_lan()) {
+         qemu_irq lan_irq = qemu_allocate_irq(lasi_set_irq, s,
+-                lasi_get_irq(LASI_LAN_HPA));
++                                             LASI_IRQ_LAN_HPA);
+         lasi_82596_init(address_space, LASI_LAN_HPA, lan_irq);
+     }
  
- static bool lasi_chip_mem_valid(void *opaque, hwaddr addr,
-                                 unsigned size, bool is_write,
+     /* Parallel port */
+     qemu_irq lpt_irq = qemu_allocate_irq(lasi_set_irq, s,
+-            lasi_get_irq(LASI_LPT_HPA));
++                                         LASI_IRQ_LPT_HPA);
+     parallel_mm_init(address_space, LASI_LPT_HPA + 0x800, 0,
+                      lpt_irq, parallel_hds[0]);
+ 
+     if (serial_hd(1)) {
+         /* Serial port */
+         qemu_irq serial_irq = qemu_allocate_irq(lasi_set_irq, s,
+-                lasi_get_irq(LASI_UART_HPA));
++                                                LASI_IRQ_UART_HPA);
+         serial_mm_init(address_space, LASI_UART_HPA + 0x800, 0,
+                 serial_irq, 8000000 / 16,
+                 serial_hd(0), DEVICE_NATIVE_ENDIAN);
+@@ -287,7 +264,7 @@ DeviceState *lasi_initfn(MemoryRegion *address_space)
+ 
+     /* PS/2 Keyboard/Mouse */
+     qemu_irq ps2kbd_irq = qemu_allocate_irq(lasi_set_irq, s,
+-            lasi_get_irq(LASI_PS2KBD_HPA));
++                                            LASI_IRQ_PS2KBD_HPA);
+     lasips2_init(address_space, LASI_PS2KBD_HPA,  ps2kbd_irq);
+ 
+     return dev;
 diff --git a/hw/hppa/lasi.h b/hw/hppa/lasi.h
-new file mode 100644
-index 0000000000..559aae2560
---- /dev/null
+index 559aae2560..f40546da6e 100644
+--- a/hw/hppa/lasi.h
 +++ b/hw/hppa/lasi.h
-@@ -0,0 +1,58 @@
-+/*
-+ * HP-PARISC Lasi chipset emulation.
-+ *
-+ * (C) 2019 by Helge Deller <deller@gmx.de>
-+ *
-+ * This work is licensed under the GNU GPL license version 2 or later.
-+ *
-+ * Documentation available at:
-+ * https://parisc.wiki.kernel.org/images-parisc/7/79/Lasi_ers.pdf
-+ */
+@@ -38,6 +38,15 @@ OBJECT_DECLARE_SIMPLE_TYPE(LasiState, LASI_CHIP)
+ #define ICR_BUS_ERROR_BIT  LASI_BIT(8)  /* bit 8 in ICR */
+ #define ICR_TOC_BIT        LASI_BIT(1)  /* bit 1 in ICR */
+ 
++#define LASI_IRQ_HPA        14
++#define LASI_IRQ_UART_HPA   5
++#define LASI_IRQ_LPT_HPA    7
++#define LASI_IRQ_LAN_HPA    8
++#define LASI_IRQ_SCSI_HPA   9
++#define LASI_IRQ_AUDIO_HPA  13
++#define LASI_IRQ_PS2KBD_HPA 26
++#define LASI_IRQ_PS2MOU_HPA 26
 +
-+#ifndef LASI_H
-+#define LASI_H
-+
-+#define TYPE_LASI_CHIP "lasi-chip"
-+OBJECT_DECLARE_SIMPLE_TYPE(LasiState, LASI_CHIP)
-+
-+#define LASI_IRR        0x00    /* RO */
-+#define LASI_IMR        0x04
-+#define LASI_IPR        0x08
-+#define LASI_ICR        0x0c
-+#define LASI_IAR        0x10
-+
-+#define LASI_PCR        0x0C000 /* LASI Power Control register */
-+#define LASI_ERRLOG     0x0C004 /* LASI Error Logging register */
-+#define LASI_VER        0x0C008 /* LASI Version Control register */
-+#define LASI_IORESET    0x0C00C /* LASI I/O Reset register */
-+#define LASI_AMR        0x0C010 /* LASI Arbitration Mask register */
-+#define LASI_IO_CONF    0x7FFFE /* LASI primary configuration register */
-+#define LASI_IO_CONF2   0x7FFFF /* LASI secondary configuration register */
-+
-+#define LASI_BIT(x)     (1ul << (x))
-+#define LASI_IRQ_BITS   (LASI_BIT(5) | LASI_BIT(7) | LASI_BIT(8) | LASI_BIT(9) \
-+            | LASI_BIT(13) | LASI_BIT(14) | LASI_BIT(16) | LASI_BIT(17) \
-+            | LASI_BIT(18) | LASI_BIT(19) | LASI_BIT(20) | LASI_BIT(21) \
-+            | LASI_BIT(26))
-+
-+#define ICR_BUS_ERROR_BIT  LASI_BIT(8)  /* bit 8 in ICR */
-+#define ICR_TOC_BIT        LASI_BIT(1)  /* bit 1 in ICR */
-+
-+struct LasiState {
-+    PCIHostState parent_obj;
-+
-+    uint32_t irr;
-+    uint32_t imr;
-+    uint32_t ipr;
-+    uint32_t icr;
-+    uint32_t iar;
-+
-+    uint32_t errlog;
-+    uint32_t amr;
-+    uint32_t rtc;
-+    time_t rtc_ref;
-+
-+    MemoryRegion this_mem;
-+};
-+
-+#endif
+ struct LasiState {
+     PCIHostState parent_obj;
+ 
 -- 
 2.20.1
 
