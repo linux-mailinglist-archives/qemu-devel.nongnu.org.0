@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BBF51EC85
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 11:36:11 +0200 (CEST)
-Received: from localhost ([::1]:32808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2789851EC84
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 11:36:10 +0200 (CEST)
+Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nndKk-0004HL-J8
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 05:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58984)
+	id 1nndKi-0004Ea-U5
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 05:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nndGK-0001S5-4W
- for qemu-devel@nongnu.org; Sun, 08 May 2022 05:31:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37582)
+ id 1nndGM-0001Wj-KX
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 05:31:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nndGI-0008P6-3y
- for qemu-devel@nongnu.org; Sun, 08 May 2022 05:31:35 -0400
+ id 1nndGL-0008PV-5C
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 05:31:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652002293;
+ s=mimecast20190719; t=1652002296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0KDxZIIy0ZVQ63u+8+EkQx6/vezGGY5jxyJVtnMk3BE=;
- b=QdtIPp3TeP0a9lVjc3S+Hp8SwFhh5hT42d20TezE9Wmr7zkMLMdHuMuwuoMMyW8TgBa5xo
- bCDJLbnGkeFGpnwEkKIL9+s+5nIY/2KAM3sPjx88RvuwjsN1NII6JIvJqLuOWrU4vnIYIF
- AtA66NW7Mcfcjy/+IDtXC5n/pw9ArFs=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Edd3So3TMxja3Z4zgQxs9DpKzS8fV2s9+BBNNKuvyfo=;
+ b=DnIR4WUpF9/OvnFKRaj08bm73aRZNSalY2HjtcZ2UtBTsCaJo3VtUifoPABPXHRAs1RqEE
+ wy2m6UsS41ohgDfAaNC+6EvZhyz0aA191DHFlo1wYsZhUqTJbercbMTb3RpHc0n57knWSY
+ Ft4fDV0gthp6d1fp+/wkgB9qw3x7YIE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-efmAK3f1O-yyhENuMzFPiw-1; Sun, 08 May 2022 05:31:32 -0400
-X-MC-Unique: efmAK3f1O-yyhENuMzFPiw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- t4-20020a170906608400b006f8687b8884so498853ejj.0
- for <qemu-devel@nongnu.org>; Sun, 08 May 2022 02:31:31 -0700 (PDT)
+ us-mta-491-AidJnATtMOCR8B7tKmRPHw-1; Sun, 08 May 2022 05:31:35 -0400
+X-MC-Unique: AidJnATtMOCR8B7tKmRPHw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ eg38-20020a05640228a600b00425d61d0302so6535607edb.17
+ for <qemu-devel@nongnu.org>; Sun, 08 May 2022 02:31:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0KDxZIIy0ZVQ63u+8+EkQx6/vezGGY5jxyJVtnMk3BE=;
- b=KYcIbHmFI+wr1Z127DOgQ0lpjeackPaZrJQwnjIIw8Dtkr9mNfhSVZs2XRn2YyGxUn
- ofzkohrgxOJIPAfyo6VFydOCndcb/ihJZIjSrv6ejvXVXARoOuAFf8GX5SCSc1heE7PP
- MIRU2Tpqm0SDljmbjklGQ2KdaMy1f0qRIo2yRF+xcE8d3zwhfjyTZqoW8yzBlJHKSD+Q
- 6SdZW9bXwirojc0M6MKHa1swyHizwyyMZkbsUsG0S4QXuD9YX4PyRLnkq7/WcXuPpc5y
- rVcQNnj7ZRuA7u4RV/p4CiEH+q6HhZPS+/umCOeI4yeoSV4u2RMKZ9n+TXB50k+5Exd8
- 2AZQ==
-X-Gm-Message-State: AOAM531THIAEhilyf+rPrziB99S7JXulUheEvoqM+0BSdwe4QUDCQvkB
- MflMMXBr2/vmAMFQjszNt4Srcp+VMVciCV9lxa1LvPscI62CVGoN+q/XToPBONjM0xuuDic4vIW
- 1BWIycA4wRSKKMN39aaC6mg7Xv0o71jtg0UnCnUEREkOTp+1uQLNhLOJGrF+wkGs0NL4=
-X-Received: by 2002:a05:6402:50d2:b0:428:b39:5c08 with SMTP id
- h18-20020a05640250d200b004280b395c08mr11988469edb.146.1652002290583; 
- Sun, 08 May 2022 02:31:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeuTXzmAeuKbfFjaq7E5DVWuRazBBRM2zJ7QgmvjNQp60vUNdK9QVmZw+ZdNcKhYLFLmGQDg==
-X-Received: by 2002:a05:6402:50d2:b0:428:b39:5c08 with SMTP id
- h18-20020a05640250d200b004280b395c08mr11988454edb.146.1652002290336; 
- Sun, 08 May 2022 02:31:30 -0700 (PDT)
+ bh=Edd3So3TMxja3Z4zgQxs9DpKzS8fV2s9+BBNNKuvyfo=;
+ b=b/1PtT6NGs9AZp9SlCDPX3WvTdtsaS5Zu1gkMh5WIvKZ4JU1xiTqRv0UJa/92tkGI3
+ xE4P6qdO9ucRpJGsOxChAsJhIkYpNxPzis58fWVtZwezAIWAgJyfQ+ILXWYKkLPHIa+b
+ HmTlbFSn43EFk9eCmhdVVWlwOekll+YKyqJc3DKbo6ql0kstUMxoMlBWzMkoGXKPMAKY
+ OROZEHfOWhCzkoGXj0RAopot0ki8zxShknlsa3c1Zfon9fJpxMVvbOo30uWSZVM/Te2S
+ jFSrkjr/TrwMO/r4r0gxeu3iyFz4p3YtB6MwZZ3xv89a0fDJjXwWcduCDwNqJ+3/l8LO
+ bnLQ==
+X-Gm-Message-State: AOAM531R8ek+kCEBJ/jSFA+GYAmnJKSbkQyjmnRHsOhjrXk73qMDDvkS
+ GdkNkaShYD0H8KT9fRrlYaH8taEJb2zvo8+ocJfCI782MwDBO1k02gq8L7nFm61zLSeRFAoDw5d
+ uj3DynLvjo9liKjW831e6aXKITJT53d8jh3efpBzqV2QIpqz99oWY7sdy7qLRwTLsJWc=
+X-Received: by 2002:a17:907:1c8a:b0:6e9:2a0d:d7b7 with SMTP id
+ nb10-20020a1709071c8a00b006e92a0dd7b7mr9779966ejc.572.1652002293691; 
+ Sun, 08 May 2022 02:31:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHNNJF/l0lHNw3Yh31phJbf9ba+m6sFb2We4rD3E6cCUETsNCuwTWkgTM+VzorC6TW+qBfPg==
+X-Received: by 2002:a17:907:1c8a:b0:6e9:2a0d:d7b7 with SMTP id
+ nb10-20020a1709071c8a00b006e92a0dd7b7mr9779945ejc.572.1652002293397; 
+ Sun, 08 May 2022 02:31:33 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- x13-20020a1709064a8d00b006f3ef214db3sm3898271eju.25.2022.05.08.02.31.28
+ p9-20020a170906140900b006f3ef214dcdsm3870017ejc.51.2022.05.08.02.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 May 2022 02:31:29 -0700 (PDT)
+ Sun, 08 May 2022 02:31:32 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com,
-	malureau@redhat.com
-Subject: [PATCH v2 1/5] slirp: bump submodule past 4.7 release
-Date: Sun,  8 May 2022 11:31:16 +0200
-Message-Id: <20220508093120.173131-2-pbonzini@redhat.com>
+Cc: berrange@redhat.com, malureau@redhat.com,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Subject: [PATCH v2 2/5] net: slirp: introduce a wrapper struct for QemuTimer
+Date: Sun,  8 May 2022 11:31:17 +0200
+Message-Id: <20220508093120.173131-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220508093120.173131-1-pbonzini@redhat.com>
 References: <20220508093120.173131-1-pbonzini@redhat.com>
@@ -77,7 +77,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -101,32 +101,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 4.7 of slirp provides a new timer API that works better with CFI,
-together with several other improvements:
+This struct will be extended in the next few patches to support the
+new slirp_handle_timer() call.  For that we need to store an additional
+"int" for each SLIRP timer, in addition to the cb_opaque.
 
-* Allow disabling the internal DHCP server !22
-* Support Unix sockets in hostfwd !103
-* IPv6 DNS proxying support !110
-* bootp: add support for UEFI HTTP boot !111
-
-and bugfixes.
-
-The submodule update also includes 2 commits to fix warnings in the
-Win32 build.
-
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Reviewed-by: Marc-André Lureau <malureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- slirp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/slirp.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/slirp b/slirp
-index a88d9ace23..9d59bb775d 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit a88d9ace234a24ce1c17189642ef9104799425e0
-+Subproject commit 9d59bb775d6294c8b447a88512f7bb43f12a25a8
+diff --git a/net/slirp.c b/net/slirp.c
+index bc5e9e4f77..f1e25d741f 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -184,23 +184,32 @@ static int64_t net_slirp_clock_get_ns(void *opaque)
+     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+ }
+ 
++struct SlirpTimer {
++    QEMUTimer timer;
++}
++
+ static void *net_slirp_timer_new(SlirpTimerCb cb,
+                                  void *cb_opaque, void *opaque)
+ {
+-    return timer_new_full(NULL, QEMU_CLOCK_VIRTUAL,
+-                          SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
+-                          cb, cb_opaque);
++    SlirpTimer *t = g_new(SlirpTimer, 1);
++    timer_init_full(&t->timer, NULL, QEMU_CLOCK_VIRTUAL,
++                    SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
++                    cb, cb_opaque);
++    return t;
+ }
+ 
+ static void net_slirp_timer_free(void *timer, void *opaque)
+ {
+-    timer_free(timer);
++    SlirpTimer *t = timer;
++    timer_del(&t->timer);
++    g_free(t);
+ }
+ 
+ static void net_slirp_timer_mod(void *timer, int64_t expire_timer,
+                                 void *opaque)
+ {
+-    timer_mod(timer, expire_timer);
++    SlirpTimer *t = timer;
++    timer_mod(&t->timer, expire_timer);
+ }
+ 
+ static void net_slirp_register_poll_fd(int fd, void *opaque)
 -- 
 2.35.1
 
