@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5FE51EC4A
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 11:00:42 +0200 (CEST)
-Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9045C51EC60
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 11:14:07 +0200 (CEST)
+Received: from localhost ([::1]:43618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nncmL-0001BC-74
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 05:00:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
+	id 1nnczO-000866-4q
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 05:14:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nncil-0007un-S5
- for qemu-devel@nongnu.org; Sun, 08 May 2022 04:56:55 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:54788)
+ id 1nncvS-00066R-9Y
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 05:10:10 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:54800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nncik-0003ag-CG
- for qemu-devel@nongnu.org; Sun, 08 May 2022 04:56:55 -0400
+ id 1nncvK-0005Li-M9
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 05:10:02 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnchk-0009gQ-Kn; Sun, 08 May 2022 09:55:56 +0100
-Message-ID: <d75ea224-b880-63c1-5d0e-7e6831e88bfa@ilande.co.uk>
-Date: Sun, 8 May 2022 09:56:47 +0100
+ id 1nncuC-0009mG-Hc; Sun, 08 May 2022 10:08:48 +0100
+Message-ID: <85236da7-1951-ab79-624f-35b0d54cd887@ilande.co.uk>
+Date: Sun, 8 May 2022 10:09:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
@@ -32,15 +32,15 @@ Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, deller@gmx.de,
  qemu-devel@nongnu.org
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <20220504092600.10048-40-mark.cave-ayland@ilande.co.uk>
- <9f8eb850-f8d8-2f3e-19e0-7f1bd97fe527@linaro.org>
+ <20220504092600.10048-43-mark.cave-ayland@ilande.co.uk>
+ <e3dd0ee0-d805-d5a2-464c-3b4478925303@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <9f8eb850-f8d8-2f3e-19e0-7f1bd97fe527@linaro.org>
+In-Reply-To: <e3dd0ee0-d805-d5a2-464c-3b4478925303@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 39/50] lasi: use constants for device register offsets
+Subject: Re: [PATCH v2 42/50] lasi: move from hw/hppa to hw/misc
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -66,32 +66,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/05/2022 04:04, Richard Henderson wrote:
+On 08/05/2022 04:07, Richard Henderson wrote:
 
 > On 5/4/22 04:25, Mark Cave-Ayland wrote:
->> Instead of generating the offset based upon the physical address of the
->> register, add constants for each of the device registers to lasi.h and
->> update lasi.c to use them.
+>> Move the LASI device implementation from hw/hppa to hw/misc so that it is
+>> located with all the other miscellaneous devices.
 >>
 >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 >> Acked-by: Helge Deller <deller@gmx.de>
 >> ---
->>   hw/hppa/lasi.c | 28 ++++++++++++++--------------
->>   hw/hppa/lasi.h |  5 +++++
->>   2 files changed, 19 insertions(+), 14 deletions(-)
+>>   MAINTAINERS                         | 2 ++
+>>   hw/hppa/Kconfig                     | 1 +
+>>   hw/hppa/machine.c                   | 2 +-
+>>   hw/hppa/meson.build                 | 2 +-
+>>   hw/hppa/trace-events                | 5 -----
+>>   hw/misc/Kconfig                     | 3 +++
+>>   hw/{hppa => misc}/lasi.c            | 3 +--
+>>   hw/misc/meson.build                 | 3 +++
+>>   hw/misc/trace-events                | 5 +++++
+>>   {hw/hppa => include/hw/misc}/lasi.h | 0
+>>   10 files changed, 17 insertions(+), 9 deletions(-)
+>>   rename hw/{hppa => misc}/lasi.c (99%)
+>>   rename {hw/hppa => include/hw/misc}/lasi.h (100%)
 > 
-> Worth removing the final usages, and the old definitions in hppa_machine.h?
-> 
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> I don't understand hw/misc, or why this is a better categorization than hw/hppa.
 
-I did think about that, but then there are a few devices I can think of where there 
-are additional comments/definitions from an external header included for reference.
+This one is a bit of a grey area at the moment. There have been some discussions 
+around having a hard separation between boards and devices, so that devices live in 
+one part of the directory hierarchy and boards live in another. I think possibly 
+Markus was advocating but this, but of course that would involve quite some work.
 
-My feeling for a patch like this (which is really just moving towards modern APIs) is 
-to leave this for the maintainer, particularly as for people less familiar with QEMU 
-they find it easier to use the physical address rather than work with memory region 
-offsets.
+The reason for leaning in this direction is that by having the device separate from 
+the board then it requires uses of QOM APIs in a way that don't break this 
+abstraction, which I think makes things more future-proof.
+
+There are already quite a few machine-specific devices throughout the tree: good 
+examples of this would be hw/pci-host and hw/misc where there are a number of devices 
+that it doesn't make sense to wire up to anything except one particular machine, so 
+we're certainly not doing anything new here.
 
 
 ATB,
