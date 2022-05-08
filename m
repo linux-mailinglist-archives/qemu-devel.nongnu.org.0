@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853C951ECEE
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 12:42:24 +0200 (CEST)
-Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFE751ECEC
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 12:41:26 +0200 (CEST)
+Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nneMp-00031U-Jv
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 06:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1nneLt-0001ko-EZ
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 06:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nneFr-0007C1-2I; Sun, 08 May 2022 06:35:11 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35791)
+ id 1nneFr-0007D2-PV; Sun, 08 May 2022 06:35:11 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:45029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nneFp-0000Gy-E4; Sun, 08 May 2022 06:35:10 -0400
-Received: by mail-ej1-x631.google.com with SMTP id ks9so15422165ejb.2;
- Sun, 08 May 2022 03:35:04 -0700 (PDT)
+ id 1nneFp-0000HE-R4; Sun, 08 May 2022 06:35:11 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id i19so21826754eja.11;
+ Sun, 08 May 2022 03:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fHfalXba0yxdVT4jiCEAE2tAlEFkYyn4n43Ditg9AEs=;
- b=ACOBvNzNHsrHf/yA7Fcvz7jqjPZvqhcKxRqU8el5kXLuNYji5t8YmTcdRDUXO4+OCm
- Kuy6NSN0Nhh3IXIhv8ukb1unAMWLBupP1Hw5Wvc0B/r3v2Z3s9MGQRwc2JKF7Xl90LwB
- XbxxSJ9RMYyXWsjEnY5LiN3GPF3m+M3z6HBqryB3EWJpK7j68L6RWeaOWk1lfRybcCn5
- g0hhz0zM5DLxQNeudz4tcBhQti+GFBt81f72ZwMWFfS2xqle9ZbMpDr0lf3eRF7z3+76
- y65QQlriOV98r57XqYizltApycTRpRmoyDta2TjzojMUkWXXT/dN4YM81wdGtPLVOTd2
- Rk1Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=eZESDsRAqJr62NbjfLmlIhWx0VhIvAD6ZfdFOEz5AGM=;
+ b=Lhjll1RHi/Zb27lY0LdfC2NU0MTspGZ1g1IhCbSkCed92FikO2gusIN5/2mOnoS8ts
+ 3qfKOVB0ea3OYubzBcAI9dJysvzbq1FLfBfMZVrHqbZzjz7LxeNGS5qhIDeqUExvfDXw
+ JGZ3M2DkWsZ1ndlmaCtghQDAhf6vcIvS0E+NRiwt69aS1OCgkp5CoyhYlBfM7Yd/HznJ
+ sjz+HBiO+WVNOOMvzaJMvt8Z34fUqJP9Fehci0Kg8oiZxEUzpduv/3JXwizp+pvA3dUi
+ cPxtBCqj3cetBfERSL+QjG4166uDWnNHy/pYxcavOEJcA0L616xIENxW3lEYR5HOVTHt
+ AIyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fHfalXba0yxdVT4jiCEAE2tAlEFkYyn4n43Ditg9AEs=;
- b=tdfVx27dKu3sYRwHgJ4SJkKcRco1PxWcPE+strfBzjB9p21eVdzVtpCumEQD9dWBdD
- u3IedtWhO5FgFbjktVy/a+K1Ok0k5QJUMs0vKKWRhiNP8TP6d1l2TQY1clcjYhpSZtUW
- dpEqbtCTIO7YuyFTaXbCTReG9113oK++nlRNbkq7vtD2/+xazTHfp9gHWJdstMNmuC1y
- bqb+NtC006D227VGoU4otdKatsOCHshCGFUOlhs/eK7ejs+i/mwPsEGpAORTsNVR4YKf
- W/8VEPJiSxz1/2Y9A20Cvw7SIauKhCFWt4mLCwcqMGWGPAw0BwhKDoLzYoNuGKiHb7+N
- TOew==
-X-Gm-Message-State: AOAM53182IRem24DLBJ0H5rQEksz1+VZL72N9pzbgrip9zGVR/Qzd3lp
- cSFfCKRSpKm7dYTdGhtJZwyOTfOqSJvtMQ==
-X-Google-Smtp-Source: ABdhPJzd+9WjjFI6xaPch0LTE/D2MQbO4yvuYeYZjBCvmqy8zpnk+bA1p6jtPd/4TBs6FDzPki5H6w==
-X-Received: by 2002:a17:907:6d93:b0:6f4:f84e:8cf1 with SMTP id
- sb19-20020a1709076d9300b006f4f84e8cf1mr10271680ejc.555.1652006103562; 
- Sun, 08 May 2022 03:35:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=eZESDsRAqJr62NbjfLmlIhWx0VhIvAD6ZfdFOEz5AGM=;
+ b=0D3el+3xM8FxuhYmSVEMp7t+iE8JzoF2jnioYJADjZL/83OIF/+PeyL9hV01sXdPoM
+ OaJBxJYOB66bZ/WAEvhEnRp5o6N5TV/cMBeNVimEUw/ui2ygGKZR3IgfTYvvH/Zrws+U
+ CYa0KqdVy899si5Lc8uMpzERe/c9gvZyJ099oQ768vDU9rTAibTq5axUChk45kTuPQRy
+ 7gStoYezhj/3PyZCJ7kOvA5x5XGAcWxFCwCxHif4sHwKSq5KQtM3HEXnRocIJvGnjXOW
+ tooRj9juW02FAC9+aGToKSeay1ijHV6m5DBEB1ZsqR8IoAOKir8x7KYMD1nNeflVLSs5
+ 5Fwg==
+X-Gm-Message-State: AOAM532ndA5BvLFk99cFHXFeg214s0yCL0L+2iJmVjNCGyQ5Mf0E+0zB
+ wmh4GeHfgaX6f776EehvNYzgG0X9z5ngaw==
+X-Google-Smtp-Source: ABdhPJxpuoUCVG1Of7nUDSnSqtIVgca7LxruEMKeb6HMzXsxsDKU6VJS9VNAAgpHZB/iksxQp35r6w==
+X-Received: by 2002:a17:907:4c8:b0:6f3:beac:260c with SMTP id
+ vz8-20020a17090704c800b006f3beac260cmr10182629ejb.321.1652006104817; 
+ Sun, 08 May 2022 03:35:04 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-183-246-161.77.183.pool.telefonica.de. [77.183.246.161])
  by smtp.gmail.com with ESMTPSA id
- ci18-20020a170907267200b006f388f6f927sm3901948ejc.1.2022.05.08.03.35.02
+ ci18-20020a170907267200b006f388f6f927sm3901948ejc.1.2022.05.08.03.35.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 May 2022 03:35:03 -0700 (PDT)
+ Sun, 08 May 2022 03:35:04 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org,
-	Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 0/3] PIIX3-IDE XEN cleanup
-Date: Sun,  8 May 2022 12:34:29 +0200
-Message-Id: <20220508103432.14874-1-shentey@gmail.com>
+Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org (open list:IDE)
+Subject: [PATCH 1/3] hw/ide/piix: Remove redundant "piix3-ide-xen" device class
+Date: Sun,  8 May 2022 12:34:30 +0200
+Message-Id: <20220508103432.14874-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220508103432.14874-1-shentey@gmail.com>
+References: <20220508103432.14874-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,29 +93,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series first removes the redundant "piix3-ide-xen" device class and
-then moves a XEN-specific helper function from PIIX3 code to XEN code. The idea
-is to decouple PIIX3-IDE and XEN and to compile XEN-specific bits only if XEN
-support is enabled.
+Commit 0f8445820f11a69154309863960328dda3dc1ad4 'xen: piix reuse pci
+generic class init function' already resolved redundant code which in
+turn rendered piix3-ide-xen redundant.
 
-Testing done:
-'qemu-system-x86_64 -M pc -m 1G -cdrom archlinux-2022.05.01-x86_64.iso" boots
-successfully and a 'poweroff' inside the VM also shuts it down correctly.
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/i386/pc_piix.c | 3 +--
+ hw/ide/piix.c     | 7 -------
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-XEN mode wasn't tested for the time being since its setup procedure seems quite
-sophisticated. Please let me know in case this is an obstacle.
-
-Bernhard Beschow (3):
-  hw/ide/piix: Remove redundant "piix3-ide-xen" device class
-  hw/ide/piix: Add some documentation to pci_piix3_xen_ide_unplug()
-  include/hw/ide: Unexport pci_piix3_xen_ide_unplug()
-
- hw/i386/pc_piix.c          |  3 +--
- hw/i386/xen/xen_platform.c | 49 +++++++++++++++++++++++++++++++++++++-
- hw/ide/piix.c              | 42 --------------------------------
- include/hw/ide.h           |  3 ---
- 4 files changed, 49 insertions(+), 48 deletions(-)
-
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 4c185c72d0..27dfde4917 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -244,8 +244,7 @@ static void pc_init1(MachineState *machine,
+     if (pcmc->pci_enabled) {
+         PCIDevice *dev;
+ 
+-        dev = pci_create_simple(pci_bus, piix3_devfn + 1,
+-                                xen_enabled() ? "piix3-ide-xen" : "piix3-ide");
++        dev = pci_create_simple(pci_bus, piix3_devfn + 1, "piix3-ide");
+         pci_ide_create_devs(dev);
+         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
+         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index ce89fd0aa3..2345fe9e1d 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -241,12 +241,6 @@ static const TypeInfo piix3_ide_info = {
+     .class_init    = piix3_ide_class_init,
+ };
+ 
+-static const TypeInfo piix3_ide_xen_info = {
+-    .name          = "piix3-ide-xen",
+-    .parent        = TYPE_PCI_IDE,
+-    .class_init    = piix3_ide_class_init,
+-};
+-
+ /* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
+ static void piix4_ide_class_init(ObjectClass *klass, void *data)
+ {
+@@ -272,7 +266,6 @@ static const TypeInfo piix4_ide_info = {
+ static void piix_ide_register_types(void)
+ {
+     type_register_static(&piix3_ide_info);
+-    type_register_static(&piix3_ide_xen_info);
+     type_register_static(&piix4_ide_info);
+ }
+ 
 -- 
 2.36.1
 
