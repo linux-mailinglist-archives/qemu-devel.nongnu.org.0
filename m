@@ -2,81 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC7F51EDD4
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 15:32:15 +0200 (CEST)
-Received: from localhost ([::1]:54538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B5651EE03
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 16:26:06 +0200 (CEST)
+Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnh1C-0003UU-8g
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 09:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
+	id 1nnhrJ-0004Gh-6h
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 10:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nngzH-0002km-CZ
- for qemu-devel@nongnu.org; Sun, 08 May 2022 09:30:15 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:46983)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nngzC-00030C-ML
- for qemu-devel@nongnu.org; Sun, 08 May 2022 09:30:13 -0400
-Received: by mail-qt1-x829.google.com with SMTP id o11so9267015qtp.13
- for <qemu-devel@nongnu.org>; Sun, 08 May 2022 06:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=8gLG2pWSNttgBwMQWqBo8AZHq9TWAN36W9nQGy+bhhU=;
- b=gamFuI+omJro5WHONjP8Hfvimr9GiS3FVxSKEhBtGGA2n7qLjQCnoRmqr72BPgE5ef
- MjV9wZbc6dXcua6IdorCQRsTlj1tf4YftFayCVvoNFcqCHdKrhzrE/vuYU8Yq5+OBBt9
- DtFAem8O6FfeX/5/NMinGB6Pqvj/RlOHOjxz0mBAxcZqqDDiuYKvk5ZoaGlu5DDeSnZi
- PSXyyAp7LAt4Y7T4V2S0tOEy5vfeSsGpnjvIIn/XKJ1uwRVTS9v3MFozrxzPCcFDHIY+
- kbiDS7RUIHChS0OsUm+sANYDWwOKz4tjAMsip0QcV04f0tM0phjpZ3OEq25wvaVMKpBM
- tZ+Q==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nnhpJ-0003Nn-53
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 10:24:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nnhpG-0002pD-Aw
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 10:23:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652019837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VNx04GETZuqF6U1OZ14pdSJTXp18G88Rak8VON6NDVI=;
+ b=JPrQS98i+nW6iNmGN3RpPJ++QTJLeOddLqBn4EeqsC/t7LteOroTD5tSUakNCjp92ebJ04
+ gGebJSiEIKt5IMOfCwMQSyiVQPcDEChW+U08thnKQ7KOQ+AsJUx/oj/R/AKD3/HICqFuZ5
+ y2vQNeeDR2Tkcee3J3rTrSiAFWe00cc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-379-8GE0gN66OKW2cCrBlzgRwg-1; Sun, 08 May 2022 10:23:55 -0400
+X-MC-Unique: 8GE0gN66OKW2cCrBlzgRwg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g14-20020a1c4e0e000000b0039425ef54d6so3256028wmh.9
+ for <qemu-devel@nongnu.org>; Sun, 08 May 2022 07:23:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8gLG2pWSNttgBwMQWqBo8AZHq9TWAN36W9nQGy+bhhU=;
- b=auW5lu3xxQFiAx+teJDJHNW928OiYvFU+pOadkAPjwm3RiTy+yZrk8hoqercz01V9X
- u6ksjAU0aeY6zrEhEWZIMxbtslRhLrpg+hqV6UrcT9su/zAanhhSdkU4pcnsTdBQGdtd
- RTYAstQdNNlGdw9HfYgu7VqkRVpMXPI7Z1SqeRFImxiGM2k/0y3922EGa4niWl1/zg4l
- uQqUoLXLcOXORd8CWheAiNg1AZur9BE5p5HQHqHGwa41PH4Bm5UZjcqFgCxi3m5I3CLK
- QssEQPp/mU6KmbzrsbtEaele+wUVntJhrx8LdIYnmkWervyHm65p6/D77Em+THpgWm20
- mrRw==
-X-Gm-Message-State: AOAM533lvUx74KrF18l4ZWwx9ELy3VNnLA8MHjmz81wNIWPREYwAOHUX
- 9fWby/G12hEhLgjNfV4hidJ7uw==
-X-Google-Smtp-Source: ABdhPJwsXEkDgBiKK066qOIhboUI9MHbigxaezRD3K8r4EKO0QWmYDbVjxW8lPC4VDhuiRfl253E9g==
-X-Received: by 2002:a05:622a:50b:b0:2f3:a8f3:2ffd with SMTP id
- l11-20020a05622a050b00b002f3a8f32ffdmr10751320qtx.70.1652016609452; 
- Sun, 08 May 2022 06:30:09 -0700 (PDT)
-Received: from [192.168.4.112] (50-233-235-3-static.hfc.comcastbusiness.net.
- [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
- g4-20020ac81244000000b002f3b561957asm6075712qtj.13.2022.05.08.06.30.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 May 2022 06:30:08 -0700 (PDT)
-Message-ID: <2de64d1e-b2a3-4b7d-cac8-2bc0399c972e@linaro.org>
-Date: Sun, 8 May 2022 08:30:06 -0500
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VNx04GETZuqF6U1OZ14pdSJTXp18G88Rak8VON6NDVI=;
+ b=TRlUdHcoKtiJGzKfgjrvMy9kLaCA9vkHGP46HiVSQBhboH065ADcE96m/SKMJAn1/d
+ k4SVMtBourYGTkz76bkVWdZ1zu2FXyt5ZMB1AWt8bjnTjdkg9nLisnYPXvkvnL/DYHw6
+ 3Jkh8rn3x+ES3UVn7eFrVfaokZA5Vvp8Wz1cdpNeu4hVjomUsoDGXabavkzkdVKgN8nk
+ DBe/bZQDsoq/Jf8elH+bOHv3qmizh4Ov3/UIM+GAfMqeT4bPG4bMdSAeowyrTH3mNf1H
+ cd6AHvdkXpqEZq14lFYD18Bpx6+Rryhnc6M1LHSX7g8D2QSS16xy9okxGmykr3QlAARG
+ 8p4A==
+X-Gm-Message-State: AOAM533cWdanJc8PGMJZw+sFQfxc5M3t3liaHFt0vgpRCvNBT67wlp2h
+ u0jghJjwwzSzPLW7swNRluaPx6gyOrsjPytevbQOgOt1xKBzhinWv51D2Gs4sTStA4Jq3+qPPwv
+ ldwmkkHEy4Q4JWlo=
+X-Received: by 2002:a05:6000:1acd:b0:20c:726a:3840 with SMTP id
+ i13-20020a0560001acd00b0020c726a3840mr10032174wry.507.1652019834363; 
+ Sun, 08 May 2022 07:23:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSfIg5CJ3B0CsItenLgiCB4dETOT3jHe0y6ZMPyMRokwAhCUsqNPCQJaJsyYXP5wNBaRW+vw==
+X-Received: by 2002:a05:6000:1acd:b0:20c:726a:3840 with SMTP id
+ i13-20020a0560001acd00b0020c726a3840mr10032154wry.507.1652019834062; 
+ Sun, 08 May 2022 07:23:54 -0700 (PDT)
+Received: from [127.0.0.1] (93-43-160-190.ip92.fastwebnet.it. [93.43.160.190])
+ by smtp.gmail.com with ESMTPSA id
+ bg9-20020a05600c3c8900b00394755b4479sm9227781wmb.21.2022.05.08.07.23.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 08 May 2022 07:23:53 -0700 (PDT)
+Date: Sun, 08 May 2022 16:23:44 +0200
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: =?ISO-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
+CC: John Snow <jsnow@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Cleber Rosa <crosa@redhat.com>
+Subject: Re: iotests and python dependencies
+In-Reply-To: <YnPz5NMDZkeKaaV+@redhat.com>
+References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
+ <YnOGJ+rUIn2S8ZOD@redhat.com>
+ <CAFn=p-bBCbokmZ8FeHon6FBGxp38_z4=vmDNMi5vKKF_1KjQLQ@mail.gmail.com>
+ <YnPEGrwa9KVyup6T@redhat.com>
+ <CAFn=p-ZpoJvoZSnk9gN+uiaas=h-tvZqBCZw2kJf88=rq_5LYQ@mail.gmail.com>
+ <07a829c2-4eb8-01e3-0c8c-691c1420f51a@redhat.com>
+ <CAFn=p-Zfonw462fKT=TBKCRLbZ2xPUwsK-SeRJhgfxYwNRJEsg@mail.gmail.com>
+ <ca23e571-354e-1251-412d-5cae1741aa61@redhat.com>
+ <YnPz5NMDZkeKaaV+@redhat.com>
+Message-ID: <6A22A553-7E10-4044-962A-8A09A7BE7BF2@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 00/50] hppa: general improvements and tidy-ups
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, deller@gmx.de,
- qemu-devel@nongnu.org
-References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <d00386f5-238b-323d-0442-a1ea35ba5da1@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <d00386f5-238b-323d-0442-a1ea35ba5da1@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,13 +111,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/8/22 04:21, Mark Cave-Ayland wrote:
-> Richard, thanks for taking the time to look over this (rather large) patchset. I've 
-> replied to your comments, and from what I can see the v2 patchset should be fine to merge. 
-> Are you happy for me to go ahead and send a PR with that and the artist fixes?
+If we want to provide an installable rpm in Fedora then yes; but we can lea=
+ve distribution to pypi and use a bundled copy in the virtual environment t=
+hat is used to run tests=2E
 
-Yes, please do.
+Paolo
 
+Il 5 maggio 2022 17:57:24 CEST, "Daniel P=2E Berrang=C3=A9" <berrange@redh=
+at=2Ecom> ha scritto:
+>On Thu, May 05, 2022 at 05:50:00PM +0200, Paolo Bonzini wrote:
+>> On 5/5/22 16:13, John Snow wrote:
+>> >=20
+>> >     I would rather keep python/qemu/qmp as a submodule for a longer t=
+ime,
+>> >     and still go through a virtual environment that installs it toget=
+her
+>> >     with its pip dependencies=2E
+>> >=20
+>> >=20
+>> > A small headache relating fixes to both locations, but if you'd like =
+to
+>> > see it to prove that the installation mechanism works in general, the=
+n
+>> > OK=2E I'm willing to deal with the pain until the next release to let=
+ us
+>> > go through a testing cycle=2E Reluctantly=2E Maybe=2E
+>> >=20
+>> > I'm assuming you mean as a subpackage and not a [git] submodule=2E If=
+ you
+>> > do mean git, then =2E=2E=2E uh=2E That might be messy=2E
+>>=20
+>> Yeah, I meant a git submodule in qemu=2Egit=2E=2E=2E  It would also be =
+the easiest
+>> way to build a subpackage in Fedora, since it would be part of the QEMU
+>> tarballs=2E
+>
+>When qemu=2Eqmp is uploaded to PyPi, then Fedora packaging guidelines on
+>unbundling will expect us to create a dedicated python-qemu=2Eqmp src=2Er=
+pm,
+>and use that, not anything QEMU might bundle=2E
+>
+>With regards,
+>Daniel
 
-r~
 
