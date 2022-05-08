@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3E351EC35
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 10:52:19 +0200 (CEST)
-Received: from localhost ([::1]:57018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5FE51EC4A
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 11:00:42 +0200 (CEST)
+Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnceI-0005V1-A6
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 04:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49418)
+	id 1nncmL-0001BC-74
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 05:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnccy-0004Lq-K3
- for qemu-devel@nongnu.org; Sun, 08 May 2022 04:50:58 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:54778)
+ id 1nncil-0007un-S5
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 04:56:55 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:54788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nncct-0002T9-Ic
- for qemu-devel@nongnu.org; Sun, 08 May 2022 04:50:54 -0400
+ id 1nncik-0003ag-CG
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 04:56:55 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nncbq-0009e0-3X; Sun, 08 May 2022 09:49:50 +0100
-Message-ID: <3bb997e4-2138-865e-d79f-f4405a7550f2@ilande.co.uk>
-Date: Sun, 8 May 2022 09:50:10 +0100
+ id 1nnchk-0009gQ-Kn; Sun, 08 May 2022 09:55:56 +0100
+Message-ID: <d75ea224-b880-63c1-5d0e-7e6831e88bfa@ilande.co.uk>
+Date: Sun, 8 May 2022 09:56:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
@@ -32,16 +32,15 @@ Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, deller@gmx.de,
  qemu-devel@nongnu.org
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <20220504092600.10048-36-mark.cave-ayland@ilande.co.uk>
- <27fa6494-b5a7-d158-4cd0-2db1c40bf47f@linaro.org>
+ <20220504092600.10048-40-mark.cave-ayland@ilande.co.uk>
+ <9f8eb850-f8d8-2f3e-19e0-7f1bd97fe527@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <27fa6494-b5a7-d158-4cd0-2db1c40bf47f@linaro.org>
+In-Reply-To: <9f8eb850-f8d8-2f3e-19e0-7f1bd97fe527@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 35/50] lasi: move second serial port initialisation to
- machine.c
+Subject: Re: [PATCH v2 39/50] lasi: use constants for device register offsets
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -67,34 +66,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/05/2022 03:50, Richard Henderson wrote:
+On 08/05/2022 04:04, Richard Henderson wrote:
 
 > On 5/4/22 04:25, Mark Cave-Ayland wrote:
+>> Instead of generating the offset based upon the physical address of the
+>> register, add constants for each of the device registers to lasi.h and
+>> update lasi.c to use them.
+>>
 >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 >> Acked-by: Helge Deller <deller@gmx.de>
 >> ---
->>   hw/hppa/lasi.c    | 8 --------
->>   hw/hppa/machine.c | 7 +++++++
->>   2 files changed, 7 insertions(+), 8 deletions(-)
->>
+>>   hw/hppa/lasi.c | 28 ++++++++++++++--------------
+>>   hw/hppa/lasi.h |  5 +++++
+>>   2 files changed, 19 insertions(+), 14 deletions(-)
 > 
-> In that it is code movement,
+> Worth removing the final usages, and the old definitions in hppa_machine.h?
+> 
+> Otherwise,
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
->> +    if (serial_hd(1)) {
->> +        /* Serial port */
->> +        serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
->> +                qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 8000000 / 16,
->> +                serial_hd(1), DEVICE_BIG_ENDIAN);
->> +    }
-> 
-> Although I believe there's a bug: both of these serial ports are being registered at 
-> LASI_UART_HPA + 0x800.  I suspect this bug was hidden by the bug fixed in patch 31, 
-> in that serial_hd(0) should be at 0x800, and serial_hd(1) should be elsewhere.
 
-FWIW I nearly the made the same error myself, but they are different: serial_hd(0) is 
-mapped to DINO_UART_HPA + 0x800 = 0xfff83800 whereas serial_hd(1) is mapped to 
-LASI_UART_HPA + 0x800 = 0xffd05800 so I believe this is correct.
+I did think about that, but then there are a few devices I can think of where there 
+are additional comments/definitions from an external header included for reference.
+
+My feeling for a patch like this (which is really just moving towards modern APIs) is 
+to leave this for the maintainer, particularly as for people less familiar with QEMU 
+they find it easier to use the physical address rather than work with memory region 
+offsets.
 
 
 ATB,
