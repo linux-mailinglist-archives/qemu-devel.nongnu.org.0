@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028A051F0F0
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:03:44 +0200 (CEST)
-Received: from localhost ([::1]:60120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43A151F0F4
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:05:57 +0200 (CEST)
+Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnn84-0004Jx-4E
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1nnnAC-0001bV-Tl
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn1t-0004cA-Mr
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:57:21 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55126)
+ id 1nnn1y-0004oH-Ds
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:57:26 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn1s-0006xH-6l
- for qemu-devel@nongnu.org; Sun, 08 May 2022 15:57:21 -0400
+ id 1nnn1w-0006xV-TF
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 15:57:26 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn0t-0000yR-2C; Sun, 08 May 2022 20:56:23 +0100
+ id 1nnn0x-0000yR-9q; Sun, 08 May 2022 20:56:27 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Sun,  8 May 2022 20:55:59 +0100
-Message-Id: <20220508195650.28590-3-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  8 May 2022 20:56:00 +0100
+Message-Id: <20220508195650.28590-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
 References: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 02/53] dino: move registers from dino_init() to DINO_PCI_BRIDGE
- init function
+Subject: [PULL 03/53] dino: move PCI bus initialisation to dino_pcihost_init()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,89 +63,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220504092600.10048-3-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220504092600.10048-4-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/hppa/dino.c | 44 +++++++++++++++++++++++++++++---------------
- 1 file changed, 29 insertions(+), 15 deletions(-)
+ hw/hppa/dino.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-index 4031cfb7f0..9401b68ff7 100644
+index 9401b68ff7..c6c01ea14c 100644
 --- a/hw/hppa/dino.c
 +++ b/hw/hppa/dino.c
-@@ -526,21 +526,6 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+@@ -526,13 +526,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
      s->iar0 = s->iar1 = CPU_HPA + 3;
      s->toc_addr = 0xFFFA0030; /* IO_COMMAND of CPU */
  
--    /* Dino PCI access from main memory.  */
--    memory_region_init_io(&s->this_mem, OBJECT(s), &dino_chip_ops,
--                          s, "dino", 4096);
--    memory_region_add_subregion(addr_space, DINO_HPA, &s->this_mem);
+-    /* Dino PCI bus memory.  */
+-    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 4 * GiB);
 -
--    /* Dino PCI config. */
--    memory_region_init_io(&s->parent_obj.conf_mem, OBJECT(&s->parent_obj),
--                          &dino_config_addr_ops, dev, "pci-conf-idx", 4);
--    memory_region_init_io(&s->parent_obj.data_mem, OBJECT(&s->parent_obj),
--                          &dino_config_data_ops, dev, "pci-conf-data", 4);
--    memory_region_add_subregion(&s->this_mem, DINO_PCI_CONFIG_ADDR,
--                                &s->parent_obj.conf_mem);
--    memory_region_add_subregion(&s->this_mem, DINO_CONFIG_DATA,
--                                &s->parent_obj.data_mem);
--
-     /* Dino PCI bus memory.  */
-     memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 4 * GiB);
- 
-@@ -550,6 +535,9 @@ PCIBus *dino_init(MemoryRegion *addr_space,
-     s->parent_obj.bus = b;
+-    b = pci_register_root_bus(dev, "pci", dino_set_irq, dino_pci_map_irq, s,
+-                              &s->pci_mem, get_system_io(),
+-                              PCI_DEVFN(0, 0), 32, TYPE_PCI_BUS);
+-    s->parent_obj.bus = b;
++    b = s->parent_obj.bus;
      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
  
-+    memory_region_add_subregion(addr_space, DINO_HPA,
-+                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
+     memory_region_add_subregion(addr_space, DINO_HPA,
+@@ -598,6 +592,14 @@ static void dino_pcihost_init(Object *obj)
+     memory_region_add_subregion(&s->this_mem, DINO_CONFIG_DATA,
+                                 &phb->data_mem);
+ 
++    /* Dino PCI bus memory.  */
++    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 4 * GiB);
 +
-     /* Set up windows into PCI bus memory.  */
-     for (i = 1; i < 31; i++) {
-         uint32_t addr = 0xf0000000 + i * DINO_MEM_CHUNK_SIZE;
-@@ -588,6 +576,31 @@ PCIBus *dino_init(MemoryRegion *addr_space,
-     return b;
++    phb->bus = pci_register_root_bus(DEVICE(s), "pci",
++                                     dino_set_irq, dino_pci_map_irq, s,
++                                     &s->pci_mem, get_system_io(),
++                                     PCI_DEVFN(0, 0), 32, TYPE_PCI_BUS);
++
+     sysbus_init_mmio(sbd, &s->this_mem);
  }
  
-+static void dino_pcihost_init(Object *obj)
-+{
-+    DinoState *s = DINO_PCI_HOST_BRIDGE(obj);
-+    PCIHostState *phb = PCI_HOST_BRIDGE(obj);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+
-+    /* Dino PCI access from main memory.  */
-+    memory_region_init_io(&s->this_mem, OBJECT(s), &dino_chip_ops,
-+                          s, "dino", 4096);
-+
-+    /* Dino PCI config. */
-+    memory_region_init_io(&phb->conf_mem, OBJECT(phb),
-+                          &dino_config_addr_ops, DEVICE(s),
-+                          "pci-conf-idx", 4);
-+    memory_region_init_io(&phb->data_mem, OBJECT(phb),
-+                          &dino_config_data_ops, DEVICE(s),
-+                          "pci-conf-data", 4);
-+    memory_region_add_subregion(&s->this_mem, DINO_PCI_CONFIG_ADDR,
-+                                &phb->conf_mem);
-+    memory_region_add_subregion(&s->this_mem, DINO_CONFIG_DATA,
-+                                &phb->data_mem);
-+
-+    sysbus_init_mmio(sbd, &s->this_mem);
-+}
-+
- static void dino_pcihost_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -598,6 +611,7 @@ static void dino_pcihost_class_init(ObjectClass *klass, void *data)
- static const TypeInfo dino_pcihost_info = {
-     .name          = TYPE_DINO_PCI_HOST_BRIDGE,
-     .parent        = TYPE_PCI_HOST_BRIDGE,
-+    .instance_init = dino_pcihost_init,
-     .instance_size = sizeof(DinoState),
-     .class_init    = dino_pcihost_class_init,
- };
 -- 
 2.20.1
 
