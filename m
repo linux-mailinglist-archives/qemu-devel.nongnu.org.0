@@ -2,99 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B5651EE03
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 16:26:06 +0200 (CEST)
-Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5663951EE97
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 17:34:16 +0200 (CEST)
+Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnhrJ-0004Gh-6h
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 10:26:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40236)
+	id 1nnivG-0000wA-UL
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 11:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nnhpJ-0003Nn-53
- for qemu-devel@nongnu.org; Sun, 08 May 2022 10:24:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38945)
+ (Exim 4.90_1) (envelope-from <arnout@bzzt.net>) id 1nnitr-0000Eh-7F
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 11:32:47 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:41395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nnhpG-0002pD-Aw
- for qemu-devel@nongnu.org; Sun, 08 May 2022 10:23:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652019837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VNx04GETZuqF6U1OZ14pdSJTXp18G88Rak8VON6NDVI=;
- b=JPrQS98i+nW6iNmGN3RpPJ++QTJLeOddLqBn4EeqsC/t7LteOroTD5tSUakNCjp92ebJ04
- gGebJSiEIKt5IMOfCwMQSyiVQPcDEChW+U08thnKQ7KOQ+AsJUx/oj/R/AKD3/HICqFuZ5
- y2vQNeeDR2Tkcee3J3rTrSiAFWe00cc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-379-8GE0gN66OKW2cCrBlzgRwg-1; Sun, 08 May 2022 10:23:55 -0400
-X-MC-Unique: 8GE0gN66OKW2cCrBlzgRwg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g14-20020a1c4e0e000000b0039425ef54d6so3256028wmh.9
- for <qemu-devel@nongnu.org>; Sun, 08 May 2022 07:23:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=VNx04GETZuqF6U1OZ14pdSJTXp18G88Rak8VON6NDVI=;
- b=TRlUdHcoKtiJGzKfgjrvMy9kLaCA9vkHGP46HiVSQBhboH065ADcE96m/SKMJAn1/d
- k4SVMtBourYGTkz76bkVWdZ1zu2FXyt5ZMB1AWt8bjnTjdkg9nLisnYPXvkvnL/DYHw6
- 3Jkh8rn3x+ES3UVn7eFrVfaokZA5Vvp8Wz1cdpNeu4hVjomUsoDGXabavkzkdVKgN8nk
- DBe/bZQDsoq/Jf8elH+bOHv3qmizh4Ov3/UIM+GAfMqeT4bPG4bMdSAeowyrTH3mNf1H
- cd6AHvdkXpqEZq14lFYD18Bpx6+Rryhnc6M1LHSX7g8D2QSS16xy9okxGmykr3QlAARG
- 8p4A==
-X-Gm-Message-State: AOAM533cWdanJc8PGMJZw+sFQfxc5M3t3liaHFt0vgpRCvNBT67wlp2h
- u0jghJjwwzSzPLW7swNRluaPx6gyOrsjPytevbQOgOt1xKBzhinWv51D2Gs4sTStA4Jq3+qPPwv
- ldwmkkHEy4Q4JWlo=
-X-Received: by 2002:a05:6000:1acd:b0:20c:726a:3840 with SMTP id
- i13-20020a0560001acd00b0020c726a3840mr10032174wry.507.1652019834363; 
- Sun, 08 May 2022 07:23:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSfIg5CJ3B0CsItenLgiCB4dETOT3jHe0y6ZMPyMRokwAhCUsqNPCQJaJsyYXP5wNBaRW+vw==
-X-Received: by 2002:a05:6000:1acd:b0:20c:726a:3840 with SMTP id
- i13-20020a0560001acd00b0020c726a3840mr10032154wry.507.1652019834062; 
- Sun, 08 May 2022 07:23:54 -0700 (PDT)
-Received: from [127.0.0.1] (93-43-160-190.ip92.fastwebnet.it. [93.43.160.190])
- by smtp.gmail.com with ESMTPSA id
- bg9-20020a05600c3c8900b00394755b4479sm9227781wmb.21.2022.05.08.07.23.52
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 08 May 2022 07:23:53 -0700 (PDT)
-Date: Sun, 08 May 2022 16:23:44 +0200
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: =?ISO-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-CC: John Snow <jsnow@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Cleber Rosa <crosa@redhat.com>
-Subject: Re: iotests and python dependencies
-In-Reply-To: <YnPz5NMDZkeKaaV+@redhat.com>
-References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
- <YnOGJ+rUIn2S8ZOD@redhat.com>
- <CAFn=p-bBCbokmZ8FeHon6FBGxp38_z4=vmDNMi5vKKF_1KjQLQ@mail.gmail.com>
- <YnPEGrwa9KVyup6T@redhat.com>
- <CAFn=p-ZpoJvoZSnk9gN+uiaas=h-tvZqBCZw2kJf88=rq_5LYQ@mail.gmail.com>
- <07a829c2-4eb8-01e3-0c8c-691c1420f51a@redhat.com>
- <CAFn=p-Zfonw462fKT=TBKCRLbZ2xPUwsK-SeRJhgfxYwNRJEsg@mail.gmail.com>
- <ca23e571-354e-1251-412d-5cae1741aa61@redhat.com>
- <YnPz5NMDZkeKaaV+@redhat.com>
-Message-ID: <6A22A553-7E10-4044-962A-8A09A7BE7BF2@redhat.com>
+ (Exim 4.90_1) (envelope-from <arnout@bzzt.net>) id 1nnitp-00064D-8H
+ for qemu-devel@nongnu.org; Sun, 08 May 2022 11:32:46 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id E8FBA5C00A0;
+ Sun,  8 May 2022 11:32:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Sun, 08 May 2022 11:32:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bzzt.net; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm2; t=1652023962; x=1652110362; bh=+dT8tPH0Ct2IqpehkHXXd2LUN
+ 7HyDKsOdTNUH2vcLcU=; b=V2KB7vpOfRXYW99lCHxn/pEOaSZAdI4LHenQWdKIJ
+ K2v0g8zBsRuy70Wt5tG6r2RZRSarXnPuuvQ9eyQgiqvZPjW3KaQW9E9GwH9dGGVM
+ p7bqkMVa+amT2lXVTKSFsh3YxX9xMbrDfCPnX9f9QhDKypmKwBAWS9hrRgx3bY8w
+ 782G5qwkyrUKLqMXKxT470fgrla6U1K8K1biyv4GNeTsaIlPvidzCy27+qBWncML
+ swY2jFber0iJJ7tCj47qr5W3FIdpWsrvnWJ7Q2s0Z0B3eYe6yjK9laKAyr6J/v3F
+ nTagwb5GpDcycg1q3xP1VgmQMa947Me+WQgEmKcGVD7BQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; t=1652023962; x=1652110362; bh=+
+ dT8tPH0Ct2IqpehkHXXd2LUN7HyDKsOdTNUH2vcLcU=; b=w0PMXZsbZGPiVTjni
+ yn/Xvv6W2S/KTWKEodgKTLyxpT88iyGgw8xyenbCXqJlqUq/ULNhqKKfVg9KDR4m
+ NxVSyqVPEExAjOR8jj03tLESc4C4PwRcFXV+5AO/XdTMYnVB1wdYWTd0eoJD2zpX
+ RlfR2qiTPsZk8jX3h0+J4m06KE/HX8F0Ev1CyMTdJca1BEl1RHMukzTZxRX5E8IG
+ iOciIFWg9iLXfuePOetiu83VHppir/91Yknecpu3m3B0ij3s2PGlLhgUXha/n1Pc
+ 3oIXSCK4S7BtnQpKCfRwwTdXsjk16Tmx4wVJbzr+AqN+anVy3nSBYF1Uz9Xfyaiz
+ UIZAw==
+X-ME-Sender: <xms:muJ3YlllfBoSMDrlSdsRYtSm3fjb1_J8tO-KHaA0Us2dXivBDW-qOA>
+ <xme:muJ3Yg05B-7z2xREgFdoPBVZPUInuldA-5vUY5P04X-oPcA225v4bGoojzFh2gB-2
+ LK_xnnV1E9UWOMKlTY>
+X-ME-Received: <xmr:muJ3YrpQsau3-Cc7QaVDXMntPYu42yVjPYjnHbYObYG5wrR6c_LO1CRSGB-9mT6g1QU0PrQxUXPIO8MB9GASqSRFEFHrb_c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgdeklecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehrnhhouhhtucfgnhhgvghlvghnuceorghrnhhouhhtsegsiiii
+ thdrnhgvtheqnecuggftrfgrthhtvghrnhepjeefjeffffffgffgiefhjeegvdfhgeegje
+ eltdevkeejgeduieeuvdevudelieejnecuffhomhgrihhnpegtohhrvggsohhothdrohhr
+ ghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomheprghrnhhouhhtsegsiiiithdrnhgvth
+X-ME-Proxy: <xmx:muJ3YlnnYWUn49s99E0PDNySgybrY9Qv5C-o1AHHJRs3Ov5xzHSojw>
+ <xmx:muJ3Yj072dAdfUB6l77Q_ujkrsClCsCZCN6r1_SG0NAGcMqLhxnvSg>
+ <xmx:muJ3Ykuj2RrcEE6cBfxizntP4Q6djF0HcWWqTUbhsOSeqsBeZHEb7A>
+ <xmx:muJ3Ys8kg7Lya5fs3O4tX7zo6yGN6SBN1eA8JVLC3ICmsw2xZSz3yw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 8 May 2022 11:32:42 -0400 (EDT)
+From: Arnout Engelen <arnout@bzzt.net>
+To: kraxel@redhat.com,
+	qemu-devel@nongnu.org
+Cc: Arnout Engelen <arnout@bzzt.net>
+Subject: [PATCH] hw/usb/hcd-ehci: fix writeback order
+Date: Sun,  8 May 2022 17:32:22 +0200
+Message-Id: <20220508153222.3560803-1-arnout@bzzt.net>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=arnout@bzzt.net;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,47 +97,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we want to provide an installable rpm in Fedora then yes; but we can lea=
-ve distribution to pypi and use a bundled copy in the virtual environment t=
-hat is used to run tests=2E
+The 'active' bit passes control over a qTD between the guest and the
+controller: set to 1 by guest to enable execution by the controller,
+and the controller sets it to '0' to hand back control to the guest.
 
-Paolo
+ehci_state_writeback write two dwords to main memory using DMA:
+the third dword of the qTD (containing dt, total bytes to transfer,
+cpage, cerr and status) and the fourth dword of the qTD (containing
+the offset).
 
-Il 5 maggio 2022 17:57:24 CEST, "Daniel P=2E Berrang=C3=A9" <berrange@redh=
-at=2Ecom> ha scritto:
->On Thu, May 05, 2022 at 05:50:00PM +0200, Paolo Bonzini wrote:
->> On 5/5/22 16:13, John Snow wrote:
->> >=20
->> >     I would rather keep python/qemu/qmp as a submodule for a longer t=
-ime,
->> >     and still go through a virtual environment that installs it toget=
-her
->> >     with its pip dependencies=2E
->> >=20
->> >=20
->> > A small headache relating fixes to both locations, but if you'd like =
-to
->> > see it to prove that the installation mechanism works in general, the=
-n
->> > OK=2E I'm willing to deal with the pain until the next release to let=
- us
->> > go through a testing cycle=2E Reluctantly=2E Maybe=2E
->> >=20
->> > I'm assuming you mean as a subpackage and not a [git] submodule=2E If=
- you
->> > do mean git, then =2E=2E=2E uh=2E That might be messy=2E
->>=20
->> Yeah, I meant a git submodule in qemu=2Egit=2E=2E=2E  It would also be =
-the easiest
->> way to build a subpackage in Fedora, since it would be part of the QEMU
->> tarballs=2E
->
->When qemu=2Eqmp is uploaded to PyPi, then Fedora packaging guidelines on
->unbundling will expect us to create a dedicated python-qemu=2Eqmp src=2Er=
-pm,
->and use that, not anything QEMU might bundle=2E
->
->With regards,
->Daniel
+This commit makes sure the fourth dword is written before the third,
+avoiding a race condition where a new offset written into the qTD
+by the guest after it observed the status going to go to '0' gets
+overwritten by a 'late' DMA writeback of the previous offset.
+
+This race condition could lead to 'cpage out of range (5)' errors,
+and reproduced by:
+
+./qemu-system-x86_64 -enable-kvm -bios $SEABIOS/bios.bin -m 4096 -device usb-ehci -blockdev driver=file,read-only=on,filename=/home/aengelen/Downloads/openSUSE-Tumbleweed-DVD-i586-Snapshot20220428-Media.iso,node-name=iso -device usb-storage,drive=iso,bootindex=0 -chardev pipe,id=shell,path=/tmp/pipe -device virtio-serial -device virtconsole,chardev=shell -device virtio-rng-pci -serial mon:stdio -nographic
+
+(press a key, select 'Installation' (2), and accept the default
+values. On my machine the 'cpage out of range' is reproduced while
+loading the Linux Kernel about once per 7 attempts. With the fix in
+this commit it no longer fails)
+
+This problem was previously reported as a seabios problem in
+https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/OUTHT5ISSQJGXPNTUPY3O5E5EPZJCHM3/
+and as a nixos CI build failure in
+https://github.com/NixOS/nixpkgs/issues/170803
+
+Signed-off-by: Arnout Engelen <arnout@bzzt.net>
+---
+ hw/usb/hcd-ehci.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
+index 33a8a377bd..d4da8dcb8d 100644
+--- a/hw/usb/hcd-ehci.c
++++ b/hw/usb/hcd-ehci.c
+@@ -2011,7 +2011,10 @@ static int ehci_state_writeback(EHCIQueue *q)
+     ehci_trace_qtd(q, NLPTR_GET(p->qtdaddr), (EHCIqtd *) &q->qh.next_qtd);
+     qtd = (uint32_t *) &q->qh.next_qtd;
+     addr = NLPTR_GET(p->qtdaddr);
+-    put_dwords(q->ehci, addr + 2 * sizeof(uint32_t), qtd + 2, 2);
++    /* First write back the offset */
++    put_dwords(q->ehci, addr + 3 * sizeof(uint32_t), qtd + 3, 1);
++    /* Then write back the token, clearing the 'active' bit */
++    put_dwords(q->ehci, addr + 2 * sizeof(uint32_t), qtd + 2, 1);
+     ehci_free_packet(p);
+ 
+     /*
+-- 
+2.35.3
 
 
