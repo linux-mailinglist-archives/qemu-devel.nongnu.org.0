@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5670651F114
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:23:02 +0200 (CEST)
-Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9655D51F102
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 22:13:54 +0200 (CEST)
+Received: from localhost ([::1]:37984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnnQj-0003UV-Et
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:23:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47066)
+	id 1nnnHt-00023l-NB
+	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 16:13:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn3T-0006qc-M9
+ id 1nnn3T-0006qb-C1
  for qemu-devel@nongnu.org; Sun, 08 May 2022 15:58:59 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55286)
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55294)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn3I-00072u-RQ
+ id 1nnn3O-000738-DP
  for qemu-devel@nongnu.org; Sun, 08 May 2022 15:58:59 -0400
 Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nnn2A-0000yR-KX; Sun, 08 May 2022 20:57:42 +0100
+ id 1nnn2E-0000yR-3s; Sun, 08 May 2022 20:57:45 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Sun,  8 May 2022 20:56:19 +0100
-Message-Id: <20220508195650.28590-23-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  8 May 2022 20:56:20 +0100
+Message-Id: <20220508195650.28590-24-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
 References: <20220508195650.28590-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 22/53] dino: move from hw/hppa to hw/pci-host
+Subject: [PULL 23/53] lasi: checkpatch fixes
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,156 +61,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the DINO device implementation from hw/hppa to hw/pci-host so that it is
-located with all the other PCI host bridges.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220504092600.10048-23-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220504092600.10048-24-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- MAINTAINERS                             | 2 ++
- hw/hppa/Kconfig                         | 2 +-
- hw/hppa/machine.c                       | 2 +-
- hw/hppa/meson.build                     | 2 +-
- hw/hppa/trace-events                    | 5 -----
- hw/pci-host/Kconfig                     | 4 ++++
- hw/{hppa => pci-host}/dino.c            | 3 +--
- hw/pci-host/meson.build                 | 3 +++
- hw/pci-host/trace-events                | 5 +++++
- {hw/hppa => include/hw/pci-host}/dino.h | 0
- 10 files changed, 18 insertions(+), 10 deletions(-)
- rename hw/{hppa => pci-host}/dino.c (99%)
- rename {hw/hppa => include/hw/pci-host}/dino.h (100%)
+ hw/hppa/lasi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 218c9459b6..59210b093a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1113,7 +1113,9 @@ S: Odd Fixes
- F: configs/devices/hppa-softmmu/default.mak
- F: hw/hppa/
- F: hw/net/*i82596*
-+F: hw/pci-host/dino.c
- F: include/hw/net/lasi_82596.h
-+F: include/hw/pci-host/dino.h
- F: pc-bios/hppa-firmware.img
+diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
+index 88c3791eb6..3b77fba1c6 100644
+--- a/hw/hppa/lasi.c
++++ b/hw/hppa/lasi.c
+@@ -169,10 +169,11 @@ static MemTxResult lasi_chip_write_with_attrs(void *opaque, hwaddr addr,
+         break;
+     case LASI_IMR:
+         s->imr = val;
+-        if (((val & LASI_IRQ_BITS) != val) && (val != 0xffffffff))
++        if (((val & LASI_IRQ_BITS) != val) && (val != 0xffffffff)) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                 "LASI: tried to set invalid %lx IMR value.\n",
+                 (unsigned long) val);
++        }
+         break;
+     case LASI_IPR:
+         /* Any write to IPR clears the register. */
+@@ -200,8 +201,9 @@ static MemTxResult lasi_chip_write_with_attrs(void *opaque, hwaddr addr,
+         break;
  
- M68K Machines
-diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
-index 8d64ead217..724380ecec 100644
---- a/hw/hppa/Kconfig
-+++ b/hw/hppa/Kconfig
-@@ -3,7 +3,7 @@ config HPPA_B160L
-     imply PCI_DEVICES
-     imply E1000_PCI
-     imply VIRTIO_VGA
--    select PCI
-+    select DINO
-     select SERIAL
-     select ISA_BUS
-     select I8259
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 4b753fa346..c847febe5d 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -17,7 +17,7 @@
- #include "hw/char/serial.h"
- #include "hw/net/lasi_82596.h"
- #include "hw/nmi.h"
--#include "dino.h"
-+#include "hw/pci-host/dino.h"
- #include "hppa_sys.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
-diff --git a/hw/hppa/meson.build b/hw/hppa/meson.build
-index 32072bf204..a6f9db455c 100644
---- a/hw/hppa/meson.build
-+++ b/hw/hppa/meson.build
-@@ -1,4 +1,4 @@
- hppa_ss = ss.source_set()
--hppa_ss.add(when: 'CONFIG_HPPA_B160L', if_true: files('pci.c', 'machine.c', 'dino.c', 'lasi.c'))
-+hppa_ss.add(when: 'CONFIG_HPPA_B160L', if_true: files('pci.c', 'machine.c', 'lasi.c'))
- 
- hw_arch += {'hppa': hppa_ss}
-diff --git a/hw/hppa/trace-events b/hw/hppa/trace-events
-index 3f42be9056..871a473771 100644
---- a/hw/hppa/trace-events
-+++ b/hw/hppa/trace-events
-@@ -3,11 +3,6 @@
- # pci.c
- hppa_pci_iack_write(void) ""
- 
--# dino.c
--dino_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
--dino_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
--dino_chip_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
--
- # lasi.c
- lasi_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
- lasi_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 2b5f7d58cc..38fd2ee8f3 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -77,3 +77,7 @@ config MV64361
-     bool
-     select PCI
-     select I8259
-+
-+config DINO
-+    bool
-+    select PCI
-diff --git a/hw/hppa/dino.c b/hw/pci-host/dino.c
-similarity index 99%
-rename from hw/hppa/dino.c
-rename to hw/pci-host/dino.c
-index aa7f812e22..f257c24e64 100644
---- a/hw/hppa/dino.c
-+++ b/hw/pci-host/dino.c
-@@ -18,9 +18,8 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/qdev-properties.h"
--#include "dino.h"
-+#include "hw/pci-host/dino.h"
- #include "migration/vmstate.h"
--#include "hppa_sys.h"
- #include "trace.h"
- #include "qom/object.h"
- 
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index 4c4f39c15c..c07596d0d1 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -25,6 +25,9 @@ pci_ss.add(when: 'CONFIG_MV64361', if_true: files('mv64361.c'))
- # ARM devices
- pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('versatile.c'))
- 
-+# HPPA devices
-+pci_ss.add(when: 'CONFIG_DINO', if_true: files('dino.c'))
-+
- softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
- 
- specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
-diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
-index 6e5d8d3355..437e66ff50 100644
---- a/hw/pci-host/trace-events
-+++ b/hw/pci-host/trace-events
-@@ -34,3 +34,8 @@ unin_read(uint64_t addr, uint64_t value) "addr=0x%" PRIx64 " val=0x%"PRIx64
- pnv_phb4_xive_notify(uint64_t notif_port, uint64_t data) "notif=@0x%"PRIx64" data=0x%"PRIx64
- pnv_phb4_xive_notify_ic(uint64_t addr, uint64_t data) "addr=@0x%"PRIx64" data=0x%"PRIx64
- pnv_phb4_xive_notify_abt(uint64_t notif_port, uint64_t data) "notif=@0x%"PRIx64" data=0x%"PRIx64
-+
-+# dino.c
-+dino_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
-+dino_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
-+dino_chip_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
-diff --git a/hw/hppa/dino.h b/include/hw/pci-host/dino.h
-similarity index 100%
-rename from hw/hppa/dino.h
-rename to include/hw/pci-host/dino.h
+     case LASI_PCR:
+-        if (val == 0x02) /* immediately power off */
++        if (val == 0x02) { /* immediately power off */
+             qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        }
+         break;
+     case LASI_ERRLOG:
+         s->errlog = val;
 -- 
 2.20.1
 
