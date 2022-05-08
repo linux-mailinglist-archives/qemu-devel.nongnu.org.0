@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942BC51EB2F
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 05:06:57 +0200 (CEST)
-Received: from localhost ([::1]:37838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CC751EB30
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 May 2022 05:09:17 +0200 (CEST)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnXG4-00082e-Cq
-	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 23:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36884)
+	id 1nnXIK-00017q-T8
+	for lists+qemu-devel@lfdr.de; Sat, 07 May 2022 23:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnXED-0007GW-AD
- for qemu-devel@nongnu.org; Sat, 07 May 2022 23:05:01 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:42612)
+ id 1nnXH5-0000RT-0f
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 23:07:59 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nnXEB-0006g4-CS
- for qemu-devel@nongnu.org; Sat, 07 May 2022 23:05:00 -0400
-Received: by mail-pl1-x634.google.com with SMTP id d22so10949309plr.9
- for <qemu-devel@nongnu.org>; Sat, 07 May 2022 20:04:59 -0700 (PDT)
+ id 1nnXH3-0007A4-6W
+ for qemu-devel@nongnu.org; Sat, 07 May 2022 23:07:58 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id v10so9281979pgl.11
+ for <qemu-devel@nongnu.org>; Sat, 07 May 2022 20:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=UdMzjDXJ/3ZC4iLIhxyv0ycEHPbBnTRSsWmAZv2dJGw=;
- b=kMMIgbXB2Sd9qFaDmzd7PgFz1ReDirfq8Mu1BR3y688NTrs7gm8li39+wZuu5JSkzI
- yn3fU/waOhyLlQaGbxG4l5Ohfx1C4LDLPb5Gj4/cblEqY8P4chqax9Qr5KGpfdSRmVjj
- vIFwKsO21TQGxI4rDrAeJiXNAXLiPJ112TcEwX8+eP0MFYdiFy6kv2Brw1wrDQbZcWGl
- KDehEKHf1P/B/OMxZJDqUAbNEoMxCKHlEexjsgiwlw8rPxEeMGTzxEtmKZNh2ghA0AkA
- bsbI87LHl5SuFQBILOQLVj1FG32GG/6rP4lDtojRh9UBVBKdNTo9LpQXQ3IYxKuNyjHg
- X3sA==
+ bh=p7SHe6oUR+rf5lB2qsNJQVXUb7kfZgkc1tCJ/Oi8PHc=;
+ b=arI/PgZU4To0Z0tKBR4XHt1Z2TAHO16uX2pNWlFrcRp4aD5UcfWjiG0iMAK5/ar31u
+ y26W50ShQM3n4w0Wvk/xDRqVtFutglKVrw7vewKtk5JH3Mu/ezdnZ2IWKYf06um0XceZ
+ 8i9WV/QG3/JHpVrhhIOagP2i6olBgFIpV2AsBgKzmzbLGRvQCu2jaQ+P73vet23aAcD7
+ 9dNObsPC/ij2Yl8a0VGCFnlo6JKHDcgM2rEp0EaF2xF3TQyv+awSaopgt6XtFbHN/z2F
+ CvO8xR4n3Uz+ejYw5Pe4NIfqXLBSGWjpXlJmXbdfzmPR9QQYijpTJoLwO1+QPT4xE8se
+ o2OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UdMzjDXJ/3ZC4iLIhxyv0ycEHPbBnTRSsWmAZv2dJGw=;
- b=omJRDRyKfYGhlDO6qmtTUXhrW6JxVL34D/XDhi8biDjmlSNUOk2eYeouljWrokExQw
- FTL/Bhgt+uvBlQBglwlR2iOJ/nh3mB/EMcB4iicvIOmgIuMZODIYfngxiFgislTz4JJ6
- nfTBMxAHYFidZ0HqALQER4FyJ/ThyjuGXnwEuuNN4rxH655MfzDUymQK1Smsx9zlwMZZ
- nKQbdK2+4iQTqJEiuqEGAbyUGJ+LqeGirmR3i0CKQ9VjJaAIzpo4KE5QbXgkyNDG03/d
- 3AwF2v30ltqokEBGrH8/8zfoowPARMtnHihr93X35fiwxNaMEkqQXIOvcl6EYEtaUC7Q
- QH4A==
-X-Gm-Message-State: AOAM530XDniqgSyjN6SXdoP3LfC7zz04Ri2knKjvR7dYBCtu0dBsaJ3A
- BbD107hOtwdQb+B5wxY24FVYeQ==
-X-Google-Smtp-Source: ABdhPJw+5T5MMcoc0nNJwaXiDzXANDZXuxOuP611dudtntmA66CFgBOOGr+BZ/j0HufK/5Dwwc6P8g==
-X-Received: by 2002:a17:903:1c4:b0:15e:9f34:378c with SMTP id
- e4-20020a17090301c400b0015e9f34378cmr10247384plh.87.1651979097972; 
- Sat, 07 May 2022 20:04:57 -0700 (PDT)
+ bh=p7SHe6oUR+rf5lB2qsNJQVXUb7kfZgkc1tCJ/Oi8PHc=;
+ b=eFf/DrDT0xS8YlWOjLF1DuYNgUn9DOrqv3MRS/AuH1pBMdC3RIAYZs5HrWIoSn0/M1
+ GLww/bWcS3o9hLIxwTtylfQnkYD8wgKc8QNj5oiYbc1ImjIq4ZrzRuzsaWSew8eZuHC3
+ KnrQe6/eSJmyMsNr0Y2ag1GZ0m+8+GvdJz2V8lZsX9P+0GzZvzaa1cqa6nUM+s0TWQ/b
+ Leokq8TLr+vdVabmSmIYtwGQ8oAQncfTL8PkOeJ1w2Xw6IfTERqr9uY6EYyBOQYuDaXe
+ QVpQQvcWTNf+DOpP/TcCkTBC6sfGCaV92ZEAdcx4FawxhbbPhuWQzm5/N0wYe6V28tGh
+ 5WQQ==
+X-Gm-Message-State: AOAM532eymBWz9oVTNS5TnKKz6CM7wG4KkWCzgOqCw6PYQMWNPzKyvfm
+ 7wRo5rzxueFpCzJOG1riaFC+pD7i1i1M0A==
+X-Google-Smtp-Source: ABdhPJw0RQQqxJpzTnEHeUjh88H/LYGYU8nQvGdNYLVog/lsCepSg8QvxCv9nMR7hHhsH5sfKO36Uw==
+X-Received: by 2002:a63:6a82:0:b0:3bc:321e:6d54 with SMTP id
+ f124-20020a636a82000000b003bc321e6d54mr8466387pgc.232.1651979275683; 
+ Sat, 07 May 2022 20:07:55 -0700 (PDT)
 Received: from [192.168.4.112] (50-233-235-3-static.hfc.comcastbusiness.net.
  [50.233.235.3]) by smtp.gmail.com with ESMTPSA id
- ob12-20020a17090b390c00b001d95c09f877sm6132346pjb.35.2022.05.07.20.04.56
+ l11-20020a170903120b00b0015e8d4eb21esm4366159plh.104.2022.05.07.20.07.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 May 2022 20:04:57 -0700 (PDT)
-Message-ID: <9f8eb850-f8d8-2f3e-19e0-7f1bd97fe527@linaro.org>
-Date: Sat, 7 May 2022 22:04:54 -0500
+ Sat, 07 May 2022 20:07:55 -0700 (PDT)
+Message-ID: <e3dd0ee0-d805-d5a2-464c-3b4478925303@linaro.org>
+Date: Sat, 7 May 2022 22:07:52 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 39/50] lasi: use constants for device register offsets
+Subject: Re: [PATCH v2 42/50] lasi: move from hw/hppa to hw/misc
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, deller@gmx.de,
  qemu-devel@nongnu.org
 References: <20220504092600.10048-1-mark.cave-ayland@ilande.co.uk>
- <20220504092600.10048-40-mark.cave-ayland@ilande.co.uk>
+ <20220504092600.10048-43-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220504092600.10048-40-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220504092600.10048-43-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,21 +94,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/22 04:25, Mark Cave-Ayland wrote:
-> Instead of generating the offset based upon the physical address of the
-> register, add constants for each of the device registers to lasi.h and
-> update lasi.c to use them.
+> Move the LASI device implementation from hw/hppa to hw/misc so that it is
+> located with all the other miscellaneous devices.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Acked-by: Helge Deller <deller@gmx.de>
 > ---
->   hw/hppa/lasi.c | 28 ++++++++++++++--------------
->   hw/hppa/lasi.h |  5 +++++
->   2 files changed, 19 insertions(+), 14 deletions(-)
+>   MAINTAINERS                         | 2 ++
+>   hw/hppa/Kconfig                     | 1 +
+>   hw/hppa/machine.c                   | 2 +-
+>   hw/hppa/meson.build                 | 2 +-
+>   hw/hppa/trace-events                | 5 -----
+>   hw/misc/Kconfig                     | 3 +++
+>   hw/{hppa => misc}/lasi.c            | 3 +--
+>   hw/misc/meson.build                 | 3 +++
+>   hw/misc/trace-events                | 5 +++++
+>   {hw/hppa => include/hw/misc}/lasi.h | 0
+>   10 files changed, 17 insertions(+), 9 deletions(-)
+>   rename hw/{hppa => misc}/lasi.c (99%)
+>   rename {hw/hppa => include/hw/misc}/lasi.h (100%)
 
-Worth removing the final usages, and the old definitions in hppa_machine.h?
+I don't understand hw/misc, or why this is a better categorization than hw/hppa.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
