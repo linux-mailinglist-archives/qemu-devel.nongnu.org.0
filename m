@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E930151FD36
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:47:47 +0200 (CEST)
-Received: from localhost ([::1]:55658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1A251FD6E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:53:51 +0200 (CEST)
+Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2nj-0005Si-1K
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33724)
+	id 1no2tZ-0004Qt-RP
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1no2ht-0006hF-Qc
+ id 1no2hu-0006m0-BR
  for qemu-devel@nongnu.org; Mon, 09 May 2022 08:41:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40959)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1no2hq-00005n-No
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:41:44 -0400
+ id 1no2hs-00006H-4t
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 08:41:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652100101;
+ s=mimecast20190719; t=1652100103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JS7qJ9nFXwVVGmoCS8cOSEysUKk/NVdqHQxGIVHN0co=;
- b=TpSQslOY3yNGoBU4d/sPBGSjtuobdxmDcu8rMQkm0c24c2K3cDfPGhN1DSwF0qi2IzUlld
- 2dkzUkKtv0nwp3nAjnnYEjcaV9b9MpGOKXf+GVu+CX0IbwDeCqAAEqWYdzFzweSTb6tM7Z
- 8mf8Z9hZV8fBHN7wRrNt4j2UlrD+H2s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5vNigitsQEGINOW3TnhM4Ogs0cY77ZxjWLxv7ITZQaU=;
+ b=gyLj53keGtZIDLMKrlNj67A784//DMUCMWKEAsLf0ZmkMTAPpQ6moeGw8v56WGgLbchXRT
+ pfYjnO10hfyq4VziRWygfhv8fGvvZDF201Qz62BTPEINgUJL5ZsUy+lSLZQUsD3RfssjQh
+ 0Jf3gtWV5qMWCMpq5SOby7ycjvhUDVw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-65-fUWHd7n6MlKkLwrIoWVb-Q-1; Mon, 09 May 2022 08:41:40 -0400
-X-MC-Unique: fUWHd7n6MlKkLwrIoWVb-Q-1
+ us-mta-669-zXdEt312P2m5Vwv8PMnOTA-1; Mon, 09 May 2022 08:41:42 -0400
+X-MC-Unique: zXdEt312P2m5Vwv8PMnOTA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEE64811E7A;
- Mon,  9 May 2022 12:41:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE7C71D9F88B;
+ Mon,  9 May 2022 12:41:41 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38C8714A5087;
- Mon,  9 May 2022 12:41:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04CE214A5087;
+ Mon,  9 May 2022 12:41:39 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>,
@@ -53,9 +53,9 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 1/2] tests/qemu-iotests: print intent to run a test in TAP mode
-Date: Mon,  9 May 2022 13:41:33 +0100
-Message-Id: <20220509124134.867431-2-berrange@redhat.com>
+Subject: [PATCH 2/2] .gitlab-ci.d: export meson testlog.txt as an artifact
+Date: Mon,  9 May 2022 13:41:34 +0100
+Message-Id: <20220509124134.867431-3-berrange@redhat.com>
 In-Reply-To: <20220509124134.867431-1-berrange@redhat.com>
 References: <20220509124134.867431-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -86,58 +86,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running I/O tests using TAP output mode, we get a single TAP test
-with a sub-test reported for each I/O test that is run. The output looks
-something like this:
-
- 1..123
- ok qcow2 011
- ok qcow2 012
- ok qcow2 013
- ok qcow2 217
- ...
-
-If everything runs or fails normally this is fine, but periodically we
-have been seeing the test harness abort early before all 123 tests have
-been run, just leaving a fairly useless message like
-
-  TAP parsing error: Too few tests run (expected 123, got 107)
-
-we have no idea which tests were running at the time the test harness
-abruptly exited. This change causes us to print a message about our
-intent to run each test, so we have a record of what is active at the
-time the harness exits abnormally.
-
- 1..123
- # running qcow2 011
- ok qcow2 011
- # running qcow2 012
- ok qcow2 012
- # running qcow2 013
- ok qcow2 013
- # running qcow2 217
- ok qcow2 217
- ...
+When running 'make check' we only get a summary of progress on the
+console. Fortunately meson/ninja have saved the raw test output to a
+logfile. Exposing this log will make it easier to debug failures that
+happen in CI.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qemu-iotests/testrunner.py | 3 +++
- 1 file changed, 3 insertions(+)
+ .gitlab-ci.d/buildtest-template.yml | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index aae70a8341..dc871b7caf 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -361,6 +361,9 @@ def run_test(self, test: str,
-                                      starttime=start,
-                                      lasttime=last_el,
-                                      end = '\n' if mp else '\r')
-+        else:
-+            testname = os.path.basename(test)
-+            print(f'# running {self.env.imgfmt} {testname}')
+diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+index 2c7980a4f6..dc6d67aacf 100644
+--- a/.gitlab-ci.d/buildtest-template.yml
++++ b/.gitlab-ci.d/buildtest-template.yml
+@@ -26,7 +26,7 @@
+         make -j"$JOBS" $MAKE_CHECK_ARGS ;
+       fi
  
-         res = self.do_run_test(test, mp)
+-.native_test_job_template:
++.common_test_job_template:
+   stage: test
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+   script:
+@@ -37,8 +37,16 @@
+     # Avoid recompiling by hiding ninja with NINJA=":"
+     - make NINJA=":" $MAKE_CHECK_ARGS
  
++.native_test_job_template:
++  extends: .common_test_job_template
++  artifacts:
++    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
++    expire_in: 7 days
++    paths:
++      - build/meson-logs/testlog.txt
++
+ .avocado_test_job_template:
+-  extends: .native_test_job_template
++  extends: .common_test_job_template
+   cache:
+     key: "${CI_JOB_NAME}-cache"
+     paths:
 -- 
 2.35.1
 
