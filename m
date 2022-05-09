@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09701520515
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 21:14:55 +0200 (CEST)
-Received: from localhost ([::1]:56882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E68F520568
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 21:42:58 +0200 (CEST)
+Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no8qL-0002oE-JL
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 15:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
+	id 1no9HV-0003YT-5B
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 15:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1no8op-0001yG-Vm
- for qemu-devel@nongnu.org; Mon, 09 May 2022 15:13:20 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:34360)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1no9GN-0002ed-3X
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 15:41:47 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1no8oo-0007Mb-3k
- for qemu-devel@nongnu.org; Mon, 09 May 2022 15:13:19 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id y76so26750082ybe.1
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 12:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9OqDkRRuvVTI2G4Jm93FQeyym7FQ71vx2PHKq8by+Ec=;
- b=KHE5KQLNvafD44CEMDsiNMDsvYWIRRWfVphhc0+lDgb8Qy5K0cF4IVnjwcOC7HA/D4
- UCaNRTA29U0pZbrrD9wcaj28/ldj7w2Zx2GfydUt4FyruIj4ab6TGMfQddYGCkAODIR2
- LP4K63ubYwKliqTXrwZzuQBn5pp54vhl9u0F8=
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1no9GK-0002zn-G0
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 15:41:46 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id 7so12861429pga.12
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 12:41:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=wmWrQ047smfhdgI1yoWYZp3IyUbWNYPv0bwYBzYOiDE=;
+ b=UugJ0fA/BU4lszGFQ11t9oRkPJuok09dLn6Kwoqyx0gfFJK7z/B2roRa6LUbcG5WS7
+ HMNFc2K/58fmtAwH7ooNePIFjKxgpilYfTCW5lF+Yi7G2lTg9byU4RPkRQPfpPDXFmMk
+ neI1CoEcK9oUgIqRogS3mWxfoic7Kb0fQsBtKJmgJ6l7Jr3pR4OeDfJucEuAzr2o8LGz
+ Hze9XXBb4djZ8z5ZEtI3pauicKBRtdHe1QuRh9uuXPVV5/KyG89pc2fxfJILJQFVmFQm
+ dQa7JPQtzeo+QSZFxKaBs76342SI/ReTsKriJTD55d8tyto8v7qkkU48KExUvRpc3o6p
+ cZZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9OqDkRRuvVTI2G4Jm93FQeyym7FQ71vx2PHKq8by+Ec=;
- b=3veIUG66F8x7g0U+iyEiHUgBGeqNoQ+UlKCWBrbFX2vaGu5lkQuSqP9qFDR4VkT54X
- d/mYI2HATTQw2RVfLYjsRTS8E+bGnxtNida5XKHqX5SY2HnXbMHt+COsTLGTK3k0wYR4
- GyhnbA6l8tWbhaqhneLEMFwYeop2JGh3DLPjD0oa7rHA2wsXRKkKI6qnVhQqMKhuc071
- spTe3o1oIG/Maqbmxr+A3i7vj7ywhGl23oe68xlXT38GP2m6DsfpoaGbFr9Kkgka64W+
- ZpoCx8GY2uw1r4B5r9u9+GJemQ1w/s+CVSuqsBfm4pq34cRzRNWVAEVuuDglTgb468Nb
- bbYg==
-X-Gm-Message-State: AOAM5313JXZKhbyYcXmfGiDRbsn5lr3Uwx1StiEetWnQaJnl1loYtaSZ
- OvpnFQchJfZVxHhH+n3HnBamm2/YqqHThPb1OKSP
-X-Google-Smtp-Source: ABdhPJyj1OFDeJa7TiMWgT4Meg7t7pqee5ERU/Wh12DXlpMQYSa+6a0xU+vXKPjJfOISKc2tLy9MA5OI3LFeoZN9r38=
-X-Received: by 2002:a25:9247:0:b0:645:ddd5:a182 with SMTP id
- e7-20020a259247000000b00645ddd5a182mr14460943ybo.289.1652123596522; Mon, 09
- May 2022 12:13:16 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wmWrQ047smfhdgI1yoWYZp3IyUbWNYPv0bwYBzYOiDE=;
+ b=u8QYMnSqO3EVwvXFUsguYi9oO7CijiY2xOeVs5GASbj6KuBiZtYEI5bKWXrna3q5Sv
+ e7u4gznNdRvt7/qDL7iN+hfMEY3NZxIPwCftJz/IK8gYdPUVff6drwrU1VucajdXJ1uv
+ Q98BaF6cTbRU2Tf+ZUJwGeE+2BvpuawAvYu61TMsozpYQyhJ/gMfs7VZalcPlVuRBDNz
+ edEHj1BCAE0P9KNnyFn0OdihHOFxinuCklsLnvz5F75SOEZEde65QMw6AGwUuydn5j3F
+ 0g/xeNWsNAD9rBrTsUdQu5R/7pFZz8lPbkkTqEBachWgdGIDZTbGiFkhW08uX2dlSVzf
+ Q4Hw==
+X-Gm-Message-State: AOAM531T3EX0uiJXep8HnVhMkf3y9C8HzqBN1ny8U94kbNKZA+gn/zAs
+ 1UW7jy+RO3KuuFlDZ+Et4yZd5Q==
+X-Google-Smtp-Source: ABdhPJziSkkixnwh6/4fFsQLr1X57x44oaHcm65fnzQ4Fm9vI/pQN5ToMGhOoav5H7kAUzW24uOLsQ==
+X-Received: by 2002:a62:dec4:0:b0:50f:70d1:41dd with SMTP id
+ h187-20020a62dec4000000b0050f70d141ddmr17270042pfg.68.1652125302931; 
+ Mon, 09 May 2022 12:41:42 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ q17-20020a170902eb9100b0015e8d4eb2bbsm213500plg.261.2022.05.09.12.41.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 12:41:42 -0700 (PDT)
+Message-ID: <8f4a1435-e5fd-2185-a866-a1588177b14f@linaro.org>
+Date: Mon, 9 May 2022 12:41:40 -0700
 MIME-Version: 1.0
-References: <20220429033409.258707-1-apatel@ventanamicro.com>
- <20220429033409.258707-2-apatel@ventanamicro.com>
- <CANzO1D1RvmXF-BdZ1iMhwLwikcVveCYjtXtgT5KEcrXF++xXrA@mail.gmail.com>
-In-Reply-To: <CANzO1D1RvmXF-BdZ1iMhwLwikcVveCYjtXtgT5KEcrXF++xXrA@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Mon, 9 May 2022 12:13:05 -0700
-Message-ID: <CAOnJCUKE2iAshXKvuiGPA+eK5fAO91FvR50OnV-=JKwztqFo7g@mail.gmail.com>
-Subject: Re: [PATCH 1/4] target/riscv: Fix csr number based privilege checking
-To: Frank Chang <frank.chang@sifive.com>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000189ccd05de9900d5"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb29.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 0/9] Block patches
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org
+References: <20220509125315.3746865-1-stefanha@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220509125315.3746865-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,152 +92,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000189ccd05de9900d5
-Content-Type: text/plain; charset="UTF-8"
+On 5/9/22 07:53, Stefan Hajnoczi wrote:
+> The following changes since commit 554623226f800acf48a2ed568900c1c968ec9a8b:
+> 
+>    Merge tag 'qemu-sparc-20220508' of https://github.com/mcayland/qemu into staging (2022-05-08 17:03:26 -0500)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> 
+> for you to fetch changes up to 3dc584abeef0e1277c2de8c1c1974cb49444eb0a:
+> 
+>    virtio-scsi: move request-related items from .h to .c (2022-05-09 10:45:04 +0100)
+> 
+> ----------------------------------------------------------------
+> Pull request
+> 
+> - Add new thread-pool-min/thread-pool-max parameters to control the thread pool
+>    used for async I/O.
+> 
+> - Fix virtio-scsi IOThread 100% CPU consumption QEMU 7.0 regression.
 
-On Fri, Apr 29, 2022 at 8:20 PM Frank Chang <frank.chang@sifive.com> wrote:
-
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
->
-> On Fri, Apr 29, 2022 at 11:34 AM Anup Patel <apatel@ventanamicro.com>
-> wrote:
->
->> When hypervisor and VS CSRs are accessed from VS-mode or VU-mode,
->> the riscv_csrrw_check() function should generate virtual instruction
->> trap instead illegal instruction trap.
->>
->> Fixes: 533c91e8f22c ("target/riscv: Use RISCVException enum for
->> CSR access")
->>
->
-This is not the correct Fixes tag. This patch just changed the error code
-to enum.
-The above said issue exists before this patch.
-
-I think the correct fix should be 0a42f4c44088 (" target/riscv: Fix CSR
-perm checking for HS mode"). No ?
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
-> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
->> ---
->>  target/riscv/csr.c | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index 3500e07f92..2bf0a97196 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -3139,7 +3139,7 @@ static inline RISCVException
->> riscv_csrrw_check(CPURISCVState *env,
->>      int read_only = get_field(csrno, 0xC00) == 3;
->>      int csr_min_priv = csr_ops[csrno].min_priv_ver;
->>  #if !defined(CONFIG_USER_ONLY)
->> -    int effective_priv = env->priv;
->> +    int csr_priv, effective_priv = env->priv;
->>
->>      if (riscv_has_ext(env, RVH) &&
->>          env->priv == PRV_S &&
->> @@ -3152,7 +3152,11 @@ static inline RISCVException
->> riscv_csrrw_check(CPURISCVState *env,
->>          effective_priv++;
->>      }
->>
->> -    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
->> +    csr_priv = get_field(csrno, 0x300);
->> +    if (!env->debugger && (effective_priv < csr_priv)) {
->> +        if (csr_priv == (PRV_S + 1) && riscv_cpu_virt_enabled(env)) {
->> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> +        }
->>          return RISCV_EXCP_ILLEGAL_INST;
->>      }
->>  #endif
->> --
->> 2.34.1
->>
->>
->>
+r~
 
--- 
-Regards,
-Atish
 
---000000000000189ccd05de9900d5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> ----------------------------------------------------------------
+> 
+> Nicolas Saenz Julienne (3):
+>    Introduce event-loop-base abstract class
+>    util/main-loop: Introduce the main loop into QOM
+>    util/event-loop-base: Introduce options to set the thread pool size
+> 
+> Stefan Hajnoczi (6):
+>    virtio-scsi: fix ctrl and event handler functions in dataplane mode
+>    virtio-scsi: don't waste CPU polling the event virtqueue
+>    virtio-scsi: clean up virtio_scsi_handle_event_vq()
+>    virtio-scsi: clean up virtio_scsi_handle_ctrl_vq()
+>    virtio-scsi: clean up virtio_scsi_handle_cmd_vq()
+>    virtio-scsi: move request-related items from .h to .c
+> 
+>   qapi/qom.json                    |  43 ++++++++--
+>   meson.build                      |  26 +++---
+>   include/block/aio.h              |  10 +++
+>   include/block/thread-pool.h      |   3 +
+>   include/hw/virtio/virtio-scsi.h  |  43 ----------
+>   include/hw/virtio/virtio.h       |   1 +
+>   include/qemu/main-loop.h         |  10 +++
+>   include/sysemu/event-loop-base.h |  41 +++++++++
+>   include/sysemu/iothread.h        |   6 +-
+>   event-loop-base.c                | 140 +++++++++++++++++++++++++++++++
+>   hw/scsi/virtio-scsi-dataplane.c  |   2 +-
+>   hw/scsi/virtio-scsi.c            | 101 +++++++++++++++-------
+>   hw/virtio/virtio.c               |  13 +++
+>   iothread.c                       |  68 +++++----------
+>   util/aio-posix.c                 |   1 +
+>   util/async.c                     |  20 +++++
+>   util/main-loop.c                 |  65 ++++++++++++++
+>   util/thread-pool.c               |  55 +++++++++++-
+>   18 files changed, 505 insertions(+), 143 deletions(-)
+>   create mode 100644 include/sysemu/event-loop-base.h
+>   create mode 100644 event-loop-base.c
+> 
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 29, 2022 at 8:20 PM Frank=
- Chang &lt;<a href=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-<div dir=3D"ltr"><div dir=3D"ltr"><img src=3D"https://ssl.gstatic.com/ui/v1=
-/icons/mail/images/cleardot.gif">Reviewed-by: Frank Chang &lt;<a href=3D"ma=
-ilto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a>&g=
-t;</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Fri, Apr 29, 2022 at 11:34 AM Anup Patel &lt;<a href=3D"mailto:apatel@=
-ventanamicro.com" target=3D"_blank">apatel@ventanamicro.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">When hypervisor =
-and VS CSRs are accessed from VS-mode or VU-mode,<br>
-the riscv_csrrw_check() function should generate virtual instruction<br>
-trap instead illegal instruction trap.<br>
-<br>
-Fixes: 533c91e8f22c (&quot;target/riscv: Use RISCVException enum for<br>
-CSR access&quot;)<br></blockquote></div></div></blockquote><div><br></div><=
-div>This is not the correct Fixes tag. This patch just changed the error co=
-de to enum.<br>The above said issue exists before this patch.</div><div><br=
-></div><div>I think the correct fix should be=C2=A00a42f4c44088 (&quot; tar=
-get/riscv: Fix CSR perm checking for HS mode&quot;). No ?</div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
-v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Signed-off-by: Anup Patel &lt;<a href=3D"mailto:apatel@ventanamicro.com" ta=
-rget=3D"_blank">apatel@ventanamicro.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/csr.c | 8 ++++++--<br>
-=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-index 3500e07f92..2bf0a97196 100644<br>
---- a/target/riscv/csr.c<br>
-+++ b/target/riscv/csr.c<br>
-@@ -3139,7 +3139,7 @@ static inline RISCVException riscv_csrrw_check(CPURIS=
-CVState *env,<br>
-=C2=A0 =C2=A0 =C2=A0int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;<br>
-=C2=A0 =C2=A0 =C2=A0int csr_min_priv =3D csr_ops[csrno].min_priv_ver;<br>
-=C2=A0#if !defined(CONFIG_USER_ONLY)<br>
--=C2=A0 =C2=A0 int effective_priv =3D env-&gt;priv;<br>
-+=C2=A0 =C2=A0 int csr_priv, effective_priv =3D env-&gt;priv;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (riscv_has_ext(env, RVH) &amp;&amp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;priv =3D=3D PRV_S &amp;&amp;<br>
-@@ -3152,7 +3152,11 @@ static inline RISCVException riscv_csrrw_check(CPURI=
-SCVState *env,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0effective_priv++;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 if (!env-&gt;debugger &amp;&amp; (effective_priv &lt; get_fi=
-eld(csrno, 0x300))) {<br>
-+=C2=A0 =C2=A0 csr_priv =3D get_field(csrno, 0x300);<br>
-+=C2=A0 =C2=A0 if (!env-&gt;debugger &amp;&amp; (effective_priv &lt; csr_pr=
-iv)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (csr_priv =3D=3D (PRV_S + 1) &amp;&amp; ris=
-cv_cpu_virt_enabled(env)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_VIRT_INSTRUCTI=
-ON_FAULT;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_ILLEGAL_INST;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0#endif<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Regards,<div>Atish</div></div><=
-/div></div>
-
---000000000000189ccd05de9900d5--
 
