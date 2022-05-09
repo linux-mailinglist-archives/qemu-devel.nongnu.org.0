@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920AA51FDB4
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:13:48 +0200 (CEST)
-Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF93051FE07
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:22:46 +0200 (CEST)
+Received: from localhost ([::1]:39782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no3Ct-0005Vf-La
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37300)
+	id 1no3LZ-0003EZ-VH
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1no2tV-0006Yq-SS
+ id 1no2tV-0006Yr-V9
  for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47767)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1no2tS-0002tL-Nc
+ id 1no2tS-0002tP-NG
  for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652100820;
+ s=mimecast20190719; t=1652100821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S0Bt7UWE+CKYFGau+ZVL9OtrPmqduOEiEILSb/Y4I8M=;
- b=YmaX2+9RFE4Ha7EecnuOt1LA7iZHjOmKs53VQN3pxU+GQrgPqT+I9VTlDzN5Y/BknROJyb
- xeP3zLVyQKGYDo8VHLGNYHE/UnmWQzxZimw2F3whP34xbX6p5KFVS1ZDpAjar5FOMG0DJc
- F4IKK48YERJ056xVRZ5PHwqQ3rEDSGM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mNp9vKNk6TLpZIcuWmm8RGsbRIZqMiqNSmsamrjag1w=;
+ b=Y9EY7CwcVdHN8BWrBXhJ0Cv0OuFZkUupVjVDeHyTI/QxPJ2XvxiLze15MZ9qczBW1uLvz3
+ uycyGKbuu9ZWK3X4D9iEFxenVxBCxl/KArsbX97o7bjI+/IvIiBCnm14uT3BN3/+ZDuN2d
+ BDLwKzOABxUVo7zrW3BjRv9P3iWNu7g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-sCDB04v9PGOZtHz4sVaxgQ-1; Mon, 09 May 2022 08:53:37 -0400
-X-MC-Unique: sCDB04v9PGOZtHz4sVaxgQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-471-tUYIXxbSNFGRpHLWMI2uog-1; Mon, 09 May 2022 08:53:38 -0400
+X-MC-Unique: tUYIXxbSNFGRpHLWMI2uog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E80EC100BAAB;
- Mon,  9 May 2022 12:53:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 459DD1C0F684;
+ Mon,  9 May 2022 12:53:38 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FA9043EA07;
- Mon,  9 May 2022 12:53:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F196F400DFA0;
+ Mon,  9 May 2022 12:53:37 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: <qemu-block@nongnu.org>, Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 4/9] virtio-scsi: fix ctrl and event handler functions in
- dataplane mode
-Date: Mon,  9 May 2022 13:53:10 +0100
-Message-Id: <20220509125315.3746865-5-stefanha@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Nir Soffer <nsoffer@redhat.com>
+Subject: [PULL 5/9] virtio-scsi: don't waste CPU polling the event virtqueue
+Date: Mon,  9 May 2022 13:53:11 +0100
+Message-Id: <20220509125315.3746865-6-stefanha@redhat.com>
 In-Reply-To: <20220509125315.3746865-1-stefanha@redhat.com>
 References: <20220509125315.3746865-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -80,106 +79,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit f34e8d8b8d48d73f36a67b6d5e492ef9784b5012 ("virtio-scsi: prepare
-virtio_scsi_handle_cmd for dataplane") prepared the virtio-scsi cmd
-virtqueue handler function to be used in both the dataplane and
-non-datpalane code paths.
+The virtio-scsi event virtqueue is not emptied by its handler function.
+This is typical for rx virtqueues where the device uses buffers when
+some event occurs (e.g. a packet is received, an error condition
+happens, etc).
 
-It failed to convert the ctrl and event virtqueue handler functions,
-which are not designed to be called from the dataplane code path but
-will be since the ioeventfd is set up for those virtqueues when
-dataplane starts.
+Polling non-empty virtqueues wastes CPU cycles. We are not waiting for
+new buffers to become available, we are waiting for an event to occur,
+so it's a misuse of CPU resources to poll for buffers.
 
-Convert the ctrl and event virtqueue handler functions now so they
-operate correctly when called from the dataplane code path. Avoid code
-duplication by extracting this code into a helper function.
+Introduce the new virtio_queue_aio_attach_host_notifier_no_poll() API,
+which is identical to virtio_queue_aio_attach_host_notifier() except
+that it does not poll the virtqueue.
 
-Fixes: f34e8d8b8d48d73f36a67b6d5e492ef9784b5012 ("virtio-scsi: prepare virtio_scsi_handle_cmd for dataplane")
+Before this patch the following command-line consumed 100% CPU in the
+IOThread polling and calling virtio_scsi_handle_event():
+
+  $ qemu-system-x86_64 -M accel=kvm -m 1G -cpu host \
+      --object iothread,id=iothread0 \
+      --device virtio-scsi-pci,iothread=iothread0 \
+      --blockdev file,filename=test.img,aio=native,cache.direct=on,node-name=drive0 \
+      --device scsi-hd,drive=drive0
+
+After this patch CPU is no longer wasted.
+
+Reported-by: Nir Soffer <nsoffer@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20220427143541.119567-2-stefanha@redhat.com
-[Fixed s/by used/be used/ typo pointed out by Michael Tokarev
-<mjt@tls.msk.ru>.
---Stefan]
+Tested-by: Nir Soffer <nsoffer@redhat.com>
+Message-id: 20220427143541.119567-3-stefanha@redhat.com
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/scsi/virtio-scsi.c | 42 +++++++++++++++++++++++++++---------------
- 1 file changed, 27 insertions(+), 15 deletions(-)
+ include/hw/virtio/virtio.h      |  1 +
+ hw/scsi/virtio-scsi-dataplane.c |  2 +-
+ hw/virtio/virtio.c              | 13 +++++++++++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 34a968ecfb..417fbc71d6 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -472,16 +472,32 @@ bool virtio_scsi_handle_ctrl_vq(VirtIOSCSI *s, VirtQueue *vq)
-     return progress;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b31c4507f5..b62a35fdca 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -317,6 +317,7 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
+ void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled);
+ void virtio_queue_host_notifier_read(EventNotifier *n);
+ void virtio_queue_aio_attach_host_notifier(VirtQueue *vq, AioContext *ctx);
++void virtio_queue_aio_attach_host_notifier_no_poll(VirtQueue *vq, AioContext *ctx);
+ void virtio_queue_aio_detach_host_notifier(VirtQueue *vq, AioContext *ctx);
+ VirtQueue *virtio_vector_first_queue(VirtIODevice *vdev, uint16_t vector);
+ VirtQueue *virtio_vector_next_queue(VirtQueue *vq);
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
+index 29575cbaf6..8bb6e6acfc 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -138,7 +138,7 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ 
+     aio_context_acquire(s->ctx);
+     virtio_queue_aio_attach_host_notifier(vs->ctrl_vq, s->ctx);
+-    virtio_queue_aio_attach_host_notifier(vs->event_vq, s->ctx);
++    virtio_queue_aio_attach_host_notifier_no_poll(vs->event_vq, s->ctx);
+ 
+     for (i = 0; i < vs->conf.num_queues; i++) {
+         virtio_queue_aio_attach_host_notifier(vs->cmd_vqs[i], s->ctx);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 9d637e043e..67a873f54a 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3534,6 +3534,19 @@ void virtio_queue_aio_attach_host_notifier(VirtQueue *vq, AioContext *ctx)
+                                 virtio_queue_host_notifier_aio_poll_end);
  }
  
 +/*
-+ * If dataplane is configured but not yet started, do so now and return true on
-+ * success.
-+ *
-+ * Dataplane is started by the core virtio code but virtqueue handler functions
-+ * can also be invoked when a guest kicks before DRIVER_OK, so this helper
-+ * function helps us deal with manually starting ioeventfd in that case.
++ * Same as virtio_queue_aio_attach_host_notifier() but without polling. Use
++ * this for rx virtqueues and similar cases where the virtqueue handler
++ * function does not pop all elements. When the virtqueue is left non-empty
++ * polling consumes CPU cycles and should not be used.
 + */
-+static bool virtio_scsi_defer_to_dataplane(VirtIOSCSI *s)
++void virtio_queue_aio_attach_host_notifier_no_poll(VirtQueue *vq, AioContext *ctx)
 +{
-+    if (!s->ctx || s->dataplane_started) {
-+        return false;
-+    }
-+
-+    virtio_device_start_ioeventfd(&s->parent_obj.parent_obj);
-+    return !s->dataplane_fenced;
++    aio_set_event_notifier(ctx, &vq->host_notifier, true,
++                           virtio_queue_host_notifier_read,
++                           NULL, NULL);
 +}
 +
- static void virtio_scsi_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+ void virtio_queue_aio_detach_host_notifier(VirtQueue *vq, AioContext *ctx)
  {
-     VirtIOSCSI *s = (VirtIOSCSI *)vdev;
- 
--    if (s->ctx) {
--        virtio_device_start_ioeventfd(vdev);
--        if (!s->dataplane_fenced) {
--            return;
--        }
-+    if (virtio_scsi_defer_to_dataplane(s)) {
-+        return;
-     }
-+
-     virtio_scsi_acquire(s);
-     virtio_scsi_handle_ctrl_vq(s, vq);
-     virtio_scsi_release(s);
-@@ -720,12 +736,10 @@ static void virtio_scsi_handle_cmd(VirtIODevice *vdev, VirtQueue *vq)
-     /* use non-QOM casts in the data path */
-     VirtIOSCSI *s = (VirtIOSCSI *)vdev;
- 
--    if (s->ctx && !s->dataplane_started) {
--        virtio_device_start_ioeventfd(vdev);
--        if (!s->dataplane_fenced) {
--            return;
--        }
-+    if (virtio_scsi_defer_to_dataplane(s)) {
-+        return;
-     }
-+
-     virtio_scsi_acquire(s);
-     virtio_scsi_handle_cmd_vq(s, vq);
-     virtio_scsi_release(s);
-@@ -855,12 +869,10 @@ static void virtio_scsi_handle_event(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VirtIOSCSI *s = VIRTIO_SCSI(vdev);
- 
--    if (s->ctx) {
--        virtio_device_start_ioeventfd(vdev);
--        if (!s->dataplane_fenced) {
--            return;
--        }
-+    if (virtio_scsi_defer_to_dataplane(s)) {
-+        return;
-     }
-+
-     virtio_scsi_acquire(s);
-     virtio_scsi_handle_event_vq(s, vq);
-     virtio_scsi_release(s);
+     aio_set_event_notifier(ctx, &vq->host_notifier, true, NULL, NULL, NULL);
 -- 
 2.35.1
 
