@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C54851FF2E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 16:13:17 +0200 (CEST)
-Received: from localhost ([::1]:52330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB1B51FF55
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 16:15:49 +0200 (CEST)
+Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no48S-0002tI-A6
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 10:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35674)
+	id 1no4Au-0004xn-D6
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 10:15:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1no46u-0001et-JZ
- for qemu-devel@nongnu.org; Mon, 09 May 2022 10:11:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1no46s-0008Uv-66
- for qemu-devel@nongnu.org; Mon, 09 May 2022 10:11:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652105497;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M4oAUMnKXaS86bCTaoOFw35lwtq2Pb94e6x0tzBPYMM=;
- b=A+Tx2N/4/KaaaaEeTlh5/BmXazUPj+R+bTvu7p3Tr2UNlQCBP8Xfn+snQPPWJGBfIXDmeA
- IDm3jN0Huvee8gVYYUZw2ZncZ8/fet8HsBolz5BWqcNexY+9VALtKv1X/VBppLnqvvavVA
- 24bGaTOR9cXQiqywNNCYOjKHruSnD/s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-jtn8LoY1O9CfjmvSZ0HwWw-1; Mon, 09 May 2022 10:11:36 -0400
-X-MC-Unique: jtn8LoY1O9CfjmvSZ0HwWw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n186-20020a1c27c3000000b00392ae974ca1so34997wmn.0
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 07:11:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1no48f-0003jd-Vl; Mon, 09 May 2022 10:13:30 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1no48e-0000Jk-GC; Mon, 09 May 2022 10:13:29 -0400
+Received: by mail-pg1-x532.google.com with SMTP id 7so12134495pga.12;
+ Mon, 09 May 2022 07:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JNXYT/aQpXuhbS2GUtE2VMMP/t0C+1fkqXOIZwRj01s=;
+ b=nCXd+gJ1L0059P4ptB7G82zorSy4S8Cgay7cu/s/uK88G+9Nj00WIxgWkattVF6Tgk
+ 8NYZuEcnC9bSf0eVVDoSeNmZO7FoD+XncBhMfoxrQEh8AFvznkxKoqEFPTT1+FIU/grP
+ DgR6hCAm/wfPml3JlyTOJ2x7aIPlKmfo0Px3DoGfjCK/pu7WY1udde222lYKhvr973sl
+ v+QHljFHTtq3ZdAOGtXe9v9TM0AzhL83+u5SyGBB4HKAq1ZZgjeIUp2fSoOuJM8j6ooH
+ pIhRlhRu2OurWZl8gStHTTRWlnv9x6ZAMZKL5mVUZ+tQ1xBNpp/kl400XhigUFV6Qqtr
+ +CCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=M4oAUMnKXaS86bCTaoOFw35lwtq2Pb94e6x0tzBPYMM=;
- b=SWm9WA1/xU7qQs6rR7DlC2Q7cRbg0XKVlXbEs2HsM/GL4+yf9Q03YYL6AFPGi9iALi
- YMY4s36Nj4OtcLNJYSXd3zWDo65RJOSe6naVsIuZJ6wiCPKpCJclC4JBcE/6LRl3tO02
- Rm77m/skR2+147DKs5RiMAnHAmD53HvoA7dCvZ7JQKjZFQfSIrGqT8gakfFb51tbt1gL
- V4JTl/Ijc44xeJTaSl7Saoyiq3Y9Oxu/jnJNU9irSnfeyIqh/llixaMS98JTYgiShFYL
- cgX/yVWKSP7ZAQx749N+L6sjEPLVRlXd+CKt2HH6h7HIPCq0oTmLxW5UT+LhRMR3SQ+h
- XPsw==
-X-Gm-Message-State: AOAM5321yNce/rFewNLTqQQyUBU/LR3HY7WLyMOUmrEWqZu007MXd/pM
- BekexSU9+5CFg2CvublLqxjkFagtVNMDz0jJ8Ece4b9Dy+TKmdlH3f7rEJlOXpc/8/epiuhfigW
- Ahbd3uFFnqSfXLLc=
-X-Received: by 2002:a05:600c:19cc:b0:394:8dc2:a23b with SMTP id
- u12-20020a05600c19cc00b003948dc2a23bmr6531576wmq.182.1652105494624; 
- Mon, 09 May 2022 07:11:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyneHw0udx/e/SwDhX06KICLT1G4MCcQugMisSUp16HbVlqRbBB+fkml/KtgBO2UlxeeRqPXg==
-X-Received: by 2002:a05:600c:19cc:b0:394:8dc2:a23b with SMTP id
- u12-20020a05600c19cc00b003948dc2a23bmr6531550wmq.182.1652105494402; 
- Mon, 09 May 2022 07:11:34 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- e20-20020adf9bd4000000b0020c61af5e1fsm11736888wrc.51.2022.05.09.07.11.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 07:11:33 -0700 (PDT)
-Date: Mon, 9 May 2022 15:11:31 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v3 0/9] tests: introduce testing coverage for TLS with
- migration
-Message-ID: <YnkhE9KgB2RwmOUD@work-vm>
-References: <20220426160048.812266-1-berrange@redhat.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JNXYT/aQpXuhbS2GUtE2VMMP/t0C+1fkqXOIZwRj01s=;
+ b=ywAAOPyWcm3DDHWq4OnNr8ptOed3P4agGwiN8EvjCkepxTFs6BzLc//9GWScVpE5lr
+ 9umIfpepdHM/U/yVreRGHBFX7SXV1UCb++tYebxUDrPJv5vf8wI/C+PiOEuuwFs6OgMN
+ Pb+cW7bHo8/SvRGat7G+iEP/WJqLJ2Qxuf0z4S+QgB3pNYRQ/56c21QZJp4nsVCSvr+g
+ oWvGY+Ujob+cru5dmO/YoJ3yGY6LycfhdQxwUTRqI2GsKqHv5CF51Lgl+YmQe4izdcZm
+ FzqJ8GsDhClj9dFecdojRsGITZIsRHaqEN0+L/0dr6Xu3oLMuMitCmU7ObM3d2F3VDkU
+ vllg==
+X-Gm-Message-State: AOAM531IQdZD6+56bDE5jGgKZA6XqR8KoRV8KO7hfU0EASMPthdkK/w+
+ ueZHUNBxPDSllkpfCy9Uhs47vhqFYeo=
+X-Google-Smtp-Source: ABdhPJxkk7gutQdriWOAHE6FPLOTz5mDnFW2dVTBX2Q5hsNe74GA9BzXoornDNrGxMAdFEsl0LpILA==
+X-Received: by 2002:a05:6a00:15d3:b0:510:3c69:b387 with SMTP id
+ o19-20020a056a0015d300b005103c69b387mr16125831pfu.30.1652105606456; 
+ Mon, 09 May 2022 07:13:26 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ r13-20020a17090aa08d00b001cd4989fee4sm12571068pjp.48.2022.05.09.07.13.24
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 09 May 2022 07:13:26 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH] hw/sd/sdcard: Return ILLEGAL for CMD19/CMD23 prior SD spec
+ v3.01
+Date: Mon,  9 May 2022 16:13:20 +0200
+Message-Id: <20220509141320.98374-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426160048.812266-1-berrange@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,61 +89,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. BerrangÈ (berrange@redhat.com) wrote:
-> This significantly expands the migration test suite to cover testing
-> with TLS over TCP and UNIX sockets, with both PSK (pre shared keys)
-> and x509 credentials, and for both single and multifd scenarios.
-> 
-> It identified one bug in handling PSK credentials with UNIX sockets,
-> but other than that everything was operating as expected.
-> 
-> To minimize the impact on code duplication alopt of refactoring is
-> done of the migration tests to introduce a common helper for running
-> the migration process. The various tests mostly just have to provide
-> a callback to set a few parameters/capabilities before migration
-> starts, and sometimes a callback to cleanup or validate after
-> completion/failure.
+From: Philippe Mathieu-Daud√© <f4bug@amsat.org>
 
-Full set now queued again
+CMD19 (SEND_TUNING_BLOCK) and CMD23 (SET_BLOCK_COUNT) were
+added in the Physical SD spec v3.01. When earlier spec version
+is requested, we should return ILLEGAL.
 
-> Changed in v3:
-> 
->   - Trivial rebase dropping already merged patches
-> 
-> Changed in v2:
-> 
->   - Use structs to pass around most parameters
->   - Hide expected errors from stderr
-> 
-> Daniel P. BerrangÈ (9):
->   tests: fix encoding of IP addresses in x509 certs
->   tests: add more helper macros for creating TLS x509 certs
->   tests: add migration tests of TLS with PSK credentials
->   tests: add migration tests of TLS with x509 credentials
->   tests: convert XBZRLE migration test to use common helper
->   tests: convert multifd migration tests to use common helper
->   tests: add multifd migration tests of TLS with PSK credentials
->   tests: add multifd migration tests of TLS with x509 credentials
->   tests: ensure migration status isn't reported as failed
-> 
->  meson.build                          |   1 +
->  tests/qtest/meson.build              |  12 +-
->  tests/qtest/migration-helpers.c      |  13 +
->  tests/qtest/migration-helpers.h      |   1 +
->  tests/qtest/migration-test.c         | 866 ++++++++++++++++++++++++---
->  tests/unit/crypto-tls-psk-helpers.c  |  18 +-
->  tests/unit/crypto-tls-psk-helpers.h  |   1 +
->  tests/unit/crypto-tls-x509-helpers.c |  16 +-
->  tests/unit/crypto-tls-x509-helpers.h |  53 ++
->  tests/unit/test-crypto-tlssession.c  |  11 +-
->  10 files changed, 897 insertions(+), 95 deletions(-)
-> 
-> -- 
-> 2.35.1
-> 
-> 
-> 
+Signed-off-by: Philippe Mathieu-Daud√© <f4bug@amsat.org>
+---
+ hw/sd/sd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 8e6fa09151..7e3bb12b1a 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -1263,7 +1263,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+ 
+     case 19:    /* CMD19: SEND_TUNING_BLOCK (SD) */
+         if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
+-            break;
++            goto bad_cmd;
+         }
+         if (sd->state == sd_transfer_state) {
+             sd->state = sd_sendingdata_state;
+@@ -1274,7 +1274,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+ 
+     case 23:    /* CMD23: SET_BLOCK_COUNT */
+         if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
+-            break;
++            goto bad_cmd;
+         }
+         switch (sd->state) {
+         case sd_transfer_state:
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.35.1
 
 
