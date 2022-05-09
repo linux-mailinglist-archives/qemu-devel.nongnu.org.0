@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E83252081C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 01:02:44 +0200 (CEST)
-Received: from localhost ([::1]:52702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545C0520821
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 01:05:51 +0200 (CEST)
+Received: from localhost ([::1]:54866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noCOp-0000BK-7c
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 19:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41620)
+	id 1noCRq-0001iB-D1
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 19:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1noCNx-0007nd-P5
- for qemu-devel@nongnu.org; Mon, 09 May 2022 19:01:49 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:45596)
+ id 1noCQm-000136-AC
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 19:04:44 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1noCNw-0004yp-0H
- for qemu-devel@nongnu.org; Mon, 09 May 2022 19:01:49 -0400
-Received: by mail-pl1-x632.google.com with SMTP id q18so2288418pln.12
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 16:01:47 -0700 (PDT)
+ id 1noCQk-00059U-SI
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 19:04:43 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id x12so13225843pgj.7
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 16:04:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=E4vwhhkC5j6YrgYDqBNPDz0QorDtzFEKj2kzyIFab48=;
- b=rUwOrFP/M3p2tqH+jrsgGhAi/TXG8EtR76vcVc0vIMHFmUk2RYU4DoAc9FgEHYchXI
- vhUi/eTQ+HXKtVhKLak6pPt9GbjmREWl5TTM9BGmeI2m7mgVjTHl3faHoFgiOQR8dq8a
- MGauiKC48UTRcKzVmtefBTUtePE+1bTkT22YFDgjSblnMkqoFCzexNSMcqf+97GGde2Q
- tHJuSdBhL93R2eASamW0nJOy0KyfXRP+pkuMdVURGM/MOF33eNnQJRkSFNvz8yxDFaW6
- I1x9J4xvCfAZmQCpRaWq3IPuFCCIpdg3oU3ldCZXwOMUpvNGqt3tbXwsBnGFZWqrnIId
- dn2g==
+ bh=m3XJNhX+NB0z2rqqb34dptfBi4nYahT+c0x3YVxET14=;
+ b=IqaMrQfIgg7nrP0pdJvpkerb1VW/Vr+QObcUmVHQd5mgSe4c6qfO0vgOgk//J+M959
+ T3WN9DyJR47mqKjWEgEvbf9tCjaqoWIJElr0iVeJzn0126tSrhZqEAcDmFjMrS5/lD6o
+ NxboUVcDha8YJ6CHNsHhV+PXxHvc/k1Kw832IdAa4ndN65lJzuYnWqIdbrHkqKGp6S1j
+ 7UZqro1PjumQ8bPKgaPlPp6l2ABsbjExtoMwZVIXP0P6qEHabPWIGM/XTwxUIBBCm+Ck
+ oBQU7l/uG0bjVLtpWNPeSlT8qfYqrqpq7b8FmE9T/SHYuoABUwSL7li99Ecy/iEmaG2x
+ MkHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E4vwhhkC5j6YrgYDqBNPDz0QorDtzFEKj2kzyIFab48=;
- b=qNvoFujkUIiXCHfIZKnWME8l8AArZpUeNpLnbIJbFGPUADW2VOt9JxqZwQND7Eoaa+
- xC7S7pxHVcum2NdsyPihVfxcf13TivIbhbzRtAUybqEHwSjaE4htrWcDZbJGpVrSfBBb
- KUfS81+DKQgPdSte0uA7LEgVRX3H75y5OM0IYja4k3O8RN8CaFtePib7fSuSDNs0bdXm
- C0v4BRR8Tyw6eQEwEBdE49Or5yAhpK/RZUvgSHvmoyPKSei7oz2rYMWBYdQvH4Tr4l9w
- P8gXiMbanAfkDkAp8YErC2UAkC/x6NWj76qRzdleSQBemz5dFG/Rukz7ulM9EukE+zvv
- uj5w==
-X-Gm-Message-State: AOAM532L/CtA306eH0PtnA5xmJV8mJnisDwl33YHrTprMhWtr69B0b2Y
- qL2z4OUKCWwhSPbC/TXV7WCNdw==
-X-Google-Smtp-Source: ABdhPJxltpMNOtmN4Z5V1AZogsAMKv+kdl0l+XuOtZUk7PW08EpgKsNfVMcSNRoar9KPjqasjwOsgA==
-X-Received: by 2002:a17:902:f144:b0:15e:cd78:e36e with SMTP id
- d4-20020a170902f14400b0015ecd78e36emr18303928plb.144.1652137306359; 
- Mon, 09 May 2022 16:01:46 -0700 (PDT)
+ bh=m3XJNhX+NB0z2rqqb34dptfBi4nYahT+c0x3YVxET14=;
+ b=uO4JFcSV6mkd3NMaCS+/iq62JKI2LZtj+UiTxYmpBZtTiGgeqhjwBmIdyh9g7OtP/j
+ SrEzbowUnuxE2foTfmLOUoutOAnvgRzHsUMXwjH4OD6eKKYPg4EBOJN/Eg5lh+eZfCDq
+ jkf6vu5pRau2JnX4dtlV7qgilQf1cy+niMMXwC5pD4uf0u7aOvgPHJ0QC6UAROoNDckt
+ 45i4C8BAX0fyVtu+22j4VBncxh+Jt9Qk6cZ+XoY6h67IjRR0EIuUWNdVoaxGeSqf8xzq
+ Xw1+OBX5jJ/Z5FA6Hg4l0njEIOSLT9mC9dxy9roy/GLsEmbzb7O08t9nJfqPEMzSowX/
+ Zmlg==
+X-Gm-Message-State: AOAM5303cvOztHJ56tjwhxSvsBQ5s8l38tqslyNWO2jQD4/paJWwq/HH
+ At/nqZqk6vR6OQcRC0tXTK2Kx53huE0uaw==
+X-Google-Smtp-Source: ABdhPJxB+NDGmun80dwmfj94+GihUnHuKPA6zpR7dMw+Bw/87aMYZzG7wUZNNEjSyfAp4tiDRjfpcw==
+X-Received: by 2002:a63:d611:0:b0:3c6:afdf:819b with SMTP id
+ q17-20020a63d611000000b003c6afdf819bmr6737981pgg.513.1652137481411; 
+ Mon, 09 May 2022 16:04:41 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- u9-20020a17090a1f0900b001d26c7d5aacsm254166pja.13.2022.05.09.16.01.45
+ y15-20020a1709029b8f00b0015e8d4eb25dsm398262plp.167.2022.05.09.16.04.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 16:01:45 -0700 (PDT)
-Message-ID: <bcd3200c-54b1-3647-a165-fe7c5f7687c9@linaro.org>
-Date: Mon, 9 May 2022 16:01:43 -0700
+ Mon, 09 May 2022 16:04:40 -0700 (PDT)
+Message-ID: <3cb8bdec-a59f-859b-ffee-2e68ef74f863@linaro.org>
+Date: Mon, 9 May 2022 16:04:38 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 2/2] target/ppc: Fix FPSCR.FI changing in
- float_overflow_excp()
+Subject: Re: [PATCH v2 1/3] linux-user/elfload: Remove pointless non-const
+ CPUArchState cast
 Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org
-References: <20220509124836.27819-1-victor.colombo@eldorado.org.br>
- <20220509124836.27819-3-victor.colombo@eldorado.org.br>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220509205728.51912-1-philippe.mathieu.daude@gmail.com>
+ <20220509205728.51912-2-philippe.mathieu.daude@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220509124836.27819-3-victor.colombo@eldorado.org.br>
+In-Reply-To: <20220509205728.51912-2-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,95 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/9/22 07:48, Víctor Colombo wrote:
-> This patch fixes another not-so-clear situation in Power ISA
-> regarding the inexact bits in FPSCR. The ISA states that:
+On 5/9/22 15:57, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > 
-> """
-> When Overflow Exception is disabled (OE=0) and an
-> Overflow Exception occurs, the following actions are
-> taken:
-> ...
-> 2. Inexact Exception is set
-> XX <- 1
-> ...
-> FI is set to 1
-> ...
-> """
+> fill_thread_info() takes a pointer to const.
 > 
-> However, when tested on a Power 9 hardware, some instructions that
-> trigger an OX don't set the FI bit:
-> 
-> xvcvdpsp(0x4050533fcdb7b95ff8d561c40bf90996) = FI: CLEARED -> CLEARED
-> xvnmsubmsp(0xf3c0c1fc8f3230, 0xbeaab9c5) = FI: CLEARED -> CLEARED
-> (just a few examples. Other instructions are also affected)
-> 
-> The root cause for this seems to be that only instructions that list
-> the bit FI in the "Special Registers Altered" should modify it.
-> 
-> QEMU is, today, not working like the hardware:
-> 
-> xvcvdpsp(0x4050533fcdb7b95ff8d561c40bf90996) = FI: CLEARED -> SET
-> xvnmsubmsp(0xf3c0c1fc8f3230, 0xbeaab9c5) = FI: CLEARED -> SET
-> 
-> (all tests assume FI is cleared beforehand)
-> 
-> Fix this by passing an argument to float_overflow_excp() indicating
-> if the FI should be set.
-> 
-> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/ppc/fpu_helper.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 773c80e12d..ee1259ede1 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -329,7 +329,7 @@ static inline void float_zero_divide_excp(CPUPPCState *env, uintptr_t raddr)
->       }
->   }
->   
-> -static inline void float_overflow_excp(CPUPPCState *env)
-> +static inline void float_overflow_excp(CPUPPCState *env, bool set_fi)
->   {
->       CPUState *cs = env_cpu(env);
->   
-> @@ -345,7 +345,9 @@ static inline void float_overflow_excp(CPUPPCState *env)
->           env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_OX;
->       } else {
->           env->fpscr |= FP_XX;
-> -        env->fpscr |= FP_FI;
-> +        if (set_fi) {
-> +            env->fpscr |= FP_FI;
-> +        }
+>   linux-user/elfload.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Again, I believe setting FP_FI here is wrong, it should only be set later in 
-do_float_check_status.  Indeed, setting XX here probably isn't best...
-..
-> @@ -471,7 +473,7 @@ static void do_float_check_status(CPUPPCState *env, bool change_fi,
->       int status = get_float_exception_flags(&env->fp_status);
->   
->       if (status & float_flag_overflow) {
-> -        float_overflow_excp(env);
-> +        float_overflow_excp(env, change_fi);
-
-I think the ideal solution would be to return an update to status from float_overflow_excp 
-so that all of the inexact handling happens below.  Since inexact is the last bit to be 
-processed, this could be as simple as
-
-     if (status & overflow) {
-         status = float_overflow_excp(env);
-     } else if (status & underflow) {
-         ...
-     }
-     if (status & inexact) {
-     ...
-
-returning OE ? 0 : float_flag_inexact, without trying to merge inexact into the full set 
-of status flags.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
