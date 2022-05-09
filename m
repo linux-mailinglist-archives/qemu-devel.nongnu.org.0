@@ -2,138 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631385207EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 00:40:52 +0200 (CEST)
-Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D5A5207C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 00:33:06 +0200 (CEST)
+Received: from localhost ([::1]:43042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noC3f-00036s-BA
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 18:40:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
+	id 1noBw7-0000Ii-Od
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 18:33:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1noC2O-0001xU-Sh
- for qemu-devel@nongnu.org; Mon, 09 May 2022 18:39:32 -0400
-Received: from mail-bn8nam08on2058.outbound.protection.outlook.com
- ([40.107.100.58]:34336 helo=NAM04-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1noC2M-0001yq-1C
- for qemu-devel@nongnu.org; Mon, 09 May 2022 18:39:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X93LAsFWjwE6Dtv/yV0N9p3Ntu78GkPNZ3LlcSy2T4BXvRtuqV3Qsh/0o4gGt6WAxXoYl7RNt4Z0puVXcqRFc+WWurkSqIF664csLpq0siPfDnLQwjzCEbi6AIEq+UBpwcad35Ryq3AAfELY52Kh4/W0szLloPOkJohgvqotiWlgl79jojE0S+3UUQVCjFXfizFtE2rzB05Leil1o+5CmOps0pq0BlOqdOpfn6y8KooP2f00VMYoQAoDcxTt1CQtNFoE5gdXtZzif01yuL9WTZSCYDxw72K/O5imlCFt/mT1FAApoERJB7j0U8l2M2MHmLT9KPq2tD3uRPietZdMeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YV9Kg2j0DRdyfUDBha8NBvq1F6CoqYZbTd7tDpPG1Pc=;
- b=esm65ZbeMJvbHrFv81JbUgIwWp7ybDIjCQjuoe1YyXLZxn6g1VQZCOAXyzmt9aNoOJyVmczDHy5yQblhcM4DcY9Iz/4j6PGvKq3JIcCvcrN2r/bHwyPpbht6dCXV7qc+T96G6C7y+JNHeU+Bvx9roK5icFPWIaYQ+2OCQMqk+QeRl9Z3tk1G1Zsq0wdE1ZJkIG+S+1dxOVWD+iOd3zcyU7z2FEA/REqm5RaR4mA/Cm+5VMHga7Oxl9VZ/Kq+WspXefufeq6MAIXGnR76P2pS0duPs5w23YzbnRHsgvT+ixsS4jCTK8wIbhSdtr5bDUBtxFD1bdRh88qI4cZbu7dGzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YV9Kg2j0DRdyfUDBha8NBvq1F6CoqYZbTd7tDpPG1Pc=;
- b=QMa/0fhShXlihhcCYR/qsL0eRXxEnxHOX2R0199QDQFMGO+TX3qvLLRT0UydqI4EOZnMUSN30d0nOgQOKskmNYd/nwhuQnmJ+NPJIaKrdExFw6AZhGC9Xs9kL7ryM2h8NNFnMkiyBL0/5ib3VXMwICm0mzWYQJ3NmeykAxsM42Q=
-Received: from BN1PR10CA0010.namprd10.prod.outlook.com (2603:10b6:408:e0::15)
- by BN8PR12MB3522.namprd12.prod.outlook.com (2603:10b6:408:9c::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.22; Mon, 9 May
- 2022 22:34:24 +0000
-Received: from BN8NAM11FT013.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e0:cafe::e9) by BN1PR10CA0010.outlook.office365.com
- (2603:10b6:408:e0::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21 via Frontend
- Transport; Mon, 9 May 2022 22:34:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT013.mail.protection.outlook.com (10.13.176.182) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5227.15 via Frontend Transport; Mon, 9 May 2022 22:34:24 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 9 May
- 2022 17:34:20 -0500
-Date: Mon, 9 May 2022 17:30:56 -0500
-From: Michael Roth <michael.roth@amd.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-CC: Sean Christopherson <seanjc@google.com>, Quentin Perret
- <qperret@google.com>, Andy Lutomirski <luto@kernel.org>, Steven Price
- <steven.price@arm.com>, kvm list <kvm@vger.kernel.org>, "Linux Kernel Mailing
- List" <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>,
- <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li
- <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, Joerg Roedel
- <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, the arch/x86 maintainers
- <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins
- <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields"
- <bfields@fieldses.org>, Andrew Morton <akpm@linux-foundation.org>, "Mike
- Rapoport" <rppt@kernel.org>, "Maciej S . Szmigiero"
- <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>, "Vishal
- Annapurve" <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, "Nakajima, Jun"
- <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>, Andi Kleen
- <ak@linux.intel.com>, David Hildenbrand <david@redhat.com>, Marc Zyngier
- <maz@kernel.org>, Will Deacon <will@kernel.org>, <nikunj@amd.com>,
- <ashish.kalra@amd.com>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220509223056.pyazfxjwjvipmytb@amd.com>
-References: <YkSaUQX89ZEojsQb@google.com>
- <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
- <20220422105612.GB61987@chaop.bj.intel.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1noBuC-0006qP-GA; Mon, 09 May 2022 18:31:04 -0400
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35]:43467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1noBuA-000128-Cm; Mon, 09 May 2022 18:31:04 -0400
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-ee1e7362caso12238775fac.10; 
+ Mon, 09 May 2022 15:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=jUai09mwYj3SoTJSp6iX6pXkYrTxu3K3m4Kphyj5F8M=;
+ b=RYKZklPeqFL094exg8Z5CzT18W/rTmaJK1mWVjCVMJDSVJf5YAkX8vI1Q/QclUpgvz
+ ogaCLVMtEZ+9NBkKPk/uSJhPPPtAi3L7uW+YJHCymZnPQwZZvZm+sRQhgzRExTuKghK4
+ PPbd3jr/dSuwIVIa2VyUcXKrNqAeKstH590K1JBe5YbnDzGrV8R/iXzmfN/a2P14n1A0
+ KRpxo9niHt+pRK/zggRQQCu/NahbMjQ1//T9drEDosNQ5Q6P04ifU+oTIVc+sTNHu2ML
+ y2HdTy6ULyAY5+TBXAzNeXnxNp8bzwZU3UdFEmhFyGcXLSPorypvwuUtVXCxOCzkIP6t
+ 64DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jUai09mwYj3SoTJSp6iX6pXkYrTxu3K3m4Kphyj5F8M=;
+ b=lPDaDRKg9UU6jTatRPVqKVG/TldAInPHdrXcBvbCfB/bRpubAZMxCPlhUZ7s/zAweQ
+ 5zJypHnZ7yBERQuKUxA+ocjTuMJsFewygSUw42jmdrZQLtMlohj8juZv/mGJpkpoqB7n
+ 2P9mExDKtxszya2N50xe9p/U3tnpT2xupZyp4TbaZP+3ze8zu/5kkHV+DK670WKVWvB0
+ +wDzudQboO18IYA+7wZaL5ZDvjn1hP0W9ZpJEaWQkhzBhhSJxqVSeMhR1qksOyV1o1jJ
+ 1WmiVjPVD3+hyBxTDPXYwFGiwzHzO/xPn3/z0svU7gIIkb00KNu6IQYkiNugu1L/QJAO
+ cP+w==
+X-Gm-Message-State: AOAM532ucfz+LI/fycJX4rBuzKHLMgQMb1PyDnyl3xlYUutohvmkAYBl
+ n+BfXfe8p8tWEsR5HpUCH2k=
+X-Google-Smtp-Source: ABdhPJzxvE+5Bm4WKSIwRRhbiREgEBwCG32EMuTRujA3ZggzNFWcdD19hL4Xduhyi8omjJldvCA+4w==
+X-Received: by 2002:a05:6870:1715:b0:ed:e244:4ada with SMTP id
+ h21-20020a056870171500b000ede2444adamr11181730oae.107.1652135460611; 
+ Mon, 09 May 2022 15:31:00 -0700 (PDT)
+Received: from [192.168.10.102] (201-1-57-208.dsl.telesp.net.br.
+ [201.1.57.208]) by smtp.gmail.com with ESMTPSA id
+ be6-20020a056870588600b000e686d13895sm4616771oab.47.2022.05.09.15.30.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 15:31:00 -0700 (PDT)
+Message-ID: <e7f2e6bc-b443-ed96-683b-835fbe7a55b8@gmail.com>
+Date: Mon, 9 May 2022 19:30:56 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220422105612.GB61987@chaop.bj.intel.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 73f7ec9f-689c-4cfc-d086-08da320c11e7
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3522:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3522C449B7012E298786098C95C69@BN8PR12MB3522.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zVePioz6TbXO5OlI9pH/XBKEZJwep9E6h940Fu0MLgEl6X7DkNM7fm6u/iksmou+dSFgXgrptH7IoanQdhsmFMviftkBuhuRKfrofkKbYe6lYqR5IvdFAVUUgId7aV2+01ohe+2NnaANPGtanRiYWwQ0LQxOccTB++B8MJGKBJn42xCraQtvVDK35K4MtLgioADSBlrylQYmVH0sJIjSXNd4GOxNKC7NhitvOTLrvwnyfL40jRSL0Ib25xi+zP4mflnHIoBvQCNSGJFvVe9e6Z8w3Wn4NczxXRcnI4c6baor9radDEz3sfHkS8MU+ejv77mbMRYHZZQjau93k6qlbIfakxizoKjixuoVUOmvY0bQyMF/mxnTJgDAE2+ZeEcTcPP1H9wA2PN7ki+e+KtbxTbVfxDnTYPlACbuBRQTi7xtbaHk5eo5phC7rxdaWfxVQjoPoCk8P6l5QbNC3T3YMNc9C1G4B2+2pCrpRpIiOWMMNU3sYnxf2tV8rq9CEBWUBnywjoO8BRmDAOqaHtwLTNOEL64o2ht7lC572E/tKghlkZik9qLLnAUV01Kz9tQnXbP9ALQJKnOs+1AZT+LUwQeU4Ly4sSOLCQWIkcd8wFDUUij+ajATVO6EHSr+/juRGkPsIiLRotNZWDejKpSFXjKjPdJzhCzF40VQ+Q2AzV4boEx7nSs1pjQext4SVFVvr5tO612+Kfwq5VWqKGOHPQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(70206006)(1076003)(2616005)(54906003)(86362001)(6916009)(4326008)(316002)(8936002)(356005)(6666004)(26005)(81166007)(70586007)(8676002)(3716004)(44832011)(508600001)(2906002)(40460700003)(426003)(82310400005)(336012)(7406005)(83380400001)(47076005)(16526019)(7416002)(5660300002)(186003)(36756003)(36860700001)(30864003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 22:34:24.7122 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73f7ec9f-689c-4cfc-d086-08da320c11e7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT013.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3522
-Received-SPF: softfail client-ip=40.107.100.58;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM04-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 00/17] powernv: introduce pnv-phb unified devices
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
+ fbarrat@linux.ibm.com
+References: <20220507190624.507419-1-danielhb413@gmail.com>
+ <d6ee5ef4-5242-1f1b-839c-242d18d10800@ilande.co.uk>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <d6ee5ef4-5242-1f1b-839c-242d18d10800@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -149,222 +94,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 22, 2022 at 06:56:12PM +0800, Chao Peng wrote:
-> Great thanks for the discussions. I summarized the requirements/gaps and the
-> potential changes for next step. Please help to review.
 
-Hi Chao,
 
-Thanks for writing this up. I've been meaning to respond, but wanted to
-make a bit more progress with SNP+UPM prototype to get a better idea of
-what's needed on that end. I've needed to make some changes on the KVM
-and QEMU side to get things working so hopefully with your proposed
-rework those changes can be dropped.
+On 5/9/22 18:17, Mark Cave-Ayland wrote:
+> On 07/05/2022 20:06, Daniel Henrique Barboza wrote:
+> 
+>> Hi,
+>>
+>> Since the 7.0.0 release cycle we have a desire to use the powernv
+>> emulation with libvirt. To do that we need to enable user creatable
+>> pnv-phb devices to allow more user customization an to avoid spamming
+>> multiple default devices in the domain XML. In the middle of the
+>> previous cycle we experimented with user created
+>> pnv-phb3/pnv-phb3-root-port/pnv-phb4/pnv-phb4-root-port/pnv-phb5. The
+>> end result, although functional, is that the user needs to deal with a
+>> lot of versioned devices that, from the user perspective, does the same
+>> thing. In a way we outsourced the implementation details of the PHBs
+>> (e.g. pnv8 uses phb3, pnv9 uses phb4) to the command line. Having more
+>> devices also puts an extra burden in the libvirt support we want to
+>> have.
+>>
+>> To solve this, Cedric and Frederic gave the idea of adding a common
+>> virtual pnv-phb device that the user can add in the command line, and
+>> QEMU handles the details internally. Unfortunatelly this idea turned out
+>> to be way harder than anticipated. Between creating a device that would
+>> just forward the callbacks to the existing devices internally, creating
+>> a PnvPHB device with the minimal attributes and making the other devices
+>> inherit from it, and making an 'abstract' device that could be casted
+>> for both phb3 and phb4 PHBs,
+> 
+> This bit sounds all good...
+> 
+>> all sorts of very obscure problems occured:
+>> PHBs not being detected, interrupts not being delivered and memory
+>> regions not being able to read/write registers. My initial impression is
+>> that there are assumptions made both in ppc/pnv and hw/pci-host that
+>> requires the memory region and the bus being in the same device. Even
+>> if we somehow figure all this out, the resulting code is hacky and
+>> annoying to maitain.
+> 
+> But this seems really surprising since there are many examples of similar QOM patterns within the codebase, and in my experience they work really well. Do you have a particular example that you can share to demonstrate why the result of the QOM mapping is making things more difficult?
+
+
+It's not so much about the OOM getting in the way, but rather myself not being
+able to use QOM in a way to get what I want. There is a good probability that
+QOM is able to do it.
+
+Talking about the 2 PHBs pnv-phb3 (powernv8 only) and pnv-phb4 (powernv9 only),
+what we want is a way to let the user instantiate both using an alias, or
+an abstract object if you will, called "pnv-phb". This alias/abstraction would
+instantiate either a pnv-phb3 or a pnv-phb4 depending on the actual machine
+running.
+
+QOM has the "interface" concept that is used internally to make the device behave
+like the interface describes it, but I wasn't able to expose this kind of object
+to the user. It also has the "abstract" concept that, by the documentation itself,
+isn't supposed to be user created. Eventually I gave up this idea, accepting that
+only real devices can be exposed to the user (please correct me if I'm wrong).
+
+After that I tried to create a pnv-phb object that contains the common attributes
+of both pnv-phb3 and pnv-phb4. This object would be the parent of phb3 and phb4,
+and during realize time creating a pnv-phb object would create a pnv-phb3/4 and
+we go from there. This attempt went far after a few tweaks but then I started
+to hit the problems I mentioned above: some strange behaviors with interrupts,
+PHBs not appearing and so on. I got a little farther by moving all the memory
+regions from phb3/phb4 to the parent phb object and I got up to the guest login,
+but without network. Since moving the memory regions in the same object as the
+pci root bus got me farther I concluded that there might some relation/assumption
+made somewhere that I was breaking before.
+
+After all that I got more than halfway of what I ended up doing. I decided to
+unify phb3/phb4 into a single device, renamed their attributes that has different
+meanings between v3 and v4 code, and I ended up with this series.
+
+
+> 
+>> This brings us to this series. The cleaner way I found to accomplish
+>> what we want to do is to create real, unified pnv-phb/phb-phb-root-port
+>> devices, and get rid of all the versioned ones. This is done by
+>> merging all the PHB3/PHB4 attributes in unified devices. pnv_phb3* and pnv_phb4*
+>> files end up using the same pnv-phb and phb-phb-root-port unified devices,
+>> with the difference that pnv_phb3* only cares about version 3 attributes
+>> and pnv_phb4* only cares about PHB4 attributes. Introducing new PHB
+>> versions in the future will be a matter of adding any non-existent
+>> attributes in the unified pnv-phb* devices and using them in separated
+>> pnv_phbN* files.
+>>
+>> The pnv-phb implementation per se is just a router for either phb3 or
+>> phb4 logic, done in init() and realize() time, after we check which powernv
+>> machine we're running. If running with powernv8 we redirect control to
+>> pnv_phb3_realize(), otherwise we redirect to pnv_phb4_realize(). The
+>> unified device does not do anything per se other than handling control
+>> to the right version.
+>>
+>> After this series, this same powernv8 command line that boots a powernv8
+>> machine with some phbs and root ports and with network:
+>>
+>> ./qemu-system-ppc64 -m 4G \
+>> -machine powernv8 -smp 2,sockets=2,cores=1,threads=1  \
+>> -accel tcg,thread=multi -bios skiboot.lid  \
+>> -kernel vmlinux -initrd buildroot.rootfs.cpio -append 'console=hvc0 ro xmon=on'  \
+>> -nodefaults  -serial mon:stdio -nographic  \
+>> -device pnv-phb,chip-id=0,index=0,id=pcie.0 \
+>> -device pnv-phb,chip-id=0,index=1,id=pcie.1 \
+>> -device pnv-phb,chip-id=1,index=2,id=pcie.2 \
+>> -device pnv-phb-root-port,id=root0,bus=pcie.2 \
+>> -device pnv-phb-root-port,id=root1,bus=pcie.1 \
+>> -device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0  \
+>> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
+>> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none  \
+>> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
+>> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+>> -device nec-usb-xhci,bus=bridge1,addr=0x2
+>>
+>>
+>> Can be used to boot powernv9 and powernv10 machines with the same attributes
+>> just by changing the machine type.
+>>
+>>
+>> Daniel Henrique Barboza (17):
+>>    ppc/pnv: rename PnvPHB3.ioda* to PnvPHB3.ioda2*
+>>    ppc/pnv: rename PnvPHB3.regs[] to PnvPHB3.regs3[]
+>>    ppc/pnv: rename PnvPHB3.dma_spaces to PnvPHB3.v3_dma_spaces
+>>    ppc/pnv: add unified pnv-phb header
+>>    ppc/pnv: add pnv-phb device
+>>    ppc/pnv: remove PnvPHB3
+>>    ppc/pnv: user created pnv-phb for powernv8
+>>    ppc/pnv: remove PnvPHB4
+>>    ppc/pnv: user creatable pnv-phb for powernv9
+>>    ppc/pnv: use PnvPHB.version
+>>    ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
+>>    ppc/pnv: user creatable pnv-phb for powernv10
+>>    ppc/pnv: add pnv_phb_get_current_machine()
+>>    ppc/pnv: add pnv-phb-root-port device
+>>    ppc/pnv: remove pnv-phb3-root-port
+>>    ppc/pnv: remove pnv-phb4-root-port
+>>    ppc/pnv: remove pecc->rp_model
+>>
+>>   hw/pci-host/meson.build        |   3 +-
+>>   hw/pci-host/pnv_phb.c          | 258 ++++++++++++++++++++++++++++
+>>   hw/pci-host/pnv_phb3.c         | 256 +++++++++++-----------------
+>>   hw/pci-host/pnv_phb3_msi.c     |  12 +-
+>>   hw/pci-host/pnv_phb3_pbcq.c    |   8 +-
+>>   hw/pci-host/pnv_phb4.c         | 298 ++++++++++++---------------------
+>>   hw/pci-host/pnv_phb4_pec.c     |  14 +-
+>>   hw/ppc/pnv.c                   |  41 ++++-
+>>   include/hw/pci-host/pnv_phb.h  | 224 +++++++++++++++++++++++++
+>>   include/hw/pci-host/pnv_phb3.h | 118 +------------
+>>   include/hw/pci-host/pnv_phb4.h | 108 ++----------
+>>   include/hw/ppc/pnv.h           |   3 +-
+>>   12 files changed, 757 insertions(+), 586 deletions(-)
+>>   create mode 100644 hw/pci-host/pnv_phb.c
+>>   create mode 100644 include/hw/pci-host/pnv_phb.h
+> 
+> I'm completely on-board with having a proxy-like PHB device that maps to the correct underlying PHB version, but to me it feels like combining multiple separate devices into a single one is going to make things more complicated to maintain in the long term.
+
+
+I'm all up for a "virtual pnv-phb" device that can be used together with the
+existing versioned phbs. I wasn't able to pull that off.
+
+
+
+Thanks,
+
+
+Daniel
+
 
 > 
 > 
-> Terminologies:
-> --------------
->   - memory conversion: the action of converting guest memory between private
->     and shared.
->   - explicit conversion: an enlightened guest uses a hypercall to explicitly
->     request a memory conversion to VMM.
->   - implicit conversion: the conversion when VMM reacts to a page fault due
->     to different guest/host memory attributes (private/shared).
->   - destructive conversion: the memory content is lost/destroyed during
->     conversion.
->   - non-destructive conversion: the memory content is preserved during
->     conversion.
+> ATB,
 > 
-> 
-> Requirements & Gaps
-> -------------------------------------
->   - Confidential computing(CC): TDX/SEV/CCA
->     * Need support both explicit/implicit conversions.
->     * Need support only destructive conversion at runtime.
->     * The current patch should just work, but prefer to have pre-boot guest
->       payload/firmware population into private memory for performance.
-
-Not just performance in the case of SEV, it's needed there because firmware
-only supports in-place encryption of guest memory, there's no mechanism to
-provide a separate buffer to load into guest memory at pre-boot time. I
-think you're aware of this but wanted to point that out just in case.
-
-> 
->   - pKVM
->     * Support explicit conversion only. Hard to achieve implicit conversion,
->       does not record the guest access info (private/shared) in page fault,
->       also makes little sense.
->     * Expect to support non-destructive conversion at runtime. Additionally
->       in-place conversion (the underlying physical page is unchanged) is
->       desirable since copy is not disirable. The current destructive conversion
->       does not fit well.
->     * The current callbacks between mm/KVM is useful and reusable for pKVM.
->     * Pre-boot guest payload population is nice to have.
-> 
-> 
-> Change Proposal
-> ---------------
-> Since there are some divergences for pKVM from CC usages and at this time looks
-> whether we will and how we will support pKVM with this private memory patchset
-> is still not quite clear, so this proposal does not imply certain detailed pKVM
-> implementation. But from the API level, we want this can be possible to be future
-> extended for pKVM or other potential usages.
-> 
->   - No new user APIs introduced for memory backing store, e.g. remove the
->     current MFD_INACCESSIBLE. This info will be communicated from memfile_notifier
->     consumers to backing store via the new 'flag' field in memfile_notifier
->     described below. At creation time, the fd is normal shared fd. At rumtime CC
->     usages will keep using current fallocate/FALLOC_FL_PUNCH_HOLE to do the
->     conversion, but pKVM may also possible use a different way (e.g. rely on
->     mmap/munmap or mprotect as discussed). These are all not new APIs anyway.
-
-For SNP most of the explicit conversions are via GHCB page-state change
-requests. Each of these PSC requests can request shared/private
-conversions for up to 252 individual pages, along with whether or not
-they should be treated as 4K or 2M pages. Currently, like with
-KVM_EXIT_MEMORY_ERROR, these requests get handled in userspace and call
-back into the kernel via fallocate/PUNCH_HOLE calls.
-
-For each fallocate(), we need to update the RMP table to mark a page as
-private, and for PUNCH_HOLE we need to mark it as shared (otherwise it
-would be freed back to the host as guest-owned/private and cause a crash if
-the host tries to re-use it for something). I needed to add some callbacks
-to the memfile_notifier to handle these RMP table updates. There might be
-some other bits of book-keeping like clflush's, and adding/removing guest
-pages from the kernel's direct map.
-
-Not currently implemented, but the guest can also issue requests to
-"smash"/"unsmash" a 2M private range into individual 4K private ranges
-(generally in advance of flipping one of the pages to shared, or
-vice-versa) in the RMP table. Hypervisor code tries to handle this
-automatically, by determining when to smash/unsmash on it's own, but...
-
-I'm wondering how all these things can be properly conveyed through this
-fallocate/PUNCH_HOLE interface if we ever needed to add support for all
-of this, as it seems a bit restrictive as-is. For instance, with the
-current approach, one possible scheme is:
-
-  - explicit conversion of shared->private for 252 4K pages:
-    - we could do 252 individual fallocate()'s of 4K each, and make sure the
-      kernel code will do notifier callbacks / RMP updates for each individual
-      4K page
-
-  - shared->private for 252 2M pages:
-    - we could do 252 individual fallocate()'s of 2M each, and make sure the
-      kernel code will do notifier callbacks / RMP updates for each individual
-      2M page
-
-But for SNP most of these bulk PSC changes are when the guest switches
-*all* of it's pages from shared->private during early boot when it
-validates all of it's memory. So these pages tend to be contiguous
-ranges, and a nice optimization would be to coalesce these 252
-fallocate() calls into a single fallocate() that spans the whole range.
-But there's no good way to do that without losing information like
-whether these should be treated as individual 4K vs. 2M ranges.
-
-So I wonder, since there's talk of the "binding" of this memfd to KVM
-being what actually enabled all the private/shared operations, if we
-should introduce some sort of new KVM ioctl, like
-KVM_UPM_SET_PRIVATE/SHARED, that could handle all the
-fallocate/hole-punching on the kernel side for larger GFN ranges to reduce
-the kernel<->userspace transitions, and allow for 4K/2M granularity to be
-specified as arguments, and maybe provide for better
-backward-compatibility vs. future changes to memfd backend interface.
-
-> 
->   - Add a flag to memfile_notifier so its consumers can state the requirements.
-> 
->         struct memfile_notifier {
->                 struct list_head list;
->                 unsigned long flags;     /* consumer states its requirements here */
->                 struct memfile_notifier_ops *ops; /* future function may also extend ops when necessary */
->         };
-> 
->     For current CC usage, we can define and set below flags from KVM.
-> 
->         /* memfile notifier flags */
->         #define MFN_F_USER_INACCESSIBLE   0x0001  /* memory allocated in the file is inaccessible from userspace (e.g. read/write/mmap) */
->         #define MFN_F_UNMOVABLE           0x0002  /* memory allocated in the file is unmovable */
->         #define MFN_F_UNRECLAIMABLE       0x0003  /* memory allocated in the file is unreclaimable (e.g. via kswapd or any other pathes) */
-> 
->     When memfile_notifier is being registered, memfile_register_notifier will
->     need check these flags. E.g. for MFN_F_USER_INACCESSIBLE, it fails when
->     previous mmap-ed mapping exists on the fd (I'm still unclear on how to do
->     this). When multiple consumers are supported it also need check all
->     registered consumers to see if any conflict (e.g. all consumers should have
->     MFN_F_USER_INACCESSIBLE set). Only when the register succeeds, the fd is
->     converted into a private fd, before that, the fd is just a normal (shared)
->     one. During this conversion, the previous data is preserved so you can put
->     some initial data in guest pages (whether the architecture allows this is
->     architecture-specific and out of the scope of this patch).
-> 
->   - Pre-boot guest payload populating is done by normal mmap/munmap on the fd
->     before it's converted into private fd when KVM registers itself to the
->     backing store.
-
-Is that registration still intended to be triggered by
-KVM_SET_USER_MEMORY_REGION, or is there a new ioctl you're considering?
-
-I ask because in the case of SNP (and QEMU in general, maybe other VMMs),
-the regions are generally registered before the guest contents are
-initialized. So if KVM_SET_USER_MEMORY_REGION kicks of the conversion then
-it's too late for the SNP code in QEMU to populate the pre-conversion data.
-
-Maybe, building on the above approach, we could have something like:
-
-KVM_SET_USER_MEMORY_REGION
-KVM_UPM_BIND(TYPE_TDX|SEV|SNP, gfn_start, gfn_end)
-<populate guest memory>
-KVM_UPM_INIT(gfn_start, gfn_end) //not sure if needed
-KVM_UPM_SET_PRIVATE(gfn_start, gfn_end, granularity)
-<launch guest>
-...
-KVM_UPM_SET_PRIVATE(gfn_start, gfn_end, granularity)
-...
-KVM_UPM_SET_SHARED(gfn_start, gfn_end, granularity)
-etc.
-
-Just some rough ideas, but I think addressing these in some form would help
-a lot with getting SNP covered with reasonable performance.
-
-> 
->   - Implicit conversion: maybe it's worthy to discuss again: how about totally
->     remove implicit converion support? TDX should be OK, unsure SEV/CCA. pKVM
->     should be happy to see. Removing also makes the work much easier and prevents
->     guest bugs/unitended behaviors early. If it turns out that there is reason to
->     keep it, then for pKVM we can make it an optional feature (e.g. via a new
->     module param). But that can be added when pKVM really gets supported.
-
-SEV sort of relies on implicit conversion since the guest is free to turn
-on/off the encryption bit during run-time. But in the context of UPM that
-wouldn't be supported anyway since, IIUC, the idea is that SEV/SEV-ES would
-only be supported for guests that do explicit conversions via MAP_GPA_RANGE
-hypercall. And for SNP these would similarly be done via explicit page-state
-change requests via GHCB requests issued by the guest.
-
-But if possible, it would be nice if we could leave implicit conversion
-as an optional feature/flag, as it's something that we considered
-harmless for the guest SNP support (now upstream), and planned to allow
-in the hypervisor implementation. I don't think we intentionally relied on
-it in the guest kernel/uefi support, but I need to audit that code to be
-sure that dropping it wouldn't cause a regression in the guest support.
-I'll try to confirm this soon one I get things running under UPM a bit more
-reliably.
-
-> 
->   - non-destructive in-place conversion: Out of scope for this series, pKVM can
->     invent other pKVM specific interfaces (either extend memfile_notifier and using
->     mmap/mprotect or use totaly different ways like access through vmfd as Sean
->     suggested).
-> 
-> Thanks,
-> Chao
-
-Also, happy to help with testing things on the SNP side going forward, just
-let me know.
-
-Thanks!
-
--Mike
+> Mark.
 
