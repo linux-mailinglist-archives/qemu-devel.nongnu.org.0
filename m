@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EC351FFB8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 16:35:30 +0200 (CEST)
-Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFCC51FFAE
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 16:32:40 +0200 (CEST)
+Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no4Tx-0003tz-UU
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 10:35:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
+	id 1no4RD-0005hq-J0
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 10:32:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1no4EN-0002Hj-4z; Mon, 09 May 2022 10:19:25 -0400
-Received: from mga05.intel.com ([192.55.52.43]:24288)
+ id 1no4EQ-0002Mp-SZ; Mon, 09 May 2022 10:19:26 -0400
+Received: from mga05.intel.com ([192.55.52.43]:24353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1no4EL-0001AQ-HO; Mon, 09 May 2022 10:19:22 -0400
+ id 1no4EP-0001Ef-4p; Mon, 09 May 2022 10:19:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652105961; x=1683641961;
+ t=1652105965; x=1683641965;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wCnjRNxx0aBPKHmxBrCa2GOKDCDydqbCCvB5XSuBI9k=;
- b=PptGfoDanHtObCht+6G/KMh2CPzI2KsnNa9MiNYXtVK0PZ6EnNGM+eWf
- l6TGjXfNdJJxeNjxVUSwsFBN61HMDDlmFmrBWESanyFmMwJXDltdhufrY
- UcIptugcSnx0bWSJ8ErGGgg2NZKZS/e3kGNAmRzPK+p1WiqAoXTihCOw8
- YoeS7fUXjwQWqjZ0Dop4Cb6ADRnvV5PeCb5+hWhs/jKoWvW0HtLp8U123
- Za+G5xbIITSQ7vfR8QTCJzAI2Z2Q9+d6wVZrounbuF0DjSmXFDxu6x9bm
- 6h/IVlEEU4bjBRilOKOuSx4MJ+sEMJhEoV3e8BZqzRSYooRSwyRFUocdd Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="355490904"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="355490904"
+ bh=T3j6nnZa5/IGQxypAhVXl35cX7LvpTIlvzv6DpCG0+E=;
+ b=VIMSV9xkiMKjU6wGiJzIOjxjkYjxogVy8jgaQyNgTLqtbgdrmApo69Jp
+ sPIJEoGOpnrGjyBLvyggW+XjekpBNDIiv0uFNs54Vwh7x84IZBdvRmY4Y
+ 8QAV1zBrzgmXHpZdvj9NQulyCN1Bc3qBYaDywS5nLVwDhldK8iSitHV4b
+ JyR7lKABllhIHunvJTiGbrAwWVpPTFJPdHgIfGKhC6PcHA1kN2qCDQBrs
+ yAOaVnKIQjEVT2vPDhNouQr8puSA4pnpy5XrD+hLI0J+0DXmj6kAFW6Cz
+ C2BdIEImBANF2BRPhnmAIjPWHbOxxPICW+T/uxIwR5vx0xcnapwtPj8Wq Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="355490911"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="355490911"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 07:19:19 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="622987375"
+ 09 May 2022 07:19:23 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="622987381"
 Received: from lmaniak-dev.elements.local ([10.55.249.72])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 07:19:16 -0700
+ 09 May 2022 07:19:19 -0700
 From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, ani@anisinha.ca, armbru@redhat.com, f4bug@amsat.org,
@@ -46,10 +46,9 @@ Cc: qemu-block@nongnu.org, ani@anisinha.ca, armbru@redhat.com, f4bug@amsat.org,
  lukasz.gieryk@linux.intel.com, lukasz.maniak@linux.intel.com,
  marcel.apfelbaum@gmail.com, mst@redhat.com, stefanha@redhat.com,
  xypron.glpk@gmx.de
-Subject: [PATCH v8 11/12] hw/nvme: Update the initalization place for the AER
- queue
-Date: Mon,  9 May 2022 16:16:19 +0200
-Message-Id: <20220509141620.3868733-12-lukasz.maniak@linux.intel.com>
+Subject: [PATCH v8 12/12] hw/acpi: Make the PCI hot-plug aware of SR-IOV
+Date: Mon,  9 May 2022 16:16:20 +0200
+Message-Id: <20220509141620.3868733-13-lukasz.maniak@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
 References: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
@@ -82,50 +81,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-This patch updates the initialization place for the AER queue, so it’s
-initialized once, at controller initialization, and not every time
-controller is enabled.
+PCI device capable of SR-IOV support is a new, still-experimental
+feature with only a single working example of the Nvme device.
 
-While the original version works for a non-SR-IOV device, as it’s hard
-to interact with the controller if it’s not enabled, the multiple
-reinitialization is not necessarily correct.
+This patch in an attempt to fix a double-free problem when a
+SR-IOV-capable Nvme device is hot-unplugged in the following scenario:
 
-With the SR/IOV feature enabled a segfault can happen: a VF can have its
-controller disabled, while a namespace can still be attached to the
-controller through the parent PF. An event generated in such case ends
-up on an uninitialized queue.
+Qemu CLI:
+---------
+-device pcie-root-port,slot=0,id=rp0
+-device nvme-subsys,id=subsys0
+-device nvme,id=nvme0,bus=rp0,serial=deadbeef,subsys=subsys0,sriov_max_vfs=1,sriov_vq_flexible=2,sriov_vi_flexible=1
 
-While it’s an interesting question whether a VF should support AER in
-the first place, I don’t think it must be answered today.
+Guest OS:
+---------
+sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
+sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
+echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
+sleep 1
+echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
+sleep 2
+echo 01:00.1 > /sys/bus/pci/drivers/nvme/bind
+
+Qemu monitor:
+-------------
+device_del nvme0
+
+Explanation of the problem and the proposed solution:
+
+1) The current SR-IOV implementation assumes it’s the PhysicalFunction
+   that creates and deletes VirtualFunctions.
+2) It’s a design decision (the Nvme device at least) for the VFs to be
+   of the same class as PF. Effectively, they share the dc->hotpluggable
+   value.
+3) When a VF is created, it’s added as a child node to PF’s PCI bus
+   slot.
+4) Monitor/device_del triggers the ACPI mechanism. The implementation is
+   not aware of SR/IOV and ejects PF’s PCI slot, directly unrealizing all
+   hot-pluggable (!acpi_pcihp_pc_no_hotplug) children nodes.
+5) VFs are unrealized directly, and it doesn’t work well with (1).
+   SR/IOV structures are not updated, so when it’s PF’s turn to be
+   unrealized, it works on stale pointers to already-deleted VFs.
+
+The proposed fix is to make the PCI ACPI code aware of SR/IOV.
 
 Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/nvme/ctrl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/acpi/pcihp.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 247c09882dd..b0862b1d96c 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6326,8 +6326,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index bf65bbea494..84d75e6b846 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -192,8 +192,12 @@ static bool acpi_pcihp_pc_no_hotplug(AcpiPciHpState *s, PCIDevice *dev)
+      * ACPI doesn't allow hotplug of bridge devices.  Don't allow
+      * hot-unplug of bridge devices unless they were added by hotplug
+      * (and so, not described by acpi).
++     *
++     * Don't allow hot-unplug of SR-IOV Virtual Functions, as they
++     * will be removed implicitly, when Physical Function is unplugged.
+      */
+-    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable;
++    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable ||
++           pci_is_vf(dev);
+ }
  
-     nvme_set_timestamp(n, 0ULL);
- 
--    QTAILQ_INIT(&n->aer_queue);
--
-     nvme_select_iocs(n);
- 
-     return 0;
-@@ -6987,6 +6985,7 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
-     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
-+    QTAILQ_INIT(&n->aer_queue);
- 
-     list->numcntl = cpu_to_le16(max_vfs);
-     for (i = 0; i < max_vfs; i++) {
+ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slots)
 -- 
 2.25.1
 
