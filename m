@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D8351FB26
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:18:40 +0200 (CEST)
-Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC40C51FAC4
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:04:13 +0200 (CEST)
+Received: from localhost ([::1]:56152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no1PT-0007yZ-KW
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54034)
+	id 1no1BV-0006vi-0Q
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fe-0005Ga-Uj
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:31:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25467)
+ id 1no0fk-0005Kt-Oj
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:31:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fc-000328-P6
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:31:18 -0400
+ id 1no0fj-00036b-9T
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:31:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652092275;
+ s=mimecast20190719; t=1652092282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iP0EFfAGCyX4HpBTo71VQVnCIrQ29o6nhf7Yzzn8PjY=;
- b=hdeZmI80bVPbXdfL95ZgDqQW7jwL+5sJ6cj1zM4g5h++QZuoqa8T/+pHBz7F+wwZUM39im
- 9fRvGjfvBlnyrRVW2ElU4MwdStY7jkt2QmbebxY8Ew2tSYBENRNmO2uJSsH4sU0WrT9mhj
- d9yAS2irUaQ1X8qG3uvW1hcPpJcjl7Q=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XT/5ko8xXdFB2oZI4c5/NazeRRBkHp1p2r7GLP5NiZo=;
+ b=cr0nYk2ZKgMaFj/UDN6z4hqMTRp0XdANZlVjx9ZObaoGbYNen8+IJq+L+T9S3w+pe+edGD
+ tLbNeunniRdAQg3hh4mRTI0u6VvBcZsBNKEdd3XQu4/SSfM/80KZQtwCq62KiqgEzqGTnr
+ bwbt+LWOrOe3RAL6VFARSbg+CHcEKRw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-BzY1lxnBP32-p7nSOAFJtQ-1; Mon, 09 May 2022 06:31:14 -0400
-X-MC-Unique: BzY1lxnBP32-p7nSOAFJtQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- e9-20020a05600c4e4900b00394779649b1so4977737wmq.3
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:31:13 -0700 (PDT)
+ us-mta-649-MR8FWGrHPDWy-p6cEDgBKQ-1; Mon, 09 May 2022 06:31:21 -0400
+X-MC-Unique: MR8FWGrHPDWy-p6cEDgBKQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v17-20020a056000163100b0020c9b0e9039so4566309wrb.18
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:31:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iP0EFfAGCyX4HpBTo71VQVnCIrQ29o6nhf7Yzzn8PjY=;
- b=2/aZU8Me+gmoDjNbWCUxISRJkb2Hbk4F4gnA04GYZLJ4CHFejggxhU/tiGgz6P15a9
- Zy2QHe8cF/E7jaY82SjvPoL5F0rUZ2cFCvMAejsIjekS244gs0sgJqsyvI1dxbnVq3Ij
- d1zevnVMgYKnv28LEIJtkosr6W60WlWO2hNHvvHw8uuJBnj9HR87n/9nv7VD8WZM/h6i
- FiM7q4jKlIRHzLet7x+L99+60ZDAV9wlSAhoZLCCuZlVxibppLw6tdi5WU/lQ8B988Lw
- NqN4SraLvZNc55uDfi8S0Nqvo3xKW8TYQYSLffAB3BpfUxkk7MfgyIm2G1U1bMUtOZJM
- JjAQ==
-X-Gm-Message-State: AOAM531+d6soNcLtVw57L+q6dD0HUs9I5vOnz1diZgRMDAnWu5FP0iQL
- ZWQoMXCDyej17ky2RP7DeRBJu6BRNhTTB9fpAwDKdgQht/0YFIt8pkAhHgMXwFx3lRFaa7L+Idi
- dOLTgd2TwXSwC1zoeRg5Ug+fZbiAfCy3/8D7VxSP9YQbL/SSQohPQlB8n3hdXFVp/yc0=
-X-Received: by 2002:adf:d1cf:0:b0:20c:a6c4:98f5 with SMTP id
- b15-20020adfd1cf000000b0020ca6c498f5mr12971215wrd.501.1652092272582; 
- Mon, 09 May 2022 03:31:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzeJeFnQ5yxjo2FgY4rBO5heYLYO3IB1AOdEKJGh0RBOWJGQ+m+4NOP6zUDNPx5ozaqpsaYAA==
-X-Received: by 2002:adf:d1cf:0:b0:20c:a6c4:98f5 with SMTP id
- b15-20020adfd1cf000000b0020ca6c498f5mr12971188wrd.501.1652092272135; 
- Mon, 09 May 2022 03:31:12 -0700 (PDT)
+ bh=XT/5ko8xXdFB2oZI4c5/NazeRRBkHp1p2r7GLP5NiZo=;
+ b=Q8Pbj01jhU71lilGxB/RyQncOAeVqe0Ei11jy/VJv3w/i+p6g1lgDnJTAz/W5ATobz
+ drvVxTbH7uKxAnG8ZwTjOftLtjsDwMB1c2dEuFnWokU0uqIIsCEmG7EQdeBAEa5u40Bf
+ qryEhLnrGY3vUFq1UOXsT//zbEmriPt9W9nHwzpe93jVMhTK/v8R8EHdLMMPsMlO+xq7
+ wcSqh1GYY3/AID22SYe8hII0goTXWd61ILVccBwQbt1i6djp/k0hwyJe3F2bhPXCKYEf
+ lNWD1GuK0FmC29C5g/RtqIerdnV2V8Yb2diMrrjYR4q3wjsy6P7XkQjWq/TcQ8YI5KJ2
+ Pi1Q==
+X-Gm-Message-State: AOAM5332uzMjNXpb9qWTcKdBmuncbd4esdkwxmsz8lrfAMwheUcTJNdr
+ Z2nIr18TqUg8U6WTM+Tu/Ebz2AWIkg2jDCqMVcWdqvxrQItMzFINvpjzrPLOArcGm8vd9lvSe4y
+ Sp/IFHHf6tnbSWhEF5uartTuxo7sFH5/Vx7Zr9i2HN/W+z0RZh2QOMeBRVKM/m9AnlhE=
+X-Received: by 2002:adf:ef01:0:b0:20a:8068:ca5e with SMTP id
+ e1-20020adfef01000000b0020a8068ca5emr13100307wro.661.1652092279905; 
+ Mon, 09 May 2022 03:31:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSLwO7abmTUoBIYZIueQSVUo46RtZCdpuowa6VUD1fiBH1hCwxuL1EPjOuk21aYgRx+/4E+w==
+X-Received: by 2002:adf:ef01:0:b0:20a:8068:ca5e with SMTP id
+ e1-20020adfef01000000b0020a8068ca5emr13100284wro.661.1652092279508; 
+ Mon, 09 May 2022 03:31:19 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a056000050c00b0020c5253d900sm10610696wrf.76.2022.05.09.03.31.11
+ e13-20020a5d530d000000b0020c5253d8fasm10677278wrv.70.2022.05.09.03.31.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 03:31:11 -0700 (PDT)
+ Mon, 09 May 2022 03:31:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/26] vmdk: add missing coroutine_fn annotations
-Date: Mon,  9 May 2022 12:30:13 +0200
-Message-Id: <20220509103019.215041-21-pbonzini@redhat.com>
+Subject: [PATCH v2 21/26] job: add missing coroutine_fn annotations
+Date: Mon,  9 May 2022 12:30:14 +0200
+Message-Id: <20220509103019.215041-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220509103019.215041-1-pbonzini@redhat.com>
 References: <20220509103019.215041-1-pbonzini@redhat.com>
@@ -101,54 +101,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/vmdk.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ include/qemu/job.h | 2 +-
+ job.c              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 38e5ab3806..2c7f1858f9 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -1793,10 +1793,10 @@ static int coroutine_fn vmdk_co_block_status(BlockDriverState *bs,
-     return ret;
- }
- 
--static int vmdk_write_extent(VmdkExtent *extent, int64_t cluster_offset,
--                            int64_t offset_in_cluster, QEMUIOVector *qiov,
--                            uint64_t qiov_offset, uint64_t n_bytes,
--                            uint64_t offset)
-+static int coroutine_fn vmdk_write_extent(VmdkExtent *extent, int64_t cluster_offset,
-+                                         int64_t offset_in_cluster, QEMUIOVector *qiov,
-+					  uint64_t qiov_offset, uint64_t n_bytes,
-+					  uint64_t offset)
- {
-     int ret;
-     VmdkGrainMarker *data = NULL;
-@@ -1874,9 +1874,9 @@ static int vmdk_write_extent(VmdkExtent *extent, int64_t cluster_offset,
-     return ret;
- }
- 
--static int vmdk_read_extent(VmdkExtent *extent, int64_t cluster_offset,
--                            int64_t offset_in_cluster, QEMUIOVector *qiov,
--                            int bytes)
-+static int coroutine_fn vmdk_read_extent(VmdkExtent *extent, int64_t cluster_offset,
-+                                        int64_t offset_in_cluster, QEMUIOVector *qiov,
-+					 int bytes)
- {
-     int ret;
-     int cluster_bytes, buf_bytes;
-@@ -2023,9 +2023,9 @@ fail:
+diff --git a/include/qemu/job.h b/include/qemu/job.h
+index c105b31076..397ac39608 100644
+--- a/include/qemu/job.h
++++ b/include/qemu/job.h
+@@ -436,7 +436,7 @@ void coroutine_fn job_pause_point(Job *job);
   *
-  * Returns: error code with 0 for success.
+  * Yield the job coroutine.
   */
--static int vmdk_pwritev(BlockDriverState *bs, uint64_t offset,
--                       uint64_t bytes, QEMUIOVector *qiov,
--                       bool zeroed, bool zero_dry_run)
-+static int coroutine_fn vmdk_pwritev(BlockDriverState *bs, uint64_t offset,
-+				     uint64_t bytes, QEMUIOVector *qiov,
-+				     bool zeroed, bool zero_dry_run)
+-void job_yield(Job *job);
++void coroutine_fn job_yield(Job *job);
+ 
+ /**
+  * @job: The job that calls the function.
+diff --git a/job.c b/job.c
+index 075c6f3a20..20f0d8b2cd 100644
+--- a/job.c
++++ b/job.c
+@@ -525,7 +525,7 @@ void coroutine_fn job_pause_point(Job *job)
+     }
+ }
+ 
+-void job_yield(Job *job)
++void coroutine_fn job_yield(Job *job)
  {
-     BDRVVmdkState *s = bs->opaque;
-     VmdkExtent *extent = NULL;
+     assert(job->busy);
+ 
 -- 
 2.35.1
 
