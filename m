@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9D251FAC1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:02:28 +0200 (CEST)
-Received: from localhost ([::1]:55258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A830F51FA49
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:47:26 +0200 (CEST)
+Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no19l-0006I2-Ay
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
+	id 1no0vF-0002D3-Ju
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:47:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fE-0004i7-KV
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50455)
+ id 1no0fG-0004np-TA
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fD-0002pB-2z
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:52 -0400
+ id 1no0fF-0002pL-9I
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652092250;
+ s=mimecast20190719; t=1652092252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PTpiMctGFRNCeUD0zfF0QDxVsAAFlrqIKcCLw448UvM=;
- b=Fp8Lw8rL60+bBdlM1YpHC6lRFpHEDenqkcj4h6lmMDjH2Ap/zsTQ6WnfRnbt63bmhZiSTU
- 98WWiO1po/4VAi6ICICS1fQTcV94O2oqAs3ohcb1xnREqUZDnCBT1ZBV/yLmgNbeCEOKEU
- WIEKDmvHfAZyW017xVp6d8tTLW7QNq4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YqP5juE8so3NQtrdckWYrtnqcc5LeThHKJxEEA5BQq0=;
+ b=DhgGhJXifaZuMzMf4Hw3JShXpoMpfmkbRSiGVnf7oMGKh8+ln8w2MOwHa6VlYryxa3O3gT
+ 75bc92rgMG9lV1457p1DTuCFTrixCA9PCM9VVc2NRV7hRJzURdbVx+v1GcpdzuMYqxYUMX
+ uwtc96Jy2jiWimNlWzAOeEAzVqk+x9U=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-WhdRItxgM-e-YTUIupD6-g-1; Mon, 09 May 2022 06:30:48 -0400
-X-MC-Unique: WhdRItxgM-e-YTUIupD6-g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- p10-20020adfaa0a000000b0020c4829af5fso5604811wrd.16
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:30:48 -0700 (PDT)
+ us-mta-8-B78m-dhtMcKZq5VBKMh4JA-1; Mon, 09 May 2022 06:30:51 -0400
+X-MC-Unique: B78m-dhtMcKZq5VBKMh4JA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g3-20020a7bc4c3000000b0039409519611so4080006wmk.9
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:30:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PTpiMctGFRNCeUD0zfF0QDxVsAAFlrqIKcCLw448UvM=;
- b=y1iP234BwNH1GVB/yO8lxiomeuCPU65cth/1+annmcN/2HLF5QJBMYjJzknOHtqpAX
- P77FFlZhKtbb5LKXhxKhKMe4frXHl9YJYdizy3AGASrLlDi2q4lVdWWaiRIQ9fKvqA6U
- tDX+3CXtZJUpYMRluCueJrLK9gRVi7342afuQfn4/wuguqOqF5JKmI8YHIVazrKyLck1
- V7SUib8zkEXwedf97d1trfRTa+o5reaeyB4tygshcMo9ZlH8BpmAdO/fJ1EJFGRT7hxs
- zVfqQgl2ycn8+NAW7xU9YTp9CyW7SlxWnScJTVUkzOLuq7ZiIQWeKabZ0C2+R0su7IyP
- /ILA==
-X-Gm-Message-State: AOAM530RrI/P2lPpeDZf7no5SsDMpI01Ag4Ek6y23DXAZyjSCePqqX0S
- 4AOmQXzFIvp+ja4vC8HRpAxuJBWl9ylyCvoY/wvXE8UMGvpEpwjNqi1ayG9/AWjPYET4zosNV+9
- RVbD7PtKhaotzXCng0T0SQCv7HkP/akzd5806O6KcNYtXm4XFs0jijBkQKg8rHcxP8nE=
-X-Received: by 2002:a7b:cd97:0:b0:38f:f785:ff8 with SMTP id
- y23-20020a7bcd97000000b0038ff7850ff8mr21417441wmj.44.1652092247266; 
- Mon, 09 May 2022 03:30:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxcM5mMdpC9ZojQzl6AAeE2ewGdGHpOd8UbqZcx8RFL3mtFNso1L5CJZJidtyuCzwg/I+dCuA==
-X-Received: by 2002:a7b:cd97:0:b0:38f:f785:ff8 with SMTP id
- y23-20020a7bcd97000000b0038ff7850ff8mr21417411wmj.44.1652092246808; 
- Mon, 09 May 2022 03:30:46 -0700 (PDT)
+ bh=YqP5juE8so3NQtrdckWYrtnqcc5LeThHKJxEEA5BQq0=;
+ b=A0pALLf4ppwXweRfNPBkkZVowgQEz9BdXbgiu64EodmwNH/lbYJ69D6FCtL9vDBfIz
+ 0ENkJnwz59xuUyq28hy9dgAl4MnLCQeol/YfGjSlO8gZdX3cHx9c+T0250r088bW0QAh
+ 3AD+GG0zY0Fc59bG1rN/bo8xD49/f4WeAAdCj93AyNQN/nFK37aTLWwe6KErJ6E84iKM
+ o2P+zendwvnXeV23x6izIwULLY5VQ2LpomTEw8hjoxVslhYY8zGNTTo1ndoiT42QJ6rY
+ NtJunHEk9S9t//wmy2GfQCWaY0EUHLs9FXkM2QMtppliQCd1ZxFQNbu4K3+bcJqyVB/n
+ vmmg==
+X-Gm-Message-State: AOAM5336aCHHATgBHw6Rr7B9H1dI1LWl/HKcu5CFL1QRElBiboHZcTL6
+ 3yV9+V2Gynv6DEJ1sVKslKNZZRcFkVO+JdsJFMfvG4YwYrJA7NuxFn5/YZFOQcRVNrp+coM3KNx
+ S72NbLL7CevtKENrtfZ8v8qMYi6j89Ftj4ORcjcQbvfYgk/DYVui6oW6Cs2/8nB5ErUE=
+X-Received: by 2002:adf:ce89:0:b0:20a:d917:5234 with SMTP id
+ r9-20020adfce89000000b0020ad9175234mr13419851wrn.265.1652092250056; 
+ Mon, 09 May 2022 03:30:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzc0KYdvqSYkqQxM6ZzA/Imb2ojX9f5uii1KNZpCqAfeD4in5mVePTfpctwKztwBTDdC96tBQ==
+X-Received: by 2002:adf:ce89:0:b0:20a:d917:5234 with SMTP id
+ r9-20020adfce89000000b0020ad9175234mr13419821wrn.265.1652092249695; 
+ Mon, 09 May 2022 03:30:49 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- n5-20020a1c7205000000b003942a244ecbsm12207056wmc.16.2022.05.09.03.30.46
+ r14-20020adfce8e000000b0020c5253d8ddsm10714304wrn.41.2022.05.09.03.30.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 03:30:46 -0700 (PDT)
+ Mon, 09 May 2022 03:30:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/26] nvme: add missing coroutine_fn annotations
-Date: Mon,  9 May 2022 12:30:05 +0200
-Message-Id: <20220509103019.215041-13-pbonzini@redhat.com>
+Subject: [PATCH v2 13/26] parallels: add missing coroutine_fn annotations
+Date: Mon,  9 May 2022 12:30:06 +0200
+Message-Id: <20220509103019.215041-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220509103019.215041-1-pbonzini@redhat.com>
 References: <20220509103019.215041-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,25 +101,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/nvme.c | 5 +++--
+ block/parallels.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 01fb28aa63..6519697e40 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1234,8 +1234,9 @@ static inline bool nvme_qiov_aligned(BlockDriverState *bs,
-     return true;
+diff --git a/block/parallels.c b/block/parallels.c
+index 8879b7027a..bee2ff023d 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -165,8 +165,9 @@ static int64_t block_status(BDRVParallelsState *s, int64_t sector_num,
+     return start_off;
  }
  
--static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
--                       QEMUIOVector *qiov, bool is_write, int flags)
-+static coroutine_fn int nvme_co_prw(BlockDriverState *bs,
-+				    uint64_t offset, uint64_t bytes,
-+				    QEMUIOVector *qiov, bool is_write, int flags)
+-static int64_t allocate_clusters(BlockDriverState *bs, int64_t sector_num,
+-                                 int nb_sectors, int *pnum)
++static coroutine_fn int64_t allocate_clusters(BlockDriverState *bs,
++					      int64_t sector_num,
++					      int nb_sectors, int *pnum)
  {
-     BDRVNVMeState *s = bs->opaque;
-     int r;
+     int ret = 0;
+     BDRVParallelsState *s = bs->opaque;
 -- 
 2.35.1
 
