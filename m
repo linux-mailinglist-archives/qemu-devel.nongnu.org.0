@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7666752011B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 17:26:45 +0200 (CEST)
-Received: from localhost ([::1]:41120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4DC5201C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 17:57:10 +0200 (CEST)
+Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no5HY-0001FH-Bx
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 11:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
+	id 1no5kz-0003nr-KN
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 11:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1no5Em-0007Yp-Ui
- for qemu-devel@nongnu.org; Mon, 09 May 2022 11:23:55 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40647)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1no5ix-0001po-Pl
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 11:55:03 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1no5El-0005vF-Ah
- for qemu-devel@nongnu.org; Mon, 09 May 2022 11:23:52 -0400
-Received: by mail-wr1-x429.google.com with SMTP id e2so19952999wrh.7
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 08:23:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Z2Wud36soU0xnawyzNJf3vcixb2nxLI6H3vSsojg6ek=;
- b=ZGcwVvsDv24m3QTjE9cmL/UO7sMEngE6BG3mwLSKEpZcuxJL9RkzQibKpjbdGBicWg
- M59eTKr8lZ0QZT+PqH0w3CQ4Q6OVsuPD8Kkzp6UNBUzEMPjh0lz3yjlQ8SnECE1B6aVX
- SzIIHD/9wRjaozxfJ+BBa3HdqS8c+Ad0bTP6SMsY301+7ecOSvvYVduVzPU77daKSa7H
- cCuulo1Gt4E3o/OU9A2y7O7fZvSelm04xw8MT9jvoCYOtC2GBC0fnA44f/eyvlqgdnPE
- HvBkwg0vJ1pBF9cNYFF2dUOGZkBw0l4pJuau08PtEcE+Tnz6HMrppjNSwvYma+qk7LOW
- lAaA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1no5iv-0002M9-HP
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 11:55:03 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t6so20107380wra.4
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 08:55:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XEr+Ww15ZsGzL/c2cVGOi3ewPZet6C1VyL8iIhGr3FM=;
+ b=SiTKwdDQvwvk2GaatKcVjX8Et+DAEAb6rwVkohICK0gY+FrrQTc27ml7cx2m13Y9Ux
+ 0MpyKQENOdYJY4bn8bCGEoC6JcGLPWK8/mnNY+Vkb8I5pdOnk78aiFIjMmqdJPmNuJGg
+ qNPD6gCP2M3PFtJSiecfsFHjceHAIwBQ0+trkp09NitFvRyW5mbdCQ6kd/ym06CLtO+x
+ H7xg4xuQd32Nc8VQXlt8vLxrbLnvdsFom7yBKUz1jaEIbraGqv3CPSpx0o+RS2/XiJtN
+ t2ur8qZOmRBNLhXNtGFHcRQD8TWXwXD7AqZLPPSUhdLwAxgEdVQZm8GVIh+KxhJjxYJ3
+ lxIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Z2Wud36soU0xnawyzNJf3vcixb2nxLI6H3vSsojg6ek=;
- b=48w1RKQ6vZxQ9OOmHwU3aEEbcqtbxKH372UOX1ngaK4Zp2M4QrEgbSfMkmEBWIr7nL
- noumEyvnVawQjWpv1sgDyCerMy2LeE/bJgl9KgCr39Cw9aBHt64FRnpedHNQe6wktwsR
- Yh69cRI3p2KXpnqvCFld51srGRqG2ylvFmw04OFSXvAbcc0SrkGTvP0+OFZ1k1XMCScZ
- kzoapz+4SmbeNoF2All0XqfAel2eZSs2hd0HazYh4f886/0A3APXHWeY+FE5fLyAcZY4
- B8k0z7scvXuUzi3Hjj3lg5/Jes7NBaGbKGQhQuvUWg+2Fv5kXlREKWoEF9g9QagWF1tC
- 8lTA==
-X-Gm-Message-State: AOAM532fTBs4PbPCqslHjjxSlCCvBSJs2VjmzNrMaKp4BB1IHmO1q2M7
- Eq5f3UtzgGlt1vIhdTMnlnk=
-X-Google-Smtp-Source: ABdhPJyZYW8yupxRWd0eH5waHExB6nmsdrZHT0wazE1CUueje4PRUtHBHd9MgUwWJTRyd9951hK03Q==
-X-Received: by 2002:a5d:6949:0:b0:20a:e021:f8e0 with SMTP id
- r9-20020a5d6949000000b0020ae021f8e0mr14848831wrw.231.1652109829908; 
- Mon, 09 May 2022 08:23:49 -0700 (PDT)
-Received: from localhost (109.9.90.146.dyn.plus.net. [146.90.9.109])
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XEr+Ww15ZsGzL/c2cVGOi3ewPZet6C1VyL8iIhGr3FM=;
+ b=z9HWasSOd3CrzYn1ATs45QFbe01yn/k/L56YfRyTo5IpyTxPUFCWY5Qk3fyyIMRyEV
+ l/G/dPpk3ptMYmgaCgVnMQfAJ7YtcVVzm+3JbaoRudzau0uVsFjmOnH5YqnlSeXOgNRq
+ PAC0KzG/9ud3QmukhKbbHynNxRPegRygrpiaYG6U3Gk1uQY+uZCnFETXUn5bCd0MeJgH
+ 6TAZuF2TglDUXezRJEcsB9pvqMS4Dnr9k+pBStZixaycgMcAbPFWwrak98wu34uPfEFd
+ 1YWyqgRgLiyTpaiSJOUYKCuy1zjjQT+0ZQ65MdhZFrEn7qy2gzy63IHdX6HFXIMTtodT
+ tFJQ==
+X-Gm-Message-State: AOAM5336/P3772Z8OOZ3O1ARHt3/KumesPY2EnLjIm8qHkWLOrogEc/B
+ fVutCzjq8gEUPjYTdFyUsul9oQ==
+X-Google-Smtp-Source: ABdhPJwUunqsdMKotPNd/PNaFgsL6cvXAPhGyxwfEcS4FM6h1ySbBB814lcK72uPXCQ1T1/4S5SALQ==
+X-Received: by 2002:adf:f649:0:b0:20a:df27:d7e8 with SMTP id
+ x9-20020adff649000000b0020adf27d7e8mr14005227wrp.288.1652111699530; 
+ Mon, 09 May 2022 08:54:59 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- p20-20020a7bcc94000000b003942a244f38sm17506255wma.17.2022.05.09.08.23.49
+ bg9-20020a05600c3c8900b00394755b4479sm13350269wmb.21.2022.05.09.08.54.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 08:23:49 -0700 (PDT)
-Date: Mon, 9 May 2022 16:23:48 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Liu Yiding <liuyd.fnst@fujitsu.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] docs: Correct the default thread-pool-size
-Message-ID: <YnkyBOFNsig0uLO2@stefanha-x1.localdomain>
-References: <20220413042054.1484640-1-liuyd.fnst@fujitsu.com>
+ Mon, 09 May 2022 08:54:58 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Implement FEAT_IDST
+Date: Mon,  9 May 2022 16:54:57 +0100
+Message-Id: <20220509155457.3560724-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SQb8FZg/40PNtFs+"
-Content-Disposition: inline
-In-Reply-To: <20220413042054.1484640-1-liuyd.fnst@fujitsu.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,41 +86,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The Armv8.4 feature FEAT_IDST specifies that exceptions generated by
+read accesses to the feature ID space should report a syndrome code
+of 0x18 (EC_SYSTEMREGISTERTRAP) rather than 0x00 (EC_UNCATEGORIZED).
+The feature ID space is defined to be:
+ op0 == 3, op1 == {0,1,3}, CRn == 0, CRm == {0-7}, op2 == {0-7}
 
---SQb8FZg/40PNtFs+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In our implementation we might return the EC_UNCATEGORIZED syndrome
+value for a system register access in four cases:
+ * no reginfo struct in the hashtable
+ * cp_access_ok() fails (ie ri->access doesn't permit the access)
+ * ri->accessfn returns CP_ACCESS_TRAP_UNCATEGORIZED at runtime
+ * ri->type includes ARM_CP_RAISES_EXC, and the readfn raises
+   an UNDEF exception at runtime
 
-On Wed, Apr 13, 2022 at 12:20:54PM +0800, Liu Yiding wrote:
-> Refer to 26ec190964 virtiofsd: Do not use a thread pool by default
->=20
-> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
-> ---
->  docs/tools/virtiofsd.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+We have very few regdefs that set ARM_CP_RAISES_EXC, and none of
+them are in the feature ID space. (In the unlikely event that any
+are added in future they would need to take care of setting the
+correct syndrome themselves.) This patch deals with the other
+three cases, and enables FEAT_IDST for AArch64 -cpu max.
 
-Hi,
-Sorry it took so long to apply this! Thanks, applied to my block-next
-tree:
-https://gitlab.com/stefanha/qemu/commits/block-next
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/system/arm/emulation.rst |  1 +
+ target/arm/cpregs.h           | 24 ++++++++++++++++++++++++
+ target/arm/cpu.h              |  5 +++++
+ target/arm/cpu64.c            |  1 +
+ target/arm/op_helper.c        |  9 +++++++++
+ target/arm/translate-a64.c    | 28 ++++++++++++++++++++++++++--
+ 6 files changed, 66 insertions(+), 2 deletions(-)
 
-Stefan
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index c3bd0676a87..5183baf99a2 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -23,6 +23,7 @@ the following architecture extensions:
+ - FEAT_FlagM2 (Enhancements to flag manipulation instructions)
+ - FEAT_HPDS (Hierarchical permission disables)
+ - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
++- FEAT_IDST (ID space trap handling)
+ - FEAT_JSCVT (JavaScript conversion instructions)
+ - FEAT_LOR (Limited ordering regions)
+ - FEAT_LPA (Large Physical Address space)
+diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
+index 73984549d25..c73d9b4d7bf 100644
+--- a/target/arm/cpregs.h
++++ b/target/arm/cpregs.h
+@@ -450,4 +450,28 @@ static inline bool cp_access_ok(int current_el,
+ /* Raw read of a coprocessor register (as needed for migration, etc) */
+ uint64_t read_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri);
+ 
++/*
++ * Return true if the cp register encoding is in the "feature ID space" as
++ * defined by FEAT_IDST (and thus should be reported with ER_ELx.EC
++ * as EC_SYSTEMREGISTERTRAP rather than EC_UNCATEGORIZED).
++ */
++static inline bool arm_cpreg_encoding_in_idspace(uint8_t opc0, uint8_t opc1,
++                                                 uint8_t opc2,
++                                                 uint8_t crn, uint8_t crm)
++{
++    return opc0 == 3 && (opc1 == 0 || opc1 == 1 || opc1 == 3) &&
++        crn == 0 && crm < 8;
++}
++
++/*
++ * As arm_cpreg_encoding_in_idspace(), but take the encoding from an
++ * ARMCPRegInfo.
++ */
++static inline bool arm_cpreg_in_idspace(const ARMCPRegInfo *ri)
++{
++    return ri->state == ARM_CP_STATE_AA64 &&
++        arm_cpreg_encoding_in_idspace(ri->opc0, ri->opc1, ri->opc2,
++                                      ri->crn, ri->crm);
++}
++
+ #endif /* TARGET_ARM_CPREGS_H */
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index ca01f909a86..cd5d98f0658 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3931,6 +3931,11 @@ static inline bool isar_feature_aa64_st(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, ST) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_ids(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, IDS) != 0;
++}
++
+ static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index c841d55d0e9..0ac136fc7ee 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -841,6 +841,7 @@ static void aarch64_max_initfn(Object *obj)
+     t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1); /* FEAT_LVA */
+     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1); /* FEAT_TTL */
+     t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2); /* FEAT_BBM at level 2 */
++    t = FIELD_DP64(t, ID_AA64MMFR2, IDS, 1); /* FEAT_IDST */
+     cpu->isar.id_aa64mmfr2 = t;
+ 
+     t = cpu->isar.id_aa64zfr0;
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index 76499ffa149..b6f4dcf172b 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -631,6 +631,7 @@ uint32_t HELPER(mrs_banked)(CPUARMState *env, uint32_t tgtmode, uint32_t regno)
+ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
+                                  uint32_t isread)
+ {
++    ARMCPU *cpu = env_archcpu(env);
+     const ARMCPRegInfo *ri = rip;
+     CPAccessResult res = CP_ACCESS_OK;
+     int target_el;
+@@ -674,6 +675,14 @@ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
+     case CP_ACCESS_TRAP:
+         break;
+     case CP_ACCESS_TRAP_UNCATEGORIZED:
++        if (cpu_isar_feature(aa64_ids, cpu) && isread &&
++            arm_cpreg_in_idspace(ri)) {
++            /*
++             * FEAT_IDST says this should be reported as EC_SYSTEMREGISTERTRAP,
++             * not EC_UNCATEGORIZED
++             */
++            break;
++        }
+         syndrome = syn_uncategorized();
+         break;
+     default:
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index b80313670f9..84669672ba6 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1777,6 +1777,30 @@ static void gen_set_nzcv(TCGv_i64 tcg_rt)
+     tcg_temp_free_i32(nzcv);
+ }
+ 
++static void gen_sysreg_undef(DisasContext *s, bool isread,
++                             uint8_t op0, uint8_t op1, uint8_t op2,
++                             uint8_t crn, uint8_t crm, uint8_t rt)
++{
++    /*
++     * Generate code to emit an UNDEF with correct syndrome
++     * information for a failed system register access.
++     * This is EC_UNCATEGORIZED (ie a standard UNDEF) in most cases,
++     * but if FEAT_IDST is implemented then read accesses to registers
++     * in the feature ID space are reported with the EC_SYSTEMREGISTERTRAP
++     * syndrome.
++     */
++    uint32_t syndrome;
++
++    if (isread && dc_isar_feature(aa64_ids, s) &&
++        arm_cpreg_encoding_in_idspace(op0, op1, op2, crn, crm)) {
++        syndrome = syn_aa64_sysregtrap(op0, op1, op2, crn, crm, rt, isread);
++    } else {
++        syndrome = syn_uncategorized();
++    }
++    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syndrome,
++                       default_exception_el(s));
++}
++
+ /* MRS - move from system register
+  * MSR (register) - move to system register
+  * SYS
+@@ -1802,13 +1826,13 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         qemu_log_mask(LOG_UNIMP, "%s access to unsupported AArch64 "
+                       "system register op0:%d op1:%d crn:%d crm:%d op2:%d\n",
+                       isread ? "read" : "write", op0, op1, crn, crm, op2);
+-        unallocated_encoding(s);
++        gen_sysreg_undef(s, isread, op0, op1, op2, crn, crm, rt);
+         return;
+     }
+ 
+     /* Check access permissions */
+     if (!cp_access_ok(s->current_el, ri, isread)) {
+-        unallocated_encoding(s);
++        gen_sysreg_undef(s, isread, op0, op1, op2, crn, crm, rt);
+         return;
+     }
+ 
+-- 
+2.25.1
 
---SQb8FZg/40PNtFs+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJ5MgQACgkQnKSrs4Gr
-c8iLnwf+L/MkEMV9UxAFFOe2dNi5yvYEPPc4MATfYWzp30N2NYxlCB7NSn+Ii19T
-A6vbv413fUn5Ic8Z6r+/k5LHkLhuk+zAfYHA2sGgO/xTAuK618e6gV2aTSiKZGS+
-rHKjS3CRyKCG3qoYrkffNCX5sDe+6I7nTotfNv9i9Z11TBpTlYV61+AY+Fp4gmL2
-hrX3SyuINAMPqln15Ep5iP15U85HgXTpIRQIHO/xFL2/G29nvVoo1/qWEMeO4wIb
-fUmpvSXfvPc+9e0E0adMw47dCqbq6abqzm3WwN05RhJYMUafcCPZr6YcSVEBrcCT
-tQ2EpsGbdCM2522wWSBfFaqNdzOTCA==
-=mSQy
------END PGP SIGNATURE-----
-
---SQb8FZg/40PNtFs+--
 
