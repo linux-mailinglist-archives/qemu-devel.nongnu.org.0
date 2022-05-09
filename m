@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8697651FC98
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:21:19 +0200 (CEST)
-Received: from localhost ([::1]:35566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D0A51FCAF
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:25:06 +0200 (CEST)
+Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2O6-0004bE-MN
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49946)
+	id 1no2Rl-0000qS-KL
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22e-0007YQ-6L
+ id 1no22e-0007Zw-Q5
  for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:08 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39677)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22c-0001K6-By
- for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:07 -0400
-Received: by mail-wr1-x434.google.com with SMTP id d5so19112727wrb.6
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:59:05 -0700 (PDT)
+ id 1no22d-0001KE-4k
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:08 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c11so19084579wrn.8
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BIbbh4ECZCDM5wPUP3NeE8Zmw3wBRxjd4KnilvrbrYc=;
- b=OmaCwLWEqQ+U8KN6P9vWnPRQwLuN/khdFN6anC4BYUI9w4U1PSQqNyYKtaTR8nDBBQ
- Q//Kw4L6085U/EQfb84cUhWIO/sJTUNQ8QUgjf3Se6UXSlVMeksX61TjNWfJpdEBIua8
- 92i67BUHkpob3rEMs2DBcrrUihCfz5/o04uH9Yb7Gacm0ekydKzO03kcgSfrNYH5xWJE
- JfYeOywi/4HfR/jXm3hxeEp8HxpCnftPr6af2yMPivqNnumKuRGLa/JGT7s9VQAKLazA
- u7Gjxtbbx5e7Bz0MpLXjMu2hbEeij73E8vRlKJNdb73AHE8LFRvRv5sc9qAEpe+jK+Dv
- ISfA==
+ bh=OhRdJfnini9q7/jjQO5HIr9d+z6cd7iuez+VhkZ7LaE=;
+ b=kEmkA9vK4xkoYPXwWkGpx3j3OSYeHGJbvjI2STEhovWpPHgkZXe+yOVysKeT34kFDW
+ pz2MoLeyNIowaTDYaX6gSxmHLPJJIHziDADiiO/nmFakOFyT6RDHpEftT6Tyw+LQvz9A
+ leKlpQhczJkkzv50xroaPz7cECzFBkyF+Du5Au+Vtb6H5REPl20L08yNrl++K4tiqT0Z
+ k5WtCQwOfwrr2zevmsTBaa12COxaESnE2aIrY0l35R2cgcSgWQOhaeHtWJGOsuuM8ZWo
+ fM8KAwF3+8Fis/A/fCcPhADQj6tQZqhFFJPu3IDnFrFf4PV5s+3a1hnrIqEHDFAmq6qd
+ JnDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BIbbh4ECZCDM5wPUP3NeE8Zmw3wBRxjd4KnilvrbrYc=;
- b=nbGO2BLRPTMukdlYaJJRVVXHA0bQ2XdaamMz/oxtOe06IKxhMKr9Ws7IJJ7jJNQtIT
- AUVtkvu2VqdK2GpkeqhEHA2ngCTB0bGXxboSKgjaM4VtsJS1hh+/lL/m/NFoSj1iBdmR
- CvKdzZ4e2p2m83pnPBlOFzAykfyYI+BXROa+9e0icD8Usbhl0JK8C8Ui8yMNGYuuJ/EP
- NjofsN7PmTp7duDKei+iTrx4RDsB85Gwun4FzNhd1HzRS+r0KggZQOd1LlFgidKDFEv4
- yV1ZuiQvfVyhoSITyQNmA3uAPI70n/IFeJ+edsub3KqYRPf/TyA2T6wIbnAQrwMgi9RY
- 3TWA==
-X-Gm-Message-State: AOAM531/CRRCip+yVYUVhbvqoDoe03Lk6tiWVWEK8zMNlv0+vKpXf5J/
- DCBx+X2O8s9WL7a24ko/w+vtDCeupnJDUg==
-X-Google-Smtp-Source: ABdhPJxtxT+PU62nUtaImOop47nS50qvcE8jvxSxVsHeB5CrpiMf3wOPqDPhVhSUlyrXtl9ikTc5Xg==
-X-Received: by 2002:adf:d0d0:0:b0:20a:d93f:e252 with SMTP id
- z16-20020adfd0d0000000b0020ad93fe252mr13546232wrh.78.1652097544917; 
- Mon, 09 May 2022 04:59:04 -0700 (PDT)
+ bh=OhRdJfnini9q7/jjQO5HIr9d+z6cd7iuez+VhkZ7LaE=;
+ b=axuyVYSIU9tyqKJwDgGtLp0KRiuIBGbE/Y2z0oxoYN/MfMO1gn5KAtEsaDg6GDMtor
+ zpohSI4k8yFtFv5WOS9myxQT2yzCbZyIfSGAR1hUz5gYoz5cxX98npgDju7scj0ABRyh
+ xpRwbv5nBImhBS2peCxANKowZ93NifK0CC2ALb+qiDUq1EieINEnM93mjjvamV3ACeE/
+ lttk74TPgYUjDc4SSV0sS5o6kTK2fIh31LabXQVoiSpb9voUcP2BDgqH8fET/326VT0J
+ F+ULP53yRIFZyEJG1ktGH+0+YPsAzPvYGEZ0zZcIBk1VH1yxwk1jm0WgF7wnzrAnlIe6
+ VuPA==
+X-Gm-Message-State: AOAM532nS6C9Yo3hc3awA2EtitGck4ufF9U0JYvNNn6OJic2sREzaKTh
+ 66vpDwCrBkpuDHJEwg+WDkbUXwjYTwC9eQ==
+X-Google-Smtp-Source: ABdhPJxPSnAovJumKE4gVp9Anfyu/ylkJ8p7DM3Pqpx5wJ58y0YCD+Hzvcwx9PwqSr3T/1yn05W9Bw==
+X-Received: by 2002:adf:f40c:0:b0:20c:c5e3:7e12 with SMTP id
+ g12-20020adff40c000000b0020cc5e37e12mr4992467wro.1.1652097545762; 
+ Mon, 09 May 2022 04:59:05 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.59.04
+ bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.59.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 04:59:04 -0700 (PDT)
+ Mon, 09 May 2022 04:59:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/32] target/arm: Enable FEAT_RAS for -cpu max
-Date: Mon,  9 May 2022 12:58:34 +0100
-Message-Id: <20220509115848.3521805-19-peter.maydell@linaro.org>
+Subject: [PULL 19/32] target/arm: Enable FEAT_IESB for -cpu max
+Date: Mon,  9 May 2022 12:58:35 +0100
+Message-Id: <20220509115848.3521805-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220509115848.3521805-1-peter.maydell@linaro.org>
 References: <20220509115848.3521805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,52 +90,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+This feature is AArch64 only, and applies to physical SErrors,
+which QEMU does not implement, thus the feature is a nop.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220506180242.216785-18-richard.henderson@linaro.org
+Message-id: 20220506180242.216785-19-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
  docs/system/arm/emulation.rst | 1 +
  target/arm/cpu64.c            | 1 +
- target/arm/cpu_tcg.c          | 1 +
- 3 files changed, 3 insertions(+)
+ 2 files changed, 2 insertions(+)
 
 diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 0acac6347c5..81104080003 100644
+index 81104080003..b200012d89b 100644
 --- a/docs/system/arm/emulation.rst
 +++ b/docs/system/arm/emulation.rst
-@@ -42,6 +42,7 @@ the following architecture extensions:
- - FEAT_PMULL (PMULL, PMULL2 instructions)
- - FEAT_PMUv3p1 (PMU Extensions v3.1)
- - FEAT_PMUv3p4 (PMU Extensions v3.4)
-+- FEAT_RAS (Reliability, availability, and serviceability)
- - FEAT_RDM (Advanced SIMD rounding double multiply accumulate instructions)
- - FEAT_RNG (Random number generator)
- - FEAT_SB (Speculation Barrier)
+@@ -25,6 +25,7 @@ the following architecture extensions:
+ - FEAT_FlagM2 (Enhancements to flag manipulation instructions)
+ - FEAT_HPDS (Hierarchical permission disables)
+ - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
++- FEAT_IESB (Implicit error synchronization event)
+ - FEAT_JSCVT (JavaScript conversion instructions)
+ - FEAT_LOR (Limited ordering regions)
+ - FEAT_LPA (Large Physical Address space)
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 88d3cef93e8..35881c74b20 100644
+index 35881c74b20..10410619f90 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -744,6 +744,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = cpu->isar.id_aa64pfr0;
-     t = FIELD_DP64(t, ID_AA64PFR0, FP, 1);        /* FEAT_FP16 */
-     t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);   /* FEAT_FP16 */
-+    t = FIELD_DP64(t, ID_AA64PFR0, RAS, 1);       /* FEAT_RAS */
-     t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-     t = FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);      /* FEAT_SEL2 */
-     t = FIELD_DP64(t, ID_AA64PFR0, DIT, 1);       /* FEAT_DIT */
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 337598e9490..c5cf7efe95c 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -69,6 +69,7 @@ void aa32_max_features(ARMCPU *cpu)
- 
-     t = cpu->isar.id_pfr0;
-     t = FIELD_DP32(t, ID_PFR0, DIT, 1);           /* FEAT_DIT */
-+    t = FIELD_DP32(t, ID_PFR0, RAS, 1);           /* FEAT_RAS */
-     cpu->isar.id_pfr0 = t;
- 
-     t = cpu->isar.id_pfr2;
+@@ -781,6 +781,7 @@ static void aarch64_max_initfn(Object *obj)
+     t = cpu->isar.id_aa64mmfr2;
+     t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1);      /* FEAT_TTCNP */
+     t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);      /* FEAT_UAO */
++    t = FIELD_DP64(t, ID_AA64MMFR2, IESB, 1);     /* FEAT_IESB */
+     t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1);  /* FEAT_LVA */
+     t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1);       /* FEAT_TTST */
+     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1);      /* FEAT_TTL */
 -- 
 2.25.1
 
