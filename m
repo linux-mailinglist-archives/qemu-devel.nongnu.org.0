@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4391051F855
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:39:51 +0200 (CEST)
-Received: from localhost ([::1]:41084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F52C51F85E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:43:39 +0200 (CEST)
+Received: from localhost ([::1]:44940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnzrp-00036r-Pc
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1nnzvV-0005hC-DC
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:43:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nnzo0-0000rZ-Pb
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:35:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55863)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nnzp4-0001W1-2G; Mon, 09 May 2022 05:36:58 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:53414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nnzny-0002PH-DC
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:35:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652088949;
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nnzp1-0002V5-3u; Mon, 09 May 2022 05:36:57 -0400
+Received: from [192.168.13.13] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 7D4F420780;
+ Mon,  9 May 2022 09:36:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1652089008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vqVOvVE7jMIEY+2mVcDnfEvRD296hr9fZYZQEG751As=;
- b=gKpBqbhCOUUKjtN4LGRqZn3lfcMCc6zbL6i4FTE3mf2d8tGqXExT2dPf9esa5Zu64l7Hrd
- agkJYtu5ggoQCNKWzv7dngIqQDrWwSW07zgQviw/PBI2DG6LHafHodvtD87oe4JOE5A0ol
- 0R0Y9lAAw2f2CEoH75qnXLSyLYVoytU=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-442-UpxOGUbQOp6c1zgpDDazAA-1; Mon, 09 May 2022 05:35:47 -0400
-X-MC-Unique: UpxOGUbQOp6c1zgpDDazAA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- e8-20020ac24e08000000b00473b1bae573so5595452lfr.3
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 02:35:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vqVOvVE7jMIEY+2mVcDnfEvRD296hr9fZYZQEG751As=;
- b=LhpMu+CvrKMUL2TC9miVrvE+OnmtT6msiWZmRYxCi05+gLwrHAUJLaGkqI1rAqgyIQ
- Fzq5FcEzIJ8mQoO1A21TGXBctqW1DpLXrhFOK3AU7AlizLuvlJSRclB8xLxCpv71n/0K
- TI3ctIrhwfLtFsJhyV/56e+uQ3nB//x3oRuspUFrWEVZag51N+PCS2bENidgQ3Mxdblb
- 7aY7R12Tv91t4XGEELRT6lVLFXv5SXnrWspreHRuCCsAwsJkMD6GcLCb6KnmU0zpi8/F
- OinMGevk9awrsCOz6uKOft5z2OSeEJlctmVcyharieT1hLal/SMJW6UtTGzgkCO5TARR
- 89ow==
-X-Gm-Message-State: AOAM530eTRRqeIlo8qK7NGU3lZu1vL3zUcbdklzJlVwLp+IONQ8O6LqT
- NQxb6AAzwjQJvAQHCix6OZnqx3iyFMiBzHZZz/R8HQO6sPHhIq6ZJncK/sc6x48v6aFwmb1GBVU
- Vagx8sTKRlAKkP4p7CIrHQLJ7G8oR8Yc=
-X-Received: by 2002:a19:ca50:0:b0:471:f556:92b with SMTP id
- h16-20020a19ca50000000b00471f556092bmr11793077lfj.587.1652088946265; 
- Mon, 09 May 2022 02:35:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyaUesHD5TJAWy5mWb78K7kSsz/8XjnZu/GBhYu7y+T6l7TduogMREI3YfxFaTYakUnbu/Shcwulask7hvXU+g=
-X-Received: by 2002:a19:ca50:0:b0:471:f556:92b with SMTP id
- h16-20020a19ca50000000b00471f556092bmr11793063lfj.587.1652088946016; Mon, 09
- May 2022 02:35:46 -0700 (PDT)
+ bh=oqhCFAm9kgwm6VmGw8DTDwhuSFw/wwkbG4hVO3dWU98=;
+ b=WOTnttbESh5r+xGLVbnp2CKk0xil31IlcxBnCSrgcPlKfNGAXhUc/m3fyLHkimNUfjyDgb
+ k6+hDFLOKchxVo/65JKx8IkMe/JBLW/bUJFybRuhVq/m/g2gwyelPizSkhG3vkMLrsHvS7
+ eD1EWII8rZie6uvEl//Pefgduud+fXw=
+Message-ID: <81e033e0-4623-6806-654d-0f5c7b7975fe@greensocs.com>
+Date: Mon, 9 May 2022 11:36:46 +0200
 MIME-Version: 1.0
-References: <87a6bulueg.fsf@pond.sub.org>
- <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
- <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
- <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
- <a5b11030-c00e-fdec-dacd-e09cc0924a0a@redhat.com>
- <CACGkMEuPQr0TQtkMZr2zeJYGMy69EXN-fhdRTq6JUkWw3KmvMw@mail.gmail.com>
- <87bkw7e0mc.fsf@pond.sub.org>
- <CAFEAcA9QGSqx=e5CgsbyBwVH3wa_VW1i2c=5H5cKp5X-hHs71Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA9QGSqx=e5CgsbyBwVH3wa_VW1i2c=5H5cKp5X-hHs71Q@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 9 May 2022 17:35:34 +0800
-Message-ID: <CACGkMEuXM2YzFCGNgfZH5K1+Yvsvpdn103fcKGchjoh+VqFeRg@mail.gmail.com>
-Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Melnychenko <andrew@daynix.com>, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] qom/object: Remove circular include dependency
+Content-Language: en-US-large
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-trivial@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220509084659.52076-1-philippe.mathieu.daude@gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <20220509084659.52076-1-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,27 +72,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 9, 2022 at 4:42 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 9 May 2022 at 06:30, Markus Armbruster <armbru@redhat.com> wrote:
-> > Always, always, *always* document your reasons for doing stuff right in
-> > the commit message, unless they are blindingly obvious.  I understand
-> > reasons can be obvious enough to the author.  Document them anyway if
-> > there is any chance they are not obvious to others.
->
-> It's also nice for code-generators to say who they are
-> in this kind of "this file is autogenerated" comment.
-> For instance our own decodetree script's comments read
->   /* This file is autogenerated by scripts/decodetree.py.  */
 
-Unfortunately, this is not what bpftool did right now.
 
-Have posted a patch (with Markus and you cced).
+On 5/9/22 10:46, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> "qom/object.h" doesn't need to include itself.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Thanks
-
->
-> -- PMM
->
-
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+>   include/qom/object.h | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 5f3d5b5bf5..ef7258a5e1 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -16,7 +16,6 @@
+>   
+>   #include "qapi/qapi-builtin-types.h"
+>   #include "qemu/module.h"
+> -#include "qom/object.h"
+>   
+>   struct TypeImpl;
+>   typedef struct TypeImpl *Type;
 
