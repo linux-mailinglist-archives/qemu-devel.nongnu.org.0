@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A78151F677
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 10:18:34 +0200 (CEST)
-Received: from localhost ([::1]:49586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62A551F67A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 10:21:18 +0200 (CEST)
+Received: from localhost ([::1]:53288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnybB-0000Q4-85
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 04:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42804)
+	id 1nnydp-0002tx-Qz
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 04:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nnyQP-0005FT-Kn
- for qemu-devel@nongnu.org; Mon, 09 May 2022 04:07:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nnyQA-00060c-RQ
- for qemu-devel@nongnu.org; Mon, 09 May 2022 04:07:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652083620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bNJVV2BvV0z18tDD+hPBCCqT3jXop18+06KmUsi5hHc=;
- b=QLY/Qo5XaUExmBIS/TIGzQaML7VswglBoRdlEpxFQUCi+FYScHtxAFIsR2Vl9J18P9H4Ev
- i/Rj7Nv7kwvOB5WK1I6tO7suVgBKLUbjv0kDCrU3RiziXrnrFMVQuL6fuid4cTbiN2zjoM
- N0sJ/V/RIqgdyjH6Ck6bRcUkYPruRFk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-_NAh_152MVC4z6CukWI_tA-1; Mon, 09 May 2022 04:06:57 -0400
-X-MC-Unique: _NAh_152MVC4z6CukWI_tA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7DD2100BACC;
- Mon,  9 May 2022 08:06:56 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 551254010E4D;
- Mon,  9 May 2022 08:06:52 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>, Halil Pasic
- <pasic@linux.ibm.com>
-Cc: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand
- <david@redhat.com>, Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] s390x: kvm: Honor storage keys during emulation
-In-Reply-To: <20220506153956.2217601-1-scgl@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20220506153956.2217601-1-scgl@linux.ibm.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Mon, 09 May 2022 10:06:49 +0200
-Message-ID: <87o8073zae.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nnyXN-0007XC-Lx
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 04:14:37 -0400
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:33528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nnyXM-0006uy-5d
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 04:14:37 -0400
+Received: by mail-il1-x131.google.com with SMTP id b5so8794149ile.0
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 01:14:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WVAUcwl+Wo9Nb18h+to0mP0CVZonGigSEdpPM6WCztw=;
+ b=Z6MFzHoKp2DR5qDZYW/U3OPcxbnVpVjBy/tNQBDaTOVwYtYv6MMEMystrLWQlKarOm
+ PKti6QyPsJHkK+m8MKrEiNBJh5jWK2IOCP9LaroEb1rsjwXAQzs78cFxuBujtaL3s+Iq
+ flE/XLoqFkjpT8+Ffefz0OVlKqDjGY83rNAYwyvLiWS9/iXK+QnRylYoqDQ4FqBjbYj8
+ tk1NthRIW+LbLidiq9rUkCIwzEWFU7Vyn2npFygUAuzV9zPhYhqucd/sz2cSkT33YfC3
+ nht+kXlBa4qIcHj83aLyc9IZqglBceqOob/vFQNBwbPsnyNM6fh6ctVxJAISLJ8LBujh
+ 4ZgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WVAUcwl+Wo9Nb18h+to0mP0CVZonGigSEdpPM6WCztw=;
+ b=bec1iR0YvRZD9xR8Vuyo8VkbTwc1NsACRas6ibM5tckxImiNJAmwZKX8+ap8NdZrp4
+ mOw++drmKv3VegpmHMgNxsw/cymjUQP35N4VOHhKoffUSks/wClICl6P7vTKbUz2LaVr
+ UGOWehGosbFEvgEW9P1hI+0gB6km0NohPIv/H+A+Ay890Kynsa53/XpNwmhTV32UUloD
+ bg4LjiVBWC/vnpJhki4kkOyjgNmGJdqidNgp+sUPJQ2h8lMIFzFdao675/AzgwZK8MF+
+ zF+bO5XG45w1sLcAy3p8PkdGPDZz2OGyz100J0nuVB93FCi3BHeOC/j1ZCR8dsGsywSh
+ Ao+g==
+X-Gm-Message-State: AOAM530+Y1Qsud8XY7bPvDK1lJbU7PHV+9XVLXzv8N9v98WtGlU7O3R7
+ 8W7vRY5jG9xZFSGLwts9R10wG5/tB7m2wG5I8mwl0u3u7XD1AGkXLLI=
+X-Google-Smtp-Source: ABdhPJxr8okN04ayPKaVAc4SMM/sqtz9mk8+9xVrqwCN5fV7nDVaPryPpHBAsFkPaABbtTzloc6ifzZM20El05tvIm4=
+X-Received: by 2002:a05:6e02:151:b0:2cf:8c5d:2ca0 with SMTP id
+ j17-20020a056e02015100b002cf8c5d2ca0mr4506818ilr.86.1652084074723; Mon, 09
+ May 2022 01:14:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220506165456.297058-1-dgreid@rivosinc.com>
+In-Reply-To: <20220506165456.297058-1-dgreid@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 9 May 2022 10:14:08 +0200
+Message-ID: <CAKmqyKPuqPPbAe1TdzLXt56QF1wxuahUQgVHjVi8nAXBGzrfmQ@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix VS mode hypervisor CSR access
+To: Dylan Reid <dylan@rivosinc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Dylan Reid <dgreid@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,34 +85,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 06 2022, Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
+On Fri, May 6, 2022 at 11:16 PM Dylan Reid <dylan@rivosinc.com> wrote:
+>
+> VS mode access to hypervisor CSRs should generate virtual, not illegal,
+> instruction exceptions.
+>
+> Don't return early and indicate an illegal instruction exception when
+> accessing a hypervisor CSR from VS mode. Instead, fall through to the
+> `hmode` predicate to return the correct virtual instruction exception.
+>
+> Signed-off-by: Dylan Reid <dgreid@rivosinc.com>
 
-> Make use of the storage key support of the MEMOP ioctl, if available,
-> in order to support storage key checking during emulation.
->
-> I did not update all the headers, since that broke the build,
-> not sure what the best way of dealing with that is.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Yeah, the vfio change is expected to break the build; the fix should be
-easy (simple rename), and the code affected is deprecated anyway (there
-hasn't been any upstream implementation that actually exposed the
-interfaces). I think we should do that in a single commit to preserve
-bisectability; I have not seen any patches posted yet to actually use
-the new vfio migration interface, so a simple compile fixup should be
-all that is needed.
+Alistair
 
+> ---
+>  target/riscv/csr.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> Janis Schoetterl-Glausch (2):
->   Pull in MEMOP changes in linux-headers
->   target/s390x: kvm: Honor storage keys during emulation
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 3500e07f92..4ea7df02c9 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3141,13 +3141,13 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>  #if !defined(CONFIG_USER_ONLY)
+>      int effective_priv = env->priv;
 >
->  linux-headers/linux/kvm.h | 11 +++++++++--
->  target/s390x/kvm/kvm.c    |  9 +++++++++
->  2 files changed, 18 insertions(+), 2 deletions(-)
+> -    if (riscv_has_ext(env, RVH) &&
+> -        env->priv == PRV_S &&
+> -        !riscv_cpu_virt_enabled(env)) {
+> +    if (riscv_has_ext(env, RVH) && env->priv == PRV_S) {
+>          /*
+> -         * We are in S mode without virtualisation, therefore we are in HS Mode.
+> +         * We are in either HS or VS mode.
+>           * Add 1 to the effective privledge level to allow us to access the
+> -         * Hypervisor CSRs.
+> +         * Hypervisor CSRs. The `hmode` predicate will determine if access
+> +         * should be allowed(HS) or if a virtual instruction exception should be
+> +         * raised(VS).
+>           */
+>          effective_priv++;
+>      }
+> --
+> 2.30.2
 >
 >
-> base-commit: 31abf61c4929a91275fe32f1fafe6e6b3e840b2a
-> -- 
-> 2.32.0
-
 
