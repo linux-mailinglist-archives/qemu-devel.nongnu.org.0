@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E3251F7CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:16:37 +0200 (CEST)
-Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA1851F7D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:23:44 +0200 (CEST)
+Received: from localhost ([::1]:58200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnzVL-0000LJ-7w
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60578)
+	id 1nnzcF-0003OL-3y
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=121c34684=alistair.francis@wdc.com>)
- id 1nnzSr-00082G-FP; Mon, 09 May 2022 05:14:01 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:3082)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=121c34684=alistair.francis@wdc.com>)
- id 1nnzSo-0007Wg-Nr; Mon, 09 May 2022 05:14:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1652087639; x=1683623639;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=oBp6MLr1KtU5iibrj7MTfx6IWLD9UfqISb2frPqdNzo=;
- b=ATk4xpN7pmV3+57fF3N4oPUMLXJJcuBl+l0zfTxuJLqtNtyFNa0/3DXm
- oSjpCTLfVa2p80bNbOq3qvaJx0QJZpQz+cDMUsHvDpspaZzd84pBt5dkh
- 7UDsP+FTd0oGRjG3U3hswL78ljy+36+sl1dDtYVNo4ri1La/Kl77AoCpu
- 3CTsfC0i5QIwIaJy2nbx+dqGW2mdZo6MhUXZH87aYxS35wLmQMmtOxuJO
- yOkmFrXdBR9IeDzyuF6Rns7luCjnOC4KV2IwCXbaCAttICEuYOjEy31QF
- 59DqFW6kn2r0OhfDVS/cNFGr+dps991Xo8VtFINWigahrTrIR81mTjU0d Q==;
-X-IronPort-AV: E=Sophos;i="5.91,210,1647273600"; d="scan'208";a="200723933"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 09 May 2022 17:13:53 +0800
-IronPort-SDR: GvcSFVHffTZGff00hfo2h0aj2eV6V5oxZyKKzcjVXD5l4EUukdipFTbVYs59JbRIPbR7rP2iP5
- wyk9wt3aTclJrn/tAW3ktj+9myR08FRkrLgIM5y+wI0ddHOffXYPHoh1lj/sEYry0U9ApJdnco
- dckFH14cvSlMRXqLkDkYiEtZuE+hniDZJAjLU2CVsYCjKE6j2h6RqgFEb+gBtlx03Cs8jOcoBs
- /w8M2dQ02tp7pnu5balSaSXyI89uyvSxUG00GLxTHkcbh40RtGj8x/XfpCQe3nY2iV9DRhUkLV
- hHiF3QO2jyiRdwZ7hLh6dbJq
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 09 May 2022 01:43:17 -0700
-IronPort-SDR: Zl6wqMNbS1gZN0EPK0jcc9vhgX+Y6TrrDkRyiTdC2+tlk0ac6vgFMaUssrfjPvylArrA2wvVW9
- etQGKNkjnvzrMd1yw41sjrL6tGN6zmViMZvbnSqCwSLgHVWfqxAK6GerdjD4df+5Uj/uL1HZBY
- 2f7f3Agx2s+ekNVl5rqM7zjojiwjYf6w1lpvjUEowY9kzn/ooz8lbN0RDbKhl232l+KDwIQHTb
- c+8z/NXvx2BipZxtmHNkRsDa7owL4hyjIvLxMFSIIP3ewtSL0KmAj32oUVIxr3dvMxhnpY5B7Z
- 0uM=
-WDCIronportException: Internal
-Received: from unknown (HELO localhost.localdomain) ([10.225.165.123])
- by uls-op-cesaip01.wdc.com with ESMTP; 09 May 2022 02:13:49 -0700
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: alistair23@gmail.com, palmer@dabbelt.com, bmeng.cn@gmail.com,
- alistair.francis@wdc.com
-Subject: [PATCH] MAINTAINERS: Add myself as hw/core/uboot_image.h maintainer
-Date: Mon,  9 May 2022 11:13:39 +0200
-Message-Id: <20220509091339.26016-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.34.3
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nnzaZ-00020w-H1
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 05:21:59 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:33459)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nnzaW-0000MW-UC
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 05:21:58 -0400
+Received: by mail-io1-xd31.google.com with SMTP id i20so14653595ion.0
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 02:21:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+rG0c6JBJXbeBcaY1akoPrtQlMeKoPsc4v6lR/YzXPo=;
+ b=GzhGRaCqvxn5EYuex/s0yrzeJ23BJydBcweqV2ubWXAGV/g4uZK3qLporTJQM3CLEp
+ WST45alesvnyu8D0O2XGuD8MDXJRi/yYY7fBKu7TG4gGPuAo7mkn3q/mUCXIxiBtEK83
+ PKpc97gJRWrPBOPaXlVN+AABIqTBWLGQIPIOnJTmht1FjCaJ8qBUDgfo8frpqy1F+0dW
+ C9DcSKL61xb/CSoE94gc+ibXZsv36lQnroMFhhicGD3EN4OM2N7Z9ezYRJ6L0HWcRqRZ
+ rl5TCdVr35E8iNnVeAxHT3hF2GGnIvwMNgdqwiFB/Iu8MkUiHut7Wuj8dY1pZoUmBoSg
+ sxzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+rG0c6JBJXbeBcaY1akoPrtQlMeKoPsc4v6lR/YzXPo=;
+ b=O084ZNJ7J2raljYMEch4uBsnpSc6GY0okXvuB4H+/bffcmlTI8rVYLN0xm+LDxTH/j
+ Bgjksi0YlrH4p5JZXevKTHDq9l5jGAfZ3rW6OPxrTsxj7kEx3rUphii2Q+5I9Yln6a+J
+ EkJm9CYc7pPGFUqc5SuD0cj/cdn0cENjtfJ8xZ5OcDvYfFoNGCiw2U702RGgyheBSzdU
+ nlTVoyYk2XnKwXvWUnbxRhpHzmOTeiGepXWQkfEf6Wn/8YgUQGGKhAHWmZJqLeBbP0DL
+ FT8MEd/VPXInHZObkKNKNvsrxqBieKCfWYsbaL7/P4NM3LbyUQJNFGyk1aaGRoEV18he
+ cpVA==
+X-Gm-Message-State: AOAM532RLmR1RRzyLF7NZV41qWbny3Y9Z0fn1vLNVPzU+o4t0tLjV0Ta
+ S48X1c+mvPziopQ3VtuaIGcUMSrLbHyoeMssG0w=
+X-Google-Smtp-Source: ABdhPJyPdM951DMKeS7NLX4c4PqHeUtQdEgOWBtGt/O+ARDQNAw7IUDDEjxC/UExRjWG+PYbQrzI5fFRMhfsjFEsPnQ=
+X-Received: by 2002:a05:6638:190a:b0:32b:95b7:4e64 with SMTP id
+ p10-20020a056638190a00b0032b95b74e64mr6532807jal.212.1652088114729; Mon, 09
+ May 2022 02:21:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=121c34684=alistair.francis@wdc.com;
- helo=esa6.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220506165456.297058-1-dgreid@rivosinc.com>
+In-Reply-To: <20220506165456.297058-1-dgreid@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 9 May 2022 11:21:28 +0200
+Message-ID: <CAKmqyKO7M7TfVuOezUdnT3fJkAyqabEq1_acheLK4U47q2=RAg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix VS mode hypervisor CSR access
+To: Dylan Reid <dylan@rivosinc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Dylan Reid <dgreid@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,27 +84,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alistair Francis <alistair.francis@wdc.com>
-From:  Alistair Francis via <qemu-devel@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, May 6, 2022 at 11:16 PM Dylan Reid <dylan@rivosinc.com> wrote:
+>
+> VS mode access to hypervisor CSRs should generate virtual, not illegal,
+> instruction exceptions.
+>
+> Don't return early and indicate an illegal instruction exception when
+> accessing a hypervisor CSR from VS mode. Instead, fall through to the
+> `hmode` predicate to return the correct virtual instruction exception.
+>
+> Signed-off-by: Dylan Reid <dgreid@rivosinc.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 662ec47246..9ba30cec8a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2173,6 +2173,7 @@ Generic Loader
- M: Alistair Francis <alistair@alistair23.me>
- S: Maintained
- F: hw/core/generic-loader.c
-+F: hw/core/uboot_image.h
- F: include/hw/core/generic-loader.h
- F: docs/system/generic-loader.rst
- 
--- 
-2.34.3
+Thanks!
 
+Applied to riscv-to-apply.next
+
+Alistair
+
+> ---
+>  target/riscv/csr.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 3500e07f92..4ea7df02c9 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3141,13 +3141,13 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>  #if !defined(CONFIG_USER_ONLY)
+>      int effective_priv = env->priv;
+>
+> -    if (riscv_has_ext(env, RVH) &&
+> -        env->priv == PRV_S &&
+> -        !riscv_cpu_virt_enabled(env)) {
+> +    if (riscv_has_ext(env, RVH) && env->priv == PRV_S) {
+>          /*
+> -         * We are in S mode without virtualisation, therefore we are in HS Mode.
+> +         * We are in either HS or VS mode.
+>           * Add 1 to the effective privledge level to allow us to access the
+> -         * Hypervisor CSRs.
+> +         * Hypervisor CSRs. The `hmode` predicate will determine if access
+> +         * should be allowed(HS) or if a virtual instruction exception should be
+> +         * raised(VS).
+>           */
+>          effective_priv++;
+>      }
+> --
+> 2.30.2
+>
+>
 
