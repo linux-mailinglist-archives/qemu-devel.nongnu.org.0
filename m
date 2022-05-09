@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE0351FE80
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:40:20 +0200 (CEST)
-Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0210551FE7A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:38:46 +0200 (CEST)
+Received: from localhost ([::1]:47792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no3cZ-0005wY-Ht
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
+	id 1no3b3-00035U-2j
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1no3Hq-0007MS-Ha
- for qemu-devel@nongnu.org; Mon, 09 May 2022 09:18:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1no3Hn-0007S0-Lk
- for qemu-devel@nongnu.org; Mon, 09 May 2022 09:18:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652102330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SxEyaYH2yjxeYPQNde4xDfH2p0uCHdbjfV4SwhfKRqQ=;
- b=LopuIL9v6uyxK3qAUF9pvNm0W/gEutxMIinuE7p2njFNXNKyROlqw3h9hEwT6gCd4I0Svo
- p3A64zz3tRmlsMXc95zBr0clc0RnfTLSymFRajwf4xanWLIfruhc4f1SW5sRdYwV5SIeYX
- Mz9IQV/r7zznuNI/LDByxe8MwLYsAm8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-ZWamvZVVPCmXyt1a7bsn_g-1; Mon, 09 May 2022 09:18:49 -0400
-X-MC-Unique: ZWamvZVVPCmXyt1a7bsn_g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j21-20020adfa555000000b0020adb9ac14fso5773616wrb.13
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 06:18:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1no3NL-00084B-5a
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 09:24:35 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35835)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1no3NJ-0008FQ-ID
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 09:24:34 -0400
+Received: by mail-ej1-x631.google.com with SMTP id ks9so20375984ejb.2
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 06:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=SxEyaYH2yjxeYPQNde4xDfH2p0uCHdbjfV4SwhfKRqQ=;
- b=WCu1WgaCkNwoqEaswC7HSI9/JyTNL+kFtrER7LYtEjulgLJ0sB1rYxYdMGgQ09yCmP
- bMMhgtaBILcYQDVMj0bRiflxeM/+AVvvQK7aLFav0O212pkSAHFV1ODcEEi0QMwPT6qo
- 9yj7T0qRQN65a3N+Uaao2k2mem8ZpJZs3+6JuzQ3ZaBSiSuGVtGSbm2XDIUibL6FXmZp
- l+s4xVsc8T2xs7LU38i31iGfITXYJTgyNV/j+iErS9FgUtFPg55OAugMI7mNaLGFMcmq
- Pm/e7i5DxPodLM+ztkUAbmGUKSCr2awyknxmuKFZV2FePz3aKH9W3DEnSx5OE/IV7kfp
- X5jg==
-X-Gm-Message-State: AOAM531Srw1U8nmmsyt01jjHWN25AVLBpp0uRVfPtgR1xk5QNOqZYGqw
- Pjw1vXMMDVBxzQPcN+X9ts1RxYEI7+K5ezna7hOfbqgx2EqEXLRMP65fSaJg8PEG59QgTUDm5Y5
- DaiiARxJcQpvhXHg=
-X-Received: by 2002:a5d:56c9:0:b0:20a:c54c:70e2 with SMTP id
- m9-20020a5d56c9000000b0020ac54c70e2mr14137852wrw.415.1652102328170; 
- Mon, 09 May 2022 06:18:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbU7YZFZvvZM0u0n1q5FpBOJjLFj9S8gHwhVRSkpSYCF98DEPiZrCEjufd34vv/SlDpZFOWg==
-X-Received: by 2002:a5d:56c9:0:b0:20a:c54c:70e2 with SMTP id
- m9-20020a5d56c9000000b0020ac54c70e2mr14137818wrw.415.1652102327830; 
- Mon, 09 May 2022 06:18:47 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
- [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c230700b003942a244edbsm14594163wmo.32.2022.05.09.06.18.46
+ bh=1ON9wKcgwQldS63b3iCY7AVTPQB4gv883MrGSKKiFqI=;
+ b=WrLxqp2k+Xlr6i3K8KadEPgVBkd2AJ6AxcX9/c1wmjSgMWR73LV2X3N8uUA61QqoMI
+ JaJtdoq0WJfqQN93LNO0/s4TdrFDI5m81LzC7s1JM+fW+kEEZNm90i/e7cKUP6/PsAqC
+ THR1AReOcMX/dAyg8xWKxFxYqvVLS5dFOLPNRZ26XeGnLXF6BsYhhjAFm7tr5I3TvgNO
+ +Bypk6T6fb56OlNiMzoAA9JKexJulSmLjr584rs8VB7WpJLHTLPk0zVsVHqYJSAzezUY
+ mthI5qQCYsVqTuU5EcNPLtM1ztjUFVBMvMH6aJLABOrTNfWoiGiCiM+J40FOEitR/Qr7
+ FsAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1ON9wKcgwQldS63b3iCY7AVTPQB4gv883MrGSKKiFqI=;
+ b=6AiHZHthvoj06GtjYZVtda4P2ZdQkGJDg8ig8MJb7jJwwwHp/vZjX2D7AoNtwgQd6l
+ Ey5Myr4/YVPErUvNsYCbIYUsLOVqlrwEctFAbJLpdycpZ7QTNFLxVT4OKob5aaB+6RIZ
+ Sxg4oNkBSEuVDhAoZQGVb+fwQroro8a8w3ntAjdg/QxoIDLc99ay72njOwXbsFAXG1dL
+ rpOZl71UHBV0FGn76DYND8Dz5s4DUvRmQozrhTSxklnsL2C48e5/lpQC4o5zAjPu2a06
+ UgepsiFqs5dlaeoi6Y0vO53TcxU2iGVx37DKIKo14b58TOSAO0qOmuJs2T5Kr4/2oLMm
+ NLhQ==
+X-Gm-Message-State: AOAM530raP0/qpF0Sgh1z1zqL2LVCuCh3UBitZ7Kuf8AckHr94dA2tQF
+ mR32xB5ojxd4Rq9Z2ccSCLo=
+X-Google-Smtp-Source: ABdhPJyw2kwhYrc05IfLkuMDwW3IeXqtOnXjKTb38KK5bqLlnEGkFojd5wwA8H/3AMXJKOF5BDGScw==
+X-Received: by 2002:a17:907:3f8a:b0:6f4:3f00:b1e9 with SMTP id
+ hr10-20020a1709073f8a00b006f43f00b1e9mr14696431ejc.59.1652102671796; 
+ Mon, 09 May 2022 06:24:31 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ mm9-20020a170906cc4900b006f3ef214e48sm5151885ejb.174.2022.05.09.06.24.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 06:18:47 -0700 (PDT)
-Message-ID: <a8a7b68e-6fb9-e329-5c88-99a1fa5da75b@redhat.com>
-Date: Mon, 9 May 2022 15:18:44 +0200
+ Mon, 09 May 2022 06:24:31 -0700 (PDT)
+Message-ID: <9f01eaed-b1fd-e436-f067-bf7787e01625@redhat.com>
+Date: Mon, 9 May 2022 15:24:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC PATCH 0/3] Remove some of the old libopcode based
- disassemblers
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] crypto: make loaded property read-only
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220412165836.355850-1-thuth@redhat.com>
- <2af15d6d-ad10-2f98-fb0a-37d0125044ca@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <2af15d6d-ad10-2f98-fb0a-37d0125044ca@amsat.org>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20220509101907.212687-1-pbonzini@redhat.com>
+ <YnjukuIbHbuk36zj@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YnjukuIbHbuk36zj@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,51 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/05/2022 14.20, Philippe Mathieu-Daudé wrote:
-> On 12/4/22 18:58, Thomas Huth wrote:
->> Many of the disassemblers in the disas folder are based on old
->> versions from the GNU tools (libopcode, GDB, ...) that were still
->> licensed under the GPL v2. The GNU tools switched to GPL v3 at one
->> point in time, so QEMU is stuck with the old versions, i.e. these
->> files did not see much updates for new processors anymore. But
->> for most architectures, we're preferring the Capstone disassembler
->> now anyway, so the old libopcode disassemblers are also hardly
->> used anymore.
->>
->> I'm not 100% sure (thus this is marked as RFC), but I think we could
->> simply drop the old disassemblers nowadays, and hardly anybody would
->> miss them, since we now always embed capstone as a submodule anyway.
->> Or is there still an advantage in keeping these old files around?
->>
->> This RFC series tackles with s390, arm (32-bit) and i386 ... I wanted
->> to get some feedback first, but if we agree that these can be removed,
->> the sparc, mips and ppc disassemblers likely can be removed, too.
->> (I think we should keep m68k.c since Capstone does not have support
->> for Coldfire CPUs yet).
->>
->> Thomas Huth (3):
->>    disas: Remove old libopcode s390 disassembler
->>    disas: Remove old libopcode arm disassembler
->>    disas: Remove old libopcode i386 disassembler
-> 
->>   disas/arm.c             | 4012 -----------------------
->>   disas/i386.c            | 6771 ---------------------------------------
->>   disas/s390.c            | 1892 -----------
-> 
->>   10 files changed, 12700 deletions(-)
-> 
-> o_O Nice!
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 5/9/22 12:36, Daniel P. Berrangé wrote:
+> On Mon, May 09, 2022 at 12:19:07PM +0200, Paolo Bonzini wrote:
+>> The ``loaded=on`` option in the command line or QMP ``object-add`` either had
+>> no effect (if ``loaded`` was the last option) or caused options to be
+>> effectively ignored as if they were not given.  The property is therefore
+>> useless and was deprecated in 6.0; make it read-only now.
+> Why read-only, as opposed to deleting it entirely ? Unless I'm missing
+> something, nothing will read the property either
 
-Thanks, just a little bit too late - it's in my current pull request already :-)
+Just erring on the safe side; qom-get could read it but I guess it will 
+always be true.
 
-By the way, what about MIPS? Could MIPS be switched to Capstone, too, so 
-that we could finally remove disas/mips.c ? (We're not using capstone there 
-yet, and MIPS has so many flavours, big and little endian, 32- and 64-bit 
-... so that I'm unsure whether there was a reason for not using Capstone 
-there, or whether it just hasn't been tried out yet?)
-
-  Thomas
-
+Paolo
 
