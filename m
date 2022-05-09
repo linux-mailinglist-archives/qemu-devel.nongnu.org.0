@@ -2,78 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB1B51FF55
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 16:15:49 +0200 (CEST)
-Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDF651FF5C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 16:17:27 +0200 (CEST)
+Received: from localhost ([::1]:57904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no4Au-0004xn-D6
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 10:15:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36586)
+	id 1no4CU-0006vi-Ee
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 10:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1no48f-0003jd-Vl; Mon, 09 May 2022 10:13:30 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1no48e-0000Jk-GC; Mon, 09 May 2022 10:13:29 -0400
-Received: by mail-pg1-x532.google.com with SMTP id 7so12134495pga.12;
- Mon, 09 May 2022 07:13:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JNXYT/aQpXuhbS2GUtE2VMMP/t0C+1fkqXOIZwRj01s=;
- b=nCXd+gJ1L0059P4ptB7G82zorSy4S8Cgay7cu/s/uK88G+9Nj00WIxgWkattVF6Tgk
- 8NYZuEcnC9bSf0eVVDoSeNmZO7FoD+XncBhMfoxrQEh8AFvznkxKoqEFPTT1+FIU/grP
- DgR6hCAm/wfPml3JlyTOJ2x7aIPlKmfo0Px3DoGfjCK/pu7WY1udde222lYKhvr973sl
- v+QHljFHTtq3ZdAOGtXe9v9TM0AzhL83+u5SyGBB4HKAq1ZZgjeIUp2fSoOuJM8j6ooH
- pIhRlhRu2OurWZl8gStHTTRWlnv9x6ZAMZKL5mVUZ+tQ1xBNpp/kl400XhigUFV6Qqtr
- +CCA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1no49v-0005CV-M7
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 10:14:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1no49t-0000Sc-2E
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 10:14:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652105684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=glyyTyjV/0s/fAdivoI0oqS+328roGbNnE9fZpQWKZ0=;
+ b=X485mJwQNzOVlQnxslaHwcBbUeDq54Zx+9LHqV0zznufALI1eOL4ob1rMgC0DfgifyvuAt
+ AXuBLaoC2lGyrzlZ17s7mzWOnXgG6OClLNMbdmnf7sGqZN86u/qaHzNgGsJvle9zc7+Ll1
+ Cy1FTHi+EEq2I/XM2g3WDqg6Emn/zXM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-66-waMYiENZO0KpQkOIF3LB6A-1; Mon, 09 May 2022 10:14:41 -0400
+X-MC-Unique: waMYiENZO0KpQkOIF3LB6A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n186-20020a1c27c3000000b00392ae974ca1so38146wmn.0
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 07:14:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JNXYT/aQpXuhbS2GUtE2VMMP/t0C+1fkqXOIZwRj01s=;
- b=ywAAOPyWcm3DDHWq4OnNr8ptOed3P4agGwiN8EvjCkepxTFs6BzLc//9GWScVpE5lr
- 9umIfpepdHM/U/yVreRGHBFX7SXV1UCb++tYebxUDrPJv5vf8wI/C+PiOEuuwFs6OgMN
- Pb+cW7bHo8/SvRGat7G+iEP/WJqLJ2Qxuf0z4S+QgB3pNYRQ/56c21QZJp4nsVCSvr+g
- oWvGY+Ujob+cru5dmO/YoJ3yGY6LycfhdQxwUTRqI2GsKqHv5CF51Lgl+YmQe4izdcZm
- FzqJ8GsDhClj9dFecdojRsGITZIsRHaqEN0+L/0dr6Xu3oLMuMitCmU7ObM3d2F3VDkU
- vllg==
-X-Gm-Message-State: AOAM531IQdZD6+56bDE5jGgKZA6XqR8KoRV8KO7hfU0EASMPthdkK/w+
- ueZHUNBxPDSllkpfCy9Uhs47vhqFYeo=
-X-Google-Smtp-Source: ABdhPJxkk7gutQdriWOAHE6FPLOTz5mDnFW2dVTBX2Q5hsNe74GA9BzXoornDNrGxMAdFEsl0LpILA==
-X-Received: by 2002:a05:6a00:15d3:b0:510:3c69:b387 with SMTP id
- o19-20020a056a0015d300b005103c69b387mr16125831pfu.30.1652105606456; 
- Mon, 09 May 2022 07:13:26 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- r13-20020a17090aa08d00b001cd4989fee4sm12571068pjp.48.2022.05.09.07.13.24
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 May 2022 07:13:26 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH] hw/sd/sdcard: Return ILLEGAL for CMD19/CMD23 prior SD spec
- v3.01
-Date: Mon,  9 May 2022 16:13:20 +0200
-Message-Id: <20220509141320.98374-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=glyyTyjV/0s/fAdivoI0oqS+328roGbNnE9fZpQWKZ0=;
+ b=ETdNkLJCDbKREm6rb9KDNGm0JGHwN6fz4ibcJfZL8aNn824TZ5IAhyqTt1fnCeQzeZ
+ 91sm3lizl0RijLpFti1Te9QfkLNDejdFvxACZ5yQDnHo0cZPDYDNYdaeBs2ZFtRYCQK6
+ xX48GOwPNpcTiAxq9u0m1/UxUdUbDXmReXEw/1VdAg5bDxkDMoieDWBspdaF2TZfVBxQ
+ /GJOzxYavQ58B/pYn4t2Pk6rMHFhG/ZODKub8Ifbttr4R2BGpEwcR/za1HES0m2xjkJW
+ 5HksPdefBowpU58N952ZMW8cYt0l0gTMNc+SFFzs5PD40ITsZ4LjIE3r8hm1Wc5buJ0k
+ kEWQ==
+X-Gm-Message-State: AOAM533Yo0bM1zFHvDtAKx7h3hpxyUmCSKxRoyUKNVif9ytXQe1Dbv0t
+ An5ipFje3HRm8tjqFyQwvh3cZKBZ7E+ACE2phga+RzT9VgySnzhhZmUzhGRKSBIRptKexhrEqal
+ U4qpy+ZkkUzXht1o=
+X-Received: by 2002:a05:600c:4f90:b0:394:970a:71bd with SMTP id
+ n16-20020a05600c4f9000b00394970a71bdmr2508376wmq.158.1652105680438; 
+ Mon, 09 May 2022 07:14:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySap1oPZ4ztSAwjfRQheNrbIqofOIicA/ZDf63XsBmCtVbWYzJ98AJ56SzbMyTWAT/Fz5NtA==
+X-Received: by 2002:a05:600c:4f90:b0:394:970a:71bd with SMTP id
+ n16-20020a05600c4f9000b00394970a71bdmr2508362wmq.158.1652105680288; 
+ Mon, 09 May 2022 07:14:40 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ f186-20020a1c38c3000000b003942a244ec9sm15262052wma.14.2022.05.09.07.14.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 May 2022 07:14:39 -0700 (PDT)
+Date: Mon, 9 May 2022 15:14:37 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: Re: [PATCH v12 2/7] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+Message-ID: <YnkhzRGqZVwwIsLt@work-vm>
+References: <20220507015759.840466-1-leobras@redhat.com>
+ <20220507015759.840466-3-leobras@redhat.com>
+ <YnbEuH3nmSUCQ4ao@xz-m1.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnbEuH3nmSUCQ4ao@xz-m1.local>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,40 +110,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+* Peter Xu (peterx@redhat.com) wrote:
+> On Fri, May 06, 2022 at 10:57:54PM -0300, Leonardo Bras wrote:
+> > diff --git a/io/channel-socket.c b/io/channel-socket.c
+> > index 05c425abb8..f03a068f25 100644
+> > --- a/io/channel-socket.c
+> > +++ b/io/channel-socket.c
+> > @@ -25,9 +25,18 @@
+> >  #include "io/channel-watch.h"
+> >  #include "trace.h"
+> >  #include "qapi/clone-visitor.h"
+> > +#ifdef CONFIG_LINUX
+> > +#include <linux/errqueue.h>
+> > +#include <sys/socket.h>
+> > +
+> > +#if (defined(MSG_ZEROCOPY) && defined(SO_ZEROCOPY))
+> > +#define QEMU_MSG_ZEROCOPY
+> > +#endif
+> > +#endif
+> >  
+> >  #define SOCKET_MAX_FDS 16
+> >  
+> > +
+> 
+> This line can be dropped when merge.
 
-CMD19 (SEND_TUNING_BLOCK) and CMD23 (SET_BLOCK_COUNT) were
-added in the Physical SD spec v3.01. When earlier spec version
-is requested, we should return ILLEGAL.
+Done
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 8e6fa09151..7e3bb12b1a 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -1263,7 +1263,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
- 
-     case 19:    /* CMD19: SEND_TUNING_BLOCK (SD) */
-         if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
--            break;
-+            goto bad_cmd;
-         }
-         if (sd->state == sd_transfer_state) {
-             sd->state = sd_sendingdata_state;
-@@ -1274,7 +1274,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
- 
-     case 23:    /* CMD23: SET_BLOCK_COUNT */
-         if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
--            break;
-+            goto bad_cmd;
-         }
-         switch (sd->state) {
-         case sd_transfer_state:
+> >  SocketAddress *
+> >  qio_channel_socket_get_local_address(QIOChannelSocket *ioc,
+> >                                       Error **errp)
+> 
+> This does look nicer, imho. :)
+> 
+> Thanks!
+> 
+> -- 
+> Peter Xu
+> 
+> 
 -- 
-2.35.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
