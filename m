@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D31A520674
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 23:07:52 +0200 (CEST)
-Received: from localhost ([::1]:44642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63D9520680
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 23:12:04 +0200 (CEST)
+Received: from localhost ([::1]:51856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noAbf-0005Ea-Fn
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 17:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
+	id 1noAfj-000210-Hf
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 17:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1noAZN-0003Qo-PS; Mon, 09 May 2022 17:05:29 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1noAZM-0006IC-4D; Mon, 09 May 2022 17:05:29 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 1-20020a05600c248100b00393fbf11a05so239417wms.3; 
- Mon, 09 May 2022 14:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=b1tNsAaBqAqeVokbdFfhI5VA9s+unXIRvUTsQppRd/A=;
- b=jiCqxnFRJFlwurgGzbvB+673S7CGrV6A3omvbSsbaJ+4pIFbAS0m6nO/KVgMdE/0ws
- dUV006CiUcSzqROAmRayNiZFQnVFPdI1j9G0Irb/9Z+KhAkTYexr43KQ2wGJ76PCeZX7
- YJvBLE+cheyzHfojlf7OIB6247DiYPymUhByakLO8FK5y1hgOWdzdlAqn5qhwAbKicMn
- 2aF2bEnaeS9BDm2BVo9U6tu/HXVOb7RjvftuZkSAVL9NXgH3/qTG7iJ+EfQBRDwmW1Ng
- glsb1WIbVORtRUaHxHrfxVHCm8TVIEEzEgJzs+3Uk6X9ZQl7N7PEtw0sDfh6CH3beVz4
- Q+Sw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1noAe6-0000ST-UJ
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 17:10:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25243)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1noAe3-0006x4-27
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 17:10:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652130617;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k6v4Sxkns65+L6tHAindOzqO6MmW+gYsoyBMOCgeDNM=;
+ b=IvIhZ7xoNAtIja5PJDyvX9UrQjEYW4uGqPkcBiIc2GYQGmDEgOc2XIeXh8dzP+EliCgVE5
+ e6gDOzvjjoHenhHVXHIyEevQdBcKg5Ki1Ak/Jp7VEo0RyhGGdkixF7+uxnCpRdE2NO6qlk
+ fSPHPShbz1b5FVeu8nkvnqI4ijis4I4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-88-e0qyf10yNo-Cesyf-ABhwQ-1; Mon, 09 May 2022 17:10:16 -0400
+X-MC-Unique: e0qyf10yNo-Cesyf-ABhwQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ec44-20020a0564020d6c00b00425b136662eso9028942edb.12
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 14:10:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=b1tNsAaBqAqeVokbdFfhI5VA9s+unXIRvUTsQppRd/A=;
- b=Ds+vFIP3mwu/2oNxbHJN5KZQO0oAUhMq+ChykGweIcoKqegxZ8fW0rJ9exS840LBUK
- rhxm2z+Shrr8G9Txdu6GXzG1XSUGERjc7FNfiVqHBnApDQhIrA8hCsJBLFEECIpBg3xP
- bZaUEBGR/fIRFqxaQUXuOJESsPT9T0w4E25f7YKOfdKGVFEoz6hYnDYnJnz43UZnCC/A
- q9ebdOPqL2SLtpVJc57SxaC19RLgon7cWYjS1f8oGP5zkYvrryax81bPzkwevl84uzl6
- Y9y8/lN+Cf+Qr8McPIfPli8u4T3W/HnKTDhYWPAUTuoUD7xNH8b9nboY3UsIfSCSnl9h
- D0vQ==
-X-Gm-Message-State: AOAM532J3h6125NiDcSRcTwztGeE0annT+Bkz5hK3McDIo7Iu8TSH1vq
- cqeAH51F1AqIe/NXedxV+8zFhdruuHc=
-X-Google-Smtp-Source: ABdhPJw/IkQMDc4dhyYDOJhFdz8hq1sF3qCIGOZkGtMffCAz4Jv27KHJ1tzVHfHH/y1+1h8stpSlZg==
-X-Received: by 2002:a05:600c:ad1:b0:394:1585:a164 with SMTP id
- c17-20020a05600c0ad100b003941585a164mr24667390wmr.101.1652130325660; 
- Mon, 09 May 2022 14:05:25 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=k6v4Sxkns65+L6tHAindOzqO6MmW+gYsoyBMOCgeDNM=;
+ b=SrczCf+0vROF2S5m5t8P08aokLHBEiwjupOS9UMAIRuXuvoLRLBqisStmxoQs+DL/k
+ Dt9V9MDM5p/4Kw+fVfBuL6o4Fr2WLaLGiV74fcMkFZwOID6BPpBEHTletPLQJPHnywBm
+ YwGprvh1HFdkGH1OqdeDoUnYcm9WnjsCnaImgBgKEQfZynSWWN5VR9wf+Dtm7QM7KE3W
+ iXzSBy2AVljcQOE28lnyZpwJif92oGRALeQRwAslvqZcwdmAzpLNKFRF0nIlfyxVY/cO
+ oOYs4VzX6KgbA2vzpdKNtL4z2pqXjyK7c0mSfxKhOG3NSsy3f67jwwW2OLmdFrGDC1Jm
+ kxnA==
+X-Gm-Message-State: AOAM530r9WZ+GvunhXEWJw5APR3yv2YQeAqNJH6PAsqNkLeIhIcfSTsf
+ VhPAq68yHhwjYEUKI8bPQsOlUBpkL1/xFez3Jj5DegHkEPLfbBXN5KS4HR8eNrG8vI6kNWxYG36
+ iUp50z8JCiEkvw9I=
+X-Received: by 2002:a17:907:8c85:b0:6f4:6b2a:5f0 with SMTP id
+ td5-20020a1709078c8500b006f46b2a05f0mr16628194ejc.491.1652130615331; 
+ Mon, 09 May 2022 14:10:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOJsceB7gABRBNnolEYMAFK8fJQTn7aNXyZRy9fHtnaVz2n6QN7skTP6ZvU9M2/YMaR6ohSw==
+X-Received: by 2002:a17:907:8c85:b0:6f4:6b2a:5f0 with SMTP id
+ td5-20020a1709078c8500b006f46b2a05f0mr16628176ejc.491.1652130615022; 
+ Mon, 09 May 2022 14:10:15 -0700 (PDT)
+Received: from ?IPv6:::1? ([2001:b07:6468:f312:10d8:3386:7b83:5891])
  by smtp.gmail.com with ESMTPSA id
- o1-20020a5d6701000000b0020c9520a940sm13913089wru.54.2022.05.09.14.05.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 14:05:25 -0700 (PDT)
-Message-ID: <12c97f3b-6d3a-cab3-3768-d41ed68e5de6@amsat.org>
-Date: Mon, 9 May 2022 23:05:23 +0200
+ wi7-20020a170906fd4700b006f3ef214dd4sm5344128ejb.58.2022.05.09.14.10.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 09 May 2022 14:10:14 -0700 (PDT)
+Date: Mon, 09 May 2022 23:10:01 +0200
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Marcelo Tosatti <mtosatti@redhat.com>
+CC: qemu-devel@nongnu.org, Vadim Rozenfeld <vrozenfe@redhat.com>
+Subject: Re: [PATCH] target/i386: properly reset TSC on reset
+In-Reply-To: <YnkrCFDa6zE6wV4Q@fuller.cnet>
+References: <20220324173136.222647-1-pbonzini@redhat.com>
+ <YnkrCFDa6zE6wV4Q@fuller.cnet>
+Message-ID: <3007B2D1-5DCB-43E9-9FA1-37AE4CB79986@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH 10/17] hw/sd: Add sd_cmd_SEND_TUNING_BLOCK() handler
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20220318132824.1134400-1-clg@kaod.org>
- <20220318132824.1134400-11-clg@kaod.org>
-In-Reply-To: <20220318132824.1134400-11-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,81 +99,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 18/3/22 14:28, Cédric Le Goater wrote:
-> From: Joel Stanley <joel@jms.id.au>
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   hw/sd/sd.c | 28 +++++++++++++++++-----------
->   1 file changed, 17 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 25e86c893bba..602ed6eb0701 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -1042,6 +1042,22 @@ static sd_rsp_type_t sd_cmd_SEND_RELATIVE_ADDR(SDState *sd, SDRequest req)
->       }
->   }
->   
-> +static sd_rsp_type_t sd_cmd_SEND_TUNING_BLOCK(SDState *sd, SDRequest req)
-> +{
-> +        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
-> +            return sd_invalid_state_for_cmd(sd, req);
+As discussed with Marcelo offlist, KVM notices multiple CPUs being set to t=
+he same value within a small amount of time and keeps them synchronized=2E =
+This is the same code that handles TSC synchronization on the destination s=
+ide of  migration=2E
 
-There was a bug here, this should be:
+Paolo
 
-                return sd_illegal;
-
-(see 
-https://lore.kernel.org/qemu-devel/20220509141320.98374-1-philippe.mathieu.daude@gmail.com/. 
-I can fix upon applying).
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> +        }
-> +
-> +        if (sd->state != sd_transfer_state) {
-> +            return sd_invalid_state_for_cmd(sd, req);
-> +        }
-> +
-> +        sd->state = sd_sendingdata_state;
-> +        sd->data_offset = 0;
-> +
-> +        return sd_r1;
-> +}
-> +
->   static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->   {
->       uint32_t rca = 0x0000;
-> @@ -1285,17 +1301,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->           }
->           break;
->   
-> -    case 19:    /* CMD19: SEND_TUNING_BLOCK (SD) */
-> -        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
-> -            break;
-> -        }
-> -        if (sd->state == sd_transfer_state) {
-> -            sd->state = sd_sendingdata_state;
-> -            sd->data_offset = 0;
-> -            return sd_r1;
-> -        }
-> -        break;
-> -
->       case 23:    /* CMD23: SET_BLOCK_COUNT */
->           if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
->               break;
-> @@ -2132,6 +2137,7 @@ static const SDProto sd_proto_sd = {
->           [2]         = sd_cmd_ALL_SEND_CID,
->           [3]         = sd_cmd_SEND_RELATIVE_ADDR,
->           [5]         = sd_cmd_illegal,
-> +        [19]        = sd_cmd_SEND_TUNING_BLOCK,
->           [52 ... 54] = sd_cmd_illegal,
->           [58]        = sd_cmd_illegal,
->           [59]        = sd_cmd_illegal,
+Il 9 maggio 2022 16:54:00 CEST, Marcelo Tosatti <mtosatti@redhat=2Ecom> ha=
+ scritto:
+>On Thu, Mar 24, 2022 at 06:31:36PM +0100, Paolo Bonzini wrote:
+>> Some versions of Windows hang on reboot if their TSC value is greater
+>> than 2^54=2E  The calibration of the Hyper-V reference time overflows
+>> and fails; as a result the processors' clock sources are out of sync=2E
+>>=20
+>> The issue is that the TSC _should_ be reset to 0 on CPU reset and
+>> QEMU tries to do that=2E  However, KVM special cases writing 0 to the
+>> TSC and thinks that QEMU is trying to hot-plug a CPU, which is
+>> correct the first time through but not later=2E  Thwart this valiant
+>> effort and reset the TSC to 1 instead, but only if the CPU has been
+>> run once=2E
+>>=20
+>> For this to work, env->tsc has to be moved to the part of CPUArchState
+>> that is not zeroed at the beginning of x86_cpu_reset=2E
+>>=20
+>> Reported-by: Vadim Rozenfeld <vrozenfe@redhat=2Ecom>
+>> Supersedes: <20220324082346=2E72180-1-pbonzini@redhat=2Ecom>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat=2Ecom>
+>
+>Paolo,
+>
+>Won't this disable the logic to sync TSCs, making it possible
+>for TSC of SMP guests to go out of sync? (And remember the logic
+>to sync TSCs from within a guest is fragile, in case of VCPU overload
+>for example)=2E
+>
+>> ---
+>>  target/i386/cpu=2Ec | 13 +++++++++++++
+>>  target/i386/cpu=2Eh |  2 +-
+>>  2 files changed, 14 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/target/i386/cpu=2Ec b/target/i386/cpu=2Ec
+>> index ec3b50bf6e=2E=2Ecb6b5467d0 100644
+>> --- a/target/i386/cpu=2Ec
+>> +++ b/target/i386/cpu=2Ec
+>> @@ -5931,6 +5931,19 @@ static void x86_cpu_reset(DeviceState *dev)
+>>      env->xstate_bv =3D 0;
+>> =20
+>>      env->pat =3D 0x0007040600070406ULL;
+>> +
+>> +    if (kvm_enabled()) {
+>> +        /*
+>> +         * KVM handles TSC =3D 0 specially and thinks we are hot-plugg=
+ing
+>> +         * a new CPU, use 1 instead to force a reset=2E
+>> +         */
+>> +        if (env->tsc !=3D 0) {
+>> +            env->tsc =3D 1;
+>> +        }
+>> +    } else {
+>> +        env->tsc =3D 0;
+>> +    }
+>> +
+>>      env->msr_ia32_misc_enable =3D MSR_IA32_MISC_ENABLE_DEFAULT;
+>>      if (env->features[FEAT_1_ECX] & CPUID_EXT_MONITOR) {
+>>          env->msr_ia32_misc_enable |=3D MSR_IA32_MISC_ENABLE_MWAIT;
+>> diff --git a/target/i386/cpu=2Eh b/target/i386/cpu=2Eh
+>> index e31e6bd8b8=2E=2E982c532353 100644
+>> --- a/target/i386/cpu=2Eh
+>> +++ b/target/i386/cpu=2Eh
+>> @@ -1554,7 +1554,6 @@ typedef struct CPUArchState {
+>>      target_ulong kernelgsbase;
+>>  #endif
+>> =20
+>> -    uint64_t tsc;
+>>      uint64_t tsc_adjust;
+>>      uint64_t tsc_deadline;
+>>      uint64_t tsc_aux;
+>> @@ -1708,6 +1707,7 @@ typedef struct CPUArchState {
+>>      int64_t tsc_khz;
+>>      int64_t user_tsc_khz; /* for sanity check only */
+>>      uint64_t apic_bus_freq;
+>> +    uint64_t tsc;
+>>  #if defined(CONFIG_KVM) || defined(CONFIG_HVF)
+>>      void *xsave_buf;
+>>      uint32_t xsave_buf_len;
+>> --=20
+>> 2=2E35=2E1
+>>=20
+>>=20
+>>=20
+>
 
 
