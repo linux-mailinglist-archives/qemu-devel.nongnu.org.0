@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9724D51F877
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:58:23 +0200 (CEST)
-Received: from localhost ([::1]:36396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5690951F96E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:09:50 +0200 (CEST)
+Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no09m-0002je-5i
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42824)
+	id 1no0Kr-0003nl-A3
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1no04Y-0000Ms-4Q
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:52:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1no04W-00053m-EK
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:52:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652089975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MW2DU3usnMBR24B13vVC7IR7uf1JDWG+AnJI4I24E4U=;
- b=YyxMZ4yqNm0PSdD531fdAJNYO1NuY0BrSj/6w2fNLe1fmIaU53WBli9CprRufMAHVtF3Vp
- hswDj/bN1ddKA4m41k9sWcYwYCUjshDlh2Pa4mPA/QpLu1Q00y8o0OfZQbN6C/ifuxUwSO
- vdPZJdYa50ZxzxbAQTg7ogbSgYh+1Z8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-SL6_nlyIPZ2QnrymD4Bg-Q-1; Mon, 09 May 2022 05:52:52 -0400
-X-MC-Unique: SL6_nlyIPZ2QnrymD4Bg-Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFEF61C00AC7;
- Mon,  9 May 2022 09:52:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6110428F0E;
- Mon,  9 May 2022 09:52:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A648521E6880; Mon,  9 May 2022 11:52:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
-Cc: qemu-devel@nongnu.org,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,
- qemu-trivial@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Eduardo
- Habkost <eduardo@habkost.net>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>
-Subject: Re: [PATCH] qom/object: Remove circular include dependency
-References: <20220509084659.52076-1-philippe.mathieu.daude@gmail.com>
-Date: Mon, 09 May 2022 11:52:50 +0200
-In-Reply-To: <20220509084659.52076-1-philippe.mathieu.daude@gmail.com>
- ("Philippe =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 9 May 2022
- 10:46:59 +0200")
-Message-ID: <87r153av7x.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1no03y-00085q-VK; Mon, 09 May 2022 05:52:23 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:43705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1no03w-0004yW-9k; Mon, 09 May 2022 05:52:21 -0400
+Received: by mail-io1-xd33.google.com with SMTP id o190so14698149iof.10;
+ Mon, 09 May 2022 02:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7zdhBwpU96OGCH47JYXG18VWv/TAh8HCC+chtC5Cz0o=;
+ b=AywzKIGsBqcv4cIT1A99LymxJ3GZJV9ouBYw4kk14J9DZvA40piu76PB83JEInTioM
+ TG0mdpKF00U1b+YrVMYzrXt2t35LPbXGSOq72tJPU3QrRQa6iJI3yfeqixAxMTmcoDHv
+ ab3qHu1CvXH43xqKnGqsJoYYWrjlM83UOS9FSeBYFjmEI8Wu5QaaTpuX0FXmusVbI9KN
+ 0OJ33YHhym9rwZm69VqjJFfNmcP+DPkvJ3diF2imhQn9VwXK45d3R7f4wBO7PPThoAvX
+ 85M8JlFucX3RvznwPibOiAF7aHNGgnUg313qjxr/EKmOj4DtCcRtaRBAKAOpLuR3o4fz
+ jfJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7zdhBwpU96OGCH47JYXG18VWv/TAh8HCC+chtC5Cz0o=;
+ b=jTZ0xMu4ztLfFbZtES4p87oyy2DT7mrdbc8+JugW41nY1iU359PPpYw1OvYdp6bN/O
+ 7++200zmt4UyrI5gP2XyoToo234IzY28dMpuKy1hZznEi67COi7Ag/11OOl+Pu289ca7
+ KxU1NryzN2oUG+JBfSo9ZDUAagcApBH41J5HWpQSeXtsnJTr+iNEkUfx/vk95pKnhsMg
+ 7/a2/HH8/Co3L6uy6cWDp1TW01RRTCLzxTVV0mSDWhvpQL/RKjJ69ZYQ0Vfpt/T0H+gn
+ iB5TS0c7WpcyU4h1+5Wcypbn38fBIXy4zNn+z9PTQjFc0zgJz20qfh3Wuu0J7GYhqafB
+ 3WRw==
+X-Gm-Message-State: AOAM532mGV5nW/Pc4BgwJterfWQOe0m4ihnuk2EnvHUVeb1fHm2xW2Ri
+ tZ87xPUwZgnIYQ9u88cF5eax1GC88By3V6cdE4emR3+YGiYxxZtILlk=
+X-Google-Smtp-Source: ABdhPJyZnB1lzyGTsvsMVOxJIfJ3qAnpd5HDxdtCoe+xGEcdP0NPHxLwhj0arYBmfyEJkvldZqJIv/YdSwQDouUf7XU=
+X-Received: by 2002:a05:6638:dc7:b0:32b:a483:16b8 with SMTP id
+ m7-20020a0566380dc700b0032ba48316b8mr7099000jaj.66.1652089937094; Mon, 09 May
+ 2022 02:52:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <cover.1650777360.git.research_trasio@irq.a4lg.com>
+ <51c9f2ce37e6d1483317710ddd1e14be74a61e69.1650777360.git.research_trasio@irq.a4lg.com>
+In-Reply-To: <51c9f2ce37e6d1483317710ddd1e14be74a61e69.1650777360.git.research_trasio@irq.a4lg.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 9 May 2022 11:51:50 +0200
+Message-ID: <CAKmqyKPw-qtNm3nnLx-ZtE2Z7P2K6E3AH3B633B4nYj2m_4fMw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/riscv: Add short-isa-string option
+To: Tsukasa OI <research_trasio@irq.a4lg.com>
+Cc: Frank Chang <frank.chang@sifive.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,34 +83,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> writes:
-
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On Sun, Apr 24, 2022 at 7:22 AM Tsukasa OI <research_trasio@irq.a4lg.com> wrote:
 >
-> "qom/object.h" doesn't need to include itself.
+> Because some operating systems don't correctly parse long ISA extension
+> string, this commit adds short-isa-string boolean option to disable
+> generating long ISA extension strings on Device Tree.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Operating Systems which short-isa-string might be helpful:
+>
+> 1.  Linux (5.17 or earlier)
+> 2.  FreeBSD (at least 14.0-CURRENT)
+> 3.  OpenBSD (at least current development version)
+>
+> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
 > ---
->  include/qom/object.h | 1 -
->  1 file changed, 1 deletion(-)
+>  target/riscv/cpu.c | 5 ++++-
+>  target/riscv/cpu.h | 2 ++
+>  2 files changed, 6 insertions(+), 1 deletion(-)
 >
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index 5f3d5b5bf5..ef7258a5e1 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -16,7 +16,6 @@
->=20=20
->  #include "qapi/qapi-builtin-types.h"
->  #include "qemu/module.h"
-> -#include "qom/object.h"
->=20=20
->  struct TypeImpl;
->  typedef struct TypeImpl *Type;
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index c765f7ff00..9718cd0e7e 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -834,6 +834,8 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+>
+>      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
+> +
+> +    DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>
+> @@ -989,7 +991,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>          }
+>      }
+>      *p = '\0';
+> -    riscv_isa_string_ext(cpu, &isa_str, maxlen);
+> +    if (!cpu->cfg.short_isa_string)
+> +        riscv_isa_string_ext(cpu, &isa_str, maxlen);
 
-I figure this is scripts/codeconverter/converter.py's doing, in commit
-db1015e92e "Move QOM typedefs and add missing includes".  Probably not
-worth fixing there.  Possibly worth mentioning in the commit message.
+I don't love this, the long strings are part of the ISA, it seems
+strange to add an option to disable them.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Can you provide more details on what this breaks?
 
+Alistair
+
+>      return isa_str;
+>  }
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 34c22d5d3b..5b7fe32218 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -408,6 +408,8 @@ struct RISCVCPUConfig {
+>      bool aia;
+>      bool debug;
+>      uint64_t resetvec;
+> +
+> +    bool short_isa_string;
+>  };
+>
+>  typedef struct RISCVCPUConfig RISCVCPUConfig;
+> --
+> 2.32.0
+>
 
