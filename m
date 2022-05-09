@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A025206CC
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 23:40:28 +0200 (CEST)
-Received: from localhost ([::1]:50942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BECE5206B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 23:36:30 +0200 (CEST)
+Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noB7B-0007Aj-Kp
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 17:40:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58596)
+	id 1noB3N-0001W1-5i
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 17:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1noAyS-0002si-DY
- for qemu-devel@nongnu.org; Mon, 09 May 2022 17:31:24 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54865)
+ id 1noAz3-0003wM-30
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 17:32:01 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1noAyQ-0001ga-1V
- for qemu-devel@nongnu.org; Mon, 09 May 2022 17:31:24 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id bg25so9070683wmb.4
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 14:31:21 -0700 (PDT)
+ id 1noAz1-0001jx-Ne
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 17:32:00 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ c190-20020a1c35c7000000b0038e37907b5bso295600wma.0
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 14:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jd2z3cl9y26LM1TGxfm7nATyS0X8O761VDxPYaQrdnk=;
- b=DS0dU6s+N8Xj4w/NG23OGARelgNaDVmApdoi0LEUcjElaBqF8EEBIXeTaGrhSVWk6O
- IsRIIoPffbaGzpxO/t6pZaielj0gQ/hR3Lkn3CE7CfP+snG5IzKMZFgjVZS6iyryrLyn
- NPaLBurWkE9XqECWT20N2JBaeYK1UxMR0JnupoHJFdH4eo8yYgxf0Qp7XSUcaredD0Jh
- ShUPcVRa6aSH1fQrtMfFRmR2pSWjZ6gia2b/Hhy4eWYE4Y0VR5Dl1LPObtG1WFPa0BcR
- 4Jy52O2W5chvsVAYv5lm5YVBv2oOj7mkVXHfe1taBnDG2jvA9Bmtl1J5rRMcCjmBINsv
- fXlQ==
+ bh=FqI3ECKnOagYECD0Mk3DxNkb/5yJyBe5PAf8v2QhLl4=;
+ b=oZKbGfog1DY704nMNMreDUoTh88lPIveNIFLsecbfjDQnLN/BB4UpZqNlya+lfK2Av
+ gV+egpyp0En95wFcsH3yYClUkE5trxlbv3rsVCGO4YeEIH68smTKeN294IHWbInQZ12i
+ y6CwdX1UhFfX/+A6VN5L67q0N3LLmnwItjF+NQTO5iJO+vp3WVhnnxAXPTNV5zj1Fkg6
+ 5C2kdo5y7hChEkrHcVvVy5xBKnkb4gLLlaklhR6nzrmE7S3GIYhQ2HNf+sfmN09/lvVt
+ n2Ihhs4rWfwBnyZTTv+y6uHtqdiTOo8bBI2dX6uE0t+OL0lhteaDOBWdBJCxdTTWkBWM
+ BxYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jd2z3cl9y26LM1TGxfm7nATyS0X8O761VDxPYaQrdnk=;
- b=5BBxNV7qHKmIONXRTepoUr7jUvp11BxECJEPEUxBLupzLtl0efMZCdCDVTsW+h8moA
- Dc/kYgSaqpHjgAHdFlEtk0/OyE7/ODG8pvS2eOExpWqaMaeGLeUHl2iooaXS8WFY06lB
- PC7+XPr/qRt/VDR2q3WMSTop+2GeeA+aWADI5jKx9oF2Mx0BYS3M3eOY/TCGJWzjvTAU
- +fjNYZNDFBvcAJlZtDrMZQ2I2erzMDYQrO2r7ZUbV9Ql6c3D0rzN4+xAZiqXn3wTRsKP
- hHOfWoCC/MM0lebRzQDn7tv7srQeNtcy3ERD3JXRwVzb8CR5jNk84ViI0MQIl4d36n8i
- HgnQ==
-X-Gm-Message-State: AOAM532UbE+ocPPMoFOH+sbPyybCwwwXe4n4Euisd0LkrjfU07vl3/zp
- mt1qZVYDn6j0hu02u2vnbC8=
-X-Google-Smtp-Source: ABdhPJylnTGKf1LS+tyMtviqU2UeFTXh0TVWv60QieAtjQlj6zNAkFsSVLt+sM4TmTY7KSMcBlCeBw==
-X-Received: by 2002:a05:600c:3798:b0:394:454a:df74 with SMTP id
- o24-20020a05600c379800b00394454adf74mr24938925wmr.174.1652131879833; 
- Mon, 09 May 2022 14:31:19 -0700 (PDT)
+ bh=FqI3ECKnOagYECD0Mk3DxNkb/5yJyBe5PAf8v2QhLl4=;
+ b=KEGMzEmIq+xcn4oYt358vFM+RCP8opiiYVqZjTUAM7iNe+JlJNQah3NgAljxiW4AKW
+ tCLd+fsM1dNFlVjihy8RZ42wUqVu1jE88kSuO/6QiZADnzJ58LRsDZNazMIOFi+bmCnZ
+ 0D9OvQ8/SJRzXaZoOJ8zbPP1eN2W/9VHZNuW+B7wXzhirTtzbhcr7DUTp68lz8ntorUK
+ mBA8imzmUpc6LJkCF+6SiIUOqqpGgMUBjkPFUvKhNeVMA1EbfcK3CQH90ac7wI7Bx4R/
+ WT/7GcSeFx3cBRXElDuAB0gRaZPc26RQTDqWQeyzSEFlaXMbwz3jo1zhiX1m9YRtWWrG
+ QWaw==
+X-Gm-Message-State: AOAM532O0+O8pOKqsgCbnzsoKLfxpYWCj++8DRu7ZM6WzGNNoTn9Q9S7
+ /9xNudOKLNGu+n5NWG04OlDXd18uSYo=
+X-Google-Smtp-Source: ABdhPJzGdAfHcm1mFJzDHXoaxSBUK2G9JJl6LAk9JVOhsk83/7v3OUmIyXjrEXHj7T9izqth4KQ4EQ==
+X-Received: by 2002:a05:600c:3658:b0:394:725:be12 with SMTP id
+ y24-20020a05600c365800b003940725be12mr18240071wmq.192.1652131918513; 
+ Mon, 09 May 2022 14:31:58 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j9-20020adfff89000000b0020c5253d90csm11612916wrr.88.2022.05.09.14.31.18
+ s11-20020a5d510b000000b0020c5253d8c9sm11941854wrt.21.2022.05.09.14.31.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 14:31:19 -0700 (PDT)
-Message-ID: <060896c5-fb75-02d5-e70d-2e32390a0474@amsat.org>
-Date: Mon, 9 May 2022 23:31:17 +0200
+ Mon, 09 May 2022 14:31:58 -0700 (PDT)
+Message-ID: <8d97dabc-f341-6fbb-695f-434d87b2e041@amsat.org>
+Date: Mon, 9 May 2022 23:31:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH] Hexagon (target/hexagon) move store size tracking to
- translation
+Subject: Re: [PATCH] Hexagon (target/hexagon) remove unused encodings
 Content-Language: en-US
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, ale@rev.ng, bcain@quicinc.com,
  mlambert@quicinc.com
 References: <20220509211405.18581-1-tsimpson@quicinc.com>
- <20220509211405.18581-3-tsimpson@quicinc.com>
-In-Reply-To: <20220509211405.18581-3-tsimpson@quicinc.com>
+ <20220509211405.18581-4-tsimpson@quicinc.com>
+In-Reply-To: <20220509211405.18581-4-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,33 +99,12 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 9/5/22 23:14, Taylor Simpson wrote:
-> The store width is needed for packet commit, so it is stored in
-> ctx->store_width.  Currently, it is set when a store has a TCG
-> override instead of a QEMU helper.  In the QEMU helper case, the
-> ctx->store_width is not set, we invoke a helper during packet commit
-> that uses the runtime store width.
-> 
-> This patch ensures ctx->store_width is set for all store instructions,
-> so performance is improved because packet commit can generate the proper
-> TCG store rather than the generic helper.
-> 
-> We do this by
-> - Create new attributes to indicate the store size
-> - During gen_semantics, convert the fSTORE instances to fSTORE<size>
-> - Assign the new attributes to the new macros
-> - Add definitions for the new macros
-> - Use the attributes from the instructions during translation to
->    set ctx->store_width
-> - Remove setting of ctx->store_width from genptr.c
+> Remove encodings guarded by ifdef that is not defined
 > 
 > Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->   target/hexagon/macros.h          | 16 ++++++++++----
->   target/hexagon/attribs_def.h.inc |  4 ++++
->   target/hexagon/gen_semantics.c   | 26 +++++++++++++++++++++++
->   target/hexagon/genptr.c          | 36 +++++++++++---------------------
->   target/hexagon/translate.c       | 26 +++++++++++++++++++++++
->   5 files changed, 80 insertions(+), 28 deletions(-)
+>   target/hexagon/imported/encode_pp.def | 23 -----------------------
+>   1 file changed, 23 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
