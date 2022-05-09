@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11BA51F7C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:13:18 +0200 (CEST)
-Received: from localhost ([::1]:52378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E3251F7CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:16:37 +0200 (CEST)
+Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnzS9-0007Cj-Rb
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59538)
+	id 1nnzVL-0000LJ-7w
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nnzOw-0006OA-U3
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:09:58 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:36831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nnzOu-0006st-Ae
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:09:58 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2f7b815ac06so136889357b3.3
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 02:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PpAOtw1hL62SpN55D2UOdWQNTb3V1BrOTF8az3ck1PI=;
- b=ROvLxYawETl5uS3J90y2PaXP5VqrOw/D/Atsbju3RRZCDFNftw02id5JJC3D0znHMy
- /Uhg6hcAdMsivcIPsuKTH5fWZHhx0m9+kvptkRDOS/6TYigXgpygnQB01XVWwcb3bh1o
- QgBGQzwRjgrFDEVyi/6jXaCWTVd5MUy6sKyfAZkcS1GhjaECzzy1DpWd9NflnQGFVLfT
- KPFBodnsV1CKVOfOYRJVfHeQAcU28172Af+HsBjvxW2dD5SM1tEmniSxOfF1QcDtDm6j
- OQZRGga2kYa5YvH/uAbdoVzfwGazv5DBUpL+wyL7XTli18bUpZPjCXgEEq8KPG4Brgp1
- kOzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PpAOtw1hL62SpN55D2UOdWQNTb3V1BrOTF8az3ck1PI=;
- b=O/vtvsQE+Dk2cmmDaBylnFU0j3l7P6yzRevx2MTmWO13oJnoHs/axhL+2yQ0P18wY1
- n2idQ39ENdYFEmOnWr/VlNgMVsYyG+o4nkt0BykYWM6I1PrheFtCJrx+iJUZA/LeaSk3
- s3havkuKC7BDE3LE6IN98glx4nATOBYGUJtV5Xo53L2pyWjP+VhbGyyh7OFLgdPujZQf
- lwdDJ6jSQIGNHnktOIM7eYE2AtbP4lZUjyqII2mR/ssSEPzGboV6sTabOlpxxMcoEj6u
- 4eNT4sofiAFNlWunJk0ZHWRlnlcdDOxFa3oGVEf1Ki7AlxBK54hcDc48eGM2c+oHCIRA
- 617g==
-X-Gm-Message-State: AOAM530BFqn3uy1VVBzKDg0yXZNud86k35aIYo1WayXcP9n/v3mbyKDl
- Q5GI8zkg89cg/5wHsjVYytUcvMVy/OdsFYCtfGc=
-X-Google-Smtp-Source: ABdhPJz0elLjcGnF7nxf+kBNhoqpHf/DYFP02YhMi8aouOA1dbuU4JUOwm8tsaPh5Wh5bATggPswVZuH820OrdPP9UE=
-X-Received: by 2002:a0d:ed87:0:b0:2fb:5542:5798 with SMTP id
- w129-20020a0ded87000000b002fb55425798mr5813665ywe.487.1652087393989; Mon, 09
- May 2022 02:09:53 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=121c34684=alistair.francis@wdc.com>)
+ id 1nnzSr-00082G-FP; Mon, 09 May 2022 05:14:01 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:3082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=121c34684=alistair.francis@wdc.com>)
+ id 1nnzSo-0007Wg-Nr; Mon, 09 May 2022 05:14:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1652087639; x=1683623639;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oBp6MLr1KtU5iibrj7MTfx6IWLD9UfqISb2frPqdNzo=;
+ b=ATk4xpN7pmV3+57fF3N4oPUMLXJJcuBl+l0zfTxuJLqtNtyFNa0/3DXm
+ oSjpCTLfVa2p80bNbOq3qvaJx0QJZpQz+cDMUsHvDpspaZzd84pBt5dkh
+ 7UDsP+FTd0oGRjG3U3hswL78ljy+36+sl1dDtYVNo4ri1La/Kl77AoCpu
+ 3CTsfC0i5QIwIaJy2nbx+dqGW2mdZo6MhUXZH87aYxS35wLmQMmtOxuJO
+ yOkmFrXdBR9IeDzyuF6Rns7luCjnOC4KV2IwCXbaCAttICEuYOjEy31QF
+ 59DqFW6kn2r0OhfDVS/cNFGr+dps991Xo8VtFINWigahrTrIR81mTjU0d Q==;
+X-IronPort-AV: E=Sophos;i="5.91,210,1647273600"; d="scan'208";a="200723933"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 09 May 2022 17:13:53 +0800
+IronPort-SDR: GvcSFVHffTZGff00hfo2h0aj2eV6V5oxZyKKzcjVXD5l4EUukdipFTbVYs59JbRIPbR7rP2iP5
+ wyk9wt3aTclJrn/tAW3ktj+9myR08FRkrLgIM5y+wI0ddHOffXYPHoh1lj/sEYry0U9ApJdnco
+ dckFH14cvSlMRXqLkDkYiEtZuE+hniDZJAjLU2CVsYCjKE6j2h6RqgFEb+gBtlx03Cs8jOcoBs
+ /w8M2dQ02tp7pnu5balSaSXyI89uyvSxUG00GLxTHkcbh40RtGj8x/XfpCQe3nY2iV9DRhUkLV
+ hHiF3QO2jyiRdwZ7hLh6dbJq
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 09 May 2022 01:43:17 -0700
+IronPort-SDR: Zl6wqMNbS1gZN0EPK0jcc9vhgX+Y6TrrDkRyiTdC2+tlk0ac6vgFMaUssrfjPvylArrA2wvVW9
+ etQGKNkjnvzrMd1yw41sjrL6tGN6zmViMZvbnSqCwSLgHVWfqxAK6GerdjD4df+5Uj/uL1HZBY
+ 2f7f3Agx2s+ekNVl5rqM7zjojiwjYf6w1lpvjUEowY9kzn/ooz8lbN0RDbKhl232l+KDwIQHTb
+ c+8z/NXvx2BipZxtmHNkRsDa7owL4hyjIvLxMFSIIP3ewtSL0KmAj32oUVIxr3dvMxhnpY5B7Z
+ 0uM=
+WDCIronportException: Internal
+Received: from unknown (HELO localhost.localdomain) ([10.225.165.123])
+ by uls-op-cesaip01.wdc.com with ESMTP; 09 May 2022 02:13:49 -0700
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: alistair23@gmail.com, palmer@dabbelt.com, bmeng.cn@gmail.com,
+ alistair.francis@wdc.com
+Subject: [PATCH] MAINTAINERS: Add myself as hw/core/uboot_image.h maintainer
+Date: Mon,  9 May 2022 11:13:39 +0200
+Message-Id: <20220509091339.26016-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.34.3
 MIME-Version: 1.0
-References: <20220324134812.541274-1-bmeng.cn@gmail.com>
- <CAEUhbmVUqSghy+HE9p2qg1bJXYHBjy83jowesA_Zx383JrO7CQ@mail.gmail.com>
- <CAEUhbmVrvzvvNeKJvT5saPbXDoEnHdZcZyuNTmt4R=YzOs1R2A@mail.gmail.com>
- <CAEUhbmUDqwtXiEioBuSOi6ZyVNKnJgjYZAPTubGx+McbMFwZKA@mail.gmail.com>
- <CAEUhbmXuYt2KqKtrvMRoR2acFaweO3zVGa4+tyoxMnSc-kg11Q@mail.gmail.com>
- <CAEUhbmV2SH80i2vCato_2qRGeDCqeDqVp1m0Lc_SrJLGhZK-jw@mail.gmail.com>
- <CAEUhbmVxfbrkw3ZvzOb3gVm-c_5KU_B_UiT42m+bgVQdPPJtLQ@mail.gmail.com>
- <87v8ujt3lu.fsf@linaro.org>
- <CAKmqyKN15A4dS64k7-s45LjTJprKHCNL4BRuu-XnuHo4FJppZA@mail.gmail.com>
-In-Reply-To: <CAKmqyKN15A4dS64k7-s45LjTJprKHCNL4BRuu-XnuHo4FJppZA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 9 May 2022 17:09:42 +0800
-Message-ID: <CAEUhbmW0mvoY7nHhOpfWRTJyukfNZZiLd8Enc2nra6x2Q6p8Ug@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] hw/core: Sync uboot_image.h from U-Boot v2022.01
-To: Alistair Francis <alistair23@gmail.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
- Alistair Francis <alistair@alistair23.me>, Nick Hudson <nick.hudson@gmx.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=121c34684=alistair.francis@wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,85 +85,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alistair Francis <alistair.francis@wdc.com>
+From:  Alistair Francis via <qemu-devel@nongnu.org>
 
-On Mon, May 9, 2022 at 5:07 PM Alistair Francis <alistair23@gmail.com> wrot=
-e:
->
-> On Fri, May 6, 2022 at 11:25 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
-> >
-> >
-> > Bin Meng <bmeng.cn@gmail.com> writes:
-> >
-> > > +more
-> > >
-> > > On Tue, May 3, 2022 at 11:44 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >>
-> > >> On Thu, Apr 28, 2022 at 4:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >> >
-> > >> > On Fri, Apr 22, 2022 at 11:00 AM Bin Meng <bmeng.cn@gmail.com> wro=
-te:
-> > >> > >
-> > >> > > +Richard
-> > >> > >
-> > >> > > On Wed, Apr 20, 2022 at 4:16 PM Bin Meng <bmeng.cn@gmail.com> wr=
-ote:
-> > >> > > >
-> > >> > > > On Tue, Apr 12, 2022 at 9:11 AM Bin Meng <bmeng.cn@gmail.com> =
-wrote:
-> > >> > > > >
-> > >> > > > > On Thu, Mar 24, 2022 at 9:48 PM Bin Meng <bmeng.cn@gmail.com=
-> wrote:
-> > >> > > > > >
-> > >> > > > > > From: Bin Meng <bin.meng@windriver.com>
-> > >> > > > > >
-> > >> > > > > > Sync uboot_image.h from upstream U-Boot v2022.01 release [=
-1].
-> > >> > > > > >
-> > >> > > > > > [1] https://source.denx.de/u-boot/u-boot/-/blob/v2022.01/i=
-nclude/image.h
-> > >> > > > > >
-> > >> > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > >> > > > > > ---
-> > >> > > > > >
-> > >> > > > > > (no changes since v1)
-> > >> > > > > >
-> > >> > > > > >  hw/core/uboot_image.h | 213 ++++++++++++++++++++++++++++-=
--------------
-> > >> > > > > >  1 file changed, 142 insertions(+), 71 deletions(-)
-> > >> > > > > >
-> > >> > > > >
-> > >> > > > > Ping?
-> > >> > > >
-> > >> > > > Ping?
-> > >> > >
-> > >> > > Richard, is that you to pick up this series?
-> > >> > >
-> > >> >
-> > >> > Ping?
-> > >>
-> > >> Ping? Can you please indicate who is the right person to pick up thi=
-s
-> > >> series? Thanks.
-> > >>
-> > >
-> > > I pinged several times, but there's radio silence, sigh. Can you
-> > > please let me know who is supposed to pick up this series?
-> >
-> > The only file that includes this is hw/core/loader.c so I would assume
-> > that's in Alistair's domain. However it's not well matched by
-> > MAINTAINERS and has only seen periodic updates since it's inclusion in
-> > 2007.
-> >
-> > Alistair can you take this and update MAINTAINERS so it doesn't fall
-> > through the cracks again?
->
-> Thanks!
->
-> Applied to riscv-to-apply.next
->
-> I'll update MAINTAINERS as well
->
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thank you Alex, Alistair!
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 662ec47246..9ba30cec8a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2173,6 +2173,7 @@ Generic Loader
+ M: Alistair Francis <alistair@alistair23.me>
+ S: Maintained
+ F: hw/core/generic-loader.c
++F: hw/core/uboot_image.h
+ F: include/hw/core/generic-loader.h
+ F: docs/system/generic-loader.rst
+ 
+-- 
+2.34.3
+
 
