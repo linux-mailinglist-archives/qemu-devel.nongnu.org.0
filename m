@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECA85204C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 20:55:09 +0200 (CEST)
-Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09701520515
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 21:14:55 +0200 (CEST)
+Received: from localhost ([::1]:56882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no8XE-0001tp-Di
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 14:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
+	id 1no8qL-0002oE-JL
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 15:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1no8W2-0000UD-Jq
- for qemu-devel@nongnu.org; Mon, 09 May 2022 14:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1no8Vz-00042u-Hk
- for qemu-devel@nongnu.org; Mon, 09 May 2022 14:53:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652122430;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9lVEVN9KCEfQD5C98WvH090gVpV6b7/oXEfFjfdUlUs=;
- b=QDtw+k+Evag2Egbso7F7Sp8iiJo6DegxXxWonOpLtu9Ye6GG43PGQE9CTLKt97ET1D+jlu
- OfTqkgovVL0kQ/C4umCKDVNNcoQXcg3BWDMDen4ki4xS5bg24rSlqn05beHGWxnSoKn7lq
- f2FUlnCIDmvR983bDbwQ32J7oEpkPt8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-WVRxbcfGPnWzj3fGOc_FyA-1; Mon, 09 May 2022 14:53:49 -0400
-X-MC-Unique: WVRxbcfGPnWzj3fGOc_FyA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF5AC85A5BC
- for <qemu-devel@nongnu.org>; Mon,  9 May 2022 18:53:48 +0000 (UTC)
-Received: from localhost (unknown [10.40.192.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95753C27E89;
- Mon,  9 May 2022 18:53:47 +0000 (UTC)
-Date: Mon, 9 May 2022 20:53:46 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-Message-ID: <20220509185346.7d2qz4lr4rpuat7q@tapioca>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
- <87a6c52u68.fsf@pond.sub.org>
- <CABJz62NaEgEzEkvdYbNZ5qfkx_gAYfnxt_YbQhGyD08gRH6EYg@mail.gmail.com>
- <87v8uos8lb.fsf@pond.sub.org>
- <CABJz62MTVhDHZo5+sTJKm5b+SZM_W+_o5VmMgx0NVyibYfs=hw@mail.gmail.com>
- <875ymop374.fsf@pond.sub.org>
- <CABJz62OsaZo0hJB=ucereGDOHbK-5Ym4ASqhgVePJr65JRu0gQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1no8op-0001yG-Vm
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 15:13:20 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:34360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1no8oo-0007Mb-3k
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 15:13:19 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id y76so26750082ybe.1
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 12:13:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9OqDkRRuvVTI2G4Jm93FQeyym7FQ71vx2PHKq8by+Ec=;
+ b=KHE5KQLNvafD44CEMDsiNMDsvYWIRRWfVphhc0+lDgb8Qy5K0cF4IVnjwcOC7HA/D4
+ UCaNRTA29U0pZbrrD9wcaj28/ldj7w2Zx2GfydUt4FyruIj4ab6TGMfQddYGCkAODIR2
+ LP4K63ubYwKliqTXrwZzuQBn5pp54vhl9u0F8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9OqDkRRuvVTI2G4Jm93FQeyym7FQ71vx2PHKq8by+Ec=;
+ b=3veIUG66F8x7g0U+iyEiHUgBGeqNoQ+UlKCWBrbFX2vaGu5lkQuSqP9qFDR4VkT54X
+ d/mYI2HATTQw2RVfLYjsRTS8E+bGnxtNida5XKHqX5SY2HnXbMHt+COsTLGTK3k0wYR4
+ GyhnbA6l8tWbhaqhneLEMFwYeop2JGh3DLPjD0oa7rHA2wsXRKkKI6qnVhQqMKhuc071
+ spTe3o1oIG/Maqbmxr+A3i7vj7ywhGl23oe68xlXT38GP2m6DsfpoaGbFr9Kkgka64W+
+ ZpoCx8GY2uw1r4B5r9u9+GJemQ1w/s+CVSuqsBfm4pq34cRzRNWVAEVuuDglTgb468Nb
+ bbYg==
+X-Gm-Message-State: AOAM5313JXZKhbyYcXmfGiDRbsn5lr3Uwx1StiEetWnQaJnl1loYtaSZ
+ OvpnFQchJfZVxHhH+n3HnBamm2/YqqHThPb1OKSP
+X-Google-Smtp-Source: ABdhPJyj1OFDeJa7TiMWgT4Meg7t7pqee5ERU/Wh12DXlpMQYSa+6a0xU+vXKPjJfOISKc2tLy9MA5OI3LFeoZN9r38=
+X-Received: by 2002:a25:9247:0:b0:645:ddd5:a182 with SMTP id
+ e7-20020a259247000000b00645ddd5a182mr14460943ybo.289.1652123596522; Mon, 09
+ May 2022 12:13:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ztfulmdtj45blcj5"
-Content-Disposition: inline
-In-Reply-To: <CABJz62OsaZo0hJB=ucereGDOHbK-5Ym4ASqhgVePJr65JRu0gQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220429033409.258707-1-apatel@ventanamicro.com>
+ <20220429033409.258707-2-apatel@ventanamicro.com>
+ <CANzO1D1RvmXF-BdZ1iMhwLwikcVveCYjtXtgT5KEcrXF++xXrA@mail.gmail.com>
+In-Reply-To: <CANzO1D1RvmXF-BdZ1iMhwLwikcVveCYjtXtgT5KEcrXF++xXrA@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Mon, 9 May 2022 12:13:05 -0700
+Message-ID: <CAOnJCUKE2iAshXKvuiGPA+eK5fAO91FvR50OnV-=JKwztqFo7g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] target/riscv: Fix csr number based privilege checking
+To: Frank Chang <frank.chang@sifive.com>
+Cc: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000189ccd05de9900d5"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,189 +87,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000189ccd05de9900d5
+Content-Type: text/plain; charset="UTF-8"
 
---ztfulmdtj45blcj5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Apr 29, 2022 at 8:20 PM Frank Chang <frank.chang@sifive.com> wrote:
+
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+>
+> On Fri, Apr 29, 2022 at 11:34 AM Anup Patel <apatel@ventanamicro.com>
+> wrote:
+>
+>> When hypervisor and VS CSRs are accessed from VS-mode or VU-mode,
+>> the riscv_csrrw_check() function should generate virtual instruction
+>> trap instead illegal instruction trap.
+>>
+>> Fixes: 533c91e8f22c ("target/riscv: Use RISCVException enum for
+>> CSR access")
+>>
+>
+This is not the correct Fixes tag. This patch just changed the error code
+to enum.
+The above said issue exists before this patch.
+
+I think the correct fix should be 0a42f4c44088 (" target/riscv: Fix CSR
+perm checking for HS mode"). No ?
+
+
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+>> ---
+>>  target/riscv/csr.c | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index 3500e07f92..2bf0a97196 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -3139,7 +3139,7 @@ static inline RISCVException
+>> riscv_csrrw_check(CPURISCVState *env,
+>>      int read_only = get_field(csrno, 0xC00) == 3;
+>>      int csr_min_priv = csr_ops[csrno].min_priv_ver;
+>>  #if !defined(CONFIG_USER_ONLY)
+>> -    int effective_priv = env->priv;
+>> +    int csr_priv, effective_priv = env->priv;
+>>
+>>      if (riscv_has_ext(env, RVH) &&
+>>          env->priv == PRV_S &&
+>> @@ -3152,7 +3152,11 @@ static inline RISCVException
+>> riscv_csrrw_check(CPURISCVState *env,
+>>          effective_priv++;
+>>      }
+>>
+>> -    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
+>> +    csr_priv = get_field(csrno, 0x300);
+>> +    if (!env->debugger && (effective_priv < csr_priv)) {
+>> +        if (csr_priv == (PRV_S + 1) && riscv_cpu_virt_enabled(env)) {
+>> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> +        }
+>>          return RISCV_EXCP_ILLEGAL_INST;
+>>      }
+>>  #endif
+>> --
+>> 2.34.1
+>>
+>>
+>>
+
+-- 
+Regards,
+Atish
+
+--000000000000189ccd05de9900d5
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 29, 2022 at 8:20 PM Frank=
+ Chang &lt;<a href=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+<div dir=3D"ltr"><div dir=3D"ltr"><img src=3D"https://ssl.gstatic.com/ui/v1=
+/icons/mail/images/cleardot.gif">Reviewed-by: Frank Chang &lt;<a href=3D"ma=
+ilto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a>&g=
+t;</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Fri, Apr 29, 2022 at 11:34 AM Anup Patel &lt;<a href=3D"mailto:apatel@=
+ventanamicro.com" target=3D"_blank">apatel@ventanamicro.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">When hypervisor =
+and VS CSRs are accessed from VS-mode or VU-mode,<br>
+the riscv_csrrw_check() function should generate virtual instruction<br>
+trap instead illegal instruction trap.<br>
+<br>
+Fixes: 533c91e8f22c (&quot;target/riscv: Use RISCVException enum for<br>
+CSR access&quot;)<br></blockquote></div></div></blockquote><div><br></div><=
+div>This is not the correct Fixes tag. This patch just changed the error co=
+de to enum.<br>The above said issue exists before this patch.</div><div><br=
+></div><div>I think the correct fix should be=C2=A00a42f4c44088 (&quot; tar=
+get/riscv: Fix CSR perm checking for HS mode&quot;). No ?</div><div>=C2=A0<=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
+v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Signed-off-by: Anup Patel &lt;<a href=3D"mailto:apatel@ventanamicro.com" ta=
+rget=3D"_blank">apatel@ventanamicro.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/csr.c | 8 ++++++--<br>
+=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
+index 3500e07f92..2bf0a97196 100644<br>
+--- a/target/riscv/csr.c<br>
++++ b/target/riscv/csr.c<br>
+@@ -3139,7 +3139,7 @@ static inline RISCVException riscv_csrrw_check(CPURIS=
+CVState *env,<br>
+=C2=A0 =C2=A0 =C2=A0int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;<br>
+=C2=A0 =C2=A0 =C2=A0int csr_min_priv =3D csr_ops[csrno].min_priv_ver;<br>
+=C2=A0#if !defined(CONFIG_USER_ONLY)<br>
+-=C2=A0 =C2=A0 int effective_priv =3D env-&gt;priv;<br>
++=C2=A0 =C2=A0 int csr_priv, effective_priv =3D env-&gt;priv;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (riscv_has_ext(env, RVH) &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;priv =3D=3D PRV_S &amp;&amp;<br>
+@@ -3152,7 +3152,11 @@ static inline RISCVException riscv_csrrw_check(CPURI=
+SCVState *env,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0effective_priv++;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 if (!env-&gt;debugger &amp;&amp; (effective_priv &lt; get_fi=
+eld(csrno, 0x300))) {<br>
++=C2=A0 =C2=A0 csr_priv =3D get_field(csrno, 0x300);<br>
++=C2=A0 =C2=A0 if (!env-&gt;debugger &amp;&amp; (effective_priv &lt; csr_pr=
+iv)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (csr_priv =3D=3D (PRV_S + 1) &amp;&amp; ris=
+cv_cpu_virt_enabled(env)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_VIRT_INSTRUCTI=
+ON_FAULT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_ILLEGAL_INST;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0#endif<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Regards,<div>Atish</div></div><=
+/div></div>
 
-On Mon, May 02, 2022 at 10:01:41AM -0400, Andrea Bolognani wrote:
-> On Mon, May 02, 2022 at 01:46:23PM +0200, Markus Armbruster wrote:
-> > Andrea Bolognani <abologna@redhat.com> writes:
-> > >> > The wire protocol would still retain the unappealing
-> > >> > name, but at least client libraries could hide the
-> > >> > uglyness from users.
-> > >>
-> > >> At the price of mild inconsistency between the library
-> > >> interface and QMP.
-> > >
-> > > That's fine, and in fact it already happens all the time
-> > > when QAPI names (log-append) are translated to C
-> > > identifiers (log_append).
-> >
-> > There's a difference between trivial translations like
-> > "replace '-' by '_'" and arbitrary replacement like the one
-> > for enumeration constants involving 'prefix'.
->=20
-> Fair enough.
->=20
-> I still feel that 1) users of a language SDK will ideally not
-> need to look at the QAPI schema or wire chatter too often and
-
-That should be the preference, yes.
-
-> 2) even when that ends up being necessary, figuring out that
-> LogAppend and logappend are the same thing is not going to be
-> an unreasonable hurdle, especially when the status quo would be
-> to work with Logappend instead.
-
-If user really needs to leave their ecosystem in order to check
-an alias, I hope we are already considering this a corner case.
-Still, if we are thinking about multiple languages communicating
-with QEMU, it is reasonable to consider the necessity of some
-docs page where they can easily grep/search for the types, alias,
-examples, etc.  IMHO, this should be a long term goal and not a
-blocker... I can volunteer on working on that later.
-
-> > > The point is that, if we want to provide a language
-> > > interface that feels natural, we need a way to mark parts
-> > > of a QAPI symbol's name in a way that makes it possible for
-> > > the generator to know they're acronyms and treat them in an
-> > > appropriate, language-specific manner.
-> >
-> > It's not just acronyms.  Consider IAmALittleTeapot.  If you
-> > can assume that only beginning of words are capitalized, even
-> > for acronyms, you can split this into words without trouble.
-> > You can't recover correct case, though: "i am a little
-> > teapot" is wrong.
->=20
-> Is there any scenario in which we would care though? We're in
-> the business of translating identifiers from one machine
-> representation to another, so once it has been split up
-> correctly into the words that compose it (which in your example
-> above it has) then we don't really care about anything else
-> unless acronyms are involved.
->=20
-> In other words, we can obtain the list of words "i am a little
-> teapot" programmatically both from IAmALittleTeapot and
-> i-am-a-little-teapot, and in both cases we can then generate
-> IAmALittleTeapot or I_AM_A_LITTLE_TEAPOT or
-> i_am_a_little_teapot or whatever is appropriate for the context
-> and target language, but the fact that in a proper English
-> sentence "I" would have to be capitalized doesn't really enter
-> the picture.
->=20
-> > "Split before capital letter" falls apart when you have
-> > characters that cannot be capitalized: Point3d.
-> >
-> > Camel case is hopeless.
->=20
-> I would argue that it works quite well for most scenarios, but
-> there are some corner cases where it's clearly not good enough.
-> If we can define a way to clue in the generator about "Point3d"
-> having to be interpreted as "point 3d" and "VNCProps" as "vnc
-> props", then we are golden. That wouldn't be necessary for
-> simple cases that are already handled correctly.
->=20
-> A more radical idea would be to start using dash-notation for
-> types too. That'd remove the word splitting issue altogether,
-> at the cost of the schema being (possibly) harder to read and
-> more distanced from the generated code.
->=20
-> You'd still only be able to generate VncProps from vnc-props
-> though.
->=20
-> > > The obvious way to implement this would be with an
-> > > annotation along the lines of the one I proposed. Other
-> > > ideas?
-> >
-> > I'm afraid having the schema spell out names in multiple
-> > naming conventions could be onerous.  How many names will
-> > need it?
->=20
-> I don't have hard data on this. I could try extracting it, but
-> that might end up being a bigger job than I had anticipated.
-
-The only way to know is by checking /o\
-I'll give it a shot.
-
-> My guess is that the number of cases where the naive algorithm
-> can't split words correctly is relatively small compared to the
-> size of the entire QAPI schema. Fair warning: I have made
-> incorrect guesses in the past ;)
->=20
-> > Times how many naming conventions?
->=20
-> Yeah, I don't think requiring all possible permutations to be
-> spelled out in the schema is the way to go. That's exactly why
-> my proposal was to offer a way to inject the semantic
-> information that the parser can't figure out itself.
->=20
-> Once you have a way to inform the generator that "VNCProps" is
-> made of the two words "vnc" and "props", and that "vnc" is an
-> acronym, then it can generate an identifier appropriate for the
-> target language without having to spell out anywhere that such
-> an identifier would be VNCProps for Go and VncProps for Rust.
->=20
-> By the way, while looking around I realized that we also have
-> to take into account things like D-Bus: the QAPI type
-> ChardevDBus, for example, would probably translate verbatim to
-> Go but have to be changed to ChardevDbus for Rust. Fun :)
->=20
-> Revised proposal for the annotation:
->=20
->   ns:word-WORD-WoRD-123Word
-
-I really like it.
-
-> Words are always separated by dashes; "regular" words are
-> entirely lowercase, while the presence of even a single
-> uppercase letter in a word denotes the fact that its case
-> should be preserved when the naming conventions of the target
-> language allow that.
->=20
-> > Another issue: the fancier the translation from schema name
-> > to language-specific name gets, the harder it becomes to find
-> > one from the other.
->=20
-> That's true, but at least to me the trade-off feels reasonable.
-
-I don't quite get the argument why it gets harder to find. We can
-simply provide the actual name as reference in the generated
-documentation, no?
-
-As Kevin already pointed out that he is not planning to work on
-the Alias (reference below), any other idea besides the Andrea's
-annotation suggestion? While this is not a blocker, I agree it
-would be nice to be consistent.
-
-    https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg04703.html
-
-Cheers,
-Victor
-
---ztfulmdtj45blcj5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmJ5YzkACgkQl9kSPeN6
-SE/FPQ//bajEUFH5FMJatSzixxvkL6dRBgxFFGIyiy1X4lSOYxyL/R5V+QDnzEnf
-iFKoXMlRAg0k4qEfuBY6WYscFEjtH2pmxoxSior5xeIOso4rmZ3YSJzZfDZyyAAt
-fuptOURw+OQ2HjNGH12mRnzsqO7p3LwTaibVi5YoMuWDE2w3UqmYH4toaVhH3y2g
-d1dFum6QvpMCSYn0ThMkJHBjJ0xn/jE8k9A0vK6KrItlT8fTzHcIlqJdnBi8n6GT
-4WhYvQE87Z+LTPCcwCUESS9wtW9mRsEA827PNpSy8Pzi0cPtXXGBlV0tITkksd+0
-CdUTBm6o/q3Ye4xi3PW2ThkFMUzvDzPTlYExTiHnAxs09xWNu13KpqRCud8IgG1d
-cYgfAHMCm7NQPq5LYsli8LclLN3Ri3AiuvIDmL5siJUfk9FXP6tZvNSIvZVWiJ+0
-F3Q24kCDtNqQvZh4p+cc38o2FeGBzIpEuYer9CsW8r6hzZsVIPObgGbffIYdVUNg
-eimhbLBVAE2xvWs1YSprLSnuxMQh5/MESOAgw7arK4PfG2aSwj+lgYC8v/hlADyP
-5WSf1cxRuj6Nne1d/T+GryIq/baTwBq5VhRauSVq+z7XSBNje6xBf9Abk9mEOJ1e
-F7JgbSW6pmGDhh+yPE3OVH6hCq8t+mK8lcTU9nG0k+lgCZLd9sU=
-=qbFr
------END PGP SIGNATURE-----
-
---ztfulmdtj45blcj5--
-
+--000000000000189ccd05de9900d5--
 
