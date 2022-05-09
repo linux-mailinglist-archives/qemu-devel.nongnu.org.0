@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C29951FA20
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:40:14 +0200 (CEST)
-Received: from localhost ([::1]:57806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF1E51FA93
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:54:49 +0200 (CEST)
+Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no0oH-0004k0-J3
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:40:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
+	id 1no12O-0008Ht-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0f6-0004Yw-JO
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32047)
+ id 1no0f8-0004aI-UV
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0f5-0002nN-3W
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:44 -0400
+ id 1no0f7-0002nk-Gn
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652092242;
+ s=mimecast20190719; t=1652092244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bt/lCu7Al/ofhqAsL2EZtmQPYAWx6O0kFoKyJZvt56k=;
- b=VxxCi65oocog38ybMs58w3sIb22zAE/2g00oWQpFDKk5FKlLXpXAhpTPo858wjl1MgWtno
- kyT7rpCaOxgLQq2YGgdv8X3mukrSbgZ+B/193vZXoyXo3kRnnGRABOxyX68kLpgY1jmqaE
- LhU0E000QiVpLgppYmvS+N+42r+e734=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Y3AnHmju2hIPtw+GM/uquKBqddxRaGnG3NoRPbGj8oU=;
+ b=e3fLX35jlz6I2nUFqj6Udkt1iL6d4LWxD81eYP4/xcKWSChU0EGNO542M5nZ/IJGfIKwzk
+ vkLm5nr+evLAb023TfemgxiydndSvwmE7tdsjc0dor9s0pjZdgMK3k7myPJreRD4BEYZoO
+ 0tkzjtKEXuJdPpuJW1x5uydXInUefcU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-2n1VyYNEMEWjM9IfCKXweA-1; Mon, 09 May 2022 06:30:41 -0400
-X-MC-Unique: 2n1VyYNEMEWjM9IfCKXweA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 26-20020a05600c021a00b003940660c053so4095119wmi.2
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:30:41 -0700 (PDT)
+ us-mta-252-uSFv66MLM2e1CCtjIvRLBQ-1; Mon, 09 May 2022 06:30:43 -0400
+X-MC-Unique: uSFv66MLM2e1CCtjIvRLBQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i18-20020a1c5412000000b0039491a8298cso517612wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:30:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bt/lCu7Al/ofhqAsL2EZtmQPYAWx6O0kFoKyJZvt56k=;
- b=cfVI10c4oBEAK/6iaGh+je4XcXNzZYUKCZnB0HUVaqrRztqnYqrj0hQJIpWMB7rryj
- 7MrSAMPwengYSCpj3UmD5AOg26IiK60uxhY8wUoeFc0yeXGUdGPDmCRoMS7h+osJXfJn
- XrRxkMgzZqwu4jMzZ72cZTTBLXLJ0z4rr9FW7lpQjkoJpPgELZ34NYxHBpkaCCb9CxIi
- 8OlCarwmE24cEGEVDfiLa8G+Tm916PaZwjIiMym2U+brH+/D3dfdgnzrV3fTCEDxkrFO
- HJQrcaQ+qjrzLYEzzPj6GFLTdbKejzujISyliC+xu21PGASV+UdT9UjCX8G8T92w05AU
- BvBQ==
-X-Gm-Message-State: AOAM532R0aOwFCfg+0bpT9drLGOT0jArwBjzb8bfHEinrI0nI/h/x+SH
- fu8xUuoB6tdNRi7Mjk4nO7UaWdZfG6VE0zoI5X6r/LfSn5rtRqAkO0r+YFdqQ/A5i8UTdpVw6Qy
- FThSOrKStwRmIBNjZ3pxNyCi9lI9cisKsqj8EoR9uYW3INJej36qdPV52XEmSfGlALwA=
-X-Received: by 2002:a7b:c3c2:0:b0:394:9229:3b40 with SMTP id
- t2-20020a7bc3c2000000b0039492293b40mr3504683wmj.195.1652092239690; 
- Mon, 09 May 2022 03:30:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzXsasSXXQPdXKSaw9809OtyqO9Z6rhjNrVUK6Ddkpt2DVmtLlUuDxOjPahnR7qkAZDXqrPgw==
-X-Received: by 2002:a7b:c3c2:0:b0:394:9229:3b40 with SMTP id
- t2-20020a7bc3c2000000b0039492293b40mr3504652wmj.195.1652092239247; 
- Mon, 09 May 2022 03:30:39 -0700 (PDT)
+ bh=Y3AnHmju2hIPtw+GM/uquKBqddxRaGnG3NoRPbGj8oU=;
+ b=1qT1Bd1jlnpcI0lQYcuHMRI9QLVGlhPKCNe/MKQdzcnL7dpnyqeNJN+GQ3N6t5mKkC
+ F7+lK9ELEPTvT5lBCzvLEPbrUsH9JCjS9KS3fW9gRDmclVHK7fH2s6PqYqphKnYR82NL
+ W8kkNAATuds4LV9JtDc9dfR/PXytBJqgTuW183raDdWaiG4Up3bsL2I3Hd1eX7lB02zZ
+ wCyUVR2CTs2ykAExD7Usw5Ao2qmjOYdMB+m0F1y3no0VLg6FmQzsZDwbZrHh5X9iQKFi
+ Nue4mPlNvhTmj9jqo5ecRVXdUJGNzFcdOwU0KNjdqzBjmKRAMyLDPOcivHuj4I7gpncU
+ ZrIw==
+X-Gm-Message-State: AOAM532sLSc9c6sKRV2JEGCkFDi5LXs6KAxvXyQcQR97iHWLgHtNtjTI
+ Fx6YjEIewsfaBf97T0475K+hmYP39Fy8o032O502O1qoHjEFFyVfJm8bDAs0JguKsXIQp15mix2
+ XumaiOLCH/0dY6JO90AJczQYWYL2uRnCJ1jQQyyJIJySzNEzCmoDgRT5g8KWdUiFgb/E=
+X-Received: by 2002:adf:db46:0:b0:20a:c903:4711 with SMTP id
+ f6-20020adfdb46000000b0020ac9034711mr12907510wrj.625.1652092241736; 
+ Mon, 09 May 2022 03:30:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1CDkkfY29l4xUQsc8XceMS+iavOOSLEZBE70723gr4687PLIm9zo8yU+MFZNpQ9wkjr1QLQ==
+X-Received: by 2002:adf:db46:0:b0:20a:c903:4711 with SMTP id
+ f6-20020adfdb46000000b0020ac9034711mr12907475wrj.625.1652092241227; 
+ Mon, 09 May 2022 03:30:41 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- u26-20020a05600c00da00b00394517e7d98sm11839221wmm.25.2022.05.09.03.30.38
+ y3-20020a7bc183000000b003942a244ee0sm11884757wmi.37.2022.05.09.03.30.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 03:30:38 -0700 (PDT)
+ Mon, 09 May 2022 03:30:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/26] iscsi: add missing coroutine_fn annotations
-Date: Mon,  9 May 2022 12:30:02 +0200
-Message-Id: <20220509103019.215041-10-pbonzini@redhat.com>
+Subject: [PATCH v2 10/26] nbd: add missing coroutine_fn annotations
+Date: Mon,  9 May 2022 12:30:03 +0200
+Message-Id: <20220509103019.215041-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220509103019.215041-1-pbonzini@redhat.com>
 References: <20220509103019.215041-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,22 +101,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/iscsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/nbd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index d707d0b354..b33eeec794 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -290,7 +290,7 @@ iscsi_co_generic_cb(struct iscsi_context *iscsi, int status,
-     }
- }
- 
--static void iscsi_co_init_iscsitask(IscsiLun *iscsilun, struct IscsiTask *iTask)
-+static void coroutine_fn iscsi_co_init_iscsitask(IscsiLun *iscsilun, struct IscsiTask *iTask)
+diff --git a/block/nbd.c b/block/nbd.c
+index 6085ab1d2c..fe913a6db4 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -983,11 +983,11 @@ static void nbd_iter_request_error(NBDReplyChunkIter *iter, int ret)
+  * nbd_reply_chunk_iter_receive
+  * The pointer stored in @payload requires g_free() to free it.
+  */
+-static bool nbd_reply_chunk_iter_receive(BDRVNBDState *s,
+-                                         NBDReplyChunkIter *iter,
+-                                         uint64_t handle,
+-                                         QEMUIOVector *qiov, NBDReply *reply,
+-                                         void **payload)
++static bool coroutine_fn nbd_reply_chunk_iter_receive(BDRVNBDState *s,
++                                                      NBDReplyChunkIter *iter,
++                                                      uint64_t handle,
++                                                      QEMUIOVector *qiov, NBDReply *reply,
++                                                      void **payload)
  {
-     *iTask = (struct IscsiTask) {
-         .co         = qemu_coroutine_self(),
+     int ret, request_ret;
+     NBDReply local_reply;
 -- 
 2.35.1
 
