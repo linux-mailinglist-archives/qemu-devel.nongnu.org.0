@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5BEF51F859
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:40:52 +0200 (CEST)
-Received: from localhost ([::1]:42628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B065751F866
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:50:57 +0200 (CEST)
+Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnzsp-0004AX-Kj
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:40:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38474)
+	id 1no02a-0005Xy-RS
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:50:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nnzpK-0001lN-Oy
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:37:14 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:40533)
+ id 1nnzpz-0002N5-Hi
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 05:37:55 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:39012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nnzpI-0002Vy-7m
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:37:14 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id y2so23811326ybi.7
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 02:37:11 -0700 (PDT)
+ id 1nnzpx-0002dz-JV
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 05:37:55 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2f83983782fso137638177b3.6
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 02:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t42B0+fUQDaDgT/KNs0Fcmtg8k7s+EXDC82ddQ1iehg=;
- b=BayDUaOWw32JjAKzt7XfhTB7+LT4swIhOTGbIKdaHBtpIAcHju31PpYMCeYJKjrHwf
- qCtBsJ71MpB7oIbjWx6hxqD0o4JUnQwclMfyRjWfk3+1ZcRH8rbUNzzXEr7DTkVY50i+
- PMttjl4pzfMnDp4jrS1re0G5zlv18iIiUP4j7KQLZeqCqcrc4hoyD9vwhbMIAgGPAU8f
- WN6aCfZ5moKPCUfwJyfY0rPgza460GSCgxaVA1Un1e+pRIlQpnIzHHai4ufNB6qjPWeN
- 5ObHke2AFm9juitp0xcC8fJJMSs0dmbQ9wqoNtl9TOQDsh9659uJVo98CLo3dgyqSM+V
- ct4w==
+ :cc; bh=YCibWj6O4aoviIBGfNa6DZL8ycJAmj+Z3C4Rpw1cAOI=;
+ b=fshy/w9oC/GWsaNkVf/+YKVJCe61hKhOJq+XmU9U2kKE1LmOlOg+11mqTVoD5sCnaZ
+ 7B27QoqdbfiORmWU+bbyGP+s39wkj72es+Tp8xXBxFK2RpiiMeaxIP3SPQiZA7QYj56A
+ XvepCE2c2+HKGx740Hbn8YrXRNr0BzzCsxyc2nyo9/iFXGICHFyhjfpQGSpSC/azsXnt
+ WrgIF7Wll5lbxDFaKgdSekmFg/3cyJARu/SS5HxXzv59UtdpCxTFOCjuIIzn6ypZ9mo1
+ A7RjIpz7Sct+/G5oGPI7hj3Kd2xKylfLOHir2bTyTe1c4wz/Ve7SxAc9D9xgN7o/Pwga
+ 5Q7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=t42B0+fUQDaDgT/KNs0Fcmtg8k7s+EXDC82ddQ1iehg=;
- b=WY1hE40twiN8TaLNjf3P6YSvJ26cXDFMa6ezXJwa3d5vCPShZQdXJWy9z2iREm5FcR
- 2ljIXILFRiBpX5fSKiYGL7b1+FKvbqmaAq2NCEcL37IqevEZ+yBPHk7iqffe4t801xV2
- RBIleJdCXIAvzg8FaP0rlSFj1EodbrcFxzTXjVoW8MyUj2+kQQm3kj6f6WfMVrL7s55l
- 4ogEiKQ73ZLpnZ6jrZkEkmlR0XOArt1iO5yqzxppg6hqmLFmKCxZNCTtXN1/DIszLBIM
- Phc0l2FlXC+dCo49nRG82GqU1hEMzFXsiGdSOU8uoN0Vl8JmZt2zgQ/+tTBjhQNPEwiw
- qipw==
-X-Gm-Message-State: AOAM532ZdMueB9gydbpefhM4fh/uVUool/Cc+8cSs6KNJQqFJ2KZF6kz
- qzUJAkvWwTkdGL5vw0VcuN6mu7oOXNeRroHCXxDK0Q==
-X-Google-Smtp-Source: ABdhPJwRi19DDZQ+92Uw8JcovSpRvG35rNAA6t76mmSq7NgBl4QENfJ3xZk5o0VlO5kP8+/rKraupeY+Awt/d2c8isk=
-X-Received: by 2002:a25:cf4d:0:b0:645:755c:a5af with SMTP id
- f74-20020a25cf4d000000b00645755ca5afmr11564420ybg.140.1652089031148; Mon, 09
- May 2022 02:37:11 -0700 (PDT)
+ bh=YCibWj6O4aoviIBGfNa6DZL8ycJAmj+Z3C4Rpw1cAOI=;
+ b=dyejyhkg5xRI4MJVfP9oDZs24xS1niY4qtpic9E4yDHx9my9Cwda8Bp0F3WFYXqiRK
+ easm8mUdlruz/0LGzioA+ThLxnh6ANflza7tQV5q9sfVv2JRMsw/2kpAY+oInItUuwAQ
+ nJq86IDh6xOzKdXaW+3lqlZO7E6L2bxQE7mLZJjjcK/lgNzWB0YBZyj/wL0eKTb9wnE5
+ Klmhgw49W+NOgjzVkEmlPd1WlDtD1oWRRkEIKIJQwX/l8iAHlwDhc8oUefjr9YTWHmiC
+ G1DWPan+3eyvcYQihpN4jwrF/7YUaQstJ6If8tCkv1k2u1nKkJ28teMoOxeSwo83Sf4Z
+ S/YA==
+X-Gm-Message-State: AOAM533ceiiGYUm6/klV73yGywKqreW8IskzVRd8IvBxk+H0zlqACAWT
+ 4JbGiusppsqNK35K7yyPkfVA/puX/CoJqCH4ObZdRQ==
+X-Google-Smtp-Source: ABdhPJxoFiYk3xYU5aJ+ubQJ0Y2prdwt+EVdi/xGGY8kHauw89TOwJ0wS1mzIFvunXmTh3SeN7IoSyKvNRD3aSLqhYw=
+X-Received: by 2002:a81:5584:0:b0:2f7:d7b6:d910 with SMTP id
+ j126-20020a815584000000b002f7d7b6d910mr14197969ywb.469.1652089072635; Mon, 09
+ May 2022 02:37:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220506180242.216785-1-richard.henderson@linaro.org>
-In-Reply-To: <20220506180242.216785-1-richard.henderson@linaro.org>
+References: <20220505113947.75714-1-quic_llindhol@quicinc.com>
+In-Reply-To: <20220505113947.75714-1-quic_llindhol@quicinc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 May 2022 10:37:00 +0100
-Message-ID: <CAFEAcA9qZh_t=YsCEHeKZVWPgVWhAnBUZUrqPu5Hw9gK2zxA2w@mail.gmail.com>
-Subject: Re: [PATCH v6 00/24] target/arm: Cleanups, new features, new cpus
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Date: Mon, 9 May 2022 10:37:41 +0100
+Message-ID: <CAFEAcA-Y2akoDzzUxyMpVP7N238t3Kg42G66Zkq2+0EN=_aatQ@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/arm: add versioning to sbsa-ref machine DT
+To: Leif Lindholm <quic_llindhol@quicinc.com>
+Cc: qemu-devel@nongnu.org, Radoslaw Biernacki <rad@semihalf.com>, 
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,16 +83,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 May 2022 at 19:03, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 5 May 2022 at 12:39, Leif Lindholm <quic_llindhol@quicinc.com> wrote:
 >
-> Changes for v6:
->   * Expand the commit message for "Drop EL3 no EL2 fallbacks" (pmm)
+> The sbsa-ref machine is continuously evolving. Some of the changes we
+> want to make in the near future, to align with real components (e.g.
+> the GIC-700), will break compatibility for existing firmware.
 >
-> All patches are reviewed.
+> Introduce two new properties to the DT generated on machine generation:
+> - machine-version-major
+>   To be incremented when a platform change makes the machine
+>   incompatible with existing firmware.
+> - machine-version-minor
+>   To be incremented when functionality is added to the machine
+>   without causing incompatibility with existing firmware.
+>   to be reset to 0 when machine-version-major is incremented.
 >
+> This versioning scheme is *neither*:
+> - A QEMU versioned machine type; a given version of QEMU will emulate
+>   a given version of the platform.
+> - A reflection of level of SBSA (now SystemReady SR) support provided.
 >
-> r~
+> The version will increment on guest-visible functional changes only,
+> akin to a revision ID register found on a physical platform.
+>
+> These properties are both introduced with the value 0.
+> (Hence, a machine where the DT is lacking these nodes is equivalent
+> to version 0.0.)
+>
 
 
 
