@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A24451FC76
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:16:54 +0200 (CEST)
-Received: from localhost ([::1]:51694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96C951FCC9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:29:09 +0200 (CEST)
+Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2Jp-0004sE-6d
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50526)
+	id 1no2Vg-0007gR-TZ
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1no240-0000tm-Pa
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:00:34 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:39883)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1no23v-0001ki-BX
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:00:32 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id y32so23366763lfa.6
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 05:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jFlolGB7y2Yo1CY/S0EI1M9WjxGNfe5eFQyZeirIpHw=;
- b=l2f6MJ4ntmGd1P3/UZN0zlqivFRNIOzRtlyLPv5oQk6iSlqUQzo8DY/PGmdN765tuF
- C3d0Bn9ezTGtbo4Hxl2ISVddA24PPg+4oeQtQM8OoStl5apq1Eo6E/0sVLea4clg5Vyj
- 2CzrjePeaILLmQbciVPamu3XzOis2nK/aWjcr0e6t3dJBLhAiHQQWkgLUX8+x9vaArs5
- zKeuPAyA0KBOJCSQxssDbmIu+eiqNfWBwpev751WQjcFObrZrrD8QyXmBc5wgGTZRcvM
- 6EtqUIV+qEoeAdu4+mQyCVnOIw6qkIz3u8LCqIg5xj6gxItcxVwtXcy8GHT1zpxb4EK/
- mgsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jFlolGB7y2Yo1CY/S0EI1M9WjxGNfe5eFQyZeirIpHw=;
- b=mmsQ6lqp7NBWVuSKED2LGxX5TJMHS4dt8rNR9sBi/g13EGytKOGo6TcOzdO0g+dHm2
- R8p3zJAaV/CuvHabvOuoEQ+YJLVZqSlU9fSjIp0DZ5wv6MgpwZLw28xR4yJAWOqTyuqT
- r0lEXR3BwDz/T7FF+4AN8aC8WtZ8w1WYcdbNhjI9VVLJDUZ1QQMoC7Dn+S/j+rw0Uv3f
- DmaqiF6/tA9PfHm3lPOukBIZME5yJTiCRW99n9a9pLepC4U1vj05GaKHv1xRH7bwiDIS
- ZGG90MbueW1Slst/aaVCKiDwtX/lPGAa+Lb9rNN2I5yAKkToJRz0Gc4VG3yYThOwtaSy
- csyQ==
-X-Gm-Message-State: AOAM530FqX0tDDLAFrgAwuImYwvCeEoznBPj9zbt68zrEuaZ8n0MIX/5
- pEsRGZQ9yd1jVyJhInFsBMr+sGlH1cQJk+ieg17BQA==
-X-Google-Smtp-Source: ABdhPJyTdYQeIjOiekjuu5PRQh1wAKKTUnBL2Lsw2y+Gm+Jq41571IgUvH+v/GnrNxUrcaNJREtr7BdbK4dHlXndgqk=
-X-Received: by 2002:ac2:53a2:0:b0:472:3dd:40c6 with SMTP id
- j2-20020ac253a2000000b0047203dd40c6mr13269915lfh.130.1652097625082; Mon, 09
- May 2022 05:00:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1no27B-0004DQ-Q1
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 08:03:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1no278-0002BJ-PC
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 08:03:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652097825;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=/ihLIToyatuHFlHvaJBnYPVX2EO1F64sgyrrNMmR4GU=;
+ b=YNZfEWJDrc9FoQAX+Cm53SoTTWevCFBmNbspbnUA0IK65xRFaxBusmANi/jdIpm0gbM2Us
+ 8wapmYK0WUBWDyFBSwCengR1AqZOcL4b9mOQ7RPIhrZWWm1w2Xd2Tokeq4dLfMrvjq6ohQ
+ RZyd9Q06gPggABbA9/TyIiOfhmPRWNs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-297-Umg1Y6GNM_aK2MvVMHAJVA-1; Mon, 09 May 2022 08:03:42 -0400
+X-MC-Unique: Umg1Y6GNM_aK2MvVMHAJVA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E1F5382ECCA;
+ Mon,  9 May 2022 12:03:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3F7840D296C;
+ Mon,  9 May 2022 12:03:40 +0000 (UTC)
+Date: Mon, 9 May 2022 13:03:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ eduardo@habkost.net, jon.grimm@amd.com
+Subject: Re: [PATCH] pc: q35: Bump max_cpus to 512
+Message-ID: <YnkDGsIi1vFvXmiP@redhat.com>
+References: <20220504131639.13570-1-suravee.suthikulpanit@amd.com>
+ <20220509091249.392fdab6@redhat.com>
 MIME-Version: 1.0
-References: <20220429033409.258707-1-apatel@ventanamicro.com>
- <20220429033409.258707-3-apatel@ventanamicro.com>
- <CAKmqyKMFVanzOMKPuo_i7hWZEJOmReBpp+wgqv3e2ExV2Jb-7g@mail.gmail.com>
- <CAK9=C2UBXfEoCEe1Nexa+v51ZxY7qd3xpJDd5x77L6FM8T2Qag@mail.gmail.com>
- <CAKmqyKO3cqA+diXVuz8es_0FTiPJyufPpfTxQU_bqw6vHDdFQw@mail.gmail.com>
-In-Reply-To: <CAKmqyKO3cqA+diXVuz8es_0FTiPJyufPpfTxQU_bqw6vHDdFQw@mail.gmail.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Mon, 9 May 2022 17:30:14 +0530
-Message-ID: <CAK9=C2XDHvWCcBdML6auRkRfmhuhzL8wtwjPrzjAGJZfJbws5w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] target/riscv: Fix hstatus.GVA bit setting for traps
- taken from HS-mode
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Anup Patel <anup@brainfault.org>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atishp@atishpatra.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=apatel@ventanamicro.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220509091249.392fdab6@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,89 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 9, 2022 at 2:54 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Thu, May 5, 2022 at 12:36 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> >
-> > On Thu, May 5, 2022 at 3:21 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Fri, Apr 29, 2022 at 1:38 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> > > >
-> > > > Currently, QEMU does not set hstatus.GVA bit for traps taken from
-> > > > HS-mode into HS-mode which breaks the Xvisor nested MMU test suite
-> > > > on QEMU. This was working previously.
-> > > >
-> > > > This patch updates riscv_cpu_do_interrupt() to fix the above issue.
-> > > >
-> > > > Fixes: 86d0c457396b ("target/riscv: Fixup setting GVA")
-> > > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> > > > ---
-> > > >  target/riscv/cpu_helper.c | 1 -
-> > > >  1 file changed, 1 deletion(-)
-> > > >
-> > > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > > > index e1aa4f2097..d83579accf 100644
-> > > > --- a/target/riscv/cpu_helper.c
-> > > > +++ b/target/riscv/cpu_helper.c
-> > > > @@ -1434,7 +1434,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> > > >                  /* Trap into HS mode */
-> > > >                  env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
-> > > >                  htval = env->guest_phys_fault_addr;
-> > > > -                write_gva = false;
-> > >
-> > > This doesn't seem right.
-> > >
-> > > "Field GVA (Guest Virtual Address) is written by the implementation
-> > > whenever a trap is taken
-> > > into HS-mode. For any trap (breakpoint, address misaligned, access
-> > > fault, page fault, or guest-
-> > > page fault) that writes a guest virtual address to stval, GVA is set
-> > > to 1. For any other trap into
-> > > HS-mode, GVA is set to 0"
-> > >
-> > > So if we are trapping from HS to HS, the address in stval should not
-> > > be a guest virtual address, at least in general.
-> >
-> > That's not correct. The HLV/HSV instructions executed by hypervisor
-> > (HS-mode) take guest virtual address. These instructions can trap
-> > from HS-mode to HS-mode.
->
-> Ah, I forgot about those instructions, but still they are the
-> exception. In general we would expect a trap from HS to HS to contain
-> HS addresses. We should just handle the other cases specially
+On Mon, May 09, 2022 at 09:12:49AM +0200, Igor Mammedov wrote:
+> On Wed, 4 May 2022 08:16:39 -0500
+> Suravee Suthikulpanit <suravee.suthikulpanit@amd.com> wrote:
+> 
+> > This is the maximum number of vCPU supported by
+> > the AMD x2APIC virtualization.
+> > 
+> > Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+> > ---
+> >  hw/i386/pc_q35.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> > index 302288342a..e82b1c690d 100644
+> > --- a/hw/i386/pc_q35.c
+> > +++ b/hw/i386/pc_q35.c
+> > @@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
+> >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
+> >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+> >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+> > -    m->max_cpus = 288;
+> > +    m->max_cpus = 512;
+> 
+> Maybe we should bump it to KVM VCPU maximum,
+> and make sure we error out if asked for combination of
+> hardware/irqchip is not usable.
 
-I see your point. Let me re-work this patch to ensure that the GVA bit
-is only set when we have a guest virtual address.
+In RHEL downstream we currently bump this to 710 CPUs, because you
+overflow the SMBIOS 2.1 tables at approx 720 CPUs (give/take a little
+depending on other config options).
 
-Regards,
-Anup
+Going beyond 710 CPUs value requires using the SMBIOS 3 entry point.
 
->
-> Alistair
->
-> >
-> > >
-> > > We probably aren't correctly setting GVA if MPRV is set though, as
-> > > then the page faults should be guest addresses. That's probably the
-> > > issue you are seeing.
-> >
-> > The Xvisor nested MMU test-suit is broken on QEMU because it
-> > uses HLV/HSV instructions in HS-mode.
-> >
-> > Regards,
-> > Anup
-> >
-> > >
-> > > Alistair
-> > >
-> > > >              }
-> > > >              env->hstatus = set_field(env->hstatus, HSTATUS_GVA, write_gva);
-> > > >          }
-> > > > --
-> > > > 2.34.1
-> > > >
-> > > >
+AFAIK, the x86 machine types still default to SMBIOS 2.1, so that
+would need changing too.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
