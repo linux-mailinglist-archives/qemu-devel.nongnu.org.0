@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7E352056D
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 21:47:23 +0200 (CEST)
-Received: from localhost ([::1]:43078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A833E520590
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 21:57:15 +0200 (CEST)
+Received: from localhost ([::1]:52608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no9Ll-0005M3-UY
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 15:47:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41066)
+	id 1no9VJ-0001ej-75
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 15:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1no9KN-0004er-PT
- for qemu-devel@nongnu.org; Mon, 09 May 2022 15:45:55 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:37461)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1no9T7-0000ml-U5
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 15:54:58 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:35506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1no9KM-0003Qw-E3
- for qemu-devel@nongnu.org; Mon, 09 May 2022 15:45:55 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 15so12892299pgf.4
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 12:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=bGlYQZ3Ik36xSQh619nW0ArM/xcyEc1b/TMgBbYYlmU=;
- b=LczZuizIgc1+xcWUxhSIUYAMKXi5TnJA4SUb3lu/CLSQFrQMiCu7t7SOAydwhK0iFZ
- YIM8zHv1UIEpSx67knQ+YB2nUzyQlmwvuYUe7dczhx87/ztUXG/I1fNpICdmf+fPHWRo
- vCGiS9cnvfaGu7/e9nGwFQBK7oq4NPdYxEZ4BCLKIGE28/1utnE90ttWl90bqDRHl75H
- B5trt7QLJh3cxj4EQs8zsOyjkGeYJZXpx0MefgywoX8JW94WE1296FuNO9eFh5VpPAub
- UvbfFBT0ngarLUV/cAJ41QVwxpKMblE+6lrg9oDm330+khhsplT837IvxeFvGA061LN3
- L+Jw==
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1no9T6-0004ce-58
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 15:54:57 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-2f7c57ee6feso157180767b3.2
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 12:54:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9POuLCjJRKjPs4Qiw3GOb6CC+jq/9fZcHov7A6+j2gE=;
+ b=uGDLkeMHEDSkUIsc9seaSzcPSGWJzWa0h/oIPM/kWfoue6xiGvO2aSjKuBa8TpfASp
+ iM6N6MYY+NrdmnOFDS6xqHEG0uqtsayE97WWUz60zStIaQXouhxMl7ZvDdYaHwxbVTqJ
+ 2Ylh8Av/SYfpIByXaPghatwbeOI41Cp3rSaQk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bGlYQZ3Ik36xSQh619nW0ArM/xcyEc1b/TMgBbYYlmU=;
- b=vdB3x08s58VwAFpyJcLrzu1hKfiZKD/X801dq96f2xSfFADzddZSBO3NksHPGYJ3c1
- Ymu6tQd4JILwMMg/biIp4LnS1cRP8mco2Z63gQKTDox2j46K1+dqR6Qm3rtPTp7reUbw
- OXcWNN8FXKmR80LHd1urU1R4fPa/Tn/SotqE395lCLSQn+9asAHBnPEEzk+NPBsxoJ1H
- tjWS5cJZ3i9D2yETV3XQVOkjYX4kROunIPZ62xN+EdcySoZ3t0JaJbgv0dktc8ngg2un
- w+YCdTp5UKK+w3GpuYhujjrro6YL6CH1VQJy7IoRJmNjcyXeq6H7QYO5ktEr0tAZFUyM
- 4gvw==
-X-Gm-Message-State: AOAM530xz4L6XVLLyqvQBdAYWM/zm95W4tFPbMbC+6JS8ozOa6YwUyIt
- nGNKnoI8W89+5C+ZtBa3yqSJrg==
-X-Google-Smtp-Source: ABdhPJzlut23AwH646Z/Pvu/HRDfW2cctiV0eFVCVqdhe9b/73XBoUw1wConloiIGBpLtpDoKP4ybw==
-X-Received: by 2002:a05:6a00:1ad2:b0:510:72f6:d039 with SMTP id
- f18-20020a056a001ad200b0051072f6d039mr17119213pfv.2.1652125552677; 
- Mon, 09 May 2022 12:45:52 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- f18-20020a63f112000000b003c14af50603sm8834672pgi.27.2022.05.09.12.45.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 12:45:52 -0700 (PDT)
-Message-ID: <3628fa0b-165a-863a-ffa1-f939d092f79f@linaro.org>
-Date: Mon, 9 May 2022 12:45:50 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9POuLCjJRKjPs4Qiw3GOb6CC+jq/9fZcHov7A6+j2gE=;
+ b=HNOaB5GOEVFB/mVF8MnZ8GFqV+E87MJXCLYsX5jO/54tb6A8yiY+ko6a0o+Vd6AdO8
+ eXWO+O3ntbLEl3opSe2Ncqp/hm42edD+58HFbwYXw55pM4m0XxkHnPB3nRJDDgcqb+dF
+ ta4z3mXF3eUP2eaiBCqvEycOhQtWjbjafuvtrhpDCpHhHs+92Ncs1GDpyARIHdfH38Yu
+ LICT8dNnx5fIs4/fT29kAu4mnqCOFLVcxFi3w4ATHkJ1xGPTt3xqJ3ixc62Cv/BeuyWg
+ kfLg+Rk58N2F+qYXd+0MfBmIs7NK798/guusevxWcMAPRIlnkCgUXpmZ4gjXbqGDr2fN
+ Y38A==
+X-Gm-Message-State: AOAM531GpWf2Wv/P090uVyVsRFLyPb6DU4SQjgqZEENLoE3dyccoxZua
+ D3dM9ny5NhD3gxp7VR/rMKJR4QU1cdrnw55erq/u
+X-Google-Smtp-Source: ABdhPJzAw10aG1O6+EZhbMDYJn3J26SD/T4r4aRciiDNHhZUpxreFiIVTnoySWJcj7KIrzlwGy+RiYh1xAeLDcITb5Y=
+X-Received: by 2002:a05:690c:16:b0:2db:cfed:de0e with SMTP id
+ bc22-20020a05690c001600b002dbcfedde0emr16141271ywb.271.1652126094803; Mon, 09
+ May 2022 12:54:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 12/16] migration: Add zero-copy-send parameter for QMP/HMP
- for Linux
-Content-Language: en-US
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
- leobras@redhat.com, berrange@redhat.com
-References: <20220509150253.218715-1-dgilbert@redhat.com>
- <20220509150253.218715-13-dgilbert@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220509150253.218715-13-dgilbert@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+References: <20220429153431.308829-1-apatel@ventanamicro.com>
+ <20220429153431.308829-3-apatel@ventanamicro.com>
+ <CANzO1D0DxbM=KAwU1E4ZpMfdBpojqX-5+tYGDmtKoQujScuC6A@mail.gmail.com>
+In-Reply-To: <CANzO1D0DxbM=KAwU1E4ZpMfdBpojqX-5+tYGDmtKoQujScuC6A@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Mon, 9 May 2022 12:54:44 -0700
+Message-ID: <CAOnJCUKCXs29mimFY4-dvWguQyRJsOvAy5pVHm3Y5Dr65-AtOw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] target/riscv: Add dummy mcountinhibit CSR for priv
+ spec v1.11 or higher
+To: Frank Chang <frank.chang@sifive.com>
+Cc: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=atishp@atishpatra.org; helo=mail-yw1-x112e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,17 +89,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/9/22 10:02, Dr. David Alan Gilbert (git) wrote:
-> diff --git a/roms/skiboot b/roms/skiboot
-> index 24a7eb3596..820d43c0a7 160000
-> --- a/roms/skiboot
-> +++ b/roms/skiboot
-> @@ -1 +1 @@
-> -Subproject commit 24a7eb35966d93455520bc2debdd7954314b638b
-> +Subproject commit 820d43c0a7751e75a8830561f35535dfffd522bd
+On Wed, May 4, 2022 at 2:53 AM Frank Chang <frank.chang@sifive.com> wrote:
+>
+> Hi Anup,
+>
+> I found that Atish has already submitted a patch to implement the mcountinhibit CSR:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg879349.html
+>
 
-This is an error, probably in rebasing.
+Yeah. I think it depends on which series is merged first. The PMU
+series actually uses mcountinhibit.
+However, latest OpenSBI patches detect priv version v1.11 based on
+mcountinhibit presence.
+We need mcountinhibit support to test any v1.12 patches anyways.
+
+If PMU patches are merged first, we don't need this patch.
+
+> Regards,
+> Frank Chang
+>
+> On Fri, Apr 29, 2022 at 11:44 PM Anup Patel <apatel@ventanamicro.com> wrote:
+>>
+>> The mcountinhibit CSR is mandatory for priv spec v1.11 or higher. For
+>> implementation that don't want to implement can simply have a dummy
+>> mcountinhibit which always zero.
+>>
+>> Fixes: a4b2fa433125 ("target/riscv: Introduce privilege version field in
+>> the CSR ops.")
+>> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+>> ---
+>>  target/riscv/cpu_bits.h | 3 +++
+>>  target/riscv/csr.c      | 2 ++
+>>  2 files changed, 5 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>> index 4d04b20d06..4a55c6a709 100644
+>> --- a/target/riscv/cpu_bits.h
+>> +++ b/target/riscv/cpu_bits.h
+>> @@ -159,6 +159,9 @@
+>>  #define CSR_MTVEC           0x305
+>>  #define CSR_MCOUNTEREN      0x306
+>>
+>> +/* Machine Counter Setup */
+>> +#define CSR_MCOUNTINHIBIT   0x320
+>> +
+>>  /* 32-bit only */
+>>  #define CSR_MSTATUSH        0x310
+>>
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index 2bf0a97196..e144ce7135 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -3391,6 +3391,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>>      [CSR_MIE]         = { "mie",        any,   NULL,    NULL,    rmw_mie           },
+>>      [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,       write_mtvec       },
+>>      [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,  write_mcounteren  },
+>> +    [CSR_MCOUNTINHIBIT] = { "mcountinhibit", any, read_zero, write_ignore,
+>> +                                             .min_priv_ver = PRIV_VERSION_1_11_0 },
+>>
+>>      [CSR_MSTATUSH]    = { "mstatush",   any32, read_mstatush,    write_mstatush    },
+>>
+>> --
+>> 2.34.1
+>>
+>>
 
 
-r~
+-- 
+Regards,
+Atish
 
