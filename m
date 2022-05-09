@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910E951F975
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:12:19 +0200 (CEST)
-Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456BC51F9E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:30:09 +0200 (CEST)
+Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no0NG-0006hu-CU
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
+	id 1no0eW-0002GQ-7i
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:30:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1no0Ik-0004I6-2f
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:07:39 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41530)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1no0Ii-0007KU-DZ
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:07:37 -0400
-Received: by mail-ej1-x629.google.com with SMTP id dk23so25792794ejb.8
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fBfPzF3dlYGa7dPkx9pYY4ihzcKEEVXbqQAGEF7AWLI=;
- b=LYgseHTiLW9YY3F8xDrpov4eR9hQR4C0B2ZBrQIroaUQuXHJ8HVsa2waw2X54uI55G
- q/AWGi99shouqUFXP7bzjBXzuUVhn/enLV7hlzbKpJg+p6N5pviOWDMzDU9E0J3kAdFh
- cNxQUNaHfT0urvEZvIgYk6T+FTcm0OMfHDoN0vHDP2prylCIL0ndCriXXna3W1Mja38q
- XQj+oZDf/ZLkF+H9uL3UO1geYo0x/4vrcOrxAmWloplwXrxUhgN2ig3dKhOyChYWBcC8
- P5pnamE/XDhIXSjlZtcuYfi5oMISCBV+zW1YwoADEo4tUXyfoyTgepQH2auqlL6Mq6Jr
- 0FfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fBfPzF3dlYGa7dPkx9pYY4ihzcKEEVXbqQAGEF7AWLI=;
- b=Nx6A31btfmfC90ibFnxBn3x+RQeb5Foj04vISW/cs+zYrSgYrBI8yotqWHsy9s/aGO
- /2yLvD/Pqg5mbsMywuM14Lu6R8XEr3LGlI5PTT6NAORBUghx74bH+iSkRTPJkNFcIt2D
- /biAJiQLezfrw9Plyd8YaJwfNfpHq7QicS0GX4MC+ek4oEN3Mq8ahzvV92zy7bcoOeDp
- 0Gq1b6i9yK9V/SqsypFRkVKXi2xx2lCB0X0ecun2VVYf3FsTP1OAJeTAkLHHMx3HVvSw
- MCn+s4Ziz4EuMYLsiwXZddRz663xwZyps7GFC4jJxoIJyFAjil4l4+ZEaWjHqUqa4kQQ
- 1Yvg==
-X-Gm-Message-State: AOAM531RBxJWnu4/oijmblV/eii6YII0eAG6bKjAVO+EuSdCtqb2M4c4
- Wa1omqNfwal1mA0lgf4eZ0c=
-X-Google-Smtp-Source: ABdhPJwG27oKwr9jK7Az3NsKdaFB7uRWYKvM/5s7l90qIUhdX4eEloPjTE4bdKZUABE+suM2A3OH4A==
-X-Received: by 2002:a17:907:8a0e:b0:6f5:a48:e04e with SMTP id
- sc14-20020a1709078a0e00b006f50a48e04emr13664772ejc.228.1652090854165; 
- Mon, 09 May 2022 03:07:34 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928?
- ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
- by smtp.googlemail.com with ESMTPSA id
- eb7-20020a170907280700b006f3ef214e4esm4886276ejc.180.2022.05.09.03.07.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 03:07:33 -0700 (PDT)
-Message-ID: <f2698921-d40d-c3a3-b62e-622c0b45bde9@redhat.com>
-Date: Mon, 9 May 2022 12:07:32 +0200
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1no0Pq-0001US-H5
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:14:58 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:42326 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1no0Pj-0008NO-Bf
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:14:55 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxmtiI6Xhi7dAOAA--.38252S3; 
+ Mon, 09 May 2022 18:14:32 +0800 (CST)
+Subject: Re: [PATCH v3 34/43] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
+References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
+ <20220429100729.1572481-35-yangxiaojuan@loongson.cn>
+ <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <32b7a86a-b02d-1c9c-0014-5907cf461d77@loongson.cn>
+Date: Mon, 9 May 2022 18:14:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 0/2] thread-pool: fix performance regression
+In-Reply-To: <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------DE6D127A57BA3FA00FCF3309"
 Content-Language: en-US
-To: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- qemu-devel@nongnu.org
-Cc: stefanha@redhat.com
-References: <20220506114711.1398662-1-pbonzini@redhat.com>
- <452936f5-3bfb-9cf9-d0cf-cb8eb3dc8ddc@redhat.com>
- <e4b7ed3b-4ac5-6b16-525f-4033199f471c@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <e4b7ed3b-4ac5-6b16-525f-4033199f471c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-CM-TRANSID: AQAAf9AxmtiI6Xhi7dAOAA--.38252S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7XF17AFW7Jw1DKFWftrW5KFg_yoW8JF13pF
+ Z5J3yYyryDGw1kWr1DJa10qFyrGr18Jw42qr18CFy8Zr1rZF1SqryFqr1I9a4UJr4vkF1U
+ tF45XayrurW3GwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv214x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
+ I2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487
+ MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
+ Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
+ 14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
+ 7VUb_gA7UUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,31 +79,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/9/22 08:42, Lukáš Doktor wrote:
-> Dne 06. 05. 22 v 20:55 Lukáš Doktor napsal(a):
->> Hello Paolo, folks, I gave it a try (on top of the f9fc8932) and
->> it's better than the f9fc8932, better than the previous patch by
->> Stefan, but still I'm not reaching the performance of d7482ffe97
->> (before the f9fc8932 commit):
->> 
->> f9f    |  0.0 | -2.8 |  0.6 stefan | -3.1 | -1.2 | -2.2 paolo  |
->> 5.3 |  5.4 |  7.1 d74    |  7.2 |  9.1 |  8.2
->> 
->> Anyway it's definitely closer to the previous baseline (~-2%). Note
->> I have not tried other scenarios, just the 4K nbd writes on
->> rotational disk. I'll try running more throughout the night.
->> 
-> 
-> I tried a couple of iterations of fio-nbd 4/64/256KB read/writes on a
-> rotational disk and overall the latest fix results in a steady 2.5%
-> throughput regression for the 4KiB writes. The remaining tested
-> variants performed similarly. Please let me know if you want me to
-> test the fio execution inside the guest as well or some other
-> variants.
+This is a multi-part message in MIME format.
+--------------DE6D127A57BA3FA00FCF3309
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Considering we have conflicting results (I get a 2-3% improvement over 
-6.2), and that in general aio=native/aio=io_uring is preferred, I think 
-we can proceed with these patches at least for now.
 
-Paolo
+On 2022/5/7 下午11:31, Richard Henderson wrote:
+>> +    if (level) {
+>> +        /* if not enable return false */
+>> +        if (((s->enable[enable_index]) & (1 << enable_mask)) == 0) {
+>> +            return;
+>> +        }
+>> +        s->coreisr[cpu][coreisr_index] |= (1 << coreisr_mask);
+>> +        qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+>> +    } else {
+>> +        s->coreisr[cpu][coreisr_index] &= ~(1 << coreisr_mask);
+>> +        qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+>> +    }
+>
+> This final bit, updating the cpu irq is also wrong, in that it should 
+> be unconditional. This is the only way that it will work for the usage 
+> in updating the enable mask.
+>
+> I think you are not considering when the MAP registers overlap 
+> outputs.  For instance, if all 256 bits of EXT_IOIMap contain 0, then 
+> all of EXT_IOI[n*32+31 : n*32] overlap.  When that happens, you cannot 
+> lower the level of the cpu pin until all of the matching ioi 
+> interrupts are low.
+>
+Thanks, i should consider the MAP registers overlap outputs.
+And i want to add 'uint32_t sw_isr_group[256 / 32]', when each bit of 
+sw_isr_group[n*32+31 : n*32] is 0, then lower the level of the cpu pin.
+
+Thanks.
+Xiaojuan
+
+--------------DE6D127A57BA3FA00FCF3309
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/5/7 下午11:31, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org">
+      <blockquote type="cite" style="color: #000000;">+    if (level) {
+        <br>
+        +        /* if not enable return false */
+        <br>
+        +        if (((s-&gt;enable[enable_index]) &amp; (1 &lt;&lt;
+        enable_mask)) == 0) {
+        <br>
+        +            return;
+        <br>
+        +        }
+        <br>
+        +        s-&gt;coreisr[cpu][coreisr_index] |= (1 &lt;&lt;
+        coreisr_mask);
+        <br>
+        +        qemu_set_irq(s-&gt;parent_irq[cpu][ipnum], level);
+        <br>
+        +    } else {
+        <br>
+        +        s-&gt;coreisr[cpu][coreisr_index] &amp;= ~(1 &lt;&lt;
+        coreisr_mask);
+        <br>
+        +        qemu_set_irq(s-&gt;parent_irq[cpu][ipnum], level);
+        <br>
+        +    }
+        <br>
+      </blockquote>
+      <br>
+      This final bit, updating the cpu irq is also wrong, in that it
+      should be unconditional. This is the only way that it will work
+      for the usage in updating the enable mask.
+      <br>
+      <br>
+      I think you are not considering when the MAP registers overlap
+      outputs.  For instance, if all 256 bits of EXT_IOIMap contain 0,
+      then all of EXT_IOI[n*32+31 : n*32] overlap.  When that happens,
+      you cannot lower the level of the cpu pin until all of the
+      matching ioi interrupts are low.
+      <br>
+      <br>
+    </blockquote>
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">Thanks, i should consider the MAP
+      registers overlap outputs.</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">And i want to add 'uint32_t
+      sw_isr_group[256 / 32]', when each bit of sw_isr_group[n*32+31 :
+      n*32] is 0, then lower the level of the cpu pin.</span><br>
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;"></span><br>
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">Thanks.</span><br>
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">Xiaojuan</span><br>
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;"></span>
+  </body>
+</html>
+
+--------------DE6D127A57BA3FA00FCF3309--
+
 
