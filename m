@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7E251FC2C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:07:02 +0200 (CEST)
-Received: from localhost ([::1]:59592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F21A51FC45
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:11:23 +0200 (CEST)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2AH-0007x6-IN
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49714)
+	id 1no2EU-0005P5-DV
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22V-00079U-9N
- for qemu-devel@nongnu.org; Mon, 09 May 2022 07:58:59 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53079)
+ id 1no22W-0007Bg-9M
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:00 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:47027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22T-0001Hl-Cb
+ id 1no22U-0001I7-NI
  for qemu-devel@nongnu.org; Mon, 09 May 2022 07:58:59 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id k126so8239444wme.2
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:58:57 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id i5so19083154wrc.13
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NTlGCwPOD+kUxmNLauVtxFXKm1Wxpl+T/qfsIS4Q+pg=;
- b=ONB7tcZwaI4hgq6dY1sBEOEReFZEBy8BK8o4WP6tv2IU1IWhpcfoxLDKCCLi/hmeyw
- bPu9Q5ZDLKCzX9FD3Cyee+mOvoAznoe3cJSJ1HygItRc5EMjm8Ly5NQESOJ5Rf+xZLHs
- ZZhcYHQnC8W8Y9mSOgqbwO3X7j3YA42d8fXX2kFgw9YtmmUxqULcP51b10D7MrBgoF9Z
- jZyznHNuawB8En5LsVHS3gi2w165XOMpG++XVAv3lDS3MPpXfGwRMEitOBxDf6OpuOOC
- mcM9Va4EncujNImyRUH8r63Ap74w7XwJjfnpT26Uc4MAXV1kE7DhOJYdXMdCXk+H87c+
- 5LCQ==
+ bh=utw3LcG1dMmm1L7xgVlIZJE0fwXZzx5RP9DT2it4qMY=;
+ b=I8LFVy4UBf/5CFt85x/PlfGgFsQDAgSkpjJYzu5aCnA5ngi7bRI+QXAOM8LKDTwiRG
+ fDcdhZnbyGPZz6rBxGPy0+uONdeTkTVJkBsRB5rIjR7GXoEbCrSK4iuXAyKvk/DR7h9m
+ ggbCA4RbeUsf1f9t+kWCK+rak1mBn5bTH7UJGRa0Hrg3INKkQ+AXlFKtCxzaVoykdXyr
+ Poutc8I1YMEjL9C0XPkkrq56dGvL3shY0EIdj4pGPA6e3vMhg9cwln5mp5lkgm8kfiwu
+ pxIq2SgVvblo6mSJ5yQFnUapHtfDKWMVhYo7XPdFV0sw0mHWDHRxnFSCp77kAQ4ivW8C
+ BOJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NTlGCwPOD+kUxmNLauVtxFXKm1Wxpl+T/qfsIS4Q+pg=;
- b=RClksMzbexCE3JBQURSadlQXaIcG+KcONTScDijDi2909cM7kFY6VhuS+Kaxfsgzh7
- 6aBukBOboDA88kU+7B07evR8ypNAPsk0clF34yQQ8FMaRubP5yvzyqQcPfVzXGLcjuLs
- 5b6uQHALu4O+n1qRjiSEaNCjNernNYWz7BfFCX9DKoDxAM96H5VbfqEodx59dhzgOcQp
- hmNY0lIkRjAgEbrR+QWpEaQ1eh+lEk6U8LdrQfd4q9LYeTpAqwWYsVQeJJqAeYOJc+mT
- b+MxFLWJN3OOiuowagLoJA2P8oXhYjjmpYJJJzi6F46p9CB93ndefuOm1WqI/5i42Ovt
- o56A==
-X-Gm-Message-State: AOAM5330kOkHp9t+K0xuAjs4X4uWDkuSQ77bM5wkDlBfb4fNpNwOCqgJ
- bjGjL9MZFTfGj4fUfAzqzNLP/kNMsiPnxA==
-X-Google-Smtp-Source: ABdhPJyAwTKdijUYepEeXC21x1hOY0XNN+O2on8+LTcn7iSdsUb3JUiAlhnwiTJOqhSWVHBdcpeG2A==
-X-Received: by 2002:a1c:7414:0:b0:394:1d5d:27f2 with SMTP id
- p20-20020a1c7414000000b003941d5d27f2mr15811751wmc.37.1652097536026; 
+ bh=utw3LcG1dMmm1L7xgVlIZJE0fwXZzx5RP9DT2it4qMY=;
+ b=bqCbKZF1dX/2H78HOYLTw8wbV0FREG1X6a0FamwN0VvQflccT/tI36AwQzgo2nXNSt
+ 92XSc0jxfMf5XjkgVgRGPcpw6Den9qSTEATMPUYffgciJ7QpUFstg/64QcU6ILHWjf8Q
+ zvsygXHFKyGtFQW09pAMy3+lwkkxl1tAnUzu4afvHgdO9Jr7QriAAkk6+3P+Yw48ytSN
+ GX79i8vVS0XFweyxnh06raCdSU2uvXGBVPol0dpaEUecGJRu2xeMDAElpPbd6FueKm0u
+ VljpUhtVZ44pJXFxlyEe0/2AWluUka6M08M6BQjLPvTbhhXup8aw2zhwwc3lTm3A2W+J
+ loGA==
+X-Gm-Message-State: AOAM5300FfdDDl/6EUsEWHfbbDHLC4r2KKb5HzDEbvm6A6y13iCztTZr
+ udjjJ36ZIa+4OsxYbVIwiRCiXHR1bR8VNQ==
+X-Google-Smtp-Source: ABdhPJxwRKncAo0BqRj7yDmkw5wpBs+H3y1ewro5MYAhriKtebgOmNEOxE3BXnejZ2BuFqLAQAzZUA==
+X-Received: by 2002:a5d:598e:0:b0:20c:57ef:6083 with SMTP id
+ n14-20020a5d598e000000b0020c57ef6083mr13535445wri.457.1652097536728; 
  Mon, 09 May 2022 04:58:56 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.58.55
+ bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.58.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 04:58:55 -0700 (PDT)
+ Mon, 09 May 2022 04:58:56 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/32] target/arm: Update qemu-system-arm -cpu max to cortex-a57
-Date: Mon,  9 May 2022 12:58:23 +0100
-Message-Id: <20220509115848.3521805-8-peter.maydell@linaro.org>
+Subject: [PULL 08/32] target/arm: Set ID_DFR0.PerfMon for qemu-system-arm -cpu
+ max
+Date: Mon,  9 May 2022 12:58:24 +0100
+Message-Id: <20220509115848.3521805-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220509115848.3521805-1-peter.maydell@linaro.org>
 References: <20220509115848.3521805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,187 +91,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Instead of starting with cortex-a15 and adding v8 features to
-a v7 cpu, begin with a v8 cpu stripped of its aarch64 features.
-This fixes the long-standing to-do where we only enabled v8
-features for user-only.
+We set this for qemu-system-aarch64, but failed to do so
+for the strictly 32-bit emulation.
 
+Fixes: 3bec78447a9 ("target/arm: Provide ARMv8.4-PMU in '-cpu max'")
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220506180242.216785-7-richard.henderson@linaro.org
+Message-id: 20220506180242.216785-8-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu_tcg.c | 151 ++++++++++++++++++++++++++-----------------
- 1 file changed, 92 insertions(+), 59 deletions(-)
+ target/arm/cpu_tcg.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index d078f06931c..f9094c17525 100644
+index f9094c17525..9aa2f737c1e 100644
 --- a/target/arm/cpu_tcg.c
 +++ b/target/arm/cpu_tcg.c
-@@ -994,71 +994,104 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
- static void arm_max_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-+    uint32_t t;
+@@ -1084,6 +1084,10 @@ static void arm_max_initfn(Object *obj)
+     t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
+     cpu->isar.id_pfr2 = t;
  
--    cortex_a15_initfn(obj);
-+    /* aarch64_a57_initfn, advertising none of the aarch64 features */
-+    cpu->dtb_compatible = "arm,cortex-a57";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->midr = 0x411fd070;
-+    cpu->revidr = 0x00000000;
-+    cpu->reset_fpsid = 0x41034070;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+    cpu->ctr = 0x8444c004;
-+    cpu->reset_sctlr = 0x00c50838;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x03010066;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x10101105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00011142;
-+    cpu->isar.id_isar5 = 0x00011121;
-+    cpu->isar.id_isar6 = 0;
-+    cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->clidr = 0x0a200023;
-+    cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
-+    cpu->ccsidr[2] = 0x70ffe07a; /* 2048KB L2 cache */
-+    define_cortex_a72_a57_a53_cp_reginfo(cpu);
- 
--    /* old-style VFP short-vector support */
--    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
-+    /* Add additional features supported by QEMU */
-+    t = cpu->isar.id_isar5;
-+    t = FIELD_DP32(t, ID_ISAR5, AES, 2);
-+    t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
-+    t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
-+    cpu->isar.id_isar5 = t;
++    t = cpu->isar.id_dfr0;
++    t = FIELD_DP32(t, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
++    cpu->isar.id_dfr0 = t;
 +
-+    t = cpu->isar.id_isar6;
-+    t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, DP, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, BF16, 1);
-+    t = FIELD_DP32(t, ID_ISAR6, I8MM, 1);
-+    cpu->isar.id_isar6 = t;
-+
-+    t = cpu->isar.mvfr1;
-+    t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-+    t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-+    cpu->isar.mvfr1 = t;
-+
-+    t = cpu->isar.mvfr2;
-+    t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-+    t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-+    cpu->isar.mvfr2 = t;
-+
-+    t = cpu->isar.id_mmfr3;
-+    t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+    cpu->isar.id_mmfr3 = t;
-+
-+    t = cpu->isar.id_mmfr4;
-+    t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-+    t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-+    t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-+    t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-+    cpu->isar.id_mmfr4 = t;
-+
-+    t = cpu->isar.id_pfr0;
-+    t = FIELD_DP32(t, ID_PFR0, DIT, 1);
-+    cpu->isar.id_pfr0 = t;
-+
-+    t = cpu->isar.id_pfr2;
-+    t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
-+    cpu->isar.id_pfr2 = t;
- 
  #ifdef CONFIG_USER_ONLY
      /*
--     * We don't set these in system emulation mode for the moment,
--     * since we don't correctly set (all of) the ID registers to
--     * advertise them.
-+     * Break with true ARMv8 and add back old-style VFP short-vector support.
-+     * Only do this for user-mode, where -cpu max is the default, so that
-+     * older v6 and v7 programs are more likely to work without adjustment.
-      */
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    {
--        uint32_t t;
--
--        t = cpu->isar.id_isar5;
--        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
--        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
--        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
--        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
--        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
--        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
--        cpu->isar.id_isar5 = t;
--
--        t = cpu->isar.id_isar6;
--        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
--        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
--        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
--        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
--        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
--        t = FIELD_DP32(t, ID_ISAR6, BF16, 1);
--        t = FIELD_DP32(t, ID_ISAR6, I8MM, 1);
--        cpu->isar.id_isar6 = t;
--
--        t = cpu->isar.mvfr1;
--        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
--        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
--        cpu->isar.mvfr1 = t;
--
--        t = cpu->isar.mvfr2;
--        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
--        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
--        cpu->isar.mvfr2 = t;
--
--        t = cpu->isar.id_mmfr3;
--        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
--        cpu->isar.id_mmfr3 = t;
--
--        t = cpu->isar.id_mmfr4;
--        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
--        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
--        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
--        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
--        cpu->isar.id_mmfr4 = t;
--
--        t = cpu->isar.id_pfr0;
--        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
--        cpu->isar.id_pfr0 = t;
--
--        t = cpu->isar.id_pfr2;
--        t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
--        cpu->isar.id_pfr2 = t;
--    }
--#endif /* CONFIG_USER_ONLY */
-+    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
-+#endif
- }
- #endif /* !TARGET_AARCH64 */
- 
+      * Break with true ARMv8 and add back old-style VFP short-vector support.
 -- 
 2.25.1
 
