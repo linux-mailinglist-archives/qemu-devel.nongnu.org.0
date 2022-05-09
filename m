@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C1551FBD8
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4A951FBD9
 	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:03:33 +0200 (CEST)
-Received: from localhost ([::1]:50340 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no26t-0001aN-Mq
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49608)
+	id 1no26u-0001ch-3V
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22Q-00070l-UY
+ id 1no22Q-00070k-Jt
  for qemu-devel@nongnu.org; Mon, 09 May 2022 07:58:54 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43791)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22P-0001GV-0F
+ id 1no22O-0001Ga-Vc
  for qemu-devel@nongnu.org; Mon, 09 May 2022 07:58:54 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v12so19069501wrv.10
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:58:51 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id t6so19116578wra.4
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3K/gnyfwQ5SlC9PohntUl+Ghq4dRaFx5ugGptct2IYI=;
- b=WB/r9M5HCQ74EMok86Ro1Honbm9FRVoCfF4H7ge4jAjBi9LwykMNNXiQhNRN2Lz/RK
- abV0dJpHeqXYgiG7z9E4nhzAhYsXG3ncILRdFR3qryl7v0tR7H7gfe5XS9Qt9dL6mrdE
- YtRPdpligDd0e0u0q+eQ8hJ2H0ZvZKbSV1LQVn9gRBSi5WRl+9/PtpiudxjENA9rN0b4
- M0SQSo67Uz8s6uax+4aGlVKrbHh8vrntvtq5OLGVaUk/QHh/nNzQchxZFD4e3f47EFHS
- YA1IY6m4wk9B3izu3Ym8z4CAfq2Klc9xgU+8+CKAkkbp0fjHXsLxJuouiwT7zYjt/Ryp
- KMIQ==
+ bh=HECDO2g5fuR9qiRk+IIoBmUOKs2yPZa4jqvWajfBo7U=;
+ b=n3/OLf9tX4IaEs7CFqVxQk2s5TKdjTzg34rTZOGapIeW+c7e+/mJWNHgp1beHWA/Yk
+ CcQE/PAfXr6rJeMWjBtbHjfJuV8tAc/Vj9C14btrWUBy8OrDpuWbevXSxOxDGASrlI0c
+ DtqE6HjVs2um+exqe6PFGNTTwwJQgCX8Qfj2h2YipiLd7VoE3rwAtk4+/fmoGbuOtUIA
+ dpnLhhOtmuuyYc5oNZN/cW6lamUPtsSxQeKSGPh4Twr2oOsRBeodpjPxIsuNsMiYMdLp
+ hhyuzbFC1zhLU6dIfVI2eqX6XPLfb436V7ZLyz9bGJgg/7iY8ooMXsUkZ6ORkuEDbgOD
+ cYCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3K/gnyfwQ5SlC9PohntUl+Ghq4dRaFx5ugGptct2IYI=;
- b=mfcpJzDIUFIAEnAMrzBrO3ZEU3qQ95RWz7MvDgDblMSpa3huHng/SCLV6cwAlulZvS
- 1kqVM71sjqNvQzK6+WusFof2iJ6p5ScyldWa8oFAGgd81+WXiVEALWOcdEp+If1gTHYq
- 8zEX+GOZrJp9E9cZ3fRz5vDKV6/E4G9pxj6BEmO4nTq4HaOGCE7N1s1kpzzEtsv1STO3
- efJkbN3/ZVPL9lcjBqka+5T5RObxKVu5Gz5LgOqRPLkFPQE2OBJuY1vy/CuOUJWbIDmL
- 2T4qHNuopr1LMtxmy/6ZeAHLL6GF8mQy/CkNRsMhK6AjzWP2p+uzubqOBd+er6yinngh
- Q+KQ==
-X-Gm-Message-State: AOAM533aRbigxWQvXrp3CdU+scuNbzKzBiz8fQX3ikCjjTMsB+iVUJlG
- kSlMAoYac3d4beB4eiO2C4htwiZbd6sLRA==
-X-Google-Smtp-Source: ABdhPJzg9ecKS9wWDq5GFreOIRLUssCKLgHmlbxgwS12hD09dp5i4L87t2T8nSvs/uwkPefncZxjrg==
-X-Received: by 2002:adf:fd0b:0:b0:20a:ea57:6dab with SMTP id
- e11-20020adffd0b000000b0020aea576dabmr13685376wrr.175.1652097530157; 
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HECDO2g5fuR9qiRk+IIoBmUOKs2yPZa4jqvWajfBo7U=;
+ b=X4l4WladBHlp+qoeuZTY+Rk/AQ1ntp/Y8sBDAPfDfObgylTZtkEiA4M2qbkqmP/eDu
+ YoZX0bjbS+Agn8fHjaH/yvCQhAQeiVd55B3KCQzCeKe4fNbk1mO4adHBZnSQOPyo7A8M
+ CdOes5KOS9N0RuKxpsw+LTBNPYjxU3EQEdfSxkIOzZA8vNtnZrKzukQPSezW6qtM0qr5
+ SeiYBJdvHZ+nLw+35/X97WvmsRef52nezFbDuJ4kfutj7CP8WKsnxHN0NWkM630NJmbs
+ vEH4fkQE13AqrBNflRRY19F9zBKwKKI9Qi/UK651AhHECEBhhETCq4+xE3SBK3Zakwqf
+ 3V1A==
+X-Gm-Message-State: AOAM531FOZwGXDWERX8f/3+QOuRr7uQfI2+GosVFIDl8xWd9JNTfHR7D
+ YZR6kEwmAeWvDNZArRdmheKS8xirKpCjdg==
+X-Google-Smtp-Source: ABdhPJxcbCkmsCd5H31gTdGSTcSYCCbxWLbOTWQHPbI12IC743RVVmtQc9fqUOWEsTzbu/7dlYJsxQ==
+X-Received: by 2002:a05:6000:178d:b0:20c:b1fb:abe9 with SMTP id
+ e13-20020a056000178d00b0020cb1fbabe9mr9440987wrg.452.1652097530837; 
  Mon, 09 May 2022 04:58:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.58.49
+ bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.58.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 04:58:49 -0700 (PDT)
+ Mon, 09 May 2022 04:58:50 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/32] target-arm queue
-Date: Mon,  9 May 2022 12:58:16 +0100
-Message-Id: <20220509115848.3521805-1-peter.maydell@linaro.org>
+Subject: [PULL 01/32] MAINTAINERS/.mailmap: update email for Leif Lindholm
+Date: Mon,  9 May 2022 12:58:17 +0100
+Message-Id: <20220509115848.3521805-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220509115848.3521805-1-peter.maydell@linaro.org>
+References: <20220509115848.3521805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,99 +89,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-target-arm queue: the big stuff here is the final part of
-rth's patches for Cortex-A76 and Neoverse-N1 support;
-also present are Gavin's NUMA series and a few other things.
+From: Leif Lindholm <quic_llindhol@quicinc.com>
 
-thanks
--- PMM
+NUVIA was acquired by Qualcomm in March 2021, but kept functioning on
+separate infrastructure for a transitional period. We've now switched
+over to contributing as Qualcomm Innovation Center (quicinc), so update
+my email address to reflect this.
 
-The following changes since commit 554623226f800acf48a2ed568900c1c968ec9a8b:
+Signed-off-by: Leif Lindholm <quic_llindhol@quicinc.com>
+Message-id: 20220505113740.75565-1-quic_llindhol@quicinc.com
+Cc: Leif Lindholm <leif@nuviainc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+[Fixed commit message typo]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ .mailmap    | 3 ++-
+ MAINTAINERS | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-  Merge tag 'qemu-sparc-20220508' of https://github.com/mcayland/qemu into staging (2022-05-08 17:03:26 -0500)
+diff --git a/.mailmap b/.mailmap
+index 2976a675ea5..8c326709cfa 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -62,7 +62,8 @@ Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+-Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
++Leif Lindholm <quic_llindhol@quicinc.com> <leif.lindholm@linaro.org>
++Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
+ Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
+ Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
+ Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 662ec472467..42f67e2b930 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -889,7 +889,7 @@ F: include/hw/ssi/imx_spi.h
+ SBSA-REF
+ M: Radoslaw Biernacki <rad@semihalf.com>
+ M: Peter Maydell <peter.maydell@linaro.org>
+-R: Leif Lindholm <leif@nuviainc.com>
++R: Leif Lindholm <quic_llindhol@quicinc.com>
+ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/sbsa-ref.c
+-- 
+2.25.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220509
-
-for you to fetch changes up to ae9141d4a3265553503bf07d3574b40f84615a34:
-
-  hw/acpi/aml-build: Use existing CPU topology to build PPTT table (2022-05-09 11:47:55 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * MAINTAINERS/.mailmap: update email for Leif Lindholm
- * hw/arm: add version information to sbsa-ref machine DT
- * Enable new features for -cpu max:
-   FEAT_Debugv8p2, FEAT_Debugv8p4, FEAT_RAS (minimal version only),
-   FEAT_IESB, FEAT_CSV2, FEAT_CSV2_2, FEAT_CSV3, FEAT_DGH
- * Emulate Cortex-A76
- * Emulate Neoverse-N1
- * Fix the virt board default NUMA topology
-
-----------------------------------------------------------------
-Gavin Shan (6):
-      qapi/machine.json: Add cluster-id
-      qtest/numa-test: Specify CPU topology in aarch64_numa_cpu()
-      hw/arm/virt: Consider SMP configuration in CPU topology
-      qtest/numa-test: Correct CPU and NUMA association in aarch64_numa_cpu()
-      hw/arm/virt: Fix CPU's default NUMA node ID
-      hw/acpi/aml-build: Use existing CPU topology to build PPTT table
-
-Leif Lindholm (2):
-      MAINTAINERS/.mailmap: update email for Leif Lindholm
-      hw/arm: add versioning to sbsa-ref machine DT
-
-Richard Henderson (24):
-      target/arm: Handle cpreg registration for missing EL
-      target/arm: Drop EL3 no EL2 fallbacks
-      target/arm: Merge zcr reginfo
-      target/arm: Adjust definition of CONTEXTIDR_EL2
-      target/arm: Move cortex impdef sysregs to cpu_tcg.c
-      target/arm: Update qemu-system-arm -cpu max to cortex-a57
-      target/arm: Set ID_DFR0.PerfMon for qemu-system-arm -cpu max
-      target/arm: Split out aa32_max_features
-      target/arm: Annotate arm_max_initfn with FEAT identifiers
-      target/arm: Use field names for manipulating EL2 and EL3 modes
-      target/arm: Enable FEAT_Debugv8p2 for -cpu max
-      target/arm: Enable FEAT_Debugv8p4 for -cpu max
-      target/arm: Add minimal RAS registers
-      target/arm: Enable SCR and HCR bits for RAS
-      target/arm: Implement virtual SError exceptions
-      target/arm: Implement ESB instruction
-      target/arm: Enable FEAT_RAS for -cpu max
-      target/arm: Enable FEAT_IESB for -cpu max
-      target/arm: Enable FEAT_CSV2 for -cpu max
-      target/arm: Enable FEAT_CSV2_2 for -cpu max
-      target/arm: Enable FEAT_CSV3 for -cpu max
-      target/arm: Enable FEAT_DGH for -cpu max
-      target/arm: Define cortex-a76
-      target/arm: Define neoverse-n1
-
- docs/system/arm/emulation.rst |  10 +
- docs/system/arm/virt.rst      |   2 +
- qapi/machine.json             |   6 +-
- target/arm/cpregs.h           |  11 +
- target/arm/cpu.h              |  23 ++
- target/arm/helper.h           |   1 +
- target/arm/internals.h        |  16 ++
- target/arm/syndrome.h         |   5 +
- target/arm/a32.decode         |  16 +-
- target/arm/t32.decode         |  18 +-
- hw/acpi/aml-build.c           | 111 ++++----
- hw/arm/sbsa-ref.c             |  16 ++
- hw/arm/virt.c                 |  21 +-
- hw/core/machine-hmp-cmds.c    |   4 +
- hw/core/machine.c             |  16 ++
- target/arm/cpu.c              |  66 ++++-
- target/arm/cpu64.c            | 353 ++++++++++++++-----------
- target/arm/cpu_tcg.c          | 227 +++++++++++-----
- target/arm/helper.c           | 600 +++++++++++++++++++++++++-----------------
- target/arm/op_helper.c        |  43 +++
- target/arm/translate-a64.c    |  18 ++
- target/arm/translate.c        |  23 ++
- tests/qtest/numa-test.c       |  19 +-
- .mailmap                      |   3 +-
- MAINTAINERS                   |   2 +-
- 25 files changed, 1068 insertions(+), 562 deletions(-)
 
