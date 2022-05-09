@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92BD51FDE1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:17:19 +0200 (CEST)
-Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968B051FE73
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:37:07 +0200 (CEST)
+Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no3GI-0003Ai-Rq
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
+	id 1no3ZS-0008Jt-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1no2ta-0006fU-17
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1no2tY-0002vj-6S
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652100827;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1no38A-0007t8-6t; Mon, 09 May 2022 09:08:54 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:43340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1no387-0005bW-I6; Mon, 09 May 2022 09:08:52 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A33D01FA1C;
+ Mon,  9 May 2022 13:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652101728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ernlZqK4rx/jKyHCSCB8PzjGsU1N9ct62d1XbrP+O+0=;
- b=A2AlJV4zIzNsUiM/mBRDOP5scwJNTowXx/HUriYI/vFgrswowsl7sqW6Ynovrfw2XmSlL5
- PKto467iZgySn0VwQR4sHn9jUG3lbeaUfbyKHlqx/2dIAXv3XWL/3PyBDzusQSFWD/WXbF
- Le2RCWnbBWv8i5B3akbEITeIAQa1Xrk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-K4bIrwfFOpSIMEQIy1PawA-1; Mon, 09 May 2022 08:53:44 -0400
-X-MC-Unique: K4bIrwfFOpSIMEQIy1PawA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=7BpkyJpf59T+9B12q9IsCoEjw6AXKkMmohsZkrNP6UA=;
+ b=YUSKCFFlVbgnlR5CkddiHQcHlHtz6+XP+wL30isF9wWAuW7fyokOciUy9UH0XwAz8TCqJi
+ AwOHEho7/T0Cqvv5PT9bFmIwra9mw4ya9sbjOjULon0abGYI4M7I3LCdauW+bYvs3vfDEE
+ PrLSrFJwUYZH2swbrElWn9wGCaa6//o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652101728;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7BpkyJpf59T+9B12q9IsCoEjw6AXKkMmohsZkrNP6UA=;
+ b=I3xJJDQxvHl9M+mUUeSV9eRnCyHku89c5fEgwgybMm9V/kjITUIsDKj3mRgI3f8QEWLoKl
+ ZUQ+ORSxVzEd+YDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DD571C0F68C;
- Mon,  9 May 2022 12:53:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1C0D43EA03;
- Mon,  9 May 2022 12:53:43 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: <qemu-block@nongnu.org>, Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 9/9] virtio-scsi: move request-related items from .h to .c
-Date: Mon,  9 May 2022 13:53:15 +0100
-Message-Id: <20220509125315.3746865-10-stefanha@redhat.com>
-In-Reply-To: <20220509125315.3746865-1-stefanha@redhat.com>
-References: <20220509125315.3746865-1-stefanha@redhat.com>
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3215C132C0;
+ Mon,  9 May 2022 13:08:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id b596CmASeWJPVwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 09 May 2022 13:08:48 +0000
+Subject: Re: [PATCH v7 00/22] host: Support macOS 12
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Silvio Moioli <moio@suse.com>
+References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+ <b0933f87-3a73-fbfb-f3ee-52e7ecde73a0@suse.de>
+ <57396d69-1dff-ec35-0c16-b2410c1d30e6@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <b87f4909-f11c-5277-01df-3129044502d2@suse.de>
+Date: Mon, 9 May 2022 15:08:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <57396d69-1dff-ec35-0c16-b2410c1d30e6@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,157 +96,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no longer a need to expose the request and related APIs in
-virtio-scsi.h since there are no callers outside virtio-scsi.c.
+On 5/9/22 2:31 PM, Philippe Mathieu-Daudé wrote:
+> On 3/5/22 11:40, Claudio Fontana wrote:
+>> On 3/7/22 12:17 AM, Philippe Mathieu-Daudé wrote:
+>>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>
+>>> Few patches to be able to build QEMU on macOS 12 (Monterey).
+>>>
+>>> Missing review:
+>>>   0006-hvf-Fix-OOB-write-in-RDTSCP-instruction-decode.patch
+>>>   0013-osdep-Avoid-using-Clang-specific-__builtin_available.patch
+>>>   0014-meson-Resolve-the-entitlement.sh-script-once-for-goo.patch
+>>>   0015-meson-Log-QEMU_CXXFLAGS-content-in-summary.patch
+>>>   0016-configure-Pass-filtered-QEMU_OBJCFLAGS-to-meson.patch
+>>>   0017-ui-cocoa-Constify-qkeycode-translation-arrays.patch
+>>>   0020-ui-cocoa-capture-all-keys-and-combos-when-mouse-is-g.patch
+>>>   0021-ui-cocoa-add-option-to-swap-Option-and-Command.patch
+>>>   0022-gitlab-ci-Support-macOS-12-via-cirrus-run.patch
+>>>
+>>> Since v6:
+>>> - Dropped merged patches
+>>> - Addressed Akihiko Odaki comments (squashed 2 patches, added R/T-b)
+>>> - Dropped 'configure: Disable out-of-line atomic operations on Aarch64'
+>>> - Add few macos patches on the list pending for 7.0 so tested by CI
+>>
+>>
+>> Hi Philippe, I did not find v6 somehow,
+>>
+>> and I was looking for patch:
+>>
+>> "[PATCH v5 06/16] hvf: Enable RDTSCP support"
+>>
+>> was it dropped / merged with something else? I do not see it in latest git, nor in this respin,
+>> maybe it is in your tree somewhere?
+> 
+> The patch stayed unreviewed during 2 months, so I dropped it.
+> 
+> Now it got at least a Tested-by tag from Silvio, I'll include it in the
+> next PR.
+> 
+> Regards,
+> 
+> Phil.
+> 
 
-Note the block comment in VirtIOSCSIReq has been adjusted to meet the
-coding style.
+Awesome, thanks for the update!
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20220427143541.119567-7-stefanha@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/hw/virtio/virtio-scsi.h | 40 -----------------------------
- hw/scsi/virtio-scsi.c           | 45 ++++++++++++++++++++++++++++++---
- 2 files changed, 41 insertions(+), 44 deletions(-)
-
-diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
-index 2040352102..a36aad9c86 100644
---- a/include/hw/virtio/virtio-scsi.h
-+++ b/include/hw/virtio/virtio-scsi.h
-@@ -92,42 +92,6 @@ struct VirtIOSCSI {
-     uint32_t host_features;
- };
- 
--typedef struct VirtIOSCSIReq {
--    /* Note:
--     * - fields up to resp_iov are initialized by virtio_scsi_init_req;
--     * - fields starting at vring are zeroed by virtio_scsi_init_req.
--     * */
--    VirtQueueElement elem;
--
--    VirtIOSCSI *dev;
--    VirtQueue *vq;
--    QEMUSGList qsgl;
--    QEMUIOVector resp_iov;
--
--    union {
--        /* Used for two-stage request submission */
--        QTAILQ_ENTRY(VirtIOSCSIReq) next;
--
--        /* Used for cancellation of request during TMFs */
--        int remaining;
--    };
--
--    SCSIRequest *sreq;
--    size_t resp_size;
--    enum SCSIXferMode mode;
--    union {
--        VirtIOSCSICmdResp     cmd;
--        VirtIOSCSICtrlTMFResp tmf;
--        VirtIOSCSICtrlANResp  an;
--        VirtIOSCSIEvent       event;
--    } resp;
--    union {
--        VirtIOSCSICmdReq      cmd;
--        VirtIOSCSICtrlTMFReq  tmf;
--        VirtIOSCSICtrlANReq   an;
--    } req;
--} VirtIOSCSIReq;
--
- static inline void virtio_scsi_acquire(VirtIOSCSI *s)
- {
-     if (s->ctx) {
-@@ -149,10 +113,6 @@ void virtio_scsi_common_realize(DeviceState *dev,
-                                 Error **errp);
- 
- void virtio_scsi_common_unrealize(DeviceState *dev);
--void virtio_scsi_init_req(VirtIOSCSI *s, VirtQueue *vq, VirtIOSCSIReq *req);
--void virtio_scsi_free_req(VirtIOSCSIReq *req);
--void virtio_scsi_push_event(VirtIOSCSI *s, SCSIDevice *dev,
--                            uint32_t event, uint32_t reason);
- 
- void virtio_scsi_dataplane_setup(VirtIOSCSI *s, Error **errp);
- int virtio_scsi_dataplane_start(VirtIODevice *s);
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 12c6a21202..db54d104be 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -29,6 +29,43 @@
- #include "hw/virtio/virtio-access.h"
- #include "trace.h"
- 
-+typedef struct VirtIOSCSIReq {
-+    /*
-+     * Note:
-+     * - fields up to resp_iov are initialized by virtio_scsi_init_req;
-+     * - fields starting at vring are zeroed by virtio_scsi_init_req.
-+     */
-+    VirtQueueElement elem;
-+
-+    VirtIOSCSI *dev;
-+    VirtQueue *vq;
-+    QEMUSGList qsgl;
-+    QEMUIOVector resp_iov;
-+
-+    union {
-+        /* Used for two-stage request submission */
-+        QTAILQ_ENTRY(VirtIOSCSIReq) next;
-+
-+        /* Used for cancellation of request during TMFs */
-+        int remaining;
-+    };
-+
-+    SCSIRequest *sreq;
-+    size_t resp_size;
-+    enum SCSIXferMode mode;
-+    union {
-+        VirtIOSCSICmdResp     cmd;
-+        VirtIOSCSICtrlTMFResp tmf;
-+        VirtIOSCSICtrlANResp  an;
-+        VirtIOSCSIEvent       event;
-+    } resp;
-+    union {
-+        VirtIOSCSICmdReq      cmd;
-+        VirtIOSCSICtrlTMFReq  tmf;
-+        VirtIOSCSICtrlANReq   an;
-+    } req;
-+} VirtIOSCSIReq;
-+
- static inline int virtio_scsi_get_lun(uint8_t *lun)
- {
-     return ((lun[2] << 8) | lun[3]) & 0x3FFF;
-@@ -45,7 +82,7 @@ static inline SCSIDevice *virtio_scsi_device_get(VirtIOSCSI *s, uint8_t *lun)
-     return scsi_device_get(&s->bus, 0, lun[1], virtio_scsi_get_lun(lun));
- }
- 
--void virtio_scsi_init_req(VirtIOSCSI *s, VirtQueue *vq, VirtIOSCSIReq *req)
-+static void virtio_scsi_init_req(VirtIOSCSI *s, VirtQueue *vq, VirtIOSCSIReq *req)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(s);
-     const size_t zero_skip =
-@@ -58,7 +95,7 @@ void virtio_scsi_init_req(VirtIOSCSI *s, VirtQueue *vq, VirtIOSCSIReq *req)
-     memset((uint8_t *)req + zero_skip, 0, sizeof(*req) - zero_skip);
- }
- 
--void virtio_scsi_free_req(VirtIOSCSIReq *req)
-+static void virtio_scsi_free_req(VirtIOSCSIReq *req)
- {
-     qemu_iovec_destroy(&req->resp_iov);
-     qemu_sglist_destroy(&req->qsgl);
-@@ -801,8 +838,8 @@ static void virtio_scsi_reset(VirtIODevice *vdev)
-     s->events_dropped = false;
- }
- 
--void virtio_scsi_push_event(VirtIOSCSI *s, SCSIDevice *dev,
--                            uint32_t event, uint32_t reason)
-+static void virtio_scsi_push_event(VirtIOSCSI *s, SCSIDevice *dev,
-+                                   uint32_t event, uint32_t reason)
- {
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(s);
-     VirtIOSCSIReq *req;
--- 
-2.35.1
+Claudio
 
 
