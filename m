@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A830F51FA49
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:47:26 +0200 (CEST)
-Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EB251FAC0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:02:25 +0200 (CEST)
+Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no0vF-0002D3-Ju
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53854)
+	id 1no19h-0006FZ-NP
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:02:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fG-0004np-TA
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31453)
+ id 1no0fL-0004zS-Kw
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fF-0002pL-9I
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:54 -0400
+ id 1no0fJ-0002pd-Rj
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:30:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652092252;
+ s=mimecast20190719; t=1652092257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YqP5juE8so3NQtrdckWYrtnqcc5LeThHKJxEEA5BQq0=;
- b=DhgGhJXifaZuMzMf4Hw3JShXpoMpfmkbRSiGVnf7oMGKh8+ln8w2MOwHa6VlYryxa3O3gT
- 75bc92rgMG9lV1457p1DTuCFTrixCA9PCM9VVc2NRV7hRJzURdbVx+v1GcpdzuMYqxYUMX
- uwtc96Jy2jiWimNlWzAOeEAzVqk+x9U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qzU5IHAzusLhWRGNiU25CUXtF/pymsNhoaAEvkVR6D4=;
+ b=YpIc/E9ufIBf7MjM9UdtJpom0lDMR3XxugLlDPSQWo86GNWsmiLvChtx1aQy4waTBFP/co
+ WpwN+La18Do84rE5AbGjQ54qMK3FXpjjzzxxFdQjT9cU1bOEy3KHsp2AnRqmwI34hgDDoT
+ W6OWmGe18m1UGmRFb7dGq5bR+tYFaAs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-8-B78m-dhtMcKZq5VBKMh4JA-1; Mon, 09 May 2022 06:30:51 -0400
-X-MC-Unique: B78m-dhtMcKZq5VBKMh4JA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g3-20020a7bc4c3000000b0039409519611so4080006wmk.9
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:30:51 -0700 (PDT)
+ us-mta-592-3a0s0TAPONeJauFNw3urLw-1; Mon, 09 May 2022 06:30:56 -0400
+X-MC-Unique: 3a0s0TAPONeJauFNw3urLw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n186-20020a1c27c3000000b00392ae974ca1so4667008wmn.0
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:30:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YqP5juE8so3NQtrdckWYrtnqcc5LeThHKJxEEA5BQq0=;
- b=A0pALLf4ppwXweRfNPBkkZVowgQEz9BdXbgiu64EodmwNH/lbYJ69D6FCtL9vDBfIz
- 0ENkJnwz59xuUyq28hy9dgAl4MnLCQeol/YfGjSlO8gZdX3cHx9c+T0250r088bW0QAh
- 3AD+GG0zY0Fc59bG1rN/bo8xD49/f4WeAAdCj93AyNQN/nFK37aTLWwe6KErJ6E84iKM
- o2P+zendwvnXeV23x6izIwULLY5VQ2LpomTEw8hjoxVslhYY8zGNTTo1ndoiT42QJ6rY
- NtJunHEk9S9t//wmy2GfQCWaY0EUHLs9FXkM2QMtppliQCd1ZxFQNbu4K3+bcJqyVB/n
- vmmg==
-X-Gm-Message-State: AOAM5336aCHHATgBHw6Rr7B9H1dI1LWl/HKcu5CFL1QRElBiboHZcTL6
- 3yV9+V2Gynv6DEJ1sVKslKNZZRcFkVO+JdsJFMfvG4YwYrJA7NuxFn5/YZFOQcRVNrp+coM3KNx
- S72NbLL7CevtKENrtfZ8v8qMYi6j89Ftj4ORcjcQbvfYgk/DYVui6oW6Cs2/8nB5ErUE=
-X-Received: by 2002:adf:ce89:0:b0:20a:d917:5234 with SMTP id
- r9-20020adfce89000000b0020ad9175234mr13419851wrn.265.1652092250056; 
- Mon, 09 May 2022 03:30:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzc0KYdvqSYkqQxM6ZzA/Imb2ojX9f5uii1KNZpCqAfeD4in5mVePTfpctwKztwBTDdC96tBQ==
-X-Received: by 2002:adf:ce89:0:b0:20a:d917:5234 with SMTP id
- r9-20020adfce89000000b0020ad9175234mr13419821wrn.265.1652092249695; 
- Mon, 09 May 2022 03:30:49 -0700 (PDT)
+ bh=qzU5IHAzusLhWRGNiU25CUXtF/pymsNhoaAEvkVR6D4=;
+ b=R0qRa9Y6Ll5cOOV9yJ4KCb7/LLbQb7eJ31ykT2Sf8O7sJtrIfTqoY1HyKVuKebSb4L
+ A3CEY9ytBamrH/CFHo/D4lwTayyiZ9AAib8o09Jyu4gTQq2c70F7YJd0Mra7b/NNAxzk
+ EvwoFn2lm7fIewZUJlLweLJjqdYNWjOH3ejQhNzPx3IUFxII0uf/yLrfxlsVjSUraeJQ
+ Mi7Mc5nDpHGclwwD1jsL8gKAIzjKAt1r2kxv/BkjKqcAjVXNT7UL7gRu7sxyjCfMY+HJ
+ 7uraLUhNmx5KDKuGbHhQNe9+7XmhC8OJMOF6by74ZcpzDVqKRhtQkJ40Ze2WCdGYDTdO
+ KKTg==
+X-Gm-Message-State: AOAM532s4/Lw708VUattpcWf2bJBQRZRMF7tdKT4z81zIklCNRKuO6N5
+ XLq8BYHjmB8ptXJk7S6tWD1ZULXX9OFipFGTHVJ/Szz0MmZvYJdMnkEDNbVQVNhcjxyqv6grXyR
+ RbJBlKPbV/zkODhgHztfxg9ndycHGjnSp7a6myc1j9zsYNaHyxnLG2ILUtrebYBN1b8U=
+X-Received: by 2002:a05:600c:1c0e:b0:394:66af:ef0c with SMTP id
+ j14-20020a05600c1c0e00b0039466afef0cmr15354568wms.85.1652092254207; 
+ Mon, 09 May 2022 03:30:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwn49IndA3fw/kxSeAgn/nsRJLSf+pwp1ql2pRRS8N13mk2MPg15JQ8f5S3hW7oBiGj0nneVQ==
+X-Received: by 2002:a05:600c:1c0e:b0:394:66af:ef0c with SMTP id
+ j14-20020a05600c1c0e00b0039466afef0cmr15354528wms.85.1652092253671; 
+ Mon, 09 May 2022 03:30:53 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- r14-20020adfce8e000000b0020c5253d8ddsm10714304wrn.41.2022.05.09.03.30.48
+ b10-20020a5d4d8a000000b0020c5253d8f3sm13251637wru.63.2022.05.09.03.30.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 03:30:49 -0700 (PDT)
+ Mon, 09 May 2022 03:30:53 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/26] parallels: add missing coroutine_fn annotations
-Date: Mon,  9 May 2022 12:30:06 +0200
-Message-Id: <20220509103019.215041-14-pbonzini@redhat.com>
+Subject: [PATCH v2 14/26] qcow2: add missing coroutine_fn annotations
+Date: Mon,  9 May 2022 12:30:07 +0200
+Message-Id: <20220509103019.215041-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220509103019.215041-1-pbonzini@redhat.com>
 References: <20220509103019.215041-1-pbonzini@redhat.com>
@@ -101,25 +101,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/parallels.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ block/qcow2-cluster.c  | 18 +++++++++---------
+ block/qcow2-refcount.c |  2 +-
+ block/qcow2.c          |  4 ++--
+ block/qcow2.h          | 14 +++++++-------
+ 4 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 8879b7027a..bee2ff023d 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -165,8 +165,9 @@ static int64_t block_status(BDRVParallelsState *s, int64_t sector_num,
-     return start_off;
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 20a16ba6ee..37fc7b905a 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -884,7 +884,7 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
+     return 0;
  }
  
--static int64_t allocate_clusters(BlockDriverState *bs, int64_t sector_num,
--                                 int nb_sectors, int *pnum)
-+static coroutine_fn int64_t allocate_clusters(BlockDriverState *bs,
-+					      int64_t sector_num,
-+					      int nb_sectors, int *pnum)
+-static int perform_cow(BlockDriverState *bs, QCowL2Meta *m)
++static int coroutine_fn perform_cow(BlockDriverState *bs, QCowL2Meta *m)
  {
-     int ret = 0;
-     BDRVParallelsState *s = bs->opaque;
+     BDRVQcow2State *s = bs->opaque;
+     Qcow2COWRegion *start = &m->cow_start;
+@@ -1024,7 +1024,7 @@ fail:
+     return ret;
+ }
+ 
+-int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
++int coroutine_fn qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     int i, j = 0, l2_index, ret;
+@@ -1397,8 +1397,8 @@ static int count_single_write_clusters(BlockDriverState *bs, int nb_clusters,
+  *           information on cluster allocation may be invalid now. The caller
+  *           must start over anyway, so consider *cur_bytes undefined.
+  */
+-static int handle_dependencies(BlockDriverState *bs, uint64_t guest_offset,
+-    uint64_t *cur_bytes, QCowL2Meta **m)
++static int coroutine_fn handle_dependencies(BlockDriverState *bs, uint64_t guest_offset,
++                                            uint64_t *cur_bytes, QCowL2Meta **m)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     QCowL2Meta *old_alloc;
+@@ -1772,9 +1772,9 @@ out:
+  *
+  * Return 0 on success and -errno in error cases
+  */
+-int qcow2_alloc_host_offset(BlockDriverState *bs, uint64_t offset,
+-                            unsigned int *bytes, uint64_t *host_offset,
+-                            QCowL2Meta **m)
++int coroutine_fn qcow2_alloc_host_offset(BlockDriverState *bs, uint64_t offset,
++                                         unsigned int *bytes, uint64_t *host_offset,
++                                         QCowL2Meta **m)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     uint64_t start, remaining;
+@@ -2105,8 +2105,8 @@ out:
+     return ret;
+ }
+ 
+-int qcow2_subcluster_zeroize(BlockDriverState *bs, uint64_t offset,
+-                             uint64_t bytes, int flags)
++int coroutine_fn qcow2_subcluster_zeroize(BlockDriverState *bs, uint64_t offset,
++                                          uint64_t bytes, int flags)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     uint64_t end_offset = offset + bytes;
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 404d56e258..17be4425f2 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -3704,7 +3704,7 @@ int64_t qcow2_get_last_cluster(BlockDriverState *bs, int64_t size)
+     return -EIO;
+ }
+ 
+-int qcow2_detect_metadata_preallocation(BlockDriverState *bs)
++int coroutine_fn qcow2_detect_metadata_preallocation(BlockDriverState *bs)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     int64_t i, end_cluster, cluster_count = 0, threshold;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 4f5e6440fb..62cb153987 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2438,7 +2438,7 @@ static bool merge_cow(uint64_t offset, unsigned bytes,
+  * Return 1 if the COW regions read as zeroes, 0 if not, < 0 on error.
+  * Note that returning 0 does not guarantee non-zero data.
+  */
+-static int is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
++static int coroutine_fn is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
+ {
+     /*
+      * This check is designed for optimization shortcut so it must be
+@@ -2456,7 +2456,7 @@ static int is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
+                                 m->cow_end.nb_bytes);
+ }
+ 
+-static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
++static int coroutine_fn handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     QCowL2Meta *m;
+diff --git a/block/qcow2.h b/block/qcow2.h
+index c8d9e8ea79..36495d9051 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -895,7 +895,7 @@ int qcow2_change_refcount_order(BlockDriverState *bs, int refcount_order,
+                                 void *cb_opaque, Error **errp);
+ int qcow2_shrink_reftable(BlockDriverState *bs);
+ int64_t qcow2_get_last_cluster(BlockDriverState *bs, int64_t size);
+-int qcow2_detect_metadata_preallocation(BlockDriverState *bs);
++int coroutine_fn qcow2_detect_metadata_preallocation(BlockDriverState *bs);
+ 
+ /* qcow2-cluster.c functions */
+ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
+@@ -908,9 +908,9 @@ int qcow2_encrypt_sectors(BDRVQcow2State *s, int64_t sector_num,
+ int qcow2_get_host_offset(BlockDriverState *bs, uint64_t offset,
+                           unsigned int *bytes, uint64_t *host_offset,
+                           QCow2SubclusterType *subcluster_type);
+-int qcow2_alloc_host_offset(BlockDriverState *bs, uint64_t offset,
+-                            unsigned int *bytes, uint64_t *host_offset,
+-                            QCowL2Meta **m);
++int coroutine_fn qcow2_alloc_host_offset(BlockDriverState *bs, uint64_t offset,
++                                         unsigned int *bytes, uint64_t *host_offset,
++                                         QCowL2Meta **m);
+ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
+                                           uint64_t offset,
+                                           int compressed_size,
+@@ -918,13 +918,13 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
+ void qcow2_parse_compressed_l2_entry(BlockDriverState *bs, uint64_t l2_entry,
+                                      uint64_t *coffset, int *csize);
+ 
+-int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m);
++int coroutine_fn qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m);
+ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m);
+ int qcow2_cluster_discard(BlockDriverState *bs, uint64_t offset,
+                           uint64_t bytes, enum qcow2_discard_type type,
+                           bool full_discard);
+-int qcow2_subcluster_zeroize(BlockDriverState *bs, uint64_t offset,
+-                             uint64_t bytes, int flags);
++int coroutine_fn qcow2_subcluster_zeroize(BlockDriverState *bs, uint64_t offset,
++                                          uint64_t bytes, int flags);
+ 
+ int qcow2_expand_zero_clusters(BlockDriverState *bs,
+                                BlockDriverAmendStatusCB *status_cb,
 -- 
 2.35.1
 
