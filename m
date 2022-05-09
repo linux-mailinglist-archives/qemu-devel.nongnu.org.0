@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F91B51F952
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:07:12 +0200 (CEST)
-Received: from localhost ([::1]:47332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910E951F975
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:12:19 +0200 (CEST)
+Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no0IJ-0002HF-Hu
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:07:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
+	id 1no0NG-0006hu-CU
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1no0Ff-0008QZ-Lu
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:04:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44195)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1no0Fa-0006is-Os
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:04:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652090660;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fSppE/+ysLtskg9Wot+tcQrM3tIQycgLFGRGpQ8hBPY=;
- b=Rs+71S5Wk6O11jyCFBaPdavRKpRRdroAwC8FRTvf4jbxaj5u9FI9UKAadCh/6CWbxFQ1ZM
- J0GfIM/7q5Zj337W9IrBeDJbTCXya+D3IkNeu5eHYjstwQ6We8qZEUECJIufEajcJOUzyQ
- GQo2yPEgr+VldOFiB7l4Sn7GHMqmD54=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-68-7fQ-05ghNc-Uoc0PgmpeHA-1; Mon, 09 May 2022 06:04:14 -0400
-X-MC-Unique: 7fQ-05ghNc-Uoc0PgmpeHA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F09CA811E80;
- Mon,  9 May 2022 10:04:13 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B04801467E5B;
- Mon,  9 May 2022 10:04:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9BAC0180062C; Mon,  9 May 2022 12:04:11 +0200 (CEST)
-Date: Mon, 9 May 2022 12:04:11 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Gautam Agrawal <gutamnagrawal@gmail.com>
-Subject: Re: [PATCH v3] Warn user if the vga flag is passed but no vga device
- is created
-Message-ID: <20220509100411.54lm5hos2rsgzxz4@sirius.home.kraxel.org>
-References: <20220501122505.29202-1-gautamnagrawal@gmail.com>
- <YnUvpsaM0hwUSZvM@stefanha-x1.localdomain>
- <b16d2b2d-f086-636b-4da5-79d3134a4482@redhat.com>
- <CAFEAcA9rK6T03mkUrojf+Wz=UCiakibXtj56W0F=uuEjeqoZig@mail.gmail.com>
- <7551dedd-7417-6292-907b-28ff8304cd83@redhat.com>
- <CAFEAcA8i5t0i61HT0NEV5BHYEkK_ipSAeNGuc+3Zg3uqTGkzYQ@mail.gmail.com>
- <b754d9a3-1762-71d2-417a-3c61ae87f3de@redhat.com>
- <CAFEAcA9VaYjMCXUuRk0B-Me6kNApmDcLiwnsNa1eH2WN71Jmjw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1no0Ik-0004I6-2f
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:07:39 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1no0Ii-0007KU-DZ
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:07:37 -0400
+Received: by mail-ej1-x629.google.com with SMTP id dk23so25792794ejb.8
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fBfPzF3dlYGa7dPkx9pYY4ihzcKEEVXbqQAGEF7AWLI=;
+ b=LYgseHTiLW9YY3F8xDrpov4eR9hQR4C0B2ZBrQIroaUQuXHJ8HVsa2waw2X54uI55G
+ q/AWGi99shouqUFXP7bzjBXzuUVhn/enLV7hlzbKpJg+p6N5pviOWDMzDU9E0J3kAdFh
+ cNxQUNaHfT0urvEZvIgYk6T+FTcm0OMfHDoN0vHDP2prylCIL0ndCriXXna3W1Mja38q
+ XQj+oZDf/ZLkF+H9uL3UO1geYo0x/4vrcOrxAmWloplwXrxUhgN2ig3dKhOyChYWBcC8
+ P5pnamE/XDhIXSjlZtcuYfi5oMISCBV+zW1YwoADEo4tUXyfoyTgepQH2auqlL6Mq6Jr
+ 0FfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fBfPzF3dlYGa7dPkx9pYY4ihzcKEEVXbqQAGEF7AWLI=;
+ b=Nx6A31btfmfC90ibFnxBn3x+RQeb5Foj04vISW/cs+zYrSgYrBI8yotqWHsy9s/aGO
+ /2yLvD/Pqg5mbsMywuM14Lu6R8XEr3LGlI5PTT6NAORBUghx74bH+iSkRTPJkNFcIt2D
+ /biAJiQLezfrw9Plyd8YaJwfNfpHq7QicS0GX4MC+ek4oEN3Mq8ahzvV92zy7bcoOeDp
+ 0Gq1b6i9yK9V/SqsypFRkVKXi2xx2lCB0X0ecun2VVYf3FsTP1OAJeTAkLHHMx3HVvSw
+ MCn+s4Ziz4EuMYLsiwXZddRz663xwZyps7GFC4jJxoIJyFAjil4l4+ZEaWjHqUqa4kQQ
+ 1Yvg==
+X-Gm-Message-State: AOAM531RBxJWnu4/oijmblV/eii6YII0eAG6bKjAVO+EuSdCtqb2M4c4
+ Wa1omqNfwal1mA0lgf4eZ0c=
+X-Google-Smtp-Source: ABdhPJwG27oKwr9jK7Az3NsKdaFB7uRWYKvM/5s7l90qIUhdX4eEloPjTE4bdKZUABE+suM2A3OH4A==
+X-Received: by 2002:a17:907:8a0e:b0:6f5:a48:e04e with SMTP id
+ sc14-20020a1709078a0e00b006f50a48e04emr13664772ejc.228.1652090854165; 
+ Mon, 09 May 2022 03:07:34 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928?
+ ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
+ by smtp.googlemail.com with ESMTPSA id
+ eb7-20020a170907280700b006f3ef214e4esm4886276ejc.180.2022.05.09.03.07.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 03:07:33 -0700 (PDT)
+Message-ID: <f2698921-d40d-c3a3-b62e-622c0b45bde9@redhat.com>
+Date: Mon, 9 May 2022 12:07:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9VaYjMCXUuRk0B-Me6kNApmDcLiwnsNa1eH2WN71Jmjw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/2] thread-pool: fix performance regression
+Content-Language: en-US
+To: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: stefanha@redhat.com
+References: <20220506114711.1398662-1-pbonzini@redhat.com>
+ <452936f5-3bfb-9cf9-d0cf-cb8eb3dc8ddc@redhat.com>
+ <e4b7ed3b-4ac5-6b16-525f-4033199f471c@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <e4b7ed3b-4ac5-6b16-525f-4033199f471c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,24 +98,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> Oh, I see now -- qemu_disable_default_devices() does a
-> preliminary scan through of every supplied -device option,
-> looking to see if it has a driver=foo that matches some
-> value in the default_list[] array; if it does then we
-> set default_vga or whatever to false. (So effectively we
-> have a hardcoded list of things we consider to be "VGA
-> devices" for this purpose, which might or might not be the same
-> as the set of actual VGA devices we support...)
+On 5/9/22 08:42, Lukáš Doktor wrote:
+> Dne 06. 05. 22 v 20:55 Lukáš Doktor napsal(a):
+>> Hello Paolo, folks, I gave it a try (on top of the f9fc8932) and
+>> it's better than the f9fc8932, better than the previous patch by
+>> Stefan, but still I'm not reaching the performance of d7482ffe97
+>> (before the f9fc8932 commit):
+>> 
+>> f9f    |  0.0 | -2.8 |  0.6 stefan | -3.1 | -1.2 | -2.2 paolo  |
+>> 5.3 |  5.4 |  7.1 d74    |  7.2 |  9.1 |  8.2
+>> 
+>> Anyway it's definitely closer to the previous baseline (~-2%). Note
+>> I have not tried other scenarios, just the 4K nbd writes on
+>> rotational disk. I'll try running more throughout the night.
+>> 
 > 
-> I guess this is all here for backwards compatibility purposes?
+> I tried a couple of iterations of fio-nbd 4/64/256KB read/writes on a
+> rotational disk and overall the latest fix results in a steady 2.5%
+> throughput regression for the 4KiB writes. The remaining tested
+> variants performed similarly. Please let me know if you want me to
+> test the fio execution inside the guest as well or some other
+> variants.
 
-Well, sort of.  This tries to deal with the messy side effects of
-the default devices, i.e. avoid users end up with *two* vga devices
-in case they use "qemu -device VGA" (same for serial, ...).
+Considering we have conflicting results (I get a 2-3% improvement over 
+6.2), and that in general aio=native/aio=io_uring is preferred, I think 
+we can proceed with these patches at least for now.
 
-take care,
-  Gerd
-
+Paolo
 
