@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B6151F2CB
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 05:09:15 +0200 (CEST)
-Received: from localhost ([::1]:53386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C60751F3C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 07:18:26 +0200 (CEST)
+Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nntlq-00059Y-Cm
-	for lists+qemu-devel@lfdr.de; Sun, 08 May 2022 23:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43764)
+	id 1nnvmq-00036s-U8
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 01:18:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nntl2-0004Sr-Dd
- for qemu-devel@nongnu.org; Sun, 08 May 2022 23:08:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37321)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nnvlL-0002P9-Dx
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 01:16:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nntkz-0006UN-6Z
- for qemu-devel@nongnu.org; Sun, 08 May 2022 23:08:23 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nnvlI-0006uV-DT
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 01:16:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652065699;
+ s=mimecast20190719; t=1652073406;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t+EWyjWnry1v/wLWfDQHG3KxEGhTcsqwxlDHy97Dwjw=;
- b=F10rM+X+mrzHAGMfeUZZMJAnORkJRKwKvLQqbP4nDPQWUrZak1aJ4Ycb52IkkjSrCxqIsI
- i7OxSYshJFJUuVD+lGz2ycfEFPsvlFa6YsNwzyXIhBefOUvcG9UK67z7RJmUfoOSUlkDH8
- aI3igE5/TmZz8Ardq/PCoUGT4LVIMv4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GwYDOQmS2nhFMj3xHg/yEpKvTJO1lBClTz3agj1wINs=;
+ b=X/dsYftvRNNU9uDEobBBpVkQToJYhd/9miDfTHiS15RDj7nLF60RaxybDMFlUZurTBDCC2
+ fKCCWfMmP0X0dhnOuylWZCjiQw5QqQwwYIgXeRjmwm01kDF+f/SWHO8CSgyTpM9ZjiAxDO
+ 1jtNMYgY6ebe+B2UVUmE02tZeV+wDVY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-148-6vQN5ayfMcSG9WYF5CN0Fg-1; Sun, 08 May 2022 23:08:18 -0400
-X-MC-Unique: 6vQN5ayfMcSG9WYF5CN0Fg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-675-JNrZt0_pMiG947VGvJGGaQ-1; Mon, 09 May 2022 01:16:45 -0400
+X-MC-Unique: JNrZt0_pMiG947VGvJGGaQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A375838149B5;
- Mon,  9 May 2022 03:08:17 +0000 (UTC)
-Received: from [10.72.13.160] (ovpn-13-160.pek2.redhat.com [10.72.13.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB5EB40CFD06;
- Mon,  9 May 2022 03:08:08 +0000 (UTC)
-Subject: Re: [PATCH v9 0/6] hw/arm/virt: Fix CPU's default NUMA node ID
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, mst@redhat.com, imammedo@redhat.com,
- ani@anisinha.ca, peter.maydell@linaro.org, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
- eblake@redhat.com, armbru@redhat.com, thuth@redhat.com, lvivier@redhat.com,
- pbonzini@redhat.com, berrange@redhat.com, Jonathan.Cameron@Huawei.com,
- drjones@redhat.com, zhenyzha@redhat.com, shan.gavin@gmail.com
-References: <20220503140304.855514-1-gshan@redhat.com>
-Message-ID: <74e4fdf6-c8bf-92ad-0c3b-0eb759a1df0c@redhat.com>
-Date: Mon, 9 May 2022 11:08:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D20B7811E76;
+ Mon,  9 May 2022 05:16:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA0CE111F3DB;
+ Mon,  9 May 2022 05:16:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 866F121E6880; Mon,  9 May 2022 07:16:43 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/4] Clean up header guards that don't match their file
+ name
+References: <20220506134911.2856099-1-armbru@redhat.com>
+ <20220506134911.2856099-2-armbru@redhat.com>
+Date: Mon, 09 May 2022 07:16:43 +0200
+In-Reply-To: <20220506134911.2856099-2-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 6 May 2022 15:49:08 +0200")
+Message-ID: <87fslje150.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20220503140304.855514-1-gshan@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,56 +81,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter and maintainers,
+Markus Armbruster <armbru@redhat.com> writes:
 
-On 5/3/22 10:02 PM, Gavin Shan wrote:
-> When the CPU-to-NUMA association isn't provided by user, the default NUMA
-> node ID for the specific CPU is returned from virt_get_default_cpu_node_id().
-> Unfortunately, the default NUMA node ID breaks socket boundary and leads to
-> the broken CPU topology warning message in Linux guest. This series intends
-> to fix the issue by populating full CPU toplogy on arm/virt machine.
-> 
->    PATCH[1/6] Add cluster-id to CPU instance property
->    PATCH[2/6] Fixes test failure in qtest/numa-test/aarch64_numa_cpu()
->    PATCH[3/6] Uses SMP configuration to populate CPU topology
->    PATCH[4/6] Corrects CPU/NUMA association in qtest/numa-test/aarch64_numa_cpu()
->    PATCH[5/6] Fixes the broken CPU topology by considering the socket boundary
->               when the default NUMA node ID is given
->    PATCH[6/6] Uses the populated CPU topology to build PPTT table, instead of
->               calculate it again
-> 
-> Changelog
-> =========
-> v9:
->     * Fix typo by replacing 'thrad-id' with 'thread-id' in
->       PATCH[v9 2/6]'s commit log                                 (Igor)
->     * Added PATCH[v9 4/6] to make CPU-to-NUMA association
->       real                                                       (Igor)
+> Header guard symbols should match their file name to make guard
+> collisions less likely.
+>
+> Cleaned up with scripts/clean-header-guards.pl, followed by some
+> renaming of new guard symbols picked by the script to better ones.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+[...]
+> diff --git a/ebpf/rss.bpf.skeleton.h b/ebpf/rss.bpf.skeleton.h
+> index 126683eb87..4bca5d223a 100644
+> --- a/ebpf/rss.bpf.skeleton.h
+> +++ b/ebpf/rss.bpf.skeleton.h
+> @@ -1,8 +1,9 @@
+>  /* SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause) */
+>  
+>  /* THIS FILE IS AUTOGENERATED! */
+> -#ifndef __RSS_BPF_SKEL_H__
+> -#define __RSS_BPF_SKEL_H__
+> +
+> +#ifndef EBPF_RSS_BPF_SKELETON_H
+> +#define EBPF_RSS_BPF_SKELETON_H
+>  
+>  #include <stdlib.h>
+>  #include <bpf/libbpf.h>
+> @@ -428,4 +429,4 @@ err:
+>  	return -1;
+>  }
+>  
+> -#endif /* __RSS_BPF_SKEL_H__ */
+> +#endif /* EBPF_RSS_BPF_SKELETON_H */
+
+Dropping this one because it's actually generated from
+tools/ebpf/rss.bpf.c.  See
+
+    https://lists.nongnu.org/archive/html/qemu-devel/2022-05/msg01392.html
+    Message-ID: <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
 
 [...]
-
-> Gavin Shan (6):
->    qapi/machine.json: Add cluster-id
->    qtest/numa-test: Specify CPU topology in aarch64_numa_cpu()
->    hw/arm/virt: Consider SMP configuration in CPU topology
->    qtest/numa-test: Correct CPU and NUMA association in
->      aarch64_numa_cpu()
->    hw/arm/virt: Fix CPU's default NUMA node ID
->    hw/acpi/aml-build: Use existing CPU topology to build PPTT table
-> 
->   hw/acpi/aml-build.c        | 111 ++++++++++++++++---------------------
->   hw/arm/virt.c              |  19 ++++++-
->   hw/core/machine-hmp-cmds.c |   4 ++
->   hw/core/machine.c          |  16 ++++++
->   qapi/machine.json          |   6 +-
->   tests/qtest/numa-test.c    |  19 +++++--
->   6 files changed, 102 insertions(+), 73 deletions(-)
-> 
-
-I think this series is ready to be merged. Could you help to see how it
-can be merged to QEMU 7.1?
-
-Thanks,
-Gavin
 
 
