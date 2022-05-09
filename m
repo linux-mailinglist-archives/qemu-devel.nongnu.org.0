@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA1851F7D7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:23:44 +0200 (CEST)
-Received: from localhost ([::1]:58200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8142A51F814
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:26:44 +0200 (CEST)
+Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnzcF-0003OL-3y
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34516)
+	id 1nnzf9-0005Jx-L8
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:26:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nnzaZ-00020w-H1
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:21:59 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:33459)
+ id 1nnzca-0004EO-Vh; Mon, 09 May 2022 05:24:05 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:43533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nnzaW-0000MW-UC
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:21:58 -0400
-Received: by mail-io1-xd31.google.com with SMTP id i20so14653595ion.0
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 02:21:55 -0700 (PDT)
+ id 1nnzcZ-0000bJ-Bv; Mon, 09 May 2022 05:24:04 -0400
+Received: by mail-io1-xd30.google.com with SMTP id o190so14633376iof.10;
+ Mon, 09 May 2022 02:24:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+rG0c6JBJXbeBcaY1akoPrtQlMeKoPsc4v6lR/YzXPo=;
- b=GzhGRaCqvxn5EYuex/s0yrzeJ23BJydBcweqV2ubWXAGV/g4uZK3qLporTJQM3CLEp
- WST45alesvnyu8D0O2XGuD8MDXJRi/yYY7fBKu7TG4gGPuAo7mkn3q/mUCXIxiBtEK83
- PKpc97gJRWrPBOPaXlVN+AABIqTBWLGQIPIOnJTmht1FjCaJ8qBUDgfo8frpqy1F+0dW
- C9DcSKL61xb/CSoE94gc+ibXZsv36lQnroMFhhicGD3EN4OM2N7Z9ezYRJ6L0HWcRqRZ
- rl5TCdVr35E8iNnVeAxHT3hF2GGnIvwMNgdqwiFB/Iu8MkUiHut7Wuj8dY1pZoUmBoSg
- sxzg==
+ :cc; bh=v2MzysXjxEYQ/MxcFGbjDThnNkiI9BKEBXsHlcbiLOc=;
+ b=S1/QzwYM5pbi9eAB0DJkWY5MIHM38tmx8UsGHdMZC6gEqO266eAxlDuT4f+0iu9n0A
+ C1VCCpuY4UPYu3qYPqrS6397R07b39vclYX0wDvHy9v/tD2BIpNev/g80AHu5gi7C3yy
+ XWWHTiBYRAweXjhCpl/WHGDsJUOBBBYpO2ijrLNVk6XEp1Qm+DpvgxEXS3t/BP74wsl5
+ d7qZ5MTdPpwtmd+f0citiYW2Gw5a1hfgwIwTSpGlDwv+5mFtpob3COe2zIIHSBqiZUL/
+ UvVm7/r0m97wFuAugKh03SYbs/iMZbZ4RzaWVJ04zjGOXaOBriF8Zd7D8vIyHd7mZrXe
+ jvUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+rG0c6JBJXbeBcaY1akoPrtQlMeKoPsc4v6lR/YzXPo=;
- b=O084ZNJ7J2raljYMEch4uBsnpSc6GY0okXvuB4H+/bffcmlTI8rVYLN0xm+LDxTH/j
- Bgjksi0YlrH4p5JZXevKTHDq9l5jGAfZ3rW6OPxrTsxj7kEx3rUphii2Q+5I9Yln6a+J
- EkJm9CYc7pPGFUqc5SuD0cj/cdn0cENjtfJ8xZ5OcDvYfFoNGCiw2U702RGgyheBSzdU
- nlTVoyYk2XnKwXvWUnbxRhpHzmOTeiGepXWQkfEf6Wn/8YgUQGGKhAHWmZJqLeBbP0DL
- FT8MEd/VPXInHZObkKNKNvsrxqBieKCfWYsbaL7/P4NM3LbyUQJNFGyk1aaGRoEV18he
- cpVA==
-X-Gm-Message-State: AOAM532RLmR1RRzyLF7NZV41qWbny3Y9Z0fn1vLNVPzU+o4t0tLjV0Ta
- S48X1c+mvPziopQ3VtuaIGcUMSrLbHyoeMssG0w=
-X-Google-Smtp-Source: ABdhPJyPdM951DMKeS7NLX4c4PqHeUtQdEgOWBtGt/O+ARDQNAw7IUDDEjxC/UExRjWG+PYbQrzI5fFRMhfsjFEsPnQ=
+ bh=v2MzysXjxEYQ/MxcFGbjDThnNkiI9BKEBXsHlcbiLOc=;
+ b=kJ+vQBGjY7q5CPzKZJTCVGUBLq4FrnDKIi8hQ42iXMs6SZ4vOAy2L1sMG6PzGFDzJ5
+ MDgPcpoVMWuVQLiDTVqBeZB/2zCrKa7EN4b+3xYR2MvPrArB5Ua52MVUlBnWmMR7kp6Q
+ 1iL0jnlKMUpnktMVtDNxKoWQj9hCbPAKgZLUYS9wFFrqKiRGxl3UV6E0zQTs2Ifof0jV
+ 1hkyO1K0kXhscQcYV5dEDR5A4ujL+K7sW5AB3PZrrjanzYoE90YXZY8jZiRE+0Oo7ut7
+ F8RCBCXv04/tvCVYFW/Yik1awAuI+IMhTnRTkr5cHWJYh2ltEjD9hkAkHOYYCAoZFBu5
+ g0tw==
+X-Gm-Message-State: AOAM533Eh+o6JgmQLIXgVQFNxZt0OwR0IqN0DwX2T+BscgHk0kgINWC/
+ 2fdvQ4BgCulUj5Or/+NaTbSvCnMvhzVhiBDSrG4+HP5rIXShL8IhyRo=
+X-Google-Smtp-Source: ABdhPJyjXiDs5kiYK1Y4WihNkXKsSAq5k64nRjCL4OUZ5RSgZ2CE8em7g0S0bhHFH+s3omXlbWUUu6U/a+LWdMFWAvU=
 X-Received: by 2002:a05:6638:190a:b0:32b:95b7:4e64 with SMTP id
- p10-20020a056638190a00b0032b95b74e64mr6532807jal.212.1652088114729; Mon, 09
- May 2022 02:21:54 -0700 (PDT)
+ p10-20020a056638190a00b0032b95b74e64mr6536604jal.212.1652088241915; Mon, 09
+ May 2022 02:24:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220506165456.297058-1-dgreid@rivosinc.com>
-In-Reply-To: <20220506165456.297058-1-dgreid@rivosinc.com>
+References: <20220429033409.258707-1-apatel@ventanamicro.com>
+ <20220429033409.258707-3-apatel@ventanamicro.com>
+ <CAKmqyKMFVanzOMKPuo_i7hWZEJOmReBpp+wgqv3e2ExV2Jb-7g@mail.gmail.com>
+ <CAK9=C2UBXfEoCEe1Nexa+v51ZxY7qd3xpJDd5x77L6FM8T2Qag@mail.gmail.com>
+In-Reply-To: <CAK9=C2UBXfEoCEe1Nexa+v51ZxY7qd3xpJDd5x77L6FM8T2Qag@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 9 May 2022 11:21:28 +0200
-Message-ID: <CAKmqyKO7M7TfVuOezUdnT3fJkAyqabEq1_acheLK4U47q2=RAg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix VS mode hypervisor CSR access
-To: Dylan Reid <dylan@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+Date: Mon, 9 May 2022 11:23:35 +0200
+Message-ID: <CAKmqyKO3cqA+diXVuz8es_0FTiPJyufPpfTxQU_bqw6vHDdFQw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] target/riscv: Fix hstatus.GVA bit setting for traps
+ taken from HS-mode
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Dylan Reid <dgreid@rivosinc.com>
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Anup Patel <anup@brainfault.org>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atishp@atishpatra.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,52 +90,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 6, 2022 at 11:16 PM Dylan Reid <dylan@rivosinc.com> wrote:
+On Thu, May 5, 2022 at 12:36 PM Anup Patel <apatel@ventanamicro.com> wrote:
 >
-> VS mode access to hypervisor CSRs should generate virtual, not illegal,
-> instruction exceptions.
+> On Thu, May 5, 2022 at 3:21 PM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Fri, Apr 29, 2022 at 1:38 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> > >
+> > > Currently, QEMU does not set hstatus.GVA bit for traps taken from
+> > > HS-mode into HS-mode which breaks the Xvisor nested MMU test suite
+> > > on QEMU. This was working previously.
+> > >
+> > > This patch updates riscv_cpu_do_interrupt() to fix the above issue.
+> > >
+> > > Fixes: 86d0c457396b ("target/riscv: Fixup setting GVA")
+> > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> > > ---
+> > >  target/riscv/cpu_helper.c | 1 -
+> > >  1 file changed, 1 deletion(-)
+> > >
+> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > > index e1aa4f2097..d83579accf 100644
+> > > --- a/target/riscv/cpu_helper.c
+> > > +++ b/target/riscv/cpu_helper.c
+> > > @@ -1434,7 +1434,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> > >                  /* Trap into HS mode */
+> > >                  env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
+> > >                  htval = env->guest_phys_fault_addr;
+> > > -                write_gva = false;
+> >
+> > This doesn't seem right.
+> >
+> > "Field GVA (Guest Virtual Address) is written by the implementation
+> > whenever a trap is taken
+> > into HS-mode. For any trap (breakpoint, address misaligned, access
+> > fault, page fault, or guest-
+> > page fault) that writes a guest virtual address to stval, GVA is set
+> > to 1. For any other trap into
+> > HS-mode, GVA is set to 0"
+> >
+> > So if we are trapping from HS to HS, the address in stval should not
+> > be a guest virtual address, at least in general.
 >
-> Don't return early and indicate an illegal instruction exception when
-> accessing a hypervisor CSR from VS mode. Instead, fall through to the
-> `hmode` predicate to return the correct virtual instruction exception.
->
-> Signed-off-by: Dylan Reid <dgreid@rivosinc.com>
+> That's not correct. The HLV/HSV instructions executed by hypervisor
+> (HS-mode) take guest virtual address. These instructions can trap
+> from HS-mode to HS-mode.
 
-Thanks!
-
-Applied to riscv-to-apply.next
+Ah, I forgot about those instructions, but still they are the
+exception. In general we would expect a trap from HS to HS to contain
+HS addresses. We should just handle the other cases specially
 
 Alistair
 
-> ---
->  target/riscv/csr.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 3500e07f92..4ea7df02c9 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -3141,13 +3141,13 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->  #if !defined(CONFIG_USER_ONLY)
->      int effective_priv = env->priv;
+> >
+> > We probably aren't correctly setting GVA if MPRV is set though, as
+> > then the page faults should be guest addresses. That's probably the
+> > issue you are seeing.
 >
-> -    if (riscv_has_ext(env, RVH) &&
-> -        env->priv == PRV_S &&
-> -        !riscv_cpu_virt_enabled(env)) {
-> +    if (riscv_has_ext(env, RVH) && env->priv == PRV_S) {
->          /*
-> -         * We are in S mode without virtualisation, therefore we are in HS Mode.
-> +         * We are in either HS or VS mode.
->           * Add 1 to the effective privledge level to allow us to access the
-> -         * Hypervisor CSRs.
-> +         * Hypervisor CSRs. The `hmode` predicate will determine if access
-> +         * should be allowed(HS) or if a virtual instruction exception should be
-> +         * raised(VS).
->           */
->          effective_priv++;
->      }
-> --
-> 2.30.2
+> The Xvisor nested MMU test-suit is broken on QEMU because it
+> uses HLV/HSV instructions in HS-mode.
 >
+> Regards,
+> Anup
 >
+> >
+> > Alistair
+> >
+> > >              }
+> > >              env->hstatus = set_field(env->hstatus, HSTATUS_GVA, write_gva);
+> > >          }
+> > > --
+> > > 2.34.1
+> > >
+> > >
 
