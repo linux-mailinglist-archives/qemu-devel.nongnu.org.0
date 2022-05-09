@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C7851FB13
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:13:46 +0200 (CEST)
-Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663DC51FAED
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:08:30 +0200 (CEST)
+Received: from localhost ([::1]:35694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no1Kj-0002rQ-2B
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54134)
+	id 1no1Fc-0004CS-GG
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fu-0005L1-C0
+ id 1no0fu-0005LE-Ar
  for qemu-devel@nongnu.org; Mon, 09 May 2022 06:31:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34222)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0fp-000371-7t
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:31:30 -0400
+ id 1no0fo-00036x-4s
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:31:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652092287;
+ s=mimecast20190719; t=1652092286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V1ImhP8nQI3nDHWkOKXvAHXmp0Nf/es+1XlM7xHuiCI=;
- b=FNxzZ7p3bWmRb/oiac7IlEhRF8XJtI4SsxdDm0aFHCfdWUMtuH1ZruwN0m6YUxPZa4AoUx
- K+4mXT3RgtIXnitd+6otk/0cb4mx8dk33k34Hcvd0U0BUEl2sZT1+TxoCHP8bW4z4ktzeR
- I4nz00ix7UYXGpNnCTFbhM0LARLImfk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hS2bdLYJd1/LDmXPmGLqhJIOHD/m7LY1SJSJcfAc9/o=;
+ b=gYUXYbGke3uisS2pZGRWHcX+lth2WCVZLmKPN0yMtVonBJi+OV8QKiPj6drCK6unQWgsQL
+ tzbPvvQfxLBj2zqNxIP4EP+TC2sXS0i7KC54RLEXp96kBc+GhbWnDeHOqM8DsdicfWorQ+
+ WOPEJn68/YiHQV3+vEO80QAGKKloSjc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-DnO5QeK_ODymTAQc-FvXJQ-1; Mon, 09 May 2022 06:31:23 -0400
-X-MC-Unique: DnO5QeK_ODymTAQc-FvXJQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c62-20020a1c3541000000b0038ec265155fso9699711wma.6
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:31:23 -0700 (PDT)
+ us-mta-34-HwNlyvskNqCydo3IwHL3JA-1; Mon, 09 May 2022 06:31:24 -0400
+X-MC-Unique: HwNlyvskNqCydo3IwHL3JA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d28-20020adf9b9c000000b0020ad4a50e14so5608029wrc.3
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:31:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V1ImhP8nQI3nDHWkOKXvAHXmp0Nf/es+1XlM7xHuiCI=;
- b=eeQbBMiJjD/gc6GWcXpE2cTMigtluXMlVUL9VfC5knY+DVDUaFzB4RJ6M1RVnl5igU
- pJEEAzrg+yf5mDhNDs+n06Q3k15kTC9XejEHIzfQ8ffqdJgAFu238lcpKQn8qkExczHZ
- sONtlQR3VMCENMueiBk61nGc0sWh514qNpLa5j8ggbAuk5sbAL5TaZ+SC2qsc0PHupbv
- zdp1jdnX5hWql6PMF/Zf8S1T2V0CxtS5LCiMQxiCv2008b2U/LgbMOl9xjvXaCHltjbp
- WM4yiq4KM2rIpBm+lRsH87ozjNaXkEUxE9MZosZCeR7OUkZw5n4Q1qUECXPa0wQulbIw
- X3/A==
-X-Gm-Message-State: AOAM531EZ++Z+b/KK1KM3WxwwskpC8qeiq5Co1jWTSYE/TK57vZazGOR
- 83yDxd1xlwu+Le8OIX1BnPclsr83owDC21WvD4vh37S8sU9tsPGdY5OH4XAtPXaUmsOUM+E9B0I
- a85xbAlDWZwy8clDYnibzxFZfkvJtEIfD6YGgGrBcSUWlozzC4IIB/G0qNJ23cAi1DFM=
-X-Received: by 2002:a05:600c:354e:b0:394:89ba:e211 with SMTP id
- i14-20020a05600c354e00b0039489bae211mr6820325wmq.86.1652092281733; 
- Mon, 09 May 2022 03:31:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwrtmejcE2KvtHcKKSIUg1n/w9WJliHPzsKywv9QEaldkHqgD+BrWM3jFbztDrxxNIF1AD3g==
-X-Received: by 2002:a05:600c:354e:b0:394:89ba:e211 with SMTP id
- i14-20020a05600c354e00b0039489bae211mr6820292wmq.86.1652092281290; 
- Mon, 09 May 2022 03:31:21 -0700 (PDT)
+ bh=hS2bdLYJd1/LDmXPmGLqhJIOHD/m7LY1SJSJcfAc9/o=;
+ b=8LkhAlxCkoRsg0Ojuh8Xso6RgkOQlBD3IP/9VhMN/SG65yDh2X25p5VqWiEKo3h/zB
+ 2/3L/tO5AKFL1+5AwG+2wQRqop3xWLIZgPsLdz2oeD0PaDi86uQGO+v58BAGVxO3c1IP
+ VGj9WaQ4i4/QfF9HYg6STliCz6FJ26qXf3IB6h0IqtV4qvJ5D9C5Lk6o3iRxvG63zeV3
+ zqmxJ9JYMvPv6Wn0DGdRphY3ZlAld8+NojrLYbn6W5hknR+jGx2R7BWcQQ9kP4/LzD+R
+ lcGgLYdb4joBtaz6hnNqWNZfcwpyUK9UHhQqU+fQSGkK4IkHjsVTK2uRN0papVFX7Ybk
+ uslg==
+X-Gm-Message-State: AOAM533zEaLhmEH/bN6GugjuBbidq8EZpWA+N2JUEDGY7Oubg07wsVQy
+ uWaYU6dSLSUCWXKh026BJfF0BuajhVwSuecCVAJcknzc3VzrNhK9hQTqfWBezOFPN1+l+hG4A5W
+ jQLZ0I8YWCm6gldSNJUiix3XIOokbcR5yVfqszBsZoTRwV/H9De3fhuy5hR3XXmm2ZFQ=
+X-Received: by 2002:a05:6000:1569:b0:20c:4ed4:4ba8 with SMTP id
+ 9-20020a056000156900b0020c4ed44ba8mr12988248wrz.270.1652092283124; 
+ Mon, 09 May 2022 03:31:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzS279LkxlHvv4bXbiYeCPjw7UBVA2cgnNw6WzehrbtpQzpmUjyL6LAD9w9bcC+699ms24c2w==
+X-Received: by 2002:a05:6000:1569:b0:20c:4ed4:4ba8 with SMTP id
+ 9-20020a056000156900b0020c4ed44ba8mr12988219wrz.270.1652092282673; 
+ Mon, 09 May 2022 03:31:22 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- v1-20020a1cf701000000b003942a244ed6sm13037466wmh.27.2022.05.09.03.31.20
+ m14-20020a056000024e00b0020c5253d8besm10555844wrz.10.2022.05.09.03.31.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 03:31:20 -0700 (PDT)
+ Mon, 09 May 2022 03:31:22 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/26] coroutine-lock: add missing coroutine_fn annotations
-Date: Mon,  9 May 2022 12:30:15 +0200
-Message-Id: <20220509103019.215041-23-pbonzini@redhat.com>
+Subject: [PATCH v2 23/26] raw-format: add missing coroutine_fn annotations
+Date: Mon,  9 May 2022 12:30:16 +0200
+Message-Id: <20220509103019.215041-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220509103019.215041-1-pbonzini@redhat.com>
 References: <20220509103019.215041-1-pbonzini@redhat.com>
@@ -101,76 +101,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-coroutine-lock.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ block/raw-format.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-index 2669403839..ec55490b52 100644
---- a/util/qemu-coroutine-lock.c
-+++ b/util/qemu-coroutine-lock.c
-@@ -144,7 +144,7 @@ typedef struct CoWaitRecord {
-     QSLIST_ENTRY(CoWaitRecord) next;
- } CoWaitRecord;
- 
--static void push_waiter(CoMutex *mutex, CoWaitRecord *w)
-+static void coroutine_fn push_waiter(CoMutex *mutex, CoWaitRecord *w)
- {
-     w->co = qemu_coroutine_self();
-     QSLIST_INSERT_HEAD_ATOMIC(&mutex->from_push, w, next);
-@@ -341,7 +341,7 @@ void qemu_co_rwlock_init(CoRwlock *lock)
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 69fd650eaf..45440345b6 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -411,7 +411,7 @@ static void raw_lock_medium(BlockDriverState *bs, bool locked)
+     bdrv_lock_medium(bs->file->bs, locked);
  }
  
- /* Releases the internal CoMutex.  */
--static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
-+static void coroutine_fn qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
+-static int raw_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
++static int coroutine_fn raw_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
  {
-     CoRwTicket *tkt = QSIMPLEQ_FIRST(&lock->tickets);
-     Coroutine *co = NULL;
-@@ -374,7 +374,7 @@ static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
-     }
- }
- 
--void qemu_co_rwlock_rdlock(CoRwlock *lock)
-+void coroutine_fn qemu_co_rwlock_rdlock(CoRwlock *lock)
- {
-     Coroutine *self = qemu_coroutine_self();
- 
-@@ -399,7 +399,7 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock)
-     self->locks_held++;
- }
- 
--void qemu_co_rwlock_unlock(CoRwlock *lock)
-+void coroutine_fn qemu_co_rwlock_unlock(CoRwlock *lock)
- {
-     Coroutine *self = qemu_coroutine_self();
- 
-@@ -417,7 +417,7 @@ void qemu_co_rwlock_unlock(CoRwlock *lock)
-     qemu_co_rwlock_maybe_wake_one(lock);
- }
- 
--void qemu_co_rwlock_downgrade(CoRwlock *lock)
-+void coroutine_fn qemu_co_rwlock_downgrade(CoRwlock *lock)
- {
-     qemu_co_mutex_lock(&lock->mutex);
-     assert(lock->owners == -1);
-@@ -427,7 +427,7 @@ void qemu_co_rwlock_downgrade(CoRwlock *lock)
-     qemu_co_rwlock_maybe_wake_one(lock);
- }
- 
--void qemu_co_rwlock_wrlock(CoRwlock *lock)
-+void coroutine_fn qemu_co_rwlock_wrlock(CoRwlock *lock)
- {
-     Coroutine *self = qemu_coroutine_self();
- 
-@@ -447,7 +447,7 @@ void qemu_co_rwlock_wrlock(CoRwlock *lock)
-     self->locks_held++;
- }
- 
--void qemu_co_rwlock_upgrade(CoRwlock *lock)
-+void coroutine_fn qemu_co_rwlock_upgrade(CoRwlock *lock)
- {
-     qemu_co_mutex_lock(&lock->mutex);
-     assert(lock->owners > 0);
+     BDRVRawState *s = bs->opaque;
+     if (s->offset || s->has_size) {
 -- 
 2.35.1
 
