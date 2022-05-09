@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50F851F4EC
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 09:14:58 +0200 (CEST)
-Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA2651F556
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 09:35:57 +0200 (CEST)
+Received: from localhost ([::1]:57372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnxbd-0000M3-GD
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 03:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58448)
+	id 1nnxvv-0001Jd-F8
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 03:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nnxZi-00081P-Db
- for qemu-devel@nongnu.org; Mon, 09 May 2022 03:12:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53127)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nnxq2-0007eQ-NP
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 03:29:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nnxZf-0006Y3-NP
- for qemu-devel@nongnu.org; Mon, 09 May 2022 03:12:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nnxpz-0000Iq-Qr
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 03:29:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652080373;
+ s=mimecast20190719; t=1652081386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IiQrUU1xzZxKy1N58bkfa31jols+iey8DEnhUE57dHc=;
- b=ET4/oZ1QVkSlJ3fZ8/v8eSeeKY09M2RqUbihE/ETp3gVcAlkDdiY9CFdfCiSNYPIyRvua8
- luAcqKULLX2Nm+BIiphx1OVuo+pp99TV4SDOt94UKKyAojAMr/DLutxQJd0OLMZsV/hSi5
- HVXsGD7gndvs+LLxNLYL0zJdJO/lxbM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=efLQ7cQ/Y66r2fF1y5Frgu7HZ8e0PcmfvKf7augQhag=;
+ b=Iftkj17GDEPku6+cHZQ9XSom7kHfJ8O5qc7xNO7EgUJL9N2A/n4m8eFaaqJR5xVlDGm8HZ
+ RSYejqjoFlFvzi5stqznn8JS/jZbCskBJxaoVdHDm6qInueoZhaZeN3SMPlwXGahj5qwXW
+ 3zVrfckq3mLklAeTlCvMk8ONvbN1fIk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-aNHCtPN5MAOnS9RwllPoRg-1; Mon, 09 May 2022 03:12:52 -0400
-X-MC-Unique: aNHCtPN5MAOnS9RwllPoRg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- s24-20020a05640217d800b00425e19e7deaso7750561edy.3
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 00:12:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IiQrUU1xzZxKy1N58bkfa31jols+iey8DEnhUE57dHc=;
- b=HD25nLNAVSTv6KEstcO94iP+0vylGo22vsDNehGhVrwcylPKuX350CWEbrVvF35l5x
- dpmm74MPQrAAD7jmvyjIimgD1X6SV0S+W2JuZJfjip5uPFpgrKMU44AH8Poi2wVoqMIq
- AdR3hnTrkF9X5ZuWTsF7AOzzoNbRDGAfh/KtGJ/wvSKT35fcE16zD0/V6xEN0t9/eiyR
- kfckqN3SedMXz2RJFicQZr3HUXAfABXAXH2WngJrr0A43LWSKi8But7hMW0k10pcsHdC
- UvS5TEcfT+r471tXxbyBCNID47/t0Yeq8xrd01aG2HSNz15ljbm/6V369JE7cwYCIB/Z
- Z7vA==
-X-Gm-Message-State: AOAM531vsrlPl5rIl6LvH5+fS1o4xkfOQtsPCeFVBPUrHrGhtE+U/B9r
- yDQy6UuSWxOBTVVO+F4R70B1ESLOFadZ34+fF4h1c5rIES6c8Vd1XuIKPCLLPyvYpj/4Kx99x2v
- 7ansmK2+I/lVcVR4=
-X-Received: by 2002:a05:6402:2714:b0:427:b9bb:a179 with SMTP id
- y20-20020a056402271400b00427b9bba179mr16092741edd.102.1652080371585; 
- Mon, 09 May 2022 00:12:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz01J35/TLH/OzcrSnIT8gx5ih7cUoeFf4QnP4jaBBdwpSJd6VCvOWIDj5Qsle8qX39/XdUcg==
-X-Received: by 2002:a05:6402:2714:b0:427:b9bb:a179 with SMTP id
- y20-20020a056402271400b00427b9bba179mr16092715edd.102.1652080371283; 
- Mon, 09 May 2022 00:12:51 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- wi7-20020a170906fd4700b006f3ef214dd4sm4690788ejb.58.2022.05.09.00.12.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 00:12:50 -0700 (PDT)
-Date: Mon, 9 May 2022 09:12:49 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Cc: <qemu-devel@nongnu.org>, <marcel.apfelbaum@gmail.com>, <mst@redhat.com>,
- <pbonzini@redhat.com>, <richard.henderson@linaro.org>,
- <eduardo@habkost.net>, <jon.grimm@amd.com>
-Subject: Re: [PATCH] pc: q35: Bump max_cpus to 512
-Message-ID: <20220509091249.392fdab6@redhat.com>
-In-Reply-To: <20220504131639.13570-1-suravee.suthikulpanit@amd.com>
-References: <20220504131639.13570-1-suravee.suthikulpanit@amd.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-370-CG0_sAS3PGO6bjKEFCK70w-1; Mon, 09 May 2022 03:29:42 -0400
+X-MC-Unique: CG0_sAS3PGO6bjKEFCK70w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89840101AA42;
+ Mon,  9 May 2022 07:29:42 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3E9C9E6C;
+ Mon,  9 May 2022 07:29:41 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL v2 00/11] Misc patches
+Date: Mon,  9 May 2022 09:29:30 +0200
+Message-Id: <20220509072933.48586-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,35 +74,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 May 2022 08:16:39 -0500
-Suravee Suthikulpanit <suravee.suthikulpanit@amd.com> wrote:
+The following changes since commit 554623226f800acf48a2ed568900c1c968ec9a8b:
 
-> This is the maximum number of vCPU supported by
-> the AMD x2APIC virtualization.
-> 
-> Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-> ---
->  hw/i386/pc_q35.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 302288342a..e82b1c690d 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
->      machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
->      machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
->      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
-> -    m->max_cpus = 288;
-> +    m->max_cpus = 512;
+  Merge tag 'qemu-sparc-20220508' of https://github.com/mcayland/qemu into staging (2022-05-08 17:03:26 -0500)
 
-Maybe we should bump it to KVM VCPU maximum,
-and make sure we error out if asked for combination of
-hardware/irqchip is not usable.
+are available in the Git repository at:
 
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-09
 
->  }
->  
->  static void pc_q35_7_1_machine_options(MachineClass *m)
+for you to fetch changes up to ddc5a6cc70398ed7ec76220d59c123d8cb14b0ad:
+
+  docs/devel/writing-monitor-commands: Replace obsolete STEXI/ETEXI tags (2022-05-09 08:21:14 +0200)
+
+----------------------------------------------------------------
+* Remove redundant/obsolete x86, arm and ppc disassemblers (Capstone is better)
+* Limit some Xen-related code to builds where Xen is really available
+* Remove hxtool-conv.pl and remove STEXI/ETEXI references from the docs
+* Update MinGW and OpenBSD to a more recent version in the CI
+* Warn user if the -vga flag is passed but no vga device is created
+
+----------------------------------------------------------------
+
+v2:
+ - Fixed the -vga warning patch to not warn in case of "-device"
+ - Added the ppc disassembler patch
+ - Added the STEXI/ETEXI doc patch
+
+Brad Smith (1):
+      tests/vm: update openbsd to release 7.1
+
+Gautam Agrawal (1):
+      Warn user if the vga flag is passed but no vga device is created
+
+Thomas Huth (6):
+      disas: Remove old libopcode arm disassembler
+      disas: Remove old libopcode i386 disassembler
+      disas: Remove old libopcode ppc disassembler
+      softmmu/vl: Fence 'xenfb' if Xen support is not compiled in
+      qemu-options: Limit the -xen options to x86 and arm
+      docs/devel/writing-monitor-commands: Replace obsolete STEXI/ETEXI tags
+
+Yonggang Luo (3):
+      doc: remove hxtool-conv.pl
+      cirrus/win32: upgrade mingw base packages
+      gitlab-ci: Upgrade mingw base package.
+
+ docs/devel/writing-monitor-commands.rst |   11 +-
+ include/disas/dis-asm.h                 |    3 -
+ include/sysemu/sysemu.h                 |    1 +
+ disas.c                                 |    5 -
+ disas/arm.c                             | 4012 ------------------
+ disas/i386.c                            | 6771 -------------------------------
+ disas/ppc.c                             | 5435 -------------------------
+ hw/hppa/machine.c                       |    1 +
+ hw/isa/isa-bus.c                        |    1 +
+ hw/mips/fuloong2e.c                     |    1 +
+ hw/pci/pci.c                            |    1 +
+ hw/ppc/spapr.c                          |    1 +
+ hw/sparc/sun4m.c                        |    2 +
+ hw/sparc64/sun4u.c                      |    1 +
+ hw/xenpv/xen_machine_pv.c               |    1 +
+ softmmu/globals.c                       |    1 +
+ softmmu/vl.c                            |    9 +
+ target/arm/cpu.c                        |    8 -
+ target/i386/cpu.c                       |    1 -
+ target/ppc/cpu_init.c                   |    2 -
+ .cirrus.yml                             |    2 +-
+ .gitlab-ci.d/windows.yml                |    2 +-
+ MAINTAINERS                             |    6 -
+ disas/meson.build                       |    3 -
+ qemu-options.hx                         |    7 +-
+ scripts/hxtool-conv.pl                  |  137 -
+ tests/vm/openbsd                        |    4 +-
+ 27 files changed, 32 insertions(+), 16397 deletions(-)
+ delete mode 100644 disas/arm.c
+ delete mode 100644 disas/i386.c
+ delete mode 100644 disas/ppc.c
+ delete mode 100755 scripts/hxtool-conv.pl
 
 
