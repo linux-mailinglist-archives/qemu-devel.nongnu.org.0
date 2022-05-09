@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D83852063C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 22:55:27 +0200 (CEST)
-Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C33520645
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 22:59:28 +0200 (CEST)
+Received: from localhost ([::1]:32828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noAPd-0000lk-VY
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 16:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51360)
+	id 1noATX-0005CS-Hw
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 16:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1noAO8-0008V3-3H
- for qemu-devel@nongnu.org; Mon, 09 May 2022 16:53:52 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51745)
+ id 1noARi-0003P2-H8
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 16:57:34 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1noAO6-0004JK-Gx
- for qemu-devel@nongnu.org; Mon, 09 May 2022 16:53:51 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id q20so9037823wmq.1
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 13:53:50 -0700 (PDT)
+ id 1noARg-0004yy-Tn
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 16:57:34 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ c190-20020a1c35c7000000b0038e37907b5bso257456wma.0
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 13:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Qp91JYnoa7BAJ7B033ztPddIDR0tjxupwPjjFjFQK0U=;
- b=mACMveBM/p0HylZ3+XU6EQSiGFRB0h7qu2k2k1t98gQiWw79N9Y/j+MHCI0XkexbyW
- of7KER3kskSdwQovpPXMtIwpmbKCd+JkwVbBjdVZ0U+sfL9iAIx0a6x63/njLyYn0XkJ
- Vv/dEPdrqUJ2fCD7hiOk3kNZvdu5fYB5MldOelPOcS5Qc7Rcs6RCjhFNa9PLUlzAnOrs
- hcqOZOfIYOz6FDYa4g/LUGV74zY2vliRHGX2zKgziNcspFTT1ActNe+onSczlZI+mRaO
- Y118gsLScjC0ZWsmuCM48A6hkU4WotgH6bVlDODf+4GOkBNt+8nsjRKPPuO/lBmh3dOT
- zvKw==
+ bh=4NO6IBCWa/ZXtEXK/25kkAzsHYn6jl3nTLhMwi1Cpo0=;
+ b=cS7GtWqsPEu49xYrZprYqDPYTuBCBv+yfLKzuRnaIMNq5YhrlQRPLuJc72qElzdA/T
+ OUBXCxzUvB5enZgpHQnivAeA2bUA9GKIwheTruRVnR8XcLybn0b+6ywLQjpxbZQnZ9RA
+ /DREGKU9LzghLCjPRiLNX6c4dSZpvabAu+PGtVgGSreiI75uShhR8FTC8AeazQWLUNN0
+ 7f096rBUCu+Znxgex+xMGlxKf7w5eUzueioTnneRxlDILzaOn1OuHjDnvuicyDH1bvMi
+ g8U78LuXSn18+OucWbgDSxKiSx08sOzhsAuhTIJKJppk81GvosG9aKEkomz4kJUB81nU
+ 5hvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Qp91JYnoa7BAJ7B033ztPddIDR0tjxupwPjjFjFQK0U=;
- b=vZQkXaBjOWo27OsP6jbA97btCVY5FljDT+V/JPeS8uFROdoTPgNIgzYQ7k5BuutZJJ
- 981NFQgcu4FDE7vPRxyiTVsrJf9pURSKPg3yM1L1xqMMhIJsTmSYnycxAE0K3RaZjj5U
- bxt02GQiK3EDUkgx0GoIqMi5HUhrkB7386Od1QYRPRALaAG5FV81Umvc7iUlnhW00fct
- aGQJZ4mAcvOGIwjYRuTrCmNjka5xbPlz7l6TfgzzomfCAytkFT/HB0reUWl1xeh45ROo
- Vn8Pn3+E6rOuAMmjMvHrc+0DJBplVqw5Xrqf5xURAR6oBt3TlpppOrUGZG2OXafhXj3q
- I20A==
-X-Gm-Message-State: AOAM533SFgoL20KMgCKst1YEujZhVTxakSD87p0XqzdN3VKD9ItDzAOS
- iB7B0eTdK6xD6ZKf7S9bAj0=
-X-Google-Smtp-Source: ABdhPJwQuzsirNcCakeVc5OXct1dMJXHXp/mL2YKxuCDXCapRo+Elglz6jlKpIWTh3HZsAWcj31QGQ==
-X-Received: by 2002:a1c:1947:0:b0:392:b883:aac9 with SMTP id
- 68-20020a1c1947000000b00392b883aac9mr17648796wmz.155.1652129628811; 
- Mon, 09 May 2022 13:53:48 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=4NO6IBCWa/ZXtEXK/25kkAzsHYn6jl3nTLhMwi1Cpo0=;
+ b=kdHBQZgnhaQ9IEwNl9aUZNoKVcCC6aQRmAqHds4GffIyYMRqgbNcv7NvtkOWRfzQ5A
+ 5uYpO0uoAWHthAq+ElcWtP4l5F5p0d1pYEcYqxv9EGhmJYHLfjylX3TCQ6cpLVG0pimC
+ O25ds1RqmWP1KS3WrBSObvEj7TohlXbFV5QnreTP76dYtIu600xhdZ/R+08NJyI4jTYI
+ syWnlf/VxbBN5Oxa0S3V1iXcOXiaoXl2WDyNt9CcJqq6uqIDFHSHel+cc5nIl7wR9yiY
+ 7vd451SbYEbIGSVqSBSTmPbVH6HYbKZnmbxPxa0MytjCQtnCj/SxsosHpSZya0zTZAy1
+ E6kw==
+X-Gm-Message-State: AOAM531kDVrwBpbi2iv5ewreNWJIaCeD3bJy3XPCnQ4ysw+G+Ja1BzY5
+ i3ZOfU/X45yQB0ZDEylbhmlcWIdzQtE=
+X-Google-Smtp-Source: ABdhPJz0Zu4PC0pJ1wJPvqqcCkVaQtCRFbT38e2B5XMsmqm4NLLNPviQVNtbPouRHgL6cOLGwxuiWg==
+X-Received: by 2002:a05:600c:288:b0:394:31f9:68f with SMTP id
+ 8-20020a05600c028800b0039431f9068fmr24486800wmk.57.1652129850261; 
+ Mon, 09 May 2022 13:57:30 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a7bc1cc000000b0038ec8b633fesm376104wmj.1.2022.05.09.13.53.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 13:53:48 -0700 (PDT)
-Message-ID: <4169bb0f-03dc-e5ef-18a0-fa5b27f55cba@amsat.org>
-Date: Mon, 9 May 2022 22:53:46 +0200
+ 5-20020a05600c234500b003942a244ed1sm319683wmq.22.2022.05.09.13.57.29
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 09 May 2022 13:57:29 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v2 0/3] linux-user: Use CPUArchState* instead of void* when
+ possible
+Date: Mon,  9 May 2022 22:57:25 +0200
+Message-Id: <20220509205728.51912-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH 2/7] target/mips: Fix emulation of nanoMips EXTRV_S.H
- instruction
-Content-Language: en-US
-To: Stefan Pejic <stefan.pejic@syrmia.com>, qemu-devel@nongnu.org
-Cc: ot_stefan.pejic@mediatek.com, ot_dragan.mladjenovic@mediatek.com,
- Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
-References: <20220504110403.613168-1-stefan.pejic@syrmia.com>
- <20220504110403.613168-3-stefan.pejic@syrmia.com>
-In-Reply-To: <20220504110403.613168-3-stefan.pejic@syrmia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,44 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 4/5/22 13:03, Stefan Pejic wrote:
-> From: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
-> 
-> The field rs in the instruction EXTRV_S.H rt, ac, rs is specified in
-> nanoMips documentation as opcode[20..16]. It is, however, erroneously
-> considered as opcode[25..21] in the current QEMU implementation. In
-> function gen_pool32axf_2_nanomips_insn(), the variable v0_t corresponds
-> to rt/opcode[25..21], and v1_t corresponds to rs/opcode[20..16]), and
-> v0_t is by mistake passed to the helper gen_helper_extr_s_h().
-> 
-> Use v1_t rather than v0_t in the invocation of gen_helper_extr_s_h()
-> to fix this.
-> 
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fixes: 8b3698b294 ("target/mips: Add emulation of DSP ASE for nanoMIPS")
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Since v1:
+- Rebased
 
-> Signed-off-by: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
-> Signed-off-by: Stefan Pejic <stefan.pejic@syrmia.com>
-> ---
->   target/mips/tcg/nanomips_translate.c.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-> index 58ae35a156..9ee4df2135 100644
-> --- a/target/mips/tcg/nanomips_translate.c.inc
-> +++ b/target/mips/tcg/nanomips_translate.c.inc
-> @@ -2036,7 +2036,7 @@ static void gen_pool32axf_2_nanomips_insn(DisasContext *ctx, uint32_t opc,
->           case NM_EXTRV_S_H:
->               check_dsp(ctx);
->               tcg_gen_movi_tl(t0, rd >> 3);
-> -            gen_helper_extr_s_h(t0, t0, v0_t, cpu_env);
-> +            gen_helper_extr_s_h(t0, t0, v1_t, cpu_env);
->               gen_store_gpr(t0, ret);
->               break;
->           }
+v1: https://lore.kernel.org/qemu-devel/20220306234005.52511-1-philippe.mathieu.daude@gmail.com/
+
+Philippe Mathieu-Daudé (3):
+  linux-user/elfload: Remove pointless non-const CPUArchState cast
+  linux-user: Have do_syscall() use CPUArchState* instead of void*
+  linux-user: Remove pointless CPU{ARCH}State casts
+
+ linux-user/elfload.c        |   2 +-
+ linux-user/strace.c         | 202 ++++++++++++++++++------------------
+ linux-user/strace.h         |   4 +-
+ linux-user/syscall.c        |  81 +++++++--------
+ linux-user/uname.c          |   4 +-
+ linux-user/uname.h          |   2 +-
+ linux-user/user-internals.h |  18 ++--
+ 7 files changed, 155 insertions(+), 158 deletions(-)
+
+-- 
+2.35.1
 
 
