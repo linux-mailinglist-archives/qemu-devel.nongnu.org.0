@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1A251FD6E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:53:51 +0200 (CEST)
-Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A73D51FDA8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:12:58 +0200 (CEST)
+Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2tZ-0004Qt-RP
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:53:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33774)
+	id 1no3C5-0003gR-Fr
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:12:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1no2hu-0006m0-BR
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:41:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1no2hs-00006H-4t
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:41:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652100103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5vNigitsQEGINOW3TnhM4Ogs0cY77ZxjWLxv7ITZQaU=;
- b=gyLj53keGtZIDLMKrlNj67A784//DMUCMWKEAsLf0ZmkMTAPpQ6moeGw8v56WGgLbchXRT
- pfYjnO10hfyq4VziRWygfhv8fGvvZDF201Qz62BTPEINgUJL5ZsUy+lSLZQUsD3RfssjQh
- 0Jf3gtWV5qMWCMpq5SOby7ycjvhUDVw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-zXdEt312P2m5Vwv8PMnOTA-1; Mon, 09 May 2022 08:41:42 -0400
-X-MC-Unique: zXdEt312P2m5Vwv8PMnOTA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE7C71D9F88B;
- Mon,  9 May 2022 12:41:41 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04CE214A5087;
- Mon,  9 May 2022 12:41:39 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 2/2] .gitlab-ci.d: export meson testlog.txt as an artifact
-Date: Mon,  9 May 2022 13:41:34 +0100
-Message-Id: <20220509124134.867431-3-berrange@redhat.com>
-In-Reply-To: <20220509124134.867431-1-berrange@redhat.com>
-References: <20220509124134.867431-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1no2kt-0003nT-Sl; Mon, 09 May 2022 08:44:51 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:45006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1no2ks-0000df-8a; Mon, 09 May 2022 08:44:51 -0400
+Received: by mail-pf1-x435.google.com with SMTP id x52so12138417pfu.11;
+ Mon, 09 May 2022 05:44:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dLdaDOUZIK3RBqbcEUH28W/27HMAjnXQ55ScHR5Pmno=;
+ b=bPykLE3MJ/ujeIcjoDDL5cFoxjB3FL2AcQwi/3cB3+3+lgtUlMAgVkCfQ1TgCcuhg8
+ 9Rytz5vl1qQPZ1EPEmYzR0Re56kLqadvZ1xGsROJIujFFHbCBpYNTKpWqJS4N5DCy+j/
+ MncvW50gYjVIp2au4V7+MhLVQaqxyks+5fBIWiTyTh80Bcv95yi9JsD2bVVKoAhOYUta
+ hiZqSP1Plr2VC7nFyOC7b5ZkSqs6AnWWbJ0rcLliykaITJ3vp8LEe5s6hi4x97YjJPan
+ lefX4GiGs3+u6m3C4wdixS8W1bEPW65GoEYPmVfr62qvcSAhsTGnG740BwR7KaabMF/r
+ /H9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dLdaDOUZIK3RBqbcEUH28W/27HMAjnXQ55ScHR5Pmno=;
+ b=fm3Cgv/aO8ka4CCP/dpQWdLl86TI+vOO6W0o3hlesLiGaBFvRyidqFqA9R04pq+m2G
+ St60zPLTohoSXl0bG65sQh9OJW+krLlrwiWRC04pj1cjymlRLLVgzJJX3eH6mZfNTCkr
+ iDez+kcgj+iKIv55+AOyedvMufEacYnGXKqi8rxHNXUR4uaKsESlfztXungRJTpH9JV6
+ HQ9pU4H6QZ63RtUcGu26qb+kZ/1Nl1N87FYe6lEBG8+GsVSQaOBFcUN1NEyQqyYeLLL/
+ vDm2tfPUOCX0s1f9MYyehPZYMpCGDCtbBzG/n8mBP+AMx5EIPyS+6WxvgZqhbYQkMsSZ
+ QXxg==
+X-Gm-Message-State: AOAM5338WUPogFLjxYKN0+sU6FGcR7rs/g3ozhW6cSy7hI2pib5HwKe9
+ aHV0dvqfqeDyk7qrG2wR4Mo=
+X-Google-Smtp-Source: ABdhPJyEw7aiS2j09fyBEW+f118GeXVvcJA/300LcY6sIxQpHjXvrWz6qIcvFPUZ+6AaZrCqyXZhlg==
+X-Received: by 2002:a63:501a:0:b0:3c6:e381:e95 with SMTP id
+ e26-20020a63501a000000b003c6e3810e95mr447703pgb.35.1652100288556; 
+ Mon, 09 May 2022 05:44:48 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ cd10-20020a056a00420a00b0050dc76281d0sm8773828pfb.170.2022.05.09.05.44.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 05:44:48 -0700 (PDT)
+Message-ID: <47f863af-82f7-ec6e-a066-fec8509f34cd@amsat.org>
+Date: Mon, 9 May 2022 14:44:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.0
+Subject: Re: [PATCH] qom/object: Remove circular include dependency
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <20220509084659.52076-1-philippe.mathieu.daude@gmail.com>
+ <CAFEAcA-tC5hUcYa7Q_GOe=7_k=De_yw0mm2F21ALh6-2D5ChzA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-tC5hUcYa7Q_GOe=7_k=De_yw0mm2F21ALh6-2D5ChzA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,49 +95,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-When running 'make check' we only get a summary of progress on the
-console. Fortunately meson/ninja have saved the raw test output to a
-logfile. Exposing this log will make it easier to debug failures that
-happen in CI.
+On 9/5/22 11:41, Peter Maydell wrote:
+> On Mon, 9 May 2022 at 09:53, Philippe Mathieu-Daudé
+> <philippe.mathieu.daude@gmail.com> wrote:
+>>
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> "qom/object.h" doesn't need to include itself.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   include/qom/object.h | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/include/qom/object.h b/include/qom/object.h
+>> index 5f3d5b5bf5..ef7258a5e1 100644
+>> --- a/include/qom/object.h
+>> +++ b/include/qom/object.h
+>> @@ -16,7 +16,6 @@
+>>
+>>   #include "qapi/qapi-builtin-types.h"
+>>   #include "qemu/module.h"
+>> -#include "qom/object.h"
+>>
+>>   struct TypeImpl;
+>>   typedef struct TypeImpl *Type;
+> 
+> Accidentally (but harmlessly) 
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .gitlab-ci.d/buildtest-template.yml | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+This makes crash clang tools such clang-format, I'll amend that
+to the description.
 
-diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index 2c7980a4f6..dc6d67aacf 100644
---- a/.gitlab-ci.d/buildtest-template.yml
-+++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -26,7 +26,7 @@
-         make -j"$JOBS" $MAKE_CHECK_ARGS ;
-       fi
- 
--.native_test_job_template:
-+.common_test_job_template:
-   stage: test
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   script:
-@@ -37,8 +37,16 @@
-     # Avoid recompiling by hiding ninja with NINJA=":"
-     - make NINJA=":" $MAKE_CHECK_ARGS
- 
-+.native_test_job_template:
-+  extends: .common_test_job_template
-+  artifacts:
-+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-+    expire_in: 7 days
-+    paths:
-+      - build/meson-logs/testlog.txt
-+
- .avocado_test_job_template:
--  extends: .native_test_job_template
-+  extends: .common_test_job_template
-   cache:
-     key: "${CI_JOB_NAME}-cache"
-     paths:
--- 
-2.35.1
+> added in commit db1015e92e0483 by a
+> change generated by a script.
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> Eduardo: is it worth making ./scripts/codeconverter/converter.py
+> handle this as a special case, so it doesn't add the include line
+> to qom/object.h itself ? Or do we not really expect that script
+> to be run on the codebase again in future ?
 
+Oh, I see required_identifiers() adding this include in
+scripts/codeconverter/codeconverter/qom_macros.py.
+
+If we do not expect to use these scripts, we should remove it from
+the repository. They are in good shape however, and might be still
+valuable, so I'll amend a fix to the script.
+
+Thanks for pointing at these scripts,
+
+Phil.
 
