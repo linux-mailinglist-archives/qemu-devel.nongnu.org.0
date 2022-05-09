@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3ED251F454
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 08:19:50 +0200 (CEST)
-Received: from localhost ([::1]:47802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908CF51F490
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 08:32:50 +0200 (CEST)
+Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnwkI-0005fb-29
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 02:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47158)
+	id 1nnwwr-00026b-48
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 02:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nnwgE-0004jT-KZ
- for qemu-devel@nongnu.org; Mon, 09 May 2022 02:15:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nnwgD-0006Wz-3g
- for qemu-devel@nongnu.org; Mon, 09 May 2022 02:15:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652076935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tMrzEeqSjaHjzMEF1QpMwc1HEvZI96Mxu3IkKA2K4sA=;
- b=hmGxUAIVpJi7NvUdoEXiWAKimJQhHwzHqH7tmrsijt0CDl6WiSvBF8+/N00V+cS7/0IqOw
- pUVKtxSEb/MzgrY+/RFhzw2QWsZC8JWC1XQ9cRAVlhjzRLS9iDAXKw6Dta3JvCmoxmxvD5
- 0Sab5wbbDdA4xAFHwQSELXmLxbh+Hqg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-o7Y3f4MVNb-hmly3ajRCcw-1; Mon, 09 May 2022 02:15:34 -0400
-X-MC-Unique: o7Y3f4MVNb-hmly3ajRCcw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m26-20020a7bcb9a000000b0039455e871b6so3473883wmi.8
- for <qemu-devel@nongnu.org>; Sun, 08 May 2022 23:15:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nnws6-0000aI-G0
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 02:28:07 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nnws3-00089s-Ck
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 02:27:54 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id n10so24789917ejk.5
+ for <qemu-devel@nongnu.org>; Sun, 08 May 2022 23:27:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8imME9EbhExSwyNbANoOoghxpvgzo5+0jhHVIHJ4/2U=;
+ b=cvrdrOOTBNKvzV/kYJqH4IcLNpRg2PSRsJznCnh7Ir0kjeokliIA/RRvpBHI7a73ka
+ WoRWZyOX1iikrzzpOGq0nInEuPf7qloXIVn+AATtPvaHYiXbZWOdSpGqLSf5jgmZXLeV
+ N5EkJYMlNsMEdnRH3TsID5cTlQ/yPbjiHHgsplibMLcJKBp264GDVwQjmgCmpSkdsbiC
+ W8J0SSXw4E5eSMDqSL9rX6ZXfniwrWo5awHNGe0zDLMEHB7/yXTyZQoE7wPt7n7l91lX
+ OljTJHqN+vwN288uV1kkL/z6DxnYLKrRFdL+au29BTvtsjHQ2Huv7v5WaN1s4P0fZWiD
+ VaGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tMrzEeqSjaHjzMEF1QpMwc1HEvZI96Mxu3IkKA2K4sA=;
- b=RWHhqzldDjLxDCsFvNGjWAg9+ktIneFyNQC/iLO3+EfodHTBHBv9oWEMCX6gwNgExZ
- k1q7u4QtyqJs6h1trZtT63fm9ogQs9zjGXKKWITRE152HyK1YIMTGYW/65SV/QhKzIb3
- nG9r0KMgnKoXzUfwWFxla5WwIH+4xVivHaEmcW1gYiG/3BNRN/33NQcoRMRVoMT9j1Om
- aklJxNb4WfYNAlhziLTYOAJJFS3TF3jIZeDsEYHDSgu6XomY0d6JC69egGKKSIV2IA2L
- 2srOgGUwWjCDW+DQXEoeeSR584NveOoOzU7m6jOcAMpop2qREVsaOrn+kl2HqDnGmU37
- jsqQ==
-X-Gm-Message-State: AOAM5304RVLASbKerdMkMsspDBjGEacNZxbidtLt4tFAFRyrQq0Al9bj
- LQ1QiNq75gexiyYKxSLuA+OVV/TclgE6Bmtw/57UKUgyaIJAHSQKahQXELS5euA6uzw8QLBTWds
- fsZyic8ZINnddUXU=
-X-Received: by 2002:a05:600c:5113:b0:394:800c:4c36 with SMTP id
- o19-20020a05600c511300b00394800c4c36mr11164362wms.93.1652076933076; 
- Sun, 08 May 2022 23:15:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyc/dLX51a33BsVvPFAQBfA8BuZRmYRm+6IIwPsmOz+0uzWSZADlyn81L5iymju8Jyh97e3GQ==
-X-Received: by 2002:a05:600c:5113:b0:394:800c:4c36 with SMTP id
- o19-20020a05600c511300b00394800c4c36mr11164337wms.93.1652076932828; 
- Sun, 08 May 2022 23:15:32 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
- [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- v9-20020adf8b49000000b0020c8d8252dasm10549220wra.103.2022.05.08.23.15.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 May 2022 23:15:32 -0700 (PDT)
-Message-ID: <40fa1ceb-e762-c372-ffc9-2ded4998c08f@redhat.com>
-Date: Mon, 9 May 2022 08:15:31 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8imME9EbhExSwyNbANoOoghxpvgzo5+0jhHVIHJ4/2U=;
+ b=JiFwfOfajtFIEehDU7gImsnRCLrdTo/2pezKUSejn2r9n1nVShk4enwiQ4yoWLVh6D
+ 715EmiIvxLwUdkCw+EhfoDHlj7rQ1yrACnHN94zofjD04KM40AiRSCR23Uac2eCUgy8X
+ +XI6ZGFnWv7XKryJrY7xekz3639Kbz3FxxQeabPNh9MXBSBG5S+nigGgHv5Bf4bGLsQA
+ s2WNLkiSdrTKMJjnx3+E1ULLxxDDzatc6iwmdLQa1YU0OSycDYD0nJnQ9U8pPPwhYzC6
+ LltI3BbeqZfCP6Qjudw9WEFonv+Eg5kfnsxmXitmSKRVkJpmnYn0zn/XQn3IRcog8cFs
+ DWbg==
+X-Gm-Message-State: AOAM533BxV+J9Wev+jCCqH+lL57vYZX3YVei3o0+9KcnjnE5onJcqVVH
+ GMwZt2+EcF1QNibNDWLtyifvXIFyE7r/WgpehdmLUQ==
+X-Google-Smtp-Source: ABdhPJywJXZ3ZW/ZJXJs4fA+OeJMnBv6TqfZ1IZU40ftEX1h6oN01W2eYvvKaLTCGomcWuU7EYZlBObP5b1o39yuSA0=
+X-Received: by 2002:a17:907:7247:b0:6f9:bb40:efd8 with SMTP id
+ ds7-20020a170907724700b006f9bb40efd8mr4858608ejc.273.1652077668454; Sun, 08
+ May 2022 23:27:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PULL 0/9] Misc patches
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-References: <20220506143750.559526-1-thuth@redhat.com>
- <CAFEAcA8pPZJ-Yn2U+7G=eQOaNu0c4g3LGQvugf5vZ=vnA72Frw@mail.gmail.com>
- <2bbd36ab-5ca4-19bc-7bfe-1c53d01e02e0@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <2bbd36ab-5ca4-19bc-7bfe-1c53d01e02e0@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220507134320.6289-1-cfontana@suse.de>
+ <20220507134320.6289-13-cfontana@suse.de>
+In-Reply-To: <20220507134320.6289-13-cfontana@suse.de>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 9 May 2022 11:57:37 +0530
+Message-ID: <CAARzgwzrcYPrnYtktVLaOp2ceTqJpggDuUGXv_V60PeA50Y8Gg@mail.gmail.com>
+Subject: Re: [libvirt RFCv8 12/27] qemu: capabilities: add multifd to the
+ probed migration capabilities
+To: Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ libvir-list@redhat.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::62f;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,26 +82,508 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/05/2022 19.28, Richard Henderson wrote:
-> On 5/6/22 09:49, Peter Maydell wrote:
->> On Fri, 6 May 2022 at 15:41, Thomas Huth <thuth@redhat.com> wrote:
->>> ----------------------------------------------------------------
->>> * Remove redundant/obsolete x86 and arm disassemblers (Capstone is better)
->>> * Limit some Xen-related code to builds where Xen is really available
->>> * Remove hxtool-conv.pl
->>> * Update MinGW and OpenBSD to a more recent version in the CI
->>> * Warn user if the -vga flag is passed but no vga device is created
->>>
->>
->> I think Paolo mentioned an issue with the -vga patch here -- might
->> want to hold off on that one until he's had a chance to reply.
-> 
-> Ok.  I didn't see this before I pushed to staging, but I won't push to 
-> master until I hear from Paolo.
+Qemu folks,
+It seems we do officially support multifd from version 4.0 :
 
-As mentioned in the other mail thread, Paolo was right. I'll respin the pull 
-request with the fix included.
+commit cbfd6c957a4437d4759ca660e621daa381bf2898
+Author: Juan Quintela <quintela@redhat.com>
+Date:   Wed Feb 6 13:54:06 2019 +0100
 
-  Thomas
+    multifd: Drop x-
 
+    We make it supported from now on.
+
+    Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+    Reviewed-by: Markus Armbruster <armbru@redhat.com>
+    Signed-off-by: Juan Quintela <quintela@redhat.com>
+
+$ git tag --contains cbfd6c957a4437d4759ca660e621daa381bf2898 | sort
+-V | grep -v list | head -1
+v4.0.0
+
+Yet it seems we continue to prefix the migration property with "x-"
+(x-multifd). This prop was added here and we have continued to use it
+as is:
+
+commit 30126bbf1f7fcad0bf4c65b01a21ff22a36a9759
+Author: Juan Quintela <quintela@redhat.com>
+Date:   Thu Jan 14 12:23:00 2016 +0100
+
+    migration: Add multifd capability
+
+    Signed-off-by: Juan Quintela <quintela@redhat.com>
+    Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+    Reviewed-by: Peter Xu <peterx@redhat.com>
+    Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+Can anyone explain why?
+
+On Sat, May 7, 2022 at 7:13 PM Claudio Fontana <cfontana@suse.de> wrote:
+>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+
+other than the question above,
+
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
+
+> ---
+>  src/qemu/qemu_capabilities.c                      | 4 ++++
+>  src/qemu/qemu_capabilities.h                      | 3 +++
+>  tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml  | 1 +
+>  tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml | 1 +
+>  tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml   | 1 +
+>  tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml  | 1 +
+>  34 files changed, 39 insertions(+)
+>
+> diff --git a/src/qemu/qemu_capabilities.c b/src/qemu/qemu_capabilities.c
+> index 1ed4cda7f0..581b6a40df 100644
+> --- a/src/qemu/qemu_capabilities.c
+> +++ b/src/qemu/qemu_capabilities.c
+> @@ -672,6 +672,9 @@ VIR_ENUM_IMPL(virQEMUCaps,
+>                "virtio-iommu-pci", /* QEMU_CAPS_DEVICE_VIRTIO_IOMMU_PCI */
+>                "virtio-iommu.boot-bypass", /* QEMU_CAPS_VIRTIO_IOMMU_BOOT_BYPASS */
+>                "virtio-net.rss", /* QEMU_CAPS_VIRTIO_NET_RSS */
+> +
+> +              /* 430 */
+> +              "migrate-multifd", /* QEMU_CAPS_MIGRATE_MULTIFD */
+>      );
+>
+>
+> @@ -1230,6 +1233,7 @@ struct virQEMUCapsStringFlags virQEMUCapsCommands[] = {
+>
+>  struct virQEMUCapsStringFlags virQEMUCapsMigration[] = {
+>      { "rdma-pin-all", QEMU_CAPS_MIGRATE_RDMA },
+> +    { "multifd", QEMU_CAPS_MIGRATE_MULTIFD },
+>  };
+>
+>  /* Use virQEMUCapsQMPSchemaQueries for querying parameters of events */
+> diff --git a/src/qemu/qemu_capabilities.h b/src/qemu/qemu_capabilities.h
+> index 9b240e47fb..b089f83da1 100644
+> --- a/src/qemu/qemu_capabilities.h
+> +++ b/src/qemu/qemu_capabilities.h
+> @@ -648,6 +648,9 @@ typedef enum { /* virQEMUCapsFlags grouping marker for syntax-check */
+>      QEMU_CAPS_VIRTIO_IOMMU_BOOT_BYPASS, /* virtio-iommu.boot-bypass */
+>      QEMU_CAPS_VIRTIO_NET_RSS, /* virtio-net rss feature */
+>
+> +    /* 430 */
+> +    QEMU_CAPS_MIGRATE_MULTIFD, /* migrate can set multifd parameter */
+> +
+>      QEMU_CAPS_LAST /* this must always be the last item */
+>  } virQEMUCapsFlags;
+>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml
+> index 5adf904fc4..4ca2cfa81c 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml
+> @@ -148,6 +148,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>61700240</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml
+> index a84adc2610..1db978eb4c 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml
+> @@ -153,6 +153,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>42900240</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml b/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml
+> index c494254c4d..251d4dfd29 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml
+> @@ -145,6 +145,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>0</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml
+> index d2582fa297..a4af47c6a4 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml
+> @@ -145,6 +145,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>0</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml b/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml
+> index 4f36186044..2bab764867 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml
+> @@ -115,6 +115,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>39100240</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml
+> index 18e5ebd4f4..aa8a9812e5 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml
+> @@ -188,6 +188,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100240</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml
+> index 12c5ebe6f3..bd89f0c6b2 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml
+> @@ -195,6 +195,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4001000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100241</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml
+> index ee536b7b63..369ef707b9 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml
+> @@ -163,6 +163,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4001050</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>61700242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml
+> index 10f5a9e2c5..16c867a46b 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml
+> @@ -160,6 +160,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4001050</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>42900242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml b/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml
+> index 069777a49b..b584ba7352 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml
+> @@ -128,6 +128,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>39100242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
+> index 6b61214a0b..5023028678 100644
+> --- a/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
+> @@ -206,6 +206,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='virtio-blk.queue-size'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>4002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
+> index 4fd02e786d..c45b2e6cf6 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
+> @@ -175,6 +175,7 @@
+>    <flag name='virtio-blk.queue-size'/>
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>61700241</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml
+> index f2f3558fdc..a3ad743d70 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml
+> @@ -181,6 +181,7 @@
+>    <flag name='virtio-blk.queue-size'/>
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>42900241</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml
+> index 557949d6d6..e1b5cac26b 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml
+> @@ -167,6 +167,7 @@
+>    <flag name='virtio-blk.queue-size'/>
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>0</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
+> index f301d8a926..796adb9066 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
+> @@ -215,6 +215,7 @@
+>    <flag name='virtio-blk.queue-size'/>
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100241</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml b/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml
+> index 3a330ebdc0..cb203df125 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml
+> @@ -87,6 +87,7 @@
+>    <flag name='input-linux'/>
+>    <flag name='query-display-options'/>
+>    <flag name='memory-backend-file.prealloc-threads'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5001000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>0</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml
+> index 53fcbf3417..7479d942a2 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml
+> @@ -219,6 +219,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5001000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml
+> index 824224302c..268d1444ad 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml
+> @@ -182,6 +182,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>61700243</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml
+> index b949f88b5a..eabf4b600c 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml
+> @@ -186,6 +186,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>42900243</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml
+> index 873923992d..0dbaf5a5ec 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml
+> @@ -172,6 +172,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>0</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml b/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml
+> index 5e9560d7b7..b0fbab9cb5 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml
+> @@ -140,6 +140,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>39100243</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml
+> index 3998da9253..1a1717bf2a 100644
+> --- a/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml
+> @@ -223,6 +223,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>5002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100243</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml
+> index 51d3628eeb..1c18d122e2 100644
+> --- a/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml
+> @@ -190,6 +190,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>61700242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml b/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml
+> index 2e5d0f197a..8fa4cb2307 100644
+> --- a/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml
+> +++ b/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml
+> @@ -148,6 +148,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>39100242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml
+> index 3498d6255b..70c67202b1 100644
+> --- a/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml
+> @@ -232,6 +232,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100242</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
+> index ddeca62290..a5ec77878f 100644
+> --- a/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
+> @@ -236,6 +236,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6001000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100243</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml
+> index 5538940372..92d8ceff7e 100644
+> --- a/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml
+> @@ -201,6 +201,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6001050</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>61700244</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml
+> index 9c9d9aa08e..f219912927 100644
+> --- a/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml
+> @@ -197,6 +197,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>42900244</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
+> index dba5ecaf87..38fd3878ea 100644
+> --- a/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
+> @@ -238,6 +238,7 @@
+>    <flag name='memory-backend-file.prealloc-threads'/>
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6002000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100244</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml
+> index 257b0f625d..522e225c8f 100644
+> --- a/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml
+> @@ -209,6 +209,7 @@
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-iommu.boot-bypass'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6002092</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>61700243</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml
+> index 1ddca7d767..1eb43799c0 100644
+> --- a/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml
+> @@ -210,6 +210,7 @@
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-iommu.boot-bypass'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>6002092</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>42900243</microcodeVersion>
+> diff --git a/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
+> index 8074c97ecd..e5023c4219 100644
+> --- a/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
+> +++ b/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
+> @@ -242,6 +242,7 @@
+>    <flag name='virtio-iommu-pci'/>
+>    <flag name='virtio-iommu.boot-bypass'/>
+>    <flag name='virtio-net.rss'/>
+> +  <flag name='migrate-multifd'/>
+>    <version>7000000</version>
+>    <kvmVersion>0</kvmVersion>
+>    <microcodeVersion>43100243</microcodeVersion>
+> --
+> 2.35.3
+>
 
