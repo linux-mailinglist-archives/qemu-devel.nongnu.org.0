@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1B551FD85
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:05:55 +0200 (CEST)
-Received: from localhost ([::1]:57558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920AA51FDB4
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:13:48 +0200 (CEST)
+Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no35F-0001yC-U9
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37256)
+	id 1no3Ct-0005Vf-La
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1no2tU-0006Wb-Th
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58696)
+ id 1no2tV-0006Yq-SS
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1no2tS-0002sx-Le
- for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:44 -0400
+ id 1no2tS-0002tL-Nc
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 08:53:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652100818;
+ s=mimecast20190719; t=1652100820;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/xDVvJnArqR3VD2uwMLEMEgsowketa+wzpu8OK9R2/4=;
- b=Jq4wAGdILXQlC5q3HD89yuDBNU+1ULlNNRJSw+Ee6+5GrdqCdlWi6GsViA6EM6f81+q2Gb
- +0d72MByKekfxN9rYEj/cI8mBbPPSNB0Maexff98kYp7iq2PVZZUUe+eKlwtQww2neWLR7
- AiVaI8hWgXdVS0JAp7oz6vG5jNLCHcc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S0Bt7UWE+CKYFGau+ZVL9OtrPmqduOEiEILSb/Y4I8M=;
+ b=YmaX2+9RFE4Ha7EecnuOt1LA7iZHjOmKs53VQN3pxU+GQrgPqT+I9VTlDzN5Y/BknROJyb
+ xeP3zLVyQKGYDo8VHLGNYHE/UnmWQzxZimw2F3whP34xbX6p5KFVS1ZDpAjar5FOMG0DJc
+ F4IKK48YERJ056xVRZ5PHwqQ3rEDSGM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-646-v3WXwmV2MJeQ4VAhserqjA-1; Mon, 09 May 2022 08:53:35 -0400
-X-MC-Unique: v3WXwmV2MJeQ4VAhserqjA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-321-sCDB04v9PGOZtHz4sVaxgQ-1; Mon, 09 May 2022 08:53:37 -0400
+X-MC-Unique: sCDB04v9PGOZtHz4sVaxgQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2F843831C46;
- Mon,  9 May 2022 12:53:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E80EC100BAAB;
+ Mon,  9 May 2022 12:53:36 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F386C111E3F8;
- Mon,  9 May 2022 12:53:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FA9043EA07;
+ Mon,  9 May 2022 12:53:36 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: <qemu-block@nongnu.org>, Richard Henderson <richard.henderson@linaro.org>,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 3/9] util/event-loop-base: Introduce options to set the thread
- pool size
-Date: Mon,  9 May 2022 13:53:09 +0100
-Message-Id: <20220509125315.3746865-4-stefanha@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 4/9] virtio-scsi: fix ctrl and event handler functions in
+ dataplane mode
+Date: Mon,  9 May 2022 13:53:10 +0100
+Message-Id: <20220509125315.3746865-5-stefanha@redhat.com>
 In-Reply-To: <20220509125315.3746865-1-stefanha@redhat.com>
 References: <20220509125315.3746865-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -66,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,375 +80,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Commit f34e8d8b8d48d73f36a67b6d5e492ef9784b5012 ("virtio-scsi: prepare
+virtio_scsi_handle_cmd for dataplane") prepared the virtio-scsi cmd
+virtqueue handler function to be used in both the dataplane and
+non-datpalane code paths.
 
-The thread pool regulates itself: when idle, it kills threads until
-empty, when in demand, it creates new threads until full. This behaviour
-doesn't play well with latency sensitive workloads where the price of
-creating a new thread is too high. For example, when paired with qemu's
-'-mlock', or using safety features like SafeStack, creating a new thread
-has been measured take multiple milliseconds.
+It failed to convert the ctrl and event virtqueue handler functions,
+which are not designed to be called from the dataplane code path but
+will be since the ioeventfd is set up for those virtqueues when
+dataplane starts.
 
-In order to mitigate this let's introduce a new 'EventLoopBase'
-property to set the thread pool size. The threads will be created during
-the pool's initialization or upon updating the property's value, remain
-available during its lifetime regardless of demand, and destroyed upon
-freeing it. A properly characterized workload will then be able to
-configure the pool to avoid any latency spikes.
+Convert the ctrl and event virtqueue handler functions now so they
+operate correctly when called from the dataplane code path. Avoid code
+duplication by extracting this code into a helper function.
 
-Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Message-id: 20220425075723.20019-4-nsaenzju@redhat.com
+Fixes: f34e8d8b8d48d73f36a67b6d5e492ef9784b5012 ("virtio-scsi: prepare virtio_scsi_handle_cmd for dataplane")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-id: 20220427143541.119567-2-stefanha@redhat.com
+[Fixed s/by used/be used/ typo pointed out by Michael Tokarev
+<mjt@tls.msk.ru>.
+--Stefan]
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- qapi/qom.json                    | 10 +++++-
- include/block/aio.h              | 10 ++++++
- include/block/thread-pool.h      |  3 ++
- include/sysemu/event-loop-base.h |  4 +++
- event-loop-base.c                | 23 +++++++++++++
- iothread.c                       |  3 ++
- util/aio-posix.c                 |  1 +
- util/async.c                     | 20 ++++++++++++
- util/main-loop.c                 |  9 ++++++
- util/thread-pool.c               | 55 +++++++++++++++++++++++++++++---
- 10 files changed, 133 insertions(+), 5 deletions(-)
+ hw/scsi/virtio-scsi.c | 42 +++++++++++++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 15 deletions(-)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 7d4a2ac1b9..6a653c6636 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -508,10 +508,18 @@
- #                 0 means that the engine will use its default.
- #                 (default: 0)
- #
-+# @thread-pool-min: minimum number of threads reserved in the thread pool
-+#                   (default:0)
-+#
-+# @thread-pool-max: maximum number of threads the thread pool can contain
-+#                   (default:64)
-+#
- # Since: 7.1
- ##
- { 'struct': 'EventLoopBaseProperties',
--  'data': { '*aio-max-batch': 'int' } }
-+  'data': { '*aio-max-batch': 'int',
-+            '*thread-pool-min': 'int',
-+            '*thread-pool-max': 'int' } }
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 34a968ecfb..417fbc71d6 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -472,16 +472,32 @@ bool virtio_scsi_handle_ctrl_vq(VirtIOSCSI *s, VirtQueue *vq)
+     return progress;
+ }
  
- ##
- # @IothreadProperties:
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 5634173b12..d128558f1d 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -192,6 +192,8 @@ struct AioContext {
-     QSLIST_HEAD(, Coroutine) scheduled_coroutines;
-     QEMUBH *co_schedule_bh;
- 
-+    int thread_pool_min;
-+    int thread_pool_max;
-     /* Thread pool for performing work and receiving completion callbacks.
-      * Has its own locking.
-      */
-@@ -769,4 +771,12 @@ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
- void aio_context_set_aio_params(AioContext *ctx, int64_t max_batch,
-                                 Error **errp);
- 
-+/**
-+ * aio_context_set_thread_pool_params:
-+ * @ctx: the aio context
-+ * @min: min number of threads to have readily available in the thread pool
-+ * @min: max number of threads the thread pool can contain
++/*
++ * If dataplane is configured but not yet started, do so now and return true on
++ * success.
++ *
++ * Dataplane is started by the core virtio code but virtqueue handler functions
++ * can also be invoked when a guest kicks before DRIVER_OK, so this helper
++ * function helps us deal with manually starting ioeventfd in that case.
 + */
-+void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
-+                                        int64_t max, Error **errp);
- #endif
-diff --git a/include/block/thread-pool.h b/include/block/thread-pool.h
-index 7dd7d730a0..2020bcc92d 100644
---- a/include/block/thread-pool.h
-+++ b/include/block/thread-pool.h
-@@ -20,6 +20,8 @@
- 
- #include "block/block.h"
- 
-+#define THREAD_POOL_MAX_THREADS_DEFAULT         64
-+
- typedef int ThreadPoolFunc(void *opaque);
- 
- typedef struct ThreadPool ThreadPool;
-@@ -33,5 +35,6 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
- int coroutine_fn thread_pool_submit_co(ThreadPool *pool,
-         ThreadPoolFunc *func, void *arg);
- void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg);
-+void thread_pool_update_params(ThreadPool *pool, struct AioContext *ctx);
- 
- #endif
-diff --git a/include/sysemu/event-loop-base.h b/include/sysemu/event-loop-base.h
-index fced4c9fea..2748bf6ae1 100644
---- a/include/sysemu/event-loop-base.h
-+++ b/include/sysemu/event-loop-base.h
-@@ -33,5 +33,9 @@ struct EventLoopBase {
- 
-     /* AioContext AIO engine parameters */
-     int64_t aio_max_batch;
-+
-+    /* AioContext thread pool parameters */
-+    int64_t thread_pool_min;
-+    int64_t thread_pool_max;
- };
- #endif
-diff --git a/event-loop-base.c b/event-loop-base.c
-index e7f99a6ec8..d5be4dc6fc 100644
---- a/event-loop-base.c
-+++ b/event-loop-base.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "qom/object_interfaces.h"
- #include "qapi/error.h"
-+#include "block/thread-pool.h"
- #include "sysemu/event-loop-base.h"
- 
- typedef struct {
-@@ -21,9 +22,22 @@ typedef struct {
-     ptrdiff_t offset; /* field's byte offset in EventLoopBase struct */
- } EventLoopBaseParamInfo;
- 
-+static void event_loop_base_instance_init(Object *obj)
++static bool virtio_scsi_defer_to_dataplane(VirtIOSCSI *s)
 +{
-+    EventLoopBase *base = EVENT_LOOP_BASE(obj);
-+
-+    base->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
-+}
-+
- static EventLoopBaseParamInfo aio_max_batch_info = {
-     "aio-max-batch", offsetof(EventLoopBase, aio_max_batch),
- };
-+static EventLoopBaseParamInfo thread_pool_min_info = {
-+    "thread-pool-min", offsetof(EventLoopBase, thread_pool_min),
-+};
-+static EventLoopBaseParamInfo thread_pool_max_info = {
-+    "thread-pool-max", offsetof(EventLoopBase, thread_pool_max),
-+};
- 
- static void event_loop_base_get_param(Object *obj, Visitor *v,
-         const char *name, void *opaque, Error **errp)
-@@ -95,12 +109,21 @@ static void event_loop_base_class_init(ObjectClass *klass, void *class_data)
-                               event_loop_base_get_param,
-                               event_loop_base_set_param,
-                               NULL, &aio_max_batch_info);
-+    object_class_property_add(klass, "thread-pool-min", "int",
-+                              event_loop_base_get_param,
-+                              event_loop_base_set_param,
-+                              NULL, &thread_pool_min_info);
-+    object_class_property_add(klass, "thread-pool-max", "int",
-+                              event_loop_base_get_param,
-+                              event_loop_base_set_param,
-+                              NULL, &thread_pool_max_info);
- }
- 
- static const TypeInfo event_loop_base_info = {
-     .name = TYPE_EVENT_LOOP_BASE,
-     .parent = TYPE_OBJECT,
-     .instance_size = sizeof(EventLoopBase),
-+    .instance_init = event_loop_base_instance_init,
-     .class_size = sizeof(EventLoopBaseClass),
-     .class_init = event_loop_base_class_init,
-     .abstract = true,
-diff --git a/iothread.c b/iothread.c
-index 8fa2f3bfb8..529194a566 100644
---- a/iothread.c
-+++ b/iothread.c
-@@ -174,6 +174,9 @@ static void iothread_set_aio_context_params(EventLoopBase *base, Error **errp)
-     aio_context_set_aio_params(iothread->ctx,
-                                iothread->parent_obj.aio_max_batch,
-                                errp);
-+
-+    aio_context_set_thread_pool_params(iothread->ctx, base->thread_pool_min,
-+                                       base->thread_pool_max, errp);
- }
- 
- 
-diff --git a/util/aio-posix.c b/util/aio-posix.c
-index be0182a3c6..731f3826c0 100644
---- a/util/aio-posix.c
-+++ b/util/aio-posix.c
-@@ -15,6 +15,7 @@
- 
- #include "qemu/osdep.h"
- #include "block/block.h"
-+#include "block/thread-pool.h"
- #include "qemu/main-loop.h"
- #include "qemu/rcu.h"
- #include "qemu/rcu_queue.h"
-diff --git a/util/async.c b/util/async.c
-index 2ea1172f3e..554ba70cca 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -563,6 +563,9 @@ AioContext *aio_context_new(Error **errp)
- 
-     ctx->aio_max_batch = 0;
- 
-+    ctx->thread_pool_min = 0;
-+    ctx->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
-+
-     return ctx;
- fail:
-     g_source_destroy(&ctx->source);
-@@ -696,3 +699,20 @@ void qemu_set_current_aio_context(AioContext *ctx)
-     assert(!get_my_aiocontext());
-     set_my_aiocontext(ctx);
- }
-+
-+void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
-+                                        int64_t max, Error **errp)
-+{
-+
-+    if (min > max || !max || min > INT_MAX || max > INT_MAX) {
-+        error_setg(errp, "bad thread-pool-min/thread-pool-max values");
-+        return;
++    if (!s->ctx || s->dataplane_started) {
++        return false;
 +    }
 +
-+    ctx->thread_pool_min = min;
-+    ctx->thread_pool_max = max;
-+
-+    if (ctx->thread_pool) {
-+        thread_pool_update_params(ctx->thread_pool, ctx);
-+    }
++    virtio_device_start_ioeventfd(&s->parent_obj.parent_obj);
++    return !s->dataplane_fenced;
 +}
-diff --git a/util/main-loop.c b/util/main-loop.c
-index e30f034815..f00a25451b 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -30,6 +30,7 @@
- #include "sysemu/replay.h"
- #include "qemu/main-loop.h"
- #include "block/aio.h"
-+#include "block/thread-pool.h"
- #include "qemu/error-report.h"
- #include "qemu/queue.h"
- #include "qemu/compiler.h"
-@@ -187,12 +188,20 @@ int qemu_init_main_loop(Error **errp)
- 
- static void main_loop_update_params(EventLoopBase *base, Error **errp)
++
+ static void virtio_scsi_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
  {
-+    ERRP_GUARD();
-+
-     if (!qemu_aio_context) {
-         error_setg(errp, "qemu aio context not ready");
-         return;
+     VirtIOSCSI *s = (VirtIOSCSI *)vdev;
+ 
+-    if (s->ctx) {
+-        virtio_device_start_ioeventfd(vdev);
+-        if (!s->dataplane_fenced) {
+-            return;
+-        }
++    if (virtio_scsi_defer_to_dataplane(s)) {
++        return;
      }
++
+     virtio_scsi_acquire(s);
+     virtio_scsi_handle_ctrl_vq(s, vq);
+     virtio_scsi_release(s);
+@@ -720,12 +736,10 @@ static void virtio_scsi_handle_cmd(VirtIODevice *vdev, VirtQueue *vq)
+     /* use non-QOM casts in the data path */
+     VirtIOSCSI *s = (VirtIOSCSI *)vdev;
  
-     aio_context_set_aio_params(qemu_aio_context, base->aio_max_batch, errp);
-+    if (*errp) {
+-    if (s->ctx && !s->dataplane_started) {
+-        virtio_device_start_ioeventfd(vdev);
+-        if (!s->dataplane_fenced) {
+-            return;
+-        }
++    if (virtio_scsi_defer_to_dataplane(s)) {
 +        return;
-+    }
+     }
 +
-+    aio_context_set_thread_pool_params(qemu_aio_context, base->thread_pool_min,
-+                                       base->thread_pool_max, errp);
- }
- 
- MainLoop *mloop;
-diff --git a/util/thread-pool.c b/util/thread-pool.c
-index d763cea505..196835b4d3 100644
---- a/util/thread-pool.c
-+++ b/util/thread-pool.c
-@@ -58,7 +58,6 @@ struct ThreadPool {
-     QemuMutex lock;
-     QemuCond worker_stopped;
-     QemuSemaphore sem;
--    int max_threads;
-     QEMUBH *new_thread_bh;
- 
-     /* The following variables are only accessed from one AioContext. */
-@@ -71,8 +70,27 @@ struct ThreadPool {
-     int new_threads;     /* backlog of threads we need to create */
-     int pending_threads; /* threads created but not running yet */
-     bool stopping;
-+    int min_threads;
-+    int max_threads;
- };
- 
-+static inline bool back_to_sleep(ThreadPool *pool, int ret)
-+{
-+    /*
-+     * The semaphore timed out, we should exit the loop except when:
-+     *  - There is work to do, we raced with the signal.
-+     *  - The max threads threshold just changed, we raced with the signal.
-+     *  - The thread pool forces a minimum number of readily available threads.
-+     */
-+    if (ret == -1 && (!QTAILQ_EMPTY(&pool->request_list) ||
-+            pool->cur_threads > pool->max_threads ||
-+            pool->cur_threads <= pool->min_threads)) {
-+            return true;
-+    }
-+
-+    return false;
-+}
-+
- static void *worker_thread(void *opaque)
+     virtio_scsi_acquire(s);
+     virtio_scsi_handle_cmd_vq(s, vq);
+     virtio_scsi_release(s);
+@@ -855,12 +869,10 @@ static void virtio_scsi_handle_event(VirtIODevice *vdev, VirtQueue *vq)
  {
-     ThreadPool *pool = opaque;
-@@ -91,8 +109,9 @@ static void *worker_thread(void *opaque)
-             ret = qemu_sem_timedwait(&pool->sem, 10000);
-             qemu_mutex_lock(&pool->lock);
-             pool->idle_threads--;
--        } while (ret == -1 && !QTAILQ_EMPTY(&pool->request_list));
--        if (ret == -1 || pool->stopping) {
-+        } while (back_to_sleep(pool, ret));
-+        if (ret == -1 || pool->stopping ||
-+            pool->cur_threads > pool->max_threads) {
-             break;
-         }
+     VirtIOSCSI *s = VIRTIO_SCSI(vdev);
  
-@@ -294,6 +313,33 @@ void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg)
-     thread_pool_submit_aio(pool, func, arg, NULL, NULL);
- }
- 
-+void thread_pool_update_params(ThreadPool *pool, AioContext *ctx)
-+{
-+    qemu_mutex_lock(&pool->lock);
+-    if (s->ctx) {
+-        virtio_device_start_ioeventfd(vdev);
+-        if (!s->dataplane_fenced) {
+-            return;
+-        }
++    if (virtio_scsi_defer_to_dataplane(s)) {
++        return;
+     }
 +
-+    pool->min_threads = ctx->thread_pool_min;
-+    pool->max_threads = ctx->thread_pool_max;
-+
-+    /*
-+     * We either have to:
-+     *  - Increase the number available of threads until over the min_threads
-+     *    threshold.
-+     *  - Decrease the number of available threads until under the max_threads
-+     *    threshold.
-+     *  - Do nothing. The current number of threads fall in between the min and
-+     *    max thresholds. We'll let the pool manage itself.
-+     */
-+    for (int i = pool->cur_threads; i < pool->min_threads; i++) {
-+        spawn_thread(pool);
-+    }
-+
-+    for (int i = pool->cur_threads; i > pool->max_threads; i--) {
-+        qemu_sem_post(&pool->sem);
-+    }
-+
-+    qemu_mutex_unlock(&pool->lock);
-+}
-+
- static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
- {
-     if (!ctx) {
-@@ -306,11 +352,12 @@ static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
-     qemu_mutex_init(&pool->lock);
-     qemu_cond_init(&pool->worker_stopped);
-     qemu_sem_init(&pool->sem, 0);
--    pool->max_threads = 64;
-     pool->new_thread_bh = aio_bh_new(ctx, spawn_thread_bh_fn, pool);
- 
-     QLIST_INIT(&pool->head);
-     QTAILQ_INIT(&pool->request_list);
-+
-+    thread_pool_update_params(pool, ctx);
- }
- 
- ThreadPool *thread_pool_new(AioContext *ctx)
+     virtio_scsi_acquire(s);
+     virtio_scsi_handle_event_vq(s, vq);
+     virtio_scsi_release(s);
 -- 
 2.35.1
 
