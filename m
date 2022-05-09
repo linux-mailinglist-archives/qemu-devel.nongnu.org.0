@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CA851FB37
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:23:51 +0200 (CEST)
-Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3DA51FB19
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 13:14:17 +0200 (CEST)
+Received: from localhost ([::1]:47336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no1UQ-0004rI-D0
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
+	id 1no1LE-0004LK-E2
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 07:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1no0jI-000075-L0; Mon, 09 May 2022 06:35:04 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:39450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1no0jG-0003Of-K8; Mon, 09 May 2022 06:35:04 -0400
-Received: by mail-oi1-x230.google.com with SMTP id l16so14658014oil.6;
- Mon, 09 May 2022 03:35:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x8j58kTuBSwXnNgXCreJ83+5ltHGmhJZwXmznaSkicY=;
- b=Ir1MyHZD0F2Kg11AbemGpfwaMf9GgZg+UH/jS6gubhnUgYhaNvlBQQvX2Pjdz/oGou
- bnbJqdbDfJ2ZaVgpD/ictyXHBapt9sxOuFDVzsu2h+xo9YLX3JveaDMck7BW8tKz0kL+
- SssQEvKvFf7kMzyLOePbTVD5rlmBa7vMpt+I81RX6FTVzWLsEG03k+vss12lyQjKwXvF
- WYRaA/D+b5lXy/msMoSLGF8R47p4vNw9/Cc/LDUBy5T9auUwlCBdI70oaX2WlN/mNbuh
- g4vxBCGBiW5mC7d/d+JFQkJHtpw7Ezdc8thxv92E8kKB4s/FXSA/fpoNM1gdKQxRPeTT
- 5ohg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x8j58kTuBSwXnNgXCreJ83+5ltHGmhJZwXmznaSkicY=;
- b=ZbatRJTd/GTGMgi5x8q0UhOiig4kry7HREcR1v5D9nvp99secFJU0dY0G1AKFoJFmM
- xOp+PmgS/AZl+aWmq5wxEMpXVU/Yw6BN1fUEH9U9F3KApBK0B9nOm6ShJUWg3uccm//7
- KKKmv6nH0U2c4Rfz9Yu+MFkg6sjQYKNrYZHX/cnbqUHgPEHazsuMXHnbdp1wll7YghRP
- l96xez6E+r23blUe7uQIM+7ASrmN1fsiSIiCyVCkOBARagObZOQEa7tw3ZP7U5wCG0wJ
- vro4mGyGS1cbTyExwjLV7DNvEBOEyc0fuecaURK4yhBd/UrYmixy+8rFmbBrg8RrQ6O/
- rpug==
-X-Gm-Message-State: AOAM532t78oOtsPaJI8DxOXbHT+gLHG/R4gDgu8XJwLLHuWB2JhlWUaG
- I0/W1t7c/zM9EzhLtsOG1AYzLvqCbl6krSlEa3Y=
-X-Google-Smtp-Source: ABdhPJyPMeMmYg27T5yar15eB9qRzgiM+MKS7U6SEDVqNGmAfMc20Lqgl0iDDeiHpzFahPO/Pld8SCm6TbSo4U1qhIQ=
-X-Received: by 2002:a05:6808:1928:b0:325:2113:59c5 with SMTP id
- bf40-20020a056808192800b00325211359c5mr7000950oib.136.1652092500058; Mon, 09
- May 2022 03:35:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1no0kL-0001Oz-St
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:36:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25405)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1no0kI-0003oS-Uz
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:36:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652092566;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=OGhkWkklnHoQ4VH901CWz85W2EGHzTqRxiN90r7+ols=;
+ b=iOEbEJTTQKvMcGMMlbzlXygtHs/ZgoVkaunU1CP+7qM3mtMjPg/mjrAGPB7Z4MDYk97Tfo
+ ptdMxfW9kijuv+IFdb/Bzci1rGrLSqwb9MzC/ARhC6f1kR2EixC4fWniIdTZc4I0ylLq6u
+ yae8PeKt13wD3LDq5ayqVOqXMjJ/gEo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-359-2AYXvkE-PcKkGbLg4d2Avw-1; Mon, 09 May 2022 06:36:05 -0400
+X-MC-Unique: 2AYXvkE-PcKkGbLg4d2Avw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1540A3C1618A
+ for <qemu-devel@nongnu.org>; Mon,  9 May 2022 10:36:05 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F2541469384;
+ Mon,  9 May 2022 10:36:04 +0000 (UTC)
+Date: Mon, 9 May 2022 11:36:02 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] crypto: make loaded property read-only
+Message-ID: <YnjukuIbHbuk36zj@redhat.com>
+References: <20220509101907.212687-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20220505084208.2338968-1-stefanha@redhat.com>
- <ae41daa5-4c10-b805-59e5-442c43876036@linaro.org>
-In-Reply-To: <ae41daa5-4c10-b805-59e5-442c43876036@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 9 May 2022 11:34:49 +0100
-Message-ID: <CAJSP0QXTrqdGhyf4b8sxC2Qmj_Gws4sr3XDBq=-vj_sEuaKCQA@mail.gmail.com>
-Subject: Re: [PULL 0/3] Block patches
-To: Richard Henderson <richard.henderson@linaro.org>, 
- Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- qemu block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=stefanha@gmail.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220509101907.212687-1-pbonzini@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,132 +76,347 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 May 2022 at 17:43, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/5/22 03:42, Stefan Hajnoczi wrote:
-> > The following changes since commit 9cf289af47bcfae5c75de37d8e5d6fd23705322c:
-> >
-> >    Merge tag 'qga-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-05-04 03:42:49 -0700)
-> >
-> > are available in the Git repository at:
-> >
-> >    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-> >
-> > for you to fetch changes up to bef2e050d6a7feb865854c65570c496ac5a8cf53:
-> >
-> >    util/event-loop-base: Introduce options to set the thread pool size (2022-05-04 17:02:19 +0100)
-> >
-> > ----------------------------------------------------------------
-> > Pull request
-> >
-> > Add new thread-pool-min/thread-pool-max parameters to control the thread pool
-> > used for async I/O.
-> >
-> > ----------------------------------------------------------------
-> >
-> > Nicolas Saenz Julienne (3):
-> >    Introduce event-loop-base abstract class
-> >    util/main-loop: Introduce the main loop into QOM
-> >    util/event-loop-base: Introduce options to set the thread pool size
-> >
-> >   qapi/qom.json                    |  43 ++++++++--
-> >   meson.build                      |  26 +++---
-> >   include/block/aio.h              |  10 +++
-> >   include/block/thread-pool.h      |   3 +
-> >   include/qemu/main-loop.h         |  10 +++
-> >   include/sysemu/event-loop-base.h |  41 +++++++++
-> >   include/sysemu/iothread.h        |   6 +-
-> >   event-loop-base.c                | 140 +++++++++++++++++++++++++++++++
-> >   iothread.c                       |  68 +++++----------
-> >   util/aio-posix.c                 |   1 +
-> >   util/async.c                     |  20 +++++
-> >   util/main-loop.c                 |  65 ++++++++++++++
-> >   util/thread-pool.c               |  55 +++++++++++-
-> >   13 files changed, 419 insertions(+), 69 deletions(-)
-> >   create mode 100644 include/sysemu/event-loop-base.h
-> >   create mode 100644 event-loop-base.c
-> >
->
-> This appears to introduce a new error on msys2-64bit:
->
->
-> 14/85 qemu:unit / test-aio                                          ERROR           2.14s
->    exit status 3
->  >>> MALLOC_PERTURB_=82 G_TEST_SRCDIR=C:/GitLab-Runner/builds/qemu-project/qemu/tests/unit
-> G_TEST_BUILDDIR=C:/GitLab-Runner/builds/qemu-project/qemu/build/tests/unit
-> C:/GitLab-Runner/builds/qemu-project/qemu/build/tests/unit/test-aio.exe --tap -k
-> ------------------------------------- 8< -------------------------------------
-> stderr:
-> (test program exited with status code 3)
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/2418935125
->
-> Are you in a position to test this yourself locally?
+On Mon, May 09, 2022 at 12:19:07PM +0200, Paolo Bonzini wrote:
+> The ``loaded=on`` option in the command line or QMP ``object-add`` either had
+> no effect (if ``loaded`` was the last option) or caused options to be
+> effectively ignored as if they were not given.  The property is therefore
+> useless and was deprecated in 6.0; make it read-only now.
 
-I haven't reproduced it yet but will dig a bit more.
+Why read-only, as opposed to deleting it entirely ? Unless I'm missing
+something, nothing will read the property either
 
-test-aio.exe succeeds under Wine:
-# random seed: R02S572ad8b9cfeac92bb23a64678114e66d
-1..29
-# Start of aio tests
-ok 1 /aio/acquire
-ok 2 /aio/external-client
-# Start of bh tests
-ok 3 /aio/bh/schedule
-ok 4 /aio/bh/schedule10
-ok 5 /aio/bh/cancel
-ok 6 /aio/bh/delete
-ok 7 /aio/bh/flush
-# Start of callback-delete tests
-ok 8 /aio/bh/callback-delete/one
-ok 9 /aio/bh/callback-delete/many
-# End of callback-delete tests
-# End of bh tests
-# Start of event tests
-ok 10 /aio/event/add-remove
-ok 11 /aio/event/wait
-ok 12 /aio/event/flush
-# Start of wait tests
-ok 13 /aio/event/wait/no-flush-cb
-# End of wait tests
-# End of event tests
-# Start of timer tests
-ok 14 /aio/timer/schedule
-# End of timer tests
-# Start of coroutine tests
-ok 15 /aio/coroutine/queue-chaining
-ok 16 /aio/coroutine/worker-thread-co-enter
-# End of coroutine tests
-# End of aio tests
-# Start of aio-gsource tests
-ok 17 /aio-gsource/flush
-# Start of bh tests
-ok 18 /aio-gsource/bh/schedule
-ok 19 /aio-gsource/bh/schedule10
-ok 20 /aio-gsource/bh/cancel
-ok 21 /aio-gsource/bh/delete
-ok 22 /aio-gsource/bh/flush
-# Start of callback-delete tests
-ok 23 /aio-gsource/bh/callback-delete/one
-ok 24 /aio-gsource/bh/callback-delete/many
-# End of callback-delete tests
-# End of bh tests
-# Start of event tests
-ok 25 /aio-gsource/event/add-remove
-ok 26 /aio-gsource/event/wait
-ok 27 /aio-gsource/event/flush
-# Start of wait tests
-ok 28 /aio-gsource/event/wait/no-flush-cb
-# End of wait tests
-# End of event tests
-# Start of timer tests
-ok 29 /aio-gsource/timer/schedule
-# End of timer tests
-# End of aio-gsource tests
+> 
+> The patch is best reviewed with "-b".
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  crypto/secret_common.c          | 84 ++++++++++++++-------------------
+>  crypto/tlscredsanon.c           | 20 ++------
+>  crypto/tlscredspsk.c            | 20 ++------
+>  crypto/tlscredsx509.c           | 20 ++------
+>  docs/about/deprecated.rst       | 10 ----
+>  docs/about/removed-features.rst |  8 ++++
+>  6 files changed, 55 insertions(+), 107 deletions(-)
+> 
+> diff --git a/crypto/secret_common.c b/crypto/secret_common.c
+> index 714a15d5e5..3441c44ca8 100644
+> --- a/crypto/secret_common.c
+> +++ b/crypto/secret_common.c
+> @@ -138,36 +138,44 @@ static void qcrypto_secret_decode(const uint8_t *input,
+>  
+>  
+>  static void
+> -qcrypto_secret_prop_set_loaded(Object *obj,
+> -                               bool value,
+> -                               Error **errp)
+> +qcrypto_secret_complete(UserCreatable *uc, Error **errp)
+>  {
+> -    QCryptoSecretCommon *secret = QCRYPTO_SECRET_COMMON(obj);
+> +    QCryptoSecretCommon *secret = QCRYPTO_SECRET_COMMON(uc);
+>      QCryptoSecretCommonClass *sec_class
+> -                                = QCRYPTO_SECRET_COMMON_GET_CLASS(obj);
+> +                                = QCRYPTO_SECRET_COMMON_GET_CLASS(uc);
+>  
+> -    if (value) {
+> -        Error *local_err = NULL;
+> -        uint8_t *input = NULL;
+> -        size_t inputlen = 0;
+> -        uint8_t *output = NULL;
+> -        size_t outputlen = 0;
+> +    Error *local_err = NULL;
+> +    uint8_t *input = NULL;
+> +    size_t inputlen = 0;
+> +    uint8_t *output = NULL;
+> +    size_t outputlen = 0;
+>  
+> -        if (sec_class->load_data) {
+> -            sec_class->load_data(secret, &input, &inputlen, &local_err);
+> -            if (local_err) {
+> -                error_propagate(errp, local_err);
+> -                return;
+> -            }
+> -        } else {
+> -            error_setg(errp, "%s provides no 'load_data' method'",
+> -                             object_get_typename(obj));
+> +    if (sec_class->load_data) {
+> +        sec_class->load_data(secret, &input, &inputlen, &local_err);
+> +        if (local_err) {
+> +            error_propagate(errp, local_err);
+>              return;
+>          }
+> +    } else {
+> +        error_setg(errp, "%s provides no 'load_data' method'",
+> +                         object_get_typename(OBJECT(uc)));
+> +        return;
+> +    }
+>  
+> -        if (secret->keyid) {
+> -            qcrypto_secret_decrypt(secret, input, inputlen,
+> -                                   &output, &outputlen, &local_err);
+> +    if (secret->keyid) {
+> +        qcrypto_secret_decrypt(secret, input, inputlen,
+> +                               &output, &outputlen, &local_err);
+> +        g_free(input);
+> +        if (local_err) {
+> +            error_propagate(errp, local_err);
+> +            return;
+> +        }
+> +        input = output;
+> +        inputlen = outputlen;
+> +    } else {
+> +        if (secret->format == QCRYPTO_SECRET_FORMAT_BASE64) {
+> +            qcrypto_secret_decode(input, inputlen,
+> +                                  &output, &outputlen, &local_err);
+>              g_free(input);
+>              if (local_err) {
+>                  error_propagate(errp, local_err);
+> @@ -175,26 +183,11 @@ qcrypto_secret_prop_set_loaded(Object *obj,
+>              }
+>              input = output;
+>              inputlen = outputlen;
+> -        } else {
+> -            if (secret->format == QCRYPTO_SECRET_FORMAT_BASE64) {
+> -                qcrypto_secret_decode(input, inputlen,
+> -                                      &output, &outputlen, &local_err);
+> -                g_free(input);
+> -                if (local_err) {
+> -                    error_propagate(errp, local_err);
+> -                    return;
+> -                }
+> -                input = output;
+> -                inputlen = outputlen;
+> -            }
+>          }
+> -
+> -        secret->rawdata = input;
+> -        secret->rawlen = inputlen;
+> -    } else if (secret->rawdata) {
+> -        error_setg(errp, "Cannot unload secret");
+> -        return;
+>      }
+> +
+> +    secret->rawdata = input;
+> +    secret->rawlen = inputlen;
+>  }
+>  
+>  
+> @@ -268,13 +261,6 @@ qcrypto_secret_prop_get_keyid(Object *obj,
+>  }
+>  
+>  
+> -static void
+> -qcrypto_secret_complete(UserCreatable *uc, Error **errp)
+> -{
+> -    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
+> -}
+> -
+> -
+>  static void
+>  qcrypto_secret_finalize(Object *obj)
+>  {
+> @@ -294,7 +280,7 @@ qcrypto_secret_class_init(ObjectClass *oc, void *data)
+>  
+>      object_class_property_add_bool(oc, "loaded",
+>                                     qcrypto_secret_prop_get_loaded,
+> -                                   qcrypto_secret_prop_set_loaded);
+> +                                   NULL);
+>      object_class_property_add_enum(oc, "format",
+>                                     "QCryptoSecretFormat",
+>                                     &QCryptoSecretFormat_lookup,
+> diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
+> index 6fb83639ec..c0d23a0ef3 100644
+> --- a/crypto/tlscredsanon.c
+> +++ b/crypto/tlscredsanon.c
+> @@ -119,16 +119,11 @@ qcrypto_tls_creds_anon_unload(QCryptoTLSCredsAnon *creds G_GNUC_UNUSED)
+>  
+>  
+>  static void
+> -qcrypto_tls_creds_anon_prop_set_loaded(Object *obj,
+> -                                       bool value,
+> -                                       Error **errp)
+> +qcrypto_tls_creds_anon_complete(UserCreatable *uc, Error **errp)
+>  {
+> -    QCryptoTLSCredsAnon *creds = QCRYPTO_TLS_CREDS_ANON(obj);
+> +    QCryptoTLSCredsAnon *creds = QCRYPTO_TLS_CREDS_ANON(uc);
+>  
+> -    qcrypto_tls_creds_anon_unload(creds);
+> -    if (value) {
+> -        qcrypto_tls_creds_anon_load(creds, errp);
+> -    }
+> +    qcrypto_tls_creds_anon_load(creds, errp);
+>  }
+>  
+>  
+> @@ -163,13 +158,6 @@ qcrypto_tls_creds_anon_prop_get_loaded(Object *obj G_GNUC_UNUSED,
+>  #endif /* ! CONFIG_GNUTLS */
+>  
+>  
+> -static void
+> -qcrypto_tls_creds_anon_complete(UserCreatable *uc, Error **errp)
+> -{
+> -    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
+> -}
+> -
+> -
+>  static void
+>  qcrypto_tls_creds_anon_finalize(Object *obj)
+>  {
+> @@ -188,7 +176,7 @@ qcrypto_tls_creds_anon_class_init(ObjectClass *oc, void *data)
+>  
+>      object_class_property_add_bool(oc, "loaded",
+>                                     qcrypto_tls_creds_anon_prop_get_loaded,
+> -                                   qcrypto_tls_creds_anon_prop_set_loaded);
+> +                                   NULL);
+>  }
+>  
+>  
+> diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
+> index 752f2d92be..a4f9891274 100644
+> --- a/crypto/tlscredspsk.c
+> +++ b/crypto/tlscredspsk.c
+> @@ -188,16 +188,11 @@ qcrypto_tls_creds_psk_unload(QCryptoTLSCredsPSK *creds G_GNUC_UNUSED)
+>  
+>  
+>  static void
+> -qcrypto_tls_creds_psk_prop_set_loaded(Object *obj,
+> -                                      bool value,
+> -                                      Error **errp)
+> +qcrypto_tls_creds_psk_complete(UserCreatable *uc, Error **errp)
+>  {
+> -    QCryptoTLSCredsPSK *creds = QCRYPTO_TLS_CREDS_PSK(obj);
+> +    QCryptoTLSCredsPSK *creds = QCRYPTO_TLS_CREDS_PSK(uc);
+>  
+> -    qcrypto_tls_creds_psk_unload(creds);
+> -    if (value) {
+> -        qcrypto_tls_creds_psk_load(creds, errp);
+> -    }
+> +    qcrypto_tls_creds_psk_load(creds, errp);
+>  }
+>  
+>  
+> @@ -232,13 +227,6 @@ qcrypto_tls_creds_psk_prop_get_loaded(Object *obj G_GNUC_UNUSED,
+>  #endif /* ! CONFIG_GNUTLS */
+>  
+>  
+> -static void
+> -qcrypto_tls_creds_psk_complete(UserCreatable *uc, Error **errp)
+> -{
+> -    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
+> -}
+> -
+> -
+>  static void
+>  qcrypto_tls_creds_psk_finalize(Object *obj)
+>  {
+> @@ -276,7 +264,7 @@ qcrypto_tls_creds_psk_class_init(ObjectClass *oc, void *data)
+>  
+>      object_class_property_add_bool(oc, "loaded",
+>                                     qcrypto_tls_creds_psk_prop_get_loaded,
+> -                                   qcrypto_tls_creds_psk_prop_set_loaded);
+> +                                   NULL);
+>      object_class_property_add_str(oc, "username",
+>                                    qcrypto_tls_creds_psk_prop_get_username,
+>                                    qcrypto_tls_creds_psk_prop_set_username);
+> diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+> index 32948a6bdc..d14313925d 100644
+> --- a/crypto/tlscredsx509.c
+> +++ b/crypto/tlscredsx509.c
+> @@ -687,16 +687,11 @@ qcrypto_tls_creds_x509_unload(QCryptoTLSCredsX509 *creds G_GNUC_UNUSED)
+>  
+>  
+>  static void
+> -qcrypto_tls_creds_x509_prop_set_loaded(Object *obj,
+> -                                       bool value,
+> -                                       Error **errp)
+> +qcrypto_tls_creds_x509_complete(UserCreatable *uc, Error **errp)
+>  {
+> -    QCryptoTLSCredsX509 *creds = QCRYPTO_TLS_CREDS_X509(obj);
+> +    QCryptoTLSCredsX509 *creds = QCRYPTO_TLS_CREDS_X509(uc);
+>  
+> -    qcrypto_tls_creds_x509_unload(creds);
+> -    if (value) {
+> -        qcrypto_tls_creds_x509_load(creds, errp);
+> -    }
+> +    qcrypto_tls_creds_x509_load(creds, errp);
+>  }
+>  
+>  
+> @@ -814,13 +809,6 @@ qcrypto_tls_creds_x509_reload(QCryptoTLSCreds *creds, Error **errp)
+>  #endif /* ! CONFIG_GNUTLS */
+>  
+>  
+> -static void
+> -qcrypto_tls_creds_x509_complete(UserCreatable *uc, Error **errp)
+> -{
+> -    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
+> -}
+> -
+> -
+>  static void
+>  qcrypto_tls_creds_x509_init(Object *obj)
+>  {
+> @@ -852,7 +840,7 @@ qcrypto_tls_creds_x509_class_init(ObjectClass *oc, void *data)
+>  
+>      object_class_property_add_bool(oc, "loaded",
+>                                     qcrypto_tls_creds_x509_prop_get_loaded,
+> -                                   qcrypto_tls_creds_x509_prop_set_loaded);
+> +                                   NULL);
+>      object_class_property_add_bool(oc, "sanity-check",
+>                                     qcrypto_tls_creds_x509_prop_get_sanity,
+>                                     qcrypto_tls_creds_x509_prop_set_sanity);
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 896e5a97ab..2feb0c506c 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -99,16 +99,6 @@ other options have been processed.  This will either have no effect (if
+>  ``opened`` was the last option) or cause errors.  The property is therefore
+>  useless and should not be specified.
+>  
+> -``loaded`` property of ``secret`` and ``secret_keyring`` objects (since 6.0)
+> -''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -The only effect of specifying ``loaded=on`` in the command line or QMP
+> -``object-add`` is that the secret is loaded immediately, possibly before all
+> -other options have been processed.  This will either have no effect (if
+> -``loaded`` was the last option) or cause options to be effectively ignored as
+> -if they were not given.  The property is therefore useless and should not be
+> -specified.
+> -
+>  ``-display sdl,window_close=...`` (since 6.1)
+>  '''''''''''''''''''''''''''''''''''''''''''''
+>  
+> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+> index 4a0b270296..2032608314 100644
+> --- a/docs/about/removed-features.rst
+> +++ b/docs/about/removed-features.rst
+> @@ -741,6 +741,14 @@ aware that there are already potential security risks to blindly using
+>  ``qemu-img info`` to probe the format of an untrusted backing image,
+>  when deciding what format to add into an existing image.
+>  
+> +``loaded`` property of ``secret`` and ``secret_keyring`` objects (removed in 7.1)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +The ``loaded=on`` option in the command line or QMP ``object-add`` either had
+> +no effect (if ``loaded`` was the last option) or caused options to be
+> +effectively ignored as if they were not given.  The property is therefore
+> +useless and should simply be removed.
+> +
+>  Block devices
+>  -------------
+>  
+> -- 
+> 2.35.1
+> 
 
-Stefan
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
