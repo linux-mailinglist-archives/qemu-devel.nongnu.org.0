@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908CF51F490
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 08:32:50 +0200 (CEST)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8BB51F498
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 08:49:55 +0200 (CEST)
+Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnwwr-00026b-48
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 02:32:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49534)
+	id 1nnxDL-00078V-W3
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 02:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nnws6-0000aI-G0
- for qemu-devel@nongnu.org; Mon, 09 May 2022 02:28:07 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38673)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nnws3-00089s-Ck
- for qemu-devel@nongnu.org; Mon, 09 May 2022 02:27:54 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id n10so24789917ejk.5
- for <qemu-devel@nongnu.org>; Sun, 08 May 2022 23:27:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8imME9EbhExSwyNbANoOoghxpvgzo5+0jhHVIHJ4/2U=;
- b=cvrdrOOTBNKvzV/kYJqH4IcLNpRg2PSRsJznCnh7Ir0kjeokliIA/RRvpBHI7a73ka
- WoRWZyOX1iikrzzpOGq0nInEuPf7qloXIVn+AATtPvaHYiXbZWOdSpGqLSf5jgmZXLeV
- N5EkJYMlNsMEdnRH3TsID5cTlQ/yPbjiHHgsplibMLcJKBp264GDVwQjmgCmpSkdsbiC
- W8J0SSXw4E5eSMDqSL9rX6ZXfniwrWo5awHNGe0zDLMEHB7/yXTyZQoE7wPt7n7l91lX
- OljTJHqN+vwN288uV1kkL/z6DxnYLKrRFdL+au29BTvtsjHQ2Huv7v5WaN1s4P0fZWiD
- VaGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8imME9EbhExSwyNbANoOoghxpvgzo5+0jhHVIHJ4/2U=;
- b=JiFwfOfajtFIEehDU7gImsnRCLrdTo/2pezKUSejn2r9n1nVShk4enwiQ4yoWLVh6D
- 715EmiIvxLwUdkCw+EhfoDHlj7rQ1yrACnHN94zofjD04KM40AiRSCR23Uac2eCUgy8X
- +XI6ZGFnWv7XKryJrY7xekz3639Kbz3FxxQeabPNh9MXBSBG5S+nigGgHv5Bf4bGLsQA
- s2WNLkiSdrTKMJjnx3+E1ULLxxDDzatc6iwmdLQa1YU0OSycDYD0nJnQ9U8pPPwhYzC6
- LltI3BbeqZfCP6Qjudw9WEFonv+Eg5kfnsxmXitmSKRVkJpmnYn0zn/XQn3IRcog8cFs
- DWbg==
-X-Gm-Message-State: AOAM533BxV+J9Wev+jCCqH+lL57vYZX3YVei3o0+9KcnjnE5onJcqVVH
- GMwZt2+EcF1QNibNDWLtyifvXIFyE7r/WgpehdmLUQ==
-X-Google-Smtp-Source: ABdhPJywJXZ3ZW/ZJXJs4fA+OeJMnBv6TqfZ1IZU40ftEX1h6oN01W2eYvvKaLTCGomcWuU7EYZlBObP5b1o39yuSA0=
-X-Received: by 2002:a17:907:7247:b0:6f9:bb40:efd8 with SMTP id
- ds7-20020a170907724700b006f9bb40efd8mr4858608ejc.273.1652077668454; Sun, 08
- May 2022 23:27:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ldoktor@redhat.com>)
+ id 1nnx6r-0004rr-BV
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 02:43:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ldoktor@redhat.com>)
+ id 1nnx6n-0001qF-Kl
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 02:43:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652078583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BycyYeEpTTENOkKL+95WjCYt2mqN33Hqse2O2i7Cxjw=;
+ b=QuiBZ2AqJ8lmxHsWtGKLaD03x5BUg5gG+pfWqg7/4AdnQ48Q1YyoZLgxfy4Pm7z1E8eXLQ
+ dzNf7EaBoZmdKGvcTRt5e67KhRGFdyDMHp+xcy14Bc2zurVCMt3KYdmImdRqQHBcNe7E7L
+ 0MqchGQaapAFeKP0TLnkVDHA9zzLJsQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-587-qYVGcC2DMpCU-kPA9lSwuw-1; Mon, 09 May 2022 02:43:01 -0400
+X-MC-Unique: qYVGcC2DMpCU-kPA9lSwuw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 828D7803D46
+ for <qemu-devel@nongnu.org>; Mon,  9 May 2022 06:43:01 +0000 (UTC)
+Received: from [10.40.192.64] (unknown [10.40.192.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F1A61415101;
+ Mon,  9 May 2022 06:43:00 +0000 (UTC)
+Message-ID: <e4b7ed3b-4ac5-6b16-525f-4033199f471c@redhat.com>
+Date: Mon, 9 May 2022 08:42:59 +0200
 MIME-Version: 1.0
-References: <20220507134320.6289-1-cfontana@suse.de>
- <20220507134320.6289-13-cfontana@suse.de>
-In-Reply-To: <20220507134320.6289-13-cfontana@suse.de>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 9 May 2022 11:57:37 +0530
-Message-ID: <CAARzgwzrcYPrnYtktVLaOp2ceTqJpggDuUGXv_V60PeA50Y8Gg@mail.gmail.com>
-Subject: Re: [libvirt RFCv8 12/27] qemu: capabilities: add multifd to the
- probed migration capabilities
-To: Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
-Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- libvir-list@redhat.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::62f;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: stefanha@redhat.com
+References: <20220506114711.1398662-1-pbonzini@redhat.com>
+ <452936f5-3bfb-9cf9-d0cf-cb8eb3dc8ddc@redhat.com>
+Autocrypt: addr=ldoktor@redhat.com; keydata=
+ xsBNBFcV6vsBCADa8NUYov+a+AmCEEUB3stiiMM0NQc1WwlcxGoMxKHcqqIj/kdPhUDvFS32
+ V94V7en1Lx+cpXKRMZP3n+3WG+VZWLwaktJgqrECZ161zE7xF5d1H3CLmwStbe6Cw1oR4LYQ
+ HBpuqFEA5znoLuTTsP1uXs9h1cYNzX7hmOTvPCLJfDJ1iv954FsgCGtoVvl4CoxaR3u2VNOs
+ hXsTTVyJM6gDTsyqn0uvLOHGWGIGVhDkLV4hv6pSdiKrtQKWIUji3Z8x41MbZybmJxHkpOVz
+ Jl3jnNE3CbiEq77Is9LMI4yTF2CESs3V4XMBLfZPLrQBC0gzjeRxwCnbdOZRwY5KI457ABEB
+ AAHNK0x1a2FzIERva3RvciAoUmVkIEhhdCkgPGxkb2t0b3JAcmVkaGF0LmNvbT7CwJUEEwEI
+ AD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEF
+ AmAzSoUFCQzmojUACgkQJrNi5H/PIsGM4Qf+OmO8PqPg28arBfxGSjdxb4744E1bnLESNudf
+ 8VY5/UEca0X65KW9L5vd6XUjusy2T4iyUcbZhCxYcHQLqP6y3AIyVfgJz91HEAt2thMFPfbj
+ IhqVlyP0xEyvCNLk83M4PLN9IhugvSLce6R6cliETevP/m7RQSiP1o0fKu0uAUrEKWD9DZMF
+ 99BaI635YZOPHQwQlkWnFBEKpKLjkuKpn/QSkW34mkaByn6zLhF5QeIp/9FQVUZCeOy/zR0G
+ s8ggfDyr4vJuDU4gI9NGZs6zycTflmFpA46P03LgmdRL/C6U7vbUB6B+v0YddYJoaarLUKpa
+ L4dG8h/m8RdXNA33YM7ATQRXFer7AQgAw8JIK9pZUfZWNZirBIwOevkdZu1aLhgH84EfXw40
+ ynMEFa1t/c0baOiuLNcVbdnHLGvUAQJ2oN/+rdGpEWITVSjDxFYf3JOnySZJhLnQgGMG4j3m
+ dFZMubPG1GJEuubPAAB0huRfjQTvOvpIK03J2H5cMoug862OHOnT+mfonGruTkSO0PBq3wtf
+ P+Z3gLCuEDkmEZSh4IKxs0CoLU4KxWRQHpoTOxcAiHzj8cm5qbu3Cb1KrXz8dEmYhCq2fpFf
+ /h+GfEO8gU/ICJD8WQUHYcVK0bbiZskCcSOGtStjwq0QqitZMbcsPEset/2L3z44MLPuVApv
+ c9wORs/3iT9BhwARAQABwsB8BBgBCAAmAhsMFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAmAz
+ So0FCQzmojUACgkQJrNi5H/PIsFS9Qf/WZ31JQQnQQSbmtm7IOAHYC7kvlQy8mejWlgeDrPW
+ h3zQIXxiarBpAnYGsHNVOWJ+sjdELYc9bvOcGwXSRRxURArOYfkUOk4KmNmqd6eIrOvnFfap
+ Lh0xRNx+9y0gYqB9TH/JaCLMPnH+jRGM0ZisNEHyXhemEXlXPy4vniEvajr4VnvFzD6gExzD
+ jUqIel42BOOyHuXjZQDMEWf2eULSTGHTWXGdV2XErdS1v4YI/DGvQQPB29UHmb2RsZhKtntq
+ 0yoxFD60HzSHlVeiLmG/hAHLDY3dBs/GW3RJAbOVttS31llstDtdMEHLn+P81M4dVYzt5mEE
+ NPy43Lf+YxM9FQ==
+Subject: Re: [PATCH 0/2] thread-pool: fix performance regression
+In-Reply-To: <452936f5-3bfb-9cf9-d0cf-cb8eb3dc8ddc@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------jLJezofgm1hu5yCOUBFnrSN8"
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=ldoktor@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,508 +108,264 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Qemu folks,
-It seems we do officially support multifd from version 4.0 :
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------jLJezofgm1hu5yCOUBFnrSN8
+Content-Type: multipart/mixed; boundary="------------XzveFJ5dFV3aVJfG1lFn0rfb";
+ protected-headers="v1"
+From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: stefanha@redhat.com
+Message-ID: <e4b7ed3b-4ac5-6b16-525f-4033199f471c@redhat.com>
+Subject: Re: [PATCH 0/2] thread-pool: fix performance regression
+References: <20220506114711.1398662-1-pbonzini@redhat.com>
+ <452936f5-3bfb-9cf9-d0cf-cb8eb3dc8ddc@redhat.com>
+In-Reply-To: <452936f5-3bfb-9cf9-d0cf-cb8eb3dc8ddc@redhat.com>
 
-commit cbfd6c957a4437d4759ca660e621daa381bf2898
-Author: Juan Quintela <quintela@redhat.com>
-Date:   Wed Feb 6 13:54:06 2019 +0100
+--------------XzveFJ5dFV3aVJfG1lFn0rfb
+Content-Type: multipart/mixed; boundary="------------HM0CnDL0laRsh5FhCL2ZPVLk"
 
-    multifd: Drop x-
+--------------HM0CnDL0laRsh5FhCL2ZPVLk
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-    We make it supported from now on.
+Dne 06. 05. 22 v 20:55 Luk=C3=A1=C5=A1 Doktor napsal(a):
+> Hello Paolo, folks, I gave it a try (on top of the f9fc8932) and it's b=
+etter than the f9fc8932, better than the previous patch by Stefan, but st=
+ill I'm not reaching the performance of d7482ffe97 (before the f9fc8932 c=
+ommit):
+>=20
+> f9f    |  0.0 | -2.8 |  0.6
+> stefan | -3.1 | -1.2 | -2.2
+> paolo  |  5.3 |  5.4 |  7.1
+> d74    |  7.2 |  9.1 |  8.2
+>=20
+> Anyway it's definitely closer to the previous baseline (~-2%). Note I h=
+ave not tried other scenarios, just the 4K nbd writes on rotational disk.=
+ I'll try running more throughout the night.
+>=20
 
-    Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-    Reviewed-by: Markus Armbruster <armbru@redhat.com>
-    Signed-off-by: Juan Quintela <quintela@redhat.com>
+I tried a couple of iterations of fio-nbd 4/64/256KB read/writes on a rot=
+ational disk and overall the latest fix results in a steady 2.5% throughp=
+ut regression for the 4KiB writes. The remaining tested variants performe=
+d similarly. Please let me know if you want me to test the fio execution =
+inside the guest as well or some other variants.
 
-$ git tag --contains cbfd6c957a4437d4759ca660e621daa381bf2898 | sort
--V | grep -v list | head -1
-v4.0.0
+Regards,
+Luk=C3=A1=C5=A1
+--------------HM0CnDL0laRsh5FhCL2ZPVLk
+Content-Type: application/pgp-keys; name="OpenPGP_0x26B362E47FCF22C1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x26B362E47FCF22C1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Yet it seems we continue to prefix the migration property with "x-"
-(x-multifd). This prop was added here and we have continued to use it
-as is:
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-commit 30126bbf1f7fcad0bf4c65b01a21ff22a36a9759
-Author: Juan Quintela <quintela@redhat.com>
-Date:   Thu Jan 14 12:23:00 2016 +0100
+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
+8/rqvLjMTzM6tdemLxcoLF6iT4FhmF9/QXWrBLLK/xgAR6oCmOeHbU3TJxWWRVaM
+JKAkodgJf1/zkpOcKcmGaxGHijTCwJQEEwEIAD8CGwMGCwkIBwMCBhUIAgkKCwQW
+AgMBAh4BAheAFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAl4caiwFCQsFbrUACgkQ
+JrNi5H/PIsErWAf2OeTv2KSo5ukikdSA/iNItDXqqMhgrN0JbMadb82VYKKCFP+N
+XQy26NQqcKjaJlmv1Q4rYDfLvz+1gvnir6l9gg47g/EPC5s2UxGOlGz8fzgHcHne
+02PFEUKCNSlSZTJW8DCwFKN4VkPGqungJvDd9i8gC9B/TB3HH4IHr82mA3BnQ3wm
+l9KHKXRoEJVR15cd6kKU55MRG0mq6VzYnW5Wwyxf0ZC6+R2tQgzxsvxRVPvQXSbc
+Gv3kWoPgRo5a8IWzMB194tWVYNaqhMUPKZsgBUGF3JdzrwgDBAuC16mKgyMDrzH3
+X0ZZ3TXH+mQBXu/px5L8BMz/WAibkjPVTeqe0c8Bzv8BEAABAQAAAAAAAAAAAAAA
+AP/Y/+AAEEpGSUYAAQEAAAEAAQAA/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZ
+EhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJ
+CQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy
+MjIyMjIyMjIyMjIyMjIy/8AAEQgAkgB7AwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEB
+AAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUS
+ITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5
+OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeY
+mZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq
+8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALUR
+AAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1Lw
+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3D
+=3DKNPg
+-----END PGP PUBLIC KEY BLOCK-----
 
-    migration: Add multifd capability
+--------------HM0CnDL0laRsh5FhCL2ZPVLk--
 
-    Signed-off-by: Juan Quintela <quintela@redhat.com>
-    Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-    Reviewed-by: Peter Xu <peterx@redhat.com>
-    Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+--------------XzveFJ5dFV3aVJfG1lFn0rfb--
 
-Can anyone explain why?
+--------------jLJezofgm1hu5yCOUBFnrSN8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-On Sat, May 7, 2022 at 7:13 PM Claudio Fontana <cfontana@suse.de> wrote:
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+-----BEGIN PGP SIGNATURE-----
 
-other than the question above,
+wsB5BAABCAAjFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAmJ4t/MFAwAAAAAACgkQJrNi5H/PIsGz
+9ggAhXVVmDkP24qowWpil0+kTJrL3aESdOXOb/zkXfOIAMCnrtQR1q2d+ZL47pCpFCsbLUR5C4RS
+AuiGQ1H4+O1Kx93ExJuVGfOl/tpX+cdX4GpFJqALUPMjW0rup/zUUBtceBqRjGkN3PwI7UW3XwZG
+dlUC5yMD0cP568fOfWIRkYU2Xxc6USM86wu2L9x6ZHdndDDb9KexWvN1rffbvB/SJ7Wy8U+chuNw
+GuDGSaMHMoLwWvQQceEq8+ACzks4oNP0aZX+gOP9oL+Do69gl9Fm7nCEIvK8nWTSW4hkcy+agt7W
+s77XY6u+MtGnCPSumAJhrl+EMZ42Di0CeTTBJXvNyw==
+=cIi9
+-----END PGP SIGNATURE-----
 
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
+--------------jLJezofgm1hu5yCOUBFnrSN8--
 
-> ---
->  src/qemu/qemu_capabilities.c                      | 4 ++++
->  src/qemu/qemu_capabilities.h                      | 3 +++
->  tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml | 1 +
->  tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml  | 1 +
->  tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml | 1 +
->  tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml   | 1 +
->  tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml  | 1 +
->  34 files changed, 39 insertions(+)
->
-> diff --git a/src/qemu/qemu_capabilities.c b/src/qemu/qemu_capabilities.c
-> index 1ed4cda7f0..581b6a40df 100644
-> --- a/src/qemu/qemu_capabilities.c
-> +++ b/src/qemu/qemu_capabilities.c
-> @@ -672,6 +672,9 @@ VIR_ENUM_IMPL(virQEMUCaps,
->                "virtio-iommu-pci", /* QEMU_CAPS_DEVICE_VIRTIO_IOMMU_PCI */
->                "virtio-iommu.boot-bypass", /* QEMU_CAPS_VIRTIO_IOMMU_BOOT_BYPASS */
->                "virtio-net.rss", /* QEMU_CAPS_VIRTIO_NET_RSS */
-> +
-> +              /* 430 */
-> +              "migrate-multifd", /* QEMU_CAPS_MIGRATE_MULTIFD */
->      );
->
->
-> @@ -1230,6 +1233,7 @@ struct virQEMUCapsStringFlags virQEMUCapsCommands[] = {
->
->  struct virQEMUCapsStringFlags virQEMUCapsMigration[] = {
->      { "rdma-pin-all", QEMU_CAPS_MIGRATE_RDMA },
-> +    { "multifd", QEMU_CAPS_MIGRATE_MULTIFD },
->  };
->
->  /* Use virQEMUCapsQMPSchemaQueries for querying parameters of events */
-> diff --git a/src/qemu/qemu_capabilities.h b/src/qemu/qemu_capabilities.h
-> index 9b240e47fb..b089f83da1 100644
-> --- a/src/qemu/qemu_capabilities.h
-> +++ b/src/qemu/qemu_capabilities.h
-> @@ -648,6 +648,9 @@ typedef enum { /* virQEMUCapsFlags grouping marker for syntax-check */
->      QEMU_CAPS_VIRTIO_IOMMU_BOOT_BYPASS, /* virtio-iommu.boot-bypass */
->      QEMU_CAPS_VIRTIO_NET_RSS, /* virtio-net rss feature */
->
-> +    /* 430 */
-> +    QEMU_CAPS_MIGRATE_MULTIFD, /* migrate can set multifd parameter */
-> +
->      QEMU_CAPS_LAST /* this must always be the last item */
->  } virQEMUCapsFlags;
->
-> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml
-> index 5adf904fc4..4ca2cfa81c 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.aarch64.xml
-> @@ -148,6 +148,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>61700240</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml
-> index a84adc2610..1db978eb4c 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.ppc64.xml
-> @@ -153,6 +153,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>42900240</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml b/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml
-> index c494254c4d..251d4dfd29 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.riscv32.xml
-> @@ -145,6 +145,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>0</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml
-> index d2582fa297..a4af47c6a4 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.riscv64.xml
-> @@ -145,6 +145,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>0</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml b/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml
-> index 4f36186044..2bab764867 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.s390x.xml
-> @@ -115,6 +115,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>39100240</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml
-> index 18e5ebd4f4..aa8a9812e5 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.0.0.x86_64.xml
-> @@ -188,6 +188,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100240</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml
-> index 12c5ebe6f3..bd89f0c6b2 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.1.0.x86_64.xml
-> @@ -195,6 +195,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4001000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100241</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml
-> index ee536b7b63..369ef707b9 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.aarch64.xml
-> @@ -163,6 +163,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4001050</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>61700242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml
-> index 10f5a9e2c5..16c867a46b 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.ppc64.xml
-> @@ -160,6 +160,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4001050</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>42900242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml b/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml
-> index 069777a49b..b584ba7352 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.s390x.xml
-> @@ -128,6 +128,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>39100242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
-> index 6b61214a0b..5023028678 100644
-> --- a/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
-> @@ -206,6 +206,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='virtio-blk.queue-size'/>
-> +  <flag name='migrate-multifd'/>
->    <version>4002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
-> index 4fd02e786d..c45b2e6cf6 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
-> @@ -175,6 +175,7 @@
->    <flag name='virtio-blk.queue-size'/>
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>61700241</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml
-> index f2f3558fdc..a3ad743d70 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.ppc64.xml
-> @@ -181,6 +181,7 @@
->    <flag name='virtio-blk.queue-size'/>
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>42900241</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml
-> index 557949d6d6..e1b5cac26b 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.riscv64.xml
-> @@ -167,6 +167,7 @@
->    <flag name='virtio-blk.queue-size'/>
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>0</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
-> index f301d8a926..796adb9066 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
-> @@ -215,6 +215,7 @@
->    <flag name='virtio-blk.queue-size'/>
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100241</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml b/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml
-> index 3a330ebdc0..cb203df125 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.1.0.sparc.xml
-> @@ -87,6 +87,7 @@
->    <flag name='input-linux'/>
->    <flag name='query-display-options'/>
->    <flag name='memory-backend-file.prealloc-threads'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5001000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>0</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml
-> index 53fcbf3417..7479d942a2 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.1.0.x86_64.xml
-> @@ -219,6 +219,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5001000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml
-> index 824224302c..268d1444ad 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.aarch64.xml
-> @@ -182,6 +182,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>61700243</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml
-> index b949f88b5a..eabf4b600c 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.ppc64.xml
-> @@ -186,6 +186,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>42900243</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml
-> index 873923992d..0dbaf5a5ec 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.riscv64.xml
-> @@ -172,6 +172,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>0</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml b/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml
-> index 5e9560d7b7..b0fbab9cb5 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.s390x.xml
-> @@ -140,6 +140,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>39100243</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml
-> index 3998da9253..1a1717bf2a 100644
-> --- a/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_5.2.0.x86_64.xml
-> @@ -223,6 +223,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>5002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100243</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml
-> index 51d3628eeb..1c18d122e2 100644
-> --- a/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_6.0.0.aarch64.xml
-> @@ -190,6 +190,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>61700242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml b/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml
-> index 2e5d0f197a..8fa4cb2307 100644
-> --- a/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml
-> +++ b/tests/qemucapabilitiesdata/caps_6.0.0.s390x.xml
-> @@ -148,6 +148,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>39100242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml
-> index 3498d6255b..70c67202b1 100644
-> --- a/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_6.0.0.x86_64.xml
-> @@ -232,6 +232,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100242</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
-> index ddeca62290..a5ec77878f 100644
-> --- a/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
-> @@ -236,6 +236,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6001000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100243</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml
-> index 5538940372..92d8ceff7e 100644
-> --- a/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_6.2.0.aarch64.xml
-> @@ -201,6 +201,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6001050</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>61700244</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml
-> index 9c9d9aa08e..f219912927 100644
-> --- a/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_6.2.0.ppc64.xml
-> @@ -197,6 +197,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>42900244</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
-> index dba5ecaf87..38fd3878ea 100644
-> --- a/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
-> @@ -238,6 +238,7 @@
->    <flag name='memory-backend-file.prealloc-threads'/>
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6002000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100244</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml
-> index 257b0f625d..522e225c8f 100644
-> --- a/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_7.0.0.aarch64.xml
-> @@ -209,6 +209,7 @@
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-iommu.boot-bypass'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6002092</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>61700243</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml b/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml
-> index 1ddca7d767..1eb43799c0 100644
-> --- a/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_7.0.0.ppc64.xml
-> @@ -210,6 +210,7 @@
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-iommu.boot-bypass'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>6002092</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>42900243</microcodeVersion>
-> diff --git a/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
-> index 8074c97ecd..e5023c4219 100644
-> --- a/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
-> +++ b/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
-> @@ -242,6 +242,7 @@
->    <flag name='virtio-iommu-pci'/>
->    <flag name='virtio-iommu.boot-bypass'/>
->    <flag name='virtio-net.rss'/>
-> +  <flag name='migrate-multifd'/>
->    <version>7000000</version>
->    <kvmVersion>0</kvmVersion>
->    <microcodeVersion>43100243</microcodeVersion>
-> --
-> 2.35.3
->
 
