@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21B35200C0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 17:10:59 +0200 (CEST)
-Received: from localhost ([::1]:33044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89A05200C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 17:11:00 +0200 (CEST)
+Received: from localhost ([::1]:33108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no52I-0001JC-Mb
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 11:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
+	id 1no52J-0001ML-Qr
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 11:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1no4up-00017c-QC
- for qemu-devel@nongnu.org; Mon, 09 May 2022 11:03:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59995)
+ id 1no4ug-00010U-BB
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 11:03:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1no4uo-0002m3-6Q
- for qemu-devel@nongnu.org; Mon, 09 May 2022 11:03:15 -0400
+ id 1no4ue-0002kq-QN
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 11:03:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652108593;
+ s=mimecast20190719; t=1652108583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rXa43/wuUmBmfE15wlsNpmHjei0+PR+2nwLY/5VcxYg=;
- b=DEtg/UhlnJjxQQzUM+zpD2Gk0rhcOcYO/HrZEAvkm2RQHhgC/TbGPeQihRUv/YUfm17Zjh
- eG24VPrmEQK5zUUkp37Z3jVC1YkN4bF/lK594HGGGnfoEwtsTPXo1avrRhEt73SOguTs9R
- CbkxesyEAaEGgx4ytwN7Y0T1j3miJzg=
+ bh=qBzbxSzGkemj6L1jYRRa9lBxz6+YHAOxXVB3pLNq+oA=;
+ b=TTOHg6ufQ76oxAfTU3FTU6U3seKneYKEzSv/+6YFH3damqccRj5pK5gSItOxJLypAzbYuo
+ 3e+WAVnvsk4k8vOZvFF8tM2mXgMp4/A/qASo2SflafHNDdR3O5U2MLMtATDTkvROLHUm0z
+ vt+QEsIuHVAPUoLCjGEpcGwVa2lp23M=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-KIdcBlWjPniiuuMahqh5MQ-1; Mon, 09 May 2022 11:03:01 -0400
-X-MC-Unique: KIdcBlWjPniiuuMahqh5MQ-1
+ us-mta-675-MfkKyP2BPgy8CZ0vIMGOhg-1; Mon, 09 May 2022 11:03:02 -0400
+X-MC-Unique: MfkKyP2BPgy8CZ0vIMGOhg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B96B93C62B70
- for <qemu-devel@nongnu.org>; Mon,  9 May 2022 15:03:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB8191C08970
+ for <qemu-devel@nongnu.org>; Mon,  9 May 2022 15:03:01 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.193.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A95A5C07F43;
- Mon,  9 May 2022 15:02:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 005D1C28100;
+ Mon,  9 May 2022 15:03:00 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 01/16] tests: fix encoding of IP addresses in x509 certs
-Date: Mon,  9 May 2022 16:02:38 +0100
-Message-Id: <20220509150253.218715-2-dgilbert@redhat.com>
+Subject: [PULL 02/16] tests: add more helper macros for creating TLS x509 certs
+Date: Mon,  9 May 2022 16:02:39 +0100
+Message-Id: <20220509150253.218715-3-dgilbert@redhat.com>
 In-Reply-To: <20220509150253.218715-1-dgilbert@redhat.com>
 References: <20220509150253.218715-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,72 +81,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-We need to encode just the address bytes, not the whole struct sockaddr
-data. Add a test case to validate that we're matching on SAN IP
-addresses correctly.
+These macros are more suited to the general consumers of certs in the
+test suite, where we don't need to exercise every single possible
+permutation.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220426160048.812266-2-berrange@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20220426160048.812266-3-berrange@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/unit/crypto-tls-x509-helpers.c | 16 +++++++++++++---
- tests/unit/test-crypto-tlssession.c  | 11 +++++++++--
- 2 files changed, 22 insertions(+), 5 deletions(-)
+ tests/unit/crypto-tls-x509-helpers.h | 53 ++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/tests/unit/crypto-tls-x509-helpers.c b/tests/unit/crypto-tls-x509-helpers.c
-index fc609b3fd4..e9937f60d8 100644
---- a/tests/unit/crypto-tls-x509-helpers.c
-+++ b/tests/unit/crypto-tls-x509-helpers.c
-@@ -168,9 +168,19 @@ test_tls_get_ipaddr(const char *addrstr,
-     hints.ai_flags = AI_NUMERICHOST;
-     g_assert(getaddrinfo(addrstr, NULL, &hints, &res) == 0);
+diff --git a/tests/unit/crypto-tls-x509-helpers.h b/tests/unit/crypto-tls-x509-helpers.h
+index cf6329e653..247e7160eb 100644
+--- a/tests/unit/crypto-tls-x509-helpers.h
++++ b/tests/unit/crypto-tls-x509-helpers.h
+@@ -26,6 +26,9 @@
+ #include <libtasn1.h>
  
--    *datalen = res->ai_addrlen;
--    *data = g_new(char, *datalen);
--    memcpy(*data, res->ai_addr, *datalen);
-+    if (res->ai_family == AF_INET) {
-+        struct sockaddr_in *in = (struct sockaddr_in *)res->ai_addr;
-+        *datalen = sizeof(in->sin_addr);
-+        *data = g_new(char, *datalen);
-+        memcpy(*data, &in->sin_addr, *datalen);
-+    } else if (res->ai_family == AF_INET6) {
-+        struct sockaddr_in6 *in = (struct sockaddr_in6 *)res->ai_addr;
-+        *datalen = sizeof(in->sin6_addr);
-+        *data = g_new(char, *datalen);
-+        memcpy(*data, &in->sin6_addr, *datalen);
-+    } else {
-+        g_assert_not_reached();
-+    }
-     freeaddrinfo(res);
- }
  
-diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
-index a266dc32da..f222959d36 100644
---- a/tests/unit/test-crypto-tlssession.c
-+++ b/tests/unit/test-crypto-tlssession.c
-@@ -512,12 +512,19 @@ int main(int argc, char **argv)
-                   false, true, "wiki.qemu.org", NULL);
- 
-     TEST_SESS_REG(altname4, cacertreq.filename,
-+                  servercertalt1req.filename, clientcertreq.filename,
-+                  false, false, "192.168.122.1", NULL);
-+    TEST_SESS_REG(altname5, cacertreq.filename,
-+                  servercertalt1req.filename, clientcertreq.filename,
-+                  false, false, "fec0::dead:beaf", NULL);
++#define QCRYPTO_TLS_TEST_CLIENT_NAME "ACME QEMU Client"
++#define QCRYPTO_TLS_TEST_CLIENT_HOSTILE_NAME "ACME Hostile Client"
 +
-+    TEST_SESS_REG(altname6, cacertreq.filename,
-                   servercertalt2req.filename, clientcertreq.filename,
-                   false, true, "qemu.org", NULL);
--    TEST_SESS_REG(altname5, cacertreq.filename,
-+    TEST_SESS_REG(altname7, cacertreq.filename,
-                   servercertalt2req.filename, clientcertreq.filename,
-                   false, false, "www.qemu.org", NULL);
--    TEST_SESS_REG(altname6, cacertreq.filename,
-+    TEST_SESS_REG(altname8, cacertreq.filename,
-                   servercertalt2req.filename, clientcertreq.filename,
-                   false, false, "wiki.qemu.org", NULL);
+ /*
+  * This contains parameter about how to generate
+  * certificates.
+@@ -118,6 +121,56 @@ void test_tls_cleanup(const char *keyfile);
+     };                                                                  \
+     test_tls_generate_cert(&varname, NULL)
  
++# define TLS_ROOT_REQ_SIMPLE(varname, fname)                            \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = "qemu-CA",                                                \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = true,                                   \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue = GNUTLS_KEY_KEY_CERT_SIGN,                      \
++    };                                                                  \
++    test_tls_generate_cert(&varname, NULL)
++
++# define TLS_CERT_REQ_SIMPLE_CLIENT(varname, cavarname, cname, fname)   \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = cname,                                                    \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = false,                                  \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue =                                                \
++        GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT,     \
++        .keyPurposeEnable = true,                                       \
++        .keyPurposeCritical = true,                                     \
++        .keyPurposeOID1 = GNUTLS_KP_TLS_WWW_CLIENT,                     \
++    };                                                                  \
++    test_tls_generate_cert(&varname, cavarname.crt)
++
++# define TLS_CERT_REQ_SIMPLE_SERVER(varname, cavarname, fname,          \
++                                    hostname, ipaddr)                   \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = hostname ? hostname : ipaddr,                             \
++        .altname1 = hostname,                                           \
++        .ipaddr1 = ipaddr,                                              \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = false,                                  \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue =                                                \
++        GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT,     \
++        .keyPurposeEnable = true,                                       \
++        .keyPurposeCritical = true,                                     \
++        .keyPurposeOID1 = GNUTLS_KP_TLS_WWW_SERVER,                     \
++    };                                                                  \
++    test_tls_generate_cert(&varname, cavarname.crt)
++
+ extern const asn1_static_node pkix_asn1_tab[];
+ 
+ #endif
 -- 
 2.36.0
 
