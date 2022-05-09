@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A2551FD33
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:46:14 +0200 (CEST)
-Received: from localhost ([::1]:52748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FFA51FDA9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 15:13:41 +0200 (CEST)
+Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2mC-0003B9-Nd
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54374)
+	id 1no3Cm-0005Gi-Nb
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 09:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1no2Fn-0000Xz-3p; Mon, 09 May 2022 08:12:44 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:44673)
+ id 1no2va-0000mL-GU; Mon, 09 May 2022 08:55:54 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:51746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1no2Fl-0003vM-Lo; Mon, 09 May 2022 08:12:42 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- c1-20020a17090a558100b001dca2694f23so12489039pji.3; 
- Mon, 09 May 2022 05:12:40 -0700 (PDT)
+ id 1no2vY-0003Rm-Ts; Mon, 09 May 2022 08:55:54 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id x88so1530901pjj.1;
+ Mon, 09 May 2022 05:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tp2k1w21oMHLqtL/FjwhTwH15wjW6qb8qHY+5D2zHs4=;
- b=DClIZncVlC1iApENftyyos6Pjr8TnDPnRGlCtppXX7uqPR/h1FZd6rH/w4tUK2p7hl
- tBrd4H2FIC8hLu09XDYz40Q+uEZokXmf+Y2BzhUKgvi6EAFltrrCufyK/2U0HYrz3u/+
- 6UQkDN7ZUe8h4giilRLVlY4oRhLAUTj3o2XVC2kTO5mqrExIkUGbhatsCQ0maVxUg40x
- eBOSyukHFoDEb07yjF4pp7DpCbsKPmRjV0ssTAqgk6MelRORm2bim4pF32Fx6rKSifkW
- py8ttyO+8BdS2J6tlsFVYoJiMm4TG33/ifaClTM+JKYufw1+OMIUHu9oZcXCQN8HR/PF
- r49w==
+ bh=ZZQ9FkloxtlckcyMzDbyTeJk0F0YPUSf+sX0FbU7bqI=;
+ b=Wtqkln28HOAKWeWlngfKRc0Y7XltxZdnmpwddOm1AVhu4SuTFHt56WOHDMtsE6Q6QT
+ oisNjF+zJx290GUYsWHTy+8ZP32nlYuwHRu2pnudavMu7d4EpouNjk3JiaeyWlNqbjF+
+ nr1Ng68nK4mTF1AcnNUCFWqgz74CdYHZVVYwQV0PQJqSr/4b9aylxqnULSXfVV5hJPmS
+ FYUPDXXOydPB989h2yOHDUd4GYB92k/mWZOCUZsrrcaCtPyi+uu+XwmSbIymsza7l6BU
+ jx4YIAE8z97e/tvJ6+hV/2BHmw0nNpExlGPcfM5bByVgS7IHo676BFLzFnxDRomGc9FU
+ je+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tp2k1w21oMHLqtL/FjwhTwH15wjW6qb8qHY+5D2zHs4=;
- b=TJle0+fy2lXAWD6LN/imb4b1q96nuSiOE7tZCE9fWouv3YJHb+9PxPdM8ebfEkIy2s
- /HjxUFbuHx84YeCujTUTRCwf6F969x5R0oloNTf7uiJpykouKOEX7mFwc4GG8lvus9UB
- +cXGVA9D/CnHPYhDfNBjqksRmhdg4vAmgLA3+zd0X+oO1tFbX/+Fyiqo8yM24zak+wtk
- Yk1NPZrF0XJ5xyTjrElXiIIFrIojRQZD/+e0BPFuN9yH3UC6el7OMlnUxRZ9edJW0oBc
- CDD6PKX+Hb/uabwjckAxuimz/BnSwrElv22rjCq6F4R+E7naqKIZ81fDiWxKzCAdmKSv
- 0DTw==
-X-Gm-Message-State: AOAM531w+XwhHLiDSR5NFtPO9MlsAb8l6o99XAsIzs/5GiGOYiAI7YvA
- MCW2762J0e57hZpWlcRMEOU=
-X-Google-Smtp-Source: ABdhPJxY5PNLEDnmme7EC3X1vorJJSsS3Gg0HZhiDe2mEskBcumNiTbbxmu/1PrXkCSxRlDxv9dMdQ==
-X-Received: by 2002:a17:90a:eb93:b0:1d9:a003:3f93 with SMTP id
- o19-20020a17090aeb9300b001d9a0033f93mr17909683pjy.50.1652098360129; 
- Mon, 09 May 2022 05:12:40 -0700 (PDT)
+ bh=ZZQ9FkloxtlckcyMzDbyTeJk0F0YPUSf+sX0FbU7bqI=;
+ b=oDUxSpMBaV3fSv5gngO/3OtE7+oTNoHcv7KUHT5w2D1Dg7Uf6e/wwLjtl6rU82gU0z
+ PolTTpxa8zcvAaV0Nl1ou2OeA2+hmhlkpe5kaPtN9hi0Kv4ZNKSPb7Fz+iT4apCbcZH6
+ WOmEZQQI7LVrlZBnTpRc1qR/OjoxphE4ZtweDMd6CcReTgYkk8H0t0/DwakHLmZTT7ub
+ SFVmhpk1yruoQWThRaiOe43X1eX8IOplNOhV2vSIrvQJekqzcPN0aERrFbOxMOiSGABx
+ qtjPZjAh5oNjbtQhlzjtxHB+XTP75jQCnTxIe6RtPT+cnmMgIvG4HL6OZtq2ge4j5QqR
+ zSrA==
+X-Gm-Message-State: AOAM532Rgh180XA6DMxjo7sftmOcgi6Hcv0/xj7oEOO/t19o6C8ag2Up
+ +/vDlX47bqaLpSPuMTIjV3o=
+X-Google-Smtp-Source: ABdhPJxBjQ+LgPGg6t97HLwnC83/UUzba9w9e6RqFvV0zc4u4rJkNDphwSMB01rmLLBRLCZeXrHRig==
+X-Received: by 2002:a17:902:d507:b0:15e:9045:c5dc with SMTP id
+ b7-20020a170902d50700b0015e9045c5dcmr16377896plg.138.1652100951172; 
+ Mon, 09 May 2022 05:55:51 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j4-20020a170902c08400b0015e981111d5sm6915178pld.234.2022.05.09.05.12.37
+ j8-20020aa783c8000000b0050dc762818asm8565490pfn.100.2022.05.09.05.55.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 05:12:39 -0700 (PDT)
-Message-ID: <74ec0692-bec7-57cb-18ec-59abcf53f2be@amsat.org>
-Date: Mon, 9 May 2022 14:12:35 +0200
+ Mon, 09 May 2022 05:55:50 -0700 (PDT)
+Message-ID: <0be836fe-742d-e4d0-b2c4-19fca1171950@amsat.org>
+Date: Mon, 9 May 2022 14:13:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH 02/11] hw: Reuse TYPE_I8042 define
+Subject: Re: [PATCH 03/11] hw/audio/cs4231a: Const'ify global tables
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 References: <20220505161805.11116-1-shentey@gmail.com>
- <20220505161805.11116-3-shentey@gmail.com>
-In-Reply-To: <20220505161805.11116-3-shentey@gmail.com>
+ <20220505161805.11116-4-shentey@gmail.com>
+In-Reply-To: <20220505161805.11116-4-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -102,13 +95,13 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 5/5/22 18:17, Bernhard Beschow wrote:
-> TYPE_I8042 is exported, so reuse it for consistency.
+> The tables contain spcifically crafted constants for algorithms, so make
+> them immutable.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/i386/pc.c       | 4 ++--
->   hw/sparc64/sun4u.c | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
+>   hw/audio/cs4231a.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
