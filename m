@@ -2,52 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D692C520698
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 23:23:14 +0200 (CEST)
-Received: from localhost ([::1]:44144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E0D52069E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 23:26:47 +0200 (CEST)
+Received: from localhost ([::1]:49926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noAqX-0007ur-Ut
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 17:23:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56446)
+	id 1noAty-0003Wd-Pc
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 17:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1noAlg-0003ko-9O; Mon, 09 May 2022 17:18:12 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57132)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1noAla-00085D-CG; Mon, 09 May 2022 17:18:07 -0400
-Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1noAkX-000Agv-Fi; Mon, 09 May 2022 22:17:05 +0100
-Message-ID: <d6ee5ef4-5242-1f1b-839c-242d18d10800@ilande.co.uk>
-Date: Mon, 9 May 2022 22:17:56 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1noAps-0000KB-GT; Mon, 09 May 2022 17:22:32 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1noApq-0000Ne-T6; Mon, 09 May 2022 17:22:32 -0400
+Received: by mail-wr1-x430.google.com with SMTP id x18so21188910wrc.0;
+ Mon, 09 May 2022 14:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tP6Mel134Zj8y+l9HaL24ydmBSCzf0R+7INfLd1V3mE=;
+ b=JZouM6XRSgVkvbrjbxJi+dvphTif3Le+9R2/qQpBvqwRIMBXY9gZIeBYHRG4MmtwaY
+ NPA2Hv7c4mqRfEMSEYwAidn5kAVfxZ8DD9g5n8lc3QtSlEb0AoK6PomN5cjA9KzXQ5H9
+ ruQ0EuElIixBZr82vAPG6A3qemRrPJpb/iBmTYPBsrnWvDmNsVzelkFTZRAr/8h3kRHr
+ cLcuPwhUsjSv0SLKl8Y/tKlIa6wwG4SdynKBQuhXtjYGKkPRoZQRbtAAnuJhLfqSjFnc
+ l3yHb8E8Pvoterq/ig7djZfW68Ko/Bog0yCkaOmM6ewzz4egWmX6gqzX8gx9V+WeSBG6
+ k7Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tP6Mel134Zj8y+l9HaL24ydmBSCzf0R+7INfLd1V3mE=;
+ b=5s0S5cIfgHBbExGySY7Kki5CBtYno8igEPX9M8ew3RXQLRq865+Q2Tb/oF8McDxh4b
+ 5yyyuNjAeexBV1KUxhYG+BlQCKy3ioaXV/DaPci01QzTjfQhbWnU3bOvT9yqQ08ljU33
+ RN7DZ6iFAsheQZS8tlp0vmVVPHEBB7T32g7iutnmviwouPnzymNtqkpe7lYRKuIxNkf4
+ R7wHkTUhdvAleI1C3/vkmc3CMBb6uX3ZdwAXXv7FGdEk9rzs1PXq7btK6P4ub9E4IMUS
+ b6YATXk6gUrhDAIDryXwoiqsercX889pNda8HbOgoaCsrZ+6zBxyDOclpbx7skWc10uY
+ ejvw==
+X-Gm-Message-State: AOAM530ZS9RN/1nHhw+ffdgR2YBv+9yj4V3og4jlw7QJQoWoyE7b3X6E
+ GzO402FQF1126C5g8QWcSeA=
+X-Google-Smtp-Source: ABdhPJwmPzBUWoPY2PVMHbMp67U6UHSrivYllJqs1xuIZOcbXZDLhzejoBgU2kTLII11f8J/Oycmpw==
+X-Received: by 2002:adf:ce89:0:b0:20a:d917:5234 with SMTP id
+ r9-20020adfce89000000b0020ad9175234mr15996413wrn.265.1652131348941; 
+ Mon, 09 May 2022 14:22:28 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ be5-20020a05600c1e8500b003942a244f54sm335487wmb.45.2022.05.09.14.22.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 14:22:28 -0700 (PDT)
+Message-ID: <a1f41abf-4cc1-f0cd-5fa9-c882d6be4b02@amsat.org>
+Date: Mon, 9 May 2022 23:22:27 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.0
+Subject: Re: [RFC PATCH 17/17] hw/sd: Subtract bootarea size from blk
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
- fbarrat@linux.ibm.com
-References: <20220507190624.507419-1-danielhb413@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220507190624.507419-1-danielhb413@gmail.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20220318132824.1134400-1-clg@kaod.org>
+ <20220318132824.1134400-18-clg@kaod.org>
+In-Reply-To: <20220318132824.1134400-18-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 00/17] powernv: introduce pnv-phb unified devices
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,132 +93,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 07/05/2022 20:06, Daniel Henrique Barboza wrote:
+Hi Joel,
 
-> Hi,
+On 18/3/22 14:28, Cédric Le Goater wrote:
+> From: Joel Stanley <joel@jms.id.au>
 > 
-> Since the 7.0.0 release cycle we have a desire to use the powernv
-> emulation with libvirt. To do that we need to enable user creatable
-> pnv-phb devices to allow more user customization an to avoid spamming
-> multiple default devices in the domain XML. In the middle of the
-> previous cycle we experimented with user created
-> pnv-phb3/pnv-phb3-root-port/pnv-phb4/pnv-phb4-root-port/pnv-phb5. The
-> end result, although functional, is that the user needs to deal with a
-> lot of versioned devices that, from the user perspective, does the same
-> thing. In a way we outsourced the implementation details of the PHBs
-> (e.g. pnv8 uses phb3, pnv9 uses phb4) to the command line. Having more
-> devices also puts an extra burden in the libvirt support we want to
-> have.
+> The userdata size is derived from the file the user passes on the
+> command line, but we must take into account the boot areas.
 > 
-> To solve this, Cedric and Frederic gave the idea of adding a common
-> virtual pnv-phb device that the user can add in the command line, and
-> QEMU handles the details internally. Unfortunatelly this idea turned out
-> to be way harder than anticipated. Between creating a device that would
-> just forward the callbacks to the existing devices internally, creating
-> a PnvPHB device with the minimal attributes and making the other devices
-> inherit from it, and making an 'abstract' device that could be casted
-> for both phb3 and phb4 PHBs,
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   hw/sd/sd.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 
-This bit sounds all good...
+> @@ -655,6 +656,11 @@ static void sd_reset(DeviceState *dev)
+>       }
+>       size = sect << 9;
+>   
+> +    if (sc->bootpart_offset) {
+> +        unsigned int boot_capacity = sd->ext_csd[EXT_CSD_BOOT_MULT] << 17;
 
-> all sorts of very obscure problems occured:
-> PHBs not being detected, interrupts not being delivered and memory
-> regions not being able to read/write registers. My initial impression is
-> that there are assumptions made both in ppc/pnv and hw/pci-host that
-> requires the memory region and the bus being in the same device. Even
-> if we somehow figure all this out, the resulting code is hacky and
-> annoying to maitain.
+What about adding a tiny helper?
 
-But this seems really surprising since there are many examples of similar QOM 
-patterns within the codebase, and in my experience they work really well. Do you have 
-a particular example that you can share to demonstrate why the result of the QOM 
-mapping is making things more difficult?
+static unsigned sd_boot_capacity_bytes(SDState *sd)
+{
+     return sd->ext_csd[EXT_CSD_BOOT_MULT] << 18;
+}
 
-> This brings us to this series. The cleaner way I found to accomplish
-> what we want to do is to create real, unified pnv-phb/phb-phb-root-port
-> devices, and get rid of all the versioned ones. This is done by
-> merging all the PHB3/PHB4 attributes in unified devices. pnv_phb3* and pnv_phb4*
-> files end up using the same pnv-phb and phb-phb-root-port unified devices,
-> with the difference that pnv_phb3* only cares about version 3 attributes
-> and pnv_phb4* only cares about PHB4 attributes. Introducing new PHB
-> versions in the future will be a matter of adding any non-existent
-> attributes in the unified pnv-phb* devices and using them in separated
-> pnv_phbN* files.
-> 
-> The pnv-phb implementation per se is just a router for either phb3 or
-> phb4 logic, done in init() and realize() time, after we check which powernv
-> machine we're running. If running with powernv8 we redirect control to
-> pnv_phb3_realize(), otherwise we redirect to pnv_phb4_realize(). The
-> unified device does not do anything per se other than handling control
-> to the right version.
-> 
-> After this series, this same powernv8 command line that boots a powernv8
-> machine with some phbs and root ports and with network:
-> 
-> ./qemu-system-ppc64 -m 4G \
-> -machine powernv8 -smp 2,sockets=2,cores=1,threads=1  \
-> -accel tcg,thread=multi -bios skiboot.lid  \
-> -kernel vmlinux -initrd buildroot.rootfs.cpio -append 'console=hvc0 ro xmon=on'  \
-> -nodefaults  -serial mon:stdio -nographic  \
-> -device pnv-phb,chip-id=0,index=0,id=pcie.0 \
-> -device pnv-phb,chip-id=0,index=1,id=pcie.1 \
-> -device pnv-phb,chip-id=1,index=2,id=pcie.2 \
-> -device pnv-phb-root-port,id=root0,bus=pcie.2 \
-> -device pnv-phb-root-port,id=root1,bus=pcie.1 \
-> -device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0  \
-> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
-> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none  \
-> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
-> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
-> -device nec-usb-xhci,bus=bridge1,addr=0x2
-> 
-> 
-> Can be used to boot powernv9 and powernv10 machines with the same attributes
-> just by changing the machine type.
-> 
-> 
-> Daniel Henrique Barboza (17):
->    ppc/pnv: rename PnvPHB3.ioda* to PnvPHB3.ioda2*
->    ppc/pnv: rename PnvPHB3.regs[] to PnvPHB3.regs3[]
->    ppc/pnv: rename PnvPHB3.dma_spaces to PnvPHB3.v3_dma_spaces
->    ppc/pnv: add unified pnv-phb header
->    ppc/pnv: add pnv-phb device
->    ppc/pnv: remove PnvPHB3
->    ppc/pnv: user created pnv-phb for powernv8
->    ppc/pnv: remove PnvPHB4
->    ppc/pnv: user creatable pnv-phb for powernv9
->    ppc/pnv: use PnvPHB.version
->    ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
->    ppc/pnv: user creatable pnv-phb for powernv10
->    ppc/pnv: add pnv_phb_get_current_machine()
->    ppc/pnv: add pnv-phb-root-port device
->    ppc/pnv: remove pnv-phb3-root-port
->    ppc/pnv: remove pnv-phb4-root-port
->    ppc/pnv: remove pecc->rp_model
-> 
->   hw/pci-host/meson.build        |   3 +-
->   hw/pci-host/pnv_phb.c          | 258 ++++++++++++++++++++++++++++
->   hw/pci-host/pnv_phb3.c         | 256 +++++++++++-----------------
->   hw/pci-host/pnv_phb3_msi.c     |  12 +-
->   hw/pci-host/pnv_phb3_pbcq.c    |   8 +-
->   hw/pci-host/pnv_phb4.c         | 298 ++++++++++++---------------------
->   hw/pci-host/pnv_phb4_pec.c     |  14 +-
->   hw/ppc/pnv.c                   |  41 ++++-
->   include/hw/pci-host/pnv_phb.h  | 224 +++++++++++++++++++++++++
->   include/hw/pci-host/pnv_phb3.h | 118 +------------
->   include/hw/pci-host/pnv_phb4.h | 108 ++----------
->   include/hw/ppc/pnv.h           |   3 +-
->   12 files changed, 757 insertions(+), 586 deletions(-)
->   create mode 100644 hw/pci-host/pnv_phb.c
->   create mode 100644 include/hw/pci-host/pnv_phb.h
+> +        size -= boot_capacity * 2;
+> +    }
+> +
+>       sect = sd_addr_to_wpnum(size) + 1;
+>   
+>       sd->state = sd_idle_state;
 
-I'm completely on-board with having a proxy-like PHB device that maps to the correct 
-underlying PHB version, but to me it feels like combining multiple separate devices 
-into a single one is going to make things more complicated to maintain in the long term.
-
-
-ATB,
-
-Mark.
 
