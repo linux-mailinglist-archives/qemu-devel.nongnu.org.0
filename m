@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9701351F689
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 10:30:52 +0200 (CEST)
-Received: from localhost ([::1]:57588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF77C51F72A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 10:46:27 +0200 (CEST)
+Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnyn3-0006QB-O4
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 04:30:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
+	id 1nnz29-0004DS-My
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 04:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nnyld-0005kc-27
- for qemu-devel@nongnu.org; Mon, 09 May 2022 04:29:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24925)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nnylY-0000df-12
- for qemu-devel@nongnu.org; Mon, 09 May 2022 04:29:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652084954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JZldVjgZq2Fto+rtFkaNbbVpusmxdeaxLcuxM0uUsJY=;
- b=CWAU902P2m611RB644wNQvuNp2z1p7e/5hF1h6Q+gt2GoekWqSe2hNZ7+ryAYXYqZ+RXcA
- joa9u2c+1ynet/TlZFFepH4TAxmPPbbXggdlhWQaQ0C3Ix/IBeHqbs02NPQTtEwieQOqAM
- yltTZ+rdNMr58imWv4nLTSKihLxg1UE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-672-ukVEw8ZLPs64E3AH4gTGmg-1; Mon, 09 May 2022 04:29:12 -0400
-X-MC-Unique: ukVEw8ZLPs64E3AH4gTGmg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c62-20020a1c3541000000b0038ec265155fso9567609wma.6
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 01:29:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nnyy2-0003OZ-5i
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 04:42:10 -0400
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:45594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nnyy0-000357-FA
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 04:42:09 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2f7bb893309so135888897b3.12
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 01:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zu35W9WC4xwgSsA46Lq9tGRXEnQ/Ups3P3WeLxDlAwQ=;
+ b=RSy7DnG4wHQe7b2062ad7Q4d7az3hHgdgWzvIpgaYm5cYa+kDGmKVhEpNillhmDrHD
+ zNFLD2zjAALo/wthIGBdPqvjbQDYL+O2CUS/i17jZLPtBxo09qjq1qJfj1bM2d8YnMUB
+ 5HjDjvpz98CZBqHudGkd69r7ymV6h9swgCUu/LEoWnOXhKBgEa3LXuBHfsWj6Q5O92Sq
+ QsuptVTrntb32fGBrG8XL5Z1Hg7kHDHpiEQuvV+Nqpu88wPQlRlEH4UIjMUlWKnTM1+N
+ 5keywI/b+7z1bvd2j4U3HWkayJtS1xiYy+G7USY5mNy5sIpWK8QcVks8tISx3R7ppe/g
+ iM5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JZldVjgZq2Fto+rtFkaNbbVpusmxdeaxLcuxM0uUsJY=;
- b=Zu0ShtZDLEOd+oDDeEtnMcDliyeWVNJnBZtT7MngQehmom0oDgLPAj5Sqe+rGvAuoJ
- Z5T+ntsgwN8cC3e2UOMv3ay7K1tiXdZx7mUNaUNp+Q45xrVBFiW0jBqhzb5KPcLAoPN+
- yoyn6sNtVkTzACzanGKUA5q5d+kr299AOBW4SvrbKoCPXEONHWAQdd/A+uxA078R9dez
- 8JlAFnWBVsYv74NYhxQPZu828QsCDPADyyF5cBRNKjx9pSsSJySArPDtCb51bTluc1Vr
- 5P8Ly+YOBbiml308ZveNqOB2CTE0k021IBvbxgbGnGseD/Ha4ckZd0uEe82DkpCR769E
- x37g==
-X-Gm-Message-State: AOAM532PQtdEelEhYlOEW65EvhKCTD2QkL/0L0VxOQOwhznj4Qis9RaM
- otvHJ7bM7m5wp4B8coYBZW+ws8jAjXZSYemO1Zwnc//dwcE/SJqOh6ECjC4bqw1HwgMmffuU1LM
- vJQy9iJlbPd6Cd9k=
-X-Received: by 2002:a05:600c:19c8:b0:394:7cb0:717b with SMTP id
- u8-20020a05600c19c800b003947cb0717bmr13949436wmq.136.1652084951600; 
- Mon, 09 May 2022 01:29:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPYbdFk5/GyIRDoUmAej4Hc23sUn6KZF1vHsKZYV7q+jrUFr1E7dBhp78psAz3oYfgQSVZ7w==
-X-Received: by 2002:a05:600c:19c8:b0:394:7cb0:717b with SMTP id
- u8-20020a05600c19c800b003947cb0717bmr13949415wmq.136.1652084951372; 
- Mon, 09 May 2022 01:29:11 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-11-6-106.retail.telecomitalia.it.
- [87.11.6.106]) by smtp.gmail.com with ESMTPSA id
- q1-20020adf9dc1000000b0020c5253d8b8sm11140317wre.4.2022.05.09.01.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 01:29:10 -0700 (PDT)
-Date: Mon, 9 May 2022 10:29:08 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: qemu-devel@nongnu.org, jasowang@redhat.com, mst@redhat.com,
- eperezma@redhat.com, eli@mellanox.com
-Subject: Re: [PATCH v4 6/7] vhost-vdpa: change name and polarity for
- vhost_vdpa_one_time_request()
-Message-ID: <20220509082908.udont7vzjur673eq@sgarzare-redhat>
-References: <1651890498-24478-1-git-send-email-si-wei.liu@oracle.com>
- <1651890498-24478-7-git-send-email-si-wei.liu@oracle.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zu35W9WC4xwgSsA46Lq9tGRXEnQ/Ups3P3WeLxDlAwQ=;
+ b=0uW+gVEZowI9xTRUBsrpKK/04u4sktF3KM+728pULOgC60vWDpAzhMeS8t7mkA+0su
+ 7zM6c+GBzZx4QO9XfQqt38344AR0Cw+/s9sva6IBuVuxbUGdhimYml80nl2gqVRA0fvX
+ vwkwkz8M236fTL4/uATMomnUrBSRyYGbAjLhj8dJw1WJNIIsr4ZkVGr622/5iJT5DZcO
+ 1pp/mM4Qizr6bW9jmF1R9iE+pWlTmJ7xCy6ja3Cwg0jTH1PzORpFG36d+8N7ye1JICeV
+ Yzq2nGRj8/gLt/SC0MPK/9+BjmHUfQ33udx2HQUQiukOKscTHixszMUq4lVgQUeBoWun
+ o/uw==
+X-Gm-Message-State: AOAM533CFT82hN10ECIRAoZwL4Ovp4XNNE5j6PiOx2rf34r2RR9PvcRH
+ NO5aqleUIMxopf6072/fhBjbMxew7BfOvqRCXjdKTQ==
+X-Google-Smtp-Source: ABdhPJxsCB8FeRtgEHkhN55PZvAy2isQ25TtCSZVkgFKuC7Nt20pMtxs0/8P2op9s/ccr6Z3jkCCDgHowjE61GPrDzw=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr13656447ywf.347.1652085727244; Mon, 09
+ May 2022 01:42:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <1651890498-24478-7-git-send-email-si-wei.liu@oracle.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <87a6bulueg.fsf@pond.sub.org>
+ <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
+ <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
+ <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
+ <a5b11030-c00e-fdec-dacd-e09cc0924a0a@redhat.com>
+ <CACGkMEuPQr0TQtkMZr2zeJYGMy69EXN-fhdRTq6JUkWw3KmvMw@mail.gmail.com>
+ <87bkw7e0mc.fsf@pond.sub.org>
+In-Reply-To: <87bkw7e0mc.fsf@pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 9 May 2022 09:41:56 +0100
+Message-ID: <CAFEAcA9QGSqx=e5CgsbyBwVH3wa_VW1i2c=5H5cKp5X-hHs71Q@mail.gmail.com>
+Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,24 +89,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 06, 2022 at 07:28:17PM -0700, Si-Wei Liu wrote:
->The name vhost_vdpa_one_time_request() was confusing. No
->matter whatever it returns, its typical occurrence had
->always been at requests that only need to be applied once.
->And the name didn't suggest what it actually checks for.
->Change it to vhost_vdpa_first_dev() with polarity flipped
->for better readibility of code. That way it is able to
->reflect what the check is really about.
->
->This call is applicable to request which performs operation
->only once, before queues are set up, and usually at the beginning
->of the caller function. Document the requirement for it in place.
->
->Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
->---
-> hw/virtio/vhost-vdpa.c | 23 +++++++++++++++--------
-> 1 file changed, 15 insertions(+), 8 deletions(-)
+On Mon, 9 May 2022 at 06:30, Markus Armbruster <armbru@redhat.com> wrote:
+> Always, always, *always* document your reasons for doing stuff right in
+> the commit message, unless they are blindingly obvious.  I understand
+> reasons can be obvious enough to the author.  Document them anyway if
+> there is any chance they are not obvious to others.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+It's also nice for code-generators to say who they are
+in this kind of "this file is autogenerated" comment.
+For instance our own decodetree script's comments read
+  /* This file is autogenerated by scripts/decodetree.py.  */
 
+-- PMM
 
