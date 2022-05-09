@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF77C51F72A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 10:46:27 +0200 (CEST)
-Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74A051F74B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 10:53:15 +0200 (CEST)
+Received: from localhost ([::1]:40748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnz29-0004DS-My
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 04:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
+	id 1nnz8l-0006ln-25
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 04:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nnyy2-0003OZ-5i
- for qemu-devel@nongnu.org; Mon, 09 May 2022 04:42:10 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:45594)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nnz2q-0004xD-D5; Mon, 09 May 2022 04:47:09 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:41760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nnyy0-000357-FA
- for qemu-devel@nongnu.org; Mon, 09 May 2022 04:42:09 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2f7bb893309so135888897b3.12
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 01:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zu35W9WC4xwgSsA46Lq9tGRXEnQ/Ups3P3WeLxDlAwQ=;
- b=RSy7DnG4wHQe7b2062ad7Q4d7az3hHgdgWzvIpgaYm5cYa+kDGmKVhEpNillhmDrHD
- zNFLD2zjAALo/wthIGBdPqvjbQDYL+O2CUS/i17jZLPtBxo09qjq1qJfj1bM2d8YnMUB
- 5HjDjvpz98CZBqHudGkd69r7ymV6h9swgCUu/LEoWnOXhKBgEa3LXuBHfsWj6Q5O92Sq
- QsuptVTrntb32fGBrG8XL5Z1Hg7kHDHpiEQuvV+Nqpu88wPQlRlEH4UIjMUlWKnTM1+N
- 5keywI/b+7z1bvd2j4U3HWkayJtS1xiYy+G7USY5mNy5sIpWK8QcVks8tISx3R7ppe/g
- iM5g==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nnz2o-0003hZ-Kn; Mon, 09 May 2022 04:47:07 -0400
+Received: by mail-wr1-x431.google.com with SMTP id c11so18371175wrn.8;
+ Mon, 09 May 2022 01:47:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NxlGHwXR+g36Cy9CE/p0X5CLq8IiOkHBEVFGIUzcGpw=;
+ b=R3a4G1Zp7B16EmG0QNMzZ2E7Wb/g3FjBAC/8KuyS61DA+TBPHscd+dqCWF7v025a9S
+ ByqY5WVUR27Zbqd8Paujb/FETlcbYNX/V8cHdnWkrbdO8YegylnBHJHDYo5tC8qLpe+o
+ 8Lli2e2XcmVylB/OWurz+bhZVoLwGWMVjCXEUWSYGndh37C9AlpecSizZR4rQK43axDp
+ jtSEJtwkbT+wuu6u2SxR3DfNwwP6/OngWLDD6levK1iCDKGe1VNmXMoH/qqoa9rWVw/d
+ mUV/y80nIuj/+LRS46bGFcLny+QYaKqbN33UGZicLZc0YK7hJ9T3/NgqP3K9Y9OvK9IW
+ c8Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zu35W9WC4xwgSsA46Lq9tGRXEnQ/Ups3P3WeLxDlAwQ=;
- b=0uW+gVEZowI9xTRUBsrpKK/04u4sktF3KM+728pULOgC60vWDpAzhMeS8t7mkA+0su
- 7zM6c+GBzZx4QO9XfQqt38344AR0Cw+/s9sva6IBuVuxbUGdhimYml80nl2gqVRA0fvX
- vwkwkz8M236fTL4/uATMomnUrBSRyYGbAjLhj8dJw1WJNIIsr4ZkVGr622/5iJT5DZcO
- 1pp/mM4Qizr6bW9jmF1R9iE+pWlTmJ7xCy6ja3Cwg0jTH1PzORpFG36d+8N7ye1JICeV
- Yzq2nGRj8/gLt/SC0MPK/9+BjmHUfQ33udx2HQUQiukOKscTHixszMUq4lVgQUeBoWun
- o/uw==
-X-Gm-Message-State: AOAM533CFT82hN10ECIRAoZwL4Ovp4XNNE5j6PiOx2rf34r2RR9PvcRH
- NO5aqleUIMxopf6072/fhBjbMxew7BfOvqRCXjdKTQ==
-X-Google-Smtp-Source: ABdhPJxsCB8FeRtgEHkhN55PZvAy2isQ25TtCSZVkgFKuC7Nt20pMtxs0/8P2op9s/ccr6Z3jkCCDgHowjE61GPrDzw=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr13656447ywf.347.1652085727244; Mon, 09
- May 2022 01:42:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NxlGHwXR+g36Cy9CE/p0X5CLq8IiOkHBEVFGIUzcGpw=;
+ b=JleJ8npQ1vqyS6JLS6EBf/c01O+u6xyx1wXYsnPHdzC4LCY92fceFYOJmtx+/42E/Q
+ ZXYU9S5u49hLgvRbwkWu3Vo9YG4BijeqiJOxG9sZAR/L7jARS0TkNMSPRlO/Jhcw0TyE
+ POBNL6+inr8VpBA5Z3pr0mEEjxxlPlOkFflnAWT8lI35uVEzpACHZ0WkeTCD8+g7lebO
+ ty0G5mCUMQ7BzCnUjRalTwNrYnhFEipcdgGXLG/fEiaesdgkxh4BSagzjm9h+DbmOuRi
+ t4f5dTR0a/+YwhO3Q3+rzzINlKar9vKNIuW7gsHg3b5L5um8o79QoPGSf162eNzdR0cR
+ 8PIw==
+X-Gm-Message-State: AOAM532LfemIZjPIQa05YstGTJkdvmnTGD/zQ4Ajr84Lzb0DruW2jaqy
+ 3gsBxSdBfdhw1TJcOj8uzKNWHdmhxhg=
+X-Google-Smtp-Source: ABdhPJzXSC11RfRVV/+UzoMfgJPp4ltTNgjy7dIF9ODOm7IeV+qjDTp69wNSTpuJcvNhUq0o70mfDw==
+X-Received: by 2002:adf:f64b:0:b0:20a:c685:89ee with SMTP id
+ x11-20020adff64b000000b0020ac68589eemr12146578wrp.366.1652086022024; 
+ Mon, 09 May 2022 01:47:02 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ a7-20020a05600c348700b003942a244ed7sm11396755wmq.28.2022.05.09.01.47.01
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 09 May 2022 01:47:01 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-trivial@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH] qom/object: Remove circular include dependency
+Date: Mon,  9 May 2022 10:46:59 +0200
+Message-Id: <20220509084659.52076-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <87a6bulueg.fsf@pond.sub.org>
- <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
- <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
- <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
- <a5b11030-c00e-fdec-dacd-e09cc0924a0a@redhat.com>
- <CACGkMEuPQr0TQtkMZr2zeJYGMy69EXN-fhdRTq6JUkWw3KmvMw@mail.gmail.com>
- <87bkw7e0mc.fsf@pond.sub.org>
-In-Reply-To: <87bkw7e0mc.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 May 2022 09:41:56 +0100
-Message-ID: <CAFEAcA9QGSqx=e5CgsbyBwVH3wa_VW1i2c=5H5cKp5X-hHs71Q@mail.gmail.com>
-Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Andrew Melnychenko <andrew@daynix.com>, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,16 +89,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 May 2022 at 06:30, Markus Armbruster <armbru@redhat.com> wrote:
-> Always, always, *always* document your reasons for doing stuff right in
-> the commit message, unless they are blindingly obvious.  I understand
-> reasons can be obvious enough to the author.  Document them anyway if
-> there is any chance they are not obvious to others.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-It's also nice for code-generators to say who they are
-in this kind of "this file is autogenerated" comment.
-For instance our own decodetree script's comments read
-  /* This file is autogenerated by scripts/decodetree.py.  */
+"qom/object.h" doesn't need to include itself.
 
--- PMM
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/qom/object.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 5f3d5b5bf5..ef7258a5e1 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -16,7 +16,6 @@
+ 
+ #include "qapi/qapi-builtin-types.h"
+ #include "qemu/module.h"
+-#include "qom/object.h"
+ 
+ struct TypeImpl;
+ typedef struct TypeImpl *Type;
+-- 
+2.35.1
+
 
