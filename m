@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D8D51F9B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:22:14 +0200 (CEST)
-Received: from localhost ([::1]:36144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DD051FA09
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 12:35:40 +0200 (CEST)
+Received: from localhost ([::1]:49544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no0Wq-0005mr-91
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:22:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50138)
+	id 1no0jr-0007Sn-HT
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 06:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0U1-0004ML-U9
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:19:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57320)
+ id 1no0UQ-0004VV-LK
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:19:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1no0Ty-0000jP-KW
- for qemu-devel@nongnu.org; Mon, 09 May 2022 06:19:16 -0400
+ id 1no0UN-0000ka-Pp
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 06:19:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652091552;
+ s=mimecast20190719; t=1652091579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=9EmxRdjX9XYdFkMictctuV27isiQ9OQ9vd/VvL/0JNw=;
- b=IKeuhYkeZyEVcq63A5kf4JIFvqh2pfJ2OyjFH/XOv7GFpDKoSTjFZytm5wRvTdhBSWPgtK
- dKyHs3Qo9GXiyZPlhXZg67XIh4b5iTD9YlxOxxoV0jEUTYzFY8+tpFovsH3zCi4L1546vy
- gPAIn4Hp6aj1JxD1znpsV6XBw2kT5II=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1/mXUDcgqTcmBh6cLuEIn7Iw84PwHaS/ajNdjHH46Gs=;
+ b=BFPfXjpwxW5BpXMiNzqqHmjFZH6M/nsjQbZ/NAM+SLbshOPTXpkto4HBI/ZoGaQYFE9xs0
+ deC/gsXsgcMUhzvAc9gv9wqh4GjiVizhn9/qgGdGNNUDVDPpE60NiQvJyFM6C+a8wwbqS6
+ ZTjah+nbSVBNnANRos3TeQc+1V7SxvI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-350-B9jDKizXNU6xaRSHhHBxZg-1; Mon, 09 May 2022 06:19:11 -0400
-X-MC-Unique: B9jDKizXNU6xaRSHhHBxZg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- x2-20020a1709065ac200b006d9b316257fso6478898ejs.12
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:19:11 -0700 (PDT)
+ us-mta-56-M7nxfelTNlCH4wvImGBccQ-1; Mon, 09 May 2022 06:19:38 -0400
+X-MC-Unique: M7nxfelTNlCH4wvImGBccQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ l24-20020a056402231800b00410f19a3103so8067017eda.5
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 03:19:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9EmxRdjX9XYdFkMictctuV27isiQ9OQ9vd/VvL/0JNw=;
- b=vmGTmLcFA6eh8nMFZKSLNsQluqmIzAky84XnieE2dobdUx95fWCGCtxV3aUpJnbYOP
- oTSMjCHyAjVZAZsLxNNrN17PAybdgDGw5pOBrF3bjzRa4/LvqX5qEVs/8P0FjZty8HH7
- IxlcTuKrdhgSDrWoSG21i6uU0RyObXqhqUgu/J3MipJRrLJAikNEmhhMQym63O6/CO1c
- 5f6/A0PaFq83GehO14cu+u1zaVOJ1KcnMwicrHJp3gssX5FP6+mVArjdNHZzonvjQlLC
- O5cNzBefBF3QJoD/26xKztlGL9WnUAKKFUXKy6FAlXjWwcw4IUCyaFqBx/6UMvKNeXhq
- UTdg==
-X-Gm-Message-State: AOAM533gjyT99MFV8LCf7J9D4i6e5juv9GH0v8w9bM4b4Duojm1KfjGr
- vA2lpBPW14F9FDEtGSRPXez1QkeSIymfD9Nzol1k/9ZKBgZGhtctpAWP51ogBhLEbRXC7rasnPM
- 5j8/U6GSzXjkeqIiYW8OjtT2Cf73GoLK3CoW7nYHqTICaYczyTc9nNNiF98C/gqkN/AM=
-X-Received: by 2002:a17:907:3e92:b0:6f4:7ab4:20a5 with SMTP id
- hs18-20020a1709073e9200b006f47ab420a5mr14467452ejc.620.1652091549820; 
- Mon, 09 May 2022 03:19:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRBZaAsrTduT64X1tH01CPQ3oFB6cReKXFl8/QCRXJZBAT0Z5XZKRkqUtO8PsEkCfkjXxqhQ==
-X-Received: by 2002:a17:907:3e92:b0:6f4:7ab4:20a5 with SMTP id
- hs18-20020a1709073e9200b006f47ab420a5mr14467425ejc.620.1652091549368; 
- Mon, 09 May 2022 03:19:09 -0700 (PDT)
+ bh=1/mXUDcgqTcmBh6cLuEIn7Iw84PwHaS/ajNdjHH46Gs=;
+ b=X6BHE3adjGDJFdCcmnjTqpbON8L42AzeFLsv+9VtOJ0GYVOhIIO3vCxt42F/f3lAzd
+ e76mVfBYQ3jVqkMy2aCWg8JcWeMLgi805b3pQJPC0bgDAytZ0xso5dRickxnaRKDQP3w
+ GE8Y3wYoEmFoUeaBwXNMKeL7YX1by6Dwe+QSkCSy51IJ3UD53F/pbgoUjKYsMwJJkyb/
+ nIVsDogxEbkISxjkAXhLH4AvGrlQ1ZD5qBu3CTDi6MIVZvbonp7JeIp3vUaIauOAtcu5
+ YVQpoD/ESJ9xs7gr90vSpPyOW1LbGCv8aTX51Iy+zpFFOBetDuNS3EK/HTrF0C1n5MSd
+ TEXA==
+X-Gm-Message-State: AOAM531WPU9qJYD5VBl/T7S249c2PZ83Ew+k2yaMs9k8WLhU584Asl6Y
+ ePzTyk552RVGyB29CNLKGz+uuEHPqbydnVMDSqJjJC4tqxblffmgkTF1nlWC5gVRFYq4xj72Mmu
+ vTB/Ho7yDbEX9uJ09YPrf85GvtcD7COGR77toAqOe5RNhgPMHF49Uqs0NT/Pt55f9fu0=
+X-Received: by 2002:a17:907:971d:b0:6f4:f5b1:eac5 with SMTP id
+ jg29-20020a170907971d00b006f4f5b1eac5mr13632496ejc.285.1652091576002; 
+ Mon, 09 May 2022 03:19:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqhu+57nlEI+A/8U+6jL02ogoRwOw/z8mqqGlNDWFy6oVYpwv/7vGGX4MD1Lm31erk2QBKLg==
+X-Received: by 2002:a17:907:971d:b0:6f4:f5b1:eac5 with SMTP id
+ jg29-20020a170907971d00b006f4f5b1eac5mr13632464ejc.285.1652091575521; 
+ Mon, 09 May 2022 03:19:35 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- i24-20020a05640200d800b0042617ba63a8sm6239798edu.50.2022.05.09.03.19.08
+ qs24-20020a170906459800b006f3ef214e1bsm4851693ejc.129.2022.05.09.03.19.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 03:19:08 -0700 (PDT)
+ Mon, 09 May 2022 03:19:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: berrange@redhat.com
-Subject: [PATCH] crypto: make loaded property read-only
-Date: Mon,  9 May 2022 12:19:07 +0200
-Message-Id: <20220509101907.212687-1-pbonzini@redhat.com>
+Subject: [PATCH] rng: make opened property read-only
+Date: Mon,  9 May 2022 12:19:10 +0200
+Message-Id: <20220509101909.212724-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -96,325 +96,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ``loaded=on`` option in the command line or QMP ``object-add`` either had
-no effect (if ``loaded`` was the last option) or caused options to be
-effectively ignored as if they were not given.  The property is therefore
-useless and was deprecated in 6.0; make it read-only now.
+The ``opened=on`` option in the command line or QMP ``object-add`` either had
+no effect (if ``opened`` was the last option) or caused errors.  The property
+is therefore useless and was deprecated in 6.0; make it read-only now.
 
-The patch is best reviewed with "-b".
-
+Based-on: <20220509101907.212687-1-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- crypto/secret_common.c          | 84 ++++++++++++++-------------------
- crypto/tlscredsanon.c           | 20 ++------
- crypto/tlscredspsk.c            | 20 ++------
- crypto/tlscredsx509.c           | 20 ++------
- docs/about/deprecated.rst       | 10 ----
- docs/about/removed-features.rst |  8 ++++
- 6 files changed, 55 insertions(+), 107 deletions(-)
+ backends/rng.c                  | 18 ++----------------
+ docs/about/deprecated.rst       |  9 ---------
+ docs/about/removed-features.rst |  7 +++++++
+ 3 files changed, 9 insertions(+), 25 deletions(-)
 
-diff --git a/crypto/secret_common.c b/crypto/secret_common.c
-index 714a15d5e5..3441c44ca8 100644
---- a/crypto/secret_common.c
-+++ b/crypto/secret_common.c
-@@ -138,36 +138,44 @@ static void qcrypto_secret_decode(const uint8_t *input,
+diff --git a/backends/rng.c b/backends/rng.c
+index 3757b04485..6c7bf64426 100644
+--- a/backends/rng.c
++++ b/backends/rng.c
+@@ -48,24 +48,10 @@ static bool rng_backend_prop_get_opened(Object *obj, Error **errp)
  
- 
- static void
--qcrypto_secret_prop_set_loaded(Object *obj,
--                               bool value,
--                               Error **errp)
-+qcrypto_secret_complete(UserCreatable *uc, Error **errp)
+ static void rng_backend_complete(UserCreatable *uc, Error **errp)
  {
--    QCryptoSecretCommon *secret = QCRYPTO_SECRET_COMMON(obj);
-+    QCryptoSecretCommon *secret = QCRYPTO_SECRET_COMMON(uc);
-     QCryptoSecretCommonClass *sec_class
--                                = QCRYPTO_SECRET_COMMON_GET_CLASS(obj);
-+                                = QCRYPTO_SECRET_COMMON_GET_CLASS(uc);
- 
--    if (value) {
--        Error *local_err = NULL;
--        uint8_t *input = NULL;
--        size_t inputlen = 0;
--        uint8_t *output = NULL;
--        size_t outputlen = 0;
-+    Error *local_err = NULL;
-+    uint8_t *input = NULL;
-+    size_t inputlen = 0;
-+    uint8_t *output = NULL;
-+    size_t outputlen = 0;
- 
--        if (sec_class->load_data) {
--            sec_class->load_data(secret, &input, &inputlen, &local_err);
--            if (local_err) {
--                error_propagate(errp, local_err);
--                return;
--            }
--        } else {
--            error_setg(errp, "%s provides no 'load_data' method'",
--                             object_get_typename(obj));
-+    if (sec_class->load_data) {
-+        sec_class->load_data(secret, &input, &inputlen, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-             return;
-         }
-+    } else {
-+        error_setg(errp, "%s provides no 'load_data' method'",
-+                         object_get_typename(OBJECT(uc)));
-+        return;
-+    }
- 
--        if (secret->keyid) {
--            qcrypto_secret_decrypt(secret, input, inputlen,
--                                   &output, &outputlen, &local_err);
-+    if (secret->keyid) {
-+        qcrypto_secret_decrypt(secret, input, inputlen,
-+                               &output, &outputlen, &local_err);
-+        g_free(input);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+        input = output;
-+        inputlen = outputlen;
-+    } else {
-+        if (secret->format == QCRYPTO_SECRET_FORMAT_BASE64) {
-+            qcrypto_secret_decode(input, inputlen,
-+                                  &output, &outputlen, &local_err);
-             g_free(input);
-             if (local_err) {
-                 error_propagate(errp, local_err);
-@@ -175,26 +183,11 @@ qcrypto_secret_prop_set_loaded(Object *obj,
-             }
-             input = output;
-             inputlen = outputlen;
--        } else {
--            if (secret->format == QCRYPTO_SECRET_FORMAT_BASE64) {
--                qcrypto_secret_decode(input, inputlen,
--                                      &output, &outputlen, &local_err);
--                g_free(input);
--                if (local_err) {
--                    error_propagate(errp, local_err);
--                    return;
--                }
--                input = output;
--                inputlen = outputlen;
--            }
-         }
+-    object_property_set_bool(OBJECT(uc), "opened", true, errp);
+-}
 -
--        secret->rawdata = input;
--        secret->rawlen = inputlen;
--    } else if (secret->rawdata) {
--        error_setg(errp, "Cannot unload secret");
+-static void rng_backend_prop_set_opened(Object *obj, bool value, Error **errp)
+-{
+-    RngBackend *s = RNG_BACKEND(obj);
++    RngBackend *s = RNG_BACKEND(uc);
+     RngBackendClass *k = RNG_BACKEND_GET_CLASS(s);
+     Error *local_err = NULL;
+ 
+-    if (value == s->opened) {
 -        return;
-     }
-+
-+    secret->rawdata = input;
-+    secret->rawlen = inputlen;
- }
- 
- 
-@@ -268,13 +261,6 @@ qcrypto_secret_prop_get_keyid(Object *obj,
- }
- 
- 
--static void
--qcrypto_secret_complete(UserCreatable *uc, Error **errp)
--{
--    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
--}
--
--
- static void
- qcrypto_secret_finalize(Object *obj)
- {
-@@ -294,7 +280,7 @@ qcrypto_secret_class_init(ObjectClass *oc, void *data)
- 
-     object_class_property_add_bool(oc, "loaded",
-                                    qcrypto_secret_prop_get_loaded,
--                                   qcrypto_secret_prop_set_loaded);
-+                                   NULL);
-     object_class_property_add_enum(oc, "format",
-                                    "QCryptoSecretFormat",
-                                    &QCryptoSecretFormat_lookup,
-diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
-index 6fb83639ec..c0d23a0ef3 100644
---- a/crypto/tlscredsanon.c
-+++ b/crypto/tlscredsanon.c
-@@ -119,16 +119,11 @@ qcrypto_tls_creds_anon_unload(QCryptoTLSCredsAnon *creds G_GNUC_UNUSED)
- 
- 
- static void
--qcrypto_tls_creds_anon_prop_set_loaded(Object *obj,
--                                       bool value,
--                                       Error **errp)
-+qcrypto_tls_creds_anon_complete(UserCreatable *uc, Error **errp)
- {
--    QCryptoTLSCredsAnon *creds = QCRYPTO_TLS_CREDS_ANON(obj);
-+    QCryptoTLSCredsAnon *creds = QCRYPTO_TLS_CREDS_ANON(uc);
- 
--    qcrypto_tls_creds_anon_unload(creds);
--    if (value) {
--        qcrypto_tls_creds_anon_load(creds, errp);
 -    }
-+    qcrypto_tls_creds_anon_load(creds, errp);
- }
- 
- 
-@@ -163,13 +158,6 @@ qcrypto_tls_creds_anon_prop_get_loaded(Object *obj G_GNUC_UNUSED,
- #endif /* ! CONFIG_GNUTLS */
- 
- 
--static void
--qcrypto_tls_creds_anon_complete(UserCreatable *uc, Error **errp)
--{
--    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
--}
 -
--
- static void
- qcrypto_tls_creds_anon_finalize(Object *obj)
- {
-@@ -188,7 +176,7 @@ qcrypto_tls_creds_anon_class_init(ObjectClass *oc, void *data)
- 
-     object_class_property_add_bool(oc, "loaded",
-                                    qcrypto_tls_creds_anon_prop_get_loaded,
--                                   qcrypto_tls_creds_anon_prop_set_loaded);
-+                                   NULL);
- }
- 
- 
-diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-index 752f2d92be..a4f9891274 100644
---- a/crypto/tlscredspsk.c
-+++ b/crypto/tlscredspsk.c
-@@ -188,16 +188,11 @@ qcrypto_tls_creds_psk_unload(QCryptoTLSCredsPSK *creds G_GNUC_UNUSED)
- 
- 
- static void
--qcrypto_tls_creds_psk_prop_set_loaded(Object *obj,
--                                      bool value,
--                                      Error **errp)
-+qcrypto_tls_creds_psk_complete(UserCreatable *uc, Error **errp)
- {
--    QCryptoTLSCredsPSK *creds = QCRYPTO_TLS_CREDS_PSK(obj);
-+    QCryptoTLSCredsPSK *creds = QCRYPTO_TLS_CREDS_PSK(uc);
- 
--    qcrypto_tls_creds_psk_unload(creds);
--    if (value) {
--        qcrypto_tls_creds_psk_load(creds, errp);
+-    if (!value && s->opened) {
+-        error_setg(errp, QERR_PERMISSION_DENIED);
+-        return;
 -    }
-+    qcrypto_tls_creds_psk_load(creds, errp);
+-
+     if (k->opened) {
+         k->opened(s, &local_err);
+         if (local_err) {
+@@ -122,7 +108,7 @@ static void rng_backend_class_init(ObjectClass *oc, void *data)
+ 
+     object_class_property_add_bool(oc, "opened",
+                                    rng_backend_prop_get_opened,
+-                                   rng_backend_prop_set_opened);
++                                   NULL);
  }
  
- 
-@@ -232,13 +227,6 @@ qcrypto_tls_creds_psk_prop_get_loaded(Object *obj G_GNUC_UNUSED,
- #endif /* ! CONFIG_GNUTLS */
- 
- 
--static void
--qcrypto_tls_creds_psk_complete(UserCreatable *uc, Error **errp)
--{
--    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
--}
--
--
- static void
- qcrypto_tls_creds_psk_finalize(Object *obj)
- {
-@@ -276,7 +264,7 @@ qcrypto_tls_creds_psk_class_init(ObjectClass *oc, void *data)
- 
-     object_class_property_add_bool(oc, "loaded",
-                                    qcrypto_tls_creds_psk_prop_get_loaded,
--                                   qcrypto_tls_creds_psk_prop_set_loaded);
-+                                   NULL);
-     object_class_property_add_str(oc, "username",
-                                   qcrypto_tls_creds_psk_prop_get_username,
-                                   qcrypto_tls_creds_psk_prop_set_username);
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index 32948a6bdc..d14313925d 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -687,16 +687,11 @@ qcrypto_tls_creds_x509_unload(QCryptoTLSCredsX509 *creds G_GNUC_UNUSED)
- 
- 
- static void
--qcrypto_tls_creds_x509_prop_set_loaded(Object *obj,
--                                       bool value,
--                                       Error **errp)
-+qcrypto_tls_creds_x509_complete(UserCreatable *uc, Error **errp)
- {
--    QCryptoTLSCredsX509 *creds = QCRYPTO_TLS_CREDS_X509(obj);
-+    QCryptoTLSCredsX509 *creds = QCRYPTO_TLS_CREDS_X509(uc);
- 
--    qcrypto_tls_creds_x509_unload(creds);
--    if (value) {
--        qcrypto_tls_creds_x509_load(creds, errp);
--    }
-+    qcrypto_tls_creds_x509_load(creds, errp);
- }
- 
- 
-@@ -814,13 +809,6 @@ qcrypto_tls_creds_x509_reload(QCryptoTLSCreds *creds, Error **errp)
- #endif /* ! CONFIG_GNUTLS */
- 
- 
--static void
--qcrypto_tls_creds_x509_complete(UserCreatable *uc, Error **errp)
--{
--    object_property_set_bool(OBJECT(uc), "loaded", true, errp);
--}
--
--
- static void
- qcrypto_tls_creds_x509_init(Object *obj)
- {
-@@ -852,7 +840,7 @@ qcrypto_tls_creds_x509_class_init(ObjectClass *oc, void *data)
- 
-     object_class_property_add_bool(oc, "loaded",
-                                    qcrypto_tls_creds_x509_prop_get_loaded,
--                                   qcrypto_tls_creds_x509_prop_set_loaded);
-+                                   NULL);
-     object_class_property_add_bool(oc, "sanity-check",
-                                    qcrypto_tls_creds_x509_prop_get_sanity,
-                                    qcrypto_tls_creds_x509_prop_set_sanity);
+ static const TypeInfo rng_backend_info = {
 diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 896e5a97ab..2feb0c506c 100644
+index 2feb0c506c..25bc92dc65 100644
 --- a/docs/about/deprecated.rst
 +++ b/docs/about/deprecated.rst
-@@ -99,16 +99,6 @@ other options have been processed.  This will either have no effect (if
- ``opened`` was the last option) or cause errors.  The property is therefore
- useless and should not be specified.
+@@ -90,15 +90,6 @@ the process listing. This is replaced by the new ``password-secret``
+ option which lets the password be securely provided on the command
+ line using a ``secret`` object instance.
  
--``loaded`` property of ``secret`` and ``secret_keyring`` objects (since 6.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-``opened`` property of ``rng-*`` objects (since 6.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''
 -
--The only effect of specifying ``loaded=on`` in the command line or QMP
--``object-add`` is that the secret is loaded immediately, possibly before all
+-The only effect of specifying ``opened=on`` in the command line or QMP
+-``object-add`` is that the device is opened immediately, possibly before all
 -other options have been processed.  This will either have no effect (if
--``loaded`` was the last option) or cause options to be effectively ignored as
--if they were not given.  The property is therefore useless and should not be
--specified.
+-``opened`` was the last option) or cause errors.  The property is therefore
+-useless and should not be specified.
 -
  ``-display sdl,window_close=...`` (since 6.1)
  '''''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 4a0b270296..2032608314 100644
+index 2032608314..715b5f4f4d 100644
 --- a/docs/about/removed-features.rst
 +++ b/docs/about/removed-features.rst
-@@ -741,6 +741,14 @@ aware that there are already potential security risks to blindly using
- ``qemu-img info`` to probe the format of an untrusted backing image,
- when deciding what format to add into an existing image.
+@@ -749,6 +749,13 @@ no effect (if ``loaded`` was the last option) or caused options to be
+ effectively ignored as if they were not given.  The property is therefore
+ useless and should simply be removed.
  
-+``loaded`` property of ``secret`` and ``secret_keyring`` objects (removed in 7.1)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++``opened`` property of ``rng-*`` objects (removed in 7.1)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+The ``loaded=on`` option in the command line or QMP ``object-add`` either had
-+no effect (if ``loaded`` was the last option) or caused options to be
-+effectively ignored as if they were not given.  The property is therefore
-+useless and should simply be removed.
++The ``opened=on`` option in the command line or QMP ``object-add`` either had
++no effect (if ``opened`` was the last option) or caused errors.  The property
++is therefore useless and should not be specified.
 +
  Block devices
  -------------
