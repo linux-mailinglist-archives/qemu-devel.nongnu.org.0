@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E616451FCB0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:25:08 +0200 (CEST)
-Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A574F51FCC8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:28:41 +0200 (CEST)
+Received: from localhost ([::1]:51010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2Ro-0000xk-0G
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50022)
+	id 1no2VE-0006tW-Ou
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22i-0007l9-2o
+ id 1no22i-0007nA-Hq
  for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:12 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35741)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22g-0001L4-Df
- for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:11 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- c190-20020a1c35c7000000b0038e37907b5bso10651126wma.0
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:59:09 -0700 (PDT)
+ id 1no22g-0001KE-Kp
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:12 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c11so19084579wrn.8
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=+3olo7e85VH/YZ4COonx8SmNnB4UzXRKEotRzbQ80o4=;
- b=u5Vj86WSM2ffMzDw5tMtLV3nUvfOVVSQzfOE10UVk+jUMtv6oxRPkjkffdPp/rBSKo
- /gBFbmtUvz+xum5zvwNLny66nLOFytvSb+JqBgDKxrd3Jxz2jp0FH8ul55kQJpbA05+0
- BKdlbVPeQsnVmADlvxySPYa7Noh/VKxgdcCvEwOZhTfTqcwHpk43xtsLcGIYDWsyBFv3
- H05ZjTiTE+HjVTLMSHc7MmFeOmeAHWtcn/A3FUyBGz0A4NZvK+MaTMFId7/EpUpaPWzx
- R2Gh81sQ2YmDs+sgt1EyawqWxhUkLvHksdYxtpTvoE8oMFWOK54cojY+RvY0THNYj4ze
- diYw==
+ bh=/lpv2cPi1QsrCoVR7BqND3LjQ1uLgD1c9+4prWrFMIY=;
+ b=pwhPb6q+USsUPLF2lWcOj4E9qkuvs8jSSp1Oantv9cKQZuyYnO9O+j63T99SbUIzZa
+ NHA6NULtqPcxQ8rEeeDLM80nyMOZME5fbNx6K8gnjb1jP3dMb+q41ZP3/Jvrz0a9ITr4
+ wpHDdyCxnsoGnu1iog32icBgVwO+A61Ij1dSx0+liDA9+3EV3xigibmJi++ia9k8my50
+ rtfChfdiKVFNisaryl4U/IaXlYqwwbU/oyo6WzRCpIdTrjESsQ7LQe3RI8KcocX/tKqj
+ zkZasA76CLJ6xWub3yKPQxAvl4/9tC4J5PujCxX/AlxHTUWvp1WRQsf3sKqrdhJE1ejR
+ tb3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+3olo7e85VH/YZ4COonx8SmNnB4UzXRKEotRzbQ80o4=;
- b=6zEWJIzH48lMVhUGGHzrim62ZUS0iPHXI6IeIQr7AkorVEXgE6CAv/b9kvE8h3NaOQ
- Ea+rGIHdjG+cQcckPZatU1BI6EOiMcYh01O64aC6hRRiNPz+seR2qyE7NlheggbXPBrp
- Q3uO/bHEuxjqQwjPAkAPyLht1Ir9vro9BzRv3dWEh41XCXvvn5ySINF5HeanYk1AMs8Y
- 1p53t//CQXiYvpghe4AcEjlOr9LZlGnO0yX7qyNvMU9fV6eL8D2dx8BVtybHKRnv2d0S
- NX6X9pRDjnvfJDXChX4zixVn/cgn5TyG1NOd+UF7349g63ousTnpC7/mepDjp4buZegw
- V/pQ==
-X-Gm-Message-State: AOAM530PlZY01qIInQKa9PAg//4zqqV8ZJK83hfE9YS3vz+gkdNfLdqB
- 0XfpkawKQbNHHTU0K+DvKQ3SbuWQWmTSgQ==
-X-Google-Smtp-Source: ABdhPJx/GNEnxD6GCdIeysjmWR945Tmdq9p3xXMLUNUBZEZ6rdVdE2ereNKo9l1QpvSpzQiOSfKV2g==
-X-Received: by 2002:a1c:7414:0:b0:394:1d5d:27f2 with SMTP id
- p20-20020a1c7414000000b003941d5d27f2mr15812603wmc.37.1652097549047; 
+ bh=/lpv2cPi1QsrCoVR7BqND3LjQ1uLgD1c9+4prWrFMIY=;
+ b=OC8tUWvHsntcNAy7STpnwiCkr+Iio2HiYvaXr25FTKl6eS22RMyCyB1ZZEuIiZ4h5g
+ HkuEICTMKvlOi1s4Ro/hC0IUEQ+Fq/vmXXv43lDKvlycP/uxxDIKQgINSpOzhzSFrsBk
+ Tz3JOuVlhZu5Pn1SEjv9fz2n9jx6YbdK1qxEptEP7mLHUD5asFWzyVhZIHF7AHoXr6x1
+ GhdcxGnk6ts9v/+OvVBFI9z1vF+PW159d4m4jiCxXkiYXb0yc7oHkmfbIS07+1sSyfkV
+ Ux57rxQXCOHeDr/GYn8OtEXMC/M2jIgABQcJubvR6hXUkfk5l148OhXq57HpHTR6G9Hr
+ aM9w==
+X-Gm-Message-State: AOAM530DHgunWA+7XL8JhRMOS9zLJf5l7VST/ImAoCzZnJyQ4t2dwzta
+ vmP/uqNv0GxOf0CpS/jCFmXC0wwJh8ejJw==
+X-Google-Smtp-Source: ABdhPJxTqpHyAzrrSf/PXqPDy/p4l7l6mf11G+5BtEjARtMqo36lX1SI/CaDn8M8lBpk+zo7ABBrEA==
+X-Received: by 2002:adf:f6d1:0:b0:20a:d5ca:6dc0 with SMTP id
+ y17-20020adff6d1000000b0020ad5ca6dc0mr13811285wrp.292.1652097549900; 
  Mon, 09 May 2022 04:59:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.59.08
+ bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.59.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 04:59:08 -0700 (PDT)
+ Mon, 09 May 2022 04:59:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/32] target/arm: Enable FEAT_DGH for -cpu max
-Date: Mon,  9 May 2022 12:58:39 +0100
-Message-Id: <20220509115848.3521805-24-peter.maydell@linaro.org>
+Subject: [PULL 24/32] target/arm: Define cortex-a76
+Date: Mon,  9 May 2022 12:58:40 +0100
+Message-Id: <20220509115848.3521805-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220509115848.3521805-1-peter.maydell@linaro.org>
 References: <20220509115848.3521805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,56 +90,139 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This extension concerns not merging memory access, which TCG does
-not implement.  Thus we can trivially enable this feature.
-Add a comment to handle_hint for the DGH instruction, but no code.
+Enable the a76 for virt and sbsa board use.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220506180242.216785-23-richard.henderson@linaro.org
+Message-id: 20220506180242.216785-24-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/emulation.rst | 1 +
- target/arm/cpu64.c            | 1 +
- target/arm/translate-a64.c    | 1 +
- 3 files changed, 3 insertions(+)
+ docs/system/arm/virt.rst |  1 +
+ hw/arm/sbsa-ref.c        |  1 +
+ hw/arm/virt.c            |  1 +
+ target/arm/cpu64.c       | 66 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 69 insertions(+)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 48522b8e1cd..8ed466bf68e 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -17,6 +17,7 @@ the following architecture extensions:
- - FEAT_CSV2_1p2 (Cache speculation variant 2, version 1.2)
- - FEAT_CSV2_2 (Cache speculation variant 2, version 2)
- - FEAT_CSV3 (Cache speculation variant 3)
-+- FEAT_DGH (Data gathering hint)
- - FEAT_DIT (Data Independent Timing instructions)
- - FEAT_DPB (DC CVAP instruction)
- - FEAT_Debugv8p2 (Debug changes for v8.2)
+diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+index 5fe045cbf06..3e264d85af8 100644
+--- a/docs/system/arm/virt.rst
++++ b/docs/system/arm/virt.rst
+@@ -55,6 +55,7 @@ Supported guest CPU types:
+ - ``cortex-a53`` (64-bit)
+ - ``cortex-a57`` (64-bit)
+ - ``cortex-a72`` (64-bit)
++- ``cortex-a76`` (64-bit)
+ - ``a64fx`` (64-bit)
+ - ``host`` (with KVM only)
+ - ``max`` (same as ``host`` for KVM; best possible emulation with TCG)
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 23874019639..2ddde88f5eb 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -145,6 +145,7 @@ static const int sbsa_ref_irqmap[] = {
+ static const char * const valid_cpus[] = {
+     ARM_CPU_TYPE_NAME("cortex-a57"),
+     ARM_CPU_TYPE_NAME("cortex-a72"),
++    ARM_CPU_TYPE_NAME("cortex-a76"),
+     ARM_CPU_TYPE_NAME("max"),
+ };
+ 
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index f94278935f5..12bc2318ecb 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -202,6 +202,7 @@ static const char *valid_cpus[] = {
+     ARM_CPU_TYPE_NAME("cortex-a53"),
+     ARM_CPU_TYPE_NAME("cortex-a57"),
+     ARM_CPU_TYPE_NAME("cortex-a72"),
++    ARM_CPU_TYPE_NAME("cortex-a76"),
+     ARM_CPU_TYPE_NAME("a64fx"),
+     ARM_CPU_TYPE_NAME("host"),
+     ARM_CPU_TYPE_NAME("max"),
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 40f77defb51..f55121060dc 100644
+index f55121060dc..adfe6b26be7 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -738,6 +738,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);       /* FEAT_SB */
-     t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);  /* FEAT_SPECRES */
-     t = FIELD_DP64(t, ID_AA64ISAR1, BF16, 1);     /* FEAT_BF16 */
-+    t = FIELD_DP64(t, ID_AA64ISAR1, DGH, 1);      /* FEAT_DGH */
-     t = FIELD_DP64(t, ID_AA64ISAR1, I8MM, 1);     /* FEAT_I8MM */
-     cpu->isar.id_aa64isar1 = t;
+@@ -194,6 +194,71 @@ static void aarch64_a72_initfn(Object *obj)
+     define_cortex_a72_a57_a53_cp_reginfo(cpu);
+ }
  
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 5a02e076b7f..6a27234a5c4 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1427,6 +1427,7 @@ static void handle_hint(DisasContext *s, uint32_t insn,
-         break;
-     case 0b00100: /* SEV */
-     case 0b00101: /* SEVL */
-+    case 0b00110: /* DGH */
-         /* we treat all as NOP at least for now */
-         break;
-     case 0b00111: /* XPACLRI */
++static void aarch64_a76_initfn(Object *obj)
++{
++    ARMCPU *cpu = ARM_CPU(obj);
++
++    cpu->dtb_compatible = "arm,cortex-a76";
++    set_feature(&cpu->env, ARM_FEATURE_V8);
++    set_feature(&cpu->env, ARM_FEATURE_NEON);
++    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
++    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
++    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
++    set_feature(&cpu->env, ARM_FEATURE_EL2);
++    set_feature(&cpu->env, ARM_FEATURE_EL3);
++    set_feature(&cpu->env, ARM_FEATURE_PMU);
++
++    /* Ordered by B2.4 AArch64 registers by functional group */
++    cpu->clidr = 0x82000023;
++    cpu->ctr = 0x8444C004;
++    cpu->dcz_blocksize = 4;
++    cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
++    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
++    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
++    cpu->isar.id_aa64mmfr0 = 0x0000000000101122ull;
++    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
++    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
++    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
++    cpu->isar.id_aa64pfr1  = 0x0000000000000010ull;
++    cpu->id_afr0       = 0x00000000;
++    cpu->isar.id_dfr0  = 0x04010088;
++    cpu->isar.id_isar0 = 0x02101110;
++    cpu->isar.id_isar1 = 0x13112111;
++    cpu->isar.id_isar2 = 0x21232042;
++    cpu->isar.id_isar3 = 0x01112131;
++    cpu->isar.id_isar4 = 0x00010142;
++    cpu->isar.id_isar5 = 0x01011121;
++    cpu->isar.id_isar6 = 0x00000010;
++    cpu->isar.id_mmfr0 = 0x10201105;
++    cpu->isar.id_mmfr1 = 0x40000000;
++    cpu->isar.id_mmfr2 = 0x01260000;
++    cpu->isar.id_mmfr3 = 0x02122211;
++    cpu->isar.id_mmfr4 = 0x00021110;
++    cpu->isar.id_pfr0  = 0x10010131;
++    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
++    cpu->isar.id_pfr2  = 0x00000011;
++    cpu->midr = 0x414fd0b1;          /* r4p1 */
++    cpu->revidr = 0;
++
++    /* From B2.18 CCSIDR_EL1 */
++    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
++    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
++    cpu->ccsidr[2] = 0x707fe03a; /* 512KB L2 cache */
++
++    /* From B2.93 SCTLR_EL3 */
++    cpu->reset_sctlr = 0x30c50838;
++
++    /* From B4.23 ICH_VTR_EL2 */
++    cpu->gic_num_lrs = 4;
++    cpu->gic_vpribits = 5;
++    cpu->gic_vprebits = 5;
++
++    /* From B5.1 AdvSIMD AArch64 register summary */
++    cpu->isar.mvfr0 = 0x10110222;
++    cpu->isar.mvfr1 = 0x13211111;
++    cpu->isar.mvfr2 = 0x00000043;
++}
++
+ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+ {
+     /*
+@@ -881,6 +946,7 @@ static const ARMCPUInfo aarch64_cpus[] = {
+     { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
+     { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
+     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
++    { .name = "cortex-a76",         .initfn = aarch64_a76_initfn },
+     { .name = "a64fx",              .initfn = aarch64_a64fx_initfn },
+     { .name = "max",                .initfn = aarch64_max_initfn },
+ #if defined(CONFIG_KVM) || defined(CONFIG_HVF)
 -- 
 2.25.1
 
