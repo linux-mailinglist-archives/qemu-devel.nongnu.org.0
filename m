@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B739C51FD34
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:47:30 +0200 (CEST)
-Received: from localhost ([::1]:54592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A24451FC76
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 14:16:54 +0200 (CEST)
+Received: from localhost ([::1]:51694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1no2nR-0004XX-Md
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50166)
+	id 1no2Jp-0004sE-6d
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 08:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22p-00088B-GK
- for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:19 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42926)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1no240-0000tm-Pa
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 08:00:34 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:39883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1no22n-0001Gn-Jv
- for qemu-devel@nongnu.org; Mon, 09 May 2022 07:59:19 -0400
-Received: by mail-wr1-x436.google.com with SMTP id e24so19108668wrc.9
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 04:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=aYXIZAfUyumvHztGuBmfJ493wl1SWQhTJkN41sNVXpo=;
- b=daBMO3S3dZ0hlNjXy6GD80QDKPKSa9jz99hOUzLdyJdahyZqnsoiAi1OE+TCP5++HM
- L3a6jGkhKL8duPBZj1l+42jLbtgADJol6Kh/EqfPjeMKyjdcwnqtFIssCHLDClnCEJnT
- gUwLmbiUdQ/GIS46z+aBaCWqL/UsEwyGxeF3+XDIWvDH7cn3RsPqg53Eso5RNAY6tcI2
- PjWIGwUHueFRoGIjHxFxlT4oaHsYgeojg3XcEzf1hhFDa6fF9ESJ63/4Y3xPdYw2BNZh
- uPnk62ojcTs5S5FFlZTV48wWrqPo1NNQf0HN8/LcU78vCvw5wdaH9IoyS7E5Y56/z7DG
- snhw==
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1no23v-0001ki-BX
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 08:00:32 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id y32so23366763lfa.6
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 05:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jFlolGB7y2Yo1CY/S0EI1M9WjxGNfe5eFQyZeirIpHw=;
+ b=l2f6MJ4ntmGd1P3/UZN0zlqivFRNIOzRtlyLPv5oQk6iSlqUQzo8DY/PGmdN765tuF
+ C3d0Bn9ezTGtbo4Hxl2ISVddA24PPg+4oeQtQM8OoStl5apq1Eo6E/0sVLea4clg5Vyj
+ 2CzrjePeaILLmQbciVPamu3XzOis2nK/aWjcr0e6t3dJBLhAiHQQWkgLUX8+x9vaArs5
+ zKeuPAyA0KBOJCSQxssDbmIu+eiqNfWBwpev751WQjcFObrZrrD8QyXmBc5wgGTZRcvM
+ 6EtqUIV+qEoeAdu4+mQyCVnOIw6qkIz3u8LCqIg5xj6gxItcxVwtXcy8GHT1zpxb4EK/
+ mgsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aYXIZAfUyumvHztGuBmfJ493wl1SWQhTJkN41sNVXpo=;
- b=jSXbEjhuo5aq6DbJjNnVH//ZXyOBRjufnrJuUWUGvKkkgSOaBm8I2i5n+DoOsA+piF
- FS5ae9nW+XioXZ+JKhT11Xa6viI8zUnYvPUz4PFa12Si8i18/X/L+q+9xjWRqX/Od+A4
- NYDvDrLcSdihrgHH7X/79QBJ3obeqTShoA9VgvrjCzsFvDAsvpy45G/XOwMyj96MibM1
- ngps5SAVz3zhVfaq8TJQk6ZmHseKQboqI/0UE8N7RO0REIDYox8yHKaZqt21KhodR2TJ
- 57H1LEoj4unRwAghUDPTLClwtp4kwNQRyjd03WvIB7T2b/OU5TQjjkS7M0oxhDr5bbZN
- t5dg==
-X-Gm-Message-State: AOAM530bcWtK4z8CxO8e7bVuAUXLTKiULRW4cLVRpCgag1NABZM0XgTb
- 5vGqfkRUo7gMOr+zA15HAaAQYe3pVVWRUQ==
-X-Google-Smtp-Source: ABdhPJwrLTUgygQva0W2aRB8BuTkKUKr67iWE/n8EhjMipCMEWcjuxUyoBZJ7zVe1QmGlM5dOXDQZA==
-X-Received: by 2002:a5d:4052:0:b0:20a:d8b9:9d4b with SMTP id
- w18-20020a5d4052000000b0020ad8b99d4bmr13201130wrp.612.1652097556877; 
- Mon, 09 May 2022 04:59:16 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- bs6-20020a056000070600b0020c5253d8bdsm12199928wrb.9.2022.05.09.04.59.16
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 04:59:16 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 32/32] hw/acpi/aml-build: Use existing CPU topology to build
- PPTT table
-Date: Mon,  9 May 2022 12:58:48 +0100
-Message-Id: <20220509115848.3521805-33-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220509115848.3521805-1-peter.maydell@linaro.org>
-References: <20220509115848.3521805-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jFlolGB7y2Yo1CY/S0EI1M9WjxGNfe5eFQyZeirIpHw=;
+ b=mmsQ6lqp7NBWVuSKED2LGxX5TJMHS4dt8rNR9sBi/g13EGytKOGo6TcOzdO0g+dHm2
+ R8p3zJAaV/CuvHabvOuoEQ+YJLVZqSlU9fSjIp0DZ5wv6MgpwZLw28xR4yJAWOqTyuqT
+ r0lEXR3BwDz/T7FF+4AN8aC8WtZ8w1WYcdbNhjI9VVLJDUZ1QQMoC7Dn+S/j+rw0Uv3f
+ DmaqiF6/tA9PfHm3lPOukBIZME5yJTiCRW99n9a9pLepC4U1vj05GaKHv1xRH7bwiDIS
+ ZGG90MbueW1Slst/aaVCKiDwtX/lPGAa+Lb9rNN2I5yAKkToJRz0Gc4VG3yYThOwtaSy
+ csyQ==
+X-Gm-Message-State: AOAM530FqX0tDDLAFrgAwuImYwvCeEoznBPj9zbt68zrEuaZ8n0MIX/5
+ pEsRGZQ9yd1jVyJhInFsBMr+sGlH1cQJk+ieg17BQA==
+X-Google-Smtp-Source: ABdhPJyTdYQeIjOiekjuu5PRQh1wAKKTUnBL2Lsw2y+Gm+Jq41571IgUvH+v/GnrNxUrcaNJREtr7BdbK4dHlXndgqk=
+X-Received: by 2002:ac2:53a2:0:b0:472:3dd:40c6 with SMTP id
+ j2-20020ac253a2000000b0047203dd40c6mr13269915lfh.130.1652097625082; Mon, 09
+ May 2022 05:00:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+References: <20220429033409.258707-1-apatel@ventanamicro.com>
+ <20220429033409.258707-3-apatel@ventanamicro.com>
+ <CAKmqyKMFVanzOMKPuo_i7hWZEJOmReBpp+wgqv3e2ExV2Jb-7g@mail.gmail.com>
+ <CAK9=C2UBXfEoCEe1Nexa+v51ZxY7qd3xpJDd5x77L6FM8T2Qag@mail.gmail.com>
+ <CAKmqyKO3cqA+diXVuz8es_0FTiPJyufPpfTxQU_bqw6vHDdFQw@mail.gmail.com>
+In-Reply-To: <CAKmqyKO3cqA+diXVuz8es_0FTiPJyufPpfTxQU_bqw6vHDdFQw@mail.gmail.com>
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Mon, 9 May 2022 17:30:14 +0530
+Message-ID: <CAK9=C2XDHvWCcBdML6auRkRfmhuhzL8wtwjPrzjAGJZfJbws5w@mail.gmail.com>
+Subject: Re: [PATCH 2/4] target/riscv: Fix hstatus.GVA bit setting for traps
+ taken from HS-mode
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Anup Patel <anup@brainfault.org>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atishp@atishpatra.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=apatel@ventanamicro.com; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,167 +93,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gavin Shan <gshan@redhat.com>
+On Mon, May 9, 2022 at 2:54 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Thu, May 5, 2022 at 12:36 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> >
+> > On Thu, May 5, 2022 at 3:21 PM Alistair Francis <alistair23@gmail.com> wrote:
+> > >
+> > > On Fri, Apr 29, 2022 at 1:38 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> > > >
+> > > > Currently, QEMU does not set hstatus.GVA bit for traps taken from
+> > > > HS-mode into HS-mode which breaks the Xvisor nested MMU test suite
+> > > > on QEMU. This was working previously.
+> > > >
+> > > > This patch updates riscv_cpu_do_interrupt() to fix the above issue.
+> > > >
+> > > > Fixes: 86d0c457396b ("target/riscv: Fixup setting GVA")
+> > > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> > > > ---
+> > > >  target/riscv/cpu_helper.c | 1 -
+> > > >  1 file changed, 1 deletion(-)
+> > > >
+> > > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > > > index e1aa4f2097..d83579accf 100644
+> > > > --- a/target/riscv/cpu_helper.c
+> > > > +++ b/target/riscv/cpu_helper.c
+> > > > @@ -1434,7 +1434,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> > > >                  /* Trap into HS mode */
+> > > >                  env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
+> > > >                  htval = env->guest_phys_fault_addr;
+> > > > -                write_gva = false;
+> > >
+> > > This doesn't seem right.
+> > >
+> > > "Field GVA (Guest Virtual Address) is written by the implementation
+> > > whenever a trap is taken
+> > > into HS-mode. For any trap (breakpoint, address misaligned, access
+> > > fault, page fault, or guest-
+> > > page fault) that writes a guest virtual address to stval, GVA is set
+> > > to 1. For any other trap into
+> > > HS-mode, GVA is set to 0"
+> > >
+> > > So if we are trapping from HS to HS, the address in stval should not
+> > > be a guest virtual address, at least in general.
+> >
+> > That's not correct. The HLV/HSV instructions executed by hypervisor
+> > (HS-mode) take guest virtual address. These instructions can trap
+> > from HS-mode to HS-mode.
+>
+> Ah, I forgot about those instructions, but still they are the
+> exception. In general we would expect a trap from HS to HS to contain
+> HS addresses. We should just handle the other cases specially
 
-When the PPTT table is built, the CPU topology is re-calculated, but
-it's unecessary because the CPU topology has been populated in
-virt_possible_cpu_arch_ids() on arm/virt machine.
+I see your point. Let me re-work this patch to ensure that the GVA bit
+is only set when we have a guest virtual address.
 
-This reworks build_pptt() to avoid by reusing the existing IDs in
-ms->possible_cpus. Currently, the only user of build_pptt() is
-arm/virt machine.
+Regards,
+Anup
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
-Tested-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-id: 20220503140304.855514-7-gshan@redhat.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/acpi/aml-build.c | 111 +++++++++++++++++++-------------------------
- 1 file changed, 48 insertions(+), 63 deletions(-)
-
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 4086879ebff..e6bfac95c7a 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2002,86 +2002,71 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-                 const char *oem_id, const char *oem_table_id)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
--    GQueue *list = g_queue_new();
--    guint pptt_start = table_data->len;
--    guint parent_offset;
--    guint length, i;
--    int uid = 0;
--    int socket;
-+    CPUArchIdList *cpus = ms->possible_cpus;
-+    int64_t socket_id = -1, cluster_id = -1, core_id = -1;
-+    uint32_t socket_offset = 0, cluster_offset = 0, core_offset = 0;
-+    uint32_t pptt_start = table_data->len;
-+    int n;
-     AcpiTable table = { .sig = "PPTT", .rev = 2,
-                         .oem_id = oem_id, .oem_table_id = oem_table_id };
- 
-     acpi_table_begin(&table, table_data);
- 
--    for (socket = 0; socket < ms->smp.sockets; socket++) {
--        g_queue_push_tail(list,
--            GUINT_TO_POINTER(table_data->len - pptt_start));
--        build_processor_hierarchy_node(
--            table_data,
--            /*
--             * Physical package - represents the boundary
--             * of a physical package
--             */
--            (1 << 0),
--            0, socket, NULL, 0);
--    }
--
--    if (mc->smp_props.clusters_supported) {
--        length = g_queue_get_length(list);
--        for (i = 0; i < length; i++) {
--            int cluster;
--
--            parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--            for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
--                g_queue_push_tail(list,
--                    GUINT_TO_POINTER(table_data->len - pptt_start));
--                build_processor_hierarchy_node(
--                    table_data,
--                    (0 << 0), /* not a physical package */
--                    parent_offset, cluster, NULL, 0);
--            }
-+    /*
-+     * This works with the assumption that cpus[n].props.*_id has been
-+     * sorted from top to down levels in mc->possible_cpu_arch_ids().
-+     * Otherwise, the unexpected and duplicated containers will be
-+     * created.
-+     */
-+    for (n = 0; n < cpus->len; n++) {
-+        if (cpus->cpus[n].props.socket_id != socket_id) {
-+            assert(cpus->cpus[n].props.socket_id > socket_id);
-+            socket_id = cpus->cpus[n].props.socket_id;
-+            cluster_id = -1;
-+            core_id = -1;
-+            socket_offset = table_data->len - pptt_start;
-+            build_processor_hierarchy_node(table_data,
-+                (1 << 0), /* Physical package */
-+                0, socket_id, NULL, 0);
-         }
--    }
- 
--    length = g_queue_get_length(list);
--    for (i = 0; i < length; i++) {
--        int core;
--
--        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--        for (core = 0; core < ms->smp.cores; core++) {
--            if (ms->smp.threads > 1) {
--                g_queue_push_tail(list,
--                    GUINT_TO_POINTER(table_data->len - pptt_start));
--                build_processor_hierarchy_node(
--                    table_data,
--                    (0 << 0), /* not a physical package */
--                    parent_offset, core, NULL, 0);
--            } else {
--                build_processor_hierarchy_node(
--                    table_data,
--                    (1 << 1) | /* ACPI Processor ID valid */
--                    (1 << 3),  /* Node is a Leaf */
--                    parent_offset, uid++, NULL, 0);
-+        if (mc->smp_props.clusters_supported) {
-+            if (cpus->cpus[n].props.cluster_id != cluster_id) {
-+                assert(cpus->cpus[n].props.cluster_id > cluster_id);
-+                cluster_id = cpus->cpus[n].props.cluster_id;
-+                core_id = -1;
-+                cluster_offset = table_data->len - pptt_start;
-+                build_processor_hierarchy_node(table_data,
-+                    (0 << 0), /* Not a physical package */
-+                    socket_offset, cluster_id, NULL, 0);
-             }
-+        } else {
-+            cluster_offset = socket_offset;
-         }
--    }
- 
--    length = g_queue_get_length(list);
--    for (i = 0; i < length; i++) {
--        int thread;
-+        if (ms->smp.threads == 1) {
-+            build_processor_hierarchy_node(table_data,
-+                (1 << 1) | /* ACPI Processor ID valid */
-+                (1 << 3),  /* Node is a Leaf */
-+                cluster_offset, n, NULL, 0);
-+        } else {
-+            if (cpus->cpus[n].props.core_id != core_id) {
-+                assert(cpus->cpus[n].props.core_id > core_id);
-+                core_id = cpus->cpus[n].props.core_id;
-+                core_offset = table_data->len - pptt_start;
-+                build_processor_hierarchy_node(table_data,
-+                    (0 << 0), /* Not a physical package */
-+                    cluster_offset, core_id, NULL, 0);
-+            }
- 
--        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--        for (thread = 0; thread < ms->smp.threads; thread++) {
--            build_processor_hierarchy_node(
--                table_data,
-+            build_processor_hierarchy_node(table_data,
-                 (1 << 1) | /* ACPI Processor ID valid */
-                 (1 << 2) | /* Processor is a Thread */
-                 (1 << 3),  /* Node is a Leaf */
--                parent_offset, uid++, NULL, 0);
-+                core_offset, n, NULL, 0);
-         }
-     }
- 
--    g_queue_free(list);
-     acpi_table_end(linker, &table);
- }
- 
--- 
-2.25.1
-
+>
+> Alistair
+>
+> >
+> > >
+> > > We probably aren't correctly setting GVA if MPRV is set though, as
+> > > then the page faults should be guest addresses. That's probably the
+> > > issue you are seeing.
+> >
+> > The Xvisor nested MMU test-suit is broken on QEMU because it
+> > uses HLV/HSV instructions in HS-mode.
+> >
+> > Regards,
+> > Anup
+> >
+> > >
+> > > Alistair
+> > >
+> > > >              }
+> > > >              env->hstatus = set_field(env->hstatus, HSTATUS_GVA, write_gva);
+> > > >          }
+> > > > --
+> > > > 2.34.1
+> > > >
+> > > >
 
