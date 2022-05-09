@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD7751F85A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:41:56 +0200 (CEST)
-Received: from localhost ([::1]:44568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13AF51F865
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 May 2022 11:50:53 +0200 (CEST)
+Received: from localhost ([::1]:56454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nnztr-0005SC-El
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38722)
+	id 1no02W-0005Jo-TU
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 05:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nnzqR-0002iO-26
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:38:23 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57704 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nnzqN-0002f3-Vv
- for qemu-devel@nongnu.org; Mon, 09 May 2022 05:38:22 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxitgA4Xhid8gOAA--.37816S3; 
- Mon, 09 May 2022 17:38:08 +0800 (CST)
-Subject: Re: [PATCH v3 34/43] hw/intc: Add LoongArch extioi interrupt
- controller(EIOINTC)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
-References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-35-yangxiaojuan@loongson.cn>
- <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <707db6c2-49f2-2ca2-7025-0cf401f11c60@loongson.cn>
-Date: Mon, 9 May 2022 17:38:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nnzrE-0003oQ-1i; Mon, 09 May 2022 05:39:13 -0400
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:46850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nnzr7-0002jG-Nx; Mon, 09 May 2022 05:39:11 -0400
+Received: by mail-il1-x134.google.com with SMTP id f5so8889634ilj.13;
+ Mon, 09 May 2022 02:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sEkuQUdEGnyuOLUlZfUFgCuYEulxeJGdb5HUcjYZEME=;
+ b=njUW+HwPbOnpUSGQ4a6HHNYuBeV4nkQtPiBuiiJZ6xPMhjE3wSTgHmxct6hphhYmyg
+ gMG/z+MYh/TY08f7SSKlDYVda58M6Vk1fEWbtn3JDCLhjKdpXJqVNdU4g8oKJdW+HpvH
+ p2PI1s3exc5nyVTzo0XfNPptfH5yvdaY+jYQn8W2CeC7/pbQ8S2guyDRo27N1cQguCTH
+ QTzBFQeUB892ZjPrFgk/qJWllhEl3OrSjL3zj5TKxrH0mgleAAFo0FJ1rQl1uTZ4inQ+
+ BB3PDlIppoAp38lWyg9iByQNL99roU0YZyRK/x4evhbtrrzSjSvl7Y0HismACRrdF/vt
+ rHXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sEkuQUdEGnyuOLUlZfUFgCuYEulxeJGdb5HUcjYZEME=;
+ b=CAnaQtVYnLXq/jopVXzhPT0XD4JQkobta3DPhq7c4x3wyJHyr/3RPIp6GZlkkgPrOk
+ iEaw6jxGTHlAAwdv9dVIgdm+e4Ry8c7sG/kxDvAU50TjOh/wuUanFiJxBrwr66nX4F6f
+ VhmGf5fr+TMQN3Bjy55QEsPm11xKjpv8BoX50CISr2yHwCEhrH2890LvVrgje3re7mqv
+ fUFSF+WatnIyIQlBnBniBOVJC/18SwH4D9d1K/SJT4MViAgjzmdhG6yFo/g+EBDUD7jz
+ gNA7x3fJjJG32d3g4uGf3tJKzQCDCJ991P1MBBVZoGeU2zgZXUi7tF+ENuUQr1/8jsCO
+ pn5A==
+X-Gm-Message-State: AOAM530mj+ART84+q47l4mo/UnYt6NCF7xehh+Dg+Ew38N6oxmlwM06I
+ o4AUpcBrHO8q7QxaNhuNxOJ2ybPLV0D66/uqHsM=
+X-Google-Smtp-Source: ABdhPJyI2H+2pdX21OB1Gy0Mnf/5MmA/coYyYsyeRn8Bym1E0BUpEmy3h3iKPhGU+iIB8yJHfoOQmYh9nmFNNK7H3JU=
+X-Received: by 2002:a05:6e02:170b:b0:2cf:9f8f:afdf with SMTP id
+ u11-20020a056e02170b00b002cf9f8fafdfmr3143645ill.260.1652089144384; Mon, 09
+ May 2022 02:39:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9AxitgA4Xhid8gOAA--.37816S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxKrWkCFW5JFy7Ww4rCFy3urg_yoWxJw4rpr
- 1kGryUJryUGr1rJw1UG3WUAryrJr1DJw1UAr10qF1UAryUtr10gw10qF1q9r1UGr48AF1U
- JF1rXw17uF1UJrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvS14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
- IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
- 6r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2
- IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2
- jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43
- ZEXa7VUbrMaUUUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+References: <165181414065.18540.14828125053334599921-0@git.sr.ht>
+In-Reply-To: <165181414065.18540.14828125053334599921-0@git.sr.ht>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 9 May 2022 11:38:38 +0200
+Message-ID: <CAKmqyKOo75_HqXBCmyC6DPwy8wUYb6y39RG-DXtiFtNagaNcTQ@mail.gmail.com>
+Subject: Re: [PATCH qemu] target/riscv: rvv: Fix early exit condition for
+ whole register load/store
+To: "~eopxd" <yueh.ting.chen@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>, 
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,181 +86,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On Fri, May 6, 2022 at 7:17 AM ~eopxd <eopxd@git.sr.ht> wrote:
+>
+> From: eopXD <eop.chen@sifive.com>
+>
+> Vector whole register load instructions have EEW encoded in the opcode,
+> so we shouldn't take SEW here. Vector whole register store instructions
+> are always EEW=8.
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-On 2022/5/7 下午11:31, Richard Henderson wrote:
-> On 4/29/22 05:07, Xiaojuan Yang wrote:
->> +    int ipmap_mask = 0xff << ipmap_offset;
-> ...
->> +    int cpu_mask = 0xff << ipmap_offset;
->
-> These two masks are redundant with
->
->> +    ipnum = ((s->ipmap[ipmap_index] & ipmap_mask) >> ipmap_offset) & 
->> 0xf;
-> ...
->> +    cpu = ((s->coremap[cpu_index] & cpu_mask) >> cpu_offset) & 0xf;
->
-> the 0xf masking here.
->
->> +    cpu = ctz32(cpu);
->> +    cpu = (cpu >= 4) ? 0 : cpu;
->
-> You are not considering CSR[0x420][49], which changes the format of 
-> this mapping.
->
-Thanks very much, I will consider the mapping format by read 
-iocsr[0x420][49] like this:
-static uint64_t map_format(void)
-{
-     LoongArchCPU *cpu;
-     CPULoongArchState *env;
-     uint64_t val;
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-     cpu = LOONGARCH_CPU(current_cpu);
-     env = &(cpu->env);
+Alistair
 
-     val = address_space_ldq(&env->address_space_iocsr, 0x420,
-                              MEMTXATTRS_UNSPECIFIED, NULL);
-     val &= 1 << 49;
-     return val;
-}
-...
-if (!map_format()) {
-     cpu = ctz32(cpu);
-     cpu = (cpu >= 4) ? 0 : cpu;
-}
-...
-> I think this function is wrong because you maintain an unmapped enable 
-> bitmap, but you do not maintain an unmapped status bitmap, which 
-> *should* be readable from EXTIOI_ISR_{START,END}, but is not present 
-> in extioi_readw.
+> ---
+>  target/riscv/insn_trans/trans_rvv.c.inc | 58 +++++++++++++------------
+>  1 file changed, 31 insertions(+), 27 deletions(-)
 >
-> I think that only extioi_setirq should actually change the unmapped 
-> status bitmap, and that extioi_update_irq should only evaluate the 
-> mapping to apply changes to the cpus.
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 90327509f7..391c61fe93 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -1118,10 +1118,10 @@ GEN_VEXT_TRANS(vle64ff_v, MO_64, r2nfvm, ldff_op, ld_us_check)
+>  typedef void gen_helper_ldst_whole(TCGv_ptr, TCGv, TCGv_env, TCGv_i32);
 >
-Ok, there should be ISR registers(the status bitmap), i will add it to 
-the LoongArchExtIOI, like this:
-struct LoongArchExtIOI {
-...
-+    uint32_t isr[EXTIOI_IRQS / 32]
-...
-}
-
-when extioi_setirq, update the isr filed.
-static void extioi_setirq(void *opaque, int irq, int level)
-{
-     LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
-     trace_loongarch_extioi_setirq(irq, level);
-     s->isr[irq / 32] |= 1 << irq % 32;
-     extioi_update_irq(s, irq, level);
-}
-
-and add ISR_START ... ISR_END to extioi_readw, like this
-...
-     case EXTIOI_ISR_START ... EXTIOI_ISR_END - 1:
-         index = ((offset - EXTIOI_ISR_START) >> 2;
-         ret = s->isr[index];
-         break;
-...
-
+>  static bool ldst_whole_trans(uint32_t vd, uint32_t rs1, uint32_t nf,
+> -                             gen_helper_ldst_whole *fn, DisasContext *s,
+> -                             bool is_store)
+> +                             uint32_t width, gen_helper_ldst_whole *fn,
+> +                             DisasContext *s, bool is_store)
+>  {
+> -    uint32_t evl = (s->cfg_ptr->vlen / 8) * nf / (1 << s->sew);
+> +    uint32_t evl = (s->cfg_ptr->vlen / 8) * nf / width;
+>      TCGLabel *over = gen_new_label();
+>      tcg_gen_brcondi_tl(TCG_COND_GEU, cpu_vstart, evl, over);
 >
-> This final bit, updating the cpu irq is also wrong, in that it should 
-> be unconditional. This is the only way that it will work for the usage 
-> in updating the enable mask.
+> @@ -1153,38 +1153,42 @@ static bool ldst_whole_trans(uint32_t vd, uint32_t rs1, uint32_t nf,
+>   * load and store whole register instructions ignore vtype and vl setting.
+>   * Thus, we don't need to check vill bit. (Section 7.9)
+>   */
+> -#define GEN_LDST_WHOLE_TRANS(NAME, ARG_NF, IS_STORE)                      \
+> +#define GEN_LDST_WHOLE_TRANS(NAME, ARG_NF, WIDTH, IS_STORE)               \
+>  static bool trans_##NAME(DisasContext *s, arg_##NAME * a)                 \
+>  {                                                                         \
+>      if (require_rvv(s) &&                                                 \
+>          QEMU_IS_ALIGNED(a->rd, ARG_NF)) {                                 \
+> -        return ldst_whole_trans(a->rd, a->rs1, ARG_NF, gen_helper_##NAME, \
+> -                                s, IS_STORE);                             \
+> +        return ldst_whole_trans(a->rd, a->rs1, ARG_NF, WIDTH,             \
+> +                                gen_helper_##NAME, s, IS_STORE);          \
+>      }                                                                     \
+>      return false;                                                         \
+>  }
 >
-> I think you are not considering when the MAP registers overlap 
-> outputs.  For instance, if all 256 bits of EXT_IOIMap contain 0, then 
-> all of EXT_IOI[n*32+31 : n*32] overlap.  When that happens, you cannot 
-> lower the level of the cpu pin until all of the matching ioi 
-> interrupts are low.
+> -GEN_LDST_WHOLE_TRANS(vl1re8_v,  1, false)
+> -GEN_LDST_WHOLE_TRANS(vl1re16_v, 1, false)
+> -GEN_LDST_WHOLE_TRANS(vl1re32_v, 1, false)
+> -GEN_LDST_WHOLE_TRANS(vl1re64_v, 1, false)
+> -GEN_LDST_WHOLE_TRANS(vl2re8_v,  2, false)
+> -GEN_LDST_WHOLE_TRANS(vl2re16_v, 2, false)
+> -GEN_LDST_WHOLE_TRANS(vl2re32_v, 2, false)
+> -GEN_LDST_WHOLE_TRANS(vl2re64_v, 2, false)
+> -GEN_LDST_WHOLE_TRANS(vl4re8_v,  4, false)
+> -GEN_LDST_WHOLE_TRANS(vl4re16_v, 4, false)
+> -GEN_LDST_WHOLE_TRANS(vl4re32_v, 4, false)
+> -GEN_LDST_WHOLE_TRANS(vl4re64_v, 4, false)
+> -GEN_LDST_WHOLE_TRANS(vl8re8_v,  8, false)
+> -GEN_LDST_WHOLE_TRANS(vl8re16_v, 8, false)
+> -GEN_LDST_WHOLE_TRANS(vl8re32_v, 8, false)
+> -GEN_LDST_WHOLE_TRANS(vl8re64_v, 8, false)
+> -
+> -GEN_LDST_WHOLE_TRANS(vs1r_v, 1, true)
+> -GEN_LDST_WHOLE_TRANS(vs2r_v, 2, true)
+> -GEN_LDST_WHOLE_TRANS(vs4r_v, 4, true)
+> -GEN_LDST_WHOLE_TRANS(vs8r_v, 8, true)
+> +GEN_LDST_WHOLE_TRANS(vl1re8_v,  1, 1, false)
+> +GEN_LDST_WHOLE_TRANS(vl1re16_v, 1, 2, false)
+> +GEN_LDST_WHOLE_TRANS(vl1re32_v, 1, 4, false)
+> +GEN_LDST_WHOLE_TRANS(vl1re64_v, 1, 8, false)
+> +GEN_LDST_WHOLE_TRANS(vl2re8_v,  2, 1, false)
+> +GEN_LDST_WHOLE_TRANS(vl2re16_v, 2, 2, false)
+> +GEN_LDST_WHOLE_TRANS(vl2re32_v, 2, 4, false)
+> +GEN_LDST_WHOLE_TRANS(vl2re64_v, 2, 8, false)
+> +GEN_LDST_WHOLE_TRANS(vl4re8_v,  4, 1, false)
+> +GEN_LDST_WHOLE_TRANS(vl4re16_v, 4, 2, false)
+> +GEN_LDST_WHOLE_TRANS(vl4re32_v, 4, 4, false)
+> +GEN_LDST_WHOLE_TRANS(vl4re64_v, 4, 8, false)
+> +GEN_LDST_WHOLE_TRANS(vl8re8_v,  8, 1, false)
+> +GEN_LDST_WHOLE_TRANS(vl8re16_v, 8, 2, false)
+> +GEN_LDST_WHOLE_TRANS(vl8re32_v, 8, 4, false)
+> +GEN_LDST_WHOLE_TRANS(vl8re64_v, 8, 8, false)
+> +
+> +/*
+> + * The vector whole register store instructions are encoded similar to
+> + * unmasked unit-stride store of elements with EEW=8.
+> + */
+> +GEN_LDST_WHOLE_TRANS(vs1r_v, 1, 1, true)
+> +GEN_LDST_WHOLE_TRANS(vs2r_v, 2, 1, true)
+> +GEN_LDST_WHOLE_TRANS(vs4r_v, 4, 1, true)
+> +GEN_LDST_WHOLE_TRANS(vs8r_v, 8, 1, true)
 >
-> Or, perhaps I don't understand how this is supposed to work?
-> The documentation is very weak.
+>  /*
+>   *** Vector Integer Arithmetic Instructions
+> --
+> 2.34.2
 >
->
->> +static void extioi_writew(void *opaque, hwaddr addr,
->> +                                   uint64_t val, unsigned size)
->> +{
->> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
->> +    int cpu, index, old_data, data_offset;
->> +    uint32_t offset;
->> +    trace_loongarch_extioi_writew(size, (uint32_t)addr, val);
->> +
->> +    offset = addr & 0xffff;
->> +
->> +    switch (offset) {
->> +    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
->> +        index = (offset - EXTIOI_NODETYPE_START) >> 2;
->> +        s->nodetype[index] = val;
->> +        break;
->> +    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
->> +        index = (offset - EXTIOI_IPMAP_START) >> 2;
->> +        s->ipmap[index] = val;
->> +        break;
->
-> Do you need to recompute the entire interrupt map when ipmap changes?
->
-Sorry, could you explain it in more detail? i can not understand the 
-meanning of 'the entire interrupt map'?
-we only have ipmap and coremap registers in the LoongArchExtIOI, should 
-we add an entire interrupt map?
->> +    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
->> +        index = (offset - EXTIOI_ENABLE_START) >> 2;
->> +        old_data = s->enable[index];
->> +        if (old_data != (int)val) {
->> +            s->enable[index] = val;
->> +            old_data = old_data ^ val;
->> +            data_offset = ctz32(old_data);
->> +            while (data_offset != 32) {
->> +                if (!(val & (1 << data_offset))) {
->> +                    extioi_update_irq(s, data_offset + index * 32, 0);
->
-> This is not correct -- you're unconditionally setting level=0, 
-> corrupting the old value of coreisr[cpu][index].  You need to 
-> recompute *without* changning those levels.
->
-Thanks, i will add a condition to judge coreisr[cpu][index], excute 
-extioi_update_irq when the coreisr val is 1, like this:
-
-static int get_coremap(int irq_num)
-{
-     int cpu;
-     int cpu_index = irq_num / 4;
-     int cpu_offset = irq_num & 0x3;
-     int cpu_mask = 0xf << cpu_offset;
-
-     cpu = (s->coremap[cpu_index] & cpu_mask) >> cpu_offset;
-     if (!map_format()) {
-         cpu = ctz32(cpu);
-         cpu = (cpu >= 4) ? 0 : cpu;
-     }
-     return cpu;
-}
-
-static int coreisr_level(LoongArchExtIOI *s, int irq_num)
-{
-     int cpu = get_coremap(irq_num);
-     return s->coreisr[cpu][irq_num / 32];
-}
-
-...
-              while (data_offset != 32) {
-                  if (!(val & (1 << data_offset))) {
-                     if (coreisr_level(s, data_offset + index * 32)) {
-                         extioi_update_irq(s, data_offset + index * 32, 0);
-                     }
-                  }
-...
-
-BTW,  Could you help us to review  the patch [1]  or add some other 
-reviewers ?
-
-[1] :
-[PATCH v3 40/43] hw/loongarch: Add LoongArch ls7a acpi device support
-
-Thanks.
-Xiaojuan
-
 
