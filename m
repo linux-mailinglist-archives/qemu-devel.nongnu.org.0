@@ -2,88 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D2B520DEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 08:34:20 +0200 (CEST)
-Received: from localhost ([::1]:36364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A6F520E2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 08:54:35 +0200 (CEST)
+Received: from localhost ([::1]:41600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noJRr-00042J-DY
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 02:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41558)
+	id 1noJlR-0000EF-Ut
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 02:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noJPA-0002uD-BN
- for qemu-devel@nongnu.org; Tue, 10 May 2022 02:31:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44736)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1noJiu-00079g-L3
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 02:51:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noJP7-0006zO-T0
- for qemu-devel@nongnu.org; Tue, 10 May 2022 02:31:31 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1noJir-0001P2-F0
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 02:51:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652164288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1652165511;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vKGIl6jMz8a5fI7dKYfEh51pRrdUh9/R+lg0kc3C420=;
- b=IZEOEFlOx4ek40uIW51hm1cttWTaKlFK/jvWhy+K0xQEWDUmYdQStv8ObgvRSwkr5Xbx3j
- /AQlj+xria+4jKewWZchI0wqkgjVmixV0W4kV0HiZbdCH5nac2pqEEb2DwgKV1+qGNtzAW
- PlmfXRNedYoxnsjOve4qJKQjv2p12xg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DP2piwxUgQrunPRJKq8MgqTTTot5/VOKK/aVg2H9TDc=;
+ b=UOR9r+jew93+FkIxnWtFZXj/OKX8ynu9oZtQ4Rr+l53347F9efhhl9BYb+azzvgWfrmFiT
+ 9mOGzMYVU/N1mdcvStwkiq1GO4mnNxgil8U+Vuak2m+OPEmcpZHa7qA4tNsP6MzmHZAmP9
+ VWiWiwj6fvf2h1FS8sz24cyLkQHNVoc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-z1jHDOJMPA-TYH7NoLzClQ-1; Tue, 10 May 2022 02:31:26 -0400
-X-MC-Unique: z1jHDOJMPA-TYH7NoLzClQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 26-20020a05600c021a00b003940660c053so4901250wmi.2
- for <qemu-devel@nongnu.org>; Mon, 09 May 2022 23:31:26 -0700 (PDT)
+ us-mta-533-TqVp67mXMoWw2Pvz8GwHKQ-1; Tue, 10 May 2022 02:51:50 -0400
+X-MC-Unique: TqVp67mXMoWw2Pvz8GwHKQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v17-20020a056000163100b0020c9b0e9039so5614439wrb.18
+ for <qemu-devel@nongnu.org>; Mon, 09 May 2022 23:51:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vKGIl6jMz8a5fI7dKYfEh51pRrdUh9/R+lg0kc3C420=;
- b=hv2APxh2RLJj8AZw7qpN5x4rGgLfDDtydly6fcWqPf3Vj1F4HTmV0THOF7tPZVMwys
- HaO8O5DBVCvHP9ULvCc0mtCoIjHUb7Csw1g+OkF8Ed4M5rmbXMqwG3UFYVlQqE9L6GtT
- oxqqDLpICTPujDOMAkB6jUmfbLr8TvDtDNKvUWko5oNRVN18FulMpnFDXawKlEdQOu4H
- 1rjPZ0FKyaEk0cSxOiL6gk1GTXQBr1fTEuDFA2xJp0XSnB3mW0K6oPlQBXaoPxqY1AdP
- GlLL0Y5MOpoKdBm93VRsrGNMwzKg/4RkGgnWP3GzxNJrXXnqqLcF9Pqnv8JzaWHs1h1k
- 0E8A==
-X-Gm-Message-State: AOAM5322p6zOMvvHD3OYid7e2MKU55Q2hyAxmMPtEE44oTLOZGdrOGeg
- NcVvbpP4GCKTTkC+WwX42k+Hxn+4LO8ed97uU9chYOjwiRbRai9MGQrlz72+a/7cDGGM5a7qGG5
- Ub3zvmzhTv0FQTxU=
-X-Received: by 2002:a5d:6088:0:b0:20a:e81e:c76a with SMTP id
- w8-20020a5d6088000000b0020ae81ec76amr16805865wrt.182.1652164285723; 
- Mon, 09 May 2022 23:31:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8yg9PqXncc6+HqVMm8JLN7dAsXfn9a3deNRScG6GbLDfpJ1uGWyvsQ5PS2v8LgJ1xkEOgqw==
-X-Received: by 2002:a5d:6088:0:b0:20a:e81e:c76a with SMTP id
- w8-20020a5d6088000000b0020ae81ec76amr16805847wrt.182.1652164285431; 
- Mon, 09 May 2022 23:31:25 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ bh=DP2piwxUgQrunPRJKq8MgqTTTot5/VOKK/aVg2H9TDc=;
+ b=GHrIvI8EfUVxKWMf0yMbz0tyKDIiYQC6lNDI75YwYkvwzXa54AoW1b8EUgH4ZLhRty
+ +cfiqUiJTi9yvtA9lUZL3DT4fAQAtDWNA5jdVI7NT6RHcm/mJ+MnXGwaW22vlC4Lh8eR
+ KybtrcuYyUyi2T2xcVRdRFD6fnls4PP5S0v2pizg9IIlKc3sq/NEtj60N1AWRdugPB2O
+ w/YhTUSxdfnib53mCZhuZMSguYzGCb5hZdRO0+J856M8fvC13/6orvdD3EaQ4xwoWyRa
+ uNSM/raHXvqZOB0kAeGU72TQ7QWBsQPEGGA0wcwpmtnQYjnDh86546RfS1G7zNBGy3Xt
+ 0Pqw==
+X-Gm-Message-State: AOAM531uAieI4NGJe3tw1PeoIR7QAXWRjDgbjRwXWco+ic7fajbyPyRU
+ Q7CyXB+i8uCkKvaMte7QzFSt/SgwEFdt1Fjh8FO0nDYaLO1IpsjuY8NibCyb510/z2ehat3mbDS
+ 8crF1ZsT50LidApI=
+X-Received: by 2002:a05:600c:4e05:b0:394:8955:839a with SMTP id
+ b5-20020a05600c4e0500b003948955839amr11668685wmq.28.1652165506809; 
+ Mon, 09 May 2022 23:51:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLkKWIzsFygKuwcetfNYenSE7NwJJluGTLLeDEm3O52poU+xby0OLO3xZ0oMzX/PvC0iTcrg==
+X-Received: by 2002:a05:600c:4e05:b0:394:8955:839a with SMTP id
+ b5-20020a05600c4e0500b003948955839amr11668652wmq.28.1652165506569; 
+ Mon, 09 May 2022 23:51:46 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- m7-20020a05600c4f4700b003942a244f29sm1603147wmq.2.2022.05.09.23.31.24
+ t18-20020a5d6912000000b0020c5253d913sm12928292wru.95.2022.05.09.23.51.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 23:31:24 -0700 (PDT)
-Message-ID: <4e03945d-fb92-494d-53a8-f22ee91501c9@redhat.com>
-Date: Tue, 10 May 2022 08:31:23 +0200
+ Mon, 09 May 2022 23:51:45 -0700 (PDT)
+Message-ID: <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
+Date: Tue, 10 May 2022 08:51:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.8.0
+Subject: Re: [RFC 00/18] vfio: Adopt iommufd
 Content-Language: en-US
-To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-References: <7ecb5ece9d1e0a607e801d547d387bc840b250ea.1651779343.git.maciej.szmigiero@oracle.com>
- <309ab0f5-7bb0-ddb4-3736-8cf0a4cfb269@redhat.com>
- <6ed59ef8-53bc-74ba-432c-955ad72d9f23@maciej.szmigiero.name>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH][RESEND] MAINTAINERS: Add myself as a reviewer for Hyper-V
- VMBus
-In-Reply-To: <6ed59ef8-53bc-74ba-432c-955ad72d9f23@maciej.szmigiero.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Yi Liu <yi.l.liu@intel.com>, Zhangfei Gao <zhangfei.gao@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+Cc: "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+ "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "jgg@nvidia.com"
+ <jgg@nvidia.com>, "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ "chao.p.peng@intel.com" <chao.p.peng@intel.com>,
+ "yi.y.sun@intel.com" <yi.y.sun@intel.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <4f920d463ebf414caa96419b625632d5@huawei.com>
+ <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
+ <4ac4956cfe344326a805966535c1dc43@huawei.com>
+ <20220426103507.5693a0ca.alex.williamson@redhat.com>
+ <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
+ <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -103,56 +125,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/05/2022 19.59, Maciej S. Szmigiero wrote:
-> On 6.05.2022 07:31, Thomas Huth wrote:
->> On 05/05/2022 21.36, Maciej S. Szmigiero wrote:
->>> From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
->>>
->>> This way there is at least some contact point for incoming patches.
->>>
->>> We'll see whether the code still gets just a random patch a few times
->>> a year or whether it requires a permanent maintainer to take care of it.
->>>
->>> Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
->>> ---
->>>      Resending, since the previous submission at [1] wasn't picked up.
->>>      [1]: 
->>> https://lore.kernel.org/qemu-devel/b145dcf08ae606e9d29e55b2f701a3fe4f16b347.1637433881.git.maciej.szmigiero@oracle.com/ 
->>>
->>>
->>>   MAINTAINERS | 6 ++++++
->>>   1 file changed, 6 insertions(+)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 218c9459b6..907f1d4a88 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -1776,6 +1776,12 @@ F: include/hw/block/fdc.h
->>>   F: tests/qtest/fdc-test.c
->>>   T: git https://gitlab.com/jsnow/qemu.git ide
->>> +Hyper-V VMBus
->>> +S: Odd Fixes
->>> +R: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
->>> +F: hw/hyperv/vmbus.c
->>> +F: include/hw/hyperv/vmbus*.h
+Hi Hi, Zhangfei,
+
+On 5/10/22 05:17, Yi Liu wrote:
+> Hi Zhangfei,
+>
+> On 2022/5/9 22:24, Zhangfei Gao wrote:
+>> Hi, Alex
 >>
->> If there's no dedicated maintainer, I'd rather pick "Orphan" instead of 
->> "Odd Fixes" here?
->> Who's supposed to pick up the related patches?
-> 
-> I think I can do this, as long as I know who to send pull requests to
-> and on what schedule.
+>> On 2022/4/27 上午12:35, Alex Williamson wrote:
+>>> On Tue, 26 Apr 2022 12:43:35 +0000
+>>> Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com> wrote:
+>>>
+>>>>> -----Original Message-----
+>>>>> From: Eric Auger [mailto:eric.auger@redhat.com]
+>>>>> Sent: 26 April 2022 12:45
+>>>>> To: Shameerali Kolothum Thodi
+>>>>> <shameerali.kolothum.thodi@huawei.com>; Yi
+>>>>> Liu <yi.l.liu@intel.com>; alex.williamson@redhat.com;
+>>>>> cohuck@redhat.com;
+>>>>> qemu-devel@nongnu.org
+>>>>> Cc: david@gibson.dropbear.id.au; thuth@redhat.com;
+>>>>> farman@linux.ibm.com;
+>>>>> mjrosato@linux.ibm.com; akrowiak@linux.ibm.com; pasic@linux.ibm.com;
+>>>>> jjherne@linux.ibm.com; jasowang@redhat.com; kvm@vger.kernel.org;
+>>>>> jgg@nvidia.com; nicolinc@nvidia.com; eric.auger.pro@gmail.com;
+>>>>> kevin.tian@intel.com; chao.p.peng@intel.com; yi.y.sun@intel.com;
+>>>>> peterx@redhat.com; Zhangfei Gao <zhangfei.gao@linaro.org>
+>>>>> Subject: Re: [RFC 00/18] vfio: Adopt iommufd
+>>>> [...]
+>>>>> https://lore.kernel.org/kvm/0-v1-e79cd8d168e8+6-iommufd_jgg@nvidia.com
+>>>>>
+>>>>>>> /
+>>>>>>> [2] https://github.com/luxis1999/iommufd/tree/iommufd-v5.17-rc6
+>>>>>>> [3]
+>>>>>>> https://github.com/luxis1999/qemu/tree/qemu-for-5.17-rc6-vm-rfcv1
+>>>>>> Hi,
+>>>>>>
+>>>>>> I had a go with the above branches on our ARM64 platform trying to
+>>>>> pass-through
+>>>>>> a VF dev, but Qemu reports an error as below,
+>>>>>>
+>>>>>> [    0.444728] hisi_sec2 0000:00:01.0: enabling device (0000 ->
+>>>>>> 0002)
+>>>>>> qemu-system-aarch64-iommufd: IOMMU_IOAS_MAP failed: Bad address
+>>>>>> qemu-system-aarch64-iommufd: vfio_container_dma_map(0xaaaafeb40ce0,
+>>>>> 0x8000000000, 0x10000, 0xffffb40ef000) = -14 (Bad address)
+>>>>>> I think this happens for the dev BAR addr range. I haven't
+>>>>>> debugged the
+>>>>> kernel
+>>>>>> yet to see where it actually reports that.
+>>>>> Does it prevent your assigned device from working? I have such errors
+>>>>> too but this is a known issue. This is due to the fact P2P DMA is not
+>>>>> supported yet.
+>>>> Yes, the basic tests all good so far. I am still not very clear how
+>>>> it works if
+>>>> the map() fails though. It looks like it fails in,
+>>>>
+>>>> iommufd_ioas_map()
+>>>>    iopt_map_user_pages()
+>>>>     iopt_map_pages()
+>>>>     ..
+>>>>       pfn_reader_pin_pages()
+>>>>
+>>>> So does it mean it just works because the page is resident()?
+>>> No, it just means that you're not triggering any accesses that require
+>>> peer-to-peer DMA support.  Any sort of test where the device is only
+>>> performing DMA to guest RAM, which is by far the standard use case,
+>>> will work fine.  This also doesn't affect vCPU access to BAR space.
+>>> It's only a failure of the mappings of the BAR space into the IOAS,
+>>> which is only used when a device tries to directly target another
+>>> device's BAR space via DMA.  Thanks,
+>>
+>> I also get this issue when trying adding prereg listenner
+>>
+>> +    container->prereg_listener = vfio_memory_prereg_listener;
+>> +    memory_listener_register(&container->prereg_listener,
+>> +                            &address_space_memory);
+>>
+>> host kernel log:
+>> iommufd_ioas_map 1 iova=8000000000, iova1=8000000000,
+>> cmd->iova=8000000000, cmd->user_va=9c495000, cmd->length=10000
+>> iopt_alloc_area input area=859a2d00 iova=8000000000
+>> iopt_alloc_area area=859a2d00 iova=8000000000
+>> pin_user_pages_remote rc=-14
+>>
+>> qemu log:
+>> vfio_prereg_listener_region_add
+>> iommufd_map iova=0x8000000000
+>> qemu-system-aarch64: IOMMU_IOAS_MAP failed: Bad address
+>> qemu-system-aarch64: vfio_dma_map(0xaaaafb96a930, 0x8000000000,
+>> 0x10000, 0xffff9c495000) = -14 (Bad address)
+>> qemu-system-aarch64: (null)
+>> double free or corruption (fasttop)
+>> Aborted (core dumped)
+>>
+>> With hack of ignoring address 0x8000000000 in map and unmap, kernel
+>> can boot.
+>
+> do you know if the iova 0x8000000000 guest RAM or MMIO? Currently,
+> iommufd kernel part doesn't support mapping device BAR MMIO. This is a
+> known gap.
+In qemu arm virt machine this indeed matches the PCI MMIO region.
 
-Pull requests are sent via mail to the qemu-devel mailing list, see 
-https://www.qemu.org/docs/master/devel/submitting-a-pull-request.html for 
-some details. During the normal development phase, pull requests can be sent 
-as necessary for new patches. Just during the freeze period (the next one 
-will be announced on https://wiki.qemu.org/Planning/7.1 later), only bug 
-fixes (no new feature) should be sent.
+Thanks
 
-  Thomas
+Eric
 
 
