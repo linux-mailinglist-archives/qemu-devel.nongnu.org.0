@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6A7522292
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 19:27:28 +0200 (CEST)
-Received: from localhost ([::1]:46096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672445222B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 19:30:21 +0200 (CEST)
+Received: from localhost ([::1]:48412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noTdv-0003CV-0g
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 13:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
+	id 1noTgg-0005Rg-IY
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 13:30:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1noTbm-00029q-GG; Tue, 10 May 2022 13:25:14 -0400
-Received: from [187.72.171.209] (port=14924 helo=outlook.eldorado.org.br)
+ id 1noTex-0004av-L2; Tue, 10 May 2022 13:28:32 -0400
+Received: from [187.72.171.209] (port=46471 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1noTbk-0002t1-88; Tue, 10 May 2022 13:25:14 -0400
+ id 1noTev-0003MW-Ko; Tue, 10 May 2022 13:28:31 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 10 May 2022 14:25:05 -0300
+ Tue, 10 May 2022 14:28:25 -0300
 Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 1AD5780046B;
- Tue, 10 May 2022 14:25:05 -0300 (-03)
+ by p9ibm (Postfix) with ESMTPS id B78A680046B;
+ Tue, 10 May 2022 14:28:25 -0300 (-03)
 Content-Type: multipart/alternative;
- boundary="------------x7AmFG2VKNQsiWcQEkKTyR5M"
-Message-ID: <f2b58c8a-ead7-326d-db0f-a706fe09c992@eldorado.org.br>
-Date: Tue, 10 May 2022 14:25:04 -0300
+ boundary="------------gZUEssj9z2xtx0dYCprLY9VL"
+Message-ID: <0300306b-4176-4e8f-66d3-25dcc6e8c461@eldorado.org.br>
+Date: Tue, 10 May 2022 14:28:25 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [RFC PATCH v2 7/7] target/ppc: Implemented [pm]xvbf16ger2*
+Subject: Re: [RFC PATCH v2 2/7] target/ppc: Implemented xvi*ger* instructions
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
 Cc: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
@@ -38,12 +38,12 @@ Cc: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
  "open list:All patches CC here" <qemu-devel@nongnu.org>
 References: <20220506121844.18969-1-lucas.araujo@eldorado.org.br>
- <20220506121844.18969-8-lucas.araujo@eldorado.org.br>
- <461a810f-6ca0-98cc-4144-18062b165ad7@linaro.org>
+ <20220506121844.18969-3-lucas.araujo@eldorado.org.br>
+ <c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org>
 From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <461a810f-6ca0-98cc-4144-18062b165ad7@linaro.org>
-X-OriginalArrivalTime: 10 May 2022 17:25:05.0356 (UTC)
- FILETIME=[E39400C0:01D86492]
+In-Reply-To: <c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org>
+X-OriginalArrivalTime: 10 May 2022 17:28:26.0016 (UTC)
+ FILETIME=[5B2E4A00:01D86493]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -70,53 +70,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is a multi-part message in MIME format.
---------------x7AmFG2VKNQsiWcQEkKTyR5M
+--------------gZUEssj9z2xtx0dYCprLY9VL
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
-On 08/05/2022 01:27, Richard Henderson wrote:
+On 08/05/2022 00:41, Richard Henderson wrote:
 > On 5/6/22 07:18, Lucas Mateus Castro(alqotel) wrote:
+>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+>> index 10c6d7ae43..348a898950 100644
+>> --- a/target/ppc/cpu.h
+>> +++ b/target/ppc/cpu.h
+>> @@ -238,6 +238,7 @@ typedef union _ppc_vsr_t {
 >>
->> There's a discrepancy between this implementation and mambo/the
->> hardware where implementing it with float64_mul then float64r32_muladd
->> sometimes results in an incorrect result after an underflow, but
->> implementing with float32_mul then float32_muladd results in incorrect
->> signal in some 0 or infinite results. I've not been able to solve this
+>>   typedef ppc_vsr_t ppc_avr_t;
+>>   typedef ppc_vsr_t ppc_fprp_t;
+>> +typedef ppc_vsr_t ppc_acc_t;
+>>
+>>   #if !defined(CONFIG_USER_ONLY)
+>>   /* Software TLB cache */
+>> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+>> index aa6773c4a5..61217e0a10 100644
+>> --- a/target/ppc/helper.h
+>> +++ b/target/ppc/helper.h
+>> @@ -537,6 +537,15 @@ DEF_HELPER_5(XXBLENDVB, void, vsr, vsr, vsr, 
+>> vsr, i32)
+>>   DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
+>>   DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
+>>   DEF_HELPER_5(XXBLENDVD, void, vsr, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI4GER8, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI4GER8PP, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI8GER4, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI8GER4PP, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI8GER4SPP, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI16GER2, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI16GER2S, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI16GER2PP, void, env, vsr, vsr, vsr, i32)
+>> +DEF_HELPER_5(XVI16GER2SPP, void, env, vsr, vsr, vsr, i32)
 >
-> I did suggest that the float64_mul needs to be done in round-to-odd.
+> Did you intend to use "acc" here, for documentation purposes?
+> It's just a couple of #defines above.
 
- From what I understood, you meant:
+Yes, I'll change that in the next version, do you want me to keep the 
+Reviewed-by or do I sent without them so you can review the changes?
 
-     rmode = get_float_rounding_mode(&status);
-     set_float_rounding_mode(float_round_to_odd, &status);
-     psum = float64_mul(va, vb, &status);
-     set_float_rounding_mode(rmode, &status);
-     psum = float64r32_muladd(vc, vd, psum, 0, &status);
+It'll be just adding
 
-Which doesn't solve the problem, I tried other solutions but overall I 
-found 3 test cases that no solution could pass all, those being:
+     #define dh_alias_acc ptr
+     #define dh_ctype_acc ppc_acc_t *
+     #define dh_typecode_acc dh_typecode_ptr
 
-xa = 0x 000923da 28c31f00 00018540 XXXXXXXX
-xb = 0x 9d080000 000f97ac b7092f00 XXXXXXXX
-xvbf16ger2 at, xa, xb
-at = 0x 80000000 XXXXXXXX XXXXXXXX XXXXXXXX
-         0xXXXXXXXX 80000016 XXXXXXXX XXXXXXXX
-         0xXXXXXXXX XXXXXXXX 80000001 XXXXXXXX
-         0xXXXXXXXX XXXXXXXX XXXXXXXX XXXXXXXX
-
-Doing the operation either with float64 (with and without round_to_odd) 
-or with a new softfloat operation that uses FloatParts64 results in 
-0x80000015 instead of 0x80000016, but doing it with float32 results in 
-0x00000000 instead of 0x80000000 and 0x80000002 instead of 0x80000001
-
-Between those choices I'd go with float64 as to keep the result 
-numerically close tho the actual value if the next operation treat those 
-as an integer (with float32 you can end up having 0 instead of 
-INT32_MIN) and the results are close if they're treated as floating-point.
+and changing DEF_HELPER_5 to have acc instead of the third vsr
 
 >
-> Anyway, for this patch,
+> Either way, much cleaner.
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 >
 >
@@ -128,7 +135,7 @@ Instituto de Pesquisas ELDORADO
 Departamento Computação Embarcada
 Analista de Software Trainee
 Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------x7AmFG2VKNQsiWcQEkKTyR5M
+--------------gZUEssj9z2xtx0dYCprLY9VL
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -139,65 +146,91 @@ Content-Transfer-Encoding: 8bit
   <body>
     <p><br>
     </p>
-    <div class="moz-cite-prefix">On 08/05/2022 01:27, Richard Henderson
+    <div class="moz-cite-prefix">On 08/05/2022 00:41, Richard Henderson
       wrote:<br>
     </div>
     <blockquote type="cite"
-      cite="mid:461a810f-6ca0-98cc-4144-18062b165ad7@linaro.org">On
+      cite="mid:c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org">On
       5/6/22 07:18, Lucas Mateus Castro(alqotel) wrote:
       <br>
-      <blockquote type="cite"><br>
-        There's a discrepancy between this implementation and mambo/the
+      <blockquote type="cite">diff --git a/target/ppc/cpu.h
+        b/target/ppc/cpu.h
         <br>
-        hardware where implementing it with float64_mul then
-        float64r32_muladd
+        index 10c6d7ae43..348a898950 100644
         <br>
-        sometimes results in an incorrect result after an underflow, but
+        --- a/target/ppc/cpu.h
         <br>
-        implementing with float32_mul then float32_muladd results in
-        incorrect
+        +++ b/target/ppc/cpu.h
         <br>
-        signal in some 0 or infinite results. I've not been able to
-        solve this
+        @@ -238,6 +238,7 @@ typedef union _ppc_vsr_t {
+        <br>
+        <br>
+          typedef ppc_vsr_t ppc_avr_t;
+        <br>
+          typedef ppc_vsr_t ppc_fprp_t;
+        <br>
+        +typedef ppc_vsr_t ppc_acc_t;
+        <br>
+        <br>
+          #if !defined(CONFIG_USER_ONLY)
+        <br>
+          /* Software TLB cache */
+        <br>
+        diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+        <br>
+        index aa6773c4a5..61217e0a10 100644
+        <br>
+        --- a/target/ppc/helper.h
+        <br>
+        +++ b/target/ppc/helper.h
+        <br>
+        @@ -537,6 +537,15 @@ DEF_HELPER_5(XXBLENDVB, void, vsr, vsr,
+        vsr, vsr, i32)
+        <br>
+          DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
+        <br>
+          DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
+        <br>
+          DEF_HELPER_5(XXBLENDVD, void, vsr, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI4GER8, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI4GER8PP, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI8GER4, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI8GER4PP, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI8GER4SPP, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI16GER2, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI16GER2S, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI16GER2PP, void, env, vsr, vsr, vsr, i32)
+        <br>
+        +DEF_HELPER_5(XVI16GER2SPP, void, env, vsr, vsr, vsr, i32)
         <br>
       </blockquote>
       <br>
-      I did suggest that the float64_mul needs to be done in
-      round-to-odd.
+      Did you intend to use "acc" here, for documentation purposes?
+      <br>
+      It's just a couple of #defines above.
       <br>
     </blockquote>
-    <p>From what I understood, you meant:<br>
-    </p>
-        rmode = get_float_rounding_mode(&amp;status);<br>
-        set_float_rounding_mode(float_round_to_odd, &amp;status);<br>
-        psum = float64_mul(va, vb, &amp;status);<br>
-        set_float_rounding_mode(rmode, &amp;status);<br>
-        psum = float64r32_muladd(vc, vd, psum, 0, &amp;status);<br>
-    <p>Which doesn't solve the problem, I tried other solutions but
-      overall I found 3 test cases that no solution could pass all,
-      those being:</p>
-    <p>xa = 0x 000923da 28c31f00 00018540 XXXXXXXX<br>
-      xb = 0x 9d080000 000f97ac b7092f00 XXXXXXXX<br>
-      xvbf16ger2 at, xa, xb<br>
-      at = 0x 80000000 XXXXXXXX XXXXXXXX XXXXXXXX<br>
-              0xXXXXXXXX 80000016 XXXXXXXX XXXXXXXX<br>
-              0xXXXXXXXX XXXXXXXX 80000001 XXXXXXXX<br>
-              0xXXXXXXXX XXXXXXXX XXXXXXXX XXXXXXXX</p>
-    <p>Doing the operation either with float64 (with and without
-      round_to_odd) or with a new softfloat operation that uses
-      FloatParts64 results in 0x80000015 instead of 0x80000016, but
-      doing it with float32 results in 0x00000000 instead of 0x80000000
-      and 0x80000002 instead of 0x80000001</p>
-    <p>Between those choices I'd go with float64 as to keep the result
-      numerically close tho the actual value if the next operation treat
-      those as an integer (with float32 you can end up having 0 instead
-      of INT32_MIN) and the results are close if they're treated as
-      floating-point.<br>
+    <p>Yes, I'll change that in the next version, do you want me to keep
+      the Reviewed-by or do I sent without them so you can review the
+      changes?</p>
+    <p>It'll be just adding</p>
+    <p>    #define dh_alias_acc ptr<br>
+          #define dh_ctype_acc ppc_acc_t *<br>
+          #define dh_typecode_acc dh_typecode_ptr</p>
+    <p>and changing DEF_HELPER_5 to have acc instead of the third vsr<br>
     </p>
     <blockquote type="cite"
-      cite="mid:461a810f-6ca0-98cc-4144-18062b165ad7@linaro.org">
+      cite="mid:c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org">
       <br>
-      Anyway, for this patch,
+      Either way, much cleaner.
       <br>
       Reviewed-by: Richard Henderson
       <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
@@ -219,5 +252,5 @@ href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_med
   </body>
 </html>
 
---------------x7AmFG2VKNQsiWcQEkKTyR5M--
+--------------gZUEssj9z2xtx0dYCprLY9VL--
 
