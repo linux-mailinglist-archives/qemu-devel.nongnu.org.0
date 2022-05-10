@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D53522518
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 21:58:35 +0200 (CEST)
-Received: from localhost ([::1]:40142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAED522561
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 22:24:09 +0200 (CEST)
+Received: from localhost ([::1]:49772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noW09-0003W6-SP
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 15:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48840)
+	id 1noWOt-0003t5-UX
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 16:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noVyM-0002jM-LB
- for qemu-devel@nongnu.org; Tue, 10 May 2022 15:56:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noVyI-0007RI-Tq
- for qemu-devel@nongnu.org; Tue, 10 May 2022 15:56:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652212598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=pZwUvqq5mrZ3C9gsvQ/xmxVFqbD+MYjB+D5u9s32v9w=;
- b=XRc7OHc1z5ttmrpNmH2NM15Q80N4aLbMbo0o11l8ArGXgome2yeNBS7WvQRES6KcbSbMIo
- ndH8fzS1Ns+Th08tWe8bnH1AQDYr1MxNnB14DdOGAT9t/gpRcSrMrAz6ESb3Q1YUZX/Vea
- wf6qLZJTldOX4wpYeuIt9C618AROaDA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-LGbjYYN8NxugpV_7GTefog-1; Tue, 10 May 2022 15:56:34 -0400
-X-MC-Unique: LGbjYYN8NxugpV_7GTefog-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D0693C02B74;
- Tue, 10 May 2022 19:56:34 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.196.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CD60202699A;
- Tue, 10 May 2022 19:56:22 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, berrange@redhat.com,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH] Remove Ubuntu 18.04 support from the repository
-Date: Tue, 10 May 2022 21:56:12 +0200
-Message-Id: <20220510195612.677494-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1noWNN-00031E-9m; Tue, 10 May 2022 16:22:33 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:37488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1noWNL-0002a4-Ec; Tue, 10 May 2022 16:22:32 -0400
+Received: by mail-oi1-x235.google.com with SMTP id r1so353567oie.4;
+ Tue, 10 May 2022 13:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=QX8WGWSHypx6GQ2zQvBvi4SVMb7QF8fTcbM2EGoj5OM=;
+ b=Ya1PxMBwPmxJvJq3G474Ddq+a/U5LD3y19jteMqsBuC2MVFpPnu6x2r4USUOP/DZrM
+ v2KzqDF7bdozvAs9nHRSC9oaeKWYayjuq+Z6tOztG+xMlneUG6V5tFiVbpv1DSzCRHsU
+ +b2mNquc8UAjJkL0z4+l/0I/nG52qULDiUyLxq47CjBAe7QBnkUOm+9+yH0HzV12OV/n
+ fOn/uEGnqyfF0FMJflqITYyKZTjP42842q4yFmuzm4XWTV8zPoDT+GyBqZuaUlW9C0eH
+ Tv3treXy7KMPv5SxbyX5j3Q1/a2z7I1vMLlt58jVK+priPJj0zzk3enYYlh+8appXkUE
+ K1Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QX8WGWSHypx6GQ2zQvBvi4SVMb7QF8fTcbM2EGoj5OM=;
+ b=X40iecCu6aFb8nwxcNSZCPiyvEQMPVBBTf4saDJ/05pvxWkrngbbYyMmnCgLlfU4qM
+ 1qDz4sR9p2/M3ld6tWoOuxoUPmFyUzd7OyKSB8KPnFzCM09TNN3IIK+0z94RfrIrVwUy
+ onbHnIn4tNVhn6yGU4xXIn6vEgt0JW1Ew7VXWMfI+Pj5RvxV1+TGr48LjRz7SbeQAQ50
+ XB7Z0+yHrdFNoAg6oKfjq9cIdpDf+rDNonbcnVGeun+J0mEtJJgold9OuSA0p5lohAZQ
+ 48t3RrG5A4mwTdj0OO+CeW82WUNIpr41M5SeJdPjCSRhWe9hD4hynfe1eb/FqZDx2Mah
+ PgjA==
+X-Gm-Message-State: AOAM530ysfR/+71Vy7foas1nXzh4+xBVo7Twh87jK1TUDV/ocB7dhGxJ
+ 8iSozKW+TytLg7IOvkEASRI=
+X-Google-Smtp-Source: ABdhPJxrwIzczX7bi7afnA/IIHl14wnXG9q3Tx8agiASnGASYJKcyfWge/PPoqoNqTki8dygeam+mw==
+X-Received: by 2002:a05:6808:2089:b0:326:df52:459c with SMTP id
+ s9-20020a056808208900b00326df52459cmr895742oiw.202.1652214149794; 
+ Tue, 10 May 2022 13:22:29 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:6d99:130b:198b:b4b2:dcf0?
+ ([2804:431:c7c7:6d99:130b:198b:b4b2:dcf0])
+ by smtp.gmail.com with ESMTPSA id
+ a2-20020a9d7242000000b0060603221279sm52584otk.73.2022.05.10.13.22.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 13:22:29 -0700 (PDT)
+Message-ID: <33fe879e-ccb3-13a7-f7ed-5e2031dd9b31@gmail.com>
+Date: Tue, 10 May 2022 17:22:26 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
+Content-Language: en-US
+To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Joel Stanley <joel@jms.id.au>, Laurent Vivier <laurent@vivier.eu>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220427064204.373027-1-joel@jms.id.au>
+ <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
+ <ee50cc96-e26b-beb1-3042-d9b84b9589cc@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <ee50cc96-e26b-beb1-3042-d9b84b9589cc@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,473 +96,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to our "Supported build platforms" policy, we now do not support
-Ubuntu 18.04 anymore. Remove the related files and entries from our CI.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Seems like nobody touched the 18.04-based tests/vm/ubuntu* files in a
- very long time, so I assume these are not used anymore and can completely
- be removed now.
 
- .gitlab-ci.d/containers.yml                   |   5 -
- .../custom-runners/ubuntu-20.04-aarch32.yml   |   2 +-
- .../custom-runners/ubuntu-20.04-aarch64.yml   |   2 +-
- scripts/ci/setup/build-environment.yml        |  14 +-
- tests/docker/dockerfiles/ubuntu1804.docker    | 144 ------------------
- tests/lcitool/refresh                         |   7 -
- tests/vm/ubuntu.aarch64                       |  68 ---------
- tests/vm/ubuntu.i386                          |  40 -----
- tests/vm/ubuntuvm.py                          |  60 --------
- 9 files changed, 4 insertions(+), 338 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
- delete mode 100755 tests/vm/ubuntu.aarch64
- delete mode 100755 tests/vm/ubuntu.i386
- delete mode 100644 tests/vm/ubuntuvm.py
+On 5/10/22 14:34, Lucas Mateus Martins Araujo e Castro wrote:
+> 
+> On 27/04/2022 17:51, Daniel Henrique Barboza wrote:
+>> On 4/27/22 03:42, Joel Stanley wrote:
+>>> These are new hwcap bits added for power10.
+>>>
+>>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>>> ---
+>>> MMA support for TCG is on the list so I think it makes sense for this to
+>>> land after those are merged.
+>>
+>> I believe you mean this series:
+>>
+>>
+>> [RFC PATCH 0/7] VSX MMA Implementation
+>>
+>>
+>> In that case I'll queue this patch together with it.
+> Daniel and Joel, do you want me to send this with my patch series so there's no need to rebase this patch and they can be added together?
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index b9b675fdcb..e9df90bbdd 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -19,11 +19,6 @@ amd64-debian-container:
-   variables:
-     NAME: debian-amd64
- 
--amd64-ubuntu1804-container:
--  extends: .container_job_template
--  variables:
--    NAME: ubuntu1804
--
- amd64-ubuntu2004-container:
-   extends: .container_job_template
-   variables:
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-index 9c589bc4cf..47856ac53c 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-@@ -1,6 +1,6 @@
- # All ubuntu-20.04 jobs should run successfully in an environment
- # setup by the scripts/ci/setup/qemu/build-environment.yml task
--# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+# "Install basic packages to build QEMU on Ubuntu 20.04"
- 
- ubuntu-20.04-aarch32-all:
-  needs: []
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-index 920e388bd0..951e490db1 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-@@ -1,6 +1,6 @@
- # All ubuntu-20.04 jobs should run successfully in an environment
- # setup by the scripts/ci/setup/qemu/build-environment.yml task
--# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+# "Install basic packages to build QEMU on Ubuntu 20.04"
- 
- ubuntu-20.04-aarch64-all-linux-static:
-  needs: []
-diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-index 9182e0c253..232525b91d 100644
---- a/scripts/ci/setup/build-environment.yml
-+++ b/scripts/ci/setup/build-environment.yml
-@@ -33,10 +33,9 @@
-       when:
-         - ansible_facts['distribution'] == 'Ubuntu'
- 
--    - name: Install basic packages to build QEMU on Ubuntu 18.04/20.04
-+    - name: Install basic packages to build QEMU on Ubuntu 20.04
-       package:
-         name:
--        # Originally from tests/docker/dockerfiles/ubuntu1804.docker
-           - ccache
-           - gcc
-           - gettext
-@@ -90,7 +89,7 @@
-       when:
-         - ansible_facts['distribution'] == 'Ubuntu'
- 
--    - name: Install packages to build QEMU on Ubuntu 18.04/20.04 on non-s390x
-+    - name: Install packages to build QEMU on Ubuntu 20.04 on non-s390x
-       package:
-         name:
-           - libspice-server-dev
-@@ -100,15 +99,6 @@
-         - ansible_facts['distribution'] == 'Ubuntu'
-         - ansible_facts['architecture'] != 's390x'
- 
--    - name: Install basic packages to build QEMU on Ubuntu 18.04
--      package:
--        name:
--        # Originally from tests/docker/dockerfiles/ubuntu1804.docker
--          - clang
--      when:
--        - ansible_facts['distribution'] == 'Ubuntu'
--        - ansible_facts['distribution_version'] == '18.04'
--
-     - name: Install basic packages to build QEMU on Ubuntu 20.04
-       package:
-         name:
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-deleted file mode 100644
-index b3f2156580..0000000000
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ /dev/null
-@@ -1,144 +0,0 @@
--# THIS FILE WAS AUTO-GENERATED
--#
--#  $ lcitool dockerfile --layers all ubuntu-1804 qemu
--#
--# https://gitlab.com/libvirt/libvirt-ci
--
--FROM docker.io/library/ubuntu:18.04
--
--RUN export DEBIAN_FRONTEND=noninteractive && \
--    apt-get update && \
--    apt-get install -y eatmydata && \
--    eatmydata apt-get dist-upgrade -y && \
--    eatmydata apt-get install --no-install-recommends -y \
--            bash \
--            bc \
--            bsdmainutils \
--            bzip2 \
--            ca-certificates \
--            ccache \
--            clang \
--            dbus \
--            debianutils \
--            diffutils \
--            exuberant-ctags \
--            findutils \
--            g++ \
--            gcc \
--            gcovr \
--            genisoimage \
--            gettext \
--            git \
--            glusterfs-common \
--            hostname \
--            libaio-dev \
--            libasan5 \
--            libasound2-dev \
--            libattr1-dev \
--            libbrlapi-dev \
--            libbz2-dev \
--            libc6-dev \
--            libcacard-dev \
--            libcap-ng-dev \
--            libcapstone-dev \
--            libcurl4-gnutls-dev \
--            libdaxctl-dev \
--            libdrm-dev \
--            libepoxy-dev \
--            libfdt-dev \
--            libffi-dev \
--            libgbm-dev \
--            libgcrypt20-dev \
--            libglib2.0-dev \
--            libgnutls28-dev \
--            libgtk-3-dev \
--            libibumad-dev \
--            libibverbs-dev \
--            libiscsi-dev \
--            libjemalloc-dev \
--            libjpeg-turbo8-dev \
--            liblttng-ust-dev \
--            liblzo2-dev \
--            libncursesw5-dev \
--            libnfs-dev \
--            libnuma-dev \
--            libpam0g-dev \
--            libpcre2-dev \
--            libpixman-1-dev \
--            libpmem-dev \
--            libpng-dev \
--            libpulse-dev \
--            librbd-dev \
--            librdmacm-dev \
--            libsasl2-dev \
--            libsdl2-dev \
--            libsdl2-image-dev \
--            libseccomp-dev \
--            libselinux1-dev \
--            libsnappy-dev \
--            libspice-protocol-dev \
--            libspice-server-dev \
--            libssh-dev \
--            libsystemd-dev \
--            libtasn1-6-dev \
--            libubsan1 \
--            libudev-dev \
--            libusb-1.0-0-dev \
--            libusbredirhost-dev \
--            libvdeplug-dev \
--            libvirglrenderer-dev \
--            libvte-2.91-dev \
--            libxen-dev \
--            libzstd-dev \
--            llvm \
--            locales \
--            make \
--            multipath-tools \
--            netcat-openbsd \
--            nettle-dev \
--            ninja-build \
--            openssh-client \
--            perl-base \
--            pkgconf \
--            python3 \
--            python3-numpy \
--            python3-opencv \
--            python3-pillow \
--            python3-pip \
--            python3-setuptools \
--            python3-sphinx \
--            python3-sphinx-rtd-theme \
--            python3-venv \
--            python3-wheel \
--            python3-yaml \
--            rpm2cpio \
--            sed \
--            sparse \
--            systemtap-sdt-dev \
--            tar \
--            tesseract-ocr \
--            tesseract-ocr-eng \
--            texinfo \
--            xfslibs-dev \
--            zlib1g-dev && \
--    eatmydata apt-get autoremove -y && \
--    eatmydata apt-get autoclean -y && \
--    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
--    dpkg-reconfigure locales && \
--    dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
--    mkdir -p /usr/libexec/ccache-wrappers && \
--    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
--    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
--    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
--    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
--    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
--
--RUN pip3 install meson==0.56.0
--
--ENV LANG "en_US.UTF-8"
--ENV MAKE "/usr/bin/make"
--ENV NINJA "/usr/bin/ninja"
--ENV PYTHON "/usr/bin/python3"
--ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
--# https://bugs.launchpad.net/qemu/+bug/1838763
--ENV QEMU_CONFIGURE_OPTS --disable-libssh
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 2d198ad281..fb49bbc441 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -65,11 +65,6 @@ def generate_cirrus(target, trailer=None):
-    cmd = lcitool_cmd + ["variables", target, "qemu"]
-    generate(filename, cmd, trailer)
- 
--ubuntu1804_skipssh = [
--   "# https://bugs.launchpad.net/qemu/+bug/1838763\n",
--   "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
--]
--
- ubuntu2004_tsanhack = [
-    "# Apply patch https://reviews.llvm.org/D75820\n",
-    "# This is required for TSan in clang-10 to compile with QEMU.\n",
-@@ -85,8 +80,6 @@ def debian_cross_build(prefix, targets):
- try:
-    generate_dockerfile("centos8", "centos-stream-8")
-    generate_dockerfile("fedora", "fedora-35")
--   generate_dockerfile("ubuntu1804", "ubuntu-1804",
--                       trailer="".join(ubuntu1804_skipssh))
-    generate_dockerfile("ubuntu2004", "ubuntu-2004",
-                        trailer="".join(ubuntu2004_tsanhack))
-    generate_dockerfile("opensuse-leap", "opensuse-leap-152")
-diff --git a/tests/vm/ubuntu.aarch64 b/tests/vm/ubuntu.aarch64
-deleted file mode 100755
-index b291945a7e..0000000000
---- a/tests/vm/ubuntu.aarch64
-+++ /dev/null
-@@ -1,68 +0,0 @@
--#!/usr/bin/env python3
--#
--# Ubuntu aarch64 image
--#
--# Copyright 2020 Linaro
--#
--# Authors:
--#  Robert Foley <robert.foley@linaro.org>
--#  Originally based on ubuntu.i386 Fam Zheng <famz@redhat.com>
--#
--# This code is licensed under the GPL version 2 or later.  See
--# the COPYING file in the top-level directory.
--#
--
--import sys
--import basevm
--import aarch64vm
--import ubuntuvm
--
--DEFAULT_CONFIG = {
--    'cpu'          : "cortex-a57",
--    'machine'      : "virt,gic-version=3",
--    'install_cmds' : "apt-get update,"\
--                     "apt-get build-dep -y --arch-only qemu,"\
--                     "apt-get install -y libfdt-dev pkg-config language-pack-en ninja-build",
--    # We increase beyond the default time since during boot
--    # it can take some time (many seconds) to log into the VM
--    # especially using softmmu.
--    'ssh_timeout'  : 60,
--}
--
--class UbuntuAarch64VM(ubuntuvm.UbuntuVM):
--    name = "ubuntu.aarch64"
--    arch = "aarch64"
--    image_name = "ubuntu-18.04-server-cloudimg-arm64.img"
--    image_link = "https://cloud-images.ubuntu.com/releases/18.04/release/" + image_name
--    image_sha256="0fdcba761965735a8a903d8b88df8e47f156f48715c00508e4315c506d7d3cb1"
--    BUILD_SCRIPT = """
--        set -e;
--        cd $(mktemp -d);
--        sudo chmod a+r /dev/vdb;
--        tar --checkpoint=.10 -xf /dev/vdb;
--        ./configure {configure_opts};
--        make --output-sync {target} -j{jobs} {verbose};
--    """
--    def boot(self, img, extra_args=None):
--        aarch64vm.create_flash_images(self._tmpdir, self._efi_aarch64)
--        default_args = aarch64vm.get_pflash_args(self._tmpdir)
--        if extra_args:
--            extra_args.extend(default_args)
--        else:
--            extra_args = default_args
--        # We always add these performance tweaks
--        # because without them, we boot so slowly that we
--        # can time out finding the boot efi device.
--        if '-smp' not in extra_args and \
--           '-smp' not in self._config['extra_args'] and \
--           '-smp' not in self._args:
--            # Only add if not already there to give caller option to change it.
--            extra_args.extend(["-smp", "8"])
--
--        # We have overridden boot() since aarch64 has additional parameters.
--        # Call down to the base class method.
--        super(UbuntuAarch64VM, self).boot(img, extra_args=extra_args)
--
--if __name__ == "__main__":
--    defaults = aarch64vm.get_config_defaults(UbuntuAarch64VM, DEFAULT_CONFIG)
--    sys.exit(basevm.main(UbuntuAarch64VM, defaults))
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-deleted file mode 100755
-index 47681b6f87..0000000000
---- a/tests/vm/ubuntu.i386
-+++ /dev/null
-@@ -1,40 +0,0 @@
--#!/usr/bin/env python3
--#
--# Ubuntu i386 image
--#
--# Copyright 2017 Red Hat Inc.
--#
--# Authors:
--#  Fam Zheng <famz@redhat.com>
--#
--# This code is licensed under the GPL version 2 or later.  See
--# the COPYING file in the top-level directory.
--#
--
--import sys
--import basevm
--import ubuntuvm
--
--DEFAULT_CONFIG = {
--    'install_cmds' : "apt-get update,"\
--                     "apt-get build-dep -y qemu,"\
--                     "apt-get install -y libfdt-dev language-pack-en ninja-build",
--}
--
--class UbuntuX86VM(ubuntuvm.UbuntuVM):
--    name = "ubuntu.i386"
--    arch = "i386"
--    image_link="https://cloud-images.ubuntu.com/releases/bionic/"\
--               "release-20191114/ubuntu-18.04-server-cloudimg-i386.img"
--    image_sha256="28969840626d1ea80bb249c08eef1a4533e8904aa51a327b40f37ac4b4ff04ef"
--    BUILD_SCRIPT = """
--        set -e;
--        cd $(mktemp -d);
--        sudo chmod a+r /dev/vdb;
--        tar -xf /dev/vdb;
--        ./configure {configure_opts};
--        make --output-sync {target} -j{jobs} {verbose};
--    """
--
--if __name__ == "__main__":
--    sys.exit(basevm.main(UbuntuX86VM, DEFAULT_CONFIG))
-diff --git a/tests/vm/ubuntuvm.py b/tests/vm/ubuntuvm.py
-deleted file mode 100644
-index 6689ad87aa..0000000000
---- a/tests/vm/ubuntuvm.py
-+++ /dev/null
-@@ -1,60 +0,0 @@
--#!/usr/bin/env python3
--#
--# Ubuntu VM testing library
--#
--# Copyright 2017 Red Hat Inc.
--# Copyright 2020 Linaro
--#
--# Authors:
--#  Robert Foley <robert.foley@linaro.org>
--#  Originally based on ubuntu.i386 Fam Zheng <famz@redhat.com>
--#
--# This code is licensed under the GPL version 2 or later.  See
--# the COPYING file in the top-level directory.
--
--import os
--import subprocess
--import basevm
--
--class UbuntuVM(basevm.BaseVM):
--
--    def __init__(self, args, config=None):
--        self.login_prompt = "ubuntu-{}-guest login:".format(self.arch)
--        basevm.BaseVM.__init__(self, args, config)
--
--    def build_image(self, img):
--        """Build an Ubuntu VM image.  The child class will
--           define the install_cmds to init the VM."""
--        os_img = self._download_with_cache(self.image_link,
--                                           sha256sum=self.image_sha256)
--        img_tmp = img + ".tmp"
--        subprocess.check_call(["cp", "-f", os_img, img_tmp])
--        self.exec_qemu_img("resize", img_tmp, "+50G")
--        ci_img = self.gen_cloud_init_iso()
--
--        self.boot(img_tmp, extra_args = [ "-device", "VGA", "-cdrom", ci_img, ])
--
--        # First command we issue is fix for slow ssh login.
--        self.wait_ssh(wait_root=True,
--                      cmd="chmod -x /etc/update-motd.d/*")
--        # Wait for cloud init to finish
--        self.wait_ssh(wait_root=True,
--                      cmd="ls /var/lib/cloud/instance/boot-finished")
--        self.ssh_root("touch /etc/cloud/cloud-init.disabled")
--        # Disable auto upgrades.
--        # We want to keep the VM system state stable.
--        self.ssh_root('sed -ie \'s/"1"/"0"/g\' '\
--                      '/etc/apt/apt.conf.d/20auto-upgrades')
--        self.ssh_root("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list")
--
--        # If the user chooses not to do the install phase,
--        # then we will jump right to the graceful shutdown
--        if self._config['install_cmds'] != "":
--            # Issue the install commands.
--            # This can be overriden by the user in the config .yml.
--            install_cmds = self._config['install_cmds'].split(',')
--            for cmd in install_cmds:
--                self.ssh_root(cmd)
--        self.graceful_shutdown()
--        os.rename(img_tmp, img)
--        return 0
--- 
-2.27.0
+Yes please. That'll make my life easier when queueing them.
 
+
+Daniel
+
+>>
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>>
+> -- 
+> Lucas Mateus M. Araujo e Castro
+> Instituto de Pesquisas ELDORADO <https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+> Departamento Computação Embarcada
+> Analista de Software Trainee
+> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
