@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4D3521C8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 16:35:44 +0200 (CEST)
-Received: from localhost ([::1]:36286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F17E521CFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 16:50:23 +0200 (CEST)
+Received: from localhost ([::1]:42300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noQxj-0003rp-69
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 10:35:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
+	id 1noRBu-00010g-2m
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 10:50:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1noQwo-000328-J2
- for qemu-devel@nongnu.org; Tue, 10 May 2022 10:34:46 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:42466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1noQwm-00032X-ER
- for qemu-devel@nongnu.org; Tue, 10 May 2022 10:34:46 -0400
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-wXed5RHkMMK-Kk0sZ7oS_Q-1; Tue, 10 May 2022 10:34:33 -0400
-X-MC-Unique: wXed5RHkMMK-Kk0sZ7oS_Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0BA3429ABA23;
- Tue, 10 May 2022 14:34:33 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 049AC400F736;
- Tue, 10 May 2022 14:34:31 +0000 (UTC)
-Date: Tue, 10 May 2022 16:34:30 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org, "Meng, Bin" <Bin.Meng@windriver.com>, Bin Meng
- <bmeng.cn@gmail.com>, "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver
- for Windows
-Message-ID: <20220510163430.410536f5@bahia>
-In-Reply-To: <2077078.oMYteGReol@silver>
-References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
- <2718865.3NRaeQn5QO@silver> <20220510154006.63c2ed23@bahia>
- <2077078.oMYteGReol@silver>
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1noR9V-0008T7-3W; Tue, 10 May 2022 10:47:54 -0400
+Received: from [187.72.171.209] (port=29929 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1noR9S-0006CH-Fs; Tue, 10 May 2022 10:47:52 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 10 May 2022 11:47:41 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id BD24B80046B;
+ Tue, 10 May 2022 11:47:40 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------gr0WK0NQqlXCelTxo47g0Ayr"
+Message-ID: <bf28f183-1d2f-8c28-0a99-af0752ec4ba9@eldorado.org.br>
+Date: Tue, 10 May 2022 11:47:40 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [RFC PATCH v2 5/7] target/ppc: Implemented xvf16ger*
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
+Cc: Joel Stanley <joel@jms.id.au>, Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220506121844.18969-1-lucas.araujo@eldorado.org.br>
+ <20220506121844.18969-6-lucas.araujo@eldorado.org.br>
+ <748597a5-7d57-0095-afdb-52ebcf5b9e1a@linaro.org>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <748597a5-7d57-0095-afdb-52ebcf5b9e1a@linaro.org>
+X-OriginalArrivalTime: 10 May 2022 14:47:41.0024 (UTC)
+ FILETIME=[E6514E00:01D8647C]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,205 +72,243 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 May 2022 16:04:28 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+This is a multi-part message in MIME format.
+--------------gr0WK0NQqlXCelTxo47g0Ayr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On Dienstag, 10. Mai 2022 15:40:06 CEST Greg Kurz wrote:
-> > On Tue, 10 May 2022 13:54:46 +0200
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > On Dienstag, 10. Mai 2022 12:18:33 CEST Christian Schoenebeck wrote:
-> > > > On Dienstag, 10. Mai 2022 04:17:44 CEST Shi, Guohuai wrote:
-> > > > [...]
-> > > > 
-> > > > > > > > > I tend to agree with Christian's remarks that this patch is
-> > > > > > > > > too
-> > > > > > > > > big
-> > > > > > > > > and that the choice of introducing right away a new
-> > > > > > > > > implementation
-> > > > > > > > > of 9p-local for windows hosts is too bold to start with. We
-> > > > > > > > > need
-> > > > > > > > > to
-> > > > > > > > > clearly understand what's diverging between windows and linux
-> > > > > > > > > in
-> > > > > > > > > order
-> > > > > > > > > to make such a decision. You should first try to introduce the
-> > > > > > > > > required
-> > > > > > > > > abstractions to cope with these differences, so that we can
-> > > > > > > > > review.
-> > > > > > > > 
-> > > > > > > > Here is the basic introductions of 9PFS for Windows development:
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > Windows always returns -1 when try to call open() for a
-> > > > > > > > directory.
-> > > > > > > > Windows (actually MinGW library) only allows opendir() for a
-> > > > > > > > directory.
-> > > > 
-> > > > That missing behaviour could be implemented in 9p-util-win.c, similar to
-> > > > the missing behaviours of mknodat() for macOS which did not support a
-> > > > bunch of things like creating a UNIX socket file and more:
-> > > > 
-> > > > https://github.com/qemu/qemu/commit/055ab89327bab83f1bd07e9de07f7628643d
-> > > > 3d8d> > 
-> > > > > > > Does MinGW have dirfd() ?
-> > > > > > 
-> > > > > > No.
-> > > > > > MinGW does not open any directory.
-> > > > > > Here is opendir() source code of MinGW:
-> > > > > > https://github.com/mirror/mingw-w64/blob/master/mingw-w64-crt/misc/d
-> > > > > > iren
-> > > > > > t.
-> > > > > > c#L42
-> > > > > > 
-> > > > > > So MinGW do not have a fd associated to a directory.
-> > > > > > 
-> > > > > > > > Windows does not support APIs like "*at" (openat(), renameat(),
-> > > > > > > > etc.)
-> > > > 
-> > > > Like already suggested before on your previous RFC version, it is
-> > > > possible
-> > > > to use the same workaround as we are using for macOS hosts already
-> > > > (which
-> > > > 
-> > > > was missing mknodat()):
-> > > >   pthread_fchdir_np(...)
-> > > >   mknod(...)
-> > > >   
-> > > >   https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util-darwin.c#L84
-> > > > 
-> > > > So on Windows it would be viable to:
-> > > >   chdir(...)
-> > > >   open(...)
-> > > > 
-> > > > The same approach could be used for any missing *at() function for
-> > > > Windows.
-> > > 
-> > > Problem though is that the chdir() functions on Windows all seem to have
-> > > process-wide effect, we would need to change the current directory only
-> > > for
-> > > the current thread, because filesystem access of 9p server is
-> > > multi-threaded.
-> > > 
-> > > Protecting the chdir(); foo(); calls by a process wide global mutex isn't
-> > > very appealing either. :/
-> > 
-> > And it wouldn't be safe anyway because I'm pretty sure that the rest
-> > of the QEMU code assumes that the current directory is invariant, e.g.
-> > user could be very confused by 'drive_add file=./foo.img' not working.
-> > 
-> > BTW duckduckgo gives:
-> > 
-> > https://stackoverflow.com/questions/32138524/is-there-a-windows-equivalent-o
-> > f-openat
-> > 
-> > So yes it seems to be technically possible to implement *at() functions
-> > on windows. This is the only way to avoid CVE-2016-9602 in the QEMU
-> > process.
-> 
-> +1
-> 
-> > Another option is to use the proxy backend : this offloads all fs
-> > accesses to an external process running virtfs-proxy-helper, that
-> > runs privileged and chroot() into the shared directory so that it
-> > can safely use path based syscalls.
-> 
-> As a very last resort, maybe. But just for the other two guys to know upfront: 
-> the proxy backend is very slow and not in good shape. There were plans to 
-> deprecate the proxy backend therefore, as it's more or less dead.
-> 
 
-Yeah as mentioned before, the way to go now would be to come with
-a vhost-user implementation like virtiofsd. This would address all
-perf problems we have with proxy since the client would directly
-talk to the external process. This should also provide better perf
-than the local backend since it wouldn't have to do do the "at*()"
-dance thanks to chroot().
+On 08/05/2022 01:24, Richard Henderson wrote:
+> On 5/6/22 07:18, Lucas Mateus Castro(alqotel) wrote:
+>> +static inline float32 float32_neg(float32 a)
+>> +{
+>> +    if (((a & 0x7f800000) == 0x7f800000) && (a & 0x007fffff)) {
+>> +        return a;
+>> +    } else {
+>> +        return float32_chs(a);
+>> +    }
+>> +}
+>
+> This is wrong -- even NaNs get their signs changed.
+> Negation and absolute value are non-arithmetic operations.
 
-> > > > > > > Ouch...
-> > > > > > > 
-> > > > > > > > So 9PFS can not use any openat() for opening a sub file or
-> > > > > > > > directory
-> > > > > > > > in 9P
-> > > > > > 
-> > > > > > mount
-> > > > > > 
-> > > > > > > directory.
-> > > > > > > 
-> > > > > > > > This commit use merge_fs_path() to build up full filename by
-> > > > > > > > string
-> > > > > > 
-> > > > > > concatenation.
-> > > > > > 
-> > > > > > > > I know that may have a risk of security, but Windows does fully
-> > > > > > > > support POSIX
-> > > > 
-> > > > You will not find anybody merging code that's inherently insecure.
-> > > > 
-> > > > > > > I understand from your various answers that symlinks aren't
-> > > > > > > currently supported by window's POSIX API. Is this forever ?
-> > > > > > > Google do mentions symlinks in windows 10. What's the story
-> > > > > > > there ? How do they behave ? How would they be exposed to the
-> > > > > > > client ? Be aware that, even if the client cannot create symlinks,
-> > > > > > > an existing symlink could be used to escape with rename().
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > If the code "may have a risk of security" then it must be
-> > > > > > > fixed or avoided in some way before being merged upstream.
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Other thing that comes to mind is that windows hosts should
-> > > > > > > maybe use the mapped or mapped-file security modes since
-> > > > > > > they emulate symlinks with a simple file hidden in the
-> > > > > > > VIRTFS_META_DIR directory.
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Cheers,
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > --
-> > > > > > > Greg
-> > > > > > 
-> > > > > > Windows native API support symbolic link file start from Windows
-> > > > > > Vista:
-> > > > > > https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbas
-> > > > > > e-cr
-> > > > > > ea
-> > > > > > tes ymboliclinka
-> > > > > > 
-> > > > > > I mean Windows POSIX APIs do not support symbolic link (MinGW use
-> > > > > > Win32
-> > > > > > POSIX APIs) So we can not create symbolic link by MinGW.
-> > > > 
-> > > > A function with POSIX signature could be added to 9p-util-win.c which
-> > > > would
-> > > > call the native Windows function to create symlinks.
-> > > > 
-> > > > > > Anyway, there is another solution: re-work whole 9PFS code: not only
-> > > > > > 9p-local.c, but also every file in 9p driver.
-> > > > > > Replace every MinGW/POSIX APIs (e.g. open, lseek, read, write,
-> > > > > > close),
-> > > > > > by Windows Native APIs (e.g. open -> CreateFile, lseek ->
-> > > > > > SetFilePointer,
-> > > > > > read -> ReadFile, write -> WriteFile, close -> CloseHandle, etc.)
-> > > > > > Then 9P can use Windows symbolic link feature.
-> > > > > > However, I do think it is a good idea to replace everything.
-> > > > > 
-> > > > > TYPO: it NOT is a good idea to replace everything.
-> > > > 
-> > > > Right, that does not make sense. The way to go is adding and
-> > > > implementing
-> > > > missing system functions with POSIX signatures and POSIX behaviour for
-> > > > Windows. Not turning the entire code base upside down.
-> > > > 
-> > > > Best regards,
-> > > > Christian Schoenebeck
-> 
-> 
+The PowerISA 3.1 (page 589) defines bfp_negate as:
 
+bfp_NEGATE(x)
+x is a binary floating-point value that is represented in the binary 
+floating-point working format.
+If x is not a NaN, return x with its sign complemented. Otherwise, return x
+
+So this is what I based on to create this function
+
+>
+> If you're matching hardware results, this suggests...
+>
+>> +                    if (neg_mul) {
+>> +                        msum = float32_neg(msum);
+>> +                    }
+>> +                    if (neg_acc) {
+>> +                        aux_acc = float32_neg(at[i].VsrSF(j));
+>> +                    } else {
+>> +                        aux_acc = at[i].VsrSF(j);
+>> +                    }
+>> +                    at[i].VsrSF(j) = float32_add(msum, aux_acc, 
+>> excp_ptr);
+>
+> This "add" should be "sub" instead of using a separate negation, when 
+> required.
+> I do wonder about the double-negation vs nans.
+
+But in this case some way to negate msum would still be necessary, so 
+maybe move float32_neg to target/ppc/fpu_helper.c and change the name, I 
+used 2 negations as a way to keep closer to the description, it is in 
+the ISA as:
+
+if “[pm]xvf16ger2pp” then v2 ← bfp_ADD(r1, acc)
+if “[pm]xvf16ger2pn” then v2 ← bfp_ADD(r1, bfp_NEGATE(acc))
+if “[pm]xvf16ger2np” then v2 ← bfp_ADD(bfp_NEGATE(r1), acc)
+if “[pm]xvf16ger2nn” then v2 ← bfp_ADD(bfp_NEGATE(r1), bfp_NEGATE(acc))
+
+But it could easily be change to an add/sub instead like you said
+
+>
+> It looks like this could be
+>
+>   float32_muladd(float32_one, msum, aux_acc, flags, &status)
+>
+> with flags set to float_muladd_negate_* for neg_mul and neg_acc. Any 
+> NaNs would go
+> through pick_nan_muladd and fail to be altered.
+
+It would have to be float32_muladd(musm, float32_one, aux_acc, ...) to 
+match the hardware result (it looks like qemu preference in a target PPC 
+is to return A over C and C over B if all are NaN in a muladd, but A 
+over B in a add/sub if both are NaN, so the equivalent of add(A,B) is 
+muladd(A, 1, B))
+
+That aside, having a muladd would bring it closer to vsxger over negate 
++ add/sub but personally I think I prefer the latter to not add an 
+unnecessary muladd, any opinions?
+
+>
+> I'm not sure if I'm suggesting actual use of muladd, for the 
+> simplicity, or if you should
+> have an inline check for nans.  I might need to think about this in 
+> the morning.
+>
+>
+> r~
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--------------gr0WK0NQqlXCelTxo47g0Ayr
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 08/05/2022 01:24, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:748597a5-7d57-0095-afdb-52ebcf5b9e1a@linaro.org">On
+      5/6/22 07:18, Lucas Mateus Castro(alqotel) wrote:
+      <br>
+      <blockquote type="cite">+static inline float32 float32_neg(float32
+        a)
+        <br>
+        +{
+        <br>
+        +    if (((a &amp; 0x7f800000) == 0x7f800000) &amp;&amp; (a
+        &amp; 0x007fffff)) {
+        <br>
+        +        return a;
+        <br>
+        +    } else {
+        <br>
+        +        return float32_chs(a);
+        <br>
+        +    }
+        <br>
+        +}
+        <br>
+      </blockquote>
+      <br>
+      This is wrong -- even NaNs get their signs changed.
+      <br>
+      Negation and absolute value are non-arithmetic operations.
+      <br>
+    </blockquote>
+    <p>The PowerISA 3.1 (page 589) defines bfp_negate as:</p>
+    <p>bfp_NEGATE(x)<br>
+      x is a binary floating-point value that is represented in the
+      binary floating-point working format.<br>
+      If x is not a NaN, return x with its sign complemented. Otherwise,
+      return x</p>
+    <p>So this is what I based on to create this function<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:748597a5-7d57-0095-afdb-52ebcf5b9e1a@linaro.org">
+      <br>
+      If you're matching hardware results, this suggests...
+      <br>
+      <br>
+      <blockquote type="cite">+                    if (neg_mul) {
+        <br>
+        +                        msum = float32_neg(msum);
+        <br>
+        +                    }
+        <br>
+        +                    if (neg_acc) {
+        <br>
+        +                        aux_acc = float32_neg(at[i].VsrSF(j));
+        <br>
+        +                    } else {
+        <br>
+        +                        aux_acc = at[i].VsrSF(j);
+        <br>
+        +                    }
+        <br>
+        +                    at[i].VsrSF(j) = float32_add(msum, aux_acc,
+        excp_ptr);
+        <br>
+      </blockquote>
+      <br>
+      This "add" should be "sub" instead of using a separate negation,
+      when required.
+      <br>
+      I do wonder about the double-negation vs nans.
+      <br>
+    </blockquote>
+    <p>But in this case some way to negate msum would still be
+      necessary, so maybe move float32_neg to target/ppc/fpu_helper.c
+      and change the name, I used 2 negations as a way to keep closer to
+      the description, it is in the ISA as:</p>
+    <p>if “[pm]xvf16ger2pp” then v2 ← bfp_ADD(r1, acc)<br>
+      if “[pm]xvf16ger2pn” then v2 ← bfp_ADD(r1, bfp_NEGATE(acc))<br>
+      if “[pm]xvf16ger2np” then v2 ← bfp_ADD(bfp_NEGATE(r1), acc)<br>
+      if “[pm]xvf16ger2nn” then v2 ← bfp_ADD(bfp_NEGATE(r1),
+      bfp_NEGATE(acc))</p>
+    <p>But it could easily be change to an add/sub instead like you said<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:748597a5-7d57-0095-afdb-52ebcf5b9e1a@linaro.org">
+      <br>
+      It looks like this could be
+      <br>
+      <br>
+        float32_muladd(float32_one, msum, aux_acc, flags, &amp;status)
+      <br>
+      <br>
+      with flags set to float_muladd_negate_* for neg_mul and neg_acc. 
+      Any NaNs would go
+      <br>
+      through pick_nan_muladd and fail to be altered.
+      <br>
+    </blockquote>
+    <p>It would have to be float32_muladd(musm, float32_one, aux_acc,
+      ...) to match the hardware result (it looks like qemu preference
+      in a target PPC is to return A over C and C over B if all are NaN
+      in a muladd, but A over B in a add/sub if both are NaN, so the
+      equivalent of add(A,B) is muladd(A, 1, B))</p>
+    <p>That aside, having a muladd would bring it closer to vsxger over
+      negate + add/sub but personally I think I prefer the latter to not
+      add an unnecessary muladd, any opinions?<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:748597a5-7d57-0095-afdb-52ebcf5b9e1a@linaro.org">
+      <br>
+      I'm not sure if I'm suggesting actual use of muladd, for the
+      simplicity, or if you should
+      <br>
+      have an inline check for nans.  I might need to think about this
+      in the morning.
+      <br>
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------gr0WK0NQqlXCelTxo47g0Ayr--
 
