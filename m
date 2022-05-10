@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C545213DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 13:34:03 +0200 (CEST)
-Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D510521416
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 13:43:27 +0200 (CEST)
+Received: from localhost ([::1]:57050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noO7u-0000tk-5K
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 07:34:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56002)
+	id 1noOGz-0003sL-U0
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 07:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1noO6A-0007he-0H
- for qemu-devel@nongnu.org; Tue, 10 May 2022 07:32:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49972)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1noOBq-0001tQ-K8
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 07:38:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1noO68-00065m-9P
- for qemu-devel@nongnu.org; Tue, 10 May 2022 07:32:13 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1noOBo-0006tu-At
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 07:38:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652182331;
+ s=mimecast20190719; t=1652182682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E1Sj3/UnWPZSjDXocsk5J3NJtDTzET+T+Zt+d122HB8=;
- b=fI4pQaWJ0W/SGOK6G14mzsaWSkDwY+6SMvEaagSkFt1YNEPQwXpPS8pWWsRsXrwmU3vZJ+
- eACWhUzRkKdiBDz8yoYnTZV1fUvjpNEUG/aNCvMhR40ospN0/enJGGCodL7Fr2ralSGjsB
- yeBP8CX3A8fTyHyeDCksOh4Zk5f1z4g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=H6YK/zUyeQLMYBl9KIIbiEx7kPiVl4Dn5p+EuUgTUmw=;
+ b=ISupKs5fKSpXEbi0WMs9tYqHapIJQ1NytqNX6zjydB3HAyCc9x2rOX5ZqGK4ShO/NZ+oSy
+ 30H6GzA8xlEge5MVRG+sA5tt4w07YsYM0c5Rd7rxRxnr/2oMXjtAc1XLjPnOOnYzGQ5sYG
+ rB89qcSsJdUUEwfXRAIMwD6yU7YpFM0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-Mh7DxzqTNxq3EcWxnUWgpg-1; Tue, 10 May 2022 07:32:10 -0400
-X-MC-Unique: Mh7DxzqTNxq3EcWxnUWgpg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D0DF85A5BC
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 11:32:09 +0000 (UTC)
-Received: from localhost (unknown [10.40.193.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3169840CFD06;
- Tue, 10 May 2022 11:32:08 +0000 (UTC)
-Date: Tue, 10 May 2022 13:32:08 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH v1 4/8] qapi: golang: Generate qapi's union types in Go
-Message-ID: <20220510113208.ndnw7q343rz2heyo@tapioca>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <20220401224104.145961-5-victortoso@redhat.com>
- <Yno98HEL1oqzs0ZP@redhat.com>
+ us-mta-592-vVkCmqzePNOjMvel0PboJg-1; Tue, 10 May 2022 07:38:01 -0400
+X-MC-Unique: vVkCmqzePNOjMvel0PboJg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ sc20-20020a1709078a1400b006f4a358c817so8294410ejc.16
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 04:38:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=H6YK/zUyeQLMYBl9KIIbiEx7kPiVl4Dn5p+EuUgTUmw=;
+ b=hike+UQNxzNuFhITZtEruIuKWddvn3UH3+UZrC4sHelduvBAzTAU9MC1R2esgjWXSQ
+ Nw97YGAPp0HwDPeqINnF6NfmjfH1rjjCKMC9j/CRx6OvItEqH3SOl44t3cPOH0vzuCO6
+ urCVndZlCf/RYRRJ8/l1FHjlUFnuoG8a/p+DqeGWmjmoc6V6UApFh88Zm8KmFmA30qeY
+ 8nNSZQ5fxyAf3pTKsTqXJEmn2JxhDL9tPnjA3v8bgN28vDHuSzQ3iZaLiOFlkNZgRLR2
+ HuLXzPXygtw2gtGyjpsYR/JQVlbCLTSvADLAdImu1lZBmKhlj5scUjBjAT6cT9T2o4wX
+ YDJg==
+X-Gm-Message-State: AOAM530bSfULtZOH1K2Bc3D9qJ5czYwx/RWV/P6wThN8dtHo7It8WCQ8
+ p2f6cqf8yzmxANADVFko95TDHng07uf9wUNnTaE1zNbFrWRnAIZLVHDF0b6OlWc363UEjg/shwF
+ N7+iRaSyp+4A+xB0=
+X-Received: by 2002:a50:d4d4:0:b0:425:e6bf:8b81 with SMTP id
+ e20-20020a50d4d4000000b00425e6bf8b81mr22178600edj.209.1652182680543; 
+ Tue, 10 May 2022 04:38:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTLkg1E0n/V4pp7lA1EPVA4fvKpMtE8CBWIq9mVaN5IwzDjJYi1mITarN6wPpYMzzZwJI5tQ==
+X-Received: by 2002:a50:d4d4:0:b0:425:e6bf:8b81 with SMTP id
+ e20-20020a50d4d4000000b00425e6bf8b81mr22178572edj.209.1652182680279; 
+ Tue, 10 May 2022 04:38:00 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ my14-20020a1709065a4e00b006f3ef214dc5sm6066300ejc.43.2022.05.10.04.37.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 May 2022 04:37:59 -0700 (PDT)
+Date: Tue, 10 May 2022 13:37:58 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net,
+ jon.grimm@amd.com, Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH] pc: q35: Bump max_cpus to 512
+Message-ID: <20220510133758.5495372c@redhat.com>
+In-Reply-To: <Ynoe242xK4d5kNwk@redhat.com>
+References: <20220504131639.13570-1-suravee.suthikulpanit@amd.com>
+ <20220509091249.392fdab6@redhat.com> <YnkDGsIi1vFvXmiP@redhat.com>
+ <20220510090325.2781238a@redhat.com> <Ynoe242xK4d5kNwk@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4viv4mco26gi324q"
-Content-Disposition: inline
-In-Reply-To: <Yno98HEL1oqzs0ZP@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -82,84 +104,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 10 May 2022 09:14:19 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
---4viv4mco26gi324q
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue, May 10, 2022 at 11:26:56AM +0100, Daniel P. Berrang=E9 wrote:
-> On Sat, Apr 02, 2022 at 12:41:00AM +0200, Victor Toso wrote:
-> > This patch handles QAPI union types and generates the equivalent data
-> > structures and methods in Go to handle it.
+> On Tue, May 10, 2022 at 09:03:25AM +0200, Igor Mammedov wrote:
+> > On Mon, 9 May 2022 13:03:38 +0100
+> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> >  =20
+> > > On Mon, May 09, 2022 at 09:12:49AM +0200, Igor Mammedov wrote: =20
+> > > > On Wed, 4 May 2022 08:16:39 -0500
+> > > > Suravee Suthikulpanit <suravee.suthikulpanit@amd.com> wrote:
+> > > >    =20
+> > > > > This is the maximum number of vCPU supported by
+> > > > > the AMD x2APIC virtualization.
+> > > > >=20
+> > > > > Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.c=
+om>
+> > > > > ---
+> > > > >  hw/i386/pc_q35.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >=20
+> > > > > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> > > > > index 302288342a..e82b1c690d 100644
+> > > > > --- a/hw/i386/pc_q35.c
+> > > > > +++ b/hw/i386/pc_q35.c
+> > > > > @@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineCla=
+ss *m)
+> > > > >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_D=
+EVICE);
+> > > > >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+> > > > >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+> > > > > -    m->max_cpus =3D 288;
+> > > > > +    m->max_cpus =3D 512;   =20
+> > > >=20
+> > > > Maybe we should bump it to KVM VCPU maximum,
+> > > > and make sure we error out if asked for combination of
+> > > > hardware/irqchip is not usable.   =20
+> > >=20
+> > > In RHEL downstream we currently bump this to 710 CPUs, because you
+> > > overflow the SMBIOS 2.1 tables at approx 720 CPUs (give/take a little
+> > > depending on other config options). =20
 > >=20
-> > At the moment of this writing, it generates 67 structures.
+> > Also there were some testing done with 1024,
+> > but my main reason for matching KVM's limit is unblock upstream
+> > testing so it would be easier to push limits for others.
+> > Downstream can clamp that value down to whatever it deems as supported.
+> >  =20
+> > > Going beyond 710 CPUs value requires using the SMBIOS 3 entry point.
+> > >=20
+> > > AFAIK, the x86 machine types still default to SMBIOS 2.1, so that
+> > > would need changing too. =20
 > >=20
-> > The QAPI union type can be summarized by its common members that are
-> > defined in a @base struct and a @value. The @value type can vary and
-> > depends on @base's field that we call @discriminator. The
-> > @discriminator is always a Enum type.
-> >=20
-> > Golang does not have Unions. The generation of QAPI union type in Go
-> > with this patch, follows similar approach to what is done for QAPI
-> > struct types and QAPI alternate types.
+> > Yep, we can change default to SMBIOS 3 starting with new machine type (=
+7.1?)
+> > or conditionally depending on requested number of CPUs,
+> > though I'd prefer machine type approach. =20
 >=20
-> The common way to approach unions in Go is to just use a struct
-> where each union case is an optional field, and declare that
-> only one field must ever be set. ie
+> Agree, machine type is better IMHO, a it gives us a consistent guest
+> ABI regardless of CPU count.
 >=20
->   type SocketAddressLegacy struct {
->         // Value based on @type, possible types:
->         Inet *InetSocketAddressWrapper
->         Unix *UnixSocketAddressWrapper
->         VSock *VsockSocketAddressWrapper
->         FD *StringWrapper
->   }
-
-Like Alternates, I like this better.
-
-> When deserializing from JSON we populate exactly one of the
-> optional fields.
+> > As for SMBIOS 3, we still have to update CPU structures to support more=
+ than
+> > 255 vcpus (Julia was working on it). It's long standing bug, but that d=
+oesn't
+> > seem to be critical, as guest boots fine with old structures. =20
 >=20
-> When serializing to JSON process the first field that is
-> non-nil.
+> What's the impact of SMBIOS 3 being limited to 255 ?  That's lower than
+> the current max CPUs of 288 in upstream / 710 in downstream.
+
+possibly users that look into SMBIOS for licensing purposes and/or inventory
+Julia told me that dmidecode somehow figures out correct number of total vc=
+pus.
+
+CCing Julia for patches ETA.
+
 >=20
-> Note, you don't actually need to include the discriminator as a
-> field at all, since it is implicitly determined by whichever
-> case is non-nil.  Introducing the discriminator as a field just
-> provides the possibility for the programmer to make
-> inconsistent settings, for no gain.
-
-Sounds reasonable. We still need to implement Marshal/Unmarshal
-for unknow types (e.g: a new Type for SocketAddressLegacy was
-introduced in 7.1 and we should be able to know that current
-qapi-go version can't understand it).
-
-Cheers,
-Victor
-
---4viv4mco26gi324q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmJ6TTgACgkQl9kSPeN6
-SE8y0RAAsiX7Xua9wzNmGzn6HXuJxqpZFeueGNu1RKcjZlECP8Yy9SQb3c6sqOuf
-CFpsSwSoMdHxxaE/Xh/boa8cWN7KFCaQMC+2uIsEfBJDvVO2LegyWMKCZbS2NI49
-aJUt7LZK51Igfo5Dlw3HHB0eV9WYqTbKvEfQESuwTe5qNqHJtM6SXUssn0fzdo2Y
-YkveIUVxpKLJY6Bzp5oTNvmczuyR4/Mg9O4wLQEBA3X34qIybxnmQTvuMUrbtj/h
-jXH3FS51fUbwrAz3ooFgHGMjVLco09RC1KxAlf0yZTmyKsNw+c6lFFdrTsocE5tS
-Be9ZCqXUGV8i9G1ur7NOQ4VQOUAIk/GS4OtL/t2P34n+M0496hqNsXMdcHFSWqXY
-exJ6vHlxS0INKfoV0t3j8Jr8rcOiwn4JNqEIlZwKbAzbzfSwxM2zbrOTUguF1LoS
-3YL8LJE5Xw2LteheWNFPuDCrH0FUj1YF6JBv7lPaERMsHrpeDrHhHbRgcuwzhr0K
-Fb/biFGcKwB8fIVH+6CSd/ajCa97/+J3QyGE8jkQyP5pVQ2X0WP49yoA5uAcT2dN
-rRMZgrZ+4ynJtXEhNzX1XkUWX3PsxY+DKL2hVo9gERUtCn4dbHXn00r1wnXqH7ws
-6CUm0REuWeIALE9bkY8iYHkGRx9dzgJsFS7utNqTwojE/AFeaRE=
-=2tsq
------END PGP SIGNATURE-----
-
---4viv4mco26gi324q--
+>=20
+> With regards,
+> Daniel
 
 
