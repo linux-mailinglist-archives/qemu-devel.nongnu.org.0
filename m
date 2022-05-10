@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CAA52230C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 19:44:56 +0200 (CEST)
-Received: from localhost ([::1]:32838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2593C522319
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 19:47:26 +0200 (CEST)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noTup-00066H-JN
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 13:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54874)
+	id 1noTxF-0007qx-9A
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 13:47:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1noTqg-0004xm-Dp
- for qemu-devel@nongnu.org; Tue, 10 May 2022 13:40:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1noTqd-0005Ox-HA
- for qemu-devel@nongnu.org; Tue, 10 May 2022 13:40:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652204434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=437OZqj81Jo0zlMk69mLnD9M55+Cna1lZokVsTjwi5Q=;
- b=hNjLiQIJU2rt6+A6jw7wvMQpDMgZ5ok7vk5rHwS6hpSorCHI6BL/OZzuNLuh9iEVzeNOJq
- ahFm9/f0agnQC5/daPma8ami6NKPXRnZZwNtQLyb3+eyaM5gswMVmHmUiGxzIyBR0M2vMs
- +7RPq/0sdOzCwC+dJeXJ5mT7LgW8eFo=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-ytewYajXMDG35aqhSui1ug-1; Tue, 10 May 2022 13:40:33 -0400
-X-MC-Unique: ytewYajXMDG35aqhSui1ug-1
-Received: by mail-vk1-f198.google.com with SMTP id
- y187-20020a1f7dc4000000b003523a47f39fso1750406vkc.19
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:40:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1noTsP-0005le-CE
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 13:42:26 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:42938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1noTsC-0005bB-UA
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 13:42:17 -0400
+Received: by mail-pg1-x536.google.com with SMTP id 202so15205837pgc.9
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:42:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jLo1odo1nlis5qYHeLw0d3bpXDR71zsO7FQwD9J9Ol0=;
+ b=z9QoR/xVwFwcCpg93GNeTm2PA3xqIjF6DW9xCJ57bPnxDQFlGFg0vu+ryeJi115GHk
+ SevFXaBxcjSn6/mM7i+ha4VXvM+umnpBbBScsumPoPT7LtN4g+jlcfNqUmtEi8eY/Eqj
+ NzMxzp9r7Mn1vb8guaKwFI/7rvQWKFqnb7oLVTvaat8EpjdibMaQa5tR/iUh/VJOxncE
+ g1PQa69kVtyEr3cIZJcC9Lu/qZUWe8M/veWidwCgNSUIJr5ERtBmnnWOzim9LLruPkkW
+ RzKIjqOD725K8tE8rXoF2vxP5Etz/S03zXBDlFC9AICkaRK2oxfVndB8I2T5izunbPUj
+ NZXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=437OZqj81Jo0zlMk69mLnD9M55+Cna1lZokVsTjwi5Q=;
- b=ffD+W30GBzVrbHOOnzBgm+D5LnPo4LM77NFd1m8cb5B3LgUesaK+VT7l/Zk1iMOpiE
- Qs49PuV8YOk5PTmB1GaWj1WgUF/qPII6cyuXMyFvNmHcDuyDJJQnyyDUP6Wk9QkEoks5
- 0BuKc4i/N1Z7h3c/b63QJGZESNW1JDNTwKFYlBnU8GXU71SN+QOm5g4Wma/QuwuZpWsX
- x5AZAPxK8uOsECWHl1P6SmYxuGOn6liJgVw0Ghxu0vXvr2BJenADbO/ivqGletiG9TE2
- ayCynAHhTHD0AyB81UT7XqBdCioMHaZC8DznMLienjTaj2EXOzKmN/3ztxBdyYUcgnaR
- O36A==
-X-Gm-Message-State: AOAM533fohs6HqPJx1cH81BkZjDsim4MmfnpPQq8VeG6eyQ0R5XPKkmM
- TXguXGcoLHrDaeCTl9DLiP/NhPrLRLqcDpdfm8VD9pQmSVZ+iQesuTvGi8ECRz9juRtiYhjceL7
- kLcld1RvZ1YJuVfOQKETMU7q4Mv8f2FQ=
-X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
- l23-20020a67fe17000000b0032ce77ec3b4mr12387496vsr.11.1652204432691; 
- Tue, 10 May 2022 10:40:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNCzlDZkg+eWhbg+vGmboiSc2qiu2COZAy2kHTzYi9xpETgZSK2CiDZWPcXrePBBXCXH6AMYxMppWt88hIx9c=
-X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
- l23-20020a67fe17000000b0032ce77ec3b4mr12387483vsr.11.1652204432479; Tue, 10
- May 2022 10:40:32 -0700 (PDT)
+ bh=jLo1odo1nlis5qYHeLw0d3bpXDR71zsO7FQwD9J9Ol0=;
+ b=3PDmctkE8HZ7wPrB0ICV6RGYWZEY6St+CAOpk8m0Fjkduzi1zpRzzBcDq3FwQVh0ie
+ T2T76Xa3frII+084yL95fazEvyfOIUSJhzbrZMYFLFqXpUlbvYLPsjaa3nCd8BqzXorU
+ B72POzxnz4C2NzG67pPf7Y56uXfSnW6/d583UHOvK39DoGtkWm2UmY73quGhC6Ev5dBC
+ sx5f6ScMUbO2Uv3dB1AQoOGJ4tmKD0mnY9dwwF5pbnJaBNdSAuc7f4l3fZHt0AlkzjRl
+ Ajx/vM9kSgOLwNYaVPnz6nJVIBMPJumWluOcfoTgeMcpHbrKqyz/Zs+hPgEy6DTtCAmd
+ 0JuQ==
+X-Gm-Message-State: AOAM533QIeW/vcoPvmllC8+8/exuaHGjuly1jgM3PKRuWRps+8sPEmHQ
+ P14qWs8MbZHkj0l2RAX1kN/kxKSBW5oqXf+MqMry+g==
+X-Google-Smtp-Source: ABdhPJyZOwy/LDVZ/9KucdkDbc2n+b6334cqaXJnsuoOdsMb4a+ohtX0rUwxxG9GwcukaEwJCNk+OMBlnlIYN0TGNcA=
+X-Received: by 2002:a63:5564:0:b0:3ab:9d95:7a21 with SMTP id
+ f36-20020a635564000000b003ab9d957a21mr17950039pgm.542.1652204530890; Tue, 10
+ May 2022 10:42:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFn=p-ZCF0VU=xrcbCnqmVvEndsMgiFSZOZv_Orm2EdX-Yk--A@mail.gmail.com>
- <YnOQAP1J94zH1pEK@redhat.com>
- <6f3c3414-f837-85c9-b401-d856f091ddf4@redhat.com>
-In-Reply-To: <6f3c3414-f837-85c9-b401-d856f091ddf4@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 10 May 2022 13:40:20 -0400
-Message-ID: <CAFn=p-adaBqmBu1dUqZk6xYR1jXAum8kw+TqKfsnDo8741QDNg@mail.gmail.com>
-Subject: Re: iotests and python dependencies
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220510064231.1384670-1-daolu@rivosinc.com>
+ <20220510064231.1384670-2-daolu@rivosinc.com>
+ <f9f7804f-76e1-da5c-600a-47b6df780e15@linaro.org>
+In-Reply-To: <f9f7804f-76e1-da5c-600a-47b6df780e15@linaro.org>
+From: Dao Lu <daolu@rivosinc.com>
+Date: Tue, 10 May 2022 10:42:00 -0700
+Message-ID: <CAKh7v-Qz3S1z-MKYctAOf9VwxWL6i_nH-pPehxh2FdxAMHMQug@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Add Zihintpause support
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000029152d05deabd8b8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=daolu@rivosinc.com; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,30 +86,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 5, 2022 at 5:28 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+--00000000000029152d05deabd8b8
+Content-Type: text/plain; charset="UTF-8"
+
+Thanks Richard! I have fixed it following your advice:
+
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc
+b/target/riscv/insn_trans/trans_rvi.c.inc
+index 528c30c9a2..acd2548e9b 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -808,9 +808,13 @@ static bool trans_pause(DisasContext *ctx, arg_pause
+*a)
+
+     /*
+      * PAUSE is a no-op in QEMU,
+-     * however we need to clear the reservation
++     * however we need to clear the reservation,
++     * end the TB and return to main loop
+      */
+     tcg_gen_movi_tl(load_res, -1);
++    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
++    tcg_gen_exit_tb(NULL, 0);
++    ctx->base.is_jmp = DISAS_NORETURN;
+
+     return true;
+ }
+
+I will wait a bit to see if there are any more comments.
+
+On Tue, May 10, 2022 at 8:43 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 5/9/22 23:42, Dao Lu wrote:
+> > +static bool trans_pause(DisasContext *ctx, arg_pause *a)
+> > +{
+> > +    REQUIRE_ZIHINTPAUSE(ctx);
+> > +
+> > +    /*
+> > +     * PAUSE is a no-op in QEMU,
+> > +     * however we need to clear the reservation
+> > +     */
+> > +    tcg_gen_movi_tl(load_res, -1);
 >
-> On 5/5/22 10:51, Kevin Wolf wrote:
-> > If not, I guess it would be enough if iotests just checks that the venv
-> > exists and all of the dependencies are there in the right version and
-> > error out if not, telling the user to run 'make check-venv'.
-> >
-> > Or actually, it could just unconditionally run 'make check-venv' by
-> > itself, which is probably easier to implement than checking the
-> > dependencies and more convenient for the user, too.
+> I recommend ending the TB and returning to the main loop.  When running in
+> round-robin
+> mode, this will yield to the next cpu.
 >
-> Note that you would still have to add a 'check-block: check-venv'
-> dependency in the Makefile, otherwise two "instances" of check-venv
-> could run in parallel.
 >
-> One small complication is that on BSD systems the binary is actually
-> called "gmake", so you'd have to pass the variable somehow
->
-> Paolo
+> r~
 >
 
-Dumb question: where would I express this dependency? I don't know
-where the top-level "check-block" recipe gets defined.
+--00000000000029152d05deabd8b8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---js
+<div dir=3D"ltr">Thanks Richard! I have fixed it following your advice:<div=
+><br></div><div>diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/targ=
+et/riscv/insn_trans/trans_rvi.c.inc<br>index 528c30c9a2..acd2548e9b 100644<=
+br>--- a/target/riscv/insn_trans/trans_rvi.c.inc<br>+++ b/target/riscv/insn=
+_trans/trans_rvi.c.inc<br>@@ -808,9 +808,13 @@ static bool trans_pause(Disa=
+sContext *ctx, arg_pause *a)<br><br>=C2=A0 =C2=A0 =C2=A0/*<br>=C2=A0 =C2=A0=
+ =C2=A0 * PAUSE is a no-op in QEMU,<br>- =C2=A0 =C2=A0 * however we need to=
+ clear the reservation<br>+ =C2=A0 =C2=A0 * however we need to clear the re=
+servation,<br>+ =C2=A0 =C2=A0 * end the TB and return to main loop<br>=C2=
+=A0 =C2=A0 =C2=A0 */<br>=C2=A0 =C2=A0 =C2=A0tcg_gen_movi_tl(load_res, -1);<=
+br>+ =C2=A0 =C2=A0gen_set_pc_imm(ctx, ctx-&gt;pc_succ_insn);<br>+ =C2=A0 =
+=C2=A0tcg_gen_exit_tb(NULL, 0);<br>+ =C2=A0 =C2=A0ctx-&gt;base.is_jmp =3D D=
+ISAS_NORETURN;<br><br>=C2=A0 =C2=A0 =C2=A0return true;<br>=C2=A0}<br></div>=
+<div><br></div><div>I will wait a bit to see if there are any more comments=
+.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, May 10, 2022 at 8:43 AM Richard Henderson &lt;<a href=3D"mai=
+lto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 5/9/22 23:=
+42, Dao Lu wrote:<br>
+&gt; +static bool trans_pause(DisasContext *ctx, arg_pause *a)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 REQUIRE_ZIHINTPAUSE(ctx);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* PAUSE is a no-op in QEMU,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* however we need to clear the reservation<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 tcg_gen_movi_tl(load_res, -1);<br>
+<br>
+I recommend ending the TB and returning to the main loop.=C2=A0 When runnin=
+g in round-robin <br>
+mode, this will yield to the next cpu.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div>
 
+--00000000000029152d05deabd8b8--
 
