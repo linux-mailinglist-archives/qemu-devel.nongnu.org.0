@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E24521208
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:19:38 +0200 (CEST)
-Received: from localhost ([::1]:39190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3345552121B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:23:35 +0200 (CEST)
+Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noMxt-0007Y1-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
+	id 1noN1i-0003ec-8Q
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1noMo3-0007gv-8F
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:09:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38404)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noMpU-0000nO-7O
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:10:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1noMo1-0007bb-6N
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:09:26 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noMpR-00082P-Rs
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:10:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652177364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=geOVZd09nZa7RaMIkgGcfC1tvhySFIN14mK/irSpO60=;
- b=RtNwuI0k35IasGW3zxXReHWHlvN29BoOH77gh3EDrSjQeSDdB4KSi+Ih7tPYYM2aIWCOFy
- nexD9PslE83sxvFMqnRKITqxnU/hq0HZ29gED5cDxkZzVYihEKhPxWPhvEwVTHLbGEJbT3
- 6SQQ/ennusizkwwwgyCrMO8nhcaisgM=
+ s=mimecast20190719; t=1652177452;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=5407T1nhVDz0ycKzR+0Tfj2tnb/MkAKBxK1Z1597Bi4=;
+ b=ZglmfXyHVTaPARJ2GPPwlb1T5JqC6miYGfmQQnoM6airm0J6bJZmQ1kFJ5nx6wvRHqNvaG
+ tvq6adpZCv51KdHTn88Y4elRPNfDd2C+XdGD02RvfVL45uuu1Jyd8dswGeh+GcndIP9rWe
+ E6IZILyqSOu2nSWHV5ygaO+TjOchkUU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-160-OBb4w8nAPcSox93ZXcg2Yw-1; Tue, 10 May 2022 06:09:23 -0400
-X-MC-Unique: OBb4w8nAPcSox93ZXcg2Yw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-460-HkLKLSwdO66krURd1dBdrw-1; Tue, 10 May 2022 06:10:51 -0400
+X-MC-Unique: HkLKLSwdO66krURd1dBdrw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5E1D801210;
- Tue, 10 May 2022 10:09:22 +0000 (UTC)
-Received: from maya.cloud.tilaa.com (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6ADB12026985;
- Tue, 10 May 2022 10:09:22 +0000 (UTC)
-Date: Tue, 10 May 2022 12:09:18 +0200
-From: Stefano Brivio <sbrivio@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org, Ralph
- Schmieder <ralph.schmieder@gmail.com>, Markus Armbruster
- <armbru@redhat.com>
-Subject: Re: [RFC PATCH 0/6] qapi: net: add unix socket type support to
- netdev backend
-Message-ID: <20220510120910.3fe16689@elisabeth>
-In-Reply-To: <Ynou6ASuaaP9aVCB@redhat.com>
-References: <20220509173618.467207-1-lvivier@redhat.com>
- <Ynohv8LzGG1vLy9N@redhat.com> <20220510105908.607c4de7@elisabeth>
- <Ynou6ASuaaP9aVCB@redhat.com>
-Organization: Red Hat
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96D63811E75
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:10:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF42A111E411;
+ Tue, 10 May 2022 10:10:47 +0000 (UTC)
+Date: Tue, 10 May 2022 11:10:45 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v1 2/8] qapi: golang: Generate qapi's alternate types
+ in Go
+Message-ID: <Yno6Jb1Y9GmgD5wr@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <20220401224104.145961-3-victortoso@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220401224104.145961-3-victortoso@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,137 +79,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 May 2022 10:22:48 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Sat, Apr 02, 2022 at 12:40:58AM +0200, Victor Toso wrote:
+> This patch handles QAPI alternate types and generates data structures
+> in Go that handles it.
+> 
+> At this moment, there are 5 alternates in qemu/qapi, they are:
+>  * BlockDirtyBitmapMergeSource
+>  * Qcow2OverlapChecks
+>  * BlockdevRef
+>  * BlockdevRefOrNull
+>  * StrOrNull
+> 
+> Alternate types are similar to Union but without a discriminator that
+> can be used to identify the underlying value on the wire. It is needed
+> to infer it. That can't be easily mapped in Go.
 
-> On Tue, May 10, 2022 at 10:59:08AM +0200, Stefano Brivio wrote:
-> > On Tue, 10 May 2022 09:26:39 +0100
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >  =20
-> > > On Mon, May 09, 2022 at 07:36:12PM +0200, Laurent Vivier wrote: =20
-> > > > "-netdev socket" only supports inet sockets.
-> > > >=20
-> > > > It's not a complex task to add support for unix sockets, but
-> > > > the socket netdev parameters are not defined to manage well unix
-> > > > socket parameters.
-> > > >=20
-> > > > As discussed in:
-> > > >=20
-> > > >   "socket.c added support for unix domain socket datagram transport"
-> > > >   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E=
-67BE60@gmail.com/
-> > > >=20
-> > > > This series adds support of unix socket type using SocketAddress QA=
-PI structure.
-> > > >=20
-> > > > A new netdev backend "socket-ng" is added, that is barely a copy of=
- "socket"
-> > > > backend but it uses the SocketAddress QAPI to provide socket parame=
-ters.
-> > > > And then it also implement unix sockets (TCP and UDP).   =20
-> > >=20
-> > > So pulling in the QAPI from patch 2
-> > >=20
-> > >    { 'enum': 'NetdevSocketNGMode',
-> > >      'data':  [ 'dgram', 'server', 'client' ] }
-> > >=20
-> > >    { 'struct': 'NetdevSocketNGOptions',
-> > >      'data': {
-> > >        'mode':    'NetdevSocketNGMode',
-> > >        '*addr':   'SocketAddress',
-> > >        '*remote': 'SocketAddress',
-> > >        '*local':  'SocketAddress' } }
-> > >  =20
-> > > > Some examples of CLI syntax:
-> > > >=20
-> > > >   for TCP:
-> > > >=20
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dinet,add=
-r.host=3Dlocalhost,addr.port=3D1234
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dinet,add=
-r.host=3Dlocalhost,addr.port=3D1234
-> > > >=20
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,\
-> > > >           local.type=3Dinet,local.host=3Dlocalhost,local.port=3D123=
-4,\
-> > > >           remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D=
-1235
-> > > >=20
-> > > >   for UNIX:
-> > > >=20
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dunix,add=
-r.path=3D/tmp/qemu0
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dunix,add=
-r.path=3D/tmp/qemu0
-> > > >=20
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,\
-> > > >           local.type=3Dunix,local.path=3D/tmp/qemu0,\
-> > > >           remote.type=3Dunix,remote.path=3D/tmp/qemu1
-> > > >=20
-> > > >   for FD:
-> > > >=20
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dfd,addr.=
-str=3D4
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dfd,addr.=
-str=3D5
-> > > >=20
-> > > >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,local.type=3Dfd,addr.=
-str=3D4   =20
-> > >=20
-> > >                                                           ^^^ local.s=
-tr=3D4
-> > >=20
-> > > I notice that in all these examples, mode=3Dclient/server always use
-> > > the 'addr' field, and mode=3Ddgram always uses the 'local'/'remote'
-> > > fields. IOW, there is almost no commonality between the dgram scenario
-> > > and the stream scenario, which feels sub-optimal.
-> > >=20
-> > > Two alternatives come to mind
-> > >=20
-> > >  - mode=3Dclient could use 'remote' and mode=3Dserver could use 'loca=
-l',
-> > >    removing the 'addr' field entirely =20
-> >=20
-> > To me, "mode is client, address is x" sounds more intuitive than "mode
-> > is client, remote is x". I mean, of course it's the remote address --
-> > that's a bit redundant.
-> >  =20
-> > >  - Have completely separate backends, ie '-netdev stream' for
-> > >    client/server TCP/UNIX sockets, and '-netdev dgram' for UDP
-> > >    sockets, removing 'mode' field. =20
+I don't buy that. Given this example:
 
-Well, this ^^^ is one thing ('-netdev stream' for UNIX sockets),
+  type BlockdevRef struct {
+        // Options are:
+        // * definition (BlockdevOptions): defines a new block device inline
+        // * reference (string): references the ID of an existing block device
+        Value Any
+  }
 
-> > ...this won't work, though, because UNIX domain sockets can be
-> > stream-oriented or datagram-oriented. =20
->=20
-> Sure it can work, both the 'stream' and 'dgram' backends would
-> allow the full range of addr types as they're independant config
-> dimensions
->=20
->=20
->     -netdev stream,server=3Dno,addr.type=3Dinet,addr.host=3Dlocalhost,add=
-r.port=3D1234
->     -netdev stream,server=3Dno,addr.type=3Dunix,addr.path=3D/some/stream/=
-sock
->=20
->=20
->     -netdev dgram,id=3Dndev0,\
->             local.type=3Dinet,local.host=3Dlocalhost,local.port=3D1234,\
->             remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D1235
->     -netdev dgram,id=3Dndev0,\
->             local.type=3Dunix,local.path=3D/some/dgram/sock0,
->             remote.type=3Dunix,remote.path=3D/some/dgram/sock1
+What is the problem with having this Go struct:
 
-...and this ('-netdev dgram' for UNIX sockets) is another one. :)
+  type BlockdevRef struct {
+        Definition *BlockdevOptions
+	Reference *string
+  }
 
-Indeed they're independent though, so I also prefer this version (with
-the details Laurent just provided).
+when deserializing from JSON, we know exactly which one of these two
+fields to populate. The programmer consuming this can look at which
+field is non-nil.
 
---=20
-Stefano
+When serializing to JSON, we serialize which ever field is non-nil.
+
+If both fields are non-nil that's a programmer bug. Either ignore it
+and only serialize the first non-nil field, or raise an error.
+
+> 
+> For each Alternate type, we will be using a Any type to hold the
+> value. 'Any' is an alias type for interface{} (similar to void* in C).
+> 
+> Similarly to the Enum types (see previous commit), we will implement
+> Marshaler and Unmarshaler interfaces for the Alternate types and in
+> those MarshalJSON() and UnmarshalJSON() methods is where we are going
+> to put the logic to read/set alternate's value.
+> 
+> Note that on UnmarshalJSON(), a helper function called StrictDecode()
+> will be used. This function is the main logic to infer if a given JSON
+> object fits in a given Go struct. Because we only have 5 alternate
+> types, it is not hard to validate the unmarshaling logic but we might
+> need to improve it in the future if Alternate with branches that have
+> similar fields appear.
+> 
+> Examples:
+>  * BlockdevRef
+> ```go
+>     // Data to set in BlockdevOptions
+>     qcow2 := BlockdevOptionsQcow2{}
+>     // BlockdevRef using a string
+>     qcow2.File = BlockdevRef{Value: "/some/place/my-image"}
+>     opt := BlockdevOptions{}
+>     opt.Driver = BlockdevDriverQcow2
+>     opt.Value = qcow2
+> 
+>     b, _ := json.Marshal(data.s)
+>     // string(b) == `{"driver":"qcow2","file":"/some/place/my-image"}`
+> ```
+> 
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> ---
+>  scripts/qapi/golang.py | 157 ++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 155 insertions(+), 2 deletions(-)
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
