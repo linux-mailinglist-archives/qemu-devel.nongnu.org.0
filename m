@@ -2,151 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9865C52160D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 14:54:55 +0200 (CEST)
-Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B11DE52160E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 14:55:05 +0200 (CEST)
+Received: from localhost ([::1]:40854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noPOA-0003a9-9k
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 08:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
+	id 1noPOK-0003s0-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 08:55:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1noPKV-0002E7-Ed
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:51:07 -0400
-Received: from mail-co1nam11on2052.outbound.protection.outlook.com
- ([40.107.220.52]:19168 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noPKd-0002MU-0v
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:51:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1noPKQ-0003rp-Hc
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:51:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ENBixDI/JdRfVDMnG7IVIHAV5ngS4FiqC3lgPBfm6POcvG9m9BEfqho3U7Dp32qwS/hFhqhXl3K2+p5y9BbSBMcNfnw/pdvTU55UuiOYSoAmHGAgLWSUmjTv3uEIxYQJ9JAzcDld08aW+79JwIvuwMmPVNQEHN4gsuL9Z4Zqjd/dWEohWmN6cnTtaBsIU709kSKgZ8TtRsdTmDvOD+tZNFL/moEoD3r+mR9lEC1t67ehv0fqukV++dwnFd6Ug9lZWoCXTRCXzP6J+OmstgeQZd3P5XGOAQKUsj5m0pkAsyiaJuLsUFh6+LNjbfHOcoeUq3r9D01UuOJrw2x52P8fuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J+lP4z1Hii8ueMEwyQnNxTWDBA3PE5uq9t3xtCm+hvs=;
- b=dstj7OJzXnuNNlDZ69UnPTWN5peIKeEHFvvVuxG8PyFytc1HD55SvD83Fc/xV3vrwkG5GBam1O9yQV1TA9sv1MRllLyTnTdCd+wWAEDOdxNVheBt1xK+6hMda7BqjE4XcLfNeMbaVkbyURL6/dc3VtlEaRnEHo21xlyFtrazmE/aqrTX/2ljGZuKWizYN5/uSxFg6TMa704CunD5d2Swvs2N7itBRUoMLHqlsBHQ8E38eqOHtExWttLrttOMIjdFMRWAbm/duNMS38zAljCzT6ge3QFLcHGUtgFPzYZcNSsKEbgZS4DKuuaIEmgdckeQ/GHVlUa4UZcyXSnItP//Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J+lP4z1Hii8ueMEwyQnNxTWDBA3PE5uq9t3xtCm+hvs=;
- b=DxcpLwfne1GnWXOo1qbWtWG6U+CP9qwOIw8onqFjEdCOR296lj4ghAmX6c4OURyDYF4TR4T+I0DHVesIH18GNz5iSHuHjUzi+ijE43sXsAwrzRtSeY7qutDp22ZOxF76OANXw7AaXakYub8c8iIHT17yOiUVVHVwazPs91z9XS1sMCLpNg864RZibwprvX3hWL8XIhzqL7tR5d8K097DQshxaKCbkNdLHLzVThfivMJDaAYK9ChvXVswoXIH4phoSZxJrfXAnt8gYp/k/W9P8U0LYsIvLy65oBoCdjl2iVftMVLjmOKTcZlixUzdW0N8/9I372cgJ7L+zd2ylq4Z4w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by CY4PR12MB1734.namprd12.prod.outlook.com (2603:10b6:903:121::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Tue, 10 May
- 2022 12:45:56 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5227.023; Tue, 10 May 2022
- 12:45:56 +0000
-Date: Tue, 10 May 2022 09:45:54 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Zhangfei Gao <zhangfei.gao@linaro.org>
-Cc: eric.auger@redhat.com, Yi Liu <yi.l.liu@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "kevin.tian@intel.com" <kevin.tian@intel.com>,
- "chao.p.peng@intel.com" <chao.p.peng@intel.com>,
- "yi.y.sun@intel.com" <yi.y.sun@intel.com>,
- "peterx@redhat.com" <peterx@redhat.com>
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Message-ID: <20220510124554.GY49344@nvidia.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <4f920d463ebf414caa96419b625632d5@huawei.com>
- <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
- <4ac4956cfe344326a805966535c1dc43@huawei.com>
- <20220426103507.5693a0ca.alex.williamson@redhat.com>
- <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
- <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
- <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
- <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
-X-ClientProxiedBy: MN2PR18CA0010.namprd18.prod.outlook.com
- (2603:10b6:208:23c::15) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noPKa-0003xj-68
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:51:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652187070;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=co/UvIpHS5c4lKktMiObpZUp6Iqqvkhl/eeCFrrFD98=;
+ b=MSQxyUowNuaRCyA5dvJj9dAHQOpJcVxg7i66AbCaY4H4gEZddueoz32EBXvvvJEPTXmTld
+ O2ONzIcHpuyPUqYejNXJc/DrJv+3WgJBr/+hjkjpXpMWnk+rjAV1g5T4OMAfZeNxLL9lAg
+ //3I5DL8nZjXBHm7nmfHOZJSdq9OEjs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-641-MTceztqgOau0xE-nEKPUsg-1; Tue, 10 May 2022 08:51:09 -0400
+X-MC-Unique: MTceztqgOau0xE-nEKPUsg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C2C5811E76
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 12:51:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E48F214C1D4D;
+ Tue, 10 May 2022 12:51:07 +0000 (UTC)
+Date: Tue, 10 May 2022 13:51:05 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>,
+ Victor Toso <victortoso@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+Message-ID: <YnpfuYvBu56CCi7b@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
+ <87lev9mw7j.fsf@pond.sub.org> <YnpbuzKo681VwDkn@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d8d36cc1-65e6-42c8-ae7c-08da3283068f
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1734:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB1734E375A907CDD87D3ABB99C2C99@CY4PR12MB1734.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MGK95Cxo1l7ppxeysPGjn68Q5FwbUxusvCxFbaOFrHfRLoPI4FBVNDYcZfH7yhfEDufY0Ts8OrwNNAiecvHxWA0raRpznHJQRAxFMHZb4neA9h/m32yJq5hgCigLhBZhWFJhhqh4/fFLJDCYyxSlEatACKpeVqi7/I983xItAwdnepP+Q4J4BmjA9HObZB1mzyfSOeYh0koGhHMsprSrX+yDj2MitEojMXIBMS/OtmbnmInq15NH4navBv4uZms9Jf2qoe8WKzIntXWY+GtPIrXq2nyMaSMxr0gzaIBooQsjknG3CiyIe/COqNNQ7WAwEmK0k66w6Jh+ygY7PpRESrw90B6FrExsKrbbeZ8ZuLca/FB69VBxQC7E+4ppVqiXWHdPYSqNJyc8B/skNWeZDUC+MJ5Zoeeey6ccoNzDOS001WrVVlA9F3hVhRKOx1sdeoWtwFLlVl3B28In0t3LEcPrxdDKVbb/PCIzZNqbb2amrnPePk139dt8rhJqL+YRfDvVwEoGgJJVA3N3fgxXy+jquuT9C58jmCwiNOZZEsxwkoylrySl4nlY2sefRza9IciPuOLnExBJKLvoPHZrT0gbmyBNHFr7F26k341JX56os6fxyirreOwcw1ckP5wmV1qdu8oJE9UeewCc+fwL3A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(38100700002)(8936002)(7416002)(86362001)(508600001)(6486002)(316002)(6506007)(54906003)(66476007)(66556008)(6916009)(66946007)(8676002)(4326008)(33656002)(83380400001)(186003)(36756003)(26005)(2616005)(6512007)(2906002)(1076003)(4744005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sGGuzSW6hLDeZowB0oXJ8Wv9hgv8wOhN7WdyBoZl98VMfSLUeNtiHZqkJ4VG?=
- =?us-ascii?Q?1V3sFDmNLenhCxyi74+fwgAtgThCgymHxgoye0eyQfS/SnTbf/J1ZnfVgnU2?=
- =?us-ascii?Q?LUKStxA06GDx558AUYL5XxU3NO/vSeavIDSJIbgaKOI4jrPOK+1NhUqYM4g7?=
- =?us-ascii?Q?9CspP230abyQXBzoNWj488+smbSTHrB/S6uVY/nkEgLOV3JNcxZ2qci8E2GU?=
- =?us-ascii?Q?bzRQRVu0d81XxF8fMAFJbFhSsZ8OfXTjin2c/0yYWskKTxm1mV4PLYITkGdR?=
- =?us-ascii?Q?K/R7U3oE8O+s/ZJw9BnIDtMB39tUxohLTfzXZkjaaWu8D3f8UoT3DESQxpxQ?=
- =?us-ascii?Q?5IqTSO9xHQgpg4ZcaifMz4O6FWOaPo/O02LnJQFY26hXxA3fB58RROfD1BJs?=
- =?us-ascii?Q?bPgegRvWF7W3DNOE6jhdenKaKGAV/+fm4c1l2OcpI0QFlgu7AaQRuGUEXNbi?=
- =?us-ascii?Q?JhbDIqCBvvoNMBknPfiL/+UfBKS4xpvMJuTD0WXnIL3r2+ID/sdTsE/dJjzz?=
- =?us-ascii?Q?6ZE5Q/JCI+0ENLN8vclKHyWUygPQwxKwCQAF/1FHuNMn18Zo0ahe/D229e/s?=
- =?us-ascii?Q?fPtGUYqMlgDkAJhth9Bf5UQT6RMQfaBXrpSZ9wcGhoms49uBAAcVSkZqMWqv?=
- =?us-ascii?Q?2AmOFH1YIpqUL+u6b9w9yt4jQuIIc7tRao11/SxPpC+0kYjwyIqF9kndVVuY?=
- =?us-ascii?Q?EnkhlKumbz1bJwcIaMjVUI69VmQoV3q04SE6TU5n0PhO9NmBfD8AgwwdnTOV?=
- =?us-ascii?Q?q9rQaKmkjfpws+rF5iSaxTtLrBM9Cfnr5vR73B5QYswRnIJX9+bLNkkMaXtr?=
- =?us-ascii?Q?2hUQXJJVa/+4r0n4KxPv/ThmdCTUMtH/4T5Pd7sUUghCVBA4wctap74jd/QP?=
- =?us-ascii?Q?bRnOKQ60W76ZBJJFR7wBJU480Xw3J4g0S/9r6lQeXUQY5rtoEqGK64c1cfCa?=
- =?us-ascii?Q?RdxmaHy5uAnoSRt04pO3X+zmOTZcomdoP2zFU4dxgdv7v0ua6tDa0e6xijb8?=
- =?us-ascii?Q?KVT0vGw7hIxgFI3ce6Mbrw5Z8fAkkRwV6O4KOtZ9iV4BR2LFBVsedhs4y5E7?=
- =?us-ascii?Q?PZic18lmNOSw3DC0RLvRuWSBlujAMKfkjcffhqHo7xT3ErDOWhenR2vqA2iu?=
- =?us-ascii?Q?BQZ09/KS4A3aLhsBnO8YE2kJYl2rTy0tzHVqN2XW8RG2RvIFsaJHkF/RKOvD?=
- =?us-ascii?Q?HjCf4noRqYEDUqBEIw7DfvgsQUKqolOBWHLY+2O8mkWXuPwLhfHOAvMboy28?=
- =?us-ascii?Q?e5TuxolomQhmhoZmxtRLSVWPkp5P4s4xK6ZBy6kXTS4MDLxR9cpwu0zax5dM?=
- =?us-ascii?Q?P/D6tTVDIpneKboGQapSZlU1XXmhQtJgJCCrC3sTLRhrEyVefKMXnHxzA+5E?=
- =?us-ascii?Q?WlAOBLqSwdGrvbCdIq19qUEJzJNSshXbipMJWpUPxGWGvSxRZ7liGzURbZNL?=
- =?us-ascii?Q?/+rfBFth4DLoy+RAzUV0psd/QvoubHrGRrxmM8ipXwH8qQZlEO0uHavrdv4p?=
- =?us-ascii?Q?DU6cPbbSeoaV3PZkqQ2vFAVTbZsC6jF1DpIWqWWpuEC6SNMrlPXEfBljJRL4?=
- =?us-ascii?Q?EpVkW6zj27Sg+yJysTcawoV5auUq5+6T90NLKQ9rmX1NEs3Fq4mXoC3gK1Kf?=
- =?us-ascii?Q?568wL5a35iYSUf8XAsbWciHlVpRj+pSyGzFPq4O9LLJEv3XTm3cohhbqb/x5?=
- =?us-ascii?Q?TLaZuT8dJd4KuPfBnC+uuepLABwqpugj/0lW4KFznFCK5g8Nhi3pbzLQ/q/M?=
- =?us-ascii?Q?nQKaBCApkg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8d36cc1-65e6-42c8-ae7c-08da3283068f
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 12:45:56.0575 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c/Bj4y6UQvBv3086eTZE0jBPp+gOa8ysz/81h+q86mkkT7628JmxnDeSvdHFxOSc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1734
-Received-SPF: softfail client-ip=40.107.220.52; envelope-from=jgg@nvidia.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YnpbuzKo681VwDkn@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -159,18 +83,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 10, 2022 at 08:35:00PM +0800, Zhangfei Gao wrote:
-> Thanks Yi and Eric,
-> Then will wait for the updated iommufd kernel for the PCI MMIO region.
+On Tue, May 10, 2022 at 01:34:03PM +0100, Daniel P. Berrangé wrote:
+> On Tue, May 10, 2022 at 02:02:56PM +0200, Markus Armbruster wrote:
+> > > For a minimum viable use case, this doesn't feel all that difficult, as
+> > > conceptually instead of deleting the field from QAPI, we just need to
+> > > annotate it to say when it was deleted from the QEMU side.  The QAPI
+> > > generator for internal QEMU usage, can omit any fields annotated as
+> > > deleted in QAPI schema. The QAPI generator for external app usage,
+> > > can (optionally) be told to include deleted fields ranging back to
+> > > a given version number. So apps can chooses what degree of compat
+> > > they wish to retain.
+> > 
+> > Consider this evolution of command block_resize
 > 
-> Another question,
-> How to get the iommu_domain in the ioctl.
+> To help us understand, I'll illustrate some possible interfaces
+> in both Go and Python, since that covers dynamic and static
+> languages
+> 
+> > * Initially, it has a mandatory argument @device[*].
+> 
+> Python definition:
+> 
+>    def block_resize(device, size)
+> 
+> Caller:
+> 
+>   block_resize('dev0', 1*GiB)
+> 
+> 
+> Golang definition
+> 
+>    type BlockResizeCommand struct {
+>        Device string
+>        Size int
+>    }
+> 
+> Caller
+> 
+>    cmd := &BlockResizeCommand{
+>        Device: "dev0",
+>        Size: 1 * GiB,
+>    }
+> 
+> > * An alternative way to specify the command's object emerges: new
+> >   argument @node-name.  Both old @device and new @node-name become
+> >   optional, and exactly one of them must be specified.  This is commit
+> >   3b1dbd11a6 "qmp: Allow block_resize to manipulate bs graph nodes."
+> 
+> Python definition. Tricky, as non-optional params must be before
+> optional params, but size is naturally the last arg. One option
+> is to pointlessly mark 'size' as optional
+> 
+>    def block_resize(device=None, node_name=None, size=None)
+> 
+> Caller
+> 
+>     block_resize(device="dev0", size=1*GiB)
+>     block_resize(node_name="devnode0", size=1*GiB)
+> 
+> 
+> In golang definition
+> 
+>    type BlockResizeArguments struct {
+>        Device string
+>        NodeName string
+>        Size int
+>    }
+> 
+> Caller choice of
+> 
+>    cmd := &BlockResizeCommand{
+>        Device: "dev0",
+>        Size: 1 * GiB,
+>    }
+> 
+>    cmd := &BlockResizeCommand{
+>        NodeName: "devnode0",
+>        Size: 1 * GiB,
+>    }
+> 
+> 
+> Neither case can easily prevent passing Device and NodeName
+> at same time.
+> 
+> > * At some future date, the old way gets deprecated: argument @device
+> >   acquires feature @deprecated.
+> 
+> Ok, no change needed to the APIs in either case. Possibly have
+> code emit a warning if a deprecated field is set.
+> 
+> > * Still later, the old way gets removed: @device is deleted, and
+> >   @node-name becomes mandatory.
+> 
+> Again no change needed to APIs, but QEMU will throw back an
+> error if the wrong one is used. 
+> 
+> > What is the proper version-spanning interface?
+> > 
+> > I figure it's both arguments optional, must specify the right one for
+> > the version of QEMU actually in use.  This spans versions, but it fails
+> > to abstract from them.
+> 
+> Yep, I think that's inevitable in this scenario. THe plus side
+> is that apps that want to span versions can do so. The downside
+> is that apps that don't want smarts to span version, may loose
+> compile time warnings about use of the now deleted field.
 
-The ID of the iommu_domain (called the hwpt) it should be returned by
-the vfio attach ioctl.
+Having said that, a different way to approach the problem is to expose
+the versioning directly in the generated code.
 
-Jason
+Consider a QAPI with versioning info about the fields
+
+  { 'command': 'block_resize',
+    'since': '5.0.0',
+    'data': { 'device': ['type': 'str', 'until': '5.2.0' ],
+              '*device': ['type': 'str', 'since': '5.2.0', 'until': '7.0.0' ],
+              '*node-name': ['type': 'str', 'since': '5.2.0', 'until: '7.0.0' ],
+              'node-name': ['type': 'str', 'since': '7.0.0' ],
+              'size': 'int' } }
+
+Meaning
+
+  * Introduced in 5.0.0, with 'device' mandatory
+  * In 5.2.0, 'device' becomes optional, with optional 'node-name' as alternative
+  * In 7.0.0, 'device' is deleted, and 'node-name' becomes mandatory
+
+Now consider the Go structs
+
+In 5.0.0 we can generate:
+
+   type BlockResizeArguments struct {
+       V500 *BlockResizeArguments500
+   }
+
+   type BlockResizeArgumentsV1 struct {
+        Device string
+        Size int
+    }
+
+app can use
+
+    dev := "dev0"
+    cmd := BlockResizeArguments{
+       V500: &BlockResizeArguments500{
+          Device: dev,
+	  Size: 1 * GiB
+       }
+    }
+
+
+In 5.2.0 we can now generate
+
+   type BlockResizeArguments struct {
+       V500 *BlockResizeArgumentsV500
+       V520 *BlockResizeArgumentsV520
+   }
+
+   type BlockResizeArgumentsV500 struct {
+        Device string
+        Size int
+    }
+
+   type BlockResizeArgumentsV520 struct {
+        Device *string
+	NodeName *string
+        Size int
+    }
+
+
+App can use the same as before, or switch to one of
+
+    dev := "dev0"
+    cmd := BlockResizeArguments{
+       V520: &BlockResizeArguments520{
+          Device: &dev,
+	  Size: 1 * GiB
+       }
+    }
+
+or
+
+    node := "nodedev0"
+    cmd := BlockResizeArguments{
+       V520: &BlockResizeArguments520{
+          NodeName: &node,
+	  Size: 1 * GiB
+       }
+    }
+
+
+
+In 7.0.0 we can now generate
+
+
+   type BlockResizeArguments struct {
+       V500 *BlockResizeArgumentsV500
+       V520 *BlockResizeArgumentsV520
+       V700 *BlockResizeArgumentsV700
+   }
+
+   type BlockResizeArgumentsV500 struct {
+        Device string
+        Size int
+   }
+
+   type BlockResizeArgumentsV520 struct {
+        Device *string
+	NodeName *string
+        Size int
+   }
+
+   type BlockResizeArgumentsV700 struct {
+	NodeName string
+        Size int
+   }
+
+
+
+App can use the same as before, or switch to
+
+    node := "nodedev0"
+    cmd := BlockResizeArguments{
+       V700: &BlockResizeArguments700{
+          NodeName: node,
+	  Size: 1 * GiB
+       }
+    }
+
+
+This kind of per-command/type versioning is not uncommon when defining API
+protocols/interfaces.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
