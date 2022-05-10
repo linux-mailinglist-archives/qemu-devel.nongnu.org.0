@@ -2,54 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC46C520F48
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 09:59:03 +0200 (CEST)
-Received: from localhost ([::1]:49510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DC2520F8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:14:19 +0200 (CEST)
+Received: from localhost ([::1]:55936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noKlq-0003L4-HM
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 03:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58132)
+	id 1noL0b-0008Av-RA
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:14:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1noKkS-0002dG-IE; Tue, 10 May 2022 03:57:37 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57856)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noKqM-0005vm-WD
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1noKkQ-0003CZ-AU; Tue, 10 May 2022 03:57:36 -0400
-Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1noKjS-00052l-6P; Tue, 10 May 2022 08:56:34 +0100
-Message-ID: <f0492ebb-d742-d465-421b-8c412de65f65@ilande.co.uk>
-Date: Tue, 10 May 2022 08:57:28 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noKqK-00044C-C8
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:03:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652169819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9c8YCsPCGQinA30dkcvvUIq84j+lPg7YQpqaqkzjFq4=;
+ b=YQn5K5mKBDKviDbDVurh+baspth+iLYUOjKf1ER9a31nsfbulHiONpb/2y76w5DK6yXju6
+ RqwEdGVDezwf8J9jGgQfbxNhpQsxRcp6+m58H/mPSRI4tqN1wGAB5Ot51vkjGlHKTBaMv+
+ SOQy9TbIfz38vP7DhZDLEOcsolo+q50=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-140-VLiR2lbYOTmgb1QUKh3r9A-1; Tue, 10 May 2022 04:03:38 -0400
+X-MC-Unique: VLiR2lbYOTmgb1QUKh3r9A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z23-20020a05600c221700b003942fd37764so895533wml.8
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 01:03:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=9c8YCsPCGQinA30dkcvvUIq84j+lPg7YQpqaqkzjFq4=;
+ b=Y/G26siyUknjC8A+VZFBeKpKnssP0BDKFDP5VdiXsHOvdn1se9TAGSciXNgETOBm/b
+ 7/P927fqbuLyODpuReoLuCWOPqcT8sEUA4DOkXgO1W49lV7XMyZI5mfkB7X8/MzVnDf1
+ xcewgjoa9/l5aimTQIW7KUaOnp+L3PS0/BF+KHleUU/5sOj2zDyRFyud2RMq6xlKuN6n
+ FjQC8fN4OBX09rrEP9BJ4g+lt3NxiSCXcf2Akb2lQQqhJRctOj1AjjZeMI0H+GhBJ9Mb
+ +v2lGtOFLedCpJHBRGHYlgZNTt9zB6CTIl/1WVOIYen6/Z5dKQjRpzhr5c7KyoaLur5K
+ Ss3Q==
+X-Gm-Message-State: AOAM533VK2t4/JuISuoB1USwhfSiDsepyaXGIre+b7M6natgg+9sVxHk
+ H+ckNzu5S2jPAFHCCGi0l7DTGjG1A1e1Hex7VDz8VVmQVCAIdkgiOU4FDan+lPN7F0uWi2ZT3qX
+ wCn4k+owvkXzScfI=
+X-Received: by 2002:a05:6000:1f8c:b0:20c:b1cf:2a1c with SMTP id
+ bw12-20020a0560001f8c00b0020cb1cf2a1cmr13759061wrb.368.1652169816901; 
+ Tue, 10 May 2022 01:03:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSVEUGuZYc4bBrbU8ohk1SrFi9e5dtCzivgtmG0UzGLDaWFPvcrdEEQvi2hE1Ubaez5pyDfA==
+X-Received: by 2002:a05:6000:1f8c:b0:20c:b1cf:2a1c with SMTP id
+ bw12-20020a0560001f8c00b0020cb1cf2a1cmr13759021wrb.368.1652169816453; 
+ Tue, 10 May 2022 01:03:36 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ f21-20020a7bcd15000000b003942a244f3dsm1652346wmj.22.2022.05.10.01.03.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 01:03:36 -0700 (PDT)
+Message-ID: <472e45e8-319b-ad48-3afa-0dfa74e6ad20@redhat.com>
+Date: Tue, 10 May 2022 10:03:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+ Thunderbird/91.9.0
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
- fbarrat@linux.ibm.com
-References: <20220507190624.507419-1-danielhb413@gmail.com>
- <d6ee5ef4-5242-1f1b-839c-242d18d10800@ilande.co.uk>
- <e7f2e6bc-b443-ed96-683b-835fbe7a55b8@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <e7f2e6bc-b443-ed96-683b-835fbe7a55b8@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabiano Rosas <farosas@linux.ibm.com>, muriloo@linux.ibm.com,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-RISC-V <qemu-riscv@nongnu.org>
+References: <20220429233146.29662-1-muriloo@linux.ibm.com>
+ <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
+ <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
+ <87sfpqaey7.fsf@linux.ibm.com>
+ <2ab9e2b3-5dba-4e18-ed2e-6063a2716f4c@ilande.co.uk>
+ <87ilql9xww.fsf@linux.ibm.com>
+ <ef8256fb-6e99-5f37-d5c5-67f9af4302b0@ilande.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+Subject: QEMU 32-bit vs. 64-bit binaries (was: [PATCH] mos6522: fix linking
+ error when CONFIG_MOS6522 is not set)
+In-Reply-To: <ef8256fb-6e99-5f37-d5c5-67f9af4302b0@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 00/17] powernv: introduce pnv-phb unified devices
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,241 +114,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/05/2022 23:30, Daniel Henrique Barboza wrote:
-
-> On 5/9/22 18:17, Mark Cave-Ayland wrote:
->> On 07/05/2022 20:06, Daniel Henrique Barboza wrote:
->>
->>> Hi,
->>>
->>> Since the 7.0.0 release cycle we have a desire to use the powernv
->>> emulation with libvirt. To do that we need to enable user creatable
->>> pnv-phb devices to allow more user customization an to avoid spamming
->>> multiple default devices in the domain XML. In the middle of the
->>> previous cycle we experimented with user created
->>> pnv-phb3/pnv-phb3-root-port/pnv-phb4/pnv-phb4-root-port/pnv-phb5. The
->>> end result, although functional, is that the user needs to deal with a
->>> lot of versioned devices that, from the user perspective, does the same
->>> thing. In a way we outsourced the implementation details of the PHBs
->>> (e.g. pnv8 uses phb3, pnv9 uses phb4) to the command line. Having more
->>> devices also puts an extra burden in the libvirt support we want to
->>> have.
->>>
->>> To solve this, Cedric and Frederic gave the idea of adding a common
->>> virtual pnv-phb device that the user can add in the command line, and
->>> QEMU handles the details internally. Unfortunatelly this idea turned out
->>> to be way harder than anticipated. Between creating a device that would
->>> just forward the callbacks to the existing devices internally, creating
->>> a PnvPHB device with the minimal attributes and making the other devices
->>> inherit from it, and making an 'abstract' device that could be casted
->>> for both phb3 and phb4 PHBs,
->>
->> This bit sounds all good...
->>
->>> all sorts of very obscure problems occured:
->>> PHBs not being detected, interrupts not being delivered and memory
->>> regions not being able to read/write registers. My initial impression is
->>> that there are assumptions made both in ppc/pnv and hw/pci-host that
->>> requires the memory region and the bus being in the same device. Even
->>> if we somehow figure all this out, the resulting code is hacky and
->>> annoying to maitain.
->>
->> But this seems really surprising since there are many examples of similar QOM 
->> patterns within the codebase, and in my experience they work really well. Do you 
->> have a particular example that you can share to demonstrate why the result of the 
->> QOM mapping is making things more difficult?
+On 04/05/2022 16.48, Mark Cave-Ayland wrote:
+> On 04/05/2022 15:26, Fabiano Rosas wrote:
 > 
-> 
-> It's not so much about the OOM getting in the way, but rather myself not being
-> able to use QOM in a way to get what I want. There is a good probability that
-> QOM is able to do it.
-> 
-> Talking about the 2 PHBs pnv-phb3 (powernv8 only) and pnv-phb4 (powernv9 only),
-> what we want is a way to let the user instantiate both using an alias, or
-> an abstract object if you will, called "pnv-phb". This alias/abstraction would
-> instantiate either a pnv-phb3 or a pnv-phb4 depending on the actual machine
-> running.
-> 
-> QOM has the "interface" concept that is used internally to make the device behave
-> like the interface describes it, but I wasn't able to expose this kind of object
-> to the user. It also has the "abstract" concept that, by the documentation itself,
-> isn't supposed to be user created. Eventually I gave up this idea, accepting that
-> only real devices can be exposed to the user (please correct me if I'm wrong).
-
-Sorry, I should have clarified this a bit more: introducing an abstract type is a 
-separate task from adding your proxy device type, but I think will definitely help 
-maintaining the individual versions. Certainly it will make it easier to see which 
-fields are in use by specific versions, and it also gives you a QOM cast for the 
-superclass of all PHB devices to help with type checking.
-
-> After that I tried to create a pnv-phb object that contains the common attributes
-> of both pnv-phb3 and pnv-phb4. This object would be the parent of phb3 and phb4,
-> and during realize time creating a pnv-phb object would create a pnv-phb3/4 and
-> we go from there. This attempt went far after a few tweaks but then I started
-> to hit the problems I mentioned above: some strange behaviors with interrupts,
-> PHBs not appearing and so on. I got a little farther by moving all the memory
-> regions from phb3/phb4 to the parent phb object and I got up to the guest login,
-> but without network. Since moving the memory regions in the same object as the
-> pci root bus got me farther I concluded that there might some relation/assumption
-> made somewhere that I was breaking before.
-
-That sounds really odd. The normal reasons for this in my experience are i) 
-forgetting to update the class/instance size in the class_init function (an 
---enable-sanitizers build will catch this) and ii) not propagating device 
-reset/realize functions to a parent device leading to uninitialised state.
-
-> After all that I got more than halfway of what I ended up doing. I decided to
-> unify phb3/phb4 into a single device, renamed their attributes that has different
-> meanings between v3 and v4 code, and I ended up with this series.
-
-As a rough outline for a pnv-phb device, I'd aim for creating a proxy for the 
-underlying device rather than manually invoking the QOM instance and qdev-related 
-functions:
-
-
-struct PnvPHB {
-     ....
-     uint32_t version;
-     Object *phb_dev;  /* Could be PHBCommonBase if it exists */
-};
-
-DECLARE_SIMPLE_OBJECT_TYPE(...)
-
-...
-...
-
-static Property pnv_phb_properties[] = {
-     DEFINE_PROP_UINT32("version", PnvPHB, version, 0),
-     DEFINE_PROP_END_OF_LIST(),
-};
-
-static void pnv_phb_realize(DeviceState *dev, Error **errp)
-{
-     PnvPHB *pnv_phb = PNV_PHB(dev);
-     g_autofree char *phb_typename;
-
-     if (!pnv_phb->version) {
-         error_setg("version not specified", errp);
-         return;
-     }
-
-     switch (pnv_phb->version) {
-     case 3:
-         phb_typename = g_strdup(TYPE_PNV_PHB3);
-         break;
-     case 4:
-         phb_typename = g_strdup(TYPE_PNV_PHB4);
-         break;
-     default:
-         g_assert_unreached();
-     }
-
-     pnv_phb->phb_dev = object_new(phb_typename);
-     object_property_add_child(OBJECT(dev), "phb-device", pnv_phb->phb_dev);
-
-     if (!qdev_realize(DEVICE(pnv_phb->phb_dev), errp)) {
-         return;
-     }
-
-     /* Passthrough child device properties to the proxy device */
-     qdev_alias_all_properties(dev, OBJECT(pnv_phb->phb_dev));
-}
-
-Finally you can set the pnv-phb version on a per-machine basis by adding the version 
-to the machine compat_props:
-
-static GlobalProperty compat[] = {
-     { TYPE_PHB_PNV, "version", 3},
-};
-
->>> This brings us to this series. The cleaner way I found to accomplish
->>> what we want to do is to create real, unified pnv-phb/phb-phb-root-port
->>> devices, and get rid of all the versioned ones. This is done by
->>> merging all the PHB3/PHB4 attributes in unified devices. pnv_phb3* and pnv_phb4*
->>> files end up using the same pnv-phb and phb-phb-root-port unified devices,
->>> with the difference that pnv_phb3* only cares about version 3 attributes
->>> and pnv_phb4* only cares about PHB4 attributes. Introducing new PHB
->>> versions in the future will be a matter of adding any non-existent
->>> attributes in the unified pnv-phb* devices and using them in separated
->>> pnv_phbN* files.
->>>
->>> The pnv-phb implementation per se is just a router for either phb3 or
->>> phb4 logic, done in init() and realize() time, after we check which powernv
->>> machine we're running. If running with powernv8 we redirect control to
->>> pnv_phb3_realize(), otherwise we redirect to pnv_phb4_realize(). The
->>> unified device does not do anything per se other than handling control
->>> to the right version.
->>>
->>> After this series, this same powernv8 command line that boots a powernv8
->>> machine with some phbs and root ports and with network:
->>>
->>> ./qemu-system-ppc64 -m 4G \
->>> -machine powernv8 -smp 2,sockets=2,cores=1,threads=1  \
->>> -accel tcg,thread=multi -bios skiboot.lid  \
->>> -kernel vmlinux -initrd buildroot.rootfs.cpio -append 'console=hvc0 ro xmon=on'  \
->>> -nodefaults  -serial mon:stdio -nographic  \
->>> -device pnv-phb,chip-id=0,index=0,id=pcie.0 \
->>> -device pnv-phb,chip-id=0,index=1,id=pcie.1 \
->>> -device pnv-phb,chip-id=1,index=2,id=pcie.2 \
->>> -device pnv-phb-root-port,id=root0,bus=pcie.2 \
->>> -device pnv-phb-root-port,id=root1,bus=pcie.1 \
->>> -device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0  \
->>> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
->>> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none  \
->>> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
->>> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
->>> -device nec-usb-xhci,bus=bridge1,addr=0x2
->>>
->>>
->>> Can be used to boot powernv9 and powernv10 machines with the same attributes
->>> just by changing the machine type.
->>>
->>>
->>> Daniel Henrique Barboza (17):
->>>    ppc/pnv: rename PnvPHB3.ioda* to PnvPHB3.ioda2*
->>>    ppc/pnv: rename PnvPHB3.regs[] to PnvPHB3.regs3[]
->>>    ppc/pnv: rename PnvPHB3.dma_spaces to PnvPHB3.v3_dma_spaces
->>>    ppc/pnv: add unified pnv-phb header
->>>    ppc/pnv: add pnv-phb device
->>>    ppc/pnv: remove PnvPHB3
->>>    ppc/pnv: user created pnv-phb for powernv8
->>>    ppc/pnv: remove PnvPHB4
->>>    ppc/pnv: user creatable pnv-phb for powernv9
->>>    ppc/pnv: use PnvPHB.version
->>>    ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
->>>    ppc/pnv: user creatable pnv-phb for powernv10
->>>    ppc/pnv: add pnv_phb_get_current_machine()
->>>    ppc/pnv: add pnv-phb-root-port device
->>>    ppc/pnv: remove pnv-phb3-root-port
->>>    ppc/pnv: remove pnv-phb4-root-port
->>>    ppc/pnv: remove pecc->rp_model
->>>
->>>   hw/pci-host/meson.build        |   3 +-
->>>   hw/pci-host/pnv_phb.c          | 258 ++++++++++++++++++++++++++++
->>>   hw/pci-host/pnv_phb3.c         | 256 +++++++++++-----------------
->>>   hw/pci-host/pnv_phb3_msi.c     |  12 +-
->>>   hw/pci-host/pnv_phb3_pbcq.c    |   8 +-
->>>   hw/pci-host/pnv_phb4.c         | 298 ++++++++++++---------------------
->>>   hw/pci-host/pnv_phb4_pec.c     |  14 +-
->>>   hw/ppc/pnv.c                   |  41 ++++-
->>>   include/hw/pci-host/pnv_phb.h  | 224 +++++++++++++++++++++++++
->>>   include/hw/pci-host/pnv_phb3.h | 118 +------------
->>>   include/hw/pci-host/pnv_phb4.h | 108 ++----------
->>>   include/hw/ppc/pnv.h           |   3 +-
->>>   12 files changed, 757 insertions(+), 586 deletions(-)
->>>   create mode 100644 hw/pci-host/pnv_phb.c
->>>   create mode 100644 include/hw/pci-host/pnv_phb.h
+>> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
 >>
->> I'm completely on-board with having a proxy-like PHB device that maps to the 
->> correct underlying PHB version, but to me it feels like combining multiple separate 
->> devices into a single one is going to make things more complicated to maintain in 
->> the long term.
->  
-> I'm all up for a "virtual pnv-phb" device that can be used together with the
-> existing versioned phbs. I wasn't able to pull that off.
+>>> On 03/05/2022 15:06, Fabiano Rosas wrote:
+>>>
+>>>> Murilo Opsfelder Araújo <muriloo@linux.ibm.com> writes:
+[...]
+>>>> So ppc64-softmmu doesn't quite do what it says on the tin. I think in
+>>>> the long run we need to revisit the conversation about whether to keep
+>>>> the 32 & 64 bit builds separate. It is misleading that you're explicitly
+>>>> excluding ppc-softmmu from the `--target-list`, but a some 32 bit stuff
+>>>> still comes along implicitly.
+>>>
+>>> Unfortunately for historical reasons it isn't quite that simple: the 
+>>> mac99 machine in
+>>> hw/ppc/mac_newworld.c is both a 32-bit and a 64-bit machine, but with a 
+>>> different PCI
+>>> host bridge and a 970 CPU if run from qemu-system-ppc64. Unfortunately it 
+>>> pre-dates
+>>> my time working on QEMU's PPC Mac machines but I believe it was (is?) 
+>>> capable of
+>>> booting Linux, even though I doubt it accurately represents a real machine.
+>>
+>> Well, what you describe is fine in my view, the 64-bit machine uses
+>> qemu-system-ppc64. If there is shared code with 32-bit, that is ok.
+>>
+>> What I would like to understand is what is the community's direction
+>> with this, do we want:
+>>
+>> 1) the 64-bit build to include all of the code and have it run all
+>>     machines, or;
+>>
+>> 2) the 64-bit build to run only 64-bit machines and the 32-bit build to
+>>     run only 32-bit machines.
+>>
+>> There are things such as 'target_ulong' that go against #1, and this
+>> thread shows that we're not doing #2 as well.
+>>
+>> I know there have been discussions about this in the past but I couldn't
+>> find them in the archives.
+> 
+> Certainly if a 64-bit Mac machine were to be added today, I'd be inclined to 
+> copy mac_newworld.c into a separate file and give it a separate machine name 
+> for ppc64 to make a clear distinction between the two machines (and allow 
+> them to evolve separately). Unfortunately I have no idea as to what the 
+> reference machine for the PPC64 Mac machine was supposed to be which makes 
+> it harder to decide what to do :(
+> 
+> In my mind it feels like qemu-system-ppc is for 32-bit guests and 
+> qemu-system-ppc64 is for 64-bit guests which I believe is consistent with 
+> how it currently works with MIPS and ARM (someone feel free to correct me 
+> here).
 
+For CPUs that have both, 32-bit and 64-bit variants, we have mixed approaches:
 
-ATB,
+1) For x86_64/i386, aarch64/arm, mips64/mips and ppc64/ppc, the 64-bit 
+variants are a superset of the 32-bit variants, i.e. if you build the 64-bit 
+version, you normally don't need the 32-bit version anymore (see below for 
+the KVM-case where you still might need it).
 
-Mark.
+2) For sparc64/sparc and riscv64/riscv32, the set of machines is distinct 
+between the 64-bit and 32-bit versions (well, riscv has some machines 
+shared, and some machines are different).
+
+I once suggested in the past already that we should maybe get rid of the 
+32-bit variants in case the 64-bit variant is a full superset, so we can 
+save compile- and test times (which is quite a bit for QEMU), but I've been 
+told that the 32-bit variants are mostly still required for supporting KVM 
+on 32-bit host machines.
+
+But in the long run, I think we rather want to converge everything into one 
+binary (to decrease testing and compilation time) instead of separating 
+stuff into multiple binaries, so IMHO we should not start separating the 
+32-bit machines into qemu-system-ppc and the 64-bit-only machines into 
+qemu-system-ppc64 now.
+
+  Thomas
+
 
