@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3345552121B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:23:35 +0200 (CEST)
-Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2363F521241
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:33:36 +0200 (CEST)
+Received: from localhost ([::1]:52378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noN1i-0003ec-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35324)
+	id 1noNBK-0000LB-M4
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noMpU-0000nO-7O
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:10:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36491)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noMpR-00082P-Rs
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:10:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652177452;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=5407T1nhVDz0ycKzR+0Tfj2tnb/MkAKBxK1Z1597Bi4=;
- b=ZglmfXyHVTaPARJ2GPPwlb1T5JqC6miYGfmQQnoM6airm0J6bJZmQ1kFJ5nx6wvRHqNvaG
- tvq6adpZCv51KdHTn88Y4elRPNfDd2C+XdGD02RvfVL45uuu1Jyd8dswGeh+GcndIP9rWe
- E6IZILyqSOu2nSWHV5ygaO+TjOchkUU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-HkLKLSwdO66krURd1dBdrw-1; Tue, 10 May 2022 06:10:51 -0400
-X-MC-Unique: HkLKLSwdO66krURd1dBdrw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96D63811E75
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:10:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF42A111E411;
- Tue, 10 May 2022 10:10:47 +0000 (UTC)
-Date: Tue, 10 May 2022 11:10:45 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Victor Toso <victortoso@redhat.com>
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH v1 2/8] qapi: golang: Generate qapi's alternate types
- in Go
-Message-ID: <Yno6Jb1Y9GmgD5wr@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <20220401224104.145961-3-victortoso@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1noMqw-00030z-OS; Tue, 10 May 2022 06:12:31 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:37487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1noMqu-0008Jz-I9; Tue, 10 May 2022 06:12:26 -0400
+Received: by mail-il1-x12c.google.com with SMTP id y11so11035150ilp.4;
+ Tue, 10 May 2022 03:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RioGME7Mww1eDPsUbCF9uaoLDOYpp8arwnIADzas2I8=;
+ b=ocUYvJvvdnyx7VlNG70z1EzyOOpHeY91BA5Rpg74lTwtTTShacB6F46Fb48CIPaU/T
+ wdVNz6LM7+Wphkph9fk+yYScXzF7t6sclA8qi6tP8nbpyCzx/WVu09B+n8lpDfRb13gF
+ qxdyayxHOz6bcr//aPeBDK2v/jnr4Q5BGI3/6LQnZR7NUM2TgkE6NSOS/nSpuYrPr+oE
+ umEgUFx62Nf86Yv84iR8DlydUC2sjvfdkss5Dk45rpmMkh3/K09VfUI8FzVSOLR88v+T
+ QuK1VGC/yFCgLKsXv+zRKJG9evPNHqSpoeDhZHGhYU/5jfsboQp/1pNAgsBUKwW9qTVb
+ XpSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RioGME7Mww1eDPsUbCF9uaoLDOYpp8arwnIADzas2I8=;
+ b=KDaZiEJOwbVGZNg+V7XMFzO6bugC8DmI05mIY2atNSdx2FAg0FSLjQyI6Uf31uLAbU
+ KzhD7r4hobjdLtX6REcLa1xtlT5EPI5uJQSkuNYfM34VkF/j9V29kVpwjWNO36Ytpmwa
+ cztiJwbE63quuh/CyF+TfsBZGVzq0JAuhWkwP0Kz9LEZ6Pp3AqVWyb4NYzsPZWHBs/2Q
+ 9CSAO6cjsGLL2TF+7sWTcbmMSLJI8DOYh3zpOkKP085LMA3e+Poyy8Zk8eAQ/sNIgQGs
+ U8qh2wJZSjZbD+X3k9DiAtiqvuWF1KGyzIt94xak1F34+16aJ+Nv/0PaT8xgos4D+Ewg
+ mstQ==
+X-Gm-Message-State: AOAM5324+NxbAG8hyasWOQk2foiyHdOsAWD/Zp2u2Phk/5B8PL/JKFSn
+ c8aWdVotCMDoS0eshA8lfrE/6WlmoUIwlTH6okg=
+X-Google-Smtp-Source: ABdhPJxW5xT910tNZ3bBDQlzASHhgwdAdj6DYBSd3vIhenLMrZFlDor+G4l3AdSep2j36KmrZywvcFqX/nc2Bz7ATQ4=
+X-Received: by 2002:a05:6e02:170b:b0:2cf:9f8f:afdf with SMTP id
+ u11-20020a056e02170b00b002cf9f8fafdfmr5993745ill.260.1652177543014; Tue, 10
+ May 2022 03:12:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220401224104.145961-3-victortoso@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <165156202959.27941.9731161369415852149-0@git.sr.ht>
+ <165156202959.27941.9731161369415852149-14@git.sr.ht>
+In-Reply-To: <165156202959.27941.9731161369415852149-14@git.sr.ht>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 10 May 2022 12:11:56 +0200
+Message-ID: <CAKmqyKNX-cGyqdU53Q1vAwR6+h_g8qrxiJ7LGY+1E+_NOBhHiQ@mail.gmail.com>
+Subject: Re: [PATCH qemu v14 14/15] target/riscv: rvv: Add tail agnostic for
+ vector permutation instructions
+To: "~eopxd" <yueh.ting.chen@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>, 
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,91 +84,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 02, 2022 at 12:40:58AM +0200, Victor Toso wrote:
-> This patch handles QAPI alternate types and generates data structures
-> in Go that handles it.
-> 
-> At this moment, there are 5 alternates in qemu/qapi, they are:
->  * BlockDirtyBitmapMergeSource
->  * Qcow2OverlapChecks
->  * BlockdevRef
->  * BlockdevRefOrNull
->  * StrOrNull
-> 
-> Alternate types are similar to Union but without a discriminator that
-> can be used to identify the underlying value on the wire. It is needed
-> to infer it. That can't be easily mapped in Go.
+On Tue, May 3, 2022 at 9:48 AM ~eopxd <eopxd@git.sr.ht> wrote:
+>
+> From: eopXD <eop.chen@sifive.com>
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-I don't buy that. Given this example:
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-  type BlockdevRef struct {
-        // Options are:
-        // * definition (BlockdevOptions): defines a new block device inline
-        // * reference (string): references the ID of an existing block device
-        Value Any
-  }
+Alistair
 
-What is the problem with having this Go struct:
-
-  type BlockdevRef struct {
-        Definition *BlockdevOptions
-	Reference *string
-  }
-
-when deserializing from JSON, we know exactly which one of these two
-fields to populate. The programmer consuming this can look at which
-field is non-nil.
-
-When serializing to JSON, we serialize which ever field is non-nil.
-
-If both fields are non-nil that's a programmer bug. Either ignore it
-and only serialize the first non-nil field, or raise an error.
-
-> 
-> For each Alternate type, we will be using a Any type to hold the
-> value. 'Any' is an alias type for interface{} (similar to void* in C).
-> 
-> Similarly to the Enum types (see previous commit), we will implement
-> Marshaler and Unmarshaler interfaces for the Alternate types and in
-> those MarshalJSON() and UnmarshalJSON() methods is where we are going
-> to put the logic to read/set alternate's value.
-> 
-> Note that on UnmarshalJSON(), a helper function called StrictDecode()
-> will be used. This function is the main logic to infer if a given JSON
-> object fits in a given Go struct. Because we only have 5 alternate
-> types, it is not hard to validate the unmarshaling logic but we might
-> need to improve it in the future if Alternate with branches that have
-> similar fields appear.
-> 
-> Examples:
->  * BlockdevRef
-> ```go
->     // Data to set in BlockdevOptions
->     qcow2 := BlockdevOptionsQcow2{}
->     // BlockdevRef using a string
->     qcow2.File = BlockdevRef{Value: "/some/place/my-image"}
->     opt := BlockdevOptions{}
->     opt.Driver = BlockdevDriverQcow2
->     opt.Value = qcow2
-> 
->     b, _ := json.Marshal(data.s)
->     // string(b) == `{"driver":"qcow2","file":"/some/place/my-image"}`
-> ```
-> 
-> Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  scripts/qapi/golang.py | 157 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 155 insertions(+), 2 deletions(-)
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>  target/riscv/insn_trans/trans_rvv.c.inc | 23 ++++++++++++++
+>  target/riscv/vector_helper.c            | 40 +++++++++++++++++++++++++
+>  2 files changed, 63 insertions(+)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index a27433b324..a12b1a23f1 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -3746,6 +3746,16 @@ static bool trans_vrgather_vx(DisasContext *s, arg_rmrr *a)
+>      }
+>
+>      if (a->vm && s->vl_eq_vlmax) {
+> +        if (s->vta && s->lmul < 0) {
+> +            /*
+> +             * tail elements may pass vlmax when lmul < 0
+> +             * set tail elements to 1s
+> +             */
+> +            uint32_t vlenb = s->cfg_ptr->vlen >> 3;
+> +            tcg_gen_gvec_ori(s->sew, vreg_ofs(s, a->rd),
+> +                             vreg_ofs(s, a->rd), -1,
+> +                             vlenb, vlenb);
+> +        }
+>          int scale = s->lmul - (s->sew + 3);
+>          int vlmax = scale < 0 ?
+>                         s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen << scale;
+> @@ -3779,6 +3789,16 @@ static bool trans_vrgather_vi(DisasContext *s, arg_rmrr *a)
+>      }
+>
+>      if (a->vm && s->vl_eq_vlmax) {
+> +        if (s->vta && s->lmul < 0) {
+> +            /*
+> +             * tail elements may pass vlmax when lmul < 0
+> +             * set tail elements to 1s
+> +             */
+> +            uint32_t vlenb = s->cfg_ptr->vlen >> 3;
+> +            tcg_gen_gvec_ori(s->sew, vreg_ofs(s, a->rd),
+> +                             vreg_ofs(s, a->rd), -1,
+> +                             vlenb, vlenb);
+> +        }
+>          int scale = s->lmul - (s->sew + 3);
+>          int vlmax = scale < 0 ?
+>                         s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen << scale;
+> @@ -3831,6 +3851,7 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
+>          tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+>
+>          data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>          tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+>                             vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
+>                             cpu_env, s->cfg_ptr->vlen / 8,
+> @@ -3936,6 +3957,8 @@ static bool int_ext_op(DisasContext *s, arg_rmr *a, uint8_t seq)
+>      }
+>
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> +    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>
+>      tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+>                         vreg_ofs(s, a->rs2), cpu_env,
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index dcb6d3538c..8b3833b299 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -4933,6 +4933,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>  {                                                                         \
+>      uint32_t vm = vext_vm(desc);                                          \
+>      uint32_t vl = env->vl;                                                \
+> +    uint32_t esz = sizeof(ETYPE);                                         \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
+> +    uint32_t vta = vext_vta(desc);                                        \
+>      target_ulong offset = s1, i_min, i;                                   \
+>                                                                            \
+>      i_min = MAX(env->vstart, offset);                                     \
+> @@ -4942,6 +4945,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>          }                                                                 \
+>          *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i - offset));          \
+>      }                                                                     \
+> +    /* set tail elements to 1s */                                         \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+>  }
+>
+>  /* vslideup.vx vd, vs2, rs1, vm # vd[i+rs1] = vs2[i] */
+> @@ -4957,6 +4962,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>      uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
+>      uint32_t vm = vext_vm(desc);                                          \
+>      uint32_t vl = env->vl;                                                \
+> +    uint32_t esz = sizeof(ETYPE);                                         \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
+> +    uint32_t vta = vext_vta(desc);                                        \
+>      target_ulong i_max, i;                                                \
+>                                                                            \
+>      i_max = MAX(MIN(s1 < vlmax ? vlmax - s1 : 0, vl), env->vstart);       \
+> @@ -4973,6 +4981,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>      }                                                                     \
+>                                                                            \
+>      env->vstart = 0;                                                      \
+> +    /* set tail elements to 1s */                                         \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+>  }
+>
+>  /* vslidedown.vx vd, vs2, rs1, vm # vd[i] = vs2[i+rs1] */
+> @@ -4988,6 +4998,9 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
+>      typedef uint##BITWIDTH##_t ETYPE;                                       \
+>      uint32_t vm = vext_vm(desc);                                            \
+>      uint32_t vl = env->vl;                                                  \
+> +    uint32_t esz = sizeof(ETYPE);                                           \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);            \
+> +    uint32_t vta = vext_vta(desc);                                          \
+>      uint32_t i;                                                             \
+>                                                                              \
+>      for (i = env->vstart; i < vl; i++) {                                    \
+> @@ -5001,6 +5014,8 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
+>          }                                                                   \
+>      }                                                                       \
+>      env->vstart = 0;                                                        \
+> +    /* set tail elements to 1s */                                           \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);                \
+>  }
+>
+>  GEN_VEXT_VSLIE1UP(8,  H1)
+> @@ -5028,6 +5043,9 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
+>      typedef uint##BITWIDTH##_t ETYPE;                                         \
+>      uint32_t vm = vext_vm(desc);                                              \
+>      uint32_t vl = env->vl;                                                    \
+> +    uint32_t esz = sizeof(ETYPE);                                             \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);              \
+> +    uint32_t vta = vext_vta(desc);                                            \
+>      uint32_t i;                                                               \
+>                                                                                \
+>      for (i = env->vstart; i < vl; i++) {                                      \
+> @@ -5041,6 +5059,8 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
+>          }                                                                     \
+>      }                                                                         \
+>      env->vstart = 0;                                                          \
+> +    /* set tail elements to 1s */                                             \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);                  \
+>  }
+>
+>  GEN_VEXT_VSLIDE1DOWN(8,  H1)
+> @@ -5094,6 +5114,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
+>      uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(TS2)));             \
+>      uint32_t vm = vext_vm(desc);                                          \
+>      uint32_t vl = env->vl;                                                \
+> +    uint32_t esz = sizeof(TS2);                                           \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
+> +    uint32_t vta = vext_vta(desc);                                        \
+>      uint64_t index;                                                       \
+>      uint32_t i;                                                           \
+>                                                                            \
+> @@ -5109,6 +5132,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
+>          }                                                                 \
+>      }                                                                     \
+>      env->vstart = 0;                                                      \
+> +    /* set tail elements to 1s */                                         \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+>  }
+>
+>  /* vd[i] = (vs1[i] >= VLMAX) ? 0 : vs2[vs1[i]]; */
+> @@ -5129,6 +5154,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>      uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
+>      uint32_t vm = vext_vm(desc);                                          \
+>      uint32_t vl = env->vl;                                                \
+> +    uint32_t esz = sizeof(ETYPE);                                         \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
+> +    uint32_t vta = vext_vta(desc);                                        \
+>      uint64_t index = s1;                                                  \
+>      uint32_t i;                                                           \
+>                                                                            \
+> @@ -5143,6 +5171,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>          }                                                                 \
+>      }                                                                     \
+>      env->vstart = 0;                                                      \
+> +    /* set tail elements to 1s */                                         \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+>  }
+>
+>  /* vd[i] = (x[rs1] >= VLMAX) ? 0 : vs2[rs1] */
+> @@ -5157,6 +5187,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
+>                    CPURISCVState *env, uint32_t desc)                      \
+>  {                                                                         \
+>      uint32_t vl = env->vl;                                                \
+> +    uint32_t esz = sizeof(ETYPE);                                         \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
+> +    uint32_t vta = vext_vta(desc);                                        \
+>      uint32_t num = 0, i;                                                  \
+>                                                                            \
+>      for (i = env->vstart; i < vl; i++) {                                  \
+> @@ -5167,6 +5200,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
+>          num++;                                                            \
+>      }                                                                     \
+>      env->vstart = 0;                                                      \
+> +    /* set tail elements to 1s */                                         \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+>  }
+>
+>  /* Compress into vd elements of vs2 where vs1 is enabled */
+> @@ -5203,6 +5238,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,                 \
+>  {                                                                \
+>      uint32_t vl = env->vl;                                       \
+>      uint32_t vm = vext_vm(desc);                                 \
+> +    uint32_t esz = sizeof(ETYPE);                                \
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz); \
+> +    uint32_t vta = vext_vta(desc);                               \
+>      uint32_t i;                                                  \
+>                                                                   \
+>      for (i = env->vstart; i < vl; i++) {                         \
+> @@ -5212,6 +5250,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,                 \
+>          *((ETYPE *)vd + HD(i)) = *((DTYPE *)vs2 + HS1(i));       \
+>      }                                                            \
+>      env->vstart = 0;                                             \
+> +    /* set tail elements to 1s */                                \
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);     \
+>  }
+>
+>  GEN_VEXT_INT_EXT(vzext_vf2_h, uint16_t, uint8_t,  H2, H1)
+> --
+> 2.34.2
+>
+>
 
