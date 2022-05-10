@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4928552242B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 20:35:53 +0200 (CEST)
-Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E405223F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 20:27:59 +0200 (CEST)
+Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noUi8-0006qw-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 14:35:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35470)
+	id 1noUaT-0004eS-MA
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 14:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1noUYp-0001nb-PN; Tue, 10 May 2022 14:26:16 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45010)
+ id 1noUYm-0001mL-HH; Tue, 10 May 2022 14:26:12 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:44992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1noUYn-0003Sb-2y; Tue, 10 May 2022 14:26:15 -0400
+ id 1noUYk-0003QU-FE; Tue, 10 May 2022 14:26:12 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 835F911F0FD;
- Tue, 10 May 2022 18:26:09 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 068A411EFC9;
+ Tue, 10 May 2022 18:26:08 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Tue, 10 May 2022 11:10:04 -0700
-Subject: [PATCH qemu v2 10/10] target/riscv: rvv: Add option 'rvv_ma_all_1s'
- to enable optional mask agnostic behavior
-Message-ID: <165220716770.22380.2493420346587893209-10@git.sr.ht>
+Date: Tue, 10 May 2022 18:26:07 +0000
+Subject: [PATCH qemu v2 00/10] Add mask agnostic behavior for rvv instructions
+MIME-Version: 1.0
+Message-ID: <165220716770.22380.2493420346587893209-0@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <165220716770.22380.2493420346587893209-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -35,7 +34,6 @@ Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
 X-Spam_score_int: 2
@@ -60,8 +58,6 @@ Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <eop.chen@sifive.com>
-
 According to v-spec, mask agnostic behavior can be either kept as
 undisturbed or set elements' bits to all 1s. To distinguish the
 difference of mask policies, QEMU should be able to simulate the mask
@@ -72,27 +68,53 @@ v-spec. The main intent of this patch-set tries to add option that
 can distinguish between mask policies. Setting agnostic elements to
 all 1s allows QEMU to express this.
 
-This commit adds option 'rvv_ma_all_1s' is added to enable the
-behavior, it is default as disabled.
+The following instructions that are always unmasked and not affected:
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+- Vector add-with-carry and subtract-with-borrow instructions
+- Vector merge and move instructions
+- Vector reduction instructions
+- Vector mask-register logical instructions
+- `vcompress`
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 720c8b9e5c..0245844b99 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -880,6 +880,7 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-+    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+This patch set is based on v15 of patch set "Add tail agnostic behavior
+for
+rvv instructions".
+Based on: <165220137795.17881.11560413809338015947-0@git.sr.ht>
+
+v2 updates:
+- Rebase upon changes of the tail agnostic patch-set
+- Minor change for vector load/store instructions
+
+Yueh-Ting (eop) Chen (9):
+  target/riscv: rvv: Add mask agnostic for vv instructions
+  target/riscv: rvv: Add mask agnostic for vector load / store
+    instructions
+  target/riscv: rvv: Add mask agnostic for vx instructions
+  target/riscv: rvv: Add mask agnostic for vector integer shift
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector integer comparison
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector fix-point arithmetic
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector floating-point
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector mask instructions
+  target/riscv: rvv: Add mask agnostic for vector permutation
+    instructions
+
+eopXD (1):
+  target/riscv: rvv: Add option 'rvv_ma_all_1s' to enable optional mask
+    agnostic behavior
+
+ target/riscv/cpu.c                      |   1 +
+ target/riscv/cpu.h                      |   2 +
+ target/riscv/cpu_helper.c               |   2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |  32 +++++
+ target/riscv/internals.h                |   5 +-
+ target/riscv/translate.c                |   2 +
+ target/riscv/vector_helper.c            | 152 ++++++++++++++++++++----
+ 7 files changed, 171 insertions(+), 25 deletions(-)
+
 -- 
 2.34.2
 
