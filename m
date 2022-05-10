@@ -2,74 +2,183 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C42F520BCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 05:13:05 +0200 (CEST)
-Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B6A520BE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 05:19:04 +0200 (CEST)
+Received: from localhost ([::1]:58280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noGJ5-0000I3-NC
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 23:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1noGOt-000225-On
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 23:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1noGHb-00082I-35
- for qemu-devel@nongnu.org; Mon, 09 May 2022 23:11:31 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:41234 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1noGHY-0004z3-HY
- for qemu-devel@nongnu.org; Mon, 09 May 2022 23:11:30 -0400
-Received: from [10.20.42.170] (unknown [10.20.42.170])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxcNrI13limZ0PAA--.61581S3; 
- Tue, 10 May 2022 11:11:05 +0800 (CST)
-Message-ID: <92a6caf3-8f43-00a2-c051-49c63d71827a@loongson.cn>
-Date: Tue, 10 May 2022 11:11:04 +0800
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
+ id 1noGNe-0001Mz-IB
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 23:17:46 -0400
+Received: from mga11.intel.com ([192.55.52.93]:31792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
+ id 1noGNa-0005vp-9h
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 23:17:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652152662; x=1683688662;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=+qLf3Hn6aP9OPTul5x+vsTYlXXHQAnG1RiYJ2QE6wRQ=;
+ b=OJekOnvibA9qgvzX5FCd2IOmmbSre0WmUxkPWVthiYGK7+5MD09t1vLD
+ bx6DI3M1SlO3lB9iwgujoVyE7uT/qwZCb4pBXHUtL4coDqoh6NOn9rJds
+ ztAiB3ZaHc5MaZIn1tNxs6Z5G7NoqKFO4sajLf7mUVwqtDWva2LIEcnGj
+ 6Jt/OPwI2qWyUJElNRvY5urNwrbkYLGfRgoQGnb8VdaKYzsGMi9CZcdc+
+ CDqYlZUawZxYPatXPKG37jlFHfXZkU0u4plPCjqIqUAVOI3ond3V9d5tt
+ rda9OjCpcGwA7aIuz6YaNP1Fx52tXCspR4v6mAlLq8K1NPy4cL/74QEkM g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="266832271"
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="266832271"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 20:17:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="602261993"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga001.jf.intel.com with ESMTP; 09 May 2022 20:17:37 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 9 May 2022 20:17:37 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Mon, 9 May 2022 20:17:37 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Mon, 9 May 2022 20:17:37 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RwyFMO5dzy+xtshCCVG703jTsTSEtCa/ffwlm1tdGh4Cj31chS53Dmq4rVj+BN6oI4v/Sh6Qud2SnND6HjYiSapPV2G+lDJesIypGnuZxkTt5Mg8gCxQfrbhpbqF12jTZ3FR9B3JS7Ecn1LMve8XNUSLF49WGLxK2gNNUa1DH2AgY0S1/sS89gWVritIZsj3PdvFLB96Cy0maFNpgq/CnfIJoG87buBVv19S+6JAQPx6yqiLLGAQ2tHlmHAgG4pqBc841GDB3qQa5sue5rxkgF4BLowgRVj574SNYZDqjAlN/yVW3iXzzgU/ZYTHSvdy9HatgGxqIcADZWNN3tFThA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=88TKNyMSXE9WBc3w4q8EZgQ9U5kijYaC3OUaBE+wTtQ=;
+ b=UgfcWIZUWpI+UG9kJo01S0PJ11p3CIgXAv6Uxl2GZty6/f8D1S8wDl4ieOYKDAXPSTsIUr1P4fRc+5NWDW61RKfx7qG2vHAeh5At/4e07IA2DkXU/MTNGcqMZoZ8cncb5+I6yMd8XQ4xUD5D3HJ7fWIPNRt0Vl75MQ80RePBltROFfH0HZcb7ObX0nP8bywnK0JC6xuLm0SL7Y9W8DLnYpNGTNpeaw09eT+WyLWjU/kqkLVt83gXpV4qfEjjMuOQhvE8ctv4bAOTIC6Tmf5hMlHuenbaCPJWTaPOYseOSYTf8yj7fz7mKml/Si0EGpjpQ1vzB1Ey3PIj3sHhfLaaUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by MWHPR1101MB2141.namprd11.prod.outlook.com (2603:10b6:301:50::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Tue, 10 May
+ 2022 03:17:35 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::21cf:c26f:8d40:6b5f]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::21cf:c26f:8d40:6b5f%4]) with mapi id 15.20.5227.023; Tue, 10 May 2022
+ 03:17:35 +0000
+Message-ID: <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
+Date: Tue, 10 May 2022 11:17:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 34/43] hw/intc: Add LoongArch extioi interrupt
- controller(EIOINTC)
+ Firefox/91.0 Thunderbird/91.7.0
+Subject: Re: [RFC 00/18] vfio: Adopt iommufd
 Content-Language: en-US
-From: maobibo <maobibo@loongson.cn>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
- gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
-References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-35-yangxiaojuan@loongson.cn>
- <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
- <707db6c2-49f2-2ca2-7025-0cf401f11c60@loongson.cn>
- <e514e333-b458-517f-66f7-f3fd0a0c5bad@linaro.org>
- <CAFEAcA8y-ZVeEHDXUv2bAwKL9EumTmrJ-Xz1r23C7Lm0yajBdQ@mail.gmail.com>
- <402096bf-2a89-311e-6174-eac63b78f74a@linaro.org>
- <2dc9050b-00b2-e571-b553-f1d49c0d9a4a@loongson.cn>
-In-Reply-To: <2dc9050b-00b2-e571-b553-f1d49c0d9a4a@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
+To: Zhangfei Gao <zhangfei.gao@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>
+CC: "eric.auger@redhat.com" <eric.auger@redhat.com>, "cohuck@redhat.com"
+ <cohuck@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "thuth@redhat.com" <thuth@redhat.com>, "farman@linux.ibm.com"
+ <farman@linux.ibm.com>, "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+ "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>, "pasic@linux.ibm.com"
+ <pasic@linux.ibm.com>, "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>, "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>, "jgg@nvidia.com" <jgg@nvidia.com>,
+ "nicolinc@nvidia.com" <nicolinc@nvidia.com>, "eric.auger.pro@gmail.com"
+ <eric.auger.pro@gmail.com>, "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ "chao.p.peng@intel.com" <chao.p.peng@intel.com>, "yi.y.sun@intel.com"
+ <yi.y.sun@intel.com>, "peterx@redhat.com" <peterx@redhat.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <4f920d463ebf414caa96419b625632d5@huawei.com>
+ <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
+ <4ac4956cfe344326a805966535c1dc43@huawei.com>
+ <20220426103507.5693a0ca.alex.williamson@redhat.com>
+ <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
+From: Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxcNrI13limZ0PAA--.61581S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxGr4UCr1fXF1DCw4fKw4DJwb_yoW5GF17pr
- ZFkF4Ikr4ktrn7CwsFqan5XFyYyFs7Jry5Z34DJry0kr98uryftFWjka95uFyUZr1xZ3Wj
- vrWYkrs7uFWqy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
- 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
- xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
- 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2
- z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
- UI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-ClientProxiedBy: HK0PR01CA0060.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::24) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7a87a079-3620-4b0e-66d8-08da3233a0e6
+X-MS-TrafficTypeDiagnostic: MWHPR1101MB2141:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR1101MB21417F14812B07ED0788DB5AC3C99@MWHPR1101MB2141.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7vzV+cmmdMvUtJJciKugRTQXZgZUp/xnB5mgNmJ65UyXdeA5/vJ7U+T1KqVV6rLUBY7CHGTrnD42uG6Z64k/Vlpef9Mi1u5XbdAI+MuF+qRXkihObM7IoOh+OIoQ6nK3hQuTyjoyLGg+MKUa6SWcACg+GcVuJ/KofZKwzafAsKiMmZObHn7nk17n4O6PKErZLOqashL4fyfktdUfvGkr/tGISfOlhbU+ElbjfeCE4M3Z9Sc3LOPw+N2qVQhwdWJIUcjFuose+eWLXEanVv1V+Lqj3tFr7QdFShWnz2gnV+jS57TifisSjkBE4KYsh4N6vxs+yQR5nwBTQHf2Of/bboNYFTY6kZ5IW3CsSpwKY7AfO3VCHJ6YKb4qieT6bkCASFdYWnNhMq17v//Bmd+5yju2VZlnlhE8AoQ+dyVkCIQBpfCY6V3d0O+VSsaVlmAKTrB5u8VPXXm6QDbmqrOIeIN3qmkwr70jz5EJLrmzHVAVa6Q7Ucr85BOBJgLqhsyyq8MpPRyzaBXEbv1i6y43wRFBaojOZOfNGHMlFmcFAPgEB+C4nrKChflf55yijurQNosD3C8+A/IJzjmCePL47/4+7I+huuUd0jx9TsvfW0ARMIQFRAfIWVUNHAzLOpqQtoagrhf9rbMveYFvnXruJYUa7of0QqY/gPVKaaCHzAPv8qbTZVbsAnnLFtr/ibSPgo4TyLIyVpykgBmSMinjgpR3fyzZhnop7SDnSqaIRaLI+QbYIFzlPIZIulK/aK7u5O4oYNRkE8L+sqONGh+13cWLQ5hwKWyeZdUVA1ql1qQXS3Pt6HpnIqQmp6Wls0E3/y8YLFTfk/T86GxHPYFWIXj2N7RvKBC3AJRrdSxeQIU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB5658.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6486002)(66556008)(66476007)(316002)(26005)(6512007)(966005)(66946007)(508600001)(6666004)(2906002)(86362001)(186003)(4326008)(54906003)(8676002)(31696002)(38100700002)(2616005)(6506007)(83380400001)(8936002)(31686004)(7416002)(53546011)(36756003)(5660300002)(82960400001)(110136005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d3ZaYzlBQitTaklSNUJmRzJsYjdCRW1tQ0tvcGhlUDZGQ0NmREZFcCtQcXpS?=
+ =?utf-8?B?WG90WGRjQ3NtT1VHWEU1RW5tQWdHMDcwTG1raVZIU2NuY0hlNTBsUmFtWjRw?=
+ =?utf-8?B?T2lMN1BPUVdyODJuZEdmZ1lnemJsM09EaDFaWXd1eHpXaHZZMHRwNzN6ZWxL?=
+ =?utf-8?B?WURBQ3RrWHdNY05idEJ1V0JmNFo5ZUJPUHRWU0JJdlE5Ri94MDNza2tPWnFL?=
+ =?utf-8?B?V3BLWE5vM3ZYMVNBLzlmbmtPL2xQN0RkM2RkRSt1Z0tzZy8vcVB2ekJJSnJI?=
+ =?utf-8?B?SVZsU2ExRjZ3VXpoVlk4R0FJMHBMOVNOOXl6OHJxNXh0YlJWUzV0Y2VLcFcz?=
+ =?utf-8?B?UTVWOTBZT1d1N1FzYkNpVXByT0RoclNPTG9DRjBUQkZrQkU4UlBqK1JWSnRE?=
+ =?utf-8?B?M3hCbkwzU0tWMGlQWUpUa1k0QWVtaUFpZWZtZWpzblRJZXVSUTN4aWhYRmdJ?=
+ =?utf-8?B?ZG9MR2lwamdKMDErTVRFZVBoYmVVa2J3Y3ZFckhnNFlSQ1RDdXRKMmUyK0Vo?=
+ =?utf-8?B?a3pEc1lCQUYrVytRVFNkUk5jZkF6NkVVR1FSZ0o2Q2lITUd3bUNhRW8zdjAx?=
+ =?utf-8?B?c0FPUWd2TFgxUFZkUVFDQUJ2K2ZDd2xnK0U0T0FnL2pVLzVocjRIYzB5ZXVx?=
+ =?utf-8?B?QTgvQXh4dTlacjAydVlqV3Q1UmlGUytLQ2puUnBsQzE1aURiblBjYlFVbWxS?=
+ =?utf-8?B?WWtIaldMUElLdzJMRlBtbGlKL0N6RkNtVDNQVDI2T3J2ZnNGM2ZxYVIxM2J6?=
+ =?utf-8?B?UG9FZDZBZWJ0MUpjeVM2QmdHRFRCRmxqR0ZFMVVvRWk3T0VzVjZ2RWtaSGRl?=
+ =?utf-8?B?VXZISDFLVEMrUHRTS05Ba044SHdKcTFBcTQ3RFFPQTIyYzRwWkdabTRtdFFy?=
+ =?utf-8?B?OURId3lGMWxIdHZkZmt4YnpLZXN1amJQcnFVVE4rTGpLalFPQTZLUXRnVEtu?=
+ =?utf-8?B?UU40QS96Q1EyWHZMYTFHajZ3WjB3ZTB5dEdGaWFBVThVcU1TMjMvb1lRdzNM?=
+ =?utf-8?B?TWVQMElOL243ZlNaTEpQajdKTXFMQkJPRDYzRjNHOTZnNzZwMkM4bnVpNmFU?=
+ =?utf-8?B?Ym9zWTk2RkZQeGtVWGZzaEtyQ0NlNGxwT3BFMzd2V0xTempFbFE3N20yWUUv?=
+ =?utf-8?B?WllOY1hHR1htVkFpUDc0eEh4MzlKNUl2RlY5RGp0RjZmaWVEUzlKRzUrejNq?=
+ =?utf-8?B?bGg0dEpLL2hFZjhvbU9tcUFHY3ZqL3V1TGxJU3FEMWxSYUtGRzJlSDEvNHBU?=
+ =?utf-8?B?N2Q0REJ2N1NuQk9KVDJJYTc0anVvWXBscXNxSUJha3FHdUFUN09mbWdKZHFo?=
+ =?utf-8?B?UVJnMFpIOUNodkZhRnh6eld5bXBYZVRjNHkzcXJ2R1BSdG9kbDdITFJPc0xE?=
+ =?utf-8?B?QzRMVEpLY093V2ZIZ0ZJZllhZndvV2F0RzIwaERWVld5UDAzZWUzRTl5bGpQ?=
+ =?utf-8?B?MGgwdTdnbkdaOThTU1BUWUdJYVN4b0RXZ2tFNUNiZzZWUllKZXE1T1E0MWdN?=
+ =?utf-8?B?clVTSXY5RHNub2NLbmg4UXlNcldySDNNclp6Rk1seGlBUnRXcTV5dW1zcUJW?=
+ =?utf-8?B?VGk2Mm0zQUtVV1lSbGlXNThsdkRwUlBHVUNndllMSWpYc3BiMUtvVjd5ODMy?=
+ =?utf-8?B?bGpONEdEZk40dmN3ZnVFUHJhQ0dwVm5vSVRmamNBZUhtWHc2M3dCU2JaSm1k?=
+ =?utf-8?B?Tm91V21xQU5qR0g3R0VjalVoaGhjMThyWDJ2aG5hTHhhZm93d0NaejNrYllF?=
+ =?utf-8?B?dEJ1WmQ1TTlicUZ3K3ZwOXRsODFrRjhLMEtLQUZRTWMxNndJSmQ3M0dualcr?=
+ =?utf-8?B?WUF0S2xDMy9kcUtOaVdNdU4zZFZhV0FRWnlBc1V0Q0VQa1gvWVp0SEgxNmt2?=
+ =?utf-8?B?NVludCtXTDN2TzdOY0xlVDJJUnNMMnQ2WU9oTmM2L3kvRWlOaStMTWxqNkt6?=
+ =?utf-8?B?MDVEOFhFdXhOVlVCYU8vZGJqT3hDWWlEQ1YySWdZSkczdEFneFR6Zzk1a0s4?=
+ =?utf-8?B?V2wyRGNxSzg1ZWpKbHVsRUZKdGRXYjgwWE5xVjdvK0VUQVFhMURFdGY1dHdw?=
+ =?utf-8?B?Nm56QWlWVmZwcTZzWFc4UmlhN1FsZ0RpU1ZNNHpTVTNOUUxKT0x3R2hqVUtO?=
+ =?utf-8?B?MFNsdkRkbytid2NjQ0pRdWRXbkFKZHRRN2crVG1oUnBpbUdYb2p2NTV1Z3lR?=
+ =?utf-8?B?V0pNZUJFcGV4cDkzUHk3dE1Wd1Q2a0xuOW83ZzBFRHlDbHc0Q1U2cEI5NWNE?=
+ =?utf-8?B?elRYWFRiNFFJQ21UWjFwM0krdUpMTWxyU2gveVhkaHNueUVqUE11L0xjbGM3?=
+ =?utf-8?B?QkRYZ25TbXNJY2pvdGtraEtER2tweVBibmw2ZndCdTMzQUpvYkEzUT09?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a87a079-3620-4b0e-66d8-08da3233a0e6
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 03:17:35.3177 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4fCr2ScUQzFzd+tTYXbwu+gHp7+pDY8rp4BKVH8xdivKc2rnEyTzMi7xxFlAq4qRPcc0M/YI+vmmTL9+xcYI2w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2141
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=yi.l.liu@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,58 +195,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Zhangfei,
 
-
-在 2022/5/10 10:54, maobibo 写道:
+On 2022/5/9 22:24, Zhangfei Gao wrote:
+> Hi, Alex
 > 
-> 
-> 在 2022/5/10 02:25, Richard Henderson 写道:
->> On 5/9/22 13:04, Peter Maydell wrote:
->>> On Mon, 9 May 2022 at 18:56, Richard Henderson
->>> <richard.henderson@linaro.org> wrote:
->>>> I'm not 100% sure how this "Other configuration control register" should be handled, but
->>>> definitely not like this.
->>>>
->>>> I see you're putting control of this register into loongarch_qemu_read in
->>>> target/loongarch/cpu.c.  Which, I suppose is fair, because this is documented as part of
->>>> the 3A5000 cpu documentation.  But then you split out all of the devices which are *also*
->>>> documented as part of the cpu into the board configuration.
->>>>
->>>> This reminds me of the memory-mapped interface that the armv7m cpu has with its own
->>>> registers.  I believe that you need to model this similarly, where you will have a device
->>>> that represents the cpu, and then instantiates all of the devices that are listed in the
->>>> Loongson 3A5000 TRM -- call this ls3a to match the ls7a name you have for the 7A1000
->>>> bridge device.
->>>>
->>>> When there is a write to the ls3a "Other function configuration register", the ls3a will
->>>> need to communicate the changes to the various bits to its various sub-devices.  I do not
->>>> think it unreasonable to have direct function calls between the components.
->>>>
->>>> Peter, do you have any advice from the armv7m side?
+> On 2022/4/27 上午12:35, Alex Williamson wrote:
+>> On Tue, 26 Apr 2022 12:43:35 +0000
+>> Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com> wrote:
+>>
+>>>> -----Original Message-----
+>>>> From: Eric Auger [mailto:eric.auger@redhat.com]
+>>>> Sent: 26 April 2022 12:45
+>>>> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>; Yi
+>>>> Liu <yi.l.liu@intel.com>; alex.williamson@redhat.com; cohuck@redhat.com;
+>>>> qemu-devel@nongnu.org
+>>>> Cc: david@gibson.dropbear.id.au; thuth@redhat.com; farman@linux.ibm.com;
+>>>> mjrosato@linux.ibm.com; akrowiak@linux.ibm.com; pasic@linux.ibm.com;
+>>>> jjherne@linux.ibm.com; jasowang@redhat.com; kvm@vger.kernel.org;
+>>>> jgg@nvidia.com; nicolinc@nvidia.com; eric.auger.pro@gmail.com;
+>>>> kevin.tian@intel.com; chao.p.peng@intel.com; yi.y.sun@intel.com;
+>>>> peterx@redhat.com; Zhangfei Gao <zhangfei.gao@linaro.org>
+>>>> Subject: Re: [RFC 00/18] vfio: Adopt iommufd
+>>> [...]
+>>>> https://lore.kernel.org/kvm/0-v1-e79cd8d168e8+6-iommufd_jgg@nvidia.com
+>>>>>> /
+>>>>>> [2] https://github.com/luxis1999/iommufd/tree/iommufd-v5.17-rc6
+>>>>>> [3] https://github.com/luxis1999/qemu/tree/qemu-for-5.17-rc6-vm-rfcv1
+>>>>> Hi,
+>>>>>
+>>>>> I had a go with the above branches on our ARM64 platform trying to
+>>>> pass-through
+>>>>> a VF dev, but Qemu reports an error as below,
+>>>>>
+>>>>> [    0.444728] hisi_sec2 0000:00:01.0: enabling device (0000 -> 0002)
+>>>>> qemu-system-aarch64-iommufd: IOMMU_IOAS_MAP failed: Bad address
+>>>>> qemu-system-aarch64-iommufd: vfio_container_dma_map(0xaaaafeb40ce0,
+>>>> 0x8000000000, 0x10000, 0xffffb40ef000) = -14 (Bad address)
+>>>>> I think this happens for the dev BAR addr range. I haven't debugged the
+>>>> kernel
+>>>>> yet to see where it actually reports that.
+>>>> Does it prevent your assigned device from working? I have such errors
+>>>> too but this is a known issue. This is due to the fact P2P DMA is not
+>>>> supported yet.
+>>> Yes, the basic tests all good so far. I am still not very clear how it 
+>>> works if
+>>> the map() fails though. It looks like it fails in,
 >>>
->>> Nothing concrete. I'm not sure that we'd structure the armv7m stuff the way
->>> we have now if we were writing it from scratch, but it's functional enough.
->>> (In particular, if MMIO regions were part of Device rather than SysBusDevice
->>> then I'd be tempted to suggest that CPUs with MMIO-mapped registers should
->>> directly own their MemoryRegions for them. But they aren't, so we can't do
->>> that.)
->>
->> Having thought about this a little more, I believe that these registers are part of the "cpu package", because they are shared between the 4 cpu cores within the package.  Thus their current placement attached to LoongArchCPU -- as well as the current placement of address_space_iocsr -- is incorrect.
+>>> iommufd_ioas_map()
+>>>    iopt_map_user_pages()
+>>>     iopt_map_pages()
+>>>     ..
+>>>       pfn_reader_pin_pages()
+>>>
+>>> So does it mean it just works because the page is resident()?
+>> No, it just means that you're not triggering any accesses that require
+>> peer-to-peer DMA support.  Any sort of test where the device is only
+>> performing DMA to guest RAM, which is by far the standard use case,
+>> will work fine.  This also doesn't affect vCPU access to BAR space.
+>> It's only a failure of the mappings of the BAR space into the IOAS,
+>> which is only used when a device tries to directly target another
+>> device's BAR space via DMA.  Thanks,
 > 
-> The extioi hardware design is not friend to software developer, local cpu INTC
-> is mixed with board INTC with extioi/iocsr. Local cpu INTC registers should be banked,
-> address space is space for local cpu review point.
-address space of local cpu INTC should be the same from cpu viewpoint.
+> I also get this issue when trying adding prereg listenner
+> 
+> +    container->prereg_listener = vfio_memory_prereg_listener;
+> +    memory_listener_register(&container->prereg_listener,
+> +                            &address_space_memory);
+> 
+> host kernel log:
+> iommufd_ioas_map 1 iova=8000000000, iova1=8000000000, cmd->iova=8000000000, 
+> cmd->user_va=9c495000, cmd->length=10000
+> iopt_alloc_area input area=859a2d00 iova=8000000000
+> iopt_alloc_area area=859a2d00 iova=8000000000
+> pin_user_pages_remote rc=-14
+> 
+> qemu log:
+> vfio_prereg_listener_region_add
+> iommufd_map iova=0x8000000000
+> qemu-system-aarch64: IOMMU_IOAS_MAP failed: Bad address
+> qemu-system-aarch64: vfio_dma_map(0xaaaafb96a930, 0x8000000000, 0x10000, 
+> 0xffff9c495000) = -14 (Bad address)
+> qemu-system-aarch64: (null)
+> double free or corruption (fasttop)
+> Aborted (core dumped)
+> 
+> With hack of ignoring address 0x8000000000 in map and unmap, kernel can boot.
 
-> 
-> how about put address_space_iocsr as board rather than percpu since there is no concept
-> of "cpu package".
-> 
-> regards
-> bibo, mao
->>
->>
->> r~
-> 
+do you know if the iova 0x8000000000 guest RAM or MMIO? Currently, iommufd 
+kernel part doesn't support mapping device BAR MMIO. This is a known gap.
 
+-- 
+Regards,
+Yi Liu
 
