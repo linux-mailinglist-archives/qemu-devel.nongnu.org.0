@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B784A520DDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 08:26:47 +0200 (CEST)
-Received: from localhost ([::1]:60000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512EB520DBA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 08:21:18 +0200 (CEST)
+Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noJKY-0000Rr-S7
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 02:26:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39856)
+	id 1noJFF-0006PJ-78
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 02:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noJAy-0004kp-Mu
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noJAy-0004jz-2z
  for qemu-devel@nongnu.org; Tue, 10 May 2022 02:16:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31551)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noJAx-00056n-9V
- for qemu-devel@nongnu.org; Tue, 10 May 2022 02:16:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noJAw-00056c-4F
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 02:16:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652163410;
+ s=mimecast20190719; t=1652163409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qdkWDYrX8z68MmZF5paO0ZCLjA8KvHibzTcDUmCJeFQ=;
- b=OA7/1a0D2OKPr4sxVVSaycV6/952cKpeRmdAI0zR5CEIqwLu/r1i3jmovCQG43MRVdWGQh
- 9++EwIJipayx4A7bT/9zgae1ESu80fgyJH2fwGgQH8g5blxdKpqwsIrrqqfOCcMA2Z8YMS
- 4Jvps36J3k3OclN2JvwPpvRLv/HYqho=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2p6Xhuk2jkjGQj9y38i3tiwxJCln+G2rkSiZ2hOHHQ4=;
+ b=bXVtZw+a3x6QFfB66VUqajDtuz20MdWqDDSP8JtAIhEHXv7UY5GIF52jQpexw2foZCWabe
+ 0XiNzOcvSL5kBnggR9yBcXF708m4JRq/HgzUGkj9KbdzpgYlBc5YuxTIOsRAaE6LxKwSa0
+ E7zgzy0H8UAY0xN2nPhCG69Gm5xLau0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-Kot0RGvVOtuSVslQv-zPXA-1; Tue, 10 May 2022 02:16:49 -0400
-X-MC-Unique: Kot0RGvVOtuSVslQv-zPXA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-473-0X3iV8YFPcmqyqnaeUl3dA-1; Tue, 10 May 2022 02:16:47 -0400
+X-MC-Unique: 0X3iV8YFPcmqyqnaeUl3dA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C732885A5BE;
- Tue, 10 May 2022 06:16:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2CF838C5C41;
+ Tue, 10 May 2022 06:16:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AFE3C200B663;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF6A8415F4E;
  Tue, 10 May 2022 06:16:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7B06C21E6880; Tue, 10 May 2022 08:16:45 +0200 (CEST)
+ id 7C4B821E6882; Tue, 10 May 2022 08:16:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com,
 	jsnow@redhat.com,
 	eblake@redhat.com
-Subject: [PATCH 0/2] qapi: Minor fixes around feature names
-Date: Tue, 10 May 2022 08:16:43 +0200
-Message-Id: <20220510061645.3209195-1-armbru@redhat.com>
+Subject: [PATCH 1/2] qapi/expr: Enforce feature naming rules again
+Date: Tue, 10 May 2022 08:16:44 +0200
+Message-Id: <20220510061645.3209195-2-armbru@redhat.com>
+In-Reply-To: <20220510061645.3209195-1-armbru@redhat.com>
+References: <20220510061645.3209195-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,14 +81,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster (2):
-  qapi/expr: Enforce feature naming rules again
-  docs/devel/qapi-code-gen: Belatedly document feature naming rules
+Commit e42648dccd "qapi/expr.py: Remove single-letter variable"
+accidentally removed the check for "only lower case letters and
+hyphens".  Restore it.
 
- docs/devel/qapi-code-gen.rst | 9 +++++----
- scripts/qapi/expr.py         | 2 +-
- 2 files changed, 6 insertions(+), 5 deletions(-)
+Fixes: e42648dccdd1defe8f35f247966cd7283f865cd6
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/expr.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 48578e1698..5a1782b57e 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -443,7 +443,7 @@ def check_features(features: Optional[object],
+         check_keys(feat, info, source, ['name'], ['if'])
+         check_name_is_str(feat['name'], info, source)
+         source = "%s '%s'" % (source, feat['name'])
+-        check_name_str(feat['name'], info, source)
++        check_name_lower(feat['name'], info, source)
+         check_if(feat, info, source)
+ 
+ 
 -- 
 2.35.1
 
