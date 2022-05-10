@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8C1522724
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 00:47:01 +0200 (CEST)
-Received: from localhost ([::1]:41668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B1652272F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 00:48:58 +0200 (CEST)
+Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noYdA-0007Sa-FH
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 18:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47358)
+	id 1noYf2-0004jV-P6
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 18:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1noYaK-0004cW-I0
- for qemu-devel@nongnu.org; Tue, 10 May 2022 18:44:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24349)
+ id 1noYaM-0004de-PL
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 18:44:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1noYaH-0006JG-P4
- for qemu-devel@nongnu.org; Tue, 10 May 2022 18:44:04 -0400
+ id 1noYaI-0006Jb-8A
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 18:44:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1652222641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vs8n8rfHPzW28VW8OO5SR80yoUi9AvYtSnpc5snK8dk=;
- b=YuQqtJoDUZnMl8gAQXrGNaFMhlIVc3D4a528x/6g2Ukz9gLjREsWYjvXOHMd+Q9OQKU2V2
- 6QRzVgo9fNQneJ05TFeD6ycsU3rh+vjV4w6RFHLuqj+ku8Y1OQWtzQTWLM7UsA2hxzeCZl
- 2CXMxcubb3SeJ7lnJSFsjK990jviXJs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=297XkggsqFJrCt8Cdj+dg0kFfmrKBouMvt5oU76YnFY=;
+ b=fDDm0YGRWPC41nI0e4KMf8gv78npTMGVsRnvcFuKCMuo+e1/dKUPMQSqw7wAjcoc7BCzI4
+ s6OSBPdVxX1fygTMIRLdPBO0NxTAQFp6oa+k4ih3iFvUkBwkhruCE+yjCEZW8sUYh6gzjB
+ xXLngUIBaoXghYh12Ec+6nyVKTviOW8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-mDlWBoM4PUuyVG5Wo6598w-1; Tue, 10 May 2022 18:42:39 -0400
-X-MC-Unique: mDlWBoM4PUuyVG5Wo6598w-1
+ us-mta-557-n9z07mGfNROdBdgzrkME-w-1; Tue, 10 May 2022 18:42:41 -0400
+X-MC-Unique: n9z07mGfNROdBdgzrkME-w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 249BA1C05AA8;
- Tue, 10 May 2022 22:42:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F01A480A0B9;
+ Tue, 10 May 2022 22:42:40 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.195.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93EAB40CFD25;
- Tue, 10 May 2022 22:42:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C2DC400E89E;
+ Tue, 10 May 2022 22:42:39 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>,
@@ -51,16 +51,15 @@ Cc: Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v6 08/13] multifd: Prepare to send a packet without the mutex
- held
-Date: Wed, 11 May 2022 00:42:15 +0200
-Message-Id: <20220510224220.5912-9-quintela@redhat.com>
+Subject: [PATCH v6 09/13] multifd: Add property to enable/disable zero_page
+Date: Wed, 11 May 2022 00:42:16 +0200
+Message-Id: <20220510224220.5912-10-quintela@redhat.com>
 In-Reply-To: <20220510224220.5912-1-quintela@redhat.com>
 References: <20220510224220.5912-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,69 +83,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do the send_prepare() and the fill of the head packet without the
-mutex held.  It will help a lot for compression and later in the
-series for zero pages.
-
-Notice that we can use p->pages without holding p->mutex because
-p->pending_job == 1.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd.h |  2 ++
- migration/multifd.c | 11 ++++++-----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ migration/migration.h |  3 +++
+ hw/core/machine.c     |  4 +++-
+ migration/migration.c | 11 +++++++++++
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index ecf5a8e868..ed81f249d7 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -107,7 +107,9 @@ typedef struct {
-     /* array of pages to sent.
-      * The owner of 'pages' depends of 'pending_job' value:
-      * pending_job == 0 -> migration_thread can use it.
-+     *                     No need for mutex lock.
-      * pending_job != 0 -> multifd_channel can use it.
-+     *                     No need for mutex lock.
+diff --git a/migration/migration.h b/migration/migration.h
+index a863032b71..068e66ca9a 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -332,6 +332,8 @@ struct MigrationState {
+      * This save hostname when out-going migration starts
       */
-     MultiFDPages_t *pages;
+     char *hostname;
++    /* Use multifd channel to send zero pages */
++    bool multifd_zero_pages;
+ };
  
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 3f9d9e3a56..c8f2caa2ae 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -632,6 +632,8 @@ static void *multifd_send_thread(void *opaque)
-                 p->flags |= MULTIFD_FLAG_SYNC;
-                 p->sync_needed = false;
-             }
-+            qemu_mutex_unlock(&p->mutex);
+ void migrate_set_state(int *state, int old_state, int new_state);
+@@ -374,6 +376,7 @@ int migrate_multifd_channels(void);
+ MultiFDCompression migrate_multifd_compression(void);
+ int migrate_multifd_zlib_level(void);
+ int migrate_multifd_zstd_level(void);
++bool migrate_use_multifd_zero_page(void);
+ 
+ int migrate_use_xbzrle(void);
+ uint64_t migrate_xbzrle_cache_size(void);
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 700c1e76b8..d02977d5df 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,7 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
+-GlobalProperty hw_compat_7_0[] = {};
++GlobalProperty hw_compat_7_0[] = {
++    { "migration", "multifd-zero-pages", "false" },
++};
+ const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+ 
+ GlobalProperty hw_compat_6_2[] = {
+diff --git a/migration/migration.c b/migration/migration.c
+index 5a31b23bd6..7e591990ef 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2517,6 +2517,15 @@ bool migrate_use_multifd(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
+ }
+ 
++bool migrate_use_multifd_zero_page(void)
++{
++    MigrationState *s;
 +
-             p->iovs_num = 1;
-             p->normal_num = 0;
++    s = migrate_get_current();
++
++    return s->multifd_zero_pages;
++}
++
+ bool migrate_pause_before_switchover(void)
+ {
+     MigrationState *s;
+@@ -4164,6 +4173,8 @@ static Property migration_properties[] = {
+                       clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
  
-@@ -648,11 +650,6 @@ static void *multifd_send_thread(void *opaque)
-                 }
-             }
-             multifd_send_fill_packet(p);
--            p->num_packets++;
--            p->total_normal_pages += p->normal_num;
--            p->pages->num = 0;
--            p->pages->block = NULL;
--            qemu_mutex_unlock(&p->mutex);
- 
-             trace_multifd_send(p->id, packet_num, p->normal_num, p->flags,
-                                p->next_packet_size);
-@@ -667,6 +664,10 @@ static void *multifd_send_thread(void *opaque)
-             }
- 
-             qemu_mutex_lock(&p->mutex);
-+            p->num_packets++;
-+            p->total_normal_pages += p->normal_num;
-+            p->pages->num = 0;
-+            p->pages->block = NULL;
-             p->sent_bytes += p->packet_len;;
-             p->sent_bytes += p->next_packet_size;
-             p->pending_job--;
+     /* Migration parameters */
++    DEFINE_PROP_BOOL("multifd-zero-pages", MigrationState,
++                      multifd_zero_pages, true),
+     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
+                       parameters.compress_level,
+                       DEFAULT_MIGRATE_COMPRESS_LEVEL),
 -- 
 2.35.1
 
