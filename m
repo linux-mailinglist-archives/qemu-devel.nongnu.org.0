@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A62520F9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:22:01 +0200 (CEST)
-Received: from localhost ([::1]:34668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F303520F8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:16:28 +0200 (CEST)
+Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noL83-0004uU-4R
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59352)
+	id 1noL2h-0001IS-6V
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noKrW-0006eX-Ja
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37973)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noKtL-00074J-B3
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:06:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noKrR-00049y-Cz
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:04:54 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noKtC-0004dD-Gu
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:06:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652169888;
+ s=mimecast20190719; t=1652169997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Mwn4nUATFvLa4KeZ6rq0zYkAGEL7uSNBwPHTrRVNiCI=;
- b=YiO1AhQ6dwDCEKcePqfLtGA0hGo67RLkm4+LtqafZAA1ck+nIKpg29iXYQbqBNIEE/ZmlT
- rno7y1WXYY8RYM2PXWK8czG6WKsoQN/elTGffGTPSafn95ru9Z0f0TzymPm28Zd5qsXJPV
- K40dATYaP1k6O4llAIlcAgFGFvKTXBk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vj4pDXmaMX31iSJDMtkl0bDjfnmzan1XM/DggybwAZ4=;
+ b=fRtGvEnqPhgLqwPIJ4TPjIAk7fLy8lxuxYb++WNUrfFa3lxpgnCMuap/d2WMb8dYXQQR/E
+ ud1In7bceKDgoJJEbuNyFPBhKQ/zk/V/1XSU6+0EIwU0CKYM76qCR1CrTTyIA0uGFVhkOH
+ +OhqDxmM6L81B1TWAOuilFAkR2lrziU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-185-mcr-FGyGMoaYT1Qgl3Np4Q-1; Tue, 10 May 2022 04:04:47 -0400
-X-MC-Unique: mcr-FGyGMoaYT1Qgl3Np4Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ba21-20020a0560001c1500b0020ca6a45dfcso4864936wrb.9
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 01:04:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Mwn4nUATFvLa4KeZ6rq0zYkAGEL7uSNBwPHTrRVNiCI=;
- b=yMajPUJGxuuSZoaB01uwGmRB9y3i16APGO8/y+XnDXK4+KvIf9LzLwObqMjjkH46rF
- K5/W3lq24Urf2V0HNX4uyOQC7ZwvVbNhVX8Vn1SBG0nCD65g84I1FOh+kEMU+EQC9vnR
- xPHTxm5o/qGIICVI0pRv9xtR3cBj+HqG1dL5/JFXJBlKIcwTL6B1WbAG6BPWGPK7nYEh
- DZkfp13vnayeCtyj09I0wO+124SbKWTM1AeqPEzlgAevddcqM7N/wOkV8LVqTWOu8X9T
- PjIq6PcsxkhMYXJQd+8X8qk7YTF/6CXFixbWTHadZrrHbq88NiHfIAwpXPi4MYCSX8uo
- 5/hw==
-X-Gm-Message-State: AOAM532mBNvcJD0MtEzB0UG91jIPiuqAqOW7HV0pemJt6u9sWYgrTOML
- mT4Fy4qchuRH4lhhPFpozY0tXSFvlqLP5vKjLgbD9d0oVc0JqOSGjI/I1N8lDLwm7udXtEeAccn
- UnbeQyzw7/EZIS5s=
-X-Received: by 2002:a5d:59a5:0:b0:20c:561c:2a0b with SMTP id
- p5-20020a5d59a5000000b0020c561c2a0bmr17141380wrr.290.1652169885994; 
- Tue, 10 May 2022 01:04:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw56+3Ry3uW4kct3A2NWYMlI4Z77vr3gikRbc3dCzNjJHV/HxI050T19XjzJMDwELdvsrbyvQ==
-X-Received: by 2002:a5d:59a5:0:b0:20c:561c:2a0b with SMTP id
- p5-20020a5d59a5000000b0020c561c2a0bmr17141369wrr.290.1652169885830; 
- Tue, 10 May 2022 01:04:45 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- n23-20020a05600c3b9700b003942a244ebfsm1868226wms.4.2022.05.10.01.04.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 May 2022 01:04:45 -0700 (PDT)
-Date: Tue, 10 May 2022 09:04:43 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Daniel Berrange <berrange@redhat.com>
-Subject: Re: [PULL 12/16] migration: Add zero-copy-send parameter for QMP/HMP
- for Linux
-Message-ID: <Ynocm3lqoumCEgFy@work-vm>
-References: <20220509150253.218715-1-dgilbert@redhat.com>
- <20220509150253.218715-13-dgilbert@redhat.com>
- <3628fa0b-165a-863a-ffa1-f939d092f79f@linaro.org>
- <CAJ6HWG6Ew7v28aRPYRHH2ZE_j_5_YagFnD6RNpcogm8dbDaNcw@mail.gmail.com>
+ us-mta-645-9Ui7L6QkN7KyhsqwSr88qw-1; Tue, 10 May 2022 04:06:36 -0400
+X-MC-Unique: 9Ui7L6QkN7KyhsqwSr88qw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 19321100BAA8
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:06:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 509D7C28101;
+ Tue, 10 May 2022 08:06:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2D18A21E6880; Tue, 10 May 2022 10:06:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Cc: Andrea Bolognani <abologna@redhat.com>,  qemu-devel@nongnu.org,  John
+ Snow <jsnow@redhat.com>,  Eric Blake <eblake@redhat.com>,  Kevin Wolf
+ <kwolf@redhat.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
+ <87a6c52u68.fsf@pond.sub.org>
+ <CABJz62NaEgEzEkvdYbNZ5qfkx_gAYfnxt_YbQhGyD08gRH6EYg@mail.gmail.com>
+ <87v8uos8lb.fsf@pond.sub.org>
+ <CABJz62MTVhDHZo5+sTJKm5b+SZM_W+_o5VmMgx0NVyibYfs=hw@mail.gmail.com>
+ <875ymop374.fsf@pond.sub.org>
+ <CABJz62OsaZo0hJB=ucereGDOHbK-5Ym4ASqhgVePJr65JRu0gQ@mail.gmail.com>
+ <20220509185346.7d2qz4lr4rpuat7q@tapioca>
+Date: Tue, 10 May 2022 10:06:34 +0200
+In-Reply-To: <20220509185346.7d2qz4lr4rpuat7q@tapioca> (Victor Toso's message
+ of "Mon, 9 May 2022 20:53:46 +0200")
+Message-ID: <87czglzu9h.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJ6HWG6Ew7v28aRPYRHH2ZE_j_5_YagFnD6RNpcogm8dbDaNcw@mail.gmail.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -105,37 +89,2685 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Leonardo Bras Soares Passos (leobras@redhat.com) wrote:
-> On Mon, May 9, 2022 at 4:45 PM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > On 5/9/22 10:02, Dr. David Alan Gilbert (git) wrote:
-> > > diff --git a/roms/skiboot b/roms/skiboot
-> > > index 24a7eb3596..820d43c0a7 160000
-> > > --- a/roms/skiboot
-> > > +++ b/roms/skiboot
-> > > @@ -1 +1 @@
-> > > -Subproject commit 24a7eb35966d93455520bc2debdd7954314b638b
-> > > +Subproject commit 820d43c0a7751e75a8830561f35535dfffd522bd
-> >
-> > This is an error, probably in rebasing.
-> 
-> Yeah, that's odd. Should not be there.
-> 
-> David, could you please remove that?
+Victor Toso <victortoso@redhat.com> writes:
 
-Yes, new version coming soon.
+> Hi,
+>
+> On Mon, May 02, 2022 at 10:01:41AM -0400, Andrea Bolognani wrote:
+>> On Mon, May 02, 2022 at 01:46:23PM +0200, Markus Armbruster wrote:
+>> > Andrea Bolognani <abologna@redhat.com> writes:
+>> > >> > The wire protocol would still retain the unappealing
+>> > >> > name, but at least client libraries could hide the
+>> > >> > uglyness from users.
+>> > >>
+>> > >> At the price of mild inconsistency between the library
+>> > >> interface and QMP.
+>> > >
+>> > > That's fine, and in fact it already happens all the time
+>> > > when QAPI names (log-append) are translated to C
+>> > > identifiers (log_append).
+>> >
+>> > There's a difference between trivial translations like
+>> > "replace '-' by '_'" and arbitrary replacement like the one
+>> > for enumeration constants involving 'prefix'.
+>> 
+>> Fair enough.
+>> 
+>> I still feel that 1) users of a language SDK will ideally not
+>> need to look at the QAPI schema or wire chatter too often and
+>
+> That should be the preference, yes.
+>
+>> 2) even when that ends up being necessary, figuring out that
+>> LogAppend and logappend are the same thing is not going to be
+>> an unreasonable hurdle, especially when the status quo would be
+>> to work with Logappend instead.
+>
+> If user really needs to leave their ecosystem in order to check
+> an alias, I hope we are already considering this a corner case.
+> Still, if we are thinking about multiple languages communicating
+> with QEMU, it is reasonable to consider the necessity of some
+> docs page where they can easily grep/search for the types, alias,
+> examples, etc.  IMHO, this should be a long term goal and not a
+> blocker... I can volunteer on working on that later.
+>
+>> > > The point is that, if we want to provide a language
+>> > > interface that feels natural, we need a way to mark parts
+>> > > of a QAPI symbol's name in a way that makes it possible for
+>> > > the generator to know they're acronyms and treat them in an
+>> > > appropriate, language-specific manner.
+>> >
+>> > It's not just acronyms.  Consider IAmALittleTeapot.  If you
+>> > can assume that only beginning of words are capitalized, even
+>> > for acronyms, you can split this into words without trouble.
+>> > You can't recover correct case, though: "i am a little
+>> > teapot" is wrong.
+>> 
+>> Is there any scenario in which we would care though? We're in
+>> the business of translating identifiers from one machine
+>> representation to another, so once it has been split up
+>> correctly into the words that compose it (which in your example
+>> above it has) then we don't really care about anything else
+>> unless acronyms are involved.
+>> 
+>> In other words, we can obtain the list of words "i am a little
+>> teapot" programmatically both from IAmALittleTeapot and
+>> i-am-a-little-teapot, and in both cases we can then generate
+>> IAmALittleTeapot or I_AM_A_LITTLE_TEAPOT or
+>> i_am_a_little_teapot or whatever is appropriate for the context
+>> and target language, but the fact that in a proper English
+>> sentence "I" would have to be capitalized doesn't really enter
+>> the picture.
+>> 
+>> > "Split before capital letter" falls apart when you have
+>> > characters that cannot be capitalized: Point3d.
+>> >
+>> > Camel case is hopeless.
+>> 
+>> I would argue that it works quite well for most scenarios, but
+>> there are some corner cases where it's clearly not good enough.
+>> If we can define a way to clue in the generator about "Point3d"
+>> having to be interpreted as "point 3d" and "VNCProps" as "vnc
+>> props", then we are golden. That wouldn't be necessary for
+>> simple cases that are already handled correctly.
+>> 
+>> A more radical idea would be to start using dash-notation for
+>> types too. That'd remove the word splitting issue altogether,
+>> at the cost of the schema being (possibly) harder to read and
+>> more distanced from the generated code.
+>> 
+>> You'd still only be able to generate VncProps from vnc-props
+>> though.
+>> 
+>> > > The obvious way to implement this would be with an
+>> > > annotation along the lines of the one I proposed. Other
+>> > > ideas?
+>> >
+>> > I'm afraid having the schema spell out names in multiple
+>> > naming conventions could be onerous.  How many names will
+>> > need it?
+>> 
+>> I don't have hard data on this. I could try extracting it, but
+>> that might end up being a bigger job than I had anticipated.
+>
+> The only way to know is by checking /o\
+> I'll give it a shot.
 
-Dave
+I append a quick hack to find names in a QAPI schema, and sort them into
+buckets "lc" (lower-with-hyphen), "uc" (UPPER_WITH_UNDERSCORE), "cc"
+(CamelCase where words are obvious), and "mc" (everything else, mostly
+CamelCase where words aren't obvious).
 
-> Thanks!
-> 
-> >
-> >
-> > r~
-> >
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Note that this ignores naming rule violations such as upper case enum
+member EAX.
+
+>> My guess is that the number of cases where the naive algorithm
+>> can't split words correctly is relatively small compared to the
+>> size of the entire QAPI schema. Fair warning: I have made
+>> incorrect guesses in the past ;)
+>> 
+>> > Times how many naming conventions?
+>> 
+>> Yeah, I don't think requiring all possible permutations to be
+>> spelled out in the schema is the way to go. That's exactly why
+>> my proposal was to offer a way to inject the semantic
+>> information that the parser can't figure out itself.
+>> 
+>> Once you have a way to inform the generator that "VNCProps" is
+>> made of the two words "vnc" and "props", and that "vnc" is an
+>> acronym, then it can generate an identifier appropriate for the
+>> target language without having to spell out anywhere that such
+>> an identifier would be VNCProps for Go and VncProps for Rust.
+>> 
+>> By the way, while looking around I realized that we also have
+>> to take into account things like D-Bus: the QAPI type
+>> ChardevDBus, for example, would probably translate verbatim to
+>> Go but have to be changed to ChardevDbus for Rust. Fun :)
+>> 
+>> Revised proposal for the annotation:
+>> 
+>>   ns:word-WORD-WoRD-123Word
+>
+> I really like it.
+>
+>> Words are always separated by dashes; "regular" words are
+>> entirely lowercase, while the presence of even a single
+>> uppercase letter in a word denotes the fact that its case
+>> should be preserved when the naming conventions of the target
+>> language allow that.
+>> 
+>> > Another issue: the fancier the translation from schema name
+>> > to language-specific name gets, the harder it becomes to find
+>> > one from the other.
+>> 
+>> That's true, but at least to me the trade-off feels reasonable.
+>
+> I don't quite get the argument why it gets harder to find. We can
+> simply provide the actual name as reference in the generated
+> documentation, no?
+
+Predictable name transformation can save me detours through
+documentation.  Being able to guess the Go bindings just from the QMP
+Reference Manual can be nice: it lets me write Go code with just the QMP
+Reference manual in view.  Being able to guess the name in the QAPI
+schema from the name in the Go bindings can also be nice: it lets me
+look it up in the QMP Reference manual without jumping through the
+bindings documentation.
+
+Or do you envisage a Go bindings manual that fully replaces the QMP
+Reference Manual for developers writing Go?
+
+> As Kevin already pointed out that he is not planning to work on
+> the Alias (reference below), any other idea besides the Andrea's
+> annotation suggestion? While this is not a blocker, I agree it
+> would be nice to be consistent.
+>
+>     https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg04703.html
+
+Let's first try to get a handle on how many schema names are
+problematic.
+
+
+$ git-diff
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 5a1782b57e..804b8ab455 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -94,6 +94,7 @@ def check_name_str(name: str, info: QAPISourceInfo, source: str) -> str:
+     """
+     # Reserve the entire 'q_' namespace for c_name(), and for 'q_empty'
+     # and 'q_obj_*' implicit type names.
++    print("###", name)
+     match = valid_name.match(name)
+     if not match or c_name(name, False).startswith('q_'):
+         raise QAPISemError(info, "%s has an invalid name" % source)
+$ cd bld
+$ python3 ../scripts/qapi-gen.py -o qapi -b ../qapi/qapi-schema.json | sort -u | awk '/^### [a-z0-9-]+$/ { print "lc", $2; next } /^### [A-Z0-9_]+$/ { print "uc", $2; next } /^### ([A-Z][a-z]+)+/ { print "cc", $2; next } { print "mc", $2 }' | sort
+cc Abort
+cc AbortWrapper
+cc AcpiTableOptions
+cc ActionCompletionMode
+cc AddfdInfo
+cc AnnounceParameters
+cc AudioFormat
+cc Audiodev
+cc AudiodevAlsaOptions
+cc AudiodevAlsaPerDirectionOptions
+cc AudiodevCoreaudioOptions
+cc AudiodevCoreaudioPerDirectionOptions
+cc AudiodevDriver
+cc AudiodevDsoundOptions
+cc AudiodevGenericOptions
+cc AudiodevJackOptions
+cc AudiodevJackPerDirectionOptions
+cc AudiodevOssOptions
+cc AudiodevOssPerDirectionOptions
+cc AudiodevPaOptions
+cc AudiodevPaPerDirectionOptions
+cc AudiodevPerDirectionOptions
+cc AudiodevSdlOptions
+cc AudiodevSdlPerDirectionOptions
+cc AudiodevWavOptions
+cc AuthZListFileProperties
+cc AuthZListProperties
+cc AuthZPAMProperties
+cc AuthZSimpleProperties
+cc BackupCommon
+cc BackupPerf
+cc BalloonInfo
+cc BiosAtaTranslation
+cc BitmapMigrationBitmapAlias
+cc BitmapMigrationBitmapAliasTransform
+cc BitmapMigrationNodeAlias
+cc BitmapSyncMode
+cc BlkdebugEvent
+cc BlkdebugIOType
+cc BlkdebugInjectErrorOptions
+cc BlkdebugSetStateOptions
+cc BlockDeviceInfo
+cc BlockDeviceIoStatus
+cc BlockDeviceStats
+cc BlockDeviceTimedStats
+cc BlockDirtyBitmap
+cc BlockDirtyBitmapAdd
+cc BlockDirtyBitmapAddWrapper
+cc BlockDirtyBitmapMerge
+cc BlockDirtyBitmapMergeWrapper
+cc BlockDirtyBitmapOrStr
+cc BlockDirtyBitmapSha256
+cc BlockDirtyBitmapWrapper
+cc BlockDirtyInfo
+cc BlockErrorAction
+cc BlockExportInfo
+cc BlockExportOptions
+cc BlockExportOptionsFuse
+cc BlockExportOptionsNbd
+cc BlockExportOptionsNbdBase
+cc BlockExportOptionsVhostUserBlk
+cc BlockExportRemoveMode
+cc BlockExportType
+cc BlockIOThrottle
+cc BlockInfo
+cc BlockJobInfo
+cc BlockLatencyHistogramInfo
+cc BlockMeasureInfo
+cc BlockPermission
+cc BlockStats
+cc BlockStatsSpecific
+cc BlockStatsSpecificFile
+cc BlockStatsSpecificNvme
+cc BlockdevAioOptions
+cc BlockdevAmendOptions
+cc BlockdevAmendOptionsLUKS
+cc BlockdevAmendOptionsQcow2
+cc BlockdevBackup
+cc BlockdevBackupWrapper
+cc BlockdevCacheInfo
+cc BlockdevCacheOptions
+cc BlockdevChangeReadOnlyMode
+cc BlockdevCreateOptions
+cc BlockdevCreateOptionsFile
+cc BlockdevCreateOptionsGluster
+cc BlockdevCreateOptionsLUKS
+cc BlockdevCreateOptionsNfs
+cc BlockdevCreateOptionsParallels
+cc BlockdevCreateOptionsQcow
+cc BlockdevCreateOptionsQcow2
+cc BlockdevCreateOptionsQed
+cc BlockdevCreateOptionsRbd
+cc BlockdevCreateOptionsSsh
+cc BlockdevCreateOptionsVdi
+cc BlockdevCreateOptionsVhdx
+cc BlockdevCreateOptionsVmdk
+cc BlockdevCreateOptionsVpc
+cc BlockdevDetectZeroesOptions
+cc BlockdevDiscardOptions
+cc BlockdevDriver
+cc BlockdevOnError
+cc BlockdevOptions
+cc BlockdevOptionsBlkdebug
+cc BlockdevOptionsBlklogwrites
+cc BlockdevOptionsBlkreplay
+cc BlockdevOptionsBlkverify
+cc BlockdevOptionsCbw
+cc BlockdevOptionsCor
+cc BlockdevOptionsCurlBase
+cc BlockdevOptionsCurlFtp
+cc BlockdevOptionsCurlFtps
+cc BlockdevOptionsCurlHttp
+cc BlockdevOptionsCurlHttps
+cc BlockdevOptionsFile
+cc BlockdevOptionsGenericCOWFormat
+cc BlockdevOptionsGenericFormat
+cc BlockdevOptionsGluster
+cc BlockdevOptionsIscsi
+cc BlockdevOptionsLUKS
+cc BlockdevOptionsNVMe
+cc BlockdevOptionsNbd
+cc BlockdevOptionsNfs
+cc BlockdevOptionsNull
+cc BlockdevOptionsPreallocate
+cc BlockdevOptionsQcow
+cc BlockdevOptionsQcow2
+cc BlockdevOptionsQuorum
+cc BlockdevOptionsRaw
+cc BlockdevOptionsRbd
+cc BlockdevOptionsReplication
+cc BlockdevOptionsSsh
+cc BlockdevOptionsThrottle
+cc BlockdevOptionsVVFAT
+cc BlockdevQcow2Encryption
+cc BlockdevQcow2EncryptionFormat
+cc BlockdevQcow2Version
+cc BlockdevQcowEncryption
+cc BlockdevQcowEncryptionFormat
+cc BlockdevRef
+cc BlockdevRefOrNull
+cc BlockdevSnapshot
+cc BlockdevSnapshotInternal
+cc BlockdevSnapshotInternalWrapper
+cc BlockdevSnapshotSync
+cc BlockdevSnapshotSyncWrapper
+cc BlockdevSnapshotWrapper
+cc BlockdevVhdxSubformat
+cc BlockdevVmdkAdapterType
+cc BlockdevVmdkSubformat
+cc BlockdevVpcSubformat
+cc CanHostSocketcanProperties
+cc ChardevBackend
+cc ChardevBackendInfo
+cc ChardevBackendKind
+cc ChardevCommon
+cc ChardevCommonWrapper
+cc ChardevDBus
+cc ChardevDBusWrapper
+cc ChardevFile
+cc ChardevFileWrapper
+cc ChardevHostdev
+cc ChardevHostdevWrapper
+cc ChardevInfo
+cc ChardevMux
+cc ChardevMuxWrapper
+cc ChardevQemuVDAgent
+cc ChardevQemuVDAgentWrapper
+cc ChardevReturn
+cc ChardevRingbuf
+cc ChardevRingbufWrapper
+cc ChardevSocket
+cc ChardevSocketWrapper
+cc ChardevSpiceChannel
+cc ChardevSpiceChannelWrapper
+cc ChardevSpicePort
+cc ChardevSpicePortWrapper
+cc ChardevStdio
+cc ChardevStdioWrapper
+cc ChardevUdp
+cc ChardevUdpWrapper
+cc ChardevVC
+cc ChardevVCWrapper
+cc ColoCompareProperties
+cc CommandInfo
+cc CommandLineOptionInfo
+cc CommandLineParameterInfo
+cc CommandLineParameterType
+cc CommandNotFound
+cc CompatPolicy
+cc CompatPolicyInput
+cc CompatPolicyOutput
+cc CompressionStats
+cc CpuDefinitionInfo
+cc CpuInfoFast
+cc CpuInfoS390
+cc CpuInstanceProperties
+cc CpuModelBaselineInfo
+cc CpuModelCompareInfo
+cc CpuModelCompareResult
+cc CpuModelExpansionInfo
+cc CpuModelExpansionType
+cc CpuModelInfo
+cc CpuS390State
+cc CryptodevBackendProperties
+cc CryptodevVhostUserProperties
+cc CurrentMachineParams
+cc DataFormat
+cc DeviceNotActive
+cc DeviceNotFound
+cc DirtyRateInfo
+cc DirtyRateMeasureMode
+cc DirtyRateStatus
+cc DirtyRateVcpu
+cc DisplayCocoa
+cc DisplayCurses
+cc DisplayDBus
+cc DisplayEGLHeadless
+cc DisplayGLMode
+cc DisplayGTK
+cc DisplayOptions
+cc DisplayProtocol
+cc DisplayReloadOptions
+cc DisplayReloadOptionsVNC
+cc DisplayReloadType
+cc DisplayType
+cc DisplayUpdateOptions
+cc DisplayUpdateOptionsVNC
+cc DisplayUpdateType
+cc DriveBackup
+cc DriveBackupWrapper
+cc DriveMirror
+cc DummyForceArrays
+cc DumpGuestMemoryCapability
+cc DumpGuestMemoryFormat
+cc DumpQueryResult
+cc DumpStatus
+cc EventLoopBaseProperties
+cc ExpirePasswordOptions
+cc ExpirePasswordOptionsVnc
+cc FailoverStatus
+cc FdsetFdInfo
+cc FdsetInfo
+cc FilterBufferProperties
+cc FilterDumpProperties
+cc FilterMirrorProperties
+cc FilterRedirectorProperties
+cc FilterRewriterProperties
+cc FloppyDriveType
+cc FuseExportAllowOther
+cc GenericError
+cc GrabToggleKeys
+cc GuestPanicAction
+cc GuestPanicInformation
+cc GuestPanicInformationHyperV
+cc GuestPanicInformationS390
+cc GuestPanicInformationType
+cc GuidInfo
+cc HmatCacheAssociativity
+cc HmatCacheWritePolicy
+cc HmatLBDataType
+cc HmatLBMemoryHierarchy
+cc HostMemPolicy
+cc HotpluggableCPU
+cc HumanReadableText
+cc ImageCheck
+cc ImageFormat
+cc ImageInfo
+cc ImageInfoSpecific
+cc ImageInfoSpecificKind
+cc ImageInfoSpecificLUKSWrapper
+cc ImageInfoSpecificQCow2
+cc ImageInfoSpecificQCow2Encryption
+cc ImageInfoSpecificQCow2EncryptionBase
+cc ImageInfoSpecificQCow2Wrapper
+cc ImageInfoSpecificRbd
+cc ImageInfoSpecificRbdWrapper
+cc ImageInfoSpecificVmdk
+cc ImageInfoSpecificVmdkWrapper
+cc InetSocketAddress
+cc InetSocketAddressBase
+cc InetSocketAddressWrapper
+cc InputAxis
+cc InputBarrierProperties
+cc InputBtnEvent
+cc InputBtnEventWrapper
+cc InputButton
+cc InputEvent
+cc InputEventKind
+cc InputKeyEvent
+cc InputKeyEventWrapper
+cc InputLinuxProperties
+cc InputMoveEvent
+cc InputMoveEventWrapper
+cc IntWrapper
+cc IoOperationType
+cc IothreadProperties
+cc IscsiHeaderDigest
+cc IscsiTransport
+cc JobInfo
+cc JobStatus
+cc JobType
+cc JobVerb
+cc KeyValue
+cc KeyValueKind
+cc KvmInfo
+cc LostTickPolicy
+cc MachineInfo
+cc MainLoopProperties
+cc MapEntry
+cc Memdev
+cc MemoryBackendEpcProperties
+cc MemoryBackendFileProperties
+cc MemoryBackendMemfdProperties
+cc MemoryBackendProperties
+cc MemoryDeviceInfo
+cc MemoryDeviceInfoKind
+cc MemoryFailureAction
+cc MemoryFailureFlags
+cc MemoryFailureRecipient
+cc MemoryInfo
+cc MigrateSetParameters
+cc MigrationCapability
+cc MigrationCapabilityStatus
+cc MigrationInfo
+cc MigrationParameter
+cc MigrationParameters
+cc MigrationStats
+cc MigrationStatus
+cc MirrorCopyMode
+cc MirrorSyncMode
+cc MonitorMode
+cc MonitorOptions
+cc MouseInfo
+cc MultiFDCompression
+cc NameInfo
+cc NbdServerAddOptions
+cc NbdServerOptions
+cc NetClientDriver
+cc NetFilterDirection
+cc NetLegacyNicOptions
+cc Netdev
+cc NetdevBridgeOptions
+cc NetdevHubPortOptions
+cc NetdevL2TPv3Options
+cc NetdevNetmapOptions
+cc NetdevSocketOptions
+cc NetdevTapOptions
+cc NetdevUserOptions
+cc NetdevVdeOptions
+cc NetdevVhostUserOptions
+cc NetdevVhostVDPAOptions
+cc NetfilterInsert
+cc NetfilterProperties
+cc NetworkAddressFamily
+cc NewImageMode
+cc NumaCpuOptions
+cc NumaDistOptions
+cc NumaHmatCacheOptions
+cc NumaHmatLBOptions
+cc NumaNodeOptions
+cc NumaOptions
+cc NumaOptionsType
+cc ObjectOptions
+cc ObjectPropertyInfo
+cc ObjectType
+cc ObjectTypeInfo
+cc OffAutoPCIBAR
+cc OnOffAuto
+cc OnOffSplit
+cc PanicAction
+cc PciBridgeInfo
+cc PciBusInfo
+cc PciDeviceClass
+cc PciDeviceId
+cc PciDeviceInfo
+cc PciInfo
+cc PciMemoryRange
+cc PciMemoryRegion
+cc PrManagerHelperProperties
+cc PreallocMode
+cc QapiErrorClass
+cc Qcow2BitmapInfo
+cc Qcow2BitmapInfoFlags
+cc Qcow2CompressionType
+cc Qcow2OverlapCheckFlags
+cc Qcow2OverlapCheckMode
+cc Qcow2OverlapChecks
+cc QtestProperties
+cc QuorumOpType
+cc QuorumReadPattern
+cc RbdAuthMode
+cc RbdEncryptionCreateOptions
+cc RbdEncryptionCreateOptionsLUKS
+cc RbdEncryptionCreateOptionsLUKS2
+cc RbdEncryptionCreateOptionsLUKSBase
+cc RbdEncryptionOptions
+cc RbdEncryptionOptionsLUKS
+cc RbdEncryptionOptionsLUKS2
+cc RbdEncryptionOptionsLUKSBase
+cc RbdImageEncryptionFormat
+cc RebootAction
+cc RemoteObjectProperties
+cc ReplayInfo
+cc ReplayMode
+cc ReplicationMode
+cc ReplicationStatus
+cc RngEgdProperties
+cc RngProperties
+cc RngRandomProperties
+cc RockerOfDpaFlow
+cc RockerOfDpaFlowAction
+cc RockerOfDpaFlowKey
+cc RockerOfDpaFlowMask
+cc RockerOfDpaGroup
+cc RockerPort
+cc RockerPortAutoneg
+cc RockerPortDuplex
+cc RockerSwitch
+cc RunState
+cc RxFilterInfo
+cc RxState
+cc SchemaInfo
+cc SchemaInfoAlternate
+cc SchemaInfoAlternateMember
+cc SchemaInfoArray
+cc SchemaInfoBuiltin
+cc SchemaInfoCommand
+cc SchemaInfoEnum
+cc SchemaInfoEnumMember
+cc SchemaInfoEvent
+cc SchemaInfoObject
+cc SchemaInfoObjectMember
+cc SchemaInfoObjectVariant
+cc SchemaMetaType
+cc SecretCommonProperties
+cc SecretKeyringProperties
+cc SecretProperties
+cc SetPasswordAction
+cc SetPasswordOptions
+cc SetPasswordOptionsVnc
+cc SevAttestationReport
+cc SevCapability
+cc SevGuestProperties
+cc SevInfo
+cc SevLaunchMeasureInfo
+cc SevState
+cc SgxEPC
+cc SgxEPCDeviceInfo
+cc SgxEPCDeviceInfoWrapper
+cc SgxEPCProperties
+cc ShutdownAction
+cc ShutdownCause
+cc SmbiosEntryPointType
+cc SnapshotInfo
+cc SocketAddress
+cc SocketAddressLegacy
+cc SocketAddressType
+cc SpiceBasicInfo
+cc SpiceChannel
+cc SpiceInfo
+cc SpiceQueryMouseMode
+cc SpiceServerInfo
+cc SshHostKeyCheck
+cc SshHostKeyCheckHashType
+cc SshHostKeyCheckMode
+cc SshHostKeyHash
+cc StatusInfo
+cc StrOrNull
+cc String
+cc StringWrapper
+cc SysEmuTarget
+cc TargetInfo
+cc ThrottleGroupProperties
+cc ThrottleLimits
+cc TlsCredsAnonProperties
+cc TlsCredsProperties
+cc TlsCredsPskProperties
+cc TlsCredsX509Properties
+cc TpmModel
+cc TpmType
+cc TpmTypeOptions
+cc TraceEventInfo
+cc TraceEventState
+cc TransactionAction
+cc TransactionActionKind
+cc TransactionProperties
+cc UnixSocketAddress
+cc UnixSocketAddressWrapper
+cc UuidInfo
+cc VersionInfo
+cc VersionTriple
+cc VfioStats
+cc VirtioMEMDeviceInfo
+cc VirtioMEMDeviceInfoWrapper
+cc VirtioPMEMDeviceInfo
+cc VirtioPMEMDeviceInfoWrapper
+cc VncBasicInfo
+cc VncClientInfo
+cc VncInfo
+cc VncInfo2
+cc VncPrimaryAuth
+cc VncServerInfo
+cc VncServerInfo2
+cc VncVencryptSubAuth
+cc VsockSocketAddress
+cc VsockSocketAddressWrapper
+cc WatchdogAction
+cc YankInstance
+cc YankInstanceBlockNode
+cc YankInstanceChardev
+cc YankInstanceType
+lc a
+lc aarch64
+lc abort
+lc aborting
+lc abs
+lc absolute
+lc absolute-paths
+lc abstract
+lc accept
+lc access-bandwidth
+lc access-latency
+lc action
+lc action-required
+lc actions
+lc active
+lc active-l1
+lc active-l2
+lc actual
+lc actual-size
+lc adapter-type
+lc add-fd
+lc addr
+lc address
+lc addresses
+lc aes
+lc aes-128
+lc aes-192
+lc aes-256
+lc again
+lc aio
+lc aio-max-batch
+lc alias
+lc alias-of
+lc align
+lc aligned-accesses
+lc all
+lc allocated-clusters
+lc allocation-depth
+lc allow
+lc allow-oob
+lc allow-other
+lc allow-write-only-overlay
+lc alpha
+lc alsa
+lc alt
+lc alt-alt
+lc alternate
+lc always
+lc amend
+lc amount-exceeded
+lc announce-initial
+lc announce-max
+lc announce-rounds
+lc announce-self
+lc announce-step
+lc api-major
+lc api-minor
+lc apostrophe
+lc append
+lc arch
+lc arg-type
+lc arg1
+lc arg2
+lc arg3
+lc arg4
+lc arg5
+lc arm
+lc array
+lc associativity
+lc asterisk
+lc audiodev
+lc audiomute
+lc audionext
+lc audioplay
+lc audioprev
+lc audiostop
+lc auth
+lc auth-client-required
+lc authz-list
+lc authz-listfile
+lc authz-pam
+lc authz-simple
+lc auto
+lc auto-converge
+lc auto-dismiss
+lc auto-finalize
+lc auto-read-only
+lc autoneg
+lc avr
+lc axis
+lc b
+lc backend
+lc background
+lc background-snapshot
+lc backing
+lc backing-file
+lc backing-filename
+lc backing-filename-format
+lc backing-fmt
+lc backing-image
+lc backslash
+lc backspace
+lc backup
+lc balloon
+lc bandwidth
+lc bar
+lc bar0
+lc bar1
+lc bar2
+lc bar3
+lc bar4
+lc bar5
+lc base
+lc base-memory
+lc base-node
+lc base64
+lc before
+lc begin
+lc behind
+lc bind
+lc bins
+lc bitmap
+lc bitmap-directory
+lc bitmap-mode
+lc bitmaps
+lc blk
+lc blkdebug
+lc blklogwrites
+lc blkreplay
+lc blkverify
+lc block
+lc block-backend
+lc block-bitmap-mapping
+lc block-commit
+lc block-dirty-bitmap-add
+lc block-dirty-bitmap-clear
+lc block-dirty-bitmap-disable
+lc block-dirty-bitmap-enable
+lc block-dirty-bitmap-merge
+lc block-dirty-bitmap-remove
+lc block-driver
+lc block-export-add
+lc block-export-del
+lc block-incremental
+lc block-job
+lc block-job-cancel
+lc block-job-complete
+lc block-job-dismiss
+lc block-job-finalize
+lc block-job-pause
+lc block-job-resume
+lc block-job-set-speed
+lc block-latency-histogram-set
+lc block-node
+lc block-set-write-threshold
+lc block-size
+lc block-state-zero
+lc block-status
+lc block-stream
+lc blockdev-add
+lc blockdev-backup
+lc blockdev-change-medium
+lc blockdev-close-tray
+lc blockdev-create
+lc blockdev-del
+lc blockdev-insert-medium
+lc blockdev-mirror
+lc blockdev-open-tray
+lc blockdev-remove-medium
+lc blockdev-reopen
+lc blockdev-snapshot
+lc blockdev-snapshot-delete-internal-sync
+lc blockdev-snapshot-internal-sync
+lc blockdev-snapshot-sync
+lc blocked-reasons
+lc bochs
+lc boolean
+lc bootfile
+lc bottom
+lc boundaries
+lc boundaries-flush
+lc boundaries-read
+lc boundaries-write
+lc bps
+lc bps-read
+lc bps-read-max
+lc bps-read-max-length
+lc bps-total
+lc bps-total-max
+lc bps-total-max-length
+lc bps-write
+lc bps-write-max
+lc bps-write-max-length
+lc br
+lc braille
+lc bridge
+lc broadcast-allowed
+lc btn
+lc buf-size
+lc buffer-count
+lc buffer-length
+lc build-id
+lc builtin
+lc bus
+lc buslogic
+lc busy
+lc busy-rate
+lc button
+lc bytes
+lc c
+lc cache
+lc cache-clean-interval
+lc cache-miss
+lc cache-miss-rate
+lc cache-size
+lc cached
+lc calc-dirty-rate
+lc calc-time
+lc calculator
+lc can-bus
+lc can-host-socketcan
+lc canbus
+lc cancel
+lc cancel-path
+lc cancelled
+lc cancelling
+lc capabilities
+lc capability
+lc case
+lc cast5-128
+lc cbc
+lc cbitpos
+lc cephx
+lc cert-chain
+lc cert-subject
+lc change-backing-file
+lc change-vnc-password
+lc channel-id
+lc channel-type
+lc channels
+lc chardev
+lc chardev-add
+lc chardev-change
+lc chardev-remove
+lc chardev-send-break
+lc charset
+lc check-errors
+lc check-stop
+lc checkpoint-ready
+lc checkpoint-reply
+lc checkpoint-request
+lc child
+lc children
+lc cid
+lc cipher-alg
+lc cipher-mode
+lc class
+lc client
+lc client-name
+lc clients
+lc clipboard
+lc cloop
+lc closefd
+lc cluster-id
+lc cluster-size
+lc clusters
+lc cocoa
+lc colo
+lc colo-compare
+lc cols
+lc comma
+lc command
+lc command-line
+lc commit
+lc compat
+lc compiled-version
+lc complete
+lc completed
+lc completion-errors
+lc completion-mode
+lc complex
+lc compose
+lc compress
+lc compress-level
+lc compress-threads
+lc compress-wait-thread
+lc compressed
+lc compressed-clusters
+lc compressed-size
+lc compression
+lc compression-rate
+lc compression-type
+lc computer
+lc concluded
+lc conf
+lc config
+lc connect
+lc connect-ports
+lc connected
+lc connection-id
+lc consistent-read
+lc console
+lc constant
+lc cont
+lc control
+lc cookie
+lc cookie-secret
+lc cookie64
+lc copy
+lc copy-before-write
+lc copy-mode
+lc copy-on-read
+lc core
+lc core-id
+lc coreaudio
+lc cores
+lc corrupt
+lc corruptions
+lc corruptions-fixed
+lc count
+lc counter
+lc cpu
+lc cpu-index
+lc cpu-max
+lc cpu-state
+lc cpu-throttle-increment
+lc cpu-throttle-initial
+lc cpu-throttle-percentage
+lc cpu-throttle-tailslow
+lc cpu0-id
+lc cpuid-input-eax
+lc cpuid-input-ecx
+lc cpuid-register
+lc cpus
+lc crash
+lc crc32c
+lc crc32c-none
+lc create
+lc create-type
+lc created
+lc cris
+lc cryptodev-backend
+lc cryptodev-backend-builtin
+lc cryptodev-vhost-user
+lc ctr
+lc ctrl
+lc ctrl-ctrl
+lc ctrl-scrolllock
+lc current
+lc current-progress
+lc curses
+lc cut
+lc d
+lc d0
+lc d1
+lc d12
+lc d120
+lc d144
+lc d16
+lc d2
+lc d288
+lc d3
+lc d32
+lc d3des
+lc d4
+lc d5
+lc d6
+lc d64
+lc d7
+lc d8
+lc d9
+lc data
+lc data-file
+lc data-file-raw
+lc data-type
+lc date-nsec
+lc date-sec
+lc dbus
+lc dbus-vmstate
+lc debug
+lc decompress-threads
+lc default
+lc default-cpu-type
+lc default-ram-id
+lc default-value
+lc definition
+lc delay
+lc delete
+lc deny
+lc deprecated
+lc deprecated-input
+lc deprecated-output
+lc depth
+lc des
+lc desc
+lc description
+lc detach
+lc detect-zeroes
+lc dev
+lc device
+lc device-id
+lc device-list-properties
+lc devices
+lc devid
+lc devname
+lc dh-cert-file
+lc dhcpstart
+lc die-id
+lc dies
+lc dimm
+lc dir
+lc direct
+lc dirty-bitmap
+lc dirty-bitmaps
+lc dirty-flag
+lc dirty-pages-rate
+lc dirty-rate
+lc dirty-ring
+lc dirty-sync-count
+lc disabled
+lc disabled-wait
+lc discard
+lc discard-bytes-ok
+lc discard-data
+lc discard-nb-failed
+lc discard-nb-ok
+lc disconnect
+lc disk
+lc dismiss
+lc display
+lc display-reload
+lc display-update
+lc dist
+lc dmg
+lc dns
+lc dnssearch
+lc domainname
+lc dot
+lc down
+lc downscript
+lc downtime
+lc downtime-bytes
+lc downtime-limit
+lc drive-backup
+lc drive-mirror
+lc driver
+lc driver-specific
+lc drop-cache
+lc drv
+lc dsound
+lc dsp-policy
+lc dst
+lc dstport
+lc dump
+lc dump-guest-memory
+lc dump-skeys
+lc duplex
+lc duplicate
+lc dynamic
+lc dynamic-auto-read-only
+lc e
+lc ecb
+lc edges
+lc egl-headless
+lc eject
+lc element-type
+lc elf
+lc emulated
+lc emulator
+lc enable
+lc enabled
+lc encoding-rate
+lc encrypt
+lc encrypted
+lc encryption-format
+lc end
+lc endpoint
+lc enospc
+lc enum
+lc equal
+lc errno
+lc error
+lc error-desc
+lc es
+lc esc
+lc essiv
+lc eth-dst
+lc eth-src
+lc eth-type
+lc evdev
+lc event
+lc events
+lc exact
+lc exact-name
+lc exclusive
+lc existing
+lc expected-downtime
+lc export
+lc extended-l2
+lc extent-size-hint
+lc extents
+lc external
+lc extint-loop
+lc extra
+lc f
+lc f1
+lc f10
+lc f11
+lc f12
+lc f2
+lc f3
+lc f32
+lc f4
+lc f5
+lc f6
+lc f7
+lc f8
+lc f9
+lc fail
+lc failed
+lc failover
+lc falloc
+lc family
+lc fat-type
+lc fatal
+lc fd
+lc fdname
+lc fds
+lc fdset-id
+lc features
+lc fifo
+lc file
+lc filename
+lc filter-buffer
+lc filter-dump
+lc filter-mirror
+lc filter-node-name
+lc filter-redirector
+lc filter-replay
+lc filter-rewriter
+lc finalize
+lc find
+lc finish-migrate
+lc first-level
+lc fixed
+lc fixed-iothread
+lc fixed-settings
+lc flags
+lc flat
+lc flc
+lc floppy
+lc flush
+lc force
+lc force-share
+lc force-size
+lc format
+lc format-specific
+lc formats
+lc fqdn
+lc fragmented-clusters
+lc frequency
+lc front
+lc frontend-open
+lc ftp
+lc ftps
+lc full
+lc full-backing-filename
+lc full-grab
+lc full-screen
+lc fully-allocated
+lc function
+lc fuse
+lc g
+lc getfd
+lc gid-status
+lc gl
+lc glob
+lc gluster
+lc goto-tbl
+lc gpa
+lc grab-on-hover
+lc grab-toggle
+lc granularity
+lc group
+lc group-id
+lc group-ids
+lc grouped
+lc growable
+lc gtk
+lc guest
+lc guest-panic
+lc guest-panicked
+lc guest-reset
+lc guest-shutdown
+lc guestfwd
+lc guid
+lc h
+lc half
+lc handle
+lc hard
+lc hash
+lc hash-alg
+lc head
+lc header-digest
+lc height
+lc help
+lc helper
+lc henkan
+lc hide
+lc hierarchy
+lc hiragana
+lc hits
+lc hmat-cache
+lc hmat-lb
+lc hold-time
+lc home
+lc host
+lc host-error
+lc host-key-check
+lc host-nodes
+lc host-qmp-quit
+lc host-qmp-system-reset
+lc host-signal
+lc host-ui
+lc hostfwd
+lc hostname
+lc hotpluggable
+lc hotpluggable-cpus
+lc hotplugged
+lc hppa
+lc http
+lc https
+lc hubid
+lc hubport
+lc hugetlb
+lc hugetlbsize
+lc human-monitor-command
+lc human-readable-text
+lc hwversion
+lc hyper-v
+lc hypervisor
+lc i
+lc i386
+lc icount
+lc id
+lc id-list
+lc ide
+lc identical
+lc identity
+lc if
+lc ifname
+lc ignore
+lc ignore-unavailable
+lc image
+lc image-end-offset
+lc image-node-name
+lc immediately
+lc implements
+lc in
+lc in-pport
+lc in-use
+lc inactive
+lc inactive-l1
+lc inactive-l2
+lc inc
+lc incompatible
+lc inconsistent
+lc incremental
+lc indev
+lc index
+lc individual
+lc inet
+lc info
+lc initial
+lc initiator
+lc initiator-name
+lc inject
+lc inject-error
+lc inject-nmi
+lc inmigrate
+lc input-barrier
+lc input-linux
+lc input-send-event
+lc insert
+lc inserted
+lc instances
+lc int
+lc interface-id
+lc interfaces
+lc interleave
+lc internal-error
+lc interval
+lc io-error
+lc io-status
+lc iops
+lc iops-read
+lc iops-read-max
+lc iops-read-max-length
+lc iops-size
+lc iops-total
+lc iops-total-max
+lc iops-total-max-length
+lc iops-write
+lc iops-write-max
+lc iops-write-max-length
+lc iothread
+lc iotype
+lc ip
+lc ip-dst
+lc ip-proto
+lc ip-tos
+lc ipv4
+lc ipv6
+lc ipv6-dns
+lc ipv6-host
+lc ipv6-prefix
+lc ipv6-prefixlen
+lc irq
+lc is-default
+lc iscsi
+lc iser
+lc iter-time
+lc iters
+lc iv
+lc ivgen-alg
+lc ivgen-hash-alg
+lc j
+lc jack
+lc job-cancel
+lc job-complete
+lc job-dismiss
+lc job-finalize
+lc job-id
+lc job-pause
+lc job-resume
+lc json-cli
+lc json-cli-hotplug
+lc json-type
+lc k
+lc katakanahiragana
+lc kdump-lzo
+lc kdump-snappy
+lc kdump-zlib
+lc keep
+lc keep-alive
+lc kernel
+lc kernel-hashes
+lc key
+lc key-offset
+lc key-secret
+lc keyid
+lc keys
+lc keyslot
+lc l
+lc l2-cache-entry-size
+lc l2-cache-size
+lc l2tpv3
+lc label
+lc lang1
+lc lang2
+lc large
+lc last-mode
+lc late-block-activate
+lc latency
+lc latency-ns
+lc launch-secret
+lc launch-update
+lc lazy-refcounts
+lc lba
+lc leaks
+lc leaks-fixed
+lc left
+lc left-command-key
+lc len
+lc length
+lc less
+lc level
+lc lf
+lc limit
+lc limits
+lc line
+lc link-up
+lc listen
+lc live
+lc load
+lc loaded
+lc local
+lc localaddr
+lc location
+lc locked
+lc locking
+lc log
+lc log-append
+lc log-sector-size
+lc log-size
+lc log-super-update-interval
+lc logappend
+lc logfile
+lc logical-block-size
+lc lsilogic
+lc luks
+lc luks2
+lc lun
+lc m
+lc m68k
+lc macaddr
+lc mail
+lc main-header
+lc main-loop
+lc main-mac
+lc major
+lc mask
+lc master-key-iters
+lc match
+lc max
+lc max-bandwidth
+lc max-chunk
+lc max-connections
+lc max-cpu-throttle
+lc max-discard
+lc max-postcopy-bandwidth
+lc max-size
+lc max-transfer
+lc max-workers
+lc max-write-zero
+lc maxcpus
+lc maxlen
+lc mbps
+lc mcast
+lc md5
+lc measured
+lc measuring
+lc mediaselect
+lc mem
+lc mem-path
+lc memaddr
+lc members
+lc memdev
+lc memory
+lc memory-backend-epc
+lc memory-backend-file
+lc memory-backend-memfd
+lc memory-backend-ram
+lc memsave
+lc menu
+lc merge
+lc meta-meta
+lc meta-type
+lc metadata
+lc micro
+lc microblaze
+lc microblazeel
+lc middle
+lc migrate
+lc migrate-continue
+lc migrate-incoming
+lc migrate-pause
+lc migrate-recover
+lc migrate-set-capabilities
+lc migrate-set-parameters
+lc migrate-start-postcopy
+lc migrated
+lc migration
+lc migration-safe
+lc minor
+lc minus
+lc mips
+lc mips64
+lc mips64el
+lc mipsel
+lc mirror
+lc mixing-engine
+lc mnonce
+lc mode
+lc model
+lc modela
+lc modelb
+lc mountpoint
+lc mouse
+lc mouse-mode
+lc mptcp
+lc msg
+lc msmouse
+lc muhenkan
+lc multicast
+lc multicast-overflow
+lc multicast-table
+lc multifd
+lc multifd-bytes
+lc multifd-channels
+lc multifd-compression
+lc multifd-zlib-level
+lc multifd-zstd-level
+lc mux
+lc n
+lc name
+lc namespace
+lc native
+lc nbd
+lc nbd-server-add
+lc nbd-server-remove
+lc nbd-server-start
+lc nbd-server-stop
+lc net
+lc netdev
+lc netmap
+lc never
+lc new-secret
+lc new-vlan-id
+lc nfs
+lc nic
+lc nios2
+lc no-flush
+lc nocow
+lc node
+lc node-id
+lc node-name
+lc nodeid
+lc nodelay
+lc nodes
+lc none
+lc none-crc32c
+lc normal
+lc normal-bytes
+lc nospace
+lc null
+lc null-aio
+lc null-co
+lc num-queues
+lc numa-mem-supported
+lc number
+lc numeric
+lc nvdimm
+lc nvme
+lc o
+lc object
+lc object-add
+lc object-del
+lc off
+lc offset
+lc ok
+lc old-secret
+lc on
+lc on-error
+lc on-source-error
+lc on-success
+lc on-target-error
+lc once
+lc oob
+lc opaque
+lc open
+lc open-timeout
+lc opened
+lc operating
+lc operation
+lc opint-loop
+lc opt-discard
+lc opt-write-zero
+lc option
+lc options
+lc or1k
+lc oss
+lc out
+lc out-pport
+lc outdev
+lc overflow
+lc overlap-check
+lc overlay
+lc p
+lc p2p
+lc pa
+lc package
+lc packet-header
+lc page-cache-size
+lc page-sampling
+lc page-size
+lc pages
+lc pages-per-second
+lc paging
+lc panic
+lc parallel
+lc parallels
+lc parameters
+lc parent
+lc parent-cid
+lc pass
+lc pass-discard-other
+lc pass-discard-request
+lc pass-discard-snapshot
+lc passthrough
+lc password
+lc password-secret
+lc passwordid
+lc paste
+lc path
+lc pause
+lc pause-before-switchover
+lc paused
+lc payload-offset
+lc pdh
+lc pef-guest
+lc pending
+lc period-length
+lc perm
+lc persistent
+lc pgdn
+lc pgmint-loop
+lc pgup
+lc pincounter
+lc pipe
+lc plain
+lc plain64
+lc play
+lc plugged-memory
+lc pmem
+lc pmemsave
+lc png
+lc policy
+lc poll-grow
+lc poll-max-ns
+lc poll-shrink
+lc poll-us
+lc pool
+lc pop-vlan
+lc port
+lc portal
+lc ports
+lc position
+lc postcopy-active
+lc postcopy-blocktime
+lc postcopy-bytes
+lc postcopy-paused
+lc postcopy-ram
+lc postcopy-recover
+lc postcopy-requests
+lc postcopy-vcpu-blocktime
+lc postmigrate
+lc power
+lc poweroff
+lc ppc
+lc ppc64
+lc ppm
+lc pport
+lc pr-manager
+lc pr-manager-helper
+lc pre-switchover
+lc prealloc
+lc prealloc-align
+lc prealloc-size
+lc prealloc-threads
+lc preallocate
+lc preallocation
+lc precopy-bytes
+lc preferred
+lc prefetch
+lc prelaunch
+lc present
+lc pretty
+lc primary
+lc print
+lc priority
+lc processing
+lc promiscuous
+lc properties
+lc property
+lc props
+lc protocol
+lc proxy-password-secret
+lc proxy-username
+lc psw-addr
+lc psw-mask
+lc pty
+lc pwritev
+lc q
+lc qcode
+lc qcow
+lc qcow2
+lc qdev
+lc qed
+lc qemu
+lc qemu-vdagent
+lc qom-get
+lc qom-list
+lc qom-list-properties
+lc qom-list-types
+lc qom-path
+lc qom-set
+lc qom-type
+lc qtest
+lc query-acpi-ospm-status
+lc query-balloon
+lc query-block
+lc query-block-exports
+lc query-block-jobs
+lc query-blockstats
+lc query-chardev
+lc query-chardev-backends
+lc query-colo-status
+lc query-command-line-options
+lc query-commands
+lc query-cpu-definitions
+lc query-cpu-model-baseline
+lc query-cpu-model-comparison
+lc query-cpu-model-expansion
+lc query-cpus-fast
+lc query-current-machine
+lc query-dirty-rate
+lc query-display-options
+lc query-dump
+lc query-dump-guest-memory-capability
+lc query-fdsets
+lc query-gic-capabilities
+lc query-hotpluggable-cpus
+lc query-iothreads
+lc query-jobs
+lc query-kvm
+lc query-machines
+lc query-memdev
+lc query-memory-devices
+lc query-memory-size-summary
+lc query-mice
+lc query-migrate
+lc query-migrate-capabilities
+lc query-migrate-parameters
+lc query-name
+lc query-named-block-nodes
+lc query-nodes
+lc query-pci
+lc query-pr-managers
+lc query-qmp-schema
+lc query-replay
+lc query-rocker
+lc query-rocker-of-dpa-flows
+lc query-rocker-of-dpa-groups
+lc query-rocker-ports
+lc query-rx-filter
+lc query-sev
+lc query-sev-attestation-report
+lc query-sev-capabilities
+lc query-sev-launch-measure
+lc query-sgx
+lc query-sgx-capabilities
+lc query-spice
+lc query-status
+lc query-target
+lc query-tpm
+lc query-tpm-models
+lc query-tpm-types
+lc query-uuid
+lc query-version
+lc query-vm-generation-id
+lc query-vnc
+lc query-vnc-servers
+lc query-xen-replication-status
+lc query-yank
+lc queue
+lc queues
+lc quit
+lc quorum
+lc r
+lc ra2
+lc ra2ne
+lc ram
+lc raw
+lc rbd
+lc rdma-pin-all
+lc read
+lc read-bandwidth
+lc read-latency
+lc read-only
+lc read-only-mode
+lc read-pattern
+lc read-write
+lc read-zeroes
+lc readahead
+lc readahead-size
+lc readline
+lc readonly
+lc ready
+lc reason
+lc reboot
+lc receive-update
+lc rechs
+lc recipient
+lc reconnect
+lc reconnect-delay
+lc record
+lc recording
+lc recursive
+lc reduced-phys-bits
+lc refcount-bits
+lc refcount-block
+lc refcount-cache-size
+lc refcount-table
+lc reference
+lc refresh
+lc regions
+lc reject
+lc rel
+lc relaunch
+lc release-ram
+lc remaining
+lc remote
+lc removable
+lc remove-fd
+lc rendernode
+lc repeat
+lc replaces
+lc replay-break
+lc replay-delete-break
+lc replay-seek
+lc replication
+lc report
+lc request
+lc requested-size
+lc require
+lc required
+lc reserve
+lc reset
+lc resize
+lc responsible-properties
+lc restore-vm
+lc restrict
+lc result
+lc resume
+lc ret
+lc ret-type
+lc retain
+lc return-path
+lc rev
+lc rewrite-corrupted
+lc right
+lc ringbuf
+lc ringbuf-read
+lc ringbuf-write
+lc ripemd160
+lc riscv32
+lc riscv64
+lc rng-builtin
+lc rng-egd
+lc rng-random
+lc ro
+lc rounds
+lc rows
+lc rtc-reset-reinjection
+lc rules
+lc run
+lc running
+lc rw
+lc rx
+lc rxcookie
+lc rxsession
+lc s
+lc s16
+lc s32
+lc s390
+lc s390-pv-guest
+lc s390x
+lc s8
+lc safe
+lc sample-pages
+lc sanity-check
+lc sasl
+lc save-vm
+lc savevm-monitor-nodes
+lc screendump
+lc script
+lc scrolllock
+lc sdl
+lc seal
+lc second-level
+lc secondary
+lc secret
+lc section-size
+lc sections
+lc sector
+lc sector-num
+lc sectors-count
+lc semicolon
+lc send-key
+lc send-update
+lc serial
+lc serpent-128
+lc serpent-192
+lc serpent-256
+lc server
+lc server-name
+lc service
+lc session-file
+lc set-action
+lc set-eth-dst
+lc set-eth-src
+lc set-numa-node
+lc set-speed
+lc set-state
+lc set-vlan-id
+lc setup
+lc setup-time
+lc sev-device
+lc sev-guest
+lc sev-inject-launch-secret
+lc sgx
+lc sgx-epc
+lc sgx1
+lc sgx2
+lc sh4
+lc sh4eb
+lc sha1
+lc sha224
+lc sha256
+lc sha384
+lc sha512
+lc share
+lc shared-perm
+lc shift
+lc shift-shift
+lc show-cursor
+lc shutdown
+lc shutting-down
+lc side
+lc sig
+lc signal
+lc singlestep
+lc size
+lc skipauth
+lc skipped
+lc slash
+lc sleep
+lc slew
+lc slot
+lc slot-type
+lc slots
+lc smb
+lc smbserver
+lc snapshot
+lc snapshot-access
+lc snapshot-delete
+lc snapshot-file
+lc snapshot-load
+lc snapshot-node-name
+lc snapshot-save
+lc snapshot-table
+lc snapshots
+lc sndbuf
+lc sock
+lc socket
+lc socket-address
+lc socket-id
+lc sockets
+lc source
+lc sparc
+lc sparc64
+lc spc
+lc speed
+lc spice
+lc spice-app
+lc spiceport
+lc spicevmc
+lc split
+lc src
+lc srcport
+lc ssh
+lc sslverify
+lc standby
+lc start
+lc start-server
+lc start-time
+lc state
+lc static
+lc stats
+lc status
+lc stdio
+lc step
+lc stop
+lc stopped
+lc str
+lc stream
+lc stream-name
+lc string
+lc stripes
+lc subformat
+lc subnet-prefix
+lc subordinate
+lc subset
+lc subsystem
+lc subsystem-reset
+lc subsystem-vendor
+lc superset
+lc suspended
+lc swap-opt-cmd
+lc sync
+lc sysrq
+lc t
+lc tab
+lc table-size
+lc tag
+lc take-child-perms
+lc tap
+lc target
+lc tbl-id
+lc tcp
+lc tcp-syn-count
+lc telnet
+lc template
+lc test
+lc testdev
+lc tftp
+lc tftp-server-name
+lc third-level
+lc thread-id
+lc thread-pool-max
+lc thread-pool-min
+lc threads
+lc threshold
+lc throttle
+lc throttle-group
+lc throttle-trigger-threshold
+lc tight
+lc time
+lc timeout
+lc timer-period
+lc tls
+lc tls-authz
+lc tls-certs
+lc tls-cipher-suites
+lc tls-creds
+lc tls-creds-anon
+lc tls-creds-psk
+lc tls-creds-x509
+lc tls-hostname
+lc tls-none
+lc tls-plain
+lc tls-port
+lc tls-sasl
+lc tls-vnc
+lc tn3270
+lc to
+lc toolsversion
+lc top
+lc top-id
+lc top-node
+lc total
+lc total-clusters
+lc total-progress
+lc total-time
+lc tpm-crb
+lc tpm-spapr
+lc tpm-tis
+lc trace-event-get-state
+lc trace-event-set-state
+lc transaction
+lc transferred
+lc transform
+lc transport
+lc tray-open
+lc tricore
+lc try-mmap
+lc try-poll
+lc ttl-check
+lc tunnel-id
+lc tunnel-lport
+lc twofish-128
+lc twofish-192
+lc twofish-256
+lc tx
+lc txcookie
+lc txsession
+lc type
+lc typename
+lc u
+lc u16
+lc u32
+lc u8
+lc udp
+lc ultra
+lc unaligned-accesses
+lc unavailable
+lc unavailable-features
+lc undefined
+lc undo
+lc unicast
+lc unicast-overflow
+lc unicast-table
+lc uninit
+lc uninitialized
+lc unix
+lc unknown
+lc unmap
+lc unmapped
+lc unshare-child-perms
+lc unstable
+lc unstable-input
+lc unstable-output
+lc unstarted
+lc unused
+lc up
+lc uri
+lc url
+lc use-copy-range
+lc user
+lc username
+lc utf8
+lc uuid
+lc v
+lc v2
+lc v3
+lc val
+lc validate-uuid
+lc value
+lc values
+lc variants
+lc vc
+lc vcpu
+lc vcpu-dirty-rate
+lc vcpus-count
+lc vde
+lc vdi
+lc vectors
+lc vencrypt
+lc vendor
+lc verify-peer
+lc version
+lc vfio
+lc vhdx
+lc vhost
+lc vhost-user
+lc vhost-user-blk
+lc vhost-vdpa
+lc vhostdev
+lc vhostfd
+lc vhostfds
+lc vhostforce
+lc virtio-mem
+lc virtio-pmem
+lc virtual-size
+lc vlan
+lc vlan-id
+lc vlan-table
+lc vm-clock-nsec
+lc vm-clock-sec
+lc vm-state-size
+lc vmdk
+lc vmstate
+lc vmstate-loaded
+lc vmstate-received
+lc vmstate-send
+lc vmstate-size
+lc vnc
+lc voices
+lc volume
+lc volumedown
+lc volumeup
+lc vote-threshold
+lc vpc
+lc vsock
+lc vvfat
+lc w
+lc wait
+lc wait-unplug
+lc waiting
+lc wake
+lc wakeup-suspend-support
+lc watchdog
+lc watchdog-set-action
+lc wav
+lc wctablet
+lc websocket
+lc wheel-down
+lc wheel-left
+lc wheel-right
+lc wheel-up
+lc width
+lc win-dmp
+lc window-close
+lc writable
+lc write
+lc write-back
+lc write-bandwidth
+lc write-blocking
+lc write-latency
+lc write-threshold
+lc write-through
+lc write-unchanged
+lc write-zeroes
+lc writeback
+lc writethrough
+lc x
+lc x-blockdev-amend
+lc x-blockdev-change
+lc x-blockdev-set-iothread
+lc x-bps-read
+lc x-bps-read-max
+lc x-bps-read-max-length
+lc x-bps-total
+lc x-bps-total-max
+lc x-bps-total-max-length
+lc x-bps-write
+lc x-bps-write-max
+lc x-bps-write-max-length
+lc x-check-cache-dropped
+lc x-checkpoint-delay
+lc x-colo
+lc x-colo-lost-heartbeat
+lc x-debug-block-dirty-bitmap-sha256
+lc x-debug-query-block-graph
+lc x-dirty-bitmap
+lc x-exit-preconfig
+lc x-ignore-shared
+lc x-iops-read
+lc x-iops-read-max
+lc x-iops-read-max-length
+lc x-iops-size
+lc x-iops-total
+lc x-iops-total-max
+lc x-iops-total-max-length
+lc x-iops-write
+lc x-iops-write-max
+lc x-iops-write-max-length
+lc x-origin
+lc x-perf
+lc x-query-irq
+lc x-query-jit
+lc x-query-numa
+lc x-query-opcount
+lc x-query-profile
+lc x-query-ramblock
+lc x-query-rdma
+lc x-query-roms
+lc x-query-usb
+lc x-remote-object
+lc x-use-canonical-path-for-ramblock-id
+lc x509-none
+lc x509-plain
+lc x509-sasl
+lc x509-vnc
+lc xbzrle
+lc xbzrle-cache
+lc xbzrle-cache-size
+lc xen-colo-do-checkpoint
+lc xen-load-devices-state
+lc xen-save-devices-state
+lc xen-set-global-dirty-log
+lc xen-set-replication
+lc xtensa
+lc xtensaeb
+lc xts
+lc y
+lc y-origin
+lc yank
+lc yen
+lc z
+lc zero
+lc zero-blocks
+lc zeroed-grain
+lc zlib
+lc zoom-to-fit
+lc zstd
+mc ACPIOSTInfo
+mc ACPISlotType
+mc COLOExitReason
+mc COLOMessage
+mc COLOMode
+mc COLOStatus
+mc DBusVMStateProperties
+mc GICCapability
+mc IOThreadInfo
+mc JSONType
+mc KVMMissingCap
+mc NFSServer
+mc NFSTransport
+mc PCDIMMDeviceInfo
+mc PCDIMMDeviceInfoWrapper
+mc PCIELinkSpeed
+mc PCIELinkWidth
+mc PRManagerInfo
+mc QAuthZListFormat
+mc QAuthZListPolicy
+mc QAuthZListRule
+mc QCryptoBlockAmendOptions
+mc QCryptoBlockAmendOptionsLUKS
+mc QCryptoBlockCreateOptions
+mc QCryptoBlockCreateOptionsLUKS
+mc QCryptoBlockFormat
+mc QCryptoBlockInfo
+mc QCryptoBlockInfoBase
+mc QCryptoBlockInfoLUKS
+mc QCryptoBlockInfoLUKSSlot
+mc QCryptoBlockLUKSKeyslotState
+mc QCryptoBlockOpenOptions
+mc QCryptoBlockOptionsBase
+mc QCryptoBlockOptionsLUKS
+mc QCryptoBlockOptionsQCow
+mc QCryptoCipherAlgorithm
+mc QCryptoCipherMode
+mc QCryptoHashAlgorithm
+mc QCryptoIVGenAlgorithm
+mc QCryptoSecretFormat
+mc QCryptoTLSCredsEndpoint
+mc QKeyCode
+mc QKeyCodeWrapper
+mc QMPCapability
+mc S390CrashReason
+mc SGXEPCSection
+mc SGXInfo
+mc SMPConfiguration
+mc TPMEmulatorOptions
+mc TPMEmulatorOptionsWrapper
+mc TPMInfo
+mc TPMPassthroughOptions
+mc TPMPassthroughOptionsWrapper
+mc X86CPUFeatureWordInfo
+mc X86CPURegister32
+mc XBZRLECacheStats
+mc XDbgBlockGraph
+mc XDbgBlockGraphEdge
+mc XDbgBlockGraphNode
+mc XDbgBlockGraphNodeType
+mc ac_back
+mc ac_bookmarks
+mc ac_forward
+mc ac_home
+mc ac_refresh
+mc account_failed
+mc account_invalid
+mc add_client
+mc alt_r
+mc asl_compiler_id
+mc asl_compiler_rev
+mc avg_flush_latency_ns
+mc avg_rd_latency_ns
+mc avg_rd_queue_depth
+mc avg_wr_latency_ns
+mc avg_wr_queue_depth
+mc backing_file
+mc backing_file_depth
+mc block_resize
+mc block_set_io_throttle
+mc bps_max
+mc bps_max_length
+mc bps_rd
+mc bps_rd_max
+mc bps_rd_max_length
+mc bps_wr
+mc bps_wr_max
+mc bps_wr_max_length
+mc bracket_left
+mc bracket_right
+mc caps_lock
+mc class_info
+mc client_migrate_info
+mc cluster_alloc
+mc cluster_alloc_bytes
+mc cluster_alloc_space
+mc cluster_free
+mc compare_timeout
+mc cor_write
+mc cow_read
+mc cow_write
+mc ctrl_r
+mc d2_5
+mc detect_zeroes
+mc device_add
+mc device_del
+mc empty_image_prepare
+mc expire_password
+mc expired_scan_cycle
+mc failed_flush_operations
+mc failed_rd_operations
+mc failed_unmap_operations
+mc failed_wr_operations
+mc flush_latency_histogram
+mc flush_operations
+mc flush_to_disk
+mc flush_to_os
+mc flush_total_time_ns
+mc grab_all
+mc grave_accent
+mc host_cdrom
+mc host_device
+mc idle_time_ns
+mc interval_length
+mc invalid_flush_operations
+mc invalid_rd_operations
+mc invalid_unmap_operations
+mc invalid_wr_operations
+mc io_range
+mc io_uring
+mc iops_max
+mc iops_max_length
+mc iops_rd
+mc iops_rd_max
+mc iops_rd_max_length
+mc iops_size
+mc iops_wr
+mc iops_wr_max
+mc iops_wr_max_length
+mc irq_pin
+mc known_hosts
+mc kp_0
+mc kp_1
+mc kp_2
+mc kp_3
+mc kp_4
+mc kp_5
+mc kp_6
+mc kp_7
+mc kp_8
+mc kp_9
+mc kp_add
+mc kp_comma
+mc kp_decimal
+mc kp_divide
+mc kp_enter
+mc kp_equals
+mc kp_multiply
+mc kp_subtract
+mc l1_grow_activate_table
+mc l1_grow_alloc_table
+mc l1_grow_write_table
+mc l1_shrink_free_l2_clusters
+mc l1_shrink_write_table
+mc l1_update
+mc l2_alloc_cow_read
+mc l2_alloc_write
+mc l2_load
+mc l2_update
+mc l2_update_compressed
+mc legacyESX
+mc max_flush_latency_ns
+mc max_queue_size
+mc max_rd_latency_ns
+mc max_wr_latency_ns
+mc mem_type_64
+mc memory_range
+mc meta_l
+mc meta_r
+mc migrate_cancel
+mc min_flush_latency_ns
+mc min_rd_latency_ns
+mc min_wr_latency_ns
+mc monolithicFlat
+mc monolithicSparse
+mc netdev_add
+mc netdev_del
+mc new_state
+mc notify_dev
+mc num_lock
+mc oem_id
+mc oem_rev
+mc oem_table_id
+mc pci_bridge
+mc prefetchable_range
+mc primary_in
+mc pwritev_done
+mc pwritev_rmw_after_head
+mc pwritev_rmw_after_tail
+mc pwritev_rmw_head
+mc pwritev_rmw_tail
+mc pwritev_zero
+mc qdev_id
+mc qmp_capabilities
+mc rd_bytes
+mc rd_latency_histogram
+mc rd_merged
+mc rd_operations
+mc rd_total_time_ns
+mc read_aio
+mc read_backing_aio
+mc read_compressed
+mc refblock_alloc
+mc refblock_alloc_hookup
+mc refblock_alloc_switch_table
+mc refblock_alloc_write
+mc refblock_alloc_write_blocks
+mc refblock_alloc_write_table
+mc refblock_load
+mc refblock_update
+mc refblock_update_part
+mc reftable_grow
+mc reftable_load
+mc reftable_update
+mc sasl_username
+mc scroll_lock
+mc secondary_in
+mc secret_keyring
+mc set_link
+mc set_password
+mc shift_r
+mc streamOptimized
+mc system_powerdown
+mc system_reset
+mc system_wakeup
+mc timed_stats
+mc tray_open
+mc twoGbMaxExtentFlat
+mc twoGbMaxExtentSparse
+mc unmap_bytes
+mc unmap_merged
+mc unmap_operations
+mc unmap_total_time_ns
+mc vmstate_load
+mc vmstate_save
+mc vnet_hdr
+mc vnet_hdr_support
+mc wr_bytes
+mc wr_highest_offset
+mc wr_latency_histogram
+mc wr_merged
+mc wr_operations
+mc wr_total_time_ns
+mc write_aio
+mc write_compressed
+mc write_threshold
+mc x509_dname
+mc x86_64
+uc ACPI_DEVICE_OST
+uc BALLOON_CHANGE
+uc BLOCK_EXPORT_DELETED
+uc BLOCK_IMAGE_CORRUPTED
+uc BLOCK_IO_ERROR
+uc BLOCK_JOB_CANCELLED
+uc BLOCK_JOB_COMPLETED
+uc BLOCK_JOB_ERROR
+uc BLOCK_JOB_PENDING
+uc BLOCK_JOB_READY
+uc BLOCK_WRITE_THRESHOLD
+uc COLO_EXIT
+uc CPU
+uc DEVICE_DELETED
+uc DEVICE_TRAY_MOVED
+uc DEVICE_UNPLUG_GUEST_ERROR
+uc DIMM
+uc DUMP_COMPLETED
+uc EAX
+uc EBP
+uc EBX
+uc ECX
+uc EDI
+uc EDX
+uc ESI
+uc ESP
+uc FAILOVER_NEGOTIATED
+uc GUEST_CRASHLOADED
+uc GUEST_PANICKED
+uc JOB_STATUS_CHANGE
+uc MEMORY_DEVICE_SIZE_CHANGE
+uc MEMORY_FAILURE
+uc MEM_UNPLUG_ERROR
+uc MIGRATION
+uc MIGRATION_PASS
+uc NIC_RX_FILTER_CHANGED
+uc POWERDOWN
+uc PR_MANAGER_STATUS_CHANGED
+uc QUORUM_FAILURE
+uc QUORUM_REPORT_BAD
+uc RDMA_GID_STATUS_CHANGED
+uc RESET
+uc RESUME
+uc RTC_CHANGE
+uc SHUTDOWN
+uc SPICE_CONNECTED
+uc SPICE_DISCONNECTED
+uc SPICE_INITIALIZED
+uc SPICE_MIGRATE_COMPLETED
+uc STOP
+uc SUSPEND
+uc SUSPEND_DISK
+uc UNPLUG_PRIMARY
+uc UUID
+uc VNC_CONNECTED
+uc VNC_DISCONNECTED
+uc VNC_INITIALIZED
+uc VSERPORT_CHANGE
+uc WAKEUP
+uc WATCHDOG
 
 
