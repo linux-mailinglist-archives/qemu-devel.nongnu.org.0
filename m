@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2289852122E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:26:51 +0200 (CEST)
-Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC2D5211E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:12:55 +0200 (CEST)
+Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noN4r-0005Yd-Tg
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32870)
+	id 1noMrN-0001v7-28
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:12:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1noMfv-0005rO-BK; Tue, 10 May 2022 06:01:06 -0400
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:42544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1noMfs-0006Mc-Od; Tue, 10 May 2022 06:01:02 -0400
-Received: by mail-il1-x131.google.com with SMTP id r17so10999936iln.9;
- Tue, 10 May 2022 03:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=43ifPbsI8SD2lhv4jAsz+sC0LFCIQL2Ivgu7m9u1TBs=;
- b=RdCeiyS3pnnshQCX4qQ6BQVBDVSwIg6+Jlz4rtLH2tezJk+LHEFk1w4SIP7V1XA4tQ
- tZ7T9xWNMiwyGyL+OzDGskyKnlsebMEm3mViTxrGARihI0uYVyJJ09gaNNAo0ZviotN5
- sIrwo7w2LabbwNIJJdgnSXwuPhIY4+stA0eay/iTX1nKfxXGGwF2uNGinIDRudJrZgDx
- bsJXK8h15I69Hn9QqrEIkyq/yIYMxe5iXiHQoGDc3sBQmjjQSbqzsB6CTC+oBu/8xzJj
- y0sD/z1s2vbAIKmVJjsqEmxoMcUFSj+hh4S5j9PQa6HwpNXRKiDy5xsRtrK4CcS2n/xm
- EaXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=43ifPbsI8SD2lhv4jAsz+sC0LFCIQL2Ivgu7m9u1TBs=;
- b=ix3MtgCtTgjjF5W1Q+JDR+5FEjKElSJPNIbhWFGNC2Z6FPO+JyuZl6bpW/SJd7YOK8
- PMDruyf4NFG8CxfDVS5+1I8aGMs2oOx8Sm0RdxGC58d1+4Tnf6voH76yNT8RyLmws7+a
- zYmoyTgHZu+phBrZRHLmnPS/eUABBG7I4NTZVVhGn8UZWCUZNBjGJa3/4JyZvZu/mHsz
- AwKyUCdoepVEKeN9Uq8uNQ28zq4Uq4/S3+yNWaXO8nNgt9H+H8oaUWlBFL25Bp0tUHu4
- 0QLkCobJ4rsQQTqF6E7VsreI14oLBXkR7WYoeNJhxH/riNvADah+BzJu01OO6nhfQ4/H
- ZSbw==
-X-Gm-Message-State: AOAM530zvVVB1Xpd+npf3HFCMWPoNVkYzyKSF3snY3RIZRnoTUToqeaQ
- EbYXE42OA2sTHp5gde0nDZM6WJrodSzf5nJ7yYk=
-X-Google-Smtp-Source: ABdhPJx3SULEOY+oXMuApK0ZmkInm88vaz0DD7Shlf66DRhBYSzNWklNw82Y60yNPEgab9TpUxVmLeY+XWn09kyQkes=
-X-Received: by 2002:a05:6e02:10c1:b0:2cc:14ab:ceb7 with SMTP id
- s1-20020a056e0210c100b002cc14abceb7mr8574828ilj.55.1652176859282; Tue, 10 May
- 2022 03:00:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noMl5-0002nu-Gc
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:06:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44299)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noMl3-0007Hx-HU
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:06:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652177180;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=/ztcGSWwkccR1Ks/Jlpr+rTcNCXfYHQf1j7zfOpISmI=;
+ b=WvQWyXAXm0DyRuJP/vP1559FK1xwUob/hBxGUMbC2nPX+kDZoO7nWYGPrri3AT/XJIKqdK
+ O/5b32MSJkus+Wy0m9dkugc9G9MNSFSfZ1h2jmha/rZOdLJr/as2mzqJFwZ8AA/m3DX82B
+ 008CoaJZtoyytkFApSgcjZaq1BH9mB4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-ySXeuekvMEWN_x6yPyv38g-1; Tue, 10 May 2022 06:06:19 -0400
+X-MC-Unique: ySXeuekvMEWN_x6yPyv38g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B58F801210
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:06:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D47C400E899;
+ Tue, 10 May 2022 10:06:18 +0000 (UTC)
+Date: Tue, 10 May 2022 11:06:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v1 1/8] qapi: golang: Generate qapi's enum types in Go
+Message-ID: <Yno5GC8Fs3ypv7MQ@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <20220401224104.145961-2-victortoso@redhat.com>
 MIME-Version: 1.0
-References: <165156202959.27941.9731161369415852149-0@git.sr.ht>
- <165156202959.27941.9731161369415852149-13@git.sr.ht>
-In-Reply-To: <165156202959.27941.9731161369415852149-13@git.sr.ht>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 10 May 2022 12:00:32 +0200
-Message-ID: <CAKmqyKPhWnFtjdZVSncFch4=D4mK7vtxXTk2YjNCv3nYcj=w3Q@mail.gmail.com>
-Subject: Re: [PATCH qemu v14 13/15] target/riscv: rvv: Add tail agnostic for
- vector mask instructions
-To: "~eopxd" <yueh.ting.chen@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>, 
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220401224104.145961-2-victortoso@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,159 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 3, 2022 at 9:44 AM ~eopxd <eopxd@git.sr.ht> wrote:
->
-> From: eopXD <eop.chen@sifive.com>
->
-> The tail elements in the destination mask register are updated under
-> a tail-agnostic policy.
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+On Sat, Apr 02, 2022 at 12:40:57AM +0200, Victor Toso wrote:
+> This patch handles QAPI enum types and generates its equivalent in Go.
+> 
+> The highlights of this implementation are:
+> 
+> 1. For each QAPI enum, we will define an int32 type in Go to be the
+>    assigned type of this specific enum
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+I think there's a potential case to be made for considering
+representation of enums as strings in Golang, as it more
+gracefully degrades.
 
-Alistair
+Consider the 'SHUTDOWN' event in QEMU, which has a 'reason' field.
 
-> ---
->  target/riscv/insn_trans/trans_rvv.c.inc |  6 +++++
->  target/riscv/vector_helper.c            | 30 +++++++++++++++++++++++++
->  2 files changed, 36 insertions(+)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 86374f22c0..a27433b324 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -3211,6 +3211,8 @@ static bool trans_##NAME(DisasContext *s, arg_r *a)                \
->          tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                     \
->          data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> +        data =                                                     \
-> +            FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);\
->          tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
->                             vreg_ofs(s, a->rs1),                    \
->                             vreg_ofs(s, a->rs2), cpu_env,           \
-> @@ -3315,6 +3317,8 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
->                                                                     \
->          data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->          data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> +        data =                                                     \
-> +            FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);\
->          tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                     \
->                             vreg_ofs(s, 0), vreg_ofs(s, a->rs2),    \
->                             cpu_env, s->cfg_ptr->vlen / 8,          \
-> @@ -3352,6 +3356,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
->
->          data = FIELD_DP32(data, VDATA, VM, a->vm);
->          data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);
->          static gen_helper_gvec_3_ptr * const fns[4] = {
->              gen_helper_viota_m_b, gen_helper_viota_m_h,
->              gen_helper_viota_m_w, gen_helper_viota_m_d,
-> @@ -3381,6 +3386,7 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
->
->          data = FIELD_DP32(data, VDATA, VM, a->vm);
->          data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);
->          static gen_helper_gvec_2_ptr * const fns[4] = {
->              gen_helper_vid_v_b, gen_helper_vid_v_h,
->              gen_helper_vid_v_w, gen_helper_vid_v_d,
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index a319cda969..dcb6d3538c 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -4719,6 +4719,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
->                    uint32_t desc)                          \
->  {                                                         \
->      uint32_t vl = env->vl;                                \
-> +    uint32_t total_elems = env_archcpu(env)->cfg.vlen;    \
-> +    uint32_t vta_all_1s = vext_vta_all_1s(desc);          \
->      uint32_t i;                                           \
->      int a, b;                                             \
->                                                            \
-> @@ -4728,6 +4730,15 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
->          vext_set_elem_mask(vd, i, OP(b, a));              \
->      }                                                     \
->      env->vstart = 0;                                      \
-> +    /* mask destination register are always tail-         \
-> +     * agnostic                                           \
-> +     */                                                   \
-> +    /* set tail elements to 1s */                         \
-> +    if (vta_all_1s) {                                     \
-> +        for (; i < total_elems; i++) {                    \
-> +            vext_set_elem_mask(vd, i, 1);                 \
-> +        }                                                 \
-> +    }                                                     \
->  }
->
->  #define DO_NAND(N, M)  (!(N & M))
-> @@ -4795,6 +4806,8 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
->  {
->      uint32_t vm = vext_vm(desc);
->      uint32_t vl = env->vl;
-> +    uint32_t total_elems = env_archcpu(env)->cfg.vlen;
-> +    uint32_t vta_all_1s = vext_vta_all_1s(desc);
->      int i;
->      bool first_mask_bit = false;
->
-> @@ -4823,6 +4836,13 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
->          }
->      }
->      env->vstart = 0;
-> +    /* mask destination register are always tail-agnostic */
-> +    /* set tail elements to 1s */
-> +    if (vta_all_1s) {
-> +        for (; i < total_elems; i++) {
-> +            vext_set_elem_mask(vd, i, 1);
-> +        }
-> +    }
->  }
->
->  void HELPER(vmsbf_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
-> @@ -4850,6 +4870,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2, CPURISCVState *env,      \
->  {                                                                         \
->      uint32_t vm = vext_vm(desc);                                          \
->      uint32_t vl = env->vl;                                                \
-> +    uint32_t esz = sizeof(ETYPE);                                         \
-> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
-> +    uint32_t vta = vext_vta(desc);                                        \
->      uint32_t sum = 0;                                                     \
->      int i;                                                                \
->                                                                            \
-> @@ -4863,6 +4886,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2, CPURISCVState *env,      \
->          }                                                                 \
->      }                                                                     \
->      env->vstart = 0;                                                      \
-> +    /* set tail elements to 1s */                                         \
-> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
->  }
->
->  GEN_VEXT_VIOTA_M(viota_m_b, uint8_t,  H1)
-> @@ -4876,6 +4901,9 @@ void HELPER(NAME)(void *vd, void *v0, CPURISCVState *env, uint32_t desc)  \
->  {                                                                         \
->      uint32_t vm = vext_vm(desc);                                          \
->      uint32_t vl = env->vl;                                                \
-> +    uint32_t esz = sizeof(ETYPE);                                         \
-> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
-> +    uint32_t vta = vext_vta(desc);                                        \
->      int i;                                                                \
->                                                                            \
->      for (i = env->vstart; i < vl; i++) {                                  \
-> @@ -4885,6 +4913,8 @@ void HELPER(NAME)(void *vd, void *v0, CPURISCVState *env, uint32_t desc)  \
->          *((ETYPE *)vd + H(i)) = i;                                        \
->      }                                                                     \
->      env->vstart = 0;                                                      \
-> +    /* set tail elements to 1s */                                         \
-> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
->  }
->
->  GEN_VEXT_VID_V(vid_v_b, uint8_t,  H1)
-> --
-> 2.34.2
->
->
+This implementation has
+
+type ShutdownCause int32
+
+const (
+        ShutdownCauseNone               ShutdownCause = iota
+        ShutdownCauseHostError                        // An error prevents further use of guest
+        ShutdownCauseHostQmpQuit                      // Reaction to the QMP command 'quit'
+        ShutdownCauseHostQmpSystemReset               // Reaction to the QMP command 'system_reset'
+        ShutdownCauseHostSignal                       // Reaction to a signal, such as SIGINT
+        ShutdownCauseHostUi                           // Reaction to a UI event, like window close
+        ShutdownCauseGuestShutdown                    // Guest shutdown/suspend request, via ACPI or other hardware-specific means
+        ShutdownCauseGuestReset                       // Guest reset request, and command line turns that into a shutdown
+        ShutdownCauseGuestPanic                       // Guest panicked, and command line turns that into a shutdown
+        ShutdownCauseSubsystemReset                   // Partial guest reset that does not trigger QMP events and ignores --no-reboot. This is useful for sanitizing hypercalls on s390 that are used during kexec/kdump/boot
+)
+
+
+and
+
+
+type ShutdownEvent struct {
+        Guest  bool          `json:"guest"`  // If true, the shutdown was triggered by a guest request (such as a guest-initiated ACPI shutdown request or other hardware-specific action) rather than a host request (such as sending qemu a SIGINT). (since 2.10)
+        Reason ShutdownCause `json:"reason"` // The @ShutdownCause which resulted in the SHUTDOWN. (since 4.0)
+}
+
+Consider that the application is compiled against the QAPI generated
+API from QEMU 7.0. The application is believed to run happily against
+7.1, because app doesn't need any of the functionality added in 7.1
+QAPI.  But consider that QEMU 7.1 had introduced a new shutdown reason
+value.
+
+The application may want to know that the guest has shutdown, but does
+NOT care about the  reason for the shutdown.
+
+Since the ShutdownReason is implemented as an int though, the unmarshalling
+for the reason field is going to fail.
+
+If the enums were just represented as strings, then we can gracefully
+accept any new enum value that arrives in future. The application can
+thus also still log the shutdown reason string, even though it was not
+a value explicitly known to the generated API.
+
+> 
+> 2. While in the Go codebase we can use the generated enum values, the
+>    specification requires that, on the wire, the enumeration type's
+>    value to be represented by its string name.
+> 
+>    For this reason, each Go type that represent's a QAPI enum will be
+>    implementing the Marshaler[0] and Unmarshaler[1] interfaces to
+>    seamless handle QMP's string to Go int32 value and vice-versa.
+> 
+> 3. Naming: CamelCase will be used in any identifier that we want to
+>    export [2], which is everything in this patch.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
