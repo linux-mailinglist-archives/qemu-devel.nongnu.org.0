@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1099520E3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 09:01:34 +0200 (CEST)
-Received: from localhost ([::1]:46636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624AC520E40
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 09:02:54 +0200 (CEST)
+Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noJrg-0003rd-MA
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 03:01:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45786)
+	id 1noJtV-0005EY-HD
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 03:02:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1noJnt-0002Fe-Bb
- for qemu-devel@nongnu.org; Tue, 10 May 2022 02:57:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50723)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1noJo5-0002Yu-TR; Tue, 10 May 2022 02:57:17 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:47001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1noJnq-0002Co-Mb
- for qemu-devel@nongnu.org; Tue, 10 May 2022 02:57:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652165821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=sMi4/xM4PyYwrW1yJSMe98HzFpha37WjJg7hgCEFWD8=;
- b=ZF9DxpfRc7H3gW8JA3eOVAcHJh6/toPF59s4Y81ihHGtUoVdcwNJEqZ6lw2h+ZB8NmZRZH
- daLWex9MBgMGmkyfC5bQZIUJjz0KaeowySTiWd+75HOTD22X8AR4g//p7hGvaMGzIUVke7
- fuK1j9Hx6+ggVtNrlisu424IU2Yhj9c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-8e4kgRiBMta7NHk3Z3Nz8w-1; Tue, 10 May 2022 02:55:38 -0400
-X-MC-Unique: 8e4kgRiBMta7NHk3Z3Nz8w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9820B85A5A8
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 06:55:38 +0000 (UTC)
-Received: from maggie.redhat.com (unknown [10.43.2.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F4685527AF;
- Tue, 10 May 2022 06:55:38 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: david@redhat.com
-Subject: [PATCH] util: NUMA aware memory preallocation
-Date: Tue, 10 May 2022 08:55:33 +0200
-Message-Id: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1noJo3-0002Dv-PI; Tue, 10 May 2022 02:57:17 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6C6B6FE2C9B7;
+ Tue, 10 May 2022 08:57:11 +0200 (CEST)
+Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Tue, 10 May
+ 2022 08:57:10 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S003dbac5db2-a2ee-445e-98e1-1886c0b14679,
+ 1EE4DC631931028654B42CA219073376F40F54F0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5bf799ff-492f-286a-66f1-2d43a87f3a4b@kaod.org>
+Date: Tue, 10 May 2022 08:57:10 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH 10/17] hw/sd: Add sd_cmd_SEND_TUNING_BLOCK() handler
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+CC: Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
+ <qemu-block@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220318132824.1134400-1-clg@kaod.org>
+ <20220318132824.1134400-11-clg@kaod.org>
+ <12c97f3b-6d3a-cab3-3768-d41ed68e5de6@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <12c97f3b-6d3a-cab3-3768-d41ed68e5de6@amsat.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9e311fc1-1a91-4f08-b910-ad0fb36baf81
+X-Ovh-Tracer-Id: 920704651038395299
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgdduudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedtheekleeitedvtdelgfevueehudehteelvddtgfefffelvdejkeejgeelvdekueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,262 +76,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When allocating large amounts of memory the task is offloaded
-onto threads. These threads then use various techniques to
-allocate the memory fully (madvise(), writing into the memory).
-However, these threads are free to run on any CPU, which becomes
-problematic on NUMA machines because it may happen that a thread
-is running on a distant node.
+On 5/9/22 23:05, Philippe Mathieu-Daudé wrote:
+> On 18/3/22 14:28, Cédric Le Goater wrote:
+>> From: Joel Stanley <joel@jms.id.au>
+>>
+>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   hw/sd/sd.c | 28 +++++++++++++++++-----------
+>>   1 file changed, 17 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+>> index 25e86c893bba..602ed6eb0701 100644
+>> --- a/hw/sd/sd.c
+>> +++ b/hw/sd/sd.c
+>> @@ -1042,6 +1042,22 @@ static sd_rsp_type_t sd_cmd_SEND_RELATIVE_ADDR(SDState *sd, SDRequest req)
+>>       }
+>>   }
+>> +static sd_rsp_type_t sd_cmd_SEND_TUNING_BLOCK(SDState *sd, SDRequest req)
+>> +{
+>> +        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
+>> +            return sd_invalid_state_for_cmd(sd, req);
+> 
+> There was a bug here, this should be:
+> 
+>                 return sd_illegal;
+> 
+> (see https://lore.kernel.org/qemu-devel/20220509141320.98374-1-philippe.mathieu.daude@gmail.com/. I can fix upon applying).
 
-Ideally, this is something that a management application would
-resolve, but we are not anywhere close to that, Firstly, memory
-allocation happens before monitor socket is even available. But
-okay, that's what -preconfig is for. But then the problem is that
-'object-add' would not return until all memory is preallocated.
+I missed that.
 
-Long story short, management application has no way of learning
-TIDs of allocator threads so it can't make them run NUMA aware.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-But what we can do is to propagate the 'host-nodes' attribute of
-MemoryBackend object down to where preallocation threads are
-created and set their affinity according to the attribute.
+Thanks,
 
-Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2074000
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
- backends/hostmem.c     |  6 ++--
- hw/virtio/virtio-mem.c |  2 +-
- include/qemu/osdep.h   |  2 ++
- util/meson.build       |  2 +-
- util/oslib-posix.c     | 74 ++++++++++++++++++++++++++++++++++++++++--
- util/oslib-win32.c     |  2 ++
- 6 files changed, 82 insertions(+), 6 deletions(-)
+C.
 
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index a7bae3d713..7373472c7e 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -232,7 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
-         void *ptr = memory_region_get_ram_ptr(&backend->mr);
-         uint64_t sz = memory_region_size(&backend->mr);
- 
--        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
-+        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads,
-+                        backend->host_nodes, MAX_NODES, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-@@ -394,7 +395,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
-          */
-         if (backend->prealloc) {
-             os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
--                            backend->prealloc_threads, &local_err);
-+                            backend->prealloc_threads, backend->host_nodes,
-+                            MAX_NODES, &local_err);
-             if (local_err) {
-                 goto out;
-             }
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 5aca408726..48b104cdf6 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
-             int fd = memory_region_get_fd(&vmem->memdev->mr);
-             Error *local_err = NULL;
- 
--            os_mem_prealloc(fd, area, size, 1, &local_err);
-+            os_mem_prealloc(fd, area, size, 1, NULL, 0, &local_err);
-             if (local_err) {
-                 static bool warned;
- 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 1c1e7eca98..474cbf3b86 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -577,6 +577,8 @@ unsigned long qemu_getauxval(unsigned long type);
- void qemu_set_tty_echo(int fd, bool echo);
- 
- void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
-+                     const unsigned long *host_nodes,
-+                     unsigned long max_node,
-                      Error **errp);
- 
- /**
-diff --git a/util/meson.build b/util/meson.build
-index 8f16018cd4..393ff74570 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -15,7 +15,7 @@ freebsd_dep = []
- if targetos == 'freebsd'
-   freebsd_dep = util
- endif
--util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep])
-+util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep, numa])
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
- util_ss.add(when: 'CONFIG_WIN32', if_true: files('aio-win32.c'))
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 477990f39b..1572b9b178 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -73,6 +73,10 @@
- #include "qemu/error-report.h"
- #endif
- 
-+#ifdef CONFIG_NUMA
-+#include <numa.h>
-+#endif
-+
- #define MAX_MEM_PREALLOC_THREAD_COUNT 16
- 
- struct MemsetThread;
-@@ -82,6 +86,9 @@ typedef struct MemsetContext {
-     bool any_thread_failed;
-     struct MemsetThread *threads;
-     int num_threads;
-+#ifdef CONFIG_NUMA
-+    struct bitmask *nodemask;
-+#endif
- } MemsetContext;
- 
- struct MemsetThread {
-@@ -420,6 +427,12 @@ static void *do_touch_pages(void *arg)
-     }
-     qemu_mutex_unlock(&page_mutex);
- 
-+#ifdef CONFIG_NUMA
-+    if (memset_args->context->nodemask) {
-+        numa_run_on_node_mask(memset_args->context->nodemask);
-+    }
-+#endif
-+
-     /* unblock SIGBUS */
-     sigemptyset(&set);
-     sigaddset(&set, SIGBUS);
-@@ -463,6 +476,12 @@ static void *do_madv_populate_write_pages(void *arg)
-     }
-     qemu_mutex_unlock(&page_mutex);
- 
-+#ifdef CONFIG_NUMA
-+    if (memset_args->context->nodemask) {
-+        numa_run_on_node_mask(memset_args->context->nodemask);
-+    }
-+#endif
-+
-     if (size && qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE)) {
-         ret = -errno;
-     }
-@@ -489,7 +508,9 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
- }
- 
- static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
--                           int smp_cpus, bool use_madv_populate_write)
-+                           int smp_cpus, const unsigned long *host_nodes,
-+                           unsigned long max_node,
-+                           bool use_madv_populate_write)
- {
-     static gsize initialized = 0;
-     MemsetContext context = {
-@@ -499,6 +520,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-     void *(*touch_fn)(void *);
-     int ret = 0, i = 0;
-     char *addr = area;
-+    unsigned long value = max_node;
- 
-     if (g_once_init_enter(&initialized)) {
-         qemu_mutex_init(&page_mutex);
-@@ -520,6 +542,48 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-         touch_fn = do_touch_pages;
-     }
- 
-+    if (host_nodes) {
-+        value = find_first_bit(host_nodes, max_node);
-+    }
-+    if (value != max_node) {
-+#ifdef CONFIG_NUMA
-+        struct bitmask *cpus = numa_allocate_cpumask();
-+        g_autofree unsigned long *zerocpumask;
-+        size_t zerocpumasklen;
-+        g_autofree unsigned long *zeronodemask;
-+        size_t zeronodemasklen;
-+
-+        context.nodemask = numa_bitmask_alloc(max_node);
-+
-+        zerocpumasklen = cpus->size / sizeof(unsigned long);
-+        zerocpumask = g_new0(unsigned long, zerocpumasklen);
-+
-+        for (; value != max_node;
-+             value = find_next_bit(host_nodes, max_node, value + 1)) {
-+            if (numa_node_to_cpus(value, cpus) ||
-+                memcmp(cpus->maskp, zerocpumask, zerocpumasklen) == 0)
-+                continue;
-+
-+            /* If given NUMA node has CPUs run threads on them. */
-+            numa_bitmask_setbit(context.nodemask, value);
-+        }
-+
-+        numa_bitmask_free(cpus);
-+
-+        zeronodemasklen = max_node / sizeof(unsigned long);
-+        zeronodemask = g_new0(unsigned long, zeronodemasklen);
-+
-+        if (memcmp(context.nodemask->maskp,
-+                   zeronodemask, zeronodemasklen) == 0) {
-+            /* If no NUMA has a CPU available, then don't pin threads. */
-+            g_clear_pointer(&context.nodemask, numa_bitmask_free);
-+        }
-+#else
-+        errno = -EINVAL;
-+        return -1;
-+#endif
-+    }
-+
-     context.threads = g_new0(MemsetThread, context.num_threads);
-     numpages_per_thread = numpages / context.num_threads;
-     leftover = numpages % context.num_threads;
-@@ -554,6 +618,10 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-     if (!use_madv_populate_write) {
-         sigbus_memset_context = NULL;
-     }
-+
-+#ifdef CONFIG_NUMA
-+    g_clear_pointer(&context.nodemask, numa_bitmask_free);
-+#endif
-     g_free(context.threads);
- 
-     return ret;
-@@ -566,6 +634,8 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
- }
- 
- void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-+                     const unsigned long *host_nodes,
-+                     unsigned long max_node,
-                      Error **errp)
- {
-     static gsize initialized;
-@@ -608,7 +678,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
- 
-     /* touch pages simultaneously */
-     ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
--                          use_madv_populate_write);
-+                          host_nodes, max_node, use_madv_populate_write);
-     if (ret) {
-         error_setg_errno(errp, -ret,
-                          "os_mem_prealloc: preallocating memory failed");
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index dafef4f157..6efd912355 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -314,6 +314,8 @@ int getpagesize(void)
- }
- 
- void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-+                     const unsigned long *host_nodes,
-+                     unsigned long max_node,
-                      Error **errp)
- {
-     int i;
--- 
-2.35.1
+>> +        }
+>> +
+>> +        if (sd->state != sd_transfer_state) {
+>> +            return sd_invalid_state_for_cmd(sd, req);
+>> +        }
+>> +
+>> +        sd->state = sd_sendingdata_state;
+>> +        sd->data_offset = 0;
+>> +
+>> +        return sd_r1;
+>> +}
+>> +
+>>   static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>>   {
+>>       uint32_t rca = 0x0000;
+>> @@ -1285,17 +1301,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>>           }
+>>           break;
+>> -    case 19:    /* CMD19: SEND_TUNING_BLOCK (SD) */
+>> -        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
+>> -            break;
+>> -        }
+>> -        if (sd->state == sd_transfer_state) {
+>> -            sd->state = sd_sendingdata_state;
+>> -            sd->data_offset = 0;
+>> -            return sd_r1;
+>> -        }
+>> -        break;
+>> -
+>>       case 23:    /* CMD23: SET_BLOCK_COUNT */
+>>           if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
+>>               break;
+>> @@ -2132,6 +2137,7 @@ static const SDProto sd_proto_sd = {
+>>           [2]         = sd_cmd_ALL_SEND_CID,
+>>           [3]         = sd_cmd_SEND_RELATIVE_ADDR,
+>>           [5]         = sd_cmd_illegal,
+>> +        [19]        = sd_cmd_SEND_TUNING_BLOCK,
+>>           [52 ... 54] = sd_cmd_illegal,
+>>           [58]        = sd_cmd_illegal,
+>>           [59]        = sd_cmd_illegal,
+> 
 
 
