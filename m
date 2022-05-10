@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBA7521063
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:12:20 +0200 (CEST)
-Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD450521071
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:16:28 +0200 (CEST)
+Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noLuj-0007PK-E0
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37630)
+	id 1noLyl-0004nh-TA
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noLK1-0006OM-77
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54462)
+ id 1noLK4-0006Pr-4s
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noLJy-0000Q2-NH
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:20 -0400
+ id 1noLK2-0000QT-8R
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652171658;
+ s=mimecast20190719; t=1652171661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ETidFgDKAO5EyH3TNF+HX+rVzbz7cm48GfsLSjmCuR0=;
- b=gIYx7z1JdjL3gAE3K4QY42A+RFfg9YfDQqSF2OXYCh/+uR8966oa8ZsgS3Hqoj0dV8x7I3
- zx10f+YjVoRaxBrnj7GS+XheWPbp+MGS4hrbnVTTzCVyCDuvnyjx3Im13Crx6gmQOkghhK
- Y3LxvU2Q2R1pVmXFd6uaKS65lZA3vbo=
+ bh=YcRczQMjC9QexlZuWc/CiQUIQ+MvXV7pM5okQSTu3AQ=;
+ b=AS1c1YhxyyeEj8O9KwsXvJD6GBd1FIlIMQuJESXtA8IBub1KjFbvdC81YsncIEYfO6P/bZ
+ Q/qnl0LCEedbrgNAhbz4Tslbjoz65qKSwlIbZPim5DYYmxL4jix5YSnF9P7xd6ryGAKVA2
+ /OCFGew1R+5MEI2sOwpYVM4WRiq3SKE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-EODMU2n7N2uhsUDx7-eQ7Q-1; Tue, 10 May 2022 04:34:16 -0400
-X-MC-Unique: EODMU2n7N2uhsUDx7-eQ7Q-1
+ us-mta-122-mykFQnjbPiqpoWX4hDk5gg-1; Tue, 10 May 2022 04:34:18 -0400
+X-MC-Unique: mykFQnjbPiqpoWX4hDk5gg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 806CE811E7A
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:34:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF60F85A5BC
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:34:17 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.195.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9418F413721;
- Tue, 10 May 2022 08:34:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BECFB403171;
+ Tue, 10 May 2022 08:34:16 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 12/16] migration: Add zero-copy-send parameter for QMP/HMP for
- Linux
-Date: Tue, 10 May 2022 09:33:51 +0100
-Message-Id: <20220510083355.92738-13-dgilbert@redhat.com>
+Subject: [PULL 13/16] migration: Add migrate_use_tls() helper
+Date: Tue, 10 May 2022 09:33:52 +0100
+Message-Id: <20220510083355.92738-14-dgilbert@redhat.com>
 In-Reply-To: <20220510083355.92738-1-dgilbert@redhat.com>
 References: <20220510083355.92738-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -82,235 +81,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Leonardo Bras <leobras@redhat.com>
 
-Add property that allows zero-copy migration of memory pages
-on the sending side, and also includes a helper function
-migrate_use_zero_copy_send() to check if it's enabled.
+A lot of places check parameters.tls_creds in order to evaluate if TLS is
+in use, and sometimes call migrate_get_current() just for that test.
 
-No code is introduced to actually do the migration, but it allow
-future implementations to enable/disable this feature.
-
-On non-Linux builds this parameter is compiled-out.
+Add new helper function migrate_use_tls() in order to simplify testing
+for TLS usage.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20220507015759.840466-4-leobras@redhat.com>
+Message-Id: <20220507015759.840466-5-leobras@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  dgilbert: Removed accidental skibootism
 ---
- migration/migration.c | 32 ++++++++++++++++++++++++++++++++
- migration/migration.h |  5 +++++
- migration/socket.c    | 11 +++++++++--
- monitor/hmp-cmds.c    |  6 ++++++
- qapi/migration.json   | 24 ++++++++++++++++++++++++
- 5 files changed, 76 insertions(+), 2 deletions(-)
+ migration/channel.c   | 3 +--
+ migration/migration.c | 9 +++++++++
+ migration/migration.h | 1 +
+ migration/multifd.c   | 5 +----
+ 4 files changed, 12 insertions(+), 6 deletions(-)
 
+diff --git a/migration/channel.c b/migration/channel.c
+index c6a8dcf1d7..a162d00fea 100644
+--- a/migration/channel.c
++++ b/migration/channel.c
+@@ -38,8 +38,7 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+     trace_migration_set_incoming_channel(
+         ioc, object_get_typename(OBJECT(ioc)));
+ 
+-    if (s->parameters.tls_creds &&
+-        *s->parameters.tls_creds &&
++    if (migrate_use_tls() &&
+         !object_dynamic_cast(OBJECT(ioc),
+                              TYPE_QIO_CHANNEL_TLS)) {
+         migration_tls_channel_process_incoming(s, ioc, &local_err);
 diff --git a/migration/migration.c b/migration/migration.c
-index 5a31b23bd6..3e91f4b5e2 100644
+index 3e91f4b5e2..4b6df2eb5e 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -910,6 +910,10 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-     params->multifd_zlib_level = s->parameters.multifd_zlib_level;
-     params->has_multifd_zstd_level = true;
-     params->multifd_zstd_level = s->parameters.multifd_zstd_level;
-+#ifdef CONFIG_LINUX
-+    params->has_zero_copy_send = true;
-+    params->zero_copy_send = s->parameters.zero_copy_send;
-+#endif
-     params->has_xbzrle_cache_size = true;
-     params->xbzrle_cache_size = s->parameters.xbzrle_cache_size;
-     params->has_max_postcopy_bandwidth = true;
-@@ -1567,6 +1571,11 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
-     if (params->has_multifd_compression) {
-         dest->multifd_compression = params->multifd_compression;
-     }
-+#ifdef CONFIG_LINUX
-+    if (params->has_zero_copy_send) {
-+        dest->zero_copy_send = params->zero_copy_send;
-+    }
-+#endif
-     if (params->has_xbzrle_cache_size) {
-         dest->xbzrle_cache_size = params->xbzrle_cache_size;
-     }
-@@ -1679,6 +1688,11 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
-     if (params->has_multifd_compression) {
-         s->parameters.multifd_compression = params->multifd_compression;
-     }
-+#ifdef CONFIG_LINUX
-+    if (params->has_zero_copy_send) {
-+        s->parameters.zero_copy_send = params->zero_copy_send;
-+    }
-+#endif
-     if (params->has_xbzrle_cache_size) {
-         s->parameters.xbzrle_cache_size = params->xbzrle_cache_size;
-         xbzrle_cache_resize(params->xbzrle_cache_size, errp);
-@@ -2563,6 +2577,17 @@ int migrate_multifd_zstd_level(void)
-     return s->parameters.multifd_zstd_level;
+@@ -2588,6 +2588,15 @@ bool migrate_use_zero_copy_send(void)
  }
+ #endif
  
-+#ifdef CONFIG_LINUX
-+bool migrate_use_zero_copy_send(void)
++int migrate_use_tls(void)
 +{
 +    MigrationState *s;
 +
 +    s = migrate_get_current();
 +
-+    return s->parameters.zero_copy_send;
++    return s->parameters.tls_creds && *s->parameters.tls_creds;
 +}
-+#endif
 +
  int migrate_use_xbzrle(void)
  {
      MigrationState *s;
-@@ -4206,6 +4231,10 @@ static Property migration_properties[] = {
-     DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
-                       parameters.multifd_zstd_level,
-                       DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
-+#ifdef CONFIG_LINUX
-+    DEFINE_PROP_BOOL("zero_copy_send", MigrationState,
-+                      parameters.zero_copy_send, false),
-+#endif
-     DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
-                       parameters.xbzrle_cache_size,
-                       DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
-@@ -4303,6 +4332,9 @@ static void migration_instance_init(Object *obj)
-     params->has_multifd_compression = true;
-     params->has_multifd_zlib_level = true;
-     params->has_multifd_zstd_level = true;
-+#ifdef CONFIG_LINUX
-+    params->has_zero_copy_send = true;
-+#endif
-     params->has_xbzrle_cache_size = true;
-     params->has_max_postcopy_bandwidth = true;
-     params->has_max_cpu_throttle = true;
 diff --git a/migration/migration.h b/migration/migration.h
-index a863032b71..e8f2941a55 100644
+index e8f2941a55..485d58b95f 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -375,6 +375,11 @@ MultiFDCompression migrate_multifd_compression(void);
- int migrate_multifd_zlib_level(void);
- int migrate_multifd_zstd_level(void);
- 
-+#ifdef CONFIG_LINUX
-+bool migrate_use_zero_copy_send(void);
-+#else
-+#define migrate_use_zero_copy_send() (false)
-+#endif
+@@ -380,6 +380,7 @@ bool migrate_use_zero_copy_send(void);
+ #else
+ #define migrate_use_zero_copy_send() (false)
+ #endif
++int migrate_use_tls(void);
  int migrate_use_xbzrle(void);
  uint64_t migrate_xbzrle_cache_size(void);
  bool migrate_colo_enabled(void);
-diff --git a/migration/socket.c b/migration/socket.c
-index 05705a32d8..3754d8f72c 100644
---- a/migration/socket.c
-+++ b/migration/socket.c
-@@ -74,9 +74,16 @@ static void socket_outgoing_migration(QIOTask *task,
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 9ea4f581e2..2a8c8570c3 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -782,15 +782,12 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
+                                     QIOChannel *ioc,
+                                     Error *error)
+ {
+-    MigrationState *s = migrate_get_current();
+-
+     trace_multifd_set_outgoing_channel(
+         ioc, object_get_typename(OBJECT(ioc)),
+         migrate_get_current()->hostname, error);
  
-     if (qio_task_propagate_error(task, &err)) {
-         trace_migration_socket_outgoing_error(error_get_pretty(err));
--    } else {
--        trace_migration_socket_outgoing_connected(data->hostname);
-+           goto out;
-     }
-+
-+    trace_migration_socket_outgoing_connected(data->hostname);
-+
-+    if (migrate_use_zero_copy_send()) {
-+        error_setg(&err, "Zero copy send not available in migration");
-+    }
-+
-+out:
-     migration_channel_connect(data->s, sioc, data->hostname, err);
-     object_unref(OBJECT(sioc));
- }
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 93061a11af..622c783c32 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1309,6 +1309,12 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         p->has_multifd_zstd_level = true;
-         visit_type_uint8(v, param, &p->multifd_zstd_level, &err);
-         break;
-+#ifdef CONFIG_LINUX
-+    case MIGRATION_PARAMETER_ZERO_COPY_SEND:
-+        p->has_zero_copy_send = true;
-+        visit_type_bool(v, param, &p->zero_copy_send, &err);
-+        break;
-+#endif
-     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
-         p->has_xbzrle_cache_size = true;
-         if (!visit_type_size(v, param, &cache_size, &err)) {
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 409eb086a2..2222f44250 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -741,6 +741,13 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @zero-copy-send: Controls behavior on sending memory pages on migration.
-+#                  When true, enables a zero-copy mechanism for sending
-+#                  memory pages, if host supports it.
-+#                  Requires that QEMU be permitted to use locked memory
-+#                  for guest RAM pages.
-+#                  Defaults to false. (Since 7.1)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -780,6 +787,7 @@
-            'xbzrle-cache-size', 'max-postcopy-bandwidth',
-            'max-cpu-throttle', 'multifd-compression',
-            'multifd-zlib-level' ,'multifd-zstd-level',
-+           { 'name': 'zero-copy-send', 'if' : 'CONFIG_LINUX'},
-            'block-bitmap-mapping' ] }
- 
- ##
-@@ -906,6 +914,13 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @zero-copy-send: Controls behavior on sending memory pages on migration.
-+#                  When true, enables a zero-copy mechanism for sending
-+#                  memory pages, if host supports it.
-+#                  Requires that QEMU be permitted to use locked memory
-+#                  for guest RAM pages.
-+#                  Defaults to false. (Since 7.1)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -960,6 +975,7 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
-+            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
-@@ -1106,6 +1122,13 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @zero-copy-send: Controls behavior on sending memory pages on migration.
-+#                  When true, enables a zero-copy mechanism for sending
-+#                  memory pages, if host supports it.
-+#                  Requires that QEMU be permitted to use locked memory
-+#                  for guest RAM pages.
-+#                  Defaults to false. (Since 7.1)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -1158,6 +1181,7 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
-+            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
+     if (!error) {
+-        if (s->parameters.tls_creds &&
+-            *s->parameters.tls_creds &&
++        if (migrate_use_tls() &&
+             !object_dynamic_cast(OBJECT(ioc),
+                                  TYPE_QIO_CHANNEL_TLS)) {
+             multifd_tls_channel_connect(p, ioc, &error);
 -- 
 2.36.0
 
