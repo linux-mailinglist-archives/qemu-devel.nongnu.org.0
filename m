@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947D5521249
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:34:47 +0200 (CEST)
-Received: from localhost ([::1]:55086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61C0521281
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:45:24 +0200 (CEST)
+Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noNCY-0002Kt-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:34:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
+	id 1noNMp-0004Ts-HJ
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noN67-0007is-Vn
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:28:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49497)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noNJu-0002oL-UY
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:42:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noN64-00030b-1Z
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:28:06 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noNJr-0005a1-TC
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:42:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652178483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OGV2F9jQlziFTeFiucU9AK/uZ8SqYiERSEYj+WqKXTU=;
- b=YIebScIL4jMtg5aNfaUIGDJMrqac+sYH9yr2AspajCQ2IKn0JUjQXZBqKovwVB4hQ3k+Y6
- tyDqiU26/AS+Tg+bfhb1kMT5SIIKcjtn8DFwr6/vnMfxjpTz3rVIDPuLIHompnTuZKjdw+
- lsIXFNUgQvGcLci4GprgYMFDeIIE4ro=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1652179338;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=tkvOZKioDlq0bsVhDcmN49Tq4y0rWCPGESeNl6aAopQ=;
+ b=GZYWqj5YVlGCnFjk107eQcJU9/kYbbuqjrerKXOrD4Hx7P/AnwNpIxfy0yAN34v1NM94Ud
+ ZhE5g6GmCac/tvVKWYOTWuQ1f0ZZzmG8+kmXjRuThhWseJ6fLmWuNKT+RsEsMzkh6rNUd+
+ qe8WxU0ZQDq9kD7PxzF6TsAQ2TKo4es=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-XzxygY7bMXCslUouZKxklQ-1; Tue, 10 May 2022 06:28:02 -0400
-X-MC-Unique: XzxygY7bMXCslUouZKxklQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p24-20020a1c5458000000b003945d2ffc6eso5096724wmi.5
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 03:28:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=OGV2F9jQlziFTeFiucU9AK/uZ8SqYiERSEYj+WqKXTU=;
- b=H6cdHJbTDaQd5T4XKSkTstRaFmxl6oMg+U52oUbyUOh6oo324WDNv07cMooxsk/FPd
- WGlN+ucGdhp2JL/gii9lUhWKKRzQr+R8cYdHtEDOe7+7QgVpe5vb2fssxlZMtdhVSmJu
- kKg+TAgr+qW6o+DPCH0pWHq3Pnu5nNhBvpLOkvvkzUlHE1o8MQF2pSDXJcVuksSnJAJO
- 9CzOGwCJL6wZywG8TUJ/OBX8qJgMMdkXXtaEQ+YXxmaZfzPVfygSuLcwGGpCAWDiDAwe
- f2JaWVTnfIvU7xxTzdwn6ypxm3eDAnIUa847jJEcDmIardWuRCwDG5Oh8tVTa5NdrhGk
- GhQA==
-X-Gm-Message-State: AOAM532dtuEujoPR9jfgAu09Vfte7iazZ6JFgeTwOhwiMSwRj6FrkouZ
- 7/xnS+D0EuWzV43REyFhXYfg9kF9hHb2r403Vv9Vv2dDwdUkTCjpbJBgf2/xrLbEiHvB6YJ/9oT
- dYNQFfOZvqLbBMVc=
-X-Received: by 2002:a05:600c:190d:b0:394:8241:6454 with SMTP id
- j13-20020a05600c190d00b0039482416454mr15909636wmq.198.1652178479953; 
- Tue, 10 May 2022 03:27:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzraNAtlgzmZj3FRG5lLDkCw6heWfgh2c+Xw2EMmwpFlHe+RH1r6YVmdufk8DTf8tKjC8Js5A==
-X-Received: by 2002:a05:600c:190d:b0:394:8241:6454 with SMTP id
- j13-20020a05600c190d00b0039482416454mr15909596wmq.198.1652178479401; 
- Tue, 10 May 2022 03:27:59 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- x14-20020a7bc20e000000b003942a244f2esm2114660wmi.7.2022.05.10.03.27.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 May 2022 03:27:58 -0700 (PDT)
-Date: Tue, 10 May 2022 11:27:56 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
- david@redhat.com
-Subject: Re: [PATCH] util: NUMA aware memory preallocation
-Message-ID: <Yno+LIiTB2zSOUO8@work-vm>
-References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
- <YnoshVqLNjGFpfEl@redhat.com>
+ us-mta-509-GOMQUYphPIC3jXFa4rAd-g-1; Tue, 10 May 2022 06:42:15 -0400
+X-MC-Unique: GOMQUYphPIC3jXFa4rAd-g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14E6B185A7A4
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:42:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95AEF400E115;
+ Tue, 10 May 2022 10:42:13 +0000 (UTC)
+Date: Tue, 10 May 2022 11:42:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v1 5/8] qapi: golang: Generate qapi's event types in Go
+Message-ID: <YnpBghiwJCBVDqAm@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <20220401224104.145961-6-victortoso@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YnoshVqLNjGFpfEl@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <20220401224104.145961-6-victortoso@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -100,354 +78,289 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Tue, May 10, 2022 at 08:55:33AM +0200, Michal Privoznik wrote:
-> > When allocating large amounts of memory the task is offloaded
-> > onto threads. These threads then use various techniques to
-> > allocate the memory fully (madvise(), writing into the memory).
-> > However, these threads are free to run on any CPU, which becomes
-> > problematic on NUMA machines because it may happen that a thread
-> > is running on a distant node.
-> > 
-> > Ideally, this is something that a management application would
-> > resolve, but we are not anywhere close to that, Firstly, memory
-> > allocation happens before monitor socket is even available. But
-> > okay, that's what -preconfig is for. But then the problem is that
-> > 'object-add' would not return until all memory is preallocated.
-> > 
-> > Long story short, management application has no way of learning
-> > TIDs of allocator threads so it can't make them run NUMA aware.
+On Sat, Apr 02, 2022 at 12:41:01AM +0200, Victor Toso wrote:
+> This patch handles QAPI event types and generates data structures in
+> Go that handles it.
 > 
-> So I'm wondering what the impact of this problem is for various
-> scenarios.
+> At the moment of this writing, it generates 51 structures (49 events)
 > 
-> The default config for a KVM guest with libvirt is no CPU pinning
-> at all. The kernel auto-places CPUs and decides on where RAM is to
-> be allocated. So in this case, whether or not libvirt can talk to
-> QMP in time to query threads is largely irrelevant, as we don't
-> want todo placement in any case.
+> In Golang, each event is handled as a Go structure and there is no big
+> difference, in the Go generated code, between what is a QAPI event
+> type and what is a QAPI struct.
 > 
-> In theory the kernel should allocate RAM on the node local to
-> where the process is currently executing. So as long as the
-> guest RAM fits in available free RAM on the local node, RAM
-> should be allocated from the node that matches the CPU running
-> the QEMU main thread.
+> Each QAPI event has the suffix 'Event' in its Golang data structure
+> and contains the fields, mandatory and optional, that can be
+> sent or received.
 > 
-> The challenge is if we spawn N more threads to do pre-alloc,
-> these can be spread onto other nodes. I wonder if the kernel
-> huas any preference for keeping threads within a process on
-> the same NUMA node ?
+> In addition, there are two structures added to handle QAPI
+> specification for event types: 'Event' and 'EventBase'.
 > 
-> Overall, if libvirt is not applying pinning to the QEMU guest,
-> then we're 100% reliant on the kernel todo something sensible,
-> both for normal QEMU execution and for prealloc. Since we're
-> not doing placement of QEMU RAM or CPUs, the logic in this
-> patch won't do anything either.
-> 
-> 
-> If the guest has more RAM than can fit on the local NUMA node,
-> then we're doomed no matter what, even ignoring prealloc, there
-> will be cross-node traffic. This scenario requires the admin to
-> setup proper CPU /memory pinning for QEMU in libvirt.
-> 
-> If libvirt is doing CPU pinning (as instructed by the mgmt app
-> above us), then when we first start QEMU, the process thread
-> leader will get given affinity by libvirt prior to exec. This
-> affinity will be the union of affinity for all CPUs that will
-> be later configured.
-> 
-> The typical case for CPU pinning, is that everything fits in
-> one NUMA node, and so in this case, we don't need todo anything
-> more. The prealloc threads will already be constrained to the
-> right place by the affinity of the QEMU thread leader, so the
-> logic in this patch will run, but it won't do anything that
-> was not already done.
-> 
-> So we're left with the hardest case, where the guest is explicitly
-> spread across multiple NUMA nodes. In this case the thread leader
-> affinity will span many NUMA nodes, and so the prealloc threads
-> will freely be placed across any CPU that is in the union of CPUs
-> the guest is placed on. Just as with thue non-pinned case, the
-> prealloc will be at the mercy of the kernel making sensible
-> placement decisions.
-> 
-> The very last cases is the only one where this patch can potentially
-> be beneficial. The problem is that because libvirt is in charge of
-> enforcing CPU affinity, IIRC, we explicitly block QEMU from doing
-> anything with CPU affinity. So AFAICT, this patch should result in
-> an error from sched_setaffinity when run under libvirt.
+> 'EventBase' contains @Name and @Timestamp fields and then 'Event'
+> extends 'EventBase' with an @Arg field of type 'Any'.
 
-This problem crops up in a few places though; potentially the same trick
-could be done with multifd threads in migration, if we can make some
-multifd threads handle some specific NUMA nodes rather than shotgunning
-them across the threads.
-[Bonus: Make multifd route different NUMA nodes down NICs that are
-node local]
+Again, I don't think we should need to use an Any type here.
 
-Dave
+Rather than 
 
-> > But what we can do is to propagate the 'host-nodes' attribute of
-> > MemoryBackend object down to where preallocation threads are
-> > created and set their affinity according to the attribute.
-> > 
-> > Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2074000
-> > Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> > ---
-> >  backends/hostmem.c     |  6 ++--
-> >  hw/virtio/virtio-mem.c |  2 +-
-> >  include/qemu/osdep.h   |  2 ++
-> >  util/meson.build       |  2 +-
-> >  util/oslib-posix.c     | 74 ++++++++++++++++++++++++++++++++++++++++--
-> >  util/oslib-win32.c     |  2 ++
-> >  6 files changed, 82 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/backends/hostmem.c b/backends/hostmem.c
-> > index a7bae3d713..7373472c7e 100644
-> > --- a/backends/hostmem.c
-> > +++ b/backends/hostmem.c
-> > @@ -232,7 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
-> >          void *ptr = memory_region_get_ram_ptr(&backend->mr);
-> >          uint64_t sz = memory_region_size(&backend->mr);
-> >  
-> > -        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
-> > +        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads,
-> > +                        backend->host_nodes, MAX_NODES, &local_err);
-> >          if (local_err) {
-> >              error_propagate(errp, local_err);
-> >              return;
-> > @@ -394,7 +395,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
-> >           */
-> >          if (backend->prealloc) {
-> >              os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
-> > -                            backend->prealloc_threads, &local_err);
-> > +                            backend->prealloc_threads, backend->host_nodes,
-> > +                            MAX_NODES, &local_err);
-> >              if (local_err) {
-> >                  goto out;
-> >              }
-> > diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> > index 5aca408726..48b104cdf6 100644
-> > --- a/hw/virtio/virtio-mem.c
-> > +++ b/hw/virtio/virtio-mem.c
-> > @@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
-> >              int fd = memory_region_get_fd(&vmem->memdev->mr);
-> >              Error *local_err = NULL;
-> >  
-> > -            os_mem_prealloc(fd, area, size, 1, &local_err);
-> > +            os_mem_prealloc(fd, area, size, 1, NULL, 0, &local_err);
-> >              if (local_err) {
-> >                  static bool warned;
-> >  
-> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > index 1c1e7eca98..474cbf3b86 100644
-> > --- a/include/qemu/osdep.h
-> > +++ b/include/qemu/osdep.h
-> > @@ -577,6 +577,8 @@ unsigned long qemu_getauxval(unsigned long type);
-> >  void qemu_set_tty_echo(int fd, bool echo);
-> >  
-> >  void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
-> > +                     const unsigned long *host_nodes,
-> > +                     unsigned long max_node,
-> >                       Error **errp);
-> >  
-> >  /**
-> > diff --git a/util/meson.build b/util/meson.build
-> > index 8f16018cd4..393ff74570 100644
-> > --- a/util/meson.build
-> > +++ b/util/meson.build
-> > @@ -15,7 +15,7 @@ freebsd_dep = []
-> >  if targetos == 'freebsd'
-> >    freebsd_dep = util
-> >  endif
-> > -util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep])
-> > +util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep, numa])
-> >  util_ss.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
-> >  util_ss.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
-> >  util_ss.add(when: 'CONFIG_WIN32', if_true: files('aio-win32.c'))
-> > diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> > index 477990f39b..1572b9b178 100644
-> > --- a/util/oslib-posix.c
-> > +++ b/util/oslib-posix.c
-> > @@ -73,6 +73,10 @@
-> >  #include "qemu/error-report.h"
-> >  #endif
-> >  
-> > +#ifdef CONFIG_NUMA
-> > +#include <numa.h>
-> > +#endif
-> > +
-> >  #define MAX_MEM_PREALLOC_THREAD_COUNT 16
-> >  
-> >  struct MemsetThread;
-> > @@ -82,6 +86,9 @@ typedef struct MemsetContext {
-> >      bool any_thread_failed;
-> >      struct MemsetThread *threads;
-> >      int num_threads;
-> > +#ifdef CONFIG_NUMA
-> > +    struct bitmask *nodemask;
-> > +#endif
-> >  } MemsetContext;
-> >  
-> >  struct MemsetThread {
-> > @@ -420,6 +427,12 @@ static void *do_touch_pages(void *arg)
-> >      }
-> >      qemu_mutex_unlock(&page_mutex);
-> >  
-> > +#ifdef CONFIG_NUMA
-> > +    if (memset_args->context->nodemask) {
-> > +        numa_run_on_node_mask(memset_args->context->nodemask);
-> > +    }
-> > +#endif
-> > +
-> >      /* unblock SIGBUS */
-> >      sigemptyset(&set);
-> >      sigaddset(&set, SIGBUS);
-> > @@ -463,6 +476,12 @@ static void *do_madv_populate_write_pages(void *arg)
-> >      }
-> >      qemu_mutex_unlock(&page_mutex);
-> >  
-> > +#ifdef CONFIG_NUMA
-> > +    if (memset_args->context->nodemask) {
-> > +        numa_run_on_node_mask(memset_args->context->nodemask);
-> > +    }
-> > +#endif
+  type EventBase struct {
+        Name      string `json:"event"`
+        Timestamp struct {
+                Seconds      int64 `json:"seconds"`
+                Microseconds int64 `json:"microseconds"`
+        } `json:"timestamp"`
+  }
+
+  type Event struct {
+        EventBase
+        Arg Any `json:"data,omitempty"`
+  }
+
+  type ShutdownEvent struct {
+        Guest  bool          `json:"guest"`
+        Reason ShutdownCause `json:"reason"`
+  }
+
+
+I think we should just embed EventBase directly in each specific
+event eg
+
+
+  type Event struct {
+        Name      string `json:"event"`
+        Timestamp struct {
+                Seconds      int64 `json:"seconds"`
+                Microseconds int64 `json:"microseconds"`
+        } `json:"timestamp"`
+  }
+
+  type ShutdownEvent struct {
+        Event Event
+        Guest  bool          `json:"guest"`
+        Reason ShutdownCause `json:"reason"`
+  }
+
+
+Or perhaps better still, use an interface 
+
+  type Event interface {
+      GetName() string
+      GetTimestamp() string
+  }
+
+  type Timestamp struct {
+      Seconds      int64 `json:"seconds"`
+      Microseconds int64 `json:"microseconds"`
+  }
+
+  type ShutdownEvent struct {
+        Timestamp Timestamp  `json:"timestamp"`
+        Guest  bool          `json:"guest"`
+        Reason ShutdownCause `json:"reason"`
+  }
+
+  func (ev *ShutdownEvent) GetName() string {
+        return "SHUTDOWN"
+  }
+
+That way you can define public APIs taking 'Event' as a type,
+and impls of the events can be passed directly in/out.
+
+Similar comment for the Command type.
+
 > 
-> Ok, so this is where affinity is set, and I believe this ought to be
-> failing when run under libvirt with an EPERM from sched_setaffinity.
-> This code is ignoring errors so I guess this won't be noticed unless
-> libnuma is printing an error message ?
+> The 'Event' type implements the Unmarshaler to decode the QMP JSON
+> Object into the correct Golang (event) struct. The goal here is to
+> facilitate receiving Events.
 > 
-> > +
-> >      if (size && qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE)) {
-> >          ret = -errno;
-> >      }
-> > @@ -489,7 +508,9 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
-> >  }
-> >  
-> >  static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-> > -                           int smp_cpus, bool use_madv_populate_write)
-> > +                           int smp_cpus, const unsigned long *host_nodes,
-> > +                           unsigned long max_node,
-> > +                           bool use_madv_populate_write)
-> >  {
-> >      static gsize initialized = 0;
-> >      MemsetContext context = {
-> > @@ -499,6 +520,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-> >      void *(*touch_fn)(void *);
-> >      int ret = 0, i = 0;
-> >      char *addr = area;
-> > +    unsigned long value = max_node;
-> >  
-> >      if (g_once_init_enter(&initialized)) {
-> >          qemu_mutex_init(&page_mutex);
-> > @@ -520,6 +542,48 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-> >          touch_fn = do_touch_pages;
-> >      }
-> >  
-> > +    if (host_nodes) {
-> > +        value = find_first_bit(host_nodes, max_node);
-> > +    }
-> > +    if (value != max_node) {
-> > +#ifdef CONFIG_NUMA
-> > +        struct bitmask *cpus = numa_allocate_cpumask();
-> > +        g_autofree unsigned long *zerocpumask;
-> > +        size_t zerocpumasklen;
-> > +        g_autofree unsigned long *zeronodemask;
-> > +        size_t zeronodemasklen;
-> > +
-> > +        context.nodemask = numa_bitmask_alloc(max_node);
-> > +
-> > +        zerocpumasklen = cpus->size / sizeof(unsigned long);
-> > +        zerocpumask = g_new0(unsigned long, zerocpumasklen);
-> > +
-> > +        for (; value != max_node;
-> > +             value = find_next_bit(host_nodes, max_node, value + 1)) {
-> > +            if (numa_node_to_cpus(value, cpus) ||
-> > +                memcmp(cpus->maskp, zerocpumask, zerocpumasklen) == 0)
-> > +                continue;
-> > +
-> > +            /* If given NUMA node has CPUs run threads on them. */
-> > +            numa_bitmask_setbit(context.nodemask, value);
-> > +        }
-> > +
-> > +        numa_bitmask_free(cpus);
-> > +
-> > +        zeronodemasklen = max_node / sizeof(unsigned long);
-> > +        zeronodemask = g_new0(unsigned long, zeronodemasklen);
-> > +
-> > +        if (memcmp(context.nodemask->maskp,
-> > +                   zeronodemask, zeronodemasklen) == 0) {
-> > +            /* If no NUMA has a CPU available, then don't pin threads. */
-> > +            g_clear_pointer(&context.nodemask, numa_bitmask_free);
-> > +        }
-> > +#else
-> > +        errno = -EINVAL;
-> > +        return -1;
-> > +#endif
-> > +    }
-> > +
-> >      context.threads = g_new0(MemsetThread, context.num_threads);
-> >      numpages_per_thread = numpages / context.num_threads;
-> >      leftover = numpages % context.num_threads;
-> > @@ -554,6 +618,10 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-> >      if (!use_madv_populate_write) {
-> >          sigbus_memset_context = NULL;
-> >      }
-> > +
-> > +#ifdef CONFIG_NUMA
-> > +    g_clear_pointer(&context.nodemask, numa_bitmask_free);
-> > +#endif
-> >      g_free(context.threads);
-> >  
-> >      return ret;
-> > @@ -566,6 +634,8 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
-> >  }
-> >  
-> >  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-> > +                     const unsigned long *host_nodes,
-> > +                     unsigned long max_node,
-> >                       Error **errp)
-> >  {
-> >      static gsize initialized;
-> > @@ -608,7 +678,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-> >  
-> >      /* touch pages simultaneously */
-> >      ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
-> > -                          use_madv_populate_write);
-> > +                          host_nodes, max_node, use_madv_populate_write);
-> >      if (ret) {
-> >          error_setg_errno(errp, -ret,
-> >                           "os_mem_prealloc: preallocating memory failed");
-> > diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> > index dafef4f157..6efd912355 100644
-> > --- a/util/oslib-win32.c
-> > +++ b/util/oslib-win32.c
-> > @@ -314,6 +314,8 @@ int getpagesize(void)
-> >  }
-> >  
-> >  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-> > +                     const unsigned long *host_nodes,
-> > +                     unsigned long max_node,
-> >                       Error **errp)
-> >  {
-> >      int i;
-> > -- 
-> > 2.35.1
-> > 
-> > 
+> A TODO for this type is to implement Marshaler for 'Event'. It'll
+> containt runtime checks to validate before transforming the struct
+> into a JSON Object.
 > 
-> With regards,
-> Daniel
+> Example:
+> ```go
+>     qmpMsg := `{
+>     "event" : "MIGRATION",
+>     "timestamp":{
+>         "seconds": 1432121972,
+>         "microseconds": 744001
+>     },
+>     "data":{
+>         "status": "completed"
+>     }
+> }`
+> 
+>     e := Event{}
+>     _ = json.Unmarshal([]byte(qmpMsg), &e)
+>     // e.Name == "MIGRATION"
+>     // e.Arg.(MigrationEvent).Status == MigrationStatusCompleted
+> ```
+> 
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> ---
+>  scripts/qapi/golang.py | 92 ++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 84 insertions(+), 8 deletions(-)
+> 
+> diff --git a/scripts/qapi/golang.py b/scripts/qapi/golang.py
+> index 0a1bf430ba..3bb66d07c7 100644
+> --- a/scripts/qapi/golang.py
+> +++ b/scripts/qapi/golang.py
+> @@ -31,9 +31,10 @@ class QAPISchemaGenGolangVisitor(QAPISchemaVisitor):
+>  
+>      def __init__(self, prefix: str):
+>          super().__init__()
+> -        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct", "union"]}
+> +        self.target = {name: "" for name in ["alternate", "enum", "event", "helper", "struct", "union"]}
+>          self.objects_seen = {}
+>          self.schema = None
+> +        self.events = {}
+>          self._docmap = {}
+>          self.golang_package_name = "qapi"
+>  
+> @@ -57,6 +58,24 @@ def visit_begin(self, schema):
+>      def visit_end(self):
+>          self.schema = None
+>  
+> +        # EventBase and Event are not specified in the QAPI schema,
+> +        # so we need to generate it ourselves.
+> +        self.target["event"] += '''
+> +type EventBase struct {
+> +    Name      string `json:"event"`
+> +    Timestamp struct {
+> +        Seconds      int64 `json:"seconds"`
+> +        Microseconds int64 `json:"microseconds"`
+> +    } `json:"timestamp"`
+> +}
+> +
+> +type Event struct {
+> +    EventBase
+> +    Arg       Any    `json:"data,omitempty"`
+> +}
+> +'''
+> +        self.target["event"] += generate_marshal_methods('Event', self.events)
+> +
+>          self.target["helper"] += '''
+>  // Creates a decoder that errors on unknown Fields
+>  // Returns true if successfully decoded @from string @into type
+> @@ -279,7 +298,28 @@ def visit_command(self,
+>          pass
+>  
+>      def visit_event(self, name, info, ifcond, features, arg_type, boxed):
+> -        pass
+> +        assert name == info.defn_name
+> +        type_name = qapi_to_go_type_name(name, info.defn_meta)
+> +        self.events[name] = type_name
+> +
+> +        doc = self._docmap.get(name, None)
+> +        self_contained = True if not arg_type or not arg_type.name.startswith("q_obj") else False
+> +        content = ""
+> +        if self_contained:
+> +            doc_struct, _ = qapi_to_golang_struct_docs(doc)
+> +            content = generate_struct_type(type_name, "", doc_struct)
+> +        else:
+> +            assert isinstance(arg_type, QAPISchemaObjectType)
+> +            content = qapi_to_golang_struct(name,
+> +                                            doc,
+> +                                            arg_type.info,
+> +                                            arg_type.ifcond,
+> +                                            arg_type.features,
+> +                                            arg_type.base,
+> +                                            arg_type.members,
+> +                                            arg_type.variants)
+> +
+> +        self.target["event"] += content
+>  
+>      def write(self, output_dir: str) -> None:
+>          for module_name, content in self.target.items():
+> @@ -351,15 +391,41 @@ def generate_marshal_methods_enum(members: List[QAPISchemaEnumMember]) -> str:
+>  }}
+>  '''
+>  
+> -# Marshal methods for Union types
+> +# Marshal methods for Event and Union types
+>  def generate_marshal_methods(type: str,
+>                               type_dict: Dict[str, str],
+>                               discriminator: str = "",
+>                               base: str = "") -> str:
+> -    assert base != ""
+> -    discriminator = "base." + discriminator
+> -
+> -    switch_case_format = '''
+> +    type_is_union = False
+> +    json_field = ""
+> +    struct_field = ""
+> +    if type == "Event":
+> +        base = type + "Base"
+> +        discriminator = "base.Name"
+> +        struct_field = "Arg"
+> +        json_field = "data"
+> +    else:
+> +        assert base != ""
+> +        discriminator = "base." + discriminator
+> +        type_is_union = True
+> +
+> +    switch_case_format = ""
+> +    if not type_is_union:
+> +        switch_case_format = '''
+> +    case "{name}":
+> +        tmp := struct {{
+> +            Value {isptr}{case_type} `json:"{json_field},omitempty"`
+> +        }}{{}}
+> +        if err := json.Unmarshal(data, &tmp); err != nil {{
+> +            return err
+> +        }}
+> +        if tmp.Value == nil {{
+> +            s.{struct_field} = nil
+> +        }} else {{
+> +            s.{struct_field} = {isptr}tmp.Value
+> +        }}'''
+> +    else:
+> +        switch_case_format = '''
+>      case {name}:
+>          value := {case_type}{{}}
+>          if err := json.Unmarshal(data, &value); err != nil {{
+> @@ -374,12 +440,17 @@ def generate_marshal_methods(type: str,
+>          case_type = type_dict[name]
+>          isptr = "*" if case_type[0] not in "*[" else ""
+>          switch_cases += switch_case_format.format(name = name,
+> +                                                  struct_field = struct_field,
+> +                                                  json_field = json_field,
+> +                                                  isptr = isptr,
+>                                                    case_type = case_type)
+>          if case_type not in added:
+>              if_supported_types += f'''typestr != "{case_type}" &&\n\t\t'''
+>              added[case_type] = True
+>  
+> -    marshalfn = f'''
+> +    marshalfn = ""
+> +    if type_is_union:
+> +        marshalfn = f'''
+>  func (s {type}) MarshalJSON() ([]byte, error) {{
+>  	base, err := json.Marshal(s.{base})
+>  	if err != nil {{
+> @@ -564,4 +635,9 @@ def qapi_to_go_type_name(name: str, meta: str) -> str:
+>      words = [word for word in name.replace("_", "-").split("-")]
+>      name = words[0].title() if words[0].islower() or words[0].isupper() else words[0]
+>      name += ''.join(word.title() for word in words[1:])
+> +
+> +    if meta == "event":
+> +        name = name[:-3] if name.endswith("Arg") else name
+> +        name += meta.title()
+> +
+>      return name
 > -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 2.35.1
 > 
 > 
+
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
