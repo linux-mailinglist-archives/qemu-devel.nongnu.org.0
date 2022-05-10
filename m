@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7ED520B8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 04:55:38 +0200 (CEST)
-Received: from localhost ([::1]:51902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C42F520BCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 05:13:05 +0200 (CEST)
+Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noG2D-0004Oh-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 22:55:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42558)
+	id 1noGJ5-0000I3-NC
+	for lists+qemu-devel@lfdr.de; Mon, 09 May 2022 23:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1noG1J-0003jU-UB
- for qemu-devel@nongnu.org; Mon, 09 May 2022 22:54:41 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:37010 helo=loongson.cn)
+ id 1noGHb-00082I-35
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 23:11:31 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:41234 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1noG1H-0002k2-7o
- for qemu-devel@nongnu.org; Mon, 09 May 2022 22:54:41 -0400
+ (envelope-from <maobibo@loongson.cn>) id 1noGHY-0004z3-HY
+ for qemu-devel@nongnu.org; Mon, 09 May 2022 23:11:30 -0400
 Received: from [10.20.42.170] (unknown [10.20.42.170])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxGtnl03liOJQPAA--.58097S3; 
- Tue, 10 May 2022 10:54:30 +0800 (CST)
-Message-ID: <2dc9050b-00b2-e571-b553-f1d49c0d9a4a@loongson.cn>
-Date: Tue, 10 May 2022 10:54:29 +0800
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxcNrI13limZ0PAA--.61581S3; 
+ Tue, 10 May 2022 11:11:05 +0800 (CST)
+Message-ID: <92a6caf3-8f43-00a2-c051-49c63d71827a@loongson.cn>
+Date: Tue, 10 May 2022 11:11:04 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Subject: Re: [PATCH v3 34/43] hw/intc: Add LoongArch extioi interrupt
  controller(EIOINTC)
 Content-Language: en-US
+From: maobibo <maobibo@loongson.cn>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
 Cc: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
@@ -40,27 +41,27 @@ References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
  <e514e333-b458-517f-66f7-f3fd0a0c5bad@linaro.org>
  <CAFEAcA8y-ZVeEHDXUv2bAwKL9EumTmrJ-Xz1r23C7Lm0yajBdQ@mail.gmail.com>
  <402096bf-2a89-311e-6174-eac63b78f74a@linaro.org>
-From: maobibo <maobibo@loongson.cn>
-In-Reply-To: <402096bf-2a89-311e-6174-eac63b78f74a@linaro.org>
+ <2dc9050b-00b2-e571-b553-f1d49c0d9a4a@loongson.cn>
+In-Reply-To: <2dc9050b-00b2-e571-b553-f1d49c0d9a4a@loongson.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxGtnl03liOJQPAA--.58097S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF4xZF43Wr1rKw48KrWDCFg_yoW5Jr13pr
- ZFka1Ikr4qyrn7Aws7Xan5XF98AFs3Jry3Z34DAry8C3s8uryftFWjka95uFyUZr1xZ3Wj
- vrWYkwn7WFWqyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: AQAAf9BxcNrI13limZ0PAA--.61581S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr4UCr1fXF1DCw4fKw4DJwb_yoW5GF17pr
+ ZFkF4Ikr4ktrn7CwsFqan5XFyYyFs7Jry5Z34DJry0kr98uryftFWjka95uFyUZr1xZ3Wj
+ vrWYkrs7uFWqy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
- C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
- wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
- v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2
- z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73Uj
- IFyTuYvjfUoOJ5UUUUU
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
+ 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+ xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+ 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2
+ z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+ UI43ZEXa7VUbXdbUUUUUU==
 X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
  helo=loongson.cn
@@ -87,50 +88,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-在 2022/5/10 02:25, Richard Henderson 写道:
-> On 5/9/22 13:04, Peter Maydell wrote:
->> On Mon, 9 May 2022 at 18:56, Richard Henderson
->> <richard.henderson@linaro.org> wrote:
->>> I'm not 100% sure how this "Other configuration control register" should be handled, but
->>> definitely not like this.
+在 2022/5/10 10:54, maobibo 写道:
+> 
+> 
+> 在 2022/5/10 02:25, Richard Henderson 写道:
+>> On 5/9/22 13:04, Peter Maydell wrote:
+>>> On Mon, 9 May 2022 at 18:56, Richard Henderson
+>>> <richard.henderson@linaro.org> wrote:
+>>>> I'm not 100% sure how this "Other configuration control register" should be handled, but
+>>>> definitely not like this.
+>>>>
+>>>> I see you're putting control of this register into loongarch_qemu_read in
+>>>> target/loongarch/cpu.c.  Which, I suppose is fair, because this is documented as part of
+>>>> the 3A5000 cpu documentation.  But then you split out all of the devices which are *also*
+>>>> documented as part of the cpu into the board configuration.
+>>>>
+>>>> This reminds me of the memory-mapped interface that the armv7m cpu has with its own
+>>>> registers.  I believe that you need to model this similarly, where you will have a device
+>>>> that represents the cpu, and then instantiates all of the devices that are listed in the
+>>>> Loongson 3A5000 TRM -- call this ls3a to match the ls7a name you have for the 7A1000
+>>>> bridge device.
+>>>>
+>>>> When there is a write to the ls3a "Other function configuration register", the ls3a will
+>>>> need to communicate the changes to the various bits to its various sub-devices.  I do not
+>>>> think it unreasonable to have direct function calls between the components.
+>>>>
+>>>> Peter, do you have any advice from the armv7m side?
 >>>
->>> I see you're putting control of this register into loongarch_qemu_read in
->>> target/loongarch/cpu.c.  Which, I suppose is fair, because this is documented as part of
->>> the 3A5000 cpu documentation.  But then you split out all of the devices which are *also*
->>> documented as part of the cpu into the board configuration.
->>>
->>> This reminds me of the memory-mapped interface that the armv7m cpu has with its own
->>> registers.  I believe that you need to model this similarly, where you will have a device
->>> that represents the cpu, and then instantiates all of the devices that are listed in the
->>> Loongson 3A5000 TRM -- call this ls3a to match the ls7a name you have for the 7A1000
->>> bridge device.
->>>
->>> When there is a write to the ls3a "Other function configuration register", the ls3a will
->>> need to communicate the changes to the various bits to its various sub-devices.  I do not
->>> think it unreasonable to have direct function calls between the components.
->>>
->>> Peter, do you have any advice from the armv7m side?
+>>> Nothing concrete. I'm not sure that we'd structure the armv7m stuff the way
+>>> we have now if we were writing it from scratch, but it's functional enough.
+>>> (In particular, if MMIO regions were part of Device rather than SysBusDevice
+>>> then I'd be tempted to suggest that CPUs with MMIO-mapped registers should
+>>> directly own their MemoryRegions for them. But they aren't, so we can't do
+>>> that.)
 >>
->> Nothing concrete. I'm not sure that we'd structure the armv7m stuff the way
->> we have now if we were writing it from scratch, but it's functional enough.
->> (In particular, if MMIO regions were part of Device rather than SysBusDevice
->> then I'd be tempted to suggest that CPUs with MMIO-mapped registers should
->> directly own their MemoryRegions for them. But they aren't, so we can't do
->> that.)
+>> Having thought about this a little more, I believe that these registers are part of the "cpu package", because they are shared between the 4 cpu cores within the package.  Thus their current placement attached to LoongArchCPU -- as well as the current placement of address_space_iocsr -- is incorrect.
 > 
-> Having thought about this a little more, I believe that these registers are part of the "cpu package", because they are shared between the 4 cpu cores within the package.  Thus their current placement attached to LoongArchCPU -- as well as the current placement of address_space_iocsr -- is incorrect.
+> The extioi hardware design is not friend to software developer, local cpu INTC
+> is mixed with board INTC with extioi/iocsr. Local cpu INTC registers should be banked,
+> address space is space for local cpu review point.
+address space of local cpu INTC should be the same from cpu viewpoint.
 
-The extioi hardware design is not friend to software developer, local cpu INTC
-is mixed with board INTC with extioi/iocsr. Local cpu INTC registers should be banked,
-address space is space for local cpu review point.
-
-how about put address_space_iocsr as board rather than percpu since there is no concept
-of "cpu package".
-
-regards
-bibo, mao
 > 
+> how about put address_space_iocsr as board rather than percpu since there is no concept
+> of "cpu package".
 > 
-> r~
+> regards
+> bibo, mao
+>>
+>>
+>> r~
+> 
 
 
