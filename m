@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC113521559
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 14:25:39 +0200 (CEST)
-Received: from localhost ([::1]:49926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8BF521533
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 14:23:47 +0200 (CEST)
+Received: from localhost ([::1]:46716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noOvq-0004KQ-LN
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 08:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39378)
+	id 1noOu1-00029v-K0
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 08:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1noOue-0003eb-25
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:24:24 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:46029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1noOub-0006hE-PM
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:24:23 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-e93bbb54f9so18035302fac.12
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 05:24:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9ClM5kohLSmrAkd9nO7LJlGDBCGl7HdfcQ4xKhtvdRU=;
- b=DAT9kRISifOFuVkWJFA5lCSVN39rmnNIWtDU0EvniGPIKyKE2ONJSMYGX57exQNUyd
- kJ/I3tTcfGYti48vQw0hFF7edcvt+pbDheNXDZFog3RYNZ/MffUQnpWRHIAM855llkUw
- hJxhl++IGY88nHPO7I18XH5oi/pgi8N4TTPjyO0bSgu1UKGdS28y8o6X1V6EGv8qxtm+
- qY73AVAM+fSFPedo+EY7p4TuQzl8veRTdE+jnWO3TiHqCU4CfnPjQw0S89pVwKj858V6
- N+2odfEJn8FbhAWHr5G9B5KSgLb0zsYwSEe5jH02N5AwQaSDFZktLgq9ySEwV0lVJJe+
- yAyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9ClM5kohLSmrAkd9nO7LJlGDBCGl7HdfcQ4xKhtvdRU=;
- b=o4KGv36UlG0UXuZPCHZduo9Yl7rilNoBsqBF062juWL3LNcPnpKdRwTcq3D006xMlh
- D3pD+X0ToonVBU0WJqkD9LF52/hB8qQ+e2WUDGayCB7kBcoOdD7H6YUaUhgGpv83RlUY
- nbJxvdtuGCJsJNZF9HyARUUvowERKEvZPqniaZSYRkiuQCdv8Yu0F+ejLzUKA3mur40J
- Qf/gldl8fR9nh/o1+xDCacfQljxNf3cpp4gycX+zj8UIpXn3aLNC5kQuv3ctrUsckRCa
- OyCMP2jaRzBQWQxkgOdXv0EcosvGy1QFIVj+tHEMxXHPJOmqnD3YGTzOWNXvzJgs1KZn
- h44g==
-X-Gm-Message-State: AOAM5318Clr3jAjgAVzx9edPlL3XqRxs4odYndZpmmr7J3ubmQSaGgsJ
- xIyFNXzLpM2yJhG3uBNm4hOGfFSKJRsAhUydTGEXXw==
-X-Google-Smtp-Source: ABdhPJyGZrlr2Y78o0TnES6XAbh0bRgOJdlI1KQnz+kf41t0CGmqvjuzCcakQ/QjgKXGWTQt9gVtNGQZqe23CGM7TAQ=
-X-Received: by 2002:a05:6870:a54d:b0:ec:e635:a4aa with SMTP id
- p13-20020a056870a54d00b000ece635a4aamr10369267oal.148.1652185459909; Tue, 10
- May 2022 05:24:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1noOrZ-00017t-AL
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:21:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1noOrX-0006Ln-41
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:21:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652185270;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Iko0h5mlGebfhao3jeBrN4iOcqM/nCep3wZfEOD/bgE=;
+ b=CzlpGRAs+dPqoS3xIGa1e6nZ0XMHZDIyfikfhf6czsChIB4lmVviRJ7mGOSoXkXMbsx4qp
+ K5fw4pVvpwuPN1Q8q4RV3Zpo1xNfntU4uJQVmC1Yhn2CVe1hAqlqr6C71NEvI9GKWOFIg+
+ W5hLVzObFDRWQkPws5NW2LiC1qSbjQ8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-159-P3lMRYo-MrWr8OM2jkFAfw-1; Tue, 10 May 2022 08:21:06 -0400
+X-MC-Unique: P3lMRYo-MrWr8OM2jkFAfw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91BDE293249A;
+ Tue, 10 May 2022 12:21:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48CEE43EC24;
+ Tue, 10 May 2022 12:21:05 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5717E18000A3; Tue, 10 May 2022 14:20:56 +0200 (CEST)
+Date: Tue, 10 May 2022 14:20:56 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabiano Rosas <farosas@linux.ibm.com>, muriloo@linux.ibm.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ mopsfelder@gmail.com, qemu-ppc@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ qemu-RISC-V <qemu-riscv@nongnu.org>
+Subject: Re: QEMU 32-bit vs. 64-bit binaries
+Message-ID: <20220510122056.l6deselsfipofnct@sirius.home.kraxel.org>
+References: <87sfpqaey7.fsf@linux.ibm.com>
+ <2ab9e2b3-5dba-4e18-ed2e-6063a2716f4c@ilande.co.uk>
+ <87ilql9xww.fsf@linux.ibm.com>
+ <ef8256fb-6e99-5f37-d5c5-67f9af4302b0@ilande.co.uk>
+ <472e45e8-319b-ad48-3afa-0dfa74e6ad20@redhat.com>
+ <877d6tzs2e.fsf@pond.sub.org>
+ <32e5877d-ba45-ac63-d24e-1f9f8676c6bb@redhat.com>
+ <CAFEAcA8Ff45KeuQm-v8MwXX_i+P51uF-ovpQvtGD3hx1bi3A9g@mail.gmail.com>
+ <Ynou3EnxfSmrzGT0@work-vm>
+ <d1b04636-b1db-d13e-36b3-d45fb8cf9ad0@redhat.com>
 MIME-Version: 1.0
-References: <87a6bulueg.fsf@pond.sub.org>
- <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
- <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
- <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
- <a5b11030-c00e-fdec-dacd-e09cc0924a0a@redhat.com>
- <CACGkMEuPQr0TQtkMZr2zeJYGMy69EXN-fhdRTq6JUkWw3KmvMw@mail.gmail.com>
- <87bkw7e0mc.fsf@pond.sub.org>
- <CAFEAcA9QGSqx=e5CgsbyBwVH3wa_VW1i2c=5H5cKp5X-hHs71Q@mail.gmail.com>
- <CACGkMEuXM2YzFCGNgfZH5K1+Yvsvpdn103fcKGchjoh+VqFeRg@mail.gmail.com>
-In-Reply-To: <CACGkMEuXM2YzFCGNgfZH5K1+Yvsvpdn103fcKGchjoh+VqFeRg@mail.gmail.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Tue, 10 May 2022 15:15:08 +0300
-Message-ID: <CABcq3pHRyZcexXimSLjKqd0wW02guBx84AXDuROTirZbOJiN+w@mail.gmail.com>
-Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
-To: Jason Wang <jasowang@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, Yan Vugenfirer <yan@daynix.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2001:4860:4864:20::2c;
- envelope-from=andrew@daynix.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d1b04636-b1db-d13e-36b3-d45fb8cf9ad0@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,39 +99,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
-The ebpf/rss.bpf.skeleton.h is generetad by bpftool from tools/ebpf/rss.bpf.c.
-To generate the skeleton - would require dependencies of llvm and bpftool.
-RSS eBPF solution, for now, is only for Linux hosts.
+  Hi,
 
-> Andrew, want to post a patch to explain this?
-I am all in for clarification. And will prepare a new patch if required.
-Please advise, what those patches should be? Documentation update?
+> I'm not very familiar with KVM on ARM - but is it possible to use KVM there
+> with an arbitrary machine? If that's the case, a user might want to use KVM
+> on their 64-bit host to run a 32-bit guest machine, and then you need to
+> keep the 32-bit machines in the -aarch64 binary.
 
+32-bit guest is 'qemu-system-aarch64 -machine virt -cpu host,aarch64=off'
+(and a aarch64 CPU which actually supports the armv7 instructions).
 
-On Mon, May 9, 2022 at 12:35 PM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Mon, May 9, 2022 at 4:42 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Mon, 9 May 2022 at 06:30, Markus Armbruster <armbru@redhat.com> wrote:
-> > > Always, always, *always* document your reasons for doing stuff right in
-> > > the commit message, unless they are blindingly obvious.  I understand
-> > > reasons can be obvious enough to the author.  Document them anyway if
-> > > there is any chance they are not obvious to others.
-> >
-> > It's also nice for code-generators to say who they are
-> > in this kind of "this file is autogenerated" comment.
-> > For instance our own decodetree script's comments read
-> >   /* This file is autogenerated by scripts/decodetree.py.  */
->
-> Unfortunately, this is not what bpftool did right now.
->
-> Have posted a patch (with Markus and you cced).
->
-> Thanks
->
-> >
-> > -- PMM
-> >
->
+take care,
+  Gerd
+
 
