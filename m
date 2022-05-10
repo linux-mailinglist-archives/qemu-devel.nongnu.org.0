@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6331B521398
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 13:22:19 +0200 (CEST)
-Received: from localhost ([::1]:32930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2505213A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 13:23:57 +0200 (CEST)
+Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noNwX-0003LV-E4
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 07:22:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54000)
+	id 1noNy8-0004lb-Ea
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 07:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1noNum-00021S-Om; Tue, 10 May 2022 07:20:29 -0400
-Received: from mail-sender-0.a4lg.com
- ([2401:2500:203:30b:4000:6bfe:4757:0]:47788)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1noNvq-0003P3-Sb
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 07:21:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1noNuj-0003x9-MJ; Tue, 10 May 2022 07:20:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 28F0E300089;
- Tue, 10 May 2022 11:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1652181614;
- bh=c+RaZDUF0KkM7iGjBXe89tRjjM68aGEnsYrNnzPdNkU=;
- h=Message-ID:Date:Mime-Version:From:Subject:To:Cc:References:
- In-Reply-To:Content-Type:Content-Transfer-Encoding;
- b=RBoZDm3Awj6bxuMDUfYR6F79upXB2Xh3tXrt/15t94NdF4PenPik0QGWfe8MVfhLx
- DpWhwOtHttPaKZ5g20fUPlnHxqi5RxpA86WqxYeYzbCSY7aN5/9swZlofaz3SbRwyI
- 3yMnY8f5ggozu9UnolXBKsqm2+3ddhJjM1FHdi7g=
-Message-ID: <3192ea7d-1e0f-930f-9a40-cdeecfafdcab@irq.a4lg.com>
-Date: Tue, 10 May 2022 20:20:10 +0900
-Mime-Version: 1.0
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-Subject: Re: [PATCH 2/2] target/riscv: Add short-isa-string option
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Frank Chang <frank.chang@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-References: <cover.1650777360.git.research_trasio@irq.a4lg.com>
- <51c9f2ce37e6d1483317710ddd1e14be74a61e69.1650777360.git.research_trasio@irq.a4lg.com>
- <CAKmqyKPw-qtNm3nnLx-ZtE2Z7P2K6E3AH3B633B4nYj2m_4fMw@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAKmqyKPw-qtNm3nnLx-ZtE2Z7P2K6E3AH3B633B4nYj2m_4fMw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1noNvp-0004Je-1k
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 07:21:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652181692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CzimICNixUywf1riMtukqDIbnFveuswDqCIbka0CSGk=;
+ b=JMkbM/ZlxWkqSYXXBMpR0C4MEhTlgIvIdw1AA4vVw7gK3TIClWQIXujXA6nfppa8YoZJY0
+ eglnsUSbeEFBAawccb6zyo5LWrVxcrGruMSIS8crA7vzCkB5T+i+5+jMZYXYYmgCbxX24+
+ 6omlCH6z9NmyiByiy5B9EXApaHLKXl0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-624-4_jAbt2nNumNpT70WdXG-w-1; Tue, 10 May 2022 07:21:31 -0400
+X-MC-Unique: 4_jAbt2nNumNpT70WdXG-w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF9A2866DF4
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 11:21:30 +0000 (UTC)
+Received: from localhost (unknown [10.40.193.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67193438BE9;
+ Tue, 10 May 2022 11:21:30 +0000 (UTC)
+Date: Tue, 10 May 2022 13:21:29 +0200
+From: Victor Toso <victortoso@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v1 2/8] qapi: golang: Generate qapi's alternate types
+ in Go
+Message-ID: <20220510112129.befwqkqtkdhyah5h@tapioca>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <20220401224104.145961-3-victortoso@redhat.com>
+ <Yno6Jb1Y9GmgD5wr@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bt3keowquelf6fyq"
+Content-Disposition: inline
+In-Reply-To: <Yno6Jb1Y9GmgD5wr@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,157 +83,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/05/09 18:51, Alistair Francis wrote:
-> On Sun, Apr 24, 2022 at 7:22 AM Tsukasa OI <research_trasio@irq.a4lg.com> wrote:
->>
->> Because some operating systems don't correctly parse long ISA extension
->> string, this commit adds short-isa-string boolean option to disable
->> generating long ISA extension strings on Device Tree.
->>
->> Operating Systems which short-isa-string might be helpful:
->>
->> 1.  Linux (5.17 or earlier)
->> 2.  FreeBSD (at least 14.0-CURRENT)
->> 3.  OpenBSD (at least current development version)
->>
->> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
->> ---
->>  target/riscv/cpu.c | 5 ++++-
->>  target/riscv/cpu.h | 2 ++
->>  2 files changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index c765f7ff00..9718cd0e7e 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -834,6 +834,8 @@ static Property riscv_cpu_properties[] = {
->>      DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
->>
->>      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
->> +
->> +    DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
->>      DEFINE_PROP_END_OF_LIST(),
->>  };
->>
->> @@ -989,7 +991,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
->>          }
->>      }
->>      *p = '\0';
->> -    riscv_isa_string_ext(cpu, &isa_str, maxlen);
->> +    if (!cpu->cfg.short_isa_string)
->> +        riscv_isa_string_ext(cpu, &isa_str, maxlen);
-> 
-> I don't love this, the long strings are part of the ISA, it seems
-> strange to add an option to disable them.
-> 
-> Can you provide more details on what this breaks?
-> 
-> Alistair
 
-I don't like it either but I think this is necessary for (at least) a few
-years (as a workaround).
+--bt3keowquelf6fyq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Images for testing:
-<https://a4lg.com/downloads/archives/tmp/2022-05-10/qemu-issue-reproduction-20220510.tar.xz>
-Use latest (development version of) QEMU to reproduce.
+Hi,
 
-- Linux 5.15 (FPU support enabled)
-- Busybox 1.35.0 (use of FPU disabled, -march=rv64imac -mabi=lp64)
+On Tue, May 10, 2022 at 11:10:45AM +0100, Daniel P. Berrang=E9 wrote:
+> On Sat, Apr 02, 2022 at 12:40:58AM +0200, Victor Toso wrote:
+> > This patch handles QAPI alternate types and generates data
+> > structures in Go that handles it.
+> >=20
+> > At this moment, there are 5 alternates in qemu/qapi, they are:
+> >  * BlockDirtyBitmapMergeSource
+> >  * Qcow2OverlapChecks
+> >  * BlockdevRef
+> >  * BlockdevRefOrNull
+> >  * StrOrNull
+> >=20
+> > Alternate types are similar to Union but without a
+> > discriminator that can be used to identify the underlying
+> > value on the wire. It is needed to infer it. That can't be
+> > easily mapped in Go.
+>=20
+> I don't buy that. Given this example:
+>=20
+>   type BlockdevRef struct {
+>         // Options are:
+>         // * definition (BlockdevOptions): defines a new block device inl=
+ine
+>         // * reference (string): references the ID of an existing block d=
+evice
+>         Value Any
+>   }
+>=20
+> What is the problem with having this Go struct:
+>=20
+>   type BlockdevRef struct {
+>         Definition *BlockdevOptions
+> 	      Reference  *string
+>   }
 
+=2E.. this is better.
 
-Config 1. `-cpu rv64,g=on,f=on,d=on,zfinx=off,zdinx=off'
+> when deserializing from JSON, we know exactly which one of
+> these two fields to populate. The programmer consuming this can
+> look at which field is non-nil.
+>=20
+> When serializing to JSON, we serialize which ever field is
+> non-nil.
+>=20
+> If both fields are non-nil that's a programmer bug. Either
+> ignore it and only serialize the first non-nil field, or raise
+> an error.
 
-This is generic RV64.
-ISA string is "rv64imafdch_zba_zbb_zbc_zbs".
+It would be a programmer bug if they set a Value of a type not
+allowed by Type's spec, but it would be a *runtime* error. Your
+suggestion is more type safe.
 
-With this ISA, it works.  ...Actually, it misunderstands Zbc extension as
-`Z', `B' and `C' extensions (which might cause problems on other
-configurations) in Linux 5.15 but... not now.
+Thanks.
 
+>=20
+> >=20
+> > For each Alternate type, we will be using a Any type to hold the
+> > value. 'Any' is an alias type for interface{} (similar to void* in C).
+> >=20
+> > Similarly to the Enum types (see previous commit), we will implement
+> > Marshaler and Unmarshaler interfaces for the Alternate types and in
+> > those MarshalJSON() and UnmarshalJSON() methods is where we are going
+> > to put the logic to read/set alternate's value.
+> >=20
+> > Note that on UnmarshalJSON(), a helper function called StrictDecode()
+> > will be used. This function is the main logic to infer if a given JSON
+> > object fits in a given Go struct. Because we only have 5 alternate
+> > types, it is not hard to validate the unmarshaling logic but we might
+> > need to improve it in the future if Alternate with branches that have
+> > similar fields appear.
+> >=20
+> > Examples:
+> >  * BlockdevRef
+> > ```go
+> >     // Data to set in BlockdevOptions
+> >     qcow2 :=3D BlockdevOptionsQcow2{}
+> >     // BlockdevRef using a string
+> >     qcow2.File =3D BlockdevRef{Value: "/some/place/my-image"}
+> >     opt :=3D BlockdevOptions{}
+> >     opt.Driver =3D BlockdevDriverQcow2
+> >     opt.Value =3D qcow2
+> >=20
+> >     b, _ :=3D json.Marshal(data.s)
+> >     // string(b) =3D=3D `{"driver":"qcow2","file":"/some/place/my-image=
+"}`
+> > ```
+> >=20
+> > Signed-off-by: Victor Toso <victortoso@redhat.com>
+> > ---
+> >  scripts/qapi/golang.py | 157 ++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 155 insertions(+), 2 deletions(-)
+>=20
+> With regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>=20
 
-Config 2. `-cpu rv64,g=off,f=off,d=off,zfinx=on,zdinx=on'
+--bt3keowquelf6fyq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This is generic RV64 but with floating point using GPRs (Zfinx and Zdinx).
-ISA string is "rv64imach_zfinx_zdinx_zba_zbb_zbc_zbs".
+-----BEGIN PGP SIGNATURE-----
 
-OK, this is the problem.  If you try to run userland (Busybox-based), it
-crashes on __fstate_restore function in kernel.
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmJ6SrkACgkQl9kSPeN6
+SE8pEA//fmxRvEcQkJIItMo3dlEHGzs0SNqPlN7NtOcWfUH6Z4tq+UrEAhMZq15Q
+Kt/a6kj+oQKLRKWigB8M73YpsCaGT9mYCwfs4NvgyQsB4H0IaQIbERXvPLFDIU+l
+BbD+cTudZ3ra/QE5CRuwHVUiG1Cv4vIol0UVDr2/x7xt7M5X/AShcGOkYzWm/OqT
+wykf1MtGpQWtgwDQpu2FpDBvOzgMEeEvAuOJkNrmA5TlcHSkgwrs7bIRBXHsAaRu
+rnzRobGv9ZBVw+UJHXtkhoQR0pWItXdhmDCHXia/HFq01k1/yOra+HKQLzXljMgb
+zfMwi+/8gs1IuE+2652off2O4WlYy8sbxBW+4vBXaQln4YFfun6UjK487cL/dKlW
+bpecCUl2Frv9BebBzkZMLSXLXLJXH1m0qmt9QGD5wKyjmhRG62eh91ktaH+tmzh2
+ntJ5MuUP0s5K7Dgmw2UQMtoMF0t8eYZ2NQwr6Wkzl19Ve3s1VHXmH5+DDOk6sKvh
+TqWC7BiuH4KaMv4eXmKxU9+rl5x59GdR0xdKoreAnRHPnxX27uzQeRa75tiCyUBF
+VF/25N2gcCTmuEJLYkJqfFax28cDPQKi+CjF1FsP0Hbqf8rlLnLQZmgIiJyWk+Mz
+LDHRmc5e2AZKUKUMB4jm1tPoJnuSeKVCgmkpAfd838WlxTNZxAU=
+=0AOa
+-----END PGP SIGNATURE-----
 
-[    0.619174] Oops - illegal instruction [#1]
-[    0.619544] Modules linked in:
-[    0.619913] CPU: 0 PID: 1 Comm: init Not tainted 5.15.0 #47
-[    0.620594] Hardware name: riscv-virtio,qemu (DT)
-[    0.621142] epc : __fstate_restore+0x12/0x8c
-[    0.621858]  ra : start_thread+0x28/0x5a
-[    0.623463] epc : ffffffff80005332 ra : ffffffff80003352 sp : ffffffd00060bc90
-[    0.624291]  gp : ffffffff812e6e38 tp : ffffffe001630000 t0 : 0000000000000000
-[    0.625194]  t1 : 0000000000006000 t2 : 0000000000000000 s0 : ffffffd00060bcc0
-[    0.626448]  s1 : ffffffd00060bee0 a0 : ffffffe001630900 a1 : 000000000001054c
-[    0.627431]  a2 : 0000000000000900 a3 : 0000000000000000 a4 : 0000000000000000
-[    0.627983]  a5 : 0000000000002020 a6 : 000000000000000c a7 : 0000000000000000
-[    0.629473]  s2 : 0000003ff4473e10 s3 : 000000000001054c s4 : 0000003ff4473ff2
-[    0.630798]  s5 : 0000003ffffffff8 s6 : 000000000001054c s7 : 0000000000040000
-[    0.631623]  s8 : 0000003ff4473e38 s9 : 0000003ff4473e38 s10: ffffffe002083600
-[    0.632310]  s11: ffffffe002070000 t3 : 000000000000000e t4 : 0000000000000000
-[    0.633080]  t5 : 0000000000000180 t6 : 0000000000040000
-[    0.633648] status: 0000000200000120 badaddr: 0000000000053007 cause: 0000000000000002
-[    0.635025] [<ffffffff80005332>] __fstate_restore+0x12/0x8c
-[    0.635771] [<ffffffff8017eb1a>] load_elf_binary+0xe16/0xe4a
-[    0.636149] [<ffffffff8012c97a>] bprm_execve+0x1e4/0x468
-[    0.636603] [<ffffffff8012d646>] kernel_execve+0xdc/0x142
-[    0.636943] [<ffffffff80709158>] run_init_process+0x90/0x9e
-[    0.637493] [<ffffffff807136a2>] kernel_init+0x72/0x104
-[    0.638390] [<ffffffff80003008>] ret_from_exception+0x0/0xc
-[    0.639513] ---[ end trace e4dec1a155401c43 ]---
-[    0.640489] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+--bt3keowquelf6fyq--
 
-Apparently, it crashes as follows:
-
-1.  Linux (-5.17) misunderstands `Zfinx' and `Zdinx' extensions as I, F, D,
-    N, X and Z single-letter extensions and thinks FPU with dedicated
-    registers is there.
-2.  Because of that, the kernel tries to initialize FP registers from
-    memory using `fld' instruction but this is a part of `D' extension,
-    not `Zdinx'.
-3.  Illegal instruction trap is generated and the kernel panics.
-
-
-As you can see, many operating systems currently in use still don't
-correctly understand long ISA strings:
-
->> 1.  Linux (5.17 or earlier)
->> 2.  FreeBSD (at least 14.0-CURRENT)
->> 3.  OpenBSD (at least current development version)
-
-...and it affects in-kernel behavior directly!  That means, we still need
-something to prevent multi-letter extension names from appearing in
-"riscv,isa" DeviceTree ISA string.  That's the purpose of this option.
-
-I am preparing for PATCH v2 (which "moves" Zhinx*, instead of removing) so
-please wait for it (this commit will be unchanged but will reflect your
-comment).
-
-Tsukasa
-
-> 
->>      return isa_str;
->>  }
->>
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index 34c22d5d3b..5b7fe32218 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -408,6 +408,8 @@ struct RISCVCPUConfig {
->>      bool aia;
->>      bool debug;
->>      uint64_t resetvec;
->> +
->> +    bool short_isa_string;
->>  };
->>
->>  typedef struct RISCVCPUConfig RISCVCPUConfig;
->> --
->> 2.32.0
->>
-> 
 
