@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B3352115D
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACA252115E
 	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:48:13 +0200 (CEST)
-Received: from localhost ([::1]:49204 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noMTU-0000Iv-6F
+	id 1noMTU-0000Ln-8i
 	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48730)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1noLwL-00030O-FU
- for qemu-devel@nongnu.org; Tue, 10 May 2022 05:13:57 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:45998 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1noLwJ-0006zx-J5
- for qemu-devel@nongnu.org; Tue, 10 May 2022 05:13:57 -0400
-Received: from [10.20.42.170] (unknown [10.20.42.170])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxUNrOLHpi0eoPAA--.59752S3; 
- Tue, 10 May 2022 17:13:50 +0800 (CST)
-Message-ID: <3c6fd51c-36ca-58f6-ea36-2c9dda70c40f@loongson.cn>
-Date: Tue, 10 May 2022 17:13:50 +0800
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1noLws-00048U-3I
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 05:14:30 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:45946)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1noLwq-00073p-3m
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 05:14:29 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id v59so29510081ybi.12
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 02:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3RofmkJZc0erz0aFGxAWkPhQH5on/WdQGNq0i5D1x7w=;
+ b=V7m5dugOgNtJKbDLEd0VU+TAYQmk0yEfCYnKU7qnUPrrDtGNeBiYEpoIZtSq9OQwqS
+ 7f/qb7qzZmkAgw+Sc7KJ5jalqN//L+TRWxEOeuLnTEjG3E2nTxxbaPymVx2AgTNungVl
+ ueWKUp9rzcSphifBpGzRfXDrYPi8ftKmlERWOj3gouI1ENMWWRbN1YLruwWDFSNdjlg0
+ AclszjvXDQ5RGe8Uvg6hjnqD9ZR3KnG/nZORHEaDz0S7E+IJCF9NC2djlY+i+3mO0dCM
+ tyrWBpWFvgWMeYFljDpaYgEvhktY56w/vi+Lb/36rFHIhKSSlGHOiUYq9eQ1pQ/RSet4
+ vncQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3RofmkJZc0erz0aFGxAWkPhQH5on/WdQGNq0i5D1x7w=;
+ b=zdnJDGe8r9hj9XfYtIqkXmSppu1psiQq2RuLXW2UkQH5OnvgDcEVX/gOCKkuqLti3V
+ qG8ogBlQHkOpGuYhE0bfFRwvlJfUsoZ9PTl/UvOj4xAf5K0WSzRE9bcgOZeJCzXnihjR
+ SIjYgEoyywDGsI4LVCKS1fDuukEnA+syvHft8zUtFP2IyvbPJBvFRaZwfTkWPCX7bCoK
+ IU/l11XuvCQr4CFkCgOz9wqNDQSvW0hED9Gy4f4GPSVw8KOrRtUdgw7OReaCe5g4qRLx
+ c+k+7D7Mt2uoqTmcDK/StIwsBl/CSDKz9YUfuPe8cM/TyYUgbDNjaADfVJEoPY35oX6D
+ KtXw==
+X-Gm-Message-State: AOAM533thnqA6zrX0dOQWbPwWCa/ETjKkabU5Kkk+AfWG+TLMvL3D964
+ d4O5m5DPuBDqnCTVIeC+NgSSTEgALXT0qkegx9r/TQ==
+X-Google-Smtp-Source: ABdhPJxXDZnPlGqTD9AsX6pevQ9fx3U9+xf3MlMzFVImbN21uquI+408S0hSBqOe73dYdqmbVbpqIumPqaTiwgJafBg=
+X-Received: by 2002:a25:40c4:0:b0:645:88a3:eb8b with SMTP id
+ n187-20020a2540c4000000b0064588a3eb8bmr16398377yba.193.1652174066198; Tue, 10
+ May 2022 02:14:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 34/43] hw/intc: Add LoongArch extioi interrupt
- controller(EIOINTC)
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
- gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
-References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-35-yangxiaojuan@loongson.cn>
- <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
- <707db6c2-49f2-2ca2-7025-0cf401f11c60@loongson.cn>
- <e514e333-b458-517f-66f7-f3fd0a0c5bad@linaro.org>
- <CAFEAcA8y-ZVeEHDXUv2bAwKL9EumTmrJ-Xz1r23C7Lm0yajBdQ@mail.gmail.com>
- <402096bf-2a89-311e-6174-eac63b78f74a@linaro.org>
- <2dc9050b-00b2-e571-b553-f1d49c0d9a4a@loongson.cn>
- <edd5c684-03aa-ee73-e1a6-11afb89144c1@linaro.org>
-From: maobibo <maobibo@loongson.cn>
-In-Reply-To: <edd5c684-03aa-ee73-e1a6-11afb89144c1@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxUNrOLHpi0eoPAA--.59752S3
-X-Coremail-Antispam: 1UD129KBjvdXoWruF45AFyrWw45KrWDKryDZFb_yoWfCwc_Za
- 47K348KwsFvFySkw4rtr45JFWxZ3yYkw1DtryjqFZ7G34SvF93Jrn29r18ua1UGa1qyrnr
- Jrnxu3y3J3yj9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbsxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
- IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
- 6r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2
- IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2
- jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0x
- ZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220429233146.29662-1-muriloo@linux.ibm.com>
+ <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
+ <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
+ <87sfpqaey7.fsf@linux.ibm.com>
+ <2ab9e2b3-5dba-4e18-ed2e-6063a2716f4c@ilande.co.uk>
+ <87ilql9xww.fsf@linux.ibm.com>
+ <ef8256fb-6e99-5f37-d5c5-67f9af4302b0@ilande.co.uk>
+ <472e45e8-319b-ad48-3afa-0dfa74e6ad20@redhat.com>
+ <877d6tzs2e.fsf@pond.sub.org>
+ <32e5877d-ba45-ac63-d24e-1f9f8676c6bb@redhat.com>
+In-Reply-To: <32e5877d-ba45-ac63-d24e-1f9f8676c6bb@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 10 May 2022 10:14:14 +0100
+Message-ID: <CAFEAcA8Ff45KeuQm-v8MwXX_i+P51uF-ovpQvtGD3hx1bi3A9g@mail.gmail.com>
+Subject: Re: QEMU 32-bit vs. 64-bit binaries
+To: Thomas Huth <thuth@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
+ qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabiano Rosas <farosas@linux.ibm.com>, 
+ muriloo@linux.ibm.com, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com, 
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ qemu-RISC-V <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,22 +100,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 10 May 2022 at 10:01, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 10/05/2022 10.54, Markus Armbruster wrote:
+> > Thomas Huth <thuth@redhat.com> writes:
+> >
+> > [...]
+> >
+> >> I once suggested in the past already that we should maybe get rid of
+> >> the 32-bit variants in case the 64-bit variant is a full superset, so
+> >> we can save compile- and test times (which is quite a bit for QEMU),
+> >> but I've been told that the 32-bit variants are mostly still required
+> >> for supporting KVM on 32-bit host machines.
+> >
+> > Do we still care for 32-bit host machines?
+>
+> As long as the Linux kernel still supports 32-bit KVM virtualization, I
+> think we have to keep the userspace around for that, too.
+>
+> But I wonder why we're keeping qemu-system-arm around? 32-bit KVM support
+> for ARM has been removed with Linux kernel 5.7 as far as I know, so I think
+> we could likely drop the qemu-system-arm nowadays, too? Peter, Richard,
+> what's your opinion on this?
 
+Two main reasons, I think:
+ * command-line compatibility (ie there are lots of
+   command lines out there using that binary name)
+ * nobody has yet cared enough to come up with a plan for what
+   we want to do differently for these 32-bit architectures,
+   so the default is "keep doing what we always have"
 
-在 2022/5/10 11:56, Richard Henderson 写道:
-> On 5/9/22 19:54, maobibo wrote:
->> how about put address_space_iocsr as board rather than percpu since there is no concept
->> of "cpu package".
-> 
-> "cpu package" works ok as a device on the board.
-> 
-> I don't know if it's possible to have the iocsr address space controlled by the device, especially since it appears that the iocsr address space is *also* available -- or at least partially available -- in the main address space at base 0x1fe00000?
+In particular, I don't want to get rid of qemu-system-arm as the
+*only* 32-bit target binary we drop. Either we stick with what
+we have or we have a larger plan for sorting this out consistently
+across target architectures.
 
-In the current hw implementation, iocsr/mmio address space can both be used for IPI/EXTIOI, in future mmio address space will be deprecated and removed, only iocsr will be used since it is easy for hw to abstract the interface.
-
-In the next patch, main address space at base 0x1fe00000 for IPI/EXTIOI will be removed and only iocsr address space will be used. And iocsr address space can controlled by device also.
-> 
-> 
-> r~
-
+-- PMM
 
