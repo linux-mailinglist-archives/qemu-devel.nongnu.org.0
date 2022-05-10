@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A76452121C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:23:47 +0200 (CEST)
-Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FFD521267
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:41:31 +0200 (CEST)
+Received: from localhost ([::1]:36330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noN1u-0004FQ-8d
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
+	id 1noNJ5-0000Sa-1p
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1noMwz-0008M4-MD
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:18:41 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:48425)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noMxw-0000uC-Ku
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:19:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1noMwx-0000xv-HX
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:18:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=rhd5bBUr8OlrDAdsAL0f1DkEsZV4MjD0aF9CuqLNtZ4=; b=BmS3immgDBEBjlzUFGSjnuMRcd
- Qfv1oDSYBhKPL4b1S9UM/7kwnh13nieZKUoI13JzBb02j8oAaoae+tmk3pMMvp1hteUvbXvRX1DJU
- MXnCB09iQJ+7KG3Xf8ZQujYo+3ak2qr3ubG6v223zKSVo/2j1IEmgJEsgXoAef2EOphJ27HwWKk+Y
- pwrot8NwHbxT/xnUB4P/vjvb2WmFDJA8742UD2unJCPyvoEIIqowmw/l6F0IVWeEovGoxCK/Ve+ow
- WTQi0zJ+igv7Af0RyT9pBa8YhWDa7F++biXbCkQUWN7L1/fPu+U1H7N6ON5zwjuJ+t/4bSfqGcQpw
- FOZyxkZ+GoYxAkGJfi3B+k8hy3T2Hg+sCk/qSUV//b/F4UOy5hbTvGmuNRV8zbjD2rDBFsQjScWbK
- KUqY/g/m6yWEqYxH2j9xqSaW2WADIL2xjVZRf+kKchVEgnjJIXsF4P6FwmGr/4j4VEIY3to/SmABX
- jk/0GWudUYNGiPJkiTUc2Xur2YiBXUiIlh4zUZuW3uBKCworf4m/X+U6qOkJTGFd9S8kgIe7lSN22
- Y01md0CqDvAi6vYqXxuhiVgfurLkT7EpP+9TPng6Ts+NWStyXpsv9fR4q6ul51YxwwKiy7Pn+37ga
- /JVxLRSTEZ+Sze/IAnLs+Fy4sV9VG9SmtCQmUXLGI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, "Meng, Bin" <Bin.Meng@windriver.com>
-Cc: Greg Kurz <groug@kaod.org>, Bin Meng <bmeng.cn@gmail.com>,
- "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver for
- Windows
-Date: Tue, 10 May 2022 12:18:33 +0200
-Message-ID: <3148498.2bi0oRTOK1@silver>
-In-Reply-To: <MN2PR11MB41738234AB88DED21F896459EFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
-References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
- <MN2PR11MB4173BAB3570050C54310E59FEFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
- <MN2PR11MB41738234AB88DED21F896459EFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noMxu-00016r-DW
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:19:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652177977;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RlhAEld4doCfSi9nlH+b5KjVIslsozKC1H0ghwuNR5s=;
+ b=UvMzL/iPM7UohNMKEc9Eff2ahSQ4UqUf871NlkXTA/qRUtDMgNImzOdsXsI1GEbssFjd7m
+ hM339jyMTlIkgvqNk7EiIHuIPiU7TLHvhjUU2Sp2XbiDVVLmv+bSuxPrS612ya8DQsiczl
+ 1yLh9UsdWCD5D7VuBCYm49+f69yHuLw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-587-LfkfJTK8POmh2B4rMb6Mnw-1; Tue, 10 May 2022 06:19:36 -0400
+X-MC-Unique: LfkfJTK8POmh2B4rMb6Mnw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E0C685A5BE
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:19:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76A33400DE5E;
+ Tue, 10 May 2022 10:19:35 +0000 (UTC)
+Date: Tue, 10 May 2022 11:19:33 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
+ leobras@redhat.com
+Subject: Re: [PULL 00/16] migration queue
+Message-ID: <Yno8NV5bQPUlqvcx@redhat.com>
+References: <20220510083355.92738-1-dgilbert@redhat.com>
+ <Yno3RvWhwSDZjI7o@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Yno3RvWhwSDZjI7o@work-vm>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,153 +81,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 10. Mai 2022 04:17:44 CEST Shi, Guohuai wrote:
-[...]
-> > > > > I tend to agree with Christian's remarks that this patch is too big
-> > > > > and that the choice of introducing right away a new implementation
-> > > > > of 9p-local for windows hosts is too bold to start with. We need to
-> > > > > clearly understand what's diverging between windows and linux in
-> > > > > order
-> > > > > to make such a decision. You should first try to introduce the
-> > > > > required
-> > > > > abstractions to cope with these differences, so that we can review.
-> > > > >
-> > > > >
-> > > >
-> > > >
-> > > >
-> > > > Here is the basic introductions of 9PFS for Windows development:
-> > > >
-> > > >
-> > > >
-> > > > Windows always returns -1 when try to call open() for a directory.
-> > > > Windows (actually MinGW library) only allows opendir() for a
-> > > > directory.
+On Tue, May 10, 2022 at 10:58:30AM +0100, Dr. David Alan Gilbert wrote:
+> * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >=20
+> > The following changes since commit 178bacb66d98d9ee7a702b9f2a4dfcd88b72=
+a9ab:
+> >=20
+> >   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu in=
+to staging (2022-05-09 11:07:04 -0700)
+> >=20
+> > are available in the Git repository at:
+> >=20
+> >   https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220510a
+> >=20
+> > for you to fetch changes up to 511f4a0506af1d380115a61f3362149953646871:
+> >=20
+> >   multifd: Implement zero copy write in multifd migration (multifd-zero=
+-copy) (2022-05-10 09:15:06 +0100)
+>=20
+> Nack
+> This is still failing the Alpine build test:
+>=20
+> ninja: job failed: cc -m64 -mcx16 -Ilibio.fa.p -I. -I.. -Iqapi -Itrace -I=
+ui -Iui/shader -I/usr/include/p11-kit-1 -I/usr/include/glib-2.0 -I/usr/lib/=
+glib-2.0/include -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -st=
+d=3Dgnu11 -O2 -g -isystem /builds/dagrh/qemu/linux-headers -isystem linux-h=
+eaders -iquote . -iquote /builds/dagrh/qemu -iquote /builds/dagrh/qemu/incl=
+ude -iquote /builds/dagrh/qemu/disas/libvixl -iquote /builds/dagrh/qemu/tcg=
+/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FIL=
+E_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decl=
+s -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-co=
+mmon -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits -=
+Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body=
+ -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthro=
+ugh=3D2 -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fst=
+ack-protector-strong -fPIE -MD -MQ libio.fa.p/io_channel-socket.c.o -MF lib=
+io.fa.p/io_channel-socket.c.o.d -o libio.fa.p/io_channel-socket.c.o -c ../i=
+o/channel-socket.c
+> In file included from /usr/include/linux/errqueue.h:6,
+>                  from ../io/channel-socket.c:29:
+> /usr/include/linux/time_types.h:7:8: error: redefinition of 'struct __ker=
+nel_timespec'
+>     7 | struct __kernel_timespec {
+>       |        ^~~~~~~~~~~~~~~~~
+> In file included from /usr/include/liburing.h:19,
+>                  from /builds/dagrh/qemu/include/block/aio.h:18,
+>                  from /builds/dagrh/qemu/include/io/channel.h:26,
+>                  from /builds/dagrh/qemu/include/io/channel-socket.h:24,
+>                  from ../io/channel-socket.c:24:
+> /usr/include/liburing/compat.h:9:8: note: originally defined here
+>     9 | struct __kernel_timespec {
+>       |        ^~~~~~~~~~~~~~~~~
+> ninja: subcommand failed
+> make: *** [Makefile:163: run-ninja] Error 1
 
-That missing behaviour could be implemented in 9p-util-win.c, similar to the 
-missing behaviours of mknodat() for macOS which did not support a bunch of 
-things like creating a UNIX socket file and more:
-
-https://github.com/qemu/qemu/commit/055ab89327bab83f1bd07e9de07f7628643d3d8d
-
-> > > Does MinGW have dirfd() ?
-> > 
-> > 
-> > No.
-> > MinGW does not open any directory.
-> > Here is opendir() source code of MinGW:
-> > https://github.com/mirror/mingw-w64/blob/master/mingw-w64-crt/misc/dirent.
-> > c#L42
-> > 
-> > So MinGW do not have a fd associated to a directory.
-> > 
-> > 
-> > 
-> > >
-> > >
-> > > > Windows does not support APIs like "*at" (openat(), renameat(), etc.)
-
-Like already suggested before on your previous RFC version, it is possible to 
-use the same workaround as we are using for macOS hosts already (which was 
-missing mknodat()):
-
-  pthread_fchdir_np(...)
-  mknod(...)
-
-  https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util-darwin.c#L84
-
-So on Windows it would be viable to:
-
-  chdir(...)
-  open(...)
-
-The same approach could be used for any missing *at() function for Windows.
+Yuk. That very much looks like a bug in liburing itself to me.
 
 
-> > >
-> > >
-> > >
-> > > Ouch...
-> > >
-> > >
-> > >
-> > > > So 9PFS can not use any openat() for opening a sub file or directory
-> > > > in 9P
-> > 
-> > mount
-> > 
-> > > directory.
-> > > 
-> > > > This commit use merge_fs_path() to build up full filename by string
-> > 
-> > concatenation.
-> > 
-> > > > I know that may have a risk of security, but Windows does fully
-> > > > support POSIX
+We've exposed the latent bug by including linux/errqueue.h =20
 
-You will not find anybody merging code that's inherently insecure.
-
-> > > I understand from your various answers that symlinks aren't
-> > > currently supported by window's POSIX API. Is this forever ?
-> > > Google do mentions symlinks in windows 10. What's the story
-> > > there ? How do they behave ? How would they be exposed to the
-> > > client ? Be aware that, even if the client cannot create symlinks,
-> > > an existing symlink could be used to escape with rename().
-> > >
-> > >
-> > >
-> > > If the code "may have a risk of security" then it must be
-> > > fixed or avoided in some way before being merged upstream.
-> > >
-> > >
-> > >
-> > > Other thing that comes to mind is that windows hosts should
-> > > maybe use the mapped or mapped-file security modes since
-> > > they emulate symlinks with a simple file hidden in the
-> > > VIRTFS_META_DIR directory.
-> > >
-> > >
-> > >
-> > > Cheers,
-> > >
-> > >
-> > >
-> > > --
-> > > Greg
-> > >
-> > >
-> > 
-> > 
-> > Windows native API support symbolic link file start from Windows Vista:
-> > https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-crea
-> > tes ymboliclinka
-> > 
-> > I mean Windows POSIX APIs do not support symbolic link (MinGW use Win32
-> > POSIX APIs) So we can not create symbolic link by MinGW.
-
-A function with POSIX signature could be added to 9p-util-win.c which would 
-call the native Windows function to create symlinks.
-
-> > Anyway, there is another solution: re-work whole 9PFS code: not only
-> > 9p-local.c, but also every file in 9p driver.
-> > Replace every MinGW/POSIX APIs (e.g. open, lseek, read, write, close),
-> > by Windows Native APIs (e.g. open -> CreateFile, lseek -> SetFilePointer,
-> > read -> ReadFile, write -> WriteFile, close -> CloseHandle, etc.)
-> > Then 9P can use Windows symbolic link feature.
-> > However, I do think it is a good idea to replace everything.
-> 
-> 
-> TYPO: it NOT is a good idea to replace everything.
-
-Right, that does not make sense. The way to go is adding and implementing 
-missing system functions with POSIX signatures and POSIX behaviour for 
-Windows. Not turning the entire code base upside down.
-
-Best regards,
-Christian Schoenebeck
-
+With regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
