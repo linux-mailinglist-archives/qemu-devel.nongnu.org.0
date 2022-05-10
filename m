@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B4552105F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:11:50 +0200 (CEST)
-Received: from localhost ([::1]:54392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA665210BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:22:58 +0200 (CEST)
+Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noLuH-0005zO-HM
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41366)
+	id 1noM53-00044d-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noLaS-0004Zq-2z
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:51:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46637)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noLcK-0005nk-9e
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:53:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noLaN-0003Em-1a
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:51:18 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noLcG-0003RZ-DC
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:53:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652172673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dBua9PZ4Z3v3okHQsh9k5zIMjA5WbzHTNUyeyhLvq48=;
- b=ZCELTGku3tCfM6yagQPOXjmnvrtHas+xnkIUaQR7itAweqn16aBRPX8ANBP63ok7ql+eex
- u8m64BYS6GjlcLDBOlyrO6ExKkWIZNik1i8fZKCihCBTAtgLyVx8Hlef00pJMW9BUElvWi
- OwUx8d2k+kMoWBqTf464bPHz6xxd2bg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1652172791;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=+HYGZNVv+quDPnKozACLmXoi7JzdZoNVafZbPAdavq8=;
+ b=Vb2mSA5lGvLiiM0iflHrKNpP9RgHrZxmaHLQJb6qlociBJk1jwufvNpEp9UyL8mTM60aP5
+ O850zKx7RbTJSh5nM0rE7SJi+DgKHLSS1gaObbMPvxZIzEU+L/Dvts4iMkphDl9f86n6Ch
+ LXUgHR97V7ZUEoI+tGX2try3ABxwG1U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-MUZb1POXOPyywLiSghlpbw-1; Tue, 10 May 2022 04:51:12 -0400
-X-MC-Unique: MUZb1POXOPyywLiSghlpbw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i18-20020a1c5412000000b0039491a8298cso515050wmb.5
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 01:51:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dBua9PZ4Z3v3okHQsh9k5zIMjA5WbzHTNUyeyhLvq48=;
- b=gVFafXeI9M+i2oMSG28nyXs2e/WwbGw0xVh/1GWul7nXBXTfUmDd+EDcLaun9o0OQz
- 7KaeEAoD2uzkNK5nqEYwD371VG6x1RoMpDCK0Un/YDX91ZP+mhsQ5eAAn+2BQxn/sw2Y
- uOljvkTVyoRKB3GkHsAV27vhIPOl/lDAfF0nIbQcESq30qUms8p29MkklcO7itzIpP74
- 3/E2WrKT+sfDIFxOAzjHFvp8aNszgGi9y8O5QUR/Zgp9pxpnGkrsNg3SFC+6CZwa6SfS
- 1AJIu8+7NCLNzU4GCktduvvVdBPilxbTHedLmb2zxlnpsxOWP7oBWbW0zIj3bmRykAAD
- BNDg==
-X-Gm-Message-State: AOAM5312vkrOvQkEsUkqdgWTQxDWnX7O4cJpsnkbbmd4JfpbowYng3tZ
- RLeoXRD4H7sLfPUBiQ12t5GOX9TSJcyCI97N7MutZgS1RnZErGTfDlCXKif8+mSj2otZ5UuYp5p
- U+7mjJhotCLAgROA=
-X-Received: by 2002:a05:600c:4e0e:b0:394:8a94:98a5 with SMTP id
- b14-20020a05600c4e0e00b003948a9498a5mr11509627wmq.124.1652172670841; 
- Tue, 10 May 2022 01:51:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwLWcqgAdud63i1B8ops1DDoIWzHaN/PfLXUwrwesvl05I589t3stUeIDqOmqRYWLRpAdoKg==
-X-Received: by 2002:a05:600c:4e0e:b0:394:8a94:98a5 with SMTP id
- b14-20020a05600c4e0e00b003948a9498a5mr11509590wmq.124.1652172670330; 
- Tue, 10 May 2022 01:51:10 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- d19-20020a05600c34d300b0038eba413181sm2052832wmq.1.2022.05.10.01.51.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 May 2022 01:51:09 -0700 (PDT)
-Message-ID: <89103e61-3ff0-c374-2317-585ebfb93e6f@redhat.com>
-Date: Tue, 10 May 2022 10:51:09 +0200
+ us-mta-581-ttVOjdTkOl2405T_FbGPoA-1; Tue, 10 May 2022 04:53:10 -0400
+X-MC-Unique: ttVOjdTkOl2405T_FbGPoA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2334E80A0AD
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:53:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70AFBC27E89;
+ Tue, 10 May 2022 08:53:08 +0000 (UTC)
+Date: Tue, 10 May 2022 09:53:05 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Victor Toso <victortoso@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+Message-ID: <Ynon8Y8uwfL1bDyN@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <87bkwonlkb.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/2] gitlab: don't run CI jobs by default on push to user
- forks
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210812180403.4129067-1-berrange@redhat.com>
- <20210812180403.4129067-3-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20210812180403.4129067-3-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87bkwonlkb.fsf@pond.sub.org>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,889 +79,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/08/2021 20.04, Daniel P. Berrangé wrote:
-> Currently pushes to user forks run the same set of build / test jobs as
-> pushes to the main repo. This results in creation of 120+ individual
-> jobs. While it is useful for subsystem maintainers, and even regular
-> contributors to be able to run the full set of jobs, it is wasteful to
-> run all of them all the time.
+On Tue, Apr 26, 2022 at 01:14:28PM +0200, Markus Armbruster wrote:
+> Victor Toso <victortoso@redhat.com> writes:
+> 
+> > Hi,
+> >
+> > Happy 1st April. Not a joke :) /* ugh, took me too long to send */
+> >
+> > This series is about adding a generator in scripts/qapi to produce
+> > Go data structures that can be used to communicate with QEMU over
+> > QMP.
+> >
+> >
+> > * Why Go?
+> >
+> > There are quite a few Go projects that interact with QEMU over QMP
+> > and they endup using a mix of different libraries with their own
+> > code.
+> >
+> >
+> > ** Which projects?
+> >
+> > The ones I've found so far:
+> >
+> > - podman machine
+> >   https://github.com/containers/podman/tree/main/pkg/machine/qemu
+> >
+> > - kata-containers (govmm)
+> >   https://github.com/kata-containers/kata-containers/tree/main/src/runtime/pkg/govmm
+> >
+> > - lxd
+> >   https://github.com/lxc/lxd/tree/master/lxd/instance/drivers
+> >
+> > - kubevirt (plain json strings)
+> >   https://github.com/kubevirt/kubevirt
+> >
+> > (let me know if you know others)
+> >
+> >
+> > * But Why?
+> >
+> > I'm particularly interested in 3 out of 4 of the projects above and
+> > only Kubevirt uses libvirt to handle QEMU. That means that every
+> > QEMU releases where a QMP command, event or other data struct is
+> > added, removed or changed, those projects need to check what changed
+> > in QEMU and then address those changes in their projects, if needed.
+> >
+> > The idea behind generating Go data structures is that we can keep a
+> > Go module which can have releases that follow QEMU releases.
+> 
+> We need to look at "following the QEMU releases" a bit more closely.
+> 
+> Merging your patches gives us the capability to generate a Go interface
+> to HEAD's version of QMP.
+> 
+> The obvious way for an out-of-tree Go program to use this generated Go
+> interface is to build with a specific version of it.  It can then talk
+> QMP to any compatible QEMU version.
+> 
+> Compatibility with older QEMUs is not assured: stuff added since is
+> present on the Go QMP client end, but not on the QEMU QMP server end.
+> 
+> Compatibility with newer QEMUs is subject to our deprecation policy:
+> 
+>     In general features are intended to be supported indefinitely once
+>     introduced into QEMU.  In the event that a feature needs to be
+>     removed, it will be listed in this section.  The feature will remain
+>     functional for the release in which it was deprecated and one
+>     further release.  After these two releases, the feature is liable to
+>     be removed.
+> 
+> So, if you stay away from deprecated stuff, you're good for two more
+> releases at least.
+> 
+> Does this work for the projects you have in mind?
 
-  Hi Daniel!
+It might work for some projects, but in the general case I find it pretty
+unappealing as a restriction. Mixing and matching new QEMU with old libvirt,
+or vica-verca has been an incredibly common thing todo when both developing
+and perhaps more importantly debugging problems. For example I have one
+libvirt build and I use it against any QEMU from Fedora / any RHEL-8.x
+update, which spans a great many QEMU releases. 
 
-Now that gitlab introduces limits for the CI for all users, I think we 
-should revisit this topic ... could you maybe respin your patch to the 
-current git master branch?
+I like the idea of auto-generating clients from the QAPI schema, and
+would like it if we were able to use this kind of approach on the libvirt
+side, but for that we need to be more flexible in version matching.
 
-  Thomas
+Our current approach to deprecation features and subsequently removing
+them from the QAPI schema works fine when the QAPI schema is only used
+internally by QEMU, not when we we expand usage of QAPI to external
+applications. 
+
+I think we need to figure out a way to make the QAPI schema itself be
+append only, while still allowing QEMU to deprecation & remove features.
+
+For a minimum viable use case, this doesn't feel all that difficult, as
+conceptually instead of deleting the field from QAPI, we just need to
+annotate it to say when it was deleted from the QEMU side.  The QAPI
+generator for internal QEMU usage, can omit any fields annotated as
+deleted in QAPI schema. The QAPI generator for external app usage,
+can (optionally) be told to include deleted fields ranging back to
+a given version number. So apps can chooses what degree of compat
+they wish to retain.
+
+Apps that wish to have version compat, would of course need to write
+their code to be aware of which fields they need to seend for which
+QEMU version.
 
 
-> In addition, with the expected change in GitLab to set a finite CI
-> minute allowance on all users we need to be much more conservative.
+> > * Status
+> >
+> > There are a few rough edges to work on but this is usable. The major
+> > thing I forgot to add is handling Error from Commands. It'll be the
+> > first thing I'll work on next week.
+> >
+> > If you want to start using this Today you can fetch it in at
+> >
+> >     https://gitlab.com/victortoso/qapi-go/
+> >
+> > There are quite a few tests that I took from the examples in the
+> > qapi schema. Coverage using go's cover tool is giving `28.6% of
+> > statements`
+> >
+> > I've uploaded the a static generated godoc output of the above Go
+> > module here:
+> >
+> >     https://fedorapeople.org/~victortoso/qapi-go/rfc/victortoso.com/qapi-go/pkg/qapi/
+> >
+> >
+> > * License
+> >
+> > While the generator (golang.py in this series) is GPL v2, the
 > 
-> This patch thus sets up rules so that no CI jobs will run by default
-> on push, except
-> 
->   - Pushes to branch name prefix 'staging' on 'qemu-project' repo
->     run full set of jobs
->   - Pushes to 'master' branch, only run jobs needed to publish
->     the website.
-> 
-> In any pushes to users forks, CI is now strictly opt-in. The pipeline
-> will always be created by every singe job will be marked manual. You
-> can then use the web UI to start individual jobs.
-> 
-> For more convenience there are three levels of increasing comprehensive
-> CI job sets that can be chosen between
-> 
->   - Gating - run exactly the same as pushes to 'staging' branch
->              (except for jobs needing custom runners)
-> 
->     Push to 'ci-gating-xxx' branch, or set env QEMU_CI_GATING=1
-> 
->   - Full - same as 'Gating', except that acceptance tests don't
->            get run. This is equivalent to historical CI behaviour
-> 	  for pushes to user forks.
-> 
->     Push to 'ci-full-xxx' branch, or set env QEMU_CI_FULL=1
-> 
->   - Minimal - a significantly cut down set of jobs to get a
->               decent sanity check of builds without burning
-> 	     massive amounts of CI time.
-> 
->     Push to 'ci-min-xxx' branch, or set env QEMU_CI=1
-> 
-> The minimal job set covers:
-> 
->    * Fedora, CentOS, Ubuntu & Debian system emulator builds
->      to cover all arch targets.
->    * Linux user static build
->    * Cross build i386 (to identify any 32-bit build issues)
->    * Cross build s390x (to identify any big endian build issues)
->    * Containers needed for the above
->    * Cirrus CI FreeBSD 12 and macOS 11 (to identify non-Linux issues)
->    * Simple checks - python unittests, DCO check, checkpatch.pl, etc
-> 
-> This gives about 30 jobs instead of 120 from the "Full" group. It
-> is likely reasonable to cut the minimal set down even more, as IMHO
-> there are too many system emulator jobs there.
-> 
-> This is all controlled by defining a set of 'rules' entries that
-> apply to (almost) all jobs in the CI pipeline. The exceptions are
-> those using custom runners, and the firmware build jobs.
-> 
-> Using inherited templates together with rules, doesn't work in
-> the way you might expect. Any rules defined in the child completely
-> replace those from the parent, rather than augmenting them. Thus we
-> need to avoid having rules defined in any jobs at all, by inheriting
-> from a parent job template that contains the rules. The characteristics
-> of individual jobs are then defined by variables set against the job.
-> This is described in the updated content for the docs/devel/ci-jobs.rst
-> file.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   .gitlab-ci.d/buildtest-template.yml  |  17 +--
->   .gitlab-ci.d/buildtest.yml           |  43 ++++----
->   .gitlab-ci.d/cirrus.yml              |   6 +-
->   .gitlab-ci.d/container-core.yml      |   4 +
->   .gitlab-ci.d/container-cross.yml     |   9 +-
->   .gitlab-ci.d/container-template.yml  |   1 +
->   .gitlab-ci.d/containers.yml          |   4 +
->   .gitlab-ci.d/crossbuild-template.yml |   3 +
->   .gitlab-ci.d/crossbuilds.yml         |   3 +
->   .gitlab-ci.d/qemu-project.yml        |   1 +
->   .gitlab-ci.d/rules.yml               | 116 ++++++++++++++++++++
->   .gitlab-ci.d/static_checks.yml       |  18 ++--
->   .gitlab-ci.yml                       |   4 -
->   docs/devel/ci-jobs.rst               | 155 ++++++++++++++++++++++++---
->   14 files changed, 317 insertions(+), 67 deletions(-)
->   create mode 100644 .gitlab-ci.d/rules.yml
-> 
-> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-> index fcbcc4e627..8578b3ed11 100644
-> --- a/.gitlab-ci.d/buildtest-template.yml
-> +++ b/.gitlab-ci.d/buildtest-template.yml
-> @@ -1,4 +1,6 @@
-> +
->   .native_build_job_template:
-> +  extends: .job_rules
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     before_script:
-> @@ -27,6 +29,7 @@
->         fi
->   
->   .native_test_job_template:
-> +  extends: .job_rules
->     stage: test
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     script:
-> @@ -67,15 +70,5 @@
->     after_script:
->       - cd build
->       - du -chs ${CI_PROJECT_DIR}/avocado-cache
-> -  rules:
-> -    # Only run these jobs if running on the mainstream namespace,
-> -    # or if the user set the QEMU_CI_AVOCADO_TESTING variable (either
-> -    # in its namespace setting or via git-push option, see documentation
-> -    # in /.gitlab-ci.yml of this repository).
-> -    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
-> -      when: on_success
-> -    - if: '$QEMU_CI_AVOCADO_TESTING'
-> -      when: on_success
-> -    # Otherwise, set to manual (the jobs are created but not run).
-> -    - when: manual
-> -      allow_failure: true
-> +  variables:
-> +    QEMU_JOB_GATING: 1
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 903ee65f32..c8e03373c5 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -40,6 +40,7 @@ build-system-ubuntu:
->     needs:
->       job: amd64-ubuntu2004-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: ubuntu2004
->       CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-slirp=system
->       TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-> @@ -56,6 +57,7 @@ check-system-ubuntu:
->       - job: build-system-ubuntu
->         artifacts: true
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: ubuntu2004
->       MAKE_CHECK_ARGS: check
->   
-> @@ -73,6 +75,7 @@ build-system-debian:
->     needs:
->       job: amd64-debian-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: debian-amd64
->       CONFIGURE_ARGS: --enable-fdt=system
->       TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
-> @@ -89,6 +92,7 @@ check-system-debian:
->       - job: build-system-debian
->         artifacts: true
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: debian-amd64
->       MAKE_CHECK_ARGS: check
->   
-> @@ -106,6 +110,7 @@ build-system-fedora:
->     needs:
->       job: amd64-fedora-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: fedora
->       CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
->                --enable-fdt=system --enable-slirp=system --enable-capstone=system
-> @@ -123,6 +128,7 @@ check-system-fedora:
->       - job: build-system-fedora
->         artifacts: true
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: fedora
->       MAKE_CHECK_ARGS: check
->   
-> @@ -140,6 +146,7 @@ build-system-centos:
->     needs:
->       job: amd64-centos8-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: centos8
->       CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
->                       --enable-modules --enable-trace-backends=dtrace
-> @@ -157,6 +164,7 @@ check-system-centos:
->       - job: build-system-centos
->         artifacts: true
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: centos8
->       MAKE_CHECK_ARGS: check
->   
-> @@ -325,6 +333,7 @@ build-user-static:
->     needs:
->       job: amd64-debian-user-cross-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: debian-all-test-cross
->       CONFIGURE_ARGS: --disable-tools --disable-system --static
->       MAKE_CHECK_ARGS: check-tcg
-> @@ -411,17 +420,15 @@ build-cfi-aarch64:
->         --enable-safe-stack --enable-slirp=git
->       TARGETS: aarch64-softmmu
->       MAKE_CHECK_ARGS: check-build
-> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> +    # the constrained containers of the shared runners. Thus this is marked as
-> +    # manual until the situation has been solved.
-> +    QEMU_JOB_MANUAL: 1
->     timeout: 70m
->     artifacts:
->       expire_in: 2 days
->       paths:
->         - build
-> -  rules:
-> -    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> -    # the constrained containers of the shared runners. Thus this is marked as
-> -    # manual until the situation has been solved.
-> -    - when: manual
-> -      allow_failure: true
->   
->   check-cfi-aarch64:
->     extends: .native_test_job_template
-> @@ -453,17 +460,15 @@ build-cfi-ppc64-s390x:
->         --enable-safe-stack --enable-slirp=git
->       TARGETS: ppc64-softmmu s390x-softmmu
->       MAKE_CHECK_ARGS: check-build
-> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> +    # the constrained containers of the shared runners. Thus this is marked as
-> +    # manual until the situation has been solved.
-> +    QEMU_JOB_MANUAL: 1
->     timeout: 70m
->     artifacts:
->       expire_in: 2 days
->       paths:
->         - build
-> -  rules:
-> -    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> -    # the constrained containers of the shared runners. Thus this is marked as
-> -    # manual until the situation has been solved.
-> -    - when: manual
-> -      allow_failure: true
->   
->   check-cfi-ppc64-s390x:
->     extends: .native_test_job_template
-> @@ -657,6 +662,7 @@ build-without-default-features:
->       MAKE_CHECK_ARGS: check-unit
->   
->   build-libvhost-user:
-> +  extends: .job_rules
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
->     needs:
-> @@ -676,6 +682,8 @@ build-tools-and-docs-debian:
->     needs:
->       job: amd64-debian-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
-> +    QEMU_JOB_PUBLISH: 1
->       IMAGE: debian-amd64
->       MAKE_CHECK_ARGS: check-unit check-softfloat ctags TAGS cscope
->       CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
-> @@ -698,10 +706,14 @@ build-tools-and-docs-debian:
->   # that users can see the results of their commits, regardless
->   # of what topic branch they're currently using
->   pages:
-> +  extends: .native_build_job_template
->     image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
->     stage: test
->     needs:
->       - job: build-tools-and-docs-debian
-> +  variables:
-> +    QEMU_JOB_MINIMAL: 1
-> +    QEMU_JOB_PUBLISH: 1
->     script:
->       - mkdir -p public
->       # HTML-ised source tree
-> @@ -715,10 +727,3 @@ pages:
->     artifacts:
->       paths:
->         - public
-> -  rules:
-> -    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-> -      when: on_success
-> -    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
-> -      when: never
-> -    - if: '$CI_PROJECT_NAMESPACE != "qemu-project"'
-> -      when: on_success
-> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-> index 675db69622..4334736796 100644
-> --- a/.gitlab-ci.d/cirrus.yml
-> +++ b/.gitlab-ci.d/cirrus.yml
-> @@ -11,6 +11,7 @@
->   # special care, because we can't just override it at the GitLab CI job
->   # definition level or we risk breaking it completely.
->   .cirrus_build_job:
-> +  extends: .job_rules
->     stage: build
->     image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
->     needs: []
-> @@ -39,8 +40,6 @@
->         <.gitlab-ci.d/cirrus/build.yml >.gitlab-ci.d/cirrus/$NAME.yml
->       - cat .gitlab-ci.d/cirrus/$NAME.yml
->       - cirrus-run -v --show-build-log always .gitlab-ci.d/cirrus/$NAME.yml
-> -  rules:
-> -    - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
->   
->   x64-freebsd-12-build:
->     extends: .cirrus_build_job
-> @@ -61,6 +60,8 @@ x64-freebsd-12-build:
->   x64-freebsd-13-build:
->     extends: .cirrus_build_job
->     variables:
-> +    QEMU_JOB_SOFT_FAIL: 1
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: freebsd-13
->       CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
->       CIRRUS_VM_IMAGE_SELECTOR: image_family
-> @@ -74,6 +75,7 @@ x64-freebsd-13-build:
->   x64-macos-11-base-build:
->     extends: .cirrus_build_job
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: macos-11
->       CIRRUS_VM_INSTANCE_TYPE: osx_instance
->       CIRRUS_VM_IMAGE_SELECTOR: image
-> diff --git a/.gitlab-ci.d/container-core.yml b/.gitlab-ci.d/container-core.yml
-> index e8dd1f476a..8983c32b3b 100644
-> --- a/.gitlab-ci.d/container-core.yml
-> +++ b/.gitlab-ci.d/container-core.yml
-> @@ -4,14 +4,18 @@ include:
->   amd64-centos8-container:
->     extends: .container_job_template
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: centos8
->   
->   amd64-fedora-container:
->     extends: .container_job_template
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: fedora
->   
->   amd64-debian10-container:
->     extends: .container_job_template
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
-> +    QEMU_JOB_PUBLISH: 1
->       NAME: debian10
-> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-> index 0fcebe363a..ef316668eb 100644
-> --- a/.gitlab-ci.d/container-cross.yml
-> +++ b/.gitlab-ci.d/container-cross.yml
-> @@ -50,13 +50,11 @@ armhf-debian-cross-container:
->   # We never want to build hexagon in the CI system and by default we
->   # always want to refer to the master registry where it lives.
->   hexagon-cross-container:
-> +  extends: .job_rules
->     image: docker:stable
->     stage: containers
-> -  rules:
-> -    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
-> -      when: never
-> -    - when: always
->     variables:
-> +    QEMU_JOB_MANUAL: 1
->       NAME: debian-hexagon-cross
->       GIT_DEPTH: 1
->     services:
-> @@ -143,6 +141,7 @@ s390x-debian-cross-container:
->     stage: containers-layer2
->     needs: ['amd64-debian10-container']
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: debian-s390x-cross
->   
->   sh4-debian-cross-container:
-> @@ -179,11 +178,13 @@ cris-fedora-cross-container:
->   i386-fedora-cross-container:
->     extends: .container_job_template
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: fedora-i386-cross
->   
->   win32-fedora-cross-container:
->     extends: .container_job_template
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: fedora-win32-cross
->   
->   win64-fedora-cross-container:
-> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
-> index 1baecd9460..e2954e4ed3 100644
-> --- a/.gitlab-ci.d/container-template.yml
-> +++ b/.gitlab-ci.d/container-template.yml
-> @@ -1,4 +1,5 @@
->   .container_job_template:
-> +  extends: .job_rules
->     image: docker:stable
->     stage: containers
->     services:
-> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-> index cd06d3f5f4..6948923892 100644
-> --- a/.gitlab-ci.d/containers.yml
-> +++ b/.gitlab-ci.d/containers.yml
-> @@ -17,6 +17,8 @@ amd64-debian-container:
->     stage: containers-layer2
->     needs: ['amd64-debian10-container']
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
-> +    QEMU_JOB_PUBLISH: 1
->       NAME: debian-amd64
->   
->   amd64-ubuntu1804-container:
-> @@ -27,6 +29,7 @@ amd64-ubuntu1804-container:
->   amd64-ubuntu2004-container:
->     extends: .container_job_template
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: ubuntu2004
->   
->   amd64-ubuntu-container:
-> @@ -42,4 +45,5 @@ amd64-opensuse-leap-container:
->   python-container:
->     extends: .container_job_template
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       NAME: python
-> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-> index 7d3ad00a1e..997ec02f79 100644
-> --- a/.gitlab-ci.d/crossbuild-template.yml
-> +++ b/.gitlab-ci.d/crossbuild-template.yml
-> @@ -1,4 +1,5 @@
->   .cross_system_build_job:
-> +  extends: .job_rules
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     timeout: 80m
-> @@ -23,6 +24,7 @@
->   # KVM), and set extra options (such disabling other accelerators) via the
->   # $EXTRA_CONFIGURE_OPTS variable.
->   .cross_accel_build_job:
-> +  extends: .job_rules
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     timeout: 30m
-> @@ -35,6 +37,7 @@
->       - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->   
->   .cross_user_build_job:
-> +  extends: .job_rules
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     script:
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index 4ff3aa3cfc..9fcd2ac567 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -48,6 +48,7 @@ cross-i386-system:
->     needs:
->       job: i386-fedora-cross-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: fedora-i386-cross
->       MAKE_CHECK_ARGS: check-qtest
->   
-> @@ -129,6 +130,7 @@ cross-s390x-system:
->     needs:
->       job: s390x-debian-cross-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: debian-s390x-cross
->   
->   cross-s390x-user:
-> @@ -159,6 +161,7 @@ cross-win32-system:
->     needs:
->       job: win32-fedora-cross-container
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       IMAGE: fedora-win32-cross
->     artifacts:
->       paths:
-> diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
-> index b3d79bc429..7007193fc0 100644
-> --- a/.gitlab-ci.d/qemu-project.yml
-> +++ b/.gitlab-ci.d/qemu-project.yml
-> @@ -2,6 +2,7 @@
->   # https://gitlab.com/qemu-project/qemu/-/pipelines
->   
->   include:
-> +  - local: '/.gitlab-ci.d/rules.yml'
->     - local: '/.gitlab-ci.d/stages.yml'
->     - local: '/.gitlab-ci.d/edk2.yml'
->     - local: '/.gitlab-ci.d/opensbi.yml'
-> diff --git a/.gitlab-ci.d/rules.yml b/.gitlab-ci.d/rules.yml
-> new file mode 100644
-> index 0000000000..3399722ca9
-> --- /dev/null
-> +++ b/.gitlab-ci.d/rules.yml
-> @@ -0,0 +1,116 @@
-> +
-> +# This defines rules used to control individual job execution
-> +# See docs/devel/ci-jobs.rst for an explanation of the various
-> +# variables and branch naming conventions applied here.
-> +#
-> +.job_rules:
-> +  rules:
-> +    # ======================================================================
-> +    # Rules that apply regardless of whether the primary qemu repo or a fork
-> +    # ======================================================================
-> +
-> +    # Skip any cirrus job if either repo or api token are missing
-> +    # as we won't be able to talk to cirrus
-> +    - if: '$CIRRUS_VM_INSTANCE_TYPE && ($CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null)'
-> +      when: never
-> +
-> +    # Any jobs marked as manual, never get automatically run in any scenario
-> +    # and don't contribute to pipeline status
-> +    - if: '$QEMU_JOB_MANUAL'
-> +      when: manual
-> +      allow_failure: true
-> +
-> +    # For the main repo, tags represent official releases.
-> +    # The branch associated with the release will have passed
-> +    # a CI pipeline already
-> +    #
-> +    # For user forks, tags are tyically added by tools like
-> +    # git-publish at the same time as pushing the branch prior
-> +    # to sending out for review
-> +    #
-> +    # In neither case do we wish to run CI pipelines for tags
-> +    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_TAG'
-> +      when: never
-> +
-> +
-> +    # ==================================================
-> +    # Rules to control what happens in primary qemu repo
-> +    # ==================================================
-> +
-> +    # The 'pages' job must never run on a non-default branch as we don't
-> +    # want to publish the website from pre-merged content
-> +    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_JOB_NAME == "pages"'
-> +      when: never
-> +
-> +    # Run all jobs for main repo staging branch
-> +    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == "staging"'
-> +      when: on_success
-> +
-> +    # Run jobs needed to support website publishing on the main branch
-> +    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $QEMU_JOB_PUBLISH'
-> +      when: on_success
-> +
-> +    # Prevent jobs from running on pushes to any other branch / tag
-> +    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH != "staging"'
-> +      when: never
-> +
-> +
-> +    # Remainining pipeline sources follow the same rules as for fork repos
-> +
-> +
-> +
-> +    # ====================================
-> +    # Rules for running jobs in user forks
-> +    # ====================================
-> +
-> +    # Part 1: gating jobs
-> +    # -------------------
-> +
-> +    # If on a branch with name prefix 'ci-acceptance-', then run
-> +    # everything, just as a gating job on 'staging' branch would
-> +    - if: '$CI_COMMIT_BRANCH =~ /^ci-gating-/'
-> +      when: on_success
-> +
-> +    # If user set QEMU_CI_GATING=1, then run everything just as
-> +    # a gating job on 'staging' branch would
-> +    - if: '$QEMU_CI_GATING'
-> +      when: on_success
-> +
-> +    # Otherwise never run jobs marked as gating, but allow manual trigger
-> +    # without affecting pipeline status
-> +    - if: '$QEMU_JOB_GATING'
-> +      when: manual
-> +      allow_failure: true
-> +
-> +
-> +    # =============================================
-> +    # Part 2: opt-in for all CI, except gating jobs
-> +    # =============================================
-> +
-> +    # If pushing to a branch with name prefix 'ci-all', then run all jobs
-> +    - if: '$CI_COMMIT_BRANCH =~ /^ci-all/'
-> +      when: on_success
-> +
-> +    # If user QEMU_CI_ALL=1, then run all jobs
-> +    - if: '$QEMU_CI_ALL'
-> +      when: on_success
-> +
-> +
-> +    # ===============================
-> +    # Part 3: the minimal set of jobs
-> +    # ===============================
-> +
-> +    # If pushing to a branch with name prefix 'ci-min', then run
-> +    # only a minimal set of jobs
-> +    - if: '$CI_COMMIT_BRANCH =~ /^ci-min/ && $QEMU_JOB_MINIMAL'
-> +      when: on_success
-> +
-> +    # If user set QEMU_CI=1, then run only a minimal set of jobs
-> +    - if: '$QEMU_CI && $QEMU_JOB_MINIMAL'
-> +      when: on_success
-> +
-> +    # Any other scenario, let the jobs be manually triggered only.
-> +    # Set to be non-fatal, so that pending manual jobs don't
-> +    # affect overall pipeline status
-> +    - when: manual
-> +      allow_failure: true
-> diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
-> index 96dbd9e310..4ba3e038dd 100644
-> --- a/.gitlab-ci.d/static_checks.yml
-> +++ b/.gitlab-ci.d/static_checks.yml
-> @@ -1,4 +1,5 @@
->   check-patch:
-> +  extends: .job_rules
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
->     needs:
-> @@ -6,42 +7,41 @@ check-patch:
->     script:
->       - .gitlab-ci.d/check-patch.py
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       GIT_DEPTH: 1000
-> -  rules:
-> -    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-> -      when: never
-> -    - when: on_success
-> -      allow_failure: true
-> +  allow_failure: true
->   
->   check-dco:
-> +  extends: .job_rules
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
->     needs:
->       job: amd64-centos8-container
->     script: .gitlab-ci.d/check-dco.py
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       GIT_DEPTH: 1000
-> -  rules:
-> -    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-> -      when: never
-> -    - when: on_success
->   
->   check-python-pipenv:
-> +  extends: .job_rules
->     stage: test
->     image: $CI_REGISTRY_IMAGE/qemu/python:latest
->     script:
->       - make -C python check-pipenv
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       GIT_DEPTH: 1
->     needs:
->       job: python-container
->   
->   check-python-tox:
-> +  extends: .job_rules
->     stage: test
->     image: $CI_REGISTRY_IMAGE/qemu/python:latest
->     script:
->       - make -C python check-tox
->     variables:
-> +    QEMU_JOB_MINIMAL: 1
->       GIT_DEPTH: 1
->       QEMU_TOX_EXTRA_ARGS: --skip-missing-interpreters=false
->     needs:
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 9762dda2ee..d5bd31f294 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -15,10 +15,6 @@
->   #
->   # QEMU CI jobs are based on templates. Some templates provide
->   # user-configurable options, modifiable via configuration variables.
-> -#
-> -# See https://qemu-project.gitlab.io/qemu/devel/ci.html#custom-ci-cd-variables
-> -# for more information.
-> -#
->   
->   include:
->     - local: '/.gitlab-ci.d/qemu-project.yml'
-> diff --git a/docs/devel/ci-jobs.rst b/docs/devel/ci-jobs.rst
-> index 9cd9819786..6d3f13d495 100644
-> --- a/docs/devel/ci-jobs.rst
-> +++ b/docs/devel/ci-jobs.rst
-> @@ -1,22 +1,49 @@
-> -Custom CI/CD variables
-> -======================
-> +CI Job Rules
-> +============
->   
-> -QEMU CI pipelines can be tuned by setting some CI environment variables.
-> +The following documents how CI rules control execution of jobs in a pipeline
->   
-> -Set variable globally in the user's CI namespace
-> -------------------------------------------------
-> +Job variable naming
-> +-------------------
->   
-> -Variables can be set globally in the user's CI namespace setting.
-> +The rules for controlling jobs in a pipeline will be driven by a number of
-> +variables:
-> +
-> + - ``CI_XXX``, ``GITLAB_XXX`` - variables defined by GitLab:
-> +
-> +   https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-> +
-> + - ``QEMU_JOB_XXX`` - variables defined in the YAML files that express
-> +   characteristics of the job used to control default behaviour
-> +
-> + - ``QEMU_CI_XXX`` - variables defined by the user that are used to fine
-> +   tune which jobs are run dynamically
-> +
-> +and in some cases based on the branch name prefixes.
-> +
-> +Job fine tuning strategies
-> +--------------------------
-> +
-> +Using a combination of the ``QEMU_CI_XXX`` variables and ``ci-``
-> +branch name prefix, users can fine tune what jobs are run.
-> +
-> +Set variable globally in the gitlab repository CI config
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Variables can be set globally in the user's gitlab repository CI config.
-> +These variables will apply to all pipelines associated with the repository
-> +thereafter. This is useful for fine tuning the jobs indefinitely.
->   
->   For further information about how to set these variables, please refer to::
->   
->     https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project
->   
-> -Set variable manually when pushing a branch or tag to the user's repository
-> ----------------------------------------------------------------------------
-> +Set variable manually when pushing to git
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   
->   Variables can be set manually when pushing a branch or tag, using
-> -git-push command line arguments.
-> +git-push command line arguments. This is useful for fine tuning the
-> +jobs on an adhoc basis.
->   
->   Example setting the QEMU_CI_EXAMPLE_VAR variable:
->   
-> @@ -28,13 +55,107 @@ For further information about how to set these variables, please refer to::
->   
->     https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
->   
-> -Here is a list of the most used variables:
-> +Pushing to specially named branches
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Branch names starting with a 'ci-' prefix can be used as an alternative
-> +to setting variables. Details of supported branch names are detailed
-> +later in this document.
-> +
-> +Provide a custom gitlab CI configuration
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +The above strategies all provide a way to fine tune the jobs defined by the
-> +standard QEMU gitlab CI configuration file. If this is not sufficient it is
-> +possible to completely replace the CI configuration file with a custom
-> +version. This allows the contributor to achieve essentially anything they
-> +desire, within the scope of what GitLab supports.
-> +
-> +Replacing the ``.gitlab-ci.yml`` file is done in the repository settings:
-> +
-> +  https://docs.gitlab.com/ee/ci/pipelines/settings.html#specify-a-custom-cicd-configuration-file
-> +
-> +Note that it is possible to reference an arbitrary URL. This could point
-> +to a replacement .gitlab-ci.yml on a specific branch in the same repo,
-> +or can point to any external site.
-> +
-> +
-> +Job grouping sets
-> +-----------------
-> +
-> +There are many different jobs defined in the GitLab CI pipeline used by QEMU.
-> +It is not practical to run all jobs in every scenario, so there are a set of
-> +rules defined that control which jobs are executed on each pipeline run. At
-> +a high level the jobs can be grouped into a number of mutually exclusive
-> +sets.
-> +
-> + - Manual jobs
-> +
-> +   This is a set of jobs that will never be run automatically in any scenario.
-> +   The reason a job will be marked manual is if it is known to exhibit some
-> +   non-deterministic failures, or liable to trigger timeouts. Ideally jobs are
-> +   only present in this set for a short period of time while the problems are
-> +   investigated and resolved. Users can manually trigger these jobs from the
-> +   the pipelines web UI if desired, but they will never contribute to the
-> +   overall pipeline status.
-> +
-> +   Identified by the variable ``QEMU_JOB_MANUAL: 1``
-> +
-> +
-> + - Minimal jobs
-> +
-> +   This is a minimal set of jobs that give a reasonable build and test sanity
-> +   check, which will be run by default in all possible scenarios. This set of
-> +   jobs is intended to be controlled fairly strictly to avoid wasting CI
-> +   minutes of maintainers/contributors. The intent is to get 80-90% coverage
-> +   of build and unit tests across the most important host platforms and
-> +   architectures.
-> +
-> +   Identified by the variable ``QEMU_JOB_MINIMAL: 1``
-> +
-> +   Run by setting the variable ``QEMU_CI: 1`` or pushing to a branch
-> +   named ``ci-min-XXX``.
-> +
-> +
-> + - Gating jobs
-> +
-> +   This is a set of jobs will will always run as a gating test prior to code
-> +   merging into the default branch of the primary QEMU git repository. In user
-> +   forks the jobs will not run by default, but the user can opt-in to trigger
-> +   their execution. These jobs may run a particularly thorough set of scenarios
-> +   that maintainers are not normally going to exercise before sending series.
-> +
-> +   Identified by the variable ``QEMU_JOB_GATING: 1``
-> +
-> +   Run by setting the variable ``QEMU_CI_GATING: 1`` or pushing to a branch
-> +   named ``ci-gating-XXX``
-> +
-> +
-> + - Optional jobs
-> +
-> +   This is all remaining jobs that don't fall into one of the above buckets.
-> +   These jobs will always be run as a gating test prior to code merging into
-> +   the default branch of the primary QEMU git repository. In user forks the
-> +   jobs will not run by default, but the user can opt-in to trigger their
-> +   execution. These jobs will aim to expand the host/platform build coverage
-> +   gaps left by the default jobs.
-> +
-> +   Identified by not having any of the above variables set.
-> +
-> +   Run by setting the variable ``QEMU_CI_ALL: 1`` or pushing to a branch
-> +   named ``ci-all-XXXX``
-> +
-> +Since the sets are mutually exclusive, if more than one of the variables above
-> +is set, then only one of them will be honoured. The precedence matches the
-> +ordering of the above docs.
-> +
-> +In addition to the above, there are some special extra sets that can augment
-> +any of the above sets
-> +
-> + - Publishing jobs
->   
-> -QEMU_CI_AVOCADO_TESTING
-> -~~~~~~~~~~~~~~~~~~~~~~~
-> -By default, tests using the Avocado framework are not run automatically in
-> -the pipelines (because multiple artifacts have to be downloaded, and if
-> -these artifacts are not already cached, downloading them make the jobs
-> -reach the timeout limit). Set this variable to have the tests using the
-> -Avocado framework run automatically.
-> +   These are jobs that are needed to publish the QEMU website. For user fork
-> +   repos these follow the normal rules set out above. For the primary QEMU
-> +   repo, however, the jobs will also run on the default branch.
->   
-> +   Identified by the variable ``QEMU_JOB_PUBLISH: 1``
+> I'd make it v2+, just to express my displeasure with the decision to
+> make the initial QAPI generator v2 only for no good reason at all.
+
+Our policy is that all new code should be v2+ anyway, unless it was
+clearly derived from some pre-existing v2-only code. Upto Victor to
+say whether the golang.py is considered clean, or was copy+paste
+in any parts from existin v2-only code
+
+> > generated code needs to be compatible with other Golang projects,
+> > such as the ones mentioned above. My intention is to keep a Go
+> > module with a MIT license.
+>
+> Meh.  Can't be helped, I guess.
+
+This does make me wonder though whether the license of the QAPI input
+files has a bearing on the Go (or other $LANGUAGE) ouput files. eg is
+the Go code to be considered a derived work of the QAPI JSON files. I'm
+not finding a clearly articulated POV on this question so far.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
