@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376445214C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 14:04:24 +0200 (CEST)
-Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310F55214CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 14:06:16 +0200 (CEST)
+Received: from localhost ([::1]:36694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noObG-0000Fz-Of
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 08:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34712)
+	id 1noOd5-0002vP-4u
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 08:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1noOYe-0006h0-3h
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:01:40 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:36580 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1noOYb-0002kt-BI
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:01:39 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxENsRVHpi2gwQAA--.63084S3; 
- Tue, 10 May 2022 20:01:21 +0800 (CST)
-Subject: Re: [PATCH v3 02/43] target/loongarch: Add core definition
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-3-yangxiaojuan@loongson.cn>
- <683ba7cb-ec3e-4af4-8be9-98f119ef981b@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <014cb2cf-bd9e-b7d8-17c2-2566a5ecccd1@loongson.cn>
-Date: Tue, 10 May 2022 20:01:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noOa0-0000P8-2C
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:03:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noOZw-00033K-O5
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:03:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652184179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H8sRoqqOMjw3FHCEbBRyFRIxQjXiWOU59KjTe5nu9XE=;
+ b=YoojZ4Vx/DDpDOL7RpPN8H5DUYff5APQ5LU+DktZCmo4E9Wr4FLlzX+ieO0AiRGAF/dIgh
+ kFD6FMJjAiSR5YY8f9GO5D7uxL0fMfathKiRamFYiSMKSeHFosCwv5NEXxiuDpAdIA1PJq
+ FUGkWSAt2aNCNxpKM3bLZCVFct89ZFg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-212-5SLAL8bDPkCqtkZYDgojeA-1; Tue, 10 May 2022 08:02:58 -0400
+X-MC-Unique: 5SLAL8bDPkCqtkZYDgojeA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB113185A7A4
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 12:02:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82D6940317B;
+ Tue, 10 May 2022 12:02:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 508B121E6880; Tue, 10 May 2022 14:02:56 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Victor Toso <victortoso@redhat.com>,  John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>,  qemu-devel@nongnu.org,  =?utf-8?Q?Marc-?=
+ =?utf-8?Q?Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
+Date: Tue, 10 May 2022 14:02:56 +0200
+In-Reply-To: <Ynon8Y8uwfL1bDyN@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 10 May 2022 09:53:05 +0100")
+Message-ID: <87lev9mw7j.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <683ba7cb-ec3e-4af4-8be9-98f119ef981b@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9BxENsRVHpi2gwQAA--.63084S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gr1DZr4rGr45Xw1kAr1DJrb_yoW3XFX_Gr
- ZxKrWkAan7G3W7Cw42yr45Jr1jqF48AFyYya97XrW7Gw15trW3Wr4q9rWfZas8tF4vqrZx
- Wa93KF4fAF1jvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbIkFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
- r21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
- 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
- AVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
- CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv
- 67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf
- 9x0JUywZ7UUUUU=
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,27 +85,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-On 2022/5/10 上午4:29, Richard Henderson wrote:
-> On 4/29/22 05:06, Xiaojuan Yang wrote:
->> + DEFINE_LOONGARCH_CPU_TYPE("Loongson-3A5000", loongarch_3a5000_initfn),
+> On Tue, Apr 26, 2022 at 01:14:28PM +0200, Markus Armbruster wrote:
+>> Victor Toso <victortoso@redhat.com> writes:
+>>=20
+>> > Hi,
+>> >
+>> > Happy 1st April. Not a joke :) /* ugh, took me too long to send */
+>> >
+>> > This series is about adding a generator in scripts/qapi to produce
+>> > Go data structures that can be used to communicate with QEMU over
+>> > QMP.
+>> >
+>> >
+>> > * Why Go?
+>> >
+>> > There are quite a few Go projects that interact with QEMU over QMP
+>> > and they endup using a mix of different libraries with their own
+>> > code.
+>> >
+>> >
+>> > ** Which projects?
+>> >
+>> > The ones I've found so far:
+>> >
+>> > - podman machine
+>> >   https://github.com/containers/podman/tree/main/pkg/machine/qemu
+>> >
+>> > - kata-containers (govmm)
+>> >   https://github.com/kata-containers/kata-containers/tree/main/src/run=
+time/pkg/govmm
+>> >
+>> > - lxd
+>> >   https://github.com/lxc/lxd/tree/master/lxd/instance/drivers
+>> >
+>> > - kubevirt (plain json strings)
+>> >   https://github.com/kubevirt/kubevirt
+>> >
+>> > (let me know if you know others)
+>> >
+>> >
+>> > * But Why?
+>> >
+>> > I'm particularly interested in 3 out of 4 of the projects above and
+>> > only Kubevirt uses libvirt to handle QEMU. That means that every
+>> > QEMU releases where a QMP command, event or other data struct is
+>> > added, removed or changed, those projects need to check what changed
+>> > in QEMU and then address those changes in their projects, if needed.
+>> >
+>> > The idea behind generating Go data structures is that we can keep a
+>> > Go module which can have releases that follow QEMU releases.
+>>=20
+>> We need to look at "following the QEMU releases" a bit more closely.
+>>=20
+>> Merging your patches gives us the capability to generate a Go interface
+>> to HEAD's version of QMP.
+>>=20
+>> The obvious way for an out-of-tree Go program to use this generated Go
+>> interface is to build with a specific version of it.  It can then talk
+>> QMP to any compatible QEMU version.
+>>=20
+>> Compatibility with older QEMUs is not assured: stuff added since is
+>> present on the Go QMP client end, but not on the QEMU QMP server end.
+>>=20
+>> Compatibility with newer QEMUs is subject to our deprecation policy:
+>>=20
+>>     In general features are intended to be supported indefinitely once
+>>     introduced into QEMU.  In the event that a feature needs to be
+>>     removed, it will be listed in this section.  The feature will remain
+>>     functional for the release in which it was deprecated and one
+>>     further release.  After these two releases, the feature is liable to
+>>     be removed.
+>>=20
+>> So, if you stay away from deprecated stuff, you're good for two more
+>> releases at least.
+>>=20
+>> Does this work for the projects you have in mind?
 >
-> Follow up on the comments against patch 34, and reading the 3A5000 
-> manual, I see
->
-> # On-chip integration of four 64-bit quad-launch superscalar GS464v 
-> processor cores.
->
-> Therefore it would seem that the cpu core here in target/loongarch/ 
-> should be named "gs464v", and the 3A5000 name should be reserved for 
-> the cpu package over in hw/loongarch/.
->
-OK,  the lastest manual  [1]  the cpu core named  ' LA464',  I will 
-correct it  on v4.
-[1] : 
-https://loongson.github.io/LoongArch-Documentation/Loongson-3A5000-usermanual-EN.pdf
+> It might work for some projects, but in the general case I find it pretty
+> unappealing as a restriction. Mixing and matching new QEMU with old libvi=
+rt,
+> or vica-verca has been an incredibly common thing todo when both developi=
+ng
+> and perhaps more importantly debugging problems. For example I have one
+> libvirt build and I use it against any QEMU from Fedora / any RHEL-8.x
+> update, which spans a great many QEMU releases.=20
 
-Thanks.
-Xiaojuan
+I'd like to propose that for compatibility with a wide range of QEMU
+versions, you use or reinvent libvirt.
+
+> I like the idea of auto-generating clients from the QAPI schema, and
+> would like it if we were able to use this kind of approach on the libvirt
+> side, but for that we need to be more flexible in version matching.
+>
+> Our current approach to deprecation features and subsequently removing
+> them from the QAPI schema works fine when the QAPI schema is only used
+> internally by QEMU, not when we we expand usage of QAPI to external
+> applications.=20
+>
+> I think we need to figure out a way to make the QAPI schema itself be
+> append only, while still allowing QEMU to deprecation & remove features.
+
+This is going to get complicated fast.
+
+> For a minimum viable use case, this doesn't feel all that difficult, as
+> conceptually instead of deleting the field from QAPI, we just need to
+> annotate it to say when it was deleted from the QEMU side.  The QAPI
+> generator for internal QEMU usage, can omit any fields annotated as
+> deleted in QAPI schema. The QAPI generator for external app usage,
+> can (optionally) be told to include deleted fields ranging back to
+> a given version number. So apps can chooses what degree of compat
+> they wish to retain.
+
+Consider this evolution of command block_resize
+
+* Initially, it has a mandatory argument @device[*].
+
+* An alternative way to specify the command's object emerges: new
+  argument @node-name.  Both old @device and new @node-name become
+  optional, and exactly one of them must be specified.  This is commit
+  3b1dbd11a6 "qmp: Allow block_resize to manipulate bs graph nodes."
+
+* At some future date, the old way gets deprecated: argument @device
+  acquires feature @deprecated.
+
+* Still later, the old way gets removed: @device is deleted, and
+  @node-name becomes mandatory.
+
+What is the proper version-spanning interface?
+
+I figure it's both arguments optional, must specify the right one for
+the version of QEMU actually in use.  This spans versions, but it fails
+to abstract from them.
+
+Note that it's not enough to replace "delete member" by "mark member
+deleted in <version>".  You also have to keep full history for "is it
+optional".  And for types, because those can evolve compatibly, too,
+e.g. from struct to flat union, or from string to alternate of string
+and something else.  What is the proper version-spanning interface in
+all the possible cases?
+
+> Apps that wish to have version compat, would of course need to write
+> their code to be aware of which fields they need to seend for which
+> QEMU version.
+
+At which point we're reinventing libvirt.
+
+>> > * Status
+>> >
+>> > There are a few rough edges to work on but this is usable. The major
+>> > thing I forgot to add is handling Error from Commands. It'll be the
+>> > first thing I'll work on next week.
+>> >
+>> > If you want to start using this Today you can fetch it in at
+>> >
+>> >     https://gitlab.com/victortoso/qapi-go/
+>> >
+>> > There are quite a few tests that I took from the examples in the
+>> > qapi schema. Coverage using go's cover tool is giving `28.6% of
+>> > statements`
+>> >
+>> > I've uploaded the a static generated godoc output of the above Go
+>> > module here:
+>> >
+>> >     https://fedorapeople.org/~victortoso/qapi-go/rfc/victortoso.com/qa=
+pi-go/pkg/qapi/
+>> >
+>> >
+>> > * License
+>> >
+>> > While the generator (golang.py in this series) is GPL v2, the
+>>=20
+>> I'd make it v2+, just to express my displeasure with the decision to
+>> make the initial QAPI generator v2 only for no good reason at all.
+>
+> Our policy is that all new code should be v2+ anyway, unless it was
+> clearly derived from some pre-existing v2-only code. Upto Victor to
+> say whether the golang.py is considered clean, or was copy+paste
+> in any parts from existin v2-only code
+
+Makes sense.
+
+>> > generated code needs to be compatible with other Golang projects,
+>> > such as the ones mentioned above. My intention is to keep a Go
+>> > module with a MIT license.
+>>
+>> Meh.  Can't be helped, I guess.
+>
+> This does make me wonder though whether the license of the QAPI input
+> files has a bearing on the Go (or other $LANGUAGE) ouput files. eg is
+> the Go code to be considered a derived work of the QAPI JSON files. I'm
+> not finding a clearly articulated POV on this question so far.
+
+Oww.  You're right.
+
+The safe and easy answer is "same license as the generator code".
+Anything else is either not safe or not easy, I'm afraid.
+
+
+[*] Because everyhing in QEMU must be called either "device" or
+"driver".  It's the law!
 
 
