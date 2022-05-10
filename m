@@ -2,61 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4CF521011
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:53:20 +0200 (CEST)
-Received: from localhost ([::1]:39968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400C2521072
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:16:52 +0200 (CEST)
+Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noLcN-0003bl-EO
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37682)
+	id 1noLz8-0005Hi-Cj
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:16:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noLK5-0006SF-Nd
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39781)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noLQ0-00051f-Bp
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:40:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noLK3-0000Qh-QE
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:25 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noLPy-0001OC-1W
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:40:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652171663;
+ s=mimecast20190719; t=1652172029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q9Eg8eVEzbXoip23ImtdP150xH8E/Sm7GhNiC/12jr8=;
- b=ZswqO8HBJD/kfMoRXsRsV8327jQjojmKkQOhHQepdovK6JDGLrI5CaukYkzJ0YajQVGKAf
- IT/CnS1pxSjHhDycUZ55G1abzXkLQLo99C8f3egVp20Z7oUQaJt27P9rheRGZmSop05ZOe
- 8xu1ahdNYdzuEkMFCGRKLh9S5NJw/Lo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=20gG+O79Y14Si2RxqRF+9964xD9MPIFsEcjEhEBMiaY=;
+ b=SqxBfAessNakhFVjIZZ2Ejngxg/ms/m0QGN6X0M4uQJ64XGcvV+N4T1GOJWXz+GOaUEE8W
+ 9JZPdJkS//2ExrPnXobsCyKCfwxv/fiBkyt9aSZap1Uijab3EqJL599fbB60fO/XWosD/Y
+ DFh6Imkp51UK5pvGS0OVo1BzAjSUMXE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-GjoKJstRMa6v9whRkm-bqQ-1; Tue, 10 May 2022 04:34:21 -0400
-X-MC-Unique: GjoKJstRMa6v9whRkm-bqQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4AAEC1C0690E
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:34:21 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.195.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F79F403171;
- Tue, 10 May 2022 08:34:20 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
- leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 16/16] multifd: Implement zero copy write in multifd migration
- (multifd-zero-copy)
-Date: Tue, 10 May 2022 09:33:55 +0100
-Message-Id: <20220510083355.92738-17-dgilbert@redhat.com>
-In-Reply-To: <20220510083355.92738-1-dgilbert@redhat.com>
-References: <20220510083355.92738-1-dgilbert@redhat.com>
+ us-mta-648-UFzWygFVMmCAc5EqeincnA-1; Tue, 10 May 2022 04:40:28 -0400
+X-MC-Unique: UFzWygFVMmCAc5EqeincnA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m26-20020a7bcb9a000000b0039455e871b6so503212wmi.8
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 01:40:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=20gG+O79Y14Si2RxqRF+9964xD9MPIFsEcjEhEBMiaY=;
+ b=14CkJTDDFOliUtZUhIdrY1FpDMeShDHCsXVYv+UU25dUUUbuddidDa18KYvX2ofyWD
+ UbFh2er1yOEWKtfIJSse8pz/ssLR94OASdwWYUd1jKfS5h/Rj/pYWEN/d7LGGDseokNW
+ qmaIlX9Khsz+ftl62OM4sCS3TFHnZKnEgXWb6jQbOpMwIQbc+GoffCezMJtT3TbnrrgA
+ tOOw1Eij/5puQOR2nxjFyTQSOgZamtGnnFJtpLKvtM2RiSpYJPOiJwKyx2xwg5glhPPu
+ xrZlYZLuVwAEp7m9pwDZXh9w39JSoXvX1JxtHWLc4LLpRSbhOAm0S5moFglPVVr9Awd+
+ 7HfQ==
+X-Gm-Message-State: AOAM531vLojPoBiotcEbQ+/I08G2/B6t/IXGftPfCYRpaH7a5WF0OjfC
+ tXUiaiTDPxhT7RlFIagiSyF50Z2/+DGvCW+j54xFB9Z31f8YxkHyXsPEFe7qTR5BjKk8lpGRArG
+ pG/yjmbRVfNer4Is=
+X-Received: by 2002:a05:600c:2210:b0:393:ffb8:2985 with SMTP id
+ z16-20020a05600c221000b00393ffb82985mr26373981wml.167.1652172026944; 
+ Tue, 10 May 2022 01:40:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYhtHruCUPrsxXhehZXavMN0Q4d4EIXntvrufAGY8c/ZdH7TrDIcwLCEgbuPOKn4ik610RdQ==
+X-Received: by 2002:a05:600c:2210:b0:393:ffb8:2985 with SMTP id
+ z16-20020a05600c221000b00393ffb82985mr26373937wml.167.1652172026531; 
+ Tue, 10 May 2022 01:40:26 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ d6-20020adfa346000000b0020c5253d8d5sm13436586wrb.33.2022.05.10.01.40.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 01:40:26 -0700 (PDT)
+Message-ID: <a61ed836-2d31-677c-235d-9fc491e483ac@redhat.com>
+Date: Tue, 10 May 2022 10:40:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, muriloo@linux.ibm.com,
+ qemu-devel@nongnu.org
+Cc: Fabiano Rosas <farosas@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Miroslav Rezanina <mrezanin@redhat.com>
+References: <20220429233146.29662-1-muriloo@linux.ibm.com>
+ <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
+ <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
+ <0cc7cfdb-db80-f05b-49d8-d5db8baa6bfd@ilande.co.uk>
+ <6b41eea4-687e-11cf-392f-75fa6f5d2e34@linux.ibm.com>
+ <9f68b28d-62e8-2a96-4f92-cc8f5bfd473f@ilande.co.uk>
+ <aefec76d-a3a7-0312-6925-a35d9b2cec18@linux.ibm.com>
+ <0664ffae-9037-3096-ea0d-6d6732ac0214@ilande.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+Subject: QEMU with reduced amount of machines in the config (was: [PATCH]
+ mos6522: fix linking error when CONFIG_MOS6522 is not set)
+In-Reply-To: <0664ffae-9037-3096-ea0d-6d6732ac0214@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,169 +113,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Bras <leobras@redhat.com>
+On 05/05/2022 10.19, Mark Cave-Ayland wrote:
+> On 05/05/2022 02:24, Murilo Opsfelder Araújo wrote:
+> 
+>> Hi, Mark.
+>>
+>> On 5/4/22 11:32, Mark Cave-Ayland wrote:
+>>> On 04/05/2022 14:16, Murilo Opsfelder Araújo wrote:
+>>>> Hi, Mark.
+>>>>
+>>>> On 5/4/22 04:10, Mark Cave-Ayland wrote:
+>>>>> On 02/05/2022 14:36, Murilo Opsfelder Araújo wrote:
+>>>>>
+>>>>>> Hi, Mark.
+>>>>>>
+>>>>>> Thanks for reviewing.  Comments below.
+>>>>>>
+>>>>>> On 5/2/22 06:43, Mark Cave-Ayland wrote:
+>>>>>>> On 30/04/2022 00:31, Murilo Opsfelder Araujo wrote:
+[...]
+>>>>> Certainly QEMU could do better here, but then if you are already 
+>>>>> patching the build to generate a custom configuration as above, you 
+>>>>> might as well just patch out the relevant part of hmp-commands-info.hx 
+>>>>> at the same time until proper per-device HMP/QMP support is added.
+>>>>
+>>>> We are not patching the build.  We are just configuring it.
+>>>
+>>> That's not true though: the spec file linked above contains 20 patches to 
+>>> the vanilla QEMU source, including feeding custom device lists into the 
+>>> build system via 
+>>> https://gitlab.com/redhat/centos-stream/rpms/qemu-kvm/-/blob/c9s/0005-Enable-disable-devices-for-RHEL.patch. 
+>>
+>> I'm sorry.  I think I wasn't clear enough.
+>>
+>> The reproducer I sent in the email was *adapted* from CentOS/RHEL 
+>> qemu-kvm.spec.
+>> Meaning that we configured the devices in the same way that the 
+>> CentOS/RHEL package is configuring but used the unmodified QEMU source 
+>> tree from upstream.
+>>
+>> I did that because I wanted to mimic its configuration (devices and 
+>> configure options) against the upstream code to determine if the failure 
+>> was a downstream or upstream issue.
+>> It turns out it's an upstream regression.
+> 
+> Ah so that's the problem then - you can't guarantee the configuration from a 
+> vendor-customised build will work with upstream, particularly when the build 
+> system itself has been patched. More explanation below.
+> 
+>>> Perhaps CONFIG_MOS6522 is missing from ppc64-rh-devices?
+>>
+>> I don't think so.  Since the CONFIG_MOS6522 is available, one can build 
+>> without it and code should cope with that.
+> 
+> In an upstream build the default boards for each target are listed in the 
+> configs/ directory and Kconfig specifies the dependencies such that for ppc 
+> and ppc64 CONFIG_MOS6522 is **always** defined. However what happens in the 
+> .spec file you linked to is that the device lists **are being overridden** 
+> by the provided ppc64-rh-devices file which **doesn't** contain 
+> CONFIG_MOS6522. It seems to me that the .spec file can only work with that 
+> vendor-specific ppc64-rh-devices file if it also patches the build system to 
+> prevent this error occurring.
 
-Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
-writev + flags & flush interface.
+Well, yes and no. QEMU was quite monolitic for many years (that's where most 
+of these downstream patches have their origin from), but the Kconfig stuff 
+that was introduced a while ago (which required quite a lot of patches to 
+untangle many parts of the build) was indeed meant for giving more 
+flexibility here, so that downstream vendors could build QEMU more easily 
+with only a subset of the machines (which is not only a desire by Red Hat, 
+by the way - do you remember the "nemu" fork a while ago for example?). We 
+still have quite a bit on the TODO list for full flexibility (e.g. mips 
+config has not been fully switched to Kconfig yet, I think), but for most 
+architectures, it should already work that you only select a subset of the 
+available machines.
 
-Change multifd_send_sync_main() so flush_zero_copy() can be called
-after each iteration in order to make sure all dirty pages are sent before
-a new iteration is started. It will also flush at the beginning and at the
-end of migration.
+However, as you already noticed the big downside is still that this is not 
+tested automatically in the upstream CI environment, so regressions like 
+this one here with the mos6522 are expected. In the long run, I think we 
+certainly want to test e.g. this cut-down CentOS-stream configuration in the 
+CI, too ... it's just a big bunch of work that nobody started to tangle with 
+yet.
 
-Also make it return -1 if flush_zero_copy() fails, in order to cancel
-the migration process, and avoid resuming the guest in the target host
-without receiving all current RAM.
-
-This will work fine on RAM migration because the RAM pages are not usually freed,
-and there is no problem on changing the pages content between writev_zero_copy() and
-the actual sending of the buffer, because this change will dirty the page and
-cause it to be re-sent on a next iteration anyway.
-
-A lot of locked memory may be needed in order to use multifd migration
-with zero-copy enabled, so disabling the feature should be necessary for
-low-privileged users trying to perform multifd migrations.
-
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220507015759.840466-8-leobras@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/migration.c | 11 ++++++++++-
- migration/multifd.c   | 37 +++++++++++++++++++++++++++++++++++--
- migration/multifd.h   |  2 ++
- migration/socket.c    |  5 +++--
- 4 files changed, 50 insertions(+), 5 deletions(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index 4b6df2eb5e..31739b2af9 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1497,7 +1497,16 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
-         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
-         return false;
-     }
--
-+#ifdef CONFIG_LINUX
-+    if (params->zero_copy_send &&
-+        (!migrate_use_multifd() ||
-+         params->multifd_compression != MULTIFD_COMPRESSION_NONE ||
-+         (params->tls_creds && *params->tls_creds))) {
-+        error_setg(errp,
-+                   "Zero copy only available for non-compressed non-TLS multifd migration");
-+        return false;
-+    }
-+#endif
-     return true;
- }
- 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 2541cd2322..9282ab6aa4 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -569,6 +569,7 @@ void multifd_save_cleanup(void)
- int multifd_send_sync_main(QEMUFile *f)
- {
-     int i;
-+    bool flush_zero_copy;
- 
-     if (!migrate_use_multifd()) {
-         return 0;
-@@ -579,6 +580,20 @@ int multifd_send_sync_main(QEMUFile *f)
-             return -1;
-         }
-     }
-+
-+    /*
-+     * When using zero-copy, it's necessary to flush the pages before any of
-+     * the pages can be sent again, so we'll make sure the new version of the
-+     * pages will always arrive _later_ than the old pages.
-+     *
-+     * Currently we achieve this by flushing the zero-page requested writes
-+     * per ram iteration, but in the future we could potentially optimize it
-+     * to be less frequent, e.g. only after we finished one whole scanning of
-+     * all the dirty bitmaps.
-+     */
-+
-+    flush_zero_copy = migrate_use_zero_copy_send();
-+
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
- 
-@@ -600,6 +615,17 @@ int multifd_send_sync_main(QEMUFile *f)
-         ram_counters.transferred += p->packet_len;
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
-+
-+        if (flush_zero_copy && p->c) {
-+            int ret;
-+            Error *err = NULL;
-+
-+            ret = qio_channel_flush(p->c, &err);
-+            if (ret < 0) {
-+                error_report_err(err);
-+                return -1;
-+            }
-+        }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
-@@ -684,8 +710,8 @@ static void *multifd_send_thread(void *opaque)
-                 p->iov[0].iov_base = p->packet;
-             }
- 
--            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
--                                         &local_err);
-+            ret = qio_channel_writev_full_all(p->c, p->iov, p->iovs_num, NULL,
-+                                              0, p->write_flags, &local_err);
-             if (ret != 0) {
-                 break;
-             }
-@@ -913,6 +939,13 @@ int multifd_save_setup(Error **errp)
-         /* We need one extra place for the packet header */
-         p->iov = g_new0(struct iovec, page_count + 1);
-         p->normal = g_new0(ram_addr_t, page_count);
-+
-+        if (migrate_use_zero_copy_send()) {
-+            p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
-+        } else {
-+            p->write_flags = 0;
-+        }
-+
-         socket_send_channel_create(multifd_new_send_channel_async, p);
-     }
- 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index bcf5992945..4d8d89e5e5 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -92,6 +92,8 @@ typedef struct {
-     uint32_t packet_len;
-     /* pointer to the packet */
-     MultiFDPacket_t *packet;
-+    /* multifd flags for sending ram */
-+    int write_flags;
-     /* multifd flags for each packet */
-     uint32_t flags;
-     /* size of the next packet that contains pages */
-diff --git a/migration/socket.c b/migration/socket.c
-index 3754d8f72c..4fd5e85f50 100644
---- a/migration/socket.c
-+++ b/migration/socket.c
-@@ -79,8 +79,9 @@ static void socket_outgoing_migration(QIOTask *task,
- 
-     trace_migration_socket_outgoing_connected(data->hostname);
- 
--    if (migrate_use_zero_copy_send()) {
--        error_setg(&err, "Zero copy send not available in migration");
-+    if (migrate_use_zero_copy_send() &&
-+        !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY)) {
-+        error_setg(&err, "Zero copy send feature not detected in host kernel");
-     }
- 
- out:
--- 
-2.36.0
+  Thomas
 
 
