@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41EC5261B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 14:19:33 +0200 (CEST)
-Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EB752621E
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 14:38:38 +0200 (CEST)
+Received: from localhost ([::1]:60702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npUGb-0001kF-3a
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 08:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48432)
+	id 1npUZ3-0003dd-CU
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 08:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1npToW-00049n-9W; Fri, 13 May 2022 07:50:32 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45414)
+ id 1npTwK-0000pu-Ui; Fri, 13 May 2022 07:58:38 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1npToU-0000p5-Or; Fri, 13 May 2022 07:50:31 -0400
+ id 1npTwJ-00029q-Gm; Fri, 13 May 2022 07:58:36 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 68A9A11F164;
- Fri, 13 May 2022 11:49:57 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id D9F4D11F145;
+ Fri, 13 May 2022 11:58:10 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Wed, 27 Apr 2022 20:26:40 -0700
-Subject: [PATCH qemu v18 16/16] target/riscv: rvv: Add option 'rvv_ta_all_1s'
- to enable optional tail agnostic behavior
-Message-ID: <165244259451.12806.1710403216414520477-16@git.sr.ht>
+Date: Tue, 10 May 2022 11:10:04 -0700
+Subject: [PATCH qemu v4 10/10] target/riscv: rvv: Add option 'rvv_ma_all_1s'
+ to enable optional mask agnostic behavior
+Message-ID: <165244308918.21805.1094821418229175817-10@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <165244259451.12806.1710403216414520477-0@git.sr.ht>
+In-Reply-To: <165244308918.21805.1094821418229175817-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -38,11 +38,11 @@ Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
-X-Spam_score_int: 36
-X-Spam_score: 3.6
-X-Spam_bar: +++
-X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,36 +62,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: eopXD <eop.chen@sifive.com>
 
-According to v-spec, tail agnostic behavior can be either kept as
+According to v-spec, mask agnostic behavior can be either kept as
 undisturbed or set elements' bits to all 1s. To distinguish the
-difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s".
+difference of mask policies, QEMU should be able to simulate the mask
+agnostic behavior as "set mask elements' bits to all 1s".
 
 There are multiple possibility for agnostic elements according to
 v-spec. The main intent of this patch-set tries to add option that
-can distinguish between tail policies. Setting agnostic elements to
+can distinguish between mask policies. Setting agnostic elements to
 all 1s allows QEMU to express this.
 
-This commit adds option 'rvv_ta_all_1s' is added to enable the
+This commit adds option 'rvv_ma_all_1s' is added to enable the
 behavior, it is default as disabled.
 
 Signed-off-by: eop Chen <eop.chen@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
  target/riscv/cpu.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ccacdee215..720c8b9e5c 100644
+index 720c8b9e5c..0245844b99 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -879,6 +879,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+@@ -880,6 +880,7 @@ static Property riscv_cpu_properties[] = {
  
      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-+    DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
++    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
      DEFINE_PROP_END_OF_LIST(),
  };
  
