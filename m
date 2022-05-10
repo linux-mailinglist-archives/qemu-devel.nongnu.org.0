@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42245510EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:03:47 +0200 (CEST)
-Received: from localhost ([::1]:41288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0BA5510C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 08:57:54 +0200 (CEST)
+Received: from localhost ([::1]:34958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3BRo-0006Tj-T8
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44518)
+	id 1o3BM8-0001wt-PD
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 02:57:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1o3BFf-0001v3-B8; Mon, 20 Jun 2022 02:51:11 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:49178)
+ id 1o3BFe-0001tr-R1; Mon, 20 Jun 2022 02:51:10 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:49180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1o3BFc-0004Nh-9Y; Mon, 20 Jun 2022 02:51:11 -0400
+ id 1o3BFc-0004Ni-9W; Mon, 20 Jun 2022 02:51:10 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 33CD011EFB8;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 547DE11EFBC;
  Mon, 20 Jun 2022 06:50:43 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Thu, 17 Mar 2022 02:32:47 -0700
-Subject: [PATCH qemu v6 09/10] target/riscv: rvv: Add mask agnostic for vector
- permutation instructions
-Message-ID: <165570784143.17634.35095816584573691-9@git.sr.ht>
+Date: Tue, 10 May 2022 11:10:04 -0700
+Subject: [PATCH qemu v6 10/10] target/riscv: rvv: Add option 'rvv_ma_all_1s'
+ to enable optional mask agnostic behavior
+Message-ID: <165570784143.17634.35095816584573691-10@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <165570784143.17634.35095816584573691-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
@@ -60,168 +60,41 @@ Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
+From: eopXD <eop.chen@sifive.com>
+
+According to v-spec, mask agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of mask policies, QEMU should be able to simulate the mask
+agnostic behavior as "set mask elements' bits to all 1s".
+
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between mask policies. Setting agnostic elements to
+all 1s allows QEMU to express this.
+
+This commit adds option 'rvv_ma_all_1s' is added to enable the
+behavior, it is default as disabled.
 
 Signed-off-by: eop Chen <eop.chen@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc |  1 +
- target/riscv/vector_helper.c            | 26 +++++++++++++++++++++++--
- 2 files changed, 25 insertions(+), 2 deletions(-)
+ target/riscv/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
-s/trans_rvv.c.inc
-index c1bd29329e..e58208f363 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3891,6 +3891,7 @@ static bool int_ext_op(DisasContext *s, arg_rmr *a, uin=
-t8_t seq)
-     data =3D FIELD_DP32(data, VDATA, VM, a->vm);
-     data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
-+    data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 05e6521351..a67b1c3e84 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -955,6 +955,7 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, fal=
+se),
 =20
-     tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-                        vreg_ofs(s, a->rs2), cpu_env,
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 52518648bb..d224861c2c 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -5018,11 +5018,14 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1=
-, void *vs2,         \
-     uint32_t esz =3D sizeof(ETYPE);                                         \
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
-     uint32_t vta =3D vext_vta(desc);                                        \
-+    uint32_t vma =3D vext_vma(desc);                                        \
-     target_ulong offset =3D s1, i_min, i;                                   \
-                                                                           \
-     i_min =3D MAX(env->vstart, offset);                                     \
-     for (i =3D i_min; i < vl; i++) {                                        \
-         if (!vm && !vext_elem_mask(v0, i)) {                              \
-+            /* set masked-off elements to 1s */                           \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
-             continue;                                                     \
-         }                                                                 \
-         *((ETYPE *)vd + H(i)) =3D *((ETYPE *)vs2 + H(i - offset));          \
-@@ -5047,13 +5050,17 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1=
-, void *vs2,         \
-     uint32_t esz =3D sizeof(ETYPE);                                         \
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
-     uint32_t vta =3D vext_vta(desc);                                        \
-+    uint32_t vma =3D vext_vma(desc);                                        \
-     target_ulong i_max, i;                                                \
-                                                                           \
-     i_max =3D MAX(MIN(s1 < vlmax ? vlmax - s1 : 0, vl), env->vstart);       \
-     for (i =3D env->vstart; i < i_max; ++i) {                               \
--        if (vm || vext_elem_mask(v0, i)) {                                \
--            *((ETYPE *)vd + H(i)) =3D *((ETYPE *)vs2 + H(i + s1));          \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-+            /* set masked-off elements to 1s */                           \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
-+            continue;                                                     \
-         }                                                                 \
-+        *((ETYPE *)vd + H(i)) =3D *((ETYPE *)vs2 + H(i + s1));              \
-     }                                                                     \
-                                                                           \
-     for (i =3D i_max; i < vl; ++i) {                                        \
-@@ -5083,10 +5090,13 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, =
-target_ulong s1,       \
-     uint32_t esz =3D sizeof(ETYPE);                                         =
-  \
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          =
-  \
-     uint32_t vta =3D vext_vta(desc);                                        =
-  \
-+    uint32_t vma =3D vext_vma(desc);                                        =
-  \
-     uint32_t i;                                                             \
-                                                                             \
-     for (i =3D env->vstart; i < vl; i++) {                                  =
-  \
-         if (!vm && !vext_elem_mask(v0, i)) {                                \
-+            /* set masked-off elements to 1s */                             \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);             \
-             continue;                                                       \
-         }                                                                   \
-         if (i =3D=3D 0) {                                                   =
-    \
-@@ -5128,10 +5138,13 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0=
-, target_ulong s1,       \
-     uint32_t esz =3D sizeof(ETYPE);                                         =
-    \
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          =
-    \
-     uint32_t vta =3D vext_vta(desc);                                        =
-    \
-+    uint32_t vma =3D vext_vma(desc);                                        =
-    \
-     uint32_t i;                                                             =
-  \
-                                                                             =
-  \
-     for (i =3D env->vstart; i < vl; i++) {                                  =
-    \
-         if (!vm && !vext_elem_mask(v0, i)) {                                =
-  \
-+            /* set masked-off elements to 1s */                             =
-  \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);             =
-  \
-             continue;                                                       =
-  \
-         }                                                                   =
-  \
-         if (i =3D=3D vl - 1) {                                              =
-      \
-@@ -5199,11 +5212,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void=
- *vs2,               \
-     uint32_t esz =3D sizeof(TS2);                                           \
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
-     uint32_t vta =3D vext_vta(desc);                                        \
-+    uint32_t vma =3D vext_vma(desc);                                        \
-     uint64_t index;                                                       \
-     uint32_t i;                                                           \
-                                                                           \
-     for (i =3D env->vstart; i < vl; i++) {                                  \
-         if (!vm && !vext_elem_mask(v0, i)) {                              \
-+            /* set masked-off elements to 1s */                           \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
-             continue;                                                     \
-         }                                                                 \
-         index =3D *((TS1 *)vs1 + HS1(i));                                   \
-@@ -5239,11 +5255,14 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1=
-, void *vs2,         \
-     uint32_t esz =3D sizeof(ETYPE);                                         \
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
-     uint32_t vta =3D vext_vta(desc);                                        \
-+    uint32_t vma =3D vext_vma(desc);                                        \
-     uint64_t index =3D s1;                                                  \
-     uint32_t i;                                                           \
-                                                                           \
-     for (i =3D env->vstart; i < vl; i++) {                                  \
-         if (!vm && !vext_elem_mask(v0, i)) {                              \
-+            /* set masked-off elements to 1s */                           \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
-             continue;                                                     \
-         }                                                                 \
-         if (index >=3D vlmax) {                                             \
-@@ -5318,10 +5337,13 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,     =
-            \
-     uint32_t esz =3D sizeof(ETYPE);                                \
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz); \
-     uint32_t vta =3D vext_vta(desc);                               \
-+    uint32_t vma =3D vext_vma(desc);                               \
-     uint32_t i;                                                  \
-                                                                  \
-     for (i =3D env->vstart; i < vl; i++) {                         \
-         if (!vm && !vext_elem_mask(v0, i)) {                     \
-+            /* set masked-off elements to 1s */                  \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);  \
-             continue;                                            \
-         }                                                        \
-         *((ETYPE *)vd + HD(i)) =3D *((DTYPE *)vs2 + HS1(i));       \
+     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
++    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
 --=20
 2.34.2
-
 
