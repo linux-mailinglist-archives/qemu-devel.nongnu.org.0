@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11DE52160E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 14:55:05 +0200 (CEST)
-Received: from localhost ([::1]:40854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6745521650
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 15:04:16 +0200 (CEST)
+Received: from localhost ([::1]:53982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noPOK-0003s0-Kr
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 08:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45504)
+	id 1noPXD-0004yJ-JM
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 09:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noPKd-0002MU-0v
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:51:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55113)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1noPS2-0000xO-7l
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:58:54 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noPKa-0003xj-68
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:51:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652187070;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=co/UvIpHS5c4lKktMiObpZUp6Iqqvkhl/eeCFrrFD98=;
- b=MSQxyUowNuaRCyA5dvJj9dAHQOpJcVxg7i66AbCaY4H4gEZddueoz32EBXvvvJEPTXmTld
- O2ONzIcHpuyPUqYejNXJc/DrJv+3WgJBr/+hjkjpXpMWnk+rjAV1g5T4OMAfZeNxLL9lAg
- //3I5DL8nZjXBHm7nmfHOZJSdq9OEjs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-MTceztqgOau0xE-nEKPUsg-1; Tue, 10 May 2022 08:51:09 -0400
-X-MC-Unique: MTceztqgOau0xE-nEKPUsg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C2C5811E76
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 12:51:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E48F214C1D4D;
- Tue, 10 May 2022 12:51:07 +0000 (UTC)
-Date: Tue, 10 May 2022 13:51:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>,
- Victor Toso <victortoso@redhat.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-Message-ID: <YnpfuYvBu56CCi7b@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
- <87lev9mw7j.fsf@pond.sub.org> <YnpbuzKo681VwDkn@redhat.com>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1noPRz-0005Sg-1L
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 08:58:53 -0400
+Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KyJ3Y0YjSz1JBsv;
+ Tue, 10 May 2022 20:57:29 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 10 May 2022 20:58:39 +0800
+To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+ <sgarzare@redhat.com>
+CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
+ <longpeng2@huawei.com>
+Subject: [PATCH v4 0/4] add generic vDPA device support
+Date: Tue, 10 May 2022 20:58:30 +0800
+Message-ID: <20220510125834.1815-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YnpbuzKo681VwDkn@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500025.china.huawei.com (7.221.188.170)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,247 +62,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
+From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
-On Tue, May 10, 2022 at 01:34:03PM +0100, Daniel P. Berrangé wrote:
-> On Tue, May 10, 2022 at 02:02:56PM +0200, Markus Armbruster wrote:
-> > > For a minimum viable use case, this doesn't feel all that difficult, as
-> > > conceptually instead of deleting the field from QAPI, we just need to
-> > > annotate it to say when it was deleted from the QEMU side.  The QAPI
-> > > generator for internal QEMU usage, can omit any fields annotated as
-> > > deleted in QAPI schema. The QAPI generator for external app usage,
-> > > can (optionally) be told to include deleted fields ranging back to
-> > > a given version number. So apps can chooses what degree of compat
-> > > they wish to retain.
-> > 
-> > Consider this evolution of command block_resize
-> 
-> To help us understand, I'll illustrate some possible interfaces
-> in both Go and Python, since that covers dynamic and static
-> languages
-> 
-> > * Initially, it has a mandatory argument @device[*].
-> 
-> Python definition:
-> 
->    def block_resize(device, size)
-> 
-> Caller:
-> 
->   block_resize('dev0', 1*GiB)
-> 
-> 
-> Golang definition
-> 
->    type BlockResizeCommand struct {
->        Device string
->        Size int
->    }
-> 
-> Caller
-> 
->    cmd := &BlockResizeCommand{
->        Device: "dev0",
->        Size: 1 * GiB,
->    }
-> 
-> > * An alternative way to specify the command's object emerges: new
-> >   argument @node-name.  Both old @device and new @node-name become
-> >   optional, and exactly one of them must be specified.  This is commit
-> >   3b1dbd11a6 "qmp: Allow block_resize to manipulate bs graph nodes."
-> 
-> Python definition. Tricky, as non-optional params must be before
-> optional params, but size is naturally the last arg. One option
-> is to pointlessly mark 'size' as optional
-> 
->    def block_resize(device=None, node_name=None, size=None)
-> 
-> Caller
-> 
->     block_resize(device="dev0", size=1*GiB)
->     block_resize(node_name="devnode0", size=1*GiB)
-> 
-> 
-> In golang definition
-> 
->    type BlockResizeArguments struct {
->        Device string
->        NodeName string
->        Size int
->    }
-> 
-> Caller choice of
-> 
->    cmd := &BlockResizeCommand{
->        Device: "dev0",
->        Size: 1 * GiB,
->    }
-> 
->    cmd := &BlockResizeCommand{
->        NodeName: "devnode0",
->        Size: 1 * GiB,
->    }
-> 
-> 
-> Neither case can easily prevent passing Device and NodeName
-> at same time.
-> 
-> > * At some future date, the old way gets deprecated: argument @device
-> >   acquires feature @deprecated.
-> 
-> Ok, no change needed to the APIs in either case. Possibly have
-> code emit a warning if a deprecated field is set.
-> 
-> > * Still later, the old way gets removed: @device is deleted, and
-> >   @node-name becomes mandatory.
-> 
-> Again no change needed to APIs, but QEMU will throw back an
-> error if the wrong one is used. 
-> 
-> > What is the proper version-spanning interface?
-> > 
-> > I figure it's both arguments optional, must specify the right one for
-> > the version of QEMU actually in use.  This spans versions, but it fails
-> > to abstract from them.
-> 
-> Yep, I think that's inevitable in this scenario. THe plus side
-> is that apps that want to span versions can do so. The downside
-> is that apps that don't want smarts to span version, may loose
-> compile time warnings about use of the now deleted field.
+From: Longpeng <longpeng2@huawei.com>
 
-Having said that, a different way to approach the problem is to expose
-the versioning directly in the generated code.
+Hi guys,
 
-Consider a QAPI with versioning info about the fields
+With the generic vDPA device, QEMU won't need to touch the device
+types any more, such like vfio.
 
-  { 'command': 'block_resize',
-    'since': '5.0.0',
-    'data': { 'device': ['type': 'str', 'until': '5.2.0' ],
-              '*device': ['type': 'str', 'since': '5.2.0', 'until': '7.0.0' ],
-              '*node-name': ['type': 'str', 'since': '5.2.0', 'until: '7.0.0' ],
-              'node-name': ['type': 'str', 'since': '7.0.0' ],
-              'size': 'int' } }
+We can use the generic vDPA device as follow:
+  -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
 
-Meaning
+I've done some simple tests on Huawei's offloading card (net, 0.95).
 
-  * Introduced in 5.0.0, with 'device' mandatory
-  * In 5.2.0, 'device' becomes optional, with optional 'node-name' as alternative
-  * In 7.0.0, 'device' is deleted, and 'node-name' becomes mandatory
+Changes v3 -> v4:
+  v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+  - reorganize the series [Stefano]
+  - fix some typos [Stefano]
+  - fix logical error in vhost_vdpa_device_realize [Stefano]
 
-Now consider the Go structs
+Changes v2 -> v3
+  Patch 4 & 5:
+    - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+    - s/VQS_NUM/VQS_COUNT  [Stefano]
+    - check both vdpa_dev_fd and vdpa_dev [Stefano]
+  Patch 6:
+    - move all steps into vhost_vdpa_device_unrealize. [Stefano]
 
-In 5.0.0 we can generate:
+Changes RFC -> v2
+  Patch 1:
+    - rename 'pdev_id' to 'trans_devid'  [Michael]
+    - only use transitional device id for the devices
+      listed in the spec  [Michael]
+    - use macros to make the id_info table clearer  [Longpeng]
+    - add some modern devices in the id_info table  [Longpeng]
+  Patch 2:
+    - remove the GET_VECTORS_NUM command  [Jason]
+  Patch 4:
+    - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+    - introduce vhost_vdpa_device_get_u32 as a common
+      function to make the code clearer  [Stefan]
+    - fix the misleading description of 'dc->desc'  [Stefano]
+  Patch 5:
+    - check returned number of virtqueues  [Stefan]
+  Patch 6:
+    - init s->num_queues  [Stefano]
+    - free s->dev.vqs  [Stefano]
 
-   type BlockResizeArguments struct {
-       V500 *BlockResizeArguments500
-   }
+Longpeng (Mike) (4):
+  linux-headers: Update headers to Linux 5.18-rc6
+  virtio: get class_id and pci device id by the virtio id
+  vdpa: add vdpa-dev support
+  vdpa: add vdpa-dev-pci support
 
-   type BlockResizeArgumentsV1 struct {
-        Device string
-        Size int
-    }
+ hw/virtio/Kconfig            |   5 +
+ hw/virtio/meson.build        |   2 +
+ hw/virtio/vdpa-dev-pci.c     | 101 +++++++++
+ hw/virtio/vdpa-dev.c         | 385 +++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-pci.c       |  77 +++++++
+ hw/virtio/virtio-pci.h       |   5 +
+ include/hw/virtio/vdpa-dev.h |  43 ++++
+ linux-headers/linux/vhost.h  |   7 +
+ 8 files changed, 625 insertions(+)
+ create mode 100644 hw/virtio/vdpa-dev-pci.c
+ create mode 100644 hw/virtio/vdpa-dev.c
+ create mode 100644 include/hw/virtio/vdpa-dev.h
 
-app can use
-
-    dev := "dev0"
-    cmd := BlockResizeArguments{
-       V500: &BlockResizeArguments500{
-          Device: dev,
-	  Size: 1 * GiB
-       }
-    }
-
-
-In 5.2.0 we can now generate
-
-   type BlockResizeArguments struct {
-       V500 *BlockResizeArgumentsV500
-       V520 *BlockResizeArgumentsV520
-   }
-
-   type BlockResizeArgumentsV500 struct {
-        Device string
-        Size int
-    }
-
-   type BlockResizeArgumentsV520 struct {
-        Device *string
-	NodeName *string
-        Size int
-    }
-
-
-App can use the same as before, or switch to one of
-
-    dev := "dev0"
-    cmd := BlockResizeArguments{
-       V520: &BlockResizeArguments520{
-          Device: &dev,
-	  Size: 1 * GiB
-       }
-    }
-
-or
-
-    node := "nodedev0"
-    cmd := BlockResizeArguments{
-       V520: &BlockResizeArguments520{
-          NodeName: &node,
-	  Size: 1 * GiB
-       }
-    }
-
-
-
-In 7.0.0 we can now generate
-
-
-   type BlockResizeArguments struct {
-       V500 *BlockResizeArgumentsV500
-       V520 *BlockResizeArgumentsV520
-       V700 *BlockResizeArgumentsV700
-   }
-
-   type BlockResizeArgumentsV500 struct {
-        Device string
-        Size int
-   }
-
-   type BlockResizeArgumentsV520 struct {
-        Device *string
-	NodeName *string
-        Size int
-   }
-
-   type BlockResizeArgumentsV700 struct {
-	NodeName string
-        Size int
-   }
-
-
-
-App can use the same as before, or switch to
-
-    node := "nodedev0"
-    cmd := BlockResizeArguments{
-       V700: &BlockResizeArguments700{
-          NodeName: node,
-	  Size: 1 * GiB
-       }
-    }
-
-
-This kind of per-command/type versioning is not uncommon when defining API
-protocols/interfaces.
-
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.23.0
 
 
