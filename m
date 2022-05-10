@@ -2,104 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392415227E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 01:57:08 +0200 (CEST)
-Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF1F5227FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 01:58:47 +0200 (CEST)
+Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noZj0-0002jq-EW
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 19:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57606)
+	id 1noZkc-0004k5-Kj
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 19:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1noZhS-0001sf-Gr; Tue, 10 May 2022 19:55:30 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4368)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1noZhQ-0007nv-GV; Tue, 10 May 2022 19:55:30 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24AMHcH1013747;
- Tue, 10 May 2022 23:55:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=hhvSyE+7iW67tCO9D55AvqvBI985Rq1iU4ybH2VgfCE=;
- b=PjNu/xgqx+30CzxX74ta+CV6ZyznWRmTHPW+lQ6LydBwuOXm75PH2FRtvDb8NWQXbH0h
- 5PVbiiQMmVaa7sl9MEwvb/u+0BTtFTWlwb1E9Pz+F+x1Mms/U/L/MZnQOwBsrurP06X6
- iL5BY1QKkKUgjvEMyNDtsN6lvitjAUNgBGMLvutJrrxwT1mWUg20m3ikMgFVh3ESX4OI
- HnOlv1gq4EzSjpuis4zPbJwAJ48OOq3h/k4KytywE/Nog/XEbuKmznsD8E8Ms8O0Wdxf
- iB92djbujCG+bh+qqut8coKldbxspe5O5ni8o8Fzu14OU915sc3PdL8eN5k59aJxqfu8 tA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g00qes8ah-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 May 2022 23:55:10 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24ANtAiJ030253;
- Tue, 10 May 2022 23:55:10 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g00qes8ab-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 May 2022 23:55:10 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24ANqOL6017695;
- Tue, 10 May 2022 23:55:09 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 3fwgd9xff5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 May 2022 23:55:09 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24ANt8DO25428240
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 May 2022 23:55:08 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1364411206D;
- Tue, 10 May 2022 23:55:08 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8E15611206B;
- Tue, 10 May 2022 23:55:07 +0000 (GMT)
-Received: from localhost (unknown [9.65.84.66])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTPS;
- Tue, 10 May 2022 23:55:07 +0000 (GMT)
-From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, mopsfelder@gmail.com,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabiano Rosas <farosas@linux.ibm.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3] mos6522: fix linking error when CONFIG_MOS6522 is not set
-Date: Tue, 10 May 2022 20:54:39 -0300
-Message-Id: <20220510235439.54775-1-muriloo@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: hAO1UDeU0jGqyqv_1iQMx8bu1tn9UmMj
-X-Proofpoint-GUID: qyGDludIf-0tkkrrAQUEqlrMaRDyuHWp
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1noZiw-0003Ki-6W
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 19:57:02 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1noZit-00086Q-EG
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 19:57:01 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id d17so314987plg.0
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 16:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=j/tPHhMK7W/q4LNaxkL8PRgWfiWiRvM4sJQKjsweVJ4=;
+ b=VgwqhVRp53fmJjkmE1p0ucGc37oZloLzVjlNpL5oObpKMRJXH9qrJ6PvWu7Cv2cRlQ
+ s5Rw8yWNLhGYFPGvW4v1WJK+hhBUv+XI2xoaU62a9iqc65V/zTJewTLbUIcpNsVbLa0c
+ 558OSM8UMxG1X9Zlps9fNQZo+s+Yfj6iNBTFREep2uy+tShR7K2db2bA7TyTUu6fKZ4f
+ 0DCTpAd9YKn2pKF4vtmT+7gcHrDO+3yFsnZry4r6cMGnFGm43XsIv6aHLGvjPJ8Igj7+
+ 5oqe3tPfHzcPgEHvNB6Bz8d1hNH3Tz4nRbRseJKlXa51Lf3LYEtH8S4ybvqFPEup50xX
+ 4vhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j/tPHhMK7W/q4LNaxkL8PRgWfiWiRvM4sJQKjsweVJ4=;
+ b=CEO1saUuQuH5GY2AoE3JZ0H4p+Y4PfYoiQkjhn3bo8dvtfJF5gbyvDLkGpCRsxeX6Y
+ TFLri2f7Xjo5c5EVXNHqsgwRQGMk7ZL/niUbpef4npeqluLlILmbWLKUysQhCkVG2kQk
+ 2dv8CoH9d5Pi41d1LInNWnDgn0/q5QKvl7iEXUsJXuKy8aQCBW96RM6MQjLPKTqUlEhr
+ 1NHj/cPhk89J623ia4Wb8cA1N0UykUBHD9EsZCB0WYQ4EfAGlnJXNn9GOpwvB3fqRywC
+ UprpC8n/NJ++f4Q9yHiY0EVOUoLHgyaF5H5xi+1kFTLfea5dO0X7mq6CfWI6Y1PT2KAi
+ XNaQ==
+X-Gm-Message-State: AOAM530hf3R7/Aqyr2pF9l0UwEUflWciWkMFB4SgW2uBDEzbkU/bhrAc
+ t2dVIJ0q6Anr9vqV3f1nNb7frA==
+X-Google-Smtp-Source: ABdhPJyfDRcEa4FXcPyn2GTuD4nnQpmI8VfDd4rmcwSE15JWPV6p33LK6nc+1gqpjmcZL3NEzoZE1w==
+X-Received: by 2002:a17:90a:1f4f:b0:1d8:23d9:de1e with SMTP id
+ y15-20020a17090a1f4f00b001d823d9de1emr2366437pjy.42.1652227016883; 
+ Tue, 10 May 2022 16:56:56 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:806a:923e:f0df:3e3a:c73f:64e4?
+ ([2607:fb90:806a:923e:f0df:3e3a:c73f:64e4])
+ by smtp.gmail.com with ESMTPSA id
+ 12-20020a63010c000000b003c14af50624sm284337pgb.60.2022.05.10.16.56.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 16:56:56 -0700 (PDT)
+Message-ID: <ed0ec116-9973-24a7-9cac-7d288a3521fa@linaro.org>
+Date: Tue, 10 May 2022 16:56:52 -0700
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-10_07,2022-05-10_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 suspectscore=0 spamscore=0 clxscore=1015 mlxlogscore=999
- priorityscore=1501 mlxscore=0 adultscore=0 phishscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205100097
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=muriloo@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 1/3] target/ppc: Fix FPSCR.FI bit being cleared when it
+ shouldn't
+Content-Language: en-US
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org
+References: <20220510204610.100867-1-victor.colombo@eldorado.org.br>
+ <20220510204610.100867-2-victor.colombo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220510204610.100867-2-victor.colombo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,61 +97,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When CONFIG_MOS6522 is not set, building ppc64-softmmu target fails:
+On 5/10/22 13:46, Víctor Colombo wrote:
+> The FI bit in FPSCR is said to be a non-sticky bit on Power ISA.
+> One could think this means that, if an instruction is said to modify
+> the FPSCR register, the bit FI should be cleared. This is what QEMU
+> does today.
+> 
+> However, the following inconsistency was found when comparing results
+> from the hardware (tested on both a Power 9 processor and in
+> Power 10 Mambo):
+> 
+> (FI bit is set before the execution of the instruction)
+> Hardware: xscmpeqdp(0xff..ff, 0xff..ff) = FI: SET -> SET
+> QEMU: xscmpeqdp(0xff..ff, 0xff..ff) = FI: SET -> CLEARED
+> 
+> This is happening to multiple instructions in the vsx
+> implementations. As the FI bit is non-sticky, one could think that
+> xscmpeqdp, a instruction the ISA states doesn't change FI bit, should
+> result in a cleared FI. However, this is not happening on hardware.
+> 
+> An investigation resulted in the following conclusion:
+> If the ISA does not list the FI bit as altered for a particular
+> instruction, then it should be kept as it was before the instruction.
+> 
+> QEMU is not following this behavior. Affected instructions include:
+> - xv* (all vsx-vector instructions);
+> - xscmp*, xsmax*, xsmin*;
+> - xstdivdp and similars;
+> (to identify the affected instructions, just search in the ISA for
+>   the instructions that does not list FI in "Special Registers Altered")
+> 
+> Most instructions use the function do_float_check_status() to commit
+> changes in the inexact flag. So the fix is to add a parameter to it
+> that will control if the bit FI should be changed or not.
+> All users of do_float_check_status() are then modified to provide this
+> argument, controlling if that specific instruction changes bit FI or
+> not.
+> Some macro helpers are responsible for both instructions that change
+> and instructions that aren't suposed to change FI. This seems to always
+> overlap with the sfprf flag. So, reuse this flag for this purpose when
+> applicable.
+> 
+> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
+> 
+> ---
+> 
+> v2:
+> - move the FI change from float_inexact_excp to do_float_check_status
+> - sfprf will be renamed to sfifprf in another patch, as suggested by
+>    Richard
+> ---
+>   target/ppc/cpu.h        |   2 +
+>   target/ppc/fpu_helper.c | 122 +++++++++++++++++++++-------------------
+>   2 files changed, 66 insertions(+), 58 deletions(-)
 
-    /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): undefined reference to `hmp_info_via'
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Make devices configuration available in hmp-commands*.hx and check for
-CONFIG_MOS6522.
-
-Fixes: 409e9f7131e5 (mos6522: add "info via" HMP command for debugging)
-Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Fabiano Rosas <farosas@linux.ibm.com>
-Cc: Thomas Huth <thuth@redhat.com>
----
-v3:
-- Removed TARGET_M68K and TARGET_PPC checks, as per Thomas Huth suggestion.
-
-v2:
-- https://lore.kernel.org/qemu-devel/20220506011632.183257-1-muriloo@linux.ibm.com/
-- Included devices configuration in monitor/misc.c
-
-v1:
-- https://lore.kernel.org/qemu-devel/20220429233146.29662-1-muriloo@linux.ibm.com/
-
- hmp-commands-info.hx | 2 +-
- monitor/misc.c       | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index adfa085a9b..834bed089e 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -880,7 +880,7 @@ SRST
-     Show intel SGX information.
- ERST
- 
--#if defined(TARGET_M68K) || defined(TARGET_PPC)
-+#if defined(CONFIG_MOS6522)
-     {
-         .name         = "via",
-         .args_type    = "",
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 6c5bb82d3b..3d2312ba8d 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -84,6 +84,9 @@
- #include "hw/s390x/storage-attributes.h"
- #endif
- 
-+/* Make devices configuration available for use in hmp-commands*.hx templates */
-+#include CONFIG_DEVICES
-+
- /* file descriptors passed via SCM_RIGHTS */
- typedef struct mon_fd_t mon_fd_t;
- struct mon_fd_t {
--- 
-2.35.3
-
+r~
 
