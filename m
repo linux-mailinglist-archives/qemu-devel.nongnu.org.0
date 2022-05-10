@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC83A520FB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:29:38 +0200 (CEST)
-Received: from localhost ([::1]:44782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76496520FD0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:38:21 +0200 (CEST)
+Received: from localhost ([::1]:51316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noLFS-0003sH-0J
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
+	id 1noLNs-0000MC-JQ
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noLCq-0001xG-Fx
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:26:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32312)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1noLJn-00061n-8c
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noLCh-0007wI-Gm
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:26:49 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1noLJk-0000Nj-4Q
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652171205;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=6vayQrd5ZkKKZPsa/rG2IubmNrry8D8T70Pfhhqt2lo=;
- b=c0z/I6OjAkszDAKQ4td89ExtxriVNirRcocLvnFlxsalLrQKOb9yjsqqc7VBWdWT2SRhQU
- wNTlMtgd+ppqGC8MGg+7TU8i4zCb1qBy+tiyFgjOHlF6Bo0jN/9iGbFzYjZKmweGa89OHx
- z9TErc74Bv/CeZCMdAQfNukXrQeSPL8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1652171643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HjGaxzzz7K8Cr0XOdOkBNZ78RNXScaIVsR3UC81teH8=;
+ b=QJf9YC5w1pCB0ROCNLp3S9aAqAgMkGVBjdeXXS/tC2PbLr4Tbv+LKoNrXEN8p68gzYDGVU
+ IE298AbUxFt47uVOnQDAVpocb0LoE0/c6niIwt/4pyZq63VxRWjL0jO4loqNakGuRu6xwA
+ HVwdjCC5BumwDSOvgGgFJVha/plPAPE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-b7LEicgVObytlM2gv0VXEw-1; Tue, 10 May 2022 04:26:42 -0400
-X-MC-Unique: b7LEicgVObytlM2gv0VXEw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-651-3waVaJbQPJud0PX7S4G6Iw-1; Tue, 10 May 2022 04:34:01 -0400
+X-MC-Unique: 3waVaJbQPJud0PX7S4G6Iw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 60C65100BAA8;
- Tue, 10 May 2022 08:26:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82D1A7ADD;
- Tue, 10 May 2022 08:26:41 +0000 (UTC)
-Date: Tue, 10 May 2022 09:26:39 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Ralph Schmieder <ralph.schmieder@gmail.com>,
- Stefano Brivio <sbrivio@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH 0/6] qapi: net: add unix socket type support to
- netdev backend
-Message-ID: <Ynohv8LzGG1vLy9N@redhat.com>
-References: <20220509173618.467207-1-lvivier@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FCBC3C62B6F
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:34:01 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.195.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 533F1403171;
+ Tue, 10 May 2022 08:34:00 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
+ leobras@redhat.com, berrange@redhat.com
+Subject: [PULL 00/16] migration queue
+Date: Tue, 10 May 2022 09:33:39 +0100
+Message-Id: <20220510083355.92738-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220509173618.467207-1-lvivier@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,91 +73,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 09, 2022 at 07:36:12PM +0200, Laurent Vivier wrote:
-> "-netdev socket" only supports inet sockets.
-> 
-> It's not a complex task to add support for unix sockets, but
-> the socket netdev parameters are not defined to manage well unix
-> socket parameters.
-> 
-> As discussed in:
-> 
->   "socket.c added support for unix domain socket datagram transport"
->   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
-> 
-> This series adds support of unix socket type using SocketAddress QAPI structure.
-> 
-> A new netdev backend "socket-ng" is added, that is barely a copy of "socket"
-> backend but it uses the SocketAddress QAPI to provide socket parameters.
-> And then it also implement unix sockets (TCP and UDP).
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-So pulling in the QAPI from patch 2
+The following changes since commit 178bacb66d98d9ee7a702b9f2a4dfcd88b72a9ab:
 
-   { 'enum': 'NetdevSocketNGMode',
-     'data':  [ 'dgram', 'server', 'client' ] }
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-05-09 11:07:04 -0700)
 
-   { 'struct': 'NetdevSocketNGOptions',
-     'data': {
-       'mode':    'NetdevSocketNGMode',
-       '*addr':   'SocketAddress',
-       '*remote': 'SocketAddress',
-       '*local':  'SocketAddress' } }
+are available in the Git repository at:
 
-> Some examples of CLI syntax:
-> 
->   for TCP:
-> 
->   -netdev socket-ng,id=socket0,mode=server,addr.type=inet,addr.host=localhost,addr.port=1234
->   -netdev socket-ng,id=socket0,mode=client,addr.type=inet,addr.host=localhost,addr.port=1234
-> 
->   -netdev socket-ng,id=socket0,mode=dgram,\
->           local.type=inet,local.host=localhost,local.port=1234,\
->           remote.type=inet,remote.host=localhost,remote.port=1235
-> 
->   for UNIX:
-> 
->   -netdev socket-ng,id=socket0,mode=server,addr.type=unix,addr.path=/tmp/qemu0
->   -netdev socket-ng,id=socket0,mode=client,addr.type=unix,addr.path=/tmp/qemu0
-> 
->   -netdev socket-ng,id=socket0,mode=dgram,\
->           local.type=unix,local.path=/tmp/qemu0,\
->           remote.type=unix,remote.path=/tmp/qemu1
-> 
->   for FD:
-> 
->   -netdev socket-ng,id=socket0,mode=server,addr.type=fd,addr.str=4
->   -netdev socket-ng,id=socket0,mode=client,addr.type=fd,addr.str=5
-> 
->   -netdev socket-ng,id=socket0,mode=dgram,local.type=fd,addr.str=4
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220510a
 
-                                                          ^^^ local.str=4
+for you to fetch changes up to 511f4a0506af1d380115a61f3362149953646871:
 
-I notice that in all these examples, mode=client/server always use
-the 'addr' field, and mode=dgram always uses the 'local'/'remote'
-fields. IOW, there is almost no commonality between the dgram scenario
-and the stream scenario, which feels sub-optimal.
+  multifd: Implement zero copy write in multifd migration (multifd-zero-copy) (2022-05-10 09:15:06 +0100)
 
-Two alternatives come to mind
+----------------------------------------------------------------
+Migration pull 2022-05-10
 
- - mode=client could use 'remote' and mode=server could use 'local',
-   removing the 'addr' field entirely
+This replaces yesterdays and the pull originally sent on 28th April;
+compared to yesterdays this fixes an accidental change to skiboot.
 
- - Have completely separate backends, ie '-netdev stream' for
-   client/server TCP/UNIX sockets, and '-netdev dgram' for UDP
-   sockets, removing 'mode' field.
+It contains:
+  TLS test fixes from Dan
+  Zerocopy migration feature from Leo
 
-I'd have a slight preference for the second, since I'm not thrilled
-by the 'socket-ng' name :-) 
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+----------------------------------------------------------------
+Daniel P. Berrangé (9):
+      tests: fix encoding of IP addresses in x509 certs
+      tests: add more helper macros for creating TLS x509 certs
+      tests: add migration tests of TLS with PSK credentials
+      tests: add migration tests of TLS with x509 credentials
+      tests: convert XBZRLE migration test to use common helper
+      tests: convert multifd migration tests to use common helper
+      tests: add multifd migration tests of TLS with PSK credentials
+      tests: add multifd migration tests of TLS with x509 credentials
+      tests: ensure migration status isn't reported as failed
+
+Leonardo Bras (7):
+      QIOChannel: Add flags on io_writev and introduce io_flush callback
+      QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX
+      migration: Add zero-copy-send parameter for QMP/HMP for Linux
+      migration: Add migrate_use_tls() helper
+      multifd: multifd_send_sync_main now returns negative on error
+      multifd: Send header packet without flags if zero-copy-send is enabled
+      multifd: Implement zero copy write in multifd migration (multifd-zero-copy)
+
+ chardev/char-io.c                    |   2 +-
+ hw/remote/mpqemu-link.c              |   2 +-
+ include/io/channel-socket.h          |   2 +
+ include/io/channel.h                 |  38 +-
+ io/channel-buffer.c                  |   1 +
+ io/channel-command.c                 |   1 +
+ io/channel-file.c                    |   1 +
+ io/channel-socket.c                  | 118 ++++-
+ io/channel-tls.c                     |   1 +
+ io/channel-websock.c                 |   1 +
+ io/channel.c                         |  49 +-
+ meson.build                          |   1 +
+ migration/channel.c                  |   3 +-
+ migration/migration.c                |  52 ++-
+ migration/migration.h                |   6 +
+ migration/multifd.c                  |  74 ++-
+ migration/multifd.h                  |   4 +-
+ migration/ram.c                      |  29 +-
+ migration/rdma.c                     |   1 +
+ migration/socket.c                   |  12 +-
+ monitor/hmp-cmds.c                   |   6 +
+ qapi/migration.json                  |  24 +
+ scsi/pr-manager-helper.c             |   2 +-
+ tests/qtest/meson.build              |  12 +-
+ tests/qtest/migration-helpers.c      |  13 +
+ tests/qtest/migration-helpers.h      |   1 +
+ tests/qtest/migration-test.c         | 867 +++++++++++++++++++++++++++++++----
+ tests/unit/crypto-tls-psk-helpers.c  |  18 +-
+ tests/unit/crypto-tls-psk-helpers.h  |   1 +
+ tests/unit/crypto-tls-x509-helpers.c |  16 +-
+ tests/unit/crypto-tls-x509-helpers.h |  53 +++
+ tests/unit/test-crypto-tlssession.c  |  11 +-
+ tests/unit/test-io-channel-socket.c  |   1 +
+ 33 files changed, 1284 insertions(+), 139 deletions(-)
 
 
