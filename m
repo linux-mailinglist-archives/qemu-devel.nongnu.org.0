@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFE352106E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:15:46 +0200 (CEST)
-Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D71521111
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:36:43 +0200 (CEST)
+Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noLy5-0003lJ-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41754)
+	id 1noMIM-0006q3-D3
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noLdB-0006i3-A2
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:54:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60033)
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1noLkA-0003ix-So
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 05:01:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1noLd9-0003U3-Rt
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:54:08 -0400
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1noLjq-0004dx-6x
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 05:01:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652172847;
+ s=mimecast20190719; t=1652173260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BJCJEF0/nkIb4XMZuyg31UyMc5KKCwYihAEZrHqPDvE=;
- b=e+/4j/yGxWjiUwIjdFBhC9meKbXZ07+Ly7r6u+pjuQDNyNxLIbzx6W6we9K/FmKk0w43zc
- vALRD3VBhp6VISYuJDVlRG1BhPahuXNxG6kdPzCSirVHytF2b2H1v3a8iZc0oIJyAQKQwW
- PO1gVbZj87n4Ms+W7Qy8yoo06/3xQFg=
+ bh=lHSPeaQONuTbTNYrRU+C42587PpsW8RWCHo3lvD+2X4=;
+ b=VivdzmzAeZjjoT9g9JJrKUnf1m2rcW9sY8Ld6ij1WsnJ8D465s6R4ZsFldGjzYceD+wCi2
+ 8hF2WXAm6/rZSFlOA3KwPuTyKGcp03veK2DxjUMgHMcmYrTxNKZNUOyfC1kxnU80CFl/hi
+ mvEf6JQc+eRugQYEnFF3VU/c9xpQP+I=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-Q4CGZORLP3-tnVjtHTOBXg-1; Tue, 10 May 2022 04:54:03 -0400
-X-MC-Unique: Q4CGZORLP3-tnVjtHTOBXg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-382-Yz-SshA3MyK_s6u65SaPUw-1; Tue, 10 May 2022 04:59:21 -0400
+X-MC-Unique: Yz-SshA3MyK_s6u65SaPUw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F0473C138AB;
- Tue, 10 May 2022 08:54:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 772C7463E02;
- Tue, 10 May 2022 08:54:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 51FCA21E6880; Tue, 10 May 2022 10:54:01 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,  Fabiano Rosas
- <farosas@linux.ibm.com>,  muriloo@linux.ibm.com,  qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  Daniel
- Henrique Barboza <danielhb413@gmail.com>,  "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>,  mopsfelder@gmail.com,  qemu-ppc@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,  qemu-arm
- <qemu-arm@nongnu.org>, qemu-RISC-V <qemu-riscv@nongnu.org>
-Subject: Re: QEMU 32-bit vs. 64-bit binaries
-References: <20220429233146.29662-1-muriloo@linux.ibm.com>
- <b31e3221-6dfd-de68-8dfc-177ded0b501e@ilande.co.uk>
- <9ec244e0-4c7c-69ff-08f8-da451f6da449@linux.ibm.com>
- <87sfpqaey7.fsf@linux.ibm.com>
- <2ab9e2b3-5dba-4e18-ed2e-6063a2716f4c@ilande.co.uk>
- <87ilql9xww.fsf@linux.ibm.com>
- <ef8256fb-6e99-5f37-d5c5-67f9af4302b0@ilande.co.uk>
- <472e45e8-319b-ad48-3afa-0dfa74e6ad20@redhat.com>
-Date: Tue, 10 May 2022 10:54:01 +0200
-In-Reply-To: <472e45e8-319b-ad48-3afa-0dfa74e6ad20@redhat.com> (Thomas Huth's
- message of "Tue, 10 May 2022 10:03:35 +0200")
-Message-ID: <877d6tzs2e.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 720C01C068DC;
+ Tue, 10 May 2022 08:59:21 +0000 (UTC)
+Received: from maya.cloud.tilaa.com (unknown [10.40.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CE2041655B;
+ Tue, 10 May 2022 08:59:21 +0000 (UTC)
+Date: Tue, 10 May 2022 10:59:08 +0200
+From: Stefano Brivio <sbrivio@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org, Ralph
+ Schmieder <ralph.schmieder@gmail.com>, Markus Armbruster
+ <armbru@redhat.com>
+Subject: Re: [RFC PATCH 0/6] qapi: net: add unix socket type support to
+ netdev backend
+Message-ID: <20220510105908.607c4de7@elisabeth>
+In-Reply-To: <Ynohv8LzGG1vLy9N@redhat.com>
+References: <20220509173618.467207-1-lvivier@redhat.com>
+ <Ynohv8LzGG1vLy9N@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +84,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+On Tue, 10 May 2022 09:26:39 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-[...]
+> On Mon, May 09, 2022 at 07:36:12PM +0200, Laurent Vivier wrote:
+> > "-netdev socket" only supports inet sockets.
+> >=20
+> > It's not a complex task to add support for unix sockets, but
+> > the socket netdev parameters are not defined to manage well unix
+> > socket parameters.
+> >=20
+> > As discussed in:
+> >=20
+> >   "socket.c added support for unix domain socket datagram transport"
+> >   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE=
+60@gmail.com/
+> >=20
+> > This series adds support of unix socket type using SocketAddress QAPI s=
+tructure.
+> >=20
+> > A new netdev backend "socket-ng" is added, that is barely a copy of "so=
+cket"
+> > backend but it uses the SocketAddress QAPI to provide socket parameters.
+> > And then it also implement unix sockets (TCP and UDP). =20
+>=20
+> So pulling in the QAPI from patch 2
+>=20
+>    { 'enum': 'NetdevSocketNGMode',
+>      'data':  [ 'dgram', 'server', 'client' ] }
+>=20
+>    { 'struct': 'NetdevSocketNGOptions',
+>      'data': {
+>        'mode':    'NetdevSocketNGMode',
+>        '*addr':   'SocketAddress',
+>        '*remote': 'SocketAddress',
+>        '*local':  'SocketAddress' } }
+>=20
+> > Some examples of CLI syntax:
+> >=20
+> >   for TCP:
+> >=20
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dinet,addr.ho=
+st=3Dlocalhost,addr.port=3D1234
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dinet,addr.ho=
+st=3Dlocalhost,addr.port=3D1234
+> >=20
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,\
+> >           local.type=3Dinet,local.host=3Dlocalhost,local.port=3D1234,\
+> >           remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D1235
+> >=20
+> >   for UNIX:
+> >=20
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dunix,addr.pa=
+th=3D/tmp/qemu0
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dunix,addr.pa=
+th=3D/tmp/qemu0
+> >=20
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,\
+> >           local.type=3Dunix,local.path=3D/tmp/qemu0,\
+> >           remote.type=3Dunix,remote.path=3D/tmp/qemu1
+> >=20
+> >   for FD:
+> >=20
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dfd,addr.str=
+=3D4
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dfd,addr.str=
+=3D5
+> >=20
+> >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,local.type=3Dfd,addr.str=
+=3D4 =20
+>=20
+>                                                           ^^^ local.str=
+=3D4
+>=20
+> I notice that in all these examples, mode=3Dclient/server always use
+> the 'addr' field, and mode=3Ddgram always uses the 'local'/'remote'
+> fields. IOW, there is almost no commonality between the dgram scenario
+> and the stream scenario, which feels sub-optimal.
+>=20
+> Two alternatives come to mind
+>=20
+>  - mode=3Dclient could use 'remote' and mode=3Dserver could use 'local',
+>    removing the 'addr' field entirely
 
-> I once suggested in the past already that we should maybe get rid of
-> the 32-bit variants in case the 64-bit variant is a full superset, so
-> we can save compile- and test times (which is quite a bit for QEMU),
-> but I've been told that the 32-bit variants are mostly still required
-> for supporting KVM on 32-bit host machines.
+To me, "mode is client, address is x" sounds more intuitive than "mode
+is client, remote is x". I mean, of course it's the remote address --
+that's a bit redundant.
 
-Do we still care for 32-bit host machines?
+>  - Have completely separate backends, ie '-netdev stream' for
+>    client/server TCP/UNIX sockets, and '-netdev dgram' for UDP
+>    sockets, removing 'mode' field.
 
-[...]
+...this won't work, though, because UNIX domain sockets can be
+stream-oriented or datagram-oriented.
+
+--=20
+Stefano
 
 
