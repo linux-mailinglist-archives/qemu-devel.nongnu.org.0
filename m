@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D58522646
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 23:27:30 +0200 (CEST)
-Received: from localhost ([::1]:56398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91301522644
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 23:26:40 +0200 (CEST)
+Received: from localhost ([::1]:53984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noXOD-0007dk-4V
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 17:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34820)
+	id 1noXNP-0005pO-3H
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 17:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1noXLm-0004LB-AH
- for qemu-devel@nongnu.org; Tue, 10 May 2022 17:24:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45179)
+ id 1noXLn-0004Oy-Vn
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 17:24:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1noXLj-0003NH-6P
- for qemu-devel@nongnu.org; Tue, 10 May 2022 17:24:56 -0400
+ id 1noXLm-0003NX-FH
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 17:24:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652217894;
+ s=mimecast20190719; t=1652217897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uQNpc8TfZB4X1h337eUAas+BvOHXq+f1oAezTa27ndk=;
- b=GBmGfostfnGGQTsUsHEkKf+/IVfAmEe0UD2rPXpdMHLRQ871zeHCXqR+TAHcZYbB1YiZwS
- hTywDtelnFSsG8pGRF150AV0RI85R7C/Gh3xQ9fVQu/V++7OOli+4yQm8hG72NpdufzxDL
- TtU64BloTf+9LbCL0G3/EV3hxjDJveY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bLL5xT3CB5Cc6D7Y+RFSH4qh38dRUSNttXEbdNItwn8=;
+ b=eNCycunCjPqwNGquve11RDj488yv6e41AI0S2swpUFYvxTJjarbXyXa4QY5mTsqbBlthpo
+ 5/TGWfGQj4JkHJqhX1X4sm+WpVGX4V8ayvmu4+8vD+pbS/iKGT1T8uhT63IB9LVbHC1AJD
+ nK2fiy4ktJaHNcGtGW83MGK3qHrQiqQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-jStMT3kAMZyToc1NUbkSLw-1; Tue, 10 May 2022 17:24:51 -0400
-X-MC-Unique: jStMT3kAMZyToc1NUbkSLw-1
+ us-mta-156-3i8cu3CONcKbLxQKOj6dzQ-1; Tue, 10 May 2022 17:24:54 -0400
+X-MC-Unique: 3i8cu3CONcKbLxQKOj6dzQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8833101AA44;
- Tue, 10 May 2022 21:24:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69C001C068DE;
+ Tue, 10 May 2022 21:24:54 +0000 (UTC)
 Received: from maya.cloud.tilaa.com (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B8D9D2024CB7;
- Tue, 10 May 2022 21:24:48 +0000 (UTC)
-Date: Tue, 10 May 2022 23:24:43 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F4E32024CB6;
+ Tue, 10 May 2022 21:24:54 +0000 (UTC)
+Date: Tue, 10 May 2022 23:24:51 +0200
 From: Stefano Brivio <sbrivio@redhat.com>
 To: Laurent Vivier <lvivier@redhat.com>
 Cc: qemu-devel@nongnu.org, Ralph Schmieder <ralph.schmieder@gmail.com>,
  "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Markus
  Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH 2/6] qapi: net: add socket-ng netdev
-Message-ID: <20220510232443.641b13b8@elisabeth>
-In-Reply-To: <20220509173618.467207-3-lvivier@redhat.com>
+Subject: Re: [RFC PATCH 4/6] net: socket-ng: make dgram_dst generic
+Message-ID: <20220510232451.2ff891e8@elisabeth>
+In-Reply-To: <20220509173618.467207-5-lvivier@redhat.com>
 References: <20220509173618.467207-1-lvivier@redhat.com>
- <20220509173618.467207-3-lvivier@redhat.com>
+ <20220509173618.467207-5-lvivier@redhat.com>
 Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,184 +83,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  9 May 2022 19:36:14 +0200
+On Mon,  9 May 2022 19:36:16 +0200
 Laurent Vivier <lvivier@redhat.com> wrote:
 
-> Copied from socket netdev file and modified to use SocketAddress
-> to be able to introduce new features like unix socket.
->=20
-> "udp" and "mcast" are squashed into dgram, multicast is detected
-> according to the IP address type.
-> "listen" and "connect" modes are changed to "server" and "client".
->=20
-> As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
-> of Netdev structure collides with "type" field of SocketAddress),
-> we detect socket-ng backend and use directly visit_type_Netdev() to
-> parse the backend parameters.
->=20
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->=20
-> net: socket-ng: replace mode=3Dunicast/multicast by mode=3Ddgram
->=20
-> The multicast mode is detected according to the remote
-> address type.
->=20
+> dgram_dst is a sockaddr_in structure. To be able to use it with
+> unix socket, use a pointer to a generic sockaddr structure.
+> 
 > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 > ---
->  hmp-commands.hx |   2 +-
->  net/clients.h   |   3 +
->  net/hub.c       |   1 +
->  net/meson.build |   1 +
->  net/net.c       |  61 ++++
->  net/socket-ng.c | 890 ++++++++++++++++++++++++++++++++++++++++++++++++
->  qapi/net.json   |  41 ++-
->  7 files changed, 996 insertions(+), 3 deletions(-)
->  create mode 100644 net/socket-ng.c
->=20
-> [...]
->
-> +static int net_socketng_connect_init(NetClientState *peer,
-> +                                   const char *model,
-> +                                   const char *name,
-> +                                   SocketAddress *addr,
-> +                                   Error **errp)
-> +{
-> +    NetSocketNGState *s;
-> +    int fd, connected, ret;
-> +    gchar *info_str;
-> +
-> +    switch (addr->type) {
-> +    case SOCKET_ADDRESS_TYPE_INET: {
-> +        struct sockaddr_in saddr_in;
-> +
-> +        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet=
-.port,
-> +                              errp) < 0) {
-> +            return -1;
-> +        }
-> +
-> +        fd =3D qemu_socket(PF_INET, SOCK_STREAM, 0);
-> +        if (fd < 0) {
-> +            error_setg_errno(errp, errno, "can't create stream socket");
-> +            return -1;
-> +        }
-> +        qemu_socket_set_nonblock(fd);
-> +
-> +        connected =3D 0;
-> +        for (;;) {
-> +            ret =3D connect(fd, (struct sockaddr *)&saddr_in, sizeof(sad=
-dr_in));
-> +            if (ret < 0) {
-> +                if (errno =3D=3D EINTR || errno =3D=3D EWOULDBLOCK) {
-> +                    /* continue */
-> +                } else if (errno =3D=3D EINPROGRESS ||
-> +                           errno =3D=3D EALREADY ||
-> +                           errno =3D=3D EINVAL) {
-
-I guess we should report failure and close the socket on EINVAL, there
-are no chances the connection will eventually succeed. I actually
-proposed this change (after some debugging frustration) in my quick and
-dirty series to get AF_UNIX sockets working:
-
-	https://lore.kernel.org/all/a6d475147682de1fe3b14eb325f4247e013e8440.16191=
-90878.git.sbrivio@redhat.com/
-
-> +                    break;
-> +                } else {
-> +                    error_setg_errno(errp, errno, "can't connect socket"=
-);
-> +                    closesocket(fd);
-> +                    return -1;
-> +                }
+>  net/socket-ng.c | 76 ++++++++++++++++++++++++++++++-------------------
+>  1 file changed, 46 insertions(+), 30 deletions(-)
+> 
+> diff --git a/net/socket-ng.c b/net/socket-ng.c
+> index 2c70440a2b57..0056924dc02b 100644
+> --- a/net/socket-ng.c
+> +++ b/net/socket-ng.c
 >
 > [...]
 >
-> diff --git a/qapi/net.json b/qapi/net.json
-> index b92f3f5fb444..2b31101e6641 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -7,6 +7,7 @@
->  ##
-> =20
->  { 'include': 'common.json' }
-> +{ 'include': 'sockets.json' }
-> =20
->  ##
->  # @set_link:
-> @@ -452,6 +453,40 @@
->      '*vhostdev':     'str',
->      '*queues':       'int' } }
-> =20
-> +##
-> +# @NetdevSocketNGMode:
-> +#
-> +# @dgram: UDP mode
-> +#
-> +# @server: TCP server mode
-> +#
-> +# @client: TCP client mode
-> +#
-> +# Legacy NetdevSocketOptions only accepts one of:
-> +# "fd", "udp", "mcast" and "udp".
-> +# we map:
-> +#   "udp", "mcast" -> "dgram"
-> +#   "listen"       -> "server"
-> +#   "connect"      -> "client"
-> +#
-> +# Since: 7.1
-> +#
-> +##
-> +{ 'enum': 'NetdevSocketNGMode',
-> +  'data':  [ 'dgram', 'server', 'client' ] }
-> +
-> +##
-> +# @NetdevSocketNGOptions:
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'NetdevSocketNGOptions',
-> +  'data': {
-> +    'mode':    'NetdevSocketNGMode',
-> +    '*addr':   'SocketAddress',
-> +    '*remote': 'SocketAddress',
-> +    '*local':  'SocketAddress' }=C2=A0}
-> +
->  ##
->  # @NetClientDriver:
->  #
-> @@ -463,7 +498,8 @@
->  ##
->  { 'enum': 'NetClientDriver',
->    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
-> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
-> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
-> +            'socket-ng' ] }
+> @@ -903,13 +918,14 @@ static int net_socketng_udp_init(NetClientState *peer,
+>      }
+>  
+>      if (remote) {
+> -        s->dgram_dst = raddr_in;
+> +        g_assert(s->dgram_dst == NULL);
+> +        s->dgram_dst = dgram_dst;
+>  
+>          pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), info_str);
+>          g_free(info_str);
+>      }
+>      return 0;
+> -}
+> +};
 
-I don't know if this is an issue, but I couldn't figure out the reason
-for this difference either:
+Stray semicolon (I guess not reported by gcc without -pedantic).
 
-- with the old socket option, I can pass something like:
-
-    -net socket,fd=3D5 -net nic,model=3Dvirtio
-
-  and frames are sent to/received from socket number 5 (which I
-  pre-opened)
-
-- with the new option, and something like:
-
-    -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dunix,addr.path=
-=3D/tmp/test.socket -net nic,model=3Dvirtio,id=3Dhostnet0
-
-  I get a connection on the socket, but the virtio-net device is not
-  connected to it (no frames received/sent).
-
-  However, if instead of "-net nic" I pass this:
-
-    -device virtio-net-pci,netdev=3Dsocket0
-
-  everything works.
-
---=20
+-- 
 Stefano
 
 
