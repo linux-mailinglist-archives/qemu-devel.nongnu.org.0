@@ -2,187 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744E8521B7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 16:12:52 +0200 (CEST)
-Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4D3521C8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 16:35:44 +0200 (CEST)
+Received: from localhost ([::1]:36286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noQbb-0000bq-G6
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 10:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52948)
+	id 1noQxj-0003rp-69
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 10:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1noQYP-0007DY-Kf
- for qemu-devel@nongnu.org; Tue, 10 May 2022 10:09:33 -0400
-Received: from mga04.intel.com ([192.55.52.120]:57044)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1noQwo-000328-J2
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 10:34:46 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:42466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1noQYM-0004O8-DD
- for qemu-devel@nongnu.org; Tue, 10 May 2022 10:09:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652191770; x=1683727770;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=zA2aAlDVtbF2HtH48KAc7Vey59yfoBnwyyps3y1lSyo=;
- b=h1uT4rQXySGlcAwCOu8dKEGrXvBS5Riozh7MRzOkND88KyhV3J/ia6CG
- T379M9B/ZL2RjSXPVDbWP+JwnoTjWEafj3h5rDnRNSYRWtIIiOSjRnI6b
- ivli7ldP9iqtNYqIY7gl9+Vdu3iz2QkNI06TOJF65w5yvIxY8BLiMF8hi
- 1zblzdb6yhW9TJt7IaILk89tuIvRvFKpC50HEOBsk891nAE2N+J01vQmG
- 3Jf7ogl1LUIvFZKl9snSJrZlo3oBMJkrXBMVzDFHFEHe1cly1ovDeizHq
- 7DALf0qgTLbo9EvYMoV/ScLN/WP6Wv/gwOwb9/O513AqK9ZVOs/7iksEL w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="268223263"
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="268223263"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 07:09:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="565658966"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga007.jf.intel.com with ESMTP; 10 May 2022 07:09:09 -0700
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 10 May 2022 07:09:08 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 10 May 2022 07:09:08 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 10 May 2022 07:09:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dDJG6eyZ8CgXYGVwnSb31xqhNQ13GAa8EU9p1kS/hn7VzjyoeUqLTvUKtYk8hWDZwamZENLWmyg6E9NAKdzH9Oc73SsJyLIHViUHa2C3u8HCY1RPIRHtlkdG9V0gA5cjLxfzC557tW6mzIa9V8qViC1TdOpWJBCkNzTQIRynhzV4JUZZiMkN1LpG+nbEybb/AuDm48lneV8ifL7liAh0oR1HU30yKayIAGZtUM7zvGoT5C/To45aRFCnYw/BEbBG0oHeY+shr0014uK8MRbplJGJIzrQ7sSvr9pZnBxJRWGkaYrbtxzkQ6UOvwB8ZsN9FC7nc4WZHe6rHj7AsJGz5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FRGUMOrKDZOL11XmctCjeRZnp8XXsipe2VL24KMGGfw=;
- b=d4KEOMa6UORBSs6BBcjTCAu/Q/0rspciP0QZpX68bSjKc5UiyVUryLoCq84wKvtOa5i3jpkm9hentywNhjzWAAu6e7isTW7ocVmXwXl9SY0b7U33XrLV7gKT+YEVvUvS5ybw0aCVahSyOedo9z7xAp9/F2yaLDbmsEV8ETyomwRi+cAM7dvzCeB2tW2ORxO4PRtjWec3pz+wf8KZ3WxixbNDYJJdm7KXdpiBX9mZJ5/R2Yd/zEn69c5fEL3UMGNaZrDKsAPexrQP5Q0hKvhuc2LBtPyCES+ZkUfX6YfnoMYssIpMWVyIThpig6gV93hzU1uFlgSCgPm2H3Kq92mbtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by MWHPR11MB1405.namprd11.prod.outlook.com (2603:10b6:300:21::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Tue, 10 May
- 2022 14:09:06 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::21cf:c26f:8d40:6b5f]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::21cf:c26f:8d40:6b5f%4]) with mapi id 15.20.5227.023; Tue, 10 May 2022
- 14:09:06 +0000
-Message-ID: <637b3992-45d9-f472-b160-208849d3d27a@intel.com>
-Date: Tue, 10 May 2022 22:08:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.7.0
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, Zhangfei Gao <zhangfei.gao@linaro.org>
-CC: <eric.auger@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "david@gibson.dropbear.id.au"
- <david@gibson.dropbear.id.au>, "thuth@redhat.com" <thuth@redhat.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>, "mjrosato@linux.ibm.com"
- <mjrosato@linux.ibm.com>, "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "jjherne@linux.ibm.com"
- <jjherne@linux.ibm.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "nicolinc@nvidia.com"
- <nicolinc@nvidia.com>, "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>, 
- "kevin.tian@intel.com" <kevin.tian@intel.com>, "chao.p.peng@intel.com"
- <chao.p.peng@intel.com>, "yi.y.sun@intel.com" <yi.y.sun@intel.com>,
- "peterx@redhat.com" <peterx@redhat.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <4f920d463ebf414caa96419b625632d5@huawei.com>
- <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
- <4ac4956cfe344326a805966535c1dc43@huawei.com>
- <20220426103507.5693a0ca.alex.williamson@redhat.com>
- <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
- <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
- <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
- <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
- <20220510124554.GY49344@nvidia.com>
-From: Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <20220510124554.GY49344@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HK2PR04CA0076.apcprd04.prod.outlook.com
- (2603:1096:202:15::20) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1noQwm-00032X-ER
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 10:34:46 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-255-wXed5RHkMMK-Kk0sZ7oS_Q-1; Tue, 10 May 2022 10:34:33 -0400
+X-MC-Unique: wXed5RHkMMK-Kk0sZ7oS_Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0BA3429ABA23;
+ Tue, 10 May 2022 14:34:33 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 049AC400F736;
+ Tue, 10 May 2022 14:34:31 +0000 (UTC)
+Date: Tue, 10 May 2022 16:34:30 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, "Meng, Bin" <Bin.Meng@windriver.com>, Bin Meng
+ <bmeng.cn@gmail.com>, "Shi, Guohuai" <Guohuai.Shi@windriver.com>
+Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver
+ for Windows
+Message-ID: <20220510163430.410536f5@bahia>
+In-Reply-To: <2077078.oMYteGReol@silver>
+References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
+ <2718865.3NRaeQn5QO@silver> <20220510154006.63c2ed23@bahia>
+ <2077078.oMYteGReol@silver>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bfe1d267-d59a-4f48-0ffa-08da328ea4fb
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1405:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR11MB1405A39970927FD05439EC13C3C99@MWHPR11MB1405.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gfR44OVnaDWTFnyIHUh89pxxtS5q3YcXUS6qbC/BDk/pr0LKYOS+VF2y8/6X5X8+uPxYYAuwv/NwQ06u+ZQx4v9KWAcPCBTASl3m14pgyF4OGOTYS2q1grF2O4HuXo1xpsWwdqErX4YACIQZM9LQqEeCesrI80N0NAp3K+2K32UALe/F2xcg9VJ4iRSm9vb2aJ1HVM06+BaWxreJ78XwEj4QSV0g1hvz7TOpCC4ba31NziOcp5Z+IrtnYNZyicWaRZmtcQw1YhWPNhC/lUoD67kli/RxgmVRslQwbTX7Yk7274Em4E8b0ASCsd2/4cP3zzgBxPCB4VKcWmBUC3xo1c5SU4oND2XtCQnd2lSgt47Z4jP6tEOEQ0h9SMut7Z8TRJAfXLvQx5bIlLszYzs1LlkxHENocOxttIwZvWTSK3C7rcmn64ZuDkF/Sid4OvJrgBtetUxznmMPCoVZ82QUQ0jiiEgD3m7JsLYjqfheu2uWFqxm4GgUdTYgrjoA9H6TUJCgGLGqRFtzDiDVyWZ7J4Ec6Ucd8XPlXffo4QsBc/KV3f0aZzYdRafKf6ChYSqKubAKy3D7mLOHeB1X0ocjo7YIy74AefOjahs2yK8xjK8XLl/Kl1B5U3NnMKm+WdM28UecVyYrbn4+g7qnNk6oPM6FFe7/0upJZWZldH3MoDKqUAr6ILV6jh/AWcTVllD9xwPci3dY9HlOYL4CwFWywnWqYx8Zy1768I4+GcfY6cTItzTe+QDluCHkv45b9kzB/8nqtfazY5tk6BaadDjgQfX6iBNAAFDx+Kk+8U7T7BnmfPw3Ja39ePwEkLlYlytGKTUo8LqCFzlcctASYNhphg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5658.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(31686004)(2906002)(36756003)(4744005)(7416002)(82960400001)(8936002)(31696002)(38100700002)(5660300002)(83380400001)(508600001)(4326008)(186003)(8676002)(66946007)(66556008)(2616005)(66476007)(54906003)(316002)(53546011)(6506007)(110136005)(86362001)(6666004)(6486002)(26005)(966005)(6512007)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFhkV0xJWktTR1RYR0RlSHRrRXAzTGs1Yy95bmpBRVp2MHpCUG9uTkphMHp0?=
- =?utf-8?B?ODIvNFNORHlBUEpZcndXaUdsTlA1RWozaG9HdjRFdHR3S3pYNlZqcGVoUEZZ?=
- =?utf-8?B?Z1ZCMFZpTlc5RjFHT1NVYldMRWtSdnhJMHVvTWZ6bkVSUHZNNGtmcTRhblVt?=
- =?utf-8?B?ZlJWSlJrZzdVb09rT1A3bmRlK0trRlNVaEsrbEIrN3IwQkw3WEc4MTE5MUJ4?=
- =?utf-8?B?SXJhZFhkdjlicm5rOFRRdWxnL3BQK05odXpsWkRmbzN3VHlKSVh1UHgvTkVx?=
- =?utf-8?B?VUl4RkplQ0RUK3VWTG8vazVrYjYxTFFPc29nY2N0ay9ET1FlL3V3b01Mc3FQ?=
- =?utf-8?B?ZjB2QzFRQVpwZkoyNy9XYXdzQVI2QTZRL0hPRXZXeHBvM2UzZ2MyRldWMXow?=
- =?utf-8?B?aFltY3RZTkc0TTEzV2RkUGl1OXdaQldOeTUvT0VxdlRtUytKeStJVjlSU0Fs?=
- =?utf-8?B?TXA0a3VHRWloRXk1SU1yaDBvNWV2WGVwZG5JV3kvNjBGMXE1dzk1czdBVHdP?=
- =?utf-8?B?U1hHOWVwenlXMDgwSVdSUEx0cEpNV2RJa29iaXV6YXdiYmE2RVZWTnpNQlRi?=
- =?utf-8?B?bUplcThhaUVPL05rcktWV09nOEFmL3VkdkJ2U3k0ZTNxclgrWFlyTERER2hT?=
- =?utf-8?B?am5TRUxSc0paWTJZTmtOcHhEdXRCWXJjbHozQmxJejluQkp4Zmh3UEE3YWNM?=
- =?utf-8?B?dmF3ajVPK012ZDJQTS9CQzVNVGhlMWJQUG83MjIvWFgyTS9xZFBJVkpocGEx?=
- =?utf-8?B?Y2xrQlBKNFhXSXozNUg2TWJRc3A2bFRIMTN6RW9vSVhTWEIxUEpNaXBLeURX?=
- =?utf-8?B?eUl2QlVvenlxellYVnpRRWV5R3dReEZ5ZVYyb2I0Ymg3TTdaWUY0aHM2Zk9L?=
- =?utf-8?B?Znp4cW5PMHZyZGRuL3R4MnNZVlgvbGUrbk15Y280NEVsbjMwV1kzdnVrKzVk?=
- =?utf-8?B?QUpRamsxL1RRbnJVL3YyNGQweFk0cEs0SFYyODZua1J0eHdXVEJxZGNOc3dP?=
- =?utf-8?B?Y081b3BmN3ZDNXZNRXRNT2ZHY2ZoZXlVelFDYnNlUzVURllZcGcydEtheCs1?=
- =?utf-8?B?Tm1Sb3V0SUxpdkZyL3dRNC9mbGtiOXdZWDI5QSsxRERGeTFRNmIzenRhS1Nq?=
- =?utf-8?B?S2RQa3F3azV1REpJWlVzR1Q3SkVmdGdGdFJGYmV0OEQ3NmpmU09yN2d4ZDBR?=
- =?utf-8?B?RHJmblN3US9DSU5GV2RtdUlDT0tKNHFNQURCZ2hsYnVDeGRUSXBrREVHaTJa?=
- =?utf-8?B?TUtNRU5od3pFY1Nmc0dXRkM1NlFlL2ZpRkhRcUw4NTM4TmkwdDM3Q3F1MHNM?=
- =?utf-8?B?c2RNbVRXTitRR1FCSTZJejh0LzJpQ3I5OExpT1YvYm0ya3dXR0E0R285MEgv?=
- =?utf-8?B?enowdmhwaVRNeFJTVk43Q2ZYTjNsa1Y1ZVZHNkxzVGlPZGRWcXZFNjVhdGhw?=
- =?utf-8?B?MWxSeEFldWh5RHdhUUZpTlIwbXQ0UGZERi9xaU5jK0V0Nk9SL1hqU2UxQ29P?=
- =?utf-8?B?R2RUM0F0Z0hPSThmUHNBVytLeDZ5bi9WQkp3eFVLMXhxVVpaZGtTaWlQQ3JS?=
- =?utf-8?B?WEFGbGVQSnFaQjk3REozbFBDZDFibm9JbXgvR2x4MHBzY25sQU1FZHZFRTJw?=
- =?utf-8?B?aUZYZGNWRm5NTEo3WGdnSWZLU1BhTVR4TUozb0svVVVGdG45dTJDOXVtVjRi?=
- =?utf-8?B?U2FzR2VLc2VVV1o2dHRhSWNhei9INjMySG5SeVFjSmpTbDAwNVNYUkozSndD?=
- =?utf-8?B?b3RPenRkQXZUa0YzYUp5cGwwekJna29md2RYOVRxL1dQZFNNdlFVNHhZTFZM?=
- =?utf-8?B?R3hQSTNSKzluY1Q5eFU5ZGo5TkJENmplR0JUQ08vdTQramMyYkk0YnJLQjZQ?=
- =?utf-8?B?RnIwL0tDQlhDemZBZkhvYVU4Sml3WmZaT1RyNVRqS1JWRXdSSDdyMTNjUE42?=
- =?utf-8?B?eGJtbVBVcEtlL0F4b1VNS1pPMmdwNG1adHNJd0Q0ZE9iOXJadytDcnorS3Ba?=
- =?utf-8?B?ZEoyYmlwNFZwS1R6RWh4RnBhNEtBSUcwK0hDVWh3Vng0cnBtM2lIb3J6dFRr?=
- =?utf-8?B?aWRuWHRmNm1WQ2ZWWmN6QTgxRGJBaHVzL0E1OGVuaXlYY3FHVHpCOGUzYlBn?=
- =?utf-8?B?b0RnZXl3M1RHMmRta3dxZ1RoaCt6WWpaV01Na1JtQUZSdSs5aTJJNlZxbkVP?=
- =?utf-8?B?dENybHZZelZpcjFUMldzL29OaEhHMS93L3Bob2d5RlF2aFllUmpib1hldmYz?=
- =?utf-8?B?ekszYVp2ek82OGFRbkR6aDNWaDFndWZsUVBmM29oSkZha0U1WHFDUHFOZy9j?=
- =?utf-8?B?TXRWRXEyN2I2a295U3YyYzQySFJZOXlDaDQ5YTNCckZLTnBIU2VoQT09?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfe1d267-d59a-4f48-0ffa-08da328ea4fb
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 14:09:06.2883 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zcc6m80iYNtaSzqLPWgzFG15T2N7BQIyJOtGuC1NjzsOK8z1b8MtLQNQrZ3nSUoPEsfKV/a4ftCTqExqM7usxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1405
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=yi.l.liu@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -198,23 +70,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/5/10 20:45, Jason Gunthorpe wrote:
-> On Tue, May 10, 2022 at 08:35:00PM +0800, Zhangfei Gao wrote:
->> Thanks Yi and Eric,
->> Then will wait for the updated iommufd kernel for the PCI MMIO region.
->>
->> Another question,
->> How to get the iommu_domain in the ioctl.
+On Tue, 10 May 2022 16:04:28 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+
+> On Dienstag, 10. Mai 2022 15:40:06 CEST Greg Kurz wrote:
+> > On Tue, 10 May 2022 13:54:46 +0200
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > On Dienstag, 10. Mai 2022 12:18:33 CEST Christian Schoenebeck wrote:
+> > > > On Dienstag, 10. Mai 2022 04:17:44 CEST Shi, Guohuai wrote:
+> > > > [...]
+> > > > 
+> > > > > > > > > I tend to agree with Christian's remarks that this patch is
+> > > > > > > > > too
+> > > > > > > > > big
+> > > > > > > > > and that the choice of introducing right away a new
+> > > > > > > > > implementation
+> > > > > > > > > of 9p-local for windows hosts is too bold to start with. We
+> > > > > > > > > need
+> > > > > > > > > to
+> > > > > > > > > clearly understand what's diverging between windows and linux
+> > > > > > > > > in
+> > > > > > > > > order
+> > > > > > > > > to make such a decision. You should first try to introduce the
+> > > > > > > > > required
+> > > > > > > > > abstractions to cope with these differences, so that we can
+> > > > > > > > > review.
+> > > > > > > > 
+> > > > > > > > Here is the basic introductions of 9PFS for Windows development:
+> > > > > > > > 
+> > > > > > > > 
+> > > > > > > > 
+> > > > > > > > Windows always returns -1 when try to call open() for a
+> > > > > > > > directory.
+> > > > > > > > Windows (actually MinGW library) only allows opendir() for a
+> > > > > > > > directory.
+> > > > 
+> > > > That missing behaviour could be implemented in 9p-util-win.c, similar to
+> > > > the missing behaviours of mknodat() for macOS which did not support a
+> > > > bunch of things like creating a UNIX socket file and more:
+> > > > 
+> > > > https://github.com/qemu/qemu/commit/055ab89327bab83f1bd07e9de07f7628643d
+> > > > 3d8d> > 
+> > > > > > > Does MinGW have dirfd() ?
+> > > > > > 
+> > > > > > No.
+> > > > > > MinGW does not open any directory.
+> > > > > > Here is opendir() source code of MinGW:
+> > > > > > https://github.com/mirror/mingw-w64/blob/master/mingw-w64-crt/misc/d
+> > > > > > iren
+> > > > > > t.
+> > > > > > c#L42
+> > > > > > 
+> > > > > > So MinGW do not have a fd associated to a directory.
+> > > > > > 
+> > > > > > > > Windows does not support APIs like "*at" (openat(), renameat(),
+> > > > > > > > etc.)
+> > > > 
+> > > > Like already suggested before on your previous RFC version, it is
+> > > > possible
+> > > > to use the same workaround as we are using for macOS hosts already
+> > > > (which
+> > > > 
+> > > > was missing mknodat()):
+> > > >   pthread_fchdir_np(...)
+> > > >   mknod(...)
+> > > >   
+> > > >   https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util-darwin.c#L84
+> > > > 
+> > > > So on Windows it would be viable to:
+> > > >   chdir(...)
+> > > >   open(...)
+> > > > 
+> > > > The same approach could be used for any missing *at() function for
+> > > > Windows.
+> > > 
+> > > Problem though is that the chdir() functions on Windows all seem to have
+> > > process-wide effect, we would need to change the current directory only
+> > > for
+> > > the current thread, because filesystem access of 9p server is
+> > > multi-threaded.
+> > > 
+> > > Protecting the chdir(); foo(); calls by a process wide global mutex isn't
+> > > very appealing either. :/
+> > 
+> > And it wouldn't be safe anyway because I'm pretty sure that the rest
+> > of the QEMU code assumes that the current directory is invariant, e.g.
+> > user could be very confused by 'drive_add file=./foo.img' not working.
+> > 
+> > BTW duckduckgo gives:
+> > 
+> > https://stackoverflow.com/questions/32138524/is-there-a-windows-equivalent-o
+> > f-openat
+> > 
+> > So yes it seems to be technically possible to implement *at() functions
+> > on windows. This is the only way to avoid CVE-2016-9602 in the QEMU
+> > process.
 > 
-> The ID of the iommu_domain (called the hwpt) it should be returned by
-> the vfio attach ioctl.
+> +1
+> 
+> > Another option is to use the proxy backend : this offloads all fs
+> > accesses to an external process running virtfs-proxy-helper, that
+> > runs privileged and chroot() into the shared directory so that it
+> > can safely use path based syscalls.
+> 
+> As a very last resort, maybe. But just for the other two guys to know upfront: 
+> the proxy backend is very slow and not in good shape. There were plans to 
+> deprecate the proxy backend therefore, as it's more or less dead.
+> 
 
-yes, hwpt_id is returned by the vfio attach ioctl and recorded in
-qemu. You can query page table related capabilities with this id.
+Yeah as mentioned before, the way to go now would be to come with
+a vhost-user implementation like virtiofsd. This would address all
+perf problems we have with proxy since the client would directly
+talk to the external process. This should also provide better perf
+than the local backend since it wouldn't have to do do the "at*()"
+dance thanks to chroot().
 
-https://lore.kernel.org/kvm/20220414104710.28534-16-yi.l.liu@intel.com/
+> > > > > > > Ouch...
+> > > > > > > 
+> > > > > > > > So 9PFS can not use any openat() for opening a sub file or
+> > > > > > > > directory
+> > > > > > > > in 9P
+> > > > > > 
+> > > > > > mount
+> > > > > > 
+> > > > > > > directory.
+> > > > > > > 
+> > > > > > > > This commit use merge_fs_path() to build up full filename by
+> > > > > > > > string
+> > > > > > 
+> > > > > > concatenation.
+> > > > > > 
+> > > > > > > > I know that may have a risk of security, but Windows does fully
+> > > > > > > > support POSIX
+> > > > 
+> > > > You will not find anybody merging code that's inherently insecure.
+> > > > 
+> > > > > > > I understand from your various answers that symlinks aren't
+> > > > > > > currently supported by window's POSIX API. Is this forever ?
+> > > > > > > Google do mentions symlinks in windows 10. What's the story
+> > > > > > > there ? How do they behave ? How would they be exposed to the
+> > > > > > > client ? Be aware that, even if the client cannot create symlinks,
+> > > > > > > an existing symlink could be used to escape with rename().
+> > > > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > If the code "may have a risk of security" then it must be
+> > > > > > > fixed or avoided in some way before being merged upstream.
+> > > > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > Other thing that comes to mind is that windows hosts should
+> > > > > > > maybe use the mapped or mapped-file security modes since
+> > > > > > > they emulate symlinks with a simple file hidden in the
+> > > > > > > VIRTFS_META_DIR directory.
+> > > > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > Cheers,
+> > > > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > --
+> > > > > > > Greg
+> > > > > > 
+> > > > > > Windows native API support symbolic link file start from Windows
+> > > > > > Vista:
+> > > > > > https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbas
+> > > > > > e-cr
+> > > > > > ea
+> > > > > > tes ymboliclinka
+> > > > > > 
+> > > > > > I mean Windows POSIX APIs do not support symbolic link (MinGW use
+> > > > > > Win32
+> > > > > > POSIX APIs) So we can not create symbolic link by MinGW.
+> > > > 
+> > > > A function with POSIX signature could be added to 9p-util-win.c which
+> > > > would
+> > > > call the native Windows function to create symlinks.
+> > > > 
+> > > > > > Anyway, there is another solution: re-work whole 9PFS code: not only
+> > > > > > 9p-local.c, but also every file in 9p driver.
+> > > > > > Replace every MinGW/POSIX APIs (e.g. open, lseek, read, write,
+> > > > > > close),
+> > > > > > by Windows Native APIs (e.g. open -> CreateFile, lseek ->
+> > > > > > SetFilePointer,
+> > > > > > read -> ReadFile, write -> WriteFile, close -> CloseHandle, etc.)
+> > > > > > Then 9P can use Windows symbolic link feature.
+> > > > > > However, I do think it is a good idea to replace everything.
+> > > > > 
+> > > > > TYPO: it NOT is a good idea to replace everything.
+> > > > 
+> > > > Right, that does not make sense. The way to go is adding and
+> > > > implementing
+> > > > missing system functions with POSIX signatures and POSIX behaviour for
+> > > > Windows. Not turning the entire code base upside down.
+> > > > 
+> > > > Best regards,
+> > > > Christian Schoenebeck
+> 
+> 
 
--- 
-Regards,
-Yi Liu
 
