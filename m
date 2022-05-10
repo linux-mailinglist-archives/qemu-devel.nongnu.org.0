@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61C0521281
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:45:24 +0200 (CEST)
-Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A458952128B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 12:47:09 +0200 (CEST)
+Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noNMp-0004Ts-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:45:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
+	id 1noNOW-0006IH-Pq
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 06:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noNJu-0002oL-UY
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:42:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59441)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1noNLN-0004FT-Mp
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:43:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noNJr-0005a1-TC
- for qemu-devel@nongnu.org; Tue, 10 May 2022 06:42:21 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1noNLL-0005lO-Vr
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 06:43:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652179338;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=tkvOZKioDlq0bsVhDcmN49Tq4y0rWCPGESeNl6aAopQ=;
- b=GZYWqj5YVlGCnFjk107eQcJU9/kYbbuqjrerKXOrD4Hx7P/AnwNpIxfy0yAN34v1NM94Ud
- ZhE5g6GmCac/tvVKWYOTWuQ1f0ZZzmG8+kmXjRuThhWseJ6fLmWuNKT+RsEsMzkh6rNUd+
- qe8WxU0ZQDq9kD7PxzF6TsAQ2TKo4es=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1652179431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7e1S7I/zLJphv4UsMWvLjOEnPniwh8VBCx/BRakIlts=;
+ b=CBVgMv8QsuOqXnOrcxaNK0Gtk4agnIXV8rAJcJ+5jXYC29RYGbZnMYrWaLdNPPALr1WogU
+ WfsHqi9IuQAXK/cu49C9iBQJYq2rf3cYmmlZXObIqWrFgmfKZrEM9ojHf1okJMnHmuBtee
+ Br21pUMmMlK1lx5DcrAkFGr6BHMdcWA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-GOMQUYphPIC3jXFa4rAd-g-1; Tue, 10 May 2022 06:42:15 -0400
-X-MC-Unique: GOMQUYphPIC3jXFa4rAd-g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14E6B185A7A4
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 10:42:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95AEF400E115;
- Tue, 10 May 2022 10:42:13 +0000 (UTC)
-Date: Tue, 10 May 2022 11:42:10 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Victor Toso <victortoso@redhat.com>
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH v1 5/8] qapi: golang: Generate qapi's event types in Go
-Message-ID: <YnpBghiwJCBVDqAm@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <20220401224104.145961-6-victortoso@redhat.com>
+ us-mta-27-EpQ4cknsPVeUnCmZhII08g-1; Tue, 10 May 2022 06:43:50 -0400
+X-MC-Unique: EpQ4cknsPVeUnCmZhII08g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k35-20020a05600c1ca300b003946a9764baso1098867wms.1
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 03:43:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=7e1S7I/zLJphv4UsMWvLjOEnPniwh8VBCx/BRakIlts=;
+ b=2XOnrSEjm6F2y4zSTqQCm/mHAE74W3w1JkRfJjiCMo8w3ejxwYDP8BFjqkakMj5w1E
+ oYD1x1TjU5ix04O5X2e2qO33fFM0/4kcVlVySVYWVMlkPbFbAsl/4A2OI7xIM0u4VC7O
+ 5E0FHZB/5ZNL8h6cgAjOMRZkkwP25sn1qGWSQXYpK3G+9hQ35UllDDQsZtCVy3GiwhKW
+ t4XF87fgoAaYSzpaMhPQ6bW3i3BLLW5C0cLNkMevAdUa+Lg+wAe3VPOuGIyqwmiavj5T
+ +SX+Dhgs3I7kzcx13wiVYPTBrqHER6rPWcuucdbUJUYWI5ypyFW46iXhNOpqRKtdrUhH
+ 9bCg==
+X-Gm-Message-State: AOAM530ABcct9d9V+ruWNchmYhiw09qlu+tS8Ky62SJXvGUtK4l4eD70
+ eQa9BYmzOln0ulcSrwuLt4Xt30vNeSt1L3d/r7peCsAHT9Mgd6k7RcT57WTEGGpPjcbN9hGK2ge
+ QrOn3x2hfOj9rT7U=
+X-Received: by 2002:adf:e904:0:b0:20a:d652:592b with SMTP id
+ f4-20020adfe904000000b0020ad652592bmr18137574wrm.714.1652179428944; 
+ Tue, 10 May 2022 03:43:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxM0f9ipt7JS0oPYUipm3yPl7lvZIjp/EcAOxxQ1TiahBm0tzb6fLsVK6Rmv4wr9qauPaMK0w==
+X-Received: by 2002:adf:e904:0:b0:20a:d652:592b with SMTP id
+ f4-20020adfe904000000b0020ad652592bmr18137549wrm.714.1652179428573; 
+ Tue, 10 May 2022 03:43:48 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ n10-20020a5d67ca000000b0020c5253d8cfsm16325847wrw.27.2022.05.10.03.43.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 May 2022 03:43:48 -0700 (PDT)
+Date: Tue, 10 May 2022 11:43:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
+ leobras@redhat.com
+Subject: Re: [PULL 00/16] migration queue
+Message-ID: <YnpB4vg2ozbBzUCg@work-vm>
+References: <20220510083355.92738-1-dgilbert@redhat.com>
+ <Yno3RvWhwSDZjI7o@work-vm> <Yno8NV5bQPUlqvcx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220401224104.145961-6-victortoso@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Yno8NV5bQPUlqvcx@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,289 +100,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 02, 2022 at 12:41:01AM +0200, Victor Toso wrote:
-> This patch handles QAPI event types and generates data structures in
-> Go that handles it.
-> 
-> At the moment of this writing, it generates 51 structures (49 events)
-> 
-> In Golang, each event is handled as a Go structure and there is no big
-> difference, in the Go generated code, between what is a QAPI event
-> type and what is a QAPI struct.
-> 
-> Each QAPI event has the suffix 'Event' in its Golang data structure
-> and contains the fields, mandatory and optional, that can be
-> sent or received.
-> 
-> In addition, there are two structures added to handle QAPI
-> specification for event types: 'Event' and 'EventBase'.
-> 
-> 'EventBase' contains @Name and @Timestamp fields and then 'Event'
-> extends 'EventBase' with an @Arg field of type 'Any'.
+* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> On Tue, May 10, 2022 at 10:58:30AM +0100, Dr. David Alan Gilbert wrote:
+> > * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > >=20
+> > > The following changes since commit 178bacb66d98d9ee7a702b9f2a4dfcd88b=
+72a9ab:
+> > >=20
+> > >   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu =
+into staging (2022-05-09 11:07:04 -0700)
+> > >=20
+> > > are available in the Git repository at:
+> > >=20
+> > >   https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220510a
+> > >=20
+> > > for you to fetch changes up to 511f4a0506af1d380115a61f33621499536468=
+71:
+> > >=20
+> > >   multifd: Implement zero copy write in multifd migration (multifd-ze=
+ro-copy) (2022-05-10 09:15:06 +0100)
+> >=20
+> > Nack
+> > This is still failing the Alpine build test:
+> >=20
+> > ninja: job failed: cc -m64 -mcx16 -Ilibio.fa.p -I. -I.. -Iqapi -Itrace =
+-Iui -Iui/shader -I/usr/include/p11-kit-1 -I/usr/include/glib-2.0 -I/usr/li=
+b/glib-2.0/include -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -=
+std=3Dgnu11 -O2 -g -isystem /builds/dagrh/qemu/linux-headers -isystem linux=
+-headers -iquote . -iquote /builds/dagrh/qemu -iquote /builds/dagrh/qemu/in=
+clude -iquote /builds/dagrh/qemu/disas/libvixl -iquote /builds/dagrh/qemu/t=
+cg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_F=
+ILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-de=
+cls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-=
+common -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits=
+ -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-bo=
+dy -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallth=
+rough=3D2 -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -f=
+stack-protector-strong -fPIE -MD -MQ libio.fa.p/io_channel-socket.c.o -MF l=
+ibio.fa.p/io_channel-socket.c.o.d -o libio.fa.p/io_channel-socket.c.o -c ..=
+/io/channel-socket.c
+> > In file included from /usr/include/linux/errqueue.h:6,
+> >                  from ../io/channel-socket.c:29:
+> > /usr/include/linux/time_types.h:7:8: error: redefinition of 'struct __k=
+ernel_timespec'
+> >     7 | struct __kernel_timespec {
+> >       |        ^~~~~~~~~~~~~~~~~
+> > In file included from /usr/include/liburing.h:19,
+> >                  from /builds/dagrh/qemu/include/block/aio.h:18,
+> >                  from /builds/dagrh/qemu/include/io/channel.h:26,
+> >                  from /builds/dagrh/qemu/include/io/channel-socket.h:24,
+> >                  from ../io/channel-socket.c:24:
+> > /usr/include/liburing/compat.h:9:8: note: originally defined here
+> >     9 | struct __kernel_timespec {
+> >       |        ^~~~~~~~~~~~~~~~~
+> > ninja: subcommand failed
+> > make: *** [Makefile:163: run-ninja] Error 1
+>=20
+> Yuk. That very much looks like a bug in liburing itself to me.
+>=20
+>=20
+> We've exposed the latent bug by including linux/errqueue.h =20
 
-Again, I don't think we should need to use an Any type here.
+Yes, I think there was a thread after the 1st pull where Leo identified
+the patch that fixed it; but it's not in that image.
 
-Rather than 
+Dave
 
-  type EventBase struct {
-        Name      string `json:"event"`
-        Timestamp struct {
-                Seconds      int64 `json:"seconds"`
-                Microseconds int64 `json:"microseconds"`
-        } `json:"timestamp"`
-  }
-
-  type Event struct {
-        EventBase
-        Arg Any `json:"data,omitempty"`
-  }
-
-  type ShutdownEvent struct {
-        Guest  bool          `json:"guest"`
-        Reason ShutdownCause `json:"reason"`
-  }
-
-
-I think we should just embed EventBase directly in each specific
-event eg
-
-
-  type Event struct {
-        Name      string `json:"event"`
-        Timestamp struct {
-                Seconds      int64 `json:"seconds"`
-                Microseconds int64 `json:"microseconds"`
-        } `json:"timestamp"`
-  }
-
-  type ShutdownEvent struct {
-        Event Event
-        Guest  bool          `json:"guest"`
-        Reason ShutdownCause `json:"reason"`
-  }
-
-
-Or perhaps better still, use an interface 
-
-  type Event interface {
-      GetName() string
-      GetTimestamp() string
-  }
-
-  type Timestamp struct {
-      Seconds      int64 `json:"seconds"`
-      Microseconds int64 `json:"microseconds"`
-  }
-
-  type ShutdownEvent struct {
-        Timestamp Timestamp  `json:"timestamp"`
-        Guest  bool          `json:"guest"`
-        Reason ShutdownCause `json:"reason"`
-  }
-
-  func (ev *ShutdownEvent) GetName() string {
-        return "SHUTDOWN"
-  }
-
-That way you can define public APIs taking 'Event' as a type,
-and impls of the events can be passed directly in/out.
-
-Similar comment for the Command type.
-
-> 
-> The 'Event' type implements the Unmarshaler to decode the QMP JSON
-> Object into the correct Golang (event) struct. The goal here is to
-> facilitate receiving Events.
-> 
-> A TODO for this type is to implement Marshaler for 'Event'. It'll
-> containt runtime checks to validate before transforming the struct
-> into a JSON Object.
-> 
-> Example:
-> ```go
->     qmpMsg := `{
->     "event" : "MIGRATION",
->     "timestamp":{
->         "seconds": 1432121972,
->         "microseconds": 744001
->     },
->     "data":{
->         "status": "completed"
->     }
-> }`
-> 
->     e := Event{}
->     _ = json.Unmarshal([]byte(qmpMsg), &e)
->     // e.Name == "MIGRATION"
->     // e.Arg.(MigrationEvent).Status == MigrationStatusCompleted
-> ```
-> 
-> Signed-off-by: Victor Toso <victortoso@redhat.com>
-> ---
->  scripts/qapi/golang.py | 92 ++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 84 insertions(+), 8 deletions(-)
-> 
-> diff --git a/scripts/qapi/golang.py b/scripts/qapi/golang.py
-> index 0a1bf430ba..3bb66d07c7 100644
-> --- a/scripts/qapi/golang.py
-> +++ b/scripts/qapi/golang.py
-> @@ -31,9 +31,10 @@ class QAPISchemaGenGolangVisitor(QAPISchemaVisitor):
->  
->      def __init__(self, prefix: str):
->          super().__init__()
-> -        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct", "union"]}
-> +        self.target = {name: "" for name in ["alternate", "enum", "event", "helper", "struct", "union"]}
->          self.objects_seen = {}
->          self.schema = None
-> +        self.events = {}
->          self._docmap = {}
->          self.golang_package_name = "qapi"
->  
-> @@ -57,6 +58,24 @@ def visit_begin(self, schema):
->      def visit_end(self):
->          self.schema = None
->  
-> +        # EventBase and Event are not specified in the QAPI schema,
-> +        # so we need to generate it ourselves.
-> +        self.target["event"] += '''
-> +type EventBase struct {
-> +    Name      string `json:"event"`
-> +    Timestamp struct {
-> +        Seconds      int64 `json:"seconds"`
-> +        Microseconds int64 `json:"microseconds"`
-> +    } `json:"timestamp"`
-> +}
-> +
-> +type Event struct {
-> +    EventBase
-> +    Arg       Any    `json:"data,omitempty"`
-> +}
-> +'''
-> +        self.target["event"] += generate_marshal_methods('Event', self.events)
-> +
->          self.target["helper"] += '''
->  // Creates a decoder that errors on unknown Fields
->  // Returns true if successfully decoded @from string @into type
-> @@ -279,7 +298,28 @@ def visit_command(self,
->          pass
->  
->      def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-> -        pass
-> +        assert name == info.defn_name
-> +        type_name = qapi_to_go_type_name(name, info.defn_meta)
-> +        self.events[name] = type_name
-> +
-> +        doc = self._docmap.get(name, None)
-> +        self_contained = True if not arg_type or not arg_type.name.startswith("q_obj") else False
-> +        content = ""
-> +        if self_contained:
-> +            doc_struct, _ = qapi_to_golang_struct_docs(doc)
-> +            content = generate_struct_type(type_name, "", doc_struct)
-> +        else:
-> +            assert isinstance(arg_type, QAPISchemaObjectType)
-> +            content = qapi_to_golang_struct(name,
-> +                                            doc,
-> +                                            arg_type.info,
-> +                                            arg_type.ifcond,
-> +                                            arg_type.features,
-> +                                            arg_type.base,
-> +                                            arg_type.members,
-> +                                            arg_type.variants)
-> +
-> +        self.target["event"] += content
->  
->      def write(self, output_dir: str) -> None:
->          for module_name, content in self.target.items():
-> @@ -351,15 +391,41 @@ def generate_marshal_methods_enum(members: List[QAPISchemaEnumMember]) -> str:
->  }}
->  '''
->  
-> -# Marshal methods for Union types
-> +# Marshal methods for Event and Union types
->  def generate_marshal_methods(type: str,
->                               type_dict: Dict[str, str],
->                               discriminator: str = "",
->                               base: str = "") -> str:
-> -    assert base != ""
-> -    discriminator = "base." + discriminator
-> -
-> -    switch_case_format = '''
-> +    type_is_union = False
-> +    json_field = ""
-> +    struct_field = ""
-> +    if type == "Event":
-> +        base = type + "Base"
-> +        discriminator = "base.Name"
-> +        struct_field = "Arg"
-> +        json_field = "data"
-> +    else:
-> +        assert base != ""
-> +        discriminator = "base." + discriminator
-> +        type_is_union = True
-> +
-> +    switch_case_format = ""
-> +    if not type_is_union:
-> +        switch_case_format = '''
-> +    case "{name}":
-> +        tmp := struct {{
-> +            Value {isptr}{case_type} `json:"{json_field},omitempty"`
-> +        }}{{}}
-> +        if err := json.Unmarshal(data, &tmp); err != nil {{
-> +            return err
-> +        }}
-> +        if tmp.Value == nil {{
-> +            s.{struct_field} = nil
-> +        }} else {{
-> +            s.{struct_field} = {isptr}tmp.Value
-> +        }}'''
-> +    else:
-> +        switch_case_format = '''
->      case {name}:
->          value := {case_type}{{}}
->          if err := json.Unmarshal(data, &value); err != nil {{
-> @@ -374,12 +440,17 @@ def generate_marshal_methods(type: str,
->          case_type = type_dict[name]
->          isptr = "*" if case_type[0] not in "*[" else ""
->          switch_cases += switch_case_format.format(name = name,
-> +                                                  struct_field = struct_field,
-> +                                                  json_field = json_field,
-> +                                                  isptr = isptr,
->                                                    case_type = case_type)
->          if case_type not in added:
->              if_supported_types += f'''typestr != "{case_type}" &&\n\t\t'''
->              added[case_type] = True
->  
-> -    marshalfn = f'''
-> +    marshalfn = ""
-> +    if type_is_union:
-> +        marshalfn = f'''
->  func (s {type}) MarshalJSON() ([]byte, error) {{
->  	base, err := json.Marshal(s.{base})
->  	if err != nil {{
-> @@ -564,4 +635,9 @@ def qapi_to_go_type_name(name: str, meta: str) -> str:
->      words = [word for word in name.replace("_", "-").split("-")]
->      name = words[0].title() if words[0].islower() or words[0].isupper() else words[0]
->      name += ''.join(word.title() for word in words[1:])
-> +
-> +    if meta == "event":
-> +        name = name[:-3] if name.endswith("Arg") else name
-> +        name += meta.title()
-> +
->      return name
-> -- 
-> 2.35.1
-> 
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> With regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>=20
+--=20
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
