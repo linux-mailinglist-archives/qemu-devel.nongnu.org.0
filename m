@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672445222B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 19:30:21 +0200 (CEST)
-Received: from localhost ([::1]:48412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A875222E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 19:36:50 +0200 (CEST)
+Received: from localhost ([::1]:55830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noTgg-0005Rg-IY
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 13:30:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
+	id 1noTmz-0001oY-IG
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 13:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1noTex-0004av-L2; Tue, 10 May 2022 13:28:32 -0400
-Received: from [187.72.171.209] (port=46471 helo=outlook.eldorado.org.br)
+ id 1noTkt-0000yo-Ik; Tue, 10 May 2022 13:34:39 -0400
+Received: from [187.72.171.209] (port=6957 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1noTev-0003MW-Ko; Tue, 10 May 2022 13:28:31 -0400
+ id 1noTkr-0004Hs-IW; Tue, 10 May 2022 13:34:39 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 10 May 2022 14:28:25 -0300
+ Tue, 10 May 2022 14:34:31 -0300
 Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id B78A680046B;
- Tue, 10 May 2022 14:28:25 -0300 (-03)
+ by p9ibm (Postfix) with ESMTPS id 7EBA280046B;
+ Tue, 10 May 2022 14:34:31 -0300 (-03)
 Content-Type: multipart/alternative;
- boundary="------------gZUEssj9z2xtx0dYCprLY9VL"
-Message-ID: <0300306b-4176-4e8f-66d3-25dcc6e8c461@eldorado.org.br>
-Date: Tue, 10 May 2022 14:28:25 -0300
+ boundary="------------ND6dIcwy07s6NNUTXUyu8vIV"
+Message-ID: <ee50cc96-e26b-beb1-3042-d9b84b9589cc@eldorado.org.br>
+Date: Tue, 10 May 2022 14:34:31 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [RFC PATCH v2 2/7] target/ppc: Implemented xvi*ger* instructions
+Subject: Re: [PATCH] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
-Cc: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20220506121844.18969-1-lucas.araujo@eldorado.org.br>
- <20220506121844.18969-3-lucas.araujo@eldorado.org.br>
- <c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, Laurent Vivier <laurent@vivier.eu>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220427064204.373027-1-joel@jms.id.au>
+ <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
 From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org>
-X-OriginalArrivalTime: 10 May 2022 17:28:26.0016 (UTC)
- FILETIME=[5B2E4A00:01D86493]
+In-Reply-To: <e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com>
+X-OriginalArrivalTime: 10 May 2022 17:34:31.0984 (UTC)
+ FILETIME=[35509300:01D86494]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -70,64 +68,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is a multi-part message in MIME format.
---------------gZUEssj9z2xtx0dYCprLY9VL
+--------------ND6dIcwy07s6NNUTXUyu8vIV
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
-On 08/05/2022 00:41, Richard Henderson wrote:
-> On 5/6/22 07:18, Lucas Mateus Castro(alqotel) wrote:
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 10c6d7ae43..348a898950 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -238,6 +238,7 @@ typedef union _ppc_vsr_t {
+On 27/04/2022 17:51, Daniel Henrique Barboza wrote:
+> On 4/27/22 03:42, Joel Stanley wrote:
+>> These are new hwcap bits added for power10.
 >>
->>   typedef ppc_vsr_t ppc_avr_t;
->>   typedef ppc_vsr_t ppc_fprp_t;
->> +typedef ppc_vsr_t ppc_acc_t;
->>
->>   #if !defined(CONFIG_USER_ONLY)
->>   /* Software TLB cache */
->> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
->> index aa6773c4a5..61217e0a10 100644
->> --- a/target/ppc/helper.h
->> +++ b/target/ppc/helper.h
->> @@ -537,6 +537,15 @@ DEF_HELPER_5(XXBLENDVB, void, vsr, vsr, vsr, 
->> vsr, i32)
->>   DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
->>   DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
->>   DEF_HELPER_5(XXBLENDVD, void, vsr, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI4GER8, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI4GER8PP, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI8GER4, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI8GER4PP, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI8GER4SPP, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI16GER2, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI16GER2S, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI16GER2PP, void, env, vsr, vsr, vsr, i32)
->> +DEF_HELPER_5(XVI16GER2SPP, void, env, vsr, vsr, vsr, i32)
+>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> ---
+>> MMA support for TCG is on the list so I think it makes sense for this to
+>> land after those are merged.
 >
-> Did you intend to use "acc" here, for documentation purposes?
-> It's just a couple of #defines above.
-
-Yes, I'll change that in the next version, do you want me to keep the 
-Reviewed-by or do I sent without them so you can review the changes?
-
-It'll be just adding
-
-     #define dh_alias_acc ptr
-     #define dh_ctype_acc ppc_acc_t *
-     #define dh_typecode_acc dh_typecode_ptr
-
-and changing DEF_HELPER_5 to have acc instead of the third vsr
-
->
-> Either way, much cleaner.
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> I believe you mean this series:
 >
 >
-> r~
+> [RFC PATCH 0/7] VSX MMA Implementation
+>
+>
+> In that case I'll queue this patch together with it.
+Daniel and Joel, do you want me to send this with my patch series so 
+there's no need to rebase this patch and they can be added together?
+>
+>
+>
+> Thanks,
+>
+>
+> Daniel
+>
+>
 -- 
 Lucas Mateus M. Araujo e Castro
 Instituto de Pesquisas ELDORADO 
@@ -135,7 +107,7 @@ Instituto de Pesquisas ELDORADO
 Departamento Computação Embarcada
 Analista de Software Trainee
 Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------gZUEssj9z2xtx0dYCprLY9VL
+--------------ND6dIcwy07s6NNUTXUyu8vIV
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -146,98 +118,53 @@ Content-Transfer-Encoding: 8bit
   <body>
     <p><br>
     </p>
-    <div class="moz-cite-prefix">On 08/05/2022 00:41, Richard Henderson
-      wrote:<br>
+    <div class="moz-cite-prefix">On 27/04/2022 17:51, Daniel Henrique
+      Barboza wrote:<br>
     </div>
     <blockquote type="cite"
-      cite="mid:c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org">On
-      5/6/22 07:18, Lucas Mateus Castro(alqotel) wrote:
+      cite="mid:e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com">On
+      4/27/22 03:42, Joel Stanley wrote:
       <br>
-      <blockquote type="cite">diff --git a/target/ppc/cpu.h
-        b/target/ppc/cpu.h
-        <br>
-        index 10c6d7ae43..348a898950 100644
-        <br>
-        --- a/target/ppc/cpu.h
-        <br>
-        +++ b/target/ppc/cpu.h
-        <br>
-        @@ -238,6 +238,7 @@ typedef union _ppc_vsr_t {
+      <blockquote type="cite">These are new hwcap bits added for
+        power10.
         <br>
         <br>
-          typedef ppc_vsr_t ppc_avr_t;
+        Signed-off-by: Joel Stanley <a class="moz-txt-link-rfc2396E" href="mailto:joel@jms.id.au">&lt;joel@jms.id.au&gt;</a>
         <br>
-          typedef ppc_vsr_t ppc_fprp_t;
+        ---
         <br>
-        +typedef ppc_vsr_t ppc_acc_t;
+        MMA support for TCG is on the list so I think it makes sense for
+        this to
         <br>
-        <br>
-          #if !defined(CONFIG_USER_ONLY)
-        <br>
-          /* Software TLB cache */
-        <br>
-        diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-        <br>
-        index aa6773c4a5..61217e0a10 100644
-        <br>
-        --- a/target/ppc/helper.h
-        <br>
-        +++ b/target/ppc/helper.h
-        <br>
-        @@ -537,6 +537,15 @@ DEF_HELPER_5(XXBLENDVB, void, vsr, vsr,
-        vsr, vsr, i32)
-        <br>
-          DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
-        <br>
-          DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
-        <br>
-          DEF_HELPER_5(XXBLENDVD, void, vsr, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI4GER8, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI4GER8PP, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI8GER4, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI8GER4PP, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI8GER4SPP, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI16GER2, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI16GER2S, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI16GER2PP, void, env, vsr, vsr, vsr, i32)
-        <br>
-        +DEF_HELPER_5(XVI16GER2SPP, void, env, vsr, vsr, vsr, i32)
+        land after those are merged.
         <br>
       </blockquote>
       <br>
-      Did you intend to use "acc" here, for documentation purposes?
+      I believe you mean this series:
       <br>
-      It's just a couple of #defines above.
+      <br>
+      <br>
+      [RFC PATCH 0/7] VSX MMA Implementation
+      <br>
+      <br>
+      <br>
+      In that case I'll queue this patch together with it.
       <br>
     </blockquote>
-    <p>Yes, I'll change that in the next version, do you want me to keep
-      the Reviewed-by or do I sent without them so you can review the
-      changes?</p>
-    <p>It'll be just adding</p>
-    <p>    #define dh_alias_acc ptr<br>
-          #define dh_ctype_acc ppc_acc_t *<br>
-          #define dh_typecode_acc dh_typecode_ptr</p>
-    <p>and changing DEF_HELPER_5 to have acc instead of the third vsr<br>
-    </p>
+    Daniel and Joel, do you want me to send this with my patch series so
+    there's no need to rebase this patch and they can be added together?<br>
     <blockquote type="cite"
-      cite="mid:c58d0bc1-8f69-e69d-318b-a7bcacf800ff@linaro.org">
-      <br>
-      Either way, much cleaner.
-      <br>
-      Reviewed-by: Richard Henderson
-      <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+      cite="mid:e29248b7-1a61-87db-dc81-5c9db844b7cf@gmail.com">
       <br>
       <br>
       <br>
-      r~
+      Thanks,
+      <br>
+      <br>
+      <br>
+      Daniel
+      <br>
+      <br>
       <br>
     </blockquote>
     <div class="moz-signature">-- <br>
@@ -252,5 +179,5 @@ href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_med
   </body>
 </html>
 
---------------gZUEssj9z2xtx0dYCprLY9VL--
+--------------ND6dIcwy07s6NNUTXUyu8vIV--
 
