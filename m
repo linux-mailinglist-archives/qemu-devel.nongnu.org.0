@@ -2,53 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D911C5213D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 13:32:44 +0200 (CEST)
-Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C545213DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 13:34:03 +0200 (CEST)
+Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noO6e-0007sE-1b
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 07:32:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
+	id 1noO7u-0000tk-5K
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 07:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1noO3U-0001dY-24; Tue, 10 May 2022 07:29:28 -0400
-Received: from mail-sender-0.a4lg.com
- ([2401:2500:203:30b:4000:6bfe:4757:0]:47836)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1noO6A-0007he-0H
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 07:32:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1noO3S-0005Wf-Bk; Tue, 10 May 2022 07:29:27 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id EAC3C300089;
- Tue, 10 May 2022 11:29:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1652182163;
- bh=6ieKT6SMeR6ROD/gvppds4+LUmTz5zlH/XobTZVD7BA=;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
- Mime-Version:Content-Transfer-Encoding;
- b=K3fgDvngT0t8Igu4WP+vNqnTqQSFaS8zShe6q3jg2MrWIDJEYlVbONjjiRlE6IouC
- 3mz0xySKhVbqXCNg8oXG/zAsujjh2wvnZia0q8RKUk0xT3cfIhQLkcBJgUJbvcHFCI
- NVEJmuExyXwgUfENJJRqvB70krr6H55/ouFyAazo=
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-To: Tsukasa OI <research_trasio@irq.a4lg.com>,
- Alistair Francis <alistair23@gmail.com>,
- Frank Chang <frank.chang@sifive.com>, Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 2/2] target/riscv: Add short-isa-string option
-Date: Tue, 10 May 2022 20:29:08 +0900
-Message-Id: <7c1fe5f06b0a7646a47e9bcdddb1042bb60c69c8.1652181972.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <cover.1652181972.git.research_trasio@irq.a4lg.com>
-References: <cover.1652181972.git.research_trasio@irq.a4lg.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1noO68-00065m-9P
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 07:32:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652182331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E1Sj3/UnWPZSjDXocsk5J3NJtDTzET+T+Zt+d122HB8=;
+ b=fI4pQaWJ0W/SGOK6G14mzsaWSkDwY+6SMvEaagSkFt1YNEPQwXpPS8pWWsRsXrwmU3vZJ+
+ eACWhUzRkKdiBDz8yoYnTZV1fUvjpNEUG/aNCvMhR40ospN0/enJGGCodL7Fr2ralSGjsB
+ yeBP8CX3A8fTyHyeDCksOh4Zk5f1z4g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-511-Mh7DxzqTNxq3EcWxnUWgpg-1; Tue, 10 May 2022 07:32:10 -0400
+X-MC-Unique: Mh7DxzqTNxq3EcWxnUWgpg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D0DF85A5BC
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 11:32:09 +0000 (UTC)
+Received: from localhost (unknown [10.40.193.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3169840CFD06;
+ Tue, 10 May 2022 11:32:08 +0000 (UTC)
+Date: Tue, 10 May 2022 13:32:08 +0200
+From: Victor Toso <victortoso@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v1 4/8] qapi: golang: Generate qapi's union types in Go
+Message-ID: <20220510113208.ndnw7q343rz2heyo@tapioca>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <20220401224104.145961-5-victortoso@redhat.com>
+ <Yno98HEL1oqzs0ZP@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4viv4mco26gi324q"
+Content-Disposition: inline
+In-Reply-To: <Yno98HEL1oqzs0ZP@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,62 +82,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because some operating systems don't correctly parse long ISA extension
-string, this commit adds short-isa-string boolean option to disable
-generating long ISA extension strings on Device Tree.
 
-For instance, enabling Zfinx and Zdinx extensions and booting Linux (5.17 or
-earlier) with FPU support caused a kernel panic.
+--4viv4mco26gi324q
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Operating Systems which short-isa-string might be helpful:
+Hi,
 
-1.  Linux (5.17 or earlier)
-2.  FreeBSD (at least 14.0-CURRENT)
-3.  OpenBSD (at least current development version)
+On Tue, May 10, 2022 at 11:26:56AM +0100, Daniel P. Berrang=E9 wrote:
+> On Sat, Apr 02, 2022 at 12:41:00AM +0200, Victor Toso wrote:
+> > This patch handles QAPI union types and generates the equivalent data
+> > structures and methods in Go to handle it.
+> >=20
+> > At the moment of this writing, it generates 67 structures.
+> >=20
+> > The QAPI union type can be summarized by its common members that are
+> > defined in a @base struct and a @value. The @value type can vary and
+> > depends on @base's field that we call @discriminator. The
+> > @discriminator is always a Enum type.
+> >=20
+> > Golang does not have Unions. The generation of QAPI union type in Go
+> > with this patch, follows similar approach to what is done for QAPI
+> > struct types and QAPI alternate types.
+>=20
+> The common way to approach unions in Go is to just use a struct
+> where each union case is an optional field, and declare that
+> only one field must ever be set. ie
+>=20
+>   type SocketAddressLegacy struct {
+>         // Value based on @type, possible types:
+>         Inet *InetSocketAddressWrapper
+>         Unix *UnixSocketAddressWrapper
+>         VSock *VsockSocketAddressWrapper
+>         FD *StringWrapper
+>   }
 
-Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
----
- target/riscv/cpu.c | 5 ++++-
- target/riscv/cpu.h | 2 ++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+Like Alternates, I like this better.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9f38e56316..4db3dce25a 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -879,6 +879,8 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
- 
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-+
-+    DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -1049,7 +1051,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
-         }
-     }
-     *p = '\0';
--    riscv_isa_string_ext(cpu, &isa_str, maxlen);
-+    if (!cpu->cfg.short_isa_string)
-+        riscv_isa_string_ext(cpu, &isa_str, maxlen);
-     return isa_str;
- }
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index fe6c9a2c92..f5ff7294c6 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -425,6 +425,8 @@ struct RISCVCPUConfig {
-     bool aia;
-     bool debug;
-     uint64_t resetvec;
-+
-+    bool short_isa_string;
- };
- 
- typedef struct RISCVCPUConfig RISCVCPUConfig;
--- 
-2.34.1
+> When deserializing from JSON we populate exactly one of the
+> optional fields.
+>=20
+> When serializing to JSON process the first field that is
+> non-nil.
+>=20
+> Note, you don't actually need to include the discriminator as a
+> field at all, since it is implicitly determined by whichever
+> case is non-nil.  Introducing the discriminator as a field just
+> provides the possibility for the programmer to make
+> inconsistent settings, for no gain.
+
+Sounds reasonable. We still need to implement Marshal/Unmarshal
+for unknow types (e.g: a new Type for SocketAddressLegacy was
+introduced in 7.1 and we should be able to know that current
+qapi-go version can't understand it).
+
+Cheers,
+Victor
+
+--4viv4mco26gi324q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmJ6TTgACgkQl9kSPeN6
+SE8y0RAAsiX7Xua9wzNmGzn6HXuJxqpZFeueGNu1RKcjZlECP8Yy9SQb3c6sqOuf
+CFpsSwSoMdHxxaE/Xh/boa8cWN7KFCaQMC+2uIsEfBJDvVO2LegyWMKCZbS2NI49
+aJUt7LZK51Igfo5Dlw3HHB0eV9WYqTbKvEfQESuwTe5qNqHJtM6SXUssn0fzdo2Y
+YkveIUVxpKLJY6Bzp5oTNvmczuyR4/Mg9O4wLQEBA3X34qIybxnmQTvuMUrbtj/h
+jXH3FS51fUbwrAz3ooFgHGMjVLco09RC1KxAlf0yZTmyKsNw+c6lFFdrTsocE5tS
+Be9ZCqXUGV8i9G1ur7NOQ4VQOUAIk/GS4OtL/t2P34n+M0496hqNsXMdcHFSWqXY
+exJ6vHlxS0INKfoV0t3j8Jr8rcOiwn4JNqEIlZwKbAzbzfSwxM2zbrOTUguF1LoS
+3YL8LJE5Xw2LteheWNFPuDCrH0FUj1YF6JBv7lPaERMsHrpeDrHhHbRgcuwzhr0K
+Fb/biFGcKwB8fIVH+6CSd/ajCa97/+J3QyGE8jkQyP5pVQ2X0WP49yoA5uAcT2dN
+rRMZgrZ+4ynJtXEhNzX1XkUWX3PsxY+DKL2hVo9gERUtCn4dbHXn00r1wnXqH7ws
+6CUm0REuWeIALE9bkY8iYHkGRx9dzgJsFS7utNqTwojE/AFeaRE=
+=2tsq
+-----END PGP SIGNATURE-----
+
+--4viv4mco26gi324q--
 
 
