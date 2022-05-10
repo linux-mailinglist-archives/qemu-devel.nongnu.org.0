@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79FD521113
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:36:58 +0200 (CEST)
-Received: from localhost ([::1]:35598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E043052113B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:43:08 +0200 (CEST)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noMIb-0007UT-Nj
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48398)
+	id 1noMOa-0003si-0T
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1noLuc-000145-E6
- for qemu-devel@nongnu.org; Tue, 10 May 2022 05:12:10 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:45326 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1noLuZ-0006oW-F6
- for qemu-devel@nongnu.org; Tue, 10 May 2022 05:12:09 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL9tfLHpiFOoPAA--.62655S3; 
- Tue, 10 May 2022 17:11:59 +0800 (CST)
-Subject: Re: [PATCH v3 38/43] hw/loongarch: Add LoongArch ls7a rtc device
- support
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk
-References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
- <20220429100729.1572481-39-yangxiaojuan@loongson.cn>
- <f446d2f5-5503-8a73-73fa-4dd7703e6200@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <d44f18b6-4724-e855-0b11-183437c03ef3@loongson.cn>
-Date: Tue, 10 May 2022 17:11:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noLvE-0001O6-Qd
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 05:12:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noLvB-0006uv-Pf
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 05:12:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652173965;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=90qVUxnF5E5NOlYMEoQO8UeA7siJLcfjYK30zT3omT4=;
+ b=aVV47CgD3P7Zj6gDZx+oc8/EVEH2IR3/BmXwTDn9fOPDZRdQAKfMhpQLM1R0S977K5clNT
+ QRy3N/FYM52znBthVW6K0xD6KSWmU58rLJtI6Cw+H7HWZZRlkJCHnHvTQfVFWWMSujKW0a
+ L3/QbH6RfUlD4yGvlXs81reeCuzFwJQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-VtYZoscRO-eZ-8dWdmMb7A-1; Tue, 10 May 2022 05:12:43 -0400
+X-MC-Unique: VtYZoscRO-eZ-8dWdmMb7A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3F9F398CA76
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 09:12:43 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 868AC111D3C7;
+ Tue, 10 May 2022 09:12:39 +0000 (UTC)
+Date: Tue, 10 May 2022 10:12:37 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>
+Cc: qemu-devel@nongnu.org, david@redhat.com
+Subject: Re: [PATCH] util: NUMA aware memory preallocation
+Message-ID: <YnoshVqLNjGFpfEl@redhat.com>
+References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f446d2f5-5503-8a73-73fa-4dd7703e6200@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxL9tfLHpiFOoPAA--.62655S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxtr4Dtry5Xw4rKrWDJw47Jwb_yoW3Gw1Upr
- 1kAryDtry8Xr4kJr10qF1DZry7Xw15Jw1jyr4rXF45tFWDJr10gFy09r4qgr1UXr4kXr13
- G3W8XrZxZr43JFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvq14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
- 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
- xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
- 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E
- 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
- ZFpf9x0JUywZ7UUUUU=
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,225 +76,341 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, May 10, 2022 at 08:55:33AM +0200, Michal Privoznik wrote:
+> When allocating large amounts of memory the task is offloaded
+> onto threads. These threads then use various techniques to
+> allocate the memory fully (madvise(), writing into the memory).
+> However, these threads are free to run on any CPU, which becomes
+> problematic on NUMA machines because it may happen that a thread
+> is running on a distant node.
+> 
+> Ideally, this is something that a management application would
+> resolve, but we are not anywhere close to that, Firstly, memory
+> allocation happens before monitor socket is even available. But
+> okay, that's what -preconfig is for. But then the problem is that
+> 'object-add' would not return until all memory is preallocated.
+> 
+> Long story short, management application has no way of learning
+> TIDs of allocator threads so it can't make them run NUMA aware.
 
-On 2022/5/8 上午5:55, Richard Henderson wrote:
-> On 4/29/22 05:07, Xiaojuan Yang wrote:
->> +/*
->> + * Shift bits and filed mask
->> + */
->> +#define TOY_MON_MASK   0x3f
->> +#define TOY_DAY_MASK   0x1f
->> +#define TOY_HOUR_MASK  0x1f
->> +#define TOY_MIN_MASK   0x3f
->> +#define TOY_SEC_MASK   0x3f
->> +#define TOY_MSEC_MASK  0xf
->> +
->> +#define TOY_MON_SHIFT  26
->> +#define TOY_DAY_SHIFT  21
->> +#define TOY_HOUR_SHIFT 16
->> +#define TOY_MIN_SHIFT  10
->> +#define TOY_SEC_SHIFT  4
->> +#define TOY_MSEC_SHIFT 0
->> +
->> +#define TOY_MATCH_YEAR_MASK  0x3f
->> +#define TOY_MATCH_MON_MASK   0xf
->> +#define TOY_MATCH_DAY_MASK   0x1f
->> +#define TOY_MATCH_HOUR_MASK  0x1f
->> +#define TOY_MATCH_MIN_MASK   0x3f
->> +#define TOY_MATCH_SEC_MASK   0x3f
->> +
->> +#define TOY_MATCH_YEAR_SHIFT 26
->> +#define TOY_MATCH_MON_SHIFT  22
->> +#define TOY_MATCH_DAY_SHIFT  17
->> +#define TOY_MATCH_HOUR_SHIFT 12
->> +#define TOY_MATCH_MIN_SHIFT  6
->> +#define TOY_MATCH_SEC_SHIFT  0
->
-> While this is ok, it would be better to use <hw/registerfields.h>
-> This becomes
->
-> FIELD(TOY, MON, 26, 6)
-> FIELD(TOY, DAY, 21, 5)
-> FIELD(TOY, HOUR, 16, 5)
->
-> You then extract with FIELD_EX32(val, TOY, MON), etc.
->
-> I will also mention that "millisec" is misnamed in the documentation.  
-> Since it represents units of 0.1 seconds, the prefix should be "deci".
->
-Thanks very much, i changed it to this format:
+So I'm wondering what the impact of this problem is for various
+scenarios.
 
-+FIELD(TOY, MON, 26, 6)
-+FIELD(TOY, DAY, 21, 5)
-+FIELD(TOY, HOUR, 16, 5)
-+FIELD(TOY, MIN, 10, 6)
-+FIELD(TOY, SEC, 4, 6)
-+FIELD(TOY, MSEC, 0, 4)
-+
-+FIELD(TOY_MATCH, YEAR, 26, 6)
-+FIELD(TOY_MATCH, MON, 22, 4)
-+FIELD(TOY_MATCH, DAY, 17, 5)
-+FIELD(TOY_MATCH, HOUR, 12, 5)
-+FIELD(TOY_MATCH, MIN, 6, 6)
-+FIELD(TOY_MATCH, SEC, 0, 6)
-+
-+FIELD(RTC_CTRL, RTCEN, 13, 1)
-+FIELD(RTC_CTRL, TOYEN, 11, 1)
-+FIELD(RTC_CTRL, EO, 8, 1)
+The default config for a KVM guest with libvirt is no CPU pinning
+at all. The kernel auto-places CPUs and decides on where RAM is to
+be allocated. So in this case, whether or not libvirt can talk to
+QMP in time to query threads is largely irrelevant, as we don't
+want todo placement in any case.
 
-  get time from the value, like this:
-...
-case SYS_TOYWRITE0:
-          qemu_get_timedate(&tm, s->offset);
-+        tm.tm_sec = FIELD_EX32(val, TOY, SEC);
-+        tm.tm_min = FIELD_EX32(val, TOY, MIN);
-+        tm.tm_hour = FIELD_EX32(val, TOY, HOUR);
-+        tm.tm_mday = FIELD_EX32(val, TOY, DAY);
-+        tm.tm_mon = FIELD_EX32(val, TOY, MON) - 1;
-...
+In theory the kernel should allocate RAM on the node local to
+where the process is currently executing. So as long as the
+guest RAM fits in available free RAM on the local node, RAM
+should be allocated from the node that matches the CPU running
+the QEMU main thread.
 
->> +#define TOY_ENABLE_BIT (1U << 11)
-> ...
->> +enum {
->> +    TOYEN = 1UL << 11,
->> +    RTCEN = 1UL << 13,
->> +};
->
-> You have two copies of the same bit.  It would be best to fill in the 
-> rest of the bits in RTCCTRL, using FIELD().
->
->> +    case SYS_RTCREAD0:
->> +        val = s->rtccount;
->> +        break;
->
-> Surely this needs to examine qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) and 
-> scale the offset back to 32kHz.
->
->> +    case SYS_TOYMATCH0:
->> +        s->toymatch[0] = val;
->> +        qemu_get_timedate(&tm, s->offset);
->> +        tm.tm_sec = (val >> TOY_MATCH_SEC_SHIFT) & TOY_MATCH_SEC_MASK;
->> +        tm.tm_min = (val >> TOY_MATCH_MIN_SHIFT) & TOY_MATCH_MIN_MASK;
->> +        tm.tm_hour = ((val >> TOY_MATCH_HOUR_SHIFT) & 
->> TOY_MATCH_HOUR_MASK);
->> +        tm.tm_mday = ((val >> TOY_MATCH_DAY_SHIFT) & 
->> TOY_MATCH_DAY_MASK);
->> +        tm.tm_mon = ((val >> TOY_MATCH_MON_SHIFT) & 
->> TOY_MATCH_MON_MASK) - 1;
->> +        year_diff = ((val >> TOY_MATCH_YEAR_SHIFT) & 
->> TOY_MATCH_YEAR_MASK);
->> +        year_diff = year_diff - (tm.tm_year & TOY_MATCH_YEAR_MASK);
->> +        tm.tm_year = tm.tm_year + year_diff;
->> +        alarm_offset = qemu_timedate_diff(&tm) - s->offset;
->> +        if ((alarm_offset < 0) && (alarm_offset > -5)) {
->> +            alarm_offset = 0;
->> +        }
->> +        expire_time = qemu_clock_get_ms(rtc_clock);
->> +        expire_time += ((alarm_offset * 1000) + 100);
->> +        timer_mod(s->timer, expire_time);
->> +        break;
->> +    case SYS_TOYMATCH1:
->> +        s->toymatch[1] = val;
->> +        break;
->> +    case SYS_TOYMATCH2:
->> +        s->toymatch[2] = val;
->> +        break;
->
-> Why does only register 0 affect expire time, and not all 3 registers?
->
-Thanks, the toymatch[1]/[2] should also affect expire time. I fixed it 
-like this:
+The challenge is if we spawn N more threads to do pre-alloc,
+these can be spread onto other nodes. I wonder if the kernel
+huas any preference for keeping threads within a process on
+the same NUMA node ?
 
-+static void rtc_toymatch_write(LS7ARtcState *s, struct tm *tm, uint64_t 
-val)
-+{
-+    int64_t alarm_offset, year_diff, expire_time;
-+
-+    qemu_get_timedate(tm, s->offset);
-+    tm->tm_sec = FIELD_EX32(val, TOY_MATCH, SEC);
-+    tm->tm_min = FIELD_EX32(val, TOY_MATCH, MIN);
-+    tm->tm_hour = FIELD_EX32(val, TOY_MATCH, HOUR);
-+    tm->tm_mday = FIELD_EX32(val, TOY_MATCH, DAY);
-+    tm->tm_mon = FIELD_EX32(val, TOY_MATCH, MON) - 1;
-+    year_diff = FIELD_EX32(val, TOY_MATCH, MON);
-+    year_diff = year_diff - (tm->tm_year & TOY_MATCH_YEAR_MASK);
-+    tm->tm_year = tm->tm_year + year_diff;
-+    alarm_offset = qemu_timedate_diff(tm) - s->offset;
-+    if ((alarm_offset < 0) && (alarm_offset > -5)) {
-+        alarm_offset = 0;
-+    }
-+    expire_time = qemu_clock_get_ms(rtc_clock);
-+    expire_time += ((alarm_offset * 1000) + 100);
-+    timer_mod(s->timer, expire_time);
-+}
+Overall, if libvirt is not applying pinning to the QEMU guest,
+then we're 100% reliant on the kernel todo something sensible,
+both for normal QEMU execution and for prealloc. Since we're
+not doing placement of QEMU RAM or CPUs, the logic in this
+patch won't do anything either.
 
-...
-case SYS_TOYMATCH0:
-      s->toymatch[0] = val;
-+     rtc_toymatch_write(s, &tm, val);
-      break;
-case SYS_TOYMATCH1:
-     s->toymatch[1] = val;
-+    rtc_toymatch_write(s, &tm, val);
-     break;
-case SYS_TOYMATCH2:
-      s->toymatch[2] = val;
-+     rtc_toymatch_write(s, &tm, val);
-      break;
-...
->> +    case SYS_RTCCTRL:
->> +        s->cntrctl = val;
->> +        break;
->
-> Need to check REN, TEN, and EO fields.
->
-Thanks, i fixed the rtc_ctrl writing function like this:
-...
-      case SYS_RTCCTRL:
--        s->cntrctl = val;
-+        if (FIELD_EX32(val, RTC_CTRL, RTCEN) &&
-+            FIELD_EX32(val, RTC_CTRL, TOYEN) &&
-+            FIELD_EX32(val, RTC_CTRL, EO)) {
-+            s->cntrctl = val;
-+        }
-...
->> +    case SYS_RTCWRTIE0:
->> +        s->rtccount = val;
->> +        break;
->
-> Need to compute a new rtc_offset from QEMU_CLOCK_VIRTUAL, to match 
-> RTCREAD0 above.
->
->> +    case SYS_RTCMATCH0:
->> +        s->rtcmatch[0] = val;
->> +        break;
->> +    case SYS_RTCMATCH1:
->> +        val = s->rtcmatch[1];
->> +        break;
->> +    case SYS_RTCMATCH2:
->> +        val = s->rtcmatch[2];
->> +        break;
->
-> Why do these not affect expire time?
->
-Sorry, i could not understand this very clearly, could you please 
-explain it in more detail? Thanks very much.
->> +    d->timer = timer_new_ms(rtc_clock, toy_timer, d);
->> +    timer_mod(d->timer, qemu_clock_get_ms(rtc_clock) + 100);
->
-> Where does this number come from?  In any case, after reset I would 
-> expect (1) the rtc and toy to be disabled (documentation says must 
-> initialize rtcctrl bits) and (2) I would expect all of the comparison 
-> registers to be 0 and thus no timer enabled.
-> I guess this 100 milliseconds thing is trying to match 1 decisecond 
-> from TOYMATCH0?
->
-Thanks, I think i should delete the it.
 
-Thanks.
-Xiaojuan
+If the guest has more RAM than can fit on the local NUMA node,
+then we're doomed no matter what, even ignoring prealloc, there
+will be cross-node traffic. This scenario requires the admin to
+setup proper CPU /memory pinning for QEMU in libvirt.
+
+If libvirt is doing CPU pinning (as instructed by the mgmt app
+above us), then when we first start QEMU, the process thread
+leader will get given affinity by libvirt prior to exec. This
+affinity will be the union of affinity for all CPUs that will
+be later configured.
+
+The typical case for CPU pinning, is that everything fits in
+one NUMA node, and so in this case, we don't need todo anything
+more. The prealloc threads will already be constrained to the
+right place by the affinity of the QEMU thread leader, so the
+logic in this patch will run, but it won't do anything that
+was not already done.
+
+So we're left with the hardest case, where the guest is explicitly
+spread across multiple NUMA nodes. In this case the thread leader
+affinity will span many NUMA nodes, and so the prealloc threads
+will freely be placed across any CPU that is in the union of CPUs
+the guest is placed on. Just as with thue non-pinned case, the
+prealloc will be at the mercy of the kernel making sensible
+placement decisions.
+
+The very last cases is the only one where this patch can potentially
+be beneficial. The problem is that because libvirt is in charge of
+enforcing CPU affinity, IIRC, we explicitly block QEMU from doing
+anything with CPU affinity. So AFAICT, this patch should result in
+an error from sched_setaffinity when run under libvirt.
+
+> But what we can do is to propagate the 'host-nodes' attribute of
+> MemoryBackend object down to where preallocation threads are
+> created and set their affinity according to the attribute.
+> 
+> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2074000
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> ---
+>  backends/hostmem.c     |  6 ++--
+>  hw/virtio/virtio-mem.c |  2 +-
+>  include/qemu/osdep.h   |  2 ++
+>  util/meson.build       |  2 +-
+>  util/oslib-posix.c     | 74 ++++++++++++++++++++++++++++++++++++++++--
+>  util/oslib-win32.c     |  2 ++
+>  6 files changed, 82 insertions(+), 6 deletions(-)
+> 
+> diff --git a/backends/hostmem.c b/backends/hostmem.c
+> index a7bae3d713..7373472c7e 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -232,7 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+>          void *ptr = memory_region_get_ram_ptr(&backend->mr);
+>          uint64_t sz = memory_region_size(&backend->mr);
+>  
+> -        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
+> +        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads,
+> +                        backend->host_nodes, MAX_NODES, &local_err);
+>          if (local_err) {
+>              error_propagate(errp, local_err);
+>              return;
+> @@ -394,7 +395,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+>           */
+>          if (backend->prealloc) {
+>              os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
+> -                            backend->prealloc_threads, &local_err);
+> +                            backend->prealloc_threads, backend->host_nodes,
+> +                            MAX_NODES, &local_err);
+>              if (local_err) {
+>                  goto out;
+>              }
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index 5aca408726..48b104cdf6 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
+>              int fd = memory_region_get_fd(&vmem->memdev->mr);
+>              Error *local_err = NULL;
+>  
+> -            os_mem_prealloc(fd, area, size, 1, &local_err);
+> +            os_mem_prealloc(fd, area, size, 1, NULL, 0, &local_err);
+>              if (local_err) {
+>                  static bool warned;
+>  
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 1c1e7eca98..474cbf3b86 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -577,6 +577,8 @@ unsigned long qemu_getauxval(unsigned long type);
+>  void qemu_set_tty_echo(int fd, bool echo);
+>  
+>  void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
+> +                     const unsigned long *host_nodes,
+> +                     unsigned long max_node,
+>                       Error **errp);
+>  
+>  /**
+> diff --git a/util/meson.build b/util/meson.build
+> index 8f16018cd4..393ff74570 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -15,7 +15,7 @@ freebsd_dep = []
+>  if targetos == 'freebsd'
+>    freebsd_dep = util
+>  endif
+> -util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep])
+> +util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep, numa])
+>  util_ss.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
+>  util_ss.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
+>  util_ss.add(when: 'CONFIG_WIN32', if_true: files('aio-win32.c'))
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 477990f39b..1572b9b178 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -73,6 +73,10 @@
+>  #include "qemu/error-report.h"
+>  #endif
+>  
+> +#ifdef CONFIG_NUMA
+> +#include <numa.h>
+> +#endif
+> +
+>  #define MAX_MEM_PREALLOC_THREAD_COUNT 16
+>  
+>  struct MemsetThread;
+> @@ -82,6 +86,9 @@ typedef struct MemsetContext {
+>      bool any_thread_failed;
+>      struct MemsetThread *threads;
+>      int num_threads;
+> +#ifdef CONFIG_NUMA
+> +    struct bitmask *nodemask;
+> +#endif
+>  } MemsetContext;
+>  
+>  struct MemsetThread {
+> @@ -420,6 +427,12 @@ static void *do_touch_pages(void *arg)
+>      }
+>      qemu_mutex_unlock(&page_mutex);
+>  
+> +#ifdef CONFIG_NUMA
+> +    if (memset_args->context->nodemask) {
+> +        numa_run_on_node_mask(memset_args->context->nodemask);
+> +    }
+> +#endif
+> +
+>      /* unblock SIGBUS */
+>      sigemptyset(&set);
+>      sigaddset(&set, SIGBUS);
+> @@ -463,6 +476,12 @@ static void *do_madv_populate_write_pages(void *arg)
+>      }
+>      qemu_mutex_unlock(&page_mutex);
+>  
+> +#ifdef CONFIG_NUMA
+> +    if (memset_args->context->nodemask) {
+> +        numa_run_on_node_mask(memset_args->context->nodemask);
+> +    }
+> +#endif
+
+Ok, so this is where affinity is set, and I believe this ought to be
+failing when run under libvirt with an EPERM from sched_setaffinity.
+This code is ignoring errors so I guess this won't be noticed unless
+libnuma is printing an error message ?
+
+> +
+>      if (size && qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE)) {
+>          ret = -errno;
+>      }
+> @@ -489,7 +508,9 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
+>  }
+>  
+>  static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+> -                           int smp_cpus, bool use_madv_populate_write)
+> +                           int smp_cpus, const unsigned long *host_nodes,
+> +                           unsigned long max_node,
+> +                           bool use_madv_populate_write)
+>  {
+>      static gsize initialized = 0;
+>      MemsetContext context = {
+> @@ -499,6 +520,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>      void *(*touch_fn)(void *);
+>      int ret = 0, i = 0;
+>      char *addr = area;
+> +    unsigned long value = max_node;
+>  
+>      if (g_once_init_enter(&initialized)) {
+>          qemu_mutex_init(&page_mutex);
+> @@ -520,6 +542,48 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>          touch_fn = do_touch_pages;
+>      }
+>  
+> +    if (host_nodes) {
+> +        value = find_first_bit(host_nodes, max_node);
+> +    }
+> +    if (value != max_node) {
+> +#ifdef CONFIG_NUMA
+> +        struct bitmask *cpus = numa_allocate_cpumask();
+> +        g_autofree unsigned long *zerocpumask;
+> +        size_t zerocpumasklen;
+> +        g_autofree unsigned long *zeronodemask;
+> +        size_t zeronodemasklen;
+> +
+> +        context.nodemask = numa_bitmask_alloc(max_node);
+> +
+> +        zerocpumasklen = cpus->size / sizeof(unsigned long);
+> +        zerocpumask = g_new0(unsigned long, zerocpumasklen);
+> +
+> +        for (; value != max_node;
+> +             value = find_next_bit(host_nodes, max_node, value + 1)) {
+> +            if (numa_node_to_cpus(value, cpus) ||
+> +                memcmp(cpus->maskp, zerocpumask, zerocpumasklen) == 0)
+> +                continue;
+> +
+> +            /* If given NUMA node has CPUs run threads on them. */
+> +            numa_bitmask_setbit(context.nodemask, value);
+> +        }
+> +
+> +        numa_bitmask_free(cpus);
+> +
+> +        zeronodemasklen = max_node / sizeof(unsigned long);
+> +        zeronodemask = g_new0(unsigned long, zeronodemasklen);
+> +
+> +        if (memcmp(context.nodemask->maskp,
+> +                   zeronodemask, zeronodemasklen) == 0) {
+> +            /* If no NUMA has a CPU available, then don't pin threads. */
+> +            g_clear_pointer(&context.nodemask, numa_bitmask_free);
+> +        }
+> +#else
+> +        errno = -EINVAL;
+> +        return -1;
+> +#endif
+> +    }
+> +
+>      context.threads = g_new0(MemsetThread, context.num_threads);
+>      numpages_per_thread = numpages / context.num_threads;
+>      leftover = numpages % context.num_threads;
+> @@ -554,6 +618,10 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>      if (!use_madv_populate_write) {
+>          sigbus_memset_context = NULL;
+>      }
+> +
+> +#ifdef CONFIG_NUMA
+> +    g_clear_pointer(&context.nodemask, numa_bitmask_free);
+> +#endif
+>      g_free(context.threads);
+>  
+>      return ret;
+> @@ -566,6 +634,8 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
+>  }
+>  
+>  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+> +                     const unsigned long *host_nodes,
+> +                     unsigned long max_node,
+>                       Error **errp)
+>  {
+>      static gsize initialized;
+> @@ -608,7 +678,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+>  
+>      /* touch pages simultaneously */
+>      ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
+> -                          use_madv_populate_write);
+> +                          host_nodes, max_node, use_madv_populate_write);
+>      if (ret) {
+>          error_setg_errno(errp, -ret,
+>                           "os_mem_prealloc: preallocating memory failed");
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index dafef4f157..6efd912355 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -314,6 +314,8 @@ int getpagesize(void)
+>  }
+>  
+>  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+> +                     const unsigned long *host_nodes,
+> +                     unsigned long max_node,
+>                       Error **errp)
+>  {
+>      int i;
+> -- 
+> 2.35.1
+> 
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
