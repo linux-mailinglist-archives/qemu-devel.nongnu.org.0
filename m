@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D71521111
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:36:43 +0200 (CEST)
-Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11BE5210B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 11:21:41 +0200 (CEST)
+Received: from localhost ([::1]:44508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noMIM-0006q3-D3
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:36:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
+	id 1noM3o-00026M-Ju
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 05:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1noLkA-0003ix-So
- for qemu-devel@nongnu.org; Tue, 10 May 2022 05:01:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1noLjq-0004dx-6x
- for qemu-devel@nongnu.org; Tue, 10 May 2022 05:01:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652173260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lHSPeaQONuTbTNYrRU+C42587PpsW8RWCHo3lvD+2X4=;
- b=VivdzmzAeZjjoT9g9JJrKUnf1m2rcW9sY8Ld6ij1WsnJ8D465s6R4ZsFldGjzYceD+wCi2
- 8hF2WXAm6/rZSFlOA3KwPuTyKGcp03veK2DxjUMgHMcmYrTxNKZNUOyfC1kxnU80CFl/hi
- mvEf6JQc+eRugQYEnFF3VU/c9xpQP+I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-Yz-SshA3MyK_s6u65SaPUw-1; Tue, 10 May 2022 04:59:21 -0400
-X-MC-Unique: Yz-SshA3MyK_s6u65SaPUw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 720C01C068DC;
- Tue, 10 May 2022 08:59:21 +0000 (UTC)
-Received: from maya.cloud.tilaa.com (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CE2041655B;
- Tue, 10 May 2022 08:59:21 +0000 (UTC)
-Date: Tue, 10 May 2022 10:59:08 +0200
-From: Stefano Brivio <sbrivio@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org, Ralph
- Schmieder <ralph.schmieder@gmail.com>, Markus Armbruster
- <armbru@redhat.com>
-Subject: Re: [RFC PATCH 0/6] qapi: net: add unix socket type support to
- netdev backend
-Message-ID: <20220510105908.607c4de7@elisabeth>
-In-Reply-To: <Ynohv8LzGG1vLy9N@redhat.com>
-References: <20220509173618.467207-1-lvivier@redhat.com>
- <Ynohv8LzGG1vLy9N@redhat.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1noLjF-0003HZ-EW; Tue, 10 May 2022 05:00:25 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:47074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1noLjC-0004Hz-Sf; Tue, 10 May 2022 05:00:25 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id s23so6278254iog.13;
+ Tue, 10 May 2022 02:00:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=byzuXSr6gTDC7xp7+03g9DX6xZRNrO8jlqAf5G02djs=;
+ b=AVda4MeQGSCNfe3vIjzQ5Wj9LYtaFK01MZM4tCDP7wGQVkZI0nAaCIfarwe6TcAsCP
+ dtZg3sYEhrc3JF600cTbiTIlVAvyw7wWBo0kXxyJGtGWe4Yfr0Ob2/gBb3zZqwxH0g77
+ Dp0w21vsSsJUsLHTcldiYgeW/YJpKKBkKwC9tZ/jCedq8uUWZt+Ccb7Rh7Wshr9kgIYf
+ pomk6+5+BMzAi3MZMKHaWy1MLeHG6prNoer7ikA/xY+4teWMTNynD2q+jdsXhoXntltq
+ eWGoa74VnKI7in66APQH0uytK3bSgEYn3wfIBasVxsXnYqJY4G9d587VP72UCS8cMmLt
+ d3uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=byzuXSr6gTDC7xp7+03g9DX6xZRNrO8jlqAf5G02djs=;
+ b=IKcee/JvDT78zTIPVRvXwisy9EcolE2VeI1tb8cvPyCVMHPDT3ROPdHW02t8PuTTFk
+ qK5XFQeQ95jCpeoHYFsFDiO7xKqhR7p18fg4jITvVG5dyqkOfcI3V1KzWKgtET8hKTt1
+ 9ZGxWnoP1fglPgTAlqqQ/kRExW1op0qLRCiAqO+lTv47ui8JJ+NeO+8lAmSSzbmOHy6j
+ 8nFi39Clj1hE+bA6IGU0AqBeL59tAeqz/kQwQxEwUGUkW0BhaKF11txtRkx++VIgnTW/
+ SVx7YpR1jIGh+QwQiZ5m/N0gRP7wwUiu94PicjZQKYeWoPwMun/Riga0kOVMBpYG55PS
+ 7jVg==
+X-Gm-Message-State: AOAM533nJYzgbBth7M7UT2HvfosFpLMJ1FQOjuAMvEjD/Q+xhw1GqZPO
+ QZds6js8eaz9e0bV5l1vdTF0l5KeYZ4gGbAS2v0=
+X-Google-Smtp-Source: ABdhPJyQqHvETi//S+Dob2xMIJwlXp8hefOSH0eRQetBv62hchF6YhwU3/xM8JPK+RmHV1KNF8/B1uCAKN/HtZg3TAA=
+X-Received: by 2002:a02:6f56:0:b0:32a:ff25:1fe3 with SMTP id
+ b22-20020a026f56000000b0032aff251fe3mr9780881jae.21.1652173221078; Tue, 10
+ May 2022 02:00:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <165156202959.27941.9731161369415852149-0@git.sr.ht>
+ <165156202959.27941.9731161369415852149-5@git.sr.ht>
+In-Reply-To: <165156202959.27941.9731161369415852149-5@git.sr.ht>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 10 May 2022 10:59:54 +0200
+Message-ID: <CAKmqyKMCxJUWBBZDS7d95EcQsboS++7G_z9N8abfO6ro8B=Cdg@mail.gmail.com>
+Subject: Re: [PATCH qemu v14 05/15] target/riscv: rvv: Add tail agnostic for
+ vector load / store instructions
+To: "~eopxd" <yueh.ting.chen@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>, 
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,101 +87,251 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 May 2022 09:26:39 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Tue, May 3, 2022 at 9:24 AM ~eopxd <eopxd@git.sr.ht> wrote:
+>
+> From: eopXD <eop.chen@sifive.com>
+>
+> Destination register of unit-stride mask load and store instructions are
+> always written with a tail-agnostic policy.
+>
+> A vector segment load / store instruction may contain fractional lmul
+> with nf * lmul > 1. The rest of the elements in the last register should
+> be treated as tail elements.
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-> On Mon, May 09, 2022 at 07:36:12PM +0200, Laurent Vivier wrote:
-> > "-netdev socket" only supports inet sockets.
-> >=20
-> > It's not a complex task to add support for unix sockets, but
-> > the socket netdev parameters are not defined to manage well unix
-> > socket parameters.
-> >=20
-> > As discussed in:
-> >=20
-> >   "socket.c added support for unix domain socket datagram transport"
-> >   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE=
-60@gmail.com/
-> >=20
-> > This series adds support of unix socket type using SocketAddress QAPI s=
-tructure.
-> >=20
-> > A new netdev backend "socket-ng" is added, that is barely a copy of "so=
-cket"
-> > backend but it uses the SocketAddress QAPI to provide socket parameters.
-> > And then it also implement unix sockets (TCP and UDP). =20
->=20
-> So pulling in the QAPI from patch 2
->=20
->    { 'enum': 'NetdevSocketNGMode',
->      'data':  [ 'dgram', 'server', 'client' ] }
->=20
->    { 'struct': 'NetdevSocketNGOptions',
->      'data': {
->        'mode':    'NetdevSocketNGMode',
->        '*addr':   'SocketAddress',
->        '*remote': 'SocketAddress',
->        '*local':  'SocketAddress' } }
->=20
-> > Some examples of CLI syntax:
-> >=20
-> >   for TCP:
-> >=20
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dinet,addr.ho=
-st=3Dlocalhost,addr.port=3D1234
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dinet,addr.ho=
-st=3Dlocalhost,addr.port=3D1234
-> >=20
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,\
-> >           local.type=3Dinet,local.host=3Dlocalhost,local.port=3D1234,\
-> >           remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D1235
-> >=20
-> >   for UNIX:
-> >=20
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dunix,addr.pa=
-th=3D/tmp/qemu0
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dunix,addr.pa=
-th=3D/tmp/qemu0
-> >=20
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,\
-> >           local.type=3Dunix,local.path=3D/tmp/qemu0,\
-> >           remote.type=3Dunix,remote.path=3D/tmp/qemu1
-> >=20
-> >   for FD:
-> >=20
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Dserver,addr.type=3Dfd,addr.str=
-=3D4
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Dclient,addr.type=3Dfd,addr.str=
-=3D5
-> >=20
-> >   -netdev socket-ng,id=3Dsocket0,mode=3Ddgram,local.type=3Dfd,addr.str=
-=3D4 =20
->=20
->                                                           ^^^ local.str=
-=3D4
->=20
-> I notice that in all these examples, mode=3Dclient/server always use
-> the 'addr' field, and mode=3Ddgram always uses the 'local'/'remote'
-> fields. IOW, there is almost no commonality between the dgram scenario
-> and the stream scenario, which feels sub-optimal.
->=20
-> Two alternatives come to mind
->=20
->  - mode=3Dclient could use 'remote' and mode=3Dserver could use 'local',
->    removing the 'addr' field entirely
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-To me, "mode is client, address is x" sounds more intuitive than "mode
-is client, remote is x". I mean, of course it's the remote address --
-that's a bit redundant.
+Alistair
 
->  - Have completely separate backends, ie '-netdev stream' for
->    client/server TCP/UNIX sockets, and '-netdev dgram' for UDP
->    sockets, removing 'mode' field.
-
-...this won't work, though, because UNIX domain sockets can be
-stream-oriented or datagram-oriented.
-
---=20
-Stefano
-
+> ---
+>  target/riscv/insn_trans/trans_rvv.c.inc | 11 +++++
+>  target/riscv/translate.c                |  2 +
+>  target/riscv/vector_helper.c            | 60 +++++++++++++++++++++++++
+>  3 files changed, 73 insertions(+)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index cc80bf00ff..99691f1b9f 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -711,6 +711,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+>      data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>  }
+>
+> @@ -748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+>      data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>  }
+>
+> @@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, arg_vlm_v *a, uint8_t eew)
+>      /* EMUL = 1, NFIELDS = 1 */
+>      data = FIELD_DP32(data, VDATA, LMUL, 0);
+>      data = FIELD_DP32(data, VDATA, NF, 1);
+> +    /* Mask destination register are always tail-agnostic */
+> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>  }
+>
+> @@ -791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, arg_vsm_v *a, uint8_t eew)
+>      /* EMUL = 1, NFIELDS = 1 */
+>      data = FIELD_DP32(data, VDATA, LMUL, 0);
+>      data = FIELD_DP32(data, VDATA, NF, 1);
+> +    /* Mask destination register are always tail-agnostic */
+> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>  }
+>
+> @@ -862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+>      data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>      return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>  }
+>
+> @@ -891,6 +898,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+>      data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>      fn = fns[eew];
+>      if (fn == NULL) {
+>          return false;
+> @@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+>      data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>  }
+>
+> @@ -1043,6 +1052,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+>      data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
+>  }
+>
+> @@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+>      data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>      return ldff_trans(a->rd, a->rs1, data, fn, s);
+>  }
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 7775dade26..58cbb6ded3 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -95,6 +95,7 @@ typedef struct DisasContext {
+>      int8_t lmul;
+>      uint8_t sew;
+>      uint8_t vta;
+> +    bool cfg_vta_all_1s;
+>      target_ulong vstart;
+>      bool vl_eq_vlmax;
+>      uint8_t ntemp;
+> @@ -1085,6 +1086,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+>      ctx->lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
+>      ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
+> +    ctx->cfg_vta_all_1s = cpu->cfg.rvv_ta_all_1s;
+>      ctx->vstart = env->vstart;
+>      ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+>      ctx->misa_mxl_max = env->misa_mxl_max;
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 79d4fca091..f1a0b4ced7 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -269,6 +269,9 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>      uint32_t i, k;
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+> +    uint32_t esz = 1 << log2_esz;
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> +    uint32_t vta = vext_vta(desc);
+>
+>      for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+>          if (!vm && !vext_elem_mask(v0, i)) {
+> @@ -283,6 +286,18 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>          }
+>      }
+>      env->vstart = 0;
+> +    /* set tail elements to 1s */
+> +    for (k = 0; k < nf; ++k) {
+> +        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> +                          (k * max_elems + max_elems) * esz);
+> +    }
+> +    if (nf * max_elems % total_elems != 0) {
+> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +        uint32_t registers_used =
+> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> +                          registers_used * vlenb);
+> +    }
+>  }
+>
+>  #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)                        \
+> @@ -328,6 +343,9 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+>      uint32_t i, k;
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+> +    uint32_t esz = 1 << log2_esz;
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> +    uint32_t vta = vext_vta(desc);
+>
+>      /* load bytes from guest memory */
+>      for (i = env->vstart; i < evl; i++, env->vstart++) {
+> @@ -339,6 +357,18 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+>          }
+>      }
+>      env->vstart = 0;
+> +    /* set tail elements to 1s */
+> +    for (k = 0; k < nf; ++k) {
+> +        vext_set_elems_1s(vd, vta, (k * max_elems + evl) * esz,
+> +                          (k * max_elems + max_elems) * esz);
+> +    }
+> +    if (nf * max_elems % total_elems != 0) {
+> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +        uint32_t registers_used =
+> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> +                          registers_used * vlenb);
+> +    }
+>  }
+>
+>  /*
+> @@ -438,6 +468,9 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t vm = vext_vm(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+> +    uint32_t esz = 1 << log2_esz;
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> +    uint32_t vta = vext_vta(desc);
+>
+>      /* load bytes from guest memory */
+>      for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+> @@ -453,6 +486,18 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>          }
+>      }
+>      env->vstart = 0;
+> +    /* set tail elements to 1s */
+> +    for (k = 0; k < nf; ++k) {
+> +        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> +                          (k * max_elems + max_elems) * esz);
+> +    }
+> +    if (nf * max_elems % total_elems != 0) {
+> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +        uint32_t registers_used =
+> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> +                          registers_used * vlenb);
+> +    }
+>  }
+>
+>  #define GEN_VEXT_LD_INDEX(NAME, ETYPE, INDEX_FN, LOAD_FN)                  \
+> @@ -520,6 +565,9 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t vm = vext_vm(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+> +    uint32_t esz = 1 << log2_esz;
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> +    uint32_t vta = vext_vta(desc);
+>      target_ulong addr, offset, remain;
+>
+>      /* probe every access*/
+> @@ -575,6 +623,18 @@ ProbeSuccess:
+>          }
+>      }
+>      env->vstart = 0;
+> +    /* set tail elements to 1s */
+> +    for (k = 0; k < nf; ++k) {
+> +        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> +                          (k * max_elems + max_elems) * esz);
+> +    }
+> +    if (nf * max_elems % total_elems != 0) {
+> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +        uint32_t registers_used =
+> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> +                          registers_used * vlenb);
+> +    }
+>  }
+>
+>  #define GEN_VEXT_LDFF(NAME, ETYPE, LOAD_FN)               \
+> --
+> 2.34.2
+>
+>
 
