@@ -2,55 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0488052166A
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 15:06:21 +0200 (CEST)
-Received: from localhost ([::1]:59112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6420521767
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 15:23:38 +0200 (CEST)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noPZE-0008U1-4Z
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 09:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47652)
+	id 1noPpx-0003Yj-GU
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 09:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1noPS3-0000zV-7N
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:58:55 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:6078)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noPp1-0002ll-Gf
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 09:22:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1noPRz-0005TR-GE
- for qemu-devel@nongnu.org; Tue, 10 May 2022 08:58:54 -0400
-Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KyJ1l43RXzGpgk;
- Tue, 10 May 2022 20:55:55 +0800 (CST)
-Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
- kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 10 May 2022 20:58:42 +0800
-To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
- <sgarzare@redhat.com>
-CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
- <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
- <longpeng2@huawei.com>
-Subject: [PATCH v4 4/4] vdpa: add vdpa-dev-pci support
-Date: Tue, 10 May 2022 20:58:34 +0800
-Message-ID: <20220510125834.1815-5-longpeng2@huawei.com>
-X-Mailer: git-send-email 2.25.0.windows.1
-In-Reply-To: <20220510125834.1815-1-longpeng2@huawei.com>
-References: <20220510125834.1815-1-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noPow-0004SF-Sp
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 09:22:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652188953;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=L2lFQAwPE/gH82xVbDCOPaBz940AgvvdhqblHgxlhMk=;
+ b=cNf002gJbUZNbPqB1e/xVmgSgOeOI/GSzyZhOLq/Z37ZJRJe77ZW+n1gAHpLJ2JD5JIdul
+ HR7qSa5WexQ86umjlGnHltHwtsQXdh1dmCVpFenGJty6SEHtdKc4/yelVwQUCu7LkY414t
+ u9566RUZvOaFo1RDeHJyQ8FSuWGd/JY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-52-M3vwEAjHM6uNWtpZqHOQZA-1; Tue, 10 May 2022 09:22:30 -0400
+X-MC-Unique: M3vwEAjHM6uNWtpZqHOQZA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4374E185A7BA;
+ Tue, 10 May 2022 13:22:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0F5D40357BE;
+ Tue, 10 May 2022 13:22:25 +0000 (UTC)
+Date: Tue, 10 May 2022 14:22:23 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org,
+ mst@redhat.com, f4bug@amsat.org, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, thuth@redhat.com, bleal@redhat.com,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
+ imammedo@redhat.com, peterx@redhat.com, john.levon@nutanix.com,
+ thanos.makatos@nutanix.com, elena.ufimtseva@oracle.com,
+ john.g.johnson@oracle.com, kanth.ghatraju@oracle.com
+Subject: Re: [PATCH v9 06/17] vfio-user: build library
+Message-ID: <YnpnD5Xzdobr+Vfw@redhat.com>
+References: <cover.1651586203.git.jag.raman@oracle.com>
+ <7560757f7e08842bbfc78bafdee6959f2ab43f80.1651586203.git.jag.raman@oracle.com>
+ <YnPvtyp54seM8ibH@stefanha-x1.localdomain>
+ <CAFEAcA9fOH1=hseVHwsvsJujeiB6cXn6BFnxyp36vYnmjVsp0Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemi500025.china.huawei.com (7.221.188.170)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9fOH1=hseVHwsvsJujeiB6cXn6BFnxyp36vYnmjVsp0Q@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,144 +87,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
-From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
-From: Longpeng <longpeng2@huawei.com>
+On Thu, May 05, 2022 at 05:17:01PM +0100, Peter Maydell wrote:
+> On Thu, 5 May 2022 at 16:44, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > On Tue, May 03, 2022 at 10:16:47AM -0400, Jagannathan Raman wrote:
+> > Ubuntu 20.04LTS has CMake 3.16.3:
+> > https://packages.ubuntu.com/focal/cmake
+> >
+> > That does not meet the minimum version requirement in this patch series
+> > (3.19.0).
+> >
+> > Please re-run container build to check if Ubuntu actually works.
+> >
+> > Hopefully libvfio-user will support meson and CMake can be dropped from
+> > this patch series.
+> 
+> Yes, please. I really strongly don't want QEMU to acquire
+> a dependency on yet another build system.
 
-Supports vdpa-dev-pci, we can use the device as follow:
+As of today, John has mergd my libvfio-user pull request to replace
+cmake with meson, so we're sorted on that front now. 
 
--device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
-
-Signed-off-by: Longpeng <longpeng2@huawei.com>
----
- hw/virtio/meson.build    |   1 +
- hw/virtio/vdpa-dev-pci.c | 101 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 102 insertions(+)
- create mode 100644 hw/virtio/vdpa-dev-pci.c
-
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 8f6f86db71..c2da69616f 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -50,6 +50,7 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-serial-pc
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_VDPA_DEV', if_true: files('vdpa-dev-pci.c'))
- 
- virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
- 
-diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
-new file mode 100644
-index 0000000000..31bd17353a
---- /dev/null
-+++ b/hw/virtio/vdpa-dev-pci.c
-@@ -0,0 +1,101 @@
-+/*
-+ * Vhost Vdpa Device PCI Bindings
-+ *
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights Reserved.
-+ *
-+ * Authors:
-+ *   Longpeng <longpeng2@huawei.com>
-+ *
-+ * Largely based on the "vhost-user-blk-pci.c" and "vhost-user-blk.c" implemented by:
-+ *   Changpeng Liu <changpeng.liu@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include <sys/ioctl.h>
-+#include <linux/vhost.h>
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/vdpa-dev.h"
-+#include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/module.h"
-+#include "virtio-pci.h"
-+#include "qom/object.h"
-+
-+
-+typedef struct VhostVdpaDevicePCI VhostVdpaDevicePCI;
-+
-+#define TYPE_VHOST_VDPA_DEVICE_PCI "vhost-vdpa-device-pci-base"
-+DECLARE_INSTANCE_CHECKER(VhostVdpaDevicePCI, VHOST_VDPA_DEVICE_PCI,
-+                         TYPE_VHOST_VDPA_DEVICE_PCI)
-+
-+struct VhostVdpaDevicePCI {
-+    VirtIOPCIProxy parent_obj;
-+    VhostVdpaDevice vdev;
-+};
-+
-+static void vhost_vdpa_device_pci_instance_init(Object *obj)
-+{
-+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_VDPA_DEVICE);
-+    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-+                              "bootindex");
-+}
-+
-+static Property vhost_vdpa_device_pci_properties[] = {
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static int vhost_vdpa_device_pci_post_init(VhostVdpaDevice *v, Error **errp)
-+{
-+    VhostVdpaDevicePCI *dev = container_of(v, VhostVdpaDevicePCI, vdev);
-+    VirtIOPCIProxy *vpci_dev = &dev->parent_obj;
-+
-+    vpci_dev->class_code = virtio_pci_get_class_id(v->vdev_id);
-+    vpci_dev->trans_devid = virtio_pci_get_trans_devid(v->vdev_id);
-+    /* one for config vector */
-+    vpci_dev->nvectors = v->num_queues + 1;
-+
-+    return 0;
-+}
-+
-+static void
-+vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(vpci_dev);
-+
-+    dev->vdev.post_init = vhost_vdpa_device_pci_post_init;
-+    qdev_realize(DEVICE(&dev->vdev), BUS(&vpci_dev->bus), errp);
-+}
-+
-+static void vhost_vdpa_device_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    device_class_set_props(dc, vhost_vdpa_device_pci_properties);
-+    k->realize = vhost_vdpa_device_pci_realize;
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
-+    .base_name               = TYPE_VHOST_VDPA_DEVICE_PCI,
-+    .generic_name            = "vhost-vdpa-device-pci",
-+    .transitional_name       = "vhost-vdpa-device-pci-transitional",
-+    .non_transitional_name   = "vhost-vdpa-device-pci-non-transitional",
-+    .instance_size  = sizeof(VhostVdpaDevicePCI),
-+    .instance_init  = vhost_vdpa_device_pci_instance_init,
-+    .class_init     = vhost_vdpa_device_pci_class_init,
-+};
-+
-+static void vhost_vdpa_device_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_vdpa_device_pci_info);
-+}
-+
-+type_init(vhost_vdpa_device_pci_register);
+With regards,
+Daniel
 -- 
-2.23.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
