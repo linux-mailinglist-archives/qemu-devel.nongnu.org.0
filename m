@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1856F520FD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:38:33 +0200 (CEST)
-Received: from localhost ([::1]:51876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FF0521015
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 May 2022 10:53:49 +0200 (CEST)
+Received: from localhost ([::1]:40704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noLO4-0000kG-35
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
+	id 1noLcq-00049Q-RL
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 04:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noLJu-0006GC-3F
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20973)
+ id 1noLJv-0006K7-M5
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1noLJs-0000PA-Bm
- for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:13 -0400
+ id 1noLJu-0000PN-1s
+ for qemu-devel@nongnu.org; Tue, 10 May 2022 04:34:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652171651;
+ s=mimecast20190719; t=1652171653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mMYaDYZnajOFTVOej+6FTHEa03sanO432vduIeVYPeU=;
- b=ITf8bzoU0dY5XhVuqJWHc4q5QNYEvMbAD0nCij7sKPEjM8pg9Wj4dM9MQslv7u+iVS8eqg
- V/cjwPrjgbTdbrGxrW+U44uxQMvRhyTE5yCWpnd+LPPpeSkIIljrEyQHHLw3LiTIMpWG4l
- INVX6kYUrUdK5KqblsM2v0W1Lt5Lryw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Bj9y8CO34CR3RZBg01/lwl8mx2a5a2clvh7Ns6S52f8=;
+ b=AjYrXyAs3gCSRuQgEdZIJ2dcwn+bXJJ1DlMFpLt9iA10FtGnaM+0c7bcv5M/hjZfZRcPcV
+ MWQ1CYOllU/YAODqIeHeqT7A6UABGuHxY169oKfmw+dCfdjteMYq1ca6bgAcBSMgVqeS/f
+ ZLRNtbIIkJs4Va2mkdjulXIfpGufRGE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-jpeTRoNgOB2uX9qn-U7GSA-1; Tue, 10 May 2022 04:34:08 -0400
-X-MC-Unique: jpeTRoNgOB2uX9qn-U7GSA-1
+ us-mta-106-mDyQLRBVO3-Kh98x45CqYQ-1; Tue, 10 May 2022 04:34:09 -0400
+X-MC-Unique: mDyQLRBVO3-Kh98x45CqYQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BE19800B21
- for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:34:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9501029ABA14
+ for <qemu-devel@nongnu.org>; Tue, 10 May 2022 08:34:09 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.195.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FAC5403171;
- Tue, 10 May 2022 08:34:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A882C413721;
+ Tue, 10 May 2022 08:34:08 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 06/16] tests: convert multifd migration tests to use common
- helper
-Date: Tue, 10 May 2022 09:33:45 +0100
-Message-Id: <20220510083355.92738-7-dgilbert@redhat.com>
+Subject: [PULL 07/16] tests: add multifd migration tests of TLS with PSK
+ credentials
+Date: Tue, 10 May 2022 09:33:46 +0100
+Message-Id: <20220510083355.92738-8-dgilbert@redhat.com>
 In-Reply-To: <20220510083355.92738-1-dgilbert@redhat.com>
 References: <20220510083355.92738-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -82,132 +82,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Most of the multifd migration test logic is common with the rest of the
-precopy tests, so it can use the helper without difficulty. The only
-exception of the multifd cancellation test which tries to run multiple
-migrations in a row.
+This validates that we correctly handle multifd migration success
+and failure scenarios when using TLS with pre shared keys.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220426160048.812266-7-berrange@redhat.com>
+Message-Id: <20220426160048.812266-8-berrange@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/qtest/migration-test.c | 77 +++++++++++++++++++-----------------
- 1 file changed, 40 insertions(+), 37 deletions(-)
+ tests/qtest/migration-test.c | 60 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 56 insertions(+), 4 deletions(-)
 
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index a1dc08a93e..f551c8d030 100644
+index f551c8d030..133665b500 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -1740,26 +1740,12 @@ static void test_migrate_auto_converge(void)
-     test_migrate_end(from, to, true);
- }
- 
--static void test_multifd_tcp(const char *method)
-+static void *
-+test_migrate_precopy_tcp_multifd_start_common(QTestState *from,
-+                                              QTestState *to,
-+                                              const char *method)
- {
--    MigrateStart args = {};
--    QTestState *from, *to;
-     QDict *rsp;
--    g_autofree char *uri = NULL;
--
--    if (test_migrate_start(&from, &to, "defer", &args)) {
--        return;
--    }
--
--    /*
--     * We want to pick a speed slow enough that the test completes
--     * quickly, but that it doesn't complete precopy even on a slow
--     * machine, so also set the downtime.
--     */
--    /* 1 ms should make it not converge*/
--    migrate_set_parameter_int(from, "downtime-limit", 1);
--    /* 1GB/s */
--    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
- 
-     migrate_set_parameter_int(from, "multifd-channels", 16);
-     migrate_set_parameter_int(to, "multifd-channels", 16);
-@@ -1775,41 +1761,58 @@ static void test_multifd_tcp(const char *method)
-                            "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}");
-     qobject_unref(rsp);
- 
--    /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
--
--    uri = migrate_get_socket_address(to, "socket-address");
--
--    migrate_qmp(from, uri, "{}");
--
--    wait_for_migration_pass(from);
-+    return NULL;
-+}
- 
--    migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
-+static void *
-+test_migrate_precopy_tcp_multifd_start(QTestState *from,
-+                                       QTestState *to)
-+{
-+    return test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+}
- 
--    if (!got_stop) {
--        qtest_qmp_eventwait(from, "STOP");
--    }
--    qtest_qmp_eventwait(to, "RESUME");
-+static void *
-+test_migrate_precopy_tcp_multifd_zlib_start(QTestState *from,
-+                                            QTestState *to)
-+{
-+    return test_migrate_precopy_tcp_multifd_start_common(from, to, "zlib");
-+}
- 
--    wait_for_serial("dest_serial");
--    wait_for_migration_complete(from);
--    test_migrate_end(from, to, true);
-+#ifdef CONFIG_ZSTD
-+static void *
-+test_migrate_precopy_tcp_multifd_zstd_start(QTestState *from,
-+                                            QTestState *to)
-+{
-+    return test_migrate_precopy_tcp_multifd_start_common(from, to, "zstd");
- }
-+#endif /* CONFIG_ZSTD */
- 
- static void test_multifd_tcp_none(void)
- {
--    test_multifd_tcp("none");
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_precopy_tcp_multifd_start,
-+    };
-+    test_precopy_common(&args);
- }
- 
- static void test_multifd_tcp_zlib(void)
- {
--    test_multifd_tcp("zlib");
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_precopy_tcp_multifd_zlib_start,
-+    };
-+    test_precopy_common(&args);
- }
- 
- #ifdef CONFIG_ZSTD
- static void test_multifd_tcp_zstd(void)
- {
--    test_multifd_tcp("zstd");
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_precopy_tcp_multifd_zstd_start,
-+    };
-+    test_precopy_common(&args);
+@@ -1816,6 +1816,48 @@ static void test_multifd_tcp_zstd(void)
  }
  #endif
  
++#ifdef CONFIG_GNUTLS
++static void *
++test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
++                                             QTestState *to)
++{
++    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
++    return test_migrate_tls_psk_start_match(from, to);
++}
++
++static void *
++test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
++                                                QTestState *to)
++{
++    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
++    return test_migrate_tls_psk_start_mismatch(from, to);
++}
++
++static void test_multifd_tcp_tls_psk_match(void)
++{
++    MigrateCommon args = {
++        .listen_uri = "defer",
++        .start_hook = test_migrate_multifd_tcp_tls_psk_start_match,
++        .finish_hook = test_migrate_tls_psk_finish,
++    };
++    test_precopy_common(&args);
++}
++
++static void test_multifd_tcp_tls_psk_mismatch(void)
++{
++    MigrateCommon args = {
++        .start = {
++            .hide_stderr = true,
++        },
++        .listen_uri = "defer",
++        .start_hook = test_migrate_multifd_tcp_tls_psk_start_mismatch,
++        .finish_hook = test_migrate_tls_psk_finish,
++        .result = MIG_TEST_FAIL,
++    };
++    test_precopy_common(&args);
++}
++#endif /* CONFIG_GNUTLS */
++
+ /*
+  * This test does:
+  *  source               target
+@@ -2026,12 +2068,22 @@ int main(int argc, char **argv)
+                    test_validate_uuid_dst_not_set);
+ 
+     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
+-    qtest_add_func("/migration/multifd/tcp/none", test_multifd_tcp_none);
+-    qtest_add_func("/migration/multifd/tcp/cancel", test_multifd_tcp_cancel);
+-    qtest_add_func("/migration/multifd/tcp/zlib", test_multifd_tcp_zlib);
++    qtest_add_func("/migration/multifd/tcp/plain/none",
++                   test_multifd_tcp_none);
++    qtest_add_func("/migration/multifd/tcp/plain/cancel",
++                   test_multifd_tcp_cancel);
++    qtest_add_func("/migration/multifd/tcp/plain/zlib",
++                   test_multifd_tcp_zlib);
+ #ifdef CONFIG_ZSTD
+-    qtest_add_func("/migration/multifd/tcp/zstd", test_multifd_tcp_zstd);
++    qtest_add_func("/migration/multifd/tcp/plain/zstd",
++                   test_multifd_tcp_zstd);
+ #endif
++#ifdef CONFIG_GNUTLS
++    qtest_add_func("/migration/multifd/tcp/tls/psk/match",
++                   test_multifd_tcp_tls_psk_match);
++    qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
++                   test_multifd_tcp_tls_psk_mismatch);
++#endif /* CONFIG_GNUTLS */
+ 
+     if (kvm_dirty_ring_supported()) {
+         qtest_add_func("/migration/dirty_ring",
 -- 
 2.36.0
 
