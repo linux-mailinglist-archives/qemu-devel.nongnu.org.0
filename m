@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51CB4522F06
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 11:12:35 +0200 (CEST)
-Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828C5522F3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 11:20:45 +0200 (CEST)
+Received: from localhost ([::1]:37480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noiOY-0004v9-6p
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 05:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35064)
+	id 1noiWS-00019U-G3
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 05:20:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1noi1o-0006ka-1R
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:49:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28358)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1noi6G-0001qY-0I
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:53:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1noi1m-0002rw-7m
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:49:03 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1noi6D-0003XA-Sx
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:53:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652258941;
+ s=mimecast20190719; t=1652259217;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6j9lE2Hm98HDxiGAVoAwA/H21sg/Crp4Tw0Lg8yELC8=;
- b=EVdw3r/QYHS5ofGz+92xV7ICvPTUKYWinsZSXuMTIWHeN9BobsHI9xIRdrkhW2sXMwH0uz
- 3+I65B4kU+RjgPJb8098Gd1AxB0TqFAkZwPQrAcWGry3u+edcvuEa3gJ/kG0xkdSIwIUKL
- T9JyGtBNMk4bgcPEJ9I124LuBulqeaw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JX/2R3uzdfcl/JVOhDSP9Ef9tsc7ZHdYCnbUmv40mzw=;
+ b=hUa12B/LNMf/Ds0mhZrbleRXm8zdOjDY6lrMxbz1XSkr+WLHOoDFdC3G3SKs8z9knWJlyH
+ E66q7lEjmgpmW588QWLhjMuC3ID0L0nzKNbyO1XihbF4Gf2X01aqZPzYMsRJ+OmLEym8O9
+ OllzrYchTnrdm4tKhBhwgvKw8pvwUFE=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-31-9z4TyXGANaCmtb9BeV3vfw-1; Wed, 11 May 2022 04:48:59 -0400
-X-MC-Unique: 9z4TyXGANaCmtb9BeV3vfw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v17-20020a056000163100b0020c9b0e9039so557509wrb.18
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 01:48:59 -0700 (PDT)
+ us-mta-623-5kmCsz0FP8KFEK_oxN5VqQ-1; Wed, 11 May 2022 04:53:36 -0400
+X-MC-Unique: 5kmCsz0FP8KFEK_oxN5VqQ-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ o11-20020a2e90cb000000b0024f24265fcfso502434ljg.0
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 01:53:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6j9lE2Hm98HDxiGAVoAwA/H21sg/Crp4Tw0Lg8yELC8=;
- b=wF27EAodQVgKIT3+2nSubgL4hSoa/O2RCAJrIib7ujVPTqP8BBFO27wtwBORoc2byf
- zfuH/T3b9nJYN0o/Vl8Qaza9t/u/Xq448rITw2s6ZoC6qy8HLJ6bpbT7rG5fU+Gq5SlQ
- YgWYl/ewUvud+w42yQD8e8zpq5VSWEPxVAB9nBBN/+gsS1vktAsDWk7c72ADt7Lx3Kiq
- r7MzfInZhl51FhyKlPq4qaQRlCrL/vOqAWn3gwy1PEcH+m41uE/cSveJzQdvKxtkVEGt
- V619FqHntRCgEba2B08AOb8AaxsWrCrVYhXgBLOeQFWGV9ODe7zM1jK/NjZfoMtKQBim
- 47xg==
-X-Gm-Message-State: AOAM531jU04qHT5mO7r2Vw5ABpDIHlmNALM7HOUzAOqI9JsTNy03pgvw
- vbrFyIW+N9rQq2P1/vwhJ/kt+TzcPqyOnAbUs5iWTO92gnJ+d+f/m0k89HF/abQpCuDHPdFsLJL
- TSK3nlnNHkMcEp6n3oObE8eWndtQJ/gdkjtn1HXoYUw4nm4ylHooZ1MBKhl4YhVkxTrg=
-X-Received: by 2002:a5d:4045:0:b0:20a:cac6:d33d with SMTP id
- w5-20020a5d4045000000b0020acac6d33dmr22686140wrp.657.1652258937942; 
- Wed, 11 May 2022 01:48:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8bph77VCSA+33U3jz/TpLqOO5Sj6JJ1FnmS0zFRpuKEllqN4WF5YUKJ7hETf33D8iR67Ezg==
-X-Received: by 2002:a5d:4045:0:b0:20a:cac6:d33d with SMTP id
- w5-20020a5d4045000000b0020acac6d33dmr22686112wrp.657.1652258937530; 
- Wed, 11 May 2022 01:48:57 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- q14-20020adfcd8e000000b0020c5253d8c5sm1133977wrj.17.2022.05.11.01.48.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 01:48:56 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com,
-	dgilbert@redhat.com,
-	berrange@redhat.com
-Subject: [PATCH v2 8/8] hmp: add filtering of statistics by name
-Date: Wed, 11 May 2022 10:48:33 +0200
-Message-Id: <20220511084833.195963-9-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220511084833.195963-1-pbonzini@redhat.com>
-References: <20220511084833.195963-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JX/2R3uzdfcl/JVOhDSP9Ef9tsc7ZHdYCnbUmv40mzw=;
+ b=Z76eyDAoHXeXSkjcpdw0dkihO+JoPVUO4uJW61NueZOBkH/ncyDTPB/On2OIYgffU+
+ RmNNfsTyNRRDIRGLh803vKY4iuV4HcRHalnpyoQT7bhvgatEyN0S78m61BO77VIwhhRK
+ DmyBEv/405tIshJPEqdwX1MqELFX9f+AfSqiVZ6a6v9Gzq1UepREgHYP0tK2kElCo3Vk
+ zjLF7jj4jxci6cfF6LUcvsdIW78udAAsa1nOpMTeGTGK/wLuVFuc6RlT3NVTRkpkpL82
+ jD4/d1uv9YaZibHRXfco1f5QZBDEIJzc5SQO0Lyb9/cxAoMRVGzaG0rg7JRwOrrBLW9z
+ 794g==
+X-Gm-Message-State: AOAM531I4lPkW/4VvZ148KhDLTHQ+/ImY9IV7l3rPH2hmXDQb1ItPo2K
+ exKh8ivoE+5x41NRaVMd+3nOTfN4kroXKiWHIJiofU2WfLktivsjrLfgFmCmeTXvtk5Ksc79Rel
+ lzNbM6ZlRVFijYFeQW2uTvt2oahCsxwc=
+X-Received: by 2002:a05:6512:1395:b0:446:d382:79a5 with SMTP id
+ p21-20020a056512139500b00446d38279a5mr18666365lfa.210.1652259214611; 
+ Wed, 11 May 2022 01:53:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0k/nkuZq7dJgdPUnzQTxV3tqQeKNffL9LYMPqfzMOM6SRVCrO9SQg+kDPxU9EsBw1ERdNzXqLbR+Za2axSlk=
+X-Received: by 2002:a05:6512:1395:b0:446:d382:79a5 with SMTP id
+ p21-20020a056512139500b00446d38279a5mr18666351lfa.210.1652259214383; Wed, 11
+ May 2022 01:53:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+References: <87a6bulueg.fsf@pond.sub.org>
+ <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
+ <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
+ <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
+ <a5b11030-c00e-fdec-dacd-e09cc0924a0a@redhat.com>
+ <CACGkMEuPQr0TQtkMZr2zeJYGMy69EXN-fhdRTq6JUkWw3KmvMw@mail.gmail.com>
+ <87bkw7e0mc.fsf@pond.sub.org>
+ <CAFEAcA9QGSqx=e5CgsbyBwVH3wa_VW1i2c=5H5cKp5X-hHs71Q@mail.gmail.com>
+ <CACGkMEuXM2YzFCGNgfZH5K1+Yvsvpdn103fcKGchjoh+VqFeRg@mail.gmail.com>
+ <CABcq3pHRyZcexXimSLjKqd0wW02guBx84AXDuROTirZbOJiN+w@mail.gmail.com>
+In-Reply-To: <CABcq3pHRyZcexXimSLjKqd0wW02guBx84AXDuROTirZbOJiN+w@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 11 May 2022 16:53:23 +0800
+Message-ID: <CACGkMEvO3Q0vxy08eTVu4oXJqMV1Fyf3w-SBFGhrOLN_-ih8ng@mail.gmail.com>
+Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
+To: Andrew Melnichenko <andrew@daynix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, Yan Vugenfirer <yan@daynix.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,112 +103,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the user to request only a specific subset of statistics.
-This can be useful when working on a feature or optimization that is
-known to affect that statistic.
+On Tue, May 10, 2022 at 8:24 PM Andrew Melnichenko <andrew@daynix.com> wrote:
+>
+> Hi all,
+> The ebpf/rss.bpf.skeleton.h is generetad by bpftool from tools/ebpf/rss.bpf.c.
+> To generate the skeleton - would require dependencies of llvm and bpftool.
+> RSS eBPF solution, for now, is only for Linux hosts.
+>
+> > Andrew, want to post a patch to explain this?
+> I am all in for clarification. And will prepare a new patch if required.
+> Please advise, what those patches should be? Documentation update?
 
-Extracted from a patch by Mark Kanda.
+It looks to me the doc are fine:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hmp-commands-info.hx |  7 ++++---
- monitor/hmp-cmds.c   | 35 +++++++++++++++++++++++++----------
- 2 files changed, 29 insertions(+), 13 deletions(-)
+"""
+RSS eBPF program
+----------------
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 221feab8c0..767aafd1ea 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -897,9 +897,10 @@ ERST
- 
-     {
-         .name       = "stats",
--        .args_type  = "target:s",
--        .params     = "target",
--        .help       = "show statistics; target is either vm or vcpu",
-+        .args_type  = "target:s,names:s?,provider:s?",
-+        .params     = "target [names] [provider]",
-+        .help       = "show statistics for the given target (vm or vcpu); optionally filter by"
-+                      "name (comma-separated list, or * for all) and provider",
-         .cmd        = hmp_info_stats,
-     },
- 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 4f4ecbfbfb..86744a14eb 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2350,10 +2350,12 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
- }
- 
- /* Create the StatsFilter that is needed for an "info stats" invocation.  */
--static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
--                                 StatsProvider provider)
-+static StatsFilter *stats_filter(StatsTarget target, const char *names,
-+                                 int cpu_index, StatsProvider provider)
- {
-     StatsFilter *filter = g_malloc0(sizeof(*filter));
-+    StatsProvider provider_idx;
-+    StatsRequestList *request_list = NULL;
- 
-     filter->target = target;
-     switch (target) {
-@@ -2374,15 +2376,27 @@ static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
-         break;
-     }
- 
--    if (provider == STATS_PROVIDER__MAX) {
-+    if (!names && provider == STATS_PROVIDER__MAX) {
-         return filter;
-     }
- 
--    /* "info stats" can only query either one or all the providers.  */
--    StatsRequest *request = g_new0(StatsRequest, 1);
--    request->provider = provider;
--    StatsRequestList *request_list = g_new0(StatsRequestList, 1);
--    QAPI_LIST_PREPEND(request_list, request);
-+    /*
-+     * "info stats" can only query either one or all the providers.  Querying
-+     * by name, but not by provider, requires the creation of one filter per
-+     * provider.
-+     */
-+    for (provider_idx = 0; provider_idx < STATS_PROVIDER__MAX; provider_idx++) {
-+        if (provider == STATS_PROVIDER__MAX || provider == provider_idx) {
-+            StatsRequest *request = g_new0(StatsRequest, 1);
-+            request->provider = provider_idx;
-+            if (names && !g_str_equal(names, "*")) {
-+                request->has_names = true;
-+                request->names = strList_from_comma_list(names);
-+            }
-+            QAPI_LIST_PREPEND(request_list, request);
-+        }
-+    }
-+
-     filter->has_providers = true;
-     filter->providers = request_list;
-     return filter;
-@@ -2392,6 +2406,7 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
- {
-     const char *target_str = qdict_get_str(qdict, "target");
-     const char *provider_str = qdict_get_try_str(qdict, "provider");
-+    const char *names = qdict_get_try_str(qdict, "names");
- 
-     StatsProvider provider = STATS_PROVIDER__MAX;
-     StatsTarget target;
-@@ -2422,11 +2437,11 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
- 
-     switch (target) {
-     case STATS_TARGET_VM:
--        filter = stats_filter(target, -1, provider);
-+        filter = stats_filter(target, names, -1, provider);
-         break;
-     case STATS_TARGET_VCPU: {}
-         int cpu_index = monitor_get_cpu_index(mon);
--        filter = stats_filter(target, cpu_index, provider);
-+        filter = stats_filter(target, names, cpu_index, provider);
-         break;
-     default:
-         abort();
--- 
-2.36.0
+RSS program located in ebpf/rss.bpf.skeleton.h generated by bpftool.
+So the program is part of the qemu binary.
+Initially, the eBPF program was compiled by clang and source code
+located at tools/ebpf/rss.bpf.c.
+"""
+
+It was too late to fix the changelog but we probably don't have anything to do.
+
+Or we can update ebpf/rss.bpf.skeleton.h by using the most recent
+bpftool where I've added the BPFTOOL as the generator name[1].
+
+Thanks
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=56c3e749d08a
+
+>
+>
+> On Mon, May 9, 2022 at 12:35 PM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Mon, May 9, 2022 at 4:42 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > On Mon, 9 May 2022 at 06:30, Markus Armbruster <armbru@redhat.com> wrote:
+> > > > Always, always, *always* document your reasons for doing stuff right in
+> > > > the commit message, unless they are blindingly obvious.  I understand
+> > > > reasons can be obvious enough to the author.  Document them anyway if
+> > > > there is any chance they are not obvious to others.
+> > >
+> > > It's also nice for code-generators to say who they are
+> > > in this kind of "this file is autogenerated" comment.
+> > > For instance our own decodetree script's comments read
+> > >   /* This file is autogenerated by scripts/decodetree.py.  */
+> >
+> > Unfortunately, this is not what bpftool did right now.
+> >
+> > Have posted a patch (with Markus and you cced).
+> >
+> > Thanks
+> >
+> > >
+> > > -- PMM
+> > >
+> >
+>
 
 
