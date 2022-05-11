@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB45523308
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 14:22:20 +0200 (CEST)
-Received: from localhost ([::1]:49770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C2E523354
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 14:48:54 +0200 (CEST)
+Received: from localhost ([::1]:42706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nolMA-0000bC-UZ
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 08:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40030)
+	id 1nollt-0000xz-89
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 08:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nolJ1-0007ZL-Pe
- for qemu-devel@nongnu.org; Wed, 11 May 2022 08:19:03 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:44367)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noldh-00078h-C6
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 08:40:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nolIz-00083x-Da
- for qemu-devel@nongnu.org; Wed, 11 May 2022 08:19:03 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1noldc-0003eR-Qq
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 08:40:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652272819;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=z/7+iA8gdUcOEp2+QP/g82+cFo7r5Y1UoBHYHH2tIts=;
+ b=ShUb5uK5Keyx5X/HvzLCEhG7S6xAY7MDaozNT2evMyJiAORAdvY3amoxU9bfNNV8FMOeor
+ ylnrjNsxIpIJUlsQYjv5Grgcmu+JNWrCeod6TNW4RVUpK3rt5hdfC5jpBkHv0F0h+RKPFt
+ ehK300EXrm47GoJ0uLQ312eEdBTJUao=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-101-DqstKRpTMpOWwlcTKzMN_w-1; Wed, 11 May 2022 08:18:56 -0400
-X-MC-Unique: DqstKRpTMpOWwlcTKzMN_w-1
+ us-mta-16-LHlPioTPNEic6TzdQlNPvg-1; Wed, 11 May 2022 08:40:18 -0400
+X-MC-Unique: LHlPioTPNEic6TzdQlNPvg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B5BF88002BF;
- Wed, 11 May 2022 12:18:55 +0000 (UTC)
-Received: from bahia (unknown [10.39.193.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C472D2166B3F;
- Wed, 11 May 2022 12:18:54 +0000 (UTC)
-Date: Wed, 11 May 2022 14:18:53 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "Meng, Bin" <Bin.Meng@windriver.com>, Bin Meng
- <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver
- for Windows
-Message-ID: <20220511141853.7a53106c@bahia>
-In-Reply-To: <MN2PR11MB4173011DDC017F9A414382BEEFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
-References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
- <2718865.3NRaeQn5QO@silver> <20220510154006.63c2ed23@bahia>
- <2077078.oMYteGReol@silver> <20220510163430.410536f5@bahia>
- <MN2PR11MB4173011DDC017F9A414382BEEFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B11039F9CA2
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 12:40:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B5882166B2F;
+ Wed, 11 May 2022 12:40:05 +0000 (UTC)
+Date: Wed, 11 May 2022 13:40:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ libvir-list@redhat.com
+Subject: Re: [PATCH] ui: Remove deprecated parameters of -display sdl and
+ switch to QAPI parser
+Message-ID: <Ynuuo02cDee1nsZL@redhat.com>
+References: <20220511121725.842448-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220511121725.842448-1-thuth@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,284 +80,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 May 2022 15:35:10 +0000
-"Shi, Guohuai" <Guohuai.Shi@windriver.com> wrote:
+On Wed, May 11, 2022 at 02:17:25PM +0200, Thomas Huth wrote:
+> The "-display sdl" option still used a hand-crafted parser for its
+> parameters since some of them used underscores which is forbidden
+> in QAPI. Now that they've been deprecated and the deprecation period
+> is over, we can remove the problematic parameters and switch to use
+> the QAPI parser instead.
 
-> Let's force on the security issue:
->=20
+I'd say the removal of deprecated bits ought to be separate
+from the addition of new QAPI bits.
 
-Please don't top post, especially when all previous comments were
-made inline, so that someone who steps in this thread now has a
-chance to catch-up.
 
-> Firstly, this answer ( https://stackoverflow.com/questions/32138524/is-th=
-ere-a-windows-equivalent-of-openat ) is useless for QEMU.
-> It uses Windows native API NtCreateFile() and accesses files by Windows h=
-andle.=20
-> But 9PFS is using Windows POSIX interface, handle can not be used in POSI=
-X interface.
-> Actually, Windows provide similar APIs like GetFinalPathNameByHandle()/Ge=
-tFileInformationByHandle().
-> It can also get file information by Windows handle.
->=20
-> Windows POSIX interface do not support NO_FOLLOW flags, that means, Windo=
-ws POSIX open() always translate symbolic link.
->=20
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 059302a5ef..7d5097808a 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1309,6 +1309,19 @@
+>        '*swap-opt-cmd': 'bool'
+>    } }
+>  
+> +##
+> +# @DisplaySDL:
+> +#
+> +# SDL2 display options.
+> +#
+> +# @grab-mod:  Modifier keys that should be pressed together
+> +#             with "G" to release the mouse grab.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct'  : 'DisplaySDL',
+> +  'data'    : { '*grab-mod'   : 'str' } }
 
-This precludes any tentative to fix the issue at the QEMU level then.
-Maybe there are some knobs to control symlink behavior at the fs
-level but this certainly requires windows knowledge that I don't
-have.
+So any arbitrary string here, but...
 
-> So everything are finally point to one limitation: Windows POSIX interfac=
-es do not support symbolic link and always translate link.
->=20
-> For the security reason, I think it is reasonable to disable symbolic lin=
-k support on Windows host for 9PFS.
-> I can re-work this patch to adding a symbolic link check during path-walk=
- operation and stop it when get a symbolic link.
->=20
+> diff --git a/ui/sdl2.c b/ui/sdl2.c
+> index d3741f9b75..18c63e1fc9 100644
+> --- a/ui/sdl2.c
+> +++ b/ui/sdl2.c
+> @@ -40,6 +40,8 @@ static struct sdl2_console *sdl2_console;
+>  
+>  static SDL_Surface *guest_sprite_surface;
+>  static int gui_grab; /* if true, all keyboard/mouse events are grabbed */
+> +static bool alt_grab;
+> +static bool ctrl_grab;
+>  
+>  static int gui_saved_grab;
+>  static int gui_fullscreen;
+> @@ -853,6 +855,17 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+>  
+>      gui_fullscreen = o->has_full_screen && o->full_screen;
+>  
+> +    if (o->u.sdl.has_grab_mod) {
+> +        if (g_str_equal(o->u.sdl.grab_mod, "lshift-lctrl-lalt")) {
+> +            alt_grab = true;
+> +        } else if (g_str_equal(o->u.sdl.grab_mod, "rctrl")) {
+> +            ctrl_grab = true;
+> +        } else {
+> +            error_report("Unsupported grab-mod: %s", o->u.sdl.grab_mod);
+> +            exit(1);
+> +        }
+> +    }
 
-This would be useless because of TOCTOU : a directory could be
-replaced by a symlink between the check and the actual use of
-the file. O_NOFOLLOW provides the atomicity needed to safely
-error out on symlinks. Since O_NOFOLLOW only makes sense for
-the rightmost path element, paths from the client have to be
-broken down into a succession of *at() syscalls, one for
-each element.
+We're treating this more like an enum here. It does leave the door
+open for adding a generic parsing of arbitrary grab mods later
+I guess
 
-> Best Regards,
-> Guohuai
->=20
-> > -----Original Message-----
-> > From: Greg Kurz <groug@kaod.org>
-> > Sent: 2022=E5=B9=B45=E6=9C=8810=E6=97=A5 22:35
-> > To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > Cc: qemu-devel@nongnu.org; Meng, Bin <Bin.Meng@windriver.com>; Bin Meng
-> > <bmeng.cn@gmail.com>; Shi, Guohuai <Guohuai.Shi@windriver.com>
-> > Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend dri=
-ver for
-> > Windows
-> >=20
-> > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >=20
-> > On Tue, 10 May 2022 16:04:28 +0200
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> >=20
-> > > On Dienstag, 10. Mai 2022 15:40:06 CEST Greg Kurz wrote:
-> > > > On Tue, 10 May 2022 13:54:46 +0200
-> > > >
-> > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > > On Dienstag, 10. Mai 2022 12:18:33 CEST Christian Schoenebeck wro=
-te:
-> > > > > > On Dienstag, 10. Mai 2022 04:17:44 CEST Shi, Guohuai wrote:
-> > > > > > [...]
-> > > > > >
-> > > > > > > > > > > I tend to agree with Christian's remarks that this
-> > > > > > > > > > > patch is too big and that the choice of introducing
-> > > > > > > > > > > right away a new implementation of 9p-local for
-> > > > > > > > > > > windows hosts is too bold to start with. We need to
-> > > > > > > > > > > clearly understand what's diverging between windows
-> > > > > > > > > > > and linux in order to make such a decision. You should
-> > > > > > > > > > > first try to introduce the required abstractions to
-> > > > > > > > > > > cope with these differences, so that we can review.
-> > > > > > > > > >
-> > > > > > > > > > Here is the basic introductions of 9PFS for Windows dev=
-elopment:
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > Windows always returns -1 when try to call open() for a
-> > > > > > > > > > directory.
-> > > > > > > > > > Windows (actually MinGW library) only allows opendir()
-> > > > > > > > > > for a directory.
-> > > > > >
-> > > > > > That missing behaviour could be implemented in 9p-util-win.c,
-> > > > > > similar to the missing behaviours of mknodat() for macOS which
-> > > > > > did not support a bunch of things like creating a UNIX socket f=
-ile and
-> > more:
-> > > > > >
-> > > > > > https://github.com/qemu/qemu/commit/055ab89327bab83f1bd07e9de07f
-> > > > > > 7628643d
-> > > > > > 3d8d> >
-> > > > > > > > > Does MinGW have dirfd() ?
-> > > > > > > >
-> > > > > > > > No.
-> > > > > > > > MinGW does not open any directory.
-> > > > > > > > Here is opendir() source code of MinGW:
-> > > > > > > > https://github.com/mirror/mingw-w64/blob/master/mingw-w64-cr
-> > > > > > > > t/misc/d
-> > > > > > > > iren
-> > > > > > > > t.
-> > > > > > > > c#L42
-> > > > > > > >
-> > > > > > > > So MinGW do not have a fd associated to a directory.
-> > > > > > > >
-> > > > > > > > > > Windows does not support APIs like "*at" (openat(),
-> > > > > > > > > > renameat(),
-> > > > > > > > > > etc.)
-> > > > > >
-> > > > > > Like already suggested before on your previous RFC version, it
-> > > > > > is possible to use the same workaround as we are using for macOS
-> > > > > > hosts already (which
-> > > > > >
-> > > > > > was missing mknodat()):
-> > > > > >   pthread_fchdir_np(...)
-> > > > > >   mknod(...)
-> > > > > >
-> > > > > >
-> > > > > > https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util-darwin.
-> > > > > > c#L84
-> > > > > >
-> > > > > > So on Windows it would be viable to:
-> > > > > >   chdir(...)
-> > > > > >   open(...)
-> > > > > >
-> > > > > > The same approach could be used for any missing *at() function
-> > > > > > for Windows.
-> > > > >
-> > > > > Problem though is that the chdir() functions on Windows all seem
-> > > > > to have process-wide effect, we would need to change the current
-> > > > > directory only for the current thread, because filesystem access
-> > > > > of 9p server is multi-threaded.
-> > > > >
-> > > > > Protecting the chdir(); foo(); calls by a process wide global
-> > > > > mutex isn't very appealing either. :/
-> > > >
-> > > > And it wouldn't be safe anyway because I'm pretty sure that the rest
-> > > > of the QEMU code assumes that the current directory is invariant, e=
-.g.
-> > > > user could be very confused by 'drive_add file=3D./foo.img' not wor=
-king.
-> > > >
-> > > > BTW duckduckgo gives:
-> > > >
-> > > > https://stackoverflow.com/questions/32138524/is-there-a-windows-equi
-> > > > valent-o
-> > > > f-openat
-> > > >
-> > > > So yes it seems to be technically possible to implement *at()
-> > > > functions on windows. This is the only way to avoid CVE-2016-9602 in
-> > > > the QEMU process.
-> > >
-> > > +1
-> > >
-> > > > Another option is to use the proxy backend : this offloads all fs v=
-isit
-> > > > accesses to an external process running virtfs-proxy-helper, that
-> > > > runs privileged and chroot() into the shared directory so that it
-> > > > can safely use path based syscalls.
-> > >
-> > > As a very last resort, maybe. But just for the other two guys to know=
- upfront:
-> > > the proxy backend is very slow and not in good shape. There were plans
-> > > to deprecate the proxy backend therefore, as it's more or less dead.
-> > >
-> >=20
-> > Yeah as mentioned before, the way to go now would be to come with a vho=
-st-user
-> > implementation like virtiofsd. This would address all perf problems we =
-have with
-> > proxy since the client would directly talk to the external process. Thi=
-s should
-> > also provide better perf than the local backend since it wouldn't have =
-to do do
-> > the "at*()"
-> > dance thanks to chroot().
-> >=20
-> > > > > > > > > Ouch...
-> > > > > > > > >
-> > > > > > > > > > So 9PFS can not use any openat() for opening a sub file
-> > > > > > > > > > or directory in 9P
-> > > > > > > >
-> > > > > > > > mount
-> > > > > > > >
-> > > > > > > > > directory.
-> > > > > > > > >
-> > > > > > > > > > This commit use merge_fs_path() to build up full visit
-> > > > > > > > > > filename by string
-> > > > > > > >
-> > > > > > > > concatenation.
-> > > > > > > >
-> > > > > > > > > > I know that may have a risk of security, but Windows
-> > > > > > > > > > does fully support POSIX
-> > > > > >
-> > > > > > You will not find anybody merging code that's inherently insecu=
-re.
-> > > > > >
-> > > > > > > > > I understand from your various answers that symlinks
-> > > > > > > > > aren't currently supported by window's POSIX API. Is this=
- forever ?
-> > > > > > > > > Google do mentions symlinks in windows 10. What's the
-> > > > > > > > > story there ? How do they behave ? How would they be
-> > > > > > > > > exposed to the client ? Be aware that, even if the client
-> > > > > > > > > cannot create symlinks, an existing symlink could be used=
- to escape
-> > with rename().
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > If the code "may have a risk of security" then it must be
-> > > > > > > > > fixed or avoided in some way before being merged upstream.
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > Other thing that comes to mind is that windows hosts
-> > > > > > > > > should maybe use the mapped or mapped-file security modes=
- visit visit
-> > > > > > > > > since they emulate symlinks with a simple file hidden in
-> > > > > > > > > the VIRTFS_META_DIR directory.
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > Cheers,
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > --
-> > > > > > > > > Greg
-> > > > > > > >
-> > > > > > > > Windows native API support symbolic link file start from
-> > > > > > > > Windows
-> > > > > > > > Vista:
-> > > > > > > > https://docs.microsoft.com/en-us/windows/win32/api/winbase/n
-> > > > > > > > f-winbas
-> > > > > > > > e-cr
-> > > > > > > > ea
-> > > > > > > > tes ymboliclinka
-> > > > > > > >
-> > > > > > > > I mean Windows POSIX APIs do not support symbolic link
-> > > > > > > > (MinGW use
-> > > > > > > > Win32
-> > > > > > > > POSIX APIs) So we can not create symbolic link by MinGW.
-> > > > > >
-> > > > > > A function with POSIX signature could be added to 9p-util-win.c
-> > > > > > which would call the native Windows function to create symlinks.
-> > > > > >
-> > > > > > > > Anyway, there is another solution: re-work whole 9PFS code:
-> > > > > > > > not only 9p-local.c, but also every file in 9p driver.
-> > > > > > > > Replace every MinGW/POSIX APIs (e.g. open, lseek, read,
-> > > > > > > > write, close), by Windows Native APIs (e.g. open ->
-> > > > > > > > CreateFile, lseek -> SetFilePointer, read -> ReadFile, write
-> > > > > > > > -> WriteFile, close -> CloseHandle, etc.) Then 9P can use
-> > > > > > > > Windows symbolic link feature.
-> > > > > > > > However, I do think it is a good idea to replace everything.
-> > > > > > >
-> > > > > > > TYPO: it NOT is a good idea to replace everything.
-> > > > > >
-> > > > > > Right, that does not make sense. The way to go is adding and
-> > > > > > implementing missing system functions with POSIX signatures and
-> > > > > > POSIX behaviour for Windows. Not turning the entire code base
-> > > > > > upside down.
-> > > > > >
-> > > > > > Best regards,
-> > > > > > Christian Schoenebeck
-> > >
-> > >
->=20
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
