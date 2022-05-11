@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406935235ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:43:35 +0200 (CEST)
-Received: from localhost ([::1]:52156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A535E52361E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:49:16 +0200 (CEST)
+Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nonYr-0007ZW-Qn
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:43:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47696)
+	id 1noneN-0004l0-6K
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nonX7-0006t7-UK
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:41:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36081)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nonX4-0000aM-F2
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:41:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652280098;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sIdIJ8FNMgRpxug4h1/4PCdUq6qkdChQqdXqv3qvDFU=;
- b=DLx90MV3wB9X94a84GSSp4fa0iGHYpMBOd36Cv/Cn9dmojDoPmjgvEEGlXLJvVUkzxQ+AI
- rqs1v+7lUgDA1tKcs7Nx3jM+5/xvpCuhF0qB5JBwjo0lNuHrVNRVKGd9srQwDmHcmKF92f
- JvxaKbGkORtohgWnbuX1oTR0H4w5vzo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-xG7vrKdGM1-wGv_jN5Wp1A-1; Wed, 11 May 2022 10:41:37 -0400
-X-MC-Unique: xG7vrKdGM1-wGv_jN5Wp1A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5412510665A0
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 14:41:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCC37455D6B;
- Wed, 11 May 2022 14:41:35 +0000 (UTC)
-Date: Wed, 11 May 2022 15:41:32 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Victor Toso <victortoso@redhat.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-Message-ID: <YnvLHPKduFo42zkI@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
- <87lev9mw7j.fsf@pond.sub.org> <YnpbuzKo681VwDkn@redhat.com>
- <YnpfuYvBu56CCi7b@redhat.com> <87pmkkdugo.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nonbg-0001yp-1r
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:29 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:47089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nonbe-0001AS-86
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:27 -0400
+Received: by mail-pg1-x533.google.com with SMTP id l11so1966969pgt.13
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 07:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Enoc3V9LSI02yYB4by7fwgJWxViZ8eSA+90wDYTpsOo=;
+ b=nOTKSPA+earambedkjAryV1n7GQWT8hOT7jXQz+VwfTaNjmXQ6wziQEd7wvvxKbHR0
+ US0110FtusXnnIKdknVglnxjtqbzxa9GDB55qqviN16iIrdlJI90K/2/bZZHPSj0u/QX
+ IPFVDLAUxRqTi/yPif7K/5h2xuVbt5u2gWn/XrIRgUV+XwmnvBuKeIsciir8HpRC81wT
+ dKjF2vq3YtwbxQ2pDpvVjXRroLsSFVy6OUxpk4F2AlzjTtjrrlj52gtaZV6uUju8gT0i
+ uIt+7xFKcYNw/1Y848EYf/ufZVRVtiXDom6PSc5VG5Z6COEOFaUFNpPbao0ZdGOwj9Bf
+ IQVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Enoc3V9LSI02yYB4by7fwgJWxViZ8eSA+90wDYTpsOo=;
+ b=iPK7SOECxBtZDDlNdzBa3HXoVmEdmjvwQMq4tO2s3xdaja6/dW6QV6n09p8+n+76Ky
+ 1oHCOR6dt1WsLC0WcLWcxc4WiT3BPAuWGlDTzwt4DRINvfUn0QG/COQ3Agwd1AS3x62a
+ jQqj4ClpYmxbKUEqQWEU+U2HpNAjetzzSkJfiiVEKEhOfs+jjw/tNp8g+s6DZp0BZmPC
+ cPiv2ccom51YYUnRIrpHEGhWFdycF1wHBbrMtvP3BO+A0jOknGYYNHA/GGObOow+ywLP
+ 200uYGJ4W5/v4X+tcJufeE8LP9frYr2D/Fn9tNdwzrRc3RdgCGpRtcY7fJioDR1WqfdO
+ 1a2g==
+X-Gm-Message-State: AOAM531CTTqDp5a//AQZxju+8OQQSdsOdRDiZE+uI01q9yTnR9GJ6Gqr
+ P1yMPZVNEbmI8X70AvLNYfpoZg==
+X-Google-Smtp-Source: ABdhPJwGh9j5H+AeEh2jpry8m5+ZglmDmijD8MHGF1sTyNlf0ly719dw1lmOJdvGsuIGQYI78bBy0Q==
+X-Received: by 2002:a65:6a4c:0:b0:39c:f169:b54a with SMTP id
+ o12-20020a656a4c000000b0039cf169b54amr21372913pgu.384.1652280383384; 
+ Wed, 11 May 2022 07:46:23 -0700 (PDT)
+Received: from anup-ubuntu64-vm.. ([171.76.113.90])
+ by smtp.gmail.com with ESMTPSA id
+ x2-20020a170902820200b0015eafc485c8sm1958726pln.289.2022.05.11.07.46.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 May 2022 07:46:22 -0700 (PDT)
+From: Anup Patel <apatel@ventanamicro.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Anup Patel <apatel@ventanamicro.com>
+Subject: [PATCH v2 0/8] QEMU RISC-V nested virtualization fixes
+Date: Wed, 11 May 2022 20:15:20 +0530
+Message-Id: <20220511144528.393530-1-apatel@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87pmkkdugo.fsf@pond.sub.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,163 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 11, 2022 at 04:17:43PM +0200, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Tue, May 10, 2022 at 01:34:03PM +0100, Daniel P. Berrangé wrote:
-> > Having said that, a different way to approach the problem is to expose
-> > the versioning directly in the generated code.
-> >
-> > Consider a QAPI with versioning info about the fields
-> >
-> >   { 'command': 'block_resize',
-> >     'since': '5.0.0',
-> >     'data': { 'device': ['type': 'str', 'until': '5.2.0' ],
-> >               '*device': ['type': 'str', 'since': '5.2.0', 'until': '7.0.0' ],
-> >               '*node-name': ['type': 'str', 'since': '5.2.0', 'until: '7.0.0' ],
-> >               'node-name': ['type': 'str', 'since': '7.0.0' ],
-> >               'size': 'int' } }
-> >
-> > Meaning
-> >
-> >   * Introduced in 5.0.0, with 'device' mandatory
-> >   * In 5.2.0, 'device' becomes optional, with optional 'node-name' as alternative
-> >   * In 7.0.0, 'device' is deleted, and 'node-name' becomes mandatory
-> >
-> > Now consider the Go structs
-> >
-> > In 5.0.0 we can generate:
-> >
-> >    type BlockResizeArguments struct {
-> >        V500 *BlockResizeArguments500
-> >    }
-> >
-> >    type BlockResizeArgumentsV1 struct {
-> >         Device string
-> >         Size int
-> >     }
-> >
-> > app can use
-> >
-> >     dev := "dev0"
-> >     cmd := BlockResizeArguments{
-> >        V500: &BlockResizeArguments500{
-> >           Device: dev,
-> > 	  Size: 1 * GiB
-> >        }
-> >     }
-> >
-> >
-> > In 5.2.0 we can now generate
-> >
-> >    type BlockResizeArguments struct {
-> >        V500 *BlockResizeArgumentsV500
-> >        V520 *BlockResizeArgumentsV520
-> >    }
-> >
-> >    type BlockResizeArgumentsV500 struct {
-> >         Device string
-> >         Size int
-> >     }
-> >
-> >    type BlockResizeArgumentsV520 struct {
-> >         Device *string
-> > 	NodeName *string
-> >         Size int
-> >     }
-> >
-> >
-> > App can use the same as before, or switch to one of
-> >
-> >     dev := "dev0"
-> >     cmd := BlockResizeArguments{
-> >        V520: &BlockResizeArguments520{
-> >           Device: &dev,
-> > 	  Size: 1 * GiB
-> >        }
-> >     }
-> >
-> > or
-> >
-> >     node := "nodedev0"
-> >     cmd := BlockResizeArguments{
-> >        V520: &BlockResizeArguments520{
-> >           NodeName: &node,
-> > 	  Size: 1 * GiB
-> >        }
-> >     }
-> >
-> >
-> >
-> > In 7.0.0 we can now generate
-> >
-> >
-> >    type BlockResizeArguments struct {
-> >        V500 *BlockResizeArgumentsV500
-> >        V520 *BlockResizeArgumentsV520
-> >        V700 *BlockResizeArgumentsV700
-> >    }
-> >
-> >    type BlockResizeArgumentsV500 struct {
-> >         Device string
-> >         Size int
-> >    }
-> >
-> >    type BlockResizeArgumentsV520 struct {
-> >         Device *string
-> > 	NodeName *string
-> >         Size int
-> >    }
-> >
-> >    type BlockResizeArgumentsV700 struct {
-> > 	NodeName string
-> >         Size int
-> >    }
-> >
-> >
-> >
-> > App can use the same as before, or switch to
-> >
-> >     node := "nodedev0"
-> >     cmd := BlockResizeArguments{
-> >        V700: &BlockResizeArguments700{
-> >           NodeName: node,
-> > 	  Size: 1 * GiB
-> >        }
-> >     }
-> >
-> >
-> > This kind of per-command/type versioning is not uncommon when defining API
-> > protocols/interfaces.
-> 
-> 1. At every release, put a copy of the QAPI schema in the freezer.
-> 
-> 2. For every copy, generate Go types with a suitable name suffix.
->    Collect all the name stems.
-> 
-> 3. For each name stem, define a Go struct that contains all the suffixed
->    Go types with that stem.
-> 
-> Look Ma, no cluttering the QAPI schema with a full history!  Also no
-> complicating the schema language to provide the means for that.
+This series does fixes and improvements to have nested virtualization
+on QEMU RISC-V.
 
-That could indeed be a viable approach. Puts a little more work on the
-code generator to match up the types, but probably isn't too hard.
+These patches can also be found in riscv_nested_fixes_v2 branch at:
+https://github.com/avpatel/qemu.git
 
-Incidentally, we've intentionally not exposed type names in the QAPI
-introspection in QMP.  With code generators, when the generated code
-type names driven from QAPI schema, there's likely going to be an
-expectation that type names in QAPI have some kind of stability rules.
+The RISC-V nested virtualization was tested on QEMU RISC-V using
+Xvisor RISC-V which has required hypervisor support to run another
+hypervisor as Guest/VM.
 
-With regards,
-Daniel
+Changes since v1:
+ - Set write_gva to env->two_stage_lookup which ensures that for
+   HS-mode to HS-mode trap write_gva is true only for HLV/HSV
+   instructions
+ - Included "[PATCH 0/3] QEMU RISC-V priv spec version fixes"
+   patches in this series for easy review
+ - Re-worked PATCH7 to force disable extensions if required
+   priv spec version is not staisfied
+ - Added new PATCH8 to fix "aia=aplic-imsic" mode of virt machine
+
+Anup Patel (8):
+  target/riscv: Fix csr number based privilege checking
+  target/riscv: Fix hstatus.GVA bit setting for traps taken from HS-mode
+  target/riscv: Set [m|s]tval for both illegal and virtual instruction
+    traps
+  target/riscv: Update [m|h]tinst CSR in riscv_cpu_do_interrupt()
+  target/riscv: Don't force update priv spec version to latest
+  target/riscv: Add dummy mcountinhibit CSR for priv spec v1.11 or
+    higher
+  target/riscv: Force disable extensions if priv spec version does not
+    match
+  hw/riscv: virt: Fix interrupt parent for dynamic platform devices
+
+ hw/riscv/virt.c           |  25 +++---
+ target/riscv/cpu.c        |  46 +++++++++-
+ target/riscv/cpu.h        |   8 +-
+ target/riscv/cpu_bits.h   |   3 +
+ target/riscv/cpu_helper.c | 172 ++++++++++++++++++++++++++++++++++++--
+ target/riscv/csr.c        |  10 ++-
+ target/riscv/instmap.h    |  41 +++++++++
+ target/riscv/translate.c  |  17 +++-
+ 8 files changed, 292 insertions(+), 30 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.34.1
 
 
