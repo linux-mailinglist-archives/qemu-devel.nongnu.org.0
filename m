@@ -2,48 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6741D523B1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 19:07:11 +0200 (CEST)
-Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B7C523A3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 18:24:40 +0200 (CEST)
+Received: from localhost ([::1]:44566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nopnq-0003zT-Fl
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 13:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50824)
+	id 1nop8g-0001sj-4N
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 12:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nopkV-0008Nf-V7; Wed, 11 May 2022 13:03:44 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45152)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nop6v-00017g-AE
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 12:22:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nopkU-0005fQ-6p; Wed, 11 May 2022 13:03:43 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 4307D11F115;
- Wed, 11 May 2022 17:03:16 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Wed, 27 Apr 2022 20:26:40 -0700
-Subject: [PATCH qemu v16 15/15] target/riscv: rvv: Add option 'rvv_ta_all_1s'
- to enable optional tail agnostic behavior
-Message-ID: <165228859378.22204.7336259119424019499-15@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <165228859378.22204.7336259119424019499-0@git.sr.ht>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nop6s-00082G-9j
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 12:22:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652286164;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FK09xYnNJ01u/1vgJ+hiiYxJRDCIEvIOlg+956QfvII=;
+ b=g7BRfte1eWj5nJMw6x22nSK6W0AQAlzz1xisyRlvJyPr/3fRbt2HVRfJ2pZb465yQuPf3B
+ /xLHCdpgrjopVpFAOwJxH7MUj9ViSEk1LcQEtwOadKKotNxP/R2KmX3kv4mt/SkvwG+XAU
+ HhO75FRhWQDW2ISHYfjZroVnnp8UMRk=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-218-eRvzKilsOuah3-aUyzbKZg-1; Wed, 11 May 2022 12:22:41 -0400
+X-MC-Unique: eRvzKilsOuah3-aUyzbKZg-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-2f9299dfb81so21840997b3.6
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 09:22:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FK09xYnNJ01u/1vgJ+hiiYxJRDCIEvIOlg+956QfvII=;
+ b=lknzwWP0LbbKKZgmwFr8hFLlO2EvUurrXGPs6aZYf1ZWjsl6QQBHOUTudLpfPqwABz
+ R8Z6ke1DjGsgklct3JBxxOg3FR7EqzAuZDIswsZZGyC1mMPUYVavhEnzKIMXA6E+qyVz
+ LfysXOxhPlpqyxudQq4BG7yu+rtECVHAgWAWyGd9xOG3dvRwn580jAiiC7B1tJ+R5iTF
+ UmtKLGOlTFmfvGipjaJHn5r5kvJJWQ/d3CbUpcomGQmpQpAg7w4y8iKd9tNaxBWcyzL0
+ uKtr5c3sJRBJS3pOqrjZfU5+IY3R/XTnsrlWPXoa2MaRrInyVRjnIoGqWauG6EzX6uHQ
+ 14OQ==
+X-Gm-Message-State: AOAM530ammOC9wpct5Rpeg/bRSbqk3OjW7fRicpOCzjAlL9wMvgSpU7+
+ 7Bc/Fd8/Pdc8YdJpc8T2SdKigGOsswIkKdUDwcPNFR0thq3x15+UoG93ykElmPI+V3AejEdcvcU
+ vLWySb96xYKjtMeTAxL13rrjU0m5shL8=
+X-Received: by 2002:a81:2143:0:b0:2fb:1274:247e with SMTP id
+ h64-20020a812143000000b002fb1274247emr26054922ywh.384.1652286159149; 
+ Wed, 11 May 2022 09:22:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxIv7j6YtyUYGAyrV5LYKlW5jye1Kgf8R5W+GhB2VcqM58+J30cvSMtA6uRL2F1Yav6g/NCk6Vj+CA/S8A6/nQ=
+X-Received: by 2002:a81:2143:0:b0:2fb:1274:247e with SMTP id
+ h64-20020a812143000000b002fb1274247emr26054749ywh.384.1652286157463; Wed, 11
+ May 2022 09:22:37 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 May 2022 09:22:36 -0700
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
+ <87lev9mw7j.fsf@pond.sub.org> <YnpbuzKo681VwDkn@redhat.com>
+ <YnpfuYvBu56CCi7b@redhat.com>
+ <CABJz62M2XtbHubdEjiSf-mzEiHbnd=bSotgUBVhtaZFPOtzE7g@mail.gmail.com>
+ <YnvbS7psaEjkrN65@redhat.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 36
-X-Spam_score: 3.6
-X-Spam_bar: +++
-X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YnvbS7psaEjkrN65@redhat.com>
+Date: Wed, 11 May 2022 09:22:36 -0700
+Message-ID: <CABJz62PdyKGfSge4kQd9gCZFGBaH+K53nYSYb+_xrkeXz=tXyw@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Victor Toso <victortoso@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,45 +100,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <eop.chen@sifive.com>
+On Wed, May 11, 2022 at 04:50:35PM +0100, Daniel P. Berrang=C3=A9 wrote:
+> This would lead to a situation where every struct is duplicated
+> for every version, even though 90% of the time they'll be identical
+> across multiple versions. This is not very ammenable to the desire
+> to be able to dynamically choose per-command which version you
+> want based on which version of QEMU you're connected to.
+>
+> ie
+>
+>      var cmd Command
+>      if qmp.HasVersion(qemu.Version(7, 0, 0)) {
+>         cmd =3D BlockResizeArguments{
+>            V700: &BlockResizeArguments700{
+>              NodeName: node,
+>              Size: 1 * GiB
+> 	   }
+>          }
+>      } else {
+>         cmd =3D BlockResizeArguments{
+>            V520: &BlockResizeArguments520{
+>              Device: dev,
+>              Size: 1 * GiB
+> 	   }
+>          }
+>      }
+>
+> And of course the HasVersion check is going to be different
+> for each command that matters.
+>
+> Having said that, this perhaps shows the nested structs are
+> overkill. We could have
+>
+>      var cmd Command
+>      if qmp.HasVersion(qemu.Version(7, 0, 0)) {
+>          cmd =3D &BlockResizeArguments700{
+>              NodeName: node,
+>              Size: 1 * GiB
+>          }
+>      } else {
+>         cmd =3D &BlockResizeArguments520{
+>              Device: dev,
+>              Size: 1 * GiB
+>          }
+>      }
 
-According to v-spec, tail agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s".
+Right, making the decision at the import level would require adding a
+level of indirection and make this kind of dynamic logic awkward.
 
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between tail policies. Setting agnostic elements to
-all 1s allows QEMU to express this.
+We shouldn't force users to sprinkle version numbers everywhere
+though, especially since different commands will change at different
+points in time. It should be possible to do something like
 
-This commit adds option 'rvv_ta_all_1s' is added to enable the
-behavior, it is default as disabled.
+  if !qmp.HasAPI(600) {
+      panic("update QEMU")
+  }
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+  cmd :=3D &BlockResizeArguments600{ // really BlockResizeArguments520
+      Device: device,
+      Size:   size,
+  }
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ccacdee215..720c8b9e5c 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -879,6 +879,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
- 
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-+    DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
-2.34.2
+or even
+
+  if !qmp.HasAPI(qmp.API.Latest) {
+      panic("update QEMU")
+  }
+
+  cmd :=3D &BlockResizeArguments{
+      NodeName: nodeName,
+      Size:     size,
+  }
+
+Should be easy enough to achieve with type aliases.
+
+--=20
+Andrea Bolognani / Red Hat / Virtualization
+
 
