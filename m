@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758B452315E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 13:22:10 +0200 (CEST)
-Received: from localhost ([::1]:52106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FAB523199
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 13:30:54 +0200 (CEST)
+Received: from localhost ([::1]:59468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nokPx-0001sq-G1
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 07:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
+	id 1nokYP-0007sq-0N
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 07:30:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nokMn-000874-45
- for qemu-devel@nongnu.org; Wed, 11 May 2022 07:18:53 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:50443)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nokR8-0003qs-DB
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 07:23:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nokMk-00041Y-VI
- for qemu-devel@nongnu.org; Wed, 11 May 2022 07:18:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=4IS+/bmciRLGSBJXrKpS3fp3jauQqZLUAE6L95E2a5Y=; b=PIYB+J9VWwPWeoNCziciDcqKH2
- dE3KtDi659Dcy21eIbeijxbg6/e6BrgRK7bOWcd7CK2l4V86b4sxk90Jk0UcbUGAnnBD9XNtPb5hP
- 8HSiEAwy4jVeESazfqH/lakuhkkuSl1sxpmTBOITDLerCLNBfyzzNYhRUhdH8hPF2bqT3aHOMhcUa
- Z/XriXOYfKofvcO4yk6XZjZLHWDThaiYoA67EL6/FNhWs5PQpKLQ09wKb/LEdTV2BZzGQC9fZ1XWq
- rYpBzWY4Xkuieh4wE6Rr9MONw2ETdW+y5qKAeKnibMilnGEPvudeSdfaxECW2Xk1vya1L4TT+YUNv
- bQfqebr+9W7o7++XRBXvWikHeY1YVgginqxqLIASHMX5bLeTi7PxkzsCy6/d4V6G5H5vMEVFhbAvy
- jkUzNg4JCXXmeqPIbIxdvSe/LFIr+IEN9UpzSdxkhPxcOifeufmCg2gWrNR9jsFFZUBFROi6ZEWwY
- 0DLJwob9UxwhFQVJRq+ai/Pd7U8s09Da1K4gzTG0fPaGNoOiJ3hrFpBFB1bqyZKy8DpGnGmM38xiH
- 2a3R5WHnhXKmRNNBJ1eO05hflGNuRMc2tdE/WD1r+S1nSaQ+mHJuapXOTXQL0jbPe9k/V7KIkpf2j
- 9xDeh3urD3qCzGz8PnTekhtj9dCGloIjdb/EuhdEU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, "Meng, Bin" <Bin.Meng@windriver.com>
-Cc: Greg Kurz <groug@kaod.org>, Bin Meng <bmeng.cn@gmail.com>,
- "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-Subject: Re: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver for
- Windows
-Date: Wed, 11 May 2022 13:18:45 +0200
-Message-ID: <18993050.BCn1JD0qEJ@silver>
-In-Reply-To: <MN2PR11MB4173011DDC017F9A414382BEEFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
-References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
- <20220510163430.410536f5@bahia>
- <MN2PR11MB4173011DDC017F9A414382BEEFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nokR5-0005CX-M4
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 07:23:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652268199;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=HWmx8NZxneGjFDWiGB3HW2NAKbUqB2UMj74GGBSbBn0=;
+ b=bxe7T2o0ZT54sW9HlFimRheO2J4zfjIFTiAOSbKw46kXU9n6wtp51xvbbhhX2jYK+i+Jy7
+ Odtsmvf2h7aXAk8Em4/NIP39aVvfv1ltKMaBkHF7B3egXToGiwjtuuLEt1rpeZf2ag//3z
+ vKOdeXASpBpPBzpCzjuy8NOlWf22hCw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-34-2r2tAAm-O3SymibvEnfFwQ-1; Wed, 11 May 2022 07:23:16 -0400
+X-MC-Unique: 2r2tAAm-O3SymibvEnfFwQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 973D2101AA45;
+ Wed, 11 May 2022 11:23:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EFAC52026D64;
+ Wed, 11 May 2022 11:23:00 +0000 (UTC)
+Date: Wed, 11 May 2022 12:22:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-trivial@nongnu.org
+Subject: Re: [PATCH] meson.build: Bump minimum supported version of pixman to
+ 0.34.0
+Message-ID: <Ynucki8ZXwZgCETK@redhat.com>
+References: <20220511094758.794946-1-thuth@redhat.com>
+ <CAFEAcA9bUires+a-dc8v-oDDKg5WJRf4vVR8jKady5QgjMJTZA@mail.gmail.com>
+ <b819e229-4aff-6381-a686-664aa97712a3@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b819e229-4aff-6381-a686-664aa97712a3@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,53 +81,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 10. Mai 2022 17:35:10 CEST Shi, Guohuai wrote:
-> Let's force on the security issue:
+On Wed, May 11, 2022 at 12:56:45PM +0200, Thomas Huth wrote:
+> On 11/05/2022 12.28, Peter Maydell wrote:
+> > On Wed, 11 May 2022 at 10:50, Thomas Huth <thuth@redhat.com> wrote:
+> > > 
+> > > We haven't revisited the minimum required versions of pixman
+> > > since quite a while. Let's check whether we can rule out some
+> > > old versions that nobody tests anymore...
+> > > 
+> > > For pixman, per repology.org, currently shipping versions are:
+> > > 
+> > >       CentOS 8 / RHEL-8 : 0.38.4
+> > >                Fedora 34: 0.40.0
+> > >               Debian 10 : 0.36.0
+> > >        Ubuntu LTS 20.04 : 0.38.4
+> > >      openSUSE Leap 15.3 : 0.34.0
+> > >             MSYS2 MinGW : 0.40.0
+> > >           FreeBSD Ports : 0.34.0 / 0.40.0
+> > >            NetBSD pksrc : 0.40.0
+> > > 
+> > > OpenBSD 7.1 seems to use 0.40.0 when running tests/vm/openbsd.
+> > > 
+> > > So it seems to be fine to bump the minimum version to 0.34.0 now.
+> > 
+> > This seems to be missing the rationale for why bumping
+> > the minimum version is worth doing. What new feature that
+> > we need is this enabling, or what now-unnecessary bug
+> > workarounds does this permit us to drop?
 > 
-> Firstly, this answer (
-> https://stackoverflow.com/questions/32138524/is-there-a-windows-equivalent-> of-openat ) is useless for QEMU. It uses Windows native API NtCreateFile()
-> and accesses files by Windows handle. But 9PFS is using Windows POSIX
-> interface, handle can not be used in POSIX interface. Actually, Windows
-> provide similar APIs like
-> GetFinalPathNameByHandle()/GetFileInformationByHandle(). It can also get
-> file information by Windows handle.
+> We simply don't test such old versions anymore. Thus what happens if someone
+> tries to use such a version and runs into a problem (especially if it is
+> non-obvious and would need a lot of debugging)? Are you still willing to fix
+> it? Or would you then rather bump the version after hours of debugging the
+> problem? ... IMHO it's better to set the expectations right from the start.
+> If we do not test and support it anymore, we should not give the impression
+> that QEMU can still be compiled with this.
 
-I find "useless" quite exaggerated. You probably can't mix NT API calls with 
-Mingw library calls, not sure, haven't checked the Mingw sources.
+Support for QEMU is not such a clearly defined boundary, there are many
+levels of support.  Our CI testing determines our "top tier" platforms
+where we expect everything to be functional at all times, but it doesn't
+mean that all other platforms are entirely unsupported. It merely means
+we can't offer the same level of assurance that it will be perfect out
+of the box.
 
-If there is no way with Mingw to resolve NT handles, then it is still possible 
-however to implement all the POSIX functions we need (using NT API 
-exclusively) in 9p-util-win.c.
+If someone reports an issue we have freedom to decide how much effort
+to put in. If they're using a pixman that's very old compared to what
+we've tested, we don't have to spend time on that ourselves. We can
+easily tell the reporter to reproduce with something newer first if
+desired.
 
-Another option would be contributing the missing features to Mingw and in turn 
-let QEMU's 9p feature depend on the appropriate minimum Mingw version.
+The platform support matrix is a way to determine:
 
-> Windows POSIX interface do not support NO_FOLLOW flags, that means, Windows
-> POSIX open() always translate symbolic link.
->  
-> So everything are finally point to one limitation: Windows POSIX interfaces
-> do not support symbolic link and always translate link.
-> 
-> For the security reason, I think it is reasonable to disable symbolic link
-> support on Windows host for 9PFS. I can re-work this patch to adding a
-> symbolic link check during path-walk operation and stop it when get a
-> symbolic link.
+ - what platforms we should focus our testing resources on
 
-It is OK to drop support for native symlinks on Windows. Most people use 
-security_model=mapped anyway where symlinks are emulated, so symlinks would 
-still work for guests, even if Windows host would not support native symlinks.
+   For this, we can unambiguously bump our tsting envs
+   on each release. It merely means the old version is
+   no longer top tier, it is second tier in terms of
+   what quality users can expect.
 
-However insecure code is still a no go. So the issues identified so far still 
-need to be resolved.
+ - whether it is reasonable to bump a package minimum version
 
-And patches must be presented in a way that would allow them being reviewed. 
-In their current form they are not. 
+   Admittedly we never expressed whether the min version bumps
+   are justifiable just for the sake of it, or whether version
+   bumps are expected as a means to access new functionality /
+   drop back compat code. Nearly all the bumps we've done have
+   had some code benefit in the past.
 
-Best regards,
-Christian Schoenebeck
+   In practice when we bump the minimum glib2 version this has
+   a clear code benefit, and once you bump min glib2, this defacto
+   eliminates old versions of many other libraries. The only
+   exception would be distros that are fast at rebasing glib, but
+   slow at rebasing other deps we have. This is pretty uncommon
+   for any mainstream distro.
 
+IOW, I would suggest that in each release our first focus should
+be on glib, gcc/clang versions, as those historically bring us
+clear benefits. If glib bumps, then there's little point in
+keeping any other deps with older min versions, so many other
+bits can be a fairly straightforward decision.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
