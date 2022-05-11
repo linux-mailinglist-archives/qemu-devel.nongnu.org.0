@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C2E523354
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 14:48:54 +0200 (CEST)
-Received: from localhost ([::1]:42706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8166952336A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 14:52:32 +0200 (CEST)
+Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nollt-0000xz-89
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 08:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44832)
+	id 1nolpP-0006TS-CL
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 08:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noldh-00078h-C6
- for qemu-devel@nongnu.org; Wed, 11 May 2022 08:40:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42166)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nolkJ-0001dU-5i
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 08:47:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1noldc-0003eR-Qq
- for qemu-devel@nongnu.org; Wed, 11 May 2022 08:40:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nolkG-0004vh-8k
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 08:47:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652272819;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=z/7+iA8gdUcOEp2+QP/g82+cFo7r5Y1UoBHYHH2tIts=;
- b=ShUb5uK5Keyx5X/HvzLCEhG7S6xAY7MDaozNT2evMyJiAORAdvY3amoxU9bfNNV8FMOeor
- ylnrjNsxIpIJUlsQYjv5Grgcmu+JNWrCeod6TNW4RVUpK3rt5hdfC5jpBkHv0F0h+RKPFt
- ehK300EXrm47GoJ0uLQ312eEdBTJUao=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1652273230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=o/znsElYoQsfYb42qI4xbwkpqGBnGkDp9BrMEIrzqps=;
+ b=bDyinr7F6jggdU3tmG7KJ5HQTlFBpsaLBhXWGBf5Ok9IzytJU/rqMRoFpzYrgz021SBvWv
+ j4jjAB60LEjrMmw0ZjS+jFq60FaJ72raAxgONu1S8mjNiQCFHbRM9d20OlOimk590dZqfi
+ JNqTMjPVEWcioZLjdSAQQruFD8Z6FQA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-LHlPioTPNEic6TzdQlNPvg-1; Wed, 11 May 2022 08:40:18 -0400
-X-MC-Unique: LHlPioTPNEic6TzdQlNPvg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-647-y23rlfsxOlusN-GR917p9A-1; Wed, 11 May 2022 08:47:07 -0400
+X-MC-Unique: y23rlfsxOlusN-GR917p9A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B11039F9CA2
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 12:40:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B5882166B2F;
- Wed, 11 May 2022 12:40:05 +0000 (UTC)
-Date: Wed, 11 May 2022 13:40:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- libvir-list@redhat.com
-Subject: Re: [PATCH] ui: Remove deprecated parameters of -display sdl and
- switch to QAPI parser
-Message-ID: <Ynuuo02cDee1nsZL@redhat.com>
-References: <20220511121725.842448-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35BD410726B3;
+ Wed, 11 May 2022 12:46:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BE292026D6A;
+ Wed, 11 May 2022 12:46:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 439F421E6880; Wed, 11 May 2022 14:46:49 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Andrew Melnichenko <andrew@daynix.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,  Yuri Benditovich
+ <yuri.benditovich@daynix.com>,  Yan Vugenfirer <yan@daynix.com>
+Subject: Re: ebpf/rss.bpf.skeleton.h generated by what?
+References: <87a6bulueg.fsf@pond.sub.org>
+ <CACGkMEuKrU2rMos-Ma6b-Wknosk3gYExjMa6yY-hc3b=3AUntg@mail.gmail.com>
+ <8a8b144a-c9d6-41b0-71fd-c7850dce9c93@redhat.com>
+ <CACGkMEvoug0H10H+4=7yjB7UyRK+1Ugyq3xgGpC1a2wWy4jX_Q@mail.gmail.com>
+ <a5b11030-c00e-fdec-dacd-e09cc0924a0a@redhat.com>
+ <CACGkMEuPQr0TQtkMZr2zeJYGMy69EXN-fhdRTq6JUkWw3KmvMw@mail.gmail.com>
+ <87bkw7e0mc.fsf@pond.sub.org>
+ <CAFEAcA9QGSqx=e5CgsbyBwVH3wa_VW1i2c=5H5cKp5X-hHs71Q@mail.gmail.com>
+ <CACGkMEuXM2YzFCGNgfZH5K1+Yvsvpdn103fcKGchjoh+VqFeRg@mail.gmail.com>
+ <CABcq3pHRyZcexXimSLjKqd0wW02guBx84AXDuROTirZbOJiN+w@mail.gmail.com>
+ <CACGkMEvO3Q0vxy08eTVu4oXJqMV1Fyf3w-SBFGhrOLN_-ih8ng@mail.gmail.com>
+Date: Wed, 11 May 2022 14:46:49 +0200
+In-Reply-To: <CACGkMEvO3Q0vxy08eTVu4oXJqMV1Fyf3w-SBFGhrOLN_-ih8ng@mail.gmail.com>
+ (Jason Wang's message of "Wed, 11 May 2022 16:53:23 +0800")
+Message-ID: <878rr8grt2.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220511121725.842448-1-thuth@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,82 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 11, 2022 at 02:17:25PM +0200, Thomas Huth wrote:
-> The "-display sdl" option still used a hand-crafted parser for its
-> parameters since some of them used underscores which is forbidden
-> in QAPI. Now that they've been deprecated and the deprecation period
-> is over, we can remove the problematic parameters and switch to use
-> the QAPI parser instead.
+Jason Wang <jasowang@redhat.com> writes:
 
-I'd say the removal of deprecated bits ought to be separate
-from the addition of new QAPI bits.
+> On Tue, May 10, 2022 at 8:24 PM Andrew Melnichenko <andrew@daynix.com> wrote:
+>>
+>> Hi all,
+>> The ebpf/rss.bpf.skeleton.h is generetad by bpftool from tools/ebpf/rss.bpf.c.
+>> To generate the skeleton - would require dependencies of llvm and bpftool.
+>> RSS eBPF solution, for now, is only for Linux hosts.
+>>
+>> > Andrew, want to post a patch to explain this?
+>> I am all in for clarification. And will prepare a new patch if required.
+>> Please advise, what those patches should be? Documentation update?
+>
+> It looks to me the doc are fine:
+>
+> """
+> RSS eBPF program
+> ----------------
+>
+> RSS program located in ebpf/rss.bpf.skeleton.h generated by bpftool.
+> So the program is part of the qemu binary.
+> Initially, the eBPF program was compiled by clang and source code
+> located at tools/ebpf/rss.bpf.c.
+> """
 
+Agreed.
 
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 059302a5ef..7d5097808a 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1309,6 +1309,19 @@
->        '*swap-opt-cmd': 'bool'
->    } }
->  
-> +##
-> +# @DisplaySDL:
-> +#
-> +# SDL2 display options.
-> +#
-> +# @grab-mod:  Modifier keys that should be pressed together
-> +#             with "G" to release the mouse grab.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct'  : 'DisplaySDL',
-> +  'data'    : { '*grab-mod'   : 'str' } }
+> It was too late to fix the changelog but we probably don't have anything to do.
 
-So any arbitrary string here, but...
+Next time :)
 
-> diff --git a/ui/sdl2.c b/ui/sdl2.c
-> index d3741f9b75..18c63e1fc9 100644
-> --- a/ui/sdl2.c
-> +++ b/ui/sdl2.c
-> @@ -40,6 +40,8 @@ static struct sdl2_console *sdl2_console;
->  
->  static SDL_Surface *guest_sprite_surface;
->  static int gui_grab; /* if true, all keyboard/mouse events are grabbed */
-> +static bool alt_grab;
-> +static bool ctrl_grab;
->  
->  static int gui_saved_grab;
->  static int gui_fullscreen;
-> @@ -853,6 +855,17 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
->  
->      gui_fullscreen = o->has_full_screen && o->full_screen;
->  
-> +    if (o->u.sdl.has_grab_mod) {
-> +        if (g_str_equal(o->u.sdl.grab_mod, "lshift-lctrl-lalt")) {
-> +            alt_grab = true;
-> +        } else if (g_str_equal(o->u.sdl.grab_mod, "rctrl")) {
-> +            ctrl_grab = true;
-> +        } else {
-> +            error_report("Unsupported grab-mod: %s", o->u.sdl.grab_mod);
-> +            exit(1);
-> +        }
-> +    }
+> Or we can update ebpf/rss.bpf.skeleton.h by using the most recent
+> bpftool where I've added the BPFTOOL as the generator name[1].
 
-We're treating this more like an enum here. It does leave the door
-open for adding a generic parsing of arbitrary grab mods later
-I guess
+Won't hurt, but no rush.
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Thanks
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=56c3e749d08a
 
 
