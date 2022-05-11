@@ -2,113 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABCE52281B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 02:04:07 +0200 (CEST)
-Received: from localhost ([::1]:44468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A4F52294F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 04:01:56 +0200 (CEST)
+Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noZpm-0004HS-HI
-	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 20:04:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1nobfn-0005bo-Fu
+	for lists+qemu-devel@lfdr.de; Tue, 10 May 2022 22:01:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1noZnr-0001rx-8w; Tue, 10 May 2022 20:02:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17944
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1noZnp-0000S1-By; Tue, 10 May 2022 20:02:06 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24AMeZL6000519;
- Wed, 11 May 2022 00:01:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- reply-to : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding : mime-version; s=pp1;
- bh=R1lYZZYbp2fUNW/8GvkSV2if6ymx6V/RZ7j4ACk2fkY=;
- b=ZwY3b68g1K3fBLVXh08bli7x3k3kR47R4G9dRxYrWg+6KJ0i8KdHWCGxh4lKag7NP4by
- BeJii6I9DYikvXMIkhovR2Erjjzhd0bo+0qkmDBxInLXd8ITVveA+c0exFQQytJg2NQZ
- 76kWSj8ehcWR5194QiNFUB8st7UYDyzjQYNJY3k+vwuzdnbLpuHbTInovxfWthaT8Afz
- x93MF164eR+HgX98xbcy/BTTGRrURfrOt9Wr2ZT8bUMVS1vIcSyZ7FzmGgA9O6DfKZqF
- MDLkzP2B9w3dknSRgC5xc5eGFiAZi3TGvEAuXe69A4/rF8k/QhnoSScfdR3JDInyVkdE BA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g00g91h51-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 May 2022 00:01:50 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24B00WI4005701;
- Wed, 11 May 2022 00:01:50 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g00g91h4m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 May 2022 00:01:50 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24ANr4jN015976;
- Wed, 11 May 2022 00:01:49 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma01dal.us.ibm.com with ESMTP id 3fwgdapgvu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 May 2022 00:01:49 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24B01mIQ10486038
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 May 2022 00:01:48 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E835DBE053;
- Wed, 11 May 2022 00:01:47 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AA8DFBE04F;
- Wed, 11 May 2022 00:01:45 +0000 (GMT)
-Received: from [9.65.84.66] (unknown [9.65.84.66])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Wed, 11 May 2022 00:01:45 +0000 (GMT)
-Message-ID: <d0fa9d1f-bc09-5068-b222-f94cc5bc7810@linux.ibm.com>
-Date: Tue, 10 May 2022 21:01:44 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [PATCH v2] mos6522: fix linking error when CONFIG_MOS6522 is not
- set
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-ppc@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, mopsfelder@gmail.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220506011632.183257-1-muriloo@linux.ibm.com>
- <358f4e05-a29f-6e2f-5fc3-1df6c2b8315c@redhat.com>
-From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
-Organization: IBM
-In-Reply-To: <358f4e05-a29f-6e2f-5fc3-1df6c2b8315c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: qP5AGIfAXr1etRgTtM_zHQNoHxZ5aMUo
-X-Proofpoint-ORIG-GUID: c2yBWmeGIg21xQChrkcgjmrZCwubM0JJ
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nobeC-0004Du-T4; Tue, 10 May 2022 22:00:19 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:59604 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nobe9-0007vV-MW; Tue, 10 May 2022 22:00:16 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAAHD5OeGHtivsuxBQ--.62365S2;
+ Wed, 11 May 2022 09:59:59 +0800 (CST)
+Subject: Re: [PATCH qemu v2 02/10] target/riscv: rvv: Add mask agnostic for
+ vector load / store instructions
+To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+References: <165220716770.22380.2493420346587893209-2@git.sr.ht>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <99ecf1a5-5c4f-c8cd-8125-8bc5ecaf1eae@iscas.ac.cn>
+Date: Wed, 11 May 2022 09:59:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-10_07,2022-05-10_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- malwarescore=0 mlxlogscore=999 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 clxscore=1015 impostorscore=0 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205100097
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <165220716770.22380.2493420346587893209-2@git.sr.ht>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: zQCowAAHD5OeGHtivsuxBQ--.62365S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCr4xAFy5Kry3Jw4rKr1xKrg_yoWrtF4fpa
+ yxCrWaqr9xKFyfAw1fZF4jyr1rZan7Kw17Kr1vqw4UCa4kJw4kXFWUtFW0v34Syrs8Gr40
+ kF17Zr95ua9YyFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+ Yx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
+ zVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v2
+ 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0J
+ Up6wZUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,80 +78,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: muriloo@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Thomas.
 
-On 5/10/22 04:24, Thomas Huth wrote:
-> On 06/05/2022 03.16, Murilo Opsfelder Araujo wrote:
->> When CONFIG_MOS6522 is not set, building ppc64-softmmu target fails:
->>
->>      /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): undefined reference to `hmp_info_via'
->>
->> Make devices configuration available in hmp-commands*.hx and check for
->> CONFIG_MOS6522.
->>
->> Fixes: 409e9f7131e5 (mos6522: add "info via" HMP command for debugging)
->> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
->> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Cc: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->> v2:
->> - Included devices configuration in monitor/misc.c
->>
->> v1:
->> - https://lore.kernel.org/qemu-devel/20220429233146.29662-1-muriloo@linux.ibm.com/
->>
->>   hmp-commands-info.hx | 2 ++
->>   monitor/misc.c       | 3 +++
->>   2 files changed, 5 insertions(+)
->>
->> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->> index adfa085a9b..9ad784dd9f 100644
->> --- a/hmp-commands-info.hx
->> +++ b/hmp-commands-info.hx
->> @@ -881,6 +881,7 @@ SRST
->>   ERST
->>   #if defined(TARGET_M68K) || defined(TARGET_PPC)
->> +#if defined(CONFIG_MOS6522)
-> 
-> I think you could even get rid of the TARGET_ stuff now that the CONFIG line works!
-> 
->>       {
->>           .name         = "via",
->>           .args_type    = "",
->> @@ -889,6 +890,7 @@ ERST
->>           .cmd          = hmp_info_via,
->>       },
->>   #endif
->> +#endif
->>   SRST
->>     ``info via``
->> diff --git a/monitor/misc.c b/monitor/misc.c
->> index 6c5bb82d3b..3d2312ba8d 100644
->> --- a/monitor/misc.c
->> +++ b/monitor/misc.c
->> @@ -84,6 +84,9 @@
->>   #include "hw/s390x/storage-attributes.h"
->>   #endif
->> +/* Make devices configuration available for use in hmp-commands*.hx templates */
->> +#include CONFIG_DEVICES
-> 
-> Looks reasonable to me.
-> 
-> So with the "#if defined(TARGET_M68K) || defined(TARGET_PPC)" removed:
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
+在 2022/3/17 下午3:47, ~eopxd 写道:
+> From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>   target/riscv/insn_trans/trans_rvv.c.inc |  9 +++++++
+>   target/riscv/vector_helper.c            | 35 +++++++++++++++++--------
+>   2 files changed, 33 insertions(+), 11 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 63ddd54669..9a2d54313a 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -712,6 +712,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>   }
+>   
+> @@ -750,6 +751,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>   }
+>   
+> @@ -778,6 +780,7 @@ static bool ld_us_mask_op(DisasContext *s, arg_vlm_v *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, NF, 1);
+>       /* Mask destination register are always tail-agnostic */
+>       data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>   }
+>   
+> @@ -797,6 +800,7 @@ static bool st_us_mask_op(DisasContext *s, arg_vsm_v *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, NF, 1);
+>       /* Mask destination register are always tail-agnostic */
+>       data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>   }
+>   
+> @@ -869,6 +873,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>   }
+>   
+> @@ -899,6 +904,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       fn = fns[eew];
+>       if (fn == NULL) {
+>           return false;
+> @@ -1000,6 +1006,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>   }
+>   
+> @@ -1053,6 +1060,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
+>   }
+>   
+> @@ -1119,6 +1127,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>       return ldff_trans(a->rd, a->rs1, data, fn, s);
+>   }
+>   
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 934b283db2..89eea33eb3 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -282,14 +282,18 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>       uint32_t esz = 1 << log2_esz;
+>       uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+>       uint32_t vta = vext_vta(desc);
+> +    uint32_t vma = vext_vma(desc);
+>   
+>       for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+> -        if (!vm && !vext_elem_mask(v0, i)) {
+> -            continue;
+> -        }
+> -
+>           k = 0;
+>           while (k < nf) {
+> +            if (!vm && !vext_elem_mask(v0, i)) {
+> +                /* set masked-off elements to 1s */
+> +                vext_set_elems_1s(vd, vma,(i + k * max_elems) * esz,
 
-I've sent v3 with your suggestion:
+seems lack a space here. the same to following cases.
 
-     https://lore.kernel.org/qemu-devel/20220510235439.54775-1-muriloo@linux.ibm.com/
+Regards,
 
-Thank you for your review.
+Weiwei Li
 
--- 
-Murilo
+
 
