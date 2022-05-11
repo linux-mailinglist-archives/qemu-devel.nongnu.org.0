@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C18522EC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 10:54:24 +0200 (CEST)
-Received: from localhost ([::1]:41520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FF4522F05
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 11:11:51 +0200 (CEST)
+Received: from localhost ([::1]:57042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noi6w-0000ip-Gv
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 04:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35008)
+	id 1noiNq-0003gi-G7
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 05:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1noi1e-0006Rr-Cg
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:48:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29713)
+ id 1noi1g-0006W3-D4
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:48:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1noi1c-0002pv-92
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:48:54 -0400
+ id 1noi1e-0002rH-G4
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:48:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652258931;
+ s=mimecast20190719; t=1652258933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AA2Wg5DCFJVCXutTi9eYkN692gRcgHXwTUnSm45tvWQ=;
- b=JwUtUDIEqrb0wFE+QbsQup8zVSw6RsUaS5FKLd9zgUtzZAEZgaHutfaL1Xb5JyuNyQbXA8
- YwcQiaulNb8vaQ7jSPNwoiFZ9vyuQxXcUxVm+SrWx+ovKEZ01Gwvzb7KDIIgBx51FFS4Z1
- lV75jurftKONELcOlWUOnAfIdiCa2/I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=B/pgj9nODPAmA1bmS3BKmIXFYJzYaTIuN+ndp1e+1Q0=;
+ b=dUrPIHxOZ7OXAVNX76w/X14WW3509YKnZr8XGQDn8jqYv7IX4O5vzhKl+ZVOenDUDYCaLi
+ f5VeqCPRnVOrLohTUPKH+80CnooqZuiSBiKcc2OUfQ4qxeqW1e3SEKMI39BDmOEM7ZZT2s
+ y81cFm60O8K+LWBdA2sicW576diY6E8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-358-h9revUlOMTm_ta_-bA29NQ-1; Wed, 11 May 2022 04:48:50 -0400
-X-MC-Unique: h9revUlOMTm_ta_-bA29NQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so509600wmj.0
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 01:48:50 -0700 (PDT)
+ us-mta-344--cgGlQSlMGmnnnWrEYB1xg-1; Wed, 11 May 2022 04:48:52 -0400
+X-MC-Unique: -cgGlQSlMGmnnnWrEYB1xg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n26-20020a1c721a000000b003941ea1ced7so483515wmc.7
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 01:48:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AA2Wg5DCFJVCXutTi9eYkN692gRcgHXwTUnSm45tvWQ=;
- b=xWtQmN+vUpzxErQR1EYIoY0BedJBh0OLIEjs6+12ExFyylIRqycyESkfJPr65wM6nZ
- p+5TefraF/5YaMM0AqPZK6UkDMsA5FtQlWVm8IEyalUsa0EFDVnAO+rwjJLXtrIS7+mw
- 9CIHXKoIW2hGujt6gbDmGlUZuX+Ta1qr5Q/7Ac2QipuFJuofp+XWQVFjKxyFhKD5XMIc
- HS6W7ppvp7tuGZjiq7cyI7TnwcDgMhC0BWSY0tgGsQyuDA9JVPmzmrhBtwbGbeJIzXO7
- b44TJXJD92x1IuJUXAZ7PdPhsmBcNmmDS1iuGCyHO+WpkPj4+BHe6LtbdEP9TzpvstGc
- G2yw==
-X-Gm-Message-State: AOAM530Vs+NpyhRx21QpFF1nBSmiPS+9x2b7NFaW7I+ZuYEv2bZ2YKOy
- Ohna6s4TqyQxBypvqlgKjBtZNPV9LecgzPg2uokGG940iTgg7HVHW4kiE5PZpqp1MQ8DRFiKmM0
- vOuwovbpB+6N9z4RsFA2l/iOO+ZGSx6diy3+xOyA+6jsik80FzPPenUQCBwk100XYrWQ=
-X-Received: by 2002:a05:6000:1110:b0:20a:e113:8221 with SMTP id
- z16-20020a056000111000b0020ae1138221mr21121553wrw.271.1652258928887; 
- Wed, 11 May 2022 01:48:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZXTz5ZwZpwMgvKu2qemNu+g0d304tWnH5U6rHopfTr88cprjPj/uU/54+P0whb8GvTsXa3g==
-X-Received: by 2002:a05:6000:1110:b0:20a:e113:8221 with SMTP id
- z16-20020a056000111000b0020ae1138221mr21121530wrw.271.1652258928595; 
- Wed, 11 May 2022 01:48:48 -0700 (PDT)
+ bh=B/pgj9nODPAmA1bmS3BKmIXFYJzYaTIuN+ndp1e+1Q0=;
+ b=AbsG07N1UV76nZCUyv279b+LGysXUJO7NZfVXKesVoZadkj2S8sDLou78YxhLaGTzD
+ cNIAu7zMeOU6iiaw7/i4k7MqEEuCAvVzaK9aoVI/TIj/WSLmiwDXzIeMyn3dbGBf/gpP
+ 0hLEqrzQ8gAgRwwBZ7sTKLiohFoTaC8+kYc4pvmW8EnJdqxErMi2IFW9XalCv0l20W9N
+ PXkFX0qyesagt8MYZZLW5BS027rvWFIpcwMUSNex01dJI5Sg8qTmHoLUnd4aVoTqJYyS
+ hJsreB6w7QvoXmhyldc8Zo8BEvu1sO0/297f7sZ/K677qk7dIw53Aaul9iLjGq+Cn6TO
+ AQYQ==
+X-Gm-Message-State: AOAM5327yzoBPAz8MKW1YkUtLFcMkW3SYI3Y2FWS9fx+Ulja460R3uQn
+ gn4ycKLr+nbAPrPoU7YKZmxg9+xwGedjscpItj2gSmxosWZSFxQpf9m7kSrnk+ohoKI0/ws8Le0
+ ez8m6ok0Es8MVoqvV0y90SdgTF36ljNqmEA9nZyfAOkboRQH4YVJ99jvjdj3CPSmrT6k=
+X-Received: by 2002:a5d:6d05:0:b0:20c:64fd:f98a with SMTP id
+ e5-20020a5d6d05000000b0020c64fdf98amr21612462wrq.474.1652258930906; 
+ Wed, 11 May 2022 01:48:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwz44d9K/Qfges7EhkTJZ/2OvyYQ9fVE+pDEvqfUalFw2+EhU4pl0qcvjdLAKyR4wLXryUoLg==
+X-Received: by 2002:a5d:6d05:0:b0:20c:64fd:f98a with SMTP id
+ e5-20020a5d6d05000000b0020c64fdf98amr21612439wrq.474.1652258930544; 
+ Wed, 11 May 2022 01:48:50 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v17-20020a05600c215100b003943558a976sm1499240wml.29.2022.05.11.01.48.46
+ o2-20020a056000010200b0020cd54239c8sm1073767wrx.61.2022.05.11.01.48.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 01:48:48 -0700 (PDT)
+ Wed, 11 May 2022 01:48:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
- Mark Kanda <mark.kanda@oracle.com>
-Subject: [PATCH v2 4/8] hmp: add basic "info stats" implementation
-Date: Wed, 11 May 2022 10:48:29 +0200
-Message-Id: <20220511084833.195963-5-pbonzini@redhat.com>
+Cc: armbru@redhat.com,
+	dgilbert@redhat.com,
+	berrange@redhat.com
+Subject: [PATCH v2 5/8] qmp: add filtering of statistics by provider
+Date: Wed, 11 May 2022 10:48:30 +0200
+Message-Id: <20220511084833.195963-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220511084833.195963-1-pbonzini@redhat.com>
 References: <20220511084833.195963-1-pbonzini@redhat.com>
@@ -100,260 +101,202 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Kanda <mark.kanda@oracle.com>
+Allow retrieving the statistics from a specific provider only.
+This can be used in the future by HMP commands such as "info
+sync-profile" or "info profile".  The next patch also adds
+filter-by-provider capabilities to the HMP equivalent of
+query-stats, "info stats".
 
-Add an HMP command to retrieve statistics collected at run-time.
-The command will retrieve and print either all VM-level statistics,
-or all vCPU-level statistics for the currently selected CPU.
+Example:
+
+{ "execute": "query-stats",
+  "arguments": {
+    "target": "vm",
+    "providers": [
+      { "provider": "kvm" } ] } }
+
+The QAPI is a bit more verbose than just a list of StatsProvider,
+so that it can be subsequently extended with filtering of statistics
+by name.
+
+Extracted from a patch by Mark Kanda.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hmp-commands-info.hx  |  13 +++
- include/monitor/hmp.h |   1 +
- monitor/hmp-cmds.c    | 187 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 201 insertions(+)
+ accel/kvm/kvm-all.c     |  3 ++-
+ include/monitor/stats.h |  4 +++-
+ monitor/hmp-cmds.c      |  2 +-
+ monitor/qmp-cmds.c      | 33 +++++++++++++++++++++++++++++----
+ qapi/stats.json         | 17 +++++++++++++++--
+ 5 files changed, 50 insertions(+), 9 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index adfa085a9b..221feab8c0 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -894,3 +894,16 @@ SRST
-   ``info via``
-     Show guest mos6522 VIA devices.
- ERST
-+
-+    {
-+        .name       = "stats",
-+        .args_type  = "target:s",
-+        .params     = "target",
-+        .help       = "show statistics; target is either vm or vcpu",
-+        .cmd        = hmp_info_stats,
-+    },
-+
-+SRST
-+  ``stats``
-+    Show runtime-collected statistics
-+ERST
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d014826a..2e89a97bd6 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -133,5 +133,6 @@ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
-+void hmp_info_stats(Monitor *mon, const QDict *qdict);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 28f8a45205..12e003fdd2 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2644,7 +2644,8 @@ static int kvm_init(MachineState *ms)
+     }
  
- #endif
+     if (kvm_check_extension(kvm_state, KVM_CAP_BINARY_STATS_FD)) {
+-        add_stats_callbacks(query_stats_cb, query_stats_schemas_cb);
++        add_stats_callbacks(STATS_PROVIDER_KVM, query_stats_cb,
++                            query_stats_schemas_cb);
+     }
+ 
+     return 0;
+diff --git a/include/monitor/stats.h b/include/monitor/stats.h
+index 92a1df3072..acfd975df9 100644
+--- a/include/monitor/stats.h
++++ b/include/monitor/stats.h
+@@ -17,10 +17,12 @@ typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
+ /*
+  * Register callbacks for the QMP query-stats command.
+  *
++ * @provider: stats provider
+  * @stats_fn: routine to query stats:
+  * @schema_fn: routine to query stat schemas:
+  */
+-void add_stats_callbacks(StatRetrieveFunc *stats_fn,
++void add_stats_callbacks(StatsProvider provider,
++                         StatRetrieveFunc *stats_fn,
+                          SchemaRetrieveFunc *schemas_fn);
+ 
+ /*
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 93061a11af..f72dfd2dc4 100644
+index f72dfd2dc4..26c5d2498b 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -40,6 +40,7 @@
- #include "qapi/qapi-commands-pci.h"
- #include "qapi/qapi-commands-rocker.h"
- #include "qapi/qapi-commands-run-state.h"
-+#include "qapi/qapi-commands-stats.h"
- #include "qapi/qapi-commands-tpm.h"
- #include "qapi/qapi-commands-ui.h"
- #include "qapi/qapi-visit-net.h"
-@@ -52,6 +53,7 @@
- #include "ui/console.h"
- #include "qemu/cutils.h"
- #include "qemu/error-report.h"
-+#include "hw/core/cpu.h"
- #include "hw/intc/intc.h"
- #include "migration/snapshot.h"
- #include "migration/misc.h"
-@@ -2233,3 +2235,188 @@ void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict)
+@@ -2388,7 +2388,7 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
+         goto exit_no_print;
      }
-     hmp_handle_error(mon, err);
+ 
+-    schema = qmp_query_stats_schemas(&err);
++    schema = qmp_query_stats_schemas(false, 0, &err);
+     if (err) {
+         goto exit;
+     }
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 1ec7409bc2..4d8a08879a 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -445,6 +445,7 @@ HumanReadableText *qmp_x_query_irq(Error **errp)
  }
-+
-+static void print_stats_schema_value(Monitor *mon, StatsSchemaValue *value)
+ 
+ typedef struct StatsCallbacks {
++    StatsProvider provider;
+     StatRetrieveFunc *stats_cb;
+     SchemaRetrieveFunc *schemas_cb;
+     QTAILQ_ENTRY(StatsCallbacks) next;
+@@ -453,10 +454,12 @@ typedef struct StatsCallbacks {
+ static QTAILQ_HEAD(, StatsCallbacks) stats_callbacks =
+     QTAILQ_HEAD_INITIALIZER(stats_callbacks);
+ 
+-void add_stats_callbacks(StatRetrieveFunc *stats_fn,
++void add_stats_callbacks(StatsProvider provider,
++                         StatRetrieveFunc *stats_fn,
+                          SchemaRetrieveFunc *schemas_fn)
+ {
+     StatsCallbacks *entry = g_new(StatsCallbacks, 1);
++    entry->provider = provider;
+     entry->stats_cb = stats_fn;
+     entry->schemas_cb = schemas_fn;
+ 
+@@ -479,6 +482,22 @@ static strList *stats_target_filter(StatsFilter *filter)
+     }
+ }
+ 
++static bool stats_provider_requested(StatsProvider provider,
++                                     StatsFilter *filter)
 +{
-+    const char *prefix = "";
-+    monitor_printf(mon, "    %s (%s", value->name, StatsType_str(value->type));
++    StatsRequestList *request;
 +
-+    if (value->has_unit && value->unit == STATS_UNIT_SECONDS &&
-+        (value->exponent == 0 || value->base == 10) &&
-+        value->exponent >= -9 && value->exponent <= 0 &&
-+        value->exponent % 3 == 0) {
-+
-+        static const char *si_prefix[] = { "", "milli", "micro", "nano" };
-+        prefix = si_prefix[value->exponent / -3];
-+
-+    } else if (value->has_unit && value->unit == STATS_UNIT_BYTES &&
-+               (value->exponent == 0 || value->base == 2) &&
-+               value->exponent >= 0 && value->exponent <= 40 &&
-+               value->exponent % 10 == 0) {
-+
-+        static const char *si_prefix[] = {
-+            "", "kilo", "mega", "giga", "tera" };
-+        prefix = si_prefix[value->exponent / 10];
-+
-+    } else if (value->exponent) {
-+        /* Print the base and exponent as "x <base>^<exp>" */
-+        monitor_printf(mon, ", * %d^%d", value->base,
-+                       value->exponent);
++    if (!filter->has_providers) {
++        return true;
 +    }
-+
-+    if (value->has_unit) {
-+        monitor_printf(mon, " %s%s", prefix, StatsUnit_str(value->unit));
-+    }
-+
-+    /* Print bucket size for linear histograms */
-+    if (value->type == STATS_TYPE_LINEAR_HISTOGRAM && value->has_bucket_size) {
-+        monitor_printf(mon, ", bucket size=%d", value->bucket_size);
-+    }
-+    monitor_printf(mon, ")");
-+}
-+
-+static StatsSchemaValueList *find_schema_value_list(
-+    StatsSchemaList *list, StatsProvider provider,
-+    StatsTarget target)
-+{
-+    StatsSchemaList *node;
-+
-+    for (node = list; node; node = node->next) {
-+        if (node->value->provider == provider &&
-+            node->value->target == target) {
-+            return node->value->stats;
++    for (request = filter->providers; request; request = request->next) {
++        if (request->value->provider == provider) {
++            return true;
 +        }
 +    }
-+    return NULL;
++    return false;
 +}
 +
-+static void print_stats_results(Monitor *mon, StatsTarget target,
-+                                StatsResult *result,
-+                                StatsSchemaList *schema)
-+{
-+    /* Find provider schema */
-+    StatsSchemaValueList *schema_value_list =
-+        find_schema_value_list(schema, result->provider, target);
-+    StatsList *stats_list;
-+
-+    if (!schema_value_list) {
-+        monitor_printf(mon, "failed to find schema list for %s\n",
-+                       StatsProvider_str(result->provider));
-+        return;
-+    }
-+
-+    monitor_printf(mon, "provider: %s\n",
-+                   StatsProvider_str(result->provider));
-+
-+    for (stats_list = result->stats; stats_list;
-+             stats_list = stats_list->next,
-+             schema_value_list = schema_value_list->next) {
-+
-+        Stats *stats = stats_list->value;
-+        StatsValue *stats_value = stats->value;
-+        StatsSchemaValue *schema_value = schema_value_list->value;
-+
-+        /* Find schema entry */
-+        while (!g_str_equal(stats->name, schema_value->name)) {
-+            if (!schema_value_list->next) {
-+                monitor_printf(mon, "failed to find schema entry for %s\n",
-+                               stats->name);
-+                return;
-+            }
-+            schema_value_list = schema_value_list->next;
-+            schema_value = schema_value_list->value;
+ StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
+ {
+     StatsResultList *stats_results = NULL;
+@@ -486,19 +505,25 @@ StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
+     StatsCallbacks *entry;
+ 
+     QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+-        entry->stats_cb(&stats_results, filter->target, targets, errp);
++        if (stats_provider_requested(entry->provider, filter)) {
++            entry->stats_cb(&stats_results, filter->target, targets, errp);
 +        }
-+
-+        print_stats_schema_value(mon, schema_value);
-+
-+        if (stats_value->type == QTYPE_QNUM) {
-+            monitor_printf(mon, ": %" PRId64 "\n", stats_value->u.scalar);
-+        } else if (stats_value->type == QTYPE_QLIST) {
-+            uint64List *list;
-+            int i;
-+
-+            monitor_printf(mon, ": ");
-+            for (list = stats_value->u.list, i = 1;
-+                 list;
-+                 list = list->next, i++) {
-+                monitor_printf(mon, "[%d]=%" PRId64 " ", i, list->value);
-+            }
-+            monitor_printf(mon, "\n");
+     }
+ 
+     return stats_results;
+ }
+ 
+-StatsSchemaList *qmp_query_stats_schemas(Error **errp)
++StatsSchemaList *qmp_query_stats_schemas(bool has_provider,
++                                         StatsProvider provider,
++                                         Error **errp)
+ {
+     StatsSchemaList *stats_results = NULL;
+     StatsCallbacks *entry;
+ 
+     QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+-        entry->schemas_cb(&stats_results, errp);
++        if (!has_provider || provider == entry->provider) {
++            entry->schemas_cb(&stats_results, errp);
 +        }
-+    }
-+}
+     }
+ 
+     return stats_results;
+diff --git a/qapi/stats.json b/qapi/stats.json
+index eb13377358..712c48d001 100644
+--- a/qapi/stats.json
++++ b/qapi/stats.json
+@@ -68,6 +68,18 @@
+ { 'enum': 'StatsTarget',
+   'data': [ 'vm', 'vcpu' ] }
+ 
++##
++# @StatsRequest:
++#
++# Indicates a set of statistics that should be returned by query-stats.
++#
++# @provider: provider for which to return statistics.
++#
++# Since: 7.1
++##
++{ 'struct': 'StatsRequest',
++  'data': { 'provider': 'StatsProvider' } }
 +
-+/* Create the StatsFilter that is needed for an "info stats" invocation.  */
-+static StatsFilter *stats_filter(StatsTarget target, int cpu_index)
-+{
-+    StatsFilter *filter = g_malloc0(sizeof(*filter));
-+
-+    filter->target = target;
-+    switch (target) {
-+    case STATS_TARGET_VM:
-+        break;
-+    case STATS_TARGET_VCPU:
-+    {
-+        strList *vcpu_list = NULL;
-+        CPUState *cpu = qemu_get_cpu(cpu_index);
-+        char *canonical_path = object_get_canonical_path(OBJECT(cpu));
-+
-+        QAPI_LIST_PREPEND(vcpu_list, canonical_path);
-+        filter->u.vcpu.has_vcpus = true;
-+        filter->u.vcpu.vcpus = vcpu_list;
-+        break;
-+    }
-+    default:
-+        break;
-+    }
-+    return filter;
-+}
-+
-+void hmp_info_stats(Monitor *mon, const QDict *qdict)
-+{
-+    const char *target_str = qdict_get_str(qdict, "target");
-+    StatsTarget target;
-+    Error *err = NULL;
-+    g_autoptr(StatsFilter) filter = NULL;
-+    g_autoptr(StatsSchemaList) schema = NULL;
-+    g_autoptr(StatsResultList) stats = NULL;
-+    StatsResultList *entry;
-+
-+    target = qapi_enum_parse(&StatsTarget_lookup, target_str, -1, &err);
-+    if (err) {
-+        monitor_printf(mon, "invalid stats target %s\n", target_str);
-+        goto exit_no_print;
-+    }
-+
-+    schema = qmp_query_stats_schemas(&err);
-+    if (err) {
-+        goto exit;
-+    }
-+
-+    switch (target) {
-+    case STATS_TARGET_VM:
-+        filter = stats_filter(target, -1);
-+        break;
-+    case STATS_TARGET_VCPU: {}
-+        int cpu_index = monitor_get_cpu_index(mon);
-+        filter = stats_filter(target, cpu_index);
-+        break;
-+    default:
-+        abort();
-+    }
-+
-+    stats = qmp_query_stats(filter, &err);
-+    if (err) {
-+        goto exit;
-+    }
-+    for (entry = stats; entry; entry = entry->next) {
-+        print_stats_results(mon, target, provider_str == NULL, entry->value, schema);
-+    }
-+
-+exit:
-+    if (err) {
-+        monitor_printf(mon, "%s\n", error_get_pretty(err));
-+    }
-+exit_no_print:
-+    error_free(err);
-+}
+ ##
+ # @StatsVCPUFilter:
+ #
+@@ -85,11 +97,12 @@
+ # request statistics and optionally the required subset of information for
+ # that target:
+ # - which vCPUs to request statistics for
++# - which provider to request statistics from
+ #
+ # Since: 7.1
+ ##
+ { 'union': 'StatsFilter',
+-        'base': { 'target': 'StatsTarget' },
++        'base': { 'target': 'StatsTarget', '*providers': [ 'StatsRequest' ] },
+   'discriminator': 'target',
+   'data': { 'vcpu': 'StatsVCPUFilter' } }
+ 
+@@ -211,5 +224,5 @@
+ # Since: 7.1
+ ##
+ { 'command': 'query-stats-schemas',
+-  'data': { },
++  'data': { '*provider': 'StatsProvider' },
+   'returns': [ 'StatsSchema' ] }
 -- 
 2.36.0
 
