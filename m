@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B28652401F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 00:15:19 +0200 (CEST)
-Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BC9524025
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 00:17:35 +0200 (CEST)
+Received: from localhost ([::1]:47358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nouc2-0007oG-Az
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 18:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48028)
+	id 1noueE-0001sC-Fg
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 18:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nouNX-0004dq-VA
- for qemu-devel@nongnu.org; Wed, 11 May 2022 18:00:19 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:34607)
+ id 1nouNa-0004il-1C
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 18:00:22 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:46949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nouNU-0006ex-So
- for qemu-devel@nongnu.org; Wed, 11 May 2022 18:00:19 -0400
-Received: by mail-pl1-x631.google.com with SMTP id n8so3164942plh.1
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 15:00:16 -0700 (PDT)
+ id 1nouNW-0006iI-RV
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 18:00:21 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ cq17-20020a17090af99100b001dc0386cd8fso3204548pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 15:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Dq3AsKzhmTYW0tA0YoLO/eJ29e5Y/pkFqc/1LVLFraE=;
- b=luPPOT4miCVo1teeSOsF7DShd10QmT0Q/pEYTDqyZvZZbcXHSvMKoE8hu7mfkshCpN
- PxcN1D2lUcMudG5OFg5gsBygRzGCYDZHB5SUTGYpdm4Yh9tA8hLVFvbXH7OUck7HRwRL
- EZD28u1Tcys04AgzHsl+CNFdvPUqaf9J+PWcN+7y40ai7+8hS0hn7amb+TK7xWTh0jPB
- 01aNdeMeJU0iXQzepzv4lt/d5Fsfj21g9/SwYCP5D/OuRbaBduyU+VTInk6sW+0L4a/+
- HSJnzUAsimvAIpgbMAiG9eeWRDnTCILHoUmdi/8/HvPHr/r1xzXtw2eMQSrtJuxceSEs
- WPpw==
+ bh=KoMVn+NuPKkRGe2+lVbrhRrUvA37Y7HKyyrYYbcqS3g=;
+ b=c4CT0D/CGHGkOI5+GLeKvkE5bqo8rUC427Vven6aye32u9y/O0sh1j5OWTbXuWIXkJ
+ 3QPIFVZeJSb6EN5ygc8cqeGwULTpLJbIPtYUuhD9mzaK/ytbfi/hyeOncght53hZ39RL
+ 3M0pbAClYleQcANGpwdTQcUnldyIkweiww7sX5NBJHSE0EhJX1PwDKdfpkXFtIgInmXc
+ FEKRfbIk9XJD5D76io+SmkVWhe0zk5eHPmKg+8DyPge49ercRjw6FEscRcK79yPRYn/V
+ AX3PlgMdOMRsxRwvhQS+UptB7H0lpuB6Sm/Xw18vNrFNlnQEyDhA6P7o2MU5LrhVVdzk
+ NfAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Dq3AsKzhmTYW0tA0YoLO/eJ29e5Y/pkFqc/1LVLFraE=;
- b=tRW/y9S3Bo0bTdhtqVAIRfE9CaploiAD1KWwfjGf7Ie8/125QNEvy2OgfIoNnpTlL3
- bIpXgVncHC6sx2X3EXxaCiyEE+n/R4SO4g5saNknS0IYwdVNi1i9Lq9pUwikOOI9+l91
- ZxLSqHwNnOws3kLTnGuHqz9LEzrQgEwRMRoQNv6AzpZFuEDpdE3od4VRWWunHn/2Kv5G
- P6HGvoJUrf8h09ZwDr6qVNM3Am7tfx9WLnAIihidlMNo/1PclMnJKZLT9XJXrO0anc3H
- O2LqEtnGvzK/FOJir0DxxsYi24u7eQ2FCnBZgG7RZwkAP1QNus7NdDYBbNfwGga9Hxhm
- Y+sw==
-X-Gm-Message-State: AOAM531npV67YaRatj+MYAAPEy1T8i4Fv+tH3z1C2qFXejfehh3ToIe9
- fSaywkfWFANE7+AQMZdSNCMI+w==
-X-Google-Smtp-Source: ABdhPJxkHS5qoqp9G4CK+a3stcKbybihmBdaOg2d4osf7WxNeItfeZXaO9Mz1wVrCxEahOO7UvpLbA==
-X-Received: by 2002:a17:90a:e7d2:b0:1dc:e6c6:604b with SMTP id
- kb18-20020a17090ae7d200b001dce6c6604bmr7447165pjb.183.1652306416147; 
- Wed, 11 May 2022 15:00:16 -0700 (PDT)
+ bh=KoMVn+NuPKkRGe2+lVbrhRrUvA37Y7HKyyrYYbcqS3g=;
+ b=NbO7Sg+ujvo1I/1MzfICYolxoufxs/vf6ZWuKBrl2qQ+/CYtAqhM8VZdMLfhdB9Yv/
+ 48d5g2QlzxREa34jBwlVjrUlXfxO3HvKTK5ZIxUV4laA5n8JScQ0bxIwxie34nWNd0WF
+ TwnC2tcnNOaPuWI92GaCsLXOPHqrKhYihq5wL4VHx0SUBhu4Dc9SWPNkfEoGgjB0OvW5
+ O/QxAPDWV7F7AAOo177pIEO9Q32JhtAIPpfyCwre8RvT7xiEGgPSqzzxUravObX2vODn
+ fBmiRYHKg/snlAlsg3NE/vKptpizMXiO99cyi/FjTHdSSNYrY+Kh6MjpcBE8lpPQwWIr
+ WSyA==
+X-Gm-Message-State: AOAM531BzUuF1eDncm4HLG1tYYem0aaQXK7KHoNn/uCmoAF2s/f1Vrha
+ yK5uo1e83KBh7dSbdAUTMujuLA==
+X-Google-Smtp-Source: ABdhPJzFtuWdDg311xbGlWoHMvkCtybva0wnQgvH6ddV3w1uCn3FyjDGoJkcw2GCSHOxqTMoUnhFyw==
+X-Received: by 2002:a17:90b:38c3:b0:1dc:b8c1:d428 with SMTP id
+ nn3-20020a17090b38c300b001dcb8c1d428mr7363144pjb.55.1652306417364; 
+ Wed, 11 May 2022 15:00:17 -0700 (PDT)
 Received: from atishp.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- r23-20020a62e417000000b0050dc762816asm2261303pfh.68.2022.05.11.15.00.15
+ r23-20020a62e417000000b0050dc762816asm2261303pfh.68.2022.05.11.15.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 15:00:15 -0700 (PDT)
+ Wed, 11 May 2022 15:00:16 -0700 (PDT)
 From: Atish Patra <atishp@rivosinc.com>
 To: linux-kernel@vger.kernel.org
-Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
  Atish Patra <atishp@rivosinc.com>, Bin Meng <bin.meng@windriver.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v8 05/12] target/riscv: Implement mcountinhibit CSR
-Date: Wed, 11 May 2022 14:59:49 -0700
-Message-Id: <20220511215956.2351243-6-atishp@rivosinc.com>
+Subject: [PATCH v8 06/12] target/riscv: Add support for hpmcounters/hpmevents
+Date: Wed, 11 May 2022 14:59:50 -0700
+Message-Id: <20220511215956.2351243-7-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220511215956.2351243-1-atishp@rivosinc.com>
 References: <20220511215956.2351243-1-atishp@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=atishp@rivosinc.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=atishp@rivosinc.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,100 +95,550 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Atish Patra <atish.patra@wdc.com>
 
-As per the privilege specification v1.11, mcountinhibit allows to start/stop
-a pmu counter selectively.
+With SBI PMU extension, user can use any of the available hpmcounters to
+track any perf events based on the value written to mhpmevent csr.
+Add read/write functionality for these csrs.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Atish Patra <atish.patra@wdc.com>
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
 ---
- target/riscv/cpu.h      |  2 ++
- target/riscv/cpu_bits.h |  4 ++++
- target/riscv/csr.c      | 25 +++++++++++++++++++++++++
- target/riscv/machine.c  |  1 +
- 4 files changed, 32 insertions(+)
+ target/riscv/cpu.h     |  11 +
+ target/riscv/csr.c     | 466 +++++++++++++++++++++++++++--------------
+ target/riscv/machine.c |   3 +
+ 3 files changed, 328 insertions(+), 152 deletions(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7cbcd8d62fc1..45ac0f2d2614 100644
+index 45ac0f2d2614..32cdd9070be5 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -269,6 +269,8 @@ struct CPUArchState {
-     target_ulong scounteren;
-     target_ulong mcounteren;
+@@ -111,6 +111,8 @@ typedef struct CPUArchState CPURISCVState;
+ #endif
  
-+    target_ulong mcountinhibit;
+ #define RV_VLEN_MAX 1024
++#define RV_MAX_MHPMEVENTS 29
++#define RV_MAX_MHPMCOUNTERS 32
+ 
+ FIELD(VTYPE, VLMUL, 0, 3)
+ FIELD(VTYPE, VSEW, 3, 3)
+@@ -271,6 +273,15 @@ struct CPUArchState {
+ 
+     target_ulong mcountinhibit;
+ 
++    /* PMU counter configured values */
++    target_ulong mhpmcounter_val[RV_MAX_MHPMCOUNTERS];
++
++    /* for RV32 */
++    target_ulong mhpmcounterh_val[RV_MAX_MHPMCOUNTERS];
++
++    /* PMU event selector configured values */
++    target_ulong mhpmevent_val[RV_MAX_MHPMEVENTS];
 +
      target_ulong sscratch;
      target_ulong mscratch;
  
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 4d04b20d064e..b3f7fa713000 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -367,6 +367,10 @@
- #define CSR_MHPMCOUNTER29   0xb1d
- #define CSR_MHPMCOUNTER30   0xb1e
- #define CSR_MHPMCOUNTER31   0xb1f
-+
-+/* Machine counter-inhibit register */
-+#define CSR_MCOUNTINHIBIT   0x320
-+
- #define CSR_MHPMEVENT3      0x323
- #define CSR_MHPMEVENT4      0x324
- #define CSR_MHPMEVENT5      0x325
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 7e14f7685fb9..ea1cde68610c 100644
+index ea1cde68610c..87aa601e5ddb 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -1475,6 +1475,28 @@ static RISCVException write_mtvec(CPURISCVState *env, int csrno,
+@@ -230,6 +230,15 @@ static RISCVException mctr(CPURISCVState *env, int csrno)
      return RISCV_EXCP_NONE;
  }
  
-+static RISCVException read_mcountinhibit(CPURISCVState *env, int csrno,
-+                                         target_ulong *val)
++static RISCVException mctr32(CPURISCVState *env, int csrno)
 +{
-+    if (env->priv_ver < PRIV_VERSION_1_11_0) {
++    if (riscv_cpu_mxl(env) != MXL_RV32) {
 +        return RISCV_EXCP_ILLEGAL_INST;
 +    }
 +
-+    *val = env->mcountinhibit;
-+    return RISCV_EXCP_NONE;
++    return mctr(env, csrno);
 +}
 +
-+static RISCVException write_mcountinhibit(CPURISCVState *env, int csrno,
-+                                          target_ulong val)
-+{
-+    if (env->priv_ver < PRIV_VERSION_1_11_0) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    env->mcountinhibit = val;
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_mcounteren(CPURISCVState *env, int csrno,
-                                       target_ulong *val)
+ static RISCVException any(CPURISCVState *env, int csrno)
  {
-@@ -3741,6 +3763,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr,   read_zero },
-     [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr,   read_zero },
+     return RISCV_EXCP_NONE;
+@@ -635,6 +644,72 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
  
-+    [CSR_MCOUNTINHIBIT]  = { "mcountinhibit",   any,    read_mcountinhibit,
-+                                                       write_mcountinhibit },
+ #else /* CONFIG_USER_ONLY */
+ 
++static int read_mhpmevent(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    int evt_index = csrno - CSR_MHPMEVENT3;
 +
-     [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_zero },
-     [CSR_MHPMEVENT4]     = { "mhpmevent4",     any,    read_zero },
-     [CSR_MHPMEVENT5]     = { "mhpmevent5",     any,    read_zero },
++    *val = env->mhpmevent_val[evt_index];
++
++    return RISCV_EXCP_NONE;
++}
++
++static int write_mhpmevent(CPURISCVState *env, int csrno, target_ulong val)
++{
++    int evt_index = csrno - CSR_MHPMEVENT3;
++
++    env->mhpmevent_val[evt_index] = val;
++
++    return RISCV_EXCP_NONE;
++}
++
++static int write_mhpmcounter(CPURISCVState *env, int csrno, target_ulong val)
++{
++    int ctr_index = csrno - CSR_MHPMCOUNTER3 + 3;
++
++    env->mhpmcounter_val[ctr_index] = val;
++
++    return RISCV_EXCP_NONE;
++}
++
++static int write_mhpmcounterh(CPURISCVState *env, int csrno, target_ulong val)
++{
++    int ctr_index = csrno - CSR_MHPMCOUNTER3H + 3;
++
++    env->mhpmcounterh_val[ctr_index] = val;
++
++    return RISCV_EXCP_NONE;
++}
++
++static int read_hpmcounter(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    int ctr_index;
++
++    if (env->priv == PRV_M) {
++        ctr_index = csrno - CSR_MHPMCOUNTER3 + 3;
++    } else {
++        ctr_index = csrno - CSR_HPMCOUNTER3 + 3;
++    }
++    *val = env->mhpmcounter_val[ctr_index];
++
++    return RISCV_EXCP_NONE;
++}
++
++static int read_hpmcounterh(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    int ctr_index;
++
++    if (env->priv == PRV_M) {
++        ctr_index = csrno - CSR_MHPMCOUNTER3H + 3;
++    } else {
++        ctr_index = csrno - CSR_HPMCOUNTER3H + 3;
++    }
++
++    *val = env->mhpmcounterh_val[ctr_index];
++
++    return RISCV_EXCP_NONE;
++}
++
++
+ static RISCVException read_time(CPURISCVState *env, int csrno,
+                                 target_ulong *val)
+ {
+@@ -3703,157 +3778,244 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_SPMBASE] =    { "spmbase", pointer_masking, read_spmbase, write_spmbase },
+ 
+     /* Performance Counters */
+-    [CSR_HPMCOUNTER3]    = { "hpmcounter3",    ctr,    read_zero },
+-    [CSR_HPMCOUNTER4]    = { "hpmcounter4",    ctr,    read_zero },
+-    [CSR_HPMCOUNTER5]    = { "hpmcounter5",    ctr,    read_zero },
+-    [CSR_HPMCOUNTER6]    = { "hpmcounter6",    ctr,    read_zero },
+-    [CSR_HPMCOUNTER7]    = { "hpmcounter7",    ctr,    read_zero },
+-    [CSR_HPMCOUNTER8]    = { "hpmcounter8",    ctr,    read_zero },
+-    [CSR_HPMCOUNTER9]    = { "hpmcounter9",    ctr,    read_zero },
+-    [CSR_HPMCOUNTER10]   = { "hpmcounter10",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER11]   = { "hpmcounter11",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER12]   = { "hpmcounter12",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER13]   = { "hpmcounter13",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER14]   = { "hpmcounter14",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER15]   = { "hpmcounter15",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER16]   = { "hpmcounter16",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER17]   = { "hpmcounter17",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER18]   = { "hpmcounter18",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER19]   = { "hpmcounter19",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER20]   = { "hpmcounter20",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER21]   = { "hpmcounter21",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER22]   = { "hpmcounter22",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER23]   = { "hpmcounter23",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER24]   = { "hpmcounter24",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER25]   = { "hpmcounter25",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER26]   = { "hpmcounter26",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER27]   = { "hpmcounter27",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER28]   = { "hpmcounter28",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER29]   = { "hpmcounter29",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER30]   = { "hpmcounter30",   ctr,    read_zero },
+-    [CSR_HPMCOUNTER31]   = { "hpmcounter31",   ctr,    read_zero },
+-
+-    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   mctr,   read_zero },
+-    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   mctr,   read_zero },
+-    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   mctr,   read_zero },
+-    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   mctr,   read_zero },
+-    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   mctr,   read_zero },
+-    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   mctr,   read_zero },
+-    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   mctr,   read_zero },
+-    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr,   read_zero },
+-    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr,   read_zero },
+-
+-    [CSR_MCOUNTINHIBIT]  = { "mcountinhibit",   any,    read_mcountinhibit,
+-                                                       write_mcountinhibit },
+-
+-    [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_zero },
+-    [CSR_MHPMEVENT4]     = { "mhpmevent4",     any,    read_zero },
+-    [CSR_MHPMEVENT5]     = { "mhpmevent5",     any,    read_zero },
+-    [CSR_MHPMEVENT6]     = { "mhpmevent6",     any,    read_zero },
+-    [CSR_MHPMEVENT7]     = { "mhpmevent7",     any,    read_zero },
+-    [CSR_MHPMEVENT8]     = { "mhpmevent8",     any,    read_zero },
+-    [CSR_MHPMEVENT9]     = { "mhpmevent9",     any,    read_zero },
+-    [CSR_MHPMEVENT10]    = { "mhpmevent10",    any,    read_zero },
+-    [CSR_MHPMEVENT11]    = { "mhpmevent11",    any,    read_zero },
+-    [CSR_MHPMEVENT12]    = { "mhpmevent12",    any,    read_zero },
+-    [CSR_MHPMEVENT13]    = { "mhpmevent13",    any,    read_zero },
+-    [CSR_MHPMEVENT14]    = { "mhpmevent14",    any,    read_zero },
+-    [CSR_MHPMEVENT15]    = { "mhpmevent15",    any,    read_zero },
+-    [CSR_MHPMEVENT16]    = { "mhpmevent16",    any,    read_zero },
+-    [CSR_MHPMEVENT17]    = { "mhpmevent17",    any,    read_zero },
+-    [CSR_MHPMEVENT18]    = { "mhpmevent18",    any,    read_zero },
+-    [CSR_MHPMEVENT19]    = { "mhpmevent19",    any,    read_zero },
+-    [CSR_MHPMEVENT20]    = { "mhpmevent20",    any,    read_zero },
+-    [CSR_MHPMEVENT21]    = { "mhpmevent21",    any,    read_zero },
+-    [CSR_MHPMEVENT22]    = { "mhpmevent22",    any,    read_zero },
+-    [CSR_MHPMEVENT23]    = { "mhpmevent23",    any,    read_zero },
+-    [CSR_MHPMEVENT24]    = { "mhpmevent24",    any,    read_zero },
+-    [CSR_MHPMEVENT25]    = { "mhpmevent25",    any,    read_zero },
+-    [CSR_MHPMEVENT26]    = { "mhpmevent26",    any,    read_zero },
+-    [CSR_MHPMEVENT27]    = { "mhpmevent27",    any,    read_zero },
+-    [CSR_MHPMEVENT28]    = { "mhpmevent28",    any,    read_zero },
+-    [CSR_MHPMEVENT29]    = { "mhpmevent29",    any,    read_zero },
+-    [CSR_MHPMEVENT30]    = { "mhpmevent30",    any,    read_zero },
+-    [CSR_MHPMEVENT31]    = { "mhpmevent31",    any,    read_zero },
+-
+-    [CSR_HPMCOUNTER3H]   = { "hpmcounter3h",   ctr32,  read_zero },
+-    [CSR_HPMCOUNTER4H]   = { "hpmcounter4h",   ctr32,  read_zero },
+-    [CSR_HPMCOUNTER5H]   = { "hpmcounter5h",   ctr32,  read_zero },
+-    [CSR_HPMCOUNTER6H]   = { "hpmcounter6h",   ctr32,  read_zero },
+-    [CSR_HPMCOUNTER7H]   = { "hpmcounter7h",   ctr32,  read_zero },
+-    [CSR_HPMCOUNTER8H]   = { "hpmcounter8h",   ctr32,  read_zero },
+-    [CSR_HPMCOUNTER9H]   = { "hpmcounter9h",   ctr32,  read_zero },
+-    [CSR_HPMCOUNTER10H]  = { "hpmcounter10h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER11H]  = { "hpmcounter11h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER12H]  = { "hpmcounter12h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER13H]  = { "hpmcounter13h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER14H]  = { "hpmcounter14h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER15H]  = { "hpmcounter15h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER16H]  = { "hpmcounter16h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER17H]  = { "hpmcounter17h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER18H]  = { "hpmcounter18h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER19H]  = { "hpmcounter19h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER20H]  = { "hpmcounter20h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER21H]  = { "hpmcounter21h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER22H]  = { "hpmcounter22h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER23H]  = { "hpmcounter23h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER24H]  = { "hpmcounter24h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER25H]  = { "hpmcounter25h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER26H]  = { "hpmcounter26h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER27H]  = { "hpmcounter27h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER28H]  = { "hpmcounter28h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER29H]  = { "hpmcounter29h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER30H]  = { "hpmcounter30h",  ctr32,  read_zero },
+-    [CSR_HPMCOUNTER31H]  = { "hpmcounter31h",  ctr32,  read_zero },
+-
+-    [CSR_MHPMCOUNTER3H]  = { "mhpmcounter3h",  any32,  read_zero },
+-    [CSR_MHPMCOUNTER4H]  = { "mhpmcounter4h",  any32,  read_zero },
+-    [CSR_MHPMCOUNTER5H]  = { "mhpmcounter5h",  any32,  read_zero },
+-    [CSR_MHPMCOUNTER6H]  = { "mhpmcounter6h",  any32,  read_zero },
+-    [CSR_MHPMCOUNTER7H]  = { "mhpmcounter7h",  any32,  read_zero },
+-    [CSR_MHPMCOUNTER8H]  = { "mhpmcounter8h",  any32,  read_zero },
+-    [CSR_MHPMCOUNTER9H]  = { "mhpmcounter9h",  any32,  read_zero },
+-    [CSR_MHPMCOUNTER10H] = { "mhpmcounter10h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER11H] = { "mhpmcounter11h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER12H] = { "mhpmcounter12h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER13H] = { "mhpmcounter13h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER14H] = { "mhpmcounter14h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER15H] = { "mhpmcounter15h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER16H] = { "mhpmcounter16h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER17H] = { "mhpmcounter17h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER18H] = { "mhpmcounter18h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER19H] = { "mhpmcounter19h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER20H] = { "mhpmcounter20h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER21H] = { "mhpmcounter21h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER22H] = { "mhpmcounter22h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER23H] = { "mhpmcounter23h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER24H] = { "mhpmcounter24h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER25H] = { "mhpmcounter25h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER26H] = { "mhpmcounter26h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER27H] = { "mhpmcounter27h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER28H] = { "mhpmcounter28h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER29H] = { "mhpmcounter29h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER30H] = { "mhpmcounter30h", any32,  read_zero },
+-    [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", any32,  read_zero },
++    [CSR_HPMCOUNTER3]    = { "hpmcounter3",    ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER4]    = { "hpmcounter4",    ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER5]    = { "hpmcounter5",    ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER6]    = { "hpmcounter6",    ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER7]    = { "hpmcounter7",    ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER8]    = { "hpmcounter8",    ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER9]    = { "hpmcounter9",    ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER10]   = { "hpmcounter10",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER11]   = { "hpmcounter11",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER12]   = { "hpmcounter12",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER13]   = { "hpmcounter13",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER14]   = { "hpmcounter14",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER15]   = { "hpmcounter15",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER16]   = { "hpmcounter16",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER17]   = { "hpmcounter17",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER18]   = { "hpmcounter18",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER19]   = { "hpmcounter19",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER20]   = { "hpmcounter20",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER21]   = { "hpmcounter21",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER22]   = { "hpmcounter22",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER23]   = { "hpmcounter23",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER24]   = { "hpmcounter24",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER25]   = { "hpmcounter25",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER26]   = { "hpmcounter26",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER27]   = { "hpmcounter27",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER28]   = { "hpmcounter28",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER29]   = { "hpmcounter29",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER30]   = { "hpmcounter30",   ctr,    read_hpmcounter },
++    [CSR_HPMCOUNTER31]   = { "hpmcounter31",   ctr,    read_hpmcounter },
++
++    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr,    read_hpmcounter,
++                                                       write_mhpmcounter },
++
++    [CSR_MCOUNTINHIBIT]  = { "mcountinhibit",  any, read_mcountinhibit,
++                                                    write_mcountinhibit },
++
++    [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT4]     = { "mhpmevent4",     any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT5]     = { "mhpmevent5",     any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT6]     = { "mhpmevent6",     any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT7]     = { "mhpmevent7",     any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT8]     = { "mhpmevent8",     any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT9]     = { "mhpmevent9",     any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT10]    = { "mhpmevent10",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT11]    = { "mhpmevent11",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT12]    = { "mhpmevent12",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT13]    = { "mhpmevent13",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT14]    = { "mhpmevent14",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT15]    = { "mhpmevent15",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT16]    = { "mhpmevent16",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT17]    = { "mhpmevent17",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT18]    = { "mhpmevent18",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT19]    = { "mhpmevent19",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT20]    = { "mhpmevent20",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT21]    = { "mhpmevent21",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT22]    = { "mhpmevent22",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT23]    = { "mhpmevent23",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT24]    = { "mhpmevent24",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT25]    = { "mhpmevent25",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT26]    = { "mhpmevent26",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT27]    = { "mhpmevent27",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT28]    = { "mhpmevent28",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT29]    = { "mhpmevent29",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT30]    = { "mhpmevent30",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++    [CSR_MHPMEVENT31]    = { "mhpmevent31",    any,    read_mhpmevent,
++                                                       write_mhpmevent },
++
++    [CSR_HPMCOUNTER3H]   = { "hpmcounter3h",   ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER4H]   = { "hpmcounter4h",   ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER5H]   = { "hpmcounter5h",   ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER6H]   = { "hpmcounter6h",   ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER7H]   = { "hpmcounter7h",   ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER8H]   = { "hpmcounter8h",   ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER9H]   = { "hpmcounter9h",   ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER10H]  = { "hpmcounter10h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER11H]  = { "hpmcounter11h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER12H]  = { "hpmcounter12h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER13H]  = { "hpmcounter13h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER14H]  = { "hpmcounter14h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER15H]  = { "hpmcounter15h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER16H]  = { "hpmcounter16h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER17H]  = { "hpmcounter17h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER18H]  = { "hpmcounter18h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER19H]  = { "hpmcounter19h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER20H]  = { "hpmcounter20h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER21H]  = { "hpmcounter21h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER22H]  = { "hpmcounter22h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER23H]  = { "hpmcounter23h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER24H]  = { "hpmcounter24h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER25H]  = { "hpmcounter25h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER26H]  = { "hpmcounter26h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER27H]  = { "hpmcounter27h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER28H]  = { "hpmcounter28h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER29H]  = { "hpmcounter29h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER30H]  = { "hpmcounter30h",  ctr32,  read_hpmcounterh },
++    [CSR_HPMCOUNTER31H]  = { "hpmcounter31h",  ctr32,  read_hpmcounterh },
++
++    [CSR_MHPMCOUNTER3H]  = { "mhpmcounter3h",  mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER4H]  = { "mhpmcounter4h",  mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER5H]  = { "mhpmcounter5h",  mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER6H]  = { "mhpmcounter6h",  mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER7H]  = { "mhpmcounter7h",  mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER8H]  = { "mhpmcounter8h",  mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER9H]  = { "mhpmcounter9h",  mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER10H] = { "mhpmcounter10h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER11H] = { "mhpmcounter11h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER12H] = { "mhpmcounter12h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER13H] = { "mhpmcounter13h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER14H] = { "mhpmcounter14h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER15H] = { "mhpmcounter15h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER16H] = { "mhpmcounter16h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER17H] = { "mhpmcounter17h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER18H] = { "mhpmcounter18h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER19H] = { "mhpmcounter19h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER20H] = { "mhpmcounter20h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER21H] = { "mhpmcounter21h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER22H] = { "mhpmcounter22h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER23H] = { "mhpmcounter23h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER24H] = { "mhpmcounter24h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER25H] = { "mhpmcounter25h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER26H] = { "mhpmcounter26h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER27H] = { "mhpmcounter27h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER28H] = { "mhpmcounter28h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER29H] = { "mhpmcounter29h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER30H] = { "mhpmcounter30h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
++    [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", mctr32,  read_hpmcounterh,
++                                                       write_mhpmcounterh },
+ #endif /* !CONFIG_USER_ONLY */
+ };
 diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 2a437b29a1ce..87cd55bfd3a7 100644
+index 87cd55bfd3a7..99193c85bb97 100644
 --- a/target/riscv/machine.c
 +++ b/target/riscv/machine.c
-@@ -330,6 +330,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-         VMSTATE_UINTTL(env.siselect, RISCVCPU),
+@@ -331,6 +331,9 @@ const VMStateDescription vmstate_riscv_cpu = {
          VMSTATE_UINTTL(env.scounteren, RISCVCPU),
          VMSTATE_UINTTL(env.mcounteren, RISCVCPU),
-+        VMSTATE_UINTTL(env.mcountinhibit, RISCVCPU),
+         VMSTATE_UINTTL(env.mcountinhibit, RISCVCPU),
++        VMSTATE_UINTTL_ARRAY(env.mhpmcounter_val, RISCVCPU, RV_MAX_MHPMCOUNTERS),
++        VMSTATE_UINTTL_ARRAY(env.mhpmcounterh_val, RISCVCPU, RV_MAX_MHPMCOUNTERS),
++        VMSTATE_UINTTL_ARRAY(env.mhpmevent_val, RISCVCPU, RV_MAX_MHPMEVENTS),
          VMSTATE_UINTTL(env.sscratch, RISCVCPU),
          VMSTATE_UINTTL(env.mscratch, RISCVCPU),
          VMSTATE_UINT64(env.mfromhost, RISCVCPU),
