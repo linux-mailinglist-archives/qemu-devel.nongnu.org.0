@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A535E52361E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:49:16 +0200 (CEST)
-Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C5D523620
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:49:21 +0200 (CEST)
+Received: from localhost ([::1]:60466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noneN-0004l0-6K
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:49:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
+	id 1noneS-0005Cn-SQ
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nonbg-0001yp-1r
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:29 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:47089)
+ id 1nonbk-0001zf-2A
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:33 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nonbe-0001AS-86
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:27 -0400
-Received: by mail-pg1-x533.google.com with SMTP id l11so1966969pgt.13
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 07:46:24 -0700 (PDT)
+ id 1nonbh-0001An-P1
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:31 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 15so1999037pgf.4
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 07:46:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Enoc3V9LSI02yYB4by7fwgJWxViZ8eSA+90wDYTpsOo=;
- b=nOTKSPA+earambedkjAryV1n7GQWT8hOT7jXQz+VwfTaNjmXQ6wziQEd7wvvxKbHR0
- US0110FtusXnnIKdknVglnxjtqbzxa9GDB55qqviN16iIrdlJI90K/2/bZZHPSj0u/QX
- IPFVDLAUxRqTi/yPif7K/5h2xuVbt5u2gWn/XrIRgUV+XwmnvBuKeIsciir8HpRC81wT
- dKjF2vq3YtwbxQ2pDpvVjXRroLsSFVy6OUxpk4F2AlzjTtjrrlj52gtaZV6uUju8gT0i
- uIt+7xFKcYNw/1Y848EYf/ufZVRVtiXDom6PSc5VG5Z6COEOFaUFNpPbao0ZdGOwj9Bf
- IQVg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Odlh7Y8iwGv1s0I3j3Ny/+JD8qBeRZdaKDHUoz/NXA8=;
+ b=mSFbb0P22pT24Giufkp0x3HGTWI2I0M5Oxrz0uF5lxlHAW9gz/RU7EIvDjL49Ngz3g
+ uBL7nHQhs/aA5q8+bpjW5v3fCITULZYL17RkmRHH0E0BjpHvWx3Z//SMwl/VjqrgrNeC
+ 4y8Ru0Ytjb47EjylI92J0Ecde69sjkY3tSxDdPFUMbgYgDyA4/jc1wyv5c/ifSpoU3AJ
+ +ZC7U07GJrccFiskDWLwrl0PncP1QMETZ2eBpQ5v5UwE2SigX72mQAOJc3R+loa53gjs
+ x0XQs6u4oVhP4k0iZrm/XSXFxX/pG92LRjWvhXUvc4FP4JaaJ1ZA9nHwl6CkjR/LFbk9
+ jprQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Enoc3V9LSI02yYB4by7fwgJWxViZ8eSA+90wDYTpsOo=;
- b=iPK7SOECxBtZDDlNdzBa3HXoVmEdmjvwQMq4tO2s3xdaja6/dW6QV6n09p8+n+76Ky
- 1oHCOR6dt1WsLC0WcLWcxc4WiT3BPAuWGlDTzwt4DRINvfUn0QG/COQ3Agwd1AS3x62a
- jQqj4ClpYmxbKUEqQWEU+U2HpNAjetzzSkJfiiVEKEhOfs+jjw/tNp8g+s6DZp0BZmPC
- cPiv2ccom51YYUnRIrpHEGhWFdycF1wHBbrMtvP3BO+A0jOknGYYNHA/GGObOow+ywLP
- 200uYGJ4W5/v4X+tcJufeE8LP9frYr2D/Fn9tNdwzrRc3RdgCGpRtcY7fJioDR1WqfdO
- 1a2g==
-X-Gm-Message-State: AOAM531CTTqDp5a//AQZxju+8OQQSdsOdRDiZE+uI01q9yTnR9GJ6Gqr
- P1yMPZVNEbmI8X70AvLNYfpoZg==
-X-Google-Smtp-Source: ABdhPJwGh9j5H+AeEh2jpry8m5+ZglmDmijD8MHGF1sTyNlf0ly719dw1lmOJdvGsuIGQYI78bBy0Q==
-X-Received: by 2002:a65:6a4c:0:b0:39c:f169:b54a with SMTP id
- o12-20020a656a4c000000b0039cf169b54amr21372913pgu.384.1652280383384; 
- Wed, 11 May 2022 07:46:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Odlh7Y8iwGv1s0I3j3Ny/+JD8qBeRZdaKDHUoz/NXA8=;
+ b=rUAAiQl4OlDIdkcZw1JTsrpW+HjjQsUBeHAuIHx4wYDW+TAsN+mXtUyMK5Pt0AgOGj
+ NpMwOGV5RGthdM7Yk/noLiH6Ko/eyNI7/Ca7k27u0SYj+Kp64MMoPO9reqe9Gnw3EYaR
+ 0eYh+JYRFOeL5vegD0vvgL80AQv/j9vSfXXz8U9f8YnmBcGSkiw+8oU74gH8QTTrHlk6
+ 9T5SqDqzJzcbraHEZgHmOBaV9pLdPWrgUIdhpYtJ3F9FlGGGcvBjv6IjI7ZatbHSzN6D
+ DFgTOPl22ttSvCnSO5KoitzfFor1vgLGnpvh1/ytu7LaPPGYcIobAdJAx+JLTGzm9OC8
+ Pwtg==
+X-Gm-Message-State: AOAM53242NA3lR6P3wGwPjDVlibavX8PeoJVMrv5Pu2P/d12VvyYjM6o
+ /FBXOXRU56E3+YUfPbx2gi/2xA==
+X-Google-Smtp-Source: ABdhPJxXlBAlmRpS8Ogji5d5DP2JzCpdMEf3dhR/VkSISKk1gPFzo0B9LnDf4sBLtZfQDQZTuXy/Ig==
+X-Received: by 2002:a05:6a00:1acd:b0:50e:1872:c680 with SMTP id
+ f13-20020a056a001acd00b0050e1872c680mr25877801pfv.16.1652280388454; 
+ Wed, 11 May 2022 07:46:28 -0700 (PDT)
 Received: from anup-ubuntu64-vm.. ([171.76.113.90])
  by smtp.gmail.com with ESMTPSA id
- x2-20020a170902820200b0015eafc485c8sm1958726pln.289.2022.05.11.07.46.19
+ x2-20020a170902820200b0015eafc485c8sm1958726pln.289.2022.05.11.07.46.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 07:46:22 -0700 (PDT)
+ Wed, 11 May 2022 07:46:27 -0700 (PDT)
 From: Anup Patel <apatel@ventanamicro.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
@@ -61,15 +61,19 @@ To: Peter Maydell <peter.maydell@linaro.org>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
 Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>
-Subject: [PATCH v2 0/8] QEMU RISC-V nested virtualization fixes
-Date: Wed, 11 May 2022 20:15:20 +0530
-Message-Id: <20220511144528.393530-1-apatel@ventanamicro.com>
+ Anup Patel <apatel@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Frank Chang <frank.chang@sifive.com>
+Subject: [PATCH v2 1/8] target/riscv: Fix csr number based privilege checking
+Date: Wed, 11 May 2022 20:15:21 +0530
+Message-Id: <20220511144528.393530-2-apatel@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220511144528.393530-1-apatel@ventanamicro.com>
+References: <20220511144528.393530-1-apatel@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=apatel@ventanamicro.com; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,49 +96,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series does fixes and improvements to have nested virtualization
-on QEMU RISC-V.
+When hypervisor and VS CSRs are accessed from VS-mode or VU-mode,
+the riscv_csrrw_check() function should generate virtual instruction
+trap instead illegal instruction trap.
 
-These patches can also be found in riscv_nested_fixes_v2 branch at:
-https://github.com/avpatel/qemu.git
+Fixes: 0a42f4c44088 (" target/riscv: Fix CSR perm checking for HS mode")
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+---
+ target/riscv/csr.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-The RISC-V nested virtualization was tested on QEMU RISC-V using
-Xvisor RISC-V which has required hypervisor support to run another
-hypervisor as Guest/VM.
-
-Changes since v1:
- - Set write_gva to env->two_stage_lookup which ensures that for
-   HS-mode to HS-mode trap write_gva is true only for HLV/HSV
-   instructions
- - Included "[PATCH 0/3] QEMU RISC-V priv spec version fixes"
-   patches in this series for easy review
- - Re-worked PATCH7 to force disable extensions if required
-   priv spec version is not staisfied
- - Added new PATCH8 to fix "aia=aplic-imsic" mode of virt machine
-
-Anup Patel (8):
-  target/riscv: Fix csr number based privilege checking
-  target/riscv: Fix hstatus.GVA bit setting for traps taken from HS-mode
-  target/riscv: Set [m|s]tval for both illegal and virtual instruction
-    traps
-  target/riscv: Update [m|h]tinst CSR in riscv_cpu_do_interrupt()
-  target/riscv: Don't force update priv spec version to latest
-  target/riscv: Add dummy mcountinhibit CSR for priv spec v1.11 or
-    higher
-  target/riscv: Force disable extensions if priv spec version does not
-    match
-  hw/riscv: virt: Fix interrupt parent for dynamic platform devices
-
- hw/riscv/virt.c           |  25 +++---
- target/riscv/cpu.c        |  46 +++++++++-
- target/riscv/cpu.h        |   8 +-
- target/riscv/cpu_bits.h   |   3 +
- target/riscv/cpu_helper.c | 172 ++++++++++++++++++++++++++++++++++++--
- target/riscv/csr.c        |  10 ++-
- target/riscv/instmap.h    |  41 +++++++++
- target/riscv/translate.c  |  17 +++-
- 8 files changed, 292 insertions(+), 30 deletions(-)
-
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 3500e07f92..2bf0a97196 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3139,7 +3139,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+     int read_only = get_field(csrno, 0xC00) == 3;
+     int csr_min_priv = csr_ops[csrno].min_priv_ver;
+ #if !defined(CONFIG_USER_ONLY)
+-    int effective_priv = env->priv;
++    int csr_priv, effective_priv = env->priv;
+ 
+     if (riscv_has_ext(env, RVH) &&
+         env->priv == PRV_S &&
+@@ -3152,7 +3152,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+         effective_priv++;
+     }
+ 
+-    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
++    csr_priv = get_field(csrno, 0x300);
++    if (!env->debugger && (effective_priv < csr_priv)) {
++        if (csr_priv == (PRV_S + 1) && riscv_cpu_virt_enabled(env)) {
++            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
++        }
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ #endif
 -- 
 2.34.1
 
