@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7C852307E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 12:14:20 +0200 (CEST)
-Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB715523093
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 12:19:41 +0200 (CEST)
+Received: from localhost ([::1]:54686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nojMJ-0007cl-JF
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 06:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51638)
+	id 1nojRU-0002lS-UA
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 06:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
- id 1nojKS-0005pP-1h; Wed, 11 May 2022 06:12:24 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:40645)
+ id 1nojKl-0006A2-Nx; Wed, 11 May 2022 06:12:43 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:46916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
- id 1nojKQ-0007Fa-BA; Wed, 11 May 2022 06:12:23 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id i24so1565827pfa.7;
- Wed, 11 May 2022 03:12:21 -0700 (PDT)
+ id 1nojKk-0007GS-4d; Wed, 11 May 2022 06:12:43 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id l11so1361879pgt.13;
+ Wed, 11 May 2022 03:12:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:subject:from:to:cc:date:in-reply-to:references
  :user-agent:mime-version;
- bh=kyMmBz10AVukZ+GG5AxhZ1o/FnDVPx4r80kNawsr/pE=;
- b=F8wXf/5uz/MelO56Qtiv2HWne7Bad2cXJhh5wUoXW7GbQcXMDbxHBJndv/7pOT6MnQ
- tGGjFOZ/THeo8iqSH86Tc6c/6eUX7Eb04gtZ9+BGwxQljZ6Y7KXb7PVllkDUTdbHURPU
- 2w2JhTbOAPxpI7gtrR9tQUXdUAv80mUoHlGDsG33C8BVLY1y8O9umd6rvybbmwnwwxht
- 645HM5qga8ueUKnaQwu34FRAjDH9jhXIy/+Ic63Batu0oaXoe+yo4H1TeBXQzbC/yFIZ
- +8q9Y7kFZAIFjAG2Ka0c6CRdYQx1xxZWlxfH8t/LFWvqwE9t5Z/q2jeHAiY9CA1nb66k
- HN5w==
+ bh=n948Fp/OWP23Uggqer+1Dui8mpZ1w9qcHe6pTjU+b3o=;
+ b=HOsqoQ5HoPhxhItRqzbR1KbecqfrXIOO8Dh2voWa3JhV8owzwcydz5h94IGAF+t4da
+ o/5Ou8kEn/10G0g4nlnJHDw7clXPAjA8MLmipobkFq3gi9qNQa1FQNJuyP1Q7s+zSYli
+ FVWS0fUqXvafrdHUz4WA7bX/EqxlqF6abwGyIdSNStkmX8XF9eS+7G9qb0Vy1NiLK8Qc
+ cwp1ZC6HnUAWWZhK4F5VwFbYbDGjq8H2xRuqDs3Q+k414q0AG5+Evh3SjwJMVICpqwLA
+ wAZZhBuB21ikK1xhYUraZrp9b6BW4HkFPE6XDXJ/NTtl562W/RJSUfZP7zuIZfmWs7PA
+ h0bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:user-agent:mime-version;
- bh=kyMmBz10AVukZ+GG5AxhZ1o/FnDVPx4r80kNawsr/pE=;
- b=jIjExO52AxI+DoJ8qAz/g3IlZ4QyvH54syPt29+W9tvjApHWRn0z0R7jYG0WCwr14S
- /xcUkXtbiAe0EYX1ITFG9fQYLj4nYDDCDbVyEB8TgBAMrdm/g6OvqhvmiuxoVfLjwj9x
- G/LfYyipZweKtC7bphDnUutdPAYHZaJs8S/szoLoptUhL8xCGCQBvUmLmh6EL1XRDVz2
- 1Qf1v5D+OoUimJQO7NDtm4iuqgSpadW0dFjfnnVRYOWRzLEw5/AkxF5uDdlbqSyguPFx
- VDu7wWOAfPMEhQvvknxBztKPybl1TKtYHA5rrrbDubG4XHJglTOWnC5Jcz7K/D9CcIZA
- wIag==
-X-Gm-Message-State: AOAM531Mvk5AQTxcJLFM1olJ04XH6w6YR5rvM9q+gV1YSthV/IvZV0cG
- BmASlj5kD6WTFQhmVHTnsLE=
-X-Google-Smtp-Source: ABdhPJyi5svuAeNYksWUmaFOBehiQ4WwFaiRaSHppSpxGbGWvDxusnN78CyGdZXZYwlaSEz1yqiwAg==
-X-Received: by 2002:a05:6a00:124f:b0:510:7d6d:ecb2 with SMTP id
- u15-20020a056a00124f00b005107d6decb2mr24273362pfi.82.1652263940563; 
- Wed, 11 May 2022 03:12:20 -0700 (PDT)
+ bh=n948Fp/OWP23Uggqer+1Dui8mpZ1w9qcHe6pTjU+b3o=;
+ b=myypAoE5SEuome9U2BbBNvI2wGxLAHZhFy/prktRAFU/dh7DfIcgONDFezhJ+q+lQ3
+ OtTycBvg1py7m0+CQNFkAmJudbdBPYx+LIGY9PtMqpBPOSNMrEoo3V126OIT3oI/Fg8p
+ Hlb7k+YeySF6yXzGH2ZbZXfAFNAMKDE29pzgqYwp1Pqw0WzzH3mystYzSjVoXLnE12pA
+ CKrW71dYwikOAmF96ioeK0dRp/U1N7jso/+nhLTG2yCos1AI4PxHlFAkAMWNIRMmNkWX
+ kJeowLWNeEe7YKg4QUc5Ron1jV9SxcYCN11k8gc4cUGu9+l8qmCZm/XbQKC+P1oNydBg
+ jNhw==
+X-Gm-Message-State: AOAM533OhC9dWOOlDjUli6iv+iqnBzJVRmnO+VSh+I9ykkl7JPcvPGT1
+ idwrVvv93ztSKGwiqIGGGM4=
+X-Google-Smtp-Source: ABdhPJxdtVnqV4JQ/eFGUEO2OsSqQepZ7i2NINV/oKFyiyGA/fA7eEhyGzv5A0PukQw4veVRJvhtkg==
+X-Received: by 2002:a63:6a88:0:b0:3c1:4a6c:be3 with SMTP id
+ f130-20020a636a88000000b003c14a6c0be3mr19836590pgc.13.1652263960601; 
+ Wed, 11 May 2022 03:12:40 -0700 (PDT)
 Received: from [10.0.30.13] (116-255-17-40.ip4.superloop.com. [116.255.17.40])
  by smtp.googlemail.com with ESMTPSA id
- d8-20020aa797a8000000b0050dc76281f8sm1284437pfq.210.2022.05.11.03.12.16
+ 3-20020a17090a018300b001cb978f906esm1443631pjc.0.2022.05.11.03.12.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 03:12:19 -0700 (PDT)
-Message-ID: <457382f10aac806ede80ffa013f9fbf3e263c075.camel@gmail.com>
-Subject: Re: [PATCH v2 2/3] target/ppc: Fix FPSCR.FI changing in
- float_overflow_excp()
+ Wed, 11 May 2022 03:12:39 -0700 (PDT)
+Message-ID: <2257b48007dc62d21140bf7c1a5859823fe4dfa5.camel@gmail.com>
+Subject: Re: [PATCH v2 3/3] target/ppc: Rename sfprf to sfifprf where it's
+ also used as set fi flag
 From: Rashmica Gupta <rashmica.g@gmail.com>
 To: =?ISO-8859-1?Q?V=EDctor?= Colombo <victor.colombo@eldorado.org.br>, 
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au, 
  groug@kaod.org, richard.henderson@linaro.org
-Date: Wed, 11 May 2022 20:12:14 +1000
-In-Reply-To: <20220510204610.100867-3-victor.colombo@eldorado.org.br>
+Date: Wed, 11 May 2022 20:12:34 +1000
+In-Reply-To: <20220510204610.100867-4-victor.colombo@eldorado.org.br>
 References: <20220510204610.100867-1-victor.colombo@eldorado.org.br>
- <20220510204610.100867-3-victor.colombo@eldorado.org.br>
+ <20220510204610.100867-4-victor.colombo@eldorado.org.br>
 Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-SW7EEqZecVdz0fOIs5s7"
+ protocol="application/pgp-signature"; boundary="=-17upIEHWyLwY8Pp5TNym"
 User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=rashmica.g@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=rashmica.g@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,143 +92,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---=-SW7EEqZecVdz0fOIs5s7
+--=-17upIEHWyLwY8Pp5TNym
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-On Tue, 2022-05-10 at 17:46 -0300, V=C3=ADctor Colombo wrote:
-> This patch fixes another not-so-clear situation in Power ISA
-> regarding the inexact bits in FPSCR. The ISA states that:
->=20
-> """
-> When Overflow Exception is disabled (OE=3D0) and an
-> Overflow Exception occurs, the following actions are
-> taken:
-> ...
-> 2. Inexact Exception is set
-> XX <- 1
-> ...
-> FI is set to 1
-> ...
-> """
->=20
-> However, when tested on a Power 9 hardware, some instructions that
-> trigger an OX don't set the FI bit:
->=20
-> xvcvdpsp(0x4050533fcdb7b95ff8d561c40bf90996) =3D FI: CLEARED -> CLEARED
-> xvnmsubmsp(0xf3c0c1fc8f3230, 0xbeaab9c5) =3D FI: CLEARED -> CLEARED
-> (just a few examples. Other instructions are also affected)
-
-I agree that the ISA could be clearer. These instructions are actually
-listed in '7.4.3 Floating-Point Overflow Exception' as instructions
-that don't modify FR, FI and FPRF. It would be ideal if the ISA
-mentioned that there were exceptions in the part that you quoted!
-
-This patch makes sense to me.
-
-Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
-
->=20
-> The root cause for this seems to be that only instructions that list
-> the bit FI in the "Special Registers Altered" should modify it.
->=20
-> QEMU is, today, not working like the hardware:
->=20
-> xvcvdpsp(0x4050533fcdb7b95ff8d561c40bf90996) =3D FI: CLEARED -> SET
-> xvnmsubmsp(0xf3c0c1fc8f3230, 0xbeaab9c5) =3D FI: CLEARED -> SET
->=20
-> (all tests assume FI is cleared beforehand)
->=20
-> Fix this by making float_overflow_excp() return float_flag_inexact
-> if it should update the inexact flags.
->=20
-> Signed-off-by: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
->=20
-> ---
->=20
-> v2:
-> - remove the setting of FI from float_overflow_excp, making
-> =C2=A0 do_float_check_status() the only responsible for it.
-> - make float_overflow_excp() return float_flag_inexact if it should
-> =C2=A0 update the inexact flags.
-> ---
-> =C2=A0target/ppc/fpu_helper.c | 13 +++++++------
-> =C2=A01 file changed, 7 insertions(+), 6 deletions(-)
->=20
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index f1ea4aa10e..88f9e756a5 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -329,24 +329,25 @@ static inline void
-> float_zero_divide_excp(CPUPPCState *env, uintptr_t raddr)
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
-> =C2=A0}
-> =C2=A0
-> -static inline void float_overflow_excp(CPUPPCState *env)
-> +static inline int float_overflow_excp(CPUPPCState *env)
-> =C2=A0{
-> =C2=A0=C2=A0=C2=A0=C2=A0 CPUState *cs =3D env_cpu(env);
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 env->fpscr |=3D FP_OX;
-> =C2=A0=C2=A0=C2=A0=C2=A0 /* Update the floating-point exception summary *=
-/
-> =C2=A0=C2=A0=C2=A0=C2=A0 env->fpscr |=3D FP_FX;
-> -=C2=A0=C2=A0=C2=A0 if (env->fpscr & FP_OE) {
-> +
-> +=C2=A0=C2=A0=C2=A0 bool overflow_enabled =3D !!(env->fpscr & FP_OE);
-> +=C2=A0=C2=A0=C2=A0 if (overflow_enabled) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* XXX: should adjust th=
-e result */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Update the floating-p=
-oint enabled exception summary */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env->fpscr |=3D FP_FEX;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* We must update the ta=
-rget FPR before raising the
-> exception */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cs->exception_index =3D =
-POWERPC_EXCP_PROGRAM;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env->error_code =3D POWE=
-RPC_EXCP_FP | POWERPC_EXCP_FP_OX;
-> -=C2=A0=C2=A0=C2=A0 } else {
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env->fpscr |=3D FP_XX;
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env->fpscr |=3D FP_FI;
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
-> +
-> +=C2=A0=C2=A0=C2=A0 return overflow_enabled ? 0 : float_flag_inexact;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static inline void float_underflow_excp(CPUPPCState *env)
-> @@ -468,7 +469,7 @@ static void do_float_check_status(CPUPPCState
-> *env, bool change_fi,
-> =C2=A0=C2=A0=C2=A0=C2=A0 int status =3D get_float_exception_flags(&env->f=
-p_status);
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 if (status & float_flag_overflow) {
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 float_overflow_excp(env);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status |=3D float_overflow_ex=
-cp(env);
-> =C2=A0=C2=A0=C2=A0=C2=A0 } else if (status & float_flag_underflow) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 float_underflow_excp(env=
-);
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
+T24gVHVlLCAyMDIyLTA1LTEwIGF0IDE3OjQ2IC0wMzAwLCBWw61jdG9yIENvbG9tYm8gd3JvdGU6
+Cj4gVGhlIGJpdCBGSSBmaXggdXNlZCB0aGUgc2ZwcmYgZmxhZyBhcyBhIGZsYWcgZm9yIHRoZSBz
+ZXRfZmkgcGFyYW1ldGVyCj4gaW4gZG9fZmxvYXRfY2hlY2tfc3RhdHVzIHdoZXJlIGFwcGxpY2Fi
+bGUuIE5vdywgdGhpcyBwYXRjaCByZW5hbWUKPiB0aGlzCj4gZmxhZyB0byBzZmlmcHJmIHRvIHN0
+YXRlIHRoaXMgZHVhbCB1c2FnZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBWw61jdG9yIENvbG9tYm8g
+PHZpY3Rvci5jb2xvbWJvQGVsZG9yYWRvLm9yZy5icj4KPiAKPiAtLS0KPiAKPiB2MjogQWRkIHRo
+aXMgcGF0Y2gKPiAtLS0KPiDCoHRhcmdldC9wcGMvZnB1X2hlbHBlci5jIHwgMTEyICsrKysrKysr
+KysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tCj4gLS0KPiDCoDEgZmlsZSBjaGFuZ2VkLCA1
+NiBpbnNlcnRpb25zKCspLCA1NiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0
+L3BwYy9mcHVfaGVscGVyLmMgYi90YXJnZXQvcHBjL2ZwdV9oZWxwZXIuYwo+IGluZGV4IDg4Zjll
+NzU2YTUuLjcyMDkxNTBkMWEgMTAwNjQ0Cj4gLS0tIGEvdGFyZ2V0L3BwYy9mcHVfaGVscGVyLmMK
+PiArKysgYi90YXJnZXQvcHBjL2ZwdV9oZWxwZXIuYwo+IEBAIC0xNjkzLDkgKzE2OTMsOSBAQCB1
+aW50MzJfdCBoZWxwZXJfZWZkY21wZXEoQ1BVUFBDU3RhdGUgKmVudiwKPiB1aW50NjRfdCBvcDEs
+IHVpbnQ2NF90IG9wMikKPiDCoCAqwqDCoCBuZWxzwqAgLSBudW1iZXIgb2YgZWxlbWVudHMgKDEs
+IDIgb3IgNCkKPiDCoCAqwqDCoCB0cMKgwqDCoCAtIHR5cGUgKGZsb2F0MzIgb3IgZmxvYXQ2NCkK
+PiDCoCAqwqDCoCBmbGTCoMKgIC0gdnNyX3QgZmllbGQgKFZzckQoKikgb3IgVnNyVygqKSkKPiAt
+ICrCoMKgIHNmcHJmIC0gc2V0IEZQUkYKPiArICrCoMKgIHNmaWZwcmYgLSBzZXQgRkkgYW5kIEZQ
+UkYKPiDCoCAqLwo+IC0jZGVmaW5lIFZTWF9BRERfU1VCKG5hbWUsIG9wLCBuZWxzLCB0cCwgZmxk
+LCBzZnByZiwKPiByMnNwKcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwK
+PiArI2RlZmluZSBWU1hfQUREX1NVQihuYW1lLCBvcCwgbmVscywgdHAsIGZsZCwgc2ZpZnByZiwK
+PiByMnNwKcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXAo+IMKgdm9pZCBoZWxw
+ZXJfIyNuYW1lKENQVVBQQ1N0YXRlICplbnYsIHBwY192c3JfdAo+ICp4dCzCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBcCj4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHBjX3Zzcl90ICp4YSwgcHBjX3Zzcl90Cj4gKnhiKcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwK
+PiDCoHvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+IMKgwqDCoMKgwqDCoMKgwqAgXAouLi7CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBcCj4gQEAgLTI3NjcsOSAr
+Mjc2Nyw5IEBAIFZTWF9DVlRfRlBfVE9fRlBfVkVDVE9SKHhzY3ZkcHFwLCAxLCBmbG9hdDY0LAo+
+IGZsb2F0MTI4LCBWc3JEKDApLCBmMTI4LCAxKQo+IMKgICrCoMKgIHR0cMKgwqAgLSB0YXJnZXQg
+dHlwZQo+IMKgICrCoMKgIHNmbGTCoCAtIHNvdXJjZSB2c3JfdCBmaWVsZAo+IMKgICrCoMKgIHRm
+bGTCoCAtIHRhcmdldCB2c3JfdCBmaWVsZAo+IC0gKsKgwqAgc2ZwcmYgLSBzZXQgRlBSRgo+ICsg
+KsKgwqAgc2ZpZnByZiAtIHNldCBGUFJGCgpzZXQgRkkgYW5kIEZQUkY/CgpvdGhlcndpc2UsIFJl
+dmlld2VkLWJ5OiBSYXNobWljYSBHdXB0YSA8cmFzaG1pY2EuZ0BnbWFpbC5jb20+Cg==
 
 
---=-SW7EEqZecVdz0fOIs5s7
+--=-17upIEHWyLwY8Pp5TNym
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEERkA2etWI6dXQfX34cbqTfKjlEScFAmJ7i/4ACgkQcbqTfKjl
-ESeEkgf+LMDluHN0mruR5Qvxevc9nl8U/2Af56uL2MFbF6XzMI3snn23Q23iPOM2
-jh6nSMThTfioA+6C+a2VxOeAvritcBf6fvUP7ClWFTw8MTBNt47Vkst49VU623Rz
-HS3LV2/YfuIPZwsoYyyST9CrThv8oLXtsaWCNxolCQI4eEcD0N2THNnmF4wZQZQi
-zw5G6qD/A5QEG16NHAaN8k+9HPGGwxtroZXK2nbNGw6SHwBqq9nldOzTlBvBdr7I
-3V3SPEEx+XmjdhvF3TJt+d1GVQQz5inx3EhvP2hr8XM07G0l50zF1ipc8gBiJY5U
-d+xzpb3KpFilM4s75y4GqpI/2tvJEw==
-=u/Qu
+iQEzBAABCAAdFiEERkA2etWI6dXQfX34cbqTfKjlEScFAmJ7jBIACgkQcbqTfKjl
+ESenugf/VCUtKhVamQPPi02MQhM6Bjsx79KQiNwQ5riw0h5KKexCMfi/3rQrHV/I
+T23aSIiHub9DGTQG1Mi7icmeU9wUdvD5t7ZBg4kKcuBD3gEftnJJFVfZTvcMXpeU
+2dM9ehdjd+gFyeFzO3t7bb9AbSQ0aQSdvvj9tO8ypK/Qn3KeH9ypUQmMOpsDHrrn
+i6dD2A36FovSQyHEPOSfd11Pv1hWN+8Jbla+IgLy3w69boK30jq8w21mH/eDmmoj
+4yB6uLVzaYR+VF1q/CWEMjO8hX+33nZzkvusmKDDhXDnDT67oEcR0oH+tbajFBbI
+G+yXzI1Hwl3+G+5oPnUivPrrYHVzww==
+=3ZjT
 -----END PGP SIGNATURE-----
 
---=-SW7EEqZecVdz0fOIs5s7--
+--=-17upIEHWyLwY8Pp5TNym--
 
