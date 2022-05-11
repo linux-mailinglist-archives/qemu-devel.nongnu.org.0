@@ -2,68 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7015C5230F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 12:48:55 +0200 (CEST)
-Received: from localhost ([::1]:51218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FEF523113
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 12:58:23 +0200 (CEST)
+Received: from localhost ([::1]:56524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nojtm-0004MX-27
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 06:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33346)
+	id 1nok2v-00006e-PM
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 06:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nojrn-0002cG-Ii
- for qemu-devel@nongnu.org; Wed, 11 May 2022 06:46:53 -0400
-Received: from mail-yb1-f171.google.com ([209.85.219.171]:34530)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nojrl-0004t8-RT
- for qemu-devel@nongnu.org; Wed, 11 May 2022 06:46:51 -0400
-Received: by mail-yb1-f171.google.com with SMTP id y76so3232497ybe.1
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 03:46:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nok1V-0007ae-FG
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 06:56:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39841)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nok1S-00073B-7y
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 06:56:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652266609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kONsClAnJ8aoEG+ElC7iF2hKV5qiPx1fAumu9oBivdI=;
+ b=Lf3IqG8EhyABx4LQNNDeSvpXozWV2JFwuI36i/TEicPLQQ4DdH0GkwjWdTEk81Xo2F+fte
+ 61F+00ZHTuPA/A68fDmzE47YuZly1SA+W0qylsjAPX0b5QkZ7+NKjoVC838OOry1sfJmNL
+ QeOD75znsDwhyRuclbUaApIh0jLoJtk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-223-EkgJSPsoM2ST3IH_6PK06g-1; Wed, 11 May 2022 06:56:48 -0400
+X-MC-Unique: EkgJSPsoM2ST3IH_6PK06g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ e4-20020a056000034400b0020cdf0dbf49so430736wre.20
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 03:56:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iIC6ZD9hmsg8MHEC4vfuvyXqGoSh+jG6s89PDHI/SuE=;
- b=j5zucUbe4zTGsHFR21/iRnRu/0hColBg4963EAtm06QHNXd/KmimX3ARVTUxEqMs/s
- Qvaetw/YHrlhFXrpWi8L2602woOOVXNKlFDJAcJeWzsKYuWraHeZZQHyg+WaUAoOjoo3
- 7faGTzFNwjpGVGdMGkyW6SvfqFvbSmgZoQsxSXgLm1O2KJXBtfFANSG9I9sVIp6HKYI4
- fnD3bnbtqp9AtKb3A4WwbPSWpT281qT8fvhq5cyJEglqcxsADb/ZUXfh7/8ZixYjsss8
- w0EfvOngl/bb8UG6urMk/34Zxx38KyNVLsgfX8L/uFWcxM5rv0B7HS2uHP5jkyDijk2V
- HG6w==
-X-Gm-Message-State: AOAM533qYPtpx3MuIxnJ1+7507tmaNNgVMR5HE39Sn56TJB/Uz6LpgZc
- 3wpskn5tUBFEYJAqmyvFCvELeIVucAJJZqCa9jA=
-X-Google-Smtp-Source: ABdhPJy7qVnYOk2Lk9NjGPqT0RzLvKDhxzwjJZSZlIeYQf9nIMumoS8ScSF8ZSUoR3gXsU7lLvXZLxC+hJmHWc0j9DY=
-X-Received: by 2002:a25:b095:0:b0:649:d59e:4c07 with SMTP id
- f21-20020a25b095000000b00649d59e4c07mr22515091ybj.627.1652266008606; Wed, 11
- May 2022 03:46:48 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=kONsClAnJ8aoEG+ElC7iF2hKV5qiPx1fAumu9oBivdI=;
+ b=T7aLN8bz/q56vw9dHBwU/162O/J9qt5jkfJkp1/bVqjpr0jRNvpMxktZpUcCYifDLL
+ X/Q6sWj/JkcdSHGjjrxF1edfPdPgecv5S/DhrPKg7kQODG7y1xs1Wix6gyQekdV2Rodz
+ VElXx0pLCd9JKd83GKyAvo+p3bUDp4EgfL4fcCwE49fUWDoaSTLYUjcoZ06qlfxP1Uao
+ 6lZgJKYrMb/DqWdEiy9be+m0qYKjvM5h6DCii1jPkdrPpA4X6jqgVtTCaE3nPbytLf1J
+ /jgLat4jJZPIl2Qf/A7pQVqGgWynpkbXhnShAe9LS4T7uqtz00cSDhQLrn/Q45n3J2ps
+ 1USA==
+X-Gm-Message-State: AOAM532vAsoIpvISrLysAcYefw7y6sEA+2KKtrSk78YyDYE5eP+T4tUd
+ ekD5tLZJ14PPabKacvORoRxfoVKPF7zORCTbY+bg3C9pwB7Ni9jDZJDPBQp+J2z+1OtdNxoq7R+
+ L5ppCUBoComp5aEs=
+X-Received: by 2002:a05:6000:12ca:b0:20a:dba5:d5f3 with SMTP id
+ l10-20020a05600012ca00b0020adba5d5f3mr21418948wrx.149.1652266606874; 
+ Wed, 11 May 2022 03:56:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyngnXhMcc3KdAE6sVB3WVj9Sy7hVBpU29h6AGwh2pL9IPIBEVCgMOcv/00sURldUm6wj5XQA==
+X-Received: by 2002:a05:6000:12ca:b0:20a:dba5:d5f3 with SMTP id
+ l10-20020a05600012ca00b0020adba5d5f3mr21418926wrx.149.1652266606649; 
+ Wed, 11 May 2022 03:56:46 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ m36-20020a05600c3b2400b003942a244edbsm2229276wms.32.2022.05.11.03.56.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 May 2022 03:56:46 -0700 (PDT)
+Message-ID: <b819e229-4aff-6381-a686-664aa97712a3@redhat.com>
+Date: Wed, 11 May 2022 12:56:45 +0200
 MIME-Version: 1.0
-References: <20220510195612.677494-1-thuth@redhat.com>
- <YnuCEPOj70J+1NXx@redhat.com>
-In-Reply-To: <YnuCEPOj70J+1NXx@redhat.com>
-Date: Wed, 11 May 2022 12:46:37 +0200
-Message-ID: <CAAdtpL45Bn0wrDX6nQzkzQW=eqxrja4zOFcfG_gTz84LExSpoA@mail.gmail.com>
-Subject: Re: [PATCH] Remove Ubuntu 18.04 support from the repository
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Robert Foley <robert.foley@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.219.171;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-yb1-f171.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220511094758.794946-1-thuth@redhat.com>
+ <CAFEAcA9bUires+a-dc8v-oDDKg5WJRf4vVR8jKady5QgjMJTZA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] meson.build: Bump minimum supported version of pixman to
+ 0.34.0
+In-Reply-To: <CAFEAcA9bUires+a-dc8v-oDDKg5WJRf4vVR8jKady5QgjMJTZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,62 +103,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-+Robert
+On 11/05/2022 12.28, Peter Maydell wrote:
+> On Wed, 11 May 2022 at 10:50, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> We haven't revisited the minimum required versions of pixman
+>> since quite a while. Let's check whether we can rule out some
+>> old versions that nobody tests anymore...
+>>
+>> For pixman, per repology.org, currently shipping versions are:
+>>
+>>       CentOS 8 / RHEL-8 : 0.38.4
+>>                Fedora 34: 0.40.0
+>>               Debian 10 : 0.36.0
+>>        Ubuntu LTS 20.04 : 0.38.4
+>>      openSUSE Leap 15.3 : 0.34.0
+>>             MSYS2 MinGW : 0.40.0
+>>           FreeBSD Ports : 0.34.0 / 0.40.0
+>>            NetBSD pksrc : 0.40.0
+>>
+>> OpenBSD 7.1 seems to use 0.40.0 when running tests/vm/openbsd.
+>>
+>> So it seems to be fine to bump the minimum version to 0.34.0 now.
+> 
+> This seems to be missing the rationale for why bumping
+> the minimum version is worth doing. What new feature that
+> we need is this enabling, or what now-unnecessary bug
+> workarounds does this permit us to drop?
 
- On Wed, May 11, 2022 at 11:30 AM Daniel P. Berrang=C3=A9
-<berrange@redhat.com> wrote:
->
-> On Tue, May 10, 2022 at 09:56:12PM +0200, Thomas Huth wrote:
-> > According to our "Supported build platforms" policy, we now do not supp=
-ort
-> > Ubuntu 18.04 anymore. Remove the related files and entries from our CI.
-> >
-> > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > ---
-> >  Seems like nobody touched the 18.04-based tests/vm/ubuntu* files in a
-> >  very long time, so I assume these are not used anymore and can complet=
-ely
-> >  be removed now.
->
-> Or it could mean that they are working fine and so haven't needed
-> changes...
+We simply don't test such old versions anymore. Thus what happens if someone 
+tries to use such a version and runs into a problem (especially if it is 
+non-obvious and would need a lot of debugging)? Are you still willing to fix 
+it? Or would you then rather bump the version after hours of debugging the 
+problem? ... IMHO it's better to set the expectations right from the start. 
+If we do not test and support it anymore, we should not give the impression 
+that QEMU can still be compiled with this.
 
-Yes :)
+  Thomas
 
-> The cross-compiler container envs give us build coverage for
-> non-x86, but the VMs give developers on x86 the ability to
-> actually run the unit tests / I/O tests. Personally I've
-> never used them, but someone might be ?
-
-I'd say Peter / Alex / Gerd / myself are using it from time to time.
-
-It has been proven useful to test x86_64 on aarch64, so I'd rather
-upgrade it. Robert, what do you think?
-
-> I'd suggest splitting this patch into several pieces. One
-> to fixup all the custom runner related pieces to remove
-> references to 18.04. One to delete the 18.04 container
-> related pieces. One to delete the 18.04 VM related pieces.
->
-> If you're adventurous, add a 22.04 container since that
-> is released now and in the QEMU platform target scope.
->
-> >
-> >  .gitlab-ci.d/containers.yml                   |   5 -
-> >  .../custom-runners/ubuntu-20.04-aarch32.yml   |   2 +-
-> >  .../custom-runners/ubuntu-20.04-aarch64.yml   |   2 +-
-> >  scripts/ci/setup/build-environment.yml        |  14 +-
-> >  tests/docker/dockerfiles/ubuntu1804.docker    | 144 ------------------
-> >  tests/lcitool/refresh                         |   7 -
-> >  tests/vm/ubuntu.aarch64                       |  68 ---------
-> >  tests/vm/ubuntu.i386                          |  40 -----
-> >  tests/vm/ubuntuvm.py                          |  60 --------
-> >  9 files changed, 4 insertions(+), 338 deletions(-)
-> >  delete mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
-> >  delete mode 100755 tests/vm/ubuntu.aarch64
-> >  delete mode 100755 tests/vm/ubuntu.i386
-> >  delete mode 100644 tests/vm/ubuntuvm.py
 
