@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D53522C3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 08:24:17 +0200 (CEST)
-Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F287522C3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 08:24:53 +0200 (CEST)
+Received: from localhost ([::1]:44968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noflc-00061N-Qm
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 02:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
+	id 1nofmF-0006Vt-HM
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 02:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nofd0-0003S5-4g
- for qemu-devel@nongnu.org; Wed, 11 May 2022 02:15:19 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:44839)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nofdV-0003tu-74
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 02:15:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nofcw-0001TE-3I
- for qemu-devel@nongnu.org; Wed, 11 May 2022 02:15:17 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.11])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 25890215BA;
- Wed, 11 May 2022 06:15:01 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Wed, 11 May
- 2022 08:15:01 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G00237c37da7-16eb-406e-8a46-2ae4c583eba0,
- 0573B671C186F18DA7A9CA3D7ACC2C84049858CC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <55b7b867-4510-824a-7ce1-8cbe24e7287d@kaod.org>
-Date: Wed, 11 May 2022 08:14:55 +0200
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nofdR-0001nE-4H
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 02:15:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652249743;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mj8WDpuuSOdifqFgUDuBzL4i4171LeOSdKqcwdADJqQ=;
+ b=IymCiP3xOdQxnrTjExz1DRu92omgE5WAVR0cLY15CFtmR3p9Ek4vKimdw2eqikWAIptIvy
+ 6vekwp6gAetfY2x//U07AAShJKaqJIpZR8+bKL1s+B+4vuKhxpWYjb3Nu+IXR4d3ViJm42
+ XkOezf7jc2crKRZzr3SxZQMyt/xQ37g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-182-yziFON97MS2Pgpui7lfP5g-1; Wed, 11 May 2022 02:15:42 -0400
+X-MC-Unique: yziFON97MS2Pgpui7lfP5g-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B5CE6185A7BA
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 06:15:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70B77401E9D;
+ Wed, 11 May 2022 06:15:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 37B3A21E6880; Wed, 11 May 2022 08:15:40 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Cc: Victor Toso <victortoso@redhat.com>,  qemu-devel@nongnu.org,  John Snow
+ <jsnow@redhat.com>,  Eric Blake <eblake@redhat.com>,  Kevin Wolf
+ <kwolf@redhat.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
+ <87a6c52u68.fsf@pond.sub.org>
+ <CABJz62NaEgEzEkvdYbNZ5qfkx_gAYfnxt_YbQhGyD08gRH6EYg@mail.gmail.com>
+ <87v8uos8lb.fsf@pond.sub.org>
+ <CABJz62MTVhDHZo5+sTJKm5b+SZM_W+_o5VmMgx0NVyibYfs=hw@mail.gmail.com>
+ <875ymop374.fsf@pond.sub.org>
+ <CABJz62OsaZo0hJB=ucereGDOHbK-5Ym4ASqhgVePJr65JRu0gQ@mail.gmail.com>
+ <87bkwff3q0.fsf@pond.sub.org>
+ <CABJz62PcEPwiZfV9dBQooELvDnrqPTc_iKWYph8CR6_cGUzmWA@mail.gmail.com>
+Date: Wed, 11 May 2022 08:15:40 +0200
+In-Reply-To: <CABJz62PcEPwiZfV9dBQooELvDnrqPTc_iKWYph8CR6_cGUzmWA@mail.gmail.com>
+ (Andrea Bolognani's message of "Tue, 3 May 2022 02:40:14 -0700")
+Message-ID: <87czgkiohf.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v1 1/1] hw/gpio: Add ASPEED GPIO model for AST1030
-Content-Language: en-US
-To: Jamin Lin <jamin_lin@aspeedtech.com>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>, Peter Delevoryas
- <pdel@fb.com>, Maheswara Kurapati <quic_mkurapat@quicinc.com>
-CC: <steven_lee@aspeedtech.com>, <troy_lee@aspeedtech.com>
-References: <20220321091453.17113-1-jamin_lin@aspeedtech.com>
- <20220321091453.17113-2-jamin_lin@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220321091453.17113-2-jamin_lin@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 48f0ed00-245c-4de6-bbc9-c60b20e3bb30
-X-Ovh-Tracer-Id: 6081266876073610162
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgeeggddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomh
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,433 +90,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Jamin,
+Andrea Bolognani <abologna@redhat.com> writes:
 
-(Adding a few people that could help with the review)
+> On Tue, May 03, 2022 at 09:57:27AM +0200, Markus Armbruster wrote:
+>> Andrea Bolognani <abologna@redhat.com> writes:
+>> > I still feel that 1) users of a language SDK will ideally not need to
+>> > look at the QAPI schema or wire chatter too often
+>>
+>> I think the most likely point of contact is the QEMU QMP Reference
+>> Manual.
+>
+> Note that there isn't anything preventing us from including the
+> original QAPI name in the documentation for the corresponding Go
+> symbol, or even a link to the reference manual.
+>
+> So we could make jumping from the Go API documentation, which is what
+> a Go programmer will be looking at most of the time, to the QMP
+> documentation pretty much effortless.
+>
+>> My point is: a name override feature like the one you propose needs to
+>> be used with discipline and restraint.  Adds to reviewers' mental load.
+>> Needs to be worth it.  I'm not saying it isn't, I'm just pointing out a
+>> cost.
+>
+> Yeah, I get that.
+>
+> Note that I'm not suggesting it should be possible for a name to be
+> completely overridden - I just want to make it possible for a human
+> to provide the name parsing algorithm solutions to those problems it
+> can't figure out on its own.
+>
+> We could prevent that feature from being misused by verifying that
+> the symbol the annotation is attached to can be derived from the list
+> of words provided. That way, something like
+>
+>   # SOMEName (completely-DIFFERENT-name)
+>
+> would be rejected and we would avoid misuse.
 
-On 3/21/22 10:14, Jamin Lin wrote:
+Possibly as simple as "down-case both names and drop the funny
+characters, result must be the same".
 
-> 1. Add GPIO read/write trace event.
+>> Wild idea: assume all lower case, but keep a list of exceptions.
+>
+> That could actually work reasonably well for QEMU because we only
+> need to handle correctly what's in the schema, not arbitrary input.
+>
+> There's always the risk of the list of exceptions getting out of sync
+> with the needs of the schema, but there's similarly no guarantee that
+> annotations are going to be introduced when they are necessary, so
+> it's mostly a wash.
+>
+> The only slight advantage of the annotation approach would be that it
+> might be easier to notice it being missing because it's close to the
+> name it refers to, while the list of exceptions is tucked away in a
+> script far away from it.
 
-Do we really need the "DEVICE(s)->canonical_path" parameter ?
-That would be patch 1.
+We'd put it in qapi/pragma.json, I guess.
 
-> 2. Support GPIO index mode for write operation.
-> It did not support GPIO index mode for read operation.
+>> The QAPI schema language uses three naming styles:
+>>
+>> * lower-case-with-hyphens for command and member names
+>>
+>>   Many names use upper case and '_'.  See pragma command-name-exceptions
+>>   and member-name-exceptions.
+>
+> Looking at the output generated by Victor's WIP script, it looks like
+> these are already handled as nicely as those that don't fall under
+> any exception.
+>
+>>   Some (many?) names lack separators between words (example: logappend).
 
-these changes would be in patch 2.
+How many would be good to know.
 
-> 3. AST1030 integrates one set of Parallel GPIO Controller
-> with maximum 151 control pins, which are 21 groups
-> (A~U, exclude pin: M6 M7 Q5 Q6 Q7 R0 R1 R4 R5 R6 R7 S0 S3 S4
-> S5 S6 S7 ) and the group T and U are input only.
+Ad hoc hackery to find names, filter out camels (because word splitting
+is too hard there), split into words, look up words in a word list:
 
-and a last patch 3.
+    $ for i in `/usr/bin/python3 /work/armbru/qemu/scripts/qapi-gen.py -o qapi -b ../qapi/qapi-schema.json | sort -u | awk '/^### [a-z0-9-]+$/ { print "lc", $2; next } /^### [a-z0-9_-]+$/ { print lu; next } /^### [A-Z0-9_]+$/ { print "uc", $2; next } /^### ([A-Z][a-z]+)+/ { print "cc", $2; next } { print "mc", $2 }' | sed '/^mc\|^cc/d;s/^.. //;s/[^A-Za-z0-9]/\n/g' | tr A-Z a-z | sort -u`; do grep -q "^$i$" /usr/share/dict/words || echo $i; done
 
-> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+420 lines.  How many arguably lack separators between words?  Wild guess
+based on glancing at the output sideways: some 50.
+
+>> * UPPER_CASE_WITH_UNDERSCORE for event names
+>>
+>> * CamelCase for type names
+>>
+>>   Capitalization of words is inconsistent in places (example: VncInfo
+>>   vs. DisplayReloadOptionsVNC).
+>>
+>> What style conversions will we need for Go?  Any other conversions come
+>> to mind?
+>>
+>> What problems do these conversions have?
+>
+> Go uses CamelCase for pretty much everything: types, methods,
+> constants...
+>
+>   There's one slight wrinkle, in that the case of the first letter
+>   decides whether it's going to be a PublicName or a privateName. We
+>   can't do anything about that, but it shouldn't really affect us
+>   that much because we'll want all QAPI names to be public.
+>
+> So the issues preventing us from producing a "perfect" Go API are
+>
+>   1. inconsistent capitalization in type names
+>
+>    -> could be addressed by simply changing the schema, as type
+>       names do not travel on the wire
+
+At the price of some churn in C code.
+
+Perhaps more consistent capitalization could be regarded as a slight
+improvement on its own.  We need to see (a good sample of) the changes
+to judge.
+
+>   2. missing dashes in certain command/member names
+>
+>    -> leads to Incorrectcamelcase.
+
+Names with words run together are arguably no uglier in CamelCase (Go)
+than in lower_case_with_underscores (C).
+
+>                                    Kevin's work is supposed to
+>       address this
+
+Except it's stuck.
+
+Perhaps Kevin and I can get it moving again.
+
+Perhaps we can try to extract a local alias feature that can be grown
+into the more ambitious aliases Kevin wants (if we can solve the
+issues).
+
+>   3. inability to know which parts of a lower-case-name or
+>      UPPER_CASE_NAME are acronyms or are otherwise supposed to be
+>      capitalized in a specific way
+>
+>    -> leads to WeirdVncAndDbusCapitalization. There's currently no
+>       way, either implemented or planned, to avoid this
+
+A list of words with special capitalization needs[*]?
+
+VNC is an acronym, some languagues want VNC in camels, some Vnc.
+
+DBus is an abbreviation, some languages want DBus in camels, some Dbus.
+
+> In addition to these I'm also thinking that QKeyCode and all the
+> QCrypto stuff should probably lose their prefixes.
+
+As Daniel pointed out, schema names sometimes have prefixes because we
+need the generated C identifiers to have prefixes.
+
+If we hate these prefixes enough, we can try to limit them to C
+identifiers.
+
+> Note that 3 shouldn't be an issue for Rust and addressing 1 would
+> actually make things worse for that language, because at the moment
+> at least *some* of the types follow its expected naming rules :)
+
+Solving Go problems by creating Rust problems doesn't feel like a good
+move to me.
+
+>> > Revised proposal for the annotation:
+>> >
+>> >   ns:word-WORD-WoRD-123Word
+>> >
+>> > Words are always separated by dashes; "regular" words are entirely
+>> > lowercase, while the presence of even a single uppercase letter in a
+>> > word denotes the fact that its case should be preserved when the
+>> > naming conventions of the target language allow that.
+>>
+>> Is a word always capitalized the same for a single target language?  Or
+>> could capitalization depend on context?
+>
+> I'm not aware of any language that would adopt more than a single
+> style of capitalization, outside of course the obvious
+> lower_case_name or UPPER_CASE_NAME scenarios where the original
+> capitalization stops being relevant.
+
+Makes sense.
 
 
-Some minor comments below,
-
-Thanks,
-
-C.
-
-
-> ---
->   hw/gpio/aspeed_gpio.c         | 250 ++++++++++++++++++++++++++++++++--
->   hw/gpio/trace-events          |   5 +
->   include/hw/gpio/aspeed_gpio.h |  16 ++-
->   3 files changed, 255 insertions(+), 16 deletions(-)
-> 
-> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-> index c63634d3d3..3f0bd036b7 100644
-> --- a/hw/gpio/aspeed_gpio.c
-> +++ b/hw/gpio/aspeed_gpio.c
-> @@ -15,6 +15,8 @@
->   #include "qapi/visitor.h"
->   #include "hw/irq.h"
->   #include "migration/vmstate.h"
-> +#include "trace.h"
-> +#include "hw/registerfields.h"
->   
->   #define GPIOS_PER_GROUP 8
->   
-> @@ -203,6 +205,28 @@
->   #define GPIO_1_8V_MEM_SIZE            0x1D8
->   #define GPIO_1_8V_REG_ARRAY_SIZE      (GPIO_1_8V_MEM_SIZE >> 2)
->   
-> +/*
-> + * GPIO index mode support
-> + * It only supports write operation
-> + */
-> +REG32(GPIO_INDEX_REG, 0x2AC)
-> +    FIELD(GPIO_INDEX_REG, NUMBER, 0, 8)
-> +    FIELD(GPIO_INDEX_REG, COMMAND, 12, 1)
-> +    FIELD(GPIO_INDEX_REG, TYPE, 16, 4)
-> +    FIELD(GPIO_INDEX_REG, DATA_VALUE, 20, 1)
-> +    FIELD(GPIO_INDEX_REG, DIRECTION, 20, 1)
-> +    FIELD(GPIO_INDEX_REG, INT_ENABLE, 20, 1)
-> +    FIELD(GPIO_INDEX_REG, INT_SENS_0, 21, 1)
-> +    FIELD(GPIO_INDEX_REG, INT_SENS_1, 22, 1)
-> +    FIELD(GPIO_INDEX_REG, INT_SENS_2, 23, 1)
-> +    FIELD(GPIO_INDEX_REG, INT_STATUS, 24, 1)
-> +    FIELD(GPIO_INDEX_REG, DEBOUNCE_1, 20, 1)
-> +    FIELD(GPIO_INDEX_REG, DEBOUNCE_2, 21, 1)
-> +    FIELD(GPIO_INDEX_REG, RESET_TOLERANT, 20, 1)
-> +    FIELD(GPIO_INDEX_REG, COMMAND_SRC_0, 20, 1)
-> +    FIELD(GPIO_INDEX_REG, COMMAND_SRC_1, 21, 1)
-> +    FIELD(GPIO_INDEX_REG, INPUT_MASK, 20, 1)
-
-That's a good idea. We should start switching the models to the registerfields
-interface.
-
->   static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int gpio)
->   {
->       uint32_t falling_edge = 0, rising_edge = 0;
-> @@ -523,11 +547,16 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
->       uint64_t idx = -1;
->       const AspeedGPIOReg *reg;
->       GPIOSets *set;
-> +    uint32_t value = 0;
-> +    uint64_t debounce_value;
->   
->       idx = offset >> 2;
->       if (idx >= GPIO_DEBOUNCE_TIME_1 && idx <= GPIO_DEBOUNCE_TIME_3) {
->           idx -= GPIO_DEBOUNCE_TIME_1;
-> -        return (uint64_t) s->debounce_regs[idx];
-> +        debounce_value = (uint64_t) s->debounce_regs[idx];
-> +        trace_aspeed_gpio_read(DEVICE(s)->canonical_path,
-> +                               offset, debounce_value);
-> +        return debounce_value;
->       }
->   
->       reg = &agc->reg_table[idx];
-> @@ -540,38 +569,193 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
->       set = &s->sets[reg->set_idx];
->       switch (reg->type) {
->       case gpio_reg_data_value:
-> -        return set->data_value;
-> +         value = set->data_value;
-> +         break;
->       case gpio_reg_direction:
-> -        return set->direction;
-> +        value = set->direction;
-> +        break;
->       case gpio_reg_int_enable:
-> -        return set->int_enable;
-> +        value = set->int_enable;
-> +        break;
->       case gpio_reg_int_sens_0:
-> -        return set->int_sens_0;
-> +        value = set->int_sens_0;
-> +        break;
->       case gpio_reg_int_sens_1:
-> -        return set->int_sens_1;
-> +        value = set->int_sens_1;
-> +        break;
->       case gpio_reg_int_sens_2:
-> -        return set->int_sens_2;
-> +        value = set->int_sens_2;
-> +        break;
->       case gpio_reg_int_status:
-> -        return set->int_status;
-> +        value = set->int_status;
-> +        break;
->       case gpio_reg_reset_tolerant:
-> -        return set->reset_tol;
-> +        value = set->reset_tol;
-> +        break;
->       case gpio_reg_debounce_1:
-> -        return set->debounce_1;
-> +        value = set->debounce_1;
-> +        break;
->       case gpio_reg_debounce_2:
-> -        return set->debounce_2;
-> +        value = set->debounce_2;
-> +        break;
->       case gpio_reg_cmd_source_0:
-> -        return set->cmd_source_0;
-> +        value = set->cmd_source_0;
-> +        break;
->       case gpio_reg_cmd_source_1:
-> -        return set->cmd_source_1;
-> +        value = set->cmd_source_1;
-> +        break;
->       case gpio_reg_data_read:
-> -        return set->data_read;
-> +        value = set->data_read;
-> +        break;
->       case gpio_reg_input_mask:
-> -        return set->input_mask;
-> +        value = set->input_mask;
-> +        break;
->       default:
->           qemu_log_mask(LOG_GUEST_ERROR, "%s: no getter for offset 0x%"
->                         HWADDR_PRIx"\n", __func__, offset);
->           return 0;
->       }
-> +
-> +    trace_aspeed_gpio_read(DEVICE(s)->canonical_path, offset, value);
-> +    return value;
-> +}
-> +
-> +static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
-> +                                                uint64_t data, uint32_t size)
-> +{
-> +
-> +    AspeedGPIOState *s = ASPEED_GPIO(opaque);
-> +    AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
-> +    const GPIOSetProperties *props;
-> +    GPIOSets *set;
-> +    uint32_t reg_idx_number = FIELD_EX32(data, GPIO_INDEX_REG, NUMBER);
-> +    uint32_t reg_idx_type = FIELD_EX32(data, GPIO_INDEX_REG, TYPE);
-> +    uint32_t reg_idx_command = FIELD_EX32(data, GPIO_INDEX_REG, COMMAND);
-> +    uint32_t set_idx = reg_idx_number / ASPEED_GPIOS_PER_SET;
-> +    uint32_t pin_idx = reg_idx_number % ASPEED_GPIOS_PER_SET;
-> +    uint32_t group_idx = pin_idx / GPIOS_PER_GROUP;
-> +    uint32_t reg_value = 0;
-> +    uint32_t cleared;
-> +
-> +    set = &s->sets[set_idx];
-> +    props = &agc->props[set_idx];
-> +
-> +    if (reg_idx_command)
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: offset 0x%" HWADDR_PRIx "data 0x%"
-> +            HWADDR_PRIx "index mode wrong command 0x%x\n",
-
-The format should use PRIx64 for the data
-
-> +            __func__, offset, data, reg_idx_command);
-> +
-> +    switch (reg_idx_type) {
-> +    case gpio_reg_idx_data:
-> +        reg_value = set->data_read;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, DATA_VALUE));
-> +        reg_value &= props->output;
-> +        reg_value = update_value_control_source(set, set->data_value,
-> +                                                reg_value);
-> +        set->data_read = reg_value;
-> +        aspeed_gpio_update(s, set, reg_value);
-> +        return;
-> +    case gpio_reg_idx_direction:
-> +        reg_value = set->direction;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, DIRECTION));
-> +        /*
-> +         *   where data is the value attempted to be written to the pin:
-> +         *    pin type      | input mask | output mask | expected value
-> +         *    ------------------------------------------------------------
-> +         *   bidirectional  |   1       |   1        |  data
-> +         *   input only     |   1       |   0        |   0
-> +         *   output only    |   0       |   1        |   1
-> +         *   no pin         |   0       |   0        |   0
-> +         *
-> +         *  which is captured by:
-> +         *  data = ( data | ~input) & output;
-> +         */
-> +        reg_value = (reg_value | ~props->input) & props->output;
-> +        set->direction = update_value_control_source(set, set->direction,
-> +                                                     reg_value);
-> +        break;
-> +    case gpio_reg_idx_interrupt:
-> +        reg_value = set->int_enable;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, INT_ENABLE));
-> +        set->int_enable = update_value_control_source(set, set->int_enable,
-> +                                                      reg_value);
-> +        reg_value = set->int_sens_0;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, INT_SENS_0));
-> +        set->int_sens_0 = update_value_control_source(set, set->int_sens_0,
-> +                                                      reg_value);
-> +        reg_value = set->int_sens_1;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, INT_SENS_1));
-> +        set->int_sens_1 = update_value_control_source(set, set->int_sens_1,
-> +                                                      reg_value);
-> +        reg_value = set->int_sens_2;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, INT_SENS_2));
-> +        set->int_sens_2 = update_value_control_source(set, set->int_sens_2,
-> +                                                      reg_value);
-> +        /* set interrupt status */
-> +        reg_value = set->int_status;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, INT_STATUS));
-> +        cleared = ctpop32(reg_value & set->int_status);
-> +        if (s->pending && cleared) {
-> +            assert(s->pending >= cleared);
-> +            s->pending -= cleared;
-> +        }
-> +        set->int_status &= ~reg_value;
-> +        break;
-> +    case gpio_reg_idx_debounce:
-> +        reg_value = set->debounce_1;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, DEBOUNCE_1));
-> +        set->debounce_1 = update_value_control_source(set, set->debounce_1,
-> +                                                      reg_value);
-> +        reg_value = set->debounce_2;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, DEBOUNCE_2));
-> +        set->debounce_2 = update_value_control_source(set, set->debounce_2,
-> +                                                      reg_value);
-> +        return;
-> +    case gpio_reg_idx_tolerance:
-> +        reg_value = set->reset_tol;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, RESET_TOLERANT));
-> +        set->reset_tol = update_value_control_source(set, set->reset_tol,
-> +                                                     reg_value);
-> +        return;
-> +    case gpio_reg_idx_cmd_src:
-> +        reg_value = set->cmd_source_0;
-> +        reg_value = deposit32(reg_value, GPIOS_PER_GROUP * group_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, COMMAND_SRC_0));
-> +        set->cmd_source_0 = reg_value & ASPEED_CMD_SRC_MASK;
-> +        reg_value = set->cmd_source_1;
-> +        reg_value = deposit32(reg_value, GPIOS_PER_GROUP * group_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, COMMAND_SRC_1));
-> +        set->cmd_source_1 = reg_value & ASPEED_CMD_SRC_MASK;
-> +        return;
-> +    case gpio_reg_idx_input_mask:
-> +        reg_value = set->input_mask;
-> +        reg_value = deposit32(reg_value, pin_idx, 1,
-> +                              FIELD_EX32(data, GPIO_INDEX_REG, INPUT_MASK));
-> +        /*
-> +         * feeds into interrupt generation
-> +         * 0: read from data value reg will be updated
-> +         * 1: read from data value reg will not be updated
-> +         */
-> +        set->input_mask = reg_value & props->input;
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: offset 0x%" HWADDR_PRIx "data 0x%"
-> +            HWADDR_PRIx "index mode wrong type 0x%x\n",
-> +            __func__, offset, data, reg_idx_type);
-> +        return;
-> +    }
-> +    aspeed_gpio_update(s, set, set->data_value);
-> +    return;
->   }
->   
->   static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-> @@ -585,7 +769,16 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
->       GPIOSets *set;
->       uint32_t cleared;
->   
-> +    trace_aspeed_gpio_write(DEVICE(s)->canonical_path, offset, data);
-> +
->       idx = offset >> 2;
-> +
-> +    /* check gpio index mode */
-> +    if (idx == R_GPIO_INDEX_REG) {
-> +        aspeed_gpio_write_index_mode(opaque, offset, data, size);
-> +        return;
-> +    }
-> +
->       if (idx >= GPIO_DEBOUNCE_TIME_1 && idx <= GPIO_DEBOUNCE_TIME_3) {
->           idx -= GPIO_DEBOUNCE_TIME_1;
->           s->debounce_regs[idx] = (uint32_t) data;
-> @@ -795,6 +988,15 @@ static GPIOSetProperties ast2600_1_8v_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
->       [1] = {0x0000000f,  0x0000000f,  {"18E"} },
->   };
->   
-> +static GPIOSetProperties ast1030_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
-> +    [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-> +    [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-> +    [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-> +    [3] = {0xffffff3f,  0xffffff3f,  {"M", "N", "O", "P"} },
-> +    [4] = {0xff060c1f,  0x00060c1f,  {"Q", "R", "S", "T"} },
-> +    [5] = {0x000000ff,  0x00000000,  {"U"} },
-> +};
-> +
->   static const MemoryRegionOps aspeed_gpio_ops = {
->       .read       = aspeed_gpio_read,
->       .write      = aspeed_gpio_write,
-> @@ -947,6 +1149,16 @@ static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
->       agc->reg_table = aspeed_1_8v_gpios;
->   }
->   
-> +static void aspeed_gpio_1030_class_init(ObjectClass *klass, void *data)
-> +{
-> +    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
-> +
-> +    agc->props = ast1030_set_props;
-> +    agc->nr_gpio_pins = 151;
-> +    agc->nr_gpio_sets = 6;
-> +    agc->reg_table = aspeed_3_3v_gpios;
-> +}
-> +
->   static const TypeInfo aspeed_gpio_info = {
->       .name           = TYPE_ASPEED_GPIO,
->       .parent         = TYPE_SYS_BUS_DEVICE,
-> @@ -984,6 +1196,13 @@ static const TypeInfo aspeed_gpio_ast2600_1_8v_info = {
->       .instance_init  = aspeed_gpio_init,
->   };
->   
-> +static const TypeInfo aspeed_gpio_ast1030_info = {
-> +    .name           = TYPE_ASPEED_GPIO "-ast1030",
-> +    .parent         = TYPE_ASPEED_GPIO,
-> +    .class_init     = aspeed_gpio_1030_class_init,
-> +    .instance_init  = aspeed_gpio_init,
-> +};
-> +
->   static void aspeed_gpio_register_types(void)
->   {
->       type_register_static(&aspeed_gpio_info);
-> @@ -991,6 +1210,7 @@ static void aspeed_gpio_register_types(void)
->       type_register_static(&aspeed_gpio_ast2500_info);
->       type_register_static(&aspeed_gpio_ast2600_3_3v_info);
->       type_register_static(&aspeed_gpio_ast2600_1_8v_info);
-> +    type_register_static(&aspeed_gpio_ast1030_info);
->   }
->   
->   type_init(aspeed_gpio_register_types);
-> diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
-> index 1dab99c560..717d6cf7cc 100644
-> --- a/hw/gpio/trace-events
-> +++ b/hw/gpio/trace-events
-> @@ -27,3 +27,8 @@ sifive_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" P
->   sifive_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 " value 0x%" PRIx64
->   sifive_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
->   sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
-> +
-> +# aspeed_gpio.c
-> +aspeed_gpio_read(const char *id, uint64_t offset, uint64_t value) " %s offset: 0x%04" PRIx64 " value 0x%08" PRIx64
-> +aspeed_gpio_write(const char *id, uint64_t offset, uint64_t value) "%s offset: 0x%04" PRIx64 " value 0x%08" PRIx64
-> +
-> diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
-> index 801846befb..cb7671149f 100644
-> --- a/include/hw/gpio/aspeed_gpio.h
-> +++ b/include/hw/gpio/aspeed_gpio.h
-> @@ -50,10 +50,24 @@ enum GPIORegType {
->       gpio_reg_input_mask,
->   };
->   
-> +/* GPIO index mode */
-> +enum GPIORegIndexType {
-> +    gpio_reg_idx_data = 0,
-> +    gpio_reg_idx_direction,
-> +    gpio_reg_idx_interrupt,
-> +    gpio_reg_idx_debounce,
-> +    gpio_reg_idx_tolerance,
-> +    gpio_reg_idx_cmd_src,
-> +    gpio_reg_idx_input_mask,
-> +    gpio_reg_idx_reserved,
-> +    gpio_reg_idx_new_w_cmd_src,
-> +    gpio_reg_idx_new_r_cmd_src,
-> +};
-> +
->   typedef struct AspeedGPIOReg {
->       uint16_t set_idx;
->       enum GPIORegType type;
-> - } AspeedGPIOReg;
-> +} AspeedGPIOReg;
->   
->   struct AspeedGPIOClass {
->       SysBusDevice parent_obj;
+[*] Sounds like crony capitalism, doesn't it :)
 
 
