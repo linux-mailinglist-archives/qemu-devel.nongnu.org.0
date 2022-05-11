@@ -2,96 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7901523132
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 13:12:40 +0200 (CEST)
-Received: from localhost ([::1]:35084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D7652314C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 13:17:00 +0200 (CEST)
+Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nokGl-0006BI-Ge
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 07:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40444)
+	id 1nokKx-0004Ja-Br
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 07:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nok8b-0003LV-Kn
- for qemu-devel@nongnu.org; Wed, 11 May 2022 07:04:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38196)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nok8W-0008KN-Jw
- for qemu-devel@nongnu.org; Wed, 11 May 2022 07:04:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652267026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ztkaqyDRG5x2FreP+gsY/pttIlTUSPbxnJMhCRLTw0U=;
- b=aRm6L7EqaE/XT3MWo3r9dzyQTqp5sgYL85fLN5yM2aKvsZWOOCO7EwevjyCE3Db+rH17hq
- H31BaB5V6DGeKmBygk5c0bMQgfsxsZttCybpyhJuivm4k0tRjE9nsvUMQIiLv9mIsVQs6l
- 8Hd5P/hn6fnRIb1BeE4LI69AiLFKlI0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-KAP0GmyCOyy-rKHkqHx2Yw-1; Wed, 11 May 2022 07:03:45 -0400
-X-MC-Unique: KAP0GmyCOyy-rKHkqHx2Yw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- u3-20020a05600c210300b0039430c7665eso602625wml.2
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 04:03:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nokCD-0004qi-5h
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 07:07:57 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nokCA-0000z3-Ur
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 07:07:56 -0400
+Received: by mail-wr1-x430.google.com with SMTP id w4so2421009wrg.12
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 04:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YQPwQdXc6blCVQ2JvtkMoCeDb2RsLlrvPPd+idVcYIw=;
+ b=Om9pdpuOtxW2kfHblwqw5c6YLAJJVx5lPWEW7gAyapkpRRki0ozA4kDWNNQ+MreOGF
+ HIxEKvo5N+aU7i00zNyT1FYFZaEieZR7jkn98qXOnuxoxT2q2wW1dCvKEzp+5EO/U0cA
+ 5gx0YjeeueRUGjEVmm9A77auPzcB8uiTmEOrSLmujsMs3ZFa1GWT8CXpO7L5uWPxuwJg
+ v9MH5TBmvNgkYET6kbj5dh8mQO/O1zceMaqh7mMBd10B4ZZiVEiMJgGurOIJbYy+4MwC
+ c4zmLFpn8nVdP6epQFqmjz8JK1RdT24qK5bMSlSBQ2/gC+eWPXtrP1AhDnnJvj19biBr
+ m8BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ztkaqyDRG5x2FreP+gsY/pttIlTUSPbxnJMhCRLTw0U=;
- b=rMD8Esph4ky2Tlr7ObrKh4MN8JByukviOmpfhLGnHuQcSbBE8NsxG9lCOL+AV2+PV9
- 423MF6JuKyOK8YK4GCML6G7Rl1kMhnZ2vJND0TFGCRhgNwb+WYHvL0KLTvzhgDh53QmT
- 6CbrIIST1u6bmKHgXzBttKsHdoZRCM3mdOU4/PIbm1nXoaVnvU/14Kx98yPyxeL0fSyy
- /Y0kZV83TzfvRAOzHUR08rAfAdMXnGjldEYATydQBATMvF/CGJiUzjUNMSSv202u5eKb
- AofG4kYLr1g14c1+onOLpcWP7AXUF8PE7czC4OmIh+Kzhb4P4NVzYdLkF/VCgSMp1W6M
- E9ew==
-X-Gm-Message-State: AOAM533FR99kkrzcHTwLBVZ7bM/quBx3AY7zpM31A/F8nBlBO+QePCfW
- /7oo7VsjO2o5Wz4xKtmyRQ8MNHzCLxL9G71NxOjlRUU+tgEacSqc/HP4ITKtJbaiP5viogOARd2
- 6PGJYkWF8KK2BwFc=
-X-Received: by 2002:a5d:4407:0:b0:20c:55c4:540e with SMTP id
- z7-20020a5d4407000000b0020c55c4540emr22440956wrq.92.1652267024581; 
- Wed, 11 May 2022 04:03:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqHxtpA8+hiGTfZCbUHJkGDifqdiXbxB8Xabrtl179vOlex5c2i+ge+UgjXgog1sLH2IigXw==
-X-Received: by 2002:a5d:4407:0:b0:20c:55c4:540e with SMTP id
- z7-20020a5d4407000000b0020c55c4540emr22440937wrq.92.1652267024349; 
- Wed, 11 May 2022 04:03:44 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- o8-20020a05600c4fc800b003942a244f31sm5856832wmq.10.2022.05.11.04.03.43
+ bh=YQPwQdXc6blCVQ2JvtkMoCeDb2RsLlrvPPd+idVcYIw=;
+ b=d1MBrB52AZ5ZRJHgsCpdhFKZ38s7WaVZbGO2S871cFaYSRzCr52llhnxwGBmSDiRvx
+ 28ZpT3zaw8h5uyFJscuZt4DXvVjYpoPLry9FAzLCZOL2vpECwgdqvLhXvJvpTMo4xPVl
+ ttRPyYLIwy/7DLfe96LXeFZKcZgsHZRPkD1GcLD/xyYhCGOWs7vvjwVXsBaq5VYVrTVZ
+ Hyj5ymqWN8VByYxWmVuc+93EY4fDI1nxZ9yzlgdbBWvxD+7Voi/UwV4ldQFB8s5Ohf1q
+ LecpgCH87fhWKZ7JoxrTAA99s115b0jh3yVA8cd/IU47b3fnCJyVKEg17Nh/7lDQ+tBD
+ Qp7A==
+X-Gm-Message-State: AOAM5303DyMqQ7hw74e6C9HToQhO1v+bYArnmCS6zhbf1pCaN78jIifI
+ /GB7B6eYL5r/YT4pLML/NvEuFhH8Td27hw==
+X-Google-Smtp-Source: ABdhPJzjiYaAR6TXoN0h2xzmVyKMGvqdaD1K1AnHlYpMjdoXPkcuADbQGIJiBpSXmJ+PymcnVFz39A==
+X-Received: by 2002:adf:e94d:0:b0:20c:d4d3:c696 with SMTP id
+ m13-20020adfe94d000000b0020cd4d3c696mr7735214wrn.136.1652267272871; 
+ Wed, 11 May 2022 04:07:52 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ l16-20020a5d4810000000b0020cd8f1d25csm1437687wrq.8.2022.05.11.04.07.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 04:03:43 -0700 (PDT)
-Message-ID: <f40ceb7b-8412-8da2-7c16-2590debecaed@redhat.com>
-Date: Wed, 11 May 2022 13:03:42 +0200
+ Wed, 11 May 2022 04:07:51 -0700 (PDT)
+Message-ID: <5374a249-8389-3d11-1b30-b0b6e6910a51@redhat.com>
+Date: Wed, 11 May 2022 13:07:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] util: NUMA aware memory preallocation
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Robert Foley <robert.foley@linaro.org>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20220510195612.677494-1-thuth@redhat.com>
- <YnuCEPOj70J+1NXx@redhat.com>
- <CAAdtpL45Bn0wrDX6nQzkzQW=eqxrja4zOFcfG_gTz84LExSpoA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] Remove Ubuntu 18.04 support from the repository
-In-Reply-To: <CAAdtpL45Bn0wrDX6nQzkzQW=eqxrja4zOFcfG_gTz84LExSpoA@mail.gmail.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
+References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
+ <Ynt/v2SHmnO2afg4@redhat.com>
+ <8a6b84ed-50bc-8f6e-4b71-7e15247c4ac0@redhat.com>
+ <YnuDONrdbMcJT08p@redhat.com>
+ <a11ca582-3d17-b064-6736-bd66ed5a5ec4@redhat.com>
+ <YnuLe7cVlEYsw78o@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YnuLe7cVlEYsw78o@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,31 +101,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/05/2022 12.46, Philippe Mathieu-Daudé wrote:
-> +Robert
+On 5/11/22 12:10, Daniel P. Berrangé wrote:
+> If all we needs is NUMA affinity, not CPU affinity, then it would
+> be sufficient to create 1 I/O thread per host NUMA node that the
+> VM needs to use. The job running in the I/O can spawn further
+> threads and inherit the NUMA affinity.  This might be more clever
+> than it is needed though.
 > 
->   On Wed, May 11, 2022 at 11:30 AM Daniel P. Berrangé
-> <berrange@redhat.com> wrote:
->>
->> On Tue, May 10, 2022 at 09:56:12PM +0200, Thomas Huth wrote:
->>> According to our "Supported build platforms" policy, we now do not support
->>> Ubuntu 18.04 anymore. Remove the related files and entries from our CI.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   Seems like nobody touched the 18.04-based tests/vm/ubuntu* files in a
->>>   very long time, so I assume these are not used anymore and can completely
->>>   be removed now.
->>
->> Or it could mean that they are working fine and so haven't needed
->> changes...
-> 
-> Yes :)
+> I expect creating/deleting I/O threads is cheap in comparison to
+> the work done for preallocation. If libvirt is using -preconfig
+> and object-add to create the memory backend, then we could have
+> option of creating the I/O threads dynamically in -preconfig mode,
+> create the memory backend, and then delete the I/O threads again.
 
-At least for me "make vm-build-ubuntu.aarch64" is only failing with ssh 
-timeouts (on my x86 laptop) ... is this really supposed to work with TCG, or 
-is this KVM (on arm hosts) only?
+I think this is very overengineered.  Michal's patch is doing the 
+obvious thing and if it doesn't work that's because Libvirt is trying to 
+micromanage QEMU.
 
-  Thomas
+As mentioned on IRC, if the reason is to prevent moving around threads 
+in realtime (SCHED_FIFO, SCHED_RR) classes, that should be fixed at the 
+kernel level.
 
+Paolo
 
