@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12927524139
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 01:54:09 +0200 (CEST)
-Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6F3524142
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 01:57:37 +0200 (CEST)
+Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1now9g-0005De-2O
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 19:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
+	id 1nowD2-0001Z6-AA
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 19:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6s-0002X4-UM
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6s-0002Wv-AG
  for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:14 -0400
-Received: from mout.gmx.net ([212.227.17.20]:56407)
+Received: from mout.gmx.net ([212.227.17.22]:53219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6p-0007T8-ND
- for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:14 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6p-0007TD-N7
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1652313056;
- bh=VAEp91koRKEvZdvh85pf0UnR5tJIQLrXBi0obfbPYe4=;
+ bh=r3Okl9jQeL2zOTkkIEuvub0WK8QlZF9JyuHXguWo1vc=;
  h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=GqUBz+Lwa/PFAS2dftRizTtlbvKYBA7e5gvcnEkyrDul0aosjjcyQh5JnC1Mi/lU3
- r7Nc9eYunytw35iD+wn87afxzsw8giIbEapgq8zZXvbVG+IcGY+8/DA5h8B/aEoXbR
- 1sGjfxLWlsjcOe2Or4Se20WajgeQWyxaFOWQx5rY=
+ b=RATdYAEUWTy8qED0KXGxKGdiQqWSDqs95/dNLg9qo+lkVXFy94t4132V/UWposMys
+ QwN/rwAeVIueHp+Nfbxxdd0nd4RZ9LAtGoNwgqr/+Bvn0lV4/Taoupolwl4ORdBXAP
+ NOmwQrhW23AbNggi9b0bl2aZa8e94eobttRDmE20=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.141.127]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvLB-1nNgK23tNF-00Rmvh; Thu, 12
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MV67y-1nNxI60OT0-00S3uc; Thu, 12
  May 2022 01:50:56 +0200
 From: Helge Deller <deller@gmx.de>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  Sven Schnelle <svens@stackframe.org>
-Subject: [PATCH 2/6] artist: Introduce constant for max cursor size
-Date: Thu, 12 May 2022 01:50:50 +0200
-Message-Id: <20220511235054.185435-3-deller@gmx.de>
+Subject: [PATCH 3/6] artist: Use human-readable variable names instead of
+ reg_xxx
+Date: Thu, 12 May 2022 01:50:51 +0200
+Message-Id: <20220511235054.185435-4-deller@gmx.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220511235054.185435-1-deller@gmx.de>
 References: <20220511235054.185435-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sTvW2SVcqscYr9EUflOUF3SICyDjFnomlrR9sxCst2aZf8L3JNV
- PXfWjYKGgSYmh/s7pOefKRZCfvMVntIzwnbk0CXFnqCBjWzm/VNUKMRxWGnK37u401BWqEd
- /8uwcdJIoOGxUQ7NLf0dJf36tCEmaDIjd9M7/p6ebWz1GW5aeLVJndq/8+Prj/5KgxwcS12
- 8F4VmGHKdzbgsbSZXorbg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gE/NsPOzgGQ=:F6Pfsr3oaLg9QmtWNM9kKx
- RUKQFIRJRiClRnmzHXt6VB7frzBc3oZXvq4T4BBNjC3gSriv7nl1T3RqD+tOonWdLV5bDoLUv
- rDjxVhm3Q30qKAlnDXJeQXLNlrw2QjUdXyuctlMGlj+9PQD5QYr/h22+sJAQHqc1fkQgijWfF
- f6VoJQZ85tpVws6mnS4mm5ill9RdLYUeICIZxZtgO3qKmmee/+y97YAcEnTIvD2CfRPVY52CD
- 2DhLbhPclmB1ASUz4e9Lt8TzZbCgqD3fhQCkviDhROLTpJcLLkfSyGwbAXp04Huxtv2bT8Xth
- nWEebI8/BOJQWFug4EVoLOVGp85HGkK3KQipLxcYY7hMVgWb87jRyz7nFe2E55mtWWKKvdSh2
- TABBvBy+uVqpLX86GE9Iv6sygUJ3H93SL8CmKrPX0wPH9pVAYlXH3IHd7ufdKiOhY4Z2cVeVk
- zFr3HvmW4+7wXi0+Ma00koYPaoEH+j5t1EjJXiqUIJujNy3mQfQ1/VsTNPusEgj/LKqOuRO2I
- Vv8U8+xNGnOIxCWugZEN9aQ0IB8THdQ6HdVrgJfTqT6wSApvmVDAb4Ckn9lprpPI9WMp/EUEB
- Z4lPPsyZIoTcWHNIHlGYjV85ks9qA6BbqHflltaIYK4WYN5ujgveKX/ugWQYw75F8X2/tT2ig
- 1W88v9GHL/re7u92PVN/Khk7KGYz2ZptepxohSLHmxEvw+Yh2KXI0enuprJGF6SaayMMvY9as
- uRaf9Hp3zxLi97/lB9L+irjUP+olQc4SFPZsV+qqASJnsur96j2Ct5tkdEbRDID7QuioagcJb
- 8+SFyJ6nv2hKQ+NMpW9lQEWEG5tNqdxTX7PvJlzJlZSzt1EsU6z+1pL46lIf33j3x3OEVbEOV
- FTbjtJ+BOX3ZdG/szqMdVn6EtECNMpO2wJ7ZVitCqBtDiaPJbnm90DaOoSUbqkCAMjQ9URg+g
- 7gikScuI4/+A3lBbTwOyB4LCuev9jmgQqb1fMrL+9/LhYgCKe7DlagP0TtHTzOYGeEmEfQLnm
- XRdyh/wCGQtJsNbGNNwpedT6Ali1RU2Ulc4nu/XoRZOBblwHSJHWvhWhBOyOxVQ815K5fYqS1
- 3T/VB3DxHg1TaM=
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:53utJZA+BhPSjykSnQacqTeX9S5YsyZQyZr6tEOQKwOeFZnEi4r
+ aiQNSM5CVVA2/JVwmAKsGia+wSkytBqEBFuBF/eV+SGiY1UIPMMmGnbvan9slMQ90ZV1pE4
+ 0Uo9oGOfcWR2T0S7cBPOPGWByWyguy+SM6YgjV2Dho8dNtjOXKQ/CFgubQa/CzkKF/zJWUq
+ C4pbWxaJxDfvpHwA5ue6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aD8zEqw6FlE=:hxZZGb4nm5WHR1mJioTS6q
+ H76iCElrY4Zp95BYMuuoqzreqhQxVF91mSAC/wRUNfE9iWkYXX5X6yN53OF/LLYFhBiE4cNqW
+ 35WaCuiW7qsewQu9U3uuGcBug8IuzPDd9tOi4YmtTtg3wX1qnr0uGKcphmCkZTQ8D1c4fPOA8
+ Hxl7B2INvH5QjbfzzAEaou1EFdE08lkehoRyTXa1pBo80+df7xM8+EEu9iYYxMkRTqvyLyg0w
+ Rp1oRhwbHWfxFChdrc1Mf8KNxU128oZJI+n9fzFxMixkgL0gTo+EqtiNaT6IKpVt+UCPs8YMp
+ Ekn5tuUQRUVmCk79QIwt/q96uT4RioDunJ+kN0nzAxJ+jQy5SyA7GOenrKdcDE5C3VcbAZOhZ
+ LTpAvLuACAdZ42waaZRheL8Fur5UVSvIMN9Wigg4AJCIrnpfjbXoE4DZJdsEeLLYjR7WqrWH7
+ 4yamTzJ+B2VPMDc8vluAtwq1yljkEyg60g0ZHQSkDlfSFlhiDA+GgZtUpgoY/WtErAQ1ACRCX
+ xpwx3EhlVXKF46BM/mSOycTeVvHPsgEnH59ymBQmgikjLpRlgKRzMAv5r4ILSOZZS7A78Tnxu
+ 4Mv7zchcoHKZh3O295cHFiIrQLvkIIhhdcUFVDYncEpfk+mYig1hYu/9olgZoNKZM8BXIVs4/
+ g9n5co3v4xa3TJSDFGh3ylr4bTtmA1E9mAIIInXLr2xYFbQwnNik22it/f37DM+BOmCyCcb6/
+ 5DxuGBzve2zFJumhFTTysU06SO+IfzqXMh10/zu4SmQHxn5m36f8EWQVMdjLkF+aR0ALldJGy
+ DXeH3CYOsTVoxL9hNxQA5x00R98Ki1qfI8NMNjrRYtnIaoX9r8Q2a5I8E68uhV6vO1M1bwT//
+ TyHeaAL5iIK0EAqxlPbKvBhfBTml6FQmHmJfHdUgp0HXEpSl8bxsW55XpMWDSFB4N6FjOlZOp
+ EF9S/txYBTTvXi9gWd5nqHgxZTLgf8ACB3J8xqvNGIodiA1YICBEP9JiAtpI+HPxs9k0xBh6u
+ XpE+NH8zHJl0UHt9Ib7PHZT504iE1MQtuoEXN01DFVM9Bvh8cBwaEFh81JxxqjcEMbJw0juhV
+ Nkn8ELIjM27aV8=
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,46 +87,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the constant NGLE_MAX_SPRITE_SIZE which defines the currently
-maximum supported cursor size.
+Convert the variable names of some registers to human-readable and
+understandable names.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/display/artist.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ hw/display/artist.c | 72 ++++++++++++++++++++++++++++++---------------
+ 1 file changed, 49 insertions(+), 23 deletions(-)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 39fc0c4ca5..6333ee41db 100644
+index 6333ee41db..c8b261a52e 100644
 =2D-- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -98,6 +98,9 @@ struct ARTISTState {
-     int draw_line_pattern;
- };
+@@ -81,9 +81,10 @@ struct ARTISTState {
+     uint32_t plane_mask;
 
-+/* hardware allows up to 64x64, but we emulate 32x32 only. */
-+#define NGLE_MAX_SPRITE_SIZE    32
-+
+     uint32_t reg_100080;
+-    uint32_t reg_300200;
+-    uint32_t reg_300208;
+-    uint32_t reg_300218;
++    uint32_t horiz_backporch;
++    uint32_t active_lines_low;
++    uint32_t misc_video;
++    uint32_t misc_ctrl;
+
+     uint32_t dst_bm_access;
+     uint32_t src_bm_access;
+@@ -138,8 +139,14 @@ typedef enum {
+     BG_COLOR =3D 0x118014,
+     PLANE_MASK =3D 0x118018,
+     IMAGE_BITMAP_OP =3D 0x11801c,
+-    CURSOR_POS =3D 0x300100,
+-    CURSOR_CTRL =3D 0x300104,
++    CURSOR_POS =3D 0x300100,      /* reg17 */
++    CURSOR_CTRL =3D 0x300104,     /* reg18 */
++    MISC_VIDEO =3D 0x300218,      /* reg21 */
++    MISC_CTRL =3D 0x300308,       /* reg27 */
++    HORIZ_BACKPORCH =3D 0x300200, /* reg19 */
++    ACTIVE_LINES_LOW =3D 0x300208,/* reg20 */
++    FIFO1 =3D 0x300008,           /* reg34 */
++    FIFO2 =3D 0x380008,
+ } artist_reg_t;
+
  typedef enum {
-     ARTIST_BUFFER_AP =3D 1,
-     ARTIST_BUFFER_OVERLAY =3D 2,
-@@ -1325,11 +1328,10 @@ static void artist_realizefn(DeviceState *dev, Err=
-or **errp)
-     framebuffer_update_memory_section(&s->fbsection, &buf->mr, 0,
-                                       buf->width, buf->height);
-     /*
--     * no idea whether the cursor is fixed size or not, so assume 32x32 w=
-hich
--     * seems sufficient for HP-UX X11.
-+     * Artist cursor max size
-      */
--    s->cursor_height =3D 32;
--    s->cursor_width =3D 32;
-+    s->cursor_height =3D NGLE_MAX_SPRITE_SIZE;
-+    s->cursor_width =3D NGLE_MAX_SPRITE_SIZE;
+@@ -177,12 +184,18 @@ static const char *artist_reg_name(uint64_t addr)
+     REG_NAME(SRC_BM_ACCESS);
+     REG_NAME(CURSOR_POS);
+     REG_NAME(CURSOR_CTRL);
++    REG_NAME(HORIZ_BACKPORCH);
++    REG_NAME(ACTIVE_LINES_LOW);
++    REG_NAME(MISC_VIDEO);
++    REG_NAME(MISC_CTRL);
+     REG_NAME(LINE_XY);
+     REG_NAME(PATTERN_LINE_START);
+     REG_NAME(LINE_SIZE);
+     REG_NAME(LINE_END);
+     REG_NAME(FONT_WRITE_INCR_Y);
+     REG_NAME(FONT_WRITE_START);
++    REG_NAME(FIFO1);
++    REG_NAME(FIFO2);
+     }
+     return "";
+ }
+@@ -1028,16 +1041,20 @@ static void artist_reg_write(void *opaque, hwaddr =
+addr, uint64_t val,
+         combine_write_reg(addr, val, size, &s->transfer_data);
+         break;
 
-     /*
-      * These two registers are not initialized by seabios's STI implement=
-ation.
+-    case 0x300200:
+-        combine_write_reg(addr, val, size, &s->reg_300200);
++    case HORIZ_BACKPORCH:
++        combine_write_reg(addr, val, size, &s->horiz_backporch);
+         break;
+
+-    case 0x300208:
+-        combine_write_reg(addr, val, size, &s->reg_300208);
++    case ACTIVE_LINES_LOW:
++        combine_write_reg(addr, val, size, &s->active_lines_low);
+         break;
+
+-    case 0x300218:
+-        combine_write_reg(addr, val, size, &s->reg_300218);
++    case MISC_VIDEO:
++        combine_write_reg(addr, val, size, &s->misc_video);
++        break;
++
++    case MISC_CTRL:
++        combine_write_reg(addr, val, size, &s->misc_ctrl);
+         break;
+
+     case CURSOR_POS:
+@@ -1122,12 +1139,11 @@ static uint64_t artist_reg_read(void *opaque, hwad=
+dr addr, unsigned size)
+     case 0x100000:
+     case 0x300000:
+     case 0x300004:
+-    case 0x300308:
+     case 0x380000:
+         break;
+
+-    case 0x300008:
+-    case 0x380008:
++    case FIFO1:
++    case FIFO2:
+         /*
+          * FIFO ready flag. we're not emulating the FIFOs
+          * so we're always ready
+@@ -1135,16 +1151,25 @@ static uint64_t artist_reg_read(void *opaque, hwad=
+dr addr, unsigned size)
+         val =3D 0x10;
+         break;
+
+-    case 0x300200:
+-        val =3D s->reg_300200;
++    case HORIZ_BACKPORCH:
++        val =3D s->horiz_backporch;
++        break;
++
++    case ACTIVE_LINES_LOW:
++        val =3D s->active_lines_low;
++        /* activeLinesLo for cursor is in reg20.b.b0 */
++        val |=3D ((s->height - 1) & 0xff);
+         break;
+
+-    case 0x300208:
+-        val =3D s->reg_300208;
++    case MISC_VIDEO:
++        /* emulate V-blank */
++        val =3D s->misc_video ^ 0x00040000;
++        /* activeLinesHi for cursor is in reg21.b.b2 */
++        val |=3D ((s->height - 1) & 0xff00);
+         break;
+
+-    case 0x300218:
+-        val =3D s->reg_300218;
++    case MISC_CTRL:
++        val =3D s->misc_ctrl;
+         break;
+
+     case 0x30023c:
+@@ -1379,9 +1404,10 @@ static const VMStateDescription vmstate_artist =3D =
+{
+         VMSTATE_UINT32(cursor_width, ARTISTState),
+         VMSTATE_UINT32(plane_mask, ARTISTState),
+         VMSTATE_UINT32(reg_100080, ARTISTState),
+-        VMSTATE_UINT32(reg_300200, ARTISTState),
+-        VMSTATE_UINT32(reg_300208, ARTISTState),
+-        VMSTATE_UINT32(reg_300218, ARTISTState),
++        VMSTATE_UINT32(horiz_backporch, ARTISTState),
++        VMSTATE_UINT32(active_lines_low, ARTISTState),
++        VMSTATE_UINT32(misc_video, ARTISTState),
++        VMSTATE_UINT32(misc_ctrl, ARTISTState),
+         VMSTATE_UINT32(dst_bm_access, ARTISTState),
+         VMSTATE_UINT32(src_bm_access, ARTISTState),
+         VMSTATE_UINT32(control_plane, ARTISTState),
 =2D-
 2.35.3
 
