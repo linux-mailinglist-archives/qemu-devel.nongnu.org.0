@@ -2,58 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B954523C7E
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECD8523C7F
 	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 20:32:16 +0200 (CEST)
-Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nor8A-0006iS-Tx
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 14:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39264)
+	id 1nor8B-0007N0-4w
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 14:32:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nor5G-0004Yq-5k; Wed, 11 May 2022 14:29:14 -0400
-Received: from [187.72.171.209] (port=14747 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nor5D-00016y-M8; Wed, 11 May 2022 14:29:13 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 11 May 2022 15:29:03 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 09ABC8001F1;
- Wed, 11 May 2022 15:29:03 -0300 (-03)
-Message-ID: <276e357e-a757-7d03-3a70-c23dd52dbe53@eldorado.org.br>
-Date: Wed, 11 May 2022 15:29:02 -0300
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nor6S-0005W6-UH; Wed, 11 May 2022 14:30:30 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:37866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nor6I-0001O8-8A; Wed, 11 May 2022 14:30:26 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-ed8a3962f8so3849059fac.4; 
+ Wed, 11 May 2022 11:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=x1mEOW745NlfMCqSHIWo4v/pzEnvuagZZrX5GGyCZSw=;
+ b=ldOShlNdWMm2EW2EjZs5YhJI1aWt01Z1fzyT4evCrtpjN5AdliV2n93rxXQp8Sju5I
+ UDsrrW03ghQEaxf+nyznbLXGR+C5ltO4FXpb/chKVISkHEEHVkE0LH1vrTL3GcXVcK/p
+ mbZ917y92ORJ2K93e7ZLwXsg4xwbjOXrTWIdmKl4qWO0ZrMr8mZEqbUsOXs4C/87qA6u
+ wWtbyQv3A9zGE6cY9NPeBsbfF+u9tZ8aDI5ypXgiYSrHAQkmF4uF+dPSfwCYjWV3Epa7
+ LjZ82Taae6ocbJ4opB4/DU2klnf7THDDrFBahY8kQs/lgp7zqeopLBxS/n0dKptkYNSs
+ MXqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=x1mEOW745NlfMCqSHIWo4v/pzEnvuagZZrX5GGyCZSw=;
+ b=TKI7LINbn46fmgFeMNds1hOFAdRFSBDeeRsxdFlfiPZ1bZAUvVwT6ewTrIOaDiC6dG
+ Muo/BvwCzT+YV9FYS4DSEeVVooJgX6xrgRzbLdzhGBiJG+pu0guX8u6WB0L+9knABqs6
+ SoLh8JElEDKiOkG7MukZVgMokXTNuEIUtIY1REYVL4lS04sJuQ7EqC6POm9la8MrQXJp
+ u+ZlXW5u6bGVQn8WuTTVMmpvgBObf08SuiU/y4f8LM37I7MYvGiETTWuHlIn34wTus5K
+ 8NW0/up7wpkcQDLcLiNX1EJSIEJBJpQ6Cw0jLs7NilMPc8PDwN0Qx7nxeHgme0wd+PQc
+ 2WRw==
+X-Gm-Message-State: AOAM530B+Jlkj1a+BZm2Lw8x6+CgzalhqHMm8HQPIlpAQWPsaAaVloqg
+ hg7O/cOl0A0shFcGxyi5oe0=
+X-Google-Smtp-Source: ABdhPJyydpjkUNBcSZ9u35VNaG4bulZhO4Zr9B75mk3E4m8SGeDEcT2Qh5yfOUfck9ENg3641iRHyw==
+X-Received: by 2002:a05:6870:40c2:b0:ee:916:7d18 with SMTP id
+ l2-20020a05687040c200b000ee09167d18mr3333920oal.17.1652293807593; 
+ Wed, 11 May 2022 11:30:07 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:6d99:130b:198b:b4b2:dcf0?
+ ([2804:431:c7c7:6d99:130b:198b:b4b2:dcf0])
+ by smtp.gmail.com with ESMTPSA id
+ 9-20020aca2809000000b00325cda1ffa5sm969394oix.36.2022.05.11.11.30.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 May 2022 11:30:07 -0700 (PDT)
+Message-ID: <d8e3740b-aa42-4c92-fd81-b90128255e20@gmail.com>
+Date: Wed, 11 May 2022 15:30:01 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 1/3] target/ppc: Fix FPSCR.FI bit being cleared when it
- shouldn't
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 00/17] powernv: introduce pnv-phb unified devices
 Content-Language: en-US
-To: Rashmica Gupta <rashmica.g@gmail.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- Nicholas Piggin <npiggin@gmail.com>, Paul Mackerras <paulus@samba.org>
-References: <20220510204610.100867-1-victor.colombo@eldorado.org.br>
- <20220510204610.100867-2-victor.colombo@eldorado.org.br>
- <244b0614581cbec66f6cf87dd13f806af036b769.camel@gmail.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <244b0614581cbec66f6cf87dd13f806af036b769.camel@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
+ fbarrat@linux.ibm.com
+References: <20220507190624.507419-1-danielhb413@gmail.com>
+ <d6ee5ef4-5242-1f1b-839c-242d18d10800@ilande.co.uk>
+ <e7f2e6bc-b443-ed96-683b-835fbe7a55b8@gmail.com>
+ <f0492ebb-d742-d465-421b-8c412de65f65@ilande.co.uk>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <f0492ebb-d742-d465-421b-8c412de65f65@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 11 May 2022 18:29:03.0557 (UTC)
- FILETIME=[FDBCBF50:01D86564]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,243 +97,237 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello!
 
-Thanks everyone for your kind reviews
 
-On 11/05/2022 07:12, Rashmica Gupta wrote:
-> Hello,
+On 5/10/22 04:57, Mark Cave-Ayland wrote:
+> On 09/05/2022 23:30, Daniel Henrique Barboza wrote:
 > 
-> cc'ing Paul and Nick for clarification on the behaviour of xsrsp (see below)
-> 
-> 
-> On Tue, 2022-05-10 at 17:46 -0300, Víctor Colombo wrote:
->> The FI bit in FPSCR is said to be a non-sticky bit on Power ISA.
->> One could think this means that, if an instruction is said to modify
->> the FPSCR register, the bit FI should be cleared. This is what QEMU
->> does today.
+>> On 5/9/22 18:17, Mark Cave-Ayland wrote:
+>>> On 07/05/2022 20:06, Daniel Henrique Barboza wrote:
+>>>
+>>>> Hi,
+>>>>
+>>>> Since the 7.0.0 release cycle we have a desire to use the powernv
+>>>> emulation with libvirt. To do that we need to enable user creatable
+>>>> pnv-phb devices to allow more user customization an to avoid spamming
+>>>> multiple default devices in the domain XML. In the middle of the
+>>>> previous cycle we experimented with user created
+>>>> pnv-phb3/pnv-phb3-root-port/pnv-phb4/pnv-phb4-root-port/pnv-phb5. The
+>>>> end result, although functional, is that the user needs to deal with a
+>>>> lot of versioned devices that, from the user perspective, does the same
+>>>> thing. In a way we outsourced the implementation details of the PHBs
+>>>> (e.g. pnv8 uses phb3, pnv9 uses phb4) to the command line. Having more
+>>>> devices also puts an extra burden in the libvirt support we want to
+>>>> have.
+>>>>
+>>>> To solve this, Cedric and Frederic gave the idea of adding a common
+>>>> virtual pnv-phb device that the user can add in the command line, and
+>>>> QEMU handles the details internally. Unfortunatelly this idea turned out
+>>>> to be way harder than anticipated. Between creating a device that would
+>>>> just forward the callbacks to the existing devices internally, creating
+>>>> a PnvPHB device with the minimal attributes and making the other devices
+>>>> inherit from it, and making an 'abstract' device that could be casted
+>>>> for both phb3 and phb4 PHBs,
+>>>
+>>> This bit sounds all good...
+>>>
+>>>> all sorts of very obscure problems occured:
+>>>> PHBs not being detected, interrupts not being delivered and memory
+>>>> regions not being able to read/write registers. My initial impression is
+>>>> that there are assumptions made both in ppc/pnv and hw/pci-host that
+>>>> requires the memory region and the bus being in the same device. Even
+>>>> if we somehow figure all this out, the resulting code is hacky and
+>>>> annoying to maitain.
+>>>
+>>> But this seems really surprising since there are many examples of similar QOM patterns within the codebase, and in my experience they work really well. Do you have a particular example that you can share to demonstrate why the result of the QOM mapping is making things more difficult?
 >>
->> However, the following inconsistency was found when comparing results
->> from the hardware (tested on both a Power 9 processor and in
->> Power 10 Mambo):
 >>
->> (FI bit is set before the execution of the instruction)
->> Hardware: xscmpeqdp(0xff..ff, 0xff..ff) = FI: SET -> SET
->> QEMU: xscmpeqdp(0xff..ff, 0xff..ff) = FI: SET -> CLEARED
+>> It's not so much about the OOM getting in the way, but rather myself not being
+>> able to use QOM in a way to get what I want. There is a good probability that
+>> QOM is able to do it.
 >>
->> This is happening to multiple instructions in the vsx
->> implementations. As the FI bit is non-sticky, one could think that
->> xscmpeqdp, a instruction the ISA states doesn't change FI bit, should
->> result in a cleared FI. However, this is not happening on hardware.
-> I would think that if an instruction doesn't change a bit
-> then that instruction wouldn't clear or set that bit, regardless of if
-> that bit is sticky or not.
-
-I think I might have over-generalized this commit message.
-I, as well as other developers of the Power ISA instructions in
-QEMU, didn't notice this behavior before, so it's at least confusing
-> 
->> An investigation resulted in the following conclusion:
->> If the ISA does not list the FI bit as altered for a particular
->> instruction, then it should be kept as it was before the instruction.
+>> Talking about the 2 PHBs pnv-phb3 (powernv8 only) and pnv-phb4 (powernv9 only),
+>> what we want is a way to let the user instantiate both using an alias, or
+>> an abstract object if you will, called "pnv-phb". This alias/abstraction would
+>> instantiate either a pnv-phb3 or a pnv-phb4 depending on the actual machine
+>> running.
 >>
->> QEMU is not following this behavior. Affected instructions include:
->> - xv* (all vsx-vector instructions);
->> - xscmp*, xsmax*, xsmin*;
->> - xstdivdp and similars;
->> (to identify the affected instructions, just search in the ISA for
->>   the instructions that does not list FI in "Special Registers
->> Altered")
-> The ISA does state
-> "Floating-Point Fraction Inexact (FI)
-> This bit is set to 0 or 1 by VSX Scalar
-> Floating-Point Arithmetic, VSX Scalar Integer
-> Conversion, and VSX Scalar Round to
-> Floating-Point Integer class instructions to
-> indicate whether or not the rounded result is
-> inexact or the instruction caused a disabled
-> Overflow exception. See Section 7.3.2.6 on
-> page 524. This bit is not sticky."
+>> QOM has the "interface" concept that is used internally to make the device behave
+>> like the interface describes it, but I wasn't able to expose this kind of object
+>> to the user. It also has the "abstract" concept that, by the documentation itself,
+>> isn't supposed to be user created. Eventually I gave up this idea, accepting that
+>> only real devices can be exposed to the user (please correct me if I'm wrong).
 > 
-> So it seems that instruction classes like VSX Vector Round and VSX Vector
-> convert don't touch the FI bit.
+> Sorry, I should have clarified this a bit more: introducing an abstract type is a separate task from adding your proxy device type, but I think will definitely help maintaining the individual versions. Certainly it will make it easier to see which fields are in use by specific versions, and it also gives you a QOM cast for the superclass of all PHB devices to help with type checking.
 > 
->> Most instructions use the function do_float_check_status() to commit
->> changes in the inexact flag. So the fix is to add a parameter to it
->> that will control if the bit FI should be changed or not.
->> All users of do_float_check_status() are then modified to provide
->> this
->> argument, controlling if that specific instruction changes bit FI or
->> not.
->> Some macro helpers are responsible for both instructions that change
->> and instructions that aren't suposed to change FI. This seems to
->> always
->> overlap with the sfprf flag. So, reuse this flag for this purpose
->> when
->> applicable.
+>> After that I tried to create a pnv-phb object that contains the common attributes
+>> of both pnv-phb3 and pnv-phb4. This object would be the parent of phb3 and phb4,
+>> and during realize time creating a pnv-phb object would create a pnv-phb3/4 and
+>> we go from there. This attempt went far after a few tweaks but then I started
+>> to hit the problems I mentioned above: some strange behaviors with interrupts,
+>> PHBs not appearing and so on. I got a little farther by moving all the memory
+>> regions from phb3/phb4 to the parent phb object and I got up to the guest login,
+>> but without network. Since moving the memory regions in the same object as the
+>> pci root bus got me farther I concluded that there might some relation/assumption
+>> made somewhere that I was breaking before.
+> 
+> That sounds really odd. The normal reasons for this in my experience are i) forgetting to update the class/instance size in the class_init function (an --enable-sanitizers build will catch this) and ii) not propagating device reset/realize functions to a parent device leading to uninitialised state.
+> 
+>> After all that I got more than halfway of what I ended up doing. I decided to
+>> unify phb3/phb4 into a single device, renamed their attributes that has different
+>> meanings between v3 and v4 code, and I ended up with this series.
+> 
+> As a rough outline for a pnv-phb device, I'd aim for creating a proxy for the underlying device rather than manually invoking the QOM instance and qdev-related functions:
+> 
+> 
+> struct PnvPHB {
+>      ....
+>      uint32_t version;
+>      Object *phb_dev;  /* Could be PHBCommonBase if it exists */
+> };
+> 
+> DECLARE_SIMPLE_OBJECT_TYPE(...)
+> 
+> ...
+> ...
+> 
+> static Property pnv_phb_properties[] = {
+>      DEFINE_PROP_UINT32("version", PnvPHB, version, 0),
+>      DEFINE_PROP_END_OF_LIST(),
+> };
+> 
+> static void pnv_phb_realize(DeviceState *dev, Error **errp)
+> {
+>      PnvPHB *pnv_phb = PNV_PHB(dev);
+>      g_autofree char *phb_typename;
+> 
+>      if (!pnv_phb->version) {
+>          error_setg("version not specified", errp);
+>          return;
+>      }
+> 
+>      switch (pnv_phb->version) {
+>      case 3:
+>          phb_typename = g_strdup(TYPE_PNV_PHB3);
+>          break;
+>      case 4:
+>          phb_typename = g_strdup(TYPE_PNV_PHB4);
+>          break;
+>      default:
+>          g_assert_unreached();
+>      }
+> 
+>      pnv_phb->phb_dev = object_new(phb_typename);
+>      object_property_add_child(OBJECT(dev), "phb-device", pnv_phb->phb_dev);
+> 
+>      if (!qdev_realize(DEVICE(pnv_phb->phb_dev), errp)) {
+>          return;
+>      }
+> 
+>      /* Passthrough child device properties to the proxy device */
+>      qdev_alias_all_properties(dev, OBJECT(pnv_phb->phb_dev));
+> }
+> 
+> Finally you can set the pnv-phb version on a per-machine basis by adding the version to the machine compat_props:
+> 
+> static GlobalProperty compat[] = {
+>      { TYPE_PHB_PNV, "version", 3},
+> };
+
+
+That's really interesting. I'll get a spin with your suggestion to see if I can
+make it work. Thanks!
+
+
+
+Daniel
+
+> 
+>>>> This brings us to this series. The cleaner way I found to accomplish
+>>>> what we want to do is to create real, unified pnv-phb/phb-phb-root-port
+>>>> devices, and get rid of all the versioned ones. This is done by
+>>>> merging all the PHB3/PHB4 attributes in unified devices. pnv_phb3* and pnv_phb4*
+>>>> files end up using the same pnv-phb and phb-phb-root-port unified devices,
+>>>> with the difference that pnv_phb3* only cares about version 3 attributes
+>>>> and pnv_phb4* only cares about PHB4 attributes. Introducing new PHB
+>>>> versions in the future will be a matter of adding any non-existent
+>>>> attributes in the unified pnv-phb* devices and using them in separated
+>>>> pnv_phbN* files.
+>>>>
+>>>> The pnv-phb implementation per se is just a router for either phb3 or
+>>>> phb4 logic, done in init() and realize() time, after we check which powernv
+>>>> machine we're running. If running with powernv8 we redirect control to
+>>>> pnv_phb3_realize(), otherwise we redirect to pnv_phb4_realize(). The
+>>>> unified device does not do anything per se other than handling control
+>>>> to the right version.
+>>>>
+>>>> After this series, this same powernv8 command line that boots a powernv8
+>>>> machine with some phbs and root ports and with network:
+>>>>
+>>>> ./qemu-system-ppc64 -m 4G \
+>>>> -machine powernv8 -smp 2,sockets=2,cores=1,threads=1  \
+>>>> -accel tcg,thread=multi -bios skiboot.lid  \
+>>>> -kernel vmlinux -initrd buildroot.rootfs.cpio -append 'console=hvc0 ro xmon=on'  \
+>>>> -nodefaults  -serial mon:stdio -nographic  \
+>>>> -device pnv-phb,chip-id=0,index=0,id=pcie.0 \
+>>>> -device pnv-phb,chip-id=0,index=1,id=pcie.1 \
+>>>> -device pnv-phb,chip-id=1,index=2,id=pcie.2 \
+>>>> -device pnv-phb-root-port,id=root0,bus=pcie.2 \
+>>>> -device pnv-phb-root-port,id=root1,bus=pcie.1 \
+>>>> -device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0  \
+>>>> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
+>>>> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none  \
+>>>> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
+>>>> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+>>>> -device nec-usb-xhci,bus=bridge1,addr=0x2
+>>>>
+>>>>
+>>>> Can be used to boot powernv9 and powernv10 machines with the same attributes
+>>>> just by changing the machine type.
+>>>>
+>>>>
+>>>> Daniel Henrique Barboza (17):
+>>>>    ppc/pnv: rename PnvPHB3.ioda* to PnvPHB3.ioda2*
+>>>>    ppc/pnv: rename PnvPHB3.regs[] to PnvPHB3.regs3[]
+>>>>    ppc/pnv: rename PnvPHB3.dma_spaces to PnvPHB3.v3_dma_spaces
+>>>>    ppc/pnv: add unified pnv-phb header
+>>>>    ppc/pnv: add pnv-phb device
+>>>>    ppc/pnv: remove PnvPHB3
+>>>>    ppc/pnv: user created pnv-phb for powernv8
+>>>>    ppc/pnv: remove PnvPHB4
+>>>>    ppc/pnv: user creatable pnv-phb for powernv9
+>>>>    ppc/pnv: use PnvPHB.version
+>>>>    ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
+>>>>    ppc/pnv: user creatable pnv-phb for powernv10
+>>>>    ppc/pnv: add pnv_phb_get_current_machine()
+>>>>    ppc/pnv: add pnv-phb-root-port device
+>>>>    ppc/pnv: remove pnv-phb3-root-port
+>>>>    ppc/pnv: remove pnv-phb4-root-port
+>>>>    ppc/pnv: remove pecc->rp_model
+>>>>
+>>>>   hw/pci-host/meson.build        |   3 +-
+>>>>   hw/pci-host/pnv_phb.c          | 258 ++++++++++++++++++++++++++++
+>>>>   hw/pci-host/pnv_phb3.c         | 256 +++++++++++-----------------
+>>>>   hw/pci-host/pnv_phb3_msi.c     |  12 +-
+>>>>   hw/pci-host/pnv_phb3_pbcq.c    |   8 +-
+>>>>   hw/pci-host/pnv_phb4.c         | 298 ++++++++++++---------------------
+>>>>   hw/pci-host/pnv_phb4_pec.c     |  14 +-
+>>>>   hw/ppc/pnv.c                   |  41 ++++-
+>>>>   include/hw/pci-host/pnv_phb.h  | 224 +++++++++++++++++++++++++
+>>>>   include/hw/pci-host/pnv_phb3.h | 118 +------------
+>>>>   include/hw/pci-host/pnv_phb4.h | 108 ++----------
+>>>>   include/hw/ppc/pnv.h           |   3 +-
+>>>>   12 files changed, 757 insertions(+), 586 deletions(-)
+>>>>   create mode 100644 hw/pci-host/pnv_phb.c
+>>>>   create mode 100644 include/hw/pci-host/pnv_phb.h
+>>>
+>>> I'm completely on-board with having a proxy-like PHB device that maps to the correct underlying PHB version, but to me it feels like combining multiple separate devices into a single one is going to make things more complicated to maintain in the long term.
 >>
->> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
->>
->> ---
->>
->> v2:
->> - move the FI change from float_inexact_excp to do_float_check_status
->> - sfprf will be renamed to sfifprf in another patch, as suggested by
->>    Richard
->> ---
->>   target/ppc/cpu.h        |   2 +
->>   target/ppc/fpu_helper.c | 122 +++++++++++++++++++++-----------------
->> --
->>   2 files changed, 66 insertions(+), 58 deletions(-)
->>
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 48596cfb25..901ded79e9 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -735,6 +735,8 @@ enum {
->>                         (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
->>                         (1 << FPSCR_VXCVI))
->>   
->> +FIELD(FPSCR, FI, FPSCR_FI, 1)
->> +
->>   #define FP_DRN2         (1ull << FPSCR_DRN2)
->>   #define FP_DRN1         (1ull << FPSCR_DRN1)
->>   #define FP_DRN0         (1ull << FPSCR_DRN0)
->> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
->> index f6c8318a71..f1ea4aa10e 100644
->> --- a/target/ppc/fpu_helper.c
->> +++ b/target/ppc/fpu_helper.c
->> @@ -370,7 +370,6 @@ static inline void float_inexact_excp(CPUPPCState
->> *env)
->>   {
->>       CPUState *cs = env_cpu(env);
->>   
->> -    env->fpscr |= FP_FI;
->>       env->fpscr |= FP_XX;
->>       /* Update the floating-point exception summary */
->>       env->fpscr |= FP_FX;
->> @@ -462,7 +461,8 @@ void helper_fpscr_check_status(CPUPPCState *env)
->>       }
->>   }
->>   
->> -static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
->> +static void do_float_check_status(CPUPPCState *env, bool change_fi,
->> +                                  uintptr_t raddr)
->>   {
->>       CPUState *cs = env_cpu(env);
->>       int status = get_float_exception_flags(&env->fp_status);
->> @@ -474,8 +474,10 @@ static void do_float_check_status(CPUPPCState
->> *env, uintptr_t raddr)
->>       }
->>       if (status & float_flag_inexact) {
->>           float_inexact_excp(env);
->> -    } else {
->> -        env->fpscr &= ~FP_FI; /* clear the FPSCR[FI] bit */
->> +    }
->> +    if (change_fi) {
->> +        env->fpscr = FIELD_DP64(env->fpscr, FPSCR, FI,
->> +                                !!(status & float_flag_inexact));
->>       }
-> 
-> According to the ISA not all instructions that affect FI, set FI on an
-> inexact exception (xsrqpi apparently clears FI on an inexact exception
-> -- I have no idea if this actually happens on hardware).
-
-good point,
-
-xsrqpi is handled as it was before already: the inexact flag is being
-cleared for fp_status in helper_xsrqpi, causing do_float_check_status to
-clear it for fpscr.
-
-I think we should keep it like this. The change I made to
-do_float_check_status allow for its callers to request if the FI field
-in FPSCR should be updated. What value should be updated to is then
-responsibility of these callers, provided as an argument to
-do_float_check_status, like xsrqpi is doing.
-
+>> I'm all up for a "virtual pnv-phb" device that can be used together with the
+>> existing versioned phbs. I wasn't able to pull that off.
 > 
 > 
->>   
->>       if (cs->exception_index == POWERPC_EXCP_PROGRAM &&
->> @@ -490,7 +492,7 @@ static void do_float_check_status(CPUPPCState
->> *env, uintptr_t raddr)
->>   
->>   void helper_float_check_status(CPUPPCState *env)
->>   {
->> -    do_float_check_status(env, GETPC());
->> +    do_float_check_status(env, true, GETPC());
->>   }
->>   
->      
-> ... snip ...
+> ATB,
 > 
->> @@ -3195,7 +3201,7 @@ uint64_t helper_xsrsp(CPUPPCState *env,
->> uint64_t xb)
->>       uint64_t xt = do_frsp(env, xb, GETPC());
->>   
->>       helper_compute_fprf_float64(env, xt);
->> -    do_float_check_status(env, GETPC());
->> +    do_float_check_status(env, true, GETPC());
->>       return xt;
->>   }
-> I'm not clear what the behaviour of xsrsp should be.
-> 
-> Section 7.4.5 Floating-Point Inexact Exception leads me to think it
-> shouldn't affect FI but the instruction definition indicates the
-> opposite. Maybe Paul or Nick can weigh in on this?
-> 
-
-I tested on a Power9 hardware and FI is altered by xsrsp when XE=0.
-But indeed, the ISA seems a bit contradictory on this one, section
-7.4.5 only states about changing XX in this situation.
-
-> 
->>   
->> @@ -3355,7 +3361,7 @@ void helper_xsrqpi(CPUPPCState *env, uint32_t
->> opcode,
->>       }
->>   
->>       helper_compute_fprf_float128(env, t.f128);
->> -    do_float_check_status(env, GETPC());
->> +    do_float_check_status(env, true, GETPC());
->>       *xt = t;
->>   }
->>   
->> @@ -3408,7 +3414,7 @@ void helper_xsrqpxp(CPUPPCState *env, uint32_t
->> opcode,
->>   
->>       helper_compute_fprf_float128(env, t.f128);
->>       *xt = t;
->> -    do_float_check_status(env, GETPC());
->> +    do_float_check_status(env, true, GETPC());
->>   }
->>   
->>   void helper_xssqrtqp(CPUPPCState *env, uint32_t opcode,
->> @@ -3434,7 +3440,7 @@ void helper_xssqrtqp(CPUPPCState *env, uint32_t
->> opcode,
->>   
->>       helper_compute_fprf_float128(env, t.f128);
->>       *xt = t;
->> -    do_float_check_status(env, GETPC());
->> +    do_float_check_status(env, true, GETPC());
->>   }
->>   
->>   void helper_xssubqp(CPUPPCState *env, uint32_t opcode,
->> @@ -3460,5 +3466,5 @@ void helper_xssubqp(CPUPPCState *env, uint32_t
->> opcode,
->>   
->>       helper_compute_fprf_float128(env, t.f128);
->>       *xt = t;
->> -    do_float_check_status(env, GETPC());
->> +    do_float_check_status(env, true, GETPC());
->>   }
-> 
-> All the other instruction helpers and definitions look correct to me.
-
-Thank you very much!
-
---
-Víctor Cora Colombo
-Instituto de Pesquisas ELDORADO
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> Mark.
 
