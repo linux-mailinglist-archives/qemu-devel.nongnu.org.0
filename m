@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BF5522FDD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 11:50:40 +0200 (CEST)
-Received: from localhost ([::1]:57236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B87523010
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 12:00:25 +0200 (CEST)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noizP-0000tZ-9L
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 05:50:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47138)
+	id 1noj8q-0000PA-Gi
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 06:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noiwx-0007hK-3O
- for qemu-devel@nongnu.org; Wed, 11 May 2022 05:48:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44851)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1noiwt-0003hZ-GS
- for qemu-devel@nongnu.org; Wed, 11 May 2022 05:48:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652262481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=pzCvGNZ0Rx2nwvmgJnkCQ+n1OSxYJx2Ac8GklsY8eWA=;
- b=Z8Di03ZvrQDmoeMdKr481q9Umvvs73dgV63XVF3Gep6N898yNqL3lHoK1kVwj0nzUknq+i
- +oCwmhCrWRxKOYSWDe2xrt6QMhNINQxveJY+ZNGM3A/A2U3H+WA66IOTf9eOT5ygnNHxYt
- +UWkoMFR2t20Muxx3OFIcNw946XAdjM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-Cj3sRzYKPDuuUn1RGne2Sw-1; Wed, 11 May 2022 05:48:00 -0400
-X-MC-Unique: Cj3sRzYKPDuuUn1RGne2Sw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55362811E7A;
- Wed, 11 May 2022 09:48:00 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92FC840316B;
- Wed, 11 May 2022 09:47:59 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH] meson.build: Bump minimum supported version of pixman to
- 0.34.0
-Date: Wed, 11 May 2022 11:47:58 +0200
-Message-Id: <20220511094758.794946-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1noj3h-0004Ld-Ml
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 05:55:05 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:41372 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1noj3e-0004XN-VS
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 05:55:05 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axutjsh3tiXP0QAA--.57711S3; 
+ Wed, 11 May 2022 17:54:53 +0800 (CST)
+Subject: Re: [PATCH v3 34/43] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220429100729.1572481-1-yangxiaojuan@loongson.cn>
+ <20220429100729.1572481-35-yangxiaojuan@loongson.cn>
+ <c6b58ba0-38c4-6542-86d1-eb1f14a12121@linaro.org>
+ <707db6c2-49f2-2ca2-7025-0cf401f11c60@loongson.cn>
+ <e514e333-b458-517f-66f7-f3fd0a0c5bad@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <b0fd3277-8abd-b6fc-bf1f-a083a3b04337@loongson.cn>
+Date: Wed, 11 May 2022 17:54:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <e514e333-b458-517f-66f7-f3fd0a0c5bad@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------0A507EA0D1BBB3D6BCA4AA4A"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9Axutjsh3tiXP0QAA--.57711S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4fWF1DCFyfurWxZry8Grg_yoW3KFg_Wr
+ W8urykWw1kArWkG3WYqF47Zw12qFyUKrnrt3yYvr9rXFWrJrs5tws8Z3s5Xry8Wa1kZr1Y
+ krW3Jrs3ZasFkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbI8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
+ I2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487
+ MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
+ Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
+ wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
+ fUoXo2UUUUU
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,44 +82,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We haven't revisited the minimum required versions of pixman
-since quite a while. Let's check whether we can rule out some
-old versions that nobody tests anymore...
+This is a multi-part message in MIME format.
+--------------0A507EA0D1BBB3D6BCA4AA4A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-For pixman, per repology.org, currently shipping versions are:
 
-     CentOS 8 / RHEL-8 : 0.38.4
-              Fedora 34: 0.40.0
-             Debian 10 : 0.36.0
-      Ubuntu LTS 20.04 : 0.38.4
-    openSUSE Leap 15.3 : 0.34.0
-           MSYS2 MinGW : 0.40.0
-         FreeBSD Ports : 0.34.0 / 0.40.0
-          NetBSD pksrc : 0.40.0
+On 2022/5/10 上午1:56, Richard Henderson wrote:
+>
+>>>> +    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+>>>> +        index = (offset - EXTIOI_IPMAP_START) >> 2;
+>>>> +        s->ipmap[index] = val;
+>>>> +        break;
+>>>
+>>> Do you need to recompute the entire interrupt map when ipmap changes?
+>>>
+>> Sorry, could you explain it in more detail? i can not understand the 
+>> meanning of 'the entire interrupt map'?
+>
+> I mean, ipmap[*] and coremap[*] controls how isr[*] maps to the 
+> various cpus, as coreisr[*].  If either ipmap or coremap changes, do 
+> you need to re-compute coreisr[*] from the input isr[*]? 
 
-OpenBSD 7.1 seems to use 0.40.0 when running tests/vm/openbsd.
+I think the interrupt has been handled by the core before set coremap or 
+ipmap, and coreisr[*] also has been set and cleard by original core.
+So,  the new mapped core need not  to update the coreisr[*].
 
-So it seems to be fine to bump the minimum version to 0.34.0 now.
+Thanks.
+Xiaojuan
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 864e97945f..7843a50cc1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -504,7 +504,7 @@ if 'ust' in get_option('trace_backends')
- endif
- pixman = not_found
- if have_system or have_tools
--  pixman = dependency('pixman-1', required: have_system, version:'>=0.21.8',
-+  pixman = dependency('pixman-1', required: have_system, version:'>=0.34.0',
-                       method: 'pkg-config', kwargs: static_kwargs)
- endif
- zlib = dependency('zlib', required: true, kwargs: static_kwargs)
--- 
-2.27.0
+--------------0A507EA0D1BBB3D6BCA4AA4A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/5/10 上午1:56, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:e514e333-b458-517f-66f7-f3fd0a0c5bad@linaro.org"><br>
+      <blockquote type="cite" style="color: #000000;">
+        <blockquote type="cite" style="color: #000000;">
+          <blockquote type="cite" style="color: #000000;">+    case
+            EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+            <br>
+            +        index = (offset - EXTIOI_IPMAP_START) &gt;&gt; 2;
+            <br>
+            +        s-&gt;ipmap[index] = val;
+            <br>
+            +        break;
+            <br>
+          </blockquote>
+          <br>
+          Do you need to recompute the entire interrupt map when ipmap
+          changes?
+          <br>
+          <br>
+        </blockquote>
+        Sorry, could you explain it in more detail? i can not understand
+        the meanning of 'the entire interrupt map'?
+        <br>
+      </blockquote>
+      <br>
+      I mean, ipmap[*] and coremap[*] controls how isr[*] maps to the
+      various cpus, as coreisr[*].  If either ipmap or coremap changes,
+      do you need to re-compute coreisr[*] from the input isr[*]?
+    </blockquote>
+     <br>
+    I think the interrupt has been handled by the core before set
+    coremap or ipmap, and coreisr[*] also has been set and cleard by
+    original core. <br>
+    So,  the new mapped core need not  to update the coreisr[*].<br>
+    <br>
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;"></span><span style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;"></span><span style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;"></span><span style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;"></span>Thanks.<br>
+    Xiaojuan<br>
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;"></span>
+    <p><span style="color: rgb(0, 0, 0); font-family: 宋体, arial,
+        Verdana, sans-serif; font-size: 14px; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span></p>
+  </body>
+</html>
+
+--------------0A507EA0D1BBB3D6BCA4AA4A--
 
 
