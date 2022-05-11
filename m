@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B26523F1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 22:55:09 +0200 (CEST)
-Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB0A523F73
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 23:29:31 +0200 (CEST)
+Received: from localhost ([::1]:49858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1notMR-0003QX-NP
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 16:55:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
+	id 1notth-0002Ml-V3
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 17:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1notLY-0002Xd-E8
- for qemu-devel@nongnu.org; Wed, 11 May 2022 16:54:12 -0400
-Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:36969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1notLT-0005dZ-W2
- for qemu-devel@nongnu.org; Wed, 11 May 2022 16:54:10 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.47])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id C462722CC5;
- Wed, 11 May 2022 20:54:04 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Wed, 11 May
- 2022 22:54:04 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-109S003fcbc06fe-7ef9-4bb9-b636-650b90255786,
- 0573B671C186F18DA7A9CA3D7ACC2C84049858CC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <bec934c3-0877-fd5d-0d7e-1afc1a67fda4@kaod.org>
-Date: Wed, 11 May 2022 22:54:02 +0200
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1notst-0001h0-8B
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 17:28:39 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:42909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1notsr-0001sw-M2
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 17:28:38 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id d22so3077926plr.9
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 14:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Nd7A2mN7rcAH/cR6bTM41a+4kKbBpGP8RfCLDPEK5GY=;
+ b=c0x+cvPP1FLDGTfmECHpJnYzgO6K/z+i1aSq1xAmf77q0EWlRJ78lNgzEMlO6594Tk
+ NZ2HV1MkjRVPjfNvGBM2iDNcmMtXAEq4eJ7un2ifhptE597rhycLdefndKu+tOD7C+8d
+ Zs7gYazJ82k07/vqx2kOJCn2dSPE/lNmWH06fi6Gt+fPL0eqKN6G4j6wKRHEmsNH3KCt
+ UGP2uBID1KC/JkxCD00xeeYWWlOx31yBxYAxYFNXfeX6aLeHo6D+d98uAXT0sqtsWO/3
+ MUFxCb9tXZLiuiDJjIujCxdtQFPlMsBfTTWWDslBypAQJHLTXwdfRhW3WsDkv9fsFcWG
+ Ffrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Nd7A2mN7rcAH/cR6bTM41a+4kKbBpGP8RfCLDPEK5GY=;
+ b=xEuRpc4phMWttnVSwoPT74Mv/6n7xKuwBfSEqAPu7H7GtmMbjK6HFe6ANJPXxgBUwB
+ SHGuv1WPDhxAZtIKsL2oT4NXhdGRSHcD3jV3ziU8yBE8MF9cg8bQ93QYeNdm1PmNSxu2
+ WL5ORjaVfQPQd38eYyFPFK7JN31qfqM5vo6llR3lKcn6tucOBgu5i/7ZlZapZyf+rfm6
+ yLU6rcgr3r8kbfehNpyCVNgn4i0jiGoLabOxiL0ptnU8MEW+CDaUFu1VCO7tDklncsCV
+ SmKbWz15U0iUFxphDqLjeWPS2odHO55NaKdkd5ch336cpkNnPRKI4UW436+I/gH1Bjl1
+ Ki2A==
+X-Gm-Message-State: AOAM531z96G8XhS249czCaLdzg9KVUd0oiO4Mb5LpwLTFYtwsLEdgAt9
+ VmBD4CUCbaRa1/ZvV0Nt4oY=
+X-Google-Smtp-Source: ABdhPJxc0fqxfTBxBAlquINHZtnuG87uauq7+SKyRw6P8J29zlcFtdsniHts8Fg0J3pKL3olMflvrg==
+X-Received: by 2002:a17:90a:9311:b0:1dc:8d06:eb1b with SMTP id
+ p17-20020a17090a931100b001dc8d06eb1bmr7347294pjo.41.1652304515991; 
+ Wed, 11 May 2022 14:28:35 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id
+ 9-20020a170902c20900b0015f36687452sm2098037pll.296.2022.05.11.14.28.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 May 2022 14:28:34 -0700 (PDT)
+Date: Thu, 12 May 2022 06:28:32 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org
+Subject: Re: [PULL 3/4] Normalize header guard symbol definition
+Message-ID: <YnwqgNjjYxLVkjR3@antec>
+References: <20220511145922.3431407-1-armbru@redhat.com>
+ <20220511145922.3431407-4-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 1/1] hw: allow write_enable latch get/set
-Content-Language: en-US
-To: Iris Chen <irischenlj@fb.com>
-CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <patrick@stwcx.xyz>
-References: <irischenlj@fb.com> <20220511184539.1099161-1-irischenlj@fb.com>
- <20220511184539.1099161-2-irischenlj@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220511184539.1099161-2-irischenlj@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 34fef33a-b60f-408c-8540-da6579f33286
-X-Ovh-Tracer-Id: 2480357494905146275
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgeehgdduheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdehgeehheekjefgheegkeeuveffffffhefhvdejiefhfeejfffhgeehvdehlefgnecuffhomhgrihhnpehrvggrughthhgvughotghsrdhiohenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehprghtrhhitghksehsthiftgigrdighiii
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
- helo=10.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220511145922.3431407-4-armbru@redhat.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=shorne@gmail.com; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -75,145 +87,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Iris,
-
-You need to add a description to the patch, may be use what you wrote
-in the cover letter to start with, and a Signed-off-by tag.
-
-Before sending, please run :
-
-   $ ./scripts/checkpatch.pl <patch>
-
-and
-
-   $ ./scripts/get_maintainer.pl <patch>
-
-to know who to send to.
-
-
-The long story is here :
-
-   https://qemu.readthedocs.io/en/latest/devel/submitting-a-patch.html
-
-On 5/11/22 20:45, Iris Chen via wrote:
-> ---
->   hw/block/m25p80.c             | 30 ++++++++++++++++++++++++++++++
->   tests/qtest/aspeed_smc-test.c | 20 ++++++++++++++++++++
->   2 files changed, 50 insertions(+)
+On Wed, May 11, 2022 at 04:59:21PM +0200, Markus Armbruster wrote:
+> We commonly define the header guard symbol without an explicit value.
+> Normalize the exceptions.
 > 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 430d1298a8..fb72704e5a 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -35,6 +35,7 @@
->   #include "qapi/error.h"
->   #include "trace.h"
->   #include "qom/object.h"
-> +#include "qapi/visitor.h"
->   
->   /* Fields for FlashPartInfo->flags */
->   
-> @@ -1646,6 +1647,31 @@ static const VMStateDescription vmstate_m25p80 = {
->       }
->   };
->   
-> +static void m25p80_get_wel(Object *obj, Visitor *v, const char *name,
-> +                            void *opaque, Error **errp)
-> +{
-> +    Flash *s = M25P80(obj);
-> +
-> +    assert(strcmp(name, "WEL") == 0);
+> Done with scripts/clean-header-guards.pl.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Message-Id: <20220506134911.2856099-4-armbru@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/exec/memopidx.h       | 2 +-
+>  include/tcg/tcg-ldst.h        | 2 +-
+>  target/alpha/cpu-param.h      | 2 +-
+>  target/arm/cpu-param.h        | 2 +-
+>  target/cris/cpu-param.h       | 2 +-
+>  target/hppa/cpu-param.h       | 2 +-
+>  target/i386/cpu-param.h       | 2 +-
+>  target/m68k/cpu-param.h       | 2 +-
+>  target/microblaze/cpu-param.h | 2 +-
+>  target/mips/cpu-param.h       | 2 +-
+>  target/nios2/cpu-param.h      | 2 +-
+>  target/openrisc/cpu-param.h   | 2 +-
+>  target/ppc/cpu-param.h        | 2 +-
+>  target/riscv/cpu-param.h      | 2 +-
+>  target/s390x/cpu-param.h      | 2 +-
+>  target/sh4/cpu-param.h        | 2 +-
+>  target/sparc/cpu-param.h      | 2 +-
+>  target/tricore/cpu-param.h    | 2 +-
+>  target/xtensa/cpu-param.h     | 2 +-
+>  tcg/tcg-internal.h            | 2 +-
+>  20 files changed, 20 insertions(+), 20 deletions(-)
 
-That's not necessary.
+I looked at this for the OpenRISC changes, but the whole patch looks ok to me.
 
-> +
-> +    visit_type_bool(v, name, &s->write_enable, errp);
-> +}
-> +
-> +static void m25p80_set_wel(Object *obj, Visitor *v, const char *name,
-> +                            void *opaque, Error **errp)
-> +{
-> +    Flash *s = M25P80(obj);
-> +    bool value;
-> +
-> +    assert(strcmp(name, "WEL") == 0);
-> +
-> +    if (!visit_type_bool(v, name, &value, errp)) {
-> +        return;
-> +    }
-> +
-> +    s->write_enable = value;
-> +}
-> +
->   static void m25p80_class_init(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -1660,6 +1686,10 @@ static void m25p80_class_init(ObjectClass *klass, void *data)
->       device_class_set_props(dc, m25p80_properties);
->       dc->reset = m25p80_reset;
->       mc->pi = data;
-> +
-> +    object_class_property_add(klass, "WEL", "bool",
-> +                            m25p80_get_wel,
-> +                            m25p80_set_wel, NULL, NULL);
-
-Instead, you could add a :
-
-     DEFINE_PROP_BOOL("write-enable", Flash, write_enable, false);
-
-under m25p80_properties.
-
-Thanks,
-
-C.
-
->   }
->   
->   static const TypeInfo m25p80_info = {
-> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-> index 87b40a0ef1..af885a9c9d 100644
-> --- a/tests/qtest/aspeed_smc-test.c
-> +++ b/tests/qtest/aspeed_smc-test.c
-> @@ -49,6 +49,7 @@
->    */
->   enum {
->       JEDEC_READ = 0x9f,
-> +    RDSR = 0x5,
->       BULK_ERASE = 0xc7,
->       READ = 0x03,
->       PP = 0x02,
-> @@ -348,6 +349,24 @@ static void test_write_page_mem(void)
->       flash_reset();
->   }
->   
-> +static void test_read_status_reg(void)
-> +{
-> +    uint8_t r;
-> +
-> +	qmp("{ 'execute': 'qom-set', 'arguments': "
-> +       "{'path': '/machine/soc/fmc/ssi.0/child[0]', 'property': 'WEL', 'value': true}}");
-> +
-> +    spi_conf(CONF_ENABLE_W0);
-> +	spi_ctrl_start_user();
-> +	writeb(ASPEED_FLASH_BASE, RDSR);
-> +	r = readb(ASPEED_FLASH_BASE);
-> +	spi_ctrl_stop_user();
-> +
-> +	g_assert_cmphex(r, ==, 0x2);
-> +
-> +	flash_reset();
-> +}
-> +
->   static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
->   
->   int main(int argc, char **argv)
-> @@ -373,6 +392,7 @@ int main(int argc, char **argv)
->       qtest_add_func("/ast2400/smc/write_page", test_write_page);
->       qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
->       qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
-> +    qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
->   
->       ret = g_test_run();
->   
-
+Reviewed-by: Stafford Horne <shorne@gmail.com>
 
