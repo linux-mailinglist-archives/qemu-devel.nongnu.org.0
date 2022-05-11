@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1604652413A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 01:54:12 +0200 (CEST)
-Received: from localhost ([::1]:34036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF815524137
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 01:54:02 +0200 (CEST)
+Received: from localhost ([::1]:33636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1now9j-0005KD-4u
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 19:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39554)
+	id 1now9Z-000549-DG
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 19:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6t-0002XA-32
- for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:15 -0400
-Received: from mout.gmx.net ([212.227.17.21]:59881)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6r-0002Wo-J0
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:13 -0400
+Received: from mout.gmx.net ([212.227.17.20]:55753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6p-0007Tb-NC
- for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:14 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6p-0007TA-Mq
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1652313056;
- bh=9YBcCciepqvDlzxZDqgabyo68t3IaKZgBZgloQVHP6k=;
+ bh=NorrkFRs0APDbVEe52ARvCapJy/21D5ef172eNxHskI=;
  h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=RzSYMBgmrkguq7XMzpUf5igJb6dMidU+xtG9jwCqH8hI+mgE3ORRPWCiYx7KJ00i0
- 5SGDQD8HapBcwtjd8OZOEIplS1/nPIesEETrtfIx7MOQhhsm0TeCYyNx918boOA4Sc
- XmB7chwAl3pych1axGrcup7GIpTdZIWQzDKJoPP0=
+ b=kLAyJu9ZAdVhNxWuLK6qnF54ARHFaO4uLEIi35opRYIwwAzs7IOuwPG6CVOlj28hu
+ RmAc2cSv9Lnrut8IBjnVBuy53S2cgCz5BTivJwrOWncHRrAtspNlmpF9NZTjsiOhxJ
+ AJrO/9TCKJ5yWXgZ8aZY91PzEROuYr1O6AftqKAA=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.141.127]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvsEx-1o6KT114yt-00suCh; Thu, 12
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mw9UK-1o5VWG1kns-00s5Fw; Thu, 12
  May 2022 01:50:56 +0200
 From: Helge Deller <deller@gmx.de>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  Sven Schnelle <svens@stackframe.org>
-Subject: [PATCH 4/6] artist: Fix vertical X11 cursor position in HP-UX
-Date: Thu, 12 May 2022 01:50:52 +0200
-Message-Id: <20220511235054.185435-5-deller@gmx.de>
+Subject: [PATCH 5/6] artist: Allow to turn cursor on or off
+Date: Thu, 12 May 2022 01:50:53 +0200
+Message-Id: <20220511235054.185435-6-deller@gmx.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220511235054.185435-1-deller@gmx.de>
 References: <20220511235054.185435-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7NfnSVhgQHVR2MRwl1JfJhMxbmNnmuTYspEAjVGZFdzX/XOIpAw
- Eg/eq575MBPM9pLJe256Kp6EQxIsiCKpoAf16hGp6E7wKnUNOLP1pcaroOeKuFkG5Rd7NLK
- dB6C4Lqr2c6VykgLDo7ZqnJJPLv9T3mzsVW+MVCuOOY4JptB1mYV6iA+QML0/QVB02UXuTH
- 0lQ2sh0Mjt5lYJFMBMKfA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h6v2DduJ1mY=:DkBiSqsM2L5sLiBZDIzl7P
- 5vPD5YFC8+bBEkf9dbsq25QqqO183YjbpPkfsnDjI8OCvVNZYU/xSZMIjZbGLxTEpLtlNDd8r
- 5Nh7zNferD4tEeKEosZRXcOB7i4C0icHfh2vpnIEm9R8uuFC1vRI0rj0+7CxeA3USUDU9ImrP
- 8OAbonihzXuMMquaLAT56866LWi3p20jvVR9a8uLLIy32aVjKeBR5N/PB/5v9TfE6Umau2dgQ
- 5URX7GBOU5X1qh0jLLXg/7DBMvffv2upKDW4scWHq6X2tEn+FnQcJns08KJawx12BHoR5ZVqq
- bvO2X1ysiVYfrg3bHQMmLb4Y0FRJeJNApVJz51yQMmGs47Q6x2uD4UtMrdpf1OVZVv5crLAhQ
- AfCRH44UVZKBUvLosMv5fCYDzhNCYETcnbujaLBwcRK9MtAt1pQHqw6KhqdG4+ZFJvyOOBWTt
- eay9iS7vcZSwL/j8He9yqHZAeM4lIUOZjGg4GUoic7GwnzenhwDqxirDOw2nB9YyKSKD6M0Xb
- YpY79xiJ4iPmbhyBRmYV406QTq4KD1luhBjP3Y+znFGONiKo0KFerYkn9FfEEGS2/LrvOErW6
- 7oUIlWT0nKJlO/KFAeUEXYrCWjwgVBlYcd13NB2o6WBzHaMocZfpkRDvuhdSYeWxR6LiWIsvP
- i80vq5t4+uf0RWDOgnOSjjfMQAdyD3zpg31VBjbKoBM+ggbOI7z85nQh//Tgm+D9oqNoQW8bj
- WEchLhbgoiUX92yPmDOjWdw0Qy8CoUFFUf0A7AuCgWaiybeWvtveTr3h63awZeA2fQAxVovbD
- RrtMRpa03tkG1YS2ENngz3S2WEcFSJbai21vJikPAXNK6Yv+Pddb+QjgMwyK12ZKu7knfh9XJ
- vLmG99MOosobuLbw0Q0RvqFG4NwaZ9ClejfDtrWDmX6wlQhyR+ZMcI42h8h61ZbGBJ38bKMba
- e4JjxipaohH4yaGd2696awx7w9rvpr1GT77T+HDdYFDKFUGKWL9WPcDGkE6897nUu6IZY+LTD
- AkzfZVqSYss+Fsci+w9iGjIdiNavx5ovMpEkgOEq+VtpTW6k57I0W82PZxFJdk4fZCiygnhWn
- d6JUpL05Cjc3dI=
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:THqJp/obO63gfJ2c7HWcs2GcYUZfweh679Th3QA5WlT8MIyhg0g
+ Beb7n2NRwlVMWxCKkq1kOVCPWk4XqGTBwdvonULmZqQ/fGJuLSufYX/J01U/6M7t6obm5OV
+ bZ24aADk/WYppgWy6EPMV1nis1sn+WHiWfNlwU84ZeFq86Vr78O3MJWSfQSn8SsJGNtymui
+ /znCr8mWLP3FlVdhLD3KA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UMiKL/AnEhI=:QwFyqKViM3wqWrGVo8cA9L
+ FfLoSUSC8RhsVdyRcL2yoL6RfTduRSxAAa6jLKDLi4VLBQuPG6oQcAomXY8reooSmj8UgA/kH
+ fxb7jK8ES5GiNtkroO5HHoHWZS0AhxYuQ7s7mknyxaR0i8TIsubRwHYeNp29SWYTyAkfzP1Uf
+ Pyzk+Vyo1g39zvLNT0/NykoD3A/46Zp3aPs0gh/D8J6fHdTwRRYGU2cpGZ3tCQM/sKieRSuLq
+ AIF/fRnLSZ/A6OR9dYEm92rvLpCm2Z9prRKwvgMLkatm0+YLvnKw7xS75S8LfEiwFRf2zDI4j
+ LAbwPhx3XH1eXb0WlsQ/seM3CqGsjpoIVKhxUU4figNatUH8CAjPWzUAE2DgvRL9/+gjfQqf8
+ wN2uKIOskjEyTSYVsoGjG9pbXoe9tfdEapJuPwATedf/TMWf+CZkOdBDnM+QomxRDcl9Pq44t
+ MsxDdpZ4cKD05ncpoIFopfL5muXJq9bvkkoxyPdbHNSMRqIdHSLzdj/ugIigmnUPBKndGiytP
+ fYedUTyghxz23omDV+3EHI4aEFn4ZZYQglbpIVTuwB83QVLDpfZgLGuBQIPQCl589oOM55EsU
+ Wz+oPgLh57GtEeuzSEMAVN012YQtmPs7+qkH5yze6jqxl2QSbIW4ZkCO29YfaArq7R4JEekwE
+ 8S3oWaJKdJg8nmxz1kbeMXbM3suEHXetJJosqGUfXdl4T7LvF2t43IJkWESKMDMk+F3rgUYXb
+ 2ziXD7JX3Btvwb45OU8My6vBUsLbW/tj5ilVL1gjXb4mcpB+XvyxA5xEBlGMw9aELJj/8kHr0
+ 3s/sGDA5ivHS87QSaXgGPnuN0B3/EXmM1hDsZuCfUJ1uazYIaviO5qKeP9D4eDq4iyYnAfvpC
+ 9S3eg5XpCQVI5j3zZtH4wEaGNI09ZxIDvp5JvyN+uenV2yfLFHCI+Yv1ATBbeWSOddAB4nYFY
+ fkIP3t7cWbVKNnwTiK5qZlZXT3ucU968ClJtcA0MS69zGv1llInJ0u99WlYUAJP5zwmE85Oou
+ wcAA8NPvesN/IjWGGvE33IRTx0aXILD0zb9KWI9V71OdZr2IdpL0o0KlZV4FmvNSng5z6dGfl
+ AIS7p3RV7yDCnk=
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -86,61 +86,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop the hard-coded value of 1146 lines which seems to work with HP-UX
-11, but not with HP-UX 10. Instead encode the screen height in byte 0 of
-active_lines_low and byte 3 of misc_video as it's expected by the Xorg
-X11 graphics driver.
-
-This potentially allows for higher vertical screen resolutions than
-1280x1024 with X11.
+Bit 0x80 in the cursor_cntrl register specifies if the cursor
+should be visible. Prevent rendering the cursor if it's invisible.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/display/artist.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ hw/display/artist.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index c8b261a52e..780cb15026 100644
+index 780cb15026..b8930b7c5a 100644
 =2D-- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -337,10 +337,11 @@ static void artist_get_cursor_pos(ARTISTState *s, in=
+@@ -353,10 +353,20 @@ static void artist_get_cursor_pos(ARTISTState *s, in=
 t *x, int *y)
      }
-     *x =3D (lx - offset) / 2;
+ }
 
--    *y =3D 1146 - artist_get_y(s->cursor_pos);
--
-     /* subtract cursor offset from cursor control register */
-     *x -=3D (s->cursor_cntrl & 0xf0) >> 4;
++static inline bool cursor_visible(ARTISTState *s)
++{
++    /* cursor is visible if bit 0x80 is set in cursor_cntrl */
++    return s->cursor_cntrl & 0x80;
++}
 +
-+    /* height minus nOffscreenScanlines is stored in cursor control regis=
-ter */
-+    *y =3D s->height - artist_get_y(s->cursor_pos);
-     *y -=3D (s->cursor_cntrl & 0x0f);
+ static void artist_invalidate_cursor(ARTISTState *s)
+ {
+     int x, y;
 
-     if (*x > s->width) {
-@@ -1158,14 +1159,17 @@ static uint64_t artist_reg_read(void *opaque, hwad=
-dr addr, unsigned size)
-     case ACTIVE_LINES_LOW:
-         val =3D s->active_lines_low;
-         /* activeLinesLo for cursor is in reg20.b.b0 */
--        val |=3D ((s->height - 1) & 0xff);
-+        val &=3D ~(0xff << 24);
-+        val |=3D (s->height & 0xff) << 24;
-         break;
++    if (!cursor_visible(s)) {
++        return;
++    }
++
+     artist_get_cursor_pos(s, &x, &y);
+     artist_invalidate_lines(&s->vram_buffer[ARTIST_BUFFER_AP],
+                             y, s->cursor_height);
+@@ -1218,6 +1228,10 @@ static void artist_draw_cursor(ARTISTState *s)
+     struct vram_buffer *cursor0, *cursor1 , *buf;
+     int cx, cy, cursor_pos_x, cursor_pos_y;
 
-     case MISC_VIDEO:
-         /* emulate V-blank */
--        val =3D s->misc_video ^ 0x00040000;
-+        s->misc_video ^=3D 0x00040000;
-         /* activeLinesHi for cursor is in reg21.b.b2 */
--        val |=3D ((s->height - 1) & 0xff00);
-+        val =3D s->misc_video;
-+        val &=3D ~0xff00UL;
-+        val |=3D (s->height & 0xff00);
-         break;
-
-     case MISC_CTRL:
++    if (!cursor_visible(s)) {
++        return;
++    }
++
+     cursor0 =3D &s->vram_buffer[ARTIST_BUFFER_CURSOR1];
+     cursor1 =3D &s->vram_buffer[ARTIST_BUFFER_CURSOR2];
+     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
 =2D-
 2.35.3
 
