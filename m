@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6895523F08
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 22:43:46 +0200 (CEST)
-Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B26523F1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 22:55:09 +0200 (CEST)
+Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1notBR-0000ri-KO
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 16:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35488)
+	id 1notMR-0003QX-NP
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 16:55:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1notAE-0008RM-JR; Wed, 11 May 2022 16:42:30 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:35914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1notAC-0004Bu-Qq; Wed, 11 May 2022 16:42:30 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-edeb6c3642so4294994fac.3; 
- Wed, 11 May 2022 13:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5mqlZpi5bFAzuLYlq1rZ6Q8VlmjU4W82GQKgjGtFAIs=;
- b=XD/qSjiqxMbO6X55SDxHKgLkkQCrSFx/PQsDtJejVgbfDDWA7daul5IDVipCU200xA
- /nRVwJyT90kTLA6gqq8ts+4pD5RiAtMoBdW5qHcntdHYWKXTlk9iq175VIa//2YMeTDa
- dV/4cPE5WVk778DN+2g5q/0bGMdygLti0vOH2I4nVEtioC9FUc2kq5NH8vn68QtJE/UF
- bf57EHPeBSIMRDROLZgoog4mvrUdXCvBlBwcyO3SpWRbtfIgybDCI0wYlAtPq15odoOe
- E79OOLwyHOZG4K+sRfgYSO4+x5LZWwjjAYIAw8qV9KCKhRf7wfhmHRJAlzplml6t977K
- DHHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5mqlZpi5bFAzuLYlq1rZ6Q8VlmjU4W82GQKgjGtFAIs=;
- b=S1d3d5Jywtm2C51FS3NzUWiLc/sM+LGCakJoBLc1Ue8zjDpFgRIisqc+8G/jpgje21
- 2Yid8GN9508MV5wXVgcGiBvO4kblBq7eHUhGHRTy1JKsjKi4dTOb8AqXupoeVu1+zUcV
- 5cJnRkNJUFUY1OWuo9ppRopf4T8hLMO/j/JHatiK1avxADxAkt1S9M/pL3OKX9aWaJ44
- qpI8W4MmDehEPdO/b2RKl4D/FpSvnx7lKeplfwCza6ksl3H1E8nKzxkEcAHz7owAapO4
- Dh03JCH8Ag4zvZZFqRaiPecwLGPwn0SXUzgAPl5DZreF7ezK6h7wAH0c060H5s4ODREQ
- pN1w==
-X-Gm-Message-State: AOAM533LKJUeR0H3wWWH22T6HfIG/uzIaRhWmJeebaFeYC3uGlBzWgKu
- 7w7GZ9k+Wl6uP0opv9sCLMii51RPrj0=
-X-Google-Smtp-Source: ABdhPJyXg5GdWoxH3r7nVr6I0MWi/V5y97ncmi/L9qYHaHjwUnmjGTZI2v5fWLmrcXZDgCTKw8L0Jg==
-X-Received: by 2002:a05:6870:630d:b0:e2:6498:6734 with SMTP id
- s13-20020a056870630d00b000e264986734mr3697752oao.3.1652301746781; 
- Wed, 11 May 2022 13:42:26 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c7:6d99:130b:198b:b4b2:dcf0?
- ([2804:431:c7c7:6d99:130b:198b:b4b2:dcf0])
- by smtp.gmail.com with ESMTPSA id
- w13-20020a056808090d00b00325cda1ff8csm1108615oih.11.2022.05.11.13.42.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 13:42:26 -0700 (PDT)
-Message-ID: <7008431e-6813-a763-f6fe-30088f1b519b@gmail.com>
-Date: Wed, 11 May 2022 17:42:23 -0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1notLY-0002Xd-E8
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 16:54:12 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:36969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1notLT-0005dZ-W2
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 16:54:10 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.47])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id C462722CC5;
+ Wed, 11 May 2022 20:54:04 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Wed, 11 May
+ 2022 22:54:04 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S003fcbc06fe-7ef9-4bb9-b636-650b90255786,
+ 0573B671C186F18DA7A9CA3D7ACC2C84049858CC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <bec934c3-0877-fd5d-0d7e-1afc1a67fda4@kaod.org>
+Date: Wed, 11 May 2022 22:54:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC PATCH qemu] spapr/docs: Add a few words about x-vof
+Subject: Re: [PATCH 1/1] hw: allow write_enable latch get/set
 Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
-References: <20220506055124.3822112-1-aik@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220506055124.3822112-1-aik@ozlabs.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+To: Iris Chen <irischenlj@fb.com>
+CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <patrick@stwcx.xyz>
+References: <irischenlj@fb.com> <20220511184539.1099161-1-irischenlj@fb.com>
+ <20220511184539.1099161-2-irischenlj@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220511184539.1099161-2-irischenlj@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 34fef33a-b60f-408c-8540-da6579f33286
+X-Ovh-Tracer-Id: 2480357494905146275
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgeehgdduheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdehgeehheekjefgheegkeeuveffffffhefhvdejiefhfeejfffhgeehvdehlefgnecuffhomhgrihhnpehrvggrughthhgvughotghsrdhiohenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehprghtrhhitghksehsthiftgigrdighiii
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,82 +75,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello Iris,
+
+You need to add a description to the patch, may be use what you wrote
+in the cover letter to start with, and a Signed-off-by tag.
+
+Before sending, please run :
+
+   $ ./scripts/checkpatch.pl <patch>
+
+and
+
+   $ ./scripts/get_maintainer.pl <patch>
+
+to know who to send to.
 
 
-On 5/6/22 02:51, Alexey Kardashevskiy wrote:
-> The alternative small firmware needs a few words of what it can and
-> absolutely cannot do; this adds those words.
-> 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+The long story is here :
+
+   https://qemu.readthedocs.io/en/latest/devel/submitting-a-patch.html
+
+On 5/11/22 20:45, Iris Chen via wrote:
 > ---
->   docs/system/ppc/pseries.rst | 28 ++++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
+>   hw/block/m25p80.c             | 30 ++++++++++++++++++++++++++++++
+>   tests/qtest/aspeed_smc-test.c | 20 ++++++++++++++++++++
+>   2 files changed, 50 insertions(+)
 > 
-> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
-> index d9b65ad4e850..4c98a94f9add 100644
-> --- a/docs/system/ppc/pseries.rst
-> +++ b/docs/system/ppc/pseries.rst
-> @@ -32,14 +32,42 @@ Missing devices
->   Firmware
->   ========
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 430d1298a8..fb72704e5a 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -35,6 +35,7 @@
+>   #include "qapi/error.h"
+>   #include "trace.h"
+>   #include "qom/object.h"
+> +#include "qapi/visitor.h"
 >   
-> +The pSeries platform in QEMU comes with 2 firmwares:
-> +
->   `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
->   implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
->   Configuration) Firmware: Core Requirements and Practices
->   <https://standards.ieee.org/standard/1275-1994.html>`_.
+>   /* Fields for FlashPartInfo->flags */
 >   
-> +SLOF performs bus scanning, PCI resource allocation, provides the client
-> +interface to boot from block devices and network.
-> +
->   QEMU includes a prebuilt image of SLOF which is updated when a more recent
->   version is required.
+> @@ -1646,6 +1647,31 @@ static const VMStateDescription vmstate_m25p80 = {
+>       }
+>   };
 >   
-> +VOF (Virtual Open Firmware) is a minimalistic firmware to work with
-> +``-machine pseries,x-vof=on``. When enabled, the firmware acts as a slim
-> +shim and QEMU implements parts of the IEEE 1275 Open Firmware interface.
+> +static void m25p80_get_wel(Object *obj, Visitor *v, const char *name,
+> +                            void *opaque, Error **errp)
+> +{
+> +    Flash *s = M25P80(obj);
 > +
-> +VOF does not have device drivers, does not do PCI resource allocation and
-> +relies on ``-kernel`` used with Linux kernels recent enough (v5.4+)
-> +to PCI resource assignment. It is ideal to use with petitboot.
+> +    assert(strcmp(name, "WEL") == 0);
+
+That's not necessary.
+
 > +
-> +Booting via ``-kernel`` supports the following:
-> ++-------------------+-------------------+------------------+
-> +| kernel            | pseries,x-vof=off | pseries,x-vof=on |
-> ++===================+===================+==================+
-> +| vmlinux BE        |     ✓             |     ✓            |
-> ++-------------------+-------------------+------------------+
-> +| vmlinux LE        |     ✓             |     ✓            |
-> ++-------------------+-------------------+------------------+
-> +| zImage.pseries BE |     x             |     ✓¹           |
-> ++-------------------+-------------------+------------------+
-> +| zImage.pseries LE |     ✓             |     ✓            |
-> ++-------------------+-------------------+------------------+
+> +    visit_type_bool(v, name, &s->write_enable, errp);
+> +}
+> +
+> +static void m25p80_set_wel(Object *obj, Visitor *v, const char *name,
+> +                            void *opaque, Error **errp)
+> +{
+> +    Flash *s = M25P80(obj);
+> +    bool value;
+> +
+> +    assert(strcmp(name, "WEL") == 0);
+> +
+> +    if (!visit_type_bool(v, name, &value, errp)) {
+> +        return;
+> +    }
+> +
+> +    s->write_enable = value;
+> +}
+> +
+>   static void m25p80_class_init(ObjectClass *klass, void *data)
+>   {
+>       DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -1660,6 +1686,10 @@ static void m25p80_class_init(ObjectClass *klass, void *data)
+>       device_class_set_props(dc, m25p80_properties);
+>       dc->reset = m25p80_reset;
+>       mc->pi = data;
+> +
+> +    object_class_property_add(klass, "WEL", "bool",
+> +                            m25p80_get_wel,
+> +                            m25p80_set_wel, NULL, NULL);
 
-You need an empty line at the start and at the end of the table. Otherwise it'll
-be rendered as regular text.
+Instead, you could add a :
 
-> +Notes:
+     DEFINE_PROP_BOOL("write-enable", Flash, write_enable, false);
 
-I also don't believe you need the "Notes:" addendum here. It's clear that you're
-making an observation about the zImage.pseries BE and x-vof=on case.
-
-
-Everything else LGTM. If no one else has any comment, and you're ok with these
-changes I mentioned, I can amend it myself with my R-b.
-
-
+under m25p80_properties.
 
 Thanks,
 
+C.
 
-Daniel
-
-
-> +¹ must set kernel-addr=0
-> +
->   Build directions
->   ================
+>   }
 >   
+>   static const TypeInfo m25p80_info = {
+> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
+> index 87b40a0ef1..af885a9c9d 100644
+> --- a/tests/qtest/aspeed_smc-test.c
+> +++ b/tests/qtest/aspeed_smc-test.c
+> @@ -49,6 +49,7 @@
+>    */
+>   enum {
+>       JEDEC_READ = 0x9f,
+> +    RDSR = 0x5,
+>       BULK_ERASE = 0xc7,
+>       READ = 0x03,
+>       PP = 0x02,
+> @@ -348,6 +349,24 @@ static void test_write_page_mem(void)
+>       flash_reset();
+>   }
+>   
+> +static void test_read_status_reg(void)
+> +{
+> +    uint8_t r;
+> +
+> +	qmp("{ 'execute': 'qom-set', 'arguments': "
+> +       "{'path': '/machine/soc/fmc/ssi.0/child[0]', 'property': 'WEL', 'value': true}}");
+> +
+> +    spi_conf(CONF_ENABLE_W0);
+> +	spi_ctrl_start_user();
+> +	writeb(ASPEED_FLASH_BASE, RDSR);
+> +	r = readb(ASPEED_FLASH_BASE);
+> +	spi_ctrl_stop_user();
+> +
+> +	g_assert_cmphex(r, ==, 0x2);
+> +
+> +	flash_reset();
+> +}
+> +
+>   static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
+>   
+>   int main(int argc, char **argv)
+> @@ -373,6 +392,7 @@ int main(int argc, char **argv)
+>       qtest_add_func("/ast2400/smc/write_page", test_write_page);
+>       qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
+>       qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
+> +    qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
+>   
+>       ret = g_test_run();
+>   
+
 
