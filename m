@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C5D523620
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:49:21 +0200 (CEST)
-Received: from localhost ([::1]:60466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6740D52362D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:51:13 +0200 (CEST)
+Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noneS-0005Cn-SQ
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
+	id 1nongG-00089V-Hl
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nonbk-0001zf-2A
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:33 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37545)
+ id 1nonbo-00022T-50
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:36 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:40956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nonbh-0001An-P1
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:31 -0400
-Received: by mail-pg1-x535.google.com with SMTP id 15so1999037pgf.4
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 07:46:29 -0700 (PDT)
+ id 1nonbm-0001BH-Ib
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:46:35 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ iq2-20020a17090afb4200b001d93cf33ae9so5140006pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 07:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Odlh7Y8iwGv1s0I3j3Ny/+JD8qBeRZdaKDHUoz/NXA8=;
- b=mSFbb0P22pT24Giufkp0x3HGTWI2I0M5Oxrz0uF5lxlHAW9gz/RU7EIvDjL49Ngz3g
- uBL7nHQhs/aA5q8+bpjW5v3fCITULZYL17RkmRHH0E0BjpHvWx3Z//SMwl/VjqrgrNeC
- 4y8Ru0Ytjb47EjylI92J0Ecde69sjkY3tSxDdPFUMbgYgDyA4/jc1wyv5c/ifSpoU3AJ
- +ZC7U07GJrccFiskDWLwrl0PncP1QMETZ2eBpQ5v5UwE2SigX72mQAOJc3R+loa53gjs
- x0XQs6u4oVhP4k0iZrm/XSXFxX/pG92LRjWvhXUvc4FP4JaaJ1ZA9nHwl6CkjR/LFbk9
- jprQ==
+ bh=cQC++Y+pGUPUs/8x3sQ/i/xqv7tFU+CkLDMWJDdpamI=;
+ b=hwzEePzDD8eho2m/nLCG0OVoBNWJvhCW9mEOImuXTlg2+gf0ia7oAbKSM4BYyKtoTV
+ 46H3mBulnlmepSbVJNRiKoTFIX0uYsgm2fQ3knSAaq0+0N4HPoFt2+21wMt52LvcCh2M
+ Dj4D/tKbTxSZ24BepOtnGC7T1UqgFMRudYSJPcr4yDObe9+nIJ01oxCv2grAq8ZFKWtN
+ yZaj9U033v+iImbt66uADoS2/Sk+mFl6P07mWLpSJY8hm3lGBYT7xHmNFa92zcmocyVA
+ Eu/uxcDYg3YNaFLDQ1pmjIBVvAj1YK5HWwQv0lc+zV8kl3XTC441z6ZHzAxg4FWO+21r
+ F6vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Odlh7Y8iwGv1s0I3j3Ny/+JD8qBeRZdaKDHUoz/NXA8=;
- b=rUAAiQl4OlDIdkcZw1JTsrpW+HjjQsUBeHAuIHx4wYDW+TAsN+mXtUyMK5Pt0AgOGj
- NpMwOGV5RGthdM7Yk/noLiH6Ko/eyNI7/Ca7k27u0SYj+Kp64MMoPO9reqe9Gnw3EYaR
- 0eYh+JYRFOeL5vegD0vvgL80AQv/j9vSfXXz8U9f8YnmBcGSkiw+8oU74gH8QTTrHlk6
- 9T5SqDqzJzcbraHEZgHmOBaV9pLdPWrgUIdhpYtJ3F9FlGGGcvBjv6IjI7ZatbHSzN6D
- DFgTOPl22ttSvCnSO5KoitzfFor1vgLGnpvh1/ytu7LaPPGYcIobAdJAx+JLTGzm9OC8
- Pwtg==
-X-Gm-Message-State: AOAM53242NA3lR6P3wGwPjDVlibavX8PeoJVMrv5Pu2P/d12VvyYjM6o
- /FBXOXRU56E3+YUfPbx2gi/2xA==
-X-Google-Smtp-Source: ABdhPJxXlBAlmRpS8Ogji5d5DP2JzCpdMEf3dhR/VkSISKk1gPFzo0B9LnDf4sBLtZfQDQZTuXy/Ig==
-X-Received: by 2002:a05:6a00:1acd:b0:50e:1872:c680 with SMTP id
- f13-20020a056a001acd00b0050e1872c680mr25877801pfv.16.1652280388454; 
- Wed, 11 May 2022 07:46:28 -0700 (PDT)
+ bh=cQC++Y+pGUPUs/8x3sQ/i/xqv7tFU+CkLDMWJDdpamI=;
+ b=1fLfpqUHF/i3VhCZgeGnUfzBWXauF/GeGYCUMHviBKK4fGjBbSOQqMuZAUnlqRjggp
+ UpNQch8h13nQLqAqxIov9bfuahGen6BI758U06UEZKPoqWnFE+Oha+cW09K6vt5ihAkE
+ sJkl7zSG9e2Gc7ZsW31PEm2wmtdCvmF8AQ2D844+F4eDcI/D7DWVjv0JOLjMYlBegtvE
+ wC/6UJlVzmyOjGGu6J7rCoOa9CaRwU7v2LOIQIHX7e/F64+JeWvFZXeaHpA5DEKiiaNU
+ MM+xO1Cgp0Sh0CNxBifAmNK1eCEVyKHCLcisS8Xv+M1oVFpUnIDDgnjdf3VsaOCVeruu
+ nBSw==
+X-Gm-Message-State: AOAM532vexiTvQ+qAQuUcQt52zXBgyyrzwZdZtnvDPBxuD0Kyut+tEtz
+ c2kT+XUqo+diVJy8w1vvID1m3g==
+X-Google-Smtp-Source: ABdhPJxrT/pDMXP3nE59GCBHnmvltIpmsxr/S2apkhSJ7ckpd3BwnxwXKpyopDWdlCxaXbLMY65+FA==
+X-Received: by 2002:a17:902:dac1:b0:15e:9faa:e926 with SMTP id
+ q1-20020a170902dac100b0015e9faae926mr25449593plx.61.1652280392835; 
+ Wed, 11 May 2022 07:46:32 -0700 (PDT)
 Received: from anup-ubuntu64-vm.. ([171.76.113.90])
  by smtp.gmail.com with ESMTPSA id
- x2-20020a170902820200b0015eafc485c8sm1958726pln.289.2022.05.11.07.46.23
+ x2-20020a170902820200b0015eafc485c8sm1958726pln.289.2022.05.11.07.46.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 07:46:27 -0700 (PDT)
+ Wed, 11 May 2022 07:46:31 -0700 (PDT)
 From: Anup Patel <apatel@ventanamicro.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
@@ -61,19 +62,18 @@ To: Peter Maydell <peter.maydell@linaro.org>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
 Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Frank Chang <frank.chang@sifive.com>
-Subject: [PATCH v2 1/8] target/riscv: Fix csr number based privilege checking
-Date: Wed, 11 May 2022 20:15:21 +0530
-Message-Id: <20220511144528.393530-2-apatel@ventanamicro.com>
+ Anup Patel <apatel@ventanamicro.com>
+Subject: [PATCH v2 2/8] target/riscv: Fix hstatus.GVA bit setting for traps
+ taken from HS-mode
+Date: Wed, 11 May 2022 20:15:22 +0530
+Message-Id: <20220511144528.393530-3-apatel@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220511144528.393530-1-apatel@ventanamicro.com>
 References: <20220511144528.393530-1-apatel@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=apatel@ventanamicro.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,44 +96,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When hypervisor and VS CSRs are accessed from VS-mode or VU-mode,
-the riscv_csrrw_check() function should generate virtual instruction
-trap instead illegal instruction trap.
+Currently, QEMU does not set hstatus.GVA bit for traps taken from
+HS-mode into HS-mode which breaks the Xvisor nested MMU test suite
+on QEMU. This was working previously.
 
-Fixes: 0a42f4c44088 (" target/riscv: Fix CSR perm checking for HS mode")
+This patch updates riscv_cpu_do_interrupt() to fix the above issue.
+
+Fixes: 86d0c457396b ("target/riscv: Fixup setting GVA")
 Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/csr.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ target/riscv/cpu_helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 3500e07f92..2bf0a97196 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3139,7 +3139,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-     int read_only = get_field(csrno, 0xC00) == 3;
-     int csr_min_priv = csr_ops[csrno].min_priv_ver;
- #if !defined(CONFIG_USER_ONLY)
--    int effective_priv = env->priv;
-+    int csr_priv, effective_priv = env->priv;
- 
-     if (riscv_has_ext(env, RVH) &&
-         env->priv == PRV_S &&
-@@ -3152,7 +3152,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         effective_priv++;
-     }
- 
--    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
-+    csr_priv = get_field(csrno, 0x300);
-+    if (!env->debugger && (effective_priv < csr_priv)) {
-+        if (csr_priv == (PRV_S + 1) && riscv_cpu_virt_enabled(env)) {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- #endif
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index e1aa4f2097..b16bfe0182 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1367,7 +1367,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         case RISCV_EXCP_INST_PAGE_FAULT:
+         case RISCV_EXCP_LOAD_PAGE_FAULT:
+         case RISCV_EXCP_STORE_PAGE_FAULT:
+-            write_gva = true;
++            write_gva = env->two_stage_lookup;
+             tval = env->badaddr;
+             break;
+         case RISCV_EXCP_ILLEGAL_INST:
+@@ -1434,7 +1434,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 /* Trap into HS mode */
+                 env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
+                 htval = env->guest_phys_fault_addr;
+-                write_gva = false;
+             }
+             env->hstatus = set_field(env->hstatus, HSTATUS_GVA, write_gva);
+         }
 -- 
 2.34.1
 
