@@ -2,158 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D73522E49
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 10:24:43 +0200 (CEST)
-Received: from localhost ([::1]:33272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CE0522E8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 10:37:55 +0200 (CEST)
+Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noheE-00020a-69
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 04:24:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59374)
+	id 1nohr0-0004iF-9X
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 04:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1nohcK-0001BS-BF
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:22:45 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:54386)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nohni-0003nS-Rp
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:34:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1nohbp-0007fp-Tt
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:22:43 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24B5KD7D013934;
- Wed, 11 May 2022 01:22:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=le2PJ1G76SyAGckVJUwTjLmj3b4kRYzB8tSVL6HHTF4=;
- b=H/HxtM3ZXny8eFlpvZIGM18qGX1QYHEPpKVMjUeOrUS2IixmXuH3eW326alsma4YjuSf
- YX+9Nyw89mGu6RP4GOAW+wHWFZ+mdoa1d+O8H8WL4FG3hmsO1fTkYgkrO1ByvU/bsQXA
- xDarFJxLZM8UbOPIqvZa56A+GhXahU7d6jjWcCNVzTTNjWzgGhia9PZFWZ2Qg8QnF5bh
- UGKmqb4U+mN/zwfiWJ7C/vVqoZ/Z7BaC9okaSNDbxOOj/Lx+JbNGKWPQhTf/b9OkgCH1
- HQaLwBTaP/u8RKLcnVaPSz+L/1chX1mk1YCy+snrNWijgjuqp4muhlboim97J3HE4B4V 3g== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3fwrdp7tbk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 May 2022 01:22:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B9I/tHW6Df8D/wxnotkMxDQd6Zq8u8RRQV+x+b/owePei5de9Hhb/0AR4IcfKf8HQND8Yu2VB+1p/g03snvHcM3HVzlB/1rNk6q8sBgL0vyBA21rU5Yp/0MkSvqiq90fErfwP4JgKzBryHsePMBV0kmJQ4EACsM33Ssv2x7Tvh3O8CMdsEULdix9uot/knxFCDYJAXBmh89LiKt89+xz30/0x13nqv2Z76ZHOiSwz6JcPQKvAvDELyhvokVz6EqOXOXw37FaouyTSdiN9VqcMUv847C60itfMVWjJO+2PZxxjGJB0uNwQKc5e7kOLDKXokEnOyYWuXuAM+GyJgv/TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=le2PJ1G76SyAGckVJUwTjLmj3b4kRYzB8tSVL6HHTF4=;
- b=XwDtJQLSzAzAQ1ztdBLgwg1h9q01gec8ARTbESj3CHkLi17t76tuwC5ch4hQZ2nwckxb+szTiPayhcgl7a7a/x2JWNxYNoFmhegvo9cJ/1H43DvTgLR5odum2lONXMN5rvurgc/sFHf50hjjyeD3F0F4mfOejWSs9KDBx8KLFZ80w9hkrpPS6QF91nZLQNc+qrAUGU5oVwWns70iDDagEtPKDWU8xVwRobJYwy7Co8ZrtG55bYGLesrUlo6gO2SXmQ33e04tiqLlowmxw/aNqmFNTupeYN6P1QjDWED2emraBMlDERxP9YSMdtUW4lwgXth+T7RkJICMxTMyicP11w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BN7PR02MB4033.namprd02.prod.outlook.com (2603:10b6:406:f9::16)
- by DM6PR02MB4235.namprd02.prod.outlook.com (2603:10b6:5:a0::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.20; Wed, 11 May
- 2022 08:22:08 +0000
-Received: from BN7PR02MB4033.namprd02.prod.outlook.com
- ([fe80::852a:4c2d:6243:8c37]) by BN7PR02MB4033.namprd02.prod.outlook.com
- ([fe80::852a:4c2d:6243:8c37%4]) with mapi id 15.20.5227.023; Wed, 11 May 2022
- 08:22:08 +0000
-Message-ID: <758a0df2-c8a5-a114-d1cd-0fc932c9ee97@nutanix.com>
-Date: Wed, 11 May 2022 13:51:55 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH v1] Make png parameter to ui/meson.build independent of vnc
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, dgilbert@redhat.com,
- armbru@redhat.com, kraxel@redhat.com, thuth@redhat.com,
- prerna.saxena@nutanix.com, soham.ghosh@nutanix.com,
- prachatos.mitra@nutanix.com, berrange@redhat.com,
- philippe.mathieu.daude@gmail.com, peter.maydell@linaro.org
-References: <20220511074626.165398-1-pbonzini@redhat.com>
-From: Kshitij Suri <kshitij.suri@nutanix.com>
-In-Reply-To: <20220511074626.165398-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0001.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:80::14) To BN7PR02MB4033.namprd02.prod.outlook.com
- (2603:10b6:406:f9::16)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nohna-0000h7-Gw
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:34:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652258055;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ut3BupXi3voP/vv7+UzkWhENlV04+UgLJqDQYiGzHZg=;
+ b=W6EP5wrFUwItbkPRJ25mQYAbgyQy9Ey92CK+DZ30rAYaEzp7sV3AS/layFCG5Qn2kuL5FS
+ /p8rGJmoSbylr56ciLXp4ifjozwEnuuY2nS/WKOCB5FOXa19sfIWEhHToc2ezllliincwY
+ 5E2EUwtg8NvT1xUzEFqeecf69ZixCCc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-vu0UaRakN6ag7MA4zUDQNQ-1; Wed, 11 May 2022 04:34:12 -0400
+X-MC-Unique: vu0UaRakN6ag7MA4zUDQNQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i131-20020a1c3b89000000b00393fbb0718bso2535651wma.0
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 01:34:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ut3BupXi3voP/vv7+UzkWhENlV04+UgLJqDQYiGzHZg=;
+ b=ItPFQlubn8n9y/qmfUP5F8wpG+DMQbtABrX+Z8tW9OLUIcHVHNzrYs+tPVHQig2kZE
+ PTGW9zy/TbKwX0RokgC5pgVUbCTFwi41bQTprd9cg55+NKG+Aqxv+l1pHGboFAIgS2ta
+ QMD6ryETSsKJS7ipmqrfeHykBbp8bR+rfPf2drBQEX5veWKON3fq24/EgoBuiXwAEwvQ
+ mWKAvYrCLQz+9OOlUs7vDGsjp1hlikC2Sjgek46o/QninA8bw9uellxg5rQSn2VZ/8Ul
+ Cy+tSiTJEr5ZS0t3Nd4xuV6KDHY8P2ODWXIqj16kZIANUpbYwymkBHFUbbBjifb2nvqG
+ Kzjg==
+X-Gm-Message-State: AOAM531L49M0lhGK0Im0AnbFxQABsOO9CDsYfKFaTXHZ3Zprs8iX+JEe
+ QAASXaw1zgDBQ2KxQnIW5aVmjDV9Iv30qCrs7tbYXFJbtpItTcAMcx39V2E0NE9ClS49Cq/CouQ
+ RB96hAUe2FXK1nKk=
+X-Received: by 2002:a1c:f207:0:b0:38e:9aac:df41 with SMTP id
+ s7-20020a1cf207000000b0038e9aacdf41mr3633897wmc.14.1652258050598; 
+ Wed, 11 May 2022 01:34:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4n2JK20iioqabWRcxp/I7wqtUgDxXYOomrrJabtwVN5XMMeswLrpam/WainR1Kk5zZvgwUg==
+X-Received: by 2002:a1c:f207:0:b0:38e:9aac:df41 with SMTP id
+ s7-20020a1cf207000000b0038e9aacdf41mr3633871wmc.14.1652258050264; 
+ Wed, 11 May 2022 01:34:10 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ q64-20020a1c4343000000b003942a244ec2sm1543488wma.7.2022.05.11.01.34.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 May 2022 01:34:09 -0700 (PDT)
+Date: Wed, 11 May 2022 09:34:07 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>, jmario@redhat.com
+Cc: qemu-devel@nongnu.org, david@redhat.com, berrange@redhat.com
+Subject: Re: [PATCH] util: NUMA aware memory preallocation
+Message-ID: <Ynt0/9jfeUPg4JxN@work-vm>
+References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 190ccd77-36fc-47d3-08ea-08da33275696
-X-MS-TrafficTypeDiagnostic: DM6PR02MB4235:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR02MB4235DB010F8183E88EBF907499C89@DM6PR02MB4235.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9BwJTAiJc+ysyreUktcvGSjzdMUVCIqQBY440yaTi2FmgLNrTG2zdcxQjwuFd/UIoFWvBYGyhEl+Zbx4/yZ5DFyEi3paW8ZwIC6Zm30Irk2LDbauirQa3nwNz3Y/NZVq7+vpWOKGrcB3fDEGNEy5j3x4KSH16cUltsaAXKKAyQ+AHBwb7MNdXVKRy0xhN8CzoiyPDARZNT7S5DMDK3m3LAHAO6udCuK8nwwXrj5yCDg/9adlt7zFEhd/LuxcOq6vfRdj331G6zoJrc6vvaY7INCcIXLPqt3x8LyuoiHp2M7FzFaXhMK5TzTRH6slrMR3FpHIN+bsJa+60nxo2CrRuykb+c7fDs2cdbOkl++i5yE7JH/oXBoR2r0s6vKQIZvx2CtGJNDfvAYiWF+TkTViluMz7LW5loTjpCqnT0UO7tM9rTTmr1x1g5VRcwS7pPjrC8sFGWwkHKM4+Ugeru0h1IV40Kt9SDjUR+ETnyKyfO8NBUBsiNSIm+N0m/ebYXehA5sALtOJ++LqmGR2v0wvcTP+BpVatwcb+yOyMEsTrlQc7yOsXUQYgDGGG8wk7QkGFyAgG+CO7lG0coQUoJnvahvEkTr+d3M1OxQlT2B+S8gkyIjkg7PyeIyVzq8LaLe75ou9o3X0lAJlU1qq6ENRDibxgWcdwl+SAB9jYorZaeFA2enn9oXgDgF+mzPS58YzO7iKt2hW/CSCRNWcniPwGkxIbSZe6m604Rh9D/76EpkFsGjLB6CmRBO3JD4NF8TKsJxfbpAK8ATPHeJRNH+uDA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN7PR02MB4033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(186003)(6666004)(6916009)(2906002)(44832011)(316002)(31686004)(8676002)(36756003)(66556008)(66476007)(4326008)(66946007)(38100700002)(8936002)(7416002)(508600001)(5660300002)(6486002)(6512007)(558084003)(53546011)(26005)(6506007)(52116002)(31696002)(2616005)(86362001)(38350700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkQ0STNrcXplcFg5RXc3T0VIWWdVU0FGWitmQ3BSUVNwVFZvSnNtb1RCR095?=
- =?utf-8?B?NytubTJsd01hNlppVENKZmhXTE9JKytMeWE4eXJBcXpHMFNySG9UdHZrYzF3?=
- =?utf-8?B?VmttRWxLZlRiNlBqTmtaNWU1QWVjNWg0b2MvOG9JbGF6TE0vU2t1amh3bk5S?=
- =?utf-8?B?T3FRQyt3VTcrZktIWmplSnZiaVN4ZkNwN2VLVmI3NEZjNHNFVUkyY1ZPdjlL?=
- =?utf-8?B?dG1mbDV3UzJNa29zMUdTMW4wR2w4RERhZEtaRElHaXB3aHVIZHdXTkFkdlpm?=
- =?utf-8?B?aUpwSGxVM2RYUUlSRFFCdXl4MHRLMDJ6OEdJTUNROXFpTjUvbXBseWxtcHgv?=
- =?utf-8?B?ZWNkTEtsL3oxdnVIbVlobXRLaTFzcS8veTZVU3ZFMTQ2Y25UZ0JDRm5YUUtJ?=
- =?utf-8?B?c3l0MjVFRlMxaDQ3ejA2bExyRHJWUld5UzZ0c1p0dXdxSDUwUDNkQ2RyRXE5?=
- =?utf-8?B?QVpHV1lZSDRRN0VPS3pLSEpPZndPeGJsZXk3cE1CMnpWcnU1Smh6VXBSK1Ux?=
- =?utf-8?B?Y0NkaTdEVTRPQzVYVTdrZFdsTUdIY1pTNzdnM2R5bXZwRlI1QW1FQm1LNDhl?=
- =?utf-8?B?bFJVVEVLOFVGWlpaUjgxZjVTeENHMUtNY0pzd0dHWDFpU0N6YW8vQjY4dkN6?=
- =?utf-8?B?SlBmei9HZTdnMU9SWVlQSXNoNnhqaTZ3bGZBTzZEQzVQN0RLQ21EdEx0NWY2?=
- =?utf-8?B?TnNpVlRJUTJJY2ZYRWs0d3BXWDJka2s2Nit2b1IvdlRlMWt5YUZsbnJSMFJr?=
- =?utf-8?B?Y2NzVVB5QUowMnlWbWRXK1ZKWkpKWWpKbkpDdHp4clJxZ3JoSi8ySkVRNkw1?=
- =?utf-8?B?ZjcyRWN5VE5XOWFXc2RyL3E1emFBZmZtYXVLSi9QY200S3psOHEzRit6NlRr?=
- =?utf-8?B?clBhbVlHbUNFR2lLdkRXa09lRFVuS2hxbnRCZzJiUDJEUWF4ZG5FSk1RUDRH?=
- =?utf-8?B?dmFMUEplTjBOYnZuVGpiaEJWNjlNYlBUZ2VOVjhDanovTllxbmkvUjh5NXl5?=
- =?utf-8?B?OHdkTGV5Z3pJdXlwTEd1bTZkSnhZaEdVWFY4d2xxWDA2a2huRStTOEc4UWVM?=
- =?utf-8?B?alRXWDhHSDRIQWh5WGNWc3hoU05vb2Q3cnUwWmdXNUJiR1pHUUl2NUljSXBz?=
- =?utf-8?B?dlNLYTlXcXNaTEhIYjUxcG1aQnVIeDhwUVdnMHUrNUF5YUFzVGJ2MDlaa21n?=
- =?utf-8?B?RStUQS9rMm5IS01mWTExN0haU3l5RVYvNE1tbUV2bThNVlJWL3did2Zsejd6?=
- =?utf-8?B?L0NXbzlmRFR4d25tM1hFOTJ5WkRkVFVXVHYzc0FzT2k4Q3UwTjIrTWU0ZXJD?=
- =?utf-8?B?cnIzeEtzZXAxZWRyMWQ2SURIMHlNQlp3OHhpR1N3RVJSajFvV0g0enZVbStG?=
- =?utf-8?B?TitVK3BadkxwY293alhQOG5Wa2wyd1lhUThiWmo0N1dNeEpReWQ4UVNGT081?=
- =?utf-8?B?dWpWWkhmbnJmNm1rSUNPbWhBWHc4bW1GS3YvV1czU1JkUUtzdmtrVzB6amU2?=
- =?utf-8?B?UTVWcGxKbXJ3VkVBUWoyS3ZHTVNTZHE1MTBDems2amEzV2lBU1haUDNZYUov?=
- =?utf-8?B?SGxtOVVyWWhoZUdZOHVWZEUwQTUrUjJFMWlncEFIMExCN2RqMWZqa2M1THBL?=
- =?utf-8?B?eFpHTGxpWk5SVHdGMnRVU21hWE95SURwT09ia1V5V2hhdjg3VUNwRHdhRGdF?=
- =?utf-8?B?cW1WdXNXYlQvK25NbmRXeEFLQ0VyUGU4d2ZPSFUzRnZwS1JuM2xhMFZhb0Rj?=
- =?utf-8?B?YnVGWFJPZzB1TzFZQnZoTkNmQXQ3SG5DTWRJSmQ2UHpuNzlqWi9wOW1tUjNT?=
- =?utf-8?B?ZktKOXd0c2JValBLRXZvcDN2UnZZaStwc1FKUWNEZEhXZVR1VkpGTzdyMFNi?=
- =?utf-8?B?ZHBBV0pxOTB2THg5NmVjTk1lVHNZdTBrZUlMb2VHREhkRklnNnhvODUyaHBt?=
- =?utf-8?B?ZVhDem1rV0RtWndRYm1GeDJrcDhpa0JmeHIxTVl5enVtMkhubWdHRzZaZmZO?=
- =?utf-8?B?ekZBNmdPS2RhUnNvNk5pVWNyODIybWVIdXZFTFY2WHptZS8vMXd3SUh3Rktt?=
- =?utf-8?B?dUkrN3Zteis0RUVhNlJTUDZ2QjV4UGJ2NG1qejdzK0xVNW8vckJrbldEbG5P?=
- =?utf-8?B?ODk1MWRSVnhFR2NSTmpGQTltazdSbVhWbUcyU0RuclNnN2toQ0ZhdVRTUndk?=
- =?utf-8?B?Z2dmcm1VSXJJbEVxdWR6ZVEzUmd5OW5Mc0theGFBNklaWk5rSDBPR0hVTmdE?=
- =?utf-8?B?MHd3Myt2TTB5a08xelAwWWVib0RhZW5JTmRFNjhIaTNwL0lmYzFva3BBVDFi?=
- =?utf-8?B?TXB3UHV0Wjk0STZjdmNVYTVzUzhuNjR5NU5FeVVZazdqcnlsMkI5WkVjWUg1?=
- =?utf-8?Q?fA4YzRAc92bYhjMc=3D?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 190ccd77-36fc-47d3-08ea-08da33275696
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4033.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2022 08:22:08.0604 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TczNCMoEdTjDnO++EMk73Z70AgtEYuBvGGpFocNSv1VXDqHJVoqkeDAVGlMWWHfL6FWMqNJhEkUSLNqgCpcS6whVmWPvg0bGaymr+fDIQQI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4235
-X-Proofpoint-GUID: jTJdrKfB0bv0BwqBMEOSyugiTQHylpAX
-X-Proofpoint-ORIG-GUID: jTJdrKfB0bv0BwqBMEOSyugiTQHylpAX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-11_02,2022-05-10_01,2022-02-23_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=kshitij.suri@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -169,19 +98,287 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you! Grateful for it.
+* Michal Privoznik (mprivozn@redhat.com) wrote:
+> When allocating large amounts of memory the task is offloaded
+> onto threads. These threads then use various techniques to
+> allocate the memory fully (madvise(), writing into the memory).
+> However, these threads are free to run on any CPU, which becomes
+> problematic on NUMA machines because it may happen that a thread
+> is running on a distant node.
+> 
+> Ideally, this is something that a management application would
+> resolve, but we are not anywhere close to that, Firstly, memory
+> allocation happens before monitor socket is even available. But
+> okay, that's what -preconfig is for. But then the problem is that
+> 'object-add' would not return until all memory is preallocated.
+> 
+> Long story short, management application has no way of learning
+> TIDs of allocator threads so it can't make them run NUMA aware.
+> 
+> But what we can do is to propagate the 'host-nodes' attribute of
+> MemoryBackend object down to where preallocation threads are
+> created and set their affinity according to the attribute.
 
-Regards,
+Joe (cc'd) sent me some numbers for this which emphasise how useful it
+is:
+ | On systems with 4 physical numa nodes and 2-6 Tb of memory, this numa-aware
+ |preallocation provided about a 25% speedup in touching the pages.
+ |The speedup gets larger as the numa node count and memory sizes grow.
+....
+ | In a simple parallel 1Gb page-zeroing test on a very large system (32-numa
+ | nodes and 47Tb of memory), the numa-aware preallocation was 2.3X faster
+ | than letting the threads float wherever.
+ | We're working with someone whose large guest normally takes 4.5 hours to
+ | boot.  With Michal P's initial patch to parallelize the preallocation, that
+ | time dropped to about 1 hour.  Including this numa-aware preallocation
+ | would reduce the guest boot time to less than 1/2 hour.
 
-Kshitij Suri
+so chopping *half an hour* off the startup time seems a worthy
+optimisation (even if most of us aren't fortunate enough to have 47T of
+ram).
 
-On 11/05/22 1:16 pm, Paolo Bonzini wrote:
->> +if png.found()
->> +  softmmu_ss.add(png)
->> +endif
-> Queued, thanks.  However, this can be just "softmmu_ss.add(png) without
-> the if, so I adjusted that.
->
-> Paolo
->
+Dave
+
+> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2074000
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> ---
+>  backends/hostmem.c     |  6 ++--
+>  hw/virtio/virtio-mem.c |  2 +-
+>  include/qemu/osdep.h   |  2 ++
+>  util/meson.build       |  2 +-
+>  util/oslib-posix.c     | 74 ++++++++++++++++++++++++++++++++++++++++--
+>  util/oslib-win32.c     |  2 ++
+>  6 files changed, 82 insertions(+), 6 deletions(-)
+> 
+> diff --git a/backends/hostmem.c b/backends/hostmem.c
+> index a7bae3d713..7373472c7e 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -232,7 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+>          void *ptr = memory_region_get_ram_ptr(&backend->mr);
+>          uint64_t sz = memory_region_size(&backend->mr);
+>  
+> -        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
+> +        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads,
+> +                        backend->host_nodes, MAX_NODES, &local_err);
+>          if (local_err) {
+>              error_propagate(errp, local_err);
+>              return;
+> @@ -394,7 +395,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+>           */
+>          if (backend->prealloc) {
+>              os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
+> -                            backend->prealloc_threads, &local_err);
+> +                            backend->prealloc_threads, backend->host_nodes,
+> +                            MAX_NODES, &local_err);
+>              if (local_err) {
+>                  goto out;
+>              }
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index 5aca408726..48b104cdf6 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
+>              int fd = memory_region_get_fd(&vmem->memdev->mr);
+>              Error *local_err = NULL;
+>  
+> -            os_mem_prealloc(fd, area, size, 1, &local_err);
+> +            os_mem_prealloc(fd, area, size, 1, NULL, 0, &local_err);
+>              if (local_err) {
+>                  static bool warned;
+>  
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 1c1e7eca98..474cbf3b86 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -577,6 +577,8 @@ unsigned long qemu_getauxval(unsigned long type);
+>  void qemu_set_tty_echo(int fd, bool echo);
+>  
+>  void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
+> +                     const unsigned long *host_nodes,
+> +                     unsigned long max_node,
+>                       Error **errp);
+>  
+>  /**
+> diff --git a/util/meson.build b/util/meson.build
+> index 8f16018cd4..393ff74570 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -15,7 +15,7 @@ freebsd_dep = []
+>  if targetos == 'freebsd'
+>    freebsd_dep = util
+>  endif
+> -util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep])
+> +util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep, numa])
+>  util_ss.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
+>  util_ss.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
+>  util_ss.add(when: 'CONFIG_WIN32', if_true: files('aio-win32.c'))
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 477990f39b..1572b9b178 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -73,6 +73,10 @@
+>  #include "qemu/error-report.h"
+>  #endif
+>  
+> +#ifdef CONFIG_NUMA
+> +#include <numa.h>
+> +#endif
+> +
+>  #define MAX_MEM_PREALLOC_THREAD_COUNT 16
+>  
+>  struct MemsetThread;
+> @@ -82,6 +86,9 @@ typedef struct MemsetContext {
+>      bool any_thread_failed;
+>      struct MemsetThread *threads;
+>      int num_threads;
+> +#ifdef CONFIG_NUMA
+> +    struct bitmask *nodemask;
+> +#endif
+>  } MemsetContext;
+>  
+>  struct MemsetThread {
+> @@ -420,6 +427,12 @@ static void *do_touch_pages(void *arg)
+>      }
+>      qemu_mutex_unlock(&page_mutex);
+>  
+> +#ifdef CONFIG_NUMA
+> +    if (memset_args->context->nodemask) {
+> +        numa_run_on_node_mask(memset_args->context->nodemask);
+> +    }
+> +#endif
+> +
+>      /* unblock SIGBUS */
+>      sigemptyset(&set);
+>      sigaddset(&set, SIGBUS);
+> @@ -463,6 +476,12 @@ static void *do_madv_populate_write_pages(void *arg)
+>      }
+>      qemu_mutex_unlock(&page_mutex);
+>  
+> +#ifdef CONFIG_NUMA
+> +    if (memset_args->context->nodemask) {
+> +        numa_run_on_node_mask(memset_args->context->nodemask);
+> +    }
+> +#endif
+> +
+>      if (size && qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE)) {
+>          ret = -errno;
+>      }
+> @@ -489,7 +508,9 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
+>  }
+>  
+>  static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+> -                           int smp_cpus, bool use_madv_populate_write)
+> +                           int smp_cpus, const unsigned long *host_nodes,
+> +                           unsigned long max_node,
+> +                           bool use_madv_populate_write)
+>  {
+>      static gsize initialized = 0;
+>      MemsetContext context = {
+> @@ -499,6 +520,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>      void *(*touch_fn)(void *);
+>      int ret = 0, i = 0;
+>      char *addr = area;
+> +    unsigned long value = max_node;
+>  
+>      if (g_once_init_enter(&initialized)) {
+>          qemu_mutex_init(&page_mutex);
+> @@ -520,6 +542,48 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>          touch_fn = do_touch_pages;
+>      }
+>  
+> +    if (host_nodes) {
+> +        value = find_first_bit(host_nodes, max_node);
+> +    }
+> +    if (value != max_node) {
+> +#ifdef CONFIG_NUMA
+> +        struct bitmask *cpus = numa_allocate_cpumask();
+> +        g_autofree unsigned long *zerocpumask;
+> +        size_t zerocpumasklen;
+> +        g_autofree unsigned long *zeronodemask;
+> +        size_t zeronodemasklen;
+> +
+> +        context.nodemask = numa_bitmask_alloc(max_node);
+> +
+> +        zerocpumasklen = cpus->size / sizeof(unsigned long);
+> +        zerocpumask = g_new0(unsigned long, zerocpumasklen);
+> +
+> +        for (; value != max_node;
+> +             value = find_next_bit(host_nodes, max_node, value + 1)) {
+> +            if (numa_node_to_cpus(value, cpus) ||
+> +                memcmp(cpus->maskp, zerocpumask, zerocpumasklen) == 0)
+> +                continue;
+> +
+> +            /* If given NUMA node has CPUs run threads on them. */
+> +            numa_bitmask_setbit(context.nodemask, value);
+> +        }
+> +
+> +        numa_bitmask_free(cpus);
+> +
+> +        zeronodemasklen = max_node / sizeof(unsigned long);
+> +        zeronodemask = g_new0(unsigned long, zeronodemasklen);
+> +
+> +        if (memcmp(context.nodemask->maskp,
+> +                   zeronodemask, zeronodemasklen) == 0) {
+> +            /* If no NUMA has a CPU available, then don't pin threads. */
+> +            g_clear_pointer(&context.nodemask, numa_bitmask_free);
+> +        }
+> +#else
+> +        errno = -EINVAL;
+> +        return -1;
+> +#endif
+> +    }
+> +
+>      context.threads = g_new0(MemsetThread, context.num_threads);
+>      numpages_per_thread = numpages / context.num_threads;
+>      leftover = numpages % context.num_threads;
+> @@ -554,6 +618,10 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>      if (!use_madv_populate_write) {
+>          sigbus_memset_context = NULL;
+>      }
+> +
+> +#ifdef CONFIG_NUMA
+> +    g_clear_pointer(&context.nodemask, numa_bitmask_free);
+> +#endif
+>      g_free(context.threads);
+>  
+>      return ret;
+> @@ -566,6 +634,8 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
+>  }
+>  
+>  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+> +                     const unsigned long *host_nodes,
+> +                     unsigned long max_node,
+>                       Error **errp)
+>  {
+>      static gsize initialized;
+> @@ -608,7 +678,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+>  
+>      /* touch pages simultaneously */
+>      ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
+> -                          use_madv_populate_write);
+> +                          host_nodes, max_node, use_madv_populate_write);
+>      if (ret) {
+>          error_setg_errno(errp, -ret,
+>                           "os_mem_prealloc: preallocating memory failed");
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index dafef4f157..6efd912355 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -314,6 +314,8 @@ int getpagesize(void)
+>  }
+>  
+>  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+> +                     const unsigned long *host_nodes,
+> +                     unsigned long max_node,
+>                       Error **errp)
+>  {
+>      int i;
+> -- 
+> 2.35.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
