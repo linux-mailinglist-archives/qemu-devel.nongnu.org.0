@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FAB523199
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 13:30:54 +0200 (CEST)
-Received: from localhost ([::1]:59468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37BF5231B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 13:32:25 +0200 (CEST)
+Received: from localhost ([::1]:33488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nokYP-0007sq-0N
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 07:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49164)
+	id 1nokZs-00012l-UD
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 07:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nokR8-0003qs-DB
- for qemu-devel@nongnu.org; Wed, 11 May 2022 07:23:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nokR5-0005CX-M4
- for qemu-devel@nongnu.org; Wed, 11 May 2022 07:23:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652268199;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=HWmx8NZxneGjFDWiGB3HW2NAKbUqB2UMj74GGBSbBn0=;
- b=bxe7T2o0ZT54sW9HlFimRheO2J4zfjIFTiAOSbKw46kXU9n6wtp51xvbbhhX2jYK+i+Jy7
- Odtsmvf2h7aXAk8Em4/NIP39aVvfv1ltKMaBkHF7B3egXToGiwjtuuLEt1rpeZf2ag//3z
- vKOdeXASpBpPBzpCzjuy8NOlWf22hCw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-34-2r2tAAm-O3SymibvEnfFwQ-1; Wed, 11 May 2022 07:23:16 -0400
-X-MC-Unique: 2r2tAAm-O3SymibvEnfFwQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <vulyanov@suse.de>) id 1nokXl-00083M-Jz
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 07:30:15 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:40266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vulyanov@suse.de>) id 1nokXj-0006w7-Ra
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 07:30:13 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 973D2101AA45;
- Wed, 11 May 2022 11:23:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFAC52026D64;
- Wed, 11 May 2022 11:23:00 +0000 (UTC)
-Date: Wed, 11 May 2022 12:22:58 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-trivial@nongnu.org
-Subject: Re: [PATCH] meson.build: Bump minimum supported version of pixman to
- 0.34.0
-Message-ID: <Ynucki8ZXwZgCETK@redhat.com>
-References: <20220511094758.794946-1-thuth@redhat.com>
- <CAFEAcA9bUires+a-dc8v-oDDKg5WJRf4vVR8jKady5QgjMJTZA@mail.gmail.com>
- <b819e229-4aff-6381-a686-664aa97712a3@redhat.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 29B6121A24
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 11:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652268609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=coWvXrhxyVIIjCYOyPW+MeCQCHCH8py5OJaGKvZMHhU=;
+ b=wPn3ygncxZw/w12KHy9p1vnr7zK6AJldIQsCAz9kJyEbx7XIjIhV9mhg4IibmVTOlTzMsS
+ tXqRgIfFhhidgbw1bS7ECeEtsFDUeJJqa1c5N9RLRsQqU2NihNsJVy4no7cb1i7WDKR7vQ
+ HtDNQHeh0nqYRpbfB/jeU7VhZ44S1BE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652268609;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=coWvXrhxyVIIjCYOyPW+MeCQCHCH8py5OJaGKvZMHhU=;
+ b=lVqLXjTGLfALipjkBO2lCkdY+O80nKYKjOpd6rDTP/OgxqeT3ZzA6wu9TScyGzFq03ri6u
+ 3ClnN/PhfZ7cB+Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E721F13A76
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 11:30:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /QEmNECee2J4SQAAMHmgww
+ (envelope-from <vulyanov@suse.de>)
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 11:30:08 +0000
+Message-ID: <d0c41d34-2ae3-39ac-58df-bbdf81bf79b6@suse.de>
+Date: Wed, 11 May 2022 13:30:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b819e229-4aff-6381-a686-664aa97712a3@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Content-Language: en-US
+From: Vasily Ulyanov <vulyanov@suse.de>
+Subject: Adjusting the default ROM option for SEV guests
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=vulyanov@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,94 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 11, 2022 at 12:56:45PM +0200, Thomas Huth wrote:
-> On 11/05/2022 12.28, Peter Maydell wrote:
-> > On Wed, 11 May 2022 at 10:50, Thomas Huth <thuth@redhat.com> wrote:
-> > > 
-> > > We haven't revisited the minimum required versions of pixman
-> > > since quite a while. Let's check whether we can rule out some
-> > > old versions that nobody tests anymore...
-> > > 
-> > > For pixman, per repology.org, currently shipping versions are:
-> > > 
-> > >       CentOS 8 / RHEL-8 : 0.38.4
-> > >                Fedora 34: 0.40.0
-> > >               Debian 10 : 0.36.0
-> > >        Ubuntu LTS 20.04 : 0.38.4
-> > >      openSUSE Leap 15.3 : 0.34.0
-> > >             MSYS2 MinGW : 0.40.0
-> > >           FreeBSD Ports : 0.34.0 / 0.40.0
-> > >            NetBSD pksrc : 0.40.0
-> > > 
-> > > OpenBSD 7.1 seems to use 0.40.0 when running tests/vm/openbsd.
-> > > 
-> > > So it seems to be fine to bump the minimum version to 0.34.0 now.
-> > 
-> > This seems to be missing the rationale for why bumping
-> > the minimum version is worth doing. What new feature that
-> > we need is this enabling, or what now-unnecessary bug
-> > workarounds does this permit us to drop?
-> 
-> We simply don't test such old versions anymore. Thus what happens if someone
-> tries to use such a version and runs into a problem (especially if it is
-> non-obvious and would need a lot of debugging)? Are you still willing to fix
-> it? Or would you then rather bump the version after hours of debugging the
-> problem? ... IMHO it's better to set the expectations right from the start.
-> If we do not test and support it anymore, we should not give the impression
-> that QEMU can still be compiled with this.
+Hello QEMU devs,
 
-Support for QEMU is not such a clearly defined boundary, there are many
-levels of support.  Our CI testing determines our "top tier" platforms
-where we expect everything to be functional at all times, but it doesn't
-mean that all other platforms are entirely unsupported. It merely means
-we can't offer the same level of assurance that it will be perfect out
-of the box.
+Currently to launch an SEV guest there are certain requirements for the VM
+configuration. One such is that ROM option needs to be disabled for virtio-net
+devices [1]. The tools like virt-install or libvirt rely on the QEMU defaults if
+the ROM value is not provided (the default for virtio-net is set to
+romfile=efi-virtio.rom). Eventually this leads to unbootable guest and poor user
+experience as it is now mandatory to explicitly disable the ROM option.
 
-If someone reports an issue we have freedom to decide how much effort
-to put in. If they're using a pixman that's very old compared to what
-we've tested, we don't have to spend time on that ourselves. We can
-easily tell the reporter to reproduce with something newer first if
-desired.
+There is a similar situation with iommu_platform, though that seems to be
+addressed already in [2] and QEMU adjusts the defaults depending on whether it
+is a confidential guest or not.
 
-The platform support matrix is a way to determine:
+Wouldn't it make sense to also handle the romfile like that in QEMU? I.e. in the
+case when an SEV guest is run and no romfile is explicitly specified set it to
+an empty value? This will also be useful when running an SEV VM directly with QEMU.
 
- - what platforms we should focus our testing resources on
+Are there any objections or concerns? I could work on the patches but wanted to
+ping the community first and get some feedback. Would QEMU be the proper place
+to handle that? Any thoughts?
 
-   For this, we can unambiguously bump our tsting envs
-   on each release. It merely means the old version is
-   no longer top tier, it is second tier in terms of
-   what quality users can expect.
+[1] https://libvirt.org/kbase/launch_security_sev.html#virtio-net
+[2] https://gitlab.com/qemu-project/qemu/-/commit/9f88a7a3df
 
- - whether it is reasonable to bump a package minimum version
-
-   Admittedly we never expressed whether the min version bumps
-   are justifiable just for the sake of it, or whether version
-   bumps are expected as a means to access new functionality /
-   drop back compat code. Nearly all the bumps we've done have
-   had some code benefit in the past.
-
-   In practice when we bump the minimum glib2 version this has
-   a clear code benefit, and once you bump min glib2, this defacto
-   eliminates old versions of many other libraries. The only
-   exception would be distros that are fast at rebasing glib, but
-   slow at rebasing other deps we have. This is pretty uncommon
-   for any mainstream distro.
-
-IOW, I would suggest that in each release our first focus should
-be on glib, gcc/clang versions, as those historically bring us
-clear benefits. If glib bumps, then there's little point in
-keeping any other deps with older min versions, so many other
-bits can be a fairly straightforward decision.
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Vasily Ulyanov <vulyanov@suse.de>
+Software Engineer, SUSE Labs Core
 
