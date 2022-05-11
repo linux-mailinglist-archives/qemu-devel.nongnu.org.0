@@ -2,84 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF55B52309B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 12:23:05 +0200 (CEST)
-Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0FE5230AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 12:30:37 +0200 (CEST)
+Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nojUm-00054R-Lg
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 06:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
+	id 1nojc3-0002BJ-VS
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 06:30:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nojRL-0003Lk-4r
- for qemu-devel@nongnu.org; Wed, 11 May 2022 06:19:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34918)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nojWu-0000Hj-Og; Wed, 11 May 2022 06:25:20 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nojRI-00086O-Jx
- for qemu-devel@nongnu.org; Wed, 11 May 2022 06:19:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652264367;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nh9lYW7EGdP9yq6KP9COI0CZWCGOpSsiymfY/LYRn0Q=;
- b=eJTfJ0VRez00cTfG7r/YMuHOmIezgP9hTLijoSCuGi/LzrFvGimdpq6x9r78ymOpqgn9KD
- AllQBlx97V51VTUucFnO5fsHdZVqsRjklO/3SstZA9bZ2HXrp2lzlLu2q+6wiYuWi/l7Um
- 6b468s0Ld30rLVT5mAgA8WrPJT+bUYI=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-emGbj1csPciPMdEbupQdDQ-1; Wed, 11 May 2022 06:19:26 -0400
-X-MC-Unique: emGbj1csPciPMdEbupQdDQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- x12-20020a2e9dcc000000b0024f2bb07cb8so564367ljj.13
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 03:19:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Nh9lYW7EGdP9yq6KP9COI0CZWCGOpSsiymfY/LYRn0Q=;
- b=uoE5A+Ktj08MGjOQY+6Qd7Q0/lQUQGyTpjh2J9AUlNdi5wHk8KN4V1xB04yRUpXjAv
- +4PaCowUtgR4W7OzoXu8YDUB2jSkWbhcsD0pouPQn73OiyYi4wNq7w6OmdX9VykD2Oo+
- UR/YUfU9eMHIl14jpEeVJdKpeVFFW53e6CTJ/IpPKdjUAwK8Dv3bkVLwy+YxRLOAxz0m
- C7F0Y45wnPVS9LRY+Mm020bALda6z74TFIGLXW7A5JoIjPwU9tWitbJsDlDJl84BnWbx
- oG+HHiNDWi0pCcZCu+dnFvwX9Eebrj1nUvb/H5KiHb/NNx7JT5IRmUsEm5DBHLChxlL4
- DQDw==
-X-Gm-Message-State: AOAM532kGyNMm/pm9SzqpL1/T527uWTPiJo1f8GXonrcfeUDHxVfUuZH
- 3XogqgaEDPoAzsneLDWJWb1FNYIFnXAMsckbrr1qXS4J28S1cY2Zqt6fqJm2n2qOqRNo3qsCJM4
- zO3QG/LyMdYmblebkCH0CZIJfZ68RzHs=
-X-Received: by 2002:a05:6512:a91:b0:473:bb9e:fc80 with SMTP id
- m17-20020a0565120a9100b00473bb9efc80mr19853775lfu.471.1652264364788; 
- Wed, 11 May 2022 03:19:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTwfVNYPvaTf5tHqTY2TfRGOhW1u4ripppBav6N5UDBAaF7y93ok21YY5o/JySOGSWrjoPqGfKHyYGhOGdfKE=
-X-Received: by 2002:a05:6512:a91:b0:473:bb9e:fc80 with SMTP id
- m17-20020a0565120a9100b00473bb9efc80mr19853763lfu.471.1652264364544; Wed, 11
- May 2022 03:19:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nojWm-0000b2-CO; Wed, 11 May 2022 06:25:13 -0400
+Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nojVi-0002Aj-Pa; Wed, 11 May 2022 11:24:03 +0100
+Message-ID: <8b20e95a-33b3-929e-a94a-1d505ded174e@ilande.co.uk>
+Date: Wed, 11 May 2022 11:24:58 +0100
 MIME-Version: 1.0
-References: <YiotlroslM5hcR04@p100>
- <CAAdtpL44p=kPaRYSi8Y1HLrsQnc3e5Z_BRd1yjH=h7DDBwWWSw@mail.gmail.com>
-In-Reply-To: <CAAdtpL44p=kPaRYSi8Y1HLrsQnc3e5Z_BRd1yjH=h7DDBwWWSw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 11 May 2022 18:19:13 +0800
-Message-ID: <CACGkMEs0A9-DDsakGQtTpzy72oa0QP66KGOp=etTP4xZBypQVg@mail.gmail.com>
-Subject: Re: [PATCH] tulip: Assign default MAC address if not specified
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Helge Deller <deller@gmx.de>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Sven Schnelle <svens@stackframe.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20220505161805.11116-1-shentey@gmail.com>
+ <20220505161805.11116-2-shentey@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220505161805.11116-2-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 01/11] hw/rtc/mc146818rtc: Inline isa_connect_gpio_out()
+ and remove it
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,65 +66,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 11, 2022 at 5:41 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Hi Jason,
->
-> Do you mind taking this single patch via your networking tree?
-> Otherwise I Cc'ed qemu-trivial :)
+On 05/05/2022 17:17, Bernhard Beschow wrote:
 
-I've queued this.
+> Commit 250263033c5343012b2cd6f01210ffb5b908a159 'isa: introduce wrapper
+> isa_connect_gpio_out' introduced it in 2016. Since then, its only user
+> remained mc146818rtc. Remove this one-off solution.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/isa/isa-bus.c     | 6 ------
+>   hw/rtc/mc146818rtc.c | 3 ++-
+>   include/hw/isa/isa.h | 1 -
+>   3 files changed, 2 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+> index 0ad1c5fd65..59eb1af9e3 100644
+> --- a/hw/isa/isa-bus.c
+> +++ b/hw/isa/isa-bus.c
+> @@ -85,12 +85,6 @@ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
+>       return isabus->irqs[isairq];
+>   }
+>   
+> -void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+> -{
+> -    qemu_irq irq = isa_get_irq(isadev, isairq);
+> -    qdev_connect_gpio_out(DEVICE(isadev), gpioirq, irq);
+> -}
+> -
+>   void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16)
+>   {
+>       assert(bus && dma8 && dma16);
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index f235c2ddbe..79c43391cb 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -972,7 +972,8 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+>       if (intercept_irq) {
+>           qdev_connect_gpio_out(dev, 0, intercept_irq);
+>       } else {
+> -        isa_connect_gpio_out(isadev, 0, s->isairq);
+> +        qemu_irq irq = isa_get_irq(isadev, s->isairq);
+> +        qdev_connect_gpio_out(dev, 0, irq);
+>       }
+>   
+>       object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(isadev),
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index 034d706ba1..1b758ae1ab 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -90,7 +90,6 @@ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion *address_space,
+>                       MemoryRegion *address_space_io, Error **errp);
+>   void isa_bus_irqs(ISABus *bus, qemu_irq *irqs);
+>   qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
+> -void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
+>   void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16);
+>   IsaDma *isa_get_dma(ISABus *bus, int nchan);
+>   MemoryRegion *isa_address_space(ISADevice *dev);
 
-Thanks
+Hi Bernhard,
 
->
-> Thanks!
->
-> On Thu, Mar 10, 2022 at 5:56 PM Helge Deller <deller@gmx.de> wrote:
-> >
-> > The MAC of the tulip card is stored in the EEPROM and at startup
-> > tulip_fill_eeprom() is called to initialize the EEPROM with the MAC
-> > address given on the command line, e.g.:
-> >     -device tulip,mac=3D00:11:22:33:44:55
-> >
-> > In case the mac address was not given on the command line,
-> > tulip_fill_eeprom() initializes the MAC in EEPROM with 00:00:00:00:00:0=
-0
-> > which breaks e.g. a HP-UX guest.
-> >
-> > Fix this problem by moving qemu_macaddr_default_if_unset() a few lines
-> > up, so that a default mac address is assigned before tulip_fill_eeprom(=
-)
-> > initializes the EEPROM.
-> >
-> > Signed-off-by: Helge Deller <deller@gmx.de>
-> >
-> > diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-> > index d5b6cc5ee6..097e905bec 100644
-> > --- a/hw/net/tulip.c
-> > +++ b/hw/net/tulip.c
-> > @@ -967,6 +967,8 @@ static void pci_tulip_realize(PCIDevice *pci_dev, E=
-rror **errp)
-> >      pci_conf =3D s->dev.config;
-> >      pci_conf[PCI_INTERRUPT_PIN] =3D 1; /* interrupt pin A */
-> >
-> > +    qemu_macaddr_default_if_unset(&s->c.macaddr);
-> > +
-> >      s->eeprom =3D eeprom93xx_new(&pci_dev->qdev, 64);
-> >      tulip_fill_eeprom(s);
-> >
-> > @@ -981,8 +983,6 @@ static void pci_tulip_realize(PCIDevice *pci_dev, E=
-rror **errp)
-> >
-> >      s->irq =3D pci_allocate_irq(&s->dev);
-> >
-> > -    qemu_macaddr_default_if_unset(&s->c.macaddr);
-> > -
-> >      s->nic =3D qemu_new_nic(&net_tulip_info, &s->c,
-> >                            object_get_typename(OBJECT(pci_dev)),
-> >                            pci_dev->qdev.id, s);
-> >
->
+I've been tinkering again with trying to improve QEMU's ISA implementation to use 
+gpios, and actually I believe as per the comment in isa-bus.c that 
+isa_connect_gpio_out() will be the preferred way to wire up ISA devices. So really we 
+should be trying to use this function more rather than removing it.
 
+BTW if you are interested in helping to work on ISA bus improvements, I can certainly 
+come up with a TODO list of useful tasks :)
+
+
+ATB,
+
+Mark.
 
