@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5E1524049
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 00:31:51 +0200 (CEST)
-Received: from localhost ([::1]:39132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CB0524056
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 00:36:20 +0200 (CEST)
+Received: from localhost ([::1]:47344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nous3-0007Q1-0P
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 18:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55136)
+	id 1nouwN-0004iK-0q
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 18:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nouq8-00061a-8k; Wed, 11 May 2022 18:29:52 -0400
-Received: from mail-yb1-f178.google.com ([209.85.219.178]:45878)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nouv4-0003xs-2i
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 18:34:58 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:38791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nouq6-0004Du-Ho; Wed, 11 May 2022 18:29:52 -0400
-Received: by mail-yb1-f178.google.com with SMTP id v59so6552913ybi.12;
- Wed, 11 May 2022 15:29:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nouv2-0005DU-1E
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 18:34:57 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ cx11-20020a17090afd8b00b001d9fe5965b3so6167604pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 15:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=nJ+4ZePH/Z9wHEmnB3gIRQ8OoKLLhC7vkiiupeX/3LE=;
+ b=C7ym/GqqzBhd5zSk0LoprVK7rojMuD0sFHE28N7r0vKKHa7n/mygs3uejOZWfu6Gal
+ O5pVaFjY9PpqBcFlblCHcMS9hEiKTm7NGgoE8BIeW8OA9IRBEY04iE980NpbErBXxG2Z
+ Wgx1qnnindwkp5Z3LqF7HF8p+VX0v5V1O51BHHKtesKbUmVk6kEn6d0X2Uf+FEsHf7ed
+ EqU3FuA0Sd2+yliQeNRhSqKuhllzvINcmtqZmLbC8D4vgsy11tq1E1F9+yaoUgPdOm0S
+ 7Ibgf1uNncT+Q1wSUGhYQj3VWyjDGTSyGITL8fZsOmTG9odNW+DBIvkj/n6nUUs0l8oj
+ /0jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RaBhlvle6pQ2jKUbFcqlcgmp6hj6qaQqY558tU3tMnY=;
- b=w+qgIEyQnAGv6rtm6JHhSzWt8mrc65kp2BJqlOlgqr3sqTuivpg9RNLG7MmA39I0RV
- QrdlYL6BbdtxDYQz2H8eIyuJ7Nb/fVXeckSrGBfB1nG7qL4RPZTHA3yaBDXEjX3aD638
- vbeefxEQ6YVySAr/hNgoshURDVZHMrOflpVKIfw5xEh98YfIQSeGyh//11HD/ufi6PW3
- gIJpPGojpmAw0pFtCyLpKg6DVXD4mxmfWqZbQM+hoEyaPdo8FpAkMSn1iz5tes6GwobW
- xBPg9LuB/NfQU7MnYRUEeYa/LRY2o/OnhBdtRJKNki7WfFLG4nZ0xJqp+yYRmF+smL+V
- oP5w==
-X-Gm-Message-State: AOAM5324txYTG90EM8i4vvz4oFuU+Z+O67/iZbPxusDSNbKrJbm/H6Yh
- K7mIiDFkOeYez9cZtjznCGyyjtbdYqaFReXijvI=
-X-Google-Smtp-Source: ABdhPJx7pPdbj/h0ow8qBvDfZ1SQRNvJm60uBiNIE30H2OhJa7EoWolwpHxTKv9RowogcDTvpmCK3Fd0v6ttsxWAFCo=
-X-Received: by 2002:a25:b095:0:b0:649:d59e:4c07 with SMTP id
- f21-20020a25b095000000b00649d59e4c07mr25553537ybj.627.1652308189063; Wed, 11
- May 2022 15:29:49 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nJ+4ZePH/Z9wHEmnB3gIRQ8OoKLLhC7vkiiupeX/3LE=;
+ b=GIwoBU/JTQYRo+AEWZG+PYHshhE9lwjt2ygqDGxbdu0WgS9sF5OmmXeu1tAtJCJ899
+ jpqTjF74CUZOd0A6gfhNbLWfb8J2A+ASte8zX4/mLzMZxGlhgfrXX9LLKyv1qzuvhdQC
+ ntIXq2+5qCESGua6UkupMrMPWnzYoVX6zaQrXX9L6Fr3WSL1/JeQ0OjcniUD5pwdE4Du
+ 7rVeTMjVQrpdknLAPJlV+cl+71H7lxWRtgie0FqN/lnHwmzDmOjEKW5ARPwkjlqlrPqX
+ YFSjQyCStF222qboYq7d9VfCS9DJoX7BxViWFbNlX+Cw3QbJ/xeSB58jTB+gGQOg1CKQ
+ L08A==
+X-Gm-Message-State: AOAM532K+u99Q7Dwv5jSLFnzZp+wXRLtDgTn4VgbkTDM5EqtCkG76v/+
+ LwXaMTzd/6/UlZ01uiJf89o=
+X-Google-Smtp-Source: ABdhPJzFWMoSL6/6ZF15n56YJLkovMP/eveRXt3JvZZDf2z2D5asVPqMDzG+EJNnRvdcXQJ67UNtfQ==
+X-Received: by 2002:a17:903:40cf:b0:15e:9bd0:2cab with SMTP id
+ t15-20020a17090340cf00b0015e9bd02cabmr26806717pld.170.1652308494024; 
+ Wed, 11 May 2022 15:34:54 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id
+ w4-20020a1709027b8400b0015e8d4eb2c0sm2411897pll.266.2022.05.11.15.34.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 May 2022 15:34:53 -0700 (PDT)
+Date: Thu, 12 May 2022 07:34:51 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU Development <qemu-devel@nongnu.org>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH] target/openrisc: Do not reset delay slot flag on early
+ tb exit
+Message-ID: <Ynw6CymBBiqQgElu@antec>
+References: <20220511120541.2242797-1-shorne@gmail.com>
+ <cf7c27e9-3bc9-888e-dbba-25c0bb583e09@linaro.org>
+ <YnwuFZsNjQLxOfp0@antec>
+ <9c8c68d0-cb7c-4ec5-eac4-fd915934db5e@linaro.org>
 MIME-Version: 1.0
-References: <20220509125315.3746865-1-stefanha@redhat.com>
-In-Reply-To: <20220509125315.3746865-1-stefanha@redhat.com>
-Date: Thu, 12 May 2022 00:29:38 +0200
-Message-ID: <CAAdtpL5_tY1hPYGt-=yBbqgCkSCaUGvKORZ_Eaw9p9_i=UFNsg@mail.gmail.com>
-Subject: Re: [PULL 0/9] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Nicolas Saenz Julienne <nsaenzju@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.219.178;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-yb1-f178.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9c8c68d0-cb7c-4ec5-eac4-fd915934db5e@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=shorne@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,110 +91,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Hi Stefan, Nicolas,
+On Wed, May 11, 2022 at 02:56:37PM -0700, Richard Henderson wrote:
+> On 5/11/22 14:43, Stafford Horne wrote:
+> > At this point how would tb->flags have the right value?  Would it always be set
+> > correctly by `cpu_get_tb_cpu_state` in the `lookup_tb_ptr`call?
+> 
+> Well, it would be set by cpu_get_tb_cpu_state in cpu_exec, which is then
+> passed to tb_gen_code.  If we go around a loop and look it up a second time,
+> we'll find a tb with a matching set of flags.
 
-On Mon, May 9, 2022 at 3:14 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit 554623226f800acf48a2ed568900c1c968ec9a8b:
->
->   Merge tag 'qemu-sparc-20220508' of https://github.com/mcayland/qemu into staging (2022-05-08 17:03:26 -0500)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
->
-> for you to fetch changes up to 3dc584abeef0e1277c2de8c1c1974cb49444eb0a:
->
->   virtio-scsi: move request-related items from .h to .c (2022-05-09 10:45:04 +0100)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> - Add new thread-pool-min/thread-pool-max parameters to control the thread pool
->   used for async I/O.
->
-> - Fix virtio-scsi IOThread 100% CPU consumption QEMU 7.0 regression.
->
-> ----------------------------------------------------------------
->
-> Nicolas Saenz Julienne (3):
->   Introduce event-loop-base abstract class
->   util/main-loop: Introduce the main loop into QOM
->   util/event-loop-base: Introduce options to set the thread pool size
+Right, cpu_get_tb_cpu_state called in lookup_tb_ptr will not update tb->flags.
 
-I'm getting this warning on Darwin:
+What you mention, that is for when we have to generate a new TB, the tb->flags
+get set right before tb_gen_code.
 
-...
-[379/1097] Linking static target libevent-loop-base.a
-warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib:
-archive library: libevent-loop-base.a the table of contents is empty
-(no object file members in the library define global symbols)
-...
+But for the case where we exit the delay-slot TB due to a pending exception I
+think the flow would go.
 
-Having:
+ TB chain:
+     -> branch-TB     : set env->flag 1
+     -> delay-slot-TB : exit_tb due to condition
+ Exit:
+     -> return to cpu_tb_exec
+       -> tcg_ops->synchronize_from_tb
 
-$ nm libevent-loop-base.a
+In this case I don't see how the tb->flag would be updated, ooh, I guess it
+would have been set earlier when the TB was generated.  Maybe that is what I am
+missing.
 
-libevent-loop-base.a(event-loop-base.c.o):
-00000000000005d0 d _.compoundliteral
-                 U ___stack_chk_fail
-                 U ___stack_chk_guard
-00000000000005e0 d _aio_max_batch_info
-0000000000000000 t _do_qemu_init_register_types
-                 U _error_setg_internal
-00000000000001d4 t _event_loop_base_can_be_deleted
-0000000000000054 t _event_loop_base_class_init
-0000000000000138 t _event_loop_base_complete
-0000000000000260 t _event_loop_base_get_param
-0000000000000400 s _event_loop_base_info
-000000000000001c t _event_loop_base_instance_init
-00000000000002c4 t _event_loop_base_set_param
-                 U _object_class_dynamic_cast_assert
-                 U _object_class_property_add
-                 U _object_dynamic_cast_assert
-                 U _object_get_class
-                 U _register_module_init
-0000000000000010 t _register_types
-0000000000000600 d _thread_pool_max_info
-00000000000005f0 d _thread_pool_min_info
-                 U _type_register_static
-                 U _visit_type_int64
-0000000000000468 s l_.str
-0000000000000478 s l_.str.1
-00000000000005a6 s l_.str.10
-000000000000047f s l_.str.2
-000000000000048e s l_.str.3
-00000000000004d9 s l_.str.4
-00000000000004e7 s l_.str.5
-00000000000004eb s l_.str.6
-00000000000004fb s l_.str.7
-000000000000050b s l_.str.8
-0000000000000574 s l_.str.9
-00000000000004c9 s l___func__.EVENT_LOOP_BASE
-000000000000055a s l___func__.EVENT_LOOP_BASE_GET_CLASS
-0000000000000545 s l___func__.USER_CREATABLE_CLASS
-000000000000058c s l___func__.event_loop_base_set_param
-0000000000000000 t ltmp0
-0000000000000400 s ltmp1
-0000000000000468 s ltmp2
-00000000000005d0 d ltmp3
-0000000000000610 s ltmp4
-0000000000002b78 s ltmp5
-
-Maybe smth missing on the meson side? (+Paolo)
-
-$ git-diff 554623226..178bacb66 meson.build
-...
-+event_loop_base = files('event-loop-base.c')
-+event_loop_base = static_library('event-loop-base', sources:
-event_loop_base + genh,
-+                                 build_by_default: true)
-+event_loop_base = declare_dependency(link_whole: event_loop_base,
-+                                     dependencies: [qom])
-...
-
-Any clue?
+-Stafford
 
