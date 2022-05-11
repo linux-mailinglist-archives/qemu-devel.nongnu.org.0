@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CE0522E8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 10:37:55 +0200 (CEST)
-Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE32C522EEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 11:06:07 +0200 (CEST)
+Received: from localhost ([::1]:48030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nohr0-0004iF-9X
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 04:37:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32984)
+	id 1noiII-0005oT-Co
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 05:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nohni-0003nS-Rp
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:34:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39254)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1noi1b-0006OP-2w
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:48:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nohna-0000h7-Gw
- for qemu-devel@nongnu.org; Wed, 11 May 2022 04:34:27 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1noi1Z-0002pG-3j
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 04:48:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652258055;
+ s=mimecast20190719; t=1652258927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ut3BupXi3voP/vv7+UzkWhENlV04+UgLJqDQYiGzHZg=;
- b=W6EP5wrFUwItbkPRJ25mQYAbgyQy9Ey92CK+DZ30rAYaEzp7sV3AS/layFCG5Qn2kuL5FS
- /p8rGJmoSbylr56ciLXp4ifjozwEnuuY2nS/WKOCB5FOXa19sfIWEhHToc2ezllliincwY
- 5E2EUwtg8NvT1xUzEFqeecf69ZixCCc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yngQJ6YW2ZpeDS7/G5P3falW5zEMeu8HygEhVAxBIJk=;
+ b=gdNo9osmsnMoK+79BKmaes+QzOm1HNAyl4BLuhFwXSogc8WxBvSsQYhxoIlsET4nkXr2tN
+ FLPtRFHd+zWY1j+MPqmmUfrFpbiA2WAu45US37pcl75q+OFcYcokLPsgLjUWSZe5VEdRXE
+ ba1k3tjq6pF6X7z4pI6ivLgWwAMgNas=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-vu0UaRakN6ag7MA4zUDQNQ-1; Wed, 11 May 2022 04:34:12 -0400
-X-MC-Unique: vu0UaRakN6ag7MA4zUDQNQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i131-20020a1c3b89000000b00393fbb0718bso2535651wma.0
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 01:34:12 -0700 (PDT)
+ us-mta-126-yFFIpGXGOCSlPcqUbZytDQ-1; Wed, 11 May 2022 04:48:39 -0400
+X-MC-Unique: yFFIpGXGOCSlPcqUbZytDQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ bj22-20020a0560001e1600b0020cccc6b25aso581524wrb.1
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 01:48:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ut3BupXi3voP/vv7+UzkWhENlV04+UgLJqDQYiGzHZg=;
- b=ItPFQlubn8n9y/qmfUP5F8wpG+DMQbtABrX+Z8tW9OLUIcHVHNzrYs+tPVHQig2kZE
- PTGW9zy/TbKwX0RokgC5pgVUbCTFwi41bQTprd9cg55+NKG+Aqxv+l1pHGboFAIgS2ta
- QMD6ryETSsKJS7ipmqrfeHykBbp8bR+rfPf2drBQEX5veWKON3fq24/EgoBuiXwAEwvQ
- mWKAvYrCLQz+9OOlUs7vDGsjp1hlikC2Sjgek46o/QninA8bw9uellxg5rQSn2VZ/8Ul
- Cy+tSiTJEr5ZS0t3Nd4xuV6KDHY8P2ODWXIqj16kZIANUpbYwymkBHFUbbBjifb2nvqG
- Kzjg==
-X-Gm-Message-State: AOAM531L49M0lhGK0Im0AnbFxQABsOO9CDsYfKFaTXHZ3Zprs8iX+JEe
- QAASXaw1zgDBQ2KxQnIW5aVmjDV9Iv30qCrs7tbYXFJbtpItTcAMcx39V2E0NE9ClS49Cq/CouQ
- RB96hAUe2FXK1nKk=
-X-Received: by 2002:a1c:f207:0:b0:38e:9aac:df41 with SMTP id
- s7-20020a1cf207000000b0038e9aacdf41mr3633897wmc.14.1652258050598; 
- Wed, 11 May 2022 01:34:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4n2JK20iioqabWRcxp/I7wqtUgDxXYOomrrJabtwVN5XMMeswLrpam/WainR1Kk5zZvgwUg==
-X-Received: by 2002:a1c:f207:0:b0:38e:9aac:df41 with SMTP id
- s7-20020a1cf207000000b0038e9aacdf41mr3633871wmc.14.1652258050264; 
- Wed, 11 May 2022 01:34:10 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- q64-20020a1c4343000000b003942a244ec2sm1543488wma.7.2022.05.11.01.34.09
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yngQJ6YW2ZpeDS7/G5P3falW5zEMeu8HygEhVAxBIJk=;
+ b=Mds7pKPaosyxmwLOzthLurlQEZftXk+FNQ0cJv72q9BuDCBf/+gGZ5uhuJ0L2TKC3A
+ wVnjvsTX+/igiX5+GRzZRUK0s0Zlm19uMsX+9plUAYLiSFGjBW6P3SAiSmKdvZ6eHGbV
+ R3U0rAPVwwkatbrO5I5J+jRRvb6eNtH09zip+2QOJGta5WJivRd/WukoLsEE+5a6yer/
+ BBcueuS4Xqe1s9uH0UJ3WHL+veVTV1Zqun7Ebzebjxoxu0IpSebeTc7ogawYgipkot/t
+ k5drSyp8C8IozWl/vi6lkdpaMNjS/5OroV3KJitSoMgNGoGQbxIcvlAagnRcntptQEoD
+ edhQ==
+X-Gm-Message-State: AOAM5324p5TFHSUKi/RjsKDtxJLSCJ11JMK+9cshWBtbOtzhBpJnYl9P
+ dPJYVdIgZASopxl4etEwYETqQzjygWBlthm9uxILcYbCv/OTnmzQj0XY6kQNBmUj+r8Ii+wNriG
+ 5J8RjOZBgNb/UL+yzyWXyM3QiVKjvX8C3Vjl0xO6c5W/eQm5ogHxZj4IfbAEtVQ7Bx4g=
+X-Received: by 2002:a5d:4ed1:0:b0:20a:e375:35f0 with SMTP id
+ s17-20020a5d4ed1000000b0020ae37535f0mr21514395wrv.94.1652258917248; 
+ Wed, 11 May 2022 01:48:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzo9yYLO+MeqRw2tFC8RG331ShSIFy+Q6X8+97XeR/VQB14Lx/qvaIFDu4sq0PksUCrx9nG9A==
+X-Received: by 2002:a5d:4ed1:0:b0:20a:e375:35f0 with SMTP id
+ s17-20020a5d4ed1000000b0020ae37535f0mr21514366wrv.94.1652258916734; 
+ Wed, 11 May 2022 01:48:36 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ d2-20020a056000114200b0020c6a524fe0sm1043795wrx.98.2022.05.11.01.48.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 01:34:09 -0700 (PDT)
-Date: Wed, 11 May 2022 09:34:07 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Michal Privoznik <mprivozn@redhat.com>, jmario@redhat.com
-Cc: qemu-devel@nongnu.org, david@redhat.com, berrange@redhat.com
-Subject: Re: [PATCH] util: NUMA aware memory preallocation
-Message-ID: <Ynt0/9jfeUPg4JxN@work-vm>
-References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
+ Wed, 11 May 2022 01:48:36 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com,
+	dgilbert@redhat.com,
+	berrange@redhat.com
+Subject: [PATCH v2 0/8] qmp, hmp: statistics subsystem and KVM suport.
+Date: Wed, 11 May 2022 10:48:25 +0200
+Message-Id: <20220511084833.195963-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,287 +98,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michal Privoznik (mprivozn@redhat.com) wrote:
-> When allocating large amounts of memory the task is offloaded
-> onto threads. These threads then use various techniques to
-> allocate the memory fully (madvise(), writing into the memory).
-> However, these threads are free to run on any CPU, which becomes
-> problematic on NUMA machines because it may happen that a thread
-> is running on a distant node.
-> 
-> Ideally, this is something that a management application would
-> resolve, but we are not anywhere close to that, Firstly, memory
-> allocation happens before monitor socket is even available. But
-> okay, that's what -preconfig is for. But then the problem is that
-> 'object-add' would not return until all memory is preallocated.
-> 
-> Long story short, management application has no way of learning
-> TIDs of allocator threads so it can't make them run NUMA aware.
-> 
-> But what we can do is to propagate the 'host-nodes' attribute of
-> MemoryBackend object down to where preallocation threads are
-> created and set their affinity according to the attribute.
+This patchset adds QEMU support for querying fd-based KVM statistics.
+This allows the user to analyze the behavior of the VM without access
+to debugfs.
 
-Joe (cc'd) sent me some numbers for this which emphasise how useful it
-is:
- | On systems with 4 physical numa nodes and 2-6 Tb of memory, this numa-aware
- |preallocation provided about a 25% speedup in touching the pages.
- |The speedup gets larger as the numa node count and memory sizes grow.
-....
- | In a simple parallel 1Gb page-zeroing test on a very large system (32-numa
- | nodes and 47Tb of memory), the numa-aware preallocation was 2.3X faster
- | than letting the threads float wherever.
- | We're working with someone whose large guest normally takes 4.5 hours to
- | boot.  With Michal P's initial patch to parallelize the preallocation, that
- | time dropped to about 1 hour.  Including this numa-aware preallocation
- | would reduce the guest boot time to less than 1/2 hour.
+However, instead of adding an ad hoc command, the new QMP entry point
+can be extended in the future to more statistics provider than KVM
+(for example TCG, tap, or the block layer) and to more objects than
+the VM and vCPUS (for example network interfaces or block devices).
 
-so chopping *half an hour* off the startup time seems a worthy
-optimisation (even if most of us aren't fortunate enough to have 47T of
-ram).
+Because the statistics exposed by KVM are not known at compile time,
+the kernel interface also comes with an introspectable schema.  This
+schema is exposed by the query-stats-schemas QMP command.
 
-Dave
+Patches 1 and 2 add the basic support, respectively the QMP command
+and the KVM producer.
 
-> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2074000
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> ---
->  backends/hostmem.c     |  6 ++--
->  hw/virtio/virtio-mem.c |  2 +-
->  include/qemu/osdep.h   |  2 ++
->  util/meson.build       |  2 +-
->  util/oslib-posix.c     | 74 ++++++++++++++++++++++++++++++++++++++++--
->  util/oslib-win32.c     |  2 ++
->  6 files changed, 82 insertions(+), 6 deletions(-)
-> 
-> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> index a7bae3d713..7373472c7e 100644
-> --- a/backends/hostmem.c
-> +++ b/backends/hostmem.c
-> @@ -232,7 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
->          void *ptr = memory_region_get_ram_ptr(&backend->mr);
->          uint64_t sz = memory_region_size(&backend->mr);
->  
-> -        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
-> +        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads,
-> +                        backend->host_nodes, MAX_NODES, &local_err);
->          if (local_err) {
->              error_propagate(errp, local_err);
->              return;
-> @@ -394,7 +395,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
->           */
->          if (backend->prealloc) {
->              os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
-> -                            backend->prealloc_threads, &local_err);
-> +                            backend->prealloc_threads, backend->host_nodes,
-> +                            MAX_NODES, &local_err);
->              if (local_err) {
->                  goto out;
->              }
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index 5aca408726..48b104cdf6 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
->              int fd = memory_region_get_fd(&vmem->memdev->mr);
->              Error *local_err = NULL;
->  
-> -            os_mem_prealloc(fd, area, size, 1, &local_err);
-> +            os_mem_prealloc(fd, area, size, 1, NULL, 0, &local_err);
->              if (local_err) {
->                  static bool warned;
->  
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 1c1e7eca98..474cbf3b86 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -577,6 +577,8 @@ unsigned long qemu_getauxval(unsigned long type);
->  void qemu_set_tty_echo(int fd, bool echo);
->  
->  void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
-> +                     const unsigned long *host_nodes,
-> +                     unsigned long max_node,
->                       Error **errp);
->  
->  /**
-> diff --git a/util/meson.build b/util/meson.build
-> index 8f16018cd4..393ff74570 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -15,7 +15,7 @@ freebsd_dep = []
->  if targetos == 'freebsd'
->    freebsd_dep = util
->  endif
-> -util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep])
-> +util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep, numa])
->  util_ss.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
->  util_ss.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
->  util_ss.add(when: 'CONFIG_WIN32', if_true: files('aio-win32.c'))
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index 477990f39b..1572b9b178 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -73,6 +73,10 @@
->  #include "qemu/error-report.h"
->  #endif
->  
-> +#ifdef CONFIG_NUMA
-> +#include <numa.h>
-> +#endif
-> +
->  #define MAX_MEM_PREALLOC_THREAD_COUNT 16
->  
->  struct MemsetThread;
-> @@ -82,6 +86,9 @@ typedef struct MemsetContext {
->      bool any_thread_failed;
->      struct MemsetThread *threads;
->      int num_threads;
-> +#ifdef CONFIG_NUMA
-> +    struct bitmask *nodemask;
-> +#endif
->  } MemsetContext;
->  
->  struct MemsetThread {
-> @@ -420,6 +427,12 @@ static void *do_touch_pages(void *arg)
->      }
->      qemu_mutex_unlock(&page_mutex);
->  
-> +#ifdef CONFIG_NUMA
-> +    if (memset_args->context->nodemask) {
-> +        numa_run_on_node_mask(memset_args->context->nodemask);
-> +    }
-> +#endif
-> +
->      /* unblock SIGBUS */
->      sigemptyset(&set);
->      sigaddset(&set, SIGBUS);
-> @@ -463,6 +476,12 @@ static void *do_madv_populate_write_pages(void *arg)
->      }
->      qemu_mutex_unlock(&page_mutex);
->  
-> +#ifdef CONFIG_NUMA
-> +    if (memset_args->context->nodemask) {
-> +        numa_run_on_node_mask(memset_args->context->nodemask);
-> +    }
-> +#endif
-> +
->      if (size && qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE)) {
->          ret = -errno;
->      }
-> @@ -489,7 +508,9 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
->  }
->  
->  static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-> -                           int smp_cpus, bool use_madv_populate_write)
-> +                           int smp_cpus, const unsigned long *host_nodes,
-> +                           unsigned long max_node,
-> +                           bool use_madv_populate_write)
->  {
->      static gsize initialized = 0;
->      MemsetContext context = {
-> @@ -499,6 +520,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
->      void *(*touch_fn)(void *);
->      int ret = 0, i = 0;
->      char *addr = area;
-> +    unsigned long value = max_node;
->  
->      if (g_once_init_enter(&initialized)) {
->          qemu_mutex_init(&page_mutex);
-> @@ -520,6 +542,48 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
->          touch_fn = do_touch_pages;
->      }
->  
-> +    if (host_nodes) {
-> +        value = find_first_bit(host_nodes, max_node);
-> +    }
-> +    if (value != max_node) {
-> +#ifdef CONFIG_NUMA
-> +        struct bitmask *cpus = numa_allocate_cpumask();
-> +        g_autofree unsigned long *zerocpumask;
-> +        size_t zerocpumasklen;
-> +        g_autofree unsigned long *zeronodemask;
-> +        size_t zeronodemasklen;
-> +
-> +        context.nodemask = numa_bitmask_alloc(max_node);
-> +
-> +        zerocpumasklen = cpus->size / sizeof(unsigned long);
-> +        zerocpumask = g_new0(unsigned long, zerocpumasklen);
-> +
-> +        for (; value != max_node;
-> +             value = find_next_bit(host_nodes, max_node, value + 1)) {
-> +            if (numa_node_to_cpus(value, cpus) ||
-> +                memcmp(cpus->maskp, zerocpumask, zerocpumasklen) == 0)
-> +                continue;
-> +
-> +            /* If given NUMA node has CPUs run threads on them. */
-> +            numa_bitmask_setbit(context.nodemask, value);
-> +        }
-> +
-> +        numa_bitmask_free(cpus);
-> +
-> +        zeronodemasklen = max_node / sizeof(unsigned long);
-> +        zeronodemask = g_new0(unsigned long, zeronodemasklen);
-> +
-> +        if (memcmp(context.nodemask->maskp,
-> +                   zeronodemask, zeronodemasklen) == 0) {
-> +            /* If no NUMA has a CPU available, then don't pin threads. */
-> +            g_clear_pointer(&context.nodemask, numa_bitmask_free);
-> +        }
-> +#else
-> +        errno = -EINVAL;
-> +        return -1;
-> +#endif
-> +    }
-> +
->      context.threads = g_new0(MemsetThread, context.num_threads);
->      numpages_per_thread = numpages / context.num_threads;
->      leftover = numpages % context.num_threads;
-> @@ -554,6 +618,10 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
->      if (!use_madv_populate_write) {
->          sigbus_memset_context = NULL;
->      }
-> +
-> +#ifdef CONFIG_NUMA
-> +    g_clear_pointer(&context.nodemask, numa_bitmask_free);
-> +#endif
->      g_free(context.threads);
->  
->      return ret;
-> @@ -566,6 +634,8 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
->  }
->  
->  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-> +                     const unsigned long *host_nodes,
-> +                     unsigned long max_node,
->                       Error **errp)
->  {
->      static gsize initialized;
-> @@ -608,7 +678,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
->  
->      /* touch pages simultaneously */
->      ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
-> -                          use_madv_populate_write);
-> +                          host_nodes, max_node, use_madv_populate_write);
->      if (ret) {
->          error_setg_errno(errp, -ret,
->                           "os_mem_prealloc: preallocating memory failed");
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index dafef4f157..6efd912355 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -314,6 +314,8 @@ int getpagesize(void)
->  }
->  
->  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-> +                     const unsigned long *host_nodes,
-> +                     unsigned long max_node,
->                       Error **errp)
->  {
->      int i;
-> -- 
-> 2.35.1
-> 
-> 
+Patches 3 and 4 add a basic HMP implementation.  The first of the two
+adds a basic filtering mechanism to the QMP command, which is then used
+by HMP (which only shows vCPU statistics for the currently selected
+guest CPU; this is consistent with other HMP commands and does not
+flood the user with an overwhelming amount of output).
+
+The remaining patches add more filtering, respectively by provider
+and by the name of a statistic.
+
+v1->v2:
+
+- changed linear-hist and log-hist to linear-histogram and log2-histogram
+
+- improved documentation (see diff below in this cover letter)
+
+- fixed bisectability of monitor/hmp-cmds.c changes
+
+Mark Kanda (3):
+  qmp: Support for querying stats
+  kvm: Support for querying fd-based stats
+  hmp: add basic "info stats" implementation
+
+Paolo Bonzini (5):
+  qmp: add filtering of statistics by target vCPU
+  qmp: add filtering of statistics by provider
+  hmp: add filtering of statistics by provider
+  qmp: add filtering of statistics by name
+  hmp: add filtering of statistics by name
+
+ accel/kvm/kvm-all.c     | 414 ++++++++++++++++++++++++++++++++++++++++
+ hmp-commands-info.hx    |  14 ++
+ include/monitor/hmp.h   |   1 +
+ include/monitor/stats.h |  42 ++++
+ monitor/hmp-cmds.c      | 229 ++++++++++++++++++++++
+ monitor/qmp-cmds.c      | 132 +++++++++++++
+ qapi/meson.build        |   1 +
+ qapi/qapi-schema.json   |   1 +
+ qapi/stats.json         | 232 ++++++++++++++++++++++
+ 9 files changed, 1066 insertions(+)
+ create mode 100644 include/monitor/stats.h
+ create mode 100644 qapi/stats.json
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.36.0
+
+diff --git a/qapi/stats.json b/qapi/stats.json
+index 234fbcb7ca..fc763b4aea 100644
+--- a/qapi/stats.json
++++ b/qapi/stats.json
+@@ -20,13 +20,14 @@
+ # @cumulative: stat is cumulative; value can only increase.
+ # @instant: stat is instantaneous; value can increase or decrease.
+ # @peak: stat is the peak value; value can only increase.
+-# @linear-hist: stat is a linear histogram.
+-# @log-hist: stat is a logarithmic histogram.
++# @linear-histogram: stat is a linear histogram.
++# @log2-histogram: stat is a logarithmic histogram, with one bucket
++#                  for each power of two.
+ #
+ # Since: 7.1
+ ##
+ { 'enum' : 'StatsType',
+-  'data' : [ 'cumulative', 'instant', 'peak', 'linear-hist', 'log-hist' ] }
++  'data' : [ 'cumulative', 'instant', 'peak', 'linear-histogram', 'log2-histogram' ] }
+ 
+ ##
+ # @StatsUnit:
+@@ -57,8 +58,10 @@
+ #
+ # The kinds of objects on which one can request statistics.
+ #
+-# @vm: the entire virtual machine.
+-# @vcpu: a virtual CPU.
++# @vm: statistics that apply to the entire virtual machine or
++#      the entire QEMU process.
++#
++# @vcpu: statistics that apply to a single virtual CPU.
+ #
+ # Since: 7.1
+ ##
+@@ -68,10 +71,11 @@
+ ##
+ # @StatsRequest:
+ #
+-# Indicates a set of statistics that are required from a statistics provider.
++# Indicates a set of statistics that should be returned by query-stats.
+ #
+-# @provider: stat provider for which to limit the returned stats.
+-# @names: list of stat names.
++# @provider: provider for which to return statistics.
++
++# @names: statistics to be returned (all if omitted).
+ #
+ # Since: 7.1
+ ##
+@@ -93,7 +97,11 @@
+ # @StatsFilter:
+ #
+ # The arguments to the query-stats command; specifies a target for which to
+-# request statistics, and which statistics are requested from each provider.
++# request statistics and optionally the required subset of information for
++# that target:
++# - which vCPUs to request statistics for
++# - which provider to request statistics from
++# - which values to return within each provider
+ #
+ # Since: 7.1
+ ##
+@@ -105,8 +113,8 @@
+ ##
+ # @StatsValue:
+ #
+-# @scalar: single uint64.
+-# @list: list of uint64.
++# @scalar: single unsigned 64-bit integers.
++# @list: list of unsigned 64-bit integers (used for histograms).
+ #
+ # Since: 7.1
+ ##
+@@ -164,19 +172,25 @@
+ #
+ # Schema for a single statistic.
+ #
+-# @name: stat name.
++# @name: name of the statistic; each element of the schema is uniquely
++#        identified by a target, a provider (both available in @StatsSchema)
++#        and the name.
+ #
+-# @type: kind of statistic, a @StatType.
++# @type: kind of statistic.
+ #
+-# @unit: base unit of measurement for the statistics @StatUnit.
++# @unit: basic unit of measure for the statistic; if missing, the statistic
++#        is a simple number or counter.
+ #
+-# @base: base for the multiple of @unit that the statistic uses, either 2 or 10.
+-#        Only present if @exponent is non-zero.
++# @base: base for the multiple of @unit in which the statistic is measured.
++#        Only present if @exponent is non-zero; @base and @exponent together
++#        form a SI prefix (e.g., _nano-_ for ``base=10`` and ``exponent=-9``)
++#        or IEC binary prefix (e.g. _kibi-_ for ``base=2`` and ``exponent=10``)
+ #
+-# @exponent: exponent for the multiple of @unit that the statistic uses
++# @exponent: exponent for the multiple of @unit in which the statistic is
++#            expressed, or 0 for the basic unit
+ #
+-# @bucket-size: Used with linear-hist to report the width of each bucket
+-#               of the histogram.
++# @bucket-size: Used with the @linear-histogram @StatsType, contains the width
++#               of each bucket of the histogram.
+ #
+ # Since: 7.1
+ ##
+@@ -195,7 +209,7 @@
+ #
+ # @provider: provider for this set of statistics.
+ #
+-# @target: kind of object that can be queried through this provider.
++# @target: the kind of object that can be queried through the provider.
+ #
+ # @stats: list of statistics.
+ #
 
 
