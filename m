@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A658E523546
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:20:53 +0200 (CEST)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BD25235A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 16:35:04 +0200 (CEST)
+Received: from localhost ([::1]:47078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nonCu-0008Nj-Pc
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:20:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41556)
+	id 1nonQc-0002Ni-QA
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 10:35:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nonAs-0006Kl-Ri
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:18:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nonAp-00050D-2L
- for qemu-devel@nongnu.org; Wed, 11 May 2022 10:18:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652278666;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P8IPi1uRvhY3b5dy+95tzIDk6ctK1VLXgqC0jhvWQSg=;
- b=Hqh9OW0SzcHHdlui4OsX+79zMXE4elVJz8u14gJMQE3wKoYbwHtBesTc0OtHGePvJkv+fd
- mRbP27k1J8rHlxEqaKlPLp9quIfNYtIz5DqoK2SI+7W5bq3WYmCGuaaBhk+CIdUYsjfVKa
- Z6xuJ04W+wvhcatnueP/ZA0USzfBgug=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-kq8OHdVCNzObzeEVTf5x8Q-1; Wed, 11 May 2022 10:17:44 -0400
-X-MC-Unique: kq8OHdVCNzObzeEVTf5x8Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80C9B3810D22
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 14:17:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 347BB7AEB;
- Wed, 11 May 2022 14:17:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 27F6921E6882; Wed, 11 May 2022 16:17:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Victor Toso <victortoso@redhat.com>,  John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>,  qemu-devel@nongnu.org,  =?utf-8?Q?Marc-?=
- =?utf-8?Q?Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
- <87lev9mw7j.fsf@pond.sub.org> <YnpbuzKo681VwDkn@redhat.com>
- <YnpfuYvBu56CCi7b@redhat.com>
-Date: Wed, 11 May 2022 16:17:43 +0200
-In-Reply-To: <YnpfuYvBu56CCi7b@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 10 May 2022 13:51:05 +0100")
-Message-ID: <87pmkkdugo.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nonOj-0001Eb-W9
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:33:06 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:52008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nonOi-0007eL-Da
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 10:33:05 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id x88so2428137pjj.1
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 07:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4RkH/a6CCikhY5d5LToHYJ8OjOihYHk0SytHIAyIb8E=;
+ b=B7CAd6WL7GHvTujmT4KAuclRjMI0zMr8JuwOYNQnEoFc54Zk8suvsju34wAFP5yvoS
+ ibZFqZh6llIYzNPfeE6aGOb8vS8fxyWHgS1dvfYmbW23gXtF/NM48tUFo1PDJ4+KnTyg
+ vf7xjK9+kvtBxheLu7eg7X2mKIAz2XmECdzdmebstFsy6csO1P70+TclrcK0ibFozGxD
+ zRgcDHHxyUVORRsoseqHxsuf+jCYVjeohB+Fq/G2iOh9dZyhPcCzJBBezFiu/30CpTU6
+ c+jrbHlN58Dr49NzsnE5cCVIaO9I56TlKgLrtRhOT6PP0HRWoSM3pYa5MF5YXmqddigm
+ 86RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4RkH/a6CCikhY5d5LToHYJ8OjOihYHk0SytHIAyIb8E=;
+ b=m/HP74rOuPQkYdLRmYYKsyt9jC31Guz+iLCB6B9inz26Y2uKR0ZTpngTBQr/GJLu/+
+ rGciWz7guou71K84rqn6S/GL80iaYBGUAhFHfJeQqgbzC8ec1ooWNrhCD0pRm4dCy9UN
+ jxNEp17utyA6F83Sc/gJbD5M+1EgKUwtwYhCKOl6aAHF/WucWg3Xh7yi9vBG0p+6I4dM
+ JT9kPTSTJVxE8fj5ayFYCmznWtHTOuyDHHgc/Bo4qVaZ5gnXUYvyD1z9QOEC/4WSgQ8X
+ pm7pMMXm7o6rpDROkXQFYgQaifDXJ4pUSnhYCAl2zUlO4qRCTuUHP83ffcZ2diO0Y01q
+ wRzg==
+X-Gm-Message-State: AOAM5319mSuoKHSnUumFqeG+Oa3MYHmfQn4RBhzrh0rV7+j4hmGhxz34
+ xjrylYcZiyqvCSOB9vHNh/YFOg==
+X-Google-Smtp-Source: ABdhPJzzj4uBuG718lLHODu+Ec2OaRaHD6tSS/zlryD0y33d9ii6Ondw5QP15+c1ZsFbViuWSyauDg==
+X-Received: by 2002:a17:902:d507:b0:15e:9045:c5dc with SMTP id
+ b7-20020a170902d50700b0015e9045c5dcmr25921818plg.138.1652279582789; 
+ Wed, 11 May 2022 07:33:02 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:806c:42f5:cebe:3b5a:a8f:7ffc?
+ ([2607:fb90:806c:42f5:cebe:3b5a:a8f:7ffc])
+ by smtp.gmail.com with ESMTPSA id
+ p5-20020a170902b08500b0015e8d4eb1d6sm1972153plr.32.2022.05.11.07.33.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 May 2022 07:33:02 -0700 (PDT)
+Message-ID: <cf7c27e9-3bc9-888e-dbba-25c0bb583e09@linaro.org>
+Date: Wed, 11 May 2022 07:32:58 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] target/openrisc: Do not reset delay slot flag on early tb
+ exit
+Content-Language: en-US
+To: Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
+Cc: "Jason A . Donenfeld" <Jason@zx2c4.com>
+References: <20220511120541.2242797-1-shorne@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220511120541.2242797-1-shorne@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,252 +94,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On 5/11/22 05:05, Stafford Horne wrote:
+> +static void openrisc_cpu_synchronize_from_tb(CPUState *cs,
+> +                                             const TranslationBlock *tb)
+> +{
+> +    OpenRISCCPU *cpu = OPENRISC_CPU(cs);
+> +
+> +    cpu->env.pc = tb->pc;
+> +}
 
-> On Tue, May 10, 2022 at 01:34:03PM +0100, Daniel P. Berrang=C3=A9 wrote:
->> On Tue, May 10, 2022 at 02:02:56PM +0200, Markus Armbruster wrote:
->> > > For a minimum viable use case, this doesn't feel all that difficult,=
- as
->> > > conceptually instead of deleting the field from QAPI, we just need to
->> > > annotate it to say when it was deleted from the QEMU side.  The QAPI
->> > > generator for internal QEMU usage, can omit any fields annotated as
->> > > deleted in QAPI schema. The QAPI generator for external app usage,
->> > > can (optionally) be told to include deleted fields ranging back to
->> > > a given version number. So apps can chooses what degree of compat
->> > > they wish to retain.
->> >=20
->> > Consider this evolution of command block_resize
->>=20
->> To help us understand, I'll illustrate some possible interfaces
->> in both Go and Python, since that covers dynamic and static
->> languages
->>=20
->> > * Initially, it has a mandatory argument @device[*].
->>=20
->> Python definition:
->>=20
->>    def block_resize(device, size)
->>=20
->> Caller:
->>=20
->>   block_resize('dev0', 1*GiB)
->>=20
->>=20
->> Golang definition
->>=20
->>    type BlockResizeCommand struct {
->>        Device string
->>        Size int
->>    }
->>=20
->> Caller
->>=20
->>    cmd :=3D &BlockResizeCommand{
->>        Device: "dev0",
->>        Size: 1 * GiB,
->>    }
->>=20
->> > * An alternative way to specify the command's object emerges: new
->> >   argument @node-name.  Both old @device and new @node-name become
->> >   optional, and exactly one of them must be specified.  This is commit
->> >   3b1dbd11a6 "qmp: Allow block_resize to manipulate bs graph nodes."
->>=20
->> Python definition. Tricky, as non-optional params must be before
->> optional params, but size is naturally the last arg. One option
->> is to pointlessly mark 'size' as optional
->>=20
->>    def block_resize(device=3DNone, node_name=3DNone, size=3DNone)
->>=20
->> Caller
->>=20
->>     block_resize(device=3D"dev0", size=3D1*GiB)
->>     block_resize(node_name=3D"devnode0", size=3D1*GiB)
->>=20
->>=20
->> In golang definition
->>=20
->>    type BlockResizeArguments struct {
->>        Device string
->>        NodeName string
->>        Size int
->>    }
->>=20
->> Caller choice of
->>=20
->>    cmd :=3D &BlockResizeCommand{
->>        Device: "dev0",
->>        Size: 1 * GiB,
->>    }
->>=20
->>    cmd :=3D &BlockResizeCommand{
->>        NodeName: "devnode0",
->>        Size: 1 * GiB,
->>    }
->>=20
->>=20
->> Neither case can easily prevent passing Device and NodeName
->> at same time.
->>=20
->> > * At some future date, the old way gets deprecated: argument @device
->> >   acquires feature @deprecated.
->>=20
->> Ok, no change needed to the APIs in either case. Possibly have
->> code emit a warning if a deprecated field is set.
->>=20
->> > * Still later, the old way gets removed: @device is deleted, and
->> >   @node-name becomes mandatory.
->>=20
->> Again no change needed to APIs, but QEMU will throw back an
->> error if the wrong one is used.=20
->>=20
->> > What is the proper version-spanning interface?
->> >=20
->> > I figure it's both arguments optional, must specify the right one for
->> > the version of QEMU actually in use.  This spans versions, but it fails
->> > to abstract from them.
->>=20
->> Yep, I think that's inevitable in this scenario. THe plus side
->> is that apps that want to span versions can do so. The downside
->> is that apps that don't want smarts to span version, may loose
->> compile time warnings about use of the now deleted field.
->
-> Having said that, a different way to approach the problem is to expose
-> the versioning directly in the generated code.
->
-> Consider a QAPI with versioning info about the fields
->
->   { 'command': 'block_resize',
->     'since': '5.0.0',
->     'data': { 'device': ['type': 'str', 'until': '5.2.0' ],
->               '*device': ['type': 'str', 'since': '5.2.0', 'until': '7.0.=
-0' ],
->               '*node-name': ['type': 'str', 'since': '5.2.0', 'until: '7.=
-0.0' ],
->               'node-name': ['type': 'str', 'since': '7.0.0' ],
->               'size': 'int' } }
->
-> Meaning
->
->   * Introduced in 5.0.0, with 'device' mandatory
->   * In 5.2.0, 'device' becomes optional, with optional 'node-name' as alt=
-ernative
->   * In 7.0.0, 'device' is deleted, and 'node-name' becomes mandatory
->
-> Now consider the Go structs
->
-> In 5.0.0 we can generate:
->
->    type BlockResizeArguments struct {
->        V500 *BlockResizeArguments500
->    }
->
->    type BlockResizeArgumentsV1 struct {
->         Device string
->         Size int
->     }
->
-> app can use
->
->     dev :=3D "dev0"
->     cmd :=3D BlockResizeArguments{
->        V500: &BlockResizeArguments500{
->           Device: dev,
-> 	  Size: 1 * GiB
->        }
->     }
->
->
-> In 5.2.0 we can now generate
->
->    type BlockResizeArguments struct {
->        V500 *BlockResizeArgumentsV500
->        V520 *BlockResizeArgumentsV520
->    }
->
->    type BlockResizeArgumentsV500 struct {
->         Device string
->         Size int
->     }
->
->    type BlockResizeArgumentsV520 struct {
->         Device *string
-> 	NodeName *string
->         Size int
->     }
->
->
-> App can use the same as before, or switch to one of
->
->     dev :=3D "dev0"
->     cmd :=3D BlockResizeArguments{
->        V520: &BlockResizeArguments520{
->           Device: &dev,
-> 	  Size: 1 * GiB
->        }
->     }
->
-> or
->
->     node :=3D "nodedev0"
->     cmd :=3D BlockResizeArguments{
->        V520: &BlockResizeArguments520{
->           NodeName: &node,
-> 	  Size: 1 * GiB
->        }
->     }
->
->
->
-> In 7.0.0 we can now generate
->
->
->    type BlockResizeArguments struct {
->        V500 *BlockResizeArgumentsV500
->        V520 *BlockResizeArgumentsV520
->        V700 *BlockResizeArgumentsV700
->    }
->
->    type BlockResizeArgumentsV500 struct {
->         Device string
->         Size int
->    }
->
->    type BlockResizeArgumentsV520 struct {
->         Device *string
-> 	NodeName *string
->         Size int
->    }
->
->    type BlockResizeArgumentsV700 struct {
-> 	NodeName string
->         Size int
->    }
->
->
->
-> App can use the same as before, or switch to
->
->     node :=3D "nodedev0"
->     cmd :=3D BlockResizeArguments{
->        V700: &BlockResizeArguments700{
->           NodeName: node,
-> 	  Size: 1 * GiB
->        }
->     }
->
->
-> This kind of per-command/type versioning is not uncommon when defining API
-> protocols/interfaces.
+If mips is a guide, you'd want to set dflag based on
 
-1. At every release, put a copy of the QAPI schema in the freezer.
+   tb->flags & TB_FLAGS_DFLAG
 
-2. For every copy, generate Go types with a suitable name suffix.
-   Collect all the name stems.
+as well.   But I think openrisc is more careful to keep dflag up-to-date.
 
-3. For each name stem, define a Go struct that contains all the suffixed
-   Go types with that stem.
 
-Look Ma, no cluttering the QAPI schema with a full history!  Also no
-complicating the schema language to provide the means for that.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+
+r~
 
