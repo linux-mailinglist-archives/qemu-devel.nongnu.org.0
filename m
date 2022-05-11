@@ -2,83 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2978523C6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 20:24:57 +0200 (CEST)
-Received: from localhost ([::1]:45484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B954523C7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 20:32:16 +0200 (CEST)
+Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nor16-0002LR-KT
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 14:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37886)
+	id 1nor8A-0006iS-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 14:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1noqzQ-0001AT-U4; Wed, 11 May 2022 14:23:13 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:37561)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1noqzP-0000Lx-00; Wed, 11 May 2022 14:23:12 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- l9-20020a056830268900b006054381dd35so1042257otu.4; 
- Wed, 11 May 2022 11:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=xt11QQoz4SdXpM4qlgGpTcEfyJEu7ljwhAbsnDSI2is=;
- b=j4h83Jjmyv6AEuzRerCa8aEv7YhzV8TlzOjYuTwqnK+soFP8zMASITDPamvc80ChpZ
- P90j7wYve51RDc+quwEvs9FuctS51ox6NkHLw/oLu+SJsoBfUMGfCkUpE1jyysq/CzTi
- P1hEe62b5vVM11hRt3ONEW9zRidscifn89q5IQqShLEPXArpeIaUb6PrJfOLuT1vCgmr
- 9RBCbe1tLwU5x4i4qwOSMFW9htHc/YgkgaaSBlLvvtHbkmV0zMh/VftnhDHfBhYyt2TP
- NKFDVqpekBioZekGgPZ51V8Uq+Yl4VhfmUn68k24oNQx7a2i+KEMZMU1Du/1YWfzLtZn
- ukRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xt11QQoz4SdXpM4qlgGpTcEfyJEu7ljwhAbsnDSI2is=;
- b=oV2m0wrKhqitZSaTx9mNrI/s7jiFfsZ8Skj1i/yxqA7aSAJAVSrylmY1ZwO76avHxk
- a8c4GJEzBEFPZQJvhHJw1KsHilhenjjcUKtjlkNfd1Ct5ESoJWzTjHgUFQaSpTOgoAPj
- JUTFZV6DmC6xurXb9AfcP2tt9NXJvisk6wLhj4mFz1mEOiysJz1Q16zQA9c9Kx9DWoSG
- yw+OWGIbLbViB2CqJdQhZDF92Km+/kkWd/3re5AdreLcLse74tqrAx5gIVSSdb6guM3R
- 7z/KyvVMJdYs4XxWrcGXDQMxZ9dpIbM8bRytrJAIyY+87W75P2Yg7SDyZxfz5i24eKKU
- vQIw==
-X-Gm-Message-State: AOAM53352ErWe9weaJ+Br1vq4Tqev6IH2B3XZxx/fWDDG2kMxPh8ybhI
- 4iPnNg/2VILjN4nDYqMkebc=
-X-Google-Smtp-Source: ABdhPJzMUoEbOaPrT4j7lhp2whwP09XwGIJG9oD/blvb6c8oMMAfX8DJ1NnPd5RUz4XE0WqlCCTsIA==
-X-Received: by 2002:a9d:5d16:0:b0:5ce:127a:1c42 with SMTP id
- b22-20020a9d5d16000000b005ce127a1c42mr9969717oti.350.1652293389485; 
- Wed, 11 May 2022 11:23:09 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c7:6d99:130b:198b:b4b2:dcf0?
- ([2804:431:c7c7:6d99:130b:198b:b4b2:dcf0])
- by smtp.gmail.com with ESMTPSA id
- x1-20020a056830408100b0060603221260sm1123406ott.48.2022.05.11.11.23.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 11:23:08 -0700 (PDT)
-Message-ID: <a17d1a2d-41d1-1015-1b88-daf77ae25eee@gmail.com>
-Date: Wed, 11 May 2022 15:23:05 -0300
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nor5G-0004Yq-5k; Wed, 11 May 2022 14:29:14 -0400
+Received: from [187.72.171.209] (port=14747 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nor5D-00016y-M8; Wed, 11 May 2022 14:29:13 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 11 May 2022 15:29:03 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 09ABC8001F1;
+ Wed, 11 May 2022 15:29:03 -0300 (-03)
+Message-ID: <276e357e-a757-7d03-3a70-c23dd52dbe53@eldorado.org.br>
+Date: Wed, 11 May 2022 15:29:02 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2] pseries: allow setting stdout-path even on machines
- with a VGA
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/3] target/ppc: Fix FPSCR.FI bit being cleared when it
+ shouldn't
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org
-References: <20220507054826.124936-1-pbonzini@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220507054826.124936-1-pbonzini@redhat.com>
+To: Rashmica Gupta <rashmica.g@gmail.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ Nicholas Piggin <npiggin@gmail.com>, Paul Mackerras <paulus@samba.org>
+References: <20220510204610.100867-1-victor.colombo@eldorado.org.br>
+ <20220510204610.100867-2-victor.colombo@eldorado.org.br>
+ <244b0614581cbec66f6cf87dd13f806af036b769.camel@gmail.com>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <244b0614581cbec66f6cf87dd13f806af036b769.camel@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 11 May 2022 18:29:03.0557 (UTC)
+ FILETIME=[FDBCBF50:01D86564]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,94 +69,243 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello!
 
+Thanks everyone for your kind reviews
 
-On 5/7/22 02:48, Paolo Bonzini wrote:
-> -machine graphics=off is the usual way to tell the firmware or the OS that the
-> user wants a serial console.  The pseries machine however does not support
-> this, and never adds the stdout-path node to the device tree if a VGA device
-> is provided.  This is in addition to the other magic behavior of VGA devices,
-> which is to add a keyboard and mouse to the default USB bus.
+On 11/05/2022 07:12, Rashmica Gupta wrote:
+> Hello,
 > 
-> Split spapr->has_graphics in two variables so that the two behaviors can be
-> separated: the USB devices remains the same, but the stdout-path is added
-> even with "-device VGA -machine graphics=off".
+> cc'ing Paul and Nick for clarification on the behaviour of xsrsp (see below)
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
-
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
-And queued in gitlab.com/danielhb/qemu/tree/ppc-next.
-
-
-Thanks,
-
-
-Daniel
-
->   hw/ppc/spapr.c         | 12 ++++++++----
->   include/hw/ppc/spapr.h |  2 +-
->   2 files changed, 9 insertions(+), 5 deletions(-)
 > 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index fe9937e811..75189e4020 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1066,7 +1066,7 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
->               _FDT(fdt_setprop_string(fdt, chosen, "qemu,boot-device", boot_device));
->           }
->   
-> -        if (!spapr->has_graphics && stdout_path) {
-> +        if (spapr->want_stdout_path && stdout_path) {
->               /*
->                * "linux,stdout-path" and "stdout" properties are
->                * deprecated by linux kernel. New platforms should only
-> @@ -2711,6 +2711,7 @@ static void spapr_machine_init(MachineState *machine)
->       const char *kernel_filename = machine->kernel_filename;
->       const char *initrd_filename = machine->initrd_filename;
->       PCIHostState *phb;
-> +    bool has_vga;
->       int i;
->       MemoryRegion *sysmem = get_system_memory();
->       long load_limit, fw_size;
-> @@ -2949,9 +2950,12 @@ static void spapr_machine_init(MachineState *machine)
->       }
->   
->       /* Graphics */
-> -    if (spapr_vga_init(phb->bus, &error_fatal)) {
-> -        spapr->has_graphics = true;
-> +    has_vga = spapr_vga_init(phb->bus, &error_fatal);
-> +    if (has_vga) {
-> +        spapr->want_stdout_path = !machine->enable_graphics;
->           machine->usb |= defaults_enabled() && !machine->usb_disabled;
-> +    } else {
-> +        spapr->want_stdout_path = true;
->       }
->   
->       if (machine->usb) {
-> @@ -2961,7 +2965,7 @@ static void spapr_machine_init(MachineState *machine)
->               pci_create_simple(phb->bus, -1, "nec-usb-xhci");
->           }
->   
-> -        if (spapr->has_graphics) {
-> +        if (has_vga) {
->               USBBus *usb_bus = usb_bus_find(-1);
->   
->               usb_create_simple(usb_bus, "usb-kbd");
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 14b01c3f59..072dda2c72 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -194,7 +194,7 @@ struct SpaprMachineState {
->       Vof *vof;
->       uint64_t rtc_offset; /* Now used only during incoming migration */
->       struct PPCTimebase tb;
-> -    bool has_graphics;
-> +    bool want_stdout_path;
->       uint32_t vsmt;       /* Virtual SMT mode (KVM's "core stride") */
->   
->       /* Nested HV support (TCG only) */
+> On Tue, 2022-05-10 at 17:46 -0300, Víctor Colombo wrote:
+>> The FI bit in FPSCR is said to be a non-sticky bit on Power ISA.
+>> One could think this means that, if an instruction is said to modify
+>> the FPSCR register, the bit FI should be cleared. This is what QEMU
+>> does today.
+>>
+>> However, the following inconsistency was found when comparing results
+>> from the hardware (tested on both a Power 9 processor and in
+>> Power 10 Mambo):
+>>
+>> (FI bit is set before the execution of the instruction)
+>> Hardware: xscmpeqdp(0xff..ff, 0xff..ff) = FI: SET -> SET
+>> QEMU: xscmpeqdp(0xff..ff, 0xff..ff) = FI: SET -> CLEARED
+>>
+>> This is happening to multiple instructions in the vsx
+>> implementations. As the FI bit is non-sticky, one could think that
+>> xscmpeqdp, a instruction the ISA states doesn't change FI bit, should
+>> result in a cleared FI. However, this is not happening on hardware.
+> I would think that if an instruction doesn't change a bit
+> then that instruction wouldn't clear or set that bit, regardless of if
+> that bit is sticky or not.
+
+I think I might have over-generalized this commit message.
+I, as well as other developers of the Power ISA instructions in
+QEMU, didn't notice this behavior before, so it's at least confusing
+> 
+>> An investigation resulted in the following conclusion:
+>> If the ISA does not list the FI bit as altered for a particular
+>> instruction, then it should be kept as it was before the instruction.
+>>
+>> QEMU is not following this behavior. Affected instructions include:
+>> - xv* (all vsx-vector instructions);
+>> - xscmp*, xsmax*, xsmin*;
+>> - xstdivdp and similars;
+>> (to identify the affected instructions, just search in the ISA for
+>>   the instructions that does not list FI in "Special Registers
+>> Altered")
+> The ISA does state
+> "Floating-Point Fraction Inexact (FI)
+> This bit is set to 0 or 1 by VSX Scalar
+> Floating-Point Arithmetic, VSX Scalar Integer
+> Conversion, and VSX Scalar Round to
+> Floating-Point Integer class instructions to
+> indicate whether or not the rounded result is
+> inexact or the instruction caused a disabled
+> Overflow exception. See Section 7.3.2.6 on
+> page 524. This bit is not sticky."
+> 
+> So it seems that instruction classes like VSX Vector Round and VSX Vector
+> convert don't touch the FI bit.
+> 
+>> Most instructions use the function do_float_check_status() to commit
+>> changes in the inexact flag. So the fix is to add a parameter to it
+>> that will control if the bit FI should be changed or not.
+>> All users of do_float_check_status() are then modified to provide
+>> this
+>> argument, controlling if that specific instruction changes bit FI or
+>> not.
+>> Some macro helpers are responsible for both instructions that change
+>> and instructions that aren't suposed to change FI. This seems to
+>> always
+>> overlap with the sfprf flag. So, reuse this flag for this purpose
+>> when
+>> applicable.
+>>
+>> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
+>>
+>> ---
+>>
+>> v2:
+>> - move the FI change from float_inexact_excp to do_float_check_status
+>> - sfprf will be renamed to sfifprf in another patch, as suggested by
+>>    Richard
+>> ---
+>>   target/ppc/cpu.h        |   2 +
+>>   target/ppc/fpu_helper.c | 122 +++++++++++++++++++++-----------------
+>> --
+>>   2 files changed, 66 insertions(+), 58 deletions(-)
+>>
+>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+>> index 48596cfb25..901ded79e9 100644
+>> --- a/target/ppc/cpu.h
+>> +++ b/target/ppc/cpu.h
+>> @@ -735,6 +735,8 @@ enum {
+>>                         (1 << FPSCR_VXSOFT) | (1 << FPSCR_VXSQRT) | \
+>>                         (1 << FPSCR_VXCVI))
+>>   
+>> +FIELD(FPSCR, FI, FPSCR_FI, 1)
+>> +
+>>   #define FP_DRN2         (1ull << FPSCR_DRN2)
+>>   #define FP_DRN1         (1ull << FPSCR_DRN1)
+>>   #define FP_DRN0         (1ull << FPSCR_DRN0)
+>> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+>> index f6c8318a71..f1ea4aa10e 100644
+>> --- a/target/ppc/fpu_helper.c
+>> +++ b/target/ppc/fpu_helper.c
+>> @@ -370,7 +370,6 @@ static inline void float_inexact_excp(CPUPPCState
+>> *env)
+>>   {
+>>       CPUState *cs = env_cpu(env);
+>>   
+>> -    env->fpscr |= FP_FI;
+>>       env->fpscr |= FP_XX;
+>>       /* Update the floating-point exception summary */
+>>       env->fpscr |= FP_FX;
+>> @@ -462,7 +461,8 @@ void helper_fpscr_check_status(CPUPPCState *env)
+>>       }
+>>   }
+>>   
+>> -static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
+>> +static void do_float_check_status(CPUPPCState *env, bool change_fi,
+>> +                                  uintptr_t raddr)
+>>   {
+>>       CPUState *cs = env_cpu(env);
+>>       int status = get_float_exception_flags(&env->fp_status);
+>> @@ -474,8 +474,10 @@ static void do_float_check_status(CPUPPCState
+>> *env, uintptr_t raddr)
+>>       }
+>>       if (status & float_flag_inexact) {
+>>           float_inexact_excp(env);
+>> -    } else {
+>> -        env->fpscr &= ~FP_FI; /* clear the FPSCR[FI] bit */
+>> +    }
+>> +    if (change_fi) {
+>> +        env->fpscr = FIELD_DP64(env->fpscr, FPSCR, FI,
+>> +                                !!(status & float_flag_inexact));
+>>       }
+> 
+> According to the ISA not all instructions that affect FI, set FI on an
+> inexact exception (xsrqpi apparently clears FI on an inexact exception
+> -- I have no idea if this actually happens on hardware).
+
+good point,
+
+xsrqpi is handled as it was before already: the inexact flag is being
+cleared for fp_status in helper_xsrqpi, causing do_float_check_status to
+clear it for fpscr.
+
+I think we should keep it like this. The change I made to
+do_float_check_status allow for its callers to request if the FI field
+in FPSCR should be updated. What value should be updated to is then
+responsibility of these callers, provided as an argument to
+do_float_check_status, like xsrqpi is doing.
+
+> 
+> 
+>>   
+>>       if (cs->exception_index == POWERPC_EXCP_PROGRAM &&
+>> @@ -490,7 +492,7 @@ static void do_float_check_status(CPUPPCState
+>> *env, uintptr_t raddr)
+>>   
+>>   void helper_float_check_status(CPUPPCState *env)
+>>   {
+>> -    do_float_check_status(env, GETPC());
+>> +    do_float_check_status(env, true, GETPC());
+>>   }
+>>   
+>      
+> ... snip ...
+> 
+>> @@ -3195,7 +3201,7 @@ uint64_t helper_xsrsp(CPUPPCState *env,
+>> uint64_t xb)
+>>       uint64_t xt = do_frsp(env, xb, GETPC());
+>>   
+>>       helper_compute_fprf_float64(env, xt);
+>> -    do_float_check_status(env, GETPC());
+>> +    do_float_check_status(env, true, GETPC());
+>>       return xt;
+>>   }
+> I'm not clear what the behaviour of xsrsp should be.
+> 
+> Section 7.4.5 Floating-Point Inexact Exception leads me to think it
+> shouldn't affect FI but the instruction definition indicates the
+> opposite. Maybe Paul or Nick can weigh in on this?
+> 
+
+I tested on a Power9 hardware and FI is altered by xsrsp when XE=0.
+But indeed, the ISA seems a bit contradictory on this one, section
+7.4.5 only states about changing XX in this situation.
+
+> 
+>>   
+>> @@ -3355,7 +3361,7 @@ void helper_xsrqpi(CPUPPCState *env, uint32_t
+>> opcode,
+>>       }
+>>   
+>>       helper_compute_fprf_float128(env, t.f128);
+>> -    do_float_check_status(env, GETPC());
+>> +    do_float_check_status(env, true, GETPC());
+>>       *xt = t;
+>>   }
+>>   
+>> @@ -3408,7 +3414,7 @@ void helper_xsrqpxp(CPUPPCState *env, uint32_t
+>> opcode,
+>>   
+>>       helper_compute_fprf_float128(env, t.f128);
+>>       *xt = t;
+>> -    do_float_check_status(env, GETPC());
+>> +    do_float_check_status(env, true, GETPC());
+>>   }
+>>   
+>>   void helper_xssqrtqp(CPUPPCState *env, uint32_t opcode,
+>> @@ -3434,7 +3440,7 @@ void helper_xssqrtqp(CPUPPCState *env, uint32_t
+>> opcode,
+>>   
+>>       helper_compute_fprf_float128(env, t.f128);
+>>       *xt = t;
+>> -    do_float_check_status(env, GETPC());
+>> +    do_float_check_status(env, true, GETPC());
+>>   }
+>>   
+>>   void helper_xssubqp(CPUPPCState *env, uint32_t opcode,
+>> @@ -3460,5 +3466,5 @@ void helper_xssubqp(CPUPPCState *env, uint32_t
+>> opcode,
+>>   
+>>       helper_compute_fprf_float128(env, t.f128);
+>>       *xt = t;
+>> -    do_float_check_status(env, GETPC());
+>> +    do_float_check_status(env, true, GETPC());
+>>   }
+> 
+> All the other instruction helpers and definitions look correct to me.
+
+Thank you very much!
+
+--
+Víctor Cora Colombo
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
