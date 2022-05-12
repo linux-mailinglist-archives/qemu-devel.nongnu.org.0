@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26025253F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:43:44 +0200 (CEST)
-Received: from localhost ([::1]:60824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B30852543E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:57:17 +0200 (CEST)
+Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npCql-0005bc-Qp
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35942)
+	id 1npD3s-0005Og-2s
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZG-0004wh-6O
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22689)
+ id 1npCZH-0004xH-Fn
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZC-00057m-R5
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:37 -0400
+ id 1npCZE-00057r-W5
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652376334;
+ s=mimecast20190719; t=1652376336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FumAWeVd1irXJA/O6eZrUXZOZWsRn6/nwaCrVp7Ge2Y=;
- b=Uzrcv/L9JdmYP1niN9xhKoDvD5kqbjx/e2lB7XOmFb9tSZ/LJMQGue/+/JikIuGvb0R/9R
- f6NuGeRP9c1MwnZvdkMrD8U1zHTXdF7FImyebrtAfDDK557Cskn1Yt5qnHHrCQAbu+WMA8
- P36neve/C2mjJsKY/Oz8thfv+p8PM7g=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lhJ5vE+dOrxLOB17bzwnIyTRcOO1BY3c7rjADD9EXkA=;
+ b=hy0DB0y+sIoJXbSybriBOgZOYKfnLlESAOH35AgAePDGayp6FiEO7je6v7rW1Kgiz/h91y
+ 0iHIev53OztrNLxX5GZTc4uynOVUIIw/MrDWG7R5BiuYvsJlpwXqpzIzJkCkj6PiMyFDs4
+ E/gZ1o/V3PTuF25vgRTqzwcVZgK+WTE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-yxmB5OLTPSSm-YFWbcvyzg-1; Thu, 12 May 2022 13:25:32 -0400
-X-MC-Unique: yxmB5OLTPSSm-YFWbcvyzg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c23-20020a50d657000000b00425d5162a0dso3474246edj.16
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:32 -0700 (PDT)
+ us-mta-608-bLvQQ36IMhOZMRiuFgb62Q-1; Thu, 12 May 2022 13:25:34 -0400
+X-MC-Unique: bLvQQ36IMhOZMRiuFgb62Q-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ v13-20020a170906b00d00b006f51e289f7cso3131296ejy.19
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FumAWeVd1irXJA/O6eZrUXZOZWsRn6/nwaCrVp7Ge2Y=;
- b=71ZgyiSQc47Uhb3fLVynWTrcCcvXApGSdoZPC0CgpCatdyrYmOD5wpo3qtBDYJkyy3
- PUpLLAwFtnvOzCltIa0A6fPSRONA1A72ZB+41xv6A2ebjk9Ff1IXKQNSUEKH54s2/+T0
- 1+txfljVWY/PjY+RSwGYaGSLxvHCweGP4fdivO2BtHOZmrACsgLtCwsx7S4bg1JnuYbQ
- aTVt53P3Z/kwMmXPTcqWMqL6hTaAdATyXKDWwHcSY09af6eubnjQqUTmZZqOj2Z1lRTL
- WJd5PfngyxVc182/6Cx6kIYZN9X7V06P3kYm53NIt49KZRaFQAYxMpJ2Lap3TMa4dXSy
- XHsQ==
-X-Gm-Message-State: AOAM530KSRk6oetqXK/f/6Uq4JE8+Wx47UKAn86ZyUU0mgVjzazxc4QI
- ETRl4QZwlSlOOB2xELExdZCvPfSEzMAcP6BLLnERZD0KmVf6U7H67o5sqLwHPSB2DSk7c8WKDnf
- UsXt6PFhTWgiwOOUKMua4o7ufy9FdT3rgsVGVPv4rk5w7s4vjDogCmEPeTcN90OjIEF8=
-X-Received: by 2002:a05:6402:5188:b0:428:e77:b55b with SMTP id
- q8-20020a056402518800b004280e77b55bmr36591696edd.82.1652376331170; 
- Thu, 12 May 2022 10:25:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIcrzfVwA7NYiiBVzFJ6ttU0tAN/3+FxTn3Y+uwuDeJSBzjIGKYvNHLsyaq2Xlmq9ruBeyfg==
-X-Received: by 2002:a05:6402:5188:b0:428:e77:b55b with SMTP id
- q8-20020a056402518800b004280e77b55bmr36591670edd.82.1652376330814; 
- Thu, 12 May 2022 10:25:30 -0700 (PDT)
+ bh=lhJ5vE+dOrxLOB17bzwnIyTRcOO1BY3c7rjADD9EXkA=;
+ b=owfHX0pKHrcpqk1R5bg7ROVBkaXj7/asO9K1ySHgvr4vFEJyyI+Y3SD6IgV37GkYhQ
+ tttecE0/g/TRTXnvlbJv+0AA5h/507Kqy7IBiDiOPz8cNFWu54F3RqPAiVbPsHkNFXnZ
+ IZIoT0ZpEK93sMWMblg7l2yv4d+lootH5seS7t0hU96bLBj4Qa0dmaSpGHLOZoJ/RyyY
+ /eFcIIx6WtOHNzrTficWCT6BEiX9ZzVfZ8yvoOs399NTOPPfcJ8aeEz0VSeHz2/t/z9t
+ 6itwlVhlrlUcq1EfAJrryvyCrpd0nDd6M1kX99cWoI1+SM7ePfewdiecMofSA9oEpCZL
+ xA5w==
+X-Gm-Message-State: AOAM532Tem3jXLAd4Z9JMJqCIHjywsFBTT0H1iySFE6+6wMVpMQHnf9q
+ hFMaOyIlCygV9i6RQn79vyNHAsGGDXEXV41Bdt47nZq3IST3+pETRKCsvbnO0GfflTeYtXiKdAF
+ 7tFknQ/R/3Qwll/36TWxIVD1Vrc57bN/iu9G868r8dYbAf9Jr2pGPUCWUJ7W7MnR1Xbs=
+X-Received: by 2002:a17:906:cb90:b0:6f4:d91b:1025 with SMTP id
+ mf16-20020a170906cb9000b006f4d91b1025mr858906ejb.177.1652376332953; 
+ Thu, 12 May 2022 10:25:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBqdAMJUaeSVyRuetX0p0suKywr/eihm3B3DVxNsiDiU3wA4xh8CpK182Rj0Dot2HTLVjexg==
+X-Received: by 2002:a17:906:cb90:b0:6f4:d91b:1025 with SMTP id
+ mf16-20020a170906cb9000b006f4d91b1025mr858864ejb.177.1652376332328; 
+ Thu, 12 May 2022 10:25:32 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- f7-20020a17090660c700b006f3ef214de7sm2334262ejk.77.2022.05.12.10.25.29
+ y13-20020a056402134d00b0042617ba63d6sm2743159edw.96.2022.05.12.10.25.31
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 10:25:30 -0700 (PDT)
+ Thu, 12 May 2022 10:25:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Eric Auger <eric.auger@redhat.com>
-Subject: [PULL 10/27] tests/qtest/libqos: Add generic pci host bridge in
- arm-virt machine
-Date: Thu, 12 May 2022 19:24:48 +0200
-Message-Id: <20220512172505.1065394-11-pbonzini@redhat.com>
+Subject: [PULL 11/27] machine: use QAPI struct for boot configuration
+Date: Thu, 12 May 2022 19:24:49 +0200
+Message-Id: <20220512172505.1065394-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220512172505.1065394-1-pbonzini@redhat.com>
 References: <20220512172505.1065394-1-pbonzini@redhat.com>
@@ -100,407 +99,541 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+As part of converting -boot to a property with a QAPI type, define
+the struct and use it throughout QEMU to access boot configuration.
+machine_boot_parse takes care of doing the QemuOpts->QAPI conversion by
+hand, for now.
 
-Up to now the virt-machine node contains a virtio-mmio node.
-However no driver produces any PCI interface node. Hence, PCI
-tests cannot be run with aarch64 binary.
-
-Add a GPEX driver node that produces a pci interface node. This latter
-then can be consumed by all the pci tests. One of the first motivation
-was to be able to run the virtio-iommu-pci tests.
-
-We still face an issue with pci hotplug tests as hotplug cannot happen
-on the pcie root bus and require a generic root port. This will be
-addressed later on.
-
-We force cpu=max along with aarch64/virt machine as some PCI tests
-require high MMIO regions to be available.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
-Message-Id: <20220504152025.1785704-4-eric.auger@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220414165300.555321-2-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/libqos/arm-virt-machine.c |  19 ++-
- tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++
- tests/qtest/libqos/generic-pcihost.h  |  54 ++++++
- tests/qtest/libqos/meson.build        |   1 +
- 4 files changed, 301 insertions(+), 4 deletions(-)
- create mode 100644 tests/qtest/libqos/generic-pcihost.c
- create mode 100644 tests/qtest/libqos/generic-pcihost.h
+ hw/arm/nseries.c        |  2 +-
+ hw/core/machine.c       | 68 +++++++++++++++++++++++++++++++++++++++--
+ hw/hppa/machine.c       |  6 ++--
+ hw/i386/pc.c            |  2 +-
+ hw/nvram/fw_cfg.c       | 27 +++++-----------
+ hw/ppc/mac_newworld.c   |  2 +-
+ hw/ppc/mac_oldworld.c   |  2 +-
+ hw/ppc/prep.c           |  2 +-
+ hw/ppc/spapr.c          |  4 +--
+ hw/s390x/ipl.c          | 20 ++++--------
+ hw/sparc/sun4m.c        |  4 +--
+ hw/sparc64/sun4u.c      |  4 +--
+ include/hw/boards.h     |  4 +--
+ include/sysemu/sysemu.h |  2 --
+ qapi/machine.json       | 30 ++++++++++++++++++
+ softmmu/bootdevice.c    |  3 +-
+ softmmu/globals.c       |  2 --
+ softmmu/vl.c            | 25 +--------------
+ 18 files changed, 127 insertions(+), 82 deletions(-)
 
-diff --git a/tests/qtest/libqos/arm-virt-machine.c b/tests/qtest/libqos/arm-virt-machine.c
-index 2e0beaefb8..139eaba142 100644
---- a/tests/qtest/libqos/arm-virt-machine.c
-+++ b/tests/qtest/libqos/arm-virt-machine.c
-@@ -22,6 +22,8 @@
- #include "malloc.h"
- #include "qgraph.h"
- #include "virtio-mmio.h"
-+#include "generic-pcihost.h"
-+#include "hw/pci/pci_regs.h"
- 
- #define ARM_PAGE_SIZE               4096
- #define VIRTIO_MMIO_BASE_ADDR       0x0A003E00
-@@ -35,6 +37,7 @@ struct QVirtMachine {
-     QOSGraphObject obj;
-     QGuestAllocator alloc;
-     QVirtioMMIODevice virtio_mmio;
-+    QGenericPCIHost bridge;
- };
- 
- static void virt_destructor(QOSGraphObject *obj)
-@@ -57,11 +60,13 @@ static void *virt_get_driver(void *object, const char *interface)
- static QOSGraphObject *virt_get_device(void *obj, const char *device)
- {
-     QVirtMachine *machine = obj;
--    if (!g_strcmp0(device, "virtio-mmio")) {
-+    if (!g_strcmp0(device, "generic-pcihost")) {
-+        return &machine->bridge.obj;
-+    } else if (!g_strcmp0(device, "virtio-mmio")) {
-         return &machine->virtio_mmio.obj;
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 9c1cafae86..692c94ceb4 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -1365,7 +1365,7 @@ static void n8x0_init(MachineState *machine,
      }
  
--    fprintf(stderr, "%s not present in arm/virtio\n", device);
-+    fprintf(stderr, "%s not present in arm/virt\n", device);
-     g_assert_not_reached();
+     if (option_rom[0].name &&
+-        (machine->boot_order[0] == 'n' || !machine->kernel_filename)) {
++        (machine->boot_config.order[0] == 'n' || !machine->kernel_filename)) {
+         uint8_t *nolo_tags = g_new(uint8_t, 0x10000);
+         /* No, wait, better start at the ROM.  */
+         s->mpu->cpu->env.regs[15] = OMAP2_Q2_BASE + 0x400000;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 700c1e76b8..b3deb8146f 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -784,6 +784,68 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+     machine_parse_smp_config(ms, config, errp);
  }
  
-@@ -76,16 +81,22 @@ static void *qos_create_machine_arm_virt(QTestState *qts)
-     qvirtio_mmio_init_device(&machine->virtio_mmio, qts, VIRTIO_MMIO_BASE_ADDR,
-                              VIRTIO_MMIO_SIZE);
- 
-+    qos_create_generic_pcihost(&machine->bridge, qts, &machine->alloc);
++void machine_boot_parse(MachineState *ms, QemuOpts *opts, Error **errp)
++{
++    MachineClass *machine_class = MACHINE_GET_CLASS(ms);
++    const char *s;
++    ERRP_GUARD();
 +
-     machine->obj.get_device = virt_get_device;
-     machine->obj.get_driver = virt_get_driver;
-     machine->obj.destructor = virt_destructor;
-     return machine;
- }
- 
--static void virtio_mmio_register_nodes(void)
-+static void virt_machine_register_nodes(void)
++    ms->boot_config = (BootConfiguration) {
++        .has_order = true,
++        .order = (char *)machine_class->default_boot_order,
++        .has_strict = true,
++        .strict = false,
++    };
++    if (!opts) {
++        return;
++    }
++
++    s = qemu_opt_get(opts, "order");
++    if (s) {
++        validate_bootdevices(s, errp);
++        if (*errp) {
++            return;
++        }
++        ms->boot_config.order = (char *)s;
++    }
++
++    s = qemu_opt_get(opts, "once");
++    if (s) {
++        validate_bootdevices(s, errp);
++        if (*errp) {
++            return;
++        }
++        ms->boot_config.has_once = true;
++        ms->boot_config.once = (char *)s;
++    }
++
++    s = qemu_opt_get(opts, "splash");
++    if (s) {
++        ms->boot_config.has_splash = true;
++        ms->boot_config.splash = (char *)s;
++    }
++
++    s = qemu_opt_get(opts, "splash-time");
++    if (s) {
++        ms->boot_config.has_splash_time = true;
++        ms->boot_config.splash_time = qemu_opt_get_number(opts, "splash-time", -1);
++    }
++
++    s = qemu_opt_get(opts, "reboot-timeout");
++    if (s) {
++        ms->boot_config.has_reboot_timeout = true;
++        ms->boot_config.reboot_timeout = qemu_opt_get_number(opts, "reboot-timeout", -1);
++    }
++
++    s = qemu_opt_get(opts, "menu");
++    if (s) {
++        ms->boot_config.has_menu = true;
++        ms->boot_config.menu = qemu_opt_get_bool(opts, "menu", false);
++    }
++
++    ms->boot_config.strict = qemu_opt_get_bool(opts, "strict", false);
++}
++
+ static void machine_class_init(ObjectClass *oc, void *data)
  {
-     qos_node_create_machine("arm/virt", qos_create_machine_arm_virt);
-     qos_node_contains("arm/virt", "virtio-mmio", NULL);
-+
-+    qos_node_create_machine_args("aarch64/virt", qos_create_machine_arm_virt,
-+                                 " -cpu max");
-+    qos_node_contains("aarch64/virt", "generic-pcihost", NULL);
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -1229,9 +1291,9 @@ void qdev_machine_creation_done(void)
+ {
+     cpu_synchronize_all_post_init();
+ 
+-    if (current_machine->boot_once) {
+-        qemu_boot_set(current_machine->boot_once, &error_fatal);
+-        qemu_register_reset(restore_boot_order, g_strdup(current_machine->boot_order));
++    if (current_machine->boot_config.has_once) {
++        qemu_boot_set(current_machine->boot_config.once, &error_fatal);
++        qemu_register_reset(restore_boot_order, g_strdup(current_machine->boot_config.order));
+     }
+ 
+     /*
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 4d054ca869..d1e174b1f4 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -147,7 +147,7 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
+     fw_cfg_add_file(fw_cfg, "/etc/power-button-addr",
+                     g_memdup(&val, sizeof(val)), sizeof(val));
+ 
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, ms->boot_order[0]);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, ms->boot_config.order[0]);
+     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+ 
+     return fw_cfg;
+@@ -391,8 +391,8 @@ static void machine_hppa_init(MachineState *machine)
+          * mode (kernel_entry=1), and to boot from CD (gr[24]='d')
+          * or hard disc * (gr[24]='c').
+          */
+-        kernel_entry = boot_menu ? 1 : 0;
+-        cpu[0]->env.gr[24] = machine->boot_order[0];
++        kernel_entry = machine->boot_config.has_menu ? machine->boot_config.menu : 0;
++        cpu[0]->env.gr[24] = machine->boot_config.order[0];
+     }
+ 
+     /* We jump to the firmware entry routine and pass the
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 23bba9d82c..305d2c0820 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -675,7 +675,7 @@ void pc_cmos_init(PCMachineState *pcms,
+     object_property_set_link(OBJECT(pcms), "rtc_state", OBJECT(s),
+                              &error_abort);
+ 
+-    set_boot_dev(s, MACHINE(pcms)->boot_order, &error_fatal);
++    set_boot_dev(s, MACHINE(pcms)->boot_config.order, &error_fatal);
+ 
+     val = 0;
+     val |= 0x02; /* FPU is there */
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 4125cbebcd..d605f3f45a 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -178,21 +178,13 @@ error:
+ 
+ static void fw_cfg_bootsplash(FWCfgState *s)
+ {
+-    const char *boot_splash_filename = NULL;
+-    const char *boot_splash_time = NULL;
+     char *filename, *file_data;
+     gsize file_size;
+     int file_type;
+ 
+-    /* get user configuration */
+-    QemuOptsList *plist = qemu_find_opts("boot-opts");
+-    QemuOpts *opts = QTAILQ_FIRST(&plist->head);
+-    boot_splash_filename = qemu_opt_get(opts, "splash");
+-    boot_splash_time = qemu_opt_get(opts, "splash-time");
+-
+     /* insert splash time if user configurated */
+-    if (boot_splash_time) {
+-        int64_t bst_val = qemu_opt_get_number(opts, "splash-time", -1);
++    if (current_machine->boot_config.has_splash_time) {
++        int64_t bst_val = current_machine->boot_config.splash_time;
+         uint16_t bst_le16;
+ 
+         /* validate the input */
+@@ -208,7 +200,8 @@ static void fw_cfg_bootsplash(FWCfgState *s)
+     }
+ 
+     /* insert splash file if user configurated */
+-    if (boot_splash_filename) {
++    if (current_machine->boot_config.has_splash) {
++        const char *boot_splash_filename = current_machine->boot_config.splash;
+         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, boot_splash_filename);
+         if (filename == NULL) {
+             error_report("failed to find file '%s'", boot_splash_filename);
+@@ -238,17 +231,11 @@ static void fw_cfg_bootsplash(FWCfgState *s)
+ 
+ static void fw_cfg_reboot(FWCfgState *s)
+ {
+-    const char *reboot_timeout = NULL;
+     uint64_t rt_val = -1;
+     uint32_t rt_le32;
+ 
+-    /* get user configuration */
+-    QemuOptsList *plist = qemu_find_opts("boot-opts");
+-    QemuOpts *opts = QTAILQ_FIRST(&plist->head);
+-    reboot_timeout = qemu_opt_get(opts, "reboot-timeout");
+-
+-    if (reboot_timeout) {
+-        rt_val = qemu_opt_get_number(opts, "reboot-timeout", -1);
++    if (current_machine->boot_config.has_reboot_timeout) {
++        rt_val = current_machine->boot_config.reboot_timeout;
+ 
+         /* validate the input */
+         if (rt_val > 0xffff && rt_val != (uint64_t)-1) {
+@@ -1133,7 +1120,7 @@ static void fw_cfg_common_realize(DeviceState *dev, Error **errp)
+     fw_cfg_add_bytes(s, FW_CFG_SIGNATURE, (char *)"QEMU", 4);
+     fw_cfg_add_bytes(s, FW_CFG_UUID, &qemu_uuid, 16);
+     fw_cfg_add_i16(s, FW_CFG_NOGRAPHIC, (uint16_t)!machine->enable_graphics);
+-    fw_cfg_add_i16(s, FW_CFG_BOOT_MENU, (uint16_t)boot_menu);
++    fw_cfg_add_i16(s, FW_CFG_BOOT_MENU, (uint16_t)(machine->boot_config.has_menu && machine->boot_config.menu));
+     fw_cfg_bootsplash(s);
+     fw_cfg_reboot(s);
+ 
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index e8ef1a9e5d..c865921bdc 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -111,7 +111,7 @@ static void ppc_core99_init(MachineState *machine)
+     const char *kernel_filename = machine->kernel_filename;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     const char *initrd_filename = machine->initrd_filename;
+-    const char *boot_device = machine->boot_order;
++    const char *boot_device = machine->boot_config.order;
+     Core99MachineState *core99_machine = CORE99_MACHINE(machine);
+     PowerPCCPU *cpu = NULL;
+     CPUPPCState *env = NULL;
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index fe2adb057b..d62fdf0db3 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -82,7 +82,7 @@ static void ppc_heathrow_init(MachineState *machine)
+ {
+     ram_addr_t ram_size = machine->ram_size;
+     const char *bios_name = machine->firmware ?: PROM_FILENAME;
+-    const char *boot_device = machine->boot_order;
++    const char *boot_device = machine->boot_config.order;
+     PowerPCCPU *cpu = NULL;
+     CPUPPCState *env = NULL;
+     char *filename;
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index bf622aa38f..a1cd4505cc 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -381,7 +381,7 @@ static void ibm_40p_init(MachineState *machine)
+         }
+         boot_device = 'm';
+     } else {
+-        boot_device = machine->boot_order[0];
++        boot_device = machine->boot_config.order[0];
+     }
+ 
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 8bbae68e1b..6de800524a 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1044,8 +1044,8 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
+                 _FDT(fdt_setprop(fdt, chosen, "qemu,boot-kernel-le", NULL, 0));
+             }
+         }
+-        if (boot_menu) {
+-            _FDT((fdt_setprop_cell(fdt, chosen, "qemu,boot-menu", boot_menu)));
++        if (machine->boot_config.has_menu && machine->boot_config.menu) {
++            _FDT((fdt_setprop_cell(fdt, chosen, "qemu,boot-menu", true)));
+         }
+         _FDT(fdt_setprop_cell(fdt, chosen, "qemu,graphic-width", graphic_width));
+         _FDT(fdt_setprop_cell(fdt, chosen, "qemu,graphic-height", graphic_height));
+diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+index 4b5eb77afd..8612684d48 100644
+--- a/hw/s390x/ipl.c
++++ b/hw/s390x/ipl.c
+@@ -290,13 +290,10 @@ static Property s390_ipl_properties[] = {
+ 
+ static void s390_ipl_set_boot_menu(S390IPLState *ipl)
+ {
+-    QemuOptsList *plist = qemu_find_opts("boot-opts");
+-    QemuOpts *opts = QTAILQ_FIRST(&plist->head);
+-    const char *tmp;
+     unsigned long splash_time = 0;
+ 
+     if (!get_boot_device(0)) {
+-        if (boot_menu) {
++        if (current_machine->boot_config.has_menu && current_machine->boot_config.menu) {
+             error_report("boot menu requires a bootindex to be specified for "
+                          "the IPL device");
+         }
+@@ -306,7 +303,7 @@ static void s390_ipl_set_boot_menu(S390IPLState *ipl)
+     switch (ipl->iplb.pbt) {
+     case S390_IPL_TYPE_CCW:
+         /* In the absence of -boot menu, use zipl parameters */
+-        if (!qemu_opt_get(opts, "menu")) {
++        if (!current_machine->boot_config.has_menu) {
+             ipl->qipl.qipl_flags |= QIPL_FLAG_BM_OPTS_ZIPL;
+             return;
+         }
+@@ -314,26 +311,21 @@ static void s390_ipl_set_boot_menu(S390IPLState *ipl)
+     case S390_IPL_TYPE_QEMU_SCSI:
+         break;
+     default:
+-        if (boot_menu) {
++        if (current_machine->boot_config.has_menu && current_machine->boot_config.menu) {
+             error_report("boot menu is not supported for this device type");
+         }
+         return;
+     }
+ 
+-    if (!boot_menu) {
++    if (!current_machine->boot_config.has_menu || !current_machine->boot_config.menu) {
+         return;
+     }
+ 
+     ipl->qipl.qipl_flags |= QIPL_FLAG_BM_OPTS_CMD;
+ 
+-    tmp = qemu_opt_get(opts, "splash-time");
+-
+-    if (tmp && qemu_strtoul(tmp, NULL, 10, &splash_time)) {
+-        error_report("splash-time is invalid, forcing it to 0");
+-        ipl->qipl.boot_menu_timeout = 0;
+-        return;
++    if (current_machine->boot_config.has_splash_time) {
++        splash_time = current_machine->boot_config.splash_time;
+     }
+-
+     if (splash_time > 0xffffffff) {
+         error_report("splash-time is too large, forcing it to max value");
+         ipl->qipl.boot_menu_timeout = 0xffffffff;
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index b693eea0e0..9d57491f68 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -1050,7 +1050,7 @@ static void sun4m_hw_init(MachineState *machine)
+                                     machine->ram_size, &initrd_size);
+ 
+     nvram_init(nvram, (uint8_t *)&nd->macaddr, machine->kernel_cmdline,
+-               machine->boot_order, machine->ram_size, kernel_size,
++               machine->boot_config.order, machine->ram_size, kernel_size,
+                graphic_width, graphic_height, graphic_depth,
+                hwdef->nvram_machine_id, "Sun4m");
+ 
+@@ -1091,7 +1091,7 @@ static void sun4m_hw_init(MachineState *machine)
+     }
+     fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, INITRD_LOAD_ADDR);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, machine->boot_order[0]);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, machine->boot_config.order[0]);
+     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
  }
  
--libqos_init(virtio_mmio_register_nodes);
-+libqos_init(virt_machine_register_nodes);
-diff --git a/tests/qtest/libqos/generic-pcihost.c b/tests/qtest/libqos/generic-pcihost.c
-new file mode 100644
-index 0000000000..3124b0e46b
---- /dev/null
-+++ b/tests/qtest/libqos/generic-pcihost.c
-@@ -0,0 +1,231 @@
-+/*
-+ * libqos PCI bindings for generic PCI
-+ *
-+ * Copyright Red Hat Inc., 2022
-+ *
-+ * Authors:
-+ *  Eric Auger   <eric.auger@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "../libqtest.h"
-+#include "generic-pcihost.h"
-+#include "qapi/qmp/qdict.h"
-+#include "hw/pci/pci_regs.h"
-+#include "qemu/host-utils.h"
-+
-+#include "qemu/module.h"
-+
-+/* QGenericPCIHost */
-+
-+QOSGraphObject *generic_pcihost_get_device(void *obj, const char *device)
-+{
-+    QGenericPCIHost *host = obj;
-+    if (!g_strcmp0(device, "pci-bus-generic")) {
-+        return &host->pci.obj;
-+    }
-+    fprintf(stderr, "%s not present in generic-pcihost\n", device);
-+    g_assert_not_reached();
-+}
-+
-+void qos_create_generic_pcihost(QGenericPCIHost *host,
-+                                QTestState *qts,
-+                                QGuestAllocator *alloc)
-+{
-+    host->obj.get_device = generic_pcihost_get_device;
-+    qpci_init_generic(&host->pci, qts, alloc, false);
-+}
-+
-+static uint8_t qpci_generic_pio_readb(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readb(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writeb(QPCIBus *bus, uint32_t addr, uint8_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writeb(bus->qts, s->gpex_pio_base + addr,  val);
-+}
-+
-+static uint16_t qpci_generic_pio_readw(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readw(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writew(QPCIBus *bus, uint32_t addr, uint16_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writew(bus->qts, s->gpex_pio_base + addr, val);
-+}
-+
-+static uint32_t qpci_generic_pio_readl(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readl(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writel(QPCIBus *bus, uint32_t addr, uint32_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writel(bus->qts, s->gpex_pio_base + addr, val);
-+}
-+
-+static uint64_t qpci_generic_pio_readq(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readq(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writeq(QPCIBus *bus, uint32_t addr, uint64_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writeq(bus->qts, s->gpex_pio_base + addr, val);
-+}
-+
-+static void qpci_generic_memread(QPCIBus *bus, uint32_t addr, void *buf, size_t len)
-+{
-+    qtest_memread(bus->qts, addr, buf, len);
-+}
-+
-+static void qpci_generic_memwrite(QPCIBus *bus, uint32_t addr,
-+                                  const void *buf, size_t len)
-+{
-+    qtest_memwrite(bus->qts, addr, buf, len);
-+}
-+
-+static uint8_t qpci_generic_config_readb(QPCIBus *bus, int devfn, uint8_t offset)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint8_t val;
-+
-+    qtest_memread(bus->qts, addr, &val, 1);
-+    return val;
-+}
-+
-+static uint16_t qpci_generic_config_readw(QPCIBus *bus, int devfn, uint8_t offset)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint16_t val;
-+
-+    qtest_memread(bus->qts, addr, &val, 2);
-+    return le16_to_cpu(val);
-+}
-+
-+static uint32_t qpci_generic_config_readl(QPCIBus *bus, int devfn, uint8_t offset)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint32_t val;
-+
-+    qtest_memread(bus->qts, addr, &val, 4);
-+    return le32_to_cpu(val);
-+}
-+
-+static void
-+qpci_generic_config_writeb(QPCIBus *bus, int devfn, uint8_t offset, uint8_t value)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+
-+    qtest_memwrite(bus->qts, addr, &value, 1);
-+}
-+
-+static void
-+qpci_generic_config_writew(QPCIBus *bus, int devfn, uint8_t offset, uint16_t value)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint16_t val = cpu_to_le16(value);
-+
-+    qtest_memwrite(bus->qts, addr, &val, 2);
-+}
-+
-+static void
-+qpci_generic_config_writel(QPCIBus *bus, int devfn, uint8_t offset, uint32_t value)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint32_t val = cpu_to_le32(value);
-+
-+    qtest_memwrite(bus->qts, addr, &val, 4);
-+}
-+
-+static void *qpci_generic_get_driver(void *obj, const char *interface)
-+{
-+    QGenericPCIBus *qpci = obj;
-+    if (!g_strcmp0(interface, "pci-bus")) {
-+        return &qpci->bus;
-+    }
-+    fprintf(stderr, "%s not present in pci-bus-generic\n", interface);
-+    g_assert_not_reached();
-+}
-+
-+void qpci_init_generic(QGenericPCIBus *qpci, QTestState *qts,
-+                       QGuestAllocator *alloc, bool hotpluggable)
-+{
-+    assert(qts);
-+
-+    qpci->gpex_pio_base = 0x3eff0000;
-+    qpci->bus.not_hotpluggable = !hotpluggable;
-+    qpci->bus.has_buggy_msi = false;
-+
-+    qpci->bus.pio_readb = qpci_generic_pio_readb;
-+    qpci->bus.pio_readw = qpci_generic_pio_readw;
-+    qpci->bus.pio_readl = qpci_generic_pio_readl;
-+    qpci->bus.pio_readq = qpci_generic_pio_readq;
-+
-+    qpci->bus.pio_writeb = qpci_generic_pio_writeb;
-+    qpci->bus.pio_writew = qpci_generic_pio_writew;
-+    qpci->bus.pio_writel = qpci_generic_pio_writel;
-+    qpci->bus.pio_writeq = qpci_generic_pio_writeq;
-+
-+    qpci->bus.memread = qpci_generic_memread;
-+    qpci->bus.memwrite = qpci_generic_memwrite;
-+
-+    qpci->bus.config_readb = qpci_generic_config_readb;
-+    qpci->bus.config_readw = qpci_generic_config_readw;
-+    qpci->bus.config_readl = qpci_generic_config_readl;
-+
-+    qpci->bus.config_writeb = qpci_generic_config_writeb;
-+    qpci->bus.config_writew = qpci_generic_config_writew;
-+    qpci->bus.config_writel = qpci_generic_config_writel;
-+
-+    qpci->bus.qts = qts;
-+    qpci->bus.pio_alloc_ptr = 0x0000;
-+    qpci->bus.pio_limit = 0x10000;
-+    qpci->bus.mmio_alloc_ptr = 0x10000000;
-+    qpci->bus.mmio_limit = 0x2eff0000;
-+    qpci->ecam_alloc_ptr = 0x4010000000;
-+
-+    qpci->obj.get_driver = qpci_generic_get_driver;
-+}
-+
-+static void qpci_generic_register_nodes(void)
-+{
-+    qos_node_create_driver("pci-bus-generic", NULL);
-+    qos_node_produces("pci-bus-generic", "pci-bus");
-+}
-+
-+static void qpci_generic_pci_register_nodes(void)
-+{
-+    qos_node_create_driver("generic-pcihost", NULL);
-+    qos_node_contains("generic-pcihost", "pci-bus-generic", NULL);
-+}
-+
-+libqos_init(qpci_generic_register_nodes);
-+libqos_init(qpci_generic_pci_register_nodes);
-diff --git a/tests/qtest/libqos/generic-pcihost.h b/tests/qtest/libqos/generic-pcihost.h
-new file mode 100644
-index 0000000000..c693c769df
---- /dev/null
-+++ b/tests/qtest/libqos/generic-pcihost.h
-@@ -0,0 +1,54 @@
-+/*
-+ * libqos Generic PCI bindings and generic pci host bridge
-+ *
-+ * Copyright Red Hat Inc., 2022
-+ *
-+ * Authors:
-+ *  Eric Auger <eric.auger@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef LIBQOS_GENERIC_PCIHOST_H
-+#define LIBQOS_GENERIC_PCIHOST_H
-+
-+#include "pci.h"
-+#include "malloc.h"
-+#include "qgraph.h"
-+
-+typedef struct QGenericPCIBus {
-+    QOSGraphObject obj;
-+    QPCIBus bus;
-+    uint64_t gpex_pio_base;
-+    uint64_t ecam_alloc_ptr;
-+} QGenericPCIBus;
-+
-+/*
-+ * qpci_init_generic():
-+ * @ret: A valid QGenericPCIBus * pointer
-+ * @qts: The %QTestState
-+ * @alloc: A previously initialized @alloc providing memory for @qts
-+ * @bool: devices can be hotplugged on this bus
-+ *
-+ * This function initializes an already allocated
-+ * QGenericPCIBus object.
-+ */
-+void qpci_init_generic(QGenericPCIBus *ret, QTestState *qts,
-+                       QGuestAllocator *alloc, bool hotpluggable);
-+
-+/* QGenericPCIHost */
-+
-+typedef struct QGenericPCIHost QGenericPCIHost;
-+
-+struct QGenericPCIHost {
-+    QOSGraphObject obj;
-+    QGenericPCIBus pci;
-+};
-+
-+QOSGraphObject *generic_pcihost_get_device(void *obj, const char *device);
-+void qos_create_generic_pcihost(QGenericPCIHost *host,
-+                                QTestState *qts,
-+                                QGuestAllocator *alloc);
-+
-+#endif
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index 9f292339f9..fd5d6e5ae1 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -45,6 +45,7 @@ libqos_srcs = files(
-         'virtio-scsi.c',
-         'virtio-serial.c',
-         'virtio-iommu.c',
-+        'generic-pcihost.c',
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 7c461d194a..d1bc77d27e 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -695,7 +695,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+                                     &kernel_addr, &kernel_entry);
  
-         # qgraph machines:
-         'aarch64-xlnx-zcu102-machine.c',
+     sun4u_NVRAM_set_params(nvram, NVRAM_SIZE, "Sun4u", machine->ram_size,
+-                           machine->boot_order,
++                           machine->boot_config.order,
+                            kernel_addr, kernel_size,
+                            machine->kernel_cmdline,
+                            initrd_addr, initrd_size,
+@@ -727,7 +727,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+     }
+     fw_cfg_add_i64(fw_cfg, FW_CFG_INITRD_ADDR, initrd_addr);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, machine->boot_order[0]);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, machine->boot_config.order[0]);
+ 
+     fw_cfg_add_i16(fw_cfg, FW_CFG_SPARC64_WIDTH, graphic_width);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_SPARC64_HEIGHT, graphic_height);
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index d64b5481e8..6cda7e4308 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -26,6 +26,7 @@ OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
+ extern MachineState *current_machine;
+ 
+ void machine_run_board_init(MachineState *machine);
++void machine_boot_parse(MachineState *ms, QemuOpts *opts, Error **errp);
+ bool machine_usb(MachineState *machine);
+ int machine_phandle_start(MachineState *machine);
+ bool machine_dump_guest_core(MachineState *machine);
+@@ -350,8 +351,7 @@ struct MachineState {
+     ram_addr_t ram_size;
+     ram_addr_t maxram_size;
+     uint64_t   ram_slots;
+-    const char *boot_order;
+-    const char *boot_once;
++    BootConfiguration boot_config;
+     char *kernel_filename;
+     char *kernel_cmdline;
+     char *initrd_filename;
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 360a408edf..b4030acd74 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -46,8 +46,6 @@ extern int alt_grab;
+ extern int ctrl_grab;
+ extern int graphic_rotate;
+ extern int old_param;
+-extern int boot_menu;
+-extern bool boot_strict;
+ extern uint8_t *boot_splash_filedata;
+ extern bool enable_mlock;
+ extern bool enable_cpu_pm;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 4c417e32a5..e3dcf5a119 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1395,6 +1395,36 @@
+   'data': { 'device': 'str', 'msg': 'str' },
+   'features': ['deprecated'] }
+ 
++##
++# @BootConfiguration:
++#
++# Schema for virtual machine boot configuration.
++#
++# @order: Boot order (a=floppy, c=hard disk, d=CD-ROM, n=network)
++#
++# @once: Boot order to apply on first boot
++#
++# @menu: Whether to show a boot menu
++#
++# @splash: The name of the file to be passed to the firmware as logo picture, if @menu is true.
++#
++# @splash-time: How long to show the logo picture, in milliseconds
++#
++# @reboot-timeout: Timeout before guest reboots after boot fails
++#
++# @strict: Whether to attempt booting from devices not included in the boot order
++#
++# Since: 7.1
++##
++{ 'struct': 'BootConfiguration', 'data': {
++     '*order': 'str',
++     '*once': 'str',
++     '*menu': 'bool',
++     '*splash': 'str',
++     '*splash-time': 'int',
++     '*reboot-timeout': 'int',
++     '*strict': 'bool' } }
++
+ ##
+ # @SMPConfiguration:
+ #
+diff --git a/softmmu/bootdevice.c b/softmmu/bootdevice.c
+index c0713bfa9f..2106f1026f 100644
+--- a/softmmu/bootdevice.c
++++ b/softmmu/bootdevice.c
+@@ -268,7 +268,8 @@ char *get_boot_devices_list(size_t *size)
+ 
+     *size = total;
+ 
+-    if (boot_strict && *size > 0) {
++    if (current_machine->boot_config.has_strict &&
++        current_machine->boot_config.strict && *size > 0) {
+         list[total-1] = '\n';
+         list = g_realloc(list, total + 5);
+         memcpy(&list[total], "HALT", 5);
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+index 98b64e0492..916bc12e2b 100644
+--- a/softmmu/globals.c
++++ b/softmmu/globals.c
+@@ -54,8 +54,6 @@ int alt_grab;
+ int ctrl_grab;
+ unsigned int nb_prom_envs;
+ const char *prom_envs[MAX_PROM_ENVS];
+-int boot_menu;
+-bool boot_strict;
+ uint8_t *boot_splash_filedata;
+ int only_migratable; /* turn it off unless user states otherwise */
+ int icount_align_option;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 488cc4d09e..dd90df3ed1 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1884,9 +1884,6 @@ static bool object_create_early(const char *type)
+ 
+ static void qemu_apply_machine_options(QDict *qdict)
+ {
+-    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+-    const char *boot_order = NULL;
+-    const char *boot_once = NULL;
+     QemuOpts *opts;
+ 
+     object_set_properties_from_keyval(OBJECT(current_machine), qdict, false, &error_fatal);
+@@ -1895,27 +1892,7 @@ static void qemu_apply_machine_options(QDict *qdict)
+     current_machine->ram_slots = ram_slots;
+ 
+     opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
+-    if (opts) {
+-        boot_order = qemu_opt_get(opts, "order");
+-        if (boot_order) {
+-            validate_bootdevices(boot_order, &error_fatal);
+-        }
+-
+-        boot_once = qemu_opt_get(opts, "once");
+-        if (boot_once) {
+-            validate_bootdevices(boot_once, &error_fatal);
+-        }
+-
+-        boot_menu = qemu_opt_get_bool(opts, "menu", boot_menu);
+-        boot_strict = qemu_opt_get_bool(opts, "strict", false);
+-    }
+-
+-    if (!boot_order) {
+-        boot_order = machine_class->default_boot_order;
+-    }
+-
+-    current_machine->boot_order = boot_order;
+-    current_machine->boot_once = boot_once;
++    machine_boot_parse(current_machine, opts, &error_fatal);
+ 
+     if (semihosting_enabled() && !semihosting_get_argc()) {
+         /* fall back to the -kernel/-append */
 -- 
 2.36.0
 
