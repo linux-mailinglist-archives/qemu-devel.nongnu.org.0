@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6A1524CD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:28:27 +0200 (CEST)
-Received: from localhost ([::1]:56774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E951524D8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:52:19 +0200 (CEST)
+Received: from localhost ([::1]:45656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np7ve-0007zW-B8
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47038)
+	id 1np8Ik-0007kw-38
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1np7s1-0007Ax-4g
- for qemu-devel@nongnu.org; Thu, 12 May 2022 08:24:41 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1np7rz-0003xD-Gr
- for qemu-devel@nongnu.org; Thu, 12 May 2022 08:24:40 -0400
-Received: by mail-ej1-x636.google.com with SMTP id g6so9927634ejw.1
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 05:24:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IIsUQocPAOkKGPqepWqQUaDhaPmLE7IiCtNJGrRPuww=;
- b=du/eNWeII5RTyz3MZU0kmenXuQbx5h8/xN2YeydMbKfE9aXFdol/T44lD7dxsoxwE3
- KR/nlQe3RIl/t0nErD8YfLnEPmxhOTx70PNSSQikrtC/GTyITu4Fs2k8zB3wyCjj+H7O
- 3JWsiYOGPPldJ/jMK32mXvvvytt1UvmVvcHKhk/jNqjJF5eKmQjZoIO6pLOSyfWaZm5A
- Fw8+8vurZlwjF5gYyv4lx6zF5D6tW671UBUyOcAK3kep7dh+tZEVPCm1GBK172de0LSQ
- Fm1Od4MGn/LBaYE5vcXN5OMusogiOBzDpya1geJwi2aXwTo6v45/fZ5u/cE/E3CH7qoy
- oQ5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IIsUQocPAOkKGPqepWqQUaDhaPmLE7IiCtNJGrRPuww=;
- b=EnN7FDdgKl0wxwT79upm8nzXDmhuMBgwg1XlzmJtR/ek6wEojHExI3Etpr76eWDq8L
- gdu40F0FFIeyBWDOniy8Kurqtd9rgP/N7CHkqOp+/5fOkXLbBopXnm8QzoUfFWkIZ10W
- IACuZKIRt7cYvws6n+lsoQ01/DukzBy40QFqOlFR2yO9ZKIzdMjJ+Ydjn491FV6xszbo
- vYjrmrDPEnuDg02n7Bx7SE/XZn9h+b9LNN/i88EIGHscuQFtmzOkLZwxo3o5Kg/BgSQc
- 63PuUhtWT7ZpXZrim6T781tOInbuX4G/r7afO3+Pzfm0gSl4FmtUwyhF+vKt93A5i64h
- 164g==
-X-Gm-Message-State: AOAM530krfazlHpMIUEoMtpmMfPZd6eDVY8eFmjbeViai+oxrKKPsrlz
- CN8s9M5WPEbnFIlbxzm8G1A=
-X-Google-Smtp-Source: ABdhPJy4OUB3NKzmzxtWhApdtvy3/z5YEIBznpReMMrvlZrZspZBwaIFNX7vWyh6Vw1cDWf5SGVIZA==
-X-Received: by 2002:a17:907:d0c:b0:6f4:a5b9:3799 with SMTP id
- gn12-20020a1709070d0c00b006f4a5b93799mr29643630ejc.732.1652358276697; 
- Thu, 12 May 2022 05:24:36 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- m3-20020a1709066d0300b006f3ef214deasm2061884ejr.80.2022.05.12.05.24.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 05:24:36 -0700 (PDT)
-Message-ID: <4970cd1d-6801-9a57-04a7-1e907c1b7fcf@redhat.com>
-Date: Thu, 12 May 2022 14:24:35 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1np8CP-00022K-Dx
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 08:45:45 -0400
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:47507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1np8CJ-0007Ve-IF
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 08:45:42 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.164])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 276F324B86;
+ Thu, 12 May 2022 12:45:29 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Thu, 12 May
+ 2022 14:45:28 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0013799bba9-4a5e-4050-8036-47330a99f136,
+ 72056902518AC1F5BD4797AAAB6E76FEAFBFF81B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <96779f6d-c30b-4431-8a8c-91431a154c78@kaod.org>
+Date: Thu, 12 May 2022 14:45:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] qapi: make machine type deprecation a warning
+Subject: Re: [RFC PATCH qemu] spapr/docs: Add a few words about x-vof
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220511175043.27327-1-pbonzini@redhat.com>
- <87a6bn9gg3.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87a6bn9gg3.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, <qemu-ppc@nongnu.org>
+CC: <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
+References: <20220506055124.3822112-1-aik@ozlabs.ru>
+ <7008431e-6813-a763-f6fe-30088f1b519b@gmail.com>
+ <980eb62c-55e1-d6fc-78da-c4e4e517f30a@ozlabs.ru>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <980eb62c-55e1-d6fc-78da-c4e4e517f30a@ozlabs.ru>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: c91d00c6-8fb1-4bfd-8b15-f03bbf19bff5
+X-Ovh-Tracer-Id: 101330992072526755
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgeejgdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedtudetkedvhfegvdekheejheduleffgeeguddtteejudegudetjeefveevvdeinecuffhomhgrihhnpehgihhthhhusgdrtghomhdpihgvvggvrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,19 +76,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/22 12:46, Markus Armbruster wrote:
-> Commit message nitpick: not sure this is "qapi:".  The commit that
-> introduced "Machine type ... is deprecated" (08fe68244eb) used
-> "hw/i386:".  We commonly use "vl:", "softmmu:", and "softmmu/vl:" for
-> this file.
+On 5/12/22 05:10, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 5/12/22 06:42, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 5/6/22 02:51, Alexey Kardashevskiy wrote:
+>>> The alternative small firmware needs a few words of what it can and
+>>> absolutely cannot do; this adds those words.
+>>>
+>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>> ---
+>>>   docs/system/ppc/pseries.rst | 28 ++++++++++++++++++++++++++++
+>>>   1 file changed, 28 insertions(+)
+>>>
+>>> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+>>> index d9b65ad4e850..4c98a94f9add 100644
+>>> --- a/docs/system/ppc/pseries.rst
+>>> +++ b/docs/system/ppc/pseries.rst
+>>> @@ -32,14 +32,42 @@ Missing devices
+>>>   Firmware
+>>>   ========
+>>> +The pSeries platform in QEMU comes with 2 firmwares:
+>>> +
+>>>   `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
+>>>   implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
+>>>   Configuration) Firmware: Core Requirements and Practices
+>>>   <https://standards.ieee.org/standard/1275-1994.html>`_.
+>>> +SLOF performs bus scanning, PCI resource allocation, provides the client
+>>> +interface to boot from block devices and network.
+>>> +
+>>>   QEMU includes a prebuilt image of SLOF which is updated when a more recent
+>>>   version is required.
+>>> +VOF (Virtual Open Firmware) is a minimalistic firmware to work with
+>>> +``-machine pseries,x-vof=on``. When enabled, the firmware acts as a slim
+>>> +shim and QEMU implements parts of the IEEE 1275 Open Firmware interface.
+>>> +
+>>> +VOF does not have device drivers, does not do PCI resource allocation and
+>>> +relies on ``-kernel`` used with Linux kernels recent enough (v5.4+)
+>>> +to PCI resource assignment. It is ideal to use with petitboot.
+>>> +
+>>> +Booting via ``-kernel`` supports the following:
+>>> ++-------------------+-------------------+------------------+
+>>> +| kernel            | pseries,x-vof=off | pseries,x-vof=on |
+>>> ++===================+===================+==================+
+>>> +| vmlinux BE        |     ✓             |     ✓            |
+>>> ++-------------------+-------------------+------------------+
+>>> +| vmlinux LE        |     ✓             |     ✓            |
+>>> ++-------------------+-------------------+------------------+
+>>> +| zImage.pseries BE |     x             |     ✓¹           |
+>>> ++-------------------+-------------------+------------------+
+>>> +| zImage.pseries LE |     ✓             |     ✓            |
+>>> ++-------------------+-------------------+------------------+
+>>
+>> You need an empty line at the start and at the end of the table. Otherwise it'll
+>> be rendered as regular text.
+> 
+> How do you build htmls from these btw?
 
-Will do.
 
-I wonder if I should already propose renaming vl.c to climain.c, even if 
-there's no qmpmain.c yet.  Emotional/historical attachment is probably 
-not good enough of a reason to keep that name.
+Install python3-sphinx python3-sphinx-rtd-theme
+run configure with --enable-docs
+check the result in build/docs/manual/system/arm/
 
-I suppose this is already a proposal.
-
-Paolo
+C.
 
