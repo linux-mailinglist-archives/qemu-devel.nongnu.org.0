@@ -2,50 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002985241FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 03:22:06 +0200 (CEST)
-Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050F35241FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 03:22:32 +0200 (CEST)
+Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noxWm-00019h-H7
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 21:22:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50708)
+	id 1noxXD-0001wR-5x
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 21:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <irischenlj@devvm5719.atn0.facebook.com>)
- id 1noxUW-0008Jv-LW
- for qemu-devel@nongnu.org; Wed, 11 May 2022 21:19:44 -0400
-Received: from 66-220-155-178.mail-mxout.facebook.com ([66.220.155.178]:40895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1)
- (envelope-from <irischenlj@devvm5719.atn0.facebook.com>)
- id 1noxUU-0002QU-EH
- for qemu-devel@nongnu.org; Wed, 11 May 2022 21:19:44 -0400
-Received: by devvm5719.atn0.facebook.com (Postfix, from userid 279525)
- id 34F9E13E1755; Wed, 11 May 2022 17:54:13 -0700 (PDT)
-To: 
-Cc: irischenlj@fb.com, pdel@fb.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- clg@kaod.org, patrick@stwcx.xyz, alistair@alistair23.me, kwolf@redhat.com,
- hreitz@redhat.com, peter.maydell@linaro.org, andrew@aj.id.au,
- joel@jms.id.au, huth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
- qemu-block@nongnu.org
-Subject: [PATCH v2] hw: m25p80: allow write_enable latch get/set
-Date: Wed, 11 May 2022 17:54:11 -0700
-Message-Id: <20220512005411.2503971-1-irischenlj@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <irischenlj@fb.com>
-References: <irischenlj@fb.com>
+ (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
+ id 1noxV3-0000QP-F7
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 21:20:17 -0400
+Received: from [106.39.185.57] (port=36010 helo=smtp.cecloud.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luzhipeng@cestc.cn>) id 1noxV0-0002Ui-6h
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 21:20:16 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.cecloud.com (Postfix) with ESMTP id C01ED100002E2;
+ Thu, 12 May 2022 09:19:58 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [111.48.58.11])
+ by smtp.cecloud.com (postfix) whith ESMTP id
+ P3903393T281471059030384S1652318397480418_; 
+ Thu, 12 May 2022 09:19:58 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <570626b31ae9a4148bfd4b6678cb8dbf>
+X-RL-SENDER: luzhipeng@cestc.cn
+X-SENDER: luzhipeng@cestc.cn
+X-LOGIN-NAME: luzhipeng@cestc.cn
+X-FST-TO: qemu-devel@nongnu.org
+X-RCPT-COUNT: 7
+X-SENDER-IP: 111.48.58.11
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: luzhipeng <luzhipeng@cestc.cn>
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, luzhipeng <luzhipeng@cestc.cn>
+Subject: [PATCH RESEND] qga: add guest-get-diskstats command for Linux guests
+Date: Thu, 12 May 2022 09:19:30 +0800
+Message-Id: <20220512011930.214-1-luzhipeng@cestc.cn>
+X-Mailer: git-send-email 2.34.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=66.220.155.178;
- envelope-from=irischenlj@devvm5719.atn0.facebook.com;
- helo=66-220-155-178.mail-mxout.facebook.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NO_DNS_FOR_FROM=0.001, RDNS_DYNAMIC=0.982,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001, TVD_RCVD_IP=0.001,
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.57 (failed)
+Received-SPF: pass client-ip=106.39.185.57; envelope-from=luzhipeng@cestc.cn;
+ helo=smtp.cecloud.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,108 +75,241 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Iris Chen <irischenlj@fb.com>
-From:  Iris Chen via <qemu-devel@nongnu.org>
 
-The write_enable latch property is not currently exposed.
-This commit makes it a modifiable property using get/set methods.
+Add a new 'guest-get-diskstats' command for report disk io statistics
+for Linux guests. This can be usefull for getting io flow or handling
+IO fault, no need to enter guests.
 
-Signed-off-by: Iris Chen <irischenlj@fb.com>
+Signed-off-by: luzhipeng <luzhipeng@cestc.cn>
 ---
-Ran ./scripts/checkpatch.pl on the patch and added a description. Fixed c=
-omments regarding DEFINE_PROP_BOOL.
+ qga/commands-posix.c | 94 ++++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-win32.c |  6 +++
+ qga/qapi-schema.json | 86 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 186 insertions(+)
 
- hw/block/m25p80.c             |  2 ++
- tests/qtest/aspeed_smc-test.c | 23 +++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
-
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 430d1298a8..019beb5b78 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -35,6 +35,7 @@
- #include "qapi/error.h"
- #include "trace.h"
- #include "qom/object.h"
-+#include "qapi/visitor.h"
-=20
- /* Fields for FlashPartInfo->flags */
-=20
-@@ -1558,6 +1559,7 @@ static int m25p80_pre_save(void *opaque)
-=20
- static Property m25p80_properties[] =3D {
-     /* This is default value for Micron flash */
-+    DEFINE_PROP_BOOL("write-enable", Flash, write_enable, false),
-     DEFINE_PROP_UINT32("nonvolatile-cfg", Flash, nonvolatile_cfg, 0x8FFF=
-),
-     DEFINE_PROP_UINT8("spansion-cr1nv", Flash, spansion_cr1nv, 0x0),
-     DEFINE_PROP_UINT8("spansion-cr2nv", Flash, spansion_cr2nv, 0x8),
-diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.=
-c
-index 87b40a0ef1..fcc156bc00 100644
---- a/tests/qtest/aspeed_smc-test.c
-+++ b/tests/qtest/aspeed_smc-test.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "qemu/bswap.h"
- #include "libqtest-single.h"
-+#include "qemu/bitops.h"
-=20
- /*
-  * ASPEED SPI Controller registers
-@@ -40,6 +41,7 @@
- #define   CTRL_FREADMODE       0x1
- #define   CTRL_WRITEMODE       0x2
- #define   CTRL_USERMODE        0x3
-+#define SR_WEL BIT(1)
-=20
- #define ASPEED_FMC_BASE    0x1E620000
- #define ASPEED_FLASH_BASE  0x20000000
-@@ -49,6 +51,7 @@
-  */
- enum {
-     JEDEC_READ =3D 0x9f,
-+    RDSR =3D 0x5,
-     BULK_ERASE =3D 0xc7,
-     READ =3D 0x03,
-     PP =3D 0x02,
-@@ -348,6 +351,25 @@ static void test_write_page_mem(void)
-     flash_reset();
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 69f209af87..2b96c9ae6e 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2783,6 +2783,93 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
+     return info;
  }
-=20
-+static void test_read_status_reg(void)
+ 
++#define MAX_NAME_LEN 128
++static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)
 +{
-+    uint8_t r;
++#ifdef CONFIG_LINUX
++    GuestDiskStatsInfoList *head = NULL, **tail = &head;
++    const char *diskstats = "/proc/diskstats";
++    FILE *fp;
++    size_t n;
++    char *line = NULL;
++    char dev_name[MAX_NAME_LEN];
++    int i;
++    unsigned int ios_pgr, tot_ticks, rq_ticks, wr_ticks, dc_ticks, fl_ticks;
++    unsigned long rd_ios, rd_merges_or_rd_sec, rd_ticks_or_wr_sec, wr_ios;
++    unsigned long wr_merges, rd_sec_or_wr_ios, wr_sec;
++    unsigned long dc_ios, dc_merges, dc_sec, fl_ios;
++    unsigned int major, minor;
 +
-+    qmp("{ 'execute': 'qom-set', 'arguments': "
-+       "{'path': '/machine/soc/fmc/ssi.0/child[0]', 'property': 'WEL', '=
-value': true}}");
-+
-+
-+    spi_conf(CONF_ENABLE_W0);
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r =3D readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+
-+    g_assert_cmphex(r & SR_WEL, =3D=3D, SR_WEL);
-+
-+    flash_reset();
++    fp = fopen(diskstats, "r");
++    if (fp  == NULL) {
++        error_setg_errno(errp, errno, "open(\"%s\")", diskstats);
++        return NULL;
++    }
++    while (getline(&line, &n, fp) != -1) {
++        i = sscanf(line, "%u %u %s %lu %lu %lu"
++                   "%lu %lu %lu %lu %u %u %u %u"
++                   "%lu %lu %lu %u %lu %u",
++                  &major, &minor, dev_name,
++                  &rd_ios, &rd_merges_or_rd_sec, &rd_sec_or_wr_ios,
++                  &rd_ticks_or_wr_sec, &wr_ios, &wr_merges, &wr_sec,
++                  &wr_ticks, &ios_pgr, &tot_ticks, &rq_ticks,
++                  &dc_ios, &dc_merges, &dc_sec, &dc_ticks,
++                  &fl_ios, &fl_ticks);
++        GuestDiskStatsInfo *diskstatinfo = g_malloc0(sizeof *diskstatinfo);
++        GuestDiskStats *diskstat = g_malloc0(sizeof *diskstat);
++        if (i >= 14) {
++            diskstatinfo->name = g_strdup(dev_name);
++            diskstatinfo->major = major;
++            diskstatinfo->minor = minor;
++            diskstat->rd_ios = rd_ios;
++            diskstat->rd_merges = rd_merges_or_rd_sec;
++            diskstat->rd_sectors = rd_sec_or_wr_ios;
++            diskstat->rd_ticks = rd_ticks_or_wr_sec;
++            diskstat->wr_ios = wr_ios;
++            diskstat->wr_merges = wr_merges;
++            diskstat->wr_sectors = wr_sec;
++            diskstat->wr_ticks = wr_ticks;
++            diskstat->ios_pgr = ios_pgr;
++            diskstat->tot_ticks = tot_ticks;
++            diskstat->rq_ticks = rq_ticks;
++            if (i >= 18) {
++                diskstat->dc_ios = dc_ios;
++                diskstat->dc_merges = dc_merges;
++                diskstat->dc_sectors = dc_sec;
++                diskstat->dc_ticks = dc_ticks;
++            }
++            if (i >= 20) {
++                diskstat->fl_ios = fl_ios;
++                diskstat->fl_ticks = fl_ticks;
++            }
++            diskstatinfo->stats = diskstat;
++            QAPI_LIST_APPEND(tail, diskstatinfo);
++        } else if (i == 7) {
++            diskstatinfo->name = g_strdup(dev_name);
++            diskstatinfo->major = major;
++            diskstatinfo->minor = minor;
++            diskstat->rd_ios = rd_ios;
++            diskstat->rd_sectors = rd_merges_or_rd_sec;
++            diskstat->wr_ios = rd_sec_or_wr_ios;
++            diskstat->wr_sectors = rd_ticks_or_wr_sec;
++        } else {
++            g_free(diskstat);
++            g_free(diskstatinfo);
++        }
++    }
++    fclose(fp);
++    return head;
++#else
++    g_debug("disk stats reporting available only for Linux");
++    return NULL;
++#endif
 +}
 +
- static char tmp_path[] =3D "/tmp/qtest.m25p80.XXXXXX";
-=20
- int main(int argc, char **argv)
-@@ -373,6 +395,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/ast2400/smc/write_page", test_write_page);
-     qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
-     qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
-+    qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg)=
-;
-=20
-     ret =3D g_test_run();
-=20
---=20
-2.30.2
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
++{
++    return guest_get_diskstats(errp);
++}
++
+ #else /* defined(__linux__) */
+ 
+ void qmp_guest_suspend_disk(Error **errp)
+@@ -3131,6 +3218,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+     return NULL;
+ }
+ 
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
++
++
+ #endif /* CONFIG_FSFREEZE */
+ 
+ #if !defined(CONFIG_FSTRIM)
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index d56b5fd2a7..dcdeb76a68 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)
+ 
+     return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
+ }
++
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 4d8e506c9e..ec48629476 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1490,3 +1490,89 @@
+ { 'command': 'guest-ssh-remove-authorized-keys',
+   'data': { 'username': 'str', 'keys': ['str'] },
+   'if': 'CONFIG_POSIX' }
++
++##
++# @GuestDiskStats:
++#
++# @rd-sectors: of sectors read
++#
++# @wr-sectors: of sectors write
++#
++# @dc-sectors: of sectors discard
++#
++# @rd-ios: of read operations issued to the device
++#
++# @rd-merges: of read requests merged
++#
++# @wr-ios: of write operations issued to the device
++#
++# @wr-merges: of write requests merged
++#
++# @dc-ios: of discard operations issued to the device
++#
++# @dc-merges: of discard requests merged
++#
++# @fl-ios: of flush requests issued to the device
++#
++# @rd-ticks: Time of read requests in queue
++#
++# @wr-ticks: Time of write requests in queue
++#
++# @dc-ticks: Time of discard requests in queue
++#
++# @fl-ticks: Time of flush requests in queue
++#
++# @ios-pgr: of I/Os in progress
++#
++# @tot-ticks: of ticks total (for this device) for I/O
++#
++# @rq-ticks: of ticks requests spent in queue
++#
++# Since: 7.1
++##
++{ 'struct': 'GuestDiskStats',
++  'data': {'rd-sectors': 'uint64',
++            'wr-sectors': 'uint64',
++            'dc-sectors': 'uint64',
++            'rd-ios': 'uint64',
++            'rd-merges': 'uint64',
++            'wr-ios': 'uint64',
++            'wr-merges': 'uint64',
++            'dc-ios': 'uint64',
++            'dc-merges': 'uint64',
++            'fl-ios': 'uint64',
++            'rd-ticks': 'uint64',
++            'wr-ticks': 'uint64',
++            'dc-ticks': 'uint64',
++            'fl-ticks': 'uint64',
++            'ios-pgr': 'uint64',
++            'tot-ticks': 'uint64',
++            'rq-ticks': 'uint64'
++           } }
++
++##
++# @GuestDiskStatsInfo:
++#
++# @name disk name
++#
++# @major major of disk
++#
++# @minor minor of disk
++##
++{ 'struct': 'GuestDiskStatsInfo',
++  'data': {'name': 'str',
++           'major': 'uint64',
++           'minor': 'uint64',
++           'stats': 'GuestDiskStats' } }
++
++##
++# @guest-get-diskstats:
++#
++# Retrieve information about disk io.
++# Returns: List of disk stats of guest.
++#
++# Since: 7.1
++##
++{ 'command': 'guest-get-diskstats',
++  'returns': ['GuestDiskStatsInfo']
++}
+-- 
+2.31.1
+
+
 
 
