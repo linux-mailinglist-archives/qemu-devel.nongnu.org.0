@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AC952494E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:42:51 +0200 (CEST)
-Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FA3524987
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:55:29 +0200 (CEST)
+Received: from localhost ([::1]:44684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np5LO-0003lN-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36606)
+	id 1np5XZ-0000xX-Am
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:55:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1np50Y-0005vQ-1R
- for qemu-devel@nongnu.org; Thu, 12 May 2022 05:21:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55214)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1np56X-0005Xe-6K; Thu, 12 May 2022 05:27:32 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:34987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1np50T-0005uS-Hq
- for qemu-devel@nongnu.org; Thu, 12 May 2022 05:21:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652347272;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aORld5R1eOfG+QmjI+oYurqiAj0RHdpqdmfOjwl9azk=;
- b=KyZZkA89scJTApL5qCchrGFDd00EbGhcCVb9ky2PpL9uGgBJ7bGNsq8ELZ88Usxt6fN5c5
- 73FnAamCDEEsBt4rDWO/CUHIbjlUZ8mTHN5ZEH7EFgpjzfIkJxc87snrKZtjL0hmbctP2v
- PYpc7rev1bF1/AzY7JgCRJnvh77DFiI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-m81y4N3TPOS_UREu1ghlMA-1; Thu, 12 May 2022 05:21:09 -0400
-X-MC-Unique: m81y4N3TPOS_UREu1ghlMA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86941382ECC2;
- Thu, 12 May 2022 09:21:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C5D6153B885;
- Thu, 12 May 2022 09:21:05 +0000 (UTC)
-Date: Thu, 12 May 2022 10:21:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Cc: Thomas Huth <thuth@redhat.com>, Fam Zheng <fam@euphon.net>,
- Robert Foley <robert.foley@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] Remove Ubuntu 18.04 support from the repository
-Message-ID: <YnzRf6aRQBHfx3zC@redhat.com>
-References: <20220510195612.677494-1-thuth@redhat.com>
- <YnuCEPOj70J+1NXx@redhat.com>
- <CAAdtpL45Bn0wrDX6nQzkzQW=eqxrja4zOFcfG_gTz84LExSpoA@mail.gmail.com>
- <f40ceb7b-8412-8da2-7c16-2590debecaed@redhat.com>
- <CAAdtpL4oGW28-r0ZuMV9nBoZGDR5L9PYM2jsKw0Fmuwx68MWdw@mail.gmail.com>
- <c0fb8289-1b56-6e7f-e053-b19dffcfc87b@redhat.com>
- <CAAdtpL5JxRgJ75eqQT6MZPvd7DvgN2ND44O+MKd1Fr_SzEwmAA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1np56U-0006iK-HZ; Thu, 12 May 2022 05:27:28 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 2F5A83200708;
+ Thu, 12 May 2022 05:27:23 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 12 May 2022 05:27:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1652347642; x=1652434042; bh=zY
+ 4I17e5c+texzsDc1sHDSC4NZ+kTdtrwiYBwLqKjv8=; b=Vs3WT0ASYij/HtzHAT
+ cPGIkQqCfFjpW6BypVyKVVNCoptpWxlZ2dXzruKx0uE5IUyI/8mCzjhwGqKX7usX
+ iAniXvYN9jCeOGexvp3pRtn+Dq1YXpsUM2xSQ3/r53XrD7XQlwBgiE85uWytUtW6
+ P48bFVn0sJiQHwHkoUqnF/XOKUkhdQqauFCLt6ugsVjgEIuELBd4oYDheXjFGznY
+ RlSsVU0rUxBbb8OhTCSUg6kgOLf/PBGNL8NZ0e50YTwu0R9gEORd7KfvY7xB1RXz
+ JRW+Es9+sZfnU3ZzqqF21Ad3tBEKTbIDR9ypVRWb+VwyE0vWi1lRlqM/+cSdRNlS
+ CqEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652347642; x=
+ 1652434042; bh=zY4I17e5c+texzsDc1sHDSC4NZ+kTdtrwiYBwLqKjv8=; b=P
+ 6SmYeDIB/AJwSpnfRF+85kg2rUGMK/LMKrt52vStklZ3EkdFRuvCojgt6khQfG3t
+ R3WRlgutr5qEHZRPWjf9DRH3qriCtgCgmPfdpAyigvv6WjZNsHgmSK+6jBf4UcqI
+ yI36IhNqdKG6E4vl5TmUNyfhhUC4z48Mdy7Rr3TdflBgjj2bOnOogNqgLo5UMGYf
+ xnOdOTG5KuZ3clp5HZ1Jq8Wr/wb7rHn8Isp6mjkaL1qnMwJxxVLgGRPky/eGx7S/
+ oJ+ItXIt0qCBAA4R0Q2ZN9UBor+/t1kZkxfbtV7EA97OnZTD48iSE0zHfdbzR5NH
+ ikpMxTbkIQCnCBZMhxG4g==
+X-ME-Sender: <xms:-dJ8YqHxwFrjW5rpzk1mD0pMRPpFOsvONgf14DlylkXvp5v3P9hgcA>
+ <xme:-dJ8YrWjn6PKTx0K51BUQA-jymioPH20dQSc4COiU7iXh2BQsq_wlWRRE6-NPapIL
+ yKJ8AJsUEj5-sB9plk>
+X-ME-Received: <xmr:-dJ8YkKqSfBP_-l-iOAvCf6ycISCOzyILiCokpS-vppoiaO74ocGA6TVss20yP0hdfC2FcTuwCUa5j9TJoo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeejgddugecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeffuddvhfehjedugfeijeeuieelgeevuddvlefhkefhgfettefftddvkeevieel
+ feenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:-dJ8YkE2EPSjvUaawtfSUPqHitIM1otuyaJsNvdM7Z9zgSjRvioXMw>
+ <xmx:-dJ8YgVE1RndoL0p7XhZIpyU55fdcRBwHTdQKUOffeUDS7sLzbS8-A>
+ <xmx:-dJ8YnMQbSZ7MFHRE1in3arFNFOgqd6rCozioTB1NPSQEgGjECC9pA>
+ <xmx:-tJ8YkRpEytao5bsqleCN5TnaP9AOouj07RCJqMZd9JSeOX3IuHj2g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 May 2022 05:27:20 -0400 (EDT)
+Date: Thu, 12 May 2022 11:27:18 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Christoph Hellwig <hch@lst.de>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH v2 0/5] hw/nvme: fix namespace identifiers
+Message-ID: <YnzS9hyxr1I0Se5t@apples>
+References: <20220429083336.2201286-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9cMN429V4juiapds"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAdtpL5JxRgJ75eqQT6MZPvd7DvgN2ND44O+MKd1Fr_SzEwmAA@mail.gmail.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <20220429083336.2201286-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,66 +101,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 11:14:45AM +0200, Philippe Mathieu-Daudé wrote:
-> On Wed, May 11, 2022 at 1:15 PM Thomas Huth <thuth@redhat.com> wrote:
-> > On 11/05/2022 13.13, Philippe Mathieu-Daudé wrote:
-> > > On Wed, May 11, 2022 at 1:03 PM Thomas Huth <thuth@redhat.com> wrote:
-> > >> On 11/05/2022 12.46, Philippe Mathieu-Daudé wrote:
-> > >>>    On Wed, May 11, 2022 at 11:30 AM Daniel P. Berrangé
-> > >>> <berrange@redhat.com> wrote:
-> > >>>> On Tue, May 10, 2022 at 09:56:12PM +0200, Thomas Huth wrote:
-> > >>>>> According to our "Supported build platforms" policy, we now do not support
-> > >>>>> Ubuntu 18.04 anymore. Remove the related files and entries from our CI.
-> > >>>>>
-> > >>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > >>>>> ---
-> > >>>>>    Seems like nobody touched the 18.04-based tests/vm/ubuntu* files in a
-> > >>>>>    very long time, so I assume these are not used anymore and can completely
-> > >>>>>    be removed now.
-> > >>>>
-> > >>>> Or it could mean that they are working fine and so haven't needed
-> > >>>> changes...
-> > >>>
-> > >>> Yes :)
-> > >>
-> > >> At least for me "make vm-build-ubuntu.aarch64" is only failing with ssh
-> > >> timeouts (on my x86 laptop) ... is this really supposed to work with TCG, or
-> > >> is this KVM (on arm hosts) only?
-> > >
-> > > Yes this timeout code is not working. I suppose it is tied to the TCG host perf.
-> > > I suggested a pair of patches to increase it but back then Fam didn't accepted
-> > > them because IIRC these VMs were used by patchew (previous to Gitlab).
-> > > Today we have better framework for testing, so I wouldn't use this script on
-> > > CI, but it is still valuable for manual testing.
-> > >
-> > > Robert's email doesn't work anymore. Since I don't have x86 workstation
-> > > anymore, I'll probably use these tests/vm for testing. So let me add a
-> > > "upgrade tests/vm/ubuntu to 22.04" to my TODO list. If I fail and nobody
-> > > miss them, then I won't object to remove them.
-> 
-> So, 18.04 is the latest LTS release for 32-bit x86 (i386).
-> 
-> IIRC we used this 32-bit VM to reproduce bugs only triggered on 32-bit hosts
-> (while it seems obvious, what is not obvious is that very few developers run
-> on 32-bit hosts, so I'm not sure how long we are interested in avoiding bugs
-> there). See i.e.:
-> https://lore.kernel.org/qemu-devel/07a865e0-d535-9a19-cf29-f90984bcd510@amsat.org/
 
-At some point we'll need to just admit 32-bit host is dead, and that
-point is getting ever closer. For now though, if we need a VM for
-32-bit testing, the easiest answer is probably to tweak the VM config to
-be Debian based, as that's functionally closest to what Ubuntu provides
-and so likely not too much work.
+--9cMN429V4juiapds
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+On Apr 29 10:33, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> The namespace identifiers reported by the controller is kind of a mess.
+> See [1,2].
+>=20
+> This series should fix this for both the `-device nvme,drive=3D...` and
+> `-device nvme-ns,...` cases.
+>=20
+>   [1]: https://lore.kernel.org/linux-nvme/20220224192845.1097602-1-hch@ls=
+t.de/
+>   [2]: https://lore.kernel.org/linux-nvme/20220413044905.376785-1-hch@lst=
+=2Ede/
+>=20
+> Changes since v1:
+>  - Revert auto-generation of eui64 (Christoph)
+>    User should set it explicitly.
+>=20
+> Klaus Jensen (5):
+>   hw/nvme: enforce common serial per subsystem
+>   hw/nvme: do not auto-generate eui64
+>   hw/nvme: do not auto-generate uuid
+>   hw/nvme: do not report null uuid
+>   hw/nvme: bump firmware revision
+>=20
+>  docs/about/deprecated.rst |  7 +++++++
+>  hw/core/machine.c         |  4 +++-
+>  hw/nvme/ctrl.c            | 19 ++++++++-----------
+>  hw/nvme/ns.c              |  4 ++--
+>  hw/nvme/nvme.h            |  1 +
+>  hw/nvme/subsys.c          |  7 +++++++
+>  6 files changed, 28 insertions(+), 14 deletions(-)
+>=20
+> --=20
+> 2.35.1
+>=20
 
+Thanks for the reviews! Applied to nvme-next.
+
+--9cMN429V4juiapds
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJ80vQACgkQTeGvMW1P
+DekzpAf/f6G6vTlcEUvIaZgsmD62YhbYjLTz23KhnlIm0bGfdB6dx1vL5neJ5dlz
+qYREudrNsme/i4z2+YwKbUYI9qpKi2j9scMCQES5idPgrPPL/lVr+6VTXY6Im4tJ
+44X6nr5wOEj0fqBO/LaThsGTU81Fae6X32flRYOI2uaFmFeqjm+9RNE+NYZVV/0C
+8YPR6maQhsVWz5Qs90J1vVJYcjKADS7dVxqTqjqgUIWOp+P+/6tDsCea4fr9jhBS
++YO/WGgvDlNZ4D8PECVY+RzDyryvp5dH+dSwhjy+z3uXPkK7nHg3NNP3DqPwifOA
+MtdMpSumDuZkXu70i7dUrugMSJBWzA==
+=RCyV
+-----END PGP SIGNATURE-----
+
+--9cMN429V4juiapds--
 
