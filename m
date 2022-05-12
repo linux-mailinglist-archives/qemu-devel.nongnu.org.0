@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A89525332
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:06:35 +0200 (CEST)
-Received: from localhost ([::1]:45722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771BB525371
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:21:00 +0200 (CEST)
+Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npCGn-0005ZA-Ij
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58762)
+	id 1npCUl-0000KI-2p
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:20:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npCCj-0003uO-Hd
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:02:21 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:33528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npCCh-0000tu-M9
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:02:21 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id d17so5532797plg.0
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Awaov/V2fhYk5KJKUcvWosEcrDcAm90pMwNYCI3OWSE=;
- b=STLHMeQfAdbvMRpktfR+dyo33NVXEqOu+v2Bd3nhPIrLWPE4oGCcEA8xx4JGUFVdOp
- Uf3Syo94sAlkyywOqwn4g4gin79UKQNM9JP1m4E3TphTBwhP79Au68c3NHPlJxkG+X/q
- aC+X70wqVthq1sBEFgi1Bw6YLd2Dtx0Z84rKcrNC1ItEUWmh8MnSkTyQdDrR2SKQR6aX
- 2d2L0a6lf0laG2BMcsSCaZmca7GpSBo7zcUiV7lPb989x6r21kuB80vDa10lXPSf9vM5
- kIG6ygmu5bEam/MHq82l4poFKaAKEk+TqQDVmPu72tK6pHFjjjgyveqce2mr5WgTS2lz
- GnMw==
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1npCKW-00047I-JV
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:10:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45714)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1npCKT-0002ik-Tn
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:10:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652375420;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k3Tg7yyDWay+OGFm13gtLJrW4A1x4BcuwiGqDIKkAk0=;
+ b=eOxpTA35e2xPAVnhZI1T1FcqMgDdPWoXCHV3PLj5oFWkDRNfOtfEZmPWIqxfh1oIny0Jf9
+ NYgtU/LatjrOu/z3jIJEq1Y0jvU496Wak78D4F5M9n0MRdTVJMZtIId+jP8QQCTFe0nYKF
+ Bo4x+RGEGxc/Gz5dryADtLLqDUgs5to=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-177-PULMP_-XN1Sg5AbBauuTdA-1; Thu, 12 May 2022 13:10:19 -0400
+X-MC-Unique: PULMP_-XN1Sg5AbBauuTdA-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-2f7dbceab08so50040537b3.10
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:10:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Awaov/V2fhYk5KJKUcvWosEcrDcAm90pMwNYCI3OWSE=;
- b=JNNwoVLtRDbl3ycLCNILRPzFYnMGv4T5hFkfchb226trZ7TVvF8C2e/hC4TvB2OBvE
- G9+iYZ8w6RBqw2WNU+YlD+e4bIBin1A+bN3eVJ/8QMD6IVE+n3651O7nlmhLa6paaIGu
- xqvyYmUG69IbZDfRMsM58pMndwQ4jtHihHJG8u9356qkrhpHr99Slwor5jWwZtikigsx
- wpD/Wpzp6k++A6xaFGegRAtbCnCDx+jZXUqCe0WxV+P5UNSkStCWjAhJ8rTDiryUK1RV
- xCAdaPqJb7LIMyZY4XBfNKh96rbfe/8/8nmby2W0W0bDSjSi0OFHrhvhbh0N142+TR0Q
- oamA==
-X-Gm-Message-State: AOAM532b+wlEAPKJi/JSCUByjjQDwuJzYYdEGIpXXV/yM0xs4zIoznDa
- jI3VXpzsSmzpeIqXzK6HmQ+Oxw==
-X-Google-Smtp-Source: ABdhPJwvhoRxpDAYzbOLwocbhP3Skg4klH8v+KjrLHZLkMNaPjAq+kiqMVxdofHyAypFewrwhKHlRQ==
-X-Received: by 2002:a17:902:6902:b0:15e:a439:82b6 with SMTP id
- j2-20020a170902690200b0015ea43982b6mr508112plk.76.1652374938163; 
- Thu, 12 May 2022 10:02:18 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:2827:e3d7:b6c9:cd59:fac5:b31a?
- ([2607:fb90:2827:e3d7:b6c9:cd59:fac5:b31a])
- by smtp.gmail.com with ESMTPSA id
- g11-20020a62f94b000000b0050dc7628153sm88571pfm.45.2022.05.12.10.02.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 10:02:17 -0700 (PDT)
-Message-ID: <99bcb5bd-8ab8-564e-9944-f9fa3448ce6e@linaro.org>
-Date: Thu, 12 May 2022 10:02:13 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k3Tg7yyDWay+OGFm13gtLJrW4A1x4BcuwiGqDIKkAk0=;
+ b=ie8xq6/DPaqD7MKQjskTO5yY2BittMuPQelckewP4YXPXX4A5Kwtse7FfNCXKYR4ng
+ hsmhuxY05EdiXB8c0DYln5DCpW8qH093EErPxs8z4EZSMoHA4YjICSMiEiaUSPzvzRM6
+ 12cm0YRmF08EcDqzMtgIiTScT3YGGrGLxg9twIW7tT8pHfmWKRTSHDI0PDjjeodR2e2L
+ ZE839nX/gapIWHNinKlfyGqUjwXJ12A02b0VsWSWy+huFJpZeme389h82WGH2/lq+xq5
+ 4aEKLD5hmfukubzmmqEw4/G100MEIq4e61YQr11Uz5oLS+eJcTeVlqpkwjZHiat/ppHb
+ JfPA==
+X-Gm-Message-State: AOAM533fAbVCZHWmcHHSxc46jz6qt0bfFyWx7vR/CXCijuyL467GmFcq
+ MAs99dfI/zry+DM0feh6u5J1UQtXOJgR0UJ+cXm6GSvNwNhH2Ll53FlVhc1648aWgrcOpo/kDA+
+ ppMPlHKpir/CGhFkcCzc3mj8SuIof67o=
+X-Received: by 2002:a25:e20b:0:b0:64a:49ca:c53f with SMTP id
+ h11-20020a25e20b000000b0064a49cac53fmr787871ybe.599.1652375418739; 
+ Thu, 12 May 2022 10:10:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJycfVQ/SOjFEvw3gRPVMpCTJbw6/kshKJDX9yxbKPTXG1EPi7yHfPpA/0W+uY5sTn8Y/oqZXPvmUCjnlksUVVE=
+X-Received: by 2002:a25:e20b:0:b0:64a:49ca:c53f with SMTP id
+ h11-20020a25e20b000000b0064a49cac53fmr787852ybe.599.1652375418552; Thu, 12
+ May 2022 10:10:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/10] Block layer patches
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20220512153401.202863-1-kwolf@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220512153401.202863-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220512154906.331399-1-kkostiuk@redhat.com>
+ <CAMxuvaxsrPNdS928KtKghoFOHGi4nC3x7pRjN0v=LS5p4G0ADQ@mail.gmail.com>
+In-Reply-To: <CAMxuvaxsrPNdS928KtKghoFOHGi4nC3x7pRjN0v=LS5p4G0ADQ@mail.gmail.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Thu, 12 May 2022 20:10:07 +0300
+Message-ID: <CAPMcbCr+dOeWTwmeAnaA_Lbjp6j3muNOoYpqLE1U=vKFeDw2Cg@mail.gmail.com>
+Subject: Re: [PATCH] qga-vss: Add auto generated headers to dependencies
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>
+Content-Type: multipart/alternative; boundary="000000000000dbdd3c05ded3a1ce"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,82 +93,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/22 08:33, Kevin Wolf wrote:
-> The following changes since commit ec11dc41eec5142b4776db1296972c6323ba5847:
-> 
->    Merge tag 'pull-misc-2022-05-11' of git://repo.or.cz/qemu/armbru into staging (2022-05-11 09:00:26 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> 
-> for you to fetch changes up to f70625299ecc9ba577c87f3d1d75012c747c7d88:
-> 
->    qemu-iotests: inline common.config into common.rc (2022-05-12 15:42:49 +0200)
-> 
-> ----------------------------------------------------------------
-> Block layer patches
-> 
-> - coroutine: Fix crashes due to too large pool batch size
-> - fdc: Prevent end-of-track overrun
-> - nbd: MULTI_CONN for shared writable exports
-> - iotests test runner improvements
+--000000000000dbdd3c05ded3a1ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Hi
+
+On Thu, May 12, 2022 at 8:00 PM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@redhat.com> wrote:
+
+> Hi
+>
+> On Thu, May 12, 2022 at 5:49 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+> wrote:
+> >
+> > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+> > ---
+> >  qga/vss-win32/meson.build | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
+> > index 26c5dd6e0e..9483ccd3b8 100644
+> > --- a/qga/vss-win32/meson.build
+> > +++ b/qga/vss-win32/meson.build
+> > @@ -7,7 +7,7 @@ link_args =3D cc.get_supported_link_arguments([
+> >
+> >  qga_vss =3D shared_module(
+> >    'qga-vss',
+> > -  ['requester.cpp', 'provider.cpp', 'install.cpp'],
+> > +  ['requester.cpp', 'provider.cpp', 'install.cpp', genh],
+>
+> Looks fine, but could you tell which file was needed? (not qapi or
+> trace files, I suppose, so what else?)
+>
+
+During the CI build I got the next error
+
+[176/701] Compiling C++ object qga/vss-win32/qga-vss.dll.p/provider.cpp.obj
+FAILED: qga/vss-win32/qga-vss.dll.p/provider.cpp.obj
+fatal error: config-poison.h: No such file or directory
 
 
-r~
+[180/701] Generating config-poison.h with a custom command (wrapped by
+meson to capture output)
 
 
-> 
-> ----------------------------------------------------------------
-> Daniel P. Berrangé (2):
->        tests/qemu-iotests: print intent to run a test in TAP mode
->        .gitlab-ci.d: export meson testlog.txt as an artifact
-> 
-> Eric Blake (2):
->        qemu-nbd: Pass max connections to blockdev layer
->        nbd/server: Allow MULTI_CONN for shared writable exports
-> 
-> Hanna Reitz (1):
->        iotests/testrunner: Flush after run_test()
-> 
-> Kevin Wolf (2):
->        coroutine: Rename qemu_coroutine_inc/dec_pool_size()
->        coroutine: Revert to constant batch size
-> 
-> Paolo Bonzini (1):
->        qemu-iotests: inline common.config into common.rc
-> 
-> Philippe Mathieu-Daudé (2):
->        hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
->        tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
-> 
->   qapi/block-export.json                           |   8 +-
->   docs/interop/nbd.txt                             |   1 +
->   docs/tools/qemu-nbd.rst                          |   3 +-
->   include/block/nbd.h                              |   5 +-
->   include/qemu/coroutine.h                         |   6 +-
->   blockdev-nbd.c                                   |  13 +-
->   hw/block/fdc.c                                   |   8 ++
->   hw/block/virtio-blk.c                            |   6 +-
->   nbd/server.c                                     |  10 +-
->   qemu-nbd.c                                       |   2 +-
->   tests/qtest/fdc-test.c                           |  21 ++++
->   util/qemu-coroutine.c                            |  26 ++--
->   tests/qemu-iotests/testrunner.py                 |   4 +
->   .gitlab-ci.d/buildtest-template.yml              |  12 +-
->   MAINTAINERS                                      |   1 +
->   tests/qemu-iotests/common.config                 |  41 -------
->   tests/qemu-iotests/common.rc                     |  31 +++--
->   tests/qemu-iotests/tests/nbd-multiconn           | 145 +++++++++++++++++++++++
->   tests/qemu-iotests/tests/nbd-multiconn.out       |   5 +
->   tests/qemu-iotests/tests/nbd-qemu-allocation.out |   2 +-
->   20 files changed, 261 insertions(+), 89 deletions(-)
->   delete mode 100644 tests/qemu-iotests/common.config
->   create mode 100755 tests/qemu-iotests/tests/nbd-multiconn
->   create mode 100644 tests/qemu-iotests/tests/nbd-multiconn.out
-> 
-> 
+>
+> >    name_prefix: '',
+> >    cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor',
+> '-Wno-non-virtual-dtor'],
+> >    link_args: link_args,
+> > --
+> > 2.25.1
+> >
+>
+>
+
+--000000000000dbdd3c05ded3a1ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 12, 2022 at 8:00 PM Mar=
+c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marc=
+andre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">Hi<br>
+<br>
+On Thu, May 12, 2022 at 5:49 PM Konstantin Kostiuk &lt;<a href=3D"mailto:kk=
+ostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redha=
+t.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 qga/vss-win32/meson.build | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build<br>
+&gt; index 26c5dd6e0e..9483ccd3b8 100644<br>
+&gt; --- a/qga/vss-win32/meson.build<br>
+&gt; +++ b/qga/vss-win32/meson.build<br>
+&gt; @@ -7,7 +7,7 @@ link_args =3D cc.get_supported_link_arguments([<br>
+&gt;<br>
+&gt;=C2=A0 qga_vss =3D shared_module(<br>
+&gt;=C2=A0 =C2=A0 &#39;qga-vss&#39;,<br>
+&gt; -=C2=A0 [&#39;requester.cpp&#39;, &#39;provider.cpp&#39;, &#39;install=
+.cpp&#39;],<br>
+&gt; +=C2=A0 [&#39;requester.cpp&#39;, &#39;provider.cpp&#39;, &#39;install=
+.cpp&#39;, genh],<br>
+<br>
+Looks fine, but could you tell which file was needed? (not qapi or<br>
+trace files, I suppose, so what else?)<br></blockquote><div><br></div><div>=
+During the CI build I got the next error<br><br>[176/701] Compiling C++ obj=
+ect qga/vss-win32/qga-vss.dll.p/provider.cpp.obj<br>FAILED: qga/vss-win32/q=
+ga-vss.dll.p/provider.cpp.obj<br>fatal error: config-poison.h: No such file=
+ or directory<br><br><br>[180/701] Generating config-poison.h with a custom=
+ command (wrapped by meson to capture output)</div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 name_prefix: &#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 cpp_args: [&#39;-Wno-unknown-pragmas&#39;, &#39;-Wno-dele=
+te-non-virtual-dtor&#39;, &#39;-Wno-non-virtual-dtor&#39;],<br>
+&gt;=C2=A0 =C2=A0 link_args: link_args,<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+<br>
+</blockquote></div></div>
+
+--000000000000dbdd3c05ded3a1ce--
 
 
