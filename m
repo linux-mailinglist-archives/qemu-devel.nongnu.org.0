@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3F05247C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:22:45 +0200 (CEST)
-Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 382205247E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:28:48 +0200 (CEST)
+Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np45t-0007Jy-2I
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51382)
+	id 1np4Bj-0003Rt-AX
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:28:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1np3tO-0006l2-Uz
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:09:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20323)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1np3yy-0001CV-Rg
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:15:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1np3tM-0002lE-Sx
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:09:50 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1np3yt-0003kt-PY
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:15:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652342988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ s=mimecast20190719; t=1652343329;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jM+YwPnS2IAgmJtmLrIAFMyixTnOc5MBm4K2YYzEqs8=;
- b=MJW/OSvx3Vz/iky1ag1ATSFPyoxmyt0SSzqp0c8aTD7Qfc1cX0nPfaf02nW+ae8ziMLgP4
- 5H9ifkTsCJlTZWhjlJh4WKy4OgHNop04HABL7rPMYhBJcUQM8oRuScKUIufx99C9HWTong
- OXj+LMC2WTmkeBBA0PNAOKHYYRvugh4=
+ bh=0hPRLMc2ErNYW/vKtm79G/gK7PHjvaR2XhEwVjwJ+JA=;
+ b=ZL+EhC6UIvVDx6yy475TeqawARuMpbxwlGx704RyOwTN/vqcOxvFGwWzn+NpJGXkkzew1G
+ Os/43QCbxe9iaGCK37vVkdz76f79y6nUeZisPNTu4R/LqKqZVN1I3ra6kf6M9QIJnFJirL
+ tX1Rk+XSLR92pqDZmHtnFwRREbaEpV4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-AvXN1HAqOg2tT8QNlPzPVQ-1; Thu, 12 May 2022 04:09:46 -0400
-X-MC-Unique: AvXN1HAqOg2tT8QNlPzPVQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-197-hSylL1pIN463hP70glpiMg-1; Thu, 12 May 2022 04:15:28 -0400
+X-MC-Unique: hSylL1pIN463hP70glpiMg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AAEC802A5B
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:09:46 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.194.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9E4240CF8F4;
- Thu, 12 May 2022 08:09:45 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>
-Subject: [RFC PATCH v2 8/8] net: dgram: add unix socket
-Date: Thu, 12 May 2022 10:09:32 +0200
-Message-Id: <20220512080932.735962-9-lvivier@redhat.com>
-In-Reply-To: <20220512080932.735962-1-lvivier@redhat.com>
-References: <20220512080932.735962-1-lvivier@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 443A4101A52C
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:15:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E44141617B;
+ Thu, 12 May 2022 08:15:26 +0000 (UTC)
+Date: Thu, 12 May 2022 09:15:22 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] util: NUMA aware memory preallocation
+Message-ID: <YnzCGh3psZgK8tUw@redhat.com>
+References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
+ <Ynt/v2SHmnO2afg4@redhat.com>
+ <8a6b84ed-50bc-8f6e-4b71-7e15247c4ac0@redhat.com>
+ <YnuDONrdbMcJT08p@redhat.com>
+ <a11ca582-3d17-b064-6736-bd66ed5a5ec4@redhat.com>
+ <YnuLe7cVlEYsw78o@redhat.com>
+ <5374a249-8389-3d11-1b30-b0b6e6910a51@redhat.com>
+ <YnvqYO8p/Z/7/DrO@redhat.com>
+ <04938ba0-7ff4-df3c-348d-b679eac4fbac@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+In-Reply-To: <04938ba0-7ff4-df3c-348d-b679eac4fbac@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -75,105 +88,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- net/dgram.c | 65 ++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 62 insertions(+), 3 deletions(-)
+On Thu, May 12, 2022 at 09:41:29AM +0200, Paolo Bonzini wrote:
+> On 5/11/22 18:54, Daniel P. Berrangé wrote:
+> > On Wed, May 11, 2022 at 01:07:47PM +0200, Paolo Bonzini wrote:
+> > > On 5/11/22 12:10, Daniel P. Berrangé wrote:
+> > > > I expect creating/deleting I/O threads is cheap in comparison to
+> > > > the work done for preallocation. If libvirt is using -preconfig
+> > > > and object-add to create the memory backend, then we could have
+> > > > option of creating the I/O threads dynamically in -preconfig mode,
+> > > > create the memory backend, and then delete the I/O threads again.
+> > > 
+> > > I think this is very overengineered.  Michal's patch is doing the obvious
+> > > thing and if it doesn't work that's because Libvirt is trying to micromanage
+> > > QEMU.
+> > 
+> > Calling it micromanaging is putting a very negative connotation on
+> > this. What we're trying todo is enforce a host resource policy for
+> > QEMU, in a way that a compromised QEMU can't escape, which is a
+> > valuable protection.
+> 
+> I'm sorry if that was a bit exaggerated, but the negative connotation was
+> intentional.
+> 
+> > > As mentioned on IRC, if the reason is to prevent moving around threads in
+> > > realtime (SCHED_FIFO, SCHED_RR) classes, that should be fixed at the kernel
+> > > level.
+> > 
+> > We use cgroups where it is available to us, but we don't always have
+> > the freedom that we'd like.
+> 
+> I understand.  I'm thinking of a new flag to sched_setscheduler that fixes
+> the CPU affinity and policy of the thread and prevents changing it in case
+> QEMU is compromised later.  The seccomp/SELinux sandboxes can prevent
+> setting the SCHED_FIFO class without this flag.
+> 
+> In addition, my hunch is that this works only because the RT setup of QEMU
+> is not safe against priority inversion.  IIRC the iothreads are set with a
+> non-realtime priority, but actually they should have a _higher_ priority
+> than the CPU threads, and the thread pool I/O bound workers should have an
+> even higher priority; otherwise you have a priority inversion situation
+> where an interrupt is pending that would wake up the CPU, but the iothreads
+> cannot process it because they have a lower priority than the CPU.
 
-diff --git a/net/dgram.c b/net/dgram.c
-index c0cf0410792e..9f20bdbc163c 100644
---- a/net/dgram.c
-+++ b/net/dgram.c
-@@ -85,8 +85,15 @@ static ssize_t net_dgram_receive_dgram(NetClientState *nc,
- 
-     do {
-         if (s->dgram_dst) {
--            ret = sendto(s->fd, buf, size, 0, s->dgram_dst,
--                         sizeof(struct sockaddr_in));
-+            socklen_t len;
-+
-+            if (s->dgram_dst->sa_family == AF_INET) {
-+                len = sizeof(struct sockaddr_in);
-+            } else {
-+                len = sizeof(struct sockaddr_un);
-+            }
-+
-+            ret = sendto(s->fd, buf, size, 0, s->dgram_dst, len);
-         } else {
-             ret = send(s->fd, buf, size, 0);
-         }
-@@ -508,7 +515,7 @@ static int net_dgram_udp_init(NetClientState *peer,
-         }
-     } else {
-         if (local->type != SOCKET_ADDRESS_TYPE_FD) {
--            error_setg(errp, "type=inet requires remote parameter");
-+            error_setg(errp, "type=inet or unix require remote parameter");
-             return -1;
-         }
-     }
-@@ -558,6 +565,58 @@ static int net_dgram_udp_init(NetClientState *peer,
- 
-         break;
-     }
-+    case SOCKET_ADDRESS_TYPE_UNIX: {
-+        struct sockaddr_un laddr_un, raddr_un;
-+
-+        ret = unlink(local->u.q_unix.path);
-+        if (ret < 0 && errno != ENOENT) {
-+            error_setg_errno(errp, errno, "failed to unlink socket %s",
-+                             local->u.q_unix.path);
-+            return -1;
-+        }
-+
-+        laddr_un.sun_family = PF_UNIX;
-+        ret = snprintf(laddr_un.sun_path, sizeof(laddr_un.sun_path), "%s",
-+                       local->u.q_unix.path);
-+        if (ret < 0 || ret >= sizeof(laddr_un.sun_path)) {
-+            error_setg(errp, "UNIX socket path '%s' is too long",
-+                       local->u.q_unix.path);
-+            error_append_hint(errp, "Path must be less than %zu bytes\n",
-+                              sizeof(laddr_un.sun_path));
-+        }
-+
-+        raddr_un.sun_family = PF_UNIX;
-+        ret = snprintf(raddr_un.sun_path, sizeof(raddr_un.sun_path), "%s",
-+                       remote->u.q_unix.path);
-+        if (ret < 0 || ret >= sizeof(raddr_un.sun_path)) {
-+            error_setg(errp, "UNIX socket path '%s' is too long",
-+                       remote->u.q_unix.path);
-+            error_append_hint(errp, "Path must be less than %zu bytes\n",
-+                              sizeof(raddr_un.sun_path));
-+        }
-+
-+        fd = qemu_socket(PF_UNIX, SOCK_DGRAM, 0);
-+        if (fd < 0) {
-+            error_setg_errno(errp, errno, "can't create datagram socket");
-+            return -1;
-+        }
-+
-+        ret = bind(fd, (struct sockaddr *)&laddr_un, sizeof(laddr_un));
-+        if (ret < 0) {
-+            error_setg_errno(errp, errno, "can't bind unix=%s to socket",
-+                             laddr_un.sun_path);
-+            closesocket(fd);
-+            return -1;
-+        }
-+        qemu_socket_set_nonblock(fd);
-+
-+        dgram_dst = g_malloc(sizeof(raddr_un));
-+        memcpy(dgram_dst, &raddr_un, sizeof(raddr_un));
-+
-+        info_str = g_strdup_printf("udp=%s:%s",
-+                                   laddr_un.sun_path, raddr_un.sun_path);
-+        break;
-+    }
-     case SOCKET_ADDRESS_TYPE_FD: {
-         SocketAddress *sa;
-         SocketAddressType sa_type;
+At least for RHEL deployments of KVM-RT, IIC the expectation is that
+the VCPUs with RT priority never do I/O, and that there is at least 1
+additional non-RT vCPU from which the OS performs I/O. IOW, the RT
+VCPU works in a completely self contained manner with no interaction
+to any other QEMU threads. If that's not the case, then you would
+have to make sure those other threads have priority / schedular
+adjustments to avoid priority inversion
+
+With regards,
+Daniel
 -- 
-2.35.3
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
