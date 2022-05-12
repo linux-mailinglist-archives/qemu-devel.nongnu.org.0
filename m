@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FC05252B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:35:57 +0200 (CEST)
-Received: from localhost ([::1]:40610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F1F52526F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:22:45 +0200 (CEST)
+Received: from localhost ([::1]:51090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBnA-0006vF-EQ
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:35:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
+	id 1npBaO-0002QA-5O
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npBK7-0003yL-PS
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:05:58 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:40400)
+ id 1npBUA-0004Tu-H9
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:16:18 -0400
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:35651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npBK5-0000KH-UF
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:05:55 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2f7ca2ce255so61901167b3.7
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:05:53 -0700 (PDT)
+ id 1npBU8-000201-SG
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:16:18 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2f7c57ee6feso62748457b3.2
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w3ZhTh+pukXFY1lS6X8WpsUAFUiVeSRYCbrGDK+nJEo=;
- b=Ucg5zX8DMZ9beKPYE6tAqRBZSpTH9OQ/jjHZkh8c6px77CXWt8wbDJ3F/6/8FBqZKa
- +NEcsfy/UrbpE19nf4qqwKqJ3F0GeLbyRhGWm5Pl/uMwS8jBbQHUxkssIG8/pHuDY9rL
- Q2IOkZH2F+3FMJFzTtMK3QKqG4xLZz7nANRuCbYT4xHVk7INQY8VsESGwY7R9f3DSDhc
- XwLTPomkGtF1xo5FY9hKTLe3XNnf/QIh8NmTyHeWdQTpP6fkOA7C4ViWexmny08PsDKm
- SZO481uV6V8XfqYVSN2UA7Ysp7jUf9LBauvFHr69cwFBKOIHQP4fP/lC/FHJFZ6Ue+6O
- GXxQ==
+ :cc; bh=EnqOz9dp/CGXnFeugf9/JbllnQs3jpwM3UrT7KyBzmM=;
+ b=JdvzZe0XgVH3R+q+aC8OnIc8/Eqs8NHEXKBhWGJuw41dGGaOLMo+IqCSilGXHcDKV2
+ t1HFPj0iXDbAS5cQghUaCNHajBbWTqZDbLg91t7GgoCo+G4uU2uABJTYqwaqhPTzajFs
+ Es56vNpDf7g6LjEjkhNYsBbGqLPm48Qn+OG3/lJFlzkowcDm9XCP/VCbba2CcLKcXId5
+ quDd4WpI5CiqenGofDrjGFqJchGzO45pfKqPIPmZPq7D1Of7G2mykzwuC8cumUbE2EsB
+ 934JheExovyVzMPf5CBry3xRUgUjEJau3O329l3/5ZX4lTT5mBzzVoOFR0rpiJo5NEWX
+ bD4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=w3ZhTh+pukXFY1lS6X8WpsUAFUiVeSRYCbrGDK+nJEo=;
- b=h1ttGneB+9SENh3Pw12baTVkBK9RlfQKJw5emcwLSloND1o/xzWbG8WtGghjrKm1NO
- 2+fzTCm1tXLilfNkWWCQI/AaOJIwU3nRE2MlbfJLfDb11UTlacLdiYMykTe4tYPp49fE
- 8XGTj5Mo7B6t5rj1hREITkoRd2oGSEN3QaSBGrxAfsMr90Liz9WiIl03LU2s/BgndYkH
- 96WXtj4Qi7NvbEQ6nS5YvyA8PLzAkBC6mbXzPPEsF6QOvYFDdMMiHw3fvBEkQ1N7cbd4
- 2CNY86ZnzYAtvwxva1tVRunxbqhsjHFwBbrJsUhOyaFbExIxUFGfo7ixSlShYKWXlQRt
- SmOA==
-X-Gm-Message-State: AOAM533uuj2F2VK1ISh1wUTDucAIOJ7MahxJYTVOhqKUoL+jLlMbYYhk
- I9pX9CFpGphVv7il0OVMBkmdm2QRtiJb8v4pQqlH+A==
-X-Google-Smtp-Source: ABdhPJxXwcS5sBYnouKGHHJ0djkqhWyR9YT+CJvyaoQtDd4sizjeiDdOu3nHH//LamHmjyfaK2uJ/aj+iKXFuuRuZrE=
+ bh=EnqOz9dp/CGXnFeugf9/JbllnQs3jpwM3UrT7KyBzmM=;
+ b=iE6m6DWYorLeHeTYc3XmZRPz4WXRI69LQVqYtjMCLtuhjNKwrl4S7qlZgLpk6F0Aby
+ T3WCQcCILQKPPlgz86FVQ7zBhTDe82Z/JwKw+bjG5ukZVEypm67qlY+BzzWjL2XmaHyj
+ qIvI+0MgK4MKbUhls2DOgygIhNCQCBg87fgoBTP51grPybo9HGAXCvdnM6GTO1y/YlpG
+ Hx3pIGmv5BezgH627oDD30hFNTyJsl/EylFwTO2zfrJ9HLSXhDZt0jfp4GJwH4HuzJQD
+ cqz8JTBqsaYqe7WZYNBJbGAQOKL/rfqJMEUMJU0inZF1THdDFdFio/emrXaUqHb8hCj6
+ vnSw==
+X-Gm-Message-State: AOAM533LpPB9D2up3XPt8SNczJ4VcGAn42f7Av25SX5Qmb1kUqHYUybV
+ xuFXVCrvt635k8mKKg1bsb0XiRtwAMnUITyDY8og+w==
+X-Google-Smtp-Source: ABdhPJxzeMplvHORmRjnlVSKFfhUSuURXj3hJhpEDxDsuo4ey8moJKkMUuv2opBV6/FibYDw+Cp/NlaPi4ns9Ig96z0=
 X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr817862ywb.257.1652371552846; Thu, 12 May
- 2022 09:05:52 -0700 (PDT)
+ 6-20020a810106000000b002d0e6828a7amr875552ywb.257.1652372175658; Thu, 12 May
+ 2022 09:16:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200305165149.618-1-eric.auger@redhat.com>
- <20200305165149.618-11-eric.auger@redhat.com>
- <CAFEAcA8pC4RQ3oVVVzG4NA8fBkhzspxD+DyZB+UCn7u1aPSP5A@mail.gmail.com>
- <52bdff5a-f33a-c76b-0e04-b20970e3ec1d@redhat.com>
-In-Reply-To: <52bdff5a-f33a-c76b-0e04-b20970e3ec1d@redhat.com>
+References: <20220426201514.170410-1-eblake@redhat.com>
+ <20220426201514.170410-7-eblake@redhat.com>
+In-Reply-To: <20220426201514.170410-7-eblake@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 May 2022 17:05:41 +0100
-Message-ID: <CAFEAcA_2kLcL4j9Dgv5QfWw5d2shK1GBrGXFMffWKgfVguWgqw@mail.gmail.com>
-Subject: Re: [PATCH v5 10/10] test: tpm-tis: Add Sysbus TPM-TIS device test
-To: eric.auger@redhat.com
-Cc: qemu-devel@nongnu.org
+Date: Thu, 12 May 2022 17:16:04 +0100
+Message-ID: <CAFEAcA_Ggo+2e4=6inTxKc=h6L1WEzORwiiRfQxs=wFZL2vUow@mail.gmail.com>
+Subject: Re: [PULL 06/13] nbd: remove peppering of nbd_client_connected
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
+ Lukas Straub <lukasstraub2@web.de>, 
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,54 +89,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 12 May 2022 at 16:59, Eric Auger <eric.auger@redhat.com> wrote:
+On Tue, 26 Apr 2022 at 21:21, Eric Blake <eblake@redhat.com> wrote:
 >
-> Hi Peter,
+> From: Paolo Bonzini <pbonzini@redhat.com>
 >
-> On 5/12/22 15:08, Peter Maydell wrote:
-> > On Thu, 5 Mar 2020 at 16:52, Eric Auger <eric.auger@redhat.com> wrote:
-> >> The tests themselves are the same as the ISA device ones.
-> >> Only the main() changes as the "tpm-tis-device" device gets
-> >> instantiated. Also the base address of the device is not
-> >> 0xFED40000 anymore but matches the base address of the
-> >> ARM virt platform bus.
-> >>
-> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> >> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-> > Hi Eric; the commit adding this test is from back in 2020, but I've
-> > just noticed something a bit odd about it:
-> >
-> >> +    args = g_strdup_printf(
-> >> +        "-machine virt,gic-version=max -accel tcg "
-> >> +        "-chardev socket,id=chr,path=%s "
-> >> +        "-tpmdev emulator,id=dev,chardev=chr "
-> >> +        "-device tpm-tis-device,tpmdev=dev",
-> >> +        test.addr->u.q_unix.path);
-> > This 'virt' command line doesn't specify a CPU type, so it
-> > will end up running with a Cortex-A15 (32-bit). Was
-> > that intended? Also, it will get a GICv3, which is a
-> > definitely odd combination with an A15, which was a GICv2 CPU...
-> no it is not intended. I guess it should include "-cpu max" too
-> as arm-cpu-features.c does?
+> It is unnecessary to check nbd_client_connected() because every time
+> s->state is moved out of NBD_CLIENT_CONNECTED the socket is shut down
+> and all coroutines are resumed.
 
-Seems like a reasonable thing to set, yes.
+Hi; Coverity points out (CID 1488362) that this part of this change
+has resulted in some dead code:
 
-> > I noticed this because I have some recent GICv3 patches which
-> > end up asserting if the GICv3 and a non-GICv3 CPU are used together,
-> > and this test case triggers them. Since the user can also cause
-> > an assert with that kind of command line I'm going to rework them
-> > (either to make the virt board fail cleanly or else to make the
-> > GICv3 code do something plausible even if the real hardware CPU
-> > nominally didn't have a GICv3). But maybe we should make this
-> > test case not use a non-standard combination anyway? (The meson
-> > conversion seems to have resulted in this test being run under
-> > qemu-system-arm as well, incidentally, so I guess we would want
-> > it to specify either 'a 64 bit CPU and GICv3' or 'a 32 bit
-> > CPU and GICv2' accordingly. Or limit the test to aarch64...)
-> limiting the test to aarch64 may be enough?
+> @@ -512,7 +508,7 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
+>      if (qiov) {
+>          qio_channel_set_cork(s->ioc, true);
+>          rc = nbd_send_request(s->ioc, request);
+> -        if (nbd_client_connected(s) && rc >= 0) {
+> +        if (rc >= 0) {
+>              if (qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
+>                                         NULL) < 0) {
+>                  rc = -EIO;
 
-Mmm, if running the test under 'qemu-system-arm' isn't giving
-us interesting extra coverage we might as well save the CI cycles.
+because the change means this code is now
 
+        if (rc >= 0) {
+            if (qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
+                                       NULL) < 0) {
+                rc = -EIO;
+            }
+        } else if (rc >= 0) {
+            rc = -EIO;
+        }
+
+and the "else if" clause is dead and can be deleted.
+
+thanks
 -- PMM
 
