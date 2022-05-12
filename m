@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FA5525123
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:20:19 +0200 (CEST)
-Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7E6525160
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:37:16 +0200 (CEST)
+Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npAby-00032p-4z
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
+	id 1npAsN-0001ES-7x
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npAWx-000340-T5
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:15:07 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npAWv-0000Aw-EL
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:15:07 -0400
-Received: by mail-wr1-x432.google.com with SMTP id q23so7721094wra.1
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:15:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qE4yOzJamRiNUzm9C/hagb28tJI7r6AdPYfxPud1WCI=;
- b=TCJTjJ+HQk5LulQYxQeZWkRKVgjsIpq9ffhAOI0oEhbj78fv5zbCFWe3erljUhl33x
- SJZIhaAl5LfFfi67T4ahUqGvDVUKDNB7MycwrE8eq8tkBNJAet4V0IJzMF4YKnokZHJc
- 56ukUQ+wl+jqrqqsOUDmMQwjxnttwcnq4I1hWI4jj/cZwC2UnvaBJ4W+a/1wr6Fcs2wl
- iQ0Vy8YhIYdvA2WwZKG6tkhpB15u2o04JNyXcKwUNcFBTNitGvHqg6Y/4xfeNc//qc3U
- czI6q2pJQzVFjUMcywC8PTHbb8W2Far2gntY9lW5qhiURI2q2M8i4Rj1yR24wOBbBZlc
- A0SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qE4yOzJamRiNUzm9C/hagb28tJI7r6AdPYfxPud1WCI=;
- b=bUsb3gLhGn5xcZrc2qvz8mv7tCzPLGWU4j2Mope6EtN+jRjkytRXK7n2ba8qPTzwdY
- CWcP3Ocyp336PuGP0wvPr/bVLexYGklmhR+sGROt9MoNAwl2czf2Ds04J1ESqdn+I7oM
- ZMIZh7Nuu52dtrHNoRZp0JGGjWrOO+Ll40644foErIzwBvKrhSeYdeI7qw+i4nts7aWn
- Br3XOoDbGnTiYQ1uyoj2Mj1EX2pr1YIC0/xvif9ZPkhlU//jqtG1ODbOV6vK9pIhplQ0
- hfumGUMvMALsYyrwYO9aDmOScxqrdarUwdgkhI0VPxqgdnvjcU/R9xqf3by4A/+O8iSS
- xKZg==
-X-Gm-Message-State: AOAM533d8IHv9bABB1TUAoix7H+AzDC9AnzYeAu8zliNZwM/SwE2A+Mx
- IhfMP93NdgFnktYJgJsijXP5aA==
-X-Google-Smtp-Source: ABdhPJztSse2/+FIpWow6Tte+PIukrmhBHDJ4u9Wlsya4UnN2cymcEXThRAr1RQcSDR5Xpm8wTNaGg==
-X-Received: by 2002:a5d:58e5:0:b0:20a:e022:3f8c with SMTP id
- f5-20020a5d58e5000000b0020ae0223f8cmr100042wrd.667.1652368504702; 
- Thu, 12 May 2022 08:15:04 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- ay41-20020a05600c1e2900b003942a244f51sm3048378wmb.42.2022.05.12.08.15.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 08:15:04 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1npApX-00068l-OP
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:34:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1npApU-0003PK-Pc
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:34:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652369654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vFWQxf5TiqFI3qw8fFcwXaAs9SQyFUMlh+7DA4ByS+M=;
+ b=UPOHd92ZUv75oRz/f3uKHMThFdQilvyfklws518iYtl5iLp0fj3Goj0bZ3ozqGPyBA78Wp
+ iYWDim7e2P5uSWaa66HJBPsfl4/fRK5e0cBh51BlYktgrkmZnUDpavJP8SVyrWMyoWGoGH
+ +RF6LNEc0HAhdAtXHCkJyz60j1KH7rE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-645-wnA6ZA7OPaiBy1dR8jh_YQ-1; Thu, 12 May 2022 11:34:13 -0400
+X-MC-Unique: wnA6ZA7OPaiBy1dR8jh_YQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD262811E81;
+ Thu, 12 May 2022 15:34:12 +0000 (UTC)
+Received: from merkur.fritz.box (unknown [10.39.194.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33A17401E9D;
+ Thu, 12 May 2022 15:34:12 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
 	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 6/6] hw/intc/arm_gicv3: Provide ich_num_aprs()
-Date: Thu, 12 May 2022 16:14:57 +0100
-Message-Id: <20220512151457.3899052-7-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220512151457.3899052-1-peter.maydell@linaro.org>
-References: <20220512151457.3899052-1-peter.maydell@linaro.org>
+Subject: [PULL 00/10] Block layer patches
+Date: Thu, 12 May 2022 17:33:51 +0200
+Message-Id: <20220512153401.202863-1-kwolf@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,61 +75,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We previously open-coded the expression for the number of virtual APR
-registers and the assertion that it was not going to cause us to
-overflow the cs->ich_apr[] array.  Factor this out into a new
-ich_num_aprs() function, for consistency with the icc_num_aprs()
-function we just added for the physical APR handling.
+The following changes since commit ec11dc41eec5142b4776db1296972c6323ba5847:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220506162129.2896966-6-peter.maydell@linaro.org
----
- hw/intc/arm_gicv3_cpuif.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+  Merge tag 'pull-misc-2022-05-11' of git://repo.or.cz/qemu/armbru into staging (2022-05-11 09:00:26 -0700)
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 66e06b787c7..8867e2e496f 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -49,6 +49,14 @@ static inline int icv_min_vbpr(GICv3CPUState *cs)
-     return 7 - cs->vprebits;
- }
- 
-+static inline int ich_num_aprs(GICv3CPUState *cs)
-+{
-+    /* Return the number of virtual APR registers (1, 2, or 4) */
-+    int aprmax = 1 << (cs->vprebits - 5);
-+    assert(aprmax <= ARRAY_SIZE(cs->ich_apr[0]));
-+    return aprmax;
-+}
-+
- /* Simple accessor functions for LR fields */
- static uint32_t ich_lr_vintid(uint64_t lr)
- {
-@@ -145,9 +153,7 @@ static int ich_highest_active_virt_prio(GICv3CPUState *cs)
-      * in the ICH Active Priority Registers.
-      */
-     int i;
--    int aprmax = 1 << (cs->vprebits - 5);
--
--    assert(aprmax <= ARRAY_SIZE(cs->ich_apr[0]));
-+    int aprmax = ich_num_aprs(cs);
- 
-     for (i = 0; i < aprmax; i++) {
-         uint32_t apr = cs->ich_apr[GICV3_G0][i] |
-@@ -1333,9 +1339,7 @@ static int icv_drop_prio(GICv3CPUState *cs)
-      * 32 bits are actually relevant.
-      */
-     int i;
--    int aprmax = 1 << (cs->vprebits - 5);
--
--    assert(aprmax <= ARRAY_SIZE(cs->ich_apr[0]));
-+    int aprmax = ich_num_aprs(cs);
- 
-     for (i = 0; i < aprmax; i++) {
-         uint64_t *papr0 = &cs->ich_apr[GICV3_G0][i];
--- 
-2.25.1
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to f70625299ecc9ba577c87f3d1d75012c747c7d88:
+
+  qemu-iotests: inline common.config into common.rc (2022-05-12 15:42:49 +0200)
+
+----------------------------------------------------------------
+Block layer patches
+
+- coroutine: Fix crashes due to too large pool batch size
+- fdc: Prevent end-of-track overrun
+- nbd: MULTI_CONN for shared writable exports
+- iotests test runner improvements
+
+----------------------------------------------------------------
+Daniel P. Berrangé (2):
+      tests/qemu-iotests: print intent to run a test in TAP mode
+      .gitlab-ci.d: export meson testlog.txt as an artifact
+
+Eric Blake (2):
+      qemu-nbd: Pass max connections to blockdev layer
+      nbd/server: Allow MULTI_CONN for shared writable exports
+
+Hanna Reitz (1):
+      iotests/testrunner: Flush after run_test()
+
+Kevin Wolf (2):
+      coroutine: Rename qemu_coroutine_inc/dec_pool_size()
+      coroutine: Revert to constant batch size
+
+Paolo Bonzini (1):
+      qemu-iotests: inline common.config into common.rc
+
+Philippe Mathieu-Daudé (2):
+      hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
+      tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
+
+ qapi/block-export.json                           |   8 +-
+ docs/interop/nbd.txt                             |   1 +
+ docs/tools/qemu-nbd.rst                          |   3 +-
+ include/block/nbd.h                              |   5 +-
+ include/qemu/coroutine.h                         |   6 +-
+ blockdev-nbd.c                                   |  13 +-
+ hw/block/fdc.c                                   |   8 ++
+ hw/block/virtio-blk.c                            |   6 +-
+ nbd/server.c                                     |  10 +-
+ qemu-nbd.c                                       |   2 +-
+ tests/qtest/fdc-test.c                           |  21 ++++
+ util/qemu-coroutine.c                            |  26 ++--
+ tests/qemu-iotests/testrunner.py                 |   4 +
+ .gitlab-ci.d/buildtest-template.yml              |  12 +-
+ MAINTAINERS                                      |   1 +
+ tests/qemu-iotests/common.config                 |  41 -------
+ tests/qemu-iotests/common.rc                     |  31 +++--
+ tests/qemu-iotests/tests/nbd-multiconn           | 145 +++++++++++++++++++++++
+ tests/qemu-iotests/tests/nbd-multiconn.out       |   5 +
+ tests/qemu-iotests/tests/nbd-qemu-allocation.out |   2 +-
+ 20 files changed, 261 insertions(+), 89 deletions(-)
+ delete mode 100644 tests/qemu-iotests/common.config
+ create mode 100755 tests/qemu-iotests/tests/nbd-multiconn
+ create mode 100644 tests/qemu-iotests/tests/nbd-multiconn.out
 
 
