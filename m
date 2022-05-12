@@ -2,104 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B305524985
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:54:58 +0200 (CEST)
-Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E8452495A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:44:44 +0200 (CEST)
+Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np5X7-0001cr-7Y
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33622)
+	id 1np5ND-0006tK-D7
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangfei.gao@foxmail.com>)
- id 1np4mv-00084r-AK
- for qemu-devel@nongnu.org; Thu, 12 May 2022 05:07:13 -0400
-Received: from out203-205-221-235.mail.qq.com ([203.205.221.235]:46507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangfei.gao@foxmail.com>)
- id 1np4mm-0003M9-K1
- for qemu-devel@nongnu.org; Thu, 12 May 2022 05:07:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1652346416;
- bh=aZyF8TANXAB1NGHnghRiJhYgqgN/MogIvJnw4We4tis=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To;
- b=IpXu8zWFOSMruBJ8FurIkBPBuXre+llzbxHpi0g5sK+C+oUD8kmdCujmaA81kTHew
- mFYSB/NmLv41jX/O8hx94HAYpFsMd+Lb3WHpI6y5AZ+ZAcArtU9JxdztLSfP+wBy3c
- 6b6wZ5H7YF13KzFUrQLOTSlDh1LkUNE8vjGMxiDw=
-Received: from [IPv6:240e:362:4ce:f900:dde6:a887:fd41:fc0a]
- ([240e:362:4ce:f900:dde6:a887:fd41:fc0a])
- by newxmesmtplogicsvrsza5.qq.com (NewEsmtp) with SMTP
- id 5A86409; Thu, 12 May 2022 17:01:26 +0800
-X-QQ-mid: xmsmtpt1652346086t5arb40ue
-Message-ID: <tencent_B5689033C2703B476DA909302DA141A0A305@qq.com>
-X-QQ-XMAILINFO: MoXwTY6T4qpUo053K0I1cAIxxh6Bhk+2nVZbUwpKgvBarKgHK/Rd8GNqKn1Fvi
- ulggZiHYdpOz3t+IHdvzPstOcA82vi1lAZ2UzbNgnYHJ/952DLpcQVZJSDgH3fhha1dMrI+PO2zG
- ZSzDRclPdXRyLp3BSbMg1Eurl7hDorso1e4uSoDSo+OD8uortrAcP90k0ofrGpvYoszxnyy5ZYiU
- GhpRSEzn8a+HPOUz7GSrm/kkpBsmWvlOxCmg5MInuCW7DQtG7XYQg9aRb0DSxll+lOZhnZSGczbm
- yUGky2V2gK+JoEpfBAkFDW8CN3WuiGtVv69AGidbHRf3amRRNACu7zSTHXRam4M5U+hBOO7jkvcm
- mhwmcu0YIbYuGOWJCA29BXcanNabQoYVr3kRC2BNIQIJoHjDMRrJqFExUQn1qTwi6LuiiaKxeHIn
- Ugu0tbfdghoQ02F7ZDMBsc4SoWpvcyYUg9TEvX+vwiLgt+xxabIKTwLB5D/YhN/1AOUpkO18HnzV
- Ec/CCBZBxdDDTIP27YM5QO+NU6QhEjgXl0dh4f5L6gwMBp2r6EgdMprMAiZngwTm0kbn5VpjywPC
- CiV3/mAM2yJnzDtF3qh4XlYgeGdCr5xzqVsICZkqu0lOy+Pu7ETCrpSEQLTTT4A7y+TrNrvCIOXr
- vsGWu+eKHjF1106uScvV0n7dSjPTt5uPPNW4WnvuDDznR711CI1lJVU8YR0l0vcAHbr8V1REMoXv
- Rq6bdGKYwDGtmQ1DRotNKtj/deG57ucl/N3XPwGxSA0mvXBdJljcHRsOKd54g4vmsCRI/p9ZgRT4
- p3SsMN/cWMTDOVQ4VVHNI0n3dflZK1mMpy551aDp7E4gJJ3nsAFNudqUjszvT8KUmEqbTzjNMqFN
- U2yhjEyl7ccYsD7nXlSMefq9/4Ks/xiODBTihVfHYZ5pLMN63Ibvl3LCibDJnMNJ39gMbKj+G+lp
- VrDX7HiycJKZ7RLeva6q4AipSLVWOjGee2K7YRcQk=
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-To: Yi Liu <yi.l.liu@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Zhangfei Gao <zhangfei.gao@linaro.org>
-Cc: eric.auger@redhat.com, Alex Williamson <alex.williamson@redhat.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "kevin.tian@intel.com" <kevin.tian@intel.com>,
- "chao.p.peng@intel.com" <chao.p.peng@intel.com>,
- "yi.y.sun@intel.com" <yi.y.sun@intel.com>,
- "peterx@redhat.com" <peterx@redhat.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <4f920d463ebf414caa96419b625632d5@huawei.com>
- <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
- <4ac4956cfe344326a805966535c1dc43@huawei.com>
- <20220426103507.5693a0ca.alex.williamson@redhat.com>
- <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
- <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
- <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
- <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
- <20220510124554.GY49344@nvidia.com>
- <637b3992-45d9-f472-b160-208849d3d27a@intel.com>
- <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
-From: "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>
-X-OQ-MSGID: <eb4f1b4c-4c25-64d2-e3d5-823531723009@foxmail.com>
-Date: Thu, 12 May 2022 17:01:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1np4iX-0003Sf-1E
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 05:02:41 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:33340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1np4iV-0002hL-As
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 05:02:40 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2f863469afbso49023447b3.0
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 02:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=M2Vy5VttRP5azgXjlwp/Ysbk2gFxTinyeN3lLDqNCeY=;
+ b=wEODipZP/YLI3JGOqJBSUBG1Oh/o98/9bRJJSeUg9Cd5sS7MeshUBB1ufVaVt7zQ0A
+ R9dfBf6jQjOiL9FJ7f2GEj7eDnHaFSJbI07w3yWcf7pEN5T+F6q8b1PqrW1c961+B8Bx
+ aDLPimJAqV4zLB55zkK54mcKM9yxJtvNdDHyowzBSkCpj5WmIWthYw1K/DUENOIB059K
+ lYBW4oQr7J97I713Jjrk3m3VkVA7FrxjwoCgGIZyovhZZybKAZcfW2OAKRnE5kAW8XUI
+ 1OjGVnIdh0maJuDV9lMj/T+HbvftMIMGKzyxDgt/tY6w9UcQvf7dTTRqtza3fqyEYI2r
+ ZBbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M2Vy5VttRP5azgXjlwp/Ysbk2gFxTinyeN3lLDqNCeY=;
+ b=UkgQoIvlXG36Wsf8f5LDSuWrVDKxHmFVFSGFPT7jpYGgP6jJAcD5/q6aVvr5qmpDn6
+ oV8UEBfg7PVLhBugZ7vrUvoIHYbZcoYWSedN6p24JTxgk+Obo5ncTfTt7WPzKfQjbfx+
+ 2tEBvToOZjxKSiCZGJupxtfpWQMsHZSvq7c/NUkhT8RtWLckDmik1PwU9dkICzGRb29Q
+ FRVIshtvPrSgw746rUS8T8KkkMHstfpGe7G5XpdIrMQM/hKDC8yt5uU8yht3WHGvySFf
+ hE1m/wV3MiECmCpfNWmAvk1juVv/LruQ1r0+9R+4yV5VL2uEj+QkO96dWpuh1ZVcB/nc
+ dKNw==
+X-Gm-Message-State: AOAM530tJrIJUz8AMrh1gNI2rfDHamN/OLGDvpCbyyW+KxXa+yrjmgyU
+ R6ZZsS3HWSZ9VVY+ItCw/WQsFQjSTIAD0XGEc458kQ==
+X-Google-Smtp-Source: ABdhPJwDI8jtFupEsbVKyNTKwSWARvInApAplAam65kueZDm2Xrpe9vFlJ/dU58DvG2GGdEhId2s+NvxNqBZqDh0zW0=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr30449764ywb.257.1652346158201; Thu, 12
+ May 2022 02:02:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=203.205.221.235;
- envelope-from=zhangfei.gao@foxmail.com; helo=out203-205-221-235.mail.qq.com
-X-Spam_score_int: 31
-X-Spam_score: 3.1
-X-Spam_bar: +++
-X-Spam_report: (3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_MUA_MOZILLA=2.309,
- FREEMAIL_FROM=0.001, HELO_DYNAMIC_IPADDR=1.951, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_DYNAMIC=0.982, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220506162129.2896966-1-peter.maydell@linaro.org>
+ <b27e80a2-56e3-8197-a1a6-0b62e3f20c5a@linaro.org>
+In-Reply-To: <b27e80a2-56e3-8197-a1a6-0b62e3f20c5a@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 May 2022 10:02:27 +0100
+Message-ID: <CAFEAcA9-MxU48vDGD90B5fUP_Dnzc0VVdnPinecF_F1J9HPsbA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] gicv3: Use right number of prio bits for the CPU
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,58 +83,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Hi, Yi
-
-On 2022/5/11 下午10:17, zhangfei.gao@foxmail.com wrote:
+On Sat, 7 May 2022 at 12:35, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
+> On 5/6/22 11:21, Peter Maydell wrote:
+> > This patchset fills in an odd inconsistency in our GICv3 emulation
+> > that I noticed while I was doing the GICv4 work. At the moment we
+> > allow the CPU to specify the number of bits of virtual priority
+> > (via the ARMCPU::gic_vpribits field), but we always use 8 bits of
+> > physical priority, even though to my knowledge no real Arm CPU
+> > hardware has that many.
+> >
+> > This series makes the GICv3 emulation use a runtime-configurable
+> > number of physical priority bits, and sets it to match the number
+> > used by the various CPUs we implement (which is 5 for all the
+> > Cortex-Axx CPUs we emulate). Because changing the number of
+> > priority bits is a migration compatibility break, we use a compat
+> > property to keep the number of priority bits at 8 for older
+> > versions of the virt board.
+> >
+> > There is one TODO left in this series, which is that I don't know
+> > the right value to use for the A64FX, so I've guessed that it
+> > is 5, like all the Arm implementations.
+> >
+> > Patch 1 is an independent bugfix; patch 5 is cleanup.
+> >
+> > thanks
+> > -- PMM
+> >
+> > Peter Maydell (5):
+> >    hw/intc/arm_gicv3: report correct PRIbits field in ICV_CTLR_EL1
+> >    hw/intc/arm_gicv3_kvm.c: Stop using GIC_MIN_BPR constant
+> >    hw/intc/arm_gicv3: Support configurable number of physical priority
+> >      bits
+> >    hw/intc/arm_gicv3: Use correct number of priority bits for the CPU
+> >    hw/intc/arm_gicv3: Provide ich_num_aprs()
+> >
 >
-> On 2022/5/10 下午10:08, Yi Liu wrote:
->> On 2022/5/10 20:45, Jason Gunthorpe wrote:
->>> On Tue, May 10, 2022 at 08:35:00PM +0800, Zhangfei Gao wrote:
->>>> Thanks Yi and Eric,
->>>> Then will wait for the updated iommufd kernel for the PCI MMIO region.
->>>>
->>>> Another question,
->>>> How to get the iommu_domain in the ioctl.
->>>
->>> The ID of the iommu_domain (called the hwpt) it should be returned by
->>> the vfio attach ioctl.
->>
->> yes, hwpt_id is returned by the vfio attach ioctl and recorded in
->> qemu. You can query page table related capabilities with this id.
->>
->> https://lore.kernel.org/kvm/20220414104710.28534-16-yi.l.liu@intel.com/
->>
-> Thanks Yi,
->
-> Do we use iommufd_hw_pagetable_from_id in kernel?
->
-> The qemu send hwpt_id via ioctl.
-> Currently VFIOIOMMUFDContainer has hwpt_list,
-> Which member is good to save hwpt_id, IOMMUTLBEntry?
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Can VFIOIOMMUFDContainer  have multi hwpt?
-Since VFIOIOMMUFDContainer has hwpt_list now.
-If so, how to get specific hwpt from map/unmap_notify in hw/vfio/as.c, 
-where no vbasedev can be used for compare.
+Thanks; I've applied this to target-arm.next, with the 'TODO' note
+for the A64FX removed, with the "retain local variable" tweak in
+the last patch made, and with "cpu->gic_pribits = 5" statements added
+for the new cortex-a76 and neoverse-n1 CPU types (confirmed correct
+via their TRMs).
 
-I am testing with a workaround, adding VFIOIOASHwpt *hwpt in 
-VFIOIOMMUFDContainer.
-And save hwpt when vfio_device_attach_container.
-
-
->
-> In kernel ioctl: iommufd_vfio_ioctl
-> @dev: Device to get an iommu_domain for
-> iommufd_hw_pagetable_from_id(struct iommufd_ctx *ictx, u32 pt_id, 
-> struct device *dev)
-> But iommufd_vfio_ioctl seems no para dev?
-
-We can set dev=Null since IOMMUFD_OBJ_HW_PAGETABLE does not need dev.
-iommufd_hw_pagetable_from_id(ictx, hwpt_id, NULL)
-
-Thanks
->
-
+-- PMM
 
