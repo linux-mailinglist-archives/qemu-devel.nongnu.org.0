@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E4D5253A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:29:50 +0200 (CEST)
-Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFF25253B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:30:36 +0200 (CEST)
+Received: from localhost ([::1]:43326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npCdJ-0007uR-7t
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35688)
+	id 1npCe2-0000V7-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCYu-0004tz-OB
+ id 1npCYu-0004uB-Tb
  for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58911)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCYr-00054R-BI
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:15 -0400
+ id 1npCYt-00054f-9z
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652376310;
+ s=mimecast20190719; t=1652376314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CfIGGRlCN7k2m61Z+U071JgyQJTV7HQPUROVnwdMX3I=;
- b=YvCci1kqkO/fRse1xOVAnK15Hrb4UmcXeR/tsd2r0EEdLMp2+YqJpx/hr2MIfP6cVsGGeq
- 9fOkeJ6zQRvnlHtUQs4eo0oPxdrXeA2jE0BfIGRsihvXpDVWPTS9SkHDp3rJud6zcjCn58
- BeK654GO/+goekJU76UmrXefqGiS5Ow=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fXlwemrbSAom/pGYNc3f7pFbqngXibN4G33CRsyLZCc=;
+ b=d6HCiGUEpzUVzoWTh3Hdq14W1Xpa8Kun4aIXdOHjOOjMmhkdgFyGDdu1I40k4hExbqplS+
+ lu7vifLPjk7U88L/CbqYZqJ84d81aFFqC5AR51826qRUHI47fHO5+FHbPE5QzPSZlFjBzr
+ M/lEq9kATQfO4IkF3L3t8d0rFFiczdo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-265-ziRgxEPAPCCwnjR4v9LNSg-1; Thu, 12 May 2022 13:25:09 -0400
-X-MC-Unique: ziRgxEPAPCCwnjR4v9LNSg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- gs8-20020a1709072d0800b006f42d47382fso3160601ejc.17
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:09 -0700 (PDT)
+ us-mta-119-jZFeWz6kMy2WU9gT0EOX3A-1; Thu, 12 May 2022 13:25:12 -0400
+X-MC-Unique: jZFeWz6kMy2WU9gT0EOX3A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ s29-20020a50ab1d000000b00427e495f00cso3476291edc.14
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CfIGGRlCN7k2m61Z+U071JgyQJTV7HQPUROVnwdMX3I=;
- b=n4L7DhMFLdwCzRVYtEvucccJqnYK+kG9dgJGPFGtdir3K49h45ryd5/jxM9GqrxBEE
- oN71O1OTR/tlOwZA3Ows874OvVOS9OpGV5YlNhLQMEPObGj5c4TDsH0n+OlnM0PIhN1j
- EmyWQU7OLfJi6aUT0dd9SqBMYzAormE7CVhJDwq8qS9xybzn+Ieyjmy/FwcfcsV5XszJ
- AE1pWXNWpr4MWIEPvD/FkyZPAAhO5oAHt3gRLo9VyQb+0nWbPH1k8Zk6StT1rcZiMIYV
- HdpDuFZzQHgCJ+J5Vd9RcenMZHEzn/fWG5Arm9QavfFFB6k4+k3UQBOPjAIBD/02jTNu
- 6fgA==
-X-Gm-Message-State: AOAM5319CqwWMhc7Cm5BNXhjeseEsazUGgXyL4bh3Id1dRzKIyPjIPK5
- mMKoYoy5/2EUR+cUZRLyI5aWj3yhze1Y2uYBZXPbPeiVy+MjQeif94bDJc2nTFrDWm69NWV8+ND
- onxcfM4MowVHI+GWSxMyeBvL7+Z/SxpPPOwy9m60YiLP636K9ZkdzZoTKUp+KwAsrOGw=
-X-Received: by 2002:a17:907:a0c9:b0:6f4:bbdf:8081 with SMTP id
- hw9-20020a170907a0c900b006f4bbdf8081mr822662ejc.257.1652376307920; 
- Thu, 12 May 2022 10:25:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwE/IMyoF2WumqGITFeb8e3uoNta45CWibeSzM3BFChqlDxg0lPEpM42woVRQMwxsgKwbPzZQ==
-X-Received: by 2002:a17:907:a0c9:b0:6f4:bbdf:8081 with SMTP id
- hw9-20020a170907a0c900b006f4bbdf8081mr822606ejc.257.1652376307383; 
- Thu, 12 May 2022 10:25:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=fXlwemrbSAom/pGYNc3f7pFbqngXibN4G33CRsyLZCc=;
+ b=uIairYwfA8jTCMenLA3CgYHW1L4q1BiECQP0JQlObeHmaiEf3yjgP2oR47oVB00+Zt
+ HgywLafhFJra8OdPXGVLXgsEyx23kPS3eH2/mu7ByLgrLL2ahlR+MmtXDgDCgPea1RnA
+ B9QzwpIGnK53TDGiKTGzWAVK/ZcQb9KHTOkxowVk+mfl0kQFk64d8CdMum3XnG5FQZlP
+ Rij8fG12Tpp0RMd6X/DKqqDAynLhB5A0ITediR73su8prJuVqyxmJ2GBG3YaIK4p/1mU
+ //w/AqFOprDG54EcUImEN3s1u7pzCaXEF4WzIjluJA9sefyLk4kVxCwX63EecazDTfwa
+ 4Vew==
+X-Gm-Message-State: AOAM531QB9kiR+3TTgjkmIMSKMUdtEhYjyXYM6Ixm66Ek1zKyLrOvilT
+ X26NoEH1uDV4vT3ekFC02pH7QdpNtLuju8wRToBITMshjeBLW+YK85lXVkaYcvuUta42QvtfP4Y
+ m/8nwLjgXwjVCQKtTZWy1gBEM2aGCfhkxNo35/sc+O6lFLhyihldyiluiTpNk5lG4i2Y=
+X-Received: by 2002:a05:6402:3226:b0:427:cef3:9fb3 with SMTP id
+ g38-20020a056402322600b00427cef39fb3mr35945900eda.20.1652376311186; 
+ Thu, 12 May 2022 10:25:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZ1ZGiJXuMwbqV1fzqkE4zoP/IFwcLyuR2XaGAo1YwVTRMLYcich8II0y4MUHdtRI5rKchmQ==
+X-Received: by 2002:a05:6402:3226:b0:427:cef3:9fb3 with SMTP id
+ g38-20020a056402322600b00427cef39fb3mr35945865eda.20.1652376310831; 
+ Thu, 12 May 2022 10:25:10 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- ot17-20020a170906ccd100b006f3ef214e3bsm2198556ejb.161.2022.05.12.10.25.06
- for <qemu-devel@nongnu.org>
+ h11-20020a50cdcb000000b0042617ba63c9sm2795656edj.83.2022.05.12.10.25.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 10:25:06 -0700 (PDT)
+ Thu, 12 May 2022 10:25:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/27] Misc patches for 2022-05-12
-Date: Thu, 12 May 2022 19:24:38 +0200
-Message-Id: <20220512172505.1065394-1-pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 01/27] pc-bios/optionrom: detect -fno-pie
+Date: Thu, 12 May 2022 19:24:39 +0200
+Message-Id: <20220512172505.1065394-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220512172505.1065394-1-pbonzini@redhat.com>
+References: <20220512172505.1065394-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -97,124 +99,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ec11dc41eec5142b4776db1296972c6323ba5847:
+Do not rely on the detection that was done in the configure script,
+since in the future we may want to cross-compile this file.
 
-  Merge tag 'pull-misc-2022-05-11' of git://repo.or.cz/qemu/armbru into staging (2022-05-11 09:00:26 -0700)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure                  | 1 -
+ pc-bios/optionrom/Makefile | 3 ++-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 333dbac358acc6cc174029263d633a22f66584b4:
-
-  vmxcap: add tertiary execution controls (2022-05-12 14:23:19 +0200)
-
-----------------------------------------------------------------
-* small cleanups for pc-bios/optionrom Makefiles
-* checkpatch: fix g_malloc check
-* fix mremap() and RDMA detection
-* confine igd-passthrough-isa-bridge to Xen-enabled builds
-* cover PCI in arm-virt machine qtests
-* add -M boot and -M mem compound properties
-* bump SLIRP submodule
-* support CFI with system libslirp (>= 4.7)
-* clean up CoQueue wakeup functions
-* fix vhost-vsock regression
-* fix --disable-vnc compilation
-* other minor bugfixes
-
-----------------------------------------------------------------
-Bernhard Beschow (2):
-      hw/xen/xen_pt: Confine igd-passthrough-isa-bridge to XEN
-      hw/xen/xen_pt: Resolve igd_passthrough_isa_bridge_create() indirection
-
-Eric Auger (3):
-      tests/qtest/libqos/pci: Introduce pio_limit
-      tests/qtest/libqos: Skip hotplug tests if pci root bus is not hotpluggable
-      tests/qtest/libqos: Add generic pci host bridge in arm-virt machine
-
-Juan Quintela (1):
-      meson: Make mremap() detecting works correctly
-
-Kshitij Suri (1):
-      meson: link libpng independent of vnc
-
-Paolo Bonzini (20):
-      pc-bios/optionrom: detect -fno-pie
-      pc-bios/optionrom: compile with -Wno-array-bounds
-      target/i386: do not consult nonexistent host leaves
-      checkpatch: fix g_malloc check
-      machine: use QAPI struct for boot configuration
-      machine: add boot compound property
-      machine: add mem compound property
-      machine: make memory-backend a link property
-      machine: move more memory validation to Machine object
-      slirp: bump submodule past 4.7 release
-      net: slirp: introduce a wrapper struct for QemuTimer
-      net: slirp: switch to slirp_new
-      net: slirp: add support for CFI-friendly timer API
-      net: slirp: allow CFI with libslirp >= 4.7
-      coroutine-lock: qemu_co_queue_next is a coroutine-only qemu_co_enter_next
-      coroutine-lock: introduce qemu_co_queue_enter_all
-      coroutine-lock: qemu_co_queue_restart_all is a coroutine-only qemu_co_enter_all
-      vhost-backend: do not depend on CONFIG_VHOST_VSOCK
-      vl: make machine type deprecation a warning
-      vmxcap: add tertiary execution controls
-
- block/io.c                            |   2 +-
- configure                             |   1 -
- hw/arm/nseries.c                      |   2 +-
- hw/core/machine.c                     | 241 ++++++++++++++++++++++++++++++----
- hw/core/numa.c                        |   2 +-
- hw/hppa/machine.c                     |   6 +-
- hw/i386/pc.c                          |   2 +-
- hw/i386/pc_piix.c                     | 118 -----------------
- hw/nvram/fw_cfg.c                     |  27 +---
- hw/ppc/mac_newworld.c                 |   2 +-
- hw/ppc/mac_oldworld.c                 |   2 +-
- hw/ppc/prep.c                         |   2 +-
- hw/ppc/spapr.c                        |   4 +-
- hw/s390x/ipl.c                        |  20 +--
- hw/sparc/sun4m.c                      |   9 +-
- hw/sparc64/sun4u.c                    |   4 +-
- hw/virtio/vhost-backend.c             |   4 -
- hw/xen/xen_pt.c                       |  12 --
- hw/xen/xen_pt.h                       |   2 +
- hw/xen/xen_pt_graphics.c              | 122 +++++++++++++++++
- include/hw/boards.h                   |   7 +-
- include/hw/i386/pc.h                  |   1 -
- include/qemu/coroutine.h              |  27 +++-
- include/sysemu/sysemu.h               |   2 -
- meson.build                           |  38 +++---
- net/slirp.c                           |  85 ++++++++++--
- pc-bios/optionrom/Makefile            |   4 +-
- qapi/machine.json                     |  48 +++++++
- scripts/checkpatch.pl                 |   4 +-
- scripts/kvm/vmxcap                    |  17 +++
- slirp                                 |   2 +-
- softmmu/bootdevice.c                  |   3 +-
- softmmu/globals.c                     |   2 -
- softmmu/vl.c                          | 231 +++++++++-----------------------
- target/i386/cpu.c                     |  41 +++++-
- tests/qtest/e1000e-test.c             |   6 +
- tests/qtest/libqos/arm-virt-machine.c |  19 ++-
- tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++++++++
- tests/qtest/libqos/generic-pcihost.h  |  54 ++++++++
- tests/qtest/libqos/meson.build        |   1 +
- tests/qtest/libqos/pci-pc.c           |   1 +
- tests/qtest/libqos/pci-spapr.c        |   1 +
- tests/qtest/libqos/pci.c              |  78 +++++++----
- tests/qtest/libqos/pci.h              |   6 +-
- tests/qtest/vhost-user-blk-test.c     |  10 ++
- tests/qtest/virtio-blk-test.c         |   5 +
- tests/qtest/virtio-net-test.c         |   5 +
- tests/qtest/virtio-rng-test.c         |   5 +
- ui/console.c                          |   2 +-
- ui/meson.build                        |   3 +-
- util/qemu-coroutine-lock.c            |  47 +++----
- 51 files changed, 1072 insertions(+), 498 deletions(-)
- create mode 100644 tests/qtest/libqos/generic-pcihost.c
- create mode 100644 tests/qtest/libqos/generic-pcihost.h
+diff --git a/configure b/configure
+index e77b29b093..c8b5b99532 100755
+--- a/configure
++++ b/configure
+@@ -2038,7 +2038,6 @@ echo "CCAS=$ccas" >> $config_host_mak
+ echo "CPP=$cpp" >> $config_host_mak
+ echo "OBJCOPY=$objcopy" >> $config_host_mak
+ echo "LD=$ld" >> $config_host_mak
+-echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
+ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+ echo "QEMU_OBJCFLAGS=$QEMU_OBJCFLAGS" >> $config_host_mak
+diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+index f1ef898073..8de5a9461c 100644
+--- a/pc-bios/optionrom/Makefile
++++ b/pc-bios/optionrom/Makefile
+@@ -22,7 +22,8 @@ override CFLAGS += $(call cc-option, -fcf-protection=none)
+ override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+ 
+ override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
+-override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
++override CFLAGS += $(call cc-option, -fno-pie)
++override CFLAGS += -ffreestanding -I$(TOPSRC_DIR)/include
+ override CFLAGS += $(call cc-option, -fno-stack-protector)
+ override CFLAGS += $(call cc-option, -m16)
+ 
 -- 
 2.36.0
 
