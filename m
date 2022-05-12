@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96062525434
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:54:14 +0200 (CEST)
-Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B114D5253BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:34:54 +0200 (CEST)
+Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npD0v-0003JP-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35888)
+	id 1npCiD-0005w6-Nu
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZ8-0004vU-CF
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30809)
+ id 1npCZ9-0004vW-Oa
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZ6-00056s-SF
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:30 -0400
+ id 1npCZ7-00057C-S3
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652376327;
+ s=mimecast20190719; t=1652376329;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qMhlegU5X7v4zybSvupxv2MQWMoceupfsJnt/6J7Atw=;
- b=DUzhcZ+ZnP1kFXkv4OYWCuu88Zx8ne2VEmtb856n3WyszrZJ8SLGbLA9Hb+y2Mf6K5f+x/
- 1YfmtG6TkBqszDLsX58JglRx7LoTIjhcj4JaH1V1Yfs3d1Y+F48NZ2x+DAFd+0/jTRO483
- pxCPd/vf8W/waVmJ6U/1MebPhCbbhzQ=
+ bh=b24ag/3lg69zQUr8SVPEmaPs+R3PKIq1TKpfWQLcnNE=;
+ b=TM1qGJWCuFgpflGav89S//UbpKtJR8TIw5aulpql6TKnsQMLPWnlMpOOXIFWaZvflsRZwO
+ yQHkRN3RzdPrMzyGEH589UXLFq+yVShPX2NOHpWA/oGPoaQC5YRNmBhNHNE8gBhVuolUVn
+ 9nj7Q4yny0mimCi9RhCb86lVhzDqZAA=
 Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
  [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-163-PJvGUTC5PMWGE_yYsxhKYA-1; Thu, 12 May 2022 13:25:26 -0400
-X-MC-Unique: PJvGUTC5PMWGE_yYsxhKYA-1
+ us-mta-441-XWPM8kA9NWuoluvKHKkmOg-1; Thu, 12 May 2022 13:25:28 -0400
+X-MC-Unique: XWPM8kA9NWuoluvKHKkmOg-1
 Received: by mail-ej1-f69.google.com with SMTP id
- hr42-20020a1709073faa00b006f4dc7f0be1so3153890ejc.22
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:25 -0700 (PDT)
+ nd34-20020a17090762a200b006e0ef16745cso3150066ejc.20
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qMhlegU5X7v4zybSvupxv2MQWMoceupfsJnt/6J7Atw=;
- b=1tB2S8//Gh43tbKt4fXd2l14V3Gs3iCNPJGmc8yyxFjRmtJFtuAxcbaB92phvZgyrV
- x8ILyccWv8uxqPm0K2OdGQbaeln0ruULlaQYFOUGSaVAZ804sP9YVmd0iUEe2VNtFB7h
- DKfcZUJpqY6+9//O82n3/+hi1Ho2ytVJhknkJGs/3krVS/fZvP824xgNQkKLZgJF+5TB
- x+6umGye2PjkW88VBwdBKmZ7KBJWIZh2TfEJklSP0AcCeO3rrY8yR7VBlyP5N+Yt5zRQ
- 45UMPKzaAMYm7oqnsqQK0S8WWo1dinliB9z4tQAz/YT5tSaXN9KAK2Kb6TLv9mZ/UUfl
- 7+4A==
-X-Gm-Message-State: AOAM532q3hAivnG6bsXVGnug8U8Ajysq4cEa3qUM/NITrhjIf+yBl20L
- G3B1ubeDjAmLr5/YVjqyRLcDFaNyf6dsox7ME2OWxi0DU/vI/jqWwT/bm3n71dM3BWY96NW28lF
- WkSSiunCmVylRmQSS9Q+KWn/k0x4kthnQv2FO/nTVtTad2EwsZ3Jxw9hlhqQuuAOy8eQ=
-X-Received: by 2002:a50:ce14:0:b0:425:cb75:5322 with SMTP id
- y20-20020a50ce14000000b00425cb755322mr36850578edi.386.1652376324570; 
- Thu, 12 May 2022 10:25:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvk7bA6pGqSCVht/84tt/bvBx0VSS28vnfGT0OAYsBbFxzAUvxDHxY2jRT013qyX9CNAblQA==
-X-Received: by 2002:a50:ce14:0:b0:425:cb75:5322 with SMTP id
- y20-20020a50ce14000000b00425cb755322mr36850543edi.386.1652376324246; 
- Thu, 12 May 2022 10:25:24 -0700 (PDT)
+ bh=b24ag/3lg69zQUr8SVPEmaPs+R3PKIq1TKpfWQLcnNE=;
+ b=xiF954mhJ3BkW51yOz0YCWAC7THFFYexmotJ7mVVw+bBBapd4pvZwZtpsEtw4gXe6P
+ ZIO7wjJqJVgvEgtRJCJVUKYUqLd3UJ29m7H8au7NCVQ1Z/jsZmjUuFsTI2xmzfLpPBBx
+ aaeTWdHFpavgUSCjbD9g8P1o7VUxTUxDmgKYZcOAAduvvm6hzTcVfNHVaImahO0jqxcz
+ daQoXamuKQgwY5ie8iRIt1zloYPmYHIDcxrMHI89wIuwx7EuLnlhO0o5+6GvnlQNClwJ
+ P46aGFMZPq7/3Sv7LDU3h7VxElisfWs4coa3SVifWefiePzSV3hMzjDHl5RDZVRbAJuj
+ SSHQ==
+X-Gm-Message-State: AOAM531mSj96EqiCtNM6BRgj9ntu+vYuwFdCLYjayAt+B3TwHZcrDC0T
+ C/34AO94THTyBm7gc6kugXTSPMu5gEaE/5uqwBl3qNN/9NftoL6dKGogNpsG9Y6cz6OE/kswhwf
+ CeZW7HmiM7bhNnu3OWN5CCOe2AqeO9cg7LI0D6rwiJyHYMjvcqmSc7l0Iz/Ax2Zz56BE=
+X-Received: by 2002:a17:906:a219:b0:6e4:86a3:44ea with SMTP id
+ r25-20020a170906a21900b006e486a344eamr844593ejy.385.1652376326789; 
+ Thu, 12 May 2022 10:25:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkO2bWJfbp++FcCFlg5bevVajI3fRX7t1CigVB6BHCpt5cTlgp3xFW4i+CxtGCZfy4dNh8zw==
+X-Received: by 2002:a17:906:a219:b0:6e4:86a3:44ea with SMTP id
+ r25-20020a170906a21900b006e486a344eamr844557ejy.385.1652376326495; 
+ Thu, 12 May 2022 10:25:26 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- b5-20020a056402138500b0042a2d9af0f8sm1678753edv.79.2022.05.12.10.25.23
+ k15-20020a50ce4f000000b0042a2ccdd2b8sm1782490edj.70.2022.05.12.10.25.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 10:25:23 -0700 (PDT)
+ Thu, 12 May 2022 10:25:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Bernhard Beschow <shentey@gmail.com>,
- Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 07/27] hw/xen/xen_pt: Resolve
- igd_passthrough_isa_bridge_create() indirection
-Date: Thu, 12 May 2022 19:24:45 +0200
-Message-Id: <20220512172505.1065394-8-pbonzini@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 08/27] tests/qtest/libqos/pci: Introduce pio_limit
+Date: Thu, 12 May 2022 19:24:46 +0200
+Message-Id: <20220512172505.1065394-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220512172505.1065394-1-pbonzini@redhat.com>
 References: <20220512172505.1065394-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,77 +101,270 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Eric Auger <eric.auger@redhat.com>
 
-Now that igd_passthrough_isa_bridge_create() is implemented within the
-xen context it may use Xen* data types directly and become
-xen_igd_passthrough_isa_bridge_create(). This resolves an indirection.
+At the moment the IO space limit is hardcoded to
+QPCI_PIO_LIMIT = 0x10000. When accesses are performed to a bar,
+the base address of this latter is compared against the limit
+to decide whether we perform an IO or a memory access.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20220326165825.30794-3-shentey@gmail.com>
+On ARM, we cannot keep this PIO limit as the arm-virt machine
+uses [0x3eff0000, 0x3f000000 ] for the IO space map and we
+are mandated to allocate at 0x0.
+
+Add a new flag in QPCIBar indicating whether it is an IO bar
+or a memory bar. This flag is set on QPCIBar allocation and
+provisionned based on the BAR configuration. Then the new flag
+is used in access functions and in iomap() function.
+
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220504152025.1785704-2-eric.auger@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/xen/xen_pt.c          | 11 -----------
- hw/xen/xen_pt.h          |  3 ++-
- hw/xen/xen_pt_graphics.c |  5 ++++-
- 3 files changed, 6 insertions(+), 13 deletions(-)
+ tests/qtest/libqos/pci-pc.c    |  1 +
+ tests/qtest/libqos/pci-spapr.c |  1 +
+ tests/qtest/libqos/pci.c       | 78 ++++++++++++++++++++++------------
+ tests/qtest/libqos/pci.h       |  5 +--
+ 4 files changed, 54 insertions(+), 31 deletions(-)
 
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 829ea9985f..0ec7e52183 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -701,17 +701,6 @@ static const MemoryListener xen_pt_io_listener = {
-     .priority = 10,
+diff --git a/tests/qtest/libqos/pci-pc.c b/tests/qtest/libqos/pci-pc.c
+index e9dd5a57ec..81c2c055ca 100644
+--- a/tests/qtest/libqos/pci-pc.c
++++ b/tests/qtest/libqos/pci-pc.c
+@@ -150,6 +150,7 @@ void qpci_init_pc(QPCIBusPC *qpci, QTestState *qts, QGuestAllocator *alloc)
+ 
+     qpci->bus.qts = qts;
+     qpci->bus.pio_alloc_ptr = 0xc000;
++    qpci->bus.pio_limit = 0x10000;
+     qpci->bus.mmio_alloc_ptr = 0xE0000000;
+     qpci->bus.mmio_limit = 0x100000000ULL;
+ 
+diff --git a/tests/qtest/libqos/pci-spapr.c b/tests/qtest/libqos/pci-spapr.c
+index 76bf9a855d..0f1023e4a7 100644
+--- a/tests/qtest/libqos/pci-spapr.c
++++ b/tests/qtest/libqos/pci-spapr.c
+@@ -197,6 +197,7 @@ void qpci_init_spapr(QPCIBusSPAPR *qpci, QTestState *qts,
+ 
+     qpci->bus.qts = qts;
+     qpci->bus.pio_alloc_ptr = 0xc000;
++    qpci->bus.pio_limit = 0x10000;
+     qpci->bus.mmio_alloc_ptr = qpci->mmio32.pci_base;
+     qpci->bus.mmio_limit = qpci->mmio32.pci_base + qpci->mmio32.size;
+ 
+diff --git a/tests/qtest/libqos/pci.c b/tests/qtest/libqos/pci.c
+index 3a9076ae58..b23d72346b 100644
+--- a/tests/qtest/libqos/pci.c
++++ b/tests/qtest/libqos/pci.c
+@@ -398,44 +398,56 @@ void qpci_config_writel(QPCIDevice *dev, uint8_t offset, uint32_t value)
+ 
+ uint8_t qpci_io_readb(QPCIDevice *dev, QPCIBar token, uint64_t off)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        return dev->bus->pio_readb(dev->bus, token.addr + off);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        return bus->pio_readb(bus, token.addr + off);
+     } else {
+         uint8_t val;
+-        dev->bus->memread(dev->bus, token.addr + off, &val, sizeof(val));
++
++        bus->memread(dev->bus, token.addr + off, &val, sizeof(val));
+         return val;
+     }
+ }
+ 
+ uint16_t qpci_io_readw(QPCIDevice *dev, QPCIBar token, uint64_t off)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        return dev->bus->pio_readw(dev->bus, token.addr + off);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        return bus->pio_readw(bus, token.addr + off);
+     } else {
+         uint16_t val;
+-        dev->bus->memread(dev->bus, token.addr + off, &val, sizeof(val));
++
++        bus->memread(bus, token.addr + off, &val, sizeof(val));
+         return le16_to_cpu(val);
+     }
+ }
+ 
+ uint32_t qpci_io_readl(QPCIDevice *dev, QPCIBar token, uint64_t off)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        return dev->bus->pio_readl(dev->bus, token.addr + off);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        return bus->pio_readl(bus, token.addr + off);
+     } else {
+         uint32_t val;
+-        dev->bus->memread(dev->bus, token.addr + off, &val, sizeof(val));
++
++        bus->memread(dev->bus, token.addr + off, &val, sizeof(val));
+         return le32_to_cpu(val);
+     }
+ }
+ 
+ uint64_t qpci_io_readq(QPCIDevice *dev, QPCIBar token, uint64_t off)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        return dev->bus->pio_readq(dev->bus, token.addr + off);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        return bus->pio_readq(bus, token.addr + off);
+     } else {
+         uint64_t val;
+-        dev->bus->memread(dev->bus, token.addr + off, &val, sizeof(val));
++
++        bus->memread(bus, token.addr + off, &val, sizeof(val));
+         return le64_to_cpu(val);
+     }
+ }
+@@ -443,57 +455,65 @@ uint64_t qpci_io_readq(QPCIDevice *dev, QPCIBar token, uint64_t off)
+ void qpci_io_writeb(QPCIDevice *dev, QPCIBar token, uint64_t off,
+                     uint8_t value)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        dev->bus->pio_writeb(dev->bus, token.addr + off, value);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        bus->pio_writeb(bus, token.addr + off, value);
+     } else {
+-        dev->bus->memwrite(dev->bus, token.addr + off, &value, sizeof(value));
++        bus->memwrite(bus, token.addr + off, &value, sizeof(value));
+     }
+ }
+ 
+ void qpci_io_writew(QPCIDevice *dev, QPCIBar token, uint64_t off,
+                     uint16_t value)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        dev->bus->pio_writew(dev->bus, token.addr + off, value);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        bus->pio_writew(bus, token.addr + off, value);
+     } else {
+         value = cpu_to_le16(value);
+-        dev->bus->memwrite(dev->bus, token.addr + off, &value, sizeof(value));
++        bus->memwrite(bus, token.addr + off, &value, sizeof(value));
+     }
+ }
+ 
+ void qpci_io_writel(QPCIDevice *dev, QPCIBar token, uint64_t off,
+                     uint32_t value)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        dev->bus->pio_writel(dev->bus, token.addr + off, value);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        bus->pio_writel(bus, token.addr + off, value);
+     } else {
+         value = cpu_to_le32(value);
+-        dev->bus->memwrite(dev->bus, token.addr + off, &value, sizeof(value));
++        bus->memwrite(bus, token.addr + off, &value, sizeof(value));
+     }
+ }
+ 
+ void qpci_io_writeq(QPCIDevice *dev, QPCIBar token, uint64_t off,
+                     uint64_t value)
+ {
+-    if (token.addr < QPCI_PIO_LIMIT) {
+-        dev->bus->pio_writeq(dev->bus, token.addr + off, value);
++    QPCIBus *bus = dev->bus;
++
++    if (token.is_io) {
++        bus->pio_writeq(bus, token.addr + off, value);
+     } else {
+         value = cpu_to_le64(value);
+-        dev->bus->memwrite(dev->bus, token.addr + off, &value, sizeof(value));
++        bus->memwrite(bus, token.addr + off, &value, sizeof(value));
+     }
+ }
+ 
+ void qpci_memread(QPCIDevice *dev, QPCIBar token, uint64_t off,
+                   void *buf, size_t len)
+ {
+-    g_assert(token.addr >= QPCI_PIO_LIMIT);
++    g_assert(!token.is_io);
+     dev->bus->memread(dev->bus, token.addr + off, buf, len);
+ }
+ 
+ void qpci_memwrite(QPCIDevice *dev, QPCIBar token, uint64_t off,
+                    const void *buf, size_t len)
+ {
+-    g_assert(token.addr >= QPCI_PIO_LIMIT);
++    g_assert(!token.is_io);
+     dev->bus->memwrite(dev->bus, token.addr + off, buf, len);
+ }
+ 
+@@ -534,9 +554,10 @@ QPCIBar qpci_iomap(QPCIDevice *dev, int barno, uint64_t *sizeptr)
+         loc = QEMU_ALIGN_UP(bus->pio_alloc_ptr, size);
+ 
+         g_assert(loc >= bus->pio_alloc_ptr);
+-        g_assert(loc + size <= QPCI_PIO_LIMIT); /* Keep PIO below 64kiB */
++        g_assert(loc + size <= bus->pio_limit);
+ 
+         bus->pio_alloc_ptr = loc + size;
++        bar.is_io = true;
+ 
+         qpci_config_writel(dev, bar_reg, loc | PCI_BASE_ADDRESS_SPACE_IO);
+     } else {
+@@ -547,6 +568,7 @@ QPCIBar qpci_iomap(QPCIDevice *dev, int barno, uint64_t *sizeptr)
+         g_assert(loc + size <= bus->mmio_limit);
+ 
+         bus->mmio_alloc_ptr = loc + size;
++        bar.is_io = false;
+ 
+         qpci_config_writel(dev, bar_reg, loc);
+     }
+@@ -562,7 +584,7 @@ void qpci_iounmap(QPCIDevice *dev, QPCIBar bar)
+ 
+ QPCIBar qpci_legacy_iomap(QPCIDevice *dev, uint16_t addr)
+ {
+-    QPCIBar bar = { .addr = addr };
++    QPCIBar bar = { .addr = addr, .is_io = true };
+     return bar;
+ }
+ 
+diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
+index e705e06598..a3c657d962 100644
+--- a/tests/qtest/libqos/pci.h
++++ b/tests/qtest/libqos/pci.h
+@@ -16,8 +16,6 @@
+ #include "../libqtest.h"
+ #include "qgraph.h"
+ 
+-#define QPCI_PIO_LIMIT    0x10000
+-
+ #define QPCI_DEVFN(dev, fn) (((dev) << 3) | (fn))
+ 
+ typedef struct QPCIDevice QPCIDevice;
+@@ -51,7 +49,7 @@ struct QPCIBus {
+                           uint8_t offset, uint32_t value);
+ 
+     QTestState *qts;
+-    uint16_t pio_alloc_ptr;
++    uint64_t pio_alloc_ptr, pio_limit;
+     uint64_t mmio_alloc_ptr, mmio_limit;
+     bool has_buggy_msi; /* TRUE for spapr, FALSE for pci */
+ 
+@@ -59,6 +57,7 @@ struct QPCIBus {
+ 
+ struct QPCIBar {
+     uint64_t addr;
++    bool is_io;
  };
  
--static void
--xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
--                                      XenHostPCIDevice *dev)
--{
--    uint16_t gpu_dev_id;
--    PCIDevice *d = &s->dev;
--
--    gpu_dev_id = dev->device_id;
--    igd_passthrough_isa_bridge_create(pci_get_bus(d), gpu_dev_id);
--}
--
- /* destroy. */
- static void xen_pt_destroy(PCIDevice *d) {
- 
-diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index 806d832c94..e7c4316a7d 100644
---- a/hw/xen/xen_pt.h
-+++ b/hw/xen/xen_pt.h
-@@ -43,7 +43,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
- 
- uint32_t igd_read_opregion(XenPCIPassthroughState *s);
- void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
--void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id);
-+void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
-+                                           XenHostPCIDevice *dev);
- 
- /* function type for config reg */
- typedef int (*xen_pt_conf_reg_init)
-diff --git a/hw/xen/xen_pt_graphics.c b/hw/xen/xen_pt_graphics.c
-index f1fbb98912..f303f67c9c 100644
---- a/hw/xen/xen_pt_graphics.c
-+++ b/hw/xen/xen_pt_graphics.c
-@@ -375,10 +375,13 @@ static void pt_graphics_register_types(void)
- }
- type_init(pt_graphics_register_types)
- 
--void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
-+void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
-+                                           XenHostPCIDevice *dev)
- {
-+    PCIBus *bus = pci_get_bus(&s->dev);
-     struct PCIDevice *bridge_dev;
-     int i, num;
-+    const uint16_t gpu_dev_id = dev->device_id;
-     uint16_t pch_dev_id = 0xffff;
-     uint8_t pch_rev_id = 0;
- 
+ struct QPCIDevice
 -- 
 2.36.0
 
