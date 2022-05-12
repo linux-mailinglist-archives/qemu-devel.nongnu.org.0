@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0349D5243B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:49:47 +0200 (CEST)
-Received: from localhost ([::1]:37278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32095243B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:52:05 +0200 (CEST)
+Received: from localhost ([::1]:43680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nozpi-0004xC-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39682)
+	id 1nozrw-0000rC-Ts
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:52:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozNd-0005VH-0V
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:45 -0400
-Received: from mga11.intel.com ([192.55.52.93]:31264)
+ id 1nozNe-0005Vv-D5
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:47 -0400
+Received: from mga11.intel.com ([192.55.52.93]:31274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozNb-0003Hf-Am
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:44 -0400
+ id 1nozNc-0003Hr-23
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652325643; x=1683861643;
+ t=1652325644; x=1683861644;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Lh4ppGDQ1eZFnNDkiTMY5BSG4ZJaoqqHcvXD4R6VHIM=;
- b=QZljr3DUYGoS9rgnw7KnjS/ihOcI0ustQBKwkW2c9XkZcHRAoeIt3N4G
- cLt7U6olhPc5GVFz5akX1V6kPLSn4AJ45ZK3fvyS9SBd2dqERIyhSwP/U
- 3PzTuL9TViwH9PGFxB+3rCWqCjJTy3nTVgX7jptkbuXQVU/17OWFlbPX+
- yu72yr3rTEVIBlzTVcB1Zdw/rKxGbDXyFENuxggLjND5iLpxETFwdSR0Z
- e2AZiqkt3cbg3yheR9uYfD1zy5bZSb01JE7ihUFEHv4lMg1EXne4swx4k
- pRv1QiPBXujRNaslYgYUNHtLSiLWtGDbCGB4bNr42SEW/azgvCEYznBw2 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="267461345"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="267461345"
+ bh=YVxIGvFnK0Immii+WM6ZwgVnhVh4Z/sQxZlDPtmGK6s=;
+ b=clJyZiDVDY/XdiUV2MYEXKZnb6PD/UQZcYbYvClFDuzZvnuSBv++1Sp0
+ CfqE0IBOANaIUlrQR1l88Snf6+YdRtpthiL8DaroYj+IEqWEHu2qPK71Y
+ nx17UXvilIU7G7q02In8xeSf6bsDaIlT390fcvh7x8+ce837zOTxoElwT
+ OQwmXrGGO9r1ybY2CVfdlK6Wdlk2/7SSfFBbs5EUz00cNvuzNzuY+zSRx
+ zdjU87ICKoB20xtQMBAXFikGr/R7Nn6Bm+BqXFG4s1TMXvOWx8eTWpF0n
+ sVgTZfyXDdXY5sjbv7LsUigjY0krmmB2ZjLSTQIpF/i2BuoKMd3tLJwKL g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="267461354"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="267461354"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 20:20:26 -0700
+ 11 May 2022 20:20:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594456621"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594456634"
 Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:20:22 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:20:26 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
@@ -54,9 +54,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [RFC PATCH v4 28/36] i386/tdx: Disable PIC for TDX VMs
-Date: Thu, 12 May 2022 11:17:55 +0800
-Message-Id: <20220512031803.3315890-29-xiaoyao.li@intel.com>
+Subject: [RFC PATCH v4 29/36] i386/tdx: Don't allow system reset for TDX VMs
+Date: Thu, 12 May 2022 11:17:56 +0800
+Message-Id: <20220512031803.3315890-30-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220512031803.3315890-1-xiaoyao.li@intel.com>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
@@ -87,36 +87,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Legacy PIC (8259) cannot be supported for TDX VMs since TDX module
-doesn't allow directly interrupt injection.  Using posted interrupts
-for the PIC is not a viable option as the guest BIOS/kernel will not
-do EOI for PIC IRQs, i.e. will leave the vIRR bit set.
-
-Hence disable PIC for TDX VMs and error out if user wants PIC.
+TDX CPU state is protected and thus vcpu state cann't be reset by VMM.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- target/i386/kvm/tdx.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ target/i386/kvm/kvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index 7ff4c6a9a7ca..59c7aa8f1818 100644
---- a/target/i386/kvm/tdx.c
-+++ b/target/i386/kvm/tdx.c
-@@ -333,6 +333,13 @@ int tdx_kvm_init(MachineState *ms, Error **errp)
-         return -EINVAL;
-     }
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index c51125ab200f..9a1e1dab938f 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -5349,7 +5349,7 @@ bool kvm_has_waitpkg(void)
  
-+    if (x86ms->pic == ON_OFF_AUTO_AUTO) {
-+        x86ms->pic = ON_OFF_AUTO_OFF;
-+    } else if (x86ms->pic == ON_OFF_AUTO_ON) {
-+        error_setg(errp, "TDX VM doesn't support PIC");
-+        return -EINVAL;
-+    }
-+
-     if (!tdx_caps) {
-         get_tdx_capabilities();
-     }
+ bool kvm_arch_cpu_check_are_resettable(void)
+ {
+-    return !sev_es_enabled();
++    return !sev_es_enabled() && !is_tdx_vm();
+ }
+ 
+ #define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
 -- 
 2.27.0
 
