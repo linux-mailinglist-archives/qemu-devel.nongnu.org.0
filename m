@@ -2,64 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CD6524728
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 09:41:47 +0200 (CEST)
-Received: from localhost ([::1]:52950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46814524739
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 09:43:57 +0200 (CEST)
+Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np3SD-0002mY-Pn
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 03:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45300)
+	id 1np3UK-0004ZK-8U
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 03:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np3QG-00026A-2j
- for qemu-devel@nongnu.org; Thu, 12 May 2022 03:39:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56994)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np3QC-0006oa-Ut
- for qemu-devel@nongnu.org; Thu, 12 May 2022 03:39:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652341179;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=vtAKf39+u+3VE2xR6eWU0uGMQn4NGOyIfI+nc8Mccjg=;
- b=assPJjIDWEYugDPZdiq2N5GeP92PJQ9myXPIMS44S3g0Wo0qzlgiZV41o7fsV2RrZvUSw0
- /Mrpo5iqvmDc2TxJ93/TRFUI3F3aLZfdofPFkdSQJ4LS+iPIEGMYmoNblJls7Me9lD/2GI
- ZFS2bHHhStu3EjoxCXQ4rKrXupxMDtw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-yFNW-9kDOMi6zD-V0rUVcw-1; Thu, 12 May 2022 03:39:36 -0400
-X-MC-Unique: yFNW-9kDOMi6zD-V0rUVcw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2393785A5A8;
- Thu, 12 May 2022 07:39:36 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4974D2026D6A;
- Thu, 12 May 2022 07:39:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Stefan Weil <sw@weilnetz.de>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>
-Subject: [PATCH v2] docs/about: Update the support statement for Windows
-Date: Thu, 12 May 2022 09:39:29 +0200
-Message-Id: <20220512073929.988220-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1np3S1-0003IV-Nx
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 03:41:33 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1np3S0-0007J5-4Q
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 03:41:33 -0400
+Received: by mail-ed1-x532.google.com with SMTP id y21so5235363edo.2
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 00:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RaYOnkzrV2PMhVoTZK0I+FxAlMxGtFo0Key2MTZXJEU=;
+ b=Ak2X12+MZhUyRU0frofQi+4Gq+UUoJX5+B8QCjSIX8+T9nlpO2mROx3lc8T6nwgwcC
+ EUj//1SLO/dIvStnlRzuopQVr3qc6xLIDWB86RuQEJw8VfDNGRfensjLaGeOv3welby6
+ Ty3kkmG7uOfA2/MmB2GQzqjNPDge69uyYliyftse9t9y/ap90Anc1c9B+z9gZrrXqqSY
+ qNBGlibgSuEG+2QHq5IxBW+/AIpgj6oh9ohixrZkEGYm1+x0EWUMBSWrsGw61QgAX9wm
+ 6FKJjkcqZv9nfNgZayegg0/z7TYjJfn5FFZyAWBw6ykCxfyrlYojRdyV4nChyQdVL7nO
+ JEug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RaYOnkzrV2PMhVoTZK0I+FxAlMxGtFo0Key2MTZXJEU=;
+ b=i0Fr8Qp7VSjtdolsBRqn89TvgG/3oUJHPbzZyxEYL4mLWqKZrTqJo0zODcK57rtlmZ
+ R65W2dAj8VexCqBJi/BcWvTczN2UULZUFscWEt9Phm/aSGJj0eGCM9+Ox1SAebdkHAxj
+ gFFRAJ+sbdk+6F5oMGlqowECBXX+VZGPJJUst04pnYlwk5/y1ixze7qTwjWPLPCZxuWe
+ w7XJH7J3xyqdAAPCpXWQNZmqnay/YcJVDHF5WX1Xpr5fxSOynIUjSTcQ4mVLGt4UJyrT
+ dj8jfOs1KggUDg5CkeKmVJg2kBIPn0PbU1UK5jEtQYcJLGuGCdXTqx4uS6/JiGmcJNGB
+ 4JeA==
+X-Gm-Message-State: AOAM531UwJfraPEmYLk3Rc/ZuF1O7qFuA7pwqN1rO6broHtnpA+Dsqgk
+ aCUPjdf9Zfd+h6vyK6ZegeY=
+X-Google-Smtp-Source: ABdhPJyVsz4JrduuxrzV9OA1EgzwMqZ+KBGkTF0hHixGPQK498WCvF52oDukPE7w3+DreEt+FzGMLw==
+X-Received: by 2002:a05:6402:190e:b0:42a:3b3d:d061 with SMTP id
+ e14-20020a056402190e00b0042a3b3dd061mr1414492edz.106.1652341290484; 
+ Thu, 12 May 2022 00:41:30 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ p2-20020a170906614200b006f3ef214e41sm1818956ejl.167.2022.05.12.00.41.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 00:41:29 -0700 (PDT)
+Message-ID: <04938ba0-7ff4-df3c-348d-b679eac4fbac@redhat.com>
+Date: Thu, 12 May 2022 09:41:29 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] util: NUMA aware memory preallocation
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
+References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
+ <Ynt/v2SHmnO2afg4@redhat.com>
+ <8a6b84ed-50bc-8f6e-4b71-7e15247c4ac0@redhat.com>
+ <YnuDONrdbMcJT08p@redhat.com>
+ <a11ca582-3d17-b064-6736-bd66ed5a5ec4@redhat.com>
+ <YnuLe7cVlEYsw78o@redhat.com>
+ <5374a249-8389-3d11-1b30-b0b6e6910a51@redhat.com>
+ <YnvqYO8p/Z/7/DrO@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YnvqYO8p/Z/7/DrO@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,69 +103,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our support statement for Windows currently talks about "Vista / Server
-2008" - which is related to the API of Windows, and this is not easy
-to understand for the non-technical users. Additionally, glib sets the
-_WIN32_WINNT macro to 0x0601 already, which indicates the Windows 7 API,
-so QEMU effectively depends on the Windows 7 API, too.
+On 5/11/22 18:54, Daniel P. Berrangé wrote:
+> On Wed, May 11, 2022 at 01:07:47PM +0200, Paolo Bonzini wrote:
+>> On 5/11/22 12:10, Daniel P. Berrangé wrote:
+>>> I expect creating/deleting I/O threads is cheap in comparison to
+>>> the work done for preallocation. If libvirt is using -preconfig
+>>> and object-add to create the memory backend, then we could have
+>>> option of creating the I/O threads dynamically in -preconfig mode,
+>>> create the memory backend, and then delete the I/O threads again.
+>>
+>> I think this is very overengineered.  Michal's patch is doing the obvious
+>> thing and if it doesn't work that's because Libvirt is trying to micromanage
+>> QEMU.
+> 
+> Calling it micromanaging is putting a very negative connotation on
+> this. What we're trying todo is enforce a host resource policy for
+> QEMU, in a way that a compromised QEMU can't escape, which is a
+> valuable protection.
 
-Thus let's bump the _WIN32_WINNT setting in QEMU to the same level as
-glib uses and adjust our support statement in the documentation to
-something similar that we're using for Linux and the *BSD systems
-(i.e. only the two most recent versions), which should hopefully be
-easier to understand for the users now.
+I'm sorry if that was a bit exaggerated, but the negative connotation 
+was intentional.
 
-And since we're nowadays also compile-testing QEMU with MSYS2 on Windows
-itself, I think we could mention this build environment here, too.
+>> As mentioned on IRC, if the reason is to prevent moving around threads in
+>> realtime (SCHED_FIFO, SCHED_RR) classes, that should be fixed at the kernel
+>> level.
+> 
+> We use cgroups where it is available to us, but we don't always have
+> the freedom that we'd like.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/880
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Rephrase and update the _WIN32_WINNT macro, too
+I understand.  I'm thinking of a new flag to sched_setscheduler that 
+fixes the CPU affinity and policy of the thread and prevents changing it 
+in case QEMU is compromised later.  The seccomp/SELinux sandboxes can 
+prevent setting the SCHED_FIFO class without this flag.
 
- docs/about/build-platforms.rst | 14 +++++++++-----
- include/qemu/osdep.h           |  2 +-
- 2 files changed, 10 insertions(+), 6 deletions(-)
+In addition, my hunch is that this works only because the RT setup of 
+QEMU is not safe against priority inversion.  IIRC the iothreads are set 
+with a non-realtime priority, but actually they should have a _higher_ 
+priority than the CPU threads, and the thread pool I/O bound workers 
+should have an even higher priority; otherwise you have a priority 
+inversion situation where an interrupt is pending that would wake up the 
+CPU, but the iothreads cannot process it because they have a lower 
+priority than the CPU.
 
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index e9163ba556..1958edb430 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -86,11 +86,15 @@ similar versions.
- Windows
- -------
- 
--The project supports building with current versions of the MinGW toolchain,
--hosted on Linux (Debian/Fedora).
--
--The version of the Windows API that's currently targeted is Vista / Server
--2008.
-+The project aims to support the two most recent versions of Windows that are
-+still supported by the vendor. The minimum Windows API that is currently
-+targeted is "Windows 7", so theoretically the QEMU binaries can still be run
-+on older versions of Windows, too. However, such old versions of Windows are
-+not tested anymore, so it is recommended to use one of the latest versions of
-+Windows instead.
-+
-+The project supports building QEMU with current versions of the MinGW
-+toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
- 
- .. _Homebrew: https://brew.sh/
- .. _MacPorts: https://www.macports.org/
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 1c1e7eca98..e2f88597b6 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -75,7 +75,7 @@ QEMU_EXTERN_C int daemon(int, int);
- #ifdef _WIN32
- /* as defined in sdkddkver.h */
- #ifndef _WIN32_WINNT
--#define _WIN32_WINNT 0x0600 /* Vista */
-+#define _WIN32_WINNT 0x0601 /* Windows 7 API */
- #endif
- /* reduces the number of implicitly included headers */
- #ifndef WIN32_LEAN_AND_MEAN
--- 
-2.27.0
+So the iothread and the associated util/thread-pool.c thread pool are 
+the wrong tools to solve Michal's issue; they are not meant for 
+background CPU-bound work, even though they _might_ work due to their 
+incorrect RT setup.
 
+Paolo
 
