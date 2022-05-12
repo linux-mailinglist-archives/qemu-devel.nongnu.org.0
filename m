@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE1B524141
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 01:57:37 +0200 (CEST)
-Received: from localhost ([::1]:41038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1873D5241B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 02:52:05 +0200 (CEST)
+Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nowD2-0001bi-DP
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 19:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39552)
+	id 1nox3j-0006q2-N6
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 20:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6t-0002X7-0a
- for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:15 -0400
-Received: from mout.gmx.net ([212.227.17.22]:60065)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nox1I-0005GK-VI
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 20:49:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1now6p-0007TE-N9
- for qemu-devel@nongnu.org; Wed, 11 May 2022 19:51:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1652313056;
- bh=ipkIfDpULgb02Y4ogyOu7byQwpEWDVsos5Snk4Q3aWE=;
- h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=HX4mZ11m0Ik4yoxIvEw1wjuHLyLQHSQRBSgYNsxpMD/FetgXELR4CPu9pwqrXLKqX
- L2OQQFdm5gYOR4xbLPwKQKGfDlOKTJbRTwB7jHmGSxWSQ9WmhdWZNb5uwJ9e7wdcMK
- jXOWmroBl8L1SDGvwnW78J/WcyuNI4/+IyD8CoGk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.141.127]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MiJZO-1oJLBG2Rc6-00fWBm; Thu, 12
- May 2022 01:50:56 +0200
-From: Helge Deller <deller@gmx.de>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Sven Schnelle <svens@stackframe.org>
-Subject: [PATCH 6/6] artist: Emulate screen blanking
-Date: Thu, 12 May 2022 01:50:54 +0200
-Message-Id: <20220511235054.185435-7-deller@gmx.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220511235054.185435-1-deller@gmx.de>
-References: <20220511235054.185435-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nox1F-0006qW-7g
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 20:49:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652316567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=L5ksbtsfXMan7nm486NNtnnfGkJwRsS4szh1Yyx+71E=;
+ b=C2oslvFcwNsvScnksSJ+OWbL/5bJnCWW82ydEOmaT2zKwRq43FYha3sCIi+w3Zt0h5dL0C
+ fy9yKRiYXq68+L53M3qO2jSEPSbZkKp7YbIMQZFahbEX4zT4BTImTZ2veCPNsWBfOjOpCA
+ BpyJ/rPCVoQAup0shIcflZCmGBEqm/Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-303-sNNf2m4LN1C1FS07ml2mew-1; Wed, 11 May 2022 20:49:26 -0400
+X-MC-Unique: sNNf2m4LN1C1FS07ml2mew-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEAC880159B;
+ Thu, 12 May 2022 00:49:25 +0000 (UTC)
+Received: from blue.redhat.com (unknown [10.22.32.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FC1A1121314;
+ Thu, 12 May 2022 00:49:25 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: v.sementsov-og@mail.ru,
+	kwolf@redhat.com,
+	qemu-block@nongnu.org
+Subject: [PATCH v4 0/2] nbd: MULTI_CONN for shared writable exports
+Date: Wed, 11 May 2022 19:49:22 -0500
+Message-Id: <20220512004924.417153-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PB6XV/v9XjjPy6jqoO+g3rJAl8KKtwFaditgfkK1cwsg0HGw5UE
- ac5ZIDd3e53KmpXzSdT72/aDyX3HNzniRejUZ8CJk0KYiJ6LPfmtXCa1iS1k2xdVb0GqNDT
- Zx02QT5A9KOL/hOMHUaEamGZCa9eN4M2QMj+cA76wCetFHsyLwzBW77tWxef9rFUs/d6RNP
- EOyMPqfYiXM1TcAdBzhkg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TkdX9UCrjCU=:BlWlRL+fucDYD75kGKA7LG
- sAEu4Wgp7nAfGs8FyJyLi7Ca+6IbZwtAQWM95yp4PbSWaxZB5SEA7aIlo+o0Z1GNtGj2Q0S5N
- jMSPUkkI0S881HaEzObZbVopas07f9DFSLyqfBGI45QamuRe/id7GPX7rnqeERdtxsPUgGCDF
- +46COWfpkk1Z8ONuUQrLh7yh5mob+SAX7psj22hVQp30O4kgsOeD9n00Eldw8UtJgNtnrUCCO
- KSXXFUol41Jb8gyjvsEwTKRsV0ObeYEl/GpGtUoLLMXboEmEUgKmGqMo/MIG0olLJZDWmq4Wx
- jJkEwM1jDhl3C2nXt2hgtIr+rlgHq93CtoD6lTGNC/RRiMU9T0myaJIFelrY9zzP0s50NiTZX
- vzY3UauXDGZW3WxaGbNAxvP0BAJTtMHUEqEJxR3KLEFuP1tw9+eH9+djEykUo0T+ixY05rgIw
- XvUkif7BSaw3bX2Scx91b9VnBncI+VIq3BegqtFsi/5EoXZ9fQTEwlWUJRt94lbsvu9b8ljjI
- s8qJNuwz4XZnG8QIIgHbz5WPyhvXQX5Onio1PiIp9U5QdFK05K9oWnIh9aijMUHmnFHH3lVLV
- KnQvZG3pXOXyoxLktAy9wmi7zHs0QghO6626QCu9FukVePBkbJlMPxC/WE6gZevnzzc3F0nlm
- hDviJz5a6kUKJdsjgr2UfU/z3zodQesZwXOCyGwhV7VpvhztMyolIiuxEb9MISAi3VRc6npm0
- K25/cfXwEnYvEerOttZw2RY+VtiQnBXZiLVp5Cel2WcG2iGJRO763AE3vZMKEcA8cuzPNfndY
- HQAG445ghdvxaazzuIDponT4C7atI5HdeTbDR8KCQ/HxAWJDYm9Ivc/SD5zmxefl32qU/1XVQ
- P012wXwn6zQuPfVYEfhDkwAgW8Ujcs/6u5vRARW2J1E96kzThXSpIiG1wM66vLhxNLoG7Z4Un
- l2IzFHocAT33m2GM5mh2ydDHJuAkCbbrMeeQpP0ChtwFcrfSdjnWU454AEYCbOo2T+vqN1Bon
- oSgtAckzGr16Dlp2ipnrty1EfJmmm20f0KcIziVD5gQpJZGARCc+gBE/RWGtyqUQNMo6nBJGt
- MB9nrOFHOxkhfI=
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,102 +76,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The misc_video and misc_ctrl registers control the visibility of the
-screen. Start with the screen turned on, and hide or show the screen
-based on the control registers.
+v3 was here:
+https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03701.html
+with additional review here:
+https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg00166.html
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/display/artist.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Since then:
+- patch 1 of v3 applied independently
+- patch 3 simplified with beefed up commit message (now unconditional,
+  because we have convinced ourselves that all shared clients go
+  through a single block backend with no cache inconsistency) [kwolf]
+- patch 3 rebase iotest addition to recent iotest improvements
+- patch 3 s/7.0/7.1/ to match another slip in time
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index b8930b7c5a..49dad2b824 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -201,6 +201,8 @@ static const char *artist_reg_name(uint64_t addr)
- }
- #undef REG_NAME
+Eric Blake (2):
+  qemu-nbd: Pass max connections to blockdev layer
+  nbd/server: Allow MULTI_CONN for shared writable exports
 
-+static void artist_invalidate(void *opaque);
-+
- /* artist has a fixed line length of 2048 bytes. */
- #define ADDR_TO_Y(addr) extract32(addr, 11, 11)
- #define ADDR_TO_X(addr) extract32(addr, 0, 11)
-@@ -903,6 +905,7 @@ static void artist_reg_write(void *opaque, hwaddr addr=
-, uint64_t val,
- {
-     ARTISTState *s =3D opaque;
-     int width, height;
-+    uint64_t oldval;
+ docs/interop/nbd.txt                          |   1 +
+ docs/tools/qemu-nbd.rst                       |   3 +-
+ qapi/block-export.json                        |   8 +-
+ include/block/nbd.h                           |   5 +-
+ blockdev-nbd.c                                |  13 +-
+ nbd/server.c                                  |  10 +-
+ qemu-nbd.c                                    |   2 +-
+ MAINTAINERS                                   |   1 +
+ tests/qemu-iotests/tests/nbd-multiconn        | 145 ++++++++++++++++++
+ tests/qemu-iotests/tests/nbd-multiconn.out    |   5 +
+ .../tests/nbd-qemu-allocation.out             |   2 +-
+ 11 files changed, 178 insertions(+), 17 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/nbd-multiconn
+ create mode 100644 tests/qemu-iotests/tests/nbd-multiconn.out
 
-     trace_artist_reg_write(size, addr, artist_reg_name(addr & ~3ULL), val=
-);
-
-@@ -1061,7 +1064,18 @@ static void artist_reg_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
-         break;
-
-     case MISC_VIDEO:
-+        oldval =3D s->misc_video;
-         combine_write_reg(addr, val, size, &s->misc_video);
-+        /* Invalidate and hide screen if graphics signal is turned off. *=
-/
-+        if (((oldval & 0x0A000000) =3D=3D 0x0A000000) &&
-+            ((val & 0x0A000000) !=3D 0x0A000000)) {
-+            artist_invalidate(s);
-+        }
-+        /* Invalidate and redraw screen if graphics signal is turned back=
- on. */
-+        if (((oldval & 0x0A000000) !=3D 0x0A000000) &&
-+            ((val & 0x0A000000) =3D=3D 0x0A000000)) {
-+            artist_invalidate(s);
-+        }
-         break;
-
-     case MISC_CTRL:
-@@ -1263,6 +1277,12 @@ static void artist_draw_cursor(ARTISTState *s)
-     }
- }
-
-+static bool artist_screen_enabled(ARTISTState *s)
-+{
-+    /*  We could check for (s->misc_ctrl & 0x00800000) too... */
-+    return ((s->misc_video & 0x0A000000) =3D=3D 0x0A000000);
-+}
-+
- static void artist_draw_line(void *opaque, uint8_t *d, const uint8_t *src=
-,
-                              int width, int pitch)
- {
-@@ -1270,6 +1290,12 @@ static void artist_draw_line(void *opaque, uint8_t =
-*d, const uint8_t *src,
-     uint32_t *cmap, *data =3D (uint32_t *)d;
-     int x;
-
-+    if (!artist_screen_enabled(s)) {
-+        /* clear screen */
-+        memset(data, 0, s->width * sizeof(uint32_t));
-+        return;
-+    }
-+
-     cmap =3D (uint32_t *)(s->vram_buffer[ARTIST_BUFFER_CMAP].data + 0x400=
-);
-
-     for (x =3D 0; x < s->width; x++) {
-@@ -1384,6 +1410,10 @@ static void artist_realizefn(DeviceState *dev, Erro=
-r **errp)
-     s->image_bitmap_op =3D 0x23000300;
-     s->plane_mask =3D 0xff;
-
-+    /* enable screen */
-+    s->misc_video |=3D 0x0A000000;
-+    s->misc_ctrl  |=3D 0x00800000;
-+
-     s->con =3D graphic_console_init(dev, 0, &artist_ops, s);
-     qemu_console_resize(s->con, s->width, s->height);
- }
-=2D-
-2.35.3
+-- 
+2.36.1
 
 
