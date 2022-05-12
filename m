@@ -2,95 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412A952525E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:21:32 +0200 (CEST)
-Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6271F525224
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:10:34 +0200 (CEST)
+Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBZC-0000YH-Pg
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45432)
+	id 1npBOa-00062D-Vb
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1npBE8-0007el-3R
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:59:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52547)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npBHs-0002aq-9l
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:03:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1npBE5-0007ba-NY
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:59:43 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npBHq-0008HF-Nh
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:03:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652371179;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1652371411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U7JgpV4JymVwV3EaSU+GdS9EfpLe4SulQYBIM64t4ZA=;
- b=P7o386JEp32h9IRf6lMPmF+XOO2GMwSgZB+tfeCx+L06hCQRUqjANuEWKONqUyYUerMnrf
- zMkCysjiLDIJ4C2aFJ/OJOrSkyCAH6Zzug3GhpLO2LiSLOcai5sIXRzl8+akI4hKFm9CdY
- fOLSqSsGIhBQX6hvdbk84K8aL7g3EI0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uyYH+MV/bDDU4hvPkHGyhuVApNBPS5r2zvsUOrUMsKQ=;
+ b=K/7BjeadEWTSv8ec+auneAcEK23Rp/yyc6/yIAKb+4p++hIl4GALdpJCZ2NKimCixJ8yOm
+ Oz9Rpjxh+gZVKv8WKRsaYZP0UH3ta0O0FumCDwYudX1Zr0PPEf4HJJ8/wG3h0EWOalTfKW
+ YmN/x9IsxKGYCptp6K5Vph5jsd62/pY=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-542-HiTeOSmvM6e5gpHx7yriiQ-1; Thu, 12 May 2022 11:59:38 -0400
-X-MC-Unique: HiTeOSmvM6e5gpHx7yriiQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- t25-20020a05622a181900b002f3b32a6e30so4124042qtc.11
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:59:38 -0700 (PDT)
+ us-mta-493-r5DMK0cPPkOctLECIaDuEQ-1; Thu, 12 May 2022 12:03:30 -0400
+X-MC-Unique: r5DMK0cPPkOctLECIaDuEQ-1
+Received: by mail-io1-f71.google.com with SMTP id
+ i66-20020a6bb845000000b00657bac76fb4so3285322iof.15
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:03:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=U7JgpV4JymVwV3EaSU+GdS9EfpLe4SulQYBIM64t4ZA=;
- b=VcxHd8oTGUvxkAHaA4/a4uHrWfRSUDm7luhjDJrsgK5cjudqYg3SXVTH0gxpPK2wxH
- WOd/AZ4Q6ejhwBbZclePReVsbtUyCf0YM8PMGyZo9XGU2cJsXg/vjmZ6mGzBmHgIzY07
- ufLTajg/TTPHf/9ZU1EG4zp6OcTli0CNnrmLDCIoSYaTXbIE34lTczszMe93TeZvaYb8
- 0FirBnFPuF9CXia5/8ONuKsLZvvIoRTT/aZxx+MAsmY8gq7BjgmRocZCOb8Zz+BrHE/E
- mrniXf6cwu0be9f6t5V4pKA3NVUd6iGo8Vt4mtSQUlw4p81xZxd8Iysn4w3gCc2mJeNO
- XIoA==
-X-Gm-Message-State: AOAM533RcxcVvlDi7XdWABaFQ9zg2LDJL6IOkmRe7Y7n0fOBL9wR7XhI
- /+V7efRmSqFilhedwTGcglEEoPh1mIJ0AfaiFZWi0dPByL8qH1LuB1bFSOoOQ6PatEoAWi1yzLi
- M5WfrZ88T/sFs5ZY=
-X-Received: by 2002:a05:6214:c87:b0:45a:b06d:d8cf with SMTP id
- r7-20020a0562140c8700b0045ab06dd8cfmr617591qvr.3.1652371178196; 
- Thu, 12 May 2022 08:59:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzliWj1KCANYsm1dcHdtOQOyeaLhU16ADxQajnNHIwatOS9poDyMrFmfyMoLNbsuSKCeMktnw==
-X-Received: by 2002:a05:6214:c87:b0:45a:b06d:d8cf with SMTP id
- r7-20020a0562140c8700b0045ab06dd8cfmr617579qvr.3.1652371178002; 
- Thu, 12 May 2022 08:59:38 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uyYH+MV/bDDU4hvPkHGyhuVApNBPS5r2zvsUOrUMsKQ=;
+ b=0feHz3gTp7YYuhox7sKEmucwu29d/JZiWI9zZFTOqB4znKFwHBHWp+j4WyB3cBxl1v
+ KEdAST1P08Hq2Ongs905UjWr7GRs/sXz67R/XliSHmgelAAkTqkPVXe/4VokCMNQYdxz
+ IHng0hYhYvfIo9jPwuojMEa/2KR46TIUPWZG7lr6ai3gTe4yU4PPUJO11/PcieOeXOsh
+ /GvdPQYXddZEwnzu0xWGU2MdChakuLNwHLnzuufKy6TgzNPcpfZkWsi2TbKfM3a08ecx
+ SGtx0DLHfA2Kv36d6brn17DjOtzE5FD/QbnScN8LWPfgXtdEBuHHFcd+k0KJuLz/ElzJ
+ 0TZg==
+X-Gm-Message-State: AOAM530mIzNXqeyutxqmRIIRFNBam93e5HltZiefOK7BvmqwpQx5u6VV
+ nWqMZw6BafHitL54JGuCb1+sBHmPLG0J3Xm9sUaXxr20LOuTgOHhsDL5bFnsl8VnL5Mra+Zse+n
+ +Uliv1T8K3zV+474=
+X-Received: by 2002:a5e:930e:0:b0:649:d7f0:ebc5 with SMTP id
+ k14-20020a5e930e000000b00649d7f0ebc5mr364479iom.80.1652371409322; 
+ Thu, 12 May 2022 09:03:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLmdC9m46GmOqmEocB50WnbzVjg9royiWaZHOe5iLgpw652NL4xCwMkI23oLUzn1y/yzWocg==
+X-Received: by 2002:a5e:930e:0:b0:649:d7f0:ebc5 with SMTP id
+ k14-20020a5e930e000000b00649d7f0ebc5mr364468iom.80.1652371409112; 
+ Thu, 12 May 2022 09:03:29 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- n80-20020a37a453000000b006a034e7b633sm3137156qke.3.2022.05.12.08.59.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 08:59:37 -0700 (PDT)
-Message-ID: <52bdff5a-f33a-c76b-0e04-b20970e3ec1d@redhat.com>
-Date: Thu, 12 May 2022 17:59:34 +0200
+ e6-20020a056e020b2600b002cde6e352c7sm1479832ilu.17.2022.05.12.09.03.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 09:03:28 -0700 (PDT)
+Date: Thu, 12 May 2022 12:03:27 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, qemu-trivial@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] util: Return void on iova_tree_remove
+Message-ID: <Yn0vz+6nYs0d/Hvj@xz-m1.local>
+References: <20220427154931.3166388-1-eperezma@redhat.com>
+ <CAJaqyWdwzUnP71LNEDe6Fo+th9-qMLQXJMgeo2nb3jE-GyUCPw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 10/10] test: tpm-tis: Add Sysbus TPM-TIS device test
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20200305165149.618-1-eric.auger@redhat.com>
- <20200305165149.618-11-eric.auger@redhat.com>
- <CAFEAcA8pC4RQ3oVVVzG4NA8fBkhzspxD+DyZB+UCn7u1aPSP5A@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <CAFEAcA8pC4RQ3oVVVzG4NA8fBkhzspxD+DyZB+UCn7u1aPSP5A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJaqyWdwzUnP71LNEDe6Fo+th9-qMLQXJMgeo2nb3jE-GyUCPw@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,56 +99,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On Thu, May 12, 2022 at 05:48:47PM +0200, Eugenio Perez Martin wrote:
+> On Wed, Apr 27, 2022 at 5:50 PM Eugenio Pérez <eperezma@redhat.com> wrote:
+> >
+> > It always returns IOVA_OK so nobody uses it.
+> >
+> > Acked-by: Jason Wang <jasowang@redhat.com>
+> > Reviewed-by: Peter Xu <peterx@redhat.com>
+> > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> 
+> Hi! Friendly ping about this, is it something pending from my side?
 
-On 5/12/22 15:08, Peter Maydell wrote:
-> On Thu, 5 Mar 2020 at 16:52, Eric Auger <eric.auger@redhat.com> wrote:
->> The tests themselves are the same as the ISA device ones.
->> Only the main() changes as the "tpm-tis-device" device gets
->> instantiated. Also the base address of the device is not
->> 0xFED40000 anymore but matches the base address of the
->> ARM virt platform bus.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-> Hi Eric; the commit adding this test is from back in 2020, but I've
-> just noticed something a bit odd about it:
->
->> +    args = g_strdup_printf(
->> +        "-machine virt,gic-version=max -accel tcg "
->> +        "-chardev socket,id=chr,path=%s "
->> +        "-tpmdev emulator,id=dev,chardev=chr "
->> +        "-device tpm-tis-device,tpmdev=dev",
->> +        test.addr->u.q_unix.path);
-> This 'virt' command line doesn't specify a CPU type, so it
-> will end up running with a Cortex-A15 (32-bit). Was
-> that intended? Also, it will get a GICv3, which is a
-> definitely odd combination with an A15, which was a GICv2 CPU...
-no it is not intended. I guess it should include "-cpu max" too
-as arm-cpu-features.c does?
->
-> I noticed this because I have some recent GICv3 patches which
-> end up asserting if the GICv3 and a non-GICv3 CPU are used together,
-> and this test case triggers them. Since the user can also cause
-> an assert with that kind of command line I'm going to rework them
-> (either to make the virt board fail cleanly or else to make the
-> GICv3 code do something plausible even if the real hardware CPU
-> nominally didn't have a GICv3). But maybe we should make this
-> test case not use a non-standard combination anyway? (The meson
-> conversion seems to have resulted in this test being run under
-> qemu-system-arm as well, incidentally, so I guess we would want
-> it to specify either 'a 64 bit CPU and GICv3' or 'a 32 bit
-> CPU and GICv2' accordingly. Or limit the test to aarch64...)
-limiting the test to aarch64 may be enough?
+Don't think so. :)
 
-Eric
->
-> thanks
-> -- PMM
->
+This patch does look fine to go via trivial branch, Laurent?
+
+Also copying Michael since for other iova-tree change it always go via
+Michael before.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
