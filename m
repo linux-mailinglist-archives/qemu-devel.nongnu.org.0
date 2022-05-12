@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B38552432E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:21:30 +0200 (CEST)
-Received: from localhost ([::1]:46872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B5F52435E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:25:26 +0200 (CEST)
+Received: from localhost ([::1]:58474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nozOK-0003id-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38830)
+	id 1nozS9-0003CU-2F
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozLJ-00016f-4M
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:18:21 -0400
+ id 1nozLN-0001IG-UK
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:18:25 -0400
 Received: from mga18.intel.com ([134.134.136.126]:33504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozLH-0002mx-7L
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:18:20 -0400
+ id 1nozLM-0002mx-0U
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:18:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652325499; x=1683861499;
+ t=1652325504; x=1683861504;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4yPzd9ic0KzPsXIOhszG+VqAuOZcnUTlnL9aLb+Qb3E=;
- b=BILyFmlgTnYy7WEQ84e3GizAUbrXAZ4eFF5YWpfHFFtpzOer4SfEEtRw
- EgMEbnZu9hwS+4CiVoFeaCvJC+HKSNKr5rcmzGmGi2+y79pqyy7YkkO8L
- U8emMl0Zi/FVvd/cWYt9gqtrRnvkGePRFKEcPH/ok+m7YQRTKFobCr4fC
- NthDzNENQNrRhj3o3D1A46k/cd55Ussb/wHUlR340MYUkDR6WJt+3KxHJ
- kWFHHrHm8DvqKL524qs7IH04onHhotRnTqaZ/9U4lhE17TybppEZnHHGP
- IREp+ZKIX4Io5tjfBj0sZM4O6qwzsXu9hmfjWXioXnBteC0AMkSAZRrzx w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="251928103"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="251928103"
+ bh=/hzUUIieBMLOXQw+10toMBohaCiDRcsbqHC7cp0AwXM=;
+ b=iTnqTSdUaL1iKvwYHzOzf+u63TQLo6FrYTpZSUQ5M8DjAFePjtlgYzkB
+ Mr9/NFjk2P8zFmGTIuRlTj03u9ORSFJB9beJcrK7XUnTKZP7NqYnc2wUD
+ Z21Q/4gnCRUbF51qHY0B+DVBq4399ndvoqI5FlH5wAWcWX3Ic3haPoNG6
+ wcXmtOCj9J0ZHVvl+lal3M68eMeE76Sq2+l0RDBm2vit+xddBtGc+o+mh
+ EooAm7mh913SeIRrXq+J3MBl3TU7t7NUIeTT/85NTcpQZ2qpvy0Y+rusd
+ j/WvysBw0aSDQUr+JU1iscURdNlIeb1pP/O4i+Y8ryq6WHDeKe5d0Q7Ud A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="251928135"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="251928135"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 20:18:18 -0700
+ 11 May 2022 20:18:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594455323"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594455393"
 Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:18:13 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:18:18 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
@@ -54,9 +54,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [RFC PATCH v4 02/36] i386: Introduce tdx-guest object
-Date: Thu, 12 May 2022 11:17:29 +0800
-Message-Id: <20220512031803.3315890-3-xiaoyao.li@intel.com>
+Subject: [RFC PATCH v4 03/36] target/i386: Implement mc->kvm_type() to get VM
+ type
+Date: Thu, 12 May 2022 11:17:30 +0800
+Message-Id: <20220512031803.3315890-4-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220512031803.3315890-1-xiaoyao.li@intel.com>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
@@ -86,185 +87,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce tdx-guest object which implements the interface of
-CONFIDENTIAL_GUEST_SUPPORT, and will be used to create TDX VMs (TDs) by
+TDX VM requires VM type KVM_X86_TDX_VM to be passed to
+kvm_ioctl(KVM_CREATE_VM). Hence implement mc->kvm_type() for i386
+architecture.
 
-  qemu -machine ...,confidential-guest-support=tdx0	\
-       -object tdx-guset,id=tdx0
+If tdx-guest object is specified to confidential-guest-support, like,
 
-It has only one property 'attributes' with fixed value 0 and not
-configurable so far.
+  qemu -machine ...,confidential-guest-support=tdx0 \
+       -object tdx-guest,id=tdx0,...
+
+it parses VM type as KVM_X86_TDX_VM. Otherwise, it's KVM_X86_DEFAULT_VM.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- configs/devices/i386-softmmu/default.mak |  1 +
- hw/i386/Kconfig                          |  5 +++
- qapi/qom.json                            | 14 +++++++++
- target/i386/kvm/meson.build              |  2 ++
- target/i386/kvm/tdx.c                    | 40 ++++++++++++++++++++++++
- target/i386/kvm/tdx.h                    | 19 +++++++++++
- 6 files changed, 81 insertions(+)
- create mode 100644 target/i386/kvm/tdx.c
- create mode 100644 target/i386/kvm/tdx.h
+ hw/i386/x86.c              |  6 ++++++
+ target/i386/kvm/kvm.c      | 30 ++++++++++++++++++++++++++++++
+ target/i386/kvm/kvm_i386.h |  1 +
+ 3 files changed, 37 insertions(+)
 
-diff --git a/configs/devices/i386-softmmu/default.mak b/configs/devices/i386-softmmu/default.mak
-index 598c6646dfc0..9b5ec59d65b0 100644
---- a/configs/devices/i386-softmmu/default.mak
-+++ b/configs/devices/i386-softmmu/default.mak
-@@ -18,6 +18,7 @@
- #CONFIG_QXL=n
- #CONFIG_SEV=n
- #CONFIG_SGA=n
-+#CONFIG_TDX=n
- #CONFIG_TEST_DEVICES=n
- #CONFIG_TPM_CRB=n
- #CONFIG_TPM_TIS_ISA=n
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index d22ac4a4b952..9e40ff79fc2d 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -10,6 +10,10 @@ config SGX
-     bool
-     depends on KVM
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index fba790f7b49c..4d0b0047627d 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1345,6 +1345,11 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+     qapi_free_SgxEPCList(list);
+ }
  
-+config TDX
-+    bool
-+    depends on KVM
++static int x86_kvm_type(MachineState *ms, const char *vm_type)
++{
++    return kvm_get_vm_type(ms, vm_type);
++}
 +
- config PC
-     bool
-     imply APPLESMC
-@@ -26,6 +30,7 @@ config PC
-     imply QXL
-     imply SEV
-     imply SGX
-+    imply TDX
-     imply SGA
-     imply TEST_DEVICES
-     imply TPM_CRB
-diff --git a/qapi/qom.json b/qapi/qom.json
-index eeb5395ff3b7..fde489e311dc 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -785,6 +785,18 @@
-             'reduced-phys-bits': 'uint32',
-             '*kernel-hashes': 'bool' } }
- 
-+##
-+# @TdxGuestProperties:
-+#
-+# Properties for tdx-guest objects.
-+#
-+# @attributes: TDX guest's attributes (default: 0)
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'TdxGuestProperties',
-+  'data': { '*attributes': 'uint64' } }
-+
- ##
- # @ObjectType:
- #
-@@ -837,6 +849,7 @@
-       'if': 'CONFIG_SECRET_KEYRING' },
-     'sev-guest',
-     's390-pv-guest',
-+    'tdx-guest',
-     'throttle-group',
-     'tls-creds-anon',
-     'tls-creds-psk',
-@@ -900,6 +913,7 @@
-       'secret_keyring':             { 'type': 'SecretKeyringProperties',
-                                       'if': 'CONFIG_SECRET_KEYRING' },
-       'sev-guest':                  'SevGuestProperties',
-+      'tdx-guest':                  'TdxGuestProperties',
-       'throttle-group':             'ThrottleGroupProperties',
-       'tls-creds-anon':             'TlsCredsAnonProperties',
-       'tls-creds-psk':              'TlsCredsPskProperties',
-diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
-index 736df8b72e3f..b2d7d41acde2 100644
---- a/target/i386/kvm/meson.build
-+++ b/target/i386/kvm/meson.build
-@@ -9,6 +9,8 @@ i386_softmmu_kvm_ss.add(files(
- 
- i386_softmmu_kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
- 
-+i386_softmmu_kvm_ss.add(when: 'CONFIG_TDX', if_true: files('tdx.c'))
-+
- i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
- 
- i386_softmmu_ss.add_all(when: 'CONFIG_KVM', if_true: i386_softmmu_kvm_ss)
-diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-new file mode 100644
-index 000000000000..d3792d4a3d56
---- /dev/null
-+++ b/target/i386/kvm/tdx.c
-@@ -0,0 +1,40 @@
-+/*
-+ * QEMU TDX support
-+ *
-+ * Copyright Intel
-+ *
-+ * Author:
-+ *      Xiaoyao Li <xiaoyao.li@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qom/object_interfaces.h"
-+
+ static void x86_machine_initfn(Object *obj)
+ {
+     X86MachineState *x86ms = X86_MACHINE(obj);
+@@ -1368,6 +1373,7 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     mc->cpu_index_to_instance_props = x86_cpu_index_to_props;
+     mc->get_default_cpu_node_id = x86_get_default_cpu_node_id;
+     mc->possible_cpu_arch_ids = x86_possible_cpu_arch_ids;
++    mc->kvm_type = x86_kvm_type;
+     x86mc->save_tsc_khz = true;
+     x86mc->fwcfg_dma_enabled = true;
+     nc->nmi_monitor_handler = x86_nmi;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index c885763a5bb5..3f8a9183fa9b 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -30,6 +30,7 @@
+ #include "sysemu/runstate.h"
+ #include "kvm_i386.h"
+ #include "sev.h"
 +#include "tdx.h"
+ #include "hyperv.h"
+ #include "hyperv-proto.h"
+ 
+@@ -142,6 +143,35 @@ static struct kvm_msr_list *kvm_feature_msrs;
+ #define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
+ static RateLimit bus_lock_ratelimit_ctrl;
+ 
++static const char* vm_type_name[] = {
++    [KVM_X86_DEFAULT_VM] = "X86_DEFAULT_VM",
++    [KVM_X86_TDX_VM] = "X86_TDX_VM",
++};
 +
-+/* tdx guest */
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(TdxGuest,
-+                                   tdx_guest,
-+                                   TDX_GUEST,
-+                                   CONFIDENTIAL_GUEST_SUPPORT,
-+                                   { TYPE_USER_CREATABLE },
-+                                   { NULL })
-+
-+static void tdx_guest_init(Object *obj)
++int kvm_get_vm_type(MachineState *ms, const char *vm_type)
 +{
-+    TdxGuest *tdx = TDX_GUEST(obj);
++    int kvm_type = KVM_X86_DEFAULT_VM;
 +
-+    tdx->attributes = 0;
++    if (ms->cgs && object_dynamic_cast(OBJECT(ms->cgs), TYPE_TDX_GUEST)) {
++        kvm_type = KVM_X86_TDX_VM;
++    }
++
++    /*
++     * old KVM doesn't support KVM_CAP_VM_TYPES and KVM_X86_DEFAULT_VM
++     * is always supported
++     */
++    if (kvm_type == KVM_X86_DEFAULT_VM) {
++        return kvm_type;
++    }
++
++    if (!(kvm_check_extension(KVM_STATE(ms->accelerator), KVM_CAP_VM_TYPES) & BIT(kvm_type))) {
++        error_report("vm-type %s not supported by KVM", vm_type_name[kvm_type]);
++        exit(1);
++    }
++
++    return kvm_type;
 +}
 +
-+static void tdx_guest_finalize(Object *obj)
-+{
-+}
-+
-+static void tdx_guest_class_init(ObjectClass *oc, void *data)
-+{
-+}
-diff --git a/target/i386/kvm/tdx.h b/target/i386/kvm/tdx.h
-new file mode 100644
-index 000000000000..415aeb5af746
---- /dev/null
-+++ b/target/i386/kvm/tdx.h
-@@ -0,0 +1,19 @@
-+#ifndef QEMU_I386_TDX_H
-+#define QEMU_I386_TDX_H
-+
-+#include "exec/confidential-guest-support.h"
-+
-+#define TYPE_TDX_GUEST "tdx-guest"
-+#define TDX_GUEST(obj)  OBJECT_CHECK(TdxGuest, (obj), TYPE_TDX_GUEST)
-+
-+typedef struct TdxGuestClass {
-+    ConfidentialGuestSupportClass parent_class;
-+} TdxGuestClass;
-+
-+typedef struct TdxGuest {
-+    ConfidentialGuestSupport parent_obj;
-+
-+    uint64_t attributes;    /* TD attributes */
-+} TdxGuest;
-+
-+#endif /* QEMU_I386_TDX_H */
+ int kvm_has_pit_state2(void)
+ {
+     return has_pit_state2;
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index 4124912c202e..b434feaa6b1d 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -37,6 +37,7 @@ bool kvm_has_adjust_clock(void);
+ bool kvm_has_adjust_clock_stable(void);
+ bool kvm_has_exception_payload(void);
+ void kvm_synchronize_all_tsc(void);
++int kvm_get_vm_type(MachineState *ms, const char *vm_type);
+ void kvm_arch_reset_vcpu(X86CPU *cs);
+ void kvm_arch_do_init_vcpu(X86CPU *cs);
+ 
 -- 
 2.27.0
 
