@@ -2,73 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9AD5248A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:14:12 +0200 (CEST)
-Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886545248EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:26:29 +0200 (CEST)
+Received: from localhost ([::1]:55020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np4tf-0007ou-Nd
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
+	id 1np55Y-0002IS-Kx
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1np4M0-0005xj-I7
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:39:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27657)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np4YS-00081l-95
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:52:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1np4Ly-0007JA-PF
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:39:24 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np4YP-00019R-Oh
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:52:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652344762;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1652345533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KAQefQojXytnBR9Yc7Er8eTELdjgwE3cUrTGB23XJdY=;
- b=ZMQdrZ0xvxNYmaba8+GuWWPdUGVk/GBKxelMUkklWQKagtESjsAhjV7YhnmZUHu1MMVyte
- ouc8RbjHvdqprdvPeu8KhSnbJbEgdzWaCCzhT1oPK09u9Vp2ZKt7BQTb5rk2QqTOTZSOkH
- 8Y0FLuUVRqYnRRtRPl+sTU1Dx9eeDWs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fApG5Ikogb017bWMxtNr5IPgwhik1kO+53mr1o3YqUw=;
+ b=Z48oK6Q3QDitJjiSQg5ADwMk7GT5ZMATYJrs0/YhOpl6manX6UhUoE70U/c4x3VwpZfNLB
+ I01XQbJBe3tb9mGG0VDYnPBLf/pOD/LJgnuc2uORsJ4N7qu0Y8v3to2iqVs1Zs6sVWPbwj
+ Pzdm/8yMFk0L9r1FRPq6HDwvRQ80Nlk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-HM9cD06gO_GDjhdqJZM_-g-1; Thu, 12 May 2022 04:39:20 -0400
-X-MC-Unique: HM9cD06gO_GDjhdqJZM_-g-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A67B3C14CCB
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:39:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7961641617C;
- Thu, 12 May 2022 08:39:19 +0000 (UTC)
-Date: Thu, 12 May 2022 09:39:15 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [RFC PATCH v2 4/8] net: stream: Don't ignore EINVAL on netdev
- socket connection
-Message-ID: <YnzHswjOM1YLryDD@redhat.com>
-References: <20220512080932.735962-1-lvivier@redhat.com>
- <20220512080932.735962-5-lvivier@redhat.com>
+ us-mta-453-Au3oUaJ-MQukUGcHfRdSJQ-1; Thu, 12 May 2022 04:52:11 -0400
+X-MC-Unique: Au3oUaJ-MQukUGcHfRdSJQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k5-20020a05600c0b4500b003941ca130f9so1379778wmr.0
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 01:52:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fApG5Ikogb017bWMxtNr5IPgwhik1kO+53mr1o3YqUw=;
+ b=QY2aBwQrDy5LQoTXMs5rB+DB1o09nLw5LC1xR1Msdfq3G3lC4/t+9pB8QZQS6AC/6u
+ 33j/0Icx5LbKNb+CcdLCLd0Vl66clZ5dPnjAmzR2642/b1kKsDCQY+kOmbi91iPrTD/N
+ E//2tL/nSu/BUqWTGRbbq6OqGihpRSpP/5dwFQIqy3gOe45dwthrPrrZX28ZIbxd+Pke
+ ktLf8QU2O6oSwe+w6ZFjIehKjLh8mPUhJUAzKPt3PIq1ReGwMDGzxb11UYSx0v1rsXCC
+ A9AKOPwbFUv4QrScl/WHnwG0o86P1SN8l41oNLaOZ2ePjrLFhiQm+MaaPDoCC7T1voow
+ +HQA==
+X-Gm-Message-State: AOAM533wbVQjOXZugD5V9sHHlq+eAqFr//2WLCdowKVPR0c0zEffCZ+W
+ wKQBun/SabcBsSYQs2kaD9xNLb/sx035mm8/Fq6EcKz1jsrbngkIuRoG7z1tiK1KDITEkTmqezC
+ fFkcrMTbWeikMKAE=
+X-Received: by 2002:adf:eb82:0:b0:20c:a2eb:5fe6 with SMTP id
+ t2-20020adfeb82000000b0020ca2eb5fe6mr26190281wrn.563.1652345530196; 
+ Thu, 12 May 2022 01:52:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1/nI/GuoycDkCzQpaTuT36zvDweiWOdh2s2aJHrx7BAfk3JCbahVCzC4d5jr8Q/tYKPJRMA==
+X-Received: by 2002:adf:eb82:0:b0:20c:a2eb:5fe6 with SMTP id
+ t2-20020adfeb82000000b0020ca2eb5fe6mr26190253wrn.563.1652345529907; 
+ Thu, 12 May 2022 01:52:09 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-176-144.web.vodafone.de.
+ [109.43.176.144]) by smtp.gmail.com with ESMTPSA id
+ h7-20020a05600c350700b0039456c00ba7sm2390898wmq.1.2022.05.12.01.52.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 01:52:09 -0700 (PDT)
+Message-ID: <b5f7d4bf-176e-ebee-833f-21a139d5c1ed@redhat.com>
+Date: Thu, 12 May 2022 10:52:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220512080932.735962-5-lvivier@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 0/2] s390x: kvm: Honor storage keys during emulation
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>,
+ Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <20220506153956.2217601-1-scgl@linux.ibm.com>
+ <87o8073zae.fsf@redhat.com>
+ <b55e6882-50d5-5e6b-602e-85a984b9961f@linux.ibm.com>
+ <87tu9x1p1r.fsf@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87tu9x1p1r.fsf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,32 +107,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 10:09:28AM +0200, Laurent Vivier wrote:
-> From: Stefano Brivio <sbrivio@redhat.com>
+On 10/05/2022 15.43, Cornelia Huck wrote:
+> On Tue, May 10 2022, Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
 > 
-> Other errors are treated as failure by net_stream_client_init(),
-> but if connect() returns EINVAL, we'll fail silently. Remove the
-> related exception.
+>> On 5/9/22 10:06, Cornelia Huck wrote:
+>>> On Fri, May 06 2022, Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
+>>>
+>>>> Make use of the storage key support of the MEMOP ioctl, if available,
+>>>> in order to support storage key checking during emulation.
+>>>>
+>>>> I did not update all the headers, since that broke the build,
+>>>> not sure what the best way of dealing with that is.
+>>>
+>>> Yeah, the vfio change is expected to break the build; the fix should be
+>>> easy (simple rename), and the code affected is deprecated anyway (there
+>>> hasn't been any upstream implementation that actually exposed the
+>>> interfaces). I think we should do that in a single commit to preserve
+>>> bisectability; I have not seen any patches posted yet to actually use
+>>> the new vfio migration interface, so a simple compile fixup should be
+>>> all that is needed.
+>>
+>> So basically this patch (pasted below)
+>> https://lore.kernel.org/qemu-devel/20220404181726.60291-3-mjrosato@linux.ibm.com/
+>> squashed with the updated headers.
 > 
-> Signed-off-by: Stefano Brivio <sbrivio@redhat.com>
-> [lvivier: applied to net/stream.c]
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  net/stream.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> Yes. We should probably queue that seperately, just to disarm that trap
+> for everyone; unless there's already a vfio update in flight? (Sorry, I've
+> lost track a bit.)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Unless somebody else has queued this already, I can try to come up with a 
+separate pull request for the header update today or tomorrow.
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Thomas
 
 
