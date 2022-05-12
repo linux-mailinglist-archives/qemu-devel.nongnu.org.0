@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08D25252C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:39:38 +0200 (CEST)
-Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389FA52529C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:32:49 +0200 (CEST)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBqj-0001qW-Pu
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51138)
+	id 1npBk7-0002ga-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npBaF-0003nE-1z
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:22:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28351)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npBaB-00035j-Tl
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:22:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652372550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zy6KYcN5eO2bzhaxf+FwEKrQp+8Jm9YdiNrdNiTyWqo=;
- b=EYYWBfGyCcjQlnnQ+o1aJQkOdHbdUOIkQyJ8vwlu61/Eqow6TVUKO0pzwNCwmBEwuOkZYK
- egh5KgeQzYqwn+IfkCe75TYSngxSnEa3oS3SC3HuhutZDk7pZOWUmIJSXbCzipGN0HY23I
- TYMAyg4vDCtlaygFycpl+OOAo0fLtGE=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-408-4gGPtp6YMeOh0qzTLbkYpQ-1; Thu, 12 May 2022 12:22:21 -0400
-X-MC-Unique: 4gGPtp6YMeOh0qzTLbkYpQ-1
-Received: by mail-il1-f197.google.com with SMTP id
- i24-20020a056e021d1800b002cf0541f514so3548763ila.13
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:22:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npBaI-0003vQ-16
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:22:38 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:44968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npBaG-000361-D9
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:22:37 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id e12so10655566ybc.11
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3ETZ0boNS6YCNeZnB1wEkA6zllZaVvQN6E85BZPqIKE=;
+ b=eA7c4VPTHmdWR3d6Y+ZtnDFPkWSmGzkd5RvIThsfuqnkKOnmYHjfFiqJzpWWOm6IYB
+ rmvrIix2CHBp9epVT2EC49a7AotTv4J/3tlvy1p/LTBi/GXwb3rT7uSXmES9zrU1LK9P
+ v4J3lGAuBQYx8WjdoVePnZQW0V1IIrDvTN8tFIgwZzl6kjGF+++yFJMYXujOKljrowAX
+ D4OEyWWzDFY9DTWqxZkr9OEUce7UZ5LdU0rKwDJtrRLG1XIiYRDjUUc/bFXghbG11I54
+ /rmg1srPgHD9JEyfoDnq6FVy4r5ynSjVJOuZ3RbOW0HnQdNxAnH+IAr/hj5KLmd2dw+r
+ 6hRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zy6KYcN5eO2bzhaxf+FwEKrQp+8Jm9YdiNrdNiTyWqo=;
- b=rp8nM2Olfo4P5W0KoB7iUvcwvXVNkaZ7mDkI2jmy6Vu7JVOnngBqssQFaEwMh+93wx
- WVX/RqZtpS9s7X/bM6rNjVaPj2YkMHIk+sZ2H+2h0yBmWlUkYbRem1xt4o4Db7lsq5QR
- MCsiaNuD8cRIWBMG6JixXzK/+X8+dX7P1bgcz8KGFTGEee2nJkWW/VnaRFxsy1QNY82K
- 5fJmOKKAnMnMCEgCKuzCMDC8UVZH87aggj+OuYycfqzwmwGodi0A1NQkUc7z6PbYPd+v
- IbR4ljoE3i4zkb6O4qgfIxdLAyI7uyIIJObu4pOzFwO1BYWbqE/0oCzYdcXZIzKS2Xzc
- j6uw==
-X-Gm-Message-State: AOAM533//vlDu+bvc2h0Ib9M7NH7YG8V5hkcupU65YKSrCvlyrMAQggr
- PoouffJFByYp7FLHxS4wXxr/AM3eVajJO2lMHWm3kiBKL5YUpb6pORxUvxbqZxdzTLCpCf5Fxib
- Ij/dkoHZEy1SvQBw=
-X-Received: by 2002:a05:6638:58f:b0:32b:6055:b7d9 with SMTP id
- a15-20020a056638058f00b0032b6055b7d9mr420963jar.64.1652372540903; 
- Thu, 12 May 2022 09:22:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzw+gRg+dFdNw5TVrl0IQEs38YP4hq6Zi4wptF2SVy4ppuvCV8Iy/hWD6iSl9Fy2lFlOHfBJQ==
-X-Received: by 2002:a05:6638:58f:b0:32b:6055:b7d9 with SMTP id
- a15-20020a056638058f00b0032b6055b7d9mr420945jar.64.1652372540609; 
- Thu, 12 May 2022 09:22:20 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- l19-20020a6b7513000000b0065a48a57f6dsm57109ioh.40.2022.05.12.09.22.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 09:22:20 -0700 (PDT)
-Date: Thu, 12 May 2022 12:22:19 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v4 10/19] migration: Postcopy preemption enablement
-Message-ID: <Yn00O5Ag2nPLZEyq@xz-m1.local>
-References: <20220331150857.74406-1-peterx@redhat.com>
- <20220331150857.74406-11-peterx@redhat.com>
- <b42e7619-7ba7-6933-b4d7-b67b06704d15@nutanix.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3ETZ0boNS6YCNeZnB1wEkA6zllZaVvQN6E85BZPqIKE=;
+ b=biO47O5oOvwr7NQJkM4oHnFDwrhWeQWn89YrHcCra7kBx7RYRjwneatzzWCgNy34Sx
+ oVUWOJdzFOI0ssdXQbh9Blg1zDFw/cfcYwBQGZnnPEVBfFlJY7DA5rEKbiy+jrJsDMzw
+ 6/rE3s9oTLnGpMFHx28CrBv3i0Mn/bjVmrzEpnvuz1/I8Lfz4LfsryBKY427k1FT0tuB
+ J5XN4SxNwH64rmH8/1NYg/m9HnlUcc/Mnojukm5CX8f92YwL0NhZngd/1UHRwXMiOESq
+ 07GTd8GOLwG8dCEwFvcmaXStmySnUiX1xTqtVLcZueoaToeS2VrEOtMvZKYFZR+SMajf
+ G+cA==
+X-Gm-Message-State: AOAM531FGsGBib/Hi7vOB/33l1ZpqjVaBBHTexOiD9y3LxWTunPZnVGO
+ 0QJMH+IjtVY0LUxEykGRv2mO/wbeZ7rjMzws8+Jt4w==
+X-Google-Smtp-Source: ABdhPJyMir1WCiB2ZbCXM8HufNvk68/xSQyyM7zV6ywR0Elj7udLsfvB2IT2+bDcTrS9LcgHPNF6IobZa5zFnSedzkw=
+X-Received: by 2002:a25:6f85:0:b0:64a:8b67:d3b2 with SMTP id
+ k127-20020a256f85000000b0064a8b67d3b2mr573478ybc.85.1652372555438; Thu, 12
+ May 2022 09:22:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b42e7619-7ba7-6933-b4d7-b67b06704d15@nutanix.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20200228092420.103757-1-quintela@redhat.com>
+ <20200228092420.103757-13-quintela@redhat.com>
+In-Reply-To: <20200228092420.103757-13-quintela@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 May 2022 17:22:24 +0100
+Message-ID: <CAFEAcA_jQRop9BjOG=7cUBPcuvgAZaQOAbkHTdgWeuxrK5+u+A@mail.gmail.com>
+Subject: Re: [PULL 12/15] migration/block: rename BLOCK_SIZE macro
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,95 +83,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Manish,
+On Fri, 28 Feb 2020 at 09:30, Juan Quintela <quintela@redhat.com> wrote:
+>
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> Both <linux/fs.h> and <sys/mount.h> define BLOCK_SIZE macros.  Avoiding
+> using that name in block/migration.c.
+>
+> I noticed this when including <liburing.h> (Linux io_uring) from
+> "block/aio.h" and compilation failed.  Although patches adding that
+> include haven't been sent yet, it makes sense to rename the macro now in
+> case someone else stumbles on it in the meantime.
 
-On Wed, May 11, 2022 at 09:24:28PM +0530, manish.mishra wrote:
-> > @@ -1962,9 +2038,17 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
-> >       RAMBlock  *block;
-> >       ram_addr_t offset;
-> > +again:
-> >       block = unqueue_page(rs, &offset);
-> > -    if (!block) {
-> > +    if (block) {
-> > +        /* See comment above postcopy_preempted_contains() */
-> > +        if (postcopy_preempted_contains(rs, block, offset)) {
-> > +            trace_postcopy_preempt_hit(block->idstr, offset);
-> > +            /* This request is dropped */
-> > +            goto again;
-> > +        }
-> If we continuosly keep on getting new post-copy request. Is it possible this
-> case can starve post-copy request which is in precopy preemtion?
+A rather old change, and it didn't even introduce the code that
+Coverity is complaining about, but this seems as good a point as
+any to hang the email off of...
 
-I didn't fully get your thoughts, could you elaborate?
+BLK_MIG_BLOCK_SIZE doesn't have a ULL suffix, so it's 32 bits,
+and so Coverity complains about places where we multiply some
+block count by it and then use that in a 64-bit result, eg here:
 
-Here we're checking against the case where the postcopy requested page is
-exactly the one that we have preempted in previous precopy sessions.  If
-true, we drop this postcopy page and continue with the rest.
+> @@ -770,7 +771,7 @@ static int block_save_iterate(QEMUFile *f, void *opaque)
+>
+>      /* control the rate of transfer */
+>      blk_mig_lock();
+> -    while (block_mig_state.read_done * BLOCK_SIZE <
+> +    while (block_mig_state.read_done * BLK_MIG_BLOCK_SIZE <
+>             qemu_file_get_rate_limit(f) &&
+>             block_mig_state.submitted < MAX_PARALLEL_IO &&
+>             (block_mig_state.submitted + block_mig_state.read_done) <
 
-When there'll be no postcopy requests pending then we'll continue with the
-precopy page, which is exactly the request we've dropped.
+and here:
 
-Why we did this is actually in comment above postcopy_preempted_contains(),
-and quotting from there:
+> @@ -874,13 +875,13 @@ static void block_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+>      qemu_mutex_unlock_iothread();
+>
+>      blk_mig_lock();
+> -    pending += block_mig_state.submitted * BLOCK_SIZE +
+> -               block_mig_state.read_done * BLOCK_SIZE;
+> +    pending += block_mig_state.submitted * BLK_MIG_BLOCK_SIZE +
+> +               block_mig_state.read_done * BLK_MIG_BLOCK_SIZE;
+>      blk_mig_unlock();
 
-/*
- * This should really happen very rarely, because it means when we were sending
- * during background migration for postcopy we're sending exactly the page that
- * some vcpu got faulted on on dest node.  When it happens, we probably don't
- * need to do much but drop the request, because we know right after we restore
- * the precopy stream it'll be serviced.  It'll slightly affect the order of
- * postcopy requests to be serviced (e.g. it'll be the same as we move current
- * request to the end of the queue) but it shouldn't be a big deal.  The most
- * imporant thing is we can _never_ try to send a partial-sent huge page on the
- * POSTCOPY channel again, otherwise that huge page will got "split brain" on
- * two channels (PRECOPY, POSTCOPY).
- */
+Putting a suitable cast to ensure the multiply is done at
+64 bits would satisfy Coverity.
 
-[...]
+This is CID 1487136, 1487175.
 
-> > @@ -2211,7 +2406,16 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-> >           return 0;
-> >       }
-> > +    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
-> 
-> I see why there is only one extra channel, multiFD is not supported for
-> postcopy. Peter, Any particular reason for that.
-
-We used one channel not because multifd is not enabled - if you read into
-the series the channels are separately managed because they're servicing
-different goals.  It's because I don't really know whether multiple
-channels would be necessary, because postcopy requests should not be the
-major channel that pages will be sent, kind of a fast-path.
-
-One of the major goal of this series is to avoid interruptions made to
-postcopy urgent pages due to sending of precopy pages.  One extra channel
-already serviced it well, so I just stopped there as the initial version.
-I actually raised that question myself too in the cover letter in the todo
-section, I think we can always evaluate the possibility of that in the
-future without major reworks (but we may need another parameter to specify
-the num of threads just like multifd).
-
-> 
-> As it must be very bad without multiFD, we have seen we can not utilise NIC
-> higher than 10 Gbps without multiFD. If it
-> 
-> is something in TODO can we help with that?
-
-Yes, that should be on Juan's todo list (in the cc list as well), and
-AFAICT he'll be happy if anyone would like to take items out of the list.
-We can further discuss it somewhere.
-
-One thing to mention is that I suspect the thread models will still need to
-be separate even if multifd joins the equation.  I mean, IMHO multifd
-threads take chunks of pages and send things in bulk, while if you read
-into this series postcopy preempt threads send page one by one and asap.
-The former cares on throughput and latter cares latency.  When we design
-the mix of postcopy+multifd it'll be great we also keep this in mind so
-hopefully it'll make postcopy+multifd+preempt easier at last.
-
-Thanks,
-
--- 
-Peter Xu
-
+thanks
+-- PMM
 
