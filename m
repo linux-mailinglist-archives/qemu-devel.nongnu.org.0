@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4365243CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 06:03:11 +0200 (CEST)
-Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D1B524488
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 06:49:01 +0200 (CEST)
+Received: from localhost ([::1]:59050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np02g-0006NR-B6
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 00:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44742)
+	id 1np0l2-0007Ns-1W
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 00:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1np008-0005Pl-S1
- for qemu-devel@nongnu.org; Thu, 12 May 2022 00:00:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1np005-0000ac-1R
- for qemu-devel@nongnu.org; Thu, 12 May 2022 00:00:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652328023;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0yIW+FCVbr8CXXVh1W3iI6fl8unJyJ1RtUEfSeN4cPk=;
- b=caR3PiZDZqlnKaaz7WtdbkiZMBRrTWXrLwmzf7QhAmThtL6kDcq6bWDveDTuu3UDppJfk9
- z2FDzk2t6pzXz7hbgL7QQ/HGjoFk+T4V6gQ+YzJuIrYyjj2wTNNCHf8CyG5z6XaeLfLo62
- uzpIeCW7+eMXAk0Cx0u6QLp21mZ4lg4=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-96-KC-8JV2rOCarfh-R2tGWAg-1; Thu, 12 May 2022 00:00:15 -0400
-X-MC-Unique: KC-8JV2rOCarfh-R2tGWAg-1
-Received: by mail-lf1-f71.google.com with SMTP id
- br16-20020a056512401000b004739cf51722so1665920lfb.6
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 21:00:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1np0ja-0006an-4i
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 00:47:30 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55109)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1np0jX-0007J5-HF
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 00:47:29 -0400
+Received: by mail-wm1-x332.google.com with SMTP id bg25so2297570wmb.4
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 21:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z+42IbvOYUtunHBsg2drNOygEAOK3Rk97AJems6Osfg=;
+ b=aSoeU1I+xbqTvMynDNZ3wEph6FDW7CxvxKr0NQWDmX6pgcPAgiLeLxrO8+LoMzDsya
+ J6ks06VJM8rQEzWsPijqpyjwKSJOpcFzBOhk9y3vwZ7RQxmbonKnxQvHtlIVZ0dEookD
+ qJVP7vLDS3Nnd82kDLQLTMQgeGiYWM5zvB27uF53/s9jMGNn1JxkxpS6L8sxlcFzjCzr
+ TH41GR1Y4BWhB+1Y9l5NxKn+x7WnuMOhZxTu9OGOEloXnd9aquu4kE+L4QsrzkrmaLw9
+ gh5jmv2dJuvgzY5xBzXWHlcNxyvwgHY2wlMwInBGb59ws3HAtgAwjTVSRjPXs5cQsj/1
+ gTjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0yIW+FCVbr8CXXVh1W3iI6fl8unJyJ1RtUEfSeN4cPk=;
- b=YWhCsfu5lV47bP+uA47PEQv2MYFmCiDZyyjLZrzuAO+cPEWFT6ibLUjfv4BL/cCXyv
- sW0+qCmGs+zKp9G/AKtp3CfItgK1AVdI+h1TnsOcRIaCSCIzXKLIYLQIde5aaUkQsM9X
- ucGwdPixlRu2sTy+gkRpbNoZpbiSkgbswhvxZRXUP3tlxBSTchBriQ2iY1T62sDEEj4l
- u6tDbMmXUkaQ3djiQ1ucAy4EAAOwOm/QYFnsPaul5yuC3HHAD0JqJo7nYW/3Nz+Or2Qd
- vIWCiZD8+xtG0SGdeRS1Nru0/a3zX/2He/gpFjbkpxIv54sqBZm8k+aFxZrQwwglsO8h
- ev4w==
-X-Gm-Message-State: AOAM532l0j/3mShOptWZDfCqPpQ1/aGAJrm7LmV8yjX2qpnjVg4mpg3o
- NJDtHle8oh2ivIvXDdkuKf1hdFiJiKpU8Mv4m736ipbl0M/KRU+AxE0NaajhPXSWfo12MZ45wi9
- C4wb5BXF1K7isdUzYcan6BkoXngsMQ4E=
-X-Received: by 2002:a2e:9698:0:b0:24f:14da:6a59 with SMTP id
- q24-20020a2e9698000000b0024f14da6a59mr19906511lji.73.1652328014084; 
- Wed, 11 May 2022 21:00:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2GzW/3WPRn1Qv4igS+/R9CCZvErkegv99KElnGdENDPHIBP+wS3vT7MpzelxhY8a+3fXbyute2TqaNhiPRRU=
-X-Received: by 2002:a2e:9698:0:b0:24f:14da:6a59 with SMTP id
- q24-20020a2e9698000000b0024f14da6a59mr19906495lji.73.1652328013826; Wed, 11
- May 2022 21:00:13 -0700 (PDT)
+ bh=Z+42IbvOYUtunHBsg2drNOygEAOK3Rk97AJems6Osfg=;
+ b=E1/u8YIX6mCCRLxMG6uemI9+sVzdRrbZOKDNlVw0xhCkXR37XUlbGSF1+vY2qHCo3h
+ bjo8lkIi7eGVnzRfEFqBGjgbsuaJ3YEgAUqzE0O7CkhvmliMg7AzUbhzrHnsJejfEu+E
+ pdZEoH/NH69EhTeZFwxLZ2LZ04aLz0boEhZzgkv+rTd35S3xIiVepnCrUl9qs49DGUV4
+ FhbBqTRaFSD33yjUjAJTo2hkubO8A1Bo5H1DArnRtVnwqEFYYpmZAIvY4i7+uKFXRunA
+ 4hqrd+syTYm6v75Od4nLtY22mUFLemHFO0gXLdFwEvFTF6H22FwG8nLjLHyGeRdTu8zu
+ 7xIw==
+X-Gm-Message-State: AOAM532F805adn38fDWRIjHnQpgSS66aa0XVowa0CDY/+wGpoN8NiOUk
+ SKMbYFsuApzJTgBDJ4k9wuFUmURpa3rmB4gf5l2JpQ==
+X-Google-Smtp-Source: ABdhPJzW7i6l2Yon4hs0L3fu7Ba9cwa2Yq6I6XNsoUZvCeKkaNLWBvx6h6rw0YpEry/gDRvb98K+qs5rrMXHk01RSFY=
+X-Received: by 2002:a05:600c:1e13:b0:394:5cdd:e8e6 with SMTP id
+ ay19-20020a05600c1e1300b003945cdde8e6mr7970505wmb.108.1652330844548; Wed, 11
+ May 2022 21:47:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJaqyWcbqzvtyHcU3t1TF7Mqm2_sBX57rN8S6hHB8NXxgi=tyQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWcbqzvtyHcU3t1TF7Mqm2_sBX57rN8S6hHB8NXxgi=tyQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 12 May 2022 12:00:02 +0800
-Message-ID: <CACGkMEtPn7u0vd4MHuNJBGHbzx5E11NEU4Zh1Dr8C07eEsO0vQ@mail.gmail.com>
-Subject: Re: About restoring the state in vhost-vdpa device
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: virtualization <virtualization@lists.linux-foundation.org>, 
- qemu-level <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- Parav Pandit <parav@nvidia.com>, 
- Gautam Dawar <gdawar@xilinx.com>, virtio-networking@redhat.com, 
- Eli Cohen <elic@nvidia.com>, Laurent Vivier <lvivier@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>
+References: <20220509212827.2057822-1-atishp@rivosinc.com>
+ <20220509212827.2057822-3-atishp@rivosinc.com>
+In-Reply-To: <20220509212827.2057822-3-atishp@rivosinc.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Thu, 12 May 2022 10:17:12 +0530
+Message-ID: <CAAhSdy2yyaAWiws+BMJ9fJGNdEETTXk+42iPLdBWN+DqVZb_8w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] target/riscv: Add stimecmp support
+To: Atish Patra <atishp@rivosinc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::332;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,107 +85,412 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 3:44 AM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Tue, May 10, 2022 at 3:03 AM Atish Patra <atishp@rivosinc.com> wrote:
 >
-> This is a proposal to restore the state of the vhost-vdpa device at
-> the destination after a live migration. It uses as many available
-> features both from the device and from qemu as possible so we keep the
-> communication simple and speed up the merging process.
+> stimecmp allows the supervisor mode to update stimecmp CSR directly
+> to program the next timer interrupt. This CSR is part of the Sstc
+> extension which was ratified recently.
+>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>  target/riscv/cpu.c         |  8 ++++
+>  target/riscv/cpu.h         |  7 +++
+>  target/riscv/cpu_bits.h    |  4 ++
+>  target/riscv/csr.c         | 92 +++++++++++++++++++++++++++++++++++
+>  target/riscv/machine.c     |  1 +
+>  target/riscv/meson.build   |  3 +-
+>  target/riscv/time_helper.c | 98 ++++++++++++++++++++++++++++++++++++++
+>  target/riscv/time_helper.h | 30 ++++++++++++
+>  8 files changed, 242 insertions(+), 1 deletion(-)
+>  create mode 100644 target/riscv/time_helper.c
+>  create mode 100644 target/riscv/time_helper.h
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 19f4e8294042..d58dd2f857a7 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -23,6 +23,7 @@
+>  #include "qemu/log.h"
+>  #include "cpu.h"
+>  #include "internals.h"
+> +#include "time_helper.h"
+>  #include "exec/exec-all.h"
+>  #include "qapi/error.h"
+>  #include "qemu/error-report.h"
+> @@ -779,7 +780,12 @@ static void riscv_cpu_init(Object *obj)
+>  #ifndef CONFIG_USER_ONLY
+>      qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq,
+>                        IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);
+> +
+> +    if (cpu->cfg.ext_sstc) {
+> +        riscv_timer_init(cpu);
+> +    }
+>  #endif /* CONFIG_USER_ONLY */
+> +
+>  }
+>
+>  static Property riscv_cpu_properties[] = {
+> @@ -806,6 +812,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+>      DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+> +    DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
+>
+>      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+>      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+> @@ -965,6 +972,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+>          ISA_EDATA_ENTRY(zbs, ext_zbs),
+>          ISA_EDATA_ENTRY(zve32f, ext_zve32f),
+>          ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+> +        ISA_EDATA_ENTRY(sstc, ext_sstc),
+>          ISA_EDATA_ENTRY(svinval, ext_svinval),
+>          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+>          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 1119d5201066..9a01e6d0f587 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -276,6 +276,11 @@ struct CPUArchState {
+>      uint64_t mfromhost;
+>      uint64_t mtohost;
+>
+> +    /* Sstc CSRs */
+> +    uint64_t stimecmp;
+> +    /* For RV32 only */
+> +    uint8_t stimecmp_wr_done;
+> +
+>      /* physical memory protection */
+>      pmp_table_t pmp_state;
+>      target_ulong mseccfg;
+> @@ -329,6 +334,7 @@ struct CPUArchState {
+>      float_status fp_status;
+>
+>      /* Fields from here on are preserved across CPU reset. */
+> +    QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
+>
+>      hwaddr kernel_addr;
+>      hwaddr fdt_addr;
+> @@ -379,6 +385,7 @@ struct RISCVCPUConfig {
+>      bool ext_counters;
+>      bool ext_ifencei;
+>      bool ext_icsr;
+> +    bool ext_sstc;
+>      bool ext_svinval;
+>      bool ext_svnapot;
+>      bool ext_svpbmt;
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 4e5b630f5965..29d0e4a1be01 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -215,6 +215,10 @@
+>  #define CSR_STVAL           0x143
+>  #define CSR_SIP             0x144
+>
+> +/* Sstc supervisor CSRs */
+> +#define CSR_STIMECMP        0x14D
+> +#define CSR_STIMECMPH       0x15D
+> +
+>  /* Supervisor Protection and Translation */
+>  #define CSR_SPTBR           0x180
+>  #define CSR_SATP            0x180
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 245f007e66e1..8952d1308008 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -21,6 +21,7 @@
+>  #include "qemu/log.h"
+>  #include "qemu/timer.h"
+>  #include "cpu.h"
+> +#include "time_helper.h"
+>  #include "qemu/main-loop.h"
+>  #include "exec/exec-all.h"
+>  #include "sysemu/cpu-timers.h"
+> @@ -537,6 +538,87 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> +static RISCVException sstc(CPURISCVState *env, int csrno)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +
+> +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (env->priv == PRV_M) {
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +
+> +    if (env->priv != PRV_S) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    /*
+> +     * No need of separate function for rv32 as menvcfg stores both menvcfg
+> +     * menvcfgh for RV32.
+> +     */
+> +    if (!(get_field(env->mcounteren, COUNTEREN_TM) &&
+> +          get_field(env->menvcfg, MENVCFG_STCE))) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
+> +                                    target_ulong *val)
+> +{
+> +    *val = env->stimecmp;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
+> +                                    target_ulong *val)
+> +{
+> +    *val = env->stimecmp >> 32;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+> +        env->stimecmp = deposit64(env->stimecmp, 0, 32, (uint64_t)val);
+> +        env->stimecmp_wr_done |= 0x01;
+> +        if (env->stimecmp_wr_done != 0x03) {
+> +            return RISCV_EXCP_NONE;
+> +        } else {
+> +            env->stimecmp_wr_done = 0;
+> +        }
+> +    } else {
+> +        env->stimecmp = val;
+> +    }
+> +
+> +    riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    env->stimecmp = deposit64(env->stimecmp, 32, 32, (uint64_t)val);
+> +    env->stimecmp_wr_done |= 0x02;
+> +    if (env->stimecmp_wr_done != 0x03) {
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +    env->stimecmp_wr_done = 0;
+> +    riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  /* Machine constants */
+>
+>  #define M_MODE_INTERRUPTS  ((uint64_t)(MIP_MSIP | MIP_MTIP | MIP_MEIP))
+> @@ -1515,6 +1597,12 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+>          new_val |= env->external_seip * MIP_SEIP;
+>      }
+>
+> +    if (cpu->cfg.ext_sstc && (env->priv == PRV_M) &&
+> +        get_field(env->menvcfg, MENVCFG_STCE)) {
+> +        /* sstc extension forbids STIP & VSTIP to be writeable in mip */
+> +        mask = mask & ~(MIP_STIP | MIP_VSTIP);
+> +    }
+> +
+>      if (mask) {
+>          old_mip = riscv_cpu_update_mip(cpu, mask, (new_val & mask));
+>      } else {
+> @@ -3341,6 +3429,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_SCAUSE]   = { "scause",   smode, read_scause,   write_scause   },
+>      [CSR_STVAL]    = { "stval",    smode, read_stval,   write_stval   },
+>      [CSR_SIP]      = { "sip",      smode, NULL,    NULL, rmw_sip        },
+> +    [CSR_STIMECMP] = { "stimecmp", sstc, read_stimecmp, write_stimecmp,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_STIMECMPH] = { "stimecmph", sstc, read_stimecmph, write_stimecmph,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+>
+>      /* Supervisor Protection and Translation */
+>      [CSR_SATP]     = { "satp",     smode, read_satp,    write_satp      },
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 7d85de0b1d49..ee02bfc18916 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -334,6 +334,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+>          VMSTATE_UINTTL(env.mscratch, RISCVCPU),
+>          VMSTATE_UINT64(env.mfromhost, RISCVCPU),
+>          VMSTATE_UINT64(env.mtohost, RISCVCPU),
+> +        VMSTATE_UINT64(env.stimecmp, RISCVCPU),
 
-When we finalize the design, we can formalize it in kernel Documentation/
+Please add stimecmp_wr_done to vmstate_riscv_cpu
 
 >
-> # Initializing a vhost-vdpa device.
+>          VMSTATE_END_OF_LIST()
+>      },
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index 2c20f3dd8e9c..1243d019148e 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -29,7 +29,8 @@ riscv_softmmu_ss.add(files(
+>    'pmp.c',
+>    'debug.c',
+>    'monitor.c',
+> -  'machine.c'
+> +  'machine.c',
+> +  'time_helper.c'
+>  ))
 >
-> Without the context of live migration, the steps to initialize the
-> device from vhost-vdpa at qemu starting are:
-> 1) [vhost] Open the vdpa device, Using simply open()
-> 2) [vhost+virtio] Get device features. These are expected not to
-> change in the device's lifetime, so we can save them. Qemu issues a
-> VHOST_GET_FEATURES ioctl and vdpa forwards to the backend driver using
-> get_device_features() callback.
+>  target_arch += {'riscv': riscv_ss}
+> diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
+> new file mode 100644
+> index 000000000000..f3fb5eac7b7b
+> --- /dev/null
+> +++ b/target/riscv/time_helper.c
+> @@ -0,0 +1,98 @@
+> +/*
+> + * RISC-V timer helper implementation.
+> + *
+> + * Copyright (c) 2022 Rivos Inc.
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "cpu_bits.h"
+> +#include "time_helper.h"
+> +#include "hw/intc/riscv_aclint.h"
+> +
+> +static void riscv_stimer_cb(void *opaque)
+> +{
+> +    RISCVCPU *cpu = opaque;
+> +    riscv_cpu_update_mip(cpu, MIP_STIP, BOOL_TO_MASK(1));
+> +}
+> +
+> +/*
+> + * Called when timecmp is written to update the QEMU timer or immediately
+> + * trigger timer interrupt if mtimecmp <= current timer value.
+> + */
+> +void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
+> +                               uint64_t timecmp, uint64_t delta,
+> +                               uint32_t timer_irq)
+> +{
+> +    uint64_t diff, ns_diff, next;
+> +    CPURISCVState *env = &cpu->env;
+> +    RISCVAclintMTimerState *mtimer = env->rdtime_fn_arg;
+> +    uint32_t timebase_freq = mtimer->timebase_freq;
+> +    uint64_t rtc_r = env->rdtime_fn(env->rdtime_fn_arg) + delta;
+> +
+> +    if (timecmp <= rtc_r) {
+> +        /*
+> +         * If we're setting an stimecmp value in the "past",
+> +         * immediately raise the timer interrupt
+> +         */
+> +        riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
+> +        return;
+> +    }
+> +
+> +    /* Clear the [V]STIP bit in mip */
+> +    riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
+> +
+> +    /* otherwise, set up the future timer interrupt */
+> +    diff = timecmp - rtc_r;
+> +    /* back to ns (note args switched in muldiv64) */
+> +    ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
+> +
+> +    /*
+> +     * check if ns_diff overflowed and check if the addition would potentially
+> +     * overflow
+> +     */
+> +    if ((NANOSECONDS_PER_SECOND > timebase_freq && ns_diff < diff) ||
+> +        ns_diff > INT64_MAX) {
+> +        next = INT64_MAX;
+> +    } else {
+> +        /*
+> +         * as it is very unlikely qemu_clock_get_ns will return a value
+> +         * greater than INT64_MAX, no additional check is needed for an
+> +         * unsigned integer overflow.
+> +         */
+> +        next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ns_diff;
+> +        /*
+> +         * if ns_diff is INT64_MAX next may still be outside the range
+> +         * of a signed integer.
+> +         */
+> +        next = MIN(next, INT64_MAX);
+> +    }
+> +
+> +    timer_mod(timer, next);
+> +}
+> +
+> +void riscv_timer_init(RISCVCPU *cpu)
+> +{
+> +    CPURISCVState *env;
+> +
+> +    if (!cpu) {
+> +        return;
+> +    }
+> +
+> +    env = &cpu->env;
+> +    env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
+> +    env->stimecmp = 0;
+> +
+> +}
+> diff --git a/target/riscv/time_helper.h b/target/riscv/time_helper.h
+> new file mode 100644
+> index 000000000000..7b3cdcc35020
+> --- /dev/null
+> +++ b/target/riscv/time_helper.h
+> @@ -0,0 +1,30 @@
+> +/*
+> + * RISC-V timer header file.
+> + *
+> + * Copyright (c) 2022 Rivos Inc.
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef RISCV_TIME_HELPER_H
+> +#define RISCV_TIME_HELPER_H
+> +
+> +#include "cpu.h"
+> +#include "qemu/timer.h"
+> +
+> +void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
+> +                               uint64_t timecmp, uint64_t delta,
+> +                               uint32_t timer_irq);
+> +void riscv_timer_init(RISCVCPU *cpu);
+> +
+> +#endif
+> --
+> 2.25.1
+>
+>
 
-For "virtio" do you mean it's an action that is defined in the spec?
-
-> 3) [vhost+virtio] Get its max_queue_pairs if _F_MQ and _F_CTRL_VQ.
-> These are obtained using VHOST_VDPA_GET_CONFIG, and that request is
-> forwarded to the device using get_config. QEMU expects the device to
-> not change it in its lifetime.
-> 4) [vhost] Vdpa set status (_S_ACKNOLEDGE, _S_DRIVER). Still no
-> FEATURES_OK or DRIVER_OK. The ioctl is VHOST_VDPA_SET_STATUS, and the
-> vdpa backend driver callback is set_status.
->
-> These are the steps used to initialize the device in qemu terminology,
-> taking away some redundancies to make it simpler.
->
-> Now the driver sends the FEATURES_OK and the DRIVER_OK, and qemu
-> detects it, so it *starts* the device.
->
-> # Starting a vhost-vdpa device
->
-> At virtio_net_vhost_status we have two important variables here:
-> int cvq = _F_CTRL_VQ ? 1 : 0;
-> int queue_pairs = _F_CTRL_VQ && _F_MQ ? (max_queue_pairs of step 3) : 0;
->
-> Now identification of the cvq index. Qemu *know* that the device will
-> expose it at the last queue (max_queue_pairs*2) if _F_MQ has been
-> acknowledged by the guest's driver or 2 if not. It cannot depend on
-> any data sent to the device via cvq, because we couldn't get its
-> command status on a change.
->
-> Now we start the vhost device. The workflow is currently:
->
-> 5) [virtio+vhost] The first step is to send the acknowledgement of the
-> Virtio features and vhost/vdpa backend features to the device, so it
-> knows how to configure itself. This is done using the same calls as
-> step 4 with these feature bits added.
-> 6) [virtio] Set the size, base, addr, kick and call fd for each queue
-> (SET_VRING_ADDR, SET_VRING_NUM, ...; and forwarded with
-> set_vq_address, set_vq_state, ...)
-> 7) [vdpa] Send host notifiers and *send SET_VRING_ENABLE = 1* for each
-> queue. This is done using ioctl VHOST_VDPA_SET_VRING_ENABLE, and
-> forwarded to the vdpa backend using set_vq_ready callback.
-> 8) [virtio + vdpa] Send memory translations & set DRIVER_OK.
->
-> If we follow the current workflow, the device is allowed now to start
-> receiving only on vq pair 0, since we've still not set the multi queue
-> pair. This could cause the guest to receive packets in unexpected
-> queues, breaking RSS.
->
-> # Proposal
->
-> Our proposal diverge in step 7: Instead of enabling *all* the
-> virtqueues, only enable the CVQ. After that, send the DRIVER_OK and
-> queue all the control commands to restore the device status (MQ, RSS,
-> ...). Once all of them have been acknowledged ("device", or emulated
-> cvq in host vdpa backend driver, has used all cvq buffers, enable
-> (SET_VRING_ENABLE, set_vq_ready) all other queues.
->
-> Everything needed for this is already implemented in the kernel as far
-> as I see, there is only a small modification in qemu needed. Thus
-> achieving the restoring of the device state without creating
-> maintenance burden.
-
-Yes, one of the major motivations is to try to reuse the existing APIs
-as much as possible as a start. It doesn't mean we can't invent new
-API, but having a dedicated save/restore uAPI looks fine. But it looks
-more like a work that needs to be finalized in the virtio spec
-otherwise we may end up with code that is hard to maintain.
-
-Thanks
-
->
-> A lot of optimizations can be applied on top without the need to add
-> stuff to the migration protocol or vDPA uAPI, like the pre-warming of
-> the vdpa queues or adding more capabilities to the emulated CVQ.
->
-> Other optimizations like applying the state out of band can also be
-> added so they can run in parallel with the migration, but that
-> requires a bigger change in qemu migration protocol making us lose
-> focus on achieving at least the basic device migration in my opinion.
->
-> Thoughts?
->
-
+Regards,
+Anup
 
