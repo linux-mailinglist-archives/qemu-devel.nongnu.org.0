@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7EA524F55
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 16:04:02 +0200 (CEST)
-Received: from localhost ([::1]:60784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A40524F6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 16:06:54 +0200 (CEST)
+Received: from localhost ([::1]:35308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np9Q9-0002Cf-1r
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 10:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43940)
+	id 1np9Sv-0005W8-SF
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 10:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np9O9-00013O-0X
- for qemu-devel@nongnu.org; Thu, 12 May 2022 10:01:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53798)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np9Qf-0003ql-Fn
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 10:04:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np9O4-0005Fz-9T
- for qemu-devel@nongnu.org; Thu, 12 May 2022 10:01:55 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np9Qd-0005YD-6f
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 10:04:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652364111;
+ s=mimecast20190719; t=1652364269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AGTeTn4f8ysRUa19Fu/mC1hdVRUvx/2tHoZHAT+hzrs=;
- b=KHWXRqCXlMZJkXw9cBm/tgmckN+rPtEbQPZA678B1eJykoe84uZThEQeU5mc3qgAmmwNbU
- uTawMNeDax/RYtjnrdUYyHjxQj6TbAYkRMLWfZDzZ3K/xSoGlOLJ0TYtJKwpjEQ1Pv1I2v
- P0dEwnOgOvmInRzoIwnf8asIDcTmXNc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pDjixTptcDn6puoQREf6VSFUvyowppohHbyLjtNeftQ=;
+ b=O6WVtZZCaymHfDyHtld3P90MJtT+0FJVkPq69Q/y7qsn64vnH1DjstOXETGI+ryvFOTLPq
+ UG1pGr3//1Frl1759u53OpQ/VhpqE4CGgYWwSrWQNIKiNqnHjHF7Y0gNQVRmj1tsj1fK0u
+ t4xpc18kG/egGJ/rmxqoygVgDf8Rwfo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-H8UqubouO4ylSQUuJRNh8Q-1; Thu, 12 May 2022 10:01:49 -0400
-X-MC-Unique: H8UqubouO4ylSQUuJRNh8Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n186-20020a1c27c3000000b00392ae974ca1so2178680wmn.0
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 07:01:49 -0700 (PDT)
+ us-mta-475-XbEFa7GyOQOADnVpUgOtIQ-1; Thu, 12 May 2022 10:04:28 -0400
+X-MC-Unique: XbEFa7GyOQOADnVpUgOtIQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg7-20020a05600c3c8700b0039468585269so1671982wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 07:04:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=AGTeTn4f8ysRUa19Fu/mC1hdVRUvx/2tHoZHAT+hzrs=;
- b=wp+gkG8Je4JzTBMj03eVIa/0jTUNLWnnm/epVWGM/5vGFetmiJZp2SyrTNIOXarWkj
- uXOkb9csG1+oGziZ78X3vqJy4LtoOKZcn6+tQqJD4hppNkTOVyL9qoRHrKFxUBkXxkQP
- z9A+NnTkEb3iotuze8bmoVyRdaL1YFRBaZlnF6NK3HTU5Kl9irS8bls0NtnOIRJYKtc5
- jJwlVEBWnqLC6xDUgONHFz2o/SHAxt9eONSC0ABHAl5OlC1YQ2he7bopKc9m8NeP3+VG
- bA3DeWjpLD6pmsipxLraaVXf1EQD4ZDgaZxsZC0HVdaxTtxplF10m+43m1sevQCe9+Sy
- vY3g==
-X-Gm-Message-State: AOAM530aEDpa4spec/he349XhQ7HpXbdmNTpFzLKZWgE2xbaVlAecHyf
- 7MuT7szUOkzAie123J5H+howv0Hv8JKI/7x50F0TM+fH72+zIc6x9XbORNne1lF2iKpU11Fztxk
- MV/dz5jZxMPa7ggka9UiyGurgyBBucL+8/CbYqA+//Xp5uFxQpQJQ6vPtuzQ7XDE=
-X-Received: by 2002:a7b:cb57:0:b0:393:db11:52ad with SMTP id
- v23-20020a7bcb57000000b00393db1152admr10319841wmj.143.1652364108381; 
- Thu, 12 May 2022 07:01:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLkSahYqLL+uvKrZs7qfsEqPrgQ58q+V9J7wg9UkOWnD79ByJGpsTCHW/zRKbgL6NMQHZCEw==
-X-Received: by 2002:a7b:cb57:0:b0:393:db11:52ad with SMTP id
- v23-20020a7bcb57000000b00393db1152admr10319798wmj.143.1652364108033; 
- Thu, 12 May 2022 07:01:48 -0700 (PDT)
+ bh=pDjixTptcDn6puoQREf6VSFUvyowppohHbyLjtNeftQ=;
+ b=0V9MOlS4alUm8rjM031kxPqiliWRJYCW+vbMmKMLeRFnkBsQdUq0rbMTdYeyNdXDYG
+ KAJZAl9fDZU1VzVRMAIiuXVFromOMk9Ol0F3X0Zq80tU+pZbVJwh2qnQkt8oKsprWCCu
+ waECnZCdFvPPrQPpwCLZ7ejBtteEX4EyVvvnyUXzSGsMrp4pPnC+NYA362TIhYguaj34
+ Y/rasYZ3T4wc/smsrCT4RXT4Ymq9c1h1YL5c1cAApDf9mRkNpq4gu2X0cWMf1XS9oNgW
+ 3W2qClqWb4Wd6DIlE3SbpGGWJr46+c3qLxYIm3o3fzjs29CVpsbFgohwE5w4myghdpVy
+ o06g==
+X-Gm-Message-State: AOAM531WuTecKfU/smp28d2pZsri2z6zOr3/wCrh066MMwZ3T+TYzrI5
+ P/ZqEE2lILgykylv3tXit/aLW+YNlGqEOZEi5eOP1htgisZgo7P3LTfCfVQB5qB1XQEeiWb71N/
+ wpJCkOZuh93Gia20=
+X-Received: by 2002:adf:e60a:0:b0:20a:c402:6810 with SMTP id
+ p10-20020adfe60a000000b0020ac4026810mr28755167wrm.45.1652364266989; 
+ Thu, 12 May 2022 07:04:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwX7W+YkQQDAnF2rdrgiafuI1ltSjz7xZwWx7uCHV0wpaMKhBYle1CiluhJSUtBZqCT4hcocw==
+X-Received: by 2002:adf:e60a:0:b0:20a:c402:6810 with SMTP id
+ p10-20020adfe60a000000b0020ac4026810mr28755130wrm.45.1652364266428; 
+ Thu, 12 May 2022 07:04:26 -0700 (PDT)
 Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
  [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- x13-20020a7bc20d000000b0039429bfebebsm2846763wmi.3.2022.05.12.07.01.46
+ v17-20020a05600c215100b003943558a976sm2965307wml.29.2022.05.12.07.04.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 07:01:47 -0700 (PDT)
-Message-ID: <8812e17d-d1fb-1553-06c2-5394123f995b@redhat.com>
-Date: Thu, 12 May 2022 16:01:45 +0200
+ Thu, 12 May 2022 07:04:25 -0700 (PDT)
+Message-ID: <1fa226fd-02e5-1711-656e-dc807af2b388@redhat.com>
+Date: Thu, 12 May 2022 16:04:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PULL 0/2] Update linux-headers to v5.18-rc6
+Subject: Re: [PULL 2/2] vfio: tolerate migration protocol v1 uapi renames
 Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
 Cc: Alex Williamson <alex.williamson@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
 References: <20220512102942.1134141-1-thuth@redhat.com>
-In-Reply-To: <20220512102942.1134141-1-thuth@redhat.com>
+ <20220512102942.1134141-3-thuth@redhat.com>
+ <b248ca40-c322-69d0-799f-d0a95bf0c31b@nvidia.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <b248ca40-c322-69d0-799f-d0a95bf0c31b@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -102,35 +105,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/2022 12.29, Thomas Huth wrote:
->   Hi!
+On 12/05/2022 15.53, Avihai Horon wrote:
 > 
-> The following changes since commit ec11dc41eec5142b4776db1296972c6323ba5847:
+> On 5/12/2022 1:29 PM, Thomas Huth wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> From: Matthew Rosato <mjrosato@linux.ibm.com>
+>>
+>> The v1 uapi is deprecated and will be replaced by v2 at some point;
+>> this patch just tolerates the renaming of uapi fields to reflect
+>> v1 / deprecated status.
+>>
+>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>> Message-Id: <20220404181726.60291-3-mjrosato@linux.ibm.com>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   hw/vfio/common.c    |  2 +-
+>>   hw/vfio/migration.c | 19 +++++++++++--------
+>>   2 files changed, 12 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 159f910421..8e73d3714a 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -381,7 +381,7 @@ static bool 
+>> vfio_devices_all_running_and_saving(VFIOContainer *container)
+>>                   return false;
+>>               }
+>>
+>> -            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
+>> +            if ((migration->device_state & VFIO_DEVICE_STATE_V1_SAVING) &&
+>>                   (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
 > 
->    Merge tag 'pull-misc-2022-05-11' of git://repo.or.cz/qemu/armbru into staging (2022-05-11 09:00:26 -0700)
+> Only now I noticed this, but all existing VFIO_DEVICE_STATE_* enums should 
+> be changed to their corresponding VFIO_DEVICE_STATE_V1_*.
+> E.g., here VFIO_DEVICE_STATE_RUNNING should be changed as well to 
+> VFIO_DEVICE_STATE_V1_RUNNING.
 > 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-12
-> 
-> for you to fetch changes up to 98cdec27e4396a2982c85ed148f70770bb6600b4:
-> 
->    vfio: tolerate migration protocol v1 uapi renames (2022-05-12 11:00:05 +0200)
-> 
-> ----------------------------------------------------------------
-> * Update the linux headers to v5.18-rc6 (required for multiple patch
->    series that are currently in flight)
-> * Fix the vfio code to compile again after the header update
-> 
-> I'm sending this as a separate pull request, so that the the patch
-> series that are currently in flight do not have to deal each time
-> with the ugly vfio macro rename anymore.
+> I already have a patch that does this. I will send it today as part of the 
+> VFIO migration v2 series I am planning to send, so you can just take it.
 
-Replying to the 0/2 header to make sure that this gets seen before it gets 
-merged: Please don't merge this series, as Avihai noticed correctly, this 
-needs more work first.
+Ugh, thanks for noticing!
+
+Alex, could you please take care of this in the next days? Seems like the 
+next linux-header updates is really not that trivial anymore due to that 
+ugly vfio macro renaming :-( And I'd prefer if somebody could tackle this 
+who is really more confident in this area.
 
   Thomas
-
 
 
