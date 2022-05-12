@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35D25248F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:29:36 +0200 (CEST)
-Received: from localhost ([::1]:60968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC15524851
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:53:58 +0200 (CEST)
+Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np58Z-0006jV-Um
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59898)
+	id 1np4a5-0008CJ-61
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:53:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1np4bj-0003yA-Jr; Thu, 12 May 2022 04:55:39 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45266)
+ id 1np49U-0004Ou-EF; Thu, 12 May 2022 04:26:28 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1np4bh-0001cY-Lp; Thu, 12 May 2022 04:55:38 -0400
+ id 1np49R-0005O0-1x; Thu, 12 May 2022 04:26:28 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id BBD0811F0AF;
- Thu, 12 May 2022 08:55:13 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 0054C11EF1B;
+ Thu, 12 May 2022 08:26:19 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Tue, 10 May 2022 11:10:04 -0700
-Subject: [PATCH qemu v3 10/10] target/riscv: rvv: Add option 'rvv_ma_all_1s'
- to enable optional mask agnostic behavior
-Message-ID: <165234571195.20102.85010942779919381-10@git.sr.ht>
+Date: Thu, 12 May 2022 00:47:44 -0700
+Subject: [PATCH qemu v17 02/16] target/riscv: rvv: Prune redundant access_type
+ parameter passed
+Message-ID: <165234397852.32492.1203149738524050090-2@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <165234571195.20102.85010942779919381-0@git.sr.ht>
+In-Reply-To: <165234397852.32492.1203149738524050090-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
  WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
-X-Spam_score_int: 15
-X-Spam_score: 1.5
-X-Spam_bar: +
-X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
- FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,38 +62,170 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: eopXD <eop.chen@sifive.com>
 
-According to v-spec, mask agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of mask policies, QEMU should be able to simulate the mask
-agnostic behavior as "set mask elements' bits to all 1s".
-
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between mask policies. Setting agnostic elements to
-all 1s allows QEMU to express this.
-
-This commit adds option 'rvv_ma_all_1s' is added to enable the
-behavior, it is default as disabled.
+No functional change intended in this commit.
 
 Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 ---
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/vector_helper.c | 35 ++++++++++++++++-------------------
+ 1 file changed, 16 insertions(+), 19 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 720c8b9e5c..0245844b99 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -880,6 +880,7 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-+    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 85dd611cd9..60840325c4 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -231,7 +231,7 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+                  target_ulong stride, CPURISCVState *env,
+                  uint32_t desc, uint32_t vm,
+                  vext_ldst_elem_fn *ldst_elem,
+-                 uint32_t esz, uintptr_t ra, MMUAccessType access_type)
++                 uint32_t esz, uintptr_t ra)
+ {
+     uint32_t i, k;
+     uint32_t nf =3D vext_nf(desc);
+@@ -259,7 +259,7 @@ void HELPER(NAME)(void *vd, void * v0, target_ulong base,=
+               \
+ {                                                                       \
+     uint32_t vm =3D vext_vm(desc);                                        \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN,      \
+-                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
++                     ctzl(sizeof(ETYPE)), GETPC());                     \
+ }
+=20
+ GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
+@@ -274,7 +274,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
+               \
+ {                                                                       \
+     uint32_t vm =3D vext_vm(desc);                                        \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, STORE_FN,     \
+-                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     \
++                     ctzl(sizeof(ETYPE)), GETPC());                     \
+ }
+=20
+ GEN_VEXT_ST_STRIDE(vsse8_v,  int8_t,  ste_b)
+@@ -290,7 +290,7 @@ GEN_VEXT_ST_STRIDE(vsse64_v, int64_t, ste_d)
+ static void
+ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+              vext_ldst_elem_fn *ldst_elem, uint32_t esz, uint32_t evl,
+-             uintptr_t ra, MMUAccessType access_type)
++             uintptr_t ra)
+ {
+     uint32_t i, k;
+     uint32_t nf =3D vext_nf(desc);
+@@ -319,14 +319,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
+ng base,         \
+ {                                                                       \
+     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));             \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, false, LOAD_FN,   \
+-                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
++                     ctzl(sizeof(ETYPE)), GETPC());                     \
+ }                                                                       \
+                                                                         \
+ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
+                   CPURISCVState *env, uint32_t desc)                    \
+ {                                                                       \
+     vext_ldst_us(vd, base, env, desc, LOAD_FN,                          \
+-                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_LOAD); \
++                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                \
+ }
+=20
+ GEN_VEXT_LD_US(vle8_v,  int8_t,  lde_b)
+@@ -340,14 +340,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
+ng base,          \
+ {                                                                        \
+     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));              \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,   \
+-                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);      \
++                     ctzl(sizeof(ETYPE)), GETPC());                      \
+ }                                                                        \
+                                                                          \
+ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                 \
+                   CPURISCVState *env, uint32_t desc)                     \
+ {                                                                        \
+     vext_ldst_us(vd, base, env, desc, STORE_FN,                          \
+-                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_STORE); \
++                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                 \
+ }
+=20
+ GEN_VEXT_ST_US(vse8_v,  int8_t,  ste_b)
+@@ -364,7 +364,7 @@ void HELPER(vlm_v)(void *vd, void *v0, target_ulong base,
+     /* evl =3D ceil(vl/8) */
+     uint8_t evl =3D (env->vl + 7) >> 3;
+     vext_ldst_us(vd, base, env, desc, lde_b,
+-                 0, evl, GETPC(), MMU_DATA_LOAD);
++                 0, evl, GETPC());
+ }
+=20
+ void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
+@@ -373,7 +373,7 @@ void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
+     /* evl =3D ceil(vl/8) */
+     uint8_t evl =3D (env->vl + 7) >> 3;
+     vext_ldst_us(vd, base, env, desc, ste_b,
+-                 0, evl, GETPC(), MMU_DATA_STORE);
++                 0, evl, GETPC());
+ }
+=20
+ /*
+@@ -399,7 +399,7 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+                 void *vs2, CPURISCVState *env, uint32_t desc,
+                 vext_get_index_addr get_index_addr,
+                 vext_ldst_elem_fn *ldst_elem,
+-                uint32_t esz, uintptr_t ra, MMUAccessType access_type)
++                uint32_t esz, uintptr_t ra)
+ {
+     uint32_t i, k;
+     uint32_t nf =3D vext_nf(desc);
+@@ -427,7 +427,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
+                  \
+                   void *vs2, CPURISCVState *env, uint32_t desc)            \
+ {                                                                          \
+     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,                \
+-                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD); \
++                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC());                \
+ }
+=20
+ GEN_VEXT_LD_INDEX(vlxei8_8_v,   int8_t,  idx_b, lde_b)
+@@ -453,7 +453,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
+        \
+ {                                                                \
+     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,      \
+                     STORE_FN, ctzl(sizeof(ETYPE)),               \
+-                    GETPC(), MMU_DATA_STORE);                    \
++                    GETPC());                                    \
+ }
+=20
+ GEN_VEXT_ST_INDEX(vsxei8_8_v,   int8_t,  idx_b, ste_b)
+@@ -576,8 +576,7 @@ GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
+  */
+ static void
+ vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t de=
+sc,
+-                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra,
+-                MMUAccessType access_type)
++                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra)
+ {
+     uint32_t i, k, off, pos;
+     uint32_t nf =3D vext_nf(desc);
+@@ -612,8 +611,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
+                   CPURISCVState *env, uint32_t desc) \
+ {                                                    \
+     vext_ldst_whole(vd, base, env, desc, LOAD_FN,    \
+-                    ctzl(sizeof(ETYPE)), GETPC(),    \
+-                    MMU_DATA_LOAD);                  \
++                    ctzl(sizeof(ETYPE)), GETPC());   \
+ }
+=20
+ GEN_VEXT_LD_WHOLE(vl1re8_v,  int8_t,  lde_b)
+@@ -638,8 +636,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
+                   CPURISCVState *env, uint32_t desc) \
+ {                                                    \
+     vext_ldst_whole(vd, base, env, desc, STORE_FN,   \
+-                    ctzl(sizeof(ETYPE)), GETPC(),    \
+-                    MMU_DATA_STORE);                 \
++                    ctzl(sizeof(ETYPE)), GETPC());   \
+ }
+=20
+ GEN_VEXT_ST_WHOLE(vs1r_v, int8_t, ste_b)
+--=20
 2.34.2
+
 
