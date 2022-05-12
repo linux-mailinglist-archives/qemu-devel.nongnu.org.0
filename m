@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C2F52435C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:24:31 +0200 (CEST)
-Received: from localhost ([::1]:55766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3D8524382
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:37:18 +0200 (CEST)
+Received: from localhost ([::1]:34110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nozRG-0001PV-8X
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:24:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39144)
+	id 1nozdd-0000EM-NA
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozMk-0003sD-ST
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:55 -0400
+ id 1nozMr-00041M-3E
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:57 -0400
 Received: from mga07.intel.com ([134.134.136.100]:5605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozMj-0002tI-40
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:50 -0400
+ id 1nozMp-0002tI-A3
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652325589; x=1683861589;
+ t=1652325595; x=1683861595;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Bc+IYFKOMF0YEZMcMKbb6gwmDBEnuKXNHGVzL7NyfUo=;
- b=SXUFa6BP1Dg7Gi50QVWJP2LwgTsgTeSVX3SUwrQEi45nNXOqkwBHTnwB
- DDgMmjcYr+LZDbyGsX+6O5Ttb0AkV8tm1cvqh/8MYoeQ5o1rcjI4QCHad
- CkkOlPv7IgVh3+KpetdHtpUL1S1tTbVEMSDBnTXVLNONYOHtaTvJZIPgT
- HKkJnqEqkDwS3xZGRm707gG8NqCb69kxig3ncbd0l672P6Lm4y0HPIOBw
- M00A05ZsnCLvkoexaoHehY7WGPCDQTJHKtBnGyJ6juk075pGyr0olvY7w
- 8E2ZOHdWonreb5ftqa6GxcqdtRRRR3LinC4k66hqBvysnyR+rerbmVoVV g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="332915016"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="332915016"
+ bh=9j0hfZ+A0CAuqZkKpvMTnZ32QvMIH0LlEbmUNATKMEY=;
+ b=DnVxiu7Lb4oItcrMgjI97/qTqzW3R7fo0QzCuL+v4bri2Tj4h3j+FLTL
+ /fT4JwmnGeYHrrZoPrwPNshB0CKaXUqdcU7lHN4v4WGumVvKOaUkJkTeP
+ dncfaWxHVXUT43QqZ9x6zhDSNiQcnP6BvI56SwQFtRYTFUVITFTmMcRFE
+ hTjRSHK0qC7ghGc3qh9/HE844jJM+vEkfjM5d7suGlKAh+az13WmrQWDd
+ caCB5VvyIOfkqcRhZAwfKH9Y4Pfftj7YfOMOFI+6RXp+0I16lZnmtb4dI
+ XVp7MRyIiMIFc1OmgU9aUHWVyUIZxJX82IB9+ysm8FX131zBrC0BmpRry A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="332915029"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="332915029"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 20:19:44 -0700
+ 11 May 2022 20:19:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594455969"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594456006"
 Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:19:38 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:19:43 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
@@ -54,9 +54,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [RFC PATCH v4 19/36] i386/tdx: Don't initialize pc.rom for TDX VMs
-Date: Thu, 12 May 2022 11:17:46 +0800
-Message-Id: <20220512031803.3315890-20-xiaoyao.li@intel.com>
+Subject: [RFC PATCH v4 20/36] i386/tdx: Register a machine_init_done callback
+ for TD
+Date: Thu, 12 May 2022 11:17:47 +0800
+Message-Id: <20220512031803.3315890-21-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220512031803.3315890-1-xiaoyao.li@intel.com>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
@@ -87,54 +88,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For TDX, the address below 1MB are entirely general RAM. No need to
-initialize pc.rom memory region for TDs.
+Before a TD can run, it needs to
+ - setup/configure TD HOB list;
+ - initialize TDVF into TD's private memory;
+ - initialize TD vcpu state;
+
+Register a machine_init_done callback to all those stuff.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- hw/i386/pc.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ target/i386/kvm/tdx.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 5ef20e2071a7..c8d3f2fbf9fc 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -61,6 +61,7 @@
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
- #include "kvm/kvm_i386.h"
-+#include "kvm/tdx.h"
- #include "hw/xen/xen.h"
- #include "hw/xen/start_info.h"
- #include "ui/qemu-spice.h"
-@@ -908,16 +909,18 @@ void pc_memory_init(PCMachineState *pcms,
-     /* Initialize PC system firmware */
-     pc_system_firmware_init(pcms, rom_memory);
+diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
+index 2953d2728b32..a95d5b894c34 100644
+--- a/target/i386/kvm/tdx.c
++++ b/target/i386/kvm/tdx.c
+@@ -16,6 +16,7 @@
+ #include "qom/object_interfaces.h"
+ #include "standard-headers/asm-x86/kvm_para.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/sysemu.h"
  
--    option_rom_mr = g_malloc(sizeof(*option_rom_mr));
--    memory_region_init_ram(option_rom_mr, NULL, "pc.rom", PC_ROM_SIZE,
--                           &error_fatal);
--    if (pcmc->pci_enabled) {
--        memory_region_set_readonly(option_rom_mr, true);
-+    if (!is_tdx_vm()) {
-+        option_rom_mr = g_malloc(sizeof(*option_rom_mr));
-+        memory_region_init_ram(option_rom_mr, NULL, "pc.rom", PC_ROM_SIZE,
-+                            &error_fatal);
-+        if (pcmc->pci_enabled) {
-+            memory_region_set_readonly(option_rom_mr, true);
-+        }
-+        memory_region_add_subregion_overlap(rom_memory,
-+                                            PC_ROM_MIN_VGA,
-+                                            option_rom_mr,
-+                                            1);
-     }
--    memory_region_add_subregion_overlap(rom_memory,
--                                        PC_ROM_MIN_VGA,
--                                        option_rom_mr,
--                                        1);
+ #include "hw/i386/x86.h"
+ #include "kvm_i386.h"
+@@ -126,6 +127,15 @@ static void get_tdx_capabilities(void)
+     tdx_caps = caps;
+ }
  
-     fw_cfg = fw_cfg_arch_create(machine,
-                                 x86ms->boot_cpus, x86ms->apic_id_limit);
++static void tdx_finalize_vm(Notifier *notifier, void *unused)
++{
++    /* TODO */
++}
++
++static Notifier tdx_machine_done_notify = {
++    .notify = tdx_finalize_vm,
++};
++
+ int tdx_kvm_init(MachineState *ms, Error **errp)
+ {
+     TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(ms->cgs),
+@@ -144,6 +154,8 @@ int tdx_kvm_init(MachineState *ms, Error **errp)
+      */
+     kvm_readonly_mem_allowed = false;
+ 
++    qemu_add_machine_init_done_notifier(&tdx_machine_done_notify);
++
+     tdx_guest = tdx;
+ 
+     return 0;
 -- 
 2.27.0
 
