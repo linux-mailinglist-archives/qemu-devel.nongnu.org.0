@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84745525603
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 21:47:13 +0200 (CEST)
-Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58C152561D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 21:55:55 +0200 (CEST)
+Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npEmG-0001sO-1f
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 15:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
+	id 1npEug-0007ST-BQ
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 15:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1npEig-000839-BJ; Thu, 12 May 2022 15:43:30 -0400
-Received: from [187.72.171.209] (port=25741 helo=outlook.eldorado.org.br)
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1npEoU-00057s-2b; Thu, 12 May 2022 15:49:30 -0400
+Received: from [187.72.171.209] (port=61421 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1npEie-0003R0-CD; Thu, 12 May 2022 15:43:29 -0400
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1npEoR-0004PP-RO; Thu, 12 May 2022 15:49:29 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 12 May 2022 16:43:06 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E07D0800C32;
- Thu, 12 May 2022 16:43:05 -0300 (-03)
-From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- victor.colombo@eldorado.org.br
-Subject: [RFC PATCH 2/2] target/ppc: Rely on do_float_check_status for
- VSX_MADD invalid excepts
-Date: Thu, 12 May 2022 16:42:50 -0300
-Message-Id: <20220512194250.138244-3-victor.colombo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220512194250.138244-1-victor.colombo@eldorado.org.br>
-References: <20220512194250.138244-1-victor.colombo@eldorado.org.br>
+ Thu, 12 May 2022 16:49:23 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id EB0E1800177;
+ Thu, 12 May 2022 16:49:22 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------VFD6BkMLGyd0YnlR84zgrsJo"
+Message-ID: <0e9cfd8a-b7fa-1913-3d1a-7a138fdb7349@eldorado.org.br>
+Date: Thu, 12 May 2022 16:49:22 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2022 19:43:06.0230 (UTC)
- FILETIME=[80309960:01D86638]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3 0/9] VDIV/VMOD Implementation
+Content-Language: en-US
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: richard.henderson@linaro.org, clg@kaod.org, danielhb413@gmail.com
+References: <20220420194037.263661-1-lucas.araujo@eldorado.org.br>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220420194037.263661-1-lucas.araujo@eldorado.org.br>
+X-OriginalArrivalTime: 12 May 2022 19:49:23.0181 (UTC)
+ FILETIME=[60DEC1D0:01D86639]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,34 +64,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make necessary changes for Multiply-Add instructions to use the
-proposed reworked exceptions handling in do_float_check_status.
+This is a multi-part message in MIME format.
+--------------VFD6BkMLGyd0YnlR84zgrsJo
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This should allow for cleaner code, not requiring the helper to check
-multiple exceptions in its body.
+ping
 
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
----
- target/ppc/fpu_helper.c | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 988ddba282..a73a955b63 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2226,11 +2226,6 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-         t.fld = tp##_muladd(s1->fld, s3->fld, s2->fld, maddflgs, &tstat);     \
-         env->fp_status.float_exception_flags |= tstat.float_exception_flags;  \
-                                                                               \
--        if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {     \
--            float_invalid_op_madd(env, tstat.float_exception_flags,           \
--                                  sfifprf, GETPC());                          \
--        }                                                                     \
--                                                                              \
-         if (sfifprf) {                                                        \
-             helper_compute_fprf_float64(env, t.fld);                          \
-         }                                                                     \
+On 20/04/2022 16:40, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+>
+> This patch series is an implementation of the vector divide, vector
+> divide extended and vector modulo instructions from PowerISA 3.1
+>
+> The first patch are Matheus' patch, used here since the divs256 and
+> divu256 functions use int128_urshift.
+>
+> Patches without review: 2, 4, 5 and 8
+>
+> v3 changes:
+>      - Divided DO_VDIV_VMOD macro in 4 different new macros
+>      - Turned TRANS_VDIV_VMOD into a function and the instructions are
+>        now implemented with the TRANS macro and do_vdiv_vmod function
+>      - Moved clz128 to int128.h
+>
+> v2 changes:
+>      - Dropped int128_lshift patch
+>      - Added missing int_min/-1 check
+>      - Changed invalid division to a division by 1
+>      - Created new macro responsible for invalid division check
+>        (replacing DIV_VEC, REM_VEC and the check in dives_i32/diveu_i32)
+>      - Turned GVecGen3 array into single element
+>
+> Lucas Mateus Castro (alqotel) (8):
+>    target/ppc: Implemented vector divide instructions
+>    target/ppc: Implemented vector divide quadword
+>    target/ppc: Implemented vector divide extended word
+>    host-utils: Implemented unsigned 256-by-128 division
+>    host-utils: Implemented signed 256-by-128 division
+>    target/ppc: Implemented remaining vector divide extended
+>    target/ppc: Implemented vector module word/doubleword
+>    target/ppc: Implemented vector module quadword
+>
+> Matheus Ferst (1):
+>    qemu/int128: add int128_urshift
+>
+>   include/qemu/host-utils.h           |   3 +
+>   include/qemu/int128.h               |  57 +++++++++
+>   target/ppc/helper.h                 |   8 ++
+>   target/ppc/insn32.decode            |  23 ++++
+>   target/ppc/int_helper.c             | 106 ++++++++++++++++
+>   target/ppc/translate/vmx-impl.c.inc | 155 ++++++++++++++++++++++++
+>   tests/unit/test-int128.c            |  32 +++++
+>   util/host-utils.c                   | 180 ++++++++++++++++++++++++++++
+>   8 files changed, 564 insertions(+)
+>
 -- 
-2.25.1
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--------------VFD6BkMLGyd0YnlR84zgrsJo
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>ping<br>
+    </p>
+    <div class="moz-cite-prefix">On 20/04/2022 16:40, Lucas Mateus
+      Castro(alqotel) wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20220420194037.263661-1-lucas.araujo@eldorado.org.br">
+      <pre class="moz-quote-pre" wrap="">From: "Lucas Mateus Castro (alqotel)" <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
+
+This patch series is an implementation of the vector divide, vector
+divide extended and vector modulo instructions from PowerISA 3.1
+
+The first patch are Matheus' patch, used here since the divs256 and
+divu256 functions use int128_urshift.
+
+Patches without review: 2, 4, 5 and 8
+
+v3 changes:
+    - Divided DO_VDIV_VMOD macro in 4 different new macros
+    - Turned TRANS_VDIV_VMOD into a function and the instructions are
+      now implemented with the TRANS macro and do_vdiv_vmod function
+    - Moved clz128 to int128.h
+
+v2 changes:
+    - Dropped int128_lshift patch
+    - Added missing int_min/-1 check
+    - Changed invalid division to a division by 1
+    - Created new macro responsible for invalid division check
+      (replacing DIV_VEC, REM_VEC and the check in dives_i32/diveu_i32)
+    - Turned GVecGen3 array into single element
+
+Lucas Mateus Castro (alqotel) (8):
+  target/ppc: Implemented vector divide instructions
+  target/ppc: Implemented vector divide quadword
+  target/ppc: Implemented vector divide extended word
+  host-utils: Implemented unsigned 256-by-128 division
+  host-utils: Implemented signed 256-by-128 division
+  target/ppc: Implemented remaining vector divide extended
+  target/ppc: Implemented vector module word/doubleword
+  target/ppc: Implemented vector module quadword
+
+Matheus Ferst (1):
+  qemu/int128: add int128_urshift
+
+ include/qemu/host-utils.h           |   3 +
+ include/qemu/int128.h               |  57 +++++++++
+ target/ppc/helper.h                 |   8 ++
+ target/ppc/insn32.decode            |  23 ++++
+ target/ppc/int_helper.c             | 106 ++++++++++++++++
+ target/ppc/translate/vmx-impl.c.inc | 155 ++++++++++++++++++++++++
+ tests/unit/test-int128.c            |  32 +++++
+ util/host-utils.c                   | 180 ++++++++++++++++++++++++++++
+ 8 files changed, 564 insertions(+)
+
+</pre>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------VFD6BkMLGyd0YnlR84zgrsJo--
 
