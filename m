@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302B8525640
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 22:09:53 +0200 (CEST)
-Received: from localhost ([::1]:59816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906BB5256E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 23:13:44 +0200 (CEST)
+Received: from localhost ([::1]:41414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npF8C-00068P-1B
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 16:09:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46744)
+	id 1npG7z-0002QP-AA
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 17:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npF6W-0005PG-Jk
- for qemu-devel@nongnu.org; Thu, 12 May 2022 16:08:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55866)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1npG6S-0000xg-Kp
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 17:12:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npF6T-0007SU-J7
- for qemu-devel@nongnu.org; Thu, 12 May 2022 16:08:07 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1npG6F-0008ED-Dl
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 17:12:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652386084;
+ s=mimecast20190719; t=1652389903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ai6bHZ0D8VU2w+Gina0dEcQ0qcUbbzqh13EDmUbyp5M=;
- b=N3LDXi6QCE00IdLtYdO0bmsqlahwHJs9RBN+FJCNoe6nICUfCUMVdssZAwCIbSGddvhww1
- 0sk5BN8STR8+19hIw6UAEflWVQWZrriP6tGMbgU4yuO9TGF6IudR1m6v54m7Xr9LkjO+rP
- a8M1XaC5xvcqKKtaUAgLbZjPS74yCNU=
+ bh=hig6egQqhVn2xc1lkLDZdMC/5/yoreUXgRQbz6p2SUc=;
+ b=DQzrVWAv2Mfu/5Q2ZeQKIbcKN+JxgEazw5v3J3b2z8h0QVAhM4ZU721fGT0ctpCinY0zBD
+ 1tkAwJ6dTH+Fiijbix3vusxIJYA6NAe3kc9ijGEpWwkbcnOnbEsMgOh42kHmodX5sjN45d
+ UY+aEbzhAcN8B9QAj8pNpKq6EHQYwXw=
 Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
  [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121--KofvVwpOdGHa4o8Dt8yTQ-1; Thu, 12 May 2022 16:08:03 -0400
-X-MC-Unique: -KofvVwpOdGHa4o8Dt8yTQ-1
+ us-mta-488-Ct0FSzDZNG-lX5hvXZUa0A-1; Thu, 12 May 2022 17:11:42 -0400
+X-MC-Unique: Ct0FSzDZNG-lX5hvXZUa0A-1
 Received: by mail-io1-f70.google.com with SMTP id
- s129-20020a6b2c87000000b00657c1a3b52fso3653260ios.21
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 13:08:03 -0700 (PDT)
+ o4-20020a0566022e0400b0065ab2047d69so3769021iow.7
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 14:11:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ai6bHZ0D8VU2w+Gina0dEcQ0qcUbbzqh13EDmUbyp5M=;
- b=BVwGHDxY/mjSci8MZxFD1/spRkOL5/waVcSdNc/BXSZAJ6wkOucpTNDuTtrVlothFg
- s3sQYIiQJpTL6/cuc3Pe2EeWH5qY0BbOnSMlH6PU8sZwnWU1+ICNstmwlRRYy5qoK8I1
- gbDcxKmCRBjfDQ4v2GWuSLqNtyK9/Bq3AOz2LlS2f2CL55djazAfiePDp1pvv1zRgT3v
- tsv5q02P/nnAUJ4abAB6t7suT/uUOw7UXm9mNsaN4B6OWjgmuDN/NmKMIyFovBA0QMZA
- JiBWDsovx+7DrcHZwLG3Ltanp4JvVbKI6jJuo5ARBgom+CttHY2+ONvWorPf8VETkV0J
- 5rgw==
-X-Gm-Message-State: AOAM5318KgwjgOqgHv2tuHqeLKlf/YPCg0VfmuSIRCeFWoq7k+nkEaNx
- k2sR5pYHksLoYvODJHYzJ8SNytTTzSZl9AUxUf9qzrGG95gk3uszSowXcpDWoBr8dTqAXUcf8jz
- pfBZ5XYIG7rT9IZ4=
-X-Received: by 2002:a05:6638:19c4:b0:32b:6436:f1c9 with SMTP id
- bi4-20020a05663819c400b0032b6436f1c9mr849437jab.303.1652386082766; 
- Thu, 12 May 2022 13:08:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvUW/q8Fw0QvelqCyn+T8JhJMMiDV1qVVSGv8dGrPnkP/YJeupa8u08yI9J617dTo0voefVA==
-X-Received: by 2002:a05:6638:19c4:b0:32b:6436:f1c9 with SMTP id
- bi4-20020a05663819c400b0032b6436f1c9mr849378jab.303.1652386081046; 
- Thu, 12 May 2022 13:08:01 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- 3-20020a056e0211a300b002cf5aae6645sm111349ilj.2.2022.05.12.13.07.59
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=hig6egQqhVn2xc1lkLDZdMC/5/yoreUXgRQbz6p2SUc=;
+ b=h01z4gNkj6WpIHiS3SNf1nHXBwwC4hF+iVkRbizPb0VG37euQ2P7p3UVEGdAMHOC3/
+ TBRtBIneYKlTCOzRj88jmiU4hGAdhesYGuLUyaMBWjVSkuX5Ji3ZcqaeLRiJOJrI9LFr
+ VEebdYAk5ZDuroa/CdvhevAeYgpwo/FOT5xYyklfP82wZmT00rZrqzummO0uPfMnz4lW
+ xZcr6kdhovqOjYWczDHfDBaF/HgdOQTyMcD2KD3UKT8IRiuakHyTFX3XFiKtCeeHgYVL
+ LRXh7Dpk8u9TCbVrrT62ePgoYT3vxzYJ8trp2cxfP/WnP0fXhmfRx2SXM2YbT6xy0UHC
+ Le3g==
+X-Gm-Message-State: AOAM533MMBrW6PPeJhMRBSKWYhituT5oB8TceFkijNySvONr3VSxpKWY
+ JbjE+3HJYN4wp8GtnYKjawIpKAOy5ez4JgQ5/07ZNVtbAPAemvLPEr5rrLm6zOqaWShcqVwSwA0
+ T7ISjWnt7f+9k2Zg=
+X-Received: by 2002:a5d:81c6:0:b0:657:bdca:866e with SMTP id
+ t6-20020a5d81c6000000b00657bdca866emr906267iol.178.1652389901661; 
+ Thu, 12 May 2022 14:11:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmeer3RZ4gQzOw66qte7WHZLS60/+cmifhQLjGO7GhUax5KH4WbcVl+JRvHW/4ASIRC82Tzg==
+X-Received: by 2002:a5d:81c6:0:b0:657:bdca:866e with SMTP id
+ t6-20020a5d81c6000000b00657bdca866emr906250iol.178.1652389901413; 
+ Thu, 12 May 2022 14:11:41 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ s21-20020a02c515000000b0032b3a78179bsm166494jam.95.2022.05.12.14.11.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 13:08:00 -0700 (PDT)
-Date: Thu, 12 May 2022 16:07:59 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Subject: Re: [PATCH v5 17/21] migration: Export tls-[creds|hostname|authz]
- params to cmdline too
-Message-ID: <Yn1pH2jRCOzJpM9m@xz-m1.local>
-References: <20220425233847.10393-1-peterx@redhat.com>
- <20220425233847.10393-18-peterx@redhat.com>
- <Yn1L4eOEBMVvnYXH@work-vm> <Yn1aiRUKwgBczrlP@redhat.com>
+ Thu, 12 May 2022 14:11:40 -0700 (PDT)
+Date: Thu, 12 May 2022 15:11:40 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org, "Michael S .
+ Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti
+ Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 2/9] vfio: Fix compilation errors caused by VFIO
+ migration v1 deprecation
+Message-ID: <20220512151140.0de06d87.alex.williamson@redhat.com>
+In-Reply-To: <20220512182532.GG1343366@nvidia.com>
+References: <20220512154320.19697-1-avihaih@nvidia.com>
+ <20220512154320.19697-3-avihaih@nvidia.com>
+ <20220512115710.413c7e34.alex.williamson@redhat.com>
+ <20220512182532.GG1343366@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yn1aiRUKwgBczrlP@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,31 +108,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 08:05:45PM +0100, Daniel P. Berrangé wrote:
-> > > @@ -4372,12 +4375,9 @@ static void migration_class_init(ObjectClass *klass, void *data)
-> > >  static void migration_instance_finalize(Object *obj)
-> > >  {
-> > >      MigrationState *ms = MIGRATION_OBJ(obj);
-> > > -    MigrationParameters *params = &ms->parameters;
-> > >  
-> > >      qemu_mutex_destroy(&ms->error_mutex);
-> > >      qemu_mutex_destroy(&ms->qemu_file_lock);
-> > > -    g_free(params->tls_hostname);
-> > > -    g_free(params->tls_creds);
+On Thu, 12 May 2022 15:25:32 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> On Thu, May 12, 2022 at 11:57:10AM -0600, Alex Williamson wrote:
+> > > @@ -767,9 +767,10 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+> > >      case MIGRATION_STATUS_CANCELLED:
+> > >      case MIGRATION_STATUS_FAILED:
+> > >          bytes_transferred = 0;
+> > > -        ret = vfio_migration_set_state(vbasedev,
+> > > -                      ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
+> > > -                      VFIO_DEVICE_STATE_RUNNING);
+> > > +        ret = vfio_migration_set_state(
+> > > +            vbasedev,
+> > > +            ~(VFIO_DEVICE_STATE_V1_SAVING | VFIO_DEVICE_STATE_V1_RESUMING),
+> > > +            VFIO_DEVICE_STATE_V1_RUNNING);  
 > > 
-> > So hmm, why is tls-authz special here?
+> > Yikes!  Please follow the line wrapping used elsewhere.  There's no need
+> > to put the first arg on a new line and subsequent wrapped lines should
+> > be indented to match the previous line, or at least to avoid wrapping
+> > itself.  Here we can use something like:  
 > 
-> Pre-existing memory leak bug IIUC
+> This is generated by clang-format with one of the qmeu styles, it
+> follows the documented guide:
+> 
+>  In case of function, there are several variants:
+> 
+>  - 4 spaces indent from the beginning
+>  - align the secondary lines just after the opening parenthesis of the
+>    first
+> 
+> clang-format selected the first option due to its optimization
+> algorithm.
+> 
+> Knowing nothing about qmeu, I am confused??
 
-Right, and there's one extra paragraph in commit message explaining it (per
-Dan's request):
+Maybe someone needs to throw more AI models at clang-format so that it
+considers the more readable option?  QEMU does a lot wrong with style
+imo, and maybe it's technically compliant as written, but I think what
+I proposed is also compliant, as well as more readable and more
+consistent with the existing file.  Thanks,
 
-  This also fixes a trivial memory leak for tls-authz as we forgot to free it
-  before this patch.
-
-Thanks,
-
--- 
-Peter Xu
+Alex
 
 
