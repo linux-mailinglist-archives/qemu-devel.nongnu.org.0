@@ -2,89 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF22524544
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 07:59:34 +0200 (CEST)
-Received: from localhost ([::1]:54798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A5D5245A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 08:25:05 +0200 (CEST)
+Received: from localhost ([::1]:43424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np1rI-0001ZS-8k
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 01:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55154)
+	id 1np2G0-0004M0-6D
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 02:25:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1np1YI-0006Vf-GL; Thu, 12 May 2022 01:39:56 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:59693)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1np2CP-0001UD-LZ
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 02:21:21 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1np1YC-0005o9-7V; Thu, 12 May 2022 01:39:50 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E958F5C018D;
- Thu, 12 May 2022 01:39:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 12 May 2022 01:39:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1652333985; x=1652420385; bh=lH
- GPB/kGNUZZD417lL3+6wSUBzD6N3jLInKz5BdxBB8=; b=CEL2s860X4Gd6k1/y7
- jnyU9EuVa0F1qM8eADm7jwlnPedV16cyTX+R1+x9y+iTx6HTdiGJzyy8u8QCJpGV
- 2+0nTP1dZsXqFMtMQqK8DV6D0wNYnyLL3zppZFPaSyVRJVU8EFyI0rOsECrv4fzn
- 2nT+3tgbKUUU/oDDojWe0/2fuMXt6i/GMRoauKG4+ZxxoyngX0nl6W/lJNN1ptII
- pHb0QWm3clDChPsTDE3ADOxeqC4DVdC+obFNBYluYxOLLeTorUq1lcCTbYCCbwOo
- Vvc//oQWPqJghklfsxavBEKOCT6PgM9C7yxb9xKFh3RnYqMhWsQPFi/cw1oVHdKF
- ThbA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652333985; x=
- 1652420385; bh=lHGPB/kGNUZZD417lL3+6wSUBzD6N3jLInKz5BdxBB8=; b=h
- MCJYQGu6FltDJTc5EG1AnhWAUGRiYY3DbAcEOLT87SJwUl2csmsIf28rSOaMxm4Y
- d023i59ubbjKizuee5s7RNyZJeYUn9lNEX6CrGNVfgaE4VZrr5etxeQxl1meJdyU
- wbmdydHhkSjVCliRcpx38yZIQaUiDfYz3JLOl4KfP6VXHFfdWgEeTP/yZLEwNIAd
- VJihezD/etvAZAl/Gx2M6TLqlruJSPrNdL8TK6CltL6x2YZLKBUGlTZYkOTYDwm5
- z9wzmAwapVIMAoJVDJnr38Rj1dELn5llEUjn9Z6IdVoXqvFnIE/91RDeaQHcXHYT
- ry3yNHOaslnJA3QnOScnA==
-X-ME-Sender: <xms:oJ18YnRblUSnLLe8kEVg0IzXgheaeHqa7B-pOLJ7abpjjH_H3WcwNA>
- <xme:oJ18YoxEqJLkwlJFP2GpmXWLciyrePvmMuXhW2gZ6o-P9W1nuMMoCnL6E3Za5o7Te
- 7LqCUvOrPy1Zk4hTNk>
-X-ME-Received: <xmr:oJ18Ys1Pqy-eZDtZaSLGZcZcgn7oDZI27NkbRpfibg3F5haH50twS_3Fs1xolCn8knbF-JE6LHbx7JyEFrI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeeigdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:oJ18YnCUgtH27jPTRjxSmujjdObQB6oHbpuDdUt7R76jktunTmPjIw>
- <xmx:oJ18YgiYebmL1lq-M2PbggQP0sl5rHC3Phs1Qr2XoDTcPqfWSXx0JQ>
- <xmx:oJ18YrqHo8_t7_FD44yEyKqRQk7Kzna_YtkjqSBFApCL4kDvrI5OJw>
- <xmx:oZ18YodFe3U77TTqYy-Vj9MbWAfmxoH_JuZpHsyAhWD4jbVuKg2cRQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 May 2022 01:39:43 -0400 (EDT)
-Date: Thu, 12 May 2022 07:39:42 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: Zhenwei Pi <pizhenwei@bytedance.com>, qemu-block@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH] hw/nvme: fix smart aen
-Message-ID: <Ynydnnv3jksYDWx/@apples>
-References: <20220506063649.13361-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1np2CM-0003ew-Ii
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 02:21:21 -0400
+Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KzM8c0NKczhYkg;
+ Thu, 12 May 2022 14:20:32 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 12 May 2022 14:21:11 +0800
+To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+ <sgarzare@redhat.com>
+CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
+ <longpeng2@huawei.com>
+Subject: [PATCH v5 0/4] add generic vDPA device support
+Date: Thu, 12 May 2022 14:20:59 +0800
+Message-ID: <20220512062103.1875-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MwJy4rHsajifW5t/"
-Content-Disposition: inline
-In-Reply-To: <20220506063649.13361-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500025.china.huawei.com (7.221.188.170)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,61 +64,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
+From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
+From: Longpeng <longpeng2@huawei.com>
 
---MwJy4rHsajifW5t/
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi guys,
 
-On May  6 08:36, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Pass the right constant to nvme_smart_event(). The NVME_AER* values hold
-> the bit position in the SMART byte, not the shifted value that we expect
-> it to be in nvme_smart_event().
->=20
-> Fixes: c62720f137df ("hw/block/nvme: trigger async event during injecting=
- smart warning")
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/nvme/ctrl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 08574c4dcbc8..a2f6069f7fe1 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -5325,7 +5325,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeR=
-equest *req)
-> =20
->          if ((n->temperature >=3D n->features.temp_thresh_hi) ||
->              (n->temperature <=3D n->features.temp_thresh_low)) {
-> -            nvme_smart_event(n, NVME_AER_INFO_SMART_TEMP_THRESH);
-> +            nvme_smart_event(n, NVME_SMART_TEMPERATURE);
->          }
-> =20
->          break;
-> --=20
-> 2.36.0
->=20
+With the generic vDPA device, QEMU won't need to touch the device
+types any more, such like vfio.
 
-Applied to nvme-next.
+We can use the generic vDPA device as follow:
+  -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+  Or
+  -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+  vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
 
---MwJy4rHsajifW5t/
-Content-Type: application/pgp-signature; name="signature.asc"
+I've done some simple tests on Huawei's offloading card (net, 0.95).
 
------BEGIN PGP SIGNATURE-----
+Changes v4 -> v5:
+  Patch 3:
+    - remove vhostfd [Jason]
+	- support virtio-mmio [Jason]
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJ8nZwACgkQTeGvMW1P
-DemfTgf/cjbk7+R4kWKYXg4XkWQ7tWfwxg9l1pNf57YMJD3qwEEPc/lZCPCPZqE6
-3u7BkjXCjFLNoico44BtoQO5xwiaVD92fnKAOtcRw4YEJwVj0AF6bB7u8lb2kdyG
-X0T8Hr0jfAboGNdJz8o6v17pWTmDHgSfDqCbECQ8KroqR6L7NV3OIBs0BDCs9BX7
-acGIdPRN2ta1p/MvT31aaaj65PwBtCvflqRSJAOJh6jVaXNV0wEesOP80oGjahCf
-m35dU0UdiBAauJ4zN7yXRCS3lvD7kc9ZyfAwlnAWTPtk8O9x8waKHv4C6Bz2EyD2
-awTvJx77G3iPxRopxTOWtVyzGqqV7Q==
-=cjka
------END PGP SIGNATURE-----
+Changes v3 -> v4:
+  v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+  - reorganize the series [Stefano]
+  - fix some typos [Stefano]
+  - fix logical error in vhost_vdpa_device_realize [Stefano]
 
---MwJy4rHsajifW5t/--
+Changes v2 -> v3
+  Patch 4 & 5:
+    - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+    - s/VQS_NUM/VQS_COUNT  [Stefano]
+    - check both vdpa_dev_fd and vdpa_dev [Stefano]
+  Patch 6:
+    - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+
+Changes RFC -> v2
+  Patch 1:
+    - rename 'pdev_id' to 'trans_devid'  [Michael]
+    - only use transitional device id for the devices
+      listed in the spec  [Michael]
+    - use macros to make the id_info table clearer  [Longpeng]
+    - add some modern devices in the id_info table  [Longpeng]
+  Patch 2:
+    - remove the GET_VECTORS_NUM command  [Jason]
+  Patch 4:
+    - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+    - introduce vhost_vdpa_device_get_u32 as a common
+      function to make the code clearer  [Stefan]
+    - fix the misleading description of 'dc->desc'  [Stefano]
+  Patch 5:
+    - check returned number of virtqueues  [Stefan]
+  Patch 6:
+    - init s->num_queues  [Stefano]
+    - free s->dev.vqs  [Stefano]
+
+Longpeng (Mike) (4):
+  linux-headers: Update headers to Linux 5.18-rc6
+  virtio: get class_id and pci device id by the virtio id
+  vdpa: add vdpa-dev support
+  vdpa: add vdpa-dev-pci support
+
+ hw/virtio/Kconfig            |   5 +
+ hw/virtio/meson.build        |   2 +
+ hw/virtio/vdpa-dev-pci.c     | 101 ++++++++++
+ hw/virtio/vdpa-dev.c         | 377 +++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-pci.c       |  77 +++++++
+ hw/virtio/virtio-pci.h       |   5 +
+ include/hw/virtio/vdpa-dev.h |  43 ++++
+ linux-headers/linux/vhost.h  |   7 +
+ 8 files changed, 617 insertions(+)
+ create mode 100644 hw/virtio/vdpa-dev-pci.c
+ create mode 100644 hw/virtio/vdpa-dev.c
+ create mode 100644 include/hw/virtio/vdpa-dev.h
+
+-- 
+2.23.0
+
 
