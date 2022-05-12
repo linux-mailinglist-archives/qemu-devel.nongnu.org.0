@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DCE525288
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:28:46 +0200 (CEST)
-Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFDF5252B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:36:24 +0200 (CEST)
+Received: from localhost ([::1]:40864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBgD-0007hq-GE
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:28:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51316)
+	id 1npBnb-000754-Tp
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npBau-0004YV-DN
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:23:16 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44991)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npBgv-00028g-Jp
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:29:30 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:46025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npBas-00038c-J3
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:23:16 -0400
-Received: by mail-pf1-x436.google.com with SMTP id x52so5231139pfu.11
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:23:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npBgt-0003yu-JU
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:29:29 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id v59so10715965ybi.12
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=jbMajgACfEG4N2+wj8hWnvACNoW9EW4V2ysY0ay4WF8=;
- b=lDInX2VhCYpVhAFEyMC0g+NlLSlenr33aAgKPAPeNYvxv3pFEzi2LuXkpLrQ5IuNBZ
- FuUhe3vj9t8Gp2Ef+pyqJzaRN1SdMJnxZA38QDYpwUdB8+gUGrfq9UIRffJjW6k/uwBe
- z8+szmtpknQTVC3i5g8MQOggwVNeI/thZDRuR/LGnpqE3WAZ3ggSBZ/jplOZXGWX1bWw
- B+SeR3xHnzhm7p+m0E66chiimMFXuGs1fSSjeykKzi8AW3tx54r/LM+mJIKs8wOAPG/N
- 99Xyv7aN6IhSoEEpFtpEWG23gJaoY2khx8l2t1AVoTmYH4QN5oqLHV5IybdRfFln1jf6
- fcdw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f3mI6kUv/ydQ5/PAqcwTfRFn21jqBnNk5vqFwOzQtyw=;
+ b=CY9Xbuq3BPEvM7AL1Gl2ETUVGyjMdMGnjfadVc5rjXuNIfq3hs41TNa/N+sRbOqcwH
+ zUQsrr0xVRw7IcXH/7MR2aykBYM7v1VI7jxp40H4dd98yg/wJu2iD9w5qnHefT/Wh80G
+ I1LjYC4yNF8y7m28NhmrksuUCcmVCoEjXt6edvJMrVyPgb+CQpusM1RVUD23Awu7YOhC
+ BI/d6XVKh7qCKUj/ypEBfMTXrR45pQv/98XrxkPaB2PuMb4yYFg/mXfmAw96qIBYalil
+ wLdoovCOEekrw5NTO6mUJL83g+uaA52qHhTEk+3tUWedM3HCzq+d8lHrH0JVWyVP3aCP
+ t/jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jbMajgACfEG4N2+wj8hWnvACNoW9EW4V2ysY0ay4WF8=;
- b=TwmOsc0CWd0B3z1o5lKO7W6r3axu01gFFVACxZ0rwhSPZh4AfLxUkbGlTPDq+j5N2R
- +WIRX8b23YdFcGkz9aY2jSuEySVAc0aCatanzMPiJeaR+aDZJCHnBF2EBJhl341foQvS
- 0GDLQ4L7CGpWxdVdOQSskxPyl8nUyGlzPOLSM7TlUUCharBqLXrA4VhKr6uJZUzt+Rbo
- /yp8fvvNhV+j/NI/KMU3n+shirZOIu2ZN00hQ0EUZHLDOkavAEm8K5c+8f/+F0/Aj+tB
- S+g3aI/lWRatGtfD5P7wlIihrMNv/w/g1OT77qB+YVcIaTte010H1K6V3n9/NDvqe09d
- zIpQ==
-X-Gm-Message-State: AOAM530ypY4/+5Amk8RliqEHwmg2H+SzT2/p00hoIa+HMwv4624xEm3U
- t1D4EVy03C7JuPans1I3LS83tQ==
-X-Google-Smtp-Source: ABdhPJwlAmn6BtlHDbDgXNpBPxUs/krJze/CYEADsary7VZqVMTiUtx2ykNy0xkrSRbqTSUh6LF9OQ==
-X-Received: by 2002:a63:3409:0:b0:3ab:4d72:1f0a with SMTP id
- b9-20020a633409000000b003ab4d721f0amr367229pga.420.1652372591894; 
- Thu, 12 May 2022 09:23:11 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:2827:e3d7:b6c9:cd59:fac5:b31a?
- ([2607:fb90:2827:e3d7:b6c9:cd59:fac5:b31a])
- by smtp.gmail.com with ESMTPSA id
- c12-20020a62f84c000000b0050dc762812dsm62555pfm.7.2022.05.12.09.23.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 09:23:11 -0700 (PDT)
-Message-ID: <6c7fef22-3ac6-ae93-7cd4-0753db428682@linaro.org>
-Date: Thu, 12 May 2022 09:23:07 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f3mI6kUv/ydQ5/PAqcwTfRFn21jqBnNk5vqFwOzQtyw=;
+ b=Rxe3D4yZNVGwxTc+huonjPIw+4GYca6CReDMM5c41GS7Le90W0K+qRxvp4IP4yciS4
+ BwsYkVmMVFWdt0+bAMImM5upCrBZtareExZShiR3e8k86xewQZLnpv4MGWZIiIcSCPqJ
+ 42rnrE1yohHme6TnpFHhcg8hIsYyrTC7tXFB2WClZ1X6/DX9w0j4+LsecXK6NcFL4QrL
+ BN5mvEOjr0/r8O6BLjZsWlRXote1B/TiMZRTYqbY4pGS1fgKqa9h7K4KQz5eSY7YFHtE
+ 24ZWFfZS82W/WumvXX3vnD2fK+Z3NLnlFkga2RC7bf2KDQFF33d46JZ/Ga+qLT/N/gdq
+ +CHA==
+X-Gm-Message-State: AOAM532ASWhpRuGGVqloHstY9YZkEsGKZ0VlvF+ueyUdC8n/1nShaa2H
+ KcYY5M0b08pjGQVLomFdML7uLySNe6nC/lgnQZNMBg==
+X-Google-Smtp-Source: ABdhPJysmpE9eox7Mg8XetxM3dB30fmxH8qhT4QzIH0eCKiN5A+zG8ZYLmPPvVFehSYDxVvsyaVIm/bWqBIhmWvGP7Y=
+X-Received: by 2002:a25:6f85:0:b0:64a:8b67:d3b2 with SMTP id
+ k127-20020a256f85000000b0064a8b67d3b2mr602821ybc.85.1652372966595; Thu, 12
+ May 2022 09:29:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] Fix aarch64 debug register names.
-Content-Language: en-US
-To: Chris Howard <cvz185@web.de>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <4127D8CA-D54A-47C7-A039-0DB7361E30C0@web.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <4127D8CA-D54A-47C7-A039-0DB7361E30C0@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+References: <20220206093702.1282676-1-mst@redhat.com>
+ <20220206093702.1282676-19-mst@redhat.com>
+In-Reply-To: <20220206093702.1282676-19-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 May 2022 17:29:15 +0100
+Message-ID: <CAFEAcA-GDW6AgcvPgaYVxJbC=Y08br=MJHhrJX9DMj-w25mEsQ@mail.gmail.com>
+Subject: Re: [PULL v2 18/24] ACPI ERST: support for ACPI ERST feature
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric DeVolder <eric.devolder@oracle.com>, 
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,51 +83,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/22 02:42, Chris Howard wrote:
->  From 5de17d5aacb9cf21de4c9736b227b0498c607709 Mon Sep 17 00:00:00 2001
-> From: CHRIS HOWARD <cvz185@web.de>
-> Date: Thu, 12 May 2022 11:35:17 +0200
-> Subject: [PATCH] Fix aarch64 debug register names.
-> 
-> Signed-off-by: CHRIS HOWARD <cvz185@web.de>
+On Sun, 6 Feb 2022 at 09:38, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> From: Eric DeVolder <eric.devolder@oracle.com>
+>
+> This implements a PCI device for ACPI ERST. This implements the
+> non-NVRAM "mode" of operation for ERST as it is supported by
+> Linux and Windows.
+>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> Message-Id: <1643402289-22216-6-git-send-email-eric.devolder@oracle.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > ---
->   target/arm/helper.c | 16 ++++++++++++----
->   1 file changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 432bd81919..0dd97cb905 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -6543,14 +6543,16 @@ static void define_debug_regs(ARMCPU *cpu)
->       }
->   
->       for (i = 0; i < brps; i++) {
-> +        char *dbgbvr_el1_name = g_strdup_printf("DBGBVR%d_EL1", i);
-> +        char *dbgbcr_el1_name = g_strdup_printf("DBGBCR%d_EL1", i);
->           ARMCPRegInfo dbgregs[] = {
-> -            { .name = "DBGBVR", .state = ARM_CP_STATE_BOTH,
-> +            { .name = dbgbvr_el1_name, .state = ARM_CP_STATE_BOTH,
->                 .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 4,
->                 .access = PL1_RW, .accessfn = access_tda,
->                 .fieldoffset = offsetof(CPUARMState, cp15.dbgbvr[i]),
->                 .writefn = dbgbvr_write, .raw_writefn = raw_write
->               },
-> -            { .name = "DBGBCR", .state = ARM_CP_STATE_BOTH,
-> +            { .name = dbgbcr_el1_name, .state = ARM_CP_STATE_BOTH,
->                 .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 5,
->                 .access = PL1_RW, .accessfn = access_tda,
->                 .fieldoffset = offsetof(CPUARMState, cp15.dbgbcr[i]),
-> @@ -6558,17 +6560,21 @@ static void define_debug_regs(ARMCPU *cpu)
->               },
->           };
->           define_arm_cp_regs(cpu, dbgregs);
-> +        g_free(dbgbvr_el1_name);
-> +        g_free(dbgbcr_el1_name);
 
-If you felt like doing another revision, using g_autofree on the declaration would be 
-preferred.  However,
+Hi; Coverity points out a bug in this function (CID 1487125):
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> +static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+> +{
+> +    ERSTStorageHeader *header;
+> +    uint32_t record_size;
+> +
+> +    header = memory_region_get_ram_ptr(s->hostmem_mr);
+> +    s->header = header;
+> +
+> +    /* Ensure pointer to header is 64-bit aligned */
+> +    g_assert(QEMU_PTR_IS_ALIGNED(header, sizeof(uint64_t)));
+> +
+> +    /*
+> +     * Check if header is uninitialized; HostMemoryBackend inits to 0
+> +     */
+> +    if (le64_to_cpu(header->magic) == 0UL) {
+> +        make_erst_storage_header(s);
+> +    }
+> +
+> +    /* Validity check record_size */
+> +    record_size = le32_to_cpu(header->record_size);
+> +    if (!(
+> +        (record_size) && /* non zero */
+> +        (record_size >= UEFI_CPER_RECORD_MIN_SIZE) &&
+> +        (((record_size - 1) & record_size) == 0) && /* is power of 2 */
+> +        (record_size >= 4096) /* PAGE_SIZE */
+> +        )) {
+> +        error_setg(errp, "ERST record_size %u is invalid", record_size);
 
-r~
+Here we check that record_size is sensible, including that it is
+not zero. But we forget to return early after error_setg(), which means...
+
+> +    }
+> +
+> +    /* Validity check header */
+> +    if (!(
+> +        (le64_to_cpu(header->magic) == ERST_STORE_MAGIC) &&
+> +        ((le32_to_cpu(header->storage_offset) % record_size) == 0) &&
+> +        (le16_to_cpu(header->version) == 0x0100) &&
+> +        (le16_to_cpu(header->reserved) == 0)
+> +        )) {
+> +        error_setg(errp, "ERST backend storage header is invalid");
+> +    }
+> +
+> +    /* Check storage_size against record_size */
+> +    if (((s->storage_size % record_size) != 0) ||
+
+...that we fall through to here, where we will divide by zero if
+record_size is 0.
+
+> +         (record_size > s->storage_size)) {
+> +        error_setg(errp, "ACPI ERST requires storage size be multiple of "
+> +            "record size (%uKiB)", record_size);
+> +    }
+> +
+> +    /* Compute offset of first and last record storage slot */
+> +    s->first_record_index = le32_to_cpu(header->storage_offset)
+> +        / record_size;
+> +    s->last_record_index = (s->storage_size / record_size);
+> +}
+> +
+
+The fix is probably simply to add return statements after each error_setg()
+in the function.
+
+thanks
+-- PMM
 
