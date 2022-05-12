@@ -2,86 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7600524645
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 08:59:48 +0200 (CEST)
-Received: from localhost ([::1]:56502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4813524649
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 09:01:03 +0200 (CEST)
+Received: from localhost ([::1]:57716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np2nb-0007fD-Aj
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 02:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39064)
+	id 1np2oo-0008WC-KL
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 03:01:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1np2kE-0006V0-FB
- for qemu-devel@nongnu.org; Thu, 12 May 2022 02:56:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32764)
+ (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
+ id 1np2ke-0006u5-Cg; Thu, 12 May 2022 02:56:44 -0400
+Received: from corp-ob08.yahoo-corp.jp ([183.79.94.93]:59280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1np2kB-0000Xt-3f
- for qemu-devel@nongnu.org; Thu, 12 May 2022 02:56:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652338574;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zdfI2eol0flFOImP2CGnFTHR+uwwJHIQoC6mTFCfZg4=;
- b=bF0D3lwCCwY0TPvxeZ7pQIhz3csntehkqUNfCDUTnRadn4/iQLJEPB2IK0kRSk5MEWsa32
- H+dFi3udp7yqvn26WfyiS9OH6N2ZUMzbJ5zdm4C8Z5enLHX1pvFS9VoP4VEnNMPxxdkTa6
- Heb6wUs1DHezMFd8i/TC6LPHeQh616Q=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-RYZX5UXuMn6BIYWtWnjOwQ-1; Thu, 12 May 2022 02:56:12 -0400
-X-MC-Unique: RYZX5UXuMn6BIYWtWnjOwQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- b3-20020aa7d483000000b004282ca95814so2580906edr.9
- for <qemu-devel@nongnu.org>; Wed, 11 May 2022 23:56:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zdfI2eol0flFOImP2CGnFTHR+uwwJHIQoC6mTFCfZg4=;
- b=nXCDOs2UJbBZDui0940gUrQu2hKMfxWwvhYnK518fRbR1eN9ZxZbPgt9djMOs+NiWJ
- nmQNfX4u8VDWZLY2GZt7FHBNDikjzpauaB4QBMfo4Ar6Ed+Zra00vqHr5XLVOjaceUOi
- QRsMHp2aWyR3V4PGsyyjUqH7viFyJgbULE5hC88QwiAWiuNMf9usT7tV45NVHM2c4pOu
- 2yxViPgPOz9UGqJVywUMTXs4Ux8kt7R4CAuIvBT4hf1M1w8OLH2jKUQZx6qIBOc7ax8t
- +fAjCTQjiyXMBQQfFH/E6O+aMNzYx60Cua2z12AY6QI7GU7dUcfUQXqmUW0Qslv2VYnE
- lH4Q==
-X-Gm-Message-State: AOAM532scVj9Q199utgwCmmyLfZFsyON30GVDjM4ZjUn7zRyf4+dIk3z
- QbMwR/49lWusfa8VhIHglO+lBL6g9PB1ct8QbaVkZEYxwdFjj+yQeoCeMDEVLqxPJmoQ3mHkU12
- DugWils1zfGknS1Q=
-X-Received: by 2002:a17:907:2cc7:b0:6fa:88cf:c31a with SMTP id
- hg7-20020a1709072cc700b006fa88cfc31amr16018129ejc.471.1652338571517; 
- Wed, 11 May 2022 23:56:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyC98CSKy1bASh0zqH4fM5HvbQlVZf64J1w32udqxc6Tecx6K7wKjLR3Ubrz/bBXmJFUj1TmA==
-X-Received: by 2002:a17:907:2cc7:b0:6fa:88cf:c31a with SMTP id
- hg7-20020a1709072cc700b006fa88cfc31amr16018102ejc.471.1652338571221; 
- Wed, 11 May 2022 23:56:11 -0700 (PDT)
-Received: from redhat.com ([2.55.42.2]) by smtp.gmail.com with ESMTPSA id
- cf16-20020a0564020b9000b0042617ba63d4sm2130764edb.94.2022.05.11.23.56.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 23:56:10 -0700 (PDT)
-Date: Thu, 12 May 2022 02:56:05 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Cc: stefanha@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 2/4] virtio: get class_id and pci device id by the
- virtio id
-Message-ID: <20220512025113-mutt-send-email-mst@kernel.org>
-References: <20220512062103.1875-1-longpeng2@huawei.com>
- <20220512062103.1875-3-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
+ id 1np2kZ-0000YX-VZ; Thu, 12 May 2022 02:56:43 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com
+ (mail-os0jpn01lp2113.outbound.protection.outlook.com [104.47.23.113])
+ by corp-ob08.yahoo-corp.jp (Postfix) with ESMTPS id 6DAF219FB187;
+ Thu, 12 May 2022 15:56:31 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo-corp.jp;
+ s=default; t=1652338591;
+ bh=3Irb0zuudvOiyxdWsHDl4bz1draOjABYL3tHZ1WlJiM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=nXF+smfxb7I8KZh/oMm9laUhvlz3zGJhu6wuq2H4xDEig4iBwLUrszEyGmnEqBTAY
+ Dj28FAPemW7IZ7X6Di6hZDZqUR3Z8XmwXZra57ZPtfc4MTdyu/onFvaRg7WHpoHDlk
+ fYJV2qOdaXdPloz4737mEhfyjLc5MxCx/b/KvgXU=
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nkvSgjh3NXaWU8H3TBamTvnLa3NzUHc1XwREsde3kdA0nIKCZ8FYyeO0kODLo5GwaqE9gEF8TmuBagDd2ANwoY3VbUNMJs7unCI5Zf/3PgKZqf/0nXXNCF8yhhyF5gi8lzxSN5IH0TlovMycgtI0KosvwyH+Fx7Ub9d+4hXVTH+FTj+mZLeIcmtauxLuGhmElN3hevBxiMuVrGv4lMHq20tGom+njMuk1H3E9kcxpIEkjdxGKMNt2ARvc2Fk8zKyXJYSJNXuO5Yxa7w54GRYQFfcA/xu+Xk79LSJQOaT/gBWZLIrwdWFVJMG+BaW/u41TvzVrSVSXbxAOnnm8kPYog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Irb0zuudvOiyxdWsHDl4bz1draOjABYL3tHZ1WlJiM=;
+ b=n6UgIyN3TL4EM8Quy2vfVuvOd8YDc76HozAC+UZZvIUa/o3NxN8GS5/tF998ebOW9h1T6SgoAoQ9umKk7nwbB2dfh0kwqhVzA9vsoAX4eGzqoCQYAARJmGGAXEaJIYaIDOte8jb4gbMf7xc/jejghBnqvszZyRAHLtKKBE+R9JJ7Ec9XG0A6AeSuusrB/SEaneulm0+llhkZzUtpmAwLIVrBnJieggZCKG+u2Xh0lFqsCa+BtcJcPGqo3WZF8uIpRjQwE4rAMJ9I0e1r/B9XISF9anL0QPIAD1juGmjIl8rB7LSa8HM50FVTZn4JHLYRMRk+ewaXIGDsKOuOdVh2Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=yahoo-corp.jp; dmarc=pass action=none
+ header.from=yahoo-corp.jp; dkim=pass header.d=yahoo-corp.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=yjcorp.onmicrosoft.com; s=selector1-yjcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Irb0zuudvOiyxdWsHDl4bz1draOjABYL3tHZ1WlJiM=;
+ b=MZ6wjkrOyJj9QH5FGR/+/l2QxsVye4UMJV5DnhpWtgPfqcGAQ5n36wN2wWVw7vZx1T9UvarRTWYWpWeUnn3gQNk+3zdbEwqYgk710DsBFE8NspiU1vvK5pgN2fJk3vGSBi6Pdf4td1T7FDwi6NJdmBR9f9C3w1aDwfi33fdyAHY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=yahoo-corp.jp;
+Received: from TYWPR01MB10194.jpnprd01.prod.outlook.com (2603:1096:400:1e6::5)
+ by OS3PR01MB8302.jpnprd01.prod.outlook.com (2603:1096:604:1a1::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Thu, 12 May
+ 2022 06:56:29 +0000
+Received: from TYWPR01MB10194.jpnprd01.prod.outlook.com
+ ([fe80::a9da:d25a:6eb4:96e4]) by TYWPR01MB10194.jpnprd01.prod.outlook.com
+ ([fe80::a9da:d25a:6eb4:96e4%4]) with mapi id 15.20.5227.023; Thu, 12 May 2022
+ 06:56:29 +0000
+Message-ID: <41c8f1d4-be27-4110-33c0-b53a701a9cb6@yahoo-corp.jp>
+Date: Thu, 12 May 2022 15:56:19 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/2] coroutine: Revert to constant batch size
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: stefanha@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+References: <20220510151020.105528-1-kwolf@redhat.com>
+ <20220510151020.105528-3-kwolf@redhat.com>
+From: =?UTF-8?B?5oiQ5bedIOW8mOaouQ==?= <hnarukaw@yahoo-corp.jp>
+In-Reply-To: <20220510151020.105528-3-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYAPR01CA0094.jpnprd01.prod.outlook.com
+ (2603:1096:404:2c::34) To TYWPR01MB10194.jpnprd01.prod.outlook.com
+ (2603:1096:400:1e6::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220512062103.1875-3-longpeng2@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0cf9103d-1ed2-451c-f955-08da33e48a33
+X-MS-TrafficTypeDiagnostic: OS3PR01MB8302:EE_
+X-Microsoft-Antispam-PRVS: <OS3PR01MB8302E8D8C5A2AB76F0AD552180CB9@OS3PR01MB8302.jpnprd01.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7hAxoXn+3oiaG+j+UbETqtCM5Z27lj9t1j4AnbbdnQ8p4uZsLLjevvMWTaxhVkW3o9otSG4N+ZjkIN8vaT0GzD1aFUh+YP+1UBzxGedRrWWnlY11owFnBx1zVCU2CfQDRkJCu8GYFl9jqd6iz6Q3T0NYgmGFKa/ZHg5VayTQ5oi14urRDAx+KXXYHZFDc/4xwpaj5ZlyTMDebm268HDX3rlnjAAoJByeDocW5oXkWeXVlMJV+BTsKVqCuRM31MLqtzG7Ib23qazk3strQxMIOeQYimHDTqxYm/xm5edbhQ2M3O3pNvp8SDeakPVi0M8ypj81Y48NFTR1j/uiRe4ZxNuwIHBs9bI9IQgxk8H8khHUwE8bjXWo5ygE90pUQzGz5ObanOhOd/C2DGTxLR1R7SCXj4mEXarT654xbClLKqhe4HJzK6Bj/ajRunbiorF+e6JIRrdgxQA4VkphGl6FPJBwf2V1NVASiER2+SswslBHGfw9dR66XMT8WwmKlBcv23cEkyguzV10wz+TimZsjFiz3sPQmp/jv4EwtGore/gGfyXzBgwADMTTAkSOHSxNpLhzzp/EofS5Mu/rUrv4sIcS9/LtinqLkGXiXRaxQy2vZWYPGcGbSNdlXADQ/9e7l4w2nyNKX1MbS4cngNz5s1KZiOnrXPAceFjyKkqX6fiUvOqSXjA4TNWg9JTRFVaxb81qOZlKBASmPDtS2uaO5BJWfaHKcDJ29T566i1jwCpJx4yKjXI9X/X6nwv+3jaOOan9hxXDMKvdMUN7dPvxOXVGpUKX+BbAt7Nd0xwXAjNbCMp4QI+J/D0mOYBf7gKIt1HOar7XOMXllYy47fuDZs8KhpVE0/t22rB7DNgCZts=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYWPR01MB10194.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(966005)(6486002)(508600001)(52116002)(66946007)(31686004)(66476007)(2616005)(4326008)(85182001)(31696002)(66556008)(8676002)(8936002)(5660300002)(2906002)(186003)(86362001)(36756003)(53546011)(38100700002)(83380400001)(82960400001)(6512007)(316002)(6506007)(26005)(6666004)(38350700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGoxbnM2a0h1eUx6TTgyR2FtbnhMUlhNNkh3Z1pYN3dod0JsZzlzVzA2MFVG?=
+ =?utf-8?B?V1cwZzA0VWU3UTRuenlyU2NmQ3MwaCtTZXRYcjd5dkE3NWRWNVliUTBuVjM1?=
+ =?utf-8?B?QXQ5UE8xTjBmb3BpNmRDcHlVSTE5SUE4bEJvZ2lpTm0yTW1FdzZrRHVkZ2tI?=
+ =?utf-8?B?eDYvMU1EeU5ibUFLYm1FQWtEZmVFT0o4UGVseGErekZjeW9QZ2s0OCtzbDdN?=
+ =?utf-8?B?QVlXYklNSW84UHRNUk12SEkrbDV3SlFIQzVFemZEQU1OdVk2THZjbDJBaHBn?=
+ =?utf-8?B?V1VCUFArbHBsWnlzNW9ZTlFSUnRQczRwVmlZTWV6YmI4Lys3TTdDWkwzTnEv?=
+ =?utf-8?B?dFFYSlh6T1BpaElLR3hpR0NWY2EvSHlYSW9odDlhcGw1QnlTdEJoL2ptMXNq?=
+ =?utf-8?B?UEk2TGZTQ3pFRy9CTWZESUt5MVFxaFNaem4ySTdiYyttb0hTamFETVVkVHpy?=
+ =?utf-8?B?RzBHL2RSWGdSNmNQOEphcDIxN01vcjhodlFNWjZyS2UwUHhpZUNKZVhHZjFK?=
+ =?utf-8?B?cW5rZ1BlajQ5aFgxUGhNblQyTncrdkFDUlFRNGRhQml1QXNTc2ZzeXFNTk5h?=
+ =?utf-8?B?V2drNDRxblBOZkc3NEdsS1pORGozYzRDbVRSN1JmbFJNQm9FTzM3eEdGQWZP?=
+ =?utf-8?B?STEvN3ZhNWZCcHl5WHRPcHI0bXYzcktoaGNZRGZFSllNVFhHNFYwYmt6UVFE?=
+ =?utf-8?B?T0ZYL1AyTWpMaU1LNEFFejlXdkZodVlPdE9iSURQb1VmNHdQWDRuRHhvYi9W?=
+ =?utf-8?B?ZlI2aWVjMkVTWVFabE1HQmJhN1VMSEtKZWp5S0JQSDhteXVSbmNIbGFBaHRk?=
+ =?utf-8?B?b0RiYTVla0dUT283bDFzM0xqK3JjYWVGKzBDak5ZcXF1S1c1eWRBMkZ0NUlQ?=
+ =?utf-8?B?RHpPTzBsdzhMS2U5bVFCam1MUDJ4OXNuTjV6SjNXblV6RDBieko0bEx3WEls?=
+ =?utf-8?B?cURmWDJIT0d1UDBXUG1wWDd4NUJiL0FYZ2dKTVB5MjRDa2E1ckQzZU1WaU1a?=
+ =?utf-8?B?aTBPUWdld2FsUC9uRlFaM2R2LzExUnhtRXVZS1ZpWUc0dFNQQjVTODE3WmNm?=
+ =?utf-8?B?SUg1QWE4KzRydVhJRDB6Sno3aU0ydFFtK3h2akJoNmdIYVYwQmlmZ2xrUitn?=
+ =?utf-8?B?bmNWTU9vcGt0cGRoVkQxaFlWV0ZkTGdBeHpqL3BUY3dIbVlvb2R1a2ZpTVlH?=
+ =?utf-8?B?MGR2Zzd4YVZJRTZXTXVtV3hGRENSY3U3R0RmRU9aUkFFd3J0ajJFT2I3RlpV?=
+ =?utf-8?B?NGhoK3Y0ejRVWjFaWlZXb1Z0SlBwblIvZk5NK3hHcDljeHBVMnBLRmxtbUJT?=
+ =?utf-8?B?MWw1cjRBbW1QWkFEUUpNMU43ZGY2dUtacDU2K1lBT0hPcnZIbktTSUhGSG95?=
+ =?utf-8?B?ZnMyNCtOcVd6TTdZOU5iRmtWK29Ud25kTmlsMlVFdGZVbHVBQVliendMV3Iw?=
+ =?utf-8?B?ajBUTkh1VXIyZVprNnkxQzZEZU1JZ3M1Q3VmMUlydWQvUVQ5UWQ0Yk51bXg3?=
+ =?utf-8?B?dXZSamtSYmpWeVR3QWplYW15ZkF2WEFxbmIveXowV0FqY2FMWDBWSkhvSEpU?=
+ =?utf-8?B?UjAzWUNIS2xiMmp2cGdPcHpJUnRhYlNMWS95c1VkNXhmZ0ZJWTVrMmMrcUpN?=
+ =?utf-8?B?VXFmaVYyZy9SeDdqSnp1SzBuNW95aDExNlM0ZDBNbWdvOC9uZVVCZUtKL1l6?=
+ =?utf-8?B?VXJYYlVWV3lnUDV4UmQ3YnBtcmhqUEM1b2JRbmE5K1g5SjlLclRTcXEvOXJu?=
+ =?utf-8?B?SkxiQ09mWUNTSllneDl3STNKQit1cHZ3VytIK0tHaVpvSFI3UDVXdFFSaE83?=
+ =?utf-8?B?Q0lVaURFMXpiWWZtNy9XdUFSeVFJdkNuUU83cTlla2N6VGdyVVZ0VHlUczho?=
+ =?utf-8?B?a2xGSFVUTmw2dzQzamVINlJFN0MzUGs1YnpmN3lVcjF2dG5tRXdFMTNObVk0?=
+ =?utf-8?B?UWF6MzJtOHJ3S3JNSUd2b2gwSlhsU29vSVkrVkJHeDFtS3JFdmdCOW96Ukw4?=
+ =?utf-8?B?NVpNalplNmxQU0U4M1ZOQlhRTGNOREQvWmtGc2VDV01aUFRncVk5ZklSQ0Jy?=
+ =?utf-8?B?MXJmMWNwZTBEMzFNZm9kRUp5Rzh3dy9CcjdWRlFsaGJ6SzJtdmFPMmZjTkJI?=
+ =?utf-8?B?ZTBySmJLVEdSQkRmTFNzSytWNlJzU1FXVWpDS29TS2d0T3JXb28xam9KSWFP?=
+ =?utf-8?B?TlZwaHVSSm1vSHQvQ25XUlhsMTdMNnU0T3lxVWNNQmtzc0ZJdWlVUXhsOGRY?=
+ =?utf-8?B?d21KcWoydHlrMmhEN0pNZkV6bmM5aStSMGh5U1FXZkZHSi9xNjBVY2lsdHVw?=
+ =?utf-8?B?NnhGNVhLZE9qbE9wUDhBVmlDSjBLWWp3RmtWano0NXJuSVRsNmFnZz09?=
+X-OriginatorOrg: yahoo-corp.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cf9103d-1ed2-451c-f955-08da33e48a33
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB10194.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2022 06:56:29.1506 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a208d369-cd4e-4f87-b119-98eaf31df2c3
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oHNdwumVxja0SrU++1Si+l6I62Ojj4bAL3U3pTJCLCNk5SXbGJJSJ9BHxyLu1JvkA3Mfb2t0rYn2m2f7fFU2zw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8302
+Received-SPF: pass client-ip=183.79.94.93; envelope-from=hnarukaw@yahoo-corp.jp;
+ helo=corp-ob08.yahoo-corp.jp
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,158 +158,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 02:21:01PM +0800, Longpeng(Mike) wrote:
-> From: Longpeng <longpeng2@huawei.com>
-> 
-> Add helpers to get the "Transitional PCI Device ID" and "class_id"
-> of the device specified by the "Virtio Device ID".
-> 
-> These helpers will be used to build the generic vDPA device later.
-> 
-> Signed-off-by: Longpeng <longpeng2@huawei.com>
+Thank you for your fix.
+
+I confirmed that after applying this patch, my intended performance 
+improvement by 4c41c69e is still kept in our environment.
 
 
-Except, the IDs in the current header a broken. I just fixed them
-and they will be hopefully OK in the next version.
-
+On 2022/05/11 0:10, Kevin Wolf wrote:
+> Commit 4c41c69e changed the way the coroutine pool is sized because for
+> virtio-blk devices with a large queue size and heavy I/O, it was just
+> too small and caused coroutines to be deleted and reallocated soon
+> afterwards. The change made the size dynamic based on the number of
+> queues and the queue size of virtio-blk devices.
+> 
+> There are two important numbers here: Slightly simplified, when a
+> coroutine terminates, it is generally stored in the global release pool
+> up to a certain pool size, and if the pool is full, it is freed.
+> Conversely, when allocating a new coroutine, the coroutines in the
+> release pool are reused if the pool already has reached a certain
+> minimum size (the batch size), otherwise we allocate new coroutines.
+> 
+> The problem after commit 4c41c69e is that it not only increases the
+> maximum pool size (which is the intended effect), but also the batch
+> size for reusing coroutines (which is a bug). It means that in cases
+> with many devices and/or a large queue size (which defaults to the
+> number of vcpus for virtio-blk-pci), many thousand coroutines could be
+> sitting in the release pool without being reused.
+> 
+> This is not only a waste of memory and allocations, but it actually
+> makes the QEMU process likely to hit the vm.max_map_count limit on Linux
+> because each coroutine requires two mappings (its stack and the guard
+> page for the stack), causing it to abort() in qemu_alloc_stack() because
+> when the limit is hit, mprotect() starts to fail with ENOMEM.
+> 
+> In order to fix the problem, change the batch size back to 64 to avoid
+> uselessly accumulating coroutines in the release pool, but keep the
+> dynamic maximum pool size so that coroutines aren't freed too early
+> in heavy I/O scenarios.
+> 
+> Note that this fix doesn't strictly make it impossible to hit the limit,
+> but this would only happen if most of the coroutines are actually in use
+> at the same time, not just sitting in a pool. This is the same behaviour
+> as we already had before commit 4c41c69e. Fully preventing this would
+> require allowing qemu_coroutine_create() to return an error, but it
+> doesn't seem to be a scenario that people hit in practice.
+> 
+> Cc: qemu-stable@nongnu.org
+> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2079938
+> Fixes: 4c41c69e05fe28c0f95f8abd2ebf407e95a4f04b
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  hw/virtio/virtio-pci.c | 77 ++++++++++++++++++++++++++++++++++++++++++
->  hw/virtio/virtio-pci.h |  5 +++
->  2 files changed, 82 insertions(+)
+>   util/qemu-coroutine.c | 22 ++++++++++++++--------
+>   1 file changed, 14 insertions(+), 8 deletions(-)
 > 
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 7cf1231c1c..fdfa205cee 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -19,6 +19,7 @@
->  
->  #include "exec/memop.h"
->  #include "standard-headers/linux/virtio_pci.h"
-> +#include "standard-headers/linux/virtio_ids.h"
->  #include "hw/boards.h"
->  #include "hw/virtio/virtio.h"
->  #include "migration/qemu-file-types.h"
-> @@ -212,6 +213,79 @@ static int virtio_pci_load_queue(DeviceState *d, int n, QEMUFile *f)
->      return 0;
->  }
->  
-> +typedef struct VirtIOPCIIDInfo {
-> +    /* virtio id */
-> +    uint16_t vdev_id;
-> +    /* pci device id for the transitional device */
-> +    uint16_t trans_devid;
-> +    uint16_t class_id;
-> +} VirtIOPCIIDInfo;
-> +
-> +#define VIRTIO_TRANS_DEV_ID_INFO(name, class)       \
-> +    {                                               \
-> +        .vdev_id = VIRTIO_ID_##name,                \
-> +        .trans_devid = PCI_DEVICE_ID_VIRTIO_##name, \
-> +        .class_id = class,                          \
-> +    }
-> +
-> +#define VIRTIO_MODERN_DEV_ID_NFO(name, class)       \
-> +    {                                               \
-> +        .vdev_id = VIRTIO_ID_##name,                \
-> +        .class_id = class,                          \
-> +    }
-> +
-
-No, I think I liked the original approach in the RFC better, even though
-it duplicates a tiny bit of code.
-This trick does not save a lot of typing and obscures the ID
-use in case it's wrong (as was the case just recently).
-
-
-> +static const VirtIOPCIIDInfo virtio_pci_id_info[] = {
-> +    /* Non-transitional devices */
-> +    VIRTIO_MODERN_DEV_ID_NFO(CRYPTO,    PCI_CLASS_OTHERS),
-> +    VIRTIO_MODERN_DEV_ID_NFO(FS,        PCI_CLASS_STORAGE_OTHER),
-> +    /* Transitional devices */
-> +    VIRTIO_TRANS_DEV_ID_INFO(NET,       PCI_CLASS_NETWORK_ETHERNET),
-> +    VIRTIO_TRANS_DEV_ID_INFO(BLOCK,     PCI_CLASS_STORAGE_SCSI),
-> +    VIRTIO_TRANS_DEV_ID_INFO(CONSOLE,   PCI_CLASS_COMMUNICATION_OTHER),
-> +    VIRTIO_TRANS_DEV_ID_INFO(SCSI,      PCI_CLASS_STORAGE_SCSI),
-> +    VIRTIO_TRANS_DEV_ID_INFO(9P,        PCI_BASE_CLASS_NETWORK),
-> +    VIRTIO_TRANS_DEV_ID_INFO(BALLOON,   PCI_CLASS_OTHERS),
-> +    VIRTIO_TRANS_DEV_ID_INFO(RNG,       PCI_CLASS_OTHERS),
-> +};
-> +
-> +static const VirtIOPCIIDInfo *virtio_pci_get_id_info(uint16_t vdev_id)
-> +{
-> +    const VirtIOPCIIDInfo *info = NULL;
-> +    int i;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(virtio_pci_id_info); i++) {
-> +        if (virtio_pci_id_info[i].vdev_id == vdev_id) {
-> +            info = &virtio_pci_id_info[i];
-> +            break;
-> +        }
-> +    }
-> +
-> +    if (!info) {
-> +        /* The device id is invalid or not added to the id_info yet. */
-> +        error_report("Invalid virtio device(id %u)", vdev_id);
-> +        abort();
-> +    }
-> +
-> +    return info;
-> +}
-> +
-> +/*
-> + * Get the Transitional Device ID for the specific device, return
-> + * zero if the device is non-transitional.
+> diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
+> index ea23929a74..4a8bd63ef0 100644
+> --- a/util/qemu-coroutine.c
+> +++ b/util/qemu-coroutine.c
+> @@ -21,14 +21,20 @@
+>   #include "qemu/coroutine-tls.h"
+>   #include "block/aio.h"
+>   
+> -/** Initial batch size is 64, and is increased on demand */
+> +/**
+> + * The minimal batch size is always 64, coroutines from the release_pool are
+> + * reused as soon as there are 64 coroutines in it. The maximum pool size starts
+> + * with 64 and is increased on demand so that coroutines are not deleted even if
+> + * they are not immediately reused.
 > + */
-> +uint16_t virtio_pci_get_trans_devid(uint16_t device_id)
-> +{
-> +    return virtio_pci_get_id_info(device_id)->trans_devid;
-> +}
-> +
-> +/*
-> + * Get the Class ID for the specific device.
-> + */
-> +uint16_t virtio_pci_get_class_id(uint16_t device_id)
-> +{
-> +    return virtio_pci_get_id_info(device_id)->class_id;
-> +}
-> +
->  static bool virtio_pci_ioeventfd_enabled(DeviceState *d)
->  {
->      VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-> @@ -1675,6 +1749,9 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
->           * is set to PCI_SUBVENDOR_ID_REDHAT_QUMRANET by default.
->           */
->          pci_set_word(config + PCI_SUBSYSTEM_ID, virtio_bus_get_vdev_id(bus));
-> +        if (proxy->trans_devid) {
-> +            pci_config_set_device_id(config, proxy->trans_devid);
-> +        }
->      } else {
->          /* pure virtio-1.0 */
->          pci_set_word(config + PCI_VENDOR_ID,
-> diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-> index 2446dcd9ae..f08665cd1b 100644
-> --- a/hw/virtio/virtio-pci.h
-> +++ b/hw/virtio/virtio-pci.h
-> @@ -146,6 +146,8 @@ struct VirtIOPCIProxy {
->      bool disable_modern;
->      bool ignore_backend_features;
->      OnOffAuto disable_legacy;
-> +    /* Transitional device id */
-> +    uint16_t trans_devid;
->      uint32_t class_code;
->      uint32_t nvectors;
->      uint32_t dfselect;
-> @@ -158,6 +160,9 @@ struct VirtIOPCIProxy {
->      VirtioBusState bus;
->  };
->  
-> +uint16_t virtio_pci_get_trans_devid(uint16_t device_id);
-> +uint16_t virtio_pci_get_class_id(uint16_t device_id);
-> +
->  static inline bool virtio_pci_modern(VirtIOPCIProxy *proxy)
->  {
->      return !proxy->disable_modern;
-> -- 
-> 2.23.0
-
+>   enum {
+> -    POOL_INITIAL_BATCH_SIZE = 64,
+> +    POOL_MIN_BATCH_SIZE = 64,
+> +    POOL_INITIAL_MAX_SIZE = 64,
+>   };
+>   
+>   /** Free list to speed up creation */
+>   static QSLIST_HEAD(, Coroutine) release_pool = QSLIST_HEAD_INITIALIZER(pool);
+> -static unsigned int pool_batch_size = POOL_INITIAL_BATCH_SIZE;
+> +static unsigned int pool_max_size = POOL_INITIAL_MAX_SIZE;
+>   static unsigned int release_pool_size;
+>   
+>   typedef QSLIST_HEAD(, Coroutine) CoroutineQSList;
+> @@ -57,7 +63,7 @@ Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque)
+>   
+>           co = QSLIST_FIRST(alloc_pool);
+>           if (!co) {
+> -            if (release_pool_size > qatomic_read(&pool_batch_size)) {
+> +            if (release_pool_size > POOL_MIN_BATCH_SIZE) {
+>                   /* Slow path; a good place to register the destructor, too.  */
+>                   Notifier *notifier = get_ptr_coroutine_pool_cleanup_notifier();
+>                   if (!notifier->notify) {
+> @@ -95,12 +101,12 @@ static void coroutine_delete(Coroutine *co)
+>       co->caller = NULL;
+>   
+>       if (CONFIG_COROUTINE_POOL) {
+> -        if (release_pool_size < qatomic_read(&pool_batch_size) * 2) {
+> +        if (release_pool_size < qatomic_read(&pool_max_size) * 2) {
+>               QSLIST_INSERT_HEAD_ATOMIC(&release_pool, co, pool_next);
+>               qatomic_inc(&release_pool_size);
+>               return;
+>           }
+> -        if (get_alloc_pool_size() < qatomic_read(&pool_batch_size)) {
+> +        if (get_alloc_pool_size() < qatomic_read(&pool_max_size)) {
+>               QSLIST_INSERT_HEAD(get_ptr_alloc_pool(), co, pool_next);
+>               set_alloc_pool_size(get_alloc_pool_size() + 1);
+>               return;
+> @@ -214,10 +220,10 @@ AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co)
+>   
+>   void qemu_coroutine_inc_pool_size(unsigned int additional_pool_size)
+>   {
+> -    qatomic_add(&pool_batch_size, additional_pool_size);
+> +    qatomic_add(&pool_max_size, additional_pool_size);
+>   }
+>   
+>   void qemu_coroutine_dec_pool_size(unsigned int removing_pool_size)
+>   {
+> -    qatomic_sub(&pool_batch_size, removing_pool_size);
+> +    qatomic_sub(&pool_max_size, removing_pool_size);
+>   }
 
