@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B94525528
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 20:52:34 +0200 (CEST)
-Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65125254E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 20:33:07 +0200 (CEST)
+Received: from localhost ([::1]:40584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npDvN-0006LU-Ax
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 14:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40078)
+	id 1npDcY-0003DQ-Sk
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 14:33:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1npCvE-0002lU-FP
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:48:29 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:36641)
+ id 1npCxs-0004dc-Am
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:51:07 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1npCvB-0000De-FS
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:48:19 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id j14so5618749plx.3
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:48:17 -0700 (PDT)
+ id 1npCxq-0000gr-NG
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:51:04 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ gj17-20020a17090b109100b001d8b390f77bso8528188pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=yMD4uNcX7nwJRnfdov6l+Is8lhR7QoKly26xhU/0yCM=;
- b=a2DxECy3eU2zyy4MddAkOcv2PBd76rNd44QMgMnvMmwYbizg7/qmN6Qry+idDfEa36
- z517rwt2kQOpPDjXoea53NJy/Myh6GWaa/TkS4GWoL64X8z0bzz5/jeeDx29hbvSWGfh
- WfNuOrkWFieGm4hfYIE0zCBngCJ9QfNm33QnCImYHgYmtySHb/olqw7UlScYH7sGOFLJ
- 8lHE8hmDdpBWW3equ5E3jC4nyLnAuUrz9H/uHxc0uMUzJxtU6i6o2BadFo69ERA1vlBF
- S2e2yRCeqBj67pm1pblK+nlk2eDgIEDWMHsfwi0V4f2kZ5g5E+8yTmAd8GP7H2C5WDwh
- A0KQ==
+ bh=fNBBVy+Cxc1RMi9VEsz9pCMNiJoDsT/4/B0gBmZ9Iao=;
+ b=aXMWW7/HCY8ibQ+vQ0lMGfk12i2XCTThPLGxSFkgo8ViKNH3nkmwfZR66od8DZlGXF
+ Lx0xKUBmIzdJAAZBKTStHI2J1lEtcykxafxfWTVIzhg2NACSkMPaHOLsEY6eNa8kBhhC
+ 8X01uZat4shaMo0rFqR2HqGsAbK75dlcuB7E7UiYniVYFffN6nQ6FU+XKoMEYaFT3ygQ
+ 0vnLt1sdKeLdv4JeyggUv3maZLNvPc42uizGMfsyssWXb2fDKZWHA/llN+0uSjrJ+nV9
+ VDpUge0lqnCi78nc5H3HsJQkAUhdNi3+U7bVX0O7ur3DEHyowpp5hxcUXceuxgOboRYx
+ S0ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=yMD4uNcX7nwJRnfdov6l+Is8lhR7QoKly26xhU/0yCM=;
- b=TJhA8cnu7mmgeIciV9YTUIj5mcWqIOwaZJV6590CuXm6E6EiJhiJa3Gfl/KyWmgJb1
- wGnBS2D2JkaMm4SUbWj0GSMeBbWtUWpzK3V16CTn9+wV+izZxZrFEP3XzFsXMCI6gl+m
- EhOOa9QHMSDW5h5Z105DHQrkxo/VSiAB5BTW8rpB6is/xASoVOChV2eViXkl6mjHRWHc
- k/7bFqMkc8sAkoVNZbzTA1fQOiqbDn/8XkZLR8QDad/2ajoPUWWKMgrsmRlvg4uNIxYc
- DOfxTPWKQDX/I6E7rUu6UL8sDIeSGrVJ4KVMBXBioUBQ9BiC8jKLLnsSkfbvM7BrRZi7
- pyhw==
-X-Gm-Message-State: AOAM533vz6VqCw/vnKhqajjrfWTxeb5TNwZAl0q7FrCq/dx85Q87R5Fu
- Q7yekW13PGQHDHDf9tyBNtk=
-X-Google-Smtp-Source: ABdhPJzw+EbrJ6LJX96DmLzDfijMzsCp2s5e8tWVo6Nucj0Rqn9n2uyDg0zvF4QPYr4qTymAJVRNsw==
-X-Received: by 2002:a17:902:7d89:b0:15e:e999:6b88 with SMTP id
- a9-20020a1709027d8900b0015ee9996b88mr1005914plm.98.1652377696104; 
- Thu, 12 May 2022 10:48:16 -0700 (PDT)
+ bh=fNBBVy+Cxc1RMi9VEsz9pCMNiJoDsT/4/B0gBmZ9Iao=;
+ b=c5DKEmIJRj3fU1HFp5b+haPy5lR+8Q9qNyY9Hp4rdJpR2UZ7zjEz5dOFb/XqMJbT1M
+ 2/fSpBwME9LK2E/Htn6pHix3FqxUNwBGlhJr2OU9XCmyx6ebaAIvIG3g4v4a1yJKRfEf
+ 4mtv6FEbP04/j0Vw7lXTk2zBaqJzcOBQepXue0ZjTmEitR4rlPIn+G0yuhqPI82fDA42
+ 5sxUI7OdiYMm6QWjPRXJtFmI17qP2L+ilcVGApxB9GVocw5ejikhWqYzLbAMLAxtH9G2
+ 1u1wrcxoJBleZuk+7x65j4jB+2AA/aRHx2Zi7L2ikREIDlGkB9dtK96GEHzINT5HXbaW
+ 2vXA==
+X-Gm-Message-State: AOAM530n33l3qZ6/HkKLuDHFNr1YNH7R2Stq7+tSGgM8KkL3kt6ZxGO7
+ bYW/QLw5UK5hof0rhnSk1AE=
+X-Google-Smtp-Source: ABdhPJxHzvDtaxGj2a+/AOqMRNdWD4bA+szSZvINcMPxmsyjCwgWd/qfA32pcDton1e/S9c5P2r5dw==
+X-Received: by 2002:a17:90b:502:b0:1d9:a907:d845 with SMTP id
+ r2-20020a17090b050200b001d9a907d845mr713856pjz.162.1652377861345; 
+ Thu, 12 May 2022 10:51:01 -0700 (PDT)
 Received: from localhost ([192.55.54.48]) by smtp.gmail.com with ESMTPSA id
- i15-20020a655b8f000000b003c14af505fesm25838pgr.22.2022.05.12.10.48.15
+ f8-20020aa78b08000000b0050dc7628202sm92778pfd.220.2022.05.12.10.51.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 10:48:15 -0700 (PDT)
-Date: Thu, 12 May 2022 10:48:14 -0700
+ Thu, 12 May 2022 10:51:00 -0700 (PDT)
+Date: Thu, 12 May 2022 10:50:59 -0700
 From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>, g@ls.amr.corp.intel.com
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
  Gerd Hoffmann <kraxel@redhat.com>,
@@ -67,17 +68,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
  Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 10/36] i386/kvm: Move architectural CPUID leaf
- generation to separate helper
-Message-ID: <20220512174814.GE2789321@ls.amr.corp.intel.com>
+Subject: Re: [RFC PATCH v4 09/36] KVM: Introduce kvm_arch_pre_create_vcpu()
+Message-ID: <20220512175059.GF2789321@ls.amr.corp.intel.com>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-11-xiaoyao.li@intel.com>
+ <20220512031803.3315890-10-xiaoyao.li@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220512031803.3315890-11-xiaoyao.li@intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pl1-x62f.google.com
+In-Reply-To: <20220512031803.3315890-10-xiaoyao.li@intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,30 +100,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 11:17:37AM +0800,
+On Thu, May 12, 2022 at 11:17:36AM +0800,
 Xiaoyao Li <xiaoyao.li@intel.com> wrote:
 
-> diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-> index b434feaa6b1d..5c7972f617e8 100644
-> --- a/target/i386/kvm/kvm_i386.h
-> +++ b/target/i386/kvm/kvm_i386.h
-> @@ -24,6 +24,10 @@
->  #define kvm_ioapic_in_kernel() \
->      (kvm_irqchip_in_kernel() && !kvm_irqchip_is_split())
+> Introduce kvm_arch_pre_create_vcpu(), to perform arch-dependent
+> work prior to create any vcpu. This is for i386 TDX because it needs
+> call TDX_INIT_VM before creating any vcpu.
+
+Because "11/36 i386/tdx: Initialize TDX before creating TD vcpus" uses
+kvm_arch_pre_create_vcpu() (and 10/36 doesn't use it), please move this patch
+right before 11/36. (swap 09/36 and 10/36).
+
+Thanks,
+
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+>  accel/kvm/kvm-all.c  | 12 ++++++++++++
+>  include/sysemu/kvm.h |  1 +
+>  2 files changed, 13 insertions(+)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 32e177bd26b4..e6fa9d23207a 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -457,6 +457,11 @@ static int kvm_get_vcpu(KVMState *s, unsigned long vcpu_id)
+>      return kvm_vm_ioctl(s, KVM_CREATE_VCPU, (void *)vcpu_id);
+>  }
 >  
-> +#define KVM_MAX_CPUID_ENTRIES  100
-
-In Linux side, the value was bumped to 256.  Opportunistically let's make it
-same.
-
-3f4e3eb417b1 KVM: x86: bump KVM_MAX_CPUID_ENTRIES
-
-> +uint32_t kvm_x86_arch_cpuid(CPUX86State *env, struct kvm_cpuid_entry2 *entries,
-> +                            uint32_t cpuid_i);
+> +int __attribute__ ((weak)) kvm_arch_pre_create_vcpu(CPUState *cpu)
+> +{
+> +    return 0;
+> +}
 > +
->  #else
+>  int kvm_init_vcpu(CPUState *cpu, Error **errp)
+>  {
+>      KVMState *s = kvm_state;
+> @@ -465,6 +470,13 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
 >  
->  #define kvm_pit_in_kernel()      0
+>      trace_kvm_init_vcpu(cpu->cpu_index, kvm_arch_vcpu_id(cpu));
+>  
+> +    ret = kvm_arch_pre_create_vcpu(cpu);
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret,
+> +                         "kvm_init_vcpu: kvm_arch_pre_create_vcpu() failed");
+> +        goto err;
+> +    }
+> +
+>      ret = kvm_get_vcpu(s, kvm_arch_vcpu_id(cpu));
+>      if (ret < 0) {
+>          error_setg_errno(errp, -ret, "kvm_init_vcpu: kvm_get_vcpu failed (%lu)",
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index a783c7886811..0e94031ab7c7 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -373,6 +373,7 @@ int kvm_arch_put_registers(CPUState *cpu, int level);
+>  
+>  int kvm_arch_init(MachineState *ms, KVMState *s);
+>  
+> +int kvm_arch_pre_create_vcpu(CPUState *cpu);
+>  int kvm_arch_init_vcpu(CPUState *cpu);
+>  int kvm_arch_destroy_vcpu(CPUState *cpu);
+>  
 > -- 
 > 2.27.0
 > 
