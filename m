@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B186524389
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:39:30 +0200 (CEST)
-Received: from localhost ([::1]:37160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640B652436F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:31:32 +0200 (CEST)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nozfl-0002i4-DX
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39062)
+	id 1nozY3-0005r1-Ea
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozMC-0002uj-MS
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:18 -0400
+ id 1nozMH-0002yD-46
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:22 -0400
 Received: from mga12.intel.com ([192.55.52.136]:56096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozMA-0002s1-Tu
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:16 -0400
+ id 1nozMF-0002s1-CX
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:19:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652325554; x=1683861554;
+ t=1652325559; x=1683861559;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=geM5ojUJjs9SbmWQaUG9mf3dDvcaeY02c+IzDC9b8/o=;
- b=Kjg2z70Rstb19GCBxSSk0hwLmKgZ7WEjLRLmfiDt8t3ISQvzAYOcFiyE
- 0JqKZo+NoKB79xkUTwKv9nVmo7QGtRM2i3l0700CgOMHPTXGPA4WBsvpo
- RDHqlCHiahQenf5oczuYOBAm9pVLgK/l6Lrb3BIQ1nOwXwSwM3Ugto1+p
- nreoxTIurOKejzzsClr5nmwSWPxa9YbxHV+qhKuFLLw2mHrHfjjBaUqpG
- Wzv9Mjn7O1cBXb603J6I8A4wvWxurbBRS+eDgore6Nr6Y9fukfItvxK0u
- 8ImUhK4LuupGupfFF9vzvpYnUOOaHPW6BT1SLWVcWIHteUuNQw76svwB9 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="249770418"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="249770418"
+ bh=g0arAYqX7qyUTtrTHk+CfMx8l5NPyKI+u1IWkEt9Y3I=;
+ b=Tjqos6NBK8M1qU3HA7SHRfbMyMESIccmP9KX4sHkS5T62FrqCHdcbLdJ
+ NhHmUnf6n3vtMMfv6gs7G6IlwIfpI1CCP47xTlTgVLdhIhXUylkijMfxw
+ 6C2TmB/hKpx2LorspOE8rgIfrygSKvjx2AFjuV78zo0F27aVT6A2YIQii
+ 0kyqPbYAYTIrhliVmhyKJG9dlze3+Qu54jOrhrktohnp1CMT4GnvPkgvR
+ 3dYwASixRnbquuIctWC0civJqv4N2CHXxzpjoSZID5yYtkcoxeMezyjyn
+ +CfqzFWkXCjB4mzdix/oCMxKGGmMT/j4UPf+nfGvdYZAd+xBj19rl7gi7 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="249770435"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="249770435"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 20:19:14 -0700
+ 11 May 2022 20:19:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594455769"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594455812"
 Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:19:09 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:19:14 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
@@ -54,9 +54,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [RFC PATCH v4 13/36] i386/tdx: Validate TD attributes
-Date: Thu, 12 May 2022 11:17:40 +0800
-Message-Id: <20220512031803.3315890-14-xiaoyao.li@intel.com>
+Subject: [RFC PATCH v4 14/36] i386/tdx: Implement user specified tsc frequency
+Date: Thu, 12 May 2022 11:17:41 +0800
+Message-Id: <20220512031803.3315890-15-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220512031803.3315890-1-xiaoyao.li@intel.com>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
@@ -87,76 +87,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Validate TD attributes with tdx_caps that fixed-0 bits must be zero and
-fixed-1 bits must be set.
+Reuse "-cpu,tsc-frequency=" to get user wanted tsc frequency and pass it
+to KVM_TDX_INIT_VM.
 
-Besides, sanity check the attribute bits that have not been supported by
-QEMU yet. e.g., debug bit, it will be allowed in the future when debug
-TD support lands in QEMU.
+Besides, sanity check the tsc frequency to be in the legal range and
+legal granularity (required by TDX module).
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- target/i386/kvm/tdx.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ target/i386/kvm/kvm.c |  8 ++++++++
+ target/i386/kvm/tdx.c | 18 ++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index f2d7c3cf59ac..c51125ab200f 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -818,6 +818,14 @@ static int kvm_arch_set_tsc_khz(CPUState *cs)
+     int r, cur_freq;
+     bool set_ioctl = false;
+ 
++    /*
++     * TD guest's TSC is immutable, it cannot be set/changed via
++     * KVM_SET_TSC_KHZ, but only be initialized via KVM_TDX_INIT_VM
++     */
++    if (is_tdx_vm()) {
++        return 0;
++    }
++
+     if (!env->tsc_khz) {
+         return 0;
+     }
 diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index e9c6e6fb396c..9f2cdf640b5c 100644
+index 9f2cdf640b5c..622efc409438 100644
 --- a/target/i386/kvm/tdx.c
 +++ b/target/i386/kvm/tdx.c
-@@ -31,6 +31,7 @@
-                                      (1ULL << KVM_FEATURE_PV_SCHED_YIELD) | \
-                                      (1ULL << KVM_FEATURE_MSI_EXT_DEST_ID))
- 
-+#define TDX_TD_ATTRIBUTES_DEBUG             BIT_ULL(0)
+@@ -35,6 +35,9 @@
  #define TDX_TD_ATTRIBUTES_PKS               BIT_ULL(30)
  #define TDX_TD_ATTRIBUTES_PERFMON           BIT_ULL(63)
  
-@@ -169,13 +170,32 @@ void tdx_get_supported_cpuid(uint32_t function, uint32_t index, int reg,
-     }
- }
++#define TDX_MIN_TSC_FREQUENCY_KHZ   (100 * 1000)
++#define TDX_MAX_TSC_FREQUENCY_KHZ   (10 * 1000 * 1000)
++
+ static TdxGuest *tdx_guest;
  
--static void setup_td_guest_attributes(X86CPU *x86cpu)
-+static int tdx_validate_attributes(TdxGuest *tdx)
-+{
-+    if (((tdx->attributes & tdx_caps->attrs_fixed0) | tdx_caps->attrs_fixed1) !=
-+        tdx->attributes) {
-+            error_report("Invalid attributes 0x%lx for TDX VM (fixed0 0x%llx, fixed1 0x%llx)",
-+                          tdx->attributes, tdx_caps->attrs_fixed0, tdx_caps->attrs_fixed1);
-+            return -EINVAL;
-+    }
-+
-+    if (tdx->attributes & TDX_TD_ATTRIBUTES_DEBUG) {
-+        error_report("Current QEMU doesn't support attributes.debug[bit 0] for TDX VM");
-+        return -EINVAL;
-+    }
-+
-+    return 0;
-+}
-+
-+static int setup_td_guest_attributes(X86CPU *x86cpu)
- {
-     CPUX86State *env = &x86cpu->env;
- 
-     tdx_guest->attributes |= (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_PKS) ?
-                              TDX_TD_ATTRIBUTES_PKS : 0;
-     tdx_guest->attributes |= x86cpu->enable_pmu ? TDX_TD_ATTRIBUTES_PERFMON : 0;
-+
-+    return tdx_validate_attributes(tdx_guest);
- }
- 
- int tdx_pre_create_vcpu(CPUState *cpu)
-@@ -191,7 +211,10 @@ int tdx_pre_create_vcpu(CPUState *cpu)
+ /* It's valid after kvm_confidential_guest_init()->kvm_tdx_init() */
+@@ -211,6 +214,20 @@ int tdx_pre_create_vcpu(CPUState *cpu)
          goto out;
      }
  
--    setup_td_guest_attributes(x86cpu);
-+    r = setup_td_guest_attributes(x86cpu);
-+    if (r) {
++    r = -EINVAL;
++    if (env->tsc_khz && (env->tsc_khz < TDX_MIN_TSC_FREQUENCY_KHZ ||
++                         env->tsc_khz > TDX_MAX_TSC_FREQUENCY_KHZ)) {
++        error_report("Invalid TSC %ld KHz, must specify cpu_frequency between [%d, %d] kHz",
++                      env->tsc_khz, TDX_MIN_TSC_FREQUENCY_KHZ,
++                      TDX_MAX_TSC_FREQUENCY_KHZ);
 +        goto out;
 +    }
++
++    if (env->tsc_khz % (25 * 1000)) {
++        error_report("Invalid TSC %ld KHz, it must be multiple of 25MHz", env->tsc_khz);
++        goto out;
++    }
++
+     r = setup_td_guest_attributes(x86cpu);
+     if (r) {
+         goto out;
+@@ -221,6 +238,7 @@ int tdx_pre_create_vcpu(CPUState *cpu)
  
-     memset(&init_vm, 0, sizeof(init_vm));
-     init_vm.cpuid.nent = kvm_x86_arch_cpuid(env, init_vm.entries, 0);
+     init_vm.attributes = tdx_guest->attributes;
+     init_vm.max_vcpus = ms->smp.cpus;
++    init_vm.tsc_khz = env->tsc_khz;
+ 
+     r = tdx_vm_ioctl(KVM_TDX_INIT_VM, 0, &init_vm);
+     if (r < 0) {
 -- 
 2.27.0
 
