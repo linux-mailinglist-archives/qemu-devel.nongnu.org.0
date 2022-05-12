@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C195251A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:54:04 +0200 (CEST)
-Received: from localhost ([::1]:33620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2365D5251B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:58:21 +0200 (CEST)
+Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npB8d-0003Xq-Hr
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42148)
+	id 1npBCl-0002uu-U1
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1npAzK-0006i1-Qq
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:44:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42997)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1npAzI-0005N9-3S
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:44:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652370261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z8RzYKQTLfNnZg90tkG6JNS62QmgPjT8zq2VEjCBGY4=;
- b=DgJWXZu7WoeWUMd/NkhpV45+7nIGH+rpiih5rp5XBdnXH/+2BJeF3JVBM9TTYdutrKMaAr
- xKfty45AWB3KBnjxQU8DeWRplNiglwNPbvemPbnhWG06y1VD5JL0/VQ7qGOCQUt+/jzai8
- T2fNdIgF5us/8r9mJkrnp/QhuPCb8lM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-338-N-zCFv6JO7OAGvuxi3rWMw-1; Thu, 12 May 2022 11:44:20 -0400
-X-MC-Unique: N-zCFv6JO7OAGvuxi3rWMw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- e9-20020a05600c4e4900b00394779649b1so4564050wmq.3
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:44:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npB2v-0004Gz-Mw
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:48:09 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:38802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npB2t-00060o-RQ
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:48:09 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id m128so10541570ybm.5
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=E7ojlrNfSmc5Q2kUiuwjbskdmVgAHcKRT6Ntt6ygbvg=;
+ b=YAEoby3dFEL0nJuTsLGzXFszFJExya9p9MEd+jPQmR7JBshyJezp9Z4PQFY9s7PnoZ
+ 7glpRFXrUFUQrdkW4cH6CXDY61PvO6VwFocS+EPjUOTbOVBozcbGCXyhIXlGpxFoQEGW
+ JF1BFz3DyAVKmYLMiYNPaTx+svbj5YlW/6J+BR2MHXISfnpI9lFF3mp7b40/s4U5yFLy
+ rF8xroIlDiGtSIpAHZwEdiQPU8Exx0Sk7C2HGCkG7n10huD0NZZJ6/T+OY7774bveSvS
+ qjVOPbh6Yo5GgPtMLL089avLaOaaNRLZxD1IApB7hQQTy7RQ97V1VaQIh2faDgIYN6xJ
+ 9lSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=z8RzYKQTLfNnZg90tkG6JNS62QmgPjT8zq2VEjCBGY4=;
- b=Hf3ru3E99u+Jv6+S7Fxb7IR14U6RL14LFJa8mw5mR87xaDVwYctInu++Sq2oIisR3A
- MN5PFTXHn8ACH0aTz4kqfabLxJ/9MpAgN2Jcw22OUpqnthIjvfaU0zLnEGkZpzw9yEGP
- yBJ+pWSuQkgoRxt1eDy/aw1bYi7Hr2INKxOR2AYWLRj4xrjqYg6nSPmYF+D0+InA3NCm
- cNEr5trHVZ9KTjaE/nd/9JxITGZ1gNMklMaf7hsIbJq1lzMZiFyWUpTURfKHcFDUIUV5
- J6H+j7Ebo5F0NZIOWkElVmIFRC0a68FBDRJBkm9hSXAo4FXMyYAtAmrWuGvepArM8fzv
- SGdw==
-X-Gm-Message-State: AOAM5302Lvz9e7os+kWLD8ewYCqV8lsKS4+Xv2zJxZPeDacCOHFTK1n4
- bor1NqPS9N1mDke04J4crJFRl61OT1uFoQjn+u/d268RhTjOawHEeNkV2IPwQM1h1993mZMmibK
- 5fiOe2QXtbOGzPtw=
-X-Received: by 2002:a05:600c:4f95:b0:394:8919:7557 with SMTP id
- n21-20020a05600c4f9500b0039489197557mr439860wmq.166.1652370258841; 
- Thu, 12 May 2022 08:44:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+upmbq1xMPTmGMjK6OOdIBvsMtAvFxEMuXD+ahYKlVgy2KbsMy1ioCeP3fU05KFlvu7to5w==
-X-Received: by 2002:a05:600c:4f95:b0:394:8919:7557 with SMTP id
- n21-20020a05600c4f9500b0039489197557mr439843wmq.166.1652370258649; 
- Thu, 12 May 2022 08:44:18 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-11-6-106.retail.telecomitalia.it.
- [87.11.6.106]) by smtp.gmail.com with ESMTPSA id
- v15-20020a5d678f000000b0020c5253d8cdsm4665825wru.25.2022.05.12.08.44.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 08:44:18 -0700 (PDT)
-Date: Thu, 12 May 2022 17:44:13 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- qemu-block@nongnu.org, integration@gluster.org,
- qemu-stable@nongnu.org, eblake@redhat.com, vsementsov@virtuozzo.com
-Subject: Re: [PATCH v2] block/gluster: correctly set max_pdiscard
-Message-ID: <20220512154413.vw7lnfxqttdidu4n@sgarzare-redhat>
-References: <20220512103048.214100-1-f.ebner@proxmox.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E7ojlrNfSmc5Q2kUiuwjbskdmVgAHcKRT6Ntt6ygbvg=;
+ b=hFuVr8anVSXYIQK+32qDrobJW286i4hrbFQiiWgjfcV7ahF3WlpW8u0FnpXx6oTHkH
+ y0dEBabvmAQHG625IScVZIoLrgnUB8zQ0QivkmynGRzUKgYE+Su/jz2fSssZa6LqJNxt
+ LRBloQVAsx519NjwFBRWLyI/FH7ge3wuYYdhWbWFnAuexckcLtkdHPKvqFcxsJ8PtwNN
+ LrXgub8gSyuXKmMxzDYFmC2U8NQMDje7Mp8vcMAOXmBoHzWuImgy+myTanTx9f8wXXND
+ 2YtPE4YZ8dozeno/nzZb/gwm777EWFsAzzInzYNzb5OKk/g/Ecb6eaqViHCmC1SHX//m
+ 9EDw==
+X-Gm-Message-State: AOAM533UF6wmvZ+4C9QChyFnVn1FgHgTKonKi+p9LmSNSc7CB4CI+nK3
+ Zkx8yELW/leIYlgHpiFMKoubnWt2Z1TpagPWx1CKtA==
+X-Google-Smtp-Source: ABdhPJzT+UthMdvrwIsIsFdRFDePn3VMKIboj7vNGpwewiL/kpHrGAJ6OtbwGlqHyHJGMemmXgY2fGd1l39zH1O5/KU=
+X-Received: by 2002:a05:6902:1543:b0:649:3124:b114 with SMTP id
+ r3-20020a056902154300b006493124b114mr453116ybu.39.1652370486522; Thu, 12 May
+ 2022 08:48:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220512103048.214100-1-f.ebner@proxmox.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220315061420.31910-1-jasowang@redhat.com>
+ <20220315061420.31910-9-jasowang@redhat.com>
+In-Reply-To: <20220315061420.31910-9-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 May 2022 16:47:55 +0100
+Message-ID: <CAFEAcA_p4KWptkQ4xUXmtUkmYufn72KLr=1B_9q1QZ3FLJBkPw@mail.gmail.com>
+Subject: Re: [PULL V3 08/15] vhost: Shadow virtqueue buffers forwarding
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,59 +85,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 12:30:48PM +0200, Fabian Ebner wrote:
->On 64-bit platforms, SIZE_MAX is too large for max_pdiscard, which is
-
-The main problem is that SIZE_MAX for an int64_t is a negative value.
-
->int64_t, and the following assertion would be triggered:
->qemu-system-x86_64: ../block/io.c:3166: bdrv_co_pdiscard: Assertion
->`max_pdiscard >= bs->bl.request_alignment' failed.
+On Tue, 15 Mar 2022 at 06:14, Jason Wang <jasowang@redhat.com> wrote:
 >
->Fixes: 0c8022876f ("block: use int64_t instead of int in driver discard handlers")
->Cc: qemu-stable@nongnu.org
->Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
->---
-> block/gluster.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
+> From: Eugenio P=C3=A9rez <eperezma@redhat.com>
 >
->diff --git a/block/gluster.c b/block/gluster.c
->index 398976bc66..f711bf0bd6 100644
->--- a/block/gluster.c
->+++ b/block/gluster.c
->@@ -891,7 +891,7 @@ out:
-> static void qemu_gluster_refresh_limits(BlockDriverState *bs, Error **errp)
-> {
->     bs->bl.max_transfer = GLUSTER_MAX_TRANSFER;
->-    bs->bl.max_pdiscard = SIZE_MAX;
->+    bs->bl.max_pdiscard = MIN(SIZE_MAX, INT64_MAX);
-
-What would be the problem if we use INT64_MAX?
-(I guess the intention of the original patch was to set the maximum 
-value in drivers that do not have a specific maximum).
-
-Or we can set to 0, since in block/io.c we have this code:
-
-     max_pdiscard = QEMU_ALIGN_DOWN(MIN_NON_ZERO(bs->bl.max_pdiscard, INT64_MAX),
-                                    align);
-     assert(max_pdiscard >= bs->bl.request_alignment);
-
-Where `max_pdiscard` is set to INT64_MAX (and aligned) if 
-bs->bl.max_pdiscard is 0.
-
-> }
+> Initial version of shadow virtqueue that actually forward buffers. There
+> is no iommu support at the moment, and that will be addressed in future
+> patches of this series. Since all vhost-vdpa devices use forced IOMMU,
+> this means that SVQ is not usable at this point of the series on any
+> device.
 >
-> static int qemu_gluster_reopen_prepare(BDRVReopenState *state,
->@@ -1304,7 +1304,7 @@ static coroutine_fn int qemu_gluster_co_pdiscard(BlockDriverState *bs,
->     GlusterAIOCB acb;
->     BDRVGlusterState *s = bs->opaque;
+> For simplicity it only supports modern devices, that expects vring
+> in little endian, with split ring and no event idx or indirect
+> descriptors. Support for them will not be added in this series.
 >
->-    assert(bytes <= SIZE_MAX); /* rely on max_pdiscard */
->+    assert(bytes <= MIN(SIZE_MAX, INT64_MAX)); /* rely on max_pdiscard */
+> It reuses the VirtQueue code for the device part. The driver part is
+> based on Linux's virtio_ring driver, but with stripped functionality
+> and optimizations so it's easier to review.
+>
+> However, forwarding buffers have some particular pieces: One of the most
+> unexpected ones is that a guest's buffer can expand through more than
+> one descriptor in SVQ. While this is handled gracefully by qemu's
+> emulated virtio devices, it may cause unexpected SVQ queue full. This
+> patch also solves it by checking for this condition at both guest's
+> kicks and device's calls. The code may be more elegant in the future if
+> SVQ code runs in its own iocontext.
 
-Can we use bs->bl.max_pdiscard directly here?
+Hi; Coverity thinks there's a memory leak in an error handling
+path in this code (CID 1487559):
 
-Thanks,
-Stefano
+> +/**
+> + * Forward available buffers.
+> + *
+> + * @svq: Shadow VirtQueue
+> + *
+> + * Note that this function does not guarantee that all guest's available
+> + * buffers are available to the device in SVQ avail ring. The guest may =
+have
+> + * exposed a GPA / GIOVA contiguous buffer, but it may not be contiguous=
+ in
+> + * qemu vaddr.
+> + *
+> + * If that happens, guest's kick notifications will be disabled until th=
+e
+> + * device uses some buffers.
+> + */
+> +static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
+> +{
+> +    /* Clear event notifier */
+> +    event_notifier_test_and_clear(&svq->svq_kick);
+> +
+> +    /* Forward to the device as many available buffers as possible */
+> +    do {
+> +        virtio_queue_set_notification(svq->vq, false);
+> +
+> +        while (true) {
+> +            VirtQueueElement *elem;
+> +            bool ok;
+> +
+> +            if (svq->next_guest_avail_elem) {
+> +                elem =3D g_steal_pointer(&svq->next_guest_avail_elem);
+> +            } else {
+> +                elem =3D virtqueue_pop(svq->vq, sizeof(*elem));
+> +            }
 
+Here virtqueue_pop() returns allocated memory...
+
+> +
+> +            if (!elem) {
+> +                break;
+> +            }
+> +
+> +            if (elem->out_num + elem->in_num > vhost_svq_available_slots=
+(svq)) {
+> +                /*
+> +                 * This condition is possible since a contiguous buffer =
+in GPA
+> +                 * does not imply a contiguous buffer in qemu's VA
+> +                 * scatter-gather segments. If that happens, the buffer =
+exposed
+> +                 * to the device needs to be a chain of descriptors at t=
+his
+> +                 * moment.
+> +                 *
+> +                 * SVQ cannot hold more available buffers if we are here=
+:
+> +                 * queue the current guest descriptor and ignore further=
+ kicks
+> +                 * until some elements are used.
+> +                 */
+> +                svq->next_guest_avail_elem =3D elem;
+> +                return;
+> +            }
+> +
+> +            ok =3D vhost_svq_add(svq, elem);
+> +            if (unlikely(!ok)) {
+> +                /* VQ is broken, just return and ignore any other kicks =
+*/
+> +                return;
+
+...but in this error return path we have neither put elem
+anywhere, nor freed it, so the memory is leaked.
+
+> +            }
+> +            vhost_svq_kick(svq);
+> +        }
+> +
+> +        virtio_queue_set_notification(svq->vq, true);
+> +    } while (!virtio_queue_empty(svq->vq));
+> +}
+
+thanks
+-- PMM
 
