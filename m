@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E98752511F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:19:42 +0200 (CEST)
-Received: from localhost ([::1]:56276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8114D525113
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:17:28 +0200 (CEST)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npAbN-0001uM-IG
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34502)
+	id 1npAZD-0005ca-5u
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npAWu-00032s-42
+ id 1npAWu-00032w-Mw
  for qemu-devel@nongnu.org; Thu, 12 May 2022 11:15:05 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33740)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npAWs-0000BQ-A3
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:15:03 -0400
-Received: by mail-wr1-x434.google.com with SMTP id f2so698508wrc.0
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:15:01 -0700 (PDT)
+ id 1npAWt-0000Cn-4E
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:15:04 -0400
+Received: by mail-wr1-x435.google.com with SMTP id f2so698562wrc.0
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jO5+b2JhjvqPhcf+OmcGXbwSQuZxOSdmxxpR3rXGCoc=;
- b=YbT/71kUR7LJzoa0chD4nHh1u+sUOaIKv0xF2ddz3mgvSvHw1f2g9wFubtkvy0bAqF
- 3GjpX0rLdf4EVvhRF7JvNiWeRnmlEQwcSdlpvUegSn63EMun3YxHjzveJYHQUwX2YhRJ
- 37ywqQyB3T1e5ZgjCf0l/U/HBVXxzKF1TXZ63KYSMibsFwP0y3bsxVsv4nfN8+gYZ2h8
- 2WXhroAmRDtUGwXN1GuNueHd4QBmE3LUgssJxzFEMyDsFVToXqhGqXCpWAWbzzTrEQ+X
- Xx0K8feVYTNzZXuVBPGUxWG0NSjgDvutODTmlLwiv8TZLFSns6HisotbZ7+x0+HHL2YH
- 6UGw==
+ bh=xFazlkHMmhQpRiaZlAgor2aleWAxzk2mzxtr5ZyM5M0=;
+ b=Ggoec+30JRP6CU9tkY5yT3493FYw37Z7c5pLDCRIPElqYCeN/jcA0VHEPDc/8rm8GK
+ Me511zSVA95XQ7C5stNbqZ8NRWVSfiA8OTHV88YFxvBwGW5JGUnEwjIsJRsWu2FkuXK/
+ pDM/6FvfIAVnWzs7aXdQRuwqeSL6aaSn8ubJ8LRC41FDSh03KjzBJL5gcz/YQpPEAoTb
+ BWlb2OIhnCc2b6s9s/UMmal8EkYraDvE4a+31H+WeZsFVW4bWAkWMhHkGXu8hEu6fF+R
+ EOj6XP+YT9w/W+tZlC/9WNvzzZZymdaB8ezyQ9n2CGKB3r/QHmPfR6EXC3swEY0mMGfo
+ 25bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jO5+b2JhjvqPhcf+OmcGXbwSQuZxOSdmxxpR3rXGCoc=;
- b=p/WlBQ2ikEft+qDkCGGkWESu0zodndHpZDkxW70u1FuKdyBjEK1YWKo9SDQzyRJbza
- +5Fs0u6tsS/TL9SRNqiqBLnAKp8Qlw4yl7SjBw49YTBc+H2iXekQQX5q2lzEiK6xRTe8
- puyuoTZTVZEB+SlU/0xVKeDS66ZM0wFVWqeaeX2laT45jjaYrWnRVudDAX7FPvqfA8jB
- 6qmEM4Um7vT3LgwYjUbfSYqQvNk7pG61/vuBj9Y+p+bc1Ixg8Ms+8C5Q20ls8utuXp1v
- ZiFGMjT/GFcJYsE3W0ZBTWknpT2oBXKgiIz1SyBG2jAskBXfUbswAeVXf3um8rCbEhyq
- avsw==
-X-Gm-Message-State: AOAM532A36pK6lFYMEgChKrhTyuSuyb0bgjXqWTHjwFhRL71IPzyXqMs
- jO1CyoQil2COp6A8+liCu6lc3g==
-X-Google-Smtp-Source: ABdhPJybZram2XDPyaHbe3bo/YJtaESRqP8d/JabHFY8cbuftye1/IXdng+vYmZXnTFby9BIPv3IeA==
-X-Received: by 2002:adf:f38a:0:b0:20a:bc71:fe3f with SMTP id
- m10-20020adff38a000000b0020abc71fe3fmr126283wro.47.1652368500880; 
- Thu, 12 May 2022 08:15:00 -0700 (PDT)
+ bh=xFazlkHMmhQpRiaZlAgor2aleWAxzk2mzxtr5ZyM5M0=;
+ b=Z4doQVPnhpTAItGzwiluG10Ois3kycw3mODqPUn4LvQ8Zq9li/Y1/7WVu81Y8HIGnK
+ bfbOdeEZw5IlhPHxRgcydvFiBijAp6emK+nupcK7c7MYJUG/4ZGmrKZ98Ozcz5QODKOU
+ FxY8YOWt9wf9Lez6zSfsElvm2JNseLN1EXTD+fo9CBe2HAQg9Lbld1BFYWKxXu1NsOK/
+ jrubDxA7iyLqzmgE74UOU/a8RzfsVMN8A1DP/ls3lChN0vjy865Rm4+qKGnvafVbxNvS
+ YZsqT7fcxAAwtnWhQzZq0MY2Ti34QKuvmefR4v1m49DPCcvJYgvX5i6nVOcGy90z8trl
+ fNjw==
+X-Gm-Message-State: AOAM532Z4CALqgIvuJbDCZVUOpZG51Q7jThRE96rLeINWMD/XgTneG+6
+ KmLnLltp7TwEtorxKmfK6+6NIA==
+X-Google-Smtp-Source: ABdhPJxPxT1/Flx4/WWdgjRkSKkMbwv/avsZ28xt7lccI8rjaR/Nrl0a0vI12dB1OGX+ZnjsKM8WeQ==
+X-Received: by 2002:a5d:6183:0:b0:20a:db51:f21a with SMTP id
+ j3-20020a5d6183000000b0020adb51f21amr126211wru.127.1652368501738; 
+ Thu, 12 May 2022 08:15:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  ay41-20020a05600c1e2900b003942a244f51sm3048378wmb.42.2022.05.12.08.15.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 08:15:00 -0700 (PDT)
+ Thu, 12 May 2022 08:15:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 2/6] hw/intc/arm_gicv3: report correct PRIbits field in
- ICV_CTLR_EL1
-Date: Thu, 12 May 2022 16:14:53 +0100
-Message-Id: <20220512151457.3899052-3-peter.maydell@linaro.org>
+Subject: [PATCH v2 3/6] hw/intc/arm_gicv3_kvm.c: Stop using GIC_MIN_BPR
+ constant
+Date: Thu, 12 May 2022 16:14:54 +0100
+Message-Id: <20220512151457.3899052-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220512151457.3899052-1-peter.maydell@linaro.org>
 References: <20220512151457.3899052-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,33 +90,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As noted in the comment, the PRIbits field in ICV_CTLR_EL1 is
-supposed to match the ICH_VTR_EL2 PRIbits setting; that is, it is the
-virtual priority bit setting, not the physical priority bit setting.
-(For QEMU currently we always implement 8 bits of physical priority,
-so the PRIbits field was previously 7, since it is defined to be
-"priority bits - 1".)
+The GIC_MIN_BPR constant defines the minimum BPR value that the TCG
+emulated GICv3 supports.  We're currently using this also as the
+value we reset the KVM GICv3 ICC_BPR registers to, but this is only
+right by accident.
+
+We want to make the emulated GICv3 use a configurable number of
+priority bits, which means that GIC_MIN_BPR will no longer be a
+constant.  Replace the uses in the KVM reset code with literal 0,
+plus a constant explaining why this is reasonable.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220506162129.2896966-2-peter.maydell@linaro.org
+Message-id: 20220506162129.2896966-3-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_cpuif.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/arm_gicv3_kvm.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index df2f8583564..ebf269b73a4 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -657,7 +657,7 @@ static uint64_t icv_ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-      * should match the ones reported in ich_vtr_read().
-      */
-     value = ICC_CTLR_EL1_A3V | (1 << ICC_CTLR_EL1_IDBITS_SHIFT) |
--        (7 << ICC_CTLR_EL1_PRIBITS_SHIFT);
-+        ((cs->vpribits - 1) << ICC_CTLR_EL1_PRIBITS_SHIFT);
+diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
+index 2922c516e56..3ca643ecba4 100644
+--- a/hw/intc/arm_gicv3_kvm.c
++++ b/hw/intc/arm_gicv3_kvm.c
+@@ -673,9 +673,19 @@ static void arm_gicv3_icc_reset(CPUARMState *env, const ARMCPRegInfo *ri)
+     s = c->gic;
  
-     if (cs->ich_vmcr_el2 & ICH_VMCR_EL2_VEOIM) {
-         value |= ICC_CTLR_EL1_EOIMODE;
+     c->icc_pmr_el1 = 0;
+-    c->icc_bpr[GICV3_G0] = GIC_MIN_BPR;
+-    c->icc_bpr[GICV3_G1] = GIC_MIN_BPR;
+-    c->icc_bpr[GICV3_G1NS] = GIC_MIN_BPR;
++    /*
++     * Architecturally the reset value of the ICC_BPR registers
++     * is UNKNOWN. We set them all to 0 here; when the kernel
++     * uses these values to program the ICH_VMCR_EL2 fields that
++     * determine the guest-visible ICC_BPR register values, the
++     * hardware's "writing a value less than the minimum sets
++     * the field to the minimum value" behaviour will result in
++     * them effectively resetting to the correct minimum value
++     * for the host GIC.
++     */
++    c->icc_bpr[GICV3_G0] = 0;
++    c->icc_bpr[GICV3_G1] = 0;
++    c->icc_bpr[GICV3_G1NS] = 0;
+ 
+     c->icc_sre_el1 = 0x7;
+     memset(c->icc_apr, 0, sizeof(c->icc_apr));
 -- 
 2.25.1
 
