@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FFB5249B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 12:00:26 +0200 (CEST)
-Received: from localhost ([::1]:55088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AE15249F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 12:05:38 +0200 (CEST)
+Received: from localhost ([::1]:59396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np5cP-0008Hr-58
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 06:00:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
+	id 1np5hQ-0002vh-IT
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 06:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1np5Za-0005z8-E9
- for qemu-devel@nongnu.org; Thu, 12 May 2022 05:57:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44294)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1np59x-0002gj-HY; Thu, 12 May 2022 05:31:01 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:44929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1np5ZY-0003P9-UE
- for qemu-devel@nongnu.org; Thu, 12 May 2022 05:57:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652349447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lIvHHyPixrifr0YOyHgAYKmOYtfvq0ZWYi7gtjd25qM=;
- b=Z/mTtZ25DhBAs7xrlvUSa4X23/q26U+mBhwcBTwyS9hF7wi9a5FdtXLzX/E9SimkLLN5tB
- ZUmKmbHj2bRKOnQa6Kf/Km3X9Kk1yWpqpAGzgkUia10WRzldHbsukxDaibEbRy8Ea1kuYs
- xXCH8BDu8OUCEQ0PC5Px4KN5yCZwFEA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-fbHBbqolNFWy9B3GU3hoGQ-1; Thu, 12 May 2022 05:57:25 -0400
-X-MC-Unique: fbHBbqolNFWy9B3GU3hoGQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C100A38C5C7B;
- Thu, 12 May 2022 09:57:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B275F40D2822;
- Thu, 12 May 2022 09:57:20 +0000 (UTC)
-Date: Thu, 12 May 2022 11:57:17 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: =?utf-8?B?5oiQ5bedIOW8mOaouQ==?= <hnarukaw@yahoo-corp.jp>
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
-Subject: Re: [PATCH 2/2] coroutine: Revert to constant batch size
-Message-ID: <YnzZ/eedEb9j+VHE@redhat.com>
-References: <20220510151020.105528-1-kwolf@redhat.com>
- <20220510151020.105528-3-kwolf@redhat.com>
- <41c8f1d4-be27-4110-33c0-b53a701a9cb6@yahoo-corp.jp>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1np59v-0007GJ-So; Thu, 12 May 2022 05:31:01 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id DB96C320095A;
+ Thu, 12 May 2022 05:30:57 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 12 May 2022 05:30:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1652347857; x=1652434257; bh=EKsgih76VX
+ WAmXJ4mLh3BVazC8IZm3tJolKye/7xR44=; b=lpZJULTEctAv204+ayOHaN4iRD
+ 0SHKszLJCFpwKKNO2CpaHkSqIHaFiuqOap/ELGw1zQf1/T8D0A2vemWRQjB8+/uO
+ uxHm9Vr1CQzO28OkR3sxovF0hyNSFN8tdwnwybMF4kpaqN6orp17eYnitsFpfXZL
+ y/3392ejiB7hkqvsF7e7XAV8jTdxe5uFAls4mKnzv6JjaayGvHroDR6N6YVX6gFR
+ 9Ox8a+eBdm/1a6g93Zcs3UlnpmQ+sUOg5987rSnM+rI6X6bZdICYakZ8mRHKeK/v
+ UcEUNUpSdi6NbI54is1DsLzXXK+UxspG2VeMUM94RR0BpLf9MUET76JH7HJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; t=1652347857; x=1652434257; bh=E
+ Ksgih76VXWAmXJ4mLh3BVazC8IZm3tJolKye/7xR44=; b=BcY0az/rySRBfD0kH
+ 5t5rdRlQeG/Rlsn4hdw6920PLzQB0SXvCvnDo14yhAA7JjvgU1iXQjTW0dx9ca1j
+ 7VlWaY9tDusNNdvbB+0Wqkpzvh+3Uy2pMhAOEUPDLxPUxfmbLoPiTHRjG54NXOTB
+ O2XF2GQ0zNHN/3RYar06sWIQfrgwKGAjyBTfgfrRPuq63AZNS1mRfHIA2YJxDGUj
+ fiyxetE3JlTV4ZVakt/Yr72cYLP0Ee3ij3VUjWwsAcn5w4fqd4RVx0At9kDF7g9j
+ oi7ZwFxS0m6sLsUH+Mbm4jSv0xsDjkCb4fiU7VMaXRqBNXQzeK19+rmok4eJs7m8
+ 5YtlQ==
+X-ME-Sender: <xms:0dN8YnLJvyWOD_mRWkUYjpG5QPnT31bjLmluLNVf1l4ge1AY8O7EyA>
+ <xme:0dN8YrJNszqnYpnGF9KHkbdXorGi4NfPiEXaY7IWrflMSOlhiTF5mUjUFgQGmLZ5o
+ Ea_x9JTVN5JvLLLe7c>
+X-ME-Received: <xmr:0dN8YvtYngnzYcd49ySvWo1WFKF1Ieow3SyrLd_89o8pD6ZSyu_xaQ7YaQHrXJQgYBvjCBn6zD4M9Jn40iSvhw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeejgddugecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpedtleduhfegleehleeltdejffefjedtleeuvdfgteevffegtedvveekheeiieekteen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+ hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:0dN8YgbRpFJF3CM-Xb0BumjE9bdpHMt1oa4CfBCYewG9EkTSn00w-Q>
+ <xmx:0dN8YuYnxGXjdv-Z6XR5ClvEFP1ZtYI6zXmDGaUuZAeK8bUiO4Hnew>
+ <xmx:0dN8YkA9TE19ewTLEKGhREpPZ9QP--GiiAHJKHKH8bVZcsvyHO21Rg>
+ <xmx:0dN8YuEKx9CDa2bI1lhWjptdImiNuFSVlbd0Bhr_0nEO_baWmWHX5g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 May 2022 05:30:56 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH] hw/nvme: clear aen mask on reset
+Date: Thu, 12 May 2022 11:30:55 +0200
+Message-Id: <20220512093055.726022-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <41c8f1d4-be27-4110-33c0-b53a701a9cb6@yahoo-corp.jp>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,14 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.05.2022 um 08:56 hat 成川 弘樹 geschrieben:
-> Thank you for your fix.
-> 
-> I confirmed that after applying this patch, my intended performance
-> improvement by 4c41c69e is still kept in our environment.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This is good news. Thank you for testing the patch!
+The internally maintained AEN mask is not cleared on reset. Fix this.
 
-Kevin
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 1e6e0fcad918..4c8200dfb859 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5889,6 +5889,7 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
+     }
+ 
+     n->aer_queued = 0;
++    n->aer_mask = 0;
+     n->outstanding_aers = 0;
+     n->qs_created = false;
+ }
+-- 
+2.36.0
 
 
