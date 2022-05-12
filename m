@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E805242F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 04:58:22 +0200 (CEST)
-Received: from localhost ([::1]:55100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B97C52430E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:11:27 +0200 (CEST)
+Received: from localhost ([::1]:41378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noz1w-0006MT-I9
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 22:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36186)
+	id 1nozEc-0008AP-4f
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1noz04-0004vH-Q2; Wed, 11 May 2022 22:56:24 -0400
-Received: from smtp23.cstnet.cn ([159.226.251.23]:42350 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1noz00-0008E6-W8; Wed, 11 May 2022 22:56:24 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowACXE+FFd3xi2YDGBQ--.48665S2;
- Thu, 12 May 2022 10:56:07 +0800 (CST)
-Subject: Re: [PATCH qemu v16 05/15] target/riscv: rvv: Add tail agnostic for
- vector load / store instructions
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
-References: <165228859378.22204.7336259119424019499-5@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <3cb8bd72-c732-2309-3750-dc8005b5efe6@iscas.ac.cn>
-Date: Thu, 12 May 2022 10:56:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1nozDZ-0007Eu-Jd
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:10:21 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42946)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1nozDX-0001m8-1P
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:10:21 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ l11-20020a17090a49cb00b001d923a9ca99so3715545pjm.1
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 20:10:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=nnEv4kehf2zGjDfi2QO4n4Fm/XUiS4mNyzxpiGKUmu4=;
+ b=LNAn1D/3OXZXsWkhXvri0gJz47CwaUfVotVuAz7CBQK0xZZhXeR9RfOzQYqJ8Pmdwy
+ jn/GV4Phom8ULzLKJ2Pm94YlJxowX7PuaZ6jEo6zvTpNSAS/CZtw3AGwzWwEmIrsSdi6
+ 6LlZL22YwEGv6dTCLdYYxNgH6Gp/IKpjDwpy27OFu9+KexmS2n3cwE1aGM3BqjwwtcsR
+ jQ8+XltMIOXHtfB3+V6jXt8rv2KZIjTvi7/EX/m6RntMdcPgY6+lHKdVKHMwq9CuB2RH
+ LDrtjCt3VeJVRJVbLoKbz898RGilJy9PYpyU7fWfnA/0dL1JNsn/B0sFXei+pq/kUTOg
+ 0PHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nnEv4kehf2zGjDfi2QO4n4Fm/XUiS4mNyzxpiGKUmu4=;
+ b=f+Ex6+p0AhpylMdAjE0+Sy0+3AKF9cOvACgKPfv/Jtd94QR633uAoTsuv79YnOcTN1
+ ACQ0Q3/WfcPNM5lZ9Us1dTdurAZm1hQHrZzmWgzWWboDXKOn0degI3aAQSQAGaQG5+nA
+ vJRrnGb/Xx3jUhu77yse33CxCVK049vxefWwGxH2g2eyNA8B18nmAQUH6sIRiciimq1S
+ mHkI/EOmsTJOpuasow31b9NnMfeQSIRPbTgKL+pj9/131yODupPWjtQk0WJKIzssMfDO
+ ecxqRn/p9mPgd0C1XRYzHphXzZo0MXBKmJrQlMHAD3SBZITPVm+lrhICEW9dTc9A5H/y
+ ioCw==
+X-Gm-Message-State: AOAM533js54Dzr794AE6DeGS55A0/xtMjmcL8PXJYXi33OPwxIgzL0h7
+ ls+inDSijWEbudMJcRrVn/4+IA==
+X-Google-Smtp-Source: ABdhPJyprzdL1ROk67WE+dOQUUSN3tNGeFrleW7pi22F3GsrWK8BZsrAlbcK6Q+b7xqzPNyRZeGbHQ==
+X-Received: by 2002:a17:902:710c:b0:15e:e759:c907 with SMTP id
+ a12-20020a170902710c00b0015ee759c907mr28354630pll.140.1652325014893; 
+ Wed, 11 May 2022 20:10:14 -0700 (PDT)
+Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
+ [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
+ o1-20020a170902bcc100b0015e8d4eb1fdsm2354246pls.71.2022.05.11.20.10.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 May 2022 20:10:14 -0700 (PDT)
+Message-ID: <980eb62c-55e1-d6fc-78da-c4e4e517f30a@ozlabs.ru>
+Date: Thu, 12 May 2022 13:10:10 +1000
 MIME-Version: 1.0
-In-Reply-To: <165228859378.22204.7336259119424019499-5@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101
+ Thunderbird/100.0
+Subject: Re: [RFC PATCH qemu] spapr/docs: Add a few words about x-vof
 Content-Language: en-US
-X-CM-TRANSID: rQCowACXE+FFd3xi2YDGBQ--.48665S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3WF18ZFWxZry7uw18Wr17Wrg_yoWftw4Dpa
- y8GFWavrZ3tFWfZw1fXF4UZF18ZF4kKw1jkw1vyr1UWay8Gwn7XF4UKFW8Ary2yrs8Cr4F
- 9F1DZ398ua9YvFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
- WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
- zVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
- Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoO
- J5UUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+References: <20220506055124.3822112-1-aik@ozlabs.ru>
+ <7008431e-6813-a763-f6fe-30088f1b519b@gmail.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <7008431e-6813-a763-f6fe-30088f1b519b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=aik@ozlabs.ru; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,255 +94,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/3/7 下午3:10, ~eopxd 写道:
-> From: eopXD <eop.chen@sifive.com>
->
-> Destination register of unit-stride mask load and store instructions are
-> always written with a tail-agnostic policy.
->
-> A vector segment load / store instruction may contain fractional lmul
-> with nf * lmul > 1. The rest of the elements in the last register should
-> be treated as tail elements.
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 11 +++++
->   target/riscv/translate.c                |  2 +
->   target/riscv/vector_helper.c            | 60 +++++++++++++++++++++++++
->   3 files changed, 73 insertions(+)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index efdf5d6d81..1f3eeff9eb 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -711,6 +711,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
->   }
->   
-> @@ -748,6 +749,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
->   }
->   
-> @@ -774,6 +776,8 @@ static bool ld_us_mask_op(DisasContext *s, arg_vlm_v *a, uint8_t eew)
->       /* EMUL = 1, NFIELDS = 1 */
->       data = FIELD_DP32(data, VDATA, LMUL, 0);
->       data = FIELD_DP32(data, VDATA, NF, 1);
-> +    /* Mask destination register are always tail-agnostic */
-> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
->   }
->   
-> @@ -791,6 +795,8 @@ static bool st_us_mask_op(DisasContext *s, arg_vsm_v *a, uint8_t eew)
->       /* EMUL = 1, NFIELDS = 1 */
->       data = FIELD_DP32(data, VDATA, LMUL, 0);
->       data = FIELD_DP32(data, VDATA, NF, 1);
-> +    /* Mask destination register are always tail-agnostic */
-> +    data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
->   }
->   
-> @@ -862,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
->   }
->   
-> @@ -891,6 +898,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       fn = fns[eew];
->       if (fn == NULL) {
->           return false;
-> @@ -991,6 +999,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
->   }
->   
-> @@ -1043,6 +1052,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
->   }
->   
-> @@ -1108,6 +1118,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, emul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       return ldff_trans(a->rd, a->rs1, data, fn, s);
->   }
->   
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 832353be54..384ffcc0fa 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -95,6 +95,7 @@ typedef struct DisasContext {
->       int8_t lmul;
->       uint8_t sew;
->       uint8_t vta;
-> +    bool cfg_vta_all_1s;
->       target_ulong vstart;
->       bool vl_eq_vlmax;
->       uint8_t ntemp;
-> @@ -1093,6 +1094,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->       ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
->       ctx->lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
->       ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
-> +    ctx->cfg_vta_all_1s = cpu->cfg.rvv_ta_all_1s;
->       ctx->vstart = env->vstart;
->       ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
->       ctx->misa_mxl_max = env->misa_mxl_max;
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 61c7074f6a..2a934748b3 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -269,6 +269,9 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
->       uint32_t i, k;
->       uint32_t nf = vext_nf(desc);
->       uint32_t max_elems = vext_max_elems(desc, log2_esz);
-> +    uint32_t esz = 1 << log2_esz;
-> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
-> +    uint32_t vta = vext_vta(desc);
->   
->       for (i = env->vstart; i < env->vl; i++, env->vstart++) {
->           if (!vm && !vext_elem_mask(v0, i)) {
-> @@ -283,6 +286,18 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
->           }
->       }
->       env->vstart = 0;
-> +    /* set tail elements to 1s */
-> +    for (k = 0; k < nf; ++k) {
-> +        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
-> +                          (k * max_elems + max_elems) * esz);
-> +    }
-> +    if (nf * max_elems % total_elems != 0) {
-> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-> +        uint32_t registers_used =
-> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
-> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
-> +                          registers_used * vlenb);
-> +    }
->   }
->   
->   #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)                        \
-> @@ -328,6 +343,9 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
->       uint32_t i, k;
->       uint32_t nf = vext_nf(desc);
->       uint32_t max_elems = vext_max_elems(desc, log2_esz);
-> +    uint32_t esz = 1 << log2_esz;
-> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
-> +    uint32_t vta = vext_vta(desc);
->   
->       /* load bytes from guest memory */
->       for (i = env->vstart; i < evl; i++, env->vstart++) {
-> @@ -339,6 +357,18 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
->           }
->       }
->       env->vstart = 0;
-> +    /* set tail elements to 1s */
-> +    for (k = 0; k < nf; ++k) {
-> +        vext_set_elems_1s(vd, vta, (k * max_elems + evl) * esz,
-> +                          (k * max_elems + max_elems) * esz);
-> +    }
-> +    if (nf * max_elems % total_elems != 0) {
-> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-> +        uint32_t registers_used =
-> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
-> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
-> +                          registers_used * vlenb);
-> +    }
->   }
 
-Maybe there is similar question here. vd  is used as source not 
-destination for store.
+On 5/12/22 06:42, Daniel Henrique Barboza wrote:
+> 
+> 
+> On 5/6/22 02:51, Alexey Kardashevskiy wrote:
+>> The alternative small firmware needs a few words of what it can and
+>> absolutely cannot do; this adds those words.
+>>
+>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>> ---
+>>   docs/system/ppc/pseries.rst | 28 ++++++++++++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
+>>
+>> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+>> index d9b65ad4e850..4c98a94f9add 100644
+>> --- a/docs/system/ppc/pseries.rst
+>> +++ b/docs/system/ppc/pseries.rst
+>> @@ -32,14 +32,42 @@ Missing devices
+>>   Firmware
+>>   ========
+>> +The pSeries platform in QEMU comes with 2 firmwares:
+>> +
+>>   `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
+>>   implementation of the `IEEE 1275-1994, Standard for Boot 
+>> (Initialization
+>>   Configuration) Firmware: Core Requirements and Practices
+>>   <https://standards.ieee.org/standard/1275-1994.html>`_.
+>> +SLOF performs bus scanning, PCI resource allocation, provides the client
+>> +interface to boot from block devices and network.
+>> +
+>>   QEMU includes a prebuilt image of SLOF which is updated when a more 
+>> recent
+>>   version is required.
+>> +VOF (Virtual Open Firmware) is a minimalistic firmware to work with
+>> +``-machine pseries,x-vof=on``. When enabled, the firmware acts as a slim
+>> +shim and QEMU implements parts of the IEEE 1275 Open Firmware interface.
+>> +
+>> +VOF does not have device drivers, does not do PCI resource allocation 
+>> and
+>> +relies on ``-kernel`` used with Linux kernels recent enough (v5.4+)
+>> +to PCI resource assignment. It is ideal to use with petitboot.
+>> +
+>> +Booting via ``-kernel`` supports the following:
+>> ++-------------------+-------------------+------------------+
+>> +| kernel            | pseries,x-vof=off | pseries,x-vof=on |
+>> ++===================+===================+==================+
+>> +| vmlinux BE        |     ✓             |     ✓            |
+>> ++-------------------+-------------------+------------------+
+>> +| vmlinux LE        |     ✓             |     ✓            |
+>> ++-------------------+-------------------+------------------+
+>> +| zImage.pseries BE |     x             |     ✓¹           |
+>> ++-------------------+-------------------+------------------+
+>> +| zImage.pseries LE |     ✓             |     ✓            |
+>> ++-------------------+-------------------+------------------+
+> 
+> You need an empty line at the start and at the end of the table. 
+> Otherwise it'll
+> be rendered as regular text.
 
-So we can only set the tail elements for load here.
+How do you build htmls from these btw?
 
-The same to other load&store functions.
+> 
+>> +Notes:
+> 
+> I also don't believe you need the "Notes:" addendum here. It's clear 
+> that you're
+> making an observation about the zImage.pseries BE and x-vof=on case.
 
-Regards,
+But only this combination needs kernel-addr=0, other images do not need 
+that with SLOF or VOF.
 
-Weiwei Li
 
->   
->   /*
-> @@ -438,6 +468,9 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
->       uint32_t nf = vext_nf(desc);
->       uint32_t vm = vext_vm(desc);
->       uint32_t max_elems = vext_max_elems(desc, log2_esz);
-> +    uint32_t esz = 1 << log2_esz;
-> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
-> +    uint32_t vta = vext_vta(desc);
->   
->       /* load bytes from guest memory */
->       for (i = env->vstart; i < env->vl; i++, env->vstart++) {
-> @@ -453,6 +486,18 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
->           }
->       }
->       env->vstart = 0;
-> +    /* set tail elements to 1s */
-> +    for (k = 0; k < nf; ++k) {
-> +        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
-> +                          (k * max_elems + max_elems) * esz);
-> +    }
-> +    if (nf * max_elems % total_elems != 0) {
-> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-> +        uint32_t registers_used =
-> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
-> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
-> +                          registers_used * vlenb);
-> +    }
->   }
->   
->   #define GEN_VEXT_LD_INDEX(NAME, ETYPE, INDEX_FN, LOAD_FN)                  \
-> @@ -520,6 +565,9 @@ vext_ldff(void *vd, void *v0, target_ulong base,
->       uint32_t nf = vext_nf(desc);
->       uint32_t vm = vext_vm(desc);
->       uint32_t max_elems = vext_max_elems(desc, log2_esz);
-> +    uint32_t esz = 1 << log2_esz;
-> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
-> +    uint32_t vta = vext_vta(desc);
->       target_ulong addr, offset, remain;
->   
->       /* probe every access*/
-> @@ -575,6 +623,18 @@ ProbeSuccess:
->           }
->       }
->       env->vstart = 0;
-> +    /* set tail elements to 1s */
-> +    for (k = 0; k < nf; ++k) {
-> +        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
-> +                          (k * max_elems + max_elems) * esz);
-> +    }
-> +    if (nf * max_elems % total_elems != 0) {
-> +        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-> +        uint32_t registers_used =
-> +            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
-> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
-> +                          registers_used * vlenb);
-> +    }
->   }
->   
->   #define GEN_VEXT_LDFF(NAME, ETYPE, LOAD_FN)               \
+> 
+> Everything else LGTM. If no one else has any comment, and you're ok with 
+> these
+> changes I mentioned, I can amend it myself with my R-b.
 
+I'll probably repost after the other patch with kernel-addr is merged 
+into your tree. Thanks,
+
+
+> 
+> 
+> 
+> Thanks,
+> 
+> 
+> Daniel
+> 
+> 
+>> +¹ must set kernel-addr=0
+>> +
+>>   Build directions
+>>   ================
+
+-- 
+Alexey
 
