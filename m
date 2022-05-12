@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46814524739
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 09:43:57 +0200 (CEST)
-Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A3252475E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 09:49:32 +0200 (CEST)
+Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np3UK-0004ZK-8U
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 03:43:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
+	id 1np3Zj-0006q1-9v
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 03:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1np3S1-0003IV-Nx
- for qemu-devel@nongnu.org; Thu, 12 May 2022 03:41:33 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1np3S0-0007J5-4Q
- for qemu-devel@nongnu.org; Thu, 12 May 2022 03:41:33 -0400
-Received: by mail-ed1-x532.google.com with SMTP id y21so5235363edo.2
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 00:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RaYOnkzrV2PMhVoTZK0I+FxAlMxGtFo0Key2MTZXJEU=;
- b=Ak2X12+MZhUyRU0frofQi+4Gq+UUoJX5+B8QCjSIX8+T9nlpO2mROx3lc8T6nwgwcC
- EUj//1SLO/dIvStnlRzuopQVr3qc6xLIDWB86RuQEJw8VfDNGRfensjLaGeOv3welby6
- Ty3kkmG7uOfA2/MmB2GQzqjNPDge69uyYliyftse9t9y/ap90Anc1c9B+z9gZrrXqqSY
- qNBGlibgSuEG+2QHq5IxBW+/AIpgj6oh9ohixrZkEGYm1+x0EWUMBSWrsGw61QgAX9wm
- 6FKJjkcqZv9nfNgZayegg0/z7TYjJfn5FFZyAWBw6ykCxfyrlYojRdyV4nChyQdVL7nO
- JEug==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1np3Xp-00067e-8j
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 03:47:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1np3Xm-0007xP-9Z
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 03:47:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652341646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KytANMPTFEdGDT9O7ZI11dGHErO92YLp7V//y5FnNB8=;
+ b=ENEADQuay7T3yDc4pkWNdbD0MQ+D9Y1Qqi+lzP0QvP4ndgvH0W6n7F8kyW4qW41QP3ADpw
+ 1Vx5LvrVhxewXA+x7WLuPtktfELjrqvrD5saZR1C6VXAHnfAH2UtQbw8WjvQxzSpkL9OmW
+ 5zNaqTWXp0sKOiN8wImTePCQJbcFp6Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-94-EPuSAgNTN5WnUj-vWS1itA-1; Thu, 12 May 2022 03:47:25 -0400
+X-MC-Unique: EPuSAgNTN5WnUj-vWS1itA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i131-20020a1c3b89000000b00393fbb0718bso4045748wma.0
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 00:47:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RaYOnkzrV2PMhVoTZK0I+FxAlMxGtFo0Key2MTZXJEU=;
- b=i0Fr8Qp7VSjtdolsBRqn89TvgG/3oUJHPbzZyxEYL4mLWqKZrTqJo0zODcK57rtlmZ
- R65W2dAj8VexCqBJi/BcWvTczN2UULZUFscWEt9Phm/aSGJj0eGCM9+Ox1SAebdkHAxj
- gFFRAJ+sbdk+6F5oMGlqowECBXX+VZGPJJUst04pnYlwk5/y1ixze7qTwjWPLPCZxuWe
- w7XJH7J3xyqdAAPCpXWQNZmqnay/YcJVDHF5WX1Xpr5fxSOynIUjSTcQ4mVLGt4UJyrT
- dj8jfOs1KggUDg5CkeKmVJg2kBIPn0PbU1UK5jEtQYcJLGuGCdXTqx4uS6/JiGmcJNGB
- 4JeA==
-X-Gm-Message-State: AOAM531UwJfraPEmYLk3Rc/ZuF1O7qFuA7pwqN1rO6broHtnpA+Dsqgk
- aCUPjdf9Zfd+h6vyK6ZegeY=
-X-Google-Smtp-Source: ABdhPJyVsz4JrduuxrzV9OA1EgzwMqZ+KBGkTF0hHixGPQK498WCvF52oDukPE7w3+DreEt+FzGMLw==
-X-Received: by 2002:a05:6402:190e:b0:42a:3b3d:d061 with SMTP id
- e14-20020a056402190e00b0042a3b3dd061mr1414492edz.106.1652341290484; 
- Thu, 12 May 2022 00:41:30 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- p2-20020a170906614200b006f3ef214e41sm1818956ejl.167.2022.05.12.00.41.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 00:41:29 -0700 (PDT)
-Message-ID: <04938ba0-7ff4-df3c-348d-b679eac4fbac@redhat.com>
-Date: Thu, 12 May 2022 09:41:29 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=KytANMPTFEdGDT9O7ZI11dGHErO92YLp7V//y5FnNB8=;
+ b=fGoAQyB4Hj0vJqLjzZfaAqXxQGUbiev5L/P57aioYW58UGadQB+6RPyCZVDdGenjvR
+ QaAbrcgk1wwhxp3aaqr5ytqZQfRtmCM4lwuF4+osaUUaR7AD9ki9UYNDhqJHuu/Q/8BA
+ DcRXxB0wNYIQBBCV/SjDrdq7sC83LqzDgXUkItUopTsuY7j99QB0Fob2oZxRdclc98JG
+ RsJFAU5xkm8SUfMgUlMg8W4FZrIXK+0B1mKGFmmbaoCHY5OrCIIxxYn0gLsz9SpD/1Up
+ nalLSDC3VS0LPTsVeW+nLEgTHR1ioDtpJ6Kt5Omfvaw0oMcwNjVoVdbJTIC9MGYfhgr8
+ 73uQ==
+X-Gm-Message-State: AOAM533E+ollk1YdSijQOlmC40GlLUhf9rHd6TVlXSZgieDH0PV17LuS
+ xKgIvAQKQSEC4bpcFloDFZDggLDZ37s0qgBL9c3tMWSW8obO/RuDiEZqUc87hhhQxyGnTCvh5sG
+ oZgroWjJAYUmJbbY=
+X-Received: by 2002:adf:e0c5:0:b0:206:1ba3:26aa with SMTP id
+ m5-20020adfe0c5000000b002061ba326aamr25631331wri.645.1652341644487; 
+ Thu, 12 May 2022 00:47:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHyXtc8+djxHtz8NOJUzUN85tHoQMHH01xA6EMXenTR8flBJkKQ7ysp45+qo352PtHiC3jMg==
+X-Received: by 2002:adf:e0c5:0:b0:206:1ba3:26aa with SMTP id
+ m5-20020adfe0c5000000b002061ba326aamr25631316wri.645.1652341644246; 
+ Thu, 12 May 2022 00:47:24 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-11-6-106.retail.telecomitalia.it.
+ [87.11.6.106]) by smtp.gmail.com with ESMTPSA id
+ p6-20020adfe606000000b0020c547f75easm3225306wrm.101.2022.05.12.00.47.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 00:47:23 -0700 (PDT)
+Date: Thu, 12 May 2022 09:47:20 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH] vhost-backend: do not depend on CONFIG_VHOST_VSOCK
+Message-ID: <20220512074720.wuuj3xalykejiqpx@sgarzare-redhat>
+References: <20220511074328.164544-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] util: NUMA aware memory preallocation
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
-References: <ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com>
- <Ynt/v2SHmnO2afg4@redhat.com>
- <8a6b84ed-50bc-8f6e-4b71-7e15247c4ac0@redhat.com>
- <YnuDONrdbMcJT08p@redhat.com>
- <a11ca582-3d17-b064-6736-bd66ed5a5ec4@redhat.com>
- <YnuLe7cVlEYsw78o@redhat.com>
- <5374a249-8389-3d11-1b30-b0b6e6910a51@redhat.com>
- <YnvqYO8p/Z/7/DrO@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YnvqYO8p/Z/7/DrO@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220511074328.164544-1-pbonzini@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,52 +97,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/22 18:54, Daniel P. Berrangé wrote:
-> On Wed, May 11, 2022 at 01:07:47PM +0200, Paolo Bonzini wrote:
->> On 5/11/22 12:10, Daniel P. Berrangé wrote:
->>> I expect creating/deleting I/O threads is cheap in comparison to
->>> the work done for preallocation. If libvirt is using -preconfig
->>> and object-add to create the memory backend, then we could have
->>> option of creating the I/O threads dynamically in -preconfig mode,
->>> create the memory backend, and then delete the I/O threads again.
->>
->> I think this is very overengineered.  Michal's patch is doing the obvious
->> thing and if it doesn't work that's because Libvirt is trying to micromanage
->> QEMU.
-> 
-> Calling it micromanaging is putting a very negative connotation on
-> this. What we're trying todo is enforce a host resource policy for
-> QEMU, in a way that a compromised QEMU can't escape, which is a
-> valuable protection.
+On Wed, May 11, 2022 at 09:43:28AM +0200, Paolo Bonzini wrote:
+>The vsock callbacks .vhost_vsock_set_guest_cid and
+>.vhost_vsock_set_running are the only ones to be conditional
+>on #ifdef CONFIG_VHOST_VSOCK.  This is different from any other
+>device-dependent callbacks like .vhost_scsi_set_endpoint, and it
+>also broke when CONFIG_VHOST_VSOCK was changed to a per-target
+>symbol.
+>
+>It would be possible to also use the CONFIG_DEVICES include, but
+>really there is no reason for most virtio files to be per-target
+>so just remove the #ifdef to fix the issue.
+>
 
-I'm sorry if that was a bit exaggerated, but the negative connotation 
-was intentional.
+I'm i doubt whether or not to add the following Fixes tag, since that 
+commit only highlighted the problem:
 
->> As mentioned on IRC, if the reason is to prevent moving around threads in
->> realtime (SCHED_FIFO, SCHED_RR) classes, that should be fixed at the kernel
->> level.
-> 
-> We use cgroups where it is available to us, but we don't always have
-> the freedom that we'd like.
+Fixes: 9972ae314f ("build: move vhost-vsock configuration to Kconfig")
 
-I understand.  I'm thinking of a new flag to sched_setscheduler that 
-fixes the CPU affinity and policy of the thread and prevents changing it 
-in case QEMU is compromised later.  The seccomp/SELinux sandboxes can 
-prevent setting the SCHED_FIFO class without this flag.
+>Reported-by: Dov Murik <dovmurik@linux.ibm.com>
+>Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>---
+> hw/virtio/vhost-backend.c | 4 ----
+> 1 file changed, 4 deletions(-)
 
-In addition, my hunch is that this works only because the RT setup of 
-QEMU is not safe against priority inversion.  IIRC the iothreads are set 
-with a non-realtime priority, but actually they should have a _higher_ 
-priority than the CPU threads, and the thread pool I/O bound workers 
-should have an even higher priority; otherwise you have a priority 
-inversion situation where an interrupt is pending that would wake up the 
-CPU, but the iothreads cannot process it because they have a lower 
-priority than the CPU.
+Anyway, the path LGTM:
 
-So the iothread and the associated util/thread-pool.c thread pool are 
-the wrong tools to solve Michal's issue; they are not meant for 
-background CPU-bound work, even though they _might_ work due to their 
-incorrect RT setup.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-Paolo
+Thanks,
+Stefano
+
+>
+>diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+>index e409a865ae..4de8b6b3b0 100644
+>--- a/hw/virtio/vhost-backend.c
+>+++ b/hw/virtio/vhost-backend.c
+>@@ -203,7 +203,6 @@ static int vhost_kernel_get_vq_index(struct vhost_dev *dev, int idx)
+>     return idx - dev->vq_index;
+> }
+>
+>-#ifdef CONFIG_VHOST_VSOCK
+> static int vhost_kernel_vsock_set_guest_cid(struct vhost_dev *dev,
+>                                             uint64_t guest_cid)
+> {
+>@@ -214,7 +213,6 @@ static int vhost_kernel_vsock_set_running(struct vhost_dev *dev, int start)
+> {
+>     return vhost_kernel_call(dev, VHOST_VSOCK_SET_RUNNING, &start);
+> }
+>-#endif /* CONFIG_VHOST_VSOCK */
+>
+> static void vhost_kernel_iotlb_read(void *opaque)
+> {
+>@@ -319,10 +317,8 @@ const VhostOps kernel_ops = {
+>         .vhost_set_owner = vhost_kernel_set_owner,
+>         .vhost_reset_device = vhost_kernel_reset_device,
+>         .vhost_get_vq_index = vhost_kernel_get_vq_index,
+>-#ifdef CONFIG_VHOST_VSOCK
+>         .vhost_vsock_set_guest_cid = vhost_kernel_vsock_set_guest_cid,
+>         .vhost_vsock_set_running = vhost_kernel_vsock_set_running,
+>-#endif /* CONFIG_VHOST_VSOCK */
+>         .vhost_set_iotlb_callback = vhost_kernel_set_iotlb_callback,
+>         .vhost_send_device_iotlb_msg = vhost_kernel_send_device_iotlb_msg,
+> };
+>-- 
+>2.36.0
+>
+>
+
 
