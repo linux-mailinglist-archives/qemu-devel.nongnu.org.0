@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8395525248
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:16:47 +0200 (CEST)
-Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412A952525E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:21:32 +0200 (CEST)
+Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBUb-0002rd-Ri
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44910)
+	id 1npBZC-0000YH-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:21:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npBBu-0003XV-Rl
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:57:28 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:33228)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npBBt-0007Lr-Bb
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:57:26 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2f863469afbso62365007b3.0
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8cpU5FPEUQX/9aa5eSI1XBRrXQPJa7LUdRyyvsZWLWI=;
- b=bZSsCRql6yx1scKaPIxHtHDDg6lSrzF+Y7bK9TqPJsHC657opRkdTm77LPG/z/KOQu
- O/M0HMubXi0UZ/FGsYaDLcmxUvQHcQd6yTYJke0Z1hM2m9qbUrzCJBrWYKKRA7U8T/rK
- HCexbp6moF+0MX3qzMUKXo2fatLenW57LsF/C8plIzcP4e+jTBLikPXEAVX06RSehNQG
- ngV2+0OaXctJstPs8ZX8w2r3sEkZJrbiQtDXQXDhjlahSw6b8faSVQwUwT9GspVflEZQ
- iXoOE/NUrxZSemlRDfVUeERh77udcP43yOsX9VJu9+RJCBpvka4MpGAuY1zljIQ0PxhP
- TyjQ==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1npBE8-0007el-3R
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:59:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1npBE5-0007ba-NY
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:59:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652371179;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U7JgpV4JymVwV3EaSU+GdS9EfpLe4SulQYBIM64t4ZA=;
+ b=P7o386JEp32h9IRf6lMPmF+XOO2GMwSgZB+tfeCx+L06hCQRUqjANuEWKONqUyYUerMnrf
+ zMkCysjiLDIJ4C2aFJ/OJOrSkyCAH6Zzug3GhpLO2LiSLOcai5sIXRzl8+akI4hKFm9CdY
+ fOLSqSsGIhBQX6hvdbk84K8aL7g3EI0=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-542-HiTeOSmvM6e5gpHx7yriiQ-1; Thu, 12 May 2022 11:59:38 -0400
+X-MC-Unique: HiTeOSmvM6e5gpHx7yriiQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ t25-20020a05622a181900b002f3b32a6e30so4124042qtc.11
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:59:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8cpU5FPEUQX/9aa5eSI1XBRrXQPJa7LUdRyyvsZWLWI=;
- b=QABQpbo5HWK9O91in5riHCdiQnk9XsDX3A03mM+9wqRZFxMNReSujFbKEktYX/iS52
- nIgSkmb+zQpPHr0U/3Tbs79pimDZTLT5ynIpvyq0vr5BgnVWOpa1B5dRgPICvtuLgb5s
- 9FnNne0tuTYLr/UZ7DG6L/17zIGbXoClw2/D6aqJFa/aKeRx3ZYpHabHjMZaeRiCiCOF
- fftUTC2Qo40DGIGbd5PKrKRjulP860PPtkitvBxnHPSavoVuNiFAz0LsWjj+zfByktRt
- C5g6jTnhKoD74mQnh3PviHuSgQclaKrneJbo7/iAXJOYcMYshHUuOx60AtZIQXnRLGxc
- BPmQ==
-X-Gm-Message-State: AOAM531nrCx7AD6izW3ylc1nODsNAoE04m8JjHo6WTCvpJOKh8UFn1/Y
- Aqg+ayY1dF1CeXtD/WSEq0xK6+LE9dJvP1PB6Is8cA==
-X-Google-Smtp-Source: ABdhPJwX9AUGe9oUl8rWGtiE55wqcb39Jp2GuVR/9ozYM8jiQ6kyGhQkIb6z8On9TYgCSTkt7Dd8oAk+SmUxtrV65Tg=
-X-Received: by 2002:a81:1dcf:0:b0:2fa:d094:14ff with SMTP id
- d198-20020a811dcf000000b002fad09414ffmr816726ywd.10.1652371044423; Thu, 12
- May 2022 08:57:24 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=U7JgpV4JymVwV3EaSU+GdS9EfpLe4SulQYBIM64t4ZA=;
+ b=VcxHd8oTGUvxkAHaA4/a4uHrWfRSUDm7luhjDJrsgK5cjudqYg3SXVTH0gxpPK2wxH
+ WOd/AZ4Q6ejhwBbZclePReVsbtUyCf0YM8PMGyZo9XGU2cJsXg/vjmZ6mGzBmHgIzY07
+ ufLTajg/TTPHf/9ZU1EG4zp6OcTli0CNnrmLDCIoSYaTXbIE34lTczszMe93TeZvaYb8
+ 0FirBnFPuF9CXia5/8ONuKsLZvvIoRTT/aZxx+MAsmY8gq7BjgmRocZCOb8Zz+BrHE/E
+ mrniXf6cwu0be9f6t5V4pKA3NVUd6iGo8Vt4mtSQUlw4p81xZxd8Iysn4w3gCc2mJeNO
+ XIoA==
+X-Gm-Message-State: AOAM533RcxcVvlDi7XdWABaFQ9zg2LDJL6IOkmRe7Y7n0fOBL9wR7XhI
+ /+V7efRmSqFilhedwTGcglEEoPh1mIJ0AfaiFZWi0dPByL8qH1LuB1bFSOoOQ6PatEoAWi1yzLi
+ M5WfrZ88T/sFs5ZY=
+X-Received: by 2002:a05:6214:c87:b0:45a:b06d:d8cf with SMTP id
+ r7-20020a0562140c8700b0045ab06dd8cfmr617591qvr.3.1652371178196; 
+ Thu, 12 May 2022 08:59:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzliWj1KCANYsm1dcHdtOQOyeaLhU16ADxQajnNHIwatOS9poDyMrFmfyMoLNbsuSKCeMktnw==
+X-Received: by 2002:a05:6214:c87:b0:45a:b06d:d8cf with SMTP id
+ r7-20020a0562140c8700b0045ab06dd8cfmr617579qvr.3.1652371178002; 
+ Thu, 12 May 2022 08:59:38 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ n80-20020a37a453000000b006a034e7b633sm3137156qke.3.2022.05.12.08.59.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 08:59:37 -0700 (PDT)
+Message-ID: <52bdff5a-f33a-c76b-0e04-b20970e3ec1d@redhat.com>
+Date: Thu, 12 May 2022 17:59:34 +0200
 MIME-Version: 1.0
-References: <20220427100116.30453-1-stefanha@redhat.com>
-In-Reply-To: <20220427100116.30453-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 May 2022 16:57:13 +0100
-Message-ID: <CAFEAcA_1cFLDK+oE8=VQaX-FQqTtVH=WP6C47Xo+f99SLin2EQ@mail.gmail.com>
-Subject: Re: [PATCH] vhost-user-scsi: avoid unlink(NULL) with fd passing
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 10/10] test: tpm-tis: Add Sysbus TPM-TIS device test
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20200305165149.618-1-eric.auger@redhat.com>
+ <20200305165149.618-11-eric.auger@redhat.com>
+ <CAFEAcA8pC4RQ3oVVVzG4NA8fBkhzspxD+DyZB+UCn7u1aPSP5A@mail.gmail.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <CAFEAcA8pC4RQ3oVVVzG4NA8fBkhzspxD+DyZB+UCn7u1aPSP5A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,47 +103,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 at 11:04, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> Commit 747421e949fc1eb3ba66b5fcccdb7ba051918241 ("Implements Backend
-> Program conventions for vhost-user-scsi") introduced fd-passing support
-> as part of implementing the vhost-user backend program conventions.
->
-> When fd passing is used the UNIX domain socket path is NULL and we must
-> not call unlink(2).
->
-> Fixes: Coverity CID 1488353
-> Fixes: 747421e949fc1eb3ba66b5fcccdb7ba051918241 ("Implements Backend Program conventions for vhost-user-scsi")
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  contrib/vhost-user-scsi/vhost-user-scsi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
-> index b2c0f98253..08335d4b2b 100644
-> --- a/contrib/vhost-user-scsi/vhost-user-scsi.c
-> +++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
-> @@ -433,7 +433,9 @@ out:
->      if (vdev_scsi) {
->          g_main_loop_unref(vdev_scsi->loop);
->          g_free(vdev_scsi);
-> -        unlink(opt_socket_path);
-> +        if (opt_socket_path) {
-> +            unlink(opt_socket_path);
-> +        }
->      }
+Hi Peter,
 
-Shouldn't this check-and-unlink be one level up, outside the
-"if (vdev_scsi)" ? There are error exit paths which get us to
-the 'out:' label where we have called unix_sock_new() but
-not yet done the g_new0() of vdev_scsi(). The only thing
-that needs to be guarded by "if (vdev_scsi)" is the
-g_main_loop_unref() (the g_free of vdev_scsi itself could
-be inside or outside, since g_free(NULL) is a nop).
+On 5/12/22 15:08, Peter Maydell wrote:
+> On Thu, 5 Mar 2020 at 16:52, Eric Auger <eric.auger@redhat.com> wrote:
+>> The tests themselves are the same as the ISA device ones.
+>> Only the main() changes as the "tpm-tis-device" device gets
+>> instantiated. Also the base address of the device is not
+>> 0xFED40000 anymore but matches the base address of the
+>> ARM virt platform bus.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> Hi Eric; the commit adding this test is from back in 2020, but I've
+> just noticed something a bit odd about it:
+>
+>> +    args = g_strdup_printf(
+>> +        "-machine virt,gic-version=max -accel tcg "
+>> +        "-chardev socket,id=chr,path=%s "
+>> +        "-tpmdev emulator,id=dev,chardev=chr "
+>> +        "-device tpm-tis-device,tpmdev=dev",
+>> +        test.addr->u.q_unix.path);
+> This 'virt' command line doesn't specify a CPU type, so it
+> will end up running with a Cortex-A15 (32-bit). Was
+> that intended? Also, it will get a GICv3, which is a
+> definitely odd combination with an A15, which was a GICv2 CPU...
+no it is not intended. I guess it should include "-cpu max" too
+as arm-cpu-features.c does?
+>
+> I noticed this because I have some recent GICv3 patches which
+> end up asserting if the GICv3 and a non-GICv3 CPU are used together,
+> and this test case triggers them. Since the user can also cause
+> an assert with that kind of command line I'm going to rework them
+> (either to make the virt board fail cleanly or else to make the
+> GICv3 code do something plausible even if the real hardware CPU
+> nominally didn't have a GICv3). But maybe we should make this
+> test case not use a non-standard combination anyway? (The meson
+> conversion seems to have resulted in this test being run under
+> qemu-system-arm as well, incidentally, so I guess we would want
+> it to specify either 'a 64 bit CPU and GICv3' or 'a 32 bit
+> CPU and GICv2' accordingly. Or limit the test to aarch64...)
+limiting the test to aarch64 may be enough?
 
-thanks
--- PMM
+Eric
+>
+> thanks
+> -- PMM
+>
+
 
