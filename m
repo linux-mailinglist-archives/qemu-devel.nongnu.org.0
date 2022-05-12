@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98E2525334
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:06:38 +0200 (CEST)
-Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 081CD52533A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:09:31 +0200 (CEST)
+Received: from localhost ([::1]:51070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npCGr-0005fn-8W
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57868)
+	id 1npCJd-0000tM-Or
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1npCB4-0002r7-GA
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:00:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52781)
+ id 1npCBh-0003eP-9T
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:01:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1npCB1-0000Yo-26
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:00:36 -0400
+ id 1npCBf-0000i6-4f
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:01:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652374828;
+ s=mimecast20190719; t=1652374874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sW8KhVHx86rGBBq1JfY+htZFjM9LT7zq/N5K8e+3SSo=;
- b=Jx5U+gUAlRJ0PX8QbX03XZdtttmZHcky5yWN25CqLJy8K/Q/c6OE0kB0dnu16lpIWlruri
- w8tkh9QodAwYvmAczFjg0pyh1lRP2XcIumd6MEpnUnJfHoMxkdRFRNGEJuaOFdN3QmJLmd
- ntWHEzIr3Zk5yzteiffwv5Yg7zI2afI=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kf8tS6s78xruG2D5f4I1KBkJ1RGLCA0fYULE9PmMoNg=;
+ b=YrDkbF1e1XB+zBLQvx6EE2iyXZ8SkeQ2stkHP+cvTEUznIIA/+twghBqqVRksOMCFXeX2v
+ hz1BTorCr6nKZJ02HXhhxefJkdEBUC5my6Sgvvoc8ffZsqTSTIW0uCs4Kkckfo+XJmrZnd
+ aiteYd2SDprU/vqDr3FiowakHvi0ZYE=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-124-k2bJGYcVNvKrhaqUzHFyQQ-1; Thu, 12 May 2022 13:00:27 -0400
-X-MC-Unique: k2bJGYcVNvKrhaqUzHFyQQ-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-2f8398e99dcso50340647b3.9
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:00:27 -0700 (PDT)
+ us-mta-122-uckTV9WAOz-i-ESypAFEJA-1; Thu, 12 May 2022 13:01:11 -0400
+X-MC-Unique: uckTV9WAOz-i-ESypAFEJA-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ g26-20020a25b11a000000b0064984a4ffb7so5081787ybj.7
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:01:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sW8KhVHx86rGBBq1JfY+htZFjM9LT7zq/N5K8e+3SSo=;
- b=WrtJGQPwb7J7TLfyjGsLWby1wALRWKDLOJabrYwdqpL/tDHZ5XBoSUO7RNyFJKcpjK
- lEW7havS/CwDRQDvVwYWPnYWRcZKApnYJJDG6PlrzZYcGPbVdXDYnh14MKZWEAvU2ih/
- mLRXacRec0C30+UTZ6sMOWO5vcaKqxrWWlHhBqMvIUIGjzCUgW8BBMYEx0y9iWXNRCfW
- T+J8Wt6jPDyT5x8P3L6jk9l7XeKetcNxmzdmbtLStVCeRyo5SmB1GFkOYRtcDOmerwpy
- hkoRy1BMmzRyb0NI9/skKd9T1psIrSUYfbEmxkSFtNcY0xOD6S+fCPqypMIUfxpVx70w
- G99Q==
-X-Gm-Message-State: AOAM531PwnCbSzQPYPipQnhGSyicGEh1EgQemlB7NWizHt3Fwh5UH7Mr
- /yeh8I7+qbPYi0uc7FMTSEcA8XYPiTf1zIU1VTChV0hP66/yaGt5KlvhmhJK8PAerFSbDdk1gGY
- fn3MM0pnvh13KzR8L7MxU445Of17HsF8=
-X-Received: by 2002:a25:dc8e:0:b0:648:a3dc:fb8 with SMTP id
- y136-20020a25dc8e000000b00648a3dc0fb8mr772326ybe.101.1652374827120; 
- Thu, 12 May 2022 10:00:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmhRcdC8/GxyAPzjnjW2wtV6KiKczENM7dOD+rEMzOuIUKwjoGeogT2fzauU3WreiF5/SF8Gnk6LouMMTKMe4=
-X-Received: by 2002:a25:dc8e:0:b0:648:a3dc:fb8 with SMTP id
- y136-20020a25dc8e000000b00648a3dc0fb8mr772311ybe.101.1652374826931; Thu, 12
- May 2022 10:00:26 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kf8tS6s78xruG2D5f4I1KBkJ1RGLCA0fYULE9PmMoNg=;
+ b=N6hwYOa6swCzu1tSRJpxrlWeYZ6hDSrAk+IA9xxokgfsRgpZja5BmS/N17Wv3VtCcA
+ 7tL+cWq/wkJqDCkI1YSPhvpJaHD88Y9OfpyZsbmJhM2x7jyiCbitBpoOMkyPzjOJcNL0
+ fc5g5zydNQ/K+vsMhpG1MHyx8UoAem8v0SyiF4cq9Z/x6jHg3WWJbz5KWUK4fO/5fcWH
+ 3RgfWVrTQqD0TgRiR/ohxTugK+67on2XvGBNMzcFv17K4o+WOtW1NoWqUw2LdB09mTn9
+ YBLR5oMO2EQIgSs6iLcXE85nrBm79W7Pu0/ZkMQ4g++LRNHz99Xx2aRdEbNMgKMF6eAD
+ 7msQ==
+X-Gm-Message-State: AOAM531yZpIjz7VnFnWP5tYFjKnYhfg3I0UqrdarTJ0yExCBnRPiIacb
+ usR0M0j7Xg3NTyeWTxOG61wLHNZpM1S2OtVID0aVtbiZzjBurhb6Kvp+PD12+JfUvcn8AbX1Uq/
+ We1484D/OFWSz+Fd+IWXTFazNuEoeNR4=
+X-Received: by 2002:a81:fe01:0:b0:2e5:85ba:f316 with SMTP id
+ j1-20020a81fe01000000b002e585baf316mr1122931ywn.33.1652374871090; 
+ Thu, 12 May 2022 10:01:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGm1FPrwebN0j9d3G1ItoZK6kKz2pKoY6LDkVpHobdysOdRxHI5LvAFQxkldM87O/qB835/y6l0Kf3T75bNF4=
+X-Received: by 2002:a81:fe01:0:b0:2e5:85ba:f316 with SMTP id
+ j1-20020a81fe01000000b002e585baf316mr1122900ywn.33.1652374870850; Thu, 12 May
+ 2022 10:01:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220512154906.331399-1-kkostiuk@redhat.com>
-In-Reply-To: <20220512154906.331399-1-kkostiuk@redhat.com>
+References: <20220512154909.331481-1-kkostiuk@redhat.com>
+In-Reply-To: <20220512154909.331481-1-kkostiuk@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 12 May 2022 19:00:15 +0200
-Message-ID: <CAMxuvaxsrPNdS928KtKghoFOHGi4nC3x7pRjN0v=LS5p4G0ADQ@mail.gmail.com>
-Subject: Re: [PATCH] qga-vss: Add auto generated headers to dependencies
+Date: Thu, 12 May 2022 19:00:58 +0200
+Message-ID: <CAMxuvaw-HjLb5cLBR+bzjw9EK38ELs9sX4sgO4s5msPor7kMsA@mail.gmail.com>
+Subject: Re: [PATCH] qga-vss: Use a proper function for free memory
 To: Konstantin Kostiuk <kkostiuk@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
  Michael Roth <michael.roth@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -92,32 +94,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Thu, May 12, 2022 at 5:49 PM Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
+On Thu, May 12, 2022 at 5:49 PM Konstantin Kostiuk <kkostiuk@redhat.com> wr=
+ote:
+>
+> volume_name_wchar is allocated by 'void* operator new [](long long unsign=
+ed int)
 >
 > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 > ---
->  qga/vss-win32/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  qga/vss-win32/requester.cpp | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-> index 26c5dd6e0e..9483ccd3b8 100644
-> --- a/qga/vss-win32/meson.build
-> +++ b/qga/vss-win32/meson.build
-> @@ -7,7 +7,7 @@ link_args = cc.get_supported_link_arguments([
+> diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
+> index 4513324dd2..b371affeab 100644
+> --- a/qga/vss-win32/requester.cpp
+> +++ b/qga/vss-win32/requester.cpp
+> @@ -354,12 +354,12 @@ void requester_freeze(int *num_vols, void *mountpoi=
+nts, ErrorSet *errset)
+>              if (FAILED(hr)) {
+>                  err_set(errset, hr, "failed to add %S to snapshot set",
+>                          volume_name_wchar);
+> -                delete volume_name_wchar;
+> +                delete[] volume_name_wchar;
+>                  goto out;
+>              }
+>              num_mount_points++;
 >
->  qga_vss = shared_module(
->    'qga-vss',
-> -  ['requester.cpp', 'provider.cpp', 'install.cpp'],
-> +  ['requester.cpp', 'provider.cpp', 'install.cpp', genh],
-
-Looks fine, but could you tell which file was needed? (not qapi or
-trace files, I suppose, so what else?)
-
->    name_prefix: '',
->    cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
->    link_args: link_args,
+> -            delete volume_name_wchar;
+> +            delete[] volume_name_wchar;
+>          }
+>
+>          if (num_mount_points =3D=3D 0) {
 > --
 > 2.25.1
 >
