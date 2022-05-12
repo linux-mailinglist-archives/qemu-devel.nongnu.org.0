@@ -2,84 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03FB524834
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:47:37 +0200 (CEST)
-Received: from localhost ([::1]:51520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FC5524842
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:49:30 +0200 (CEST)
+Received: from localhost ([::1]:53868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np4Tw-0001KS-LA
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53844)
+	id 1np4Vl-000313-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1np49I-0004FK-Rr
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:26:18 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42992)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1np49G-0005Ng-I2
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:26:15 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id i27so8655613ejd.9
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 01:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kCS0djnBburNoAd8VwJ6gb94l+fwr8nsgn2Gw+yepas=;
- b=WpJI0Yl44lq6V6cUtMhcaOs/yDN8AZKnhjtzBRh1/xI3oyPyolWCagcPIp4xDgRj7o
- bzF4ZCDrPMNMKrdj1+W5e5du7MKAkpEgdR7UbSnWT7pp7BQrH+pS2uI+jJR8o+3Fqot5
- JDNbzsLBhEIw/8MrQyJEHop9QNQ+EYzjZlirBujE7bdjm2gmvMstWnbD4ELRiJ24R4rf
- 66Ft1PYbZH+X6z18MdhMx/z7J+RVAA7l/ibbNc+KU3abGQ5D3wC1QE/169BeoloP5uHD
- Pbv0lo3971U5UKqqTNyyY/tEG055WnyReE9AuZujqMx8CtJPoNnQw+CqwQEl30DBt44V
- hWOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kCS0djnBburNoAd8VwJ6gb94l+fwr8nsgn2Gw+yepas=;
- b=Hh6x29S/wtU5XfFAwR+ghUusHpmjOMqOF+nA3YkidNGUyF4jQ5fIMK88oz/1M6U701
- G1K8yJqHhp8b4LWPG0DlVh/unlOrvHJvUzC8S0oSBhery0rLeTGdeMeW68vV35Yn28Yw
- AkGi4Ffa1RwT5Fmz/gc4SjnysJYKdy3775cYBcvayYyDJqG4H6Qg0eoMDBVKnZr/7Ll/
- nkUOW19ALoActSpDoEQPJ0DHe8jXBe/kF+d3gFofebL8IkLQcG/hRJHwTJXJ+wGZdnnF
- yHeEu0iPtBjoVKEQUAUSq647weNxQKWQeFXu1GiTglgbaC66YmILhrL+6dpU+FhGpGvq
- dgnw==
-X-Gm-Message-State: AOAM530w88W+nkMxkoGFCwO/yEf3H0R78sTlvBupm42kMOBsrQZs5D5n
- /RoaEX8KIEqWIRNzZVl3PVI=
-X-Google-Smtp-Source: ABdhPJykblA5UCmKihg36eyGWTVsfeB/MS5K20x67ktP/xakzxMqEZ5IF/tHwiCr8362JE7egrV0GA==
-X-Received: by 2002:a17:907:7f12:b0:6f4:57e7:b20a with SMTP id
- qf18-20020a1709077f1200b006f457e7b20amr27926371ejc.538.1652343973119; 
- Thu, 12 May 2022 01:26:13 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- p2-20020a170906614200b006f3ef214e41sm1860305ejl.167.2022.05.12.01.26.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 01:26:12 -0700 (PDT)
-Message-ID: <a1d20baf-03de-d567-50d9-3c58080699a2@redhat.com>
-Date: Thu, 12 May 2022 10:26:08 +0200
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1np49S-0004LE-Mm; Thu, 12 May 2022 04:26:26 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1np49Q-0005Nx-NZ; Thu, 12 May 2022 04:26:26 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 2702511EEFB;
+ Thu, 12 May 2022 08:26:19 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Thu, 12 May 2022 08:26:18 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] qapi: make machine type deprecation a warning
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
-References: <20220511175043.27327-1-pbonzini@redhat.com>
- <871qwzdi3r.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <871qwzdi3r.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH qemu v17 00/16] Add tail agnostic behavior for rvv instructions
+Message-ID: <165234397852.32492.1203149738524050090-0@git.sr.ht>
+X-Mailer: git.sr.ht
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,49 +54,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/22 20:44, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   softmmu/vl.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index c2919579fd..fbef0f5c5f 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -3723,7 +3723,7 @@ void qemu_init(int argc, char **argv, char **envp)
->>   
->>       machine_class = MACHINE_GET_CLASS(current_machine);
->>       if (!qtest_enabled() && machine_class->deprecation_reason) {
->> -        error_report("Machine type '%s' is deprecated: %s",
->> +        warn_report("Machine type '%s' is deprecated: %s",
->>                        machine_class->name, machine_class->deprecation_reason);
->>       }
-> 
-> Anti-pattern: error_report() not followed by "fail function".
+According to v-spec, tail agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of tail policies, QEMU should be able to simulate the tail
+agnostic behavior as "set tail elements' bits to all 1s". An option
+'rvv_ta_all_1s' is added to enable the behavior, it is default as
+disabled.
 
-Good point, thanks for writing it down... That's what I couldn't put my 
-fingers on (hence the scant commit message).  I'll augment the commit 
-message with the following:
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between tail policies. Setting agnostic elements to
+all 1s makes things simple and allow QEMU to express this.
 
-error_report should generally be followed by a failure; if we can 
-proceed anyway, that is just a warning and should be communicated
-properly to the user with warn_report.
+We may explore other possibility of agnostic behavior by adding
+other options in the future. Please understand that this patch-set
+is limited.
 
-Paolo
+v2 updates:
+- Addressed comments from Weiwei Li
+- Added commit tail agnostic on load / store instructions (which
+  I forgot to include into the patch-set)
 
-> The commit only changes the message printed to stderr.  The commit
-> message made me expect it would change an actual (fatal?) error into a
-> mere warning.  It's too late in my day to come up with a clearer
-> phrasing, so
-> 
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> 
-> 
+v3 updates:
+- Missed the very 1st commit, adding it back
 
+v4 updates:
+- Renamed vlmax to total_elems
+- Deal with tail element when vl_eq_vlmax == true
+
+v5 updates:
+- Let `vext_get_total_elems` take `desc` and `esz`
+- Utilize `simd_maxsz(desc)` to get `vlenb`
+- Fix alignments to code
+
+v6 updates:
+- Fix `vext_get_total_elems`
+
+v7 updates:
+- Reuse `max_elems` for vector load / store helper functions. The
+  translation sets desc's `lmul` to `min(1, lmul)`, making
+  `vext_max_elems` equivalent to `vext_get_total_elems`.
+
+v8 updates:
+- Simplify `vext_set_elems_1s`, don't need `vext_set_elems_1s_fns`
+- Fix `vext_get_total_elems`, it should derive upon EMUL instead
+  of LMUL
+
+v9 updates:
+- Let instructions that is tail agnostic regardless of vta respect the
+  option and not the vta.
+
+v10 updates:
+- Correct range to set element to 1s for load instructions
+
+v11 updates:
+- Separate addition of option 'rvv_ta_all_1s' as a new (last) commit
+- Add description to show intent of the option in first commit for the
+  optional tail agnostic behavior
+- Tag WeiWei as Reviewed-by for all commits
+- Tag Alistair as Reviewed-by for commit 01, 02
+- Tag Alistair as Acked-by for commit 03
+
+v12 updates:
+- Add missing space in WeiWei's "Reviewed-by" tag
+
+v13 updates:
+- Fix tail agnostic for vext_ldst_us. The function operates on input
+  parameter 'evl' rather than 'env->vl'.
+- Fix tail elements for vector segment load / store instructions
+  A vector segment load / store instruction may contain fractional
+  lmul with nf * lmul > 1. The rest of the elements in the last
+  register should be treated as tail elements.
+- Fix tail agnostic length for instructions with mask destination
+  register. Instructions with mask destination register should have
+  'vlen - vl' tail elements.
+
+v14 updates:
+- Pass lmul information to into vector helper function.
+  `vext_get_total_elems` needs it.
+
+v15 updates:
+- Rebase to latest `master`
+- Tag Alistair as Acked by for commit 04 ~ 14
+- Tag Alistair as Acked by for commit 15
+
+v16 updates:
+- Fix bug, when encountering situation when lmul < 0 and vl_eq_vlmax,
+  the original version will override on `vd` but the computation will
+  override again, meaning the tail elements will not be set correctly.
+  Now, we don't use TCG functions if we are trying to simulate all 1s
+  for agnostic and use vector helpers instead.
+
+v17 updates:
+- Add "Prune access_type parameter" commit to cleanup vector load/
+  store functions. Then add parameter `is_load` in vector helper
+  functions to enable vta behavior in the commit for adding vta on
+  vector load/store functions.
+
+eopXD (16):
+  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+  target/riscv: rvv: Prune redundant access_type parameter passed
+  target/riscv: rvv: Rename ambiguous esz
+  target/riscv: rvv: Early exit when vstart >= vl
+  target/riscv: rvv: Add tail agnostic for vv instructions
+  target/riscv: rvv: Add tail agnostic for vector load / store
+    instructions
+  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+  target/riscv: rvv: Add tail agnostic for vector integer shift
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer comparison
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer merge and move
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector floating-point
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector reduction instructions
+  target/riscv: rvv: Add tail agnostic for vector mask instructions
+  target/riscv: rvv: Add tail agnostic for vector permutation
+    instructions
+  target/riscv: rvv: Add option 'rvv_ta_all_1s' to enable optional tail
+    agnostic behavior
+
+ target/riscv/cpu.c                      |    1 +
+ target/riscv/cpu.h                      |    2 +
+ target/riscv/cpu_helper.c               |    2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |   99 +-
+ target/riscv/internals.h                |    6 +-
+ target/riscv/translate.c                |    4 +
+ target/riscv/vector_helper.c            | 1587 ++++++++++++++---------
+ 7 files changed, 1058 insertions(+), 643 deletions(-)
+
+-- 
+2.34.2
 
