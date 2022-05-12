@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02F15243BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:53:27 +0200 (CEST)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4365243CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 06:03:11 +0200 (CEST)
+Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1noztG-0003i0-Og
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39792)
+	id 1np02g-0006NR-B6
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 00:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozNy-0005lz-5a
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:21:06 -0400
-Received: from mga11.intel.com ([192.55.52.93]:31312)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1np008-0005Pl-S1
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 00:00:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozNw-0003Rl-2H
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:21:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652325664; x=1683861664;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=nRZA5P70nyMxFhff5ZnG3wRzOCbk4DRzVZQge2635HU=;
- b=G8imthXQ8HVOmpl2g/6mhP2Bl+ZN0tqLC8VKBYSSUxjzALrjHd6XXbVN
- OGWplE4aVfr+4PdxtBHMr7ccbbJyNjPQJRutTXm2f24jr1abdHHz66sdM
- B3C2OW+S0NnP2n/RU019LtVsZzcw9nr3S5eO9we8+7MSTl5Ov7tUJBL0E
- R4FQZ0tsp0zlW9P9sjpslWYSaXqMD6edDSAVgm4qN6s2sHYno0AhoGYmw
- l8oCInNyQJm8N3FcpHPVQ/1aVq8eYX0DPvasPzeMfh6/7qCubQ+hg+lUj
- Fs03ddCEVObCEO1AQcGiXRiBXZy6vUkcG/axDe9clgDhKe/+gQeBkw0vq g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="267461466"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="267461466"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 20:21:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594456771"
-Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:20:58 -0700
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>
-Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
- xiaoyao.li@intel.com
-Subject: [RFC PATCH v4 36/36] docs: Add TDX documentation
-Date: Thu, 12 May 2022 11:18:03 +0800
-Message-Id: <20220512031803.3315890-37-xiaoyao.li@intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220512031803.3315890-1-xiaoyao.li@intel.com>
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1np005-0000ac-1R
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 00:00:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652328023;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0yIW+FCVbr8CXXVh1W3iI6fl8unJyJ1RtUEfSeN4cPk=;
+ b=caR3PiZDZqlnKaaz7WtdbkiZMBRrTWXrLwmzf7QhAmThtL6kDcq6bWDveDTuu3UDppJfk9
+ z2FDzk2t6pzXz7hbgL7QQ/HGjoFk+T4V6gQ+YzJuIrYyjj2wTNNCHf8CyG5z6XaeLfLo62
+ uzpIeCW7+eMXAk0Cx0u6QLp21mZ4lg4=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-96-KC-8JV2rOCarfh-R2tGWAg-1; Thu, 12 May 2022 00:00:15 -0400
+X-MC-Unique: KC-8JV2rOCarfh-R2tGWAg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ br16-20020a056512401000b004739cf51722so1665920lfb.6
+ for <qemu-devel@nongnu.org>; Wed, 11 May 2022 21:00:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0yIW+FCVbr8CXXVh1W3iI6fl8unJyJ1RtUEfSeN4cPk=;
+ b=YWhCsfu5lV47bP+uA47PEQv2MYFmCiDZyyjLZrzuAO+cPEWFT6ibLUjfv4BL/cCXyv
+ sW0+qCmGs+zKp9G/AKtp3CfItgK1AVdI+h1TnsOcRIaCSCIzXKLIYLQIde5aaUkQsM9X
+ ucGwdPixlRu2sTy+gkRpbNoZpbiSkgbswhvxZRXUP3tlxBSTchBriQ2iY1T62sDEEj4l
+ u6tDbMmXUkaQ3djiQ1ucAy4EAAOwOm/QYFnsPaul5yuC3HHAD0JqJo7nYW/3Nz+Or2Qd
+ vIWCiZD8+xtG0SGdeRS1Nru0/a3zX/2He/gpFjbkpxIv54sqBZm8k+aFxZrQwwglsO8h
+ ev4w==
+X-Gm-Message-State: AOAM532l0j/3mShOptWZDfCqPpQ1/aGAJrm7LmV8yjX2qpnjVg4mpg3o
+ NJDtHle8oh2ivIvXDdkuKf1hdFiJiKpU8Mv4m736ipbl0M/KRU+AxE0NaajhPXSWfo12MZ45wi9
+ C4wb5BXF1K7isdUzYcan6BkoXngsMQ4E=
+X-Received: by 2002:a2e:9698:0:b0:24f:14da:6a59 with SMTP id
+ q24-20020a2e9698000000b0024f14da6a59mr19906511lji.73.1652328014084; 
+ Wed, 11 May 2022 21:00:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2GzW/3WPRn1Qv4igS+/R9CCZvErkegv99KElnGdENDPHIBP+wS3vT7MpzelxhY8a+3fXbyute2TqaNhiPRRU=
+X-Received: by 2002:a2e:9698:0:b0:24f:14da:6a59 with SMTP id
+ q24-20020a2e9698000000b0024f14da6a59mr19906495lji.73.1652328013826; Wed, 11
+ May 2022 21:00:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+References: <CAJaqyWcbqzvtyHcU3t1TF7Mqm2_sBX57rN8S6hHB8NXxgi=tyQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWcbqzvtyHcU3t1TF7Mqm2_sBX57rN8S6hHB8NXxgi=tyQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 12 May 2022 12:00:02 +0800
+Message-ID: <CACGkMEtPn7u0vd4MHuNJBGHbzx5E11NEU4Zh1Dr8C07eEsO0vQ@mail.gmail.com>
+Subject: Re: About restoring the state in vhost-vdpa device
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: virtualization <virtualization@lists.linux-foundation.org>, 
+ qemu-level <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
+ Parav Pandit <parav@nvidia.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, virtio-networking@redhat.com, 
+ Eli Cohen <elic@nvidia.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,151 +96,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add docs/system/i386/tdx.rst for TDX support, and add tdx in
-confidential-guest-support.rst
+On Thu, May 12, 2022 at 3:44 AM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> This is a proposal to restore the state of the vhost-vdpa device at
+> the destination after a live migration. It uses as many available
+> features both from the device and from qemu as possible so we keep the
+> communication simple and speed up the merging process.
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
----
- docs/system/confidential-guest-support.rst |   1 +
- docs/system/i386/tdx.rst                   | 103 +++++++++++++++++++++
- docs/system/target-i386.rst                |   1 +
- 3 files changed, 105 insertions(+)
- create mode 100644 docs/system/i386/tdx.rst
+When we finalize the design, we can formalize it in kernel Documentation/
 
-diff --git a/docs/system/confidential-guest-support.rst b/docs/system/confidential-guest-support.rst
-index 0c490dbda2b7..66129fbab64c 100644
---- a/docs/system/confidential-guest-support.rst
-+++ b/docs/system/confidential-guest-support.rst
-@@ -38,6 +38,7 @@ Supported mechanisms
- Currently supported confidential guest mechanisms are:
- 
- * AMD Secure Encrypted Virtualization (SEV) (see :doc:`i386/amd-memory-encryption`)
-+* Intel Trust Domain Extension (TDX) (see :doc:`i386/tdx`)
- * POWER Protected Execution Facility (PEF) (see :ref:`power-papr-protected-execution-facility-pef`)
- * s390x Protected Virtualization (PV) (see :doc:`s390x/protvirt`)
- 
-diff --git a/docs/system/i386/tdx.rst b/docs/system/i386/tdx.rst
-new file mode 100644
-index 000000000000..96d91fea5516
---- /dev/null
-+++ b/docs/system/i386/tdx.rst
-@@ -0,0 +1,103 @@
-+Intel Trusted Domain eXtension (TDX)
-+====================================
-+
-+Intel Trusted Domain eXtensions (TDX) refers to an Intel technology that extends
-+Virtual Machine Extensions (VMX) and Multi-Key Total Memory Encryption (MKTME)
-+with a new kind of virtual machine guest called a Trust Domain (TD). A TD runs
-+in a CPU mode that is designed to protect the confidentiality of its memory
-+contents and its CPU state from any other software, including the hosting
-+Virtual Machine Monitor (VMM), unless explicitly shared by the TD itself.
-+
-+Prerequisites
-+-------------
-+
-+To run TD, the physical machine needs to have TDX module loaded and initialized
-+while KVM hypervisor has TDX support and has TDX enabled. If those requirements
-+are met, the ``KVM_CAP_VM_TYPES`` will report the support of ``KVM_X86_TDX_VM``.
-+
-+Trust Domain Virtual Firmware (TDVF)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Trust Domain Virtual Firmware (TDVF) is required to provide TD services to boot
-+TD Guest OS. TDVF needs to be copied to guest private memory and measured before
-+a TD boots.
-+
-+The VM scope ``MEMORY_ENCRYPT_OP`` ioctl provides command ``KVM_TDX_INIT_MEM_REGION``
-+to copy the TDVF image to TD's private memory space.
-+
-+Since TDX doesn't support readonly memslot, TDVF cannot be mapped as pflash
-+device and it actually works as RAM. "-bios" option is chosen to load TDVF.
-+
-+OVMF is the opensource firmware that implements the TDVF support. Thus the
-+command line to specify and load TDVF is `-bios OVMF.fd`
-+
-+Feature Control
-+---------------
-+
-+Unlike non-TDX VM, the CPU features (enumerated by CPU or MSR) of a TD is not
-+under full control of VMM. VMM can only configure part of features of a TD on
-+``KVM_TDX_INIT_VM`` command of VM scope ``MEMORY_ENCRYPT_OP`` ioctl.
-+
-+The configurable features have three types:
-+
-+- Attributes:
-+  - PKS (bit 30) controls whether Supervisor Protection Keys is exposed to TD,
-+  which determines related CPUID bit and CR4 bit;
-+  - PERFMON (bit 63) controls whether PMU is exposed to TD.
-+
-+- XSAVE related features (XFAM):
-+  XFAM is a 64b mask, which has the same format as XCR0 or IA32_XSS MSR. It
-+  determines the set of extended features available for use by the guest TD.
-+
-+- CPUID features:
-+  Only some bits of some CPUID leaves are directly configurable by VMM.
-+
-+What features can be configured is reported via TDX capabilities.
-+
-+TDX capabilities
-+~~~~~~~~~~~~~~~~
-+
-+The VM scope ``MEMORY_ENCRYPT_OP`` ioctl provides command ``KVM_TDX_CAPABILITIES``
-+to get the TDX capabilities from KVM. It returns a data structure of
-+``struct kvm_tdx_capabilites``, which tells the supported configuration of
-+attributes, XFAM and CPUIDs.
-+
-+Launching a TD (TDX VM)
-+-----------------------
-+
-+To launch a TDX guest:
-+
-+.. parsed-literal::
-+
-+    |qemu_system_x86| \\
-+        -machine ...,confidential-guest-support=tdx0 \\
-+        -object tdx-guest,id=tdx0 \\
-+        -bios OVMF.fd \\
-+
-+Debugging
-+---------
-+
-+Bit 0 of TD attributes, is DEBUG bit, which decides if the TD runs in off-TD
-+debug mode. When in off-TD debug mode, TD's VCPU state and private memory are
-+accessible via given SEAMCALLs. This requires KVM to expose APIs to invoke those
-+SEAMCALLs and resonponding QEMU change.
-+
-+It's targeted as future work.
-+
-+restrictions
-+------------
-+
-+ - No readonly support for private memory;
-+
-+ - No SMM support: SMM support requires manipulating the guset register states
-+   which is not allowed;
-+
-+Live Migration
-+--------------
-+
-+TODO
-+
-+References
-+----------
-+
-+- `TDX Homepage <https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html>`__
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index 96bf54889a82..16dd4f1a8c80 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -29,6 +29,7 @@ Architectural features
-    i386/kvm-pv
-    i386/sgx
-    i386/amd-memory-encryption
-+   i386/tdx
- 
- .. _pcsys_005freq:
- 
--- 
-2.27.0
+>
+> # Initializing a vhost-vdpa device.
+>
+> Without the context of live migration, the steps to initialize the
+> device from vhost-vdpa at qemu starting are:
+> 1) [vhost] Open the vdpa device, Using simply open()
+> 2) [vhost+virtio] Get device features. These are expected not to
+> change in the device's lifetime, so we can save them. Qemu issues a
+> VHOST_GET_FEATURES ioctl and vdpa forwards to the backend driver using
+> get_device_features() callback.
+
+For "virtio" do you mean it's an action that is defined in the spec?
+
+> 3) [vhost+virtio] Get its max_queue_pairs if _F_MQ and _F_CTRL_VQ.
+> These are obtained using VHOST_VDPA_GET_CONFIG, and that request is
+> forwarded to the device using get_config. QEMU expects the device to
+> not change it in its lifetime.
+> 4) [vhost] Vdpa set status (_S_ACKNOLEDGE, _S_DRIVER). Still no
+> FEATURES_OK or DRIVER_OK. The ioctl is VHOST_VDPA_SET_STATUS, and the
+> vdpa backend driver callback is set_status.
+>
+> These are the steps used to initialize the device in qemu terminology,
+> taking away some redundancies to make it simpler.
+>
+> Now the driver sends the FEATURES_OK and the DRIVER_OK, and qemu
+> detects it, so it *starts* the device.
+>
+> # Starting a vhost-vdpa device
+>
+> At virtio_net_vhost_status we have two important variables here:
+> int cvq = _F_CTRL_VQ ? 1 : 0;
+> int queue_pairs = _F_CTRL_VQ && _F_MQ ? (max_queue_pairs of step 3) : 0;
+>
+> Now identification of the cvq index. Qemu *know* that the device will
+> expose it at the last queue (max_queue_pairs*2) if _F_MQ has been
+> acknowledged by the guest's driver or 2 if not. It cannot depend on
+> any data sent to the device via cvq, because we couldn't get its
+> command status on a change.
+>
+> Now we start the vhost device. The workflow is currently:
+>
+> 5) [virtio+vhost] The first step is to send the acknowledgement of the
+> Virtio features and vhost/vdpa backend features to the device, so it
+> knows how to configure itself. This is done using the same calls as
+> step 4 with these feature bits added.
+> 6) [virtio] Set the size, base, addr, kick and call fd for each queue
+> (SET_VRING_ADDR, SET_VRING_NUM, ...; and forwarded with
+> set_vq_address, set_vq_state, ...)
+> 7) [vdpa] Send host notifiers and *send SET_VRING_ENABLE = 1* for each
+> queue. This is done using ioctl VHOST_VDPA_SET_VRING_ENABLE, and
+> forwarded to the vdpa backend using set_vq_ready callback.
+> 8) [virtio + vdpa] Send memory translations & set DRIVER_OK.
+>
+> If we follow the current workflow, the device is allowed now to start
+> receiving only on vq pair 0, since we've still not set the multi queue
+> pair. This could cause the guest to receive packets in unexpected
+> queues, breaking RSS.
+>
+> # Proposal
+>
+> Our proposal diverge in step 7: Instead of enabling *all* the
+> virtqueues, only enable the CVQ. After that, send the DRIVER_OK and
+> queue all the control commands to restore the device status (MQ, RSS,
+> ...). Once all of them have been acknowledged ("device", or emulated
+> cvq in host vdpa backend driver, has used all cvq buffers, enable
+> (SET_VRING_ENABLE, set_vq_ready) all other queues.
+>
+> Everything needed for this is already implemented in the kernel as far
+> as I see, there is only a small modification in qemu needed. Thus
+> achieving the restoring of the device state without creating
+> maintenance burden.
+
+Yes, one of the major motivations is to try to reuse the existing APIs
+as much as possible as a start. It doesn't mean we can't invent new
+API, but having a dedicated save/restore uAPI looks fine. But it looks
+more like a work that needs to be finalized in the virtio spec
+otherwise we may end up with code that is hard to maintain.
+
+Thanks
+
+>
+> A lot of optimizations can be applied on top without the need to add
+> stuff to the migration protocol or vDPA uAPI, like the pre-warming of
+> the vdpa queues or adding more capabilities to the emulated CVQ.
+>
+> Other optimizations like applying the state out of band can also be
+> added so they can run in parallel with the migration, but that
+> requires a bigger change in qemu migration protocol making us lose
+> focus on achieving at least the basic device migration in my opinion.
+>
+> Thoughts?
+>
 
 
