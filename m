@@ -2,65 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C437B525192
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:48:54 +0200 (CEST)
-Received: from localhost ([::1]:50416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D7E525187
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:47:27 +0200 (CEST)
+Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npB3d-00045Z-VA
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
+	id 1npB2C-0000gM-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:47:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1npApe-0006Ca-9b
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:34:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32820)
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1npAyV-0006Dw-2Y
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:43:35 -0400
+Received: from mail-mw2nam10on20631.outbound.protection.outlook.com
+ ([2a01:111:f400:7e89::631]:14752
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1npApb-0003S5-RF
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:34:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652369663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qudi18RG3hZqO+lwyHf43ie+4OpDI9j9yU5BQHMoDvM=;
- b=KAarz1yNRDaCfVzkYDb+9ZLgcvm/srhsXtzyG1u+aSuHzilswqe8dnV/VEOcoKEWrG4B+3
- HYudQh61+wliLgcwc9usUKKTwKLlrGPDXOat+uBpET95HVfQ7VEQIHJIwo+ZFVjpiPMJw2
- +peM/UzAS3vpIo0TOTNE0xeN1fEJ0GQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-Z5o6fluWM1qqzhcMrd11GA-1; Thu, 12 May 2022 11:34:22 -0400
-X-MC-Unique: Z5o6fluWM1qqzhcMrd11GA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A94CB8039D7;
- Thu, 12 May 2022 15:34:21 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 144CD416156;
- Thu, 12 May 2022 15:34:20 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PULL 10/10] qemu-iotests: inline common.config into common.rc
-Date: Thu, 12 May 2022 17:34:01 +0200
-Message-Id: <20220512153401.202863-11-kwolf@redhat.com>
-In-Reply-To: <20220512153401.202863-1-kwolf@redhat.com>
-References: <20220512153401.202863-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1npAyS-0005Iq-47
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:43:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YkoeXSINTOWCI4PTZpVx5uEaCTQxPdnZSFjphAiBZyHuD2/avAA9qfUo4LR0RP+IDtlLeAuAc7BOj5yYsmKW1BMciJJLGeqBEcvRLGIy7wLMFPdw2gTxTsRxEsbsLVZh1v61IvgfQZm5Na31kRZ0bZ4ESnRTsd56cJmwv0XtlTW7qa2acra7+k03KvQf4CHP62X0Rtwpj6Ur4Gw1lUh9AJjUWQBFNTfPKFrFCYTsjaIjrqxrGCqg9kl+Z2W5oPNq0prf6L3NtCTPvGgK8nARvpEVC7R7t9oTixhDgu53YBMQ1yeirE20hyocE7HQ5Ml3l65f4Psc5gykqT8EPG4nyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k5VG+up6yU09+mzhma8dT2or3CjCxr/1sgyI8vO4A7I=;
+ b=VRbFKPDTj0PESFR1mzEeeYfj58hynz1FcX8nK71XgTahKholdnD2qdww7Wry647x2CUyajreaD9D1/PXicMaKQysrNsoSSobbK+ztH8bQVzm2nydGsOa03uzAyTMaaltUETCMOVKJHVXYZXp2VS9ZSk+3FlIJ/lhDtOVDGDEK1NYufDIZVT9AGoiEgWIyyODqpTF0uro8YIaI5FeDgqnHIBJGZQONpLrQV76kp4PhrEe72gMjc04hnM7ESqhT3eNwC6xyEd/FsYBC4unWL+Fhub8uHhekeyO4gONDBlvgBCxRBKFwArl+A+sWIb9c2d2G6n8y4LyhUiNCCFa83mRXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.234) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k5VG+up6yU09+mzhma8dT2or3CjCxr/1sgyI8vO4A7I=;
+ b=Bc+jN/THyUYWdssvfVMvXkobRbbpTMrnPvT8fe00Q+NMQPqdfget4JdPpcD0oA9zinzlqHgJWU69GqrAqKmAkE/cwQzJ/h0Ck+ZrL1lVoly8JFikmgB/PXoK96IUTtGYmJYMUASCNLRzZ0eP7gGTMEH7ldiNneViou1UBgZgmDMkMmC5hC71bwouSoWbE2P78idbpQIZ6mZtS8Fisteyh60W9fFjOCwwdj8RljP087laqlIt6PnHZ0IR+gTCt/sn1pQEpAdCyDVZGFDmGHIF1aKsSez1A92ozOzSDIw8CxpDPJ93tTQZ9iPscdmiqxiAhdAZIfJomK8/1KWubhvOjQ==
+Received: from MW4PR03CA0270.namprd03.prod.outlook.com (2603:10b6:303:b4::35)
+ by BN6PR12MB1297.namprd12.prod.outlook.com (2603:10b6:404:14::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Thu, 12 May
+ 2022 15:43:26 +0000
+Received: from CO1NAM11FT004.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b4:cafe::57) by MW4PR03CA0270.outlook.office365.com
+ (2603:10b6:303:b4::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14 via Frontend
+ Transport; Thu, 12 May 2022 15:43:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.234; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.234) by
+ CO1NAM11FT004.mail.protection.outlook.com (10.13.175.89) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5250.13 via Frontend Transport; Thu, 12 May 2022 15:43:25 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by DRHQMAIL101.nvidia.com
+ (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
+ Thu, 12 May 2022 15:43:25 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 12 May
+ 2022 08:43:24 -0700
+Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server id 15.2.986.22 via Frontend Transport; Thu, 12 May
+ 2022 08:43:21 -0700
+From: Avihai Horon <avihaih@nvidia.com>
+To: <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>, "Cornelia
+ Huck" <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "Alex
+ Williamson" <alex.williamson@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+CC: Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, "Mark
+ Bloch" <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
+Subject: [PATCH 0/9] vfio/migration: Implement VFIO migration protocol v2
+Date: Thu, 12 May 2022 18:43:11 +0300
+Message-ID: <20220512154320.19697-1-avihaih@nvidia.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e668c81a-4bd4-48e2-d0a5-08da342e2759
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1297:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR12MB1297C9C0F40B5B701A8379C4DECB9@BN6PR12MB1297.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EFNyrMHB6v0D/VAF7HciR90pd6DCfuEv+zw0vqSyfoBCsnqPzbGM10An13tlg3/pM2lm7GmZ64SZbBey6PH3CbRwr+q2xoP9TodREWyAJC0bXaJCSBmFXn31tCtbJs9306jv2OuIaW3fYoRn4hfPO0vxWGk8jsdRkJ8hU/kNGfw3Nao2f5sjj30z3kQJhLW0xV9Il39ktEw/+YXRhqbfZpauUJzYc3tjSN39/2xBf9zb73FrP1xx68iSyugHLJ3w/4uZKrR15GON0q7tI4v+Jq8h9lsU1EfSSXNrRmf8rrJ5QitDbXKKqwVHwKNSuN3UkNcn5V4Xvr+V4cHEo3V6wpAmOlKUtD9nUz5cJFRWdh1YZNFUkKIBEIyPEb4WTc5T6rgDsDRVvf5ldzQGnzBwU9rG9xj/LUpbG5SHT9WPZd+LW4uXC5jRsXMtfqYq4b2NcmDy8pmhKkfpUeP0SOrquoxsH4cn2W46C9IzPmxJhudHPVtXRyDqaaf4t5OeN+w9Dou5BIqt/99934l0nrA8+ysa3QyXsImEaIYCu1mH4wEar2C14KlT6TlbOp5ff42EzIClzA8yTJ+nfJBise9akSZo+74ejJ9C2/CBQJU2GtmkXtxWhRO6x6aza/4I46Gd601Q29Lp81g8YkxjRb16o3CMHI2U+vmZlJUeC29314h2QTBUSEtfcnuJXuoUHCZNGsaDwNDQ5m6S5Q7QTxg+cSmhyg+JIsKgfDY6AZyXuZiyh5h4U9CpesaGEnwXR5FmeBcY0QwdcEhEgnSmtchYpcZN0/ghFEgIsUMzWLNHadg=
+X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(8936002)(8676002)(4326008)(107886003)(83380400001)(70586007)(47076005)(54906003)(5660300002)(36860700001)(426003)(40460700003)(2906002)(110136005)(81166007)(336012)(356005)(82310400005)(70206006)(2616005)(86362001)(316002)(508600001)(36756003)(26005)(7696005)(1076003)(6666004)(186003)(966005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2022 15:43:25.8590 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e668c81a-4bd4-48e2-d0a5-08da342e2759
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT004.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1297
+Received-SPF: softfail client-ip=2a01:111:f400:7e89::631;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,118 +130,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+Hello,
 
-common.rc has some complicated logic to find the common.config that
-dates back to xfstests and is completely unnecessary now.  Just include
-the contents of the file.
+Following VFIO migration protocol v2 acceptance in kernel, this series
+implements VFIO migration according to the new v2 protocol and replaces
+the now deprecated v1 implementation.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220505094723.732116-1-pbonzini@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/common.config | 41 --------------------------------
- tests/qemu-iotests/common.rc     | 31 ++++++++++++++----------
- 2 files changed, 19 insertions(+), 53 deletions(-)
- delete mode 100644 tests/qemu-iotests/common.config
+The main differences between v1 and v2 migration protocols are:
+1. VFIO device state is represented as a finite state machine instead of
+   a bitmap.
 
-diff --git a/tests/qemu-iotests/common.config b/tests/qemu-iotests/common.config
-deleted file mode 100644
-index 9bd1a5a6fc..0000000000
---- a/tests/qemu-iotests/common.config
-+++ /dev/null
-@@ -1,41 +0,0 @@
--#!/usr/bin/env bash
--#
--# Copyright (C) 2009 Red Hat, Inc.
--# Copyright (c) 2000-2003,2006 Silicon Graphics, Inc.  All Rights Reserved.
--#
--# This program is free software; you can redistribute it and/or
--# modify it under the terms of the GNU General Public License as
--# published by the Free Software Foundation.
--#
--# This program is distributed in the hope that it would be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--# GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with this program.  If not, see <http://www.gnu.org/licenses/>.
--#
--# all tests should use a common language setting to prevent golden
--# output mismatches.
--export LANG=C
--
--PATH=".:$PATH"
--
--HOSTOS=$(uname -s)
--arch=$(uname -m)
--[[ "$arch" =~ "ppc64" ]] && qemu_arch=ppc64 || qemu_arch="$arch"
--
--# make sure we have a standard umask
--umask 022
--
--_optstr_add()
--{
--    if [ -n "$1" ]; then
--        echo "$1,$2"
--    else
--        echo "$2"
--    fi
--}
--
--# make sure this script returns success
--true
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 227e0a5be9..165b54a61e 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -17,6 +17,17 @@
- # along with this program.  If not, see <http://www.gnu.org/licenses/>.
- #
- 
-+export LANG=C
-+
-+PATH=".:$PATH"
-+
-+HOSTOS=$(uname -s)
-+arch=$(uname -m)
-+[[ "$arch" =~ "ppc64" ]] && qemu_arch=ppc64 || qemu_arch="$arch"
-+
-+# make sure we have a standard umask
-+umask 022
-+
- # bail out, setting up .notrun file
- _notrun()
- {
-@@ -120,18 +131,14 @@ peek_file_raw()
-     dd if="$1" bs=1 skip="$2" count="$3" status=none
- }
- 
--config=common.config
--test -f $config || config=../common.config
--if ! test -f $config
--then
--    echo "$0: failed to find common.config"
--    exit 1
--fi
--if ! . $config
--    then
--    echo "$0: failed to source common.config"
--    exit 1
--fi
-+_optstr_add()
-+{
-+    if [ -n "$1" ]; then
-+        echo "$1,$2"
-+    else
-+        echo "$2"
-+    fi
-+}
- 
- # Set the variables to the empty string to turn Valgrind off
- # for specific processes, e.g.
+2. The migration interface with kernel is done using VFIO_DEVICE_FEATURE
+   ioctl and normal read() and write() instead of the migration region
+   used in v1.
+
+3. Migration protocol v2 currently doesn't support the pre-copy phase of
+   migration.
+
+Full description of the v2 protocol and the differences from v1 can be
+found here [1].
+
+Patches 1-5 are prep patches importing the new uAPI headers, fixing bugs
+and adding QEMUFile function that will be used later.
+
+Patches 6-9 are the main patches that replace the v1 implementation with
+v2.
+
+Thanks.
+
+[1]
+https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
+
+Avihai Horon (9):
+  linux-headers: Update headers to v5.18-rc6
+  vfio: Fix compilation errors caused by VFIO migration v1 deprecation
+  vfio/migration: Fix NULL pointer dereference bug
+  vfio/migration: Skip pre-copy if dirty page tracking is not supported
+  migration/qemu-file: Add qemu_file_get_to_fd()
+  vfio/migration: Implement VFIO migration protocol v2
+  vfio/migration: Reset device if setting recover state fails
+  vfio: Alphabetize migration section of VFIO trace-events file
+  docs/devel: Align vfio-migration docs to VFIO migration v2
+
+ docs/devel/vfio-migration.rst                 |  77 +--
+ hw/vfio/common.c                              |  21 +-
+ hw/vfio/migration.c                           | 640 ++++--------------
+ hw/vfio/trace-events                          |  25 +-
+ include/hw/vfio/vfio-common.h                 |   8 +-
+ .../linux/input-event-codes.h                 |  25 +-
+ .../standard-headers/linux/virtio_config.h    |   6 +
+ .../standard-headers/linux/virtio_crypto.h    |  82 ++-
+ linux-headers/asm-arm64/kvm.h                 |  16 +
+ linux-headers/asm-generic/mman-common.h       |   2 +
+ linux-headers/asm-mips/mman.h                 |   2 +
+ linux-headers/linux/kvm.h                     |  27 +-
+ linux-headers/linux/psci.h                    |   4 +
+ linux-headers/linux/userfaultfd.h             |   8 +-
+ linux-headers/linux/vfio.h                    | 406 ++++++-----
+ linux-headers/linux/vhost.h                   |   7 +
+ migration/migration.c                         |   5 +
+ migration/migration.h                         |   3 +
+ migration/qemu-file.c                         |  34 +
+ migration/qemu-file.h                         |   1 +
+ 20 files changed, 618 insertions(+), 781 deletions(-)
+
 -- 
-2.35.3
+2.21.3
 
 
