@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A40524F6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 16:06:54 +0200 (CEST)
-Received: from localhost ([::1]:35308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E2D524F70
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 16:07:24 +0200 (CEST)
+Received: from localhost ([::1]:36254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np9Sv-0005W8-SF
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 10:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44732)
+	id 1np9TP-00069e-CG
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 10:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np9Qf-0003ql-Fn
- for qemu-devel@nongnu.org; Thu, 12 May 2022 10:04:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31987)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1np9RZ-0004Th-84
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 10:05:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1np9Qd-0005YD-6f
- for qemu-devel@nongnu.org; Thu, 12 May 2022 10:04:32 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1np9RX-0005up-GV
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 10:05:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652364269;
+ s=mimecast20190719; t=1652364325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pDjixTptcDn6puoQREf6VSFUvyowppohHbyLjtNeftQ=;
- b=O6WVtZZCaymHfDyHtld3P90MJtT+0FJVkPq69Q/y7qsn64vnH1DjstOXETGI+ryvFOTLPq
- UG1pGr3//1Frl1759u53OpQ/VhpqE4CGgYWwSrWQNIKiNqnHjHF7Y0gNQVRmj1tsj1fK0u
- t4xpc18kG/egGJ/rmxqoygVgDf8Rwfo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qCrooXOGXJB98zMjXfDQyC7coaMtKGNi8zEGsPvgR3g=;
+ b=K5TA2/TKprh1+yH+OO8sEHUPiPItMrUfesty7yWMFdf+UlH7rx+h1NpC/+lUURayRDI6SR
+ Y8fKGGPgTN3hyA0zL8htM5xR/9HYedIXIL7VAp7HoauKWb2u0bSQkLqygJuxVV2rdOxKwP
+ yihbYs0dKf9G8XgHot2NxlRsYdXgnvI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475-XbEFa7GyOQOADnVpUgOtIQ-1; Thu, 12 May 2022 10:04:28 -0400
-X-MC-Unique: XbEFa7GyOQOADnVpUgOtIQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg7-20020a05600c3c8700b0039468585269so1671982wmb.3
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 07:04:27 -0700 (PDT)
+ us-mta-3-NhOjYgFVMY-i1Uf0AtNOAw-1; Thu, 12 May 2022 10:05:24 -0400
+X-MC-Unique: NhOjYgFVMY-i1Uf0AtNOAw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c62-20020a1c3541000000b0038ec265155fso4439028wma.6
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 07:05:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pDjixTptcDn6puoQREf6VSFUvyowppohHbyLjtNeftQ=;
- b=0V9MOlS4alUm8rjM031kxPqiliWRJYCW+vbMmKMLeRFnkBsQdUq0rbMTdYeyNdXDYG
- KAJZAl9fDZU1VzVRMAIiuXVFromOMk9Ol0F3X0Zq80tU+pZbVJwh2qnQkt8oKsprWCCu
- waECnZCdFvPPrQPpwCLZ7ejBtteEX4EyVvvnyUXzSGsMrp4pPnC+NYA362TIhYguaj34
- Y/rasYZ3T4wc/smsrCT4RXT4Ymq9c1h1YL5c1cAApDf9mRkNpq4gu2X0cWMf1XS9oNgW
- 3W2qClqWb4Wd6DIlE3SbpGGWJr46+c3qLxYIm3o3fzjs29CVpsbFgohwE5w4myghdpVy
- o06g==
-X-Gm-Message-State: AOAM531WuTecKfU/smp28d2pZsri2z6zOr3/wCrh066MMwZ3T+TYzrI5
- P/ZqEE2lILgykylv3tXit/aLW+YNlGqEOZEi5eOP1htgisZgo7P3LTfCfVQB5qB1XQEeiWb71N/
- wpJCkOZuh93Gia20=
-X-Received: by 2002:adf:e60a:0:b0:20a:c402:6810 with SMTP id
- p10-20020adfe60a000000b0020ac4026810mr28755167wrm.45.1652364266989; 
- Thu, 12 May 2022 07:04:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwX7W+YkQQDAnF2rdrgiafuI1ltSjz7xZwWx7uCHV0wpaMKhBYle1CiluhJSUtBZqCT4hcocw==
-X-Received: by 2002:adf:e60a:0:b0:20a:c402:6810 with SMTP id
- p10-20020adfe60a000000b0020ac4026810mr28755130wrm.45.1652364266428; 
- Thu, 12 May 2022 07:04:26 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
- [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- v17-20020a05600c215100b003943558a976sm2965307wml.29.2022.05.12.07.04.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 07:04:25 -0700 (PDT)
-Message-ID: <1fa226fd-02e5-1711-656e-dc807af2b388@redhat.com>
-Date: Thu, 12 May 2022 16:04:23 +0200
+ h=x-gm-message-state:from:to:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=qCrooXOGXJB98zMjXfDQyC7coaMtKGNi8zEGsPvgR3g=;
+ b=svMkPoURu6UdkU22XUWKgac8vQJ7YifRoGp/m6UYBecyRE7C0czqf4kLkFS6V8PbFe
+ hyTtqII9bYHkkxMtOlK2ruE3c1MZ3baA5IoW/U0av578yMcDCXDrsKZ0VJE2ETDivloC
+ vdjyal3wf08HyzpAh408p1brKOdwdSQCV/t+KVw5F+7g+pbyGtFth5ZEeq4zLIB6/rbb
+ iiTUfuF/YM810u+aiwGX1lVkQHMdWU8mPK6tQd2zKzX+yBq8NuSjLCTPpqRuv2tVUMAK
+ BkmcO+bLE1BomjvlhueyaYhrzdIg6BXKLaNuk7TDDedQESi5Ji9hDbqrx5WKSlPSIchg
+ Y3jg==
+X-Gm-Message-State: AOAM531bbg6GSNfMs4lCkouTyRlzOhsfoe2bG4jsk2CrDz3+H72XNGfI
+ GrNkqvJGXtJJOpoyd5UkQ8baj0hWyRDJEenAoYjRRYE30R905eInHNKFE74ddXzdRZrVEmqTcHo
+ Dcj2yvfo8+SAdYpDn/CJqMFjX0uW284rD0nhKS0wgZj+ZAYWCfX/Pqzi6i9OzRDLLtns=
+X-Received: by 2002:adf:f3cb:0:b0:20a:e4e6:6633 with SMTP id
+ g11-20020adff3cb000000b0020ae4e66633mr27903880wrp.512.1652364322934; 
+ Thu, 12 May 2022 07:05:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrbBBuqhCOHts/AB5wMhVE75zgxQRmqeGf6wphzPQJKo39MRRA+b25KJZhQ/+8xBRCerkvkQ==
+X-Received: by 2002:adf:f3cb:0:b0:20a:e4e6:6633 with SMTP id
+ g11-20020adff3cb000000b0020ae4e66633mr27903848wrp.512.1652364322515; 
+ Thu, 12 May 2022 07:05:22 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id
+ a18-20020a7bc1d2000000b003942a244ee2sm2731791wmj.39.2022.05.12.07.05.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 07:05:22 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] vmxcap: add tertiary execution controls
+In-Reply-To: <20220511165244.336750-1-pbonzini@redhat.com>
+References: <20220511165244.336750-1-pbonzini@redhat.com>
+Date: Thu, 12 May 2022 16:05:21 +0200
+Message-ID: <8735heyhge.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PULL 2/2] vfio: tolerate migration protocol v1 uapi renames
-Content-Language: en-US
-To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
-References: <20220512102942.1134141-1-thuth@redhat.com>
- <20220512102942.1134141-3-thuth@redhat.com>
- <b248ca40-c322-69d0-799f-d0a95bf0c31b@nvidia.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <b248ca40-c322-69d0-799f-d0a95bf0c31b@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,54 +95,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/2022 15.53, Avihai Horon wrote:
-> 
-> On 5/12/2022 1:29 PM, Thomas Huth wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> From: Matthew Rosato <mjrosato@linux.ibm.com>
->>
->> The v1 uapi is deprecated and will be replaced by v2 at some point;
->> this patch just tolerates the renaming of uapi fields to reflect
->> v1 / deprecated status.
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> Message-Id: <20220404181726.60291-3-mjrosato@linux.ibm.com>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   hw/vfio/common.c    |  2 +-
->>   hw/vfio/migration.c | 19 +++++++++++--------
->>   2 files changed, 12 insertions(+), 9 deletions(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 159f910421..8e73d3714a 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -381,7 +381,7 @@ static bool 
->> vfio_devices_all_running_and_saving(VFIOContainer *container)
->>                   return false;
->>               }
->>
->> -            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
->> +            if ((migration->device_state & VFIO_DEVICE_STATE_V1_SAVING) &&
->>                   (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-> 
-> Only now I noticed this, but all existing VFIO_DEVICE_STATE_* enums should 
-> be changed to their corresponding VFIO_DEVICE_STATE_V1_*.
-> E.g., here VFIO_DEVICE_STATE_RUNNING should be changed as well to 
-> VFIO_DEVICE_STATE_V1_RUNNING.
-> 
-> I already have a patch that does this. I will send it today as part of the 
-> VFIO migration v2 series I am planning to send, so you can just take it.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Ugh, thanks for noticing!
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  scripts/kvm/vmxcap | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
+> index f140040104..ce27f5e635 100755
+> --- a/scripts/kvm/vmxcap
+> +++ b/scripts/kvm/vmxcap
+> @@ -23,6 +23,7 @@ MSR_IA32_VMX_TRUE_PROCBASED_CTLS = 0x48E
+>  MSR_IA32_VMX_TRUE_EXIT_CTLS = 0x48F
+>  MSR_IA32_VMX_TRUE_ENTRY_CTLS = 0x490
+>  MSR_IA32_VMX_VMFUNC = 0x491
+> +MSR_IA32_VMX_PROCBASED_CTLS3 = 0x492
+>  
+>  class msr(object):
+>      def __init__(self):
+> @@ -71,6 +72,13 @@ class Control(object):
+>                  s = 'yes'
+>              print('  %-40s %s' % (self.bits[bit], s))
+>  
+> +# All 64 bits in the tertiary controls MSR are allowed-1
+> +class Allowed1Control(Control):
+> +    def read2(self, nr):
+> +        m = msr()
+> +        val = m.read(nr, 0)
+> +        return (0, val)
+> +
+>  class Misc(object):
+>      def __init__(self, name, bits, msr):
+>          self.name = name
+> @@ -135,6 +143,7 @@ controls = [
+>              12: 'RDTSC exiting',
+>              15: 'CR3-load exiting',
+>              16: 'CR3-store exiting',
+> +            17: 'Activate tertiary controls',
+>              19: 'CR8-load exiting',
+>              20: 'CR8-store exiting',
+>              21: 'Use TPR shadow',
+> @@ -186,6 +195,14 @@ controls = [
+>          cap_msr = MSR_IA32_VMX_PROCBASED_CTLS2,
+>          ),
+>  
+> +    Allowed1Control(
+> +        name = 'tertiary processor-based controls',
+> +        bits = {
+> +            4: 'Enable IPI virtualization'
+> +            },
+> +        cap_msr = MSR_IA32_VMX_PROCBASED_CTLS3,
+> +        ),
+> +
+>      Control(
+>          name = 'VM-Exit controls',
+>          bits = {
 
-Alex, could you please take care of this in the next days? Seems like the 
-next linux-header updates is really not that trivial anymore due to that 
-ugly vfio macro renaming :-( And I'd prefer if somebody could tackle this 
-who is really more confident in this area.
+Not sure which particular CPUs are going to implement this (whould be
+nice to add this info to the blurb) but this matches Intel doc
+(https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html)
+and "IPI virtualization support for VM" series for KVM, so
 
-  Thomas
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+
+-- 
+Vitaly
 
 
