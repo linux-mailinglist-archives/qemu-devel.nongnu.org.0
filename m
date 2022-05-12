@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08365524D8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:53:34 +0200 (CEST)
-Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56158524D96
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:55:46 +0200 (CEST)
+Received: from localhost ([::1]:51474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np8Jx-00025J-5T
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52536)
+	id 1np8M5-0003ar-FC
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1np8Go-00071z-2V; Thu, 12 May 2022 08:50:20 -0400
-Received: from mail-yw1-f178.google.com ([209.85.128.178]:45325)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1np8Gm-0000AB-8s; Thu, 12 May 2022 08:50:17 -0400
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-2f7bb893309so54763477b3.12; 
- Thu, 12 May 2022 05:50:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tNZaIfsZFQiUsoybA2P7UuRHj00q7OMkgFr2e8S75ZA=;
- b=O3pFwm89Lx395AwM2cgjuwLc1sKBLDp/w+wml46rPBTZdJAg/vVvL07lvitgk+rrfe
- T65Wl4/WUZsFVIOahq3HaTsH1FC4CGFCfG9LBipQkp52N9hyYUHcADlT+VUYDRUCz6q0
- FXL3plHByBFgviGRmRb4nyz1boiY01caXZf9RWb16dUz4Xc/Z2ndzkOU4iYtjjs/uEyu
- 9HZ3tLM2Lcy1lCfJugxJrQirm9CbyUTeaBDhxSJ7mF/2e1UXeQtZQypo/m4uJqLbudTI
- yr5pZQnhtLdnifzMjiEu220GDrx8VP5UI08AMlB/POzWLlb+BkJivXMSUpoeKl2lnL/3
- x6Dw==
-X-Gm-Message-State: AOAM530dIPxjaqucI4fCJaHa7i2EtoduTacjjLe60DXFpMIX/N/lE1is
- X9N+nbIu/S5CvbEoO1/6I1bcF1djbsShW+A7DrM=
-X-Google-Smtp-Source: ABdhPJzcxASBr3U/MSYZuBClq8yFQFNjymakliJMtv4gw8olgOmdxVo0o5g6Ne2r8VgU7t4gcMOaok8qWOcNUT4NWgg=
-X-Received: by 2002:a81:784a:0:b0:2f7:d9fd:396f with SMTP id
- t71-20020a81784a000000b002f7d9fd396fmr31804970ywc.124.1652359813450; Thu, 12
- May 2022 05:50:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1np8KO-0002uF-5M
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 08:54:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1np8KK-0001Cb-9F
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 08:53:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652360035;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=eVweywNouTO6Fz1uTtJvF3r4GsqGHaGT8DQxUNXIYFI=;
+ b=Ca/7M5GYUH6O9bfF1JZgtSQxvyLEymocyFNXXfXggJFA5MYENZAWInxzSfrU8CKxQ8CMpc
+ rhulZvyYdEIbcMP03TxCCQAdvb6wdQ1LsPfeGSDr4Xt2EJKI8NrDlWeWg2cdWP0Hg+pD1S
+ Rw8/4g5W2st7ohjRjvIJjLhs+065rWE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-qHoMOA1sPBOsKR7YTiIC2w-1; Thu, 12 May 2022 08:53:53 -0400
+X-MC-Unique: qHoMOA1sPBOsKR7YTiIC2w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71A6F1C00AC1
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 12:53:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 682065737DA;
+ Thu, 12 May 2022 12:53:52 +0000 (UTC)
+Date: Thu, 12 May 2022 13:53:49 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] qapi: make machine type deprecation a warning
+Message-ID: <Yn0DXRo7NhxJ51KX@redhat.com>
+References: <20220511175043.27327-1-pbonzini@redhat.com>
+ <87a6bn9gg3.fsf@pond.sub.org>
+ <4970cd1d-6801-9a57-04a7-1e907c1b7fcf@redhat.com>
 MIME-Version: 1.0
-References: <20220510151020.105528-1-kwolf@redhat.com>
- <20220510151020.105528-3-kwolf@redhat.com>
- <41c8f1d4-be27-4110-33c0-b53a701a9cb6@yahoo-corp.jp>
-In-Reply-To: <41c8f1d4-be27-4110-33c0-b53a701a9cb6@yahoo-corp.jp>
-Date: Thu, 12 May 2022 14:50:02 +0200
-Message-ID: <CAAdtpL7+g7tLHt5zbq7LGogXA4Qv+75Big4QupTwe=fUzHa+NA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] coroutine: Revert to constant batch size
-To: =?UTF-8?B?5oiQ5bedIOW8mOaouQ==?= <hnarukaw@yahoo-corp.jp>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-stable <qemu-stable@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.128.178;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-yw1-f178.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4970cd1d-6801-9a57-04a7-1e907c1b7fcf@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,72 +78,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Hi Hiroki,
+On Thu, May 12, 2022 at 02:24:35PM +0200, Paolo Bonzini wrote:
+> On 5/12/22 12:46, Markus Armbruster wrote:
+> > Commit message nitpick: not sure this is "qapi:".  The commit that
+> > introduced "Machine type ... is deprecated" (08fe68244eb) used
+> > "hw/i386:".  We commonly use "vl:", "softmmu:", and "softmmu/vl:" for
+> > this file.
+> 
+> Will do.
+> 
+> I wonder if I should already propose renaming vl.c to climain.c, even if
+> there's no qmpmain.c yet.  Emotional/historical attachment is probably not
+> good enough of a reason to keep that name.
+> 
+> I suppose this is already a proposal.
 
-On Thu, May 12, 2022 at 8:57 AM =E6=88=90=E5=B7=9D =E5=BC=98=E6=A8=B9 <hnar=
-ukaw@yahoo-corp.jp> wrote:
->
-> Thank you for your fix.
->
-> I confirmed that after applying this patch, my intended performance
-> improvement by 4c41c69e is still kept in our environment.
+For all the othe tools we just use the filename $TOOL.c,  eg qemu-img.c,
+etc. So what about qemu-system.c
 
-Is that equivalent to a formal
-Tested-by: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
-tag?
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> On 2022/05/11 0:10, Kevin Wolf wrote:
-> > Commit 4c41c69e changed the way the coroutine pool is sized because for
-> > virtio-blk devices with a large queue size and heavy I/O, it was just
-> > too small and caused coroutines to be deleted and reallocated soon
-> > afterwards. The change made the size dynamic based on the number of
-> > queues and the queue size of virtio-blk devices.
-> >
-> > There are two important numbers here: Slightly simplified, when a
-> > coroutine terminates, it is generally stored in the global release pool
-> > up to a certain pool size, and if the pool is full, it is freed.
-> > Conversely, when allocating a new coroutine, the coroutines in the
-> > release pool are reused if the pool already has reached a certain
-> > minimum size (the batch size), otherwise we allocate new coroutines.
-> >
-> > The problem after commit 4c41c69e is that it not only increases the
-> > maximum pool size (which is the intended effect), but also the batch
-> > size for reusing coroutines (which is a bug). It means that in cases
-> > with many devices and/or a large queue size (which defaults to the
-> > number of vcpus for virtio-blk-pci), many thousand coroutines could be
-> > sitting in the release pool without being reused.
-> >
-> > This is not only a waste of memory and allocations, but it actually
-> > makes the QEMU process likely to hit the vm.max_map_count limit on Linu=
-x
-> > because each coroutine requires two mappings (its stack and the guard
-> > page for the stack), causing it to abort() in qemu_alloc_stack() becaus=
-e
-> > when the limit is hit, mprotect() starts to fail with ENOMEM.
-> >
-> > In order to fix the problem, change the batch size back to 64 to avoid
-> > uselessly accumulating coroutines in the release pool, but keep the
-> > dynamic maximum pool size so that coroutines aren't freed too early
-> > in heavy I/O scenarios.
-> >
-> > Note that this fix doesn't strictly make it impossible to hit the limit=
-,
-> > but this would only happen if most of the coroutines are actually in us=
-e
-> > at the same time, not just sitting in a pool. This is the same behaviou=
-r
-> > as we already had before commit 4c41c69e. Fully preventing this would
-> > require allowing qemu_coroutine_create() to return an error, but it
-> > doesn't seem to be a scenario that people hit in practice.
-> >
-> > Cc: qemu-stable@nongnu.org
-> > Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=3D2079938
-> > Fixes: 4c41c69e05fe28c0f95f8abd2ebf407e95a4f04b
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
 
