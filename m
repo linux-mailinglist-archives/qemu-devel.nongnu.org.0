@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B573524E79
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 15:42:38 +0200 (CEST)
-Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA63524E84
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 15:42:58 +0200 (CEST)
+Received: from localhost ([::1]:44674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np95R-00064M-0e
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 09:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37614)
+	id 1np95k-0006EX-W0
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 09:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1np934-0004Qt-T7; Thu, 12 May 2022 09:40:10 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:45987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1np932-0001Qa-Nz; Thu, 12 May 2022 09:40:10 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-e93bbb54f9so6606744fac.12; 
- Thu, 12 May 2022 06:40:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=B/t/Lbj4mfDpA/GnpQYAbyQf1d9qR7xNbEXaA4IyPwY=;
- b=Bm4U+5sfaROmKawfxlbtw5yVP1tgqiSrjciTO7ASKz9Eo5e8n7fVhnGAK/lNcPtDTQ
- fX320HQfpUH5y53FiaoOh+MvACiVMnzAnCuikkcofQihGgggnjiTDZnmND/Mb8sBF06m
- 70pBrTog/k0XyTSgwD6UpGQB2l7ii4dMMDoXkGKUyks/QsR3PvaYiCPn1oDUT9oda5Yo
- zm9P19O2uf4C2okdKKJ6Z94QJx8sfCa7dsLa+I275W0hsdw3hf7nPOIfmOF/CQopYpOp
- zX1yA0sgAQqWhbzyKKCYqDAfVXTctGpTqJ19GK32gZK+0AhAaeUhe/Z/0O+O1is7HjmI
- lMbA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1np93D-0004ZF-I7
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 09:40:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1np937-0001RZ-Nb
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 09:40:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652362811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UO0GBp4H88rJlWeLbDbaBm0okMH9ubYWnvaWzXAvwYg=;
+ b=bv082CHlsoXffJEWG8/QCBluMTU9eJLEee8+5+ka3JV/FJT8B1zzIdgY2WzKuczdTlAFly
+ J91RO83dqijEDig6qRkV6w1BYSfQQLAqXWwoyryIeYpLhpdIsh3AIeqikbP4TaYkU4/Vup
+ 01p8oVJqS8SK5K/dcYBQQIxFsK3vSt4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-600-TfMIdkXLPv-iQ2uszq9dKg-1; Thu, 12 May 2022 09:40:10 -0400
+X-MC-Unique: TfMIdkXLPv-iQ2uszq9dKg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s16-20020adfeb10000000b0020cc4e5e683so2085360wrn.6
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 06:40:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=B/t/Lbj4mfDpA/GnpQYAbyQf1d9qR7xNbEXaA4IyPwY=;
- b=NAWhpjtQBJj6y3bgWOWvJwxy3YHGkbGQmblfQrvcNqLcSNg0BHYpGNh0cDYi3o1ESw
- giDqJBgnCJzQIOyJV1bHv0nHp4bSj9cRf7Zo3ek2kDQ53wZW4/Ki9toz5gVQTF9PHVTn
- WI9HMPbcSwnN48DkVXfqFpXWmkmCoa+XqYcyYQE8qnrYdneOCy2gxBTx6BITWg5b/j+M
- 8aV0AwcnatH87Oo3eHNrGgZ586Y8rbh9bwjhjMcY0+9XCRaUTrd+HSMT0xvIBoy9aWqh
- fQGf7cf9ziJ5oKkdoRAvHJnDaxdwEApNUm2SsN4KrarNTIbXdJ/aHZx1LrqKBu3nNEKf
- TRog==
-X-Gm-Message-State: AOAM5305oFp1nIpPfEvmHHhTwbgfy1sQUJxTMUn6SE3pWJLsxz2FFe89
- zlNpDCeDplsKcl4Sb7kFCxyWp+icSJw=
-X-Google-Smtp-Source: ABdhPJxRbJxL7dcrLTwXcaHXMJQebmOhLXx+hVSGVGaUzH9tFXqmq+p13OiclgtQHT3FWkN0WFsQPg==
-X-Received: by 2002:a05:6870:f143:b0:e6:6c21:3593 with SMTP id
- l3-20020a056870f14300b000e66c213593mr5770927oac.55.1652362806856; 
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=UO0GBp4H88rJlWeLbDbaBm0okMH9ubYWnvaWzXAvwYg=;
+ b=V7LMUC9Dq/9xykAlY0G/yBaLBW3EGQZUl6Gzb2QPYSENXCga0YlYCnl+4C6sYZAZRN
+ Y8mF/NhSqZ8WHWX+IDMbC7Hd57YnGL13ZOF85vcjmOLXxh65RFmWCrsVi1rVbP5vWSeZ
+ kldEh1qyvzyf70cleD7lVdFxZ1OXbslIm3Y0q7kfWSMmev2dYqgwOt8IBzia6YDN6TSI
+ Y99zeRp7Mwtm1KCLYYqt20Vcx/P7VZ968L/dAjZVuNS4XsVqF4Uu6gLtisb/9JeFTN9r
+ IAa2ULcKc+nia6ueU7edtXvWyUqveTtFzd9gMQ/FsEdJaIOsYPfFqotnEbKZplGrQicO
+ AEDg==
+X-Gm-Message-State: AOAM532K/7LE7lTBmSm1hyobjW6i5DIZrhWpDiMgu2jM1YeOSjKqFiN0
+ QPf/wEnH1lphpch9Lg6AuBn4s9VQHzmRFBvOrBM6sACC/dTI+uYFWmQh20dPPery0mwNUT2VYic
+ nNl+8m4VJgwBon7g=
+X-Received: by 2002:a05:6000:1a85:b0:20c:7ba1:737b with SMTP id
+ f5-20020a0560001a8500b0020c7ba1737bmr27778183wry.209.1652362806709; 
  Thu, 12 May 2022 06:40:06 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c7:6d99:130b:198b:b4b2:dcf0?
- ([2804:431:c7c7:6d99:130b:198b:b4b2:dcf0])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a9d0389000000b006060322126fsm1840871otf.63.2022.05.12.06.40.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+X-Google-Smtp-Source: ABdhPJxFjYp5jpTgyVsuZB1c0tvT+NcwrlrRHzb73O2kFWGuX896aFF2CGbN8iOokuPuk8MquDvpvg==
+X-Received: by 2002:a05:6000:1a85:b0:20c:7ba1:737b with SMTP id
+ f5-20020a0560001a8500b0020c7ba1737bmr27778138wry.209.1652362806033; 
  Thu, 12 May 2022 06:40:06 -0700 (PDT)
-Message-ID: <65dd09bf-5dec-5f4c-f97b-4dc8e835e795@gmail.com>
-Date: Thu, 12 May 2022 10:40:03 -0300
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ o8-20020adfa108000000b0020c5253d8fbsm4318232wro.71.2022.05.12.06.40.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 06:40:05 -0700 (PDT)
+Date: Thu, 12 May 2022 14:40:03 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Peter Xu <peterx@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH v6 00/13] Migration: Transmit and detect zero pages in
+ the multifd threads
+Message-ID: <Yn0OMzygfmlXgl8w@work-vm>
+References: <20220510224220.5912-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH qemu] spapr/docs: Add a few words about x-vof
-Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
-References: <20220506055124.3822112-1-aik@ozlabs.ru>
- <7008431e-6813-a763-f6fe-30088f1b519b@gmail.com>
- <980eb62c-55e1-d6fc-78da-c4e4e517f30a@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <980eb62c-55e1-d6fc-78da-c4e4e517f30a@ozlabs.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220510224220.5912-1-quintela@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,131 +106,1354 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 5/12/22 00:10, Alexey Kardashevskiy wrote:
+* Juan Quintela (quintela@redhat.com) wrote:
+> In this version:
+> - document what protects each field in MultiFDRecv/SendParams
+> - calcule page_size once when we start the migration, and store it in
+>   a field
+> - Same for page_count.
+> - rebase to latest
+> - minor improvements here and there
+> - test on huge memory machines
 > 
+> Command line for all the tests:
 > 
-> On 5/12/22 06:42, Daniel Henrique Barboza wrote:
->>
->>
->> On 5/6/22 02:51, Alexey Kardashevskiy wrote:
->>> The alternative small firmware needs a few words of what it can and
->>> absolutely cannot do; this adds those words.
->>>
->>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>> ---
->>>   docs/system/ppc/pseries.rst | 28 ++++++++++++++++++++++++++++
->>>   1 file changed, 28 insertions(+)
->>>
->>> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
->>> index d9b65ad4e850..4c98a94f9add 100644
->>> --- a/docs/system/ppc/pseries.rst
->>> +++ b/docs/system/ppc/pseries.rst
->>> @@ -32,14 +32,42 @@ Missing devices
->>>   Firmware
->>>   ========
->>> +The pSeries platform in QEMU comes with 2 firmwares:
->>> +
->>>   `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
->>>   implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
->>>   Configuration) Firmware: Core Requirements and Practices
->>>   <https://standards.ieee.org/standard/1275-1994.html>`_.
->>> +SLOF performs bus scanning, PCI resource allocation, provides the client
->>> +interface to boot from block devices and network.
->>> +
->>>   QEMU includes a prebuilt image of SLOF which is updated when a more recent
->>>   version is required.
->>> +VOF (Virtual Open Firmware) is a minimalistic firmware to work with
->>> +``-machine pseries,x-vof=on``. When enabled, the firmware acts as a slim
->>> +shim and QEMU implements parts of the IEEE 1275 Open Firmware interface.
->>> +
->>> +VOF does not have device drivers, does not do PCI resource allocation and
->>> +relies on ``-kernel`` used with Linux kernels recent enough (v5.4+)
->>> +to PCI resource assignment. It is ideal to use with petitboot.
->>> +
->>> +Booting via ``-kernel`` supports the following:
->>> ++-------------------+-------------------+------------------+
->>> +| kernel            | pseries,x-vof=off | pseries,x-vof=on |
->>> ++===================+===================+==================+
->>> +| vmlinux BE        |     ✓             |     ✓            |
->>> ++-------------------+-------------------+------------------+
->>> +| vmlinux LE        |     ✓             |     ✓            |
->>> ++-------------------+-------------------+------------------+
->>> +| zImage.pseries BE |     x             |     ✓¹           |
->>> ++-------------------+-------------------+------------------+
->>> +| zImage.pseries LE |     ✓             |     ✓            |
->>> ++-------------------+-------------------+------------------+
->>
->> You need an empty line at the start and at the end of the table. Otherwise it'll
->> be rendered as regular text.
+> gdb -q --ex "run" --args $QEMU \
+> 	-name guest=$NAME,debug-threads=on \
+> 	-m 16G \
+> 	-smp 6 \
+> 	-machine q35,accel=kvm,usb=off,dump-guest-core=off \
+> 	-boot strict=on \
+> 	-cpu host \
+> 	-no-hpet \
+> 	-rtc base=utc,driftfix=slew \
+> 	-global kvm-pit.lost_tick_policy=delay \
+> 	-global ICH9-LPC.disable_s3=1 \
+> 	-global ICH9-LPC.disable_s4=1 \
+> 	-device pcie-root-port,id=root.1,chassis=1,addr=0x2.0,multifunction=on \
+> 	-device pcie-root-port,id=root.2,chassis=2,addr=0x2.1 \
+> 	-device pcie-root-port,id=root.3,chassis=3,addr=0x2.2 \
+> 	-device pcie-root-port,id=root.4,chassis=4,addr=0x2.3 \
+> 	-device pcie-root-port,id=root.5,chassis=5,addr=0x2.4 \
+> 	-device pcie-root-port,id=root.6,chassis=6,addr=0x2.5 \
+> 	-device pcie-root-port,id=root.7,chassis=7,addr=0x2.6 \
+> 	-device pcie-root-port,id=root.8,chassis=8,addr=0x2.7 \
+> 	-blockdev driver=file,node-name=storage0,filename=$FILE,auto-read-only=true,discard=unmap \
+> 	-blockdev driver=qcow2,node-name=format0,read-only=false,file=storage0 \
+> 	-device virtio-blk-pci,id=virtio-disk0,drive=format0,bootindex=1,bus=root.1 \
+> 	-netdev tap,id=hostnet0,vhost=on,script=/etc/kvm-ifup,downscript=/etc/kvm-ifdown \
+> 	-device virtio-net-pci,id=net0,netdev=hostnet0,mac=$MAC,bus=root.2 \
+> 	-device virtio-serial-pci,id=virtio-serial0,bus=root.3 \
+> 	-device virtio-balloon-pci,id=balloon0,bus=root.4 \
+> 	$GRAPHICS \
+> 	$CONSOLE \
+> 	-device virtconsole,id=console0,chardev=charconsole0 \
+> 	-uuid 9d3be7da-e1ff-41a0-ac39-8b2e04de2c19 \
+> 	-nodefaults \
+> 	-msg timestamp=on \
+> 	-no-user-config \
+> 	$MONITOR \
+> 	$TRACE \
+> 	-global migration.x-multifd=on \
+> 	-global migration.multifd-channels=16 \
+> 	-global migration.x-max-bandwidth=$BANDWIDTH
 > 
-> How do you build htmls from these btw?
-
-Had to do this yesterday because I changed machines recently. In a Fedora 35
-system I did this:
-
-
-sudo dnf install python3-sphinx
-sudo dnf install python-sphinx_rtd_theme-doc
-pip install sphinx_rtd_theme
-
-(not sure if all steps are needed)
-
-Then the generated docs will be under build/docs/manual .
-
-
+> Tests have been done in a single machine over localhost.  I didn't have 2 machines with 4TB of RAM for testing.
 > 
->>
->>> +Notes:
->>
->> I also don't believe you need the "Notes:" addendum here. It's clear that you're
->> making an observation about the zImage.pseries BE and x-vof=on case.
+> Tests done on a 12TB RAM machine.  Guests where running with 16GB, 1TB and 4TB RAM
 > 
-> But only this combination needs kernel-addr=0, other images do not need that with SLOF or VOF.
-
-
-I mentioned about the "Notes:" string. We can remove it and leave just the
-
-+¹ must set kernel-addr=0
-
-
-Since it's clear that you're making a note about that item in the table.
-
-
-
+> tests run with:
+> - upstream multifd
+> - multifd + zero page
+> - precopy (only some of them)
 > 
+> tests done:
+> - idle clean guest (just booted guest)
+> - idle dirty guest (run a program to dirty all memory)
+> - test with stress (4 threads each dirtying 1GB RAM)
 > 
->>
->> Everything else LGTM. If no one else has any comment, and you're ok with these
->> changes I mentioned, I can amend it myself with my R-b.
+> Executive summary
 > 
-> I'll probably repost after the other patch with kernel-addr is merged into your tree. Thanks,
-
-I already picked it (just waiting some tests to finish). But feel free to
-send a v2 if you want to play around generating the docs to see how
-your patch looks like in the finished HTML.
-
-
-Thanks,
-
-
-Daniel
-
+> 16GB guest
+>                 Precopy            upstream          zero page
+>                 Time    Downtime   Time    Downtime  Time    Downtime
+> clean idle      1548     93         1359   48         866    167
+                                           866/1359 = 64%
+> dirty idle     16222    220         2092   371       1870    258
+                                           1870/2092 = 89%
+> busy 4GB       don't converge      31000   308       1604    371
 > 
+> In the dirty idle, there is some weirdness in the precopy case, I
+> tried several times and it always took too much time.  It should be
+> faster.
 > 
->>
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->>
->>> +¹ must set kernel-addr=0
->>> +
->>>   Build directions
->>>   ================
+> In the busy 4GB case, precopy don't converge (expected) and without
+> zero page, multifd is on the limit, it _almost_ don't convrge, it took
+> 187 iterations to converge.
 > 
+> 1TB
+>                 Precopy            upstream          zero page
+>                 Time    Downtime   Time    Downtime  Time    Downtime
+> clean idle     83174    381        72075   345       52966   273
+                                          52966/72075=74%
+> dirty idle                        104587   381       75601   269
+                                          75601/104587=72%
+> busy 2GB                           79912   345       58953   348
+> 
+> I only tried the clean idle case with 1TB.  Notice that it is already
+> significantively slower.  With 1TB RAM, zero page is clearly superior in all tests.
+> 
+> 4TB
+>                 upstream          zero page
+>                 Time    Downtime  Time    Downtime
+> clean idle      317054  552       215567  500
+                215567/317054 = 68%
+> dirty idle      357581  553       317428  744
+                317428/357581 = 89%
+
+The 1TB dirty/idle is a bit of an unusual outlier at 72% time; but still
+the 89% on the 16GB/4TB dirty case is still a useful improvement - I wasn't
+expecting the dirty case to be as good - I wonder if there's some side
+benefit, like meaning the page is only read by the data threads and not
+also read by the main thread so only in one cache?
+
+(the 10% improvement on the dirty case is more important to me than the
+more impressive number for the clean case)
+
+Dave
+
+> The busy case here is similar to the 1TB guests, just takes much more time.
+> 
+> In conclusion, zero page detection on the migration threads is from a
+> bit to much faster than anything else.
+> 
+> I add here the output of info migrate and perf for all the migration
+> rounds.  The important bit that I found is that once that we introduce
+> zero pages, migration spends all its time copyng pages, that is where
+> it needs to be, not waiting for buffer_zero or similar.
+> 
+> Upstream
+> --------
+> 
+> 16GB test
+> 
+> idle
+> 
+> precopy
+> 
+> Migration status: completed
+> total time: 1548 ms
+> downtime: 93 ms
+> setup: 16 ms
+> transferred ram: 624798 kbytes
+> throughput: 3343.01 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 4048839 pages
+> skipped: 0 pages
+> normal: 147016 pages
+> normal bytes: 588064 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 0 kbytes
+> pages-per-second: 651825
+> precopy ram: 498490 kbytes
+> downtime ram: 126307 kbytes
+> 
+>   41.76%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>   14.68%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    9.53%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    5.72%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    3.89%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.50%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    2.45%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    1.87%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    1.28%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+>    1.03%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    0.95%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    0.95%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    0.68%  live_migration   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.67%  live_migration   qemu-system-x86_64       [.] kvm_log_clear
+>    0.56%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+>    0.51%  live_migration   qemu-system-x86_64       [.] qemu_put_byte
+>    0.43%  live_migration   [kernel.kallsyms]        [k] copy_page
+>    0.38%  live_migration   qemu-system-x86_64       [.] get_ptr_rcu_reader
+>    0.36%  live_migration   qemu-system-x86_64       [.] save_page_header
+>    0.33%  live_migration   [kernel.kallsyms]        [k] __memcg_kmem_charge_page
+>    0.33%  live_migration   qemu-system-x86_64       [.] runstate_is_running
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 1359 ms
+> downtime: 48 ms
+> setup: 35 ms
+> transferred ram: 603701 kbytes
+> throughput: 3737.66 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 4053362 pages
+> skipped: 0 pages
+> normal: 141517 pages
+> normal bytes: 566068 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 568076 kbytes
+> pages-per-second: 2039403
+> precopy ram: 35624 kbytes
+> downtime ram: 1 kbytes
+> 
+>   36.03%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    9.32%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    5.18%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    4.15%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.60%  live_migration   [kernel.kallsyms]        [k] copy_page
+>    2.30%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    2.24%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    1.96%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    1.30%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+>    1.12%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.00%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.94%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    0.93%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    0.91%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.88%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    0.88%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    0.81%  live_migration   qemu-system-x86_64       [.] kvm_log_clear
+>    0.81%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.79%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.75%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.72%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+>    0.70%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.70%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+>    0.70%  qemu-system-x86  [kernel.kallsyms]        [k] perf_event_alloc
+>    0.69%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.68%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.67%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.66%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.64%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.63%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.63%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.60%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.53%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.47%  live_migration   qemu-system-x86_64       [.] qemu_put_byte
+> 
+> zero page
+> 
+> Migration status: completed
+> total time: 866 ms
+> downtime: 167 ms
+> setup: 42 ms
+> transferred ram: 14627983 kbytes
+> throughput: 145431.53 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 4024050 pages
+> skipped: 0 pages
+> normal: 143374 pages
+> normal bytes: 573496 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 14627983 kbytes
+> pages-per-second: 4786693
+> precopy ram: 11033626 kbytes
+> downtime ram: 3594356 kbytes
+> 
+>    6.84%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    4.06%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    3.46%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.39%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    1.59%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.50%  multifdsend_3    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.48%  multifdsend_10   qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.32%  multifdsend_12   qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.29%  multifdsend_1    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.25%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    1.24%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.20%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.20%  multifdsend_13   qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.18%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    1.16%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.13%  live_migration   qemu-system-x86_64       [.] multifd_queue_page
+>    1.08%  multifdsend_0    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.06%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.94%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.92%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.91%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.90%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+> 
+> 16GB guest
+> 
+> dirty
+> 
+> precopy
+> 
+> Migration status: completed
+> total time: 16222 ms
+> downtime: 220 ms
+> setup: 18 ms
+> transferred ram: 15927448 kbytes
+> throughput: 8052.38 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 222804 pages
+> skipped: 0 pages
+> normal: 3973611 pages
+> normal bytes: 15894444 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 0 kbytes
+> pages-per-second: 241728
+> precopy ram: 15670253 kbytes
+> downtime ram: 257194 kbytes
+> 
+>   38.22%  live_migration   [kernel.kallsyms]        [k] copy_page
+>   38.04%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.55%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    2.45%  live_migration   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    1.43%  live_migration   [kernel.kallsyms]        [k] free_pcp_prepare
+>    1.01%  live_migration   [kernel.kallsyms]        [k] _copy_from_iter
+>    0.79%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    0.79%  live_migration   [kernel.kallsyms]        [k] __list_del_entry_valid
+>    0.68%  live_migration   [kernel.kallsyms]        [k] check_new_pages
+>    0.64%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    0.49%  live_migration   [kernel.kallsyms]        [k] skb_release_data
+>    0.39%  live_migration   [kernel.kallsyms]        [k] __skb_clone
+>    0.36%  live_migration   [kernel.kallsyms]        [k] total_mapcount
+>    0.34%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    0.32%  live_migration   [kernel.kallsyms]        [k] __dev_queue_xmit
+>    0.29%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    0.29%  live_migration   [kernel.kallsyms]        [k] __alloc_skb
+>    0.27%  live_migration   [kernel.kallsyms]        [k] __ip_queue_xmit
+>    0.26%  live_migration   [kernel.kallsyms]        [k] copy_user_generic_unrolled
+>    0.26%  live_migration   [kernel.kallsyms]        [k] __tcp_transmit_skb
+>    0.24%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    0.24%  live_migration   [kernel.kallsyms]        [k] skb_page_frag_refill
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 2092 ms
+> downtime: 371 ms
+> setup: 39 ms
+> transferred ram: 15929157 kbytes
+> throughput: 63562.98 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 224436 pages
+> skipped: 0 pages
+> normal: 3971430 pages
+> normal bytes: 15885720 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 15927184 kbytes
+> pages-per-second: 2441771
+> precopy ram: 1798 kbytes
+> downtime ram: 174 kbytes
+> 
+>   5.23%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    4.93%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.92%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.84%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.56%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.55%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.53%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.48%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.43%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.43%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.33%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.21%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.19%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.13%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.01%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.86%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.83%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.90%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    0.70%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    0.69%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    0.62%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+>    0.37%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    0.29%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    0.27%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+> 
+> zero page
+> 
+> Migration status: completed
+> total time: 1870 ms
+> downtime: 258 ms
+> setup: 36 ms
+> transferred ram: 16998097 kbytes
+> throughput: 75927.79 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 222485 pages
+> skipped: 0 pages
+> normal: 3915115 pages
+> normal bytes: 15660460 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 16998097 kbytes
+> pages-per-second: 2555169
+> precopy ram: 13929973 kbytes
+> downtime ram: 3068124 kbytes
+> 
+>    4.66%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.60%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.49%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.39%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.36%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.21%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.20%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.18%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.17%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.07%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.97%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.96%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.89%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.73%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.68%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.44%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.52%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    2.09%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+>    1.03%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    0.97%  multifdsend_3    [kernel.kallsyms]        [k] copy_page
+>    0.94%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+>    0.79%  live_migration   qemu-system-x86_64       [.] qemu_mutex_lock_impl
+>    0.73%  multifdsend_11   [kernel.kallsyms]        [k] copy_page
+>    0.70%  live_migration   qemu-system-x86_64       [.] qemu_mutex_unlock_impl
+>    0.45%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    0.41%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+> 
+> 16GB guest
+> 
+> stress --vm 4 --vm-bytes 1G --vm-keep
+> 
+> precopy
+> 
+> Don't converge
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 31800 ms
+> downtime: 308 ms
+> setup: 40 ms
+> transferred ram: 295540640 kbytes
+> throughput: 76230.23 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 3006674 pages
+> skipped: 0 pages
+> normal: 73686367 pages
+> normal bytes: 294745468 kbytes
+> dirty sync count: 187
+> page size: 4 kbytes
+> multifd bytes: 295514209 kbytes
+> pages-per-second: 2118000
+> precopy ram: 26430 kbytes
+> 
+>   7.79%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    3.86%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.83%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.79%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.72%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.46%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.44%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.38%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.32%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.31%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.22%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.21%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.19%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.07%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.95%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.95%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.77%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.78%  live_migration   [kernel.kallsyms]        [k] kvm_set_pfn_dirty
+>    1.65%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    0.68%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    0.62%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    0.46%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    0.41%  live_migration   [kernel.kallsyms]        [k] __handle_changed_spte
+>    0.40%  live_migration   [kernel.kallsyms]        [k] pfn_valid.part.0
+>    0.37%  live_migration   qemu-system-x86_64       [.] kvm_log_clear
+>    0.29%  CPU 2/KVM        [kernel.kallsyms]        [k] copy_page
+>    0.27%  live_migration   [kernel.kallsyms]        [k] clear_dirty_pt_masked
+>    0.27%  CPU 1/KVM        [kernel.kallsyms]        [k] copy_page
+>    0.26%  live_migration   [kernel.kallsyms]        [k] tdp_iter_next
+>    0.25%  CPU 1/KVM        [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.24%  CPU 1/KVM        [kernel.kallsyms]        [k] mark_page_dirty_in_slot.part.0
+>    0.24%  CPU 2/KVM        [kernel.kallsyms]        [k] mark_page_dirty_in_slot.part.0
+> 
+> Zero page
+> 
+> Migration status: completed
+> total time: 1604 ms
+> downtime: 371 ms
+> setup: 32 ms
+> transferred ram: 20591268 kbytes
+> throughput: 107307.14 mbps
+> remaining ram: 0 kbytes
+> total ram: 16777992 kbytes
+> duplicate: 2984825 pages
+> skipped: 0 pages
+> normal: 2213496 pages
+> normal bytes: 8853984 kbytes
+> dirty sync count: 4
+> page size: 4 kbytes
+> multifd bytes: 20591268 kbytes
+> pages-per-second: 4659200
+> precopy ram: 15722803 kbytes
+> downtime ram: 4868465 kbytes
+> 
+>    3.21%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.92%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.86%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.81%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.80%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.79%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.78%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.73%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.73%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.69%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.62%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.60%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.59%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.58%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.55%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.38%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.44%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+>    1.41%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    1.37%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    0.80%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    0.78%  CPU 4/KVM        [kernel.kallsyms]        [k] _raw_read_lock
+>    0.78%  CPU 2/KVM        [kernel.kallsyms]        [k] _raw_read_lock
+>    0.77%  CPU 4/KVM        [kernel.kallsyms]        [k] tdp_mmu_map_handle_target_level
+>    0.77%  CPU 2/KVM        [kernel.kallsyms]        [k] tdp_mmu_map_handle_target_level
+>    0.76%  CPU 5/KVM        [kernel.kallsyms]        [k] tdp_mmu_map_handle_target_level
+>    0.75%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+>    0.74%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    0.73%  CPU 5/KVM        [kernel.kallsyms]        [k] _raw_read_lock
+>    0.67%  CPU 0/KVM        [kernel.kallsyms]        [k] copy_page
+>    0.62%  CPU 0/KVM        [kernel.kallsyms]        [k] tdp_mmu_map_handle_target_level
+>    0.62%  live_migration   qemu-system-x86_64       [.] qemu_mutex_lock_impl
+>    0.61%  CPU 0/KVM        [kernel.kallsyms]        [k] _raw_read_lock
+>    0.60%  CPU 2/KVM        [kernel.kallsyms]        [k] mark_page_dirty_in_slot.part.0
+>    0.58%  CPU 5/KVM        [kernel.kallsyms]        [k] mark_page_dirty_in_slot.part.0
+>    0.54%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    0.53%  CPU 4/KVM        [kernel.kallsyms]        [k] mark_page_dirty_in_slot.part.0
+>    0.52%  CPU 0/KVM        [kernel.kallsyms]        [k] mark_page_dirty_in_slot.part.0
+>    0.49%  live_migration   [kernel.kallsyms]        [k] kvm_set_pfn_dirty
+> 
+> 1TB guest
+> 
+> precopy
+> 
+> Migration status: completed
+> total time: 83147 ms
+> downtime: 381 ms
+> setup: 265 ms
+> transferred ram: 19565544 kbytes
+> throughput: 1933.88 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 264135334 pages
+> skipped: 0 pages
+> normal: 4302604 pages
+> normal bytes: 17210416 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 0 kbytes
+> pages-per-second: 412882
+> precopy ram: 19085615 kbytes
+> downtime ram: 479929 kbytes
+> 
+>   43.50%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>   11.27%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    8.33%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    7.47%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    4.41%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    3.42%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    3.06%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    2.62%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    1.78%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+>    1.43%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    1.13%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    1.12%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    0.70%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+>    0.51%  live_migration   qemu-system-x86_64       [.] qemu_put_byte
+>    0.49%  live_migration   qemu-system-x86_64       [.] save_page_header
+>    0.48%  live_migration   qemu-system-x86_64       [.] qemu_put_be64
+>    0.40%  live_migration   qemu-system-x86_64       [.] migrate_postcopy_ram
+>    0.40%  live_migration   qemu-system-x86_64       [.] runstate_is_running
+>    0.35%  live_migration   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.32%  live_migration   qemu-system-x86_64       [.] get_ptr_rcu_reader
+>    0.30%  live_migration   qemu-system-x86_64       [.] qemu_file_rate_limit
+>    0.30%  live_migration   qemu-system-x86_64       [.] migrate_use_xbzrle
+>    0.27%  live_migration   [kernel.kallsyms]        [k] __memcg_kmem_charge_page
+>    0.26%  live_migration   qemu-system-x86_64       [.] migrate_use_compression
+>    0.25%  live_migration   qemu-system-x86_64       [.] kvm_log_clear
+>    0.25%  live_migration   qemu-system-x86_64       [.] qemu_file_get_error
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 72075 ms
+> downtime: 345 ms
+> setup: 287 ms
+> transferred ram: 19601046 kbytes
+> throughput: 2236.79 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 264134669 pages
+> normal: 4301611 pages
+> normal bytes: 17206444 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 17279539 kbytes
+> pages-per-second: 2458584
+> precopy ram: 2321505 kbytes
+> downtime ram: 1 kbytes
+> (qemu)
+> 
+>  39.09%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>   10.85%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    6.92%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    4.41%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.87%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    2.63%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    2.54%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    1.70%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+>    1.31%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    1.11%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    1.05%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    0.80%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.79%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.78%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.78%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.76%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.75%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.75%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.73%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.73%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.72%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.72%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.71%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.71%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.69%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.66%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.65%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.63%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+>    0.53%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.48%  live_migration   qemu-system-x86_64       [.] qemu_put_byte
+>    0.44%  live_migration   qemu-system-x86_64       [.] save_page_header
+>    0.44%  live_migration   qemu-system-x86_64       [.] qemu_put_be64
+>    0.39%  live_migration   qemu-system-x86_64       [.] migrate_postcopy_ram
+>    0.36%  live_migration   qemu-system-x86_64       [.] runstate_is_running
+>    0.33%  live_migration   qemu-system-x86_64       [.] get_ptr_rcu_reader
+>    0.28%  live_migration   [kernel.kallsyms]        [k] __memcg_kmem_charge_page
+>    0.27%  live_migration   qemu-system-x86_64       [.] migrate_use_compression
+>    0.26%  live_migration   qemu-system-x86_64       [.] qemu_file_rate_limit
+>    0.26%  live_migration   qemu-system-x86_64       [.] migrate_use_xbzrle
+>    0.24%  live_migration   qemu-system-x86_64       [.] qemu_file_get_error
+>    0.21%  live_migration   qemu-system-x86_64       [.] kvm_log_clear
+>    0.21%  live_migration   qemu-system-x86_64       [.] ram_transferred_add
+>    0.20%  live_migration   [kernel.kallsyms]        [k] try_charge_memcg
+>    0.19%  live_migration   qemu-system-x86_64       [.] ram_control_save_page
+>    0.18%  live_migration   qemu-system-x86_64       [.] buffer_is_zero
+>    0.18%  live_migration   qemu-system-x86_64       [.] cpu_physical_memory_set_dirty_lebitmap
+>    0.12%  live_migration   qemu-system-x86_64       [.] qemu_ram_pagesize
+>    0.11%  live_migration   [kernel.kallsyms]        [k] sync_regs
+>    0.11%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    0.11%  live_migration   [kernel.kallsyms]        [k] clear_page_erms
+>    0.11%  live_migration   [kernel.kallsyms]        [k] kernel_init_free_pages.part.0
+>    0.11%  live_migration   qemu-system-x86_64       [.] migrate_background_snapshot
+>    0.10%  live_migration   qemu-system-x86_64       [.] migrate_release_ram
+>    0.10%  live_migration   [kernel.kallsyms]        [k] pte_alloc_one
+>    0.10%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+>    0.10%  live_migration   [kernel.kallsyms]        [k] native_irq_return_iret
+>    0.08%  live_migration   [kernel.kallsyms]        [k] kvm_clear_dirty_log_protect
+>    0.07%  qemu-system-x86  [kernel.kallsyms]        [k] free_pcp_prepare
+>    0.06%  qemu-system-x86  [kernel.kallsyms]        [k] __free_pages
+>    0.06%  live_migration   [kernel.kallsyms]        [k] tdp_iter_next
+>    0.05%  live_migration   qemu-system-x86_64       [.] cpu_physical_memory_sync_dirty_bitmap.con
+>    0.05%  live_migration   [kernel.kallsyms]        [k] __list_del_entry_valid
+>    0.05%  live_migration   [kernel.kallsyms]        [k] _raw_spin_lock_irqsave
+>    0.05%  multifdsend_2    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.05%  multifdsend_11   [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.05%  live_migration   [vdso]                   [.] 0x00000000000006f5
+>    0.05%  multifdsend_15   [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_1    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_13   [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_4    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_8    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+>    0.04%  multifdsend_0    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_9    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_14   [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  live_migration   [kernel.kallsyms]        [k] kvm_arch_mmu_enable_log_dirty_pt_masked
+>    0.04%  live_migration   [kernel.kallsyms]        [k] obj_cgroup_charge_pages
+>    0.04%  multifdsend_7    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_12   [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_5    [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  multifdsend_10   [kernel.kallsyms]        [k] native_queued_spin_lock_slowpath.part.0
+>    0.04%  live_migration   [kernel.kallsyms]        [k] _raw_spin_lock
+>    0.04%  live_migration   qemu-system-x86_64       [.] qemu_mutex_unlock_impl
+> 
+> 1TB idle, zero page
+> 
+> Migration status: completed
+> total time: 52966 ms
+> downtime: 409 ms
+> setup: 273 ms
+> transferred ram: 879229325 kbytes
+> throughput: 136690.83 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 262093359 pages
+> skipped: 0 pages
+> normal: 4266123 pages
+> normal bytes: 17064492 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 879229317 kbytes
+> pages-per-second: 4024470
+> precopy ram: 874888589 kbytes
+> downtime ram: 4340735 kbytes
+> 
+>   14.42%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0          ◆
+>    2.97%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common                  ▒
+>    2.56%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable                  ▒
+>    2.50%  live_migration   qemu-system-x86_64       [.] multifd_queue_page                      ▒
+>    2.30%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic            ▒
+>    1.17%  live_migration   qemu-system-x86_64       [.] find_next_bit                           ▒
+>    1.12%  multifdsend_14   qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.09%  live_migration   qemu-system-x86_64       [.] multifd_send_pages                      ▒
+>    1.08%  multifdsend_15   qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.07%  multifdsend_11   qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.03%  multifdsend_1    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.03%  multifdsend_0    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.03%  multifdsend_7    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.03%  multifdsend_4    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.02%  multifdsend_2    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.02%  multifdsend_10   qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.02%  multifdsend_9    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.02%  multifdsend_8    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.01%  multifdsend_6    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    1.00%  multifdsend_5    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    0.99%  live_migration   libc.so.6                [.] __pthread_mutex_lock                    ▒
+>    0.98%  multifdsend_13   qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    0.98%  multifdsend_3    qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    0.93%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared                   ▒
+>    0.93%  multifdsend_12   qemu-system-x86_64       [.] buffer_zero_avx512                      ▒
+>    0.89%  live_migration   [kernel.kallsyms]        [k] futex_wake                              ▒
+>    0.83%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt          ▒
+>    0.70%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string          ▒
+>    0.69%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+> 
+> 1TB: stress  stress --vm 4 --vm-bytes 512M
+> 
+> Wait until load in guest reach 3 before doing the migration
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 79912 ms
+> downtime: 345 ms
+> setup: 300 ms
+> transferred ram: 23723877 kbytes
+> throughput: 2441.21 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 263616778 pages
+> normal: 5330059 pages
+> normal bytes: 21320236 kbytes
+> dirty sync count: 4
+> page size: 4 kbytes
+> multifd bytes: 21406921 kbytes
+> pages-per-second: 2301580
+> precopy ram: 2316947 kbytes
+> downtime ram: 9 kbytes
+> 
+>   38.87%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    9.14%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    5.84%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    3.80%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.41%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    2.14%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    2.10%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    1.44%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+>    1.17%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    0.95%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    0.91%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.89%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    0.88%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.87%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.84%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.84%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.80%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.79%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.79%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.78%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.78%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.78%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.77%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.76%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.75%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.74%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.70%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.66%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.58%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+>    0.45%  live_migration   qemu-system-x86_64       [.] kvm_log_clear
+> 
+> zero page
+> 
+> Migration status: completed
+> total time: 58953 ms
+> downtime: 373 ms
+> setup: 348 ms
+> transferred ram: 972143021 kbytes
+> throughput: 135889.41 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 261357013 pages
+> skipped: 0 pages
+> normal: 5293916 pages
+> normal bytes: 21175664 kbytes
+> dirty sync count: 4
+> page size: 4 kbytes
+> multifd bytes: 972143012 kbytes
+> pages-per-second: 3699692
+> precopy ram: 968625243 kbytes
+> downtime ram: 3517778 kbytes
+> 
+>  12.91%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    2.85%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.16%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    2.05%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    1.17%  live_migration   qemu-system-x86_64       [.] multifd_queue_page
+>    1.13%  multifdsend_4    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.12%  multifdsend_1    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.08%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    1.07%  multifdsend_14   qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.07%  multifdsend_15   qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.06%  multifdsend_2    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.06%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    1.06%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+>    1.04%  multifdsend_9    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.04%  multifdsend_0    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.04%  multifdsend_3    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.03%  multifdsend_11   qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.01%  multifdsend_5    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.99%  multifdsend_7    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.98%  multifdsend_6    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.98%  multifdsend_8    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.95%  multifdsend_13   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.94%  multifdsend_12   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.92%  multifdsend_10   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.89%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    0.85%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.84%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.84%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.81%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+> 
+> 1TB: stress  stress --vm 4 --vm-bytes 1024M
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 79302 ms
+> downtime: 315 ms
+> setup: 307 ms
+> transferred ram: 30307307 kbytes
+> throughput: 3142.99 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 263089198 pages
+> skipped: 0 pages
+> normal: 6972933 pages
+> normal bytes: 27891732 kbytes
+> dirty sync count: 7
+> page size: 4 kbytes
+> multifd bytes: 27994987 kbytes
+> pages-per-second: 1875902
+> precopy ram: 2312314 kbytes
+> downtime ram: 4 kbytes
+> 
+>   35.46%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    9.27%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    6.02%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    3.68%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.64%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    2.51%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    2.31%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    1.46%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+>    1.23%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    1.05%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.03%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.01%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.01%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.01%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.00%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.99%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.99%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.99%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.96%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    0.95%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.93%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.91%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    0.90%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.87%  live_migration   qemu-system-x86_64       [.] kvm_log_clear
+>    0.87%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.82%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.82%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.65%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.58%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+>    0.47%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+> 
+> zero_page
+> 
+> 900GB dirty + idle
+> 
+> mig_mon mm_dirty -m 10000 -p once
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 104587 ms
+> downtime: 381 ms
+> setup: 311 ms
+> transferred ram: 943318066 kbytes
+> throughput: 74107.80 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 33298094 pages
+> skipped: 0 pages
+> normal: 235142522 pages
+> normal bytes: 940570088 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 943025391 kbytes
+> pages-per-second: 3331126
+> precopy ram: 292673 kbytes
+> downtime ram: 1 kbytes
+> 
+>   7.71%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    4.55%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.48%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.36%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.36%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.31%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.29%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.27%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.23%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.17%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.06%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.94%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.89%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.59%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.25%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.12%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    2.72%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.54%  live_migration   [kernel.kallsyms]        [k] copy_page
+>    1.39%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    0.86%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    0.50%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    0.49%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    0.26%  multifdsend_7    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.25%  multifdsend_4    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.25%  multifdsend_10   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.25%  multifdsend_9    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.25%  multifdsend_15   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.24%  multifdsend_12   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.23%  multifdsend_5    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.23%  multifdsend_0    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.23%  multifdsend_3    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.21%  multifdsend_14   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.18%  live_migration   qemu-system-x86_64       [.] find_next_bit
+> 
+> Migration status: completed
+> total time: 75601 ms
+> downtime: 427 ms
+> setup: 269 ms
+> transferred ram: 1083999214 kbytes
+> throughput: 117879.85 mbps
+> remaining ram: 0 kbytes
+> total ram: 1073742600 kbytes
+> duplicate: 32991750 pages
+> skipped: 0 pages
+> normal: 232638485 pages
+> normal bytes: 930553940 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 1083999202 kbytes
+> pages-per-second: 3669333
+> precopy ram: 1080197079 kbytes
+> downtime ram: 3802134 kbytes
+> 
+>    4.41%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.38%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.37%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.32%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.29%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.29%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.28%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.27%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.16%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.09%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.07%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.07%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.07%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.07%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.07%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.07%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.59%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    1.59%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    1.39%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+>    0.80%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+>    0.65%  multifdsend_14   [kernel.kallsyms]        [k] copy_page
+>    0.63%  multifdsend_1    [kernel.kallsyms]        [k] copy_page
+>    0.58%  live_migration   qemu-system-x86_64       [.] qemu_mutex_lock_impl
+>    0.48%  live_migration   qemu-system-x86_64       [.] qemu_mutex_unlock_impl
+>    0.40%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    0.29%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    0.26%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+> 
+> 4TB idle
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 317054 ms
+> downtime: 552 ms
+> setup: 1045 ms
+> transferred ram: 77208692 kbytes
+> throughput: 2001.52 mbps
+> remaining ram: 0 kbytes
+> total ram: 4294968072 kbytes
+> duplicate: 1056844269 pages
+> skipped: 0 pages
+> normal: 16904683 pages
+> normal bytes: 67618732 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 67919974 kbytes
+> pages-per-second: 3477766
+> precopy ram: 9288715 kbytes
+> downtime ram: 2 kbytes
+> 
+>  44.27%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>   10.21%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    6.58%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+>    4.25%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.70%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+>    2.43%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    2.34%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    1.59%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+>    1.30%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    1.08%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    0.98%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    0.78%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.74%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.70%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.68%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.67%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.66%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.66%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.64%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.62%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.61%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+>    0.56%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.55%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.54%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.52%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.52%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.52%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.51%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.49%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.45%  live_migration   qemu-system-x86_64       [.] qemu_put_byte
+>    0.42%  live_migration   qemu-system-x86_64       [.] save_page_header
+>    0.41%  live_migration   qemu-system-x86_64       [.] qemu_put_be64
+>    0.35%  live_migration   qemu-system-x86_64       [.] migrate_postcopy_ram
+> 
+> zero_page
+> 
+> Migration status: completed
+> total time: 215567 ms
+> downtime: 500 ms
+> setup: 1040 ms
+> transferred ram: 3587151463 kbytes
+> throughput: 136980.19 mbps
+> remaining ram: 0 kbytes
+> total ram: 4294968072 kbytes
+> duplicate: 1048466740 pages
+> skipped: 0 pages
+> normal: 16747893 pages
+> normal bytes: 66991572 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 3587151430 kbytes
+> pages-per-second: 4104960
+> precopy ram: 3583004863 kbytes
+> downtime ram: 4146599 kbytes
+> 
+>  15.49%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    3.20%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    2.67%  live_migration   qemu-system-x86_64       [.] multifd_queue_page
+>    2.33%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    2.19%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    1.19%  live_migration   qemu-system-x86_64       [.] find_next_bit
+>    1.18%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+>    1.14%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+>    1.02%  multifdsend_10   qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.01%  multifdsend_9    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.01%  multifdsend_8    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.00%  multifdsend_5    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.00%  multifdsend_3    qemu-system-x86_64       [.] buffer_zero_avx512
+>    1.00%  multifdsend_15   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.99%  multifdsend_2    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.99%  multifdsend_6    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.99%  multifdsend_14   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.99%  multifdsend_0    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.98%  multifdsend_13   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.97%  multifdsend_1    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.97%  multifdsend_7    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.96%  live_migration   [kernel.kallsyms]        [k] futex_wake
+>    0.96%  multifdsend_11   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.93%  multifdsend_4    qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.88%  multifdsend_12   qemu-system-x86_64       [.] buffer_zero_avx512
+>    0.81%  live_migration   [kernel.kallsyms]        [k] send_call_function_single_ipi
+>    0.71%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+>    0.63%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+> 
+> 4TB dirty + idle
+> 
+>     mig_mon mm_dirty -m 3900000 -p once
+> 
+> upstream
+> 
+> Migration status: completed
+> total time: 357581 ms
+> downtime: 553 ms
+> setup: 1295 ms
+> transferred ram: 4080035248 kbytes
+> throughput: 93811.30 mbps
+> remaining ram: 0 kbytes
+> total ram: 4294968072 kbytes
+> duplicate: 56507728 pages
+> skipped: 0 pages
+> normal: 1017239053 pages
+> normal bytes: 4068956212 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 4079538545 kbytes
+> pages-per-second: 3610116
+> precopy ram: 496701 kbytes
+> downtime ram: 2 kbytes
+> 
+>    5.07%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+>    4.99%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.99%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.97%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.96%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.95%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.91%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.65%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.56%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.33%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.16%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.83%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.79%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.75%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.73%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.58%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    0.95%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    0.88%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+>    0.36%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+>    0.32%  multifdsend_4    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.30%  multifdsend_5    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.30%  multifdsend_2    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.30%  multifdsend_0    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.30%  multifdsend_9    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.30%  multifdsend_7    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.30%  multifdsend_10   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.26%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+>    0.22%  multifdsend_8    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.22%  multifdsend_11   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.19%  multifdsend_13   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.19%  multifdsend_3    [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.17%  multifdsend_12   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.15%  multifdsend_14   [kernel.kallsyms]        [k] tcp_sendmsg_locked
+>    0.14%  multifdsend_10   [kernel.kallsyms]        [k] _copy_from_iter
+> 
+> zero_page
+> 
+> Migration status: completed
+> total time: 317428 ms
+> downtime: 744 ms
+> setup: 1192 ms
+> transferred ram: 4340691359 kbytes
+> throughput: 112444.34 mbps
+> remaining ram: 0 kbytes
+> total ram: 4294968072 kbytes
+> duplicate: 55993692 pages
+> normal: 1005801180 pages
+> normal bytes: 4023204720 kbytes
+> dirty sync count: 3
+> page size: 4 kbytes
+> multifd bytes: 4340691312 kbytes
+> pages-per-second: 3417846
+> precopy ram: 4336921795 kbytes
+> downtime ram: 3769564 kbytes
+> 
+>   4.38%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.38%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.37%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.34%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.29%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.28%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.27%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.26%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.23%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.18%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    4.18%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.90%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.86%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.84%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.73%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    3.73%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+>    1.59%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+>    1.45%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
+>    1.28%  live_migration   libc.so.6                [.] __pthread_mutex_lock
+>    1.02%  multifdsend_8    [kernel.kallsyms]        [k] copy_page
+>    0.96%  multifdsend_15   [kernel.kallsyms]        [k] copy_page
+>    0.83%  multifdsend_14   [kernel.kallsyms]        [k] copy_page
+>    0.81%  multifdsend_7    [kernel.kallsyms]        [k] copy_page
+>    0.75%  multifdsend_0    [kernel.kallsyms]        [k] copy_page
+>    0.69%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
+>    0.48%  live_migration   qemu-system-x86_64       [.] qemu_mutex_unlock_impl
+>    0.48%  live_migration   qemu-system-x86_64       [.] qemu_mutex_lock_impl
+> 
+> [v5]
+> 
+> In this version:
+> - Rebase to latest
+> - Address all comments
+> - statistics about zero pages are right now (or at least much better than before)
+> - changed how we calculate the amount of transferred ram
+> - numbers, who don't like numbers.
+> 
+> Everything has been checked with a guest launched like the following
+> command.  Migration is running through localhost.  Will send numbers
+> with real hardware as soon as I get access to the machines that have
+> it (I checked with previous versions already, but not this one).
+> 
+> [removed example]
+> 
+> Please review, Juan.
+> 
+> [v4]
+> In this version
+> - Rebase to latest
+> - Address all comments from previous versions
+> - code cleanup
+> 
+> Please review.
+> 
+> [v2]
+> This is a rebase against last master.
+> 
+> And the reason for resend is to configure properly git-publish and
+> hope this time that git-publish send all the patches.
+> 
+> Please, review.
+> 
+> [v1]
+> Since Friday version:
+> - More cleanups on the code
+> - Remove repeated calls to qemu_target_page_size()
+> - Establish normal pages and zero pages
+> - detect zero pages on the multifd threads
+> - send zero pages through the multifd channels.
+> - reviews by Richard addressed.
+> 
+> It pases migration-test, so it should be perfect O:+)
+> 
+> ToDo for next version:
+> - check the version changes
+>   I need that 6.2 is out to check for 7.0.
+>   This code don't exist at all due to that reason.
+> - Send measurements of the differences
+> 
+> Please, review.
+> 
+> [
+> 
+> Friday version that just created a single writev instead of
+> write+writev.
+> 
+> ]
+> 
+> Right now, multifd does a write() for the header and a writev() for
+> each group of pages.  Simplify it so we send the header as another
+> member of the IOV.
+> 
+> Once there, I got several simplifications:
+> * is_zero_range() was used only once, just use its body.
+> * same with is_zero_page().
+> * Be consintent and use offset insed the ramblock everywhere.
+> * Now that we have the offsets of the ramblock, we can drop the iov.
+> * Now that nothing uses iov's except NOCOMP method, move the iovs
+>   from pages to methods.
+> * Now we can use iov's with a single field for zlib/zstd.
+> * send_write() method is the same in all the implementaitons, so use
+>   it directly.
+> * Now, we can use a single writev() to write everything.
+> 
+> ToDo: Move zero page detection to the multifd thrteads.
+> 
+> With RAM in the Terabytes size, the detection of the zero page takes
+> too much time on the main thread.
+> 
+> Last patch on the series removes the detection of zero pages in the
+> main thread for multifd.  In the next series post, I will add how to
+> detect the zero pages and send them on multifd channels.
+> 
+> Please review.
+> 
+> Later, Juan.
+> 
+> Juan Quintela (13):
+>   multifd: Document the locking of MultiFD{Send/Recv}Params
+>   multifd: Create page_size fields into both MultiFD{Recv,Send}Params
+>   multifd: Create page_count fields into both MultiFD{Recv,Send}Params
+>   migration: Export ram_transferred_ram()
+>   multifd: Count the number of bytes sent correctly
+>   migration: Make ram_save_target_page() a pointer
+>   multifd: Make flags field thread local
+>   multifd: Prepare to send a packet without the mutex held
+>   multifd: Add property to enable/disable zero_page
+>   migration: Export ram_release_page()
+>   multifd: Support for zero pages transmission
+>   multifd: Zero pages transmission
+>   migration: Use multifd before we check for the zero page
+> 
+>  migration/migration.h    |   3 +
+>  migration/multifd.h      | 118 +++++++++++++++++++++++----------
+>  migration/ram.h          |   3 +
+>  hw/core/machine.c        |   4 +-
+>  migration/migration.c    |  11 +++
+>  migration/multifd-zlib.c |  12 ++--
+>  migration/multifd-zstd.c |  12 ++--
+>  migration/multifd.c      | 140 ++++++++++++++++++++++++++++-----------
+>  migration/ram.c          |  48 +++++++++++---
+>  migration/trace-events   |   8 +--
+>  10 files changed, 258 insertions(+), 101 deletions(-)
+> 
+> -- 
+> 2.35.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
