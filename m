@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D6D524D8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:52:09 +0200 (CEST)
-Received: from localhost ([::1]:44918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08365524D8F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:53:34 +0200 (CEST)
+Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np8IZ-0006yD-5o
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51916)
+	id 1np8Jx-00025J-5T
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1np8EL-0004ca-Nw
- for qemu-devel@nongnu.org; Thu, 12 May 2022 08:47:45 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:37465)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1np8Go-00071z-2V; Thu, 12 May 2022 08:50:20 -0400
+Received: from mail-yw1-f178.google.com ([209.85.128.178]:45325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1np8EJ-00082D-VC
- for qemu-devel@nongnu.org; Thu, 12 May 2022 08:47:45 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id x8so1074883pgr.4
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 05:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1r2ZFfV9cCwXX7DzuzlgvizjrxkKwyPtNrR4+vG2fsE=;
- b=AGVsrBCr257SyE4/SUpWePJMHurazZN/kwrz/vs5L+z0B9C7eHsf7zgaG4BDWK+A6k
- 1XtlKirYrQNi+yMxN7IbK8iUYjs+tUXW+/9uz4fZL7lwkb1CJVUH7qVw28Dtx5LWiCTk
- 0mG/7Ln8C6GbmciTG7WvDvTmvCaj23bw2s4MBSwur4WWQ72NZsXUNr2RVkO258f3MKsN
- 3GxMNpjMELPiZ0Xo3K3LA7DiVYtRYUUEHKiL/J52x0+Z6hg1wbF8oDicPbfgz8T/cbb9
- TAb3bpsGvgrAH0FSFJHm1ZxedLHAuXMb8LR2LBCIL2nfUG61rZQSrTXSkuBdbyFGLisT
- QHiw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1np8Gm-0000AB-8s; Thu, 12 May 2022 08:50:17 -0400
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-2f7bb893309so54763477b3.12; 
+ Thu, 12 May 2022 05:50:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1r2ZFfV9cCwXX7DzuzlgvizjrxkKwyPtNrR4+vG2fsE=;
- b=FyhR4wD+yQeig79wM66zBTNkYOpcNvowN9XQstRSAsbpbL9SqOF7COG6uW2uxBhqCP
- S8fV/G9DStS2aOhRK7kY/lYKX6P3MPiIuTvm3AB4dyj8R86oOGLA7T0gH7eb9BP1mOX5
- OZdCm3iISgYDCwWXvhstt/P/057lNkVlM8SipRuYhVdqLzWCrIWE7af+VUORtSgT8otu
- xzUE8phut321QjbhxA9Yugnns5nuW0gWqqapoaqs5V7IRuny7n5npzoVc+5FllOm1Xww
- zVhyn5+5uTwvjoO1oO09Mh9Edv/XJ89uiDJGjl/nM8M7wgaxXGM1MNI7l6HLaZGjERGU
- kW7g==
-X-Gm-Message-State: AOAM530X563ZyOMaZdkuxfQsPFS3tMX7ekhgTpvvq2nDnaxAIgXFuhCh
- w14OktF/KUR8+Enfur2X4PI=
-X-Google-Smtp-Source: ABdhPJwMQrtDe0ZfmYaY4E1xQHmf45bBgtM6ksUUlDfDI32NOqfaVR4GLC2/9z1SgRqABb9N1MCTdA==
-X-Received: by 2002:a63:6aca:0:b0:3ab:a56:126a with SMTP id
- f193-20020a636aca000000b003ab0a56126amr24937922pgc.576.1652359662056; 
- Thu, 12 May 2022 05:47:42 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- i7-20020a170902c94700b0015edcdea308sm3996624pla.233.2022.05.12.05.47.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 05:47:41 -0700 (PDT)
-Date: Thu, 12 May 2022 21:47:39 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Development <qemu-devel@nongnu.org>,
- "Jason A . Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH] target/openrisc: Do not reset delay slot flag on early
- tb exit
-Message-ID: <Yn0B6xk4Olu5uRxY@antec>
-References: <20220511120541.2242797-1-shorne@gmail.com>
- <cf7c27e9-3bc9-888e-dbba-25c0bb583e09@linaro.org>
- <YnwuFZsNjQLxOfp0@antec>
- <9c8c68d0-cb7c-4ec5-eac4-fd915934db5e@linaro.org>
- <Ynw6CymBBiqQgElu@antec>
- <9eb36cb4-e727-9c10-df6a-2dfe22943244@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tNZaIfsZFQiUsoybA2P7UuRHj00q7OMkgFr2e8S75ZA=;
+ b=O3pFwm89Lx395AwM2cgjuwLc1sKBLDp/w+wml46rPBTZdJAg/vVvL07lvitgk+rrfe
+ T65Wl4/WUZsFVIOahq3HaTsH1FC4CGFCfG9LBipQkp52N9hyYUHcADlT+VUYDRUCz6q0
+ FXL3plHByBFgviGRmRb4nyz1boiY01caXZf9RWb16dUz4Xc/Z2ndzkOU4iYtjjs/uEyu
+ 9HZ3tLM2Lcy1lCfJugxJrQirm9CbyUTeaBDhxSJ7mF/2e1UXeQtZQypo/m4uJqLbudTI
+ yr5pZQnhtLdnifzMjiEu220GDrx8VP5UI08AMlB/POzWLlb+BkJivXMSUpoeKl2lnL/3
+ x6Dw==
+X-Gm-Message-State: AOAM530dIPxjaqucI4fCJaHa7i2EtoduTacjjLe60DXFpMIX/N/lE1is
+ X9N+nbIu/S5CvbEoO1/6I1bcF1djbsShW+A7DrM=
+X-Google-Smtp-Source: ABdhPJzcxASBr3U/MSYZuBClq8yFQFNjymakliJMtv4gw8olgOmdxVo0o5g6Ne2r8VgU7t4gcMOaok8qWOcNUT4NWgg=
+X-Received: by 2002:a81:784a:0:b0:2f7:d9fd:396f with SMTP id
+ t71-20020a81784a000000b002f7d9fd396fmr31804970ywc.124.1652359813450; Thu, 12
+ May 2022 05:50:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9eb36cb4-e727-9c10-df6a-2dfe22943244@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=shorne@gmail.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220510151020.105528-1-kwolf@redhat.com>
+ <20220510151020.105528-3-kwolf@redhat.com>
+ <41c8f1d4-be27-4110-33c0-b53a701a9cb6@yahoo-corp.jp>
+In-Reply-To: <41c8f1d4-be27-4110-33c0-b53a701a9cb6@yahoo-corp.jp>
+Date: Thu, 12 May 2022 14:50:02 +0200
+Message-ID: <CAAdtpL7+g7tLHt5zbq7LGogXA4Qv+75Big4QupTwe=fUzHa+NA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] coroutine: Revert to constant batch size
+To: =?UTF-8?B?5oiQ5bedIOW8mOaouQ==?= <hnarukaw@yahoo-corp.jp>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-stable <qemu-stable@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.128.178;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-yw1-f178.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,31 +77,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On Wed, May 11, 2022 at 07:11:20PM -0700, Richard Henderson wrote:
-> On 5/11/22 15:34, Stafford Horne wrote:
-> > In this case I don't see how the tb->flag would be updated, ooh, I guess it
-> > would have been set earlier when the TB was generated.  Maybe that is what I am
-> > missing.
-> 
-> Correct, it should be unchanged (and correct) from generation.
+Hi Hiroki,
 
-OK, its very clear now thanks.
+On Thu, May 12, 2022 at 8:57 AM =E6=88=90=E5=B7=9D =E5=BC=98=E6=A8=B9 <hnar=
+ukaw@yahoo-corp.jp> wrote:
+>
+> Thank you for your fix.
+>
+> I confirmed that after applying this patch, my intended performance
+> improvement by 4c41c69e is still kept in our environment.
 
-With that said, I am still not convinced we need something like:
+Is that equivalent to a formal
+Tested-by: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
+tag?
 
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -37,6 +37,7 @@ static void openrisc_cpu_synchronize_from_tb(CPUState *cs,
-     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
- 
-     cpu->env.pc = tb->pc;
-+    cpu->env.dflag = (tb->flags & TB_FLAGS_DFLAG) ? 1 : 0;
- }
-
-
-I will leave it out for now as I feel comfortable that the env.dflag will be
-correct.  But if you think of something let me know.
-
--Stafford
+> On 2022/05/11 0:10, Kevin Wolf wrote:
+> > Commit 4c41c69e changed the way the coroutine pool is sized because for
+> > virtio-blk devices with a large queue size and heavy I/O, it was just
+> > too small and caused coroutines to be deleted and reallocated soon
+> > afterwards. The change made the size dynamic based on the number of
+> > queues and the queue size of virtio-blk devices.
+> >
+> > There are two important numbers here: Slightly simplified, when a
+> > coroutine terminates, it is generally stored in the global release pool
+> > up to a certain pool size, and if the pool is full, it is freed.
+> > Conversely, when allocating a new coroutine, the coroutines in the
+> > release pool are reused if the pool already has reached a certain
+> > minimum size (the batch size), otherwise we allocate new coroutines.
+> >
+> > The problem after commit 4c41c69e is that it not only increases the
+> > maximum pool size (which is the intended effect), but also the batch
+> > size for reusing coroutines (which is a bug). It means that in cases
+> > with many devices and/or a large queue size (which defaults to the
+> > number of vcpus for virtio-blk-pci), many thousand coroutines could be
+> > sitting in the release pool without being reused.
+> >
+> > This is not only a waste of memory and allocations, but it actually
+> > makes the QEMU process likely to hit the vm.max_map_count limit on Linu=
+x
+> > because each coroutine requires two mappings (its stack and the guard
+> > page for the stack), causing it to abort() in qemu_alloc_stack() becaus=
+e
+> > when the limit is hit, mprotect() starts to fail with ENOMEM.
+> >
+> > In order to fix the problem, change the batch size back to 64 to avoid
+> > uselessly accumulating coroutines in the release pool, but keep the
+> > dynamic maximum pool size so that coroutines aren't freed too early
+> > in heavy I/O scenarios.
+> >
+> > Note that this fix doesn't strictly make it impossible to hit the limit=
+,
+> > but this would only happen if most of the coroutines are actually in us=
+e
+> > at the same time, not just sitting in a pool. This is the same behaviou=
+r
+> > as we already had before commit 4c41c69e. Fully preventing this would
+> > require allowing qemu_coroutine_create() to return an error, but it
+> > doesn't seem to be a scenario that people hit in practice.
+> >
+> > Cc: qemu-stable@nongnu.org
+> > Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=3D2079938
+> > Fixes: 4c41c69e05fe28c0f95f8abd2ebf407e95a4f04b
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
 
