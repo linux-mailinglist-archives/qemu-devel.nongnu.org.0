@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4502525479
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 20:09:56 +0200 (CEST)
-Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501A652548D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 20:17:00 +0200 (CEST)
+Received: from localhost ([::1]:38650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npDG7-00018h-TZ
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 14:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36108)
+	id 1npDMx-0005uK-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 14:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZW-00051p-IM
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25548)
+ id 1npCZY-000531-1k
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZU-0005Eu-CM
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:53 -0400
+ id 1npCZW-0005F3-AT
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652376351;
+ s=mimecast20190719; t=1652376353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xnNLE6Yy1TVUzMOAfYa/ccsaPtJ4wDOoPyRxJTkHmk8=;
- b=DS0sLcBhADUWGukOem8d95ytYRfYeMXe4/FDPJnAAtFqBIX2VLiFu7ZVg0PiGGhUY0L0PQ
- VBi5nLrTCoosxCJwtfX9o6f+0c5k8bFIDC8qCCGUF14gSQMhtTXaYcV2CqB0nEuqSSvKi+
- wcdboA7ReWCrACkZhoiT1qX7JGmL4LM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RLiUgLlqQ+CAPpx3xtG4C86yzSNWMgqSbb0iyBnKLuA=;
+ b=iuqcmnyyGNfYNwH7ERrMPeJ2YoIegSJM7IvNdQWDO3AweEIfrykTQO7f7UPcTmrZA/+n3C
+ 3g12rj/1O15i/V9qvEsXKLuvZexCHUvSnTOBTdqnoz1RG1XtIe/OCD6uA4Pzxe/km9iP9v
+ miVb+u8VmC3Qk9X4rCAA9j8IACpyeng=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-lFsQ7pQJPd-n8siS2y8NrQ-1; Thu, 12 May 2022 13:25:50 -0400
-X-MC-Unique: lFsQ7pQJPd-n8siS2y8NrQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- i14-20020a17090639ce00b006dabe6a112fso3141852eje.13
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:50 -0700 (PDT)
+ us-mta-340-sNCQ6A3VOx6N5MY1HaOfIg-1; Thu, 12 May 2022 13:25:52 -0400
+X-MC-Unique: sNCQ6A3VOx6N5MY1HaOfIg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ dn26-20020a05640222fa00b00425e4b8efa9so3503262edb.1
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xnNLE6Yy1TVUzMOAfYa/ccsaPtJ4wDOoPyRxJTkHmk8=;
- b=rCQ7A05jfWJRHmxCgs5JZSjoi8iTHedeFhL8TZZWzNLl4leWMRg+erHA9yK1zb+RaW
- F8h6pV1evwMeohuEP1wK2axfFbaknqIm8S3cC/P9TUzyzrXoVoxcqM+VGoCEa07vUj1p
- ZQdCFYuDMgIf8r1vYUK/HwZb+TB1jt2XFDqlRPuPRgI7UYUev6347MZUkTiW8trZzM1v
- Q40oCXakViRKs2XCekBA9++gJoIGtUbQz1eLYOzOJhNutiF3IwDcKmcsePp1dF6IGGp/
- OhZJiaaSS5LDe9QuStCHII27kzni7VDWn5heuZ0XYq/KYODFZGEqQ7q+C+/F3wzTcIau
- 7kPg==
-X-Gm-Message-State: AOAM530oxxPd/rxjMt9RfynzrGZVhDlK9v7bzsXSvbn44xiunXkBVok2
- n0BNrNrH5YvmZnl02JLYdQ2gORUx55MF2ADOVtyZCaowLhMHtwOmXxU2GPW/8Bas5AfO5zAegpx
- WXCIjlhScrAu8uZYMQDRkzG5kE8ED8AEh3gO65XMvetuPiLl6sQQCNBa8yuJecou2aoc=
-X-Received: by 2002:a17:907:6e1d:b0:6f4:60e6:9fa6 with SMTP id
- sd29-20020a1709076e1d00b006f460e69fa6mr884744ejc.184.1652376349239; 
- Thu, 12 May 2022 10:25:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKNl+ToWI5gk6+PgmFUMNtVSBWxDW9CfQtd1EXYRVySmecB/Ryu/OUhJSAOT7LI/W14Zan8Q==
-X-Received: by 2002:a17:907:6e1d:b0:6f4:60e6:9fa6 with SMTP id
- sd29-20020a1709076e1d00b006f460e69fa6mr884725ejc.184.1652376348926; 
- Thu, 12 May 2022 10:25:48 -0700 (PDT)
+ bh=RLiUgLlqQ+CAPpx3xtG4C86yzSNWMgqSbb0iyBnKLuA=;
+ b=yCWXshqPGCYyC62s7AWb6U6YM9y3JVsIDPa0BISrpfcmGX5nOfPY7vV1eLpekhSIzC
+ /3tLT7HjiGnYDFIaC7q4vzqTGQWd7SRbWVo7rWEHiXOwhLg96Sxd+t9rOZxjSr2Y5QEv
+ zsxL8D53rYrW/0RhiN5tIyFFUdoXxuaWOVxGmYOyRvGHUuSgcyK2y88BMlazG0+NR7R+
+ beQQwlVs+iGV3ZtQCuCZ/+2vGkWzA/pdMkRyu83z0Wm0srspcTl7IxZs/g+bN6+h0L9l
+ XtQ3cUktgx/7w9uo+95/uK6juPERxnTf1N+qUsCYJTTtdK00YGJQH6NhSUrEA4OHUTzH
+ XOIw==
+X-Gm-Message-State: AOAM531AgpuMDw+hB6IU5tO3YoGEEM/XTjSKR3bVFlSFpKIejpFBjNHi
+ qnt0m448XbxGtHwpPQP7v2FTjFGQfNY5JnWTQyEsIKXoA2cB/GPiSJPJwIrvCaobSlS4iPhWQg2
+ OcdKKZezcxTekfMb8ucAYBQewj48YbJeizgghJss6qMGzVDBm/tjqu6iwaCRwd9PK4i8=
+X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id
+ f1-20020a056402194100b00413282209c8mr36015270edz.13.1652376350785; 
+ Thu, 12 May 2022 10:25:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSxY3ayjkzk7BGOa9rI8d4j3z58JO4d/NrOJzRkjoPy7DGI8I9oCRFi9AH2mRwCKtALHIcHw==
+X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id
+ f1-20020a056402194100b00413282209c8mr36015257edz.13.1652376350567; 
+ Thu, 12 May 2022 10:25:50 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- br23-20020a170906d15700b006f3ef214dd8sm2298832ejb.62.2022.05.12.10.25.47
+ h3-20020a170906828300b006f3ef214dc2sm2323327ejx.40.2022.05.12.10.25.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 10:25:48 -0700 (PDT)
+ Thu, 12 May 2022 10:25:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <malureau@redhat.com>
-Subject: [PULL 20/27] net: slirp: allow CFI with libslirp >= 4.7
-Date: Thu, 12 May 2022 19:24:58 +0200
-Message-Id: <20220512172505.1065394-21-pbonzini@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
+Subject: [PULL 21/27] coroutine-lock: qemu_co_queue_next is a coroutine-only
+ qemu_co_enter_next
+Date: Thu, 12 May 2022 19:24:59 +0200
+Message-Id: <20220512172505.1065394-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220512172505.1065394-1-pbonzini@redhat.com>
 References: <20220512172505.1065394-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,69 +100,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-slirp 4.7 introduces a new CFI-friendly timer callback that does
-not pass function pointers within libslirp as callbacks for timers.
-Check the version number and, if it is new enough, allow using CFI
-even with a system libslirp.
+qemu_co_queue_next is basically the same as qemu_co_enter_next but
+without a QemuLockable argument.  That's perfectly fine, but only
+as long as the function is marked coroutine_fn.  If used outside
+coroutine context, qemu_co_queue_wait will attempt to take the lock
+and that is just broken: if you are calling qemu_co_queue_next outside
+coroutine context, the lock is going to be a QemuMutex which cannot be
+taken twice by the same thread.
 
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Reviewed-by: Marc-André Lureau <malureau@redhat.com>
+The patch adds the marker and reimplements qemu_co_queue_next in terms of
+qemu_co_enter_next_impl, to remove duplicated code and to clarify that the
+latter also works in coroutine context.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20220427130830.150180-2-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ include/qemu/coroutine.h   |  7 ++++---
+ util/qemu-coroutine-lock.c | 21 +++++++--------------
+ 2 files changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index ea72ba7c2f..9b20dcd143 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2637,10 +2637,25 @@ if have_system
-   slirp_opt = get_option('slirp')
-   if slirp_opt in ['enabled', 'auto', 'system']
-     have_internal = fs.exists(meson.current_source_dir() / 'slirp/meson.build')
-+    slirp_dep_required = (slirp_opt == 'system' or
-+                          slirp_opt == 'enabled' and not have_internal)
-     slirp = dependency('slirp', kwargs: static_kwargs,
-                        method: 'pkg-config', version: '>=4.1.0',
--                       required: slirp_opt == 'system' or
--                                 slirp_opt == 'enabled' and not have_internal)
-+                       required: slirp_dep_required)
-+    # slirp <4.7 is incompatible with CFI support in QEMU.  This is because
-+    # it passes function pointers within libslirp as callbacks for timers.
-+    # When using a system-wide shared libslirp, the type information for the
-+    # callback is missing and the timer call produces a false positive with CFI.
-+    # Do not use the "version" keyword argument to produce a better error.
-+    # with control-flow integrity.
-+    if get_option('cfi') and slirp.found() and slirp.version().version_compare('<4.7')
-+      if slirp_dep_required
-+        error('Control-Flow Integrity requires libslirp 4.7.')
-+      else
-+        warning('Control-Flow Integrity requires libslirp 4.7, not using system-wide libslirp.')
-+        slirp = not_found
-+      endif
-+    endif
-     if slirp.found()
-       slirp_opt = 'system'
-     elif have_internal
-@@ -2713,18 +2728,6 @@ if have_system
-   endif
- endif
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 284571badb..c23d41e1ff 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -208,11 +208,12 @@ void qemu_co_queue_init(CoQueue *queue);
+ void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock);
  
--# For CFI, we need to compile slirp as a static library together with qemu.
--# This is because we register slirp functions as callbacks for QEMU Timers.
--# When using a system-wide shared libslirp, the type information for the
--# callback is missing and the timer call produces a false positive with CFI.
--#
--# Now that slirp_opt has been defined, check if the selected slirp is compatible
--# with control-flow integrity.
--if get_option('cfi') and slirp_opt == 'system'
--  error('Control-Flow Integrity is not compatible with system-wide slirp.' \
--         + ' Please configure with --enable-slirp=git')
--endif
+ /**
+- * Removes the next coroutine from the CoQueue, and wake it up.
++ * Removes the next coroutine from the CoQueue, and queue it to run after
++ * the currently-running coroutine yields.
+  * Returns true if a coroutine was removed, false if the queue is empty.
+- * OK to run from coroutine and non-coroutine context.
++ * Used from coroutine context, use qemu_co_enter_next outside.
+  */
+-bool qemu_co_queue_next(CoQueue *queue);
++bool coroutine_fn qemu_co_queue_next(CoQueue *queue);
+ 
+ /**
+  * Empties the CoQueue; all coroutines are woken up.
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 2669403839..5705cfea2e 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -67,7 +67,7 @@ void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock)
+     }
+ }
+ 
+-static bool qemu_co_queue_do_restart(CoQueue *queue, bool single)
++void qemu_co_queue_restart_all(CoQueue *queue)
+ {
+     Coroutine *next;
+ 
+@@ -78,23 +78,10 @@ static bool qemu_co_queue_do_restart(CoQueue *queue, bool single)
+     while ((next = QSIMPLEQ_FIRST(&queue->entries)) != NULL) {
+         QSIMPLEQ_REMOVE_HEAD(&queue->entries, co_queue_next);
+         aio_co_wake(next);
+-        if (single) {
+-            break;
+-        }
+     }
+     return true;
+ }
+ 
+-bool qemu_co_queue_next(CoQueue *queue)
+-{
+-    return qemu_co_queue_do_restart(queue, true);
+-}
 -
- fdt = not_found
- if have_system
-   fdt_opt = get_option('fdt')
+-void qemu_co_queue_restart_all(CoQueue *queue)
+-{
+-    qemu_co_queue_do_restart(queue, false);
+-}
+-
+ bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock)
+ {
+     Coroutine *next;
+@@ -115,6 +102,12 @@ bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock)
+     return true;
+ }
+ 
++bool coroutine_fn qemu_co_queue_next(CoQueue *queue)
++{
++    /* No unlock/lock needed in coroutine context.  */
++    return qemu_co_enter_next_impl(queue, NULL);
++}
++
+ bool qemu_co_queue_empty(CoQueue *queue)
+ {
+     return QSIMPLEQ_FIRST(&queue->entries) == NULL;
 -- 
 2.36.0
 
