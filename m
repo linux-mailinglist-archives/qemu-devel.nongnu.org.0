@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389FA52529C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:32:49 +0200 (CEST)
-Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DCE525288
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:28:46 +0200 (CEST)
+Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBk7-0002ga-Qi
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
+	id 1npBgD-0007hq-GE
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npBaI-0003vQ-16
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:22:38 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:44968)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npBau-0004YV-DN
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:23:16 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npBaG-000361-D9
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:22:37 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id e12so10655566ybc.11
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:22:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npBas-00038c-J3
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:23:16 -0400
+Received: by mail-pf1-x436.google.com with SMTP id x52so5231139pfu.11
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3ETZ0boNS6YCNeZnB1wEkA6zllZaVvQN6E85BZPqIKE=;
- b=eA7c4VPTHmdWR3d6Y+ZtnDFPkWSmGzkd5RvIThsfuqnkKOnmYHjfFiqJzpWWOm6IYB
- rmvrIix2CHBp9epVT2EC49a7AotTv4J/3tlvy1p/LTBi/GXwb3rT7uSXmES9zrU1LK9P
- v4J3lGAuBQYx8WjdoVePnZQW0V1IIrDvTN8tFIgwZzl6kjGF+++yFJMYXujOKljrowAX
- D4OEyWWzDFY9DTWqxZkr9OEUce7UZ5LdU0rKwDJtrRLG1XIiYRDjUUc/bFXghbG11I54
- /rmg1srPgHD9JEyfoDnq6FVy4r5ynSjVJOuZ3RbOW0HnQdNxAnH+IAr/hj5KLmd2dw+r
- 6hRA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=jbMajgACfEG4N2+wj8hWnvACNoW9EW4V2ysY0ay4WF8=;
+ b=lDInX2VhCYpVhAFEyMC0g+NlLSlenr33aAgKPAPeNYvxv3pFEzi2LuXkpLrQ5IuNBZ
+ FuUhe3vj9t8Gp2Ef+pyqJzaRN1SdMJnxZA38QDYpwUdB8+gUGrfq9UIRffJjW6k/uwBe
+ z8+szmtpknQTVC3i5g8MQOggwVNeI/thZDRuR/LGnpqE3WAZ3ggSBZ/jplOZXGWX1bWw
+ B+SeR3xHnzhm7p+m0E66chiimMFXuGs1fSSjeykKzi8AW3tx54r/LM+mJIKs8wOAPG/N
+ 99Xyv7aN6IhSoEEpFtpEWG23gJaoY2khx8l2t1AVoTmYH4QN5oqLHV5IybdRfFln1jf6
+ fcdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3ETZ0boNS6YCNeZnB1wEkA6zllZaVvQN6E85BZPqIKE=;
- b=biO47O5oOvwr7NQJkM4oHnFDwrhWeQWn89YrHcCra7kBx7RYRjwneatzzWCgNy34Sx
- oVUWOJdzFOI0ssdXQbh9Blg1zDFw/cfcYwBQGZnnPEVBfFlJY7DA5rEKbiy+jrJsDMzw
- 6/rE3s9oTLnGpMFHx28CrBv3i0Mn/bjVmrzEpnvuz1/I8Lfz4LfsryBKY427k1FT0tuB
- J5XN4SxNwH64rmH8/1NYg/m9HnlUcc/Mnojukm5CX8f92YwL0NhZngd/1UHRwXMiOESq
- 07GTd8GOLwG8dCEwFvcmaXStmySnUiX1xTqtVLcZueoaToeS2VrEOtMvZKYFZR+SMajf
- G+cA==
-X-Gm-Message-State: AOAM531FGsGBib/Hi7vOB/33l1ZpqjVaBBHTexOiD9y3LxWTunPZnVGO
- 0QJMH+IjtVY0LUxEykGRv2mO/wbeZ7rjMzws8+Jt4w==
-X-Google-Smtp-Source: ABdhPJyMir1WCiB2ZbCXM8HufNvk68/xSQyyM7zV6ywR0Elj7udLsfvB2IT2+bDcTrS9LcgHPNF6IobZa5zFnSedzkw=
-X-Received: by 2002:a25:6f85:0:b0:64a:8b67:d3b2 with SMTP id
- k127-20020a256f85000000b0064a8b67d3b2mr573478ybc.85.1652372555438; Thu, 12
- May 2022 09:22:35 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jbMajgACfEG4N2+wj8hWnvACNoW9EW4V2ysY0ay4WF8=;
+ b=TwmOsc0CWd0B3z1o5lKO7W6r3axu01gFFVACxZ0rwhSPZh4AfLxUkbGlTPDq+j5N2R
+ +WIRX8b23YdFcGkz9aY2jSuEySVAc0aCatanzMPiJeaR+aDZJCHnBF2EBJhl341foQvS
+ 0GDLQ4L7CGpWxdVdOQSskxPyl8nUyGlzPOLSM7TlUUCharBqLXrA4VhKr6uJZUzt+Rbo
+ /yp8fvvNhV+j/NI/KMU3n+shirZOIu2ZN00hQ0EUZHLDOkavAEm8K5c+8f/+F0/Aj+tB
+ S+g3aI/lWRatGtfD5P7wlIihrMNv/w/g1OT77qB+YVcIaTte010H1K6V3n9/NDvqe09d
+ zIpQ==
+X-Gm-Message-State: AOAM530ypY4/+5Amk8RliqEHwmg2H+SzT2/p00hoIa+HMwv4624xEm3U
+ t1D4EVy03C7JuPans1I3LS83tQ==
+X-Google-Smtp-Source: ABdhPJwlAmn6BtlHDbDgXNpBPxUs/krJze/CYEADsary7VZqVMTiUtx2ykNy0xkrSRbqTSUh6LF9OQ==
+X-Received: by 2002:a63:3409:0:b0:3ab:4d72:1f0a with SMTP id
+ b9-20020a633409000000b003ab4d721f0amr367229pga.420.1652372591894; 
+ Thu, 12 May 2022 09:23:11 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:2827:e3d7:b6c9:cd59:fac5:b31a?
+ ([2607:fb90:2827:e3d7:b6c9:cd59:fac5:b31a])
+ by smtp.gmail.com with ESMTPSA id
+ c12-20020a62f84c000000b0050dc762812dsm62555pfm.7.2022.05.12.09.23.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 09:23:11 -0700 (PDT)
+Message-ID: <6c7fef22-3ac6-ae93-7cd4-0753db428682@linaro.org>
+Date: Thu, 12 May 2022 09:23:07 -0700
 MIME-Version: 1.0
-References: <20200228092420.103757-1-quintela@redhat.com>
- <20200228092420.103757-13-quintela@redhat.com>
-In-Reply-To: <20200228092420.103757-13-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 May 2022 17:22:24 +0100
-Message-ID: <CAFEAcA_jQRop9BjOG=7cUBPcuvgAZaQOAbkHTdgWeuxrK5+u+A@mail.gmail.com>
-Subject: Re: [PULL 12/15] migration/block: rename BLOCK_SIZE macro
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] Fix aarch64 debug register names.
+Content-Language: en-US
+To: Chris Howard <cvz185@web.de>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <4127D8CA-D54A-47C7-A039-0DB7361E30C0@web.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <4127D8CA-D54A-47C7-A039-0DB7361E30C0@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,53 +93,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Feb 2020 at 09:30, Juan Quintela <quintela@redhat.com> wrote:
->
-> From: Stefan Hajnoczi <stefanha@redhat.com>
->
-> Both <linux/fs.h> and <sys/mount.h> define BLOCK_SIZE macros.  Avoiding
-> using that name in block/migration.c.
->
-> I noticed this when including <liburing.h> (Linux io_uring) from
-> "block/aio.h" and compilation failed.  Although patches adding that
-> include haven't been sent yet, it makes sense to rename the macro now in
-> case someone else stumbles on it in the meantime.
+On 5/12/22 02:42, Chris Howard wrote:
+>  From 5de17d5aacb9cf21de4c9736b227b0498c607709 Mon Sep 17 00:00:00 2001
+> From: CHRIS HOWARD <cvz185@web.de>
+> Date: Thu, 12 May 2022 11:35:17 +0200
+> Subject: [PATCH] Fix aarch64 debug register names.
+> 
+> Signed-off-by: CHRIS HOWARD <cvz185@web.de>
+> ---
+>   target/arm/helper.c | 16 ++++++++++++----
+>   1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 432bd81919..0dd97cb905 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -6543,14 +6543,16 @@ static void define_debug_regs(ARMCPU *cpu)
+>       }
+>   
+>       for (i = 0; i < brps; i++) {
+> +        char *dbgbvr_el1_name = g_strdup_printf("DBGBVR%d_EL1", i);
+> +        char *dbgbcr_el1_name = g_strdup_printf("DBGBCR%d_EL1", i);
+>           ARMCPRegInfo dbgregs[] = {
+> -            { .name = "DBGBVR", .state = ARM_CP_STATE_BOTH,
+> +            { .name = dbgbvr_el1_name, .state = ARM_CP_STATE_BOTH,
+>                 .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 4,
+>                 .access = PL1_RW, .accessfn = access_tda,
+>                 .fieldoffset = offsetof(CPUARMState, cp15.dbgbvr[i]),
+>                 .writefn = dbgbvr_write, .raw_writefn = raw_write
+>               },
+> -            { .name = "DBGBCR", .state = ARM_CP_STATE_BOTH,
+> +            { .name = dbgbcr_el1_name, .state = ARM_CP_STATE_BOTH,
+>                 .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 5,
+>                 .access = PL1_RW, .accessfn = access_tda,
+>                 .fieldoffset = offsetof(CPUARMState, cp15.dbgbcr[i]),
+> @@ -6558,17 +6560,21 @@ static void define_debug_regs(ARMCPU *cpu)
+>               },
+>           };
+>           define_arm_cp_regs(cpu, dbgregs);
+> +        g_free(dbgbvr_el1_name);
+> +        g_free(dbgbcr_el1_name);
 
-A rather old change, and it didn't even introduce the code that
-Coverity is complaining about, but this seems as good a point as
-any to hang the email off of...
+If you felt like doing another revision, using g_autofree on the declaration would be 
+preferred.  However,
 
-BLK_MIG_BLOCK_SIZE doesn't have a ULL suffix, so it's 32 bits,
-and so Coverity complains about places where we multiply some
-block count by it and then use that in a 64-bit result, eg here:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> @@ -770,7 +771,7 @@ static int block_save_iterate(QEMUFile *f, void *opaque)
->
->      /* control the rate of transfer */
->      blk_mig_lock();
-> -    while (block_mig_state.read_done * BLOCK_SIZE <
-> +    while (block_mig_state.read_done * BLK_MIG_BLOCK_SIZE <
->             qemu_file_get_rate_limit(f) &&
->             block_mig_state.submitted < MAX_PARALLEL_IO &&
->             (block_mig_state.submitted + block_mig_state.read_done) <
-
-and here:
-
-> @@ -874,13 +875,13 @@ static void block_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
->      qemu_mutex_unlock_iothread();
->
->      blk_mig_lock();
-> -    pending += block_mig_state.submitted * BLOCK_SIZE +
-> -               block_mig_state.read_done * BLOCK_SIZE;
-> +    pending += block_mig_state.submitted * BLK_MIG_BLOCK_SIZE +
-> +               block_mig_state.read_done * BLK_MIG_BLOCK_SIZE;
->      blk_mig_unlock();
-
-Putting a suitable cast to ensure the multiply is done at
-64 bits would satisfy Coverity.
-
-This is CID 1487136, 1487175.
-
-thanks
--- PMM
+r~
 
