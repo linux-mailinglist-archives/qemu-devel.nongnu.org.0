@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD1252561E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 21:55:59 +0200 (CEST)
-Received: from localhost ([::1]:51556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84745525603
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 21:47:13 +0200 (CEST)
+Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npEuk-0007d4-46
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 15:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
+	id 1npEmG-0001sO-1f
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 15:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1npEiU-0007w1-DW; Thu, 12 May 2022 15:43:19 -0400
+ id 1npEig-000839-BJ; Thu, 12 May 2022 15:43:30 -0400
 Received: from [187.72.171.209] (port=25741 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1npEiQ-0003R0-4Z; Thu, 12 May 2022 15:43:16 -0400
+ id 1npEie-0003R0-CD; Thu, 12 May 2022 15:43:29 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 12 May 2022 16:43:04 -0300
+ Thu, 12 May 2022 16:43:06 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 2979B800177;
- Thu, 12 May 2022 16:43:04 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id E07D0800C32;
+ Thu, 12 May 2022 16:43:05 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  victor.colombo@eldorado.org.br
-Subject: [RFC PATCH 0/2] target/ppc: Propose rework in fp exception handling
-Date: Thu, 12 May 2022 16:42:48 -0300
-Message-Id: <20220512194250.138244-1-victor.colombo@eldorado.org.br>
+Subject: [RFC PATCH 2/2] target/ppc: Rely on do_float_check_status for
+ VSX_MADD invalid excepts
+Date: Thu, 12 May 2022 16:42:50 -0300
+Message-Id: <20220512194250.138244-3-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220512194250.138244-1-victor.colombo@eldorado.org.br>
+References: <20220512194250.138244-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2022 19:43:04.0523 (UTC)
- FILETIME=[7F2C21B0:01D86638]
+X-OriginalArrivalTime: 12 May 2022 19:43:06.0230 (UTC)
+ FILETIME=[80309960:01D86638]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,47 +65,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello everyone!
+Make necessary changes for Multiply-Add instructions to use the
+proposed reworked exceptions handling in do_float_check_status.
 
-I would like to propose a rework on the fpscr exceptions in
-fpu_helper.c. Today, we have: do_float_check_status() dealing with
-Overflow, Underflow, and Inexact; and other helpers for the invalid
-exceptions (like float_invalid_op_vximz(), float_invalid_op_vxisi()),
-including some special cases like float_invalid_op_madd(). So, there is
-a lot of helpers that may need to be used in the insn helpers code.
+This should allow for cleaner code, not requiring the helper to check
+multiple exceptions in its body.
 
-My idea is try to find a way to concentrate them in a single place.
-This RFC moves imz, isi, and snan excp helpers to do_float_check_status
-as a hub for dealing with the commitment of exception flags from
-env->fp_status to env->fpscr. Then, show how an instruction could
-benefit of this change by adapting VSX_MADD helper to leverage the
-changes.
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+---
+ target/ppc/fpu_helper.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-The main objectives with this patch set are:
-1. Try to simplify the excp handling code.
-2. Allow for MMA instruction XVFGER to be easily implemented
-   (see [1])
-
-This RFC is just a subset of what I think should be done. There are
-more exceptions to be moved to do_float_check_status, and many more
-instructions to refactor to use it.
-
-Thanks!
-
-Based-on the FI bit fix [2].
-
-[1] https://lists.gnu.org/archive/html/qemu-ppc/2022-05/msg00176.html
-[2] <20220510204610.100867-1-victor.colombo@eldorado.org.br>
-    https://lists.nongnu.org/archive/html/qemu-ppc/2022-05/msg00246.html
-    https://patchew.org/QEMU/20220510204610.100867-1-victor.colombo@eldorado.org.br/
-
-Víctor Colombo (2):
-  target/ppc: Add invalid imz, isi and snan to do_float_check_status()
-  target/ppc: Rely on do_float_check_status for VSX_MADD invalid excepts
-
- target/ppc/fpu_helper.c | 148 ++++++++++++++++++++++++++--------------
- 1 file changed, 97 insertions(+), 51 deletions(-)
-
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 988ddba282..a73a955b63 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2226,11 +2226,6 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
+         t.fld = tp##_muladd(s1->fld, s3->fld, s2->fld, maddflgs, &tstat);     \
+         env->fp_status.float_exception_flags |= tstat.float_exception_flags;  \
+                                                                               \
+-        if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {     \
+-            float_invalid_op_madd(env, tstat.float_exception_flags,           \
+-                                  sfifprf, GETPC());                          \
+-        }                                                                     \
+-                                                                              \
+         if (sfifprf) {                                                        \
+             helper_compute_fprf_float64(env, t.fld);                          \
+         }                                                                     \
 -- 
 2.25.1
 
