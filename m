@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501A652548D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 20:17:00 +0200 (CEST)
-Received: from localhost ([::1]:38650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BB952547E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 20:10:28 +0200 (CEST)
+Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npDMx-0005uK-Ck
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 14:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36118)
+	id 1npDGd-0001Ra-18
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 14:10:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZY-000531-1k
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29972)
+ id 1npCZZ-00055N-Jw
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npCZW-0005F3-AT
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:55 -0400
+ id 1npCZX-0005FD-Uk
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:25:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652376353;
+ s=mimecast20190719; t=1652376355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RLiUgLlqQ+CAPpx3xtG4C86yzSNWMgqSbb0iyBnKLuA=;
- b=iuqcmnyyGNfYNwH7ERrMPeJ2YoIegSJM7IvNdQWDO3AweEIfrykTQO7f7UPcTmrZA/+n3C
- 3g12rj/1O15i/V9qvEsXKLuvZexCHUvSnTOBTdqnoz1RG1XtIe/OCD6uA4Pzxe/km9iP9v
- miVb+u8VmC3Qk9X4rCAA9j8IACpyeng=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vevcB/4KvrnX08FxSQYOsMcc3AylgVCKvbZyt7Xshqs=;
+ b=WnCJeeudavQxhPZhg1yE9gddJJIPOUU4rq74noxTkKHHw6R2g3s5E6hbplgvT1zPTsEQYU
+ olXqEqpeI8dN0Go6vCN97Gx8aFWm3Vq2fOGdAgR0D3eqoKUbrnLV9L7hN565tKaNCTUVOP
+ 95k4nWfTB0Z99zI05yvJGMjOCPRK648=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-sNCQ6A3VOx6N5MY1HaOfIg-1; Thu, 12 May 2022 13:25:52 -0400
-X-MC-Unique: sNCQ6A3VOx6N5MY1HaOfIg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- dn26-20020a05640222fa00b00425e4b8efa9so3503262edb.1
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:52 -0700 (PDT)
+ us-mta-494-skfGdGrTMMCqkuedN4zeyA-1; Thu, 12 May 2022 13:25:54 -0400
+X-MC-Unique: skfGdGrTMMCqkuedN4zeyA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ec44-20020a0564020d6c00b00425b136662eso3497476edb.12
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:25:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RLiUgLlqQ+CAPpx3xtG4C86yzSNWMgqSbb0iyBnKLuA=;
- b=yCWXshqPGCYyC62s7AWb6U6YM9y3JVsIDPa0BISrpfcmGX5nOfPY7vV1eLpekhSIzC
- /3tLT7HjiGnYDFIaC7q4vzqTGQWd7SRbWVo7rWEHiXOwhLg96Sxd+t9rOZxjSr2Y5QEv
- zsxL8D53rYrW/0RhiN5tIyFFUdoXxuaWOVxGmYOyRvGHUuSgcyK2y88BMlazG0+NR7R+
- beQQwlVs+iGV3ZtQCuCZ/+2vGkWzA/pdMkRyu83z0Wm0srspcTl7IxZs/g+bN6+h0L9l
- XtQ3cUktgx/7w9uo+95/uK6juPERxnTf1N+qUsCYJTTtdK00YGJQH6NhSUrEA4OHUTzH
- XOIw==
-X-Gm-Message-State: AOAM531AgpuMDw+hB6IU5tO3YoGEEM/XTjSKR3bVFlSFpKIejpFBjNHi
- qnt0m448XbxGtHwpPQP7v2FTjFGQfNY5JnWTQyEsIKXoA2cB/GPiSJPJwIrvCaobSlS4iPhWQg2
- OcdKKZezcxTekfMb8ucAYBQewj48YbJeizgghJss6qMGzVDBm/tjqu6iwaCRwd9PK4i8=
-X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id
- f1-20020a056402194100b00413282209c8mr36015270edz.13.1652376350785; 
- Thu, 12 May 2022 10:25:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSxY3ayjkzk7BGOa9rI8d4j3z58JO4d/NrOJzRkjoPy7DGI8I9oCRFi9AH2mRwCKtALHIcHw==
-X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id
- f1-20020a056402194100b00413282209c8mr36015257edz.13.1652376350567; 
- Thu, 12 May 2022 10:25:50 -0700 (PDT)
+ bh=vevcB/4KvrnX08FxSQYOsMcc3AylgVCKvbZyt7Xshqs=;
+ b=PRPuWN3E6qHoazjOLc9NywyGqg7+ZlbPzymnQLOdTPxD7YXKehnVUO3ippyitwkWRi
+ sY94B353apr1gMuP1genkXKdt3hyS+irW4H9eWFGSfkexH3X7lvQhuZMf7v7v/5KbWzc
+ BJ8qY2GyttmFqdtyvl7ZjUiIrCRYG0PeFjr253jT+GboljQ8SnMJTryITWssN/OuWgP4
+ 2l9sVefK54SIDu0fQlGvFHEKArxoebb7UkN3/TQk/SPMBbjOlAP6MbFvT5+h86GdGNsQ
+ 6EuxITLQSDHCt+oElHroUOMUSeDD/7iSefWWl7vCHvoP71v8yoP/I3Z4EpdqMXcr8a+T
+ FyLg==
+X-Gm-Message-State: AOAM5327lqBI4aCpJGPOa5C4fpZ1QzF8ROOwnhEOL+ibswNC3Bk8B5DO
+ GP9SavuLY2yh+i3FM2IAvVMgsWkzU7pTWZo4rAPGbXAtSoPjS9xrRZV5Jbn9Q09l7vy4hj0ZMV2
+ TVsyi/OqFQTmiqUK2ua0SD2cmyy8MJHhYQuPpXLjpRohN6bfuKjw027b21sPeGcFBipI=
+X-Received: by 2002:a17:907:1623:b0:6f6:e9ce:9926 with SMTP id
+ hb35-20020a170907162300b006f6e9ce9926mr873690ejc.360.1652376352391; 
+ Thu, 12 May 2022 10:25:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwu7VZjnPqKdcsMVlstlzckZqTNI8WPhI5LPbDXZPUGw80CnKrBsrtLjPzo99JzTD2+gpRy2g==
+X-Received: by 2002:a17:907:1623:b0:6f6:e9ce:9926 with SMTP id
+ hb35-20020a170907162300b006f6e9ce9926mr873671ejc.360.1652376352074; 
+ Thu, 12 May 2022 10:25:52 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- h3-20020a170906828300b006f3ef214dc2sm2323327ejx.40.2022.05.12.10.25.49
+ l9-20020aa7c3c9000000b0042617ba6388sm2754449edr.18.2022.05.12.10.25.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 10:25:49 -0700 (PDT)
+ Thu, 12 May 2022 10:25:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>
-Subject: [PULL 21/27] coroutine-lock: qemu_co_queue_next is a coroutine-only
- qemu_co_enter_next
-Date: Thu, 12 May 2022 19:24:59 +0200
-Message-Id: <20220512172505.1065394-22-pbonzini@redhat.com>
+Subject: [PULL 22/27] coroutine-lock: introduce qemu_co_queue_enter_all
+Date: Thu, 12 May 2022 19:25:00 +0200
+Message-Id: <20220512172505.1065394-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220512172505.1065394-1-pbonzini@redhat.com>
 References: <20220512172505.1065394-1-pbonzini@redhat.com>
@@ -100,92 +99,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_co_queue_next is basically the same as qemu_co_enter_next but
-without a QemuLockable argument.  That's perfectly fine, but only
-as long as the function is marked coroutine_fn.  If used outside
-coroutine context, qemu_co_queue_wait will attempt to take the lock
-and that is just broken: if you are calling qemu_co_queue_next outside
-coroutine context, the lock is going to be a QemuMutex which cannot be
-taken twice by the same thread.
-
-The patch adds the marker and reimplements qemu_co_queue_next in terms of
-qemu_co_enter_next_impl, to remove duplicated code and to clarify that the
-latter also works in coroutine context.
+Because qemu_co_queue_restart_all does not release the lock, it should
+be used only in coroutine context.  Introduce a new function that,
+like qemu_co_enter_next, does release the lock, and use it whenever
+qemu_co_queue_restart_all was used outside coroutine context.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20220427130830.150180-2-pbonzini@redhat.com>
+Message-Id: <20220427130830.150180-3-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/coroutine.h   |  7 ++++---
- util/qemu-coroutine-lock.c | 21 +++++++--------------
- 2 files changed, 11 insertions(+), 17 deletions(-)
+ include/qemu/coroutine.h   | 13 +++++++++++++
+ ui/console.c               |  2 +-
+ util/qemu-coroutine-lock.c |  7 +++++++
+ 3 files changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 284571badb..c23d41e1ff 100644
+index c23d41e1ff..e5954635f6 100644
 --- a/include/qemu/coroutine.h
 +++ b/include/qemu/coroutine.h
-@@ -208,11 +208,12 @@ void qemu_co_queue_init(CoQueue *queue);
- void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock);
+@@ -234,6 +234,19 @@ void qemu_co_queue_restart_all(CoQueue *queue);
+     qemu_co_enter_next_impl(queue, QEMU_MAKE_LOCKABLE(lock))
+ bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock);
  
++/**
++ * Empties the CoQueue, waking the waiting coroutine one at a time.  Unlike
++ * qemu_co_queue_all, this function releases the lock during aio_co_wake
++ * because it is meant to be used outside coroutine context; in that case, the
++ * coroutine is entered immediately, before qemu_co_enter_all returns.
++ *
++ * If used in coroutine context, qemu_co_enter_all is equivalent to
++ * qemu_co_queue_all.
++ */
++#define qemu_co_enter_all(queue, lock) \
++    qemu_co_enter_all_impl(queue, QEMU_MAKE_LOCKABLE(lock))
++void qemu_co_enter_all_impl(CoQueue *queue, QemuLockable *lock);
++
  /**
-- * Removes the next coroutine from the CoQueue, and wake it up.
-+ * Removes the next coroutine from the CoQueue, and queue it to run after
-+ * the currently-running coroutine yields.
-  * Returns true if a coroutine was removed, false if the queue is empty.
-- * OK to run from coroutine and non-coroutine context.
-+ * Used from coroutine context, use qemu_co_enter_next outside.
+  * Checks if the CoQueue is empty.
   */
--bool qemu_co_queue_next(CoQueue *queue);
-+bool coroutine_fn qemu_co_queue_next(CoQueue *queue);
+diff --git a/ui/console.c b/ui/console.c
+index 15d0f6affd..36c80cd1de 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -221,7 +221,7 @@ static void gui_setup_refresh(DisplayState *ds)
+ void graphic_hw_update_done(QemuConsole *con)
+ {
+     if (con) {
+-        qemu_co_queue_restart_all(&con->dump_queue);
++        qemu_co_enter_all(&con->dump_queue, NULL);
+     }
+ }
  
- /**
-  * Empties the CoQueue; all coroutines are woken up.
 diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-index 2669403839..5705cfea2e 100644
+index 5705cfea2e..5b0342faed 100644
 --- a/util/qemu-coroutine-lock.c
 +++ b/util/qemu-coroutine-lock.c
-@@ -67,7 +67,7 @@ void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock)
-     }
+@@ -108,6 +108,13 @@ bool coroutine_fn qemu_co_queue_next(CoQueue *queue)
+     return qemu_co_enter_next_impl(queue, NULL);
  }
  
--static bool qemu_co_queue_do_restart(CoQueue *queue, bool single)
-+void qemu_co_queue_restart_all(CoQueue *queue)
- {
-     Coroutine *next;
- 
-@@ -78,23 +78,10 @@ static bool qemu_co_queue_do_restart(CoQueue *queue, bool single)
-     while ((next = QSIMPLEQ_FIRST(&queue->entries)) != NULL) {
-         QSIMPLEQ_REMOVE_HEAD(&queue->entries, co_queue_next);
-         aio_co_wake(next);
--        if (single) {
--            break;
--        }
-     }
-     return true;
- }
- 
--bool qemu_co_queue_next(CoQueue *queue)
--{
--    return qemu_co_queue_do_restart(queue, true);
--}
--
--void qemu_co_queue_restart_all(CoQueue *queue)
--{
--    qemu_co_queue_do_restart(queue, false);
--}
--
- bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock)
- {
-     Coroutine *next;
-@@ -115,6 +102,12 @@ bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock)
-     return true;
- }
- 
-+bool coroutine_fn qemu_co_queue_next(CoQueue *queue)
++void qemu_co_enter_all_impl(CoQueue *queue, QemuLockable *lock)
 +{
-+    /* No unlock/lock needed in coroutine context.  */
-+    return qemu_co_enter_next_impl(queue, NULL);
++    while (qemu_co_enter_next_impl(queue, lock)) {
++        /* just loop */
++    }
 +}
 +
  bool qemu_co_queue_empty(CoQueue *queue)
