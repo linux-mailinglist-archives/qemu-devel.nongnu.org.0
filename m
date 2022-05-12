@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29BE525319
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:57:51 +0200 (CEST)
-Received: from localhost ([::1]:37006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98E2525334
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 19:06:38 +0200 (CEST)
+Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npC8M-0007L5-HP
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56484)
+	id 1npCGr-0005fn-8W
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 13:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1npC3y-0005Pq-7b
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:53:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26542)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1npCB4-0002r7-GA
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:00:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1npC3v-0007jP-Uj
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:53:17 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1npCB1-0000Yo-26
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 13:00:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652374394;
+ s=mimecast20190719; t=1652374828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y70Ye0n+2+jx/Ps62i0xftBgcS6n2NKBuj2pSW+o4RI=;
- b=Gdkgw1HwGDGuDqxaOaeaKBGno8uScD3AUhkGTy3apOux/DML1jraNqtLtW6UbLpeFXVaaa
- 1J5Hd5PbhylWA6jcym3xI5sTrQS2chzTNvSH6nyJYEhxwo9ZWhhe97RwGC3MakAHQrXw7w
- qmnSetE5hV2/EP6LFgeJHxi/GmbhxYs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sW8KhVHx86rGBBq1JfY+htZFjM9LT7zq/N5K8e+3SSo=;
+ b=Jx5U+gUAlRJ0PX8QbX03XZdtttmZHcky5yWN25CqLJy8K/Q/c6OE0kB0dnu16lpIWlruri
+ w8tkh9QodAwYvmAczFjg0pyh1lRP2XcIumd6MEpnUnJfHoMxkdRFRNGEJuaOFdN3QmJLmd
+ ntWHEzIr3Zk5yzteiffwv5Yg7zI2afI=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-384-2jR-AVIoNti_GFrrvQw1SA-1; Thu, 12 May 2022 12:53:13 -0400
-X-MC-Unique: 2jR-AVIoNti_GFrrvQw1SA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so1860684wmr.0
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:53:13 -0700 (PDT)
+ us-mta-124-k2bJGYcVNvKrhaqUzHFyQQ-1; Thu, 12 May 2022 13:00:27 -0400
+X-MC-Unique: k2bJGYcVNvKrhaqUzHFyQQ-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-2f8398e99dcso50340647b3.9
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 10:00:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Y70Ye0n+2+jx/Ps62i0xftBgcS6n2NKBuj2pSW+o4RI=;
- b=Mk/HkpLbfKbvd1BcwVW0l9H1IFKApgWtJH0JT0MMc/5zKZdTucf0RuFHsrZssAk/fo
- bFMI6BGleWq6E9+hZHS9N7CglHW9VyNsvLa9PiovpzcA2+uDx1tuw1AWrIuKvwohlvmD
- 3/p6KkFq+FR/6MXfTRZzYaHQ7SsqG/Cl9EFwrllXbHu6OT/KfqMb0CQ+SO2Y8acSUex/
- VFuPIdo8L4MnuHpatjZEygIidcalIK8acQzSKwlcqz7EGkjLdYgfHknX59CDkIO2IYdq
- 37TEEkhZLuVLBPOdDl7Hyf9ePGCZMWiKD6rvzWSkO15Vflj5w/i7SRwcTvvs9v+kvfKM
- Fx1Q==
-X-Gm-Message-State: AOAM53179kDZBr+iEzqGyHAvz6eQMBNy1WydR4eUDQqMCm5SXnQHoqrW
- qfY2fuPOtSlxEYWx4KSWG7ecicTusyKbgCf5rdt/UcCikqhYh7lKxs4Eik+TYDYJKGYBE2/YmNB
- lVbCqMzRyWNVmriw=
-X-Received: by 2002:adf:fb05:0:b0:20a:e113:8f3f with SMTP id
- c5-20020adffb05000000b0020ae1138f3fmr517258wrr.534.1652374392023; 
- Thu, 12 May 2022 09:53:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2TT6LTGHORqQYIGNyxjFP1w6uRYGcSWO/H+GX1DblmNGnJ/+WwEOfQay7CtG7qjeGAOTLew==
-X-Received: by 2002:adf:fb05:0:b0:20a:e113:8f3f with SMTP id
- c5-20020adffb05000000b0020ae1138f3fmr517239wrr.534.1652374391785; 
- Thu, 12 May 2022 09:53:11 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.21.186])
- by smtp.gmail.com with ESMTPSA id
- i8-20020a05600c354800b003945cdd0d55sm174189wmq.26.2022.05.12.09.53.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 09:53:10 -0700 (PDT)
-Message-ID: <8310cc7f-8c9c-9411-3c6a-ab416f79d8b9@redhat.com>
-Date: Thu, 12 May 2022 18:53:09 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sW8KhVHx86rGBBq1JfY+htZFjM9LT7zq/N5K8e+3SSo=;
+ b=WrtJGQPwb7J7TLfyjGsLWby1wALRWKDLOJabrYwdqpL/tDHZ5XBoSUO7RNyFJKcpjK
+ lEW7havS/CwDRQDvVwYWPnYWRcZKApnYJJDG6PlrzZYcGPbVdXDYnh14MKZWEAvU2ih/
+ mLRXacRec0C30+UTZ6sMOWO5vcaKqxrWWlHhBqMvIUIGjzCUgW8BBMYEx0y9iWXNRCfW
+ T+J8Wt6jPDyT5x8P3L6jk9l7XeKetcNxmzdmbtLStVCeRyo5SmB1GFkOYRtcDOmerwpy
+ hkoRy1BMmzRyb0NI9/skKd9T1psIrSUYfbEmxkSFtNcY0xOD6S+fCPqypMIUfxpVx70w
+ G99Q==
+X-Gm-Message-State: AOAM531PwnCbSzQPYPipQnhGSyicGEh1EgQemlB7NWizHt3Fwh5UH7Mr
+ /yeh8I7+qbPYi0uc7FMTSEcA8XYPiTf1zIU1VTChV0hP66/yaGt5KlvhmhJK8PAerFSbDdk1gGY
+ fn3MM0pnvh13KzR8L7MxU445Of17HsF8=
+X-Received: by 2002:a25:dc8e:0:b0:648:a3dc:fb8 with SMTP id
+ y136-20020a25dc8e000000b00648a3dc0fb8mr772326ybe.101.1652374827120; 
+ Thu, 12 May 2022 10:00:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmhRcdC8/GxyAPzjnjW2wtV6KiKczENM7dOD+rEMzOuIUKwjoGeogT2fzauU3WreiF5/SF8Gnk6LouMMTKMe4=
+X-Received: by 2002:a25:dc8e:0:b0:648:a3dc:fb8 with SMTP id
+ y136-20020a25dc8e000000b00648a3dc0fb8mr772311ybe.101.1652374826931; Thu, 12
+ May 2022 10:00:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] util: Return void on iova_tree_remove
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220427154931.3166388-1-eperezma@redhat.com>
- <CAJaqyWdwzUnP71LNEDe6Fo+th9-qMLQXJMgeo2nb3jE-GyUCPw@mail.gmail.com>
- <Yn0vz+6nYs0d/Hvj@xz-m1.local>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <Yn0vz+6nYs0d/Hvj@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+References: <20220512154906.331399-1-kkostiuk@redhat.com>
+In-Reply-To: <20220512154906.331399-1-kkostiuk@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 12 May 2022 19:00:15 +0200
+Message-ID: <CAMxuvaxsrPNdS928KtKghoFOHGi4nC3x7pRjN0v=LS5p4G0ADQ@mail.gmail.com>
+Subject: Re: [PATCH] qga-vss: Add auto generated headers to dependencies
+To: Konstantin Kostiuk <kkostiuk@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,29 +92,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/2022 18:03, Peter Xu wrote:
-> On Thu, May 12, 2022 at 05:48:47PM +0200, Eugenio Perez Martin wrote:
->> On Wed, Apr 27, 2022 at 5:50 PM Eugenio Pérez <eperezma@redhat.com> wrote:
->>>
->>> It always returns IOVA_OK so nobody uses it.
->>>
->>> Acked-by: Jason Wang <jasowang@redhat.com>
->>> Reviewed-by: Peter Xu <peterx@redhat.com>
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>
->> Hi! Friendly ping about this, is it something pending from my side?
-> 
-> Don't think so. :)
-> 
-> This patch does look fine to go via trivial branch, Laurent?
-> 
-> Also copying Michael since for other iova-tree change it always go via
-> Michael before.
-> 
+Hi
 
-I can take it via qemu-trivial.
+On Thu, May 12, 2022 at 5:49 PM Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
+>
+> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+> ---
+>  qga/vss-win32/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
+> index 26c5dd6e0e..9483ccd3b8 100644
+> --- a/qga/vss-win32/meson.build
+> +++ b/qga/vss-win32/meson.build
+> @@ -7,7 +7,7 @@ link_args = cc.get_supported_link_arguments([
+>
+>  qga_vss = shared_module(
+>    'qga-vss',
+> -  ['requester.cpp', 'provider.cpp', 'install.cpp'],
+> +  ['requester.cpp', 'provider.cpp', 'install.cpp', genh],
 
-Thanks,
-Laurent
+Looks fine, but could you tell which file was needed? (not qapi or
+trace files, I suppose, so what else?)
+
+>    name_prefix: '',
+>    cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
+>    link_args: link_args,
+> --
+> 2.25.1
+>
 
 
