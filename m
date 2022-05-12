@@ -2,48 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC15524851
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:53:58 +0200 (CEST)
-Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D490D5247C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:22:50 +0200 (CEST)
+Received: from localhost ([::1]:53214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np4a5-0008CJ-61
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:53:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53934)
+	id 1np45x-0007RW-Vv
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:22:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1np49U-0004Ou-EF; Thu, 12 May 2022 04:26:28 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45210)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1np3tJ-0006im-Va
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:09:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1np49R-0005O0-1x; Thu, 12 May 2022 04:26:28 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 0054C11EF1B;
- Thu, 12 May 2022 08:26:19 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Thu, 12 May 2022 00:47:44 -0700
-Subject: [PATCH qemu v17 02/16] target/riscv: rvv: Prune redundant access_type
- parameter passed
-Message-ID: <165234397852.32492.1203149738524050090-2@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <165234397852.32492.1203149738524050090-0@git.sr.ht>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1np3tG-0002jL-0z
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:09:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652342979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=D4Y81qjH8MSsExj4wMPReLxNkeW1zeZZ0g8wiMOchS8=;
+ b=NwsHd9J0OFgcQ3S1NfAzLszsRYJtCU4tmACaMIQHVveHwbh6Zk4almYwjBAWv59skJpdAL
+ eRwM8lMV7Y4CgxjoKvgZgYGjs37F/Q4isO8m6tWjLYdtY+wd2zWGWoS801LKZ47O/6n3ip
+ +2Us88Y4bcBtda2SxVbI9O6AeBxN+BU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-34-kfyi6ehBNRCIMa8V8eL3Lg-1; Thu, 12 May 2022 04:09:36 -0400
+X-MC-Unique: kfyi6ehBNRCIMa8V8eL3Lg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD673803D46;
+ Thu, 12 May 2022 08:09:35 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.194.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59A1840CF8F4;
+ Thu, 12 May 2022 08:09:34 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Ralph Schmieder <ralph.schmieder@gmail.com>,
+ Stefano Brivio <sbrivio@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [RFC PATCH v2 0/8] qapi: net: add unix socket type support to netdev
+ backend
+Date: Thu, 12 May 2022 10:09:24 +0200
+Message-Id: <20220512080932.735962-1-lvivier@redhat.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,176 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <eop.chen@sifive.com>
+"-netdev socket" only supports inet sockets.
 
-No functional change intended in this commit.
+It's not a complex task to add support for unix sockets, but
+the socket netdev parameters are not defined to manage well unix
+socket parameters.
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
----
- target/riscv/vector_helper.c | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
+As discussed in:
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 85dd611cd9..60840325c4 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -231,7 +231,7 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
-                  target_ulong stride, CPURISCVState *env,
-                  uint32_t desc, uint32_t vm,
-                  vext_ldst_elem_fn *ldst_elem,
--                 uint32_t esz, uintptr_t ra, MMUAccessType access_type)
-+                 uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -259,7 +259,7 @@ void HELPER(NAME)(void *vd, void * v0, target_ulong base,=
-               \
- {                                                                       \
-     uint32_t vm =3D vext_vm(desc);                                        \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN,      \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }
-=20
- GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
-@@ -274,7 +274,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-               \
- {                                                                       \
-     uint32_t vm =3D vext_vm(desc);                                        \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, STORE_FN,     \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }
-=20
- GEN_VEXT_ST_STRIDE(vsse8_v,  int8_t,  ste_b)
-@@ -290,7 +290,7 @@ GEN_VEXT_ST_STRIDE(vsse64_v, int64_t, ste_d)
- static void
- vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
-              vext_ldst_elem_fn *ldst_elem, uint32_t esz, uint32_t evl,
--             uintptr_t ra, MMUAccessType access_type)
-+             uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -319,14 +319,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
-ng base,         \
- {                                                                       \
-     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));             \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, false, LOAD_FN,   \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }                                                                       \
-                                                                         \
- void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
-                   CPURISCVState *env, uint32_t desc)                    \
- {                                                                       \
-     vext_ldst_us(vd, base, env, desc, LOAD_FN,                          \
--                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_LOAD); \
-+                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                \
- }
-=20
- GEN_VEXT_LD_US(vle8_v,  int8_t,  lde_b)
-@@ -340,14 +340,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
-ng base,          \
- {                                                                        \
-     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));              \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,   \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                      \
- }                                                                        \
-                                                                          \
- void HELPER(NAME)(void *vd, void *v0, target_ulong base,                 \
-                   CPURISCVState *env, uint32_t desc)                     \
- {                                                                        \
-     vext_ldst_us(vd, base, env, desc, STORE_FN,                          \
--                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_STORE); \
-+                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                 \
- }
-=20
- GEN_VEXT_ST_US(vse8_v,  int8_t,  ste_b)
-@@ -364,7 +364,7 @@ void HELPER(vlm_v)(void *vd, void *v0, target_ulong base,
-     /* evl =3D ceil(vl/8) */
-     uint8_t evl =3D (env->vl + 7) >> 3;
-     vext_ldst_us(vd, base, env, desc, lde_b,
--                 0, evl, GETPC(), MMU_DATA_LOAD);
-+                 0, evl, GETPC());
- }
-=20
- void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
-@@ -373,7 +373,7 @@ void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
-     /* evl =3D ceil(vl/8) */
-     uint8_t evl =3D (env->vl + 7) >> 3;
-     vext_ldst_us(vd, base, env, desc, ste_b,
--                 0, evl, GETPC(), MMU_DATA_STORE);
-+                 0, evl, GETPC());
- }
-=20
- /*
-@@ -399,7 +399,7 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
-                 void *vs2, CPURISCVState *env, uint32_t desc,
-                 vext_get_index_addr get_index_addr,
-                 vext_ldst_elem_fn *ldst_elem,
--                uint32_t esz, uintptr_t ra, MMUAccessType access_type)
-+                uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -427,7 +427,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-                  \
-                   void *vs2, CPURISCVState *env, uint32_t desc)            \
- {                                                                          \
-     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,                \
--                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD); \
-+                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC());                \
- }
-=20
- GEN_VEXT_LD_INDEX(vlxei8_8_v,   int8_t,  idx_b, lde_b)
-@@ -453,7 +453,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-        \
- {                                                                \
-     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,      \
-                     STORE_FN, ctzl(sizeof(ETYPE)),               \
--                    GETPC(), MMU_DATA_STORE);                    \
-+                    GETPC());                                    \
- }
-=20
- GEN_VEXT_ST_INDEX(vsxei8_8_v,   int8_t,  idx_b, ste_b)
-@@ -576,8 +576,7 @@ GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
-  */
- static void
- vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t de=
-sc,
--                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra,
--                MMUAccessType access_type)
-+                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k, off, pos;
-     uint32_t nf =3D vext_nf(desc);
-@@ -612,8 +611,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
-                   CPURISCVState *env, uint32_t desc) \
- {                                                    \
-     vext_ldst_whole(vd, base, env, desc, LOAD_FN,    \
--                    ctzl(sizeof(ETYPE)), GETPC(),    \
--                    MMU_DATA_LOAD);                  \
-+                    ctzl(sizeof(ETYPE)), GETPC());   \
- }
-=20
- GEN_VEXT_LD_WHOLE(vl1re8_v,  int8_t,  lde_b)
-@@ -638,8 +636,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
-                   CPURISCVState *env, uint32_t desc) \
- {                                                    \
-     vext_ldst_whole(vd, base, env, desc, STORE_FN,   \
--                    ctzl(sizeof(ETYPE)), GETPC(),    \
--                    MMU_DATA_STORE);                 \
-+                    ctzl(sizeof(ETYPE)), GETPC());   \
- }
-=20
- GEN_VEXT_ST_WHOLE(vs1r_v, int8_t, ste_b)
---=20
-2.34.2
+  "socket.c added support for unix domain socket datagram transport"
+  https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
+
+This series adds support of unix socket type using SocketAddress QAPI structure.
+
+Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
+backend but they use the SocketAddress QAPI to provide socket parameters.
+And then they also implement unix sockets (TCP and UDP).
+
+Some examples of CLI syntax:
+
+  for TCP:
+
+  -netdev stream,id=socket0,addr.type=inet,addr.host=localhost,addr.port=1234
+  -netdev stream,id=socket0,server=off,addr.type=inet,addr.host=localhost,addr.port=1234
+
+  -netdev dgram,id=socket0,\
+          local.type=inet,local.host=localhost,local.port=1234,\
+          remote.type=inet,remote.host=localhost,remote.port=1235
+
+  for UNIX:
+
+  -netdev stream,id=socket0,addr.type=unix,addr.path=/tmp/qemu0
+  -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=/tmp/qemu0
+
+  -netdev dgram,id=socket0,\
+          local.type=unix,local.path=/tmp/qemu0,\
+          remote.type=unix,remote.path=/tmp/qemu1
+
+  for FD:
+
+  -netdev stream,id=socket0,addr.type=fd,addr.str=4
+  -netdev stream,id=socket0,server=off,addr.type=fd,addr.str=5
+
+  -netdev dgram,id=socket0,local.type=fd,addr.str=4
+
+v2:
+  - use "stream" and "dgram" rather than "socket-ng,mode=stream"
+    and ""socket-ng,mode=dgram"
+  - extract code to bypass qemu_opts_parse_noisily() to
+    a new patch
+  - do not ignore EINVAL (Stefano)
+  - fix "-net" option
+
+CC: Ralph Schmieder <ralph.schmieder@gmail.com>
+CC: Stefano Brivio <sbrivio@redhat.com>
+CC: Daniel P. Berrangé <berrange@redhat.com>
+CC: Markus Armbruster <armbru@redhat.com>
+
+Laurent Vivier (7):
+  net: introduce convert_host_port()
+  qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
+  qapi: net: add stream and dgram netdevs
+  net: stream: add unix socket
+  net: dgram: make dgram_dst generic
+  net: dgram: move mcast specific code from net_socket_fd_init_dgram()
+  net: dgram: add unix socket
+
+Stefano Brivio (1):
+  net: stream: Don't ignore EINVAL on netdev socket connection
+
+ hmp-commands.hx        |   2 +-
+ include/qemu/sockets.h |   2 +
+ net/clients.h          |   6 +
+ net/dgram.c            | 706 +++++++++++++++++++++++++++++++++++++++++
+ net/hub.c              |   2 +
+ net/meson.build        |   2 +
+ net/net.c              | 138 ++++++--
+ net/stream.c           | 516 ++++++++++++++++++++++++++++++
+ qapi/net.json          |  38 ++-
+ 9 files changed, 1379 insertions(+), 33 deletions(-)
+ create mode 100644 net/dgram.c
+ create mode 100644 net/stream.c
+
+-- 
+2.35.3
 
 
