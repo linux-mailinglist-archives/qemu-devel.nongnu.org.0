@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA2A524C84
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:17:58 +0200 (CEST)
-Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6A1524CD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 14:28:27 +0200 (CEST)
+Received: from localhost ([::1]:56774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np7lV-000577-AI
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45618)
+	id 1np7ve-0007zW-B8
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 08:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1np7k4-0003BO-63
- for qemu-devel@nongnu.org; Thu, 12 May 2022 08:16:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1np7k0-0002lP-LN
- for qemu-devel@nongnu.org; Thu, 12 May 2022 08:16:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652357783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EzRHaEUVKlriO4U9gTk2zi4sDOEBPFgz7ZPaX3Bwapk=;
- b=hxKlB4Vhr0+Y5kdaOXGPw/shrpydReT7E3RZH0Lt3coaO7dHUyy2Hsl4ZRFNJS8IzD3Ytf
- HvVqOvgbduRr/88KaPmqi9773s7KmuXfyMu00WRIawXQQIxrjF4wNuLRSNgK6E9lB5nEB0
- uC6DB8jhOCA2riDpOW+yQ6H3rFib62Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-0xGnOtldMQeiEgGqC8sYSw-1; Thu, 12 May 2022 08:16:22 -0400
-X-MC-Unique: 0xGnOtldMQeiEgGqC8sYSw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26215803B22
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 12:16:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F11D21541C4B;
- Thu, 12 May 2022 12:16:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C5B3421E6880; Thu, 12 May 2022 14:16:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org,  Gerd Hoffmann <kraxel@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- libvir-list@redhat.com
-Subject: Re: [PATCH 2/3] ui: Switch "-display sdl" to use the QAPI parser
-References: <20220511175147.917707-1-thuth@redhat.com>
- <20220511175147.917707-3-thuth@redhat.com>
-Date: Thu, 12 May 2022 14:16:20 +0200
-In-Reply-To: <20220511175147.917707-3-thuth@redhat.com> (Thomas Huth's message
- of "Wed, 11 May 2022 19:51:46 +0200")
-Message-ID: <878rr77xpn.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1np7s1-0007Ax-4g
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 08:24:41 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1np7rz-0003xD-Gr
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 08:24:40 -0400
+Received: by mail-ej1-x636.google.com with SMTP id g6so9927634ejw.1
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 05:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IIsUQocPAOkKGPqepWqQUaDhaPmLE7IiCtNJGrRPuww=;
+ b=du/eNWeII5RTyz3MZU0kmenXuQbx5h8/xN2YeydMbKfE9aXFdol/T44lD7dxsoxwE3
+ KR/nlQe3RIl/t0nErD8YfLnEPmxhOTx70PNSSQikrtC/GTyITu4Fs2k8zB3wyCjj+H7O
+ 3JWsiYOGPPldJ/jMK32mXvvvytt1UvmVvcHKhk/jNqjJF5eKmQjZoIO6pLOSyfWaZm5A
+ Fw8+8vurZlwjF5gYyv4lx6zF5D6tW671UBUyOcAK3kep7dh+tZEVPCm1GBK172de0LSQ
+ Fm1Od4MGn/LBaYE5vcXN5OMusogiOBzDpya1geJwi2aXwTo6v45/fZ5u/cE/E3CH7qoy
+ oQ5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IIsUQocPAOkKGPqepWqQUaDhaPmLE7IiCtNJGrRPuww=;
+ b=EnN7FDdgKl0wxwT79upm8nzXDmhuMBgwg1XlzmJtR/ek6wEojHExI3Etpr76eWDq8L
+ gdu40F0FFIeyBWDOniy8Kurqtd9rgP/N7CHkqOp+/5fOkXLbBopXnm8QzoUfFWkIZ10W
+ IACuZKIRt7cYvws6n+lsoQ01/DukzBy40QFqOlFR2yO9ZKIzdMjJ+Ydjn491FV6xszbo
+ vYjrmrDPEnuDg02n7Bx7SE/XZn9h+b9LNN/i88EIGHscuQFtmzOkLZwxo3o5Kg/BgSQc
+ 63PuUhtWT7ZpXZrim6T781tOInbuX4G/r7afO3+Pzfm0gSl4FmtUwyhF+vKt93A5i64h
+ 164g==
+X-Gm-Message-State: AOAM530krfazlHpMIUEoMtpmMfPZd6eDVY8eFmjbeViai+oxrKKPsrlz
+ CN8s9M5WPEbnFIlbxzm8G1A=
+X-Google-Smtp-Source: ABdhPJy4OUB3NKzmzxtWhApdtvy3/z5YEIBznpReMMrvlZrZspZBwaIFNX7vWyh6Vw1cDWf5SGVIZA==
+X-Received: by 2002:a17:907:d0c:b0:6f4:a5b9:3799 with SMTP id
+ gn12-20020a1709070d0c00b006f4a5b93799mr29643630ejc.732.1652358276697; 
+ Thu, 12 May 2022 05:24:36 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ m3-20020a1709066d0300b006f3ef214deasm2061884ejr.80.2022.05.12.05.24.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 05:24:36 -0700 (PDT)
+Message-ID: <4970cd1d-6801-9a57-04a7-1e907c1b7fcf@redhat.com>
+Date: Thu, 12 May 2022 14:24:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] qapi: make machine type deprecation a warning
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20220511175043.27327-1-pbonzini@redhat.com>
+ <87a6bn9gg3.fsf@pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87a6bn9gg3.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,99 +96,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+On 5/12/22 12:46, Markus Armbruster wrote:
+> Commit message nitpick: not sure this is "qapi:".  The commit that
+> introduced "Machine type ... is deprecated" (08fe68244eb) used
+> "hw/i386:".  We commonly use "vl:", "softmmu:", and "softmmu/vl:" for
+> this file.
 
-> The "-display sdl" option still uses a hand-crafted parser for its
-> parameters since some of them used underscores which is forbidden
-> in QAPI.
+Will do.
 
-Kind of.  QAPI indeed requires lower-case-with-hyphens for such names,
-but there is an exception mechanism for names with upper case and
-underscore: pragma member-name-exceptions.  Used for old names that
-predate naming rule enforcement, and for newer names we've elected to
-make consistent with their old siblings.
+I wonder if I should already propose renaming vl.c to climain.c, even if 
+there's no qmpmain.c yet.  Emotional/historical attachment is probably 
+not good enough of a reason to keep that name.
 
-The series that QAPIfied -display partially explained why it left
--display sdl,... and -display vnc,... unQAPIfied in commit 7a61f43859
-"ui: document non-qapi parser cases.":
+I suppose this is already a proposal.
 
-    diff --git a/vl.c b/vl.c
-    index 5f1734d851..3b39bbd7a8 100644
-    --- a/vl.c
-    +++ b/vl.c
-    @@ -2114,6 +2114,16 @@ static void parse_display(const char *p)
-         const char *opts;
-
-         if (strstart(p, "sdl", &opts)) {
-    +        /*
-    +         * sdl DisplayType needs hand-crafted parser instead of
-    +         * parse_display_qapi() due to some options not in
-    +         * DisplayOptions, specifically:
-    +         *   - frame
-    +         *     Already deprecated.
-    +         *   - ctrl_grab + alt_grab
-    +         *     Not clear yet what happens to them long-term.  Should
-    +         *     replaced by something better or deprecated and dropped.
-
-This sounds like it was mostly reluctance to drag undesirables into the
-QAPI schema.
-
-Commit f6b560bbc1 "softmmu/vl: Remove obsolete comment about the "frame"
-parameter" dropped item "frame".
-
-Commit 8e8e844be4 "softmmu/vl: Add a "grab-mod" parameter to the
--display sdl option" decided the future of ctrl_grab + alt_grab.  It
-replaced the second item's text:
-
-    +         *     They can't be moved into the QAPI since they use underscores,
-    +         *     thus they will get replaced by "grab-mod" in the long term
-
-I figure they could've been moved to the QAPI schema back then.
-Instead, we're getting rid of them without a detour through the schema.
-Good!
-
-    +         */
-             dpy.type = DISPLAY_TYPE_SDL;
-             while (*opts) {
-                 const char *nextopt;
-    @@ -2179,6 +2189,10 @@ static void parse_display(const char *p)
-                 opts = nextopt;
-             }
-         } else if (strstart(p, "vnc", &opts)) {
-    +        /*
-    +         * vnc isn't a (local) DisplayType but a protocol for remote
-    +         * display access.
-    +         */
-             if (*opts == '=') {
-                 vnc_parse(opts + 1, &error_fatal);
-             } else {
-
-This remains, and that's fine.  One step at time.
-
->          Now that the problematic parameters have been removed, we can
-> switch to use the QAPI parser instead.
-
-Here's my attempt at a more accurate commit message.
-
-  The "-display sdl" option still uses a hand-crafted parser for its
-  parameters since we didn't want to drag an interface we considered
-  somewhat flawed into the QAPI schema.  Since the flaws are gone now,
-  it's time to QAPIfy.
-
-> This introduces the new "DisplaySDL" QAPI struct that is used to hold
-> the parameters that are unique to the SDL display. The only specific
-> parameter is currently "grab-mod" which is modeled as a string, so that
-> it could be extended for other arbitrary modifiers later more easily.
-
-Are the values of @grab-mod parsed in any way, or do we recognize a set
-of fixed strings?
-
-The former would be problematic.  We try hard to represent complex data
-as JSON instead of inventing little ad hoc languages.
-
-If it's the latter, use an enum.  Makes introspection more useful, and
-adding enumeration values is no harder than adding string literals.
-
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
+Paolo
 
