@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E54652480D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:44:54 +0200 (CEST)
-Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025315247EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 10:35:59 +0200 (CEST)
+Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np4RI-0008Ac-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53070)
+	id 1np4If-0001OZ-Oq
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 04:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1np44Y-00073f-QL
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:21:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60019)
+ id 1np44y-0007jj-ND
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:21:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1np44W-0004eC-P1
- for qemu-devel@nongnu.org; Thu, 12 May 2022 04:21:22 -0400
+ id 1np44x-0004ga-0n
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 04:21:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652343674;
+ s=mimecast20190719; t=1652343706;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xdgNZt/rQpUcoPLXVRdG0YvOOQZJjBQGmJFjPdtyntU=;
- b=R193ADxO1F/ul8gFLcMM2YkgsLTfEXw1QcjPdfUdcZHS21espy1/5Ey3XXQuiv5/PKlAzK
- sNCeW1l4hng6pjUGujfNBVAQjkrWCtwfdH7sPAH9aWukMLgJqs0TI1KFp77YbVOmLDoTyv
- ycWN32xiAh0tIXd0nLRGugPlyEiEcs4=
+ bh=YShBmWPRyZxq7ZoiaOR3ouc0i0tDr7P0Lh+vL74j4X0=;
+ b=BReGsvrf2vKvJbzk25ObcUlA7DffIvd1q1MAME+uo+MXxzy1tWKt/weeTyNWAZH1y/pEp6
+ pxEZxudi9dDb19mbLscjgAcxdlMA0YNxHDbKTA3Ox6XxojGNk8FJQAqJSD4FvCEWMQ8eR8
+ YdHVGGMsdgVZEcrHyTuI8rqD+xIUQk4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-2ogykoPDOQmAbuoStqIq9w-1; Thu, 12 May 2022 04:21:13 -0400
-X-MC-Unique: 2ogykoPDOQmAbuoStqIq9w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-652-qDdZMG_-MhCuA8BUiLW3pw-1; Thu, 12 May 2022 04:21:45 -0400
+X-MC-Unique: qDdZMG_-MhCuA8BUiLW3pw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F6AC185A7B2
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:21:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE150101A52C
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:21:44 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EF252166B2D;
- Thu, 12 May 2022 08:21:01 +0000 (UTC)
-Date: Thu, 12 May 2022 09:20:59 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0413A56A19E;
+ Thu, 12 May 2022 08:21:42 +0000 (UTC)
+Date: Thu, 12 May 2022 09:21:40 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
 Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 2/3] ui: Switch "-display sdl" to use the QAPI parser
-Message-ID: <YnzDa/Nzu9TfpQpN@redhat.com>
+Subject: Re: [PATCH 3/3] ui: Remove deprecated options "-sdl" and "-curses"
+Message-ID: <YnzDlKVw/xHvYPjw@redhat.com>
 References: <20220511175147.917707-1-thuth@redhat.com>
- <20220511175147.917707-3-thuth@redhat.com>
+ <20220511175147.917707-4-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220511175147.917707-3-thuth@redhat.com>
+In-Reply-To: <20220511175147.917707-4-thuth@redhat.com>
 User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,25 +86,20 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 11, 2022 at 07:51:46PM +0200, Thomas Huth wrote:
-> The "-display sdl" option still uses a hand-crafted parser for its
-> parameters since some of them used underscores which is forbidden
-> in QAPI. Now that the problematic parameters have been removed, we can
-> switch to use the QAPI parser instead.
-> 
-> This introduces the new "DisplaySDL" QAPI struct that is used to hold
-> the parameters that are unique to the SDL display. The only specific
-> parameter is currently "grab-mod" which is modeled as a string, so that
-> it could be extended for other arbitrary modifiers later more easily.
+On Wed, May 11, 2022 at 07:51:47PM +0200, Thomas Huth wrote:
+> We have "-sdl" and "-curses", but no "-gtk" and no "-cocoa" ...
+> these old-style options are rather confusing than helpful nowadays.
+> Now that the deprecation period is over, let's remove them, so we
+> get a cleaner interface (where "-display" is the only way to select
+> the user interface).
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  qapi/ui.json            | 17 +++++++++-
->  include/sysemu/sysemu.h |  2 --
->  softmmu/globals.c       |  2 --
->  softmmu/vl.c            | 70 +----------------------------------------
->  ui/sdl2.c               | 13 ++++++++
->  5 files changed, 30 insertions(+), 74 deletions(-)
+>  docs/about/deprecated.rst       | 10 ----------
+>  docs/about/removed-features.rst | 10 ++++++++++
+>  softmmu/vl.c                    | 19 -------------------
+>  qemu-options.hx                 | 24 ++----------------------
+>  4 files changed, 12 insertions(+), 51 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
