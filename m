@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6238952438F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:40:30 +0200 (CEST)
-Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0349D5243B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 05:49:47 +0200 (CEST)
+Received: from localhost ([::1]:37278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nozgj-0004V3-H5
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:40:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
+	id 1nozpi-0004xC-3Y
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 23:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozNb-0005U9-RX
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:44 -0400
-Received: from mga11.intel.com ([192.55.52.93]:31268)
+ id 1nozNd-0005VH-0V
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:45 -0400
+Received: from mga11.intel.com ([192.55.52.93]:31264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nozNa-0003Hj-9Z
- for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:43 -0400
+ id 1nozNb-0003Hf-Am
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 23:20:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652325642; x=1683861642;
+ t=1652325643; x=1683861643;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=zA4+vO3ZlL6FDdVOOW5n4kWKuIMD1g8bw35TxLB01wM=;
- b=kZ0tMDoxXzf/lEcWH2d1X/bPpsswOVq7ExRWabw1sEXCLc057t8Jvm4j
- D0RaR71fDjpfaa3N5Hah72QmXoonuBAYjxTDE3/mBjK6HFpT20tyiG3D2
- jSnPfrUDUAzwS0AbGT/LOsnAzSfIHS/9esejzO59qV/sTTHOwGQ4efkcX
- XLTTtNVAmJ1K8Q/JPGVfqxhyh9xG3qR5BDllIz5K8Tqc4CZd8mIuO15LH
- TwladftCvjHgSfk6DW3DlJXwhuvT01gCiskYh3+0SFOyWwnyY0bYJYK8r
- rSDXxLwJj/7YwEyc16piiOlo3qqPjlLg7ChHt1jzdLS7cUBYaSolVH9vf Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="267461332"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="267461332"
+ bh=Lh4ppGDQ1eZFnNDkiTMY5BSG4ZJaoqqHcvXD4R6VHIM=;
+ b=QZljr3DUYGoS9rgnw7KnjS/ihOcI0ustQBKwkW2c9XkZcHRAoeIt3N4G
+ cLt7U6olhPc5GVFz5akX1V6kPLSn4AJ45ZK3fvyS9SBd2dqERIyhSwP/U
+ 3PzTuL9TViwH9PGFxB+3rCWqCjJTy3nTVgX7jptkbuXQVU/17OWFlbPX+
+ yu72yr3rTEVIBlzTVcB1Zdw/rKxGbDXyFENuxggLjND5iLpxETFwdSR0Z
+ e2AZiqkt3cbg3yheR9uYfD1zy5bZSb01JE7ihUFEHv4lMg1EXne4swx4k
+ pRv1QiPBXujRNaslYgYUNHtLSiLWtGDbCGB4bNr42SEW/azgvCEYznBw2 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="267461345"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="267461345"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 20:20:21 -0700
+ 11 May 2022 20:20:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594456595"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594456621"
 Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:20:17 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 May 2022 20:20:22 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
@@ -54,9 +54,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [RFC PATCH v4 27/36] i386/tdx: Disable SMM for TDX VMs
-Date: Thu, 12 May 2022 11:17:54 +0800
-Message-Id: <20220512031803.3315890-28-xiaoyao.li@intel.com>
+Subject: [RFC PATCH v4 28/36] i386/tdx: Disable PIC for TDX VMs
+Date: Thu, 12 May 2022 11:17:55 +0800
+Message-Id: <20220512031803.3315890-29-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220512031803.3315890-1-xiaoyao.li@intel.com>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
@@ -87,32 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TDX doesn't support SMM and VMM cannot emulate SMM for TDX VMs because
-VMM cannot manipulate TDX VM's memory.
+Legacy PIC (8259) cannot be supported for TDX VMs since TDX module
+doesn't allow directly interrupt injection.  Using posted interrupts
+for the PIC is not a viable option as the guest BIOS/kernel will not
+do EOI for PIC IRQs, i.e. will leave the vIRR bit set.
 
-Disable SMM for TDX VMs and error out if user requests to enable SMM.
+Hence disable PIC for TDX VMs and error out if user wants PIC.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- target/i386/kvm/tdx.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/i386/kvm/tdx.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index 4a7c149f895c..7ff4c6a9a7ca 100644
+index 7ff4c6a9a7ca..59c7aa8f1818 100644
 --- a/target/i386/kvm/tdx.c
 +++ b/target/i386/kvm/tdx.c
-@@ -322,9 +322,17 @@ static Notifier tdx_machine_done_notify = {
+@@ -333,6 +333,13 @@ int tdx_kvm_init(MachineState *ms, Error **errp)
+         return -EINVAL;
+     }
  
- int tdx_kvm_init(MachineState *ms, Error **errp)
- {
-+    X86MachineState *x86ms = X86_MACHINE(ms);
-     TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(ms->cgs),
-                                                     TYPE_TDX_GUEST);
- 
-+    if (x86ms->smm == ON_OFF_AUTO_AUTO) {
-+        x86ms->smm = ON_OFF_AUTO_OFF;
-+    } else if (x86ms->smm == ON_OFF_AUTO_ON) {
-+        error_setg(errp, "TDX VM doesn't support SMM");
++    if (x86ms->pic == ON_OFF_AUTO_AUTO) {
++        x86ms->pic = ON_OFF_AUTO_OFF;
++    } else if (x86ms->pic == ON_OFF_AUTO_ON) {
++        error_setg(errp, "TDX VM doesn't support PIC");
 +        return -EINVAL;
 +    }
 +
