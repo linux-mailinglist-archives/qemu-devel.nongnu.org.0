@@ -2,63 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD263525521
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 20:48:27 +0200 (CEST)
-Received: from localhost ([::1]:33202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F31B5255A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 21:21:45 +0200 (CEST)
+Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npDrO-0000wP-Q6
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 14:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
+	id 1npENc-0008GF-1k
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 15:21:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1npD4k-0000ik-Bf
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:58:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53634)
+ id 1npD8Y-0004T4-Eq
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 14:02:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1npD4i-0001lA-Md
- for qemu-devel@nongnu.org; Thu, 12 May 2022 13:58:09 -0400
+ id 1npD8W-0002K1-H2
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 14:02:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652378288;
+ s=mimecast20190719; t=1652378520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lcr2WOpJYbpUL+DcJ8ruYB6/M8/E0ReWvgqIYFP/sIk=;
- b=GLs9GjsQyBtui2Ellsx9Rm+7HSqaj3x5gMPyeZ2KELh4XdySPb/+zyOUhQ92sxn5XV1qA7
- dcqUvk8+M6o+O20HdY8carASSr6sO4ZFy+NFm+Ed4nPvPoxJ6XQkHwGfyBYU3U+Y+PinNx
- l1czQTGnuXtIGWXFRdmiF2G2IBi9Beg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rzrR/wu6plV49zoKbir82gDpfEgUGOvh7GFWYsZZEqM=;
+ b=HmqbwqdzdZt8SZgwJmFndkGR15IdawnM/un/3pT1NoW0rMZgQ3PmzMYuMKa5qNXt/D22ev
+ yuFybBwwnNGsuNNSiqb/ZMQPCQjxVBY6XKSM1DB9SY78P0gn0a4/Of1uABZXQeshkjVVBH
+ h1OTh8+3fCy09KT9AK7zQZltK3O3opo=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-FjJ5zO1AMA6zzzZNJ2ad0w-1; Thu, 12 May 2022 13:58:04 -0400
-X-MC-Unique: FjJ5zO1AMA6zzzZNJ2ad0w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 61BFF101A52C;
- Thu, 12 May 2022 17:58:04 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.193.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9212A43E392;
- Thu, 12 May 2022 17:58:02 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, qemu-stable@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cindy Lu <lulu@redhat.com>
-Subject: [PATCH 6/6] vhost: Fix element in vhost_svq_add failure
-Date: Thu, 12 May 2022 19:57:47 +0200
-Message-Id: <20220512175747.142058-7-eperezma@redhat.com>
-In-Reply-To: <20220512175747.142058-1-eperezma@redhat.com>
-References: <20220512175747.142058-1-eperezma@redhat.com>
+ us-mta-519-58PnaeyQPTiuIL0ZfcNOfA-1; Thu, 12 May 2022 14:01:58 -0400
+X-MC-Unique: 58PnaeyQPTiuIL0ZfcNOfA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ l20-20020a05620a211400b006a0d5b5e51dso4717896qkl.2
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 11:01:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rzrR/wu6plV49zoKbir82gDpfEgUGOvh7GFWYsZZEqM=;
+ b=TiZRKBkB47JXea3EcpJJFNBBVQiRV5rwzxhsUvJFL2OYf3E0GeDG4H9Chmua7wAJUe
+ qUIB1+UA7COiJrA+ktdLiSx7bVE17GiaUQq8R4I//8g7g1nfSh010/aSAkVVlA86ew8n
+ oD0S8/wDKN5cOikdI/RC/62U6rV6KueOfK8M81LCSGHh/7p7q8rfidOICQ4+19l5KxiK
+ J/fpy7n//4D/reYeBAJULqfDHqTK32C6rTFm/BQ7/xHRxqk5W1DqPhF7GH140SWyNNkF
+ OZh+KrvSOm0nkixZLmFdFHdXriwbSqx9p37sPJgC8ko6rDD6el4cyaTRKB+jsRW4g03P
+ UDXw==
+X-Gm-Message-State: AOAM5318W2VOJmk2+7o8zVERsXAIHbYLtdiWBcpV87eWWbYb3G9uxPA3
+ ccwbnv/WRLgmsgI7TRxPKMiO5JegBSX+DQTv/k3beaoBcWzI+VhTCN3wkdvDQmJ+7ISc7WiNSjX
+ /IXaigl0DRM/G2LZnlPq+i9KSYE/KtLA=
+X-Received: by 2002:a05:6214:b8e:b0:456:3674:ca6 with SMTP id
+ fe14-20020a0562140b8e00b0045636740ca6mr1185043qvb.40.1652378517912; 
+ Thu, 12 May 2022 11:01:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPDgtt7CVnYZ1nYnuEbARmLjjZKO6ufTHrfLocpq9ggRbb6VKGUYL3hsE2BUQDfBrrZUX3ec7EDLAaNSyXVuw=
+X-Received: by 2002:a05:6214:b8e:b0:456:3674:ca6 with SMTP id
+ fe14-20020a0562140b8e00b0045636740ca6mr1185005qvb.40.1652378517479; Thu, 12
+ May 2022 11:01:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+References: <20220315061420.31910-1-jasowang@redhat.com>
+ <20220315061420.31910-9-jasowang@redhat.com>
+ <CAFEAcA_p4KWptkQ4xUXmtUkmYufn72KLr=1B_9q1QZ3FLJBkPw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_p4KWptkQ4xUXmtUkmYufn72KLr=1B_9q1QZ3FLJBkPw@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 12 May 2022 20:01:21 +0200
+Message-ID: <CAJaqyWfyxokmC4Szy0TqTqAO58+qPB3yPktxSVX06zVNZACrqw@mail.gmail.com>
+Subject: Re: [PULL V3 08/15] vhost: Shadow virtqueue buffers forwarding
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>, 
+ "Michael S . Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -83,41 +96,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity rightly reports that is not free in that case.
+On Thu, May 12, 2022 at 5:48 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>
+> On Tue, 15 Mar 2022 at 06:14, Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > From: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >
+> > Initial version of shadow virtqueue that actually forward buffers. Ther=
+e
+> > is no iommu support at the moment, and that will be addressed in future
+> > patches of this series. Since all vhost-vdpa devices use forced IOMMU,
+> > this means that SVQ is not usable at this point of the series on any
+> > device.
+> >
+> > For simplicity it only supports modern devices, that expects vring
+> > in little endian, with split ring and no event idx or indirect
+> > descriptors. Support for them will not be added in this series.
+> >
+> > It reuses the VirtQueue code for the device part. The driver part is
+> > based on Linux's virtio_ring driver, but with stripped functionality
+> > and optimizations so it's easier to review.
+> >
+> > However, forwarding buffers have some particular pieces: One of the mos=
+t
+> > unexpected ones is that a guest's buffer can expand through more than
+> > one descriptor in SVQ. While this is handled gracefully by qemu's
+> > emulated virtio devices, it may cause unexpected SVQ queue full. This
+> > patch also solves it by checking for this condition at both guest's
+> > kicks and device's calls. The code may be more elegant in the future if
+> > SVQ code runs in its own iocontext.
+>
+> Hi; Coverity thinks there's a memory leak in an error handling
+> path in this code (CID 1487559):
+>
+> > +/**
+> > + * Forward available buffers.
+> > + *
+> > + * @svq: Shadow VirtQueue
+> > + *
+> > + * Note that this function does not guarantee that all guest's availab=
+le
+> > + * buffers are available to the device in SVQ avail ring. The guest ma=
+y have
+> > + * exposed a GPA / GIOVA contiguous buffer, but it may not be contiguo=
+us in
+> > + * qemu vaddr.
+> > + *
+> > + * If that happens, guest's kick notifications will be disabled until =
+the
+> > + * device uses some buffers.
+> > + */
+> > +static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
+> > +{
+> > +    /* Clear event notifier */
+> > +    event_notifier_test_and_clear(&svq->svq_kick);
+> > +
+> > +    /* Forward to the device as many available buffers as possible */
+> > +    do {
+> > +        virtio_queue_set_notification(svq->vq, false);
+> > +
+> > +        while (true) {
+> > +            VirtQueueElement *elem;
+> > +            bool ok;
+> > +
+> > +            if (svq->next_guest_avail_elem) {
+> > +                elem =3D g_steal_pointer(&svq->next_guest_avail_elem);
+> > +            } else {
+> > +                elem =3D virtqueue_pop(svq->vq, sizeof(*elem));
+> > +            }
+>
+> Here virtqueue_pop() returns allocated memory...
+>
+> > +
+> > +            if (!elem) {
+> > +                break;
+> > +            }
+> > +
+> > +            if (elem->out_num + elem->in_num > vhost_svq_available_slo=
+ts(svq)) {
+> > +                /*
+> > +                 * This condition is possible since a contiguous buffe=
+r in GPA
+> > +                 * does not imply a contiguous buffer in qemu's VA
+> > +                 * scatter-gather segments. If that happens, the buffe=
+r exposed
+> > +                 * to the device needs to be a chain of descriptors at=
+ this
+> > +                 * moment.
+> > +                 *
+> > +                 * SVQ cannot hold more available buffers if we are he=
+re:
+> > +                 * queue the current guest descriptor and ignore furth=
+er kicks
+> > +                 * until some elements are used.
+> > +                 */
+> > +                svq->next_guest_avail_elem =3D elem;
+> > +                return;
+> > +            }
+> > +
+> > +            ok =3D vhost_svq_add(svq, elem);
+> > +            if (unlikely(!ok)) {
+> > +                /* VQ is broken, just return and ignore any other kick=
+s */
+> > +                return;
+>
+> ...but in this error return path we have neither put elem
+> anywhere, nor freed it, so the memory is leaked.
+>
+> > +            }
+> > +            vhost_svq_kick(svq);
+> > +        }
+> > +
+> > +        virtio_queue_set_notification(svq->vq, true);
+> > +    } while (!virtio_queue_empty(svq->vq));
+> > +}
+>
 
-Fixes: Coverity CID 1487559
-Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+Thank you very much for the analysis. There is no way to enable SVQ at
+this moment, so we cannot trigger the leak in master. Should we
+backport the fix to stable?
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/virtio/vhost-shadow-virtqueue.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Sending patches for this and other bugs detected while working on the
+next iteration of SVQ.
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index a8376ef82b..56c96ebd13 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -199,11 +199,19 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-     return true;
- }
- 
-+/**
-+ * Add an element to a SVQ.
-+ *
-+ * The caller must check that there is enough slots for the new element. It
-+ * takes ownership of the element: In case of failure, it is free and the SVQ
-+ * is considered broken.
-+ */
- static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
- {
-     unsigned qemu_head;
-     bool ok = vhost_svq_add_split(svq, elem, &qemu_head);
-     if (unlikely(!ok)) {
-+        g_free(elem);
-         return false;
-     }
- 
--- 
-2.27.0
+Thanks!
+
+> thanks
+> -- PMM
+>
 
 
