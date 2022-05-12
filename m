@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2365D5251B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:58:21 +0200 (CEST)
-Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82DF5251AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 17:55:39 +0200 (CEST)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBCl-0002uu-U1
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43014)
+	id 1npBAA-0006T8-NL
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 11:55:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npB2v-0004Gz-Mw
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:48:09 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:38802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npB2t-00060o-RQ
- for qemu-devel@nongnu.org; Thu, 12 May 2022 11:48:09 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id m128so10541570ybm.5
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=E7ojlrNfSmc5Q2kUiuwjbskdmVgAHcKRT6Ntt6ygbvg=;
- b=YAEoby3dFEL0nJuTsLGzXFszFJExya9p9MEd+jPQmR7JBshyJezp9Z4PQFY9s7PnoZ
- 7glpRFXrUFUQrdkW4cH6CXDY61PvO6VwFocS+EPjUOTbOVBozcbGCXyhIXlGpxFoQEGW
- JF1BFz3DyAVKmYLMiYNPaTx+svbj5YlW/6J+BR2MHXISfnpI9lFF3mp7b40/s4U5yFLy
- rF8xroIlDiGtSIpAHZwEdiQPU8Exx0Sk7C2HGCkG7n10huD0NZZJ6/T+OY7774bveSvS
- qjVOPbh6Yo5GgPtMLL089avLaOaaNRLZxD1IApB7hQQTy7RQ97V1VaQIh2faDgIYN6xJ
- 9lSg==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1npB4I-00065l-Pc
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:49:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1npB4H-00066p-7C
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 11:49:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652370572;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fEyuA1t6b7UKCgLNW2WXWpyYp+0uxw2qdHmw+Q/dk+Y=;
+ b=H8oQzS5oi5Swc8xjDGs6eosA8/k2irQxAH8toPGOuIn4111YQOAzawjnpA96Tf4IeA8Afs
+ IAZOzcIAHkEdr2mz1sh8JPAUvOsMYS+sjdoBhLWKn47JvzyOx4Oa4LTUf/Gz5A2L3VLx+B
+ jN9VpxL2rtfoL5JJ7mdzPLHFTBa2qfQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-387-RYgxUd_RN8uQqAr0RDyQqA-1; Thu, 12 May 2022 11:49:23 -0400
+X-MC-Unique: RYgxUd_RN8uQqAr0RDyQqA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ l20-20020a05620a211400b006a0d5b5e51dso4428578qkl.2
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 08:49:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=E7ojlrNfSmc5Q2kUiuwjbskdmVgAHcKRT6Ntt6ygbvg=;
- b=hFuVr8anVSXYIQK+32qDrobJW286i4hrbFQiiWgjfcV7ahF3WlpW8u0FnpXx6oTHkH
- y0dEBabvmAQHG625IScVZIoLrgnUB8zQ0QivkmynGRzUKgYE+Su/jz2fSssZa6LqJNxt
- LRBloQVAsx519NjwFBRWLyI/FH7ge3wuYYdhWbWFnAuexckcLtkdHPKvqFcxsJ8PtwNN
- LrXgub8gSyuXKmMxzDYFmC2U8NQMDje7Mp8vcMAOXmBoHzWuImgy+myTanTx9f8wXXND
- 2YtPE4YZ8dozeno/nzZb/gwm777EWFsAzzInzYNzb5OKk/g/Ecb6eaqViHCmC1SHX//m
- 9EDw==
-X-Gm-Message-State: AOAM533UF6wmvZ+4C9QChyFnVn1FgHgTKonKi+p9LmSNSc7CB4CI+nK3
- Zkx8yELW/leIYlgHpiFMKoubnWt2Z1TpagPWx1CKtA==
-X-Google-Smtp-Source: ABdhPJzT+UthMdvrwIsIsFdRFDePn3VMKIboj7vNGpwewiL/kpHrGAJ6OtbwGlqHyHJGMemmXgY2fGd1l39zH1O5/KU=
-X-Received: by 2002:a05:6902:1543:b0:649:3124:b114 with SMTP id
- r3-20020a056902154300b006493124b114mr453116ybu.39.1652370486522; Thu, 12 May
- 2022 08:48:06 -0700 (PDT)
+ bh=fEyuA1t6b7UKCgLNW2WXWpyYp+0uxw2qdHmw+Q/dk+Y=;
+ b=aPidiWZ1XcqTRaC729h5NeW2JQ64hULJjkL34hVSu4EwOW730XMk/WcwxedBC8dTKy
+ JrGHltKssiVwymF7wpAVgliXZmeFM2wXkcCPjBNjqg2g9YdPVMXEYnnY4CMWE/V4aOOJ
+ MZo13z8lpwFoPjXYHnj+1tgsPqc5MHlKt6OpIyzBSlCwbzYQYH/HAS8lzged9RSUEVa1
+ UgStBaKh9dw8oTmxlzpi6ZLyUjafzpE4As/E99OF7K86Y1x9PGikFZTxcm7uKaL6qhn+
+ 9ThEnioQjCxzPfUkJz8zxNloqZlZy5bGt+mtjWBl/VYbgL2IG53VdbRAE1ez+IjRQt4j
+ Aewg==
+X-Gm-Message-State: AOAM530ZwQ7tYLyEmAASD5SYuoZZo7aOFogU1HaKRl1gffIHSutyPrNC
+ 9nLkRlpJXU6cwA47AjF+6sE8o9bVqpWuJAQffviy4HYHV/tTEqKpu0JMr+4ENFVQehRwQZC7zMr
+ ASccEjB7EoT7/B+aExZ4cSHFdnwavDxo=
+X-Received: by 2002:a05:6214:1cc3:b0:456:56d:f2c5 with SMTP id
+ g3-20020a0562141cc300b00456056df2c5mr546714qvd.119.1652370563283; 
+ Thu, 12 May 2022 08:49:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMg0LTdBbHHShbdHvaXdddgn6TwKjYQWYOyNRMgbMK4rQ0T8l7kBVwlB6W6maZOLCVj59LgkQBpV6mSt4Ieqw=
+X-Received: by 2002:a05:6214:1cc3:b0:456:56d:f2c5 with SMTP id
+ g3-20020a0562141cc300b00456056df2c5mr546701qvd.119.1652370563039; Thu, 12 May
+ 2022 08:49:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315061420.31910-1-jasowang@redhat.com>
- <20220315061420.31910-9-jasowang@redhat.com>
-In-Reply-To: <20220315061420.31910-9-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 May 2022 16:47:55 +0100
-Message-ID: <CAFEAcA_p4KWptkQ4xUXmtUkmYufn72KLr=1B_9q1QZ3FLJBkPw@mail.gmail.com>
-Subject: Re: [PULL V3 08/15] vhost: Shadow virtqueue buffers forwarding
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+References: <20220427154931.3166388-1-eperezma@redhat.com>
+In-Reply-To: <20220427154931.3166388-1-eperezma@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 12 May 2022 17:48:47 +0200
+Message-ID: <CAJaqyWdwzUnP71LNEDe6Fo+th9-qMLQXJMgeo2nb3jE-GyUCPw@mail.gmail.com>
+Subject: Re: [PATCH] util: Return void on iova_tree_remove
+To: qemu-level <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,116 +94,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 06:14, Jason Wang <jasowang@redhat.com> wrote:
+On Wed, Apr 27, 2022 at 5:50 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
 >
-> From: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> It always returns IOVA_OK so nobody uses it.
 >
-> Initial version of shadow virtqueue that actually forward buffers. There
-> is no iommu support at the moment, and that will be addressed in future
-> patches of this series. Since all vhost-vdpa devices use forced IOMMU,
-> this means that SVQ is not usable at this point of the series on any
-> device.
+> Acked-by: Jason Wang <jasowang@redhat.com>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+
+Hi! Friendly ping about this, is it something pending from my side?
+
+Thanks!
+
+> ---
+>  include/qemu/iova-tree.h | 4 +---
+>  util/iova-tree.c         | 4 +---
+>  2 files changed, 2 insertions(+), 6 deletions(-)
 >
-> For simplicity it only supports modern devices, that expects vring
-> in little endian, with split ring and no event idx or indirect
-> descriptors. Support for them will not be added in this series.
+> diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
+> index c938fb0793..16bbfdf5f8 100644
+> --- a/include/qemu/iova-tree.h
+> +++ b/include/qemu/iova-tree.h
+> @@ -72,10 +72,8 @@ int iova_tree_insert(IOVATree *tree, const DMAMap *map=
+);
+>   * provided.  The range does not need to be exactly what has inserted,
+>   * all the mappings that are included in the provided range will be
+>   * removed from the tree.  Here map->translated_addr is meaningless.
+> - *
+> - * Return: 0 if succeeded, or <0 if error.
+>   */
+> -int iova_tree_remove(IOVATree *tree, const DMAMap *map);
+> +void iova_tree_remove(IOVATree *tree, const DMAMap *map);
 >
-> It reuses the VirtQueue code for the device part. The driver part is
-> based on Linux's virtio_ring driver, but with stripped functionality
-> and optimizations so it's easier to review.
+>  /**
+>   * iova_tree_find:
+> diff --git a/util/iova-tree.c b/util/iova-tree.c
+> index 6dff29c1f6..fee530a579 100644
+> --- a/util/iova-tree.c
+> +++ b/util/iova-tree.c
+> @@ -164,15 +164,13 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_it=
+erator iterator)
+>      g_tree_foreach(tree->tree, iova_tree_traverse, iterator);
+>  }
 >
-> However, forwarding buffers have some particular pieces: One of the most
-> unexpected ones is that a guest's buffer can expand through more than
-> one descriptor in SVQ. While this is handled gracefully by qemu's
-> emulated virtio devices, it may cause unexpected SVQ queue full. This
-> patch also solves it by checking for this condition at both guest's
-> kicks and device's calls. The code may be more elegant in the future if
-> SVQ code runs in its own iocontext.
+> -int iova_tree_remove(IOVATree *tree, const DMAMap *map)
+> +void iova_tree_remove(IOVATree *tree, const DMAMap *map)
+>  {
+>      const DMAMap *overlap;
+>
+>      while ((overlap =3D iova_tree_find(tree, map))) {
+>          g_tree_remove(tree->tree, overlap);
+>      }
+> -
+> -    return IOVA_OK;
+>  }
+>
+>  /**
+> --
+> 2.27.0
+>
+>
 
-Hi; Coverity thinks there's a memory leak in an error handling
-path in this code (CID 1487559):
-
-> +/**
-> + * Forward available buffers.
-> + *
-> + * @svq: Shadow VirtQueue
-> + *
-> + * Note that this function does not guarantee that all guest's available
-> + * buffers are available to the device in SVQ avail ring. The guest may =
-have
-> + * exposed a GPA / GIOVA contiguous buffer, but it may not be contiguous=
- in
-> + * qemu vaddr.
-> + *
-> + * If that happens, guest's kick notifications will be disabled until th=
-e
-> + * device uses some buffers.
-> + */
-> +static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-> +{
-> +    /* Clear event notifier */
-> +    event_notifier_test_and_clear(&svq->svq_kick);
-> +
-> +    /* Forward to the device as many available buffers as possible */
-> +    do {
-> +        virtio_queue_set_notification(svq->vq, false);
-> +
-> +        while (true) {
-> +            VirtQueueElement *elem;
-> +            bool ok;
-> +
-> +            if (svq->next_guest_avail_elem) {
-> +                elem =3D g_steal_pointer(&svq->next_guest_avail_elem);
-> +            } else {
-> +                elem =3D virtqueue_pop(svq->vq, sizeof(*elem));
-> +            }
-
-Here virtqueue_pop() returns allocated memory...
-
-> +
-> +            if (!elem) {
-> +                break;
-> +            }
-> +
-> +            if (elem->out_num + elem->in_num > vhost_svq_available_slots=
-(svq)) {
-> +                /*
-> +                 * This condition is possible since a contiguous buffer =
-in GPA
-> +                 * does not imply a contiguous buffer in qemu's VA
-> +                 * scatter-gather segments. If that happens, the buffer =
-exposed
-> +                 * to the device needs to be a chain of descriptors at t=
-his
-> +                 * moment.
-> +                 *
-> +                 * SVQ cannot hold more available buffers if we are here=
-:
-> +                 * queue the current guest descriptor and ignore further=
- kicks
-> +                 * until some elements are used.
-> +                 */
-> +                svq->next_guest_avail_elem =3D elem;
-> +                return;
-> +            }
-> +
-> +            ok =3D vhost_svq_add(svq, elem);
-> +            if (unlikely(!ok)) {
-> +                /* VQ is broken, just return and ignore any other kicks =
-*/
-> +                return;
-
-...but in this error return path we have neither put elem
-anywhere, nor freed it, so the memory is leaked.
-
-> +            }
-> +            vhost_svq_kick(svq);
-> +        }
-> +
-> +        virtio_queue_set_notification(svq->vq, true);
-> +    } while (!virtio_queue_empty(svq->vq));
-> +}
-
-thanks
--- PMM
 
