@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549345241B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 02:53:34 +0200 (CEST)
-Received: from localhost ([::1]:42316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002985241FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 03:22:06 +0200 (CEST)
+Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nox58-0001Sp-Fw
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 20:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47014)
+	id 1noxWm-00019h-H7
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 21:22:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nox1O-0005Ng-Jm
- for qemu-devel@nongnu.org; Wed, 11 May 2022 20:49:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nox1M-0006rx-7v
- for qemu-devel@nongnu.org; Wed, 11 May 2022 20:49:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652316575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vZqWWeVRNJTElQ92go9w+Hqv9csWsr+KUTPad940POw=;
- b=Tcff33/w4nY580S1H5ZhTBoiB+1aIc/G/m3WKvEWKf4UoEl9cMBClK3HB/6Ao6EuwMmPPl
- pg+Ib398v1WqoGNPAcYD4dPKK2lm/1oZ989EssrF99IEz4UiZbluZUYz5NfxzeYp8M5pWu
- DFzyWz5y7a59LUHFA86/G3kH2hjl4zQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-nax-5wErPR-2vrRBmZAmYw-1; Wed, 11 May 2022 20:49:31 -0400
-X-MC-Unique: nax-5wErPR-2vrRBmZAmYw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 687A03C1E33B;
- Thu, 12 May 2022 00:49:31 +0000 (UTC)
-Received: from blue.redhat.com (unknown [10.22.32.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4285D112131E;
- Thu, 12 May 2022 00:49:28 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: v.sementsov-og@mail.ru, kwolf@redhat.com, qemu-block@nongnu.org,
- Nir Soffer <nsoffer@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v4 2/2] nbd/server: Allow MULTI_CONN for shared writable
- exports
-Date: Wed, 11 May 2022 19:49:24 -0500
-Message-Id: <20220512004924.417153-3-eblake@redhat.com>
-In-Reply-To: <20220512004924.417153-1-eblake@redhat.com>
-References: <20220512004924.417153-1-eblake@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <irischenlj@devvm5719.atn0.facebook.com>)
+ id 1noxUW-0008Jv-LW
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 21:19:44 -0400
+Received: from 66-220-155-178.mail-mxout.facebook.com ([66.220.155.178]:40895)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1)
+ (envelope-from <irischenlj@devvm5719.atn0.facebook.com>)
+ id 1noxUU-0002QU-EH
+ for qemu-devel@nongnu.org; Wed, 11 May 2022 21:19:44 -0400
+Received: by devvm5719.atn0.facebook.com (Postfix, from userid 279525)
+ id 34F9E13E1755; Wed, 11 May 2022 17:54:13 -0700 (PDT)
+To: 
+Cc: irischenlj@fb.com, pdel@fb.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ clg@kaod.org, patrick@stwcx.xyz, alistair@alistair23.me, kwolf@redhat.com,
+ hreitz@redhat.com, peter.maydell@linaro.org, andrew@aj.id.au,
+ joel@jms.id.au, huth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ qemu-block@nongnu.org
+Subject: [PATCH v2] hw: m25p80: allow write_enable latch get/set
+Date: Wed, 11 May 2022 17:54:11 -0700
+Message-Id: <20220512005411.2503971-1-irischenlj@fb.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <irischenlj@fb.com>
+References: <irischenlj@fb.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=66.220.155.178;
+ envelope-from=irischenlj@devvm5719.atn0.facebook.com;
+ helo=66-220-155-178.mail-mxout.facebook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NO_DNS_FOR_FROM=0.001, RDNS_DYNAMIC=0.982,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001, TVD_RCVD_IP=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,363 +61,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Iris Chen <irischenlj@fb.com>
+From:  Iris Chen via <qemu-devel@nongnu.org>
 
-According to the NBD spec, a server that advertises
-NBD_FLAG_CAN_MULTI_CONN promises that multiple client connections will
-not see any cache inconsistencies: when properly separated by a single
-flush, actions performed by one client will be visible to another
-client, regardless of which client did the flush.
+The write_enable latch property is not currently exposed.
+This commit makes it a modifiable property using get/set methods.
 
-We always satisfy these conditions in qemu - even when we support
-multiple clients, ALL clients go through a single point of reference
-into the block layer, with no local caching.  The effect of one client
-is instantly visible to the next client.  Even if our backend were a
-network device, we argue that any multi-path caching effects that
-would cause inconsistencies in back-to-back actions not seeing the
-effect of previous actions would be a bug in that backend, and not the
-fault of caching in qemu.  As such, it is safe to unconditionally
-advertise CAN_MULTI_CONN for any qemu NBD server situation that
-supports parallel clients.
-
-Note, however, that we don't want to advertise CAN_MULTI_CONN when we
-know that a second client cannot connect (for historical reasons,
-qemu-nbd defaults to a single connection while nbd-server-add and QMP
-commands default to unlimited connections; but we already have
-existing means to let either style of NBD server creation alter those
-defaults).  This is visible by no longer advertising MULTI_CONN for
-'qemu-nbd -r' without -e, as in the iotest nbd-qemu-allocation.
-
-The harder part of this patch is setting up an iotest to demonstrate
-behavior of multiple NBD clients to a single server.  It might be
-possible with parallel qemu-io processes, but I found it easier to do
-in python with the help of libnbd, and help from Nir and Vladimir in
-writing the test.
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Suggested-by: Nir Soffer <nsoffer@redhat.com>
-Suggested-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+Signed-off-by: Iris Chen <irischenlj@fb.com>
 ---
- docs/interop/nbd.txt                          |   1 +
- docs/tools/qemu-nbd.rst                       |   3 +-
- qapi/block-export.json                        |   8 +-
- include/block/nbd.h                           |   3 +-
- blockdev-nbd.c                                |   5 +
- nbd/server.c                                  |  10 +-
- MAINTAINERS                                   |   1 +
- tests/qemu-iotests/tests/nbd-multiconn        | 145 ++++++++++++++++++
- tests/qemu-iotests/tests/nbd-multiconn.out    |   5 +
- .../tests/nbd-qemu-allocation.out             |   2 +-
- 10 files changed, 172 insertions(+), 11 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/nbd-multiconn
- create mode 100644 tests/qemu-iotests/tests/nbd-multiconn.out
+Ran ./scripts/checkpatch.pl on the patch and added a description. Fixed c=
+omments regarding DEFINE_PROP_BOOL.
 
-diff --git a/docs/interop/nbd.txt b/docs/interop/nbd.txt
-index bdb0f2a41a..f5ca25174a 100644
---- a/docs/interop/nbd.txt
-+++ b/docs/interop/nbd.txt
-@@ -68,3 +68,4 @@ NBD_CMD_BLOCK_STATUS for "qemu:dirty-bitmap:", NBD_CMD_CACHE
- * 4.2: NBD_FLAG_CAN_MULTI_CONN for shareable read-only exports,
- NBD_CMD_FLAG_FAST_ZERO
- * 5.2: NBD_CMD_BLOCK_STATUS for "qemu:allocation-depth"
-+* 7.1: NBD_FLAG_CAN_MULTI_CONN for shareable writable exports
-diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-index 4c950f6199..8e08a29e89 100644
---- a/docs/tools/qemu-nbd.rst
-+++ b/docs/tools/qemu-nbd.rst
-@@ -139,8 +139,7 @@ driver options if :option:`--image-opts` is specified.
- .. option:: -e, --shared=NUM
+ hw/block/m25p80.c             |  2 ++
+ tests/qtest/aspeed_smc-test.c | 23 +++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-   Allow up to *NUM* clients to share the device (default
--  ``1``), 0 for unlimited. Safe for readers, but for now,
--  consistency is not guaranteed between multiple writers.
-+  ``1``), 0 for unlimited.
-
- .. option:: -t, --persistent
-
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index 1de16d2589..7776248435 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -22,7 +22,9 @@
- #             recreated on the fly while the NBD server is active.
- #             If missing, it will default to denying access (since 4.0).
- # @max-connections: The maximum number of connections to allow at the same
--#                   time, 0 for unlimited. (since 5.2; default: 0)
-+#                   time, 0 for unlimited. Setting this to 1 also stops
-+#                   the server from advertising multiple client support
-+#                   (since 5.2; default: 0)
- #
- # Since: 4.2
- ##
-@@ -51,7 +53,9 @@
- #             recreated on the fly while the NBD server is active.
- #             If missing, it will default to denying access (since 4.0).
- # @max-connections: The maximum number of connections to allow at the same
--#                   time, 0 for unlimited. (since 5.2; default: 0)
-+#                   time, 0 for unlimited. Setting this to 1 also stops
-+#                   the server from advertising multiple client support
-+#                   (since 5.2; default: 0).
- #
- # Returns: error if the server is already running.
- #
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index c5a29ce1c6..c74b7a9d2e 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -1,5 +1,5 @@
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 430d1298a8..019beb5b78 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -35,6 +35,7 @@
+ #include "qapi/error.h"
+ #include "trace.h"
+ #include "qom/object.h"
++#include "qapi/visitor.h"
+=20
+ /* Fields for FlashPartInfo->flags */
+=20
+@@ -1558,6 +1559,7 @@ static int m25p80_pre_save(void *opaque)
+=20
+ static Property m25p80_properties[] =3D {
+     /* This is default value for Micron flash */
++    DEFINE_PROP_BOOL("write-enable", Flash, write_enable, false),
+     DEFINE_PROP_UINT32("nonvolatile-cfg", Flash, nonvolatile_cfg, 0x8FFF=
+),
+     DEFINE_PROP_UINT8("spansion-cr1nv", Flash, spansion_cr1nv, 0x0),
+     DEFINE_PROP_UINT8("spansion-cr2nv", Flash, spansion_cr2nv, 0x8),
+diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.=
+c
+index 87b40a0ef1..fcc156bc00 100644
+--- a/tests/qtest/aspeed_smc-test.c
++++ b/tests/qtest/aspeed_smc-test.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/bswap.h"
+ #include "libqtest-single.h"
++#include "qemu/bitops.h"
+=20
  /*
-- *  Copyright (C) 2016-2020 Red Hat, Inc.
-+ *  Copyright (C) 2016-2022 Red Hat, Inc.
-  *  Copyright (C) 2005  Anthony Liguori <anthony@codemonkey.ws>
-  *
-  *  Network Block Device
-@@ -346,6 +346,7 @@ void nbd_client_put(NBDClient *client);
-
- void nbd_server_is_qemu_nbd(int max_connections);
- bool nbd_server_is_running(void);
-+int nbd_server_max_connections(void);
- void nbd_server_start(SocketAddress *addr, const char *tls_creds,
-                       const char *tls_authz, uint32_t max_connections,
-                       Error **errp);
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 711e0e72bd..012256bb02 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -44,6 +44,11 @@ bool nbd_server_is_running(void)
-     return nbd_server || qemu_nbd_connections >= 0;
+  * ASPEED SPI Controller registers
+@@ -40,6 +41,7 @@
+ #define   CTRL_FREADMODE       0x1
+ #define   CTRL_WRITEMODE       0x2
+ #define   CTRL_USERMODE        0x3
++#define SR_WEL BIT(1)
+=20
+ #define ASPEED_FMC_BASE    0x1E620000
+ #define ASPEED_FLASH_BASE  0x20000000
+@@ -49,6 +51,7 @@
+  */
+ enum {
+     JEDEC_READ =3D 0x9f,
++    RDSR =3D 0x5,
+     BULK_ERASE =3D 0xc7,
+     READ =3D 0x03,
+     PP =3D 0x02,
+@@ -348,6 +351,25 @@ static void test_write_page_mem(void)
+     flash_reset();
  }
-
-+int nbd_server_max_connections(void)
+=20
++static void test_read_status_reg(void)
 +{
-+    return nbd_server ? nbd_server->max_connections : qemu_nbd_connections;
++    uint8_t r;
++
++    qmp("{ 'execute': 'qom-set', 'arguments': "
++       "{'path': '/machine/soc/fmc/ssi.0/child[0]', 'property': 'WEL', '=
+value': true}}");
++
++
++    spi_conf(CONF_ENABLE_W0);
++    spi_ctrl_start_user();
++    writeb(ASPEED_FLASH_BASE, RDSR);
++    r =3D readb(ASPEED_FLASH_BASE);
++    spi_ctrl_stop_user();
++
++    g_assert_cmphex(r & SR_WEL, =3D=3D, SR_WEL);
++
++    flash_reset();
 +}
 +
- static void nbd_blockdev_client_closed(NBDClient *client, bool ignored)
- {
-     nbd_client_put(client);
-diff --git a/nbd/server.c b/nbd/server.c
-index 4cdbc062c1..213e00e761 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1,5 +1,5 @@
- /*
-- *  Copyright (C) 2016-2021 Red Hat, Inc.
-+ *  Copyright (C) 2016-2022 Red Hat, Inc.
-  *  Copyright (C) 2005  Anthony Liguori <anthony@codemonkey.ws>
-  *
-  *  Network Block Device Server Side
-@@ -1642,7 +1642,6 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-     int64_t size;
-     uint64_t perm, shared_perm;
-     bool readonly = !exp_args->writable;
--    bool shared = !exp_args->writable;
-     BlockDirtyBitmapOrStrList *bitmaps;
-     size_t i;
-     int ret;
-@@ -1693,11 +1692,12 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-     exp->description = g_strdup(arg->description);
-     exp->nbdflags = (NBD_FLAG_HAS_FLAGS | NBD_FLAG_SEND_FLUSH |
-                      NBD_FLAG_SEND_FUA | NBD_FLAG_SEND_CACHE);
-+
-+    if (nbd_server_max_connections() != 1) {
-+        exp->nbdflags |= NBD_FLAG_CAN_MULTI_CONN;
-+    }
-     if (readonly) {
-         exp->nbdflags |= NBD_FLAG_READ_ONLY;
--        if (shared) {
--            exp->nbdflags |= NBD_FLAG_CAN_MULTI_CONN;
--        }
-     } else {
-         exp->nbdflags |= (NBD_FLAG_SEND_TRIM | NBD_FLAG_SEND_WRITE_ZEROES |
-                           NBD_FLAG_SEND_FAST_ZERO);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 571556d279..fbc0662627 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3367,6 +3367,7 @@ F: qemu-nbd.*
- F: blockdev-nbd.c
- F: docs/interop/nbd.txt
- F: docs/tools/qemu-nbd.rst
-+F: tests/qemu-iotests/tests/*nbd*
- T: git https://repo.or.cz/qemu/ericb.git nbd
- T: git https://src.openvz.org/scm/~vsementsov/qemu.git nbd
-
-diff --git a/tests/qemu-iotests/tests/nbd-multiconn b/tests/qemu-iotests/tests/nbd-multiconn
-new file mode 100755
-index 0000000000..b121f2e363
---- /dev/null
-+++ b/tests/qemu-iotests/tests/nbd-multiconn
-@@ -0,0 +1,145 @@
-+#!/usr/bin/env python3
-+# group: rw auto quick
-+#
-+# Test cases for NBD multi-conn advertisement
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+
-+import os
-+from contextlib import contextmanager
-+import iotests
-+from iotests import qemu_img_create, qemu_io
-+
-+
-+disk = os.path.join(iotests.test_dir, 'disk')
-+size = '4M'
-+nbd_sock = os.path.join(iotests.sock_dir, 'nbd_sock')
-+nbd_uri = 'nbd+unix:///{}?socket=' + nbd_sock
-+
-+
-+@contextmanager
-+def open_nbd(export_name):
-+    h = nbd.NBD()
-+    try:
-+        h.connect_uri(nbd_uri.format(export_name))
-+        yield h
-+    finally:
-+        h.shutdown()
-+
-+class TestNbdMulticonn(iotests.QMPTestCase):
-+    def setUp(self):
-+        qemu_img_create('-f', iotests.imgfmt, disk, size)
-+        qemu_io('-c', 'w -P 1 0 2M', '-c', 'w -P 2 2M 2M', disk)
-+
-+        self.vm = iotests.VM()
-+        self.vm.launch()
-+        result = self.vm.qmp('blockdev-add', {
-+            'driver': 'qcow2',
-+            'node-name': 'n',
-+            'file': {'driver': 'file', 'filename': disk}
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(disk)
-+        try:
-+            os.remove(nbd_sock)
-+        except OSError:
-+            pass
-+
-+    @contextmanager
-+    def run_server(self, max_connections=None):
-+        args = {
-+            'addr': {
-+                'type': 'unix',
-+                'data': {'path': nbd_sock}
-+            }
-+        }
-+        if max_connections is not None:
-+            args['max-connections'] = max_connections
-+
-+        result = self.vm.qmp('nbd-server-start', args)
-+        self.assert_qmp(result, 'return', {})
-+        yield
-+
-+        result = self.vm.qmp('nbd-server-stop')
-+        self.assert_qmp(result, 'return', {})
-+
-+    def add_export(self, name, writable=None):
-+        args = {
-+            'type': 'nbd',
-+            'id': name,
-+            'node-name': 'n',
-+            'name': name,
-+        }
-+        if writable is not None:
-+            args['writable'] = writable
-+
-+        result = self.vm.qmp('block-export-add', args)
-+        self.assert_qmp(result, 'return', {})
-+
-+    def test_default_settings(self):
-+        with self.run_server():
-+            self.add_export('r')
-+            self.add_export('w', writable=True)
-+            with open_nbd('r') as h:
-+                self.assertTrue(h.can_multi_conn())
-+            with open_nbd('w') as h:
-+                self.assertTrue(h.can_multi_conn())
-+
-+    def test_limited_connections(self):
-+        with self.run_server(max_connections=1):
-+            self.add_export('r')
-+            self.add_export('w', writable=True)
-+            with open_nbd('r') as h:
-+                self.assertFalse(h.can_multi_conn())
-+            with open_nbd('w') as h:
-+                self.assertFalse(h.can_multi_conn())
-+
-+    def test_parallel_writes(self):
-+        with self.run_server():
-+            self.add_export('w', writable=True)
-+
-+            clients = [nbd.NBD() for _ in range(3)]
-+            for c in clients:
-+                c.connect_uri(nbd_uri.format('w'))
-+                self.assertTrue(c.can_multi_conn())
-+
-+            initial_data = clients[0].pread(1024 * 1024, 0)
-+            self.assertEqual(initial_data, b'\x01' * 1024 * 1024)
-+
-+            updated_data = b'\x03' * 1024 * 1024
-+            clients[1].pwrite(updated_data, 0)
-+            clients[2].flush()
-+            current_data = clients[0].pread(1024 * 1024, 0)
-+
-+            self.assertEqual(updated_data, current_data)
-+
-+            for i in range(3):
-+                clients[i].shutdown()
-+
-+
-+if __name__ == '__main__':
-+    try:
-+        # Easier to use libnbd than to try and set up parallel
-+        # 'qemu-nbd --list' or 'qemu-io' processes, but not all systems
-+        # have libnbd installed.
-+        import nbd  # type: ignore
-+
-+        iotests.main(supported_fmts=['qcow2'])
-+    except ImportError:
-+        iotests.notrun('libnbd not installed')
-diff --git a/tests/qemu-iotests/tests/nbd-multiconn.out b/tests/qemu-iotests/tests/nbd-multiconn.out
-new file mode 100644
-index 0000000000..8d7e996700
---- /dev/null
-+++ b/tests/qemu-iotests/tests/nbd-multiconn.out
-@@ -0,0 +1,5 @@
-+...
-+----------------------------------------------------------------------
-+Ran 3 tests
-+
-+OK
-diff --git a/tests/qemu-iotests/tests/nbd-qemu-allocation.out b/tests/qemu-iotests/tests/nbd-qemu-allocation.out
-index 0bf1abb063..9d938db24e 100644
---- a/tests/qemu-iotests/tests/nbd-qemu-allocation.out
-+++ b/tests/qemu-iotests/tests/nbd-qemu-allocation.out
-@@ -17,7 +17,7 @@ wrote 2097152/2097152 bytes at offset 1048576
- exports available: 1
-  export: ''
-   size:  4194304
--  flags: 0x58f ( readonly flush fua df multi cache )
-+  flags: 0x48f ( readonly flush fua df cache )
-   min block: 1
-   opt block: 4096
-   max block: 33554432
--- 
-2.36.1
+ static char tmp_path[] =3D "/tmp/qtest.m25p80.XXXXXX";
+=20
+ int main(int argc, char **argv)
+@@ -373,6 +395,7 @@ int main(int argc, char **argv)
+     qtest_add_func("/ast2400/smc/write_page", test_write_page);
+     qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
+     qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
++    qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg)=
+;
+=20
+     ret =3D g_test_run();
+=20
+--=20
+2.30.2
 
 
