@@ -2,85 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6FC52580E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 01:03:23 +0200 (CEST)
-Received: from localhost ([::1]:60994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A215A52585C
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 01:33:59 +0200 (CEST)
+Received: from localhost ([::1]:37964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npHq6-0008V4-60
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 19:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48134)
+	id 1npIJi-0006OO-7O
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 19:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npHoP-0007dD-0u
- for qemu-devel@nongnu.org; Thu, 12 May 2022 19:01:37 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:46890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npHoN-0007ON-7X
- for qemu-devel@nongnu.org; Thu, 12 May 2022 19:01:36 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id u35so5614521qtc.13
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 16:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EoeVGH7SMNFGt318duT4rETNtspLE3NyaUMgENPoZoQ=;
- b=k3LcFlW9ketSCelikBO/KCNuh6dvU7tAcBbMNyAuD+iZimIXshKfKdETq3lvM58hx8
- k0I4ywq2jPxcXYi+9DbfcBloVqW6/QgIBDFtuDFktSmwFvzVe03sj8pk9Y8HvTTutjjg
- trJIjlwSPa0B8ZHVBmn0dhTrFb8FdA0MSPgopdDqSWYuzqLyVSm+jTc6WyIds3oj+SSY
- ZhaI1raK/Wdii4xGP0oQ/2A55t2fYrBOUGdwGfZrr2lAY/zFmNCdkl5VGTaWuu5b7drl
- gY4pLAThEsXKlPweWLjNclWSOb0U8U+ofsFKqFsS8bu0ZxIDPZZiNBmEx/qC7iE079oF
- IJbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=EoeVGH7SMNFGt318duT4rETNtspLE3NyaUMgENPoZoQ=;
- b=jtLO/3VrN5KmXGaFhCjBO3q2JQbYAS6VvFhLwhTQrJZe7CSQdoyA9zDTJwispaOouS
- 9KYEhMciIupRbwEr6ge8e24twSSRq/XglDUaGitfi+85IEQX2mqEui08cMq2somGtlZt
- B4r/Uw8s+EAKEPe7Pv0GpK0bAOea3rVh0jxqiiwYEtknbxfPeSlKyPTeuSdlMX7k9cBP
- +pMPJK9+JVWw5H541KJs6jzOcBX32UxtNecdVRVtRoLX4xDDt9SHDum0jS2V+b1rxxgP
- j6B8C+z4GuBd2pyzlf2nmNlHgwiPKB2Vl/qbJ9Pv/rKhxX6AFB6CfjoRl1KHReFa9yij
- OLvw==
-X-Gm-Message-State: AOAM533eAj4vcE8qdsfCVu6PW0QKvW3/BmIHqJGf70zciURuOcMcVDre
- 7VQh/4m5BdX+RklMywkauYbN0A==
-X-Google-Smtp-Source: ABdhPJyUg9TbRMWadrUcHVGQwtL8KHdVdVrOtmzo1GsSjaQKGUrqmIUnmFwOYcc1sMvGQ/+JRxGT5g==
-X-Received: by 2002:a05:622a:13d2:b0:2f3:d2aa:7c5a with SMTP id
- p18-20020a05622a13d200b002f3d2aa7c5amr2191496qtk.155.1652396493316; 
- Thu, 12 May 2022 16:01:33 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:2824:aae:bf4a:55ec:36c:afd1?
- ([2607:fb90:2824:aae:bf4a:55ec:36c:afd1])
- by smtp.gmail.com with ESMTPSA id
- g124-20020a379d82000000b006a10c8d5d96sm198762qke.3.2022.05.12.16.01.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 16:01:32 -0700 (PDT)
-Message-ID: <7759c450-1003-83db-e276-30cb3fad9e44@linaro.org>
-Date: Thu, 12 May 2022 16:01:26 -0700
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1npIIH-0005ji-QL
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 19:32:29 -0400
+Received: from mail-bn7nam10on20613.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::613]:33761
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1npIIF-00035p-DC
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 19:32:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JIfOynTjUnSKZfz07GyPlBsYIXZAfWVW+0z5v55BtEbfkkIGZzvtCUU6DOlzEFalrsPxX3F3rJTEtfSQOUZEq/Y9/xL+xhWxoJE926stp3J/elIA1RuP+GhmB/lrvjd7CxzGlU6pIdwlz84m4ydJNNG6jfNvpLOLBinHOg+06mloia1noGAQ9dUPPd4N7E/WcX19wgBO/viVmyGKtoK5u3IHMgNDBzFy09renm3lfCdLplWuHwwwBWVVQJ6O12yx7xH5vs5FYT5TDIzeGtsELz6A1LkVI+W3/R1BSfDZWn6fJlilpbpIEkykCaQqUBYRvtCAs7YMnKx/WEBOSmfRAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yq18otl4AuibhkkwD4HDJTfC/mPRvLNyW7uK2dovsGQ=;
+ b=JiGCWU4rb48Hw4IuiO78WF0lQVM3vMBK5tnd44YWwjwsvSFgDp+zRSik6Zd53AXYVkd2EMIsC9DV7wFPz1jUrvhvK9uEfe/kGd34am4SrM/QSUzGQ867mfCFxbXAlDWXXHzT6jvyU93Dp4lEmfnWYdEpyokJ95Pvh5y00MI2MwSGiOcIYR3qE1+5iwHUpxy4asKl8OWo8UdHCSRP2MywOWBxmTDovt/sXc71FmiNR0eKFveXirdag6X9YUV3ZykKjb6BZ1sJjcdKEqmpPIhPBJ1J93kNRipyFIp34PAAGo8kj+UINwb/tGz9XcAsMqUBnIyYTkYXHy6u4ujyQVvrkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yq18otl4AuibhkkwD4HDJTfC/mPRvLNyW7uK2dovsGQ=;
+ b=Mc+rAkSvt0jCQ8tSbNYhRKTPsh81n/u7FFSAX+YJE3xudTVpmmobzDnw5m6OI69IX7rPW9+cHZjyBkXCgbFgNXnWsoeso4sspaffyjPLkpABYKnqya65lIfC8vEgYmfM+qyH+m+mNLMJG7CeGVniUq5hZgdWtqOXo2gaXKWJHqQe38YkryCTTcGkJvsK+PjHGJ8ocVSlpcmbBNWeyhg74E1AvAPJO8nRfvRwvmzrB7tKZHH7VBSjgkK/H7CTuQQfD8zD82C8MPGJqidNkfh0xDyMpQLOVjOOlFTFS0j6oQ6KhjI+vQjmjJ2KKoRCtkPtXr632IjQjHm2fhKzm5jnoA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by BN8PR12MB3090.namprd12.prod.outlook.com (2603:10b6:408:67::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Thu, 12 May
+ 2022 23:32:23 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5250.013; Thu, 12 May 2022
+ 23:32:23 +0000
+Date: Thu, 12 May 2022 20:32:22 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 2/9] vfio: Fix compilation errors caused by VFIO
+ migration v1 deprecation
+Message-ID: <20220512233222.GH1343366@nvidia.com>
+References: <20220512154320.19697-1-avihaih@nvidia.com>
+ <20220512154320.19697-3-avihaih@nvidia.com>
+ <20220512115710.413c7e34.alex.williamson@redhat.com>
+ <20220512182532.GG1343366@nvidia.com>
+ <20220512151140.0de06d87.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512151140.0de06d87.alex.williamson@redhat.com>
+X-ClientProxiedBy: BLAPR03CA0015.namprd03.prod.outlook.com
+ (2603:10b6:208:32b::20) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 1/2] target/ppc: Add invalid imz, isi and snan to
- do_float_check_status()
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org
-References: <20220512194250.138244-1-victor.colombo@eldorado.org.br>
- <20220512194250.138244-2-victor.colombo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220512194250.138244-2-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 49e23e0a-b19a-4f1d-075c-08da346faa62
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3090:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB309097EBA237BF9EC253680CC2CB9@BN8PR12MB3090.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3jLf53Jyh9CGPF9VNcRcu6NRYdK8/aMq+XxoCO9ERIAdwUeCfZvYijO9FKEb03hJDcXpqZL4i4OZnZh0gSrWvrWnSBbZgOxdbrQPN7VCXUOGF1JIsIg/gVbsSw195AMqW+dSH8prKenPb/D1+HMO6DpWOS1slwz+3m/WLD8g1Qz7NoKgMp+WGDDmEURLB5+nTPp7zC1vcqxxCgb+iwkPLDUbbXsaHq80AP4qsjXJPHF5Fjc1kosnp3EY8WZEWCK2vR+38ZSyx0aBHeN5nXzeazHnNi0Qu8re52BNzsTDH4ni6QSTbosJGpHvRsGucMICZ4p76ZaB+vCgTK9YgB57PWSW2s+ip3PNdSAQ0dF973VBV827jxwysNSgyu5se4R7ffIPFussJDPkTZj5rBTdAj+TMRpwg9vU2hHKS5+9mdGbw66BBhjInKSaLAB57eErUC+2JT3pLcEW6q9KZkom2TQThgrwzw0aDuh/H3+gkaVEYEcovAULIBBopOMkm7RQbP2FEdbiSl3AO1sG6oGEHKnmWioqwroRwI4JBNVQKei5bjO8v0GuCk02gddgvD69Lqq2AYYJhUKX8CaoaZjm+eWVyyeWRUPUKTqAwZ9jlfAgACdgWXTfwxSqB52Ha08/HpZuwbiMuO18BIUG5APeZA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(107886003)(6512007)(5660300002)(1076003)(316002)(2616005)(2906002)(86362001)(186003)(54906003)(38100700002)(6916009)(6506007)(36756003)(4326008)(66556008)(66946007)(8676002)(66476007)(8936002)(33656002)(26005)(508600001)(6486002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T6f/tIHdL8f1+LP9AEV5oIabZ4d5htNIgvNFWEfZNA5aAEZSnKqK//Y9c1yx?=
+ =?us-ascii?Q?2GxZh20aSe8Qsvtp8pvdLiPQRhGek9FrvrXoVAYsGPnH4llW44hKUcmBaMI6?=
+ =?us-ascii?Q?KZRpTR27dl7blEjjy9cghVB3UC0FzMveC5TKEtATzNpXtQK37fO1+6tf5IfU?=
+ =?us-ascii?Q?3Pq/8YdV6XIDVXpNn1i+RkBmgI2+eqmvosyDByVnxC6mI2R6OYM0133InNza?=
+ =?us-ascii?Q?3HmrvfASuuV0y86ztmQ1JyXqAwEaosjgehvdd6X/6okbR1o3xbe9KOU/qThk?=
+ =?us-ascii?Q?9/h/X5OKVMqjdYPxviAHP+Yb+/JKBAjQmCnpaUxkpqkHNH8J3ee5Yo8N5/KT?=
+ =?us-ascii?Q?biBbAhk0ERtS9ndKwTbNmN/sBv80V5ZpG2TI0GlGYT3ds8XiDoGKBtS8jO3y?=
+ =?us-ascii?Q?Eo4YKfdjyg/FhXQkv4/f2EEd2UsRtbhKLeS4epvHUGlvKK0CmWSKetutkRxM?=
+ =?us-ascii?Q?SSMfRCDZPSJCHwtH8oeC4NDkqWMFslcZmu8he+gL1Oibp6naQHdNzqT8yb+g?=
+ =?us-ascii?Q?xO+lconx4/kAe4n0Z4b0fxqr+S98cVxoLABlwOxOFZTXVW67g7/aibgc6+hG?=
+ =?us-ascii?Q?0DixGYH3fqtCqXakw+NWTdyPUZHY/16bp6RfWb+/5MkTQg8YPLFsdjsKgDD2?=
+ =?us-ascii?Q?NBWDAdqmCq2GNToocF9Rj/lQ/N8nXx51XtRxBXhUbbVxtZWZVJ2k/K02lIQX?=
+ =?us-ascii?Q?++vCZIliLFOWXxi781C553ouIUT7NA5qgBJHMvvJ989igP+82pw52IOk050x?=
+ =?us-ascii?Q?yxB0E5Fo0j6y4DveMeyHhS6Bzr3CsjNXPDSvCqTp3YSvNQZpV3w5AWfQ7d2j?=
+ =?us-ascii?Q?GkwHYWHcxitppf5q9sJnDxdZLCDy0nJXA/l9FyunXCXsNIDEW5xT1W1Phol8?=
+ =?us-ascii?Q?jMTfzp/rek+0EAsVpvuHji6Khcx+e5fMUprZdCUpIdSlkOcRpT7fyAmzG+h0?=
+ =?us-ascii?Q?e6063LL3h/OkWm4u45qhnBZBWti+IJyxgIlvXPDRFEKKGU1cTsNyeDhVBdfC?=
+ =?us-ascii?Q?wLkKt+doJvG1GvN3V3l4XeLpXhAXY4zmGTxp6AH/IPTKYaDhFKbVnpScKkmD?=
+ =?us-ascii?Q?iE6h41IyAknil+9+TW+PhGVhMhE89B8OxV2xL6XaXapcpiLj01a/C6jqcDmQ?=
+ =?us-ascii?Q?6iYj4tgbs39A2c2wGXdUeLUb7yTsyRHcoVLYh4cHiUjpl/tnJBG9niZe+iJQ?=
+ =?us-ascii?Q?XZuxSv56p2Y/IXlOucC7naAJ48aPBaSolI7fEnzBW1+GIV9Nau7Wut9W6lMe?=
+ =?us-ascii?Q?05Hwcs9LSUB6GjB8fDtxyWLphTuuNZltCPQLAFEGvOSmqIG6y7VAV9eVDoRN?=
+ =?us-ascii?Q?CJPdefVso9KbSqrg9j6p1QwZNaFuLIQ7weRaSkFaegA3N8NIzHkt0egnPoF7?=
+ =?us-ascii?Q?Td5jy3KejTjEgimEj4jGOL+O5rlUebbmE7QOoDq+X8BC+v9XJWPAbu7nkIch?=
+ =?us-ascii?Q?9E8WDgOxu9XiC40bz3WWPjjIyTjDigQ2KdL83PjX87ejbKfhqY2B+/Nl8dnz?=
+ =?us-ascii?Q?9Ly1ERazt/v1bXWoieUFB/YtO5hndJHLGrwjCCahpBGVqcdOb8aUz+5n6uwE?=
+ =?us-ascii?Q?Ob1uq7HQbeGeQk33M8dwsmFXQzrY5BhfIb337DtgEUyOp19aJns6suVNNBV2?=
+ =?us-ascii?Q?nBg20fzbCEGJu9oX+bWJi+EBPYKkZjw1gGcy0QTiJt/V7lVjoYcRXTAivSaQ?=
+ =?us-ascii?Q?MFseOpsqWvFFaRzhg/VkhVpKt/W8sJdfu7Ki2+UCIRu7BLgNnGJUC4k0LMXf?=
+ =?us-ascii?Q?lUHlY373zw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49e23e0a-b19a-4f1d-075c-08da346faa62
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2022 23:32:23.2161 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fV4mTRgbDmmieWaQcT7SlwdkwK3Gxhj+aoIhWKyBInjHq+4P8p75ZdQGhvIlHlz8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3090
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::613;
+ envelope-from=jgg@nvidia.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,34 +148,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/22 12:42, Víctor Colombo wrote:
-> Make do_float_check_status also handle some invalid exceptions:
-> imz, isi and snan.
+On Thu, May 12, 2022 at 03:11:40PM -0600, Alex Williamson wrote:
+> On Thu, 12 May 2022 15:25:32 -0300
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
 > 
-> The idea is to try to concentrate the handling of all fp exceptions in
-> do_float_check_status. For this RFC, move only the 3 exceptions stated
-> above.
+> > On Thu, May 12, 2022 at 11:57:10AM -0600, Alex Williamson wrote:
+> > > > @@ -767,9 +767,10 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+> > > >      case MIGRATION_STATUS_CANCELLED:
+> > > >      case MIGRATION_STATUS_FAILED:
+> > > >          bytes_transferred = 0;
+> > > > -        ret = vfio_migration_set_state(vbasedev,
+> > > > -                      ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
+> > > > -                      VFIO_DEVICE_STATE_RUNNING);
+> > > > +        ret = vfio_migration_set_state(
+> > > > +            vbasedev,
+> > > > +            ~(VFIO_DEVICE_STATE_V1_SAVING | VFIO_DEVICE_STATE_V1_RESUMING),
+> > > > +            VFIO_DEVICE_STATE_V1_RUNNING);  
+> > > 
+> > > Yikes!  Please follow the line wrapping used elsewhere.  There's no need
+> > > to put the first arg on a new line and subsequent wrapped lines should
+> > > be indented to match the previous line, or at least to avoid wrapping
+> > > itself.  Here we can use something like:  
+> > 
+> > This is generated by clang-format with one of the qmeu styles, it
+> > follows the documented guide:
+> > 
+> >  In case of function, there are several variants:
+> > 
+> >  - 4 spaces indent from the beginning
+> >  - align the secondary lines just after the opening parenthesis of the
+> >    first
+> > 
+> > clang-format selected the first option due to its optimization
+> > algorithm.
+> > 
+> > Knowing nothing about qmeu, I am confused??
 > 
-> I chose to create new '*_defer' helpers to propose a gradual transition
-> for the instructions helpers. The 'defer' comes from the idea that the
-> exception raising is defered to be called somewhere else, as oposed of
-> what is being done in the original, 'non-defered' functions, which
-> immediatly call raise_exception_err_ra().
+> Maybe someone needs to throw more AI models at clang-format so that it
+> considers the more readable option?  QEMU does a lot wrong with style
+> imo, and maybe it's technically compliant as written, but I think what
+> I proposed is also compliant, as well as more readable and more
+> consistent with the existing file.  Thanks,
 
-This is not correct.
+Let Avihai know any indenting you don't like he will fix it.
 
-You need to go through section 4.4 "Floating-point excepions" and note what happens when 
-each exception is enabled (e.g. VE=1):
+IIRC clang scores line-breaking an expression as worse than going to
+the smaller indent. Personally I would agree with this.
 
-(1) Do not modify the FPR,
-(2) Do or do not modify FR, FI, FPRF.
-
-The mechanism by which we avoid setting the FPR is to to raise an exception before 
-returning from the helper performing the operation.
-
-I believe it's mostly invalid and divbyzero that avoid setting results, while overflow, 
-underflow, inexact do.
-
-
-r~
+Thanks,
+Jason
 
