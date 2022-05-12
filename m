@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE94524B01
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 13:08:46 +0200 (CEST)
-Received: from localhost ([::1]:38598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB270524ACE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 12:52:32 +0200 (CEST)
+Received: from localhost ([::1]:53830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np6gW-0000vP-Si
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 07:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57314)
+	id 1np6Qp-0007Hq-CF
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 06:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1np6IT-00043r-ST
- for qemu-devel@nongnu.org; Thu, 12 May 2022 06:43:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25046)
+ id 1np6IY-0004BL-K7
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 06:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1np6IS-0003JG-EM
- for qemu-devel@nongnu.org; Thu, 12 May 2022 06:43:53 -0400
+ id 1np6IV-0003JU-Tc
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 06:43:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652352231;
+ s=mimecast20190719; t=1652352235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zixh27rOJqzaU6prg5M4nS1+VfDvRj+M1FNRXY+xSxY=;
- b=au1cp3HsJiKSX11JJrsa0u65zxdp3EjZoUitVVtkzrVzULVW3iEP3UgZdcdgD8OCY8p7t2
- TY+1Um2R/Ee64t5wLDIaJgGR8kSiuu1+5Wx281b6OZfbQtHRJ8nYwfCQZXTIZGucx7EmIB
- Qic5PetSGPKSPOce5oMTaaYzKFJGVwM=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FEUjVCbP7E9+0iLTdLAwCl6ilV5z1Ymdz2a6B1RFVzE=;
+ b=HaJsfpL70wnTRHnfY90dj6OwjrwtKXBvc4hv53LSa5LQJ1y98ycH3HZw3Ac+tu80Wh6Ywk
+ yuXtbFbwKR7BUp3XBSudZzz19MnYdozcZVLrnw6CAJqkwBX/TD6/jWO/Ybk3MskghJkvSK
+ YdS7yBy+P1uGcnw1AxOkQoAWuSqQLtE=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-450-AFXYon6qMZaGwGWTXUSFkg-1; Thu, 12 May 2022 06:43:50 -0400
-X-MC-Unique: AFXYon6qMZaGwGWTXUSFkg-1
+ us-mta-97-2AHNqbUGO3SQsPfH66J__g-1; Thu, 12 May 2022 06:43:54 -0400
+X-MC-Unique: 2AHNqbUGO3SQsPfH66J__g-1
 Received: by mail-ed1-f71.google.com with SMTP id
- r26-20020a50aada000000b00425afa72622so2875187edc.19
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 03:43:49 -0700 (PDT)
+ cf16-20020a0564020b9000b00425d543c75dso2914745edb.11
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 03:43:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zixh27rOJqzaU6prg5M4nS1+VfDvRj+M1FNRXY+xSxY=;
- b=20xFzEnADFg1C+vWQnT3xiEIxorgNvjqPLlvqtPnPjQ6Ja6b0CIPu4zxEDq6Aai3YG
- iFgyqYTQWW4EbQSkM6g2u++ZfHTtM27U4XWYR5CVDgOblkQEpsuvhhx9zgdiiJAQgNgk
- PavohOJzhSSf+pHw2pMcXZusrVSbmt772JV913Z4JgV9tjqTQ5ujck0ji2/PZOFhTGFP
- +/9/pFKviTqTeR0gOvrXzG43cNbhPv81Db+N5zJFUU1hzs9ZTckd8ZjPYRYgKl9NDoCu
- Qp7nIzUz/uWYD1cDElLvhRgMLeARqi8j7emxTedS5jcRJMqwYBKU6ljukG1RvLib89cq
- PUwA==
-X-Gm-Message-State: AOAM531SNz8tVjE69aBrOeb0mGl98Sb+BPjdhjp23MYKRZKfVLBmLIZr
- WzAKwv/JDbu4juXO+QUEQM7TZbRysygO0h+Oebvk/xWlpXBcH6l0CMvWC5Lb1oGzl5UUm1llMZE
- ob+gm6gH2bMsf+CMEbrIbdPQLooqPbJ7bcnBljP3PZJs1vdMQArHBZZokKvKkOSW19mQ=
-X-Received: by 2002:a17:906:99c3:b0:6f4:b02a:d53b with SMTP id
- s3-20020a17090699c300b006f4b02ad53bmr28806018ejn.331.1652352228474; 
- Thu, 12 May 2022 03:43:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6BJCOve5j6vE7syr4Izo/1CrfrZyYu3Pa7BMvbqlBgMimowz6ub0Vn2vB6e7Nh3QsCppTvQ==
-X-Received: by 2002:a17:906:99c3:b0:6f4:b02a:d53b with SMTP id
- s3-20020a17090699c300b006f4b02ad53bmr28805984ejn.331.1652352228124; 
- Thu, 12 May 2022 03:43:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FEUjVCbP7E9+0iLTdLAwCl6ilV5z1Ymdz2a6B1RFVzE=;
+ b=YWkTcgExOPIb7QnBKaIAqp+J3gsCrq6m8wKaYI0VdZ9B8vGmQbiLgUOMttthJCXByN
+ X+0Scii5PFHgnJmf3v0qhOPYWKbs+zqWAyr6UE0Dsr2AwaShgJkpCorJ80van+1Sg535
+ wOWPbd7+hwejwiZ6yqakuhwpKkux7OFE40ItmWMPilV3ZjZX1nclN4MmT0uxdoe1sgw5
+ 5+12by23iVgEgQBGGvrYVgjHLBIyRa9BwwsJqaiCpBag+bGoS+3qGJtYlU57v8A9iXcg
+ S/zyK7DrmJbkBJX7vGN4GzIOujOFgMPQpYHwO3WDQdIhj2Fl85pjiyf3TBglsleZmL+L
+ Ke3A==
+X-Gm-Message-State: AOAM531jms0h0G1aG5hNeKgpdBBIgdb5Lf4iuWzVz6bc2WYPoadhl/QV
+ WA/Bo3D/TX+quvrCyuYvzQFgm2kmlO/8N1gCt1lFJdinzZfdD3bY9WpHvCrrxKzxuLy64bB82ry
+ reW1oF746eSI96QDPNbEQshYEwZIRFDemyn875ycB6WujAIBDdJxOfZk8H8qwmtGmO7M=
+X-Received: by 2002:a17:906:cb90:b0:6f4:d91b:1025 with SMTP id
+ mf16-20020a170906cb9000b006f4d91b1025mr29884952ejb.177.1652352232654; 
+ Thu, 12 May 2022 03:43:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmmNExFAJUJpo1zFIMOvLyTPcJKTZDJj8/JzY9foqPQlx4JWK6cinVLOzqELhXuT45hHTv5g==
+X-Received: by 2002:a17:906:cb90:b0:6f4:d91b:1025 with SMTP id
+ mf16-20020a170906cb9000b006f4d91b1025mr29884932ejb.177.1652352232357; 
+ Thu, 12 May 2022 03:43:52 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a1709062daa00b006f3ef214da8sm2024539eji.14.2022.05.12.03.43.47
+ cb13-20020a0564020b6d00b0042617ba639asm2418820edb.36.2022.05.12.03.43.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 03:43:47 -0700 (PDT)
+ Thu, 12 May 2022 03:43:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: nsaenzju@redhat.com,
 	stefanha@redhat.com
-Subject: [PATCH v2 0/3] thread-pool: fix performance regression
-Date: Thu, 12 May 2022 12:43:43 +0200
-Message-Id: <20220512104346.865536-1-pbonzini@redhat.com>
+Subject: [PATCH v2 1/3] thread-pool: optimize scheduling of completion bottom
+ half
+Date: Thu, 12 May 2022 12:43:44 +0200
+Message-Id: <20220512104346.865536-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220512104346.865536-1-pbonzini@redhat.com>
+References: <20220512104346.865536-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,45 +101,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Together, these two patches fix the performance regression induced by
-QemuSemaphore; individually they don't though.
+The completion bottom half was scheduled within the pool->lock
+critical section.  That actually results in worse performance,
+because the worker thread can run its own small critical section
+and go to sleep before the bottom half starts running.
 
-The third patch is a small cleanup on top, that was enabled by the
-recent introduction of min_threads/max_threads knobs for the
-thread pool.
+Note that this simple change does not produce an improvement without
+changing the thread pool QemuSemaphore to a condition variable.
 
-6.2:
-   iops        : min=58051, max=62260, avg=60282.57, stdev=1081.18, samples=30
-    clat percentiles (usec):   1.00th=[  490],   99.99th=[  775]
-   iops        : min=59401, max=61290, avg=60651.27, stdev=468.24, samples=30
-    clat percentiles (usec):   1.00th=[  490],   99.99th=[  717]
-   iops        : min=59583, max=60816, avg=60353.43, stdev=282.69, samples=30
-    clat percentiles (usec):   1.00th=[  490],   99.99th=[  701]
-   iops        : min=58099, max=60713, avg=59739.53, stdev=755.49, samples=30
-    clat percentiles (usec):   1.00th=[  494],   99.99th=[  717]
-	
-patched:
-   iops        : min=60616, max=62522, avg=61654.37, stdev=555.67, samples=30
-    clat percentiles (usec):   1.00th=[  474],   99.99th=[ 1303]
-   iops        : min=61841, max=63600, avg=62878.47, stdev=442.40, samples=30
-    clat percentiles (usec):   1.00th=[  465],   99.99th=[  685]
-   iops        : min=62976, max=63910, avg=63531.60, stdev=261.05, samples=30
-    clat percentiles (usec):   1.00th=[  461],   99.99th=[  693]
-   iops        : min=60803, max=63623, avg=62653.37, stdev=808.76, samples=30
-    clat percentiles (usec):   1.00th=[  465],   99.99th=[  685]
-	
-Paolo
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ util/thread-pool.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-v1->v2: support min_threads/max_threads
-
-Paolo Bonzini (3):
-  thread-pool: optimize scheduling of completion bottom half
-  thread-pool: replace semaphore with condition variable
-  thread-pool: remove stopping variable
-
- util/thread-pool.c | 70 +++++++++++++++++-----------------------------
- 1 file changed, 26 insertions(+), 44 deletions(-)
-
+diff --git a/util/thread-pool.c b/util/thread-pool.c
+index 196835b4d3..4979f30ca3 100644
+--- a/util/thread-pool.c
++++ b/util/thread-pool.c
+@@ -127,9 +127,8 @@ static void *worker_thread(void *opaque)
+         smp_wmb();
+         req->state = THREAD_DONE;
+ 
+-        qemu_mutex_lock(&pool->lock);
+-
+         qemu_bh_schedule(pool->completion_bh);
++        qemu_mutex_lock(&pool->lock);
+     }
+ 
+     pool->cur_threads--;
 -- 
 2.36.0
 
