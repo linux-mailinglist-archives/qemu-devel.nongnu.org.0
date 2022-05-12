@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD3D525255
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:18:39 +0200 (CEST)
-Received: from localhost ([::1]:43040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FC05252B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 18:35:57 +0200 (CEST)
+Received: from localhost ([::1]:40610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npBWQ-0005Fr-W4
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47028)
+	id 1npBnA-0006vF-EQ
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 12:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1npBJz-0003tH-4J
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:05:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1npBJu-0000Hm-Hj
- for qemu-devel@nongnu.org; Thu, 12 May 2022 12:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652371541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bpQiuEofWXK5+ybliZOJINdoHUbHL/TVaSuakxYz8P8=;
- b=I3iOKvpa+yTXz+k4dXL3u95CcKnHbw4KXzXH+WtJ6UatSh5pfHj1FiAIXCKO+1itKVTnlj
- YYATdXiRkxRfRBhbZhjXUvUEweqD+GSfpKvrMhve5jDWRCGpZMmb6+2OPERgyjVH+bSM+q
- wBY822hO5xWrCUHmMARhCZ8McjTFgjk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-ZvL6lWiLOAiXtXUvkryDeA-1; Thu, 12 May 2022 12:05:39 -0400
-X-MC-Unique: ZvL6lWiLOAiXtXUvkryDeA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- s16-20020adfeb10000000b0020cc4e5e683so2211308wrn.6
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:05:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npBK7-0003yL-PS
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:05:58 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:40400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npBK5-0000KH-UF
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 12:05:55 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-2f7ca2ce255so61901167b3.7
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 09:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w3ZhTh+pukXFY1lS6X8WpsUAFUiVeSRYCbrGDK+nJEo=;
+ b=Ucg5zX8DMZ9beKPYE6tAqRBZSpTH9OQ/jjHZkh8c6px77CXWt8wbDJ3F/6/8FBqZKa
+ +NEcsfy/UrbpE19nf4qqwKqJ3F0GeLbyRhGWm5Pl/uMwS8jBbQHUxkssIG8/pHuDY9rL
+ Q2IOkZH2F+3FMJFzTtMK3QKqG4xLZz7nANRuCbYT4xHVk7INQY8VsESGwY7R9f3DSDhc
+ XwLTPomkGtF1xo5FY9hKTLe3XNnf/QIh8NmTyHeWdQTpP6fkOA7C4ViWexmny08PsDKm
+ SZO481uV6V8XfqYVSN2UA7Ysp7jUf9LBauvFHr69cwFBKOIHQP4fP/lC/FHJFZ6Ue+6O
+ GXxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bpQiuEofWXK5+ybliZOJINdoHUbHL/TVaSuakxYz8P8=;
- b=vYhmZLZxgLARliyjtvLvPdErLXnKOt1G2LjkEvRpLdPCaP2+Lh9XWbjSZx2C9MC5Fb
- tKWZBgHmGVT+7F7xiLk0s8VferFZqEa1A6m3UkpAmU+yMZYNGoPK3/6B+As/oo7GiVVV
- 3CeDzTqABpd3usfBZB1kgz/5bcpvUpWG5F07fy6BxspsOVmrQpqr/zaAYB3oifbDKjGV
- GlkYxWa8WDQFXo3WJiHCvueNc+grkEzJptqOo2OtXiAV7gH6hdHbF393kXl0wIqIIXNq
- ZZ0pIDinhRJNGe9dUtjnHjUfcd1DpxeaQbuGbR96gPur9VA9TVSMPHIz5e9v+reXq0lC
- zsdg==
-X-Gm-Message-State: AOAM531Djrk858zdLaUGY+dNeECZSOfVpjxXe09EqZI6jcqOxw4Tq69R
- wBZI0RYIaCjNPE1PAMimgKt8+SR14YA5AWx2Lj5R+PN6JJ/YDaWzHFiG8G+eFPpL9tmUdwyyKD8
- kMjMQxqP3I1opj4s=
-X-Received: by 2002:a05:6000:81c:b0:20c:d4e7:400d with SMTP id
- bt28-20020a056000081c00b0020cd4e7400dmr298671wrb.459.1652371538462; 
- Thu, 12 May 2022 09:05:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxDiu2IP3dTiL+5x0weIMMylaLwx7pI4e/8JnmaNIwFlhzJVAEnNJXH6A3yITTvApakzyijBA==
-X-Received: by 2002:a05:6000:81c:b0:20c:d4e7:400d with SMTP id
- bt28-20020a056000081c00b0020cd4e7400dmr298643wrb.459.1652371538179; 
- Thu, 12 May 2022 09:05:38 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-11-6-106.retail.telecomitalia.it.
- [87.11.6.106]) by smtp.gmail.com with ESMTPSA id
- x13-20020a7bc20d000000b0039429bfebebsm3147668wmi.3.2022.05.12.09.05.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 09:05:37 -0700 (PDT)
-Date: Thu, 12 May 2022 18:05:34 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- qemu-block@nongnu.org, integration@gluster.org,
- qemu-stable@nongnu.org, eblake@redhat.com, vsementsov@virtuozzo.com
-Subject: Re: [PATCH v2] block/gluster: correctly set max_pdiscard
-Message-ID: <20220512160534.lijy67jibfiyox54@sgarzare-redhat>
-References: <20220512103048.214100-1-f.ebner@proxmox.com>
- <20220512154413.vw7lnfxqttdidu4n@sgarzare-redhat>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w3ZhTh+pukXFY1lS6X8WpsUAFUiVeSRYCbrGDK+nJEo=;
+ b=h1ttGneB+9SENh3Pw12baTVkBK9RlfQKJw5emcwLSloND1o/xzWbG8WtGghjrKm1NO
+ 2+fzTCm1tXLilfNkWWCQI/AaOJIwU3nRE2MlbfJLfDb11UTlacLdiYMykTe4tYPp49fE
+ 8XGTj5Mo7B6t5rj1hREITkoRd2oGSEN3QaSBGrxAfsMr90Liz9WiIl03LU2s/BgndYkH
+ 96WXtj4Qi7NvbEQ6nS5YvyA8PLzAkBC6mbXzPPEsF6QOvYFDdMMiHw3fvBEkQ1N7cbd4
+ 2CNY86ZnzYAtvwxva1tVRunxbqhsjHFwBbrJsUhOyaFbExIxUFGfo7ixSlShYKWXlQRt
+ SmOA==
+X-Gm-Message-State: AOAM533uuj2F2VK1ISh1wUTDucAIOJ7MahxJYTVOhqKUoL+jLlMbYYhk
+ I9pX9CFpGphVv7il0OVMBkmdm2QRtiJb8v4pQqlH+A==
+X-Google-Smtp-Source: ABdhPJxXwcS5sBYnouKGHHJ0djkqhWyR9YT+CJvyaoQtDd4sizjeiDdOu3nHH//LamHmjyfaK2uJ/aj+iKXFuuRuZrE=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr817862ywb.257.1652371552846; Thu, 12 May
+ 2022 09:05:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220512154413.vw7lnfxqttdidu4n@sgarzare-redhat>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20200305165149.618-1-eric.auger@redhat.com>
+ <20200305165149.618-11-eric.auger@redhat.com>
+ <CAFEAcA8pC4RQ3oVVVzG4NA8fBkhzspxD+DyZB+UCn7u1aPSP5A@mail.gmail.com>
+ <52bdff5a-f33a-c76b-0e04-b20970e3ec1d@redhat.com>
+In-Reply-To: <52bdff5a-f33a-c76b-0e04-b20970e3ec1d@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 May 2022 17:05:41 +0100
+Message-ID: <CAFEAcA_2kLcL4j9Dgv5QfWw5d2shK1GBrGXFMffWKgfVguWgqw@mail.gmail.com>
+Subject: Re: [PATCH v5 10/10] test: tpm-tis: Add Sysbus TPM-TIS device test
+To: eric.auger@redhat.com
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,70 +85,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 05:44:13PM +0200, Stefano Garzarella wrote:
->On Thu, May 12, 2022 at 12:30:48PM +0200, Fabian Ebner wrote:
->>On 64-bit platforms, SIZE_MAX is too large for max_pdiscard, which is
+On Thu, 12 May 2022 at 16:59, Eric Auger <eric.auger@redhat.com> wrote:
 >
->The main problem is that SIZE_MAX for an int64_t is a negative value.
+> Hi Peter,
 >
->>int64_t, and the following assertion would be triggered:
->>qemu-system-x86_64: ../block/io.c:3166: bdrv_co_pdiscard: Assertion
->>`max_pdiscard >= bs->bl.request_alignment' failed.
->>
->>Fixes: 0c8022876f ("block: use int64_t instead of int in driver discard handlers")
->>Cc: qemu-stable@nongnu.org
->>Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
->>---
->>block/gluster.c | 4 ++--
->>1 file changed, 2 insertions(+), 2 deletions(-)
->>
->>diff --git a/block/gluster.c b/block/gluster.c
->>index 398976bc66..f711bf0bd6 100644
->>--- a/block/gluster.c
->>+++ b/block/gluster.c
->>@@ -891,7 +891,7 @@ out:
->>static void qemu_gluster_refresh_limits(BlockDriverState *bs, Error **errp)
->>{
->>    bs->bl.max_transfer = GLUSTER_MAX_TRANSFER;
->>-    bs->bl.max_pdiscard = SIZE_MAX;
->>+    bs->bl.max_pdiscard = MIN(SIZE_MAX, INT64_MAX);
->
->What would be the problem if we use INT64_MAX?
+> On 5/12/22 15:08, Peter Maydell wrote:
+> > On Thu, 5 Mar 2020 at 16:52, Eric Auger <eric.auger@redhat.com> wrote:
+> >> The tests themselves are the same as the ISA device ones.
+> >> Only the main() changes as the "tpm-tis-device" device gets
+> >> instantiated. Also the base address of the device is not
+> >> 0xFED40000 anymore but matches the base address of the
+> >> ARM virt platform bus.
+> >>
+> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> > Hi Eric; the commit adding this test is from back in 2020, but I've
+> > just noticed something a bit odd about it:
+> >
+> >> +    args = g_strdup_printf(
+> >> +        "-machine virt,gic-version=max -accel tcg "
+> >> +        "-chardev socket,id=chr,path=%s "
+> >> +        "-tpmdev emulator,id=dev,chardev=chr "
+> >> +        "-device tpm-tis-device,tpmdev=dev",
+> >> +        test.addr->u.q_unix.path);
+> > This 'virt' command line doesn't specify a CPU type, so it
+> > will end up running with a Cortex-A15 (32-bit). Was
+> > that intended? Also, it will get a GICv3, which is a
+> > definitely odd combination with an A15, which was a GICv2 CPU...
+> no it is not intended. I guess it should include "-cpu max" too
+> as arm-cpu-features.c does?
 
-Okay, I just saw Eric's answer to v1 and I think this is right.
+Seems like a reasonable thing to set, yes.
 
-Please explain it in the commit message and also the initial problem 
-that is SIZE_MAX on a 64-bit platform is a negative number for int64_t, 
-so the assert fails.
+> > I noticed this because I have some recent GICv3 patches which
+> > end up asserting if the GICv3 and a non-GICv3 CPU are used together,
+> > and this test case triggers them. Since the user can also cause
+> > an assert with that kind of command line I'm going to rework them
+> > (either to make the virt board fail cleanly or else to make the
+> > GICv3 code do something plausible even if the real hardware CPU
+> > nominally didn't have a GICv3). But maybe we should make this
+> > test case not use a non-standard combination anyway? (The meson
+> > conversion seems to have resulted in this test being run under
+> > qemu-system-arm as well, incidentally, so I guess we would want
+> > it to specify either 'a 64 bit CPU and GICv3' or 'a 32 bit
+> > CPU and GICv2' accordingly. Or limit the test to aarch64...)
+> limiting the test to aarch64 may be enough?
 
-Thanks,
-Stefano
+Mmm, if running the test under 'qemu-system-arm' isn't giving
+us interesting extra coverage we might as well save the CI cycles.
 
->(I guess the intention of the original patch was to set the maximum 
->value in drivers that do not have a specific maximum).
->
->Or we can set to 0, since in block/io.c we have this code:
->
->    max_pdiscard = QEMU_ALIGN_DOWN(MIN_NON_ZERO(bs->bl.max_pdiscard, INT64_MAX),
->                                   align);
->    assert(max_pdiscard >= bs->bl.request_alignment);
->
->Where `max_pdiscard` is set to INT64_MAX (and aligned) if 
->bs->bl.max_pdiscard is 0.
->
->>}
->>
->>static int qemu_gluster_reopen_prepare(BDRVReopenState *state,
->>@@ -1304,7 +1304,7 @@ static coroutine_fn int qemu_gluster_co_pdiscard(BlockDriverState *bs,
->>    GlusterAIOCB acb;
->>    BDRVGlusterState *s = bs->opaque;
->>
->>-    assert(bytes <= SIZE_MAX); /* rely on max_pdiscard */
->>+    assert(bytes <= MIN(SIZE_MAX, INT64_MAX)); /* rely on max_pdiscard */
->
->Can we use bs->bl.max_pdiscard directly here?
->
->Thanks,
->Stefano
-
+-- PMM
 
