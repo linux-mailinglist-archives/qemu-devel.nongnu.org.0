@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E643524E08
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 15:17:14 +0200 (CEST)
-Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B573524E79
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 15:42:38 +0200 (CEST)
+Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np8gr-0000ko-6D
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 09:17:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
+	id 1np95R-00064M-0e
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 09:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1np8br-0001ka-3d
- for qemu-devel@nongnu.org; Thu, 12 May 2022 09:12:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1np8bo-0004og-Qz
- for qemu-devel@nongnu.org; Thu, 12 May 2022 09:12:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652361120;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AB0PU4I+UYiZ9aacszyhe3Z6+GgBrCigqQkND5ZGRww=;
- b=Lkzb/yEHVVsWVcjUKTFo3Dk0V1xfzRggM7skAMkRjeVL0NCvymQWOeYx+yv5ONRRS3Yje+
- DkIIunVlYpqgJS3NbaSAHr5t9DNiKBCL8nqIWwt/5Kn39w6ILnqGcus8cSs3I9nmArTAqC
- 05rLro/bHp+ShEDlU/jn3OQsCiVKyMw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-NUT9pbrqM9uKwt01D8fMHw-1; Thu, 12 May 2022 09:11:58 -0400
-X-MC-Unique: NUT9pbrqM9uKwt01D8fMHw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8174E2A59546;
- Thu, 12 May 2022 13:11:58 +0000 (UTC)
-Received: from gondolin.fritz.box (unknown [10.39.193.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 797887AE3;
- Thu, 12 May 2022 13:11:55 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH RFC 2/2] qtests/arm: add some mte tests
-Date: Thu, 12 May 2022 15:11:46 +0200
-Message-Id: <20220512131146.78457-3-cohuck@redhat.com>
-In-Reply-To: <20220512131146.78457-1-cohuck@redhat.com>
-References: <20220512131146.78457-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1np934-0004Qt-T7; Thu, 12 May 2022 09:40:10 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:45987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1np932-0001Qa-Nz; Thu, 12 May 2022 09:40:10 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-e93bbb54f9so6606744fac.12; 
+ Thu, 12 May 2022 06:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=B/t/Lbj4mfDpA/GnpQYAbyQf1d9qR7xNbEXaA4IyPwY=;
+ b=Bm4U+5sfaROmKawfxlbtw5yVP1tgqiSrjciTO7ASKz9Eo5e8n7fVhnGAK/lNcPtDTQ
+ fX320HQfpUH5y53FiaoOh+MvACiVMnzAnCuikkcofQihGgggnjiTDZnmND/Mb8sBF06m
+ 70pBrTog/k0XyTSgwD6UpGQB2l7ii4dMMDoXkGKUyks/QsR3PvaYiCPn1oDUT9oda5Yo
+ zm9P19O2uf4C2okdKKJ6Z94QJx8sfCa7dsLa+I275W0hsdw3hf7nPOIfmOF/CQopYpOp
+ zX1yA0sgAQqWhbzyKKCYqDAfVXTctGpTqJ19GK32gZK+0AhAaeUhe/Z/0O+O1is7HjmI
+ lMbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=B/t/Lbj4mfDpA/GnpQYAbyQf1d9qR7xNbEXaA4IyPwY=;
+ b=NAWhpjtQBJj6y3bgWOWvJwxy3YHGkbGQmblfQrvcNqLcSNg0BHYpGNh0cDYi3o1ESw
+ giDqJBgnCJzQIOyJV1bHv0nHp4bSj9cRf7Zo3ek2kDQ53wZW4/Ki9toz5gVQTF9PHVTn
+ WI9HMPbcSwnN48DkVXfqFpXWmkmCoa+XqYcyYQE8qnrYdneOCy2gxBTx6BITWg5b/j+M
+ 8aV0AwcnatH87Oo3eHNrGgZ586Y8rbh9bwjhjMcY0+9XCRaUTrd+HSMT0xvIBoy9aWqh
+ fQGf7cf9ziJ5oKkdoRAvHJnDaxdwEApNUm2SsN4KrarNTIbXdJ/aHZx1LrqKBu3nNEKf
+ TRog==
+X-Gm-Message-State: AOAM5305oFp1nIpPfEvmHHhTwbgfy1sQUJxTMUn6SE3pWJLsxz2FFe89
+ zlNpDCeDplsKcl4Sb7kFCxyWp+icSJw=
+X-Google-Smtp-Source: ABdhPJxRbJxL7dcrLTwXcaHXMJQebmOhLXx+hVSGVGaUzH9tFXqmq+p13OiclgtQHT3FWkN0WFsQPg==
+X-Received: by 2002:a05:6870:f143:b0:e6:6c21:3593 with SMTP id
+ l3-20020a056870f14300b000e66c213593mr5770927oac.55.1652362806856; 
+ Thu, 12 May 2022 06:40:06 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:6d99:130b:198b:b4b2:dcf0?
+ ([2804:431:c7c7:6d99:130b:198b:b4b2:dcf0])
+ by smtp.gmail.com with ESMTPSA id
+ f9-20020a9d0389000000b006060322126fsm1840871otf.63.2022.05.12.06.40.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 06:40:06 -0700 (PDT)
+Message-ID: <65dd09bf-5dec-5f4c-f97b-4dc8e835e795@gmail.com>
+Date: Thu, 12 May 2022 10:40:03 -0300
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH qemu] spapr/docs: Add a few words about x-vof
+Content-Language: en-US
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+References: <20220506055124.3822112-1-aik@ozlabs.ru>
+ <7008431e-6813-a763-f6fe-30088f1b519b@gmail.com>
+ <980eb62c-55e1-d6fc-78da-c4e4e517f30a@ozlabs.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <980eb62c-55e1-d6fc-78da-c4e4e517f30a@ozlabs.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,107 +95,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- tests/qtest/arm-cpu-features.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 5a145273860c..c0be645b1fb0 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -22,6 +22,7 @@
- 
- #define MACHINE     "-machine virt,gic-version=max -accel tcg "
- #define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
-+#define MACHINE_MTE "-machine virt,gic-version=max,mte=on -accel tcg "
- #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-                     "  'arguments': { 'type': 'full', "
- #define QUERY_TAIL  "}}"
-@@ -412,6 +413,17 @@ static void sve_tests_sve_off_kvm(const void *data)
-     qtest_quit(qts);
- }
- 
-+static void mte_tests_tag_memory_on(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_MTE "-cpu max");
-+
-+    assert_has_feature(qts, "max", "mte");
-+
-+    qtest_quit(qts);
-+}
-+
- static void pauth_tests_default(QTestState *qts, const char *cpu_type)
- {
-     assert_has_feature_enabled(qts, cpu_type, "pauth");
-@@ -424,6 +436,14 @@ static void pauth_tests_default(QTestState *qts, const char *cpu_type)
-                  "{ 'pauth': false, 'pauth-impdef': true }");
- }
- 
-+static void mte_tests_default(QTestState *qts, const char *cpu_type)
-+{
-+    assert_has_feature(qts, cpu_type, "mte");
-+
-+    /* without tag memory, mte will be off under tcg */
-+    assert_has_feature_disabled(qts, cpu_type, "mte");
-+}
-+
- static void test_query_cpu_model_expansion(const void *data)
- {
-     QTestState *qts;
-@@ -473,6 +493,7 @@ static void test_query_cpu_model_expansion(const void *data)
- 
-         sve_tests_default(qts, "max");
-         pauth_tests_default(qts, "max");
-+        mte_tests_default(qts, "max");
- 
-         /* Test that features that depend on KVM generate errors without. */
-         assert_error(qts, "max",
-@@ -499,6 +520,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-     if (g_str_equal(qtest_get_arch(), "aarch64")) {
-         bool kvm_supports_steal_time;
-         bool kvm_supports_sve;
-+        bool kvm_supports_mte;
-         char max_name[8], name[8];
-         uint32_t max_vq, vq;
-         uint64_t vls;
-@@ -523,10 +545,12 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-          */
-         assert_has_feature(qts, "host", "kvm-steal-time");
-         assert_has_feature(qts, "host", "sve");
-+        assert_has_feature(qts, "host", "mte");
- 
-         resp = do_query_no_props(qts, "host");
-         kvm_supports_steal_time = resp_get_feature(resp, "kvm-steal-time");
-         kvm_supports_sve = resp_get_feature(resp, "sve");
-+        kvm_supports_mte = resp_get_feature(resp, "mte");
-         vls = resp_get_sve_vls(resp);
-         qobject_unref(resp);
- 
-@@ -592,6 +616,11 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-         } else {
-             g_assert(vls == 0);
-         }
-+        if (kvm_supports_mte) {
-+            /* If we have mte then we should be able to toggle it. */
-+            assert_set_feature(qts, "host", "mte", false);
-+            assert_set_feature(qts, "host", "mte", true);
-+        }
-     } else {
-         assert_has_not_feature(qts, "host", "aarch64");
-         assert_has_not_feature(qts, "host", "pmu");
-@@ -630,6 +659,8 @@ int main(int argc, char **argv)
-                             NULL, sve_tests_sve_off);
-         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
-                             NULL, sve_tests_sve_off_kvm);
-+        qtest_add_data_func("/arm/max/query-cpu-model-expansion/tag-memory",
-+                            NULL, mte_tests_tag_memory_on);
-     }
- 
-     return g_test_run();
--- 
-2.34.3
 
+On 5/12/22 00:10, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 5/12/22 06:42, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 5/6/22 02:51, Alexey Kardashevskiy wrote:
+>>> The alternative small firmware needs a few words of what it can and
+>>> absolutely cannot do; this adds those words.
+>>>
+>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>> ---
+>>>   docs/system/ppc/pseries.rst | 28 ++++++++++++++++++++++++++++
+>>>   1 file changed, 28 insertions(+)
+>>>
+>>> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+>>> index d9b65ad4e850..4c98a94f9add 100644
+>>> --- a/docs/system/ppc/pseries.rst
+>>> +++ b/docs/system/ppc/pseries.rst
+>>> @@ -32,14 +32,42 @@ Missing devices
+>>>   Firmware
+>>>   ========
+>>> +The pSeries platform in QEMU comes with 2 firmwares:
+>>> +
+>>>   `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
+>>>   implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
+>>>   Configuration) Firmware: Core Requirements and Practices
+>>>   <https://standards.ieee.org/standard/1275-1994.html>`_.
+>>> +SLOF performs bus scanning, PCI resource allocation, provides the client
+>>> +interface to boot from block devices and network.
+>>> +
+>>>   QEMU includes a prebuilt image of SLOF which is updated when a more recent
+>>>   version is required.
+>>> +VOF (Virtual Open Firmware) is a minimalistic firmware to work with
+>>> +``-machine pseries,x-vof=on``. When enabled, the firmware acts as a slim
+>>> +shim and QEMU implements parts of the IEEE 1275 Open Firmware interface.
+>>> +
+>>> +VOF does not have device drivers, does not do PCI resource allocation and
+>>> +relies on ``-kernel`` used with Linux kernels recent enough (v5.4+)
+>>> +to PCI resource assignment. It is ideal to use with petitboot.
+>>> +
+>>> +Booting via ``-kernel`` supports the following:
+>>> ++-------------------+-------------------+------------------+
+>>> +| kernel            | pseries,x-vof=off | pseries,x-vof=on |
+>>> ++===================+===================+==================+
+>>> +| vmlinux BE        |     ✓             |     ✓            |
+>>> ++-------------------+-------------------+------------------+
+>>> +| vmlinux LE        |     ✓             |     ✓            |
+>>> ++-------------------+-------------------+------------------+
+>>> +| zImage.pseries BE |     x             |     ✓¹           |
+>>> ++-------------------+-------------------+------------------+
+>>> +| zImage.pseries LE |     ✓             |     ✓            |
+>>> ++-------------------+-------------------+------------------+
+>>
+>> You need an empty line at the start and at the end of the table. Otherwise it'll
+>> be rendered as regular text.
+> 
+> How do you build htmls from these btw?
+
+Had to do this yesterday because I changed machines recently. In a Fedora 35
+system I did this:
+
+
+sudo dnf install python3-sphinx
+sudo dnf install python-sphinx_rtd_theme-doc
+pip install sphinx_rtd_theme
+
+(not sure if all steps are needed)
+
+Then the generated docs will be under build/docs/manual .
+
+
+> 
+>>
+>>> +Notes:
+>>
+>> I also don't believe you need the "Notes:" addendum here. It's clear that you're
+>> making an observation about the zImage.pseries BE and x-vof=on case.
+> 
+> But only this combination needs kernel-addr=0, other images do not need that with SLOF or VOF.
+
+
+I mentioned about the "Notes:" string. We can remove it and leave just the
+
++¹ must set kernel-addr=0
+
+
+Since it's clear that you're making a note about that item in the table.
+
+
+
+> 
+> 
+>>
+>> Everything else LGTM. If no one else has any comment, and you're ok with these
+>> changes I mentioned, I can amend it myself with my R-b.
+> 
+> I'll probably repost after the other patch with kernel-addr is merged into your tree. Thanks,
+
+I already picked it (just waiting some tests to finish). But feel free to
+send a v2 if you want to play around generating the docs to see how
+your patch looks like in the finished HTML.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> 
+>>
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>>
+>>> +¹ must set kernel-addr=0
+>>> +
+>>>   Build directions
+>>>   ================
+> 
 
