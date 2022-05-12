@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E415255B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 21:25:54 +0200 (CEST)
-Received: from localhost ([::1]:54346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CFA5255B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 21:30:50 +0200 (CEST)
+Received: from localhost ([::1]:59958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npERc-0004eG-VY
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 15:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44512)
+	id 1npEWO-0000Ak-KX
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 15:30:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1npD9k-0005vc-TN
- for qemu-devel@nongnu.org; Thu, 12 May 2022 14:03:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54104)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1npD9j-0002e1-5n
- for qemu-devel@nongnu.org; Thu, 12 May 2022 14:03:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652378598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QC1llFFScIPO4BnTVdX8zrd7KDnaLcW7lISqQ+1rHUs=;
- b=bLn8tUVUL9XJp4ANan+80sNfLVtst8KP9jyk4r8dg3HyO7D5d3xkx+05BzgGjUBMBIxiOG
- gLcMg8aIWEwGagWxKjxCaGS7iLINi37cnSVBD0X5TRomkfE37X1S0YaY+iV0MIrbyn9ULb
- 879BAhb4TA8rdHtYM9AQHAkj4RanAqY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-LNKt7XHRPBC_vEN89dPBTA-1; Thu, 12 May 2022 14:03:17 -0400
-X-MC-Unique: LNKt7XHRPBC_vEN89dPBTA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l7-20020adfa387000000b0020acc61dbaeso2313147wrb.7
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 11:03:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1npDAf-0006wv-BN
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 14:04:17 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:33417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1npDAd-0002iO-H5
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 14:04:16 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id p12so5556704pfn.0
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 11:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=v1QbIZe1SWTSb2l4Go+bRTbBo3uijeYEo8m/JNDJBEs=;
+ b=gF0JytBSn9OhDNNyaH7h/qZX8B/TiR7oUO+WU4d8Dj6f64VGLF5WWitf/goD0iiO0l
+ 3o3l8PUxqhmxKB3ppHX/7LftcwckySrKjd+l+yAWxTmd91aY9XndmVU6ae4DRoiNtV76
+ EUf1G3aE68Hn+V9P90YZxVS4FWU3QPNoxmWi6NekaUttD1f9OkYtaV4NW5grdewzKxqo
+ 0f4zmsaHrXzKVtVqgFlu10P/ml+VrELz61ij4QnL13SVjkDHrFte865ibXOv6+dnbv1O
+ /17kLKUG2MYmlpXijx1YWH4BRrTbsij2tagqA4GOSTNXNaw+CYLRUmCC6IpOFJXmDZfc
+ h8jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QC1llFFScIPO4BnTVdX8zrd7KDnaLcW7lISqQ+1rHUs=;
- b=kglyz1nPgQvb6BFsSTT7PxtX3qIagQncICrhiBYpBzPJMuoumjXTDIXL4qNWQbfUQJ
- OjmG/wboMU+0P03LEDCYTmQdD1sXgzn7T/xcPOD+6YD2fOJkCH/O9o6xHY5mwrGl4g5a
- fZueEF4zZZlOKfmFr7qwxnln672GiYe3rJK5PImN1MJnyV23MMDHNAV1b9oAAotltNnc
- ggoAP5HPJzFn8jG7bfYcJyeKsbTYMLkzpqPhBYiZxtXGS0nETtBdCjpFc3Zq+0INnr0e
- e/xIeb+/to1QDCJgYrxTwAW9xAx4lXQ3JoPyxLsAGs55AyNDQeChTyvVNRIOzWNmh7E+
- UBMw==
-X-Gm-Message-State: AOAM5328UMJO+NhKm5IFZQuKF46KoKTIfrzIugy1pOX88Cgb2+iRb7JM
- 3u3j39hS+/DMxdLLFhu6nQbVWtfNlMUombjNdXaZdsHaTHqVYnwiQEmVrQqirFVQRTygXnoU76H
- IR3qYncy5QEeF04U=
-X-Received: by 2002:a7b:c5d1:0:b0:37f:a8a3:9e17 with SMTP id
- n17-20020a7bc5d1000000b0037fa8a39e17mr11149175wmk.109.1652378595795; 
- Thu, 12 May 2022 11:03:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUhpsc27po44r6VxdD7+XIcMg924A/nvqi+ji0TsWKKRXOq+yEqNJ6fbnSMkb2Tq00J/Ke2g==
-X-Received: by 2002:a7b:c5d1:0:b0:37f:a8a3:9e17 with SMTP id
- n17-20020a7bc5d1000000b0037fa8a39e17mr11149156wmk.109.1652378595505; 
- Thu, 12 May 2022 11:03:15 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- o1-20020adfba01000000b0020c5253d914sm160455wrg.96.2022.05.12.11.03.14
+ :mime-version:content-disposition:in-reply-to;
+ bh=v1QbIZe1SWTSb2l4Go+bRTbBo3uijeYEo8m/JNDJBEs=;
+ b=y2P4sQPH0tJQfS9rerufDmH6ZkOrVc3uIaG4kAN8aLbWPb2YU36Lk3fjjL4ZMWi30r
+ xyH3xIuSDh1hbjPZ51gvzrS4PR44BuzhT548k7gZ7peE4hSBo6p/SCtoU/X9+B5xaZ2Y
+ kK9z0fLGrv0zWZATyB2qak22i6qGS96qI5YuI7DY28KcE5j7TxnazcwsiMjLe4xDWl/Z
+ QxqNjbTFXmNFmXVFmhNkUdRf1XDXaT1P+27kmEI1NJYv03O6QrVJVgPcOhyPY4E0G9H4
+ mZXdBj+fARyeRzVk8NoaXT2fT1aqJtPIovizmzREctKO+B04Z2Yw9wL2EukJyv4E3LHS
+ kPlQ==
+X-Gm-Message-State: AOAM5332+eriEQ2qENGxNDoDzy7TRhPBNCyGNifriXX3Wv/moBjDAG8B
+ RAo8BLAChRHBbzv5m9XWC6Q=
+X-Google-Smtp-Source: ABdhPJyYOt+c7xcAOJvhFu/ZqvxN8I7kt2BUj/EwmmxCXTxMhoFaM0hVaIvAhuhob50D/SDcdwo9rg==
+X-Received: by 2002:a63:80c6:0:b0:3c2:88f0:9035 with SMTP id
+ j189-20020a6380c6000000b003c288f09035mr674497pgd.606.1652378654142; 
+ Thu, 12 May 2022 11:04:14 -0700 (PDT)
+Received: from localhost ([192.55.54.48]) by smtp.gmail.com with ESMTPSA id
+ g12-20020aa796ac000000b0050dc76281a8sm118573pfk.130.2022.05.12.11.04.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 11:03:15 -0700 (PDT)
-Date: Thu, 12 May 2022 19:03:13 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Subject: Re: [PATCH v5 17/21] migration: Export tls-[creds|hostname|authz]
- params to cmdline too
-Message-ID: <Yn1L4eOEBMVvnYXH@work-vm>
-References: <20220425233847.10393-1-peterx@redhat.com>
- <20220425233847.10393-18-peterx@redhat.com>
+ Thu, 12 May 2022 11:04:13 -0700 (PDT)
+Date: Thu, 12 May 2022 11:04:12 -0700
+From: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+Subject: Re: [RFC PATCH v4 14/36] i386/tdx: Implement user specified tsc
+ frequency
+Message-ID: <20220512180412.GG2789321@ls.amr.corp.intel.com>
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-15-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220425233847.10393-18-peterx@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <20220512031803.3315890-15-xiaoyao.li@intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,69 +100,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> It's useful for specifying tls credentials all in the cmdline (along with
-> the -object tls-creds-*), especially for debugging purpose.
+On Thu, May 12, 2022 at 11:17:41AM +0800,
+Xiaoyao Li <xiaoyao.li@intel.com> wrote:
+
+> Reuse "-cpu,tsc-frequency=" to get user wanted tsc frequency and pass it
+> to KVM_TDX_INIT_VM.
 > 
-> The trick here is we must remember to not free these fields again in the
-> finalize() function of migration object, otherwise it'll cause double-free.
+> Besides, sanity check the tsc frequency to be in the legal range and
+> legal granularity (required by TDX module).
+
+Just to make it sure.
+You didn't use VM-scoped KVM_SET_TSC_KHZ because KVM side patch is still in
+kvm/queue?  Once the patch lands, we should use it.
+
+Thanks,
+
 > 
-> The thing is when destroying an object, we'll first destroy the properties
-> that bound to the object, then the object itself.  To be explicit, when
-> destroy the object in object_finalize() we have such sequence of
-> operations:
-> 
->     object_property_del_all(obj);
->     object_deinit(obj, ti);
-> 
-> So after this change the two fields are properly released already even
-> before reaching the finalize() function but in object_property_del_all(),
-> hence we don't need to free them anymore in finalize() or it's double-free.
-> 
-> This also fixes a trivial memory leak for tls-authz as we forgot to free it
-> before this patch.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 > ---
->  migration/migration.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  target/i386/kvm/kvm.c |  8 ++++++++
+>  target/i386/kvm/tdx.c | 18 ++++++++++++++++++
+>  2 files changed, 26 insertions(+)
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 71a50b5c37..b0f2de1e09 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -4339,6 +4339,9 @@ static Property migration_properties[] = {
->                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
->      DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
->                        postcopy_preempt_break_huge, true),
-> +    DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
-> +    DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
-> +    DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index f2d7c3cf59ac..c51125ab200f 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -818,6 +818,14 @@ static int kvm_arch_set_tsc_khz(CPUState *cs)
+>      int r, cur_freq;
+>      bool set_ioctl = false;
 >  
->      /* Migration capabilities */
->      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-> @@ -4372,12 +4375,9 @@ static void migration_class_init(ObjectClass *klass, void *data)
->  static void migration_instance_finalize(Object *obj)
->  {
->      MigrationState *ms = MIGRATION_OBJ(obj);
-> -    MigrationParameters *params = &ms->parameters;
+> +    /*
+> +     * TD guest's TSC is immutable, it cannot be set/changed via
+> +     * KVM_SET_TSC_KHZ, but only be initialized via KVM_TDX_INIT_VM
+> +     */
+> +    if (is_tdx_vm()) {
+> +        return 0;
+> +    }
+> +
+>      if (!env->tsc_khz) {
+>          return 0;
+>      }
+> diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
+> index 9f2cdf640b5c..622efc409438 100644
+> --- a/target/i386/kvm/tdx.c
+> +++ b/target/i386/kvm/tdx.c
+> @@ -35,6 +35,9 @@
+>  #define TDX_TD_ATTRIBUTES_PKS               BIT_ULL(30)
+>  #define TDX_TD_ATTRIBUTES_PERFMON           BIT_ULL(63)
 >  
->      qemu_mutex_destroy(&ms->error_mutex);
->      qemu_mutex_destroy(&ms->qemu_file_lock);
-> -    g_free(params->tls_hostname);
-> -    g_free(params->tls_creds);
-
-So hmm, why is tls-authz special here?
-
-Dave
-
->      qemu_sem_destroy(&ms->wait_unplug_sem);
->      qemu_sem_destroy(&ms->rate_limit_sem);
->      qemu_sem_destroy(&ms->pause_sem);
+> +#define TDX_MIN_TSC_FREQUENCY_KHZ   (100 * 1000)
+> +#define TDX_MAX_TSC_FREQUENCY_KHZ   (10 * 1000 * 1000)
+> +
+>  static TdxGuest *tdx_guest;
+>  
+>  /* It's valid after kvm_confidential_guest_init()->kvm_tdx_init() */
+> @@ -211,6 +214,20 @@ int tdx_pre_create_vcpu(CPUState *cpu)
+>          goto out;
+>      }
+>  
+> +    r = -EINVAL;
+> +    if (env->tsc_khz && (env->tsc_khz < TDX_MIN_TSC_FREQUENCY_KHZ ||
+> +                         env->tsc_khz > TDX_MAX_TSC_FREQUENCY_KHZ)) {
+> +        error_report("Invalid TSC %ld KHz, must specify cpu_frequency between [%d, %d] kHz",
+> +                      env->tsc_khz, TDX_MIN_TSC_FREQUENCY_KHZ,
+> +                      TDX_MAX_TSC_FREQUENCY_KHZ);
+> +        goto out;
+> +    }
+> +
+> +    if (env->tsc_khz % (25 * 1000)) {
+> +        error_report("Invalid TSC %ld KHz, it must be multiple of 25MHz", env->tsc_khz);
+> +        goto out;
+> +    }
+> +
+>      r = setup_td_guest_attributes(x86cpu);
+>      if (r) {
+>          goto out;
+> @@ -221,6 +238,7 @@ int tdx_pre_create_vcpu(CPUState *cpu)
+>  
+>      init_vm.attributes = tdx_guest->attributes;
+>      init_vm.max_vcpus = ms->smp.cpus;
+> +    init_vm.tsc_khz = env->tsc_khz;
+>  
+>      r = tdx_vm_ioctl(KVM_TDX_INIT_VM, 0, &init_vm);
+>      if (r < 0) {
 > -- 
-> 2.32.0
+> 2.27.0
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
 
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
