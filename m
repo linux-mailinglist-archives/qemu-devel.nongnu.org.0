@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85950525F9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:15:48 +0200 (CEST)
-Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29F3525FA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:18:52 +0200 (CEST)
+Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npSKp-0002ZD-3H
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:15:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56002)
+	id 1npSNn-0004WF-OO
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npSJQ-00016V-I1
- for qemu-devel@nongnu.org; Fri, 13 May 2022 06:14:20 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:37941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npSJO-0000nP-U9
- for qemu-devel@nongnu.org; Fri, 13 May 2022 06:14:20 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2f7d7e3b5bfso85181917b3.5
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 03:14:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w0Je9y+M8dIuB/fuq3rxBKyiseRF3ljnPWVNnO9YjwY=;
- b=APaApJB6UqWraxTgECAl54MAmCOldMfux4QqMpt5u/hM/BvxU3XUrHcohh7QLPUebb
- A6ZvgbwEKHntCYNChvs9RN1fTmRSqXskG5w3YoAZrR84jE4Yr1llzrjjm8sxIo6u8Xs9
- fchU8H9oa5JvXvhZxa6ULiJmCVYbyCuRy/e47xSwNXwGYh5anjNK3Sb/mB7Gc9MZn4CS
- ECmVsBFyLUgvykRpA+dduR+ExivNsZcKPTs77OaiOHYptJ0z6fEivoBBbOcEgYjrnmdf
- swSDkDvG4Eq6VqityceUco8uDvEvwK5FVgrA/goyr89R6OGfdITzSQAGQkB+6Yvpflep
- osKg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npSKo-0003CV-Mp
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:15:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npSKk-0001C2-7h
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:15:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652436940;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NingSYY6MRmyffgzM9VikAhkn/C6w3qrpyyy0iup4xI=;
+ b=fAs00qYu71g8mFzL8h1cbNHIUWhH9Y2vNQ3OEc+5FLXTpxkgU1s3ZosnAYJgPyfiEMu8tM
+ N2r+iZMCO+hx/wwd0ISG+cu+HL2Sv3FLsOprdLgc0uYfjwHC1+Px8EFqG8jmQIyZu9l+hR
+ 6HB+oDVvCJdv8kRFnkCkRrQPr/2FbS4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-306--rUncnEEN76FWVihBhgSdw-1; Fri, 13 May 2022 06:15:39 -0400
+X-MC-Unique: -rUncnEEN76FWVihBhgSdw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i18-20020a1c5412000000b0039491a8298cso2862881wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 03:15:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w0Je9y+M8dIuB/fuq3rxBKyiseRF3ljnPWVNnO9YjwY=;
- b=aw7lwMCXuhXDrjLG1L+NsGy9JrG1Cx6HPpmbRfhpmcKb5Dqz6HZLtOz3jDfwOneMhE
- SY94bYHrkLGuzi2yOb6LSamjZGlU7zp5cPtGyiV0lpppUIW+0vtpV/E7prukgPJVgYEt
- 6sbAimXeFZevKaqGcUU2uIIQIZNjXaaTvn9OlwK+37FVemPpb6AOfOg3a4mTiZ98JHxz
- EfggPusUKoOGnkGbJ00i1PhGRXyjsePFzo6VH9odJ7mCsvrEuasO27FHlzaonL436V98
- wgpxNaz6d8lIs/BStIB0q7DPRZZmYHUo4W4X2fgPvmc8F6WmikvubOuvvp4EqNmXs7WS
- Js6Q==
-X-Gm-Message-State: AOAM533Yi3ueq/WTdljTLPpGnph1Id0wykh6jx/diZm+n7MHltpyaSol
- oEjIZdiWR9Wmzdq42H+mihF9eTwH9G9TbVPzmC1P3g==
-X-Google-Smtp-Source: ABdhPJywyVOaE3bMbLKAYJcZiPq5TPnKosDx0Gca0SzeKmhWqwuYA89naUpkHz4f018aVE9UtKTEJW8B4e1EMXZoJbc=
-X-Received: by 2002:a0d:db4a:0:b0:2f8:3968:e808 with SMTP id
- d71-20020a0ddb4a000000b002f83968e808mr4730925ywe.455.1652436857548; Fri, 13
- May 2022 03:14:17 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=NingSYY6MRmyffgzM9VikAhkn/C6w3qrpyyy0iup4xI=;
+ b=w/jcKeR0eEvWSxZnVEDosNtokKkOggdSRz4+iV8YS+NAr8d6LSe63i1uITsenKl5X4
+ 4h9RwCTloRZtiGFRnbFVCksbG9KohaMyraAeBW3MndeNVIXTEgmg5BVgl0FeuW/5mO17
+ oc00NtiEdTmCUvbfYFEo1QK0/RauRi/CLFT99QyDPRnJM9lw7te9tGc1aqy7P2Ou4Heq
+ 1K9szi1H7hGxDI/JMfG1gSoWiJXk9UNaPUvFR3/xhVGyiO7BA+NXIabRCAzQbZ3BKJkb
+ +DEcJiwwNZFiM1kgANojrOGxeYjN2+R5ffyOi01LMUyNuzX4Gcg+IN0zd92fJyhxTRpC
+ BJOw==
+X-Gm-Message-State: AOAM531k/Lhb6DDUHnCIENR8Cd2xD+i9ry768wWdaUacMnJ10MHnw8yu
+ ds29xVFfH+ZWMKu/ykMWujIPzmi3URTIqBL0kur//vfOimrLFaUPxJGaqx1EoT7S99RbKLxDt7c
+ Lct+b3fxBKj7vDJs=
+X-Received: by 2002:a7b:c199:0:b0:394:26d0:a6a9 with SMTP id
+ y25-20020a7bc199000000b0039426d0a6a9mr14336708wmi.116.1652436938292; 
+ Fri, 13 May 2022 03:15:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzoIdPMETByf9nRiQg3yZZyX2j7VpxcBXgJpXxbdejA6PR4hw7IBSXesHf1B76OEE/vCSil9g==
+X-Received: by 2002:a7b:c199:0:b0:394:26d0:a6a9 with SMTP id
+ y25-20020a7bc199000000b0039426d0a6a9mr14336680wmi.116.1652436937987; 
+ Fri, 13 May 2022 03:15:37 -0700 (PDT)
+Received: from redhat.com ([2.53.15.195]) by smtp.gmail.com with ESMTPSA id
+ i10-20020adfb64a000000b0020c5253d8bbsm1823809wre.7.2022.05.13.03.15.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 03:15:37 -0700 (PDT)
+Date: Fri, 13 May 2022 06:15:33 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
+Subject: Re: [PATCH  v1 00/13] various virtio docs, fixes and tweaks
+Message-ID: <20220513061359-mutt-send-email-mst@kernel.org>
+References: <20220321153037.3622127-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20220510000426.45797-1-richard.henderson@linaro.org>
- <20220510000426.45797-3-richard.henderson@linaro.org>
-In-Reply-To: <20220510000426.45797-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 May 2022 11:14:06 +0100
-Message-ID: <CAFEAcA8OGPEETKTt=A3j4W65Kh3QAC80W7hmt5xrpLu8TUJHDw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/arm: Use FIELD definitions for CPACR, CPTR_ELx
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220321153037.3622127-1-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,60 +98,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 May 2022 at 01:06, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We had a few CPTR_* bits defined, but missed quite a few.
-> Complete all of the fields up to ARMv9.2.
-> Use FIELD_EX64 instead of manual extract32.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h    | 44 +++++++++++++++++++++++++++++++-----
->  hw/arm/boot.c       |  2 +-
->  target/arm/cpu.c    | 11 ++++++---
->  target/arm/helper.c | 54 ++++++++++++++++++++++-----------------------
->  4 files changed, 75 insertions(+), 36 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index b35b117fe7..c44acd8b84 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1259,11 +1259,45 @@ void pmu_init(ARMCPU *cpu);
->  #define SCTLR_SPINTMASK (1ULL << 62) /* FEAT_NMI */
->  #define SCTLR_TIDCP   (1ULL << 63) /* FEAT_TIDCP1 */
->
-> -#define CPTR_TCPAC    (1U << 31)
-> -#define CPTR_TTA      (1U << 20)
-> -#define CPTR_TFP      (1U << 10)
-> -#define CPTR_TZ       (1U << 8)   /* CPTR_EL2 */
-> -#define CPTR_EZ       (1U << 8)   /* CPTR_EL3 */
-> +/* Bit definitions for CPACR (AArch32 only) */
-> +FIELD(CPACR, CP10, 20, 2)
-> +FIELD(CPACR, CP11, 22, 2)
-> +FIELD(CPACR, TRCDIS, 28, 1)    /* matches CPACR_EL1.TTA */
-> +FIELD(CPACR, D32DIS, 31, 1)    /* up to v7; RAZ in v8 */
-> +FIELD(CPACR, ASEDIS, 31, 1)
+On Mon, Mar 21, 2022 at 03:30:24PM +0000, Alex Bennée wrote:
+>   contrib/vhost-user-blk: fix 32 bit build and enable
 
-D32DIS is bit 30, not 31.
+I applied up to this point. Pls respond to Philippe's comment.
 
-> +
-> +/* Bit definitions for CPACR_EL1 (AArch64 only) */
-> +FIELD(CPACR_EL1, ZEN, 16, 2)
-> +FIELD(CPACR_EL1, FPEN, 20, 2)
-> +FIELD(CPACR_EL1, SMEN, 24, 2)
-> +FIELD(CPACR_EL1, TTA, 28, 1)   /* matches CPACR.TRCDIS */
-> +
-> +/* Bit definitions for HCPTR (AArch32 only) */
-> +FIELD(HCPTR, TCP10, 10, 1)
-> +FIELD(HCPTR, TCP11, 11, 1)
-> +FIELD(HCPTR, TSAE, 15, 1)
+-- 
+MST
 
-This is TASE, not TSAE.
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
