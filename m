@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97557525990
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 04:01:07 +0200 (CEST)
-Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A73C52599F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 04:19:23 +0200 (CEST)
+Received: from localhost ([::1]:39228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npKc6-0004gx-8Y
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 22:01:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41702)
+	id 1npKtl-0000po-MG
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 22:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1npKaA-0003O2-WD
- for qemu-devel@nongnu.org; Thu, 12 May 2022 21:59:07 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:40502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1npKa8-0006QL-Ip
- for qemu-devel@nongnu.org; Thu, 12 May 2022 21:59:06 -0400
-Received: by mail-lj1-x232.google.com with SMTP id l19so8612574ljb.7
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 18:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z4Z1vsHArZZkBK33TLFrs0viMjqLrAP1bbVt/YF9r5U=;
- b=COm1gNypvZbYoqFeQnGe7osYR2pIb6wlhkoeWDE9Ff5OreAujJvmoCkf0tCrAhyk4f
- BxnFeRUQaaVHZMV4S6AWh4iW8GYS1B8sCEQ2PZ4cshB3ONSWO+xBvhsV61QKGWCGVw8z
- +hSDvuL8xvEPGhct8fsZUHhL4taJ+gplc3dJsz/vH4Coq1/ddfrt//8mPLavhJn3LaXF
- owhfuJH8OXfbsLMULoHBNiYo/k60Qi7QdHZcsYUhaQcNHqwp8J9rDvFv9Aft7ar5wMK8
- U9fARWMPenB6mDzfDdaBtRREUKJmOyJ62f+bl6BavQILZs1gZDy7oNgwap3kTxKTQz88
- JmOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z4Z1vsHArZZkBK33TLFrs0viMjqLrAP1bbVt/YF9r5U=;
- b=tjFVEEr9pTDNVHjIVz+/OZxHJWo3n70EqZg0oE6Y7bu4ksQK6PzpxY/9eUmK5bdU7k
- zc34IGxceZB7BhcX+qnXsLcXHtV50KEIVqKBIc/wtLPT8YlEq6Anj6kgrYJ1GFv7rra4
- YTupGJjz6oxUOPQHgAtCk8ExKw8944MadA/UH0qXFsvApSq08Ej9vBYWZHsybS/vY0Dd
- C4A/xJy+UO9yaFs7lSe9wabVPV3RtyiRYMMK3txRbYFa8SXqdHYYnsh49/1D2Pos6IfQ
- 1n6cm84V0IREi0zS8Hk/QWeLyhkIEj6As4HswCsqEd+s6ikC6Rgk5+Jw0FJpp0TLQ5jJ
- 3kZg==
-X-Gm-Message-State: AOAM5314WvVcGpKJbYQqVE+tg6IK3KznSmNISxWDJQzoFEkSJAS+VAyB
- kWI1KW8IdO6CLa4uzi7JYQ2WsYlPAKWuatScXc8u7w==
-X-Google-Smtp-Source: ABdhPJzN87kXHMRzqRyBOSctRFDXWxfUFu+L+kQeSNkEisfARDp7jUjYY3Vl4mo5huonwJs4SNC5Xx49qEySnbHbPkY=
-X-Received: by 2002:a2e:9617:0:b0:250:896e:3d25 with SMTP id
- v23-20020a2e9617000000b00250896e3d25mr1670727ljh.526.1652407141787; Thu, 12
- May 2022 18:59:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1npKsN-0008HI-KX
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 22:17:55 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:6080)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1npKsJ-0000TZ-QX
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 22:17:55 -0400
+Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Kzsfj3rmmzGpZK;
+ Fri, 13 May 2022 10:14:53 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 13 May 2022 10:17:42 +0800
+Message-ID: <a040df92-00f6-4e02-5a83-04b8c6ed5cef@huawei.com>
+Date: Fri, 13 May 2022 10:17:41 +0800
 MIME-Version: 1.0
-References: <20220509212827.2057822-1-atishp@rivosinc.com>
- <20220509212827.2057822-4-atishp@rivosinc.com>
- <CAAhSdy2mcjiMFQBhmPMf4Vc5Jfmr2W_+jk0h+bswfR3ATn=DjA@mail.gmail.com>
-In-Reply-To: <CAAhSdy2mcjiMFQBhmPMf4Vc5Jfmr2W_+jk0h+bswfR3ATn=DjA@mail.gmail.com>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Thu, 12 May 2022 18:58:50 -0700
-Message-ID: <CAHBxVyG9EPj9RNeXU-w0cBHbdZwRcwt=kJX++66UmRAzbL8pdQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] target/riscv: Add vstimecmp support
-To: Anup Patel <anup@brainfault.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=atishp@rivosinc.com; helo=mail-lj1-x232.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 3/4] vdpa: add vdpa-dev support
+To: Stefano Garzarella <sgarzare@redhat.com>
+CC: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+ <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
+References: <20220512062103.1875-1-longpeng2@huawei.com>
+ <20220512062103.1875-4-longpeng2@huawei.com>
+ <20220512143601.dujcnth2rbrxgsbx@sgarzare-redhat>
+In-Reply-To: <20220512143601.dujcnth2rbrxgsbx@sgarzare-redhat>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemi500025.china.huawei.com (7.221.188.170)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,337 +68,541 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 
-On Wed, May 11, 2022 at 9:48 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Tue, May 10, 2022 at 3:03 AM Atish Patra <atishp@rivosinc.com> wrote:
-> >
-> > vstimecmp CSR allows the guest OS or to program the next guest timer
-> > interrupt directly. Thus, hypervisor no longer need to inject the
-> > timer interrupt to the guest if vstimecmp is used. This was ratified
-> > as a part of the Sstc extension.
-> >
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  target/riscv/cpu.h         |   5 ++
-> >  target/riscv/cpu_bits.h    |   4 ++
-> >  target/riscv/cpu_helper.c  |  11 +++-
-> >  target/riscv/csr.c         | 112 ++++++++++++++++++++++++++++++++++++-
-> >  target/riscv/machine.c     |   1 +
-> >  target/riscv/time_helper.c |  16 ++++++
-> >  6 files changed, 144 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 9a01e6d0f587..798874d6189d 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -280,6 +280,9 @@ struct CPUArchState {
-> >      uint64_t stimecmp;
-> >      /* For RV32 only */
-> >      uint8_t stimecmp_wr_done;
->
-> Add new line here.
->
-> > +    uint64_t vstimecmp;
-> > +    /* For RV32 only */
-> > +    uint8_t vstimecmp_wr_done;
-> >
-> >      /* physical memory protection */
-> >      pmp_table_t pmp_state;
-> > @@ -335,6 +338,8 @@ struct CPUArchState {
-> >
-> >      /* Fields from here on are preserved across CPU reset. */
-> >      QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-> > +    QEMUTimer *vstimer; /* Internal timer for VS-mode interrupt */
-> > +    bool vstime_irq;
-> >
-> >      hwaddr kernel_addr;
-> >      hwaddr fdt_addr;
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index 29d0e4a1be01..5c9f512872e1 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -272,6 +272,10 @@
-> >  #define CSR_VSIP            0x244
-> >  #define CSR_VSATP           0x280
-> >
-> > +/* Sstc virtual CSRs */
-> > +#define CSR_VSTIMECMP       0x24D
-> > +#define CSR_VSTIMECMPH      0x25D
-> > +
-> >  #define CSR_MTINST          0x34a
-> >  #define CSR_MTVAL2          0x34b
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index e1aa4f2097c1..2715021c022e 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -344,8 +344,9 @@ static uint64_t riscv_cpu_all_pending(CPURISCVState *env)
-> >  {
-> >      uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
-> >      uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-> > +    uint64_t vstip = (env->vstime_irq) ? MIP_VSTIP : 0;
-> >
-> > -    return (env->mip | vsgein) & env->mie;
-> > +    return (env->mip | vsgein | vstip) & env->mie;
-> >  }
-> >
-> >  int riscv_cpu_mirq_pending(CPURISCVState *env)
-> > @@ -604,7 +605,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-> >  {
-> >      CPURISCVState *env = &cpu->env;
-> >      CPUState *cs = CPU(cpu);
-> > -    uint64_t gein, vsgein = 0, old = env->mip;
-> > +    uint64_t gein, vsgein = 0, vstip = 0, old = env->mip;
-> >      bool locked = false;
-> >
-> >      if (riscv_cpu_virt_enabled(env)) {
-> > @@ -612,6 +613,10 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-> >          vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-> >      }
-> >
-> > +    /* No need to update mip for VSTIP */
-> > +    mask = ((mask == MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
-> > +    vstip = env->vstime_irq ? MIP_VSTIP : 0;
-> > +
-> >      if (!qemu_mutex_iothread_locked()) {
-> >          locked = true;
-> >          qemu_mutex_lock_iothread();
-> > @@ -619,7 +624,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-> >
-> >      env->mip = (env->mip & ~mask) | (value & mask);
-> >
-> > -    if (env->mip | vsgein) {
-> > +    if (env->mip | vsgein | vstip) {
-> >          cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-> >      } else {
-> >          cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 8952d1308008..35eb2c4d84eb 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -567,17 +567,110 @@ static RISCVException sstc(CPURISCVState *env, int csrno)
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > +static RISCVException sstc_hmode(CPURISCVState *env, int csrno)
-> > +{
-> > +    CPUState *cs = env_cpu(env);
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    if (env->priv == PRV_M) {
-> > +        return RISCV_EXCP_NONE;
-> > +    }
-> > +
-> > +    if (!(get_field(env->mcounteren, COUNTEREN_TM) &
-> > +          get_field(env->menvcfg, MENVCFG_STCE))) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    if (!(get_field(env->hcounteren, COUNTEREN_TM) &
-> > +          get_field(env->henvcfg, HENVCFG_STCE))) {
-> > +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > +    }
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
-> > +                                    target_ulong *val)
-> > +{
-> > +    *val = env->vstimecmp;
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
-> > +                                    target_ulong *val)
-> > +{
-> > +    *val = env->vstimecmp >> 32;
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
-> > +                                    target_ulong val)
-> > +{
-> > +    RISCVCPU *cpu = env_archcpu(env);
-> > +
-> > +    if (riscv_cpu_mxl(env) == MXL_RV32) {
-> > +        env->vstimecmp = deposit64(env->vstimecmp, 0, 32, (uint64_t)val);
-> > +        env->vstimecmp_wr_done |= 0x01;
-> > +        if (env->vstimecmp_wr_done != 0x03) {
-> > +            return RISCV_EXCP_NONE;
-> > +        } else {
-> > +            env->vstimecmp_wr_done = 0;
-> > +        }
-> > +    } else {
-> > +        env->vstimecmp = val;
-> > +    }
-> > +
-> > +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-> > +                              env->htimedelta, MIP_VSTIP);
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
-> > +                                    target_ulong val)
-> > +{
-> > +    RISCVCPU *cpu = env_archcpu(env);
-> > +
-> > +    env->vstimecmp = deposit64(env->vstimecmp, 32, 32, (uint64_t)val);
-> > +    env->vstimecmp_wr_done |= 0x02;
-> > +    if (env->vstimecmp_wr_done != 0x03) {
-> > +            return RISCV_EXCP_NONE;
-> > +    }
-> > +
-> > +    env->vstimecmp_wr_done = 0;
-> > +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-> > +                              env->htimedelta, MIP_VSTIP);
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> >  static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
-> >                                      target_ulong *val)
-> >  {
-> > -    *val = env->stimecmp;
-> > +    if (riscv_cpu_virt_enabled(env)) {
-> > +        *val = env->vstimecmp;
-> > +    } else {
-> > +        *val = env->stimecmp;
-> > +    }
-> > +
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> >  static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
-> >                                      target_ulong *val)
-> >  {
-> > -    *val = env->stimecmp >> 32;
-> > +    if (riscv_cpu_virt_enabled(env)) {
-> > +        *val = env->vstimecmp >> 32;
-> > +    } else {
-> > +        *val = env->stimecmp >> 32;
-> > +    }
-> > +
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > @@ -586,6 +679,10 @@ static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
-> >  {
-> >      RISCVCPU *cpu = env_archcpu(env);
-> >
-> > +    if (riscv_cpu_virt_enabled(env)) {
-> > +        return write_vstimecmp(env, csrno, val);
-> > +    }
-> > +
-> >      if (riscv_cpu_mxl(env) == MXL_RV32) {
-> >          env->stimecmp = deposit64(env->stimecmp, 0, 32, (uint64_t)val);
-> >          env->stimecmp_wr_done |= 0x01;
-> > @@ -608,6 +705,10 @@ static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
-> >  {
-> >      RISCVCPU *cpu = env_archcpu(env);
-> >
-> > +    if (riscv_cpu_virt_enabled(env)) {
-> > +        return write_vstimecmph(env, csrno, val);
-> > +    }
-> > +
-> >      env->stimecmp = deposit64(env->stimecmp, 32, 32, (uint64_t)val);
-> >      env->stimecmp_wr_done |= 0x02;
-> >      if (env->stimecmp_wr_done != 0x03) {
-> > @@ -1612,6 +1713,7 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
-> >      if (csrno != CSR_HVIP) {
-> >          gin = get_field(env->hstatus, HSTATUS_VGEIN);
-> >          old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
-> > +        old_mip |= env->vstime_irq ? MIP_VSTIP : 0;
-> >      }
-> >
-> >      if (ret_val) {
-> > @@ -3433,6 +3535,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >                                            .min_priv_ver = PRIV_VERSION_1_12_0 },
-> >      [CSR_STIMECMPH] = { "stimecmph", sstc, read_stimecmph, write_stimecmph,
-> >                                            .min_priv_ver = PRIV_VERSION_1_12_0 },
-> > +    [CSR_VSTIMECMP] = { "vstimecmp", sstc_hmode, read_vstimecmp,
-> > +                                          write_vstimecmp,
-> > +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> > +    [CSR_VSTIMECMPH] = { "vstimecmph", sstc_hmode, read_vstimecmph,
-> > +                                          write_vstimecmph,
-> > +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> >
-> >      /* Supervisor Protection and Translation */
-> >      [CSR_SATP]     = { "satp",     smode, read_satp,    write_satp      },
-> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> > index ee02bfc18916..d453b401bdfd 100644
-> > --- a/target/riscv/machine.c
-> > +++ b/target/riscv/machine.c
-> > @@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper = {
-> >          VMSTATE_UINTTL(env.hgeie, RISCVCPU),
-> >          VMSTATE_UINTTL(env.hgeip, RISCVCPU),
-> >          VMSTATE_UINT64(env.htimedelta, RISCVCPU),
-> > +        VMSTATE_UINT64(env.vstimecmp, RISCVCPU),
->
-> Add vstimecmp_wr_done to vmstate_hyper.
+
+
+在 2022/5/12 22:36, Stefano Garzarella 写道:
+> On Thu, May 12, 2022 at 02:21:02PM +0800, Longpeng(Mike) wrote:
+>> From: Longpeng <longpeng2@huawei.com>
+>>
+>> Supports vdpa-dev, we can use the deivce directly:
+>>
+>> -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+>> vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
+>>
+>> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>> ---
+>> hw/virtio/Kconfig            |   5 +
+>> hw/virtio/meson.build        |   1 +
+>> hw/virtio/vdpa-dev.c         | 377 +++++++++++++++++++++++++++++++++++
+>> include/hw/virtio/vdpa-dev.h |  43 ++++
+>> 4 files changed, 426 insertions(+)
+>> create mode 100644 hw/virtio/vdpa-dev.c
+>> create mode 100644 include/hw/virtio/vdpa-dev.h
+>>
+>> diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+>> index c144d42f9b..724eb58a32 100644
+>> --- a/hw/virtio/Kconfig
+>> +++ b/hw/virtio/Kconfig
+>> @@ -68,3 +68,8 @@ config VHOST_USER_RNG
+>>     bool
+>>     default y
+>>     depends on VIRTIO && VHOST_USER
+>> +
+>> +config VHOST_VDPA_DEV
+>> +    bool
+>> +    default y
+>> +    depends on VIRTIO && VHOST_VDPA && LINUX
+>> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+>> index 67dc77e00f..8f6f86db71 100644
+>> --- a/hw/virtio/meson.build
+>> +++ b/hw/virtio/meson.build
+>> @@ -29,6 +29,7 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', 
+>> if_true: files('vhost-user-i2c.c'))
+>> virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_I2C'], 
+>> if_true: files('vhost-user-i2c-pci.c'))
+>> virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: 
+>> files('vhost-user-rng.c'))
+>> virtio_ss.add(when: ['CONFIG_VHOST_USER_RNG', 'CONFIG_VIRTIO_PCI'], 
+>> if_true: files('vhost-user-rng-pci.c'))
+>> +virtio_ss.add(when: 'CONFIG_VHOST_VDPA_DEV', if_true: 
+>> files('vdpa-dev.c'))
+>>
+>> virtio_pci_ss = ss.source_set()
+>> virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: 
+>> files('vhost-vsock-pci.c'))
+>> diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
+>> new file mode 100644
+>> index 0000000000..56597c881a
+>> --- /dev/null
+>> +++ b/hw/virtio/vdpa-dev.c
+>> @@ -0,0 +1,377 @@
+>> +/*
+>> + * Vhost Vdpa Device
+>> + *
+>> + * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights 
+>> Reserved.
+>> + *
+>> + * Authors:
+>> + *   Longpeng <longpeng2@huawei.com>
+>> + *
+>> + * Largely based on the "vhost-user-blk-pci.c" and "vhost-user-blk.c" 
+>> implemented by:
+>> + *   Changpeng Liu <changpeng.liu@intel.com>
+>> + *
+>> + * This work is licensed under the terms of the GNU LGPL, version 2 
+>> or later.
+>> + * See the COPYING.LIB file in the top-level directory.
+>> + */
+>> +#include "qemu/osdep.h"
+>> +#include <sys/ioctl.h>
+>> +#include <linux/vhost.h>
+>> +#include "qapi/error.h"
+>> +#include "qemu/error-report.h"
+>> +#include "qemu/cutils.h"
+>> +#include "hw/qdev-core.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "hw/qdev-properties-system.h"
+>> +#include "hw/virtio/vhost.h"
+>> +#include "hw/virtio/virtio.h"
+>> +#include "hw/virtio/virtio-bus.h"
+>> +#include "hw/virtio/virtio-access.h"
+>> +#include "hw/virtio/vdpa-dev.h"
+>> +#include "sysemu/sysemu.h"
+>> +#include "sysemu/runstate.h"
+>> +
+>> +static void
+>> +vhost_vdpa_device_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+>> +{
+>> +    /* Nothing to do */
+>> +}
+>> +
+>> +static uint32_t
+>> +vhost_vdpa_device_get_u32(int fd, unsigned long int cmd, Error **errp)
+>> +{
+>> +    uint32_t val = (uint32_t)-1;
+>> +
+>> +    if (ioctl(fd, cmd, &val) < 0) {
+>> +        error_setg(errp, "vhost-vdpa-device: cmd 0x%lx failed: %s",
+>> +                   cmd, strerror(errno));
+>> +    }
+>> +
+>> +    return val;
+>> +}
+>> +
+>> +static void vhost_vdpa_device_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+>> +    VhostVdpaDevice *v = VHOST_VDPA_DEVICE(vdev);
+>> +    uint16_t max_queue_size;
+>> +    struct vhost_virtqueue *vqs;
+>> +    int i, ret;
+>> +
+>> +    if (!v->vhostdev) {
+>> +        error_setg(errp, "vhost-vdpa-device: vhostdev are missing");
+>> +        return;
+>> +    }
+>> +
+>> +    v->vhostfd = qemu_open(v->vhostdev, O_RDWR, errp);
+>> +    if (*errp) {
+>> +        return;
+>> +    }
+>> +    v->vdpa.device_fd = v->vhostfd;
+>> +
+>> +    v->vdev_id = vhost_vdpa_device_get_u32(v->vhostfd,
+>> +                                           VHOST_VDPA_GET_DEVICE_ID, 
+>> errp);
+>> +    if (*errp) {
+>> +        goto out;
+>> +    }
+>> +
+>> +    max_queue_size = vhost_vdpa_device_get_u32(v->vhostfd,
+>> +                                               
+>> VHOST_VDPA_GET_VRING_NUM, errp);
+>> +    if (*errp) {
+>> +        goto out;
+>> +    }
+>> +
+>> +    if (v->queue_size > max_queue_size) {
+>> +        error_setg(errp, "vhost-vdpa-device: invalid queue_size: %u 
+>> (max:%u)",
+>> +                   v->queue_size, max_queue_size);
+>> +        goto out;
+>> +    } else if (!v->queue_size) {
+>> +        v->queue_size = max_queue_size;
+>> +    }
+>> +
+>> +    v->num_queues = vhost_vdpa_device_get_u32(v->vhostfd,
+>> +                                              
+>> VHOST_VDPA_GET_VQS_COUNT, errp);
+>> +    if (*errp) {
+>> +        goto out;
+>> +    }
+>> +
+>> +    if (!v->num_queues || v->num_queues > VIRTIO_QUEUE_MAX) {
+>> +        error_setg(errp, "invalid number of virtqueues: %u (max:%u)",
+>> +                   v->num_queues, VIRTIO_QUEUE_MAX);
+>> +        goto out;
+>> +    }
+>> +
+>> +    v->dev.nvqs = v->num_queues;
+>> +    vqs = g_new0(struct vhost_virtqueue, v->dev.nvqs);
+>> +    v->dev.vqs = vqs;
+>> +    v->dev.vq_index = 0;
+>> +    v->dev.vq_index_end = v->dev.nvqs;
+>> +    v->dev.backend_features = 0;
+>> +    v->started = false;
+>> +
+>> +    ret = vhost_dev_init(&v->dev, &v->vdpa, VHOST_BACKEND_TYPE_VDPA, 
+>> 0, NULL);
+>> +    if (ret < 0) {
+>> +        error_setg(errp, "vhost-vdpa-device: vhost initialization 
+>> failed: %s",
+>> +                   strerror(-ret));
+>> +        goto free_vqs;
+>> +    }
+>> +
+>> +    v->config_size = vhost_vdpa_device_get_u32(v->vhostfd,
+>> +                                               
+>> VHOST_VDPA_GET_CONFIG_SIZE, errp);
+>> +    if (*errp) {
+>> +        goto vhost_cleanup;
+>> +    }
+>> +
+>> +    if (v->post_init && v->post_init(v, errp) < 0) {
+>> +        goto free_virtio;
+> 
+> This goto seems wrong.
+> 
+> Either we use the `vhost_cleanup` label or we move this block just 
+> before return as it seems to me was in v3.
 >
 
-ok. I will add [v]stimecmp_wr_done to corresponding vmstate.
+Good catch. We should use 'vhost_cleanup' label here.
 
-> >
-> >          VMSTATE_UINTTL(env.hvictl, RISCVCPU),
-> >          VMSTATE_UINT8_ARRAY(env.hviprio, RISCVCPU, 64),
-> > diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
-> > index f3fb5eac7b7b..8cce667dfd47 100644
-> > --- a/target/riscv/time_helper.c
-> > +++ b/target/riscv/time_helper.c
-> > @@ -22,6 +22,14 @@
-> >  #include "time_helper.h"
-> >  #include "hw/intc/riscv_aclint.h"
-> >
-> > +static void riscv_vstimer_cb(void *opaque)
-> > +{
-> > +    RISCVCPU *cpu = opaque;
-> > +    CPURISCVState *env = &cpu->env;
-> > +    env->vstime_irq = 1;
-> > +    riscv_cpu_update_mip(cpu, MIP_VSTIP, BOOL_TO_MASK(1));
-> > +}
-> > +
-> >  static void riscv_stimer_cb(void *opaque)
-> >  {
-> >      RISCVCPU *cpu = opaque;
-> > @@ -47,10 +55,16 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
-> >           * If we're setting an stimecmp value in the "past",
-> >           * immediately raise the timer interrupt
-> >           */
-> > +        if (timer_irq == MIP_VSTIP) {
-> > +            env->vstime_irq = 1;
-> > +        }
-> >          riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
-> >          return;
-> >      }
-> >
-> > +    if (timer_irq == MIP_VSTIP) {
-> > +        env->vstime_irq = 0;
-> > +    }
-> >      /* Clear the [V]STIP bit in mip */
-> >      riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
-> >
-> > @@ -95,4 +109,6 @@ void riscv_timer_init(RISCVCPU *cpu)
-> >      env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
-> >      env->stimecmp = 0;
-> >
-> > +    env->vstimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_vstimer_cb, cpu);
-> > +    env->vstimecmp = 0;
-> >  }
-> > --
-> > 2.25.1
-> >
-> >
->
-> Regards,
-> Anup
+> Out of curiosity, is there a reason for this change from v3 or was a 
+> simple mistake as a consequence of patch reorganization?
+> 
+
+We should invoke .post_init() before calling virtio_init() which would 
+use the fields of VirtIOPCIProxy.
+
+> Since I think v6 is needed, checkpatch has some warnings for exceeding 
+> 80 characters, maybe some of them can be easily fixed.
+> 
+
+OK, I'll fix them.
+
+> The rest LGTM, I think we are in a good shape :-)
+> 
+> Thanks,
+> Stefano
+> 
+>> +    }
+>> +
+>> +    v->config = g_malloc0(v->config_size);
+>> +
+>> +    ret = vhost_dev_get_config(&v->dev, v->config, v->config_size, 
+>> NULL);
+>> +    if (ret < 0) {
+>> +        error_setg(errp, "vhost-vdpa-device: get config failed");
+>> +        goto free_config;
+>> +    }
+>> +
+>> +    virtio_init(vdev, "vhost-vdpa", v->vdev_id, v->config_size);
+>> +
+>> +    v->virtqs = g_new0(VirtQueue *, v->dev.nvqs);
+>> +    for (i = 0; i < v->dev.nvqs; i++) {
+>> +        v->virtqs[i] = virtio_add_queue(vdev, v->queue_size,
+>> +                                        
+>> vhost_vdpa_device_dummy_handle_output);
+>> +    }
+>> +
+>> +    return;
+>> +
+>> +free_virtio:
+>> +    for (i = 0; i < v->num_queues; i++) {
+>> +        virtio_delete_queue(v->virtqs[i]);
+>> +    }
+>> +    g_free(v->virtqs);
+>> +    virtio_cleanup(vdev);
+>> +free_config:
+>> +    g_free(v->config);
+>> +vhost_cleanup:
+>> +    vhost_dev_cleanup(&v->dev);
+>> +free_vqs:
+>> +    g_free(vqs);
+>> +out:
+>> +    qemu_close(v->vhostfd);
+>> +    v->vhostfd = -1;
+>> +}
+>> +
+>> +static void vhost_vdpa_device_unrealize(DeviceState *dev)
+>> +{
+>> +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>> +    int i;
+>> +
+>> +    virtio_set_status(vdev, 0);
+>> +
+>> +    for (i = 0; i < s->num_queues; i++) {
+>> +        virtio_delete_queue(s->virtqs[i]);
+>> +    }
+>> +    g_free(s->virtqs);
+>> +    virtio_cleanup(vdev);
+>> +
+>> +    g_free(s->config);
+>> +    g_free(s->dev.vqs);
+>> +    vhost_dev_cleanup(&s->dev);
+>> +    qemu_close(s->vhostfd);
+>> +    s->vhostfd = -1;
+>> +}
+>> +
+>> +static void
+>> +vhost_vdpa_device_get_config(VirtIODevice *vdev, uint8_t *config)
+>> +{
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>> +
+>> +    memcpy(config, s->config, s->config_size);
+>> +}
+>> +
+>> +static void
+>> +vhost_vdpa_device_set_config(VirtIODevice *vdev, const uint8_t *config)
+>> +{
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>> +    int ret;
+>> +
+>> +    ret = vhost_dev_set_config(&s->dev, s->config, 0, s->config_size,
+>> +                               VHOST_SET_CONFIG_TYPE_MASTER);
+>> +    if (ret) {
+>> +        error_report("set device config space failed");
+>> +        return;
+>> +    }
+>> +}
+>> +
+>> +static uint64_t vhost_vdpa_device_get_features(VirtIODevice *vdev,
+>> +                                               uint64_t features,
+>> +                                               Error **errp)
+>> +{
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>> +    uint64_t backend_features = s->dev.features;
+>> +
+>> +    if (!virtio_has_feature(features, VIRTIO_F_IOMMU_PLATFORM)) {
+>> +        virtio_clear_feature(&backend_features, 
+>> VIRTIO_F_IOMMU_PLATFORM);
+>> +    }
+>> +
+>> +    return backend_features;
+>> +}
+>> +
+>> +static int vhost_vdpa_device_start(VirtIODevice *vdev, Error **errp)
+>> +{
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>> +    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>> +    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+>> +    int i, ret;
+>> +
+>> +    if (!k->set_guest_notifiers) {
+>> +        error_setg(errp, "binding does not support guest notifiers");
+>> +        return -ENOSYS;
+>> +    }
+>> +
+>> +    ret = vhost_dev_enable_notifiers(&s->dev, vdev);
+>> +    if (ret < 0) {
+>> +        error_setg_errno(errp, -ret, "Error enabling host notifiers");
+>> +        return ret;
+>> +    }
+>> +
+>> +    ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, true);
+>> +    if (ret < 0) {
+>> +        error_setg_errno(errp, -ret, "Error binding guest notifier");
+>> +        goto err_host_notifiers;
+>> +    }
+>> +
+>> +    s->dev.acked_features = vdev->guest_features;
+>> +
+>> +    ret = vhost_dev_start(&s->dev, vdev);
+>> +    if (ret < 0) {
+>> +        error_setg_errno(errp, -ret, "Error starting vhost");
+>> +        goto err_guest_notifiers;
+>> +    }
+>> +    s->started = true;
+>> +
+>> +    /*
+>> +     * guest_notifier_mask/pending not used yet, so just unmask
+>> +     * everything here. virtio-pci will do the right thing by
+>> +     * enabling/disabling irqfd.
+>> +     */
+>> +    for (i = 0; i < s->dev.nvqs; i++) {
+>> +        vhost_virtqueue_mask(&s->dev, vdev, i, false);
+>> +    }
+>> +
+>> +    return ret;
+>> +
+>> +err_guest_notifiers:
+>> +    k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+>> +err_host_notifiers:
+>> +    vhost_dev_disable_notifiers(&s->dev, vdev);
+>> +    return ret;
+>> +}
+>> +
+>> +static void vhost_vdpa_device_stop(VirtIODevice *vdev)
+>> +{
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>> +    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>> +    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+>> +    int ret;
+>> +
+>> +    if (!s->started) {
+>> +        return;
+>> +    }
+>> +    s->started = false;
+>> +
+>> +    if (!k->set_guest_notifiers) {
+>> +        return;
+>> +    }
+>> +
+>> +    vhost_dev_stop(&s->dev, vdev);
+>> +
+>> +    ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+>> +    if (ret < 0) {
+>> +        error_report("vhost guest notifier cleanup failed: %d", ret);
+>> +        return;
+>> +    }
+>> +
+>> +    vhost_dev_disable_notifiers(&s->dev, vdev);
+>> +}
+>> +
+>> +static void vhost_vdpa_device_set_status(VirtIODevice *vdev, uint8_t 
+>> status)
+>> +{
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>> +    bool should_start = virtio_device_started(vdev, status);
+>> +    Error *local_err = NULL;
+>> +    int ret;
+>> +
+>> +    if (!vdev->vm_running) {
+>> +        should_start = false;
+>> +    }
+>> +
+>> +    if (s->started == should_start) {
+>> +        return;
+>> +    }
+>> +
+>> +    if (should_start) {
+>> +        ret = vhost_vdpa_device_start(vdev, &local_err);
+>> +        if (ret < 0) {
+>> +            error_reportf_err(local_err, "vhost-vdpa-device: start 
+>> failed: ");
+>> +        }
+>> +    } else {
+>> +        vhost_vdpa_device_stop(vdev);
+>> +    }
+>> +}
+>> +
+>> +static Property vhost_vdpa_device_properties[] = {
+>> +    DEFINE_PROP_STRING("vhostdev", VhostVdpaDevice, vhostdev),
+>> +    DEFINE_PROP_UINT16("queue-size", VhostVdpaDevice, queue_size, 0),
+>> +    DEFINE_PROP_END_OF_LIST(),
+>> +};
+>> +
+>> +static const VMStateDescription vmstate_vhost_vdpa_device = {
+>> +    .name = "vhost-vdpa-device",
+>> +    .unmigratable = 1,
+>> +    .minimum_version_id = 1,
+>> +    .version_id = 1,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_VIRTIO_DEVICE,
+>> +        VMSTATE_END_OF_LIST()
+>> +    },
+>> +};
+>> +
+>> +static void vhost_vdpa_device_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>> +    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
+>> +
+>> +    device_class_set_props(dc, vhost_vdpa_device_properties);
+>> +    dc->desc = "VDPA-based generic device assignment";
+>> +    dc->vmsd = &vmstate_vhost_vdpa_device;
+>> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>> +    vdc->realize = vhost_vdpa_device_realize;
+>> +    vdc->unrealize = vhost_vdpa_device_unrealize;
+>> +    vdc->get_config = vhost_vdpa_device_get_config;
+>> +    vdc->set_config = vhost_vdpa_device_set_config;
+>> +    vdc->get_features = vhost_vdpa_device_get_features;
+>> +    vdc->set_status = vhost_vdpa_device_set_status;
+>> +}
+>> +
+>> +static void vhost_vdpa_device_instance_init(Object *obj)
+>> +{
+>> +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(obj);
+>> +
+>> +    device_add_bootindex_property(obj, &s->bootindex, "bootindex",
+>> +                                  NULL, DEVICE(obj));
+>> +}
+>> +
+>> +static const TypeInfo vhost_vdpa_device_info = {
+>> +    .name = TYPE_VHOST_VDPA_DEVICE,
+>> +    .parent = TYPE_VIRTIO_DEVICE,
+>> +    .instance_size = sizeof(VhostVdpaDevice),
+>> +    .class_init = vhost_vdpa_device_class_init,
+>> +    .instance_init = vhost_vdpa_device_instance_init,
+>> +};
+>> +
+>> +static void register_vhost_vdpa_device_type(void)
+>> +{
+>> +    type_register_static(&vhost_vdpa_device_info);
+>> +}
+>> +
+>> +type_init(register_vhost_vdpa_device_type);
+>> diff --git a/include/hw/virtio/vdpa-dev.h b/include/hw/virtio/vdpa-dev.h
+>> new file mode 100644
+>> index 0000000000..4dbf98195c
+>> --- /dev/null
+>> +++ b/include/hw/virtio/vdpa-dev.h
+>> @@ -0,0 +1,43 @@
+>> +/*
+>> + * Vhost Vdpa Device
+>> + *
+>> + * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights 
+>> Reserved.
+>> + *
+>> + * Authors:
+>> + *   Longpeng <longpeng2@huawei.com>
+>> + *
+>> + * Largely based on the "vhost-user-blk.h" implemented by:
+>> + *   Changpeng Liu <changpeng.liu@intel.com>
+>> + *
+>> + * This work is licensed under the terms of the GNU LGPL, version 2 
+>> or later.
+>> + * See the COPYING.LIB file in the top-level directory.
+>> + */
+>> +#ifndef _VHOST_VDPA_DEVICE_H
+>> +#define _VHOST_VDPA_DEVICE_H
+>> +
+>> +#include "hw/virtio/vhost.h"
+>> +#include "hw/virtio/vhost-vdpa.h"
+>> +#include "qom/object.h"
+>> +
+>> +
+>> +#define TYPE_VHOST_VDPA_DEVICE "vhost-vdpa-device"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(VhostVdpaDevice, VHOST_VDPA_DEVICE)
+>> +
+>> +struct VhostVdpaDevice {
+>> +    VirtIODevice parent_obj;
+>> +    char *vhostdev;
+>> +    int vhostfd;
+>> +    int32_t bootindex;
+>> +    uint32_t vdev_id;
+>> +    uint32_t num_queues;
+>> +    struct vhost_dev dev;
+>> +    struct vhost_vdpa vdpa;
+>> +    VirtQueue **virtqs;
+>> +    uint8_t *config;
+>> +    int config_size;
+>> +    uint16_t queue_size;
+>> +    bool started;
+>> +    int (*post_init)(VhostVdpaDevice *v, Error **errp);
+>> +};
+>> +
+>> +#endif
+>> -- 
+>> 2.23.0
+>>
+> 
+> .
 
