@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C04526571
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:59:17 +0200 (CEST)
-Received: from localhost ([::1]:36596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13B552659A
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:05:01 +0200 (CEST)
+Received: from localhost ([::1]:41814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npWl9-0007Qn-No
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33980)
+	id 1npWqi-0003GB-LO
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npWjC-0006Ad-QG
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:57:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npWjA-000074-12
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:57:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652453831;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0qmbe4MtTelnojL18gw9cUFJ7lE7CESwCaW6SloW+yw=;
- b=gwKxsQxBVhGVGmGWxQcDweJ3ShNVge/f+gBoNzZyQGPa9ixh96OKMCP36jYH2swYck2mNg
- UgnrQwKHjTzdDLnxAquQ9q8KJCe32Juha2BWvI2XooR6Nnnumit4RV/QhQR1UXZPyxf4HT
- l0/iUZwPM08EdGyPdYRcL8DLOhBhJv4=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-Kn8Gqq_NNNGGJY92vDHHdQ-1; Fri, 13 May 2022 10:57:10 -0400
-X-MC-Unique: Kn8Gqq_NNNGGJY92vDHHdQ-1
-Received: by mail-il1-f199.google.com with SMTP id
- k6-20020a056e02156600b002cf4afa295bso5317354ilu.8
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 07:57:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npWpL-00025u-M5
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:03:35 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:43615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npWpH-000197-Mh
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:03:34 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ l7-20020a17090aaa8700b001dd1a5b9965so8033456pjq.2
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=jCcDkes7W//az2PBlVukhfo1pIhUBIzGo0vDszYbD1Y=;
+ b=kuUi9t6dVvEAaDsCPflEF0tnOo4lvz6UJKLDniVnDgXvWhXaCWKNV/L8Pl/chkDc3n
+ buQNSmFdSuybZnjBTKyCjCO9/M7gfqC3qYCwtyUU6eDwmWQZU2ydUaaVjesnEYCvwdS3
+ tymbv5+vEcc98pjR0RqVB5v6NHc2wGbIOKYQaiuFJpm3yghBxrF1ZaemJ+4MhupsUvmQ
+ 0RtAfsxssduuNhil7WAx8+wYQELOer8ZN9DgqkcvbQa8r2H0xlQa/8uBZXRjvooVIOnQ
+ 1fbVDbqclnhYtZSJ6MnqJBr28HnHx04xjs/dTy7QMs1TJfiLqkqnGTy+tb0YmWFiJYu+
+ EUaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0qmbe4MtTelnojL18gw9cUFJ7lE7CESwCaW6SloW+yw=;
- b=GAkTRXYvy9vD22/NB7N37x2HOgWw18GVmRQfC4dAJlmA+iNWqJ6hE6tJhXrgowoOdY
- HTjAkG+00VsggdRrppRtG18O9qw6pRx6crUQjpJE6gyrBrTRZxhAGKdddA/ckVTLAzdX
- mt93pR0L3eszSj6eLCepENGBsv0gsgtJ27WCS+GelmtTTBe27/zo5bzkbqVUWhwDon8+
- by27jwdwueYycLurz76hFu/C9+7E/8ObEPg4rJB3JUbQuj4Rzknd1XHkFA/znatrlmww
- njVAIB52mBWcbzQn1l09EB6FWFWQ1VWmfm2tLXVs3G9oH1NjJU+cpMvDNynv48QEXGLu
- koOg==
-X-Gm-Message-State: AOAM532QyEju2Jmuir6YigJXF0KVl/c9bvRGmnjgJ1n7C0CzvXk2I8tW
- CQDjFYFwdduqFTFdaSc2JJsUUOHaD8Ud0IIDNP3vfv4uu+Aft/aZZwHRjJum3p9sMruJ8gQVmLv
- sV40aB7bmOxphEhPKMXQGGZCuktQnmnw=
-X-Received: by 2002:a92:c901:0:b0:2cd:8d18:9a80 with SMTP id
- t1-20020a92c901000000b002cd8d189a80mr2667038ilp.200.1652453829275; 
- Fri, 13 May 2022 07:57:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyS9Bk/kTQcGeSO+VDw9viO3nLtceVBw4AyFYSNv5podu+rfFwSYRdU3Byq6fkHs0DoNvJOZAeINn3yB8PZgzE=
-X-Received: by 2002:a92:c901:0:b0:2cd:8d18:9a80 with SMTP id
- t1-20020a92c901000000b002cd8d189a80mr2667028ilp.200.1652453829122; Fri, 13
- May 2022 07:57:09 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jCcDkes7W//az2PBlVukhfo1pIhUBIzGo0vDszYbD1Y=;
+ b=uqwVd1knY7RThUixZ3hEF2wD2ZInQhAbKemLyJh//vl6RuOnzUzz2vu+mKiYs7m9my
+ /hPJZUIexpf/se1miKr9sOZpHeKgJJ5AfiC14j0TucfKSiYXOdqQNqbTI2qWvXGN0t81
+ rtxYzehxLFeXPVO3y38lSNrwYajQZDlkrAm84tEqs1KidFj9Ne4wpcnaKz7X6uO6xHit
+ wcY9W+T917LxH/G5XB5azzqjJZJQVKT3MiZ7Z8V6v98K3aEUcT5JlvcrAUVYahp+ef8o
+ faNBlT6YznQvz8OSAC9TUy1Cxs/UVagl3zTUqfztOii5wQ5bXCOPykHJGOTxMKc8QkY7
+ KbRA==
+X-Gm-Message-State: AOAM532YagiHCVxUID/2jn1uno7esUe0Z1LPfue1n4nKGQtjy4ac/BFg
+ v3unUPtKJYTm76B4T93+vG/EQw==
+X-Google-Smtp-Source: ABdhPJzNWxDTscxADM5xo8fplsKjLGB10v4Lg9tUC3x/qLwNg9uJS7uHUJB1mcQA1GE6UiPjqnKxBg==
+X-Received: by 2002:a17:902:7402:b0:15e:d84c:260a with SMTP id
+ g2-20020a170902740200b0015ed84c260amr4922957pll.80.1652454209526; 
+ Fri, 13 May 2022 08:03:29 -0700 (PDT)
+Received: from [192.168.66.8] (50-78-183-178-static.hfc.comcastbusiness.net.
+ [50.78.183.178]) by smtp.gmail.com with ESMTPSA id
+ a30-20020a62d41e000000b0050dc7628130sm1942223pfh.10.2022.05.13.08.03.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 08:03:29 -0700 (PDT)
+Message-ID: <9dcf48dc-3c58-d78d-d3c3-26c010a5fddb@linaro.org>
+Date: Fri, 13 May 2022 08:03:26 -0700
 MIME-Version: 1.0
-References: <20220512233849.2219275-1-afaria@redhat.com>
- <20220512233849.2219275-4-afaria@redhat.com>
- <9541f3e7-fa0a-0f05-e5db-18be833f997a@redhat.com>
-In-Reply-To: <9541f3e7-fa0a-0f05-e5db-18be833f997a@redhat.com>
-From: Alberto Faria <afaria@redhat.com>
-Date: Fri, 13 May 2022 15:56:33 +0100
-Message-ID: <CAELaAXxjJVa0XLkEiiH1EnRKjzB+3+X5qtZXF8SYzBZ0BwGEhw@mail.gmail.com>
-Subject: Re: [PATCH 3/7] block: Make bdrv_{pread, pwrite}() return 0 on success
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, 
- Fam Zheng <fam@euphon.net>, Jeff Cody <codyprime@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: sbsa board boot with neoverse-n1
+Content-Language: en-US
+To: Itaru Kitayama <itaru.kitayama@gmail.com>, qemu-devel@nongnu.org
+References: <CANW9uyswqzNGwkzbbNK_OcA-eF6Uf+Q3EkWgJrz2CudvQW4yPQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CANW9uyswqzNGwkzbbNK_OcA-eF6Uf+Q3EkWgJrz2CudvQW4yPQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,51 +92,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 13, 2022 at 9:22 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-> The callers only check the return code of vhdx_log_peek_hdr,
-> vhdx_log_read_sectors, vhdx_log_write_sectors with ret < 0.  But looking
-> at the callers:
->
-> - vhdx_log_read_desc propagates ret directly from a successful
-> vhdx_log_read_sectors, but its callers don't care about which
-> nonnegative result is returned
->
-> - vhdx_validate_log_entry might occasionally return ret directly from a
-> successful vhdx_log_read_desc or vhdx_log_read_sectors, but
-> vhdx_log_search, the caller of vhdx_validate_log_entry, also doesn't
-> care about which nonnegative result is returned
->
-> - vhdx_log_flush only returns a successful return value from bdrv_flush
->
-> - vhdx_log_write propagates ret directly from a successful
-> vhdx_log_write_sectors, but vhdx_log_write_and_flush only returns a
-> successful return value from vhdx_log_flush
->
-> So (perhaps as a separate patch?) you can remove the three assignments
-> of ret.
+On 5/12/22 22:59, Itaru Kitayama wrote:
+> Richard,
+> I'm wondering what options you use to bring up sbsa board with neoverse-n1
+> as I am only able to do it with cortex-a57, no other CPU types works.
 
-Thanks, I'll fix this. I think I'll just fold it in, but let me know
-if it really should be split into a separate patch.
+I didn't attempt to boot it, because I don't have firmware for it.
+I only added it to the list of cpus that would be accepted by the board.
 
-> As an aside, while reviewing I noticed this in qcow2_mark_dirty:
->
->      ret = bdrv_pwrite(bs->file, offsetof(QCowHeader,
-> incompatible_features),
->                        &val, sizeof(val));
->      if (ret < 0) {
->          return ret;
->      }
->      ret = bdrv_flush(bs->file->bs);
->      if (ret < 0) {
->          return ret;
->      }
->
-> I'm not sure if there are other occurrencies, perhaps you can try using
-> Coccinelle to find them and change them to a bdrv_pwrite_sync.
 
-Looks like this is the only occurrence. I'll add a patch to convert it
-to bdrv_pwrite_sync().
-
-Alberto
-
+r~
 
