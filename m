@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DF352691B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 20:19:45 +0200 (CEST)
-Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51E7526914
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 20:14:30 +0200 (CEST)
+Received: from localhost ([::1]:44912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npZtA-0007zG-2J
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 14:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
+	id 1npZo5-0001mJ-TM
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 14:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1npZih-0001R5-6x
- for qemu-devel@nongnu.org; Fri, 13 May 2022 14:08:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23013)
+ id 1npZij-0001aT-PV
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 14:08:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1npZif-00071s-Dp
- for qemu-devel@nongnu.org; Fri, 13 May 2022 14:08:54 -0400
+ id 1npZih-00072B-Sk
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 14:08:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652465332;
+ s=mimecast20190719; t=1652465335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x1vDNkyDxENYzuxXRNo3L5BE9SMj1BnRZK7GnlyDWoE=;
- b=Z/ILGxGzoUGGFAPj63B/53+EZ+1nhBe2TcsFBf+u/9PlYrgl8bZ0SFc8s+zavqnDuxkwpK
- P108EYefXKaPHPND3wkKSJ4b24p+h6Y1ZMTNRJm4WSVT64eVPlaTkxF+b1SuBjmba6Uifg
- zuxwi9l7/tbP174LLGW9OvaK+wt7sz8=
+ bh=Olum9Pty0O24L9mPdjGTqHP2sNTsbWFCGNZznGFul1I=;
+ b=bHitKL4wpZAhfzq727ke83lLt6txa4sxaw2xKw9tDnBj0fGx6aRmibBasQ/rP925IB0A+x
+ YkFsKIgyKprTGNRGCZJCKPontEo6wMxoDdDKXE6S939m6g6BuWtnrEUOilxGdKJjlpBUtv
+ c340D1LMxkHVzsCPQizU/Slh7K9L6GU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-o_pkEWuaPnOjhPSoxigmIQ-1; Fri, 13 May 2022 14:08:51 -0400
-X-MC-Unique: o_pkEWuaPnOjhPSoxigmIQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-144-t3KHer6HOUyJ8XbbR-2emw-1; Fri, 13 May 2022 14:08:53 -0400
+X-MC-Unique: t3KHer6HOUyJ8XbbR-2emw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65FD010665A0;
- Fri, 13 May 2022 18:08:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32A8880CDA7;
+ Fri, 13 May 2022 18:08:51 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC95640D1CF;
- Fri, 13 May 2022 18:08:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B12ED43EA06;
+ Fri, 13 May 2022 18:08:50 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v3 10/15] test/qga: use G_TEST_DIR to locate os-release test
- file
-Date: Fri, 13 May 2022 20:08:16 +0200
-Message-Id: <20220513180821.905149-11-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 11/15] qga/wixl: prefer variables over environment
+Date: Fri, 13 May 2022 20:08:17 +0200
+Message-Id: <20220513180821.905149-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20220513180821.905149-1-marcandre.lureau@redhat.com>
 References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -85,39 +84,121 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This a more accurate way to lookup the test data, and will allow to move
-the test in a subproject.
+No need to setup an environment or to check if the variable is undefined
+manually.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- tests/unit/test-qga.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ qga/installer/qemu-ga.wxs | 30 +++++++++---------------------
+ qga/meson.build           |  9 ++++-----
+ 2 files changed, 13 insertions(+), 26 deletions(-)
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index d6df1ee92e..ab0b12a2dd 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -914,15 +914,14 @@ static void test_qga_guest_get_osinfo(gconstpointer data)
- {
-     TestFixture fixture;
-     const gchar *str;
--    gchar *cwd, *env[2];
--    QDict *ret, *val;
-+    QDict *ret = NULL;
-+    char *env[2];
-+    QDict *val;
- 
--    cwd = g_get_current_dir();
-     env[0] = g_strdup_printf(
--        "QGA_OS_RELEASE=%s%ctests%cdata%ctest-qga-os-release",
--        cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
-+        "QGA_OS_RELEASE=%s%c..%cdata%ctest-qga-os-release",
-+        g_test_get_dir(G_TEST_DIST), G_DIR_SEPARATOR, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
-     env[1] = NULL;
--    g_free(cwd);
-     fixture_setup(&fixture, NULL, env);
- 
-     ret = qmp_fd(fixture.fd, "{'execute': 'guest-get-osinfo'}");
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index 0950e8c6be..8a19aa1656 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -1,17 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+-  <?ifndef env.QEMU_GA_VERSION ?>
+-    <?error Environment variable QEMU_GA_VERSION undefined?>
+-  <?endif?>
+-
+-  <?ifndef env.QEMU_GA_DISTRO ?>
+-    <?error Environment variable QEMU_GA_DISTRO undefined?>
+-  <?endif?>
+-
+-  <?ifndef env.QEMU_GA_MANUFACTURER ?>
+-    <?error Environment variable QEMU_GA_MANUFACTURER undefined?>
+-  <?endif?>
+-
+   <?ifndef var.Arch?>
+     <?error Define Arch to 32 or 64?>
+   <?endif?>
+@@ -43,20 +31,20 @@
+     Name="QEMU guest agent"
+     Id="*"
+     UpgradeCode="{EB6B8302-C06E-4BEC-ADAC-932C68A3A98D}"
+-    Manufacturer="$(env.QEMU_GA_MANUFACTURER)"
+-    Version="$(env.QEMU_GA_VERSION)"
++    Manufacturer="$(var.QEMU_GA_MANUFACTURER)"
++    Version="$(var.QEMU_GA_VERSION)"
+     Language="1033">
+     <?if $(var.Arch) = 32 ?>
+     <Condition Message="Error: 32-bit version of Qemu GA can not be installed on 64-bit Windows.">NOT VersionNT64</Condition>
+     <?endif?>
+     <Package
+-      Manufacturer="$(env.QEMU_GA_MANUFACTURER)"
++      Manufacturer="$(var.QEMU_GA_MANUFACTURER)"
+       InstallerVersion="200"
+       Languages="1033"
+       Compressed="yes"
+       InstallScope="perMachine"
+       />
+-    <Media Id="1" Cabinet="qemu_ga.$(env.QEMU_GA_VERSION).cab" EmbedCab="yes" />
++    <Media Id="1" Cabinet="qemu_ga.$(var.QEMU_GA_VERSION).cab" EmbedCab="yes" />
+     <Property Id="WHSLogo">1</Property>
+     <MajorUpgrade
+       DowngradeErrorMessage="Error: A newer version of QEMU guest agent is already installed."
+@@ -66,7 +54,7 @@
+       <Directory Id="$(var.GaProgramFilesFolder)" Name="QEMU Guest Agent">
+         <Directory Id="qemu_ga_directory" Name="Qemu-ga">
+           <Component Id="qemu_ga" Guid="{908B7199-DE2A-4DC6-A8D0-27A5AE444FEA}">
+-            <File Id="qemu_ga.exe" Name="qemu-ga.exe" Source="$(env.BUILD_DIR)/qga/qemu-ga.exe" KeyPath="yes" DiskId="1"/>
++            <File Id="qemu_ga.exe" Name="qemu-ga.exe" Source="$(var.BUILD_DIR)/qga/qemu-ga.exe" KeyPath="yes" DiskId="1"/>
+             <ServiceInstall
+               Id="ServiceInstaller"
+               Type="ownProcess"
+@@ -88,10 +76,10 @@
+             <File Id="libstdc++-6.lib" Name="libstdc++-6.dll" Source="$(var.Mingw_bin)/libstdc++-6.dll" KeyPath="yes" DiskId="1"/>
+           </Component>
+           <Component Id="qga_vss_dll" Guid="{CB19C453-FABB-4BB1-ABAB-6B74F687BFBB}">
+-            <File Id="qga_vss.dll" Name="qga-vss.dll" Source="$(env.BUILD_DIR)/qga/vss-win32/qga-vss.dll" KeyPath="yes" DiskId="1"/>
++            <File Id="qga_vss.dll" Name="qga-vss.dll" Source="$(var.BUILD_DIR)/qga/vss-win32/qga-vss.dll" KeyPath="yes" DiskId="1"/>
+           </Component>
+           <Component Id="qga_vss_tlb" Guid="{D8D584B1-59C2-4FB7-A91F-636FF7BFA66E}">
+-            <File Id="qga_vss.tlb" Name="qga-vss.tlb" Source="$(env.BUILD_DIR)/qga/vss-win32/qga-vss.tlb" KeyPath="yes" DiskId="1"/>
++            <File Id="qga_vss.tlb" Name="qga-vss.tlb" Source="$(var.BUILD_DIR)/qga/vss-win32/qga-vss.tlb" KeyPath="yes" DiskId="1"/>
+           </Component>
+           <?endif?>
+           <?if $(var.Arch) = "32"?>
+@@ -133,9 +121,9 @@
+           </Component>
+           <Component Id="registry_entries" Guid="{D075D109-51CA-11E3-9F8B-000C29858960}">
+             <RegistryKey Root="HKLM"
+-                         Key="Software\$(env.QEMU_GA_MANUFACTURER)\$(env.QEMU_GA_DISTRO)\Tools\QemuGA">
++                         Key="Software\$(var.QEMU_GA_MANUFACTURER)\$(var.QEMU_GA_DISTRO)\Tools\QemuGA">
+               <RegistryValue Type="string" Name="ProductID" Value="fb0a0d66-c7fb-4e2e-a16b-c4a3bfe8d13b" />
+-              <RegistryValue Type="string" Name="Version" Value="$(env.QEMU_GA_VERSION)" />
++              <RegistryValue Type="string" Name="Version" Value="$(var.QEMU_GA_VERSION)" />
+             </RegistryKey>
+           </Component>
+         </Directory>
+diff --git a/qga/meson.build b/qga/meson.build
+index 6d9f39bb32..3ad3bc0260 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -121,15 +121,14 @@ if targetos == 'windows'
+                             output: 'qemu-ga-@0@.msi'.format(host_arch),
+                             depends: deps,
+                             command: [
+-                              find_program('env'),
+-                              'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
+-                              'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
+-                              'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
+-                              'BUILD_DIR=' + meson.build_root(),
+                               wixl, '-o', '@OUTPUT0@', '@INPUT0@',
+                               qemu_ga_msi_arch[cpu],
+                               qemu_ga_msi_vss,
++                              '-D', 'BUILD_DIR=' + meson.build_root(),
+                               '-D', 'Mingw_bin=' + config_host['QEMU_GA_MSI_MINGW_BIN_PATH'],
++                              '-D', 'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
++                              '-D', 'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
++                              '-D', 'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
+                             ])
+     all_qga += [qga_msi]
+     alias_target('msi', qga_msi)
 -- 
 2.36.1
 
