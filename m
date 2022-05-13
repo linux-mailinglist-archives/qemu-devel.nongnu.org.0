@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516855266E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:20:57 +0200 (CEST)
-Received: from localhost ([::1]:39070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA6E5266E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:20:58 +0200 (CEST)
+Received: from localhost ([::1]:39102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npY2C-0002Fd-Ck
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53234)
+	id 1npY2D-0002Gw-Mw
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:20:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npXsq-0001Hr-Os
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:11:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36400)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npXsp-0004dy-7U
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:11:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652458274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UD1ktUjeIsHgoVdsvsoK6vrVzweAvHuK/QoZj+edBNI=;
- b=XiGEZRZGAxmJry/hS74w0BtwPGnWYXU05xHg5hDUfJJgagY7RgUGdwBynm6pa/jdcjrYLS
- uLwHZYRXUMWSkLGAAjieAZy5TUdFXDHNW9Y21eTCcQYYoC4EcA7xiwmetO6PDvuWSOwxAx
- /i5JV03qxiBq8+j95stuO1NDXCSQkfY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-jWRuv_bKOOCIRuR4kuYUgA-1; Fri, 13 May 2022 12:11:13 -0400
-X-MC-Unique: jWRuv_bKOOCIRuR4kuYUgA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- k12-20020aa7d2cc000000b0042a2d586c56so3999214edr.17
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:11:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npXxx-0004Kt-Jy
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:16:34 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:42784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npXxv-0005kS-Hu
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:16:32 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id x23so8078957pff.9
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:16:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=VUX4z5JP9JFb7BBHbEjVcuc1OlAnU2bHyEquKRs2d3s=;
+ b=Kppmor4I85fiAPIQqKOj0dhfC+mRMMFyMmBcdu+NT0OOi/+VKHpacZDGEMkY1AxodN
+ CMKkkiKpMdKHD2K6St2PsX0kdZ+lVPpsS0Bgz7huh0IYydUE3uXLt9U78Qyau8JBcqyW
+ RfRg/+O72UuMLYy2WMcCQVd/THl2GxXR9fn5IK0tZpuPlHKuqCEuCFd5S1lDuWJPS1aH
+ u9cgPjDw8i3rK4H/aXd46XgyIyf+L7sGmrsnwZtQcTryfqdh10tolkIdhebJ9mKtFO4t
+ bl3jy9FVyssGdDgAvFKg6oROmU0CVvnRj0ce+zVEQoXeYJFCig1qGF3B5iKs1MW7256G
+ v8dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UD1ktUjeIsHgoVdsvsoK6vrVzweAvHuK/QoZj+edBNI=;
- b=eC/99jej2koYGurjJMivKUmqk8oruYWs9tDnjYusNE4Bq47LJFkxosGfMAnNuG447k
- km52Y1KSIYfjBZhc0cW7VRbIn14sDmv6rVdBmiPzcHWwXoBcXXQVlX6bAe3x8QyPGNfF
- 14yQXCfGOi4e/FNM3BJU9YsXqXbnUkGqpiunHQkVvLYqviN/PMNe6tpkWAcaKAfsLxF+
- waGCnMYy7eXt3ISQl/GvaPPUyvDtZswDRP0wQZo3XfseeA7oDRLYOPHaNBA11KuWC70p
- Qxqwc7p3wN775JtrKqrtFTMpHKaPwgXLXRiHp0nwNuwnErosTjJro3jRvfS0V/oR5oQI
- rU8A==
-X-Gm-Message-State: AOAM533yfkEXj0kS8fUJkY91JCfmvfCCd9gl11iuQjaq5YikEBBZgZUA
- RUEL1ZOX3uCGJOgWu1k9J52W0mDUJd30JurLH7B4Lz6KimSXCE2ULq0Mx8MjAyUYMps8AlJF8hI
- RSzidk/qF0m05IGSm3scTSFlWRPgBU2OWbdFVBazVQbhLJqFSUoZj05N7e30Zt16bO/M=
-X-Received: by 2002:a17:906:4fd5:b0:6f8:5aa9:6f13 with SMTP id
- i21-20020a1709064fd500b006f85aa96f13mr4947644ejw.267.1652458271828; 
- Fri, 13 May 2022 09:11:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkaMT1IcMPgNiyd1aPE+1s9ej/oxgI7SCM/hvEAqdag6gTEF1Y0Y8pyQYqwDW7cC281RHyTA==
-X-Received: by 2002:a17:906:4fd5:b0:6f8:5aa9:6f13 with SMTP id
- i21-20020a1709064fd500b006f85aa96f13mr4947620ejw.267.1652458271552; 
- Fri, 13 May 2022 09:11:11 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ bh=VUX4z5JP9JFb7BBHbEjVcuc1OlAnU2bHyEquKRs2d3s=;
+ b=FE1+7+Ag5HjK2ST0te8dlGcwqhxNOzAJGjtkCeTSxOIIMbu+o2MA3p1GUTAkBWK7n9
+ FhLrmhZTdqkqCYzi//unsvouhQeJCk+LKAoTE/TQZNCBlnbGeeJJITu8ulDdk695wZ2q
+ WyaDkZJurwWXlRV51lvXkN/rbEiQRrg9sAziQqrN73wb4LLyOxoUlqdAvDw65BTNlbLo
+ vSoXZwCnjX6SJfQg2YeMj4VnHsPHMJxUtx6FN6ewmxFtonaBATxhmI7Nc47pNAFKD9jE
+ AruYxy+J+t9jWHKSZWyA0cdQjGKJ+ejAaFs9RYTinAV3vYSSxrntQi1b7QMAsFX8fEge
+ YU7g==
+X-Gm-Message-State: AOAM530QJSYAsDUVJi1gqCgiVaAR7UH/dXZaZptCaZw7Mc6jZPZBFQG9
+ 9dyeBMtTFTQY6PgXFenjFAZKgQ==
+X-Google-Smtp-Source: ABdhPJzQTx4fhDj5JimpggrBGT8MN9G7BPIFfhxBOCcsNZztoEJObjKVOvuVnjQ3D875SLUMv4/oNQ==
+X-Received: by 2002:a05:6a00:15c2:b0:510:6d56:730 with SMTP id
+ o2-20020a056a0015c200b005106d560730mr5387667pfu.62.1652458589526; 
+ Fri, 13 May 2022 09:16:29 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:46a:1099:e682:8d73:3200:dae5?
+ ([2607:fb90:46a:1099:e682:8d73:3200:dae5])
  by smtp.gmail.com with ESMTPSA id
- d27-20020a056402517b00b0042a2ccdd2b8sm1110505ede.70.2022.05.13.09.11.10
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 09:11:10 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: remove another dead variable
-Date: Fri, 13 May 2022 18:11:09 +0200
-Message-Id: <20220513161109.1125222-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.0
+ w2-20020a62c702000000b0050dc762815fsm1996422pfg.57.2022.05.13.09.16.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 09:16:29 -0700 (PDT)
+Message-ID: <faa22312-d676-cd28-ccd9-438acd57cd6c@linaro.org>
+Date: Fri, 13 May 2022 09:16:25 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 06/15] target/s390x: vxeh2: vector string search
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ David Miller <dmiller423@gmail.com>, David Hildenbrand <david@redhat.com>
+References: <20220504110521.343519-1-thuth@redhat.com>
+ <20220504110521.343519-7-thuth@redhat.com>
+ <CAFEAcA-smunqB+Q9NfD=1=QJT2pAZ+OqZTe==ZYbZkx9Rp=pMA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-smunqB+Q9NfD=1=QJT2pAZ+OqZTe==ZYbZkx9Rp=pMA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,24 +96,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 1 -
- 1 file changed, 1 deletion(-)
+On 5/13/22 08:54, Peter Maydell wrote:
+>> +    s390_vec_write_element64(v1, 0, k << es);
+> 
+> Specifically here, because k is 32 bit but s390_vec_write_element64()
+> takes a uint64_t argument, we will do the shift as a signed 32 bit
+> value before widening to 64 bits, so if the values of 'k' and 'es'
+> are such that we might shift beyond bit 32 we'll get the wrong
+> value. It looks like 'es' is one of the MO_* values, so generally
+> small, but the upper bound on 'k' is a bit less obvious to me.
+> Is the overflow-of-32-bits case impossible?
 
-diff --git a/configure b/configure
-index c8b5b99532..dda25f05bf 100755
---- a/configure
-+++ b/configure
-@@ -1992,7 +1992,6 @@ fi
- if test "$static" = "yes" ; then
-   echo "CONFIG_STATIC=y" >> $config_host_mak
- fi
--qemu_version=$(head $source_path/VERSION)
- echo "SRC_PATH=$source_path" >> $config_host_mak
- echo "TARGET_DIRS=$target_list" >> $config_host_mak
- if test "$modules" = "yes"; then
--- 
-2.36.0
+No, the upper bound of (k << es) is 16.
 
+We perform the operation with k in units of element size, so that indexing works nicely, 
+then convert back to units of bytes at the end to report results.  It's a byte index into 
+the vector register, with 16 as an indicator of match not found + eos not found.
+
+
+r~
 
