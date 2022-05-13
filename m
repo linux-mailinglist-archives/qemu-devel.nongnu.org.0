@@ -2,134 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3B45264FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:44:51 +0200 (CEST)
-Received: from localhost ([::1]:47688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C096526531
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:48:52 +0200 (CEST)
+Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npWXC-0002yT-Ko
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
+	id 1npWb5-0007g3-AM
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1npWUm-00082H-Gz; Fri, 13 May 2022 10:42:22 -0400
-Received: from mail-dm6nam08on20603.outbound.protection.outlook.com
- ([2a01:111:f400:7e8b::603]:40620
- helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1npWaE-0006zn-LM
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:47:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1npWUj-000673-3V; Fri, 13 May 2022 10:42:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SgWPTurIPAHO1bbeK9tKjxxhXn6VkhPigHUcInwgKyihcP6dozJc/8IeSJpRmcfhTob8GYk1IbPQTTafXQR5GGy/+XpATISioPfUdE9uRSGWDdfoeRiDKldB7rKT4+Dd2n985DarVn7zmHmWmNfvDTu6xIjkBSBnnlSn9X8o4vn9xQK6XO+KISjLFTcgdkKk1zFRGoUkd8tQOXN+Z/2WLKg3MqCylJpI914jf7iHpTVekxrqy2Upq+y8ZbeXgqWx46BkbIODEqNs5+J55w/oYGxGn8VDrl0mIufJ7eE4YOc4oHG9ijdccQSUBrZbmrZ7bALuUXrNiI2RmkxYOUsk6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3yL8/O7LZJ1WmPYgW6kNKE9r9sopX7yDSB6+aEUZQYw=;
- b=PRCARC+WLqgczwm8vhEOUxfbxjNucH3O/JV1ZWc/4DJeONQtApKTD1WrZtdhzWQ2yqaiw8hckhtiz+SGc1VSpYS1wQE6KD5QqSxGD9IbUBfnS0LTMBFB0CnbTNmZiOhVGAMvuiDyDe7zy0/rVGWKaboARwMwotGSCJR6SGmGlk/IObuGUB0idyFfpJBxFCMAgfDxV9hQsLx2Q3t38CQ2gVEAl6su4HqNKwh/i8jUQyFpZuOoaYS5VRvS23qrSz2yP/OKhoR9lNfKAj75CSxMSF/KOpJpFMLh2AWzrJq07ipz0aHnALLN1QgfXgEQYtLS9TdH6l86DPgp1hqkWO8ktg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3yL8/O7LZJ1WmPYgW6kNKE9r9sopX7yDSB6+aEUZQYw=;
- b=GmLG5RGRGeEwcEIpCwpmQItlVdragscBStaSNGmfDVG9JbXj1fTnsOowZRtSdb/84+ZSezISiGDDBjuN7ZkL3EVHmWRXo6TxNOrbdN6Qgs7wyblJQeBI8wGIvWmLFQckJwcyWApt5ySBe2eQYzEohCtfGkmrNWlDFdkGUsqS8zc=
-Received: from BY5PR02MB6354.namprd02.prod.outlook.com (2603:10b6:a03:1fd::12)
- by CY4PR02MB3367.namprd02.prod.outlook.com (2603:10b6:910:7c::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Fri, 13 May
- 2022 14:42:12 +0000
-Received: from BY5PR02MB6354.namprd02.prod.outlook.com
- ([fe80::4840:6c2:8dd7:947f]) by BY5PR02MB6354.namprd02.prod.outlook.com
- ([fe80::4840:6c2:8dd7:947f%6]) with mapi id 15.20.5250.017; Fri, 13 May 2022
- 14:42:12 +0000
-From: Frederic Konrad <fkonrad@xilinx.com>
-To: Frederic Konrad <fkonrad@xilinx.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "alistair@alistair23.me" <alistair@alistair23.me>,
- "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>, "qemu-arm@nongnu.org"
- <qemu-arm@nongnu.org>, Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias
- <edgari@xilinx.com>, "fkonrad@amd.com" <fkonrad@amd.com>
-Subject: RE: [PATCH v1 0/4] xlnx-zcu102: fix the display port.
-Thread-Topic: [PATCH v1 0/4] xlnx-zcu102: fix the display port.
-Thread-Index: AQHYXwJR/j5A46Hul0OsE23sJzVGfK0c78RQ
-Date: Fri, 13 May 2022 14:42:12 +0000
-Message-ID: <BY5PR02MB635436FB890DF72BA77A7D1BCCCA9@BY5PR02MB6354.namprd02.prod.outlook.com>
-References: <20220503152545.1100386-1-fkonrad@xilinx.com>
-In-Reply-To: <20220503152545.1100386-1-fkonrad@xilinx.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=xilinx.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3ada72c2-d390-4d88-ab5d-08da34eec40d
-x-ms-traffictypediagnostic: CY4PR02MB3367:EE_
-x-microsoft-antispam-prvs: <CY4PR02MB3367239E22744B59C873953DCCCA9@CY4PR02MB3367.namprd02.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dNP9WOPBU+ZIMV+jFRvHgqrt2/HTB/gdIRT+6Jy+kUuhXu4li9VSx2hg4qe4ePq1pCg+h6ZTNbyWOkQMSn9tXsoAUuSn4rv44dj869+9rZiw72cDfXe7DiUjwcBUnMedFHsqURRB4D7XbcMOkJB9Cz8DRiRsJWv5GWkaB3i5R08zon4zluknCzkr7FtW57bbmxL4GbzE36kTCh0FO1YU9LUCb+guig4yIMxvyAyzIC55nCvqXOrnsk8a/NkXV/JAqOIlMPxKBY6SBuIoBfmp8aeU05VD7plBL5cGRCBLNnhcgBG1NHqZYi3f7I05hXS0TaTZGn/wD6s5SRYYJ6Le4CrTn/Ie2k/63s3vCEtpP1sTcHc8wR5QyG8zJrXe13K//650D73C7gNUxrdYdoqzoJr3KH3RvqngCkH3GG8Y1GrQiEypClyV+O/ERalCx7Gx9TnneKiTbNQVs8iotwR8XJkCHoIZdmcNvp8tEb1bNrNGTgSbKT8C1zc5TB+vI5EMdi3klLIZq2wV8jOtlzHFBJHULlCK/QZr/v0jpNM6wEeutYGMiEJLAkfn0MZcPLK5eILktZqohLU7vLQRes2DZsCDRAP3rksY0Yh0Ai9CXNEWdGwAPxlqZGe+NAhqSOV/f6o/jON/h8TJzPy2k8z7qC05NJ8Ey38aRznaWK0Lq7cJZkkCzDe0sScq5rcyLWXC1Zz1ny5l/+RFKgrDPY+ns+2xiDYd59Zx9A9u69FzVhBvTBOdndMAmk2aKhLmi2PAuhEomrclPKwiQuOjLr/ga0K+MKL9qybe5hBoj9eMoKw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6354.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8936002)(5660300002)(316002)(53546011)(508600001)(55016003)(186003)(6506007)(33656002)(52536014)(7696005)(83380400001)(122000001)(2906002)(71200400001)(86362001)(4326008)(8676002)(9686003)(66946007)(64756008)(66446008)(66476007)(66556008)(966005)(76116006)(54906003)(26005)(38070700005)(38100700002)(110136005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kxZXmALRg0A2rzMVRiz6L+J8o+PhUFocymuvLNXSiN5CyZR47Hlt3SbVdjCv?=
- =?us-ascii?Q?RjVi0Hda/urEu7GYfnugNM79m32f2hEm4Q2CbWxOob4R0Qxn7PFdgtars7Zf?=
- =?us-ascii?Q?PdCX5wkVyseah0XbGjTAk+xNykCbrpjZx73Wn2Tm0xXKly7ObuhHskGgqzh+?=
- =?us-ascii?Q?uk8J7M8JhY1LPGO8TcLdQAAX2q7GiV92jVJFq4NCWUl0gvabakWAesclZYuA?=
- =?us-ascii?Q?l8G9ygTJs88cVWEZ3hiCCf4Di5uXCAxbRIsBcgptb834hJNRtVEE5WKd4Ikx?=
- =?us-ascii?Q?kX8f2BNjjd3hdcEo5JEyyHptRdtGgkwYL6Rl6GzlwTGEIV9eMwjBRi05vm2e?=
- =?us-ascii?Q?hv7RnHTgPZyx6tNqFwPYTijkXDJjnBAPMvXRQNqVzJAv+GtmCliCKkFR6KU6?=
- =?us-ascii?Q?ay6I1Wh9BRaWOT9oLaRh3UWb/Oq6TsOkIS4sr7VQbpfwm59FOa/kk5ZaEL7U?=
- =?us-ascii?Q?xYovGAHsTv4pMeiZPPTDIlozzVCwzEoIgF6PkJ8QxhirtNJscv2j1aljrp+t?=
- =?us-ascii?Q?VJiWXqgw+HRJ26qI0uHzAiqcgoHCRaJv4riEzrib/dMOw2qDkgm0vo/d/FxX?=
- =?us-ascii?Q?n8c05c39EwFYcFbGr3ijnIOQmH8NEo1IejotnKnNHTQ2lYHyExTfp3XsSxDM?=
- =?us-ascii?Q?w8SjsaXqhr5IxclEGJ04bBaYxPtlmLP1vBFdmgrxi7xv9F7luNYcZYt9mqhH?=
- =?us-ascii?Q?AXFY2T0mgp0o+vt1zfXhRQKUOHJCKy3O68v4FSKRKFUnQ/TKZMAbdP9IkGHN?=
- =?us-ascii?Q?Orv3OIOiSpH92Ib2qAg7yqLzfjnxuoEYL6pRDg6VbFYW7e6t1AMQlrb+wn3B?=
- =?us-ascii?Q?U6fXSK5VVCitJA15bxr/yWVlN1fMOXc6eOKcBImbrb3ZZ7Edv4FPw7ijV1XY?=
- =?us-ascii?Q?qKvKw7h8ZBoH+61W32Kqw15qn9qIeAdRsGmNmmcDI8WGV1mHLl85YnMeH/JF?=
- =?us-ascii?Q?81uPtqKPEveMMkFQPm5LcEdLoieoSmwBf8ZUDUkq8KvQEOKwWMcLmujq4fmf?=
- =?us-ascii?Q?SI/9hsYcdstycjuWPi+rVvUSwwlfQV1ohCTIAgMrzUR2sGn2BDJHkBDoUBPU?=
- =?us-ascii?Q?gMIzMYScJ4lYNlPnZnLY2lg+57KoMBXYFhczJlvGeISuXGSeEEBZahL7EHeg?=
- =?us-ascii?Q?S+pgR1jw5tok4RzLDNdU5C2luOwUHqr7XG9rTM4YzrqtJYG3URMlg5yRhgP0?=
- =?us-ascii?Q?pI55wtFREYDMud2VwwqmPtmaA/6DXy7wywbmUSFly9WZjL1P6aBIaJN0ROr4?=
- =?us-ascii?Q?nDOWoO5T4X89OZXlMg5TW1PXBAAUnajwZIkUrstCgfGh+8hOy/dMKLRNebCN?=
- =?us-ascii?Q?XqKFuuLEefvXbzFe4YpYhIE8yflVUuUQaKIPm+zictDxq6Cy5akMmg4mAosB?=
- =?us-ascii?Q?mrJYbiLZu0yKGqVe78ahhef0jwx3OEM79x8ZEH3irHk8CMXjDSEY1lkUtnQQ?=
- =?us-ascii?Q?e7VzhGQ1kbaoeC2FVe5wGsHT4hfUBj12aaEd4v9AjT76p+QUPe9rh9zKgYRz?=
- =?us-ascii?Q?OUzytRPg1Ssfl5dCx8fS/+orCK5hV7461q2/oMrbsaF3d5JEvRXDkI3f1uFp?=
- =?us-ascii?Q?Pe081o3gtAvu8oKI8Xy3Jzk9ydfSr6+RyAaaC9F24TJyWWZM8HRDN/F6Bfz7?=
- =?us-ascii?Q?HGc0rlzC8QVI+7x2wBpnYjwCqKfeMksvjIE6MNijXGWTuZw5TC9Hkyaxc6QY?=
- =?us-ascii?Q?WsgB/KKzx4Z15Wp51wTsnyKTMv8Be5C+Y+b1gDeL27gC/9/3T4AlKQrMEhIC?=
- =?us-ascii?Q?q+Mn8wTp8A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1npWaB-0006wF-EF
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:47:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652453274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=81A/WOOUOlbxwlf7xHz2Nkl5opY4ZMbXABYhjtmPT/I=;
+ b=IrFdrrNM+X2Wty2t1ht98wRT4mqbIg6Nrplhbvmn7GWwvooqUGVkNpDGZ88Hatbg6Nl3pV
+ E9hl8m3KEvyj1IGXpc/Xu3TJzHGLkx+WeIglI1r2tSYwYyftyMGmH81RmN6ueh5Dpa9B0G
+ 8Nbg1MCDx/uJcMGU4t17PUGxF1omznY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-569-KEetPK1QPtCCmqseretoWQ-1; Fri, 13 May 2022 10:47:53 -0400
+X-MC-Unique: KEetPK1QPtCCmqseretoWQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v16-20020adfd190000000b0020c8fb5106dso3001390wrc.19
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 07:47:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=81A/WOOUOlbxwlf7xHz2Nkl5opY4ZMbXABYhjtmPT/I=;
+ b=XmM8NWT0Didh+zVSEQDd2KimhQdTeyPj3xnSPLzkhmbQlH+zrWdvHsdUKTL7DLUnZ5
+ 6DxKuujs1cmuCMutIu+tpgjHktJermG0U2eCCjMDVXPLoLWCrr7tLdK/r9kNLyIHu6iU
+ He8JDmIF6KJaY8SY1yoNTwu7B5MVI6thO2bzqTN2KACMGw22jaN/jXS9znPL3qpNRY8r
+ RX+CazLbwct0FB+Qlm13q1klObgbY/qM1gzTb2L/2/X13jjMtA3PP+A42hm62VsoG5IL
+ orcvmsNl/q5jBfhHGwhkCBiF8nH7H+GNE0vzidhvCzi65MJ8k7BgxZnsMseL17iQSXrW
+ G51w==
+X-Gm-Message-State: AOAM532rdfuB7z4QDlKBzjlVe+YDdTB03el7RfratDnAEb99Ln0lFv2q
+ BNODebVyxBmPQCDH99SIlZziVPJK0CLl5ktsM2HsRi5eQZbpD31wCFWFRj6l+aQ2L2wbycvSHxM
+ 295tZ8THs5oqLC+I=
+X-Received: by 2002:a5d:5707:0:b0:20a:c768:bc8 with SMTP id
+ a7-20020a5d5707000000b0020ac7680bc8mr4356714wrv.565.1652453271926; 
+ Fri, 13 May 2022 07:47:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzG5OVJNToh9vQOY3ToiNTOx5rVknmyw0xaFp6dY36jC2DKa1FMYXEULFMSVdU1QU5X528ofQ==
+X-Received: by 2002:a5d:5707:0:b0:20a:c768:bc8 with SMTP id
+ a7-20020a5d5707000000b0020ac7680bc8mr4356695wrv.565.1652453271581; 
+ Fri, 13 May 2022 07:47:51 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
+ [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
+ f2-20020adfb602000000b0020c5253d906sm2288587wre.82.2022.05.13.07.47.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 07:47:51 -0700 (PDT)
+Message-ID: <0377cbbc-1d6c-67bc-eaef-aec105694088@redhat.com>
+Date: Fri, 13 May 2022 16:47:48 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6354.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ada72c2-d390-4d88-ab5d-08da34eec40d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2022 14:42:12.1968 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R9Hc7XkvI6OJVyvPA993A9d9ffGr7n3LYI/E3XOM3Sem/uKrswyjKgk4Jooxzg4Ki+47EM9qaagNfVvAFLLhrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB3367
-Received-SPF: pass client-ip=2a01:111:f400:7e8b::603;
- envelope-from=fkonrad@xilinx.com;
- helo=NAM04-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] tests/qtest: kill off QEMU with SIGKILL when qtest exits
+ abnormally
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+References: <20220513143743.198390-1-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220513143743.198390-1-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -145,63 +102,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
+On 13/05/2022 16.37, Daniel P. Berrangé wrote:
+> If a qtest program exits without calling qtest_quit(), then the
+> QEMU emulator process will remain running in the background forever.
+> 
+> Unfortunately this scenario is exactly what will happen when a
+> g_assert() check triggers an abort().
+> 
+> Prior to switching to use of 'meson test', this problem would
+> cause tap-driver.pl to hang forever. It was waiting for its
+> STDIN to report EOF, but that would never happen due to the
+> ophaned QEMU emulator processes keeping the pipe open forever.
+> Fortunately this doesn't happen with meson, but it is still
+> desirable to not leak QEMU processes when asserts fire.
+> 
+> Using the Linux specific prctl(PR_SET_PDEATHSIG) syscall, we
+> can ensure that QEMU gets sent SIGKILL as soon as the controlling
+> qtest exits, despite being daemonized.
+> 
+> Note, technically the death signal is sent when the *thread* that
+> called fork() exits. IOW, if you are calling qtest_init() in one
+> thread, letting that thread exit, and then expecting to run
+> qtest_quit() in a different thread, things are not going to work
+> out. Fortunately that is not a scenario that exists in qtests,
+> as pairs of qtest_init and qtest_quit are always called from the
+> same thread.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   tests/qtest/libqtest.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index 228357f1ea..553e82e492 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -19,6 +19,9 @@
+>   #include <sys/socket.h>
+>   #include <sys/wait.h>
+>   #include <sys/un.h>
+> +#ifdef __linux__
+> +#include <sys/prctl.h>
+> +#endif /* __linux__ */
+>   
+>   #include "libqtest.h"
+>   #include "libqmp.h"
+> @@ -301,6 +304,21 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+>       s->expected_status = 0;
+>       s->qemu_pid = fork();
+>       if (s->qemu_pid == 0) {
+> +#ifdef __linux__
+> +        /*
+> +         * If the controlling qtest process exits without calling
+> +         * the qtest_quit() method, the QEMU processes will get
+> +         * orphaned and remain running forever in the background.
+> +         *
+> +         * Missing qtest_quit() calls are, unfortunately, exactly
+> +         * what happen when a g_assert() check triggers abort() in
+> +         * a failing test scenario.
+> +         *
+> +         * This PR_SET_PDEATHSIG setup will ensure QEMU will
+> +         * get terminated with SIGKILL.
+> +         */
+> +        prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
+> +#endif /* __linux__ */
+>           if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
+>               exit(1);
+>           }
 
-Can this be applied?  Here is the patchew link:
-https://patchew.org/QEMU/20220503152545.1100386-1-fkonrad@xilinx.com/
+Would it make sense to install a signal handler for SIGABRT instead and make 
+sure that we tear down the QEMU instance there? ... that would then also 
+work for other non-Linux operating systems?
 
-Best Regards,
-Fred
-
-> -----Original Message-----
-> From: frederic.konrad@xilinx.com <frederic.konrad@xilinx.com>
-> Sent: 03 May 2022 16:26
-> To: qemu-devel@nongnu.org
-> Cc: alistair@alistair23.me; edgar.iglesias@gmail.com;
-> peter.maydell@linaro.org; qemu-arm@nongnu.org; Sai Pavan Boddu
-> <saipava@xilinx.com>; Edgar Iglesias <edgari@xilinx.com>;
-> fkonrad@amd.com
-> Subject: [PATCH v1 0/4] xlnx-zcu102: fix the display port.
->=20
-> From: Frederic Konrad <fkonrad@amd.com>
->=20
-> Hi,
->=20
-> This patch set fixes some issues with the DisplayPort for the ZCU102:
->=20
-> The first patch fixes the wrong register size and thus the risk of regist=
-er
-> overflow.
->=20
-> The three other one add a vblank interrupt required by the linux driver:
->   - When using the VNC graphic backend and leaving it unconnected, in the
-> best
->     case the gfx_update callback is called once every 3000ms which is
->     insufficient for the driver.  This is fixed by providing a VBLANK int=
-errupt
->     from a ptimer.
->   - This requirement revealed two issues with the IRQ numbers and the
->     interrupt disable logic fixed by the two last patches.
->=20
-> Tested by booting Petalinux with the framebuffer enabled.
->=20
-> Best Regards,
-> Fred
->=20
-> Frederic Konrad (2):
->   xlnx_dp: fix the wrong register size
->   xlnx-zynqmp: fix the irq mapping for the display port and its dma
->=20
-> Sai Pavan Boddu (2):
->   xlnx_dp: Introduce a vblank signal
->   xlnx_dp: Fix the interrupt disable logic
->=20
->  hw/arm/xlnx-zynqmp.c         |  4 ++--
->  hw/display/xlnx_dp.c         | 43 +++++++++++++++++++++++++++---------
->  include/hw/display/xlnx_dp.h | 12 ++++++++--
->  3 files changed, 44 insertions(+), 15 deletions(-)
->=20
-> --
-> 2.25.1
+  Thomas
 
 
