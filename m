@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79495262BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:16:00 +0200 (CEST)
-Received: from localhost ([::1]:37896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D56A5262EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:19:47 +0200 (CEST)
+Received: from localhost ([::1]:46302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npV9D-0007wW-Ow
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:15:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37874)
+	id 1npVCs-0005MM-3k
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npV6l-0005hx-5M
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:28 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55879)
+ id 1npVBL-0003PL-Cv
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:18:12 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npV6g-0007dS-Rm
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:25 -0400
-Received: by mail-wm1-x335.google.com with SMTP id m62so4770397wme.5
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 06:13:21 -0700 (PDT)
+ id 1npVBF-00006Z-Ho
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:18:10 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ i20-20020a05600c355400b0039456976dcaso5252132wmq.1
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 06:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9NZM93kg05o9Nk5CELPlexfXMMevgoe6mPGgO2E6Ams=;
- b=DQtXM3cwrs9emfA++5dJN629bY98Z1NTtRpI6MwxR0O6UFjCduav88KiXZXbxKBhKA
- CSBWK6oJU7Npc6umHZaqB9g6bxp/js9UJcoEfDY4GK/0w4uhjLhmO2D3SKJz884leD7D
- G8NYEwFuMCRZgaST8xDAzC+wkMdaijefy8mxVspdHrwGq2QPcYFj73DbCm+tzDSvpoX7
- mesy9/mRykCg12RiMfg3GH+aT3Hx/MAfNt+k20v6FWaJBrCNg6AfndyiaJfdRfMsro5s
- 6PozlSlm+cLa00ci1yjxf4gcdvomSoyEsPrMeYWoIz/MmRLmxrcOrEqWenBNi0gn7fhL
- iPjA==
+ bh=feuaJLzK8Nu4Ocx9M7NvKfkc0AdKMuwnoiZ0q+4fWpU=;
+ b=CfrY0RxFVyuIrsJ9H+K7xa6Bs3fzEPNVJHZUidGm5joI+rRehS9oLvEg2VDYfCA6L6
+ s1ezTLVvFhjcokuOWEmPb65GbEZzf0f7p53JNYqUdHIqFNLyw5rFBg3jBpgyfnB22TCe
+ 0JVTLqg7KoymP+GjsTP5EBk1EbKtQ4N5A7dUlkjzJa2oSPC6gYuKE7TEuepiMEVpOPyq
+ tFzLKiqoSXeMctDjrMSs1/xrEWgC246J3u813NvcoK7uKc3XiLYm1PWuKk9WOEXsPY9R
+ pxfyuBld9cHHYMUB6Gq7p2F0N8NTPp1WiruIz+ZeJ1Nw/5ZuGL4aOcFQpk4KrOSmL4E7
+ iJUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9NZM93kg05o9Nk5CELPlexfXMMevgoe6mPGgO2E6Ams=;
- b=C4P488CCXjLqhFuvoNVQyAH5BnvkgsL8XtGXBIh3ecyz1x9AGwxsi42G10gVZSmZqv
- pG8fdnLrLAdqDJbkyXa7wNLzqijbuF0R2Qz/OYHwtG0q1aloRaHS0NeJCqdyJexpgvL4
- zE8wjJY+oV31V7alOzOhG5+L9KxUn7naS6vSg05hIiCs99tkykV2f+WdH+R0I8R6hNWq
- ursUurLRft1cK+THcn2AwaBgRXklb+yZtiIi/l0+T2S+0ZCjQ8ANw+1Qgia658wQLQJ/
- rIqEvltKUQMN2cMLXLCanP2Cy/yufy/uqOPckxCHjk30pKzV+hDpSkmSRDT425S+YTrT
- oeSg==
-X-Gm-Message-State: AOAM530QZBdFfV4DZqV0UQCTDW0XZ8MtaXU1DCyihSa4UUViY+VGtP8L
- ziN5yCMOKcsACtWv02zN2ovV6HczfpbzSg==
-X-Google-Smtp-Source: ABdhPJzzYjcydOhC8Ox5nEQ1DIMSM0QFYwDDobrIuKxMWYaIcHGs2I9hjSOdzbaSSn+oAMgBWNaZgg==
-X-Received: by 2002:a05:600c:2315:b0:394:1f6:f663 with SMTP id
- 21-20020a05600c231500b0039401f6f663mr14815742wmo.115.1652447600695; 
- Fri, 13 May 2022 06:13:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=feuaJLzK8Nu4Ocx9M7NvKfkc0AdKMuwnoiZ0q+4fWpU=;
+ b=n38SuH52HzQJA/I84VTLW7nnrP6gow6sCJ9wTCjcHVb1I3UJ5Rp2Vuc9FjsYUCjHOH
+ xPXv6yQjph6t7iRdpD9+TY/wV8Yjki9cxyt1R1VYMH7WtQ+y5eysj15SfY1mPFX9w4D4
+ TWFCT7LgYrwJ188Lo6GbvxXC06R2tZiSo6ilwGzxMFyoU/Hq5eVIPjaKBJmFwczTHs0/
+ 77OTT/VGjU2Et7QNFSeCckqk+Q1ZDl0McnofzPt4fCVeW8pY2zeC/BLqtyfoqZCW1sD9
+ tKiarCbsyzYI9l+zY03hZwvIVqLUw4Mdf0gTRHpyQqwRk16+qee1fFV6Ojziia9MaAYE
+ CF2w==
+X-Gm-Message-State: AOAM531PSGtSS4Z8xsMUNtwOLKJtVCWoUbrWtEngJNgIiQmQjIzpQgc8
+ 8LIloLZfNN0QVq67kuGRxWtxLAUU/cPV5A==
+X-Google-Smtp-Source: ABdhPJxnqOpizZYfigmBl+Qrf9jgVdKJtceMdMF6WL6lKs+IiJTjQkwmlHqsB9B4lCB10zBqLNrrqQ==
+X-Received: by 2002:a7b:c93a:0:b0:394:2583:69fe with SMTP id
+ h26-20020a7bc93a000000b00394258369femr4672716wml.29.1652447882970; 
+ Fri, 13 May 2022 06:18:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z23-20020a1c4c17000000b0039456fb80b3sm5214887wmf.43.2022.05.13.06.13.19
+ e15-20020adfa74f000000b0020c5253d8e5sm2095914wrd.49.2022.05.13.06.18.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 06:13:20 -0700 (PDT)
+ Fri, 13 May 2022 06:18:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/arm/virt: Drop #size-cells and #address-cells from
- gpio-keys dtb node
-Date: Fri, 13 May 2022 14:13:16 +0100
-Message-Id: <20220513131316.4081539-3-peter.maydell@linaro.org>
+Subject: [PATCH] target/arm/helper.c: Delete stray obsolete comment
+Date: Fri, 13 May 2022 14:18:01 +0100
+Message-Id: <20220513131801.4082712-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220513131316.4081539-1-peter.maydell@linaro.org>
-References: <20220513131316.4081539-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,33 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virt board generates a gpio-keys node in the dtb, but it
-incorrectly gives this node #size-cells and #address-cells
-properties. If you dump the dtb with 'machine dumpdtb=file.dtb'
-and run it through dtc, dtc will warn about this:
+In commit 88ce6c6ee85d we switched from directly fishing the number
+of breakpoints and watchpoints out of the ID register fields to
+abstracting out functions to do this job, but we forgot to delete the
+now-obsolete comment in define_debug_regs() about the relation
+between the ID field value and the actual number of breakpoints and
+watchpoints.  Delete the obsolete comment.
 
-Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-
-Remove the bogus properties.
-
+Reported-by: CHRIS HOWARD <cvz185@web.de>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/arm/helper.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 587e885a98c..097238faa7a 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -925,8 +925,6 @@ static void create_gpio_keys(char *fdt, DeviceState *pl061_dev,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 432bd819195..3184fcb7797 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6529,7 +6529,6 @@ static void define_debug_regs(ARMCPU *cpu)
+         define_one_arm_cp_reg(cpu, &dbgdidr);
+     }
  
-     qemu_fdt_add_subnode(fdt, "/gpio-keys");
-     qemu_fdt_setprop_string(fdt, "/gpio-keys", "compatible", "gpio-keys");
--    qemu_fdt_setprop_cell(fdt, "/gpio-keys", "#size-cells", 0);
--    qemu_fdt_setprop_cell(fdt, "/gpio-keys", "#address-cells", 1);
- 
-     qemu_fdt_add_subnode(fdt, "/gpio-keys/poweroff");
-     qemu_fdt_setprop_string(fdt, "/gpio-keys/poweroff",
+-    /* Note that all these register fields hold "number of Xs minus 1". */
+     brps = arm_num_brps(cpu);
+     wrps = arm_num_wrps(cpu);
+     ctx_cmps = arm_num_ctx_cmps(cpu);
 -- 
 2.25.1
 
