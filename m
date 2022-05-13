@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BE7526701
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:28:04 +0200 (CEST)
-Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96822526736
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:37:47 +0200 (CEST)
+Received: from localhost ([::1]:44772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npY95-000780-6n
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56552)
+	id 1npYIU-0000NT-G1
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npY3M-0007Pn-K9
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:22:08 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:35140)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npYGH-0006Ne-Bg
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:35:29 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:42659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npY3K-0006jm-SE
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:22:08 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2f7c57ee6feso95796517b3.2
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:22:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npYGF-0000nu-HY
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:35:28 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ l11-20020a17090a49cb00b001d923a9ca99so8259884pjm.1
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yJXHhx8td0TuqH5sRTS4MRZPKm08GCjeszXm5DRFSbc=;
- b=RcjNadflHXzUn0ZT/Q3Eyy0zJ2+lgG9K0wp1oeyieGse2J1QZYpZ+9Rl05VtIQC31V
- 5n1TtGkmYHruQSkzYwJlSvQx92pDGQMD/KNwf+MW7SeOmXWwP7H3MTCxC45sUGPvJQMZ
- cleFI5nuKhpZDr+Yjt6kufWq1PtlEahDulmKlkBh+GrJCpe/zdClelxnJdLtIg/dWeV6
- +eS7J9jJ0+v+fbtt/vEQGHjXh7kv7twGpT5ggMQ/ecXmTmkZk03BTVkzxLwCGFWQg5f8
- U6aBSg4CaWMNeys+teXGIzwjC6IAZ66lpXBbx6+F2ZiKc8NvDf5qWNkWH2dnKlVgYdXl
- IbpA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=bHEmXiJiqdAGZZVZ2hHK0iOjejmwpHkYCeeb9zHaO3U=;
+ b=paH0espMxFTw9tnq8MOIgtmz6u0egCrvdBqkygU42RFaSuT6dlxS9wbQFCLMHZR9yA
+ fac7CHmjQEf1H/LAoYibs0XDuX1QAbpFsxDMiRlfAJMGUosqvrKzl2MAwLuAaeJcChV3
+ QymxBlOzn13YDj6+qXZvWAP8xXxWKa0SLzv7GLy3Rpri88lyL/VvPzoQHYBAXcIFhKrc
+ r8IzD/G3YdYWAxdOgsoEtXfErMEPtdq5d6TlH6CP6+YMzH6D3uPfa9zzlvz9ActEP/hY
+ 0fgt3+jqISnxiz4bt2s9gwLggBx4qUexE+hBK/vld4lJ4XxjZhDrdca11ZfTrkRzbiAF
+ DU6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yJXHhx8td0TuqH5sRTS4MRZPKm08GCjeszXm5DRFSbc=;
- b=F7PCl2auo5XU1WU/eEu823TX0tp5C9so/ER68w6UdjlsfklncpYLZYG/3jjNLuDfT9
- mSOkzq5f8o+/65uIrfLrroweQM2cZegjtJtz9P9itv/Ve00OGcY1Ek9DeKQgKXoVCqW2
- hUnlhaFosfaws6ln1bkCjuYdTy5z8+jbW9LBiftLcp6Letnd5tqpi8fBT39E/OCn7pdQ
- TEe+AL5HaLcwpzoU5OmZtE0tWJvQL/7rre55G8Igvb6P5rjgSYckqDr8K5lijLLg7zeP
- X62iBK1eZMGiXVkpnYWm01UprL0qClLUJny9grcDPliMnB6JdOOhu2uf3OtcrVVhEiKv
- x8hA==
-X-Gm-Message-State: AOAM531EnkwPaiVp1AITL0NwRTZZtTWs+xEPKt1SmVbQ3yFxmw0QkLIF
- ypGht2YfWIU7OO5QFU8wDEkHyt6MHBLW/GkrmrwtSQ==
-X-Google-Smtp-Source: ABdhPJz6+6b3az2f26NMKc60MDw7FyukCO1vPoxqRP2VqQ03k3/c3YWajGyjnEyyJqv/xex2hkFL7CcDyqwlsqkKHmU=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr6839673ywb.257.1652458925837; Fri, 13 May
- 2022 09:22:05 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bHEmXiJiqdAGZZVZ2hHK0iOjejmwpHkYCeeb9zHaO3U=;
+ b=2A/7MYPiYQRfUEb72ftxgqWrtjxad2atXPO2XzJRcOamgue4NV4tX+Y4ahVFhP6Ezc
+ 5J2F3JXHhcIRnvf+J/wN9SkrE4V90RmB5ADflTR+FE7Yp7FWuv7uyliWI+7mg4/jca3y
+ 5y0Dmn8HreoxHQmX7oDRT1/0PxzH8yGNkqbq7hNku6U4zRPBBkfq4BFKOHtdPRx9lHzv
+ mJpZKKe2+iZkLSutEySuDmHYZxL4lQU8XGrc5KeIXylIMfbKPYmLZOfr5YziWNeNy4kL
+ Eijta5AQGdsqZvS86B3RS1GeElynEjOkjUm8Ueokf9COJlnu8ICOTF9TtOn1QXmHBuGK
+ Wp9g==
+X-Gm-Message-State: AOAM530NSON9Gj4JF+uMfKrGADgssTcP3bzfcqmHVCksxWECfK5LqexJ
+ xc+YoVuG+dSCrCby59HnQT0uNA==
+X-Google-Smtp-Source: ABdhPJy9FxjoU8Iy+q5MSnLI8PnE8W3fBidcFUmvvYhYwnjoTmA3GzJs8J2VngaIJZKOzLFoSiVnRg==
+X-Received: by 2002:a17:90a:348d:b0:1dd:1779:412f with SMTP id
+ p13-20020a17090a348d00b001dd1779412fmr16746380pjb.18.1652459725779; 
+ Fri, 13 May 2022 09:35:25 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:46a:1099:e682:8d73:3200:dae5?
+ ([2607:fb90:46a:1099:e682:8d73:3200:dae5])
+ by smtp.gmail.com with ESMTPSA id
+ cp7-20020a170902e78700b001608bceb092sm2088214plb.124.2022.05.13.09.35.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 09:35:25 -0700 (PDT)
+Message-ID: <9272259e-3641-207d-ef14-e4adf468b143@linaro.org>
+Date: Fri, 13 May 2022 09:35:22 -0700
 MIME-Version: 1.0
-References: <20220504110521.343519-1-thuth@redhat.com>
- <20220504110521.343519-7-thuth@redhat.com>
- <CAFEAcA-smunqB+Q9NfD=1=QJT2pAZ+OqZTe==ZYbZkx9Rp=pMA@mail.gmail.com>
- <faa22312-d676-cd28-ccd9-438acd57cd6c@linaro.org>
-In-Reply-To: <faa22312-d676-cd28-ccd9-438acd57cd6c@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 May 2022 17:21:54 +0100
-Message-ID: <CAFEAcA8vnt3sSuUMA=neuwb7JqVcSnb+bm94xfpb5rSQYmD2Rg@mail.gmail.com>
-Subject: Re: [PULL 06/15] target/s390x: vxeh2: vector string search
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, 
- David Miller <dmiller423@gmail.com>, David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] configure: remove another dead variable
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220513161109.1125222-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220513161109.1125222-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,28 +93,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 May 2022 at 17:16, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/13/22 08:54, Peter Maydell wrote:
-> >> +    s390_vec_write_element64(v1, 0, k << es);
-> >
-> > Specifically here, because k is 32 bit but s390_vec_write_element64()
-> > takes a uint64_t argument, we will do the shift as a signed 32 bit
-> > value before widening to 64 bits, so if the values of 'k' and 'es'
-> > are such that we might shift beyond bit 32 we'll get the wrong
-> > value. It looks like 'es' is one of the MO_* values, so generally
-> > small, but the upper bound on 'k' is a bit less obvious to me.
-> > Is the overflow-of-32-bits case impossible?
->
-> No, the upper bound of (k << es) is 16.
->
-> We perform the operation with k in units of element size, so that indexing works nicely,
-> then convert back to units of bytes at the end to report results.  It's a byte index into
-> the vector register, with 16 as an indicator of match not found + eos not found.
+On 5/13/22 09:11, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index c8b5b99532..dda25f05bf 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1992,7 +1992,6 @@ fi
+>   if test "$static" = "yes" ; then
+>     echo "CONFIG_STATIC=y" >> $config_host_mak
+>   fi
+> -qemu_version=$(head $source_path/VERSION)
+>   echo "SRC_PATH=$source_path" >> $config_host_mak
+>   echo "TARGET_DIRS=$target_list" >> $config_host_mak
+>   if test "$modules" = "yes"; then
 
-Cool; I've marked the coverity issue as a false positive.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+r~
 
