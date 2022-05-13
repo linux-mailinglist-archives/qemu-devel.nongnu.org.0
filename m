@@ -2,93 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD8E52677C
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:52:07 +0200 (CEST)
-Received: from localhost ([::1]:43752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5B55267A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:54:45 +0200 (CEST)
+Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npYWM-0002km-1J
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
+	id 1npYYu-0005Fb-UL
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npYUJ-0000yJ-2W; Fri, 13 May 2022 12:49:59 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:39517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npYUH-0002l7-BF; Fri, 13 May 2022 12:49:58 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id bv19so17360625ejb.6;
- Fri, 13 May 2022 09:49:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2gP3t0b3TD2glZhRzeUKaeKQsngLcvt+iKEz+JZR8rg=;
- b=Vkq3Qx+NXCAMw8chP2pxTWikljnwr5HhLTtyA2STPwpqf0et2zxIYgCGNAFcskM8AE
- UkGwqcJvKOr5/dFv79Z/IkzoYmqRMcAdfdbUrp/mfyw6zh3jL9tpYnM7xYO42G2cst0B
- INWPC7L2RqiSL6whqxUjyP0kc+B4TTekF0g01UdXtM8VYjJodspZ6q0srT3r8cnUcy+D
- TKECvq3qJDaJ8nvqOPKbEmOWBIpqKoNLqTWL/Akh9Odfq4puLt2jTrZinXoXqJRj/31w
- CC6XXUddqObrhoQjiMYa2EcJLkKivI8S9hMnODiFD5Sxixs3ByNxVLCD+e6C9SdS6LX8
- nweQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npYUi-0001J3-C7
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:50:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npYUc-00032c-RC
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:50:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652460617;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZGy+0j6OlVBTGq3MJvsHx1UWuV5UJRtTGVdiI9SPUig=;
+ b=FR6bquOrwKA8zZ9NoqECy6/ET+eAnU+HG+t+65fFrh2ABoYBgkkkspri0OILnGFmbLTLA+
+ iiqZiSAnyL7Hc4VLwzQ/0GmZrXQT7fCuw8FOrHP1zsxqsntb2Ei3pjjw0yV3EXzsxsSCBW
+ /pJMTuYdRWkbgMUNdXzN3W9n2L42HJE=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-251-ieKjBRLJNvGmagvlmteVVQ-1; Fri, 13 May 2022 12:50:16 -0400
+X-MC-Unique: ieKjBRLJNvGmagvlmteVVQ-1
+Received: by mail-io1-f72.google.com with SMTP id
+ k14-20020a0566022a4e00b0065ae0c238aeso5124875iov.1
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:50:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2gP3t0b3TD2glZhRzeUKaeKQsngLcvt+iKEz+JZR8rg=;
- b=rjKA07bnLQ7p3Uw1RAK1ICrEnua8IEExh1GYeLK3cKcwNAjRlEeYPRqrl9sf6tx1Af
- Ioz8QbuDUsXwfiFyk2wGYe9HNYhVOOgFeLxNiTaqbCCA4EVALKYzabE9OhVfc+DNicdj
- M5hPWaRoTc3JIoalYcYX6DAVGTW2EW5kin4EQdNqauIyBNPzA6cH8awd4WEd8jadQfJv
- rxNBH5hvFDBl0Q0/YPnlEBx+SVr+rRNxjt2dmlc6uhsAflgRcz6FBwSpqdDVtZyqDvvU
- r2RM0GPvwSj1+bsjA6dTdc8BY12B/yG3RIhvJoKDh5E7YVKSNngLknZiGYp8yaGAhjoq
- 8Xmw==
-X-Gm-Message-State: AOAM530MXK0TGyZX/02gWJekT7+Wzv2PsJcOnL1XzjlZY/DMIqP5Z8fm
- E1rrnpD7NQLeZKaJ9Qn7nOk=
-X-Google-Smtp-Source: ABdhPJwGbm3W+KpGXefnh3vCgwivDrKHvFviu7r+QwF5Fg/Ao6/omnEr0UK8fD8QErQXok6fuX2VoA==
-X-Received: by 2002:a17:907:3e21:b0:6f4:6c7c:c781 with SMTP id
- hp33-20020a1709073e2100b006f46c7cc781mr4880227ejc.735.1652460595169; 
- Fri, 13 May 2022 09:49:55 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- f9-20020a056402328900b0042890ee5034sm1167469eda.55.2022.05.13.09.49.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 09:49:54 -0700 (PDT)
-Message-ID: <d26567e9-f4b4-ff0c-6312-ad9162adaf90@redhat.com>
-Date: Fri, 13 May 2022 18:49:53 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ZGy+0j6OlVBTGq3MJvsHx1UWuV5UJRtTGVdiI9SPUig=;
+ b=dENvKwjl560eCuaaCgWszaULaLuvlkHo4s2C7iVfnShABCdKduN82J6mVRXXRyK5HJ
+ eH5KheWaQkkJvsOd6YoWqYl4OcBuQBlE0V0WdMX17mAnGmxSvoZ9sBWeUMmBYzBwSp96
+ O6MNWS0fSbPRvST2v9m//mYPcApD/csHeQwZiuIPb1ocXzedd7WzpZxnGXPqt00whgPo
+ oGYj2z774A4LYHAQWMAcd4Wq27zm1T0vGpUKphosuU/MV7h+M4wqupl87zYoIDPoQvUE
+ 5k2uS/DqLJmfpT1+/RUAW9lk5kwYhnCrhUYYINRUGu5Mrhrr/RznQcNo4cst30t1JikQ
+ TM0Q==
+X-Gm-Message-State: AOAM532obR0iYJcBD0IcSH4Qz4xZgsw8Te1xg1pBjPU71MAotrBtL7kC
+ jPGj0zD8iZ+m6GOx0tj11Ob6ZCfPhw9qT4NOW2hd75yDwCzpigHl43+IIKzxcnLUwDmdLYzsbrE
+ zHDBLD1BD78jam1w=
+X-Received: by 2002:a05:6e02:1b81:b0:2cf:1aa3:679b with SMTP id
+ h1-20020a056e021b8100b002cf1aa3679bmr3086236ili.266.1652460615144; 
+ Fri, 13 May 2022 09:50:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwR0HkO7aQXWpd3gShTRN01uS2QLGvzjft7LEbUM1tO095LvlQTUlJ22+LgvKI7Z3lQ/Kd6bw==
+X-Received: by 2002:a05:6e02:1b81:b0:2cf:1aa3:679b with SMTP id
+ h1-20020a056e021b8100b002cf1aa3679bmr3086218ili.266.1652460614871; 
+ Fri, 13 May 2022 09:50:14 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ p15-20020a6b8d0f000000b0065a47e16f3fsm822612iod.17.2022.05.13.09.50.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 09:50:14 -0700 (PDT)
+Date: Fri, 13 May 2022 12:50:04 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Chongyun Wu <wucy11@chinatelecom.cn>
+Cc: Hyman Huang <huangy81@chinatelecom.cn>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>, f4bug@amsat.org,
+ tugy@chinatelecom.cn, dengpc12@chinatelecom.cn,
+ yuanmh12@chinatelecom.cn, baiyw2@chinatelecom.cn
+Subject: Re: [PATCH v2 1/4] kvm: Dynamically adjust the rate of dirty ring
+ reaper thread
+Message-ID: <Yn6MPHTO+6Q3QiwQ@xz-m1.local>
+References: <cover.1648091539.git.wucy11@chinatelecom.cn>
+ <7e786b6ab74e0c62661176fa7aec243c7b9bea8d.1648091540.git.wucy11@chinatelecom.cn>
+ <80aa611e-55da-e76c-d09b-bda3a94f3169@chinatelecom.cn>
+ <beb71ac6-28b0-77e3-a3aa-e11167d537f5@chinatelecom.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 0/9] tests: run python tests under the
- build/tests/venv environment
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220513000609.197906-1-jsnow@redhat.com>
- <Yn4YS1FpgtCZMMx6@redhat.com> <Yn4y9BorEDzOLhFH@redhat.com>
- <CAFn=p-Y77=F=qjdwWRycFafxiS7Rjxag4gLmPK0ERqEiyT19ig@mail.gmail.com>
- <Yn6CPm3VosPfcK7j@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yn6CPm3VosPfcK7j@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <beb71ac6-28b0-77e3-a3aa-e11167d537f5@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,25 +110,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 18:07, Daniel P. Berrangé wrote:
->> e.g. what if I want to require mypy >= 0.900 for testing, but you have a
->> system package that requires mypy < 0.700?
-> I would expect us to not require packages that are not present in
-> the distros implied by
+On Sat, Apr 02, 2022 at 03:28:13PM +0800, Chongyun Wu wrote:
+> > > +{
+> > > +    float ratio = 0.0;
+> > > +    uint64_t sleep_time = 1000000;
+> > > +    enum KVMDirtyRingReaperRunLevel run_level_want;
+> > > +    enum KVMDirtyRingReaperSpeedControl speed_control;
+> > > +
+> > > +    /*
+> > > +     * When the number of dirty pages collected exceeds
+> > > +     * the given percentage of the ring size,the speed
+> > > +     * up action will be triggered.
+> > > +     */
+> > > +    s->reaper.ratio_adjust_threshold = 0.1;
+> > > +    s->reaper.stable_count_threshold = 5;
+> > > +
+> > > +    ratio = (float)dirty_count / s->kvm_dirty_ring_size;
+> > > +
+> > > +    if (s->reaper.ring_full_cnt > ring_full_cnt_last) {
+> > > +        /* If get a new ring full need speed up reaper thread */
+> > > +        if (s->reaper.run_level != KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED) {
+> > > +            s->reaper.run_level++;
+> > > +        }
+> > > +    } else {
+> > > +        /*
+> > > +         * If get more dirty pages this loop and this status continus
+> > > +         * for many times try to speed up reaper thread.
+> > > +         * If the status is stable and need to decide which speed need
+> > > +         * to use.
+> > > +         */
+> > > +        if (ratio < s->reaper.ratio_adjust_threshold) {
+> > > +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_NORMAL;
+> > > +        } else if (ratio < s->reaper.ratio_adjust_threshold * 2) {
+> > > +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST1;
+> > > +        } else if (ratio < s->reaper.ratio_adjust_threshold * 3) {
+> > > +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST2;
+> > > +        } else if (ratio < s->reaper.ratio_adjust_threshold * 4) {
+> > > +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST3;
+> > > +        } else if (ratio < s->reaper.ratio_adjust_threshold * 5) {
+> > > +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST4;
+> > > +        } else {
+> > > +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED;
+> > > +        }
+> > > +
+> > > +        /* Get if need speed up or slow down */
+> > > +        if (run_level_want > s->reaper.run_level) {
+> > > +            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP;
+> > > +            *speed_down_cnt = 0;
+> > > +        } else if (run_level_want < s->reaper.run_level) {
+> > > +            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN;
+> > > +            *speed_down_cnt++;
+> > > +        } else {
+> > > +            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_KEEP;
+> > > +        }
+> > > +
+> > > +        /* Control reaper thread run in sutiable run speed level */
+> > > +        if (speed_control == KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP) {
+> > > +            /* If need speed up do not check its stable just do it */
+> > > +            s->reaper.run_level++;
+> > > +        } else if (speed_control ==
+> > > +            KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN) {
+> > > +            /* If need speed down we should filter this status */
+> > > +            if (*speed_down_cnt > s->reaper.stable_count_threshold) {
+> > > +                s->reaper.run_level--;
+> > > +            }
+> > > +        }
+> > > +    }
+> > > +
+> > > +    /* Set the actual running rate of the reaper */
+> > > +    switch (s->reaper.run_level) {
+> > > +    case KVM_DIRTY_RING_REAPER_RUN_NORMAL:
+> > > +        sleep_time = 1000000;
+> > > +        break;
+> > > +    case KVM_DIRTY_RING_REAPER_RUN_FAST1:
+> > > +        sleep_time = 500000;
+> > > +        break;
+> > > +    case KVM_DIRTY_RING_REAPER_RUN_FAST2:
+> > > +        sleep_time = 250000;
+> > > +        break;
+> > > +    case KVM_DIRTY_RING_REAPER_RUN_FAST3:
+> > > +        sleep_time = 125000;
+> > > +        break;
+> > > +    case KVM_DIRTY_RING_REAPER_RUN_FAST4:
+> > > +        sleep_time = 100000;
+> > > +        break;
+> > > +    case KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED:
+> > > +        sleep_time = 80000;
+> > > +        break;
+> > > +    default:
+> > > +        sleep_time = 1000000;
+> > > +        error_report("Bad reaper thread run level, use default");
+> > > +    }
+> > > +
+> > > +    return sleep_time;
+> > > +}
+> > > +I think how to calculate the sleep time needs discuussion,
+> > > including why
+> > we define 5 levels, why we choose the time constants and in what
+> > scenarios this algo works fine.
 > 
->    https://www.qemu.org/docs/master/about/build-platforms.html
 > 
-> if that was absolutely a must have, then gracefully skip tests
-> if the system version wasn't new enough. The user could always
-> pass --python-env=pip if they want to force new enough
-> 
+> > 
+> > The other thing is i still think it's nicer we have the simplest
+> > algorithm firstly, which should be very easy to verify.
 
-Consider that e.g. RHEL RPMs do not do mypy or pylint in %check, because 
-the version of the linters in RHEL is usually older than what the 
-upstream packages expect.
+Chongyun,
 
-I don't think it's a good idea for QEMU to support what Red Hat 
-packagers decided was a bad idea to support.
+I saw that you left some empty line above but didn't really answer this
+question.  I am with Yong.. there're just too many magic numbers.
 
-Paolo
+I don't have a strong opinion on dropping all of them, maybe your point is
+you did tons of testing and you found these numbers are the best (though I
+doubt it.. but if it's true please let me know) but at least I think it can
+be put into a structure like:
+
+  struct dirty_ring_interval_table {
+    /* This can be 0->5; we really don't need those macros.. */
+    int level;
+    /* This marks over which dirty ratio we use this level */
+    float threshold_ratio;
+    /* This is the time to sleep if this level is chosen */
+    int sleep_us;
+    ...
+  };
+
+IIUC the whole logic above has a major point in that we shrink the sleep
+time more aggresively than growing, I think it can be done much easier than
+this algorithm, e.g., we mark a global threshold of say 0.8 dirty ratio out
+of the ring size, then:
+
+  (1) if dirty ratio > 0.8 we half the sleep time (delay /= 2)
+  (2) if dirty ratio <= 0.2 we increase the sleep time (delay += 20ms)
+
+We also give a limit to the sleep time, say max 1sec min 100ms.  Would that
+also work very well already with e.g. 20 LOCs rather than 100+ with lots of
+magics and if/else's?
+
+Thanks,
+
+-- 
+Peter Xu
+
 
