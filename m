@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96822526736
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:37:47 +0200 (CEST)
-Received: from localhost ([::1]:44772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADD9526750
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:43:54 +0200 (CEST)
+Received: from localhost ([::1]:59676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npYIU-0000NT-G1
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
+	id 1npYOP-0002Gn-GZ
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npYGH-0006Ne-Bg
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:35:29 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:42659)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npYJF-0002WX-4O
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:38:33 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npYGF-0000nu-HY
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:35:28 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- l11-20020a17090a49cb00b001d923a9ca99so8259884pjm.1
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:35:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npYJD-00015f-Cf
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:38:32 -0400
+Received: by mail-wr1-x436.google.com with SMTP id v12so12123563wrv.10
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=bHEmXiJiqdAGZZVZ2hHK0iOjejmwpHkYCeeb9zHaO3U=;
- b=paH0espMxFTw9tnq8MOIgtmz6u0egCrvdBqkygU42RFaSuT6dlxS9wbQFCLMHZR9yA
- fac7CHmjQEf1H/LAoYibs0XDuX1QAbpFsxDMiRlfAJMGUosqvrKzl2MAwLuAaeJcChV3
- QymxBlOzn13YDj6+qXZvWAP8xXxWKa0SLzv7GLy3Rpri88lyL/VvPzoQHYBAXcIFhKrc
- r8IzD/G3YdYWAxdOgsoEtXfErMEPtdq5d6TlH6CP6+YMzH6D3uPfa9zzlvz9ActEP/hY
- 0fgt3+jqISnxiz4bt2s9gwLggBx4qUexE+hBK/vld4lJ4XxjZhDrdca11ZfTrkRzbiAF
- DU6Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bB1/WMuJrvjSdc38PzEzRywr291IFLBWO0kli8cjXxY=;
+ b=fzAwQ9NjSTfC/sizt1ZeKasZYl9vBJWU864x1qM158DVyn2xG71/fv+Ofp8OuFyw/T
+ TfmX05H9aXdbRLggWLRnMP/uscwDYWJrqZzHSIUg5uh9bWPym3RNEbO9/ptTfE5/xkEN
+ I+etu3IyZvqszI570HQJcw2LUGVkdsPnbEk6szEZQ9oAjpvETGvd0IJ0HOxYM3K89sUp
+ 5+cpnHfZFE+RPocJEnNKnTv1wElZyS+K2kWSOMhm779f31QH6NohEIF/di/jl3cH4Tl7
+ KoJuBOejUGt7trKbjltahqzufSINRn5fVP6EWu9tBfL1DEVhk60EtdLmNGnk/gOInYOg
+ pqXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bHEmXiJiqdAGZZVZ2hHK0iOjejmwpHkYCeeb9zHaO3U=;
- b=2A/7MYPiYQRfUEb72ftxgqWrtjxad2atXPO2XzJRcOamgue4NV4tX+Y4ahVFhP6Ezc
- 5J2F3JXHhcIRnvf+J/wN9SkrE4V90RmB5ADflTR+FE7Yp7FWuv7uyliWI+7mg4/jca3y
- 5y0Dmn8HreoxHQmX7oDRT1/0PxzH8yGNkqbq7hNku6U4zRPBBkfq4BFKOHtdPRx9lHzv
- mJpZKKe2+iZkLSutEySuDmHYZxL4lQU8XGrc5KeIXylIMfbKPYmLZOfr5YziWNeNy4kL
- Eijta5AQGdsqZvS86B3RS1GeElynEjOkjUm8Ueokf9COJlnu8ICOTF9TtOn1QXmHBuGK
- Wp9g==
-X-Gm-Message-State: AOAM530NSON9Gj4JF+uMfKrGADgssTcP3bzfcqmHVCksxWECfK5LqexJ
- xc+YoVuG+dSCrCby59HnQT0uNA==
-X-Google-Smtp-Source: ABdhPJy9FxjoU8Iy+q5MSnLI8PnE8W3fBidcFUmvvYhYwnjoTmA3GzJs8J2VngaIJZKOzLFoSiVnRg==
-X-Received: by 2002:a17:90a:348d:b0:1dd:1779:412f with SMTP id
- p13-20020a17090a348d00b001dd1779412fmr16746380pjb.18.1652459725779; 
- Fri, 13 May 2022 09:35:25 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:46a:1099:e682:8d73:3200:dae5?
- ([2607:fb90:46a:1099:e682:8d73:3200:dae5])
+ bh=bB1/WMuJrvjSdc38PzEzRywr291IFLBWO0kli8cjXxY=;
+ b=Rl04gJx5/LYwpoaZIflmQAfy6h2SQtlH6GJPmgDZFRILATIwBdawwV8J8HRTwMJ23k
+ ahI1FqYza5Vkvl3M14yv/KEBWAJ4rJ13NppdKzKHDF+iFzqgBSkn/e1xlT0M/xlWBXAA
+ ZSaF0YUBh3Ts4xjptL3nUQffP/gGdP3BeJLFL2hNcdllLNAkeXk+Od+pF91Cb3kUnCgc
+ CpSEh9wXT06FO5x34RrYBg01EN4BZTbLU5xbW1GhAcKnpcIUzINILSR09+lhfSphvcY+
+ ar/Q2qGxKCW+PTIFn1RUjRmBCAOSErSRXavXvVM0CgOAkeXUHnyv92m3PaS7I206CAyE
+ 0u1Q==
+X-Gm-Message-State: AOAM530RZRWXO5lRSWRP4FlZginEXFM9UvP2yKnL078ieS0dGIpL/X7H
+ ikELW6PgBtBgrJdl5nqjsdDTt0DvZZjTQA==
+X-Google-Smtp-Source: ABdhPJyIQqe/H4TUiq4Jy2TnB1Pup9Zm9In2wz0ofdsYlrB94aVluDB6zX5+/87lpNRgCYH5lFFitQ==
+X-Received: by 2002:a05:6000:18ac:b0:20c:ba84:1260 with SMTP id
+ b12-20020a05600018ac00b0020cba841260mr4795841wri.379.1652459909851; 
+ Fri, 13 May 2022 09:38:29 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- cp7-20020a170902e78700b001608bceb092sm2088214plb.124.2022.05.13.09.35.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 09:35:25 -0700 (PDT)
-Message-ID: <9272259e-3641-207d-ef14-e4adf468b143@linaro.org>
-Date: Fri, 13 May 2022 09:35:22 -0700
+ r64-20020a1c2b43000000b003942a244edbsm3963635wmr.32.2022.05.13.09.38.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 09:38:29 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Subject: [PATCH] hw/tpm/tpm_tis_common.c: Assert that locty is in range
+Date: Fri, 13 May 2022 17:38:27 +0100
+Message-Id: <20220513163827.26281-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] configure: remove another dead variable
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220513161109.1125222-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220513161109.1125222-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,26 +86,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 09:11, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   configure | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/configure b/configure
-> index c8b5b99532..dda25f05bf 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1992,7 +1992,6 @@ fi
->   if test "$static" = "yes" ; then
->     echo "CONFIG_STATIC=y" >> $config_host_mak
->   fi
-> -qemu_version=$(head $source_path/VERSION)
->   echo "SRC_PATH=$source_path" >> $config_host_mak
->   echo "TARGET_DIRS=$target_list" >> $config_host_mak
->   if test "$modules" = "yes"; then
+In tpm_tis_mmio_read(), tpm_tis_mmio_write() and
+tpm_tis_dump_state(), we calculate a locality index with
+tpm_tis_locality_from_addr() and then use it as an index into the
+s->loc[] array.  In all these cases, the array index can't overflow
+because the MemoryRegion is sized to be TPM_TIS_NUM_LOCALITIES <<
+TPM_TIS_LOCALITY_SHIFT bytes.  However, Coverity can't see that, and
+it complains (CID 1487138, 1487180, 1487188, 1487198, 1487240).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Add assertions that the calculated locality index is valid, which
+will help Coverity and also catch any potential future bug where
+the MemoryRegion isn't sized exactly.
 
-r~
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Tested with 'make check' only...
+
+ hw/tpm/tpm_tis_common.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+index e700d821816..81edae410c8 100644
+--- a/hw/tpm/tpm_tis_common.c
++++ b/hw/tpm/tpm_tis_common.c
+@@ -295,6 +295,8 @@ static void tpm_tis_dump_state(TPMState *s, hwaddr addr)
+     uint8_t locty = tpm_tis_locality_from_addr(addr);
+     hwaddr base = addr & ~0xfff;
+ 
++    assert(TPM_TIS_IS_VALID_LOCTY(locty));
++
+     printf("tpm_tis: active locality      : %d\n"
+            "tpm_tis: state of locality %d : %d\n"
+            "tpm_tis: register dump:\n",
+@@ -336,6 +338,8 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
+     uint32_t avail;
+     uint8_t v;
+ 
++    assert(TPM_TIS_IS_VALID_LOCTY(locty));
++
+     if (tpm_backend_had_startup_error(s->be_driver)) {
+         return 0;
+     }
+@@ -458,6 +462,8 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
+     uint16_t len;
+     uint32_t mask = (size == 1) ? 0xff : ((size == 2) ? 0xffff : ~0);
+ 
++    assert(TPM_TIS_IS_VALID_LOCTY(locty));
++
+     trace_tpm_tis_mmio_write(size, addr, val);
+ 
+     if (locty == 4) {
+-- 
+2.25.1
+
 
