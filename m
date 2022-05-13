@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D515526755
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:44:30 +0200 (CEST)
-Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516855266E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:20:57 +0200 (CEST)
+Received: from localhost ([::1]:39070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npYOz-0003Hv-GO
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53218)
+	id 1npY2C-0002Fd-Ck
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:20:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npXsp-00018M-6s
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34052)
+ id 1npXsq-0001Hr-Os
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:11:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npXsm-0004dO-P8
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:11:14 -0400
+ id 1npXsp-0004dy-7U
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:11:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652458272;
+ s=mimecast20190719; t=1652458274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=OK0to00hZr33g+bacbdfmnWtmxWLDNzWz7vj6utljHg=;
- b=iWLvzmcwCf5RLSo9vK4z9ZmiUVsbjdw2WWmc+EoKWw9qbwRvm87HVAht6pbzG5aN5WYXBa
- /l/826IAekkikl3Z2Zj8ENKzsoJ9erjGLJH90RPyzX0ShZOpT3fE2ykuJ64IgTqXfYF5Xn
- EwJN8h46Fcoyzhys/+GnKtWa9wUcR8Q=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UD1ktUjeIsHgoVdsvsoK6vrVzweAvHuK/QoZj+edBNI=;
+ b=XiGEZRZGAxmJry/hS74w0BtwPGnWYXU05xHg5hDUfJJgagY7RgUGdwBynm6pa/jdcjrYLS
+ uLwHZYRXUMWSkLGAAjieAZy5TUdFXDHNW9Y21eTCcQYYoC4EcA7xiwmetO6PDvuWSOwxAx
+ /i5JV03qxiBq8+j95stuO1NDXCSQkfY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-2XU2-flROOidQENwOj16cQ-1; Fri, 13 May 2022 12:11:10 -0400
-X-MC-Unique: 2XU2-flROOidQENwOj16cQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- v13-20020a170906b00d00b006f51e289f7cso4311906ejy.19
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:11:10 -0700 (PDT)
+ us-mta-614-jWRuv_bKOOCIRuR4kuYUgA-1; Fri, 13 May 2022 12:11:13 -0400
+X-MC-Unique: jWRuv_bKOOCIRuR4kuYUgA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ k12-20020aa7d2cc000000b0042a2d586c56so3999214edr.17
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:11:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=OK0to00hZr33g+bacbdfmnWtmxWLDNzWz7vj6utljHg=;
- b=mP6jDGPjjd2SuOrj9ww73FMQ7XaleyoYE8XzG7gpzhoLjW5pdwqLAbAvwdNlUQ1M8c
- 7nuNTkbAhisCHhClwgqy3t0ftxn9xC9tLiWb4lGG6vOiq7ELs5LKSCHjVWfcPyWV8rPP
- bY5gKhU7uPh47KH6jxA0XFDRmJKXg4Ha2Jx2UBLuEJkHWKKCssE+atQdpMfGqGVPl7vx
- P0xNtrS0nGEQTMxE0eQMH754XXWWMR1ge4b34L/va8KRgRymxtkFCFx5BsCyUta2u2d6
- +eJfTWOKZjQWrI/7hbOmye10wzco0N+suQIhGTuO66EeYSs/uXju0NyLgydWRLTROjVS
- EERw==
-X-Gm-Message-State: AOAM531j3mlaoyEiMmOtgZ7SoRa2UecVgItqspQUeM+m1RvJhF13wYlk
- 1WZsoRBeYrp805u3gyrX3Bb968W/UAnHQyIY1pSmx9XUd5AeJHU9iDg2WTCv28KUiPvYK6z17C+
- 5kypsjbmBuBOc4rcymJtbYEkB+F58g4B8dVaSHxi6vazO/8yLseQEbH7q/pxNR7PydDk=
-X-Received: by 2002:a17:907:7248:b0:6f4:34e4:fc63 with SMTP id
- ds8-20020a170907724800b006f434e4fc63mr5048000ejc.553.1652458269527; 
- Fri, 13 May 2022 09:11:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWJhdBCjmAZOcNkjVPYRMzpo3Rj+O8t85YFI1NfPUiQaZ2jJt9N0sKWjeQlc/F/RUAZ/sS9g==
-X-Received: by 2002:a17:907:7248:b0:6f4:34e4:fc63 with SMTP id
- ds8-20020a170907724800b006f434e4fc63mr5047969ejc.553.1652458269224; 
- Fri, 13 May 2022 09:11:09 -0700 (PDT)
+ bh=UD1ktUjeIsHgoVdsvsoK6vrVzweAvHuK/QoZj+edBNI=;
+ b=eC/99jej2koYGurjJMivKUmqk8oruYWs9tDnjYusNE4Bq47LJFkxosGfMAnNuG447k
+ km52Y1KSIYfjBZhc0cW7VRbIn14sDmv6rVdBmiPzcHWwXoBcXXQVlX6bAe3x8QyPGNfF
+ 14yQXCfGOi4e/FNM3BJU9YsXqXbnUkGqpiunHQkVvLYqviN/PMNe6tpkWAcaKAfsLxF+
+ waGCnMYy7eXt3ISQl/GvaPPUyvDtZswDRP0wQZo3XfseeA7oDRLYOPHaNBA11KuWC70p
+ Qxqwc7p3wN775JtrKqrtFTMpHKaPwgXLXRiHp0nwNuwnErosTjJro3jRvfS0V/oR5oQI
+ rU8A==
+X-Gm-Message-State: AOAM533yfkEXj0kS8fUJkY91JCfmvfCCd9gl11iuQjaq5YikEBBZgZUA
+ RUEL1ZOX3uCGJOgWu1k9J52W0mDUJd30JurLH7B4Lz6KimSXCE2ULq0Mx8MjAyUYMps8AlJF8hI
+ RSzidk/qF0m05IGSm3scTSFlWRPgBU2OWbdFVBazVQbhLJqFSUoZj05N7e30Zt16bO/M=
+X-Received: by 2002:a17:906:4fd5:b0:6f8:5aa9:6f13 with SMTP id
+ i21-20020a1709064fd500b006f85aa96f13mr4947644ejw.267.1652458271828; 
+ Fri, 13 May 2022 09:11:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkaMT1IcMPgNiyd1aPE+1s9ej/oxgI7SCM/hvEAqdag6gTEF1Y0Y8pyQYqwDW7cC281RHyTA==
+X-Received: by 2002:a17:906:4fd5:b0:6f8:5aa9:6f13 with SMTP id
+ i21-20020a1709064fd500b006f85aa96f13mr4947620ejw.267.1652458271552; 
+ Fri, 13 May 2022 09:11:11 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- f2-20020a056402004200b0042617ba63c4sm1105401edu.78.2022.05.13.09.11.08
+ d27-20020a056402517b00b0042a2ccdd2b8sm1110505ede.70.2022.05.13.09.11.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 09:11:08 -0700 (PDT)
+ Fri, 13 May 2022 09:11:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] build: remove useless dependency
-Date: Fri, 13 May 2022 18:11:07 +0200
-Message-Id: <20220513161107.1125188-1-pbonzini@redhat.com>
+Subject: [PATCH] configure: remove another dead variable
+Date: Fri, 13 May 2022 18:11:09 +0200
+Message-Id: <20220513161109.1125222-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,28 +96,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-plugins.symbols is now processed in Meson.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 3 ---
- 1 file changed, 3 deletions(-)
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index e5fd1ebdf6..b842dbccdb 100644
---- a/Makefile
-+++ b/Makefile
-@@ -165,10 +165,7 @@ ifneq ($(filter $(ninja-targets), $(ninja-cmd-goals)),)
- endif
- endif
- 
--# Force configure to re-run if the API symbols are updated
- ifeq ($(CONFIG_PLUGIN),y)
--config-host.mak: $(SRC_PATH)/plugins/qemu-plugins.symbols
--
- .PHONY: plugins
- plugins:
- 	$(call quiet-command,\
+diff --git a/configure b/configure
+index c8b5b99532..dda25f05bf 100755
+--- a/configure
++++ b/configure
+@@ -1992,7 +1992,6 @@ fi
+ if test "$static" = "yes" ; then
+   echo "CONFIG_STATIC=y" >> $config_host_mak
+ fi
+-qemu_version=$(head $source_path/VERSION)
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+ echo "TARGET_DIRS=$target_list" >> $config_host_mak
+ if test "$modules" = "yes"; then
 -- 
 2.36.0
 
