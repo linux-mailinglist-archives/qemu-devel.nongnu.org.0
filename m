@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAC1525C48
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:20:04 +0200 (CEST)
-Received: from localhost ([::1]:43054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE9D525C49
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:21:10 +0200 (CEST)
+Received: from localhost ([::1]:44018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npPal-0006Aj-Hu
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:20:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47350)
+	id 1npPbq-0006pt-1d
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npPO8-0005ie-00
- for qemu-devel@nongnu.org; Fri, 13 May 2022 03:07:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34064)
+ id 1npPOX-0005uy-3P
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 03:07:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npPO4-00060G-Qw
- for qemu-devel@nongnu.org; Fri, 13 May 2022 03:06:57 -0400
+ id 1npPOU-000628-AD
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 03:07:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652425616;
+ s=mimecast20190719; t=1652425641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=b9blYXum31mhkd76jJm4ku1OCG1AOKkx3man1tLg2LNPlq+VqgVtllzSBOt/XZwtUhlznT
- a3U4QVs/lk5c+XI02tzePLZRQN0t3y0IVjewLpC3RVrSzlNGBqDv4bvsBJim7PAtzvgnIn
- 2pfL6ymRsjdvFAe1J3/w+LCzGHz4Iow=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=IGg0Q/fAOOS91yCdsEC3DrdrrTJjAfYWgF6nAe8Z+QI0S4TGpOWvY8gkik/YDp77QyCKUA
+ 2ovJtdm/XKmPqoQ08XnUkdOCOQq7BY5vtLbzRq91VkWa2RNhYO5qdh92/lebcsKPhsePGI
+ y8c+YjhJHl6OTc4zSnbHKFSaJ5q2jlM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-tFqLpHESMjCAaoqQWB1hnQ-1; Fri, 13 May 2022 03:06:54 -0400
-X-MC-Unique: tFqLpHESMjCAaoqQWB1hnQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- b3-20020aa7d483000000b004282ca95814so4411820edr.9
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 00:06:54 -0700 (PDT)
+ us-mta-159-sDpETDLeN8qX-Kn9LviCcg-1; Fri, 13 May 2022 03:07:20 -0400
+X-MC-Unique: sDpETDLeN8qX-Kn9LviCcg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ f1-20020a50fe01000000b004282af18d8bso4439746edt.23
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 00:07:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
  bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=eAVdugHT3NNYyY8Md/lN7iDl9efQO469U3v1ergA55e9qG7Oj3vwQFuWfk9+0l7Fsv
- p9UFhtP68aRVQfwDm2JjGy64fvKOL3VStdPAWmuYpHBJLgZCyLEoVC+TIMt6MZGCmY9J
- DwbTGjOgjATcLZTZIk50pXpzK7QdPjAIRSy7SBpWP3h5uFsiYm8quSVb2+/UdmJcxyaH
- NWAGEH/q9VMB5V8nr7x/9lRoKjc34DSF/jEO3Q7UJlf5cUlFljDP0E2L32xiWqpLcMbK
- 7TxZIQNAs9ut1o41uhukV0E4Vt17APDNLh+zIaO3DcQWv0V3NFag0jqYAixxGNe/5STq
- D6sg==
-X-Gm-Message-State: AOAM5338IbopLt2T9ej25/aUNl0w6IESD9FCh+2V7mBAKu7aMkUkmf79
- TWHroT1lQX2gMpylV/AVyWW9sTb6W5a3d8DzrbMnrBu+TN4/nlPukqV7HOtL4zDIh4PiY4zEiLg
- hSOXIttWti/mNYQo=
-X-Received: by 2002:a17:907:2159:b0:6f3:a307:d01d with SMTP id
- rk25-20020a170907215900b006f3a307d01dmr3050200ejb.760.1652425613592; 
- Fri, 13 May 2022 00:06:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzq3ItHW/u2kpWwAAG5m+z/b5b1NhNq/jishWHC9Go0Nc6+bGOeXmuZErVJ6hWaqHBVR/h9aQ==
-X-Received: by 2002:a17:907:2159:b0:6f3:a307:d01d with SMTP id
- rk25-20020a170907215900b006f3a307d01dmr3050182ejb.760.1652425613335; 
- Fri, 13 May 2022 00:06:53 -0700 (PDT)
+ b=lkUuGORawj9hbu4QNLRxnaQcrV8yg/8znIrJBZs+U7N3efBWGs88k16lomsQKN4uN1
+ yFckTpX4YTV7ifwoP7Dy2k1OfmBz+2BxeGlWWn1tyxCqnz+zS0BYJ2Vf6ujbRQdod0l8
+ 3VKG/eUPlVXxooxf74LbaWRdKJr/W7NLB3U4dUOYZbsNqqBKa9IF++/bLxFojPXCEImL
+ AGwc/hVkL1LXPc/bEsR7wrJJ6K5k18f02npOnV6dPZ1yltgtUXFkA0gQ0ewYM9nVPDoh
+ mXDFMknDzzfOBLAejzj2QoOjTOcqIJO55TDY97vUI2LyXbJFg4+g8rPZVK+tzrgtKy5A
+ Kl2Q==
+X-Gm-Message-State: AOAM531u4nX6I9XwaFTEo330uZb3BmQWvtoa/AE8cTPysIR64+qPC+gZ
+ 1DfagTTSwSVFT9qsU8QqTAcun4vAG9i5kpUkTV6sLLYYoQn7w2a70ygqFNgYUU/r9khCpCg3TzW
+ Yy+FO80hsIHMbwb0=
+X-Received: by 2002:a17:907:d1d:b0:6fa:1f27:b39 with SMTP id
+ gn29-20020a1709070d1d00b006fa1f270b39mr2898771ejc.146.1652425639573; 
+ Fri, 13 May 2022 00:07:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmLU7SNgT5+ucQM/YQKZyjnw1MCLaa7+txY4mPzcS93DDyUhwvU/9cv9R0TNRaEDBQWUYLZQ==
+X-Received: by 2002:a17:907:d1d:b0:6fa:1f27:b39 with SMTP id
+ gn29-20020a1709070d1d00b006fa1f270b39mr2898765ejc.146.1652425639427; 
+ Fri, 13 May 2022 00:07:19 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- u6-20020a170906108600b006f3ef214e50sm444060eju.182.2022.05.13.00.06.52
+ eb22-20020a170907281600b006f3ef214e28sm464393ejc.142.2022.05.13.00.07.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 00:06:52 -0700 (PDT)
+ Fri, 13 May 2022 00:07:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: Konstantin Kostiuk <kkostiuk@redhat.com>
 Cc: qemu-devel@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH] qga-vss: Add auto generated headers to dependencies
-Date: Fri, 13 May 2022 09:06:50 +0200
-Message-Id: <20220513070650.1076595-1-pbonzini@redhat.com>
+Subject: Re: [PATCH] qga-vss: Use a proper function for free memory
+Date: Fri, 13 May 2022 09:07:15 +0200
+Message-Id: <20220513070715.1076718-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220512154906.331399-1-kkostiuk@redhat.com>
+In-Reply-To: <20220512154909.331481-1-kkostiuk@redhat.com>
 References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
