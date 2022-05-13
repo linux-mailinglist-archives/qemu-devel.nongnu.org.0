@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 851C55260D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:17:45 +0200 (CEST)
-Received: from localhost ([::1]:41830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17ED85260ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:23:46 +0200 (CEST)
+Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npTIl-00052E-LK
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:17:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41850)
+	id 1npTOa-0006za-Pq
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npTHu-0004Kk-1x
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:16:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34833)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npTMB-0006F6-1f
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 07:21:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npTHq-0003pC-4p
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:16:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npTM7-0004dX-3e
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 07:21:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652440604;
+ s=mimecast20190719; t=1652440869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hhSm1geC1sPmH3JVkqjHvzOLuXdL4KmkdOsuh+K7zMU=;
- b=bGXpn4o6QmUNz8gTbg8+2UYQpb5r0JGTtxmCFW+pfBxD1PSpDOspaOCVInupBDcv2Xr5IJ
- n5eUIj52zR/gkH/3eV7MOUOM1AfA1GD9lGsd1mLh6LpnDptnQtsw1OQUi8Xudpw+J9aqIl
- AYDIftzH7gooX/rcLoZlrsh/r4aoRzY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2uKB84K7/Wwmsak44LAI6dO1vjPOUSDyLrghAPeX298=;
+ b=K5xSn10bxznUICya1PTWITyKtno0RP5bGZs7Gig7sYTB+S4Y0Ba6cO0OqVGXvZhtSQYsO5
+ sHCy0Kor3ZBXSFcqaQuAqtQi+CV14ynLsAr578w+uR5yCGQgR9MQS/d7IksFl+P1yNczPL
+ hDEmiEre4tLYj/AJbl4o2SSi2Vo8hQA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-Xy0MTgN6NOWSjObbB6WI5A-1; Fri, 13 May 2022 07:16:43 -0400
-X-MC-Unique: Xy0MTgN6NOWSjObbB6WI5A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s14-20020adfa28e000000b0020ac7532f08so2821394wra.15
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 04:16:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hhSm1geC1sPmH3JVkqjHvzOLuXdL4KmkdOsuh+K7zMU=;
- b=Ao69hVZfMS1jOLNK+NR+pKjc9BdNDBsW9tbdF0dNQXMDqGBWF+jeHkOm6pYu/etqnp
- xJ4ZrtjGmtYxTUiV72G5AVqwbKxlV7OE85ASXvne49JPELvfMeRKmCpvgD790QgW2hnx
- +bKlNxEt0pFov0oIOdnOpHcdF8pPaw5X0MTZXC3wVLzf+PevsYKdPtH1XMfQTn90Wa8z
- lrBlAt+rwqARqAzihcXl9iSunakWEbE0KSYIgmbJI1dfxY+FbUPMdC0gbnsXHPEksNvz
- HmlgY13GLN067TiH5UGGVI5+SphiCwY+cuAvTq66JaQvh05UNLmWWJ7si8Zqd53axaix
- mAnQ==
-X-Gm-Message-State: AOAM532fojMACYFYz/BN3QRaZM7rM65SD9NMmvav8a14rcTmWssFoOD6
- TpVyonmB8NeQr6fWggYYX4V2yzb80gJ3sGnBFOauu3FcLHuVnKKT3fXzyremmn8+nFPz/C8IK6t
- oWL+hYMPrU+46AhA=
-X-Received: by 2002:adf:ee90:0:b0:20a:de35:14b4 with SMTP id
- b16-20020adfee90000000b0020ade3514b4mr3553103wro.558.1652440601015; 
- Fri, 13 May 2022 04:16:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzytz5E8Ndv86dkZT57NDUSDemmZ8zp6b+YXJS5SYFKuSBt5404joZJCuXHhC1a9hV9XxR2qg==
-X-Received: by 2002:adf:ee90:0:b0:20a:de35:14b4 with SMTP id
- b16-20020adfee90000000b0020ade3514b4mr3553082wro.558.1652440600745; 
- Fri, 13 May 2022 04:16:40 -0700 (PDT)
-Received: from redhat.com ([2.53.15.195]) by smtp.gmail.com with ESMTPSA id
- l20-20020a1c7914000000b00394538d039esm5150842wme.6.2022.05.13.04.16.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 04:16:40 -0700 (PDT)
-Date: Fri, 13 May 2022 07:16:37 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH] vhost-user-scsi: avoid unlink(NULL) with fd passing
-Message-ID: <20220513071607-mutt-send-email-mst@kernel.org>
-References: <20220427100116.30453-1-stefanha@redhat.com>
- <CAFEAcA_1cFLDK+oE8=VQaX-FQqTtVH=WP6C47Xo+f99SLin2EQ@mail.gmail.com>
+ us-mta-125-vQROuEtwPtGnhFpyucH8zw-1; Fri, 13 May 2022 07:21:08 -0400
+X-MC-Unique: vQROuEtwPtGnhFpyucH8zw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2ADCB38149CC
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 11:21:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E018614C26A2;
+ Fri, 13 May 2022 11:21:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A221321E690D; Fri, 13 May 2022 13:21:06 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH v2 2/8] qapi: net: introduce a way to bypass
+ qemu_opts_parse_noisily()
+References: <20220512080932.735962-1-lvivier@redhat.com>
+ <20220512080932.735962-3-lvivier@redhat.com>
+Date: Fri, 13 May 2022 13:21:06 +0200
+In-Reply-To: <20220512080932.735962-3-lvivier@redhat.com> (Laurent Vivier's
+ message of "Thu, 12 May 2022 10:09:26 +0200")
+Message-ID: <87v8u91xwd.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_1cFLDK+oE8=VQaX-FQqTtVH=WP6C47Xo+f99SLin2EQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,51 +82,174 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 04:57:13PM +0100, Peter Maydell wrote:
-> On Wed, 27 Apr 2022 at 11:04, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > Commit 747421e949fc1eb3ba66b5fcccdb7ba051918241 ("Implements Backend
-> > Program conventions for vhost-user-scsi") introduced fd-passing support
-> > as part of implementing the vhost-user backend program conventions.
-> >
-> > When fd passing is used the UNIX domain socket path is NULL and we must
-> > not call unlink(2).
-> >
-> > Fixes: Coverity CID 1488353
-> > Fixes: 747421e949fc1eb3ba66b5fcccdb7ba051918241 ("Implements Backend Program conventions for vhost-user-scsi")
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  contrib/vhost-user-scsi/vhost-user-scsi.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
-> > index b2c0f98253..08335d4b2b 100644
-> > --- a/contrib/vhost-user-scsi/vhost-user-scsi.c
-> > +++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
-> > @@ -433,7 +433,9 @@ out:
-> >      if (vdev_scsi) {
-> >          g_main_loop_unref(vdev_scsi->loop);
-> >          g_free(vdev_scsi);
-> > -        unlink(opt_socket_path);
-> > +        if (opt_socket_path) {
-> > +            unlink(opt_socket_path);
-> > +        }
-> >      }
-> 
-> Shouldn't this check-and-unlink be one level up, outside the
-> "if (vdev_scsi)" ? There are error exit paths which get us to
-> the 'out:' label where we have called unix_sock_new() but
-> not yet done the g_new0() of vdev_scsi(). The only thing
-> that needs to be guarded by "if (vdev_scsi)" is the
-> g_main_loop_unref() (the g_free of vdev_scsi itself could
-> be inside or outside, since g_free(NULL) is a nop).
-> 
-> thanks
-> -- PMM
+Laurent Vivier <lvivier@redhat.com> writes:
 
-Stefan, want to respond?
+> As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
+> of Netdev structure can collides with "type" field of SocketAddress),
 
--- 
-MST
+To remember how this works, I have to write a more verbose version of
+the above.  Why not post it then, so here goes.
+
+qemu_init() passes the argument of -netdev, -nic, and -net to
+net_client_parse().
+
+net_client_parse() parses with qemu_opts_parse_noisily(), passing
+QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
+qemu_net_opts for -net.  Their desc[] are all empty, which means any
+keys are accepted.  The result of the parse (a QemuOpts) is stored in
+the QemuOptsList.
+
+Note that QemuOpts is flat by design.  In some places, we layer non-flat
+on top using dotted keys convention, but not here.
+
+net_init_clients() iterates over the stored QemuOpts, and passes them to
+net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
+
+These functions pass the QemuOpts to net_client_init().  They also do
+other things with the QemuOpts, which we can ignore here.
+
+net_client_init() uses the opts visitor to convert the (flat) QemOpts to
+a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
+command netdev_add.
+
+The opts visitor was an early attempt to support QAPI in
+(QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
+commit eb7ee2cbeb "qapi: introduce OptsVisitor".
+
+A more modern way to support QAPI is qobject_input_visitor_new_str().
+It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
+it also supports JSON syntax.  The former isn't quite as expressive as
+JSON, but it's a lot closer than QemuOpts + opts visitor.
+
+> we introduce a way to bypass qemu_opts_parse_noisily() and use directly
+> visit_type_Netdev() to parse the backend parameters.
+
+This commit paves the way to use of the modern way instead.
+
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  net/net.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>
+> diff --git a/net/net.c b/net/net.c
+> index 58c05c200622..2aab7167316c 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -54,6 +54,7 @@
+>  #include "net/colo-compare.h"
+>  #include "net/filter.h"
+>  #include "qapi/string-output-visitor.h"
+> +#include "qapi/qobject-input-visitor.h"
+>  
+>  /* Net bridge is currently not supported for W32. */
+>  #if !defined(_WIN32)
+> @@ -63,6 +64,17 @@
+>  static VMChangeStateEntry *net_change_state_entry;
+>  static QTAILQ_HEAD(, NetClientState) net_clients;
+>  
+> +typedef struct NetdevQueueEntry {
+> +    bool is_netdev;
+> +    Netdev *nd;
+> +    Location loc;
+> +    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
+> +} NetdevQueueEntry;
+> +
+> +typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
+> +
+> +static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
+> +
+>  /***********************************************************/
+>  /* network device redirectors */
+>  
+> @@ -1559,6 +1571,19 @@ int net_init_clients(Error **errp)
+>  
+>      QTAILQ_INIT(&net_clients);
+>  
+> +    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
+> +        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
+> +
+> +        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
+> +        loc_push_restore(&nd->loc);
+> +        if (net_client_init1(nd->nd, nd->is_netdev, errp) < 0) {
+
+I think you need to loc_pop() here.
+
+> +            return -1;
+> +        }
+
+Since the only caller passes &error_fatal, I'd be tempted to ditch the
+@errp argument, and simply do
+
+           net_client_init1(nd->nd, nd->is_netdev, &error_fatal);
+
+It's what we do for -blockdev, -device, and -object.
+
+> +        loc_pop(&nd->loc);
+> +        qapi_free_Netdev(nd->nd);
+> +        g_free(nd);
+> +    }
+> +
+>      if (qemu_opts_foreach(qemu_find_opts("netdev"),
+>                            net_init_netdev, NULL, errp)) {
+>          return -1;
+> @@ -1575,8 +1600,37 @@ int net_init_clients(Error **errp)
+>      return 0;
+>  }
+>  
+> +/*
+> + * netdev_is_modern() returns true when the backend needs to bypass
+> + * qemu_opts_parse_noisily()
+> + */
+> +static bool netdev_is_modern(const char *optarg)
+> +{
+> +    return false;
+> +}
+> +
+>  int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+>  {
+> +    if (netdev_is_modern(optarg)) {
+> +            /*
+> +             * We need to bypass qemu_opts_parse_noisily() to accept
+> +             * new style object like addr.type=inet in SocketAddress
+> +             */
+
+I'm not sure this will makes sense to future readers.
+
+What about "Use modern, more expressive syntax"?
+
+> +            Visitor *v;
+> +            NetdevQueueEntry *nd;
+> +
+> +            v = qobject_input_visitor_new_str(optarg, "type",
+> +                                              &error_fatal);
+> +            nd = g_new(NetdevQueueEntry, 1);
+> +            visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
+> +            visit_free(v);
+> +            loc_save(&nd->loc);
+> +            nd->is_netdev = strcmp(opts_list->name, "netdev") == 0;
+> +
+> +            QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
+> +            return 0;
+> +    }
+
+Matches what we do for -blockdev, except we additionally have
+nd->is_netdev.  We need it for calling net_client_init1().
+
+If netdev_is_modern(optarg), then the only use of parameter @opts_list
+is opts_list->name in the initialization of nd->is_netdev.
+
+There's a bit of code smell, I'm afraid.
+
+I believe @is_netdev needs to be true for -netdev, -nic, and netdev_add;
+false for -net.
+
+Will we ever use the modern syntax with -net?
+
+Any chance we can deprecate -net?
+
+> +
+>      if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
+>          return -1;
+>      }
 
 
