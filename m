@@ -2,91 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E973E525EC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 11:47:26 +0200 (CEST)
-Received: from localhost ([::1]:54520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C63525EC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 11:52:24 +0200 (CEST)
+Received: from localhost ([::1]:37466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npRtN-0005H1-EG
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 05:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49740)
+	id 1npRyB-0004gN-V7
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 05:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npRrF-0004Cx-L5; Fri, 13 May 2022 05:45:14 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npRrD-0004WE-PI; Fri, 13 May 2022 05:45:13 -0400
-Received: by mail-ed1-x531.google.com with SMTP id s11so5505731edy.6;
- Fri, 13 May 2022 02:45:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CerjVS1mjjxZy+aX/WSCrPSD6MOOfpxfaVss3Vpnhsg=;
- b=eLAx4jL5upobp94JxJ/D8Q5ByWRtqoNme5/O5B3BoBEWUIyf2oDaWOlkuXxphPf2kw
- wSfLxyKxEz3+JnuXPTk7gapoSozYwP0nOlX+AJS0A/SVydEjW/lUlYfZ4vyLVfAZaDVE
- pXN09k/B02s6Z74NThKXM3fjOp7mWkhNJOOmRX1xRbmcnRkdQ3m/3I1iN0gQDP8jjRve
- V2OFC740jReIpfBuYLqRgN1gDN3h01rl03m+kgbg6raQyqXx3QhTA4confoSgwJhDkaC
- ny/Yl7+7hjS4hw4+XgcCdK5d+VeUAJpNMrlFGwBdW3+yOHGv2GlwiSIVCRKM4L2E3MD+
- 4PYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CerjVS1mjjxZy+aX/WSCrPSD6MOOfpxfaVss3Vpnhsg=;
- b=UU1um6rMO7/V6wZ5KPgrRairXuYsC0hX2xCj5qui8UB+kgfhCFWLXJcypHoATlx9gG
- J+2FAlWjW35XMby4vZe+R8qpfEPiKFzvHT9CGawsJanHT3Lidn5tJGPCPpTft1GWNjNb
- nowuSHVpNFD6G5ohuqm4618IBuKoVQgVYudBHwNJMoqlwfMr3RvMRTFfjdwykTWRrWIH
- F6nNABq/vXIBX6qYJcgAjitfrWDD+ADhwi1wHobSEXyglx+2xlx2DnKHLxwPAmrjmXvJ
- v4Y8sctq2IxLcv2pPLrx+LqtkmYi5vPBwES1IVvOUCtGfyJY/5r78/tnssoZQbUuamP3
- 8clg==
-X-Gm-Message-State: AOAM531k0Y95YERYHfgByXE1fMEq1dnFwRt46NuY085ukILQUapEFoIj
- gjXp+I2NKtFvfZgdRUSM7Gk=
-X-Google-Smtp-Source: ABdhPJx16l6NgLWKDRycdY7T1Muuy3lmrHpX4yLJCw5/zBXLKgcGbIN4lZD16bWS+AK1iO0jRFM9nw==
-X-Received: by 2002:a05:6402:368c:b0:428:715f:5cf7 with SMTP id
- ej12-20020a056402368c00b00428715f5cf7mr35564368edb.158.1652435108385; 
- Fri, 13 May 2022 02:45:08 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- ig25-20020a1709072e1900b006f3ef214d9fsm604872ejc.5.2022.05.13.02.45.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 02:45:07 -0700 (PDT)
-Message-ID: <49979c50-011c-c168-205e-10baa7c760d3@redhat.com>
-Date: Fri, 13 May 2022 11:45:06 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 0/9] tests: run python tests under the
- build/tests/venv environment
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220513000609.197906-1-jsnow@redhat.com>
- <Yn4YS1FpgtCZMMx6@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yn4YS1FpgtCZMMx6@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1npRsK-00051p-10; Fri, 13 May 2022 05:46:20 -0400
+Received: from mail-sender.a4lg.com ([153.120.152.154]:53432
+ helo=mail-sender-0.a4lg.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1npRsF-0004mO-Vl; Fri, 13 May 2022 05:46:19 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 80FFE300089;
+ Fri, 13 May 2022 09:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
+ s=2017s01; t=1652435168;
+ bh=B7LTSaaTu/21PNbpmGJXTyanogzoM29EKfKxS3/w1Zc=;
+ h=From:To:Cc:Subject:Date:Message-Id:Mime-Version:
+ Content-Transfer-Encoding;
+ b=W0RUHEdtJUqFxYHpe5zkIhwf+NqfDReBAGz5RtGUOwt1R03dSn8FPC3Z8YJzSABBv
+ xCAG/IjJxSM/rD42+RUavBETZQMHNfCqxFfoWRIT0StWcAN3PjwR9kHfJ5cjNXWMlI
+ kGs0CCPCkTAWkzzICUAqhBYbf5eLvm4gwubm55YU=
+From: Tsukasa OI <research_trasio@irq.a4lg.com>
+To: Tsukasa OI <research_trasio@irq.a4lg.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ Frank Chang <frank.chang@sifive.com>
+Cc: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH 0/5] target/riscv: Enhanced ISA extension checks
+Date: Fri, 13 May 2022 18:45:45 +0900
+Message-Id: <cover.1652435138.git.research_trasio@irq.a4lg.com>
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=153.120.152.154;
+ envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,53 +63,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 10:35, Daniel P. Berrangé wrote:
-> The tests is an area where we still have too much taking place in
-> Makefiles, as opposed to meson. Can we put a rule in
-> tests/meson.build to trigger the ven creation ? Gets us closer to
-> being able to run ninja without using make as a wrapper.
+Hello,
 
-I don't think this is or even should be a goal, because we have multiple 
-projects under the QEMU tree:
+This is another patchset for RISC-V ISA extension / feature handling.
 
-- the QEMU binaries proper (emulators, tools, etc.)
-
-- the firmware (pc-bios/{vof,s390-ccw,optionrom} with sources, the rest 
-as submodules)
-
-- tests/tcg
+Aside from coding style fix / refactoring patch (PATCH 1 and 5), this
+patchset contains two changes:
 
 
-Each of these has its own build system and it's not possible to unify 
-them under a single meson-based build:
 
-- tests/tcg supports cross compilation for a different target, and 
-pc-bios/ firmware will soon follow suit (which is why these directories 
-haven't been converted to Meson, even though patches exist)
+1. "G" extension handling
 
-- firmware outside pc-bios/ consists of many external projects each with 
-its own build system; right now it is not even buildable except by magic 
-invocations that no one really knows
+1.A. "G" extension expansion (PATCH 3)
 
-On top of this, there's support for building Docker images for 
-cross-compilation which obviously doesn't fit the Meson usecases either.
+On ISA version 20190608 or later, "G" expands to "IMAFD_Zicsr_Zifencei",
+not just "IMAFD" (this is because "Zicsr" and "Zifencei" extensions are
+splitted from "I").  Because both "Zicsr" and "Zifencei" are enabled by
+default, it should be safe to change "G" extension expansion.
 
-In other words, Meson is the build system for QEMU *executables* (and 
-that's why tests for the QEMU executables are being moved from configure 
-to meson), but not for QEMU as a whole.
+1.B. Disable "G" by default (PATCH 2)
+
+This seems quite odd but I have a good reason.  While "G" is enabled by
+default, all "I", "M", "A", "F", "D", "Zicsr" and "Zifencei" are also
+enabled by default, making default "G" expansion useless.
+
+There's more.  If we want to change detailed configuration of a RV32/RV64
+CPU and want to disable some, for example, "F" and "D", we must also
+disable "G".  This is obviously bloat.
+
+This doesn't work:
+    -cpu rv64,f=off,d=off
+
+This does work (but bloat):
+    -cpu rv64,g=off,f=off,d=off
+
+Disabling "G" suppresses such problem and mostly harmless, too.
 
 
-So I don't expect configure and Make to disappear.  Meson is great at 
-building a C program as big as QEMU; but QEMU is not just a C program, 
-and isolating the C parts into Meson lets Make handle the rest of the 
-complexity better than before, for example with cross compiled firmware 
-support.
 
-Likewise, we're now using "meson test" for "make check" and a custom 
-runner for "make check-block"; but perhaps one day Avocado could replace 
-both runners via custom Avocado resolvers (basically JSON emitters 
-similar to Meson introspection data).  That of course depends on whether 
-Avocado has feature parity with "meson test".
+2. Floating point arithmetic consistency (PATCH 4)
 
-Paolo
+With -cpu option, we can configure details of RISC-V CPU emulated by QEMU.
+However, we can set some invalid combinations that would make FP arithmetic
+effectively unusable (and invalid on RISC-V ISA specification).
+
+-   F requires Zicsr
+-   Zfinx requires Zicsr
+-   Zfh/Zfhmin require F
+-   D requires F
+-   V requires D
+
+Reproducing this kind of problem requires manually disabling certain
+extensions (because all "Zicsr", "F" and "D" are enabled by default).  So,
+I consider that just making an error message (when unsatisfied) should be
+enough, not implying related extensions like "zk*" properties.
+
+
+Note that this checking only works on any, rv32 and rv64.  On other CPUs
+(for example, sifive-u54), it sets nonzero `misa' value on corresponding
+`set_misa' call (c.f. in rv64_sifive_u_cpu_init in target/riscv/cpu.c) and
+consistency checks are skipped (because nonzero `misa' value is set prior
+to RISC-V CPU realization process).
+
+I think we generally use generic "rv32" or "rv64" on heavy customizing so I
+don't think this is not a big problem.  Still, we could fix this later
+(e.g. by setting properties on CPU init function or by checking some
+consistency problems even if previously-set `misa' is nonzero).
+
+
+
+
+Tsukasa OI (5):
+  target/riscv: Fix "G" extension expansion typing
+  target/riscv: Disable "G" by default
+  target/riscv: Change "G" expansion
+  target/riscv: FP extension requirements
+  target/riscv: Move/refactor ISA extension checks
+
+ target/riscv/cpu.c | 62 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 45 insertions(+), 17 deletions(-)
+
+
+base-commit: 178bacb66d98d9ee7a702b9f2a4dfcd88b72a9ab
+-- 
+2.34.1
+
 
