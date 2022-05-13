@@ -2,55 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02722525ED5
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:01:41 +0200 (CEST)
-Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24DC525ECB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 11:54:58 +0200 (CEST)
+Received: from localhost ([::1]:43926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npS79-0008LJ-PM
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
+	id 1npS0f-0000h1-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 05:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1npRtc-0007vf-HV; Fri, 13 May 2022 05:47:40 -0400
-Received: from mail-sender.a4lg.com ([153.120.152.154]:53433
- helo=mail-sender-0.a4lg.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1npRta-00055K-I4; Fri, 13 May 2022 05:47:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 5499C300089;
- Fri, 13 May 2022 09:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1652435256;
- bh=lmO57I3TctRE+SEcYH+HjYkuRszpChWOaCw3cMLhwgo=;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
- Mime-Version:Content-Transfer-Encoding;
- b=QIkn55S9gKNGMqwDbNcF0MiwMYISnfs9ee3p5+G2lDM0AzdhjtVLHwmBb2IFsSwUG
- QZCN4IZm+Xb7sqGOjRDUD/RPzVCDap4rOpAO6rGX/9XDMRipv1JS15WfMEzsJtylZF
- 9m7vhnxGac6ohyB+rGfjYbwZiskKOSIlILar+KPo=
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-To: Tsukasa OI <research_trasio@irq.a4lg.com>,
- Alistair Francis <alistair23@gmail.com>,
- Frank Chang <frank.chang@sifive.com>
-Cc: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH 2/2] target/riscv: Make CPU config error handling generous
- (sifive_e/u/opentitan)
-Date: Fri, 13 May 2022 18:47:19 +0900
-Message-Id: <018865463ee19cac747efddeb793e01dd6b3b490.1652435235.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <cover.1652435235.git.research_trasio@irq.a4lg.com>
-References: <cover.1652435235.git.research_trasio@irq.a4lg.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=153.120.152.154;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npRwk-0002rN-Pq
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 05:50:54 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:46141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npRwi-0005f5-WE
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 05:50:54 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2fb9a85a124so81344617b3.13
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 02:50:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3YTnbfqNSSq55crGmMx6dDnfZ08hCd9gHpW0zzIk8f4=;
+ b=UDlmOo962YiNl8oCm9EYJO336ui3wHptu4Twb2/Zol2lL06wrOHlJTW/XeSxGnidC5
+ 80zqRlrQff8hTsgxHLFkQW0Il84HwDtKCW5Mo9mka4zJPCFykmZHH3Vzyz50BK6Pkm4m
+ dAcbyYSZNXYvmxUDOD35xRoLsIpZeXlVWjnIYrB+2Q0vzX8fshCmyflMV8qqT5UJ1yAG
+ Qt8vzI9ZcYkH0YEwGb2+XcFAC2mc7PxpHf80rJwskbnQ0tORdZnr9hBtwJApDxEY/eeF
+ RY5AdGldigesFwNkxj7yvG1UZv2JPG+5C/Wnq0pXW6WdAPcL/EeDpyu+wRVSQkXphsqG
+ ktkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3YTnbfqNSSq55crGmMx6dDnfZ08hCd9gHpW0zzIk8f4=;
+ b=znndkVCfUomrdkluYZGFC5c9J1QgkTOYEgVrWkqxQYHDJYMjPIwebOAWxV4FWZCM6m
+ AEXPV791mntsw6D5QKG47cXXheTy23iymfwXYrrjc1hY7rcmyQd+BhglfWdxoUIskg3E
+ JFCJZVoG/6NmA7qgnPXPRbVi0/9P407ukLCT8Jo72OhWChFOqqW1mOA+c7xQWtFF/AyY
+ UD7NICJDXtNWdA/R09f64Rlp87PAsx+KCAXo6Sbnluq2TlrXvQQkD90ekpZdUYzk7YbH
+ qIPoorLDmv/MjRfDgvYbQsOoPRe+Ey2pc8UV11aJrczBX+KDpVaNUhTXctL8RiE1swi2
+ FFjA==
+X-Gm-Message-State: AOAM53172cFRp9eUGhKmEGj/yR8eAT4ecTXtMxASKoO2a7YzNX+/4FyC
+ HDTGEo8hZPXCv5949hqVSluR5yT/VwabTfvQGN6Q0w==
+X-Google-Smtp-Source: ABdhPJygCAVZgwC5b5QF6yKHna7K+R38/OfSkW88979qThXSJCnnZa9YR0Z9M7Kgw8jgF+KiFsoAuONUh/1ywzg+UYg=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr4853224ywb.257.1652435451187; Fri, 13 May
+ 2022 02:50:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220509202035.50335-1-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220509202035.50335-1-philippe.mathieu.daude@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 May 2022 10:50:40 +0100
+Message-ID: <CAFEAcA9oEUHL0Z0+bSmP-Hx7e6TUdz=ahB5rgNgYt0GUytTTnQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/adc/zynq-xadc: Use qemu_irq typedef
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
+ Bernhard Beschow <shentey@gmail.com>, qemu-arm@nongnu.org, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-trivial@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,67 +88,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If specified CPU configuration is not valid, not just it prints error
-message, it aborts and generates core dumps (depends on the operating
-system).  This kind of error handling should be used only when a serious
-runtime error occurs.
+On Mon, 9 May 2022 at 21:20, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> Except hw/core/irq.c which implements the forward-declared opaque
+> qemu_irq structure, hw/adc/zynq-xadc.{c,h} are the only files not
+> using the typedef. Fix this single exception.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/adc/zynq-xadc.c         | 4 ++--
+>  include/hw/adc/zynq-xadc.h | 3 +--
+>  2 files changed, 3 insertions(+), 4 deletions(-)
 
-This commit makes error handling on CPU configuration more generous on
-sifive_e/u and opentitan machines.  It now just prints error message and
-quits (without coredumps and aborts).
 
-This is separate from spike/virt because it involves different type
-(TYPE_RISCV_HART_ARRAY) on sifive_e/u and opentitan machines.
 
-Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
----
- hw/riscv/opentitan.c | 2 +-
- hw/riscv/sifive_e.c  | 2 +-
- hw/riscv/sifive_u.c  | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Applied to target-arm.next, thanks.
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 2d401dcb23..4495a2c039 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -142,7 +142,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
--    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
- 
-     /* Boot ROM */
-     memory_region_init_rom(&s->rom, OBJECT(dev_soc), "riscv.lowrisc.ibex.rom",
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index dcb87b6cfd..d65d2fd869 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -195,7 +195,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
- 
-     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
-                             &error_abort);
--    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
- 
-     /* Mask ROM */
-     memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mrom",
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index cc8c7637cb..a2495b5ae7 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -830,8 +830,8 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
-     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
- 
--    sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_abort);
--    sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_abort);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_fatal);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_fatal);
-     /*
-      * The cluster must be realized after the RISC-V hart array container,
-      * as the container's CPU object is only created on realize, and the
--- 
-2.34.1
-
+-- PMM
 
