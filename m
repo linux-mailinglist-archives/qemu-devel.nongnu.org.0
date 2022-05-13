@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A1A5266DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:17:45 +0200 (CEST)
-Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58B85266E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:20:51 +0200 (CEST)
+Received: from localhost ([::1]:38550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npXz6-0004Qn-JH
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:17:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50158)
+	id 1npY27-0001uQ-0y
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npXfx-0001KZ-BG
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:57:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49920)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npXfy-0001NG-Q6
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:57:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npXfv-0002I6-A8
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:57:57 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npXfw-0002IE-Bi
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:57:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652457474;
+ s=mimecast20190719; t=1652457475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2dSrVcjvWGbPjvKOoFvwRPiMAoMY8ZsrRmMQ4iX5vOA=;
- b=az6b3x3oRxFi/sAgKdtw+8pQrmzbW2UepsVQXRX1L5Ko/ouWkvIPjKeOF6FokuvxRSuBrn
- GsM01LbYkudoiFDRkjWbI+zLX1c2eZg67x43uPE5eoWe6uISqolDtsWmEcOBbZjqls8xEA
- 49Py1EA2/74exXsIfVz0nB7Aeu0zef8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Dm3IvBwJxua9KEizHdCf2c1cG8CX9z66n84uAYu2smA=;
+ b=KkUYp0p5Uitv3dgvotVlc6Ke+JtDVdKly9tGGF9DdGwTIUwUSbQ1QeMOI5DHmOZonWtl4C
+ Jc8sEsQbESRmp2qFPqRd95kAW1sF5rdBnE/zXk8FzkDO46KWN6OiT5sdGG7BFUXkAfnKsT
+ Yt1pANurjE74o25LlkFyAnaEoU8xkIw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-114-PbQIvnFDPB6l5sdlCBW2iw-1; Fri, 13 May 2022 11:57:53 -0400
-X-MC-Unique: PbQIvnFDPB6l5sdlCBW2iw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v191-20020a1cacc8000000b0038ce818d2efso3081028wme.1
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:57:53 -0700 (PDT)
+ us-mta-172-mATz9dMrM96gMSg3wpAn3A-1; Fri, 13 May 2022 11:57:54 -0400
+X-MC-Unique: mATz9dMrM96gMSg3wpAn3A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k5-20020a05600c0b4500b003941ca130f9so3083518wmr.0
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:57:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2dSrVcjvWGbPjvKOoFvwRPiMAoMY8ZsrRmMQ4iX5vOA=;
- b=796gtLoTBBevwg3JvgfdLAKunD01RNj0vj0on94EXJhXbRS4slvcf0gO1oIll3/J1G
- 2QDSwlmQ0pHMFOQLaLiITo0OJYt/NDVem+gqimC38VsgRrJpX9CBMvFN25rsw9Mf0lwl
- LTMpnsztjBHpKO3Z/icF17RAHv5Qx7yd3l14F01ct4/vAq3OguZA0pDGsUdAbDMag6Ak
- Rpc39OVRp0jo3bXyqjYsV/f50TvZHZ88l05mc2ze3iGJgT+Hl05F1mdf8vPhmTNRLC2v
- xRdpcleb/xTeutvrUPfcUVI3IBvfkrAEHu8VRm02ghv+lsThIuea24eheYeIQArHbSs1
- ta0Q==
-X-Gm-Message-State: AOAM5310brjIl3/xrqcnOrFgF1njROCzFVnv81Cb9nUTua8RhRYf4UZN
- jivVJuXrbmueQDkUWR71NZxmKh8dgM+s6ho0bKpDg3Nq0WMkVVuw8NUk2fXy4U67jrL/EvctX1F
- gDkxgs+HzpnpQpDdzcjGeix7jbmv6O+UxOEwa0XSRsg4jldgbW4AkrLVfdzg8+NSF
-X-Received: by 2002:a05:6000:12d1:b0:20a:d901:3828 with SMTP id
- l17-20020a05600012d100b0020ad9013828mr4460024wrx.313.1652457471957; 
- Fri, 13 May 2022 08:57:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFdmCYCVhzfdxeFFKn09uIbB+82DoFaLlw4LIyFyY7bsHOkPI2zVSk7yoyT443H2DjZ0ZnIQ==
-X-Received: by 2002:a05:6000:12d1:b0:20a:d901:3828 with SMTP id
- l17-20020a05600012d100b0020ad9013828mr4459990wrx.313.1652457471503; 
- Fri, 13 May 2022 08:57:51 -0700 (PDT)
+ bh=Dm3IvBwJxua9KEizHdCf2c1cG8CX9z66n84uAYu2smA=;
+ b=O9YX5uQpYkYIbspaHOIYq6PCo6FCoN8IKQq3egEXKLq/WTtn6wzHxyqAvtx8tKY80I
+ HKWDdwt8Yfm22yjSm/ns0lsjHU8oJqVB5EZOq50FZ8uziOyygkb33SDoQbza5AXhMqFS
+ 4N5xhZUlWCQ9uF/lnSmyAi+f7AAwxB3pMbVmwgumFoZnRw4SYayh+gJ9fSzoRwJ7IlwR
+ m+crHcB2fUMGQnMeW0Uhck2368ffeM0e8HzByaZTwRjIiPLjapaZdF3azNMUZOKjoYN5
+ rehMhOHgf4USguEFniXTQWj/paD/Me8gyhmpJM5LTHnZOMspt8O3NS7rypq4rcVs1oUe
+ itlw==
+X-Gm-Message-State: AOAM5332kkVDF9OG2AeTkNiTFnxXAZgPZGg2jB80vF+Oma9WVte8zEhk
+ 2zmnP79VBapyPhvwANhF8WuEnIaQM1hv1Y9RBV12iUeVuA+DgnJTBZilIZfgJhSjVPujUPe/ARo
+ cwxo+jZ6YpeVqH2DNp9sFIfX45wQGxRFcIk91WCDhQK7LQdJJIsV0KR3uA4faeOYX
+X-Received: by 2002:a05:600c:1d8f:b0:394:8be3:a81e with SMTP id
+ p15-20020a05600c1d8f00b003948be3a81emr15741176wms.97.1652457473202; 
+ Fri, 13 May 2022 08:57:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwBOBZjth5vprurrBe7ZFCW0X+lJ1AaXP0rsYa/07L+bR/dlPRLyCkJzsfo99jr9QGzlzJvOw==
+X-Received: by 2002:a05:600c:1d8f:b0:394:8be3:a81e with SMTP id
+ p15-20020a05600c1d8f00b003948be3a81emr15741145wms.97.1652457472791; 
+ Fri, 13 May 2022 08:57:52 -0700 (PDT)
 Received: from DESKTOP-E7ACR7D.lan ([2001:8a0:f4d9:2101:a4fa:5f93:755f:6249])
  by smtp.gmail.com with ESMTPSA id
- l5-20020adfc785000000b0020cdcb0efa2sm2558758wrg.34.2022.05.13.08.57.50
+ l5-20020adfc785000000b0020cdcb0efa2sm2558758wrg.34.2022.05.13.08.57.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 08:57:51 -0700 (PDT)
+ Fri, 13 May 2022 08:57:52 -0700 (PDT)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Alberto Faria <afaria@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Fam Zheng <fam@euphon.net>, Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH v2 03/10] block: Make bdrv_{pread,
- pwrite}() return 0 on success
-Date: Fri, 13 May 2022 16:57:42 +0100
-Message-Id: <20220513155749.2488070-1-afaria@redhat.com>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH v2 04/10] crypto: Make block callbacks return 0 on success
+Date: Fri, 13 May 2022 16:57:43 +0100
+Message-Id: <20220513155749.2488070-2-afaria@redhat.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220513155418.2486450-1-afaria@redhat.com>
 References: <20220513155418.2486450-1-afaria@redhat.com>
@@ -84,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,276 +98,371 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They currently return the value of their 'bytes' parameter on success.
-
-Make them return 0 instead, for consistency with other I/O functions and
-in preparation to implement them using generated_co_wrapper. This also
-makes it clear that short reads/writes are not possible.
-
-The few callers that rely on the previous behavior are adjusted
-accordingly by hand.
+They currently return the value of their headerlen/buflen parameter on
+success. Returning 0 instead makes it clear that short reads/writes are
+not possible.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/cloop.c                    |  2 +-
- block/crypto.c                   |  4 ++--
- block/dmg.c                      | 10 +++++-----
- block/io.c                       | 10 ++--------
- block/qcow.c                     |  2 +-
- block/qcow2.c                    |  4 ++--
- block/qed.c                      |  7 +------
- block/vdi.c                      |  2 +-
- block/vmdk.c                     |  5 ++---
- tests/unit/test-block-iothread.c |  4 ++--
- 10 files changed, 19 insertions(+), 31 deletions(-)
+ block/crypto.c                 | 52 +++++++++++++++++-----------------
+ block/qcow2.c                  | 22 +++++++-------
+ crypto/block-luks.c            |  8 +++---
+ crypto/block.c                 |  6 ++--
+ include/crypto/block.h         | 32 ++++++++++-----------
+ tests/unit/test-crypto-block.c | 38 ++++++++++++-------------
+ 6 files changed, 79 insertions(+), 79 deletions(-)
 
-diff --git a/block/cloop.c b/block/cloop.c
-index 9a2334495e..40b146e714 100644
---- a/block/cloop.c
-+++ b/block/cloop.c
-@@ -222,7 +222,7 @@ static inline int cloop_read_block(BlockDriverState *bs, int block_num)
- 
-         ret = bdrv_pread(bs->file, s->offsets[block_num], bytes,
-                          s->compressed_block, 0);
--        if (ret != bytes) {
-+        if (ret < 0) {
-             return -1;
-         }
- 
 diff --git a/block/crypto.c b/block/crypto.c
-index deec7fae2f..e7f5c4e31a 100644
+index e7f5c4e31a..11c3ddbc73 100644
 --- a/block/crypto.c
 +++ b/block/crypto.c
-@@ -70,7 +70,7 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
+@@ -55,12 +55,12 @@ static int block_crypto_probe_generic(QCryptoBlockFormat format,
+ }
+ 
+ 
+-static ssize_t block_crypto_read_func(QCryptoBlock *block,
+-                                      size_t offset,
+-                                      uint8_t *buf,
+-                                      size_t buflen,
+-                                      void *opaque,
+-                                      Error **errp)
++static int block_crypto_read_func(QCryptoBlock *block,
++                                  size_t offset,
++                                  uint8_t *buf,
++                                  size_t buflen,
++                                  void *opaque,
++                                  Error **errp)
+ {
+     BlockDriverState *bs = opaque;
+     ssize_t ret;
+@@ -70,15 +70,15 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
          error_setg_errno(errp, -ret, "Could not read encryption header");
          return ret;
      }
--    return ret;
-+    return buflen;
+-    return buflen;
++    return 0;
  }
  
- static ssize_t block_crypto_write_func(QCryptoBlock *block,
+-static ssize_t block_crypto_write_func(QCryptoBlock *block,
+-                                       size_t offset,
+-                                       const uint8_t *buf,
+-                                       size_t buflen,
+-                                       void *opaque,
+-                                       Error **errp)
++static int block_crypto_write_func(QCryptoBlock *block,
++                                   size_t offset,
++                                   const uint8_t *buf,
++                                   size_t buflen,
++                                   void *opaque,
++                                   Error **errp)
+ {
+     BlockDriverState *bs = opaque;
+     ssize_t ret;
 @@ -88,7 +88,7 @@ static ssize_t block_crypto_write_func(QCryptoBlock *block,
          error_setg_errno(errp, -ret, "Could not write encryption header");
          return ret;
      }
+-    return buflen;
++    return 0;
+ }
+ 
+ 
+@@ -99,12 +99,12 @@ struct BlockCryptoCreateData {
+ };
+ 
+ 
+-static ssize_t block_crypto_create_write_func(QCryptoBlock *block,
+-                                              size_t offset,
+-                                              const uint8_t *buf,
+-                                              size_t buflen,
+-                                              void *opaque,
+-                                              Error **errp)
++static int block_crypto_create_write_func(QCryptoBlock *block,
++                                          size_t offset,
++                                          const uint8_t *buf,
++                                          size_t buflen,
++                                          void *opaque,
++                                          Error **errp)
+ {
+     struct BlockCryptoCreateData *data = opaque;
+     ssize_t ret;
+@@ -114,13 +114,13 @@ static ssize_t block_crypto_create_write_func(QCryptoBlock *block,
+         error_setg_errno(errp, -ret, "Could not write encryption header");
+         return ret;
+     }
 -    return ret;
-+    return buflen;
++    return 0;
  }
  
- 
-diff --git a/block/dmg.c b/block/dmg.c
-index 5a460c3eb1..98db18d82a 100644
---- a/block/dmg.c
-+++ b/block/dmg.c
-@@ -390,7 +390,7 @@ static int dmg_read_plist_xml(BlockDriverState *bs, DmgHeaderState *ds,
-     buffer = g_malloc(info_length + 1);
-     buffer[info_length] = '\0';
-     ret = bdrv_pread(bs->file, info_begin, info_length, buffer, 0);
--    if (ret != info_length) {
-+    if (ret < 0) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -611,7 +611,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-              * inflated. */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->compressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
- 
-@@ -637,7 +637,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-              * inflated. */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->compressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
- 
-@@ -658,7 +658,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-              * inflated. */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->compressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
- 
-@@ -674,7 +674,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-         case UDRW: /* copy */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->uncompressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
-             break;
-diff --git a/block/io.c b/block/io.c
-index 2ed963d9e0..78a289192e 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1115,7 +1115,6 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
- int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
-                BdrvRequestFlags flags)
+-static ssize_t block_crypto_create_init_func(QCryptoBlock *block,
+-                                             size_t headerlen,
+-                                             void *opaque,
+-                                             Error **errp)
++static int block_crypto_create_init_func(QCryptoBlock *block,
++                                         size_t headerlen,
++                                         void *opaque,
++                                         Error **errp)
  {
--    int ret;
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
-     IO_CODE();
+     struct BlockCryptoCreateData *data = opaque;
+     Error *local_error = NULL;
+@@ -139,7 +139,7 @@ static ssize_t block_crypto_create_init_func(QCryptoBlock *block,
+                        data->prealloc, 0, &local_error);
  
-@@ -1123,9 +1122,7 @@ int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
-         return -EINVAL;
+     if (ret >= 0) {
+-        return ret;
++        return 0;
      }
  
--    ret = bdrv_preadv(child, offset, bytes, &qiov, flags);
--
--    return ret < 0 ? ret : bytes;
-+    return bdrv_preadv(child, offset, bytes, &qiov, flags);
- }
- 
- /* Return no. of bytes on success or < 0 on error. Important errors are:
-@@ -1137,7 +1134,6 @@ int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
- int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
-                 const void *buf, BdrvRequestFlags flags)
- {
--    int ret;
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
-     IO_CODE();
- 
-@@ -1145,9 +1141,7 @@ int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
-         return -EINVAL;
-     }
- 
--    ret = bdrv_pwritev(child, offset, bytes, &qiov, flags);
--
--    return ret < 0 ? ret : bytes;
-+    return bdrv_pwritev(child, offset, bytes, &qiov, flags);
- }
- 
- /*
-diff --git a/block/qcow.c b/block/qcow.c
-index c94524b814..c646d6b16d 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -597,7 +597,7 @@ static int decompress_cluster(BlockDriverState *bs, uint64_t cluster_offset)
-         csize &= (s->cluster_size - 1);
-         BLKDBG_EVENT(bs->file, BLKDBG_READ_COMPRESSED);
-         ret = bdrv_pread(bs->file, coffset, csize, s->cluster_data, 0);
--        if (ret != csize)
-+        if (ret < 0)
-             return -1;
-         if (decompress_buffer(s->cluster_cache, s->cluster_size,
-                               s->cluster_data, csize) < 0) {
+ error:
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 5493e6b847..d5a1e8bc43 100644
+index d5a1e8bc43..c43238a006 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -113,7 +113,7 @@ static ssize_t qcow2_crypto_hdr_read_func(QCryptoBlock *block, size_t offset,
+@@ -94,9 +94,9 @@ static int qcow2_probe(const uint8_t *buf, int buf_size, const char *filename)
+ }
+ 
+ 
+-static ssize_t qcow2_crypto_hdr_read_func(QCryptoBlock *block, size_t offset,
+-                                          uint8_t *buf, size_t buflen,
+-                                          void *opaque, Error **errp)
++static int qcow2_crypto_hdr_read_func(QCryptoBlock *block, size_t offset,
++                                      uint8_t *buf, size_t buflen,
++                                      void *opaque, Error **errp)
+ {
+     BlockDriverState *bs = opaque;
+     BDRVQcow2State *s = bs->opaque;
+@@ -113,12 +113,12 @@ static ssize_t qcow2_crypto_hdr_read_func(QCryptoBlock *block, size_t offset,
          error_setg_errno(errp, -ret, "Could not read encryption header");
          return -1;
      }
--    return ret;
-+    return buflen;
+-    return buflen;
++    return 0;
  }
  
  
+-static ssize_t qcow2_crypto_hdr_init_func(QCryptoBlock *block, size_t headerlen,
+-                                          void *opaque, Error **errp)
++static int qcow2_crypto_hdr_init_func(QCryptoBlock *block, size_t headerlen,
++                                      void *opaque, Error **errp)
+ {
+     BlockDriverState *bs = opaque;
+     BDRVQcow2State *s = bs->opaque;
+@@ -151,13 +151,13 @@ static ssize_t qcow2_crypto_hdr_init_func(QCryptoBlock *block, size_t headerlen,
+         return -1;
+     }
+ 
+-    return ret;
++    return 0;
+ }
+ 
+ 
+-static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
+-                                           const uint8_t *buf, size_t buflen,
+-                                           void *opaque, Error **errp)
++static int qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
++                                       const uint8_t *buf, size_t buflen,
++                                       void *opaque, Error **errp)
+ {
+     BlockDriverState *bs = opaque;
+     BDRVQcow2State *s = bs->opaque;
 @@ -174,7 +174,7 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
          error_setg_errno(errp, -ret, "Could not read encryption header");
          return -1;
      }
--    return ret;
-+    return buflen;
+-    return buflen;
++    return 0;
  }
  
  static QDict*
-diff --git a/block/qed.c b/block/qed.c
-index ba93e99570..55da91eb72 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -87,14 +87,9 @@ static void qed_header_cpu_to_le(const QEDHeader *cpu, QEDHeader *le)
- int qed_write_header_sync(BDRVQEDState *s)
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index fe8f04ffb2..f62be6836b 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -495,7 +495,7 @@ qcrypto_block_luks_load_header(QCryptoBlock *block,
+                                 void *opaque,
+                                 Error **errp)
  {
-     QEDHeader le;
--    int ret;
+-    ssize_t rv;
++    int rv;
+     size_t i;
+     QCryptoBlockLUKS *luks = block->opaque;
  
-     qed_header_cpu_to_le(&s->header, &le);
--    ret = bdrv_pwrite(s->bs->file, 0, sizeof(le), &le, 0);
--    if (ret != sizeof(le)) {
--        return ret;
--    }
--    return 0;
-+    return bdrv_pwrite(s->bs->file, 0, sizeof(le), &le, 0);
+@@ -856,7 +856,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
+                   QCRYPTO_BLOCK_LUKS_SECTOR_SIZE,
+                   splitkey, splitkeylen,
+                   opaque,
+-                  errp) != splitkeylen) {
++                  errp) < 0) {
+         goto cleanup;
+     }
+ 
+@@ -903,7 +903,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+     g_autofree uint8_t *splitkey = NULL;
+     size_t splitkeylen;
+     g_autofree uint8_t *possiblekey = NULL;
+-    ssize_t rv;
++    int rv;
+     g_autoptr(QCryptoCipher) cipher = NULL;
+     uint8_t keydigest[QCRYPTO_BLOCK_LUKS_DIGEST_LEN];
+     g_autoptr(QCryptoIVGen) ivgen = NULL;
+@@ -1193,7 +1193,7 @@ qcrypto_block_luks_erase_key(QCryptoBlock *block,
+                       garbagesplitkey,
+                       splitkeylen,
+                       opaque,
+-                      &local_err) != splitkeylen) {
++                      &local_err) < 0) {
+             error_propagate(errp, local_err);
+             return -1;
+         }
+diff --git a/crypto/block.c b/crypto/block.c
+index eb057948b5..7bb4b74a37 100644
+--- a/crypto/block.c
++++ b/crypto/block.c
+@@ -115,7 +115,7 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateOptions *options,
  }
+ 
+ 
+-static ssize_t qcrypto_block_headerlen_hdr_init_func(QCryptoBlock *block,
++static int qcrypto_block_headerlen_hdr_init_func(QCryptoBlock *block,
+         size_t headerlen, void *opaque, Error **errp)
+ {
+     size_t *headerlenp = opaque;
+@@ -126,12 +126,12 @@ static ssize_t qcrypto_block_headerlen_hdr_init_func(QCryptoBlock *block,
+ }
+ 
+ 
+-static ssize_t qcrypto_block_headerlen_hdr_write_func(QCryptoBlock *block,
++static int qcrypto_block_headerlen_hdr_write_func(QCryptoBlock *block,
+         size_t offset, const uint8_t *buf, size_t buflen,
+         void *opaque, Error **errp)
+ {
+     /* Discard the bytes, we're not actually writing to an image */
+-    return buflen;
++    return 0;
+ }
+ 
+ 
+diff --git a/include/crypto/block.h b/include/crypto/block.h
+index 7a65e8e402..4f63a37872 100644
+--- a/include/crypto/block.h
++++ b/include/crypto/block.h
+@@ -29,24 +29,24 @@ typedef struct QCryptoBlock QCryptoBlock;
+ /* See also QCryptoBlockFormat, QCryptoBlockCreateOptions
+  * and QCryptoBlockOpenOptions in qapi/crypto.json */
+ 
+-typedef ssize_t (*QCryptoBlockReadFunc)(QCryptoBlock *block,
+-                                        size_t offset,
+-                                        uint8_t *buf,
+-                                        size_t buflen,
+-                                        void *opaque,
+-                                        Error **errp);
++typedef int (*QCryptoBlockReadFunc)(QCryptoBlock *block,
++                                    size_t offset,
++                                    uint8_t *buf,
++                                    size_t buflen,
++                                    void *opaque,
++                                    Error **errp);
+ 
+-typedef ssize_t (*QCryptoBlockInitFunc)(QCryptoBlock *block,
+-                                        size_t headerlen,
+-                                        void *opaque,
+-                                        Error **errp);
++typedef int (*QCryptoBlockInitFunc)(QCryptoBlock *block,
++                                    size_t headerlen,
++                                    void *opaque,
++                                    Error **errp);
+ 
+-typedef ssize_t (*QCryptoBlockWriteFunc)(QCryptoBlock *block,
+-                                         size_t offset,
+-                                         const uint8_t *buf,
+-                                         size_t buflen,
+-                                         void *opaque,
+-                                         Error **errp);
++typedef int (*QCryptoBlockWriteFunc)(QCryptoBlock *block,
++                                     size_t offset,
++                                     const uint8_t *buf,
++                                     size_t buflen,
++                                     void *opaque,
++                                     Error **errp);
  
  /**
-diff --git a/block/vdi.c b/block/vdi.c
-index 9ef55a117a..a0be2a23b9 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -730,7 +730,7 @@ nonallocating_write:
-                           n_sectors * SECTOR_SIZE, base, 0);
-     }
+  * qcrypto_block_has_format:
+diff --git a/tests/unit/test-crypto-block.c b/tests/unit/test-crypto-block.c
+index 3b1f0d509f..3417b67be5 100644
+--- a/tests/unit/test-crypto-block.c
++++ b/tests/unit/test-crypto-block.c
+@@ -188,12 +188,12 @@ static struct QCryptoBlockTestData {
+ };
  
--    return ret < 0 ? ret : 0;
-+    return ret;
+ 
+-static ssize_t test_block_read_func(QCryptoBlock *block,
+-                                    size_t offset,
+-                                    uint8_t *buf,
+-                                    size_t buflen,
+-                                    void *opaque,
+-                                    Error **errp)
++static int test_block_read_func(QCryptoBlock *block,
++                                size_t offset,
++                                uint8_t *buf,
++                                size_t buflen,
++                                void *opaque,
++                                Error **errp)
+ {
+     Buffer *header = opaque;
+ 
+@@ -201,14 +201,14 @@ static ssize_t test_block_read_func(QCryptoBlock *block,
+ 
+     memcpy(buf, header->buffer + offset, buflen);
+ 
+-    return buflen;
++    return 0;
  }
  
- static int coroutine_fn vdi_co_do_create(BlockdevCreateOptions *create_options,
-diff --git a/block/vmdk.c b/block/vmdk.c
-index aacea1095f..332565c80f 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -473,7 +473,6 @@ static int vmdk_parent_open(BlockDriverState *bs)
-     if (ret < 0) {
-         goto out;
-     }
--    ret = 0;
  
-     p_name = strstr(desc, "parentFileNameHint");
-     if (p_name != NULL) {
-@@ -905,7 +904,7 @@ static char *vmdk_read_desc(BdrvChild *file, uint64_t desc_offset, Error **errp)
-         g_free(buf);
-         return NULL;
-     }
--    buf[ret] = 0;
-+    buf[size] = 0;
+-static ssize_t test_block_init_func(QCryptoBlock *block,
+-                                    size_t headerlen,
+-                                    void *opaque,
+-                                    Error **errp)
++static int test_block_init_func(QCryptoBlock *block,
++                                size_t headerlen,
++                                void *opaque,
++                                Error **errp)
+ {
+     Buffer *header = opaque;
  
-     return buf;
+@@ -216,16 +216,16 @@ static ssize_t test_block_init_func(QCryptoBlock *block,
+ 
+     buffer_reserve(header, headerlen);
+ 
+-    return headerlen;
++    return 0;
  }
-@@ -1630,7 +1629,7 @@ static int get_cluster_offset(BlockDriverState *bs,
-                 l2_size_bytes,
-                 l2_table,
-                 0
--            ) != l2_size_bytes) {
-+            ) < 0) {
-         return VMDK_ERROR;
-     }
  
-diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
-index 49fb1ef1ea..a5c163af7e 100644
---- a/tests/unit/test-block-iothread.c
-+++ b/tests/unit/test-block-iothread.c
-@@ -89,7 +89,7 @@ static void test_sync_op_pread(BdrvChild *c)
  
-     /* Success */
-     ret = bdrv_pread(c, 0, sizeof(buf), buf, 0);
--    g_assert_cmpint(ret, ==, 512);
-+    g_assert_cmpint(ret, ==, 0);
+-static ssize_t test_block_write_func(QCryptoBlock *block,
+-                                     size_t offset,
+-                                     const uint8_t *buf,
+-                                     size_t buflen,
+-                                     void *opaque,
+-                                     Error **errp)
++static int test_block_write_func(QCryptoBlock *block,
++                                 size_t offset,
++                                 const uint8_t *buf,
++                                 size_t buflen,
++                                 void *opaque,
++                                 Error **errp)
+ {
+     Buffer *header = opaque;
  
-     /* Early error: Negative offset */
-     ret = bdrv_pread(c, -2, sizeof(buf), buf, 0);
-@@ -103,7 +103,7 @@ static void test_sync_op_pwrite(BdrvChild *c)
+@@ -234,7 +234,7 @@ static ssize_t test_block_write_func(QCryptoBlock *block,
+     memcpy(header->buffer + offset, buf, buflen);
+     header->offset = offset + buflen;
  
-     /* Success */
-     ret = bdrv_pwrite(c, 0, sizeof(buf), buf, 0);
--    g_assert_cmpint(ret, ==, 512);
-+    g_assert_cmpint(ret, ==, 0);
+-    return buflen;
++    return 0;
+ }
  
-     /* Early error: Negative offset */
-     ret = bdrv_pwrite(c, -2, sizeof(buf), buf, 0);
+ 
 -- 
 2.35.3
 
