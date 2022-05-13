@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5D0525D57
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 10:29:37 +0200 (CEST)
-Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6E8525D5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 10:32:22 +0200 (CEST)
+Received: from localhost ([::1]:59670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npQg4-0005ax-83
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 04:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32830)
+	id 1npQij-0007I4-67
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 04:32:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npQdA-0003UL-7e; Fri, 13 May 2022 04:26:36 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37693)
+ id 1npQdu-0003o7-Cu; Fri, 13 May 2022 04:27:22 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npQd8-0001EU-Jc; Fri, 13 May 2022 04:26:35 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id kq17so14798543ejb.4;
- Fri, 13 May 2022 01:26:33 -0700 (PDT)
+ id 1npQds-0001OI-P4; Fri, 13 May 2022 04:27:22 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id p18so9067136edr.7;
+ Fri, 13 May 2022 01:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1j7UtctPeT6txetHVG/ZXtXcL3l2uV4CWeJI43WkHy8=;
- b=T0vug4RCdzGR79bFeTRU47UFQE2B1Bj1gjHx90UXlF/hVQ9dz6hGPL/AuSVE2Y+URP
- qhO9vnaPFi0pUfGUqF+MdUwsa9n0nBN2xCErHWZ/tuaMcQGfUGd2F/v4nGPoIQggtzgp
- EeXKkp8n8l0OtWy9oQkBDRQu04O3v18A0W2H4xUAgjqdfdDnFXqWztXn2So39DI8mYmT
- GT1mgAh1GcDnCdzj0WP73M1Mmtl73+7Q/eYDsk5bTHEUNI4h9tXu7ivECr5t7HSejKpq
- YikDQVVAilhyG4Pu0aLarVUMcqFHfNrU/XGkrWwA7FxX3H7Ppob/XII+svbUGCAk/++S
- RTyA==
+ bh=uR3cf+t2opMKGYOBqdlrWkD43j+hup8m8E6xlBsh5OI=;
+ b=BNCOrr5zX+x1FjLvtmC5ZG5uPawJ1MW5mXIN1l+q+/hkHpED+oO7Y7YI60PIRJPxLS
+ kOHjtTYYjXJ8txiYncqeTQuYJ+snhdO2d/n3wNQ5TMCs3y968LjD9xDvdWuHylFL3a7E
+ DszWJ+CLwe2j/owf1RmgXNCBSjD2VOffIEHRnyPIkF3ukGOed9bb/zS/NwP9QJAhWArR
+ lIzGCxL0jcOXcFrclY5dIci2zdc7S4dDhQZNkaSS8+mO6OTCTM5K6mQq6hgtArOETlpM
+ fzpmrcreX92NvrUqzJ8OGU3r5pTK+IPXo0qJUcq6KYqEKbqL2W6Ww1999KJfI7o6ig8U
+ yIhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1j7UtctPeT6txetHVG/ZXtXcL3l2uV4CWeJI43WkHy8=;
- b=tZ+XE/pcSSXCpaARuBSJcM3tHx23z4EImCccuqVjlXnpIXh5GvvEdU3V1woFibG5DH
- GuC9uV6rU4XFMSuyOM5PiCGlqkhUlS/pvj04nyuKkSOGbtXonFuSC5oHr21c63Y/BWfu
- jNsrQNWFN6JZNN/+bhwqK9WDjvcUb96up6Nkm2/DtJuADjgsjwBC8ScA9+4nuIvAqdQT
- fOvPCOljuYV119o0/6phVP+150EtYl63qbBnX6QaXrcVlc577jU2SMkSVzGWJHfjr+No
- 5hYBhy1mEdBCuScyqN/juDhHupsOUpDfvkYpa3lbh0pUwygpyp+kAMUPunR1BhChTSDc
- KetA==
-X-Gm-Message-State: AOAM530TPcG7S/aqDJBWYzf5trShZZuWPP0rm8IOKY6t1SmxS4OPdVJI
- 8NY2YqGn3WsMs76DC4C/rlg=
-X-Google-Smtp-Source: ABdhPJwM2+hD6laN9H/En4PG9TJOxBqNEhtLR4BtsbUPo52KfnP5EiK8gjgmATKPd5G0qw9kC0jHSA==
-X-Received: by 2002:a17:906:99c4:b0:6f4:56d2:4bbd with SMTP id
- s4-20020a17090699c400b006f456d24bbdmr3305462ejn.754.1652430392901; 
- Fri, 13 May 2022 01:26:32 -0700 (PDT)
+ bh=uR3cf+t2opMKGYOBqdlrWkD43j+hup8m8E6xlBsh5OI=;
+ b=iXpDscF8SA4L0uLMUKmGlvAUp+0mlW+hAHSARPtaOs7uF2ZjQKeIghHnodVKAK6L3b
+ gDMa5tjuyb4pjctXCNhAMbLACup81oylI7PmE26o0qE5dUrOXpdTL43EfUNxQcc51FAD
+ dq7nJ/lIMUGyixykWB3z7/f1I0Gk1CZEbMmNdLNYbE3XnLa4BaJc8tgBj1rihAcpnfkX
+ WN9FiLSelEEhXHBMdFFb3wmQGjhFRAnJy+y0BaLeB3tySc1MthwXDgqSCi2+Inj0K4Dz
+ 5iGf50DUkyhivn+Np/9vnmJdySieZOH42BpX9Rfn2+59JsZaO/HhKNd/ju6Nb73slgva
+ RhBg==
+X-Gm-Message-State: AOAM532cDjNxAjCeakWGYD0u6cM5QPLPmzDRWbMW6/6/ps20YZoqseob
+ tUWmhE/V7O2KpO66cIaO9EA=
+X-Google-Smtp-Source: ABdhPJyAd2IbErQDZnMcrj/h0217kYH7oNMxsLV86AhFyUlZCNT5Qy2mw1j1f5lVbDInHrqC+DYF2Q==
+X-Received: by 2002:a05:6402:4256:b0:428:39:c6c7 with SMTP id
+ g22-20020a056402425600b004280039c6c7mr38086492edb.374.1652430439044; 
+ Fri, 13 May 2022 01:27:19 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- l17-20020aa7c3d1000000b0042a41ad4688sm641143edr.65.2022.05.13.01.26.27
+ c25-20020a1709063f1900b006f3ef214e42sm513094ejj.168.2022.05.13.01.27.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 01:26:32 -0700 (PDT)
-Message-ID: <e4cf4ded-6b04-ac69-e883-f6aa87a8f8fb@redhat.com>
-Date: Fri, 13 May 2022 10:26:25 +0200
+ Fri, 13 May 2022 01:27:18 -0700 (PDT)
+Message-ID: <1cf29802-0962-0b81-63c7-929641f593d4@redhat.com>
+Date: Fri, 13 May 2022 10:27:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 3/9] tests: install "qemu" namespace package into venv
+Subject: Re: [RFC PATCH 4/9] tests: silence pip upgrade warnings during venv
+ creation
 Content-Language: en-US
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
@@ -70,13 +71,13 @@ Cc: qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20220513000609.197906-1-jsnow@redhat.com>
- <20220513000609.197906-4-jsnow@redhat.com>
+ <20220513000609.197906-5-jsnow@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220513000609.197906-4-jsnow@redhat.com>
+In-Reply-To: <20220513000609.197906-5-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -101,21 +102,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/13/22 02:06, John Snow wrote:
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index a21b59b4439..0ba561b6bdf 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -1,5 +1,6 @@
->   # Add Python module requirements, one per line, to be installed
->   # in the tests/venv Python virtual environment. For more info,
->   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> +# Note that qemu.git/python/ is always implicitly installed.
->   avocado-framework==88.1
->   pycdlib==1.11.0
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index dbbf1ba535b..dfb678d379f 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -109,11 +109,11 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ) $(SRC_PATH)/python/setup.cfg
+>              $(PYTHON) -m venv $@, \
+>              VENV, $@)
+>  	$(call quiet-command, \
+> -            $(TESTS_PYTHON) -m pip -q install \
+> +            $(TESTS_PYTHON) -m pip -q --disable-pip-version-check install \
+>              -e "$(SRC_PATH)/python/", PIP, "$(SRC_PATH)/python/")
+>  	$(call quiet-command, \
+> -            $(TESTS_PYTHON) -m pip -q install -r $(TESTS_VENV_REQ), \
+> -            PIP, $(TESTS_VENV_REQ))
+> +            $(TESTS_PYTHON) -m pip -q --disable-pip-version-check install \
+> +            -r $(TESTS_VENV_REQ), PIP, $(TESTS_VENV_REQ))
+>  	$(call quiet-command, touch $@)
 
-Any reason not to put ./python here?  But anyway,
-
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Really nitpicking but I would have placed this change before adding the 
+second invocation of pip. :)
 
 Paolo
 
