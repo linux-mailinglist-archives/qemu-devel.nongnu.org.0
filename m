@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D46C526267
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 14:56:36 +0200 (CEST)
-Received: from localhost ([::1]:33150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885F5526278
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 14:59:47 +0200 (CEST)
+Received: from localhost ([::1]:39550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npUqR-0000Bz-BM
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 08:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58138)
+	id 1npUtW-0004ef-Ld
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 08:59:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npUYw-00054F-2g
- for qemu-devel@nongnu.org; Fri, 13 May 2022 08:38:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51027)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npUZz-0007Yf-9C
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 08:39:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npUYu-0000P3-1u
- for qemu-devel@nongnu.org; Fri, 13 May 2022 08:38:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npUZu-0000XM-Qd
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 08:39:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652445506;
+ s=mimecast20190719; t=1652445570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KlXUfPb90M2vLiW6MAHn4eC3cJM6FuKcc75W8N2QSts=;
- b=JA8TSVvUli2T8DhcChNqK94/uzdIUJHFhfWmcI3RED5YH8XxcDZp188Ux5TfgUrsuO863g
- 3yA/3ouiC8BTFFOfxFUxi566tvpMtT3cFHMGZ234V87f3P+2vPFgPJG2uhXmNvYTTobSLG
- cUT98gerKSz0NTlXb39LFLDrRsXc7LM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=urE8tZ6iaG1r4Fs/lwH2212u0XhKGb6OtoHOOD5KxQY=;
+ b=D5uCwXoHhcP03JjMYSi8WkZ/KeVb7OPD9a7Pb9AI7RaU6JjhjkEL4inFTRCJPQ8oWRCLjx
+ fGgJ+/V2DaQ49Znh4mAUSGajH4VJtSHR6XQQ4YMFvyfDdiq680COi+pTPLLEbrgD3vIJtS
+ VaRJsDZb0xgT2iHCRn1eVnxa5YL2Sek=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-3Ym95hifNcm3YrwbfC7D8Q-1; Fri, 13 May 2022 08:38:25 -0400
-X-MC-Unique: 3Ym95hifNcm3YrwbfC7D8Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f1-20020a50fe01000000b004282af18d8bso4853432edt.23
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 05:38:25 -0700 (PDT)
+ us-mta-496-epZcGFgkN1WANFHcyLK7hQ-1; Fri, 13 May 2022 08:39:28 -0400
+X-MC-Unique: epZcGFgkN1WANFHcyLK7hQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ u3-20020a05600c210300b0039430c7665eso2983460wml.2
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 05:39:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KlXUfPb90M2vLiW6MAHn4eC3cJM6FuKcc75W8N2QSts=;
- b=unasVO9WYhrvEvRIrX23KXmJoeelZgo9w50+4XtV3wuA6FzDxn9K+xJ9nIAaVEkSj2
- zb8mRBHMO7aI7PMIh9omTnij25HRjCRuVPcSCBoCURu00g13kiiJ39BLIfsigkq2e5bj
- 8Hd8+M0U7WaFKnhIAOa2zTm7qB/20/W56DWMgKuUvb9JukKWpLwPBmdTvgh2BJRd0CIM
- TeU3CnFsgqitUUzpN7Oo5Sx4eVYIrf5QICX5/KAbFj2jHLkz8Rd3MPLLLfnyodKrSuJ6
- IFunqUBOWDcET1hwc/3MAagbXYh3eN366imfj4UxOpMwbetDmJFKxzCKW81GVlbbJMk4
- BVKQ==
-X-Gm-Message-State: AOAM531bGpOid4tePXLJRSqOs2vVBJWkCvBYNLFEHzpGzntcN9BEbtFa
- ix1qptKmN4Vop81aSV1aXMLGsVxHooM0DooxOVBp0ggUO0WOx0s7aqc2swl71vrb913XdcKPD5O
- xPj8Gj0UiHAs2J/w=
-X-Received: by 2002:a17:906:ece3:b0:6f3:da10:138a with SMTP id
- qt3-20020a170906ece300b006f3da10138amr4219607ejb.438.1652445504336; 
- Fri, 13 May 2022 05:38:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsvJLJpNnArDuDHsoJbV8Pic+HwZlDQ7R3aog7Y7KIHJjVR4scWII+7rluA+Y/xczJ6IuKNg==
-X-Received: by 2002:a17:906:ece3:b0:6f3:da10:138a with SMTP id
- qt3-20020a170906ece300b006f3da10138amr4219580ejb.438.1652445503988; 
- Fri, 13 May 2022 05:38:23 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- em7-20020a170907288700b006f3ef214e37sm740392ejc.157.2022.05.13.05.38.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 05:38:23 -0700 (PDT)
-Message-ID: <e95b8018-f729-958c-91ee-5c7ec88d046f@redhat.com>
-Date: Fri, 13 May 2022 14:38:21 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=urE8tZ6iaG1r4Fs/lwH2212u0XhKGb6OtoHOOD5KxQY=;
+ b=3S84jdIU5tTgPkuCLxNSSlKzKXLtrROj4Sbvt6+x1yhh3l3xDgUUXu06dgByP6otv0
+ 2cJUUqeUn5QmSCrvva50YJSDwyE3DtMNobjPEAmKF7zNJ6/WzMVVhXEvMkJ3HAtbyY4Q
+ zGRlG4XBDj73MoD4vQT3/y0+8FSs72PWdJpq9yh3a8aZCiy6rInikl67MZbW4YEvDnva
+ swwZcrP/DfKpKUxvXDdMTmtJEk/JGFkkfluBruCWGvzLzURnb9mF3bDdOupuYJSoGA0w
+ 8EESXBzVPPD3dVM8mxnodlIm9vylUbPy8z4IxQNteNbdzrGmPnzQ+iGJ57L3xZ3zgFhP
+ cvUQ==
+X-Gm-Message-State: AOAM531v1YbiiZFFBqFCzy1MVyCLlhPd0x8eeiYn7CFwZyprOwInOYAE
+ xfKG67OblDUiGETvFH0YE15RHUxyICrnLUVjhDn3ADZ4T2zDfhRQm+N5u2JYLKcDiWhYbvHCqZV
+ 4QA+oi879+oqlqQA=
+X-Received: by 2002:a5d:4e42:0:b0:20a:d87f:84ee with SMTP id
+ r2-20020a5d4e42000000b0020ad87f84eemr3893361wrt.593.1652445567383; 
+ Fri, 13 May 2022 05:39:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwc0Vc7tc+SpL34sPZwIQkOHxTcR6AP6cfj7dc5+RPt2ahL9BFoQ2F5dZLR5FNLNIgfUb4Cw==
+X-Received: by 2002:a5d:4e42:0:b0:20a:d87f:84ee with SMTP id
+ r2-20020a5d4e42000000b0020ad87f84eemr3893351wrt.593.1652445567190; 
+ Fri, 13 May 2022 05:39:27 -0700 (PDT)
+Received: from redhat.com ([2.53.15.195]) by smtp.gmail.com with ESMTPSA id
+ x13-20020a7bc20d000000b0039429bfebebsm5597566wmi.3.2022.05.13.05.39.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 05:39:26 -0700 (PDT)
+Date: Fri, 13 May 2022 08:39:22 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Cc: xiaoguangrong.eric@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
+ qemu-devel@nongnu.org, dan.j.williams@intel.com,
+ jingqi.liu@intel.com, robert.hu@intel.com
+Subject: Re: [PATCH 2/2] acpi/nvdimm: Fix aml_or() and aml_and() in if clause
+Message-ID: <20220513083832-mutt-send-email-mst@kernel.org>
+References: <20220412065753.3216538-1-robert.hu@linux.intel.com>
+ <20220412065753.3216538-3-robert.hu@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 2/3] thread-pool: replace semaphore with condition
- variable
-Content-Language: en-US
-To: Nicolas Saenz Julienne <nsaenzju@redhat.com>, qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-References: <20220512104346.865536-1-pbonzini@redhat.com>
- <20220512104346.865536-3-pbonzini@redhat.com>
- <dd8c888aac88b0fd70ee5a73cf9dca3406efe606.camel@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <dd8c888aac88b0fd70ee5a73cf9dca3406efe606.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220412065753.3216538-3-robert.hu@linux.intel.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,47 +97,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 13:56, Nicolas Saenz Julienne wrote:
->>               pool->idle_threads++;
->> -            qemu_mutex_unlock(&pool->lock);
->> -            ret = qemu_sem_timedwait(&pool->sem, 10000);
->> -            qemu_mutex_lock(&pool->lock);
->> +            ret = qemu_cond_timedwait(&pool->request_cond, &pool-
->>> lock, 10000);
->>               pool->idle_threads--;
->> -        } while (back_to_sleep(pool, ret));
->> -        if (ret == -1 || pool->stopping ||
->
-> I think, you need to check for 'pool->stopping' upon exiting wait_cond().
-> Otherwise it'll blindly try to dequeue a request from a list that is otherwise
-> empty.
-
-Good point, thanks.
-
->> -    if (elem->state == THREAD_QUEUED &&
->> -        /* No thread has yet started working on elem. we can try to
->> "steal"
->> -         * the item from the worker if we can get a signal from the
->> -         * semaphore.  Because this is non-blocking, we can do it
->> with
->> -         * the lock taken and ensure that elem will remain
->> THREAD_QUEUED.
->> -         */
->> -        qemu_sem_timedwait(&pool->sem, 0) == 0) {
->> +    if (elem->state == THREAD_QUEUED) {
->>           QTAILQ_REMOVE(&pool->request_list, elem, reqs);
->>           qemu_bh_schedule(pool->completion_bh);
+On Tue, Apr 12, 2022 at 02:57:53PM +0800, Robert Hoo wrote:
+> It should be some typo originally, where in If condition, using bitwise
+> and/or, rather than logical and/or.
 > 
-> The 'thread-pool cancel' unit test fails.
+> The resulting change in AML code:
 > 
-> I think it's because there is an assumption in worker_thread() that if you get
-> woken up, you'll have a pending request. And you're now 'stealing' work
-> requests, without 'stealing' a wakeup (what qemu_sem_timedwait(sem, 0) achieved
-> in the past).
+> If (((Local6 == Zero) | (Arg0 != Local0)))
+> ==>
+> If (((Local6 == Zero) || (Arg0 != Local0)))
+> 
+> If (((ObjectType (Arg3) == 0x04) & (SizeOf (Arg3) == One)))
+> ==>
+> If (((ObjectType (Arg3) == 0x04) && (SizeOf (Arg3) == One)))
+> 
+> Fixes: 90623ebf603 ("nvdimm acpi: check UUID")
+> Fixes: 4568c948066 ("nvdimm acpi: save arg3 of _DSM method")
+> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+> Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
 
-You don't need to steal a wakeup because cond_wait does not "count", but 
-yeah it's essentially the same issue that you mentioned above.
+This changes existing AML, you need to do the dance
+with updating bios test tables, see header of ./tests/qtest/bios-tables-test.c
 
-Paolo
+> ---
+>  hw/acpi/nvdimm.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index 7cc419401b..2cd26bb9e9 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -1040,7 +1040,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+>  
+>      uuid_invalid = aml_lnot(aml_equal(uuid, expected_uuid));
+>  
+> -    unsupport = aml_if(aml_or(unpatched, uuid_invalid, NULL));
+> +    unsupport = aml_if(aml_lor(unpatched, uuid_invalid));
+>  
+>      /*
+>       * function 0 is called to inquire what functions are supported by
+> @@ -1072,10 +1072,9 @@ static void nvdimm_build_common_dsm(Aml *dev,
+>       * in the DSM Spec.
+>       */
+>      pckg = aml_arg(3);
+> -    ifctx = aml_if(aml_and(aml_equal(aml_object_type(pckg),
+> +    ifctx = aml_if(aml_land(aml_equal(aml_object_type(pckg),
+>                     aml_int(4 /* Package */)) /* It is a Package? */,
+> -                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */,
+> -                   NULL));
+> +                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */));
+>  
+>      pckg_index = aml_local(2);
+>      pckg_buf = aml_local(3);
+> -- 
+> 2.31.1
 
 
