@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72394525C19
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:10:26 +0200 (CEST)
-Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825CA525BCA
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 08:52:56 +0200 (CEST)
+Received: from localhost ([::1]:46912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npPRM-0006nD-D9
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:10:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43176)
+	id 1npPAV-0004yy-JM
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 02:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1npOnz-0007Vg-C0
- for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58523)
+ id 1npOo2-0007W5-2s
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1npOnx-0000a9-EO
- for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:39 -0400
+ id 1npOnz-0000ao-QT
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652423373;
+ s=mimecast20190719; t=1652423378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lLTCgWh8tMEf/ECVl7WDAR0ennoJMz25C77dPc/klYo=;
- b=Z89uHvKjsvsMSPu8HLIgIkudGAUBN++DH47Nho8dcXHi/5/ry5UqU/EaXtfjsZhs37EETv
- KQ99KixMbfgZubo8sZnzzaiq4j6yGDQ2FzKxWqIuK4uW3jZkVcKw6yRXEBomDy7GBH7ZEM
- SzOR/wiVircXUpHOnYy5NkWSzAAfNzc=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pM3dNyLrY1FYVs3mg51PzSQdUXMmZC2afuI+DAmcLMM=;
+ b=bl2YCWyKsmV7l4GKfMFRge9YOa76zUFUXUGRdewf7ryJ4QvVAxlfH2+SDHht1ozBu1WgyW
+ 5TO/AF5lPBcPiErjjTdmv+38w3cxqlrlaFiirKM2wS2D/SdZ1/QfXA13TrROpwctoRO1Qi
+ v7UhGW/ZsOZ1niDbEV1GEiZMFxX1Ohg=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-SxoN3gJuNQOdm7n9ku_YRA-1; Fri, 13 May 2022 02:29:32 -0400
-X-MC-Unique: SxoN3gJuNQOdm7n9ku_YRA-1
-Received: by mail-oo1-f72.google.com with SMTP id
- h7-20020a4aa287000000b0035ea2f18e54so3836510ool.10
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 23:29:32 -0700 (PDT)
+ us-mta-261-5L9GUNWNOMqMiD8GyuR6Vg-1; Fri, 13 May 2022 02:29:36 -0400
+X-MC-Unique: 5L9GUNWNOMqMiD8GyuR6Vg-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ n26-20020a4abd1a000000b0035eb0243b06so3815673oop.22
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 23:29:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lLTCgWh8tMEf/ECVl7WDAR0ennoJMz25C77dPc/klYo=;
- b=g/wWeuBBGEqXSx0qVkH/XWf/QGeIiu40ryiu4YNRw/zoT9k2SCGyLlG2qZOGFFcBHB
- 6PYcH88bI4ZKpUcYxD9QI+BSd0cgO5fedPzK2OOW3ZQG+Hct0Rjdl+up7aC39+LBSr/J
- k4sdrjYQLeaOiuspB6cpMrx1yMFqvJdN6UkZB23J421e15u5yxsOnLBNe3ebyXiJ+AHQ
- v9eMCbWziAsyhS0Wd3rOsQa79WWUtVuIyGaweYfxqGmxteiziN0G0qj8kvXLYFNGn7qX
- FZlfTufH9fLSuRWyG8V7o0ag2kkQ143rxrXeLkvlUuKihbaJMZa2pJLSVAZRrI3oEEPo
- Krow==
-X-Gm-Message-State: AOAM530RKV5fKD4CUFOHNEWqd+v/uce1WttA3kBgvJ6Bc0tqOL83/Ysk
- hIyyamcWhkaDGAtlQ8Igt7gWaID2nkB09H25tHKSebHZwY6WBDk5WR2ywy6FZWxrcRtH3BFIyKI
- aow8ZOqogRGVyWa4=
-X-Received: by 2002:a05:6871:80e:b0:ed:895a:ae92 with SMTP id
- q14-20020a056871080e00b000ed895aae92mr1693846oap.187.1652423371636; 
- Thu, 12 May 2022 23:29:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxi+H+JY2f7gGzkfSJNAOtuuvOI/TXW1E4c9xM0UeBPx/mn/h4GezUZTwZ5mBPX5SL/zkrT2w==
-X-Received: by 2002:a05:6871:80e:b0:ed:895a:ae92 with SMTP id
- q14-20020a056871080e00b000ed895aae92mr1693830oap.187.1652423371417; 
- Thu, 12 May 2022 23:29:31 -0700 (PDT)
+ bh=pM3dNyLrY1FYVs3mg51PzSQdUXMmZC2afuI+DAmcLMM=;
+ b=E71ERxrToB2ltiyfuFFjmMJ5mq4z16YbOGjTFb0G15jfCYZTlcQ/sO7cLboHa36AP/
+ 6dRL2FjY1KwhjHFTrvLBJC3vqKnFCD3vv+WBsrMjzELsP7/yOa4QdSPoG5XYCkZ+MI0e
+ WWJGTfZgKWiJrmgkpqNnw2pcypt8wyKDKIU/jpCqy5LMpfwYn6He5oU+Q75HVGecv4W4
+ EhHpKwLiczT6+u7CprZ87GUD9ideBgIM15atA8UUYZVqWoao59/FeEjDS3/6Q8V8YweA
+ VL8EriqD/ezQY7XEHBqy9RzfceyeiRkzspTKozYN6gec65nTNGJM++fUSIcohRbUg3PB
+ zRbA==
+X-Gm-Message-State: AOAM532qyL5ciIEEt6LbSH0tOrXBMx4IBJ80S+/weiBi5zI0PoSUPi+F
+ 5TN0AuWnGojf0xGRWS3RaK4dOwFXT1xLNEuT0Ludolx95w+iNTbkzIL2qMrmzdXuX6UhHGmM/ff
+ 5eFSR81TvhFa/5TA=
+X-Received: by 2002:aca:1c18:0:b0:325:a6db:29fb with SMTP id
+ c24-20020aca1c18000000b00325a6db29fbmr6620940oic.212.1652423375601; 
+ Thu, 12 May 2022 23:29:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMkfYSnZv4zBAaIolFDo07nCOYmDvkbMU47GzcGAHsXvqUjQT/2FdVxB+VnhByaJFrAsxAig==
+X-Received: by 2002:aca:1c18:0:b0:325:a6db:29fb with SMTP id
+ c24-20020aca1c18000000b00325a6db29fbmr6620929oic.212.1652423375418; 
+ Thu, 12 May 2022 23:29:35 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f0:55e:b3e6:9ebe:4b75:fe72])
  by smtp.gmail.com with ESMTPSA id
- a14-20020a05680804ce00b00325cda1ffbasm678341oie.57.2022.05.12.23.29.27
+ a14-20020a05680804ce00b00325cda1ffbasm678341oie.57.2022.05.12.23.29.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 23:29:30 -0700 (PDT)
+ Thu, 12 May 2022 23:29:34 -0700 (PDT)
 From: Leonardo Bras <leobras@redhat.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -76,17 +76,17 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
 Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
  qemu-block@nongnu.org
-Subject: [PATCH v13 6/8] multifd: multifd_send_sync_main now returns negative
- on error
-Date: Fri, 13 May 2022 03:28:35 -0300
-Message-Id: <20220513062836.965425-7-leobras@redhat.com>
+Subject: [PATCH v13 7/8] multifd: Send header packet without flags if
+ zero-copy-send is enabled
+Date: Fri, 13 May 2022 03:28:36 -0300
+Message-Id: <20220513062836.965425-8-leobras@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220513062836.965425-1-leobras@redhat.com>
 References: <20220513062836.965425-1-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -94,7 +94,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,145 +110,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even though multifd_send_sync_main() currently emits error_reports, it's
-callers don't really check it before continuing.
+Since d48c3a0445 ("multifd: Use a single writev on the send side"),
+sending the header packet and the memory pages happens in the same
+writev, which can potentially make the migration faster.
 
-Change multifd_send_sync_main() to return -1 on error and 0 on success.
-Also change all it's callers to make use of this change and possibly fail
-earlier.
+Using channel-socket as example, this works well with the default copying
+mechanism of sendmsg(), but with zero-copy-send=true, it will cause
+the migration to often break.
 
-(This change is important to next patch on  multifd zero copy
-implementation, to make it sure an error in zero-copy flush does not go
-unnoticed.
+This happens because the header packet buffer gets reused quite often,
+and there is a high chance that by the time the MSG_ZEROCOPY mechanism get
+to send the buffer, it has already changed, sending the wrong data and
+causing the migration to abort.
+
+It means that, as it is, the buffer for the header packet is not suitable
+for sending with MSG_ZEROCOPY.
+
+In order to enable zero copy for multifd, send the header packet on an
+individual write(), without any flags, and the remanining pages with a
+writev(), as it was happening before. This only changes how a migration
+with zero-copy-send=true works, not changing any current behavior for
+migrations with zero-copy-send=false.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/multifd.h |  2 +-
- migration/multifd.c | 10 ++++++----
- migration/ram.c     | 29 ++++++++++++++++++++++-------
- 3 files changed, 29 insertions(+), 12 deletions(-)
+ migration/multifd.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 7d0effcb03..bcf5992945 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -20,7 +20,7 @@ int multifd_load_cleanup(Error **errp);
- bool multifd_recv_all_channels_created(void);
- bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
- void multifd_recv_sync_main(void);
--void multifd_send_sync_main(QEMUFile *f);
-+int multifd_send_sync_main(QEMUFile *f);
- int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
- 
- /* Multifd Compression flags */
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 2a8c8570c3..15fb668e64 100644
+index 15fb668e64..2541cd2322 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -566,17 +566,17 @@ void multifd_save_cleanup(void)
-     multifd_send_state = NULL;
- }
+@@ -617,6 +617,7 @@ static void *multifd_send_thread(void *opaque)
+     MultiFDSendParams *p = opaque;
+     Error *local_err = NULL;
+     int ret = 0;
++    bool use_zero_copy_send = migrate_use_zero_copy_send();
  
--void multifd_send_sync_main(QEMUFile *f)
-+int multifd_send_sync_main(QEMUFile *f)
- {
-     int i;
+     trace_multifd_send_thread_start(p->id);
+     rcu_register_thread();
+@@ -639,9 +640,14 @@ static void *multifd_send_thread(void *opaque)
+         if (p->pending_job) {
+             uint64_t packet_num = p->packet_num;
+             uint32_t flags = p->flags;
+-            p->iovs_num = 1;
+             p->normal_num = 0;
  
-     if (!migrate_use_multifd()) {
--        return;
-+        return 0;
-     }
-     if (multifd_send_state->pages->num) {
-         if (multifd_send_pages(f) < 0) {
-             error_report("%s: multifd_send_pages fail", __func__);
--            return;
-+            return -1;
-         }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-@@ -589,7 +589,7 @@ void multifd_send_sync_main(QEMUFile *f)
-         if (p->quit) {
-             error_report("%s: channel %d has already quit", __func__, i);
-             qemu_mutex_unlock(&p->mutex);
--            return;
-+            return -1;
-         }
- 
-         p->packet_num = multifd_send_state->packet_num++;
-@@ -608,6 +608,8 @@ void multifd_send_sync_main(QEMUFile *f)
-         qemu_sem_wait(&p->sem_sync);
-     }
-     trace_multifd_send_sync_main(multifd_send_state->packet_num);
++            if (use_zero_copy_send) {
++                p->iovs_num = 0;
++            } else {
++                p->iovs_num = 1;
++            }
 +
-+    return 0;
- }
+             for (int i = 0; i < p->pages->num; i++) {
+                 p->normal[p->normal_num] = p->pages->offset[i];
+                 p->normal_num++;
+@@ -665,8 +671,18 @@ static void *multifd_send_thread(void *opaque)
+             trace_multifd_send(p->id, packet_num, p->normal_num, flags,
+                                p->next_packet_size);
  
- static void *multifd_send_thread(void *opaque)
-diff --git a/migration/ram.c b/migration/ram.c
-index a2489a2699..5f5e37f64d 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2909,6 +2909,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
- {
-     RAMState **rsp = opaque;
-     RAMBlock *block;
-+    int ret;
+-            p->iov[0].iov_len = p->packet_len;
+-            p->iov[0].iov_base = p->packet;
++            if (use_zero_copy_send) {
++                /* Send header first, without zerocopy */
++                ret = qio_channel_write_all(p->c, (void *)p->packet,
++                                            p->packet_len, &local_err);
++                if (ret != 0) {
++                    break;
++                }
++            } else {
++                /* Send header using the same writev call */
++                p->iov[0].iov_len = p->packet_len;
++                p->iov[0].iov_base = p->packet;
++            }
  
-     if (compress_threads_save_setup()) {
-         return -1;
-@@ -2943,7 +2944,11 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
- 
--    multifd_send_sync_main(f);
-+    ret =  multifd_send_sync_main(f);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
- 
-@@ -3052,7 +3057,11 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        multifd_send_sync_main(rs->f);
-+        ret = multifd_send_sync_main(rs->f);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-         qemu_fflush(f);
-         ram_transferred_add(8);
-@@ -3112,13 +3121,19 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-     }
- 
--    if (ret >= 0) {
--        multifd_send_sync_main(rs->f);
--        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
--        qemu_fflush(f);
-+    if (ret < 0) {
-+        return ret;
-     }
- 
--    return ret;
-+    ret = multifd_send_sync_main(rs->f);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-+    qemu_fflush(f);
-+
-+    return 0;
- }
- 
- static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+             ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
+                                          &local_err);
 -- 
 2.36.1
 
