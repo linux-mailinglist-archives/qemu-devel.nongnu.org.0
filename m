@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0756252690E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 20:14:11 +0200 (CEST)
-Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2F7526905
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 20:11:07 +0200 (CEST)
+Received: from localhost ([::1]:35684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npZnm-0000ov-3V
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 14:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56540)
+	id 1npZko-00038Y-2x
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 14:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1npZiO-0000TG-2U
+ id 1npZiO-0000TH-2u
  for qemu-devel@nongnu.org; Fri, 13 May 2022 14:08:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37678)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1npZiM-0006ze-BY
+ id 1npZiM-0006zc-C1
  for qemu-devel@nongnu.org; Fri, 13 May 2022 14:08:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1652465313;
@@ -25,39 +25,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lwU0IIX84LupWziufp4z1foxxfyW5QXhf/iA8+wlBWQ=;
- b=T7K5BmjHJwXfBUlKb3cGiHCuCVGVN5RYWFeHmbZfdcyuLc6TZ1+iHCVnJ7+xSnzLIbCsnE
- b6+oX9LOXrfZVYyK6w0IPe21SVS8aKqt7ihRvQECe90lh6b0ELCt/kjNk23jq8NkxOYi27
- CfHXGTf/WAAg4muktj26l8zaufq8WY4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wx5WCElJnb/uveh/OKqsNDKj+M6vRBZmcC9RnUhdD14=;
+ b=S++9opCBQSjMnfhq3ux/qzmoDwLJqBELtULqp3xUR97HaGc465N1OAYSc+pcp1uoTK8JS6
+ 6UQTQ5bnYFFt0VxgO0DZpJXdX6zm5k2UwwSOtMLT2Iz/Ck54ElT/kaVFCB5vMh9rjte1oy
+ 7a9qdkjSUF+fG3ylwZgabokJZ7ju6+w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-7HHjcwb6N6eQvnteaLYKlA-1; Fri, 13 May 2022 14:08:30 -0400
-X-MC-Unique: 7HHjcwb6N6eQvnteaLYKlA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-45-ge1EEh21PDqRNq6akQo2rg-1; Fri, 13 May 2022 14:08:32 -0400
+X-MC-Unique: ge1EEh21PDqRNq6akQo2rg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12FA9101A52C;
- Fri, 13 May 2022 18:08:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D94C82919EBC;
+ Fri, 13 May 2022 18:08:31 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 056572026987;
- Fri, 13 May 2022 18:08:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84826416156;
+ Fri, 13 May 2022 18:08:31 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v3 02/15] util/win32: simplify qemu_get_local_state_dir()
-Date: Fri, 13 May 2022 20:08:08 +0200
-Message-Id: <20220513180821.905149-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 03/15] tests: make libqmp buildable for win32
+Date: Fri, 13 May 2022 20:08:09 +0200
+Message-Id: <20220513180821.905149-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20220513180821.905149-1-marcandre.lureau@redhat.com>
 References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -84,60 +84,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-SHGetFolderPath() is a deprecated API:
-https://docs.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderpatha
-
-It is a wrapper for SHGetKnownFolderPath() and CSIDL_COMMON_PATH is
-mapped to FOLDERID_ProgramData:
-https://docs.microsoft.com/en-us/windows/win32/shell/csidl
-
-g_get_system_data_dirs() is a suitable replacement, as it will have
-FOLDERID_ProgramData in the returned list. However, it follows the XDG
-Base Directory Specification, if `XDG_DATA_DIRS` is defined, it will be
-returned instead.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- util/oslib-win32.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ tests/qtest/libqmp.c | 34 +++++++++++++++++++++++++++++-----
+ tests/qtest/libqmp.h |  2 ++
+ 2 files changed, 31 insertions(+), 5 deletions(-)
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 6c818749d2..5723d3eb4c 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -40,9 +40,6 @@
- #include "qemu/error-report.h"
- #include <malloc.h>
+diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
+index 0358b8313d..df39d250fe 100644
+--- a/tests/qtest/libqmp.c
++++ b/tests/qtest/libqmp.c
+@@ -18,6 +18,11 @@
  
--/* this must come after including "trace.h" */
--#include <shlobj.h>
--
- static int get_allocation_granularity(void)
- {
-     SYSTEM_INFO system_info;
-@@ -237,17 +234,11 @@ int qemu_get_thread_id(void)
- char *
- qemu_get_local_state_dir(void)
- {
--    HRESULT result;
--    char base_path[MAX_PATH+1] = "";
-+    const char * const *data_dirs = g_get_system_data_dirs();
+ #include "libqmp.h"
  
--    result = SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL,
--                             /* SHGFP_TYPE_CURRENT */ 0, base_path);
--    if (result != S_OK) {
--        /* misconfigured environment */
--        g_critical("CSIDL_COMMON_APPDATA unavailable: %ld", (long)result);
--        abort();
--    }
--    return g_strdup(base_path);
-+    g_assert(data_dirs && data_dirs[0]);
++#ifndef G_OS_WIN32
++#include <sys/socket.h>
++#endif
 +
-+    return g_strdup(data_dirs[0]);
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/json-parser.h"
+ #include "qapi/qmp/qjson.h"
+@@ -87,6 +92,7 @@ QDict *qmp_fd_receive(int fd)
+     return qmp.response;
  }
  
- void qemu_set_tty_echo(int fd, bool echo)
++#ifndef G_OS_WIN32
+ /* Sends a message and file descriptors to the socket.
+  * It's needed for qmp-commands like getfd/add-fd */
+ static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
+@@ -120,17 +126,23 @@ static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
+     } while (ret < 0 && errno == EINTR);
+     g_assert_cmpint(ret, >, 0);
+ }
++#endif
+ 
+ /**
+  * Allow users to send a message without waiting for the reply,
+  * in the case that they choose to discard all replies up until
+  * a particular EVENT is received.
+  */
+-void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+-                      const char *fmt, va_list ap)
++static void
++_qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
++                  const char *fmt, va_list ap)
+ {
+     QObject *qobj;
+ 
++#ifdef G_OS_WIN32
++    assert(fds_num == 0);
++#endif
++
+     /* Going through qobject ensures we escape strings properly */
+     qobj = qobject_from_vjsonf_nofail(fmt, ap);
+ 
+@@ -148,10 +160,14 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+         if (log) {
+             fprintf(stderr, "%s", str->str);
+         }
++
++#ifndef G_OS_WIN32
+         /* Send QMP request */
+         if (fds && fds_num > 0) {
+             socket_send_fds(fd, fds, fds_num, str->str, str->len);
+-        } else {
++        } else
++#endif
++        {
+             socket_send(fd, str->str, str->len);
+         }
+ 
+@@ -160,15 +176,23 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+     }
+ }
+ 
++#ifndef G_OS_WIN32
++void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
++                      const char *fmt, va_list ap)
++{
++    _qmp_fd_vsend_fds(fd, fds, fds_num, fmt, ap);
++}
++#endif
++
+ void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
+ {
+-    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
++    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
+ }
+ 
+ 
+ QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
+ {
+-    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
++    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
+ 
+     return qmp_fd_receive(fd);
+ }
+diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
+index 5cb7eeaa18..9e9768f559 100644
+--- a/tests/qtest/libqmp.h
++++ b/tests/qtest/libqmp.h
+@@ -21,8 +21,10 @@
+ #include "qapi/qmp/qdict.h"
+ 
+ QDict *qmp_fd_receive(int fd);
++#ifndef G_OS_WIN32
+ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+                       const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
++#endif
+ void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
+ void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+ void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
 -- 
 2.36.1
 
