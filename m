@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F77D525C1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:12:56 +0200 (CEST)
-Received: from localhost ([::1]:34760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAC1525C48
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:20:04 +0200 (CEST)
+Received: from localhost ([::1]:43054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npPTr-0008J0-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47030)
+	id 1npPal-0006Aj-Hu
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:20:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1npPLZ-00059b-5W
- for qemu-devel@nongnu.org; Fri, 13 May 2022 03:04:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48694)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1npPO8-0005ie-00
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 03:07:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1npPLW-0005Vf-Kr
- for qemu-devel@nongnu.org; Fri, 13 May 2022 03:04:20 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1npPO4-00060G-Qw
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 03:06:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652425457;
+ s=mimecast20190719; t=1652425616;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xbPES43nd6tV2ykaPymp8GMoCBU/wjpuSd8+247OmgI=;
- b=aH+Z3Flvtt2O1e3W8aQVbIIQ5/SAxKMFkRXnXIzKWt+kwFkeH7//U11ZetmHSlfRi+/keh
- ng9CAo1Cx41QyxbicIrRzTZxlaCFzKQD8lnjLhc2sPETaU+wxr17h2V6uI+pO7YKE1O1yl
- gSeaODKFuXOR6stJ0jaejtNe1D7eUHU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=b9blYXum31mhkd76jJm4ku1OCG1AOKkx3man1tLg2LNPlq+VqgVtllzSBOt/XZwtUhlznT
+ a3U4QVs/lk5c+XI02tzePLZRQN0t3y0IVjewLpC3RVrSzlNGBqDv4bvsBJim7PAtzvgnIn
+ 2pfL6ymRsjdvFAe1J3/w+LCzGHz4Iow=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-aRhbDp2ePjyRWSag9TNx9w-1; Fri, 13 May 2022 03:04:16 -0400
-X-MC-Unique: aRhbDp2ePjyRWSag9TNx9w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BACC53C138B6;
- Fri, 13 May 2022 07:04:15 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 668B81460E5D;
- Fri, 13 May 2022 07:04:15 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Avihai Horon
- <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Mark Bloch
- <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Thomas Huth
- <thuth@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: Re: [PATCH 0/9] vfio/migration: Implement VFIO migration protocol v2
-In-Reply-To: <20220512120218.0f871784.alex.williamson@redhat.com>
-Organization: Red Hat GmbH
-References: <20220512154320.19697-1-avihaih@nvidia.com>
- <20220512120218.0f871784.alex.williamson@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Fri, 13 May 2022 09:04:14 +0200
-Message-ID: <871qwxc3rl.fsf@redhat.com>
+ us-mta-621-tFqLpHESMjCAaoqQWB1hnQ-1; Fri, 13 May 2022 03:06:54 -0400
+X-MC-Unique: tFqLpHESMjCAaoqQWB1hnQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ b3-20020aa7d483000000b004282ca95814so4411820edr.9
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 00:06:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=eAVdugHT3NNYyY8Md/lN7iDl9efQO469U3v1ergA55e9qG7Oj3vwQFuWfk9+0l7Fsv
+ p9UFhtP68aRVQfwDm2JjGy64fvKOL3VStdPAWmuYpHBJLgZCyLEoVC+TIMt6MZGCmY9J
+ DwbTGjOgjATcLZTZIk50pXpzK7QdPjAIRSy7SBpWP3h5uFsiYm8quSVb2+/UdmJcxyaH
+ NWAGEH/q9VMB5V8nr7x/9lRoKjc34DSF/jEO3Q7UJlf5cUlFljDP0E2L32xiWqpLcMbK
+ 7TxZIQNAs9ut1o41uhukV0E4Vt17APDNLh+zIaO3DcQWv0V3NFag0jqYAixxGNe/5STq
+ D6sg==
+X-Gm-Message-State: AOAM5338IbopLt2T9ej25/aUNl0w6IESD9FCh+2V7mBAKu7aMkUkmf79
+ TWHroT1lQX2gMpylV/AVyWW9sTb6W5a3d8DzrbMnrBu+TN4/nlPukqV7HOtL4zDIh4PiY4zEiLg
+ hSOXIttWti/mNYQo=
+X-Received: by 2002:a17:907:2159:b0:6f3:a307:d01d with SMTP id
+ rk25-20020a170907215900b006f3a307d01dmr3050200ejb.760.1652425613592; 
+ Fri, 13 May 2022 00:06:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzq3ItHW/u2kpWwAAG5m+z/b5b1NhNq/jishWHC9Go0Nc6+bGOeXmuZErVJ6hWaqHBVR/h9aQ==
+X-Received: by 2002:a17:907:2159:b0:6f3:a307:d01d with SMTP id
+ rk25-20020a170907215900b006f3a307d01dmr3050182ejb.760.1652425613335; 
+ Fri, 13 May 2022 00:06:53 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ u6-20020a170906108600b006f3ef214e50sm444060eju.182.2022.05.13.00.06.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 00:06:52 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Konstantin Kostiuk <kkostiuk@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH] qga-vss: Add auto generated headers to dependencies
+Date: Fri, 13 May 2022 09:06:50 +0200
+Message-Id: <20220513070650.1076595-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220512154906.331399-1-kkostiuk@redhat.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,28 +100,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
+Queued, thanks.
 
-> On Thu, 12 May 2022 18:43:11 +0300
-> Avihai Horon <avihaih@nvidia.com> wrote:
->
->> Hello,
->> 
->> Following VFIO migration protocol v2 acceptance in kernel, this series
->> implements VFIO migration according to the new v2 protocol and replaces
->> the now deprecated v1 implementation.
->
-> Let's not bottleneck others waiting on a linux header file update on
-> also incorporating v2 support.  In the short term we just need the
-> first two patches here.
->
-> Are there any objections to folding those patches together for the sake
-> of bisection?  Thanks,
->
-> Alex
-
-I think folding the headers update and the fixup together makes a lot of
-sense. And yes, I'd like to see it in QEMU quickly in order to unblock
-other series.
+Paolo
 
 
