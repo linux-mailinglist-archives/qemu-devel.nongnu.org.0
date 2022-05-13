@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17ED85260ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:23:46 +0200 (CEST)
-Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085935260F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:25:28 +0200 (CEST)
+Received: from localhost ([::1]:46624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npTOa-0006za-Pq
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42920)
+	id 1npTQF-0000Ef-4n
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npTMB-0006F6-1f
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:21:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21243)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npTOy-0007j4-6D
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 07:24:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npTM7-0004dX-3e
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:21:14 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npTOw-00050n-I2
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 07:24:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652440869;
+ s=mimecast20190719; t=1652441045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2uKB84K7/Wwmsak44LAI6dO1vjPOUSDyLrghAPeX298=;
- b=K5xSn10bxznUICya1PTWITyKtno0RP5bGZs7Gig7sYTB+S4Y0Ba6cO0OqVGXvZhtSQYsO5
- sHCy0Kor3ZBXSFcqaQuAqtQi+CV14ynLsAr578w+uR5yCGQgR9MQS/d7IksFl+P1yNczPL
- hDEmiEre4tLYj/AJbl4o2SSi2Vo8hQA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5rtU7YPotJf9w9BAQkrBLCeKfTNxD8IFDZUgiNXa2dY=;
+ b=QPSZXkjQ8TkT/vEV5ld5Ig/XkzWumJJRlnMH7q50PnozMDyJl/9Y2QMVH5cAmuZ0IG/gvq
+ +MmZ4BGgH/tMWS05RuFmQ/X5PtF6amhMvZ253xXNbY0ZHBbETVgcML9h4qf+kSZAx5CgKl
+ nIsoxNlxWx/TyTFNRfadcKievyOeQLs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-vQROuEtwPtGnhFpyucH8zw-1; Fri, 13 May 2022 07:21:08 -0400
-X-MC-Unique: vQROuEtwPtGnhFpyucH8zw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2ADCB38149CC
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 11:21:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E018614C26A2;
- Fri, 13 May 2022 11:21:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A221321E690D; Fri, 13 May 2022 13:21:06 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH v2 2/8] qapi: net: introduce a way to bypass
- qemu_opts_parse_noisily()
-References: <20220512080932.735962-1-lvivier@redhat.com>
- <20220512080932.735962-3-lvivier@redhat.com>
-Date: Fri, 13 May 2022 13:21:06 +0200
-In-Reply-To: <20220512080932.735962-3-lvivier@redhat.com> (Laurent Vivier's
- message of "Thu, 12 May 2022 10:09:26 +0200")
-Message-ID: <87v8u91xwd.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-399-Ygs9pvMYPle1rW8rhufI9Q-1; Fri, 13 May 2022 07:23:57 -0400
+X-MC-Unique: Ygs9pvMYPle1rW8rhufI9Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k35-20020a05600c1ca300b003946a9764baso5837782wms.1
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 04:23:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5rtU7YPotJf9w9BAQkrBLCeKfTNxD8IFDZUgiNXa2dY=;
+ b=y9HpcCPJ3uxL2zpM91zpoFJC9YKD4QFOpIb+jhYnVAVeXjwDlNQhvr46taQOC9ILNn
+ z1xH3UL4gsB8kc8vLOT/ff0/6RPAJFdnWFys3QfjO7v9B9SBtnGkSBAEEkQFya2YQ5Et
+ PvE9nsVI9cqQ9yOc7KZU1GTFXO0BwjSzHwn/yzA1HDqdFU5+GFIwm3f5tyTjtRrbp4iD
+ ZW6Hs+/LTvlBnmCwYi5e/smTGzD5pkIYRidjXiTcvt/h4+M9tV+CTssmuar+t1yjMSSX
+ na2jF3HNUZ2uyG4QnW4EzmErO9pahtYgSt7CDnDckXdrZ9bsqwKIoLzE4gboabKY5ORG
+ NdZQ==
+X-Gm-Message-State: AOAM532VNhKHaJMvsNtIwxO29KItU2bwkDTC835s3DN3XEPG84YJmf3o
+ v3aVJPxNdtNeWPhNQAxVbNqZjM6+3fmDLPjkIzRQsyk2FXILwdwVf7AwJVEc2AQqUtSaDpCi9a/
+ J1/QnycVoh/KHxyo=
+X-Received: by 2002:a5d:4205:0:b0:20a:e23c:a7f4 with SMTP id
+ n5-20020a5d4205000000b0020ae23ca7f4mr3661793wrq.576.1652441035929; 
+ Fri, 13 May 2022 04:23:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw5Dwjr2gwn1GXAUboI1ksy0njO7Sdd3EOrq8dUCHZnQt+Oxxbu3h+12SUzKjXG9F55pRePFw==
+X-Received: by 2002:a5d:4205:0:b0:20a:e23c:a7f4 with SMTP id
+ n5-20020a5d4205000000b0020ae23ca7f4mr3661774wrq.576.1652441035652; 
+ Fri, 13 May 2022 04:23:55 -0700 (PDT)
+Received: from redhat.com ([2.53.15.195]) by smtp.gmail.com with ESMTPSA id
+ n8-20020a05600c4f8800b0039444973258sm6785891wmq.0.2022.05.13.04.23.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 04:23:55 -0700 (PDT)
+Date: Fri, 13 May 2022 07:23:51 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ eduardo@habkost.net, jon.grimm@amd.com
+Subject: Re: [PATCH] pc: q35: Bump max_cpus to 512
+Message-ID: <20220513072007-mutt-send-email-mst@kernel.org>
+References: <20220504131639.13570-1-suravee.suthikulpanit@amd.com>
+ <20220509091249.392fdab6@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220509091249.392fdab6@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,174 +98,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+On Mon, May 09, 2022 at 09:12:49AM +0200, Igor Mammedov wrote:
+> On Wed, 4 May 2022 08:16:39 -0500
+> Suravee Suthikulpanit <suravee.suthikulpanit@amd.com> wrote:
+> 
+> > This is the maximum number of vCPU supported by
+> > the AMD x2APIC virtualization.
+> > 
+> > Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+> > ---
+> >  hw/i386/pc_q35.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> > index 302288342a..e82b1c690d 100644
+> > --- a/hw/i386/pc_q35.c
+> > +++ b/hw/i386/pc_q35.c
+> > @@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
+> >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
+> >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+> >      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+> > -    m->max_cpus = 288;
+> > +    m->max_cpus = 512;
+> 
+> Maybe we should bump it to KVM VCPU maximum,
+> and make sure we error out if asked for combination of
+> hardware/irqchip is not usable.
 
-> As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
-> of Netdev structure can collides with "type" field of SocketAddress),
+So what happens if one does 710 and then tries to use AMD x2APIC?
+We'd like that to error out, right?
 
-To remember how this works, I have to write a more verbose version of
-the above.  Why not post it then, so here goes.
-
-qemu_init() passes the argument of -netdev, -nic, and -net to
-net_client_parse().
-
-net_client_parse() parses with qemu_opts_parse_noisily(), passing
-QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
-qemu_net_opts for -net.  Their desc[] are all empty, which means any
-keys are accepted.  The result of the parse (a QemuOpts) is stored in
-the QemuOptsList.
-
-Note that QemuOpts is flat by design.  In some places, we layer non-flat
-on top using dotted keys convention, but not here.
-
-net_init_clients() iterates over the stored QemuOpts, and passes them to
-net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
-
-These functions pass the QemuOpts to net_client_init().  They also do
-other things with the QemuOpts, which we can ignore here.
-
-net_client_init() uses the opts visitor to convert the (flat) QemOpts to
-a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
-command netdev_add.
-
-The opts visitor was an early attempt to support QAPI in
-(QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
-commit eb7ee2cbeb "qapi: introduce OptsVisitor".
-
-A more modern way to support QAPI is qobject_input_visitor_new_str().
-It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
-it also supports JSON syntax.  The former isn't quite as expressive as
-JSON, but it's a lot closer than QemuOpts + opts visitor.
-
-> we introduce a way to bypass qemu_opts_parse_noisily() and use directly
-> visit_type_Netdev() to parse the backend parameters.
-
-This commit paves the way to use of the modern way instead.
-
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  net/net.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 54 insertions(+)
->
-> diff --git a/net/net.c b/net/net.c
-> index 58c05c200622..2aab7167316c 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -54,6 +54,7 @@
->  #include "net/colo-compare.h"
->  #include "net/filter.h"
->  #include "qapi/string-output-visitor.h"
-> +#include "qapi/qobject-input-visitor.h"
->  
->  /* Net bridge is currently not supported for W32. */
->  #if !defined(_WIN32)
-> @@ -63,6 +64,17 @@
->  static VMChangeStateEntry *net_change_state_entry;
->  static QTAILQ_HEAD(, NetClientState) net_clients;
->  
-> +typedef struct NetdevQueueEntry {
-> +    bool is_netdev;
-> +    Netdev *nd;
-> +    Location loc;
-> +    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
-> +} NetdevQueueEntry;
-> +
-> +typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
-> +
-> +static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
-> +
->  /***********************************************************/
->  /* network device redirectors */
->  
-> @@ -1559,6 +1571,19 @@ int net_init_clients(Error **errp)
->  
->      QTAILQ_INIT(&net_clients);
->  
-> +    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
-> +        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
-> +
-> +        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
-> +        loc_push_restore(&nd->loc);
-> +        if (net_client_init1(nd->nd, nd->is_netdev, errp) < 0) {
-
-I think you need to loc_pop() here.
-
-> +            return -1;
-> +        }
-
-Since the only caller passes &error_fatal, I'd be tempted to ditch the
-@errp argument, and simply do
-
-           net_client_init1(nd->nd, nd->is_netdev, &error_fatal);
-
-It's what we do for -blockdev, -device, and -object.
-
-> +        loc_pop(&nd->loc);
-> +        qapi_free_Netdev(nd->nd);
-> +        g_free(nd);
-> +    }
-> +
->      if (qemu_opts_foreach(qemu_find_opts("netdev"),
->                            net_init_netdev, NULL, errp)) {
->          return -1;
-> @@ -1575,8 +1600,37 @@ int net_init_clients(Error **errp)
->      return 0;
->  }
->  
-> +/*
-> + * netdev_is_modern() returns true when the backend needs to bypass
-> + * qemu_opts_parse_noisily()
-> + */
-> +static bool netdev_is_modern(const char *optarg)
-> +{
-> +    return false;
-> +}
-> +
->  int net_client_parse(QemuOptsList *opts_list, const char *optarg)
->  {
-> +    if (netdev_is_modern(optarg)) {
-> +            /*
-> +             * We need to bypass qemu_opts_parse_noisily() to accept
-> +             * new style object like addr.type=inet in SocketAddress
-> +             */
-
-I'm not sure this will makes sense to future readers.
-
-What about "Use modern, more expressive syntax"?
-
-> +            Visitor *v;
-> +            NetdevQueueEntry *nd;
-> +
-> +            v = qobject_input_visitor_new_str(optarg, "type",
-> +                                              &error_fatal);
-> +            nd = g_new(NetdevQueueEntry, 1);
-> +            visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
-> +            visit_free(v);
-> +            loc_save(&nd->loc);
-> +            nd->is_netdev = strcmp(opts_list->name, "netdev") == 0;
-> +
-> +            QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
-> +            return 0;
-> +    }
-
-Matches what we do for -blockdev, except we additionally have
-nd->is_netdev.  We need it for calling net_client_init1().
-
-If netdev_is_modern(optarg), then the only use of parameter @opts_list
-is opts_list->name in the initialization of nd->is_netdev.
-
-There's a bit of code smell, I'm afraid.
-
-I believe @is_netdev needs to be true for -netdev, -nic, and netdev_add;
-false for -net.
-
-Will we ever use the modern syntax with -net?
-
-Any chance we can deprecate -net?
-
-> +
->      if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
->          return -1;
->      }
+> 
+> >  }
+> >  
+> >  static void pc_q35_7_1_machine_options(MachineClass *m)
 
 
