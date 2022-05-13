@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744DF5264AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:34:33 +0200 (CEST)
-Received: from localhost ([::1]:59538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB115264AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:37:01 +0200 (CEST)
+Received: from localhost ([::1]:33566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npWNE-0008ED-0n
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:34:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
+	id 1npWPc-0001Yp-KH
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1npWML-0007ZL-AM
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:33:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29480)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npWOW-0000lF-I9
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:35:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1npWMH-0004hs-Bu
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:33:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npWOT-0005DV-B6
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:35:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652452412;
+ s=mimecast20190719; t=1652452548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=acDnzeVg1kcD6QFJvGJugBsBlW8Ms/L7LxBB5Ca+MlY=;
- b=jEoenFVCF1sEQDFQTgy4B6EWRg/DEF9/LxUKs1rZy2A2t24NbwrtA1Ye//v+vmRJxXDFhe
- Qk2SUOgYx4ghAwG3DbtYLxrWNaIdwD2RIT9I6DpHoJJA85u53iuabbKbZAdRZSauJ8HlnN
- uXxy63B3fkQOtFWxcSJfhKiwyU/xQd0=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3wXXMmQKVki1ojUfC58zhElwaU0uVUw7tFQcxOM4qyQ=;
+ b=Y0GAw9OI5JQw+7VcJXIaU3VFg9ORAlzhkvjI73admwXQ06VWdnrQJL38Le8tJygeJs3xOB
+ YrDLB9BC/StIXlVEJTcPye1o2P259Ec7J9Qy+ebecDiSHrTnMq2njxC0oXHpKL7e877VY6
+ 8vqM/GibNk7sT8WZXsHxSGSUp+TGidc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100--RFmnuR_PEKahQ0w6DHbfA-1; Fri, 13 May 2022 10:33:28 -0400
-X-MC-Unique: -RFmnuR_PEKahQ0w6DHbfA-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-2f8bbaa6b16so73352797b3.14
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 07:33:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=acDnzeVg1kcD6QFJvGJugBsBlW8Ms/L7LxBB5Ca+MlY=;
- b=uYUl2FRxlgbdgvFJQpdr7uG2je2D5W4573j2CeX5mwBVWgvNRqbHGZxJoqCMtxwDKy
- /XLZ8LdYkzYbFYxwDbRaROsCoszuL3tdeL4fnECjIBOfol5MZQ1VsdBFS8y80DBuafw0
- sPTgvnKBB9nK2atPoqKEGJBwMKgvE5+pQ6ifDzH006dLSyWWABySVt195L+AA5K0FjSk
- zsyFm1NwH3yVNOpf2K7M7JeZA6zAR6p1qaBl+OdU6YguIT2ua1TmFrifzG7+qxOoKgar
- OAH66dbHcaMYzJl8XUbfR6hZlawj9pz3RWbaR+HJwmjdvGg0OIH653IxbfIR1K82Pf6x
- 3kUQ==
-X-Gm-Message-State: AOAM530vWzoft4YmUzaCBLgPjTk+zi3JI+Qb+lMTqLqzY4eUUHEAScgh
- jYSUaGnmb07rPwhruG7ltlJV7uCcV6Idvt6JaX0A58IRzSlGcBV8zSsP8/ATrylfmIJ6VCP3orB
- lNMJh1mFO7ZLFUdlV2UZ7f34DP1lXncw=
-X-Received: by 2002:a05:690c:113:b0:2ef:260b:3801 with SMTP id
- bd19-20020a05690c011300b002ef260b3801mr6720593ywb.49.1652452408301; 
- Fri, 13 May 2022 07:33:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzPctWsrnrpAz2zw70cbw4LijDbjV3OJ8hXxOpdQhirDd5prZLCj4iU6s5h+hsAeKdDcutecyKglDxU1dZEe7s=
-X-Received: by 2002:a05:690c:113:b0:2ef:260b:3801 with SMTP id
- bd19-20020a05690c011300b002ef260b3801mr6720577ywb.49.1652452408055; Fri, 13
- May 2022 07:33:28 -0700 (PDT)
+ us-mta-632-kXxpL1vqPCOoJ9fh98yPrA-1; Fri, 13 May 2022 10:35:47 -0400
+X-MC-Unique: kXxpL1vqPCOoJ9fh98yPrA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7832101AA42;
+ Fri, 13 May 2022 14:35:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFAEA111F3B6;
+ Fri, 13 May 2022 14:35:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 97B0421E690D; Fri, 13 May 2022 16:35:41 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org,  mark.kanda@oracle.com,  berrange@redhat.com,
+ dgilbert@redhat.com
+Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-2-pbonzini@redhat.com>
+ <87sfpp3018.fsf@pond.sub.org>
+ <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
+ <87v8ukt8g8.fsf@pond.sub.org>
+ <e7056663-6f22-e0ec-679a-3f474df05788@redhat.com>
+ <87ee0xy3w0.fsf@pond.sub.org>
+ <51586997-467c-0209-7319-fc82e1796809@redhat.com>
+Date: Fri, 13 May 2022 16:35:41 +0200
+In-Reply-To: <51586997-467c-0209-7319-fc82e1796809@redhat.com> (Paolo
+ Bonzini's message of "Fri, 13 May 2022 15:57:00 +0200")
+Message-ID: <87y1z5v6te.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220513103924.1332-1-luzhipeng@cestc.cn>
- <CAPMcbCqXGMOC-z+LQgduJ98uk68Jk=+UyPD0es8O-h-RiBXQdA@mail.gmail.com>
-In-Reply-To: <CAPMcbCqXGMOC-z+LQgduJ98uk68Jk=+UyPD0es8O-h-RiBXQdA@mail.gmail.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Fri, 13 May 2022 17:33:16 +0300
-Message-ID: <CAPMcbCr6=gcByro+GZYsU_Mh7PuPRz1mLhdsxQG219zPcov_FQ@mail.gmail.com>
-Subject: Re: [PATCH v2] qga: add guest-get-diskstats command for Linux guests
-To: luzhipeng <luzhipeng@cestc.cn>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Michal Privoznik <mprivozn@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ca6c8205dee58ea9"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,622 +87,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ca6c8205dee58ea9
-Content-Type: text/plain; charset="UTF-8"
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-On Fri, May 13, 2022 at 1:50 PM Konstantin Kostiuk <kkostiuk@redhat.com>
-wrote:
-
+> On 5/13/22 15:10, Markus Armbruster wrote:
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>> On 5/5/22 15:28, Markus Armbruster wrote:
+>>>> This means we'll acquire yet another introspection system, unrelated to
+>>>> the introspection systems we already have in QEMU.
+>> 
+>> ... ^^^ needs justification.  Explain why passing the kernel's
+>> existing interface through QEMU is useful, and to whom.
 >
+> There are two justifications.
 >
-> On Fri, May 13, 2022 at 1:40 PM luzhipeng <luzhipeng@cestc.cn> wrote:
+> The first is the contents of the schemas: the new introspection data 
+> provides different information than the QAPI data, namely unit of 
+> measurement, how the numbers are gathered and change 
+> (peak/instant/cumulative/histogram), and histogram bucket sizes.  Unless 
+> you think those should be added to the QAPI introspection (and IMO there 
+> might be a case only for the unit of measure---and even then it's only a 
+> very weak case), the separate introspection data justifies itself.
 >
->> Add a new 'guest-get-diskstats' command for report disk io statistics
->> for Linux guests. This can be usefull for getting io flow or handling
->> IO fault, no need to enter guests.
->>
->> Signed-off-by: luzhipeng <luzhipeng@cestc.cn>
->>
->> ---
->> Changes v1->v2:
->>  v1:https://patchew.org/QEMU/20220512011930.214-1-luzhipeng@cestc.cn/
->>
->>  qga/commands-posix.c | 97 ++++++++++++++++++++++++++++++++++++++++++++
->>  qga/commands-win32.c |  6 +++
->>  qga/qapi-schema.json | 86 +++++++++++++++++++++++++++++++++++++++
->>  3 files changed, 189 insertions(+)
->>
->> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
->> index 69f209af87..7a16d84e3a 100644
->> --- a/qga/commands-posix.c
->> +++ b/qga/commands-posix.c
->> @@ -2783,6 +2783,96 @@ GuestMemoryBlockInfo
->> *qmp_guest_get_memory_block_info(Error **errp)
->>      return info;
->>  }
->>
->> +#define MAX_NAME_LEN 128
->> +static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)
->> +{
->> +#ifdef CONFIG_LINUX
->> +    GuestDiskStatsInfoList *head = NULL, **tail = &head;
->> +    const char *diskstats = "/proc/diskstats";
->> +    FILE *fp;
->> +    size_t n;
->> +    char *line = NULL;
->> +    char dev_name[MAX_NAME_LEN];
->> +    int i;
->> +    unsigned int ios_pgr, tot_ticks, rq_ticks, wr_ticks, dc_ticks,
->> fl_ticks;
->> +    unsigned long rd_ios, rd_merges_or_rd_sec, rd_ticks_or_wr_sec,
->> wr_ios;
->> +    unsigned long wr_merges, rd_sec_or_wr_ios, wr_sec;
->> +    unsigned long dc_ios, dc_merges, dc_sec, fl_ios;
->> +    unsigned int major, minor;
->> +
->> +    fp = fopen(diskstats, "r");
->> +    if (fp  == NULL) {
->> +        error_setg_errno(errp, errno, "open(\"%s\")", diskstats);
->> +        return NULL;
->> +    }
->> +    while (getline(&line, &n, fp) != -1) {
->> +        GuestDiskStatsInfo *diskstatinfo;
->> +        GuestDiskStats *diskstat;
->> +        i = sscanf(line, "%u %u %s %lu %lu %lu"
->> +                   "%lu %lu %lu %lu %u %u %u %u"
->> +                   "%lu %lu %lu %u %lu %u",
->> +                  &major, &minor, dev_name,
->> +                  &rd_ios, &rd_merges_or_rd_sec, &rd_sec_or_wr_ios,
->> +                  &rd_ticks_or_wr_sec, &wr_ios, &wr_merges, &wr_sec,
->> +                  &wr_ticks, &ios_pgr, &tot_ticks, &rq_ticks,
->> +                  &dc_ios, &dc_merges, &dc_sec, &dc_ticks,
->> +                  &fl_ios, &fl_ticks);
->> +
->> +        diskstatinfo = g_new0(GuestDiskStatsInfo, 1);
->> +        diskstat = g_new0(GuestDiskStats, 1);
->>
-> +        if (i < 7) {
->>
+> So the existence of query-stats-schemas in my opinion is justified even 
+> if don't consider the usecase of passing through the kernel's descriptions.
 >
-> diskstatinfo and diskstat pointers do not have g_autoptr attribute and
-> will be not added to the results list.
-> So, looks like we have a memory leak in this case.
+> The second justification however is indeed about the dynamicity of the 
+> schema.  The QAPI introspection data is very much static; and while QOM 
+> is somewhat more dynamic, generally we consider that to be a bug rather 
+> than a feature these days.  On the other hand, running old QEMU with new 
+> kernel is a supported usecase; if old QEMU cannot expose statistics from 
+> a new kernel, or if a kernel developer needs to change QEMU before 
+> gathering new info from the new kernel, then that is a poor user interface.
 >
+> Gathering statistics is important for development, for monitoring and 
+> for performance measurement.  There are tools such as kvm_stat that do 
+> this and they rely on the _user_ knowing the interesting data points 
+> rather than the tool (which can treat them as opaque).  The goal here is 
+> to take the capabilities of these tools and making them available 
+> throughout the whole virtualization stack, so that one can observe, 
+> monitor and measure virtual machines without having shell access + root 
+> on the host that runs them.
 
-checked with valgrind.
-we have a memory leak of diskstatinfo and diskstat when i < 7
+Work this into one of the commit messages, please.
 
-I suggest allocating these variables after this condition.
-
-
+>> How strong do we feel about the stability of the stats exposed by this
+>> command?  Separate answers for *structure* of the stats and concrete
+>> stats.
 >
+> I'll try to answer this from the point of view of the kernel:
 >
->> +            continue;
->> +        }
->> +        diskstatinfo->name = g_strdup(dev_name);
->> +        diskstatinfo->major = major;
->> +        diskstatinfo->minor = minor;
->> +        if (i == 7) {
->> +            diskstat->read_ios = rd_ios;
->> +            diskstat->read_sectors = rd_merges_or_rd_sec;
->> +            diskstat->write_ios = rd_sec_or_wr_ios;
->> +            diskstat->write_sectors = rd_ticks_or_wr_sec;
->> +        }
->> +        if (i >= 14) {
->> +            diskstat->read_ios = rd_ios;
->> +            diskstat->read_sectors = rd_sec_or_wr_ios;
->> +            diskstat->read_merges = rd_merges_or_rd_sec;
->> +            diskstat->read_ticks = rd_ticks_or_wr_sec;
->> +            diskstat->write_ios = wr_ios;
->> +            diskstat->write_sectors = wr_sec;
->> +            diskstat->write_merges = wr_merges;
->> +            diskstat->write_ticks = wr_ticks;
->> +            diskstat->ios_pgr = ios_pgr;
->> +            diskstat->total_ticks = tot_ticks;
->> +            diskstat->weight_ticks = rq_ticks;
->> +        }
->> +        if (i >= 18) {
->> +            diskstat->discard_ios = dc_ios;
->> +            diskstat->discard_merges = dc_merges;
->> +            diskstat->discard_sectors = dc_sec;
->> +            diskstat->discard_ticks = dc_ticks;
->> +        }
->> +        if (i >= 20) {
->> +            diskstat->flush_ios = fl_ios;
->> +            diskstat->flush_ticks = fl_ticks;
->> +        }
->> +
->> +        diskstatinfo->stats = diskstat;
->> +        QAPI_LIST_APPEND(tail, diskstatinfo);
->> +    }
->> +    g_free(line);
->> +    fclose(fp);
->> +    return head;
->> +#else
->> +    g_debug("disk stats reporting available only for Linux");
->> +    return NULL;
->> +#endif
->> +}
->> +
->> +GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
->> +{
->> +    return guest_get_diskstats(errp);
->> +}
->> +
->>  #else /* defined(__linux__) */
->>
->>  void qmp_guest_suspend_disk(Error **errp)
->> @@ -3131,6 +3221,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error
->> **errp)
->>      return NULL;
->>  }
->>
->> +GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
->> +{
->> +    error_setg(errp, QERR_UNSUPPORTED);
->> +    return NULL;
->> +}
->> +
->> +
->>  #endif /* CONFIG_FSFREEZE */
->>
->>  #if !defined(CONFIG_FSTRIM)
->> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
->> index d56b5fd2a7..dcdeb76a68 100644
->> --- a/qga/commands-win32.c
->> +++ b/qga/commands-win32.c
->> @@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)
->>
->>      return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
->>  }
->> +
->> +GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
->> +{
->> +    error_setg(errp, QERR_UNSUPPORTED);
->> +    return NULL;
->> +}
->> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
->> index 4d8e506c9e..94aad4f2ae 100644
->> --- a/qga/qapi-schema.json
->> +++ b/qga/qapi-schema.json
->> @@ -1490,3 +1490,89 @@
->>  { 'command': 'guest-ssh-remove-authorized-keys',
->>    'data': { 'username': 'str', 'keys': ['str'] },
->>    'if': 'CONFIG_POSIX' }
->> +
->> +##
->> +# @GuestDiskStats:
->> +#
->> +# @read-sectors: sectors read
->> +#
->> +# @write-sectors: sectors written
->> +#
->> +# @discard-sectors: sectors discarded
->> +#
->> +# @read-ios: reads completed successfully
->> +#
->> +# @read-merges: Number of read requests merged
->> +#
->> +# @write-ios: writes completed
->> +#
->> +# @write-merges: Number of write requests merged
->> +#
->> +# @discard-ios: Number of discards completed successfully
->> +#
->> +# @discard-merges: NUmber of discard requests merged
->> +#
->> +# @flush-ios: Number of flush requests completed successfully
->> +#
->> +# @read-ticks: time spent reading(ms)
->> +#
->> +# @write-ticks: time spent writing(ms)
->> +#
->> +# @discard-ticks: time spent discarding(ms)
->> +#
->> +# @flush-ticks: time spent flushing(ms)
->> +#
->> +# @ios-pgr: Number of I/Os currently in flight
->> +#
->> +# @total-ticks: time spent doing I/Os (ms)
->> +#
->> +# @weight-ticks: weighted time spent doing I/Os since the last update of
->> this field(ms)
->> +#
->> +# Since: 7.1
->> +##
->> +{ 'struct': 'GuestDiskStats',
->> +  'data': {'read-sectors': 'uint64',
->> +            'write-sectors': 'uint64',
->> +            'discard-sectors': 'uint64',
->> +            'read-ios': 'uint64',
->> +            'read-merges': 'uint64',
->> +            'write-ios': 'uint64',
->> +            'write-merges': 'uint64',
->> +            'discard-ios': 'uint64',
->> +            'discard-merges': 'uint64',
->> +            'flush-ios': 'uint64',
->> +            'read-ticks': 'uint64',
->> +            'write-ticks': 'uint64',
->> +            'discard-ticks': 'uint64',
->> +            'flush-ticks': 'uint64',
->> +            'ios-pgr': 'uint64',
->> +            'total-ticks': 'uint64',
->> +            'weight-ticks': 'uint64'
->> +           } }
->> +
->> +##
->> +# @GuestDiskStatsInfo:
->> +#
->> +# @name disk name
->> +#
->> +# @major major of disk
->> +#
->> +# @minor minor of disk
->> +##
->> +{ 'struct': 'GuestDiskStatsInfo',
->> +  'data': {'name': 'str',
->> +           'major': 'uint64',
->> +           'minor': 'uint64',
->> +           'stats': 'GuestDiskStats' } }
->> +
->> +##
->> +# @guest-get-diskstats:
->> +#
->> +# Retrieve information about disk stats.
->> +# Returns: List of disk stats of guest.
->> +#
->> +# Since: 7.1
->> +##
->> +{ 'command': 'guest-get-diskstats',
->> +  'returns': ['GuestDiskStatsInfo']
->> +}
->> --
->> 2.31.1
->>
->>
->>
->>
-
---000000000000ca6c8205dee58ea9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Fri, May 13, 2022 at 1:50 PM Konstanti=
-n Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Fri, May 13, 2022 at 1:40 PM luzhipen=
-g &lt;<a href=3D"mailto:luzhipeng@cestc.cn" target=3D"_blank">luzhipeng@ces=
-tc.cn</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Add a new &#39;guest-get-diskstats&#39; command for report disk io sta=
-tistics<br>
-for Linux guests. This can be usefull for getting io flow or handling<br>
-IO fault, no need to enter guests.<br>
-<br>
-Signed-off-by: luzhipeng &lt;<a href=3D"mailto:luzhipeng@cestc.cn" target=
-=3D"_blank">luzhipeng@cestc.cn</a>&gt;<br>
-<br>
----<br>
-Changes v1-&gt;v2:<br>
-=C2=A0v1:<a href=3D"https://patchew.org/QEMU/20220512011930.214-1-luzhipeng=
-@cestc.cn/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/2=
-0220512011930.214-1-luzhipeng@cestc.cn/</a><br>
-<br>
-=C2=A0qga/commands-posix.c | 97 +++++++++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0qga/commands-win32.c |=C2=A0 6 +++<br>
-=C2=A0qga/qapi-schema.json | 86 +++++++++++++++++++++++++++++++++++++++<br>
-=C2=A03 files changed, 189 insertions(+)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 69f209af87..7a16d84e3a 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -2783,6 +2783,96 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_inf=
-o(Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return info;<br>
-=C2=A0}<br>
-<br>
-+#define MAX_NAME_LEN 128<br>
-+static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)<br>
-+{<br>
-+#ifdef CONFIG_LINUX<br>
-+=C2=A0 =C2=A0 GuestDiskStatsInfoList *head =3D NULL, **tail =3D &amp;head;=
-<br>
-+=C2=A0 =C2=A0 const char *diskstats =3D &quot;/proc/diskstats&quot;;<br>
-+=C2=A0 =C2=A0 FILE *fp;<br>
-+=C2=A0 =C2=A0 size_t n;<br>
-+=C2=A0 =C2=A0 char *line =3D NULL;<br>
-+=C2=A0 =C2=A0 char dev_name[MAX_NAME_LEN];<br>
-+=C2=A0 =C2=A0 int i;<br>
-+=C2=A0 =C2=A0 unsigned int ios_pgr, tot_ticks, rq_ticks, wr_ticks, dc_tick=
-s, fl_ticks;<br>
-+=C2=A0 =C2=A0 unsigned long rd_ios, rd_merges_or_rd_sec, rd_ticks_or_wr_se=
-c, wr_ios;<br>
-+=C2=A0 =C2=A0 unsigned long wr_merges, rd_sec_or_wr_ios, wr_sec;<br>
-+=C2=A0 =C2=A0 unsigned long dc_ios, dc_merges, dc_sec, fl_ios;<br>
-+=C2=A0 =C2=A0 unsigned int major, minor;<br>
-+<br>
-+=C2=A0 =C2=A0 fp =3D fopen(diskstats, &quot;r&quot;);<br>
-+=C2=A0 =C2=A0 if (fp=C2=A0 =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;open(\&quo=
-t;%s\&quot;)&quot;, diskstats);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 while (getline(&amp;line, &amp;n, fp) !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestDiskStatsInfo *diskstatinfo;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestDiskStats *diskstat;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 i =3D sscanf(line, &quot;%u %u %s %lu %lu %lu&=
-quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;%lu %lu %lu %lu %u %u %u %u&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;%lu %lu %lu %u %lu %u&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;major,=
- &amp;minor, dev_name,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;rd_ios=
-, &amp;rd_merges_or_rd_sec, &amp;rd_sec_or_wr_ios,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;rd_tic=
-ks_or_wr_sec, &amp;wr_ios, &amp;wr_merges, &amp;wr_sec,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;wr_tic=
-ks, &amp;ios_pgr, &amp;tot_ticks, &amp;rq_ticks,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;dc_ios=
-, &amp;dc_merges, &amp;dc_sec, &amp;dc_ticks,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;fl_ios=
-, &amp;fl_ticks);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo =3D g_new0(GuestDiskStatsInfo, 1)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat =3D g_new0(GuestDiskStats, 1);<br></b=
-lockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &lt; 7) {<br></blockquote><div><br></div=
-><div>diskstatinfo and diskstat pointers do not have <span>g_<span>autoptr =
-attribute and</span></span></div><div><span><span>will be not added to the =
-results list.</span></span></div><div><span><span>So, looks like we have a =
-memory leak in this case.</span></span></div></div></div></blockquote><div>=
-<br></div><div>checked with valgrind. <br></div><div>we have a memory leak =
-of diskstatinfo and diskstat when i &lt; 7<br></div><div><br></div><div>I s=
-uggest allocating these variables after this condition.<br></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"=
-><div class=3D"gmail_quote"><div><span><span><code></code></span></span></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;name =3D g_strdup(dev_name);<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;major =3D major;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;minor =3D minor;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i =3D=3D 7) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_ios =3D rd_ios=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_sectors =3D rd=
-_merges_or_rd_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_ios =3D rd_se=
-c_or_wr_ios;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_sectors =3D r=
-d_ticks_or_wr_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &gt;=3D 14) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_ios =3D rd_ios=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_sectors =3D rd=
-_sec_or_wr_ios;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_merges =3D rd_=
-merges_or_rd_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_ticks =3D rd_t=
-icks_or_wr_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_ios =3D wr_io=
-s;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_sectors =3D w=
-r_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_merges =3D wr=
-_merges;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_ticks =3D wr_=
-ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;ios_pgr =3D ios_pgr=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;total_ticks =3D tot=
-_ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;weight_ticks =3D rq=
-_ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &gt;=3D 18) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_ios =3D dc_=
-ios;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_merges =3D =
-dc_merges;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_sectors =3D=
- dc_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_ticks =3D d=
-c_ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &gt;=3D 20) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;flush_ios =3D fl_io=
-s;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;flush_ticks =3D fl_=
-ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;stats =3D diskstat;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_APPEND(tail, diskstatinfo);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 g_free(line);<br>
-+=C2=A0 =C2=A0 fclose(fp);<br>
-+=C2=A0 =C2=A0 return head;<br>
-+#else<br>
-+=C2=A0 =C2=A0 g_debug(&quot;disk stats reporting available only for Linux&=
-quot;);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+#endif<br>
-+}<br>
-+<br>
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 return guest_get_diskstats(errp);<br>
-+}<br>
-+<br>
-=C2=A0#else /* defined(__linux__) */<br>
-<br>
-=C2=A0void qmp_guest_suspend_disk(Error **errp)<br>
-@@ -3131,6 +3221,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)=
-<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0}<br>
-<br>
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+}<br>
-+<br>
-+<br>
-=C2=A0#endif /* CONFIG_FSFREEZE */<br>
-<br>
-=C2=A0#if !defined(CONFIG_FSTRIM)<br>
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index d56b5fd2a7..dcdeb76a68 100644<br>
---- a/qga/commands-win32.c<br>
-+++ b/qga/commands-win32.c<br>
-@@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);<br=
+> - will "some" statistics ever be available for all targets that are 
+> currently supported?  Yes, resoundingly.
 >
-=C2=A0}<br>
-+<br>
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+}<br>
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json<br>
-index 4d8e506c9e..94aad4f2ae 100644<br>
---- a/qga/qapi-schema.json<br>
-+++ b/qga/qapi-schema.json<br>
-@@ -1490,3 +1490,89 @@<br>
-=C2=A0{ &#39;command&#39;: &#39;guest-ssh-remove-authorized-keys&#39;,<br>
-=C2=A0 =C2=A0&#39;data&#39;: { &#39;username&#39;: &#39;str&#39;, &#39;keys=
-&#39;: [&#39;str&#39;] },<br>
-=C2=A0 =C2=A0&#39;if&#39;: &#39;CONFIG_POSIX&#39; }<br>
-+<br>
-+##<br>
-+# @GuestDiskStats:<br>
-+#<br>
-+# @read-sectors: sectors read<br>
-+#<br>
-+# @write-sectors: sectors written<br>
-+#<br>
-+# @discard-sectors: sectors discarded<br>
-+#<br>
-+# @read-ios: reads completed successfully<br>
-+#<br>
-+# @read-merges: Number of read requests merged<br>
-+#<br>
-+# @write-ios: writes completed<br>
-+#<br>
-+# @write-merges: Number of write requests merged<br>
-+#<br>
-+# @discard-ios: Number of discards completed successfully<br>
-+#<br>
-+# @discard-merges: NUmber of discard requests merged<br>
-+#<br>
-+# @flush-ios: Number of flush requests completed successfully<br>
-+#<br>
-+# @read-ticks: time spent reading(ms)<br>
-+#<br>
-+# @write-ticks: time spent writing(ms)<br>
-+#<br>
-+# @discard-ticks: time spent discarding(ms)<br>
-+#<br>
-+# @flush-ticks: time spent flushing(ms)<br>
-+#<br>
-+# @ios-pgr: Number of I/Os currently in flight<br>
-+#<br>
-+# @total-ticks: time spent doing I/Os (ms)<br>
-+#<br>
-+# @weight-ticks: weighted time spent doing I/Os since the last update of t=
-his field(ms)<br>
-+#<br>
-+# Since: 7.1<br>
-+##<br>
-+{ &#39;struct&#39;: &#39;GuestDiskStats&#39;,<br>
-+=C2=A0 &#39;data&#39;: {&#39;read-sectors&#39;: &#39;uint64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;write-sectors&#39;: &#39;ui=
-nt64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;discard-sectors&#39;: &#39;=
-uint64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;read-ios&#39;: &#39;uint64&=
-#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;read-merges&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;write-ios&#39;: &#39;uint64=
-&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;write-merges&#39;: &#39;uin=
-t64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;discard-ios&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;discard-merges&#39;: &#39;u=
-int64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;flush-ios&#39;: &#39;uint64=
-&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;read-ticks&#39;: &#39;uint6=
-4&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;write-ticks&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;discard-ticks&#39;: &#39;ui=
-nt64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;flush-ticks&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;ios-pgr&#39;: &#39;uint64&#=
-39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;total-ticks&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;weight-ticks&#39;: &#39;uin=
-t64&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} }<br>
-+<br>
-+##<br>
-+# @GuestDiskStatsInfo:<br>
-+#<br>
-+# @name disk name<br>
-+#<br>
-+# @major major of disk<br>
-+#<br>
-+# @minor minor of disk<br>
-+##<br>
-+{ &#39;struct&#39;: &#39;GuestDiskStatsInfo&#39;,<br>
-+=C2=A0 &#39;data&#39;: {&#39;name&#39;: &#39;str&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;major&#39;: &#39;uint64&#39;=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;minor&#39;: &#39;uint64&#39;=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;stats&#39;: &#39;GuestDiskSt=
-ats&#39; } }<br>
-+<br>
-+##<br>
-+# @guest-get-diskstats:<br>
-+#<br>
-+# Retrieve information about disk stats.<br>
-+# Returns: List of disk stats of guest.<br>
-+#<br>
-+# Since: 7.1<br>
-+##<br>
-+{ &#39;command&#39;: &#39;guest-get-diskstats&#39;,<br>
-+=C2=A0 &#39;returns&#39;: [&#39;GuestDiskStatsInfo&#39;]<br>
-+}<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div></div>
+> - are the names of statistics stable?  Mostly, but not 100%.  If 
+> somebody notices the same value is being tracked with different names in 
+> two different architectures, one of them might be renamed.  If the 
+> statistic tracks a variable that does not exist anymore as the code 
+> changes, the statistic will go away.  If KVM grows two different ways to 
+> do the same thing and the default changes, some statistics that were 
+> previously useful could now be stuck at 0.  All of these events are 
+> expected to be rare, but 100% stability is neither a goal nor attainable 
+> in my opinion.
+>
+> - is the schema format stable?  Yes, it is designed to be extensible but 
+> it will be backwards compatible.  Don't break userspace and all that.
+>
+> And for QEMU:
+>
+> - will "some" statistics ever be available for all targets that are 
+> currently supported?  Yes, and this will be true even if other 
+> QEMU-specific targets are added, e.g. block devices.
+>
+> - will other providers have the same guarantees of stability?  It 
+> depends.  Statistics based on the current "query-blockstats" output will 
+> probably be even more stable than KVM stats.  TCG stats might be of 
+> variable stability.  We can add "x-" in front of providers if we decide 
+> that such a convention is useful.
+>
+> - is the QEMU schema format stable?  Yes.  What we have is more or less 
+> a 1:1 conversion of the KVM schema format, which is pretty 
+> comprehensive. But if an addition to the schema proves itself worthwhile 
+> it can be added with the usual care to QAPI backwards compatibility.
+>
+>> If we're confident neither structure nor concrete stats will change
+>> incompatibly, the commands are stable without reservations.
+>> 
+>> If we're confident the structure is stable, but unable or unwilling to
+>> commit to the concrete stats, we should explain this in documentation.
+>
+> Based on the above text do you have a suggested wording and, especially, 
 
---000000000000ca6c8205dee58ea9--
+Friday afternoon, worst time for word-smithing...  Feel free to ask
+again on Monday :)
+
+> a suggested place?  For example, do you think it would fit better in the 
+> query-stats or query-stats-schemas documentation?
+
+No obvious best choice.  I'd lean towards query-stats-schema.  Or
+perhaps neither; write a separate introduction instead, like this:
+
+    ##
+    # = Statistics
+    #
+    # Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    # eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    # ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    # aliquip ex ea commodo consequat.  Duis aute irure dolor in
+    # reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    # pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    # culpa qui officia deserunt mollit anim id est laborum.
+    ##
+
+Comes out in HTML as you'd expect, except it gets also included in the
+table of contents, which is a bug.
+
+>> If we're unsure about both, the commands should be marked unstable.  We
+>> can always upgrade stability later.
 
 
