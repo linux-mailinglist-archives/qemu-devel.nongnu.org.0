@@ -2,58 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A0E526CF1
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 00:31:14 +0200 (CEST)
-Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22855526CE2
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 00:17:45 +0200 (CEST)
+Received: from localhost ([::1]:53222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npdoX-00043t-7r
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 18:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
+	id 1npdbT-0000FA-Pf
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 18:17:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zev@bewilderbeest.net>)
- id 1npd0K-0002Cq-4O; Fri, 13 May 2022 17:39:20 -0400
-Received: from thorn.bewilderbeest.net ([71.19.156.171]:57271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zev@bewilderbeest.net>)
- id 1npd0I-0004KP-FY; Fri, 13 May 2022 17:39:19 -0400
-Received: from hatter.bewilderbeest.net (174-21-163-222.tukw.qwest.net
- [174.21.163.222])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: zev)
- by thorn.bewilderbeest.net (Postfix) with ESMTPSA id EDD5AA21;
- Fri, 13 May 2022 14:39:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
- s=thorn; t=1652477955;
- bh=daeFLf+AhaKwZp2OdaLLNRuVaf0ltxVYDfAY45oXBpw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OxIqojsYQxbjfbJUKz7Xq9kXWARnitZSWMnfkPlnTXoidPQznkVJ3ruUpQ9mhoWvA
- ysPcYV4aG/xWUnPCmwnLmJiy7Ku+1DbuAmqLny4CDk2n2BAZGpcfAcGSPFL5XLLFsC
- UkZHK4JpAr6PL398IsdPAhnu5758mfa9c8tZV030=
-Date: Fri, 13 May 2022 14:39:12 -0700
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Peter Delevoryas <pdel@fb.com>
-Cc: irischenlj@fb.com, patrick@stwcx.xyz, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, clg@kaod.org, openbmc@lists.ozlabs.org,
- andrew@aj.id.au, peter.maydell@linaro.org, joel@jms.id.au
-Subject: Re: [PATCH 0/2] hw: aspeed: Init all UART's with serial devices
-Message-ID: <Yn7QAJK7jnE7kz9T@hatter.bewilderbeest.net>
-References: <20220513040220.3657135-1-pdel@fb.com>
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1npdZ9-0007kp-E0
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 18:15:21 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:40548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1npdZ7-0003eE-KK
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 18:15:19 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ iq2-20020a17090afb4200b001d93cf33ae9so11967234pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 15:15:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XsraKeFlfnb9TgM6xNyBzf8fAKUPtnh6QbNo2XUloGQ=;
+ b=4Wq1ZExoKw5jDks8AiLQPaadmAweVd758eVdOBJpJkKUilYq7goKgotkjdzipqMl0c
+ RmjFWmBbfWdYi/JCriV+QkTfvnOd0avIg7nPyazCD4dot55NqY8Cu20CVmbz7AmsVWfe
+ ska4mZUQPc4++FZ+c+FSKxV5n4xhyjeUfGyHT6eCSO3c4XG3eBDei9MqO9OOD9/YQzqu
+ UJxCsnxtn7fvNwbc7GOckLfyzFNeX/1/DdVR2Kcc7I71r9Zp5k9aLtjYlyOR6680++1U
+ JFUAcuC3AeA+46ePI4p5afI+hfOG41QbuNlQrnDdXNwPIKbKknUNVnAwcfd+aQ14VX/e
+ Cs3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XsraKeFlfnb9TgM6xNyBzf8fAKUPtnh6QbNo2XUloGQ=;
+ b=jGv+Wm+brpDDwCmqEk5zCgxhdJoAI/++0BlK55S9lPAKs8Qgk+i+JuP2chVm7SQ2CU
+ x9fYWKyPfiekFv0/TFr2wc3PmoZ8OLDohWFx3QdSQZb/lGCPeLTOv8coElfu6ZZ6Gxmb
+ BPHlZx2DbV8rnBtdM/GpZ+UCD0Jr8b/RtwslcKuA2Cqx0/ueF8m5hCmrf28OvRCbUpA3
+ d4D6b6QriTI8SE1qQYvDaaVH/zkRkc8nawnlDbVkqKnfZ0zgO8TKMMyWDXCH+vOsNBXK
+ FI5oU6/aaTMgHbpz/tWIOGlj9ba2u7Y560OJt4YQ9S4MCPg85xoHW514hnTb/dE9ZueE
+ 239A==
+X-Gm-Message-State: AOAM532qSLRd8BW60F0kCA8crHV3+wrw/hETCYqzS6JoEBF4tM8Clo7o
+ LQ7WgAtBKX6SHZ8tkKfDBjZRWZAvyn5lJg==
+X-Google-Smtp-Source: ABdhPJyKtyzZfzmFJL9hMi74+cYluM0cU2xnc+JyESXAmjV3gyIn0oVKKTlZWPLuqA7Xm16t4mOoJA==
+X-Received: by 2002:a17:90b:4ad1:b0:1dc:96fa:69aa with SMTP id
+ mh17-20020a17090b4ad100b001dc96fa69aamr18156889pjb.189.1652480115723; 
+ Fri, 13 May 2022 15:15:15 -0700 (PDT)
+Received: from atishp.ba.rivosinc.com ([66.220.2.162])
+ by smtp.gmail.com with ESMTPSA id
+ a14-20020a170902ecce00b0015e8d4eb1bcsm2508937plh.6.2022.05.13.15.15.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 15:15:14 -0700 (PDT)
+From: Atish Patra <atishp@rivosinc.com>
+To: qemu-devel@nongnu.org
+Cc: Atish Patra <atishp@rivosinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Anup Patel <anup.patel@wdc.com>, qemu-riscv@nongnu.org, dylan@rivosinc.com,
+ Bin Meng <bmeng.cn@gmail.com>, Frank Chang <frank.chang@sifive.com>,
+ Jim Shu <jim.shu@sifive.com>
+Subject: [PATCH] hw/intc: Pass correct hartid while updating mtimecmp
+Date: Fri, 13 May 2022 15:14:58 -0700
+Message-Id: <20220513221458.1192933-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220513040220.3657135-1-pdel@fb.com>
-Received-SPF: pass client-ip=71.19.156.171; envelope-from=zev@bewilderbeest.net;
- helo=thorn.bewilderbeest.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=atishp@rivosinc.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 13 May 2022 18:29:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,28 +92,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 09:02:18PM PDT, Peter Delevoryas wrote:
-> CC'ing Zev and OpenBMC since this was motivated by a problem Zev had there:
-> 
-> https://lore.kernel.org/openbmc/YnzGnWjkYdMUUNyM@hatter.bewilderbeest.net/
-> 
-> This series adds all the missing UART's in the Aspeed chips, and initializes
-> them all with serial devices (even if there is no peer character device provided
-> by the QEMU user).
-> 
-> This allows users to quickly test UART output without any code changes. In fact,
-> you could even connect all the UART's to separate sockets and check which one is
-> emitting data.
-> 
+timecmp update function should be invoked with hartid for which
+timecmp is being updated. The following patch passes the incorrect
+hartid to the update function.
 
-Thanks Peter -- I tried this out with an ahe-50dc u-boot build (ast2400 
-with stdio on uart3), and with
+Fixes: e2f01f3c2e13 ("hw/intc: Make RISC-V ACLINT mtime MMIO register writable")
 
-  -serial null -serial null -serial null -serial mon:stdio
+Signed-off-by: Atish Patra <atishp@rivosinc.com>
+---
+ hw/intc/riscv_aclint.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-added to the command-line I get the u-boot stdio and the qemu monitor in 
-my terminal as expected.
-
-Tested-by: Zev Weiss <zev@bewilderbeest.net>
+diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
+index 0412edc98257..e6bceceefdbc 100644
+--- a/hw/intc/riscv_aclint.c
++++ b/hw/intc/riscv_aclint.c
+@@ -233,7 +233,8 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+                 continue;
+             }
+             riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu),
+-                                              i, env->timecmp);
++                                              mtimer->hartid_base + i,
++                                              env->timecmp);
+         }
+         return;
+     }
+-- 
+2.25.1
 
 
