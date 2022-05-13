@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05AE5262BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:15:57 +0200 (CEST)
-Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA655262BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:16:29 +0200 (CEST)
+Received: from localhost ([::1]:38734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npV9A-0007sz-ME
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:15:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37850)
+	id 1npV9g-0008WB-W9
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npV6j-0005hR-82
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:25 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:43934)
+ id 1npV6l-0005hz-5b
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:28 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npV6g-0007d4-R5
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:24 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- l38-20020a05600c1d2600b00395b809dfbaso4455296wms.2
+ id 1npV6g-0007d9-Rh
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:25 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id k126so4789040wme.2
  for <qemu-devel@nongnu.org>; Fri, 13 May 2022 06:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=p+hSbF0om2aDK+Z1zx6muSTyYyK6/1V794Z4po7WaWA=;
- b=arQU0WJgZFikVeN3ThaeJm2M9D5M+3xAdaXtzY56E3aiSWbrjrgS1E0dfFrr8jPbyO
- uJrf4MsPrd0WyUM5iQRt4LCB4yL2Ep9gBAeQHCwJyHafMfoFyajTAwRRz0UWlaaXYgY7
- MoKZ41XUMT+v6lIgqnwudCYBereeqKYEwkkMxaitQXa6H9kGko6QNc/CLsV+x7puuNV/
- xX+7u07s5UtSdgG+Roy+vGXUkzfGrQ172M41XR7g+6Ply+wiwhKOjVtcXaoTnvaDagoR
- xaeV5evumvuEnsl6oqOj9zyor9CcdW1TlahZhnw91jrMzG5FCq1DTvCvUONs+iCBRHQE
- ycFw==
+ bh=ZOTl4ibDRdtOyEL212041ezVq+53TlvBxM0zJ1ux+kM=;
+ b=zbOJocrG6BoZUx45clliWjLnWHF+QpDqgDWPeUQI4+JaPxD9eW8YbXBq3dikraLoh1
+ TzoXvXSZPndFQDO85hKRu4HRhXV0FRVnwfXR545FU26S1xz5Ta97urawbiDMKt7AihJo
+ OjcVe7xKeXsDQVAsc9H7KXCuK9OLy8dKdl7ELSnSBwPN7hiW+ing2JdKUSSSy3T3msxh
+ tmGgvfVHVnbIRu6DDy8W9JkkWKoaNYid8QhpDzQ5SxfhXyd8NSGGLGfoGO2L7NTDslrd
+ d4nk1aJPnmJju8CaDDWTyj1z6Pe0xbxQCLPArcDLg2sdXkW8YlTje7ultWCvZ0DIsr26
+ u7FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p+hSbF0om2aDK+Z1zx6muSTyYyK6/1V794Z4po7WaWA=;
- b=6r3pk+Z34vdGFpQ2NdSott+0Yo7KBBMik0xwJUmDAMH2ZLwgLC/EWYJDLIn3X1q1KR
- kdxHYUqf84w70XDShi4/ZYYxHY6z/aXCK70qlonA19fUeeWgemm5U27bWEplB7XBUetk
- f/aVzTvmH09CijFmHFsRpfsBZ07heC4gde0d2SJ47//fmmpxvivRRDC0g0g/0jidoVmC
- eV4LeGeO2Wkno1XJg6Ckp3QdF9aEceDnyj2ArZ8pMyEqStYF5eu86Jy89xh/TgrpMM90
- Av30TI9IWDeUespQW4XRB4zTBR8jbwmZoHF5+SvN0mChDbX2ZnKMSEuAM0yURFdtyqM8
- PY8A==
-X-Gm-Message-State: AOAM530kTCqEIN1KubfOHVwrimN4KmLEHQ3faB+RA7H5ynrtZURSMuVn
- r0c6EWjTdc1Jmt5hl4jmD1y3pZouJQxUZA==
-X-Google-Smtp-Source: ABdhPJw41hm3S/ouhCWMkhj22JBWuHFlrauAUZsw90QhksHA2ooXoAsKzTz1yAAvMsFCKjUXb262tQ==
-X-Received: by 2002:a05:600c:4e91:b0:394:8d30:d6dd with SMTP id
- f17-20020a05600c4e9100b003948d30d6ddmr4541790wmq.21.1652447598962; 
- Fri, 13 May 2022 06:13:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZOTl4ibDRdtOyEL212041ezVq+53TlvBxM0zJ1ux+kM=;
+ b=YKh/xFtkSOShEpl24u/Thm1MLgFhG3p+s5nIpBBypN4HCM0NEYQ/dEWCjM3z1SNE9W
+ 2uyWY3f0ctHNBI8g27jpjucBYTHSOBtrn66KnFwlQfzAxiAulgaQ0tCpLkHA2MoW5hS+
+ JHR2lWeyGOtIBgLksY+6bJhfGU3F0gPIlvgcbNBjrXHtkQaabu02JNTeTRhcB5A/FeRk
+ qNyb1EEk/Sm/wt1xJLotC1lFYlyhNINUTg+sav0xDAyuRO6l6jE/+3E3K8c1lTha+O4O
+ tYaU6FYl3EjyOhv4NFSTDBapkd/1bvxqnTH3C1ZYU4dGvcUydxPwEc+pt5v/EhJUN+YT
+ Q0jg==
+X-Gm-Message-State: AOAM530DPi+HAZV74Sss5AjeiGHMXrQn1W0xbsJWXyY3rrkOsuUQvQIN
+ +ESCgY091NsaRxTnUKgy3Gn0jQ==
+X-Google-Smtp-Source: ABdhPJxNmfpW0Qou2b42pbPeK3sLYlB/QzmQVzw5AFpqLFy8WVi0ChJd4ZyBHiJces8nugV1kzXscA==
+X-Received: by 2002:a05:600c:1986:b0:394:867f:984c with SMTP id
+ t6-20020a05600c198600b00394867f984cmr15019881wmq.20.1652447599770; 
+ Fri, 13 May 2022 06:13:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z23-20020a1c4c17000000b0039456fb80b3sm5214887wmf.43.2022.05.13.06.13.18
+ z23-20020a1c4c17000000b0039456fb80b3sm5214887wmf.43.2022.05.13.06.13.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 06:13:18 -0700 (PDT)
+ Fri, 13 May 2022 06:13:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/arm/virt: fix dtb nits spotted by dtc
-Date: Fri, 13 May 2022 14:13:14 +0100
-Message-Id: <20220513131316.4081539-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] hw/arm/virt: Fix incorrect non-secure flash dtb node name
+Date: Fri, 13 May 2022 14:13:15 +0100
+Message-Id: <20220513131316.4081539-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220513131316.4081539-1-peter.maydell@linaro.org>
+References: <20220513131316.4081539-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,29 +88,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you dump the DTB generated by the virt board using
-  -machine dumpdtb=file.dtb
-and then decompile it with
-  dtc -I dtb -O dts -o file.dts file.dtb
-dtc will complain about some harmless but wrong constructs
-in the dtb:
+In the virt board with secure=on we put two nodes in the dtb
+for flash devices: one for the secure-only flash, and one
+for the non-secure flash. We get the reg properties for these
+correct, but in the DT node name, which by convention includes
+the base address of devices, we used the wrong address. Fix it.
 
+Spotted by dtc, which will complain
 Warning (unique_unit_address): /flash@0: duplicate unit-address (also used in node /secflash@0)
-Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+if you dump the dtb from QEMU with -machine dumpdtb=file.dtb
+and then decompile it with dtc.
 
-This series fixes those nits.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/virt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  hw/arm/virt: Fix incorrect non-secure flash dtb node name
-  hw/arm/virt: Drop #size-cells and #address-cells from gpio-keys dtb
-    node
-
- hw/arm/virt.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 1a45f44435e..587e885a98c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1195,7 +1195,7 @@ static void virt_flash_fdt(VirtMachineState *vms,
+         qemu_fdt_setprop_string(ms->fdt, nodename, "secure-status", "okay");
+         g_free(nodename);
+ 
+-        nodename = g_strdup_printf("/flash@%" PRIx64, flashbase);
++        nodename = g_strdup_printf("/flash@%" PRIx64, flashbase + flashsize);
+         qemu_fdt_add_subnode(ms->fdt, nodename);
+         qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "cfi-flash");
+         qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
 -- 
 2.25.1
 
