@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62309526620
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:29:57 +0200 (CEST)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFC252662C
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:32:40 +0200 (CEST)
+Received: from localhost ([::1]:57852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npXEq-0006Jx-8n
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42232)
+	id 1npXHT-0001Zp-6D
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:32:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npXCy-0005TS-DW
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:28:00 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:41710)
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1npXE2-0006VM-KU
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:29:07 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:33727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1npXCu-0005fl-Ay
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:27:57 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id o130so351246ybc.8
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1npXE1-0005q9-1m
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:29:06 -0400
+Received: by mail-ed1-x535.google.com with SMTP id p4so10464650edx.0
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DfOg2jlpQ5iUXnWEzQWk74iahYnkjJzUz6MRobResk4=;
- b=i8HXGPG6+6gB8isiY+Sz+38Sa+4EMubVhgxDoGAwYyrB5Wc3TGV0RAZ8Q0T8zxA6qo
- aXnfgWsr+QLrhk9viy0xBNElExJP3S5Pt8bAr8NyJXTCgGlJrnPOUdbNRCX+eB3YWyTe
- uXz2bsKawyZ7l2XK6L89vvWBM1+4PMnYAtlcHyIRlNiCzQmiRSaVksn7NMEJZOEnr4Ok
- sxHUkY+blNurG09IB3U+bu0xXo+9ja4rmQXTaunXyug0Aj0PcEkdz8bZTJ6M4h3WCtxo
- VGB1P8ebKqNgs/VFuw2rJaqZhiT1z9FZj9eRUR+pjQwLHMT0m9jRiXCOapW/WpJHcFFF
- Xalw==
+ :cc; bh=uba6LxvHIRSL/2m/H2Ojyiur/eFSlkPUbrEcsnqLsKQ=;
+ b=Wqr/ZIh7k/NA4lYm+WojDMMWqr42aYjL3hGOuI9DNjkbJcvtoSctiGuxod6WbUShnl
+ GU70ojV/Aw5U71N8RYUbBOeaLI4kHOod0iTw9+iL/QPcr81ncL8brpQB1rBgRx8UPuTx
+ uhT+GrSo076GxMBgplUsLt/18GsltujlFM/c6dZGpOuokah+pz0MQWUqV5ZulTdTUc9e
+ PIdi43aPpls4N9ljlzyN3EuTSS8BaLzjskCcM4NO5dN8Xb5/R1m4ap28H9Pr2+kKwPQf
+ GUzYrTGTJInrEQhX5xVJ8c+sAwn9QglyKe6ZU45/exe5WHXWs55fUWJad6AqMkOxwTsF
+ bTdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DfOg2jlpQ5iUXnWEzQWk74iahYnkjJzUz6MRobResk4=;
- b=H4AIZk3dPQufXVteqEwkKGpVPOLW6Cr2vGm1pjZOVGV4zED8gkyXiD2A/SbXyVQuqo
- CWL1nC/hfwMaRNkxTtKx6gP6nB0V48wVf/Lxbk5ZOWNxTCG0nuc9S7ALi06B8syM+h7X
- e5TI9pBmi9ezUSnHuxCDygJocTUF0cAzHgCvadWwcquS6T+rjJ77U3W7zVpFl6SLQS+V
- RRDsDK6pyBu1qwrA87Ml05NYyaKy50RQb29lwk5CeKep10gf7i3QKzy5LeIhqT0NQmQZ
- rFgyTKKhfOazKwRr5ZcE8J9UUua4s7sbY+C6tMnUjDWnEo+YHzyTlndPKow+HP+9Isq/
- OxXg==
-X-Gm-Message-State: AOAM5322lytK3wjEAvl0FzzaBJlerGwSW9YlWLjGMxvxp0WIjTr1ahzv
- QTER3Q6bFzIF41WysRayYbxpLKgDtp41VwBK85CLAg==
-X-Google-Smtp-Source: ABdhPJyiihms4DAzI3KGQZcCmhL7UAemccnDAjjVyYxHCR4pcm6vZ3FMlfbw+svhUUobA7tIJDSTEnYT1bHaMc1tHJY=
-X-Received: by 2002:a25:6f85:0:b0:64a:8b67:d3b2 with SMTP id
- k127-20020a256f85000000b0064a8b67d3b2mr5320345ybc.85.1652455667412; Fri, 13
- May 2022 08:27:47 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=uba6LxvHIRSL/2m/H2Ojyiur/eFSlkPUbrEcsnqLsKQ=;
+ b=Ouj218h7RSrbBQz3jh9scUCFbLzjyS7RD96wByoqTOzg/dcO0b+v8nKiUEiI5uq5hR
+ OaEKDH9Ag/vkd7o9FCNoCbG8//nPjjWPHzqNfHWz3vvWO/smJ19A/t9jGj43DoOAkJBk
+ U7DWTVJ/e9KA9WSBXAeF2x+yzdxWY1Bs467dkDunxiRAAsVJCv8IUJj4wi1R/qwVND7d
+ xKwUzD0iRe2TBdPhPSimXyoPHRd2PhHKG2thtWrcYRq6srXtxPCarOs04VH2wm8JjRSC
+ HlixuQUtWDY/yXvhfv7LW6pR/kx+BRTESxZjFmIAoIBP6nhrLRqRJufQR3LOfLukELZv
+ 69xQ==
+X-Gm-Message-State: AOAM532lWF728LPSD2uttE6KUJxh9k54v4tqFxGFBpkNGsVLFc14K72L
+ tWSCItrrbAgskVdmQZv1ZXpHM6WwBWODqdtGTYk=
+X-Google-Smtp-Source: ABdhPJwQS/KoOnCxon7HIVTPrBdhtRAiTciUo68C2S6yLBrK7jLPjZ07R5QEskUzz06We/NbMCkw2Ud0N+QywM43wmw=
+X-Received: by 2002:aa7:da04:0:b0:41c:c191:64bc with SMTP id
+ r4-20020aa7da04000000b0041cc19164bcmr41723048eds.166.1652455743255; Fri, 13
+ May 2022 08:29:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504142522.167506-1-kwolf@redhat.com>
- <20220504142522.167506-12-kwolf@redhat.com>
-In-Reply-To: <20220504142522.167506-12-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 May 2022 16:27:36 +0100
-Message-ID: <CAFEAcA-bsFEpw-eqKo2pGcXxGRxpiE1_wG6u64mxxCAN-ay5=w@mail.gmail.com>
-Subject: Re: [PULL 11/13] coroutine-ucontext: use QEMU_DEFINE_STATIC_CO_TLS()
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, 
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+References: <CANW9uyswqzNGwkzbbNK_OcA-eF6Uf+Q3EkWgJrz2CudvQW4yPQ@mail.gmail.com>
+ <9dcf48dc-3c58-d78d-d3c3-26c010a5fddb@linaro.org>
+In-Reply-To: <9dcf48dc-3c58-d78d-d3c3-26c010a5fddb@linaro.org>
+From: Itaru Kitayama <itaru.kitayama@gmail.com>
+Date: Sat, 14 May 2022 00:28:51 +0900
+Message-ID: <CANW9uytQrC6ynV2rD6A74GC07ZewMmQNBjUJLdCkhc6ty8pCcw@mail.gmail.com>
+Subject: Re: sbsa board boot with neoverse-n1
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000095794705dee65549"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=itaru.kitayama@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,54 +82,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 May 2022 at 15:34, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> From: Stefan Hajnoczi <stefanha@redhat.com>
->
-> Thread-Local Storage variables cannot be used directly from coroutine
-> code because the compiler may optimize TLS variable accesses across
-> qemu_coroutine_yield() calls. When the coroutine is re-entered from
-> another thread the TLS variables from the old thread must no longer be
-> used.
->
-> Use QEMU_DEFINE_STATIC_CO_TLS() for the current and leader variables.
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Message-Id: <20220307153853.602859-2-stefanha@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  util/coroutine-ucontext.c | 38 ++++++++++++++++++++++++--------------
->  1 file changed, 24 insertions(+), 14 deletions(-)
->
-> diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
-> index ed368e1a3e..ddc98fb4f8 100644
-> --- a/util/coroutine-ucontext.c
-> +++ b/util/coroutine-ucontext.c
-> @@ -25,6 +25,7 @@
->  #include "qemu/osdep.h"
->  #include <ucontext.h>
->  #include "qemu/coroutine_int.h"
-> +#include "qemu/coroutine-tls.h"
->
->  #ifdef CONFIG_VALGRIND_H
->  #include <valgrind/valgrind.h>
-> @@ -66,8 +67,8 @@ typedef struct {
->  /**
->   * Per-thread coroutine bookkeeping
->   */
-> -static __thread CoroutineUContext leader;
-> -static __thread Coroutine *current;
-> +QEMU_DEFINE_STATIC_CO_TLS(Coroutine *, current);
-> +QEMU_DEFINE_STATIC_CO_TLS(CoroutineUContext, leader);
+--00000000000095794705dee65549
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi; Coverity complains about this change (CID 1488745):
+Thanks Richard I=E2=80=99ll look into it.
 
-# Big parameter passed by value (PASS_BY_VALUE)
-# pass_by_value: Passing parameter v of type CoroutineUContext
-# (size 304 bytes) by value, which exceeds the medium threshold
-# of 256 bytes.
+On Sat, May 14, 2022 at 0:03 Richard Henderson <richard.henderson@linaro.or=
+g>
+wrote:
 
-thanks
--- PMM
+> On 5/12/22 22:59, Itaru Kitayama wrote:
+> > Richard,
+> > I'm wondering what options you use to bring up sbsa board with
+> neoverse-n1
+> > as I am only able to do it with cortex-a57, no other CPU types works.
+>
+> I didn't attempt to boot it, because I don't have firmware for it.
+> I only added it to the list of cpus that would be accepted by the board.
+>
+>
+> r~
+>
+
+--00000000000095794705dee65549
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Thanks=C2=A0Richard I=E2=80=99ll look into it.</div><div =
+dir=3D"auto"><br></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Sat, May 14, 2022 at 0:03 Richard Henderson &lt;<a hre=
+f=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">On 5/12/22 22:59, Itaru =
+Kitayama wrote:<br>
+&gt; Richard,<br>
+&gt; I&#39;m wondering what options you use to bring up sbsa board with neo=
+verse-n1<br>
+&gt; as I am only able to do it with cortex-a57, no other CPU types works.<=
+br>
+<br>
+I didn&#39;t attempt to boot it, because I don&#39;t have firmware for it.<=
+br>
+I only added it to the list of cpus that would be accepted by the board.<br=
+>
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
+
+--00000000000095794705dee65549--
 
