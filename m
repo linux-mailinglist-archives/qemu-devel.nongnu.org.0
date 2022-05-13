@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5742B5265AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:11:53 +0200 (CEST)
-Received: from localhost ([::1]:52884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D437B5265C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:14:45 +0200 (CEST)
+Received: from localhost ([::1]:33164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npWxK-0003kg-WE
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37530)
+	id 1npX08-00014i-Ne
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1npWuf-0000yG-Sd
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:09:05 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40685)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npWyq-0007Cz-F7
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:13:24 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1npWuc-00028R-BR
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:09:05 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id a5so8038938wrp.7
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:09:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1npWyo-00038q-JB
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:13:23 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ j10-20020a17090a94ca00b001dd2131159aso11130101pjw.0
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:13:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ar37dXkH46mG/ChpMcA7tZOoTAgmipA5AFz8b+ZoruQ=;
- b=CD6Fh6lGxGNuyW+uU+6mo1nLjlBlc+SzqutRU/YGOfsK2pPK3guWPBjuPk2CLBL+Lf
- V4L5nSVa6ZqWXAWsERiRioIPAK4os+t79MzLSBtY2Jprh8ZPl+qyX4u5b3ETZVT7Qp87
- sakUOh7Ks8W9oRRMV/1Mw3YYSY1Wr+7rGUP2ojXhXYr2yzk976MVstoaIYm1ldIl330i
- plod4vnIJqi4Lnt11bwRlYtW3KORqeb7io6lzgVUwkauewkDEa04VNcFOsfbHdJbwKX6
- mdBVH0GTFIEnOhmDPPbtqM9rNq+UqTeiXiPaei6YCvnsvmJQkYZfsPKz35hlm7+SKLB3
- Qv9Q==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=L5QtYLHEZBXt+/iP6MIrqtT+84zvAC0dFpBvzZOGREE=;
+ b=aQdlvAx05UBta2S0eAjzJlKWxXLLsq89rySM5Q+YnjMcPgI5beqGNKFpeu5rlGHmdI
+ M4y8bYEgPKXGp9w3s3YipnHB0LnVUKy1doJYjBC2iO058vZ5tGwdPuikjjqhnqfa5xVr
+ WXgarV7aPdJFPoeA3ctgnd0IM3XUslf37VYbMlKx0fVWtvvzjMugU12qoPijbUDmQBPI
+ FnJo/IbFT/HH93/PDQ7zJGkRchCP41WQeEDNjM3OHo0xPY7m4MAmOQrfJyUg7gUDJyXd
+ eWxiGvR0JNuUYd6c3PzxUJaofxzFsXYxxPyiSC4PNgqx731DXUP7Re4FgWJzCwxakMcG
+ ARew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ar37dXkH46mG/ChpMcA7tZOoTAgmipA5AFz8b+ZoruQ=;
- b=WwrjVuBP0F3K0ru0QTotmLb1k8q8FYNImsCH+v7tkAC3ruPpoc+qaK23JuNHFstTnZ
- 4aO86sqTbQ/E4tVHzN3Iw4HAxYhc42SSA0PZkPsgASVBsFiizRvw4AAnGZSWDrJtf0MO
- lGT4g5WTZK6YMRoOjxyJyB2udrFiwiHAPgbV9W5HLq9tS4LuqxsB9ZxdskfcRtZuaNvo
- 75V7TBWX897OdqCfMVvxfUo/1l9oL3Vac8NZJg4taiwrTffa2ORqfwu50EqYl59NM63W
- EMjd1WQWesRfntWzewllHpYElK+czsLFfzdvQ5NOillrNOn09DJfuQAb5kVb2Eust8MT
- s25Q==
-X-Gm-Message-State: AOAM533FGQjvLrSPH47yM7mHeaudUpNJxuJa7xl/II7WGOskz7ly+r9J
- mi1KD1UFw+sMPeOmdwiF8HJPTA==
-X-Google-Smtp-Source: ABdhPJxcA3u3f91A8v2i8PGwEp/qeaVk21r1v9ZU5/sQAPZ2KPaLngJQGrIJ9QrfCj81dSp8huDm2Q==
-X-Received: by 2002:a5d:4b89:0:b0:20c:52e3:3073 with SMTP id
- b9-20020a5d4b89000000b0020c52e33073mr4498209wrt.140.1652454540101; 
- Fri, 13 May 2022 08:09:00 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- j10-20020adfc68a000000b0020c635ca28bsm2399115wrg.87.2022.05.13.08.08.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 08:08:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 99C241FFB7;
- Fri, 13 May 2022 16:08:56 +0100 (BST)
-References: <20220513131801.4082712-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.7.20; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH] target/arm/helper.c: Delete stray obsolete comment
-Date: Fri, 13 May 2022 16:08:51 +0100
-In-reply-to: <20220513131801.4082712-1-peter.maydell@linaro.org>
-Message-ID: <87zgjlqxkn.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=L5QtYLHEZBXt+/iP6MIrqtT+84zvAC0dFpBvzZOGREE=;
+ b=wZAXaw4rYbUFON4qPJYjJ7tByP9Rro2mFdMhViGteFEaIqMdooOswr9A1ANTCAsZ3+
+ GKutap+reqb9/ErTcmF31N5vjeYoivxsybtGP3OkCbGCFD+P+dSUd6zIbqsSSaMsG3L4
+ HQWn5wi3C/mYYjuuMSz8leWkAxF1Qdq2fmLms7WYQu5bAeuVoi5EpbDSsPBxGW1hKN9c
+ YC2G9EuM8zTzlYdm9adKYD8fTZrjSBThZv8KWzPGe7ojlcIX/ZnnQ5exg20qx47lVLJ4
+ BDwSA8dl3typzjjCU3OqCo4YSCrNcNvIe+bQ5Mzf0/RMDUFOokw+RwO8ecCqgJ3nkYF+
+ QeJQ==
+X-Gm-Message-State: AOAM530THyKIrLbrjHK/jwmOJOj7iJaAl53W0afeOwwMts+rhtmYLNc9
+ gw5pk9i8WKpmm2YR7hj1qDTAmQ==
+X-Google-Smtp-Source: ABdhPJxeuew0jS0SySza0XuG020zSk99M4igIeMn5aGq2ZwckLCqoowR6XbSaO/Zadre+M7/YYdceA==
+X-Received: by 2002:a17:90a:5515:b0:1dc:c1f1:59bd with SMTP id
+ b21-20020a17090a551500b001dcc1f159bdmr16584845pji.81.1652454801072; 
+ Fri, 13 May 2022 08:13:21 -0700 (PDT)
+Received: from [192.168.66.8] (50-78-183-178-static.hfc.comcastbusiness.net.
+ [50.78.183.178]) by smtp.gmail.com with ESMTPSA id
+ im2-20020a170902bb0200b0015e8d4eb1bdsm2055505plb.7.2022.05.13.08.13.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 08:13:20 -0700 (PDT)
+Message-ID: <f07ef0d8-d02a-c1c0-7b26-a619fefae1ee@linaro.org>
+Date: Fri, 13 May 2022 08:13:18 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] target/arm/helper.c: Delete stray obsolete comment
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220513131801.4082712-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220513131801.4082712-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -92,21 +93,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
+On 5/13/22 06:18, Peter Maydell wrote:
 > In commit 88ce6c6ee85d we switched from directly fishing the number
 > of breakpoints and watchpoints out of the ID register fields to
 > abstracting out functions to do this job, but we forgot to delete the
 > now-obsolete comment in define_debug_regs() about the relation
 > between the ID field value and the actual number of breakpoints and
 > watchpoints.  Delete the obsolete comment.
->
-> Reported-by: CHRIS HOWARD <cvz185@web.de>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> Reported-by: CHRIS HOWARD<cvz185@web.de>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/helper.c | 1 -
+>   1 file changed, 1 deletion(-)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
---=20
-Alex Benn=C3=A9e
+r~
 
