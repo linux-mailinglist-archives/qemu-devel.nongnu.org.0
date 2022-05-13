@@ -2,86 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C730D52674B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:42:33 +0200 (CEST)
-Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5BB526779
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:51:45 +0200 (CEST)
+Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npYN6-0006pR-Cp
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34502)
+	id 1npYW0-0001oK-M1
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npYKl-0004YM-IN
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:40:08 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npYKj-0001OV-O0
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:40:07 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- gj17-20020a17090b109100b001d8b390f77bso11308909pjb.1
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=/0AUPiA9fISdUuPQrcgBDb955++g0uyRVUeALHXFTJQ=;
- b=zfC9Wx90pleHUCaHrsqnmytIPCHd/krtqgXNe0jpflcpgFt1B/6eitugDXNs3zkip2
- o3Rf+ZVD1JkdFCLEP0DEYHSrwj1KbU+mdNlEoxoAl90vLLHb5BryJ4cbv2By5g+zU7Ej
- aNPUNmFMfoJqwJkL/G1Z3A7A8ATue86nrDTovbIyT7dAbN3s0wL8mO8k7os6pHfqxHLd
- Bv4vVIcHyxwi9RX6M53JUxP+1q56OGwhSELP9i04saKAq0qFvca+ELdQ03k7QxbQJokk
- LEg2k7kvYALB/7psjk51eR5nkoIiTSyP107GJ2sTxsBV1/ZGptaLrB7SdSTqIs6bYrUE
- A4TA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npYMR-0007MC-6F
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:41:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npYMN-0001gh-SY
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:41:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652460105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MAcgJFN0O3xFylri2fastoQaypyFCvTlf/U9vcsmDbc=;
+ b=POS9KoM1a/pEXneW0r/vCdWWRN/Uc+eiuMwcyntzsAq3zfU2WmfTMoweguYbD+9B+qdd8u
+ 36hK7ohLb5c3DkPWhqpGBHsWYUhCqZePB4klpHzhhOXifp2iznUINPapwQwupVcuLQ/Cyh
+ 7dwHZwy8TjdvbdqL5fG4l5SKqkRivOg=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-197-AUifP4zpPNaAmUuqjR2APQ-1; Fri, 13 May 2022 12:41:44 -0400
+X-MC-Unique: AUifP4zpPNaAmUuqjR2APQ-1
+Received: by mail-io1-f69.google.com with SMTP id
+ r17-20020a0566022b9100b00654b99e71dbso5097941iov.3
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:41:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=/0AUPiA9fISdUuPQrcgBDb955++g0uyRVUeALHXFTJQ=;
- b=hKBi4ULLOYJZd+wIOcjJXrSNRl7TYJ3R1sYZMW5ktq0gCsgYIhIQBHN0G4K5RV7PSu
- LLe6fJ+L9kvMdjK2KfIkUYxN3wiDWtFTaFGXrdFSrQBPDSaIswWw1tgSBPPMEeaP9dJZ
- 6xUZBFvfGUkVGRllpZfV9YbCgo6lxyhsP10RM7bzZ2JN+uYldn+Otw/lWuN91CM5YC41
- vaLd7CMz8JXuFDPYvA+bpo+P2eZeOwABZ8w/7aReflfZsDzy8MsshZ5fQcFAFB0kD5HC
- vHFVyfz3e/ZVkFiTNJpGqOlisAd2AKs0eno3s0WR+dkaz856A8aEesCIb8o2fqYQPI6M
- nuJA==
-X-Gm-Message-State: AOAM532G+ydXiCVTa9w3zmmivKgDHlXArlHUsFvjf3Z6IanwOmqrUeXD
- IZr4UO3UQwybL2SN0dHWrAksrA==
-X-Google-Smtp-Source: ABdhPJwPjd//GTjZMYpVygCBkfZfRJTYVuzDvyhgnLaK/ObXPPUucwsJiSO/gWGzXzOg4s9FxSOhdw==
-X-Received: by 2002:a17:903:2cf:b0:151:a932:f1f0 with SMTP id
- s15-20020a17090302cf00b00151a932f1f0mr5711720plk.130.1652460004183; 
- Fri, 13 May 2022 09:40:04 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:46a:1099:e682:8d73:3200:dae5?
- ([2607:fb90:46a:1099:e682:8d73:3200:dae5])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=MAcgJFN0O3xFylri2fastoQaypyFCvTlf/U9vcsmDbc=;
+ b=DWhUTHIFBKiguQeKWjEgqhiokz+ze48wDtrvyB43aGZJQoVra+3nxw66xuC8MJwWxZ
+ pKMX4S6wrMTpfDHce+7JLHCAKbmYgeGHXIXYvlUx6VbE3U+A6ffLdPcvaYIL9TRrTAKf
+ tWwHZ2w8YFvQYOsW0OTSM66Yq/ou5rrww5e2YQsMlwRvhWUnomzfV1Spq/STd1ov6Doe
+ w30zEWeXs8oA/G2RYoUiFCNWeq//9Tkao+z30IXUbWIftWzQyn3INs7EAssyKaLQF1cy
+ wU7JnM2g3v0YumSJRkhj5B5iHqLy97kROQgXP9vKQFYUKdSKkobVcGbPO7fkNW2+WZDr
+ sksA==
+X-Gm-Message-State: AOAM533JvhtT3ZuVE02bzOo1g7T37MC6RoFR0Lt+PXXXaxvOkRHf8Zlu
+ ICcUVyrG9DgelH5gel08PHoC72P8YkjVepeud9NxFxs9izW3DGBAPWcqFJkMAkaid79oSgDvBIE
+ tuihNkQ+Fi9/qZdQ=
+X-Received: by 2002:a6b:400b:0:b0:64c:77aa:40a6 with SMTP id
+ k11-20020a6b400b000000b0064c77aa40a6mr2568349ioa.101.1652460103810; 
+ Fri, 13 May 2022 09:41:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw8EfnYFWufvE408AHIscCydnMWu4LNa4USo7dpaXTXq0sNG0slUVBJ0ePehzpEoY6PmrJ5og==
+X-Received: by 2002:a6b:400b:0:b0:64c:77aa:40a6 with SMTP id
+ k11-20020a6b400b000000b0064c77aa40a6mr2568336ioa.101.1652460103529; 
+ Fri, 13 May 2022 09:41:43 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- f66-20020a623845000000b0050dc76281edsm1928120pfa.199.2022.05.13.09.40.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 09:40:03 -0700 (PDT)
-Message-ID: <2a010ecb-42af-c6e8-b922-0a6bd8a5b95e@linaro.org>
-Date: Fri, 13 May 2022 09:40:00 -0700
+ d198-20020a6bb4cf000000b0065a47e16f5asm770143iof.44.2022.05.13.09.41.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 09:41:42 -0700 (PDT)
+Date: Fri, 13 May 2022 12:41:40 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: wucy11@chinatelecom.cn, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>, f4bug@amsat.org,
+ tugy@chinatelecom.cn, dengpc12@chinatelecom.cn,
+ yuanmh12@chinatelecom.cn, baiyw2@chinatelecom.cn
+Subject: Re: [PATCH v2 2/4] kvm: Dirty ring autoconverge optmization for
+ kvm_cpu_synchronize_kick_all
+Message-ID: <Yn6KROrT6lKzxQhg@xz-m1.local>
+References: <cover.1648091539.git.wucy11@chinatelecom.cn>
+ <ee39636fb5d2fc95b90942b13b7a65ed55aa227f.1648091540.git.wucy11@chinatelecom.cn>
+ <2f1232c1-6238-94c5-73ec-775b9e428e9c@chinatelecom.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 68/74] hw/rx: Handle a kernel file that is ELF
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20220503194843.1379101-1-richard.henderson@linaro.org>
- <20220503194843.1379101-69-richard.henderson@linaro.org>
- <CAFEAcA_=xurx4hppNZKqe6s72vyFShiMKP__iE_4Ff9noXSGXg@mail.gmail.com>
- <cc37e096-dc47-4ac7-aa3d-87bef3937ab2@linaro.org>
-In-Reply-To: <cc37e096-dc47-4ac7-aa3d-87bef3937ab2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <2f1232c1-6238-94c5-73ec-775b9e428e9c@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,40 +109,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 08:48, Richard Henderson wrote:
-> On 5/13/22 08:44, Peter Maydell wrote:
->> On Tue, 3 May 2022 at 21:52, Richard Henderson
->> <richard.henderson@linaro.org> wrote:
->>>
->>> Attempt to load the kernel with load_elf.  If this fails with
->>> ELF_LOAD_NOT_ELF, continue to treat the kernel as a raw image.
->>>
->>> This will be handy for running semihosting programs.
->>>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>
->> I know nothing of the specifics of the rx target, but I'm
->> always a bit dubious about adding more behaviour to the
->> -kernel option, which is (a) already a morass of undocumented
->> target specific behaviours (b) nominally supposed to be
->> "load a Linux kernel", not "load any random thing".
->> Can you do what you need with the generic-loader device instead?
->> That has the benefit of both being documented and also doing
->> the same thing on all target architectures.
-> 
-> I'll give that a try.
+On Sat, Apr 02, 2022 at 03:22:21PM +0800, Hyman Huang wrote:
+> 在 2022/3/28 9:32, wucy11@chinatelecom.cn 写道:
+> > @@ -879,7 +862,9 @@ static void kvm_dirty_ring_flush(void)
+> >        * First make sure to flush the hardware buffers by kicking all
+> >        * vcpus out in a synchronous way.
+> >        */
+> > -    kvm_cpu_synchronize_kick_all();
+> > +    if (!cpu_throttle_get_percentage()) {
+> > +        qemu_kvm_cpu_synchronize_kick_all();
+> > +    }
+> For the code logic itself, kvm_dirty_ring_flush aims to flush all existing
+> dirty pages, same as i reviewed in v1's first commit "kvm,memory: Optimize
+> dirty page collection for dirty ring", we shouldn't consider the migation
+> logic in this path.
 
-It works, editing the board not to reject lack of -bios and lack of -kernel.  And running 
-by hand because the syntax of the test harness does not allow the test file to be joined 
-with $(QEMU_OPTS), as in
+I agree with Yong's analysis.  I'm afraid this patch is breaking the api
+here.
 
-   -device loader,cpu-num=0,file=testcase
+Say, memory_region_sync_dirty_bitmap() should be the memory api to flush
+all dirty memory, we can't simply ignore the flushing just because it's
+slow when we're throttling the cpus.  Things will already start to break,
+e.g., the dirty rate calculation based on dirty ring relies on all dirty
+pages be accounted after the sync() call and this patch will make the
+reported value smaller than the reality.  It's not a major deal breaker in
+dirty rate measurements but it's just one exmample that we're potentially
+breaking the memory api.
 
-I'll work with Alex to figure out how best to restructure the test harness.
+AFAIU this is probably another reason why I don't really like the
+auto-converge old solution because it's kind of brutal in this case by
+putting the thread into a long sleep.
 
-In the meantime I certainly don't mind putting the rx part on the back burner if it'll 
-help get the previous 67 patches reviewed...
+One fix could be that we do periodically sleep in auto-converge code so
+that the vcpu threads can still handle any cpu sync requests, though I
+didn't really check the cpu code path.
 
+It's also racy in that cpu_throttle_get_percentage() is racy itself:
+imagine a case where cpu_throttle_get_percentage() always return >0 _but_
+it starts to return 0 when migration_complete() - we'll not call
+qemu_kvm_cpu_synchronize_kick_all() even for completion and it can crash
+the VM.
 
-r~
+-- 
+Peter Xu
+
 
