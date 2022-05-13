@@ -2,64 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145995267AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:57:16 +0200 (CEST)
-Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133575267FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 19:14:20 +0200 (CEST)
+Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npYbK-000839-U7
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:57:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38180)
+	id 1npYrq-0006Jw-OB
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 13:14:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1npYZf-0006GV-38
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:55:31 -0400
-Received: from mail-yw1-f182.google.com ([209.85.128.182]:37545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1npYZa-0003sn-OG
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:55:29 -0400
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-2f16645872fso96467137b3.4
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:55:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iX/YlBXRfXeVhuVM5iK5LuBjsFIvOae5anQjL7M32aE=;
- b=BCAQiCfsDLz4myIuaP5zpiTBYRX+mBJHacD8WTjGVvC0bWC0xQTlr6QmN+A3yctvuU
- 49QMqFs/DJIxvMSvnwUZ7VAN2kQ8uGhindlokHPXSqRcZQhDSjfEz+17Qm5WpOxI+kJr
- h0qph9iIrX8GOY0DA1cuTIkNnif4FfY44RYdy8R6dgQPqhWThdEVrmmIyqELugUiLZMU
- pTPV/8m5jIDQ+kkRkCaCdyGWGJzb4Waxp8LcZXbqV5C7c1uqNW3/O/TQk941vSeyhVnK
- /3a19rmGesZdy4cdCg7eHVhsTR5OoG3lxcnfvRPs9V9qfeAY0f6lBvVV5hqD93Q9x/fx
- RHTA==
-X-Gm-Message-State: AOAM533hrKqjjVETt//mCYMsQ83rTu8olof1QF+ucLP9Gf9p0mu7dUIa
- EdjNz1f+lgfuTAL7wmhVbgMHyOnZb8C5KJt3PeA=
-X-Google-Smtp-Source: ABdhPJy1RQDkSg2Wg2RkwLgHIknzzppbl9cSgNL6KEb3D3G48fs2hIO1ZuMguRMSrphD4mq+m7NXx9DDwhD5vcD3ktc=
-X-Received: by 2002:a81:8cb:0:b0:2f8:9f07:5a12 with SMTP id
- 194-20020a8108cb000000b002f89f075a12mr6813157ywi.373.1652460923608; Fri, 13
- May 2022 09:55:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1npYq3-0004hp-Tt; Fri, 13 May 2022 13:12:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35602
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1npYq2-0006h6-4U; Fri, 13 May 2022 13:12:27 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24DEwQla005747;
+ Fri, 13 May 2022 17:12:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=WfQ9zSw7d5Gc/n9Zx98YhhZCcsWfB0O90fRuU6DQ/uo=;
+ b=pkxL/ODiSl6yfLEABGdnSZlMNaPLzMV++sIy+cISzfCsu3ebf4d//CdmF3GOEnIxS/11
+ C63VpmInTZrrG72dcYZIjyEwlUUrAxl/vw7pZVH7ynmhqiH943ettTi/+Fr8PmjCxFu0
+ Gt5SDGxDTXCRaKKJtL77sjetiY0ilpfcqRn0+Zs6SwR1jx7nSQ9b1+ozrPsvsj4PPfVb
+ 7Ikt1A6l0TzbB1CwIcKgxbrZED3FdwUOcp0iKGNrs3W97uUVbpKqFP5nsqeYNK7VhNiS
+ 42WGeOFCt9K2OUvgTCUy1cbXcDZ1Nge6wvw6Sc8eQdChsa6dnuBkQC8MF63B2AMqvTB9 /Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g1sjkajx3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 May 2022 17:12:11 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24DHAR0v016935;
+ Fri, 13 May 2022 17:12:11 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g1sjkajwt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 May 2022 17:12:11 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24DH7ko9003648;
+ Fri, 13 May 2022 17:12:10 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma05wdc.us.ibm.com with ESMTP id 3fwgdaksgq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 May 2022 17:12:10 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24DHC9ux41550256
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 May 2022 17:12:09 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B07B9BE053;
+ Fri, 13 May 2022 17:12:09 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 038F8BE054;
+ Fri, 13 May 2022 17:12:09 +0000 (GMT)
+Received: from localhost (unknown [9.160.112.92])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Fri, 13 May 2022 17:12:08 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: Re: [PATCH] target/ppc: Fix tlbie
+In-Reply-To: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
+References: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
+Date: Fri, 13 May 2022 14:12:06 -0300
+Message-ID: <87h75ttl09.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220513163827.26281-1-peter.maydell@linaro.org>
-In-Reply-To: <20220513163827.26281-1-peter.maydell@linaro.org>
-Date: Fri, 13 May 2022 18:55:12 +0200
-Message-ID: <CAAdtpL6is6Q3nPcYfzN_vOdQvzq67jEA4dAmgDpptCxbgAyekg@mail.gmail.com>
-Subject: Re: [PATCH] hw/tpm/tpm_tis_common.c: Assert that locty is in range
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.128.182;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-yw1-f182.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 2c1zoYAK-PJcSfWox02a7ZB_UvXCK_bO
+X-Proofpoint-ORIG-GUID: HA5q6YRRoq8_8vZzpmJsyWZpuVudv4-A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-13_09,2022-05-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=999
+ adultscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
+ mlxscore=0 impostorscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205130073
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,72 +112,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On Fri, May 13, 2022 at 6:43 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
+Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+
+> Commit 74c4912f097bab98 changed check_tlb_flush() to use
+> tlb_flush_all_cpus_synced() instead of calling tlb_flush() on each
+> CPU. However, as side effect of this, a CPU executing a ptesync
+> after a tlbie will have its TLB flushed only after exiting its
+> current Translation Block (TB).
 >
-> In tpm_tis_mmio_read(), tpm_tis_mmio_write() and
-> tpm_tis_dump_state(), we calculate a locality index with
-> tpm_tis_locality_from_addr() and then use it as an index into the
-> s->loc[] array.  In all these cases, the array index can't overflow
-> because the MemoryRegion is sized to be TPM_TIS_NUM_LOCALITIES <<
-> TPM_TIS_LOCALITY_SHIFT bytes.  However, Coverity can't see that, and
-> it complains (CID 1487138, 1487180, 1487188, 1487198, 1487240).
+> This causes memory accesses to invalid pages to succeed, if they
+> happen to be on the same TB as the ptesync.
 >
-> Add assertions that the calculated locality index is valid, which
-> will help Coverity and also catch any potential future bug where
-> the MemoryRegion isn't sized exactly.
+> To fix this, use tlb_flush_all_cpus() instead, that immediately
+> flushes the TLB of the CPU executing the ptesync instruction.
 >
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 74c4912f097bab98 ("target/ppc: Fix synchronization of mttcg with broadcast TLB flushes")
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+
 > ---
-> Tested with 'make check' only...
+>  target/ppc/helper_regs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  hw/tpm/tpm_tis_common.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-> index e700d821816..81edae410c8 100644
-> --- a/hw/tpm/tpm_tis_common.c
-> +++ b/hw/tpm/tpm_tis_common.c
-> @@ -295,6 +295,8 @@ static void tpm_tis_dump_state(TPMState *s, hwaddr ad=
-dr)
->      uint8_t locty =3D tpm_tis_locality_from_addr(addr);
->      hwaddr base =3D addr & ~0xfff;
->
-> +    assert(TPM_TIS_IS_VALID_LOCTY(locty));
-> +
->      printf("tpm_tis: active locality      : %d\n"
->             "tpm_tis: state of locality %d : %d\n"
->             "tpm_tis: register dump:\n",
-
-This one was here ...:
-https://lore.kernel.org/qemu-devel/20220330235723.68033-1-philippe.mathieu.=
-daude@gmail.com/
-
-> @@ -336,6 +338,8 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwadd=
-r addr,
->      uint32_t avail;
->      uint8_t v;
->
-> +    assert(TPM_TIS_IS_VALID_LOCTY(locty));
-> +
->      if (tpm_backend_had_startup_error(s->be_driver)) {
->          return 0;
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 9a691d6833..1fa032e4d0 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -293,7 +293,7 @@ void check_tlb_flush(CPUPPCState *env, bool global)
+>      if (global && (env->tlb_need_flush & TLB_NEED_GLOBAL_FLUSH)) {
+>          env->tlb_need_flush &= ~TLB_NEED_GLOBAL_FLUSH;
+>          env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
+> -        tlb_flush_all_cpus_synced(cs);
+> +        tlb_flush_all_cpus(cs);
+>          return;
 >      }
-> @@ -458,6 +462,8 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr a=
-ddr,
->      uint16_t len;
->      uint32_t mask =3D (size =3D=3D 1) ? 0xff : ((size =3D=3D 2) ? 0xffff=
- : ~0);
->
-> +    assert(TPM_TIS_IS_VALID_LOCTY(locty));
-> +
->      trace_tpm_tis_mmio_write(size, addr, val);
->
->      if (locty =3D=3D 4) {
-
-... but not these, so:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
