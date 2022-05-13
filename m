@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922195269EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 21:10:57 +0200 (CEST)
-Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B07526A68
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 21:32:46 +0200 (CEST)
+Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npagi-0003Tx-5N
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 15:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
+	id 1npb1o-0001ZO-Sz
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 15:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npafX-0002Fz-7S
- for qemu-devel@nongnu.org; Fri, 13 May 2022 15:09:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40896)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npb0d-0000qQ-Gf
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 15:31:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npafU-0007tV-1l
- for qemu-devel@nongnu.org; Fri, 13 May 2022 15:09:41 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npb0a-0002p9-98
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 15:31:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652468978;
+ s=mimecast20190719; t=1652470287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WhXq9yFSY4zzhwyj5ZDenEJKIwiN2U4Ldfx0jVwQQ/A=;
- b=GY0mpGjmInTVUVmY+TeY2dsWLr3tQO/nXLVb3LNfr658stSgq6Wz3gFBecYoafCUC7w4Tl
- oUL1Nf+LAJFvCfQvPeQDzOqvHA/uQzph1w+K3XZhJ+feSCkZ2Y6ylo7QI60ZHkcO/9Z+xQ
- KdIeLVZliIoC4BeomZaK2QbqLhV1a98=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jPcjevIuwSiUxabudA/en4SsaiMm799GelDC443JaUw=;
+ b=NWkBV8qNdFImcYg+yVBC2eH1wYSyfevJ9wkPN+D0XfameaxezvDngiftvyec8tiZlFbCqX
+ BQkPJ/nA1kinOynBdoAmiUqFTQVNgOMM1e5cIQ6tbpYTiSnCcBgQtal+w6PJ5O0/0m39hr
+ +FTzsnnQeKy1W4jbQ9mYiQeriTEtzAI=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-9K0u9Gm7OqOGmzDMU6oj2g-1; Fri, 13 May 2022 15:09:37 -0400
-X-MC-Unique: 9K0u9Gm7OqOGmzDMU6oj2g-1
-Received: by mail-ua1-f72.google.com with SMTP id
- s14-20020ab02bce000000b0035d45862725so4108814uar.22
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 12:09:37 -0700 (PDT)
+ us-mta-208-8c3rENU3M8W_5ySFgliEYw-1; Fri, 13 May 2022 15:31:25 -0400
+X-MC-Unique: 8c3rENU3M8W_5ySFgliEYw-1
+Received: by mail-io1-f69.google.com with SMTP id
+ r17-20020a0566022b9100b00654b99e71dbso5358619iov.3
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 12:31:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WhXq9yFSY4zzhwyj5ZDenEJKIwiN2U4Ldfx0jVwQQ/A=;
- b=fCpS4CnGjmnkyg2NwDJ1Mktvb6A4FGrntCxc6+ZjTaOSHklFu+nKtHV2bkGcAojAZh
- QyZ4HVwNLaGs0DMuKhGZSN9wWDipD+b8FMfPxum5BdtPAXKAkEpfeqd0lX1cSsGN3F+P
- wu6iF0EYlNGpq9d3Bch1eB+jg0V0SnATTAD3y8it4S9/76IZVld32kkgos7iwmEwhqF9
- S0Av9zST2ZkaJ74bCJ0QxBrsON0qN7I38QW8WpgwUShp5JOH3DTtsSK6EeJqJXR0F2By
- L+lvBePFij7Nh7cHn4rqMunBpJJhqV0ZvYJxDRHjo0E6xNDRBxRw+fY65GDZ2PC73F9X
- odvQ==
-X-Gm-Message-State: AOAM533gXk6Qhpzb96j/VHRK02oU7+PQS27kJ0hzpAkykynxHNW7VlO+
- kDPt9pnC2yQU2p1O253Vj+iFeTAIQvKX2dtDGifvOH2uK1hkMl/eDdeFvzfzsKxjvuvTs3tZcCy
- g5BJ8r1U+G+Nep+tTqy7mafpcjv90Ykg=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr3264664vsa.38.1652468976856; 
- Fri, 13 May 2022 12:09:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/PlbsPtlTdGZ83gizWwPck/+fD2SX7523RJnPFV5NLYNzP3rblVnzxJw8qmIlKE/EDM466cIqvot4efEoT4o=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr3264650vsa.38.1652468976655; Fri, 13 May
- 2022 12:09:36 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jPcjevIuwSiUxabudA/en4SsaiMm799GelDC443JaUw=;
+ b=E5b8WeqT5lW2Crk94JLGR9sNs6QIRsNlBFow+y65B26Rxteiknt83UVusJsRLBN5OT
+ gJccXCb4zwzydGqBp7W6O9vgWBKbKzTuXAdnCvbX+kNjltNZgE2y7P/XvLXj/30Wukc0
+ SCepsKPb0Aw+ZzXSS3Etxam1bISs0T/gHllQea3sn5B7dbRSKX1PJB4I/uTViJo7Soxi
+ qkXVcPJaiKSJqzHVGYwUs47L6ZyJV6xgezMQUtgO7R3WPyieejeE6Y+CTY/PU6OXAvMf
+ x27XXnq9GlSuQnIAZBLhJT3oDc1CvLE1OJiU1uFWMy8gvJN4e2JtUJygl6tjB7DjJm8/
+ GSjg==
+X-Gm-Message-State: AOAM533znPZVtHnrv9ZorxQqs4Uf/PoHtEXa/s+BQ9VjxoezvF6r/2qm
+ 5LU30OOv/7CYlGI4IPI5nov/ICyv0imNtAbQMCLYoZ8YTmKHw9PQ4VBN8U1b1n8ekLT5hj0vet3
+ htTIO6/7N4iJVxi4=
+X-Received: by 2002:a05:6638:258b:b0:32d:b5e8:b282 with SMTP id
+ s11-20020a056638258b00b0032db5e8b282mr3689548jat.16.1652470285003; 
+ Fri, 13 May 2022 12:31:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0uHDqAOnTYZWv/YjI/cbEEFGU4zDG8Kl/iORltlY7JtD8Cyw07hfErNEjBcsW/82Wt0RudA==
+X-Received: by 2002:a05:6638:258b:b0:32d:b5e8:b282 with SMTP id
+ s11-20020a056638258b00b0032db5e8b282mr3689532jat.16.1652470284707; 
+ Fri, 13 May 2022 12:31:24 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ p21-20020a056638191500b0032b3a7817c5sm890827jal.137.2022.05.13.12.31.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 12:31:23 -0700 (PDT)
+Date: Fri, 13 May 2022 15:31:22 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v4 10/19] migration: Postcopy preemption enablement
+Message-ID: <Yn6yCg9VL4cYe25v@xz-m1.local>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-11-peterx@redhat.com>
+ <b42e7619-7ba7-6933-b4d7-b67b06704d15@nutanix.com>
+ <Yn00O5Ag2nPLZEyq@xz-m1.local>
+ <734316b2-df50-83e5-7b5d-b2fae8f871a1@nutanix.com>
 MIME-Version: 1.0
-References: <20220513000609.197906-1-jsnow@redhat.com>
- <Yn4YS1FpgtCZMMx6@redhat.com> <Yn4y9BorEDzOLhFH@redhat.com>
- <CAFn=p-Y77=F=qjdwWRycFafxiS7Rjxag4gLmPK0ERqEiyT19ig@mail.gmail.com>
- <Yn6CPm3VosPfcK7j@redhat.com>
- <d26567e9-f4b4-ff0c-6312-ad9162adaf90@redhat.com>
-In-Reply-To: <d26567e9-f4b4-ff0c-6312-ad9162adaf90@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 13 May 2022 15:09:25 -0400
-Message-ID: <CAFn=p-ZMJWG66+OysLAQreO8_O4zN2ABnMnJ30dLubUKpFCazA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/9] tests: run python tests under the
- build/tests/venv environment
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Hanna Reitz <hreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000005b304705dee96abc"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <734316b2-df50-83e5-7b5d-b2fae8f871a1@nutanix.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, URG_BIZ=0.573 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,144 +103,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005b304705dee96abc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sat, May 14, 2022 at 12:23:44AM +0530, manish.mishra wrote:
+> 
+> On 12/05/22 9:52 pm, Peter Xu wrote:
+> > Hi, Manish,
+> > 
+> > On Wed, May 11, 2022 at 09:24:28PM +0530, manish.mishra wrote:
+> > > > @@ -1962,9 +2038,17 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+> > > >        RAMBlock  *block;
+> > > >        ram_addr_t offset;
+> > > > +again:
+> > > >        block = unqueue_page(rs, &offset);
+> > > > -    if (!block) {
+> > > > +    if (block) {
+> > > > +        /* See comment above postcopy_preempted_contains() */
+> > > > +        if (postcopy_preempted_contains(rs, block, offset)) {
+> > > > +            trace_postcopy_preempt_hit(block->idstr, offset);
+> > > > +            /* This request is dropped */
+> > > > +            goto again;
+> > > > +        }
+> > > If we continuosly keep on getting new post-copy request. Is it possible this
+> > > case can starve post-copy request which is in precopy preemtion?
+> > I didn't fully get your thoughts, could you elaborate?
+> > 
+> > Here we're checking against the case where the postcopy requested page is
+> > exactly the one that we have preempted in previous precopy sessions.  If
+> > true, we drop this postcopy page and continue with the rest.
+> > 
+> > When there'll be no postcopy requests pending then we'll continue with the
+> > precopy page, which is exactly the request we've dropped.
+> > 
+> > Why we did this is actually in comment above postcopy_preempted_contains(),
+> > and quotting from there:
+> > 
+> > /*
+> >   * This should really happen very rarely, because it means when we were sending
+> >   * during background migration for postcopy we're sending exactly the page that
+> >   * some vcpu got faulted on on dest node.  When it happens, we probably don't
+> >   * need to do much but drop the request, because we know right after we restore
+> >   * the precopy stream it'll be serviced.  It'll slightly affect the order of
+> >   * postcopy requests to be serviced (e.g. it'll be the same as we move current
+> >   * request to the end of the queue) but it shouldn't be a big deal.  The most
+> >   * imporant thing is we can _never_ try to send a partial-sent huge page on the
+> >   * POSTCOPY channel again, otherwise that huge page will got "split brain" on
+> >   * two channels (PRECOPY, POSTCOPY).
+> >   */
+> > 
+> > [...]
+> 
+> Hi Peter, what i meant here is that as we go to precopy sending only when
+> there is
+> 
+> no post-copy request left so if there is some workload which is continuosly
+> generating
+> 
+> new post-copy fault request, It may take very long before we resume on
+> precopy channel.
+> 
+> So basically precopy channel may have a post-copy request pending for very
+> long in
+> 
+> this case? Earlier as it was FCFS there was a guarantee a post-copy request
+> will be
+> 
+> served after a fixed amount of time.
 
-On Fri, May 13, 2022, 12:50 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+Ah that's a good point.
 
-> On 5/13/22 18:07, Daniel P. Berrang=C3=A9 wrote:
-> >> e.g. what if I want to require mypy >=3D 0.900 for testing, but you ha=
-ve a
-> >> system package that requires mypy < 0.700?
-> > I would expect us to not require packages that are not present in
-> > the distros implied by
-> >
-> >    https://www.qemu.org/docs/master/about/build-platforms.html
-> >
-> > if that was absolutely a must have, then gracefully skip tests
-> > if the system version wasn't new enough. The user could always
-> > pass --python-env=3Dpip if they want to force new enough
-> >
->
-> Consider that e.g. RHEL RPMs do not do mypy or pylint in %check, because
-> the version of the linters in RHEL is usually older than what the
-> upstream packages expect.
->
-> I don't think it's a good idea for QEMU to support what Red Hat
-> packagers decided was a bad idea to support.
->
-> Paolo
->
+In that case maybe what we want to do is to restore this preemption
+immediately using postcopy_preempt_restore(), however we may also want to
+make sure this huge page won't get preempted by any other postcopy pages.
 
-Yeah, I have to insist that due to the way these packages are developed
-upstream that it is simply not reasonable to expect that the local package
-version will work. pylint changes behavior virtually every single release.
-This series itself even has a patch that is playing whackamole to support a
-mypy that's brand new while supporting older mypy versions.
+One thing in my mind to do this is to add one more field to the pss
+structure, we could call it pss->urgent.
 
-It's a huge overhead for little gain.
+Previously we have only had pss->postcopy_requested showing that whether
+one request comes from postcopy and whether we should send this page via
+the postcopy preempt channel.  We also use that as a hint so we will never
+preempt a huge page when postcopy_requested is set.  Now we probably want
+to separate that out of pss->urgent, so postcopy_requested will be mostly
+like before (along with the new pss->urgent set to 1 for all postcopy
+pages), except that we may want to also set pss->urgent to 1 for this very
+special case even for precopy pages, so that we won't preempt this page as
+well.
 
-Far preferable to just say "Oh, your linter version is too old, we can't
-run this test locally."
+I'm thinking maybe it's not wise to directly change the patch when I
+repost.  My current plan is I'll add one more patch at the end, so I won't
+easily give away Dave's R-b meanwhile hopefully that could make reviewers
+easy.  We could consider squashing that patch in if we'll commit the whole
+thing, or we can even keep them separate as a further optimization.
 
-the qemu (and qemu.qmp) packages do not express a runtime/install
-dependency on mypy/pylint/isort/flake8/avocado/tox. These packages only get
-pulled in for the [devel] option group, and for good reason.
+> 
+> > > > @@ -2211,7 +2406,16 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+> > > >            return 0;
+> > > >        }
+> > > > +    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
+> > > I see why there is only one extra channel, multiFD is not supported for
+> > > postcopy. Peter, Any particular reason for that.
+> > We used one channel not because multifd is not enabled - if you read into
+> > the series the channels are separately managed because they're servicing
+> > different goals.  It's because I don't really know whether multiple
+> > channels would be necessary, because postcopy requests should not be the
+> > major channel that pages will be sent, kind of a fast-path.
+> > 
+> > One of the major goal of this series is to avoid interruptions made to
+> > postcopy urgent pages due to sending of precopy pages.  One extra channel
+> > already serviced it well, so I just stopped there as the initial version.
+> > I actually raised that question myself too in the cover letter in the todo
+> > section, I think we can always evaluate the possibility of that in the
+> > future without major reworks (but we may need another parameter to specify
+> > the num of threads just like multifd).
+> 
+> >because postcopy requests should not be the major channel that pages will
+> be sent, kind of a fast-path.
+> 
+> Yes, agree Peter, but in worst case scenario it is possible we may have to
+> transfer full memory of VM
+> 
+> by post-copy requests? So in that case we may require higher number of
+> threads. But agree there can not be
+> 
+> be binding with number of mutliFD channels as multiFD uses 256KB buffer size
+> but here we may have to 4k
+> 
+> in small page case so there can be big diff in throughput limits. Also
+> smaller the buffer size much higher will
+> 
+> be cpu usage so it needs to be decided carefully.
 
-What is really the outlier here is iotest 297, which brings a kind of
-meta-test into the same category as functional/regression tests. Supporting
-this on default system packages is not on my personal todo list. Moving
-this test off to a "make check-python" and deleting iotest 297 might be an
-option. This is a test that simply might need to be skipped by an SRPM
-build. (it already isn't run, so there's no additional harm by continuing
-to not run it.)
+Right, and I see your point here.
 
-If we are running a test suite and we allow pypi via the config, then I
-believe we ought to allow the pypi versions to supersede the system ones -
-*iff* the system ones are insufficient. I will continue to endeavor to test
-a very wide matrix of dependencies, I just have to be honest that I don't
-think I will reasonably achieve the full breadth you are asking for here.
+It's just non-trivial to both gain performance and low latency imho.  But
+maybe you have a good point in that it also means with preemption mode on
+and with an extremely busy VM we could have put multifd into a vain even if
+we'll support both multifd+preempt in the future.
 
-For no-internet configs, we may have to accept that some platforms simply
-don't have new enough dependencies to run some tests. I don't see this as
-violating our build platform promise. I don't believe the build platform
-promise ever reasonably extended to a "development platform promise".
+But anyway - let's think more of it and let's solve problems one by one.
 
---js
+The worst case is we'll have low bw for such migration but it still keeps
+relatively good responsiveness on dest page faults for now.
 
->
+Thanks,
 
---0000000000005b304705dee96abc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, May 13, 2022, 12:50 PM Paolo Bonzini &lt;<a hr=
-ef=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">On 5/13/22 18:07, Daniel P. Berrang=C3=A9=
- wrote:<br>
-&gt;&gt; e.g. what if I want to require mypy &gt;=3D 0.900 for testing, but=
- you have a<br>
-&gt;&gt; system package that requires mypy &lt; 0.700?<br>
-&gt; I would expect us to not require packages that are not present in<br>
-&gt; the distros implied by<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 <a href=3D"https://www.qemu.org/docs/master/about/build-p=
-latforms.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.=
-qemu.org/docs/master/about/build-platforms.html</a><br>
-&gt; <br>
-&gt; if that was absolutely a must have, then gracefully skip tests<br>
-&gt; if the system version wasn&#39;t new enough. The user could always<br>
-&gt; pass --python-env=3Dpip if they want to force new enough<br>
-&gt; <br>
-<br>
-Consider that e.g. RHEL RPMs do not do mypy or pylint in %check, because <b=
-r>
-the version of the linters in RHEL is usually older than what the <br>
-upstream packages expect.<br>
-<br>
-I don&#39;t think it&#39;s a good idea for QEMU to support what Red Hat <br=
->
-packagers decided was a bad idea to support.<br>
-<br>
-Paolo<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">Yeah, I have to insist that due to the way these packages are develope=
-d upstream that it is simply not reasonable to expect that the local packag=
-e version will work. pylint changes behavior virtually every single release=
-. This series itself even has a patch that is playing whackamole to support=
- a mypy that&#39;s brand new while supporting older mypy versions.</div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">It&#39;s a huge overhead for lit=
-tle gain.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Far preferable=
- to just say &quot;Oh, your linter version is too old, we can&#39;t run thi=
-s test locally.&quot;</div><div dir=3D"auto"><br></div><div dir=3D"auto">th=
-e qemu (and qemu.qmp) packages do not express a runtime/install dependency =
-on mypy/pylint/isort/flake8/avocado/tox. These packages only get pulled in =
-for the [devel] option group, and for good reason.</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">What is really the outlier here is iotest 297, w=
-hich brings a kind of meta-test into the same category as functional/regres=
-sion tests. Supporting this on default system packages is not on my persona=
-l todo list. Moving this test off to a &quot;make check-python&quot; and de=
-leting iotest 297 might be an option. This is a test that simply might need=
- to be skipped by an SRPM build. (it already isn&#39;t run, so there&#39;s =
-no additional harm by continuing to not run it.)</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">If we are running a test suite and we allow pypi v=
-ia the config, then I believe we ought to allow the pypi versions to supers=
-ede the system ones - *iff* the system ones are insufficient. I will contin=
-ue to endeavor to test a very wide matrix of dependencies, I just have to b=
-e honest that I don&#39;t think I will reasonably achieve the full breadth =
-you are asking for here.</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
->For no-internet configs, we may have to accept that some platforms simply =
-don&#39;t have new enough dependencies to run some tests. I don&#39;t see t=
-his as violating our build platform promise. I don&#39;t believe the build =
-platform promise ever reasonably extended to a &quot;development platform p=
-romise&quot;.</div><div dir=3D"auto"><br></div><div dir=3D"auto">--js</div>=
-<div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->
-</blockquote></div></div></div>
-
---0000000000005b304705dee96abc--
+-- 
+Peter Xu
 
 
