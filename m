@@ -2,54 +2,180 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF70525ED8
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:04:21 +0200 (CEST)
-Received: from localhost ([::1]:59774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98A6525ED7
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:02:48 +0200 (CEST)
+Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npS9k-0003ZF-Hr
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:04:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51990)
+	id 1npS8F-0002N7-N2
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1npS0w-0002bR-TJ; Fri, 13 May 2022 05:55:15 -0400
-Received: from mail-sender-0.a4lg.com
- ([2401:2500:203:30b:4000:6bfe:4757:0]:48350)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1253447b4=ross.lagerwall@citrix.com>)
+ id 1npS5u-0008VG-4n
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:00:24 -0400
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:32863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1npS0u-00064j-3K; Fri, 13 May 2022 05:55:14 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 43521300089;
- Fri, 13 May 2022 09:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1652435705;
- bh=V4cVH96UJivo0jLPTyerD2R6z183uES9sE9evDhwjsE=;
- h=Message-ID:Date:Mime-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type:Content-Transfer-Encoding;
- b=GqDgNIjkbfV9kdyFW06qkImf8ck0Fh+87UE4NbE58MFMxQojvKeITsfDOKLd/t08E
- ff3XFIW7zlOUVjBTeOS8W203W4sCT/L+EfNBpICWJ2RX7DPUo2veuFt/a7KthSth+M
- w99fPk5601hrH2hqxdftJzAqnkv27/t+wKCTSi48=
-Message-ID: <c944e2ce-1935-6622-11b2-7c500b6d1737@irq.a4lg.com>
-Date: Fri, 13 May 2022 18:55:02 +0900
-Mime-Version: 1.0
-Subject: Re: [RFC PATCH v4 1/4] target/riscv: Add smstateen support
+ (Exim 4.90_1)
+ (envelope-from <prvs=1253447b4=ross.lagerwall@citrix.com>)
+ id 1npS5l-00073P-TP
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:00:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1652436013;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=55k7Zp2QAhQKOsgBKKOHb+MLwCmCtCVvp/GIe816wQg=;
+ b=FPtV45e2MN8WuEc8uH6ORXLhCRdOd3fEUOzfd5CkdbczCWHU+uFae+rb
+ 5QxEr+spOWjUa8LV004D3uj4JmZcPeSSxjp3RW29yC1KzepoKmF6awtk4
+ ldokZSQn+fRCfrs6Hl9UNBWDRZ9DcmqeRYvx08+jSp+478Zr9/bofG8yq 8=;
+X-IronPort-RemoteIP: 104.47.58.105
+X-IronPort-MID: 73739510
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutboundMail
+X-IronPort-SenderGroup: RELAY_O365
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:RDp8dqCWS9Cy0RVW/zjiw5YqxClBgxIJ4kV8jS/XYbTApGwr0TYBm
+ DcfCG7VPvrYYGene4h+YN/j8x4GuMCBmoQyQQY4rX1jcSlH+JHPbTi7wuYcHM8wwunrFh8PA
+ xA2M4GYRCwMZiaA4E/raNANlFEkvU2ybuOU5NXsZ2YgHGeIdA970Ug5w7Ng2dYx6TSEK1jlV
+ e3a8pW31GCNg1aYAkpMg05UgEoy1BhakGpwUm0WPZinjneH/5UmJMt3yZWKB2n5WuFp8tuSH
+ I4v+l0bElTxpH/BAvv9+lryn9ZjrrT6ZWBigVIOM0Sub4QrSoXfHc/XOdJFAXq7hQllkPhey
+ 44cnq6UYj02FZTUiL1NAzYBSwFHaPguFL/veRBTsOS15mifKz7A5qsrC0s7e4oF5uxwHGdCs
+ +QCLywAZQyCgOTwx6+nTu5rhYIoK8yD0IE34yk8i22GS6t2B8mbHs0m5vcBtNs0rtpJBu2YY
+ 8MWZCBwZRDESxZOJk0WGNQ1m+LAanzXLGYH8wPI/PJfD2779hxbz4fxa4vvZoaWHZUOk2SUj
+ Tme4DGsav0dHJnFodafyVq8i+mKkS7lVYY6ELyj6uUskFCV3nYUChAdSR28u/bRolWlR9tVJ
+ kgQ+ywvhas/7kqmSp/6RRLQiGaNoxo0S9dWVeog52ml06fR/kOVC3YJShZHb9opstJwQiYlv
+ mJlhPvsDD1r9bGQF3SU8+7MqSvoYHBIa2gfeSUDUA0JpcH5p50+hQ7OSdAlF7OpitryGnf7x
+ DXiQDUCuoj/RPUjj82TlW0rSRr1znQVZmbZPjnqY18=
+IronPort-HdrOrdr: A9a23:s5vfvaGOC1xGZk4IpLqFSpHXdLJyesId70hD6qkvc3Fom52j/f
+ xGws5x6fatskdrZJkh8erwW5VoMkmsj6KdhrNhcYtKPTOW9VdASbsP0WKM+UyGJ8STzI9gPO
+ JbAtBD4b7LfBdHZKTBkW+F+r8bqbHpnpxAx92utkuFJjsaCZ2Imj0JbjpzZXcGITWua6BYKL
+ Osou584xawc3Ueacq2QlMfWfLYmtHNnJX6JTYbGh8O8mC1/HKVwY+/NyLd8gYVUjtJz7tn23
+ PCiRbF6qKqtOz+4gPA1lXU849dlLLau5t+7Y23+4sowwfX+0OVjbdaKvm/VfcO0aaSAWMR4Z
+ vxStEbToJOAj3qDziISFDWqnTdOX4VmgPfIBmj8DXeSIXCNUwH48Ytv/MnTjLJr0Unp91yy6
+ RNwiaQsIdWFwrJmGDn68HPTAwCrDv9nZMOq59ks5Vka/pWVFaRl/1swGpFVJMbWC7q4oEuF+
+ djSMna+fZNaFufK3TUpHNmztCgVmk6Wk7ueDlJhuWFlzxN2HxpxUoRw8IS2n8G6ZImUpFBo+
+ DJKL5hmr1CRtIfKah9GOACS82qDXGle2OGDEuCZVD8UK0XMXPErJD6pL0z+eGxYZQNiIA/nZ
+ zQOWkowlLau3ieffFm8Kc7giwlGl/NLAgF4vsulKRRq/n7WKfhNzGFRRQnj9agys9vd/HmZw
+ ==
+X-IronPort-AV: E=Sophos;i="5.91,221,1647316800"; d="scan'208";a="73739510"
+Received: from mail-dm6nam10lp2105.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.105])
+ by ob1.hc3370-68.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 13 May 2022 06:00:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OUa30CsaKa5vz2UbeyxPjnO7xVugvRNJijn2WEZKej5y/mkuATXQh5nRvOe+dyKZs0FWWtveGO4j6zAtcuFe9VysJaQh71JzSn4AuSnYzqcHK8/L5FuLpOELhM5r/XqIAp14M0R20/yEvKSMVVgvCjbOvb95HxxaovxbjozMieKQmnE0CqK1sEUkE6Kt8rHKZYg7+nLrPBCJOytlQRqc6Qo+YWQsDJILY9SD8Yr7vF0ko4xjN395aFTovwqjWNITGcEkvmXBGIGkKmwlH69x74xF0qUZvfoLt2iiUlZnMcS0dEK1JvEHwN7MO92ADi0EFUou4ZBxxPdEesHrQmXzKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fkCjiZO24llJScKgxNzCxomb9h7PP/a3xAvTwnw48Mg=;
+ b=Sn2ymt0xOQXPCwSFFzUEz3oydEnAqCenSx0s/7bD1Y4r0vyDTejZMd88hhOt1CTc2fWfIJkN0XYguaub+OuXX+rA3g42XZ5g+c9ITD/SeeoVqJywMIzPTv6/LTJUKTAIYaxtak9msQ89tT67jstWmLRJLD90RzM7v4VTbuGd0FJeHjNcHrGy0dpREq3FTEC+2xxK5IoXC34u/Zn4fZOe8Nx5iuaTsan4sQHTlEE+8/ifCw1I7uTsEx1NHUrvI5+lBwdkSTRkS+aGRxRZVTPUjf0zetrURsf6Kk8YhcqLa5GBszYm/pgmpuvQ+115eXtTJPSFg22K29EpOY+Vn0XKVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=citrix.com; dmarc=pass action=none header.from=citrix.com;
+ dkim=pass header.d=citrix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fkCjiZO24llJScKgxNzCxomb9h7PP/a3xAvTwnw48Mg=;
+ b=jJA/hD5pSS4ffJHK9POkVBlLf0z+hqi5VcPNFfi7C4YKoIWFT7a2A8WuRq/v8YQ2/KVPOJhmG16gGBMq/eqzI30JQSPL6vzQXDZ/LVwbhAS+HXCObBjjJBsdTJLrqO30qX62AWZkSSy9Fqk9iag1MF2BG6fu/Fspqtvc/sZfHjM=
+Received: from PH0PR03MB6382.namprd03.prod.outlook.com (2603:10b6:510:ab::9)
+ by MW4PR03MB6393.namprd03.prod.outlook.com (2603:10b6:303:120::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Fri, 13 May
+ 2022 10:00:00 +0000
+Received: from PH0PR03MB6382.namprd03.prod.outlook.com
+ ([fe80::b02b:3af6:daa0:30ce]) by PH0PR03MB6382.namprd03.prod.outlook.com
+ ([fe80::b02b:3af6:daa0:30ce%8]) with mapi id 15.20.5250.014; Fri, 13 May 2022
+ 10:00:00 +0000
+From: Ross Lagerwall <ross.lagerwall@citrix.com>
+To: Roger Pau Monne <roger.pau@citrix.com>
+CC: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, Stefano
+ Stabellini <sstabellini@kernel.org>, Anthony Perard
+ <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] xen/pt: Avoid initializing BARs from the host ones
+Thread-Topic: [PATCH] xen/pt: Avoid initializing BARs from the host ones
+Thread-Index: AQHYWlVI6k4vzeGas0CbAgtnJ0rrZq0WWb2AgAAQ5LWAAA8wAIAGL25V
+Date: Fri, 13 May 2022 10:00:00 +0000
+Message-ID: <PH0PR03MB6382193356F37C9000946163F0CA9@PH0PR03MB6382.namprd03.prod.outlook.com>
+References: <20220427163812.2461718-1-ross.lagerwall@citrix.com>
+ <Ynje14BbzorbkvkD@Air-de-Roger>
+ <PH0PR03MB63820BC5F37E040F37554E32F0C69@PH0PR03MB6382.namprd03.prod.outlook.com>
+ <Ynj5wPrz4hEWJOA9@Air-de-Roger>
+In-Reply-To: <Ynj5wPrz4hEWJOA9@Air-de-Roger>
+Accept-Language: en-US
 Content-Language: en-US
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com
-References: <20220513085125.403037-1-mchitale@ventanamicro.com>
- <20220513085125.403037-2-mchitale@ventanamicro.com>
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-In-Reply-To: <20220513085125.403037-2-mchitale@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=citrix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 14115d4e-f67c-4504-141c-08da34c757bf
+x-ms-traffictypediagnostic: MW4PR03MB6393:EE_
+x-microsoft-antispam-prvs: <MW4PR03MB639352BAEDC056DFA949F229F0CA9@MW4PR03MB6393.namprd03.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fS5gIxeLWqIlg/g7It5N72UCO1CEMouTjxUJN5H1fwAvS++A0uUrPsBg+mESQ3MVfOr/SGAOOFKq3BxRXe3c20M3iJ+oTpCvGB88skv4g4HYOeENMwCo0HCjpXE462vS+dKwmuwajcDpZ0y8W46nWg9tqfgyUidWrTfA0ycaiA7P71720pjJa/bQHJGyFih8s0a8f2KVJZyMUrXfD1SuOEW0krphtICPHJ0fXmdgtcPg9+BGWcqQhAz+dj9QYjkBMwB2YrKVJxUKQNZnez22t1dTVHzI3zOlvHnc0putpk1K0JNFq2GiQutkW5/eJYa8VHUV9MYEe3/FQL2gJ7eU45wUMXDMl5Wq//ChALjb0cWEcwRuEfcCsBejQvjAA6xKqrX0Bu13zOwXdBXgR7QqmeC3Eqqnct9OPOk3PoHeDeVlyjv+nmj0h8/fjnRGKqwbOZMJdltzSTDFTU2PZaBvFgIqROuZrXZz9MDg6CFrZELPzykf0WVbZIJPELvq8xHAY8qmSqMH7/3qxMMmhNLBxa/MGkIlrAZncmfuYFGR8uoNPhjE45kAZPqDA9RAVTy06AWqVEVzSTTrOYg1wshgNy5Yxko2rIWAMScdGtVhsHgt80WQGzL3ydanUL1ZGJkWZU8GzkT8MYg520yIBpwKRR859/0ob8xGUjP6QL8LATzSQEZ7o/+eAPniX9r6NZVsDxHk4sAx99cV8GAOcC8idQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR03MB6382.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6636002)(54906003)(316002)(2906002)(91956017)(38100700002)(52536014)(122000001)(82960400001)(8936002)(38070700005)(5660300002)(86362001)(55016003)(508600001)(7696005)(8676002)(64756008)(66446008)(66556008)(66946007)(76116006)(66476007)(44832011)(4326008)(6862004)(71200400001)(186003)(53546011)(33656002)(83380400001)(26005)(9686003)(6506007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?144h3xaGVLWvQZp5bVEys8ypCPS7xfShpbqe9MkVnoPmsBxHZgqCmNyQAB?=
+ =?iso-8859-1?Q?CaXwCkuzLJgxOU71lSSMd3ILY43a6B5Awq2w8Cqhu+zcFpcNMkIbeEAOoI?=
+ =?iso-8859-1?Q?tzDnrl2hSgDjoc8tfjz6tEtXrBPxvkIL8jutlsav+buSh6u6QobIA6g7m9?=
+ =?iso-8859-1?Q?u1CNdQw85IrwKWr1SxCtAMF02k4SIjjTxpAORw33eG1uvE5+D8mDpgczha?=
+ =?iso-8859-1?Q?VQU5emkqmon9E/ciAFQWkUieW0r6wwqE+Y1NKADEDxGclL0U2hpax331A/?=
+ =?iso-8859-1?Q?HeqcIw4HA1QviAWRf3naCkvJ5wlrOsx3qaEz7hl6nbH9M+BWWZuqrfdbb8?=
+ =?iso-8859-1?Q?LUEz4TsnQw6PcOeTRLELrHaovZhiUEhWSNE3QovXBzkRSpjhjsPf83oq/v?=
+ =?iso-8859-1?Q?bj/Qya6VOhyA5AGwgWlWIKwE0Ou7ju085dMuHHeVcpdrGknYVdBsRDZmva?=
+ =?iso-8859-1?Q?n/RY8lSL7X0jR9xd5p2zprIxpSc0d9bP6ruxCpkyQdbc4P/SpAUuPG7mb6?=
+ =?iso-8859-1?Q?ixA0nfmmz3N1giStomitSETRjiMUiqzOtPQPHJBgVIhMnwNJTMzbFPE+Lh?=
+ =?iso-8859-1?Q?EzAe4HHxBTfjO3yBBekzGpp1UDm19c2yImIkObiYEMyvm+4rNj5c6xvwAl?=
+ =?iso-8859-1?Q?cQcsx5DM/HQYtgMsNSLnBNSYIUj+v8WKZDzJvb1dtzBNUb6gi7KEojT9SX?=
+ =?iso-8859-1?Q?J17Azrkae7W5FaN75oIQsIjBs+aMtaZ3fGbHHAH4ySZQhQcuiuAJ9UEmTY?=
+ =?iso-8859-1?Q?ESuw3mH41qYdwZaV5PjS7MfyW6ZUxBu8bQTMMIXVHsJW50Lo/k2zM+HSv7?=
+ =?iso-8859-1?Q?kZhRT9erz2L78v6FgYAN9aNNnBHhaU6jVAIXAB49thbSV0UecSyl3GqUHx?=
+ =?iso-8859-1?Q?KfCxGaESv8Qr8sgOpHq7tRjWzBx4sQsWr9tcxTcLf9UlvSWMukGaCiv193?=
+ =?iso-8859-1?Q?ONmCmwcwj0HMeUDURs4NwhlR0uEHeHrgpcWcKWhgf/8o2YLa8+iZCTVCz7?=
+ =?iso-8859-1?Q?QTYsqqvJ2pJTuJbocSMGC10E1dCYQvAYsOOkDylfwYydTxnyKOxzJjSYU/?=
+ =?iso-8859-1?Q?p7rCRyDqtR0ojsfTQuMy1stARgCP2BmajbyEFipXD2urPjaZfos4SBJdGc?=
+ =?iso-8859-1?Q?UIB+UypYqvNw3yrToxYXVQUcgjb2uAcU9YYkaesOkBYluleXDMu5Sm3u37?=
+ =?iso-8859-1?Q?6io2a45mjhICZngh+PuoCroo56mvIkfK9et4MelHBV+0u8AqghDWNgye4Z?=
+ =?iso-8859-1?Q?6TD6KSIgSlkYAqT+mhA2w4krX3rqe8HMEKnWO+bG2dftB7DsrRG2EPUPx4?=
+ =?iso-8859-1?Q?7H2I34BgKK6GpqEYASluR/GHKytXg8r/F1zkFow8v/z+B8jFofy2jrOqPz?=
+ =?iso-8859-1?Q?aUv9k/iqg3eawCzTooAN860gCOjzQAfdCCZSLdbbEjCzsB0RAAszFsLQCO?=
+ =?iso-8859-1?Q?ukOlPMpQ1QDqKf9r8UlsrvATywIYzQX3Kzn3bZOUQGS/fzVSlwSmKHFNfx?=
+ =?iso-8859-1?Q?X75LjYvZfGIhXz3uRf9efW8Ancbw3RDj59z8BT682/tBjagUVrm+Sdyk/7?=
+ =?iso-8859-1?Q?rMc+UnnrOuSdj89yhN2NRFjEohXG3CLftIHFxNdToaJd4OnJU7Y7iIMd4W?=
+ =?iso-8859-1?Q?CjoSwDoKjyGVaWZO+Zh5Po9q2363xLlwBKqYtTdVGik/kBv0G7Vqc3MIx7?=
+ =?iso-8859-1?Q?/v11ZD7uAK8wDSvlkZMjDwxg8nmRfIj++77LNu7+7LkBuCy81Pwd/69LdW?=
+ =?iso-8859-1?Q?bDuK8eizZhTI+lh3+wU51/rkuzpTIQ3AJz0aMoDGViEXTT1yiO3k8JnwW6?=
+ =?iso-8859-1?Q?pzl+vkqrmTrZHYxQPhXIEA2rmpzMuAA=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: citrix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6382.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14115d4e-f67c-4504-141c-08da34c757bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2022 10:00:00.1310 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 335836de-42ef-43a2-b145-348c2ee9ca5b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: s6xMrD494ypIQBms8kZes+7zJqcqsLJQsv+HFH8263EvbApHn+Fjpt3/iSlg6ftcV2ZnaQhQGXXbCo5FmOCOkB8r6S9IHzsP5vy9LLjAl4U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR03MB6393
+Received-SPF: pass client-ip=216.71.155.144;
+ envelope-from=prvs=1253447b4=ross.lagerwall@citrix.com;
+ helo=esa4.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,413 +192,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/05/13 17:51, Mayuresh Chitale wrote:
-> Smstateen extension specifies a mechanism to close
-> the potential covert channels that could cause security issues.
-> 
-> This patch adds the CSRs defined in the specification and
-> the corresponding predicates and read/write functions.
-> 
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> ---
->  target/riscv/cpu.c      |   2 +
->  target/riscv/cpu.h      |   4 +
->  target/riscv/cpu_bits.h |  36 +++++++
->  target/riscv/csr.c      | 210 ++++++++++++++++++++++++++++++++++++++++
->  target/riscv/machine.c  |  21 ++++
->  5 files changed, 273 insertions(+)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 25a4ba3e22..3be2c644f9 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -870,6 +870,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
->      DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
-> +    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen, false),
->  
->      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-> @@ -1062,6 +1063,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->          ISA_EDATA_ENTRY(svinval, ext_svinval),
->          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
->          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
-> +        ISA_EDATA_ENTRY(smstateen, ext_smstateen),
-
-isa_edata_arr must be arranged by canonical ordering.
-In this case, following comment (above those entries) applies:
-
->      * 3. Standard supervisor-level extensions (starts with 'S') should be
->      *    listed after standard unprivileged extensions.  If multiple
->      *    supervisor-level extensions are listed, they should be ordered
->      *    alphabetically.
-
-That means, you should put Smstateen extension line between zve64f and
-svinval.  Other than that, your changes looks good to me.
-
-Thanks,
-
-Tsukasa
-
->      };
->  
->      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index a55c918274..d6fdc63ff2 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -327,6 +327,9 @@ struct CPUArchState {
->  
->      /* CSRs for execution enviornment configuration */
->      uint64_t menvcfg;
-> +    uint64_t mstateen[SMSTATEEN_MAX_COUNT];
-> +    uint64_t hstateen[SMSTATEEN_MAX_COUNT];
-> +    uint64_t sstateen[SMSTATEEN_MAX_COUNT];
->      target_ulong senvcfg;
->      uint64_t henvcfg;
->  #endif
-> @@ -411,6 +414,7 @@ struct RISCVCPUConfig {
->      bool ext_zhinxmin;
->      bool ext_zve32f;
->      bool ext_zve64f;
-> +    bool ext_smstateen;
->  
->      uint32_t mvendorid;
->      uint64_t marchid;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 4a55c6a709..2a3ef26d21 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -208,6 +208,12 @@
->  /* Supervisor Configuration CSRs */
->  #define CSR_SENVCFG         0x10A
->  
-> +/* Supervisor state CSRs */
-> +#define CSR_SSTATEEN0       0x10C
-> +#define CSR_SSTATEEN1       0x10D
-> +#define CSR_SSTATEEN2       0x10E
-> +#define CSR_SSTATEEN3       0x10F
-> +
->  /* Supervisor Trap Handling */
->  #define CSR_SSCRATCH        0x140
->  #define CSR_SEPC            0x141
-> @@ -257,6 +263,16 @@
->  #define CSR_HENVCFG         0x60A
->  #define CSR_HENVCFGH        0x61A
->  
-> +/* Hypervisor state CSRs */
-> +#define CSR_HSTATEEN0       0x60C
-> +#define CSR_HSTATEEN0H      0x61C
-> +#define CSR_HSTATEEN1       0x60D
-> +#define CSR_HSTATEEN1H      0x61D
-> +#define CSR_HSTATEEN2       0x60E
-> +#define CSR_HSTATEEN2H      0x61E
-> +#define CSR_HSTATEEN3       0x60F
-> +#define CSR_HSTATEEN3H      0x61F
-> +
->  /* Virtual CSRs */
->  #define CSR_VSSTATUS        0x200
->  #define CSR_VSIE            0x204
-> @@ -304,6 +320,26 @@
->  #define CSR_MENVCFG         0x30A
->  #define CSR_MENVCFGH        0x31A
->  
-> +/* Machine state CSRs */
-> +#define CSR_MSTATEEN0       0x30C
-> +#define CSR_MSTATEEN0H      0x31C
-> +#define CSR_MSTATEEN1       0x30D
-> +#define CSR_MSTATEEN1H      0x31D
-> +#define CSR_MSTATEEN2       0x30E
-> +#define CSR_MSTATEEN2H      0x31E
-> +#define CSR_MSTATEEN3       0x30F
-> +#define CSR_MSTATEEN3H      0x31F
-> +
-> +/* Common defines for all smstateen */
-> +#define SMSTATEEN_MAX_COUNT 4
-> +#define SMSTATEEN0_CS       0
-> +#define SMSTATEEN0_FCSR     0
-> +#define SMSTATEEN0_IMSIC    58
-> +#define SMSTATEEN0_AIA      59
-> +#define SMSTATEEN0_SVSLCT   60
-> +#define SMSTATEEN0_HSENVCFG 62
-> +#define SMSTATEEN_STATEN    63
-> +
->  /* Enhanced Physical Memory Protection (ePMP) */
->  #define CSR_MSECCFG         0x747
->  #define CSR_MSECCFGH        0x757
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e144ce7135..fea5cdd178 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -247,6 +247,42 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
->  
->  }
->  
-> +static RISCVException mstateen(CPURISCVState *env, int csrno)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +
-> +    if (!cpu->cfg.ext_smstateen) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    return any(env, csrno);
-> +}
-> +
-> +static RISCVException hstateen(CPURISCVState *env, int csrno)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +
-> +    if (!cpu->cfg.ext_smstateen) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    return hmode(env, csrno);
-> +}
-> +
-> +static RISCVException sstateen(CPURISCVState *env, int csrno)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +
-> +    if (!cpu->cfg.ext_smstateen) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    return smode(env, csrno);
-> +}
-> +
->  /* Checks if PointerMasking registers could be accessed */
->  static RISCVException pointer_masking(CPURISCVState *env, int csrno)
->  {
-> @@ -1574,6 +1610,129 @@ static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
->      return RISCV_EXCP_NONE;
->  }
->  
-> +static inline void write_smstateen(CPURISCVState *env, uint64_t *reg,
-> +                                   uint64_t wr_mask, uint64_t new_val)
-> +{
-> +    *reg = (*reg & ~wr_mask) | (new_val & wr_mask);
-> +}
-> +
-> +static RISCVException read_mstateen(CPURISCVState *env, int csrno,
-> +                                    target_ulong *val)
-> +{
-> +    *val = env->mstateen[csrno - CSR_MSTATEEN0];
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_mstateen(CPURISCVState *env, int csrno,
-> +                                     target_ulong new_val)
-> +{
-> +    uint64_t *reg;
-> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> +
-> +    reg = &env->mstateen[csrno - CSR_MSTATEEN0];
-> +    write_smstateen(env, reg, wr_mask, new_val);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_mstateenh(CPURISCVState *env, int csrno,
-> +                                     target_ulong *val)
-> +{
-> +    *val = env->mstateen[csrno - CSR_MSTATEEN0H] >> 32;
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
-> +                                      target_ulong new_val)
-> +{
-> +    uint64_t *reg;
-> +    uint64_t val;
-> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> +
-> +    reg = &env->mstateen[csrno - CSR_MSTATEEN0H];
-> +    val = (uint64_t)new_val << 32;
-> +    val |= *reg & 0xFFFFFFFF;
-> +    write_smstateen(env, reg, wr_mask, val);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_hstateen(CPURISCVState *env, int csrno,
-> +                                    target_ulong *val)
-> +{
-> +    *val = env->hstateen[csrno - CSR_HSTATEEN0];
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_hstateen(CPURISCVState *env, int csrno,
-> +                                     target_ulong new_val)
-> +{
-> +    uint64_t *reg;
-> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> +    int index = csrno - CSR_HSTATEEN0;
-> +
-> +    reg = &env->hstateen[index];
-> +    wr_mask &= env->mstateen[index];
-> +    write_smstateen(env, reg, wr_mask, new_val);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_hstateenh(CPURISCVState *env, int csrno,
-> +                                     target_ulong *val)
-> +{
-> +    *val = env->hstateen[csrno - CSR_HSTATEEN0H] >> 32;
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_hstateenh(CPURISCVState *env, int csrno,
-> +                                      target_ulong new_val)
-> +{
-> +    uint64_t *reg;
-> +    uint64_t val;
-> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> +    int index = csrno - CSR_HSTATEEN0H;
-> +
-> +    reg = &env->hstateen[index];
-> +    val = (uint64_t)new_val << 32;
-> +    val |= *reg & 0xFFFFFFFF;
-> +    wr_mask &= env->mstateen[index];
-> +
-> +    write_smstateen(env, reg, wr_mask, val);
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_sstateen(CPURISCVState *env, int csrno,
-> +                                    target_ulong *val)
-> +{
-> +    *val = env->sstateen[csrno - CSR_SSTATEEN0];
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_sstateen(CPURISCVState *env, int csrno,
-> +                                     target_ulong new_val)
-> +{
-> +    uint64_t *reg;
-> +    uint64_t wr_mask = 0;
-> +    int index = csrno - CSR_SSTATEEN0;
-> +    bool virt = riscv_cpu_virt_enabled(env);
-> +
-> +    reg = &env->sstateen[index];
-> +    if (virt) {
-> +        wr_mask &= env->mstateen[index];
-> +    } else {
-> +        wr_mask &= env->hstateen[index];
-> +    }
-> +    write_smstateen(env, reg, wr_mask, new_val);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
->  static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
->                                  uint64_t *ret_val,
->                                  uint64_t new_val, uint64_t wr_mask)
-> @@ -3441,6 +3600,57 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh, write_henvcfgh,
->                                            .min_priv_ver = PRIV_VERSION_1_12_0 },
->  
-> +    /* Smstateen extension CSRs */
-> +    [CSR_MSTATEEN0] = { "mstateen0", mstateen, read_mstateen, write_mstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MSTATEEN0H] = { "mstateen0h", mstateen, read_mstateenh,
-> +                          write_mstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MSTATEEN1] = { "mstateen1", mstateen, read_mstateen, write_mstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MSTATEEN1H] = { "mstateen1h", mstateen, read_mstateenh,
-> +                          write_mstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MSTATEEN2] = { "mstateen2", mstateen, read_mstateen, write_mstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MSTATEEN2H] = { "mstateen2h", mstateen, read_mstateenh,
-> +                          write_mstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MSTATEEN3] = { "mstateen3", mstateen, read_mstateen, write_mstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MSTATEEN3H] = { "mstateen3h", mstateen, read_mstateenh,
-> +                          write_mstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +
-> +    [CSR_HSTATEEN0] = { "hstateen0", hstateen, read_hstateen, write_hstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HSTATEEN0H] = { "hstateen0h", hstateen, read_hstateenh,
-> +                          write_hstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HSTATEEN1] = { "hstateen1", hstateen, read_hstateen, write_hstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HSTATEEN1H] = { "hstateen1h", hstateen, read_hstateenh,
-> +                          write_hstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HSTATEEN2] = { "hstateen2", hstateen, read_hstateen, write_hstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HSTATEEN2H] = { "hstateen2h", hstateen, read_hstateenh,
-> +                          write_hstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HSTATEEN3] = { "hstateen3", hstateen, read_hstateen, write_hstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HSTATEEN3H] = { "hstateen3h", hstateen, read_hstateenh,
-> +                          write_hstateenh,
-> +                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +
-> +    [CSR_SSTATEEN0] = { "sstateen0", sstateen, read_sstateen, write_sstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_SSTATEEN1] = { "sstateen1", sstateen, read_sstateen, write_sstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_SSTATEEN2] = { "sstateen2", sstateen, read_sstateen, write_sstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_SSTATEEN3] = { "sstateen3", sstateen, read_sstateen, write_sstateen,
-> +                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->      /* Supervisor Trap Setup */
->      [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus, NULL,
->                                                read_sstatus_i128                 },
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 2a437b29a1..84a75dbb08 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -262,6 +262,26 @@ static int riscv_cpu_post_load(void *opaque, int version_id)
->      return 0;
->  }
->  
-> +static bool smstateen_needed(void *opaque)
-> +{
-> +    RISCVCPU *cpu = opaque;
-> +
-> +    return cpu->cfg.ext_smstateen;
-> +}
-> +
-> +static const VMStateDescription vmstate_smstateen = {
-> +    .name = "cpu/smtateen",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = smstateen_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT64_ARRAY(env.mstateen, RISCVCPU, 4),
-> +        VMSTATE_UINT64_ARRAY(env.hstateen, RISCVCPU, 4),
-> +        VMSTATE_UINT64_ARRAY(env.sstateen, RISCVCPU, 4),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static bool envcfg_needed(void *opaque)
->  {
->      RISCVCPU *cpu = opaque;
-> @@ -347,6 +367,7 @@ const VMStateDescription vmstate_riscv_cpu = {
->          &vmstate_kvmtimer,
->          &vmstate_envcfg,
->          &vmstate_debug,
-> +        &vmstate_smstateen,
->          NULL
->      }
->  };
+> From: Roger Pau Monne <roger.pau@citrix.com>=0A=
+> Sent: Monday, May 9, 2022 12:23 PM=0A=
+> To: Ross Lagerwall <ross.lagerwall@citrix.com>=0A=
+> Cc: xen-devel@lists.xenproject.org <xen-devel@lists.xenproject.org>; Stef=
+ano Stabellini <sstabellini@kernel.org>; Anthony Perard <anthony.perard@cit=
+rix.com>; Paul Durrant <paul@xen.org>; qemu-devel@nongnu.org <qemu-devel@no=
+ngnu.org>=0A=
+> Subject: Re: [PATCH] xen/pt: Avoid initializing BARs from the host ones =
+=0A=
+>  =0A=
+> On Mon, May 09, 2022 at 10:39:32AM +0000, Ross Lagerwall wrote:=0A=
+> > > From: Roger Pau Monne <roger.pau@citrix.com>=0A=
+> > > Sent: Monday, May 9, 2022 10:28 AM=0A=
+> > > To: Ross Lagerwall <ross.lagerwall@citrix.com>=0A=
+> > > Cc: xen-devel@lists.xenproject.org <xen-devel@lists.xenproject.org>; =
+Stefano Stabellini <sstabellini@kernel.org>; Anthony Perard <anthony.perard=
+@citrix.com>; Paul Durrant <paul@xen.org>; qemu-devel@nongnu.org <qemu-deve=
+l@nongnu.org>=0A=
+> > > Subject: Re: [PATCH] xen/pt: Avoid initializing BARs from the host on=
+es =0A=
+> > >  =0A=
+> > > On Wed, Apr 27, 2022 at 05:38:12PM +0100, Ross Lagerwall via wrote:=
+=0A=
+> > > > The BAR emulated register definition does not set emu_mask because =
+it=0A=
+> > > > varies depending on bar_flag.  If emu_mask is not set, then the BAR=
+ is=0A=
+> > > > initialized based on the host value which causes the BAR to be init=
+ially=0A=
+> > > > mapped at whatever value the host device was using. Although it doe=
+s=0A=
+> > > > eventually get mapped at the correct location, it causes unnecessar=
+y=0A=
+> > > > mapping/unmappings.=0A=
+> > > =0A=
+> > > Would it be possible to just unset the memory decoding bit in the=0A=
+> > > command register if it's set?=0A=
+> > =0A=
+> > I don't think that would be sufficient since AFAICT qemu does not read =
+that=0A=
+> > bit so will still call into Xen to update memory mappings, etc.=0A=
+> =0A=
+> Hm, but this seems wrong?  QEMU should not set memory mappings if the=0A=
+> memory decoding bit is unset.  While the bit will be set for the=0A=
+> underlying physical device, it shouldn't be set in the emulated=0A=
+> command register provided to the guest, and hence no mappings should=0A=
+> be established until that bit is set by the guest.=0A=
+> =0A=
+> In the description you mention not using the host BAR positions, which=0A=
+> is fine, but you also need to prevent mappings from being created=0A=
+> until the guest has positioned the BARs and enabled the memory=0A=
+> decoding bit, or else you end up positioning the BARs wrongly has QEMU=0A=
+> has no knowledge of where should BARs reside.=0A=
+> =0A=
+=0A=
+I was wrong - I missed the point where QEMU checked the memory decoding bit=
+=0A=
+since it is in the core PCI code.=0A=
+=0A=
+This patch was originally for some older combination of Xen/QEMU. I=0A=
+rechecked now and I'm no longer able to reproduce the symptom in the=0A=
+description (unnecessary incorrect mapping/unmappings) so I guess=0A=
+something else changed in the meantime. The BAR register being=0A=
+temporarily populated with host values before being programmed=0A=
+is therefore not a big issue so I think this patch can just be=0A=
+dropped.=0A=
+=0A=
+Thanks,=0A=
+Ross=
 
