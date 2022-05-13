@@ -2,65 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B15525B0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 07:37:34 +0200 (CEST)
-Received: from localhost ([::1]:39958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACD3525BBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 08:48:31 +0200 (CEST)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npNzY-0002b4-Ql
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 01:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35904)
+	id 1npP6E-0001sU-6k
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 02:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1npNtz-0001kr-AZ
- for qemu-devel@nongnu.org; Fri, 13 May 2022 01:31:52 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:41655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1npNtv-0001Ad-FA
- for qemu-devel@nongnu.org; Fri, 13 May 2022 01:31:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CD84E2042E;
- Fri, 13 May 2022 05:31:39 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Fri, 13 May
- 2022 07:31:39 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R00122cfcf4c-0516-4dac-b53a-6efc531aabc6,
- 7E3099CCCDBDCA9B64B55F14ACBFF9980A3F1D3F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <443933f2-069f-df96-ec62-76c21fc644b2@kaod.org>
-Date: Fri, 13 May 2022 07:31:38 +0200
+ (Exim 4.90_1)
+ (envelope-from <irischenlj@devvm5719.atn0.facebook.com>)
+ id 1npOvL-0005CG-D4
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 02:37:15 -0400
+Received: from 69-171-232-181.mail-mxout.facebook.com ([69.171.232.181]:38249)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1)
+ (envelope-from <irischenlj@devvm5719.atn0.facebook.com>)
+ id 1npOvJ-0001o3-EM
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 02:37:15 -0400
+Received: by devvm5719.atn0.facebook.com (Postfix, from userid 279525)
+ id C541014C634B; Thu, 12 May 2022 22:50:23 -0700 (PDT)
+To: 
+Cc: irischenlj@fb.com, pdel@fb.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ clg@kaod.org, patrick@stwcx.xyz, alistair@alistair23.me, kwolf@redhat.com,
+ hreitz@redhat.com, peter.maydell@linaro.org, andrew@aj.id.au,
+ joel@jms.id.au, thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ qemu-block@nongnu.org
+Subject: [PATCH v3] hw: m25p80: allow write_enable latch get/set
+Date: Thu, 12 May 2022 22:50:22 -0700
+Message-Id: <20220513055022.951759-1-irischenlj@fb.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <irischenlj@gmail.com>
+References: <irischenlj@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/2] hw: aspeed: Init all UART's with serial devices
-Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>
-CC: <irischenlj@fb.com>, <patrick@stwcx.xyz>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, <zev@bewilderbeest.net>, <openbmc@lists.ozlabs.org>, 
- <andrew@aj.id.au>, <peter.maydell@linaro.org>, <joel@jms.id.au>
-References: <20220513040220.3657135-1-pdel@fb.com>
- <20220513040220.3657135-3-pdel@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220513040220.3657135-3-pdel@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c3985cfe-6c89-4949-8446-cbf94258a2c9
-X-Ovh-Tracer-Id: 17094256813194120114
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgeekgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffeggfekveevvddvffelfeehleffhffhteegkeduueevffffkeejieevffeltdfhnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghu
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=69.171.232.181;
+ envelope-from=irischenlj@devvm5719.atn0.facebook.com;
+ helo=69-171-232-181.mail-mxout.facebook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NO_DNS_FOR_FROM=0.001, RDNS_DYNAMIC=0.982,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001, TVD_RCVD_IP=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,153 +61,259 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Iris Chen <irischenlj@fb.com>
+From:  Iris Chen via <qemu-devel@nongnu.org>
 
-On 5/13/22 06:02, Peter Delevoryas wrote:
-> Usually, QEMU users just provide one serial device on the command line,
-> either through "-nographic" or "-serial stdio -display none", or just using
-> VNC and popping up a window. We try to match what the user expects, which is
-> to connect the first (and usually only) serial device to the UART a board is
-> using as serial0.
-> 
-> Most Aspeed machines in hw/arm/aspeed.c use UART5 for serial0 in their
-> device tree, so we connect UART5 to the first serial device. Some machines
-> use UART1 though, or UART3, so the uart_default property lets us specify
-> that in a board definition.
-> 
-> In order to specify a nonstandard serial0 UART, a user basically *must* add
-> a new board definition in hw/arm/aspeed.c. There's no way to do this without
-> recompiling QEMU, besides constructing the machine completely from scratch
-> on the command line.
-> 
-> To provide more flexibility, we can also support the user specifying more
-> serial devices, and connect them to the UART memory regions if possible.
-> Even if a user doesn't specify any extra serial devices, it's useful to
-> initialize these memory regions as UART's, so that they respond to the guest
-> OS more naturally. At the moment, they will just always return zero's for
-> everything, and some UART registers have a default non-zero state.
-> 
-> With this change, if a new OpenBMC image uses UART3 or some other
-> nonstandard UART for serial0, you can still use it with the EVB without
-> recompiling QEMU, even though uart-default=UART5 for the EVB.
-> 
-> For example, Facebook's Wedge100 BMC uses UART3: you can fetch an image from
-> Github[1] and get the serial console output even while running the palmetto
-> machine type, because we explicitly specify that we want UART3 to be
-> connected to stdio.
-> 
->      qemu-system-arm -machine palmetto-bmc \
->          -drive file=wedge100.mtd,format=raw,if=mtd \
->          -serial null -serial null -serial null -serial stdio -display none
-> 
-> Similarly, you can boot a Fuji BMC image[2], which uses UART1, using the
-> AST2600 EVB machine:
-> 
->      qemu-system-arm -machine ast2600-evb \
->          -drive file=fuji.mtd,format=raw,if=mtd \
->          -serial null -serial stdio -display none
-> 
-> This is kind of complicated, of course: it might be more natural to get rid
-> of the uart_default attribute completely, and initialize UART's
-> sequentially. But, keeping backward compatibility and the way most users
-> know how to use QEMU in mind, this seems to make the most sense.
-> 
-> [1] https://github.com/facebook/openbmc/releases/download/v2021.49.0/wedge100.mtd
-> [2] https://github.com/facebook/openbmc/releases/download/v2021.49.0/fuji.mtd
-> 
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
-> ---
->   hw/arm/aspeed_ast10x0.c | 14 +++++++++++---
->   hw/arm/aspeed_ast2600.c | 10 +++++++++-
->   hw/arm/aspeed_soc.c     | 10 +++++++++-
->   3 files changed, 29 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index f65dc139da..5e6f3a8fed 100644
-> --- a/hw/arm/aspeed_ast10x0.c
-> +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -215,10 +215,18 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
->                          qdev_get_gpio_in(DEVICE(&s->armv7m),
->                                   sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_kcs_4));
->   
-> -    /* UART5 - attach an 8250 to the IO space as our UART */
-> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
-> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
-> +    /* UART - attach 8250's to the IO space for each UART */
-> +    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
-> +                   aspeed_soc_get_irq(s, s->uart_default),
+The write_enable latch property is not currently exposed.
+This commit makes it a modifiable property.
 
-That's a fix for aspeed_ast10x0 that should come first.
+Signed-off-by: Iris Chen <irischenlj@fb.com>
+---
+v3: Addressed comments by Peter and Cedric.
+v2: Ran ./scripts/checkpatch.pl on the patch and added a description. Fix=
+ed comments regarding DEFINE_PROP_BOOL.
 
->                      38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> +    for (int i = 1, uart = ASPEED_DEV_UART1; i < 13; i++, uart++) {
+ hw/block/m25p80.c              |  1 +
+ tests/qtest/aspeed_gpio-test.c | 40 +++++++------------------------
+ tests/qtest/aspeed_smc-test.c  | 43 ++++++++++++++++++++++++++++++++++
+ tests/qtest/libqtest.c         | 24 +++++++++++++++++++
+ tests/qtest/libqtest.h         | 22 +++++++++++++++++
+ 5 files changed, 98 insertions(+), 32 deletions(-)
 
-'13' should be a AspeecSoCClass attribute. The number of uarts varies
-depending on the SoC model and we might want to model that one day.
-
-> +        if (uart == s->uart_default) {
-> +            uart++;
-> +        }
-
-Shouldn't we test serial_hd(i) validity ?
-
-Thanks,
-
-C.
-
-> +        serial_mm_init(get_system_memory(), sc->memmap[uart], 2,
-> +                       aspeed_soc_get_irq(s, uart), 38400, serial_hd(i),
-> +                       DEVICE_LITTLE_ENDIAN);
-> +    }
->   
->       /* Timer */
->       object_property_set_link(OBJECT(&s->timerctrl), "scu", OBJECT(&s->scu),
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index 1b72800682..cbeca7f655 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -372,10 +372,18 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
->       sysbus_connect_irq(SYS_BUS_DEVICE(&s->adc), 0,
->                          aspeed_soc_get_irq(s, ASPEED_DEV_ADC));
->   
-> -    /* UART - attach an 8250 to the IO space as our UART */
-> +    /* UART - attach 8250's to the IO space for each UART */
->       serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
->                      aspeed_soc_get_irq(s, s->uart_default), 38400,
->                      serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> +    for (int i = 1, uart = ASPEED_DEV_UART1; i < 13; i++, uart++) {
-> +        if (uart == s->uart_default) {
-> +            uart++;
-> +        }
-> +        serial_mm_init(get_system_memory(), sc->memmap[uart], 2,
-> +                       aspeed_soc_get_irq(s, uart), 38400, serial_hd(i),
-> +                       DEVICE_LITTLE_ENDIAN);
-> +    }
->   
->       /* I2C */
->       object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
-> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-> index 2cd03d49da..1fc1ed808d 100644
-> --- a/hw/arm/aspeed_soc.c
-> +++ b/hw/arm/aspeed_soc.c
-> @@ -303,10 +303,18 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
->       sysbus_connect_irq(SYS_BUS_DEVICE(&s->adc), 0,
->                          aspeed_soc_get_irq(s, ASPEED_DEV_ADC));
->   
-> -    /* UART - attach an 8250 to the IO space as our UART */
-> +    /* UART - attach 8250's to the IO space for each UART */
->       serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
->                      aspeed_soc_get_irq(s, s->uart_default), 38400,
->                      serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> +    for (int i = 1, uart = ASPEED_DEV_UART1; i < 5; i++, uart++) {
-> +        if (uart == s->uart_default) {
-> +            uart++;
-> +        }
-> +        serial_mm_init(get_system_memory(), sc->memmap[uart], 2,
-> +                       aspeed_soc_get_irq(s, uart), 38400, serial_hd(i),
-> +                       DEVICE_LITTLE_ENDIAN);
-> +    }
->   
->       /* I2C */
->       object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 430d1298a8..4283b990af 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -1558,6 +1558,7 @@ static int m25p80_pre_save(void *opaque)
+=20
+ static Property m25p80_properties[] =3D {
+     /* This is default value for Micron flash */
++    DEFINE_PROP_BOOL("write-enable", Flash, write_enable, false),
+     DEFINE_PROP_UINT32("nonvolatile-cfg", Flash, nonvolatile_cfg, 0x8FFF=
+),
+     DEFINE_PROP_UINT8("spansion-cr1nv", Flash, spansion_cr1nv, 0x0),
+     DEFINE_PROP_UINT8("spansion-cr2nv", Flash, spansion_cr2nv, 0x8),
+diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-tes=
+t.c
+index c1003f2d1b..bac63e8742 100644
+--- a/tests/qtest/aspeed_gpio-test.c
++++ b/tests/qtest/aspeed_gpio-test.c
+@@ -28,30 +28,6 @@
+ #include "qapi/qmp/qdict.h"
+ #include "libqtest-single.h"
+=20
+-static bool qom_get_bool(QTestState *s, const char *path, const char *pr=
+operty)
+-{
+-    QDict *r;
+-    bool b;
+-
+-    r =3D qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
+-                     "{ 'path': %s, 'property': %s } }", path, property)=
+;
+-    b =3D qdict_get_bool(r, "return");
+-    qobject_unref(r);
+-
+-    return b;
+-}
+-
+-static void qom_set_bool(QTestState *s, const char *path, const char *pr=
+operty,
+-                         bool value)
+-{
+-    QDict *r;
+-
+-    r =3D qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
+-                     "{ 'path': %s, 'property': %s, 'value': %i } }",
+-                     path, property, value);
+-    qobject_unref(r);
+-}
+-
+ static void test_set_colocated_pins(const void *data)
+ {
+     QTestState *s =3D (QTestState *)data;
+@@ -60,14 +36,14 @@ static void test_set_colocated_pins(const void *data)
+      * gpioV4-7 occupy bits within a single 32-bit value, so we want to =
+make
+      * sure that modifying one doesn't affect the other.
+      */
+-    qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
+-    qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
+-    qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
+-    qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
+-    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
+-    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
+-    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
+-    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
++    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
++    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
++    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
++    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
++    g_assert(qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
++    g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
++    g_assert(qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
++    g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
+ }
+=20
+ int main(int argc, char **argv)
+diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.=
+c
+index 87b40a0ef1..ec233315e6 100644
+--- a/tests/qtest/aspeed_smc-test.c
++++ b/tests/qtest/aspeed_smc-test.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/bswap.h"
+ #include "libqtest-single.h"
++#include "qemu/bitops.h"
+=20
+ /*
+  * ASPEED SPI Controller registers
+@@ -40,6 +41,7 @@
+ #define   CTRL_FREADMODE       0x1
+ #define   CTRL_WRITEMODE       0x2
+ #define   CTRL_USERMODE        0x3
++#define SR_WEL BIT(1)
+=20
+ #define ASPEED_FMC_BASE    0x1E620000
+ #define ASPEED_FLASH_BASE  0x20000000
+@@ -49,6 +51,8 @@
+  */
+ enum {
+     JEDEC_READ =3D 0x9f,
++    RDSR =3D 0x5,
++    WRDI =3D 0x4,
+     BULK_ERASE =3D 0xc7,
+     READ =3D 0x03,
+     PP =3D 0x02,
+@@ -348,6 +352,44 @@ static void test_write_page_mem(void)
+     flash_reset();
+ }
+=20
++static void test_read_status_reg(void)
++{
++    uint8_t r;
++
++    spi_conf(CONF_ENABLE_W0);
++
++    spi_ctrl_start_user();
++    writeb(ASPEED_FLASH_BASE, RDSR);
++    r =3D readb(ASPEED_FLASH_BASE);
++    spi_ctrl_stop_user();
++
++    g_assert_cmphex(r & SR_WEL, =3D=3D, 0);
++    g_assert(!qtest_qom_get_bool
++            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-ena=
+ble"));
++
++    spi_ctrl_start_user();
++    writeb(ASPEED_FLASH_BASE, WREN);
++    writeb(ASPEED_FLASH_BASE, RDSR);
++    r =3D readb(ASPEED_FLASH_BASE);
++    spi_ctrl_stop_user();
++
++    g_assert_cmphex(r & SR_WEL, =3D=3D, SR_WEL);
++    g_assert(qtest_qom_get_bool
++            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-ena=
+ble"));
++
++    spi_ctrl_start_user();
++    writeb(ASPEED_FLASH_BASE, WRDI);
++    writeb(ASPEED_FLASH_BASE, RDSR);
++    r =3D readb(ASPEED_FLASH_BASE);
++    spi_ctrl_stop_user();
++
++    g_assert_cmphex(r & SR_WEL, =3D=3D, 0);
++    g_assert(!qtest_qom_get_bool
++            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-ena=
+ble"));
++
++    flash_reset();
++}
++
+ static char tmp_path[] =3D "/tmp/qtest.m25p80.XXXXXX";
+=20
+ int main(int argc, char **argv)
+@@ -373,6 +415,7 @@ int main(int argc, char **argv)
+     qtest_add_func("/ast2400/smc/write_page", test_write_page);
+     qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
+     qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
++    qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg)=
+;
+=20
+     ret =3D g_test_run();
+=20
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 228357f1ea..a9904eba82 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -1423,3 +1423,27 @@ void qtest_client_inproc_recv(void *opaque, const =
+char *str)
+     g_string_append(qts->rx, str);
+     return;
+ }
++
++void qtest_qom_set_bool(QTestState *s, const char *path, const char *pro=
+perty,
++                         bool value)
++{
++    QDict *r;
++
++    r =3D qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
++                     "{ 'path': %s, 'property': %s, 'value': %i } }",
++                     path, property, value);
++    qobject_unref(r);
++}
++
++bool qtest_qom_get_bool(QTestState *s, const char *path, const char *pro=
+perty)
++{
++    QDict *r;
++    bool b;
++
++    r =3D qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
++                     "{ 'path': %s, 'property': %s } }", path, property)=
+;
++    b =3D qdict_get_bool(r, "return");
++    qobject_unref(r);
++
++    return b;
++}
+diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+index 4ab0cad326..94b187837d 100644
+--- a/tests/qtest/libqtest.h
++++ b/tests/qtest/libqtest.h
+@@ -783,4 +783,26 @@ QTestState *qtest_inproc_init(QTestState **s, bool l=
+og, const char* arch,
+                     void (*send)(void*, const char*));
+=20
+ void qtest_client_inproc_recv(void *opaque, const char *str);
++
++/**
++ * qtest_qom_set_bool:
++ * @s: QTestState instance to operate on.
++ * @path: Path to the property being set.
++ * @property: Property being set.
++ * @value: Value to set the property.
++ *
++ * Set the property with passed in value.
++ */
++void qtest_qom_set_bool(QTestState *s, const char *path, const char *pro=
+perty,
++                         bool value);
++
++/**
++ * qtest_qom_get_bool:
++ * @s: QTestState instance to operate on.
++ * @path: Path to the property being retrieved.
++ * @property: Property from where the value is being retrieved.
++ *
++ * Returns: Value retrieved from property.
++ */
++bool qtest_qom_get_bool(QTestState *s, const char *path, const char *pro=
+perty);
+ #endif
+--=20
+2.30.2
 
 
