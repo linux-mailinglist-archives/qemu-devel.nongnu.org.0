@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAC1525F95
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:11:08 +0200 (CEST)
-Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE2B525F8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:10:18 +0200 (CEST)
+Received: from localhost ([::1]:43812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npSGI-0004ag-7H
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
+	id 1npSFV-0003n3-L0
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npS8f-0004O1-6N
- for qemu-devel@nongnu.org; Fri, 13 May 2022 06:03:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npS8d-0007Qi-4V
- for qemu-devel@nongnu.org; Fri, 13 May 2022 06:03:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652436189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ed6IrVKI27fjKKxSmivdDOZo8sEPoHgpWxYye4qPpt0=;
- b=bCDP9lqg5THNZmmRSeUmYPildbFLd/2xOC7J4jiKIZqv9zI3SN341cqdX786v1F2+F/GKG
- vR4TElcVGQom2KfZptZPFjJ2BvKAZ1x8jO3T5vGyx+D0YhPn2WnyPGOgTKRMb/FSNQLsAk
- CdVXHfRbHlSpS/cQ5qER9UrWT+tvcDg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-_OWMOCS0N5-P-8JFJUSXEg-1; Fri, 13 May 2022 06:03:07 -0400
-X-MC-Unique: _OWMOCS0N5-P-8JFJUSXEg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v16-20020adfd190000000b0020c8fb5106dso2752028wrc.19
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 03:03:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npSA7-0006gC-S2
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:04:44 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:46217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npSA4-0007Vi-Vs
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:04:42 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2fb9a85a124so81668367b3.13
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 03:04:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=adsQYjL15jG8LTI6sT25k5BQKkKnNMGCoUQptk5wTX4=;
+ b=qizE0vj/09jtOGF6aAOi5J1O3mqlC2Gl2m0IJpfSlz5DEzlFRbeyNEa40Si76I15eU
+ bG0oayccbHwRlGQapagIgkBsMo/f+Hb6ssIrIE+8MELGuMqjecy9/ym5p8LHpATLTVXP
+ RUzRooSr2Q0izPmIqV7J6f3+9XHS8PAIkbYuEyY4f+uPul5llDFM8TNm2nMRmQ/cqVAf
+ ad3eDbdh7bKjxCiiOUb5zob5UqVwRlebMVRVwV0N+y/NZeIu0xJhB4Uck2lV1dhYUmNS
+ HdpSAK+dmltvVlUK7Liej3kYcmygpvQ/OgipiXl+Nimc1i/CMpgSn2rTxaX/Yj4WT+oM
+ qYjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ed6IrVKI27fjKKxSmivdDOZo8sEPoHgpWxYye4qPpt0=;
- b=OpeSjPkPM5ltdmacmGOVJZ0ZDoUyvMnA6PrIeo4BWTiOUSeBo/tcl6EX82KffavPoy
- ZbZ4uPT6MKs2K0U3O8epX54gwft6QOXDWPuuylBeH6YmAdYs+G0aRoEzwoNnhoxfoLJY
- l83Do7hdI79pHl0qywYX66+ZUFRPUIq40QWdDg8Xtaq+iZbFyPyAl7azA6uPopMx5UG1
- xGApCmG9vKb4vybXn2m9ctnuEiGWvf2o1jOeSnS2cnVysDpRVbppXH0mD0Q/AF74aJTl
- CW81ccBxwaBGixC3ORDu4tHoL0ZjsyoaY3Jc6NSeTDSv0rLsjvKIw0ZHnteaH9AsGNR6
- HmGg==
-X-Gm-Message-State: AOAM532etKGP359/nn2pobI2T1Z3+xapHvCGWxncIXuq6Lg34ZxRt0v2
- yllXjMmXDvTliP9NpgbHccLabikfSbmIEkHmTt+YR8PHI9vgB7/Y9IV64pMf8yjdLx3SLXj3YSb
- UGIWhVOnYw2VpMaI=
-X-Received: by 2002:a05:6000:1acd:b0:20c:811c:9f39 with SMTP id
- i13-20020a0560001acd00b0020c811c9f39mr3212631wry.482.1652436186595; 
- Fri, 13 May 2022 03:03:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwt+K7Gej/Lskeyofw2csSXUsIrs8SBtBrKB8r+2YMcJRdFJYklONuf8AeylpAXYEkmtg/lwA==
-X-Received: by 2002:a05:6000:1acd:b0:20c:811c:9f39 with SMTP id
- i13-20020a0560001acd00b0020c811c9f39mr3212596wry.482.1652436186283; 
- Fri, 13 May 2022 03:03:06 -0700 (PDT)
-Received: from redhat.com ([2.53.15.195]) by smtp.gmail.com with ESMTPSA id
- j10-20020adfc68a000000b0020c635ca28bsm1722333wrg.87.2022.05.13.03.03.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 03:03:05 -0700 (PDT)
-Date: Fri, 13 May 2022 06:03:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xie Yongji <xieyongji@bytedance.com>
-Cc: jasowang@redhat.com, stefanha@redhat.com, sgarzare@redhat.com,
- kwolf@redhat.com, mreitz@redhat.com, mlureau@redhat.com,
- jsnow@redhat.com, eblake@redhat.com, Coiby.Xu@gmail.com,
- hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 0/8] Support exporting BDSs via VDUSE
-Message-ID: <20220513060205-mutt-send-email-mst@kernel.org>
-References: <20220504074051.90-1-xieyongji@bytedance.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=adsQYjL15jG8LTI6sT25k5BQKkKnNMGCoUQptk5wTX4=;
+ b=LEYiVdIe7vR6tPlnpv1SNbbtAY3M5Z0+LjwKtXaf9VBqN0QnIO0CvfFpNJAhtuHypf
+ 9Cf1slgQJavM49W77PpPbYLLHtK1iiF3NrMGBXV+/s506140FxFHF6WPOU7aj/KP6mg3
+ dhimKSqU5sttCToapEvDC+WXGUwjNaMVQ8m18oio7sSl0123HQMj43ypfRKvJNCLjr6h
+ fBYs9bcxNXYnCvhyEAnsyfI4Z1PH2IMQxUfEDb9qk9XmqhiNEDvZ0HzfTN/mZF4WkSVu
+ me5OwqVIxuJ3rasdHg6V863cBbUJb3WEH45F2ZYe495TkCo1PYkIbHIOQhUnYONPfu5b
+ ZocA==
+X-Gm-Message-State: AOAM5315xUALU6Wit/4T8erGZKfdnqxuTig0R1qQySFBMswumBFNgECp
+ uBuNgjVhj/E37KxV0w1FHHI7t9FiIVjHDFZPHyo/Ag==
+X-Google-Smtp-Source: ABdhPJyCBLrWCEgEEZ9S6aNw3UKxvJVA0+CNTxQoRQ7sZg70G7eMt9O/RSYYammaZEe+w22B30m5koPrJFCA/7IDlf0=
+X-Received: by 2002:a81:3685:0:b0:2fb:947b:5247 with SMTP id
+ d127-20020a813685000000b002fb947b5247mr4643530ywa.64.1652436279925; Fri, 13
+ May 2022 03:04:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220504074051.90-1-xieyongji@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220510000426.45797-1-richard.henderson@linaro.org>
+ <20220510000426.45797-2-richard.henderson@linaro.org>
+In-Reply-To: <20220510000426.45797-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 May 2022 11:04:29 +0100
+Message-ID: <CAFEAcA86Wcfwmg_kfYDERxa6eVWki0xkKMW7MRLd9UA662z78w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/arm: Enable FEAT_HCX for -cpu max
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,109 +83,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 04, 2022 at 03:40:43PM +0800, Xie Yongji wrote:
-> Hi all,
-> 
-> Last few months ago, VDUSE (vDPA Device in Userspace) [1] has
-> been merged into Linux kernel as a framework that make it
-> possible to emulate a vDPA device in userspace. This series
-> aimed at implementing a VDUSE block backend based on the
-> qemu-storage-daemon infrastructure.
-> 
-> To support that, we firstly introduce a VDUSE library as a
-> subproject (like what libvhost-user does) to help implementing
-> VDUSE backends in QEMU. Then a VDUSE block export is implemented
-> based on this library. At last, we add resize and reconnect support
-> to the VDUSE block export and VDUSE library.
-> 
-> Since we don't support vdpa-blk in QEMU currently, the VM case is
-> tested with my previous patchset [2].
-> 
-> [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
-> [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
-> 
-> Please review, thanks!
+On Tue, 10 May 2022 at 01:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This feature adds a new register, HCRX_EL2, which controls
+> many of the newer AArch64 features.  So far the register is
+> effectively RES0, because none of the new features are done.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h    | 20 ++++++++++++++++++
+>  target/arm/cpu64.c  |  1 +
+>  target/arm/helper.c | 50 +++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 71 insertions(+)
 
-This needs review by storage maintainers.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> V4 to V5:
-> - Abstract out the logic for virito-blk I/O process from
->   vhost-user-blk-server and reuse it [Kevin]
-> - Fix missing VIRTIO_BLK_F_FLUSH [Kevin]
-> - Support discard and write_zeroes [Kevin]
-> - Rebase to the newest tree
-> 
-> V3 to V4:
-> - Fix some comments on QAPI [Eric]
-> 
-> V2 to V3:
-> - Introduce vduse_get_virtio_features() [Stefan]
-> - Update MAINTAINERS file [Stefan]
-> - Fix handler of VIRTIO_BLK_T_GET_ID request [Stefan]
-> - Add barrier for vduse_queue_inflight_get() [Stefan]
-> 
-> V1 to V2:
-> - Move vduse header to linux-headers [Stefan]
-> - Add two new API to support creating device from /dev/vduse/$NAME or
->   file descriptor [Stefan]
-> - Check VIRTIO_F_VERSION_1 during intialization [Stefan]
-> - Replace malloc() + memset to calloc() [Stefan]
-> - Increase default queue size to 256 for vduse-blk [Stefan]
-> - Zero-initialize virtio-blk config space [Stefan]
-> - Add a patch to support reset blk->dev_ops
-> - Validate vq->log->inflight fields [Stefan]
-> - Add vduse_set_reconnect_log_file() API to support specifing the
->   reconnect log file
-> - Fix some bugs [Stefan]
-> 
-> Xie Yongji (8):
->   block: Support passing NULL ops to blk_set_dev_ops()
->   block-backend: Introduce blk_get_guest_block_size()
->   block/export: Abstract out the logic of virtio-blk I/O process
->   linux-headers: Add vduse.h
->   libvduse: Add VDUSE (vDPA Device in Userspace) library
->   vduse-blk: Implement vduse-blk export
->   vduse-blk: Add vduse-blk resize support
->   libvduse: Add support for reconnecting
-> 
->  MAINTAINERS                                 |    9 +
->  block/block-backend.c                       |    8 +-
->  block/export/export.c                       |    6 +
->  block/export/meson.build                    |    7 +-
->  block/export/vduse-blk.c                    |  346 +++++
->  block/export/vduse-blk.h                    |   20 +
->  block/export/vhost-user-blk-server.c        |  249 +---
->  block/export/virtio-blk-handler.c           |  237 ++++
->  block/export/virtio-blk-handler.h           |   33 +
->  include/sysemu/block-backend-io.h           |    1 +
->  linux-headers/linux/vduse.h                 |  306 ++++
->  meson.build                                 |   28 +
->  meson_options.txt                           |    4 +
->  qapi/block-export.json                      |   25 +-
->  scripts/meson-buildoptions.sh               |    7 +
->  scripts/update-linux-headers.sh             |    2 +-
->  subprojects/libvduse/include/atomic.h       |    1 +
->  subprojects/libvduse/include/compiler.h     |    1 +
->  subprojects/libvduse/libvduse.c             | 1386 +++++++++++++++++++
->  subprojects/libvduse/libvduse.h             |  247 ++++
->  subprojects/libvduse/linux-headers/linux    |    1 +
->  subprojects/libvduse/meson.build            |   10 +
->  subprojects/libvduse/standard-headers/linux |    1 +
->  23 files changed, 2695 insertions(+), 240 deletions(-)
->  create mode 100644 block/export/vduse-blk.c
->  create mode 100644 block/export/vduse-blk.h
->  create mode 100644 block/export/virtio-blk-handler.c
->  create mode 100644 block/export/virtio-blk-handler.h
->  create mode 100644 linux-headers/linux/vduse.h
->  create mode 120000 subprojects/libvduse/include/atomic.h
->  create mode 120000 subprojects/libvduse/include/compiler.h
->  create mode 100644 subprojects/libvduse/libvduse.c
->  create mode 100644 subprojects/libvduse/libvduse.h
->  create mode 120000 subprojects/libvduse/linux-headers/linux
->  create mode 100644 subprojects/libvduse/meson.build
->  create mode 120000 subprojects/libvduse/standard-headers/linux
-> 
-> -- 
-> 2.20.1
-
+thanks
+-- PMM
 
