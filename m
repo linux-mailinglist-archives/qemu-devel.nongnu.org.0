@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726C7525C81
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:48:26 +0200 (CEST)
-Received: from localhost ([::1]:44672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE33525CA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:56:03 +0200 (CEST)
+Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npQ2D-0002PE-F9
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52406)
+	id 1npQ9a-0008SL-7P
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npPts-0006hC-3E; Fri, 13 May 2022 03:39:49 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37475)
+ id 1npPvX-0008Bz-80; Fri, 13 May 2022 03:41:31 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npPtp-0002MC-IM; Fri, 13 May 2022 03:39:46 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id kq17so14590164ejb.4;
- Fri, 13 May 2022 00:39:44 -0700 (PDT)
+ id 1npPvV-0002jq-HQ; Fri, 13 May 2022 03:41:30 -0400
+Received: by mail-ed1-x532.google.com with SMTP id c12so8931828edv.10;
+ Fri, 13 May 2022 00:41:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4zlpd61YdTxxT8Mw3fAIKRSsJQr6JLUIdn4eXvkcQxU=;
- b=PFXX2eHgSH1h3CEpDLPIrz9W9sL8bsJo0AMh2S8rq0BFiaFOrVtHThgjy+N2nA7xsJ
- zAYwKjpl/56p04jQBvN8Q/w2SgYfNo8ZNAsxz4paHDxjwKEBYdI2Zq0Y9hOLOfeFxw4c
- EUqkLGeo+L17XCXao1m7GoBw496QNy6OkVYseTCoEctPB9uzjo2o5gkOe4mH7vYDUgJk
- JKM22K8O/b974Xx4DdvDQQO/vHeU7FpziDs88R/gADW+lg+9ZynBJYf0yvNRTwvkRbEc
- Q+kDtZrtvoLPBhm0xF5aXGDlDTVIGV5oa8C9bDyw1y7WkAX+X5YZUFYfSml3yLyrUeF4
- z1Gg==
+ bh=8ad8OvmMDUwpyGIsDFNlcv/Wgv2gQpYDlbO0vKPJnGU=;
+ b=TjRjV9MP9AJaXuThraTKmHuX9LLZPyUJwgXSkZc2VaQMJfROZpcNglCuqgfwbvKTon
+ +C64IZKlIukGTX02WwUhsaY5Tqs7kvHyFPjISNuyQp6WhmUkl14pK/8foX/L4MAPFtj2
+ K3EILcX8KpVkTP2M88XKhWniwsaiuaKn5m9YlfN0lY/GzE5nu8X6E2G7x/m3+FeyJYEj
+ TtsrRENOfxjR5t5Us8DBjHWgZGc0xXBmR50VbTN+UJp9Kg3dWPEQ814YnyLJ1koPprzw
+ ntN1IWBf5S5w8sO93UepRKDE23tWdZmctXtTnTW0JFT1nnbqJI0LwgZk2FjGCu1dHeSC
+ 1cBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4zlpd61YdTxxT8Mw3fAIKRSsJQr6JLUIdn4eXvkcQxU=;
- b=iban+Oprplplnai9KiTMo+d8ZrNt51IufD2rIenDtQDlndlpHBd+lwP2VEm7XjmgNP
- gHyx33f9yqqWCsic7bfCFeruz2WqOLfdp340C8u4IGnQMTcwIA9EUqLyh2112+BT+4va
- VqIDEXUAWesxZAwu4zJD65Kp73D31jqIYEZCL5Sqgg2eN1VaPrpCC09sdtV9nHgAJhiD
- bt4zoZSeiQ64VNmSZmJ4uAWxUwOCfq6yiEtKsVqKuTeRuhkQG0KfMujbfDMqAldHD7f7
- 3b/pWJG8VzPx71xgcd/a/zgCWYenHmY301Eibadx2Woq6Tk/sX/0Ol5W1Vcek1ipcLB4
- mudg==
-X-Gm-Message-State: AOAM5325fspsnW7wsGfEam8XSTWgpqaAVkj/3SZ5UecXEqLY4xAXKS35
- 9iCxNGSR6iwEqa9Qjw6yIgk=
-X-Google-Smtp-Source: ABdhPJxWmiH5H8Giy5ICf6HAbyHUYc90dnRGrnayu7QEeuC4Lspkos0/mjD3uPHOgkycahM9zhDOvw==
-X-Received: by 2002:a17:907:6e88:b0:6fa:888d:74a7 with SMTP id
- sh8-20020a1709076e8800b006fa888d74a7mr3088248ejc.335.1652427583759; 
- Fri, 13 May 2022 00:39:43 -0700 (PDT)
+ bh=8ad8OvmMDUwpyGIsDFNlcv/Wgv2gQpYDlbO0vKPJnGU=;
+ b=chlpfL7vDk7zhXNzImiHuEA30gRYFUaXxzewpnpDVFDUMLnLBLATcClyK7tYw7q6Va
+ fkTS34mt17rUX3t3mRTcpZmehmpvTJcuIhnFj2dmNMIkL70FNTkjZjYlJn8/DG14F5Ls
+ L8wfnlY7WfBTdsjHxqhYSNiOnOMrCoaNcjgrm8Y10Q0dqBnBPcGr3bUQZWT7n5cZhlE1
+ YRUMFrJCdecgb8Z9/BN7J6/jG9M2jH5fXRYNkg7axOgngKe4d0dch/7GqxeTGw5hs4Jx
+ a9c872XM8jEtcGMolluBrqmBmBZ2Xbln0kXKO9dtVzih+qD/JUt3EAAD6UKVmi73F7Cl
+ PQVw==
+X-Gm-Message-State: AOAM531kr2SdKdKgDbi0hItOq8RkMezxKyMPUkWz3UxZJBoazVKggsLM
+ p9rKc0JRNzMiO/bLF8QdOwM=
+X-Google-Smtp-Source: ABdhPJyaER8GyLn5xl6gr7654ozW+nZRNNUNi6TECKfoQ7URevnd7PqEw28NoAjy1FAJD0wcFu/9sg==
+X-Received: by 2002:a05:6402:516:b0:425:c896:b1b8 with SMTP id
+ m22-20020a056402051600b00425c896b1b8mr38015301edv.212.1652427687169; 
+ Fri, 13 May 2022 00:41:27 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- e12-20020a170906648c00b006f3ef214db2sm504092ejm.24.2022.05.13.00.39.42
+ hz13-20020a1709072ced00b006f3ef214de9sm494921ejc.79.2022.05.13.00.41.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 00:39:43 -0700 (PDT)
-Message-ID: <bcb08bee-1573-1ee8-3715-8eb3d252fd24@redhat.com>
-Date: Fri, 13 May 2022 09:39:42 +0200
+ Fri, 13 May 2022 00:41:26 -0700 (PDT)
+Message-ID: <934aef85-7400-d870-dfae-3f869552e47c@redhat.com>
+Date: Fri, 13 May 2022 09:41:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 5/7] block: Make 'bytes' param of bdrv_co_{pread, pwrite, 
- preadv, pwritev}() an int64_t
+Subject: Re: [PATCH 6/7] block: Implement bdrv_{pread, pwrite,
+ pwrite_zeroes}() using generated_co_wrapper
 Content-Language: en-US
 To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>
 References: <20220512233849.2219275-1-afaria@redhat.com>
- <20220512235103.2224817-2-afaria@redhat.com>
+ <20220512235103.2224817-3-afaria@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220512235103.2224817-2-afaria@redhat.com>
+In-Reply-To: <20220512235103.2224817-3-afaria@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,57 +98,104 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/13/22 01:51, Alberto Faria wrote:
-> For consistency with other I/O functions, and in preparation to
-> implement bdrv_{pread,pwrite}() using generated_co_wrapper.
-> 
-> unsigned int fits in int64_t, so all callers remain correct.
+> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> ---
+>   block/io.c               | 41 ----------------------------------------
+>   include/block/block-io.h | 15 +++++++++------
+>   2 files changed, 9 insertions(+), 47 deletions(-)
+>
+> diff --git a/block/io.c b/block/io.c
+> index 78a289192e..ecd1c2a53c 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -1061,14 +1061,6 @@ static int bdrv_check_request32(int64_t offset, int64_t bytes,
+>       return 0;
+>   }
+>   
+> -int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+> -                       int64_t bytes, BdrvRequestFlags flags)
+> -{
+> -    IO_CODE();
+> -    return bdrv_pwritev(child, offset, bytes, NULL,
+> -                        BDRV_REQ_ZERO_WRITE | flags);
+> -}
+
+This is different from bdrv_co_pwrite_zeroes in that it does not clear 
+BDRV_REQ_MAY_UNMAP; but that's a bugfix really.
+
+It also doesn't call trace_bdrv_co_pwrite_zeroes, which is another bugfix.
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
-> ---
->   block/coroutines.h           | 4 ++--
->   include/block/block_int-io.h | 4 ++--
->   2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/block/coroutines.h b/block/coroutines.h
-> index 830ecaa733..3f41238b33 100644
-> --- a/block/coroutines.h
-> +++ b/block/coroutines.h
-> @@ -91,11 +91,11 @@ int coroutine_fn blk_co_do_flush(BlockBackend *blk);
->    */
->   
->   int generated_co_wrapper
-> -bdrv_preadv(BdrvChild *child, int64_t offset, unsigned int bytes,
-> +bdrv_preadv(BdrvChild *child, int64_t offset, int64_t bytes,
->               QEMUIOVector *qiov, BdrvRequestFlags flags);
->   
->   int generated_co_wrapper
-> -bdrv_pwritev(BdrvChild *child, int64_t offset, unsigned int bytes,
-> +bdrv_pwritev(BdrvChild *child, int64_t offset, int64_t bytes,
->                QEMUIOVector *qiov, BdrvRequestFlags flags);
->   
->   int generated_co_wrapper
-> diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
-> index d4d3bed783..d1a6970dc6 100644
-> --- a/include/block/block_int-io.h
-> +++ b/include/block/block_int-io.h
-> @@ -56,7 +56,7 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
->       QEMUIOVector *qiov, size_t qiov_offset, BdrvRequestFlags flags);
->   
->   static inline int coroutine_fn bdrv_co_pread(BdrvChild *child,
-> -    int64_t offset, unsigned int bytes, void *buf, BdrvRequestFlags flags)
-> +    int64_t offset, int64_t bytes, void *buf, BdrvRequestFlags flags)
->   {
->       QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
->       IO_CODE();
-> @@ -65,7 +65,7 @@ static inline int coroutine_fn bdrv_co_pread(BdrvChild *child,
+>   /*
+>    * Completely zero out a block device with the help of bdrv_pwrite_zeroes.
+>    * The operation is sped up by checking the block status and only writing
+> @@ -1111,39 +1103,6 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
+>       }
 >   }
 >   
->   static inline int coroutine_fn bdrv_co_pwrite(BdrvChild *child,
-> -    int64_t offset, unsigned int bytes, const void *buf, BdrvRequestFlags flags)
-> +    int64_t offset, int64_t bytes, const void *buf, BdrvRequestFlags flags)
->   {
->       QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
->       IO_CODE();
+> -/* See bdrv_pwrite() for the return codes */
+> -int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
+> -               BdrvRequestFlags flags)
+> -{
+> -    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
+> -    IO_CODE();
+> -
+> -    if (bytes < 0) {
+> -        return -EINVAL;
+> -    }
+> -
+> -    return bdrv_preadv(child, offset, bytes, &qiov, flags);
+> -}
+> -
+> -/* Return no. of bytes on success or < 0 on error. Important errors are:
+> -  -EIO         generic I/O error (may happen for all errors)
+> -  -ENOMEDIUM   No media inserted.
+> -  -EINVAL      Invalid offset or number of bytes
+> -  -EACCES      Trying to write a read-only device
+> -*/
+> -int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
+> -                const void *buf, BdrvRequestFlags flags)
+> -{
+> -    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
+> -    IO_CODE();
+> -
+> -    if (bytes < 0) {
+> -        return -EINVAL;
+> -    }
+> -
+> -    return bdrv_pwritev(child, offset, bytes, &qiov, flags);
+> -}
+> -
+>   /*
+>    * Writes to the file and ensures that no writes are reordered across this
+>    * request (acts as a barrier)
+> diff --git a/include/block/block-io.h b/include/block/block-io.h
+> index 879221cebe..c81739ad16 100644
+> --- a/include/block/block-io.h
+> +++ b/include/block/block-io.h
+> @@ -39,13 +39,16 @@
+>    * to catch when they are accidentally called by the wrong API.
+>    */
+>   
+> -int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+> -                       int64_t bytes, BdrvRequestFlags flags);
+> +int generated_co_wrapper bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+> +                                            int64_t bytes,
+> +                                            BdrvRequestFlags flags);
+>   int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags);
+> -int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
+> -               BdrvRequestFlags flags);
+> -int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
+> -                const void *buf, BdrvRequestFlags flags);
+> +int generated_co_wrapper bdrv_pread(BdrvChild *child, int64_t offset,
+> +                                    int64_t bytes, void *buf,
+> +                                    BdrvRequestFlags flags);
+> +int generated_co_wrapper bdrv_pwrite(BdrvChild *child, int64_t offset,
+> +                                     int64_t bytes, const void *buf,
+> +                                     BdrvRequestFlags flags);
+>   int bdrv_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
+>                        const void *buf, BdrvRequestFlags flags);
+>   /*
+
 
