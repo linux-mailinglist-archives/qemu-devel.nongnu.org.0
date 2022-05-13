@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E10525C4B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:24:35 +0200 (CEST)
-Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E393E525C69
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 09:38:48 +0200 (CEST)
+Received: from localhost ([::1]:34628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npPf7-0002xC-Qa
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47510)
+	id 1npPst-0003dJ-CI
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 03:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1npPPI-0006ml-He
- for qemu-devel@nongnu.org; Fri, 13 May 2022 03:08:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1npPPH-000656-4X
- for qemu-devel@nongnu.org; Fri, 13 May 2022 03:08:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652425690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=At5E9Uh16PX39rtp1RE+a0eligWAZRrGXqlbhN+2HUg=;
- b=An39ldGWkDIH+5mlsoc/OehnngoSPn3lDe5AuSZ3qaMDW5Pg0lWxYc4RzmzuGrRKOjsJZs
- S96OJXtLzGrRqSgrbVsUkUkAgkQEoAYHec8Q5hHk3wYCKjrC4aLsGmM6By/Zudplmdi8Yz
- +4uUfONOitizsXgdirS0ql6TMUVPE8o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-DCmfVBCrMaOYC88qJtvLnw-1; Fri, 13 May 2022 03:08:09 -0400
-X-MC-Unique: DCmfVBCrMaOYC88qJtvLnw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D157F3804062;
- Fri, 13 May 2022 07:08:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 884F51467E2F;
- Fri, 13 May 2022 07:08:08 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Avihai Horon
- <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Mark Bloch
- <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH 2/9] vfio: Fix compilation errors caused by VFIO
- migration v1 deprecation
-In-Reply-To: <20220512115710.413c7e34.alex.williamson@redhat.com>
-Organization: Red Hat GmbH
-References: <20220512154320.19697-1-avihaih@nvidia.com>
- <20220512154320.19697-3-avihaih@nvidia.com>
- <20220512115710.413c7e34.alex.williamson@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Fri, 13 May 2022 09:08:07 +0200
-Message-ID: <87y1z5ap0o.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1npPoW-0001O6-0r; Fri, 13 May 2022 03:34:16 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1npPoU-0001VB-2A; Fri, 13 May 2022 03:34:15 -0400
+Received: by mail-ed1-x534.google.com with SMTP id a21so8965815edb.1;
+ Fri, 13 May 2022 00:34:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cZl3hR0F3OiL0tLxKLczid4qTaaNHxjJHWHByTNstOs=;
+ b=jOstOIzng2tKuW8WALkuX6PmYCxN93x0+bGanjI8LpTSEdWNSnUMrWeFo0ur4Fv9V3
+ 4AyHnKr/MfJ7vLcCLfttV2x5IAy0cvj7vdUdXDx0B0q37SPq3Gxa5fCiyGFZwgyZ0Ww5
+ 31yWQT5eklN4rL2QvnRQfENMmg3+0bmlZJxKnOYOZrn9dapaMYeHzQoYOrHSdYcF79LB
+ OjTryCydW7BTHWuEeZIkurjpgW4/CWnWXyxsAMnr6F2JteSpeiGZG6Q3VaiRDrnQCHh0
+ 8GIs3RAj642KhjEtC0sNEoa+s+bURBN/Y+Y8CHz8M7m5XIc95eWw7P2xlyk447QIy4kO
+ SBlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cZl3hR0F3OiL0tLxKLczid4qTaaNHxjJHWHByTNstOs=;
+ b=uV7eY8R0IGxH5qZFFMCw9L7I9u7VjCw4bHAZEi3VPB8uSQ4bvqxtLfGA4O4vzHMc6c
+ tVOTIuEqNmFTbffY0midyDUmPwey0oUYGiILq9tuxCiyIbHFGOVYWlnHaEk/qQYL37RS
+ xd+EaNoc+Jwww2iHMW7a1c1U+MBOPBDaUxqvCXifmH2e+n9t8qiW7b3nF4HYkDL7/CI9
+ u6JRV+TNyRu+gtBHy5/TC+xDL/qlXnty2jsdZluXIB3smT28BRrH9RZPZIYlUOpNclz/
+ T/IHnuA5WBOeBDW/ImoKHipVUp5LJkVKw0uksTTXoYKJgOi2SJuZcfICVoVGQuQz9Xwl
+ j13Q==
+X-Gm-Message-State: AOAM531kexfWNP61toihHXq/IUhooONUaGL0c+ri5GTTfY/MnHdKnGO4
+ 9YHG7GbgXccclYl2kIj00CA=
+X-Google-Smtp-Source: ABdhPJxufMqU1FjpX+5JiGRPX3Ob1dojBp6mbBsRzbWuaXmvI8IdOXj7HbvhcG6ECW1wLJ24diKZ4A==
+X-Received: by 2002:a05:6402:d0e:b0:413:3d99:f2d6 with SMTP id
+ eb14-20020a0564020d0e00b004133d99f2d6mr39540577edb.189.1652427251687; 
+ Fri, 13 May 2022 00:34:11 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ zd20-20020a17090698d400b006f3ef214e0esm480332ejb.116.2022.05.13.00.34.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 00:34:11 -0700 (PDT)
+Message-ID: <5939a7b1-f30d-88f5-1941-36a1e7bb3bf0@redhat.com>
+Date: Fri, 13 May 2022 09:34:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 7/7] block: Add bdrv_co_pwrite_sync()
+Content-Language: en-US
+To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20220512233849.2219275-1-afaria@redhat.com>
+ <20220512235103.2224817-4-afaria@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220512235103.2224817-4-afaria@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,33 +96,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
+On 5/13/22 01:51, Alberto Faria wrote:
+> Also convert bdrv_pwrite_sync() to being implemented using
+> generated_co_wrapper.
+> 
+> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> ---
+>   block/io.c               | 5 +++--
+>   include/block/block-io.h | 8 ++++++--
+>   2 files changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/io.c b/block/io.c
+> index ecd1c2a53c..19f9251c11 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -1109,8 +1109,9 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
+>    *
+>    * Returns 0 on success, -errno in error cases.
+>    */
+> -int bdrv_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
+> -                     const void *buf, BdrvRequestFlags flags)
+> +int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
+> +                                     int64_t bytes, const void *buf,
+> +                                     BdrvRequestFlags flags)
+>   {
+>       int ret;
+>       IO_CODE();
 
-> On Thu, 12 May 2022 18:43:13 +0300
-> Avihai Horon <avihaih@nvidia.com> wrote:
->
->> @@ -767,9 +767,10 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
->>      case MIGRATION_STATUS_CANCELLED:
->>      case MIGRATION_STATUS_FAILED:
->>          bytes_transferred = 0;
->> -        ret = vfio_migration_set_state(vbasedev,
->> -                      ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
->> -                      VFIO_DEVICE_STATE_RUNNING);
->> +        ret = vfio_migration_set_state(
->> +            vbasedev,
->> +            ~(VFIO_DEVICE_STATE_V1_SAVING | VFIO_DEVICE_STATE_V1_RESUMING),
->> +            VFIO_DEVICE_STATE_V1_RUNNING);
->
-> Yikes!  Please follow the line wrapping used elsewhere.  There's no need
-> to put the first arg on a new line and subsequent wrapped lines should
-> be indented to match the previous line, or at least to avoid wrapping
-> itself.  Here we can use something like:
->
->         ret = vfio_migration_set_state(vbasedev,
->                                        ~(VFIO_DEVICE_STATE_V1_SAVING |
->                                          VFIO_DEVICE_STATE_V1_RESUMING),
->                                        VFIO_DEVICE_STATE_V1_RUNNING);
+Please change the implementation to use bdrv_co_ functions as well 
+(bdrv_co_pwrite, bdrv_co_flush).
 
-FWIW, I'd prefer this variant as well.
+Some callers could be changed to bdrv_co_pwrite_sync, for example 
+qcow2_shrink_reftable[1], but that can be done later (and preferably in 
+a somewhat automated way).
+
+Paolo
+
+[1] qcow2_shrink_reftable could be a coroutine_fn because it is only 
+called from qcow2_co_truncate
+
+> diff --git a/include/block/block-io.h b/include/block/block-io.h
+> index c81739ad16..ae90d1e588 100644
+> --- a/include/block/block-io.h
+> +++ b/include/block/block-io.h
+> @@ -49,8 +49,12 @@ int generated_co_wrapper bdrv_pread(BdrvChild *child, int64_t offset,
+>   int generated_co_wrapper bdrv_pwrite(BdrvChild *child, int64_t offset,
+>                                        int64_t bytes, const void *buf,
+>                                        BdrvRequestFlags flags);
+> -int bdrv_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
+> -                     const void *buf, BdrvRequestFlags flags);
+> +int generated_co_wrapper bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
+> +                                          int64_t bytes, const void *buf,
+> +                                          BdrvRequestFlags flags);
+> +int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
+> +                                     int64_t bytes, const void *buf,
+> +                                     BdrvRequestFlags flags);
+>   /*
+>    * Efficiently zero a region of the disk image.  Note that this is a regular
+>    * I/O request like read or write and should have a reasonable size.  This
 
 
