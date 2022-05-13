@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DEF526878
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 19:28:22 +0200 (CEST)
-Received: from localhost ([::1]:52246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89795268B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 19:50:11 +0200 (CEST)
+Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npZ5Q-0005y0-Kp
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 13:28:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
+	id 1npZQY-00049p-3d
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 13:50:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npZ40-0005GO-42
- for qemu-devel@nongnu.org; Fri, 13 May 2022 13:26:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28247)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npZOZ-0003Qw-JJ
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 13:48:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npZ3w-0000wU-NT
- for qemu-devel@nongnu.org; Fri, 13 May 2022 13:26:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npZOU-0003o3-Eb
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 13:48:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652462807;
+ s=mimecast20190719; t=1652464080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pBn8xtxAghAP8lHbko5CnzD+aTXgbHQNBXPudXoqZM4=;
- b=aUV8l9Q+PuDNqXFmmsPFz8J/R6GlDcW922XUJGzO0JT9O0HWGEiboDEVmAJQeA4yNC7Bch
- S4uGTYABhecw74DcGbnlzj2CJAVm5v5I5hI2QbKuHD61fKJwo/nz/knGZdFv5tpz6NIOPN
- DI54jUb4i93WlwTZWmHi1Uj+gRbgiIs=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MJMdpZ9ZR3Xxg53+lLQXyNsKwgZpTq0ygR4hNXrJE5U=;
+ b=ZFTevO52FEBY+f9gfQj3TzxyHFy/t7BUXF5Bgf1ZHB2xlz9R1L3Htg8sfYESRw7irD52SY
+ ICa4wgTcfGOwkYJ+9/ECEEtCSKsvdWg/7BN/nwt/QXWyapdeAYJqEbLKKEUeEd4G73WHsE
+ hE3VBScBa4yu3Z7BU6cmhoIOZCk3j0g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-351-KexoGq-jNd2hTbvc90kiDg-1; Fri, 13 May 2022 13:25:35 -0400
-X-MC-Unique: KexoGq-jNd2hTbvc90kiDg-1
-Received: by mail-il1-f200.google.com with SMTP id
- e3-20020a056e020b2300b002d10200d90fso760551ilu.2
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 10:25:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pBn8xtxAghAP8lHbko5CnzD+aTXgbHQNBXPudXoqZM4=;
- b=E36eHUJHBAXHDrL6CxBs2z8Vt8SXXyEYhKbsWVqHNRxtsQsc0nPcEUexj0pyV6gaLh
- 7fawWelOTz/FWN5N9QnxbTUqfVjuHnWXi43JBnrCe6xGQD2nNZUcSIoE9aoxwAprL0/c
- bYBsIegWAbzpDBBQvK3HkwEy2MUHLYB1cPMjTkxxmAKGtijIDExfNxjtItw42G4FoiQc
- b+wYXcKrPJF70dwSd+FuwfBQT0PYNuSeiUBzxKcAJxsjfS74fr3XYkc6T+5fTLeTKTUA
- 8xc9G0yxiJ6Yy0i1J8ELuGxNjdx+tc1Q4ryhEvbx+B7ENdXRGzNQBP5UUMTvAKagfYgr
- kq+A==
-X-Gm-Message-State: AOAM532t95MPT/spa4wCgRXXFxSJ/TIYugSShPWDt6giqrHn5LOVr+iv
- zDlnCAXwA4U/J/sxAXSI56W84jmkv98UrE3Ip7EnRsjotNnQlyiBAXni2BphNZhqjcDyoJiasUT
- 3KFxkSx7EFZdEn1U=
-X-Received: by 2002:a05:6638:25c1:b0:32b:897f:1cfa with SMTP id
- u1-20020a05663825c100b0032b897f1cfamr3167258jat.70.1652462734361; 
- Fri, 13 May 2022 10:25:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGnYZgoT/Dy1Q59FlZAuCvsenT6suOSwQHUQPa17dZQQVNyrnjlj4JgEE+GCZQAFnrNpgJ9g==
-X-Received: by 2002:a05:6638:25c1:b0:32b:897f:1cfa with SMTP id
- u1-20020a05663825c100b0032b897f1cfamr3167209jat.70.1652462733376; 
- Fri, 13 May 2022 10:25:33 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- h9-20020a02b609000000b0032dee7810cbsm814104jam.45.2022.05.13.10.25.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 10:25:32 -0700 (PDT)
-Date: Fri, 13 May 2022 13:25:31 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Chongyun Wu <wucy11@chinatelecom.cn>
-Cc: Hyman Huang <huangy81@chinatelecom.cn>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- tugy@chinatelecom.cn, dengpc12@chinatelecom.cn,
- yuanmh12@chinatelecom.cn, baiyw2@chinatelecom.cn
-Subject: Re: [PATCH v2 3/4] kvm: Introduce a dirty rate calculation method
- based on dirty ring
-Message-ID: <Yn6Ui9ZAWFRwk11U@xz-m1.local>
-References: <cover.1648091539.git.wucy11@chinatelecom.cn>
- <046226dadeccb0f66709c915098d7f15ab534353.1648091540.git.wucy11@chinatelecom.cn>
- <a58111a4-5674-7d47-5f7d-a29a444e36c6@chinatelecom.cn>
- <bc185240-6711-893b-6755-127e4410613d@chinatelecom.cn>
+ us-mta-538-11TF-wGaNiGy4mJwiyHIzg-1; Fri, 13 May 2022 13:47:56 -0400
+X-MC-Unique: 11TF-wGaNiGy4mJwiyHIzg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32DB780A0B9;
+ Fri, 13 May 2022 17:47:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 071E440F9D68;
+ Fri, 13 May 2022 17:47:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B14A921E690D; Fri, 13 May 2022 19:47:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org,  mark.kanda@oracle.com,  berrange@redhat.com,
+ dgilbert@redhat.com
+Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-2-pbonzini@redhat.com>
+ <87sfpp3018.fsf@pond.sub.org>
+ <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
+ <87v8ukt8g8.fsf@pond.sub.org>
+ <e7056663-6f22-e0ec-679a-3f474df05788@redhat.com>
+ <87ee0xy3w0.fsf@pond.sub.org>
+ <51586997-467c-0209-7319-fc82e1796809@redhat.com>
+ <87y1z5v6te.fsf@pond.sub.org>
+ <8bebcd75-61bd-d3aa-974b-eab9f62ae5e5@redhat.com>
+Date: Fri, 13 May 2022 19:47:54 +0200
+In-Reply-To: <8bebcd75-61bd-d3aa-974b-eab9f62ae5e5@redhat.com> (Paolo
+ Bonzini's message of "Fri, 13 May 2022 17:50:50 +0200")
+Message-ID: <87wneptjcl.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc185240-6711-893b-6755-127e4410613d@chinatelecom.cn>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -111,77 +89,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 02, 2022 at 04:59:24PM +0800, Chongyun Wu wrote:
-> 
-> on 4/2/2022 3:28 PM, Hyman Huang wrote:
-> > 
-> > 
-> > 在 2022/3/28 9:32, wucy11@chinatelecom.cn 写道:
-> > > From: Chongyun Wu <wucy11@chinatelecom.cn>
-> > > 
-> > > A new structure KVMDirtyRingDirtyCounter is introduced in
-> > > KVMDirtyRingReaper to record the number of dirty pages
-> > > within a period of time.
-> > > 
-> > > When kvm_dirty_ring_mark_page collects dirty pages, if it
-> > > finds that the current dirty pages are not duplicates, it
-> > > increases the dirty_pages_period count.
-> > > 
-> > > Divide the dirty_pages_period count by the interval to get
-> > > the dirty page rate for this period.
-> > > 
-> > > And use dirty_pages_period_peak_rate to count the highest
-> > > dirty page rate, to solve the problem that the dirty page
-> > > collection rate may change greatly during a period of time,
-> > > resulting in a large change in the dirty page rate.
-> > > 
-> > > Through sufficient testing, it is found that the dirty rate
-> > > calculated after kvm_dirty_ring_flush usually matches the actual
-> > > pressure, and the dirty rate counted per second may change in the
-> > > subsequent seconds, so record the peak dirty rate as the real
-> > > dirty pages rate.
-> > > 
-> > > This dirty pages rate is mainly used as the subsequent autoconverge
-> > > calculation speed limit throttle.
-> > As Peter's advice, i think the better way is exporting or adapting the
-> > existing implemenation of dirty page rate calculation instead of
-> > building different blocks.
-> Yes,that right. But this is a little different.
-> Qemu currently already has a variety of dirty page rate calculation methods,
-> which are used in different scenarios. This method is mainly to calculate
-> the appropriate speed limit threshold in the process of hot migration of the
-> dirty ring. It is realized by making full use of the characteristics of the
-> dirty ring, that is, statistics are performed when collecting dirty pages,
-> which cannot be achieved by the old bitmap method, and it will not add too
-> much extra overhead, such as starting new threads, etc. There is no need to
-> input parameters such as a suitable sampling period, etc., which is simple
-> and convenient. Through the test, the pressure of the actual stress added
-> can be relatively accurately calculated.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Please see commit 7786ae40ba4e7d5b9 and we've already have per-vcpu data.
-If we want a per-vm data we'd want to do that there too together within
-kvm_dirty_ring_reap_one().
+> On 5/13/22 16:35, Markus Armbruster wrote:
+>> Friday afternoon, worst time for word-smithing...  Feel free to ask
+>> again on Monday:)
+>> 
+>>> a suggested place?  For example, do you think it would fit better in the
+>>> query-stats or query-stats-schemas documentation?
+>
+> I think query-stats-schemas is good enough.
+>
+> # *Note*: While QEMU and other providers of runtime-collected statistics
+> # will try to keep the set of available data stable, together with their
+> # names, it is impossible to provide a full guarantee.  For example, if
+> # the same value is being tracked with different names on different
+> # architectures or by different providers, one of them might be renamed.
+> # A statistic might go away if an algorithm is changed or some code is
+> # removed; changing a default might cause previously useful statistics
+> # to always report 0.  Such changes fall outside QEMU's usual deprecation
+> # policies (also because statistics might be sourced externally, e.g.
+> # from Linux).  However, they are expected to be rare.
 
-Regarding "make best use of dirty ring": it's per-vcpu already and actually
-when I thought about optimizing auto-converge why not start using per-vcpu
-data to do per-vcpu throttling already?  I'm lost on why it goes back to a
-per-vm approach?
+Works for me!
 
-I'm also curious what will this be compared to Yong's dirty limit approach?
-Dirty limit allows setting dirty rate upon all vcpus in one shot.  From
-design-wise, that does sound to be superior.. not only because it's
-per-vcpu, but also because it's not sleep()ing but trapping only writes in
-the vmexit with small intervals.  Would you have time to compare these two
-solutions?
-
-I fully trust and appreciate your test results and I believe it performs
-better than the old auto converge, it's just that we can't merge solution A
-& B if they all look similar and solving the same problem, even if both
-will work better.  We need to choose a way to go at last.
-
-Thanks,
-
--- 
-Peter Xu
+Markup hint: "Note:" is a note section tag, while "*Note*:" is just
+text.  I figure we want the section tag here.
 
 
