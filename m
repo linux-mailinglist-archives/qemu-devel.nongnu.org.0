@@ -2,101 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133575267FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 19:14:20 +0200 (CEST)
-Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DEF526878
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 19:28:22 +0200 (CEST)
+Received: from localhost ([::1]:52246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npYrq-0006Jw-OB
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 13:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
+	id 1npZ5Q-0005y0-Kp
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 13:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1npYq3-0004hp-Tt; Fri, 13 May 2022 13:12:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35602
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npZ40-0005GO-42
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 13:26:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1npYq2-0006h6-4U; Fri, 13 May 2022 13:12:27 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24DEwQla005747;
- Fri, 13 May 2022 17:12:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=WfQ9zSw7d5Gc/n9Zx98YhhZCcsWfB0O90fRuU6DQ/uo=;
- b=pkxL/ODiSl6yfLEABGdnSZlMNaPLzMV++sIy+cISzfCsu3ebf4d//CdmF3GOEnIxS/11
- C63VpmInTZrrG72dcYZIjyEwlUUrAxl/vw7pZVH7ynmhqiH943ettTi/+Fr8PmjCxFu0
- Gt5SDGxDTXCRaKKJtL77sjetiY0ilpfcqRn0+Zs6SwR1jx7nSQ9b1+ozrPsvsj4PPfVb
- 7Ikt1A6l0TzbB1CwIcKgxbrZED3FdwUOcp0iKGNrs3W97uUVbpKqFP5nsqeYNK7VhNiS
- 42WGeOFCt9K2OUvgTCUy1cbXcDZ1Nge6wvw6Sc8eQdChsa6dnuBkQC8MF63B2AMqvTB9 /Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g1sjkajx3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 May 2022 17:12:11 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24DHAR0v016935;
- Fri, 13 May 2022 17:12:11 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g1sjkajwt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 May 2022 17:12:11 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24DH7ko9003648;
- Fri, 13 May 2022 17:12:10 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma05wdc.us.ibm.com with ESMTP id 3fwgdaksgq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 May 2022 17:12:10 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24DHC9ux41550256
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 May 2022 17:12:09 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B07B9BE053;
- Fri, 13 May 2022 17:12:09 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 038F8BE054;
- Fri, 13 May 2022 17:12:09 +0000 (GMT)
-Received: from localhost (unknown [9.160.112.92])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Fri, 13 May 2022 17:12:08 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: Re: [PATCH] target/ppc: Fix tlbie
-In-Reply-To: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
-References: <20220503163904.22575-1-leandro.lupori@eldorado.org.br>
-Date: Fri, 13 May 2022 14:12:06 -0300
-Message-ID: <87h75ttl09.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1npZ3w-0000wU-NT
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 13:26:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652462807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pBn8xtxAghAP8lHbko5CnzD+aTXgbHQNBXPudXoqZM4=;
+ b=aUV8l9Q+PuDNqXFmmsPFz8J/R6GlDcW922XUJGzO0JT9O0HWGEiboDEVmAJQeA4yNC7Bch
+ S4uGTYABhecw74DcGbnlzj2CJAVm5v5I5hI2QbKuHD61fKJwo/nz/knGZdFv5tpz6NIOPN
+ DI54jUb4i93WlwTZWmHi1Uj+gRbgiIs=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351-KexoGq-jNd2hTbvc90kiDg-1; Fri, 13 May 2022 13:25:35 -0400
+X-MC-Unique: KexoGq-jNd2hTbvc90kiDg-1
+Received: by mail-il1-f200.google.com with SMTP id
+ e3-20020a056e020b2300b002d10200d90fso760551ilu.2
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 10:25:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=pBn8xtxAghAP8lHbko5CnzD+aTXgbHQNBXPudXoqZM4=;
+ b=E36eHUJHBAXHDrL6CxBs2z8Vt8SXXyEYhKbsWVqHNRxtsQsc0nPcEUexj0pyV6gaLh
+ 7fawWelOTz/FWN5N9QnxbTUqfVjuHnWXi43JBnrCe6xGQD2nNZUcSIoE9aoxwAprL0/c
+ bYBsIegWAbzpDBBQvK3HkwEy2MUHLYB1cPMjTkxxmAKGtijIDExfNxjtItw42G4FoiQc
+ b+wYXcKrPJF70dwSd+FuwfBQT0PYNuSeiUBzxKcAJxsjfS74fr3XYkc6T+5fTLeTKTUA
+ 8xc9G0yxiJ6Yy0i1J8ELuGxNjdx+tc1Q4ryhEvbx+B7ENdXRGzNQBP5UUMTvAKagfYgr
+ kq+A==
+X-Gm-Message-State: AOAM532t95MPT/spa4wCgRXXFxSJ/TIYugSShPWDt6giqrHn5LOVr+iv
+ zDlnCAXwA4U/J/sxAXSI56W84jmkv98UrE3Ip7EnRsjotNnQlyiBAXni2BphNZhqjcDyoJiasUT
+ 3KFxkSx7EFZdEn1U=
+X-Received: by 2002:a05:6638:25c1:b0:32b:897f:1cfa with SMTP id
+ u1-20020a05663825c100b0032b897f1cfamr3167258jat.70.1652462734361; 
+ Fri, 13 May 2022 10:25:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGnYZgoT/Dy1Q59FlZAuCvsenT6suOSwQHUQPa17dZQQVNyrnjlj4JgEE+GCZQAFnrNpgJ9g==
+X-Received: by 2002:a05:6638:25c1:b0:32b:897f:1cfa with SMTP id
+ u1-20020a05663825c100b0032b897f1cfamr3167209jat.70.1652462733376; 
+ Fri, 13 May 2022 10:25:33 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ h9-20020a02b609000000b0032dee7810cbsm814104jam.45.2022.05.13.10.25.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 10:25:32 -0700 (PDT)
+Date: Fri, 13 May 2022 13:25:31 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Chongyun Wu <wucy11@chinatelecom.cn>
+Cc: Hyman Huang <huangy81@chinatelecom.cn>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ tugy@chinatelecom.cn, dengpc12@chinatelecom.cn,
+ yuanmh12@chinatelecom.cn, baiyw2@chinatelecom.cn
+Subject: Re: [PATCH v2 3/4] kvm: Introduce a dirty rate calculation method
+ based on dirty ring
+Message-ID: <Yn6Ui9ZAWFRwk11U@xz-m1.local>
+References: <cover.1648091539.git.wucy11@chinatelecom.cn>
+ <046226dadeccb0f66709c915098d7f15ab534353.1648091540.git.wucy11@chinatelecom.cn>
+ <a58111a4-5674-7d47-5f7d-a29a444e36c6@chinatelecom.cn>
+ <bc185240-6711-893b-6755-127e4410613d@chinatelecom.cn>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2c1zoYAK-PJcSfWox02a7ZB_UvXCK_bO
-X-Proofpoint-ORIG-GUID: HA5q6YRRoq8_8vZzpmJsyWZpuVudv4-A
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-13_09,2022-05-13_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- adultscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- mlxscore=0 impostorscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205130073
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bc185240-6711-893b-6755-127e4410613d@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,39 +111,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+On Sat, Apr 02, 2022 at 04:59:24PM +0800, Chongyun Wu wrote:
+> 
+> on 4/2/2022 3:28 PM, Hyman Huang wrote:
+> > 
+> > 
+> > 在 2022/3/28 9:32, wucy11@chinatelecom.cn 写道:
+> > > From: Chongyun Wu <wucy11@chinatelecom.cn>
+> > > 
+> > > A new structure KVMDirtyRingDirtyCounter is introduced in
+> > > KVMDirtyRingReaper to record the number of dirty pages
+> > > within a period of time.
+> > > 
+> > > When kvm_dirty_ring_mark_page collects dirty pages, if it
+> > > finds that the current dirty pages are not duplicates, it
+> > > increases the dirty_pages_period count.
+> > > 
+> > > Divide the dirty_pages_period count by the interval to get
+> > > the dirty page rate for this period.
+> > > 
+> > > And use dirty_pages_period_peak_rate to count the highest
+> > > dirty page rate, to solve the problem that the dirty page
+> > > collection rate may change greatly during a period of time,
+> > > resulting in a large change in the dirty page rate.
+> > > 
+> > > Through sufficient testing, it is found that the dirty rate
+> > > calculated after kvm_dirty_ring_flush usually matches the actual
+> > > pressure, and the dirty rate counted per second may change in the
+> > > subsequent seconds, so record the peak dirty rate as the real
+> > > dirty pages rate.
+> > > 
+> > > This dirty pages rate is mainly used as the subsequent autoconverge
+> > > calculation speed limit throttle.
+> > As Peter's advice, i think the better way is exporting or adapting the
+> > existing implemenation of dirty page rate calculation instead of
+> > building different blocks.
+> Yes,that right. But this is a little different.
+> Qemu currently already has a variety of dirty page rate calculation methods,
+> which are used in different scenarios. This method is mainly to calculate
+> the appropriate speed limit threshold in the process of hot migration of the
+> dirty ring. It is realized by making full use of the characteristics of the
+> dirty ring, that is, statistics are performed when collecting dirty pages,
+> which cannot be achieved by the old bitmap method, and it will not add too
+> much extra overhead, such as starting new threads, etc. There is no need to
+> input parameters such as a suitable sampling period, etc., which is simple
+> and convenient. Through the test, the pressure of the actual stress added
+> can be relatively accurately calculated.
 
-> Commit 74c4912f097bab98 changed check_tlb_flush() to use
-> tlb_flush_all_cpus_synced() instead of calling tlb_flush() on each
-> CPU. However, as side effect of this, a CPU executing a ptesync
-> after a tlbie will have its TLB flushed only after exiting its
-> current Translation Block (TB).
->
-> This causes memory accesses to invalid pages to succeed, if they
-> happen to be on the same TB as the ptesync.
->
-> To fix this, use tlb_flush_all_cpus() instead, that immediately
-> flushes the TLB of the CPU executing the ptesync instruction.
->
-> Fixes: 74c4912f097bab98 ("target/ppc: Fix synchronization of mttcg with broadcast TLB flushes")
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Please see commit 7786ae40ba4e7d5b9 and we've already have per-vcpu data.
+If we want a per-vm data we'd want to do that there too together within
+kvm_dirty_ring_reap_one().
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Regarding "make best use of dirty ring": it's per-vcpu already and actually
+when I thought about optimizing auto-converge why not start using per-vcpu
+data to do per-vcpu throttling already?  I'm lost on why it goes back to a
+per-vm approach?
 
-> ---
->  target/ppc/helper_regs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 9a691d6833..1fa032e4d0 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -293,7 +293,7 @@ void check_tlb_flush(CPUPPCState *env, bool global)
->      if (global && (env->tlb_need_flush & TLB_NEED_GLOBAL_FLUSH)) {
->          env->tlb_need_flush &= ~TLB_NEED_GLOBAL_FLUSH;
->          env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
-> -        tlb_flush_all_cpus_synced(cs);
-> +        tlb_flush_all_cpus(cs);
->          return;
->      }
+I'm also curious what will this be compared to Yong's dirty limit approach?
+Dirty limit allows setting dirty rate upon all vcpus in one shot.  From
+design-wise, that does sound to be superior.. not only because it's
+per-vcpu, but also because it's not sleep()ing but trapping only writes in
+the vmexit with small intervals.  Would you have time to compare these two
+solutions?
+
+I fully trust and appreciate your test results and I believe it performs
+better than the old auto converge, it's just that we can't merge solution A
+& B if they all look similar and solving the same problem, even if both
+will work better.  We need to choose a way to go at last.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
