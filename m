@@ -2,66 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C06B526357
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:57:56 +0200 (CEST)
-Received: from localhost ([::1]:50350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D10526364
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:02:17 +0200 (CEST)
+Received: from localhost ([::1]:55814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npVnn-0004RS-64
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
+	id 1npVs0-0008Uz-GF
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1npVlA-0001ma-BV
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:55:15 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:53383)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1npVn3-0004eC-Vh
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:57:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1npVl6-0006pO-Ab
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:55:11 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 88F84FF75E1F;
- Fri, 13 May 2022 15:54:56 +0200 (CEST)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Fri, 13 May
- 2022 15:54:55 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R0069ce17b4a-e135-4c10-8ff2-d1498eb6a20c,
- 97912ADCF8BE5A44427C4FE81E404CB8FAC57E21) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <bfbffeef-e7d1-8003-24ca-4cafc90e60a4@kaod.org>
-Date: Fri, 13 May 2022 15:54:55 +0200
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1npVn0-0007QI-Bt
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:57:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652450225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SxUeZgAGYZn6G6liC2f6IZfmAnKG8SV7LOrwRNa7OUA=;
+ b=UkJdZxQFk/Q8+iH2G//iN7yTJfqM5v+454ZS6oJeD7pWf3V8eXLi71VZ/CdjNF5U7c/IYh
+ X8EZZ+8P7b09MD52CkwuObI9Aq6iR/2tW7NK1lTAa73GHOJA6lapRzGq9qdPpt96TZcODP
+ X4PO9Bl1pl9cY4E+pJQtqw6JsWdKkdY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-cjrxCGr2Mieu3DYlNDD7gA-1; Fri, 13 May 2022 09:57:03 -0400
+X-MC-Unique: cjrxCGr2Mieu3DYlNDD7gA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ jx8-20020a170906ca4800b006f88b28f2f6so4179867ejb.11
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 06:57:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=SxUeZgAGYZn6G6liC2f6IZfmAnKG8SV7LOrwRNa7OUA=;
+ b=30t9mxZqOAqQf5IGwsWY90XJXQZ5MS65iqGNo+vuRyGY2EZa74fKfW6uH4uB6cSWuq
+ CiRxbv6PK6r+75xoVpNQ2FBI/vgsDTHZHkOqe6ClQRI4IgTMnQB5CrfwbyiNMQyfE2/g
+ /f0YHekBv1wDM2+F8hnRkA0Rni0RTYXcGNeFAY6mFGLCpyDGKv8gmSPwmIkDBkpqYYw9
+ Sv0F7xRUlXUd8+NgS4GurgfnQ2xjcnEZczrK2bqZL2cth34MHNqmKjyGyFYSnQYavava
+ e2Gmv5K6RUJbGRRj/YwZTgvam7JizfVcj2vQMryKCqKWJ6uGcNlTC0cA0BcjTu58FKi+
+ jB5Q==
+X-Gm-Message-State: AOAM533INBLCaQo3pPHsqA4qpLXU+25KCXQBrlXKrXeNef/lxC1kaPOM
+ fG1HgR5kWsz799XGU2eoEY6P7N03p77vVtTakmxE485A/cmArTMsEsYedGjzd+sT/NIHtxuCxC7
+ Bteb6sCOhGehKCPQ=
+X-Received: by 2002:a17:907:da7:b0:6f4:ed59:c4e2 with SMTP id
+ go39-20020a1709070da700b006f4ed59c4e2mr4401228ejc.83.1652450222332; 
+ Fri, 13 May 2022 06:57:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwE/m2j+QmGWm19SgMNK09yXs9FokLRXsUjYl4xf4TMpwCc9sfndpQy5Jl+UaIs7yCbBloJvQ==
+X-Received: by 2002:a17:907:da7:b0:6f4:ed59:c4e2 with SMTP id
+ go39-20020a1709070da700b006f4ed59c4e2mr4401206ejc.83.1652450221997; 
+ Fri, 13 May 2022 06:57:01 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ cq5-20020a056402220500b0041d527833b9sm1006154edb.3.2022.05.13.06.57.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 06:57:01 -0700 (PDT)
+Message-ID: <51586997-467c-0209-7319-fc82e1796809@redhat.com>
+Date: Fri, 13 May 2022 15:57:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v3] hw: m25p80: allow write_enable latch get/set
 Content-Language: en-US
-To: Iris Chen <irischenlj@fb.com>
-CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <patrick@stwcx.xyz>, <alistair@alistair23.me>, <kwolf@redhat.com>,
- <hreitz@redhat.com>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
- <joel@jms.id.au>, <thuth@redhat.com>, <lvivier@redhat.com>,
- <pbonzini@redhat.com>, <qemu-block@nongnu.org>
-References: <irischenlj@gmail.com> <20220513055022.951759-1-irischenlj@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220513055022.951759-1-irischenlj@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, mark.kanda@oracle.com, berrange@redhat.com,
+ dgilbert@redhat.com
+References: <20220426141619.304611-1-pbonzini@redhat.com>
+ <20220426141619.304611-2-pbonzini@redhat.com> <87sfpp3018.fsf@pond.sub.org>
+ <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
+ <87v8ukt8g8.fsf@pond.sub.org>
+ <e7056663-6f22-e0ec-679a-3f474df05788@redhat.com>
+ <87ee0xy3w0.fsf@pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+In-Reply-To: <87ee0xy3w0.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 456d6b73-f672-4261-9611-62b7d7c272ee
-X-Ovh-Tracer-Id: 7147212611889957761
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgeelgdeilecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,246 +109,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas, and others,
+On 5/13/22 15:10, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+>> On 5/5/22 15:28, Markus Armbruster wrote:
+>>> This means we'll acquire yet another introspection system, unrelated to
+>>> the introspection systems we already have in QEMU.
+> 
+> ... ^^^ needs justification.  Explain why passing the kernel's
+> existing interface through QEMU is useful, and to whom.
 
-Are you ok with the qtest extension proposed by Iris ?
+There are two justifications.
 
-If so, I can take them through an aspeed PR.
+The first is the contents of the schemas: the new introspection data 
+provides different information than the QAPI data, namely unit of 
+measurement, how the numbers are gathered and change 
+(peak/instant/cumulative/histogram), and histogram bucket sizes.  Unless 
+you think those should be added to the QAPI introspection (and IMO there 
+might be a case only for the unit of measure---and even then it's only a 
+very weak case), the separate introspection data justifies itself.
+
+So the existence of query-stats-schemas in my opinion is justified even 
+if don't consider the usecase of passing through the kernel's descriptions.
+
+The second justification however is indeed about the dynamicity of the 
+schema.  The QAPI introspection data is very much static; and while QOM 
+is somewhat more dynamic, generally we consider that to be a bug rather 
+than a feature these days.  On the other hand, running old QEMU with new 
+kernel is a supported usecase; if old QEMU cannot expose statistics from 
+a new kernel, or if a kernel developer needs to change QEMU before 
+gathering new info from the new kernel, then that is a poor user interface.
+
+Gathering statistics is important for development, for monitoring and 
+for performance measurement.  There are tools such as kvm_stat that do 
+this and they rely on the _user_ knowing the interesting data points 
+rather than the tool (which can treat them as opaque).  The goal here is 
+to take the capabilities of these tools and making them available 
+throughout the whole virtualization stack, so that one can observe, 
+monitor and measure virtual machines without having shell access + root 
+on the host that runs them.
+
+> How strong do we feel about the stability of the stats exposed by this
+> command?  Separate answers for *structure* of the stats and concrete
+> stats.
+
+I'll try to answer this from the point of view of the kernel:
+
+- will "some" statistics ever be available for all targets that are 
+currently supported?  Yes, resoundingly.
+
+- are the names of statistics stable?  Mostly, but not 100%.  If 
+somebody notices the same value is being tracked with different names in 
+two different architectures, one of them might be renamed.  If the 
+statistic tracks a variable that does not exist anymore as the code 
+changes, the statistic will go away.  If KVM grows two different ways to 
+do the same thing and the default changes, some statistics that were 
+previously useful could now be stuck at 0.  All of these events are 
+expected to be rare, but 100% stability is neither a goal nor attainable 
+in my opinion.
+
+- is the schema format stable?  Yes, it is designed to be extensible but 
+it will be backwards compatible.  Don't break userspace and all that.
+
+And for QEMU:
+
+- will "some" statistics ever be available for all targets that are 
+currently supported?  Yes, and this will be true even if other 
+QEMU-specific targets are added, e.g. block devices.
+
+- will other providers have the same guarantees of stability?  It 
+depends.  Statistics based on the current "query-blockstats" output will 
+probably be even more stable than KVM stats.  TCG stats might be of 
+variable stability.  We can add "x-" in front of providers if we decide 
+that such a convention is useful.
+
+- is the QEMU schema format stable?  Yes.  What we have is more or less 
+a 1:1 conversion of the KVM schema format, which is pretty 
+comprehensive. But if an addition to the schema proves itself worthwhile 
+it can be added with the usual care to QAPI backwards compatibility.
+
+> If we're confident neither structure nor concrete stats will change
+> incompatibly, the commands are stable without reservations.
+> 
+> If we're confident the structure is stable, but unable or unwilling to
+> commit to the concrete stats, we should explain this in documentation.
+
+Based on the above text do you have a suggested wording and, especially, 
+a suggested place?  For example, do you think it would fit better in the 
+query-stats or query-stats-schemas documentation?
 
 Thanks,
 
-C.
+Paolo
 
-On 5/13/22 07:50, Iris Chen via wrote:
-> The write_enable latch property is not currently exposed.
-> This commit makes it a modifiable property.
-> 
-> Signed-off-by: Iris Chen <irischenlj@fb.com>
-> ---
-> v3: Addressed comments by Peter and Cedric.
-> v2: Ran ./scripts/checkpatch.pl on the patch and added a description. Fixed comments regarding DEFINE_PROP_BOOL.
-> 
->   hw/block/m25p80.c              |  1 +
->   tests/qtest/aspeed_gpio-test.c | 40 +++++++------------------------
->   tests/qtest/aspeed_smc-test.c  | 43 ++++++++++++++++++++++++++++++++++
->   tests/qtest/libqtest.c         | 24 +++++++++++++++++++
->   tests/qtest/libqtest.h         | 22 +++++++++++++++++
->   5 files changed, 98 insertions(+), 32 deletions(-)
-> 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 430d1298a8..4283b990af 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -1558,6 +1558,7 @@ static int m25p80_pre_save(void *opaque)
->   
->   static Property m25p80_properties[] = {
->       /* This is default value for Micron flash */
-> +    DEFINE_PROP_BOOL("write-enable", Flash, write_enable, false),
->       DEFINE_PROP_UINT32("nonvolatile-cfg", Flash, nonvolatile_cfg, 0x8FFF),
->       DEFINE_PROP_UINT8("spansion-cr1nv", Flash, spansion_cr1nv, 0x0),
->       DEFINE_PROP_UINT8("spansion-cr2nv", Flash, spansion_cr2nv, 0x8),
-> diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
-> index c1003f2d1b..bac63e8742 100644
-> --- a/tests/qtest/aspeed_gpio-test.c
-> +++ b/tests/qtest/aspeed_gpio-test.c
-> @@ -28,30 +28,6 @@
->   #include "qapi/qmp/qdict.h"
->   #include "libqtest-single.h"
->   
-> -static bool qom_get_bool(QTestState *s, const char *path, const char *property)
-> -{
-> -    QDict *r;
-> -    bool b;
-> -
-> -    r = qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
-> -                     "{ 'path': %s, 'property': %s } }", path, property);
-> -    b = qdict_get_bool(r, "return");
-> -    qobject_unref(r);
-> -
-> -    return b;
-> -}
-> -
-> -static void qom_set_bool(QTestState *s, const char *path, const char *property,
-> -                         bool value)
-> -{
-> -    QDict *r;
-> -
-> -    r = qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
-> -                     "{ 'path': %s, 'property': %s, 'value': %i } }",
-> -                     path, property, value);
-> -    qobject_unref(r);
-> -}
-> -
->   static void test_set_colocated_pins(const void *data)
->   {
->       QTestState *s = (QTestState *)data;
-> @@ -60,14 +36,14 @@ static void test_set_colocated_pins(const void *data)
->        * gpioV4-7 occupy bits within a single 32-bit value, so we want to make
->        * sure that modifying one doesn't affect the other.
->        */
-> -    qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
-> -    qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
-> -    qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
-> -    qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
-> -    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
-> -    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
-> -    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
-> -    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
-> +    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
-> +    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
-> +    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
-> +    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
-> +    g_assert(qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
-> +    g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
-> +    g_assert(qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
-> +    g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
->   }
->   
->   int main(int argc, char **argv)
-> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-> index 87b40a0ef1..ec233315e6 100644
-> --- a/tests/qtest/aspeed_smc-test.c
-> +++ b/tests/qtest/aspeed_smc-test.c
-> @@ -26,6 +26,7 @@
->   #include "qemu/osdep.h"
->   #include "qemu/bswap.h"
->   #include "libqtest-single.h"
-> +#include "qemu/bitops.h"
->   
->   /*
->    * ASPEED SPI Controller registers
-> @@ -40,6 +41,7 @@
->   #define   CTRL_FREADMODE       0x1
->   #define   CTRL_WRITEMODE       0x2
->   #define   CTRL_USERMODE        0x3
-> +#define SR_WEL BIT(1)
->   
->   #define ASPEED_FMC_BASE    0x1E620000
->   #define ASPEED_FLASH_BASE  0x20000000
-> @@ -49,6 +51,8 @@
->    */
->   enum {
->       JEDEC_READ = 0x9f,
-> +    RDSR = 0x5,
-> +    WRDI = 0x4,
->       BULK_ERASE = 0xc7,
->       READ = 0x03,
->       PP = 0x02,
-> @@ -348,6 +352,44 @@ static void test_write_page_mem(void)
->       flash_reset();
->   }
->   
-> +static void test_read_status_reg(void)
-> +{
-> +    uint8_t r;
-> +
-> +    spi_conf(CONF_ENABLE_W0);
-> +
-> +    spi_ctrl_start_user();
-> +    writeb(ASPEED_FLASH_BASE, RDSR);
-> +    r = readb(ASPEED_FLASH_BASE);
-> +    spi_ctrl_stop_user();
-> +
-> +    g_assert_cmphex(r & SR_WEL, ==, 0);
-> +    g_assert(!qtest_qom_get_bool
-> +            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-enable"));
-> +
-> +    spi_ctrl_start_user();
-> +    writeb(ASPEED_FLASH_BASE, WREN);
-> +    writeb(ASPEED_FLASH_BASE, RDSR);
-> +    r = readb(ASPEED_FLASH_BASE);
-> +    spi_ctrl_stop_user();
-> +
-> +    g_assert_cmphex(r & SR_WEL, ==, SR_WEL);
-> +    g_assert(qtest_qom_get_bool
-> +            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-enable"));
-> +
-> +    spi_ctrl_start_user();
-> +    writeb(ASPEED_FLASH_BASE, WRDI);
-> +    writeb(ASPEED_FLASH_BASE, RDSR);
-> +    r = readb(ASPEED_FLASH_BASE);
-> +    spi_ctrl_stop_user();
-> +
-> +    g_assert_cmphex(r & SR_WEL, ==, 0);
-> +    g_assert(!qtest_qom_get_bool
-> +            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-enable"));
-> +
-> +    flash_reset();
-> +}
-> +
->   static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
->   
->   int main(int argc, char **argv)
-> @@ -373,6 +415,7 @@ int main(int argc, char **argv)
->       qtest_add_func("/ast2400/smc/write_page", test_write_page);
->       qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
->       qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
-> +    qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
->   
->       ret = g_test_run();
->   
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 228357f1ea..a9904eba82 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -1423,3 +1423,27 @@ void qtest_client_inproc_recv(void *opaque, const char *str)
->       g_string_append(qts->rx, str);
->       return;
->   }
-> +
-> +void qtest_qom_set_bool(QTestState *s, const char *path, const char *property,
-> +                         bool value)
-> +{
-> +    QDict *r;
-> +
-> +    r = qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
-> +                     "{ 'path': %s, 'property': %s, 'value': %i } }",
-> +                     path, property, value);
-> +    qobject_unref(r);
-> +}
-> +
-> +bool qtest_qom_get_bool(QTestState *s, const char *path, const char *property)
-> +{
-> +    QDict *r;
-> +    bool b;
-> +
-> +    r = qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
-> +                     "{ 'path': %s, 'property': %s } }", path, property);
-> +    b = qdict_get_bool(r, "return");
-> +    qobject_unref(r);
-> +
-> +    return b;
-> +}
-> diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-> index 4ab0cad326..94b187837d 100644
-> --- a/tests/qtest/libqtest.h
-> +++ b/tests/qtest/libqtest.h
-> @@ -783,4 +783,26 @@ QTestState *qtest_inproc_init(QTestState **s, bool log, const char* arch,
->                       void (*send)(void*, const char*));
->   
->   void qtest_client_inproc_recv(void *opaque, const char *str);
-> +
-> +/**
-> + * qtest_qom_set_bool:
-> + * @s: QTestState instance to operate on.
-> + * @path: Path to the property being set.
-> + * @property: Property being set.
-> + * @value: Value to set the property.
-> + *
-> + * Set the property with passed in value.
-> + */
-> +void qtest_qom_set_bool(QTestState *s, const char *path, const char *property,
-> +                         bool value);
-> +
-> +/**
-> + * qtest_qom_get_bool:
-> + * @s: QTestState instance to operate on.
-> + * @path: Path to the property being retrieved.
-> + * @property: Property from where the value is being retrieved.
-> + *
-> + * Returns: Value retrieved from property.
-> + */
-> +bool qtest_qom_get_bool(QTestState *s, const char *path, const char *property);
->   #endif
+> If we're unsure about both, the commands should be marked unstable.  We
+> can always upgrade stability later.
 
 
