@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AA7525FA2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:19:46 +0200 (CEST)
-Received: from localhost ([::1]:57852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA6B525FA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:21:07 +0200 (CEST)
+Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npSOf-0005e4-79
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
+	id 1npSPy-0007WS-Oy
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npSLd-00043e-Lt
- for qemu-devel@nongnu.org; Fri, 13 May 2022 06:16:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40419)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npSOD-0006NM-QC
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:19:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npSLa-0001MT-Mq
- for qemu-devel@nongnu.org; Fri, 13 May 2022 06:16:36 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npSOB-0001aw-NW
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 06:19:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652436993;
+ s=mimecast20190719; t=1652437155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EDLIGqUvxLscF18BRA5NT4AupZcRH/HNS3C6KO6Fhpo=;
- b=IPZOBreuR4KiZR+6RAnL5ZMuwsCVHn1994MpEb3p6c7O/mGlOMcfgvZGayo/jrpSmw06Bg
- P1Poi1p7vn5VjvWFdJKl2r2/j2dZWlp8NziN+cOgdtDnREgXMGp3iEjdakaTb1Hma5hyCk
- ruq1JZ16Y/qg1pwQPq7cTlYBwa4IvYY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EPf7Pu0P3apZDaVMQixl1n2kADN4YzofhOzrTrcdAa8=;
+ b=TIr/bkl0Hj33nSBG6cFt9JDr4u9YY/ujBQZUbZTZwKdXk7t5tRAh6prepmUuEOBRNCBZo2
+ eFmxtYrF0utz+Mh88AwpBLY8gyXtfwGwCOTpzL5VTXj8BJR+R+ypqDgy/p/V/ZRov/7OM5
+ Nz5iUDBy55KPVeeIwN1JpzRTkKAMXCE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-mUbN0D6PO5yvkjb8ijaSGw-1; Fri, 13 May 2022 06:16:32 -0400
-X-MC-Unique: mUbN0D6PO5yvkjb8ijaSGw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v191-20020a1cacc8000000b0038ce818d2efso2757880wme.1
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 03:16:32 -0700 (PDT)
+ us-mta-249-OhURyMBdP4qLdsVgDMkS9Q-1; Fri, 13 May 2022 06:19:11 -0400
+X-MC-Unique: OhURyMBdP4qLdsVgDMkS9Q-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v29-20020adfa1dd000000b0020ad932b7c0so2788444wrv.0
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 03:19:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=EDLIGqUvxLscF18BRA5NT4AupZcRH/HNS3C6KO6Fhpo=;
- b=aloiXtZ5sy/4Hjj7RCGFmoXeVevfv8lEdeZL7F5qHOCapHuzLGUofl2Djyxk3MPKGZ
- IfFR9utR8TKjwYS/eoL1OGiTasHNpHf0OpxaK0B+aNrj3DsI7EirCaotbNTW1e/YPxZ0
- DB5ljby5k2fbrMnttd4vYaKZtgrgfSg6LnxHQ3Kzc59sooCKZ+Rf4cnfxiK/wUoBXLkS
- 5967Ov8AQd1Q3+WNLpJB0w1T4S2OE58EBExsWtILZmYUucxpJqEFPdofr6m94wjxz0jD
- i0SuPkKT0JurKIetDrpY+ps+PSIo477WtwFIJ6dhX0jNF+Ba4CKZmvKLaKVcEH7j1CCs
- 21GA==
-X-Gm-Message-State: AOAM533Tlj1lU1o7ca1GzVNJ3MAZQigrnf3GDXFn6+QM+zpMb7V8YNR/
- a4r643nls+utkLvVP9eNuiVdrUC8F6adHmOBBIsr72awsKpxvmelZsshLeNrX6Eqlk0Be4Rkt/e
- Ys2qjbo3fti87l9g=
-X-Received: by 2002:a5d:6d0a:0:b0:20c:b640:45b8 with SMTP id
- e10-20020a5d6d0a000000b0020cb64045b8mr3250530wrq.708.1652436990860; 
- Fri, 13 May 2022 03:16:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyP1F7OFay75NlzsOQMUbeSKQbDk4RnfnqDVRhqVzt9tyFJZWPWggKikZcpMhNCqptf1Q122w==
-X-Received: by 2002:a5d:6d0a:0:b0:20c:b640:45b8 with SMTP id
- e10-20020a5d6d0a000000b0020cb64045b8mr3250499wrq.708.1652436990472; 
- Fri, 13 May 2022 03:16:30 -0700 (PDT)
+ bh=EPf7Pu0P3apZDaVMQixl1n2kADN4YzofhOzrTrcdAa8=;
+ b=lFYsaScS2CG9aWcy4bXfXYJTLQSe7MfM3Y3Bhh2O7QKPfiDjVRFmp6/BAYv1dOr3aN
+ QpdxKTSyiakWOOXLiaxjBoB1Nludo01akTdnfR8uKR8Q3IY1I7HuB3eZNuwBgJ9axlB9
+ K+iwXxPq1TS22g/qi2+0+HioicfIbTMg0jcwrWXuNMdkKWrsJrKKm6UPUfsUGcUZOnSA
+ 8Bx+dODFEm/0U/rWF3PAAyX/RcSv/WMRsxCLAcHj2gR0JGw8D61LBZzipawbfYtSwXTZ
+ juYTXaOH+nvdJDvrBzO/82tl4uzMFMKwfXDFeGdWl5ZsCJsVxsC+iZuFOhAgCBaCCO2o
+ s42Q==
+X-Gm-Message-State: AOAM53398EM4yNo3bSLO6GX8uhJPc+jZsJFAPGrN8vXHw1+/MlXbRLlS
+ XQk9y5EA3zNagKSymnDXMowUyvRJdHZinWeFIo+NvzzYyycIp9oQTgBFHmQhg8CKWpvLKseJO1A
+ 82zAkdWW/WelbfHg=
+X-Received: by 2002:a5d:59af:0:b0:20c:52e9:6c49 with SMTP id
+ p15-20020a5d59af000000b0020c52e96c49mr3323836wrr.319.1652437150447; 
+ Fri, 13 May 2022 03:19:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOvQ9dLuL2eP6se0sIQQw2vcFkFPnn3HUq1CsaeQRIonOi4eo7q34RY1zmOYpDDtAhLHncpw==
+X-Received: by 2002:a5d:59af:0:b0:20c:52e9:6c49 with SMTP id
+ p15-20020a5d59af000000b0020c52e96c49mr3323804wrr.319.1652437150126; 
+ Fri, 13 May 2022 03:19:10 -0700 (PDT)
 Received: from redhat.com ([2.53.15.195]) by smtp.gmail.com with ESMTPSA id
- z18-20020a7bc152000000b003958af7d0c8sm1884129wmi.45.2022.05.13.03.16.26
+ r21-20020adfb1d5000000b0020c5253d924sm1732386wra.112.2022.05.13.03.19.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 03:16:29 -0700 (PDT)
-Date: Fri, 13 May 2022 06:16:24 -0400
+ Fri, 13 May 2022 03:19:09 -0700 (PDT)
+Date: Fri, 13 May 2022 06:19:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: linuxarm@huawei.com, qemu-devel@nongnu.org, alex.bennee@linaro.org,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Adam Manzanares <a.manzanares@samsung.com>,
- Tong Zhang <ztong0001@gmail.com>, linux-cxl@vger.kernel.org,
- Ben Widawsky <ben.widawsky@intel.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- f4bug@amsat.org, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Saransh Gupta1 <saransh@ibm.com>,
- Shreyas Shah <shreyas.shah@elastics.cloud>,
- Chris Browy <cbrowy@avery-design.com>,
- Samarth Saxena <samarths@cadence.com>,
- Dan Williams <dan.j.williams@intel.com>, k.jensen@samsung.com,
- dave@stgolabs.net, Alison Schofield <alison.schofield@intel.com>
-Subject: Re: [PATCH v10 00/45] CXl 2.0 emulation Support
-Message-ID: <20220513053724-mutt-send-email-mst@kernel.org>
-References: <20220429144110.25167-1-Jonathan.Cameron@huawei.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: arei.gonglei@huawei.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org,
+ linux-crypto@vger.kernel.org, helei.sig11@bytedance.com,
+ jasowang@redhat.com, cohuck@redhat.com
+Subject: Re: [PATCH v5 0/9] Introduce akcipher service for virtio-crypto
+Message-ID: <20220513061844-mutt-send-email-mst@kernel.org>
+References: <20220428135943.178254-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220429144110.25167-1-Jonathan.Cameron@huawei.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220428135943.178254-1-pizhenwei@bytedance.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -110,258 +97,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 29, 2022 at 03:40:25PM +0100, Jonathan Cameron wrote:
-> Note that due to a bug in the kernel handling of Mem_Enable
-> in the CXL Device DVSEC a fix is needed to sucessfully use these
-> patches with Linux.
-> https://lore.kernel.org/linux-cxl/CAPcyv4gFWw9s6r9kUoL-_P9qnaZSJBMz+EcmfY+0g1NHrJQx7Q@mail.gmail.com/T/#t
+On Thu, Apr 28, 2022 at 09:59:34PM +0800, zhenwei pi wrote:
+> Hi, Lei & MST
 > 
-> Note the issue was detected using this emulation.
+> Daniel has started to review the akcipher framework and nettle & gcrypt
+> implementation, this part seems to be ready soon. Thanks a lot to Daniel!
 > 
-> Changes since v9:
-> 
-> Thanks to Tong Zhang and Markus Armbruster for review of v9.
-> - Fixed return of all 1s on HDM decoder not matching.
-> - Off by one error in an assert for register writes.
-> - Write masks for both PCI config space structures and
->   registers in MMIO space. These were partly queued up
->   for a future patch set, but after review comment from
->   Tong, I decided it was best to put these in place from
->   the start.  Note I was a bit undecided on whether to drop
->   review tags for this (it's quit a bit of code, but very
->   simple).  Alex, and Adam if you want to take another look
->   at patch 2 in particular that would be great. 
-> - Tag from Markus added.
-> - Fix for wrong setting of Mem_Enable as described in the
->   thread linked above.
-> 
-> The series can be applied in parts if that makes sense:
-> 
-> Possible partial sets:
-> 1-15 (end with the test of the pxb-cxl host bridge)
-> 16-22 (end with the test for root port and type3 device)
-> 23-39 (end with tests on x86 pc for CFMWS including BIOS table updates)
-> 40-41 (arm64 virt support + simple test case)
-> 42 (documentation - we could pull this forwards to before the arm support)
-> 43-45 (switch support)
+> And the last patch "crypto: Introduce RSA algorithm" handles akcipher
+> requests from guest and uses the new akcipher service. The new feature
+> can be used to test by the builtin driver. I would appreciate it if you
+> could review patch.
 
-OK, I picked up 1-39 and 42. Let's see how it goes, then arm
-people can apply the arm bits.
-I did my best with review but my knowledge is limited.
 
-> gitlab tree at gitlab.com/jic23/qemu cxl-v10-draft-2
+I applied the first 6 patches. Tests need to address Daniel's comments.
+
+> v4 -> v5:
+> - Move QCryptoAkCipher into akcipherpriv.h, and modify the related comments.
+> - Rename asn1_decoder.c to der.c.
+> - Code style fix: use 'cleanup' & 'error' lables.
+> - Allow autoptr type to auto-free.
+> - Add test cases for rsakey to handle DER error.
+> - Other minor fixes.
 > 
-> As before that tree has additional patches on top that will form
-> part of future postings. This time it has SPDM support via
-> a socket connection to DMTF/spdm_emu / libspdm. I'll send an RFC
-> on that topic as it's a discussion that can go on in parallel.
+> v3 -> v4:
+> - Coding style fix: Akcipher -> AkCipher, struct XXX -> XXX, Rsa -> RSA,
+> XXX-alg -> XXX-algo.
+> - Change version info in qapi/crypto.json, from 7.0 -> 7.1.
+> - Remove ecdsa from qapi/crypto.json, it would be introduced with the implemetion later.
+> - Use QCryptoHashAlgothrim instead of QCryptoRSAHashAlgorithm(removed) in qapi/crypto.json.
+> - Rename arguments of qcrypto_akcipher_XXX to keep aligned with qcrypto_cipher_XXX(dec/enc/sign/vefiry -> in/out/in2), and add qcrypto_akcipher_max_XXX APIs.
+> - Add new API: qcrypto_akcipher_supports.
+> - Change the return value of qcrypto_akcipher_enc/dec/sign, these functions return the actual length of result.
+> - Separate ASN.1 source code and test case clean.
+> - Disable RSA raw encoding for akcipher-nettle.
+> - Separate RSA key parser into rsakey.{hc}, and implememts it with builtin-asn1-decoder and nettle respectivly.
+> - Implement RSA(pkcs1 and raw encoding) algorithm by gcrypt. This has higher priority than nettle.
+> - For some akcipher operations(eg, decryption of pkcs1pad(rsa)), the length of returned result maybe less than the dst buffer size, return the actual length of result instead of the buffer length to the guest side. (in function virtio_crypto_akcipher_input_data_helper)
+> - Other minor changes.
 > 
-> Several people have asked about contributing additional features.
-> As those come in I'll apply them on top of this series and handle
-> rebases etc as necessary whilst we seek to get this first set
-> of patches upstream.
+> Thanks to Daniel!
 > 
-> Updated background info:
+> Eric pointed out this missing part of use case, send it here again.
 > 
-> Looking in particular for:
-> * Review of the PCI interactions
-> * x86 and ARM machine interactions (particularly the memory maps)
-> * Review of the interleaving approach - is the basic idea
->   acceptable?
-> * Review of the command line interface.
-> * CXL related review welcome but much of that got reviewed
->   in earlier versions and hasn't changed substantially.
+> In our plan, the feature is designed for HTTPS offloading case and other applications which use kernel RSA/ecdsa by keyctl syscall. The full picture shows bellow:
 > 
-> TODOs:
 > 
-> * Volatile memory devices (easy but it's more code so left for now).
-> * Hotplug?  May not need much but it's not tested yet!
-> * More tests and tighter verification that values written to hardware
->   are actually valid - stuff that real hardware would check.
-> * Testing, testing and more testing.  I have been running a basic
->   set of ARM and x86 tests on this, but there is always room for
->   more tests and greater automation.
-> * CFMWS flags as requested by Ben.
-> * Parititioning support - ability to change the balance of volatile
->   and non volatile memory on demand.
-> * Trace points as suggested my Mark to help with debugging memory
->   interleaving setup.
+>                   Nginx/openssl[1] ... Apps
+> Guest   -----------------------------------------
+>                    virtio-crypto driver[2]
+> -------------------------------------------------
+>                    virtio-crypto backend[3]
+> Host    -----------------------------------------
+>                   /          |          \
+>               builtin[4]   vhost     keyctl[5] ...
 > 
-> Why do we want QEMU emulation of CXL?
 > 
-> As Ben stated in V3, QEMU support has been critical to getting OS
-> software written given lack of availability of hardware supporting the
-> latest CXL features (coupled with very high demand for support being
-> ready in a timely fashion). What has become clear since Ben's v3
-> is that situation is a continuous one. Whilst we can't talk about
-> them yet, CXL 3.0 features and OS support have been prototyped on
-> top of this support and a lot of the ongoing kernel work is being
-> tested against these patches. The kernel CXL mocking code allows
-> some forms of testing, but QEMU provides a more versatile and
-> extensible platform.
+> [1] User applications can offload RSA calculation to kernel by keyctl syscall. There is no keyctl engine in openssl currently, we developed a engine and tried to contribute it to openssl upstream, but openssl 1.x does not accept new feature. Link:
+>     https://github.com/openssl/openssl/pull/16689
 > 
-> Other features on the qemu-list that build on these include PCI-DOE
-> /CDAT support from the Avery Design team further showing how this
-> code is useful. Whilst not directly related this is also the test
-> platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
-> utilizes and extends those technologies and is likely to be an early
-> adopter.
-> Refs:
-> CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jonathan.Cameron@huawei.com/
-> CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-send-email-cbrowy@avery-design.com/
-> DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-send-email-cbrowy@avery-design.com/
+> This branch is available and maintained by Lei <helei.sig11@bytedance.com>
+>     https://github.com/TousakaRin/openssl/tree/OpenSSL_1_1_1-kctl_engine
 > 
-> As can be seen there is non trivial interaction with other areas of
-> Qemu, particularly PCI and keeping this set up to date is proving
-> a burden we'd rather do without :)
+> We tested nginx(change config file only) with openssl keyctl engine, it works fine.
 > 
-> Ben mentioned a few other good reasons in v3:
-> https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widawsky@intel.com/
+> [2] virtio-crypto driver is used to communicate with host side, send requests to host side to do asymmetric calculation.
+>     https://lkml.org/lkml/2022/3/1/1425
 > 
-> What we have here is about what you need for it to be useful for testing
-> currently kernel code.  Note the kernel code is moving fast so
-> since v4, some features have been introduced we don't yet support in
-> QEMU (e.g. use of the PCIe serial number extended capability).
+> [3] virtio-crypto backend handles requests from guest side, and forwards request to crypto backend driver of QEMU.
 > 
-> All comments welcome.
+> [4] Currently RSA is supported only in builtin driver. This driver is supposed to test the full feature without other software(Ex vhost process) and hardware dependence. ecdsa is introduced into qapi type without implementation, this may be implemented in Q3-2022 or later. If ecdsa type definition should be added with the implementation together, I'll remove this in next version.
 > 
-> Additional info that was here in v5 is now in the documentation patch.
+> [5] keyctl backend is in development, we will post this feature in Q2-2022. keyctl backend can use hardware acceleration(Ex, Intel QAT).
 > 
-> Thanks,
+> Setup the full environment, tested with Intel QAT on host side, the QPS of HTTPS increase to ~200% in a guest.
 > 
-> Jonathan
+> VS PCI passthrough: the most important benefit of this solution makes the VM migratable.
 > 
-> Ben Widawsky (24):
->   hw/pci/cxl: Add a CXL component type (interface)
->   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
->   hw/cxl/device: Introduce a CXL device (8.2.8)
->   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
->   hw/cxl/device: Implement basic mailbox (8.2.8.4)
->   hw/cxl/device: Add memory device utilities
->   hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
->   hw/cxl/device: Timestamp implementation (8.2.9.3)
->   hw/cxl/device: Add log commands (8.2.9.4) + CEL
->   hw/pxb: Use a type for realizing expanders
->   hw/pci/cxl: Create a CXL bus type
->   hw/pxb: Allow creation of a CXL PXB (host bridge)
->   hw/cxl/rp: Add a root port
->   hw/cxl/device: Add a memory device (8.2.8.5)
->   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
->   hw/cxl/device: Add some trivial commands
->   hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
->   hw/cxl/device: Implement get/set Label Storage Area (LSA)
->   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
->   acpi/cxl: Add _OSC implementation (9.14.2)
->   acpi/cxl: Create the CEDT (9.14.1)
->   acpi/cxl: Introduce CFMWS structures in CEDT
->   hw/cxl/component Add a dumb HDM decoder handler
->   qtest/cxl: Add more complex test cases with CFMWs
+> v2 -> v3:
+> - Introduce akcipher types to qapi
+> - Add test/benchmark suite for akcipher class
+> - Seperate 'virtio_crypto: Support virtio crypto asym operation' into:
+>   - crypto: Introduce akcipher crypto class
+>   - virtio-crypto: Introduce RSA algorithm
 > 
-> Jonathan Cameron (21):
->   MAINTAINERS: Add entry for Compute Express Link Emulation
->   cxl: Machine level control on whether CXL support is enabled
->   qtest/cxl: Introduce initial test for pxb-cxl only.
->   qtests/cxl: Add initial root port and CXL type3 tests
->   hw/cxl/component: Add utils for interleave parameter encoding/decoding
->   hw/cxl/host: Add support for CXL Fixed Memory Windows.
->   hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
->   pci/pcie_port: Add pci_find_port_by_pn()
->   CXL/cxl_component: Add cxl_get_hb_cstate()
->   mem/cxl_type3: Add read and write functions for associated hostmem.
->   cxl/cxl-host: Add memops for CFMWS region.
->   i386/pc: Enable CXL fixed memory windows
->   tests/acpi: q35: Allow addition of a CXL test.
->   qtests/bios-tables-test: Add a test for CXL emulation.
->   tests/acpi: Add tables for CXL emulation.
->   hw/arm/virt: Basic CXL enablement on pci_expander_bridge instances
->     pxb-cxl
->   qtest/cxl: Add aarch64 virt test for CXL
->   docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
->   pci-bridge/cxl_upstream: Add a CXL switch upstream port
->   pci-bridge/cxl_downstream: Add a CXL switch downstream port
->   docs/cxl: Add switch documentation
+> v1 -> v2:
+> - Update virtio_crypto.h from v2 version of related kernel patch.
 > 
->  MAINTAINERS                         |   7 +
->  docs/system/device-emulation.rst    |   1 +
->  docs/system/devices/cxl.rst         | 386 ++++++++++++++++++++++
->  hw/Kconfig                          |   1 +
->  hw/acpi/Kconfig                     |   5 +
->  hw/acpi/cxl-stub.c                  |  12 +
->  hw/acpi/cxl.c                       | 257 +++++++++++++++
->  hw/acpi/meson.build                 |   4 +-
->  hw/arm/Kconfig                      |   1 +
->  hw/arm/virt-acpi-build.c            |  33 ++
->  hw/arm/virt.c                       |  40 ++-
->  hw/core/machine.c                   |  28 ++
->  hw/cxl/Kconfig                      |   3 +
->  hw/cxl/cxl-component-utils.c        | 396 +++++++++++++++++++++++
->  hw/cxl/cxl-device-utils.c           | 265 +++++++++++++++
->  hw/cxl/cxl-host-stubs.c             |  16 +
->  hw/cxl/cxl-host.c                   | 261 +++++++++++++++
->  hw/cxl/cxl-mailbox-utils.c          | 478 ++++++++++++++++++++++++++++
->  hw/cxl/meson.build                  |  12 +
->  hw/i386/acpi-build.c                |  57 +++-
->  hw/i386/pc.c                        |  57 +++-
->  hw/mem/Kconfig                      |   5 +
->  hw/mem/cxl_type3.c                  | 371 +++++++++++++++++++++
->  hw/mem/meson.build                  |   1 +
->  hw/meson.build                      |   1 +
->  hw/pci-bridge/Kconfig               |   5 +
->  hw/pci-bridge/cxl_downstream.c      | 249 +++++++++++++++
->  hw/pci-bridge/cxl_root_port.c       | 236 ++++++++++++++
->  hw/pci-bridge/cxl_upstream.c        | 216 +++++++++++++
->  hw/pci-bridge/meson.build           |   1 +
->  hw/pci-bridge/pci_expander_bridge.c | 168 +++++++++-
->  hw/pci-bridge/pcie_root_port.c      |   6 +-
->  hw/pci-host/gpex-acpi.c             |  20 +-
->  hw/pci/pci.c                        |  21 +-
->  hw/pci/pcie_port.c                  |  25 ++
->  include/hw/acpi/cxl.h               |  28 ++
->  include/hw/arm/virt.h               |   1 +
->  include/hw/boards.h                 |   2 +
->  include/hw/cxl/cxl.h                |  65 ++++
->  include/hw/cxl/cxl_component.h      | 223 +++++++++++++
->  include/hw/cxl/cxl_device.h         | 268 ++++++++++++++++
->  include/hw/cxl/cxl_pci.h            | 167 ++++++++++
->  include/hw/pci/pci.h                |  14 +
->  include/hw/pci/pci_bridge.h         |  20 ++
->  include/hw/pci/pci_bus.h            |   7 +
->  include/hw/pci/pci_ids.h            |   1 +
->  include/hw/pci/pcie_port.h          |   2 +
->  qapi/machine.json                   |  21 ++
->  qemu-options.hx                     |  38 +++
->  scripts/device-crash-test           |   1 +
->  softmmu/vl.c                        |  47 +++
->  tests/data/acpi/q35/CEDT.cxl        | Bin 0 -> 184 bytes
->  tests/data/acpi/q35/DSDT.cxl        | Bin 0 -> 9615 bytes
->  tests/qtest/bios-tables-test.c      |  44 +++
->  tests/qtest/cxl-test.c              | 181 +++++++++++
->  tests/qtest/meson.build             |   5 +
->  56 files changed, 4753 insertions(+), 27 deletions(-)
->  create mode 100644 docs/system/devices/cxl.rst
->  create mode 100644 hw/acpi/cxl-stub.c
->  create mode 100644 hw/acpi/cxl.c
->  create mode 100644 hw/cxl/Kconfig
->  create mode 100644 hw/cxl/cxl-component-utils.c
->  create mode 100644 hw/cxl/cxl-device-utils.c
->  create mode 100644 hw/cxl/cxl-host-stubs.c
->  create mode 100644 hw/cxl/cxl-host.c
->  create mode 100644 hw/cxl/cxl-mailbox-utils.c
->  create mode 100644 hw/cxl/meson.build
->  create mode 100644 hw/mem/cxl_type3.c
->  create mode 100644 hw/pci-bridge/cxl_downstream.c
->  create mode 100644 hw/pci-bridge/cxl_root_port.c
->  create mode 100644 hw/pci-bridge/cxl_upstream.c
->  create mode 100644 include/hw/acpi/cxl.h
->  create mode 100644 include/hw/cxl/cxl.h
->  create mode 100644 include/hw/cxl/cxl_component.h
->  create mode 100644 include/hw/cxl/cxl_device.h
->  create mode 100644 include/hw/cxl/cxl_pci.h
->  create mode 100644 tests/data/acpi/q35/CEDT.cxl
->  create mode 100644 tests/data/acpi/q35/DSDT.cxl
->  create mode 100644 tests/qtest/cxl-test.c
+> v1:
+> - Support akcipher for virtio-crypto.
+> - Introduce akcipher class.
+> - Introduce ASN1 decoder into QEMU.
+> - Implement RSA backend by nettle/hogweed.
+> 
+> Lei He (6):
+>   qapi: crypto-akcipher: Introduce akcipher types to qapi
+>   crypto: add ASN.1 DER decoder
+>   crypto: Implement RSA algorithm by hogweed
+>   crypto: Implement RSA algorithm by gcrypt
+>   test/crypto: Add test suite for crypto akcipher
+>   tests/crypto: Add test suite for RSA keys
+> 
+> Zhenwei Pi (3):
+>   virtio-crypto: header update
+>   crypto: Introduce akcipher crypto class
+>   crypto: Introduce RSA algorithm
+> 
+>  backends/cryptodev-builtin.c                  | 272 ++++-
+>  backends/cryptodev-vhost-user.c               |  34 +-
+>  backends/cryptodev.c                          |  32 +-
+>  crypto/akcipher-gcrypt.c.inc                  | 520 +++++++++
+>  crypto/akcipher-nettle.c.inc                  | 432 ++++++++
+>  crypto/akcipher.c                             | 108 ++
+>  crypto/akcipherpriv.h                         |  55 +
+>  crypto/der.c                                  | 190 ++++
+>  crypto/der.h                                  |  82 ++
+>  crypto/meson.build                            |   6 +
+>  crypto/rsakey-builtin.c.inc                   | 209 ++++
+>  crypto/rsakey-nettle.c.inc                    | 154 +++
+>  crypto/rsakey.c                               |  44 +
+>  crypto/rsakey.h                               |  94 ++
+>  hw/virtio/virtio-crypto.c                     | 323 ++++--
+>  include/crypto/akcipher.h                     | 158 +++
+>  include/hw/virtio/virtio-crypto.h             |   5 +-
+>  .../standard-headers/linux/virtio_crypto.h    |  82 +-
+>  include/sysemu/cryptodev.h                    |  83 +-
+>  meson.build                                   |  11 +
+>  qapi/crypto.json                              |  64 ++
+>  tests/bench/benchmark-crypto-akcipher.c       | 157 +++
+>  tests/bench/meson.build                       |   4 +
+>  tests/bench/test_akcipher_keys.inc            | 537 ++++++++++
+>  tests/unit/meson.build                        |   2 +
+>  tests/unit/test-crypto-akcipher.c             | 990 ++++++++++++++++++
+>  tests/unit/test-crypto-der.c                  | 290 +++++
+>  27 files changed, 4792 insertions(+), 146 deletions(-)
+>  create mode 100644 crypto/akcipher-gcrypt.c.inc
+>  create mode 100644 crypto/akcipher-nettle.c.inc
+>  create mode 100644 crypto/akcipher.c
+>  create mode 100644 crypto/akcipherpriv.h
+>  create mode 100644 crypto/der.c
+>  create mode 100644 crypto/der.h
+>  create mode 100644 crypto/rsakey-builtin.c.inc
+>  create mode 100644 crypto/rsakey-nettle.c.inc
+>  create mode 100644 crypto/rsakey.c
+>  create mode 100644 crypto/rsakey.h
+>  create mode 100644 include/crypto/akcipher.h
+>  create mode 100644 tests/bench/benchmark-crypto-akcipher.c
+>  create mode 100644 tests/bench/test_akcipher_keys.inc
+>  create mode 100644 tests/unit/test-crypto-akcipher.c
+>  create mode 100644 tests/unit/test-crypto-der.c
 > 
 > -- 
-> 2.32.0
+> 2.20.1
 
 
