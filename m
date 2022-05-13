@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDD5526086
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:02:36 +0200 (CEST)
-Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851C55260D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:17:45 +0200 (CEST)
+Received: from localhost ([::1]:41830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npT47-0004SW-Bf
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37466)
+	id 1npTIl-00052E-LK
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:17:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1npT23-0003cJ-AD
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:00:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37608)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npTHu-0004Kk-1x
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 07:16:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1npT20-0000JX-FP
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:00:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1npTHq-0003pC-4p
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 07:16:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652439623;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=zZrIwMPrV7aXvgErdC7nm1yxiW6pvUg//LfsRRdQwLg=;
- b=fAeaQ5SKCAfKAuY6g7t720ZtI4FPTZSji1UKb56Xi6/yG0bzYi1ApV/4jzptbfAMeEda58
- WVclEd5kPNRCytrg4qDGYp1+B43ZYEPpgSA4bEkrttSU8gzkbAFX1BeJW7RM8pnItCC9zl
- 6LSv8SBRR5L3QwR5FwjWIlfoTn9OjEo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1652440604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hhSm1geC1sPmH3JVkqjHvzOLuXdL4KmkdOsuh+K7zMU=;
+ b=bGXpn4o6QmUNz8gTbg8+2UYQpb5r0JGTtxmCFW+pfBxD1PSpDOspaOCVInupBDcv2Xr5IJ
+ n5eUIj52zR/gkH/3eV7MOUOM1AfA1GD9lGsd1mLh6LpnDptnQtsw1OQUi8Xudpw+J9aqIl
+ AYDIftzH7gooX/rcLoZlrsh/r4aoRzY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-280-1_GVJnRXNgqngVUMXaBjYQ-1; Fri, 13 May 2022 07:00:20 -0400
-X-MC-Unique: 1_GVJnRXNgqngVUMXaBjYQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06708811E76;
- Fri, 13 May 2022 11:00:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52C26438EDA;
- Fri, 13 May 2022 11:00:18 +0000 (UTC)
-Date: Fri, 13 May 2022 12:00:16 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: mst@redhat.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org, helei.sig11@bytedance.com,
- jasowang@redhat.com, cohuck@redhat.com
-Subject: Re: [PATCH v5 6/9] crypto: Implement RSA algorithm by gcrypt
-Message-ID: <Yn46QCP2XzF0S28i@redhat.com>
-References: <20220428135943.178254-1-pizhenwei@bytedance.com>
- <20220428135943.178254-7-pizhenwei@bytedance.com>
+ us-mta-336-Xy0MTgN6NOWSjObbB6WI5A-1; Fri, 13 May 2022 07:16:43 -0400
+X-MC-Unique: Xy0MTgN6NOWSjObbB6WI5A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s14-20020adfa28e000000b0020ac7532f08so2821394wra.15
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 04:16:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hhSm1geC1sPmH3JVkqjHvzOLuXdL4KmkdOsuh+K7zMU=;
+ b=Ao69hVZfMS1jOLNK+NR+pKjc9BdNDBsW9tbdF0dNQXMDqGBWF+jeHkOm6pYu/etqnp
+ xJ4ZrtjGmtYxTUiV72G5AVqwbKxlV7OE85ASXvne49JPELvfMeRKmCpvgD790QgW2hnx
+ +bKlNxEt0pFov0oIOdnOpHcdF8pPaw5X0MTZXC3wVLzf+PevsYKdPtH1XMfQTn90Wa8z
+ lrBlAt+rwqARqAzihcXl9iSunakWEbE0KSYIgmbJI1dfxY+FbUPMdC0gbnsXHPEksNvz
+ HmlgY13GLN067TiH5UGGVI5+SphiCwY+cuAvTq66JaQvh05UNLmWWJ7si8Zqd53axaix
+ mAnQ==
+X-Gm-Message-State: AOAM532fojMACYFYz/BN3QRaZM7rM65SD9NMmvav8a14rcTmWssFoOD6
+ TpVyonmB8NeQr6fWggYYX4V2yzb80gJ3sGnBFOauu3FcLHuVnKKT3fXzyremmn8+nFPz/C8IK6t
+ oWL+hYMPrU+46AhA=
+X-Received: by 2002:adf:ee90:0:b0:20a:de35:14b4 with SMTP id
+ b16-20020adfee90000000b0020ade3514b4mr3553103wro.558.1652440601015; 
+ Fri, 13 May 2022 04:16:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzytz5E8Ndv86dkZT57NDUSDemmZ8zp6b+YXJS5SYFKuSBt5404joZJCuXHhC1a9hV9XxR2qg==
+X-Received: by 2002:adf:ee90:0:b0:20a:de35:14b4 with SMTP id
+ b16-20020adfee90000000b0020ade3514b4mr3553082wro.558.1652440600745; 
+ Fri, 13 May 2022 04:16:40 -0700 (PDT)
+Received: from redhat.com ([2.53.15.195]) by smtp.gmail.com with ESMTPSA id
+ l20-20020a1c7914000000b00394538d039esm5150842wme.6.2022.05.13.04.16.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 04:16:40 -0700 (PDT)
+Date: Fri, 13 May 2022 07:16:37 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [PATCH] vhost-user-scsi: avoid unlink(NULL) with fd passing
+Message-ID: <20220513071607-mutt-send-email-mst@kernel.org>
+References: <20220427100116.30453-1-stefanha@redhat.com>
+ <CAFEAcA_1cFLDK+oE8=VQaX-FQqTtVH=WP6C47Xo+f99SLin2EQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220428135943.178254-7-pizhenwei@bytedance.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <CAFEAcA_1cFLDK+oE8=VQaX-FQqTtVH=WP6C47Xo+f99SLin2EQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,602 +93,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 28, 2022 at 09:59:40PM +0800, zhenwei pi wrote:
-> From: Lei He <helei.sig11@bytedance.com>
+On Thu, May 12, 2022 at 04:57:13PM +0100, Peter Maydell wrote:
+> On Wed, 27 Apr 2022 at 11:04, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > Commit 747421e949fc1eb3ba66b5fcccdb7ba051918241 ("Implements Backend
+> > Program conventions for vhost-user-scsi") introduced fd-passing support
+> > as part of implementing the vhost-user backend program conventions.
+> >
+> > When fd passing is used the UNIX domain socket path is NULL and we must
+> > not call unlink(2).
+> >
+> > Fixes: Coverity CID 1488353
+> > Fixes: 747421e949fc1eb3ba66b5fcccdb7ba051918241 ("Implements Backend Program conventions for vhost-user-scsi")
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  contrib/vhost-user-scsi/vhost-user-scsi.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
+> > index b2c0f98253..08335d4b2b 100644
+> > --- a/contrib/vhost-user-scsi/vhost-user-scsi.c
+> > +++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
+> > @@ -433,7 +433,9 @@ out:
+> >      if (vdev_scsi) {
+> >          g_main_loop_unref(vdev_scsi->loop);
+> >          g_free(vdev_scsi);
+> > -        unlink(opt_socket_path);
+> > +        if (opt_socket_path) {
+> > +            unlink(opt_socket_path);
+> > +        }
+> >      }
 > 
-> Added gcryt implementation of RSA algorithm, RSA algorithm
-> implemented by gcrypt has a higher priority than nettle because
-> it supports raw padding.
+> Shouldn't this check-and-unlink be one level up, outside the
+> "if (vdev_scsi)" ? There are error exit paths which get us to
+> the 'out:' label where we have called unix_sock_new() but
+> not yet done the g_new0() of vdev_scsi(). The only thing
+> that needs to be guarded by "if (vdev_scsi)" is the
+> g_main_loop_unref() (the g_free of vdev_scsi itself could
+> be inside or outside, since g_free(NULL) is a nop).
 > 
-> Signed-off-by: lei he <helei.sig11@bytedance.com>
-> ---
->  crypto/akcipher-gcrypt.c.inc | 520 +++++++++++++++++++++++++++++++++++
->  crypto/akcipher.c            |   4 +-
->  2 files changed, 523 insertions(+), 1 deletion(-)
->  create mode 100644 crypto/akcipher-gcrypt.c.inc
-> 
-> diff --git a/crypto/akcipher-gcrypt.c.inc b/crypto/akcipher-gcrypt.c.inc
-> new file mode 100644
-> index 0000000000..32ff502f71
-> --- /dev/null
-> +++ b/crypto/akcipher-gcrypt.c.inc
-> @@ -0,0 +1,520 @@
-> +/*
-> + * QEMU Crypto akcipher algorithms
-> + *
-> + * Copyright (c) 2022 Bytedance
-> + * Author: lei he <helei.sig11@bytedance.com>
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + *
-> + */
-> +
-> +#include <gcrypt.h>
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/host-utils.h"
-> +#include "crypto/akcipher.h"
-> +#include "crypto/random.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/cryptodev.h"
-> +#include "rsakey.h"
-> +
-> +typedef struct QCryptoGcryptRSA {
-> +    QCryptoAkCipher akcipher;
-> +    gcry_sexp_t key;
-> +    QCryptoRSAPaddingAlgorithm padding_alg;
-> +    QCryptoHashAlgorithm hash_alg;
-> +} QCryptoGcryptRSA;
-> +
-> +static void qcrypto_gcrypt_rsa_free(QCryptoAkCipher *akcipher)
-> +{
-> +    QCryptoGcryptRSA *rsa = (QCryptoGcryptRSA *)akcipher;
-> +    if (!rsa) {
-> +        return;
-> +    }
-> +
-> +    gcry_sexp_release(rsa->key);
-> +    g_free(rsa);
-> +}
-> +
-> +static QCryptoGcryptRSA *qcrypto_gcrypt_rsa_new(
-> +    const QCryptoAkCipherOptionsRSA *opt,
-> +    QCryptoAkCipherKeyType type,
-> +    const uint8_t *key,  size_t keylen,
-> +    Error **errp);
-> +
-> +QCryptoAkCipher *qcrypto_akcipher_new(const QCryptoAkCipherOptions *opts,
-> +                                      QCryptoAkCipherKeyType type,
-> +                                      const uint8_t *key, size_t keylen,
-> +                                      Error **errp)
-> +{
-> +    switch (opts->alg) {
-> +    case QCRYPTO_AKCIPHER_ALG_RSA:
-> +        return (QCryptoAkCipher *)qcrypto_gcrypt_rsa_new(
-> +            &opts->u.rsa, type, key, keylen, errp);
-> +
-> +    default:
-> +        error_setg(errp, "Unsupported algorithm: %u", opts->alg);
-> +        return NULL;
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +static void qcrypto_gcrypt_set_rsa_size(QCryptoAkCipher *akcipher, gcry_mpi_t n)
-> +{
-> +    size_t key_size = (gcry_mpi_get_nbits(n) + 7) / 8;
-> +    akcipher->max_plaintext_len = key_size;
-> +    akcipher->max_ciphertext_len = key_size;
-> +    akcipher->max_dgst_len = key_size;
-> +    akcipher->max_signature_len = key_size;
-> +}
-> +
-> +static int qcrypto_gcrypt_parse_rsa_private_key(
-> +    QCryptoGcryptRSA *rsa,
-> +    const uint8_t *key, size_t keylen)
-> +{
-> +    g_autoptr(QCryptoAkCipherRSAKey) rsa_key = qcrypto_akcipher_rsakey_parse(
-> +        QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE, key, keylen);
-> +    gcry_mpi_t n = NULL, e = NULL, d = NULL, p = NULL, q = NULL, u = NULL;
-> +    bool compute_mul_inv = false;
-> +    int ret = -1;
-> +    gcry_error_t err;
-> +
-> +    if (!rsa_key) {
-> +        return ret;
-> +    }
+> thanks
+> -- PMM
 
-If qcrypto_akcipher_rsakey_parse can fail, we need to get a
-'Error **errp' in/out of it
+Stefan, want to respond?
 
-> +
-> +    err = gcry_mpi_scan(&n, GCRYMPI_FMT_STD,
-> +                        rsa_key->n.data, rsa_key->n.len, NULL);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-
-Please add an 'Error **errp' parameter to this method, and
-populate it with an error message that includes the output
-of gcry_
-
-> +
-> +    err = gcry_mpi_scan(&e, GCRYMPI_FMT_STD,
-> +                        rsa_key->e.data, rsa_key->e.len, NULL);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    err = gcry_mpi_scan(&d, GCRYMPI_FMT_STD,
-> +                        rsa_key->d.data, rsa_key->d.len, NULL);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    err = gcry_mpi_scan(&p, GCRYMPI_FMT_STD,
-> +                        rsa_key->p.data, rsa_key->p.len, NULL);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    err = gcry_mpi_scan(&q, GCRYMPI_FMT_STD,
-> +                        rsa_key->q.data, rsa_key->q.len, NULL);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    if (gcry_mpi_cmp_ui(p, 0) > 0 && gcry_mpi_cmp_ui(q, 0) > 0) {
-> +        compute_mul_inv = true;
-> +
-> +        u = gcry_mpi_new(0);
-> +        if (gcry_mpi_cmp(p, q) > 0) {
-> +            gcry_mpi_swap(p, q);
-> +        }
-> +        gcry_mpi_invm(u, p, q);
-> +    }
-> +
-> +    if (compute_mul_inv) {
-> +        err = gcry_sexp_build(&rsa->key, NULL,
-> +            "(private-key (rsa (n %m) (e %m) (d %m) (p %m) (q %m) (u %m)))",
-> +            n, e, d, p, q, u);
-> +    } else {
-> +        err = gcry_sexp_build(&rsa->key, NULL,
-> +            "(private-key (rsa (n %m) (e %m) (d %m)))", n, e, d);
-> +    }
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +    qcrypto_gcrypt_set_rsa_size((QCryptoAkCipher *)rsa,  n);
-> +    ret = 0;
-> +
-> +cleanup:
-> +    gcry_mpi_release(n);
-> +    gcry_mpi_release(e);
-> +    gcry_mpi_release(d);
-> +    gcry_mpi_release(p);
-> +    gcry_mpi_release(q);
-> +    gcry_mpi_release(u);
-> +    return ret;
-> +}
-> +
-> +static int qcrypto_gcrypt_parse_rsa_public_key(QCryptoGcryptRSA *rsa,
-> +                                               const uint8_t *key,
-> +                                               size_t keylen)
-> +{
-> +
-> +    g_autoptr(QCryptoAkCipherRSAKey) rsa_key = qcrypto_akcipher_rsakey_parse(
-> +        QCRYPTO_AKCIPHER_KEY_TYPE_PUBLIC, key, keylen);
-> +    gcry_mpi_t n = NULL, e = NULL;
-> +    int ret = -1;
-> +    gcry_error_t err;
-> +
-> +    if (!rsa_key) {
-> +        return ret;
-> +    }
-> +
-> +    err = gcry_mpi_scan(&n, GCRYMPI_FMT_STD,
-> +                        rsa_key->n.data, rsa_key->n.len, NULL);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-
-Same note about having 'Error **errp' parameters for this
-method.
-
-> +
-> +    err = gcry_mpi_scan(&e, GCRYMPI_FMT_STD,
-> +                        rsa_key->e.data, rsa_key->e.len, NULL);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    err = gcry_sexp_build(&rsa->key, NULL,
-> +                          "(public-key (rsa (n %m) (e %m)))", n, e);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +    qcrypto_gcrypt_set_rsa_size((QCryptoAkCipher *)rsa, n);
-> +    ret = 0;
-> +
-> +cleanup:
-> +    gcry_mpi_release(n);
-> +    gcry_mpi_release(e);
-> +    return ret;
-> +}
-> +
-> +static int qcrypto_gcrypt_rsa_encrypt(QCryptoAkCipher *akcipher,
-> +                                      const void *in, size_t in_len,
-> +                                      void *out, size_t out_len,
-> +                                      Error **errp)
-> +{
-> +    QCryptoGcryptRSA *rsa = (QCryptoGcryptRSA *)akcipher;
-> +    int ret = -1;
-> +    gcry_sexp_t data_sexp = NULL, cipher_sexp = NULL;
-> +    gcry_sexp_t cipher_sexp_item = NULL;
-> +    gcry_mpi_t cipher_mpi = NULL;
-> +    const char *result;
-> +    gcry_error_t err;
-> +    size_t actual_len;
-> +
-> +    if (in_len > akcipher->max_plaintext_len) {
-> +        error_setg(errp, "Invalid buffer size");
-> +        return ret;
-> +    }
-> +
-> +    err = gcry_sexp_build(&data_sexp, NULL,
-> +                          "(data (flags %s) (value %b))",
-> +                          QCryptoRSAPaddingAlgorithm_str(rsa->padding_alg),
-> +                          in_len, in);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-
-We've got an 'Error **errp' parameter in this methood, but we're
-failing to set it here and in other failure scenarios below.
-
-> +
-> +    err = gcry_pk_encrypt(&cipher_sexp, data_sexp, rsa->key);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    /* S-expression of cipher: (enc-val (rsa (a a-mpi))) */
-> +    cipher_sexp_item = gcry_sexp_find_token(cipher_sexp, "a", 0);
-> +    if (!cipher_sexp_item || gcry_sexp_length(cipher_sexp_item) != 2) {
-> +        goto cleanup;
-> +    }
-> +
-> +    if (rsa->padding_alg == QCRYPTO_RSA_PADDING_ALG_RAW) {
-> +        cipher_mpi = gcry_sexp_nth_mpi(cipher_sexp_item, 1, GCRYMPI_FMT_USG);
-> +        if (!cipher_mpi) {
-> +            goto cleanup;
-> +        }
-> +        err = gcry_mpi_print(GCRYMPI_FMT_USG, out, out_len,
-> +                             &actual_len, cipher_mpi);
-> +        if (gcry_err_code(err) != 0 || actual_len > out_len) {
-> +            goto cleanup;
-> +        }
-> +
-> +        /* We always padding leading-zeros for RSA-RAW */
-> +        if (actual_len < out_len) {
-> +            memmove((uint8_t *)out + (out_len - actual_len), out, actual_len);
-> +            memset(out, 0, out_len - actual_len);
-> +        }
-> +        ret = out_len;
-> +
-> +    } else {
-> +        result = gcry_sexp_nth_data(cipher_sexp_item, 1, &actual_len);
-> +        if (!result || actual_len > out_len) {
-> +            goto cleanup;
-> +        }
-> +        memcpy(out, result, actual_len);
-> +        ret = actual_len;
-> +    }
-> +
-> +cleanup:
-> +    gcry_sexp_release(data_sexp);
-> +    gcry_sexp_release(cipher_sexp);
-> +    gcry_sexp_release(cipher_sexp_item);
-> +    gcry_mpi_release(cipher_mpi);
-> +    return ret;
-> +}
-> +
-> +static int qcrypto_gcrypt_rsa_decrypt(QCryptoAkCipher *akcipher,
-> +                                      const void *in, size_t in_len,
-> +                                      void *out, size_t out_len,
-> +                                      Error **errp)
-> +{
-> +    QCryptoGcryptRSA *rsa = (QCryptoGcryptRSA *)akcipher;
-> +    int ret = -1;
-> +    gcry_sexp_t data_sexp = NULL, cipher_sexp = NULL;
-> +    gcry_mpi_t data_mpi = NULL;
-> +    gcry_error_t err;
-> +    size_t actual_len;
-> +    const char *result;
-> +
-> +    if (in_len > akcipher->max_ciphertext_len) {
-> +        error_setg(errp, "Invalid buffer size");
-> +        return ret;
-> +    }
-> +
-> +    err = gcry_sexp_build(&cipher_sexp, NULL,
-> +                          "(enc-val (flags %s) (rsa (a %b) ))",
-> +                          QCryptoRSAPaddingAlgorithm_str(rsa->padding_alg),
-> +                          in_len, in);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-
-Again failing to set 'Error **errp'
-
-> +
-> +    err = gcry_pk_decrypt(&data_sexp, cipher_sexp, rsa->key);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    /* S-expression of cipher: (value plaintext) */
-> +    if (rsa->padding_alg == QCRYPTO_RSA_PADDING_ALG_RAW) {
-> +        data_mpi = gcry_sexp_nth_mpi(data_sexp, 1, GCRYMPI_FMT_USG);
-> +        if (!data_mpi) {
-> +            goto cleanup;
-> +        }
-> +        err = gcry_mpi_print(GCRYMPI_FMT_USG, out, out_len,
-> +                             &actual_len, data_mpi);
-> +        if (gcry_err_code(err) != 0) {
-> +            goto cleanup;
-> +        }
-> +         if (actual_len > out_len) {
-> +            goto cleanup;
-> +        }
-> +        /* We always padding leading-zeros for RSA-RAW */
-> +        if (actual_len < out_len) {
-> +            memmove((uint8_t *)out + (out_len - actual_len), out, actual_len);
-> +            memset(out, 0, out_len - actual_len);
-> +        }
-> +        ret = out_len;
-> +    } else {
-> +        result = gcry_sexp_nth_data(data_sexp, 1, &actual_len);
-> +        if (!result || actual_len > out_len) {
-> +            goto cleanup;
-> +        }
-> +        memcpy(out, result, actual_len);
-> +        ret = actual_len;
-> +    }
-> +
-> +cleanup:
-> +    gcry_sexp_release(cipher_sexp);
-> +    gcry_sexp_release(data_sexp);
-> +    gcry_mpi_release(data_mpi);
-> +    return ret;
-> +}
-> +
-> +static int qcrypto_gcrypt_rsa_sign(QCryptoAkCipher *akcipher,
-> +                                   const void *in, size_t in_len,
-> +                                   void *out, size_t out_len, Error **errp)
-> +{
-> +    QCryptoGcryptRSA *rsa = (QCryptoGcryptRSA *)akcipher;
-> +    int ret = -1;
-> +    gcry_sexp_t dgst_sexp = NULL, sig_sexp = NULL;
-> +    gcry_sexp_t sig_sexp_item = NULL;
-> +    const char *result;
-> +    gcry_error_t err;
-> +    size_t actual_len;
-> +
-> +    if (in_len > akcipher->max_dgst_len) {
-> +        error_setg(errp, "Invalid buffer size");
-> +        return ret;
-> +    }
-> +
-> +    if (rsa->padding_alg != QCRYPTO_RSA_PADDING_ALG_PKCS1) {
-> +        error_setg(errp, "Invalid padding %u", rsa->padding_alg);
-> +        return ret;
-> +    }
-> +    err = gcry_sexp_build(&dgst_sexp, NULL,
-> +                          "(data (flags pkcs1) (hash %s %b))",
-> +                          QCryptoHashAlgorithm_str(rsa->hash_alg),
-> +                          in_len, in);
-> +
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-
-Again failing to set 'Error **errp'
-
-
-> +
-> +    err = gcry_pk_sign(&sig_sexp, dgst_sexp, rsa->key);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    /* S-expression of signature: (sig-val (rsa (s s-mpi))) */
-> +    sig_sexp_item = gcry_sexp_find_token(sig_sexp, "s", 0);
-> +    if (!sig_sexp_item || gcry_sexp_length(sig_sexp_item) != 2) {
-> +        goto cleanup;
-> +    }
-> +
-> +    result = gcry_sexp_nth_data(sig_sexp_item, 1, &actual_len);
-> +    if (!result || actual_len > out_len) {
-> +        goto cleanup;
-> +    }
-> +    memcpy(out, result, actual_len);
-> +    ret = actual_len;
-> +
-> +cleanup:
-> +    gcry_sexp_release(dgst_sexp);
-> +    gcry_sexp_release(sig_sexp);
-> +    gcry_sexp_release(sig_sexp_item);
-> +
-> +    return ret;
-> +}
-> +
-> +static int qcrypto_gcrypt_rsa_verify(QCryptoAkCipher *akcipher,
-> +                                     const void *in, size_t in_len,
-> +                                     const void *in2, size_t in2_len,
-> +                                     Error **errp)
-> +{
-> +    QCryptoGcryptRSA *rsa = (QCryptoGcryptRSA *)akcipher;
-> +    int ret = -1;
-> +    gcry_sexp_t sig_sexp = NULL, dgst_sexp = NULL;
-> +    gcry_error_t err;
-> +
-> +    if (in_len > akcipher->max_signature_len ||
-> +        in2_len > akcipher->max_dgst_len) {
-> +        error_setg(errp, "Invalid buffer size");
-> +        return ret;
-> +    }
-> +
-> +    if (rsa->padding_alg != QCRYPTO_RSA_PADDING_ALG_PKCS1) {
-> +        error_setg(errp, "Invalid padding %u", rsa->padding_alg);
-> +        return ret;
-> +    }
-> +
-> +    err = gcry_sexp_build(&sig_sexp, NULL,
-> +                          "(sig-val (rsa (s %b)))", in_len, in);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-
-Again failing to set 'Error **errp'
-
-
-> +
-> +    err = gcry_sexp_build(&dgst_sexp, NULL,
-> +                          "(data (flags pkcs1) (hash %s %b))",
-> +                          QCryptoHashAlgorithm_str(rsa->hash_alg),
-> +                          in2_len, in2);
-> +    if (gcry_err_code(err) != 0) {
-> +        goto cleanup;
-> +    }
-> +
-> +    err = gcry_pk_verify(sig_sexp, dgst_sexp, rsa->key);
-> +    if (gcry_err_code(err) == 0) {
-> +        ret = 0;
-> +    }
-> +
-> +cleanup:
-> +    gcry_sexp_release(dgst_sexp);
-> +    gcry_sexp_release(sig_sexp);
-> +
-> +    return ret;
-> +}
-> +
-> +QCryptoAkCipherDriver gcrypt_rsa = {
-> +    .encrypt = qcrypto_gcrypt_rsa_encrypt,
-> +    .decrypt = qcrypto_gcrypt_rsa_decrypt,
-> +    .sign = qcrypto_gcrypt_rsa_sign,
-> +    .verify = qcrypto_gcrypt_rsa_verify,
-> +    .free = qcrypto_gcrypt_rsa_free,
-> +};
-> +
-> +static QCryptoGcryptRSA *qcrypto_gcrypt_rsa_new(
-> +    const QCryptoAkCipherOptionsRSA *opt,
-> +    QCryptoAkCipherKeyType type,
-> +    const uint8_t *key, size_t keylen,
-> +    Error **errp)
-> +{
-> +    QCryptoGcryptRSA *rsa = g_new0(QCryptoGcryptRSA, 1);
-> +    rsa->padding_alg = opt->padding_alg;
-> +    rsa->hash_alg = opt->hash_alg;
-> +    rsa->akcipher.driver = &gcrypt_rsa;
-> +
-> +    switch (type) {
-> +    case QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE:
-> +        if (qcrypto_gcrypt_parse_rsa_private_key(rsa, key, keylen) != 0) {
-> +            error_setg(errp, "Failed to parse rsa private key");
-> +            goto error;
-> +        }
-> +        break;
-> +
-> +    case QCRYPTO_AKCIPHER_KEY_TYPE_PUBLIC:
-> +        if (qcrypto_gcrypt_parse_rsa_public_key(rsa, key, keylen) != 0) {
-> +            error_setg(errp, "Failed to parse rsa public rsa key");
-> +            goto error;
-> +        }
-> +        break;
-> +
-> +    default:
-> +        error_setg(errp, "Unknown akcipher key type %d", type);
-> +        goto error;
-> +    }
-> +
-> +    return rsa;
-> +
-> +error:
-> +    qcrypto_gcrypt_rsa_free((QCryptoAkCipher *)rsa);
-> +    return NULL;
-> +}
-> +
-> +
-> +bool qcrypto_akcipher_supports(QCryptoAkCipherOptions *opts)
-> +{
-> +    switch (opts->alg) {
-> +    case QCRYPTO_AKCIPHER_ALG_RSA:
-> +        switch (opts->u.rsa.padding_alg) {
-> +        case QCRYPTO_RSA_PADDING_ALG_RAW:
-> +            return true;
-> +
-> +        case QCRYPTO_RSA_PADDING_ALG_PKCS1:
-> +            switch (opts->u.rsa.hash_alg) {
-> +            case QCRYPTO_HASH_ALG_MD5:
-> +            case QCRYPTO_HASH_ALG_SHA1:
-> +            case QCRYPTO_HASH_ALG_SHA256:
-> +            case QCRYPTO_HASH_ALG_SHA512:
-> +                return true;
-> +
-> +            default:
-> +                return false;
-> +            }
-> +
-> +        default:
-> +            return false;
-> +        }
-> +
-> +    default:
-> +        return true;
-> +    }
-> +}
-> diff --git a/crypto/akcipher.c b/crypto/akcipher.c
-> index f287083f92..ad88379c1e 100644
-> --- a/crypto/akcipher.c
-> +++ b/crypto/akcipher.c
-> @@ -23,7 +23,9 @@
->  #include "crypto/akcipher.h"
->  #include "akcipherpriv.h"
->  
-> -#if defined(CONFIG_NETTLE) && defined(CONFIG_HOGWEED)
-> +#if defined(CONFIG_GCRYPT)
-> +#include "akcipher-gcrypt.c.inc"
-> +#elif defined(CONFIG_NETTLE) && defined(CONFIG_HOGWEED)
->  #include "akcipher-nettle.c.inc"
->  #else
->  QCryptoAkCipher *qcrypto_akcipher_new(const QCryptoAkCipherOptions *opts,
-> -- 
-> 2.20.1
-> 
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+MST
 
 
