@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BA45262B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:12:48 +0200 (CEST)
-Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05AE5262BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:15:57 +0200 (CEST)
+Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npV67-0004eZ-EW
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37280)
+	id 1npV9A-0007sz-ME
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:15:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npV4D-0003Ex-Lb
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:10:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npV4A-0007J5-8a
- for qemu-devel@nongnu.org; Fri, 13 May 2022 09:10:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652447444;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TudVkw77nbxZ6BIHOV6ucm8WRKNMf6DQUwPCsrdc6hs=;
- b=i1dmIfEvoZx2/9l+apb4Kvt53smScbl98aqNoTWaFtJyjpmGbTh7g8/HI9zbNXdZUkyFjN
- u6OZKbvk2qz5y7g4OllN9GbJGlMnVn53bZ6ew0/MIyTnFp0TTrgy2cEmdLRV2V+QxvvjyE
- qzR2V8yUajnoOt8HbSrPQqOy2NSnkCA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-BG-N9d37PDyysh28KzWUrQ-1; Fri, 13 May 2022 09:10:41 -0400
-X-MC-Unique: BG-N9d37PDyysh28KzWUrQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CCD4100BAA0;
- Fri, 13 May 2022 13:10:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB31641047E9;
- Fri, 13 May 2022 13:10:40 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C269B21E690D; Fri, 13 May 2022 15:10:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org,  mark.kanda@oracle.com,  berrange@redhat.com,
- dgilbert@redhat.com
-Subject: Re: [PATCH 1/8] qmp: Support for querying stats
-References: <20220426141619.304611-1-pbonzini@redhat.com>
- <20220426141619.304611-2-pbonzini@redhat.com>
- <87sfpp3018.fsf@pond.sub.org>
- <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
- <87v8ukt8g8.fsf@pond.sub.org>
- <e7056663-6f22-e0ec-679a-3f474df05788@redhat.com>
-Date: Fri, 13 May 2022 15:10:39 +0200
-In-Reply-To: <e7056663-6f22-e0ec-679a-3f474df05788@redhat.com> (Paolo
- Bonzini's message of "Thu, 5 May 2022 15:58:37 +0200")
-Message-ID: <87ee0xy3w0.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npV6j-0005hR-82
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:25 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:43934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npV6g-0007d4-R5
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 09:13:24 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ l38-20020a05600c1d2600b00395b809dfbaso4455296wms.2
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 06:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p+hSbF0om2aDK+Z1zx6muSTyYyK6/1V794Z4po7WaWA=;
+ b=arQU0WJgZFikVeN3ThaeJm2M9D5M+3xAdaXtzY56E3aiSWbrjrgS1E0dfFrr8jPbyO
+ uJrf4MsPrd0WyUM5iQRt4LCB4yL2Ep9gBAeQHCwJyHafMfoFyajTAwRRz0UWlaaXYgY7
+ MoKZ41XUMT+v6lIgqnwudCYBereeqKYEwkkMxaitQXa6H9kGko6QNc/CLsV+x7puuNV/
+ xX+7u07s5UtSdgG+Roy+vGXUkzfGrQ172M41XR7g+6Ply+wiwhKOjVtcXaoTnvaDagoR
+ xaeV5evumvuEnsl6oqOj9zyor9CcdW1TlahZhnw91jrMzG5FCq1DTvCvUONs+iCBRHQE
+ ycFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p+hSbF0om2aDK+Z1zx6muSTyYyK6/1V794Z4po7WaWA=;
+ b=6r3pk+Z34vdGFpQ2NdSott+0Yo7KBBMik0xwJUmDAMH2ZLwgLC/EWYJDLIn3X1q1KR
+ kdxHYUqf84w70XDShi4/ZYYxHY6z/aXCK70qlonA19fUeeWgemm5U27bWEplB7XBUetk
+ f/aVzTvmH09CijFmHFsRpfsBZ07heC4gde0d2SJ47//fmmpxvivRRDC0g0g/0jidoVmC
+ eV4LeGeO2Wkno1XJg6Ckp3QdF9aEceDnyj2ArZ8pMyEqStYF5eu86Jy89xh/TgrpMM90
+ Av30TI9IWDeUespQW4XRB4zTBR8jbwmZoHF5+SvN0mChDbX2ZnKMSEuAM0yURFdtyqM8
+ PY8A==
+X-Gm-Message-State: AOAM530kTCqEIN1KubfOHVwrimN4KmLEHQ3faB+RA7H5ynrtZURSMuVn
+ r0c6EWjTdc1Jmt5hl4jmD1y3pZouJQxUZA==
+X-Google-Smtp-Source: ABdhPJw41hm3S/ouhCWMkhj22JBWuHFlrauAUZsw90QhksHA2ooXoAsKzTz1yAAvMsFCKjUXb262tQ==
+X-Received: by 2002:a05:600c:4e91:b0:394:8d30:d6dd with SMTP id
+ f17-20020a05600c4e9100b003948d30d6ddmr4541790wmq.21.1652447598962; 
+ Fri, 13 May 2022 06:13:18 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ z23-20020a1c4c17000000b0039456fb80b3sm5214887wmf.43.2022.05.13.06.13.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 06:13:18 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/arm/virt: fix dtb nits spotted by dtc
+Date: Fri, 13 May 2022 14:13:14 +0100
+Message-Id: <20220513131316.4081539-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,67 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+If you dump the DTB generated by the virt board using
+  -machine dumpdtb=file.dtb
+and then decompile it with
+  dtc -I dtb -O dts -o file.dts file.dtb
+dtc will complain about some harmless but wrong constructs
+in the dtb:
 
-> On 5/5/22 15:28, Markus Armbruster wrote:
->> Double-checking (pardon my ignorance): we're basically exposing the host
->> kernel's KVM stats via QMP, with the option of extending it to other
->> sources of stats in the future.  Correct?
->
-> Yes.  As long as KVM is the only source, it's basically an opaque 1:1
-> mapping of what the kernel gives.
+Warning (unique_unit_address): /flash@0: duplicate unit-address (also used in node /secflash@0)
+Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-I'd like this to be captured in documentation and / or a commit message,
-because ...
+This series fixes those nits.
 
->> I think the argument for accepting the interface is basically "if it's
->> good enough for the kernel, it's good enough for us".  Valid point.
->
-> Also, it was designed from the beginning to be extensible to other
-> _kernel_ subsystems as well; i.e. it's not virt-specific in any way.
->
-> There is one important point: theoretically, stats names are not part
-> of the kernel API.  In practice, you know what the chief penguin
-> thinks of breaking userspace and anyway I don't think any of the stats
-> have ever been removed when they were in debugfs (which makes them
-> even less of a stable API).
->
-> For a similar situation see https://lwn.net/Articles/737530/: kernel
-> developers hate that tracepoints are part of the stable API, but in 
-> practice they are (and stats are much harder to break than
-> tracepoints, if it's worth exposing them to userspace in the first
-> place).
->
->> This means we'll acquire yet another introspection system, unrelated to
->> the introspection systems we already have in QEMU.
+thanks
+-- PMM
 
-... ^^^ needs justification.  Explain why passing the kernel's
-existing interface through QEMU is useful, and to whom.
+Peter Maydell (2):
+  hw/arm/virt: Fix incorrect non-secure flash dtb node name
+  hw/arm/virt: Drop #size-cells and #address-cells from gpio-keys dtb
+    node
 
->> There is overlap.  Quite a few query- commands return stats.  Should
->> they be redone as statistics provides in this new introspection system?
->
-> I think so, potentially all of them can be moved.  Whether it is worth
-> doing it is another story.
->
-> In addition, query-stats provides a home for TCG statistics that
-> currently QMP exposes only via x- commands; they can be added without 
-> having to design the whole QAPI thing, and with a slightly less strong
-> guarantee of stability.
+ hw/arm/virt.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-How strong do we feel about the stability of the stats exposed by this
-command?  Separate answers for *structure* of the stats and concrete
-stats.
-
-If we're confident neither structure nor concrete stats will change
-incompatibly, the commands are stable without reservations.
-
-If we're confident the structure is stable, but unable or unwilling to
-commit to the concrete stats, we should explain this in documentation.
-
-If we're unsure about both, the commands should be marked unstable.  We
-can always upgrade stability later.
-
-[...]
+-- 
+2.25.1
 
 
