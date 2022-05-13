@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B36526723
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:34:21 +0200 (CEST)
-Received: from localhost ([::1]:39102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98084526734
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:37:17 +0200 (CEST)
+Received: from localhost ([::1]:42836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npYF9-0004qI-T0
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52366)
+	id 1npYI0-0007Nv-LY
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npXox-0003Xd-5b; Fri, 13 May 2022 12:07:23 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npXov-0003rh-A7; Fri, 13 May 2022 12:07:14 -0400
-Received: by mail-ej1-x634.google.com with SMTP id g6so17190102ejw.1;
- Fri, 13 May 2022 09:07:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jykZIpNg5SNn1B4JRI9EWoF3P7TraENugle19PndUXk=;
- b=HIzylZkgCjsEat4RuvkXFdAmb/WcCmH8NmAtfoJFEpIONz7QQh2/WjmZ08nKEyV++6
- 5P4/ipQzUqQZvvrCxmXkrw5Sby/Eqa///ozP8Pef+1RqxWmHoMKJDaCX7JUPKg9qawMF
- EryNuDVIQiJs37Ao5OuZ63+Qei5RC5uXu4jF1Pwll9P95QaU/fm8jgJdLqMjXcgyrjcl
- WpJDUPjGBPAlvy/m+ToObpZbwqM4/sb4d2iO5ZEwwd6R9drvbochjr2B6oPd/k0SDdeA
- KhddwcGk5xDyA6xiP31lVBzI7gvxc6RmBjiqIMQrg/rmn1US9UXzJS8Pob9ijzQtYq4i
- JtOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jykZIpNg5SNn1B4JRI9EWoF3P7TraENugle19PndUXk=;
- b=MHY6eHNVdGysw7n2Z1MgyJxFNMt+PdCjPj/ESIMo+doKrla1D7e7xXxW4NEfb613rl
- d6HncRs1+vykmo337UDjn0jxcULnXIreYs+sFALT7ejBgCLMUPCs4+drMfw7Mcs2smzq
- yUCZFlkxwsAnAF7lldEVzqUZCCD07CEjd8n38+NFwQdha1/QP8EXZzUMjheTBouKZ/gW
- qy7k6zhcjEVBoOE+cBaVWDE84/PH06bSPlezsi7juFcwDdqmpJlFFD2nhLR/A83o6cOx
- fGW8xv2d2vKFFTklLapqN/4ritCrnBQeJ+iwcSDYbwT2ORV+TAWFVCzVL1xujFx6PK30
- u7Qg==
-X-Gm-Message-State: AOAM5329caFEjIGEgDUOMBqXEIRm3K69N8lWXFASEA4jyolt1x0dPTzm
- 83Xqzzcf2XWYFez4BduFpn8=
-X-Google-Smtp-Source: ABdhPJzGqi6sg1EHmlCzHVPXZjdmfAWfysBCPUmCNBhKyFM0NP+ReFdpgJ5L/0IEJtdZMhX6uQ548A==
-X-Received: by 2002:a17:907:1c0b:b0:6f5:64f4:91df with SMTP id
- nc11-20020a1709071c0b00b006f564f491dfmr4958800ejc.750.1652458031461; 
- Fri, 13 May 2022 09:07:11 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- r2-20020a170906550200b006f3ef214e72sm872500ejp.216.2022.05.13.09.07.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 09:07:11 -0700 (PDT)
-Message-ID: <a8b3d981-dbd2-5ae9-6601-c661d3899451@redhat.com>
-Date: Fri, 13 May 2022 18:07:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 0/9] tests: run python tests under the
- build/tests/venv environment
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1npXpJ-0003oM-4F
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:07:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1npXpG-0003tw-NJ
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 12:07:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652458053;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sVLFCbuv7GT0PFyQ0e0m8TQj02LHTgqZniygjdgRoKQ=;
+ b=Qgfp7ecs6+e3NsT38PjIvCM5L1Aodmk27rUyEIZXG96cy1Um3Cg6sAjUsr7ZP3NWEPLDJm
+ eQ+aoYM8XJ5abwgAGaJOCsEcoqZUs6WyYQgTWfS4aBbtOy8EeLu+q4gjIKIod49Vrrepwu
+ ceYQRH7cAOiS3tn+9GoBpA5b9ojFdBM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-364-rou7s9R8OAyPpGfGtJukLQ-1; Fri, 13 May 2022 12:07:30 -0400
+X-MC-Unique: rou7s9R8OAyPpGfGtJukLQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35F181010361;
+ Fri, 13 May 2022 16:07:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 620594087D66;
+ Fri, 13 May 2022 16:07:28 +0000 (UTC)
+Date: Fri, 13 May 2022 17:07:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: John Snow <jsnow@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH 0/9] tests: run python tests under the
+ build/tests/venv environment
+Message-ID: <Yn6CPm3VosPfcK7j@redhat.com>
 References: <20220513000609.197906-1-jsnow@redhat.com>
- <0248b5df-dbc6-48bf-b5c8-e5c73decc1c1@redhat.com>
- <CAFn=p-ZHW31EnhgUt5uBcnnAEZ0XNZEgxq=pyPHnDShqcGGGCQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFn=p-ZHW31EnhgUt5uBcnnAEZ0XNZEgxq=pyPHnDShqcGGGCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <Yn4YS1FpgtCZMMx6@redhat.com> <Yn4y9BorEDzOLhFH@redhat.com>
+ <CAFn=p-Y77=F=qjdwWRycFafxiS7Rjxag4gLmPK0ERqEiyT19ig@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFn=p-Y77=F=qjdwWRycFafxiS7Rjxag4gLmPK0ERqEiyT19ig@mail.gmail.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,108 +89,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 17:39, John Snow wrote:
-> On Fri, May 13, 2022, 6:21 AM Paolo Bonzini <pbonzini@redhat.com 
-> <mailto:pbonzini@redhat.com>> wrote:
+On Fri, May 13, 2022 at 11:55:18AM -0400, John Snow wrote:
+> On Fri, May 13, 2022, 6:29 AM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
 > 
->     On 5/13/22 02:06, John Snow wrote:
->      > The only downside I am really frowning at is that I will have to
->      > replicate some "update the venv if it's outdated" logic that is
->     usually
->      > handled by the Make system in the venv bootstrapper. Still, I
->     think it's
->      > probably the only way to hit all of the requirements here without
->     trying
->      > to concoct a fairly complex Makefile.
->      >
->      > any thoughts? If not, I'll just move on to trying to hack up that
->      > version next instead.
+> > On Fri, May 13, 2022 at 09:35:23AM +0100, Daniel P. Berrangé wrote:
+> > > On Thu, May 12, 2022 at 08:06:00PM -0400, John Snow wrote:
+> > > > RFC: This is a very early, crude attempt at switching over to an
+> > > > external Python package dependency for QMP. This series does not
+> > > > actually make the switch in and of itself, but instead just switches to
+> > > > the paradigm of using a venv in general to install the QEMU python
+> > > > packages instead of using PYTHONPATH to load them from the source tree.
+> > > >
+> > > > (By installing the package, we can process dependencies.)
+> > > >
+> > > > I'm sending it to the list so I can show you some of what's ugly so far
+> > > > and my notes on how I might make it less ugly.
+> > > >
+> > > > (1) This doesn't trigger venv creation *from* iotests, it merely prints
+> > > > a friendly error message if "make check-venv" has not been run
+> > > > first. Not the greatest.
+> > >
+> > > So if we run the sequence
+> > >
+> > >   mkdir build
+> > >   cd build
+> > >   ../configure
+> > >   make
+> > >   ./tests/qemu-iotests/check 001
+> > >
+> > > It won't work anymore, until we 'make check-venv' (or simply
+> > > 'make check') ?
+> > >
+> > > I'm somewhat inclined to say that venv should be created
+> > > unconditionally by default. ie a plain 'make' should always
+> > > everything needed to be able to invoke the tests directly.
+> > >
+> > > > (2) This isn't acceptable for SRPM builds, because it uses PyPI to
+> > fetch
+> > > > packages just-in-time. My thought is to use an environment variable
+> > like
+> > > > QEMU_CHECK_NO_INTERNET that changes the behavior of the venv setup
+> > > > process. We can use "--system-site-packages" as an argument to venv
+> > > > creation and "--no-index" as an argument to pip installation to achieve
+> > > > good behavior in SRPM building scenarios. It'd be up to the spec-writer
+> > > > to opt into that behavior.
+> > >
+> > > I think I'd expect --system-site-packages to be the default behaviour.
+> > > We expect QEMU to be compatible with the packages available in the
+> > > distros that we're targetting. So if the dev has the python packages
+> > > installed from their distro, we should be using them preferentially.
+> > >
+> > > This is similar to how we bundle slirp/capstone/etc, but will
+> > > preferentially use the distro version if it is available.
+> >
+> > AFAICT from testing it, when '--system-site-packages' is set
+> > for the venv, then 'pip install' appears to end up being a
+> > no-op if the package is already present in the host, but
+> > installs it if missing.
+> >
+> > IOW, if we default to --system-site-packages, but still
+> > also run 'pip install', we should "do the right thing".
+> > It'll use any  distro packages that are available, and
+> > augment with stuff from pip. In the no-op case, pip will
+> > still try to consult the pipy servers to fetch version
+> > info IIUC, so we need to be able to stop that. So I'd
+> > suggest a  --python-env arg taking three values
+> >
+> >  * "auto" (the default) - add --system-site-packages, but
+> >    also run 'pip install'. Good for developers day-to-day
+> >
 > 
->     I would not even bother with keeping the venv up to date.  Just
->     initialize
+> Sounds like a decent balance...
 > 
-> I'm worried about this idea being very inconvenient for iterative 
-> development of the python code.
-
-Wouldn't "-e" mostly avoid the inconvenience?
-
-> I'm not sure this makes sense. python/qemu will continue to exist 
-> in-tree and will only ever be "internal" in that sense. It won't be 
-> something you can wholesale install from pip.
->
-> i.e. I plan to continue to break off pieces and upstream them, but I 
-> intend to leave several modules as internal only.
-
-Oh, that's what I was missing.  I thought long term all of it would come 
-from pip.  But anyway...
-
-> So I'm not sure "internal" vs "pip" makes sense config-wise, it's 
-> intended to be a mixture of both, really.
-
-... then neither "system" nor "pip" would not cover the parts of 
-"python-qemu" that are always internal, i.e. currently only 
-"python-qemu-qmp".  And after
-
-  $python -m venv venv/
-
-you would have
-
-  $python -m pip install -e python/
-
-(That's probably a better way to invoke a pip that's related to $python, 
-at least until the venv exists).
-
-By the way, where would you put the python-qemu-qmp submodule?
-
-> But, I suppose this is how you'd like to address different venv setup 
-> behaviors to accommodate spec builds vs dev builds - with a configure 
-> flag of some kind.
-
-Yes.
-
-> (I suppose you'd then like to see configure error out if it doesn't have 
-> the necessary requisites given the venv-style chosen?)
+> ...My only concern is that the system packages might be very old and it's
+> possible that the qemu packages will be "too new" or have conflicts with
+> the system deps.
 > 
->     - use CONFIG_PYTHON_QEMU to enable/disable iotests in
->     tests/qemu-iotests/meson.build
+> I'll just have to test this.
 > 
-> So it's just skipped if you don't have the reqs to make the venv? (Not 
-> an error?)
+> e.g. what if I want to require mypy >= 0.900 for testing, but you have a
+> system package that requires mypy < 0.700?
 
-That's usually what we do with missing bits yes; you can use 
---enable-python-qemu to force an error in that case.
+I would expect us to not require packages that are not present in
+the distros implied by 
 
->     - add a configure option --enable-avocado=
->     {system,pip,auto,enabled}/--disable-avocado and matching
->     CONFIG_AVOCADO=y to config-host.mak
+  https://www.qemu.org/docs/master/about/build-platforms.html
+
+if that was absolutely a must have, then gracefully skip tests
+if the system version wasn't new enough. The user could always
+pass --python-env=pip if they want to force new enough
+
+> The python dep compatibility matrix I try to enforce and support for
+> testing is already feeling overly wide. This might force me to support an
+> even wider matrix, which I think is the precisely wrong direction for venvs
+> where we want tighter control as a rule.
+
+As above, from a QEMU POV we have clearly defined our targetted
+platform matrix. Splitting off python packages isn't a reason
+to change QEMU's platform matrix IMHO.
+
+> >  * "system" - add --system-site-packages but never run
+> >    'pip install'.  Good for formal package builds.
+> >
 > 
->     - use it to enable/disable acceptance tests in tests/Makefile.include
+> We still have to install the in-tree qemu ns package, but we can use
+> --no-index to do it. It'll fail if the deps aren't met.
+
+> >  * "pip"  - don't add --system-site-packages, always run
+> >    'pip install'. Good for testing compatibility with
+> >    bleeding edge python versions, or if explicit full
+> >    independance from host python install is desired.
+> >
 > 
-> And this is how you propose eliminating the need for an always-present 
-> avocado builddep.
-
-Yep.
-
->     rm -rf venv/
->     $python -m venv venv/
->     do_pip venv/ enable_python_qemu qemu.qmp python/qemu -- qemu.qmp
->     do_pip venv/ enable_avocado avocado -- -r tests/requirements.txt
+> as arguments to configure, this spread of options makes sense to me than
+> paolo's version, but I've still got some doubt on mixing system and venv
+> packages.
 > 
-> Won't this rebuild the venv like *all of the time*, basically whenever 
-> you see the "configuration is stale" message?
+> I am also as of yet not sold on building the venv *from* configure, see my
+> response to Paolo on that topic.
+> 
+> I'll keep plugging away for now, but the big picture is still a tad murky
+> in my head.
+> 
+> --js
 
-Yes, it would.  I think that's going to happen less and less since 
-configure is on a serious diet; but it might still be annoying.  OTOH 
-installing system packages (or also "pip install --user") will speed up 
-creating the virtual env, because then pip will not be run in the venv.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> That both seems like way too often, *and* it wouldn't cover cases when 
-> it really ought to be refreshed.
-
-Which cases are those?
-
-Paolo
 
