@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B29852669A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:54:15 +0200 (CEST)
-Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964DB5266A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:57:30 +0200 (CEST)
+Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npXcM-0003EB-BZ
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:54:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47674)
+	id 1npXfV-0007Sk-LG
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1npXXW-0005sS-FR
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:49:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34212)
+ id 1npXXZ-00061x-94
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:49:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1npXXU-0000fN-7i
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:49:13 -0400
+ id 1npXXX-0000h8-PA
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:49:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652456951;
+ s=mimecast20190719; t=1652456955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EXoZzIrUFSIgWUGknGtxTRFqHJIoaDs0nio3CNHmeZw=;
- b=AcvB4T1D0SvosZUcHbWrpY1DhOch4ako29Gbg4vfqnfLfZYAaGBos0rJK2PG/HGXLMk/ZC
- KOyUZcJNd8K74739QjzvlTq3j4fPy7+LosQzWp13mCMdEl1X2MOQvfr9MHF93RSr2BmdUq
- k05aUDBoaCpk1KoZl7axuNgLb4TCFJM=
+ bh=+tH2fL2NxCWKTyy4UAazFMEt0it3D7+Rs6aTLpCh0Ts=;
+ b=Oj4rLOz1NmyRJAbFQBRMFDhcAmIzYrqoQiK9wU4KwnRGAy/Tukr8S2maQ14YcxMee0zkIo
+ +PjXFGzu83LJkZrIVIoPz6/XbgzMOzWY3ezy/hellJ2L30/W38QxRv9Tx2fA8iub5DkhiF
+ WuPBhUutt6l4VQPj7k5aaujI2+oOgzI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-mP-hq8PtMsmvjFpEqPRSnA-1; Fri, 13 May 2022 11:49:10 -0400
-X-MC-Unique: mP-hq8PtMsmvjFpEqPRSnA-1
+ us-mta-128-YzQCgLI8MZ6tvEctnf_d4Q-1; Fri, 13 May 2022 11:49:11 -0400
+X-MC-Unique: YzQCgLI8MZ6tvEctnf_d4Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4A38811E75
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 15:49:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14C7B801210
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 15:49:11 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBB681468961;
- Fri, 13 May 2022 15:49:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1851B1467E50;
+ Fri, 13 May 2022 15:49:09 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 1/2] tests/qtest: fix registration of ABRT handler for QEMU
- cleanup
-Date: Fri, 13 May 2022 16:49:05 +0100
-Message-Id: <20220513154906.206715-2-berrange@redhat.com>
+Subject: [PATCH v2 2/2] tests/qtest: use prctl(PR_SET_PDEATHSIG) as fallback
+ to kill QEMU
+Date: Fri, 13 May 2022 16:49:06 +0100
+Message-Id: <20220513154906.206715-3-berrange@redhat.com>
 In-Reply-To: <20220513154906.206715-1-berrange@redhat.com>
 References: <20220513154906.206715-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -82,37 +82,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qtest_init registers a hook to cleanup the running QEMU process
-should g_assert() fire before qtest_quit is called. When the first
-hook is registered, it is supposed to triggere registration of the
-SIGABRT handler. Unfortunately the logic in hook_list_is_empty is
-inverted, so the SIGABRT handler never gets registered, unless
-2 or more QEMU processes are run concurrently. This caused qtest
-to leak QEMU processes anytime g_assert triggers.
+Although we register a ABRT handler to kill off QEMU when g_assert()
+triggers, we want an extra safety net. The QEMU process might be
+non-functional and thus not have responded to SIGTERM. The test script
+might also have crashed with SEGV, in which case the cleanup handlers
+won't ever run.
+
+Using the Linux specific prctl(PR_SET_PDEATHSIG) syscall, we
+can ensure that QEMU gets sent SIGKILL as soon as the controlling
+qtest exits, if nothing else has correctly told it to quit.
+
+Note, technically the death signal is sent when the *thread* that
+called fork() exits. IOW, if you are calling qtest_init() in one
+thread, letting that thread exit, and then expecting to run
+qtest_quit() in a different thread, things are not going to work
+out. Fortunately that is not a scenario that exists in qtests,
+as pairs of qtest_init and qtest_quit are always called from the
+same thread.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/libqtest.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/libqtest.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 228357f1ea..4a4697c0d1 100644
+index 4a4697c0d1..2e49618454 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -197,11 +197,11 @@ static bool hook_list_is_empty(GHookList *hook_list)
-     GHook *hook = g_hook_first_valid(hook_list, TRUE);
+@@ -19,6 +19,9 @@
+ #include <sys/socket.h>
+ #include <sys/wait.h>
+ #include <sys/un.h>
++#ifdef __linux__
++#include <sys/prctl.h>
++#endif /* __linux__ */
  
-     if (!hook) {
--        return false;
-+        return true;
-     }
- 
-     g_hook_unref(hook_list, hook);
--    return true;
-+    return false;
- }
- 
- void qtest_add_abrt_handler(GHookFunc fn, const void *data)
+ #include "libqtest.h"
+ #include "libqmp.h"
+@@ -301,6 +304,20 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+     s->expected_status = 0;
+     s->qemu_pid = fork();
+     if (s->qemu_pid == 0) {
++#ifdef __linux__
++        /*
++         * Although we register a ABRT handler to kill off QEMU
++         * when g_assert() triggers, we want an extra safety
++         * net. The QEMU process might be non-functional and
++         * thus not have responded to SIGTERM. The test script
++         * might also have crashed with SEGV, in which case the
++         * cleanup handlers won't ever run.
++         *
++         * This PR_SET_PDEATHSIG setup will ensure any remaining
++         * QEMU will get terminated with SIGKILL in these cases.
++         */
++        prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
++#endif /* __linux__ */
+         if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
+             exit(1);
+         }
 -- 
 2.36.1
 
