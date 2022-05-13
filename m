@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25CD5258EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 02:17:11 +0200 (CEST)
-Received: from localhost ([::1]:56532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1285258EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 02:18:47 +0200 (CEST)
+Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npIzW-0006xs-Pp
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 20:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56382)
+	id 1npJ14-00008C-K2
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 20:18:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npIpE-0007Oa-Nw
- for qemu-devel@nongnu.org; Thu, 12 May 2022 20:06:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30804)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1npIyR-00069C-90
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 20:16:03 -0400
+Received: from mga03.intel.com ([134.134.136.65]:4145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npIpC-0007oE-Ci
- for qemu-devel@nongnu.org; Thu, 12 May 2022 20:06:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652400389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H8uNAFWjMGftZ0M1OlBuJbAV4IpB/yDoRqa4iGIxhxQ=;
- b=PISIVD6daJVTkaB7nSOyXsurLkM6NlM52lOu4xESWWM/mD2fit6Ru7BhQsdp5XLtnYDo0d
- eVe/jJIWH+rSBN8JGDrd/bUYEZ+K9oKDzzgGqvh8fuoY+qUDSJvSdWX884uUJzZh380SpD
- jaUMJpHe3WH3f3IcoIWco/QyQDo0PqA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-wh66j9hyP6WAx2GbSheQVA-1; Thu, 12 May 2022 20:06:26 -0400
-X-MC-Unique: wh66j9hyP6WAx2GbSheQVA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04D5F801E80;
- Fri, 13 May 2022 00:06:26 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.8.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2041715341CE;
- Fri, 13 May 2022 00:06:24 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Hanna Reitz <hreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH 9/9] iotests: use tests/venv for running tests
-Date: Thu, 12 May 2022 20:06:09 -0400
-Message-Id: <20220513000609.197906-10-jsnow@redhat.com>
-In-Reply-To: <20220513000609.197906-1-jsnow@redhat.com>
-References: <20220513000609.197906-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1npIyO-0000t9-UV
+ for qemu-devel@nongnu.org; Thu, 12 May 2022 20:16:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652400960; x=1683936960;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=1btgLcVFaoIL4FwmxtQ2dsqUiIPJhTN5EsOsNLdNOPI=;
+ b=PQxyvqJs7z180fExOQ6bZT0qSj1Ysmqr5vmI9GPm2G6RyNe9EIlWtjbw
+ QQS932+AyM37KKgR22vMxavOjZXZ6r0ghWPiYRQjQlSuTFK2EdvBxS17t
+ YyrNJ1RHtUrwoWBEuiPuZpIaNj9cnVcxC3ZEuOnovEJkRLiE3ttW2FeJl
+ 4jVVU++rYgnWkp1+/Z4iG4dasYQWdpGEWL/PSi0KPJc0K3fGqaQSFSMut
+ sJMNXaCBVRmgO+HWfSIxRjaFrtyZgDsVa6KdxtMngzUe0Co2gBjZkJrC5
+ HWZCxPzzhtoM9vO40sgSmG+VVSU9j9pyhyDnJxNEa5x+nywYFp4tKRqTh g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="270105817"
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="270105817"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2022 17:15:57 -0700
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="594944859"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.175.214])
+ ([10.249.175.214])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2022 17:15:52 -0700
+Message-ID: <7b941ee5-f4cb-bcc7-5f8a-f9469f977b52@intel.com>
+Date: Fri, 13 May 2022 08:15:50 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.8.1
+Subject: Re: [RFC PATCH v4 09/36] KVM: Introduce kvm_arch_pre_create_vcpu()
+Content-Language: en-US
+To: Isaku Yamahata <isaku.yamahata@gmail.com>, g@ls.amr.corp.intel.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, isaku.yamahata@intel.com,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-10-xiaoyao.li@intel.com>
+ <20220512175059.GF2789321@ls.amr.corp.intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220512175059.GF2789321@ls.amr.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=xiaoyao.li@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,92 +91,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Essentially, this:
+On 5/13/2022 1:50 AM, Isaku Yamahata wrote:
+> On Thu, May 12, 2022 at 11:17:36AM +0800,
+> Xiaoyao Li <xiaoyao.li@intel.com> wrote:
+> 
+>> Introduce kvm_arch_pre_create_vcpu(), to perform arch-dependent
+>> work prior to create any vcpu. This is for i386 TDX because it needs
+>> call TDX_INIT_VM before creating any vcpu.
+> 
+> Because "11/36 i386/tdx: Initialize TDX before creating TD vcpus" uses
+> kvm_arch_pre_create_vcpu() (and 10/36 doesn't use it), please move this patch
+> right before 11/36. (swap 09/36 and 10/36).
+> 
 
-(A) adjusts the python binary to be the one found in the venv (which is
-a symlink to the python binary chosen at configure time)
+OK.
 
-(B) adds a new VIRTUAL_ENV export variable
+I will change the order.
 
-(C) changes PATH to front-load the venv binary directory.
-
-If the venv directory isn't found, raise a friendly exception that tries
-to give the human operator a friendly clue as to what's gone wrong. In
-the very near future, I'd like to teach iotests how to fix this problem
-entirely of its own volition, but that's a trick for a little later.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/testenv.py | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
-
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 0007da3f06c..fd3720ed7e7 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -65,8 +65,9 @@ class TestEnv(ContextManager['TestEnv']):
-     # lot of them. Silence pylint:
-     # pylint: disable=too-many-instance-attributes
- 
--    env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
--                     'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
-+    env_variables = ['PYTHONPATH', 'VIRTUAL_ENV', 'PYTHON',
-+                     'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
-+                     'QEMU_PROG', 'QEMU_IMG_PROG',
-                      'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
-                      'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
-                      'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
-@@ -98,6 +99,10 @@ def get_env(self) -> Dict[str, str]:
-             if val is not None:
-                 env[v] = val
- 
-+        env['PATH'] = os.pathsep.join((
-+            os.path.join(self.virtual_env, 'bin'),
-+            os.environ['PATH']
-+        ))
-         return env
- 
-     def init_directories(self) -> None:
-@@ -107,13 +112,17 @@ def init_directories(self) -> None:
-              SOCK_DIR
-              SAMPLE_IMG_DIR
-         """
--
--        # Path where qemu goodies live in this source tree.
--        qemu_srctree_path = Path(__file__, '../../../python').resolve()
-+        venv_path = Path(self.build_root, 'tests/venv/')
-+        if not venv_path.exists():
-+            raise FileNotFoundError(
-+                f"Virtual environment \"{venv_path!s}\" isn't found."
-+                " (Maybe you need to run 'make check-venv'"
-+                " from the build dir?)"
-+            )
-+        self.virtual_env: str = str(venv_path)
- 
-         self.pythonpath = os.pathsep.join(filter(None, (
-             self.source_iotests,
--            str(qemu_srctree_path),
-             os.getenv('PYTHONPATH'),
-         )))
- 
-@@ -138,7 +147,7 @@ def init_binaries(self) -> None:
-              PYTHON (for bash tests)
-              QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
-         """
--        self.python = sys.executable
-+        self.python: str = os.path.join(self.virtual_env, 'bin', 'python3')
- 
-         def root(*names: str) -> str:
-             return os.path.join(self.build_root, *names)
-@@ -300,6 +309,7 @@ def print_env(self, prefix: str = '') -> None:
- {prefix}GDB_OPTIONS   -- {GDB_OPTIONS}
- {prefix}VALGRIND_QEMU -- {VALGRIND_QEMU}
- {prefix}PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
-+{prefix}VIRTUAL_ENV   -- {VIRTUAL_ENV}
- {prefix}"""
- 
-         args = collections.defaultdict(str, self.get_env())
--- 
-2.34.1
 
 
