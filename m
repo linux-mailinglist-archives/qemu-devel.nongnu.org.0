@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1885752662F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:35:20 +0200 (CEST)
-Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD55652664C
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:39:10 +0200 (CEST)
+Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npXJy-0004jS-45
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:35:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44054)
+	id 1npXNl-0007sa-Hs
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npXI9-00033V-3q; Fri, 13 May 2022 11:33:21 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43604)
+ id 1npXJ0-0004Mn-A2; Fri, 13 May 2022 11:34:14 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npXI7-0006eI-Cz; Fri, 13 May 2022 11:33:20 -0400
-Received: by mail-ej1-x631.google.com with SMTP id m20so16926718ejj.10;
- Fri, 13 May 2022 08:33:18 -0700 (PDT)
+ id 1npXIy-0006hS-Pc; Fri, 13 May 2022 11:34:13 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id ba17so10425111edb.5;
+ Fri, 13 May 2022 08:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=DDrgyDJD29AL3YuCNB/4Vq6ATMUrPA+dVOs11so7vEM=;
- b=KNygjEN1vw2VBHIjPxX8DJE7kywviKKLX73B+yjz43NmihxK6mepMKaS05n2amthkv
- /WIXsOICsrTrrqQai95Ua0oDCYhFSN/b66mTfbj8PjBN4bOa6TxyWpYYRLjzLYKCDCuW
- xWxhh1/5Wq8xGbVrFvzWt9506/geHmU7Sc4ve8WUAqxhueOE3cWUrxkHfk15rhx4YeMP
- Nml1rtUywNLmoIIU4i7uqAQadr8k61EAUEvDEAdifn7VJeSTR+05fbal77mpea8d0aF8
- YBVbxKal7IjoxRdinFJMyOI2MuW1FJ28URnx8o/GD3miRTSY5uItdThgXi3ngZqN0YMP
- qFdA==
+ bh=uKF/OaF2U5Ze8wB6DHbE8BQy3DLd0gCTSk5bNtFgVyk=;
+ b=iv7FxewJfpo0Ti6Sz3c1Tscm1ikFzv3q1eDLGIlyE/y8Jj6/PBy2/Ohw6eNyD9nbmF
+ yDtOsom6LbbeMTx1QFORRbeu/8dywXCSsVsm6CvQhnrgUAkHvcBC4rXBlgnXRNl5u5ca
+ BsJzZM74wTrzQRyeQpVSokvosQ9efSwVjLcfh78gVNyhx/TEg4/RiA1e4ew7E8BDXtZ4
+ 9rxam3PyipE6CZZyt/t0CEvhC7ZHBrSgWdckBgF7ZlGDYSlvwndS5VyBW6mJVkgaclQd
+ /A+PAGIJpIEMKCzz9xEaWOjPquNR8w4rmPJA/gY2cd7FvQbKvmt887deJhQ/INSyQrFJ
+ PnuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=DDrgyDJD29AL3YuCNB/4Vq6ATMUrPA+dVOs11so7vEM=;
- b=BjLpT6i8nkBq3F8sQUHp1IYXvRCi/mAUzdOS7deCUbJXh9VGAC3bjkUjcad+leNo4g
- FCZKRnALkAudbqoLY8gTHIoccAueMM1pTCuELfBoQu4doQrxPDTKZijKOMd/0MxqwjYx
- /vghO/nEkpVMN2bGlF9kwnKED4TOKCVkWcMAdkLIyB3o5VtjgXJ9NJ8w0LvODEqRD4rw
- zFY4RMPJ7uZkJDT07l82YDT9fr9Yo9T1JiuoO/90b66R0XjgFjWikzXzE+bdrMVmGLtW
- js9HbgwvFY1tRgGhwI4tduclLvrNTpAD4chB1baRDBCpeaE+qePAWWH9QZkLJASmMSgz
- OYBg==
-X-Gm-Message-State: AOAM530jvcGJkOZEBoZNqTRw9Xxr/Kw4nB6CdazYCmUB2uPjl4fo7qrS
- 5OuZSpj+RUnqB7rUym7EyxMxLQKklZ6HUA==
-X-Google-Smtp-Source: ABdhPJyc5RiMxWbQTBCw4EVeODUbqAb8NhDN6n0dto39x6e65oxVFx+rfh6k6foWAV+COj/zl40oFg==
-X-Received: by 2002:a17:907:971f:b0:6f4:31b1:253 with SMTP id
- jg31-20020a170907971f00b006f431b10253mr4658833ejc.342.1652455996942; 
- Fri, 13 May 2022 08:33:16 -0700 (PDT)
+ bh=uKF/OaF2U5Ze8wB6DHbE8BQy3DLd0gCTSk5bNtFgVyk=;
+ b=h3eSIu3HXVm8FpqRWbRHAV6dlrJAxGCmvnCpDC6czmmfxdDINU0F36le2DzBmC5Pkw
+ LyyBJOUUNMbtH3egthHtWKLd7SOmKWycOw7yVO9nxUJu4Kc3hcsetBqMTE2rRKhI2Gcm
+ vMmvV/TcyTc3j665B9WLlcg9fimGyuY/M7ViayiNEIskTCH78th0oXiGSUg6K/+rBRY8
+ h601QTJ4Wzt0wgZWcxgrED2mpVuJRi9PgBUrmUtVLP8aiE93JRJMwRPJOBTjEtE+vedX
+ HbueLGgNmE2olBiBL5nCbI82tZEk1EgQStjnJgRmIGUSgvI0Z2talTYtyTSOW1McSfab
+ nv+A==
+X-Gm-Message-State: AOAM5321ObXe0GZYfdYNzKBOM850rvsnWk7NhBGLam7rMjkuidUbr3MC
+ GmHjrRomlt1oW+JjfyzAAfc=
+X-Google-Smtp-Source: ABdhPJxvjR15YVFbpOsq4yPlK05CdohKPhGBCgm9m8u82YtxaUTPu+kx4eaBb9WIDFzfta/79rnAdw==
+X-Received: by 2002:a05:6402:50d2:b0:428:b39:5c08 with SMTP id
+ h18-20020a05640250d200b004280b395c08mr41092778edb.146.1652456050786; 
+ Fri, 13 May 2022 08:34:10 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- jx4-20020a170907760400b006f3ef214dccsm849962ejc.50.2022.05.13.08.33.15
+ n19-20020a17090673d300b006f52dbc192bsm894864ejl.37.2022.05.13.08.34.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 08:33:16 -0700 (PDT)
-Message-ID: <b30dd93b-0ced-0aea-5e84-57fa4294f4ad@redhat.com>
-Date: Fri, 13 May 2022 17:33:14 +0200
+ Fri, 13 May 2022 08:34:10 -0700 (PDT)
+Message-ID: <e55f3fcc-28c7-9bd5-bc52-526106ab7eae@redhat.com>
+Date: Fri, 13 May 2022 17:34:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 9/9] iotests: use tests/venv for running tests
+Subject: Re: [RFC PATCH 6/9] tests: add check-venv as a dependency of check
+ and check-block
 Content-Language: en-US
 To: John Snow <jsnow@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
@@ -70,15 +71,15 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
  <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20220513000609.197906-1-jsnow@redhat.com>
- <20220513000609.197906-10-jsnow@redhat.com>
- <ab6d4171-74f0-3b6c-9ffc-1ed8f4fb0493@redhat.com>
- <CAFn=p-b19dDshg7ShuNqhH+1h_ptYL4qpZSkTvnVnZOPT3g8HQ@mail.gmail.com>
+ <20220513000609.197906-7-jsnow@redhat.com>
+ <cce38c36-30d6-2868-8e50-570216891549@redhat.com>
+ <CAFn=p-ZXjaGN8Sf8+UxS9q1-xZD4_g4A6MBes2ip3JevUt1Tpw@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFn=p-b19dDshg7ShuNqhH+1h_ptYL4qpZSkTvnVnZOPT3g8HQ@mail.gmail.com>
+In-Reply-To: <CAFn=p-ZXjaGN8Sf8+UxS9q1-xZD4_g4A6MBes2ip3JevUt1Tpw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -102,25 +103,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 16:38, John Snow wrote:
-> It *should*, because "#!/usr/bin/env python3" is the preferred shebang 
-> for Python scripts.
+On 5/13/22 16:12, John Snow wrote:
 > 
-> https://peps.python.org/pep-0394/ <https://peps.python.org/pep-0394/>
+>     I think you need instead:
 > 
-> 'python3' "should" be available. 'python' may not be.
+>     # The do-meson-check and do-meson-bench targets are defined in
+>     Makefile.mtest
+>     do-meson-check do-meson-bench: check-venv
 > 
-> Probably the "python" name in Makefile for TESTS_PYTHON should actually 
-> be "python3" as well. In practice, all permutations (python, python3, 
-> python3.9, etc.) are symlinks* to the binary used to create the venv. 
-> Which links are present may be site configurable, but pep394 should 
-> guarantee that python3 is always available.
+>     and I would even add "all" to the targets that create the virtual
+>     environment.
+> 
+>     Paolo
+> 
+> 
+> Great, thanks! I'll try that out today.
 
-IIRC we have some cases (FreeBSD?) where only the python3.x executable 
-is available.  This is why we 1) default to Meson's Python 3 if neither 
---meson nor --python are passed, and 2) use the shebang you mention but 
-with *non-executable* files, which Meson treats magically as "invoke 
-with the Python interpreter that was used to launch me".
+Well, check out the other suggestion of creating the venv at configure 
+time, because that would remove all these complications/annoyances.
 
 Paolo
 
