@@ -2,69 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149E3526155
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:47:31 +0200 (CEST)
-Received: from localhost ([::1]:58060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F47C526173
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:56:46 +0200 (CEST)
+Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npTlZ-0001na-M5
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47260)
+	id 1npTuX-0003an-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npTiV-0000xx-GD
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:44:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46796)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1npTny-0003Ht-2L; Fri, 13 May 2022 07:49:58 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npTiS-0008OZ-Dl
- for qemu-devel@nongnu.org; Fri, 13 May 2022 07:44:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652442254;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NcqXPT4kfc4aU1VYXgHoO21ZNKz2jyW65ErDTIIqPqc=;
- b=HddJYUtJgWnqZwVpXsnvAi2fEAcHxo9K/pIjFzjZGO7BO9aXU5vyaaSoy5cePl7uhsYTC1
- aahfr23g90bEbXbj0SGK8Xls0LeLEf+qkNH9o0i8wneBCPGpVqboydIefsjz6iXRE6ZXXA
- LmVAwzYlujTQZRZuvNEx1rEVMo+iB/M=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-OK2O-uFWNCy7GvpytaJtyA-1; Fri, 13 May 2022 07:44:13 -0400
-X-MC-Unique: OK2O-uFWNCy7GvpytaJtyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F9BB38349C3
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 11:44:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D49D1121331;
- Fri, 13 May 2022 11:44:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C1CEC21E690D; Fri, 13 May 2022 13:44:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 3/8] qapi: net: add stream and dgram netdevs
-References: <20220512080932.735962-1-lvivier@redhat.com>
- <20220512080932.735962-4-lvivier@redhat.com>
-Date: Fri, 13 May 2022 13:44:11 +0200
-In-Reply-To: <20220512080932.735962-4-lvivier@redhat.com> (Laurent Vivier's
- message of "Thu, 12 May 2022 10:09:27 +0200")
-Message-ID: <87fsld1wtw.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1npTnw-0000mw-4h; Fri, 13 May 2022 07:49:57 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id E926811EFFE;
+ Fri, 13 May 2022 11:49:54 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Fri, 13 May 2022 11:49:54 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Subject: [PATCH qemu v18 00/16] Add tail agnostic behavior for rvv instructions
+Message-ID: <165244259451.12806.1710403216414520477-0@git.sr.ht>
+X-Mailer: git.sr.ht
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,291 +54,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+According to v-spec, tail agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of tail policies, QEMU should be able to simulate the tail
+agnostic behavior as "set tail elements' bits to all 1s". An option
+'rvv_ta_all_1s' is added to enable the behavior, it is default as
+disabled.
 
-> Copied from socket netdev file and modified to use SocketAddress
-> to be able to introduce new features like unix socket.
->
-> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
-> according to the IP address type.
-> "listen" and "connect" modes are managed by stream netdev. An optional
-> parameter "server" defines the mode (server by default)
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  hmp-commands.hx |   2 +-
->  net/clients.h   |   6 +
->  net/dgram.c     | 630 ++++++++++++++++++++++++++++++++++++++++++++++++
->  net/hub.c       |   2 +
->  net/meson.build |   2 +
->  net/net.c       |  24 +-
->  net/stream.c    | 425 ++++++++++++++++++++++++++++++++
->  qapi/net.json   |  38 ++-
->  8 files changed, 1125 insertions(+), 4 deletions(-)
->  create mode 100644 net/dgram.c
->  create mode 100644 net/stream.c
->
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 03e6a73d1f55..172dbab1dfed 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1269,7 +1269,7 @@ ERST
->      {
->          .name       = "netdev_add",
->          .args_type  = "netdev:O",
-> -        .params     = "[user|tap|socket|vde|bridge|hubport|netmap|vhost-user],id=str[,prop=value][,...]",
-> +        .params     = "[user|tap|socket|stream|dgram|vde|bridge|hubport|netmap|vhost-user],id=str[,prop=value][,...]",
->          .help       = "add host network device",
->          .cmd        = hmp_netdev_add,
->          .command_completion = netdev_add_completion,
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between tail policies. Setting agnostic elements to
+all 1s makes things simple and allow QEMU to express this.
 
-Does qemu-options.hx need an update, too?
+We may explore other possibility of agnostic behavior by adding
+other options in the future. Please understand that this patch-set
+is limited.
 
-> diff --git a/net/clients.h b/net/clients.h
-> index 92f9b59aedce..c1b51d79b147 100644
-> --- a/net/clients.h
-> +++ b/net/clients.h
-> @@ -40,6 +40,12 @@ int net_init_hubport(const Netdev *netdev, const char *name,
->  int net_init_socket(const Netdev *netdev, const char *name,
->                      NetClientState *peer, Error **errp);
->  
-> +int net_init_stream(const Netdev *netdev, const char *name,
-> +                    NetClientState *peer, Error **errp);
-> +
-> +int net_init_dgram(const Netdev *netdev, const char *name,
-> +                   NetClientState *peer, Error **errp);
-> +
->  int net_init_tap(const Netdev *netdev, const char *name,
->                   NetClientState *peer, Error **errp);
->  
-> diff --git a/net/dgram.c b/net/dgram.c
-> new file mode 100644
-> index 000000000000..aa4240501ed0
-> --- /dev/null
-> +++ b/net/dgram.c
-> @@ -0,0 +1,630 @@
-> +/*
-> + * QEMU System Emulator
-> + *
-> + * Copyright (c) 2003-2008 Fabrice Bellard
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
+v2 updates:
+- Addressed comments from Weiwei Li
+- Added commit tail agnostic on load / store instructions (which
+  I forgot to include into the patch-set)
 
-Blank line here, please.
+v3 updates:
+- Missed the very 1st commit, adding it back
 
-Why not GPLv2+?
+v4 updates:
+- Renamed vlmax to total_elems
+- Deal with tail element when vl_eq_vlmax == true
 
-> +#include "qemu/osdep.h"
+v5 updates:
+- Let `vext_get_total_elems` take `desc` and `esz`
+- Utilize `simd_maxsz(desc)` to get `vlenb`
+- Fix alignments to code
 
-[...]
+v6 updates:
+- Fix `vext_get_total_elems`
 
-> diff --git a/net/net.c b/net/net.c
-> index 2aab7167316c..fd6b30a10c57 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1015,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
->  #endif
->          [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
->          [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
-> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
-> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
->  #ifdef CONFIG_VDE
->          [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
->  #endif
-> @@ -1097,6 +1099,8 @@ void show_netdevs(void)
->      int idx;
->      const char *available_netdevs[] = {
->          "socket",
-> +        "stream",
-> +        "dgram",
->          "hubport",
->          "tap",
->  #ifdef CONFIG_SLIRP
-> @@ -1606,7 +1610,25 @@ int net_init_clients(Error **errp)
->   */
->  static bool netdev_is_modern(const char *optarg)
->  {
-> -    return false;
-> +    static QemuOptsList dummy_opts = {
-> +        .name = "netdev",
-> +        .implied_opt_name = "type",
-> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
-> +        .desc = { { } },
-> +    };
-> +    const char *netdev;
-> +    QemuOpts *opts;
-> +    bool is_modern;
-> +
-> +    opts = qemu_opts_parse(&dummy_opts, optarg, true, &error_fatal);
-> +    netdev = qemu_opt_get(opts, "type");
-> +
-> +    is_modern = strcmp(netdev, "stream") == 0 ||
-> +                strcmp(netdev, "dgram") == 0;
+v7 updates:
+- Reuse `max_elems` for vector load / store helper functions. The
+  translation sets desc's `lmul` to `min(1, lmul)`, making
+  `vext_max_elems` equivalent to `vext_get_total_elems`.
 
-Crashes when user neglects to pass "type".
-> +
-> +    qemu_opts_reset(&dummy_opts);
-> +
-> +    return is_modern;
->  }
+v8 updates:
+- Simplify `vext_set_elems_1s`, don't need `vext_set_elems_1s_fns`
+- Fix `vext_get_total_elems`, it should derive upon EMUL instead
+  of LMUL
 
-Reminder: netdev_is_modern() governs whether to use QemuOpts + opts
-visitor or qobject_input_visitor_new_str().
+v9 updates:
+- Let instructions that is tail agnostic regardless of vta respect the
+  option and not the vta.
 
-To decide, it uses QemuOpts with a dummy QemuOptsList.
+v10 updates:
+- Correct range to set element to 1s for load instructions
 
-Since we parse errors are fatal here, new syntax must also parse fine as
-QemuOpts.  Undesirable, I think.
+v11 updates:
+- Separate addition of option 'rvv_ta_all_1s' as a new (last) commit
+- Add description to show intent of the option in first commit for the
+  optional tail agnostic behavior
+- Tag WeiWei as Reviewed-by for all commits
+- Tag Alistair as Reviewed-by for commit 01, 02
+- Tag Alistair as Acked-by for commit 03
 
-Cleaner, I think:
+v12 updates:
+- Add missing space in WeiWei's "Reviewed-by" tag
 
-    args = keyval_parse(optarg, "type", NULL, NULL);
-    if (!args) {
-        return false;
-    }
-    type = qdict_get_try_str(args, "type");
-    return !g_strcmp0(type, "dgram") || !g_strcmp0(type, "stream");
+v13 updates:
+- Fix tail agnostic for vext_ldst_us. The function operates on input
+  parameter 'evl' rather than 'env->vl'.
+- Fix tail elements for vector segment load / store instructions
+  A vector segment load / store instruction may contain fractional
+  lmul with nf * lmul > 1. The rest of the elements in the last
+  register should be treated as tail elements.
+- Fix tail agnostic length for instructions with mask destination
+  register. Instructions with mask destination register should have
+  'vlen - vl' tail elements.
 
-Not even compile-tested.
+v14 updates:
+- Pass lmul information to into vector helper function.
+  `vext_get_total_elems` needs it.
 
-Still probematic: syntax error reporting.  When keyval_parse() fails
-here, we use QemuOpts, and therefore get QemuOpts syntax errors.  I fear
-that could be quite confusing.
+v15 updates:
+- Rebase to latest `master`
+- Tag Alistair as Acked by for commit 04 ~ 14
+- Tag Alistair as Acked by for commit 15
 
->  
->  int net_client_parse(QemuOptsList *opts_list, const char *optarg)
-> diff --git a/net/stream.c b/net/stream.c
-> new file mode 100644
-> index 000000000000..fdc97ee43a56
-> --- /dev/null
-> +++ b/net/stream.c
-> @@ -0,0 +1,425 @@
-> +/*
-> + * QEMU System Emulator
-> + *
-> + * Copyright (c) 2003-2008 Fabrice Bellard
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
+v16 updates:
+- Fix bug, when encountering situation when lmul < 0 and vl_eq_vlmax,
+  the original version will override on `vd` but the computation will
+  override again, meaning the tail elements will not be set correctly.
+  Now, we don't use TCG functions if we are trying to simulate all 1s
+  for agnostic and use vector helpers instead.
 
-Blank line here, please.
+v17 updates:
+- Add "Prune access_type parameter" commit to cleanup vector load/
+  store functions. Then add parameter `is_load` in vector helper
+  functions to enable vta behavior in the commit for adding vta on
+  vector load/store functions.
 
-Why not GPLv2+?
+v18 updates:
+- Don't use `is_load` parameter in vector helper. Don't let vta pass
+   through in `trans_rvv.inc`
 
-> +#include "qemu/osdep.h"
+eopXD (16):
+  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+  target/riscv: rvv: Prune redundant access_type parameter passed
+  target/riscv: rvv: Rename ambiguous esz
+  target/riscv: rvv: Early exit when vstart >= vl
+  target/riscv: rvv: Add tail agnostic for vv instructions
+  target/riscv: rvv: Add tail agnostic for vector load / store
+    instructions
+  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+  target/riscv: rvv: Add tail agnostic for vector integer shift
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer comparison
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer merge and move
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector floating-point
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector reduction instructions
+  target/riscv: rvv: Add tail agnostic for vector mask instructions
+  target/riscv: rvv: Add tail agnostic for vector permutation
+    instructions
+  target/riscv: rvv: Add option 'rvv_ta_all_1s' to enable optional tail
+    agnostic behavior
 
-[...]
+ target/riscv/cpu.c                      |    1 +
+ target/riscv/cpu.h                      |    2 +
+ target/riscv/cpu_helper.c               |    2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |   94 +-
+ target/riscv/internals.h                |    6 +-
+ target/riscv/translate.c                |    4 +
+ target/riscv/vector_helper.c            | 1587 ++++++++++++++---------
+ 7 files changed, 1053 insertions(+), 643 deletions(-)
 
-> diff --git a/qapi/net.json b/qapi/net.json
-> index b92f3f5fb444..eef288886e1b 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -7,6 +7,7 @@
->  ##
->  
->  { 'include': 'common.json' }
-> +{ 'include': 'sockets.json' }
->  
->  ##
->  # @set_link:
-> @@ -452,6 +453,37 @@
->      '*vhostdev':     'str',
->      '*queues':       'int' } }
->  
-> +##
-> +# @NetdevStreamOptions:
-> +#
-> +# Configuration info for stream socket netdev
-> +#
-> +# @addr: socket address to listen on (server=true)
-> +#        or connect to (server=false)
-> +# @server: create server socket (default: true)
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'NetdevStreamOptions',
-> +  'data': {
-> +    'addr':   'SocketAddress',
-> +    '*server': 'bool' } }
-> +
-> +##
-> +# @NetdevDgramOptions:
-> +#
-> +# Configuration info for datagram socket netdev.
-> +#
-> +# @remote: remote address
-> +# @local: local address
-
-Defaults?
-
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'NetdevDgramOptions',
-> +  'data': {
-> +    '*local':  'SocketAddress',
-> +    '*remote': 'SocketAddress' } }
-> +
->  ##
->  # @NetClientDriver:
->  #
-> @@ -462,8 +494,8 @@
->  #        @vhost-vdpa since 5.1
->  ##
->  { 'enum': 'NetClientDriver',
-> -  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
-> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
-> +  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'stream', 'dgram',
-> +            'vde', 'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
-
-Long lines.
->  
->  ##
->  # @Netdev:
-> @@ -487,6 +519,8 @@
->      'tap':      'NetdevTapOptions',
->      'l2tpv3':   'NetdevL2TPv3Options',
->      'socket':   'NetdevSocketOptions',
-> +    'stream':   'NetdevStreamOptions',
-> +    'dgram':    'NetdevDgramOptions',
->      'vde':      'NetdevVdeOptions',
->      'bridge':   'NetdevBridgeOptions',
->      'hubport':  'NetdevHubPortOptions',
-
+-- 
+2.34.2
 
