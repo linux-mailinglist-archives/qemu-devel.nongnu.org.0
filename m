@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAFD526368
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:04:49 +0200 (CEST)
-Received: from localhost ([::1]:60848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D37C526371
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:08:31 +0200 (CEST)
+Received: from localhost ([::1]:37150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npVuS-0003aA-RA
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:04:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49376)
+	id 1npVy1-0007L5-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npVr3-0000Ac-P3
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:01:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41965)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npVsh-0002GP-CW
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:02:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npVr0-0008At-Pk
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:01:16 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npVsf-0008Ml-N2
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:02:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652450473;
+ s=mimecast20190719; t=1652450577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=48ijokbVfLIHLgPfNYLaxAuM45Ek2mRYlAI0bFMPMjc=;
- b=NIwnjX8gDOccg5oo4wVebp+WiTpe0QJeiI7zqJHg4W3KlG8/XEtLVJjvUT77RGiHp+gJCm
- ZAN6+sDMA3wmgp24ALU7oNGQ5n7cQgR5v0mb0ZxQbrJKoNh03oACqyFGz9Y3c2ZatKU9+2
- Cnm3hw22ev04/UeyCCv8PH3DKw0PH9I=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gxEXttkchO0QoLbiQoT2UHjLxLYfvKahCX4xo8ZSKgw=;
+ b=h8DJDSJyOO5uKY7B2b3zjdTUMt8/gLgdWFEydadYFdSqRGtrpEIYk9c2mIQCoL8ROJUN/l
+ KCLEK5cUdPQp1XW0QSeuh9DWRSZLzcSLKEos/SBJrLjr7NZ+XZ/w7I3twW1LbdmdTrRLxt
+ Ok5bkup1SaMLVZxAruOPMCIUNjCkDes=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-408-3aIGdVEhOdOhEedyQJ0rRQ-1; Fri, 13 May 2022 10:01:12 -0400
-X-MC-Unique: 3aIGdVEhOdOhEedyQJ0rRQ-1
-Received: by mail-ua1-f72.google.com with SMTP id
- z12-20020ab0770c000000b0035fb10cfc86so3831995uaq.2
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 07:01:11 -0700 (PDT)
+ us-mta-108-5WpXmaYvOd6CPG36O-vdTA-1; Fri, 13 May 2022 10:02:55 -0400
+X-MC-Unique: 5WpXmaYvOd6CPG36O-vdTA-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ s14-20020ab02bce000000b0035d45862725so3787934uar.22
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 07:02:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=48ijokbVfLIHLgPfNYLaxAuM45Ek2mRYlAI0bFMPMjc=;
- b=MZhSQXWC+dqqD4EqsWur73OUX3UeFM7bm6aU0V6/K0csczA0x8kXBH31LIfqV5NquO
- GSf3DFPlN/7ka1MPz41B5gB1U2/H20H9PxPVtW1cE/Hz2bTZYus0PV6Uq3N0nlQ79wXV
- ChqW3d4nvtONl/5l524xs12ixCOEMWVV2vG0heIUtETDgoJH1iEhmtIcoDO8C6g0GqwJ
- 5hbUntvXU5XR0YtIRjgUo3YMAHc0Dna5zgRr1zrPbosoOXEVDYIhhxr7oBa/aG6lKPj7
- 1PJ8QpaVW/aw+yQPEmPFOjCRTZtarGidfpWWZrquRiItRcpQBlmlx1umYKQLWjm+up7g
- n6CQ==
-X-Gm-Message-State: AOAM530jmf873yy/3/151vsGErJD5pOz1KThq+r2n3fZsqXlG+ee89Qw
- hpOxQeB8O0XnOI9dnWyDIMM84eLkz9Wv8CHjIolLBwRW3wq+EBUtQo0uFpB2jsGhpAHwBkXTX4y
- z4L8wih+lcAojT5oPDa2Flu9BwF4Lu8o=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr2523508vsa.38.1652450471220; 
- Fri, 13 May 2022 07:01:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHXcRtAYS+xD07jsjk++hjWc+e/dpFheU464dl9AbdlqimISKvQjJizPNn4ZCDUnNFcqXcWh1not5cmPYCONY=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr2523443vsa.38.1652450470657; Fri, 13 May
- 2022 07:01:10 -0700 (PDT)
+ bh=gxEXttkchO0QoLbiQoT2UHjLxLYfvKahCX4xo8ZSKgw=;
+ b=1X8ALCfaes9Us7haTWg1oaGQCI7lEtnygFMoGdY2iCRJ+Lofo+BaoQmIEadkbK2DcA
+ zkkuoV4oKsO6N7eBxRftMY1VSuNKnLy2ZgaD/0X4d3OG04hYvGJUaNaa6GAC+huMGV0O
+ hbhQdBpri6kOSoi4Cd3S2zJIwMPp/JU74vfUJwQPj0mMlENPAHqecaHFvMRwBvhwiJEp
+ Y4NIZqfPdx8P+HVuh/ATdmOAh4ABcbxixoVECwMtqXnXHB2t2MdZSx+4REgz/JRvQBGn
+ LZd5ulbqC7GYRQztSA8GhNxj53f0H/eGsqWWSTObaxiSmE2q12/E3fkY1KLZbE4O05Wx
+ bw0A==
+X-Gm-Message-State: AOAM5332rVWcEPzP1hXio4UN88qs5bMMUsUh7IvMKl28b9iv62ByHT+0
+ bQGdh6nlqmfM5ovjEkuBNfcSviXfoW5GR915QttB7Bu9rLq3UEPwnozxWmyqBBbw9lR8YGqpjIg
+ F/NpjHs/nxUAmpj49zboUP6LwrJqvcWc=
+X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
+ l23-20020a67fe17000000b0032ce77ec3b4mr2427017vsr.11.1652450570849; 
+ Fri, 13 May 2022 07:02:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8Q6Vcf2+lVb3ASnRiAqpNh2pXPi4gkB25BDgrUYco4lkBMcHuv1adY6oO0FboTzPqt4fy35aYDn/g3twhRBU=
+X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
+ l23-20020a67fe17000000b0032ce77ec3b4mr2426454vsr.11.1652450564858; Fri, 13
+ May 2022 07:02:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220513000609.197906-1-jsnow@redhat.com>
- <20220513000609.197906-4-jsnow@redhat.com>
- <e4cf4ded-6b04-ac69-e883-f6aa87a8f8fb@redhat.com>
-In-Reply-To: <e4cf4ded-6b04-ac69-e883-f6aa87a8f8fb@redhat.com>
+ <20220513000609.197906-5-jsnow@redhat.com>
+ <1cf29802-0962-0b81-63c7-929641f593d4@redhat.com>
+In-Reply-To: <1cf29802-0962-0b81-63c7-929641f593d4@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Fri, 13 May 2022 10:01:00 -0400
-Message-ID: <CAFn=p-a3xouvNRkjHnH72aeqHRiGSCKawah7_4U3_kKyCQ+HHQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/9] tests: install "qemu" namespace package into venv
+Date: Fri, 13 May 2022 10:02:34 -0400
+Message-ID: <CAFn=p-ZRxQ92nFEU=jx6VQ86PTNd3TzsxvpZJ=LW7Fo+=W2BQg@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/9] tests: silence pip upgrade warnings during venv
+ creation
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
  Cleber Rosa <crosa@redhat.com>,
@@ -73,7 +74,7 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000050148505dee51b0a"
+Content-Type: multipart/alternative; boundary="000000000000ed7a6305dee5207c"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -98,87 +99,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000050148505dee51b0a
+--000000000000ed7a6305dee5207c
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 13, 2022, 4:26 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Fri, May 13, 2022, 4:27 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
 > On 5/13/22 02:06, John Snow wrote:
-> > diff --git a/tests/requirements.txt b/tests/requirements.txt
-> > index a21b59b4439..0ba561b6bdf 100644
-> > --- a/tests/requirements.txt
-> > +++ b/tests/requirements.txt
-> > @@ -1,5 +1,6 @@
-> >   # Add Python module requirements, one per line, to be installed
-> >   # in the tests/venv Python virtual environment. For more info,
-> >   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> > +# Note that qemu.git/python/ is always implicitly installed.
-> >   avocado-framework==88.1
-> >   pycdlib==1.11.0
+> > diff --git a/tests/Makefile.include b/tests/Makefile.include
+> > index dbbf1ba535b..dfb678d379f 100644
+> > --- a/tests/Makefile.include
+> > +++ b/tests/Makefile.include
+> > @@ -109,11 +109,11 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+> $(SRC_PATH)/python/setup.cfg
+> >              $(PYTHON) -m venv $@, \
+> >              VENV, $@)
+> >       $(call quiet-command, \
+> > -            $(TESTS_PYTHON) -m pip -q install \
+> > +            $(TESTS_PYTHON) -m pip -q --disable-pip-version-check
+> install \
+> >              -e "$(SRC_PATH)/python/", PIP, "$(SRC_PATH)/python/")
+> >       $(call quiet-command, \
+> > -            $(TESTS_PYTHON) -m pip -q install -r $(TESTS_VENV_REQ), \
+> > -            PIP, $(TESTS_VENV_REQ))
+> > +            $(TESTS_PYTHON) -m pip -q --disable-pip-version-check
+> install \
+> > +            -r $(TESTS_VENV_REQ), PIP, $(TESTS_VENV_REQ))
+> >       $(call quiet-command, touch $@)
 >
-> Any reason not to put ./python here?  But anyway,
->
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Really nitpicking but I would have placed this change before adding the
+> second invocation of pip. :)
 >
 > Paolo
 >
 
-The path didn't work under all circumstances - I got some bad path errors
-for some permutations of CWD/build-type.
+You're right. This RFC was a little disorganized, I wasn't sure I was going
+to keep any of this code just yet, so it missed a cleanup pass.
 
-And I was not able to combine -e (for qemu) and -r (for this file) in a
-single command, so I kept the qemu install separate/special.
+(Forgive me, please!)
 
-Not ideal, I do admit.
-
-(I wanted -e for the in-tree install to not create a potential future
-landmine for someone changing python code and then getting confused as to
-why nothing changed when running e.g. iotests.)
-
---00000000000050148505dee51b0a
+--000000000000ed7a6305dee5207c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, May 13, 2022, 4:26 AM Paolo Bonzini &lt;<a hre=
+class=3D"gmail_attr">On Fri, May 13, 2022, 4:27 AM Paolo Bonzini &lt;<a hre=
 f=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></di=
 v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
 1px #ccc solid;padding-left:1ex">On 5/13/22 02:06, John Snow wrote:<br>
-&gt; diff --git a/tests/requirements.txt b/tests/requirements.txt<br>
-&gt; index a21b59b4439..0ba561b6bdf 100644<br>
-&gt; --- a/tests/requirements.txt<br>
-&gt; +++ b/tests/requirements.txt<br>
-&gt; @@ -1,5 +1,6 @@<br>
-&gt;=C2=A0 =C2=A0# Add Python module requirements, one per line, to be inst=
-alled<br>
-&gt;=C2=A0 =C2=A0# in the tests/venv Python virtual environment. For more i=
-nfo,<br>
-&gt;=C2=A0 =C2=A0# refer to: <a href=3D"https://pip.pypa.io/en/stable/user_=
-guide/#id1" rel=3D"noreferrer noreferrer" target=3D"_blank">https://pip.pyp=
-a.io/en/stable/user_guide/#id1</a><br>
-&gt; +# Note that qemu.git/python/ is always implicitly installed.<br>
-&gt;=C2=A0 =C2=A0avocado-framework=3D=3D88.1<br>
-&gt;=C2=A0 =C2=A0pycdlib=3D=3D1.11.0<br>
+&gt; diff --git a/tests/Makefile.include b/tests/Makefile.include<br>
+&gt; index dbbf1ba535b..dfb678d379f 100644<br>
+&gt; --- a/tests/Makefile.include<br>
+&gt; +++ b/tests/Makefile.include<br>
+&gt; @@ -109,11 +109,11 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ) $(SRC_PATH)=
+/python/setup.cfg<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(PYTHON) -m venv $@, =
+\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VENV, $@)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0$(call quiet-command, \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTS_PYTHON) -m pip -q i=
+nstall \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTS_PYTHON) -m pip -q -=
+-disable-pip-version-check install \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &quot;$(SRC_PATH)/p=
+ython/&quot;, PIP, &quot;$(SRC_PATH)/python/&quot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0$(call quiet-command, \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTS_PYTHON) -m pip -q i=
+nstall -r $(TESTS_VENV_REQ), \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PIP, $(TESTS_VENV_REQ))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTS_PYTHON) -m pip -q -=
+-disable-pip-version-check install \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -r $(TESTS_VENV_REQ), PIP, =
+$(TESTS_VENV_REQ))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0$(call quiet-command, touch $@)<br>
 <br>
-Any reason not to put ./python here?=C2=A0 But anyway,<br>
-<br>
-Reviewed-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
+Really nitpicking but I would have placed this change before adding the <br=
+>
+second invocation of pip. :)<br>
 <br>
 Paolo<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">The path didn&#39;t work under all circumstances - I got some bad path=
- errors for some permutations of CWD/build-type.</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">And I was not able to combine -e (for qemu) and -r=
- (for this file) in a single command, so I kept the qemu install separate/s=
-pecial.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Not ideal, I do =
-admit.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(I wanted -e for =
-the in-tree install to not create a potential future landmine for someone c=
-hanging python code and then getting confused as to why nothing changed whe=
-n running e.g. iotests.)</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+uto">You&#39;re right. This RFC was a little disorganized, I wasn&#39;t sur=
+e I was going to keep any of this code just yet, so it missed a cleanup pas=
+s.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(Forgive me, please!)=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quo=
+te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">
 </blockquote></div></div></div>
 
---00000000000050148505dee51b0a--
+--000000000000ed7a6305dee5207c--
 
 
