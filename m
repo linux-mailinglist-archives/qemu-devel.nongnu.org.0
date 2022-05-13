@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EAC525DC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 10:46:38 +0200 (CEST)
-Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBFA525DD0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 10:55:28 +0200 (CEST)
+Received: from localhost ([::1]:33308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npQwX-00044D-Or
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 04:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35938)
+	id 1npR55-00046W-2u
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 04:55:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npQsM-0001Mp-QA; Fri, 13 May 2022 04:42:19 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:35711)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1npR1U-0001ls-6o
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 04:51:45 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npQsL-0003id-BL; Fri, 13 May 2022 04:42:18 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id ks9so14880008ejb.2;
- Fri, 13 May 2022 01:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1npR1Q-0005GV-2Y
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 04:51:41 -0400
+Received: by mail-pf1-x436.google.com with SMTP id a11so7142712pff.1
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 01:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8AEBFK3TLB23oX3L37Csh8MQg00IBeRwRhpzg3URHhQ=;
- b=NUfq3xcYPwzrLVUdSvVhvItedzr38EjuaJ37rL1zAouI70s/I7GOvllE9JP24U/f44
- 1dED5t6xsQ0sXmvBMYJ20g2/347hGorC9vo9FySLdY8G6y0rs6kGy4KM+hHV4u2hlDZr
- BUz5lqasZOpWpNYZdNfxBtQvoUMkpF14p3rd9hLNVgx/LKdOodsklW844TU0+D7kS3ah
- R9Vj6oU4+jo1K+xvS7InJ8HBSONEiXAmq+KcLqXWcrD1Iao52vQJhx1xeYF+g1CKFifd
- f35Bf+aVOPVAHv0D2QEH2q7zm8v59agtADSUzvx5m9IlDwv/N2n2U7QXmbT1dbX9C6KA
- Yiww==
+ bh=qsHr0G9Zr2YOWJd31QFma/7YGSDiUr9kJxJhnyf2kso=;
+ b=G1U0XFZ7IdiYWmBHKNJr52/Q0oJHpnXhBAKA9BoNP1je3ZTU5b2tQY6OE5/GdtERiR
+ 6BLI3TkfCeCuqFgORYkG2cfVAa9dmgLonu8mLazT1pwW1lPLSLabLs2fegSK0pWwxsE/
+ IzZecuDoajK2KXyA4nAbVO3kBrdPdAQgkB2xU0hY8O2Fd3l4l4KubiEpxQargSPpvO0J
+ vPtnpn+L6nrdqqbXttAOZ5of2lUV9k2xz74jiN3g+bd8lzYu8bwKbKRk/BDIhrVTSMO7
+ CojOlOZ4TL93HNVT7QKb4DIjx+5sxxs1IRe8Rik3FQkZGNax80SG7tXQdWV3kAPZOcWb
+ 3l9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8AEBFK3TLB23oX3L37Csh8MQg00IBeRwRhpzg3URHhQ=;
- b=stceq8XcafQo7NLddU37Qyr/BhJFYynzgMhXWGgFMts1Gflqkfa/G+Mrq0dvrGZnPT
- 6rDkt019w/HvdRjOPjunHv6CrqKRRRNxmgTy6NgtFIAVlb2bDkAlImgJONOyFGLXsSJ6
- Ka+FjjFB3NQX8pTWpXfHem/5DkX9O6OhGH5HXtPpaeZvNZ5EiEDDxcWjr7tVurv4oLnq
- SFUMOYoe76zASqjE4wG9MGcKx4D11VbGNhN+9MzfnZAawVLdfIDb6r5TXngkU8Ybv5qo
- cPiZfKXHxh1JMXeMaQ82buRb5DZxEWKAwci8/AeGTX2kutu1/Koi//2NVVEOTmGUuITU
- gNlQ==
-X-Gm-Message-State: AOAM5323YUKeyDOhLmpmkME7vQlCSsJFM119We3FdrDO5j/oiTAmshbm
- Uc+Z9ckx3XI7F8cA/hkECEQ=
-X-Google-Smtp-Source: ABdhPJxeLIGHtEBykAT2d/iIMjXCaF4AFBGQJxOnHGdc5Uj/0ND06+hO0iMyfdECkjBb7N1XHcXi1Q==
-X-Received: by 2002:a17:906:fccc:b0:6f3:7569:77fd with SMTP id
- qx12-20020a170906fccc00b006f3756977fdmr3293233ejb.266.1652431335764; 
- Fri, 13 May 2022 01:42:15 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ bh=qsHr0G9Zr2YOWJd31QFma/7YGSDiUr9kJxJhnyf2kso=;
+ b=X/hf/8iohzCUQ7UI/wmn+Sy5Y096dJ/gbg6wKD6nNNBPAMvk/GyeQRdMW0+IkAxwL3
+ Y3BhbTo7h/VBE/iGZY+WYhAeKOEG38/8RN+Ds/tkC+VzKNGsgmEWTD80x4XUuID8eIi8
+ rteNQWLtcsrsyaIgeB5IcjHpUgcnVNzw+tmKz2cggMaQZiUvCQIiS/QRVWGKA44adPjc
+ VASiu6lu8ooI6rP+frHX30nhiocjCQmQ3qc+1JqTmjoRwt5jgYo3O10e1Fh503Fei9lD
+ wvijQGzWvV1iCE5VIsc8wcCOHEQOXZ9Ba3J1xAywiNdGZqVvip+PKgzS9cfWCauto+qu
+ aOLA==
+X-Gm-Message-State: AOAM533l9lhi+swpkprQok0jatK+Pmc9tmDE2/H0N/aKlQMTKB9PAt5I
+ w/mL0pjsennNdoxLgRsrOf7H7/LkueQI3Q==
+X-Google-Smtp-Source: ABdhPJwZVowd93YjG4HQCK3EZEBbLTdtWU/uH9WwgA5UQ5wPnl9qqUXMhcufc1SMwoXmSfTnroyUyw==
+X-Received: by 2002:a63:570f:0:b0:39d:2648:261d with SMTP id
+ l15-20020a63570f000000b0039d2648261dmr3079129pgb.551.1652431895873; 
+ Fri, 13 May 2022 01:51:35 -0700 (PDT)
+Received: from ThinkPad-T490.dc1.ventanamicro.com
+ ([2401:4900:198a:9865:5430:73db:b48f:47ad])
  by smtp.googlemail.com with ESMTPSA id
- f5-20020a1709063f4500b006f3ef214e13sm529541ejj.121.2022.05.13.01.42.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 01:42:15 -0700 (PDT)
-Message-ID: <1f2b00d0-2884-ec26-fe43-1a75f3d23e87@redhat.com>
-Date: Fri, 13 May 2022 10:42:13 +0200
+ a3-20020a1709027d8300b0015e8d4eb26dsm1253734plm.183.2022.05.13.01.51.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 01:51:35 -0700 (PDT)
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
+	alistair.francis@wdc.com
+Subject: [RFC PATCH v4 0/4] RISC-V Smstateen support
+Date: Fri, 13 May 2022 14:21:21 +0530
+Message-Id: <20220513085125.403037-1-mchitale@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 1/9] python: update for mypy 0.950
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Hanna Reitz <hreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220513000609.197906-1-jsnow@redhat.com>
- <20220513000609.197906-2-jsnow@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220513000609.197906-2-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,20 +90,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 02:06, John Snow wrote:
-> typeshed (included in mypy) recently updated to improve the typing for
-> WriteTransport objects. I was working around this, but now there's a
-> version where I shouldn't work around it.
-> 
-> Unfortunately this creates some minor ugliness if I want to support both
-> pre- and post-0.950 versions. For now, for my sanity, just disable the
-> unused-ignores warning.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
+This series adds support for the Smstateen specification which provides
+a mechanism plug potential covert channels which are opened by extensions
+that add to processor state that may not get context-switched. Currently
+access to AIA registers, *envcfg registers and floating point(fcsr) is
+controlled via smstateen.
 
-Whatever floats your boat :)
+This series depends on the following series from Anup:
+https://lists.nongnu.org/archive/html/qemu-riscv/2022-05/msg00139.html
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Changes in v4:
+- Fix build issue with riscv32/riscv64-linux-user targets
 
-Paolo
+Changes in v3:
+- Fix coding style issues
+- Fix *stateen0h index calculation
+
+Changes in v2:
+- Make h/s/envcfg bits in m/h/stateen registers as writeable by default.
+
+Mayuresh Chitale (4):
+  target/riscv: Add smstateen support
+  target/riscv: smstateen check for h/senvcfg
+  target/riscv: smstateen check for fcsr
+  target/riscv: smstateen check for AIA/IMSIC
+
+ target/riscv/cpu.c      |   2 +
+ target/riscv/cpu.h      |   4 +
+ target/riscv/cpu_bits.h |  36 +++
+ target/riscv/csr.c      | 555 +++++++++++++++++++++++++++++++++++++++-
+ target/riscv/machine.c  |  21 ++
+ 5 files changed, 615 insertions(+), 3 deletions(-)
+
+-- 
+2.25.1
+
 
