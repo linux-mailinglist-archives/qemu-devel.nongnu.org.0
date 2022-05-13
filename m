@@ -2,48 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28292526169
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 13:53:56 +0200 (CEST)
-Received: from localhost ([::1]:35808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C623525ED9
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 12:04:36 +0200 (CEST)
+Received: from localhost ([::1]:60762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npTrm-0006GM-Vh
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 07:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48124)
+	id 1npS9z-0004HL-MP
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 06:04:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1npTny-0003Hs-0H; Fri, 13 May 2022 07:49:58 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1npTnw-0000n4-75; Fri, 13 May 2022 07:49:57 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 4036B11F102;
- Fri, 13 May 2022 11:49:55 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Thu, 12 May 2022 00:47:44 -0700
-Subject: [PATCH qemu v18 02/16] target/riscv: rvv: Prune redundant access_type
- parameter passed
-Message-ID: <165244259451.12806.1710403216414520477-2@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <165244259451.12806.1710403216414520477-0@git.sr.ht>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npRvq-0002QN-Uq
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 05:50:00 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:36617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1npRvp-0005Jq-4Y
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 05:49:58 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-2feb8eac315so6895457b3.3
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 02:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eqZcfCkv76jvG+LQSN0Yp5vcypqLHJU8MTRzvoexoI0=;
+ b=Pw7SVsL/RMWOl67Fl6jCkHcQmTE23F76PH1n/mKG6aHK/+U02vofXihR9JRu45UAzN
+ 79CGvmywKrteYAlYS2WGL3jbN8oxPVpEPGEfDZph/xxzRUeal2HfJ+UUdNfzL/I8dc+A
+ /8pOkfrHMbbcM0+zSplK3Daa4kpZBGTQ1YLNd10HEQZuMnpwB6Co2ZWLconWllNGWvV4
+ BM2fgogtrcbiLLY0iXs0KQacGNRrq6dHzQshmC+E8Jo+p2uK28mE9FuwEYn7uM6IlsSw
+ TIUhXRz1/haUNp8VX6KiMbjOgYX3tfIBfHe46bkPbg8CBaW6027iiW0n5sDOZgSEILNb
+ l5Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eqZcfCkv76jvG+LQSN0Yp5vcypqLHJU8MTRzvoexoI0=;
+ b=CAdwVLjmNnCCWPPU8wWrTX10IHB92riuuZerB/KHZxC5aa4dVT6FQn36l9P7YInvwv
+ ZIERYxwWaojaReg42vCqzUoZJMSmPQgulZO1bbSgNl+D2MjI4rCijTMWCmgTQVv6ZTi1
+ xhYt2avSXEgdiwCrhL83GEq7f8B5T0i9ecyckIKERsHrfTKQazTEZ8aXj1ehXhlTX5x+
+ tl7w+M69Yiu0hX9EjxZhJnYpolaxRE/KCYkWmfiiR+t+SuDRgQPJLhBySGosXgKbT+rr
+ dwVf0hNs9mI3CeERYBOLjhpFr205gVoz9JMS92aLC3e0lcv6rmtSUxOAHtFlB91JhLtm
+ 3MYA==
+X-Gm-Message-State: AOAM533KmTFZAAz8uIG1cdyHEKQUAsXW/nIQAeOqxSCkpdtBU8hqn+8r
+ 9wzIASzJaFtxPdQG27TUsNIDC1eAlceMPS3cztJvBRDERvA=
+X-Google-Smtp-Source: ABdhPJySgGsxmacX8g9H1m33buOnIGcTOSZjoSjyDJAuGDTqlu0ts50GuZzQri+jVX3REG0Qesa/KcL92yFvJxVES1U=
+X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
+ z23-20020a81ac57000000b002f199ec91a2mr4606918ywj.329.1652435396073; Fri, 13
+ May 2022 02:49:56 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 15
-X-Spam_score: 1.5
-X-Spam_bar: +
-X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
- FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <4127D8CA-D54A-47C7-A039-0DB7361E30C0@web.de>
+In-Reply-To: <4127D8CA-D54A-47C7-A039-0DB7361E30C0@web.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 May 2022 10:49:44 +0100
+Message-ID: <CAFEAcA9np5Ss0EzPP64YSP0QxTK4qY8tTpX3K8y10fFHkUKP9w@mail.gmail.com>
+Subject: Re: [PATCH] Fix aarch64 debug register names.
+To: Chris Howard <cvz185@web.de>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,176 +79,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <eop.chen@sifive.com>
+On Thu, 12 May 2022 at 10:42, Chris Howard <cvz185@web.de> wrote:
+>
+> From 5de17d5aacb9cf21de4c9736b227b0498c607709 Mon Sep 17 00:00:00 2001
+> From: CHRIS HOWARD <cvz185@web.de>
+> Date: Thu, 12 May 2022 11:35:17 +0200
+> Subject: [PATCH] Fix aarch64 debug register names.
+>
+> Signed-off-by: CHRIS HOWARD <cvz185@web.de>
 
-No functional change intended in this commit.
+Thanks for sending the patch -- I've applied it
+to target-arm.next.
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
----
- target/riscv/vector_helper.c | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
-
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 85dd611cd9..60840325c4 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -231,7 +231,7 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
-                  target_ulong stride, CPURISCVState *env,
-                  uint32_t desc, uint32_t vm,
-                  vext_ldst_elem_fn *ldst_elem,
--                 uint32_t esz, uintptr_t ra, MMUAccessType access_type)
-+                 uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -259,7 +259,7 @@ void HELPER(NAME)(void *vd, void * v0, target_ulong base,=
-               \
- {                                                                       \
-     uint32_t vm =3D vext_vm(desc);                                        \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN,      \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }
-=20
- GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
-@@ -274,7 +274,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-               \
- {                                                                       \
-     uint32_t vm =3D vext_vm(desc);                                        \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, STORE_FN,     \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }
-=20
- GEN_VEXT_ST_STRIDE(vsse8_v,  int8_t,  ste_b)
-@@ -290,7 +290,7 @@ GEN_VEXT_ST_STRIDE(vsse64_v, int64_t, ste_d)
- static void
- vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
-              vext_ldst_elem_fn *ldst_elem, uint32_t esz, uint32_t evl,
--             uintptr_t ra, MMUAccessType access_type)
-+             uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -319,14 +319,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
-ng base,         \
- {                                                                       \
-     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));             \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, false, LOAD_FN,   \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }                                                                       \
-                                                                         \
- void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
-                   CPURISCVState *env, uint32_t desc)                    \
- {                                                                       \
-     vext_ldst_us(vd, base, env, desc, LOAD_FN,                          \
--                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_LOAD); \
-+                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                \
- }
-=20
- GEN_VEXT_LD_US(vle8_v,  int8_t,  lde_b)
-@@ -340,14 +340,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
-ng base,          \
- {                                                                        \
-     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));              \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,   \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                      \
- }                                                                        \
-                                                                          \
- void HELPER(NAME)(void *vd, void *v0, target_ulong base,                 \
-                   CPURISCVState *env, uint32_t desc)                     \
- {                                                                        \
-     vext_ldst_us(vd, base, env, desc, STORE_FN,                          \
--                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_STORE); \
-+                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                 \
- }
-=20
- GEN_VEXT_ST_US(vse8_v,  int8_t,  ste_b)
-@@ -364,7 +364,7 @@ void HELPER(vlm_v)(void *vd, void *v0, target_ulong base,
-     /* evl =3D ceil(vl/8) */
-     uint8_t evl =3D (env->vl + 7) >> 3;
-     vext_ldst_us(vd, base, env, desc, lde_b,
--                 0, evl, GETPC(), MMU_DATA_LOAD);
-+                 0, evl, GETPC());
- }
-=20
- void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
-@@ -373,7 +373,7 @@ void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
-     /* evl =3D ceil(vl/8) */
-     uint8_t evl =3D (env->vl + 7) >> 3;
-     vext_ldst_us(vd, base, env, desc, ste_b,
--                 0, evl, GETPC(), MMU_DATA_STORE);
-+                 0, evl, GETPC());
- }
-=20
- /*
-@@ -399,7 +399,7 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
-                 void *vs2, CPURISCVState *env, uint32_t desc,
-                 vext_get_index_addr get_index_addr,
-                 vext_ldst_elem_fn *ldst_elem,
--                uint32_t esz, uintptr_t ra, MMUAccessType access_type)
-+                uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -427,7 +427,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-                  \
-                   void *vs2, CPURISCVState *env, uint32_t desc)            \
- {                                                                          \
-     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,                \
--                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD); \
-+                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC());                \
- }
-=20
- GEN_VEXT_LD_INDEX(vlxei8_8_v,   int8_t,  idx_b, lde_b)
-@@ -453,7 +453,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-        \
- {                                                                \
-     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,      \
-                     STORE_FN, ctzl(sizeof(ETYPE)),               \
--                    GETPC(), MMU_DATA_STORE);                    \
-+                    GETPC());                                    \
- }
-=20
- GEN_VEXT_ST_INDEX(vsxei8_8_v,   int8_t,  idx_b, ste_b)
-@@ -576,8 +576,7 @@ GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
-  */
- static void
- vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t de=
-sc,
--                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra,
--                MMUAccessType access_type)
-+                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k, off, pos;
-     uint32_t nf =3D vext_nf(desc);
-@@ -612,8 +611,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
-                   CPURISCVState *env, uint32_t desc) \
- {                                                    \
-     vext_ldst_whole(vd, base, env, desc, LOAD_FN,    \
--                    ctzl(sizeof(ETYPE)), GETPC(),    \
--                    MMU_DATA_LOAD);                  \
-+                    ctzl(sizeof(ETYPE)), GETPC());   \
- }
-=20
- GEN_VEXT_LD_WHOLE(vl1re8_v,  int8_t,  lde_b)
-@@ -638,8 +636,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
-                   CPURISCVState *env, uint32_t desc) \
- {                                                    \
-     vext_ldst_whole(vd, base, env, desc, STORE_FN,   \
--                    ctzl(sizeof(ETYPE)), GETPC(),    \
--                    MMU_DATA_STORE);                 \
-+                    ctzl(sizeof(ETYPE)), GETPC());   \
- }
-=20
- GEN_VEXT_ST_WHOLE(vs1r_v, int8_t, ste_b)
---=20
-2.34.2
-
+-- PMM
 
