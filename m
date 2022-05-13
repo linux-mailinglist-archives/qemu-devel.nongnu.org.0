@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD43526378
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:12:11 +0200 (CEST)
-Received: from localhost ([::1]:43386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F32526387
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 16:14:50 +0200 (CEST)
+Received: from localhost ([::1]:46904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npW1a-0003ij-Oc
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
+	id 1npW49-0006SE-No
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 10:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npVzN-0001Ye-6V
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:09:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59151)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1npVzK-0000sd-Tj
- for qemu-devel@nongnu.org; Fri, 13 May 2022 10:09:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652450989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X5ew3iA+YLSOCD1jdSaOck8IOr/5g/1eQH7BgL/30BA=;
- b=GdTb7QknD/RbbvOKA2b5klhkxwqmPVe1WvDJS9iQPiCuNl+xk2bVoWlAsTZ2+VfaSdVfji
- EegFpdTfvukxwWQ4MVVDJK6cjsyfq5eeuooX/gcRyLr8C0b1nAlFQykpCokXOppcSRuTUb
- ydJE53aVA1/6brgY4SIUdyz0EJsuFxs=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-rBl9wvqaNSePpYZl7_e5AA-1; Fri, 13 May 2022 10:09:48 -0400
-X-MC-Unique: rBl9wvqaNSePpYZl7_e5AA-1
-Received: by mail-ua1-f71.google.com with SMTP id
- p2-20020a9f3802000000b0036896bf1d77so40903uad.21
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 07:09:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1npVzu-00028L-DW
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:10:26 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:39860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1npVzs-00017o-HH
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 10:10:26 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id v11so7793313pff.6
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 07:10:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f2sVgSgj8yscqEs72Zhtu4LpgKQTQm9FAA2+eHIkgZM=;
+ b=PHCYIVbsr0B1O5bN+PmaLOSYfOJwrgD5i4InOZuqpgksK1aFXL6Ym92Ei/HEIsXlE3
+ BOa3GLKVou5iEBdtNYyxJlGoWszmeBczjor2W/1VvxFZ2d5U6xBzQnbk3ehAFNZusUAP
+ WjhSppgbxhYyjbV/ZdZP5jgStYXlkEejchF4AYRWTBqPuVuVWcMS52EWeuQQVk50hcmv
+ BJKSyDb3LIuyQycPghtXJ/R5KalGGet/4GgEsDXJnYi/XgAnlOpy6nYfsYsxf7k3R8xf
+ R/VmYOjrsl7EqvttyT6aUQ4d+PAI5abYAPTDkBOzdWjplwV5Kvgoaro9CMIRJeiDaL9I
+ HRWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X5ew3iA+YLSOCD1jdSaOck8IOr/5g/1eQH7BgL/30BA=;
- b=el0fh43mvGivy+hfBjehCclx4XR3Krris/0zXjpDrDx/FALhaH4s2yyuWf2eDqNjkU
- hDpwyA6PdVP+ZL7znRE2Sf72nlisME4EOeNF2hup/drkEdd/xyvCCx/Gq11N42soHDFC
- eb69I2yVJS2Ii5cguWH+zsxxpygUj8/nQbtC4eWOgQyP021pfI3D/IawPPsTQl9JSWbZ
- +q4gEkq9R/AEk7BRjIuVGxLfh/EUYIM1fdV4M4npj7nLm9TyIjwrJdEirD5pLJ8+0DPP
- +G9Q3PCmDxA0yQssBk5Axf1HaXtTEGY6kSELrGCquPtNOxuDXAhhV5EHjEHvj46BhxlU
- 8CkQ==
-X-Gm-Message-State: AOAM533Zebz1KR8N26OWK4mGOdvWhGYpoovDaTj1gmDxvIrZ8MNmUIsj
- zZrJY4SKqPcMV/+hw2Lw98fbkAUocfL+ud2NG5+FaPFnth/hoxDS7zvFt1OAYP4+griIlgMODUE
- +9p3BZsI/BGOWoYKFouAJ995W2BMawXg=
-X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
- l23-20020a67fe17000000b0032ce77ec3b4mr2467149vsr.11.1652450987948; 
- Fri, 13 May 2022 07:09:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaDCF9UMpF3ROm45/a9N0xoBQYYnD+SWin6rzvN+PDUiASAC9MEWjzG0n24wgADPdyC6epfkSyxh2mxDIrkYk=
-X-Received: by 2002:a67:fe17:0:b0:32c:e77e:c3b4 with SMTP id
- l23-20020a67fe17000000b0032ce77ec3b4mr2467121vsr.11.1652450987778; Fri, 13
- May 2022 07:09:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f2sVgSgj8yscqEs72Zhtu4LpgKQTQm9FAA2+eHIkgZM=;
+ b=MNwcLfkbg3EHMwun0OYO6wZwV4pgnXDFbhiZOSQpbjBDVzVzYvp0D3RjPbDksA0nL5
+ QnJIrIxyN3vRAyusyPh1FN4qEytXCWh5SLAsVxZGN5TI0ioQjZPjVG9EQhxuyfT8saPB
+ SvdJzaEp2HixccPbGApkVQLIKOtXAVXbzZrdSVsMkoGvF586lTVzA/fLiJLTbSoPJAjp
+ AzwhljDSfaQ+evY01b1PFYFYwPdf1YUVwEZYu/qrJhc4PeGsOfRK+YyGklB9k2dQECtL
+ ++0ou6huptc4wpHLV8XjAafLDNYoGfP1sNIznHg+fdmQ2q4b46VWxKAtr1EfUNzuqyz4
+ FTNQ==
+X-Gm-Message-State: AOAM530d7+6BkSpRnr2S6CvSpq0Wn/rddloC2SMJ0CKSCJxBclxqfBM+
+ S74jMs6Q4sYkCIMzOR7Q16+44Q==
+X-Google-Smtp-Source: ABdhPJwYN4QxC6yfM2bNXRe4pgebxu3tyqT0IJHRkL8Yj9YmBTy3YR1Hr6tLTIY9zldr1zWw70r8pw==
+X-Received: by 2002:a63:ce4d:0:b0:3db:40ef:fad4 with SMTP id
+ r13-20020a63ce4d000000b003db40effad4mr4291841pgi.16.1652451022029; 
+ Fri, 13 May 2022 07:10:22 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([49.207.206.241])
+ by smtp.googlemail.com with ESMTPSA id
+ n26-20020a056a00213a00b0050dc7628167sm1815823pfj.65.2022.05.13.07.10.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 07:10:21 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eric DeVolder <eric.devolder@oracle.com>, qemu-devel@nongnu.org
+Subject: [PATCH] acpi/erst: fix fallthrough code upon validation failure
+Date: Fri, 13 May 2022 19:40:05 +0530
+Message-Id: <20220513141005.1929422-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220513000609.197906-1-jsnow@redhat.com>
- <20220513000609.197906-2-jsnow@redhat.com>
- <1f2b00d0-2884-ec26-fe43-1a75f3d23e87@redhat.com>
-In-Reply-To: <1f2b00d0-2884-ec26-fe43-1a75f3d23e87@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 13 May 2022 10:09:37 -0400
-Message-ID: <CAFn=p-YGoQnuaWMsOoiuyN6BFzFoBgK3W0A1u8hAXPo3D-c2+w@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/9] python: update for mypy 0.950
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Hanna Reitz <hreitz@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000022bebc05dee53a44"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,81 +86,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000022bebc05dee53a44
-Content-Type: text/plain; charset="UTF-8"
+At any step when any validation fail in check_erst_backend_storage(), there is
+no need to continue further through other validation checks. Further, by
+continuing even when record_size is 0, we run the risk of triggering a divide
+by zero error if we continued with other validation checks. Hence, we should
+simply return from this function upon validation failure.
 
-On Fri, May 13, 2022, 4:42 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+CC: Peter Maydell <peter.maydell@linaro.org>
+CC: Eric DeVolder <eric.devolder@oracle.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/acpi/erst.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> On 5/13/22 02:06, John Snow wrote:
-> > typeshed (included in mypy) recently updated to improve the typing for
-> > WriteTransport objects. I was working around this, but now there's a
-> > version where I shouldn't work around it.
-> >
-> > Unfortunately this creates some minor ugliness if I want to support both
-> > pre- and post-0.950 versions. For now, for my sanity, just disable the
-> > unused-ignores warning.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
->
-> Whatever floats your boat :)
->
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
->
-> Paolo
->
-
-Maybe I'll move towards pinning specific versions of analysis tools once we
-move to always using a venv, and I won't have to try so hard to target a
-wide spread of versions for mypy, pylint, etc.
-
-I've tried pretty hard to "just have it work", but with the prevailing
-idioms in the Python world being what they are, I am playing whackamole
-virtually every release.
-
-But, yeah, for now... meh. This keeps the boat afloat.
-
---00000000000022bebc05dee53a44
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, May 13, 2022, 4:42 AM Paolo Bonzini &lt;<a hre=
-f=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">On 5/13/22 02:06, John Snow wrote:<br>
-&gt; typeshed (included in mypy) recently updated to improve the typing for=
-<br>
-&gt; WriteTransport objects. I was working around this, but now there&#39;s=
- a<br>
-&gt; version where I shouldn&#39;t work around it.<br>
-&gt; <br>
-&gt; Unfortunately this creates some minor ugliness if I want to support bo=
-th<br>
-&gt; pre- and post-0.950 versions. For now, for my sanity, just disable the=
-<br>
-&gt; unused-ignores warning.<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
-<br>
-Whatever floats your boat :)<br>
-<br>
-Reviewed-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-<br>
-Paolo<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">Maybe I&#39;ll move towards pinning specific versions of analysis tool=
-s once we move to always using a venv, and I won&#39;t have to try so hard =
-to target a wide spread of versions for mypy, pylint, etc.</div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">I&#39;ve tried pretty hard to &quot;just=
- have it work&quot;, but with the prevailing idioms in the Python world bei=
-ng what they are, I am playing whackamole virtually every release.</div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">But, yeah, for now... meh. This =
-keeps the boat afloat.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><=
-div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---00000000000022bebc05dee53a44--
+diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+index de509c2b48..df856b2669 100644
+--- a/hw/acpi/erst.c
++++ b/hw/acpi/erst.c
+@@ -440,6 +440,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+         (record_size >= 4096) /* PAGE_SIZE */
+         )) {
+         error_setg(errp, "ERST record_size %u is invalid", record_size);
++        return;
+     }
+ 
+     /* Validity check header */
+@@ -450,6 +451,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+         (le16_to_cpu(header->reserved) == 0)
+         )) {
+         error_setg(errp, "ERST backend storage header is invalid");
++        return;
+     }
+ 
+     /* Check storage_size against record_size */
+@@ -457,6 +459,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+          (record_size > s->storage_size)) {
+         error_setg(errp, "ACPI ERST requires storage size be multiple of "
+             "record size (%uKiB)", record_size);
++        return;
+     }
+ 
+     /* Compute offset of first and last record storage slot */
+-- 
+2.25.1
 
 
