@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABF7525BAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 08:43:00 +0200 (CEST)
-Received: from localhost ([::1]:36242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEB7525BAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 08:44:48 +0200 (CEST)
+Received: from localhost ([::1]:38520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npP0t-0006Fz-Us
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 02:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43004)
+	id 1npP2d-0007xZ-56
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 02:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1npOnc-00078J-Ga
- for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57342)
+ id 1npOnh-0007F1-Tr
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1npOna-0000Xk-Q8
- for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:16 -0400
+ id 1npOnf-0000YF-Kz
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 02:29:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652423354;
+ s=mimecast20190719; t=1652423358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=my0W1CNP7OlIJyRDKwEELR0pplskMGAw7GJim8MHcHM=;
- b=ON5GMZiJvVMSL34vjNnvIlFeeQxuIvJs4XMu3PnAI0PPWu24RB34wLbWzVt//yPdfRRFGP
- Meao4H4Aoj+nUZZl9Itkyd2KbV/SjjXVfEyha3n+T+MkZKAR2dqnrhUJvYBkfdJQyvOXzn
- qQBflSum8JF3gS3EGoEm8/WygCkp154=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WraUR5NaU5yz99jVc+vim7XEP91U+lMIWVcVsiAH15c=;
+ b=BiGtowum5P5BkquuMw+gRE2iXDFuZBCYc57Gb6/gbKd6EOReNPbguEquacokGG41lJnRfP
+ noZTqgx+oZpaEWrLX3qg/KN3d9KuMpoUuoqIxV55tkk/D2U36rgb6RnSrwGMfKZ8ZOHz5A
+ kWUt8v2EBjo68t/qcXGM4JUIUNxNzRA=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-Uu1LmPzVMqqnqOYzHdugHQ-1; Fri, 13 May 2022 02:29:12 -0400
-X-MC-Unique: Uu1LmPzVMqqnqOYzHdugHQ-1
-Received: by mail-ot1-f71.google.com with SMTP id
- f78-20020a9d03d4000000b00606a96c6e5bso2662408otf.7
- for <qemu-devel@nongnu.org>; Thu, 12 May 2022 23:29:12 -0700 (PDT)
+ us-mta-662-DBjmRcLNNu6i3EYUHe40gQ-1; Fri, 13 May 2022 02:29:17 -0400
+X-MC-Unique: DBjmRcLNNu6i3EYUHe40gQ-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-df1ff1c731so4416181fac.12
+ for <qemu-devel@nongnu.org>; Thu, 12 May 2022 23:29:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=my0W1CNP7OlIJyRDKwEELR0pplskMGAw7GJim8MHcHM=;
- b=Nmk3i7vMAE/tnWRohjas5x3cxc3hpjxiru4iwEu5F2R6PA7+jne2XPxqne/JgTca1B
- ngkBeAFhcuidw8+zHkvfU99xNXydC9RepYToYFU3rNVuJ6QT1HKDH5bCfqOoMtkUHLCu
- gvSc2rUOzifj4k8Tnc3pDzNj4bBkUEKUDJtwFf6ou8uOmZnqi0xfEwAaINYbwAp1VbHn
- YS/DRoF6EIO9QlMaTrcy1QGUxGuN9sdfAOxZgHzGk+emjqzyZQfah9EFUCnTO0keAwlZ
- t2o2HgMkpRZO3Lf+oEE/mcsENmcMjOVQ9QCyLygL9+5/d6P+USp5EDYGnhtbV4SoOhOa
- 3CPg==
-X-Gm-Message-State: AOAM533BoMoQ/ha1cvHh2fdMflGMaOTfwAVTstMgUyHxXR2Qe0+Ue6cP
- nbj6uFNYdhlfrSKrAlrxafhSbZqiv4Dl5dRWiURtQl5LnZUAl1ZlD55qr2X9BcSZ/86RK/kaf8U
- sW1zSWhX9i2DonfY=
-X-Received: by 2002:a9d:3b5:0:b0:603:f8ac:a780 with SMTP id
- f50-20020a9d03b5000000b00603f8aca780mr1246418otf.26.1652423351451; 
- Thu, 12 May 2022 23:29:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzyqqKlm2kUJNWXmPcHpHfODcKZOKBsvuuJRmRlDpy7Asa0y1CiBnESAVpsFA9rJp/z5EJLg==
-X-Received: by 2002:a9d:3b5:0:b0:603:f8ac:a780 with SMTP id
- f50-20020a9d03b5000000b00603f8aca780mr1246413otf.26.1652423351212; 
- Thu, 12 May 2022 23:29:11 -0700 (PDT)
+ bh=WraUR5NaU5yz99jVc+vim7XEP91U+lMIWVcVsiAH15c=;
+ b=55EU7QMMJztogf0QIHEgTZ3SbqHiVppC/SrpVVgjn6xnvoVhKB0xSc8S3/LzVD4VBk
+ ae9TZhWbviKNxr9m8tAg8aYmGkQT0oN6P+ssI6DlJbNelkUHg4RRUk5fJRgLmrH0Wyix
+ ciGAiAnZ/UgBNfztzrKBm1dk5ARgzozJWNXKubBa+RIzGyv3FyoogJshypefxN5XlJvs
+ 7fEYeuSd+Egv9ekW8NJp/P3UV85bGcxrurmjE+sQPh64qP5ubMJ3XOm6geVU2ZLiAhgi
+ rsEvjp8F+MXbAsoiQ4DjFPWzlmsCHPy5Hp2n648z4RGP2NhlbpgERdaFpcZur4h/TeLE
+ Q+Nw==
+X-Gm-Message-State: AOAM532JXCcdk5Wgx3u3Sw8/c3ZZUpeL6zcH6/AdFYIlLcli9hBrV2mf
+ MlUm46ac69HYj7XK3RjmcV++onGaPgQMjYcOzWQtYZpGNZECQc24aBTJgoPrGuYdhxIvQztF7ab
+ /L4jDdptpsa6AN48=
+X-Received: by 2002:a05:6870:1709:b0:ed:331a:c3cc with SMTP id
+ h9-20020a056870170900b000ed331ac3ccmr1844649oae.31.1652423355523; 
+ Thu, 12 May 2022 23:29:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaiPj04D6xYXu1m0E7QG6vGJ4nAba2IhlFJ5APfz1pUUauLZT4+7btWBRSGsrwgobOx46LUw==
+X-Received: by 2002:a05:6870:1709:b0:ed:331a:c3cc with SMTP id
+ h9-20020a056870170900b000ed331ac3ccmr1844635oae.31.1652423355213; 
+ Thu, 12 May 2022 23:29:15 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f0:55e:b3e6:9ebe:4b75:fe72])
  by smtp.gmail.com with ESMTPSA id
- a14-20020a05680804ce00b00325cda1ffbasm678341oie.57.2022.05.12.23.29.07
+ a14-20020a05680804ce00b00325cda1ffbasm678341oie.57.2022.05.12.23.29.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 23:29:10 -0700 (PDT)
+ Thu, 12 May 2022 23:29:14 -0700 (PDT)
 From: Leonardo Bras <leobras@redhat.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -76,14 +76,15 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
 Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
  qemu-block@nongnu.org
-Subject: [PATCH v13 1/8] meson.build: Fix docker-test-build@alpine when
- including linux/errqueue.h
-Date: Fri, 13 May 2022 03:28:30 -0300
-Message-Id: <20220513062836.965425-2-leobras@redhat.com>
+Subject: [PATCH v13 2/8] QIOChannel: Add flags on io_writev and introduce
+ io_flush callback
+Date: Fri, 13 May 2022 03:28:31 -0300
+Message-Id: <20220513062836.965425-3-leobras@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220513062836.965425-1-leobras@redhat.com>
 References: <20220513062836.965425-1-leobras@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -93,7 +94,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,66 +110,402 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A build error happens in alpine CI when linux/errqueue.h is included
-in io/channel-socket.c, due to redefining of 'struct __kernel_timespec':
+Add flags to io_writev and introduce io_flush as optional callback to
+QIOChannelClass, allowing the implementation of zero copy writes by
+subclasses.
 
-===
-ninja: job failed: [...]
-In file included from /usr/include/linux/errqueue.h:6,
-                 from ../io/channel-socket.c:29:
-/usr/include/linux/time_types.h:7:8: error: redefinition of 'struct __kernel_timespec'
-    7 | struct __kernel_timespec {
-      |        ^~~~~~~~~~~~~~~~~
-In file included from /usr/include/liburing.h:19,
-                 from /builds/user/qemu/include/block/aio.h:18,
-                 from /builds/user/qemu/include/io/channel.h:26,
-                 from /builds/user/qemu/include/io/channel-socket.h:24,
-                 from ../io/channel-socket.c:24:
-/usr/include/liburing/compat.h:9:8: note: originally defined here
-    9 | struct __kernel_timespec {
-      |        ^~~~~~~~~~~~~~~~~
-ninja: subcommand failed
-===
+How to use them:
+- Write data using qio_channel_writev*(...,QIO_CHANNEL_WRITE_FLAG_ZERO_COPY),
+- Wait write completion with qio_channel_flush().
 
-As above error message suggests, 'struct __kernel_timespec' was already
-defined by liburing/compat.h.
+Notes:
+As some zero copy write implementations work asynchronously, it's
+recommended to keep the write buffer untouched until the return of
+qio_channel_flush(), to avoid the risk of sending an updated buffer
+instead of the buffer state during write.
 
-Fix alpine CI by adding test to disable liburing in configure step if a
-redefinition happens between linux/errqueue.h and liburing/compat.h.
+As io_flush callback is optional, if a subclass does not implement it, then:
+- io_flush will return 0 without changing anything.
+
+Also, some functions like qio_channel_writev_full_all() were adapted to
+receive a flag parameter. That allows shared code between zero copy and
+non-zero copy writev, and also an easier implementation on new flags.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- meson.build | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/io/channel.h                | 38 +++++++++++++++++++++-
+ chardev/char-io.c                   |  2 +-
+ hw/remote/mpqemu-link.c             |  2 +-
+ io/channel-buffer.c                 |  1 +
+ io/channel-command.c                |  1 +
+ io/channel-file.c                   |  1 +
+ io/channel-socket.c                 |  2 ++
+ io/channel-tls.c                    |  1 +
+ io/channel-websock.c                |  1 +
+ io/channel.c                        | 49 +++++++++++++++++++++++------
+ migration/rdma.c                    |  1 +
+ scsi/pr-manager-helper.c            |  2 +-
+ tests/unit/test-io-channel-socket.c |  1 +
+ 13 files changed, 88 insertions(+), 14 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 9b20dcd143..a996690c9b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -515,12 +515,23 @@ if not get_option('linux_aio').auto() or have_block
-                            required: get_option('linux_aio'),
-                            kwargs: static_kwargs)
- endif
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 88988979f8..c680ee7480 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -32,12 +32,15 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
+ 
+ #define QIO_CHANNEL_ERR_BLOCK -2
+ 
++#define QIO_CHANNEL_WRITE_FLAG_ZERO_COPY 0x1
 +
-+linux_io_uring_test = '''
-+  #include <liburing.h>
-+  #include <linux/errqueue.h>
+ typedef enum QIOChannelFeature QIOChannelFeature;
+ 
+ enum QIOChannelFeature {
+     QIO_CHANNEL_FEATURE_FD_PASS,
+     QIO_CHANNEL_FEATURE_SHUTDOWN,
+     QIO_CHANNEL_FEATURE_LISTEN,
++    QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY,
+ };
+ 
+ 
+@@ -104,6 +107,7 @@ struct QIOChannelClass {
+                          size_t niov,
+                          int *fds,
+                          size_t nfds,
++                         int flags,
+                          Error **errp);
+     ssize_t (*io_readv)(QIOChannel *ioc,
+                         const struct iovec *iov,
+@@ -136,6 +140,8 @@ struct QIOChannelClass {
+                                   IOHandler *io_read,
+                                   IOHandler *io_write,
+                                   void *opaque);
++    int (*io_flush)(QIOChannel *ioc,
++                    Error **errp);
+ };
+ 
+ /* General I/O handling functions */
+@@ -228,6 +234,7 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+  * @niov: the length of the @iov array
+  * @fds: an array of file handles to send
+  * @nfds: number of file handles in @fds
++ * @flags: write flags (QIO_CHANNEL_WRITE_FLAG_*)
+  * @errp: pointer to a NULL-initialized error object
+  *
+  * Write data to the IO channel, reading it from the
+@@ -260,6 +267,7 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+                                 size_t niov,
+                                 int *fds,
+                                 size_t nfds,
++                                int flags,
+                                 Error **errp);
+ 
+ /**
+@@ -837,6 +845,7 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+  * @niov: the length of the @iov array
+  * @fds: an array of file handles to send
+  * @nfds: number of file handles in @fds
++ * @flags: write flags (QIO_CHANNEL_WRITE_FLAG_*)
+  * @errp: pointer to a NULL-initialized error object
+  *
+  *
+@@ -846,6 +855,14 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+  * to be written, yielding from the current coroutine
+  * if required.
+  *
++ * If QIO_CHANNEL_WRITE_FLAG_ZERO_COPY is passed in flags,
++ * instead of waiting for all requested data to be written,
++ * this function will wait until it's all queued for writing.
++ * In this case, if the buffer gets changed between queueing and
++ * sending, the updated buffer will be sent. If this is not a
++ * desired behavior, it's suggested to call qio_channel_flush()
++ * before reusing the buffer.
++ *
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+ 
+@@ -853,6 +870,25 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
+                                 const struct iovec *iov,
+                                 size_t niov,
+                                 int *fds, size_t nfds,
+-                                Error **errp);
++                                int flags, Error **errp);
 +
-+  int main(void) { return 0; }'''
++/**
++ * qio_channel_flush:
++ * @ioc: the channel object
++ * @errp: pointer to a NULL-initialized error object
++ *
++ * Will block until every packet queued with
++ * qio_channel_writev_full() + QIO_CHANNEL_WRITE_FLAG_ZERO_COPY
++ * is sent, or return in case of any error.
++ *
++ * If not implemented, acts as a no-op, and returns 0.
++ *
++ * Returns -1 if any error is found,
++ *          1 if every send failed to use zero copy.
++ *          0 otherwise.
++ */
 +
- linux_io_uring = not_found
- if not get_option('linux_io_uring').auto() or have_block
-   linux_io_uring = dependency('liburing', version: '>=0.3',
-                               required: get_option('linux_io_uring'),
-                               method: 'pkg-config', kwargs: static_kwargs)
-+  if not cc.links(linux_io_uring_test)
-+    linux_io_uring = not_found
-+  endif
- endif
++int qio_channel_flush(QIOChannel *ioc,
++                      Error **errp);
+ 
+ #endif /* QIO_CHANNEL_H */
+diff --git a/chardev/char-io.c b/chardev/char-io.c
+index 8ced184160..4451128cba 100644
+--- a/chardev/char-io.c
++++ b/chardev/char-io.c
+@@ -122,7 +122,7 @@ int io_channel_send_full(QIOChannel *ioc,
+ 
+         ret = qio_channel_writev_full(
+             ioc, &iov, 1,
+-            fds, nfds, NULL);
++            fds, nfds, 0, NULL);
+         if (ret == QIO_CHANNEL_ERR_BLOCK) {
+             if (offset) {
+                 return offset;
+diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+index 2a4aa651ca..9bd98e8219 100644
+--- a/hw/remote/mpqemu-link.c
++++ b/hw/remote/mpqemu-link.c
+@@ -68,7 +68,7 @@ bool mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
+     }
+ 
+     if (!qio_channel_writev_full_all(ioc, send, G_N_ELEMENTS(send),
+-                                    fds, nfds, errp)) {
++                                    fds, nfds, 0, errp)) {
+         ret = true;
+     } else {
+         trace_mpqemu_send_io_error(msg->cmd, msg->size, nfds);
+diff --git a/io/channel-buffer.c b/io/channel-buffer.c
+index baa4e2b089..bf52011be2 100644
+--- a/io/channel-buffer.c
++++ b/io/channel-buffer.c
+@@ -81,6 +81,7 @@ static ssize_t qio_channel_buffer_writev(QIOChannel *ioc,
+                                          size_t niov,
+                                          int *fds,
+                                          size_t nfds,
++                                         int flags,
+                                          Error **errp)
+ {
+     QIOChannelBuffer *bioc = QIO_CHANNEL_BUFFER(ioc);
+diff --git a/io/channel-command.c b/io/channel-command.c
+index 4a1f969aaa..9f2f4a1793 100644
+--- a/io/channel-command.c
++++ b/io/channel-command.c
+@@ -276,6 +276,7 @@ static ssize_t qio_channel_command_writev(QIOChannel *ioc,
+                                           size_t niov,
+                                           int *fds,
+                                           size_t nfds,
++                                          int flags,
+                                           Error **errp)
+ {
+     QIOChannelCommand *cioc = QIO_CHANNEL_COMMAND(ioc);
+diff --git a/io/channel-file.c b/io/channel-file.c
+index d146ace7db..b67687c2aa 100644
+--- a/io/channel-file.c
++++ b/io/channel-file.c
+@@ -114,6 +114,7 @@ static ssize_t qio_channel_file_writev(QIOChannel *ioc,
+                                        size_t niov,
+                                        int *fds,
+                                        size_t nfds,
++                                       int flags,
+                                        Error **errp)
+ {
+     QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index e531d7bd2a..05c425abb8 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -524,6 +524,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+                                          size_t niov,
+                                          int *fds,
+                                          size_t nfds,
++                                         int flags,
+                                          Error **errp)
+ {
+     QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
+@@ -619,6 +620,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+                                          size_t niov,
+                                          int *fds,
+                                          size_t nfds,
++                                         int flags,
+                                          Error **errp)
+ {
+     QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
+diff --git a/io/channel-tls.c b/io/channel-tls.c
+index 2ae1b92fc0..4ce890a538 100644
+--- a/io/channel-tls.c
++++ b/io/channel-tls.c
+@@ -301,6 +301,7 @@ static ssize_t qio_channel_tls_writev(QIOChannel *ioc,
+                                       size_t niov,
+                                       int *fds,
+                                       size_t nfds,
++                                      int flags,
+                                       Error **errp)
+ {
+     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
+diff --git a/io/channel-websock.c b/io/channel-websock.c
+index 55145a6a8c..9619906ac3 100644
+--- a/io/channel-websock.c
++++ b/io/channel-websock.c
+@@ -1127,6 +1127,7 @@ static ssize_t qio_channel_websock_writev(QIOChannel *ioc,
+                                           size_t niov,
+                                           int *fds,
+                                           size_t nfds,
++                                          int flags,
+                                           Error **errp)
+ {
+     QIOChannelWebsock *wioc = QIO_CHANNEL_WEBSOCK(ioc);
+diff --git a/io/channel.c b/io/channel.c
+index e8b019dc36..0640941ac5 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -72,18 +72,32 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+                                 size_t niov,
+                                 int *fds,
+                                 size_t nfds,
++                                int flags,
+                                 Error **errp)
+ {
+     QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+ 
+-    if ((fds || nfds) &&
+-        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
++    if (fds || nfds) {
++        if (!qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
++            error_setg_errno(errp, EINVAL,
++                             "Channel does not support file descriptor passing");
++            return -1;
++        }
++        if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
++            error_setg_errno(errp, EINVAL,
++                             "Zero Copy does not support file descriptor passing");
++            return -1;
++        }
++    }
 +
- libnfs = not_found
- if not get_option('libnfs').auto() or have_block
-   libnfs = dependency('libnfs', version: '>=1.9.3',
++    if ((flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) &&
++        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY)) {
+         error_setg_errno(errp, EINVAL,
+-                         "Channel does not support file descriptor passing");
++                         "Requested Zero Copy feature is not available");
+         return -1;
+     }
+ 
+-    return klass->io_writev(ioc, iov, niov, fds, nfds, errp);
++    return klass->io_writev(ioc, iov, niov, fds, nfds, flags, errp);
+ }
+ 
+ 
+@@ -217,14 +231,14 @@ int qio_channel_writev_all(QIOChannel *ioc,
+                            size_t niov,
+                            Error **errp)
+ {
+-    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
++    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, 0, errp);
+ }
+ 
+ int qio_channel_writev_full_all(QIOChannel *ioc,
+                                 const struct iovec *iov,
+                                 size_t niov,
+                                 int *fds, size_t nfds,
+-                                Error **errp)
++                                int flags, Error **errp)
+ {
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+@@ -237,8 +251,10 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
+ 
+     while (nlocal_iov > 0) {
+         ssize_t len;
+-        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds, nfds,
+-                                      errp);
++
++        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds,
++                                            nfds, flags, errp);
++
+         if (len == QIO_CHANNEL_ERR_BLOCK) {
+             if (qemu_in_coroutine()) {
+                 qio_channel_yield(ioc, G_IO_OUT);
+@@ -277,7 +293,7 @@ ssize_t qio_channel_writev(QIOChannel *ioc,
+                            size_t niov,
+                            Error **errp)
+ {
+-    return qio_channel_writev_full(ioc, iov, niov, NULL, 0, errp);
++    return qio_channel_writev_full(ioc, iov, niov, NULL, 0, 0, errp);
+ }
+ 
+ 
+@@ -297,7 +313,7 @@ ssize_t qio_channel_write(QIOChannel *ioc,
+                           Error **errp)
+ {
+     struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
+-    return qio_channel_writev_full(ioc, &iov, 1, NULL, 0, errp);
++    return qio_channel_writev_full(ioc, &iov, 1, NULL, 0, 0, errp);
+ }
+ 
+ 
+@@ -473,6 +489,19 @@ off_t qio_channel_io_seek(QIOChannel *ioc,
+     return klass->io_seek(ioc, offset, whence, errp);
+ }
+ 
++int qio_channel_flush(QIOChannel *ioc,
++                                Error **errp)
++{
++    QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
++
++    if (!klass->io_flush ||
++        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY)) {
++        return 0;
++    }
++
++    return klass->io_flush(ioc, errp);
++}
++
+ 
+ static void qio_channel_restart_read(void *opaque)
+ {
+diff --git a/migration/rdma.c b/migration/rdma.c
+index ef1e65ec36..672d1958a9 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -2840,6 +2840,7 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *ioc,
+                                        size_t niov,
+                                        int *fds,
+                                        size_t nfds,
++                                       int flags,
+                                        Error **errp)
+ {
+     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
+diff --git a/scsi/pr-manager-helper.c b/scsi/pr-manager-helper.c
+index 451c7631b7..3be52a98d5 100644
+--- a/scsi/pr-manager-helper.c
++++ b/scsi/pr-manager-helper.c
+@@ -77,7 +77,7 @@ static int pr_manager_helper_write(PRManagerHelper *pr_mgr,
+         iov.iov_base = (void *)buf;
+         iov.iov_len = sz;
+         n_written = qio_channel_writev_full(QIO_CHANNEL(pr_mgr->ioc), &iov, 1,
+-                                            nfds ? &fd : NULL, nfds, errp);
++                                            nfds ? &fd : NULL, nfds, 0, errp);
+ 
+         if (n_written <= 0) {
+             assert(n_written != QIO_CHANNEL_ERR_BLOCK);
+diff --git a/tests/unit/test-io-channel-socket.c b/tests/unit/test-io-channel-socket.c
+index c49eec1f03..6713886d02 100644
+--- a/tests/unit/test-io-channel-socket.c
++++ b/tests/unit/test-io-channel-socket.c
+@@ -444,6 +444,7 @@ static void test_io_channel_unix_fd_pass(void)
+                             G_N_ELEMENTS(iosend),
+                             fdsend,
+                             G_N_ELEMENTS(fdsend),
++                            0,
+                             &error_abort);
+ 
+     qio_channel_readv_full(dst,
 -- 
 2.36.1
 
