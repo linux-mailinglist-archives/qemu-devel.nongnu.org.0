@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2ABA525D54
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 10:27:05 +0200 (CEST)
-Received: from localhost ([::1]:52240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EE8525D56
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 10:29:00 +0200 (CEST)
+Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npQdc-00025a-MX
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 04:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60216)
+	id 1npQfT-0003ow-Co
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 04:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npQZL-0000Rf-1U; Fri, 13 May 2022 04:22:39 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:37641)
+ id 1npQaL-0001X1-Vr; Fri, 13 May 2022 04:23:42 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:41688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npQZG-0000Yw-JR; Fri, 13 May 2022 04:22:36 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id kq17so14780862ejb.4;
- Fri, 13 May 2022 01:22:33 -0700 (PDT)
+ id 1npQaK-0000iT-Bp; Fri, 13 May 2022 04:23:41 -0400
+Received: by mail-ed1-x536.google.com with SMTP id d6so9084523ede.8;
+ Fri, 13 May 2022 01:23:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/MrMKPRVl38wG3D7rtEYCwGMmefsn/9VsGUAKK5KsYA=;
- b=WYyui/Wz8WxzV99+WCY4resNXZJgo6ecCr4zjCBDbsaBs/4zEdxIzNzsoXXULBr4v7
- X++y/EwOqz7k4Pz0BqwBEmjJewiTmZMP9vIrD3bpPbFc3QwZ7qpRPtu06uQSvL2KahSO
- pih2hKgR2tJ7YTCZzeHQjwP0k1O6BZcsXe5A33BFzxx7xj1GjSTsoFWN7EZsY+YurmH+
- zEMZm7ye3dgyBoaMYjJlty4iRRX9EW9Emoa8NMXJrpda7/hYTIIx2bJz8dq/ZfqdpX23
- DKdK/DLBNrcVJpE4pFTzOdUQ7sbqWcF747JLqIRU5OPQoaSHRtTt6FpbBS455WAWDlFP
- qVsA==
+ bh=42AVf7fDem9auvjZmh5JZp6rpEVesHHUQ+TrNVFPu/A=;
+ b=N6g6n8ked9f43eVKHOv3XAwSwYhhMzJ3TdIDFTCOh4x3dB5fsknTM2ooUSm+dTPHJT
+ QYe8yX8d93NQvOQyCzXB+IndFaI/yFwkuXCuXMUHc8c0/l0m3DvaJAlOtdawt8AydLze
+ iS9Vsdz5vvb8NxXYUxnoUIqbE+1IqBGsfJemYOHVIISMoivsQ2+vbxqlQQK0j5VtylX/
+ YFGKRcRuF9YjrapWbqx9PNymOPKhtuCONNA8yiFRt2Iouy1pgwqScRgbTdw8z1pvsWsL
+ i5aJBJBQzQ1DKFcn2JBTVwpSwlFS1EjB8sja34sM6F+IYsMHCUoKb1vPAcZaO9RaQtKJ
+ 1IXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/MrMKPRVl38wG3D7rtEYCwGMmefsn/9VsGUAKK5KsYA=;
- b=sdGFeESxDwrEg8VxxQBVAeDfL8O3O0hdG4skIwtJK1TE/TuS50Z9hnTFSvTfd/bpaH
- lK3F9Z8jJ4DPEZ7QIK+eyLfyg+R9VXJHF+NCkp1aqeCAkXGxk4eQh9J8Tv75DBFFU/vA
- +w1BDhxYWZ8AnKIhFYwx0mfu70ZzcAnGOXI9JERyFaMfny+tAur/JAcHAoN9YdQhKZBe
- osHnciCo+ZLx/R0skaYWhZgqG6/cg+CJpqnSdORgTf+TV4JaqHznrppofW3pm4FCtT0g
- lTUIjJDaa8JM32Q7eZ7NCKcEbwhjXvCcC5n+5ro6oAnrfnT7NAjNfyaG3lkwf0+qljc/
- Azog==
-X-Gm-Message-State: AOAM533vx5aeY5AOQlviS4/qizMdTddNWLoOYmLiKtpMJbeS0s1DiT6c
- 4AlGjCLN/w6xf2H4Y+ovhFg=
-X-Google-Smtp-Source: ABdhPJzUlFxCc7hirpp9ZYZhijfjGg2GnAlbEyN3i7nmL35SH/HjglsHOQQXvevFqFU328xvkSFq1A==
-X-Received: by 2002:a17:907:7b8a:b0:6fc:ac8d:3477 with SMTP id
- ne10-20020a1709077b8a00b006fcac8d3477mr3204042ejc.48.1652430152443; 
- Fri, 13 May 2022 01:22:32 -0700 (PDT)
+ bh=42AVf7fDem9auvjZmh5JZp6rpEVesHHUQ+TrNVFPu/A=;
+ b=kWee5E8FGqUyQ1CBux/RLDvP7ElXKnKIPjXTvcGfMfnDM+dXPFtemlgWi3BTOoEXcT
+ 1q3YUrinESLaKp/yFtrRQzibIpFZ400aYvJn2VZ5jcXy5xdtMqlQGXz2dutz5ASvhFyg
+ 17aVgkXHkn64ji8ghHG8kS7wGY4utZRI3sodRIwbecA5606pANnPkvPxRagvAqZsMrVD
+ SXVdgsrwDpD80JP3lZLSmbh8sTcTYUS71M5Xx/hlnH8k+xYolB9ZnM1456lm2L1V0R2h
+ li0TwvHivdu8ULuSZzrJI0InxXotpP3bbLOpKBHHwe2uUu9AVQmmFiO25O5tTa6BsLvn
+ wtHQ==
+X-Gm-Message-State: AOAM531uLOL8LsVpAnLaC27TlFQzzGSR75n7UDMJwp4/B5TtcqHDD27E
+ ++X194J9U+ZRPpLk/cZoHHc=
+X-Google-Smtp-Source: ABdhPJxVmMXFBIwLdb/HaHKsDOzNXDroT8OxLG0OmJd5GoxSctStJHACoQcO/ytmQVxQaMVzxCvFGA==
+X-Received: by 2002:aa7:c1d0:0:b0:428:b439:99f5 with SMTP id
+ d16-20020aa7c1d0000000b00428b43999f5mr19793723edp.316.1652430218267; 
+ Fri, 13 May 2022 01:23:38 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- s2-20020a170906778200b006f3ef214e1csm516278ejm.130.2022.05.13.01.22.31
+ m29-20020a17090677dd00b006f3ef214ddbsm532776ejn.65.2022.05.13.01.23.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 01:22:31 -0700 (PDT)
-Message-ID: <9541f3e7-fa0a-0f05-e5db-18be833f997a@redhat.com>
-Date: Fri, 13 May 2022 10:22:31 +0200
+ Fri, 13 May 2022 01:23:37 -0700 (PDT)
+Message-ID: <914fa697-2f24-fbd2-84cf-41661170ea8f@redhat.com>
+Date: Fri, 13 May 2022 10:23:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 3/7] block: Make bdrv_{pread, pwrite}() return 0 on success
+Subject: Re: [RFC PATCH 2/9] tests: add "TESTS_PYTHON" variable to Makefile
 Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Fam Zheng <fam@euphon.net>, Jeff Cody <codyprime@gmail.com>
-References: <20220512233849.2219275-1-afaria@redhat.com>
- <20220512233849.2219275-4-afaria@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220513000609.197906-1-jsnow@redhat.com>
+ <20220513000609.197906-3-jsnow@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220512233849.2219275-4-afaria@redhat.com>
+In-Reply-To: <20220513000609.197906-3-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,96 +100,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 01:38, Alberto Faria wrote:
+On 5/13/22 02:06, John Snow wrote:
+> This is a convenience feature: $(PYTHON) points to the Python executable
+> we were instructed to use by the configure script. We use that Python to
+> create a virtual environment with the "check-venv" target in
+> tests/Makefile.include.
 > 
-> @@ -113,7 +113,7 @@ static ssize_t qcow2_crypto_hdr_read_func(QCryptoBlock *block, size_t offset,
->          error_setg_errno(errp, -ret, "Could not read encryption header");
->          return -1;
->      }
-> -    return ret;
-> +    return buflen;
->  }
->  
->  
-> @@ -174,7 +174,7 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
->          error_setg_errno(errp, -ret, "Could not read encryption header");
->          return -1;
->      }
-> -    return ret;
-> +    return buflen;
->  }
->  
->  static QDict*
-
-As a follow-up you could change the calling convention of readfunc and 
-writefunc in crypto/block-luks.c and crypto/block-qcow.c.
-
-More in general, crypto/block-luks.c and crypto/block-qcow.c should be 
-annotated for coroutine_fn.  Let's put it on the todo list.
-
-> @@ -88,6 +88,7 @@ static int vhdx_log_peek_hdr(BlockDriverState *bs, VHDXLogEntries *log,
->      if (ret < 0) {
->          goto exit;
->      }
-> +    ret = sizeof(VHDXLogEntryHeader);
->      vhdx_log_entry_hdr_le_import(hdr);
->  
->  exit:
-
-The callers only check the return code of vhdx_log_peek_hdr, 
-vhdx_log_read_sectors, vhdx_log_write_sectors with ret < 0.  But looking 
-at the callers:
-
-- vhdx_log_read_desc propagates ret directly from a successful 
-vhdx_log_read_sectors, but its callers don't care about which 
-nonnegative result is returned
-
-- vhdx_validate_log_entry might occasionally return ret directly from a 
-successful vhdx_log_read_desc or vhdx_log_read_sectors, but 
-vhdx_log_search, the caller of vhdx_validate_log_entry, also doesn't 
-care about which nonnegative result is returned
-
-- vhdx_log_flush only returns a successful return value from bdrv_flush
-
-- vhdx_log_write propagates ret directly from a successful 
-vhdx_log_write_sectors, but vhdx_log_write_and_flush only returns a 
-successful return value from vhdx_log_flush
-
-So (perhaps as a separate patch?) you can remove the three assignments 
-of ret.
-
-
-A possible cleanup is missing in vdi_co_pwritev:
-
->         ret = bdrv_pwrite(bs->file, offset * SECTOR_SIZE, base,
->                           n_sectors * SECTOR_SIZE);
->     }
+> $(TESTS_PYTHON) points to the Python executable belonging to the virtual
+> environment tied to the build. This Python executable is a symlink to
+> the binary used to create the venv, which will be the version provided
+> at configure time.
 > 
->     return ret < 0 ? ret : 0;
-
-ret is returned by either bdrv_pwrite or bdrv_co_writev, so it can be 
-simplified to just "return ret".
-
-
-As an aside, while reviewing I noticed this in qcow2_mark_dirty:
-
-     ret = bdrv_pwrite(bs->file, offsetof(QCowHeader, 
-incompatible_features),
-                       &val, sizeof(val));
-     if (ret < 0) {
-         return ret;
-     }
-     ret = bdrv_flush(bs->file->bs);
-     if (ret < 0) {
-         return ret;
-     }
-
-I'm not sure if there are other occurrencies, perhaps you can try using 
-Coccinelle to find them and change them to a bdrv_pwrite_sync.
-
-But anyway:
+> Using $(TESTS_PYTHON) therefore uses the $(PYTHON) executable, but with
+> paths modified to use packages installed to the venv.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/Makefile.include | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index ec84b2ebc04..146aaa96a00 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -89,6 +89,7 @@ TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
+>   TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
+>   TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
+>   TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+> +TESTS_PYTHON=$(TESTS_VENV_DIR)/bin/python
+>   ifndef AVOCADO_TESTS
+>   	AVOCADO_TESTS=tests/avocado
+>   endif
+> @@ -108,7 +109,7 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+>               $(PYTHON) -m venv $@, \
+>               VENV, $@)
+>   	$(call quiet-command, \
+> -            $(TESTS_VENV_DIR)/bin/python -m pip -q install -r $(TESTS_VENV_REQ), \
+> +            $(TESTS_PYTHON) -m pip -q install -r $(TESTS_VENV_REQ), \
+>               PIP, $(TESTS_VENV_REQ))
+>   	$(call quiet-command, touch $@)
+>   
+> @@ -126,7 +127,7 @@ FEDORA_31_DOWNLOAD=$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDIDATES))
+>   # download one specific Fedora 31 image
+>   get-vm-image-fedora-31-%: check-venv
+>   	$(call quiet-command, \
+> -             $(TESTS_VENV_DIR)/bin/python -m avocado vmimage get \
+> +             $(TESTS_PYTHON) -m avocado vmimage get \
+>                --distro=fedora --distro-version=31 --arch=$*, \
+>   	"AVOCADO", "Downloading avocado tests VM image for $*")
+>   
+> @@ -135,7 +136,7 @@ get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOW
+>   
+>   check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>   	$(call quiet-command, \
+> -            $(TESTS_VENV_DIR)/bin/python -m avocado \
+> +            $(TESTS_PYTHON) -m avocado \
+>               --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+>               $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
+>   			--filter-by-tags-include-empty-key) \
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Paolo
 
