@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA6E5266E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:20:58 +0200 (CEST)
-Received: from localhost ([::1]:39102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1FB526761
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 18:46:56 +0200 (CEST)
+Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npY2D-0002Gw-Mw
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:20:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54444)
+	id 1npYRL-0006Ua-7u
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 12:46:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npXxx-0004Kt-Jy
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:16:34 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:42784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1npXxv-0005kS-Hu
- for qemu-devel@nongnu.org; Fri, 13 May 2022 12:16:32 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id x23so8078957pff.9
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 09:16:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VUX4z5JP9JFb7BBHbEjVcuc1OlAnU2bHyEquKRs2d3s=;
- b=Kppmor4I85fiAPIQqKOj0dhfC+mRMMFyMmBcdu+NT0OOi/+VKHpacZDGEMkY1AxodN
- CMKkkiKpMdKHD2K6St2PsX0kdZ+lVPpsS0Bgz7huh0IYydUE3uXLt9U78Qyau8JBcqyW
- RfRg/+O72UuMLYy2WMcCQVd/THl2GxXR9fn5IK0tZpuPlHKuqCEuCFd5S1lDuWJPS1aH
- u9cgPjDw8i3rK4H/aXd46XgyIyf+L7sGmrsnwZtQcTryfqdh10tolkIdhebJ9mKtFO4t
- bl3jy9FVyssGdDgAvFKg6oROmU0CVvnRj0ce+zVEQoXeYJFCig1qGF3B5iKs1MW7256G
- v8dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VUX4z5JP9JFb7BBHbEjVcuc1OlAnU2bHyEquKRs2d3s=;
- b=FE1+7+Ag5HjK2ST0te8dlGcwqhxNOzAJGjtkCeTSxOIIMbu+o2MA3p1GUTAkBWK7n9
- FhLrmhZTdqkqCYzi//unsvouhQeJCk+LKAoTE/TQZNCBlnbGeeJJITu8ulDdk695wZ2q
- WyaDkZJurwWXlRV51lvXkN/rbEiQRrg9sAziQqrN73wb4LLyOxoUlqdAvDw65BTNlbLo
- vSoXZwCnjX6SJfQg2YeMj4VnHsPHMJxUtx6FN6ewmxFtonaBATxhmI7Nc47pNAFKD9jE
- AruYxy+J+t9jWHKSZWyA0cdQjGKJ+ejAaFs9RYTinAV3vYSSxrntQi1b7QMAsFX8fEge
- YU7g==
-X-Gm-Message-State: AOAM530QJSYAsDUVJi1gqCgiVaAR7UH/dXZaZptCaZw7Mc6jZPZBFQG9
- 9dyeBMtTFTQY6PgXFenjFAZKgQ==
-X-Google-Smtp-Source: ABdhPJzQTx4fhDj5JimpggrBGT8MN9G7BPIFfhxBOCcsNZztoEJObjKVOvuVnjQ3D875SLUMv4/oNQ==
-X-Received: by 2002:a05:6a00:15c2:b0:510:6d56:730 with SMTP id
- o2-20020a056a0015c200b005106d560730mr5387667pfu.62.1652458589526; 
- Fri, 13 May 2022 09:16:29 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:46a:1099:e682:8d73:3200:dae5?
- ([2607:fb90:46a:1099:e682:8d73:3200:dae5])
- by smtp.gmail.com with ESMTPSA id
- w2-20020a62c702000000b0050dc762815fsm1996422pfg.57.2022.05.13.09.16.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 09:16:29 -0700 (PDT)
-Message-ID: <faa22312-d676-cd28-ccd9-438acd57cd6c@linaro.org>
-Date: Fri, 13 May 2022 09:16:25 -0700
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1npY0o-00027p-Ip; Fri, 13 May 2022 12:19:30 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:49688 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1npY0l-0005y9-F7; Fri, 13 May 2022 12:19:30 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowADX3Y0EhX5iEPhjBg--.9235S2;
+ Sat, 14 May 2022 00:19:16 +0800 (CST)
+Subject: Re: [PATCH qemu v4 02/10] target/riscv: rvv: Add mask agnostic for
+ vector load / store instructions
+To: Weiwei Li <liweiwei@iscas.ac.cn>, ~eopxd <yueh.ting.chen@gmail.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ eop Chen <eop.chen@sifive.com>
+References: <165244308918.21805.1094821418229175817-2@git.sr.ht>
+ <ebdab126-c45f-9fbf-3b98-8dc1e5bb87e5@iscas.ac.cn>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <15c1e146-f2e5-ee85-fe17-3bddc6bf2b28@iscas.ac.cn>
+Date: Sat, 14 May 2022 00:19:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 06/15] target/s390x: vxeh2: vector string search
+In-Reply-To: <ebdab126-c45f-9fbf-3b98-8dc1e5bb87e5@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- David Miller <dmiller423@gmail.com>, David Hildenbrand <david@redhat.com>
-References: <20220504110521.343519-1-thuth@redhat.com>
- <20220504110521.343519-7-thuth@redhat.com>
- <CAFEAcA-smunqB+Q9NfD=1=QJT2pAZ+OqZTe==ZYbZkx9Rp=pMA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-smunqB+Q9NfD=1=QJT2pAZ+OqZTe==ZYbZkx9Rp=pMA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: qwCowADX3Y0EhX5iEPhjBg--.9235S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ar1rKr1rCrWfZr1xWw1Dtrb_yoW3Jr18pw
+ 1kGrW7Xry5Krn5Jr15Jr1UJryUXr1UG3WDJr10qF1UCr4UJr1jqr4UXr40gr1UAr4kJr1U
+ JF1UArnruF15JFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+ 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_
+ Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1a9aP
+ UUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,23 +82,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 08:54, Peter Maydell wrote:
->> +    s390_vec_write_element64(v1, 0, k << es);
-> 
-> Specifically here, because k is 32 bit but s390_vec_write_element64()
-> takes a uint64_t argument, we will do the shift as a signed 32 bit
-> value before widening to 64 bits, so if the values of 'k' and 'es'
-> are such that we might shift beyond bit 32 we'll get the wrong
-> value. It looks like 'es' is one of the MO_* values, so generally
-> small, but the upper bound on 'k' is a bit less obvious to me.
-> Is the overflow-of-32-bits case impossible?
 
-No, the upper bound of (k << es) is 16.
+在 2022/5/14 上午12:09, Weiwei Li 写道:
+>
+> 在 2022/3/17 下午3:47, ~eopxd 写道:
+>> From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
+>>
+>> Signed-off-by: eop Chen <eop.chen@sifive.com>
+>> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+>> ---
+>>   target/riscv/insn_trans/trans_rvv.c.inc |  5 ++++
+>>   target/riscv/vector_helper.c            | 35 +++++++++++++++++--------
+>>   2 files changed, 29 insertions(+), 11 deletions(-)
+>
+> Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
+>
+> Regards,
+> Weiwei Li
+>
+Sorry, miss a space.
 
-We perform the operation with k in units of element size, so that indexing works nicely, 
-then convert back to units of bytes at the end to report results.  It's a byte index into 
-the vector register, with 16 as an indicator of match not found + eos not found.
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
+>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
+>> b/target/riscv/insn_trans/trans_rvv.c.inc
+>> index df5a892150..a6daf20714 100644
+>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+>> @@ -712,6 +712,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm 
+>> *a, uint8_t eew)
+>>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>>   }
+>>   @@ -777,6 +778,7 @@ static bool ld_us_mask_op(DisasContext *s, 
+>> arg_vlm_v *a, uint8_t eew)
+>>       data = FIELD_DP32(data, VDATA, NF, 1);
+>>       /* Mask destination register are always tail-agnostic */
+>>       data = FIELD_DP32(data, VDATA, VTA, s->cfg_vta_all_1s);
+>> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>>   }
+>>   @@ -866,6 +868,7 @@ static bool ld_stride_op(DisasContext *s, 
+>> arg_rnfvm *a, uint8_t eew)
+>>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, 
+>> false);
+>>   }
+>>   @@ -996,6 +999,7 @@ static bool ld_index_op(DisasContext *s, 
+>> arg_rnfvm *a, uint8_t eew)
+>>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, 
+>> false);
+>>   }
+>>   @@ -1114,6 +1118,7 @@ static bool ldff_op(DisasContext *s, 
+>> arg_r2nfvm *a, uint8_t eew)
+>>       data = FIELD_DP32(data, VDATA, LMUL, emul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>       data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>> +    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>>       return ldff_trans(a->rd, a->rs1, data, fn, s);
+>>   }
+>>   diff --git a/target/riscv/vector_helper.c 
+>> b/target/riscv/vector_helper.c
+>> index 6c55d5a750..5d392d084e 100644
+>> --- a/target/riscv/vector_helper.c
+>> +++ b/target/riscv/vector_helper.c
+>> @@ -282,14 +282,18 @@ vext_ldst_stride(void *vd, void *v0, 
+>> target_ulong base,
+>>       uint32_t esz = 1 << log2_esz;
+>>       uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+>>       uint32_t vta = vext_vta(desc);
+>> +    uint32_t vma = vext_vma(desc);
+>>         for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+>> -        if (!vm && !vext_elem_mask(v0, i)) {
+>> -            continue;
+>> -        }
+>> -
+>>           k = 0;
+>>           while (k < nf) {
+>> +            if (!vm && !vext_elem_mask(v0, i)) {
+>> +                /* set masked-off elements to 1s */
+>> +                vext_set_elems_1s(vd, vma, (i + k * max_elems) * esz,
+>> +                                  (i + k * max_elems + 1) * esz);
+>> +                k++;
+>> +                continue;
+>> +            }
+>>               target_ulong addr = base + stride * i + (k << log2_esz);
+>>               ldst_elem(env, adjust_addr(env, addr), i + k * 
+>> max_elems, vd, ra);
+>>               k++;
+>> @@ -481,15 +485,19 @@ vext_ldst_index(void *vd, void *v0, 
+>> target_ulong base,
+>>       uint32_t esz = 1 << log2_esz;
+>>       uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+>>       uint32_t vta = vext_vta(desc);
+>> +    uint32_t vma = vext_vma(desc);
+>>         /* load bytes from guest memory */
+>>       for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+>> -        if (!vm && !vext_elem_mask(v0, i)) {
+>> -            continue;
+>> -        }
+>> -
+>>           k = 0;
+>>           while (k < nf) {
+>> +            if (!vm && !vext_elem_mask(v0, i)) {
+>> +                /* set masked-off elements to 1s */
+>> +                vext_set_elems_1s(vd, vma, (i + k * max_elems) * esz,
+>> +                                  (i + k * max_elems + 1) * esz);
+>> +                k++;
+>> +                continue;
+>> +            }
+>>               abi_ptr addr = get_index_addr(base, i, vs2) + (k << 
+>> log2_esz);
+>>               ldst_elem(env, adjust_addr(env, addr), i + k * 
+>> max_elems, vd, ra);
+>>               k++;
+>> @@ -578,6 +586,7 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+>>       uint32_t esz = 1 << log2_esz;
+>>       uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+>>       uint32_t vta = vext_vta(desc);
+>> +    uint32_t vma = vext_vma(desc);
+>>       target_ulong addr, offset, remain;
+>>         /* probe every access*/
+>> @@ -623,10 +632,14 @@ ProbeSuccess:
+>>       }
+>>       for (i = env->vstart; i < env->vl; i++) {
+>>           k = 0;
+>> -        if (!vm && !vext_elem_mask(v0, i)) {
+>> -            continue;
+>> -        }
+>>           while (k < nf) {
+>> +            if (!vm && !vext_elem_mask(v0, i)) {
+>> +                /* set masked-off elements to 1s */
+>> +                vext_set_elems_1s(vd, vma, (i + k * max_elems) * esz,
+>> +                                  (i + k * max_elems + 1) * esz);
+>> +                k++;
+>> +                continue;
+>> +            }
+>>               target_ulong addr = base + ((i * nf + k) << log2_esz);
+>>               ldst_elem(env, adjust_addr(env, addr), i + k * 
+>> max_elems, vd, ra);
+>>               k++;
+>
 
-r~
 
