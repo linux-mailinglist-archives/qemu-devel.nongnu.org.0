@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450F9526266
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 14:56:18 +0200 (CEST)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29EEC5262A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 15:09:16 +0200 (CEST)
+Received: from localhost ([::1]:56944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npUq8-0007zq-FY
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 08:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
+	id 1npV2g-0001bD-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 09:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npUma-0005VO-7k
- for qemu-devel@nongnu.org; Fri, 13 May 2022 08:52:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42518)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npUnX-0006RD-7E
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 08:53:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npUmU-0003q4-UP
- for qemu-devel@nongnu.org; Fri, 13 May 2022 08:52:34 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1npUnU-0003x4-Ad
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 08:53:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652446349;
+ s=mimecast20190719; t=1652446410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jvWh8iVPpfjVyVtFBywZlryK6NM/0i32omuQ9amqUtA=;
- b=C+4RSn5/1k6Q9WaAnYNGssFlN/QS0MZwkBnzx+wdnoDF/OtxaIn9OcbbJkWU4AGJ7p++23
- lTHqOsEBK68N6rwIcoFgx+nbTMsAd5TKMzGb1MQyWro01sPSi0c20BaGlCQMRnyMOs6G/i
- QfmxkFsE+Ix+TwqNU2ynjehz/EtWo/Y=
+ bh=VuNF2DZ96dIo6onbvovxYWvoBbzP2rRQfmCpXiTadZA=;
+ b=YlgQlmGehb6A0duCwHXNytalwPnfiR2ZQQIGxjqAIrTKrbskuOsGtJJs40r0z0+4spOz8c
+ 2UMgs/uAGTTlgbXuWYogw3yaKjc1MPZWY7az2fQwRyKr3BsJGLGtiqBQnDfWKhwd7jZLkA
+ leI5SqjUpukgR72gzEIeFqVQUFqd2Rw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-dfkkhSoZOnK39q6vlMph2g-1; Fri, 13 May 2022 08:52:28 -0400
-X-MC-Unique: dfkkhSoZOnK39q6vlMph2g-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-460-XroOIrR2NJuEbftj3AL2tQ-1; Fri, 13 May 2022 08:53:29 -0400
+X-MC-Unique: XroOIrR2NJuEbftj3AL2tQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7275D3802AC3;
- Fri, 13 May 2022 12:52:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 794343C138D5
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 12:53:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13A65416156;
- Fri, 13 May 2022 12:52:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3870343FD3E;
+ Fri, 13 May 2022 12:53:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D043321E690D; Fri, 13 May 2022 14:52:26 +0200 (CEST)
+ id 3408521E690D; Fri, 13 May 2022 14:53:28 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org,  armbru@redhat.com,  dgilbert@redhat.com,
- berrange@redhat.com,  Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v2 1/8] qmp: Support for querying stats
+ berrange@redhat.com
+Subject: Re: [PATCH v2 3/8] qmp: add filtering of statistics by target vCPU
 References: <20220511084833.195963-1-pbonzini@redhat.com>
- <20220511084833.195963-2-pbonzini@redhat.com>
-Date: Fri, 13 May 2022 14:52:26 +0200
-In-Reply-To: <20220511084833.195963-2-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Wed, 11 May 2022 10:48:26 +0200")
-Message-ID: <87wnepy4qd.fsf@pond.sub.org>
+ <20220511084833.195963-4-pbonzini@redhat.com>
+Date: Fri, 13 May 2022 14:53:28 +0200
+In-Reply-To: <20220511084833.195963-4-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Wed, 11 May 2022 10:48:28 +0200")
+Message-ID: <87sfpdy4on.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -83,481 +83,184 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> From: Mark Kanda <mark.kanda@oracle.com>
+> Introduce a simple filtering of statistics, that allows to retrieve
+> statistics for a subset of the guest vCPUs.  This will be used for
+> example by the HMP monitor, in order to retrieve the statistics
+> for the currently selected CPU.
 >
-> Introduce QMP support for querying stats. Provide a framework for adding new
-> stats and support for the following commands:
+> Example:
+> { "execute": "query-stats",
+>   "arguments": {
+>     "target": "vcpu",
+>     "vcpus": [ "/machine/unattached/device[2]",
+>                "/machine/unattached/device[4]" ] } }
 >
-> - query-stats
-> Returns a list of all stats per target type (only VM and vCPU to start), with
-> additional options for specifying stat names, vCPU qom paths, and providers.
+> Extracted from a patch by Mark Kanda.
 >
-> - query-stats-schemas
-> Returns a list of stats included in each target type, with an option for
-> specifying the provider.  The concepts in the schema are based on the
-> KVM binary stats' own introspection data, just translated to QAPI.
->
-> The framework provides a method to register callbacks for these QMP commands.
-> Most of the work in fact is done by the callbacks, and a large majority of
-> this patch is new QAPI structs and commands.
->
-> The first use-case will be for fd-based KVM stats (in an upcoming patch).
->
-> Examples (with fd-based KVM stats):
->
-> - Query all VM stats:
->
-> { "execute": "query-stats", "arguments" : { "target": "vm" } }
->
-> { "return": [
->      { "provider": "kvm",
->        "stats": [
->           { "name": "max_mmu_page_hash_collisions", "value": 0 },
->           { "name": "max_mmu_rmap_size", "value": 0 },
->           { "name": "nx_lpage_splits", "value": 148 },
->           ... ] },
->      { "provider": "xyz",
->        "stats": [ ... ] }
-> ] }
->
-> - Query all vCPU stats:
->
-> { "execute": "query-stats", "arguments" : { "target": "vcpu" } }
->
-> { "return": [
->      { "provider": "kvm",
->        "qom_path": "/machine/unattached/device[0]"
->        "stats": [
->           { "name": "guest_mode", "value": 0 },
->           { "name": "directed_yield_successful", "value": 0 },
->           { "name": "directed_yield_attempted", "value": 106 },
->           ... ] },
->      { "provider": "kvm",
->        "qom_path": "/machine/unattached/device[1]"
->        "stats": [
->           { "name": "guest_mode", "value": 0 },
->           { "name": "directed_yield_successful", "value": 0 },
->           { "name": "directed_yield_attempted", "value": 106 },
->           ... ] },
-> ] }
->
-> - Retrieve the schemas:
->
-> { "execute": "query-stats-schemas" }
->
-> { "return": [
->     { "provider": "kvm",
->       "target": "vcpu",
->       "stats": [
->          { "name": "guest_mode",
->            "unit": "none",
->            "base": 10,
->            "exponent": 0,
->            "type": "instant" },
->         { "name": "directed_yield_successful",
->            "unit": "none",
->            "base": 10,
->            "exponent": 0,
->            "type": "cumulative" },
->         ... ]
->     },
->     { "provider": "kvm",
->       "target": "vm",
->       "stats": [
->         { "name": "max_mmu_page_hash_collisions",
->            "unit": "none",
->            "base": 10,
->            "exponent": 0,
->            "type": "peak" },
->         ... ]
->     },
->     { "provider": "xyz",
->       "target": "vm",
->       "stats": [ ... ]
->     }
-> ] }
->
-> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  include/monitor/stats.h |  33 +++++++
->  monitor/qmp-cmds.c      |  71 ++++++++++++++
->  qapi/meson.build        |   1 +
->  qapi/qapi-schema.json   |   1 +
->  qapi/stats.json         | 201 ++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 307 insertions(+)
->  create mode 100644 include/monitor/stats.h
->  create mode 100644 qapi/stats.json
+>  accel/kvm/kvm-all.c     |  9 +++++++--
+>  include/monitor/stats.h |  9 ++++++++-
+>  monitor/qmp-cmds.c      | 34 +++++++++++++++++++++++++++++++++-
+>  qapi/stats.json         | 24 +++++++++++++++++++-----
+>  4 files changed, 67 insertions(+), 9 deletions(-)
 >
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 6a6bbe2994..28f8a45205 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2311,7 +2311,8 @@ bool kvm_dirty_ring_enabled(void)
+>      return kvm_state->kvm_dirty_ring_size ? true : false;
+>  }
+>  
+> -static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp);
+> +static void query_stats_cb(StatsResultList **result, StatsTarget target,
+> +                           strList *targets, Error **errp);
+>  static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
+>  
+>  static int kvm_init(MachineState *ms)
+> @@ -4049,7 +4050,8 @@ static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
+>      close(stats_fd);
+>  }
+>  
+> -static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp)
+> +static void query_stats_cb(StatsResultList **result, StatsTarget target,
+> +                           strList *targets, Error **errp)
+>  {
+>      KVMState *s = kvm_state;
+>      CPUState *cpu;
+> @@ -4073,6 +4075,9 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target, Error *
+>          stats_args.result.stats = result;
+>          stats_args.errp = errp;
+>          CPU_FOREACH(cpu) {
+> +            if (!str_in_list(cpu->parent_obj.canonical_path, targets)) {
+> +                continue;
+> +            }
+>              run_on_cpu(cpu, query_stats_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
+>          }
+>          break;
 > diff --git a/include/monitor/stats.h b/include/monitor/stats.h
-> new file mode 100644
-> index 0000000000..89552ab06f
-> --- /dev/null
+> index 89552ab06f..92a1df3072 100644
+> --- a/include/monitor/stats.h
 > +++ b/include/monitor/stats.h
-> @@ -0,0 +1,33 @@
+> @@ -10,7 +10,8 @@
+>  
+>  #include "qapi/qapi-types-stats.h"
+>  
+> -typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target, Error **errp);
+> +typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target,
+> +                              strList *targets, Error **errp);
+>  typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
+>  
+>  /*
+> @@ -30,4 +31,10 @@ void add_stats_entry(StatsResultList **, StatsProvider, const char *id,
+>  void add_stats_schema(StatsSchemaList **, StatsProvider, StatsTarget,
+>                        StatsSchemaValueList *);
+>  
 > +/*
-> + * Copyright (c) 2022 Oracle and/or its affiliates.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2.
-> + * See the COPYING file in the top-level directory.
+> + * True if a string matches the filter passed to the stats_fn callabck,
+> + * false otherwise.
 > + */
+> +bool str_in_list(const char *string, strList *list);
 > +
-> +#ifndef STATS_H
-> +#define STATS_H
-> +
-> +#include "qapi/qapi-types-stats.h"
-> +
-> +typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target, Error **errp);
-> +typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
-> +
-> +/*
-> + * Register callbacks for the QMP query-stats command.
-> + *
-> + * @stats_fn: routine to query stats:
-> + * @schema_fn: routine to query stat schemas:
-> + */
-> +void add_stats_callbacks(StatRetrieveFunc *stats_fn,
-> +                         SchemaRetrieveFunc *schemas_fn);
-> +
-> +/*
-> + * Helper routines for adding stats entries to the results lists.
-> + */
-> +void add_stats_entry(StatsResultList **, StatsProvider, const char *id,
-> +                     StatsList *stats_list);
-> +void add_stats_schema(StatsSchemaList **, StatsProvider, StatsTarget,
-> +                      StatsSchemaValueList *);
-> +
-> +#endif /* STATS_H */
+>  #endif /* STATS_H */
 > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 1ebb89f46c..d83faeca88 100644
+> index d83faeca88..1ec7409bc2 100644
 > --- a/monitor/qmp-cmds.c
 > +++ b/monitor/qmp-cmds.c
-> @@ -35,6 +35,7 @@
->  #include "qapi/qapi-commands-control.h"
->  #include "qapi/qapi-commands-machine.h"
->  #include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-commands-stats.h"
->  #include "qapi/qapi-commands-ui.h"
->  #include "qapi/type-helpers.h"
->  #include "qapi/qmp/qerror.h"
-> @@ -43,6 +44,7 @@
->  #include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/intc/intc.h"
->  #include "hw/rdma/rdma.h"
-> +#include "monitor/stats.h"
+> @@ -463,13 +463,30 @@ void add_stats_callbacks(StatRetrieveFunc *stats_fn,
+>      QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
+>  }
 >  
->  NameInfo *qmp_query_name(Error **errp)
+> +static strList *stats_target_filter(StatsFilter *filter)
+> +{
+> +    switch (filter->target) {
+> +    case STATS_TARGET_VM:
+> +        return NULL;
+> +    case STATS_TARGET_VCPU:
+> +        if (!filter->u.vcpu.has_vcpus) {
+> +            return NULL;
+> +        }
+> +        return filter->u.vcpu.vcpus;
+> +        break;
+> +    default:
+> +        abort();
+> +    }
+> +}
+> +
+>  StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
 >  {
-> @@ -441,3 +443,72 @@ HumanReadableText *qmp_x_query_irq(Error **errp)
+>      StatsResultList *stats_results = NULL;
+> +    strList *targets = stats_target_filter(filter);
+>      StatsCallbacks *entry;
 >  
->      return human_readable_text_from_str(buf);
+>      QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+> -        entry->stats_cb(&stats_results, filter->target, errp);
+> +        entry->stats_cb(&stats_results, filter->target, targets, errp);
+>      }
+>  
+>      return stats_results;
+> @@ -512,3 +529,18 @@ void add_stats_schema(StatsSchemaList **schema_results,
+>      entry->stats = stats_list;
+>      QAPI_LIST_PREPEND(*schema_results, entry);
 >  }
 > +
-> +typedef struct StatsCallbacks {
-> +    StatRetrieveFunc *stats_cb;
-> +    SchemaRetrieveFunc *schemas_cb;
-> +    QTAILQ_ENTRY(StatsCallbacks) next;
-> +} StatsCallbacks;
-> +
-> +static QTAILQ_HEAD(, StatsCallbacks) stats_callbacks =
-> +    QTAILQ_HEAD_INITIALIZER(stats_callbacks);
-> +
-> +void add_stats_callbacks(StatRetrieveFunc *stats_fn,
-> +                         SchemaRetrieveFunc *schemas_fn)
+> +bool str_in_list(const char *string, strList *list)
 > +{
-> +    StatsCallbacks *entry = g_new(StatsCallbacks, 1);
-> +    entry->stats_cb = stats_fn;
-> +    entry->schemas_cb = schemas_fn;
+> +    strList *str_list = NULL;
 > +
-> +    QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
-> +}
-> +
-> +StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
-> +{
-> +    StatsResultList *stats_results = NULL;
-> +    StatsCallbacks *entry;
-> +
-> +    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-> +        entry->stats_cb(&stats_results, filter->target, errp);
+> +    if (!list) {
+> +        return true;
 > +    }
-> +
-> +    return stats_results;
-> +}
-> +
-> +StatsSchemaList *qmp_query_stats_schemas(Error **errp)
-> +{
-> +    StatsSchemaList *stats_results = NULL;
-> +    StatsCallbacks *entry;
-> +
-> +    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-> +        entry->schemas_cb(&stats_results, errp);
+> +    for (str_list = list; str_list; str_list = str_list->next) {
+> +        if (g_str_equal(string, str_list->value)) {
+> +            return true;
+> +        }
 > +    }
-> +
-> +    return stats_results;
+> +    return false;
 > +}
-> +
-> +void add_stats_entry(StatsResultList **stats_results, StatsProvider provider,
-> +                     const char *qom_path, StatsList *stats_list)
-> +{
-> +    StatsResult *entry = g_new0(StatsResult, 1);
-> +    entry->provider = provider;
-> +    if (qom_path) {
-> +        entry->has_qom_path = true;
-> +        entry->qom_path = g_strdup(qom_path);
-> +    }
-> +    entry->stats = stats_list;
-> +
-> +    QAPI_LIST_PREPEND(*stats_results, entry);
-> +}
-> +
-> +void add_stats_schema(StatsSchemaList **schema_results,
-> +                      StatsProvider provider, StatsTarget target,
-> +                      StatsSchemaValueList *stats_list)
-> +{
-> +    StatsSchema *entry = g_new0(StatsSchema, 1);
-> +
-> +    entry->provider = provider;
-> +    entry->target = target;
-> +    entry->stats = stats_list;
-> +    QAPI_LIST_PREPEND(*schema_results, entry);
-> +}
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index 656ef0e039..fd5c93d643 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -46,6 +46,7 @@ qapi_all_modules = [
->    'replay',
->    'run-state',
->    'sockets',
-> +  'stats',
->    'trace',
->    'transaction',
->    'yank',
-> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-> index 4912b9744e..92d7ecc52c 100644
-> --- a/qapi/qapi-schema.json
-> +++ b/qapi/qapi-schema.json
-> @@ -93,3 +93,4 @@
->  { 'include': 'audio.json' }
->  { 'include': 'acpi.json' }
->  { 'include': 'pci.json' }
-> +{ 'include': 'stats.json' }
 > diff --git a/qapi/stats.json b/qapi/stats.json
-> new file mode 100644
-> index 0000000000..033cb60d71
-> --- /dev/null
+> index 06d2296a49..eb13377358 100644
+> --- a/qapi/stats.json
 > +++ b/qapi/stats.json
-> @@ -0,0 +1,201 @@
-> +# -*- Mode: Python -*-
-> +# vim: filetype=python
-> +#
-> +# Copyright (c) 2022 Oracle and/or its affiliates.
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
-> +# See the COPYING file in the top-level directory.
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +##
-> +# = Statistics
-> +##
-> +
-> +##
-> +# @StatsType:
-> +#
-> +# Enumeration of statistics types
-> +#
-> +# @cumulative: stat is cumulative; value can only increase.
-> +# @instant: stat is instantaneous; value can increase or decrease.
-> +# @peak: stat is the peak value; value can only increase.
-> +# @linear-histogram: stat is a linear histogram.
-> +# @log2-histogram: stat is a logarithmic histogram, with one bucket
-> +#                  for each power of two.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'enum' : 'StatsType',
-> +  'data' : [ 'cumulative', 'instant', 'peak', 'linear-histogram', 'log2-histogram' ] }
-> +
-> +##
-> +# @StatsUnit:
-> +#
-> +# Enumeration of unit of measurement for statistics
-> +#
-> +# @bytes: stat reported in bytes.
-> +# @seconds: stat reported in seconds.
-> +# @cycles: stat reported in clock cycles.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'enum' : 'StatsUnit',
-> +  'data' : [ 'bytes', 'seconds', 'cycles' ] }
-> +
-> +##
-> +# @StatsProvider:
-> +#
-> +# Enumeration of statistics providers.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'enum': 'StatsProvider',
-> +  'data': [ ] }
-> +
-> +##
-> +# @StatsTarget:
-> +#
-> +# The kinds of objects on which one can request statistics.
-> +#
-> +# @vm: statistics that apply to the entire virtual machine or
-> +#      the entire QEMU process.
-> +#
-> +# @vcpu: statistics that apply to a single virtual CPU.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'enum': 'StatsTarget',
-> +  'data': [ 'vm', 'vcpu' ] }
+> @@ -69,15 +69,29 @@
+>    'data': [ 'vm', 'vcpu' ] }
+>  
+>  ##
+> -# @StatsFilter:
+> +# @StatsVCPUFilter:
+>  #
+> -# The arguments to the query-stats command; specifies a target for which to
+> -# request statistics.
+> +# @vcpus: list of qom paths for the desired vCPU objects.
+
+"QOM paths", because that's how we spell it elsewhere.
+
+
+>  #
+>  # Since: 7.1
+>  ##
+> -{ 'struct': 'StatsFilter',
+> -  'data': { 'target': 'StatsTarget' } }
+> +{ 'struct': 'StatsVCPUFilter',
+> +  'data': { '*vcpus': [ 'str' ] } }
 > +
 > +##
 > +# @StatsFilter:
 > +#
 > +# The arguments to the query-stats command; specifies a target for which to
-> +# request statistics.
+> +# request statistics and optionally the required subset of information for
+> +# that target:
+> +# - which vCPUs to request statistics for
 > +#
 > +# Since: 7.1
 > +##
-> +{ 'struct': 'StatsFilter',
-> +  'data': { 'target': 'StatsTarget' } }
-> +
-> +##
-> +# @StatsValue:
-> +#
-> +# @scalar: single unsigned 64-bit integers.
-> +# @list: list of unsigned 64-bit integers (used for histograms).
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'alternate': 'StatsValue',
-> +  'data': { 'scalar': 'uint64',
-> +            'list': [ 'uint64' ] } }
-> +
-> +##
-> +# @Stats:
-> +#
-> +# @name: name of stat.
-> +# @value: stat value.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'Stats',
-> +  'data': { 'name': 'str',
-> +            'value' : 'StatsValue' } }
-> +
-> +##
-> +# @StatsResult:
-> +#
-> +# @provider: provider for this set of statistics.
-> +# @qom-path: QOM path of the object for which the statistics are returned
-
-Since @qom-path is optional, we better document when it's present.  In
-the review thread for v1, you explained "Only if the target is vcpus,
-for the current set of targets."  More general, and hopefully still
-correct, would be "Present if that object is a QOM object", but the
-phrasing feels rather clumsy.  Would appending ", if any" suffice?
-
-> +# @stats: list of statistics.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'StatsResult',
-> +  'data': { 'provider': 'StatsProvider',
-> +            '*qom-path': 'str',
-> +            'stats': [ 'Stats' ] } }
-> +
-> +##
-> +# @query-stats:
-> +#
-> +# Return runtime-collected statistics for objects such as the
-> +# VM or its vCPUs.
-> +#
-> +# The arguments are a StatsFilter and specify the provider and objects
-> +# to return statistics about.
-> +#
-> +# Returns: a list of StatsResult, one for each provider and object
-> +#          (e.g., for each vCPU).
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'command': 'query-stats',
-> +  'data': 'StatsFilter',
-> +  'boxed': true,
-> +  'returns': [ 'StatsResult' ] }
-> +
-> +##
-> +# @StatsSchemaValue:
-> +#
-> +# Schema for a single statistic.
-> +#
-> +# @name: name of the statistic; each element of the schema is uniquely
-> +#        identified by a target, a provider (both available in @StatsSchema)
-> +#        and the name.
-> +#
-> +# @type: kind of statistic.
-> +#
-> +# @unit: basic unit of measure for the statistic; if missing, the statistic
-> +#        is a simple number or counter.
-> +#
-> +# @base: base for the multiple of @unit in which the statistic is measured.
-> +#        Only present if @exponent is non-zero; @base and @exponent together
-> +#        form a SI prefix (e.g., _nano-_ for ``base=10`` and ``exponent=-9``)
-> +#        or IEC binary prefix (e.g. _kibi-_ for ``base=2`` and ``exponent=10``)
-> +#
-> +# @exponent: exponent for the multiple of @unit in which the statistic is
-> +#            expressed, or 0 for the basic unit
-> +#
-> +# @bucket-size: Used with the @linear-histogram @StatsType, contains the width
-
-Suggest 'present when @type is "linear-histogram", contains ...'.
-
-> +#               of each bucket of the histogram.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'StatsSchemaValue',
-> +  'data': { 'name': 'str',
-> +            'type': 'StatsType',
-> +            '*unit': 'StatsUnit',
-> +            '*base': 'int8',
-> +            'exponent': 'int16',
-> +            '*bucket-size': 'uint32' } }
-> +
-> +##
-> +# @StatsSchema:
-> +#
-> +# Schema for all available statistics for a provider and target.
-> +#
-> +# @provider: provider for this set of statistics.
-> +#
-> +# @target: the kind of object that can be queried through the provider.
-> +#
-> +# @stats: list of statistics.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'StatsSchema',
-> +  'data': { 'provider': 'StatsProvider',
-> +            'target': 'StatsTarget',
-> +            'stats': [ 'StatsSchemaValue' ] } }
-> +
-> +##
-> +# @query-stats-schemas:
-> +#
-> +# Return the schema for all available runtime-collected statistics.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'command': 'query-stats-schemas',
-> +  'data': { },
-> +  'returns': [ 'StatsSchema' ] }
+> +{ 'union': 'StatsFilter',
+> +        'base': { 'target': 'StatsTarget' },
+> +  'discriminator': 'target',
+> +  'data': { 'vcpu': 'StatsVCPUFilter' } }
+>  
+>  ##
+>  # @StatsValue:
 
 
