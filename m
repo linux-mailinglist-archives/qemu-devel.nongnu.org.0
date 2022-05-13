@@ -2,92 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B4B526697
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:53:18 +0200 (CEST)
-Received: from localhost ([::1]:35426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689EE5266A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 May 2022 17:57:45 +0200 (CEST)
+Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npXbR-0001Qt-89
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48142)
+	id 1npXfk-0007go-HH
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 11:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npXZG-0007oR-76
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:51:02 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1npXZD-00014m-6d
- for qemu-devel@nongnu.org; Fri, 13 May 2022 11:51:01 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id m20so17020693ejj.10
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x13hY3ZhorkB8Di6lvuhk1D1Pq5eTM90/+R1uOvaW8M=;
- b=ffXOjq9vob8aaqoLchFFJyxFbY+EXNqcFx3UQelmLi7oz/7QfmijQbxFPTau591ZtN
- qkb3U68ZG4LMOlEztjy3ypcnxd78JG4CJGPT2zEGb526qcvFVWgCAEu9ckaQI2fmSgzu
- sLMtNPXaUvVtYkJO4djhtxXurN3L4vyfeiCiUjSPMLDtoq341OMXBZ1QHL/rE/T+b3f0
- veuscK8R7LSioCcFfCAIxYLT+uB8+NeI2UlF0lqISVP2ooPwiMaMHtychnAeczIie9iq
- sdJ5ZKNAtUV266dU83uk5nq3CDmpUUVVKwfcRiOvmn6S4rL7EYpfPSvTwNeoEId40Hez
- qyyQ==
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npXcb-00058U-5s
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:54:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51861)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1npXcZ-0001cO-Dr
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 11:54:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652457266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZZd4F2h66w9V9qY8MVyG2pW6W12i9w3UXgHmyIwMFT8=;
+ b=hjzdSH8YeHcpdrtzGxLmxDdS59H3w1IRiVl8fkSznWDv9v4YOPWYUCzRz2fuR5kb2f7a2i
+ OxXLzZcuKQskCXqF5ecBaIW2LNjBRZz4JjZbGLIbGM2GVfuTeHL1B4wRfEl5rtyRH9V24K
+ zCgcyEmoX+ip0Y22s1UrTX1cy26UV/k=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-KOLs5A3PO1ahrVo4y2ooHA-1; Fri, 13 May 2022 11:54:25 -0400
+X-MC-Unique: KOLs5A3PO1ahrVo4y2ooHA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w20-20020adfd1b4000000b0020cbb4347e6so3083895wrc.17
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 08:54:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=x13hY3ZhorkB8Di6lvuhk1D1Pq5eTM90/+R1uOvaW8M=;
- b=DjHobmk8leiRI1j/xSvuR8Z/LNVv+P/PcqALpZym7XXHGAquIiCCed37Dm5G+ohYvn
- tguILZ7rDtgYfO4yLy4ZT6/Tqj8QHmsAuGwI4JAhhKu7SV+XlTghdvxhsr4WtRFLLwxq
- lTFLddBflO/SgUy792x8D0U10Qejbbn9Qd8ybemS59s940mhvdOab8ws61W19MhNV8r1
- ZXuP17bVPHQm8gXtrU0Q+J+va/mvow0cC+zxc0HV1uWiBcC8X2jVZmji4u4uYSExe7LE
- XgLkGQmLU5OAa/Iu/E3l+ml8MEFOOhADlZGNmlnnkz+yo7nwUiLyymqJk79476qfe9Tm
- rLvw==
-X-Gm-Message-State: AOAM531X8wBfZxv50HTPVbOWl2piE2BwWPsIAm7ytFkbthrV/+9d6UJa
- Ix9RNyZC8Ds3KSDsuGQhClw=
-X-Google-Smtp-Source: ABdhPJwKUt3fv/ZvtODxRsY1WurI+SR9AJmyq7q5bmmlLNwcsDma7G8EqVBJJ551yf+99Wxxm2lqXA==
-X-Received: by 2002:a17:906:9b92:b0:6fd:e4ce:e416 with SMTP id
- dd18-20020a1709069b9200b006fde4cee416mr4968953ejc.394.1652457051724; 
- Fri, 13 May 2022 08:50:51 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- j18-20020aa7c412000000b0042617ba63b8sm1090783edq.66.2022.05.13.08.50.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 08:50:51 -0700 (PDT)
-Message-ID: <8bebcd75-61bd-d3aa-974b-eab9f62ae5e5@redhat.com>
-Date: Fri, 13 May 2022 17:50:50 +0200
+ bh=ZZd4F2h66w9V9qY8MVyG2pW6W12i9w3UXgHmyIwMFT8=;
+ b=yNAo/q7lW75Zqq5WrZXYu5bjgQ8DBmvfflXlxLoQKYbhZdPH6w0/ASaKWOMUyDn99q
+ 5OCNjXq3udtv2Tv755sOHE+g3PivxD06dl1FRQuaj5q4PMRWRX02CLkWNrbbklHewyYh
+ wtLmPwdMjJLAXziFgFUGmALb+KSM0HWq5oIerbrMhmZKY/l8ou/tj7jSc3HVKw2HHs97
+ 4ijlrLEnw40o4/UVwMRdg5wfqO7GNvS3JNkeFP9ocWoPU7GhCdo9h5dVBaeP7JpfxGmm
+ 1XVtvPpMI4XfLKPgKU2AFrbKMFNWaGOA2dKlb9JBziWBuHLxA7IFNs2vmE/7cM86+qff
+ P7mQ==
+X-Gm-Message-State: AOAM532vBuG3IglCHIs/QK0/J0OZdDGEV2WX4Ccayv7Fw4mRvcdEfQoP
+ KzCJjaEBrfKAy7Gtz/gXjuHTDFXSF+cMsdRJOke9vdk0SkH8qyFDLbbadWYBFChEs+nazd6T5KR
+ CwCT1XIm26fDYuU4gsu20yzHcQGIRyuVRCeFZPwtKe09GDQ+nOcS1OUzS/2klRqWe
+X-Received: by 2002:a05:600c:a08:b0:392:a561:9542 with SMTP id
+ z8-20020a05600c0a0800b00392a5619542mr5183554wmp.62.1652457263859; 
+ Fri, 13 May 2022 08:54:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzL8vxtKRJMAGBoOU0h8XVQkjzVlrWUR4cAA5GLCg/mL8fiNbGjix0JgiAjk2gQP1+f/WtvqQ==
+X-Received: by 2002:a05:600c:a08:b0:392:a561:9542 with SMTP id
+ z8-20020a05600c0a0800b00392a5619542mr5183516wmp.62.1652457263471; 
+ Fri, 13 May 2022 08:54:23 -0700 (PDT)
+Received: from DESKTOP-E7ACR7D.lan ([2001:8a0:f4d9:2101:a4fa:5f93:755f:6249])
+ by smtp.gmail.com with ESMTPSA id
+ bg12-20020a05600c3c8c00b003942a244ecbsm2791262wmb.16.2022.05.13.08.54.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 08:54:23 -0700 (PDT)
+From: Alberto Faria <afaria@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Alberto Faria <afaria@redhat.com>,
+ Ari Sundholm <ari@tuxera.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, "Denis V. Lunev" <den@openvz.org>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH v2 00/10] Implement bdrv_{pread, pwrite, pwrite_sync,
+ pwrite_zeroes}() using generated_co_wrapper
+Date: Fri, 13 May 2022 16:54:08 +0100
+Message-Id: <20220513155418.2486450-1-afaria@redhat.com>
+X-Mailer: git-send-email 2.35.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 1/8] qmp: Support for querying stats
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, mark.kanda@oracle.com, berrange@redhat.com,
- dgilbert@redhat.com
-References: <20220426141619.304611-1-pbonzini@redhat.com>
- <20220426141619.304611-2-pbonzini@redhat.com> <87sfpp3018.fsf@pond.sub.org>
- <41B27AED-A9E0-4666-AEBB-0F3C9F436DF1@redhat.com>
- <87v8ukt8g8.fsf@pond.sub.org>
- <e7056663-6f22-e0ec-679a-3f474df05788@redhat.com>
- <87ee0xy3w0.fsf@pond.sub.org>
- <51586997-467c-0209-7319-fc82e1796809@redhat.com>
- <87y1z5v6te.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87y1z5v6te.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,26 +102,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/22 16:35, Markus Armbruster wrote:
-> Friday afternoon, worst time for word-smithing...  Feel free to ask
-> again on Monday:)
-> 
->> a suggested place?  For example, do you think it would fit better in the
->> query-stats or query-stats-schemas documentation?
+Start by making the interfaces of analogous non-coroutine and coroutine
+functions consistent with each other, then implement the non-coroutine
+ones using generated_co_wrapper.
 
-I think query-stats-schemas is good enough.
+For the bdrv_pwrite_sync() case, also add the missing
+bdrv_co_pwrite_sync() function.
 
-# *Note*: While QEMU and other providers of runtime-collected statistics
-# will try to keep the set of available data stable, together with their
-# names, it is impossible to provide a full guarantee.  For example, if
-# the same value is being tracked with different names on different
-# architectures or by different providers, one of them might be renamed.
-# A statistic might go away if an algorithm is changed or some code is
-# removed; changing a default might cause previously useful statistics
-# to always report 0.  Such changes fall outside QEMU's usual deprecation
-# policies (also because statistics might be sourced externally, e.g.
-# from Linux).  However, they are expected to be rare.
+Changes v1 --> v2:
+- Drop unnecessary assignments to ret in vhdx_log_peek_hdr(),
+  vhdx_log_read_sectors(), and vhdx_log_write_sectors().
+- Simplify vdi_co_pwritev() return expression.
+- Add patch making crypto block callbacks return 0 on success.
+- Clarify in commit message that bdrv_pwrite_zeroes() now calls
+  trace_bdrv_co_pwrite_zeroes() and clears the BDRV_REQ_MAY_UNMAP flag
+  when appropriate, which it didn't previously.
+- Use _co_ functions in the implementation of bdrv_co_pwrite_sync().
+- Add patch converting uses of bdrv_pwrite_sync() into
+  bdrv_co_pwrite_sync() when the callers are already coroutine_fn.
+- Add patch making qcow2_mark_dirty() use bdrv_pwrite_sync() instead of
+  calling bdrv_pwrite() and bdrv_flush() separately.
 
+Alberto Faria (10):
+  block: Add a 'flags' param to bdrv_{pread,pwrite,pwrite_sync}()
+  block: Change bdrv_{pread,pwrite,pwrite_sync}() param order
+  block: Make bdrv_{pread,pwrite}() return 0 on success
+  crypto: Make block callbacks return 0 on success
+  block: Make bdrv_co_pwrite() take a const buffer
+  block: Make 'bytes' param of bdrv_co_{pread,pwrite,preadv,pwritev}()
+    an int64_t
+  block: Implement bdrv_{pread,pwrite,pwrite_zeroes}() using
+    generated_co_wrapper
+  block: Add bdrv_co_pwrite_sync()
+  block: Use bdrv_co_pwrite_sync() when caller is coroutine_fn
+  block/qcow2: Use bdrv_pwrite_sync() in qcow2_mark_dirty()
 
-Paolo
+ block/blklogwrites.c             |  6 +--
+ block/bochs.c                    | 10 ++--
+ block/cloop.c                    | 12 ++---
+ block/coroutines.h               |  4 +-
+ block/crypto.c                   | 56 +++++++++++-----------
+ block/dmg.c                      | 36 +++++++-------
+ block/io.c                       | 55 ++--------------------
+ block/parallels-ext.c            |  6 +--
+ block/parallels.c                | 12 ++---
+ block/qcow.c                     | 41 ++++++++--------
+ block/qcow2-bitmap.c             | 14 +++---
+ block/qcow2-cache.c              |  9 ++--
+ block/qcow2-cluster.c            | 19 ++++----
+ block/qcow2-refcount.c           | 58 ++++++++++++-----------
+ block/qcow2-snapshot.c           | 53 ++++++++++-----------
+ block/qcow2.c                    | 80 ++++++++++++++++----------------
+ block/qed.c                      | 13 ++----
+ block/vdi.c                      | 16 +++----
+ block/vhdx-log.c                 | 23 +++++----
+ block/vhdx.c                     | 36 +++++++-------
+ block/vmdk.c                     | 70 +++++++++++++---------------
+ block/vpc.c                      | 23 ++++-----
+ block/vvfat.c                    | 11 +++--
+ crypto/block-luks.c              |  8 ++--
+ crypto/block.c                   |  6 +--
+ include/block/block-io.h         | 22 ++++++---
+ include/block/block_int-io.h     |  4 +-
+ include/crypto/block.h           | 32 ++++++-------
+ tests/unit/test-block-iothread.c | 12 ++---
+ tests/unit/test-crypto-block.c   | 38 +++++++--------
+ 30 files changed, 370 insertions(+), 415 deletions(-)
+
+-- 
+2.35.3
+
 
