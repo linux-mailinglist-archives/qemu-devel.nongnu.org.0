@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB39526E06
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 06:14:53 +0200 (CEST)
-Received: from localhost ([::1]:46694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3328526E3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 06:44:21 +0200 (CEST)
+Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npjB6-00036p-3Y
-	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 00:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
+	id 1npjdc-0004TT-9a
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 00:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1npj7i-0000IT-Bv
- for qemu-devel@nongnu.org; Sat, 14 May 2022 00:11:23 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:5159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1npj7f-0002gK-7U
- for qemu-devel@nongnu.org; Sat, 14 May 2022 00:11:22 -0400
-Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4L0X4w4tTmzCsWw;
- Sat, 14 May 2022 12:06:24 +0800 (CST)
-Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
- kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 14 May 2022 12:11:14 +0800
-To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
- <sgarzare@redhat.com>
-CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
- <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
- <longpeng2@huawei.com>
-Subject: [PATCH v6 resend 4/4] vdpa: add vdpa-dev-pci support
-Date: Sat, 14 May 2022 12:11:07 +0800
-Message-ID: <20220514041107.1980-5-longpeng2@huawei.com>
-X-Mailer: git-send-email 2.25.0.windows.1
-In-Reply-To: <20220514041107.1980-1-longpeng2@huawei.com>
-References: <20220514041107.1980-1-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1npjc7-0003j4-29
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 00:42:47 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55187)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1npjc1-0005HK-Ea
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 00:42:46 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id bg25so5737020wmb.4
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 21:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NGa8/lAVruqRrohx6drAhUywLz78+FcuUKt7Zac+oMk=;
+ b=F+bi5uioQ6NBAXVZTOmxugE7cDf0OwPBZz1g7eeLZcGoEcK0VWl1a8ED3nxcP6styd
+ mpXkznjLdFYaUBSXl2N6HH6tfpdtj4SBO1RtGFj5o7/8LGAyCJPijVmiltsgG1RE9Yh2
+ LFR/d1IUbYugUbn6QrYZaxA4N6wqAXXl3sHqJRQRZ8IxYSVja9+9/ITmbeczsiFBwwtG
+ KXzLIBLU6hhG2iXDU/RP+IpeQz2q8f8NDhqEbV0nCxKSUAUGoAyEkKoAjV3vPn4tyOny
+ MIVxvGPAKe04FP0/BO3+80Nv1wPxXz4s1VAjKehbdEJlAR7k/JVqjuv0aOLam/bK6XoA
+ qK+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NGa8/lAVruqRrohx6drAhUywLz78+FcuUKt7Zac+oMk=;
+ b=7KYJap0MLagCu0uN9n/gt4FgQnQl5JpcNzRWM5n5rF8u5RoG34KBv1IjqXw73Q+sR2
+ mlmOp6ZxlVnJEvyKbGrnOGLe0SKrLf7WpdF5RbUEdTciKULjaLOelWGVd63Ms1+4Hy2N
+ K5bWNpQGYzp5On6dgcdRua38CX8ETNmxJ14H6qi/FMMsbF6m6fdU4vvIpPWrxLQUx3DB
+ FVxIV24+udHhPeIeKg6kjc2MqhZxssy1Kc16/lZBlOpEvKjygAosvWoHwVuGomTmKmqg
+ 3AnMlREMOONTrKdbuj6cjD79lWyfCnKzde6uyzBpLjgSQVQeEmHRNk75FYRfhd8lJfMH
+ 5o8w==
+X-Gm-Message-State: AOAM533rmEZ6uLSAyiK05ocGOgsfjfHdL13l42a383FdV5Ne3JQsm3II
+ 86IrcnImC6xVIJKNyIJfKYcr0CeOfalQ9s0Pgha35g==
+X-Google-Smtp-Source: ABdhPJyYSqWSgsHWVnO0WFpF+Bgz/YLH/pg3TX49qJCNL7H+s16mPOHfV491YoowaIr4jZVLfaWm64knCBtWQyLHA1M=
+X-Received: by 2002:a05:600c:5113:b0:394:800c:4c36 with SMTP id
+ o19-20020a05600c511300b00394800c4c36mr7412564wms.93.1652503358874; Fri, 13
+ May 2022 21:42:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500025.china.huawei.com (7.221.188.170)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
- helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220513221458.1192933-1-atishp@rivosinc.com>
+In-Reply-To: <20220513221458.1192933-1-atishp@rivosinc.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Sat, 14 May 2022 10:12:27 +0530
+Message-ID: <CAAhSdy1pJXrxgsCgUFnVZenSXLpcf8CPSS7x39nv1-StZLgRKA@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: Pass correct hartid while updating mtimecmp
+To: Atish Patra <atishp@rivosinc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, dylan@rivosinc.com,
+ Bin Meng <bmeng.cn@gmail.com>, 
+ Frank Chang <frank.chang@sifive.com>, Jim Shu <jim.shu@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::32d;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,144 +84,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
-From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
-From: Longpeng <longpeng2@huawei.com>
+On Sat, May 14, 2022 at 3:45 AM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> timecmp update function should be invoked with hartid for which
+> timecmp is being updated. The following patch passes the incorrect
+> hartid to the update function.
+>
+> Fixes: e2f01f3c2e13 ("hw/intc: Make RISC-V ACLINT mtime MMIO register writable")
+>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 
-Supports vdpa-dev-pci, we can use the device as follow:
+Looks good to me.
 
--device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+Reviewed-by: Anup Patel <anup@brainfault.org>
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Longpeng <longpeng2@huawei.com>
----
- hw/virtio/meson.build    |   1 +
- hw/virtio/vdpa-dev-pci.c | 102 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 103 insertions(+)
- create mode 100644 hw/virtio/vdpa-dev-pci.c
+Regards,
+Anup
 
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 8f6f86db71..c2da69616f 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -50,6 +50,7 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-serial-pc
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_VDPA_DEV', if_true: files('vdpa-dev-pci.c'))
- 
- virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
- 
-diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
-new file mode 100644
-index 0000000000..fde35dfc92
---- /dev/null
-+++ b/hw/virtio/vdpa-dev-pci.c
-@@ -0,0 +1,102 @@
-+/*
-+ * Vhost Vdpa Device PCI Bindings
-+ *
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights Reserved.
-+ *
-+ * Authors:
-+ *   Longpeng <longpeng2@huawei.com>
-+ *
-+ * Largely based on the "vhost-user-blk-pci.c" and "vhost-user-blk.c"
-+ * implemented by:
-+ *   Changpeng Liu <changpeng.liu@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include <sys/ioctl.h>
-+#include <linux/vhost.h>
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/vdpa-dev.h"
-+#include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/module.h"
-+#include "virtio-pci.h"
-+#include "qom/object.h"
-+
-+
-+typedef struct VhostVdpaDevicePCI VhostVdpaDevicePCI;
-+
-+#define TYPE_VHOST_VDPA_DEVICE_PCI "vhost-vdpa-device-pci-base"
-+DECLARE_INSTANCE_CHECKER(VhostVdpaDevicePCI, VHOST_VDPA_DEVICE_PCI,
-+                         TYPE_VHOST_VDPA_DEVICE_PCI)
-+
-+struct VhostVdpaDevicePCI {
-+    VirtIOPCIProxy parent_obj;
-+    VhostVdpaDevice vdev;
-+};
-+
-+static void vhost_vdpa_device_pci_instance_init(Object *obj)
-+{
-+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_VDPA_DEVICE);
-+    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-+                              "bootindex");
-+}
-+
-+static Property vhost_vdpa_device_pci_properties[] = {
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static int vhost_vdpa_device_pci_post_init(VhostVdpaDevice *v, Error **errp)
-+{
-+    VhostVdpaDevicePCI *dev = container_of(v, VhostVdpaDevicePCI, vdev);
-+    VirtIOPCIProxy *vpci_dev = &dev->parent_obj;
-+
-+    vpci_dev->class_code = virtio_pci_get_class_id(v->vdev_id);
-+    vpci_dev->trans_devid = virtio_pci_get_trans_devid(v->vdev_id);
-+    /* one for config vector */
-+    vpci_dev->nvectors = v->num_queues + 1;
-+
-+    return 0;
-+}
-+
-+static void
-+vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(vpci_dev);
-+
-+    dev->vdev.post_init = vhost_vdpa_device_pci_post_init;
-+    qdev_realize(DEVICE(&dev->vdev), BUS(&vpci_dev->bus), errp);
-+}
-+
-+static void vhost_vdpa_device_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    device_class_set_props(dc, vhost_vdpa_device_pci_properties);
-+    k->realize = vhost_vdpa_device_pci_realize;
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
-+    .base_name               = TYPE_VHOST_VDPA_DEVICE_PCI,
-+    .generic_name            = "vhost-vdpa-device-pci",
-+    .transitional_name       = "vhost-vdpa-device-pci-transitional",
-+    .non_transitional_name   = "vhost-vdpa-device-pci-non-transitional",
-+    .instance_size  = sizeof(VhostVdpaDevicePCI),
-+    .instance_init  = vhost_vdpa_device_pci_instance_init,
-+    .class_init     = vhost_vdpa_device_pci_class_init,
-+};
-+
-+static void vhost_vdpa_device_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_vdpa_device_pci_info);
-+}
-+
-+type_init(vhost_vdpa_device_pci_register);
--- 
-2.23.0
-
+> ---
+>  hw/intc/riscv_aclint.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
+> index 0412edc98257..e6bceceefdbc 100644
+> --- a/hw/intc/riscv_aclint.c
+> +++ b/hw/intc/riscv_aclint.c
+> @@ -233,7 +233,8 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+>                  continue;
+>              }
+>              riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu),
+> -                                              i, env->timecmp);
+> +                                              mtimer->hartid_base + i,
+> +                                              env->timecmp);
+>          }
+>          return;
+>      }
+> --
+> 2.25.1
+>
+>
 
