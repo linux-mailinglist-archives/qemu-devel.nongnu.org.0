@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13458526E55
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 08:42:51 +0200 (CEST)
-Received: from localhost ([::1]:35026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1232526E5B
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 08:56:02 +0200 (CEST)
+Received: from localhost ([::1]:45386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nplUH-0002t4-JF
-	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 02:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58830)
+	id 1nplh3-00023w-F6
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 02:56:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nplHw-000766-R3; Sat, 14 May 2022 02:30:05 -0400
+ id 1nplHx-00076P-MD; Sat, 14 May 2022 02:30:05 -0400
 Received: from mail-sender-0.a4lg.com
- ([2401:2500:203:30b:4000:6bfe:4757:0]:48374)
+ ([2401:2500:203:30b:4000:6bfe:4757:0]:48384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nplHu-0007fA-AM; Sat, 14 May 2022 02:30:04 -0400
+ id 1nplHu-0007fO-H2; Sat, 14 May 2022 02:30:05 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id DAA4B300089;
- Sat, 14 May 2022 06:29:50 +0000 (UTC)
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 6B03030008A;
+ Sat, 14 May 2022 06:29:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1652509791;
- bh=/P19jFyyWx9h+oEi/y9EZljCHmTyp1k3AEue49z7HHs=;
+ s=2017s01; t=1652509796;
+ bh=rTgW5DKz+aQMVezOvkK97+TFFW6TxR5YDqsChLPjdH0=;
  h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
  Mime-Version:Content-Transfer-Encoding;
- b=U6MetrtygF/Jw6TwmpHAtbLNHtFR02lEM4Bu8OmKiZsFw7VnKgp1BYKYt22TFQB5O
- i7vZ3tVaVlfU/aADIZesQVmgWP3imawp3U56bhOymBqldoMLnd/GIsVu4MmlTqT6VB
- t50Yh7lmBUNDjqB8be5i6XcgIs0cB5+ikJuIO7c4=
+ b=KIpq7RvQIVquFCq+MA43GUxpEs24z3Ok/Zoh6poxi14UEo59xMmSs1hd6orfioyM4
+ 3xYAqESp9Phk17mS0jHd1cXSV0GgWN4DkBCquEM2qgdWu4b50vVDjcfoO1HvhAcsRt
+ R60kxiKR2c0x7KrghXcBtkrRXEwl5fRlMUg+B+VM=
 From: Tsukasa OI <research_trasio@irq.a4lg.com>
 To: Tsukasa OI <research_trasio@irq.a4lg.com>,
  Alistair Francis <alistair23@gmail.com>,
  Frank Chang <frank.chang@sifive.com>
 Cc: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 0/2] hw/riscv: Make CPU config error handling generous
-Date: Sat, 14 May 2022 15:29:39 +0900
-Message-Id: <cover.1652509778.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <cover.1652435235.git.research_trasio@irq.a4lg.com>
+Subject: [PATCH v2 1/2] hw/riscv: Make CPU config error handling generous
+ (virt/spike)
+Date: Sat, 14 May 2022 15:29:40 +0900
+Message-Id: <d17381d3ea4992808cf1894f379ca67220f61b45.1652509778.git.research_trasio@irq.a4lg.com>
+In-Reply-To: <cover.1652509778.git.research_trasio@irq.a4lg.com>
 References: <cover.1652435235.git.research_trasio@irq.a4lg.com>
+ <cover.1652509778.git.research_trasio@irq.a4lg.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
@@ -65,28 +67,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-c.f.
-<https://lists.gnu.org/archive/html/qemu-riscv/2022-05/msg00229.html>
+If specified CPU configuration is not valid, not just it prints error
+message, it aborts and generates core dumps (depends on the operating
+system).  This kind of error handling should be used only when a serious
+runtime error occurs.
 
-This patchset is functionally equivalent to v1 but fixes commit titles.
+This commit makes error handling on CPU configuration more generous on
+virt/spike machines.  It now just prints error message and quits (without
+coredumps and aborts).
 
+Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+---
+ hw/riscv/spike.c | 2 +-
+ hw/riscv/virt.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-
-
-Tsukasa OI (2):
-  hw/riscv: Make CPU config error handling generous (virt/spike)
-  hw/riscv: Make CPU config error handling generous
-    (sifive_e/u/opentitan)
-
- hw/riscv/opentitan.c | 2 +-
- hw/riscv/sifive_e.c  | 2 +-
- hw/riscv/sifive_u.c  | 4 ++--
- hw/riscv/spike.c     | 2 +-
- hw/riscv/virt.c      | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
-
-
-base-commit: 178bacb66d98d9ee7a702b9f2a4dfcd88b72a9ab
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 068ba3493e..e41b6aa9f0 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -230,7 +230,7 @@ static void spike_board_init(MachineState *machine)
+                                 base_hartid, &error_abort);
+         object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
+                                 hart_count, &error_abort);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_abort);
++        sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_fatal);
+ 
+         /* Core Local Interruptor (timer and IPI) for each socket */
+         riscv_aclint_swi_create(
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 3326f4db96..244d6408b5 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1351,7 +1351,7 @@ static void virt_machine_init(MachineState *machine)
+                                 base_hartid, &error_abort);
+         object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
+                                 hart_count, &error_abort);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_abort);
++        sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_fatal);
+ 
+         if (!kvm_enabled()) {
+             if (s->have_aclint) {
 -- 
 2.34.1
 
