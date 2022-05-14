@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D65D526E4A
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 08:10:29 +0200 (CEST)
-Received: from localhost ([::1]:49638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6EB526E4B
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 08:10:36 +0200 (CEST)
+Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npkyx-00083g-T6
-	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 02:10:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51408)
+	id 1npkz5-000870-Nr
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 02:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npku2-0005kD-Ja
- for qemu-devel@nongnu.org; Sat, 14 May 2022 02:05:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55751)
+ id 1npku4-0005kO-Aw
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 02:05:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npktz-00078D-7R
- for qemu-devel@nongnu.org; Sat, 14 May 2022 02:05:20 -0400
+ id 1npku1-00078R-E9
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 02:05:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652508317;
+ s=mimecast20190719; t=1652508320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
  bh=HbXuoKgFMK8+YZhLN1m76ki//xYuz8s9DmNhEQf7244=;
- b=QVHmTaKml0nW443rHW0W6ayhKMUvU2Hf4Bo2AxRDu7doE+tXy5Az5m1AfNuSTniFTfppcx
- fU33FcEv7mJIEzXPWSxJwgFp1Ra7va0k8xXzwZHL0n29a+Y7qLX7spAB2DQxNWYWfjSlWR
- 0tlH6dF5O8RemCiYdEeRjmtwkd1yLnE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=ARxdYgycMDZU9pM6FFDBseb6EyBZR9xghVaPdtdv5eWbvW/J7PujMaxHl3tEfCzRdJV0+j
+ a/xg1deepllvDQTbrh9s4RCyCWKfsE5hh+dR70Cbm8FBvL0Q0gIC48qGaGQm91iiRdf7qI
+ zA43jGQjOudrccp4fa2nzJJWUJFTvS0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-iKGoj2NaNDGNIq6Es3hWYg-1; Sat, 14 May 2022 02:05:16 -0400
-X-MC-Unique: iKGoj2NaNDGNIq6Es3hWYg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c125-20020a1c3583000000b0038e3f6e871aso3746621wma.8
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 23:05:15 -0700 (PDT)
+ us-mta-88-h0CkNBa6P8WfdKvlAB-BBw-1; Sat, 14 May 2022 02:05:19 -0400
+X-MC-Unique: h0CkNBa6P8WfdKvlAB-BBw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h6-20020a7bc926000000b0039470bcb9easo3821054wml.1
+ for <qemu-devel@nongnu.org>; Fri, 13 May 2022 23:05:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=HbXuoKgFMK8+YZhLN1m76ki//xYuz8s9DmNhEQf7244=;
- b=QSCPe0qg14Z/uygFVs71+MbUx5z5Z2/+BJdEdoZ43T4fZxCV2MTWxWlVwoAuPpQKc7
- g06ufP/38lWaHUHonFoucgR6h7G2VTZhDkI3NRFqAZQdZ3mCcTKQpYnLcobNsvMl8k4a
- 7JSg0dOjui3Gvwkhk7ASiMzqlNT2/8iyH4knEyJUGoimKa7BG6EtwrSr1MsUqsexJMRQ
- Y9li9RAo7AIhXhYRjblesv+AxR1EYfLRkXB3nPIOLHeZyqboHGmokxcyIY59REpyzNsl
- btQ9WGqQVLjcBDanP/nP2ZZy2QnsdNMG/P5CBPbscI1wDKbl55OmGtRmDnmvqruKpTkb
- oo8g==
-X-Gm-Message-State: AOAM531iyKzXBJLnvhZJduI5Zfi/KoWwRr5HbZOYQQYwqJXrYRa7XD01
- y3Tar7VYNbZVMWAsrZFw/gjqnNiHCRD6cGs+PBqUgo99RhSv9VPs26INIz03IA+0QHJXLOhS//8
- DF1S0EaR77sP6t0gLhil2yQF0jFtvYe4BGyyBtyH34PPwS8UsTbi6sJj5Z72E/ozhYIA=
-X-Received: by 2002:a05:6000:1e09:b0:20c:dbc7:e391 with SMTP id
- bj9-20020a0560001e0900b0020cdbc7e391mr6566232wrb.218.1652508314406; 
- Fri, 13 May 2022 23:05:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywXUuNdnK0h0nkYZyzSMafiQI1dL3bXVIJWWbMMLdKkfbw/tAGPuL+5DDVS6S/wUf8lOVYWA==
-X-Received: by 2002:a05:6000:1e09:b0:20c:dbc7:e391 with SMTP id
- bj9-20020a0560001e0900b0020cdbc7e391mr6566202wrb.218.1652508314027; 
- Fri, 13 May 2022 23:05:14 -0700 (PDT)
+ b=a/+lnDqw9UeJ2479P7/9FoqSAU5cBThp7TGZmgfA5QFvwF12P/DArC85woNcD7GBu0
+ BfBeITcLnH+j32DSimz3AAOH/atvktTW3jzZy9wpb1V1XJjrrFDzGO+rfEUm5hRVMPVA
+ CaEUCX1x0RhIVU+Wg7O+o4xn1tIU6FBTYxqHL6KtvGm9894q7zWrGu+gJ25560U8knU8
+ 3C4+RjgwH7eJM+8wL5wj0p1NA1VNLEzrKNPDLjyaqtkiLT5ODPtdjuCeuNpEwjjxRf7E
+ 1uPPWK8YzXvcZ6vRtMaep2NMbkPD11meNoYQqohkP2On/C1N5pgo/pdV7yRbmn5zZBP6
+ Tkgw==
+X-Gm-Message-State: AOAM532RyodgVpFVKDfq9bx//FElkjnRt9iqb1VSsP8lpqAOMNn2kXJZ
+ 3QeRem63x0L8n6QK+6d5VSjQqSuoshdpTrWvoBgKUrzj0KWb0U809ICnRMXF61xUqZflAhoa/aG
+ Mw/j+s2FISvPF4kYh9Z9YSWo26J2R3Z9WG/gqtF3Gdwxpk9Kg8SelmoQFbXt3AL9Lvvs=
+X-Received: by 2002:a5d:5911:0:b0:20d:4d:a996 with SMTP id
+ v17-20020a5d5911000000b0020d004da996mr246794wrd.129.1652508317402; 
+ Fri, 13 May 2022 23:05:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwa4wDmpei0rZ4/wmso7buxN+F6jIBpqrEI14nnme2P/GTGt3Uki6IUd3mhHgPOxnC2brsoPA==
+X-Received: by 2002:a5d:5911:0:b0:20d:4d:a996 with SMTP id
+ v17-20020a5d5911000000b0020d004da996mr246775wrd.129.1652508317081; 
+ Fri, 13 May 2022 23:05:17 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x15-20020adfcc0f000000b0020c5253d923sm3950859wrh.111.2022.05.13.23.05.12
+ x25-20020adfae19000000b0020c5253d90esm4346126wrc.90.2022.05.13.23.05.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 23:05:13 -0700 (PDT)
+ Fri, 13 May 2022 23:05:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] configure: remove duplicate help messages
-Date: Sat, 14 May 2022 08:05:11 +0200
-Message-Id: <20220514060511.1147834-1-pbonzini@redhat.com>
+Date: Sat, 14 May 2022 08:05:14 +0200
+Message-Id: <20220514060514.1147856-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Type: text/plain
